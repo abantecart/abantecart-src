@@ -19,9 +19,11 @@
 ------------------------------------------------------------------------------*/
 
 // AbanteCart Version
-define('VERSION', '1.2');
+define('VERSION', '1.3');
 // Required PHP Version
-define('MIN_PHP_VERSION', '7.1.0');
+define('MIN_PHP_VERSION', '7.4.0');
+// EMAIL REGEXP PATTERN
+define('EMAIL_REGEX_PATTERN', '/^[A-Z0-9._%-]+@[A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,16}$/i');
 
 // Detect if localhost is used.
 if (!isset($_SERVER['HTTP_HOST'])) {
@@ -63,27 +65,14 @@ try {
 
 // Check Version
     if (version_compare(phpversion(), MIN_PHP_VERSION, '<') == true) {
-        throw new AException(AC_ERR_REQUIREMENTS, MIN_PHP_VERSION.'+ Required for AbanteCart to work properly! Please contact your system administrator or host service provider.');
+        exit(MIN_PHP_VERSION.'+ Required for AbanteCart to work properly! Please contact your system administrator or host service provider.');
     }
 
 //set ini parameters for session
     ini_set('session.use_trans_sid', 'Off');
     ini_set('session.use_cookies', 'On');
     ini_set('session.cookie_httponly', 'On');
-// Process Global data if Register Globals enabled
-    if (ini_get('register_globals')) {
 
-        session_set_cookie_params(0, '/');
-        session_start();
-
-        $globals = array($_REQUEST, $_SESSION, $_SERVER, $_FILES);
-
-        foreach ($globals as $global) {
-            foreach (array_keys($global) as $key) {
-                unset($$key);
-            }
-        }
-    }
 
 // Magic Quotes
     if (ini_get('magic_quotes_gpc')) {
@@ -147,6 +136,8 @@ try {
 
     require_once(DIR_CORE.'helper/html.php');
     require_once(DIR_CORE.'helper/utils.php');
+    require_once(DIR_CORE.'helper/system_check.php');
+
 
 // Include library files
     require_once(DIR_CORE.'lib/cache.php');

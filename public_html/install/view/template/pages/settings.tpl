@@ -45,13 +45,7 @@ echo $header; ?>
 									<td>PHP Version:</td>
 									<td>><?php echo phpversion(); ?></td>
 									<td><?php echo MIN_PHP_VERSION; ?>+</td>
-									<td align="center"><?php echo version_compare(phpversion(), MIN_PHP_VERSION, '<') == false ? $img_good : $img_bad; ?></td>
-								</tr>
-								<tr>
-									<td>Register Globals:</td>
-									<td><?php echo (ini_get('register_globals')) ? 'On' : 'Off'; ?></td>
-									<td>Off</td>
-									<td align="center"><?php echo (!ini_get('register_globals')) ? $img_good : $img_bad; ?></td>
+									<td align="center"><?php echo !$errors['php_version'] ? $img_good : $img_bad; ?></td>
 								</tr>
 								<tr>
 									<td>Magic Quotes GPC:</td>
@@ -61,15 +55,15 @@ echo $header; ?>
 								</tr>
 								<tr>
 									<td>File Uploads:</td>
-									<td><?php echo (ini_get('file_uploads')) ? 'On' : 'Off'; ?></td>
+									<td><?php echo !$errors['file_uploads'] ? 'On' : 'Off'; ?></td>
 									<td>On</td>
-									<td align="center"><?php echo (ini_get('file_uploads')) ? $img_good : $img_bad; ?></td>
+									<td align="center"><?php echo !$errors['file_uploads'] ? $img_good : $img_bad; ?></td>
 								</tr>
 								<tr>
 									<td>Session Auto Start:</td>
-									<td><?php echo (ini_get('session_auto_start')) ? 'On' : 'Off'; ?></td>
+									<td><?php echo !$errors['session_auto_start'] ? 'On' : 'Off'; ?></td>
 									<td>Off</td>
-									<td align="center"><?php echo (!ini_get('session_auto_start')) ? $img_good : $img_bad; ?></td>
+									<td align="center"><?php echo !$errors['session_auto_start'] ? $img_good : $img_bad; ?></td>
 								</tr>
 								<tr>
 									<td>Output Buffering</td>
@@ -95,47 +89,51 @@ echo $header; ?>
 								<tbody>
 								<tr>
 									<td>MySQL:</td>
-									<td><?php echo extension_loaded('mysql') || extension_loaded('mysqli') || extension_loaded('pdo_mysql')
-												? 'On'
-												: 'Off'; ?></td>
+									<td><?php echo !$errors['mysql'] ? 'On' : 'Off'; ?></td>
 									<td>On</td>
-									<td align="center"><?php echo extension_loaded('mysql') || extension_loaded('mysqli') || extension_loaded('pdo_mysql') ? $img_good : $img_bad; ?></td>
+									<td align="center"><?php echo !$errors['mysql'] ? $img_good : $img_bad; ?></td>
 								</tr>
 								<tr>
 									<td>GD:</td>
-									<td><?php echo extension_loaded('gd') ? 'On' : 'Off'; ?></td>
+									<td><?php echo !$errors['gd'] ? 'On' : 'Off'; ?></td>
 									<td>On</td>
-									<td align="center"><?php echo extension_loaded('gd') ? $img_good : $img_bad; ?></td>
+									<td align="center"><?php echo !$errors['gd'] ? $img_good : $img_bad; ?></td>
 								</tr>
 								<tr>
 									<td>CURL:</td>
-									<td><?php echo extension_loaded('curl') ? 'On' : 'Off'; ?></td>
+									<td><?php echo !$errors['curl'] ? 'On' : 'Off'; ?></td>
 									<td>On</td>
-									<td align="center"><?php echo extension_loaded('curl') ? $img_good : $img_bad; ?></td>
+									<td align="center"><?php echo !$errors['curl'] ? $img_good : $img_bad; ?></td>
 								</tr>
 								<tr>
 									<td>ZIP:</td>
-									<td><?php echo extension_loaded('zlib') ? 'On' : 'Off'; ?></td>
+									<td><?php echo !$errors['zlib'] ? 'On' : 'Off'; ?></td>
 									<td>On</td>
-									<td align="center"><?php echo extension_loaded('zlib') ? $img_good : $img_bad; ?></td>
+									<td align="center"><?php echo !$errors['zlib'] ? $img_good : $img_bad; ?></td>
+								</tr>
+								<tr>
+									<td>FileInfo:</td>
+									<td><?php echo !$errors['fileinfo'] ? 'On' : 'Off'; ?></td>
+									<td>On</td>
+									<td align="center"><?php echo !$errors['fileinfo'] ? $img_good : $img_bad; ?></td>
 								</tr>
 								<tr>
 									<td>MultiByte String:</td>
-									<td><?php echo (extension_loaded('mbstring') && function_exists('mb_internal_encoding')) ? 'On' : 'Off'; ?></td>
+									<td><?php echo !$errors['mbstring'] ? 'On' : 'Off'; ?></td>
 									<td>On</td>
-									<td align="center"><?php echo (extension_loaded('mbstring') && function_exists('mb_internal_encoding')) ? $img_good : $img_bad; ?></td>
+									<td align="center"><?php echo !$errors['mbstring'] ? $img_good : $img_bad; ?></td>
 								</tr>
 								<tr>
 									<td>OpenSSL:</td>
-									<td><?php echo extension_loaded('openssl') ? 'On' : 'Off'; ?></td>
+									<td><?php echo !$errors['openssl'] ? 'On' : 'Off'; ?></td>
 									<td>On</td>
-									<td align="center"><?php echo extension_loaded('openssl') ? $img_good : $img_bad; ?></td>
+									<td align="center"><?php echo !$errors['openssl'] ? $img_good : $img_bad; ?></td>
 								</tr>
 								<tr>
 									<td>PHAR:</td>
-									<td><?php echo extension_loaded('phar') ? 'On' : 'Off'; ?></td>
+									<td><?php echo !$errors['phar'] ? 'On' : 'Off'; ?></td>
 									<td>On</td>
-									<td align="center"><?php echo extension_loaded('phar') ? $img_good : $img_bad; ?></td>
+									<td align="center"><?php echo !$errors['phar'] ? $img_good : $img_bad; ?></td>
 								</tr>
 								</tbody>
 							</table>

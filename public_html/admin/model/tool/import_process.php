@@ -536,7 +536,14 @@ class ModelToolImportProcess extends Model
             $option_vals = $data[$i]['product_option_values'];
 
             //find largest key by count
-            $counts = @array_map('count', $option_vals);
+            $cc = function($value){
+                return is_array($value) ? count($value) : 1;
+            };
+            $counts = array_map(
+                $cc,
+                $option_vals
+            );
+
             if (max($counts) == 1) {
                 //single option value case
                 $this->_save_option_value($product_id, $weight_class_id, $p_option_id, $option_vals);
@@ -990,6 +997,9 @@ class ModelToolImportProcess extends Model
         if (!is_array($import_col) || !is_array($fields)) {
             return $ret;
         }
+
+        //decode html encoded symbols such as &gt;
+        $split_col = array_map('html_entity_decode', $split_col);
 
         foreach ($fields as $index => $field) {
             if (empty($field)) {

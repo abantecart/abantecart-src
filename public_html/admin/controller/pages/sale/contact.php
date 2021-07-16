@@ -127,7 +127,7 @@ class ControllerPagesSaleContact extends AController
                 }
             }
         }
-        if (isset($product_ids) && is_array($product_ids)) {
+        if ($product_ids) {
             //get thumbnails by one pass
             $resource = new AResource('image');
             $thumbnails = $resource->getMainThumbList(

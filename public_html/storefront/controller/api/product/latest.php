@@ -50,17 +50,16 @@ class ControllerApiProductLatest extends AControllerAPI
 
         $i = 0;
         if ($results) {
-            $product_ids = array();
-            foreach ($results as $result) {
-                $product_ids[] = (int)$result['product_id'];
-            }
+            $product_ids = array_column($results, 'product_id');
             $resource = new AResource('image');
-            $thumbnails = $resource->getMainThumbList(
-                'products',
-                $product_ids,
-                $this->config->get('config_image_thumb_width'),
-                $this->config->get('config_image_thumb_height')
-            );
+            $thumbnails = $product_ids
+                ? $resource->getMainThumbList(
+                    'products',
+                    $product_ids,
+                    $this->config->get('config_image_thumb_width'),
+                    $this->config->get('config_image_thumb_height')
+                )
+                : [];
             foreach ($results as $result) {
                 $thumbnail = $thumbnails[$result['product_id']];
                 $response->rows[$i]['id'] = $result['product_id'];

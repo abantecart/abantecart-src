@@ -707,5 +707,5 @@ if ($show_payment == true) {
             $('#PayFrm').submit();
         });
     });
-
+    <?php echo $this->getHookVar('fc_js_payment'); ?>
 </script>

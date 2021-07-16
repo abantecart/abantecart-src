@@ -30,7 +30,7 @@ class ControllerResponsesEmbedJS extends AController
     public function __construct($registry, $instance_id, $controller, $parent_controller = '')
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
-        $lang_code = (string) ($this->request->get['language'] ?? '') ?: ($this->request->get['lang'] ?? '');
+        $lang_code = (string) ($this->request->get['language'] ?? '') ? : ($this->request->get['lang'] ?? '');
         if ($lang_code) {
             $langObj = new ALanguage($this->registry, $lang_code);
             if ($langObj->getLanguageDetails($lang_code)) {
@@ -221,10 +221,10 @@ class ControllerResponsesEmbedJS extends AController
                     'text' => $this->language->get('button_add_to_cart'),
 
                     'attr' => 'data-product-id="'.$product_id
-                            .'" data-href = "' .$this->html->getURL(
-                                    'r/embed/js/addtocart',
-                                    '&product_id='.$product_id
-                            ).'"',
+                        .'" data-href = "'.$this->html->getURL(
+                            'r/embed/js/addtocart',
+                            '&product_id='.$product_id
+                        ).'"',
                 ]
             );
         } else {
@@ -234,7 +234,7 @@ class ControllerResponsesEmbedJS extends AController
                     'name' => 'addtocart'.$product_id,
                     'text' => $this->language->get('button_add_to_cart'),
                     'attr' => ' data-href="'.$this->data['product_details_url'].'"  data-id="'.$product_id
-                            .'" data-html="true" data-target="#abc_embed_modal" data-toggle="abcmodal" ',
+                        .'" data-html="true" data-target="#abc_embed_modal" data-toggle="abcmodal" ',
                 ]
             );
             $product_info['options'] = $product_options;
@@ -297,19 +297,18 @@ class ControllerResponsesEmbedJS extends AController
             return null;
         }
 
-        $ids = [];
-        foreach ($categories as $result) {
-            $ids[] = (int) $result['category_id'];
-        }
+        $ids = array_column($categories, 'category_id');
 
         //get thumbnails by one pass
         $resource = new AResource('image');
-        $thumbnails = $resource->getMainThumbList(
-            'categories',
-            $ids,
-            $this->config->get('config_image_category_width'),
-            $this->config->get('config_image_category_height')
-        );
+        $thumbnails = $ids
+            ? $resource->getMainThumbList(
+                'categories',
+                $ids,
+                $this->config->get('config_image_category_width'),
+                $this->config->get('config_image_category_height')
+            )
+            : [];
 
         foreach ($categories as &$category) {
             //deal with quotes
@@ -324,8 +323,8 @@ class ControllerResponsesEmbedJS extends AController
             );
             $category['thumbnail'] = $thumbnails[$category['category_id']];
             $rt = $this->config->get('config_embed_click_action') == 'modal'
-                    ? 'r/product/category'
-                    : 'product/category';
+                ? 'r/product/category'
+                : 'product/category';
             $category['details_url'] = $this->html->getURL($rt, '&category_id='.$category['category_id']);
         }
 
@@ -377,19 +376,18 @@ class ControllerResponsesEmbedJS extends AController
             return null;
         }
 
-        $ids = [];
-        foreach ($manufacturers as $result) {
-            $ids[] = (int) $result['manufacturer_id'];
-        }
+        $ids = array_column($manufacturers, 'manufacturer_id');
 
         //get thumbnails by one pass
         $resource = new AResource('image');
-        $thumbnails = $resource->getMainThumbList(
-            'manufacturers',
-            $ids,
-            $this->config->get('config_image_category_width'),
-            $this->config->get('config_image_category_height')
-        );
+        $thumbnails = $ids
+            ? $resource->getMainThumbList(
+                'manufacturers',
+                $ids,
+                $this->config->get('config_image_category_width'),
+                $this->config->get('config_image_category_height')
+            )
+            : [];
 
         foreach ($manufacturers as &$manufacturer) {
             //deal with quotes
@@ -400,11 +398,11 @@ class ControllerResponsesEmbedJS extends AController
             );
             $manufacturer['thumbnail'] = $thumbnails[$manufacturer['manufacturer_id']];
             $rt = $this->config->get('config_embed_click_action') == 'modal'
-                    ? 'r/product/manufacturer'
-                    : 'product/manufacturer';
+                ? 'r/product/manufacturer'
+                : 'product/manufacturer';
             $manufacturer['details_url'] = $this->html->getURL(
-                    $rt,
-                    '&manufacturer_id='.$manufacturer['manufacturer_id']
+                $rt,
+                '&manufacturer_id='.$manufacturer['manufacturer_id']
             );
         }
 
@@ -425,7 +423,7 @@ class ControllerResponsesEmbedJS extends AController
     {
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->data['allowed'] = $this->request->cookie[SESSION_ID] ? true : false;
+        $this->data['allowed'] = (bool) $this->request->cookie[SESSION_ID];
         $this->data['abc_token'] = session_id();
 
         $this->view->setTemplate('embed/js_cookie_check.tpl');
@@ -528,20 +526,18 @@ class ControllerResponsesEmbedJS extends AController
             $this->loadModel('catalog/review');
             $this->loadModel('catalog/product');
 
-            $productIds = $products = [];
-
-            foreach ($collectionProducts['items'] as $result) {
-                $productIds[] = (int) $result['product_id'];
-            }
+            $productIds = array_column((array) $collectionProducts['items'], 'product_id');
             $productsInfo = $this->model_catalog_product->getProductsAllInfo($productIds);
-            $thumbnails = $thumbnail = [];
+            $products = $thumbnails = $thumbnail = [];
             if ($this->request->get['product_image']) {
-                $thumbnails = $resource->getMainThumbList(
-                    'products',
-                    $productIds,
-                    $this->config->get('config_image_category_width'),
-                    $this->config->get('config_image_category_height')
-                );
+                $thumbnails = $productIds
+                    ? $resource->getMainThumbList(
+                        'products',
+                        $productIds,
+                        $this->config->get('config_image_category_width'),
+                        $this->config->get('config_image_category_height')
+                    )
+                    : $productIds;
             }
 
             $stockInfo = $this->model_catalog_product->getProductsStockInfo($productIds);
@@ -612,7 +608,7 @@ class ControllerResponsesEmbedJS extends AController
                     'options'             => $productsInfo[$result['product_id']]['options'],
                     'special'             => $special,
                     'product_details_url' => $this->html->getURL($rt, '&product_id='.$result['product_id']),
-                    'description'         => html_entity_decode($result['description']??'', ENT_QUOTES, 'UTF-8'),
+                    'description'         => html_entity_decode($result['description'] ?? '', ENT_QUOTES, 'UTF-8'),
                     'track_stock'         => $track_stock,
                     'in_stock'            => $in_stock,
                     'no_stock_text'       => $no_stock_text,

@@ -100,13 +100,15 @@ class ControllerPagesAccountDownload extends AController
             $product_ids = array_map('intval', $product_ids);
 
             $resource = new AResource('image');
-            $thumbnails = $resource->getMainThumbList(
-                'products',
-                $product_ids,
-                $this->config->get('config_image_cart_width'),
-                $this->config->get('config_image_cart_height'),
-                false
-            );
+            $thumbnails = $product_ids
+                ? $resource->getMainThumbList(
+                    'products',
+                    $product_ids,
+                    $this->config->get('config_image_cart_width'),
+                    $this->config->get('config_image_cart_height'),
+                    false
+                )
+                : [];
             $suffix = [
                 'B',
                 'KB',

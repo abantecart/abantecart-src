@@ -150,22 +150,26 @@
 
         $('#getEmbedFrm_code_area').val(html);
         $("#embed_container").html(html);
-        setTimeout(
-            function () {
-                let outerHeight = 0;
-                $('#embed_container.embed_preview')
-                    .find('.abantecart-widget-container')
-                    .children().each(
-                    function () {
-                        outerHeight += $(this).outerHeight();
-                    }
-                );
-                embedUrlObj.val(embedUrlObj.val() + '&height=' + (outerHeight + 20));
-            },
-            1000
-        );
         embedUrlObj.val(url);
+        recalcHeightParam = true;
     }
+
+    recalcHeightParam = true;
+    var calcHeight = function(){
+        if(recalcHeightParam !== true){
+            return;
+        }
+        var outerHeight = 0;
+        $('#embed_container.embed_preview')
+            .find('.abantecart-widget-container')
+            .children().each(
+            function () {
+                outerHeight += $(this).outerHeight();
+            }
+        );
+        $('#getEmbedFrm_url').val($('#getEmbedFrm_url').val() + '&height=' + (outerHeight + 20));
+        recalcHeightParam = false;
+    };
 
     $(document).ready(function () {
         buildEmbedCode();
@@ -176,6 +180,7 @@
         cntr.find('div.input-group').find('input[name=limit]').on('keyup', buildEmbedCode);
 
         let preselect = function () {
+            calcHeight();
             let $this = $(this);
             $this.select();
         }
@@ -183,7 +188,8 @@
 
         $('.do_embed a').tooltip();
         $('div[role="tooltip"]').css('z-index', '2080');
-
     });
+
+
 
 </script>

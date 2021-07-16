@@ -1815,7 +1815,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('fast_checkout','fast_checkout_require_phone_number', 1),
 ('fast_checkout','fast_checkout_show_order_comment_field', 1),
 ('fast_checkout','fast_checkout_create_account', 1),
-('fast_checkout','fast_checkout_sort_order', 1),
+('fast_checkout','fast_checkout_sort_order', 10),
 ('fast_checkout','fast_checkout_status', 1)
 ;
 

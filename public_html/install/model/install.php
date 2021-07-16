@@ -23,7 +23,7 @@
 
 class ModelInstall extends Model
 {
-    public $error;
+    public $errors;
 
     /**
      * @param array $data
@@ -33,48 +33,45 @@ class ModelInstall extends Model
     public function validateSettings($data)
     {
         if (!$data['admin_path']) {
-            $this->error['admin_path'] = 'Admin unique name is required!';
+            $this->errors['admin_path'] = 'Admin unique name is required!';
         } else {
             if (preg_match('/[^A-Za-z0-9_]/', $data['admin_path'])) {
-                $this->error['admin_path'] = 'Admin unique name contains non-alphanumeric characters!';
+                $this->errors['admin_path'] = 'Admin unique name contains non-alphanumeric characters!';
             }
         }
 
         if (!$data['db_driver']) {
-            $this->error['db_driver'] = 'Driver required!';
+            $this->errors['db_driver'] = 'Driver required!';
         }
         if (!$data['db_host']) {
-            $this->error['db_host'] = 'Host required!';
+            $this->errors['db_host'] = 'Host required!';
         }
 
         if (!$data['db_user']) {
-            $this->error['db_user'] = 'User required!';
+            $this->errors['db_user'] = 'User required!';
         }
 
         if (!$data['db_name']) {
-            $this->error['db_name'] = 'Database Name required!';
+            $this->errors['db_name'] = 'Database Name required!';
         }
 
         if (!$data['username']) {
-            $this->error['username'] = 'Username required!';
+            $this->errors['username'] = 'Username required!';
         }
 
         if (!$data['password']) {
-            $this->error['password'] = 'Password required!';
+            $this->errors['password'] = 'Password required!';
         }
         if ($data['password'] != $data['password_confirm']) {
-            $this->error['password_confirm'] = 'Password does not match the confirm password!';
+            $this->errors['password_confirm'] = 'Password does not match the confirm password!';
         }
 
-        $pattern = '/^([a-z0-9])(([-a-z0-9._])*([a-z0-9]))*\@([a-z0-9])'
-                    .'(([a-z0-9-])*([a-z0-9]))+(\.([a-z0-9])([-a-z0-9_-])?([a-z0-9])+)+$/i';
-
-        if (!preg_match($pattern, $data['email'])) {
-            $this->error['email'] = 'Invalid E-Mail!';
+        if (!preg_match(EMAIL_REGEX_PATTERN, $data['email'])) {
+            $this->errors['email'] = 'Invalid E-Mail!';
         }
 
         if (!empty($data['db_prefix']) && preg_match('/[^A-Za-z0-9_]/', $data['db_prefix'])) {
-            $this->error['db_prefix'] = 'DB prefix contains non-alphanumeric characters!';
+            $this->errors['db_prefix'] = 'DB prefix contains non-alphanumeric characters!';
         }
 
         if ($data['db_driver']
@@ -92,20 +89,16 @@ class ModelInstall extends Model
                     $data['db_name']
                 );
             } catch (AException $exception) {
-                $this->error['warning'] = $exception->getMessage();
+                $this->errors['warning'] = $exception->getMessage();
             }
         }
 
         if (!is_writable(DIR_ABANTECART.'system/config.php')) {
-            $this->error['warning'] = 'Error: Could not write to config.php please check you have '
+            $this->errors['warning'] = 'Error: Could not write to config.php please check you have '
                 .'set the correct permissions on: '.DIR_ABANTECART.'system/config.php!';
         }
 
-        if (!$this->error) {
-            return true;
-        } else {
-            return false;
-        }
+        return (!$this->errors);
     }
 
     /**
@@ -113,73 +106,45 @@ class ModelInstall extends Model
      */
     public function validateRequirements()
     {
-        if (version_compare(phpversion(), MIN_PHP_VERSION, '<') == true) {
-            $this->error['warning'] = 'Warning: You need to use PHP '
-                                    .MIN_PHP_VERSION.' or above for AbanteCart to work!';
+        $result = checkPhpConfiguration();
+        foreach($result as $name => $r){
+            $this->errors[$name] = 'Warning: '.$r['body'];
         }
 
-        if (!ini_get('file_uploads')) {
-            $this->error['warning'] = 'Warning: file_uploads needs to be enabled in PHP!';
-        }
-
-        if (ini_get('session.auto_start')) {
-            $this->error['warning'] = 'Warning: AbanteCart will not work with session.auto_start enabled!';
-        }
-
-        if (!extension_loaded('mysql')
-            && !extension_loaded('mysqli')
-            && !extension_loaded('pdo_mysql')
-        ) {
-            $this->error['warning'] = 'Warning: MySQL extension needs to be loaded for AbanteCart to work!';
-        }
-
-        if (!function_exists('simplexml_load_file')) {
-            $this->error['warning'] = 'Warning: SimpleXML functions needs to be available in PHP!';
-        }
-
-        if (!extension_loaded('gd')) {
-            $this->error['warning'] = 'Warning: GD extension needs to be loaded for AbanteCart to work!';
-        }
-
-        if (!extension_loaded('mbstring') || !function_exists('mb_internal_encoding')) {
-            $this->error['warning'] = 'Warning: MultiByte String extension needs to be loaded for AbanteCart to work!';
-        }
-        if (!extension_loaded('zlib')) {
-            $this->error['warning'] = 'Warning: ZLIB extension needs to be loaded for AbanteCart to work!';
-        }
         if (!extension_loaded('openssl')) {
-            $this->error['warning'] = 'Warning: OpenSSL extension needs to be loaded for AbanteCart to work!';
+            $this->errors['openssl'] = 'Warning: OpenSSL extension needs to be loaded for AbanteCart to work!';
         }
         if (!extension_loaded('phar')) {
-            $this->error['warning'] = 'Warning: PHAR extension needs to be loaded for AbanteCart to work!';
+            $this->errors['phar'] = 'Warning: PHAR extension needs to be loaded for AbanteCart to work!';
         }
+
         $f = fopen(DIR_ABANTECART.'system/config.php','w');
         fclose($f);
         if (!is_writable(DIR_ABANTECART.'system/config.php')) {
-            $this->error['warning'] = 'Warning: config.php needs to be writable for AbanteCart to be installed!';
+            $this->errors['warning'] = 'Warning: config.php needs to be writable for AbanteCart to be installed!';
         }
 
         if (!is_writable(DIR_SYSTEM)) {
-            $this->error['warning'] = 'Warning: System directory and all its children files/directories'
+            $this->errors['warning'] = 'Warning: System directory and all its children files/directories'
                                     .' need to be writable for AbanteCart to work!';
         }
 
         if (!is_writable(DIR_SYSTEM.'cache')) {
-            $this->error['warning'] = 'Warning: Cache directory needs to be writable for AbanteCart to work!';
+            $this->errors['warning'] = 'Warning: Cache directory needs to be writable for AbanteCart to work!';
         }
 
         if (!is_writable(DIR_SYSTEM.'logs')) {
-            $this->error['warning'] = 'Warning: Logs directory needs to be writable for AbanteCart to work!';
+            $this->errors['warning'] = 'Warning: Logs directory needs to be writable for AbanteCart to work!';
         }
 
         if (!is_writable(DIR_ABANTECART.'image')) {
-            $this->error['warning'] =
+            $this->errors['warning'] =
                 'Warning: Image directory and all its children files/directories need to be writable for AbanteCart to work!';
         }
 
         if (!is_writable(DIR_ABANTECART.'image/thumbnails')) {
             if (file_exists(DIR_ABANTECART.'image/thumbnails') && is_dir(DIR_ABANTECART.'image/thumbnails')) {
-                $this->error['warning'] =
+                $this->errors['warning'] =
                     'Warning: image/thumbnails directory needs to be writable for AbanteCart to work!';
             } else {
                 $result = mkdir(DIR_ABANTECART.'image/thumbnails', 0777, true);
@@ -187,32 +152,28 @@ class ModelInstall extends Model
                     chmod(DIR_ABANTECART.'image/thumbnails', 0777);
                     chmod(DIR_ABANTECART.'image', 0777);
                 } else {
-                    $this->error['warning'] = 'Warning: image/thumbnails does not exists!';
+                    $this->errors['warning'] = 'Warning: image/thumbnails does not exists!';
                 }
             }
         }
 
         if (!is_writable(DIR_ABANTECART.'download')) {
-            $this->error['warning'] = 'Warning: Download directory needs to be writable for AbanteCart to work!';
+            $this->errors['warning'] = 'Warning: Download directory needs to be writable for AbanteCart to work!';
         }
 
         if (!is_writable(DIR_ABANTECART.'extensions')) {
-            $this->error['warning'] = 'Warning: Extensions directory needs to be writable for AbanteCart to work!';
+            $this->errors['warning'] = 'Warning: Extensions directory needs to be writable for AbanteCart to work!';
         }
 
         if (!is_writable(DIR_ABANTECART.'resources')) {
-            $this->error['warning'] = 'Warning: Resources directory needs to be writable for AbanteCart to work!';
+            $this->errors['warning'] = 'Warning: Resources directory needs to be writable for AbanteCart to work!';
         }
 
         if (!is_writable(DIR_ABANTECART.'admin/system')) {
-            $this->error['warning'] = 'Warning: Admin/system directory needs to be writable for AbanteCart to work!';
+            $this->errors['warning'] = 'Warning: Admin/system directory needs to be writable for AbanteCart to work!';
         }
 
-        if (!$this->error) {
-            return true;
-        } else {
-            return false;
-        }
+        return (!$this->errors);
     }
 
     public function configure($data)
@@ -227,7 +188,7 @@ class ModelInstall extends Model
         $content = "<?php\n";
         $content .= "/**\n";
         $content .= "   AbanteCart, Ideal OpenSource Ecommerce Solution\n";
-        $content .= "   http://www.AbanteCart.com\n";
+        $content .= "   https://www.AbanteCart.com\n";
         $content .= "   Copyright © 2011-".date('Y')." Belavier Commerce LLC\n\n";
         $content .= "   Released under the Open Software License (OSL 3.0)\n";
         $content .= "*/\n\n";

@@ -82,8 +82,11 @@
                     <tr>
                         <td align="left" valign="top"><?php echo $product['thumbnail']['thumb_html']; ?></td>
                         <td class="align_left  valign_top">
-                            <a href="<?php echo $product['url']; ?>"><?php echo $product['name']; ?></a>
-                            <?php foreach ($product['option'] as $option) { ?>
+                            <?php if($product['url']){ ?>
+                                <a href="<?php echo $product['url']; ?>"><?php echo $product['name']; ?></a>
+                            <?php }else{
+                                echo $product['name'];
+                            } foreach ($product['option'] as $option) { ?>
                                 <br/>
                                 <small title="<?php echo $option['title'] ?>">
                                     - <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>

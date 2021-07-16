@@ -6,7 +6,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -63,18 +63,16 @@ class ControllerBlocksCategory extends AController
         //load main level categories
         $all_categories = $this->model_catalog_category->getAllCategories();
         //build thumbnails list
-        $category_ids = [];
-        foreach ($all_categories as $category) {
-            $category_ids[] = $category['category_id'];
-        }
+        $category_ids = array_column($all_categories, 'category_id');
         $resource = new AResource('image');
-
-        $this->thumbnails = $resource->getMainThumbList(
-            'categories',
-            $category_ids,
-            $this->config->get('config_image_category_width'),
-            $this->config->get('config_image_category_height')
-        );
+        $this->thumbnails = $category_ids
+            ? $resource->getMainThumbList(
+                'categories',
+                $category_ids,
+                $this->config->get('config_image_category_width'),
+                $this->config->get('config_image_category_height')
+            )
+            : [];
 
         //Build category tree
         $this->_buildCategoryTree($all_categories);
@@ -99,8 +97,9 @@ class ControllerBlocksCategory extends AController
      * @param string $path
      *
      * @return array
+     * @throws AException
      */
-    private function _buildCategoryTree($all_categories = [], $parent_id = 0, $path = '')
+    protected function _buildCategoryTree($all_categories = [], $parent_id = 0, $path = '')
     {
         $output = [];
         foreach ($all_categories as $category) {
@@ -143,8 +142,9 @@ class ControllerBlocksCategory extends AController
      * @param int $parent_id
      *
      * @return array
+     * @throws AException
      */
-    private function _buildNestedCategoryList($parent_id = 0)
+    protected function _buildNestedCategoryList($parent_id = 0)
     {
         $output = [];
         foreach ($this->data['all_categories'] as $category) {

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /** @noinspection PhpUndefinedClassInspection */
 
 /*------------------------------------------------------------------------------
@@ -70,18 +71,16 @@ class ControllerResponsesProductProduct extends AController
                 }
                 $products = $this->model_catalog_product->getProducts($filter);
 
-                $product_ids = [];
-                foreach ($products as $result) {
-                    $product_ids[] = (int) $result['product_id'];
-                }
-
+                $product_ids = array_column($products, 'product_id');
                 $resource = new AResource('image');
-                $thumbnails = $resource->getMainThumbList(
-                    'products',
-                    $product_ids,
-                    $this->config->get('config_image_grid_width'),
-                    $this->config->get('config_image_grid_height')
-                );
+                $thumbnails = $product_ids
+                    ? $resource->getMainThumbList(
+                        'products',
+                        $product_ids,
+                        $this->config->get('config_image_grid_width'),
+                        $this->config->get('config_image_grid_height')
+                    )
+                    : [];
 
                 foreach ($products as $product_data) {
                     $thumbnail = $thumbnails[$product_data['product_id']];
@@ -100,9 +99,8 @@ class ControllerResponsesProductProduct extends AController
                     }
 
                     $formatted_price = $this->currency->format(
-                        $product_data['price'], ($get['currency_code']
-                        ? $get['currency_code']
-                        : $this->config->get('config_currency'))
+                        $product_data['price'],
+                        ($get['currency_code'] ?: $this->config->get('config_currency'))
                     );
 
                     $products_data[] = [
@@ -291,7 +289,7 @@ class ControllerResponsesProductProduct extends AController
         $result = [];
         foreach ($product_options as $option) {
             $option_name = trim($option['language'][$this->language->getContentLanguageID()]['name']);
-            $result[$option['product_option_id']] = $option_name ? $option_name : 'n/a';
+            $result[$option['product_option_id']] = $option_name ? : 'n/a';
         }
 
         //update controller data
@@ -729,7 +727,7 @@ class ControllerResponsesProductProduct extends AController
      * @param AForm $form
      *
      * @return string
-     * @throws AException
+     * @throws AException|ReflectionException
      */
     protected function _option_value_form($form)
     {
@@ -879,7 +877,7 @@ class ControllerResponsesProductProduct extends AController
                     $arr = [
                         'type'  => in_array($this->data['option_data']['element_type'], ['T', 'B'])
                             ? 'textarea'
-                            : 'input',
+                            : ($this->data['option_data']['element_type'] == 'D' ? 'date' : 'input'),
                         'name'  => 'name['.$product_option_value_id.']',
                         'value' => $this->data['name'],
                     ];
@@ -1272,7 +1270,7 @@ class ControllerResponsesProductProduct extends AController
      * @param int $download_id
      * @param int $product_id
      *
-     * @throws AException
+     * @throws AException|ReflectionException
      */
     private function _buildGeneralSubform($form, $download_id, $product_id)
     {
@@ -1369,7 +1367,7 @@ class ControllerResponsesProductProduct extends AController
                 'type'    => 'checkbox',
                 'name'    => 'status',
                 'value'   => 1,
-                'checked' => $file_data['status'] ? true : false,
+                'checked' => (bool) $file_data['status'],
                 'style'   => 'btn_switch',
             ]
         );
@@ -1409,7 +1407,7 @@ class ControllerResponsesProductProduct extends AController
                     'type'    => 'checkbox',
                     'name'    => 'shared',
                     'value'   => 1,
-                    'checked' => $file_data['shared'] ? true : false,
+                    'checked' => (bool) $file_data['shared'],
                     'style'   => 'btn_switch '.($this->data['already_shared'] ? 'disabled' : ''),
                 ]
             );
@@ -1752,7 +1750,7 @@ class ControllerResponsesProductProduct extends AController
         } else {
             $product_info = $this->model_catalog_product->getProduct($product_id);
             $this->data['text_title'] = sprintf($this->language->get('text_add_product_to_order'), $order_id);
-            $preset_values['quantity'] = $product_info['minimum'] ? $product_info['minimum'] : 1;
+            $preset_values['quantity'] = $product_info['minimum'] ? : 1;
             $preset_values['price'] = $this->currency->format(
                 $product_info['price'],
                 $order_info['currency'],
@@ -1803,7 +1801,7 @@ class ControllerResponsesProductProduct extends AController
             if (in_array($option['element_type'], ['U'])) {
                 continue;
             } //skip files for now. TODO: add edit file-option in the future
-            $values = $prices = [];
+            $values = [];
             $price = $preset_value = $default_value = '';
             foreach ($option['option_value'] as $option_value) {
                 //default value
@@ -1911,7 +1909,7 @@ class ControllerResponsesProductProduct extends AController
                     $option_data['label_text'] = !in_array($value, ['0', '1'])
                         ? $value
                         : '';
-                    $option_data['checked'] = $preset_value ? true : false;
+                    $option_data['checked'] = (bool) $preset_value;
                 }
 
                 $options[] = [
@@ -2107,7 +2105,7 @@ class ControllerResponsesProductProduct extends AController
                     [
                         'type'             => 'selectbox',
                         'id'               => 'location_list'
-                            .($product_option_value_id ? $product_option_value_id : ""),
+                            .($product_option_value_id ? : ""),
                         'name'             => 'location_list',
                         'value'            => [],
                         'options'          => $options,

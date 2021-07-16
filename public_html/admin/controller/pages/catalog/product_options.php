@@ -156,7 +156,7 @@ class ControllerPagesCatalogProductOptions extends AController
         $element_types = ['' => $this->language->get('text_select')];
         foreach ($results as $key => $type) {
             // allowed field types
-            if (in_array($key, ['I', 'T', 'S', 'M', 'R', 'C', 'G', 'H', 'U', 'B'])) {
+            if (in_array($key, AAttribute_Manager::$allowedProductOptionFieldTypes)) {
                 $element_types[$key] = $type['type'];
             }
         }
@@ -347,11 +347,7 @@ class ControllerPagesCatalogProductOptions extends AController
         ) {
             $this->error['warning'] = $this->language->get('error_option_in_group');
         }
-
-        if (!$this->error) {
-            return true;
-        } else {
-            return false;
-        }
+        $this->extensions->hk_ValidateData($this);
+        return (!$this->error);
     }
 }

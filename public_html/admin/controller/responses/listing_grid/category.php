@@ -75,18 +75,17 @@ class ControllerResponsesListingGridCategory extends AController
         $results = $this->model_catalog_category->getCategoriesData($filter_data);
 
         //build thumbnails list
-        $category_ids = [];
-        foreach ($results as $category) {
-            $category_ids[] = $category['category_id'];
-        }
+        $category_ids = array_column($results,'category_id');
         $resource = new AResource('image');
 
-        $thumbnails = $resource->getMainThumbList(
-            'categories',
-            $category_ids,
-            $this->config->get('config_image_grid_width'),
-            $this->config->get('config_image_grid_height')
-        );
+        $thumbnails = $category_ids
+            ? $resource->getMainThumbList(
+                    'categories',
+                    $category_ids,
+                    $this->config->get('config_image_grid_width'),
+                    $this->config->get('config_image_grid_height')
+                )
+            : [];
 
         $i = 0;
         $language_id = $this->language->getContentLanguageID();
@@ -95,8 +94,12 @@ class ControllerResponsesListingGridCategory extends AController
         foreach ($results as $result) {
             $thumbnail = $thumbnails[$result['category_id']];
             $response->rows[$i]['id'] = $result['category_id'];
-            $cnt =
-                $this->model_catalog_category->getCategoriesData(['parent_id' => $result['category_id']], 'total_only');
+            $cnt = $this->model_catalog_category->getCategoriesData(
+                [
+                    'parent_id' => $result['category_id']
+                ],
+                'total_only'
+            );
 
             if (!$result['products_count']) {
                 $products_count = 0;
@@ -106,7 +109,10 @@ class ControllerResponsesListingGridCategory extends AController
                         'type'  => 'button',
                         'name'  => 'view products',
                         'text'  => $result['products_count'],
-                        'href'  => $this->html->getSecureURL('catalog/product', '&category='.$result['category_id']),
+                        'href'  => $this->html->getSecureURL(
+                            'catalog/product',
+                            '&category='.$result['category_id']
+                        ),
                         'title' => $title,
                     ]
                 );
@@ -338,17 +344,17 @@ class ControllerResponsesListingGridCategory extends AController
             ];
             $results = $this->model_catalog_category->getCategoriesData($filter);
             //build thumbnails list
-            $category_ids = [];
-            foreach ($results as $category) {
-                $category_ids[] = $category['category_id'];
-            }
+            $category_ids = array_column($results, 'category_id');
+
             $resource = new AResource('image');
-            $thumbnails = $resource->getMainThumbList(
-                'categories',
-                $category_ids,
-                $this->config->get('config_image_grid_width'),
-                $this->config->get('config_image_grid_height')
-            );
+            $thumbnails = $category_ids
+                ? $resource->getMainThumbList(
+                    'categories',
+                    $category_ids,
+                    $this->config->get('config_image_grid_width'),
+                    $this->config->get('config_image_grid_height')
+                )
+                : [];
             foreach ($results as $item) {
                 $thumbnail = $thumbnails[$item['category_id']];
                 $output[] = [

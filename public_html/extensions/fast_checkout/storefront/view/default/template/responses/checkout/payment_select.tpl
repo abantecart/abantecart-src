@@ -1,8 +1,11 @@
+<?php $total_payment = count((array)$payment_methods);
+if($total_payment || $balance>0){
+?>
 <h5 class="text-center"><?php echo $fast_checkout_text_select_payment; ?>:</h5>
 <div class="row">
     <div class="form-group col-xxs-12 payment_items">
         <?php
-        if ($total_payment = count((array)$payment_methods)) {
+        if ($total_payment) {
             foreach ($payment_methods as $id => $payment) {
                 $current = '';
                 if ($id == $payment_method) {
@@ -84,3 +87,4 @@
         <?php } ?>
     </div>
 </div>
+<?php } ?>

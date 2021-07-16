@@ -403,9 +403,7 @@ class ControllerPagesExtensionExtensions extends AController
             }
             $data['name'] = $item['name'];
             $data['type'] = $item['type'];
-            $data['value'] = isset($this->request->post[$item['name']])
-                ? $this->request->post[$item['name']]
-                : $item['value'];
+            $data['value'] = $this->request->post[$item['name']] ?? $item['value'];
             $data['required'] = (bool) $item['required'];
 
             if ($item['note']) {
@@ -424,8 +422,11 @@ class ControllerPagesExtensionExtensions extends AController
                     $new_text_key = str_replace($extension.'_', 'text_', $data['name']);
                     $note_text = $this->language->get($new_text_key, 'extension/extensions');
                     if ($note_text == $new_text_key) {
-                        $note_text =
-                            $this->language->get($new_text_key.'_'.$this->data['extension_info']['type'], '', true);
+                        $note_text = $this->language->get(
+                            $new_text_key.'_'.$this->data['extension_info']['type'],
+                            '',
+                            true
+                        );
                     }
                 }
                 $data['note'] = $note_text;
@@ -586,7 +587,7 @@ class ControllerPagesExtensionExtensions extends AController
         //check if we save settings with the post
         if ($this->request->is_POST() && $this->_validateSettings($extension, $store_id)) {
             $save_data = $this->request->post;
-            foreach ($save_data as $k => &$v) {
+            foreach ($save_data as &$v) {
                 if (is_string($v)) {
                     $v = trim($v);
                 }
@@ -693,6 +694,22 @@ class ControllerPagesExtensionExtensions extends AController
         if (!$this->extension_manager->validateDependencies($extension, getExtensionConfigXml($extension))) {
             $this->error['warning'] = $this->language->get('error_dependencies');
         }
+        //check if some installed extension modifies layouts
+        if($this->data['extension_info']['type'] == 'template') {
+            $extWithLayouts = findExtensionsLayouts($extension);
+            if($extWithLayouts){
+                $list = [];
+                foreach($extWithLayouts as $key => $files){
+                    $list[] = '<a target="_blank" href="'.$this->html->getSecureURL('extension/extensions/edit','&extension='.$key).'">'
+                            .$key.' ('.implode(', ',$files).')</a>';
+                }
+
+                $this->error['warning'] .= sprintf(
+                    $this->language->get('warning_extensions_with_layouts'),
+                    implode('<br>', $list)
+                );
+            }
+        }
 
         if (isset($this->error['warning'])) {
             $this->data['error_warning'] = $this->error['warning'];
@@ -704,8 +721,8 @@ class ControllerPagesExtensionExtensions extends AController
         $cfg = getExtensionConfigXml($extension);
         if ($cfg->cartversions->item) {
             $allSupportedCartVersions = (array) $cfg->cartversions->item;
-            $chks = isExtensionSupportsCart($allSupportedCartVersions);
-            if (!$chks['minor_check']) {
+            $checks = isExtensionSupportsCart($allSupportedCartVersions);
+            if (!$checks['minor_check']) {
                 $this->data['info'] .= "\n"
                     .sprintf(
                         $this->language->get('confirm_version_incompatibility', 'tool/package_installer'),
@@ -760,10 +777,10 @@ class ControllerPagesExtensionExtensions extends AController
         $config = $ext->getConfig();
         if (!empty($config->preview->item)) {
             foreach ($config->preview->item as $item) {
-                if (!is_file(DIR_EXT.$extension.DIR_EXT_IMAGE.(string) $item)) {
+                if (!is_file(DIR_EXT.$extension.DIR_EXT_IMAGE.$item)) {
                     continue;
                 }
-                $this->data['extension_info']['preview'][] = HTTPS_EXT.$extension.DIR_EXT_IMAGE.(string) $item;
+                $this->data['extension_info']['preview'][] = HTTPS_EXT.$extension.DIR_EXT_IMAGE.$item;
             }
             //image gallery scripts and css for previews
             $this->document->addStyle(
@@ -953,7 +970,7 @@ class ControllerPagesExtensionExtensions extends AController
                 .DIR_EXT_TEMPLATE
                 .$this->config->get('admin_template')
                 ."/template/";
-            $dir_template .= (string) $config->custom_settings_template;
+            $dir_template .= $config->custom_settings_template;
             //validate template and report issue
             if (!file_exists($dir_template)) {
                 $warning = new AWarning(
@@ -1012,7 +1029,7 @@ class ControllerPagesExtensionExtensions extends AController
                 } else {
                     $this->error['warning'] = [];
                     foreach ($validate['errors'] as $field_id => $error_text) {
-                        $error = $error_text ? $error_text : $this->language->get($field_id.'_validation_error');
+                        $error = $error_text ? : $this->language->get($field_id.'_validation_error');
                         $this->error['warning'][] = $error;
                     }
                     $this->error['warning'] = implode('<br>', $this->error['warning']);

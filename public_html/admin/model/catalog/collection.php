@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /** @noinspection PhpUndefinedClassInspection */
 
 /*------------------------------------------------------------------------------
@@ -25,6 +26,12 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ModelCatalogCollection extends Model
 {
+    /**
+     * @param $data
+     *
+     * @return bool
+     * @throws AException
+     */
     public function insert($data)
     {
         $keyword = '';
@@ -109,8 +116,16 @@ class ModelCatalogCollection extends Model
 
             return $this->getById($lastId);
         }
+        return true;
     }
 
+    /**
+     * @param int $id
+     * @param array $data
+     *
+     * @return bool
+     * @throws AException
+     */
     public function update($id, $data)
     {
         if (!(int) $id) {
@@ -168,8 +183,14 @@ class ModelCatalogCollection extends Model
             if ($keyword) {
                 $language->replaceDescriptions(
                     'url_aliases',
-                    ['query' => 'collection_id='.(int) $id],
-                    [(int) $language->getContentLanguageID() => ['keyword' => $keyword]]
+                    [
+                        'query' => 'collection_id='.(int) $id
+                    ],
+                    [
+                        (int) $language->getContentLanguageID() => [
+                            'keyword' => $keyword
+                        ]
+                    ]
                 );
             } else {
                 $db->query(
@@ -181,8 +202,15 @@ class ModelCatalogCollection extends Model
             }
         }
         $this->cache->remove('collection');
+        return true;
     }
 
+    /**
+     * @param int $id
+     *
+     * @return bool
+     * @throws AException
+     */
     public function delete($id)
     {
         if (!(int) $id) {
@@ -192,8 +220,15 @@ class ModelCatalogCollection extends Model
         $colTableName = $db->table('collections');
         $query = 'DELETE FROM '.$colTableName.' WHERE id='.$id;
         $db->query($query);
+        return true;
     }
 
+    /**
+     * @param array $data
+     *
+     * @return array
+     * @throws AException
+     */
     public function getCollections(array $data)
     {
         $db = Registry::getInstance()->get('db');
@@ -275,6 +310,12 @@ class ModelCatalogCollection extends Model
         ];
     }
 
+    /**
+     * @param $data
+     *
+     * @return bool|stdClass
+     * @throws AException
+     */
     public function updateOrCreateDescription($data)
     {
         if (!(int) $data['collection_id'] || !(int) $data['language_id']) {
@@ -316,7 +357,8 @@ class ModelCatalogCollection extends Model
         }
 
         return $db->query(
-            'INSERT INTO '.$colDesTableName.' ('.implode(',', $keys).') VALUES (\''.implode('\',\'', $values).'\')'
+            'INSERT INTO '.$colDesTableName.' ('.implode(',', $keys).') 
+            VALUES (\''.implode('\',\'', $values).'\')'
         );
     }
 
@@ -338,13 +380,15 @@ class ModelCatalogCollection extends Model
             $colDesTableName.'.meta_description',
         ];
 
-        $query = 'SELECT '.implode(',', $arSelect).' FROM '.$colTableName;
-        $query .= ' LEFT JOIN '.$colDesTableName.' ON '.$colDesTableName.'.collection_id = '.$colTableName.'.id 
-        AND '.$colDesTableName.'.language_id = '.$language->getContentLanguageID();
+        $query = 'SELECT '.implode(',', $arSelect).' 
+                    FROM '.$colTableName;
+        $query .= ' LEFT JOIN '.$colDesTableName.' 
+                        ON '.$colDesTableName.'.collection_id = '.$colTableName.'.id 
+                            AND '.$colDesTableName.'.language_id = '.$language->getContentLanguageID();
         $query .= ' WHERE '.$colTableName.'.id='.$id;
 
         $result = $db->query($query);
-        if ($result) {
+        if ($result->num_rows) {
             $data = $result->row;
             $data['conditions'] = json_decode($data['conditions'], true);
             $seo_url = $db->query(
@@ -361,6 +405,10 @@ class ModelCatalogCollection extends Model
         return false;
     }
 
+    /**
+     * @return array | false
+     * @throws AException
+     */
     public function getUniqueTags()
     {
         $db = Registry::getInstance()->get('db');
@@ -375,6 +423,17 @@ class ModelCatalogCollection extends Model
         return false;
     }
 
+    /**
+     * @param array $conditions
+     * @param string $sort
+     * @param string $order
+     * @param int $start
+     * @param int $limit
+     * @param int $collectionId
+     *
+     * @return array|false|mixed
+     * @throws AException
+     */
     public function getProducts(array $conditions, $sort, $order, $start, $limit, $collectionId)
     {
         $store_id = (int) $this->config->get('config_store_id');
@@ -404,15 +463,11 @@ class ModelCatalogCollection extends Model
             $conditions = $conditions['conditions'];
 
             $db = Registry::getInstance()->get('db');
-            $language = Registry::getInstance()->get('language');
-
             $productsTable = $db->table('products');
-            $categoriesTable = $db->table('categories');
             $p2sTable = $db->table('products_to_stores');
             $p2cTable = $db->table('products_to_categories');
             $productsTagsTable = $db->table('product_tags');
             $pdTable = $db->table('product_descriptions');
-            $manufacturersTable = $db->table('manufacturers');
 
             $arSelect = [
                 'SQL_CALC_FOUND_ROWS '.$productsTable.'.*',
@@ -425,47 +480,61 @@ class ModelCatalogCollection extends Model
 
             $arWhere = [];
             $arJoins = [
-                'INNER JOIN '.$p2sTable.' ON '.$p2sTable.'.product_id='.$productsTable.'.product_id'.
-                ' AND '.$p2sTable.'.store_id='.$this->config->get('config_store_id'),
-                'LEFT JOIN '.$pdTable.' ON '.$pdTable.'.product_id='.$productsTable.'.product_id'.
-                ' AND language_id='.(int) $this->language->getContentLanguageID(),
+                'INNER JOIN '.$p2sTable.' 
+                    ON '.$p2sTable.'.product_id='.$productsTable.'.product_id 
+                        AND '.$p2sTable.'.store_id='.$this->config->get('config_store_id'),
+
+                'LEFT JOIN '.$pdTable.' 
+                    ON '.$pdTable.'.product_id='.$productsTable.'.product_id 
+                        AND language_id='.(int) $this->language->getContentLanguageID(),
             ];
-            foreach ($conditions as $condition) {
+
+            foreach ($conditions as $k=>$condition) {
                 //Brands filter
-                if ($condition['object'] === 'brands' && is_array($condition['value']) && !empty($condition['value'])) {
-                    $arWhere[] = 'manufacturer_id '.$this->gerInOperator($condition['operator'], $relation['value']).
-                        ' ('.implode(',', $condition['value']).')';
+                if ($condition['object'] === 'brands'
+                    && is_array($condition['value'])
+                    && !empty($condition['value'])
+                ) {
+                    $arWhere[] = ' manufacturer_id '
+                        . $this->gerInOperator($condition['operator'], $relation['value'])
+                        . ' ('.implode(',', $condition['value']).')';
                 }
                 //Category filter
-                if ($condition['object'] === 'categories' && is_array($condition['value'])
-                    && !empty($condition['value'])) {
-                    $arSelect[] = $p2cTable.'.category_id';
-                    $arJoins[] = 'LEFT JOIN '.$p2cTable.' ON '.$p2cTable.'.product_id='.$productsTable.'.product_id';
-                    $arWhere[] = 'category_id '.$this->gerInOperator($condition['operator'], $relation['value']).
+                if ($condition['object'] === 'categories'
+                    && is_array($condition['value'])
+                    && !empty($condition['value'])
+                ) {
+                    $arSelect[] = 'cat'.$k.'.category_id';
+                    $arJoins[] = 'LEFT JOIN '.$p2cTable.' cat'.$k
+                                    .' ON cat'.$k.'.product_id='.$productsTable.'.product_id';
+                    $arWhere[] = ' cat'.$k.'.category_id '.$this->gerInOperator($condition['operator'], $relation['value']).
                         ' ('.implode(',', $condition['value']).')';
                 }
                 //Products filter
                 if ($condition['object'] === 'products' && is_array($condition['value'])
                     && !empty($condition['value'])) {
-                    $arWhere[] =
-                        $productsTable.'.product_id '.$this->gerInOperator($condition['operator'], $relation['value']).
-                        ' ('.implode(',', $condition['value']).')';
+                    $arWhere[] = $productsTable.'.product_id '
+                            .$this->gerInOperator($condition['operator'], $relation['value'])
+                            .' ('.implode(',', $condition['value']).')';
                 }
                 //Product price filter
                 if ($condition['object'] === 'product_price' && (int) $condition['value'] > 0) {
-                    $arWhere[] = 'price '.$this->gerEqualOperator($condition['operator'], $relation['value'])
+                    $arWhere[] = 'price '.$this->gerEqualOperator(
+                            $condition['operator'],
+                            $relation['value']
+                        )
                         .$condition['value'];
                 }
                 //Tags filter
                 if ($condition['object'] === 'tags' && is_array($condition['value']) && !empty($condition['value'])) {
-                    $arSelect[] = $productsTagsTable.'.tag';
-                    $arJoins[] = 'LEFT JOIN '.$productsTagsTable.' ON '.$productsTagsTable.'.product_id='.$productsTable
-                        .'.product_id'.
-                        ' AND '.$productsTagsTable.'.language_id='.(int) $this->language->getContentLanguageID();
+                    $arSelect[] = ' tag'.$k.'.tag';
+                    $arJoins[] = 'LEFT JOIN '.$productsTagsTable.' tag'.$k.'
+                                    ON tag'.$k.'.product_id='.$productsTable .'.product_id'.
+                        ' AND tag'.$k.'.language_id='.(int) $this->language->getContentLanguageID();
                     foreach ($condition['value'] as &$value) {
                         $value = "'".$value."'";
                     }
-                    $arWhere[] = 'tag '.$this->gerInOperator($condition['operator'], $relation['value']).
+                    $arWhere[] = 'tag'.$k.'.tag '.$this->gerInOperator($condition['operator'], $relation['value']).
                         ' ('.implode(',', $condition['value']).')';
                 }
             }
@@ -518,6 +587,9 @@ class ModelCatalogCollection extends Model
         return $result;
     }
 
+    /**
+     * @return string
+     */
     protected function sqlFinalPriceString()
     {
         //special prices
@@ -537,11 +609,14 @@ class ModelCatalogCollection extends Model
             ' AND (('.$p2sp.'.date_start = \'0000-00-00\' OR '.$p2sp.'.date_start < NOW())'.
             ' AND ('.$p2sp.'.date_end = \'0000-00-00\' OR '.$p2sp.'.date_end > NOW()))'.
             ' ORDER BY '.$p2sp.'.priority ASC, '.$p2sp.'.price ASC LIMIT 1) ';
-        $sql = 'COALESCE( '.$sql.', '.$p.'.price) as final_price';
+        $sql = 'COALESCE( '.$sql.', '.$p.'.price) as final_price ';
 
         return $sql;
     }
 
+    /**
+     * @return string
+     */
     protected function sqlAvgRatingString()
     {
         $rw = $this->db->table('reviews');
@@ -555,6 +630,9 @@ class ModelCatalogCollection extends Model
         return $sql;
     }
 
+    /**
+     * @return string
+     */
     protected function sqlReviewCountString()
     {
         $rw = $this->db->table('reviews');
@@ -568,6 +646,12 @@ class ModelCatalogCollection extends Model
         return $sql;
     }
 
+    /**
+     * @param $operator
+     * @param $invert
+     *
+     * @return string
+     */
     private function gerEqualOperator($operator, $invert)
     {
         if (($operator == 'eq' && $invert == 'true') || ($operator == 'neq' && $invert == 'false')) {
@@ -603,6 +687,12 @@ class ModelCatalogCollection extends Model
         return '=';
     }
 
+    /**
+     * @param $operator
+     * @param $invert
+     *
+     * @return string
+     */
     private function gerInOperator($operator, $invert)
     {
         if (($operator == 'in' && $invert == 'true') || ($operator == 'notin' && $invert == 'false')) {
@@ -614,6 +704,12 @@ class ModelCatalogCollection extends Model
         return 'IN';
     }
 
+    /**
+     * @param $collection_id
+     *
+     * @return mixed
+     * @throws AException
+     */
     public function getCollectionStoresInfo($collection_id)
     {
         $query = $this->db->query(

@@ -463,13 +463,15 @@ class ControllerResponsesListingGridBlocksGrid extends AController
 
                     //get thumbnails by one pass
                     $resource = new AResource('image');
-                    $thumbnails = $resource->getMainThumbList(
-                        $rl_object_name,
-                        $ids,
-                        $this->config->get('config_image_grid_width'),
-                        $this->config->get('config_image_grid_height'),
-                        false
-                    );
+                    $thumbnails = $ids
+                        ? $resource->getMainThumbList(
+                                $rl_object_name,
+                                $ids,
+                                $this->config->get('config_image_grid_width'),
+                                $this->config->get('config_image_grid_height'),
+                                false
+                            )
+                        : [];
 
                     foreach ($results as $item) {
                         $id = $item[$id_name];

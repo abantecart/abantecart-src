@@ -34,7 +34,7 @@ class ADebug
         if (!self::$_is_init) {
             if (defined('INSTALL')) {
                 self::$debug = 1;
-                self::$debug_level = 1;
+                self::$debug_level = 0;
             } else {
                 if (class_exists('Registry')) {
                     $registry = Registry::getInstance();

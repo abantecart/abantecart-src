@@ -1457,7 +1457,7 @@ ul.productinfo {
 ul.productinfo li {
 	padding: 5px 0;
 	list-style: none;
-	display: block
+	display: block;
 }
 
 ul.productinfo li .productinfoleft {
@@ -1604,12 +1604,15 @@ ul.productpagecart {
 	margin-top: 20px;
 	margin-left: 0;
 	display: inline-block;
+	height: 150px;
+	width: 100%;
 }
 
 ul.productpagecart li {
-	display: inline-block;
+	display: flex;
 	margin-right: 10px;
-	height: 45px
+	width: 100%;
+	/*height: 45px*/
 }
 
 .productpagecart a {
@@ -1620,8 +1623,11 @@ ul.productpagecart li {
 	position: relative;
 }
 
-.productpagecart li a.cart {
+.productpagecart a.cart {
 	background-position: 10px 12px;
+	margin-left: 5px;
+	min-width: 135px;
+	display: block !important;
 }
 
 .productpagecart li a.wish {

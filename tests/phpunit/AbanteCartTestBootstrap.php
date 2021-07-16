@@ -26,7 +26,7 @@ class AbanteCartTest extends PHPUnit\Framework\TestCase
         $_SERVER['PHP_SELF'] = ABC_TEST_PHP_SELF;
 
         // Required PHP Version
-        define('MIN_PHP_VERSION', '7.1.0');
+        define('MIN_PHP_VERSION', '7.4.0');
         if (version_compare(phpversion(), MIN_PHP_VERSION, '<') == true) {
             throw new Exception(
                 MIN_PHP_VERSION

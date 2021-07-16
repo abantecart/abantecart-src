@@ -19,8 +19,8 @@ if ($error){ ?>
                 if (sizeof((array)$images) > 1){
                     $add_w = $this->config->get('config_image_additional_width');
                     $add_h = $this->config->get('config_image_additional_height');
-                    foreach ($images as $image){
-                        ?><li class="producthtumb"><?php
+                    foreach ($images as $image){ ?>
+                        <li class="producthtumb"><?php
                             if ($image['origin'] != 'external'){?>
                                 <a href="Javascript:void(0);" data-href="<?php echo $image['main_url']; ?>"
                                    data-standard="<?php echo $image['thumb2_url']; ?>"
@@ -207,29 +207,26 @@ if ($error){ ?>
                                             <li><span class="nostock"><?php echo $stock; ?></span></li>
                                         </ul>
                                         <?php } else { ?>
-                                        <ul class="productpagecart">
-                                            <li><?php if(!$this->getHookVar('product_add_to_cart_html')) { ?>
-                                                <a href="#" onclick="$(this).closest('form').submit(); return false;" class="cart">
+                                        <div class="productpagecart">
+                                            <?php if(!$this->getHookVar('product_add_to_cart_html')) { ?>
+                                                <a href="#" onclick="$(this).closest('form').submit(); return false;" class="cart col-lg-5">
                                                     <i class="fa fa-cart-plus fa-fw"></i>
                                                     <?php echo $button_add_to_cart; ?>
                                                 </a>
                                                 <?php } else { ?>
                                                     <?php echo $this->getHookVar('product_add_to_cart_html'); ?>
                                                 <?php } ?>
-                                            </li>
-                                        </ul>
+                                        </div>
                                         <?php } ?>
                                         <?php } else { ?>
-                                            <ul class="productpagecart call_to_order">
-                                                <li>
-                                                    <a href="#" class="call_to_order">
+                                            <div class="productpagecart call_to_order">
+                                                    <a href="#" class="cart col-lg-5 call_to_order">
                                                         <i class="fa fa-phone fa-fw"></i>&nbsp;&nbsp;
                                                         <?php echo $text_call_to_order; ?>
                                                     </a>
-                                                </li>
-                                            </ul>
+                                            </div>
                                         <?php } ?>
-                                        <a class="productprint btn btn-large" href="javascript:window.print();">
+                                        <a class="productprint btn btn-large col-lg-4" href="javascript:window.print();">
                                             <i class="fa fa-print fa-fw"></i>
                                             <?php echo $button_print; ?>
                                         </a>
@@ -247,11 +244,11 @@ if ($error){ ?>
                                     ?>
                                     <?php if ($is_customer) { ?>
                                     <div class="wishlist">
-                                        <a class="wishlist_remove btn btn-large" href="#" onclick="wishlist_remove(); return false;" <?php echo $no_wishlist; ?>>
+                                        <a class="wishlist_remove btn btn-large col-lg-4" href="#" onclick="wishlist_remove(); return false;" <?php echo $no_wishlist; ?>>
                                             <i class="fa fa-trash-o fa-fw"></i>
                                             <?php echo $button_remove_wishlist; ?>
                                         </a>
-                                        <a class="wishlist_add btn btn-large" href="#" onclick="wishlist_add(); return false;" <?php echo $wishlist_css; ?>>
+                                        <a class="wishlist_add btn btn-large col-lg-4" href="#" onclick="wishlist_add(); return false;" <?php echo $wishlist_css; ?>>
                                             <i class="fa fa-plus-square fa-fw"></i>
                                             <?php echo $button_add_wishlist; ?>
                                         </a>
@@ -474,9 +471,9 @@ if ($error){ ?>
         display_total_price();
 
         $('#current_reviews .pagination a').on('click', function () {
-            $('#current_reviews').slideUp('slow');
-            $('#current_reviews').load(this.href);
-            $('#current_reviews').slideDown('slow');
+            $('#current_reviews').slideUp('slow')
+                .load(this.href)
+                .slideDown('slow');
             return false;
         });
 
@@ -501,7 +498,7 @@ if ($error){ ?>
             var valId = $(this).val();
             valId = this.type === 'checkbox' && $(this).attr('data-attribute-value-id') ? $(this).attr('data-attribute-value-id') : valId;
             //skip not selected radio
-            if( (this.type === 'radio' || this.type === 'checkbox') && $(this).prop('checked') == false){
+            if( (this.type === 'radio' || this.type === 'checkbox') && $(this).prop('checked') === false){
                 return false;
             }
             load_option_images(valId, '<?php echo $product_id; ?>');
@@ -543,9 +540,27 @@ if ($error){ ?>
     }
 
     function load_option_images(attribute_value_id, product_id) {
+        var selected  = {};
+        var k = 0;
+        $('[name^=\'option\']').each(function(){
+            var valId = $(this).val();
+            valId = this.type === 'checkbox' && $(this).attr('data-attribute-value-id') ? $(this).attr('data-attribute-value-id') : valId;
+            //skip not selected radio
+            if( (this.type === 'radio' || this.type === 'checkbox') && $(this).prop('checked') === false){
+                return;
+            }
+            //exclude just clicked option
+            if(valId === attribute_value_id){
+                return;
+            }
+            selected[k] = valId;
+            k++;
+        });
+
         var data = {
             attribute_value_id: attribute_value_id,
             product_id: product_id,
+            selected_options: selected
         };
 
         $.ajax({
@@ -554,7 +569,7 @@ if ($error){ ?>
             data: data,
             dataType: 'json',
             success: function (data) {
-                if (data.length == 0) {
+                if (data.length === 0) {
                     return false;
                 }
                 var html1 = '',
@@ -562,7 +577,7 @@ if ($error){ ?>
                     main_image = data.main;
 
                 if (main_image) {
-                    if (main_image.origin == 'external') {
+                    if (main_image.origin === 'external') {
                         html1 = '<a class="html_with_image">';
                         html1 += main_image.main_html + '</a>';
                     } else {
@@ -572,13 +587,13 @@ if ($error){ ?>
                     }
                 }
                 if (data.images.length>0) {
-                    for (img in data.images) {
+                    for (var img in data.images) {
                         var image = data.images[img];
                         html2 += '<li class="producthtumb">';
                         var img_url = image.main_url;
                         var tmb_url = image.thumb_url;
                         var tmb2_url = image.thumb2_url;
-                        if (image.origin != 'external') {
+                        if (image.origin !== 'external') {
                             html2 += '<a data-href="'+image.main_url+'" href="' + img_url + '" data-standard="' + tmb2_url + '"><img style="width:' + image.thumb_width + 'px; height:' + image.thumb_height + 'px;" src="' + tmb_url + '" alt="' + image.title + '" title="' + image.title + '" /></a>';
                         }
                         html2 += '</li>';
@@ -608,8 +623,8 @@ if ($error){ ?>
 
             success: function (data) {
                 if (data && data.total) {
-                    $('.total-price-holder').show();
-                    $('.total-price-holder').css('visibility', 'visible');
+                    $('.total-price-holder').show()
+                        .css('visibility', 'visible');
                     $('.total-price').html(data.total);
                 }
             }

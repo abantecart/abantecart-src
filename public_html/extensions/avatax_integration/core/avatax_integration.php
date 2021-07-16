@@ -1,4 +1,6 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /** @noinspection PhpUndefinedClassInspection */
 
 /*------------------------------------------------------------------------------
@@ -328,7 +330,7 @@ class ExtensionAvataxIntegration extends Extension
         $product_data = $that->model_account_order->getOrderProducts($order_id);
         /** @var ModelExtensionAvataxIntegration $mdl */
         $mdl = $that->load->model('extension/avatax_integration', 'storefront');
-        foreach ($product_data as $key => $values) {
+        foreach ($product_data as $values) {
             $taxCodeValue = $mdl->getProductTaxCode($values['product_id']);
             $mdl->setOrderProductTaxCode($values['order_product_id'], $taxCodeValue);
         }
@@ -345,8 +347,7 @@ class ExtensionAvataxIntegration extends Extension
                 $address_info['address_id'] = 'guest';
             } else {
                 $address_id = $that->session->data['shipping_address_id']
-                    ? $that->session->data['shipping_address_id']
-                    : $that->session->data['payment_address_id'];
+                    ? : $that->session->data['payment_address_id'];
                 $address_info = ['address_id' => $address_id];
             }
             $res = $this->validate_address($address_info);
@@ -372,7 +373,7 @@ class ExtensionAvataxIntegration extends Extension
     public function calcTotalDiscount($total_data)
     {
         $total_discount = 0;
-        foreach ($total_data as $key => $value) {
+        foreach ($total_data as $value) {
             if ($value['total_type'] == 'discount' || $value['type'] == 'discount') {
                 $total_discount += -1 * $value['value'];
             }
@@ -409,11 +410,11 @@ class ExtensionAvataxIntegration extends Extension
         }
 
         if (IS_ADMIN === true) {
-            /** @var ModelSaleCustomer $mdl */
-            $mdl = $load->model('sale/customer');
-            $customer = $mdl->getCustomer($cust_data['customer_id']);
+            $customer = null;
+            $customer_id = $cust_data['customer_id'];
         } else {
             $customer = $this->registry->get('customer');
+            $customer_id = $this->registry->get('customer') ? $this->registry->get('customer')->getId() : null;
         }
         $customerAddress = [];
         /** @var ModelExtensionAvataxIntegration $avataxModel */
@@ -484,11 +485,7 @@ class ExtensionAvataxIntegration extends Extension
 
             // Document Level Elements
             // Required Request Parameters
-            if (!$cust_data['customer_id'] && IS_ADMIN === true) {
-                $cust_data['customer_id'] = 'guest';
-            }else{
-                $cust_data['customer_id'] = $customer->isLogged() ? $customer->getId() : 'guest';
-            }
+            $cust_data['customer_id'] = $customer_id ? : 'guest';
             $getTaxRequest->setCustomerCode($cust_data['customer_id']);
             if ($order_data['date_added'] && $return == false) {
                 $date = new DateTime($order_data['date_added']);
@@ -648,31 +645,32 @@ class ExtensionAvataxIntegration extends Extension
 
             // Line Data
             // Required Parameters
-            $lines = [];
+            $lines = $linesMapping = [];
             //Product model
             if ($order_id) {
                 if (!IS_ADMIN) {
                     /** @var ModelAccountOrder $mdl */
                     $mdl = $load->model('account/order');
-                    $product_data = $mdl->getOrderProducts($order_id);
                 } else {
                     /** @var ModelSaleOrder $mdl */
                     $mdl = $load->model('sale/order');
-                    $product_data = $mdl->getOrderProducts($order_id);
                 }
+                $product_data = $mdl->getOrderProducts($order_id);
                 $counter = 1;
-                foreach ($product_data as $key => $values) {
+                foreach ($product_data as $values) {
                     $line = new AvaTax\Line();
                     $line->setLineNo($counter);
                     //getting sku
                     /** @var ModelCatalogProduct $mdl */
                     $mdl = $load->model('catalog/product');
                     $tmp = $mdl->getProduct($values['product_id']);
-                    if ($tmp['sku']) {
-                        $line->setItemCode($tmp['sku']);
-                    } else {
-                        $line->setItemCode($values['product_id']);
-                    }
+                    $itemCode = $tmp['sku'] ?: $values['product_id'];
+                    $line->setItemCode($itemCode);
+                    $linesMapping[$counter] = [
+                                            'line_type' => 'item',
+                                            'item_code' => $itemCode
+                    ];
+
                     $line->setQty($values['quantity']);
                     if ($return == false) {
                         $line->setAmount($values['total']);
@@ -693,16 +691,17 @@ class ExtensionAvataxIntegration extends Extension
                     $counter++;
                 }
             } else {  //In this step we have not Order. Calculate tax by Cart data
-                $cart_products = $that->cart->getProducts();
+                $cart_products = $that->cart->getProducts() + $that->cart->getVirtualProducts();
                 $counter = 1;
-                foreach ($cart_products as $key => $values) {
+                foreach ($cart_products as $values) {
                     $line = new AvaTax\Line();
                     $line->setLineNo($counter);
-                    if ($values['sku']) {
-                        $line->setItemCode($values['sku']);
-                    } else {
-                        $line->setItemCode($values['product_id']);
-                    }
+                    $itemCode = $values['key'];
+                    $line->setItemCode($itemCode);
+                    $linesMapping[$counter] = [
+                                                'line_type' => 'item',
+                                                'item_code' => $itemCode
+                                                ];
                     $line->setQty($values['quantity']);
                     $line->setAmount($values['total']);
                     if ($total_data != 0) {
@@ -752,6 +751,10 @@ class ExtensionAvataxIntegration extends Extension
                 $line = new AvaTax\Line();
                 $line->setLineNo($counter);
                 $line->setItemCode($shp_method);
+                $linesMapping[$counter] = [
+                                        'line_type' => 'shipping',
+                                        'item_code' => $shp_method
+                                        ];
                 $line->setQty(1);
                 $line->setAmount($shp_cost);
                 if ($total_data != 0) {
@@ -793,9 +796,20 @@ class ExtensionAvataxIntegration extends Extension
                     }
                 } else {
                     $output = $getTaxResult->getTotalTax();
-                    if ($docHash) {
-                        $session['avatax']['getTax'][$docHash] = $output;
+                    if( $this->registry->get('session')->data['fc'] && $config->get('fast_checkout_status') ){
+                        $sess =& $this->registry->get('session')->data['fc'];
+                    }else{
+                        $sess =& $this->registry->get('session')->data;
                     }
+                    $sess['avatax']['getTax'] = $output;
+                    $taxLines = $getTaxResult->getTaxLines();
+
+                    foreach($taxLines as $line){
+                        /** @var \AvaTax\TaxLine $line */
+                        $linesMapping[$line->getLineNo()]['tax_amount'] = $line->getTaxCalculated();
+                    }
+
+                    $sess['avatax']['getTaxLines'] = $linesMapping;
                     return $output;
                 }
             } else {
@@ -835,7 +849,7 @@ class ExtensionAvataxIntegration extends Extension
         $current_ext_id = $that->request->get['extension'];
         if (IS_ADMIN && $current_ext_id == 'avatax_integration' && $this->baseObject_method == 'edit') {
             $html = '<a class="btn btn-white tooltips" target="_blank"'
-                .' href="http://www.avalara.com/integrations/abantecart" title="Visit Avalara">'
+                .' href="https://www.avalara.com/integrations/abantecart" title="Visit Avalara">'
                 .'<i class="fa fa-external-link fa-lg"></i></a>';
 
             $that->view->addHookVar('extension_toolbar_buttons', $html);

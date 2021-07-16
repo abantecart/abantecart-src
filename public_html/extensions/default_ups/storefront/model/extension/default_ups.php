@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Licence details is bundled with this package in the file LICENSE.txt.
@@ -42,11 +43,13 @@ class ModelExtensionDefaultUps extends Model
             if (!$this->config->get('default_ups_location_id')) {
                 $status = true;
             } else {
-                $query = $this->db->query("SELECT *
-											FROM ".$this->db->table('zones_to_locations')."
-											WHERE location_id = '".(int)$this->config->get('default_ups_location_id')."'
-												AND country_id = '".(int)$address['country_id']."'
-												AND (zone_id = '".(int)$address['zone_id']."' OR zone_id = '0')");
+                $query = $this->db->query(
+                    "SELECT *
+                    FROM ".$this->db->table('zones_to_locations')."
+                    WHERE location_id = '".(int) $this->config->get('default_ups_location_id')."'
+                        AND country_id = '".(int) $address['country_id']."'
+                        AND (zone_id = '".(int) $address['zone_id']."' OR zone_id = '0')"
+                );
                 if ($query->num_rows) {
                     $status = true;
                 } else {
@@ -57,13 +60,13 @@ class ModelExtensionDefaultUps extends Model
             $status = false;
         }
 
-        $method_data = array();
+        $method_data = [];
         if (!$status) {
             return $method_data;
         }
 
         $length = $width = $height = 0.00;
-        $product_ids = array();
+        $product_ids = [];
         $basic_products = $this->cart->basicShippingProducts();
         foreach ($basic_products as $product) {
             $product_ids[] = $product['product_id'];
@@ -72,11 +75,33 @@ class ModelExtensionDefaultUps extends Model
             $height += $this->length->convert($product['height'], $product['length_class'], 'in');
         }
 
-        $weight = $this->weight->convert($this->cart->getWeight($product_ids), $this->config->get('config_weight_class'), $this->config->get('default_ups_weight_class'));
+        $weight = $this->weight->convert(
+            $this->cart->getWeight($product_ids),
+            $this->config->get('config_weight_class'),
+            $this->config->get('default_ups_weight_class')
+        );
         $weight = ($weight < 0.1 ? 0.1 : $weight);
-        $length = $length ? $length : $this->length->convert($this->config->get('default_ups_length'), $this->config->get('config_length_class'), 'in');
-        $width = $width ? $width : $this->length->convert($this->config->get('default_ups_width'), $this->config->get('config_length_class'), 'in');
-        $height = $height ? $height : $this->length->convert($this->config->get('default_ups_height'), $this->config->get('config_length_class'), 'in');
+        $length = $length
+            ? :
+            $this->length->convert(
+                $this->config->get('default_ups_length'),
+                $this->config->get('config_length_class'),
+                'in'
+            );
+        $width = $width
+            ? :
+            $this->length->convert(
+                $this->config->get('default_ups_width'),
+                $this->config->get('config_length_class'),
+                'in'
+            );
+        $height = $height
+            ? :
+            $this->length->convert(
+                $this->config->get('default_ups_height'),
+                $this->config->get('config_length_class'),
+                'in'
+            );
 
         $use_width = $use_length = $use_height = 0;
         $request = $this->_buildRequest($address, $weight, $length, $width, $height);
@@ -88,17 +113,34 @@ class ModelExtensionDefaultUps extends Model
         $special_ship_products = $this->cart->specialShippingProducts();
         $total_fixed_cost = 0;
         foreach ($special_ship_products as $product) {
-            $weight = $this->weight->convert($this->cart->getWeight(array($product['product_id'])), $this->config->get('config_weight_class'), $this->config->get('default_usps_weight_class'));
+            $weight = $this->weight->convert(
+                $this->cart->getWeight([$product['product_id']]),
+                $this->config->get('config_weight_class'),
+                $this->config->get('default_usps_weight_class')
+            );
+
             if ($product['width']) {
                 $length_class_id = $this->length->getClassID('in');
-                $use_width = $this->length->convertByID($product['length'], $product['length_class'], $length_class_id);
-                $use_length = $this->length->convertByID($product['width'], $product['length_class'], $length_class_id);
-                $use_height = $this->length->convertByID($product['height'], $product['length_class'], $length_class_id);
+                $use_width = $this->length->convertByID(
+                    $product['length'],
+                    $product['length_class'],
+                    $length_class_id
+                );
+                $use_length = $this->length->convertByID(
+                    $product['width'],
+                    $product['length_class'],
+                    $length_class_id
+                );
+                $use_height = $this->length->convertByID(
+                    $product['height'],
+                    $product['length_class'],
+                    $length_class_id
+                );
             }
 
             //check if free or fixed shipping
             $fixed_cost = -1;
-            $new_quote_data = array();
+            $new_quote_data = [];
             if ($product['free_shipping']) {
                 $fixed_cost = 0;
             } else {
@@ -108,7 +150,11 @@ class ModelExtensionDefaultUps extends Model
                     if ($product['ship_individually']) {
                         $fixed_cost = $fixed_cost * $product['quantity'];
                     }
-                    $fixed_cost = $this->currency->convert($fixed_cost, $this->config->get('config_currency'), $this->currency->getCode());
+                    $fixed_cost = $this->currency->convert(
+                        $fixed_cost,
+                        $this->config->get('config_currency'),
+                        $this->currency->getCode()
+                    );
                     $total_fixed_cost += $fixed_cost;
                 } else {
                     $request = $this->_buildRequest($address, $weight, $use_width, $use_length, $use_height);
@@ -123,11 +169,10 @@ class ModelExtensionDefaultUps extends Model
             //merge data and accumulate shipping cost
             if ($quote_data) {
                 foreach ($quote_data as $key => $value) {
-
                     if ($fixed_cost >= 0) {
-                        $quote_data[$key]['cost'] = (float)$quote_data[$key]['cost'] + $fixed_cost;
+                        $quote_data[$key]['cost'] = (float) $value['cost'] + $fixed_cost;
                     } else {
-                        $quote_data[$key]['cost'] = (float)$quote_data[$key]['cost'] + $new_quote_data[$key]['cost'];
+                        $quote_data[$key]['cost'] = (float) $value['cost'] + $new_quote_data[$key]['cost'];
                     }
 
                     $quote_data[$key]['text'] = $this->currency->format(
@@ -150,45 +195,47 @@ class ModelExtensionDefaultUps extends Model
         $title = $language->get('text_title');
         //for case when only products with fixed shipping price are in the cart
         if (!$basic_products && $special_ship_products) {
-            $quote_data = array(
-                'default_ups' => array(
+            $quote_data = [
+                'default_ups' => [
                     'id'           => 'default_ups.default_ups',
                     'title'        => $title,
                     'cost'         => $total_fixed_cost,
                     'tax_class_id' => 0,
                     'text'         => $this->currency->format($total_fixed_cost),
-                ),
-            );
+                ],
+            ];
         }
         //when only products with free shipping are in the cart
         if (!$basic_products && $special_ship_products && !$total_fixed_cost) {
-            $quote_data = array(
-                'default_ups' => array(
+            $quote_data = [
+                'default_ups' => [
                     'id'           => 'default_ups.default_ups',
                     'title'        => $title,
                     'cost'         => 0,
                     'tax_class_id' => 0,
                     'text'         => $language->get('text_free'),
-                ),
-            );
+                ],
+            ];
         }
 
         if ($this->config->get('default_ups_display_weight')) {
-            $title .= ' ('.$language->get('text_weight').' '.$this->weight->format($weight, $this->config->get('config_weight_class')).')';
+            $title .= ' ('.$language->get('text_weight').' '.$this->weight->format(
+                    $weight, $this->config->get(
+                    'config_weight_class'
+                )
+                ).')';
         }
 
-        $method_data = array(
+        return [
             'id'         => 'default_ups',
             'title'      => $title,
             'quote'      => $quote_data,
             'sort_order' => $this->config->get('default_ups_sort_order'),
             'error'      => $error_msg,
-        );
-
-        return $method_data;
+        ];
     }
 
-    private function _buildRequest($address, $weight, $length, $width, $height)
+    protected function _buildRequest($address, $weight, $length, $width, $height)
     {
         //set hardcoded inches because of API error
         $length_code = 'IN';
@@ -285,7 +332,9 @@ class ModelExtensionDefaultUps extends Model
             $xml .= '           <PackageServiceOptions>';
             $xml .= '               <InsuredValue>';
             $xml .= '                   <CurrencyCode>'.$this->currency->getCode().'</CurrencyCode>';
-            $xml .= '                   <MonetaryValue>'.$this->currency->format($this->cart->getTotal(), false, false, false).'</MonetaryValue>';
+            $xml .= '                   <MonetaryValue>'
+                .$this->currency->format($this->cart->getTotal(), false, false, false)
+                .'</MonetaryValue>';
             $xml .= '               </InsuredValue>';
             $xml .= '           </PackageServiceOptions>';
         }
@@ -300,6 +349,7 @@ class ModelExtensionDefaultUps extends Model
 
     private function _processRequest($request = '')
     {
+        $error_msg = '';
         /**
          * @var ALanguage $language
          */
@@ -310,9 +360,9 @@ class ModelExtensionDefaultUps extends Model
             $url = 'https://wwwcie.ups.com/ups.app/xml/Rate';
         }
 
-        $service_code = array(
+        $service_code = [
             // US Origin
-            'US'    => array(
+            'US'    => [
                 '01' => $language->get('text_us_origin_01'),
                 '02' => $language->get('text_us_origin_02'),
                 '03' => $language->get('text_us_origin_03'),
@@ -325,9 +375,9 @@ class ModelExtensionDefaultUps extends Model
                 '54' => $language->get('text_us_origin_54'),
                 '59' => $language->get('text_us_origin_59'),
                 '65' => $language->get('text_us_origin_65'),
-            ),
+            ],
             // Canada Origin
-            'CA'    => array(
+            'CA'    => [
                 '01' => $language->get('text_ca_origin_01'),
                 '02' => $language->get('text_ca_origin_02'),
                 '07' => $language->get('text_ca_origin_07'),
@@ -338,9 +388,9 @@ class ModelExtensionDefaultUps extends Model
                 '14' => $language->get('text_ca_origin_14'),
                 '54' => $language->get('text_ca_origin_54'),
                 '65' => $language->get('text_ca_origin_65'),
-            ),
+            ],
             // European Union Origin
-            'EU'    => array(
+            'EU'    => [
                 '07' => $language->get('text_eu_origin_07'),
                 '08' => $language->get('text_eu_origin_08'),
                 '11' => $language->get('text_eu_origin_11'),
@@ -352,9 +402,9 @@ class ModelExtensionDefaultUps extends Model
                 '84' => $language->get('text_eu_origin_84'),
                 '85' => $language->get('text_eu_origin_85'),
                 '86' => $language->get('text_eu_origin_86'),
-            ),
+            ],
             // Puerto Rico Origin
-            'PR'    => array(
+            'PR'    => [
                 '01' => $language->get('text_eu_origin_01'),
                 '02' => $language->get('text_eu_origin_02'),
                 '03' => $language->get('text_eu_origin_03'),
@@ -363,24 +413,24 @@ class ModelExtensionDefaultUps extends Model
                 '14' => $language->get('text_eu_origin_14'),
                 '54' => $language->get('text_other_origin_54'),
                 '65' => $language->get('text_other_origin_65'),
-            ),
+            ],
             // Mexico Origin
-            'MX'    => array(
+            'MX'    => [
                 '07' => $language->get('text_mx_origin_07'),
                 '08' => $language->get('text_mx_origin_08'),
                 '54' => $language->get('text_mx_origin_54'),
                 '65' => $language->get('text_mx_origin_65'),
-            ),
+            ],
             // All other origins
-            'other' => array(
+            'other' => [
                 // service code 7 seems to be gone after January 2, 2007
                 '07' => $language->get('text_other_origin_07'),
                 '08' => $language->get('text_other_origin_08'),
                 '11' => $language->get('text_other_origin_11'),
                 '54' => $language->get('text_other_origin_54'),
                 '65' => $language->get('text_other_origin_65'),
-            ),
-        );
+            ],
+        ];
 
         $ch = curl_init($url);
 
@@ -397,7 +447,7 @@ class ModelExtensionDefaultUps extends Model
             $this->log->write('UPS Curl Error: '.curl_error($ch));
         }
         curl_close($ch);
-        $quote_data = array();
+        $quote_data = [];
 
         if ($result) {
             $dom = new DOMDocument('1.0', 'UTF-8');
@@ -437,8 +487,10 @@ class ModelExtensionDefaultUps extends Model
                         continue;
                     }
 
-                    if ($this->config->get('default_ups_'.strtolower($this->config->get('default_ups_origin')).'_'.$code)) {
-                        $quote_data[$code] = array(
+                    if ($this->config->get(
+                        'default_ups_'.strtolower($this->config->get('default_ups_origin')).'_'.$code
+                    )) {
+                        $quote_data[$code] = [
                             'id'           => 'default_ups.'.$code,
                             'title'        => $service_code[$this->config->get('default_ups_origin')][$code],
                             'cost'         => $this->currency->convert($cost, 'USD', $this->currency->getCode()),
@@ -451,13 +503,14 @@ class ModelExtensionDefaultUps extends Model
                                         $this->currency->getCode()
                                     ),
                                     $this->config->get('default_ups_tax_class_id'),
-                                    $this->config->get('config_tax'))
+                                    $this->config->get('config_tax')
+                                )
                             ),
-                        );
+                        ];
                     }
                 }
             }
         }
-        return array('quote_data' => $quote_data, 'error_msg' => $error_msg);
+        return ['quote_data' => $quote_data, 'error_msg' => $error_msg];
     }
 }

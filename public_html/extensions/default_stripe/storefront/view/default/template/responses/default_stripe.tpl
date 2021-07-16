@@ -6,7 +6,7 @@
         <h4 class="heading4"><?php echo $text_credit_card; ?></h4>
         <?php echo $this->getHookVar('payment_table_pre'); ?>
         <div class="form-group form-inline">
-            <span class="subtext"><?php echo $entry_billing_address; ?>: <?php echo $payment_address; ?>...</span>
+            <span class="col-sm-10 subtext"><?php echo $entry_billing_address; ?>: <?php echo implode(', ', $payment_address); ?></span>
             <?php if($edit_address){ ?>
             <div class="col-sm-2 input-group">
                 <a href="<?php echo $edit_address; ?>" class="btn btn-default btn-sm">

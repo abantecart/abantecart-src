@@ -25,7 +25,6 @@ class ControllerPagesProductSearch extends AController
 {
     protected $category;
     protected $path;
-    public $data = [];
 
     public function __construct(Registry $registry, $instance_id, $controller, $parent_controller = '')
     {
@@ -257,19 +256,17 @@ class ControllerPagesProductSearch extends AController
                 }
 
                 if (is_array($products_result) && $products_result) {
-                    $product_ids = [];
-                    foreach ($products_result as $result) {
-                        $product_ids[] = (int) $result['product_id'];
-                    }
-
+                    $product_ids = array_column($products_result, 'product_id');
                     //Format product data specific for confirmation page
                     $resource = new AResource('image');
-                    $thumbnails = $resource->getMainThumbList(
-                        'products',
-                        $product_ids,
-                        $this->config->get('config_image_product_width'),
-                        $this->config->get('config_image_product_height')
-                    );
+                    $thumbnails = $product_ids
+                        ? $resource->getMainThumbList(
+                            'products',
+                            $product_ids,
+                            $this->config->get('config_image_product_width'),
+                            $this->config->get('config_image_product_height')
+                        )
+                        : [];
                     $stock_info = $this->model_catalog_product->getProductsStockInfo($product_ids);
 
                     foreach ($products_result as $result) {
