@@ -1043,7 +1043,7 @@ ul.categorymenu > li ul > li img {
 }
 
 .thumbnail a.productcart i {
-	font-size: 16px;
+	font-size: 18px;
 }
 
 .thumbnail .nostock {
@@ -1062,7 +1062,7 @@ ul.categorymenu > li ul > li img {
 .thumbnail a.call_to_order, .productpageprice a.call_to_order {
 	background: #00A1CB;
 	color: #fff;
-	padding: 8px;
+	padding: 5px;
 	font-size: 13px;
 	text-transform: uppercase;
 	border: none;
@@ -1074,6 +1074,7 @@ ul.categorymenu > li ul > li img {
 
 .thumbnail a.call_to_order {
 	text-align: right;
+	padding-top: 7px;
 	margin: 0;
 }
 

@@ -74,7 +74,7 @@
 							<a data-id="<?php echo $product['product_id'] ?>"
 							   href="<?php echo $item['buy_url'] ?>"
 							   class="productcart"
-							   title="<?php echo $button_add_to_cart ?>"
+							   title="<?php echo_html2view($button_add_to_cart); ?>"
 							>
 								<i class="fa fa-cart-plus fa-fw"></i>
 							</a>
