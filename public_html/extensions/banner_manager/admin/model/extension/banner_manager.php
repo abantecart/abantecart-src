@@ -232,7 +232,7 @@ class ModelExtensionBannerManager extends Model
      * @param array $filter
      * @param string $mode
      *
-     * @return array
+     * @return array|int
      * @throws AException
      */
     public function getBanners($filter, $mode = '')
