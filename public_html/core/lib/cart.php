@@ -284,6 +284,7 @@ class ACart
                     'value'                   => $option_value_query['name'],
                     'prefix'                  => $option_value_query['prefix'],
                     'price'                   => $option_value_query['price'],
+                    'cost'                   => $option_value_query['cost'],
                     'sku'                     => $option_value_query['sku'],
                     'inventory_quantity'      => ($option_value_query['subtract']
                                                 ? (int) $option_value_query['quantity']
@@ -311,6 +312,7 @@ class ACart
                             'value'                   => $item['name'],
                             'prefix'                  => $item['prefix'],
                             'price'                   => $item['price'],
+                            'cost'                    => $item['cost'],
                             'sku'                     => $item['sku'],
                             'inventory_quantity'      => ($item['subtract'] ? (int) $item['quantity'] : 1000000),
                             'weight'                  => $item['weight'],
@@ -410,6 +412,7 @@ class ACart
             'maximum'            => $product_query['maximum'],
             'stock'              => $stock,
             'price'              => ($price + $option_price),
+            'cost'               => $product_query['cost'],
             'total'              => ($price + $option_price) * $quantity,
             'tax_class_id'       => $product_query['tax_class_id'],
             'weight'             => $product_query['weight'],

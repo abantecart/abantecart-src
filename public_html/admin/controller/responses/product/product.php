@@ -821,6 +821,7 @@ class ControllerResponsesProductProduct extends AController
             'quantity',
             'subtract',
             'price',
+            'cost',
             'prefix',
             'sort_order',
             'weight',
@@ -1024,6 +1025,13 @@ class ControllerResponsesProductProduct extends AController
             ]
         );
 
+        $this->data['form']['fields']['cost'] = $form->getFieldHtml(
+            [
+                'type'  => 'input',
+                'name'  => 'cost['.$product_option_value_id.']',
+                'value' => $this->data['cost'],
+            ]
+        );
         //do not show RL and stock locations for new row and options with multivalue such as checkboxgroup and multiselect
         if ($product_option_value_id
             && !in_array($this->data['option_data']['element_type'], ['M', 'G'])

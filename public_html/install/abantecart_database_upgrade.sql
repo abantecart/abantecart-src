@@ -11,6 +11,14 @@ ADD COLUMN `condition_rule` ENUM('OR', 'AND') NOT NULL DEFAULT 'OR' AFTER `statu
 INSERT INTO `ac_settings` (`group`, `key`, `value`)
 VALUES ('checkout','config_phone_validation_pattern','/^[0-9]{3,32}$/');
 
+ALTER TABLE `ac_product_option_values`
+    ADD COLUMN `cost` DECIMAL(15,4) NOT NULL AFTER `price`;
+
+ALTER TABLE `ac_order_products`
+    ADD COLUMN `cost` DECIMAL(15,4) NOT NULL AFTER `price` DEFAULT '0.0000';
+
+ALTER TABLE `ac_order_options`
+    ADD COLUMN `cost` DECIMAL(15,4) NOT NULL AFTER `price` DEFAULT '0.0000';
 
 --
 -- DDL for table `coupon_categories`
