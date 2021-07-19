@@ -33,7 +33,8 @@ class ModelReportSale extends Model
      */
     public function getSaleReport($data = [], $mode = 'default')
     {
-        $filter = (isset($data['filter']) ? $data['filter'] : []);
+        $inc_sql = '';
+        $filter = $data['filter'] ?? [];
         if (isset($filter['group'])) {
             $group = $filter['group'] ?? '';
         } else {
@@ -48,7 +49,6 @@ class ModelReportSale extends Model
                 case 'day';
                     $inc_sql = "COUNT(DISTINCT YEAR(date_added), MONTH(date_added), DAY(date_added))";
                     break;
-                default:
                 case 'week':
                     $inc_sql = "COUNT(DISTINCT YEAR(date_added), WEEK(date_added))";
                     break;
@@ -58,6 +58,7 @@ class ModelReportSale extends Model
                 case 'year':
                     $inc_sql = "COUNT(DISTINCT YEAR(date_added))";
                     break;
+                default:
             }
             $inc_sql .= " AS total ";
         } else {
@@ -175,7 +176,7 @@ class ModelReportSale extends Model
      */
     public function getTaxesReport($data = [], $mode = 'default')
     {
-        $filter = (isset($data['filter']) ? $data['filter'] : []);
+        $filter = $data['filter'] ?? [];
         if (isset($filter['group'])) {
             $group = $filter['group'];
         } else {
@@ -209,7 +210,7 @@ class ModelReportSale extends Model
                 $inc_sql = "MIN(o.date_added) AS date_start, 
                             MAX(o.date_added) AS date_end, ot.title, 
                             SUM(ot.value) AS total, 
-                            COUNT(o.order_id) AS orders ";
+                            COUNT(DISTINCT o.order_id) AS orders ";
             }
         }
 
@@ -278,7 +279,6 @@ class ModelReportSale extends Model
 
             $sql .= " LIMIT ".(int) $data['start'].",".(int) $data['limit'];
         }
-
         $query = $this->db->query($sql);
         return $query->rows;
     }
@@ -303,7 +303,7 @@ class ModelReportSale extends Model
      */
     public function getShippingReport($data = [], $mode = 'default')
     {
-        $filter = (isset($data['filter']) ? $data['filter'] : []);
+        $filter = $data['filter'] ?? [];
         if (isset($filter['group'])) {
             $group = $filter['group'];
         } else {
@@ -336,7 +336,7 @@ class ModelReportSale extends Model
             } else {
                 $inc_sql = "MIN(o.date_added) AS date_start, 
                             MAX(o.date_added) AS date_end, ot.title, SUM(ot.value) AS total, 
-                            COUNT(o.order_id) AS orders ";
+                            COUNT(DISTINCT o.order_id) AS orders ";
             }
         }
 
@@ -430,7 +430,7 @@ class ModelReportSale extends Model
      */
     public function getCouponsReport($data = [], $mode = 'default')
     {
-        $filter = (isset($data['filter']) ? $data['filter'] : []);
+        $filter = $data['filter'] ?? [];
 
         if ($mode == 'total_only') {
             $inc_sql = "COUNT(DISTINCT o.coupon_id) AS total ";
@@ -441,7 +441,7 @@ class ModelReportSale extends Model
                             COUNT(DISTINCT o.order_id), 
                             SUM(o.total) AS total, 
                             SUM(ot.value) AS discount_total,  
-                            COUNT(o.order_id) AS orders ";
+                            COUNT(DISTINCT o.order_id) AS orders ";
         }
 
         $sql = "SELECT ".$inc_sql." 
