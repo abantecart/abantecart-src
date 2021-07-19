@@ -765,7 +765,7 @@ class ControllerResponsesCheckoutPay extends AController
                     'model'    => $virtual['model'],
                     'price'    => $this->currency->format(
                                         $virtual['amount'],
-                                        $this->currency->getCode(),
+                                        $this->currency->getCode()
                                   ),
                     'quantity' => ($virtual['quantity'] ? : 1),
                     'option'   => [],
