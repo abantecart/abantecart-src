@@ -250,6 +250,7 @@ class ModelCheckoutOrder extends Model
                     model = '".$this->db->escape($product['model'])."',
                     sku = '".$this->db->escape($product['sku'])."',
                     price = '".(float) $product['price']."',
+                    cost = '".(float) $product['cost']."',
                     total = '".(float) $product['total']."',
                     tax = '".(float) $product['tax']."',
                     quantity = '".(int) $product['quantity']."',
@@ -268,6 +269,7 @@ class ModelCheckoutOrder extends Model
                         sku = '".$this->db->escape($option['sku'])."',
                         `value` = '".$this->db->escape($option['value'])."',
                         price = '".(float) $product['price']."',
+                        cost = '".(float) $option['cost']."',
                         prefix = '".$this->db->escape($option['prefix'])."',
                         settings = '".$this->db->escape($option['settings'])."'"
                 );

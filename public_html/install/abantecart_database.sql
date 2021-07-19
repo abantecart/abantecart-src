@@ -1213,6 +1213,7 @@ CREATE TABLE `ac_order_options` (
   `sku` varchar(64) NOT NULL DEFAULT '',
   `value` text NOT NULL,
   `price` decimal(15,4) NOT NULL DEFAULT '0.0000',
+  `cost` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `prefix` char(1) NOT NULL DEFAULT '',
   `settings` longtext,
   PRIMARY KEY (`order_option_id`)
@@ -1234,6 +1235,7 @@ CREATE TABLE `ac_order_products` (
   `model` varchar(24) NOT NULL DEFAULT '',
   `sku` varchar(64) NOT NULL DEFAULT '',
   `price` decimal(15,4) NOT NULL DEFAULT '0.0000',
+  `cost` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `total` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `tax` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `quantity` int(4) NOT NULL DEFAULT '0',
@@ -1458,6 +1460,7 @@ CREATE TABLE `ac_product_option_values` (
   `quantity` int(4) NOT NULL DEFAULT '0',
   `subtract` int(1) NOT NULL DEFAULT '0',
   `price` decimal(15,4) NOT NULL,
+  `cost` decimal(15,4) NOT NULL,
   `prefix` char(1) COLLATE utf8_general_ci NOT NULL, -- % or $
   `weight` decimal(15,8) NOT NULL,
   `weight_type` varchar(3) COLLATE utf8_general_ci NOT NULL, -- lbs or %

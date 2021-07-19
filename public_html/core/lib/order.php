@@ -351,6 +351,7 @@ class AOrder
                 'quantity'   => $product['quantity'],
                 //ternary for virtual products
                 'price'      => $product['amount'] ?: $product['price'],
+                'cost'       => $product['cost'],
                 'total'      => $product['amount'] ? ($product['amount']*$product['quantity']) : $product['total'],
                 'tax'        => $this->tax->calcTotalTaxAmount($product['total'], $product['tax_class_id']),
                 'stock'      => $product['stock'],
