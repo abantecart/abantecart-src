@@ -76,13 +76,13 @@ class ModelReportSale extends Model
         $sql = "SELECT ".$inc_sql." 
                 FROM `".$this->db->table("orders")."`";
 
-        if ($filter['order_status'] == 'confirmed') {
-            $sql .= " WHERE order_status_id > 0 ";
+        if ($filter['order_status'] == 'all') {
+            $sql .= " WHERE order_status_id >= 0 ";
         } elseif ((int) $filter['order_status']) {
             $sql .= " WHERE order_status_id = ".(int) $filter['order_status']." ";
         } else {
             //all orders
-            $sql .= " WHERE order_status_id >= 0";
+            $sql .= " WHERE order_status_id > 0";
         }
         if (isset($filter['date_start'])) {
             $date_start = dateDisplay2ISO($filter['date_start'], $this->language->get('date_format_short'));
@@ -220,8 +220,13 @@ class ModelReportSale extends Model
                     ON (o.order_id = ot.order_id) 
                 WHERE ot.type = 'tax' ";
 
-        if (has_value($filter['order_status'])) {
-            $sql .= " AND  o.order_status_id = ".(int) $filter['order_status']." ";
+        if ($filter['order_status'] == 'all') {
+            $sql .= " AND o.order_status_id >= 0 ";
+        } elseif ((int) $filter['order_status']) {
+            $sql .= " AND o.order_status_id = ".(int) $filter['order_status']." ";
+        } else {
+            //all orders
+            $sql .= " AND o.order_status_id > 0";
         }
         if (isset($filter['date_start'])) {
             $date_start = dateDisplay2ISO($filter['date_start'], $this->language->get('date_format_short'));
@@ -346,9 +351,15 @@ class ModelReportSale extends Model
                     ON (o.order_id = ot.order_id) 
                 WHERE ot.type = 'shipping' ";
 
-        if (has_value($filter['order_status'])) {
-            $sql .= " AND  o.order_status_id = ".(int) $filter['order_status']." ";
+        if ($filter['order_status'] == 'all') {
+            $sql .= " AND o.order_status_id >= 0 ";
+        } elseif ((int) $filter['order_status']) {
+            $sql .= " AND o.order_status_id = ".(int) $filter['order_status']." ";
+        } else {
+            //all orders
+            $sql .= " AND o.order_status_id > 0";
         }
+
         if (isset($filter['date_start'])) {
             $date_start = dateDisplay2ISO($filter['date_start'], $this->language->get('date_format_short'));
         } else {
@@ -521,5 +532,4 @@ class ModelReportSale extends Model
     {
         return $this->getCouponsReport($data, 'total_only');
     }
-
 }

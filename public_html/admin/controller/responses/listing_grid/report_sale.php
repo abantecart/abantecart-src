@@ -23,8 +23,6 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerResponsesListingGridReportSale extends AController
 {
-    public $data = array();
-
     public function main()
     {
         //init controller data
@@ -34,12 +32,11 @@ class ControllerResponsesListingGridReportSale extends AController
         $this->loadModel('report/sale');
 
         //Prepare filter config
-        $grid_filter_params = array_merge(array('date_start', 'date_end', 'group', 'order_status'), (array)$this->data['grid_filter_params']);
+        $grid_filter_params = array_merge(['date_start', 'date_end', 'group', 'order_status'], (array) $this->data['grid_filter_params']);
 
-        $filter_form = new AFilter(array('method' => 'get', 'filter_params' => $grid_filter_params));
-        $filter_grid = new AFilter(array('method' => 'post'));
+        $filter_form = new AFilter(['method' => 'get', 'filter_params' => $grid_filter_params]);
+        $filter_grid = new AFilter(['method' => 'post']);
         $data = array_merge($filter_form->getFilterData(), $filter_grid->getFilterData());
-
         $total = $this->model_report_sale->getSaleReportTotal($data);
         $response = new stdClass();
         $response->page = $filter_grid->getParam('page');
@@ -49,14 +46,13 @@ class ControllerResponsesListingGridReportSale extends AController
         $results = $this->model_report_sale->getSaleReport($data);
         $i = 0;
         foreach ($results as $result) {
-
             $response->rows[$i]['id'] = $i;
-            $response->rows[$i]['cell'] = array(
+            $response->rows[$i]['cell'] = [
                 dateISO2Display($result['date_start'], $this->language->get('date_format_short')),
                 dateISO2Display($result['date_end'], $this->language->get('date_format_short')),
                 $result['orders'],
                 $this->currency->format($result['total'], $this->config->get('config_currency')),
-            );
+            ];
             $i++;
         }
 
@@ -78,11 +74,13 @@ class ControllerResponsesListingGridReportSale extends AController
         $this->loadModel('report/sale');
 
         //Prepare filter config
-        $grid_filter_params = array_merge(array('date_start', 'date_end', 'group', 'order_status'), (array)$this->data['grid_filter_params']);
-        $filter_form = new AFilter(array('method' => 'get', 'filter_params' => $grid_filter_params));
-        $filter_grid = new AFilter(array('method' => 'post'));
+        $grid_filter_params = array_merge(
+            ['date_start', 'date_end', 'group', 'order_status'],
+            (array) $this->data['grid_filter_params']
+        );
+        $filter_form = new AFilter(['method' => 'get', 'filter_params' => $grid_filter_params]);
+        $filter_grid = new AFilter(['method' => 'post']);
         $data = array_merge($filter_form->getFilterData(), $filter_grid->getFilterData());
-
         $total = $this->model_report_sale->getTaxesReportTotal($data);
         $response = new stdClass();
         $response->page = $filter_grid->getParam('page');
@@ -92,14 +90,13 @@ class ControllerResponsesListingGridReportSale extends AController
         $results = $this->model_report_sale->getTaxesReport($data);
         $i = 0;
         foreach ($results as $result) {
-
             $response->rows[$i]['id'] = $i;
-            $response->rows[$i]['cell'] = array(
+            $response->rows[$i]['cell'] = [
                 dateISO2Display($result['date_start'], $this->language->get('date_format_short')),
                 dateISO2Display($result['date_end'], $this->language->get('date_format_short')),
                 $result['orders'],
                 $this->currency->format($result['total'], $this->config->get('config_currency')),
-            );
+            ];
             $i++;
         }
         $this->data['response'] = $response;
@@ -118,9 +115,9 @@ class ControllerResponsesListingGridReportSale extends AController
         $this->loadModel('report/sale');
 
         //Prepare filter config
-        $grid_filter_params = array_merge(array('date_start', 'date_end', 'group', 'order_status'), (array)$this->data['grid_filter_params']);
-        $filter_form = new AFilter(array('method' => 'get', 'filter_params' => $grid_filter_params));
-        $filter_grid = new AFilter(array('method' => 'post'));
+        $grid_filter_params = array_merge(['date_start', 'date_end', 'group', 'order_status'], (array) $this->data['grid_filter_params']);
+        $filter_form = new AFilter(['method' => 'get', 'filter_params' => $grid_filter_params]);
+        $filter_grid = new AFilter(['method' => 'post']);
         $data = array_merge($filter_form->getFilterData(), $filter_grid->getFilterData());
 
         $total = $this->model_report_sale->getShippingReportTotal($data);
@@ -132,14 +129,13 @@ class ControllerResponsesListingGridReportSale extends AController
         $results = $this->model_report_sale->getShippingReport($data);
         $i = 0;
         foreach ($results as $result) {
-
             $response->rows[$i]['id'] = $i;
-            $response->rows[$i]['cell'] = array(
+            $response->rows[$i]['cell'] = [
                 dateISO2Display($result['date_start'], $this->language->get('date_format_short')),
                 dateISO2Display($result['date_end'], $this->language->get('date_format_short')),
                 $result['orders'],
                 $this->currency->format($result['total'], $this->config->get('config_currency')),
-            );
+            ];
             $i++;
         }
         $this->data['response'] = $response;
@@ -158,9 +154,9 @@ class ControllerResponsesListingGridReportSale extends AController
         $this->loadModel('report/sale');
 
         //Prepare filter config
-        $grid_filter_params = array_merge(array('date_start', 'date_end'), (array)$this->data['grid_filter_params']);
-        $filter_form = new AFilter(array('method' => 'get', 'filter_params' => $grid_filter_params));
-        $filter_grid = new AFilter(array('method' => 'post'));
+        $grid_filter_params = array_merge(['date_start', 'date_end'], (array) $this->data['grid_filter_params']);
+        $filter_form = new AFilter(['method' => 'get', 'filter_params' => $grid_filter_params]);
+        $filter_grid = new AFilter(['method' => 'post']);
         $data = array_merge($filter_form->getFilterData(), $filter_grid->getFilterData());
 
         $total = $this->model_report_sale->getCouponsReportTotal($data);
@@ -174,13 +170,13 @@ class ControllerResponsesListingGridReportSale extends AController
         foreach ($results as $result) {
 
             $response->rows[$i]['id'] = $i;
-            $response->rows[$i]['cell'] = array(
+            $response->rows[$i]['cell'] = [
                 $result['coupon_name'],
                 $result['code'],
                 $result['orders'],
                 $this->currency->format($result['total'], $this->config->get('config_currency')),
                 $this->currency->format($result['discount_total'], $this->config->get('config_currency')),
-            );
+            ];
             $i++;
         }
         $this->data['response'] = $response;
