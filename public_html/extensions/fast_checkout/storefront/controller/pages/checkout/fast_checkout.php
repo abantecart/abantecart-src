@@ -36,6 +36,8 @@ class ControllerPagesCheckoutFastCheckout extends AController
             $this->session->data['fc']['cart_key'] = randomWord(5);
         }
 
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+
         //set sign for commonHead controller.
         // Needed to change url in the tpl. See addToCart method inside js
         $registry->set('fast_checkout', true);
