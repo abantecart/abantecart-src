@@ -612,4 +612,12 @@
 		<key>text_disable_selected</key>
 		<value><![CDATA[Отключить выбранное]]></value>
 	</definition>
+	<definition>
+		<key>entry_product_option_cost</key>
+		<value><![CDATA[Фактическая стоимость (общая): <span class="help">введите фактическую стоимость (общую) для этого варианта продукта.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_weight_change</key>
+		<value><![CDATA[Изменение веса: <span class="help">введите разницу между базовым продуктом и дополнительным продуктом.</span>]]></value>
+	</definition>
 </definitions>

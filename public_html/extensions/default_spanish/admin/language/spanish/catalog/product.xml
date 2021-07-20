@@ -652,4 +652,12 @@
 		<key>text_disable_selected</key>
 		<value><![CDATA[Desactivar seleccionado]]></value>
 	</definition>
+	<definition>
+		<key>entry_product_option_cost</key>
+		<value><![CDATA[Costo real (total): <span class="help">ingrese el costo real (total) de esta opción de producto.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_weight_change</key>
+		<value><![CDATA[Cambio de peso: <span class="help">ingrese la diferencia entre el producto base y el producto opcional</span>]]></value>
+	</definition>
 </definitions>
