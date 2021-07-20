@@ -41,7 +41,6 @@ class ControllerResponsesCheckoutPay extends AController
     public function __construct($registry, $instance_id, $controller, $parent_controller = '')
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
-
         $this->allow_guest = $this->config->get('config_guest_checkout');
         $cartClassName = get_class($this->cart);
         $this->registry->set(
@@ -951,7 +950,7 @@ class ControllerResponsesCheckoutPay extends AController
                 ]
             );
             if ($this->config->get('fast_checkout_create_account')
-                && $this->fc_session['additional']['create_account'] == 'true') {
+                && $this->session->data['fc']['additional']['create_account'] == true) {
                 $this->_save_customer_account($order_data);
             }
 
@@ -1245,8 +1244,7 @@ class ControllerResponsesCheckoutPay extends AController
             $this->session->data['payment_method'],
             $this->session->data['payment_methods'],
             $this->session->data['order_id'],
-            $this->session->data['fc']['used_balance'],
-            $this->session->data['fc']['used_balance_full']
+            $this->session->data['fc']
         );
         $this->cart->clear();
     }
@@ -2081,9 +2079,7 @@ class ControllerResponsesCheckoutPay extends AController
         if (!$fieldName) {
             return;
         }
-        $this->fc_session['additional'][$fieldName]
-            = $this->session->data['fc']['additional'][$fieldName]
-            = $isOn;
+        $this->session->data['fc']['additional'][$fieldName] = ($isOn === 'true');
     }
 
 }
