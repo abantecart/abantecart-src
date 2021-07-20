@@ -239,6 +239,10 @@
 	</definition>
 	<definition>
 		<key>entry_weight</key>
+		<value><![CDATA[Weight:]]></value>
+	</definition>
+	<definition>
+		<key>entry_weight_change</key>
 		<value><![CDATA[Weight Change: <span class="help">Enter the difference between the base product and the option product</span>]]></value>
 	</definition>
 	<definition>

@@ -983,6 +983,7 @@ class ControllerResponsesProductProduct extends AController
                 'style' => 'small-field',
             ]
         );
+        $this->data['entry_weight'] = $this->language->get('entry_weight_change');
         $this->data['form']['fields']['weight'] = $form->getFieldHtml(
             [
                 'type'  => 'input',
