@@ -69,7 +69,7 @@ class ControllerResponsesCheckoutPay extends AController
             }
         }
 
-        if ($tax_country_id) {
+        if ($tax_country_id && !$this->request->post['country_id']) {
             $this->tax->setZone($tax_country_id, $tax_zone_id);
         }
         //short reference to fast checkout session
@@ -298,7 +298,7 @@ class ControllerResponsesCheckoutPay extends AController
 
         if ($tax_country_id) {
             $this->tax->setZone(
-                $tax_zone_id,
+                $tax_country_id,
                 $tax_zone_id
             );
 

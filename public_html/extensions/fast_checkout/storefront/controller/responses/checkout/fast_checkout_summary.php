@@ -41,6 +41,31 @@ class ControllerResponsesCheckoutFastCheckoutSummary extends AController
         //swap cart in the registry to replace default cart data with FC cart data
         $cart_class_name = get_class($this->cart);
         $registry->set('cart', new $cart_class_name($registry, $this->session->data['fc']));
+
+        //set tax zone for tax class based on session data
+        $guestSessionData = $this->session->data['fc']['guest'];
+        if ($guestSessionData) {
+            //when payment address was set as address for taxes
+            if ($this->config->get('config_tax_customer')) {
+                $tax_country_id = $guestSessionData['country_id'];
+                $tax_zone_id = $guestSessionData['zone_id'];
+            } else {
+                $tax_country_id = $guestSessionData['shipping']['country_id'] ?? $guestSessionData['country_id'];
+                $tax_zone_id = $guestSessionData['shipping']['zone_id'] ?? $guestSessionData['zone_id'];
+            }
+        }else{
+            if ($this->config->get('config_tax_customer')) {
+                $tax_country_id = $this->session->data['fc']['country_id'];
+                $tax_zone_id = $this->session->data['fc']['zone_id'];
+            } else {
+                $tax_country_id = $this->session->data['fc']['shipping']['country_id'] ?? $this->session->data['fc']['country_id'];
+                $tax_zone_id = $this->session->data['fc']['shipping']['zone_id'] ?? $this->session->data['fc']['zone_id'];
+            }
+        }
+
+        if ($tax_country_id) {
+            $this->tax->setZone($tax_country_id, $tax_zone_id);
+        }
     }
 
     public function main()
