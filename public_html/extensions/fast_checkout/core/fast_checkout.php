@@ -219,6 +219,11 @@ class ExtensionFastCheckout extends Extension
         redirect($that->html->getSecureURL('checkout/fast_checkout'));
     }
 
+    public function onControllerPagesAccountLogin_ProcessData()
+    {
+        $this->onControllerPagesAccountLogout_UpdateData();
+    }
+
     public function onControllerPagesAccountLogout_UpdateData()
     {
         if(!$this->isEnabled()){
@@ -226,9 +231,7 @@ class ExtensionFastCheckout extends Extension
         }
 
         $that = $this->baseObject;
-        unset(
-            $that->session->data['fc']
-        );
+        unset( $that->session->data['fc'] );
     }
 
     public function onControllerPagesCheckoutPayment_InitData()
