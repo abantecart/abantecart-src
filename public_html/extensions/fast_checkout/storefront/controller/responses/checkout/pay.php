@@ -1689,13 +1689,11 @@ class ControllerResponsesCheckoutPay extends AController
             $ac_payments = $results;
         }
 
-        if($this->customer->isLogged()){
-            $payment_address = $this->model_account_address->getAddress($this->fc_session['payment_address_id']);
-        }elseif($this->fc_session['guest']){
-            $payment_address = $this->fc_session['fc']['guest'];
-        }else{
-            $payment_address = $this->fc_session['guest'];
-        }
+        $payment_address = $this->customer->isLogged()
+            ? $this->model_account_address->getAddress(
+                    $this->fc_session['payment_address_id']
+                )
+            : $this->fc_session['guest'];
 
         $psettings = [];
         foreach ($ac_payments as $result) {
