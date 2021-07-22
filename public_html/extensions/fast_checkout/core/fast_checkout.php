@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpUndefinedClassInspection */
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+/** @noinspection PhpUndefinedClassInspection */
 
 /*------------------------------------------------------------------------------
   $Id$
@@ -220,6 +222,11 @@ class ExtensionFastCheckout extends Extension
     }
 
     public function onControllerPagesAccountLogin_ProcessData()
+    {
+        $this->onControllerPagesAccountLogout_UpdateData();
+    }
+
+    public function onControllerPagesAccountCreate_InitData()
     {
         $this->onControllerPagesAccountLogout_UpdateData();
     }
