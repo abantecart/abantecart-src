@@ -113,20 +113,21 @@ final class ALoader
                 include_once($file);
                 $this->registry->set($obj_name, new $class($this->registry));
                 return $this->registry->get($obj_name);
-            } else {
-                if ($mode != 'silent') {
-                    $backtrace = debug_backtrace();
-                    $file_info = $backtrace[0]['file'].' on line '.$backtrace[0]['line'];
-                    throw new AException(AC_ERR_LOAD, 'Error: Could not load model '.$model.' from '.$file_info);
-                    return false;
-                } else {
-                    return false;
+            } else if ($mode != 'silent') {
+                $backtrace = debug_backtrace();
+                $trace = '';
+                foreach ($backtrace as $k=>$dbg){
+                    $trace .= '#'.$k.' '.$dbg['file'].":".$dbg['line']."\n";
                 }
+                throw new AException(AC_ERR_LOAD, 'Error: Could not load model '.$model."\nTrace: \n".$trace);
+            } else {
+                return false;
             }
         }
     }
 
     /**
+     * @deprecated since 1.3.0
      * @param string        $driver
      * @param string        $hostname
      * @param string        $username
@@ -169,6 +170,8 @@ final class ALoader
 
     /**
      * @param string $config
+     *
+     * @throws AException
      */
     public function config($config)
     {
@@ -179,7 +182,8 @@ final class ALoader
      * @param string $language
      * @param string $mode
      *
-     * @return array|null|void
+     * @return array|null
+     * @throws AException
      */
     public function language($language, $mode = '')
     {
