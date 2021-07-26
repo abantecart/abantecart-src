@@ -214,7 +214,7 @@ class ControllerResponsesEmbedJS extends AController
 
             //check if we need to disable product for no stock
             if ($this->config->get('config_nostock_autodisable') && $total_quantity <= 0) {
-                return null;
+                return;
             }
         }
 
@@ -226,11 +226,11 @@ class ControllerResponsesEmbedJS extends AController
                     'type' => 'button',
                     'name' => 'addtocart'.$product_id,
                     'text' => $this->language->get('button_add_to_cart'),
-
                     'attr' => 'data-product-id="'.$product_id
-                        .'" data-href = "'.$this->html->getURL(
+                            .'" data-href = "'
+                        .$this->html->getURL(
                             'r/embed/js/addtocart',
-                            '&product_id='.$product_id
+                            '&product_id='.$product_id.'&store_id='.$this->config->get('config_store_id')
                         ).'"',
                 ]
             );
@@ -450,9 +450,15 @@ class ControllerResponsesEmbedJS extends AController
 
         $this->data['cart_count'] = $this->cart->countProducts();
         if ($this->config->get('config_embed_click_action') != 'modal') {
-            $this->data['cart_url'] = $this->html->getSecureURL('checkout/cart');
+            $this->data['cart_url'] = $this->html->getSecureURL(
+                'checkout/cart',
+                '&store_id="'.$this->config->get('config_store_id')
+            );
         } else {
-            $this->data['cart_url'] = $this->html->getSecureURL('r/checkout/cart/embed');
+            $this->data['cart_url'] = $this->html->getSecureURL(
+                'r/checkout/cart/embed',
+                '&store_id="'.$this->config->get('config_store_id')
+            );
         }
 
         $this->view->setTemplate('embed/js_cart.tpl');
