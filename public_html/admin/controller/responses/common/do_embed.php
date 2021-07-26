@@ -368,7 +368,7 @@ class ControllerResponsesCommonDoEmbed extends AController
         $remote_store_url = $current_store_settings['config_ssl_url'] ? : $current_store_settings['config_url'];
 
         $this->data['sf_js_embed_url'] = $remote_store_url.INDEX_FILE.'?rt=r/embed/js';
-        $this->data['direct_embed_url'] = $remote_store_url.INDEX_FILE.'?rt=r/embed/get';
+        $this->data['direct_embed_url'] = $remote_store_url.INDEX_FILE.'?rt=r/embed/get&store_id='.$this->session->data['current_store_id'];
         //detect real base URL without seo-postfixes
         $parsedUrl = parse_url($remote_store_url);
         if ($parsedUrl['path'] && !is_dir(DIR_ROOT.'/'.$parsedUrl['path'])) {
