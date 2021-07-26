@@ -298,14 +298,11 @@ class ControllerResponsesCommonDoEmbed extends AController
             $options = $this->model_catalog_collection->getCollections(
                 [
                     'status_id' => 1,
-                    'store_id'  => $this->config->get('store_id'),
+                    'store_id'  => (int) $this->session->data['current_store_id']
                 ]
             );
 
-            $opt = [];
-            foreach ($options['items'] as $cat) {
-                $opt[$cat['id']] = $cat['name'];
-            }
+            $opt = $options['items'] ? array_column($options['items'],'name','id') : [];
 
             $this->data['fields'][] = $form->getFieldHtml(
                 [
@@ -365,7 +362,8 @@ class ControllerResponsesCommonDoEmbed extends AController
             ]
         );
 
-        $store_id = $this->session->data['current_store_id'];
+        $this->data['store_id'] = $store_id = $this->session->data['current_store_id'];
+
         $current_store_settings = $this->model_setting_store->getStore($store_id);
         $remote_store_url = $current_store_settings['config_ssl_url'] ? : $current_store_settings['config_url'];
 

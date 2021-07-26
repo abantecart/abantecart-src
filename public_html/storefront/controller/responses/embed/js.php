@@ -41,6 +41,13 @@ class ControllerResponsesEmbedJS extends AController
         if ($curr_code) {
             $this->currency->set($curr_code);
         }
+        //when do request for preview for multistore
+        if(isset($this->request->get['store_id'])){
+            $this->config->set(
+                'config_store_id',
+                (int)$this->request->get['store_id']
+            );
+        }
     }
 
     /**
@@ -120,22 +127,22 @@ class ControllerResponsesEmbedJS extends AController
 
         $product_id = (int) $this->request->get['product_id'];
         if (!$product_id) {
-            return null;
+            return;
         }
 
         $this->data['target'] = $this->request->get['target'];
         if (!$this->data['target']) {
-            return null;
+            return;
         }
 
         $this->loadModel('catalog/product');
         $this->loadLanguage('product/product');
         $product_info = $this->model_catalog_product->getProduct($product_id);
-
         //can not locate product? get out
         if (!$product_info) {
-            return null;
+            return;
         }
+
         //deal with quotes in name
         $product_info['name'] = htmlentities(
             html_entity_decode(
@@ -183,7 +190,7 @@ class ControllerResponsesEmbedJS extends AController
         $rt = $this->config->get('config_embed_click_action') == 'modal' ? 'r/product/product' : 'product/product';
         $this->data['product_details_url'] = $this->html->getURL(
             $rt,
-            '&product_id='.$product_id.'&language='.$this->language->getLanguageCode()
+            '&product_id='.$product_id.'&language='.$this->language->getLanguageCode().'&store_id='.$this->config->get('config_store_id')
         );
 
         //handle stock messages
@@ -486,12 +493,12 @@ class ControllerResponsesEmbedJS extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $collection_id = (int) $this->request->get['collection_id'];
         if (!$collection_id) {
-            return null;
+            return;
         }
 
         $this->data['target'] = $this->request->get['target_id'];
         if (!$this->data['target']) {
-            return null;
+            return;
         }
 
         $this->loadModel('catalog/collection');
@@ -499,7 +506,7 @@ class ControllerResponsesEmbedJS extends AController
 
         //can not locate collection? get out
         if (!$collection) {
-            return null;
+            return;
         }
 
         $this->data['ajax_url'] = $this->html->getCatalogURL(
