@@ -380,7 +380,7 @@ class ControllerResponsesSettingSettingQuickForm extends AController
             $offer_response = $connect->getResponse($url);
             $this->load->library('json');
             $offer_response = AJson::decode($offer_response, true);
-            if ($offer_response) {
+            if (!empty($offer_response['html'])) {
                 $this->data['title'] = $offer_response['title'];
                 $this->data['html'] = $offer_response['html'];
             } else {
@@ -395,7 +395,7 @@ class ControllerResponsesSettingSettingQuickForm extends AController
             $this->getOfferButtons($section);
             $this->data['quick_start_note'] = '';
             $template = "responses/setting/{$section}.tpl";
-            if ($offer_response) {
+            if (!empty($offer_response['html'])) {
                 $this->data['title'] = $offer_response['title'];
                 $this->data['html'] = $offer_response['html'];
             }
