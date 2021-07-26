@@ -24,9 +24,6 @@ if (!defined('DIR_CORE')) {
 
 class ControllerResponsesProductProduct extends AController
 {
-
-    public $data = [];
-
     public function main()
     {
         //init controller data
@@ -34,14 +31,17 @@ class ControllerResponsesProductProduct extends AController
 
         try {
             $this->config->set('embed_mode', true);
+            if(isset($this->request->get['store_id'])){
+                $this->config->set('config_store_id', (int)$this->request->get['store_id']);
+            }
             $cntr = $this->dispatch('pages/product/product');
-            $html_out = $cntr->dispatchGetOutput();
+            $this->data['html_out'] = $cntr->dispatchGetOutput();
         } catch (AException $e) {
         }
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-        $this->response->setOutput($html_out);
+        $this->response->setOutput($this->data['html_out']);
     }
 
     public function is_group_option()
@@ -389,7 +389,7 @@ class ControllerResponsesProductProduct extends AController
             unset($this->session->data['payment_methods']);
             $this->extensions->hk_UpdateData($this, __FUNCTION__);
         }
-        return $this->getCartContent();
+        $this->getCartContent();
     }
 
     public function removeFromCart()
@@ -408,6 +408,6 @@ class ControllerResponsesProductProduct extends AController
             unset($this->session->data['payment_methods']);
             $this->extensions->hk_UpdateData($this, __FUNCTION__);
         }
-        return $this->getCartContent();
+        $this->getCartContent();
     }
 }
