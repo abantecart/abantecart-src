@@ -33,6 +33,7 @@ foreach ($params as $param => $v) {
         <li id="abc_cat_<?php echo $id; ?>"
             class="abantecart_category"
             data-category-id="<?php echo $id; ?>"
+            data-store-id="<?php echo $store_id; ?>"
             data-language="<?php echo $params['language'] ?>"
             data-currency="<?php echo $params['currency'] ?>">
             <?php echo $html; ?>

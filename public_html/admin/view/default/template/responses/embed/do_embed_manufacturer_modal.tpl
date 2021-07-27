@@ -24,7 +24,8 @@
 			<?php echo $form['form_open']; ?>
 				<?php foreach ($fields as $field) {
 				$widthclass = 'col-sm-6 col-xs-12';
-				$label = ${'entry_' . str_replace(array('[', ']'), '', $field->name)};		?>
+				$label = ${'entry_' . str_replace(array('[', ']'), '', $field->name)};
+				?>
 				<div class="form-group">
 					<?php if($label){?>
 					<label class="control-label col-md-6 col-xs-6" for="<?php echo $field->element_id; ?>">
@@ -113,7 +114,7 @@
         var d = new Date();
         $.each($('div#embed_modal').find("input[name='manufacturer_id[]']:checked, input[name='manufacturer_id[]'][type='hidden']"), function () {
             var id = $(this).val();
-            html += '\t<li id="abc_' + (d.getTime() + id) + '" class="abantecart_manufacturer" data-manufacturer-id="' + id + '" data-language="' + language + '" data-currency="' + currency + '">\n';
+            html += '\t<li id="abc_' + (d.getTime() + id) + '" class="abantecart_manufacturer" data-store-id="<?php echo $store_id ?>" data-manufacturer-id="' + id + '" data-language="' + language + '" data-currency="' + currency + '">\n';
             url += '&manufacturer_id[]=' + id;
             $('#code_options').find('input[type="hidden"]').each(function () {
                 if ($(this).val() == 1) {

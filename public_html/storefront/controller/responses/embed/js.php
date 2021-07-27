@@ -41,6 +41,13 @@ class ControllerResponsesEmbedJS extends AController
         if ($curr_code) {
             $this->currency->set($curr_code);
         }
+        //when do request for preview for multistore
+        if(isset($this->request->get['store_id'])){
+            $this->config->set(
+                'config_store_id',
+                (int)$this->request->get['store_id']
+            );
+        }
     }
 
     /**
@@ -120,22 +127,22 @@ class ControllerResponsesEmbedJS extends AController
 
         $product_id = (int) $this->request->get['product_id'];
         if (!$product_id) {
-            return null;
+            return;
         }
 
         $this->data['target'] = $this->request->get['target'];
         if (!$this->data['target']) {
-            return null;
+            return;
         }
 
         $this->loadModel('catalog/product');
         $this->loadLanguage('product/product');
         $product_info = $this->model_catalog_product->getProduct($product_id);
-
         //can not locate product? get out
         if (!$product_info) {
-            return null;
+            return;
         }
+
         //deal with quotes in name
         $product_info['name'] = htmlentities(
             html_entity_decode(
@@ -183,7 +190,9 @@ class ControllerResponsesEmbedJS extends AController
         $rt = $this->config->get('config_embed_click_action') == 'modal' ? 'r/product/product' : 'product/product';
         $this->data['product_details_url'] = $this->html->getURL(
             $rt,
-            '&product_id='.$product_id.'&language='.$this->language->getLanguageCode()
+            '&product_id='.$product_id
+            .'&language='.$this->language->getLanguageCode()
+            .'&store_id='.$this->config->get('config_store_id')
         );
 
         //handle stock messages
@@ -207,7 +216,7 @@ class ControllerResponsesEmbedJS extends AController
 
             //check if we need to disable product for no stock
             if ($this->config->get('config_nostock_autodisable') && $total_quantity <= 0) {
-                return null;
+                return;
             }
         }
 
@@ -219,11 +228,11 @@ class ControllerResponsesEmbedJS extends AController
                     'type' => 'button',
                     'name' => 'addtocart'.$product_id,
                     'text' => $this->language->get('button_add_to_cart'),
-
                     'attr' => 'data-product-id="'.$product_id
-                        .'" data-href = "'.$this->html->getURL(
+                            .'" data-href = "'
+                        .$this->html->getURL(
                             'r/embed/js/addtocart',
-                            '&product_id='.$product_id
+                            '&product_id='.$product_id.'&store_id='.$this->config->get('config_store_id')
                         ).'"',
                 ]
             );
@@ -325,7 +334,11 @@ class ControllerResponsesEmbedJS extends AController
             $rt = $this->config->get('config_embed_click_action') == 'modal'
                 ? 'r/product/category'
                 : 'product/category';
-            $category['details_url'] = $this->html->getURL($rt, '&category_id='.$category['category_id']);
+            $category['details_url'] = $this->html->getURL(
+                $rt,
+                '&category_id='.$category['category_id']
+                    .'&store_id='.$this->config->get('config_store_id')
+            );
         }
 
         $this->data['categories'] = $categories;
@@ -403,6 +416,7 @@ class ControllerResponsesEmbedJS extends AController
             $manufacturer['details_url'] = $this->html->getURL(
                 $rt,
                 '&manufacturer_id='.$manufacturer['manufacturer_id']
+                    .'&store_id='.$this->config->get('config_store_id')
             );
         }
 
@@ -443,9 +457,15 @@ class ControllerResponsesEmbedJS extends AController
 
         $this->data['cart_count'] = $this->cart->countProducts();
         if ($this->config->get('config_embed_click_action') != 'modal') {
-            $this->data['cart_url'] = $this->html->getSecureURL('checkout/cart');
+            $this->data['cart_url'] = $this->html->getSecureURL(
+                'checkout/cart',
+                '&store_id='.$this->config->get('config_store_id')
+            );
         } else {
-            $this->data['cart_url'] = $this->html->getSecureURL('r/checkout/cart/embed');
+            $this->data['cart_url'] = $this->html->getSecureURL(
+                'r/checkout/cart/embed',
+                '&store_id='.$this->config->get('config_store_id')
+            );
         }
 
         $this->view->setTemplate('embed/js_cart.tpl');
@@ -486,12 +506,12 @@ class ControllerResponsesEmbedJS extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $collection_id = (int) $this->request->get['collection_id'];
         if (!$collection_id) {
-            return null;
+            return;
         }
 
         $this->data['target'] = $this->request->get['target_id'];
         if (!$this->data['target']) {
-            return null;
+            return;
         }
 
         $this->loadModel('catalog/collection');
@@ -499,12 +519,12 @@ class ControllerResponsesEmbedJS extends AController
 
         //can not locate collection? get out
         if (!$collection) {
-            return null;
+            return;
         }
 
         $this->data['ajax_url'] = $this->html->getCatalogURL(
             'r/product/collection',
-            '&collection_id='.$collection_id
+            '&collection_id='.$collection_id.'&store_id='.$this->config->get('config_store_id')
         );
 
         $collectionProducts = [];
@@ -607,7 +627,10 @@ class ControllerResponsesEmbedJS extends AController
                     'call_to_order'       => $result['call_to_order'],
                     'options'             => $productsInfo[$result['product_id']]['options'],
                     'special'             => $special,
-                    'product_details_url' => $this->html->getURL($rt, '&product_id='.$result['product_id']),
+                    'product_details_url' => $this->html->getURL(
+                        $rt,
+                        '&product_id='.$result['product_id'].'&store_id='.$this->config->get('config_store_id')
+                    ),
                     'description'         => html_entity_decode($result['description'] ?? '', ENT_QUOTES, 'UTF-8'),
                     'track_stock'         => $track_stock,
                     'in_stock'            => $in_stock,
