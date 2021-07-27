@@ -1,3 +1,101 @@
+AbanteCart version 1.3.1
+
+In this release:
+
+- Core: taskManager. fix of error output
+- Core: ALoader improvement. Added debug backtrace
+- Core: added Date product option type ACORN-108
+- minimal php version now 7.3.0
+- Core: ACart minor improvements
+- Core: core/lib/config.php fixes related to seo-postfix and config store id type cast
+- Core+ SF: changes related to virtual products purchasing (gift certificates etc)
+- Core: changes related to virtual products purchasing (gift certificates etc)
+- Core: changes related to AResource::getMainThumbList() method.
+- Core: add hook to category_top, category_bottom block and manufacturer page
+- Core: changes related to virtual products purchasing (gift certificates etc)
+- Core+ SF: changes related to virtual products purchasing (gift certificates etc)
+- Core: html-class improvement (number, email input types)
+- Core: AResource minor improvement
+- Core: core/engine/extensions reformatting
+- Core: ALayout improvement related to hooks
+- Core: AResource bug fix
+
+Admin: 
+- Admin: ACORN-563 embed in multistore fix
+- Admin: general.js fix related to tasks ACORN-554
+- Admin: collection controller fix
+- Admin: global search improvement, added search by sku ACORN-549
+- Admin: collection controller fix
+- Admin: email templates controller and model code improvements
+- Admin: fix related to cdn-image-downloads from import csv-file
+- Admin: added hook calls into customer controller
+- Admin: order details minor improvement of tpl
+- Admin: added check for extensions layouts xml into template installation and template switch processes
+- Admin: fix for storefront_order_confirm email template
+- Admin: collection model fix
+- Admin: lib configManager fix
+- Admin: order totals grid improvement (related to predefined sort and calculation orders for balance and total)
+- Admin: collection form js-fix
+- Admin: language manager fix related to auto-translations
+- Admin: package manager fix. Added "tax" extension type + reformatting
+- Admin: package manager fix. Added "tax" extension type + reformatting
+- Admin: sale/contact email RL-image's URL fix
+- Admin: product option value url fix
+- Admin: controller for downloading file improvement
+
+Storefront: 
+- improvement related to option value images
+- ACORN-561 guest and logged in customer sessions fix
+- fast checkout payment fix ACORN-560
+- Request add cost column method (#1485)
+- ACORN-559 fast checkout order summary tax display fix
+- ACORN-552 taxes report: incorrect orders count
+- Guest Checkout Create Account feature fix ACORN-557
+- ACORN-558 base product weight field description
+- upgrade scripts fixes
+- Add product option cost (#1484)
+- ACORN-553 banner group name issue fix
+- ACORN-551 "add to cart" buttons on home page blocks
+- #1472 typo fix
+- fix ACORN-548 embed: options values images
+- fix ACORN-267 Pickup from Store use the store address for taxes
+- #1464 wordpress embed fast checkout buttons fix
+- #1483 embed fix
+- embed code default height fix
+- ACORN-550  Typed property ControllerPagesCatalogCollections::$error fix
+- #1472 fileinfo PHP extension check to the 1.3 installation and upgrade
+- #1464 mobile add to cart buttons fix
+- fix ACORN-255 Import wizard category split separator
+- ACORN-547 FastCheckout fix
+- #1482 WordPress 5.8 SameSite cookie issue
+- #1473 default_ups. reformatted code
+- #1472 system requirements refactoring
+- #1472 minimal version of php now 7.4
+- #1457 extra white space in front of the email headers
+- add hooks to admin order details and order invoice (#1480)
+- Storefront: order details minor improvement of tpls
+- Collection model fix
+- Account/logout controller improvement
+- Catalog/collection model fix
+- Rounding fix related to taxes and 3 digits after decimal points. ref. https://forum.abantecart.com/index.php?topic=9072.new;topicseen#new
+- add the label id and the additional hook (#1474)
+- add hook, change hook location and change private $error to public $error (#1469)
+- FastCheckout shipping method icon fix
+- add hooks to templates and admin product options page (#1467)
+- FastCheckout: added hook vars call into tpls
+
+Extensions: 
+- avatax improvement related to getting taxLines
+- FastCheckout stripe address line fix ACORN-318
+- Default Stripe minor fix ACORN-318
+- Avatax fix
+- authorizenet error in php v8 (#1479)
+- FastCheckout. changed default sort order (run order) from 1 to 10
+- FastCheckout installation improvement (adding layouts to custom templates)
+- Avatax fix
+
+
+
 AbanteCart version 1.3.0
 
 In this release, we bring a few new features
