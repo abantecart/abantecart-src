@@ -110,7 +110,7 @@
                 +'data-url="<?php echo $sf_base_url; ?>" data-css-url="<?php echo $sf_css_embed_url; ?>"'
                 + common_params + '>\n';
         html += '\t<div id="abc_<?php echo (int)(microtime() * 1000); ?>" '
-            +'class="abantecart_product" data-product-id="<?php echo $product_id; ?>" data-store-id="<?php echo $store_id ?>" data-language="'
+            +'class="abantecart_product" data-product-id="<?php echo $product_id; ?>" data-language="'
                 + language + '" data-currency="' + currency + '">\n';
         $('#code_options').find('input[type="hidden"]').each(function () {
             if ($(this).val() === '1') {

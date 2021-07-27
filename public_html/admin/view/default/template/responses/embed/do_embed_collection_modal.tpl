@@ -132,7 +132,7 @@
 
         let d = new Date();
             html += '\t<li id="abc_' + (d.getTime() + colId) + '" class="abantecart_collection" '
-                 +'data-collection-id="' + colId + '" data-store-id="<?php echo $store_id ?>" data-language="' + language + '" data-currency="' + currency + '">\n';
+                 +'data-collection-id="' + colId + '" data-language="' + language + '" data-currency="' + currency + '">\n';
 
         $('#code_options').find('input[type="hidden"]').each(function () {
             if ($(this).val() === '1') {

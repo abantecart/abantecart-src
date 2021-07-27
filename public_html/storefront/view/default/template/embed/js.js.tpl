@@ -339,11 +339,8 @@ var init = function () {
             var d = new Date();
             //we need to know where we must to apply result
             var target_id = child.attr('id');
-            var store_id = child.attr('data-store-id');
             child.attr('id', target_id);
-            var url = w_url + '?rt=r/embed/js/product&product_id=' + product_id
-                + '&target=' + target_id
-                + '&store_id=' + store_id;
+            var url = w_url + '?rt=r/embed/js/product&product_id=' + product_id + '&target=' + target_id;
             if (child.is('[data-language]')) {
                 url += '&language=' + child.attr('data-language');
             }
@@ -364,10 +361,7 @@ var init = function () {
             $(children).each(function () {
                 if ($(this).is('[data-category-id]')) {
                     var cid = $(this).attr('data-category-id');
-                    var store_id = $(this).attr('data-store-id');
-                    url += '&category_id[]=' + cid
-                        + '&target_id[' + cid + ']=' + $(this).attr('id')
-                        + '&store_id=' + store_id;
+                    url += '&category_id[]=' + cid + '&target_id[' + cid + ']=' + $(this).attr('id');
                     if ($(this).is('[data-language]')) {
                         url += '&language=' + $(this).attr('data-language');
                     }
@@ -388,10 +382,7 @@ var init = function () {
             var target_id, collection_id;
             if ($(children).is('[data-collection-id]')) {
                 var cid = $(children).attr('data-collection-id');
-                var store_id = $(children).attr('data-store-id');
-                url += '&collection_id=' + cid
-                    + '&target_id=' + $(children).attr('id')
-                    + '&store_id=' + store_id;
+                url += '&collection_id=' + cid + '&target_id=' + $(children).attr('id');
                 if ($(children).is('[data-language]')) {
                     url += '&language=' + $(children).attr('data-language');
                 }
@@ -427,10 +418,7 @@ var init = function () {
             $(children).each(function () {
                 if ($(this).is('[data-manufacturer-id]')) {
                     var cid = $(this).attr('data-manufacturer-id');
-                    var store_id = $(this).attr('data-store-id');
-                    url += '&manufacturer_id[]=' + cid
-                        + '&target_id[' + cid + ']=' + $(this).attr('id')
-                        + '&store_id=' + store_id;
+                    url += '&manufacturer_id[]=' + cid + '&target_id[' + cid + ']=' + $(this).attr('id');
                     if ($(this).is('[data-language]')) {
                         url += '&language=' + $(this).attr('data-language');
                     }
