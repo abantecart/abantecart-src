@@ -35,7 +35,6 @@ foreach ($params as $param => $v) {
     <li id="abc_<?php echo time() * 1000; ?>"
         class="abantecart_collection"
         data-collection-id="<?php echo $params['collection_id']; ?>"
-        data-store-id="<?php echo $store_id; ?>"
         data-language="<?php echo $params['language'] ?>"
         data-currency="<?php echo $params['currency'] ?>">
         <?php echo $html; ?>

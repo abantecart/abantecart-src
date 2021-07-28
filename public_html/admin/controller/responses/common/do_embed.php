@@ -368,28 +368,12 @@ class ControllerResponsesCommonDoEmbed extends AController
         $remote_store_url = $current_store_settings['config_ssl_url'] ? : $current_store_settings['config_url'];
 
         $this->data['sf_js_embed_url'] = $remote_store_url.INDEX_FILE.'?rt=r/embed/js';
-        $this->data['direct_embed_url'] = $remote_store_url.INDEX_FILE.'?rt=r/embed/get&store_id='.$this->session->data['current_store_id'];
-        //detect real base URL without seo-postfixes
-        $parsedUrl = parse_url($remote_store_url);
-        if ($parsedUrl['path'] && !is_dir(DIR_ROOT.'/'.$parsedUrl['path'])) {
-            $paths = explode('/', trim($parsedUrl['path'], '/'));
-            do {
-                if (is_dir($_SERVER['DOCUMENT_ROOT'].'/'.implode('/', $paths))) {
-                    $this->data['sf_base_url'] = $parsedUrl['scheme'].'://'
-                        .$parsedUrl['host']
-                        .($parsedUrl['port'] ? ':'.$parsedUrl['port'] : '')
-                        .'/'.implode('/', $paths).'/';
-                    break;
-                }
-                array_pop($paths);
-            } while ($paths);
-        } else {
+        $this->data['direct_embed_url'] = $remote_store_url.INDEX_FILE.'?rt=r/embed/get';
             $this->data['sf_base_url'] = $remote_store_url;
-        }
         $this->data['help_url'] = $this->gen_help_url('embed');
 
         $template_name = $this->config->get('config_storefront_template');
-        $this->data['sf_css_embed_url'] = $this->data['sf_base_url'].'storefront/view/default/stylesheet/embed.css';
+        $this->data['sf_css_embed_url'] = $remote_store_url.'storefront/view/default/stylesheet/embed.css';
 
         //override css url for extension templates
         if ($template_name != 'default') {
@@ -402,7 +386,7 @@ class ControllerResponsesCommonDoEmbed extends AController
 
             if (is_file($css_file)) {
                 $this->data['sf_css_embed_url'] =
-                    $this->data['sf_base_url']
+                    $remote_store_url
                     .'extensions/'
                     .$template_name
                     .'/storefront/view/'

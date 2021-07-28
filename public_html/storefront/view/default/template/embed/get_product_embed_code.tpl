@@ -33,7 +33,6 @@ foreach ($params as $param => $v) {
     <div id="abc_<?php echo (int)(microtime() * 1000); ?>"
          class="abantecart_product"
          data-product-id="<?php echo $params['product_id']; ?>"
-         data-store-id="<?php echo $store_id; ?>"
          data-language="<?php echo $params['language']; ?>"
          data-currency="<?php echo $params['currency']; ?>">
         <?php echo $html; ?>

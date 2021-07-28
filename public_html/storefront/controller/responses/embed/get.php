@@ -38,44 +38,23 @@ class ControllerResponsesEmbedGet extends AController
 
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-
+        if (HTTPS === true) {
+            $this->view->assign('base', HTTPS_SERVER);
+        } else {
+            $this->view->assign('base', HTTP_SERVER);
+        }
 
         $this->loadModel('catalog/product');
-        if(isset($_get['store_id'])) {
-            $this->loadModel('setting/store');
-            $current_store_settings = $this->model_setting_store->getStoreSettings($_get['store_id']);
-            $remote_store_url = $current_store_settings['config_ssl_url'] ? : $current_store_settings['config_url'];
-            $this->data['store_id'] = $_get['store_id'];
-        }else {
-            $remote_store_url = $this->config->get('config_url').$this->config->get('seo_prefix');
-            $product_stores = $this->model_catalog_product->getProductStoresInfo( $_get['product_id'] ?? 0 );
-            if ($product_stores && count($product_stores) == 1) {
-                $remote_store_url = $product_stores[0]['store_url'];
-            }
-        }
+        $remote_store_url = $this->config->get('config_url').$this->config->get('seo_prefix');
+        $product_stores = $this->model_catalog_product->getProductStoresInfo( $_get['product_id'] ?? 0 );
 
-        //detect real base URL without seo-postfixes
-        $parsedUrl = parse_url($remote_store_url);
-        if ($parsedUrl['path'] && !is_dir(DIR_ROOT.'/'.$parsedUrl['path'])) {
-            $paths = explode('/', trim($parsedUrl['path'], '/'));
-            $seo_prefix= '';
-            do {
-                if (is_dir($_SERVER['DOCUMENT_ROOT'].'/'.implode('/', $paths))) {
-                    $this->data['sf_base_url'] = $parsedUrl['scheme'].'://'
-                        .$parsedUrl['host']
-                        .($parsedUrl['port'] ? ':'.$parsedUrl['port'] : '')
-                        .'/'.implode('/', $paths).'/';
-                    $this->config->set('seo_prefix', $seo_prefix);
-                    break;
-                }
-                $seo_prefix = array_pop($paths);
-            } while ($paths);
-        } else {
-            $this->data['sf_base_url'] = $remote_store_url;
+        if ($product_stores && count($product_stores) == 1) {
+            $remote_store_url = $product_stores[0]['store_url'];
         }
-        $this->data['sf_base_url'] = str_replace(['http://', 'https://'], '//', $this->data['sf_base_url']);
-        $this->data['sf_js_embed_url'] = $this->data['sf_base_url'].INDEX_FILE.'?rt=r/embed/js';
-        $this->data['sf_css_embed_url'] = $this->data['sf_base_url']
+        $remote_store_url = str_replace(['http://', 'https://'], '//', $remote_store_url);
+        $this->data['sf_base_url'] = $remote_store_url;
+        $this->data['sf_js_embed_url'] = $remote_store_url.INDEX_FILE.'?rt=r/embed/js';
+        $this->data['sf_css_embed_url'] = $remote_store_url
             .'storefront/view/'
             .$this->config->get('config_storefront_template')
             .'/stylesheet/embed.css';
