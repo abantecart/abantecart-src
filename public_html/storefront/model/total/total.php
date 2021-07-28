@@ -38,7 +38,8 @@ class ModelTotalTotal extends Model
                 $converted_sum += $this->currency->format_number($total_record['value']);
             }
             //if there is a conversion fractional loss, adjust total base currency price. 
-            //This is not ideal solution, need to address in the future. 
+            //This is not ideal solution, need to address in the future.
+            $converted_sum = $converted_sum < 0.00001 ? 0 : $converted_sum;
             $converted_total = $this->currency->format_number($total);
             if ($converted_total != $converted_sum) {
                 $curr = $this->currency->getCurrency();
@@ -49,7 +50,7 @@ class ModelTotalTotal extends Model
             //currency display value
             $converted_sum_txt = $this->currency->format(max(0, $converted_sum), '', 1);
 
-            $total_data[] = array(
+            $total_data[] = [
                 'id'         => 'total',
                 'title'      => $language->get('text_total'),
                 'text'       => $converted_sum_txt,
@@ -57,7 +58,7 @@ class ModelTotalTotal extends Model
                 'value'      => max(0, $total),
                 'sort_order' => 1000,
                 'total_type' => $this->config->get('total_total_type'),
-            );
+            ];
         }
     }
 }
