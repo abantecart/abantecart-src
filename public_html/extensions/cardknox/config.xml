@@ -3,7 +3,7 @@
 	<id>cardknox</id>
 	<version>1.0.0</version>
 	<type>payment</type>
-	<category>Payment</category>
+	<category>payment</category>
 	<cartversions>
 		<item>1.2</item>
 		<item>1.3</item>

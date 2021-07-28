@@ -141,6 +141,12 @@ class ControllerResponsesListingGridExtension extends AController
         $rows = array_merge($to_install, $extensions->rows);
         $updates = $this->session->data['extensions_updates'];
 
+        //get popular extensions
+        $url = $this->model_tool_mp_api->getMPURL() . "popular.php";
+        $connect = new AConnect();
+        $this->load->library('json');
+        $popular = AJson::decode($connect->getResponse($url), true);
+
         foreach ($rows as $row) {
             $extension = $row['key'];
             if (!$extension) {
@@ -155,6 +161,11 @@ class ControllerResponsesListingGridExtension extends AController
 
             $response->userdata->extension_id[$id] = $extension;
             $response->userdata->store_id[$id] = $row['store_id'];
+
+            $isPopular = false;
+            if (!empty($popular) && in_array($extension, array_keys($popular)) ) {
+                $isPopular = true;
+            }
 
             $name = !isset($row['name']) ? trim($this->extensions->getExtensionName($extension)) : $row['name'];
 
@@ -283,12 +294,22 @@ class ControllerResponsesListingGridExtension extends AController
                     .'?rt=product/search&keyword='.$extension;
             }
 
+            //wrap the icon
+            if ($isPopular) {
+                $icon = "
+                    <div class=\"popular\">
+                    $icon
+                    <i class=\"fa fa-star fa-lg tooltips\" data-original-title=\"{$popular[$extension]}\"></i>
+                    </div>
+                ";
+            }
+
             $response->rows[$i]['cell'] = [
                 $icon,
-                $extension,
                 $name,
+                $extension,
                 $category,
-                dateISO2Display($row['date_modified'], $this->language->get('date_format_short')),
+                dateISO2Display($row['date_modified'], $this->language->get('date_format_short'))
             ];
             if (!$this->config->get('config_store_id')) {
                 $response->rows[$i]['cell'][] = $row['store_name']
@@ -302,6 +323,7 @@ class ControllerResponsesListingGridExtension extends AController
                     unset($response->rows[$i]);
                 }
             }
+            $response->rows[$i]['cell'][] = $isPopular;
             $i++;
         }
 

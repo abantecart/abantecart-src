@@ -3629,3 +3629,20 @@ table.table.table-striped.table-bordered.import-table img { max-width: 100%; }
 	width: 100%;
 	/* The width is the width of the web page */
 }
+
+.popular {
+	position: relative;
+}
+.popular img {
+	text-align: center;
+}
+.popular .fa  {
+	position: absolute;
+	right: 5px;
+	top: 5px;
+	color: #f38108;
+	font-size: 20px;
+}
+.popular .fa::before  {
+	color: #f38108;
+}

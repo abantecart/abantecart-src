@@ -851,8 +851,6 @@ INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `v
 
 ('extensions', 'banner_manager', 'extensions', 1, 1, '1.0.1', null, now(), now(), now() ),
 ('extensions', 'forms_manager', 'extensions', 1, 1, '1.0.2', null, now(), now(), now() ),
-('payment', 'default_pp_standart', 'payment', 0, 1, '1.0.2', null, now(), now() + INTERVAL 2 MINUTE , now() ),
-('payment', 'default_pp_pro', 'payment', 0, 1, '1.0.2', null, now(), now() + INTERVAL 2 MINUTE , now() ),
 ('extensions', 'fast_checkout', 'Checkout', 1, 10, '1.3.0', null, now(), now() + INTERVAL 2 MINUTE , now() )
 ;
 

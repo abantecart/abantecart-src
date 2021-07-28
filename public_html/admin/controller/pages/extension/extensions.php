@@ -149,8 +149,8 @@ class ControllerPagesExtensionExtensions extends AController
 
         $grid_settings['colNames'] = [
             '',
-            $this->language->get('column_id'),
             $this->language->get('column_name'),
+            $this->language->get('column_id'),
             $this->language->get('column_category'),
             $this->language->get('column_update_date'),
         ];
@@ -169,18 +169,18 @@ class ControllerPagesExtensionExtensions extends AController
                 'search'   => false,
             ],
             [
-                'name'   => 'key',
-                'index'  => 'key',
-                'width'  => 130,
-                'align'  => 'center',
-                'search' => true,
-            ],
-            [
                 'name'   => 'name',
                 'index'  => 'name',
                 'width'  => 200,
                 'align'  => 'center',
                 'search' => false,
+            ],
+            [
+                'name'   => 'key',
+                'index'  => 'key',
+                'width'  => 130,
+                'align'  => 'center',
+                'search' => true,
             ],
             [
                 'name'   => 'category',

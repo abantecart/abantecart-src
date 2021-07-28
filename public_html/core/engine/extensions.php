@@ -638,7 +638,7 @@ class ExtensionsApi
             if ($data['sort_order'][0] == 'key') {
                 $data['sort_order'][0] = '`key`';
             }
-            $sql .= "\n ORDER BY e.priority desc, ".implode(' ', $data['sort_order']);
+            $sql .= "\n ORDER BY " . implode(' ', $data['sort_order']) . ", e.priority desc";
         } else {
             //default extension sorting based on priority provided. High number is higher priority
             $sql .= "\n ORDER BY e.priority desc";
