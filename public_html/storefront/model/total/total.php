@@ -33,29 +33,23 @@ class ModelTotalTotal extends Model
             $this->load->model('localisation/currency');
 
             //currency based recalculation for all totals
-            $converted_sum = 0;
-            foreach ($total_data as $total_record) {
-                $converted_sum += $this->currency->format_number($total_record['value']);
-            }
-            //if there is a conversion fractional loss, adjust total base currency price. 
-            //This is not ideal solution, need to address in the future.
-            $converted_sum = $converted_sum < 0.00001 ? 0 : $converted_sum;
-            $converted_total = $this->currency->format_number($total);
-            if ($converted_total != $converted_sum) {
-                $curr = $this->currency->getCurrency();
-                //calculate adjusted total without rounding
-                $total = $converted_sum / $curr['value'];
-            }
+            $displaySum = $this->currency->format_number(
+                                    array_sum(
+                                        array_column($total_data,'value')
+                                    )
+                                );
 
-            //currency display value
-            $converted_sum_txt = $this->currency->format(max(0, $converted_sum), '', 1);
+            $value = max(0, $total);
+            $displaySum = $value ? max(0, $displaySum) : 0.00;
 
             $total_data[] = [
                 'id'         => 'total',
                 'title'      => $language->get('text_total'),
-                'text'       => $converted_sum_txt,
-                'converted'  => $converted_sum,
-                'value'      => max(0, $total),
+                'text'       => $this->currency->format($displaySum, '', 1),
+                //this is formatted sum in selected currency
+                'converted'  => $displaySum,
+                //this is raw float in default currency
+                'value'      => $value,
                 'sort_order' => 1000,
                 'total_type' => $this->config->get('total_total_type'),
             ];

@@ -25,20 +25,29 @@ class ModelTotalBalance extends Model
 {
     public function getTotal(&$total_data, &$total, &$taxes, &$cust_data)
     {
-
         if ($this->config->get('balance_status')) {
             if ((float)$cust_data['used_balance']) {
+                if($cust_data['used_balance_full']){
+                    $totalValue = $this->currency->format_number(
+                        array_sum(
+                            array_column($total_data,'value')
+                        )
+                    );
+                }else{
+                    $totalValue = $cust_data['used_balance'];
+                }
+
                 //create new instance of language for case when model called from admin-side
                 $language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
                 $language->load($language->language_details['filename']);
-                $total_data[] = array(
+                $total_data[] = [
                     'id'         => 'balance',
                     'title'      => $language->get('text_balance_checkout'),
-                    'text'       => '-'.$this->currency->format($cust_data['used_balance']),
+                    'text'       => '-'.$this->currency->format($totalValue, '',1),
                     'value'      => -$cust_data['used_balance'],
                     'sort_order' => 999,
                     'total_type' => 'balance',
-                );
+                ];
                 $total -= $cust_data['used_balance'];
             }
         }
