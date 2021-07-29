@@ -119,12 +119,27 @@ if (!$mp_connected) {
     var extension_grid_ready = function (data) {
 
         var userdata = data.userdata;
+        //add label for popular extensions
+        $('#extension_grid').find('[aria-describedby="extension_grid_icon"]').each(
+            function(){
+            var row_id = $(this).parents('tr').attr('id');
+            if(userdata.popular[row_id]['status']){
+                var wrapper = '<div class="popular">'
+                    + $(this).html()
+                    + '<i class="fa fa-star fa-lg tooltips" data-original-title="'
+                    + userdata.popular[row_id]['description']
+                    + '"></i></div>';
+                $(this).html(wrapper);
+            }
+        });
+
         $('.grid_action_edit, .grid_action_install, .grid_action_uninstall, .grid_action_delete').each(function () {
             var row_id = $(this).parents('tr').attr('id');
             var href = $(this).attr('href') + '&extension=' + userdata.extension_id[row_id];
             $(this).attr('href', href);
             $(this).next('.confirm_popover').find('.btn-danger').attr('href', href);
         });
+
 
         $('.grid_action_install').click(function () {
             var row_id = $(this).parents('tr').attr('id');

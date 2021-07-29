@@ -40,6 +40,19 @@ class ModelToolMPAPI extends Model
     }
 
     /**
+     * @return array
+     * @throws AException
+     */
+    public function getPopularity()
+    {
+        $url = $this->getMPURL() . "popular.php";
+        //silent request
+        $connect = new AConnect(true);
+        $this->load->library('json');
+        return AJson::decode($connect->getResponse($url), true) ?: [];
+    }
+
+    /**
      * @param string $mp_token
      *
      * @return bool

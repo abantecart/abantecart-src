@@ -142,11 +142,7 @@ class ControllerResponsesListingGridExtension extends AController
         $updates = $this->session->data['extensions_updates'];
 
         //get popular extensions
-        $url = $this->model_tool_mp_api->getMPURL() . "popular.php";
-        $connect = new AConnect();
-        $this->load->library('json');
-        $popular = AJson::decode($connect->getResponse($url), true);
-
+        $popular = $mpModel->getPopularity();
         foreach ($rows as $row) {
             $extension = $row['key'];
             if (!$extension) {
@@ -161,11 +157,10 @@ class ControllerResponsesListingGridExtension extends AController
 
             $response->userdata->extension_id[$id] = $extension;
             $response->userdata->store_id[$id] = $row['store_id'];
-
-            $isPopular = false;
-            if (!empty($popular) && in_array($extension, array_keys($popular)) ) {
-                $isPopular = true;
-            }
+            $response->userdata->popular[$id] = [
+                'status'       => (!empty($popular) && in_array($extension, array_keys($popular))),
+                'description'  => $popular[$extension]
+            ];
 
             $name = !isset($row['name']) ? trim($this->extensions->getExtensionName($extension)) : $row['name'];
 
@@ -285,23 +280,11 @@ class ControllerResponsesListingGridExtension extends AController
             if (!$expired) {
                 $response->userdata->classes[$id] .= ' disable-expired ';
             }
-            $response->userdata->mp_product_url[$id] = $row['mp_product_url']
-                ? $row['mp_product_url']
-                : $updates[$extension]['url'];
+            $response->userdata->mp_product_url[$id] = $row['mp_product_url'] ? : $updates[$extension]['url'];
             //if url of product page still empty - send to search result page
             if (!$response->userdata->mp_product_url[$id]) {
                 $response->userdata->mp_product_url[$id] = $mpModel->getMPURL()
                     .'?rt=product/search&keyword='.$extension;
-            }
-
-            //wrap the icon
-            if ($isPopular) {
-                $icon = "
-                    <div class=\"popular\">
-                    $icon
-                    <i class=\"fa fa-star fa-lg tooltips\" data-original-title=\"{$popular[$extension]}\"></i>
-                    </div>
-                ";
             }
 
             $response->rows[$i]['cell'] = [
@@ -312,9 +295,7 @@ class ControllerResponsesListingGridExtension extends AController
                 dateISO2Display($row['date_modified'], $this->language->get('date_format_short'))
             ];
             if (!$this->config->get('config_store_id')) {
-                $response->rows[$i]['cell'][] = $row['store_name']
-                    ? $row['store_name']
-                    : $this->language->get('text_default');
+                $response->rows[$i]['cell'][] = $row['store_name'] ? : $this->language->get('text_default');
             }
             $response->rows[$i]['cell'][] = $status;
             if ($push) {
@@ -323,7 +304,6 @@ class ControllerResponsesListingGridExtension extends AController
                     unset($response->rows[$i]);
                 }
             }
-            $response->rows[$i]['cell'][] = $isPopular;
             $i++;
         }
 
@@ -392,7 +372,6 @@ class ControllerResponsesListingGridExtension extends AController
                     'reset_value' => true,
                 ]
             );
-            return;
         }
     }
 
