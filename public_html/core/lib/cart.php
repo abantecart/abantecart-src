@@ -926,8 +926,8 @@ class ACart
 
         $this->total_data = $total_data;
         $this->final_total = $total;
-        $k = array_search('total', array_column($total_data['total_data'],'id'));
-        $this->final_total_converted = $total_data['total_data'][$k]['converted'];
+        $k = array_search('total', array_column($this->total_data,'id'));
+        $this->final_total_converted = $this->total_data[$k]['converted'];
         //if balance become less or 0 reapply partial
         if ($this->cust_data['used_balance'] && $this->final_total) {
             $this->cust_data['used_balance_full'] = false;
