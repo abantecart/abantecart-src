@@ -36,6 +36,11 @@ class ModelTotalBalance extends Model
                 }else{
                     $totalValue = $cust_data['used_balance'];
                 }
+                $totalValue = $this->currency->convert(
+                    $totalValue,
+                    $this->config->get('config_currency'),
+                    $this->currency->getCode()
+                );
 
                 //create new instance of language for case when model called from admin-side
                 $language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
