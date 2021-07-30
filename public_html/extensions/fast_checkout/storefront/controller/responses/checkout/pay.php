@@ -786,7 +786,7 @@ class ControllerResponsesCheckoutPay extends AController
         $display_totals = $this->cart->buildTotalDisplay(true);
         $this->data['totals'] = $display_totals['total_data'];
         $this->data['total'] = $display_totals['total'];
-        $this->data['total_string'] = $this->currency->format($display_totals['total']);
+        $this->data['total_string'] = $this->currency->format($display_totals['total_converted'],'',1);
         return ($this->data['totals']);
     }
 

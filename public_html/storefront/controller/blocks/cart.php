@@ -142,7 +142,7 @@ class ControllerBlocksCart extends AController
 
         $display_totals = $this->cart->buildTotalDisplay();
         $this->data['totals'] = $display_totals['total_data'];
-        $this->data['subtotal'] = $this->currency->format($display_totals['total']);
+        $this->data['subtotal'] = $this->currency->format($display_totals['total_converted'],'', 1);
         $this->data['taxes'] = $display_totals['taxes'];
 
         $this->data['ajax'] = $this->config->get('cart_ajax');

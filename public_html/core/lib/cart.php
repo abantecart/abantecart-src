@@ -58,6 +58,8 @@ class ACart
     protected $total_value;
     /** @var float */
     protected $final_total;
+    /** @var float */
+    protected $final_total_converted;
     /** @var array */
     protected $total_data;
     /** @var ACustomer */
@@ -865,6 +867,8 @@ class ACart
     {
         //check if value already set
         if (has_value($this->total_data) && has_value($this->final_total) && !$recalculate) {
+            $k = array_search('total', array_column($this->total_data,'id'));
+            $this->final_total_converted = $this->total_data[$k]['converted'];
             return $this->final_total;
         }
         $this->final_total = 0.0;
@@ -922,11 +926,25 @@ class ACart
 
         $this->total_data = $total_data;
         $this->final_total = $total;
+        $k = array_search('total', array_column($total_data['total_data'],'id'));
+        $this->final_total_converted = $total_data['total_data'][$k]['converted'];
         //if balance become less or 0 reapply partial
         if ($this->cust_data['used_balance'] && $this->final_total) {
             $this->cust_data['used_balance_full'] = false;
         }
         return $this->final_total;
+    }
+
+    /**
+     * Function returns sum of converted and rounded to currency amounts
+     * @param false $recalculate
+     *
+     * @return float
+     * @throws AException
+     */
+    public function getFinalTotalConverted($recalculate = false){
+        $this->getFinalTotal($recalculate);
+        return $this->final_total_converted;
     }
 
     /**
@@ -963,6 +981,7 @@ class ACart
     {
         $taxes = $this->getAppliedTaxes($recalculate);
         $total = $this->getFinalTotal($recalculate);
+        $total_converted = $this->getFinalTotalConverted();
         $total_data = $this->getFinalTotalData();
         //sort data for view
         $sort_order = [];
@@ -970,7 +989,12 @@ class ACart
             $sort_order[$key] = $value['sort_order'];
         }
         array_multisort($sort_order, SORT_ASC, $total_data);
-        return ['total' => $total, 'total_data' => $total_data, 'taxes' => $taxes];
+        return [
+            'total' => $total,
+            'total_converted' => $total_converted,
+            'total_data' => $total_data,
+            'taxes' => $taxes
+        ];
     }
 
     /**
