@@ -33,11 +33,14 @@ class ModelTotalTotal extends Model
             $this->load->model('localisation/currency');
 
             //currency based recalculation for all totals
-            $displaySum = $this->currency->format_number(
-                                    array_sum(
-                                        array_column($total_data,'value')
-                                    )
-                                );
+            $displaySum = array_sum(
+                array_map(
+                    function($value){
+                        return $this->currency->format_number($value);
+                    },
+                    array_column($total_data,'value')
+                )
+            );
 
             $value = max(0, $total);
             $displaySum = $value ? max(0, $displaySum) : 0.00;
