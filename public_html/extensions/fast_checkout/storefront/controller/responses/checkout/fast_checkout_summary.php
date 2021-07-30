@@ -205,8 +205,10 @@ class ControllerResponsesCheckoutFastCheckoutSummary extends AController
         $display_totals = $this->cart->buildTotalDisplay(true);
 
         $this->data['totals'] = $display_totals['total_data'];
-        $this->data['total'] = $display_totals['total'];
-        $this->data['total_string'] = $this->currency->format($display_totals['total']);
+        //get text of total. Text contains converted sum to current currency! already arounded.
+        /** @see  storefront/model/total/total.php for details */
+        $k = array_search('total', array_column($display_totals['total_data'],'id'));
+        $this->data['total_string'] = $display_totals['total_data'][$k]['text'];
         return ($this->data['totals']);
     }
 }
