@@ -46,11 +46,7 @@ class ModelTotalAvataxIntegrationTotal extends Model
                 'total_type' => $this->config->get('avatax_integration_total_total_type'),
             ];
 
-            $total += $this->currency->format_number(
-                $tax_amount,
-                $this->config->get('config_currency'),
-                1
-            );
+            $total += $tax_amount;
         }
     }
 

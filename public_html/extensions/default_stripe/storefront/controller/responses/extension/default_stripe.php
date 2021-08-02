@@ -122,8 +122,6 @@ class ControllerResponsesExtensionDefaultStripe extends AController
             ];
         }
         $customer_stripe_id = $this->model_extension_default_stripe->createStripeCustomer($customer);
-        $this->load->model('checkout/order');
-        $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
         $paymentIntent = $this->model_extension_default_stripe->createPaymentIntent(
             [
                 'payment_method_types' => ["card"],

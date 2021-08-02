@@ -57,11 +57,10 @@ class ExtensionDefaultPPExpress extends Extension
             $that->loadLanguage('default_pp_express/default_pp_express');
             $error = new AError('');
             return $error->toJSONResponse('NO_PERMISSIONS_402',
-                                          [
+                array(
                     'error_text'  => $that->language->get('default_pp_express_error_bg_color'),
                     'reset_value' => false,
-                                          ]
-            );
+                ));
         }
     }
 
@@ -122,14 +121,14 @@ class ExtensionDefaultPPExpress extends Extension
             $data['style'] = 'pull-right';
 
             if ($that->config->get('default_pp_express_billmelater')) {
-                $data['billmelater'] = [
+                $data['billmelater'] = array(
                     'image_src' => 'https://www.paypalobjects.com/webstatic/'.$locale[1].'/btn/btn_bml_SM.png',
                     'href'      => $that->html->getSecureURL('r/extension/default_pp_express/set_pp', '&fundsource=bml'),
                     'style'     => 'pull-right',
-                ];
-                $data['billmelater_txt'] = [
+                );
+                $data['billmelater_txt'] = array(
                     'image_src' => 'https://www.paypalobjects.com/webstatic/'.$locale[1].'/btn/btn_bml_text.png',
-                ];
+                );
             }
 
             $view = new AView(Registry::getInstance(), 0);
@@ -167,11 +166,11 @@ class ExtensionDefaultPPExpress extends Extension
         $data['href'] = $that->html->getSecureURL('r/extension/default_pp_express/set_pp');
 
         if ($that->config->get('default_pp_express_billmelater')) {
-            $data['billmelater'] = [
+            $data['billmelater'] = array(
                 'image_src' => 'https://www.paypalobjects.com/webstatic/en_US/btn/btn_bml_SM.png',
                 'href'      => $that->html->getSecureURL('r/extension/default_pp_express/set_pp', '&fundsource=bml'),
                 'style'     => 'pull-right',
-            ];
+            );
         }
 
         $view = new AView(Registry::getInstance(), 0);
@@ -211,7 +210,7 @@ class ExtensionDefaultPPExpress extends Extension
                         'currency' => $that->session->data['currency'],
                         'value'    => $that->cart->getFinalTotalConverted()/$amount,
                         'discount' => $amount - $that->cart->getSubTotal(),
-                    ];
+                    );
                 } else {
                     redirect($that->html->getSecureURL('checkout/cart'));
                 }
@@ -229,7 +228,7 @@ class ExtensionDefaultPPExpress extends Extension
                 $paymentaction = 'sale';
             }
 
-            $payment_data = [
+            $payment_data = array(
                 'METHOD'                         => 'SetExpressCheckout',
                 'VERSION'                        => '98.0',
                 'USER'                           => html_entity_decode($that->config->get('default_pp_express_username'), ENT_QUOTES, 'UTF-8'),
@@ -241,14 +240,12 @@ class ExtensionDefaultPPExpress extends Extension
                 'PAYMENTREQUEST_0_DISCOUNT'      => $order_info['discount'],
                 'RETURNURL'                      => $that->html->getSecureURL('r/extension/default_pp_express/callback'),
                 'CANCELURL'                      => $that->request->server['HTTP_REFERER'],
-            ];
+            );
             $that->loadLanguage('default_pp_express/default_pp_express');
-            $products_data = $this->_get_products_data(
-                [
+            $products_data = $this->_get_products_data(array(
                 'currency' => $order_info['currency'],
                 'value'    => $order_info['value'],
-                ]
-            );
+            ));
 
             foreach ($products_data as $key => $product) {
                 $payment_data['L_PAYMENTREQUEST_0_ITEMAMT'] += $product['price'];
@@ -390,23 +387,21 @@ class ExtensionDefaultPPExpress extends Extension
             $shipping = explode('.', $that->session->data['shipping_method']['id']);
 
             $that->view->assign('payment_methods',
-                                [$shipping[0] => ['default_pp_express' => $data['payment_methods'][$shipping[0]]['default_pp_express']]]
-            );
+                array($shipping[0] => array('default_pp_express' => $data['payment_methods'][$shipping[0]]['default_pp_express'])));
         }
 
         //deprecated part since 1.1.7
         $action = $that->html->getSecureURL('checkout/guest_step_2', ($that->request->get['mode'] ? '&mode='.$that->request->get['mode'] : ''), true);
         $form = new AForm();
-        $form->setForm(['form_name' => 'coupon']);
+        $form->setForm(array('form_name' => 'coupon'));
         $data = $that->view->getData();
 
         $data['form0']['form_open'] = $form->getFieldHtml(
-            [
+            array(
                 'type'   => 'form',
                 'name'   => 'coupon',
                 'action' => $action,
-            ]
-        );
+            ));
 
         $that->view->assign('form0', $data['form0']);
     }
@@ -444,7 +439,7 @@ class ExtensionDefaultPPExpress extends Extension
                 $paymentaction = 'sale';
             }
             $order_total = $that->currency->format($order_info['total'], $order_info['currency'], $order_info['value'], false);
-            $payment_data = [
+            $payment_data = array(
                 'METHOD'                         => 'SetExpressCheckout',
                 'VERSION'                        => '98.0',
                 'USER'                           => html_entity_decode($that->config->get('default_pp_express_username'), ENT_QUOTES, 'UTF-8'),
@@ -455,14 +450,12 @@ class ExtensionDefaultPPExpress extends Extension
                 'PAYMENTREQUEST_0_CURRENCYCODE'  => $order_info['currency'],
                 'RETURNURL'                      => $that->html->getSecureURL('r/extension/default_pp_express/callback'),
                 'CANCELURL'                      => $that->request->server['HTTP_REFERER'],
-            ];
+            );
             $that->loadLanguage('default_pp_express/default_pp_express');
-            $products_data = $this->_get_products_data(
-                [
+            $products_data = $this->_get_products_data(array(
                 'currency' => $order_info['currency'],
                 'value'    => $order_info['value'],
-                ]
-            );
+            ));
 
             if (($this->data['items_total'] - $order_total) !== 0.0) {
                 $payment_data['L_PAYMENTREQUEST_0_ITEMAMT'] = $order_total;
@@ -604,7 +597,7 @@ class ExtensionDefaultPPExpress extends Extension
 
             $payment_status = strtolower($payment_method_data['PAYMENTINFO_0_PAYMENTSTATUS']);
 
-            $data = [];
+            $data = array();
 
             $data['text_payment_status'] = $that->language->get('text_payment_status');
             $data['payment_status'] = $payment_method_data['PAYMENTINFO_0_PAYMENTSTATUS'];
@@ -634,30 +627,28 @@ class ExtensionDefaultPPExpress extends Extension
         }
     }
 
-    private function _get_capture_form($data = [], $payment_method_data = [])
+    private function _get_capture_form($data = array(), $payment_method_data = array())
     {
         $that = $this->baseObject;
         $captured_amount = has_value($payment_method_data['captured_amount']) ? (float)$payment_method_data['captured_amount'] : 0;
 
         if ($captured_amount < $payment_method_data['PAYMENTINFO_0_AMT']) {
             $data['pp_capture_amount'] = $that->html->buildElement(
-                [
+                array(
                     'type'  => 'input',
                     'name'  => 'pp_capture_amount',
                     'value' => $payment_method_data['PAYMENTINFO_0_AMT'] - $captured_amount,
                     'style' => 'no-save',
                     'attr'  => 'disabled',
-                ]
+                )
             );
             $data['text_capture_funds'] = $that->language->get('text_capture_funds');
-            $data['pp_capture_submit'] = $that->html->buildElement(
-                [
+            $data['pp_capture_submit'] = $that->html->buildElement(array(
                 'type'  => 'button',
                 'text'  => $that->language->get('text_capture'),
                 'name'  => 'pp_capture_submit',
                 'style' => 'button3',
-                ]
-            );
+            ));
 
             $data['pp_capture_action'] = $that->html->getSecureURL(
                 'r/extension/default_pp_express/capture',
@@ -673,7 +664,7 @@ class ExtensionDefaultPPExpress extends Extension
         }
     }
 
-    private function _get_refund_form($data = [], $payment_method_data = [], $not_refunded = 0)
+    private function _get_refund_form($data = array(), $payment_method_data = array(), $not_refunded = 0)
     {
         $that = $this->baseObject;
         $refunded_amount = has_value($payment_method_data['refunded_amount']) ? (float)$payment_method_data['refunded_amount'] : 0;
@@ -689,22 +680,20 @@ class ExtensionDefaultPPExpress extends Extension
         if ($refunded_amount < $not_refunded) {
 
             $data['pp_refund_amount'] = $that->html->buildElement(
-                [
+                array(
                     'type'  => 'input',
                     'name'  => 'pp_refund_amount',
                     'value' => $not_refunded - $refunded_amount,
                     'style' => 'no-save',
-                ]
+                )
             );
             $data['text_do_paypal_refund'] = $that->language->get('text_do_paypal_refund');
-            $data['pp_refund_submit'] = $that->html->buildElement(
-                [
+            $data['pp_refund_submit'] = $that->html->buildElement(array(
                 'type'  => 'button',
                 'text'  => $that->language->get('text_refund'),
                 'name'  => 'pp_refund_submit',
                 'style' => 'button3',
-                ]
-            );
+            ));
 
             $params = '&order_id='.(int)$that->data['order_info']['order_id'].
                 '&currency='.$that->data['currency']['code'];
@@ -734,7 +723,7 @@ class ExtensionDefaultPPExpress extends Extension
 
         $parts = explode('&', $query);
 
-        $results = [];
+        $results = array();
         foreach ($parts as $part) {
             $item = explode('=', $part);
             $results[$item[0]] = urldecode($item[1]);
@@ -749,11 +738,11 @@ class ExtensionDefaultPPExpress extends Extension
         $that->load->library('encryption');
         $encryption = new AEncryption($that->config->get('encryption_key'));
 
-        $this->data['products'] = [];
+        $this->data['products'] = array();
         $this->data['items_total'] = 0.0;
         $products = $that->cart->getProducts();
         foreach ($products as $product) {
-            $option_data = [];
+            $option_data = array();
 
             foreach ($product['option'] as $option) {
                 if ($option['type'] != 'file') {
@@ -763,14 +752,14 @@ class ExtensionDefaultPPExpress extends Extension
                     $value = mb_substr($filename, 0, mb_strrpos($filename, '.'));
                 }
 
-                $option_data[] = [
+                $option_data[] = array(
                     'name'  => $option['name'],
                     'value' => (mb_strlen($value) > 20 ? mb_substr($value, 0, 20).'..' : $value),
-                ];
+                );
             }
 
             $price = $that->currency->format($product['price'], $order_info['currency'], $order_info['value'], false);
-            $this->data['products'][] = [
+            $this->data['products'][] = array(
                 'name'        => $product['name'],
                 'model'       => $product['model'],
                 'price'       => $price,
@@ -778,7 +767,7 @@ class ExtensionDefaultPPExpress extends Extension
                 'option'      => $option_data,
                 'weight'      => $product['weight'],
                 'weight_type' => $product['weight_type'],
-            ];
+            );
             $this->data['items_total'] += $price * $product['quantity'];
         }
 
@@ -786,36 +775,36 @@ class ExtensionDefaultPPExpress extends Extension
         $totals = $that->cart->buildTotalDisplay();
 
         foreach ($totals['total_data'] as $total) {
-            if (in_array($total['id'], ['subtotal', 'total'])) {
+            if (in_array($total['id'], array('subtotal', 'total'))) {
                 continue;
             }
-            if (in_array($total['id'], ['promotion', 'coupon'])) {
+            if (in_array($total['id'], array('promotion', 'coupon'))) {
                 $total['value'] = $total['value'] < 0 ? $total['value'] * -1 : $total['value'];
                 $this->data['discount_amount_cart'] += $total['value'];
             } else {
                 $price = $that->currency->format($total['value'], $order_info['currency'], $order_info['value'], false);
-                $this->data['products'][] = [
+                $this->data['products'][] = array(
                     'name'     => $total['title'],
                     'model'    => '',
                     'price'    => $price,
                     'quantity' => 1,
-                    'option'   => [],
+                    'option'   => array(),
                     'weight'   => 0,
-                ];
+                );
                 $this->data['items_total'] += $price;
             }
         }
 
         if ($this->data['discount_amount_cart'] > 0) {
             $price = -1 * $that->currency->format($this->data['discount_amount_cart'], $order_info['currency'], $order_info['value'], false);
-            $this->data['products'][] = [
+            $this->data['products'][] = array(
                 'name'     => $that->language->get('text_discount'),
                 'model'    => '',
                 'price'    => $price,
                 'quantity' => 1,
-                'option'   => [],
+                'option'   => array(),
                 'weight'   => 0,
-            ];
+            );
             $this->data['items_total'] += $price;
         }
 

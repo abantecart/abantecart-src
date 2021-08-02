@@ -786,7 +786,7 @@ class ControllerResponsesCheckoutPay extends AController
         $display_totals = $this->cart->buildTotalDisplay(true);
         $this->data['totals'] = $display_totals['total_data'];
         $this->data['total'] = $display_totals['total'];
-        $this->data['total_string'] = $this->currency->format($display_totals['total_converted'],'',1);
+        $this->data['total_string'] = $this->currency->format($display_totals['total']);
         return ($this->data['totals']);
     }
 
@@ -1656,6 +1656,7 @@ class ControllerResponsesCheckoutPay extends AController
         $total = $this->cart->buildTotalDisplay(true);
 
         $results = $this->model_checkout_extension->getExtensions('payment');
+
         $ac_payments = [];
         //#Check config of selected shipping method and see if we have accepted payments restriction
         $shipping_ext = explode('.', $this->fc_session['shipping_method']['id']);
@@ -1972,7 +1973,9 @@ class ControllerResponsesCheckoutPay extends AController
         if ($request['balance'] == 'apply' || $request['balance'] == 'reapply') {
             //get customer balance in general currency
             $balance = $this->customer->getBalance();
-            $order_total = $this->cart->getFinalTotal();
+
+            $order_totals = $this->cart->buildTotalDisplay(true);
+            $order_total = $order_totals['total'];
             if ($this->fc_session['used_balance']) {
                 #check if we still have balance.
                 if ($this->fc_session['used_balance'] <= $balance) {

@@ -358,6 +358,9 @@ class AOrder
             ];
         }
         $order_info['products'] = $product_data;
+        $order_info['totals'] = $total_data;
+        $order_info['comment'] = $indata['comment'];
+        $order_info['total'] = $total;
         $order_info['language_id'] = $this->config->get('storefront_language_id');
         $order_info['currency_id'] = $this->currency->getId();
         $order_info['currency'] = $this->currency->getCode();

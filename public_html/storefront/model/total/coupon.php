@@ -108,11 +108,7 @@ class ModelTotalCoupon extends Model
                 'total_type' => $this->config->get('coupon_total_type'),
             ];
 
-            $total -= $this->currency->format_number(
-                    $discount_total,
-                    $this->config->get('config_currency'),
-                    1
-                );
+            $total -= $discount_total;
         }
     }
 }

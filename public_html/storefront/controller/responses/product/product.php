@@ -198,7 +198,7 @@ class ControllerResponsesProductProduct extends AController
         $this->data['cart_details'] = $dispatch->dispatchGetOutput();
         $this->data['item_count'] = $this->cart->countProducts() + count($this->cart->getVirtualProducts()) ;
 
-        $this->data['total'] = $this->currency->format($display_totals['total_converted'],'', 1);
+        $this->data['total'] = $this->currency->format($display_totals['total']);
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
