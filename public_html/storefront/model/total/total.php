@@ -42,8 +42,6 @@ class ModelTotalTotal extends Model
                 )
             );
 
-            $total = $total / $this->currency->getValue($this->currency->getCode());
-
             $value = max(0, $total);
             $displaySum = $value ? max(0, $displaySum) : 0.00;
 
