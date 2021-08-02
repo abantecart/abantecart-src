@@ -126,10 +126,13 @@ class ControllerResponsesExtensionDefaultStripe extends AController
         $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
         $paymentIntent = $this->model_extension_default_stripe->createPaymentIntent(
             [
-
                 'payment_method_types' => ["card"],
                 'capture_method'       => 'manual',
-                'amount'               => round( $order_info['total'],2) * 100,
+                'amount'               => $this->currency->format(
+                                                    $order_info['total'],
+                                                    $order_info['currency'],
+                                                    $order_info['value'],
+                                                    false ) * 100,
                 'currency'             => $currency,
                 'customer'             => $customer_stripe_id,
                 'receipt_email'        => $this->customer->getEmail(),

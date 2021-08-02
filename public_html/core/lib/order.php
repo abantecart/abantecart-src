@@ -363,8 +363,8 @@ class AOrder
         $order_info['currency'] = $this->currency->getCode();
         $order_info['totals'] = $total_data;
         $order_info['comment'] = $indata['comment'];
-        $order_info['total'] = $this->cart->getFinalTotalConverted();
-        $order_info['value'] = $order_info['total']/$this->cart->getFinalTotal();
+        $order_info['total'] = $this->cart->getFinalTotal();
+        $order_info['value'] = $this->cart->getFinalTotalConverted()/$order_info['total'];
 
 
         if (isset($indata['coupon'])) {

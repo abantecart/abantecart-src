@@ -344,7 +344,13 @@ class ControllerResponsesExtensionDefaultRealex extends AController
         // currency code
         $currency = $this->currency->getCode();
         // order amount without decimal delimiter
-        $amount = round($this->cart->getFinalTotalConverted(), 2) * 100;
+        $amount = round(
+            $this->currency->format(
+                    $order_info['total'],
+                    $order_info['currency'],
+                    $order_info['value'],
+                    false
+            ), 2) * 100;
         $cardnumber = preg_replace('/[^0-9]/', '', $post['cc_number']);
         $cvv2 = preg_replace('/[^0-9]/', '', $post['cc_cvv2']);
         // Card owner name
