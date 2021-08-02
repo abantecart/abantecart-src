@@ -62,7 +62,11 @@ class ModelTotalSubTotal extends Model
                 'sort_order' => $this->config->get('sub_total_sort_order'),
                 'total_type' => $this->config->get('sub_total_total_type'),
             ];
-            $total += $this->cart->getSubTotal();
+            $total += $this->currency->format_number(
+                $this->cart->getSubTotal(),
+                $this->config->get('config_currency'),
+                1
+            );
         }
     }
 }

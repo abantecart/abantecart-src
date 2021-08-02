@@ -358,13 +358,14 @@ class AOrder
             ];
         }
         $order_info['products'] = $product_data;
-        $order_info['totals'] = $total_data;
-        $order_info['comment'] = $indata['comment'];
-        $order_info['total'] = $total;
         $order_info['language_id'] = $this->config->get('storefront_language_id');
         $order_info['currency_id'] = $this->currency->getId();
         $order_info['currency'] = $this->currency->getCode();
-        $order_info['value'] = $this->currency->getValue($this->currency->getCode());
+        $order_info['totals'] = $total_data;
+        $order_info['comment'] = $indata['comment'];
+        $order_info['total'] = $this->cart->getFinalTotalConverted();
+        $order_info['value'] = $order_info['total']/$this->cart->getFinalTotal();
+
 
         if (isset($indata['coupon'])) {
             $promotion = new APromotion();

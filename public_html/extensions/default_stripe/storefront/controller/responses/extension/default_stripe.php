@@ -122,18 +122,14 @@ class ControllerResponsesExtensionDefaultStripe extends AController
             ];
         }
         $customer_stripe_id = $this->model_extension_default_stripe->createStripeCustomer($customer);
+        $this->load->model('checkout/order');
+        $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
         $paymentIntent = $this->model_extension_default_stripe->createPaymentIntent(
             [
 
                 'payment_method_types' => ["card"],
                 'capture_method'       => 'manual',
-                'amount'               => round(
-                                                $this->currency->convert(
-                                                    $this->cart->getFinalTotal(),
-                                                    $this->config->get('config_currency'),
-                                                    $currency),
-                                                2)
-                                        * 100,
+                'amount'               => round( $order_info['total'],2) * 100,
                 'currency'             => $currency,
                 'customer'             => $customer_stripe_id,
                 'receipt_email'        => $this->customer->getEmail(),

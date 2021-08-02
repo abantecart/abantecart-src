@@ -42,6 +42,8 @@ class ModelTotalTotal extends Model
                 )
             );
 
+            $total = $total / $this->currency->getValue($this->currency->getCode());
+
             $value = max(0, $total);
             $displaySum = $value ? max(0, $displaySum) : 0.00;
 
@@ -49,9 +51,9 @@ class ModelTotalTotal extends Model
                 'id'         => 'total',
                 'title'      => $language->get('text_total'),
                 'text'       => $this->currency->format($displaySum, '', 1),
-                //this is formatted sum in selected currency
+                //this is rounded sum in selected currency
                 'converted'  => $displaySum,
-                //this is raw float in default currency
+                //this is rounded sum in default currency
                 'value'      => $value,
                 'sort_order' => 1000,
                 'total_type' => $this->config->get('total_total_type'),

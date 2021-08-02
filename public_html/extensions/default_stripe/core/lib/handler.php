@@ -29,19 +29,19 @@ class PaymentHandler extends BasePaymentHandler
 
     public function details():array
     {
-        return array(
+        return [
             'id'         => $this->id,
             'title'      => $this->language->get('text_title'),
             'sort_order' => $this->config->get($this->id.'_sort_order'),
-        );
+        ];
     }
 
-    public function validate_payment_details($data = array())
+    public function validate_payment_details($data = [])
     {
         $this->load->language($this->id.'/'.$this->id);
 
         //check if saved cc mode is used
-        $errors = array();
+        $errors = [];
         if (!$data['use_saved_cc'] && !$data['cc_token']) {
             if (empty($data['cc_number'])) {
                 $errors[] = $this->language->get('error_incorrect_number');
@@ -62,13 +62,13 @@ class PaymentHandler extends BasePaymentHandler
         return $errors;
     }
 
-    public function process_payment($order_id, $data = array())
+    public function process_payment($order_id, $data = [])
     {
         if (empty($order_id) || empty($data)) {
             return null;
         }
 
-        $return = array();
+        $return = [];
 
         $this->load->model('checkout/order');
         $this->load->model('extension/'.$this->id);
@@ -76,17 +76,19 @@ class PaymentHandler extends BasePaymentHandler
 
         // currency code
         $currency = $this->currency->getCode();
+        $this->load->model('checkout/order');
+        $order_info = $this->model_checkout_order->getOrder($order_id);
         // order amount without decimal delimiter
-        $amount = round($this->currency->convert($this->cart->getFinalTotal(), $this->config->get('config_currency'), $currency), 2) * 100;
+        $amount = round($order_info['total'], 2) * 100;
 
         ADebug::checkpoint('Stripe Payment: Order ID '.$order_id);
 
-        $pd = array(
+        $pd = [
             'amount'          => $amount,
             'currency'        => $currency,
             'order_id'        => $order_id,
             'cc_token'        => $data['cc_token'],
-        );
+        ];
 
         $p_result = $this->model_extension_default_stripe->processPayment($pd);
 

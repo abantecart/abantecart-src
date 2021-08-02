@@ -53,7 +53,11 @@ class ModelTotalBalance extends Model
                     'sort_order' => 999,
                     'total_type' => 'balance',
                 ];
-                $total -= $cust_data['used_balance'];
+                $total -= $this->currency->format_number(
+                    $cust_data['used_balance'],
+                    $this->config->get('config_currency'),
+                    1
+                );
             }
         }
     }

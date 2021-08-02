@@ -35,14 +35,14 @@ class ModelTotalLowOrderFee extends Model
             $language->load('total/low_order_fee');
             $this->load->model('localisation/currency');
 
-            $total_data[] = array(
+            $total_data[] = [
                 'id'         => 'low_order_fee',
                 'title'      => $language->get('text_low_order_fee'),
                 'text'       => $this->currency->format($conf_low_fee),
                 'value'      => $conf_low_fee,
                 'sort_order' => $this->config->get('low_order_fee_sort_order'),
                 'total_type' => $this->config->get('low_order_fee_total_type'),
-            );
+            ];
             if ($conf_tax_id) {
                 if (!isset($taxes[$conf_tax_id])) {
                     $taxes[$conf_tax_id]['total'] = $conf_low_fee;
@@ -52,7 +52,11 @@ class ModelTotalLowOrderFee extends Model
                     $taxes[$conf_tax_id]['tax'] += $this->tax->calcTotalTaxAmount($conf_low_fee, $conf_tax_id);
                 }
             }
-            $total += $conf_low_fee;
+            $total += $this->currency->format_number(
+                $conf_low_fee,
+                $this->config->get('config_currency'),
+                1
+            );
         }
     }
 }

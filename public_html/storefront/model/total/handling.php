@@ -88,7 +88,11 @@ class ModelTotalHandling extends Model
                         );
                     }
                 }
-                $total += $conf_hndl_fee;
+                $total += $this->currency->format_number(
+                    $conf_hndl_fee,
+                    $this->config->get('config_currency'),
+                    1
+                );
             }
         }
     }

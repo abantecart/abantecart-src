@@ -925,9 +925,12 @@ class ACart
         }
 
         $this->total_data = $total_data;
-        $this->final_total = $total;
+        /*
+         * take final total from "total" model.
+         * This amount is sum of all order total items ROUNDED amounts.
+         */
         $k = array_search('total', array_column($this->total_data,'id'));
-        $this->final_total_converted = $this->total_data[$k]['converted'];
+        $this->final_total = $this->total_data[$k]['value'];
         //if balance become less or 0 reapply partial
         if ($this->cust_data['used_balance'] && $this->final_total) {
             $this->cust_data['used_balance_full'] = false;

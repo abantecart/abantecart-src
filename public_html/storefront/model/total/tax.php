@@ -72,12 +72,14 @@ class ModelTotalTax extends Model
                                 'total_type' => $this->config->get('tax_total_type'),
                             );
                         }
-                        $total += $tax_amount;
+                        $total += $this->currency->format_number(
+                            $tax_amount,
+                            $this->config->get('config_currency'),
+                            1
+                        );
                     }
                 }
             }
         }
     }
 }
-
-?>
