@@ -364,11 +364,7 @@ class AOrder
         $order_info['language_id'] = $this->config->get('storefront_language_id');
         $order_info['currency_id'] = $this->currency->getId();
         $order_info['currency'] = $this->currency->getCode();
-        $order_info['totals'] = $total_data;
-        $order_info['comment'] = $indata['comment'];
-        $order_info['total'] = $this->cart->getFinalTotal();
-        $order_info['value'] = $this->cart->getFinalTotalConverted()/$order_info['total'];
-
+        $order_info['value'] = $this->currency->getValue($this->currency->getCode());
 
         if (isset($indata['coupon'])) {
             $promotion = new APromotion();

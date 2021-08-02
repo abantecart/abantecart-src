@@ -205,10 +205,10 @@ class ExtensionDefaultPPExpress extends Extension
                 $order_info = $that->model_checkout_order->getOrder($that->session->data['order_id']);
             } else {
                 if ($that->cart->hasProducts() && $that->cart->hasStock() && ($amount = $that->cart->getFinalTotal())) {
-                    $order_info = [
-                        'total'    => $that->cart->getFinalTotal(),
+                    $order_info = array(
+                        'total'    => $amount,
                         'currency' => $that->session->data['currency'],
-                        'value'    => $that->cart->getFinalTotalConverted()/$amount,
+                        'value'    => '',
                         'discount' => $amount - $that->cart->getSubTotal(),
                     );
                 } else {
@@ -417,11 +417,11 @@ class ExtensionDefaultPPExpress extends Extension
                 $order_info = $that->model_checkout_order->getOrder($that->session->data['order_id']);
             } else {
                 if ($that->cart->hasProducts() && $that->cart->hasStock() && ($amount = $that->cart->getFinalTotal())) {
-                    $order_info = [
+                    $order_info = array(
                         'total'    => $amount,
                         'currency' => $that->session->data['currency'],
-                        'value'    => $that->cart->getFinalTotalConverted()/$amount,
-                    ];
+                        'value'    => '',
+                    );
                 } else {
                     redirect($that->html->getSecureURL('checkout/cart'));
                 }

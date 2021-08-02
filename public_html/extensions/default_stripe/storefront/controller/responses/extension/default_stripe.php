@@ -126,11 +126,13 @@ class ControllerResponsesExtensionDefaultStripe extends AController
             [
                 'payment_method_types' => ["card"],
                 'capture_method'       => 'manual',
-                'amount'               => $this->currency->format(
-                                                    $order_info['total'],
-                                                    $order_info['currency'],
-                                                    $order_info['value'],
-                                                    false ) * 100,
+                'amount'               => round(
+                                                $this->currency->convert(
+                                                    $this->cart->getFinalTotal(),
+                                                    $this->config->get('config_currency'),
+                                                    $currency),
+                                                2)
+                                        * 100,
                 'currency'             => $currency,
                 'customer'             => $customer_stripe_id,
                 'receipt_email'        => $this->customer->getEmail(),

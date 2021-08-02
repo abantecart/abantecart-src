@@ -117,9 +117,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
                 'name'     => $product['name'],
                 'model'    => $product['model'],
                 'price'    => $this->currency->format(
-                    $product['price'],
-                    $order_info['currency'],
-                    $this->currency->getValue($order_info['currency']),
+                    $product['price'], $order_info['currency'], $order_info['value'],
                     false
                 ),
                 'quantity' => $product['quantity'],
@@ -138,20 +136,16 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
             if (in_array($total['id'], ['promotion', 'coupon', 'balance'])) {
                 $total['value'] = $total['value'] < 0 ? $total['value'] * -1 : $total['value'];
                 $this->data['discount_amount_cart'] += $this->currency->format(
-                    $total['value'],
-                    $this->currency->getValue($order_info['currency']),
-                    $order_info['value'],
-                    false
+                    $total['value'], $order_info['currency'],
+                    $order_info['value'], false
                 );
             } else {
                 $this->data['products'][] = [
                     'name'     => $total['title'],
                     'model'    => '',
                     'price'    => $this->currency->format(
-                        $total['value'],
-                        $order_info['currency'],
-                        $this->currency->getValue($order_info['currency']),
-                        false
+                        $total['value'], $order_info['currency'],
+                        $order_info['value'], false
                     ),
                     'quantity' => 1,
                     'option'   => [],
@@ -164,14 +158,13 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
         $virtual_products = $this->cart->getVirtualProducts();
 
         if ($virtual_products) {
-            foreach ($virtual_products as $virtual) {
+            foreach ($virtual_products as $k => $virtual) {
                 $this->data['products'][] = [
-                    'name'     => ($virtual['name'] ? : 'Virtual Product'),
+                    'name'     => ($virtual['name'] ? $virtual['name'] : 'Virtual Product'),
                     'model'    => '',
                     'price'    => $this->currency->format(
                         $virtual['amount'], $order_info['currency'],
-                        $this->currency->getValue($order_info['currency']),
-                        false
+                        $order_info['value'], false
                     ),
                     'quantity' => ($virtual['quantity'] ? $virtual['quantity'] : 1),
                     'option'   => [],
@@ -181,7 +174,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
                     * $this->currency->format(
                         $virtual['amount'],
                         $order_info['currency'],
-                        $this->currency->getValue($order_info['currency']),
+                        $order_info['value'],
                         false
                     );
             }

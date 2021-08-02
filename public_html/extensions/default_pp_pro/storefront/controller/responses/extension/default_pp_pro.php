@@ -217,7 +217,7 @@ class ControllerResponsesExtensionDefaultPPPro extends AController
         $this->load->model('checkout/order');
         $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
 
-        $order_total = $this->currency->format($order_info['total'], $order_info['currency'], $order_info['value'], false);
+        $order_total = $this->currency->format($order_info['total'], $order_info['currency'], '', false);
 
         $products_data = $this->_get_products_data(array(
             'currency'    => $order_info['currency'],
