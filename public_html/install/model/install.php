@@ -51,6 +51,10 @@ class ModelInstall extends Model
             $this->errors['db_user'] = 'User required!';
         }
 
+        if (is_int(strpos($data['db_password'],'\\'))) {
+            $this->errors['db_password'] = 'Database password cannot contains forward slashes!';
+        }
+
         if (!$data['db_name']) {
             $this->errors['db_name'] = 'Database Name required!';
         }
@@ -199,7 +203,7 @@ class ModelInstall extends Model
         $content .= "define('DB_DRIVER', '".$data['db_driver']."');\n";
         $content .= "define('DB_HOSTNAME', '".$data['db_host']."');\n";
         $content .= "define('DB_USERNAME', '".$data['db_user']."');\n";
-        $content .= "define('DB_PASSWORD', '".html_entity_decode($data['db_password'])."');\n";
+        $content .= "define('DB_PASSWORD', '".$data['db_password']."');\n";
         $content .= "define('DB_DATABASE', '".$data['db_name']."');\n";
         $content .= "define('DB_PREFIX', '".DB_PREFIX."');\n";
         $content .= "\n";

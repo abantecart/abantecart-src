@@ -54,9 +54,13 @@ class ControllerPagesInstall extends AController
             return null;
         }
 
-        if ($this->request->is_POST() && ($this->_validate())) {
-            $this->session->data['install_step_data'] = $this->request->post;
-            redirect(HTTP_SERVER.'index.php?rt=install&runlevel=1');
+        if ($this->request->is_POST()){
+            //this data becomes escaped. We need to write it into file as constant. Revert back into as-is view
+            $this->request->post['password'] = html_entity_decode($this->request->post['password']);
+            if($this->_validate()) {
+                $this->session->data['install_step_data'] = $this->request->post;
+                redirect(HTTP_SERVER.'index.php?rt=install&runlevel=1');
+            }
         }
 
         $this->data['error'] = $this->error;
@@ -174,6 +178,7 @@ class ControllerPagesInstall extends AController
 
         $this->load->model('install');
         $result = $this->model_install->validateSettings($this->request->post);
+
         if (!$result) {
             $this->error = $this->model_install->errors;
         }
