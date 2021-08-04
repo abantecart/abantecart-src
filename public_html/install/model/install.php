@@ -199,7 +199,7 @@ class ModelInstall extends Model
         $content .= "define('DB_DRIVER', '".$data['db_driver']."');\n";
         $content .= "define('DB_HOSTNAME', '".$data['db_host']."');\n";
         $content .= "define('DB_USERNAME', '".$data['db_user']."');\n";
-        $content .= "define('DB_PASSWORD', '".$data['db_password']."');\n";
+        $content .= "define('DB_PASSWORD', '".html_entity_decode($data['db_password'])."');\n";
         $content .= "define('DB_DATABASE', '".$data['db_name']."');\n";
         $content .= "define('DB_PREFIX', '".DB_PREFIX."');\n";
         $content .= "\n";
