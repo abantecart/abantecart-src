@@ -56,7 +56,7 @@ class ControllerPagesInstall extends AController
 
         if ($this->request->is_POST()){
             //this data becomes escaped. We need to write it into file as constant. Revert back into as-is view
-            $this->request->post['password'] = html_entity_decode($this->request->post['password']);
+            $this->request->post['db_password'] = html_entity_decode($this->request->post['db_password']);
             if($this->_validate()) {
                 $this->session->data['install_step_data'] = $this->request->post;
                 redirect(HTTP_SERVER.'index.php?rt=install&runlevel=1');
