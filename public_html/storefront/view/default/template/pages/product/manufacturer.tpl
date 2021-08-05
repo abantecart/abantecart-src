@@ -5,7 +5,7 @@
 	       src="<?php echo $manufacturer_icon; ?>" />
   </span>
 </h1>
-
+<?php echo $this->getHookVar('manufacturer_additional_info'); ?>
 <div class="contentpanel">
 
 	<?php if ($products) { ?>

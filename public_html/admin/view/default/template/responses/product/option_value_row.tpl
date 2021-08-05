@@ -20,6 +20,7 @@
 	<?php } ?>
 	<td class="small-td"><div class="input-group input-group-sm afield"><?php echo $form['fields']['price']; ?></div></td>
 	<td><div class="input-group input-group-sm afield"><?php echo $form['fields']['prefix']; ?></div></td>
+        <?php echo $this->getHookVar('option_value_row_'.$row_id.'_additional_info_1'); ?>
 	<td class="small-td"><div class="input-group input-group-sm afield"><?php echo $form['fields']['sort_order']; ?></div></td>
 	<td><?php echo $form['fields']['product_option_value_id']; ?>
 		<?php if(!in_array($this->data['option_data']['element_type'], array('U','B')) ){?>
@@ -51,6 +52,12 @@
 					<?php echo $entry_weight_type; ?></label>
 				<div class="input-group input-group-sm afield"><?php echo $form['fields']['weight_type']; ?></div>
 			</div>
+			<div class="pull-left col-md-3 col-xs-6">
+				<label class="control-label" for="<?php echo $form['fields']['cost']->element_id; ?>">
+					<?php echo $entry_product_option_cost; ?></label>
+				<div class="input-group input-group-sm afield"><?php echo $form['fields']['cost']; ?></div>
+			</div>
+			<?php echo $this->getHookVar('option_value_row_'.$row_id.'_additional_info_2'); ?>
 			<?php
 			//remove for new row
 			if($form['fields']['stock_locations']){?>

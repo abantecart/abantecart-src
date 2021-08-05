@@ -15,8 +15,9 @@
 		<div class="div1">
 			<table width="100%">
 				<tr>
-
-					<td><?php echo $order['store_name']; ?><br/>
+					<td>
+						<?php echo $this->getHookVar('order_invoice_'.$order['order_id'].'_more_order_info'); ?>
+						<?php echo $order['store_name']; ?><br/>
 						<?php echo $order['address']; ?><br/>
 						<?php if ($order['telephone']) { ?>
 							<?php echo $text_telephone; ?> <?php echo $order['telephone']; ?><br/>
@@ -32,6 +33,7 @@
 								<td><b><?php echo $text_date_added; ?></b></td>
 								<td><?php echo $order['date_added']; ?></td>
 							</tr>
+							<?php echo $this->getHookVar('order_invoice_'.$order['order_id'].'_more_order_info_1'); ?>
 							<?php if ($order['invoice_id']) { ?>
 								<tr>
 									<td><b><?php echo $text_invoice_id; ?></b></td>
@@ -76,12 +78,17 @@
 							<br/>
 							&nbsp;
 							<small> - <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
-						<?php } ?></td>
+						<?php echo $this->getHookVar('order_invoice_'.$order['order_id'].'_option_'.$option['name'].'_additional_info'); ?>
+						<?php } ?>
+						<?php echo $this->getHookVar('order_invoice_'.$order['order_id'].'_product_'.$product['name'].'_additional_info'); ?>
+					</td>
 					<td><?php echo $product['model']; ?></td>
 					<td align="right"><?php echo $product['quantity']; ?></td>
 					<td align="right"><?php echo $product['price']; ?></td>
 					<td align="right"><?php echo $product['total']; ?></td>
+					<?php echo $this->getHookVar('order_invoice_'.$order['order_id'].'_product_'.$product['name'].'_additional_info_1'); ?>
 				</tr>
+			<?php echo $this->getHookVar('order_invoice_'.$order['order_id'].'_product_'.$product['name'].'_additional_info_2'); ?>
 			<?php } ?>
 			<?php foreach ($order['total'] as $total) { ?>
 				<tr>
@@ -98,6 +105,7 @@
 				<td><?php echo $order['comment']; ?></td>
 			</tr>
 		</table>
+		<?php echo $this->getHookVar('order_invoice_'.$order['order_id'].'_bottom_info'); ?>
 	</div>
 <?php } ?>
 </body>

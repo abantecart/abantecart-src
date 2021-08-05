@@ -21,19 +21,19 @@
 /**
  * Class AOrder
  *
- * @property ACart                  $cart
- * @property AConfig                $config
- * @property ATax                   $tax
- * @property ACurrency              $currency
- * @property ARequest               $request
- * @property ALoader                $load
- * @property ASession               $session
- * @property ExtensionsAPI          $extensions
- * @property ModelAccountOrder      $model_account_order
- * @property ModelAccountAddress    $model_account_address
+ * @property ACart $cart
+ * @property AConfig $config
+ * @property ATax $tax
+ * @property ACurrency $currency
+ * @property ARequest $request
+ * @property ALoader $load
+ * @property ASession $session
+ * @property ExtensionsAPI $extensions
+ * @property ModelAccountOrder $model_account_order
+ * @property ModelAccountAddress $model_account_address
  * @property ModelCheckoutExtension $model_checkout_extension
- * @property ModelCheckoutOrder     $model_checkout_order
- * @property AIM                    $im
+ * @property ModelCheckoutOrder $model_checkout_order
+ * @property AIM $im
  *
  */
 class AOrder
@@ -55,8 +55,16 @@ class AOrder
     /**
      * @var array public property. needs to use inside hooks
      */
-    public $data = array();
+    public $data = [];
 
+    /**
+     * AOrder constructor.
+     *
+     * @param Registry $registry
+     * @param string $order_id
+     *
+     * @throws AException
+     */
     public function __construct($registry, $order_id = '')
     {
         $this->registry = $registry;
@@ -66,9 +74,9 @@ class AOrder
 
         //if nothing is passed use session array. Customer session, can function on storefront only
         if (!has_value($order_id)) {
-            $this->order_id = (int)$this->session->data['order_id'];
+            $this->order_id = (int) $this->session->data['order_id'];
         } else {
-            $this->order_id = (int)$order_id;
+            $this->order_id = (int) $order_id;
         }
 
         if (is_object($this->registry->get('customer'))) {
@@ -89,6 +97,13 @@ class AOrder
         $this->registry->set($key, $value);
     }
 
+    /**
+     * @param int $order_id
+     * @param string $order_status_id
+     *
+     * @return array
+     * @throws AException
+     */
     public function loadOrderData($order_id, $order_status_id = '')
     {
         if ($order_id) {
@@ -97,8 +112,7 @@ class AOrder
         //get order details for specific status. NOTE: Customer ID need to be set in customer class
         $this->order_data = $this->model_account_order->getOrder($this->order_id, $order_status_id);
         $this->extensions->hk_ProcessData($this, 'load_order_data');
-        $output = (array)$this->data + (array)$this->order_data;
-        return $output;
+        return (array) $this->data + (array) $this->order_data;
     }
 
     /**
@@ -110,19 +124,19 @@ class AOrder
      */
     public function buildOrderData($indata)
     {
-        $order_info = array();
+        $order_info = [];
         if (empty($indata)) {
-            return array();
+            return [];
         }
 
-        $total_data = array();
+        $total_data = [];
         $total = 0;
         $taxes = $this->cart->getTaxes();
 
         $this->load->model('checkout/extension');
 
         $results = $this->model_checkout_extension->getExtensions('total');
-        $calculation_order = array();
+        $calculation_order = [];
         foreach ($results as $key => $value) {
             $calculation_order[$key] = $this->config->get($value['key'].'_calculation_order');
         }
@@ -134,12 +148,12 @@ class AOrder
             $this->{'model_total_'.$result['key']}->getTotal($total_data, $total, $taxes, $indata);
 
             //allow to change total data on-the-fly for extensions, for example rounding of amount etc
-            $this->data = array(
-                'total_key' => $result['key'],
+            $this->data = [
+                'total_key'  => $result['key'],
                 'total_data' => $total_data,
-                'total' => $total,
-                'taxes'  => $taxes,
-            );
+                'total'      => $total,
+                'taxes'      => $taxes,
+            ];
 
             $this->extensions->hk_ProcessData($this, __FUNCTION__);
 
@@ -154,7 +168,7 @@ class AOrder
             );
         }
 
-        $sort_order = array();
+        $sort_order = [];
 
         foreach ($total_data as $key => $value) {
             $sort_order[$key] = $value['sort_order'];
@@ -164,7 +178,7 @@ class AOrder
 
         $order_info['store_id'] = $this->config->get('config_store_id');
         $order_info['store_name'] = $this->config->get('store_name');
-        $order_info['store_url'] = $this->config->get('config_url');
+        $order_info['store_url'] = $this->config->get('config_url').$this->config->get('seo_prefix');
         //prepare data with customer details.
         if ($this->customer->getId()) {
             $order_info['customer_id'] = $this->customer->getId();
@@ -194,7 +208,6 @@ class AOrder
                 $order_info['shipping_country'] = $ship_address['country'];
                 $order_info['shipping_country_id'] = $ship_address['country_id'];
                 $order_info['shipping_address_format'] = $ship_address['address_format'];
-
             } else {
                 $order_info['shipping_firstname'] = '';
                 $order_info['shipping_lastname'] = '';
@@ -302,9 +315,8 @@ class AOrder
                 $order_info['payment_country'] = $indata['guest']['country'];
                 $order_info['payment_country_id'] = $indata['guest']['country_id'];
                 $order_info['payment_address_format'] = $indata['guest']['address_format'];
-
             } else {
-                return array();
+                return [];
             }
         }
 
@@ -325,11 +337,10 @@ class AOrder
             $order_info['payment_method'] = '';
         }
 
-        $product_data = array();
+        $product_data = [];
 
-        foreach ($this->cart->getProducts() as $key => $product) {
-
-            $product_data[] = array(
+        foreach ($this->cart->getProducts() + $this->cart->getVirtualProducts() as $key => $product) {
+            $product_data[] = [
                 'key'        => $key,
                 'product_id' => $product['product_id'],
                 'name'       => $product['name'],
@@ -338,13 +349,14 @@ class AOrder
                 'option'     => $product['option'],
                 'download'   => $product['download'],
                 'quantity'   => $product['quantity'],
-                'price'      => $product['price'],
-                'total'      => $product['total'],
+                //ternary for virtual products
+                'price'      => $product['amount'] ?: $product['price'],
+                'cost'       => $product['cost'],
+                'total'      => $product['amount'] ? ($product['amount']*$product['quantity']) : $product['total'],
                 'tax'        => $this->tax->calcTotalTaxAmount($product['total'], $product['tax_class_id']),
                 'stock'      => $product['stock'],
-            );
+            ];
         }
-
         $order_info['products'] = $product_data;
         $order_info['totals'] = $total_data;
         $order_info['comment'] = $indata['comment'];
@@ -372,16 +384,13 @@ class AOrder
 
         $this->extensions->hk_ProcessData($this, 'build_order_data', $order_info);
         // merge two arrays. $this-> data can be changed by hooks.
-        $output = $this->data + $this->order_data;
-
-        return $output;
+        return $this->data + $this->order_data;
     }
 
     public function getOrderData()
     {
         $this->extensions->hk_ProcessData($this, 'get_order_data');
-        $output = $this->data + $this->order_data;
-        return $output;
+        return $this->data + $this->order_data;
     }
 
     public function saveOrder()

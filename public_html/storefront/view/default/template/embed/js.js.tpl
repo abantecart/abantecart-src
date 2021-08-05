@@ -1,4 +1,4 @@
-/** @var  AView $this */
+<?php /** @var  AView $this */ ?>
 //set global sign of allowed 3d party cookies as true by default. This value might be overridden by test cookie js
 var abc_cookie_allowed = true;
 var abc_token_name = '<?php echo EMBED_TOKEN_NAME; ?>';
@@ -20,7 +20,7 @@ var init = function () {
 
     /******** Load jQuery if not yet loaded (note: supported jquery >= 10 ) *********/
     if (window.jQuery === undefined) {
-        script_loader("//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js");
+        script_loader("//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js");
         // Poll for jQuery to come into existence
         var scounter = 0;
         var checkReady = function (callback, second) {
@@ -46,7 +46,7 @@ var init = function () {
             },
             function ($) {
                 //one more attempt to load local library
-                script_loader("<?php echo $this->templateResource("/javascript/jquery-1.12.4.min.js"); ?>");
+                script_loader("<?php echo $this->templateResource("/javascript/jquery-3.5.1.min.js"); ?>");
                 checkReady(function ($) {
                     jQuery = window.jQuery.noConflict(true);
                     main();
@@ -82,13 +82,13 @@ var init = function () {
         //check if css is already loaded
         var ss = document.styleSheets;
         for (var i = 0, max = ss.length; i < max; i++) {
-            if (ss[i].href == url) return;
+            if (ss[i].href === url) return;
         }
         var css_tag = document.createElement('link');
-		css_tag.setAttribute("rel",'stylesheet')
-		css_tag.setAttribute("type",'text/css');
-		css_tag.setAttribute("media","all");
-		css_tag.setAttribute("href",url);
+        css_tag.setAttribute("rel",'stylesheet')
+        css_tag.setAttribute("type",'text/css');
+        css_tag.setAttribute("media","all");
+        css_tag.setAttribute("href",url);
         // Try to find the head, otherwise default to the documentElement
         (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(css_tag);
     }
@@ -140,10 +140,10 @@ var init = function () {
         jQuery(document).ready(function ($) {
             var modal = '';
             //for embedding with modal
-            if (embed_click_action == 'modal') {
+            if (embed_click_action === 'modal') {
                 /******** Load custom modal *********/
-                css_loader("<?php echo $this->templateResource('/stylesheet/bootstrap.embed.css'); ?>");
-                script_loader("<?php echo $this->templateResource('/javascript/bootstrap.embed.js'); ?>");
+                css_loader("<?php echo AUTO_SERVER . '/' . $this->templateResource('/stylesheet/bootstrap.embed.css'); ?>");
+                script_loader("<?php echo AUTO_SERVER . '/' . $this->templateResource('/javascript/bootstrap.embed.js'); ?>");
 
                 // Load bootstrap custom modal (single instance)
                 modal = '<div id="abc_embed_modal" class="abcmodal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">' +
@@ -155,31 +155,34 @@ var init = function () {
                 if($icon) { ?>
                 modal += '<img src="<?php echo AUTO_SERVER; ?>resources/<?php echo $icon; ?>"/>&nbsp;';
                 <?php } ?>
-                modal += '&nbsp;<?php echo $store_name; ?>' +
-                    '</div><div class="abcmodal-header-menu">' +
-                    '<a class="abcmodal-reload" href="#" data-href="<?php echo $account;?>"><?php echo $text_account;?></a>&nbsp;&nbsp;' +
-                    '|&nbsp;<a class="abcmodal-reload" href="#" data-href="<?php echo $cart;?>"><?php echo $text_cart;?></a>&nbsp;&nbsp;' +
-                    '|&nbsp;<a class="abcmodal-reload" href="#" data-href="<?php echo $checkout;?>"><?php echo $text_checkout;?></a>&nbsp;&nbsp;' +
-                    '</div>' +
-                    '<button aria-hidden="true" data-dismiss="abcmodal" class="abcmodal_close" type="button">&times;</button>' +
-                    '<h4 class="abcmodal-title"></h4>' +
-                    '</div>' +
-                    '<div class="abcmodal-body"><iframe id="amp_product_frame" width="100%" height="650px" frameBorder="0"></iframe>' +
-                    '<div id="iframe_loading" display="none"></div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="abantecart-widget-cart"></div>';
+                modal += '&nbsp;' + <?php js_echo($store_name); ?>
+                    + '</div><div class="abcmodal-header-menu">'
+                    + '<a class="abcmodal-reload" href="#" data-href="<?php echo $account;?>">'
+                    + <?php js_echo($text_account);?>
+                    + '</a>&nbsp;&nbsp;'
+                    + '|&nbsp;<a class="abcmodal-reload" href="#" data-href="<?php echo $cart;?>">'
+                    + <?php js_echo($text_cart);?>
+                    + '</a>&nbsp;&nbsp;'
+                    + '|&nbsp;<a class="abcmodal-reload" href="#" data-href="<?php echo $checkout;?>">'
+                    + <?php js_echo($text_checkout);?>
+                    + '</a>&nbsp;&nbsp;'
+                    + '</div>'
+                    + '<button aria-hidden="true" data-dismiss="abcmodal" class="abcmodal_close" type="button">&times;</button>'
+                    + '<h4 class="abcmodal-title"></h4>'
+                    + '</div>'
+                    + '<div class="abcmodal-body"><iframe id="amp_product_frame" width="100%" height="650px" frameBorder="0"></iframe>'
+                    + '<div id="iframe_loading" display="none"></div>'
+                    + '</div></div></div></div>'
+                    + '<div class="abantecart-widget-cart"></div>';
 
                 $('body').append(modal);
                 <?php
                 // do cookie-test if session id not retrieved from http-request
-                if($test_cookie) { ?>
+                if($test_cookie ?? false) { ?>
                 abc_token_name = '<?php echo EMBED_TOKEN_NAME; ?>';
                 abc_token_value = abc_get_cookie();
                 var testcookieurl = '<?php echo $abc_embed_test_cookie_url; ?>';
-                if (abc_token_value != undefined && abc_token_value != '') {
+                if (abc_token_value !== undefined && abc_token_value !== '') {
                     testcookieurl += '&<?php echo EMBED_TOKEN_NAME; ?>=' + abc_token_value;
                 }
                 abc_process_request(testcookieurl);
@@ -249,13 +252,15 @@ var init = function () {
                 //clear iframe
                 $iframe.attr('src', '');
                 $iframe.hide();
+
                 $('#iframe_loading').show();
-                $iframe.load(function () {
+                $iframe.on('load',function () {
                     $('#iframe_loading').hide();
                     $iframe.show();
                 });
                 var d = new Date();
                 //get href of modal caller
+
                 var frame_url = abc_process_url(url + '&time_stamp=' + d.getTime());
                 $iframe.attr("src", frame_url);
                 return false;
@@ -286,9 +291,9 @@ var init = function () {
             var url_params = abc_add_common_params($first_obj);
             abc_populate_cart(main_url, url_params);
 
-            $('.abantecart-widget-container').on("click", ".abantecart_addtocart", function (e) {
+            cntner.on("click", ".abantecart_addtocart", function (e) {
                 var add_url = '';
-                if ($(e.target).attr('data-toggle') == "abcmodal") {
+                if ($(e.target).attr('data-toggle') === "abcmodal") {
                     add_url = $(e.target).attr('data-href');
                 } else {
                     add_url = $(this).find('button').attr('data-href');
@@ -298,7 +303,7 @@ var init = function () {
                     add_url += '&quantity=' + $('.abantecart_quantity input').val();
                 }
 
-                if ($(e.target).attr('data-toggle') == "abcmodal") {
+                if ($(e.target).attr('data-toggle') === "abcmodal") {
                     $(e.target).attr('data-href', add_url);
                     return null;
                 }
@@ -383,6 +388,19 @@ var init = function () {
                 }
                 if ($(children).is('[data-currency]')) {
                     url += '&currency=' + $(children).attr('data-currency');
+                }
+                if ($(children).has('.abantecart_name').length) {
+                    url += '&product_name=1';
+                }
+                if ($(children).has('.abantecart_image').length) {
+                    url += '&product_image=1';
+                }
+                if ($(children).has('.abantecart_price').length) {
+                    url += '&product_price=1';
+                }
+                var limit = $(children).find('input[name=limit]');
+                if (limit.length) {
+                    url += '&limit='+ limit.val();
                 }
             }
 

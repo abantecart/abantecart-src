@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <extension>
     <id>default_per_item_shipping</id>
-    <version>1.0.1</version>
+    <version>1.1.0</version>
 	<type>shipping</type>
 	<category>shipping</category>
     <cartversions>
-        <item>1.2</item>
+        <item>1.3</item>
     </cartversions>
     <layout></layout>
     <priority>10</priority>
@@ -19,8 +19,8 @@
 			<variants>
 				<item>0</item>
 				<data_source>
-                   <model_rt>localisation/tax_class</model_rt>
-                   <method>getTaxClasses</method>
+                <model_rt>localisation/tax_class</model_rt>
+                <method>getTaxClasses</method>
 				</data_source>
 				<fields>
 					<field>tax_class_id</field>
@@ -33,8 +33,8 @@
 			<variants>
 				<item>0</item>
 				<data_source>
-                   <model_rt>localisation/location</model_rt>
-                   <method>getLocations</method>
+                <model_rt>localisation/location</model_rt>
+                <method>getLocations</method>
 				</data_source>
 				<fields>
 					<field>location_id</field>

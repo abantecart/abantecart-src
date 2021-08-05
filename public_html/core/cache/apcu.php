@@ -1,4 +1,6 @@
 <?php
+/** @noinspection PhpUndefinedConstantInspection */
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -75,15 +77,15 @@ class ACacheDriverAPCu extends ACacheDriver
         if ($supported && php_sapi_name() === 'cli') {
             $supported = ini_get('apc.enable_cli');
         }
-        return (bool)$supported;
+        return (bool) $supported;
     }
 
     /**
      * Get cached data from a file by key and group
      *
-     * @param   string  $key          The cache data key
-     * @param   string  $group        The cache data group
-     * @param   boolean $check_expire True to verify cache time expiration
+     * @param string $key The cache data key
+     * @param string $group The cache data group
+     * @param boolean $check_expire True to verify cache time expiration
      *
      * @return  mixed  Boolean false on failure or a cached data string
      *
@@ -98,9 +100,9 @@ class ACacheDriverAPCu extends ACacheDriver
     /**
      * Save data to a file by key and group
      *
-     * @param   string $key   The cache data key
-     * @param   string $group The cache data group
-     * @param   string $data  The data to store in cache
+     * @param string $key The cache data key
+     * @param string $group The cache data group
+     * @param string $data The data to store in cache
      *
      * @return  boolean
      *
@@ -115,8 +117,8 @@ class ACacheDriverAPCu extends ACacheDriver
     /**
      * Remove a cached data file by key and group
      *
-     * @param   string $key   The cache data key
-     * @param   string $group The cache data group
+     * @param string $key The cache data key
+     * @param string $group The cache data group
      *
      * @return  boolean
      *
@@ -135,7 +137,7 @@ class ACacheDriverAPCu extends ACacheDriver
     /**
      * Clean cache for a group provided.
      *
-     * @param   string $group The cache data group, passed '*' indicate all cache removal
+     * @param string $group The cache data group, passed '*' indicate all cache removal
      *
      * @return  boolean
      *
@@ -143,7 +145,6 @@ class ACacheDriverAPCu extends ACacheDriver
      */
     public function clean($group)
     {
-
         $cache_info = apcu_cache_info();
         $keys = $cache_info['cache_list'];
 
@@ -181,18 +182,17 @@ class ACacheDriverAPCu extends ACacheDriver
     /**
      * Lock cached item
      *
-     * @param   string  $key      The cache data key
-     * @param   string  $group    The cache data group
-     * @param   integer $locktime Cached item max lock time
+     * @param string $key The cache data key
+     * @param string $group The cache data group
+     * @param integer $locktime Cached item max lock time
      *
-     * @return  boolean
+     * @return  array
      *
      * @since   1.2.7
      */
     public function lock($key, $group, $locktime)
     {
-
-        $output = array();
+        $output = [];
         $output['waited'] = false;
 
         $looptime = $locktime * 10;
@@ -224,8 +224,8 @@ class ACacheDriverAPCu extends ACacheDriver
     /**
      * Unlock cached item
      *
-     * @param   string $key   The cache data key
-     * @param   string $group The cache data group
+     * @param string $key The cache data key
+     * @param string $group The cache data group
      *
      * @return  boolean
      *

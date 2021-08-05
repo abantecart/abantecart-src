@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -25,7 +26,6 @@ class ControllerResponsesEmbedHead extends AController
 {
     public function main()
     {
-
         //is this an embed mode
         if ($this->config->get('embed_mode') == true) {
             $cart_rt = 'r/checkout/cart/embed';
@@ -56,7 +56,7 @@ class ControllerResponsesEmbedHead extends AController
 
         $this->view->assign('store', $this->config->get('store_name'));
         $this->view->assign('cart_url', $this->html->getSecureURL($cart_rt));
-        $this->view->assign('cart_ajax', (int)$this->config->get('config_cart_ajax'));
+        $this->view->assign('cart_ajax', (int) $this->config->get('config_cart_ajax'));
         //URL protocol should be automatic for CORS
         $this->view->assign('cart_ajax_url', $this->html->getURL('r/product/product/addToCart'));
         $this->view->assign('search_url', $this->html->getNonSecureURL('product/search'));
@@ -68,13 +68,20 @@ class ControllerResponsesEmbedHead extends AController
         }
 
         if (isset($this->session->data['merchant'])) {
-            $this->view->assign('act_on_behalf_warning', sprintf($this->language->get('text_act_on_behalf'), $this->customer->getId(), $this->session->data['merchant_username']));
+            unset($this->session->data['guest']);
+            $this->view->assign(
+                'act_on_behalf_warning',
+                sprintf(
+                    $this->language->get('text_act_on_behalf'),
+                    $this->customer->getId(),
+                    $this->session->data['merchant_username']
+                )
+            );
         }
 
         $this->processTemplate('embed/head.tpl');
 
         //init controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-
     }
 }

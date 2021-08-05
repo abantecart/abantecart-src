@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,17 +24,18 @@ if (!defined('DIR_CORE')) {
 
 class AException extends Exception
 {
-
     public $registry = null;
     protected $error;
+    protected $extraData;
 
-    public function __construct($errno = 0, $errstr = '', $file = '', $line = '')
+    public function __construct($errno = 0, $errstr = '', $file = '', $line = '', $extra = null)
     {
         parent::__construct();
-        $this->code = $errno ? $errno : $this->code;
-        $this->message = $errstr ? $errstr : $this->message;
-        $this->file = $file ? $file : $this->file;
-        $this->line = $line ? $line : $this->line;
+        $this->code = $errno ? : $this->code;
+        $this->message = $errstr ? : $this->message;
+        $this->file = $file ? : $this->file;
+        $this->line = $line ? : $this->line;
+        $this->extraData = $extra;
         if (class_exists('Registry')) {
             $this->registry = Registry::getInstance();
         }
@@ -49,6 +51,11 @@ class AException extends Exception
     public function errorCode()
     {
         return $this->code;
+    }
+
+    public function getExtraData()
+    {
+        return $this->extraData;
     }
 
     public function errorMessage()
@@ -73,17 +80,99 @@ class AException extends Exception
 
     public function logError()
     {
-        $this->error->toLog();
+        $criticalErrors = [
+            E_ERROR,
+            E_PARSE,
+            E_CORE_ERROR,
+            E_COMPILE_ERROR,
+            AC_ERR_CLASS_CLASS_NOT_EXIST,
+            AC_ERR_CLASS_METHOD_NOT_EXIST,
+            AC_ERR_CLASS_PROPERTY_NOT_EXIST,
+            AC_ERR_USER_ERROR,
+            AC_ERR_MYSQL,
+            AC_ERR_REQUIREMENTS,
+            AC_ERR_LOAD,
+            AC_ERR_CONNECT_METHOD,
+            AC_ERR_CONNECT,
+            AC_ERR_LOAD_LAYOUT,
+        ];
+        //error reporting levels based on settings.
+        // see admin menu-> system->settings->system -> debugging
+        if ($this->registry) {
+            $config = $this->registry->get('config');
+            if ($config) {
+                switch ($config->get('config_debug_level')) {
+                    // no logs , only exception errors
+                    case 0:
+                        if (in_array($this->getCode(), $criticalErrors)) {
+                            $this->error->toLog();
+                            return;
+                        }
+                        break;
+                    // errors and warnings
+                    case 1:
+                        if (in_array(
+                            $this->getCode(),
+                                ($criticalErrors + [
+                                    //warnings
+                                    E_WARNING,
+                                    E_CORE_WARNING,
+                                    E_COMPILE_WARNING,
+                                    E_USER_WARNING,
+                                    AC_ERR_USER_WARNING,
+                                ])
+                            )
+                        ) {
+                            $this->error->toLog();
+                            return;
+                        }
+                        break;
+                    // basic logs and stack of execution
+                    case 2:
+                    case 3:
+                        if ($this->getCode() > (E_ERROR | E_WARNING | E_PARSE | E_DEPRECATED)) {
+                            return;
+                        }
+                        break;
+                    // all errors except notices
+                    case 4:
+                        if ($this->getCode() > (E_ALL & ~E_NOTICE)) {
+                            return;
+                        }
+                        break;
+                    // all errors
+                    default:
+                        $this->error->toLog();
+                        break;
+                }
+            }
+        } else {
+            if (in_array($this->getCode(), $criticalErrors)) {
+                $this->error->toLog();
+                return;
+            }
+        }
+        //if no settings for debug level - write only php and linter errors into the log
+        if ($this->getCode() <= 1) {
+            $this->error->toLog();
+        }
     }
 
+    /**
+     * @return AError
+     */
     public function mailError()
     {
-        $this->error->toMail();
+        return $this->error->toMail();
     }
 
+    /**
+     * @throws AException
+     */
     public function showErrorPage()
     {
-        if ($this->registry && $this->registry->has('router') && $this->registry->get('router')->getRequestType() != 'page') {
+        if ($this->registry && $this->registry->has('router')
+            && $this->registry->get('router')->getRequestType() != 'page') {
             $router = new ARouter($this->registry);
             $router->processRoute('error/ajaxerror');
             $this->registry->get('response')->output();

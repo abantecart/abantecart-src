@@ -17,10 +17,15 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
+
 // set default encoding for multibyte php mod
 mb_internal_encoding('UTF-8');
 ini_set('default_charset', 'utf-8');
 
+//default error reporting level.
+// See another levels based on debug settings
+/** @see AException::logError() */
+error_reporting(E_ERROR & ~E_NOTICE);
 // AbanteCart Version
 include('version.php');
 define('VERSION', MASTER_VERSION.'.'.MINOR_VERSION.'.'.VERSION_BUILT);
@@ -33,7 +38,11 @@ if (!isset($_SERVER['HTTP_HOST'])) {
 // Detect https
 if (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == '1')) {
     define('HTTPS', true);
-} elseif (isset($_SERVER['HTTP_X_FORWARDED_SERVER']) && ($_SERVER['HTTP_X_FORWARDED_SERVER'] == 'secure' || $_SERVER['HTTP_X_FORWARDED_SERVER'] == 'ssl')) {
+} elseif (isset($_SERVER['HTTP_X_FORWARDED_SERVER'])
+    && ($_SERVER['HTTP_X_FORWARDED_SERVER'] == 'secure'
+        || $_SERVER['HTTP_X_FORWARDED_SERVER'] == 'ssl')) {
+    define('HTTPS', true);
+} elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
     define('HTTPS', true);
 } elseif (isset($_SERVER['SCRIPT_URI']) && (substr($_SERVER['SCRIPT_URI'], 0, 5) == 'https')) {
     define('HTTPS', true);
@@ -63,25 +72,26 @@ define('DIR_VENDORS', DIR_CORE.'/vendors/');
 require DIR_VENDORS.'/Mustache/Autoloader.php';
 Mustache_Autoloader::register();
 
-
 // SEO URL Keyword separator
 define('SEO_URL_SEPARATOR', '-');
+
+//root category ID
+define('ROOT_CATEGORY_ID', 0);
 
 // EMAIL REGEXP PATTERN
 define('EMAIL_REGEX_PATTERN', '/^[A-Z0-9._%-]+@[A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,16}$/i');
 
 // Error Reporting
-error_reporting(E_ALL);
 require_once(DIR_CORE.'/lib/debug.php');
 require_once(DIR_CORE.'/lib/exceptions.php');
 require_once(DIR_CORE.'/lib/error.php');
 require_once(DIR_CORE.'/lib/warning.php');
 
 //define rt - route for application controller
-if ($_GET['rt']) {
+if (isset($_GET['rt'])) {
     define('ROUTE', $_GET['rt']);
 } else {
-    if ($_POST['rt']) {
+    if (isset($_POST['rt'])) {
         define('ROUTE', $_POST['rt']);
     } else {
         define('ROUTE', 'index/home');
@@ -100,7 +110,9 @@ if ($path_nodes[0] == 'a') {
 // s=admin or s=storefront (default nothing)
 define('INDEX_FILE', 'index.php');
 
-if (defined('ADMIN_PATH') && (isset($_GET['s']) || isset($_POST['s'])) && ($_GET['s'] == ADMIN_PATH || $_POST['s'] == ADMIN_PATH)) {
+if (defined('ADMIN_PATH')
+    && (isset($_GET['s']) || isset($_POST['s']))
+    && ($_GET['s'] == ADMIN_PATH || $_POST['s'] == ADMIN_PATH)) {
     define('IS_ADMIN', true);
     define('DIR_APP_SECTION', DIR_ROOT.'/admin/');
     define('DIR_LANGUAGE', DIR_ROOT.'/admin/language/');
@@ -129,16 +141,18 @@ try {
     // Process Global data if Register Globals enabled
     if (ini_get('register_globals')) {
         $path = dirname($_SERVER['PHP_SELF']);
-        session_set_cookie_params(0,
+        session_set_cookie_params(
+            0,
             $path,
             null,
             false,
-            true);
+            true
+        );
         unset($path);
         session_name(SESSION_ID);
         session_start();
 
-        $globals = array($_REQUEST, $_SESSION, $_SERVER, $_FILES);
+        $globals = [$_REQUEST, $_SESSION, $_SERVER, $_FILES];
         foreach ($globals as $global) {
             foreach (array_keys($global) as $key) {
                 unset($$key);
@@ -171,13 +185,21 @@ try {
 
     if (!isset($_SERVER['DOCUMENT_ROOT'])) {
         if (isset($_SERVER['SCRIPT_FILENAME'])) {
-            $_SERVER['DOCUMENT_ROOT'] = str_replace('\\', '/', substr($_SERVER['SCRIPT_FILENAME'], 0, 0 - strlen($_SERVER['PHP_SELF'])));
+            $_SERVER['DOCUMENT_ROOT'] = str_replace(
+                '\\',
+                '/',
+                substr($_SERVER['SCRIPT_FILENAME'], 0, 0 - strlen($_SERVER['PHP_SELF']))
+            );
         }
     }
 
     if (!isset($_SERVER['DOCUMENT_ROOT'])) {
         if (isset($_SERVER['PATH_TRANSLATED'])) {
-            $_SERVER['DOCUMENT_ROOT'] = str_replace('\\', '/', substr(str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']), 0, 0 - strlen($_SERVER['PHP_SELF'])));
+            $_SERVER['DOCUMENT_ROOT'] = str_replace(
+                '\\',
+                '/',
+                substr(str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']), 0, 0 - strlen($_SERVER['PHP_SELF']))
+            );
         }
     }
 
@@ -322,14 +344,15 @@ try {
 // Cache
     $registry->set('cache', new ACache());
 
-// Config
+/** @var AConfig $config */
     $config = new AConfig($registry);
     $registry->set('config', $config);
 
 // Session
     $registry->set('session', new ASession(SESSION_ID));
     if ($config->has('current_store_id')) {
-        $registry->get('session')->data['current_store_id'] = (int)$request->get['store_id'] ?: $config->get('current_store_id');
+        $registry->get('session')->data['current_store_id'] = (int) $request->get['store_id']
+            ? : $config->get('current_store_id');
     }
 
 // CSRF Token Class
@@ -364,7 +387,7 @@ try {
 
         //Now we have session, reload config for store if provided or set in session
         $session = $registry->get('session');
-        if (has_value($request->get['store_id']) || has_value($session->data['current_store_id'])) {
+        if (isset($request->get['store_id']) || isset($session->data['current_store_id'])) {
             $config = new AConfig($registry);
             $registry->set('config', $config);
         }
@@ -509,7 +532,6 @@ try {
     } else {
         $registry->set('im', new AIM());
     }
-
 } //eof try
 catch (AException $e) {
     ac_exception_handler($e);

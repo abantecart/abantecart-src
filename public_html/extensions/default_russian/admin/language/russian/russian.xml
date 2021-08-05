@@ -760,4 +760,16 @@
 		<key>text_subtract_order</key>
 		<value><![CDATA[Вычесть заказ]]></value>
 	</definition>
+	<definition>
+		<key>text_copy_embed_url</key>
+		<value><![CDATA[Скопируйте и вставьте этот URL на другой сайт, на котором вы хотите продавать]]></value>
+	</definition>
+	<definition>
+		<key>button_preview</key>
+		<value><![CDATA[Предварительный просмотр]]></value>
+	</definition>
+	<definition>
+		<key>warning_extensions_with_layouts</key>
+		<value><![CDATA[Следующие расширения <br/> %s <br/> включают страницы или макеты, которых нет в выбранном шаблоне. Чтобы включить функции этих расширений, вам нужно будет переустановить расширения после включения нового шаблона. Если переустановка не помогает, обратитесь за помощью к оригинальным разработчикам вышеуказанных расширений.]]></value>
+	</definition>
 </definitions>

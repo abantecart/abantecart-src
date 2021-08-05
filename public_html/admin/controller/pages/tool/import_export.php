@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -29,10 +30,10 @@ if (!defined('DIR_CORE')) {
 class ControllerPagesToolImportExport extends AController
 {
 
-    public $tabs = array('import', 'export');
+    public $tabs = ['import', 'export'];
     public $error;
     public $success = '';
-    public $data = array();
+    public $data = [];
     /**
      * @var AData
      */
@@ -46,7 +47,7 @@ class ControllerPagesToolImportExport extends AController
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
         if ($this->session->data['import']) {
-            $this->tabs = array_merge(array('import_wizard'), $this->tabs);
+            $this->tabs = array_merge(['import_wizard'], $this->tabs);
         }
         $this->handler = new AData();
         $this->loadModel('tool/import_process');
@@ -71,10 +72,12 @@ class ControllerPagesToolImportExport extends AController
         $this->data['tabs'] = $this->tabs;
 
         if (isset($this->request->get['active']) && strpos($this->request->get['active'], '-') !== false) {
-            $this->request->get['active'] = substr($this->request->get['active'], 0, strpos($this->request->get['active'], '-'));
+            $this->request->get['active'] =
+                substr($this->request->get['active'], 0, strpos($this->request->get['active'], '-'));
         }
-        $this->data['active'] = isset($this->request->get['active']) && in_array($this->request->get['active'], $this->data['tabs']) ?
-            $this->request->get['active'] : 'import';
+        $this->data['active'] =
+            isset($this->request->get['active']) && in_array($this->request->get['active'], $this->data['tabs']) ?
+                $this->request->get['active'] : 'import';
 
         if (!$this->data['active']) {
             $this->data['active'] = 'import';
@@ -85,16 +88,20 @@ class ControllerPagesToolImportExport extends AController
             $this->data['link_'.$tab] = $this->html->getSecureURL('p/tool/import_export', '&active='.$tab);
         }
 
-        $this->document->initBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('index/home'),
-            'text'      => $this->language->get('text_home'),
-            'separator' => false,
-        ));
-        $this->document->addBreadcrumb(array(
-            'href'    => $this->html->getSecureURL('tool/import_export'),
-            'text'    => $this->language->get('import_export_title'),
-            'current' => true,
-        ));
+        $this->document->initBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('index/home'),
+                'text'      => $this->language->get('text_home'),
+                'separator' => false,
+            ]
+        );
+        $this->document->addBreadcrumb(
+            [
+                'href'    => $this->html->getSecureURL('tool/import_export'),
+                'text'    => $this->language->get('import_export_title'),
+                'current' => true,
+            ]
+        );
 
         $this->view->assign('help_url', $this->gen_help_url($this->data['active']));
 
@@ -120,24 +127,30 @@ class ControllerPagesToolImportExport extends AController
     {
         $form = new AForm('ST');
 
-        $form->setForm(array(
-            'form_name' => $this->data['active'].'Frm',
-        ));
+        $form->setForm(
+            [
+                'form_name' => $this->data['active'].'Frm',
+            ]
+        );
 
         $this->data['form']['id'] = $this->data['active'].'Frm';
 
-        $this->data['form']['submit'] = $form->getFieldHtml(array(
-            'type'  => 'button',
-            'name'  => 'submit',
-            'text'  => $this->language->get('tab_'.$this->data['active']),
-            'style' => 'button1',
-        ));
-        $this->data['form']['cancel'] = $form->getFieldHtml(array(
-            'type'  => 'button',
-            'name'  => 'cancel',
-            'text'  => $this->language->get('button_cancel'),
-            'style' => 'button2',
-        ));
+        $this->data['form']['submit'] = $form->getFieldHtml(
+            [
+                'type'  => 'button',
+                'name'  => 'submit',
+                'text'  => $this->language->get('tab_'.$this->data['active']),
+                'style' => 'button1',
+            ]
+        );
+        $this->data['form']['cancel'] = $form->getFieldHtml(
+            [
+                'type'  => 'button',
+                'name'  => 'cancel',
+                'text'  => $this->language->get('button_cancel'),
+                'style' => 'button2',
+            ]
+        );
 
         switch ($this->data['active']) {
             case 'import':
@@ -148,36 +161,48 @@ class ControllerPagesToolImportExport extends AController
 
                 $fileForm = new AForm('ST');
 
-                $fileForm->setForm(array(
-                    'form_name' => 'file_import_form',
-                ));
+                $fileForm->setForm(
+                    [
+                        'form_name' => 'file_import_form',
+                    ]
+                );
 
-                $this->data['file_form_open'] = $fileForm->getFieldHtml(array(
-                    'type'   => 'form',
-                    'name'   => 'file_import_form',
-                    'action' => $this->data['action'],
-                    'attr'   => 'class="aform form-horizontal"',
-                ));
+                $this->data['file_form_open'] = $fileForm->getFieldHtml(
+                    [
+                        'type'   => 'form',
+                        'name'   => 'file_import_form',
+                        'action' => $this->data['action'],
+                        'attr'   => 'class="aform form-horizontal"',
+                    ]
+                );
 
-                $this->data['file_field'] = $fileForm->getFieldHtml(array(
-                    'type' => 'file',
-                    'name' => 'imported_file',
-                ));
+                $this->data['file_field'] = $fileForm->getFieldHtml(
+                    [
+                        'type' => 'file',
+                        'name' => 'imported_file',
+                    ]
+                );
 
-                $this->data['file_submit'] = $fileForm->getFieldHtml(array(
-                    'type'  => 'button',
-                    'name'  => 'file_submit',
-                    'text'  => $this->language->get('text_load'),
-                    'style' => 'button1',
-                ));
+                $this->data['file_submit'] = $fileForm->getFieldHtml(
+                    [
+                        'type'  => 'button',
+                        'name'  => 'file_submit',
+                        'text'  => $this->language->get('text_load'),
+                        'style' => 'button1',
+                    ]
+                );
 
-                $options['text']['delimiter'] = $this->language->get('text_csv_delimiter').'<br/>'.$this->language->get('text_export_note_csv_delimiter');
-                $options['item']['delimiter'] = $fileForm->getFieldHtml(array(
-                    'type'    => 'selectbox',
-                    'name'    => 'options[delimiter]',
-                    'value'   => 0,
-                    'options' => array(',', ';', 'TAB', '|'),
-                ));
+                $options['text']['delimiter'] = $this->language->get('text_csv_delimiter').'<br/>'.$this->language->get(
+                        'text_export_note_csv_delimiter'
+                    );
+                $options['item']['delimiter'] = $fileForm->getFieldHtml(
+                    [
+                        'type'    => 'selectbox',
+                        'name'    => 'options[delimiter]',
+                        'value'   => 0,
+                        'options' => [',', ';', 'TAB', '|'],
+                    ]
+                );
 
                 $this->data['options'] = $options;
 
@@ -188,53 +213,60 @@ class ControllerPagesToolImportExport extends AController
 
                 $this->data['action'] = $this->html->getSecureURL('p/tool/export_upload');
 
-                $this->data['form']['fields'] = $this->_build_table_fields($form, (array)$sections);
+                $this->data['form']['fields'] = $this->_build_table_fields($form, (array) $sections);
 
                 $this->data['text_range_from'] = $this->language->get('text_id_range_from');
                 $this->data['text_to'] = $this->language->get('text_to');
                 break;
-
         }
 
-        $options = array();
+        $options = [];
 
         $options['text']['file_format'] = $this->language->get('text_file_format');
-        $options['item']['file_format'] = $form->getFieldHtml(array(
-            'type'    => 'selectbox',
-            'name'    => 'options[file_format]',
-            'value'   => 0,
-            'options' => array(
-                'csv' => '&nbsp;&nbsp;CSV&nbsp;&nbsp;',
-                'txt' => 'TXT (delimited)',
-                'xml' => '&nbsp;&nbsp;XML&nbsp;&nbsp;',
-            ),
-        ));
+        $options['item']['file_format'] = $form->getFieldHtml(
+            [
+                'type'    => 'selectbox',
+                'name'    => 'options[file_format]',
+                'value'   => 0,
+                'options' => [
+                    'csv' => '&nbsp;&nbsp;CSV&nbsp;&nbsp;',
+                    'txt' => 'TXT (delimited)',
+                    'xml' => '&nbsp;&nbsp;XML&nbsp;&nbsp;',
+                ],
+            ]
+        );
 
         $options['text']['file_name'] = $this->language->get('text_file_name');
-        $options['item']['file_name'] = $form->getFieldHtml(array(
-            'type'  => 'input',
-            'name'  => 'options[file_name]',
-            'value' => 'export_'.date('dmY_His'),
-            'style' => 'large-field',
-        ));
+        $options['item']['file_name'] = $form->getFieldHtml(
+            [
+                'type'  => 'input',
+                'name'  => 'options[file_name]',
+                'value' => 'export_'.date('dmY_His'),
+                'style' => 'large-field',
+            ]
+        );
 
-        $options['text']['delimiter'] = $this->language->get('text_csv_delimiter').'<br/>'.$this->language->get('text_export_note_csv_delimiter');
-        $options['item']['delimiter'] = $form->getFieldHtml(array(
-            'type'    => 'selectbox',
-            'name'    => 'options[delimiter]',
-            'value'   => 0,
-            'options' => array(',', ';', 'TAB'),
-        ));
+        $options['text']['delimiter'] =
+            $this->language->get('text_csv_delimiter').'<br/>'.$this->language->get('text_export_note_csv_delimiter');
+        $options['item']['delimiter'] = $form->getFieldHtml(
+            [
+                'type'    => 'selectbox',
+                'name'    => 'options[delimiter]',
+                'value'   => 0,
+                'options' => [',', ';', 'TAB'],
+            ]
+        );
 
         $this->data['form']['options'] = $options;
 
-        $this->data['form']['form_open'] = $form->getFieldHtml(array(
-            'type'   => 'form',
-            'name'   => $this->data['active'].'Frm',
-            'action' => $this->data['action'],
-            'attr'   => 'class="aform form-horizontal"',
-        ));
-
+        $this->data['form']['form_open'] = $form->getFieldHtml(
+            [
+                'type'   => 'form',
+                'name'   => $this->data['active'].'Frm',
+                'action' => $this->data['action'],
+                'attr'   => 'class="aform form-horizontal"',
+            ]
+        );
     }
 
     /**
@@ -242,32 +274,36 @@ class ControllerPagesToolImportExport extends AController
      * @param array $data
      *
      * @return array
+     * @throws AException
      */
     protected function _build_table_fields($form, $data)
     {
-        $result = array();
+        $result = [];
 
         foreach ($data as $table_name => $val) {
-
-            $result[$table_name]['main'] = $form->getFieldHtml(array(
-                'type'  => 'checkbox',
-                'name'  => 'section_'.$table_name,
-                'value' => $table_name,
-                'style' => 'section_input',
-            ));
+            $result[$table_name]['main'] = $form->getFieldHtml(
+                [
+                    'type'  => 'checkbox',
+                    'name'  => 'section_'.$table_name,
+                    'value' => $table_name,
+                    'style' => 'section_input',
+                ]
+            );
 
             $columns_data = $this->handler->getTableColumns($table_name);
-            $columns = array();
+            $columns = [];
             foreach ($columns_data as $column) {
                 $columns[$column['Field']] = $column['Field'];
             }
 
-            $result[$table_name]['filter']['columns'] = $form->getFieldHtml(array(
-                'type'    => 'selectbox',
-                'name'    => 'data['.$table_name.'][filter][columns]',
-                'value'   => 0,
-                'options' => $columns,
-            ));
+            $result[$table_name]['filter']['columns'] = $form->getFieldHtml(
+                [
+                    'type'    => 'selectbox',
+                    'name'    => 'data['.$table_name.'][filter][columns]',
+                    'value'   => 0,
+                    'options' => $columns,
+                ]
+            );
 
             $name = 'data['.$table_name.']';
 
@@ -285,24 +321,27 @@ class ControllerPagesToolImportExport extends AController
     }
 
     /**
-     * @param AForm  $form
-     * @param array  $data
+     * @param AForm $form
+     * @param array $data
      * @param string $name
      *
      * @return array
+     * @throws AException
      */
     private function _get_table_children($form, $data, $name)
     {
-        $children = array();
+        $children = [];
         foreach ($data as $key => $val) {
             $new_name = $name.'['.$key.']';
             $children[$key]['name'] = $new_name;
-            $children[$key]['field'] = $form->getFieldHtml(array(
-                'type'  => 'checkbox',
-                'name'  => $new_name,
-                'value' => $key,
-                'style' => '',
-            ));
+            $children[$key]['field'] = $form->getFieldHtml(
+                [
+                    'type'  => 'checkbox',
+                    'name'  => $new_name,
+                    'value' => $key,
+                    'style' => '',
+                ]
+            );
 
             if (isset($val['children'])) {
                 $new_name .= '[tables]';
@@ -331,13 +370,14 @@ class ControllerPagesToolImportExport extends AController
 
         if (empty($import_data)) {
             $this->session->data['error'] = $this->language->get('error_data_corrupted');
-            return $this->main();
+            $this->main();
+            return;
         }
         $this->data['file_format'] = $this->request->get['file_format'] == 'internal' ? 'internal' : 'external';
 
         $this->handler = new AData();
 
-        $this->data['map'] = $this->request->post ? $this->request->post : $this->session->data['import_map'];
+        $this->data['map'] = $this->request->post ? : $this->session->data['import_map'];
         if ($this->request->post['serialized_map']) {
             $this->data['map'] = unserialize(base64_decode($this->request->post['serialized_map']));
         }
@@ -345,13 +385,15 @@ class ControllerPagesToolImportExport extends AController
             //all good get count and confirm the import
             $this->session->data['import_map'] = $this->data['map'];
             //present mapping for export
-            $this->data['serialized_map'] = $this->html->buildElement(array(
-                'type'  => 'textarea',
-                'name'  => 'serialized_map',
-                'value' => base64_encode(serialize($this->data['map'])),
-                'attr'  => 'rows="20" cols="300" readonly',
-            ));
-            $this->data['request_count'] = (int)$import_data['request_count'];
+            $this->data['serialized_map'] = $this->html->buildElement(
+                [
+                    'type'  => 'textarea',
+                    'name'  => 'serialized_map',
+                    'value' => base64_encode(serialize($this->data['map'])),
+                    'attr'  => 'rows="20" cols="300" readonly',
+                ]
+            );
+            $this->data['request_count'] = (int) $import_data['request_count'];
             $this->data['import_ready'] = true;
 
             //urls for creating and running task
@@ -360,7 +402,6 @@ class ControllerPagesToolImportExport extends AController
             $this->data['form']['abort_task_url'] = $this->html->getSecureURL('r/tool/import_process/abort');
             $this->data['back_url'] = $this->html->getSecureURL('tool/import_export/import_wizard');
             $this->data['form']['schedule_url'] = $this->html->getSecureURL('tool/import_export/schedule_import');
-
         } else {
             if ($this->data['map'] && $this->validateWizardRequest($this->data['map'])) {
                 $this->data['import_ready'] = false;
@@ -383,49 +424,63 @@ class ControllerPagesToolImportExport extends AController
             $this->data['link_'.$tab] = $this->html->getSecureURL('p/tool/import_export', '&active='.$tab);
         }
 
-        $this->document->initBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('index/home'),
-            'text'      => $this->language->get('text_home'),
-            'separator' => false,
-        ));
-        $this->document->addBreadcrumb(array(
-            'href'    => $this->html->getSecureURL('tool/import_export'),
-            'text'    => $this->language->get('import_export_title'),
-            'current' => true,
-        ));
+        $this->document->initBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('index/home'),
+                'text'      => $this->language->get('text_home'),
+                'separator' => false,
+            ]
+        );
+        $this->document->addBreadcrumb(
+            [
+                'href'    => $this->html->getSecureURL('tool/import_export'),
+                'text'    => $this->language->get('import_export_title'),
+                'current' => true,
+            ]
+        );
 
         $this->getForm();
         $form = new AForm('ST');
 
-        $form->setForm(array(
-            'form_name' => 'importWizardFrm',
-        ));
+        $form->setForm(
+            [
+                'form_name' => 'importWizardFrm',
+            ]
+        );
         $this->data['form']['id'] = 'importWizardFrmFrm';
 
-        $this->data['form_open'] = $form->getFieldHtml(array(
-            'type'   => 'form',
-            'name'   => 'importWizardFrmFrm',
-            'action' => $this->html->getSecureURL('tool/import_export/import_wizard'),
-            'attr'   => 'class="aform form-horizontal"',
-        ));
-        $this->data['form']['submit'] = $form->getFieldHtml(array(
-            'type'  => 'button',
-            'name'  => 'submit',
-            'text'  => $this->language->get('button_continue'),
-            'style' => 'button1',
-        ));
-        $this->data['form']['cancel'] = $form->getFieldHtml(array(
-            'type'  => 'button',
-            'name'  => 'cancel',
-            'text'  => $this->language->get('button_cancel'),
-            'style' => 'button2',
-        ));
-        $this->data['form']['serialized_map'] = $form->getFieldHtml(array(
-            'type'  => 'textarea',
-            'name'  => 'serialized_map',
-            'value' => '',
-            'attr'  => 'rows="20" cols="300"',
-        ));
+        $this->data['form_open'] = $form->getFieldHtml(
+            [
+                'type'   => 'form',
+                'name'   => 'importWizardFrmFrm',
+                'action' => $this->html->getSecureURL('tool/import_export/import_wizard'),
+                'attr'   => 'class="aform form-horizontal"',
+            ]
+        );
+        $this->data['form']['submit'] = $form->getFieldHtml(
+            [
+                'type'  => 'button',
+                'name'  => 'submit',
+                'text'  => $this->language->get('button_continue'),
+                'style' => 'button1',
+            ]
+        );
+        $this->data['form']['cancel'] = $form->getFieldHtml(
+            [
+                'type'  => 'button',
+                'name'  => 'cancel',
+                'text'  => $this->language->get('button_cancel'),
+                'style' => 'button2',
+            ]
+        );
+        $this->data['form']['serialized_map'] = $form->getFieldHtml(
+            [
+                'type'  => 'textarea',
+                'name'  => 'serialized_map',
+                'value' => '',
+                'attr'  => 'rows="20" cols="300"',
+            ]
+        );
 
         $this->data['reset_url'] = $this->html->getSecureURL('p/tool/import_export/reset');
 
@@ -438,7 +493,7 @@ class ControllerPagesToolImportExport extends AController
         $this->data['success'] = $this->success;
 
         //get sample row
-        $this->data['cols'] = $this->data['data'] = array();
+        $this->data['cols'] = $this->data['data'] = [];
         if ($import_data['file_type'] == 'csv') {
             ini_set('auto_detect_line_endings', true);
             if ($fh = fopen($import_data['file'], 'r')) {
@@ -468,7 +523,8 @@ class ControllerPagesToolImportExport extends AController
         $import_data = $this->session->data['import'];
         if (empty($import_data)) {
             $this->session->data['error'] = $this->language->get('error_data_corrupted');
-            return $this->main();
+            $this->main();
+            return;
         }
 
         $this->loadLanguage('tool/import_export');
@@ -488,55 +544,67 @@ class ControllerPagesToolImportExport extends AController
             $this->data['link_'.$tab] = $this->html->getSecureURL('p/tool/import_export', '&active='.$tab);
         }
 
-        $this->document->initBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('index/home'),
-            'text'      => $this->language->get('text_home'),
-            'separator' => false,
-        ));
-        $this->document->addBreadcrumb(array(
-            'href'    => $this->html->getSecureURL('tool/import_export'),
-            'text'    => $this->language->get('import_export_title'),
-            'current' => true,
-        ));
+        $this->document->initBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('index/home'),
+                'text'      => $this->language->get('text_home'),
+                'separator' => false,
+            ]
+        );
+        $this->document->addBreadcrumb(
+            [
+                'href'    => $this->html->getSecureURL('tool/import_export'),
+                'text'    => $this->language->get('import_export_title'),
+                'current' => true,
+            ]
+        );
 
         $this->getForm();
         $form = new AForm('ST');
 
-        $form->setForm(array(
-            'form_name' => 'internalImportFrm',
-        ));
+        $form->setForm(
+            [
+                'form_name' => 'internalImportFrm',
+            ]
+        );
         $this->data['form']['id'] = 'internalImportFrm';
 
-        $this->data['form_open'] = $form->getFieldHtml(array(
-            'type'   => 'form',
-            'name'   => 'internalImport',
-            'action' => $this->html->getSecureURL('tool/import_export/schedule_import'),
-            'attr'   => 'class="aform form-horizontal"',
-        ));
-        $this->data['form']['submit'] = $form->getFieldHtml(array(
-            'type'  => 'button',
-            'name'  => 'submit',
-            'text'  => $this->language->get('button_continue'),
-            'style' => 'button1',
-        ));
+        $this->data['form_open'] = $form->getFieldHtml(
+            [
+                'type'   => 'form',
+                'name'   => 'internalImport',
+                'action' => $this->html->getSecureURL('tool/import_export/schedule_import'),
+                'attr'   => 'class="aform form-horizontal"',
+            ]
+        );
+        $this->data['form']['submit'] = $form->getFieldHtml(
+            [
+                'type'  => 'button',
+                'name'  => 'submit',
+                'text'  => $this->language->get('button_continue'),
+                'style' => 'button1',
+            ]
+        );
         $this->data['form']['schedule'] = $form->getFieldHtml(
-            array(
+            [
                 'type' => 'button',
                 'name' => 'import_schedule',
                 'text' => $this->language->get('button_schedule_import'),
-            ));
-        $this->data['form']['cancel'] = $form->getFieldHtml(array(
-            'type'  => 'button',
-            'name'  => 'cancel',
-            'text'  => $this->language->get('button_cancel'),
-            'style' => 'button2',
-        ));
+            ]
+        );
+        $this->data['form']['cancel'] = $form->getFieldHtml(
+            [
+                'type'  => 'button',
+                'name'  => 'cancel',
+                'text'  => $this->language->get('button_cancel'),
+                'style' => 'button2',
+            ]
+        );
         //urls for creating and running task
         $this->data['form']['build_task_url'] = $this->html->getSecureURL('r/tool/import_process/buildTask');
         $this->data['form']['complete_task_url'] = $this->html->getSecureURL('r/tool/import_process/complete');
         $this->data['form']['abort_task_url'] = $this->html->getSecureURL('r/tool/import_process/abort');
         $this->data['back_url'] = $this->html->getSecureURL('tool/import_export/import_wizard');
-
         $this->data['reset_url'] = $this->html->getSecureURL('p/tool/import_export/reset');
 
         if (isset($this->session->data['error'])) {
@@ -548,15 +616,13 @@ class ControllerPagesToolImportExport extends AController
         $this->data['success'] = $this->success;
 
         //get sample row
-        $this->data['cols'] = $this->data['data'] = array();
+        $this->data['cols'] = $this->data['data'] = [];
         if ($import_data['file_type'] == 'csv') {
             ini_set('auto_detect_line_endings', true);
             if ($fh = fopen($import_data['file'], 'r')) {
                 $this->data['cols'] = fgetcsv($fh, 0, $import_data['delimiter']);
                 $this->data['data'] = fgetcsv($fh, 0, $import_data['delimiter']);
             }
-        } else {
-            //unsupported type
         }
 
         $this->data['request_count'] = $import_data['request_count'];
@@ -599,10 +665,17 @@ class ControllerPagesToolImportExport extends AController
             if (!$task_details) {
                 $this->session->data['error'] = implode('<br>', $this->model_tool_import_process->errors);
             } else {
-                $this->session->data['success'] = sprintf($this->language->get('text_success_scheduled'),
-                    $this->html->getSecureURL('tool/task'));
+                $this->session->data['success'] = sprintf(
+                    $this->language->get('text_success_scheduled'),
+                    $this->html->getSecureURL('tool/task')
+                );
             }
-            redirect($this->html->getSecureURL('tool/import_export/'.($file_format == 'internal' ? 'internal_import' : 'import_wizard')));
+            redirect(
+                $this->html->getSecureURL(
+                    'tool/import_export/'
+                        .($file_format == 'internal' ? 'internal_import' : 'import_wizard')
+                )
+            );
         }
     }
 
@@ -619,7 +692,7 @@ class ControllerPagesToolImportExport extends AController
         }
 
         $this->extensions->hk_ValidateData($this);
-        return $this->error ? false : true;
+        return !$this->error;
     }
 
     /**
@@ -633,22 +706,28 @@ class ControllerPagesToolImportExport extends AController
         $import_data = $this->session->data['import'];
         if (empty($import_data)) {
             $this->session->data['error'] = $this->language->get('error_data_corrupted');
-            return $this->main();
+            $this->main();
+            return;
         }
 
         if ($import_data['file_type'] != 'csv') {
             $this->session->data['error'] = $this->language->get('error_file_format');
             $this->main();
-            return null;
+            return;
         }
 
         if (!$this->data['results']) {
             $this->session->data['error'] = $this->language->get('error_data_corrupted');
             $this->main();
-            return null;
         }
     }
 
+    /**
+     * @param array $post
+     *
+     * @return bool
+     * @throws AException
+     */
     protected function validateWizardRequest($post)
     {
         if (!$post['table']
@@ -660,7 +739,8 @@ class ControllerPagesToolImportExport extends AController
             return false;
         }
 
-        foreach ($this->tables[$post['table']]['columns'] as $id => $data) {
+        $cols = $this->tables[$post['table']]['columns'] ?? [];
+        foreach ($cols as $id => $data) {
             if ($data['required'] && !in_array($id, $post[$post['table']."_fields"])) {
                 $this->error = sprintf($this->language->get('error_required_selection'), $id);
                 return false;

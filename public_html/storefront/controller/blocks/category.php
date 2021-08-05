@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,11 +24,10 @@ if (!defined('DIR_CORE')) {
 
 class ControllerBlocksCategory extends AController
 {
-    public $data = array();
     protected $category_id = 0;
-    protected $path = array();
-    protected $selected_root_id = array();
-    protected $thumbnails = array();
+    protected $path = [];
+    protected $selected_root_id = [];
+    protected $thumbnails = [];
 
     public function main()
     {
@@ -38,8 +38,8 @@ class ControllerBlocksCategory extends AController
 
         //HTML cache only for non-customer
         if (!$this->customer->isLogged() && !$this->customer->isUnauthCustomer()) {
-            $allowed_cache_keys = array('path');
-            $cache_val = array('path' => $request['path']);
+            $allowed_cache_keys = ['path'];
+            $cache_val = ['path' => $request['path']];
             $this->buildHTMLCacheKey($allowed_cache_keys, $cache_val);
             //disable cache when login display price setting is off or enabled showing of prices with taxes
             if (($this->config->get('config_customer_price') && !$this->config->get('config_tax'))
@@ -60,21 +60,19 @@ class ControllerBlocksCategory extends AController
         $this->view->assign('selected_category_id', $this->category_id);
         $this->view->assign('path', $request['path']);
 
-        //load main lavel categories
+        //load main level categories
         $all_categories = $this->model_catalog_category->getAllCategories();
         //build thumbnails list
-        $category_ids = array();
-        foreach ($all_categories as $category) {
-            $category_ids[] = $category['category_id'];
-        }
+        $category_ids = array_column($all_categories, 'category_id');
         $resource = new AResource('image');
-
-        $this->thumbnails = $resource->getMainThumbList(
-            'categories',
-            $category_ids,
-            $this->config->get('config_image_category_width'),
-            $this->config->get('config_image_category_height')
-        );
+        $this->thumbnails = $category_ids
+            ? $resource->getMainThumbList(
+                'categories',
+                $category_ids,
+                $this->config->get('config_image_category_width'),
+                $this->config->get('config_image_category_height')
+            )
+            : [];
 
         //Build category tree
         $this->_buildCategoryTree($all_categories);
@@ -92,17 +90,18 @@ class ControllerBlocksCategory extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    /** Function builds one dimentional category tree based on given array
+    /** Function builds one dimensional category tree based on given array
      *
-     * @param array  $all_categories
-     * @param int    $parent_id
+     * @param array $all_categories
+     * @param int $parent_id
      * @param string $path
      *
      * @return array
+     * @throws AException
      */
-    private function _buildCategoryTree($all_categories = array(), $parent_id = 0, $path = '')
+    protected function _buildCategoryTree($all_categories = [], $parent_id = 0, $path = '')
     {
-        $output = array();
+        $output = [];
         foreach ($all_categories as $category) {
             if ($parent_id != $category['parent_id']) {
                 continue;
@@ -116,13 +115,15 @@ class ControllerBlocksCategory extends AController
                 $this->selected_root_id = $category['parents'][0];
             }
             $output[] = $category;
-            $output = array_merge($output, $this->_buildCategoryTree($all_categories, $category['category_id'], $category['path']));
+            $output = array_merge(
+                $output, $this->_buildCategoryTree($all_categories, $category['category_id'], $category['path'])
+            );
         }
         if ($parent_id == 0) {
             //place result into memory for future usage (for menu. see below)
             $this->data['all_categories'] = $output;
             // cut list and expand only selected tree branch
-            $cutted_tree = array();
+            $cutted_tree = [];
             foreach ($output as $category) {
                 if ($category['parent_id'] != 0 && !in_array($this->selected_root_id, $category['parents'])) {
                     continue;
@@ -141,12 +142,13 @@ class ControllerBlocksCategory extends AController
      * @param int $parent_id
      *
      * @return array
+     * @throws AException
      */
-    private function _buildNestedCategoryList($parent_id = 0)
+    protected function _buildNestedCategoryList($parent_id = 0)
     {
-
-        $output = array();
+        $output = [];
         foreach ($this->data['all_categories'] as $category) {
+            $category['current'] = false;
             if ($category['parent_id'] != $parent_id) {
                 continue;
             }

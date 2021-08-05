@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -47,8 +47,8 @@ class AMail
     protected $subject;
     protected $text;
     protected $html;
-    protected $attachments = array();
-    protected $headers = array();
+    protected $attachments = [];
+    protected $headers = [];
     /**
      * @var AMessage
      */
@@ -66,16 +66,18 @@ class AMail
     protected $password;
     protected $port = 25;
     protected $timeout = 5;
-    public $newline = "\n";
+    public $newline = PHP_EOL;
     public $crlf = "\r\n";
     public $verp = false;
     public $parameter = '';
-    public $error = array();
+    public $error = [];
 
     protected $extensions;
 
     /**
      * @param null | AConfig $config
+     *
+     * @throws AException
      */
     public function __construct($config = null)
     {
@@ -117,7 +119,7 @@ class AMail
      */
     public function addHeader($header, $value)
     {
-        $this->headers[$header] = $value;
+        $this->headers[trim($header," ")] = trim($value," ");
     }
 
     /**
@@ -161,11 +163,13 @@ class AMail
     }
 
     /**
-     * @param       $text_id
+     * @param string $text_id
      * @param array $placeholders
-     * @param int   $languageId
+     * @param int $languageId
+     *
+     * @throws AException
      */
-    public function setTemplate($text_id, array $placeholders = [], $languageId = 1)
+    public function setTemplate($text_id, array $placeholders = [], $languageId = 0)
     {
         $text_id = trim($text_id);
         if (empty($text_id)) {
@@ -179,25 +183,25 @@ class AMail
         }
 
         $db = Registry::getInstance()->get('db');
-        /**
-         * @var ALanguageManager
-         */
-        $language = Registry::getInstance()->get('language');
-
-        if (IS_ADMIN) {
-            $languageId = $language->getContentLanguageID();
-        } else {
-            $languageId = $language->getLanguageID();
+        if(!$languageId) {
+            /** @var ALanguageManager */
+            $language = Registry::getInstance()->get('language');
+            $languageId = IS_ADMIN ? $language->getContentLanguageID() : $language->getLanguageID();
         }
 
-        $emailTemplate = $db->query('SELECT * FROM '.$db->table('email_templates').' WHERE text_id=\''.$text_id.'\' and language_id='.$languageId.'
-        and status=1 and store_id='.$this->storeId.' LIMIT 1');
+        $emailTemplate = $db->query(
+            "SELECT * 
+            FROM ".$db->table('email_templates')." 
+            WHERE text_id='".$text_id."' 
+                AND language_id = ".(int)$languageId."
+                AND status = 1 and store_id = ".(int) $this->storeId." LIMIT 1"
+        );
         if (empty($emailTemplate->rows)) {
             $this->log->write('Email Template with text id "'.$text_id.'" and language_id = '.$languageId.' not found');
             return;
         }
 
-        $this->emailTemplate = $emailTemplate->rows[0];
+        $this->emailTemplate = $emailTemplate->row;
         $arAllowedPlaceholders = explode(',', $this->emailTemplate['allowed_placeholders']);
 
         foreach ($arAllowedPlaceholders as &$placeholder) {
@@ -219,19 +223,19 @@ class AMail
         $htmlBody = html_entity_decode($this->emailTemplate['html_body'], ENT_QUOTES);
         $textBody = $this->emailTemplate['text_body'];
 
-        $mustache = new Mustache_Engine;
-
+        // allow to pass html as text_variable (needed for logo as resource_html)
+        //override default escaping by transparent custom
+        $mustache = new Mustache_Engine(['escape' => function($value){ return $value;}]);
         $subject = $mustache->render($subject, $this->placeholders);
         $htmlBody = $mustache->render($htmlBody, $this->placeholders);
         $textBody = $mustache->render($textBody, $this->placeholders);
-
 
         $this->setSubject($subject);
         $this->setHtml($htmlBody);
         $this->setText($textBody);
 
-        if ($emailTemplate->headers) {
-            $headers = explode(',', $emailTemplate->headers);
+        if ($this->emailTemplate['headers']) {
+            $headers = explode(',', $this->emailTemplate['headers']);
             foreach ($headers as $header) {
                 $parts = explode(':', $header);
                 if (count((array)$parts) !== 2) {
@@ -261,10 +265,10 @@ class AMail
             $filename = md5(pathinfo($file, PATHINFO_FILENAME)).'.'.pathinfo($file, PATHINFO_EXTENSION);
         }
 
-        $this->attachments[] = array(
+        $this->attachments[] = [
             'filename' => $filename,
             'file'     => $file,
-        );
+        ];
     }
 
     /**

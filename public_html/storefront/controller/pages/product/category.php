@@ -20,7 +20,7 @@
 
 class ControllerPagesProductCategory extends AController
 {
-    public $data = array();
+    public $data = [];
 
     public function __construct(Registry $registry, $instance_id, $controller, $parent_controller = '')
     {
@@ -32,7 +32,7 @@ class ControllerPagesProductCategory extends AController
         } elseif (strpos($default_sorting, 'price-') === 0) {
             $sort_prefix = 'p.';
         }
-        $this->data['sorts'] = array(
+        $this->data['sorts'] = [
             $sort_prefix.$default_sorting => $this->language->get('text_default'),
             'pd.name-ASC'                 => $this->language->get('text_sorting_name_asc'),
             'pd.name-DESC'                => $this->language->get('text_sorting_name_desc'),
@@ -42,7 +42,7 @@ class ControllerPagesProductCategory extends AController
             'rating-ASC'                  => $this->language->get('text_sorting_rating_asc'),
             'date_modified-DESC'          => $this->language->get('text_sorting_date_desc'),
             'date_modified-ASC'           => $this->language->get('text_sorting_date_asc'),
-        );
+        ];
     }
 
     /**
@@ -52,7 +52,7 @@ class ControllerPagesProductCategory extends AController
      */
     public static function main_cache_keys()
     {
-        return array('path', 'category_id', 'page', 'limit', 'sort', 'order');
+        return ['path', 'category_id', 'page', 'limit', 'sort', 'order'];
     }
 
     public function main()
@@ -71,11 +71,13 @@ class ControllerPagesProductCategory extends AController
 
         $this->loadLanguage('product/category');
         $this->document->resetBreadcrumbs();
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getHomeURL(),
-            'text'      => $this->language->get('text_home'),
-            'separator' => false,
-        ));
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getHomeURL(),
+                'text'      => $this->language->get('text_home'),
+                'separator' => false,
+            ]
+        );
 
         $this->loadModel('catalog/category');
         $this->loadModel('tool/seo_url');
@@ -101,11 +103,13 @@ class ControllerPagesProductCategory extends AController
                         $path .= '_'.$path_id;
                     }
 
-                    $this->document->addBreadcrumb(array(
-                        'href'      => $this->html->getSEOURL('product/category', '&path='.$path, '&encode'),
-                        'text'      => $category_info['name'],
-                        'separator' => $this->language->get('text_separator'),
-                    ));
+                    $this->document->addBreadcrumb(
+                        [
+                            'href'      => $this->html->getSEOURL('product/category', '&path='.$path, '&encode'),
+                            'text'      => $category_info['name'],
+                            'separator' => $this->language->get('text_separator'),
+                        ]
+                    );
                 }
             }
             $category_id = array_pop($parts);
@@ -113,7 +117,7 @@ class ControllerPagesProductCategory extends AController
             $category_id = 0;
         }
 
-        $category_info = array();
+        $category_info = [];
         if ($category_id) {
             $category_info = $this->model_catalog_category->getCategory($category_id);
         } elseif ($this->config->get('embed_mode') == true) {
@@ -135,7 +139,7 @@ class ControllerPagesProductCategory extends AController
                 $page = 1;
             }
             if (isset($request['limit'])) {
-                $limit = (int)$request['limit'];
+                $limit = (int) $request['limit'];
                 $limit = $limit > 50 ? 50 : $limit;
             } else {
                 $limit = $this->config->get('config_catalog_limit');
@@ -148,7 +152,7 @@ class ControllerPagesProductCategory extends AController
             list($sort, $order) = explode("-", $sorting_href);
             if ($sort == 'name') {
                 $sort = 'pd.'.$sort;
-            } elseif (in_array($sort, array('sort_order', 'price'))) {
+            } elseif (in_array($sort, ['sort_order', 'price'])) {
                 $sort = 'p.'.$sort;
             }
 
@@ -157,25 +161,24 @@ class ControllerPagesProductCategory extends AController
             $product_total = $this->model_catalog_product->getTotalProductsByCategoryId($category_id);
 
             if ($category_total || $product_total) {
-                $categories = array();
+                $categories = [];
 
                 $results = $this->model_catalog_category->getCategories($category_id);
-                $category_ids = array();
-                foreach ($results as $result) {
-                    $category_ids[] = (int)$result['category_id'];
-                }
+                $category_ids = array_column($results, 'category_id');
                 //get thumbnails by one pass
                 $resource = new AResource('image');
-                $thumbnails = $resource->getMainThumbList(
-                    'categories',
-                    $category_ids,
-                    $this->config->get('config_image_category_width'),
-                    $this->config->get('config_image_category_height')
-                );
+                $thumbnails = $category_ids
+                    ? $resource->getMainThumbList(
+                        'categories',
+                        $category_ids,
+                        $this->config->get('config_image_category_width'),
+                        $this->config->get('config_image_category_height')
+                    )
+                    : [];
 
                 foreach ($results as $result) {
                     $thumbnail = $thumbnails[$result['category_id']];
-                    $categories[] = array(
+                    $categories[] = [
                         'name'  => $result['name'],
                         'href'  => $this->html->getSEOURL(
                             'product/category',
@@ -183,7 +186,7 @@ class ControllerPagesProductCategory extends AController
                             '&encode'
                         ),
                         'thumb' => $thumbnail,
-                    );
+                    ];
                 }
                 $this->view->assign('categories', $categories);
                 $this->loadModel('catalog/review');
@@ -195,17 +198,18 @@ class ControllerPagesProductCategory extends AController
                     ($page - 1) * $limit,
                     $limit
                 );
-                $product_ids = $products = array();
-                foreach ($products_result as $result) {
-                    $product_ids[] = (int)$result['product_id'];
-                }
+                $product_ids = array_column($products_result, 'product_id');
+                $products = [];
+
                 $products_info = $this->model_catalog_product->getProductsAllInfo($product_ids);
-                $thumbnails = $resource->getMainThumbList(
-                    'products',
-                    $product_ids,
-                    $this->config->get('config_image_product_width'),
-                    $this->config->get('config_image_product_height')
-                );
+                $thumbnails = $product_ids
+                    ? $resource->getMainThumbList(
+                        'products',
+                        $product_ids,
+                        $this->config->get('config_image_product_width'),
+                        $this->config->get('config_image_product_height')
+                    )
+                    : [];
                 $stock_info = $this->model_catalog_product->getProductsStockInfo($product_ids);
                 foreach ($products_result as $result) {
                     $thumbnail = $thumbnails[$result['product_id']];
@@ -217,7 +221,8 @@ class ControllerPagesProductCategory extends AController
                             $this->tax->calculate(
                                 $discount,
                                 $result['tax_class_id'],
-                                $this->config->get('config_tax'))
+                                $this->config->get('config_tax')
+                            )
                         );
                     } else {
                         $price = $this->currency->format(
@@ -258,8 +263,8 @@ class ControllerPagesProductCategory extends AController
                     $no_stock_text = $this->language->get('text_out_of_stock');
                     $total_quantity = 0;
                     $stock_checkout = $result['stock_checkout'] === ''
-                                    ? $this->config->get('config_stock_checkout')
-                                    : $result['stock_checkout'];
+                        ? $this->config->get('config_stock_checkout')
+                        : $result['stock_checkout'];
                     if ($stock_info[$result['product_id']]['subtract']) {
                         $track_stock = true;
                         $total_quantity = $this->model_catalog_product->hasAnyStock($result['product_id']);
@@ -269,7 +274,7 @@ class ControllerPagesProductCategory extends AController
                         }
                     }
 
-                    $products[] = array(
+                    $products[] = [
                         'product_id'     => $result['product_id'],
                         'name'           => $result['name'],
                         'blurb'          => $result['blurb'],
@@ -294,7 +299,7 @@ class ControllerPagesProductCategory extends AController
                         'no_stock_text'  => $no_stock_text,
                         'total_quantity' => $total_quantity,
                         'tax_class_id'   => $result['tax_class_id'],
-                    );
+                    ];
                 }
                 $this->data['products'] = $products;
 
@@ -307,15 +312,17 @@ class ControllerPagesProductCategory extends AController
                 }
                 $this->view->assign('display_price', $display_price);
 
-                $sort_options = array();
+                $sort_options = [];
                 foreach ($this->data['sorts'] as $item => $text) {
                     $sort_options[$item] = $text;
                 }
-                $sorting = $this->html->buildSelectbox(array(
-                    'name'    => 'sort',
-                    'options' => $sort_options,
-                    'value'   => $sort.'-'.$order,
-                ));
+                $sorting = $this->html->buildSelectbox(
+                    [
+                        'name'    => 'sort',
+                        'options' => $sort_options,
+                        'value'   => $sort.'-'.$order,
+                    ]
+                );
                 $this->view->assign('sorting', $sorting);
                 $this->view->assign('url', $this->html->getSEOURL('product/category', '&path='.$request['path']));
 
@@ -327,17 +334,19 @@ class ControllerPagesProductCategory extends AController
 
                 $this->view->assign(
                     'pagination_bootstrap',
-                    $this->html->buildElement(array(
-                        'type'       => 'Pagination',
-                        'name'       => 'pagination',
-                        'text'       => $this->language->get('text_pagination'),
-                        'text_limit' => $this->language->get('text_per_page'),
-                        'total'      => $product_total,
-                        'page'       => $page,
-                        'limit'      => $limit,
-                        'url'        => $pagination_url,
-                        'style'      => 'pagination',
-                    ))
+                    $this->html->buildElement(
+                        [
+                            'type'       => 'Pagination',
+                            'name'       => 'pagination',
+                            'text'       => $this->language->get('text_pagination'),
+                            'text_limit' => $this->language->get('text_per_page'),
+                            'total'      => $product_total,
+                            'page'       => $page,
+                            'limit'      => $limit,
+                            'url'        => $pagination_url,
+                            'style'      => 'pagination',
+                        ]
+                    )
                 );
 
                 $this->view->assign('sort', $sort);
@@ -350,8 +359,8 @@ class ControllerPagesProductCategory extends AController
                 $this->view->assign('text_error', $this->language->get('text_empty'));
                 $this->view->assign('button_continue', $this->language->get('button_continue'));
                 $this->view->assign('continue', $this->html->getHomeURL());
-                $this->view->assign('categories', array());
-                $this->data['products'] = array();
+                $this->view->assign('categories', []);
+                $this->data['products'] = [];
                 $this->view->setTemplate('pages/product/category.tpl');
             }
 
@@ -373,15 +382,15 @@ class ControllerPagesProductCategory extends AController
 
             if (isset($request['path'])) {
                 $this->document->addBreadcrumb(
-                    array(
-                    'href'      => $this->html->getSEOURL(
-                                                'product/category',
-                                                '&path='.$request['path'].$url,
-                                                '&encode'
-                                            ),
-                    'text'      => $this->language->get('text_error'),
-                    'separator' => $this->language->get('text_separator'),
-                    )
+                    [
+                        'href'      => $this->html->getSEOURL(
+                            'product/category',
+                            '&path='.$request['path'].$url,
+                            '&encode'
+                        ),
+                        'text'      => $this->language->get('text_error'),
+                        'separator' => $this->language->get('text_separator'),
+                    ]
                 );
             }
 
@@ -391,12 +400,12 @@ class ControllerPagesProductCategory extends AController
             $this->view->assign(
                 'button_continue',
                 $this->html->buildElement(
-                    array(
+                    [
                         'type'  => 'button',
                         'name'  => 'continue_button',
                         'text'  => $this->language->get('button_continue'),
                         'style' => 'button',
-                    )
+                    ]
                 )
             );
             $this->view->assign('continue', $this->html->getHomeURL());

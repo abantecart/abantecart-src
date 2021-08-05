@@ -24,7 +24,8 @@
 			<?php echo $form['form_open']; ?>
 				<?php foreach ($fields as $field) {
 				$widthclass = 'col-sm-6 col-xs-12';
-				$label = ${'entry_' . str_replace(array('[', ']'), '', $field->name)};		?>
+				$label = ${'entry_' . str_replace(array('[', ']'), '', $field->name)};
+				?>
 				<div class="form-group">
 					<?php if($label){?>
 					<label class="control-label col-md-6 col-xs-6" for="<?php echo $field->element_id; ?>">
@@ -127,22 +128,26 @@
 
         //display preview
         $("#embed_container").html(html);
-        setTimeout(
-            function () {
-                outerHeight = 0;
-                $('#embed_container.embed_preview')
-                    .find('.abantecart-widget-container')
-                    .children().each(
-                    function () {
-                        outerHeight += $(this).outerHeight();
-                    }
-                );
-                $('#getEmbedFrm_url').val($('#getEmbedFrm_url').val() + '&height=' + (outerHeight + 20));
-            },
-            1000
-        );
         $('#getEmbedFrm_url').val(url);
+        recalcHeightParam = true;
     }
+
+    recalcHeightParam = true;
+    var calcHeight = function(){
+        if(recalcHeightParam !== true){
+            return;
+        }
+        var outerHeight = 0;
+        $('#embed_container.embed_preview')
+            .find('.abantecart-widget-container')
+            .children().each(
+            function () {
+                outerHeight += $(this).outerHeight();
+            }
+        );
+        $('#getEmbedFrm_url').val($('#getEmbedFrm_url').val() + '&height=' + (outerHeight + 20));
+        recalcHeightParam = false;
+    };
 
     $(document).ready(function () {
         $('.do_embed a').tooltip();
@@ -152,10 +157,11 @@
         $('div#embed_modal').find('div.btn_switch').find('button').on('click', buildEmbedCode);
         $('div#embed_modal').find('div.input-group').find('select').on('change', buildEmbedCode);
 
-        let preselect = function(){
+        preselect = function(){
+          calcHeight();
           let $this = $(this);
           $this.select();
       }
       $("#getEmbedFrm_code_area, #getEmbedFrm_url").focus(preselect).click(preselect);
-	});
+    });
 </script>

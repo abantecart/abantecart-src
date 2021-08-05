@@ -17,21 +17,22 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
+
 /**
  * Class ModelExtensionBannerManager
  */
-
 /** @noinspection PhpUndefinedClassInspection */
+
 class ModelExtensionBannerManager extends Model
 {
     /**
      * @param array $data
      *
      * @return int
+     * @throws AException
      */
-    public function addBanner($data = array())
+    public function addBanner($data = [])
     {
-
         if (isset($data['start_date'])) {
             $data['start_date'] = "DATE('".$data['start_date']."')";
         } else {
@@ -54,32 +55,34 @@ class ModelExtensionBannerManager extends Model
                 `sort_order`,
                 `target_url`,
                 `date_added`)
-                VALUES ('".(int)$data['status']."',
-                        '".(int)$data['banner_type']."',
+                VALUES ('".(int) $data['status']."',
+                        '".(int) $data['banner_type']."',
                         '".$this->db->escape($data['banner_group_name'])."',
                         ".$data['start_date'].",
                         ".$data['end_date'].",
-                        '".(int)$data['blank']."',
-                        '".(int)$data['sort_order']."',
+                        '".(int) $data['blank']."',
+                        '".(int) $data['sort_order']."',
                         '".$this->db->escape($data['target_url'])."', NOW() )";
         $this->db->query($sql);
         $banner_id = $this->db->getLastId();
         // for graphic banners remap resources
-        if ((int)$data['banner_type'] == 1) {
+        if ((int) $data['banner_type'] == 1) {
             $sql = "UPDATE ".$this->db->table("resource_map")." 
                     SET object_id='".$banner_id."' 
                     WHERE object_name='banners' AND object_id='-1'";
             $this->db->query($sql);
         }
-        $this->language->replaceDescriptions('banner_descriptions',
-            array('banner_id' => (int)$banner_id),
-            array(
-                (int)$this->session->data['content_language_id'] => array(
+        $this->language->replaceDescriptions(
+            'banner_descriptions',
+            ['banner_id' => (int) $banner_id],
+            [
+                (int) $this->session->data['content_language_id'] => [
                     'name'        => $data['name'],
                     'meta'        => $data['meta'],
                     'description' => $data['description'],
-                ),
-            ));
+                ],
+            ]
+        );
 
         $this->cache->remove('banner');
 
@@ -91,13 +94,14 @@ class ModelExtensionBannerManager extends Model
      * @param int $language_id
      *
      * @return array
+     * @throws AException
      */
     public function getBanner($banner_id, $language_id = 0)
     {
-        $banner_id = (int)$banner_id;
-        $language_id = (int)$language_id;
+        $banner_id = (int) $banner_id;
+        $language_id = (int) $language_id;
         if (!$language_id) {
-            $language_id = (int)$this->language->getContentLanguageID();
+            $language_id = (int) $this->language->getContentLanguageID();
         }
         // check is description presents
         $sql = "SELECT DISTINCT language_id
@@ -105,7 +109,7 @@ class ModelExtensionBannerManager extends Model
                 WHERE banner_id='".$banner_id."'
                 ORDER BY language_id ASC";
         $result = $this->db->query($sql);
-        $counts = array();
+        $counts = [];
         foreach ($result->rows as $row) {
             $counts[] = $row['language_id'];
         }
@@ -124,6 +128,7 @@ class ModelExtensionBannerManager extends Model
 
     /**
      * @return array
+     * @throws AException
      */
     public function getBannerGroups()
     {
@@ -136,23 +141,24 @@ class ModelExtensionBannerManager extends Model
     }
 
     /**
-     * @param int   $banner_id
+     * @param int $banner_id
      * @param array $data
      *
      * @return bool
+     * @throws AException
      */
     public function editBanner($banner_id, $data)
     {
-        $banner_id = (int)$banner_id;
-        $language_id = (int)$this->language->getContentLanguageID();
+        $banner_id = (int) $banner_id;
+        $language_id = (int) $this->language->getContentLanguageID();
         if (isset($data['start_date']) && !$data['start_date']) {
             $data['start_date'] = 'NULL';
         }
         if (isset($data['end_date']) && !$data['end_date']) {
             $data['end_date'] = 'NULL';
         }
-        $update = array();
-        $flds = array('name', 'description', 'meta');
+        $update = [];
+        $flds = ['name', 'description', 'meta'];
         foreach ($flds as $field_name) {
             if (isset($data[$field_name])) {
                 $update[$field_name] = $data[$field_name];
@@ -160,11 +166,13 @@ class ModelExtensionBannerManager extends Model
         }
 
         if (count($update)) {
-            $this->language->replaceDescriptions('banner_descriptions',
-                array('banner_id' => (int)$banner_id),
-                array($language_id => $update));
+            $this->language->replaceDescriptions(
+                'banner_descriptions',
+                ['banner_id' => (int) $banner_id],
+                [$language_id => $update]
+            );
         }
-        $flds = array(
+        $flds = [
             'status'            => 'int',
             'banner_type'       => 'int',
             'banner_group_name' => '',
@@ -173,17 +181,17 @@ class ModelExtensionBannerManager extends Model
             'blank'             => 'int',
             'sort_order'        => 'int',
             'target_url'        => '',
-        );
+        ];
         $sql = "UPDATE ".$this->db->table("banners")." 
                 SET ";
-        $tmp = array();
+        $tmp = [];
         foreach (array_keys($flds) as $field_name) {
             if (isset($data[$field_name])) {
                 $quote = ($flds[$field_name] == 'int'
                     || ($flds[$field_name] == 'time')
                     && $data[$field_name] == 'NULL') ? null : "'";
                 $new_value =
-                    $flds[$field_name] == 'int' ? (int)$data[$field_name] : $this->db->escape($data[$field_name]);
+                    $flds[$field_name] == 'int' ? (int) $data[$field_name] : $this->db->escape($data[$field_name]);
                 $tmp[] = "`".$field_name."` = ".$quote.$new_value.$quote."\n";
             }
         }
@@ -200,10 +208,11 @@ class ModelExtensionBannerManager extends Model
      * @param int $banner_id
      *
      * @return bool
+     * @throws AException
      */
     public function deleteBanner($banner_id)
     {
-        $banner_id = (int)$banner_id;
+        $banner_id = (int) $banner_id;
         if (!$banner_id) {
             return false;
         }
@@ -220,17 +229,18 @@ class ModelExtensionBannerManager extends Model
     }
 
     /**
-     * @param array  $filter
+     * @param array $filter
      * @param string $mode
      *
-     * @return array
+     * @return array|int
+     * @throws AException
      */
     public function getBanners($filter, $mode = '')
     {
         if (!empty($data['content_language_id'])) {
-            $language_id = (int)$data['content_language_id'];
+            $language_id = (int) $data['content_language_id'];
         } else {
-            $language_id = (int)$this->language->getContentLanguageID();
+            $language_id = (int) $this->language->getContentLanguageID();
         }
 
         if ($mode == 'total_only') {
@@ -249,12 +259,12 @@ class ModelExtensionBannerManager extends Model
             $sql .= " WHERE ".$filter['subsql_filter'];
         }
 
-        $sort_data = array(
+        $sort_data = [
             'name'          => 'bd.name',
             'status'        => 'b.status',
             'sort_order'    => 'b.sort_order',
             'date_modified' => 'b.date_modified',
-        );
+        ];
 
         if (isset($filter['sort']) && in_array($filter['sort'], array_keys($sort_data))) {
             $sql .= " ORDER BY ".$sort_data[$filter['sort']];
@@ -275,11 +285,11 @@ class ModelExtensionBannerManager extends Model
             if ($filter['limit'] < 1) {
                 $filter['limit'] = 20;
             }
-            $sql .= $mode != 'total_only' ? " LIMIT ".(int)$filter['start'].",".(int)$filter['limit'] : '';
+            $sql .= $mode != 'total_only' ? " LIMIT ".(int) $filter['start'].",".(int) $filter['limit'] : '';
         }
         $result = $this->db->query($sql);
 
-        $output = array();
+        $output = [];
         if ($mode == 'total_only') {
             $output = $result->row['total'];
         } else {
@@ -295,20 +305,21 @@ class ModelExtensionBannerManager extends Model
     }
 
     /**
-     * @param array  $filter
+     * @param array $filter
      * @param string $mode
      *
      * @return int|array
+     * @throws AException
      */
     public function getBannersStat($filter, $mode = '')
     {
         if (!empty($data['content_language_id'])) {
-            $language_id = ( int )$this->language->getContentLanguageID();
+            $language_id = ( int ) $this->language->getContentLanguageID();
         } else {
-            $language_id = (int)$this->config->get('storefront_language_id');
+            $language_id = (int) $this->config->get('storefront_language_id');
         }
 
-        $stats = array();
+        $stats = [];
         if ($mode == 'total_only') {
             $sql = "SELECT COUNT(*) as total
                     FROM ".$this->db->table("banners")." b
@@ -339,7 +350,7 @@ class ModelExtensionBannerManager extends Model
         }
 
         $result = $this->db->query($sql);
-        $index = array();
+        $index = [];
         if ($mode != 'total_only') {
             foreach ($result->rows as &$row) {
                 $row['clicked'] =
@@ -355,21 +366,22 @@ class ModelExtensionBannerManager extends Model
             // resort by percents
             array_multisort($index, SORT_DESC, $output);
         } else {
-            $output = (int)$result->row['total'];
+            $output = (int) $result->row['total'];
         }
 
         return $output;
     }
 
     /**
-     * @param int   $banner_id
+     * @param int $banner_id
      * @param array $data
      *
      * @return bool
+     * @throws AException
      */
-    public function deleteStatistic($banner_id = 0, $data = array())
+    public function deleteStatistic($banner_id = 0, $data = [])
     {
-        $banner_id = (int)$banner_id;
+        $banner_id = (int) $banner_id;
 
         $sql = "DELETE FROM ".$this->db->table("banner_stat")." WHERE 1=1";
         if ($banner_id) {
@@ -377,11 +389,11 @@ class ModelExtensionBannerManager extends Model
         }
 
         if ($data['store_id']) {
-            $sql .= " AND `store_id` = ".(int)$data['store_id'];
+            $sql .= " AND `store_id` = ".(int) $data['store_id'];
         }
 
         if ($data['store_id']) {
-            $sql .= " AND `store_id` = ".(int)$data['store_id'];
+            $sql .= " AND `store_id` = ".(int) $data['store_id'];
         }
 
         $this->db->query($sql);

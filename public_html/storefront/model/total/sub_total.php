@@ -34,11 +34,12 @@ class ModelTotalSubTotal extends Model
             //currency based recalculation for all products to avoid fractional loss
             $converted_sum = 0;
             $subtotal = 0;
-            $products = $this->cart->getProducts();
+            $products = $this->cart->getProducts() + $this->cart->getVirtualProducts();
             foreach ($products as $product) {
-                $subtotal += $product['total'];
+                $price = $product['price'] ?: $product['amount'];
+                $subtotal += ($price * $product['quantity']);
                 //correct way to calc total with currency conversion. 
-                $converted_sum += $this->currency->format_number($product['price']) * (int)$product['quantity'];
+                $converted_sum += ($this->currency->format_number($price) * (int)$product['quantity']);
             }
 
             //if there is a conversion fractional loss, adjust subtotal base currency price. 
@@ -52,7 +53,7 @@ class ModelTotalSubTotal extends Model
 
             //currency display value
             $converted_sum_txt = $this->currency->format(max(0, $converted_sum), '', 1);
-            $total_data[] = array(
+            $total_data[] = [
                 'id'         => 'subtotal',
                 'title'      => $language->get('text_sub_total'),
                 'text'       => $converted_sum_txt,
@@ -60,7 +61,7 @@ class ModelTotalSubTotal extends Model
                 'value'      => $subtotal,
                 'sort_order' => $this->config->get('sub_total_sort_order'),
                 'total_type' => $this->config->get('sub_total_total_type'),
-            );
+            ];
             $total += $this->cart->getSubTotal();
         }
     }

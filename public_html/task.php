@@ -18,7 +18,7 @@
    needs please refer to http://www.AbanteCart.com for more information.  
 ------------------------------------------------------------------------------*/
 // Required PHP Version
-define('MIN_PHP_VERSION', '5.6.0');
+define('MIN_PHP_VERSION', '7.3.0');
 if (version_compare(phpversion(), MIN_PHP_VERSION, '<') == true) {
     die(MIN_PHP_VERSION.'+ Required for AbanteCart to work properly! Please contact your system administrator or host service provider.');
 }
@@ -201,9 +201,7 @@ if ($mode != 'ajax' && !$step_id) {
                 }
             }
         </style>
-        <script src="https://code.jquery.com/jquery-1.12.4.min.js"
-                integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
-                crossorigin="anonymous"></script>
+        <script type="text/javascript" src="ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script defer type="text/javascript">
             /*
              task run via ajax

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -56,9 +56,10 @@ final class ADB
 
     /**
      * @param string $sql
-     * @param bool   $noexcept
+     * @param bool $noexcept
      *
      * @return bool|stdClass
+     * @throws AException
      */
     public function query($sql, $noexcept = false)
     {
@@ -84,16 +85,17 @@ final class ADB
         //detect if encryption is enabled
         $postfix = '';
         if (is_object($this->registry->get('dcrypt'))) {
-            $postfix = $this->registry->get('dcrypt')->posfix($table_name);
+            $postfix = $this->registry->get('dcrypt')->postfix($table_name);
         }
         return DB_PREFIX.$table_name.$postfix;
     }
 
     /**
      * @param string $sql
-     * @param bool   $noexcept
+     * @param bool $noexcept
      *
      * @return bool|stdClass
+     * @throws AException
      */
     public function _query($sql, $noexcept = false)
     {
@@ -125,6 +127,7 @@ final class ADB
      * @param $file
      *
      * @return null
+     * @throws AException
      */
     public function performSql($file)
     {

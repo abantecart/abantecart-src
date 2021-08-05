@@ -1,13 +1,21 @@
 <?php
+
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
 class ModelCatalogCollection extends Model
 {
+    /**
+     * @param int $id
+     *
+     * @return array|false
+     * @throws AException
+     */
     public static function getById($id)
     {
-        if (!(int)$id) {
+        if (!(int) $id) {
             return false;
         }
         $db = Registry::getInstance()->get('db');
@@ -37,17 +45,31 @@ class ModelCatalogCollection extends Model
         return false;
     }
 
+    /**
+     * @param array $conditions
+     * @param string $sort
+     * @param string $order
+     * @param int $start
+     * @param int $limit
+     * @param int $collectionId
+     *
+     * @return array|false|mixed
+     * @throws AException
+     */
     public function getProducts(array $conditions, $sort, $order, $start, $limit, $collectionId)
     {
-        $store_id = (int)$this->config->get('config_store_id');
-        $language_id = (int)$this->config->get('storefront_language_id');
-        $cache_key =
-            'collection.listing.products_collection.'.(int)$collectionId.'.store_'.$store_id.'_sort_'.$sort.'_order_'.$order;
-        $cache_key .= '_start_'.$start.'_limit_'.$limit.'_lang_'.$language_id;
+        $store_id = (int) $this->config->get('config_store_id');
+        $language_id = (int) $this->config->get('storefront_language_id');
+        $cache_key = 'collection.listing.products_collection.'.(int) $collectionId
+            .'.store_'.$store_id
+            .'_sort_'.$sort
+            .'_order_'.$order
+            .'_start_'.$start
+            .'_limit_'.$limit
+            .'_lang_'.$language_id;
         $result = $this->cache->pull($cache_key);
 
         if ($result === false) {
-
             $result = [
                 'items' => [],
                 'total' => 0,
@@ -62,15 +84,11 @@ class ModelCatalogCollection extends Model
             $conditions = $conditions['conditions'];
 
             $db = Registry::getInstance()->get('db');
-            $language = Registry::getInstance()->get('language');
-
             $productsTable = $db->table('products');
             $p2sTable = $db->table('products_to_stores');
-            $categoriesTable = $db->table('categories');
             $p2cTable = $db->table('products_to_categories');
             $productsTagsTable = $db->table('product_tags');
             $pdTable = $db->table('product_descriptions');
-            $manufacturersTable = $db->table('manufacturers');
 
             $arSelect = [
                 'SQL_CALC_FOUND_ROWS '.$productsTable.'.*',
@@ -84,41 +102,55 @@ class ModelCatalogCollection extends Model
             $arWhere = [];
             $arJoins = [
                 'INNER JOIN '.$p2sTable.' ON '.$p2sTable.'.product_id='.$productsTable.'.product_id'.
-                ' AND '.$p2sTable.'.store_id='.$this->config->get('config_store_id'),
+                ' AND '.$p2sTable.'.store_id='.$store_id,
                 'LEFT JOIN '.$pdTable.' ON '.$pdTable.'.product_id='.$productsTable.'.product_id'.
-                ' AND language_id='.(int)$this->config->get('storefront_language_id'),
+                ' AND language_id='.(int) $this->config->get('storefront_language_id'),
             ];
-            foreach ($conditions as $condition) {
+            foreach ($conditions as $k => $condition) {
                 //Brands filter
                 if ($condition['object'] === 'brands' && is_array($condition['value']) && !empty($condition['value'])) {
                     $arWhere[] = 'manufacturer_id '.$this->gerInOperator($condition['operator'], $relation['value']).
                         ' ('.implode(',', $condition['value']).')';
                 }
                 //Category filter
-                if ($condition['object'] === 'categories' && is_array($condition['value']) && !empty($condition['value'])) {
-                    $arSelect[] = $p2cTable.'.category_id';
-                    $arJoins[] = 'LEFT JOIN '.$p2cTable.' ON '.$p2cTable.'.product_id='.$productsTable.'.product_id';
-                    $arWhere[] = 'category_id '.$this->gerInOperator($condition['operator'], $relation['value']).
+                if ($condition['object'] === 'categories'
+                    && is_array($condition['value'])
+                    && !empty($condition['value'])
+                ) {
+                    $arSelect[] = 'cat'.$k.'.category_id';
+                    $arJoins[] = 'LEFT JOIN '.$p2cTable.' cat'.$k
+                        .' ON cat'.$k.'.product_id='.$productsTable.'.product_id';
+                    $arWhere[] =
+                        ' cat'.$k.'.category_id '.$this->gerInOperator($condition['operator'], $relation['value']).
                         ' ('.implode(',', $condition['value']).')';
                 }
                 //Products filter
-                if ($condition['object'] === 'products' && is_array($condition['value']) && !empty($condition['value'])) {
-                    $arWhere[] = $productsTable.'.product_id '.$this->gerInOperator($condition['operator'], $relation['value']).
-                        ' ('.implode(',', $condition['value']).')';
+                if ($condition['object'] === 'products'
+                    && is_array($condition['value'])
+                    && !empty($condition['value'])
+                ) {
+                    $arWhere[] = $productsTable.'.product_id '
+                        .$this->gerInOperator($condition['operator'], $relation['value'])
+                        .' ('.implode(',', $condition['value']).')';
                 }
                 //Product price filter
-                if ($condition['object'] === 'product_price' && (int)$condition['value'] > 0) {
-                    $arWhere[] = 'price '.$this->gerEqualOperator($condition['operator'], $relation['value']).$condition['value'];
+                if ($condition['object'] === 'product_price' && (int) $condition['value'] > 0) {
+                    $arWhere[] = 'price '.$this->gerEqualOperator($condition['operator'], $relation['value'])
+                        .$condition['value'];
                 }
                 //Tags filter
-                if ($condition['object'] === 'tags' && is_array($condition['value']) && !empty($condition['value'])) {
-                    $arSelect[] = $productsTagsTable.'.tag';
-                    $arJoins[] = 'LEFT JOIN '.$productsTagsTable.' ON '.$productsTagsTable.'.product_id='.$productsTable.'.product_id'.
-                        ' AND '.$productsTagsTable.'.language_id='.(int)$this->config->get('storefront_language_id');
+                if ($condition['object'] === 'tags'
+                    && is_array($condition['value'])
+                    && !empty($condition['value'])
+                ) {
+                    $arSelect[] = ' tag'.$k.'.tag';
+                    $arJoins[] = 'LEFT JOIN '.$productsTagsTable.' tag'.$k.'
+                                    ON tag'.$k.'.product_id='.$productsTable.'.product_id'.
+                        ' AND tag'.$k.'.language_id='.(int) $this->config->get('storefront_language_id');
                     foreach ($condition['value'] as &$value) {
                         $value = "'".$value."'";
                     }
-                    $arWhere[] = 'tag '.$this->gerInOperator($condition['operator'], $relation['value']).
+                    $arWhere[] = 'tag'.$k.'.tag '.$this->gerInOperator($condition['operator'], $relation['value']).
                         ' ('.implode(',', $condition['value']).')';
                 }
             }
@@ -137,23 +169,23 @@ class ModelCatalogCollection extends Model
 
             $query .= ' GROUP BY '.$productsTable.'.product_id';
 
-            $allowedSort = array(
+            $allowedSort = [
                 'pd.name'       => 'LCASE('.$pdTable.'.name)',
                 'name'          => 'LCASE('.$pdTable.'.name)',
                 'p.sort_order'  => $productsTable.'.sort_order',
-                'sort_order'  => $productsTable.'.sort_order',
+                'sort_order'    => $productsTable.'.sort_order',
                 'p.price'       => 'final_price',
                 'price'         => 'final_price',
                 'special'       => 'final_price',
                 'rating'        => 'rating',
                 'date_modified' => $productsTable.'.date_modified',
                 'review'        => 'review',
-            );
+            ];
 
             if ($allowedSort[$sort]) {
-                $query .= ' ORDER BY '.$allowedSort[$sort].' '.($order ?: 'ASC');
+                $query .= ' ORDER BY '.$allowedSort[$sort].' '.($order ? : 'ASC');
             } else {
-                $query .= ' ORDER BY '.$productsTable.'.date_modified '.($order ?: 'ASC');
+                $query .= ' ORDER BY '.$productsTable.'.date_modified '.($order ? : 'ASC');
             }
 
             if (isset($start) && $limit) {
@@ -174,56 +206,69 @@ class ModelCatalogCollection extends Model
         return $result;
     }
 
+    /**
+     * @return string
+     */
     protected function sqlFinalPriceString()
     {
         //special prices
         if (is_object($this->customer) && $this->customer->isLogged()) {
-            $customer_group_id = (int)$this->customer->getCustomerGroupId();
+            $customer_group_id = (int) $this->customer->getCustomerGroupId();
         } else {
-            $customer_group_id = (int)$this->config->get('config_customer_group_id');
+            $customer_group_id = (int) $this->config->get('config_customer_group_id');
         }
 
         $p2sp = $this->db->table('product_specials');
         $p = $this->db->table('products');
 
-        $sql = ' ( SELECT '.$p2sp.'.price
-                    FROM '.$p2sp.
+        return 'COALESCE( 
+                ( SELECT '.$p2sp.'.price
+                  FROM '.$p2sp.
             ' WHERE '.$p2sp.'.product_id = '.$p.'.product_id'.
             ' AND '.$p2sp.'.customer_group_id = \''.$customer_group_id.'\''.
             ' AND (('.$p2sp.'.date_start = \'0000-00-00\' OR '.$p2sp.'.date_start < NOW())'.
             ' AND ('.$p2sp.'.date_end = \'0000-00-00\' OR '.$p2sp.'.date_end > NOW()))'.
-            ' ORDER BY '.$p2sp.'.priority ASC, '.$p2sp.'.price ASC LIMIT 1) ';
-        $sql = 'COALESCE( '.$sql.', '.$p.'.price) as final_price';
-
-        return $sql;
+            ' ORDER BY '.$p2sp.'.priority ASC, '.$p2sp.'.price ASC LIMIT 1
+                ), '.$p.'.price
+                ) as final_price';
     }
 
+    /**
+     * @return string
+     */
     protected function sqlAvgRatingString()
     {
         $rw = $this->db->table('reviews');
         $p = $this->db->table('products');
 
-        $sql = ' ( SELECT AVG('.$rw.'.rating)
+        return ' ( SELECT AVG('.$rw.'.rating)
                          FROM '.$this->db->table('reviews').' '.$rw.'
                          WHERE '.$p.'.product_id = '.$rw.'.product_id AND status = 1
                          GROUP BY '.$rw.'.product_id 
                  ) AS rating ';
-        return $sql;
     }
 
+    /**
+     * @return string
+     */
     protected function sqlReviewCountString()
     {
         $rw = $this->db->table('reviews');
         $p = $this->db->table('products');
 
-        $sql = ' ( SELECT COUNT('.$rw.'.review_id)
+        return ' ( SELECT COUNT('.$rw.'.review_id)
                          FROM '.$this->db->table('reviews').' '.$rw.'
                          WHERE '.$p.'.product_id = '.$rw.'.product_id AND status = 1
                          GROUP BY '.$rw.'.product_id 
                  ) AS review ';
-        return $sql;
     }
 
+    /**
+     * @param string $operator
+     * @param string $invert
+     *
+     * @return string
+     */
     private static function gerEqualOperator($operator, $invert)
     {
         if (($operator == 'eq' && $invert == 'true') || ($operator == 'neq' && $invert == 'false')) {
@@ -259,6 +304,12 @@ class ModelCatalogCollection extends Model
         return '=';
     }
 
+    /**
+     * @param $operator
+     * @param $invert
+     *
+     * @return string
+     */
     private static function gerInOperator($operator, $invert)
     {
         if (($operator == 'in' && $invert == 'true') || ($operator == 'notin' && $invert == 'false')) {
@@ -270,17 +321,27 @@ class ModelCatalogCollection extends Model
         return 'IN';
     }
 
+    /**
+     * @param $collectionId
+     * @param $limit
+     *
+     * @return false|array
+     * @throws AException
+     */
     public function getListingBlockProducts($collectionId, $limit)
     {
-        if (!(int)$collectionId) {
+        if (!(int) $collectionId) {
             return false;
         }
         $collection = self::getById($collectionId);
         if ($collection && $collection['conditions']) {
             $sortOrder = $this->config->get('config_product_default_sort_order');
             list ($sort, $order) = explode('-', $sortOrder);
-            $result = $this->getProducts($collection['conditions'], $sort ?: 'date_modified', $order ?: 'DESC', 0, $limit, $collectionId);
+            $result = $this->getProducts(
+                $collection['conditions'], $sort ? : 'date_modified', $order ? : 'DESC', 0, $limit, $collectionId
+            );
             return $result['items'];
         }
+        return false;
     }
 }

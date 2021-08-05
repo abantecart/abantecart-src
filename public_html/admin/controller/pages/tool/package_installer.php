@@ -39,15 +39,11 @@ class ControllerPagesToolPackageInstaller extends AController
         $this->_clean_temp_dir();
 
         $package_info = &$this->session->data['package_info'];
-        $extension_key = !$this->request->get['extension_key']
-            ? ''
-            : trim($this->request->get['extension_key']);
+        $extension_key = trim($this->request->get['extension_key']);
 
-        $extension_key = !$this->request->post['extension_key']
-            ? $extension_key
-            : trim($this->request->post['extension_key']);
+        $extension_key = trim($this->request->post['extension_key']) ?: $extension_key;
 
-        $extension_key = $package_info['extension_key'] ? $package_info['extension_key'] : $extension_key;
+        $extension_key = $package_info['extension_key'] ? : $extension_key;
         $this->session->data['package_info'] = [];
         $this->document->setTitle($this->language->get('heading_title'));
         $this->document->initBreadcrumb(
@@ -454,7 +450,7 @@ class ControllerPagesToolPackageInstaller extends AController
         }
         //if we have json returned, something went wrong.
         $package_name = '';
-        if (preg_match("/application\/json/", $headers['Content-Type'])) {
+        if (is_int(strpos($headers['content-type'], 'json'))) {
             $error = $pmanager->getRemoteFile($url, false);
             $error_text = $error['error'];
             $error_text = empty($error_text) ? 'Unknown error happened.' : $error_text;
@@ -480,7 +476,7 @@ class ControllerPagesToolPackageInstaller extends AController
 
         $package_info['package_url'] = $url;
         $package_info['package_name'] = $package_name;
-        $package_info['package_size'] = $headers['Content-Length'];
+        $package_info['package_size'] = $headers['content-length'];
         if ($headers['Support-Expiration']) {
             $package_info['support_expiration'] = $headers['Support-Expiration'];
         }
@@ -647,6 +643,15 @@ class ControllerPagesToolPackageInstaller extends AController
             $this->session->data['error'] = $this->language->get('error_package_structure');
             $this->_removeTempFiles();
             redirect($this->_get_begin_href());
+        }
+
+        //check system requirements
+        $results = checkPhpConfiguration((array)$config->phpmodules->item, (string)$config->phpminversion);
+        if($results){
+            foreach($results as $r) {
+                $this->session->data['error'] .= $r['body']."\n";
+            }
+            redirect($this->html->getSecureURL('tool/package_installer'));
         }
 
         //check cart version compatibility
@@ -1068,24 +1073,10 @@ class ControllerPagesToolPackageInstaller extends AController
     */
     private function _check_cart_version($config_xml)
     {
-        $full_check = false;
-        $minor_check = false;
-        $versions = [];
-        foreach ($config_xml->cartversions->item as $item) {
-            $version = (string) $item;
-            $versions[] = $version;
-            $subVersionArray = explode('.', preg_replace('/[^0-9\.]/', '', $version));
-            $full_check = versionCompare($version, VERSION, '<=');
-            $minor_check = versionCompare(
-                $subVersionArray[0].'.'.$subVersionArray[1],
-                MASTER_VERSION.'.'.MINOR_VERSION,
-                '=='
-            );
-
-            if ($full_check && $minor_check) {
-                break;
-            }
-        }
+        $versions = $config_xml->cartversions->item ? (array) $config_xml->cartversions->item : [];
+        $chks = isExtensionSupportsCart($versions);
+        $full_check = $chks['full_check'];
+        $minor_check = $chks['minor_check'];
 
         if (!$full_check || !$minor_check) {
             $this->session->data['package_info']['confirm_version_incompatibility'] = false;
@@ -1123,6 +1114,10 @@ class ControllerPagesToolPackageInstaller extends AController
         );
 
         $version = (string) $config->version;
+        //in case when short version such as 1.1. Replace it to 1.1.0
+        if (count(explode('.', $version)) == 2) {
+            $version .= '.0';
+        }
         $type = (string) $config->type;
         $type = !$type && $package_info['package_type'] ? $package_info['package_type'] : $type;
         $type = !$type ? 'extension' : $type;
@@ -1134,6 +1129,10 @@ class ControllerPagesToolPackageInstaller extends AController
             $already_installed = true;
             $installed_info = $this->extensions->getExtensionInfo($extension_id);
             $installed_version = $installed_info['version'];
+            //in case when short version such as 1.1. Replace it to 1.1.0
+            if (count(explode('.', $installed_version)) == 2) {
+                $installed_version .= '.0';
+            }
 
             if (versionCompare($version, $installed_version, '<=')) {
                 // if installed version the same or higher - do nothing
@@ -1190,15 +1189,15 @@ class ControllerPagesToolPackageInstaller extends AController
          */
         $this->extension_manager->add(
             [
-                'type'            => (string) $config->type,
-                'key'             => (string) $config->id,
-                'status'          => 0,
-                'priority'        => (string) $config->priority,
-                'version'         => (string) $config->version,
-                'license_key'     => $this->registry->get('session')->data['package_info']['extension_key'],
-                'category'        => (string) $config->category,
+                'type'               => (string) $config->type,
+                'key'                => (string) $config->id,
+                'status'             => 0,
+                'priority'           => (string) $config->priority,
+                'version'            => (string) $config->version,
+                'license_key'        => $this->registry->get('session')->data['package_info']['extension_key'],
+                'category'           => (string) $config->category,
                 'support_expiration' => (string) $package_info['support_expiration'],
-                'mp_product_url'  => (string) $package_info['product_url'],
+                'mp_product_url'     => (string) $package_info['product_url'],
             ]
         );
 

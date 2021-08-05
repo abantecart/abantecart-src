@@ -5,10 +5,10 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
-  Lincence details is bundled with this package in the file LICENSE.txt.
+  Licence details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
   <http://www.opensource.org/licenses/OSL-3.0>
 
@@ -35,14 +35,13 @@ class ExtensionDefaultPpPro extends Extension
     //Hook to extension edit in the admin
     public function onControllerPagesExtensionExtensions_UpdateData()
     {
-
         $that = $this->baseObject;
         $current_ext_id = $that->request->get['extension'];
         if (IS_ADMIN && $current_ext_id == 'default_pp_pro' && $this->baseObject_method == 'edit') {
-            $html = '<a class="btn btn-white tooltips"
-						target="_blank"
-						href="https://www.paypal.com/us/webapps/mpp/referral/paypal-payments-pro?partner_id=V5VQZUVNK5RT6"
-						title="Visit Paypal"><i class="fa fa-external-link fa-lg"></i></a>';
+            $html = '<a class="btn btn-white tooltips" '
+                .'target="_blank" '
+                .'href="https://www.paypal.com/us/webapps/mpp/referral/paypal-payments-pro?partner_id=V5VQZUVNK5RT6" '
+                .'title="Visit Paypal"><i class="fa fa-external-link fa-lg"></i></a>';
 
             $that->view->addHookVar('extension_toolbar_buttons', $html);
         }
@@ -68,7 +67,10 @@ class ExtensionDefaultPpPro extends Extension
             }
 
             $that->data['groups'][] = 'payment_details';
-            $that->data['link_payment_details'] = $that->html->getSecureURL('sale/order/payment_details', '&order_id='.$order_id.'&extension=default_pp_pro');
+            $that->data['link_payment_details'] = $that->html->getSecureURL(
+                'sale/order/payment_details',
+                '&order_id='.$order_id.'&extension=default_pp_pro'
+            );
             //reload main view data with updated tab
             $that->view->batchAssign($that->data);
         }
@@ -82,20 +84,29 @@ class ExtensionDefaultPpPro extends Extension
          */
         $that = $this->baseObject;
         //are we logged to admin and correct method called?
-        if (IS_ADMIN && $that->user->isLogged() && $this->baseObject_method == 'payment_details' && has_value($that->data['order_info']['payment_method_data'])) {
-
+        if (IS_ADMIN
+            && $that->user->isLogged()
+            && $this->baseObject_method == 'payment_details'
+            && has_value($that->data['order_info']['payment_method_data'])
+        ) {
             $payment_method_data = unserialize($that->data['order_info']['payment_method_data']);
-
-            if (has_value($payment_method_data['payment_method']) && $payment_method_data['payment_method'] == 'default_pp_pro') {
+            if (is_array($payment_method_data)
+                && has_value($payment_method_data['payment_method'])
+                && $payment_method_data['payment_method'] == 'default_pp_pro'
+            ) {
                 $that->loadLanguage('default_pp_pro/default_pp_pro');
 
                 // for some reason after language loading 'button_invoice' html object is removed from baseObject->data
-                $that->view->assign('button_invoice', $that->html->buildButton(array(
-                    'name' => 'btn_invoice',
-                    'text' => $that->language->get('text_invoice'),
-                )));
+                $that->view->assign(
+                    'button_invoice', $that->html->buildButton(
+                    [
+                        'name' => 'btn_invoice',
+                        'text' => $that->language->get('text_invoice'),
+                    ]
+                )
+                );
 
-                $data = array();
+                $data = [];
                 $data['text_payment_status'] = $that->language->get('text_payment_status');
                 if (strtolower($payment_method_data['PAYMENTACTION']) == 'authorization') {
                     // show "capture" form
@@ -105,11 +116,13 @@ class ExtensionDefaultPpPro extends Extension
                     $tpl_data = $this->_get_refund_form($data, $payment_method_data);
                 }
 
-
                 $view = new AView($this->registry, 0);
                 $view->batchAssign($that->language->getASet('default_pp_pro/default_pp_pro'));
                 $view->batchAssign($tpl_data);
-                $that->view->addHookVar('extension_payment_details', $view->fetch('pages/sale/pp_pro_payment_details.tpl'));
+                $that->view->addHookVar(
+                    'extension_payment_details',
+                    $view->fetch('pages/sale/pp_pro_payment_details.tpl')
+                );
             }
         }
     }
@@ -121,35 +134,39 @@ class ExtensionDefaultPpPro extends Extension
      * @return array
      * @throws AException
      */
-    private function _get_capture_form($data = array(), $payment_method_data = array())
+    private function _get_capture_form($data = [], $payment_method_data = [])
     {
         /**
          * @var $that ControllerPagesSaleOrder
          */
         $that = $this->baseObject;
 
-        $captured_amount = has_value($payment_method_data['captured_amount']) ? (float)$payment_method_data['captured_amount'] : 0;
+        $captured_amount = has_value($payment_method_data['captured_amount'])
+            ? (float) $payment_method_data['captured_amount']
+            : 0;
 
         if ($captured_amount < $payment_method_data['AMT']) {
             $data['payment_status'] = $that->language->get('text_pending_authorization');
             $data['pp_capture_amount'] = $that->html->buildInput(
-                array(
+                [
                     'name'  => 'pp_capture_amount',
                     'value' => $payment_method_data['AMT'] - $captured_amount,
                     'style' => 'no-save',
                     'attr'  => 'disabled',
-                )
+                ]
             );
             $data['text_capture_funds'] = $that->language->get('text_capture_funds');
-            $data['pp_capture_submit'] = $that->html->buildElement(array(
-                'type' => 'button',
-                'text' => $that->language->get('text_capture'),
-                'name' => 'pp_capture_submit',
-            ));
+            $data['pp_capture_submit'] = $that->html->buildElement(
+                [
+                    'type' => 'button',
+                    'text' => $that->language->get('text_capture'),
+                    'name' => 'pp_capture_submit',
+                ]
+            );
 
             $data['pp_capture_action'] = $that->html->getSecureURL(
                 'r/extension/default_pp_pro/capture',
-                '&order_id='.(int)$that->data['order_info']['order_id'].
+                '&order_id='.(int) $that->data['order_info']['order_id'].
                 '&currency='.$that->data['currency']['code']
             );
         } else {
@@ -157,7 +174,6 @@ class ExtensionDefaultPpPro extends Extension
         }
 
         if ($captured_amount > 0) {
-
             return $this->_get_refund_form($data, $payment_method_data, $captured_amount);
         } else {
             return $data;
@@ -172,48 +188,53 @@ class ExtensionDefaultPpPro extends Extension
      * @return array
      * @throws AException
      */
-    private function _get_refund_form($data = array(), $payment_method_data = array(), $not_refunded = 0)
+    protected function _get_refund_form($data = [], $payment_method_data = [], $not_refunded = 0)
     {
-        /**
-         * @var $that ControllerPagesSaleOrder
-         */
+        /** @var $that ControllerPagesSaleOrder */
         $that = $this->baseObject;
-        $refunded_amount = has_value($payment_method_data['refunded_amount']) ? (float)$payment_method_data['refunded_amount'] : 0;
+        $refunded_amount = has_value($payment_method_data['refunded_amount'])
+            ? (float) $payment_method_data['refunded_amount']
+            : 0;
 
         if ($not_refunded) {
             $data['add_to_capture'] = true;
-            $not_refunded = (float)$not_refunded;
+            $not_refunded = (float) $not_refunded;
         } else {
             $data['add_to_capture'] = false;
-            $not_refunded = (float)$payment_method_data['AMT'];
+            $not_refunded = (float) $payment_method_data['AMT'];
         }
 
         $data['payment_status'] = $that->language->get('text_processing');
 
-        if ((float)$refunded_amount > 0) {
+        if ((float) $refunded_amount > 0) {
             $data['payment_status'] = $that->language->get('text_partially_refunded');
-            $data['refunded_amount'] = $that->currency->format($refunded_amount, $that->data['order_info']['currency'],1);
+            $data['refunded_amount'] = $that->currency->format(
+                $refunded_amount,
+                $that->data['order_info']['currency'],
+                1
+            );
         }
 
-        if ((float)$refunded_amount < $not_refunded) {
-
+        if ((float) $refunded_amount < $not_refunded) {
             $data['pp_refund_amount'] = $that->html->buildInput(
-                array(
+                [
                     'name'  => 'pp_refund_amount',
                     'value' => $not_refunded - $refunded_amount,
                     'style' => 'no-save',
-                )
+                ]
             );
             $data['text_do_paypal_refund'] = $that->language->get('text_do_paypal_refund');
-            $data['pp_refund_submit'] = $that->html->buildElement(array(
-                'type'  => 'button',
-                'text'  => $that->language->get('text_refund'),
-                'title' => $that->language->get('text_refund'),
-                'name'  => 'pp_refund_submit',
-            ));
+            $data['pp_refund_submit'] = $that->html->buildElement(
+                [
+                    'type'  => 'button',
+                    'text'  => $that->language->get('text_refund'),
+                    'title' => $that->language->get('text_refund'),
+                    'name'  => 'pp_refund_submit',
+                ]
+            );
 
-            $params = '&order_id='.(int)$that->data['order_info']['order_id'].
-                '&currency='.$that->data['currency']['code'];
+            $params = '&order_id='.(int) $that->data['order_info']['order_id']
+                .'&currency='.$that->data['currency']['code'];
 
             if ($data['add_to_capture']) {
                 $params .= '&refund_captured=1';
@@ -223,7 +244,6 @@ class ExtensionDefaultPpPro extends Extension
                 'r/extension/default_pp_pro/refund',
                 $params
             );
-
         } else {
             $data['payment_status'] = $that->language->get('text_refunded');
         }

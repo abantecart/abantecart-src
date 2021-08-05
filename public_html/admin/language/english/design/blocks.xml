@@ -154,7 +154,7 @@
 	</definition>
 	<definition>
 		<key>text_manufacturers</key>
-		<value><![CDATA[Manufacturers]]></value>
+		<value><![CDATA[Brands]]></value>
 	</definition>
 	<definition>
 		<key>text_featured</key>
@@ -186,7 +186,7 @@
 	</definition>
 	<definition>
 		<key>text_custom_manufacturers</key>
-		<value><![CDATA[Custom Manufacturers]]></value>
+		<value><![CDATA[Custom Brands]]></value>
 	</definition>
 	<definition>
 		<key>text_html_block</key>

@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Licence details is bundled with this package in the file LICENSE.txt.
@@ -23,8 +24,6 @@ if (!defined('DIR_CORE')) {
 
 class ControllerResponsesExtensionDefaultPPStandart extends AController
 {
-    public $data = array();
-
     public function main()
     {
         $this->data['button_confirm'] = $this->language->get('button_confirm');
@@ -47,8 +46,13 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
         $this->data['business'] = trim($this->config->get('default_pp_standart_email'));
         $this->data['item_name'] = html_entity_decode($this->config->get('store_name'), ENT_QUOTES, 'UTF-8');
         $this->data['currency_code'] = $order_info['currency'];
-        $this->data['amount'] =
-            $this->currency->format($order_info['total'], $order_info['currency'], $order_info['value'], false);
+        $this->data['amount'] = $this->currency->format(
+            $order_info['total'],
+            $order_info['currency'],
+            $order_info['value'],
+            false
+        );
+
         $this->data['first_name'] = html_entity_decode($order_info['payment_firstname'], ENT_QUOTES, 'UTF-8');
         $this->data['last_name'] = html_entity_decode($order_info['payment_lastname'], ENT_QUOTES, 'UTF-8');
         $this->data['address1'] = html_entity_decode($order_info['payment_address_1'], ENT_QUOTES, 'UTF-8');
@@ -59,16 +63,26 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
         $this->data['notify_url'] = $this->html->getURL('extension/default_pp_standart/callback');
         $this->data['email'] = $order_info['email'];
         $this->data['invoice'] = $this->session->data['order_id']
-            .' - '.html_entity_decode($order_info['payment_firstname'], ENT_QUOTES, 'UTF-8')
-            .' '.html_entity_decode($order_info['payment_lastname'], ENT_QUOTES, 'UTF-8');
+            .' - '
+            .html_entity_decode($order_info['payment_firstname'], ENT_QUOTES, 'UTF-8')
+            .' '
+            .html_entity_decode($order_info['payment_lastname'], ENT_QUOTES, 'UTF-8');
+
         $this->data['lc'] = $this->session->data['language'];
 
         if (has_value($this->config->get('default_pp_standart_custom_logo'))) {
             if (strpos($this->config->get('default_pp_standart_custom_logo'), 'http') === 0) {
-                $this->data['logoimg'] = $this->config->get('default_pp_standart_custom_logo');
+                $this->data['logo_url'] = $this->config->get('default_pp_standart_custom_logo');
+            } elseif (is_numeric($this->config->get('default_pp_standart_custom_logo'))) {
+                $resource = new AResource('image');
+                $image = $resource->getResource($this->config->get('default_pp_standart_custom_logo'));
+                $img_sub_path = $image['type_name'].'/'.$image['resource_path'];
+                if (is_file(DIR_RESOURCE.$img_sub_path)) {
+                    $this->data['logo_url'] = 'https:'.HTTPS_DIR_RESOURCE.$img_sub_path;
+                }
             } else {
-                $this->data['logoimg'] =
-                    HTTPS_SERVER.'resources/'.$this->config->get('default_pp_standart_custom_logo');
+                $this->data['logo_url'] = HTTPS_SERVER.'resources/'
+                    .$this->config->get('default_pp_standart_custom_logo');
             }
         }
 
@@ -79,11 +93,11 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
         $this->load->library('encryption');
         $encryption = new AEncryption($this->config->get('encryption_key'));
 
-        $this->data['products'] = array();
+        $this->data['products'] = [];
         $products = $this->cart->getProducts();
 
         foreach ($products as $product) {
-            $option_data = array();
+            $option_data = [];
 
             foreach ($product['option'] as $option) {
                 if ($option['type'] != 'file') {
@@ -93,44 +107,50 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
                     $value = mb_substr($filename, 0, mb_strrpos($filename, '.'));
                 }
 
-                $option_data[] = array(
+                $option_data[] = [
                     'name'  => $option['name'],
                     'value' => (mb_strlen($value) > 20 ? mb_substr($value, 0, 20).'..' : $value),
-                );
+                ];
             }
 
-            $this->data['products'][] = array(
+            $this->data['products'][] = [
                 'name'     => $product['name'],
                 'model'    => $product['model'],
-                'price'    => $this->currency->format($product['price'], $order_info['currency'], $order_info['value'],
-                    false),
+                'price'    => $this->currency->format(
+                    $product['price'], $order_info['currency'], $order_info['value'],
+                    false
+                ),
                 'quantity' => $product['quantity'],
                 'option'   => $option_data,
                 'weight'   => $product['weight'],
-            );
+            ];
         }
 
         $this->data['discount_amount_cart'] = 0;
         $totals = $this->cart->buildTotalDisplay();
 
         foreach ($totals['total_data'] as $total) {
-            if (in_array($total['id'], array('subtotal', 'total'))) {
+            if (in_array($total['id'], ['subtotal', 'total'])) {
                 continue;
             }
-            if (in_array($total['id'], array('promotion', 'coupon', 'balance'))) {
+            if (in_array($total['id'], ['promotion', 'coupon', 'balance'])) {
                 $total['value'] = $total['value'] < 0 ? $total['value'] * -1 : $total['value'];
-                $this->data['discount_amount_cart'] += $this->currency->format($total['value'], $order_info['currency'],
-                    $order_info['value'], false);
+                $this->data['discount_amount_cart'] += $this->currency->format(
+                    $total['value'], $order_info['currency'],
+                    $order_info['value'], false
+                );
             } else {
-                $this->data['products'][] = array(
+                $this->data['products'][] = [
                     'name'     => $total['title'],
                     'model'    => '',
-                    'price'    => $this->currency->format($total['value'], $order_info['currency'],
-                        $order_info['value'], false),
+                    'price'    => $this->currency->format(
+                        $total['value'], $order_info['currency'],
+                        $order_info['value'], false
+                    ),
                     'quantity' => 1,
-                    'option'   => array(),
+                    'option'   => [],
                     'weight'   => 0,
-                );
+                ];
             }
         }
 
@@ -139,17 +159,24 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
 
         if ($virtual_products) {
             foreach ($virtual_products as $k => $virtual) {
-                $this->data['products'][] = array(
+                $this->data['products'][] = [
                     'name'     => ($virtual['name'] ? $virtual['name'] : 'Virtual Product'),
                     'model'    => '',
-                    'price'    => $this->currency->format($virtual['amount'], $order_info['currency'],
-                        $order_info['value'], false),
+                    'price'    => $this->currency->format(
+                        $virtual['amount'], $order_info['currency'],
+                        $order_info['value'], false
+                    ),
                     'quantity' => ($virtual['quantity'] ? $virtual['quantity'] : 1),
-                    'option'   => array(),
+                    'option'   => [],
                     'weight'   => 0,
-                );
+                ];
                 $this->data['items_total'] += ($virtual['quantity'] ? $virtual['quantity'] : 1)
-                    * $this->currency->format($virtual['amount'], $order_info['currency'], $order_info['value'], false);
+                    * $this->currency->format(
+                        $virtual['amount'],
+                        $order_info['currency'],
+                        $order_info['value'],
+                        false
+                    );
             }
         }
 
@@ -171,19 +198,21 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
         $this->data['back'] = $back_url;
         $this->data['custom'] = $encryption->encrypt($this->session->data['order_id']);
         $this->data['back'] = $this->html->buildElement(
-            array(
+            [
                 'type'  => 'button',
                 'name'  => 'back',
                 'text'  => $this->language->get('button_back'),
                 'style' => 'button',
                 'href'  => $back_url,
-            ));
+            ]
+        );
         $this->data['button_confirm'] = $this->html->buildElement(
-            array(
+            [
                 'type'  => 'submit',
                 'name'  => $this->language->get('button_confirm'),
                 'style' => 'button',
-            ));
+            ]
+        );
 
         $this->view->batchAssign($this->data);
         $this->processTemplate('responses/default_pp_standart.tpl');
@@ -228,7 +257,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
         ) {
             $this->load->language('default_pp_standart/default_pp_standart');
             $message .= $this->language->get('text_suspect');
-            $params = array(
+            $params = [
                 'payment_status',
                 'pending_reason',
                 'address_zip',
@@ -244,7 +273,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
                 'shipping',
                 'ipn_track_id',
                 'receiver_email',
-            );
+            ];
             foreach ($params as $p) {
                 if (isset($this->request->post[$p])) {
                     $message .= $p.": ".$this->request->post[$p]."<br>\n";
@@ -277,7 +306,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
         $response = curl_exec($ch);
         curl_close($ch);
 
-        $args = array('order_id' => $order_id);
+        $args = ['order_id' => $order_id];
         if ($suspect === true) {
             // set pending status for all suspected orders
             $args['order_status_id'] = 1;
@@ -320,7 +349,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
             }
         }
         //call confirm or update method of model
-        call_user_func_array(array($this->model_checkout_order, $method), $args);
+        call_user_func_array([$this->model_checkout_order, $method], $args);
         $this->model_checkout_order->updatePaymentMethodData($this->session->data['order_id'], $response);
         return true;
     }
@@ -339,14 +368,14 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
 
     public function is_confirmed()
     {
-        $order_id = (int)$this->session->data['order_id'];
+        $order_id = (int) $this->session->data['order_id'];
         if (!$order_id) {
             $result = true;
         } else {
             $this->loadModel('checkout/order');
             $order_info = $this->model_checkout_order->getOrder($order_id);
             //do nothing if order confirmed or it's not created with paypal standart
-            if ((int)$order_info['order_status_id'] != 0
+            if ((int) $order_info['order_status_id'] != 0
                 || $order_info['payment_method_key'] != 'default_pp_standart'
             ) {
                 $result = true;
@@ -357,6 +386,6 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
 
         $this->load->library('json');
         $this->response->addJSONHeader();
-        $this->response->setOutput(AJson::encode(array('result' => $result)));
+        $this->response->setOutput(AJson::encode(['result' => $result]));
     }
 }

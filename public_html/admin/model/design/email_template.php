@@ -1,18 +1,42 @@
 <?php
 
+/*------------------------------------------------------------------------------
+  $Id$
+
+  AbanteCart, Ideal OpenSource Ecommerce Solution
+  http://www.AbanteCart.com
+
+  Copyright © 2011-2021 Belavier Commerce LLC
+
+  This source file is subject to Open Software License (OSL 3.0)
+  License details is bundled with this package in the file LICENSE.txt.
+  It is also available at this URL:
+  <http://www.opensource.org/licenses/OSL-3.0>
+
+ UPGRADE NOTE:
+   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+   versions in the future. If you wish to customize AbanteCart for your
+   needs please refer to http://www.AbanteCart.com for more information.
+------------------------------------------------------------------------------*/
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
 
+/**
+ * Class ModelDesignEmailTemplate
+ */
 class ModelDesignEmailTemplate extends Model
 {
-    public static function getEmailTemplates(array $data)
+    /**
+     * @param array $data
+     *
+     * @return array
+     * @throws AException
+     */
+    public function getEmailTemplates(array $data)
     {
-        $db = Registry::getInstance()->get('db');
-        $language = Registry::getInstance()->get('language');
-
-        $etTableName = $db->table('email_templates');
-        $langTableName = $db->table('languages');
+        $etTableName = $this->db->table('email_templates');
+        $langTableName = $this->db->table('languages');
 
         $query = 'SELECT SQL_CALC_FOUND_ROWS '.$etTableName.'.id, 
          '.$etTableName.'.status, 
@@ -36,25 +60,23 @@ class ModelDesignEmailTemplate extends Model
         $arWhere = [];
         if (isset($data['_search']) && $data['_search'] == 'true') {
             $filters = json_decode(htmlspecialchars_decode($data['filters']), true);
-            foreach ((array)$filters['rules'] as $filter) {
+            foreach ((array) $filters['rules'] as $filter) {
                 if (!$allowedSearchFields[$filter['field']]) {
                     continue;
                 }
-                $arWhere[] = $allowedSearchFields[$filter['field']].' LIKE \'%'.$db->escape($filter['data']).'%\'';
-
+                $arWhere[] = $allowedSearchFields[$filter['field']]
+                    .' LIKE \'%'.$this->db->escape($filter['data']).'%\'';
             }
         }
 
-
-        $arWhere[] = $allowedSearchFields['store_id'].'='.($data['store_id'] ?: '0');
-        $arWhere[] = $etTableName.'.language_id'.'='.$language->getContentLanguageID();
-
+        $arWhere[] = $allowedSearchFields['store_id'].'='.($data['store_id'] ? : '0');
+        $arWhere[] = $etTableName.'.language_id'.'='.$this->language->getContentLanguageID();
 
         if (!empty($arWhere)) {
             $query .= ' WHERE '.implode(' AND ', $arWhere);
         }
 
-            $allowedSortFields = [
+        $allowedSortFields = [
             'text_id'  => $etTableName.'.text_id',
             'language' => $langTableName.'.name',
             'subject'  => $etTableName.'.subject',
@@ -66,18 +88,16 @@ class ModelDesignEmailTemplate extends Model
         }
 
         $limit = 20;
-        if (isset($data['rows']) && (int)$data['rows'] <= 50) {
-            $limit = (int)$data['rows'];
+        if (isset($data['rows']) && (int) $data['rows'] <= 50) {
+            $limit = (int) $data['rows'];
         }
 
-        $page = isset($data['page']) ? (int)$data['page'] : 1;
+        $page = isset($data['page']) ? (int) $data['page'] : 1;
         $start = $page * $limit - $limit;
 
         $query .= " LIMIT ".$start.",".$limit;
-
-        $result = $db->query($query);
-
-        $total = $db->query('select found_rows() as total')->row['total'];
+        $result = $this->db->query($query);
+        $total = $this->db->query('select found_rows() as total')->row['total'];
 
         if ($result) {
             return [
@@ -95,102 +115,158 @@ class ModelDesignEmailTemplate extends Model
         ];
     }
 
-    public static function update($id, $data)
+    /**
+     * @param int $id
+     * @param array $data
+     *
+     * @return bool
+     * @throws AException
+     */
+    public function update($id, $data)
     {
-        if (!(int)$id) {
+        if (!(int) $id) {
             return false;
         }
-        $db = Registry::getInstance()->get('db');
-        $etTableName = $db->table('email_templates');
+        $etTableName = $this->db->table('email_templates');
 
         $arUpdate = [];
         foreach ($data as $key => $val) {
-            $arUpdate[] = $key.'=\''.$db->escape($val).'\'';
+            $arUpdate[] = $key.'=\''.$this->db->escape($val).'\'';
         }
         if (empty($arUpdate)) {
             return false;
         }
 
         $query = 'UPDATE '.$etTableName.' SET '.implode(',', $arUpdate).' WHERE id='.$id;
-        $db->query($query);
-
+        $this->db->query($query);
+        return true;
     }
 
-    public static function getById($id)
+    /**
+     * @param int $id
+     *
+     * @return false|array
+     * @throws AException
+     */
+    public function getById($id)
     {
-        if (!(int)$id) {
+        if (!(int) $id) {
             return false;
         }
-        $db = Registry::getInstance()->get('db');
-        $etTableName = $db->table('email_templates');
+        $etTableName = $this->db->table('email_templates');
 
         $query = 'SELECT * FROM '.$etTableName.' WHERE id='.$id;
-        $result = $db->query($query);
+        $result = $this->db->query($query);
         if ($result) {
-            return $result->rows[0];
+            return $result->row;
         }
         return false;
     }
 
-    public static function getByTextIdAndLanguageId($textId, $languageId)
+    /**
+     * @param string $textId
+     * @param int $languageId
+     *
+     * @return false|array
+     * @throws AException
+     */
+    public function getByTextIdAndLanguageId($textId, $languageId)
     {
-        if (!$textId || !(int)$languageId) {
+        if (!$textId || !(int) $languageId) {
             return false;
         }
-        $db = Registry::getInstance()->get('db');
-        $storeId = Registry::getInstance()->get('config')->get('config_store_id');
+        $storeId = $this->config->get('config_store_id');
 
-        $etTableName = $db->table('email_templates');
-        $query = 'SELECT * FROM '.$etTableName.' WHERE text_id=\''.$textId.'\' AND language_id='.(int)$languageId.' AND store_id='.$storeId;
-        $result = $db->query($query);
-        if ($result && $result->num_rows > 0) {
-            return $result->rows[0];
+        $etTableName = $this->db->table('email_templates');
+        $query = 'SELECT * 
+                    FROM '.$etTableName.' 
+                    WHERE text_id=\''.$textId.'\' 
+                        AND language_id='.(int) $languageId.' 
+                        AND store_id='.(int) $storeId;
+        $result = $this->db->query($query);
+        if ($result->num_rows) {
+            return $result->row;
         }
         return false;
     }
 
-    public static function insert($data)
+    /**
+     * @param array $data
+     *
+     * @return false|array
+     * @throws AException
+     */
+    public function insert($data)
     {
-        $db = Registry::getInstance()->get('db');
-        $etTableName = $db->table('email_templates');
+        $etTableName = $this->db->table('email_templates');
         $keys = array_keys($data);
         $values = array_values($data);
 
         foreach ($values as &$value) {
-            $value = $db->escape($value);
+            $value = $this->db->escape($value);
         }
 
-        $query = 'INSERT INTO '.$etTableName.' ('.implode(',', $keys).') VALUES (\''.implode('\',\'', $values).'\')';
-        if ($db->query($query)) {
-            return self::getByTextIdAndLanguageId($data['text_id'], $data['language_id']);
+        $query = 'INSERT INTO '.$etTableName.' ('.implode(',', $keys).') 
+                  VALUES (\''.implode('\',\'', $values).'\')';
+        if ($this->db->query($query)) {
+            return $this->getByTextIdAndLanguageId($data['text_id'], $data['language_id']);
         }
+        return false;
     }
 
-    public function copyToNewStore($oldStoreId, $newStoreId) {
-        if (!(int)$newStoreId) {
+    /**
+     * @param int $oldStoreId
+     * @param int $newStoreId
+     *
+     * @return bool
+     * @throws AException
+     */
+    public function copyToNewStore($oldStoreId, $newStoreId)
+    {
+        if (!(int) $newStoreId) {
             return false;
         }
         $etTableName = $this->db->table('email_templates');
-        $sql = 'SELECT * FROM '.$etTableName.' WHERE store_id='.$oldStoreId;
+        $sql = 'SELECT * 
+                FROM '.$etTableName.' 
+                WHERE store_id='.$oldStoreId;
         $result = $this->db->query($sql);
         if ($result && $result->num_rows > 0) {
             foreach ($result->rows as $row) {
                 $row['store_id'] = $newStoreId;
-                $this->db->query('INSERT INTO '.$etTableName.'(`status`, `text_id`, `language_id`, `headers`, `subject`, `html_body`, `text_body`, `allowed_placeholders`, `store_id`)'.
-                    ' VALUES ('.$row['status'].', \''.$row['text_id'].'\', '.$row['language_id'].', \''.$row['headers'].'\', \''.$row['subject'].'\', \''.$row['html_body'].'\', \''.$row['text_body'].'\', \''.$row['allowed_placeholders'].'\', '.$row['store_id'].')');
+                $this->db->query(
+                    "INSERT INTO ".$etTableName." 
+                        (`status`, `text_id`, `language_id`, `headers`, `subject`, `html_body`, `text_body`, `allowed_placeholders`, `store_id`) 
+                        VALUES (
+                        ".(int) $row['status'].", 
+                        '".$row['text_id']."', 
+                        ".(int) $row['language_id'].", 
+                        '".$row['headers']."', 
+                        '".$row['subject']."', 
+                        '".$row['html_body']."', 
+                        '".$row['text_body']."', 
+                        '".$row['allowed_placeholders']."', 
+                        ".$row['store_id'].")"
+                );
             }
         }
+        return true;
     }
 
-    public static function delete($id)
+    /**
+     * @param int $id
+     *
+     * @return boolean
+     * @throws AException
+     */
+    public function delete($id)
     {
-        if (!(int)$id) {
+        if (!(int) $id) {
             return false;
         }
-        $db = Registry::getInstance()->get('db');
-        $etTableName = $db->table('email_templates');
+        $etTableName = $this->db->table('email_templates');
         $query = 'DELETE FROM '.$etTableName.' WHERE id='.$id;
-        $db->query($query);
+        $this->db->query($query);
+        return true;
     }
-
 }

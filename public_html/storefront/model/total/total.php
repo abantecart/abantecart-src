@@ -37,8 +37,8 @@ class ModelTotalTotal extends Model
             foreach ($total_data as $total_record) {
                 $converted_sum += $this->currency->format_number($total_record['value']);
             }
-            //if there is a conversion fractional loss, adjust total base currency price. 
-            //This is not ideal solution, need to address in the future. 
+            //if there is a conversion fractional loss, adjust total base currency price.
+            //This is not ideal solution, need to address in the future.
             $converted_total = $this->currency->format_number($total);
             if ($converted_total != $converted_sum) {
                 $curr = $this->currency->getCurrency();

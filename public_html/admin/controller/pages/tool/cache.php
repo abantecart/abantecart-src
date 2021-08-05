@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,113 +23,120 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerPagesToolCache extends AController
 {
-    private $error = array();
+    public $error = [];
     public $data;
 
     public function main()
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-
         $this->document->setTitle($this->language->get('heading_title'));
-
-        $this->document->initBreadcrumb(array(
+        $this->document->initBreadcrumb(
+            [
             'href'      => $this->html->getSecureURL('index/home'),
             'text'      => $this->language->get('text_home'),
             'separator' => false,
-        ));
-        $this->document->addBreadcrumb(array(
+            ]
+        );
+        $this->document->addBreadcrumb(
+            [
             'href'      => $this->html->getSecureURL('tool/cache'),
             'text'      => $this->language->get('heading_title'),
             'separator' => ' :: ',
             'current'   => true,
-        ));
+            ]
+        );
 
-        $this->data['sections'] = array(
-            array(
+        $this->data['sections'] = [
+            [
                 'id'          => 'configuration',
                 'text'        => $this->language->get('text_configuration'),
                 'description' => $this->language->get('desc_configuration'),
-                'keywords'    => 'settings,extensions,store,stores,attribute,attributes,length_class,contents,tax_class,order_status,stock_status,weight_class,storefront_menu,tables',
-            ),
-            array(
+                'keywords'    => 'settings,extensions,store,stores,attribute,attributes,'
+                                .'length_class,contents,tax_class,order_status,stock_status,'
+                                .'weight_class,storefront_menu,tables',
+            ],
+            [
                 'id'          => 'layout',
                 'text'        => $this->language->get('text_layouts_blocks'),
                 'description' => $this->language->get('desc_layouts_blocks'),
                 'keywords'    => 'layout, pages, blocks',
-            ),
-            array(
+            ],
+            [
                 'id'          => 'flexyforms',
                 'text'        => $this->language->get('text_flexyforms'),
                 'description' => $this->language->get('desc_flexyforms'),
                 'keywords'    => 'forms',
-            ),
-            array(
+            ],
+            [
                 'id'          => 'image',
                 'text'        => $this->language->get('text_images'),
                 'description' => $this->language->get('desc_images'),
                 'keywords'    => 'image,resources',
-            ),
-            array(
+            ],
+            [
                 'id'          => 'product',
                 'text'        => $this->language->get('text_products'),
                 'description' => $this->language->get('desc_products'),
                 'keywords'    => 'product',
-            ),
-            array(
+            ],
+            [
                 'id'          => 'category',
                 'text'        => $this->language->get('text_categories'),
                 'description' => $this->language->get('desc_categories'),
                 'keywords'    => 'category',
-            ),
-            array(
+            ],
+            [
                 'id'          => 'manufacturer',
                 'text'        => $this->language->get('text_manufacturers'),
                 'description' => $this->language->get('desc_manufacturers'),
                 'keywords'    => 'manufacturer',
-            ),
-            array(
+            ],
+            [
                 'id'          => 'localisation',
                 'text'        => $this->language->get('text_localisations'),
                 'description' => $this->language->get('desc_localisations'),
                 'keywords'    => 'localization',
-            ),
-            array(
+            ],
+            [
                 'id'          => 'error_log',
                 'text'        => $this->language->get('text_error_log'),
                 'description' => $this->language->get('desc_error_log'),
                 'keywords'    => 'error_log',
-            ),
-            array(
+            ],
+            [
                 'id'          => 'install_upgrade_history',
                 'text'        => $this->language->get('text_install_upgrade_history'),
                 'description' => $this->language->get('desc_install_upgrade_history'),
                 'keywords'    => 'install_upgrade_history',
-            ),
-            array(
-                'id'          => 'html_cache',
-                'text'        => $this->language->get('text_html_cache'),
-                'description' => $this->language->get('desc_html_cache'),
-                'keywords'    => 'html_cache',
-            ),
-        );
+            ],
+//            [
+//                'id'          => 'html_cache',
+//                'text'        => $this->language->get('text_html_cache'),
+//                'description' => $this->language->get('desc_html_cache'),
+//                'keywords'    => 'html_cache',
+//            ],
+        ];
 
         $form = new AForm('ST');
-        $form->setForm(array('form_name' => 'cacheFrm'));
+        $form->setForm(['form_name' => 'cacheFrm']);
         $this->data['form']['form_open'] = $form->getFieldHtml(
-            array(
+            [
                 'type'   => 'form',
                 'name'   => 'cacheFrm',
                 'action' => $this->html->getSecureURL('tool/cache/delete'),
-            ));
+            ]
+        );
 
         $this->data['form']['submit'] = $form->getFieldHtml(
-            array(
+            [
                 'type'  => 'button',
                 'name'  => 'submit',
                 'text'  => $this->language->get('text_clear_cache'),
                 'style' => 'button1',
-            ));
+            ]
+        );
+
         if (isset($this->error['warning'])) {
             $this->data['error_warning'] = $this->error['warning'];
         } else {
@@ -152,7 +159,6 @@ class ControllerPagesToolCache extends AController
 
     public function delete()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $selected = $this->request->get_or_post('selected');
@@ -182,9 +188,9 @@ class ControllerPagesToolCache extends AController
                             $this->loadModel('tool/install_upgrade_history');
                             $this->model_tool_install_upgrade_history->deleteData();
                             break;
-                        case 'html_cache':
-                            $this->cache->remove('html_cache');
-                            break;
+//                        case 'html_cache':
+//                            $this->cache->remove('html_cache');
+//                            break;
                         default:
                             $this->cache->remove($group);
                             foreach ($languages as $lang) {
@@ -205,7 +211,7 @@ class ControllerPagesToolCache extends AController
         }
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-        $this->redirect($this->html->getSecureURL('tool/cache'));
+        redirect($this->html->getSecureURL('tool/cache'));
     }
 
     public function deleteThumbnails()

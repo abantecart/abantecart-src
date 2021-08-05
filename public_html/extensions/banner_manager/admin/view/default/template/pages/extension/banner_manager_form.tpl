@@ -108,7 +108,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	$('#BannerFrm_banner_group_name0').on('change',function(){
-	    if($(this).val()=='new'){
+	    if($(this).val()=='-100'){
 	    	$('#BannerFrm_banner_group_name1').fadeIn().focus();
 	    }else{
 	    	$('#BannerFrm_banner_group_name1').fadeOut();

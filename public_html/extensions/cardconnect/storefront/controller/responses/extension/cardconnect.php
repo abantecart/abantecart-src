@@ -8,8 +8,8 @@
 class ControllerResponsesExtensionCardConnect extends AController
 {
 
-    public $data = array();
-    public $error = array();
+    public $data = [];
+    public $error = [];
 
     public function main()
     {
@@ -21,54 +21,59 @@ class ControllerResponsesExtensionCardConnect extends AController
 
         $this->data['entry_cc_owner'] = $this->language->get('entry_cc_owner');
         $this->data['cc_owner'] = HtmlElementFactory::create(
-            array(
+            [
                 'type'        => 'input',
                 'name'        => 'cc_owner',
                 'placeholder' => $this->language->get('entry_cc_owner'),
                 'value'       => $order_info['payment_firstname'].' '.$order_info['payment_lastname'],
-            ));
+            ]
+        );
 
         $this->data['entry_cc_number'] = $this->language->get('entry_cc_number');
         $this->data['cc_number'] = HtmlElementFactory::create(
-            array(
+            [
                 'type'        => 'input',
                 'name'        => 'cc_number',
                 'attr'        => 'autocomplete="off"',
                 'placeholder' => $this->language->get('entry_cc_number'),
                 'value'       => '',
-            ));
+            ]
+        );
         $this->data['entry_cc_expire_date'] = $this->language->get('entry_cc_expire_date');
         $this->data['entry_cc_cvv2'] = $this->language->get('entry_cc_cvv2');
         $this->data['entry_cc_cvv2_short'] = $this->language->get('entry_cc_cvv2_short');
 
-        $this->data['months'] = array();
+        $this->data['months'] = [];
         for ($i = 1; $i <= 12; $i++) {
-            $this->data['months'][sprintf('%02d', $i)] = sprintf('%02d - ', $i)
+            $this->data['months'][sprintf('%02d', $i)] = sprintf(
+                    '%02d - ',
+                    $i
+                )
                 .strftime('%B', mktime(0, 0, 0, $i, 1, 2000));
         }
         $this->data['cc_expire_date_month'] = HtmlElementFactory::create(
-            array(
+            [
                 'type'    => 'selectbox',
                 'name'    => 'cc_expire_date_month',
                 'value'   => sprintf('%02d', date('m')),
                 'options' => $this->data['months'],
                 'style'   => 'input-medium short',
-            )
+            ]
         );
 
         $today = getdate();
-        $this->data['years'] = array();
+        $this->data['years'] = [];
         for ($i = $today['year']; $i < $today['year'] + 11; $i++) {
             $this->data['years'][strftime('%Y', mktime(0, 0, 0, 1, 1, $i))] = strftime('%Y', mktime(0, 0, 0, 1, 1, $i));
         }
         $this->data['cc_expire_date_year'] = HtmlElementFactory::create(
-            array(
+            [
                 'type'    => 'selectbox',
                 'name'    => 'cc_expire_date_year',
                 'value'   => sprintf('%02d', date('Y') + 1),
                 'options' => $this->data['years'],
                 'style'   => 'short',
-            )
+            ]
         );
 
         if ($this->customer->isLogged() && $this->config->get('cardconnect_save_cards_limit') > 0) {
@@ -76,38 +81,41 @@ class ControllerResponsesExtensionCardConnect extends AController
             $this->data['cards'] = $this->model_extension_cardconnect->getCards($this->customer->getId());
         } else {
             $this->data['store_cards'] = false;
-            $this->data['cards'] = array();
+            $this->data['cards'] = [];
         }
 
         if ($this->data['store_cards']) {
             //if customer see if we have cardconnect customer object created for credit card saving
             if ($this->customer->getId()) {
                 //load credit cards list
-                $cc_list = array();
+                $cc_list = [];
                 if (is_array($this->data['cards'])) {
                     foreach ($this->data['cards'] as $c_card) {
                         //use card token (hash from cardconnect-server)
                         $cc_list[$c_card['token']] = 'XXX'.$c_card['account'].' Exp:'.$c_card['expiry'];
                     }
                     if (count($cc_list)) {
-                        $this->data['saved_cc_list'] = HtmlElementFactory::create(array(
-                            'type'    => 'selectbox',
-                            'name'    => 'use_saved_cc',
-                            'value'   => '',
-                            'options' => $cc_list,
-                        ));
+                        $this->data['saved_cc_list'] = HtmlElementFactory::create(
+                            [
+                                'type'    => 'selectbox',
+                                'name'    => 'use_saved_cc',
+                                'value'   => '',
+                                'options' => $cc_list,
+                            ]
+                        );
                     }
                 }
                 //build credit card selector
                 //option to save creditcard if limit is not reached
                 if (count($cc_list) < $this->config->get('cardconnect_save_cards_limit')) {
                     $this->data['save_cc'] = HtmlElementFactory::create(
-                        array(
+                        [
                             'type'    => 'checkbox',
                             'name'    => 'save_cc',
                             'value'   => '1',
                             'checked' => false,
-                        ));
+                        ]
+                    );
                 }
             }
         }
@@ -120,24 +128,25 @@ class ControllerResponsesExtensionCardConnect extends AController
             ? $this->html->getSecureURL('checkout/payment')
             : $this->html->getSecureURL('checkout/guest_step_2');
         $this->data['back'] = HtmlElementFactory::create(
-            array(
+            [
                 'type'  => 'button',
                 'name'  => 'back',
                 'text'  => $this->language->get('button_back'),
                 'style' => 'button',
                 'href'  => $back,
                 'icon'  => 'icon-arrow-left',
-            )
+            ]
         );
 
         $this->data['submit'] = HtmlElementFactory::create(
-            array(
+            [
                 'type'  => 'button',
                 'name'  => 'cardconnect_button',
                 'text'  => $this->language->get('button_confirm'),
                 'style' => 'button btn-orange pull-right',
                 'icon'  => 'icon-ok icon-white',
-            ));
+            ]
+        );
 
         $this->data['cardconnect_rt'] = 'r/extension/cardconnect';
         $this->data['entry_cc_cvv2'] = $this->language->get('entry_cc_cvv2');
@@ -148,7 +157,9 @@ class ControllerResponsesExtensionCardConnect extends AController
         $this->data['text_credit_card'] = $this->language->get('text_credit_card');
         $this->data['text_wait'] = $this->language->get('text_wait');
 
-        $this->data['api_domain'] = $this->config->get('cardconnect_test_mode') ? 'fts-uat.cardconnect.com' : 'fts.cardconnect.com';
+        $this->data['api_domain'] = $this->config->get('cardconnect_test_mode')
+                                    ? 'fts-uat.cardconnect.com'
+                                    : 'fts.cardconnect.com';
 
         //load creditcard input validation
         $this->document->addScriptBottom($this->view->templateResource('/javascript/credit_card_validation.js'));
@@ -164,7 +175,7 @@ class ControllerResponsesExtensionCardConnect extends AController
         $this->loadLanguage('cardconnect/cardconnect');
 
         $image = '<img src="'.$this->view->templateResource('/image/securitycode.jpg').'" '
-            .'alt="'.$this->language->get('entry_what_cvv2').'" />';
+                    .'alt="'.$this->language->get('entry_what_cvv2').'" />';
 
         $this->view->assign('title', '');
         $this->view->assign('description', $image);
@@ -180,7 +191,7 @@ class ControllerResponsesExtensionCardConnect extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->loadLanguage('cardconnect/cardconnect');
-        $json = array();
+        $json = [];
         //validate input
         $post = $this->request->post;
         //check if saved cc mode is used
@@ -213,21 +224,11 @@ class ControllerResponsesExtensionCardConnect extends AController
 
         $order_id = $this->session->data['order_id'];
         // currency code
-        $currency = $this->currency->getCode();
         $cardnumber = preg_replace('/[^0-9]/', '', $post['cc_token']);
         $cvv2 = preg_replace('/[^0-9]/', '', $post['cc_cvv2']);
         // Card owner name
         $cardname = html_entity_decode($post['cc_owner'], ENT_QUOTES, 'UTF-8');
-        // order amount without decimal delimiter
-        $amount = round(
-                $this->currency->convert(
-                    $this->cart->getFinalTotal(),
-                    $this->config->get('config_currency'),
-                    $currency
-                ), 2);
-        $pd = array(
-            'amount'          => $amount,
-            'currency'        => $currency,
+        $pd = [
             'order_id'        => $order_id,
             'cc_number'       => $cardnumber,
             'cc_expire_month' => $post['cc_expire_date_month'],
@@ -237,7 +238,7 @@ class ControllerResponsesExtensionCardConnect extends AController
             'save_cc'         => $post['save_cc'],
             'use_saved_cc'    => $post['use_saved_cc'],
             'method'          => 'card',
-        );
+        ];
 
         ADebug::checkpoint('cardconnect payment: Start processing order ID '.$order_id);
 
@@ -246,7 +247,7 @@ class ControllerResponsesExtensionCardConnect extends AController
         ADebug::variable('Processing payment result: ', $p_result);
         if ($p_result['error']) {
             // transaction failed
-            $json['error'] = (string)$p_result['error'];
+            $json['error'] = (string) $p_result['error'];
             if ($p_result['code']) {
                 $json['error'] .= ' ('.$p_result['code'].')';
             }
@@ -264,7 +265,6 @@ class ControllerResponsesExtensionCardConnect extends AController
 
         $this->load->library('json');
         $this->response->setOutput(AJson::encode($json));
-
     }
 
     public function delete_card()
@@ -272,7 +272,7 @@ class ControllerResponsesExtensionCardConnect extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->loadLanguage('cardconnect/cardconnect');
-        $json = array();
+        $json = [];
         //validate input
         $post = $this->request->post;
         if (empty($post['use_saved_cc'])) {

@@ -34,7 +34,6 @@ if (!defined('DIR_CORE')) {
  */
 class AFile
 {
-
     /**
      * @var registry - access to application registry
      */
@@ -43,13 +42,12 @@ class AFile
     public function __construct()
     {
         $this->registry = Registry::getInstance();
-        $this->errors = array();
     }
 
     /**
      * @param  $key - key to load data from registry
      *
-     * @return mixed  - data from registry
+     * @return object|null  - data from registry
      */
     public function __get($key)
     {
@@ -60,7 +58,6 @@ class AFile
      * @param  string $key   - key to save data in registry
      * @param  mixed  $value - key to save data in registry
      *
-     * @return mixed  - data from registry
      */
     public function __set($key, $value)
     {
@@ -72,11 +69,12 @@ class AFile
      * @param array $data
      *
      * @return array
+     * @throws AException
      */
     public function validateFileOption($settings, $data)
     {
 
-        $errors = array();
+        $errors = [];
 
         if (empty($data['name'])) {
             $errors[] = $this->language->get('error_empty_file_name');
@@ -126,11 +124,11 @@ class AFile
     public function getUploadFilePath($upload_sub_dir, $file_name)
     {
         if (empty($file_name)) {
-            return array();
+            return [];
         }
-        $uplds_dir = DIR_ROOT.'/admin/system/uploads';
-        make_writable_dir($uplds_dir);
-        $file_path = $uplds_dir.'/'.$upload_sub_dir.'/';
+        $uploadsDir = DIR_ROOT.'/admin/system/uploads';
+        make_writable_dir($uploadsDir);
+        $file_path = $uploadsDir.'/'.$upload_sub_dir.'/';
         make_writable_dir($file_path);
 
         $ext = strrchr($file_name, '.');
@@ -150,7 +148,7 @@ class AFile
             $i++;
         } while (file_exists($real_path));
 
-        return array('name' => $new_name, 'path' => $real_path);
+        return ['name' => $new_name, 'path' => $real_path];
     }
 
     /**
@@ -158,7 +156,7 @@ class AFile
      *
      * @param string $url
      *
-     * @return object/bool
+     * @return stdClass|false
      */
     public function downloadFile($url)
     {
@@ -176,7 +174,7 @@ class AFile
      * @param object $download
      * @param string $target
      *
-     * @return int
+     * @return boolean|null
      */
     public function writeDownloadToFile($download, $target)
     {
@@ -191,7 +189,6 @@ class AFile
         $handle = @fopen($target, 'w+');
         $bytes = fwrite($handle, $download->body);
         @fclose($handle);
-
         return $bytes == $download->content_length;
     }
 
@@ -202,6 +199,7 @@ class AFile
         curl_setopt($ch, CURLOPT_URL, $uri);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 
         $response = new stdClass();
 
@@ -209,6 +207,10 @@ class AFile
         $response->http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $response->content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
         $response->content_length = curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
+        //trick for cdn-servers (case when content length unknown )
+        if($response->content_length < 0 ){
+            $response->content_length = strlen($response->body);
+        }
         curl_close($ch);
 
         return $response;

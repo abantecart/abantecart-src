@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,11 +24,8 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerResponsesListingGridCategory extends AController
 {
-    public $data = array();
-
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -37,8 +35,8 @@ class ControllerResponsesListingGridCategory extends AController
         $this->loadModel('tool/image');
 
         //Prepare filter config
-        $grid_filter_params = array_merge(array('name'), (array)$this->data['grid_filter_params']);
-        $filter = new AFilter(array('method' => 'post', 'grid_filter_params' => $grid_filter_params));
+        $grid_filter_params = array_merge(['name'], (array) $this->data['grid_filter_params']);
+        $filter = new AFilter(['method' => 'post', 'grid_filter_params' => $grid_filter_params]);
         $filter_data = $filter->getFilterData();
         //Add custom params
         //set parent to null to make search work by all category tree
@@ -47,7 +45,8 @@ class ControllerResponsesListingGridCategory extends AController
         //NOTE: search by all categories when parent_id not set or zero (top level)
 
         if ($filter_data['subsql_filter']) {
-            $filter_data['parent_id'] = ($filter_data['parent_id'] == 'null' || $filter_data['parent_id'] < 1) ? null : $filter_data['parent_id'];
+            $filter_data['parent_id'] = ($filter_data['parent_id'] == 'null' || $filter_data['parent_id'] < 1) ? null
+                : $filter_data['parent_id'];
         }
         if ($filter_data['parent_id'] === null || $filter_data['parent_id'] === 'null') {
             unset($filter_data['parent_id']);
@@ -59,11 +58,11 @@ class ControllerResponsesListingGridCategory extends AController
             $sort = $filter_data['sort'];
             $order = $filter_data['order'];
             //reset filter to get only parent category
-            $filter_data = array();
+            $filter_data = [];
             $filter_data['sort'] = $sort;
             $filter_data['order'] = $order;
-            $filter_data['parent_id'] = (integer)$this->request->post['nodeid'];
-            $new_level = (integer)$this->request->post["n_level"] + 1;
+            $filter_data['parent_id'] = (integer) $this->request->post['nodeid'];
+            $new_level = (integer) $this->request->post["n_level"] + 1;
         }
 
         $total = $this->model_catalog_category->getTotalCategories($filter_data);
@@ -76,18 +75,17 @@ class ControllerResponsesListingGridCategory extends AController
         $results = $this->model_catalog_category->getCategoriesData($filter_data);
 
         //build thumbnails list
-        $category_ids = array();
-        foreach ($results as $category) {
-            $category_ids[] = $category['category_id'];
-        }
+        $category_ids = array_column($results,'category_id');
         $resource = new AResource('image');
 
-        $thumbnails = $resource->getMainThumbList(
-            'categories',
-            $category_ids,
-            $this->config->get('config_image_grid_width'),
-            $this->config->get('config_image_grid_height')
-        );
+        $thumbnails = $category_ids
+            ? $resource->getMainThumbList(
+                    'categories',
+                    $category_ids,
+                    $this->config->get('config_image_grid_width'),
+                    $this->config->get('config_image_grid_height')
+                )
+            : [];
 
         $i = 0;
         $language_id = $this->language->getContentLanguageID();
@@ -96,56 +94,75 @@ class ControllerResponsesListingGridCategory extends AController
         foreach ($results as $result) {
             $thumbnail = $thumbnails[$result['category_id']];
             $response->rows[$i]['id'] = $result['category_id'];
-            $cnt = $this->model_catalog_category->getCategoriesData(array('parent_id' => $result['category_id']), 'total_only');
+            $cnt = $this->model_catalog_category->getCategoriesData(
+                [
+                    'parent_id' => $result['category_id']
+                ],
+                'total_only'
+            );
 
             if (!$result['products_count']) {
                 $products_count = 0;
             } else {
-                $products_count = (string)$this->html->buildElement(array(
-                    'type'  => 'button',
-                    'name'  => 'view products',
-                    'text'  => $result['products_count'],
-                    'href'  => $this->html->getSecureURL('catalog/product', '&category='.$result['category_id']),
-                    'title' => $title,
-                ));
+                $products_count = (string) $this->html->buildElement(
+                    [
+                        'type'  => 'button',
+                        'name'  => 'view products',
+                        'text'  => $result['products_count'],
+                        'href'  => $this->html->getSecureURL(
+                            'catalog/product',
+                            '&category='.$result['category_id']
+                        ),
+                        'title' => $title,
+                    ]
+                );
             }
 
             //tree grid structure
             if ($this->config->get('config_show_tree_data')) {
                 $name_label = '<label class="grid-parent-category" >'.$result['basename'].'</label>';
             } else {
-                $name_label = '<label class="grid-parent-category">'.(str_replace($result['basename'], '', $result['name'])).'</label>'
-                    .$this->html->buildInput(array(
-                        'name'  => 'category_description['.$result['category_id'].']['.$language_id.'][name]',
-                        'value' => $result['basename'],
-                        'attr'  => ' maxlength="32" ',
-                    ));
+                $name_label =
+                    '<label class="grid-parent-category">'.(str_replace($result['basename'], '', $result['name']))
+                    .'</label>'
+                    .$this->html->buildInput(
+                        [
+                            'name'  => 'category_description['.$result['category_id'].']['.$language_id.'][name]',
+                            'value' => $result['basename'],
+                            'attr'  => ' maxlength="32" ',
+                        ]
+                    );
             }
 
-            $response->rows[$i]['cell'] = array(
+            $response->rows[$i]['cell'] = [
                 $thumbnail['thumb_html'],
                 $name_label,
-                $this->html->buildInput(array(
-                    'name'  => 'sort_order['.$result['category_id'].']',
-                    'value' => $result['sort_order'],
-                )),
-                $this->html->buildCheckbox(array(
-                    'name'  => 'status['.$result['category_id'].']',
-                    'value' => $result['status'],
-                    'style' => 'btn_switch',
-                )),
+                $this->html->buildInput(
+                    [
+                        'name'  => 'sort_order['.$result['category_id'].']',
+                        'value' => $result['sort_order'],
+                    ]
+                ),
+                $this->html->buildCheckbox(
+                    [
+                        'name'  => 'status['.$result['category_id'].']',
+                        'value' => $result['status'],
+                        'style' => 'btn_switch',
+                    ]
+                ),
                 $products_count,
                 $cnt
                 .($cnt ?
-                    '&nbsp;<a class="btn_action btn_grid grid_action_expand" href="#" rel="parent_id='.$result['category_id'].'" title="'.$this->language->get('text_view').'">'.
+                    '&nbsp;<a class="btn_action btn_grid grid_action_expand" href="#" rel="parent_id='
+                    .$result['category_id'].'" title="'.$this->language->get('text_view').'">'.
                     '<i class="fa fa-folder-open"></i></a>'
                     : ''),
                 'action',
                 $new_level,
                 ($filter_data['parent_id'] ? $filter_data['parent_id'] : null),
-                ($result['category_id'] == $leaf_nodes[$result['category_id']] ? true : false),
+                ($result['category_id'] == $leaf_nodes[$result['category_id']]),
                 false,
-            );
+            ];
             $i++;
         }
         $this->data['response'] = $response;
@@ -158,7 +175,6 @@ class ControllerResponsesListingGridCategory extends AController
 
     public function update()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -167,11 +183,14 @@ class ControllerResponsesListingGridCategory extends AController
         $this->loadLanguage('catalog/category');
         if (!$this->user->canModify('listing_grid/category')) {
             $error = new AError('');
-            return $error->toJSONResponse('NO_PERMISSIONS_402',
-                array(
+            $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
                     'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/category'),
                     'reset_value' => true,
-                ));
+                ]
+            );
+            return;
         }
 
         switch ($this->request->post['oper']) {
@@ -184,29 +203,33 @@ class ControllerResponsesListingGridCategory extends AController
                 }
                 break;
             case 'save':
-                $allowedFields = array_merge(array('category_description', 'sort_order', 'status'), (array)$this->data['allowed_fields']);
+                $allowedFields = array_merge(
+                    ['category_description', 'sort_order', 'status'], (array) $this->data['allowed_fields']
+                );
 
                 $ids = explode(',', $this->request->post['id']);
                 if (!empty($ids)) {
                     //resort required. 
                     if ($this->request->post['resort'] == 'yes') {
                         //get only ids we need
-                        $array = array();
+                        $array = [];
                         foreach ($ids as $id) {
                             $array[$id] = $this->request->post['sort_order'][$id];
                         }
-                        $new_sort = build_sort_order($ids, min($array), max($array), $this->request->post['sort_direction']);
+                        $new_sort =
+                            build_sort_order($ids, min($array), max($array), $this->request->post['sort_direction']);
                         $this->request->post['sort_order'] = $new_sort;
                     }
                     foreach ($ids as $id) {
                         foreach ($allowedFields as $field) {
-                            $this->model_catalog_category->editCategory($id, array($field => $this->request->post[$field][$id]));
+                            $this->model_catalog_category->editCategory(
+                                $id, [$field => $this->request->post[$field][$id]]
+                            );
                         }
                     }
                 }
                 break;
             default:
-
         }
 
         //update controller data
@@ -217,6 +240,7 @@ class ControllerResponsesListingGridCategory extends AController
      * update only one field
      *
      * @return void
+     * @throws AException
      */
     public function update_field()
     {
@@ -226,11 +250,14 @@ class ControllerResponsesListingGridCategory extends AController
         $this->loadLanguage('catalog/category');
         if (!$this->user->canModify('listing_grid/category')) {
             $error = new AError('');
-            return $error->toJSONResponse('NO_PERMISSIONS_402',
-                array(
+            $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
                     'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/category'),
                     'reset_value' => true,
-                ));
+                ]
+            );
+            return;
         }
 
         $this->loadModel('catalog/category');
@@ -241,19 +268,19 @@ class ControllerResponsesListingGridCategory extends AController
                 if ($field == 'keyword') {
                     if ($err = $this->html->isSEOkeywordExists('category_id='.$category_id, $value)) {
                         $error = new AError('');
-                        return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $err));
+                        $error->toJSONResponse('VALIDATION_ERROR_406', ['error_text' => $err]);
+                        return;
                     }
                 }
-
                 $err = $this->_validateField($category_id, $field, $value);
                 if (!empty($err)) {
                     $error = new AError('');
-                    return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $err));
+                    $error->toJSONResponse('VALIDATION_ERROR_406', ['error_text' => $err]);
+                    return;
                 }
-
-                $this->model_catalog_category->editCategory($category_id, array($field => $value));
+                $this->model_catalog_category->editCategory($category_id, [$field => $value]);
             }
-            return null;
+            return;
         }
         $language_id = $this->language->getContentLanguageID();
         //request sent from jGrid. ID is key of array
@@ -263,10 +290,11 @@ class ControllerResponsesListingGridCategory extends AController
                     if (mb_strlen($v[$language_id]['name']) < 2 || mb_strlen($v[$language_id]['name']) > 32) {
                         $err = $this->language->get('error_name');
                         $error = new AError('');
-                        return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $err));
+                        $error->toJSONResponse('VALIDATION_ERROR_406', ['error_text' => $err]);
+                        return;
                     }
                 }
-                $this->model_catalog_category->editCategory($k, array($field => $v));
+                $this->model_catalog_category->editCategory($k, [$field => $v]);
             }
         }
 
@@ -276,7 +304,6 @@ class ControllerResponsesListingGridCategory extends AController
 
     private function _validateField($category_id, $field, $value)
     {
-
         $err = '';
         switch ($field) {
             case 'category_description' :
@@ -302,41 +329,43 @@ class ControllerResponsesListingGridCategory extends AController
 
     public function categories()
     {
-
-        $output = array();
+        $output = [];
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->loadModel('catalog/category');
         if (isset($this->request->post['term'])) {
-            $filter = array(
+            $term = $this->request->post['term'];
+            $filter = [
                 'limit'         => 20,
                 'language_id'   => $this->language->getContentLanguageID(),
-                'subsql_filter' => "cd.name LIKE '%".$this->db->escape($this->request->post['term'], true)."%'
-												OR cd.description LIKE '%".$this->db->escape($this->request->post['term'], true)."%'
-												OR cd.meta_keywords LIKE '%".$this->db->escape($this->request->post['term'], true)."%'",
-            );
+                'subsql_filter' => "cd.name LIKE '%".$this->db->escape($term, true)."%'
+                    OR cd.description LIKE '%".$this->db->escape($term, true)."%'
+                    OR cd.meta_keywords LIKE '%".$this->db->escape($term, true)."%'",
+            ];
             $results = $this->model_catalog_category->getCategoriesData($filter);
             //build thumbnails list
-            $category_ids = array();
-            foreach ($results as $category) {
-                $category_ids[] = $category['category_id'];
-            }
+            $category_ids = array_column($results, 'category_id');
+
             $resource = new AResource('image');
-            $thumbnails = $resource->getMainThumbList(
-                'categories',
-                $category_ids,
-                $this->config->get('config_image_grid_width'),
-                $this->config->get('config_image_grid_height')
-            );
+            $thumbnails = $category_ids
+                ? $resource->getMainThumbList(
+                    'categories',
+                    $category_ids,
+                    $this->config->get('config_image_grid_width'),
+                    $this->config->get('config_image_grid_height')
+                )
+                : [];
             foreach ($results as $item) {
                 $thumbnail = $thumbnails[$item['category_id']];
-                $output[] = array(
-                    'image'      => $icon = $thumbnail['thumb_html'] ? $thumbnail['thumb_html'] : '<i class="fa fa-code fa-4x"></i>&nbsp;',
+                $output[] = [
+                    'image'      => $icon = $thumbnail['thumb_html']
+                        ? $thumbnail['thumb_html']
+                        : '<i class="fa fa-code fa-4x"></i>&nbsp;',
                     'id'         => $item['category_id'],
                     'name'       => $item['name'],
                     'meta'       => '',
-                    'sort_order' => (int)$item['sort_order'],
-                );
+                    'sort_order' => (int) $item['sort_order'],
+                ];
             }
         }
 

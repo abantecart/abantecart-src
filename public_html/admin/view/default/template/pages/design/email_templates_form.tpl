@@ -52,14 +52,12 @@
 			       for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
 
 			<div id="field_<?php echo $name; ?>"
-			     class="input-group afield <?php echo $widthcasses; ?> <?php echo($name == 'content' ? 'ml_ckeditor' : '') ?>">
+                class="input-group afield <?php echo $widthcasses; ?> <?php echo($name == 'content' ? 'ml_ckeditor' : '') ?>">
 				<?php if ($name == 'keyword'){ ?>
 					<span class="input-group-prepend">
 					<?php echo $keyword_button; ?>
 				</span>
-				<?php } ?>
-				<?php
-				if ($name == 'sort_order'){ ?>
+				<?php }elseif($name == 'sort_order'){ ?>
 					<ul class="list-unstyled">
 						<?php
 						foreach ($field as $s){ ?>
@@ -73,10 +71,19 @@
 						<?php } ?>
 					</ul>
 					<?php
-				} else{
+				} elseif($name == 'html_body') { ?>
+                    <div class="embed-code">
+                        <a id="previewHtmlBody" onclick="previewHtmlBody(event); return false;" title="<?php echo $text_preview;?>">
+                        <div class="btn-clipboard"><?php echo $text_preview; ?>
+                            <span class="help_element">
+                                   <i class="fa fa-eye fa-lg"></i>
+                            </span>
+                        </div></a>
+                        <?php echo $field; ?>
+                    </div>
+                <?php }else{
 					echo $field;
-				}
-				?>
+				} ?>
 			</div>
 			<?php if (!empty($error[$name])){ ?>
 				<span class="help-block field_err"><?php echo $error[$name]; ?></span>
@@ -104,4 +111,23 @@
 	</form>
 
 </div><!-- <div class="tab-content"> -->
+<script type="application/javascript">
+    function previewHtmlBody(e){
+        e.preventDefault();
+        let errors = false;
+        $.ajax({
+          type: "POST",
+          url: '<?php echo $previewHtmlBodyUrl; ?>',
+          data: { email_template_preview: $('#emailTemplateFrm_html_body').val() },
+          error: function(){
+                errors = true;
+          },
+        });
+        if(!errors) {
+            window.open('<?php echo $previewHtmlBodyUrl; ?>');
+        }
+        return false;
+    }
+
+</script>
 

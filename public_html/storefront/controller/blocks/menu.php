@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,12 +24,10 @@ if (!defined('DIR_CORE')) {
 
 class ControllerBlocksMenu extends AController
 {
-    public $data = array();
-    private $menu_items;
+    protected $menu_items;
 
     public function main()
     {
-
         //HTML cache only for non-customer
         if (!$this->customer->isLogged() && !$this->customer->isUnauthCustomer()) {
             if ($this->html_cache()) {
@@ -41,7 +40,9 @@ class ControllerBlocksMenu extends AController
 
         $this->data['heading_title'] = $this->language->get('heading_title', 'blocks/menu');
 
-        $cache_key = 'storefront_menu.store_'.(int)$this->config->get('config_store_id').'_lang_'.$this->config->get('storefront_language_id');
+        $cache_key = 'storefront_menu'.
+            '.store_'.(int) $this->config->get('config_store_id')
+            .'_lang_'.$this->config->get('storefront_language_id');
         $this->menu_items = $this->cache->pull($cache_key);
         if ($this->menu_items === false) {
             $menu = new AMenu_Storefront();
@@ -62,13 +63,13 @@ class ControllerBlocksMenu extends AController
         $this->processTemplate();
     }
 
-    private function _buildMenu($parent = '')
+    protected function _buildMenu($parent = '')
     {
-        $menu = array();
+        $menu = [];
         if (empty($this->menu_items[$parent])) {
             return $menu;
         }
-        $lang_id = (int)$this->config->get('storefront_language_id');
+        $lang_id = (int) $this->config->get('storefront_language_id');
 
         foreach ($this->menu_items[$parent] as $item) {
             if (preg_match("/^http/i", $item ['item_url'])) {
@@ -79,15 +80,15 @@ class ControllerBlocksMenu extends AController
             } else {
                 $href = $this->html->getSecureURL($item ['item_url']);
             }
-            $menu[] = array(
+            $menu[] = [
                 'id'         => $item['item_id'],
-                'current'    => $item['current'],
-                'icon'       => $item['item_icon'],
-                'icon_rl_id' => $item['item_icon_rl_id'],
+                'current'    => $item['current'] ?? false,
+                'icon'       => $item['item_icon'] ?? '',
+                'icon_rl_id' => $item['item_icon_rl_id'] ?? '',
                 'href'       => $href,
-                'text'       => $item['item_text'][$lang_id],
+                'text'       => $item['item_text'][$lang_id] ?? '',
                 'children'   => $this->_buildMenu($item['item_id']),
-            );
+            ];
         }
         return $menu;
     }

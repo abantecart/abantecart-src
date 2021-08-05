@@ -344,15 +344,15 @@ jQuery(document).ready(function() {
 	});
 
 	//check if ads blocking is enabled in user browser
-	var div = $('<div>').attr('class', 'afs_ads').html('&nbsp;');
-	$('body').prepend(div);
-	setTimeout(function(){
-		if(!$(".afs_ads").is(':visible')) {
-			warning_alert('Ads block is enabled in your browser. Some AbanteCart administration features might not function as they will be blocked. Disable ads blocking in your browser.');
-		} else {
-			$(".afs_ads").remove();
-		}
-	}, 500);
+	// var div = $('<div>').attr('class', 'afs_ads').html('&nbsp;');
+	// $('body').prepend(div);
+	// setTimeout(function(){
+	// 	if(!$(".afs_ads").is(':visible')) {
+	// 		warning_alert('Ads block is enabled in your browser. Some AbanteCart administration features might not function as they will be blocked. Disable ads blocking in your browser.');
+	// 	} else {
+	// 		$(".afs_ads").remove();
+	// 	}
+	// }, 500);
 
 });
 
@@ -770,9 +770,9 @@ var runTaskStepsUI = function (task_details) {
 				senddata[s] = step.settings[s];
 			}
 			var timeout = 500;
-			if(step.hasOwnProperty('eta')){
-				senddata['eta'] = step.eta;
-				timeout = (step.eta + 10)*1000;
+			if(step.hasOwnProperty('max_execution_time')){
+				senddata['max_execution_time'] = step.max_execution_time;
+				timeout = (step.max_execution_time + 10)*1000;
 			}
 
 			ajaxes[k] = {

@@ -110,18 +110,17 @@ class ControllerApiCheckoutConfirm extends AControllerAPI
         $this->loadModel('tool/seo_url');
         $this->loadModel('tool/image');
 
-        $product_ids = array();
-        foreach ($this->data['products'] as $result) {
-            $product_ids[] = (int)$result['product_id'];
-        }
+        $product_ids = array_column($this->data['products'], 'product_id');
 
         $resource = new AResource('image');
-        $thumbnails = $resource->getMainThumbList(
-            'products',
-            $product_ids,
-            $this->config->get('config_image_cart_width'),
-            $this->config->get('config_image_cart_height')
-        );
+        $thumbnails = $product_ids
+            ? $resource->getMainThumbList(
+                'products',
+                $product_ids,
+                $this->config->get('config_image_cart_width'),
+                $this->config->get('config_image_cart_height')
+            )
+            : [];
 
         //Format product data specific for confirmation response
         for ($i = 0; $i < sizeof($this->data['products']); $i++) {

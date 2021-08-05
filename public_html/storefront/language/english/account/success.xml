@@ -1,27 +1,34 @@
 <?xml version="1.0"?>
 <definitions>
-  <definition>
-    <key>heading_title</key>
-    <value><![CDATA[Your Account Has Been Created!]]></value>
-  </definition>
-  <definition>
-    <key>text_message</key>
-    <value><![CDATA[<p>Congratulations! Your new account has been successfully created!</p> <p>You can now take advantage of member privileges to enhance your online shopping experience with us.</p> <p>If you have ANY questions about the operation of this online shop, please email the store owner.</p> <p>A confirmation has been sent to the provided email address. If you have not received it within the hour, please <a href="%s">contact us</a>.</p>]]></value>
-  </definition>
-  <definition>
-    <key>text_approval</key>
-    <value><![CDATA[<p>Thank you for registering with %s!</p><p>You will be notified by email once your account has been activated by the store owner.</p><p>If you have ANY questions about the operation of this online shop, please <a href="%s">contact the store owner</a>.</p>]]></value>
-  </definition>
-  <definition>
-    <key>text_activate</key>
-    <value><![CDATA[<p>Thank you for registering with %s!</p><p>You will be notified via email with your account activation instructions. You must click the link provided in the email to activate your account. If you do not receive email, please check in your junk or spam folders. </p><p>If you have ANY questions about the operation of this online shop, please <a href="%s">contact the store owner</a>.</p>]]></value>
-  </definition>
-  <definition>
-    <key>text_account</key>
-    <value><![CDATA[Account]]></value>
-  </definition>
-  <definition>
-    <key>text_success</key>
-    <value><![CDATA[Success]]></value>
-  </definition>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Your Account Has Been Created!]]></value>
+	</definition>
+	<definition>
+		<key>text_message</key>
+		<value>
+			<![CDATA[<p>Congratulations! Your new account has been successfully created!</p> <p>You can now take advantage of member privileges to enhance your online shopping experience with us.</p> <p>If you have ANY questions about the operation of this online shop, please email the store owner.</p> <p>A confirmation has been sent to the provided email address. If you have not received it within the hour, please <a href="%s">contact us</a>.</p>]]></value>
+	</definition>
+	<definition>
+		<key>text_approval</key>
+		<value>
+			<![CDATA[<p>Thank you for registering with %s!</p><p>You will be notified by email once your account has been activated by the store owner.</p><p>If you have ANY questions about the operation of this online shop, please <a href="%s">contact the store owner</a>.</p>]]></value>
+	</definition>
+	<definition>
+		<key>heading_title_activation</key>
+		<value><![CDATA[Your Account Has Been Created But Activation Required. Please Follow instructions.]]></value>
+	</definition>
+	<definition>
+		<key>text_activate</key>
+		<value>
+			<![CDATA[<p>Thank you for registering with %s!</p><p>You will be notified via email with your account activation instructions. You must click the link provided in the email to activate your account. If you do not receive email, please check in your junk or spam folders. </p><p>If you have ANY questions about the operation of this online shop, please <a href="%s">contact the store owner</a>.</p>]]></value>
+	</definition>
+	<definition>
+		<key>text_account</key>
+		<value><![CDATA[Account]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Success]]></value>
+	</definition>
 </definitions>

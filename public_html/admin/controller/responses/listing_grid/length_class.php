@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,11 +24,8 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerResponsesListingGridLengthClass extends AController
 {
-    public $data = array();
-
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -40,19 +38,19 @@ class ControllerResponsesListingGridLengthClass extends AController
         $sord = $this->request->post['sord']; // get the direction
 
         // process jGrid search parameter
-        $allowedDirection = array('asc', 'desc');
+        $allowedDirection = ['asc', 'desc'];
 
         if (!in_array($sord, $allowedDirection)) {
             $sord = $allowedDirection[0];
         }
 
-        $data = array(
+        $data = [
             'sort'                => $sidx,
             'order'               => strtoupper($sord),
             'start'               => ($page - 1) * $limit,
             'limit'               => $limit,
             'content_language_id' => $this->language->getContentLanguageID(),
-        );
+        ];
 
         $total = $this->model_localisation_length_class->getTotalLengthClasses();
         if ($total > 0) {
@@ -75,29 +73,37 @@ class ControllerResponsesListingGridLengthClass extends AController
         $results = $this->model_localisation_length_class->getLengthClasses($data);
         $i = 0;
         $a_length = new ALength($this->registry);
+        $contentLanguageID = $this->language->getContentLanguageID();
         foreach ($results as $result) {
-            $is_predefined = in_array($result['length_class_id'], $a_length->predefined_length_ids) ? true : false;
-            $response->userdata->classes[$result['length_class_id']] = $is_predefined ? 'disable-delete' : '';
-            $response->rows[$i]['id'] = $result['length_class_id'];
-            $response->rows[$i]['cell'] = array(
-                $this->html->buildInput(array(
-                    'name'  => 'length_class_description['.$result['length_class_id'].']['.$this->session->data['content_language_id'].'][title]',
-                    'value' => $result['title'],
-                )),
-                $this->html->buildInput(array(
-                    'name'  => 'length_class_description['.$result['length_class_id'].']['.$this->session->data['content_language_id'].'][unit]',
-                    'value' => $result['unit'],
-                )),
+            $id = $result['length_class_id'];
+            $is_predefined = in_array($id, $a_length->predefined_length_ids);
+            $response->userdata->classes[$id] = $is_predefined ? 'disable-delete' : '';
+            $response->rows[$i]['id'] = $id;
+            $response->rows[$i]['cell'] = [
+                $this->html->buildInput(
+                    [
+                        'name'  => 'length_class_description['.$id.']['.$contentLanguageID.'][title]',
+                        'value' => $result['title'],
+                    ]
+                ),
+                $this->html->buildInput(
+                    [
+                        'name'  => 'length_class_description['.$id.']['.$contentLanguageID.'][unit]',
+                        'value' => $result['unit'],
+                    ]
+                ),
                 ($is_predefined
                     ? $result['value']
                     :
-                    $this->html->buildInput(array(
-                        'name'  => 'value['.$result['length_class_id'].']',
-                        'value' => $result['value'],
-                    ))
+                    $this->html->buildInput(
+                        [
+                            'name'  => 'value['.$id.']',
+                            'value' => $result['value'],
+                        ]
+                    )
                 ),
                 $result['iso_code'],
-            );
+            ];
             $i++;
         }
         $this->data['response'] = $response;
@@ -110,7 +116,6 @@ class ControllerResponsesListingGridLengthClass extends AController
 
     public function update()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -119,11 +124,17 @@ class ControllerResponsesListingGridLengthClass extends AController
         $this->loadLanguage('localisation/length_class');
         if (!$this->user->canModify('listing_grid/length_class')) {
             $error = new AError('');
-            return $error->toJSONResponse('NO_PERMISSIONS_402',
-                array(
-                    'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/length_class'),
+            $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
+                    'error_text'  => sprintf(
+                        $this->language->get('error_permission_modify'),
+                        'listing_grid/length_class'
+                    ),
                     'reset_value' => true,
-                ));
+                ]
+            );
+            return;
         }
 
         switch ($this->request->post['oper']) {
@@ -134,14 +145,20 @@ class ControllerResponsesListingGridLengthClass extends AController
                         $err = $this->_validateDelete($id);
                         if (!empty($err)) {
                             $error = new AError('');
-                            return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $err));
+                            $error->toJSONResponse(
+                                'VALIDATION_ERROR_406',
+                                [
+                                    'error_text' => $err,
+                                ]
+                            );
+                            return;
                         }
                         $this->model_localisation_length_class->deleteLengthClass($id);
                     }
                 }
                 break;
             case 'save':
-                $fields = array('length_class_description', 'value');
+                $fields = ['length_class_description', 'value'];
                 $ids = explode(',', $this->request->post['id']);
                 if (!empty($ids)) {
                     foreach ($ids as $id) {
@@ -150,16 +167,23 @@ class ControllerResponsesListingGridLengthClass extends AController
                                 $err = $this->_validateField($f, $this->request->post[$f][$id]);
                                 if (!empty($err)) {
                                     $error = new AError('');
-                                    return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $err));
+                                    $error->toJSONResponse(
+                                        'VALIDATION_ERROR_406',
+                                        [
+                                            'error_text' => $err,
+                                        ]
+                                    );
+                                    return;
                                 }
-                                $this->model_localisation_length_class->editLengthClass($id, array($f => $this->request->post[$f][$id]));
+                                $this->model_localisation_length_class->editLengthClass(
+                                    $id,
+                                    [$f => $this->request->post[$f][$id]]
+                                );
                             }
                         }
                     }
                 }
-
                 break;
-
             default:
         }
 
@@ -171,21 +195,27 @@ class ControllerResponsesListingGridLengthClass extends AController
      * update only one field
      *
      * @return void
+     * @throws AException
      */
     public function update_field()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadLanguage('localisation/length_class');
         if (!$this->user->canModify('listing_grid/length_class')) {
             $error = new AError('');
-            return $error->toJSONResponse('NO_PERMISSIONS_402',
-                array(
-                    'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/length_class'),
+            $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
+                    'error_text'  => sprintf(
+                        $this->language->get('error_permission_modify'),
+                        'listing_grid/length_class'
+                    ),
                     'reset_value' => true,
-                ));
+                ]
+            );
+            return;
         }
 
         $this->loadModel('localisation/length_class');
@@ -195,25 +225,37 @@ class ControllerResponsesListingGridLengthClass extends AController
                 $err = $this->_validateField($key, $value);
                 if (!empty($err)) {
                     $error = new AError('');
-                    return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $err));
+                    $error->toJSONResponse('VALIDATION_ERROR_406', ['error_text' => $err]);
+                    return;
                 }
-                $data = array($key => $value);
+                $data = [$key => $value];
                 $this->model_localisation_length_class->editLengthClass($this->request->get['id'], $data);
             }
-            return null;
+            return;
         }
 
         //request sent from jGrid. ID is key of array
-        $allowedFields = array_merge(array('length_class_description', 'value', 'iso_code'), (array)$this->data['allowed_fields']);
+        $allowedFields = array_merge(
+            [
+                'length_class_description',
+                'value',
+                'iso_code',
+            ],
+            (array) $this->data['allowed_fields']
+        );
         foreach ($allowedFields as $f) {
             if (isset($this->request->post[$f])) {
                 foreach ($this->request->post[$f] as $k => $v) {
                     $err = $this->_validateField($f, $v);
                     if (!empty($err)) {
                         $error = new AError('');
-                        return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $err));
+                        $error->toJSONResponse(
+                            'VALIDATION_ERROR_406',
+                            ['error_text' => $err]
+                        );
+                        return;
                     }
-                    $this->model_localisation_length_class->editLengthClass($k, array($f => $v));
+                    $this->model_localisation_length_class->editLengthClass($k, [$f => $v]);
                 }
             }
         }
@@ -248,12 +290,11 @@ class ControllerResponsesListingGridLengthClass extends AController
                 } //check for uniqueness
                 else {
                     $length = $this->model_localisation_length_class->getLengthClassByCode($iso_code);
-                    $length_class_id = (int)$this->request->get['id'];
+                    $length_class_id = (int) $this->request->get['id'];
                     if ($length) {
-                        if (!$length_class_id
-                            || ($length_class_id && $length['length_class_id'] != $length_class_id)
+                        if (!$length_class_id || ($length['length_class_id'] != $length_class_id)
                         ) {
-                            $err['iso_code'] = $this->language->get('error_iso_code');
+                            $err = $this->language->get('error_iso_code');
                         }
                     }
                 }
@@ -263,7 +304,7 @@ class ControllerResponsesListingGridLengthClass extends AController
         return $err;
     }
 
-    private function _validateDelete($length_class_id)
+    protected function _validateDelete($length_class_id)
     {
         $length_class_info = $this->model_localisation_length_class->getLengthClass($length_class_id);
         if ($length_class_info && ($this->config->get('config_length_class') == $length_class_info['unit'])) {
@@ -274,6 +315,7 @@ class ControllerResponsesListingGridLengthClass extends AController
         if ($product_total) {
             return sprintf($this->language->get('error_product'), $product_total);
         }
+        return '';
     }
 
 }

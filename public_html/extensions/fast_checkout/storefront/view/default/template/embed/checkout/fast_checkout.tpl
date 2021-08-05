@@ -1,44 +1,68 @@
-<?php echo $head; ?>
-<link href="<?php echo $this->templateResource('/css/bootstrap-xxs.css'); ?>" rel="stylesheet" type='text/css'/>
-<link href="<?php echo $this->templateResource('/css/pay.css'); ?>" rel="stylesheet" type='text/css'/>
+<?php
+echo $head; ?>
 
-
-<script type="text/javascript"
-		src="<?php echo $this->templateResource('/js/credit_card_validation.js'); ?>"></script>
-<script type="text/javascript"
-		src="<?php echo $this->templateResource('/javascript/common.js'); ?>"></script>
-
+<div class="spinner-overlay">
+    <div class="spinner"></div>
+</div>
 <div id="fast_checkout_cart"></div>
 
-<script type="text/javascript">
+<script type="application/javascript">
+    if ($('#fast_checkout_cart').html() === '') {
+        $('.spinner-overlay').fadeIn(100);
+    }
     <?php if ($cart_url) { ?>
-	let loadPage = function (cart_key) {
-		if ($('#fast_checkout_cart').html() === '') {
-			$('.spinner-overlay').fadeIn(100);
-		}
-		$.ajax({
-			url: '<?php echo $cart_url; ?>' + '&cart_key=' + (cart_key || ''),
-			type: 'GET',
-			dataType: 'html',
-			success: function (data) {
-				$('.spinner-overlay').fadeOut(500);
-				$('#fast_checkout_summary_block').trigger('reload');
-				$('#fast_checkout_cart').hide().html(data).fadeIn(1000);
+    var loadPage = function () {
+        $.ajax({
+            url: '<?php echo $cart_url; ?>',
+            type: 'GET',
+            dataType: 'html',
+            success: function (data) {
+                $('#fast_checkout_summary_block').trigger('reload');
+                $('#fast_checkout_cart').hide().html(data).fadeIn(1000);
+                $('.spinner-overlay').fadeOut(500);
+            },
+            error: function () {
+                $('.spinner-overlay').fadeOut(500);
+            }
+        });
+    };
 
-                if($('form#PayFrm')) {
-                    validateForm($('form#PayFrm'));
-                }
-			},
-			error: function () {
-				$('.spinner-overlay').fadeOut(500);
-			}
-		});
-	};
+    $(document).ready(loadPage);
+    <?php }
+    // set cart key into scratch data
+    ?>
+    $(document).ready( function(){
+        if(!$('body').data('cart_key')){
+            <?php
+            if($single_checkout){
+                //we use this key to open product page when cart-key changed (another simple-checkout process)
+                ?>
+                $('body').data('product_key', '<?php echo $product_key; ?>');
     <?php } ?>
+            $('body').data('cart_key', '<?php echo $cart_key; ?>');
+        }
+        checkCartKey();
+    });
 
-	$(document).ready(() => {
-		$('body').append('<div class=\'spinner-overlay\'><div class="spinner"></div><div>')
-		loadPage()
-	})
+    function readCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    function checkCartKey(){
+        if($('body').data('cart_key') && $('body').data('cart_key') !== readCookie('fc_cart_key') ){
+            var pKey = $('body').data('product_key');
+            if(pKey){
+                location = '<?php echo $this->html->getSecureUrl('product/product')?>' + '&key=' + pKey;
+            }
+        }
+    }
 </script>
-<?php echo $footer; ?>
+<?php
+echo $footer; ?>

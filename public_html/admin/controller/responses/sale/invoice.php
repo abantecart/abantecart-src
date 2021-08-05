@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,12 +24,9 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerResponsesSaleInvoice extends AController
 {
-    private $error = array();
-    public $data = array();
 
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -37,12 +35,9 @@ class ControllerResponsesSaleInvoice extends AController
         $this->data['title'] = $this->language->get('heading_title');
         $this->data['css_url'] = RDIR_TEMPLATE.'stylesheet/invoice.css';
 
-        if (HTTPS === true) {
-            $this->data['base'] = HTTPS_SERVER;
-        } else {
-            $this->data['base'] = HTTP_SERVER;
-        }
-
+        $this->data['base'] = HTTPS === true
+            ? HTTPS_SERVER
+            : HTTP_SERVER;
         $this->data['direction'] = $this->language->get('direction');
         $this->data['language'] = $this->language->get('code');
 
@@ -63,17 +58,13 @@ class ControllerResponsesSaleInvoice extends AController
         $this->data['column_total'] = $this->language->get('column_total');
         $this->data['column_comment'] = $this->language->get('column_comment');
 
-        if (is_file(DIR_RESOURCE.$this->config->get('config_logo'))) {
-            $this->data['logo'] = HTTPS_DIR_RESOURCE.$this->config->get('config_logo');
-        } else {
-            $this->data['logo'] = $this->config->get('config_logo');
-        }
+        $logo = $this->config->get('config_logo_'.$this->language->getLanguageID())
+                ?: $this->config->get('config_logo');
+        $result = getMailLogoDetails($logo);
+        $this->data['logo'] = $result['html'] ?: HTTPS_DIR_RESOURCE.$logo;
 
         $this->loadModel('sale/order');
-
-        $this->data['orders'] = array();
-
-        $orders = array();
+        $orders = $this->data['orders'] = [];
 
         if (isset($this->request->post['selected'])) {
             $orders = $this->request->post['selected'];
@@ -92,7 +83,7 @@ class ControllerResponsesSaleInvoice extends AController
                 }
 
                 $customer = new ACustomer($this->registry);
-                $shipping_data = array(
+                $shipping_data = [
                     'firstname' => $order_info['shipping_firstname'],
                     'lastname'  => $order_info['shipping_lastname'],
                     'company'   => $order_info['shipping_company'],
@@ -103,11 +94,14 @@ class ControllerResponsesSaleInvoice extends AController
                     'zone'      => $order_info['shipping_zone'],
                     'zone_code' => $order_info['shipping_zone_code'],
                     'country'   => $order_info['shipping_country'],
+                ];
+
+                $shipping_address = $customer->getFormattedAddress(
+                    $shipping_data,
+                    $order_info['shipping_address_format']
                 );
 
-                $shipping_address = $customer->getFormattedAddress($shipping_data, $order_info['shipping_address_format']);
-
-                $payment_data = array(
+                $payment_data = [
                     'firstname' => $order_info['payment_firstname'],
                     'lastname'  => $order_info['payment_lastname'],
                     'company'   => $order_info['payment_company'],
@@ -118,42 +112,55 @@ class ControllerResponsesSaleInvoice extends AController
                     'zone'      => $order_info['payment_zone'],
                     'zone_code' => $order_info['payment_zone_code'],
                     'country'   => $order_info['payment_country'],
+                ];
+
+                $payment_address = $customer->getFormattedAddress(
+                    $payment_data,
+                    $order_info['payment_address_format']
                 );
 
-                $payment_address = $customer->getFormattedAddress($payment_data, $order_info['payment_address_format']);
-
-                $product_data = array();
+                $product_data = [];
 
                 $products = $this->model_sale_order->getOrderProducts($order_id);
 
                 foreach ($products as $product) {
-                    $option_data = array();
-
+                    $option_data = [];
                     $options = $this->model_sale_order->getOrderOptions($order_id, $product['order_product_id']);
-
                     foreach ($options as $option) {
-                        $option_data[] = array(
+                        $option_data[] = [
                             'name'  => $option['name'],
                             'value' => $option['value'],
-                        );
+                        ];
                     }
 
-                    $product_data[] = array(
+                    $product_data[] = [
                         'name'     => $product['name'],
                         'model'    => $product['model'],
                         'option'   => $option_data,
                         'quantity' => $product['quantity'],
-                        'price'    => $this->currency->format($product['price'], $order_info['currency'], $order_info['value']),
-                        'total'    => $this->currency->format_total($product['price'], $product['quantity'], $order_info['currency'], $order_info['value']),
-                    );
+                        'price'    => $this->currency->format(
+                            $product['price'],
+                            $order_info['currency'],
+                            $order_info['value']
+                        ),
+                        'total'    => $this->currency->format_total(
+                            $product['price'],
+                            $product['quantity'],
+                            $order_info['currency'],
+                            $order_info['value']
+                        ),
+                    ];
                 }
 
                 $total_data = $this->model_sale_order->getOrderTotals($order_id);
 
-                $this->data['orders'][] = array(
+                $this->data['orders'][] = [
                     'order_id'           => $order_id,
                     'invoice_id'         => $invoice_id,
-                    'date_added'         => dateISO2Display($order_info['date_added'], $this->language->get('date_format_short')),
+                    'date_added'         => dateISO2Display(
+                        $order_info['date_added'],
+                        $this->language->get('date_format_short')
+                    ),
                     'store_name'         => $order_info['store_name'],
                     'store_url'          => rtrim($order_info['store_url'], '/'),
                     'address'            => nl2br($this->config->get('config_address')),
@@ -168,7 +175,7 @@ class ControllerResponsesSaleInvoice extends AController
                     'comment'            => $order_info['comment'],
                     'product'            => $product_data,
                     'total'              => $total_data,
-                );
+                ];
             }
         }
 
@@ -181,22 +188,24 @@ class ControllerResponsesSaleInvoice extends AController
 
     public function generate()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         if (!$this->user->canModify('sale/invoice')) {
             $error = new AError('');
-            return $error->toJSONResponse('NO_PERMISSIONS_402',
-                array(
+            $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
                     'error_text'  => sprintf($this->language->get('error_permission_modify'), 'sale/invoice'),
                     'reset_value' => true,
-                ));
+                ]
+            );
+            return;
         }
 
         $this->loadModel('sale/order');
 
-        $json = array();
+        $json = [];
 
         if (isset($this->request->get['order_id'])) {
             $json['invoice_id'] = $this->model_sale_order->generateInvoiceId($this->request->get['order_id']);

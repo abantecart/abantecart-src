@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,16 +24,13 @@ if (!defined('DIR_CORE')) {
 
 class ControllerBlocksFeatured extends AController
 {
-    public $data;
-
     public function main()
     {
-
         //disable cache when login display price setting is off or enabled showing of prices with taxes
         if (($this->config->get('config_customer_price') && !$this->config->get('config_tax'))
             && $this->html_cache()
         ) {
-            return null;
+            return;
         }
 
         //init controller data
@@ -44,22 +42,21 @@ class ControllerBlocksFeatured extends AController
         $this->loadModel('catalog/review');
         $this->loadModel('tool/image');
         $this->data['button_add_to_cart'] = $this->language->get('button_add_to_cart');
-        $this->data['products'] = array();
+        $this->data['products'] = [];
         $results = $this->model_catalog_product->getfeaturedProducts($this->config->get('config_featured_limit'));
-        $product_ids = array();
-        foreach ($results as $result) {
-            $product_ids[] = (int)$result['product_id'];
-        }
+        $product_ids = array_column($results, 'product_id');
 
         $products_info = $this->model_catalog_product->getProductsAllInfo($product_ids);
         //get thumbnails by one pass
         $resource = new AResource('image');
-        $thumbnails = $resource->getMainThumbList(
-            'products',
-            $product_ids,
-            $this->config->get('config_image_product_width'),
-            $this->config->get('config_image_product_height')
-        );
+        $thumbnails = $results
+            ? $resource->getMainThumbList(
+                'products',
+                $product_ids,
+                $this->config->get('config_image_product_width'),
+                $this->config->get('config_image_product_height')
+            )
+            : [];
         $stock_info = $this->model_catalog_product->getProductsStockInfo($product_ids);
 
         foreach ($results as $result) {
@@ -68,12 +65,27 @@ class ControllerBlocksFeatured extends AController
             $special = false;
             $discount = $products_info[$result['product_id']]['discount'];
             if ($discount) {
-                $price = $this->currency->format($this->tax->calculate($discount, $result['tax_class_id'], $this->config->get('config_tax')));
+                $price = $this->currency->format(
+                    $this->tax->calculate(
+                        $discount,
+                        $result['tax_class_id'],
+                        $this->config->get('config_tax'))
+                );
             } else {
-                $price = $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')));
+                $price = $this->currency->format(
+                    $this->tax->calculate(
+                        $result['price'],
+                        $result['tax_class_id'],
+                        $this->config->get('config_tax'))
+                );
                 $special = $products_info[$result['product_id']]['special'];
                 if ($special) {
-                    $special = $this->currency->format($this->tax->calculate($special, $result['tax_class_id'], $this->config->get('config_tax')));
+                    $special = $this->currency->format(
+                        $this->tax->calculate(
+                            $special,
+                            $result['tax_class_id'],
+                            $this->config->get('config_tax'))
+                    );
                 }
             }
 
@@ -93,17 +105,19 @@ class ControllerBlocksFeatured extends AController
             $in_stock = false;
             $no_stock_text = $this->language->get('text_out_of_stock');
             $total_quantity = 0;
-            $stock_checkout = $result['stock_checkout'] === '' ? $this->config->get('config_stock_checkout') : $result['stock_checkout'];
+            $stock_checkout = $result['stock_checkout'] === ''
+                ? $this->config->get('config_stock_checkout')
+                : $result['stock_checkout'];
             if ($stock_info[$result['product_id']]['subtract']) {
                 $track_stock = true;
-                $total_quantity = $this->model_catalog_product->hasAnyStock( $result['product_id'] );
+                $total_quantity = $this->model_catalog_product->hasAnyStock($result['product_id']);
                 //we have stock or out of stock checkout is allowed
                 if ($total_quantity > 0 || $stock_checkout) {
                     $in_stock = true;
                 }
             }
 
-            $this->data['products'][] = array(
+            $this->data['products'][] = [
                 'product_id'     => $result['product_id'],
                 'name'           => $result['name'],
                 'blurb'          => $result['blurb'],
@@ -115,7 +129,11 @@ class ControllerBlocksFeatured extends AController
                 'options'        => $options,
                 'special'        => $special,
                 'thumb'          => $thumbnail,
-                'href'           => $this->html->getSEOURL('product/product', '&product_id='.$result['product_id'], '&encode'),
+                'href'           => $this->html->getSEOURL(
+                    'product/product',
+                    '&product_id='.$result['product_id'],
+                    '&encode'
+                ),
                 'add'            => $add,
                 'track_stock'    => $track_stock,
                 'in_stock'       => $in_stock,
@@ -123,7 +141,7 @@ class ControllerBlocksFeatured extends AController
                 'total_quantity' => $total_quantity,
                 'date_added'     => $result['date_added'],
                 'tax_class_id'   => $result['tax_class_id'],
-            );
+            ];
         }
 
         if ($this->config->get('config_customer_price')) {

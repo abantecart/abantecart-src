@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -25,14 +25,24 @@ class ModelSettingStore extends Model
 {
     public function getStore($store_id)
     {
-        $query = $this->db->query("SELECT DISTINCT *, s.store_id
-									FROM ".$this->db->table("stores")." s
-									LEFT JOIN ".$this->db->table("store_descriptions")." sd
-										ON (s.store_id = sd.store_id
-										       AND sd.language_id = '".$this->config->get('storefront_language_id')."')
-									WHERE s.store_id = '".(int)$store_id."'");
+        $query = $this->db->query(
+            "SELECT DISTINCT *, s.store_id
+            FROM ".$this->db->table("stores")." s
+            LEFT JOIN ".$this->db->table("store_descriptions")." sd
+                ON (s.store_id = sd.store_id
+                       AND sd.language_id = '".$this->config->get('storefront_language_id')."')
+            WHERE s.store_id = '".(int) $store_id."'"
+        );
         return $query->row;
     }
-}
 
-?>
+    public function getStoreSettings($store_id)
+    {
+        $query = $this->db->query(
+            "SELECT DISTINCT * 
+            FROM ".$this->db->table("settings")." 
+            WHERE store_id = '".(int) $store_id."'"
+        );
+        return array_column($query->rows,'value','key');
+    }
+}

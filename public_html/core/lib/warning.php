@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -40,7 +40,7 @@ class AWarning extends AError
     /**
      * add warning message to debug log
      *
-     * @return ADebug
+     * @return AWarning
      */
     public function toDebug()
     {
@@ -53,14 +53,12 @@ class AWarning extends AError
      *
      * @param string $subject
      *
-     * @return ADebug
+     * @return AWarning
      */
     public function toMessages($subject = '')
     {
         if (is_object($this->registry) && $this->registry->has('messages')) {
-            /**
-             * @var $messages AMessage
-             */
+            /** @var $messages AMessage */
             $messages = $this->registry->get('messages');
             $title = $subject ? $subject : $this->error_descriptions[$this->code];
             $messages->saveWarning($title, $this->msg, false);

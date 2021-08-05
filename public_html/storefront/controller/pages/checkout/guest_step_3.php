@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,12 +24,10 @@ if (!defined('DIR_CORE')) {
 
 class ControllerPagesCheckoutGuestStep3 extends AController
 {
-    private $error = array();
-    public $data = array();
+    private $error = [];
 
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -76,42 +75,53 @@ class ControllerPagesCheckoutGuestStep3 extends AController
         $this->document->setTitle($this->language->get('heading_title'));
 
         //build and save order
-        $this->data = array();
+        $this->data = [];
         $order = new AOrder($this->registry);
         $this->data = $order->buildOrderData($this->session->data);
+
         $this->session->data['order_id'] = $order->saveOrder();
 
         $this->document->resetBreadcrumbs();
 
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getHomeURL(),
-            'text'      => $this->language->get('text_home'),
-            'separator' => false,
-        ));
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getHomeURL(),
+                'text'      => $this->language->get('text_home'),
+                'separator' => false,
+            ]
+        );
 
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getSecureURL($cart_rt),
-            'text'      => $this->language->get('text_basket'),
-            'separator' => $this->language->get('text_separator'),
-        ));
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL($cart_rt),
+                'text'      => $this->language->get('text_basket'),
+                'separator' => $this->language->get('text_separator'),
+            ]
+        );
 
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('checkout/guest_step_1'),
-            'text'      => $this->language->get('text_guest_step_1'),
-            'separator' => $this->language->get('text_separator'),
-        ));
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('checkout/guest_step_1'),
+                'text'      => $this->language->get('text_guest_step_1'),
+                'separator' => $this->language->get('text_separator'),
+            ]
+        );
 
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('checkout/guest_step_2'),
-            'text'      => $this->language->get('text_guest_step_2'),
-            'separator' => $this->language->get('text_separator'),
-        ));
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('checkout/guest_step_2'),
+                'text'      => $this->language->get('text_guest_step_2'),
+                'separator' => $this->language->get('text_separator'),
+            ]
+        );
 
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('checkout/guest_step_3'),
-            'text'      => $this->language->get('text_confirm'),
-            'separator' => $this->language->get('text_separator'),
-        ));
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('checkout/guest_step_3'),
+                'text'      => $this->language->get('text_confirm'),
+                'separator' => $this->language->get('text_separator'),
+            ]
+        );
 
         $this->view->assign('error_warning', $this->error['warning']);
         $this->view->assign('success', $this->session->data['success']);
@@ -126,8 +136,10 @@ class ControllerPagesCheckoutGuestStep3 extends AController
                 $shipping_address = $this->session->data['guest'];
             }
 
-            $this->data['shipping_address'] = $this->customer->getFormattedAddress($shipping_address, $shipping_address['address_format']);
-
+            $this->data['shipping_address'] = $this->customer->getFormattedAddress(
+                $shipping_address,
+                $shipping_address['address_format']
+            );
         } else {
             $this->data['shipping_address'] = '';
         }
@@ -146,7 +158,10 @@ class ControllerPagesCheckoutGuestStep3 extends AController
         $payment_address = $this->session->data['guest'];
 
         if ($payment_address) {
-            $this->data['payment_address'] = $this->customer->getFormattedAddress($payment_address, $payment_address['address_format']);
+            $this->data['payment_address'] = $this->customer->getFormattedAddress(
+                $payment_address,
+                $payment_address['address_format']
+            );
         } else {
             $this->data['payment_address'] = '';
         }
@@ -164,38 +179,41 @@ class ControllerPagesCheckoutGuestStep3 extends AController
 
         $this->loadModel('tool/seo_url');
 
-        $product_ids = array();
-        foreach ($this->data['products'] as $result) {
-            $product_ids[] = (int)$result['product_id'];
-        }
+        $product_ids = array_column($this->data['products'], 'product_id');
 
         //Format product data specific for confirmation page
         $resource = new AResource('image');
-        $thumbnails = $resource->getMainThumbList(
-            'products',
-            $product_ids,
-            $this->config->get('config_image_cart_width'),
-            $this->config->get('config_image_cart_height')
-        );
+        $thumbnails = $product_ids
+            ? $resource->getMainThumbList(
+                'products',
+                $product_ids,
+                $this->config->get('config_image_cart_width'),
+                $this->config->get('config_image_cart_height')
+            )
+            : [];
 
-        $mSizes = array(
+        $mSizes = [
             'main'  =>
-                array(
-                    'width' => $this->config->get('config_image_cart_width'),
-                    'height' => $this->config->get('config_image_cart_height')
-                ),
-            'thumb' => array(
-                'width' =>  $this->config->get('config_image_cart_width'),
-                'height' => $this->config->get('config_image_cart_height')
-            ),
-        );
-
+                [
+                    'width'  => $this->config->get('config_image_cart_width'),
+                    'height' => $this->config->get('config_image_cart_height'),
+                ],
+            'thumb' => [
+                'width'  => $this->config->get('config_image_cart_width'),
+                'height' => $this->config->get('config_image_cart_height'),
+            ],
+        ];
 
         foreach ($this->data['products'] as $product) {
             if (isset($product['option']) && !empty($product['option'])) {
                 foreach ($product['option'] as $option) {
-                    $main_image =
-                        $resource->getResourceAllObjects('product_option_value', $option['product_option_value_id'], $mSizes, 1, false);
+                    $main_image = $resource->getResourceAllObjects(
+                            'product_option_value',
+                            $option['product_option_value_id'],
+                            $mSizes,
+                            1,
+                            false
+                        );
                     if (!empty($main_image)) {
                         $thumbnails[$product['key']] = $main_image;
                     }
@@ -203,26 +221,33 @@ class ControllerPagesCheckoutGuestStep3 extends AController
             }
         }
 
-
+        $virtualProducts = $this->cart->getVirtualProducts();
         for ($i = 0; $i < sizeof($this->data['products']); $i++) {
             $product_id = $this->data['products'][$i]['product_id'];
+            $thumbnail = null;
             if ($thumbnails[$this->data['products'][$i]['key']]) {
                 $thumbnail = $thumbnails[$this->data['products'][$i]['key']];
-            } else {
+            } elseif($thumbnails[$product_id]) {
                 $thumbnail = $thumbnails[$product_id];
+            }else{
+                $thumbnail = $virtualProducts[$this->data['products'][$i]['key']]['thumb'];
             }
-            $tax = $this->tax->calcTotalTaxAmount($this->data['products'][$i]['total'], $this->data['products'][$i]['tax_class_id']);
+            $tax = $this->tax->calcTotalTaxAmount(
+                $this->data['products'][$i]['total'],
+                $this->data['products'][$i]['tax_class_id']
+            );
             $price = $this->data['products'][$i]['price'];
             $quantity = $this->data['products'][$i]['quantity'];
             $this->data['products'][$i] = array_merge(
                 $this->data['products'][$i],
-                array(
+                [
                     'thumb' => $thumbnail,
                     'tax'   => $this->currency->format($tax),
                     'price' => $this->currency->format($price),
                     'total' => $this->currency->format_total($price, $quantity),
                     'href'  => $this->html->getSEOURL('product/product', '&product_id='.$product_id, true),
-                ));
+                ]
+            );
         }
 
         if ($this->config->get('config_checkout_id')) {
@@ -230,7 +255,11 @@ class ControllerPagesCheckoutGuestStep3 extends AController
             $content_info = $this->model_catalog_content->getContent($this->config->get('config_checkout_id'));
             if ($content_info) {
                 $this->data['text_accept_agree'] = $this->language->get('text_accept_agree');
-                $this->data['text_accept_agree_href'] = $this->html->getURL('r/content/content/loadInfo', '&content_id='.$this->config->get('config_checkout_id'), true);
+                $this->data['text_accept_agree_href'] = $this->html->getURL(
+                    'r/content/content/loadInfo',
+                    '&content_id='.$this->config->get('config_checkout_id'),
+                    true
+                );
                 $this->data['text_accept_agree_href_link'] = $content_info['title'];
             } else {
                 $this->data['text_accept_agree'] = '';

@@ -23,7 +23,7 @@ if (!defined('DIR_CORE')) {
 
 class ControllerPagesAccountEdit extends AController
 {
-    public $error = array();
+    public $error = [];
     public $data;
 
     public function main()
@@ -34,7 +34,7 @@ class ControllerPagesAccountEdit extends AController
 
         if (!$this->customer->isLogged()) {
             $this->session->data['redirect'] = $this->html->getSecureURL('account/edit');
-            $this->redirect($this->html->getSecureURL('account/login'));
+            redirect($this->html->getSecureURL('account/login'));
         }
 
         $this->document->setTitle($this->language->get('heading_title'));
@@ -63,7 +63,7 @@ class ControllerPagesAccountEdit extends AController
                 $this->model_account_customer->editCustomerNotifications($request_data);
                 $this->session->data['success'] = $this->language->get('text_success');
                 $this->extensions->hk_ProcessData($this);
-                $this->redirect($this->html->getSecureURL('account/account'));
+                redirect($this->html->getSecureURL('account/account'));
             }
         }
 
@@ -76,23 +76,29 @@ class ControllerPagesAccountEdit extends AController
 
         $this->document->resetBreadcrumbs();
 
-        $this->document->addBreadcrumb(array(
+        $this->document->addBreadcrumb(
+            [
             'href'      => $this->html->getHomeURL(),
             'text'      => $this->language->get('text_home'),
             'separator' => false,
-        ));
+            ]
+        );
 
-        $this->document->addBreadcrumb(array(
+        $this->document->addBreadcrumb(
+            [
             'href'      => $this->html->getSecureURL('account/account'),
             'text'      => $this->language->get('text_account'),
             'separator' => $this->language->get('text_separator'),
-        ));
+            ]
+        );
 
-        $this->document->addBreadcrumb(array(
+        $this->document->addBreadcrumb(
+            [
             'href'      => $this->html->getSecureURL('account/edit'),
             'text'      => $this->language->get('text_edit'),
             'separator' => $this->language->get('text_separator'),
-        ));
+            ]
+        );
 
         $this->view->assign('error_warning', $this->error['warning']);
         $this->view->assign('error_loginname', $this->error['loginname']);
@@ -105,6 +111,7 @@ class ControllerPagesAccountEdit extends AController
             $customer_info = $this->model_account_customer->getCustomer($this->customer->getId());
         }
 
+        $loginname = $firstname = $lastname = $email = $fax = $telephone = '';
         if (isset($request_data['loginname'])) {
             $loginname = $request_data['loginname'];
         } elseif (isset($customer_info)) {
@@ -141,65 +148,71 @@ class ControllerPagesAccountEdit extends AController
             $fax = $customer_info['fax'];
         }
         $form = new AForm();
-        $form->setForm(array('form_name' => 'AccountFrm'));
+        $form->setForm(['form_name' => 'AccountFrm']);
         $this->data['form']['form_open'] = $form->getFieldHtml(
-            array(
+            [
                 'type'   => 'form',
                 'name'   => 'AccountFrm',
                 'action' => $this->html->getSecureURL('account/edit'),
                 'csrf'   => true,
-            )
+            ]
         );
 
         $this->data['reset_loginname'] = $reset_loginname;
 
         if ($reset_loginname) {
             $this->data['form']['fields']['loginname'] = $form->getFieldHtml(
-                array(
+                [
                     'type'     => 'input',
                     'name'     => 'loginname',
                     'value'    => $loginname,
                     'style'    => 'highlight',
                     'required' => true,
-                ));
+                ]
+            );
         } else {
             $this->data['form']['fields']['loginname'] = $loginname;
         }
 
         $this->data['form']['fields']['firstname'] = $form->getFieldHtml(
-            array(
+            [
                 'type'     => 'input',
                 'name'     => 'firstname',
                 'value'    => $firstname,
                 'required' => true,
-            ));
+            ]
+        );
         $this->data['form']['fields']['lastname'] = $form->getFieldHtml(
-            array(
+            [
                 'type'     => 'input',
                 'name'     => 'lastname',
                 'value'    => $lastname,
                 'required' => true,
-            ));
+            ]
+        );
         $this->data['form']['fields']['email'] = $form->getFieldHtml(
-            array(
+            [
                 'type'     => 'input',
                 'name'     => 'email',
                 'value'    => $email,
                 'required' => true,
-            ));
+            ]
+        );
         $this->data['form']['fields']['telephone'] = $form->getFieldHtml(
-            array(
+            [
                 'type'  => 'input',
                 'name'  => 'telephone',
                 'value' => $telephone,
-            ));
+            ]
+        );
         $this->data['form']['fields']['fax'] = $form->getFieldHtml(
-            array(
+            [
                 'type'     => 'input',
                 'name'     => 'fax',
                 'value'    => $fax,
                 'required' => false,
-            ));
+            ]
+        );
 
         //get only active IM drivers
         $im_drivers = $this->im->getIMDriverObjects();
@@ -213,6 +226,8 @@ class ControllerPagesAccountEdit extends AController
                     $value = $request_data[$protocol];
                 } elseif (isset($customer_info)) {
                     $value = $customer_info[$protocol];
+                }else{
+                    $value = null;
                 }
 
                 $fld = $driver_obj->getURIField($form, $value);
@@ -222,29 +237,24 @@ class ControllerPagesAccountEdit extends AController
             }
         }
 
-        //TODO: REMOVE THIS IN 1.3!!!
-        // backward compatibility code
-        $deprecated = array_keys($this->data['form']['fields']);
-        foreach ($deprecated as $name) {
-            $this->data['form'][$name] = $this->data['form']['fields'][$name];
-        }
-        //end of trick
-
         $this->data['form']['continue'] = $form->getFieldHtml(
-            array(
+            [
                 'type' => 'submit',
                 'icon' => 'fa fa-check',
                 'name' => $this->language->get('button_continue'),
-            ));
+            ]
+        );
         $this->data['form']['back'] = $form->getFieldHtml(
-            array(
+            [
                 'type'  => 'button',
                 'name'  => 'back',
                 'style' => 'button',
                 'icon'  => 'fa fa-arrow-left',
                 'text'  => $this->language->get('button_back'),
-            ));
+            ]
+        );
         $this->data['back'] = $this->html->getSecureURL('account/account');
+       
         $this->view->batchAssign($this->data);
         $this->processTemplate('pages/account/edit.tpl');
 

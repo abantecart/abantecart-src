@@ -36,7 +36,20 @@ class ModelToolMPAPI extends Model
      */
     public function getMPURL()
     {
-         return base64_decode($this->mp_url);
+        return base64_decode($this->mp_url);
+    }
+
+    /**
+     * @return array
+     * @throws AException
+     */
+    public function getPopularity()
+    {
+        $url = $this->getMPURL() . "popular.php";
+        //silent request
+        $connect = new AConnect(true);
+        $this->load->library('json');
+        return AJson::decode($connect->getResponse($url), true) ?: [];
     }
 
     /**
@@ -149,11 +162,12 @@ class ModelToolMPAPI extends Model
             $get_params['mp_token'] = $params['mp_token'];
         }
         // get category list
-        $output['categories'] = $this->send($connect,
-                                            [
+        $output['categories'] = $this->send(
+            $connect,
+            [
                 'rt'          => 'a/product/category',
                 'category_id' => 0,
-                                            ]
+            ]
         );
 
         if ($output['categories']) {
@@ -169,17 +183,19 @@ class ModelToolMPAPI extends Model
             }
             unset($category);
             //add all categories option at the beginning of array
-            array_unshift($output['categories']['subcategories'], [
-                'category_id' => '',
-                'name'        => $this->language->get('text_all_categories'),
-                'href'        => $this->html->getSecureURL(
-                    'extension/extensions_store',
-                    '&sidx='.$get_params['sidx']
-                    .'&sord='.$get_params['sord']
-                    .'&limit='.$get_params['limit']
-                ),
-                'active'      => $params['category_id'] ? false : true,
-            ]
+            array_unshift(
+                $output['categories']['subcategories'],
+                [
+                    'category_id' => '',
+                    'name'        => $this->language->get('text_all_categories'),
+                    'href'        => $this->html->getSecureURL(
+                                                              'extension/extensions_store',
+                                                              '&sidx='.$get_params['sidx']
+                                                              .'&sord='.$get_params['sord']
+                                                              .'&limit='.$get_params['limit']
+                                                            ),
+                    'active'      => $params['category_id'] ? false : true,
+                ]
             );
         }
         //Load purchased extensions if requested
@@ -190,7 +206,7 @@ class ModelToolMPAPI extends Model
         } elseif (has_value($params['category_id'])) {
             // get products of category
             $get_params['rt'] = 'a/product/filter';
-            $get_params['category_id'] = (int)$params['category_id'];
+            $get_params['category_id'] = (int) $params['category_id'];
             $output['products'] = $this->send($connect, $get_params);
         } elseif (has_value($params['keyword'])) {//get products by keyword
             $get_params['rt'] = 'a/product/filter';
@@ -205,12 +221,17 @@ class ModelToolMPAPI extends Model
         //prepare extensions for listing
         //Check if extension is installed or requires updating based on versions
 
-        if ((array)$output['products'] && (array)$output['products']['rows']) {
+        if ((array) $output['products'] && (array) $output['products']['rows']) {
             foreach ($output['products']['rows'] as &$product) {
                 $info = $product['cell'];
-                $info['rating'] = (int)$info['rating'];
+                $info['rating'] = (int) $info['rating'];
                 $info['description'] = substr(
-                        strip_tags(html_entity_decode(str_replace('&nbsp;', '', $info['description']), ENT_QUOTES)),
+                        strip_tags(
+                            html_entity_decode(
+                                str_replace('&nbsp;', '', $info['description']),
+                                ENT_QUOTES
+                            )
+                        ),
                         0,
                         344
                     ).'...';
@@ -260,5 +281,4 @@ class ModelToolMPAPI extends Model
         $href = '?'.http_build_query($GET);
         return $connect->getResponse($this->getMPURL().$href);
     }
-
 }

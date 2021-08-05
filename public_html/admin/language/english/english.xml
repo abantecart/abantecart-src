@@ -765,4 +765,12 @@
 		<key>text_subtract_order</key>
 		<value><![CDATA[Subtract Order]]></value>
 	</definition>
+	<definition>
+		<key>button_preview</key>
+		<value><![CDATA[Preview]]></value>
+	</definition>
+	<definition>
+		<key>warning_extensions_with_layouts</key>
+		<value><![CDATA[ Following extensions <br> %s <br> includes pages or layouts that are not present in the selected template. To include features from these extensions you will need to reinstall extensions after you enable new template. If reinstallation does not help, contact original developers of the above extensions for help.  ]]></value>
+	</definition>
 </definitions>

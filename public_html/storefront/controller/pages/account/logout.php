@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -25,7 +26,6 @@ class ControllerPagesAccountLogout extends AController
 {
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -33,19 +33,21 @@ class ControllerPagesAccountLogout extends AController
             $this->customer->logout();
             $this->cart->clear();
 
-            unset($this->session->data['shipping_address_id']);
-            unset($this->session->data['shipping_method']);
-            unset($this->session->data['shipping_methods']);
-            unset($this->session->data['payment_address_id']);
-            unset($this->session->data['payment_method']);
-            unset($this->session->data['payment_methods']);
-            unset($this->session->data['comment']);
-            unset($this->session->data['order_id']);
-            unset($this->session->data['coupon']);
-            unset($this->session->data['merchant']);
-            unset($this->session->data['used_balance']);
-            unset($this->session->data['used_balance_full']);
-            unset($this->session->data['csrftoken']);
+            unset(
+                $this->session->data['shipping_address_id'],
+                $this->session->data['shipping_method'],
+                $this->session->data['shipping_methods'],
+                $this->session->data['payment_address_id'],
+                $this->session->data['payment_method'],
+                $this->session->data['payment_methods'],
+                $this->session->data['comment'],
+                $this->session->data['order_id'],
+                $this->session->data['coupon'],
+                $this->session->data['merchant'],
+                $this->session->data['used_balance'],
+                $this->session->data['used_balance_full'],
+                $this->session->data['csrftoken']
+            );
 
             if ($this->config->get('config_tax_store')) {
                 $country_id = $this->config->get('config_country_id');
@@ -54,39 +56,47 @@ class ControllerPagesAccountLogout extends AController
                 $country_id = $zone_id = 0;
             }
             $this->tax->setZone($country_id, $zone_id);
-
-            $this->redirect($this->html->getSecureURL('account/logout'));
+            $this->extensions->hk_ProcessData($this, __FUNCTION__);
+            redirect($this->html->getSecureURL('account/logout'));
         }
 
         $this->document->setTitle($this->language->get('heading_title'));
 
         $this->document->resetBreadcrumbs();
 
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getHomeURL(),
-            'text'      => $this->language->get('text_home'),
-            'separator' => false,
-        ));
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getHomeURL(),
+                'text'      => $this->language->get('text_home'),
+                'separator' => false,
+            ]
+        );
 
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('account/account'),
-            'text'      => $this->language->get('text_account'),
-            'separator' => $this->language->get('text_separator'),
-        ));
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('account/account'),
+                'text'      => $this->language->get('text_account'),
+                'separator' => $this->language->get('text_separator'),
+            ]
+        );
 
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('account/logout'),
-            'text'      => $this->language->get('text_logout'),
-            'separator' => $this->language->get('text_separator'),
-        ));
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('account/logout'),
+                'text'      => $this->language->get('text_logout'),
+                'separator' => $this->language->get('text_separator'),
+            ]
+        );
 
         $this->view->assign('continue', $this->html->getHomeURL());
-        $continue = $this->html->buildElement(array(
-            'type'  => 'button',
-            'name'  => 'continue_button',
-            'text'  => $this->language->get('button_continue'),
-            'style' => 'button',
-        ));
+        $continue = $this->html->buildElement(
+            [
+                'type'  => 'button',
+                'name'  => 'continue_button',
+                'text'  => $this->language->get('button_continue'),
+                'style' => 'button',
+            ]
+        );
         $this->view->assign('continue_button', $continue);
 
         if ($this->config->get('embed_mode') == true) {

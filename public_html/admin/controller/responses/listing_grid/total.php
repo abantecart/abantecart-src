@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,18 +24,15 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerResponsesListingGridTotal extends AController
 {
-    public $data = array();
-
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadLanguage('extension/total');
 
         $page = $this->request->post['page']; // get the requested page
-        if ((int)$page < 0) {
+        if ((int) $page < 0) {
             $page = 0;
         }
         $limit = $this->request->post['rows']; // get how many rows we want to have into the grid
@@ -42,8 +40,8 @@ class ControllerResponsesListingGridTotal extends AController
         $sord = $this->request->post['sord']; // get the direction
 
         $this->loadModel('setting/extension');
-        $ext = $this->extensions->getExtensionsList(array('filter' => 'total'));
-        $extensions = array();
+        $ext = $this->extensions->getExtensionsList(['filter' => 'total']);
+        $extensions = [];
         if ($ext->rows) {
             foreach ($ext->rows as $row) {
                 $language_rt = $config_controller = '';
@@ -68,11 +66,11 @@ class ControllerResponsesListingGridTotal extends AController
                     }
                 }
                 if ($config_controller) {
-                    $extensions[$row['key']] = array(
+                    $extensions[$row['key']] = [
                         'extension_txt_id'  => $row['key'],
                         'config_controller' => $config_controller,
                         'language_rt'       => $language_rt,
-                    );
+                    ];
                 }
             }
         }
@@ -83,47 +81,67 @@ class ControllerResponsesListingGridTotal extends AController
             foreach ($files as $file) {
                 $id = basename($file, '.php');
                 if (!array_key_exists($id, $extensions)) {
-                    $extensions[$id] = array(
+                    $extensions[$id] = [
                         'extension_txt_id'  => $id,
                         'config_controller' => 'total/'.$id,
                         'language_rt'       => 'total/'.$id,
-                    );
+                    ];
                 }
             }
         }
 
-        $items = array();
+        $items = [];
         if ($extensions) {
+            $readOnly = [
+                'balance' => 999,
+                'total' => 1000
+            ];
             foreach ($extensions as $extension) {
                 $this->loadLanguage($extension['language_rt']);
-                if($extension['extension_txt_id'] == 'balance') {
-                    $sort_order = 999;
-                    $calc_order = 999;
+                if( in_array($extension['extension_txt_id'], array_keys($readOnly))){
+                    $sort_order = $calc_order = $readOnly[$extension['extension_txt_id']];
                     $readonly = true;
-                } elseif($extension['extension_txt_id'] == 'total') {
-                    $sort_order = 1000;
-                    $calc_order = 1000;
-                    $readonly = true;
-                } else{
-                    $sort_order = (int)$this->config->get($extension['extension_txt_id'].'_sort_order');
-                    $calc_order = (int)$this->config->get($extension['extension_txt_id'].'_calculation_order');
+                    if((int) $this->config->get($extension['extension_txt_id'].'_sort_order') != $sort_order){
+                        $this->loadModel('setting/setting');
+                        $this->model_setting_setting->editSetting(
+                            $extension['extension_txt_id'],
+                            [
+                                $extension['extension_txt_id'].'_sort_order' => $sort_order,
+                                $extension['extension_txt_id'].'_calculation_order' => $sort_order
+                            ]
+                        );
+                    }
+                } else {
+                    $sort_order = (int) $this->config->get($extension['extension_txt_id'].'_sort_order');
+                    $calc_order = (int) $this->config->get($extension['extension_txt_id'].'_calculation_order');
                     $readonly = false;
                 }
-                $items[] = array(
+
+                $items[] = [
                     'id'                => $extension['extension_txt_id'],
                     'name'              => $this->language->get('total_name'),
                     'status'            => $this->config->get($extension['extension_txt_id'].'_status'),
                     'sort_order'        => $sort_order,
                     'calculation_order' => $calc_order,
                     'action'            => $this->html->getSecureURL($extension['config_controller']),
-                    'readonly'          => $readonly
-                );
+                    'readonly'          => $readonly,
+                ];
             }
         }
 
         //sort
-        $allowedSort = array('name', 'status', 'sort_order', 'calculation_order');
-        $allowedDirection = array(SORT_ASC => 'asc', SORT_DESC => 'desc');
+        $allowedSort = [
+            'name',
+            'status',
+            'sort_order',
+            'calculation_order'
+        ];
+
+        $allowedDirection = [
+            SORT_ASC => 'asc',
+            SORT_DESC => 'desc'
+        ];
+
         if (!in_array($sidx, $allowedSort)) {
             $sidx = $allowedSort[0];
         }
@@ -133,7 +151,7 @@ class ControllerResponsesListingGridTotal extends AController
             $sord = array_search($sord, $allowedDirection);
         }
 
-        $sort = array();
+        $sort = [];
         foreach ($items as $item) {
             $sort[] = $item[$sidx];
         }
@@ -153,8 +171,8 @@ class ControllerResponsesListingGridTotal extends AController
         $response->records = $total;
 
         $response->userdata = new stdClass();
-        $response->userdata->rt = array();
-        $response->userdata->classes = array();
+        $response->userdata->rt = [];
+        $response->userdata->classes = [];
 
         $results = array_slice($items, ($page - 1) * -$limit, $limit);
 
@@ -162,32 +180,35 @@ class ControllerResponsesListingGridTotal extends AController
         foreach ($results as $result) {
             $response->userdata->rt[$result['id']] = $result['action'];
             $status = $this->html->buildCheckbox(
-                array(
+                [
                     'name'  => $result['id'].'['.$result['id'].'_status]',
                     'value' => $result['status'],
                     'style' => 'btn_switch',
-            ));
+                ]
+            );
             $sort = $this->html->buildInput(
-                array(
+                [
                     'name'  => $result['id'].'['.$result['id'].'_sort_order]',
                     'value' => $result['sort_order'],
-                    'attr'  => $result['readonly'] ? 'readonly' : ''
-            ));
+                    'attr'  => $result['readonly'] ? 'readonly' : '',
+                ]
+            );
 
             $calc = $this->html->buildInput(
-                array(
+                [
                     'name'  => $result['id'].'['.$result['id'].'_calculation_order]',
                     'value' => $result['calculation_order'],
-                    'attr'  => $result['readonly'] ? 'readonly' : ''
-            ));
+                    'attr'  => $result['readonly'] ? 'readonly' : '',
+                ]
+            );
 
             $response->rows[$i]['id'] = $result['id'];
-            $response->rows[$i]['cell'] = array(
+            $response->rows[$i]['cell'] = [
                 $result['name'],
                 $status,
                 ($result['status'] ? $sort : ''),
                 ($result['status'] ? $calc : ''),
-            );
+            ];
             $i++;
         }
         $this->data['response'] = $response;
@@ -202,15 +223,15 @@ class ControllerResponsesListingGridTotal extends AController
      * update only one field
      *
      * @return void
+     * @throws AException
      */
     public function update_field()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadLanguage('extension/total');
-        $ids = array();
+        $ids = [];
         if (isset($this->request->get['id'])) {
             $ids[] = $this->request->get['id'];
         } else {
@@ -219,20 +240,26 @@ class ControllerResponsesListingGridTotal extends AController
 
         if (!$this->user->canModify('listing_grid/total')) {
             $error = new AError('');
-            return $error->toJSONResponse('NO_PERMISSIONS_402',
-                array(
+            $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
                     'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/total'),
                     'reset_value' => true,
-                ));
+                ]
+            );
+            return;
         }
         foreach ($ids as $id) {
             if (!$this->user->canModify('total/'.$id)) {
                 $error = new AError('');
-                return $error->toJSONResponse('NO_PERMISSIONS_402',
-                    array(
+                $error->toJSONResponse(
+                    'NO_PERMISSIONS_402',
+                    [
                         'error_text'  => sprintf($this->language->get('error_permission_modify'), 'total/'.$id),
                         'reset_value' => true,
-                    ));
+                    ]
+                );
+                return;
             }
         }
 
@@ -241,12 +268,11 @@ class ControllerResponsesListingGridTotal extends AController
         if (isset($this->request->get['id'])) {
             //request sent from edit form. ID in url
             $this->model_setting_setting->editSetting($this->request->get['id'], $this->request->post);
-            return null;
-        }
-
-        //request sent from jGrid. ID is key of array
-        foreach ($this->request->post as $group => $values) {
-            $this->model_setting_setting->editSetting($group, $values);
+        } else {
+            //request sent from jGrid. ID is key of array
+            foreach ($this->request->post as $group => $values) {
+                $this->model_setting_setting->editSetting($group, $values);
+            }
         }
 
         //update controller data

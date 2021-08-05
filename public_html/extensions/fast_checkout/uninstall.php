@@ -4,7 +4,7 @@ if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
-$layout = new ALayoutManager('default');
+$layout = new ALayoutManager($this->config->get('config_storefront_template') ?: 'default');
 
 // delete template layout
 $query = $this->db->query("Select layout_id from ".$this->db->table('layouts')." Where layout_name = 'Fast Checkout Page'");

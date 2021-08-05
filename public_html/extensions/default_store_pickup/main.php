@@ -5,10 +5,10 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
-  Lincence details is bundled with this package in the file LICENSE.txt.
+  License details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
   <http://www.opensource.org/licenses/OSL-3.0>
 
@@ -21,26 +21,30 @@ if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
-$controllers = array(
-    'storefront' => array(),
-    'admin'      => array(),
-);
+if (!class_exists('ExtensionDefaultStorePickup')) {
+    include_once('core/default_store_pickup.php');
+}
 
-$models = array(
-    'storefront' => array('extension/default_store_pickup'),
-    'admin'      => array(),
-);
+$controllers = [
+    'storefront' => [],
+    'admin'      => [],
+];
 
-$languages = array(
-    'storefront' => array(
+$models = [
+    'storefront' => ['extension/default_store_pickup'],
+    'admin'      => [],
+];
+
+$languages = [
+    'storefront' => [
         'default_store_pickup/default_store_pickup',
-    ),
-    'admin'      => array(
+    ],
+    'admin'      => [
         'default_store_pickup/default_store_pickup',
-    ),
-);
+    ],
+];
 
-$templates = array(
-    'storefront' => array(),
-    'admin'      => array(),
-);
+$templates = [
+    'storefront' => [],
+    'admin'      => [],
+];

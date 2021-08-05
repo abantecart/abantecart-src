@@ -54,14 +54,14 @@
         </div>
     </div>
 <script>
-	$(".reload_parent").on("click", function (e) {
-		var url = $(this).attr("data-href");
-		if (window.parentIFrame) {
-			window.parentIFrame.sendMessage({reload: true, url: url});
-		} else {
-			location = url;
-		}
-		return false;
-	});
+    $(".reload_parent").on("click", function (e) {
+        var url = $(this).attr("data-href");
+        if (window.parentIFrame) {
+            window.parentIFrame.sendMessage({reload: true, url: url});
+        } else {
+            location = url;
+        }
+        return false;
+    });
 </script>
 <?php echo $footer; ?>

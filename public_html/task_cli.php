@@ -18,7 +18,7 @@
    needs please refer to http://www.AbanteCart.com for more information.  
 ------------------------------------------------------------------------------*/
 // Required PHP Version
-define('MIN_PHP_VERSION', '5.6.0');
+define('MIN_PHP_VERSION', '7.3.0');
 if (version_compare(phpversion(), MIN_PHP_VERSION, '<') == true) {
     die(MIN_PHP_VERSION.'+ Required for AbanteCart to work properly! Please contact your system administrator or host service provider.');
 }
@@ -53,7 +53,9 @@ $_GET['s'] = ADMIN_PATH;
 require_once(DIR_ROOT.'/core/init.php');
 // not needed anymore
 unset($_GET['s']);
+define('RDIR_TEMPLATE', 'admin/view/default/');
 // Currency for processes that require currency
+$registry = Registry::getInstance();
 $registry->set('currency', new ACurrency($registry));
 
 //process command
@@ -91,7 +93,7 @@ switch ($command) {
 /**
  * @param array $options
  *
- * @return none
+ * @void
  */
 function queryTasks($options)
 {
@@ -120,36 +122,41 @@ function queryTasks($options)
 /**
  * @param array $options
  *
- * @return none
+ * @void
  */
 function processTasks($options)
 {
     $tm_mode = 'cli';
     $tm = new ATaskManager($tm_mode);
-    echo "Run all ready tasks! \n";
-    $tm->runTasks();
+    echo "Starting... \n";
+    $tm->runTasks($options);
 
     if ($options['show_log']) {
         $run_log = $tm->getRunLog();
         $run_log_text = implode("\n", $run_log);
         echo "{$run_log_text}\n";
     }
-    echo "Finished all ready tasks! \n";
+    echo "Finished. \n";
 }
 
 /**
  * @param array $options
  *
- * @return none
+ * @void
  */
 function processTask($options)
 {
     $tm_mode = 'cli';
     $tm = new ATaskManager($tm_mode);
     if ($options['force']) {
+        $task = $tm->getTaskById($options['task_id']);
+        if($task['status'] == $tm::STATUS_RUNNING){
+            echo "Error: Task ID {$options['task_id']} already running!\n";
+            exit(1);
+        }
         echo "Force starting task! \n";
         if (
-            !$tm->updateTask($options['task_id'], array('status' => $tm::STATUS_READY))
+            !$tm->updateTask($options['task_id'], ['status' => $tm::STATUS_READY])
             || !($steps = $tm->getTaskSteps($options['task_id']))
         ) {
             echo "Error: Task ID {$options['task_id']} can not be re-started! \n";
@@ -157,7 +164,7 @@ function processTask($options)
         }
 
         foreach ($steps as $step) {
-            $tm->updateStep($step['step_id'], array('status' => $tm::STATUS_READY));
+            $tm->updateStep($step['step_id'], ['status' => $tm::STATUS_READY]);
         }
     }
 
@@ -177,21 +184,22 @@ function processTask($options)
 /**
  * @param array $options
  *
- * @return none
+ * @void
  */
 function processTaskStep($options)
 {
     $tm_mode = 'cli';
+    $step_result = false;
     $tm = new ATaskManager($tm_mode);
     echo "Force starting step! \n";
     if (
-        !$tm->updateTask($options['task_id'], array('status' => $tm::STATUS_READY))
+        !$tm->updateTask($options['task_id'], ['status' => $tm::STATUS_READY])
         || !$tm->getTaskSteps($options['task_id'])
     ) {
         echo "Error: Task ID ".$options['task_id']." can not be re-started! \n";
         exit(1);
     }
-    $tm->updateStep($options['step_id'], array('status' => $tm::STATUS_READY));
+    $tm->updateStep($options['step_id'], ['status' => $tm::STATUS_READY]);
 
     echo "Running: Task ID ".$options['task_id']." Step ID ".$options['step_id'].": \n";
     //start step
@@ -218,11 +226,11 @@ function processTaskStep($options)
  */
 function getOptionList()
 {
-    return array(
+    return [
         '--task_id'  => 'Task ID for task to be ran',
         '--step_id'  => 'Step ID for task to be ran',
         '--show_log' => 'Details of the task process from the log',
-    );
+    ];
 }
 
 /**
@@ -236,7 +244,8 @@ function help()
     $output .= "Commands:"."\n";
     $output .= "\t"."usage - get help"."\n\n";
     $output .= "\t"."get_task - tasks ready to be processed or --task_id # to get specific task details"."\n";
-    $output .= "\t"."run - process all ready tasks, specified task or specific step in the task with --task_id=# --step_id=# --force"."\n\n";
+    $output .= "\t"."run - process all ready tasks, specified task or specific step in the task with --task_id=# --step_id=# --force"."\n";
+    $output .= "\t"."run - process all tasks except already running --force-all"."\n\n";
 
     $output .= "Required Parameters:"."\n";
     $options = getOptionList();
@@ -266,7 +275,7 @@ function getOptionValues($opt_name = '')
 {
     global $args;
     $args = !$args ? $_SERVER['argv'] : $args;
-    $options = array();
+    $options = [];
     foreach ($args as $v) {
         $is_flag = preg_match('/^--(.*)$/', $v, $match);
         //skip commands

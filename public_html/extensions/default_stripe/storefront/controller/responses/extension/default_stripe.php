@@ -38,7 +38,16 @@ class ControllerResponsesExtensionDefaultStripe extends AController
         //need an order details
         $this->loadModel('checkout/order');
         $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
-        $this->data['payment_address'] = $order_info['payment_address_1']." ".$order_info['payment_address_2'];
+        $pAddress = [
+            'postcode'  => $order_info['payment_postcode'],
+            'address_1' => $order_info['payment_address_1'],
+            'address_2' => $order_info['payment_address_2'],
+            'city'      => $order_info['payment_city'],
+            'zone'      => $order_info['payment_zone'],
+            'country'   => $order_info['payment_country']
+        ];
+
+        $this->data['payment_address'] = array_filter($pAddress);
 
         if($this->customer->isLogged()) {
             $this->data['edit_address'] = $this->html->getSecureURL('checkout/address/payment');
@@ -115,7 +124,6 @@ class ControllerResponsesExtensionDefaultStripe extends AController
         $customer_stripe_id = $this->model_extension_default_stripe->createStripeCustomer($customer);
         $paymentIntent = $this->model_extension_default_stripe->createPaymentIntent(
             [
-
                 'payment_method_types' => ["card"],
                 'capture_method'       => 'manual',
                 'amount'               => round(

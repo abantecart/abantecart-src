@@ -768,4 +768,16 @@
 		<key>text_subtract_order</key>
 		<value><![CDATA[Sottrai ordine]]></value>
 	</definition>
+	<definition>
+		<key>text_copy_embed_url</key>
+		<value><![CDATA[Copia e incolla questo URL nel tuo altro sito in cui desideri vendere]]></value>
+	</definition>
+	<definition>
+		<key>button_preview</key>
+		<value><![CDATA[Anteprima]]></value>
+	</definition>
+	<definition>
+		<key>warning_extensions_with_layouts</key>
+		<value><![CDATA[Le seguenti estensioni <br/> %s <br/> includono pagine o layout che non sono presenti nel modello selezionato. Per includere le funzionalità di queste estensioni dovrai reinstallare le estensioni dopo aver abilitato il nuovo modello. Se la reinstallazione non aiuta, contattare gli sviluppatori originali delle estensioni di cui sopra per assistenza.]]></value>
+	</definition>
 </definitions>

@@ -23,11 +23,11 @@ if (!defined('DIR_CORE')) {
 
 final class ARequest
 {
-    public $get = array();
-    public $post = array();
-    public $cookie = array();
-    public $files = array();
-    public $server = array();
+    public $get = [];
+    public $post = [];
+    public $cookie = [];
+    public $files = [];
+    public $server = [];
 
     private $http;
     private $version;
@@ -49,12 +49,11 @@ final class ARequest
         $this->cookie = $_COOKIE;
         $this->files = $_FILES;
         $this->server = $_SERVER;
-
         //check if there is any encrypted data
-        if (has_value($this->get['__e'])) {
+        if (isset($this->get['__e']) && has_value($this->get['__e'])) {
             $this->get = array_replace_recursive($this->get, $this->decodeURI($this->get['__e']));
         }
-        if (has_value($this->post['__e'])) {
+        if (isset($this->post['__e']) && has_value($this->post['__e'])) {
             $this->post = array_replace_recursive($this->post, $this->decodeURI($this->post['__e']));
         }
         $this->_detectBrowser();
@@ -132,7 +131,7 @@ final class ARequest
      */
     public function decodeURI($uri)
     {
-        $params = array();
+        $params = [];
         $open_uri = base64_decode($uri);
 
         $split_parameters = explode('&', $open_uri);
@@ -147,7 +146,7 @@ final class ARequest
     private function _detectBrowser()
     {
 
-        $nua = strtolower($_SERVER['HTTP_USER_AGENT']);
+        $nua = strtolower($_SERVER['HTTP_USER_AGENT']??'');
 
         $agent['http'] = isset($nua) ? $nua : "";
         $agent['version'] = 'unknown';
@@ -155,7 +154,7 @@ final class ARequest
         $agent['platform'] = 'unknown';
         $agent['device_type'] = '';
 
-        $oss = array('win', 'mac', 'linux', 'unix');
+        $oss = ['win', 'mac', 'linux', 'unix'];
         foreach ($oss as $os) {
             if (strstr($agent['http'], $os)) {
                 $agent['platform'] = $os;
@@ -163,7 +162,7 @@ final class ARequest
             }
         }
 
-        $browsers = array("mozilla", "msie", "gecko", "firefox", "konqueror", "safari", "netscape", "navigator", "opera", "mosaic", "lynx", "amaya", "omniweb");
+        $browsers = ["mozilla", "msie", "gecko", "firefox", "konqueror", "safari", "netscape", "navigator", "opera", "mosaic", "lynx", "amaya", "omniweb"];
 
         for ($i = 0; $i < count($browsers); $i++) {
             if (strlen(stristr($nua, $browsers[$i])) > 0) {
@@ -173,7 +172,7 @@ final class ARequest
         }
 
         //http://en.wikipedia.org/wiki/List_of_user_agents_for_mobile_phones - list of useragents
-        $devices = array("iphone", "android", "blackberry", "ipod", "ipad", "htc", "symbian", "webos", "opera mini", "windows phone os", "iemobile");
+        $devices = ["iphone", "android", "blackberry", "ipod", "ipad", "htc", "symbian", "webos", "opera mini", "windows phone os", "iemobile"];
 
         for ($i = 0; $i < count($devices); $i++) {
             if (stristr($nua, $devices[$i])) {
@@ -244,7 +243,7 @@ final class ARequest
      */
     public function is_POST()
     {
-        return ($this->server['REQUEST_METHOD'] == 'POST' ? true : false);
+        return ($this->server['REQUEST_METHOD'] == 'POST');
     }
 
     /**
@@ -252,7 +251,7 @@ final class ARequest
      */
     public function is_GET()
     {
-        return ($this->server['REQUEST_METHOD'] == 'GET' ? true : false);
+        return ($this->server['REQUEST_METHOD'] == 'GET');
     }
 
     /**
@@ -265,8 +264,14 @@ final class ARequest
         if (empty($name)) {
             return false;
         }
-        $path = dirname($this->server['PHP_SELF']);
-        setcookie($name, null, -1, $path);
+        setCookieOrParams(
+            $name,
+            null,
+            [
+                'lifetime' => -1,
+                'path'     => dirname($this->server['PHP_SELF'])
+            ]
+        );
         unset($this->cookie[$name], $_COOKIE[$name]);
         return true;
     }

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension>
+	<id>cardknox</id>
+	<version>1.0.0</version>
+	<type>payment</type>
+	<category>payment</category>
+	<cartversions>
+		<item>1.2</item>
+		<item>1.3</item>
+	</cartversions>
+	<priority>102</priority>
+	<dependencies/>
+	<settings>
+		<item id="cardknox_status">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="cardknox_transaction_key">
+			<type required="true">input</type>
+			<default_value/>
+		</item>
+		<item id="cardknox_ifields_key">
+			<type required="true">input</type>
+			<default_value/>
+		</item>
+		<item id="cardknox_transaction_token">
+			<type>hidden</type>
+			<default_value/>
+		</item>
+		<item id="cardknox_transaction_method">
+			<type>selectbox</type>
+			<variants>
+				<item>capture</item>
+				<item>authorization</item>
+			</variants>
+			<default_value>capture</default_value>
+		</item>
+		<item id="cardknox_test">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="cardknox_success_order_status">
+			<type>selectbox</type>
+			<variants>
+				<data_source>
+					<model_rt>localisation/order_status</model_rt>
+					<method>getOrderStatuses</method>
+				</data_source>
+				<fields>
+					<field>order_status_id</field>
+					<field>name</field>
+				</fields>
+			</variants>
+			<default_value>2</default_value>
+		</item>
+		<item id="cardknox_location_id">
+			<type>selectbox</type>
+			<variants>
+				<item>0</item>
+				<data_source>
+					<model_rt>localisation/location</model_rt>
+					<method>getLocations</method>
+				</data_source>
+				<fields>
+					<field>location_id</field>
+					<field>name</field>
+				</fields>
+			</variants>
+		</item>
+	</settings>
+	<help_link><![CDATA[https://www.cardknox.com/partners/abantecart/]]></help_link>
+	<install>
+		<trigger>install.php</trigger>
+	</install>
+	<uninstall>
+		<trigger>uninstall.php</trigger>
+	</uninstall>
+</extension>

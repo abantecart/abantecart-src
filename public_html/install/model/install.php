@@ -7,7 +7,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,7 +23,7 @@
 
 class ModelInstall extends Model
 {
-    public $error;
+    public $errors;
 
     /**
      * @param array $data
@@ -33,47 +33,49 @@ class ModelInstall extends Model
     public function validateSettings($data)
     {
         if (!$data['admin_path']) {
-            $this->error['admin_path'] = 'Admin unique name is required!';
+            $this->errors['admin_path'] = 'Admin unique name is required!';
         } else {
             if (preg_match('/[^A-Za-z0-9_]/', $data['admin_path'])) {
-                $this->error['admin_path'] = 'Admin unique name contains non-alphanumeric characters!';
+                $this->errors['admin_path'] = 'Admin unique name contains non-alphanumeric characters!';
             }
         }
 
         if (!$data['db_driver']) {
-            $this->error['db_driver'] = 'Driver required!';
+            $this->errors['db_driver'] = 'Driver required!';
         }
         if (!$data['db_host']) {
-            $this->error['db_host'] = 'Host required!';
+            $this->errors['db_host'] = 'Host required!';
         }
 
         if (!$data['db_user']) {
-            $this->error['db_user'] = 'User required!';
+            $this->errors['db_user'] = 'User required!';
+        }
+
+        if (is_int(strpos($data['db_password'],'\\'))) {
+            $this->errors['db_password'] = 'Database password cannot contains forward slashes!';
         }
 
         if (!$data['db_name']) {
-            $this->error['db_name'] = 'Database Name required!';
+            $this->errors['db_name'] = 'Database Name required!';
         }
 
         if (!$data['username']) {
-            $this->error['username'] = 'Username required!';
+            $this->errors['username'] = 'Username required!';
         }
 
         if (!$data['password']) {
-            $this->error['password'] = 'Password required!';
+            $this->errors['password'] = 'Password required!';
         }
         if ($data['password'] != $data['password_confirm']) {
-            $this->error['password_confirm'] = 'Password does not match the confirm password!';
+            $this->errors['password_confirm'] = 'Password does not match the confirm password!';
         }
 
-        $pattern = '/^([a-z0-9])(([-a-z0-9._])*([a-z0-9]))*\@([a-z0-9])(([a-z0-9-])*([a-z0-9]))+(\.([a-z0-9])([-a-z0-9_-])?([a-z0-9])+)+$/i';
-
-        if (!preg_match($pattern, $data['email'])) {
-            $this->error['email'] = 'Invalid E-Mail!';
+        if (!preg_match(EMAIL_REGEX_PATTERN, $data['email'])) {
+            $this->errors['email'] = 'Invalid E-Mail!';
         }
 
         if (!empty($data['db_prefix']) && preg_match('/[^A-Za-z0-9_]/', $data['db_prefix'])) {
-            $this->error['db_prefix'] = 'DB prefix contains non-alphanumeric characters!';
+            $this->errors['db_prefix'] = 'DB prefix contains non-alphanumeric characters!';
         }
 
         if ($data['db_driver']
@@ -83,25 +85,24 @@ class ModelInstall extends Model
             && $data['db_name']
         ) {
             try {
-                new ADB($data['db_driver'],
+                new ADB(
+                    $data['db_driver'],
                     $data['db_host'],
                     $data['db_user'],
                     $data['db_password'],
-                    $data['db_name']);
+                    $data['db_name']
+                );
             } catch (AException $exception) {
-                $this->error['warning'] = $exception->getMessage();
+                $this->errors['warning'] = $exception->getMessage();
             }
         }
 
         if (!is_writable(DIR_ABANTECART.'system/config.php')) {
-            $this->error['warning'] = 'Error: Could not write to config.php please check you have set the correct permissions on: '.DIR_ABANTECART.'system/config.php!';
+            $this->errors['warning'] = 'Error: Could not write to config.php please check you have '
+                .'set the correct permissions on: '.DIR_ABANTECART.'system/config.php!';
         }
 
-        if (!$this->error) {
-            return true;
-        } else {
-            return false;
-        }
+        return (!$this->errors);
     }
 
     /**
@@ -109,98 +110,74 @@ class ModelInstall extends Model
      */
     public function validateRequirements()
     {
-        if (version_compare(phpversion(), MIN_PHP_VERSION, '<') == true) {
-            $this->error['warning'] = 'Warning: You need to use PHP '.MIN_PHP_VERSION.' or above for AbanteCart to work!';
+        $result = checkPhpConfiguration();
+        foreach($result as $name => $r){
+            $this->errors[$name] = 'Warning: '.$r['body'];
         }
 
-        if (!ini_get('file_uploads')) {
-            $this->error['warning'] = 'Warning: file_uploads needs to be enabled in PHP!';
-        }
-
-        if (ini_get('session.auto_start')) {
-            $this->error['warning'] = 'Warning: AbanteCart will not work with session.auto_start enabled!';
-        }
-
-        if (!extension_loaded('mysql') && !extension_loaded('mysqli') && !extension_loaded('pdo_mysql')) {
-            $this->error['warning'] = 'Warning: MySQL extension needs to be loaded for AbanteCart to work!';
-        }
-
-        if (!function_exists('simplexml_load_file')) {
-            $this->error['warning'] = 'Warning: SimpleXML functions needs to be available in PHP!';
-        }
-
-        if (!extension_loaded('gd')) {
-            $this->error['warning'] = 'Warning: GD extension needs to be loaded for AbanteCart to work!';
-        }
-
-        if (!extension_loaded('mbstring') || !function_exists('mb_internal_encoding')) {
-            $this->error['warning'] = 'Warning: MultiByte String extension needs to be loaded for AbanteCart to work!';
-        }
-        if (!extension_loaded('zlib')) {
-            $this->error['warning'] = 'Warning: ZLIB extension needs to be loaded for AbanteCart to work!';
-        }
         if (!extension_loaded('openssl')) {
-            $this->error['warning'] = 'Warning: OpenSSL extension needs to be loaded for AbanteCart to work!';
+            $this->errors['openssl'] = 'Warning: OpenSSL extension needs to be loaded for AbanteCart to work!';
         }
         if (!extension_loaded('phar')) {
-            $this->error['warning'] = 'Warning: PHAR extension needs to be loaded for AbanteCart to work!';
+            $this->errors['phar'] = 'Warning: PHAR extension needs to be loaded for AbanteCart to work!';
         }
 
+        $f = fopen(DIR_ABANTECART.'system/config.php','w');
+        fclose($f);
         if (!is_writable(DIR_ABANTECART.'system/config.php')) {
-            $this->error['warning'] = 'Warning: config.php needs to be writable for AbanteCart to be installed!';
+            $this->errors['warning'] = 'Warning: config.php needs to be writable for AbanteCart to be installed!';
         }
 
         if (!is_writable(DIR_SYSTEM)) {
-            $this->error['warning'] = 'Warning: System directory and all its children files/directories need to be writable for AbanteCart to work!';
+            $this->errors['warning'] = 'Warning: System directory and all its children files/directories'
+                                    .' need to be writable for AbanteCart to work!';
         }
 
         if (!is_writable(DIR_SYSTEM.'cache')) {
-            $this->error['warning'] = 'Warning: Cache directory needs to be writable for AbanteCart to work!';
+            $this->errors['warning'] = 'Warning: Cache directory needs to be writable for AbanteCart to work!';
         }
 
         if (!is_writable(DIR_SYSTEM.'logs')) {
-            $this->error['warning'] = 'Warning: Logs directory needs to be writable for AbanteCart to work!';
+            $this->errors['warning'] = 'Warning: Logs directory needs to be writable for AbanteCart to work!';
         }
 
         if (!is_writable(DIR_ABANTECART.'image')) {
-            $this->error['warning'] = 'Warning: Image directory and all its children files/directories need to be writable for AbanteCart to work!';
+            $this->errors['warning'] =
+                'Warning: Image directory and all its children files/directories need to be writable for AbanteCart to work!';
         }
 
         if (!is_writable(DIR_ABANTECART.'image/thumbnails')) {
             if (file_exists(DIR_ABANTECART.'image/thumbnails') && is_dir(DIR_ABANTECART.'image/thumbnails')) {
-                $this->error['warning'] = 'Warning: image/thumbnails directory needs to be writable for AbanteCart to work!';
+                $this->errors['warning'] =
+                    'Warning: image/thumbnails directory needs to be writable for AbanteCart to work!';
             } else {
                 $result = mkdir(DIR_ABANTECART.'image/thumbnails', 0777, true);
                 if ($result) {
                     chmod(DIR_ABANTECART.'image/thumbnails', 0777);
                     chmod(DIR_ABANTECART.'image', 0777);
                 } else {
-                    $this->error['warning'] = 'Warning: image/thumbnails does not exists!';
+                    $this->errors['warning'] = 'Warning: image/thumbnails does not exists!';
                 }
             }
         }
 
         if (!is_writable(DIR_ABANTECART.'download')) {
-            $this->error['warning'] = 'Warning: Download directory needs to be writable for AbanteCart to work!';
+            $this->errors['warning'] = 'Warning: Download directory needs to be writable for AbanteCart to work!';
         }
 
         if (!is_writable(DIR_ABANTECART.'extensions')) {
-            $this->error['warning'] = 'Warning: Extensions directory needs to be writable for AbanteCart to work!';
+            $this->errors['warning'] = 'Warning: Extensions directory needs to be writable for AbanteCart to work!';
         }
 
         if (!is_writable(DIR_ABANTECART.'resources')) {
-            $this->error['warning'] = 'Warning: Resources directory needs to be writable for AbanteCart to work!';
+            $this->errors['warning'] = 'Warning: Resources directory needs to be writable for AbanteCart to work!';
         }
 
         if (!is_writable(DIR_ABANTECART.'admin/system')) {
-            $this->error['warning'] = 'Warning: Admin/system directory needs to be writable for AbanteCart to work!';
+            $this->errors['warning'] = 'Warning: Admin/system directory needs to be writable for AbanteCart to work!';
         }
 
-        if (!$this->error) {
-            return true;
-        } else {
-            return false;
-        }
+        return (!$this->errors);
     }
 
     public function configure($data)
@@ -208,15 +185,16 @@ class ModelInstall extends Model
         if (!$data) {
             return false;
         }
-
-        define('DB_PREFIX', $data['db_prefix']);
+        if (!defined('DB_PREFIX')) {
+            define('DB_PREFIX', $data['db_prefix']);
+        }
 
         $content = "<?php\n";
         $content .= "/**\n";
-        $content .= "	AbanteCart, Ideal OpenSource Ecommerce Solution\n";
-        $content .= "	http://www.AbanteCart.com\n";
-        $content .= "	Copyright © 2011-".date('Y')." Belavier Commerce LLC\n\n";
-        $content .= "	Released under the Open Software License (OSL 3.0)\n";
+        $content .= "   AbanteCart, Ideal OpenSource Ecommerce Solution\n";
+        $content .= "   https://www.AbanteCart.com\n";
+        $content .= "   Copyright © 2011-".date('Y')." Belavier Commerce LLC\n\n";
+        $content .= "   Released under the Open Software License (OSL 3.0)\n";
         $content .= "*/\n\n";
         $content .= "define('SERVER_NAME', '".getenv('SERVER_NAME')."');\n";
         $content .= "// Admin Section Configuration. You can change this value to any name. Will use ?s=name to access the admin\n";
@@ -256,7 +234,9 @@ class ModelInstall extends Model
                     $query .= $line;
 
                     if (preg_match('/;\s*$/', $line)) {
-                        $query = str_replace("DROP TABLE IF EXISTS `ac_", "DROP TABLE IF EXISTS `".$data['db_prefix'], $query);
+                        $query = str_replace(
+                            "DROP TABLE IF EXISTS `ac_", "DROP TABLE IF EXISTS `".$data['db_prefix'], $query
+                        );
                         $query = str_replace("CREATE TABLE `ac_", "CREATE TABLE `".$data['db_prefix'], $query);
                         $query = str_replace("INSERT INTO `ac_", "INSERT INTO `".$data['db_prefix'], $query);
                         $query = str_replace("ON `ac_", "ON `".$data['db_prefix'], $query);
@@ -271,28 +251,54 @@ class ModelInstall extends Model
             $salt_key = genToken(8);
             $db->query(
                 "INSERT INTO `".$data['db_prefix']."users`
-				SET user_id = '1',
-					user_group_id = '1',
-					email = '".$db->escape($data['email'])."',
-				    username = '".$db->escape($data['username'])."',
-					salt = '".$db->escape($salt_key)."', 
-					password = '".$db->escape(sha1($salt_key.sha1($salt_key.sha1($data['password']))))."',
-				    status = '1',
-				    date_added = NOW();");
+                SET user_id = '1',
+                    user_group_id = '1',
+                    email = '".$db->escape($data['email'])."',
+                    username = '".$db->escape($data['username'])."',
+                    salt = '".$db->escape($salt_key)."', 
+                    password = '".$db->escape(sha1($salt_key.sha1($salt_key.sha1($data['password']))))."',
+                    status = '1',
+                    date_added = NOW();"
+            );
 
-            $db->query("UPDATE `".$data['db_prefix']."settings` SET value = '".$db->escape($data['email'])."' WHERE `key` = 'store_main_email'; ");
-            $db->query("UPDATE `".$data['db_prefix']."settings` SET value = '".$db->escape(HTTP_ABANTECART)."' WHERE `key` = 'config_url'; ");
-            if (defined('HTTPS') &&  HTTPS === true) {
-                $db->query("UPDATE `".$data['db_prefix']."settings` SET value = '".$db->escape(HTTP_ABANTECART)."' WHERE `key` = 'config_ssl_url'; ");
-                $db->query("UPDATE `".$data['db_prefix']."settings` SET value = '2' WHERE `key` = 'config_ssl'; ");
+            $db->query(
+                "UPDATE `".$data['db_prefix']."settings` 
+                SET value = '".$db->escape($data['email']) ."' 
+                WHERE `key` = 'store_main_email'; "
+            );
+            $db->query(
+                "UPDATE `".$data['db_prefix']."settings` 
+                SET value = '".$db->escape(HTTP_ABANTECART)."' 
+                WHERE `key` = 'config_url'; "
+            );
+            if (defined('HTTPS') && HTTPS === true) {
+                $db->query(
+                    "UPDATE `".$data['db_prefix']."settings` 
+                    SET value = '".$db->escape(HTTP_ABANTECART)."' 
+                    WHERE `key` = 'config_ssl_url'; "
+                );
+                $db->query(
+                    "UPDATE `".$data['db_prefix']."settings` 
+                    SET value = '2' 
+                    WHERE `key` = 'config_ssl'; "
+                );
             }
-            $db->query("UPDATE `".$data['db_prefix']."settings` SET value = '".$db->escape(genToken(16))."' WHERE `key` = 'task_api_key'; ");
-            $db->query("INSERT INTO `".$data['db_prefix']."settings` SET `group` = 'config', `key` = 'install_date', value = NOW(); ");
+            $db->query(
+                "UPDATE `".$data['db_prefix']."settings` 
+                SET value = '".$db->escape(genToken(16))."' 
+                WHERE `key` = 'task_api_key'; "
+            );
+            $db->query(
+                "INSERT INTO `".$data['db_prefix']."settings` 
+                SET `group` = 'config', 
+                    `key` = 'install_date', 
+                    value = NOW(); "
+            );
 
-            $db->query("UPDATE `".$data['db_prefix']."products` SET `viewed` = '0';");
-
-            //process triggers
-            //$this->create_triggers($db, $data['db_name']);
+            $db->query(
+                "UPDATE `".$data['db_prefix']."products` 
+                SET `viewed` = '0';"
+            );
 
             //run destructor and close db-connection
             unset($db);
@@ -306,45 +312,14 @@ class ModelInstall extends Model
     }
 
     /**
-     * @param ADB    $db
-     * @param string $database_name
-     */
-    private function create_triggers($db, $database_name)
-    {
-        $tables_sql = "
-			SELECT DISTINCT TABLE_NAME 
-		    FROM INFORMATION_SCHEMA.COLUMNS
-		    WHERE COLUMN_NAME IN ('date_added')
-		    AND TABLE_SCHEMA='".$db->escape($database_name)."'";
-
-        $query = $db->query($tables_sql);
-        foreach ($query->rows as $t) {
-            $table_name = $t['TABLE_NAME'];
-            $trigger_name = $table_name."_date_add_trg";
-
-            $trigger_checker = $db->query("SELECT TRIGGER_NAME
-								FROM information_schema.triggers
-								WHERE TRIGGER_SCHEMA = '".$db->escape($database_name)."' AND TRIGGER_NAME = '".$db->escape($trigger_name)."'");
-            if (!$query->row[0]) {
-                //create trigger
-                $sql = "
-				CREATE TRIGGER `".$db->escape($trigger_name)."` BEFORE INSERT ON `".$db->escape($table_name)."` FOR EACH ROW
-				BEGIN
-		    		SET NEW.date_added = NOW();
-				END;
-				";
-                $db->query($sql);
-            }
-        }
-    }
-
-    /**
      * @param Registry $registry
      *
      * @return null
+     * @throws AException
      */
     public function loadDemoData($registry)
     {
+        /** @var ADB $db */
         $db = $registry->get('db');
         $db->query("SET NAMES 'utf8'");
         $db->query("SET CHARACTER SET utf8");
@@ -387,13 +362,15 @@ class ModelInstall extends Model
 
     public function getLanguages()
     {
-        $query = $this->db->query("SELECT *
-                                    FROM ".DB_PREFIX."languages
-                                    ORDER BY sort_order, name");
-        $language_data = array();
+        $query = $this->db->query(
+            "SELECT *
+            FROM ".$this->db->table("languages")."
+            ORDER BY `sort_order`, `name`"
+        );
+        $language_data = [];
 
         foreach ($query->rows as $result) {
-            $language_data[$result['code']] = array(
+            $language_data[$result['code']] = [
                 'language_id' => $result['language_id'],
                 'name'        => $result['name'],
                 'code'        => $result['code'],
@@ -402,7 +379,7 @@ class ModelInstall extends Model
                 'filename'    => $result['filename'],
                 'sort_order'  => $result['sort_order'],
                 'status'      => $result['status'],
-            );
+            ];
         }
 
         return $language_data;

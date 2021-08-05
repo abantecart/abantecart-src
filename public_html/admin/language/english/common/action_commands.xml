@@ -58,7 +58,7 @@
     </definition>
     <definition>
         <key>manufacturer</key>
-        <value><![CDATA[manufacturer]]></value>
+        <value><![CDATA[brand]]></value>
     </definition>
     <definition>
         <key>review</key>

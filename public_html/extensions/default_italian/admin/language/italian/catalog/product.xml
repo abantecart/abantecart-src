@@ -604,4 +604,20 @@
 		<key>text_create_collection</key>
 		<value><![CDATA[Crea raccolta]]></value>
 	</definition>
+	<definition>
+		<key>text_enable_selected</key>
+		<value><![CDATA[Abilita selezionati]]></value>
+	</definition>
+	<definition>
+		<key>text_disable_selected</key>
+		<value><![CDATA[Disabilita selezionati]]></value>
+	</definition>
+	<definition>
+		<key>entry_product_option_cost</key>
+		<value><![CDATA[Costo effettivo (totale): <span class="help">inserisci il costo effettivo (totale) di questa opzione di prodotto.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_weight_change</key>
+		<value><![CDATA[Cambio peso: <span class="help">inserisci la differenza tra il prodotto base e il prodotto opzionale</span>]]></value>
+	</definition>
 </definitions>

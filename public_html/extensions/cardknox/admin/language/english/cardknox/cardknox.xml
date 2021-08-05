@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>cardknox_name</key>
+    <value><![CDATA[CardKnox]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_note</key>
+    <value><![CDATA[]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_transaction_key</key>
+    <value><![CDATA[Transaction Key (xKey)]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_transaction_token</key>
+    <value><![CDATA[Transaction Token (xToken)]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_test</key>
+    <value><![CDATA[Test Mode]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_success_order_status</key>
+    <value><![CDATA[Order Status:<br /><span class="help">Order status to be set after customer's order finished based on set Transaction Method</span>]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_location_id</key>
+    <value><![CDATA[Location:<br /><span class="help">Restrict to allow only selected locations to use this payment method.]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_location_id_0</key>
+    <value><![CDATA[All Locations]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_transaction_method</key>
+    <value><![CDATA[Transaction Method:<br /><span class="help">CardKnox transaction to run at customer's checkout before order status is set. Authorization only or capture.</span>]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_transaction_method_capture</key>
+    <value><![CDATA[Capture]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_transaction_method_authorization</key>
+    <value><![CDATA[Authorization Only]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_ifields_key</key>
+    <value><![CDATA[iFields Key]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_text_pending_authorization</key>
+    <value><![CDATA[Pending Authorization]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_text_capture_funds</key>
+    <value><![CDATA[Capture Funds]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_text_capture</key>
+    <value><![CDATA[Capture]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_text_payment_status</key>
+    <value><![CDATA[Payment Status]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_text_capture_success</key>
+    <value><![CDATA[Success! Funds have been captured successfully.]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_text_processing</key>
+    <value><![CDATA[Processing]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_text_do_refund</key>
+    <value><![CDATA[Do CardKnox Refund:<span class="help">You can enter amount that needs to be refunded.</span>]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_text_refunded</key>
+    <value><![CDATA[Refunded]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_text_refund</key>
+    <value><![CDATA[Refund]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_refund_title</key>
+    <value><![CDATA[CardKnox Refund]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_text_refund_success</key>
+    <value><![CDATA[Success! Order has been refunded successfully.]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_error_empty_amount</key>
+    <value><![CDATA[Error! Amount is wrong.]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_error_no_payment_method_data</key>
+    <value><![CDATA[Error! There is no payment method data for this order.]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_error_no_order_id</key>
+    <value><![CDATA[Error! There is no order ID.]]></value>
+  </definition>
+</definitions>

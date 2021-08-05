@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -83,6 +83,9 @@ class AError
         }
         //TODO: use registry object instead?? what if registry not accessible?
         $this->error_descriptions = $GLOBALS['error_descriptions'];
+        if(!isset($this->error_descriptions[0])){
+            $this->error_descriptions[0] = 'Unknown Error';
+        }
 
         $this->version = 'AbanteCart core v.'.VERSION;
     }
@@ -94,8 +97,11 @@ class AError
      */
     public function toDebug()
     {
-        ADebug::error($this->error_descriptions[$this->code], $this->code, $this->msg);
-
+        ADebug::error(
+            $this->error_descriptions[$this->code],
+            $this->code,
+            $this->msg
+        );
         return $this;
     }
 
@@ -103,6 +109,7 @@ class AError
      * write error message to log file
      *
      * @return AError
+     * @throws AException
      */
     public function toLog()
     {
@@ -112,14 +119,12 @@ class AError
             } else {
                 //we have error way a head of system start
                 echo $this->error_descriptions[$this->code].':  '.$this->msg;
-
                 return $this;
             }
         } else {
             $log = $this->registry->get('log');
         }
         $log->write($this->error_descriptions[$this->code].':  '.$this->version.' '.$this->msg);
-
         return $this;
     }
 
@@ -133,14 +138,11 @@ class AError
     public function toMessages($subject = '')
     {
         if (is_object($this->registry) && $this->registry->has('messages')) {
-            /**
-             * @var $messages AMessage
-             */
+            /** @var AMessage $messages */
             $messages = $this->registry->get('messages');
             $title = $subject ? $subject : $this->error_descriptions[$this->code];
             $messages->saveError($title, $this->msg);
         }
-
         return $this;
     }
 
@@ -162,7 +164,7 @@ class AError
      *                                     For ex.
      *                                     VALIDATION_ERROR_406
      *
-     * @param array  $err_data             - array with error text and params to control ajax
+     * @param array $err_data - array with error text and params to control ajax
      *                                     error_code -> HTTP error code if missing in $status_text_and_code
      *                                     error_title -> Title for error dialog and header (error constant used be default)
      *                                     error_text -> Error message ( Class construct used by default )
@@ -171,9 +173,9 @@ class AError
      *                                     reload_page -> true to reload page after dialog close
      *                                     TODO: Add redirect_url on dialog close
      *
-     * @return mixed
+     * @throws AException
      */
-    public function toJSONResponse($status_text_and_code, $err_data = array())
+    public function toJSONResponse($status_text_and_code, $err_data = [])
     {
         //detect HTTP response status code based on readable text status
         preg_match('/(\d+)$/', $status_text_and_code, $match);
@@ -182,7 +184,7 @@ class AError
                 $err_data['error_code'] = 400;
             }
         } else {
-            $err_data['error_code'] = (int)$match[0];
+            $err_data['error_code'] = (int) $match[0];
         }
 
         if (empty($err_data['error_title'])) {
@@ -194,20 +196,14 @@ class AError
         $http_header_txt = 'HTTP/1.1 '.(int)$err_data['error_code'].' '.$err_data['error_title'];
 
         if (is_object($this->registry) && $this->registry->has('response')) {
-            /**
-             * @var $response AResponse
-             */
+            /** @var AResponse $response */
             $response = $this->registry->get('response');
-            /**
-             * @var $load ALoader
-             */
+            /** @var ALoader $load */
             $load = $this->registry->get('load');
             $response->addHeader($http_header_txt);
             $response->addJSONHeader();
             $load->library('json');
             $response->setOutput(AJson::encode($err_data));
-
-            return null;
         } else {
             //for some reason we do not have registry. do direct output and exit
             if (!headers_sent()) {

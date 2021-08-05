@@ -10,7 +10,7 @@
   	</definition>
   	<definition>
     	<key>text_get_manufacturer_embed_code</key>
-    	<value><![CDATA[Manufacturer Embed Code]]></value>
+    	<value><![CDATA[Brand Embed Code]]></value>
   	</definition>
   	<definition>
     	<key>entry_image</key>
@@ -23,6 +23,10 @@
   	<definition>
     	<key>entry_price</key>
     	<value><![CDATA[Show Price]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_limit</key>
+    	<value><![CDATA[Limit ]]></value>
   	</definition>
   	<definition>
     	<key>entry_rating</key>

@@ -24,4 +24,8 @@
 		<key>text_activate</key>
 		<value><![CDATA[<p>Gracias por registrarse con %s!</p><p>Se le notificará por correo electrónico con su cuenta las instrucciones de activación. Debe hacer clic en el enlace proporcionado en el correo electrónico para activar su cuenta. Si usted no recibe el correo electrónico, por favor, compruebe en sus carpetas de spam o basura. </p><p>Si usted tiene alguna pregunta acerca del funcionamiento de esta tienda en línea, <a href="%s">en contacto con el dueño de la tienda</a>.</p>]]></value>
 	</definition>
+	<definition>
+		<key>heading_title_activation</key>
+		<value><![CDATA[Su cuenta ha sido creada pero se requiere activación. Siga las instrucciones.]]></value>
+	</definition>
 </definitions>

@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -24,11 +25,12 @@ if (!defined('DIR_CORE')) {
 class ControllerBlocksHTMLBlock extends AController
 {
 
-    public function main()
+    public function main($instance_id = 0)
     {
-
         //disable cache when login display price setting is off or enabled showing of prices with taxes
-        if (($this->config->get('config_customer_price') && !$this->config->get('config_tax'))
+        if (
+            $this->config->get('config_customer_price')
+            && !$this->config->get('config_tax')
             && $this->html_cache()
         ) {
             return null;
@@ -37,9 +39,8 @@ class ControllerBlocksHTMLBlock extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $instance_id = func_get_arg(0);
         $block_data = $this->getBlockContent($instance_id);
-        $this->view->assign('block_framed', (int)$block_data['block_framed']);
+        $this->view->assign('block_framed', (int) $block_data['block_framed']);
         $this->view->assign('content', $block_data['content']);
         $this->view->assign('heading_title', $block_data['title']);
 
@@ -65,15 +66,11 @@ class ControllerBlocksHTMLBlock extends AController
             $key = key($descriptions);
         }
 
-        $output = array(
+        return [
             'title'         => $descriptions[$key]['title'],
             'content'       => html_entity_decode($descriptions[$key]['content'], ENT_QUOTES, 'utf-8'),
             'block_wrapper' => $descriptions[$key]['block_wrapper'],
             'block_framed'  => $descriptions[$key]['block_framed'],
-        );
-
-        return $output;
+        ];
     }
 }
-
-?>

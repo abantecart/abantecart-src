@@ -113,11 +113,11 @@ function buildStoreFrontMenuTree($menu_array, $level = 0)
         $result .= '<a '.$class.$href.'>';
 
         //check icon rl type html, image or none.
-        $rl_id = $item['icon_rl_id'];
+        $rl_id = $item['icon'] ?: $item['icon_rl_id'];
         if ($rl_id) {
             $resource = $ar->getResource($rl_id);
             if ($resource['resource_path'] && is_file(DIR_RESOURCE.'image/'.$resource['resource_path'])) {
-                $result .= '<img class="menu_image" src="'.HTTPS_DIR_RESOURCE.'image/'.$resource['resource_path'].'" alt="" />';
+                $result .= '<img class="menu_image" src="'.HTTPS_DIR_RESOURCE.'image/'.$resource['resource_path'].'" />';
             } elseif ($resource['resource_code']) {
                 $result .= $resource['resource_code'];
             }
@@ -125,7 +125,7 @@ function buildStoreFrontMenuTree($menu_array, $level = 0)
 
         $result .= '<span class="menu_text">'.$item['text'].'</span></a>';
 
-        //if children build inner clild tree
+        //if children build inner child tree
         if (!empty($item['children'])) {
             $result .= "\r\n".buildStoreFrontMenuTree($item['children'], $level + 1);
         }
@@ -153,7 +153,7 @@ function renderAdminMenu($menu, $level = 0, $current_rt = '')
         if (!empty($item['children'])) {
             $child_class .= 'nav-parent ';
         }
-        if ($item['rt'] && $current_rt == $item['rt']) {
+        if (isset($item['rt']) && $item['rt'] && $current_rt == $item['rt']) {
             $child_class .= 'active ';
         }
         if ($child_class) {

@@ -189,7 +189,7 @@ class ControllerResponsesToolRlManager extends AController
         if (mb_strlen($data['default_icon']) < 2 || mb_strlen($data['default_icon']) > 64) {
             $this->error['default_icon'] = $this->language->get('error_default_icon');
         }
-        if (mb_strlen($data['file_types']) < 2 || mb_strlen($data['file_types']) > 40) {
+        if (mb_strlen($data['file_types']) < 2 || mb_strlen($data['file_types']) > 255) {
             $this->error['file_types'] = $this->language->get('error_file_types');
         }
 

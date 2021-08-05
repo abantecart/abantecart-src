@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
 $Id$
 
 AbanteCart, Ideal OpenSource Ecommerce Solution
 http://www.AbanteCart.com
 
-Copyright © 2011-2020 Belavier Commerce LLC
+Copyright © 2011-2021 Belavier Commerce LLC
 
 This source file is subject to Open Software License (OSL 3.0)
 License details is bundled with this package in the file LICENSE.txt.
@@ -23,8 +24,6 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerPagesToolFiles extends AController
 {
-    public $data;
-
     public function main()
     {
         //init controller data
@@ -34,20 +33,24 @@ class ControllerPagesToolFiles extends AController
         $this->document->setTitle($this->language->get('heading_title'));
 
         $this->document->initBreadcrumb();
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('index/home'),
-            'text'      => $this->language->get('text_home'),
-            'separator' => false,
-        ));
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('tool/files'),
-            'text'      => $this->language->get('heading_title'),
-            'separator' => ' :: ',
-            'current'   => true,
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('index/home'),
+                'text'      => $this->language->get('text_home'),
+                'separator' => false,
+            ]
+        );
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('tool/files'),
+                'text'      => $this->language->get('heading_title'),
+                'separator' => ' :: ',
+                'current'   => true,
 
-        ));
+            ]
+        );
 
-        $grid_settings = array(
+        $grid_settings = [
             //id of grid
             'table_id'       => 'file_uploads',
             // url to load data from
@@ -63,49 +66,49 @@ class ControllerPagesToolFiles extends AController
             'actions'        => '',
             'columns_search' => false,
             'sortable'       => true,
-        );
+        ];
 
-        $grid_settings ['colNames'] = array(
+        $grid_settings ['colNames'] = [
             '#',
             $this->language->get('column_date_added'),
             $this->language->get('column_section'),
             $this->language->get('column_path'),
-        );
-        $grid_settings ['colModel'] = array(
-            array(
+        ];
+        $grid_settings ['colModel'] = [
+            [
                 'name'     => 'row_id',
                 'index'    => 'row_id',
                 'width'    => 10,
                 'align'    => 'left',
                 'sortable' => false,
                 'search'   => false,
-            ),
-            array(
+            ],
+            [
                 'name'     => 'date_added',
                 'index'    => 'date_added',
                 'width'    => 50,
                 'align'    => 'center',
                 'sortable' => false,
                 'search'   => false,
-            ),
-            array(
+            ],
+            [
                 'name'     => 'section',
                 'index'    => 'section',
                 'width'    => 50,
                 'align'    => 'center',
                 'sortable' => false,
-            ),
-            array(
+            ],
+            [
                 'name'     => 'path',
                 'index'    => 'path',
                 'width'    => 20,
                 'align'    => 'center',
                 'sortable' => false,
                 'search'   => false,
-            ),
-        );
+            ],
+        ];
 
-        $grid = $this->dispatch('common/listing_grid', array($grid_settings));
+        $grid = $this->dispatch('common/listing_grid', [$grid_settings]);
         $this->view->assign('listing_grid', $grid->dispatchGetOutput());
         $this->view->assign('help_url', $this->gen_help_url());
 
@@ -128,12 +131,11 @@ class ControllerPagesToolFiles extends AController
 
     public function download()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         if ($this->user->canAccess('tool/files')) {
-            $filename = str_replace(array('../', '..\\', '\\', '/'), '', $this->request->get['filename']);
+            $filename = str_replace(['../', '..\\', '\\', '/'], '', $this->request->get['filename']);
 
             if ($this->request->get['attribute_type'] == 'field') {
                 $this->loadModel('tool/file_uploads');
@@ -162,7 +164,7 @@ class ControllerPagesToolFiles extends AController
 
             if (file_exists($file)) {
                 header('Content-Description: File Transfer');
-                header('Content-Type: application/x-gzip');
+                header('Content-Type: '.mime_content_type($filename));
                 header('Content-Disposition: attachment; filename='.$filename);
                 header('Content-Transfer-Encoding: binary');
                 header('Expires: 0');

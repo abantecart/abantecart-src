@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -20,7 +20,7 @@
 
 /**
  * @property ModelCatalogDownload $model_catalog_download
- * @property ALanguageManager     $language
+ * @property ALanguageManager $language
  */
 class ModelCatalogProduct extends Model
 {
@@ -29,24 +29,24 @@ class ModelCatalogProduct extends Model
      */
     public function addProduct($data)
     {
+        $language_id = (int) $this->language->getContentLanguageID();
 
-        $language_id = (int)$this->language->getContentLanguageID();
-
-        $this->db->query("INSERT INTO ".$this->db->table("products")." 
+        $this->db->query(
+            "INSERT INTO ".$this->db->table("products")." 
                             SET model = '".$this->db->escape($data['model'])."',
                                 sku = '".$this->db->escape($data['sku'])."',
                                 location = '".$this->db->escape($data['location'])."',
                                 quantity = '".preformatInteger($data['quantity'])."',
                                 minimum = '".preformatInteger($data['minimum'])."',
                                 maximum = '".preformatInteger($data['maximum'])."',
-                                subtract = '".(int)$data['subtract']."',
+                                subtract = '".(int) $data['subtract']."',
                                 stock_checkout = '".$this->db->escape($data['stock_checkout'])."',
-                                stock_status_id = '".(int)$data['stock_status_id']."',
+                                stock_status_id = '".(int) $data['stock_status_id']."',
                                 date_available = '".$this->db->escape($data['date_available'])."',
-                                manufacturer_id = '".(int)$data['manufacturer_id']."',
-                                shipping = '".(int)$data['shipping']."',
-                                ship_individually = '".(int)$data['ship_individually']."',
-                                free_shipping = '".(int)$data['free_shipping']."',
+                                manufacturer_id = '".(int) $data['manufacturer_id']."',
+                                shipping = '".(int) $data['shipping']."',
+                                ship_individually = '".(int) $data['ship_individually']."',
+                                free_shipping = '".(int) $data['free_shipping']."',
                                 shipping_price = '".preformatFloat(
                 $data['shipping_price'],
                 $this->language->get('decimal_point')
@@ -54,36 +54,41 @@ class ModelCatalogProduct extends Model
                                 price = '".preformatFloat($data['price'], $this->language->get('decimal_point'))."',
                                 cost = '".preformatFloat($data['cost'], $this->language->get('decimal_point'))."',
                                 weight = '".preformatFloat($data['weight'], $this->language->get('decimal_point'))."',
-                                weight_class_id = '".(int)$data['weight_class_id']."',
+                                weight_class_id = '".(int) $data['weight_class_id']."',
                                 length = '".preformatFloat($data['length'], $this->language->get('decimal_point'))."',
                                 width = '".preformatFloat($data['width'], $this->language->get('decimal_point'))."',
                                 height = '".preformatFloat($data['height'], $this->language->get('decimal_point'))."',
-                                length_class_id = '".(int)$data['length_class_id']."',
-                                status = '".(int)$data['status']."',
-                                tax_class_id = '".(int)$data['tax_class_id']."',
-                                sort_order = '".(int)$data['sort_order']."',
-                                date_added = NOW()");
+                                length_class_id = '".(int) $data['length_class_id']."',
+                                status = '".(int) $data['status']."',
+                                tax_class_id = '".(int) $data['tax_class_id']."',
+                                sort_order = '".(int) $data['sort_order']."',
+                                date_added = NOW()"
+        );
 
         $product_id = $this->db->getLastId();
         // if new product
         if (!is_int(key($data['product_description']))) {
-            $update = array();
+            $update = [];
             foreach ($data['product_description'] as $field => $value) {
                 $update[$language_id][$field] = $value;
             }
-            $this->language->replaceDescriptions('product_descriptions',
-                array('product_id' => (int)$product_id),
-                $update);
+            $this->language->replaceDescriptions(
+                'product_descriptions',
+                ['product_id' => (int) $product_id],
+                $update
+            );
         } else { // if cloning
             foreach ($data['product_description'] as $language_id => $value) {
-                $this->db->query("INSERT INTO ".$this->db->table("product_descriptions")." 
-                                SET product_id = '".(int)$product_id."',
-                                    language_id = '".(int)$language_id."',
+                $this->db->query(
+                    "INSERT INTO ".$this->db->table("product_descriptions")." 
+                                SET product_id = '".(int) $product_id."',
+                                    language_id = '".(int) $language_id."',
                                     name = '".$this->db->escape($value['name'])."',
                                     meta_keywords = '".$this->db->escape($value['meta_keywords'])."',
                                     meta_description = '".$this->db->escape($value['meta_description'])."',
                                     description = '".$this->db->escape($value['description'])."',
-                                    blurb = '".$this->db->escape($value['blurb'])."'");
+                                    blurb = '".$this->db->escape($value['blurb'])."'"
+                );
             }
             reset($data['product_description']);
         }
@@ -92,19 +97,19 @@ class ModelCatalogProduct extends Model
             $this->setFeatured($product_id, true);
         }
 
-        $seo_keys = array();
+        $seo_keys = [];
         if ($data['keyword']) {
             if (is_string($data['keyword'])) {
-                $seo_keys = array(
-                    $language_id => array(
+                $seo_keys = [
+                    $language_id => [
                         'keyword' => SEOEncode($data['keyword'], 'product_id', $product_id),
-                    ),
-                );
+                    ],
+                ];
             } //when cloning
             else {
                 if (is_array($data['keyword'])) {
                     $all_languages = $this->language->getAvailableLanguages();
-                    $all_ids = array();
+                    $all_ids = [];
                     foreach ($all_languages as $l) {
                         $all_ids[] = $l['language_id'];
                     }
@@ -112,9 +117,9 @@ class ModelCatalogProduct extends Model
                         if (!in_array($lang_id, $all_ids)) {
                             continue;
                         }
-                        $seo_keys[(int)$lang_id] = array(
+                        $seo_keys[(int) $lang_id] = [
                             'keyword' => SEOEncode($seo_key, 'product_id', $product_id),
-                        );
+                        ];
                     }
                 }
             }
@@ -122,16 +127,16 @@ class ModelCatalogProduct extends Model
             //Default behavior to save SEO URL keyword from product name in default language
             // when new product
             if (!is_int(key($data['product_description']))) {
-                $seo_keys = array(
-                    $language_id => array(
+                $seo_keys = [
+                    $language_id => [
                         'keyword' => SEOEncode($data['product_description']['name'], 'product_id', $product_id),
-                    ),
-                );
+                    ],
+                ];
             } else { // when clones
                 $product_seo_keys = $this->getProductSEOKeywords($product_id);
 
                 $all_languages = $this->language->getAvailableLanguages();
-                $all_ids = array();
+                $all_ids = [];
                 foreach ($all_languages as $l) {
                     $all_ids[] = $l['language_id'];
                 }
@@ -139,33 +144,42 @@ class ModelCatalogProduct extends Model
                     if (!in_array($lang_id, $all_ids)) {
                         continue;
                     }
-                    $seo_keys[(int)$lang_id] = array(
+                    $seo_keys[(int) $lang_id] = [
                         'keyword' => SEOEncode($seo_key, 'product_id', $product_id),
-                    );
+                    ];
                 }
             }
         }
         if ($seo_keys) {
             foreach ($seo_keys as $lang_id => $seo_key) {
-                $this->language->replaceDescriptions('url_aliases',
-                    array(
-                        'query'       => "product_id=".(int)$product_id,
+                //if seo-key of new clone more than 255 characters - just do hash
+                if (mb_strlen($seo_key['keyword']) > 250) {
+                    $seo_key['keyword'] = md5($seo_key['keyword'].time());
+                }
+                $this->language->replaceDescriptions(
+                    'url_aliases',
+                    [
+                        'query'       => "product_id=".(int) $product_id,
                         'language_id' => $lang_id,
-                    ),
-                    array($lang_id => $seo_key)
+                    ],
+                    [
+                        $lang_id => $seo_key,
+                    ]
                 );
             }
         } else {
-            $this->db->query("DELETE
-                            FROM ".$this->db->table("url_aliases")." 
-                            WHERE query = 'product_id=".(int)$product_id."'
-                                AND language_id = '".(int)$language_id."'");
+            $this->db->query(
+                "DELETE
+                FROM ".$this->db->table("url_aliases")." 
+                WHERE query = 'product_id=".(int) $product_id."'
+                    AND language_id = '".(int) $language_id."'"
+            );
         }
 
         if ($data['product_tags']) {
             if (is_string($data['product_tags'])) {
                 $tags = $this->getUniqueTags($data['product_tags']);
-                $tags = array($language_id => $tags);
+                $tags = [$language_id => $tags];
             } elseif (is_array($data['product_tags'])) {
                 $tags = $data['product_tags'];
                 foreach ($tags as &$taglist) {
@@ -173,7 +187,7 @@ class ModelCatalogProduct extends Model
                 }
                 unset($taglist);
             } else {
-                $tags = (array)$data['product_tags'];
+                $tags = (array) $data['product_tags'];
             }
 
             array_walk_recursive($tags, 'trim');
@@ -187,9 +201,9 @@ class ModelCatalogProduct extends Model
                         continue;
                     }
                     $sql = "INSERT INTO ".$this->db->table('product_tags')."
-                            (product_id, language_id, tag)
+                                (product_id, language_id, tag)
                             VALUES
-                            (".(int)$product_id.", ".(int)$lang_id.", '".$this->db->escape($tag)."');";
+                                (".(int) $product_id.", ".(int) $lang_id.", '".$this->db->escape($tag)."');";
                     $this->db->query($sql);
                 }
             }
@@ -200,7 +214,7 @@ class ModelCatalogProduct extends Model
     }
 
     /**
-     * @param int   $product_id
+     * @param int $product_id
      * @param array $data
      *
      * @return int
@@ -216,20 +230,21 @@ class ModelCatalogProduct extends Model
         }
         $this->db->query(
             "INSERT INTO ".$this->db->table("product_discounts")."
-                SET product_id = '".(int)$product_id."',
-                    customer_group_id = '".(int)$data['customer_group_id']."',
-                    quantity = '".preformatInteger($data['quantity'])."',
-                    priority = '".(int)$data['priority']."',
-                    price = '".preformatFloat($data['price'])."',
-                    date_start = '".$this->db->escape($data['date_start'])."',
-                    date_end = '".$this->db->escape($data['date_end'])."'");
+            SET product_id = '".(int) $product_id."',
+                customer_group_id = '".(int) $data['customer_group_id']."',
+                quantity = '".preformatInteger($data['quantity'])."',
+                priority = '".(int) $data['priority']."',
+                price = '".preformatFloat($data['price'])."',
+                date_start = '".$this->db->escape($data['date_start'])."',
+                date_end = '".$this->db->escape($data['date_end'])."'"
+        );
         $id = $this->db->getLastId();
         $this->_touch_product($product_id);
         return $id;
     }
 
     /**
-     * @param int   $product_id
+     * @param int $product_id
      * @param array $data
      *
      * @return int
@@ -246,27 +261,27 @@ class ModelCatalogProduct extends Model
 
         $this->db->query(
             "INSERT INTO ".$this->db->table("product_specials")."
-            SET product_id = '".(int)$product_id."',
-                customer_group_id = '".(int)$data['customer_group_id']."',
-                priority = '".(int)$data['priority']."',
+            SET product_id = '".(int) $product_id."',
+                customer_group_id = '".(int) $data['customer_group_id']."',
+                priority = '".(int) $data['priority']."',
                 price = '".preformatFloat($data['price'], $this->language->get('decimal_point'))."',
                 date_start = '".$this->db->escape($data['date_start'])."',
-                date_end = '".$this->db->escape($data['date_end'])."'");
+                date_end = '".$this->db->escape($data['date_end'])."'"
+        );
         $id = $this->db->getLastId();
         $this->_touch_product($product_id);
         return $id;
     }
 
     /**
-     * @param int   $product_id
+     * @param int $product_id
      * @param array $data
      */
     public function updateProduct($product_id, $data)
     {
+        $language_id = (int) $this->language->getContentLanguageID();
 
-        $language_id = (int)$this->language->getContentLanguageID();
-
-        $fields = array(
+        $fields = [
             "model",
             "sku",
             "location",
@@ -295,8 +310,8 @@ class ModelCatalogProduct extends Model
             "tax_class_id",
             "sort_order",
             "settings",
-        );
-        $preformat_fields = array(
+        ];
+        $preformat_fields = [
             "shipping_price",
             "price",
             "cost",
@@ -304,9 +319,9 @@ class ModelCatalogProduct extends Model
             "length",
             "width",
             "height",
-        );
+        ];
 
-        $update = array('date_modified = NOW()');
+        $update = ['date_modified = NOW()'];
         foreach ($fields as $f) {
             if (isset($data[$f])) {
                 if (in_array($f, $preformat_fields)) {
@@ -316,16 +331,23 @@ class ModelCatalogProduct extends Model
             }
         }
         if (!empty($update)) {
-            $this->db->query("UPDATE `".$this->db->table("products`")." SET ".implode(',', $update)
-                ." WHERE product_id = '".(int)$product_id."'");
+            $this->db->query(
+                "UPDATE `".$this->db->table("products`")
+                ." SET ".implode(',', $update)
+                ." WHERE product_id = '".(int) $product_id."'"
+            );
         }
 
         if (!empty($data['product_description'])) {
-
             foreach ($data['product_description'] as $field => $value) {
-
-                $fields = array('name', 'description', 'meta_keywords', 'meta_description', 'blurb');
-                $update = array();
+                $fields = [
+                    'name',
+                    'description',
+                    'meta_keywords',
+                    'meta_description',
+                    'blurb'
+                ];
+                $update = [];
                 foreach ($fields as $f) {
                     if ($f == $field) {
                         $update[$f] = $value;
@@ -333,9 +355,11 @@ class ModelCatalogProduct extends Model
                 }
 
                 if (!empty($update)) {
-                    $this->language->replaceDescriptions('product_descriptions',
-                        array('product_id' => (int)$product_id),
-                        array($language_id => $update));
+                    $this->language->replaceDescriptions(
+                        'product_descriptions',
+                        ['product_id' => (int) $product_id],
+                        [$language_id => $update]
+                    );
                 }
             }
         }
@@ -346,14 +370,28 @@ class ModelCatalogProduct extends Model
         if (isset($data['keyword'])) {
             $data['keyword'] = SEOEncode($data['keyword'], 'product_id', $product_id);
             if ($data['keyword']) {
-                $this->language->replaceDescriptions('url_aliases',
-                    array('query' => "product_id=".(int)$product_id),
-                    array($language_id => array('keyword' => $data['keyword'])));
+                //if seo-key of new clone more than 255 characters - just do hash
+                if (mb_strlen($data['keyword']) > 250) {
+                    $data['keyword'] = md5($data['keyword'].time());
+                }
+                $this->language->replaceDescriptions(
+                    'url_aliases',
+                    [
+                        'query' => "product_id=".(int) $product_id
+                    ],
+                    [
+                        $language_id => [
+                            'keyword' => $data['keyword']
+                        ]
+                    ]
+                );
             } else {
-                $this->db->query("DELETE
-                                FROM ".$this->db->table("url_aliases")." 
-                                WHERE query = 'product_id=".(int)$product_id."'
-                                    AND language_id = '".$language_id."'");
+                $this->db->query(
+                    "DELETE
+                    FROM ".$this->db->table("url_aliases")." 
+                    WHERE query = 'product_id=".(int) $product_id."'
+                        AND language_id = '".$language_id."'"
+                );
             }
         }
 
@@ -363,25 +401,27 @@ class ModelCatalogProduct extends Model
                 $tag = $this->db->escape(trim($tag));
             }
 
-            $this->language->replaceMultipleDescriptions('product_tags',
-                array('product_id' => (int)$product_id),
-                array($language_id => array('tag' => array_unique($tags))));
+            $this->language->replaceMultipleDescriptions(
+                'product_tags',
+                ['product_id' => (int) $product_id],
+                [$language_id => ['tag' => array_unique($tags)]]
+            );
         }
 
-        if($data['stock_location']) {
-            $this->updateProductStockLocations($data['stock_location'], (int)$product_id, 0);
+        if ($data['stock_location']) {
+            $this->updateProductStockLocations($data['stock_location'], (int) $product_id, 0);
         }
 
         $this->_touch_product($product_id);
     }
 
     /**
-     * @param int   $product_discount_id
+     * @param int $product_discount_id
      * @param array $data
      */
     public function updateProductDiscount($product_discount_id, $data)
     {
-        $fields = array("customer_group_id", "quantity", "priority", "price", "date_start", "date_end",);
+        $fields = ["customer_group_id", "quantity", "priority", "price", "date_start", "date_end",];
         if (isset($data['price'])) {
             $data['price'] = preformatFloat($data['price'], $this->language->get('decimal_point'));
         }
@@ -391,28 +431,30 @@ class ModelCatalogProduct extends Model
         if (!empty($data['date_end'])) {
             $data['date_end'] = dateDisplay2ISO($data['date_end'], $this->language->get('date_format_short'));
         }
-        $update = array();
+        $update = [];
         foreach ($fields as $f) {
             if (isset($data[$f])) {
                 $update[] = $f." = '".$this->db->escape($data[$f])."'";
             }
         }
         if (!empty($update)) {
-            $this->db->query("UPDATE ".$this->db->table("product_discounts")." 
-                                SET ".implode(',', $update)."
-                                WHERE product_discount_id = '".(int)$product_discount_id."'");
+            $this->db->query(
+                "UPDATE ".$this->db->table("product_discounts")." 
+                SET ".implode(',', $update)."
+                WHERE product_discount_id = '".(int) $product_discount_id."'"
+            );
         }
         $this->cache->remove('product');
         $this->cache->remove('collection');
     }
 
     /**
-     * @param int   $product_special_id
+     * @param int $product_special_id
      * @param array $data
      */
     public function updateProductSpecial($product_special_id, $data)
     {
-        $fields = array("customer_group_id", "priority", "price", "date_start", "date_end",);
+        $fields = ["customer_group_id", "priority", "price", "date_start", "date_end",];
         if (isset($data['price'])) {
             $data['price'] = preformatFloat($data['price'], $this->language->get('decimal_point'));
         }
@@ -423,74 +465,98 @@ class ModelCatalogProduct extends Model
             $data['date_end'] = dateDisplay2ISO($data['date_end'], $this->language->get('date_format_short'));
         }
 
-        $update = array();
+        $update = [];
         foreach ($fields as $f) {
             if (isset($data[$f])) {
                 $update[] = $f." = '".$this->db->escape($data[$f])."'";
             }
         }
         if (!empty($update)) {
-            $this->db->query("UPDATE `".$this->db->table("product_specials`")." SET ".implode(',', $update)
-                ." WHERE product_special_id = '".(int)$product_special_id."'");
+            $this->db->query(
+                "UPDATE `".$this->db->table("product_specials`")
+                ." SET ".implode(',', $update)
+                ." WHERE product_special_id = '".(int) $product_special_id."'"
+            );
         }
         $this->cache->remove('product');
         $this->cache->remove('collection');
     }
 
     /**
-     * @param int   $product_id
+     * @param int $product_id
      * @param array $data
      *
      * @return bool
      */
     public function updateProductLinks($product_id, $data)
     {
-        if (!(int)$product_id || !$data) {
+        if (!(int) $product_id || !$data) {
             return false;
         }
 
         if (isset($data['product_store'])) {
-            $this->db->query("DELETE FROM ".$this->db->table("products_to_stores")." WHERE product_id = '"
-                .(int)$product_id."'");
+            $this->db->query(
+                "DELETE FROM ".$this->db->table("products_to_stores")." 
+                WHERE product_id = '".(int) $product_id."'"
+            );
             foreach ($data['product_store'] as $store_id) {
-                $this->db->query("INSERT INTO ".$this->db->table("products_to_stores")." SET product_id = '"
-                    .(int)$product_id."', store_id = '".(int)$store_id."'");
+                $this->db->query(
+                    "INSERT INTO ".$this->db->table("products_to_stores")." 
+                    SET product_id = '".(int) $product_id."', store_id = '".(int) $store_id."'"
+                );
             }
         }
 
         if (isset($data['product_download'])) {
-            $this->db->query("DELETE FROM ".$this->db->table("products_to_downloads")." WHERE product_id = '"
-                .(int)$product_id."'");
+            $this->db->query(
+                "DELETE FROM ".$this->db->table("products_to_downloads")." 
+                WHERE product_id = '".(int) $product_id."'"
+            );
             foreach ($data['product_download'] as $download_id) {
-                if ((int)$download_id) {
-                    $this->db->query("INSERT INTO ".$this->db->table("products_to_downloads")." SET product_id = '"
-                        .(int)$product_id."', download_id = '".(int)$download_id."'");
+                if ((int) $download_id) {
+                    $this->db->query(
+                        "INSERT INTO ".$this->db->table("products_to_downloads")
+                        ." SET product_id = '".(int) $product_id."', download_id = '".(int) $download_id."'"
+                    );
                 }
             }
         }
 
         if (isset($data['product_category'])) {
-            $this->db->query("DELETE FROM ".$this->db->table("products_to_categories")." WHERE product_id = '"
-                .(int)$product_id."'");
+            $this->db->query(
+                "DELETE FROM ".$this->db->table("products_to_categories")." 
+                WHERE product_id = '".(int) $product_id."'"
+            );
             foreach ($data['product_category'] as $category_id) {
-                if ((int)$category_id) {
-                    $this->db->query("INSERT INTO ".$this->db->table("products_to_categories")." SET product_id = '"
-                        .(int)$product_id."', category_id = '".(int)$category_id."'");
+                if ((int) $category_id) {
+                    $this->db->query(
+                        "INSERT INTO ".$this->db->table("products_to_categories")." 
+                        SET product_id = '".(int) $product_id."', category_id = '".(int) $category_id."'"
+                    );
                 }
             }
         }
 
         if (isset($data['product_related'])) {
-            $this->db->query("DELETE FROM ".$this->db->table("products_related")." WHERE product_id = '"
-                .(int)$product_id."'");
+            $this->db->query(
+                "DELETE FROM ".$this->db->table("products_related")." 
+                WHERE product_id = '".(int) $product_id."'"
+            );
             foreach ($data['product_related'] as $related_id) {
-                if ((int)$related_id) {
-                    $this->db->query("INSERT INTO ".$this->db->table("products_related")." SET product_id = '"
-                        .(int)$product_id."', related_id = '".(int)$related_id."'");
-                    $this->db->query("DELETE FROM ".$this->db->table("products_related")." WHERE product_id = '"
-                        .(int)$related_id."' AND related_id = '".(int)$product_id."'");
-                    $this->db->query("INSERT INTO ".$this->db->table("products_related")." SET product_id = '"
-                        .(int)$related_id."', related_id = '".(int)$product_id."'");
+                if ((int) $related_id) {
+                    $this->db->query(
+                        "INSERT INTO ".$this->db->table("products_related")." 
+                        SET product_id = '".(int) $product_id."', related_id = '".(int) $related_id."'"
+                    );
+                    $this->db->query(
+                        "DELETE FROM ".$this->db->table("products_related")." 
+                        WHERE product_id = '".(int) $related_id."' 
+                            AND related_id = '".(int) $product_id."'"
+                    );
+                    $this->db->query(
+                        "INSERT INTO ".$this->db->table("products_related")." 
+                        SET product_id = '".(int) $related_id."', related_id = '".(int) $product_id."'"
+                    );
                 }
             }
         }
@@ -503,19 +569,24 @@ class ModelCatalogProduct extends Model
      *
      * @return bool
      */
-    public function relateProducts($product_ids = array())
+    public function relateProducts($product_ids = [])
     {
         if (!$product_ids || !is_array($product_ids)) {
             return false;
         }
         foreach ($product_ids as $product_id) {
-            if ((int)$product_id) {
+            if ((int) $product_id) {
                 foreach ($product_ids as $related_id) {
-                    if ((int)$related_id && $related_id != $product_id) {
-                        $this->db->query("DELETE FROM ".$this->db->table("products_related")." WHERE product_id = '"
-                            .(int)$related_id."' AND related_id = '".(int)$product_id."'");
-                        $this->db->query("INSERT INTO ".$this->db->table("products_related")." SET product_id = '"
-                            .(int)$related_id."', related_id = '".(int)$product_id."'");
+                    if ((int) $related_id && $related_id != $product_id) {
+                        $this->db->query(
+                            "DELETE FROM ".$this->db->table("products_related")." 
+                            WHERE product_id = '".(int) $related_id."' 
+                                AND related_id = '".(int) $product_id."'"
+                        );
+                        $this->db->query(
+                            "INSERT INTO ".$this->db->table("products_related")." 
+                            SET product_id = '".(int) $related_id."', related_id = '".(int) $product_id."'"
+                        );
                     }
                 }
             }
@@ -524,15 +595,13 @@ class ModelCatalogProduct extends Model
     }
 
     /**
-     * @param int   $product_id
+     * @param int $product_id
      * @param array $data
      *
      * @return int
-     * @throws AException
      */
     public function addProductOption($product_id, $data)
     {
-
         $am = new AAttribute_Manager();
         $attribute = $am->getAttribute($data['attribute_id']);
 
@@ -558,49 +627,52 @@ class ModelCatalogProduct extends Model
                              status,
                              regexp_pattern,
                              settings)
-                        VALUES ('".(int)$product_id."',
-                            '".(int)$data['attribute_id']."',
+                        VALUES ('".(int) $product_id."',
+                            '".(int) $data['attribute_id']."',
                             '".$this->db->escape($data['element_type'])."',
-                            '".(int)$data['required']."',
-                            '".(int)$data['sort_order']."',
-                            '".(int)$data['group_id']."',
-                            '".(int)$data['status']."',
+                            '".(int) $data['required']."',
+                            '".(int) $data['sort_order']."',
+                            '".(int) $data['group_id']."',
+                            '".(int) $data['status']."',
                             '".$this->db->escape($data['regexp_pattern'])."',
                             '".$this->db->escape($data['settings'])."'
-                            )");
+                            )"
+        );
         $product_option_id = $this->db->getLastId();
 
         if (!empty($data['option_name'])) {
-            $attributeDescriptions = array(
-                $this->language->getContentLanguageID() => array(
+            $attributeDescriptions = [
+                $this->language->getContentLanguageID() => [
                     'name'        => $data['option_name'],
                     'error_text'  => $data['error_text'],
                     'placeholder' => $data['placeholder'],
-                ),
-            );
+                ],
+            ];
         } else {
             $attributeDescriptions = $am->getAttributeDescriptions($data['attribute_id']);
         }
 
         foreach ($attributeDescriptions as $language_id => $descr) {
-            $this->language->replaceDescriptions('product_option_descriptions',
-                array(
-                    'product_option_id' => (int)$product_option_id,
-                    'product_id'        => (int)$product_id,
-                ),
-                array(
-                    $language_id => array(
+            $this->language->replaceDescriptions(
+                'product_option_descriptions',
+                [
+                    'product_option_id' => (int) $product_option_id,
+                    'product_id'        => (int) $product_id,
+                ],
+                [
+                    $language_id => [
                         'name'               => $descr['name'],
                         'error_text'         => $descr['error_text'],
                         'option_placeholder' => $data['placeholder'],
-                    ),
-                ));
+                    ],
+                ]
+            );
         }
 
         //add empty option value for single value attributes
         $elements_with_options = HtmlElementFactory::getElementsWithOptions();
         if (!in_array($data['element_type'], $elements_with_options)) {
-            $this->insertProductOptionValue($product_id, $product_option_id, '', '', array());
+            $this->insertProductOptionValue($product_id, $product_option_id, '', '', []);
         }
 
         $this->_touch_product($product_id);
@@ -615,24 +687,23 @@ class ModelCatalogProduct extends Model
      */
     public function deleteProductOption($product_id, $product_option_id)
     {
-
         $am = new AAttribute_Manager();
         $attribute = $am->getAttributeByProductOptionId($product_option_id);
-        $group_attribute = $am->getAttributes(array('limit' => null), 0, $attribute['attribute_id']);
+        $group_attribute = $am->getAttributes(['limit' => null], 0, $attribute['attribute_id']);
         if (count($group_attribute)) {
             //delete children options/values
             $children = $this->db->query(
                 "SELECT product_option_id
-                    FROM ".$this->db->table("product_options")."
-                    WHERE product_id = '".(int)$product_id."'
-                        AND group_id = '".(int)$product_option_id."'");
+                FROM ".$this->db->table("product_options")."
+                WHERE product_id = '".(int) $product_id."'
+                    AND group_id = '".(int) $product_option_id."'"
+            );
             foreach ($children->rows as $g_attribute) {
                 $this->_deleteProductOption($product_id, $g_attribute['product_option_id']);
             }
         }
 
         $this->_deleteProductOption($product_id, $product_option_id);
-
         $this->_touch_product($product_id);
     }
 
@@ -640,7 +711,6 @@ class ModelCatalogProduct extends Model
      * @param int $product_id
      * @param int $product_option_id
      *
-     * @throws AException
      */
     protected function _deleteProductOption($product_id, $product_option_id)
     {
@@ -651,23 +721,24 @@ class ModelCatalogProduct extends Model
 
         $this->db->query(
             "DELETE FROM ".$this->db->table("product_options")."
-                WHERE product_id = '".(int)$product_id."'
-                    AND product_option_id = '".(int)$product_option_id."'");
+            WHERE product_id = '".(int) $product_id."'
+                AND product_option_id = '".(int) $product_option_id."'"
+        );
         $this->db->query(
             "DELETE FROM ".$this->db->table("product_option_descriptions")."
-                WHERE product_id = '".(int)$product_id."'
-                    AND product_option_id = '".(int)$product_option_id."'");
+            WHERE product_id = '".(int) $product_id."'
+                AND product_option_id = '".(int) $product_option_id."'"
+        );
     }
 
     //Add new product option value and value descriptions for all global attributes languages or current language
 
     /**
-     * @param int   $product_id
-     * @param int   $option_id
+     * @param int $product_id
+     * @param int $option_id
      * @param array $data
      *
      * @return int|null
-     * @throws AException
      */
     public function addProductOptionValueAndDescription($product_id, $option_id, $data)
     {
@@ -684,10 +755,13 @@ class ModelCatalogProduct extends Model
         //build grouped attributes if this is a parent attribute
         if (is_array($data['attribute_value_id'])) {
             //add children option values from global attributes
-            $groupData = array();
+            $groupData = [];
             foreach ($data['attribute_value_id'] as $child_option_id => $attribute_value_id) {
                 #special serialized data for grouped options
-                $groupData[] = array('attr_id' => $child_option_id, 'attr_v_id' => $attribute_value_id);
+                $groupData[] = [
+                    'attr_id' => $child_option_id,
+                    'attr_v_id' => $attribute_value_id
+                ];
             }
             $data['grouped_attribute_data'] = serialize($groupData);
         }
@@ -697,12 +771,15 @@ class ModelCatalogProduct extends Model
         //Build options value descriptions
         if (is_array($data['attribute_value_id'])) {
             //add children option values description from global attributes
-            $group_description = array();
-            $descr_names = array();
+            $group_description = [];
+            $descr_names = [];
             foreach ($data['attribute_value_id'] as $child_option_id => $attribute_value_id) {
                 #special insert for grouped options
                 foreach ($am->getAttributeValueDescriptions($attribute_value_id) as $language_id => $name) {
-                    $group_description[$language_id][] = array('attr_v_id' => $attribute_value_id, 'name' => $name);
+                    $group_description[$language_id][] = [
+                        'attr_v_id' => $attribute_value_id,
+                        'name' => $name
+                    ];
                     $descr_names[$language_id][] = $name;
                 }
             }
@@ -713,17 +790,20 @@ class ModelCatalogProduct extends Model
                 if (count($group_description[$language_id])) {
                     $grouped_names = serialize($group_description[$language_id]);
                 }
-                $this->insertProductOptionValueDescriptions($product_id, $pd_opt_val_id, implode(' / ', $name),
-                    $language_id, $grouped_names);
+                $this->insertProductOptionValueDescriptions(
+                    $product_id, $pd_opt_val_id, implode(' / ', $name),
+                    $language_id, $grouped_names
+                );
             }
-
         } else {
             if (!$data['attribute_value_id']) {
                 //We save custom option value for current language
-                $valueDescriptions = array($this->language->getContentLanguageID() => $data['name']);
+                $valueDescriptions = [
+                    $this->language->getContentLanguageID() => $data['name']
+                ];
             } else {
                 //We have global attributes, copy option value text from there.
-                $valueDescriptions = $am->getAttributeValueDescriptions((int)$data['attribute_value_id']);
+                $valueDescriptions = $am->getAttributeValueDescriptions((int) $data['attribute_value_id']);
             }
             foreach ($valueDescriptions as $language_id => $name) {
                 $this->insertProductOptionValueDescriptions($product_id, $pd_opt_val_id, $name, $language_id);
@@ -749,16 +829,17 @@ class ModelCatalogProduct extends Model
         return $this->db->query(
             "SELECT *
             FROM ".$this->db->table("product_option_value_descriptions")."
-            WHERE product_option_value_id = '".(int)$pd_opt_val_id."'
-                AND product_id = '".(int)$product_id."'
-                AND language_id = '".(int)$language_id."' ");
+            WHERE product_option_value_id = '".(int) $pd_opt_val_id."'
+                AND product_id = '".(int) $product_id."'
+                AND language_id = '".(int) $language_id."' "
+        );
     }
 
     /**
-     * @param int         $product_id
-     * @param int         $pd_opt_val_id
-     * @param string      $name
-     * @param int         $language_id
+     * @param int $product_id
+     * @param int $pd_opt_val_id
+     * @param string $name
+     * @param int $language_id
      * @param null|string $grp_attr_names
      *
      * @return int|null
@@ -774,26 +855,28 @@ class ModelCatalogProduct extends Model
             return null;
         }
 
-        $this->language->replaceDescriptions('product_option_value_descriptions',
-            array(
-                'product_option_value_id' => (int)$pd_opt_val_id,
-                'product_id'              => (int)$product_id,
-            ),
-            array(
-                $language_id => array(
+        $this->language->replaceDescriptions(
+            'product_option_value_descriptions',
+            [
+                'product_option_value_id' => (int) $pd_opt_val_id,
+                'product_id'              => (int) $product_id,
+            ],
+            [
+                $language_id => [
                     'name'                    => $name,
                     'grouped_attribute_names' => $grp_attr_names,
-                ),
-            ));
+                ],
+            ]
+        );
 
         return $this->db->getLastId();
     }
 
     /**
-     * @param int         $product_id
-     * @param int         $pd_opt_val_id
-     * @param string      $name
-     * @param int         $language_id
+     * @param int $product_id
+     * @param int $pd_opt_val_id
+     * @param string $name
+     * @param int $language_id
      * @param null|string $grp_attr_names
      *
      * @return null|int
@@ -808,17 +891,19 @@ class ModelCatalogProduct extends Model
         if (empty($product_id) || empty($pd_opt_val_id) || empty($language_id)) {
             return null;
         }
-        $this->language->replaceDescriptions('product_option_value_descriptions',
-            array(
-                'product_option_value_id' => (int)$pd_opt_val_id,
-                'product_id'              => (int)$product_id,
-            ),
-            array(
-                $language_id => array(
+        $this->language->replaceDescriptions(
+            'product_option_value_descriptions',
+            [
+                'product_option_value_id' => (int) $pd_opt_val_id,
+                'product_id'              => (int) $product_id,
+            ],
+            [
+                $language_id => [
                     'name'                    => $name,
                     'grouped_attribute_names' => $grp_attr_names,
-                ),
-            ));
+                ],
+            ]
+        );
 
         return $pd_opt_val_id;
     }
@@ -837,19 +922,21 @@ class ModelCatalogProduct extends Model
         }
         $add_language = '';
         if ($language_id) {
-            $add_language = " AND language_id = '".(int)$language_id."'";
+            $add_language = " AND language_id = '".(int) $language_id."'";
         }
-        $this->db->query("DELETE FROM ".$this->db->table("product_option_value_descriptions")."
-                          WHERE product_id = '".(int)$product_id."'
-                                AND product_option_value_id = '".(int)$pd_opt_val_id."'".$add_language);
+        $this->db->query(
+            "DELETE FROM ".$this->db->table("product_option_value_descriptions")."
+            WHERE product_id = '".(int) $product_id."'
+                AND product_option_value_id = '".(int) $pd_opt_val_id."'".$add_language
+        );
         return true;
     }
 
     /**
-     * @param int   $product_id
-     * @param int   $option_id
-     * @param int   $attribute_value_id
-     * @param int   $pd_opt_val_id
+     * @param int $product_id
+     * @param int $option_id
+     * @param int $attribute_value_id
+     * @param int $pd_opt_val_id
      * @param array $data
      *
      * @return int|false
@@ -861,28 +948,30 @@ class ModelCatalogProduct extends Model
         }
         $this->db->query(
             "INSERT INTO ".$this->db->table("product_option_values")."
-                        SET product_option_id = '".(int)$option_id."',
-                            product_id = '".(int)$product_id."',
-                            group_id = '".(int)$pd_opt_val_id."',
-                            sku = '".$this->db->escape($data['sku'])."',
-                            quantity = '".$this->db->escape($data['quantity'])."',
-                            subtract = '".$this->db->escape($data['subtract'])."',
-                            price = '".preformatFloat($data['price'], $this->language->get('decimal_point'))."',
-                            prefix = '".$this->db->escape($data['prefix'])."',
-                            weight = '".preformatFloat($data['weight'], $this->language->get('decimal_point'))."',
-                            weight_type = '".$this->db->escape($data['weight_type'])."',
-                            attribute_value_id = '".$this->db->escape($attribute_value_id)."',
-                            grouped_attribute_data = '".$this->db->escape($data['grouped_attribute_data'])."',
-                            sort_order = '".(int)$data['sort_order']."',
-                            `default` = '".(int)$data['default']."'");
+            SET product_option_id = '".(int) $option_id."',
+                product_id = '".(int) $product_id."',
+                group_id = '".(int) $pd_opt_val_id."',
+                sku = '".$this->db->escape($data['sku'])."',
+                quantity = '".$this->db->escape($data['quantity'])."',
+                subtract = '".$this->db->escape($data['subtract'])."',
+                price = '".preformatFloat($data['price'], $this->language->get('decimal_point'))."',
+                cost = '".$this->db->escape($data['cost'])."',
+                prefix = '".$this->db->escape($data['prefix'])."',
+                weight = '".preformatFloat($data['weight'], $this->language->get('decimal_point'))."',
+                weight_type = '".$this->db->escape($data['weight_type'])."',
+                attribute_value_id = '".$this->db->escape($attribute_value_id)."',
+                grouped_attribute_data = '".$this->db->escape($data['grouped_attribute_data'])."',
+                sort_order = '".(int) $data['sort_order']."',
+                `default` = '".(int) $data['default']."'"
+        );
         return $this->db->getLastId();
     }
 
     /**
      *  Update singe product option value
      *
-     * @param int   $pd_opt_val_id
-     * @param int   $attribute_value_id
+     * @param int $pd_opt_val_id
+     * @param int $attribute_value_id
      * @param array $data
      *
      * @return null|int
@@ -903,26 +992,27 @@ class ModelCatalogProduct extends Model
                 quantity = '".$this->db->escape($data['quantity'])."',
                 subtract = '".$this->db->escape($data['subtract'])."',
                 price = '".$this->db->escape($data['price'])."',
+                cost = '".$this->db->escape($data['cost'])."',
                 prefix = '".$this->db->escape($data['prefix'])."',
                 weight = '".preformatFloat($data['weight'], $this->language->get('decimal_point'))."',
                 weight_type = '".$this->db->escape($data['weight_type'])."',
                 attribute_value_id = '".$this->db->escape($attribute_value_id)."',
                 grouped_attribute_data = '".$this->db->escape($data['grouped_attribute_data'])."',
-                sort_order = '".(int)$data['sort_order']."',
-                `default` = '".(int)$data['default']."'
-            WHERE product_option_value_id = '".(int)$pd_opt_val_id."'  ");
+                sort_order = '".(int) $data['sort_order']."',
+                `default` = '".(int) $data['default']."'
+            WHERE product_option_value_id = '".(int) $pd_opt_val_id."'  "
+        );
         return $pd_opt_val_id;
     }
 
     /**
      *    Update product option value and value descriptions for set language
      *
-     * @param int   $product_id
-     * @param int   $pd_opt_val_id
+     * @param int $product_id
+     * @param int $pd_opt_val_id
      * @param array $data
-     * @param int   $language_id
+     * @param int $language_id
      *
-     * @throws AException
      */
     public function updateProductOptionValueAndDescription($product_id, $pd_opt_val_id, $data, $language_id)
     {
@@ -935,10 +1025,13 @@ class ModelCatalogProduct extends Model
         //build grouped attributes if this is a parent attribute
         if (is_array($data['attribute_value_id'])) {
             //update children option values from global attributes
-            $groupData = array();
+            $groupData = [];
             foreach ($data['attribute_value_id'] as $child_option_id => $attr_val_id) {
                 #special serialized data for grouped options
-                $groupData[] = array('attr_id' => $child_option_id, 'attr_v_id' => $attr_val_id);
+                $groupData[] = [
+                    'attr_id' => $child_option_id,
+                    'attr_v_id' => $attr_val_id
+                ];
             }
             $data['grouped_attribute_data'] = serialize($groupData);
         }
@@ -947,13 +1040,16 @@ class ModelCatalogProduct extends Model
 
         if (is_array($data['attribute_value_id'])) {
             //update children option values description from global attributes
-            $group_description = array();
-            $descr_names = array();
+            $group_description = [];
+            $descr_names = [];
             foreach ($data['attribute_value_id'] as $child_option_id => $attr_val_id) {
                 #special insert for grouped options
                 foreach ($am->getAttributeValueDescriptions($attr_val_id) as $lang_id => $name) {
                     if ($language_id == $lang_id) {
-                        $group_description[$language_id][] = array('attr_v_id' => $attr_val_id, 'name' => $name);
+                        $group_description[$language_id][] = [
+                            'attr_v_id' => $attr_val_id,
+                            'name' => $name
+                        ];
                         $descr_names[$language_id][] = $name;
                     }
                 }
@@ -963,22 +1059,28 @@ class ModelCatalogProduct extends Model
                 if ($language_id == $lang_id && count($group_description[$language_id])) {
                     $group_description[$language_id][] = $name;
                     $grouped_names = serialize($group_description[$language_id]);
-                    $this->updateProductOptionValueDescriptions($product_id, $pd_opt_val_id, implode(' / ', $name),
-                        $language_id, $grouped_names);
+                    $this->updateProductOptionValueDescriptions(
+                        $product_id, $pd_opt_val_id, implode(' / ', $name),
+                        $language_id, $grouped_names
+                    );
                 }
             }
         } else {
             if (!$data['attribute_value_id']) {
                 $exist = $this->getProductOptionValueDescriptions($product_id, $pd_opt_val_id, $language_id);
                 if ($exist->num_rows) {
-                    $this->updateProductOptionValueDescriptions($product_id, $pd_opt_val_id, $data['name'],
-                        $language_id);
+                    $this->updateProductOptionValueDescriptions(
+                        $product_id, $pd_opt_val_id, $data['name'],
+                        $language_id
+                    );
                 } else {
-                    $this->insertProductOptionValueDescriptions($product_id, $pd_opt_val_id, $data['name'],
-                        $language_id);
+                    $this->insertProductOptionValueDescriptions(
+                        $product_id, $pd_opt_val_id, $data['name'],
+                        $language_id
+                    );
                 }
             } else {
-                $valueDescriptions = $am->getAttributeValueDescriptions((int)$data['attribute_value_id']);
+                $valueDescriptions = $am->getAttributeValueDescriptions((int) $data['attribute_value_id']);
                 foreach ($valueDescriptions as $lang_id => $name) {
                     if ($language_id == $lang_id) {
                         //Update only language that we currently work with
@@ -996,7 +1098,6 @@ class ModelCatalogProduct extends Model
      * @param int $language_id
      *
      * @return null
-     * @throws AException
      */
     public function deleteProductOptionValue($product_id, $pd_opt_val_id, $language_id = 0)
     {
@@ -1008,9 +1109,11 @@ class ModelCatalogProduct extends Model
 
         //delete children values
         $children = $this->db->query(
-            "SELECT product_option_value_id FROM ".$this->db->table("product_option_values")."
-            WHERE product_id = '".(int)$product_id."'
-                AND group_id = '".(int)$pd_opt_val_id."'");
+            "SELECT product_option_value_id 
+            FROM ".$this->db->table("product_option_values")."
+            WHERE product_id = '".(int) $product_id."'
+                AND group_id = '".(int) $pd_opt_val_id."'"
+        );
         foreach ($children->rows as $g_attribute) {
             $this->_deleteProductOptionValue($product_id, $g_attribute['product_option_value_id'], $language_id);
         }
@@ -1025,7 +1128,6 @@ class ModelCatalogProduct extends Model
      * @param int $language_id
      *
      * @return bool
-     * @throws AException
      */
     public function _deleteProductOptionValue($product_id, $pd_opt_val_id, $language_id)
     {
@@ -1034,32 +1136,38 @@ class ModelCatalogProduct extends Model
         }
         $add_language = '';
         if ($language_id) {
-            $add_language = " AND language_id = '".(int)$language_id."'";
+            $add_language = " AND language_id = '".(int) $language_id."'";
         }
 
         $this->db->query(
             "DELETE FROM ".$this->db->table("product_option_value_descriptions")."
-            WHERE product_id = '".(int)$product_id."'
-                AND product_option_value_id = '".(int)$pd_opt_val_id."'".$add_language);
+            WHERE product_id = '".(int) $product_id."'
+                AND product_option_value_id = '".(int) $pd_opt_val_id."'".$add_language
+        );
 
         //Delete product_option_values that have no values left in descriptions
         $sql = "DELETE FROM ".$this->db->table("product_option_values")." 
-                WHERE product_option_value_id = '".(int)$pd_opt_val_id."' AND product_option_value_id not in
-                ( SELECT product_option_value_id FROM ".$this->db->table("product_option_value_descriptions")."
-                         WHERE product_id = '".(int)$product_id."'
-                         AND product_option_value_id = '".(int)$pd_opt_val_id."')";
+                WHERE product_option_value_id = '".(int) $pd_opt_val_id."' 
+                    AND product_option_value_id NOT IN 
+                                                ( SELECT product_option_value_id 
+                                                  FROM ".$this->db->table("product_option_value_descriptions")."
+                                                  WHERE product_id = '".(int) $product_id."'
+                                                    AND product_option_value_id = '".(int) $pd_opt_val_id."')";
         $this->db->query($sql);
         //get product resources
         $rm = new AResourceManager();
-        $resources = $rm->getResourcesList(array(
-            'object_name' => 'product_option_value',
-            'object_id'   => (int)$pd_opt_val_id,
-        ));
+        $resources = $rm->getResourcesList(
+            [
+                'object_name' => 'product_option_value',
+                'object_id'   => (int) $pd_opt_val_id,
+            ]
+        );
         foreach ($resources as $r) {
             $rm->unmapResource(
                 'product_option_value',
                 $pd_opt_val_id,
-                $r['resource_id']);
+                $r['resource_id']
+            );
             //remove if orphan
             if (!$rm->isMapped($r['resource_id'])) {
                 $rm->deleteResource($r['resource_id']);
@@ -1084,8 +1192,8 @@ class ModelCatalogProduct extends Model
                 FROM ".$this->db->table("products")." p
                 LEFT JOIN ".$this->db->table("product_descriptions")." pd
                     ON (p.product_id = pd.product_id AND
-                                pd.language_id = '".(int)$this->config->get('storefront_language_id')."')
-                WHERE p.product_id = '".(int)$product_id."'";
+                                pd.language_id = '".(int) $this->config->get('storefront_language_id')."')
+                WHERE p.product_id = '".(int) $product_id."'";
         $query = $this->db->query($sql);
 
         if (!$query->num_rows) {
@@ -1093,21 +1201,21 @@ class ModelCatalogProduct extends Model
         }
 
         $data = $query->row;
-        $data = array_merge($data, array('product_description' => $this->getProductDescriptions($product_id)));
+        $data = array_merge($data, ['product_description' => $this->getProductDescriptions($product_id)]);
         foreach ($data['product_description'] as $lang => $desc) {
             $data['product_description'][$lang]['name'] .= ' ( Copy )';
         }
-        $data = array_merge($data, array('product_option' => $this->getProductOptions($product_id)));
+        $data = array_merge($data, ['product_option' => $this->getProductOptions($product_id)]);
         $data['keyword'] = '';
 
-        $data = array_merge($data, array('product_discount' => $this->getProductDiscounts($product_id)));
-        $data = array_merge($data, array('product_special' => $this->getProductSpecials($product_id)));
-        $data = array_merge($data, array('product_download' => $this->getProductDownloads($product_id)));
-        $data = array_merge($data, array('product_category' => $this->getProductCategories($product_id)));
-        $data = array_merge($data, array('product_store' => $this->getProductStores($product_id)));
-        $data = array_merge($data, array('product_related' => $this->getProductRelated($product_id)));
-        $data = array_merge($data, array('product_tags' => $this->getProductTags($product_id)));
-        $data = array_merge($data, array('keyword' => $this->getProductSEOKeywords($product_id)));
+        $data = array_merge($data, ['product_discount' => $this->getProductDiscounts($product_id)]);
+        $data = array_merge($data, ['product_special' => $this->getProductSpecials($product_id)]);
+        $data = array_merge($data, ['product_download' => $this->getProductDownloads($product_id)]);
+        $data = array_merge($data, ['product_category' => $this->getProductCategories($product_id)]);
+        $data = array_merge($data, ['product_store' => $this->getProductStores($product_id)]);
+        $data = array_merge($data, ['product_related' => $this->getProductRelated($product_id)]);
+        $data = array_merge($data, ['product_tags' => $this->getProductTags($product_id)]);
+        $data = array_merge($data, ['keyword' => $this->getProductSEOKeywords($product_id)]);
 
         //set status to off for cloned product
         $data['status'] = 0;
@@ -1115,11 +1223,12 @@ class ModelCatalogProduct extends Model
         //get product resources
         $rm = new AResourceManager();
         $resources = $rm->getResourcesList(
-            array(
+            [
                 'object_name' => 'products',
                 'object_id'   => $product_id,
                 'sort'        => 'sort_order',
-            ));
+            ]
+        );
 
         $new_product_id = $this->addProduct($data);
 
@@ -1149,48 +1258,55 @@ class ModelCatalogProduct extends Model
         //clone layout for the product if present
         $layout_clone_result = $this->_clone_product_layout($product_id, $new_product_id);
 
-        return array(
+        return [
             'name'         => $data['name'],
             'id'           => $new_product_id,
             'layout_clone' => $layout_clone_result,
-        );
+        ];
     }
 
     /**
-     * @param int   $product_id
+     * @param int $product_id
      * @param array $data
      *
-     * @throws AException
      */
     protected function _clone_product_options($product_id, $data)
     {
         //Do not use before close review.
         //Note: This is done only after product cloning. This is not to be used on existing product.
-        $this->db->query("DELETE FROM ".$this->db->table("product_options")." WHERE product_id = '".(int)$product_id
-            ."'");
-        $this->db->query("DELETE FROM ".$this->db->table("product_option_descriptions")." WHERE product_id = '"
-            .(int)$product_id."'");
-        $this->db->query("DELETE FROM ".$this->db->table("product_option_values")." WHERE product_id = '"
-            .(int)$product_id."'");
-        $this->db->query("DELETE FROM ".$this->db->table("product_option_value_descriptions")." WHERE product_id = '"
-            .(int)$product_id."'");
+        $this->db->query(
+            "DELETE FROM ".$this->db->table("product_options")." 
+            WHERE product_id = '".(int) $product_id."'"
+        );
+        $this->db->query(
+            "DELETE FROM ".$this->db->table("product_option_descriptions")." 
+            WHERE product_id = '".(int) $product_id."'"
+        );
+        $this->db->query(
+            "DELETE FROM ".$this->db->table("product_option_values")." 
+            WHERE product_id = '".(int) $product_id."'"
+        );
+        $this->db->query(
+            "DELETE FROM ".$this->db->table("product_option_value_descriptions")." 
+            WHERE product_id = '".(int) $product_id."'"
+        );
 
         if (isset($data['product_option'])) {
             foreach ($data['product_option'] as $product_option) {
                 $sql = "INSERT INTO ".$this->db->table("product_options")." 
-                        SET product_id = '".(int)$product_id."',
-                            sort_order = '".(int)$product_option['sort_order']."'";
+                        SET product_id = '".(int) $product_id."',
+                            sort_order = '".(int) $product_option['sort_order']."'";
                 if ($product_option['attribute_id']) {
-                    $sql .= ", attribute_id = '".(int)$product_option['attribute_id']."'";
+                    $sql .= ", attribute_id = '".(int) $product_option['attribute_id']."'";
                 }
                 if ($product_option['group_id']) {
-                    $sql .= ", group_id = '".(int)$product_option['group_id']."'";
+                    $sql .= ", group_id = '".(int) $product_option['group_id']."'";
                 }
                 if ($product_option['element_type']) {
                     $sql .= ", element_type = '".$this->db->escape($product_option['element_type'])."'";
                 }
                 if ($product_option['required']) {
-                    $sql .= ", required = '".(int)$product_option['required']."'";
+                    $sql .= ", required = '".(int) $product_option['required']."'";
                 }
                 if ($product_option['regexp_pattern']) {
                     $sql .= ", regexp_pattern = '".$this->db->escape($product_option['regexp_pattern'])."'";
@@ -1199,18 +1315,20 @@ class ModelCatalogProduct extends Model
                 $product_option_id = $this->db->getLastId();
 
                 foreach ($product_option['language'] as $language_id => $language) {
-                    $this->language->replaceDescriptions('product_option_descriptions',
-                        array(
-                            'product_option_id' => (int)$product_option_id,
-                            'product_id'        => (int)$product_id,
-                        ),
-                        array(
-                            $language_id => array(
+                    $this->language->replaceDescriptions(
+                        'product_option_descriptions',
+                        [
+                            'product_option_id' => (int) $product_option_id,
+                            'product_id'        => (int) $product_id,
+                        ],
+                        [
+                            $language_id => [
                                 'name'               => $language['name'],
                                 'error_text'         => $language['error_text'],
                                 'option_placeholder' => $language['placeholder'],
-                            ),
-                        ));
+                            ],
+                        ]
+                    );
                 }
 
                 if (isset($product_option['product_option_value'])) {
@@ -1219,32 +1337,36 @@ class ModelCatalogProduct extends Model
                     foreach ($product_option['product_option_value'] as $pd_opt_vals) {
                         $pd_opt_vals['price'] = str_replace(" ", "", $pd_opt_vals['price']);
 
-                        $this->db->query("INSERT INTO ".$this->db->table("product_option_values")." 
-                                            SET product_option_id = '".(int)$product_option_id."',
-                                                product_id = '".(int)$product_id."',
-                                                sku = '".$this->db->escape($pd_opt_vals['sku'])."',
-                                                quantity = '".(int)$pd_opt_vals['quantity']."',
-                                                subtract = '".(int)$pd_opt_vals['subtract']."',
-                                                price = '".preformatFloat($pd_opt_vals['price'],
-                                $this->language->get('decimal_point'))."',
-                                                weight = '".(float)$pd_opt_vals['weight']."',
-                                                weight_type = '".$this->db->escape($pd_opt_vals['weight_type'])."',
-                                                prefix = '".$this->db->escape($pd_opt_vals['prefix'])."',
-                                                attribute_value_id = '"
-                            .$this->db->escape($pd_opt_vals['attribute_value_id'])."',
-                                                grouped_attribute_data = '"
-                            .$this->db->escape($pd_opt_vals['grouped_attribute_data'])."',
-                                                group_id = '".$this->db->escape($pd_opt_vals['group_id'])."',
-                                                sort_order = '".(int)$pd_opt_vals['sort_order']."',
-                                                `default` = '".(int)$pd_opt_vals['default']."'");
+                        $this->db->query(
+                            "INSERT INTO ".$this->db->table("product_option_values")." 
+                            SET product_option_id = '".(int) $product_option_id."',
+                                product_id = '".(int) $product_id."',
+                                sku = '".$this->db->escape($pd_opt_vals['sku'])."',
+                                quantity = '".(int) $pd_opt_vals['quantity']."',
+                                subtract = '".(int) $pd_opt_vals['subtract']."',
+                                price = '".preformatFloat(
+                                                    $pd_opt_vals['price'],
+                                                    $this->language->get('decimal_point')
+                                                )."',
+                                weight = '".(float) $pd_opt_vals['weight']."',
+                                weight_type = '".$this->db->escape($pd_opt_vals['weight_type'])."',
+                                prefix = '".$this->db->escape($pd_opt_vals['prefix'])."',
+                                attribute_value_id = '".$this->db->escape($pd_opt_vals['attribute_value_id'])."',
+                                grouped_attribute_data = '".$this->db->escape($pd_opt_vals['grouped_attribute_data'])."',
+                                group_id = '".$this->db->escape($pd_opt_vals['group_id'])."',
+                                sort_order = '".(int) $pd_opt_vals['sort_order']."',
+                                `default` = '".(int) $pd_opt_vals['default']."'"
+                        );
 
                         $pd_opt_val_id = $this->db->getLastId();
                         // clone resources of option value
                         if ($pd_opt_vals['product_option_value_id']) {
-                            $resources = $rm->getResourcesList(array(
-                                'object_name' => 'product_option_value',
-                                'object_id'   => $pd_opt_vals['product_option_value_id'],
-                            ));
+                            $resources = $rm->getResourcesList(
+                                [
+                                    'object_name' => 'product_option_value',
+                                    'object_id'   => $pd_opt_vals['product_option_value_id'],
+                                ]
+                            );
                             foreach ($resources as $r) {
                                 $rm->mapResource(
                                     'product_option_value',
@@ -1257,17 +1379,19 @@ class ModelCatalogProduct extends Model
                         foreach ($pd_opt_vals['language'] as $language_id => $lang_data) {
                             $grouped_attribute_names = serialize($lang_data['children_options_names']);
 
-                            $this->language->replaceDescriptions('product_option_value_descriptions',
-                                array(
-                                    'product_option_value_id' => (int)$pd_opt_val_id,
-                                    'product_id'              => (int)$product_id,
-                                ),
-                                array(
-                                    $language_id => array(
+                            $this->language->replaceDescriptions(
+                                'product_option_value_descriptions',
+                                [
+                                    'product_option_value_id' => (int) $pd_opt_val_id,
+                                    'product_id'              => (int) $product_id,
+                                ],
+                                [
+                                    $language_id => [
                                         'name'                    => $lang_data['name'],
                                         'grouped_attribute_names' => $grouped_attribute_names,
-                                    ),
-                                ));
+                                    ],
+                                ]
+                            );
                         }
                     }
                 }
@@ -1292,7 +1416,7 @@ class ModelCatalogProduct extends Model
 
         //clone layout for the product if present
         $lm = new ALayoutManager();
-        $pages = $lm->getPages('pages/product/product', 'product_id', (int)$product_id);
+        $pages = $lm->getPages('pages/product/product', 'product_id', (int) $product_id);
         if (count($pages) && has_value($pages[0]['page_id'])) {
             $tmpl_id = $this->config->get('config_storefront_template');
             $src_layout_id = $pages[0]['layout_id'];
@@ -1300,11 +1424,11 @@ class ModelCatalogProduct extends Model
             //create instance for source layout
             $lm = new ALayoutManager($tmpl_id, $src_page_id, $src_layout_id);
             //create new page
-            $page_info = array(
+            $page_info = [
                 'controller' => 'pages/product/product',
                 'key_param'  => 'product_id',
                 'key_value'  => $new_product_id,
-            );
+            ];
 
             $product_info = $this->getProductDescriptions($new_product_id);
             if ($product_info) {
@@ -1335,18 +1459,23 @@ class ModelCatalogProduct extends Model
      */
     public function deleteProduct($product_id)
     {
-        if (!(int)$product_id) {
+        if (!(int) $product_id) {
             return false;
         }
         $rm = new AResourceManager();
-        $this->db->query("DELETE FROM ".$this->db->table("products")." WHERE product_id = '".(int)$product_id."'");
-        $this->db->query("DELETE FROM ".$this->db->table("product_descriptions")." WHERE product_id = '"
-            .(int)$product_id."'");
+        $this->db->query(
+            "DELETE FROM ".$this->db->table("products")." 
+            WHERE product_id = '".(int) $product_id."'"
+        );
+        $this->db->query(
+            "DELETE FROM ".$this->db->table("product_descriptions")." 
+            WHERE product_id = '".(int) $product_id."'"
+        );
         $resources = $rm->getResourcesList(
-            array(
+            [
                 'object_name' => 'products',
-                'object_id'   => (int)$product_id,
-            )
+                'object_id'   => (int) $product_id,
+            ]
         );
         foreach ($resources as $r) {
             $rm->unmapResource(
@@ -1362,8 +1491,10 @@ class ModelCatalogProduct extends Model
 
         //delete product's downloads
         $this->load->model('catalog/download');
-        $downloads = $this->model_catalog_download->getProductDownloadsDetails($product_id,
-            array('subsql_filter' => 'AND d.shared<>1'));
+        $downloads = $this->model_catalog_download->getProductDownloadsDetails(
+            $product_id,
+            ['subsql_filter' => 'AND d.shared<>1']
+        );
         foreach ($downloads as $d) {
             $this->model_catalog_download->deleteDownload($d['download_id']);
         }
@@ -1376,46 +1507,47 @@ class ModelCatalogProduct extends Model
 
         $this->db->query(
             "DELETE FROM ".$this->db->table("product_discounts")." 
-            WHERE product_id = '".(int)$product_id."'");
+            WHERE product_id = '".(int) $product_id."'"
+        );
         $this->db->query(
             "DELETE FROM ".$this->db->table("products_related")." 
-            WHERE product_id = '".(int)$product_id."'"
+            WHERE product_id = '".(int) $product_id."'"
         );
         $this->db->query(
             "DELETE FROM ".$this->db->table("products_to_downloads")." 
-            WHERE product_id = '".(int)$product_id."'"
+            WHERE product_id = '".(int) $product_id."'"
         );
         $this->db->query(
             "DELETE FROM ".$this->db->table("products_to_categories")." 
-            WHERE product_id = '".(int)$product_id."'"
+            WHERE product_id = '".(int) $product_id."'"
         );
         $this->db->query(
             "DELETE FROM ".$this->db->table("reviews")." 
-            WHERE product_id = '".(int)$product_id."'"
+            WHERE product_id = '".(int) $product_id."'"
         );
         $this->db->query(
             "DELETE FROM ".$this->db->table("products_to_stores")." 
-            WHERE product_id = '".(int)$product_id."'"
+            WHERE product_id = '".(int) $product_id."'"
         );
         $this->db->query(
             "DELETE FROM ".$this->db->table("url_aliases")." 
-            WHERE query = 'product_id=".(int)$product_id."'"
+            WHERE query = 'product_id=".(int) $product_id."'"
         );
         $this->db->query(
             "DELETE FROM ".$this->db->table("product_tags")." 
-            WHERE product_id='".(int)$product_id."'"
+            WHERE product_id='".(int) $product_id."'"
         );
         $this->db->query(
             "DELETE FROM ".$this->db->table("products_featured")." 
-            WHERE product_id='".(int)$product_id."'"
+            WHERE product_id='".(int) $product_id."'"
         );
         $this->db->query(
             "DELETE FROM ".$this->db->table("product_specials")." 
-            WHERE product_id='".(int)$product_id."'"
+            WHERE product_id='".(int) $product_id."'"
         );
 
         $lm = new ALayoutManager();
-        $lm->deletePageLayout('pages/product/product', 'product_id', (int)$product_id);
+        $lm->deletePageLayout('pages/product/product', 'product_id', (int) $product_id);
 
         $this->cache->remove('product');
         $this->cache->remove('collection');
@@ -1429,7 +1561,7 @@ class ModelCatalogProduct extends Model
     {
         $this->db->query(
             "DELETE FROM ".$this->db->table("product_discounts")." 
-            WHERE product_discount_id = '".(int)$product_discount_id."'"
+            WHERE product_discount_id = '".(int) $product_discount_id."'"
         );
         $this->cache->remove('product');
         $this->cache->remove('collection');
@@ -1442,7 +1574,7 @@ class ModelCatalogProduct extends Model
     {
         $this->db->query(
             "DELETE FROM ".$this->db->table("product_specials")." 
-            WHERE product_special_id='".(int)$product_special_id."'"
+            WHERE product_special_id='".(int) $product_special_id."'"
         );
         $this->cache->remove('product');
         $this->cache->remove('collection');
@@ -1455,18 +1587,20 @@ class ModelCatalogProduct extends Model
      */
     public function getProduct($product_id)
     {
-        $query = $this->db->query("SELECT DISTINCT *, p.product_id, COALESCE(pf.product_id, 0) as featured,
-                                        (SELECT keyword
-                                         FROM ".$this->db->table("url_aliases")." 
-                                         WHERE query = 'product_id=".(int)$product_id."'
-                                            AND language_id='".(int)$this->language->getContentLanguageID()."' ) AS keyword
-                                    FROM ".$this->db->table("products")." p
-                                    LEFT JOIN ".$this->db->table("products_featured")." pf ON pf.product_id = p.product_id
-                                    LEFT JOIN ".$this->db->table("product_descriptions")." pd
-                                            ON (p.product_id = pd.product_id
-                                                    AND pd.language_id = '"
-            .(int)$this->config->get('storefront_language_id')."')
-                                    WHERE p.product_id = '".(int)$product_id."'");
+        $query = $this->db->query(
+            "SELECT DISTINCT *, p.product_id, COALESCE(pf.product_id, 0) as featured,
+                (SELECT keyword
+                 FROM ".$this->db->table("url_aliases")." 
+                 WHERE query = 'product_id=".(int) $product_id."'
+                    AND language_id='".(int) $this->language->getContentLanguageID()."' ) AS keyword
+            FROM ".$this->db->table("products")." p
+            LEFT JOIN ".$this->db->table("products_featured")." pf 
+                ON pf.product_id = p.product_id
+            LEFT JOIN ".$this->db->table("product_descriptions")." pd
+                    ON (p.product_id = pd.product_id
+                            AND pd.language_id = '" .(int) $this->config->get('storefront_language_id')."')
+            WHERE p.product_id = '".(int) $product_id."'"
+        );
         return $query->row;
     }
 
@@ -1477,9 +1611,11 @@ class ModelCatalogProduct extends Model
      */
     public function getProductDiscount($product_discount_id)
     {
-        $query = $this->db->query("SELECT *
-                                    FROM ".$this->db->table("product_discounts")." 
-                                    WHERE product_discount_id = '".(int)$product_discount_id."'");
+        $query = $this->db->query(
+            "SELECT *
+            FROM ".$this->db->table("product_discounts")." 
+            WHERE product_discount_id = '".(int) $product_discount_id."'"
+        );
         return $query->row;
     }
 
@@ -1490,26 +1626,28 @@ class ModelCatalogProduct extends Model
      */
     public function getProductSpecial($product_special_id)
     {
-        $query = $this->db->query("SELECT *
-                                    FROM ".$this->db->table("product_specials")." 
-                                    WHERE product_special_id = '".(int)$product_special_id."'");
+        $query = $this->db->query(
+            "SELECT *
+            FROM ".$this->db->table("product_specials")." 
+            WHERE product_special_id = '".(int) $product_special_id."'"
+        );
         return $query->row;
     }
 
     /**
-     * @param int  $product_id
+     * @param int $product_id
      * @param bool $act
      */
     public function setFeatured($product_id, $act = true)
     {
         $this->db->query(
             "DELETE FROM ".$this->db->table("products_featured")." 
-            WHERE product_id='".(int)$product_id."'"
+            WHERE product_id='".(int) $product_id."'"
         );
         if ($act) {
             $this->db->query(
                 "INSERT INTO ".$this->db->table("products_featured")." 
-                 SET product_id = '".(int)$product_id."'"
+                 SET product_id = '".(int) $product_id."'"
             );
         }
     }
@@ -1519,11 +1657,13 @@ class ModelCatalogProduct extends Model
      */
     public function addFeatured($data)
     {
-        $this->db->query("DELETE FROM ".$this->db->table("products_featured")." ");
+        $this->db->query("DELETE FROM ".$this->db->table("products_featured"));
         if (isset($data['featured_product'])) {
             foreach ($data['featured_product'] as $product_id) {
-                $this->db->query("INSERT INTO ".$this->db->table("products_featured")." 
-                                SET product_id = '".(int)$product_id."'");
+                $this->db->query(
+                    "INSERT INTO ".$this->db->table("products_featured")." 
+                    SET product_id = '".(int) $product_id."'"
+                );
             }
         }
     }
@@ -1533,8 +1673,11 @@ class ModelCatalogProduct extends Model
      */
     public function getFeaturedProducts()
     {
-        $query = $this->db->query("SELECT product_id FROM ".$this->db->table("products_featured")." ");
-        $featured = array();
+        $query = $this->db->query(
+            "SELECT product_id 
+            FROM ".$this->db->table("products_featured")
+        );
+        $featured = [];
         foreach ($query->rows as $product) {
             $featured[] = $product['product_id'];
         }
@@ -1551,15 +1694,16 @@ class ModelCatalogProduct extends Model
         if ($keyword) {
             $query = $this->db->query(
                 "SELECT *, p.product_id
-                    FROM ".$this->db->table("products")." p
-                    LEFT JOIN ".$this->db->table("product_descriptions")." pd
-                            ON (p.product_id = pd.product_id 
-                                AND pd.language_id = '".(int)$this->config->get('storefront_language_id')."')
-                    WHERE (LCASE(pd.name) LIKE '%".$this->db->escape(mb_strtolower($keyword), true)."%'
-                            OR LCASE(p.model) LIKE '%".$this->db->escape(mb_strtolower($keyword), true)."%')");
+                FROM ".$this->db->table("products")." p
+                LEFT JOIN ".$this->db->table("product_descriptions")." pd
+                        ON (p.product_id = pd.product_id 
+                            AND pd.language_id = '".(int) $this->config->get('storefront_language_id')."')
+                WHERE (LCASE(pd.name) LIKE '%".$this->db->escape(mb_strtolower($keyword), true)."%'
+                        OR LCASE(p.model) LIKE '%".$this->db->escape(mb_strtolower($keyword), true)."%')"
+            );
             return $query->rows;
         } else {
-            return array();
+            return [];
         }
     }
 
@@ -1573,14 +1717,15 @@ class ModelCatalogProduct extends Model
     {
         $query = $this->db->query(
             "SELECT *, p.product_id
-                FROM ".$this->db->table("products")." p
-                LEFT JOIN ".$this->db->table("product_descriptions")." pd
-                    ON (p.product_id = pd.product_id 
-                        AND pd.language_id = '".(int)$this->config->get('storefront_language_id')."' )
-                LEFT JOIN ".$this->db->table("products_to_categories")." p2c 
-                    ON (p.product_id = p2c.product_id)
-                WHERE p2c.category_id = '".(int)$category_id."'
-                ORDER BY pd.name ASC");
+            FROM ".$this->db->table("products")." p
+            LEFT JOIN ".$this->db->table("product_descriptions")." pd
+                ON (p.product_id = pd.product_id 
+                    AND pd.language_id = '".(int) $this->config->get('storefront_language_id')."' )
+            LEFT JOIN ".$this->db->table("products_to_categories")." p2c 
+                ON (p.product_id = p2c.product_id)
+            WHERE p2c.category_id = '".(int) $category_id."'
+            ORDER BY pd.name ASC"
+        );
         if ($mode == 'total_only') {
             return $query->num_rows;
         }
@@ -1595,21 +1740,23 @@ class ModelCatalogProduct extends Model
      */
     public function getProductDescriptions($product_id, $language_id = 0)
     {
-        $product_description_data = array();
-        $language_id = (int)$language_id;
+        $product_description_data = [];
+        $language_id = (int) $language_id;
 
-        $query = $this->db->query("SELECT *
-                                    FROM ".$this->db->table("product_descriptions")." 
-                                    WHERE product_id = '".(int)$product_id."'");
+        $query = $this->db->query(
+            "SELECT *
+            FROM ".$this->db->table("product_descriptions")." 
+            WHERE product_id = '".(int) $product_id."'"
+        );
 
         foreach ($query->rows as $result) {
-            $product_description_data[$result['language_id']] = array(
+            $product_description_data[$result['language_id']] = [
                 'name'             => $result['name'],
                 'meta_keywords'    => $result['meta_keywords'],
                 'meta_description' => $result['meta_description'],
                 'description'      => $result['description'],
                 'blurb'            => $result['blurb'],
-            );
+            ];
         }
 
         return $language_id ? $product_description_data[$language_id] : $product_description_data;
@@ -1628,11 +1775,12 @@ class ModelCatalogProduct extends Model
     {
         $product_option = $this->db->query(
             "SELECT COUNT(*) as total 
-                FROM ".$this->db->table("product_options")."
-                WHERE product_id = '".(int)$product_id."'
-                    AND attribute_id = '".(int)$attribute_id."'
-                    AND group_id != 0
-                ORDER BY sort_order");
+            FROM ".$this->db->table("product_options")."
+            WHERE product_id = '".(int) $product_id."'
+                AND attribute_id = '".(int) $attribute_id."'
+                AND group_id != 0
+            ORDER BY sort_order"
+        );
         return $product_option->row['total'];
     }
 
@@ -1646,10 +1794,11 @@ class ModelCatalogProduct extends Model
     {
         $product_option = $this->db->query(
             "SELECT product_option_id 
-                FROM ".$this->db->table("product_options")."
-                WHERE attribute_id = '".(int)$attribute_id."'
-                    AND group_id = '".(int)$group_id."'
-                ORDER BY sort_order");
+            FROM ".$this->db->table("product_options")."
+            WHERE attribute_id = '".(int) $attribute_id."'
+                AND group_id = '".(int) $group_id."'
+            ORDER BY sort_order"
+        );
         return $product_option->row['product_option_id'];
     }
 
@@ -1665,22 +1814,24 @@ class ModelCatalogProduct extends Model
     {
         $product_option = $this->db->query(
             "SELECT *
-                FROM ".$this->db->table("product_options")." 
-                WHERE product_id = '".(int)$product_id."'
-                    AND product_option_id = '".(int)$option_id."'
-                ORDER BY sort_order");
+            FROM ".$this->db->table("product_options")." 
+            WHERE product_id = '".(int) $product_id."'
+                AND product_option_id = '".(int) $option_id."'
+            ORDER BY sort_order"
+        );
 
         $product_option_description = $this->db->query(
             "SELECT *
-                FROM ".$this->db->table("product_option_descriptions")."
-                WHERE product_option_id = '".(int)$option_id."'");
-        $product_option_description_data = array();
+            FROM ".$this->db->table("product_option_descriptions")."
+            WHERE product_option_id = '".(int) $option_id."'"
+        );
+        $product_option_description_data = [];
         foreach ($product_option_description->rows as $result) {
-            $product_option_description_data[$result['language_id']] = array(
+            $product_option_description_data[$result['language_id']] = [
                 'name'               => $result['name'],
                 'option_placeholder' => $result['option_placeholder'],
                 'error_text'         => $result['error_text'],
-            );
+            ];
         }
 
         if ($product_option->num_rows) {
@@ -1693,19 +1844,19 @@ class ModelCatalogProduct extends Model
     }
 
     /**
-     * @param int   $product_option_id
+     * @param int $product_option_id
      * @param array $data
      */
     public function updateProductOption($product_option_id, $data)
     {
-        $fields = array(
+        $fields = [
             "sort_order",
             "status",
             "required",
             "regexp_pattern",
             "settings",
-        );
-        $update = array();
+        ];
+        $update = [];
         foreach ($fields as $f) {
             if (isset($data[$f])) {
                 if ($f == 'settings') {
@@ -1715,24 +1866,27 @@ class ModelCatalogProduct extends Model
             }
         }
         if (!empty($update)) {
-            $this->db->query("UPDATE ".$this->db->table("product_options")." 
-                                SET ".implode(',', $update)."
-                                WHERE product_option_id = '".(int)$product_option_id."'");
+            $this->db->query(
+                "UPDATE ".$this->db->table("product_options")." 
+                SET ".implode(',', $update)."
+                WHERE product_option_id = '".(int) $product_option_id."'"
+            );
         }
 
         if (!empty($data['name'])) {
-
             $language_id = $this->language->getContentLanguageID();
 
-            $this->language->replaceDescriptions('product_option_descriptions',
-                array('product_option_id' => (int)$product_option_id),
-                array(
-                    (int)$language_id => array(
+            $this->language->replaceDescriptions(
+                'product_option_descriptions',
+                ['product_option_id' => (int) $product_option_id],
+                [
+                    (int) $language_id => [
                         'name'               => $data['name'],
                         'error_text'         => $data['error_text'],
                         'option_placeholder' => $data['option_placeholder'],
-                    ),
-                ));
+                    ],
+                ]
+            );
         }
 
         $this->cache->remove('product');
@@ -1749,20 +1903,24 @@ class ModelCatalogProduct extends Model
      */
     public function getProductOptions($product_id, $group_id = 0)
     {
-        $product_option_data = array();
+        $product_option_data = [];
         $group_select = '';
         if (is_int($group_id)) {
-            $group_select = "AND group_id = '".(int)$group_id."'";
+            $group_select = "AND group_id = '".(int) $group_id."'";
         }
-        $product_option = $this->db->query("SELECT *
-                                             FROM ".$this->db->table("product_options")." 
-                                             WHERE product_id = '".(int)$product_id."' "
+        $product_option = $this->db->query(
+            "SELECT *
+             FROM ".$this->db->table("product_options")." 
+             WHERE product_id = '".(int) $product_id."' "
             .$group_select.
-            " ORDER BY sort_order");
+            " ORDER BY sort_order"
+        );
         foreach ($product_option->rows as $product_option) {
             $option_data = $this->getProductOption($product_id, $product_option['product_option_id']);
-            $option_data['product_option_value'] =
-                $this->getProductOptionValues($product_id, $product_option['product_option_id']);
+            $option_data['product_option_value'] = $this->getProductOptionValues(
+                $product_id,
+                $product_option['product_option_id']
+            );
             $product_option_data[] = $option_data;
         }
         return $product_option_data;
@@ -1771,12 +1929,11 @@ class ModelCatalogProduct extends Model
     /**
      *    Main function to be called to update option values.
      *
-     * @param int   $product_id
-     * @param int   $option_id
+     * @param int $product_id
+     * @param int $option_id
      * @param array $data
      *
      * @return null
-     * @throws AException
      */
     public function updateProductOptionValues($product_id, $option_id, $data)
     {
@@ -1786,7 +1943,7 @@ class ModelCatalogProduct extends Model
         $language_id = $this->language->getContentLanguageID();
 
         foreach ($data['product_option_value_id'] as $opt_val_id => $status) {
-            $option_value_data = array(
+            $option_value_data = [
                 'attribute_value_id'     => $data['attribute_value_id'][$opt_val_id],
                 'grouped_attribute_data' => $data['grouped_attribute_data'][$opt_val_id],
                 'name'                   => $data['name'][$opt_val_id],
@@ -1794,15 +1951,16 @@ class ModelCatalogProduct extends Model
                 'quantity'               => $data['quantity'][$opt_val_id],
                 'subtract'               => $data['subtract'][$opt_val_id],
                 'price'                  => preformatFloat(
-                    $data['price'][$opt_val_id],
-                    $this->language->get('decimal_point')
-                ),
+                                                $data['price'][$opt_val_id],
+                                                $this->language->get('decimal_point')
+                                            ),
+                'cost'                   => $data['cost'][$opt_val_id],
                 'prefix'                 => $data['prefix'][$opt_val_id],
                 'sort_order'             => $data['sort_order'][$opt_val_id],
                 'weight'                 => $data['weight'][$opt_val_id],
                 'weight_type'            => $data['weight_type'][$opt_val_id],
                 'default'                => ($data['default_value'] == $opt_val_id ? 1 : 0),
-            );
+            ];
 
             //Check if new, delete or update
             if ($status == 'delete' && strpos($opt_val_id, 'new') === false) {
@@ -1811,11 +1969,17 @@ class ModelCatalogProduct extends Model
             } else {
                 if ($status == 'new') {
                     // Need to create new option value
-                    $this->addProductOptionValueAndDescription($product_id, $option_id, $option_value_data);
+                    $this->addProductOptionValueAndDescription(
+                        $product_id,
+                        $option_id,
+                        $option_value_data
+                    );
                 } else {
                     //Existing need to update
-                    $this->updateProductOptionValueAndDescription($product_id, $opt_val_id, $option_value_data,
-                        $language_id);
+                    $this->updateProductOptionValueAndDescription(
+                        $product_id, $opt_val_id, $option_value_data,
+                        $language_id
+                    );
                 }
             }
         }
@@ -1831,21 +1995,22 @@ class ModelCatalogProduct extends Model
      */
     public function getProductOptionValue($product_id, $option_value_id)
     {
-
         $product_option_value = $this->db->query(
             "SELECT *
             FROM ".$this->db->table("product_option_values")."
-            WHERE product_id = '".(int)$product_id."'
-                AND product_option_value_id = '".(int)$option_value_id."'
+            WHERE product_id = '".(int) $product_id."'
+                AND product_option_value_id = '".(int) $option_value_id."'
                 AND group_id = 0
-            ORDER BY sort_order");
+            ORDER BY sort_order"
+        );
 
         $option_value = $product_option_value->row;
-        $value_description_data = array();
+        $value_description_data = [];
         $value_description = $this->db->query(
             "SELECT *
             FROM ".$this->db->table("product_option_value_descriptions")."
-            WHERE product_option_value_id = '".(int)$option_value['product_option_value_id']."'");
+            WHERE product_option_value_id = '".(int) $option_value['product_option_value_id']."'"
+        );
 
         foreach ($value_description->rows as $description) {
             //regular option value name
@@ -1857,13 +2022,14 @@ class ModelCatalogProduct extends Model
             }
         }
 
-        $result = array(
+        $result = [
             'product_option_value_id' => $option_value['product_option_value_id'],
             'language'                => $value_description_data,
             'sku'                     => $option_value['sku'],
             'quantity'                => $option_value['quantity'],
             'subtract'                => $option_value['subtract'],
             'price'                   => $option_value['price'],
+            'cost'                   => $option_value['cost'],
             'prefix'                  => $option_value['prefix'],
             'weight'                  => $option_value['weight'],
             'weight_type'             => $option_value['weight_type'],
@@ -1871,14 +2037,14 @@ class ModelCatalogProduct extends Model
             'grouped_attribute_data'  => $option_value['grouped_attribute_data'],
             'sort_order'              => $option_value['sort_order'],
             'default'                 => $option_value['default'],
-        );
+        ];
 
         //get children (grouped options) data
         $child_option_values = unserialize($result['grouped_attribute_data']);
         if (is_array($child_option_values) && sizeof($child_option_values)) {
-            $result['children_options'] = array();
+            $result['children_options'] = [];
             foreach ($child_option_values as $child_value) {
-                $result['children_options'][$child_value['attr_id']] = (int)$child_value['attr_v_id'];
+                $result['children_options'][$child_value['attr_id']] = (int) $child_value['attr_v_id'];
             }
         }
 
@@ -1893,12 +2059,12 @@ class ModelCatalogProduct extends Model
      */
     public function getProductOptionValues($product_id, $option_id)
     {
-        $result = array();
+        $result = [];
         $product_option_value = $this->db->query(
             "SELECT product_option_value_id 
             FROM ".$this->db->table("product_option_values")."
-            WHERE product_id = '".(int)$product_id."'
-                AND product_option_id = '".(int)$option_id."'
+            WHERE product_id = '".(int) $product_id."'
+                AND product_option_id = '".(int) $option_id."'
             ORDER BY sort_order"
         );
 
@@ -1916,10 +2082,12 @@ class ModelCatalogProduct extends Model
      */
     public function getProductDiscounts($product_id)
     {
-        $query = $this->db->query("SELECT *
-                                    FROM ".$this->db->table("product_discounts")." 
-                                    WHERE product_id = '".(int)$product_id."'
-                                    ORDER BY quantity, priority, price");
+        $query = $this->db->query(
+            "SELECT *
+            FROM ".$this->db->table("product_discounts")." 
+            WHERE product_id = '".(int) $product_id."'
+            ORDER BY quantity, priority, price"
+        );
 
         return $query->rows;
     }
@@ -1931,10 +2099,12 @@ class ModelCatalogProduct extends Model
      */
     public function getProductSpecials($product_id)
     {
-        $query = $this->db->query("SELECT *
-                                    FROM ".$this->db->table("product_specials")." 
-                                    WHERE product_id = '".(int)$product_id."'
-                                    ORDER BY priority, price");
+        $query = $this->db->query(
+            "SELECT *
+            FROM ".$this->db->table("product_specials")." 
+            WHERE product_id = '".(int) $product_id."'
+            ORDER BY priority, price"
+        );
         return $query->rows;
     }
 
@@ -1945,11 +2115,13 @@ class ModelCatalogProduct extends Model
      */
     public function getProductDownloads($product_id)
     {
-        $product_download_data = array();
+        $product_download_data = [];
 
-        $query = $this->db->query("SELECT *
-                                    FROM ".$this->db->table("products_to_downloads")." 
-                                    WHERE product_id = '".(int)$product_id."'");
+        $query = $this->db->query(
+            "SELECT *
+            FROM ".$this->db->table("products_to_downloads")." 
+            WHERE product_id = '".(int) $product_id."'"
+        );
 
         foreach ($query->rows as $result) {
             $product_download_data[] = $result['download_id'];
@@ -1965,7 +2137,7 @@ class ModelCatalogProduct extends Model
      */
     public function getProductStores($product_id)
     {
-        $product_store_data = array();
+        $product_store_data = [];
         $rows = $this->getProductStoresInfo($product_id);
 
         foreach ($rows as $result) {
@@ -1979,21 +2151,27 @@ class ModelCatalogProduct extends Model
      * @param int $product_id
      *
      * @return array
+     * @throws AException
      */
     public function getProductStoresInfo($product_id)
     {
-
-        $query = $this->db->query("SELECT p2s.*,
-                                        s.name as store_name,
-                                        ss.`value` as store_url,
-                                        sss.`value` as store_ssl_url
-                                    FROM ".$this->db->table("products_to_stores")." p2s
-                                    LEFT JOIN ".$this->db->table("stores")." s ON s.store_id = p2s.store_id
-                                    LEFT JOIN ".$this->db->table("settings")." ss
-                                        ON (ss.store_id = p2s.store_id AND ss.`key`='config_url')
-                                    LEFT JOIN ".$this->db->table("settings")." sss
-                                        ON (sss.store_id = p2s.store_id AND sss.`key`='config_ssl_url')
-                                    WHERE p2s.product_id = '".(int)$product_id."'");
+        $product_id = (int)$product_id;
+        if(!$product_id){
+            return [];
+        }
+        $query = $this->db->query(
+            "SELECT p2s.*,
+                s.name as store_name,
+                ss.`value` as store_url,
+                sss.`value` as store_ssl_url
+            FROM ".$this->db->table("products_to_stores")." p2s
+            LEFT JOIN ".$this->db->table("stores")." s ON s.store_id = p2s.store_id
+            LEFT JOIN ".$this->db->table("settings")." ss
+                ON (ss.store_id = p2s.store_id AND ss.`key`='config_url')
+            LEFT JOIN ".$this->db->table("settings")." sss
+                ON (sss.store_id = p2s.store_id AND sss.`key`='config_ssl_url')
+            WHERE p2s.product_id = '".(int) $product_id."'"
+        );
 
         return $query->rows;
     }
@@ -2005,11 +2183,13 @@ class ModelCatalogProduct extends Model
      */
     public function getProductCategories($product_id)
     {
-        $product_category_data = array();
+        $product_category_data = [];
 
-        $query = $this->db->query("SELECT *
-                                    FROM ".$this->db->table("products_to_categories")." 
-                                    WHERE product_id = '".(int)$product_id."'");
+        $query = $this->db->query(
+            "SELECT *
+            FROM ".$this->db->table("products_to_categories")." 
+            WHERE product_id = '".(int) $product_id."'"
+        );
 
         foreach ($query->rows as $result) {
             $product_category_data[] = $result['category_id'];
@@ -2025,11 +2205,13 @@ class ModelCatalogProduct extends Model
      */
     public function getProductRelated($product_id)
     {
-        $product_related_data = array();
+        $product_related_data = [];
 
-        $query = $this->db->query("SELECT *
-                                    FROM ".$this->db->table("products_related")." 
-                                    WHERE product_id = '".(int)$product_id."'");
+        $query = $this->db->query(
+            "SELECT *
+            FROM ".$this->db->table("products_related")." 
+            WHERE product_id = '".(int) $product_id."'"
+        );
 
         foreach ($query->rows as $result) {
             $product_related_data[] = $result['related_id'];
@@ -2045,14 +2227,16 @@ class ModelCatalogProduct extends Model
      */
     public function getProductTags($product_id, $language_id = 0)
     {
-        $language_id = (int)$language_id;
-        $product_tag_data = array();
+        $language_id = (int) $language_id;
+        $product_tag_data = [];
 
-        $query = $this->db->query("SELECT *
-                                   FROM ".$this->db->table("product_tags")." 
-                                   WHERE product_id = '".(int)$product_id."'");
+        $query = $this->db->query(
+            "SELECT *
+            FROM ".$this->db->table("product_tags")." 
+            WHERE product_id = '".(int) $product_id."'"
+        );
 
-        $tag_data = array();
+        $tag_data = [];
 
         foreach ($query->rows as $result) {
             $tag_data[$result['language_id']][] = $result['tag'];
@@ -2077,12 +2261,14 @@ class ModelCatalogProduct extends Model
      */
     public function getProductSEOKeywords($product_id, $language_id = 0)
     {
-        $language_id = (int)$language_id;
-        $product_seo_keys = array();
+        $language_id = (int) $language_id;
+        $product_seo_keys = [];
 
-        $query = $this->db->query("SELECT *
-                                   FROM ".$this->db->table("url_aliases")."
-                                   WHERE `query` = 'product_id=".(int)$product_id."'");
+        $query = $this->db->query(
+            "SELECT *
+            FROM ".$this->db->table("url_aliases")."
+            WHERE `query` = 'product_id=".(int) $product_id."'"
+        );
 
         foreach ($query->rows as $result) {
             $product_seo_keys[$result['language_id']] = $result['keyword'];
@@ -2096,29 +2282,28 @@ class ModelCatalogProduct extends Model
     }
 
     /**
-     * @param array  $data
+     * @param array $data
      * @param string $mode
      *
      * @return array|int
      */
-    public function getProducts($data = array(), $mode = 'default')
+    public function getProducts($data = [], $mode = 'default')
     {
-
         if (!empty($data['content_language_id'])) {
-            $language_id = (int)$data['content_language_id'];
+            $language_id = (int) $data['content_language_id'];
         } else {
-            $language_id = (int)$this->config->get('storefront_language_id');
+            $language_id = (int) $this->config->get('storefront_language_id');
         }
 
         if ($data['store_id']) {
-            $store_id = (int)$data['store_id'];
+            $store_id = (int) $data['store_id'];
         } else {
-            $store_id = (int)$this->config->get('config_store_id');
+            $store_id = (int) $this->config->get('config_store_id');
         }
 
         if ($data || $mode == 'total_only') {
             $match = '';
-            $filter = (isset($data['filter']) ? $data['filter'] : array());
+            $filter = (isset($data['filter']) ? $data['filter'] : []);
 
             if ($mode == 'total_only') {
                 $sql = "SELECT COUNT(*) as total ";
@@ -2159,13 +2344,13 @@ class ModelCatalogProduct extends Model
 
             if (isset($filter['exclude']['product_id'])) {
                 $exclude = $filter['exclude']['product_id'];
-                $excludes = array();
+                $excludes = [];
                 if (is_array($exclude)) {
                     foreach ($exclude as $ex) {
-                        $excludes[] = (int)$ex;
-                    };
-                } elseif ((int)$exclude) {
-                    $excludes = array((int)$exclude);
+                        $excludes[] = (int) $ex;
+                    }
+                } elseif ((int) $exclude) {
+                    $excludes = [(int) $exclude];
                 }
 
                 if ($excludes) {
@@ -2197,24 +2382,33 @@ class ModelCatalogProduct extends Model
                         $sql .= " )";
                     } else {
                         if ($match == 'exact') {
-                            $sql .= " AND (LCASE(pd.name) LIKE '%".$this->db->escape(mb_strtolower($filter['keyword']),
-                                    true)."%'";
-                            $sql .= " OR LCASE(p.model) LIKE '%".$this->db->escape(mb_strtolower($filter['keyword']),
-                                    true)."%'";
-                            $sql .= " OR LCASE(p.sku) LIKE '%".$this->db->escape(mb_strtolower($filter['keyword']),
-                                    true)."%')";
+                            $sql .= " AND (LCASE(pd.name) LIKE '%".$this->db->escape(
+                                    mb_strtolower($filter['keyword']),
+                                    true
+                                )."%'";
+                            $sql .= " OR LCASE(p.model) LIKE '%".$this->db->escape(
+                                    mb_strtolower($filter['keyword']),
+                                    true
+                                )."%'";
+                            $sql .= " OR LCASE(p.sku) LIKE '%".$this->db->escape(
+                                    mb_strtolower($filter['keyword']),
+                                    true
+                                )."%')";
                         } else {
                             if ($match == 'begin') {
                                 $sql .= " AND (LCASE(pd.name) LIKE '"
                                     .$this->db->escape(
                                         mb_strtolower($filter['keyword'])
-                                        , true)."%'";
+                                        , true
+                                    )."%'";
                                 $sql .= " OR LCASE(p.model) LIKE '".$this->db->escape(
                                         mb_strtolower($filter['keyword']),
-                                        true)."%'";
+                                        true
+                                    )."%'";
                                 $sql .= " OR LCASE(p.sku) LIKE '".$this->db->escape(
                                         mb_strtolower($filter['keyword']),
-                                        true)."%')";
+                                        true
+                                    )."%')";
                             }
                         }
                     }
@@ -2222,16 +2416,16 @@ class ModelCatalogProduct extends Model
             }
 
             if (isset($filter['pfrom']) && !is_null($filter['pfrom'])) {
-                $sql .= " AND p.price >= '".(float)$filter['pfrom']."'";
+                $sql .= " AND p.price >= '".(float) $filter['pfrom']."'";
             }
             if (isset($filter['pto']) && !is_null($filter['pto'])) {
-                $sql .= " AND p.price <= '".(float)$filter['pto']."'";
+                $sql .= " AND p.price <= '".(float) $filter['pto']."'";
             }
             if ($filter['category']) {
-                $sql .= " AND p2c.category_id = '".(int)$filter['category']."'";
+                $sql .= " AND p2c.category_id = '".(int) $filter['category']."'";
             }
             if (isset($filter['status']) && !is_null($filter['status'])) {
-                $sql .= " AND p.status = '".(int)$filter['status']."'";
+                $sql .= " AND p.status = '".(int) $filter['status']."'";
             }
 
             //If for total, we done building the query
@@ -2240,7 +2434,7 @@ class ModelCatalogProduct extends Model
                 return $query->row['total'];
             }
 
-            $sort_data = array(
+            $sort_data = [
                 'product_id'    => 'p.product_id',
                 'name'          => 'pd.name',
                 'model'         => 'p.model',
@@ -2249,7 +2443,7 @@ class ModelCatalogProduct extends Model
                 'status'        => 'p.status',
                 'sort_order'    => 'p.sort_order',
                 'date_modified' => 'p.date_modified',
-            );
+            ];
 
             if (isset($data['sort']) && array_key_exists($data['sort'], $sort_data)) {
                 $sql .= " ORDER BY ".$sort_data[$data['sort']];
@@ -2272,7 +2466,7 @@ class ModelCatalogProduct extends Model
                 if ($data['limit'] < 1) {
                     $data['limit'] = 20;
                 }
-                $sql .= " LIMIT ".(int)$data['start'].",".(int)$data['limit'];
+                $sql .= " LIMIT ".(int) $data['start'].",".(int) $data['limit'];
             }
             $query = $this->db->query($sql);
             return $query->rows;
@@ -2280,11 +2474,13 @@ class ModelCatalogProduct extends Model
             $cache_key = 'product.lang_'.$language_id;
             $product_data = $this->cache->pull($cache_key);
             if ($product_data === false) {
-                $query = $this->db->query("SELECT *, p.product_id
-                                            FROM ".$this->db->table("products")." p
-                                            LEFT JOIN ".$this->db->table("product_descriptions")." pd
-                                                ON (p.product_id = pd.product_id AND pd.language_id = '".$language_id."')
-                                            ORDER BY pd.name ASC");
+                $query = $this->db->query(
+                    "SELECT *, p.product_id
+                    FROM ".$this->db->table("products")." p
+                    LEFT JOIN ".$this->db->table("product_descriptions")." pd
+                        ON (p.product_id = pd.product_id AND pd.language_id = '".$language_id."')
+                    ORDER BY pd.name ASC"
+                );
                 $product_data = $query->rows;
                 $this->cache->push($cache_key, $product_data);
             }
@@ -2298,7 +2494,7 @@ class ModelCatalogProduct extends Model
      *
      * @return array|int
      */
-    public function getTotalProducts($data = array())
+    public function getTotalProducts($data = [])
     {
         return $this->getProducts($data, 'total_only');
     }
@@ -2310,9 +2506,11 @@ class ModelCatalogProduct extends Model
      */
     public function getTotalProductsByStockStatusId($stock_status_id)
     {
-        $query = $this->db->query("SELECT COUNT(*) AS total
-                                    FROM ".$this->db->table("products")."
-                                    WHERE stock_status_id = '".(int)$stock_status_id."'");
+        $query = $this->db->query(
+            "SELECT COUNT(*) AS total
+            FROM ".$this->db->table("products")."
+            WHERE stock_status_id = '".(int) $stock_status_id."'"
+        );
         return $query->row['total'];
     }
 
@@ -2323,9 +2521,11 @@ class ModelCatalogProduct extends Model
      */
     public function getTotalProductsByTaxClassId($tax_class_id)
     {
-        $query = $this->db->query("SELECT COUNT(*) AS total
-                                    FROM ".$this->db->table("products")."
-                                    WHERE tax_class_id = '".(int)$tax_class_id."'");
+        $query = $this->db->query(
+            "SELECT COUNT(*) AS total
+            FROM ".$this->db->table("products")."
+            WHERE tax_class_id = '".(int) $tax_class_id."'"
+        );
         return $query->row['total'];
     }
 
@@ -2336,9 +2536,11 @@ class ModelCatalogProduct extends Model
      */
     public function getTotalProductsByWeightClassId($weight_class_id)
     {
-        $query = $this->db->query("SELECT COUNT(*) AS total
-                                    FROM ".$this->db->table("products")."
-                                    WHERE weight_class_id = '".(int)$weight_class_id."'");
+        $query = $this->db->query(
+            "SELECT COUNT(*) AS total
+            FROM ".$this->db->table("products")."
+            WHERE weight_class_id = '".(int) $weight_class_id."'"
+        );
         return $query->row['total'];
     }
 
@@ -2349,9 +2551,11 @@ class ModelCatalogProduct extends Model
      */
     public function getTotalProductsByLengthClassId($length_class_id)
     {
-        $query = $this->db->query("SELECT COUNT(*) AS total
-                                    FROM ".$this->db->table("products")."
-                                    WHERE length_class_id = '".(int)$length_class_id."'");
+        $query = $this->db->query(
+            "SELECT COUNT(*) AS total
+            FROM ".$this->db->table("products")."
+            WHERE length_class_id = '".(int) $length_class_id."'"
+        );
         return $query->row['total'];
     }
 
@@ -2362,9 +2566,11 @@ class ModelCatalogProduct extends Model
      */
     public function getTotalProductsByOptionId($option_id)
     {
-        $query = $this->db->query("SELECT COUNT(*) AS total
-                                    FROM ".$this->db->table("product_to_option")."
-                                    WHERE option_id = '".(int)$option_id."'");
+        $query = $this->db->query(
+            "SELECT COUNT(*) AS total
+            FROM ".$this->db->table("product_to_option")."
+            WHERE option_id = '".(int) $option_id."'"
+        );
         return $query->row['total'];
     }
 
@@ -2375,9 +2581,11 @@ class ModelCatalogProduct extends Model
      */
     public function getTotalProductsByDownloadId($download_id)
     {
-        $query = $this->db->query("SELECT COUNT(*) AS total
-                                    FROM ".$this->db->table("products_to_downloads")."
-                                    WHERE download_id = '".(int)$download_id."'");
+        $query = $this->db->query(
+            "SELECT COUNT(*) AS total
+            FROM ".$this->db->table("products_to_downloads")."
+            WHERE download_id = '".(int) $download_id."'"
+        );
         return $query->row['total'];
     }
 
@@ -2388,9 +2596,11 @@ class ModelCatalogProduct extends Model
      */
     public function getTotalProductsByManufacturerId($manufacturer_id)
     {
-        $query = $this->db->query("SELECT COUNT(*) AS total
-                                    FROM ".$this->db->table("products")."
-                                    WHERE manufacturer_id = '".(int)$manufacturer_id."'");
+        $query = $this->db->query(
+            "SELECT COUNT(*) AS total
+            FROM ".$this->db->table("products")."
+            WHERE manufacturer_id = '".(int) $manufacturer_id."'"
+        );
         return $query->row['total'];
     }
 
@@ -2403,12 +2613,12 @@ class ModelCatalogProduct extends Model
      */
     public function getProductCondition($product_id)
     {
-        $product_id = (int)$product_id;
+        $product_id = (int) $product_id;
         if (!$product_id) {
-            return array();
+            return [];
         }
 
-        $language_id = (int)$this->language->getContentLanguageID();
+        $language_id = (int) $this->language->getContentLanguageID();
 
         $sql = "SELECT p.*,
                        p.quantity as base_quantity,
@@ -2420,7 +2630,8 @@ class ModelCatalogProduct extends Model
                 LEFT JOIN ".$this->db->table('product_option_values')." pov
                     ON pov.product_id = p.product_id
                 LEFT JOIN ".$this->db->table('product_option_value_descriptions')." povd
-                    ON (povd.product_option_value_id = pov.product_option_value_id AND povd.language_id = ".$language_id.")
+                    ON (povd.product_option_value_id = pov.product_option_value_id AND povd.language_id = ".$language_id
+            .")
                 LEFT JOIN ".$this->db->table('product_option_descriptions')." pod
                     ON (pod.product_option_id = pov.product_option_id AND pod.language_id = ".$language_id.")
                 WHERE p.product_id = ".$product_id;
@@ -2429,10 +2640,10 @@ class ModelCatalogProduct extends Model
 
         // id product disabled do not run other checks
         if (!$result->row['status']) {
-            return array($this->language->get('text_product_disabled'));
+            return [$this->language->get('text_product_disabled')];
         }
 
-        $output = array();
+        $output = [];
         // check is product available
         if (dateISO2Int($result->row['date_available']) > time()) {
             $output[] = $this->language->get('text_product_unavailable');
@@ -2448,7 +2659,7 @@ class ModelCatalogProduct extends Model
             $out_of_stock = true;
         }
 
-        $error_txt = array();
+        $error_txt = [];
         if ($hasTrackOptions) {
             foreach ($result->rows as $k => $row) {
                 if ($row['subtract'] && $row['quantity'] <= 0) {
@@ -2468,31 +2679,31 @@ class ModelCatalogProduct extends Model
 
     public function getOrderProductOptions($product_id)
     {
-        if (!(int)$product_id) {
-            return array();
+        if (!(int) $product_id) {
+            return [];
         }
         $language_id = $this->language->getContentLanguageID();
         $elements = HtmlElementFactory::getAvailableElements();
 
-        $product_option_data = array();
+        $product_option_data = [];
         $product_option_query = $this->db->query(
             "SELECT po.*, pod.option_placeholder, pod.error_text
             FROM ".$this->db->table("product_options")." po
             LEFT JOIN ".$this->db->table("product_option_descriptions")." pod
                 ON pod.product_option_id = po.product_option_id AND pod.language_id =  '".$language_id."'
-            WHERE po.product_id = '".(int)$product_id."'
+            WHERE po.product_id = '".(int) $product_id."'
                 AND po.group_id = 0
                 AND po.status = 1
             ORDER BY po.sort_order"
         );
         if ($product_option_query) {
             foreach ($product_option_query->rows as $product_option) {
-                $attribute_values = array();
-                $product_option_value_data = array();
+                $attribute_values = [];
+                $product_option_value_data = [];
                 $product_option_value_query = $this->db->query(
                     "SELECT *
                         FROM ".$this->db->table("product_option_values")."
-                        WHERE product_option_id = '".(int)$product_option['product_option_id']."'
+                        WHERE product_option_id = '".(int) $product_option['product_option_id']."'
                         ORDER BY sort_order"
                 );
                 if ($product_option_value_query) {
@@ -2507,11 +2718,12 @@ class ModelCatalogProduct extends Model
                         $pd_opt_val_description_qr = $this->db->query(
                             "SELECT *
                                 FROM ".$this->db->table("product_option_value_descriptions")."
-                                WHERE product_option_value_id = '".(int)$product_option_value['product_option_value_id']."'
-                                AND language_id = '".(int)$language_id."'"
+                                WHERE product_option_value_id = '"
+                            .(int) $product_option_value['product_option_value_id']."'
+                                AND language_id = '".(int) $language_id."'"
                         );
 
-                        $product_option_value_data[$product_option_value['product_option_value_id']] = array(
+                        $product_option_value_data[$product_option_value['product_option_value_id']] = [
                             'product_option_value_id' => $product_option_value['product_option_value_id'],
                             'attribute_value_id'      => $product_option_value['attribute_value_id'],
                             'grouped_attribute_data'  => $product_option_value['grouped_attribute_data'],
@@ -2530,18 +2742,17 @@ class ModelCatalogProduct extends Model
                             'quantity'                => $product_option_value['quantity'],
                             'subtract'                => $product_option_value['subtract'],
                             'default'                 => $product_option_value['default'],
-                        );
-
+                        ];
                     }
                 }
                 $prd_opt_description_qr = $this->db->query(
                     "SELECT *
                     FROM ".$this->db->table("product_option_descriptions")."
-                    WHERE product_option_id = '".(int)$product_option['product_option_id']."'
-                        AND language_id = '".(int)$language_id."'"
+                    WHERE product_option_id = '".(int) $product_option['product_option_id']."'
+                        AND language_id = '".(int) $language_id."'"
                 );
 
-                $product_option_data[$product_option['product_option_id']] = array(
+                $product_option_data[$product_option['product_option_id']] = [
                     'product_option_id'  => $product_option['product_option_id'],
                     'attribute_id'       => $product_option['attribute_id'],
                     'group_id'           => $product_option['group_id'],
@@ -2555,7 +2766,7 @@ class ModelCatalogProduct extends Model
                     'regexp_pattern'     => $product_option['regexp_pattern'],
                     'error_text'         => $product_option['error_text'],
                     'settings'           => $product_option['settings'],
-                );
+                ];
             }
         }
 
@@ -2564,14 +2775,14 @@ class ModelCatalogProduct extends Model
 
     protected function _touch_product($product_id)
     {
-        $product_id = (int)$product_id;
+        $product_id = (int) $product_id;
         if (!$product_id) {
             return false;
         }
         $this->db->query(
             "UPDATE ".$this->db->table('products')." 
-                SET date_modified = NOW() 
-                WHERE product_id ='".$product_id."'"
+            SET date_modified = NOW() 
+            WHERE product_id ='".$product_id."'"
         );
         $this->cache->remove('product');
         $this->cache->remove('collection');
@@ -2589,7 +2800,7 @@ class ModelCatalogProduct extends Model
                 FROM ".$this->db->table('product_option_values')." pov
                 INNER JOIN ".$this->db->table('product_options')." po
                     ON (pov.product_option_id = po.product_option_id AND po.status = 1) 
-                WHERE pov.product_id=".(int)$product_id." AND pov.subtract = 1";
+                WHERE pov.product_id=".(int) $product_id." AND pov.subtract = 1";
         $result = $this->db->query($sql);
         return ($result->num_rows ? true : false);
     }
@@ -2604,16 +2815,18 @@ class ModelCatalogProduct extends Model
      */
     public function hasAnyStock($product_id)
     {
-        if (!(int)$product_id) {
+        if (!(int) $product_id) {
             return 0;
         }
         $total_quantity = 0;
         //check product option values
-        $query = $this->db->query("SELECT pov.quantity AS quantity, pov.subtract
-                                    FROM ".$this->db->table("product_options")." po
-                                    LEFT JOIN ".$this->db->table("product_option_values")." pov
-                                        ON (po.product_option_id = pov.product_option_id)
-                                    WHERE po.product_id = '".(int)$product_id."' AND po.status = 1");
+        $query = $this->db->query(
+            "SELECT pov.quantity AS quantity, pov.subtract
+            FROM ".$this->db->table("product_options")." po
+            LEFT JOIN ".$this->db->table("product_option_values")." pov
+                ON (po.product_option_id = pov.product_option_id)
+            WHERE po.product_id = '".(int) $product_id."' AND po.status = 1"
+        );
         if ($query->num_rows) {
             $notrack_qnt = 0;
             foreach ($query->rows as $row) {
@@ -2630,10 +2843,12 @@ class ModelCatalogProduct extends Model
             }
         } else {
             //get product quantity without options
-            $query = $this->db->query("SELECT quantity
-                                        FROM ".$this->db->table("products")." p
-                                        WHERE p.product_id = '".(int)$product_id."'");
-            $total_quantity = (int)$query->row['quantity'];
+            $query = $this->db->query(
+                "SELECT quantity
+                FROM ".$this->db->table("products")." p
+                WHERE p.product_id = '".(int) $product_id."'"
+            );
+            $total_quantity = (int) $query->row['quantity'];
         }
         return $total_quantity;
     }
@@ -2651,9 +2866,9 @@ class ModelCatalogProduct extends Model
                 FROM ".$this->db->table('product_stock_locations')." psl
                 LEFT JOIN ".$this->db->table('locations')." l
                     ON l.location_id = psl.location_id
-                WHERE psl.product_id=".(int)$product_id;
+                WHERE psl.product_id=".(int) $product_id;
         if ($product_option_value_id) {
-            $sql .= " AND psl.product_option_value_id = ".(int)$product_option_value_id;
+            $sql .= " AND psl.product_option_value_id = ".(int) $product_option_value_id;
         } else {
             $sql .= " AND psl.product_option_value_id IS NULL";
         }
@@ -2670,8 +2885,11 @@ class ModelCatalogProduct extends Model
         $this->db->query(
             "DELETE
             FROM ".$this->db->table("product_stock_locations")." 
-            WHERE product_id = ".(int)$product_id."
-                    AND product_option_value_id ".( (int)$product_option_value_id ?  " = ".(int)$product_option_value_id : "IS NULL" )
+            WHERE product_id = ".(int) $product_id."
+                    AND product_option_value_id "
+                        .((int) $product_option_value_id
+                        ? " = ".(int) $product_option_value_id
+                        : "IS NULL")
         );
 
         //if no locations set - stop
@@ -2679,10 +2897,10 @@ class ModelCatalogProduct extends Model
             return false;
         }
 
-        $totals = array();
+        $totals = [];
         $locations_exists = false;
         foreach ($locations as $location_id => $location_details) {
-            if (!(int)$location_id) {
+            if (!(int) $location_id) {
                 continue;
             }
 
@@ -2690,30 +2908,31 @@ class ModelCatalogProduct extends Model
                 "INSERT INTO ".$this->db->table("product_stock_locations")."
                     (product_id, product_option_value_id, location_id, quantity, sort_order)
                 VALUES( 
-                    ".(int)$product_id.", 
-                    ".((int)$product_option_value_id ? (int)$product_option_value_id : 'NULL').", 
-                    ".(int)$location_id.", 
-                    ".(int)$location_details['quantity'].", 
-                    ".(int)$location_details['sort_order']."
+                    ".(int) $product_id.", 
+                    ".((int) $product_option_value_id ? (int) $product_option_value_id : 'NULL').", 
+                    ".(int) $location_id.", 
+                    ".(int) $location_details['quantity'].", 
+                    ".(int) $location_details['sort_order']."
                 );"
             );
 
             $locations_exists = true;
-            $totals[] = (int)$location_details['quantity'];
+            $totals[] = (int) $location_details['quantity'];
         }
 
         //update_total_quantity
-        if($locations_exists) {
+        if ($locations_exists) {
             if (!$product_option_value_id) {
                 $this->db->query(
                     "UPDATE `".$this->db->table("products`")." 
-                    SET quantity= '".(int)array_sum($totals)."'
-                    WHERE product_id = ".(int)$product_id);
+                    SET quantity= '".(int) array_sum($totals)."'
+                    WHERE product_id = ".(int) $product_id
+                );
             } elseif (array_sum($totals)) {
                 $this->db->query(
                     "UPDATE `".$this->db->table("product_option_values`")." 
-                    SET quantity= '".(int)array_sum($totals)."'
-                    WHERE product_option_value_id=".(int)$product_option_value_id
+                    SET quantity= '".(int) array_sum($totals)."'
+                    WHERE product_option_value_id=".(int) $product_option_value_id
                 );
             }
         }
@@ -2733,28 +2952,30 @@ class ModelCatalogProduct extends Model
                     ON (ps.product_id = ops.product_id 
                         AND COALESCE(ps.product_option_value_id,0) = COALESCE(ops.product_option_value_id,0)
                         AND ps.location_id = ops.location_id ) 
-                WHERE ops.order_product_id=".(int)$order_product_id ."
+                WHERE ops.order_product_id=".(int) $order_product_id."
                 ORDER BY ops.sort_order ASC, ps.sort_order ASC";
         $result = $this->db->query($sql);
 
         $product_id = 0;
         $product_option_value_id = 0;
-        $order_stocks = $sort_order = array();
-        foreach($result->rows as $row){
+        $order_stocks = $sort_order = [];
+        foreach ($result->rows as $row) {
             $locId = $row['location_id'];
             $order_stocks[$locId] = $row;
             $product_id = $row['product_id'];
-            $product_option_value_id = (int)$row['product_option_value_id'];
+            $product_option_value_id = (int) $row['product_option_value_id'];
             $sort_order[$locId] = $row['sort_order'];
         }
-        if($order_stocks) {
+        if ($order_stocks) {
             $sql = "SELECT psl.*, CONCAT(l.name, ' ', l.description) as location_name
                     FROM ".$this->db->table('product_stock_locations')." psl
                     LEFT JOIN ".$this->db->table('locations')." l
                         ON l.location_id = psl.location_id
                     WHERE psl.product_id = ".$product_id." 
-                            AND psl.product_option_value_id ".(!$product_option_value_id ? ' IS NULL '
-                        : ' = '.(int)$product_option_value_id)."
+                            AND psl.product_option_value_id "
+                                .(!$product_option_value_id
+                                    ? ' IS NULL '
+                                    : ' = '.(int) $product_option_value_id)."
                             AND psl.location_id NOT IN (".implode(',', array_keys($order_stocks)).")
                     ORDER BY psl.sort_order ASC";
             $result = $this->db->query($sql);
@@ -2774,9 +2995,9 @@ class ModelCatalogProduct extends Model
      *
      * @return array
      */
-    public function getUniqueTags($string) {
+    public function getUniqueTags($string)
+    {
         $tags = array_map('trim', explode(',', $string));
         return array_intersect_key($tags, array_unique(array_map('strtolower', $tags)));
     }
-
 }

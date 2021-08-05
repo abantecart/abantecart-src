@@ -25,7 +25,6 @@ class AControllerAPI extends AController
 {
     protected $rest;
     protected $error = [];
-    public $data = [];
 
     public function __construct($registry, $instance_id, $controller, $parent_controller = '')
     {

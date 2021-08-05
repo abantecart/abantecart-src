@@ -6,7 +6,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -29,13 +29,11 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
  */
 class ControllerPagesExtensionExtensionSummary extends AController
 {
-    public $data = [];
-
-    public function main()
+    public function main($data = [])
     {
         $this->loadModel('tool/mp_api');
         //Load input arguments for gid settings
-        $this->data = func_get_arg(0);
+        $this->data = $data;
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -76,7 +74,8 @@ class ControllerPagesExtensionExtensionSummary extends AController
             if (version_compare($updates[$extension]['version'], $this->data['extension_info']['version'], '>')) {
                 if ($updates[$extension]['installation_key']) {
                     $update_now_url = $this->html->getSecureURL(
-                        'tool/package_installer', '&extension_key='.$updates[$extension]['installation_key']
+                        'tool/package_installer',
+                        '&extension_key='.$updates[$extension]['installation_key']
                     );
                 } else {
                     $update_now_url = $updates[$extension]['url'];
@@ -94,36 +93,37 @@ class ControllerPagesExtensionExtensionSummary extends AController
         }
 
         $mpProductUrl = $expires = '';
-        if( isset($updates[$extension]['support_expiration'])
-            && $updates[$extension]['support_expiration'] === '0000-00-00 00:00:00')
-        {
+        if (isset($updates[$extension]['support_expiration'])
+            && $updates[$extension]['support_expiration'] === '0000-00-00 00:00:00') {
             $updates[$extension]['support_expiration'] = null;
         }
 
-        if($this->data['extension_info']['support_expiration'] === '0000-00-00 00:00:00'){
+        if ($this->data['extension_info']['support_expiration'] === '0000-00-00 00:00:00') {
             $this->data['extension_info']['support_expiration'] = null;
         }
 
-        if($updates && $updates[$extension]['support_expiration']){
+        if ($updates && $updates[$extension]['support_expiration']) {
             $expires = $updates[$extension]['support_expiration'];
         }
-        if(!$expires && $this->data['extension_info']['support_expiration']){
+        if (!$expires && $this->data['extension_info']['support_expiration']) {
             $expires = $this->data['extension_info']['support_expiration'];
         }
 
         if ($expires) {
-            $expiresInt = dateISO2Int($expires);
+            //do not allow expire date as Integer be a zero
+            $expiresInt = $expires == '1970-01-01 00:00:00' ? 1 : dateISO2Int($expires);
             $this->data['extension_info']['support_expiration_int'] = $expiresInt;
-            if($expiresInt < time()){
+            if ($expiresInt < time()) {
                 $mpProductUrl = $this->data['extension_info']['mp_product_url'];
             }
-            $this->data['extension_info']['support_expiration']  =
-                $expires != '1970-01-01 00:00:00'
-                ? dateISO2Display( $expires,$this->language->get('date_format_short'))
-                : $expires;
+
+            $this->data['extension_info']['support_expiration'] =
+                $expires == '1970-01-01 00:00:00'
+                    ? $expires
+                    : dateISO2Display($expires, $this->language->get('date_format_short'));
             $this->data['text_support_expiration'] = $this->language->get('text_support_expiration');
         }
-        if(!$mpProductUrl){
+        if (!$mpProductUrl) {
             $mpProductUrl = $this->model_tool_mp_api->getMPURL().$extension.'/support';
         }
 
@@ -141,7 +141,6 @@ class ControllerPagesExtensionExtensionSummary extends AController
                 ]
             );
         }
-
 
         $this->data['extension_info']['license'] = $this->data['extension_info']['license_key'];
         $this->view->batchAssign($this->data);

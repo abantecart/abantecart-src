@@ -1,4 +1,5 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -37,11 +38,9 @@ class AImage
     /**
      * @var array
      */
-    protected $info = array();
+    protected $info = [];
 
-    /**
-     * @var
-     */
+    /** @var Registry */
     protected $registry;
 
     /**
@@ -60,13 +59,13 @@ class AImage
         try {
             $info = getimagesize($filename);
             $this->file = $filename;
-            $this->info = array(
+            $this->info = [
                 'width'    => $info[0],
                 'height'   => $info[1],
                 'bits'     => $info['bits'],
                 'mime'     => $info['mime'],
                 'channels' => $info['channels'],
-            );
+            ];
             $this->registry = Registry::getInstance();
             $this->image = $this->get_gd_resource($filename);
         } catch (AException $e) {
@@ -75,6 +74,10 @@ class AImage
             return false;
         }
         return true;
+    }
+
+    private function isGDResource($obj){
+        return (is_resource($obj) || $obj instanceof GdImage);
     }
 
     /**
@@ -106,11 +109,15 @@ class AImage
             ) * 1.7
         );
         if (function_exists('memory_get_usage')) {
-            if (memory_get_usage() + $mem_estimate > (integer)ini_get('memory_limit') * pow(1024, 2)) {
-                $new_mem = (integer)ini_get('memory_limit')
-                    + ceil(((memory_get_usage()
-                                + $mem_estimate) - (integer)ini_get('memory_limit') * pow(1024,
-                                2)) / pow(1024, 2)).'M';
+            if (memory_get_usage() + $mem_estimate > (integer) ini_get('memory_limit') * pow(1024, 2)) {
+                $new_mem = (integer) ini_get('memory_limit')
+                    + ceil(
+                        ((memory_get_usage()
+                                + $mem_estimate) - (integer) ini_get('memory_limit') * pow(
+                                1024,
+                                2
+                            )) / pow(1024, 2)
+                    ).'M';
                 //TODO. Validate if memory change was in fact changed or report an error
                 ini_set('memory_limit', $new_mem);
             }
@@ -129,12 +136,13 @@ class AImage
             }
             return $res_img;
         } else {
-            throw new AException(AC_ERR_LOAD,
+            throw new AException(
+                AC_ERR_LOAD,
                 'Unable to create internal image from file '.$filename.'. Try to decrease original image size '
                 .$this->info['width'].'x'.$this->info['height']
-                .'px or reduce file size or increase memory limit for PHP.');
+                .'px or reduce file size or increase memory limit for PHP.'
+            );
         }
-
     }
 
     /**
@@ -144,17 +152,18 @@ class AImage
      * @param array $options
      *
      * @return bool
+     * @throws AException
      */
-    public function resizeAndSave($filename, $width, $height, $options = array())
+    public function resizeAndSave($filename, $width, $height, $options = [])
     {
         if (!$filename) {
             return false;
         }
-        $width = (int)$width;
-        $height = (int)$height;
-        $options = (array)$options;
+        $width = (int) $width;
+        $height = (int) $height;
+        $options = (array) $options;
 
-        $quality = !isset($options['quality']) ? 90 : (int)$options['quality'];
+        $quality = !isset($options['quality']) ? 90 : (int) $options['quality'];
         $nofill = !isset($options['nofill']) ? false : $options['nofill'];
 
         //if size will change - resize it and save with GD2, otherwise - just copy file
@@ -200,7 +209,7 @@ class AImage
             return false;
         }
 
-        $quality = (int)$quality;
+        $quality = (int) $quality;
         $quality = $quality > 100 ? 100 : $quality;
         $quality = $quality < 1 ? 1 : $quality;
 
@@ -240,6 +249,7 @@ class AImage
      * @param bool|false $nofill - sign for background fill
      *
      * @return bool|null
+     * @throws AException
      */
     public function resize($width = 0, $height = 0, $nofill = false)
     {
@@ -256,18 +266,19 @@ class AImage
             return true;
         }
 
-        $new_width = (int)round($this->info['width'] * $scale, 0);
-        $new_height = (int)round($this->info['height'] * $scale, 0);
-        $xpos = (int)(($width - $new_width) / 2);
-        $ypos = (int)(($height - $new_height) / 2);
+        $new_width = (int) round($this->info['width'] * $scale, 0);
+        $new_height = (int) round($this->info['height'] * $scale, 0);
+        $xpos = (int) (($width - $new_width) / 2);
+        $ypos = (int) (($height - $new_height) / 2);
 
         $image_old = $this->image;
         if ($this->_is_memory_enough($this->info['width'], $this->info['height'])) {
             $this->image = imagecreatetruecolor($width, $height);
+
             $fillColor = $this->registry->get('config')->get('config_image_resize_fill_color');
             $fillColor = !$fillColor ? '#ffffff' : $fillColor;
             list($r, $g, $b) = sscanf($fillColor, "#%02x%02x%02x");
-            if (isset($this->info['mime']) && in_array($this->info['mime'], array('image/png','image/webp',) ) )  {
+            if (isset($this->info['mime']) && in_array($this->info['mime'], ['image/png', 'image/webp',])) {
                 imagealphablending($this->image, false);
                 imagesavealpha($this->image, true);
                 $background = imagecolorallocatealpha($this->image, $r, $g, $b, 127);
@@ -279,7 +290,8 @@ class AImage
                 }
             }
 
-            if (is_resource($this->image)) {
+            if ($this->isGDResource($this->image)) {
+
                 imagecopyresampled(
                     $this->image,
                     $image_old,
@@ -290,9 +302,10 @@ class AImage
                     $new_width,
                     $new_height,
                     $this->info['width'],
-                    $this->info['height']);
+                    $this->info['height']
+                );
             }
-            if (is_resource($image_old)) {
+            if ($this->isGDResource($image_old)) {
                 imagedestroy($image_old);
             }
         } else {
@@ -329,7 +342,7 @@ class AImage
      */
     public function watermark($filename, $position = 'bottomright')
     {
-        if (!is_resource($this->image)) {
+        if (!$this->isGDResource($this->image)) {
             return false;
         }
         $watermark = $this->get_gd_resource($filename);
@@ -376,7 +389,7 @@ class AImage
      */
     public function crop($top_x, $top_y, $bottom_x, $bottom_y)
     {
-        if (!is_resource($this->image)) {
+        if (!$this->isGDResource($this->image)) {
             return false;
         }
         if ($this->_is_memory_enough($bottom_x - $top_x, $bottom_y - $top_y)) {
@@ -404,14 +417,16 @@ class AImage
      */
     public function rotate($degree, $color = 'FFFFFF')
     {
-        if (!is_resource($this->image)) {
+        if (!$this->isGDResource($this->image)) {
             return false;
         }
         try {
             $rgb = $this->html2rgb($color);
-            $this->image = imagerotate($this->image,
+            $this->image = imagerotate(
+                $this->image,
                 $degree,
-                imagecolorallocate($this->image, $rgb[0], $rgb[1], $rgb[2]));
+                imagecolorallocate($this->image, $rgb[0], $rgb[1], $rgb[2])
+            );
             $this->info['width'] = imagesx($this->image);
             $this->info['height'] = imagesy($this->image);
         } catch (Exception $e) {
@@ -429,7 +444,7 @@ class AImage
      */
     public function filter($filter)
     {
-        if (!is_resource($this->image)) {
+        if (!$this->isGDResource($this->image)) {
             return false;
         }
         try {
@@ -453,13 +468,15 @@ class AImage
      */
     public function text($text, $x = 0, $y = 0, $size = 5, $color = '000000')
     {
-        if (!is_resource($this->image)) {
+        if (!$this->isGDResource($this->image)) {
             return false;
         }
         $rgb = $this->html2rgb($color);
         try {
-            imagestring($this->image, $size, $x, $y, $text,
-                imagecolorallocate($this->image, $rgb[0], $rgb[1], $rgb[2]));
+            imagestring(
+                $this->image, $size, $x, $y, $text,
+                imagecolorallocate($this->image, $rgb[0], $rgb[1], $rgb[2])
+            );
         } catch (Exception $e) {
             $warning = new AWarning('Cannot to add text into image file '.$this->file.'. '.$e->getMessage());
             $warning->toLog()->toDebug();
@@ -479,10 +496,8 @@ class AImage
      */
     public function merge($filename, $x = 0, $y = 0, $opacity = 100)
     {
-
         $merge = $this->get_gd_resource($filename);
-
-        if (!is_resource($this->image) || $merge) {
+        if (!$this->isGDResource($this->image) || $merge) {
             return false;
         }
 
@@ -510,9 +525,9 @@ class AImage
         }
 
         if (strlen($color) == 6) {
-            list($r, $g, $b) = array($color[0].$color[1], $color[2].$color[3], $color[4].$color[5]);
+            list($r, $g, $b) = [$color[0].$color[1], $color[2].$color[3], $color[4].$color[5]];
         } elseif (strlen($color) == 3) {
-            list($r, $g, $b) = array($color[0].$color[0], $color[1].$color[1], $color[2].$color[2]);
+            list($r, $g, $b) = [$color[0].$color[0], $color[1].$color[1], $color[2].$color[2]];
         } else {
             return false;
         }
@@ -521,7 +536,7 @@ class AImage
         $g = hexdec($g);
         $b = hexdec($b);
 
-        return array($r, $g, $b);
+        return [$r, $g, $b];
     }
 
     protected function _is_memory_enough($x, $y, $rgb = 4)
@@ -530,13 +545,13 @@ class AImage
         $last = strtolower($memory_limit[strlen($memory_limit) - 1]);
         switch ($last) {
             case 'g':
-                $memory_limit *= (1024 * 1024 * 1024);
+                $memory_limit = (int) $memory_limit * (1024 * 1024 * 1024);
                 break;
             case 'm':
-                $memory_limit *= (1024 * 1024);
+                $memory_limit = (int) $memory_limit * (1024 * 1024);
                 break;
             case 'k':
-                $memory_limit *= 1024;
+                $memory_limit = (int) $memory_limit * 1024;
                 break;
         }
         return ($x * $y * $rgb * 1.7 < $memory_limit - memory_get_usage());
@@ -544,7 +559,7 @@ class AImage
 
     public function __destruct()
     {
-        if (is_resource($this->image)) {
+        if ($this->isGDResource($this->image)) {
             imagedestroy($this->image);
         } else {
             $this->image = null;

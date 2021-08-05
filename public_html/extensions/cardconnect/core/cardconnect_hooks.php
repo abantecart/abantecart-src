@@ -35,7 +35,10 @@ class ExtensionCardconnect extends Extension
                 return;
             }
             $that->data['groups'][] = 'payment_details';
-            $that->data['link_payment_details'] = $that->html->getSecureURL('sale/order/payment_details', '&order_id='.$order_id.'&extension=cardconnect');
+            $that->data['link_payment_details'] = $that->html->getSecureURL(
+                'sale/order/payment_details',
+                '&order_id='.$order_id.'&extension=cardconnect'
+            );
             //reload main view data with updated tab
             $that->view->batchAssign($that->data);
         }
@@ -60,7 +63,8 @@ class ExtensionCardconnect extends Extension
         //build HTML to show
 
         $that->loadLanguage('cardconnect/cardconnect');
-        $that->loadModel('extension/cardconnect');
+        /** @var ModelExtensionCardConnect $mdl */
+        $mdl = $that->loadModel('extension/cardconnect');
         if (!$this->r_data) {
             //no local cardconnect order data yet. load it.
             $this->_load_cardconnect_order_data($order_id, $that);
@@ -72,18 +76,18 @@ class ExtensionCardconnect extends Extension
         $registry = Registry::getInstance();
         $view = new AView($registry, 0);
         //get remote charge data
-        $ch_data = $that->model_extension_cardconnect->getCardconnectCharge($this->r_data['retref']);
+        $ch_data = $mdl->getCardconnectCharge($this->r_data['retref']);
         if (!$ch_data) {
             $view->assign('error_warning', "Some error happened!. Check the error log for more details.");
         } else {
             $ch_data['settlement_status'] = $ch_data['setlstat'];
-            $ch_data['refunded_formatted'] = $that->currency->format($ch_data['refunded'], strtoupper($ch_data['currency_code']), 1);
+            $ch_data['refunded_formatted'] = $that->currency->format($ch_data['refunded'], strtoupper($ch_data['currency']), 1);
             if ($ch_data['authorized'] > 0) {
-                $ch_data['authorized_formatted'] = $that->currency->format($ch_data['authorized'], strtoupper($ch_data['currency_code']), 1);
+                $ch_data['authorized_formatted'] = $that->currency->format($ch_data['authorized'], strtoupper($ch_data['currency']), 1);
             } else {
-                $ch_data['authorized_formatted'] = $that->currency->format($ch_data['amount'], strtoupper($ch_data['currency_code']), 1);
+                $ch_data['authorized_formatted'] = $that->currency->format($ch_data['amount'], strtoupper($ch_data['currency']), 1);
             }
-            $ch_data['captured_formatted'] = $that->currency->format($ch_data['captured'], strtoupper($ch_data['currency_code']), 1);
+            $ch_data['captured_formatted'] = $that->currency->format($ch_data['captured'], strtoupper($ch_data['currency']), 1);
 
             //check a void status.
             //Not captured and refunded
@@ -94,7 +98,7 @@ class ExtensionCardconnect extends Extension
                 //get all refund transactions
                 foreach ($ch_data['refunds']->data as $refund) {
                     $amount = number_format($refund['amount'], 2);
-                    $refunds[] = array(
+                    $refunds[] = [
                         'id'               => $refund['id'],
                         'amount'           => $amount,
                         'amount_formatted' => $that->currency->format($amount, strtoupper($refund['currency']), 1),
@@ -102,7 +106,7 @@ class ExtensionCardconnect extends Extension
                         'reason'           => $refund['reason'],
                         'date_added'       => (string)date('m/d/Y H:i:s', $refund['created']),
                         'receipt_number'   => $refund['receipt_number'],
-                    );
+                    ];
                 }
             }
             $ch_data['balance'] = $ch_data['amount'] + $ch_data['refunded'];
@@ -122,11 +126,11 @@ class ExtensionCardconnect extends Extension
         $view->assign('refund', $refunds);
         $view->batchAssign($that->language->getASet('cardconnect/cardconnect'));
         $that->document->addStyle(
-            array(
+            [
                 'href'  => $that->view->templateResource('/stylesheet/cardconnect.css'),
                 'rel'   => 'stylesheet',
                 'media' => 'screen',
-            )
+            ]
         );
         $that->view->addHookVar('extension_payment_details', $view->fetch('pages/sale/cardconnect_payment_details.tpl'));
     }
@@ -154,7 +158,7 @@ class ExtensionCardconnect extends Extension
             return null;
         }
         $that = $this->baseObject;
-        if (!$this->_is_enabled($that)) {
+        if (!$this->_is_enabled()) {
             return null;
         }
         if (IS_ADMIN !== true) {
@@ -164,22 +168,23 @@ class ExtensionCardconnect extends Extension
         $product_id = (int)$that->request->get['product_id'];
         $cardconnect_plan = $that->request->get['cardconnect_plan'];
         $that->load->language('cardconnect/cardconnect');
-        $that->load->model('extension/cardconnect');
+        /** @var ModelExtensionCardConnect $mdl */
+        $mdl = $that->load->model('extension/cardconnect');
         if ($product_id && has_value($cardconnect_plan)) {
             if ($cardconnect_plan) {
                 //Set up product for subscription
                 //update product price with plan price
                 //update cardconnect metadata for description
-                $ret = $that->model_extension_cardconnect->setProductAsSubscription($product_id, $cardconnect_plan);
-                if (array($ret) && $ret['error']) {
+                $ret = $mdl->setProductAsSubscription($product_id, $cardconnect_plan);
+                if ([$ret] && $ret['error']) {
                     $that->session->data['warning'] = implode("\n", $ret['error']);
                     header('Location: '.$that->html->getSecureURL('catalog/product/update', '&product_id='.$product_id));
                     exit;
                 }
             } else {
                 //reset to no plan
-                $ret = $that->model_extension_cardconnect->removeProductAsSubscription($product_id);
-                if (array($ret) && $ret['error']) {
+                $ret = $mdl->removeProductAsSubscription($product_id);
+                if ([$ret] && $ret['error']) {
                     $that->session->data['warning'] = implode("\n", $ret['error']);
                     header('Location: '.$that->html->getSecureURL('catalog/product/update', '&product_id='.$product_id));
                     exit;
@@ -196,11 +201,11 @@ class ExtensionCardconnect extends Extension
         $that = $this->baseObject;
         if ($that->session->data['payment_method']['id'] == 'cardconnect') {
             $that->document->addStyle(
-                array(
+                [
                     'href'  => $that->view->templateResource('/stylesheet/cardconnect.css'),
                     'rel'   => 'stylesheet',
                     'media' => 'screen',
-                )
+                ]
             );
         }
     }

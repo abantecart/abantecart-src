@@ -35,6 +35,7 @@ $controllers = [
         'responses/checkout/fast_checkout',
         'responses/checkout/fast_checkout_success',
         'responses/checkout/fast_checkout_summary',
+
         'pages/account/order_details',
         'pages/checkout/fast_checkout',
         'pages/checkout/fast_checkout_success',
@@ -52,7 +53,7 @@ $templates = [
         'embed/footer.post.tpl',
         'common/footer.post.tpl',
         'pages/account/order_details.tpl',
-        'blocks/product_list.tpl',
+        'pages/product/add_to_cart_buttons.tpl',
         'blocks/fast_checkout_summary.tpl',
         'blocks/fast_checkout_cart_btn.tpl',
         'responses/checkout/payment.tpl',

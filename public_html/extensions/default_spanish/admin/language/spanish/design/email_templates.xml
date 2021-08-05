@@ -92,4 +92,8 @@
 		<key>save_error_language_id</key>
 		<value><![CDATA[Se requiere idioma!]]></value>
 	</definition>
+	<definition>
+		<key>text_preview</key>
+		<value><![CDATA[Avance]]></value>
+	</definition>
 </definitions>

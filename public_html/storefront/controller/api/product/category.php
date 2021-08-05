@@ -124,18 +124,18 @@ class ControllerApiProductCategory extends AControllerAPI
         $this->loadModel('catalog/category');
         $results = $this->model_catalog_category->getCategories($parentCategoryId);
 
-        $category_ids = [];
-        foreach ($results as $result) {
-            $category_ids[] = (int) $result['category_id'];
-        }
+        $category_ids = array_column($results, 'category_id');
+
         //get thumbnails by one pass
         $resource = new AResource('image');
-        $thumbnails = $resource->getMainThumbList(
-            'categories',
-            $category_ids,
-            $this->config->get('config_image_category_width'),
-            $this->config->get('config_image_category_height')
-        );
+        $thumbnails = $category_ids
+            ? $resource->getMainThumbList(
+                'categories',
+                $category_ids,
+                $this->config->get('config_image_category_width'),
+                $this->config->get('config_image_category_height')
+            )
+            : [];
 
         foreach ($results as $result) {
             $thumbnail = $thumbnails[$result['category_id']];

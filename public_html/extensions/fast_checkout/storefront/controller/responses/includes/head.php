@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -25,7 +26,6 @@ class ControllerResponsesIncludesHead extends AController
 {
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -52,9 +52,10 @@ class ControllerResponsesIncludesHead extends AController
         }
 
         $view = new AView($this->registry, 0);
-        $data = array();
+        $data = [];
         $data['store'] = $this->config->get('store_name');
-        $data['logo'] = $this->config->get('config_logo');
+        $data['logo'] = $this->config->get('config_logo_'.$this->language->getLanguageID())
+                        ? : $this->config->get('config_logo');
         $data['homepage'] = $this->html->getHomeURL();
         $logo_path = DIR_RESOURCE.$data['logo'];
 
@@ -82,6 +83,5 @@ class ControllerResponsesIncludesHead extends AController
 
         //init controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-
     }
 }

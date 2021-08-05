@@ -48,17 +48,17 @@ class ControllerResponsesListingGridManufacturer extends AController
         $results = $this->model_catalog_manufacturer->getManufacturers($filter_data);
 
         //build thumbnails list
-        $ids = array();
-        foreach ($results as $result) {
-            $ids[] = $result['manufacturer_id'];
-        }
+        $ids = array_column($results, 'manufacturer_id');
+
         $resource = new AResource('image');
-        $thumbnails = $resource->getMainThumbList(
-            'manufacturers',
-            $ids,
-            $this->config->get('config_image_grid_width'),
-            $this->config->get('config_image_grid_height')
-        );
+        $thumbnails = $ids
+            ? $resource->getMainThumbList(
+                    'manufacturers',
+                    $ids,
+                    $this->config->get('config_image_grid_width'),
+                    $this->config->get('config_image_grid_height')
+                )
+            : [];
 
         $i = 0;
         foreach ($results as $result) {
@@ -213,17 +213,17 @@ class ControllerResponsesListingGridManufacturer extends AController
             $results = $this->model_catalog_manufacturer->getManufacturers($filter);
 
             //build thumbnails list
-            $ids = array();
-            foreach ($results as $result) {
-                $ids[] = $result['manufacturer_id'];
-            }
+            $ids = array_column($results, 'manufacturer_id');
+
             $resource = new AResource('image');
-            $thumbnails = $resource->getMainThumbList(
-                'manufacturers',
-                $ids,
-                $this->config->get('config_image_grid_width'),
-                $this->config->get('config_image_grid_height')
-            );
+            $thumbnails = $ids
+                ? $resource->getMainThumbList(
+                    'manufacturers',
+                    $ids,
+                    $this->config->get('config_image_grid_width'),
+                    $this->config->get('config_image_grid_height')
+                )
+                : [];
             foreach ($results as $item) {
                 $thumbnail = $thumbnails[$item['manufacturer_id']];
 

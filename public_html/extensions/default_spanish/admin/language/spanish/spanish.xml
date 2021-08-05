@@ -764,4 +764,16 @@
 		<key>text_subtract_order</key>
 		<value><![CDATA[Restar orden]]></value>
 	</definition>
+	<definition>
+		<key>text_copy_embed_url</key>
+		<value><![CDATA[Copie y pegue esta URL en su otro sitio donde le gustaría vender]]></value>
+	</definition>
+	<definition>
+		<key>button_preview</key>
+		<value><![CDATA[Avance]]></value>
+	</definition>
+	<definition>
+		<key>warning_extensions_with_layouts</key>
+		<value><![CDATA[Las siguientes extensiones <br/> %s <br/> incluyen páginas o diseños que no están presentes en la plantilla seleccionada. Para incluir funciones de estas extensiones, deberá reinstalar las extensiones después de habilitar la nueva plantilla. Si la reinstalación no ayuda, comuníquese con los desarrolladores originales de las extensiones anteriores para obtener ayuda.]]></value>
+	</definition>
 </definitions>

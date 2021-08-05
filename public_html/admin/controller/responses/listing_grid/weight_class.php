@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -28,11 +29,8 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
  */
 class ControllerResponsesListingGridWeightClass extends AController
 {
-    public $data = array();
-
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -45,19 +43,19 @@ class ControllerResponsesListingGridWeightClass extends AController
         $sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
 
         // process jGrid search parameter
-        $allowedDirection = array('asc', 'desc');
+        $allowedDirection = ['asc', 'desc'];
 
         if (!in_array($sord, $allowedDirection)) {
             $sord = $allowedDirection[0];
         }
 
-        $data = array(
+        $data = [
             'sort'                => $sidx,
             'order'               => strtoupper($sord),
             'start'               => ($page - 1) * $limit,
             'limit'               => $limit,
             'content_language_id' => $this->session->data['content_language_id'],
-        );
+        ];
 
         $total = $this->model_localisation_weight_class->getTotalWeightClasses();
         if ($total > 0) {
@@ -80,27 +78,35 @@ class ControllerResponsesListingGridWeightClass extends AController
         $results = $this->model_localisation_weight_class->getWeightClasses($data);
         $i = 0;
         $a_weight = new AWeight(Registry::getInstance());
+        $contentLanguageId = $this->language->getContentLanguageID();
         foreach ($results as $result) {
-            $is_predefined = in_array($result['weight_class_id'], $a_weight->predefined_weight_ids) ? true : false;
-            $response->userdata->classes[$result['weight_class_id']] = $is_predefined ? 'disable-delete' : '';
-            $response->rows[$i]['id'] = $result['weight_class_id'];
-            $response->rows[$i]['cell'] = array(
-                $this->html->buildInput(array(
-                    'name'  => 'weight_class_description['.$result['weight_class_id'].']['.$this->session->data['content_language_id'].'][title]',
-                    'value' => $result['title'],
-                )),
-                $this->html->buildInput(array(
-                    'name'  => 'weight_class_description['.$result['weight_class_id'].']['.$this->session->data['content_language_id'].'][unit]',
-                    'value' => $result['unit'],
-                )),
+            $id = $result['weight_class_id'];
+            $is_predefined = in_array($id, $a_weight->predefined_weight_ids);
+            $response->userdata->classes[$id] = $is_predefined ? 'disable-delete' : '';
+            $response->rows[$i]['id'] = $id;
+            $response->rows[$i]['cell'] = [
+                $this->html->buildInput(
+                    [
+                        'name'  => 'weight_class_description['.$id.']['.$contentLanguageId.'][title]',
+                        'value' => $result['title'],
+                    ]
+                ),
+                $this->html->buildInput(
+                    [
+                        'name'  => 'weight_class_description['.$id.']['.$contentLanguageId.'][unit]',
+                        'value' => $result['unit'],
+                    ]
+                ),
                 (!$is_predefined
-                    ? $this->html->buildInput(array(
-                        'name'  => 'value['.$result['weight_class_id'].']',
-                        'value' => $result['value'],
-                    ))
+                    ? $this->html->buildInput(
+                        [
+                            'name'  => 'value['.$id.']',
+                            'value' => $result['value'],
+                        ]
+                    )
                     : $result['value']),
                 $result['iso_code'],
-            );
+            ];
             $i++;
         }
         $this->data['response'] = $response;
@@ -113,17 +119,22 @@ class ControllerResponsesListingGridWeightClass extends AController
 
     public function update()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         if (!$this->user->canModify('listing_grid/weight_class')) {
             $error = new AError('');
-            return $error->toJSONResponse('NO_PERMISSIONS_402',
-                array(
-                    'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/weight_class'),
+            $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
+                    'error_text'  => sprintf(
+                        $this->language->get('error_permission_modify'),
+                        'listing_grid/weight_class'
+                    ),
                     'reset_value' => true,
-                ));
+                ]
+            );
+            return;
         }
 
         $this->loadModel('localisation/weight_class');
@@ -137,14 +148,19 @@ class ControllerResponsesListingGridWeightClass extends AController
                         $err = $this->_validateDelete($id);
                         if (!empty($err)) {
                             $error = new AError('');
-                            return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $err));
+                            $error->toJSONResponse('VALIDATION_ERROR_406', ['error_text' => $err]);
+                            return;
                         }
                         $this->model_localisation_weight_class->deleteWeightClass($id);
                     }
                 }
                 break;
             case 'save':
-                $allowedFields = array_merge(array('weight_class_description', 'value'), (array)$this->data['allowed_fields']);
+                $allowedFields = array_merge(
+                    ['weight_class_description', 'value'],
+                    (array) $this->data['allowed_fields']
+                );
+
                 $ids = explode(',', $this->request->post['id']);
                 if (!empty($ids)) {
                     foreach ($ids as $id) {
@@ -153,9 +169,12 @@ class ControllerResponsesListingGridWeightClass extends AController
                                 $err = $this->_validateField($f, $this->request->post[$f][$id]);
                                 if (!empty($err)) {
                                     $error = new AError('');
-                                    return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $err));
+                                    $error->toJSONResponse('VALIDATION_ERROR_406', ['error_text' => $err]);
+                                    return;
                                 }
-                                $this->model_localisation_weight_class->editWeightClass($id, array($f => $this->request->post[$f][$id]));
+                                $this->model_localisation_weight_class->editWeightClass(
+                                    $id, [$f => $this->request->post[$f][$id]]
+                                );
                             }
                         }
                     }
@@ -173,20 +192,26 @@ class ControllerResponsesListingGridWeightClass extends AController
      * update only one field
      *
      * @return void
+     * @throws AException
      */
     public function update_field()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         if (!$this->user->canModify('listing_grid/weight_class')) {
             $error = new AError('');
-            return $error->toJSONResponse('NO_PERMISSIONS_402',
-                array(
-                    'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/weight_class'),
+            $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
+                    'error_text'  => sprintf(
+                        $this->language->get('error_permission_modify'),
+                        'listing_grid/weight_class'
+                    ),
                     'reset_value' => true,
-                ));
+                ]
+            );
+            return;
         }
 
         $this->loadLanguage('localisation/weight_class');
@@ -197,16 +222,18 @@ class ControllerResponsesListingGridWeightClass extends AController
                 $err = $this->_validateField($key, $value);
                 if (!empty($err)) {
                     $error = new AError('');
-                    return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $err));
+                    $error->toJSONResponse('VALIDATION_ERROR_406', ['error_text' => $err]);
+                    return;
                 }
-                $data = array($key => $value);
+                $data = [$key => $value];
                 $this->model_localisation_weight_class->editWeightClass($this->request->get['id'], $data);
             }
-            return null;
+            return;
         }
 
         //request sent from jGrid. ID is key of array
-        $allowedFields = array_merge(array('weight_class_description', 'value', 'iso_code'), (array)$this->data['allowed_fields']);
+        $allowedFields =
+            array_merge(['weight_class_description', 'value', 'iso_code'], (array) $this->data['allowed_fields']);
 
         foreach ($allowedFields as $f) {
             if (isset($this->request->post[$f])) {
@@ -214,9 +241,10 @@ class ControllerResponsesListingGridWeightClass extends AController
                     $err = $this->_validateField($f, $v);
                     if (!empty($err)) {
                         $error = new AError('');
-                        return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $err));
+                        $error->toJSONResponse('VALIDATION_ERROR_406', ['error_text' => $err]);
+                        return;
                     }
-                    $this->model_localisation_weight_class->editWeightClass($k, array($f => $v));
+                    $this->model_localisation_weight_class->editWeightClass($k, [$f => $v]);
                 }
             }
         }
@@ -251,10 +279,10 @@ class ControllerResponsesListingGridWeightClass extends AController
                 } //check for uniqueness
                 else {
                     $weight = $this->model_localisation_weight_class->getWeightClassByCode($iso_code);
-                    $weight_class_id = (int)$this->request->get['id'];
+                    $weight_class_id = (int) $this->request->get['id'];
                     if ($weight) {
                         if (!$weight_class_id
-                            || ($weight_class_id && $weight['weight_class_id'] != $weight_class_id)
+                            || ($weight['weight_class_id'] != $weight_class_id)
                         ) {
                             $this->data['error'] = $this->language->get('error_iso_code');
                         }
@@ -262,11 +290,11 @@ class ControllerResponsesListingGridWeightClass extends AController
                 }
                 break;
         }
-        $this->extensions->hk_ValidateData($this, array(__FUNCTION__, $field, $value));
+        $this->extensions->hk_ValidateData($this, [__FUNCTION__, $field, $value]);
         return $this->data['error'];
     }
 
-    private function _validateDelete($weight_class_id)
+    protected function _validateDelete($weight_class_id)
     {
         $this->data['error'] = '';
         $weight_class_info = $this->model_localisation_weight_class->getWeightClass($weight_class_id);
@@ -279,7 +307,7 @@ class ControllerResponsesListingGridWeightClass extends AController
             $this->data['error'] = sprintf($this->language->get('error_product'), $product_total);
         }
 
-        $this->extensions->hk_ValidateData($this, array(__FUNCTION__, $weight_class_id));
+        $this->extensions->hk_ValidateData($this, [__FUNCTION__, $weight_class_id]);
         return $this->data['error'];
     }
 

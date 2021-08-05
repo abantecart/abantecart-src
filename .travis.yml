@@ -1,22 +1,7 @@
 
 language: php
-
-# list any PHP version you want to test against
 php:
-  # using major version aliases
-
-  # aliased to 5.3.29
-  #- 5.3
-  # aliased to a recent 5.4.x version
-  #- 5.4
-  # aliased to a recent 5.5.x version
-  #- 5.5
-  # aliased to a recent 5.6.x version
-  #- 5.6
-  # aliased to a recent 7.x version
-  - 7.2
-  # aliased to a recent hhvm version
-  #- hhvm
+  - 7.4
 
 services: mysql
 
@@ -24,7 +9,7 @@ services: mysql
 env:
   - DB=mysql
 
-# optionally set up exclutions and allowed failures in the matrix
+# optionally set up exclusions and allowed failures in the matrix
 matrix:
   exclude:
     - php: hhvm
@@ -33,7 +18,7 @@ matrix:
 before_script:
 #  - mkdir -p reports
   - if [[ "$DB" == "mysql" ]]; then mysql -e "CREATE DATABASE IF NOT EXISTS abantecart_test_build;" -uroot; fi
-  - php ./public_html/install/cli_install.php install --db_host=localhost --db_user=root --db_password= --db_name=abantecart_test_build  --db_driver=amysqli  --db_prefix=abc_ --admin_path=admin  --username=admin  --password=admin  --email=dsuprunenko@abantecart.com  --http_server=http://abantecart-src.travis-ci.org/public_html --with-sample-data
+  - php ./public_html/install/cli_install.php install --db_host=localhost --db_user=root --db_password= --db_name=abantecart_test_build  --db_driver=amysqli  --db_prefix=abc_ --admin_path=admin  --username=admin  --password=admin  --email=dsuprunenko@abantecart.com  --http_server=https://abantecart-src.travis-ci.org/public_html --with-sample-data
 
 script:
   - phpunit --version

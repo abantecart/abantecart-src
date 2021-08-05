@@ -155,7 +155,7 @@
 	</definition>
 	<definition>
 		<key>entry_manufacturer</key>
-		<value><![CDATA[Manufacturer:]]></value>
+		<value><![CDATA[Brand:]]></value>
 	</definition>
 	<definition>
 		<key>entry_shipping</key>
@@ -221,6 +221,10 @@
 		<value><![CDATA[Price:]]></value>
 	</definition>
 	<definition>
+		<key>entry_product_option_cost</key>
+		<value><![CDATA[Actual Cost (total):<span class="help">Enter the actual cost (total) of this product option.</span>]]></value>
+	</definition>
+	<definition>
 		<key>entry_track_option_stock</key>
 		<value><![CDATA[Track Stock:]]></value>
 	</definition>
@@ -236,6 +240,10 @@
 	<definition>
 		<key>entry_weight</key>
 		<value><![CDATA[Weight:]]></value>
+	</definition>
+	<definition>
+		<key>entry_weight_change</key>
+		<value><![CDATA[Weight Change: <span class="help">Enter the difference between the base product and the option product</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_length_class</key>
@@ -609,5 +617,13 @@
 	<definition>
 		<key>text_create_collection</key>
 		<value><![CDATA[Create Collection]]></value>
+	</definition>
+	<definition>
+		<key>text_enable_selected</key>
+		<value><![CDATA[Enable Selected]]></value>
+	</definition>
+	<definition>
+		<key>text_disable_selected</key>
+		<value><![CDATA[Disable Selected]]></value>
 	</definition>
 </definitions>

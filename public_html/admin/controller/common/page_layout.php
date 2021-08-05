@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -24,18 +24,21 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ControllerCommonPageLayout extends AController
 {
 
-    private $installed_blocks = array();
+    private $installed_blocks = [];
 
-    public function main()
+    public function main($layout)
     {
+
         // use to init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         if (!$this->registry->has('layouts_manager_script')) {
-            $this->document->addStyle(array(
+            $this->document->addStyle(
+                [
                 'href' => RDIR_TEMPLATE.'stylesheet/layouts-manager.css',
                 'rel'  => 'stylesheet',
-            ));
+                ]
+            );
 
             $this->document->addScript(RDIR_TEMPLATE.'javascript/jquery/sortable.js');
             $this->document->addScript(RDIR_TEMPLATE.'javascript/layouts-manager.js');
@@ -46,9 +49,6 @@ class ControllerCommonPageLayout extends AController
 
         // set language used
         $this->session->data['content_language_id'] = $this->config->get('storefront_language_id');
-
-        // build layout data from passed layout object
-        $layout = func_get_arg(0);
 
         $this->installed_blocks = $layout->getInstalledBlocks();
 
@@ -70,13 +70,14 @@ class ControllerCommonPageLayout extends AController
      */
     private function _buildPageSections($sections)
     {
-        $page_sections = array();
+        $page_sections = [];
         $partialView = $this->view;
 
         foreach ($sections as $section) {
             $blocks = $this->_buildBlocks($section['block_id'], $section['children']);
 
-            $partialView->batchAssign(array(
+            $partialView->batchAssign(
+                [
                 'id'          => $section['instance_id'],
                 'blockId'     => $section['block_id'],
                 'name'        => $section['block_txt_id'],
@@ -84,7 +85,8 @@ class ControllerCommonPageLayout extends AController
                 'controller'  => $section['controller'],
                 'blocks'      => implode('', $blocks),
                 'addBlockUrl' => $this->html->getSecureURL('design/blocks_manager'),
-            ));
+                ]
+            );
 
             // render partial view
             $page_sections[$section['block_txt_id']] = $partialView->fetch('common/section.tpl');
@@ -101,7 +103,8 @@ class ControllerCommonPageLayout extends AController
      */
     private function _buildBlocks($section_id, $section_blocks)
     {
-        $blocks = array();
+        $blocks = [];
+        $edit_url = '';
         $partialView = $this->view;
 
         if (empty($section_blocks)) {
@@ -117,13 +120,14 @@ class ControllerCommonPageLayout extends AController
                 $edit_url = $this->html->getSecureURL('design/blocks/edit', '&custom_block_id='.$block['custom_block_id']);
             }
 
-            //if temlpate for section/block is not present, block is not allowed here. 
+            //if template for section/block is not present, block is not allowed here.
             $template_availability = true;
             if (!$block['template']) {
                 $template_availability = false;
             }
 
-            $partialView->batchAssign(array(
+            $partialView->batchAssign(
+                [
                 'id'                    => $block['instance_id'],
                 'blockId'               => $block['block_id'],
                 'customBlockId'         => $block['custom_block_id'],
@@ -138,7 +142,8 @@ class ControllerCommonPageLayout extends AController
                     'design/blocks_manager/validate_block',
                     '&block_id='.$block['block_id']
                 ),
-            ));
+                ]
+            );
 
             // render partial view
             $blocks[] = $partialView->fetch('common/block.tpl');

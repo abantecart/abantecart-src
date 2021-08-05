@@ -21,7 +21,7 @@
 
 class ControllerPagesLicense extends AController
 {
-    private $error = array();
+    private $error = [];
 
     public function main()
     {
@@ -29,7 +29,7 @@ class ControllerPagesLicense extends AController
         $this->session->clear();
 
         if ($this->request->is_POST() && ($this->validate())) {
-            $this->redirect(HTTP_SERVER.'index.php?rt=settings');
+            redirect(HTTP_SERVER.'index.php?rt=settings');
         }
 
         if (isset($this->error['warning'])) {
@@ -42,13 +42,15 @@ class ControllerPagesLicense extends AController
         $text = nl2br(file_get_contents('../license.txt'));
         $this->view->assign('text', $text);
 
-        $this->view->assign('checkbox_agree', $this->html->buildCheckbox(array(
+        $this->view->assign('checkbox_agree', $this->html->buildCheckbox(
+            [
             'name'     => 'agree',
             'value'    => '',
             'attr'     => '',
             'required' => '',
             'form'     => 'form',
-        ))
+            ]
+        )
         );
 
         $this->addChild('common/header', 'header', 'common/header.tpl');
@@ -63,10 +65,6 @@ class ControllerPagesLicense extends AController
             $this->error['warning'] = 'You must agree to the license before you can install AbanteCart!';
         }
 
-        if (!$this->error) {
-            return true;
-        } else {
-            return false;
-        }
+        return (!$this->error);
     }
 }

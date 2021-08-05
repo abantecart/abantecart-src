@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -25,20 +25,19 @@
  */
 class ControllerPagesSettings extends AController
 {
-    private $error = array();
+    private $errors = [];
 
     public function main()
     {
-        $template_data = array();
+        $template_data = [];
         if ($this->request->is_POST() && ($this->validate())) {
-            $this->redirect(HTTP_SERVER.'index.php?rt=install');
+            redirect(HTTP_SERVER.'index.php?rt=install');
+        }elseif($this->request->is_GET()){
+            $this->validate();
         }
 
-        if (isset($this->error['warning'])) {
-            $template_data['error_warning'] = $this->error['warning'];
-        } else {
-            $template_data['error_warning'] = '';
-        }
+        $template_data['error_warning'] = $this->errors['warning'] ?: '';
+        $template_data['errors'] = $this->errors;
 
         //show warning about opcache and apc but do not block installation
         if (ini_get('opcache.enable')) {
@@ -56,6 +55,9 @@ class ControllerPagesSettings extends AController
 
         $template_data['action'] = HTTP_SERVER.'index.php?rt=settings';
         $template_data['config_catalog'] = DIR_ABANTECART.'system/config.php';
+        //try to open config file or create it
+        $f = fopen($template_data['config_catalog'],'a');
+        fclose($f);
         $template_data['system'] = DIR_SYSTEM;
         $template_data['cache'] = DIR_SYSTEM.'cache';
         $template_data['logs'] = DIR_SYSTEM.'logs';
@@ -76,13 +78,14 @@ class ControllerPagesSettings extends AController
 
     /**
      * @return bool
+     * @throws AException
      */
     public function validate()
     {
         $this->load->model('install');
         $result = $this->model_install->validateRequirements();
         if (!$result) {
-            $this->error = $this->model_install->error;
+            $this->errors = $this->model_install->errors;
         }
         return $result;
     }

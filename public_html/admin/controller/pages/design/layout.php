@@ -34,9 +34,9 @@ class ControllerPagesDesignLayout extends AController
 
         $this->document->setTitle($this->language->get('heading_title'));
 
-        $tmpl_id = $this->request->get['tmpl_id'];
-        $page_id = $this->request->get['page_id'];
-        $layout_id = $this->request->get['layout_id'];
+        $tmpl_id = $this->request->get['tmpl_id'] ?? null;
+        $page_id = $this->request->get['page_id'] ?? null;
+        $layout_id = $this->request->get['layout_id'] ?? null;
 
         //Note yet implemented
         if (isset($this->request->get['preview_id'])) {

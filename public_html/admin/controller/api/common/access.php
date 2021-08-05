@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright 2011-2020 Belavier Commerce LLC
+  Copyright 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -65,6 +65,10 @@ class ControllerApiCommonAccess extends AControllerAPI
         //allow access to listed controllers with no login
         if (isset($request['rt']) && !isset($request['token'])) {
             $route = '';
+            //remove controller type prefixes
+            $request['rt'] = ltrim($request['rt'], 'a/');
+            $request['rt'] = ltrim($request['rt'], 'r/');
+            $request['rt'] = ltrim($request['rt'], 'p/');
             $part = explode('/', $request['rt']);
 
             if (isset($part[0])) {
@@ -73,13 +77,13 @@ class ControllerApiCommonAccess extends AControllerAPI
             if (isset($part[1])) {
                 $route .= '/'.$part[1];
             }
-            $ignore = array(
+            $ignore = [
                 'api/index/login',
                 'api/common/access',
                 'api/error/not_found',
                 'api/error/no_access',
                 'api/error/no_permission',
-            );
+            ];
 
             if (!in_array($route, $ignore)) {
                 return $this->dispatch('api/index/login');
@@ -89,6 +93,7 @@ class ControllerApiCommonAccess extends AControllerAPI
                 return $this->dispatch('api/index/login');
             }
         }
+        return null;
     }
 
     public function permission()
@@ -101,6 +106,10 @@ class ControllerApiCommonAccess extends AControllerAPI
 
         if (isset($request['rt'])) {
             $route = '';
+            //remove controller type prefixes
+            $request['rt'] = ltrim($request['rt'], 'a/');
+            $request['rt'] = ltrim($request['rt'], 'r/');
+            $request['rt'] = ltrim($request['rt'], 'p/');
             $part = explode('/', $request['rt']);
 
             if (isset($part[0])) {
@@ -109,13 +118,13 @@ class ControllerApiCommonAccess extends AControllerAPI
             if (isset($part[1])) {
                 $route .= '/'.$part[1];
             }
-            $ignore = array(
+            $ignore = [
                 'api/index/login',
                 'api/common/access',
                 'api/error/not_found',
                 'api/error/no_access',
                 'api/error/no_permission',
-            );
+            ];
 
             if (!in_array($route, $ignore)) {
                 if (!$this->user->canAccess($route)) {

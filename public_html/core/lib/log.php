@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -43,7 +44,9 @@ final class ALog
 
         if (!is_writable(pathinfo($filename, PATHINFO_DIRNAME))) {
             // if it happens see errors in httpd error log!
-            throw new AException (AC_ERR_LOAD, 'Error: Log directory '.DIR_LOGS.' is non-writable. Please change permissions.');
+            throw new AException (
+                AC_ERR_LOAD, 'Error: Log directory '.DIR_LOGS.' is non-writable. Please change permissions.'
+            );
         }
 
         //1.create file if it not exists
@@ -76,7 +79,7 @@ final class ALog
     public function write($message)
     {
         if (!$this->mode || trim($message) === '') {
-            return null;
+            return;
         }
         $file = $this->filename;
         $handle = fopen($file, 'a+');
