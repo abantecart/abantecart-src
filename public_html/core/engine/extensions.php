@@ -147,7 +147,9 @@ class ExtensionCollection
          * @var Extension $extension
          */
         foreach ($this->extensions as $extension) {
-            if (!method_exists($extension, $method) && ($extension->overloadHooks === false)) {
+            //Note: is_callable allow to call extension hooks via __call__ magic method onside hook class
+            // and intercept all hook calls in the one place of code
+            if (!is_callable([$extension, $method]) && ($extension->overloadHooks === false)) {
                 continue;
             }
 
