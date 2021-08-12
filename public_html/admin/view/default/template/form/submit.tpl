@@ -1,1 +1,0 @@
-<a onclick="$('#<?php echo $form ?>').submit();" class="button" <?php echo $attr; ?>><span><?php echo $name ?></span></a>

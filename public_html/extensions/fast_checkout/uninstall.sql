@@ -1,1 +1,0 @@
-DELETE FROM `ac_settings` WHERE `group`= 'fast_checkout';

@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<extension>
-	<settings>
-		<item id="sort_order">
-			<type>input</type>
-			<default_value/>
-		</item>
-	</settings>
-</extension>
