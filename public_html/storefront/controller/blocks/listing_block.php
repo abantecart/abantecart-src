@@ -24,7 +24,7 @@ if (!defined('DIR_CORE')) {
 
 class ControllerBlocksListingBlock extends AController
 {
-    public function main($instance_id = 0)
+    public function main($instance_id = 0, $custom_block_id = 0)
     {
         //disable cache when login display price setting is off or enabled showing of prices with taxes
         if (($this->config->get('config_customer_price') && !$this->config->get('config_tax'))
@@ -32,11 +32,12 @@ class ControllerBlocksListingBlock extends AController
         ) {
             return null;
         }
-
+        //set default template first for case singleton usage
+        $this->view->setTemplate('blocks/listing_block.tpl');
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $block_data = $this->_getBlockContent($instance_id);
+        $block_data = $this->_getBlockContent($instance_id, $custom_block_id);
 
         $block_details = $this->layout->getBlockDetails($instance_id);
         $parent_block = $this->layout->getBlockDetails($block_details['parent_instance_id']);
@@ -279,11 +280,15 @@ class ControllerBlocksListingBlock extends AController
      * @return array
      * @throws AException
      */
-    protected function _getBlockContent($instance_id)
+    protected function _getBlockContent($instance_id = 0, $custom_block_id = 0)
     {
         $output = [];
-        $this->data['block_info'] = $this->layout->getBlockDetails($instance_id);
-        $this->data['custom_block_id'] = $this->data['block_info']['custom_block_id'];
+        if($custom_block_id ){
+            $this->data['custom_block_id'] = $custom_block_id;
+        }else {
+            $this->data['block_info'] = $this->layout->getBlockDetails($instance_id);
+            $this->data['custom_block_id'] = $this->data['block_info']['custom_block_id'];
+        }
 
         //getting block properties
         $this->data['descriptions'] = $this->layout->getBlockDescriptions($this->data['custom_block_id']);

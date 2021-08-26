@@ -25,7 +25,7 @@ if (!defined('DIR_CORE')) {
 class ControllerBlocksHTMLBlock extends AController
 {
 
-    public function main($instance_id = 0)
+    public function main($instance_id = 0, $custom_block_id = 0)
     {
         //disable cache when login display price setting is off or enabled showing of prices with taxes
         if (
@@ -35,11 +35,13 @@ class ControllerBlocksHTMLBlock extends AController
         ) {
             return null;
         }
+        //set default template first for case with singleton usage
+        $this->view->setTemplate('blocks/html_block.tpl');
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $block_data = $this->getBlockContent($instance_id);
+        $block_data = $this->getBlockContent($instance_id, $custom_block_id);
         $this->view->assign('block_framed', (int) $block_data['block_framed']);
         $this->view->assign('content', $block_data['content']);
         $this->view->assign('heading_title', $block_data['title']);
@@ -55,10 +57,12 @@ class ControllerBlocksHTMLBlock extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    protected function getBlockContent($instance_id)
+    protected function getBlockContent( $instance_id = 0, $custom_block_id = 0)
     {
-        $block_info = $this->layout->getBlockDetails($instance_id);
-        $custom_block_id = $block_info['custom_block_id'];
+        if(!$custom_block_id && $instance_id) {
+            $block_info = $this->layout->getBlockDetails($instance_id);
+            $custom_block_id = $block_info['custom_block_id'];
+        }
         $descriptions = $this->layout->getBlockDescriptions($custom_block_id);
         if ($descriptions[$this->config->get('storefront_language_id')]) {
             $key = $this->config->get('storefront_language_id');
