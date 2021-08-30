@@ -120,7 +120,8 @@
                         select.trigger("chosen:updated");
                     } else {
                         select.data().chosen.no_results_clear();
-                        select.data().chosen.no_results(field.val());
+                        let str = String(field.val()).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+                        select.data().chosen.no_results(str);
                     }
                     if (settings.success != null) {
                         settings.success(data);
