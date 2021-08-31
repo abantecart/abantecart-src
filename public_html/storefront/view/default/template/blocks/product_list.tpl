@@ -1,5 +1,5 @@
 <div class="thumbnails list-inline">
-	<?php
+<?php
     if ($products) {
         $tax_exempt = $this->customer->isTaxExempt();
         $config_tax = $this->config->get('config_tax');
@@ -68,10 +68,11 @@
 					<?php if ($display_price) { ?>
 						<div class="pricetag jumbotron">
 							<?php if($product['call_to_order']){ ?>
-                                <a data-id="<?php echo $product['product_id'] ?>" href="#"
-                                    class="btn call_to_order"
+                                <a data-id="<?php echo $product['product_id'] ?>"
+                                   href="#"
+                                   class="btn call_to_order"
                                    title="<?php echo $text_call_to_order ?>">
-                                    <i class="fa fa-phone fa-fw"></i>
+                                   <i class="fa fa-phone fa-fw"></i>
                                 </a>
 							<?php } else if ($product['track_stock'] && !$product['in_stock']) { ?>
 								<span class="nostock"><?php echo $text_out_of_stock; ?></span>
@@ -87,24 +88,22 @@
                             <?php
                                 }
                             ?>
-							<div class="price">
-								<?php if ($product['special']) { ?>
-									<div class="pricenew"><?php echo $product['special'] . $tax_message; ?></div>
-									<div class="priceold"><?php echo $product['price']; ?></div>
-								<?php } else { ?>
-									<div class="oneprice"><?php echo $product['price'] . $tax_message; ?></div>
-								<?php } ?>
-							</div>
-                            <?php } ?>
-						<?php echo $this->getHookvar('product_listing_details1_'.$product['product_id']); ?>
-						</div>
-					<?php
-					echo $this->getHookVar('product_price_hook_var_' . $product['product_id']);
-					?>
-				</div>
-			</div>
-		<?php
-		}
-	}
-	?>
+                            <div class="price">
+                                <?php if ($product['special']) { ?>
+                                    <div class="pricenew"><?php echo $product['special'] . $tax_message; ?></div>
+                                    <div class="priceold"><?php echo $product['price']; ?></div>
+                                <?php } else { ?>
+                                    <div class="oneprice"><?php echo $product['price'] . $tax_message; ?></div>
+                                <?php } ?>
+                            </div>
+                            <?php echo $this->getHookvar('product_listing_details1_'.$product['product_id']); ?>
+                        </div>
+                        <?php
+                        }
+                        echo $this->getHookVar('product_price_hook_var_' . $product['product_id']); ?>
+                </div>
+            </div>
+        <?php
+        }
+    } ?>
 </div>
