@@ -337,13 +337,14 @@ class ResourceUploadHandler
                     'onselect',
                     'onsubmit',
                     'onunload',
+                    'xlink:href'
                 ];
                 if (count(
                         array_filter($arrayOfNeedles, function ($needle) use ($svg) {
                             return strpos($svg, $needle) !== false;
                         })
                     ) > 0) {
-                    return 'File contains script calls. Please do not use SVG files with scripts inside to prevents XSS attacks';
+                    return 'File contains script calls. Please do not use SVG files with scripts and external links inside to prevents XSS attacks';
                 }
             }
         }
