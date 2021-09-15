@@ -2072,7 +2072,7 @@ CREATE TABLE `ac_weight_class_descriptions` (
 INSERT INTO `ac_weight_class_descriptions` (`weight_class_id`, `language_id`, `title`, `unit`) VALUES
 (1, 1, 'Kilogram', 'kg'),
 (2, 1, 'Gram', 'g'),
-(5, 1, 'Pound ', 'lb'),
+(5, 1, 'Pound', 'lb'),
 (6, 1, 'Ounce', 'oz');
 
 --

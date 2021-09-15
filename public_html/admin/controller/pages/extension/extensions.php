@@ -421,6 +421,24 @@ class ControllerPagesExtensionExtensions extends AController
                 if ($note_text == $data['name']) {
                     $new_text_key = str_replace($extension.'_', 'text_', $data['name']);
                     $note_text = $this->language->get($new_text_key, 'extension/extensions');
+                    //add length and weight units to fields descriptions
+                    if(is_int(strpos($data['name'],'_volume'))){
+                        /** @var ModelLocalisationLengthClass $mdl */
+                        $mdl = $this->load->model('localisation/length_class');
+                        $lengthClass = $mdl->getLengthClassDescriptionByUnit($this->config->get('config_length_class'));
+                        if($lengthClass['title']) {
+                            $note_text = sprintf($note_text, $lengthClass['title']);
+                        }
+                    }
+                    if(is_int(strpos($data['name'],'_weight'))){
+                        /** @var ModelLocalisationWeightClass $mdl */
+                        $mdl = $this->load->model('localisation/weight_class');
+                        $weightClass = $mdl->getWeightClassDescriptionByUnit($this->config->get('config_weight_class'));
+                        if($weightClass['title']) {
+                            $note_text = sprintf($note_text, $weightClass['title']);
+                        }
+                    }
+
                     if ($note_text == $new_text_key) {
                         $note_text = $this->language->get(
                             $new_text_key.'_'.$this->data['extension_info']['type'],

@@ -31,6 +31,7 @@ if (!defined('DIR_CORE')) {
  * @property ModelCatalogProduct $model_catalog_product
  * @property ATax $tax
  * @property ADB $db
+ * @property ALength $length
  * @property AWeight $weight
  * @property AConfig $config
  * @property ALoader $load
@@ -626,6 +627,50 @@ class ACart
         return $weight;
     }
 
+
+    /**
+     * Accumulative weight for all or requested products
+     *
+     * @param array $product_ids
+     *
+     * @return int
+     * @throws AException
+     */
+    public function getVolume($product_ids = [])
+    {
+        $output = 0;
+        $products = $this->getProducts();
+        foreach ($products as $product) {
+            if (count($product_ids) > 0 && !in_array((string) $product['product_id'], $product_ids)) {
+                continue;
+            }
+
+            if ($product['shipping']) {
+                $productVolume = $product['length'] * $product['width'] * $product['height'];
+                $output += $this->length->convert(
+                    $productVolume * $product['quantity'],
+                    $product['length_class'],
+                    $this->config->get('config_length_class')
+                );
+                if(!$productVolume){
+                    list($product_id,) = explode(':',$product['key']);
+                    $error = new AError('Wrong Dimensions of product '.$product['name'].' ID #'.$product_id.'!');
+                    $error->toLog()->toMessages()->toDebug();
+                    if($product['length'] || $product['width'] || $product['height']) {
+                        $productVolume = $product['length']
+                            * $product['width']
+                            * $product['height'];
+                    }
+                }
+                $output += $this->length->convert(
+                    $productVolume * $product['quantity'],
+                    $product['length_class'],
+                    $this->config->get('config_length_class')
+                );
+            }
+        }
+        return $output;
+    }
     /**
      * Products with no special settings for shipping
      *

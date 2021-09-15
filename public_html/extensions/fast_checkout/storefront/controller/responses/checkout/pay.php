@@ -1746,7 +1746,6 @@ class ControllerResponsesCheckoutPay extends AController
             || !$this->config->get('config_shipping_session')
         ) {
             $quote_data = [];
-
             $results = $this->model_checkout_extension->getExtensions('shipping');
             if ($this->fc_session['shipping_address_id']) {
                 $this->loadModel('account/address');
@@ -1758,23 +1757,24 @@ class ControllerResponsesCheckoutPay extends AController
             }
 
             foreach ($results as $result) {
+                $shpTxtId = $result['key'];
                 /** @var ModelExtensionDefaultFlatRateShipping $mdl */
-                $mdl = $this->loadModel('extension/'.$result['key']);
+                $mdl = $this->loadModel('extension/'.$shpTxtId);
                 $quote = $mdl->getQuote($shipping_address);
 
                 if ($quote) {
-                    $quote_data[$result['key']] = [
+                    $quote_data[$shpTxtId] = [
                         'title'      => $quote['title'],
                         'quote'      => $quote['quote'],
                         'sort_order' => $quote['sort_order'],
                         'error'      => $quote['error'],
                     ];
-                    $ext_setgs = $this->model_checkout_extension->getSettings($result['key']);
-                    $icon = $ext_setgs[$result['key']."_shipping_storefront_icon"];
+                    $ext_setgs = $this->model_checkout_extension->getSettings($shpTxtId);
+                    $icon = $ext_setgs[$shpTxtId."_shipping_storefront_icon"];
                     if (has_value($icon)) {
                         $icon_data = $this->model_checkout_extension->getSettingImage($icon);
                         $icon_data['image'] = $icon;
-                        $quote_data[$result['key']]['icon'] = $icon_data;
+                        $quote_data[$shpTxtId]['icon'] = $icon_data;
                     }
                 }
             }
