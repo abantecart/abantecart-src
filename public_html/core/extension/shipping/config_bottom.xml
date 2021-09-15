@@ -23,6 +23,22 @@
 				</fields>
 			</variants>
 		</item>
+		<item id="min_volume">
+			<type>input</type>
+			<default_value/>
+		</item>
+		<item id="max_volume">
+			<type>input</type>
+			<default_value/>
+		</item>
+		<item id="min_weight">
+			<type>input</type>
+			<default_value/>
+		</item>
+		<item id="max_weight">
+			<type>input</type>
+			<default_value/>
+		</item>
 		<item id="sort_order">
 			<type>input</type>
 			<default_value/>

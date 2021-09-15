@@ -303,7 +303,8 @@
 	</definition>
 	<definition>
 		<key>text_sort_order</key>
-		<value><![CDATA[Run Order:<span class="help">Number to set display position order for this extension in relation to other enabled extensions. (Sorting is from lower to higher number, ignoring 0 and empty values) </span>]]></value>
+		<value>
+			<![CDATA[Run Order:<span class="help">Number to set display position order for this extension in relation to other enabled extensions. (Sorting is from lower to higher number, ignoring 0 and empty values) </span>]]></value>
 	</definition>
 	<definition>
 		<key>text_payment_minimum_total</key>
@@ -322,72 +323,75 @@
 		<value><![CDATA[Storefront Icon:<span class="help">Shipping Icon to be displayed at checkout shipping selection</span>]]></value>
 	</definition>
 	<definition>
-	    <key>text_autoselect_payment</key>
-	    <value><![CDATA[Auto Select:<span class="help">You can set this payment to be selected by default. This payment method will be pre selected for multiple payments. If this is the only payment option available, payment option selection step will be skipped. </span>]]></value>
+		<key>text_autoselect_payment</key>
+		<value>
+			<![CDATA[Auto Select:<span class="help">You can set this payment to be selected by default. This payment method will be pre selected for multiple payments. If this is the only payment option available, payment option selection step will be skipped. </span>]]></value>
 	</definition>
 	<definition>
-	    <key>text_autoselect_shipping</key>
-	    <value><![CDATA[Auto Select:<span class="help">You can set to skip shipping selection page if there is only one shipping option. This shipping method will be selected automatically</span>]]></value>
+		<key>text_autoselect_shipping</key>
+		<value>
+			<![CDATA[Auto Select:<span class="help">You can set to skip shipping selection page if there is only one shipping option. This shipping method will be selected automatically</span>]]></value>
 	</definition>
 	<definition>
-	    <key>text_accept_payments_shipping</key>
-	    <value><![CDATA[Select to restrict payments:<span class="help">If only specific payment methods are needed for this shipping method, select them here. If nothing selected, all available payment methods will be shown</span>]]></value>
+		<key>text_accept_payments_shipping</key>
+		<value>
+			<![CDATA[Select to restrict payments:<span class="help">If only specific payment methods are needed for this shipping method, select them here. If nothing selected, all available payment methods will be shown</span>]]></value>
 	</definition>
 	<definition>
-	    <key>text_ready_to_install</key>
-	    <value><![CDATA[Ready to install]]></value>
+		<key>text_ready_to_install</key>
+		<value><![CDATA[Ready to install]]></value>
 	</definition>
 	<definition>
-	    <key>button_install</key>
-	    <value><![CDATA[Install]]></value>
+		<key>button_install</key>
+		<value><![CDATA[Install]]></value>
 	</definition>
 	<definition>
-	    <key>error_dependencies</key>
-	    <value><![CDATA[This extension cannot be enabled because required dependency missing or not enabled.]]></value>
+		<key>error_dependencies</key>
+		<value><![CDATA[This extension cannot be enabled because required dependency missing or not enabled.]]></value>
 	</definition>
 	<definition>
-	    <key>button_howto</key>
-	    <value><![CDATA[How To]]></value>
+		<key>button_howto</key>
+		<value><![CDATA[How To]]></value>
 	</definition>
 	<definition>
-	    <key>text_developer_site</key>
-	    <value><![CDATA[External support site]]></value>
+		<key>text_developer_site</key>
+		<value><![CDATA[External support site]]></value>
 	</definition>
 	<definition>
-	    <key>text_preview</key>
-	    <value><![CDATA[Preview]]></value>
+		<key>text_preview</key>
+		<value><![CDATA[Preview]]></value>
 	</definition>
 	<definition>
-	    <key>text_confirmation</key>
-	    <value><![CDATA[Confirmation]]></value>
+		<key>text_confirmation</key>
+		<value><![CDATA[Confirmation]]></value>
 	</definition>
 	<definition>
-	    <key>button_confirm</key>
-	    <value><![CDATA[Confirm]]></value>
+		<key>button_confirm</key>
+		<value><![CDATA[Confirm]]></value>
 	</definition>
 	<definition>
-	    <key>button_continue</key>
-	    <value><![CDATA[Continue]]></value>
+		<key>button_continue</key>
+		<value><![CDATA[Continue]]></value>
 	</definition>
 	<definition>
-	    <key>button_cancel</key>
-	    <value><![CDATA[Cancel]]></value>
+		<key>button_cancel</key>
+		<value><![CDATA[Cancel]]></value>
 	</definition>
 	<definition>
-	    <key>error_could_not_load_config</key>
-	    <value><![CDATA[Error: Could not load config for <b>%s</b> (%s)!]]></value>
+		<key>error_could_not_load_config</key>
+		<value><![CDATA[Error: Could not load config for <b>%s</b> (%s)!]]></value>
 	</definition>
 	<definition>
-	    <key>error_could_not_load_override</key>
-	    <value><![CDATA[Error: Cannot load override template %s in extension %s!]]></value>
+		<key>error_could_not_load_override</key>
+		<value><![CDATA[Error: Cannot load override template %s in extension %s!]]></value>
 	</definition>
 	<definition>
-	    <key>tab_general</key>
-	    <value><![CDATA[General]]></value>
+		<key>tab_general</key>
+		<value><![CDATA[General]]></value>
 	</definition>
 	<definition>
-	    <key>tab_additional_settings</key>
-	    <value><![CDATA[Additional Settings]]></value>
+		<key>tab_additional_settings</key>
+		<value><![CDATA[Additional Settings]]></value>
 	</definition>
 	<definition>
 		<key>text_more_extensions</key>
@@ -409,5 +413,20 @@
 		<key>button_get_support</key>
 		<value><![CDATA[Get Support]]></value>
 	</definition>
-
+	<definition>
+		<key>text_min_volume</key>
+		<value><![CDATA[Restriction Minimal Volume of Parcel (cubic %s)]]></value>
+	</definition>
+	<definition>
+		<key>text_max_volume</key>
+		<value><![CDATA[Restriction Maximal Volume of Parcel (cubic %s)]]></value>
+	</definition>
+	<definition>
+		<key>text_min_weight</key>
+		<value><![CDATA[Minimal Weight of Parcel (%s)]]></value>
+	</definition>
+	<definition>
+		<key>text_max_weight</key>
+		<value><![CDATA[Maximal Weight of Parcel (%s)]]></value>
+	</definition>
 </definitions>
