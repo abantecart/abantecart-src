@@ -656,11 +656,10 @@ class ACart
                     list($product_id,) = explode(':',$product['key']);
                     $error = new AError('Wrong Dimensions of product '.$product['name'].' ID #'.$product_id.'!');
                     $error->toLog()->toMessages()->toDebug();
-                    //in case when one of dimensions is unknown use 1 unit
                     if($product['length'] || $product['width'] || $product['height']) {
-                        $productVolume = ($product['length'] ? : 1)
-                            * ($product['width'] ? : 1)
-                            * ($product['height'] ? : 1);
+                        $productVolume = $product['length']
+                            * $product['width']
+                            * $product['height'];
                     }
                 }
                 $output += $this->length->convert(
