@@ -419,7 +419,7 @@
 	</definition>
 	<definition>
 		<key>text_max_volume</key>
-		<value><![CDATA[Maximal order parcel size volume in (cubic %s) <span class="help">Maximal value for shipment option to be available for customer. This value is based on combined products sizes in the order</span>]]></value>
+		<value><![CDATA[Maximal order parcel size volume in (cubic %s) <span class="help">Maximum value for shipment option to be available for customer. This value is based on combined products sizes in the order</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_min_weight</key>
