@@ -87,10 +87,10 @@ class ModelCheckoutExtension extends Model
         $this->cache->push($cache_key, $output);
         if($type == 'shipping' && ($cartVolume || $cartWeight) && !$output){
             $error = new AError(
-                'No shipping method found for purchase! Parcel Volume: '.$cartVolume
+                'No shipping method found for the purchase! Parcel size volume: '.$cartVolume
                     .' cubic "'.$this->config->get('config_length_class')
                 .'", Weight: '.$cartWeight.' "'.$this->config->get('config_weight_class')
-            .'". Please check shipping extensions configurations related to volume and weight limits of parcel.');
+            .'". Please check the shipping extension configurations related to the products size volume and weight limits.');
             $error->toLog()->toMessages();
         }
         return $output;
