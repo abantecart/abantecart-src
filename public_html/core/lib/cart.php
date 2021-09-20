@@ -641,33 +641,36 @@ class ACart
         $output = 0;
         $products = $this->getProducts();
         foreach ($products as $product) {
-            if (count($product_ids) > 0 && !in_array((string) $product['product_id'], $product_ids)) {
+            if (
+                (count($product_ids) > 0 && !in_array((string) $product['product_id'], $product_ids))
+                //if not required shipping - skip
+                || !$product['shipping']
+            ) {
                 continue;
             }
 
-            if ($product['shipping']) {
-                $productVolume = $product['length'] * $product['width'] * $product['height'];
-                $output += $this->length->convert(
-                    $productVolume * $product['quantity'],
+            $productVolume = $this->length->convert(
+                    $product['length'],
+                    $product['length_class'],
+                    $this->config->get('config_length_class')
+                )
+                * $this->length->convert(
+                    $product['width'],
+                    $product['length_class'],
+                    $this->config->get('config_length_class')
+                )
+                * $this->length->convert(
+                    $product['height'],
                     $product['length_class'],
                     $this->config->get('config_length_class')
                 );
-                if(!$productVolume){
-                    list($product_id,) = explode(':',$product['key']);
-                    $error = new AError('Wrong Dimensions of product '.$product['name'].' ID #'.$product_id.'!');
-                    $error->toLog()->toMessages()->toDebug();
-                    if($product['length'] || $product['width'] || $product['height']) {
-                        $productVolume = $product['length']
-                            * $product['width']
-                            * $product['height'];
-                    }
-                }
-                $output += $this->length->convert(
-                    $productVolume * $product['quantity'],
-                    $product['length_class'],
-                    $this->config->get('config_length_class')
-                );
+
+            if(!$productVolume){
+                list($product_id,) = explode(':',$product['key']);
+                $error = new AError('Wrong Dimensions of product '.$product['name'].' ID #'.$product_id.'!');
+                $error->toLog()->toMessages()->toDebug();
             }
+            $output += $productVolume * $product['quantity'];
         }
         return $output;
     }
