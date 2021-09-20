@@ -76,7 +76,7 @@ class ModelCheckoutExtension extends Model
                         $volumeErrors = (array)$this->cart->errors['volume'];
                         foreach($volumeErrors as $prodId => $err){
                             $this->messages->saveWarning(
-                                'Product #'.$prodId.' Dimensions Error',
+                                'Product #'.$prodId.' warning',
                                 $err
                             );
                         }

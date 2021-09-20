@@ -669,7 +669,8 @@ class ACart
 
             if(!$productVolume){
                 list($product_id,) = explode(':',$product['key']);
-                $this->errors['volume'][$product_id] = 'Wrong Dimensions of product '.$product['name'].' ID #'.$product_id.'!';
+                $this->errors['volume'][$product_id] =
+                    'Product '.$product['name'].' #'.$product_id.' dimensions inaccurate. Click #admin#rt=catalog/product/update&product_id='.$product_id.' to view';
             }
             $output += $productVolume * $product['quantity'];
         }
