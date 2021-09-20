@@ -69,6 +69,8 @@ class ACart
     protected $promotion;
     /** @var ExtensionsApi */
     protected $extensions;
+    /** @var array  */
+    public $errors = [];
 
     /**
      * @param $registry Registry
@@ -633,12 +635,12 @@ class ACart
      *
      * @param array $product_ids
      *
-     * @return int
+     * @return float
      * @throws AException
      */
     public function getVolume($product_ids = [])
     {
-        $output = 0;
+        $output = 0.0;
         $products = $this->getProducts();
         foreach ($products as $product) {
             if (
@@ -667,8 +669,7 @@ class ACart
 
             if(!$productVolume){
                 list($product_id,) = explode(':',$product['key']);
-                $error = new AError('Wrong Dimensions of product '.$product['name'].' ID #'.$product_id.'!');
-                $error->toLog()->toMessages()->toDebug();
+                $this->errors['volume'][$product_id] = 'Wrong Dimensions of product '.$product['name'].' ID #'.$product_id.'!';
             }
             $output += $productVolume * $product['quantity'];
         }

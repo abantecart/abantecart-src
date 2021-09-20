@@ -72,6 +72,14 @@ class ModelCheckoutExtension extends Model
                         && ($cartVolume < $minVolume || ($maxVolume && $cartVolume > $maxVolume))
                     ) {
                         continue;
+                    }elseif(!$cartVolume && ($minVolume || $maxVolume)){
+                        $volumeErrors = (array)$this->cart->errors['volume'];
+                        foreach($volumeErrors as $prodId => $err){
+                            $this->messages->saveWarning(
+                                'Product #'.$prodId.' Dimensions Error',
+                                $err
+                            );
+                        }
                     }
                 }
 
