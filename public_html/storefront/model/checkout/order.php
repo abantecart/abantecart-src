@@ -244,17 +244,23 @@ class ModelCheckoutOrder extends Model
         foreach ($data['products'] as $product) {
             $this->db->query(
                 "INSERT INTO ".$this->db->table("order_products")."
-                SET order_id = '".(int) $order_id."',
-                    product_id = '".(int) $product['product_id']."',
-                    name = '".$this->db->escape($product['name'])."',
-                    model = '".$this->db->escape($product['model'])."',
-                    sku = '".$this->db->escape($product['sku'])."',
-                    price = '".(float) $product['price']."',
-                    cost = '".(float) $product['cost']."',
-                    total = '".(float) $product['total']."',
-                    tax = '".(float) $product['tax']."',
-                    quantity = '".(int) $product['quantity']."',
-                    subtract = '".(int) $product['stock']."'"
+                SET `order_id` = '".(int) $order_id."',
+                    `product_id` = '".(int) $product['product_id']."',
+                    `name` = '".$this->db->escape($product['name'])."',
+                    `model` = '".$this->db->escape($product['model'])."',
+                    `sku` = '".$this->db->escape($product['sku'])."',
+                    `price` = '".(float) $product['price']."',
+                    `cost` = '".(float) $product['cost']."',
+                    `total` = '".(float) $product['total']."',
+                    `tax` = '".(float) $product['tax']."',
+                    `quantity` = '".(int) $product['quantity']."',
+                    `subtract` = '".(int) $product['stock']."',
+                    `weight` = '".(float) $product['weight']."',
+                    `weight_iso_code` = '".$this->db->escape($product['weight_iso_code'])."',
+                    `width` = '".(float) $product['width']."',
+                    `height` = '".(float) $product['height']."',
+                    `length` = '".(float) $product['length']."',
+                    `length_iso_code` = '".$this->db->escape($product['length_iso_code'])."'"
             );
 
             $order_product_id = $this->db->getLastId();

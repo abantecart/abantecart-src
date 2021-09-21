@@ -341,20 +341,29 @@ class AOrder
 
         foreach ($this->cart->getProducts() + $this->cart->getVirtualProducts() as $key => $product) {
             $product_data[] = [
-                'key'        => $key,
-                'product_id' => $product['product_id'],
-                'name'       => $product['name'],
-                'model'      => $product['model'],
-                'sku'        => $product['sku'],
-                'option'     => $product['option'],
-                'download'   => $product['download'],
-                'quantity'   => $product['quantity'],
+                'key'             => $key,
+                'product_id'      => $product['product_id'],
+                'name'            => $product['name'],
+                'model'           => $product['model'],
+                'sku'             => $product['sku'],
+                'option'          => $product['option'],
+                'download'        => $product['download'],
+                'quantity'        => $product['quantity'],
+                'weight'          => (float) $product['weight'],
+                'weight_iso_code' => $product['weight_class'],
+                'width'           => (float) $product['width'],
+                'height'          => (float) $product['height'],
+                'length'          => (float) $product['length'],
+                'length_iso_code' => $product['length_class'],
+
                 //ternary for virtual products
-                'price'      => $product['amount'] ?: $product['price'],
-                'cost'       => $product['cost'],
-                'total'      => $product['amount'] ? ($product['amount']*$product['quantity']) : $product['total'],
-                'tax'        => $this->tax->calcTotalTaxAmount($product['total'], $product['tax_class_id']),
-                'stock'      => $product['stock'],
+                'price'           => $product['amount'] ? : $product['price'],
+                'cost'            => $product['cost'],
+                'total'           => $product['amount']
+                                        ? ($product['amount'] * $product['quantity'])
+                                        : $product['total'],
+                'tax'             => $this->tax->calcTotalTaxAmount($product['total'], $product['tax_class_id']),
+                'stock'           => $product['stock'],
             ];
         }
         $order_info['products'] = $product_data;
