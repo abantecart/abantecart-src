@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /*------------------------------------------------------------------------------
   $Id$
@@ -159,7 +160,8 @@ class ControllerResponsesListingGridProduct extends AController
             return;
         }
 
-        $this->loadModel('catalog/product');
+        /** @var ModelCatalogProduct $mdl */
+        $mdl = $this->loadModel('catalog/product');
         $this->loadLanguage('catalog/product');
 
         switch ($post['oper']) {
@@ -178,7 +180,7 @@ class ControllerResponsesListingGridProduct extends AController
                             );
                             return;
                         }
-                        $this->model_catalog_product->deleteProduct($id);
+                        $mdl->deleteProduct($id);
                     }
                     $this->extensions->hk_ProcessData($this, 'product_delete');
                 }
@@ -206,9 +208,9 @@ class ControllerResponsesListingGridProduct extends AController
                                 $post['status'][$id] = 0;
                             }
 
-                            if($post['oper'] == 'enable'){
+                            if ($post['oper'] == 'enable') {
                                 $post['status'][$id] = 1;
-                            }elseif($post['oper'] == 'disable'){
+                            } elseif ($post['oper'] == 'disable') {
                                 $post['status'][$id] = 0;
                             }
 
@@ -228,9 +230,11 @@ class ControllerResponsesListingGridProduct extends AController
                                     );
                                     return;
                                 }
-                                $this->model_catalog_product->updateProduct(
+                                $mdl->updateProduct(
                                     $id,
-                                    [$f => $post[$f][$id]]
+                                    [
+                                        $f => $post[$f][$id],
+                                    ]
                                 );
                             }
                         }
@@ -241,7 +245,7 @@ class ControllerResponsesListingGridProduct extends AController
             case 'relate':
                 $ids = explode(',', $post['id']);
                 if (!empty($ids)) {
-                    $this->model_catalog_product->relateProducts($ids);
+                    $mdl->relateProducts($ids);
                 }
                 break;
             default:
@@ -276,13 +280,15 @@ class ControllerResponsesListingGridProduct extends AController
         }
 
         $this->loadLanguage('catalog/product');
-        $this->loadModel('catalog/product');
+        /** @var ModelCatalogProduct $mdl */
+        $mdl = $this->loadModel('catalog/product');
 
         $product_id = (int) $this->request->get['id'];
-        if ($product_id) {
+        $productInfo = $mdl->getProduct($product_id);
+        if ($product_id && $productInfo) {
             //request sent from edit form. ID in url
             foreach ($post as $key => $value) {
-                $err = $this->_validateField($key, $value);
+                $err = $this->_validateField($key, $value, $productInfo);
                 if (!empty($err)) {
                     $error = new AError('');
                     $error->toJSONResponse('VALIDATION_ERROR_406', ['error_text' => $err]);
@@ -292,8 +298,8 @@ class ControllerResponsesListingGridProduct extends AController
                     $value = dateDisplay2ISO($value);
                 }
                 $data = [$key => $value];
-                $this->model_catalog_product->updateProduct($product_id, $data);
-                $this->model_catalog_product->updateProductLinks($product_id, $data);
+                $mdl->updateProduct($product_id, $data);
+                $mdl->updateProductLinks($product_id, $data);
             }
             $this->extensions->hk_ProcessData($this, 'product_update', ['product_id' => $product_id]);
             return;
@@ -444,7 +450,15 @@ class ControllerResponsesListingGridProduct extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    protected function _validateField($field, $value)
+    /**
+     * @param string $field
+     * @param string|array $value
+     * @param array $productInfo
+     *
+     * @return string|null
+     * @throws AException
+     */
+    protected function _validateField($field, $value, $productInfo = [])
     {
         $this->data['error'] = '';
         switch ($field) {
@@ -464,10 +478,38 @@ class ControllerResponsesListingGridProduct extends AController
             case 'length' :
             case 'width'  :
             case 'height' :
+                $v = abs(preformatFloat($value, $this->language->get('decimal_point')));
+                if ($v >= 1000) {
+                    $this->data['error'] = $this->language->get('error_measure_value');
+                }
+                $dimensions = [
+                    'length' => $productInfo['length'],
+                    'width'  => $productInfo['width'],
+                    'height' => $productInfo['height'],
+                ];
+                $dimensions[$field] = $v;
+                //if at least one dimension presents - show error
+                if (array_sum($dimensions) && !$v) {
+                    $this->data['error'] = $this->language->get('error_dimension_value');
+                }
+                break;
+            case 'length_class_id':
+                if (!$value && $productInfo['shipping']) {
+                    $this->data['error'] = $this->language->get('error_length_class');
+                }
+                break;
             case 'weight' :
                 $v = abs(preformatFloat($value, $this->language->get('decimal_point')));
                 if ($v >= 1000) {
                     $this->data['error'] = $this->language->get('error_measure_value');
+                }
+                if (!$v && $productInfo['shipping']) {
+                    $this->data['error'] = $this->language->get('error_weight_value');
+                }
+                break;
+            case 'weight_class_id' :
+                if (!$value && $productInfo['shipping']) {
+                    $this->data['error'] = $this->language->get('error_weight_class');
                 }
                 break;
         }

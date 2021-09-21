@@ -579,12 +579,20 @@
 		<value><![CDATA[The limit of 999.99 has been reached. Provide smaller number.]]></value>
 	</definition>
 	<definition>
+		<key>error_dimension_value</key>
+		<value><![CDATA[This product requires shipping. Please fill all dimension values.]]></value>
+	</definition>
+	<definition>
 		<key>error_weight_value</key>
 		<value><![CDATA[This product requires shipping. Please set weight value.]]></value>
 	</definition>
 	<definition>
 		<key>error_weight_class</key>
 		<value><![CDATA[Please set weight class.]]></value>
+	</definition>
+	<definition>
+		<key>error_length_class</key>
+		<value><![CDATA[Please set length class.]]></value>
 	</definition>
 	<definition>
 		<key>entry_allowed_extensions</key>
