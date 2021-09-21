@@ -207,6 +207,12 @@ class ControllerResponsesCheckoutFastCheckoutSummary extends AController
         $this->data['totals'] = $display_totals['total_data'];
         $this->data['total'] = $display_totals['total'];
         $this->data['total_string'] = $this->currency->format($display_totals['total']);
+        if($this->config->get('config_cart_weight')){
+            $this->data['cart_weight'] = $this->weight->format(
+                $this->cart->getWeight(),
+                $this->config->get('config_weight_class')
+            );
+        }
         return ($this->data['totals']);
     }
 }

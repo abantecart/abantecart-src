@@ -5,8 +5,12 @@
 			<h4 class="list-group-item-heading">
 				<?php echo $this->language->get('fast_checkout_order_summary'); ?>
 				<span class="pull-right">
-                        <?php echo $total_string; ?>
-                      </span>
+                        <?php echo $total_string;
+                        if ($cart_weight){
+                                echo '  ('.$cart_weight.')';
+                        }
+                        ?>
+                </span>
 			</h4>
 		</li>
         <?php foreach ($products as $p) { ?>

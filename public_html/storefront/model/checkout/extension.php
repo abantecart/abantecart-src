@@ -34,12 +34,7 @@ class ModelCheckoutExtension extends Model
     {
         $cartWeight = $cartVolume = null;
         $store_id = (int) $this->config->get('config_store_id');
-        $cache_key = 'extensions.list.type.'.md5($type).'.store_'.$store_id;
 
-        $output = $this->cache->pull($cache_key);
-        if ($output !== false) {
-            return $output;
-        }
         if($type == 'shipping'){
             $cartWeight = $this->cart->getWeight();
             $cartVolume = $this->cart->getVolume();
@@ -92,14 +87,13 @@ class ModelCheckoutExtension extends Model
             }
         }
         ksort($output, SORT_NUMERIC);
-        $this->cache->push($cache_key, $output);
         if($type == 'shipping' && ($cartVolume || $cartWeight) && !$output){
-            $error = new AError(
+            $this->messages->saveWarning(
+                'Shipping methods configuration error',
                 'No shipping method found for the purchase! Parcel size volume: '.$cartVolume
                     .' cubic "'.$this->config->get('config_length_class')
                 .'", Weight: '.$cartWeight.' "'.$this->config->get('config_weight_class')
             .'". Please check the shipping extension configurations related to the products size volume and weight limits.');
-            $error->toLog()->toMessages();
         }
         return $output;
     }
