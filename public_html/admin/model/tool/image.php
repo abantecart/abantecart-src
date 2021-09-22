@@ -43,12 +43,9 @@ class ModelToolImage extends Model
         if (in_array($extension, ['ico', 'svg', 'svgz'])) {
             $new_image = $filename;
         } else {
-            $new_image = 'thumbnails/'
-                        .substr($filename, 0, strrpos($filename, '.'))
-                        .'-'
-                        .$width.'x'.$height
-                        .'.'
-                        .$extension;
+            $sub_path = 'thumbnails/'.substr($filename, 0, strrpos($filename, '.'))
+                        .'-'.$width.'x'.$height;
+            $new_image = $sub_path.'.'.$extension;
             if (!check_resize_image(
                 $orig_image_filepath, $new_image, $width, $height, $this->config->get('config_image_quality')
             )) {
@@ -58,6 +55,17 @@ class ModelToolImage extends Model
                 );
                 $err->toLog()->toDebug();
                 return false;
+            }
+
+            //do retina version
+            if ($this->config->get('config_retina_enable')){
+                $new_image2x = $sub_path.'@2x.'.$extension;
+                if (!check_resize_image(
+                    $orig_image_filepath, $new_image2x, $width * 2, $height * 2, $this->config->get('config_image_quality')
+                )) {
+                    $warning = new AWarning('Resize image error. File: '.$orig_image_filepath);
+                    $warning->toLog()->toDebug();
+                }
             }
         }
 
