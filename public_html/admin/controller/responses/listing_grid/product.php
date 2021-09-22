@@ -489,7 +489,7 @@ class ControllerResponsesListingGridProduct extends AController
                 ];
                 $dimensions[$field] = $v;
                 //if at least one dimension presents - show error
-                if (array_sum($dimensions) && !$v) {
+                if (array_sum($dimensions) && !$v && $productInfo['shipping']) {
                     $this->data['error'] = $this->language->get('error_dimension_value');
                 }
                 break;

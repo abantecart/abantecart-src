@@ -1253,7 +1253,8 @@ class ControllerPagesCatalogProduct extends AController
             if ($v >= 1000) {
                 $this->error[$name] = $this->language->get('error_measure_value');
             } elseif (
-                !$v
+                $post['shipping']
+                && !$v
                 && ((float) $post['length'] + (float) $post['width'] + (float) $post['height'])
             ) {
                 $this->error[$name] = $this->language->get('error_dimension_value');

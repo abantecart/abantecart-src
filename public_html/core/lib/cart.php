@@ -631,7 +631,7 @@ class ACart
 
 
     /**
-     * Accumulative weight for all or requested products
+     * Accumulative volume for all or requested products
      *
      * @param array $product_ids
      *
