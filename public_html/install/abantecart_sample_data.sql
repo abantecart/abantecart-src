@@ -945,7 +945,8 @@ VALUES
 (37,20,62,778,'Size EU','','EU XS (Asia M)',0.0000,0.0000,'$',NULL);
 
 
-INSERT INTO `ac_order_products`
+INSERT INTO `ac_order_products` (order_product_id, order_id, product_id, name, model, sku, price, cost, total, tax, quantity, subtract
+)
 VALUES
 (6,2,97,'Eye Rejuvenating Serum','GRMBC004','',126.0000,0.0000,126.0000,8.5000,1,0),
 (7,2,100,'Smooth silk lip pencils','GRMBC007','',10.0000,0.0000,40.0000,8.5000,4,0),
