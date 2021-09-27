@@ -48,7 +48,7 @@ final class Registry
     /**
      * @param $key string
      *
-     * @return CSRFToken|ARequest|ALoader|ADocument|ADB|AConfig|AHtml|ExtensionsApi|AExtensionManager|ALanguageManager|ASession|ACache|AMessage|ALog|AResponse|AUser|ARouter|ACurrency|ModelLocalisationLanguageDefinitions|ModelLocalisationCountry|ModelSettingSetting|ADataEncryption|ModelInstall|ADownload|AOrderStatus|AIMManager|ACustomer
+     * @return mixed|CSRFToken|ARequest|ALoader|ADocument|ADB|AConfig|AHtml|ExtensionsApi|AExtensionManager|ALanguageManager|ASession|ACache|AMessage|ALog|AResponse|AUser|ARouter|ACurrency|ModelLocalisationLanguageDefinitions|ModelLocalisationCountry|ModelSettingSetting|ADataEncryption|ModelInstall|ADownload|AOrderStatus|AIMManager|ACustomer
      */
     public function get($key)
     {
