@@ -36,6 +36,11 @@ abstract class Extension
      */
     public $overloadHooks = false;
 
+    /** @var bool extension class have abstract hooks via __call
+     * magic method which cover all hook calls
+     */
+    public $hookAll = false;
+
     /**
      * @var ExtensionsApi The current {@link ExtensionsApi} that has loaded this extension.
      */
@@ -99,8 +104,6 @@ class ExtensionCollection
 {
     // sign that we found override hook in the hook list
     public static $around_method_found = false;
-    //inner sign means override hook wants to be skipped
-    public static $noInterrupt = false;
     protected $extensions = [];
 
     /**
@@ -149,7 +152,7 @@ class ExtensionCollection
         foreach ($this->extensions as $extension) {
             //Note: is_callable allow to call extension hooks via __call__ magic method onside hook class
             // and intercept all hook calls in the one place of code
-            if (!is_callable([$extension, $method]) && ($extension->overloadHooks === false)) {
+            if (!method_exists($extension, $method) && ($extension->overloadHooks === false) && !$extension->hookAll) {
                 continue;
             }
 

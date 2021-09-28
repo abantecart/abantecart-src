@@ -177,6 +177,22 @@ class ALayout
     }
 
     /**
+     * @return int|string
+     */
+    public function getPageId()
+    {
+        return $this->page_id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLayoutId()
+    {
+        return $this->layout_id;
+    }
+
+    /**
      * @param string $controller
      * @param string $key_param
      * @param string $key_value

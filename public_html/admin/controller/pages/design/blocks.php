@@ -456,8 +456,10 @@ class ControllerPagesDesignBlocks extends AController
                 $this->_getListingForm();
                 break;
             case 'html_block':
-            default:
                 $this->_getHTMLForm();
+                break;
+            default:
+                $this->extensions->hk_ProcessData($this, __FUNCTION__, ['block_txt_id' => $block_txt_id]);
         }
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -692,7 +694,7 @@ class ControllerPagesDesignBlocks extends AController
                     continue;
                 }
                 foreach ($tpls as $tpl) {
-                    if (isset($this->data['block_wrappers'][$tpl]) || strpos($tpl, 'blocks/html__block/') === false) {
+                    if (isset($this->data['block_wrappers'][$tpl]) || strpos($tpl, 'blocks/html_block/') === false) {
                         continue;
                     }
                     $this->data['block_wrappers'][$tpl] = $tpl;
@@ -700,7 +702,8 @@ class ControllerPagesDesignBlocks extends AController
             }
         }
 
-        $tpls = glob(DIR_STOREFRONT.'view/*/template/blocks/html_block/*.tpl');
+        $tpls = glob(DIR_STOREFRONT.'view/*/template/blocks/html_block/*.tpl')
+            + glob(DIR_EXT.'/*/storefront/view/*/template/blocks/html_block/*.tpl');
         foreach ($tpls as $tpl) {
             $pos = strpos($tpl, 'blocks/html_block/');
             $tpl = substr($tpl, $pos);
