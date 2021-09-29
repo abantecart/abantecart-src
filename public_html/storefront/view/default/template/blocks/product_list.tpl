@@ -50,10 +50,10 @@
 				</div>
 				<div class="thumbnail">
 					<?php if ($product['special']) { ?>
-						<span class="sale"></span>
+					<span class="sale sale_<?php echo $product['product_id']; ?>"></span>
 					<?php }
                     if ($product['new_product']) { ?>
-						<span class="new"></span>
+					<span class="new new_<?php echo $product['product_id']; ?>"></span>
 					<?php } ?>
 					<a href="<?php echo $item['info_url'] ?>"><?php echo $item['image'] ?></a>
 					<div class="shortlinks">
