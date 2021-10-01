@@ -1,4 +1,5 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -129,7 +130,6 @@ class ModelToolBackup extends Model
      */
     public function backup($tables, $rl = true, $config = false, $sql_dump_mode = 'data_only')
     {
-
         $bkp = new ABackup('manual_backup'.'_'.date('Y-m-d-H-i-s'));
 
         if ($bkp->error) {
@@ -188,7 +188,7 @@ class ModelToolBackup extends Model
                 'created_by'         => $this->user->getId(),
                 // schedule it!
                 'status'             => 1,
-                'start_time'         => date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), date('d') + 1, date('Y'))),
+                'start_time'         => date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), (int) date('d') + 1, date('Y'))),
                 'last_time_run'      => '0000-00-00 00:00:00',
                 'progress'           => '0',
                 'last_result'        => '0',
@@ -205,7 +205,6 @@ class ModelToolBackup extends Model
 
         //create step for table backup
         if ($data['table_list']) {
-
             //calculate estimate time for dumping of tables
             // get sizes of tables
             $table_list = [];
@@ -215,13 +214,13 @@ class ModelToolBackup extends Model
                 } // clean
                 $table_list[] = $this->db->escape($table);
             }
-            $sql = "SELECT SUM(data_length + index_length - data_free) AS 'db_size'
+            $sql = "SELECT SUM(data_length/8 + index_length/8 - data_free/8) AS 'db_size'
                     FROM information_schema.TABLES
                     WHERE information_schema.TABLES.table_schema = '".DB_DATABASE."'
                         AND TABLE_NAME IN ('".implode("','", $table_list)."')";
 
             $result = $this->db->query($sql);
-            $db_size = $result->row['db_size']; //size in bytes
+            $db_size = $result->row['db_size'] * 8; //size in bytes
 
             // get eta in seconds. 2794843 - "bytes per seconds" of dumping for Pentium(R) Dual-Core CPU E5200 @ 2.50GHz × 2
             $eta = ceil($db_size / 2794843) * 4;
@@ -288,7 +287,6 @@ class ModelToolBackup extends Model
                 $this->eta[$step_id] = $eta;
                 $this->est_backup_size += $dirs_size;
             }
-
         }
         //create step for content-files backup
         if ($data['backup_content']) {
@@ -322,7 +320,6 @@ class ModelToolBackup extends Model
                 $this->eta[$step_id] = $eta;
                 $this->est_backup_size += $dirs_size;
             }
-
         }
 
         //create last step for compressing backup
@@ -367,7 +364,6 @@ class ModelToolBackup extends Model
             $this->errors = array_merge($this->errors, $tm->errors);
             return false;
         }
-
     }
 
     /**
@@ -467,7 +463,7 @@ class ModelToolBackup extends Model
         $count_size = 0;
         $count = 0;
         $dir_array = scandir($dir);
-        foreach ($dir_array as $key => $filename) {
+        foreach ($dir_array as $filename) {
             //skip backup, cache and logs
             if (is_int(strpos($dir."/".$filename, '/backup'))
                 || is_int(strpos($dir."/".$filename, '/cache'))

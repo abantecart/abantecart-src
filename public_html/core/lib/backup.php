@@ -1,4 +1,5 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -24,11 +25,11 @@ if (!defined('DIR_CORE')) {
 /**
  * Class ABackup
  *
- * @property ALog            $log
- * @property ADB             $db
- * @property ALoader         $load
+ * @property ALog $log
+ * @property ADB $db
+ * @property ALoader $load
  * @property ModelToolBackup $model_tool_backup
- * @property ExtensionsAPI   $extensions
+ * @property ExtensionsAPI $extensions
  */
 class ABackup
 {
@@ -50,7 +51,7 @@ class ABackup
 
     /**
      * @param string $name
-     * @param bool   $create_subdirs - sign for creating temp folder for backup. set false if only validate
+     * @param bool $create_subdirs - sign for creating temp folder for backup. set false if only validate
      */
     public function __construct($name, $create_subdirs = true)
     {
@@ -59,10 +60,11 @@ class ABackup
          */
         $this->registry = Registry::getInstance();
         $this->slash = defined('IS_WINDOWS') && IS_WINDOWS === true ? '\\' : '/';
-        //first of all check backup directory create or set writable permissions
+        //first check backup directory create or set writable permissions
         // Before backup process need to call validate() method! (see below)
         if (!make_writable_dir(DIR_BACKUP)) {
-            $this->error[] = 'Directory '.DIR_BACKUP.' can not be created or is not writable. Backup operation is not possible';
+            $this->error[] =
+                'Directory '.DIR_BACKUP.' can not be created or is not writable. Backup operation is not possible';
         }
 
         //Add [date] snapshot to the name and validate if archive is already used.
@@ -110,7 +112,7 @@ class ABackup
 
     /**
      * @param string $key
-     * @param mixed  $value
+     * @param mixed $value
      */
     public function __set($key, $value)
     {
@@ -145,7 +147,8 @@ class ABackup
     public function dumpTables($tables = [], $dump_file = '')
     {
         if (!$tables || !is_array($tables) || !$this->backup_dir) {
-            $error_text = 'Error: Cannot to dump of tables during sql-dumping. Empty table list or unknown destination folder.';
+            $error_text =
+                'Error: Cannot to dump of tables during sql-dumping. Empty table list or unknown destination folder.';
             $error = new AError($error_text);
             $error->toLog()->toDebug();
             return false;
@@ -182,7 +185,7 @@ class ABackup
         $memory_limit = (getMemoryLimitInBytes() - memory_get_usage()) / 4;
 
         // sql-file for small tables
-        $dump_file = $dump_file ?: $this->backup_dir.'data/dump_'.DB_DATABASE.'_'.date('Y-m-d-His').'.sql';
+        $dump_file = $dump_file ? : $this->backup_dir.'data/dump_'.DB_DATABASE.'_'.date('Y-m-d-His').'.sql';
         $file = fopen($dump_file, 'w');
         if (!$file) {
             $error_text = 'Error: Cannot create file as "'.$dump_file.'" during sql-dumping. Check is it writable.';
@@ -247,7 +250,6 @@ class ABackup
             $start = $column_min;
 
             while ($start < $column_max) {
-
                 if (!$small_table) {
                     $sql = "SELECT *
                             FROM `".$table_name."`
@@ -345,7 +347,7 @@ class ABackup
         $backupFile = $this->backup_dir.'data/'.DB_DATABASE.'_'.$table_name.'_dump_'.date("Y-m-d-H-i-s").'.sql';
         $result = $this->dumpTables(
             [
-                $table_name
+                $table_name,
             ],
             $backupFile
         );
@@ -359,7 +361,7 @@ class ABackup
     }
 
     /**
-     * @param string     $dir_path
+     * @param string $dir_path
      * @param bool|false $remove
      *
      * @return bool
@@ -380,7 +382,7 @@ class ABackup
         $path = pathinfo($dir_path, PATHINFO_BASENAME);
 
         if (!is_dir($this->backup_dir.'files/'.$path)) {
-            // it need for nested dirs, for example files/extensions
+            // it needs for nested dirs, for example files/extensions
             mkdir($this->backup_dir.'files/'.$path, 0755, true);
         }
 
@@ -390,7 +392,7 @@ class ABackup
             }
         }
 
-        //check for backup-loop. Do NOT backup of backup-directory!!!
+        //check for backup-loop. Do NOT back up of backup-directory!!!
         if (is_int(strpos($dir_path, $this->backup_dir))) {
             return true;
         }
@@ -406,7 +408,9 @@ class ABackup
         }
 
         if (!$result) {
-            $error_text = "Error: Can't move directory \"".$dir_path." to backup folder \"".$this->backup_dir."files/".$path."\" during backup\n";
+            $error_text =
+                "Error: Can't move directory \"".$dir_path." to backup folder \"".$this->backup_dir."files/".$path
+                ."\" during backup\n";
             if (!is_writable($dir_path)) {
                 $error_text .= "Check write permission for directory \"".$dir_path."";
             }
@@ -423,7 +427,7 @@ class ABackup
     }
 
     /**
-     * @param string    $file_path
+     * @param string $file_path
      * @param bool|true $remove
      *
      * @return bool
@@ -467,7 +471,8 @@ class ABackup
             $result = copy($file_path, $this->backup_dir.'files/'.$path.$base_name);
         }
         if (!$result) {
-            $error_text = "Error: Can't move file ".$file_path.' into '.$this->backup_dir.'files/'.$path.'during backup.';
+            $error_text =
+                "Error: Can't move file ".$file_path.' into '.$this->backup_dir.'files/'.$path.'during backup.';
             $this->log->write($error_text);
             $this->error[] = $error_text;
             return false;
@@ -529,8 +534,8 @@ class ABackup
                 if ($obj != "." && $obj != "..") {
                     @chmod($dir."/".$obj, 0777);
                     $err = is_dir($dir."/".$obj)
-                            ? $this->_removeDir($dir."/".$obj)
-                            : unlink($dir."/".$obj);
+                        ? $this->_removeDir($dir."/".$obj)
+                        : unlink($dir."/".$obj);
                     if (!$err) {
                         $error_text = "Error: Can't to delete file or directory: '".$dir."/".$obj."'.";
                         $this->log->write($error_text);
@@ -627,26 +632,33 @@ class ABackup
         }
 
         //2. check mysql driver
-        $sql = "SELECT TABLE_NAME AS 'table_name',
-					table_rows AS 'num_rows', (data_length + index_length - data_free) AS 'size'
-				FROM information_schema.TABLES
-				WHERE information_schema.TABLES.table_schema = '".DB_DATABASE."'";
+        $sql = "SELECT TABLE_NAME AS 'table_name'
+                FROM information_schema.TABLES
+                WHERE information_schema.TABLES.table_schema = '".DB_DATABASE."'";
         $result = $this->db->query($sql, true);
         if ($result === false && DB_DRIVER == 'mysql') {
-            $this->error[] = 'Probably error will occur. Please change db-driver to "amysqli" in your /system/config.php file.';
+            $this->error[] =
+                'Probably error will occur. Please change db-driver to "amysqli" in your /system/config.php file.';
         } elseif ($result === false) {
             $this->error[] = 'Cannot get tables list. Please check privileges of mysql database user.';
         }
 
         //3. check already created backup directories
-        foreach ([$this->backup_dir, $this->backup_dir."files".$this->slash, $this->backup_dir."data".$this->slash] as $dir) {
+        foreach (
+            [
+                $this->backup_dir,
+                $this->backup_dir."files".$this->slash,
+                $this->backup_dir."data".$this->slash,
+            ] as $dir
+        ) {
             if (is_dir($dir) && !is_writable($dir)) {
-                $this->error[] = 'Directory '.$dir.' already exists and it is non-writable. It is recommended to set write mode for it.';
+                $this->error[] = 'Directory '.$dir
+                    .' already exists and it is non-writable. It is recommended to set write mode for it.';
             }
         }
 
         $this->extensions->hk_ValidateData($this);
 
-        return ($this->error ? false : true);
+        return !$this->error;
     }
 }
