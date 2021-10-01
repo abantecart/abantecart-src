@@ -243,7 +243,7 @@
 	</definition>
 	<definition>
 		<key>entry_weight_change</key>
-		<value><![CDATA[Weight Change: <span class="help">Enter the difference between the base product and the option product</span>]]></value>
+		<value><![CDATA[Weight: <span class="help">Important! If value provided as %(percent) option weight will be changed by specified percent based on the main product weight. If weight value provided it will be used as absolute value for the option, main weight will be ignored.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_length_class</key>

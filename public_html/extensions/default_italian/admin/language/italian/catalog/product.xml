@@ -618,6 +618,6 @@
 	</definition>
 	<definition>
 		<key>entry_weight_change</key>
-		<value><![CDATA[Cambio peso: <span class="help">inserisci la differenza tra il prodotto base e il prodotto opzionale</span>]]></value>
+		<value><![CDATA[Peso: <span class="help">Importante! Se il valore fornito come %(percentuale) il peso dell'opzione verrà modificato della percentuale specificata in base al peso del prodotto principale. Se il valore del peso fornito verrà utilizzato come valore assoluto per l'opzione, il peso principale verrà ignorato.</span>]]></value>
 	</definition>
 </definitions>
