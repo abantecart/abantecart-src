@@ -176,8 +176,9 @@ final class AConnect
         }
 
         $result = $this->getData($url, $port, false, $new_filename);
-        if (!isset($this->response_headers['Content-Disposition'])
-            || !is_int(strpos($this->response_headers['Content-Disposition'], 'attachment'))
+
+        if (!isset($this->response_headers['content-disposition'])
+            || !is_int(strpos($this->response_headers['content-disposition'], 'attachment'))
         ) {
             // if attachment is absent - try to get filename from url
             $file_name = parse_url($url);
@@ -349,7 +350,7 @@ final class AConnect
         //???? will be developed later
         if ($this->config->get('connection_method')) {
             $this->connect_method = $this->config->get('connection_method');
-            return null;
+            return;
         }
         //We prefer Curl first, Curl is the fastest performing
         if ($this->_check_curl()) {
@@ -447,7 +448,7 @@ final class AConnect
                 } else {
                     $code = curl_getinfo($rch, CURLINFO_HTTP_CODE);
                     if ($code == 301 || $code == 302) {
-                        preg_match('/Location:(.*?)\n/', $header, $matches);
+                        preg_match('/location:(.*?)\n/', $header, $matches);
                         $newUrl = trim(array_pop($matches));
                     } else {
                         $code = 0;
@@ -491,7 +492,7 @@ final class AConnect
                 preg_match_all('/^([^:\n]*): ?(.*)$/m', $header, $hds, PREG_SET_ORDER);
                 $headers = [];
                 foreach ($hds as $a) {
-                    $headers[$a[1]] = $a[2];
+                    $headers[strtolower($a[1])] = $a[2];
                 }
                 return $headers;
             }
@@ -519,7 +520,7 @@ final class AConnect
         unset($this->registry->get('session')->data['curl']);
 
         $content_length = $content_length ? (int) $content_length : -1;
-        $content_type = $content_type ? $content_type : -1;
+        $content_type = $content_type ? : -1;
         return [
             "mime"   => $content_type,
             "length" => $content_length,
@@ -583,12 +584,12 @@ final class AConnect
             }
             fclose($sock);
             if (in_array($status, [0, 300, 301, 302, 304, 305, 307])) { // if redirected
-                if ($headers['Location']) {
-                    if (strpos($headers['Location'], 'https://') !== false) {
-                        $headers['Location'] = str_replace('https://', 'ssl://', $headers['Location']);
+                if ($headers['location']) {
+                    if (strpos($headers['location'], 'https://') !== false) {
+                        $headers['location'] = str_replace('https://', 'ssl://', $headers['location']);
                         $port = 443;
                     }
-                    return $this->_processSocket($headers['Location'], $port, $filename, $length_only, $headers_only);
+                    return $this->_processSocket($headers['location'], $port, $filename, $length_only, $headers_only);
                 }
             }
 
@@ -596,8 +597,8 @@ final class AConnect
                 return $headers;
             }
 
-            if ($headers['Content-Length']) {
-                return (int) $headers['Content-Length'];
+            if ($headers['content-length']) {
+                return (int) $headers['content-length'];
             } else {
                 $this->error = 'Error: http status code : '.$headers['status'];
                 return false;
@@ -623,18 +624,17 @@ final class AConnect
         }
 
         if (in_array($status, [0, 300, 301, 302, 304, 305, 307])) { // if redirected
-            if ($headers['Location']) {
-                if (strpos($headers['Location'], 'https://') !== false) {
-                    $headers['Location'] = str_replace('https://', 'ssl://', $headers['Location']);
+            if ($headers['location']) {
+                if (strpos($headers['location'], 'https://') !== false) {
+                    $headers['location'] = str_replace('https://', 'ssl://', $headers['location']);
                     $port = 443;
                 }
-                return $this->_processSocket($headers['Location'], $port, $filename, $length_only, $headers_only);
+                return $this->_processSocket($headers['location'], $port, $filename, $length_only, $headers_only);
             }
         }
 
-        $content_length = $headers['Content-Length'] ? (int) $headers['Content-Length'] : -1;
-        $content_type = $headers['Content-Type'] ? $headers['Content-Type'] : -1;
-
+        $content_length = $headers['content-length'] ? (int) $headers['content-length'] : -1;
+        $content_type = $headers['content-type'] ? : -1;
         return ["mime" => $content_type, "length" => $content_length, "data" => $response];
     }
 
@@ -725,12 +725,10 @@ final class AConnect
             if (strpos($value, ':') === false && strpos($value, 'HTTP') !== false) {
                 $headerData['status'] = $header[0];
             } elseif ($header[0] && $header[1]) {
-                $headerData[$header[0]] = $header[1];
+                $headerData[strtolower($header[0])] = $header[1];
             }
         }
-        if (!isset($headerData['Content-Disposition']) && isset($headerData['Content-disposition'])) {
-            $headerData['Content-Disposition'] = $headerData['Content-disposition'];
-        }
+
         $this->response_headers = $headerData;
         return $headerData;
     }
