@@ -94,15 +94,15 @@
 							<small title="<?php echo $option['title']?>"> - <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
 						<?php echo $this->getHookVar('option_'.$option['name'].'_additional_info'); ?>
 						<?php } ?>
-						<?php echo $this->getHookVar('product_'.$product['id'].'_additional_info'); ?>
+						<?php echo $this->getHookVar('product_'.$product['order_product_id'].'_additional_info'); ?>
 					</td>
 					<td class="align_left valign_top"><?php echo $product['model']; ?></td>
 					<td class="align_right valign_top"><?php echo $product['quantity']; ?></td>
 					<td class="align_right valign_top"><?php echo $product['price']; ?></td>
 					<td class="align_right valign_top"><?php echo $product['total']; ?></td>
-					<?php echo $this->getHookVar('product_'.$product['id'].'_additional_info_1'); ?>
+					<?php echo $this->getHookVar('product_'.$product['order_product_id'].'_additional_info_1'); ?>
 				</tr>
-			<?php echo $this->getHookVar('product_'.$product['id'].'_additional_info_2'); ?>
+			<?php echo $this->getHookVar('product_'.$product['order_product_id'].'_additional_info_2'); ?>
 			<?php } ?>
 			<?php echo $this->getHookVar('list_more_product_last'); ?>
 		</table>
