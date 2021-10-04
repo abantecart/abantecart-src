@@ -251,15 +251,15 @@
 	</definition>
 	<definition>
 		<key>entry_length</key>
-		<value><![CDATA[Length:]]></value>
+		<value><![CDATA[Product package length: <span class="help">The package dimension refers to the size of the box, pouch, or parcel that your item will be shipped in</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_width</key>
-		<value><![CDATA[Width:]]></value>
+		<value><![CDATA[Product package Width: <span class="help">The package dimension refers to the size of the box, pouch, or parcel that your item will be shipped in</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_height</key>
-		<value><![CDATA[Height:]]></value>
+		<value><![CDATA[Product package Height:<span class="help">The package dimension refers to the size of the box, pouch, or parcel that your item will be shipped in</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_dimension</key>
