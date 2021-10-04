@@ -1246,6 +1246,7 @@ class ControllerResponsesCheckoutPay extends AController
             $this->session->data['order_id'],
             $this->session->data['fc']
         );
+        $this->fc_session = [];
         $this->cart->clear();
     }
 
