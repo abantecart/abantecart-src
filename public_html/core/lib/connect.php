@@ -448,7 +448,7 @@ final class AConnect
                 } else {
                     $code = curl_getinfo($rch, CURLINFO_HTTP_CODE);
                     if ($code == 301 || $code == 302) {
-                        preg_match('/location:(.*?)\n/', $header, $matches);
+                        preg_match('/(?i)location:(.*?)\n/', $header, $matches);
                         $newUrl = trim(array_pop($matches));
                     } else {
                         $code = 0;
