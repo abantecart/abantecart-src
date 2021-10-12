@@ -95,7 +95,7 @@ class ACustomer
                 LEFT JOIN ".$this->db->table("customer_groups")." cg 
                     ON c.customer_group_id = cg.customer_group_id
                 WHERE customer_id = '".(int) $this->session->data['customer_id']."' 
-                    AND status = '1'"
+                    AND `store_id`=".$this->config->get('config_store_id')." AND status = '1'"
             );
 
             if ($customer_data->num_rows) {
@@ -186,7 +186,7 @@ class ACustomer
                             ))
                     ".$add_pass_sql."
                 )
-                AND status = '1' ".$approved_only
+                AND `store_id`=".$this->config->get('config_store_id')." AND status = '1' ".$approved_only
         );
         if ($customer_data->num_rows) {
             $this->_customer_init($customer_data->row);
