@@ -28,13 +28,6 @@ class ControllerBlocksMenu extends AController
 
     public function main()
     {
-        //HTML cache only for non-customer
-        if (!$this->customer->isLogged() && !$this->customer->isUnauthCustomer()) {
-            if ($this->html_cache()) {
-                return;
-            }
-        }
-
         $this->loadLanguage('blocks/menu');
         $this->loadLanguage('common/header');
 

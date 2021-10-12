@@ -1,4 +1,5 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -23,26 +24,19 @@ if (!defined('DIR_CORE')) {
 
 class ControllerBlocksNewsLetterSignUp extends AController
 {
-    public $data = array();
-
     public function main()
     {
-
-        if ($this->html_cache()) {
-            return;
-        }
-
         $this->loadLanguage('blocks/newsletter_signup');
 
         $form = new AForm();
         $this->data['form_open'] = $form->getFieldHtml(
-            array(
-                'type'   => 'form',
-                'name'   => 'subscribeFrm',
+            [
+                'type' => 'form',
+                'name' => 'subscribeFrm',
                 'method' => 'get',
                 'action' => $this->html->getSecureURL('account/subscriber', '', true),
-                'csrf'   => true,
-            )
+                'csrf' => true,
+            ]
         );
         $this->data['heading_title'] = $this->language->get('heading_title');
         $this->data['text_signup'] = $this->language->get('text_signup');

@@ -24,13 +24,18 @@ if (!defined('DIR_CORE')) {
 
 class ControllerBlocksListingBlock extends AController
 {
+    public function __construct($registry, $instance_id, $controller, $parent_controller = '')
+    {
+        parent::__construct($registry, $instance_id, $controller, $parent_controller);
+        $this->data['empty_render_text'] =
+            'To view content of block you should be logged in and prices must be without taxes';
+    }
+
     public function main($instance_id = 0, $custom_block_id = 0)
     {
         //disable cache when login display price setting is off or enabled showing of prices with taxes
-        if (($this->config->get('config_customer_price') && !$this->config->get('config_tax'))
-            && $this->html_cache()
-        ) {
-            return null;
+        if ($this->config->get('config_customer_price') && !$this->config->get('config_tax')) {
+            return;
         }
         //set default template first for case singleton usage
         $this->view->setTemplate('blocks/listing_block.tpl');

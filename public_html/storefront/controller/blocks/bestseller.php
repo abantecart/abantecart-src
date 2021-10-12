@@ -23,15 +23,19 @@ if (!defined('DIR_CORE')) {
 
 class ControllerBlocksBestSeller extends AController
 {
-    public $data;
+    public function __construct($registry, $instance_id, $controller, $parent_controller = '')
+    {
+        parent::__construct($registry, $instance_id, $controller, $parent_controller);
+        $this->data['empty_render_text'] =
+            'To view content of block you should be logged in and prices must be without taxes';
+    }
 
     public function main()
     {
         //disable cache when login display price setting is off or enabled showing of prices with taxes
         if (($this->config->get('config_customer_price') && !$this->config->get('config_tax'))
-            && $this->html_cache()
         ) {
-            return null;
+            return;
         }
 
         //init controller data
@@ -45,7 +49,7 @@ class ControllerBlocksBestSeller extends AController
 
         $this->data['button_add_to_cart'] = $this->language->get('button_add_to_cart');
 
-        $this->data['products'] = array();
+        $this->data['products'] = [];
 
         $results = $this->model_catalog_product->getBestSellerProducts($this->config->get('config_bestseller_limit'));
         $product_ids = array_column($results, 'product_id');
@@ -104,7 +108,7 @@ class ControllerBlocksBestSeller extends AController
                 }
             }
 
-            $this->data['products'][] = array(
+            $this->data['products'][] = [
                 'product_id'     => $result['product_id'],
                 'name'           => $result['name'],
                 'blurb'          => $result['blurb'],
@@ -116,14 +120,16 @@ class ControllerBlocksBestSeller extends AController
                 'options'        => $options,
                 'special'        => $special,
                 'thumb'          => $thumbnail,
-                'href'           => $this->html->getSEOURL('product/product', '&product_id='.$result['product_id'], '&encode'),
+                'href'           => $this->html->getSEOURL(
+                    'product/product', '&product_id='.$result['product_id'], '&encode'
+                ),
                 'add'            => $add,
                 'track_stock'    => $track_stock,
                 'in_stock'       => $in_stock,
                 'no_stock_text'  => $no_stock_text,
                 'total_quantity' => $total_quantity,
                 'tax_class_id'   => $result['tax_class_id'],
-            );
+            ];
         }
 
         if ($this->config->get('config_customer_price')) {
