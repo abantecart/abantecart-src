@@ -41,7 +41,7 @@ class ControllerPagesToolPackageInstaller extends AController
         $package_info = &$this->session->data['package_info'];
         $extension_key = trim($this->request->get['extension_key']);
 
-        $extension_key = trim($this->request->post['extension_key']) ?: $extension_key;
+        $extension_key = trim($this->request->post['extension_key']) ? : $extension_key;
 
         $extension_key = $package_info['extension_key'] ? : $extension_key;
         $this->session->data['package_info'] = [];
@@ -457,7 +457,7 @@ class ControllerPagesToolPackageInstaller extends AController
             $this->session->data['error'] = $this->language->get('error_mp')." ".$error_text;
             redirect($this->_get_begin_href());
         } else {
-            $package_name = str_replace("attachment; filename=", "", $headers['Content-Disposition']);
+            $package_name = str_replace("attachment; filename=", "", $headers['content-disposition']);
             $package_name = str_replace(['"', ';'], '', $package_name);
             if (!$package_name) {
                 $package_name = parse_url($url);
@@ -477,11 +477,12 @@ class ControllerPagesToolPackageInstaller extends AController
         $package_info['package_url'] = $url;
         $package_info['package_name'] = $package_name;
         $package_info['package_size'] = $headers['content-length'];
-        if ($headers['Support-Expiration']) {
-            $package_info['support_expiration'] = $headers['Support-Expiration'];
+
+        if ($headers['support-expiration']) {
+            $package_info['support_expiration'] = $headers['support-expiration'];
         }
-        if ($headers['Product-Url']) {
-            $package_info['product_url'] = $headers['Product-Url'];
+        if ($headers['product-url']) {
+            $package_info['product_url'] = $headers['product-url'];
         }
 
         $already_downloaded = false;
@@ -646,9 +647,9 @@ class ControllerPagesToolPackageInstaller extends AController
         }
 
         //check system requirements
-        $results = checkPhpConfiguration((array)$config->phpmodules->item, (string)$config->phpminversion);
-        if($results){
-            foreach($results as $r) {
+        $results = checkPhpConfiguration((array) $config->phpmodules->item, (string) $config->phpminversion);
+        if ($results) {
+            foreach ($results as $r) {
                 $this->session->data['error'] .= $r['body']."\n";
             }
             redirect($this->html->getSecureURL('tool/package_installer'));
