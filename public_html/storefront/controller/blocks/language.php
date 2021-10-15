@@ -39,12 +39,7 @@ class ControllerBlocksLanguage extends AController
 
         if ($this->request->is_POST() && isset($this->request->post['language_code'])) {
             $this->session->data['language'] = $this->request->post['language_code'];
-
-            if (isset($this->request->post['redirect'])) {
-                $this->redirect($this->request->post['redirect']);
-            } else {
-                $this->redirect($this->html->getHomeURL());
-            }
+            redirect($this->request->post['redirect'] ?? $this->html->getHomeURL());
         }
 
         $this->data['heading_title'] = $this->language->get('heading_title', 'blocks/language');

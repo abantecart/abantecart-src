@@ -27,6 +27,7 @@ class ControllerBlocksNewsLetterSignUp extends AController
     public function main()
     {
         $this->loadLanguage('blocks/newsletter_signup');
+        $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $form = new AForm();
         $this->data['form_open'] = $form->getFieldHtml(
@@ -47,5 +48,6 @@ class ControllerBlocksNewsLetterSignUp extends AController
 
         $this->view->batchAssign($this->data);
         $this->processTemplate();
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 }

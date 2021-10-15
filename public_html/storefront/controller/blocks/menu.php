@@ -30,6 +30,7 @@ class ControllerBlocksMenu extends AController
     {
         $this->loadLanguage('blocks/menu');
         $this->loadLanguage('common/header');
+        $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->data['heading_title'] = $this->language->get('heading_title', 'blocks/menu');
 
@@ -40,7 +41,6 @@ class ControllerBlocksMenu extends AController
         if ($this->menu_items === false) {
             $menu = new AMenu_Storefront();
             $this->menu_items = $menu->getMenuItems();
-
             //writes into cache result of calling _buildMenu func!
             $this->cache->push($cache_key, $this->menu_items);
         }
@@ -53,6 +53,7 @@ class ControllerBlocksMenu extends AController
         $this->data['storemenu'] = $storefront_menu;
 
         $this->view->batchAssign($this->data);
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
         $this->processTemplate();
     }
 
