@@ -76,7 +76,8 @@ class AMenu
         }
 
         $this->dataset = new ADataset ('menu', $menu_name);
-        $this->menu_items = $this->_build_menu($this->dataset->getRows());
+        $rows = $this->dataset->getRows();
+        $this->menu_items = $this->_build_menu($rows);
     }
 
     /**
@@ -87,36 +88,64 @@ class AMenu
      */
     protected function _build_menu($values)
     {
-        // need to resort by sort_order property
-        $offset = 0; // it needs for process repeating sort numbers
-        $tmp = $this->item_ids = [];
+        $output = $this->item_ids = [];
         if (is_array($values)) {
+            // need to resort by sort_order property and exclude disabled extension items
+            $enabled_extension = $this->registry->get('extensions')->getEnabledExtensions();
             $rm = new AResourceManager();
             $rm->setType('image');
             $language_id = $this->registry->get('language')->getContentLanguageID();
-
+            $indexes = [];
             foreach ($values as &$item) {
+                //checks for disabled extension
+                if ($item ['item_type'] == 'extension') {
+                    // looks for this name in enabled extensions list. if is not there - skip it
+                    if (!$this->_find_itemId_in_extensions($item ['item_id'], $enabled_extension)) {
+                        continue;
+                    } else { // if all fine - loads language of extension for menu item text show
+                        if (strpos($item ['item_url'], 'http') === false) {
+                            $this->registry->get('load')->language($item ['item_id'].'/'.$item ['item_id'], 'silent');
+                            $item['language'] = $item ['item_id'].'/'.$item ['item_id'];
+                        }
+                    }
+                }
+
                 if ($item['item_icon_rl_id']) {
                     $r = $rm->getResource($item['item_icon_rl_id'], $language_id);
                     $item['item_icon_code'] = $r['resource_code'];
                 }
-                if (isset ($tmp [$item ['parent_id']] [$item ['sort_order']])) {
-                    $offset++;
-                }
-                $tmp [$item ['parent_id']] [$item ['sort_order'] + $offset] = $item;
+                $output [$item ['parent_id']] [] = $item;
+                $indexes[$item ['parent_id']][] = $item ['sort_order'];
                 $this->item_ids [] = $item ['item_id'];
             }
+
+            foreach ($output as $parentId => &$rows) {
+                array_multisort($indexes[$parentId], $rows, SORT_NUMERIC, SORT_ASC);
+            }
         }
-        unset($item);
 
         $this->dataset_rows = $values;
+        return $output;
+    }
 
-        $menu = [];
-        foreach ($tmp as $key => $item) {
-            ksort($item);
-            $menu [$key] = $item;
+    /**
+     * @param $item_id
+     * @param $extension_list
+     *
+     * @return bool
+     */
+    private function _find_itemId_in_extensions($item_id, $extension_list)
+    {
+        if (in_array($item_id, $extension_list)) {
+            return true;
         }
-        return $menu;
+        foreach ($extension_list as $ext_id) {
+            $pos = strpos($item_id, $ext_id);
+            if ($pos === 0 && substr($item_id, strlen($ext_id), 1) == '_') {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

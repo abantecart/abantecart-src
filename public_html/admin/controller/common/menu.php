@@ -1,4 +1,6 @@
 <?php
+/** @noinspection PhpUnused */
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -20,7 +22,6 @@
 
 class ControllerCommonMenu extends AController
 {
-    public $data = [];
     protected $permissions = [];
     protected $groupID;
     const TOP_ADMIN_GROUP = 1;
@@ -28,8 +29,13 @@ class ControllerCommonMenu extends AController
     public function main()
     {
         $this->loadLanguage('common/header');
-        $menu = new ADataset ('menu', 'admin');
-        $this->data['menu_items'] = $menu->getRows();
+        $menu = new AMenu('admin');
+        $this->data['menu_items'] = [];
+        $items = $menu->getMenuItems();
+        foreach ($items as $row) {
+            $this->data['menu_items'] = array_merge($this->data['menu_items'], $row);
+        }
+
         $this->loadModel('user/user_group');
         $this->groupID = (int) $this->user->getUserGroupId();
         if ($this->groupID !== self::TOP_ADMIN_GROUP) {
@@ -40,68 +46,17 @@ class ControllerCommonMenu extends AController
         //use to update data before render
         $this->extensions->hk_ProcessData($this);
 
-        // need to resort by sort_order property and exclude disabled extension items
-        $enabled_extension = $this->extensions->getEnabledExtensions();
-
-        $tmp = [];
-        foreach ($this->data['menu_items'] as $i => $item) {
-            $item['item_type'] = $item ['item_type'] ?? '';
-            $offset = 0;
-            while ($offset < 20 || isset ($tmp [$item ['parent_id']] [$item ['sort_order'] + $offset])) {
-                $offset++;
-            }
-
-            //checks for disabled extension
-            if ($item ['item_type'] == 'extension') {
-                // looks for this name in enabled extensions list. if is not there - skip it
-                if (!$this->_find_itemId_in_extensions($item ['item_id'], $enabled_extension)) {
-                    continue;
-                } else { // if all fine - loads language of extension for menu item text show
-                    if (strpos($item ['item_url'], 'http') === false) {
-                        $this->loadLanguage($item ['item_id'].'/'.$item ['item_id'], 'silent');
-                        $item['language'] = $item ['item_id'].'/'.$item ['item_id'];
-                    }
-                }
-            }
-            $tmp [$item ['parent_id']] [$item ['sort_order'] + $offset] = $item;
-        }
-        $this->data['menu_items'] = [];
-        foreach ($tmp as $item) {
-            ksort($item);
-            $this->data['menu_items'] = array_merge($this->data['menu_items'], $item);
-        }
-        unset ($tmp);
-
         $this->view->assign(
-            'menu_html', renderAdminMenu(
-                           $this->_buildMenuArray($this->data['menu_items']),
-                           0,
-                           $this->request->get_or_post('rt')
-                       )
+            'menu_html',
+            renderAdminMenu(
+                $this->_buildMenuArray($this->data['menu_items']),
+                0,
+                $this->request->get_or_post('rt')
+            )
         );
         $this->processTemplate('common/menu.tpl');
         //use to update data before render
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-    }
-
-    /**
-     * @param $item_id
-     * @param $extension_list
-     *
-     * @return bool
-     */
-    private function _find_itemId_in_extensions($item_id, $extension_list)
-    {
-        if (in_array($item_id, $extension_list)) {
-            return true;
-        }
-        foreach ($extension_list as $ext_id) {
-            $pos = strpos($item_id, $ext_id);
-            if ($pos === 0 && substr($item_id, strlen($ext_id), 1) == '_') {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
@@ -110,7 +65,7 @@ class ControllerCommonMenu extends AController
      * @return array
      * @throws AException
      */
-    private function _buildMenuArray($menu_items = [])
+    protected function _buildMenuArray($menu_items = [])
     {
         $dashboard = [
             'dashboard' => [
@@ -131,11 +86,11 @@ class ControllerCommonMenu extends AController
      * @return array
      * @throws AException
      */
-    private function _getChildItems($item_id, $menu_items)
+    protected function _getChildItems($item_id, $menu_items)
     {
         $rm = new AResourceManager();
         $rm->setType('image');
-        $result = $children = [];
+        $result = [];
         foreach ($menu_items as $item) {
             if ($item['parent_id'] == $item_id && isset($item['item_id'])) {
                 if (isset($item ['language'])) {
@@ -160,7 +115,7 @@ class ControllerCommonMenu extends AController
                 $link_key_name = strpos($item ['item_url'], "http") ? "onclick" : "href";
 
                 $icon = $rm->getResource($item ['item_icon_rl_id']);
-                $icon = $icon['resource_code'] ? $icon['resource_code'] : '';
+                $icon = $icon['resource_code'] ? : '';
 
                 $temp = [
                     'id'           => $item ['item_id'],
