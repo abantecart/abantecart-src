@@ -48,10 +48,6 @@ class ControllerBlocksCategory extends AController
             $allowed_cache_keys = ['path'];
             $cache_val = ['path' => $request['path']];
             $this->buildHTMLCacheKey($allowed_cache_keys, $cache_val);
-            //disable cache when login display price setting is off or enabled showing of prices with taxes
-            if ($this->config->get('config_customer_price') && !$this->config->get('config_tax')) {
-                return;
-            }
         }
 
         $this->view->assign('heading_title', $this->language->get('heading_title', 'blocks/category'));

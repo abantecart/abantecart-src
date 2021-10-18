@@ -33,10 +33,6 @@ class ControllerBlocksHTMLBlock extends AController
 
     public function main($instance_id = 0, $custom_block_id = 0)
     {
-        //disable cache when login display price setting is off or enabled showing of prices with taxes
-        if ($this->config->get('config_customer_price') && !$this->config->get('config_tax')) {
-            return;
-        }
         //set default template first for case with singleton usage
         $this->view->setTemplate('blocks/html_block.tpl');
 

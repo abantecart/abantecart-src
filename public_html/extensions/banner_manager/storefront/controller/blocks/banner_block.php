@@ -35,10 +35,6 @@ class ControllerBlocksBannerBlock extends AController
         //load JS to register clicks before html-cache
         $this->document->addScriptBottom($this->view->templateResource('/javascript/banner_manager.js'));
 
-        if ($this->html_cache()) {
-            return;
-        }
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 

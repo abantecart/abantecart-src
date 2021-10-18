@@ -33,10 +33,6 @@ class ControllerBlocksLatest extends AController
 
     public function main()
     {
-        //disable cache when login display price setting is off or enabled showing of prices with taxes
-        if ($this->config->get('config_customer_price') && !$this->config->get('config_tax')) {
-            return;
-        }
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);

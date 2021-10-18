@@ -1,4 +1,7 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection
+ * @noinspection PhpUnused
+ */
 
 /*------------------------------------------------------------------------------
   $Id$
@@ -24,28 +27,27 @@ if (!defined('DIR_CORE')) {
 
 class ControllerCommonTemplateDebug extends AController
 {
-    public $data = [];
 
-    public function main($instance_id = 0, $args = [])
+    public function main($instance_id = 0, $details = [])
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $block_details = $this->layout->getBlockDetails($args['block_id']);
+        $block_details = $this->layout->getBlockDetails($details['block_id']);
         $parent_block = $this->layout->getBlockDetails($block_details['parent_instance_id']);
 
-        $this->data['id'] = $args['block_id'];
+        $this->data['id'] = $details['block_id'];
         $this->data['name'] = $block_details['block_txt_id'];
-        $this->data['tpl_path'] = $args['block_tpl'];
+        $this->data['tpl_path'] = $details['block_tpl'];
         $this->data['controller'] = $block_details['controller'];
-        $this->data['controller_path'] = str_replace(DIR_ROOT.'/', '', $args['block_controller']);
+        $this->data['controller_path'] = str_replace(DIR_ROOT.'/', '', $details['block_controller']);
         $this->data['parent_block'] = $parent_block['block_txt_id'];
         $this->data['parent'] = [];
         $this->data['parent']['id'] = $parent_block['instance_id'];
         $this->data['parent']['name'] = $parent_block['block_txt_id'];
-        $this->data['parent']['tpl_path'] = $args['parent_tpl'];
+        $this->data['parent']['tpl_path'] = $details['parent_tpl'];
         $this->data['parent']['controller'] = $parent_block['controller'];
-        $this->data['parent']['controller_path'] = str_replace(DIR_ROOT.'/', '', $args['parent_controller']);
+        $this->data['parent']['controller_path'] = str_replace(DIR_ROOT.'/', '', $details['parent_controller']);
 
         $this->view->batchAssign($this->data);
 
