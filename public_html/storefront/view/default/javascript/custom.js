@@ -12,7 +12,7 @@ $(window).bind("load", function () {
 	})
 });
 
-$('document').on('ready', function () {
+$('document').ready(function () {
 
 	// Dropdowns
 	$('.dropdown').hover(
