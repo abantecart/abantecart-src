@@ -141,15 +141,6 @@
 			</div>
 			<?php } ?><!-- <div class="fieldset"> -->
 			</div>
-
-			<div class="col-sm-6 col-xs-12">
-				<label class="h4 heading"><?php echo ${'tab_customer_' . $section}; ?></label>
-				dfafadsfdsfsad
-
-			</div>
-
-		</div>
-	</div>
     <?php } ?>
 
 	<div class="panel-footer col-xs-12">
