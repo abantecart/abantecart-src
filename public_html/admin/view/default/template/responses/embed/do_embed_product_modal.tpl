@@ -5,7 +5,7 @@
 <div class="tab-content do_embed">
     <div class="panel-body panel-body-nopadding">
         <div class="col-sm-6 col-xs-12">
-            <div id="embed_container" class="embed_preview" style="pointer-events: none;"></div>
+            <div id="embed_container" class="embed_preview"></div>
         </div>
         <div id="code_options" class="col-sm-6 col-xs-12">
             <?php if (!empty ($help_url)) { ?>
@@ -111,7 +111,7 @@
                 + common_params + '>\n';
         html += '\t<div id="abc_<?php echo (int)(microtime() * 1000); ?>" '
             +'class="abantecart_product" data-product-id="<?php echo $product_id; ?>" data-language="'
-                + language + '" data-currency="' + currency + '">\n';
+            + language + '" data-currency="' + currency + '">\n';
         $('#code_options').find('input[type="hidden"]').each(function () {
             if ($(this).val() === '1') {
                 html += '\t\t' + options[$(this).attr('name')];
@@ -121,7 +121,8 @@
         html += '\t<\/div>\n<\/div>';
         $('#getEmbedFrm_code_area').val(html);
 
-        $("#embed_container").html(html);
+        $("#embed_container").html(html).find('div, a, button').css('pointer-events', 'none');
+
         $('#getEmbedFrm_url').val(url);
         recalcHeightParam = true;
     };
