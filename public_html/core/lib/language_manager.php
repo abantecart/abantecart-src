@@ -1,4 +1,9 @@
 <?php
+/** @noinspection SqlDialectInspection */
+
+/** @noinspection PhpUndefinedClassInspection */
+
+/** @noinspection DuplicatedCode */
 
 /*------------------------------------------------------------------------------
   $Id$
@@ -387,6 +392,7 @@ class ALanguageManager extends Alanguage
      * @param string $table_name - database table name with no prefix
      * @param array $index - unique index to perform select (associative array with column name as key)
      * @param array $txt_data - text data array. Format: [language id][key] => [value]
+     *
      * @throws AException
      * @throws AException
      */
@@ -1277,6 +1283,9 @@ class ALanguageManager extends Alanguage
     public function getPrimaryKeys($table_name)
     {
         $pkeys = [];
+        if (!trim($table_name)) {
+            return $pkeys;
+        }
         #get primary keys
         $sql = "SHOW INDEX FROM ".$table_name."
                 WHERE Key_name = 'PRIMARY'";
