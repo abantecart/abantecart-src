@@ -34,7 +34,10 @@ class ControllerBlocksListingBlock extends AController
     public function main($instance_id = 0, $custom_block_id = 0)
     {
         //set default template first for case singleton usage
-        $this->view->setTemplate('blocks/listing_block.tpl');
+        if (!$this->view->getTemplate()) {
+            $this->view->setTemplate('blocks/listing_block.tpl');
+        }
+
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -42,6 +45,7 @@ class ControllerBlocksListingBlock extends AController
 
         $block_details = $this->layout->getBlockDetails($instance_id);
         $parent_block = $this->layout->getBlockDetails($block_details['parent_instance_id']);
+
         $parent_block_txt_id = $parent_block['block_txt_id'];
 
         $extension_controllers = $this->extensions->getExtensionControllers();
@@ -71,6 +75,7 @@ class ControllerBlocksListingBlock extends AController
                     ]
                 )) {
                     $this->_prepareProducts($block_data['content'], $block_data['block_wrapper']);
+
                     $templateOverridden = true;
                 } else {
                     $block_data['content'] = $this->_prepareItems($block_data['content']);
@@ -83,6 +88,7 @@ class ControllerBlocksListingBlock extends AController
                 $override = $this->dispatch($this->data['controller'], [$parent_block_txt_id, $block_data]);
                 $this->view->setOutput($override->dispatchGetOutput());
             }
+
             // need to set wrapper for non products listing blocks
             if ($this->view->isTemplateExists($block_data['block_wrapper']) && !$templateOverridden) {
                 $this->view->setTemplate($block_data['block_wrapper']);
@@ -90,6 +96,7 @@ class ControllerBlocksListingBlock extends AController
 
             $this->processTemplate();
         }
+
         //init controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
@@ -302,6 +309,7 @@ class ControllerBlocksListingBlock extends AController
 
         // getting list
         $this->data['content'] = $this->getListing();
+
         if ($this->data['content']) {
             $output = [
                 'title'         => $this->data['descriptions'][$key]['title'],

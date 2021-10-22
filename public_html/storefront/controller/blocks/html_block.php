@@ -34,7 +34,9 @@ class ControllerBlocksHTMLBlock extends AController
     public function main($instance_id = 0, $custom_block_id = 0)
     {
         //set default template first for case with singleton usage
-        $this->view->setTemplate('blocks/html_block.tpl');
+        if (!$this->view->getTemplate()) {
+            $this->view->setTemplate('blocks/html_block.tpl');
+        }
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
