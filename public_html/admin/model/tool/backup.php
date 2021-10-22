@@ -173,7 +173,8 @@ class ModelToolBackup extends Model
         }
 
         //NOTE: remove temp backup dir before process to prevent progressive increment of directory date if some backup-steps will be failed
-        $bkp = new ABackup("manual_backup_".date('Ymd_His'));
+        $backupName = "manual_backup_".date('Ymd_His');
+        $bkp = new ABackup($backupName);
         $bkp->removeBackupDirectory();
         unset($bkp);
 
@@ -183,6 +184,7 @@ class ModelToolBackup extends Model
         $task_id = $tm->addTask(
             [
                 'name'               => $task_name,
+                'backup_name'        => $backupName,
                 //admin-side is starter
                 'starter'            => 1,
                 'created_by'         => $this->user->getId(),
@@ -200,8 +202,6 @@ class ModelToolBackup extends Model
             $this->errors = array_merge($this->errors, $tm->errors);
             return false;
         }
-
-        $backup_filename = "manual_backup_".date('Ymd_His');
 
         //create step for table backup
         if ($data['table_list']) {
@@ -240,7 +240,7 @@ class ModelToolBackup extends Model
                     'settings'           => [
                         'table_list'    => $data['table_list'],
                         'sql_dump_mode' => $data['sql_dump_mode'],
-                        'backup_name'   => $backup_filename,
+                        'backup_name'   => $backupName,
                     ],
                 ]
             );
@@ -276,7 +276,7 @@ class ModelToolBackup extends Model
                     'controller'         => 'task/tool/backup/backupCodeFiles',
                     'settings'           => [
                         'interrupt_on_step_fault' => false,
-                        'backup_name'             => $backup_filename,
+                        'backup_name'             => $backupName,
                     ],
                 ]
             );
@@ -310,7 +310,7 @@ class ModelToolBackup extends Model
                     'controller'         => 'task/tool/backup/backupContentFiles',
                     'settings'           => [
                         'interrupt_on_step_fault' => false,
-                        'backup_name'             => $backup_filename,
+                        'backup_name'             => $backupName,
                     ],
                 ]
             );
@@ -344,7 +344,7 @@ class ModelToolBackup extends Model
                     'controller'         => 'task/tool/backup/compressbackup',
                     'settings'           => [
                         'interrupt_on_step_fault' => false,
-                        'backup_name'             => $backup_filename,
+                        'backup_name'             => $backupName,
                     ],
                 ]
             );
