@@ -100,10 +100,8 @@
 	foreach($form['fields'] as $section=>$fields){
 	?>
 
-	<div class="panel-body panel-body-nopadding tab-content">
-		<div class="container-fluid">
-			<div class="col-sm-6 col-xs-12">
-			<label class="h4 heading"><?php echo ${'tab_customer_' . $section}; ?></label>
+        <div class="panel-body panel-body-nopadding tab-content col-xs-12">
+            <label class="h4 heading"><?php echo ${'tab_customer_' . $section}; ?></label>
 			<?php foreach ($fields as $name => $field) { ?>
 			<?php
 			//Logic to calculate fields width
@@ -111,9 +109,9 @@
 			if (is_int(stripos($field->style, 'large-field'))) {
 				$widthcasses = "col-sm-7";
 			} else if (is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date'))) {
-				$widthcasses = "col-sm-6";
+                $widthcasses = "col-sm-5";
 			} else if (is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch'))) {
-				$widthcasses = "col-sm-6";
+                $widthcasses = "col-sm-3";
 			} else if (is_int(stripos($field->style, 'tiny-field'))) {
 				$widthcasses = "col-sm-2";
 			}
