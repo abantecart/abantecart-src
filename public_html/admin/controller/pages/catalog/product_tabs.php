@@ -27,12 +27,12 @@ class ControllerPagesCatalogProductTabs extends AController
 
     public function main($data = [] )
     {
-
         //Load input arguments for gid settings
         $this->data = $data;
         if (!is_array($this->data)) {
             throw new AException (AC_ERR_LOAD, 'Error: Could not create tabs. Tab definition is not array.');
         }
+        $this->data['additionalTabs'] = [];
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -50,6 +50,7 @@ class ControllerPagesCatalogProductTabs extends AController
         $this->data['link_layout'] = $this->html->getSecureURL('catalog/product_layout', '&product_id='.$product_id);
 
         $this->view->batchAssign($this->data);
+
         $this->processTemplate('pages/catalog/product_tabs.tpl');
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);

@@ -23,24 +23,24 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerCommonTemplateDebug extends AController
 {
-    public function main($instance_id = 0, $args = [])
+    public function main($instance_id = 0, $details = [])
     {
-        $block_details = $this->layout->getBlockDetails($args['block_id']);
+        $block_details = $this->layout->getBlockDetails($details['block_id']);
         $parent_block = $this->layout->getBlockDetails($block_details['parent_instance_id']);
 
         $tmpl_data = [];
-        $tmpl_data['id'] = $args['block_id'];
+        $tmpl_data['id'] = $details['block_id'];
         $tmpl_data['name'] = $block_details['block_txt_id'];
-        $tmpl_data['tpl_path'] = $args['block_tpl'];
+        $tmpl_data['tpl_path'] = $details['block_tpl'];
         $tmpl_data['controller'] = $block_details['controller'];
-        $tmpl_data['controller_path'] = str_replace(DIR_ROOT.'/', '', $args['block_controller']);
+        $tmpl_data['controller_path'] = str_replace(DIR_ROOT.'/', '', $details['block_controller']);
         $tmpl_data['parent_block'] = $parent_block['block_txt_id'];
         $tmpl_data['parent'] = [];
         $tmpl_data['parent']['id'] = $parent_block['instance_id'];
         $tmpl_data['parent']['name'] = $parent_block['block_txt_id'];
-        $tmpl_data['parent']['tpl_path'] = $args['parent_tpl'];
+        $tmpl_data['parent']['tpl_path'] = $details['parent_tpl'];
         $tmpl_data['parent']['controller'] = $parent_block['controller'];
-        $tmpl_data['parent']['controller_path'] = str_replace(DIR_ROOT.'/', '', $args['parent_controller']);
+        $tmpl_data['parent']['controller_path'] = str_replace(DIR_ROOT.'/', '', $details['parent_controller']);
 
         $this->view->batchAssign($tmpl_data);
 

@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,11 +24,14 @@ if (!defined('DIR_CORE')) {
 
 class ControllerBlocksLanguage extends AController
 {
-    public $data = array();
+    public function __construct($registry, $instance_id, $controller, $parent_controller = '')
+    {
+        parent::__construct($registry, $instance_id, $controller, $parent_controller);
+        $this->data['empty_render_text'] = 'To view content of block you should have at least two enabled languages';
+    }
 
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -35,12 +39,7 @@ class ControllerBlocksLanguage extends AController
 
         if ($this->request->is_POST() && isset($this->request->post['language_code'])) {
             $this->session->data['language'] = $this->request->post['language_code'];
-
-            if (isset($this->request->post['redirect'])) {
-                $this->redirect($this->request->post['redirect']);
-            } else {
-                $this->redirect($this->html->getHomeURL());
-            }
+            redirect($this->request->post['redirect'] ?? $this->html->getHomeURL());
         }
 
         $this->data['heading_title'] = $this->language->get('heading_title', 'blocks/language');
@@ -49,7 +48,7 @@ class ControllerBlocksLanguage extends AController
         $this->data['languages'] = $this->language->getActiveLanguages();
 
         $get_vars = $this->request->get;
-        $unset = array('language');
+        $unset = ['language'];
         if (isset($get_vars['product_id'])) {
             $unset[] = 'path';
         }

@@ -29,10 +29,7 @@ class ControllerTaskToolBackup extends AController
     public function dumpTables(...$args)
     {
         $table_list = [];
-        list(, , $settings) = $args;
-        $backup_name = preg_replace('[^0-9A-z_\.]', '', $settings['backup_name']);
-        $backup_name = !$backup_name ? 'manual_backup' : $backup_name;
-
+        $backup_name = $this->request->get['backup_name'] ? : 'manual_backup';
         $bkp = new ABackup($backup_name);
 
         if (has_value($this->request->get['sql_dump_mode'])) {
@@ -85,9 +82,7 @@ class ControllerTaskToolBackup extends AController
 
     public function backupContentFiles(...$args)
     {
-        list(, , $settings) = $args;
-        $backup_name = preg_replace('[^0-9A-z_\.]', '', $settings['backup_name']);
-        $backup_name = !$backup_name ? 'manual_backup' : $backup_name;
+        $backup_name = $this->request->get['backup_name'] ? : 'manual_backup';
 
         $bkp = new ABackup($backup_name);
         $content_dirs = [ // white list
@@ -128,9 +123,7 @@ class ControllerTaskToolBackup extends AController
 
     public function backupCodeFiles(...$args)
     {
-        list(, , $settings) = $args;
-        $backup_name = preg_replace('[^0-9A-z_\.]', '', $settings['backup_name']);
-        $backup_name = !$backup_name ? 'manual_backup' : $backup_name;
+        $backup_name = $this->request->get['backup_name'] ? : 'manual_backup';
         $bkp = new ABackup($backup_name);
 
         $content_dirs = [
@@ -181,9 +174,7 @@ class ControllerTaskToolBackup extends AController
 
     public function backupConfig(...$args)
     {
-        list(, , $settings) = $args;
-        $backup_name = preg_replace('[^0-9A-z_\.]', '', $settings['backup_name']);
-        $backup_name = !$backup_name ? 'manual_backup' : $backup_name;
+        $backup_name = $this->request->get['backup_name'] ? : 'manual_backup';
         $bkp = new ABackup($backup_name);
         $result = $bkp->backupFile(DIR_ROOT.'/system/config.php', false);
 
@@ -199,10 +190,7 @@ class ControllerTaskToolBackup extends AController
 
     public function CompressBackup(...$args)
     {
-        $settings = $args[2];
-
-        $backup_name = preg_replace('[^0-9A-z_\.]', '', $settings['backup_name']);
-        $backup_name = !$backup_name ? 'manual_backup' : $backup_name;
+        $backup_name = $this->request->get['backup_name'] ? : 'manual_backup';
 
         $bkp = new ABackup($backup_name);
         $arc_basename = DIR_BACKUP.$bkp->getBackupName();

@@ -772,7 +772,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
         $this->response->addHeader('Pragma: no-cache');
         $this->response->addHeader('Cache-Control: private, no-cache');
         $this->response->addHeader('Content-Disposition: inline; filename="files.json"');
-        $this->response->addHeader('X-Content-Type-Options: nosniff');
+        //$this->response->addHeader('X-Content-Type-Options: nosniff');
 
         $result = null;
         switch ($this->request->server['REQUEST_METHOD']) {

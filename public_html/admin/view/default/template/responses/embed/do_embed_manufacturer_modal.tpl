@@ -3,12 +3,12 @@
 	<h4 class="modal-title"><?php echo $text_get_manufacturer_embed_code; ?></h4>
 </div>
 <div class="tab-content do_embed">
-	<div class="panel-body panel-body-nopadding">
-		<div class="col-sm-6 col-xs-12">
-			<div id="embed_container" class="embed_preview" style="pointer-events: none;"></div>
-		</div>
-		<div id="code_options" class="col-sm-6 col-xs-12">
-			<?php if (!empty ($help_url)) { ?>
+    <div class="panel-body panel-body-nopadding">
+        <div class="col-sm-6 col-xs-12">
+            <div id="embed_container" class="embed_preview"></div>
+        </div>
+        <div id="code_options" class="col-sm-6 col-xs-12">
+            <?php if (!empty ($help_url)) { ?>
 				<div class="btn-group pull-right mr20">
 				        <a class="btn btn-white tooltips"
 				           href="<?php echo $help_url; ?>"
@@ -127,14 +127,14 @@
         $('#getEmbedFrm_code_area').val(html);
 
         //display preview
-        $("#embed_container").html(html);
+        $("#embed_container").html(html).find('div, a, button').css('pointer-events', 'none');
         $('#getEmbedFrm_url').val(url);
         recalcHeightParam = true;
     }
 
     recalcHeightParam = true;
-    var calcHeight = function(){
-        if(recalcHeightParam !== true){
+    var calcHeight = function () {
+        if (recalcHeightParam !== true) {
             return;
         }
         var outerHeight = 0;

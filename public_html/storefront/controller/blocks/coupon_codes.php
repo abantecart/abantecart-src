@@ -24,7 +24,12 @@ if (!defined('DIR_CORE')) {
 
 class ControllerBlocksCouponCodes extends AController
 {
-    public $data = [];
+    public function __construct($registry, $instance_id, $controller, $parent_controller = '')
+    {
+        parent::__construct($registry, $instance_id, $controller, $parent_controller);
+        $this->data['empty_render_text'] =
+            'To view content of block coupon status should be enabled in the store settings';
+    }
 
     public function main($action = '')
     {
@@ -34,7 +39,7 @@ class ControllerBlocksCouponCodes extends AController
         $this->loadLanguage('checkout/payment');
 
         if (!$this->config->get('coupon_status')) {
-            return null;
+            return;
         }
 
         $this->data['coupon_status'] = $this->config->get('coupon_status');

@@ -23,11 +23,14 @@ if (!defined('DIR_CORE')) {
 
 class ControllerBlocksAccount extends AController
 {
-    public $data;
+    public function __construct($registry, $instance_id, $controller, $parent_controller = '')
+    {
+        parent::__construct($registry, $instance_id, $controller, $parent_controller);
+        $this->data['empty_render_text'] = 'To view content of block you should to login';
+    }
 
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         if ($this->customer->isLogged()) {

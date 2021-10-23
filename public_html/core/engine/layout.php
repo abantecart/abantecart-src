@@ -177,6 +177,22 @@ class ALayout
     }
 
     /**
+     * @return int|string
+     */
+    public function getPageId()
+    {
+        return $this->page_id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLayoutId()
+    {
+        return $this->layout_id;
+    }
+
+    /**
      * @param string $controller
      * @param string $key_param
      * @param string $key_value
@@ -220,13 +236,13 @@ class ALayout
             }
         }
 
-        $sql = "SELECT p.page_id, controller, key_param, key_value, p.date_added, p.date_modified 
+        $sql = "SELECT p.page_id, pl.layout_id, controller, key_param, key_value, p.date_added, p.date_modified 
                 FROM ".$this->db->table("pages")." p 
                 LEFT JOIN ".$this->db->table("pages_layouts")." pl 
                     ON pl.page_id = p.page_id 
                 LEFT JOIN ".$this->db->table("layouts")." l 
                     ON l.layout_id = pl.layout_id ".
-                $where."
+            $where."
                 ORDER BY key_param DESC, key_value DESC, p.page_id ASC";
         $query = $this->db->query($sql);
         $pages = $query->rows;

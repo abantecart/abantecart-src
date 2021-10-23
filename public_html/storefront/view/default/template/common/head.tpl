@@ -54,7 +54,7 @@ if ($google_tag_manager) { ?>
 
 <?php
 /*
-	Set $faster_browser_rendering == true; for loading tuning. For better rendering minify and include inline css.
+    Set $faster_browser_rendering == true; for loading tuning. For better rendering minify and include inline css.
     Note: This will increase page size, but will improve HTML rendering.
     As alternative, you can merge all CSS files in to one singe file and minify
     Example: <link href=".../stylesheet/all.min.css" rel="stylesheet" type='text/css' />
@@ -150,9 +150,15 @@ if($cart_ajax){ ?>
         }
         if (item.attr('data-id')) {
             if (update_cart(item.attr('data-id')) === true) {
-                let alert_msg = '<div class="quick_basket">'
-                    + '<a href="<?php echo $cart_url ?>" title="<?php echo $text_add_cart_confirm; ?>">'
-                    + '<i class="fa fa-shopping-cart fa-fw"></i></a></div>';
+                let alert_msg = document.createElement("div");
+                alert_msg.className = "quick_basket";
+                let a = document.createElement("a");
+                a.setAttribute('href', "<?php echo $cart_url ?>");
+                a.setAttribute('title', "<?php echo_html2view($text_add_cart_confirm); ?>");
+                let i = document.createElement("i");
+                i.classList.add("fa", "fa-shopping-cart", "fa-fw");
+                a.appendChild(i);
+                alert_msg.appendChild(a);
                 item.closest('.thumbnail .pricetag').addClass('added_to_cart').prepend(alert_msg);
             }
         }

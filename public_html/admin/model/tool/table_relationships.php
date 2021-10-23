@@ -1,4 +1,6 @@
 <?php
+/** @noinspection SqlDialectInspection */
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -23,8 +25,8 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ModelToolTableRelationships extends Model
 {
-    private $tables_data = array();
-    private $sections = array();
+    private $tables_data = [];
+    private $sections = [];
 
     public function __construct($registry)
     {
@@ -35,243 +37,242 @@ class ModelToolTableRelationships extends Model
 
     private function _load_tables_configs()
     {
-
-        $this->sections['resource_library'] = array(
+        $this->sections['resource_library'] = [
             'id'           => 'resource_id',
-            'relation_ids' => array('type_id'),
-            'children'     => array(
-                'resource_descriptions' => array(
+            'relation_ids' => ['type_id'],
+            'children'     => [
+                'resource_descriptions' => [
                     'id'           => null,
-                    'relation_ids' => array('resource_id', 'language_id'),
-                ),
-                'resource_map'          => array(
+                    'relation_ids' => ['resource_id', 'language_id'],
+                ],
+                'resource_map'          => [
                     'id'           => null,
-                    'relation_ids' => array('resource_id'),
-                ),
-            ),
-        );
+                    'relation_ids' => ['resource_id'],
+                ],
+            ],
+        ];
 
-        $this->sections['resource_types'] = array(
+        $this->sections['resource_types'] = [
             'id'       => 'type_id',
-            'children' => array(
+            'children' => [
                 'resource_library' => $this->sections['resource_library'],
-            ),
-        );
-        $this->sections['categories'] = array(
+            ],
+        ];
+        $this->sections['categories'] = [
             'id'       => 'category_id',
-            'children' => array(
-                'category_descriptions' => array(
+            'children' => [
+                'category_descriptions' => [
                     'id'           => null,
-                    'relation_ids' => array('category_id', 'language_id'),
-                ),
-                'categories_to_stores'  => array(
+                    'relation_ids' => ['category_id', 'language_id'],
+                ],
+                'categories_to_stores'  => [
                     'id'           => null,
-                    'relation_ids' => array('category_id', 'store_id'),
-                ),
+                    'relation_ids' => ['category_id', 'store_id'],
+                ],
                 /* Special case, no matching field name */
-                'resource_map'          => array(
+                'resource_map'          => [
                     'id'               => 'resource_id',
                     'on_insert_no_id'  => true,
-                    'relation_ids'     => array('resource_id', 'object_id'),
-                    'special_relation' => array('object_name' => 'categories', 'object_id' => 'category_id'),
-                    'children'         => array(
-                        /* Note: Issue to connect to resource_library automaticaly */
+                    'relation_ids'     => ['resource_id', 'object_id'],
+                    'special_relation' => ['object_name' => 'categories', 'object_id' => 'category_id'],
+                    'children'         => [
+                        /* Note: Issue to connect to resource_library automatically */
                         'resource_library' => $this->sections['resource_library'],
-                    ),
-                ),
-            ),
-        );
-        $this->sections['products'] = array(
+                    ],
+                ],
+            ],
+        ];
+        $this->sections['products'] = [
             'id'       => 'product_id',
-            'children' => array(
-                'product_descriptions'   => array(
+            'children' => [
+                'product_descriptions'   => [
                     'id'           => null,
-                    'relation_ids' => array('product_id', 'language_id'),
-                ),
-                'products_featured'      => array(
+                    'relation_ids' => ['product_id', 'language_id'],
+                ],
+                'products_featured'      => [
                     'id'           => null,
-                    'relation_ids' => array('product_id'),
-                ),
-                'products_related'       => array(
+                    'relation_ids' => ['product_id'],
+                ],
+                'products_related'       => [
                     'id'           => null,
-                    'relation_ids' => array('product_id', 'related_id'),
-                ),
-                'products_to_categories' => array(
+                    'relation_ids' => ['product_id', 'related_id'],
+                ],
+                'products_to_categories' => [
                     'id'           => null,
-                    'relation_ids' => array('product_id', 'category_id'),
-                ),
-                'products_to_downloads'  => array(
+                    'relation_ids' => ['product_id', 'category_id'],
+                ],
+                'products_to_downloads'  => [
                     'id'           => null,
-                    'relation_ids' => array('product_id', 'download_id'),
-                ),
-                'products_to_stores'     => array(
+                    'relation_ids' => ['product_id', 'download_id'],
+                ],
+                'products_to_stores'     => [
                     'id'           => null,
-                    'relation_ids' => array('product_id', 'store_id'),
-                ),
-                'product_discounts'      => array(
+                    'relation_ids' => ['product_id', 'store_id'],
+                ],
+                'product_discounts'      => [
                     'id'           => 'product_discount_id',
-                    'relation_ids' => array('product_id'),
-                ),
-                'product_options'        => array(
+                    'relation_ids' => ['product_id'],
+                ],
+                'product_options'        => [
                     'id'           => 'product_option_id',
-                    'relation_ids' => array('product_id'),
-                    'children'     => array(
-                        'product_option_descriptions' => array(
+                    'relation_ids' => ['product_id'],
+                    'children'     => [
+                        'product_option_descriptions' => [
                             'id'           => null,
-                            'relation_ids' => array('product_id', 'language_id', 'product_option_id'),
-                        ),
-                        'product_option_values'       => array(
+                            'relation_ids' => ['product_id', 'language_id', 'product_option_id'],
+                        ],
+                        'product_option_values'       => [
                             'id'           => 'product_option_value_id',
-                            'relation_ids' => array('product_id', 'product_option_id'),
-                            'children'     => array(
-                                'product_option_value_descriptions' => array(
+                            'relation_ids' => ['product_id', 'product_option_id'],
+                            'children'     => [
+                                'product_option_value_descriptions' => [
                                     'id'           => null,
-                                    'relation_ids' => array('product_id', 'language_id', 'product_option_value_id'),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-                'product_specials'       => array(
+                                    'relation_ids' => ['product_id', 'language_id', 'product_option_value_id'],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'product_specials'       => [
                     'id'           => 'product_special_id',
-                    'relation_ids' => array('product_id'),
-                ),
+                    'relation_ids' => ['product_id'],
+                ],
                 /*
                 * All 3 columns of the table are primary keys
                 * So we can't update it. Only insert or delete
                 */
-                'product_tags'           => array(
+                'product_tags'           => [
                     'id'           => null,
-                    'relation_ids' => array('product_id', 'tag', 'language_id'),
-                ),
+                    'relation_ids' => ['product_id', 'tag', 'language_id'],
+                ],
                 /* Special case, no matching field name */
-                'resource_map'           => array(
+                'resource_map'           => [
                     'id'               => 'resource_id',
-                    'relation_ids'     => array('resource_id', 'object_id'),
-                    'special_relation' => array('object_name' => 'products', 'object_id' => 'product_id'),
-                    'children'         => array(
+                    'relation_ids'     => ['resource_id', 'object_id'],
+                    'special_relation' => ['object_name' => 'products', 'object_id' => 'product_id'],
+                    'children'         => [
                         'resource_library' => $this->sections['resource_library'],
-                    ),
-                ),
-                'reviews'                => array(
+                    ],
+                ],
+                'reviews'                => [
                     'id'           => null,
-                    'relation_ids' => array('product_id', 'review_id', 'customer_id'),
-                ),
-            ),
-        );
-        $this->sections['orders'] = array(
+                    'relation_ids' => ['product_id', 'review_id', 'customer_id'],
+                ],
+            ],
+        ];
+        $this->sections['orders'] = [
             'id'       => 'order_id',
-            'children' => array(
-                'order_downloads' => array(
+            'children' => [
+                'order_downloads' => [
                     'id'           => null,
-                    'relation_ids' => array('order_id', 'order_download_id'),
-                ),
-                'order_history'   => array(
+                    'relation_ids' => ['order_id', 'order_download_id'],
+                ],
+                'order_history'   => [
                     'id'           => null,
-                    'relation_ids' => array('order_id', 'order_history_id'),
-                ),
-                'order_options'   => array(
+                    'relation_ids' => ['order_id', 'order_history_id'],
+                ],
+                'order_options'   => [
                     'id'           => null,
-                    'relation_ids' => array('order_id', 'order_option_id'),
-                ),
-                'order_products'  => array(
+                    'relation_ids' => ['order_id', 'order_option_id'],
+                ],
+                'order_products'  => [
                     'id'           => null,
-                    'relation_ids' => array('order_id', 'order_product_id'),
-                ),
-                'order_totals'    => array(
+                    'relation_ids' => ['order_id', 'order_product_id'],
+                ],
+                'order_totals'    => [
                     'id'           => null,
-                    'relation_ids' => array('order_id', 'order_total_id'),
-                ),
-            ),
-        );
-        $this->sections['manufacturers'] = array(
+                    'relation_ids' => ['order_id', 'order_total_id'],
+                ],
+            ],
+        ];
+        $this->sections['manufacturers'] = [
             'id'       => 'manufacturer_id',
-            'children' => array(
-                'manufacturers_to_stores' => array(
+            'children' => [
+                'manufacturers_to_stores' => [
                     'id'           => null,
-                    'relation_ids' => array('manufacturer_id', 'store_id'),
-                ),
+                    'relation_ids' => ['manufacturer_id', 'store_id'],
+                ],
                 /* Special case, no matching field name */
-                'resource_map'            => array(
+                'resource_map'            => [
                     'id'               => 'resource_id',
-                    'relation_ids'     => array('resource_id', 'object_id'),
-                    'special_relation' => array('object_name' => 'manufacturers', 'object_id' => 'manufacturer_id'),
-                    'children'         => array(
+                    'relation_ids'     => ['resource_id', 'object_id'],
+                    'special_relation' => ['object_name' => 'manufacturers', 'object_id' => 'manufacturer_id'],
+                    'children'         => [
                         'resource_library' => $this->sections['resource_library'],
-                    ),
-                ),
-            ),
-        );
-        $this->sections['customers'] = array(
+                    ],
+                ],
+            ],
+        ];
+        $this->sections['customers'] = [
             'id'       => 'customer_id',
-            'children' => array(
-                'addresses' => array(
+            'children' => [
+                'addresses' => [
                     'id'           => null,
-                    'relation_ids' => array('customer_id', 'address_id'),
-                ),
-                'reviews'   => array(
+                    'relation_ids' => ['customer_id', 'address_id'],
+                ],
+                'reviews'   => [
                     'id'           => null,
-                    'relation_ids' => array('customer_id', 'review_id', 'product_id'),
-                ),
-            ),
-        );
+                    'relation_ids' => ['customer_id', 'review_id', 'product_id'],
+                ],
+            ],
+        ];
 
-        $this->sections['blocks'] = array(
+        $this->sections['blocks'] = [
             'id'       => 'block_id',
-            'children' => array(
-                'block_layouts'   => array(
+            'children' => [
+                'block_layouts'   => [
                     'id'           => 'instance_id',
-                    'relation_ids' => array('block_id', 'instance_id', 'layout_id', 'parent_instance_id', 'custom_block_id'),
-                    'children'     => array(
-                        'layouts' => array(
+                    'relation_ids' => ['block_id', 'instance_id', 'layout_id', 'parent_instance_id', 'custom_block_id'],
+                    'children'     => [
+                        'layouts' => [
                             'id'           => null,
                             'switch_to_id' => 'layout_id',
-                            'relation_ids' => array('layout_id'),
-                        ),
-                    ),
-                ),
-                'block_templates' => array(
+                            'relation_ids' => ['layout_id'],
+                        ],
+                    ],
+                ],
+                'block_templates' => [
                     'id'           => null,
-                    'relation_ids' => array('block_id', 'parent_block_id'),
-                ),
-                'custom_blocks'   => array(
+                    'relation_ids' => ['block_id', 'parent_block_id'],
+                ],
+                'custom_blocks'   => [
                     'id'           => 'custom_block_id',
-                    'relation_ids' => array('block_id'),
-                    'children'     => array(
-                        'block_descriptions' => array(
+                    'relation_ids' => ['block_id'],
+                    'children'     => [
+                        'block_descriptions' => [
                             'id'           => null,
-                            'relation_ids' => array('custom_block_id', 'block_description_id'),
-                        ),
-                    ),
-                ),
-            ),
-        );
+                            'relation_ids' => ['custom_block_id', 'block_description_id'],
+                        ],
+                    ],
+                ],
+            ],
+        ];
 
-        $this->sections['downloads'] = array(
+        $this->sections['downloads'] = [
             'id'       => 'download_id',
-            'children' => array(
-                'download_descriptions' => array(
+            'children' => [
+                'download_descriptions' => [
                     'id'           => null,
-                    'relation_ids' => array('download_id', 'language_id'),
-                ),
-            ),
-        );
+                    'relation_ids' => ['download_id', 'language_id'],
+                ],
+            ],
+        ];
 
         // Only "add as it is". Update is left for future enhancements.
-        $this->sections['url_aliases'] = array(
+        $this->sections['url_aliases'] = [
             'id' => 'url_alias_id',
-        );
+        ];
     }
 
     /**
      * check if requested table exist and return its array
      *
      * @param string $table_name
-     * @param array  $search_in_input
+     * @param array $search_in_input
      *
      * @return null|array
      */
-    public function find_table_cfg($table_name, $search_in_input = array())
+    public function find_table_cfg($table_name, $search_in_input = [])
     {
         if (empty($table_name)) {
             return null;
@@ -303,7 +304,7 @@ class ModelToolTableRelationships extends Model
      *
      * @return bool
      */
-    public function setSections($sections = array())
+    public function setSections($sections = [])
     {
         if (!empty($sections)) {
             $this->sections = $sections;
@@ -322,7 +323,7 @@ class ModelToolTableRelationships extends Model
 
     private function _build_table_relationship()
     {
-        //NOTE: Not used see below in _build_relathionship
+        //NOTE: Not used see below in _build_relationship
         $cache_key = 'tables.key.relationship';
 
         if ($this->cache) {
@@ -330,16 +331,19 @@ class ModelToolTableRelationships extends Model
         }
         if (!$this->tables_data) {
             $sql = "SELECT table_name, column_name, extra 
-			    	FROM information_schema.columns 
-			    	WHERE table_schema='".DB_DATABASE."' group by table_name";
+                    FROM information_schema.columns 
+                    WHERE table_schema='".DB_DATABASE."' group by table_name";
             $load_sql = $this->db->query($sql);
             $tables = $load_sql->rows;
 
             foreach ($tables as $table) {
+                if (!trim($table['table_name'])) {
+                    continue;
+                }
                 //get primary keys
-                $pkeys = array();
+                $pkeys = [];
                 $sql = "SHOW INDEX FROM ".$table['table_name']."
-			        	WHERE Key_name = 'PRIMARY'";
+                        WHERE Key_name = 'PRIMARY'";
                 $primary_query = $this->db->query($sql);
                 foreach ($primary_query->rows as $value) {
                     $pkeys[] = $value['Column_name'];
@@ -347,16 +351,15 @@ class ModelToolTableRelationships extends Model
 
                 $table_name = $table['table_name'];
 
-                $this->tables_data[$table_name] = array();
+                $this->tables_data[$table_name] = [];
                 if ($table['extra'] == 'auto_increment') {
                     $this->tables_data[$table_name]['id'] = $table['column_name'];
                 } else {
                     $this->tables_data[$table_name]['id'] = null;
                 }
                 $this->tables_data[$table_name]['relation_ids'] = $pkeys;
-
             }
-            $this->_build_relathionship();
+            $this->_build_relationship();
             $this->_apply_special_cases();
 
             if ($this->cache) {
@@ -365,16 +368,16 @@ class ModelToolTableRelationships extends Model
         }
     }
 
-    private function _build_relathionship()
+    private function _build_relationship()
     {
-        //Need o connect tables with relationship IDs. 
+        //Need to connect tables with relationship IDs.
         //NOT IMPLEMENTED. Issue with logic to detect id and content. Slow and unreliable solution.
         // Looking for better solution to automate or us TRUE relational DB with Postgres ot InnoDB with mysql
     }
 
     private function _apply_special_cases()
     {
-        //Need o connect tables with relationship IDs.
+        //Need to connect tables with relationship IDs.
         //NOT IMPLEMENTED. Issue with logic to detect id and content. Slow and unreliable solution.
         // Looking for better solution to automate or us TRUE relational DB with Postgres ot InnoDB with mysql
     }
@@ -400,13 +403,13 @@ class ModelToolTableRelationships extends Model
         } else {
             return null;
         }
-
     }
 
     /**
      * @param string $table_name
      *
      * @return array
+     * @throws AException
      */
     public function get_table_columns($table_name)
     {
