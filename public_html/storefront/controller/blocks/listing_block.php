@@ -24,22 +24,28 @@ if (!defined('DIR_CORE')) {
 
 class ControllerBlocksListingBlock extends AController
 {
-    public function main($instance_id = 0)
+    public function __construct($registry, $instance_id, $controller, $parent_controller = '')
     {
-        //disable cache when login display price setting is off or enabled showing of prices with taxes
-        if (($this->config->get('config_customer_price') && !$this->config->get('config_tax'))
-            && $this->html_cache()
-        ) {
-            return null;
+        parent::__construct($registry, $instance_id, $controller, $parent_controller);
+        $this->data['empty_render_text'] =
+            'To view content of block you should be logged in and prices must be without taxes';
+    }
+
+    public function main($instance_id = 0, $custom_block_id = 0)
+    {
+        //set default template first for case singleton usage
+        if (!$this->view->getTemplate()) {
+            $this->view->setTemplate('blocks/listing_block.tpl');
         }
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $block_data = $this->_getBlockContent($instance_id);
+        $block_data = $this->_getBlockContent($instance_id, $custom_block_id);
 
         $block_details = $this->layout->getBlockDetails($instance_id);
         $parent_block = $this->layout->getBlockDetails($block_details['parent_instance_id']);
+
         $parent_block_txt_id = $parent_block['block_txt_id'];
 
         $extension_controllers = $this->extensions->getExtensionControllers();
@@ -69,6 +75,7 @@ class ControllerBlocksListingBlock extends AController
                     ]
                 )) {
                     $this->_prepareProducts($block_data['content'], $block_data['block_wrapper']);
+
                     $templateOverridden = true;
                 } else {
                     $block_data['content'] = $this->_prepareItems($block_data['content']);
@@ -81,6 +88,7 @@ class ControllerBlocksListingBlock extends AController
                 $override = $this->dispatch($this->data['controller'], [$parent_block_txt_id, $block_data]);
                 $this->view->setOutput($override->dispatchGetOutput());
             }
+
             // need to set wrapper for non products listing blocks
             if ($this->view->isTemplateExists($block_data['block_wrapper']) && !$templateOverridden) {
                 $this->view->setTemplate($block_data['block_wrapper']);
@@ -88,6 +96,7 @@ class ControllerBlocksListingBlock extends AController
 
             $this->processTemplate();
         }
+
         //init controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
@@ -279,11 +288,15 @@ class ControllerBlocksListingBlock extends AController
      * @return array
      * @throws AException
      */
-    protected function _getBlockContent($instance_id)
+    protected function _getBlockContent($instance_id = 0, $custom_block_id = 0)
     {
         $output = [];
-        $this->data['block_info'] = $this->layout->getBlockDetails($instance_id);
-        $this->data['custom_block_id'] = $this->data['block_info']['custom_block_id'];
+        if($custom_block_id ){
+            $this->data['custom_block_id'] = $custom_block_id;
+        }else {
+            $this->data['block_info'] = $this->layout->getBlockDetails($instance_id);
+            $this->data['custom_block_id'] = $this->data['block_info']['custom_block_id'];
+        }
 
         //getting block properties
         $this->data['descriptions'] = $this->layout->getBlockDescriptions($this->data['custom_block_id']);
@@ -296,6 +309,7 @@ class ControllerBlocksListingBlock extends AController
 
         // getting list
         $this->data['content'] = $this->getListing();
+
         if ($this->data['content']) {
             $output = [
                 'title'         => $this->data['descriptions'][$key]['title'],

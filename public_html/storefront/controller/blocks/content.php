@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,14 +23,8 @@ if (!defined('DIR_CORE')) {
 
 class ControllerBlocksContent extends AController
 {
-    public $data = array();
-
     public function main()
     {
-
-        if ($this->html_cache()) {
-            return;
-        }
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
@@ -88,15 +82,17 @@ class ControllerBlocksContent extends AController
      */
     private function _buildTree($all_contents, $parent_id = 0, $level = 0)
     {
-        $output = array();
+        $output = [];
         foreach ($all_contents as $content) {
             if ($content['parent_content_id'] == $parent_id) {
-                $output[] = array(
-                    'id'    => $content['parent_content_id'].'_'.$content['content_id'],
+                $output[] = [
+                    'id' => $content['parent_content_id'].'_'.$content['content_id'],
                     'title' => str_repeat('&nbsp;&nbsp;', $level).$content['title'],
-                    'href'  => $this->html->getSEOURL('content/content', '&content_id='.$content['content_id'], '&encode'),
+                    'href' => $this->html->getSEOURL(
+                        'content/content', '&content_id='.$content['content_id'], '&encode'
+                    ),
                     'level' => $level,
-                );
+                ];
                 $output = array_merge($output, $this->_buildTree($all_contents, $content['content_id'], $level + 1));
             }
         }

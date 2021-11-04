@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpUnused */
 
 /*------------------------------------------------------------------------------
   $Id$
@@ -177,9 +178,7 @@ class ControllerPagesDesignBlocks extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->document->setTitle($this->language->get('heading_title'));
 
-        $block_id = (int) $this->request->get['block_id']
-            ? (int) $this->request->get['block_id']
-            : (int) $this->request->post['block_id'];
+        $block_id = (int) $this->request->get['block_id'] ? : (int) $this->request->post['block_id'];
         $block_txt_id = '';
         // now need to know what custom block is this
         $lm = new ALayoutManager();
@@ -283,7 +282,7 @@ class ControllerPagesDesignBlocks extends AController
                                 'listing_datasource' => $this->request->post['listing_datasource'],
                                 'id'                 => $id,
                                 'limit'              => $this->request->post['limit'],
-                                'sort_order'         => (int) $k,
+                                'sort_order'         => $k,
                                 'store_id'           => $this->config->get('config_store_id'),
                             ]
                         );
@@ -304,7 +303,7 @@ class ControllerPagesDesignBlocks extends AController
         if (!isset($this->session->data['layout_params']) && isset($this->request->get['layout_id'])) {
             $this->session->data['layout_params'] = [
                 'layout_id'       => $this->request->get['layout_id'],
-                'page_id'         => ($this->request->get['page_id'] ? $this->request->get['page_id'] : 1),
+                'page_id'         => ($this->request->get['page_id'] ? : 1),
                 'tmpl_id'         => $this->request->get['tmpl_id'],
                 'parent_block_id' => $this->request->get['parent_block_id'],
             ];
@@ -415,6 +414,7 @@ class ControllerPagesDesignBlocks extends AController
             );
             $layout->editBlockStatus((int) $this->request->post['block_status'], 0, $custom_block_id);
             $this->session->data ['success'] = $this->language->get('text_success');
+            $this->extensions->hk_ProcessData($this, 'edit_block');
             redirect($this->html->getSecureURL('design/blocks/edit', '&custom_block_id='.$custom_block_id));
         }
         // end of saving
@@ -456,14 +456,16 @@ class ControllerPagesDesignBlocks extends AController
                 $this->_getListingForm();
                 break;
             case 'html_block':
-            default:
                 $this->_getHTMLForm();
+                break;
+            default:
+                $this->extensions->hk_ProcessData($this, __FUNCTION__, ['block_txt_id' => $block_txt_id]);
         }
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    private function _init_tabs()
+    protected function _init_tabs()
     {
         $blocks = [];
         $lm = new ALayoutManager();
@@ -478,8 +480,7 @@ class ControllerPagesDesignBlocks extends AController
             }
         }
 
-        $this->request->get['block_id'] =
-            !(int) $this->request->get['block_id'] ? $default_block_type : $this->request->get['block_id'];
+        $this->request->get['block_id'] = (int) ($this->request->get['block_id'] ? : $default_block_type);
         $i = 0;
         $tabs = [];
         foreach ($blocks as $block_id => $block_text) {
@@ -496,11 +497,11 @@ class ControllerPagesDesignBlocks extends AController
         $obj = $this->dispatch(
             'responses/common/tabs',
             [
-               'design/blocks',
-               //parent controller. Use customer group to use for
-               // other extensions that will add tabs via their hooks
-               ['tabs' => $tabs],
-           ]
+                'design/blocks',
+                //parent controller. Use customer group to use for
+                // other extensions that will add tabs via their hooks
+                ['tabs' => $tabs],
+            ]
         );
 
         $this->data['tabs'] = $obj->dispatchGetOutput();
@@ -523,7 +524,7 @@ class ControllerPagesDesignBlocks extends AController
         redirect($this->html->getSecureURL('design/blocks'));
     }
 
-    private function _getHTMLForm()
+    protected function _getHTMLForm()
     {
         if (isset ($this->session->data['warning'])) {
             $this->data ['error_warning'] = $this->session->data['warning'];
@@ -693,7 +694,7 @@ class ControllerPagesDesignBlocks extends AController
                     continue;
                 }
                 foreach ($tpls as $tpl) {
-                    if (isset($this->data['block_wrappers'][$tpl]) || strpos($tpl, 'blocks/html__block/') === false) {
+                    if (isset($this->data['block_wrappers'][$tpl]) || strpos($tpl, 'blocks/html_block/') === false) {
                         continue;
                     }
                     $this->data['block_wrappers'][$tpl] = $tpl;
@@ -701,7 +702,8 @@ class ControllerPagesDesignBlocks extends AController
             }
         }
 
-        $tpls = glob(DIR_STOREFRONT.'view/*/template/blocks/html_block/*.tpl');
+        $tpls = glob(DIR_STOREFRONT.'view/*/template/blocks/html_block/*.tpl')
+            + glob(DIR_EXT.'/*/storefront/view/*/template/blocks/html_block/*.tpl');
         foreach ($tpls as $tpl) {
             $pos = strpos($tpl, 'blocks/html_block/');
             $tpl = substr($tpl, $pos);
@@ -784,7 +786,7 @@ class ControllerPagesDesignBlocks extends AController
         $this->processTemplate('pages/design/blocks_form.tpl');
     }
 
-    private function _getListingForm()
+    protected function _getListingForm()
     {
         if (isset ($this->session->data['warning'])) {
             $this->data ['error_warning'] = $this->session->data['warning'];
@@ -1059,7 +1061,7 @@ class ControllerPagesDesignBlocks extends AController
         $this->processTemplate('pages/design/blocks_form_listing.tpl');
     }
 
-    private function _validateForm()
+    protected function _validateForm()
     {
         if (!$this->user->canModify('design/blocks')) {
             $this->session->data['warning'] = $this->error ['warning'] = $this->language->get('error_permission');
@@ -1090,5 +1092,4 @@ class ControllerPagesDesignBlocks extends AController
         $this->extensions->hk_ValidateData($this);
         return (!$this->error);
     }
-
 }

@@ -32,6 +32,7 @@ class ControllerPagesCatalogCategoryTabs extends AController
         if (!is_array($this->data)) {
             throw new AException (AC_ERR_LOAD, 'Error: Could not create grid. Grid definition is not array.');
         }
+        $this->data['additionalTabs'] = [];
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 

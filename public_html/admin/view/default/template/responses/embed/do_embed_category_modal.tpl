@@ -5,7 +5,7 @@
 <div class="tab-content do_embed">
     <div class="panel-body panel-body-nopadding">
         <div class="col-sm-6 col-xs-12">
-            <div id="embed_container" class="embed_preview" style="pointer-events: none;"></div>
+            <div id="embed_container" class="embed_preview"></div>
         </div>
         <div id="code_options" class="col-sm-6 col-xs-12">
             <?php if (!empty ($help_url)) { ?>
@@ -126,14 +126,14 @@
         });
         html += '<\/ul>';
         $('#getEmbedFrm_code_area').val(html);
-        $("#embed_container").html(html);
+        $("#embed_container").html(html).find('div, a, button').css('pointer-events', 'none');
         $('#getEmbedFrm_url').val(url);
         recalcHeightParam = true;
     }
 
     recalcHeightParam = true;
-    var calcHeight = function(){
-        if(recalcHeightParam !== true){
+    var calcHeight = function () {
+        if (recalcHeightParam !== true) {
             return;
         }
         var outerHeight = 0;

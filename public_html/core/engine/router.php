@@ -114,6 +114,18 @@ final class ARouter
         }
         return $this->controller;
     }
+    /**
+     * @param string $rt
+     *
+     * @return string
+     */
+    public function resetRt($rt = '')
+    {
+        if ($rt) {
+            $this->rt = $rt;
+        }
+        return $this->rt;
+    }
 
     /**
      * @return string
@@ -274,7 +286,7 @@ final class ARouter
      *
      * @return bool
      */
-    private function detectController($type)
+    public function detectController($type)
     {
         //looking for controller in admin/storefront section
         $dir_app = DIR_APP_SECTION.'controller/'.$type.'/';

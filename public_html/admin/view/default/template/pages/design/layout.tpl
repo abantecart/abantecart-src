@@ -88,26 +88,31 @@ foreach ($pages as $page) {
 			</div>
 <?php 
  */
-?>	
-		</div>
 
-		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
-	</div>
+?>
+        </div>
 
-	<?php echo $form_begin; ?>
-	<div id="page-layout" class="panel-body panel-body-nopadding tab-content col-xs-12">
-		<?php echo $layoutform; ?>
-		<?php echo $hidden_fields; ?>
-	</div>
-	</form>
+        <?php
+        include($tpl_common_dir.'content_buttons.tpl'); ?>
+    </div>
+
+    <?php
+    echo $form_begin; ?>
+    <div id="page-layout" class="panel-body panel-body-nopadding tab-content col-xs-12">
+        <?php
+        echo $layoutform; ?>
+        <?php
+        echo $hidden_fields; ?>
+    </div>
+    </form>
 
 </div>
 
 <script type="text/javascript">
 
-$('.delete_page_layout').click(function(e) {
-  e.stopPropagation();
-  e.preventDefault();
+    $('.delete_page_layout').click(function (e) {
+        e.stopPropagation();
+        e.preventDefault();
   
   if (confirm(<?php js_echo($text_delete_confirm); ?>)) {
     var url = $(this).attr('href');

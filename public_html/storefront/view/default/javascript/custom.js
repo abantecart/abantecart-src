@@ -109,7 +109,7 @@ $('document').ready(function () {
 	}
 
 	// Brand Carousal
-	$(window).load(function () {
+	$(window).on('load', function () {
 		$('#brandcarousal').carouFredSel({
 			width: '100%',
 			scroll: 1,
@@ -136,7 +136,7 @@ $('document').ready(function () {
 
 });
 // Flexsliders
-$(window).load(function () {
+$(window).on('load', function () {
 
 	// Flexslider index banner
 	$('#mainslider').flexslider({

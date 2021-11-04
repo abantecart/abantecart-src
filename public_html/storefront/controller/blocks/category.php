@@ -29,6 +29,13 @@ class ControllerBlocksCategory extends AController
     protected $selected_root_id = [];
     protected $thumbnails = [];
 
+    public function __construct($registry, $instance_id, $controller, $parent_controller = '')
+    {
+        parent::__construct($registry, $instance_id, $controller, $parent_controller);
+        $this->data['empty_render_text'] =
+            'To view content of block you should be logged in and prices must be without taxes';
+    }
+
     public function main()
     {
         $request = $this->request->get;
@@ -41,12 +48,6 @@ class ControllerBlocksCategory extends AController
             $allowed_cache_keys = ['path'];
             $cache_val = ['path' => $request['path']];
             $this->buildHTMLCacheKey($allowed_cache_keys, $cache_val);
-            //disable cache when login display price setting is off or enabled showing of prices with taxes
-            if (($this->config->get('config_customer_price') && !$this->config->get('config_tax'))
-                && $this->html_cache()
-            ) {
-                return null;
-            }
         }
 
         $this->view->assign('heading_title', $this->language->get('heading_title', 'blocks/category'));
@@ -170,5 +171,4 @@ class ControllerBlocksCategory extends AController
         }
         return $output;
     }
-
 }

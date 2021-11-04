@@ -24,14 +24,15 @@ if (!defined('DIR_CORE')) {
 
 class ControllerBlocksSpecial extends AController
 {
+    public function __construct($registry, $instance_id, $controller, $parent_controller = '')
+    {
+        parent::__construct($registry, $instance_id, $controller, $parent_controller);
+        $this->data['empty_render_text'] =
+            'To view content of block you should be logged in and prices must be without taxes';
+    }
+
     public function main()
     {
-        //disable cache when login display price setting is off or enabled showing of prices with taxes
-        if (($this->config->get('config_customer_price') && !$this->config->get('config_tax'))
-            && $this->html_cache()
-        ) {
-            return null;
-        }
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);

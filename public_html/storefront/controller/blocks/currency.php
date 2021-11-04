@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,11 +24,15 @@ if (!defined('DIR_CORE')) {
 
 class ControllerBlocksCurrency extends AController
 {
-    public $data = array();
+
+    public function __construct($registry, $instance_id, $controller, $parent_controller = '')
+    {
+        parent::__construct($registry, $instance_id, $controller, $parent_controller);
+        $this->data['empty_render_text'] = 'To view content of block you should have at least two enabled currencies';
+    }
 
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -35,7 +40,7 @@ class ControllerBlocksCurrency extends AController
         $this->data['currency_code'] = $this->currency->getCode();
 
         $get_vars = $this->request->get;
-        $unset = array('currency');
+        $unset = ['currency'];
         if (isset($get_vars['product_id'])) {
             $unset[] = 'path';
         }
@@ -54,16 +59,16 @@ class ControllerBlocksCurrency extends AController
         $this->loadModel('localisation/currency');
         $results = $this->model_localisation_currency->getCurrencies();
 
-        $currencies = array();
+        $currencies = [];
         if (is_array($results) && $results) {
             foreach ($results as $result) {
                 if ($result['status']) {
-                    $currencies[] = array(
+                    $currencies[] = [
                         'title'  => $result['title'],
                         'code'   => $result['code'],
                         'symbol' => (!empty($result['symbol_left']) ? $result['symbol_left'] : $result['symbol_right']),
                         'href'   => $this->html->getSEOURL($rt, $URI.'&currency='.$result['code'], true),
-                    );
+                    ];
                 }
             }
         }
@@ -77,5 +82,3 @@ class ControllerBlocksCurrency extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 }
-
-?>
