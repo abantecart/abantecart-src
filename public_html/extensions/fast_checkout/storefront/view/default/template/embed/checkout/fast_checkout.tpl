@@ -16,6 +16,9 @@ echo $head; ?>
             url: '<?php echo $cart_url; ?>',
             type: 'GET',
             dataType: 'html',
+            beforeSend: function(){
+                $('.spinner-overlay').fadeIn(100);
+            },
             success: function (data) {
                 $('#fast_checkout_summary_block').trigger('reload');
                 $('#fast_checkout_cart').hide().html(data).fadeIn(1000);
