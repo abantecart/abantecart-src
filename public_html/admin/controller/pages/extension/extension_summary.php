@@ -43,9 +43,20 @@ class ControllerPagesExtensionExtensionSummary extends AController
             $this->data['extension_info'] = $this->extensions->getExtensionInfo($extension);
         }
 
-        $icon_ext_img_url = HTTPS_EXT.$extension.'/image/icon.png';
-        $icon_ext_dir = DIR_EXT.$extension.'/image/icon.png';
-        $icon = (is_file($icon_ext_dir) ? $icon_ext_img_url : RDIR_TEMPLATE.'image/default_extension.png');
+        $iconFileName = 'icon.png';
+        $icon_ext_img_url = HTTPS_EXT.$extension.'/image/';
+        $icon_ext_dir = DIR_EXT.$extension.'/image/';
+        //if icon.png not found - looking for other "icon" images
+        if(!is_file($icon_ext_dir.$iconFileName)){
+            $files = glob($icon_ext_dir.'icon.{png,webp,jpg,jpeg}', GLOB_BRACE);
+            if($files){
+                $icon = $icon_ext_img_url.pathinfo($files[0],PATHINFO_BASENAME);
+            }else{
+                $icon = RDIR_TEMPLATE.'image/default_extension.png';
+            }
+        }else{
+            $icon = $icon_ext_img_url.$iconFileName;
+        }
 
         $this->data['extension_info']['icon'] = $icon;
         $this->data['extension_info']['name'] = $this->language->get($extension.'_name');
