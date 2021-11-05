@@ -310,7 +310,7 @@ class ControllerResponsesCheckoutPay extends AController
         }
 
         //set shipping method
-        $this->_select_shipping($this->request->get['shipping_method']);
+        $this->_select_shipping($this->request->get['shipping_method']??$this->fc_session['shipping_method']['id']);
 
         //handle balance. Re-apply balance on every request as total can change
         if ($this->fc_session['used_balance'] && !$request['balance']) {
