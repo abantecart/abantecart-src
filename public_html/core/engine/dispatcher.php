@@ -287,10 +287,22 @@ final class ADispatcher
                 $rfl = new ReflectionClass($controller);
                 $method = $rfl->getMethod($this->method);
                 if($method) {
-                    $argsCount = $method->getNumberOfParameters();
-                    //do not pass arguments more than allowed by method
-                    $args = count($args)>$argsCount ? array_slice($args,0,$argsCount) : $args;
+                    $allParameters = $method->getParameters();
+                    if($allParameters) {
+                        $methodParams = [];
+                        foreach ($allParameters as $p) {
+                            if (isset($args[$p->name])) {
+                                $methodParams[$p->name] = $args[$p->name];
+                            }
+                        }
+                        if($methodParams && isAssocArray($args)) {
+                            $args = $methodParams;
+                        }elseif(!$methodParams && isAssocArray($args)){
+                            $args = [];
+                        }
+                    }
                 }
+
                 $dispatch = call_user_func_array([$controller, $this->method], $args);
                 //Check if return is a dispatch and need to call new page
                 if ($dispatch && is_object($dispatch)) {

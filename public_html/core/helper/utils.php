@@ -1431,3 +1431,8 @@ function isExtensionSupportsCart($versions)
         'minor_check' => $minor_check,
     ];
 }
+
+function isAssocArray($array){
+   $keys = array_keys($array);
+   return $keys !== array_keys($keys);
+}
