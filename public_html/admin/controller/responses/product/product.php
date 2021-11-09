@@ -1014,7 +1014,9 @@ class ControllerResponsesProductProduct extends AController
             if ($option_weight_class_id != trim($prd_info['weight_class_id']) && $selected_unit != '%') {
                 //main product type has changed. Show what weight unit we have in option
                 $weight_info = $this->model_localisation_weight_class->getWeightClassDescriptionByUnit($selected_unit);
-                $wht_options[$selected_unit] = $weight_info['title'];
+                $wht_options[$selected_unit] = $weight_info
+                        ? $weight_info['title']
+                        : ($selected_unit ?: 'n/a');
             }
         }
         $this->data['form']['fields']['weight_type'] = $form->getFieldHtml(

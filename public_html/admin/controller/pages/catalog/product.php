@@ -1150,8 +1150,12 @@ class ControllerPagesCatalogProduct extends AController
             }
         }
 
-        if ($product_id && !$this->data['weight_class_id']) {
+        if ($product_id
+            && (!$this->data['weight_class_id']
+                || !$this->data['weight_classes'][$this->data['weight_class_id']])
+        ) {
             $this->data['weight_classes'][0] = $this->language->get('text_none');
+            $this->data['weight_class_id'] = 0;
         }
 
         $this->data['form']['fields']['data']['weight'] = $form->getFieldHtml(
