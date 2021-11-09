@@ -744,7 +744,7 @@ class ControllerPagesSaleCustomer extends AController
         $this->document->setTitle($this->language->get('heading_title'));
 
         $customer_id = $this->request->get['customer_id'];
-        if ($this->request->is_POST() && $this->_validateAddressForm()) {
+        if ($this->request->is_POST() && $this->_validateAddressForm($this->request->post)) {
             $address_id = $this->model_sale_customer->addAddress($customer_id, $this->request->post);
             $redirect_url = $this->html->getSecureURL(
                 'sale/customer/update',
@@ -785,7 +785,7 @@ class ControllerPagesSaleCustomer extends AController
 
         $customer_id = $this->request->get['customer_id'];
         $address_id = $this->request->get['address_id'];
-        if ($this->request->is_POST() && $this->_validateAddressForm()) {
+        if ($this->request->is_POST() && $this->_validateAddressForm($this->request->post)) {
             //do we need to update default address?
             if ($this->request->post['default']) {
                 $this->model_sale_customer->setDefaultAddress($customer_id, $address_id);
@@ -1230,31 +1230,41 @@ class ControllerPagesSaleCustomer extends AController
      * @return bool
      * @throws AException
      */
-    protected function _validateAddressForm()
+    protected function _validateAddressForm($data)
     {
         if (!$this->user->canModify('sale/customer')) {
             $this->error['warning'] = $this->language->get('error_permission');
             return false;
         }
 
-        if (mb_strlen($this->request->post['address_1']) < 1) {
+        if (mb_strlen($data['address_1']) < 1) {
             $this->error['address_1'] = $this->language->get('error_address_1');
         }
-        if (mb_strlen($this->request->post['city']) < 1) {
+        if (mb_strlen($data['city']) < 1) {
             $this->error['city'] = $this->language->get('error_city');
         }
-        if (empty($this->request->post['country_id']) || $this->request->post['country_id'] == 'FALSE') {
+        if (!$data['country_id']) {
             $this->error['country_id'] = $this->language->get('error_country');
         }
-        if (empty($this->request->post['zone_id']) || $this->request->post['zone_id'] == 'FALSE') {
-            $this->error['zone_id'] = $this->language->get('error_zone');
+        //check zone. If country have no zone - do not show error
+        if (!$data['zone_id']) {
+            if($data['country_id']){
+                /** @var ModelLocalisationZone $mdl */
+                $mdl = $this->loadModel('localisation/zone');
+                $zones = $mdl->getZonesByCountryId($data['country_id']);
+                if($zones){
+                    $this->error['zone_id'] = $this->language->get('error_zone');
+                }
+            }else {
+                $this->error['zone_id'] = $this->language->get('error_zone');
+            }
         }
 
-        if (mb_strlen($this->request->post['firstname']) < 1 || mb_strlen($this->request->post['firstname']) > 32) {
+        if (mb_strlen($data['firstname']) < 1 || mb_strlen($data['firstname']) > 32) {
             $this->error['firstname'] = $this->language->get('error_firstname');
         }
 
-        if (mb_strlen($this->request->post['lastname']) < 1 || mb_strlen($this->request->post['lastname']) > 32) {
+        if (mb_strlen($data['lastname']) < 1 || mb_strlen($data['lastname']) > 32) {
             $this->error['lastname'] = $this->language->get('error_lastname');
         }
 
