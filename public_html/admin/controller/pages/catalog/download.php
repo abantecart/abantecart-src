@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,12 +24,8 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerPagesCatalogDownload extends AController
 {
-
-    public $data = array();
-
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -37,64 +34,71 @@ class ControllerPagesCatalogDownload extends AController
             unset($this->session->data['success']);
         }
 
-        $this->document->initBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('index/home'),
-            'text'      => $this->language->get('text_home'),
-            'separator' => false,
-        ));
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('catalog/download'),
-            'text'      => $this->language->get('heading_title'),
-            'separator' => ' :: ',
-            'current'   => true,
-        ));
+        $this->document->initBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('index/home'),
+                'text'      => $this->language->get('text_home'),
+                'separator' => false,
+            ]
+        );
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('catalog/download'),
+                'text'      => $this->language->get('heading_title'),
+                'separator' => ' :: ',
+                'current'   => true,
+            ]
+        );
 
-        $grid_settings = array(
+        $grid_settings = [
             'table_id'     => 'download_grid',
             'url'          => $this->html->getSecureURL('listing_grid/download'),
             'editurl'      => $this->html->getSecureURL('listing_grid/download/update'),
             'update_field' => $this->html->getSecureURL('listing_grid/download/update_field'),
             'sortname'     => 'name',
-            'actions'      => array(
-                'edit'   => array(
+            'actions'      => [
+                'edit'   => [
                     'text' => $this->language->get('text_edit'),
-                    'href' => $this->html->getSecureURL('r/product/product/buildDownloadForm', '&download_id=%ID%'),
-                ),
-                'delete' => array(
+                    'href' => $this->html->getSecureURL(
+                        'r/product/product/buildDownloadForm',
+                        '&download_id=%ID%'
+                    ),
+                ],
+                'delete' => [
                     'text' => $this->language->get('button_delete'),
-                ),
-            ),
+                ],
+            ],
             'grid_ready'   => 'grid_ready();',
-        );
+        ];
 
-        $grid_settings['colNames'] = array(
+        $grid_settings['colNames'] = [
             $this->language->get('column_name'),
             $this->language->get('column_status'),
             $this->language->get('column_products_count'),
-        );
-        $grid_settings['colModel'] = array(
-            array(
+        ];
+        $grid_settings['colModel'] = [
+            [
                 'name'  => 'name',
                 'index' => 'name',
                 'width' => 300,
                 'align' => 'left',
-            ),
-            array(
+            ],
+            [
                 'name'  => 'status',
                 'index' => 'status',
 
                 'align'  => 'center',
                 'search' => false,
-            ),
-            array(
+            ],
+            [
                 'name'   => 'product_count',
                 'index'  => 'product_count',
                 'align'  => 'center',
                 'search' => false,
-            ),
-        );
+            ],
+        ];
 
-        $grid = $this->dispatch('common/listing_grid', array($grid_settings));
+        $grid = $this->dispatch('common/listing_grid', [$grid_settings]);
         $this->data['listing_grid'] = $grid->dispatchGetOutput();
 
         $this->data['help_url'] = $this->gen_help_url('download_listing');
@@ -102,12 +106,12 @@ class ControllerPagesCatalogDownload extends AController
         $this->document->setTitle($this->language->get('heading_title'));
 
         $this->data['button_insert'] = $this->html->buildElement(
-            array(
+            [
                 'type' => 'button',
                 'text' => $this->language->get('insert_title'),
                 'href' => $this->html->getSecureURL('r/product/product/buildDownloadForm'),
 
-            )
+            ]
         );
 
         $this->data['form_language_switch'] = $this->html->getContentLanguageSwitcher();
@@ -118,6 +122,5 @@ class ControllerPagesCatalogDownload extends AController
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-
     }
 }
