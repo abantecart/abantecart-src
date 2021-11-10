@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /*------------------------------------------------------------------------------
   $Id$
@@ -21,7 +21,6 @@
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
-/** @noinspection PhpUndefinedClassInspection */
 
 /**
  * Class ModelCatalogCategory
@@ -185,7 +184,7 @@ class ModelCatalogCategory extends Model
             $sql .= ($where ? " AND " : 'WHERE ').$data['subsql_filter'];
         }
 
-        //If for total, we done building the query
+        //If for total, we're done building the query
         if ($mode == 'total_only') {
             $query = $this->db->query($sql);
             return $query->row['total'];
@@ -454,7 +453,7 @@ class ModelCatalogCategory extends Model
         }
         $cacheKey = 'category.children.'.$categoryId.'.'.preformatTextID($mode);
         $cache = $this->cache->pull($cacheKey);
-        if ($cache !== false) {
+        if (isset($cache) && $cache !== false) {
             return $cache;
         }
 

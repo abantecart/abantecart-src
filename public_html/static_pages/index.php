@@ -119,7 +119,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>'; ?>
         <div id="content_middle">
             <h1 class="error">There has been a critical error processing your request</h1>
             <div style="width: 100%; display: inline-block;">
-                <?php echo $error; ?>
+                <?php echo nl2br($error); ?>
             </div>
             <br><br>
             <div style="text-align: center;">

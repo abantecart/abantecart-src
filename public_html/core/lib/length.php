@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -27,46 +27,44 @@ if (!defined('DIR_CORE')) {
  */
 class ALength
 {
-    protected $lengths = array();
-    /**
-     * @var ADB
-     */
+    protected $lengths = [];
+    /** @var ADB */
     protected $db;
-    /**
-     * @var AConfig
-     */
+    /** @var AConfig */
     protected $config;
 
-    public $predefined_lengths = array(
-        'cm' => array(
+    public $predefined_lengths = [
+        'cm' => [
             'length_class_id' => 1,
             'value'           => 1.00000000,
             'iso_code'        => 'CMET',
             'language_id'     => 1,
             'title'           => 'Centimeter',
             'unit'            => 'cm',
-        ),
-        'mm' => array(
+        ],
+        'mm' => [
             'length_class_id' => 2,
             'value'           => 10.00000000,
             'iso_code'        => 'MMET',
             'language_id'     => 1,
             'title'           => 'Millimeter',
             'unit'            => 'mm',
-        ),
-        'in' => array(
+        ],
+        'in' => [
             'length_class_id' => 3,
             'value'           => 0.39370000,
             'iso_code'        => 'INCH',
             'language_id'     => 1,
             'title'           => 'Inch',
             'unit'            => 'in',
-        ),
-    );
-    public $predefined_length_ids = array();
+        ],
+    ];
+    public $predefined_length_ids = [];
 
     /**
      * @param $registry Registry
+     *
+     * @throws AException
      */
     public function __construct($registry)
     {
@@ -74,17 +72,17 @@ class ALength
         $this->config = $registry->get('config');
 
         $cache = $registry->get('cache');
-        $language_id = (int)$registry->get('language')->getLanguageID();
+        $language_id = (int) $registry->get('language')->getLanguageID();
         $cache_key = 'localization.length_classes.lang_'.$language_id;
         $cache_data = $cache->pull($cache_key);
         if ($cache_data !== false) {
             $this->lengths = $cache_data;
         } else {
             $sql = "SELECT *, mc.length_class_id
-					FROM ".$this->db->table("length_classes")." mc
-					LEFT JOIN ".$this->db->table("length_class_descriptions")." mcd
-						ON (mc.length_class_id = mcd.length_class_id)
-					WHERE mcd.language_id = '".$language_id."'";
+                    FROM ".$this->db->table("length_classes")." mc
+                    LEFT JOIN ".$this->db->table("length_class_descriptions")." mcd
+                        ON (mc.length_class_id = mcd.length_class_id)
+                    WHERE mcd.language_id = '".$language_id."'";
             $length_class_query = $this->db->query($sql);
             foreach ($length_class_query->rows as $row) {
                 if (!$row['unit']) {
@@ -97,7 +95,7 @@ class ALength
             }
             $cache->push($cache_key, $this->lengths);
         }
-        foreach ($this->predefined_lengths as $unit => $length) {
+        foreach ($this->predefined_lengths as $length) {
             $this->predefined_length_ids[] = $length['length_class_id'];
         }
         $this->lengths = array_merge($this->lengths, $this->predefined_lengths);
@@ -106,12 +104,13 @@ class ALength
     /**
      * convert length unit based
      *
-     * @param float  $value
+     * @param float $value
      * @param string $unit_from
      * @param string $unit_to
      *
      * @return float
      * TODO: replace units in parameters with iso_codes in 2.0!!!
+     * @throws AException
      */
     public function convert($value, $unit_from, $unit_to)
     {
@@ -125,7 +124,10 @@ class ALength
         if (isset($this->lengths[strtolower($unit_from)])) {
             $from = $this->lengths[strtolower($unit_from)]['value'];
         } else {
-            $from = 0;
+            //do not allow division by zero! (see belong)
+            throw new AException(AC_ERR_USER_ERROR, 'Cannot find length unit value of "'.$unit_from
+                                                  .'". TO solve try to re-save length unit of product and it\'s option and try again.'
+            );
         }
 
         if (isset($this->lengths[strtolower($unit_to)])) {
@@ -141,10 +143,11 @@ class ALength
      * convert length id based
      *
      * @param float $value
-     * @param int   $from_id
-     * @param int   $to_id
+     * @param int $from_id
+     * @param int $to_id
      *
      * @return float
+     * @throws AException
      */
 
     public function convertByID($value, $from_id, $to_id)
@@ -155,7 +158,7 @@ class ALength
     /**
      * convert format unit based
      *
-     * @param float  $value
+     * @param float $value
      * @param string $unit
      * @param string $decimal_point
      * @param string $thousand_point
@@ -174,8 +177,8 @@ class ALength
     /**
      * convert format id based
      *
-     * @param float  $value
-     * @param int    $length_class_id
+     * @param float $value
+     * @param int $length_class_id
      * @param string $decimal_point
      * @param string $thousand_point
      *
