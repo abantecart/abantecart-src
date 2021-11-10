@@ -61,9 +61,9 @@ echo $header; ?>
 								</tr>
 								<tr>
 									<td>Session Auto Start:</td>
-									<td><?php echo $errors['session_auto_start'] ? 'On' : 'Off'; ?></td>
+									<td><?php echo ini_get('session.auto_start') ? 'On' : 'Off'; ?></td>
 									<td>Off</td>
-									<td align="center"><?php echo $errors['session_auto_start'] ? $img_bad : $img_good; ?></td>
+									<td align="center"><?php echo ini_get('session.auto_start') ? $img_bad : $img_good; ?></td>
 								</tr>
 								<tr>
 									<td>Output Buffering</td>
