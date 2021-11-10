@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection HttpUrlsUsage */
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -23,7 +24,6 @@ if (!defined('DIR_CORE')) {
 
 class ControllerResponsesEmbedGet extends AController
 {
-    public $data = [];
     /**
      * NOTE: main() is boot-up method
      */
@@ -45,6 +45,7 @@ class ControllerResponsesEmbedGet extends AController
         }
 
         $this->loadModel('catalog/product');
+        $this->loadLanguage($this->language->getCurrentLanguage()['directory']);
         $remote_store_url = $this->config->get('config_url').$this->config->get('seo_prefix');
         $product_stores = $this->model_catalog_product->getProductStoresInfo( $_get['product_id'] ?? 0 );
 

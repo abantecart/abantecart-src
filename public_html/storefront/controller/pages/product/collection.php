@@ -7,6 +7,7 @@ class ControllerPagesProductCollection extends AController
     public function __construct(Registry $registry, $instance_id, $controller, $parent_controller = '')
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
+        $this->loadLanguage('product/search');
         $default_sorting = $this->config->get('config_product_default_sort_order');
         $sort_prefix = '';
         if (strpos($default_sorting, 'name-') === 0) {
@@ -92,11 +93,7 @@ class ControllerPagesProductCollection extends AController
             $this->view->assign('heading_title', $collectionInfo['title']);
             $this->view->assign('text_sort', $this->language->get('text_sort'));
 
-            if (isset($request['page'])) {
-                $page = $request['page'];
-            } else {
-                $page = 1;
-            }
+            $page = $request['page'] ?? 1;
             if (isset($request['limit'])) {
                 $limit = (int) $request['limit'];
                 $limit = $limit > 50 ? 50 : $limit;

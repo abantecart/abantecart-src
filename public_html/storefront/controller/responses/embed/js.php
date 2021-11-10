@@ -25,11 +25,10 @@ if (!defined('DIR_CORE')) {
 class ControllerResponsesEmbedJS extends AController
 {
 
-    public $data = [];
-
     public function __construct($registry, $instance_id, $controller, $parent_controller = '')
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
+
         $lang_code = (string) ($this->request->get['language'] ?? '') ? : ($this->request->get['lang'] ?? '');
         if ($lang_code) {
             $langObj = new ALanguage($this->registry, $lang_code);
@@ -37,6 +36,7 @@ class ControllerResponsesEmbedJS extends AController
                 $this->registry->set('language', $langObj);
             }
         }
+        $this->loadLanguage('product/search');
         $curr_code = $this->request->get['currency'] ?? $this->request->get['curr'] ?? '';
         if ($curr_code) {
             $this->currency->set($curr_code);
