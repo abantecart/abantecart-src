@@ -1,4 +1,6 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -216,9 +218,7 @@ class AForm
         $this->fields = [];
         if ($query->num_rows) {
             foreach ($query->rows as $row) {
-                if (has_value($row['settings'])) {
-                    $row['settings'] = unserialize($row['settings']);
-                }
+                $row['settings'] = $row['settings'] ? unserialize($row['settings']) : [];
                 $this->fields[$row['field_id']] = $row;
                 $query = $this->db->query(
                     "SELECT *
@@ -344,6 +344,7 @@ class AForm
      * @param string $fname
      *
      * @return array with field data
+     * @throws AException
      */
     public function getField($fname)
     {

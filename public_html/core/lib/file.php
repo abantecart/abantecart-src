@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -28,9 +29,9 @@ if (!defined('DIR_CORE')) {
 
 /**
  * @property ALanguageManager $language
- * @property ADB              $db
- * @property ACache           $cache
- * @property AConfig          $config
+ * @property ADB $db
+ * @property ACache $cache
+ * @property AConfig $config
  */
 class AFile
 {
@@ -55,8 +56,8 @@ class AFile
     }
 
     /**
-     * @param  string $key   - key to save data in registry
-     * @param  mixed  $value - key to save data in registry
+     * @param string $key - key to save data in registry
+     * @param mixed $value - key to save data in registry
      *
      */
     public function __set($key, $value)
@@ -73,7 +74,6 @@ class AFile
      */
     public function validateFileOption($settings, $data)
     {
-
         $errors = [];
 
         if (empty($data['name'])) {
@@ -85,34 +85,34 @@ class AFile
             $extension = substr(strrchr($data['name'], '.'), 1);
 
             if (!in_array($extension, $allowed_extensions)) {
-                $errors[] = sprintf($this->language->get('error_file_extension'), $settings['extensions']).' ('.$data['name'].')';
+                $errors[] =
+                    sprintf($this->language->get('error_file_extension'), $settings['extensions']).' ('.$data['name']
+                    .')';
             }
-
         }
 
-        if ((int)$settings['min_size'] > 0) {
+        if ((int) $settings['min_size'] > 0) {
             $min_size_kb = $settings['min_size'];
-            if ((int)$data['size'] / 1024 < $min_size_kb) {
+            if ((int) $data['size'] / 1024 < $min_size_kb) {
                 $errors[] = sprintf($this->language->get('error_min_file_size'), $min_size_kb).' ('.$data['name'].')';
             }
         }
 
         //convert all to Kb and check the limits on abantecart and php side
-        $abc_upload_limit = (int)$this->config->get('config_upload_max_size'); //comes in Kb
-        $php_upload_limit = (int)ini_get('upload_max_filesize') * 1024; //comes in Mb
+        $abc_upload_limit = (int) $this->config->get('config_upload_max_size'); //comes in Kb
+        $php_upload_limit = (int) ini_get('upload_max_filesize') * 1024; //comes in Mb
         $max_size_kb = $abc_upload_limit < $php_upload_limit ? $abc_upload_limit : $php_upload_limit;
 
         //check limit for attribute if set
-        if ((int)$settings['max_size'] > 0) {
-            $max_size_kb = (int)$settings['max_size'] < $max_size_kb ? (int)$settings['max_size'] : $max_size_kb;
+        if ((int) $settings['max_size'] > 0) {
+            $max_size_kb = (int) $settings['max_size'] < $max_size_kb ? (int) $settings['max_size'] : $max_size_kb;
         }
 
-        if ($max_size_kb < (int)$data['size'] / 1024) {
+        if ($max_size_kb < (int) $data['size'] / 1024) {
             $errors[] = sprintf($this->language->get('error_max_file_size'), $max_size_kb).' ('.$data['name'].')';
         }
 
         return $errors;
-
     }
 
     /**
@@ -135,7 +135,6 @@ class AFile
         $file_name = substr($file_name, 0, strlen($file_name) - strlen($ext));
 
         $i = '';
-        $real_path = '';
         do {
             if ($i) {
                 $new_name = $file_name.'_'.$i.$ext;
@@ -165,7 +164,6 @@ class AFile
             return $file;
         }
         return false;
-
     }
 
     /**
@@ -208,7 +206,7 @@ class AFile
         $response->content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
         $response->content_length = curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
         //trick for cdn-servers (case when content length unknown )
-        if($response->content_length < 0 ){
+        if ($response->content_length < 0) {
             $response->content_length = strlen($response->body);
         }
         curl_close($ch);
