@@ -177,6 +177,8 @@ class ModelInstall extends Model
             $this->errors['warning'] = 'Warning: Admin/system directory needs to be writable for AbanteCart to work!';
         }
 
+        $this->errors['session_auto_start'] = (bool)ini_get('session.auto_start');
+
         return (!$this->errors);
     }
 
