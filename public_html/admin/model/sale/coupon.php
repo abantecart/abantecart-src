@@ -306,34 +306,19 @@ class ModelSaleCoupon extends Model
         } else {
             $language_id = (int) $this->config->get('storefront_language_id');
         }
-
-        //Prepare filter config
-        $filter_params = ['status' => 'c.status'];
-        //Build query string based on GET params first
-        $filter_form = new AFilter(
-            [
-                'method'        => 'get',
-                'filter_params' => $filter_params,
-            ]
-        );
-        //Build final filter
-        $grid_filter_params = [
-            'name' => 'cd.name',
-            'code' => 'c.code',
-        ];
-        $filter_grid = new AFilter(
-            [
-                'method'                   => 'post',
-                'grid_filter_params'       => $grid_filter_params,
-                'additional_filter_string' => $filter_form->getFilterString(),
-            ]
-        );
-        $data = array_merge($filter_grid->getFilterData(), $data);
+        $sqlDateRange = "(CASE WHEN c.date_start < NOW() AND c.date_end > NOW() THEN 1 ELSE 0 END)";
 
         if ($mode == 'total_only') {
             $total_sql = 'count(*) as total';
         } else {
-            $total_sql = "c.coupon_id, cd.name, c.code, c.discount, c.date_start, c.date_end, c.status ";
+            $total_sql = "
+            c.coupon_id, 
+            cd.name, 
+            c.code, 
+            c.discount, 
+            c.date_start, 
+            c.date_end, 
+            ".$sqlDateRange." as status ";
         }
 
         $sql = "SELECT ".$total_sql." 
@@ -345,11 +330,16 @@ class ModelSaleCoupon extends Model
         if (!empty($data['search'])) {
             $sql .= " AND ".$data['search'];
         }
+
+        if (isset($data['filter']['status'])) {
+            $sql .= " AND ".$sqlDateRange." = ".$data['filter']['status'];
+        }
+
         if (!empty($data['subsql_filter'])) {
             $sql .= " AND ".$data['subsql_filter'];
         }
 
-        //If for total, we done building the query
+        //If for total, we're done building the query
         if ($mode == 'total_only') {
             $query = $this->db->query($sql);
             return $query->row['total'];
@@ -361,7 +351,7 @@ class ModelSaleCoupon extends Model
             'discount'   => 'c.discount',
             'date_start' => 'c.date_start',
             'date_end'   => 'c.date_end',
-            'status'     => 'c.status',
+            'status'     => $sqlDateRange,
         ];
 
         if (isset($data['sort']) && array_key_exists($data['sort'], $sort_data)) {
@@ -384,7 +374,6 @@ class ModelSaleCoupon extends Model
             if ($data['limit'] < 1) {
                 $data['limit'] = 20;
             }
-
             $sql .= " LIMIT ".(int) $data['start'].",".(int) $data['limit'];
         }
         $query = $this->db->query($sql);

@@ -48,11 +48,17 @@ class ControllerResponsesListingGridCoupon extends AController
         $response->total = $total_pages;
         $response->records = $total;
 
-        $results = $this->model_sale_coupon->getCoupons(
-            [
-                'content_language_id' => $this->language->getContentLanguageID(),
-            ]
-        );
+        //Prepare filter config
+        $filter_params = ['status' => 'c.status'];
+        //Build query string based on GET params first
+
+        $grid_filter_params = ['name', 'code'];
+
+        $filter_form = new AFilter(['method' => 'get', 'filter_params' => $filter_params]);
+        $filter_grid = new AFilter(['method' => 'post', 'grid_filter_params' => $grid_filter_params]);
+        $data = array_merge($filter_form->getFilterData(), $filter_grid->getFilterData());
+
+        $results = $this->model_sale_coupon->getCoupons($data);
         $i = 0;
         $now = time();
         foreach ($results as $result) {
@@ -119,7 +125,7 @@ class ControllerResponsesListingGridCoupon extends AController
                 $ids = explode(',', $this->request->post['id']);
                 if (!empty($ids)) {
                     foreach ($ids as $id) {
-                        $s = isset($this->request->post['status'][$id]) ? $this->request->post['status'][$id] : 0;
+                        $s = $this->request->post['status'][$id] ?? 0;
                         $this->model_sale_coupon->editCoupon($id, ['status' => $s]);
                     }
                 }
@@ -253,11 +259,7 @@ class ControllerResponsesListingGridCoupon extends AController
 
         $this->loadModel('catalog/product');
 
-        if (isset($this->request->post['id'])) { // variant for popup listing
-            $products = $this->request->post['id'];
-        } else {
-            $products = [];
-        }
+        $products = $this->request->post['id'] ?? [];
         $product_data = [];
 
         foreach ($products as $product_id) {
