@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,11 +24,10 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerResponsesListingGridOrderStatus extends AController
 {
-    public $data = array();
+    public $data = [];
 
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -40,18 +40,18 @@ class ControllerResponsesListingGridOrderStatus extends AController
         $sord = $this->request->post['sord']; // get the direction
 
         // process jGrid search parameter
-        $allowedDirection = array('asc', 'desc');
+        $allowedDirection = ['asc', 'desc'];
 
         if (!in_array($sord, $allowedDirection)) {
             $sord = $allowedDirection[0];
         }
 
-        $data = array(
+        $data = [
             'order'               => strtoupper($sord),
             'start'               => ($page - 1) * $limit,
             'limit'               => $limit,
             'content_language_id' => $this->session->data['content_language_id'],
-        );
+        ];
 
         $total = $this->model_localisation_order_status->getTotalOrderStatuses();
         if ($total > 0) {
@@ -82,13 +82,15 @@ class ControllerResponsesListingGridOrderStatus extends AController
             if (has_value($base_order_statuses[$id])) {
                 $response->userdata->classes[$id] = 'disable-delete';
             }
-            $response->rows[$i]['cell'] = array(
-                $this->html->buildInput(array(
-                    'name'  => 'order_status['.$id.'][name]',
-                    'value' => $result['name'],
-                )),
+            $response->rows[$i]['cell'] = [
+                $this->html->buildInput(
+                    [
+                        'name'  => 'order_status['.$id.'][name]',
+                        'value' => $result['name'],
+                    ]
+                ),
                 $result['status_text_id'],
-            );
+            ];
             $i++;
         }
         $this->data['response'] = $response;
@@ -100,17 +102,22 @@ class ControllerResponsesListingGridOrderStatus extends AController
 
     public function update()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         if (!$this->user->canModify('listing_grid/order_status')) {
             $error = new AError('');
-            return $error->toJSONResponse('NO_PERMISSIONS_402',
-                array(
-                    'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/order_status'),
+            $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
+                    'error_text'  => sprintf(
+                        $this->language->get('error_permission_modify'),
+                        'listing_grid/order_status'
+                    ),
                     'reset_value' => true,
-                ));
+                ]
+            );
+            return;
         }
 
         $this->loadModel('localisation/order_status');
@@ -126,7 +133,8 @@ class ControllerResponsesListingGridOrderStatus extends AController
                         $err = $this->_validateDelete($id);
                         if (!empty($err)) {
                             $error = new AError('');
-                            return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $err));
+                            $error->toJSONResponse('VALIDATION_ERROR_406', ['error_text' => $err]);
+                            return;
                         }
                         $this->model_localisation_order_status->deleteOrderStatus($id);
                     }
@@ -140,10 +148,12 @@ class ControllerResponsesListingGridOrderStatus extends AController
                             foreach ($this->request->post['order_status'][$id] as $value) {
                                 if (!$this->_validate_field($value['name'])) {
                                     $this->response->setOutput($this->language->get('error_name'));
-                                    return null;
+                                    return;
                                 }
                             }
-                            $this->model_localisation_order_status->editOrderStatus($id, array('order_status' => $this->request->post['order_status'][$id]));
+                            $this->model_localisation_order_status->editOrderStatus(
+                                $id, ['order_status' => $this->request->post['order_status'][$id]]
+                            );
                         }
                     }
                 }
@@ -162,29 +172,38 @@ class ControllerResponsesListingGridOrderStatus extends AController
      */
     public function update_field()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         if (!$this->user->canModify('listing_grid/order_status')) {
             $error = new AError('');
-            return $error->toJSONResponse('NO_PERMISSIONS_402',
-                array(
-                    'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/order_status'),
-                    'reset_value' => true,
-                ));
+            $error->toJSONResponse('NO_PERMISSIONS_402',
+                                   [
+                                       'error_text'  => sprintf(
+                                           $this->language->get('error_permission_modify'), 'listing_grid/order_status'
+                                       ),
+                                       'reset_value' => true,
+                                   ]
+            );
+            return;
         }
 
         $this->loadLanguage('localisation/order_status');
         $this->loadModel('localisation/order_status');
         if (isset($this->request->get['id']) && !empty($this->request->post)) {
             //request sent from edit form. ID in url
-            $fields = array('name', 'status_text_id');
+            $fields = ['name', 'status_text_id'];
             foreach ($fields as $field_name) {
                 if (isset($this->request->post[$field_name])) {
                     if (!$this->_validate_field($this->request->post[$field_name])) {
                         $error = new AError('');
-                        return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $this->language->get('error_'.$field_name)));
+                        $error->toJSONResponse(
+                            'VALIDATION_ERROR_406',
+                            [
+                                'error_text' => $this->language->get('error_'.$field_name),
+                            ]
+                        );
+                        return;
                     }
                 }
             }
@@ -198,9 +217,15 @@ class ControllerResponsesListingGridOrderStatus extends AController
             foreach ($this->request->post['order_status'] as $id => $value) {
                 if (!$this->_validate_field($value['name'])) {
                     $error = new AError('');
-                    return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $this->language->get('error_name')));
+                    $error->toJSONResponse(
+                        'VALIDATION_ERROR_406',
+                        [
+                            'error_text' => $this->language->get('error_name'),
+                        ]
+                    );
+                    return;
                 }
-                $this->model_localisation_order_status->editOrderStatus($id, array('name' => $value['name']));
+                $this->model_localisation_order_status->editOrderStatus($id, ['name' => $value['name']]);
             }
         }
 
@@ -218,7 +243,6 @@ class ControllerResponsesListingGridOrderStatus extends AController
 
     private function _validateDelete($order_status_id)
     {
-
         if (in_array($order_status_id, array_keys($this->order_status->getBaseStatuses()))) {
             return $this->language->get('error_nondeletable');
         }
