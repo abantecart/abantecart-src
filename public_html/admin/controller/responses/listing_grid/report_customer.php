@@ -125,6 +125,7 @@ class ControllerResponsesListingGridReportCustomer extends AController
 
         $total = $this->model_report_customer->getTotalCustomerOrders($data);
         $response = new stdClass();
+        $response->userdata = new stdClass();
         $response->page = $filter_grid->getParam('page');
         $response->total = $filter_grid->calcTotalPages($total);
         $response->records = $total;
