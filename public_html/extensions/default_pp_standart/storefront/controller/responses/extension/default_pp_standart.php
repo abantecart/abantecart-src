@@ -158,19 +158,19 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
         $virtual_products = $this->cart->getVirtualProducts();
 
         if ($virtual_products) {
-            foreach ($virtual_products as $k => $virtual) {
+            foreach ($virtual_products as $virtual) {
                 $this->data['products'][] = [
-                    'name'     => ($virtual['name'] ? $virtual['name'] : 'Virtual Product'),
+                    'name'     => ($virtual['name'] ? : 'Virtual Product'),
                     'model'    => '',
                     'price'    => $this->currency->format(
                         $virtual['amount'], $order_info['currency'],
                         $order_info['value'], false
                     ),
-                    'quantity' => ($virtual['quantity'] ? $virtual['quantity'] : 1),
+                    'quantity' => ($virtual['quantity'] ? : 1),
                     'option'   => [],
                     'weight'   => 0,
                 ];
-                $this->data['items_total'] += ($virtual['quantity'] ? $virtual['quantity'] : 1)
+                $this->data['items_total'] += ($virtual['quantity'] ? : 1)
                     * $this->currency->format(
                         $virtual['amount'],
                         $order_info['currency'],
@@ -252,7 +252,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
         $currency_code = strtoupper($order_info['currency']);
         // check seller email and order amount and save message if not equal
         if ($this->request->post['receiver_email'] != $this->config->get('default_pp_standart_email')
-            || $order_total != round($this->request->post['mc_gross'], 2)
+            || $order_total != round((float)$this->request->post['mc_gross'], 2)
             || $currency_code != strtoupper($this->request->post['mc_currency'])
         ) {
             $this->load->language('default_pp_standart/default_pp_standart');
@@ -374,7 +374,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
         } else {
             $this->loadModel('checkout/order');
             $order_info = $this->model_checkout_order->getOrder($order_id);
-            //do nothing if order confirmed or it's not created with paypal standart
+            //do nothing if order confirmed, or it's not created with PayPal standart
             if ((int) $order_info['order_status_id'] != 0
                 || $order_info['payment_method_key'] != 'default_pp_standart'
             ) {

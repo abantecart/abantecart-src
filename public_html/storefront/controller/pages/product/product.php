@@ -300,7 +300,7 @@ class ControllerPagesProductProduct extends AController
         $decimal_place = !$decimal_place ? 2 : $decimal_place;
 
         if ($discount) {
-            $product_price = round($discount, $decimal_place);
+            $product_price = round((float)$discount, $decimal_place);
             $this->data['price_num'] = round(
                 $this->tax->calculate(
                     $discount,
@@ -311,7 +311,7 @@ class ControllerPagesProductProduct extends AController
             );
             $this->data['special'] = false;
         } else {
-            $product_price = round($product_info['price'], $decimal_place);
+            $product_price = round((float)$product_info['price'], $decimal_place);
             $this->data['price_num'] = round(
                 $this->tax->calculate(
                     $product_info['price'],
@@ -482,7 +482,7 @@ class ControllerPagesProductProduct extends AController
                         if ($this->config->get('config_stock_display')) {
                             if ($option_value['quantity'] > 0) {
                                 $opt_stock_message = $option_value['quantity']." ".$this->language->get('text_instock');
-                                $opt_stock_message = "({$opt_stock_message})";
+                                $opt_stock_message = "(".$opt_stock_message.")";
                             }
                         }
                     }
@@ -516,7 +516,7 @@ class ControllerPagesProductProduct extends AController
                     .$price
                     .' '
                     .$opt_stock_message;
-                //disable stock tracking for product if some of option have subtract
+                //disable stock tracking for product if one of option have "subtract"
                 if ($option_value['subtract']) {
                     $product_info['subtract'] = false;
                 }
@@ -546,7 +546,7 @@ class ControllerPagesProductProduct extends AController
                     if ($opt_stock_message) {
                         $option['name'] .= '<br />'.$opt_stock_message;
                     }
-                    $value = $default_value ? $default_value : $name;
+                    $value = $default_value ? : $name;
                 } else {
                     if ($option['element_type'] == 'B') {
                         $value = $name;
@@ -588,7 +588,7 @@ class ControllerPagesProductProduct extends AController
                     if (!in_array($value, ['0', '1'])) {
                         $option_data['label_text'] = $value;
                     }
-                    $option_data['checked'] = $preset_value ? true : false;
+                    $option_data['checked'] = (bool) $preset_value;
                 }
 
                 $options[] = [

@@ -1,5 +1,7 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
+use net\authorize\api\constants\ANetEnvironment;
 use net\authorize\api\contract\v1 as AnetAPI;
 use net\authorize\api\contract\v1\ANetApiResponseType;
 use net\authorize\api\contract\v1\CreateTransactionRequest;
@@ -24,7 +26,7 @@ use net\authorize\api\controller\CreateTransactionController;
  */
 class ModelExtensionDefaultAuthorizeNet extends Model
 {
-    public $error = array();
+    public $error = [];
 
     /**
      * @return MerchantAuthenticationType
@@ -68,13 +70,13 @@ class ModelExtensionDefaultAuthorizeNet extends Model
             $status = false;
         }
 
-        $payment_data = array();
+        $payment_data = [];
         if ($status) {
-            $payment_data = array(
+            $payment_data = [
                 'id'         => 'default_authorizenet',
                 'title'      => $language->get('text_title'),
                 'sort_order' => $this->config->get('default_authorizenet_sort_order'),
-            );
+            ];
         }
 
         return $payment_data;
@@ -88,7 +90,7 @@ class ModelExtensionDefaultAuthorizeNet extends Model
      */
     public function processPayment($pd)
     {
-        $output = array();
+        $output = [];
         $this->load->model('checkout/order');
         $this->load->language('default_authorizenet/default_authorizenet');
         $order_info = $this->model_checkout_order->getOrder($pd['order_id']);
@@ -96,21 +98,19 @@ class ModelExtensionDefaultAuthorizeNet extends Model
         try {
 
             //grab price from order total
-            $amount = round($order_info['total'], 2);
+            $amount = round((float)$order_info['total'], 2);
             //build charge data array
-            $charge_data = array(
+            $charge_data = [
                 'amount'               => $amount,
                 'currency'             => $pd['currency'],
                 'description'          => $this->config->get('store_name').' Order #'.$pd['order_id'],
                 'statement_descriptor' => 'Order #'.$pd['order_id'],
                 'receipt_email'        => $order_info['email'],
-                'capture'              => ($this->config->get('default_authorizenet_settlement') == 'auth'
-                                            ? false
-                                            : true),
-            );
+                'capture'              => !($this->config->get('default_authorizenet_settlement') == 'auth'),
+            ];
 
             //build cc details
-            $cc_details = array(
+            $cc_details = [
                 'first_name'      => $pd['cc_owner_firstname'],
                 'last_name'       => $pd['cc_owner_lastname'],
                 'address_line1'   => trim($order_info['payment_address_1']),
@@ -119,24 +119,24 @@ class ModelExtensionDefaultAuthorizeNet extends Model
                 'address_zip'     => $order_info['payment_postcode'],
                 'address_state'   => $order_info['payment_zone'],
                 'address_country' => $order_info['payment_iso_code_2'],
-            );
+            ];
 
             if ($order_info['shipping_method']) {
-                $charge_data['shipping'] = array(
+                $charge_data['shipping'] = [
                     'name'    => $order_info['firstname'].' '.$order_info['lastname'],
                     'phone'   => $order_info['telephone'],
-                    'address' => array(
+                    'address' => [
                         'line1'       => $order_info['shipping_address_1'],
                         'line2'       => $order_info['shipping_address_2'],
                         'city'        => $order_info['shipping_city'],
                         'postal_code' => $order_info['shipping_postcode'],
                         'state'       => $order_info['shipping_zone'],
                         'country'     => $order_info['shipping_iso_code_2'],
-                    ),
-                );
+                    ],
+                ];
             }
 
-            $charge_data['metadata'] = array();
+            $charge_data['metadata'] = [];
             $charge_data['metadata']['order_id'] = $pd['order_id'];
             if ($this->customer->getId() > 0) {
                 $charge_data['metadata']['customer_id'] = (int)$this->customer->getId();
@@ -149,8 +149,8 @@ class ModelExtensionDefaultAuthorizeNet extends Model
             $tr_details = $this->processPaymentByToken($payment_details, $amount);
 
 
-        } catch (AException $e) {
-            $output = array();
+        } catch (Exception $e) {
+            $output = [];
             // Something else happened, completely unrelated to AuthorizeNet
             $msg = new AMessage();
             $msg->saveError(
@@ -178,16 +178,16 @@ class ModelExtensionDefaultAuthorizeNet extends Model
             $order_info['transaction_id'] = $transaction_id;
             $card_type = $tr_details['accountType'];
 
-            $message = 'Order id: '.(string)$pd['order_id']."\n";
-            $message .= 'Order total: '.(string)$amount."\n";
-            $message .= 'Transaction ID: '.(string)$transaction_id."\n";
-            $message .= 'Transaction Timestamp: '.(string)date('m/d/Y H:i:s');
+            $message = 'Order id: '.$pd['order_id']."\n";
+            $message .= 'Order total: '.$amount."\n";
+            $message .= 'Transaction ID: '.$transaction_id."\n";
+            $message .= 'Transaction Timestamp: '.date('m/d/Y H:i:s');
 
             //update authorizenet_transaction_id and CC type in the order table
             $this->db->query(
                 "UPDATE ".$this->db->table('orders')."
                     SET payment_method_data = '".$this->db->escape(
-                    serialize(array('authorizenet_transaction_id' => $transaction_id, 'cc_type' => $card_type))
+                    serialize(['authorizenet_transaction_id' => $transaction_id, 'cc_type' => $card_type])
                 )."'
                     WHERE order_id = '".(int)$pd['order_id']."'"
             );
@@ -211,9 +211,9 @@ class ModelExtensionDefaultAuthorizeNet extends Model
             $output['paid'] = true;
         } else {
             // Some other error, assume payment declined
-            $message = 'Timestamp: '.(string)date('m/d/Y H:i:s')."\n";
-            $message .= 'Authorize.net status: '.(string)$tr_details['resultCode']."\n";
-            $message .= 'Authorize.net message: '.(string)$tr_details['description']."\n";
+            $message = 'Timestamp: '.date('m/d/Y H:i:s')."\n";
+            $message .= 'Authorize.net status: '.$tr_details['resultCode']."\n";
+            $message .= 'Authorize.net message: '.$tr_details['description']."\n";
             $this->model_checkout_order->update(
                 $pd['order_id'],
                 $this->config->get('default_authorizenet_status_decline'),
@@ -305,8 +305,8 @@ class ModelExtensionDefaultAuthorizeNet extends Model
         // Create the controller and get the response
         $controller = new AnetController\CreateTransactionController($request);
         $endpoint_url = $this->config->get('default_authorizenet_test_mode')
-            ? \net\authorize\api\constants\ANetEnvironment::SANDBOX
-            : \net\authorize\api\constants\ANetEnvironment::PRODUCTION;
+            ? ANetEnvironment::SANDBOX
+            : ANetEnvironment::PRODUCTION;
         /**
          * @var AnetApiResponseType $response
          */
@@ -323,7 +323,7 @@ class ModelExtensionDefaultAuthorizeNet extends Model
                 if ($tresponse != null && $tresponse->getMessages() != null) {
                     $messages = $tresponse->getMessages();
 
-                    return array(
+                    return [
                         'response_object' => $tresponse,
                         'refId'           => $refId,
                         'refTransId'      => $tresponse->getTransId(),
@@ -333,7 +333,7 @@ class ModelExtensionDefaultAuthorizeNet extends Model
                         'response_code'   => $tresponse->getResponseCode(),
                         'message_code'    => $messages[0]->getCode(),
                         'description'     => $messages[0]->getDescription(),
-                    );
+                    ];
                 } else {
                     return $this->processApiResponse($tresponse, false);
                 }
@@ -343,16 +343,17 @@ class ModelExtensionDefaultAuthorizeNet extends Model
             }
         }
 
-        return array('error' => 'Error: Method '.__METHOD__.' result. No response returned.');
+        return ['error' => 'Error: Method '.__METHOD__.' result. No response returned.'];
     }
 
     /**
-     * @param int   $customer_authorizenet_id
-     * @param int   $payment_profile_id
+     * @param int $customer_authorizenet_id
+     * @param int $payment_profile_id
      * @param float $amount
      * @param array $payment_data
      *
      * @return array|ANetApiResponseType
+     * @throws AException
      */
     protected function chargeCustomerProfile(
         $customer_authorizenet_id,
@@ -396,19 +397,19 @@ class ModelExtensionDefaultAuthorizeNet extends Model
         $request->setTransactionRequest($t_request_type);
         $controller = new CreateTransactionController($request);
         $endpoint_url = $this->config->get('default_authorizenet_test_mode')
-            ? \net\authorize\api\constants\ANetEnvironment::SANDBOX
-            : \net\authorize\api\constants\ANetEnvironment::PRODUCTION;
+            ? ANetEnvironment::SANDBOX
+            : ANetEnvironment::PRODUCTION;
         $response = $controller->executeWithApiResponse($endpoint_url);
         if ($response != null) {
             if ($response->getMessages()->getResultCode() == 'Ok') {
                 /**
-                 * @var \net\authorize\api\contract\v1\TransactionResponseType $tresponse
+                 * @var TransactionResponseType $tresponse
                  */
                 $tresponse = $response->getTransactionResponse();
                 if ($tresponse != null && $tresponse->getMessages() != null) {
                     $messages = $tresponse->getMessages();
 
-                    return array(
+                    return [
                         'response_object' => $tresponse,
                         'refId'           => $refId,
                         'refTransId'      => $tresponse->getTransId(),
@@ -418,7 +419,7 @@ class ModelExtensionDefaultAuthorizeNet extends Model
                         'response_code'   => $tresponse->getResponseCode(),
                         'message_code'    => $messages[0]->getCode(),
                         'description'     => $messages[0]->getDescription(),
-                    );
+                    ];
                 } else {
                     return $this->processApiResponse($tresponse, false);
                 }
@@ -429,7 +430,7 @@ class ModelExtensionDefaultAuthorizeNet extends Model
             }
         }
 
-        return array('error' => 'Error: Method '.__METHOD__.' result. No response returned.');
+        return ['error' => 'Error: Method '.__METHOD__.' result. No response returned.'];
     }
 
     /**
@@ -441,7 +442,7 @@ class ModelExtensionDefaultAuthorizeNet extends Model
      */
     private function processApiResponse($api_response, $mode = 'exception')
     {
-        $output = array();
+        $output = [];
 
             if (method_exists($api_response, 'getErrors') && $api_response->getErrors() != null) {
                 $errors = $api_response->getErrors();

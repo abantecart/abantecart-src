@@ -853,7 +853,7 @@ class ACart
                     );
                 }
                 $this->taxes[$product['tax_class_id']]['tax'] = round(
-                    $this->taxes[$product['tax_class_id']]['tax'],
+                    (float)$this->taxes[$product['tax_class_id']]['tax'],
                     $decimal_place
                 );
             }
@@ -868,7 +868,10 @@ class ACart
                 $this->taxes[$tax_id]['tax'] += $this->tax->calcTotalTaxAmount($cost, $tax_id);
             }
             //round
-            $this->taxes[$tax_id]['tax'] = round($this->taxes[$tax_id]['tax'], $decimal_place);
+            $this->taxes[$tax_id]['tax'] = round(
+                (float)$this->taxes[$tax_id]['tax'],
+                $decimal_place
+            );
         }
         return $this->taxes;
     }

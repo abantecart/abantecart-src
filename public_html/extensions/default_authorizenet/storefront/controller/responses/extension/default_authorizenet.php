@@ -225,7 +225,7 @@ class ControllerResponsesExtensionDefaultAuthorizeNet extends AController
         // currency code
         $currency = $this->currency->getCode();
         // order amount without decimal delimiter
-        $amount = round($order_info['total'], 2);
+        $amount = round((float)$order_info['total'], 2);
 
         // Card owner name
         $card_firstname = html_entity_decode($post['cc_owner_firstname'], ENT_QUOTES, 'UTF-8');
