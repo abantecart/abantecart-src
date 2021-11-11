@@ -51,9 +51,11 @@ class ControllerResponsesListingGridAttribute extends AController
                 $attr_parent_id = (int) $this->request->post['nodeid'];
                 $new_level = (int) $this->request->post["n_level"] + 1;
             } else {
-                $attr_parent_id = null;
+                //if filter presents - seek by all list. Otherwise, show only parent
+                $attr_parent_id = $this->request->post['_search'] == 'true' ? null : 0;
             }
         }
+
 
         $total = $this->attribute_manager->getTotalAttributes([], '', $attr_parent_id);
         if ($total > 0) {
