@@ -47,8 +47,7 @@ echo $this->html->buildElement(
 );
 ?>
 
-<script type="text/javascript"
-        src="<?php echo $template_dir; ?>javascript/jqgrid/plugins/jquery.tablednd.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jqgrid/plugins/jquery.tablednd.js"></script>
 <script type="text/javascript">
 
     var initGrid_<?php echo $data['table_id'] ?> = function ($) {
@@ -693,7 +692,10 @@ echo $this->html->buildElement(
                 case 'disable':
                 case 'enable':
                 case 'save':
-                    var form_data = $(table_id + '_form').serializeArray();
+                    var form_data = $(table_id + '_form')
+                        .find('tr>td>input[role=checkbox]:checked')
+                        .parents('tr').find('input, select')
+                        .serializeArray();
                     form_data.push({name: 'id', value: ids});
                     form_data.push({name: 'oper', value: bulkAction});
                     $.ajax({

@@ -24,8 +24,6 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerResponsesListingGridOrderStatus extends AController
 {
-    public $data = [];
-
     public function main()
     {
         //init controller data
@@ -36,7 +34,6 @@ class ControllerResponsesListingGridOrderStatus extends AController
 
         $page = $this->request->post['page']; // get the requested page
         $limit = $this->request->post['rows']; // get how many rows we want to have into the grid
-        $sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
         $sord = $this->request->post['sord']; // get the direction
 
         // process jGrid search parameter
@@ -143,17 +140,24 @@ class ControllerResponsesListingGridOrderStatus extends AController
             case 'save':
                 $ids = explode(',', $this->request->post['id']);
                 if (!empty($ids)) {
+                    $ids = array_unique($ids);
                     foreach ($ids as $id) {
                         if (isset($this->request->post['order_status'][$id])) {
-                            foreach ($this->request->post['order_status'][$id] as $value) {
-                                if (!$this->_validate_field($value['name'])) {
+                            foreach ($this->request->post['order_status'][$id] as $name) {
+                                if (!$this->_validate_field($name)) {
                                     $this->response->setOutput($this->language->get('error_name'));
                                     return;
                                 }
                             }
-                            $this->model_localisation_order_status->editOrderStatus(
-                                $id, ['order_status' => $this->request->post['order_status'][$id]]
-                            );
+                            //if all values are correct - do update
+                            foreach ($this->request->post['order_status'][$id] as $name) {
+                                $this->model_localisation_order_status->editOrderStatus(
+                                    $id,
+                                    [
+                                        'name' => $name,
+                                    ]
+                                );
+                            }
                         }
                     }
                 }
@@ -169,6 +173,7 @@ class ControllerResponsesListingGridOrderStatus extends AController
      * update only one field
      *
      * @return void
+     * @throws AException
      */
     public function update_field()
     {
@@ -260,6 +265,7 @@ class ControllerResponsesListingGridOrderStatus extends AController
         if ($order_total) {
             return sprintf($this->language->get('error_order'), $order_total);
         }
+        return null;
     }
 
 }
