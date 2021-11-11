@@ -222,8 +222,15 @@ echo $order_tabs;
 						<dl class="dl-horizontal product-options-list-sm">
 					<?php
 					foreach ($order_product['option'] as $option) { ?>
-						<dt><small title="<?php echo $option['title']?>">- <?php echo $option['name']; ?></small></dt><dd><small class="product_option_value" title="<?php echo $option['title']?>"><?php echo $option['value']; ?></small></dd>
-							<?php echo $this->getHookVar('order_details_option_'.$option['name'].'_additional_info'); ?>
+						<dt>
+                            <small title="<?php echo $option['title']?>">- <?php echo $option['name']; ?></small>
+                        </dt>
+                        <dd>
+                            <small class="product_option_value" title="<?php echo $option['title']?>">
+                                <?php echo $option['value'].($option['sku'] ? ' (SKU: '.$option['sku'].')' : ''); ?>
+                            </small>
+                        </dd>
+						<?php echo $this->getHookVar('order_details_option_'.$option['name'].'_additional_info'); ?>
 					<?php }?>
 						</dl>
 					<?php } ?>
