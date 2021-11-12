@@ -178,17 +178,22 @@ class ControllerResponsesListingGridTotal extends AController
 
         $i = 0;
         foreach ($results as $result) {
-            $response->userdata->rt[$result['id']] = $result['action'];
-            $status = $this->html->buildCheckbox(
-                [
-                    'name'  => $result['id'].'['.$result['id'].'_status]',
-                    'value' => $result['status'],
-                    'style' => 'btn_switch',
-                ]
-            );
+            $id = $result['id'];
+            $response->userdata->rt[$id] = $result['action'];
+            if(in_array($id,['sub_total', 'total'])){
+                $status = '';
+            }else {
+                $status = $this->html->buildCheckbox(
+                    [
+                        'name' => $id.'['.$id.'_status]',
+                        'value' => $result['status'],
+                        'style' => 'btn_switch',
+                    ]
+                );
+            }
             $sort = $this->html->buildInput(
                 [
-                    'name'  => $result['id'].'['.$result['id'].'_sort_order]',
+                    'name'  => $id.'['.$id.'_sort_order]',
                     'value' => $result['sort_order'],
                     'attr'  => $result['readonly'] ? 'readonly' : '',
                 ]
@@ -196,13 +201,13 @@ class ControllerResponsesListingGridTotal extends AController
 
             $calc = $this->html->buildInput(
                 [
-                    'name'  => $result['id'].'['.$result['id'].'_calculation_order]',
+                    'name'  => $id.'['.$id.'_calculation_order]',
                     'value' => $result['calculation_order'],
                     'attr'  => $result['readonly'] ? 'readonly' : '',
                 ]
             );
 
-            $response->rows[$i]['id'] = $result['id'];
+            $response->rows[$i]['id'] = $id;
             $response->rows[$i]['cell'] = [
                 $result['name'],
                 $status,

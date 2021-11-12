@@ -1,4 +1,5 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -23,13 +24,15 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerPagesTotalTotal extends AController
 {
-    public $data = array();
-    public $error = array();
-    private $fields = array('total_status', 'total_sort_order', 'total_calculation_order', 'total_total_type');
+    public $error = [];
+    protected $fields = [
+        'total_sort_order',
+        'total_calculation_order',
+        'total_total_type',
+    ];
 
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -53,29 +56,31 @@ class ControllerPagesTotalTotal extends AController
             unset($this->session->data['success']);
         }
 
-        $this->document->initBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('index/home'),
-            'text'      => $this->language->get('text_home'),
-            'separator' => false,
-        ));
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('extension/total'),
-            'text'      => $this->language->get('text_total'),
-            'separator' => ' :: ',
-        ));
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('total/total'),
-            'text'      => $this->language->get('heading_title'),
-            'separator' => ' :: ',
-            'current'   => true,
-        ));
+        $this->document->initBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('index/home'),
+                'text'      => $this->language->get('text_home'),
+                'separator' => false,
+            ]
+        );
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('extension/total'),
+                'text'      => $this->language->get('text_total'),
+                'separator' => ' :: ',
+            ]
+        );
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('total/total'),
+                'text'      => $this->language->get('heading_title'),
+                'separator' => ' :: ',
+                'current'   => true,
+            ]
+        );
 
         foreach ($this->fields as $f) {
-            if (isset ($this->request->post [$f])) {
-                $this->data [$f] = $this->request->post [$f];
-            } else {
-                $this->data [$f] = $this->config->get($f);
-            }
+            $this->data [$f] = $this->request->post [$f] ?? $this->config->get($f);
         }
 
         $this->data ['action'] = $this->html->getSecureURL('total/total');
@@ -85,63 +90,79 @@ class ControllerPagesTotalTotal extends AController
         $this->data ['update'] = $this->html->getSecureURL('listing_grid/total/update_field', '&id=total');
 
         $form = new AForm ('HS');
-        $form->setForm(array(
-            'form_name' => 'editFrm',
-            'update'    => $this->data ['update'],
-        ));
+        $form->setForm(
+            [
+                'form_name' => 'editFrm',
+                'update'    => $this->data ['update'],
+            ]
+        );
 
-        $this->data['form']['form_open'] = $form->getFieldHtml(array(
-            'type'   => 'form',
-            'name'   => 'editFrm',
-            'action' => $this->data ['action'],
-            'attr'   => 'data-confirm-exit="true" class="aform form-horizontal"',
-        ));
-        $this->data['form']['submit'] = $form->getFieldHtml(array(
-            'type' => 'button',
-            'name' => 'submit',
-            'text' => $this->language->get('button_save'),
-        ));
-        $this->data['form']['cancel'] = $form->getFieldHtml(array(
-            'type' => 'button',
-            'name' => 'cancel',
-            'text' => $this->language->get('button_cancel'),
-        ));
+        $this->data['form']['form_open'] = $form->getFieldHtml(
+            [
+                'type'   => 'form',
+                'name'   => 'editFrm',
+                'action' => $this->data ['action'],
+                'attr'   => 'data-confirm-exit="true" class="aform form-horizontal"',
+            ]
+        );
+        $this->data['form']['submit'] = $form->getFieldHtml(
+            [
+                'type' => 'button',
+                'name' => 'submit',
+                'text' => $this->language->get('button_save'),
+            ]
+        );
+        $this->data['form']['cancel'] = $form->getFieldHtml(
+            [
+                'type' => 'button',
+                'name' => 'cancel',
+                'text' => $this->language->get('button_cancel'),
+            ]
+        );
 
-        $this->data['form']['fields']['status'] = $form->getFieldHtml(array(
-            'type'  => 'checkbox',
-            'name'  => 'total_status',
-            'value' => $this->data['total_status'],
-            'style' => 'btn_switch status_switch',
-        ));
+        $this->data['form']['fields']['status'] = $form->getFieldHtml(
+            [
+                'type'  => 'checkbox',
+                'name'  => 'total_status',
+                'value' => $this->data['total_status'],
+                'style' => 'btn_switch status_switch',
+            ]
+        );
 
         $this->loadLanguage('extension/extensions');
-        $options = array(
+        $options = [
             'subtotal' => $this->language->get('text_subtotal'),
             'shipping' => $this->language->get('text_shipping'),
             'fee'      => $this->language->get('text_fee'),
             'discount' => $this->language->get('text_discount'),
             'total'    => $this->language->get('text_total'),
             'tax'      => $this->language->get('text_tax'),
+        ];
+        $this->data['form']['fields']['total_type'] = $form->getFieldHtml(
+            [
+                'type'    => 'selectbox',
+                'name'    => 'total_type',
+                'options' => $options,
+                'value'   => $this->data['total_total_type'],
+            ]
         );
-        $this->data['form']['fields']['total_type'] = $form->getFieldHtml(array(
-            'type'    => 'selectbox',
-            'name'    => 'total_type',
-            'options' => $options,
-            'value'   => $this->data['total_total_type'],
-        ));
 
-        $this->data['form']['fields']['sort_order'] = $form->getFieldHtml(array(
-            'type'  => 'input',
-            'name'  => 'total_sort_order',
-            'value' => 1000,
-            'attr'  => 'readonly'
-        ));
-        $this->data['form']['fields']['calculation_order'] = $form->getFieldHtml(array(
-            'type'  => 'input',
-            'name'  => 'total_calculation_order',
-            'value' => 1000,
-            'attr'  => 'readonly'
-        ));
+        $this->data['form']['fields']['sort_order'] = $form->getFieldHtml(
+            [
+                'type'  => 'input',
+                'name'  => 'total_sort_order',
+                'value' => 1000,
+                'attr'  => 'readonly',
+            ]
+        );
+        $this->data['form']['fields']['calculation_order'] = $form->getFieldHtml(
+            [
+                'type'  => 'input',
+                'name'  => 'total_calculation_order',
+                'value' => 1000,
+                'attr'  => 'readonly',
+            ]
+        );
         $this->view->assign('help_url', $this->gen_help_url('edit_total'));
         $this->view->batchAssign($this->data);
         $this->processTemplate('pages/total/form.tpl');
@@ -150,7 +171,7 @@ class ControllerPagesTotalTotal extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    private function _validate()
+    protected function _validate()
     {
         if (!$this->user->canModify('total/total')) {
             $this->error['warning'] = $this->language->get('error_permission');
@@ -158,10 +179,6 @@ class ControllerPagesTotalTotal extends AController
 
         $this->extensions->hk_ValidateData($this);
 
-        if (!$this->error) {
-            return true;
-        } else {
-            return false;
-        }
+        return (!$this->error);
     }
 }
