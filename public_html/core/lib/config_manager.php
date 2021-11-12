@@ -896,6 +896,15 @@ class AConfigManager
             ]
         );
 
+        $fields['google_api_key'] = $form->getFieldHtml(
+            $props[] = [
+                'type'  => 'input',
+                'name'  => 'config_google_api_key',
+                'value' => $data['config_google_api_key'],
+                'style' => 'medium-field',
+            ]
+        );
+
         $fields['google_analytics'] = $form->getFieldHtml(
             $props[] = [
                 'type'  => 'input',
@@ -910,15 +919,6 @@ class AConfigManager
                 'type'  => 'input',
                 'name'  => 'config_google_tag_manager_id',
                 'value' => $data['config_google_tag_manager_id'],
-                'style' => 'medium-field',
-            ]
-        );
-
-        $fields['google_api_key'] = $form->getFieldHtml(
-            $props[] = [
-                'type'  => 'input',
-                'name'  => 'config_google_api_key',
-                'value' => $data['config_google_api_key'],
                 'style' => 'medium-field',
             ]
         );
