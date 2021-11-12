@@ -1803,7 +1803,11 @@ class ControllerResponsesCheckoutPay extends AController
             if (count($shipMethods)) {
                 foreach ($shipMethods as $method) {
                     if ($method['error'] ?? '') {
-                        $this->_to_log("Error with shipping quote: ".$method['error']);
+                        $errText = "Error with shipping quote: ";
+                        if($this->request->get['order_id']){
+                            $errText .= "OrderID: ".$this->request->get['order_id'].' ';
+                        }
+                        $this->_to_log($errText.$method['error']);
                     }
                 }
             } elseif (count($shipMethods) === 0 && $this->cart->hasShipping()) {
