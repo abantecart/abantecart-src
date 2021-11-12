@@ -617,6 +617,7 @@ class ControllerPagesSaleOrder extends AController
                 'product_status'   => $product['status'],
                 'name'             => $order_product['name'],
                 'model'            => $order_product['model'],
+                'sku'              => $order_product['sku'],
                 'option'           => $option_data,
                 'quantity'         => $order_product['quantity'],
                 'stock_quantities' => $stock_quantities,
