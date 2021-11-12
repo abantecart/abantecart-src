@@ -584,7 +584,7 @@ class APromotion
         foreach ($result->rows as $category) {
             $couponCategoryIds = array_merge(
                 $couponCategoryIds,
-                $mdl->getChildrenIDs($category['category_id'])
+                (array)$mdl->getChildrenIDs($category['category_id'])
             );
         }
 
