@@ -1,4 +1,6 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -26,6 +28,7 @@ class ModelCatalogProduct extends Model
 {
     /** @param array $data
      * @return int
+     * @throws AException
      */
     public function addProduct($data)
     {
@@ -218,6 +221,7 @@ class ModelCatalogProduct extends Model
      * @param array $data
      *
      * @return int
+     * @throws AException
      */
     public function addProductDiscount($product_id, $data)
     {
@@ -248,6 +252,7 @@ class ModelCatalogProduct extends Model
      * @param array $data
      *
      * @return int
+     * @throws AException
      */
     public function addProductSpecial($product_id, $data)
     {
@@ -276,6 +281,8 @@ class ModelCatalogProduct extends Model
     /**
      * @param int $product_id
      * @param array $data
+     *
+     * @throws AException
      */
     public function updateProduct($product_id, $data)
     {
@@ -364,7 +371,7 @@ class ModelCatalogProduct extends Model
             }
         }
         if (isset($data['featured'])) {
-            $this->setFeatured($product_id, ($data['featured'] ? true : false));
+            $this->setFeatured($product_id, (bool) $data['featured']);
         }
 
         if (isset($data['keyword'])) {
@@ -412,12 +419,37 @@ class ModelCatalogProduct extends Model
             $this->updateProductStockLocations($data['stock_location'], (int) $product_id, 0);
         }
 
+        if($data['weight_class_id']){
+            $aW = new AWeight($this->registry);
+            $unit = $aW->getUnit($data['weight_class_id']);
+            if($unit) {
+                //get ALL option values of all options
+                $optionValues = $this->getProductOptionValues($product_id, 0);
+                foreach ($optionValues as $ov) {
+                    //if weight unit of based product has been changed
+                    if($ov['weight_type']
+                        && $ov['weight_type'] != '%'
+                        && $ov['weight_type'] != $unit
+                    ){
+                        $ov['weight_type'] = $unit;
+                        $this->updateProductOptionValue(
+                            $ov['product_option_value_id'],
+                            '',
+                            $ov
+                        );
+                    }
+                }
+            }
+        }
+
         $this->_touch_product($product_id);
     }
 
     /**
      * @param int $product_discount_id
      * @param array $data
+     *
+     * @throws AException
      */
     public function updateProductDiscount($product_discount_id, $data)
     {
@@ -451,6 +483,8 @@ class ModelCatalogProduct extends Model
     /**
      * @param int $product_special_id
      * @param array $data
+     *
+     * @throws AException
      */
     public function updateProductSpecial($product_special_id, $data)
     {
@@ -487,6 +521,7 @@ class ModelCatalogProduct extends Model
      * @param array $data
      *
      * @return bool
+     * @throws AException
      */
     public function updateProductLinks($product_id, $data)
     {
@@ -568,6 +603,7 @@ class ModelCatalogProduct extends Model
      * @param array $product_ids
      *
      * @return bool
+     * @throws AException
      */
     public function relateProducts($product_ids = [])
     {
@@ -599,6 +635,7 @@ class ModelCatalogProduct extends Model
      * @param array $data
      *
      * @return int
+     * @throws AException
      */
     public function addProductOption($product_id, $data)
     {
@@ -711,6 +748,7 @@ class ModelCatalogProduct extends Model
      * @param int $product_id
      * @param int $product_option_id
      *
+     * @throws AException
      */
     protected function _deleteProductOption($product_id, $product_option_id)
     {
@@ -739,6 +777,7 @@ class ModelCatalogProduct extends Model
      * @param array $data
      *
      * @return int|null
+     * @throws AException
      */
     public function addProductOptionValueAndDescription($product_id, $option_id, $data)
     {
@@ -773,7 +812,7 @@ class ModelCatalogProduct extends Model
             //add children option values description from global attributes
             $group_description = [];
             $descr_names = [];
-            foreach ($data['attribute_value_id'] as $child_option_id => $attribute_value_id) {
+            foreach ($data['attribute_value_id'] as $attribute_value_id) {
                 #special insert for grouped options
                 foreach ($am->getAttributeValueDescriptions($attribute_value_id) as $language_id => $name) {
                     $group_description[$language_id][] = [
@@ -820,6 +859,7 @@ class ModelCatalogProduct extends Model
      * @param int $language_id
      *
      * @return null|stdClass
+     * @throws AException
      */
     public function getProductOptionValueDescriptions($product_id, $pd_opt_val_id, $language_id)
     {
@@ -843,6 +883,7 @@ class ModelCatalogProduct extends Model
      * @param null|string $grp_attr_names
      *
      * @return int|null
+     * @throws AException
      */
     public function insertProductOptionValueDescriptions(
         $product_id,
@@ -880,6 +921,7 @@ class ModelCatalogProduct extends Model
      * @param null|string $grp_attr_names
      *
      * @return null|int
+     * @throws AException
      */
     public function updateProductOptionValueDescriptions(
         $product_id,
@@ -914,6 +956,7 @@ class ModelCatalogProduct extends Model
      * @param int $language_id
      *
      * @return null
+     * @throws AException
      */
     public function deleteProductOptionValueDescriptions($product_id, $pd_opt_val_id, $language_id = 0)
     {
@@ -940,6 +983,7 @@ class ModelCatalogProduct extends Model
      * @param array $data
      *
      * @return int|false
+     * @throws AException
      */
     public function insertProductOptionValue($product_id, $option_id, $attribute_value_id, $pd_opt_val_id, $data)
     {
@@ -975,6 +1019,7 @@ class ModelCatalogProduct extends Model
      * @param array $data
      *
      * @return null|int
+     * @throws AException
      */
     public function updateProductOptionValue($pd_opt_val_id, $attribute_value_id, $data)
     {
@@ -1013,6 +1058,7 @@ class ModelCatalogProduct extends Model
      * @param array $data
      * @param int $language_id
      *
+     * @throws AException
      */
     public function updateProductOptionValueAndDescription($product_id, $pd_opt_val_id, $data, $language_id)
     {
@@ -1042,7 +1088,7 @@ class ModelCatalogProduct extends Model
             //update children option values description from global attributes
             $group_description = [];
             $descr_names = [];
-            foreach ($data['attribute_value_id'] as $child_option_id => $attr_val_id) {
+            foreach ($data['attribute_value_id'] as $attr_val_id) {
                 #special insert for grouped options
                 foreach ($am->getAttributeValueDescriptions($attr_val_id) as $lang_id => $name) {
                     if ($language_id == $lang_id) {
@@ -1098,6 +1144,7 @@ class ModelCatalogProduct extends Model
      * @param int $language_id
      *
      * @return null
+     * @throws AException
      */
     public function deleteProductOptionValue($product_id, $pd_opt_val_id, $language_id = 0)
     {
@@ -1128,6 +1175,7 @@ class ModelCatalogProduct extends Model
      * @param int $language_id
      *
      * @return bool
+     * @throws AException
      */
     public function _deleteProductOptionValue($product_id, $pd_opt_val_id, $language_id)
     {
@@ -1269,6 +1317,7 @@ class ModelCatalogProduct extends Model
      * @param int $product_id
      * @param array $data
      *
+     * @throws AException
      */
     protected function _clone_product_options($product_id, $data)
     {
@@ -1556,6 +1605,8 @@ class ModelCatalogProduct extends Model
 
     /**
      * @param int $product_discount_id
+     *
+     * @throws AException
      */
     public function deleteProductDiscount($product_discount_id)
     {
@@ -1569,6 +1620,8 @@ class ModelCatalogProduct extends Model
 
     /**
      * @param int $product_special_id
+     *
+     * @throws AException
      */
     public function deleteProductSpecial($product_special_id)
     {
@@ -1584,6 +1637,7 @@ class ModelCatalogProduct extends Model
      * @param int $product_id
      *
      * @return array
+     * @throws AException
      */
     public function getProduct($product_id)
     {
@@ -1608,6 +1662,7 @@ class ModelCatalogProduct extends Model
      * @param int $product_discount_id
      *
      * @return array
+     * @throws AException
      */
     public function getProductDiscount($product_discount_id)
     {
@@ -1623,6 +1678,7 @@ class ModelCatalogProduct extends Model
      * @param int $product_special_id
      *
      * @return array
+     * @throws AException
      */
     public function getProductSpecial($product_special_id)
     {
@@ -1637,6 +1693,8 @@ class ModelCatalogProduct extends Model
     /**
      * @param int $product_id
      * @param bool $act
+     *
+     * @throws AException
      */
     public function setFeatured($product_id, $act = true)
     {
@@ -1654,6 +1712,8 @@ class ModelCatalogProduct extends Model
 
     /**
      * @param array $data
+     *
+     * @throws AException
      */
     public function addFeatured($data)
     {
@@ -1670,6 +1730,7 @@ class ModelCatalogProduct extends Model
 
     /**
      * @return array
+     * @throws AException
      */
     public function getFeaturedProducts()
     {
@@ -1688,6 +1749,7 @@ class ModelCatalogProduct extends Model
      * @param string $keyword
      *
      * @return array
+     * @throws AException
      */
     public function getProductsByKeyword($keyword)
     {
@@ -1712,6 +1774,7 @@ class ModelCatalogProduct extends Model
      * @param string $mode
      *
      * @return array|int
+     * @throws AException
      */
     public function getProductsByCategoryId($category_id, $mode = 'default')
     {
@@ -1737,6 +1800,7 @@ class ModelCatalogProduct extends Model
      * @param int $language_id
      *
      * @return array
+     * @throws AException
      */
     public function getProductDescriptions($product_id, $language_id = 0)
     {
@@ -1764,12 +1828,13 @@ class ModelCatalogProduct extends Model
 
     /**
      * check attribute before add to product options
-     * cant add attribute that is already in group attribute that assigned to product
+     * can't add attribute that is already in group attribute that assigned to product
      *
      * @param $product_id
      * @param $attribute_id
      *
      * @return int
+     * @throws AException
      */
     public function isProductGroupOption($product_id, $attribute_id)
     {
@@ -1789,6 +1854,7 @@ class ModelCatalogProduct extends Model
      * @param int $group_id
      *
      * @return int
+     * @throws AException
      */
     public function getProductOptionByAttributeId($attribute_id, $group_id)
     {
@@ -1809,6 +1875,7 @@ class ModelCatalogProduct extends Model
      * @param int $option_id
      *
      * @return array|null
+     * @throws AException
      */
     public function getProductOption($product_id, $option_id = 0)
     {
@@ -1846,6 +1913,8 @@ class ModelCatalogProduct extends Model
     /**
      * @param int $product_option_id
      * @param array $data
+     *
+     * @throws AException
      */
     public function updateProductOption($product_option_id, $data)
     {
@@ -1900,6 +1969,7 @@ class ModelCatalogProduct extends Model
      * @param int $group_id
      *
      * @return array
+     * @throws AException
      */
     public function getProductOptions($product_id, $group_id = 0)
     {
@@ -1934,6 +2004,7 @@ class ModelCatalogProduct extends Model
      * @param array $data
      *
      * @return null
+     * @throws AException
      */
     public function updateProductOptionValues($product_id, $option_id, $data)
     {
@@ -1992,6 +2063,7 @@ class ModelCatalogProduct extends Model
      * @param int $option_value_id
      *
      * @return array
+     * @throws AException
      */
     public function getProductOptionValue($product_id, $option_value_id)
     {
@@ -2056,16 +2128,17 @@ class ModelCatalogProduct extends Model
      * @param int $option_id
      *
      * @return array
+     * @throws AException
      */
-    public function getProductOptionValues($product_id, $option_id)
+    public function getProductOptionValues($product_id, $option_id = 0)
     {
         $result = [];
         $product_option_value = $this->db->query(
             "SELECT product_option_value_id 
             FROM ".$this->db->table("product_option_values")."
             WHERE product_id = '".(int) $product_id."'
-                AND product_option_id = '".(int) $option_id."'
-            ORDER BY sort_order"
+                ".($option_id ? "AND product_option_id = '".(int) $option_id."'" : '')."
+            ORDER BY product_option_id, sort_order"
         );
 
         foreach ($product_option_value->rows as $option_value) {
@@ -2079,6 +2152,7 @@ class ModelCatalogProduct extends Model
      * @param int $product_id
      *
      * @return array
+     * @throws AException
      */
     public function getProductDiscounts($product_id)
     {
@@ -2096,6 +2170,7 @@ class ModelCatalogProduct extends Model
      * @param int $product_id
      *
      * @return int mixed
+     * @throws AException
      */
     public function getProductSpecials($product_id)
     {
@@ -2112,6 +2187,7 @@ class ModelCatalogProduct extends Model
      * @param int $product_id
      *
      * @return array
+     * @throws AException
      */
     public function getProductDownloads($product_id)
     {
@@ -2134,6 +2210,7 @@ class ModelCatalogProduct extends Model
      * @param int $product_id
      *
      * @return array
+     * @throws AException
      */
     public function getProductStores($product_id)
     {
@@ -2180,6 +2257,7 @@ class ModelCatalogProduct extends Model
      * @param int $product_id
      *
      * @return array
+     * @throws AException
      */
     public function getProductCategories($product_id)
     {
@@ -2202,6 +2280,7 @@ class ModelCatalogProduct extends Model
      * @param int $product_id
      *
      * @return array
+     * @throws AException
      */
     public function getProductRelated($product_id)
     {
@@ -2224,6 +2303,7 @@ class ModelCatalogProduct extends Model
      * @param int $language_id
      *
      * @return array
+     * @throws AException
      */
     public function getProductTags($product_id, $language_id = 0)
     {
@@ -2258,6 +2338,7 @@ class ModelCatalogProduct extends Model
      * @param int $language_id
      *
      * @return array
+     * @throws AException
      */
     public function getProductSEOKeywords($product_id, $language_id = 0)
     {
@@ -2286,6 +2367,7 @@ class ModelCatalogProduct extends Model
      * @param string $mode
      *
      * @return array|int
+     * @throws AException
      */
     public function getProducts($data = [], $mode = 'default')
     {
@@ -2303,7 +2385,7 @@ class ModelCatalogProduct extends Model
 
         if ($data || $mode == 'total_only') {
             $match = '';
-            $filter = (isset($data['filter']) ? $data['filter'] : []);
+            $filter = $data['filter'] ?? [];
 
             if ($mode == 'total_only') {
                 $sql = "SELECT COUNT(*) as total ";
@@ -2428,7 +2510,7 @@ class ModelCatalogProduct extends Model
                 $sql .= " AND p.status = '".(int) $filter['status']."'";
             }
 
-            //If for total, we done building the query
+            //If for total, we're done building the query
             if ($mode == 'total_only') {
                 $query = $this->db->query($sql);
                 return $query->row['total'];
@@ -2448,7 +2530,7 @@ class ModelCatalogProduct extends Model
             if (isset($data['sort']) && array_key_exists($data['sort'], $sort_data)) {
                 $sql .= " ORDER BY ".$sort_data[$data['sort']];
             } else {
-                //for faster SQL default to ID based order
+                //for faster SQL set default to ID based order
                 $sql .= " ORDER BY p.product_id";
             }
 
@@ -2493,6 +2575,7 @@ class ModelCatalogProduct extends Model
      * @param array $data
      *
      * @return array|int
+     * @throws AException
      */
     public function getTotalProducts($data = [])
     {
@@ -2503,6 +2586,7 @@ class ModelCatalogProduct extends Model
      * @param int $stock_status_id
      *
      * @return int
+     * @throws AException
      */
     public function getTotalProductsByStockStatusId($stock_status_id)
     {
@@ -2518,6 +2602,7 @@ class ModelCatalogProduct extends Model
      * @param int $tax_class_id
      *
      * @return int mixed
+     * @throws AException
      */
     public function getTotalProductsByTaxClassId($tax_class_id)
     {
@@ -2533,6 +2618,7 @@ class ModelCatalogProduct extends Model
      * @param int $weight_class_id
      *
      * @return int
+     * @throws AException
      */
     public function getTotalProductsByWeightClassId($weight_class_id)
     {
@@ -2548,6 +2634,7 @@ class ModelCatalogProduct extends Model
      * @param int $length_class_id
      *
      * @return int
+     * @throws AException
      */
     public function getTotalProductsByLengthClassId($length_class_id)
     {
@@ -2563,6 +2650,7 @@ class ModelCatalogProduct extends Model
      * @param int $option_id
      *
      * @return int
+     * @throws AException
      */
     public function getTotalProductsByOptionId($option_id)
     {
@@ -2578,6 +2666,7 @@ class ModelCatalogProduct extends Model
      * @param int $download_id
      *
      * @return int
+     * @throws AException
      */
     public function getTotalProductsByDownloadId($download_id)
     {
@@ -2593,6 +2682,7 @@ class ModelCatalogProduct extends Model
      * @param int $manufacturer_id
      *
      * @return int mixed
+     * @throws AException
      */
     public function getTotalProductsByManufacturerId($manufacturer_id)
     {
@@ -2610,6 +2700,7 @@ class ModelCatalogProduct extends Model
      * @param $product_id
      *
      * @return array
+     * @throws AException
      */
     public function getProductCondition($product_id)
     {
@@ -2661,7 +2752,7 @@ class ModelCatalogProduct extends Model
 
         $error_txt = [];
         if ($hasTrackOptions) {
-            foreach ($result->rows as $k => $row) {
+            foreach ($result->rows as $row) {
                 if ($row['subtract'] && $row['quantity'] <= 0) {
                     $error_txt[] = $row['option_name'].' => '.$row['option_value_name'];
                     $out_of_stock = true;
@@ -2793,6 +2884,7 @@ class ModelCatalogProduct extends Model
      * @param int $product_id
      *
      * @return bool
+     * @throws AException
      */
     public function hasTrackOptions($product_id)
     {
@@ -2802,7 +2894,7 @@ class ModelCatalogProduct extends Model
                     ON (pov.product_option_id = po.product_option_id AND po.status = 1) 
                 WHERE pov.product_id=".(int) $product_id." AND pov.subtract = 1";
         $result = $this->db->query($sql);
-        return ($result->num_rows ? true : false);
+        return ($result->num_rows);
     }
 
     /**
@@ -2812,6 +2904,7 @@ class ModelCatalogProduct extends Model
      * @param int $product_id
      *
      * @return int|true - integer as quantity, true as availability when track-stock is off
+     * @throws AException
      */
     public function hasAnyStock($product_id)
     {
@@ -2837,7 +2930,7 @@ class ModelCatalogProduct extends Model
                 }
                 $total_quantity += $row['quantity'] < 0 ? 0 : $row['quantity'];
             }
-            //if some of option value have subtract NO - think product is available
+            //if any of options value have "subtract" NO - think product is available
             if ($total_quantity == 0 && $notrack_qnt) {
                 $total_quantity = true;
             }
@@ -2859,6 +2952,7 @@ class ModelCatalogProduct extends Model
      * @param int $product_option_value_id
      *
      * @return array
+     * @throws AException
      */
     public function getProductStockLocations($product_id, $product_option_value_id = 0)
     {
@@ -2909,7 +3003,7 @@ class ModelCatalogProduct extends Model
                     (product_id, product_option_value_id, location_id, quantity, sort_order)
                 VALUES( 
                     ".(int) $product_id.", 
-                    ".((int) $product_option_value_id ? (int) $product_option_value_id : 'NULL').", 
+                    ".((int) $product_option_value_id ? : 'NULL').", 
                     ".(int) $location_id.", 
                     ".(int) $location_details['quantity'].", 
                     ".(int) $location_details['sort_order']."
@@ -2942,7 +3036,8 @@ class ModelCatalogProduct extends Model
     /**
      * @param $order_product_id
      *
-     * @return mixed
+     * @return array
+     * @throws AException
      */
     public function getOrderProductStockLocations($order_product_id)
     {

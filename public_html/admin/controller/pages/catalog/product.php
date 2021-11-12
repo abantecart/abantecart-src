@@ -98,87 +98,87 @@ class ControllerPagesCatalogProduct extends AController
                     'text'     => $this->language->get('text_choose_action'),
                     'href'     => $this->html->getSecureURL('catalog/product/update', '&product_id=%ID%'),
                     'children' => array_merge(
-                                                                                                               [
-                                                                                                                   'quickview'  => [
-                                                                                                                       'text'  => $this->language->get(
-                                                                                                                           'text_quick_view'
-                                                                                                                       ),
-                                                                                                                       'href'  => $this->html->getSecureURL(
-                                                                                                                           'catalog/product/update',
-                                                                                                                           '&product_id=%ID%'
-                                                                                                                       ),
-                                                                                                                       //quick view port URL
-                                                                                                                       'vhref' => $this->html->getSecureURL(
-                                                                                                                           'r/common/viewport/modal',
-                                                                                                                           '&viewport_rt=catalog/product/update&product_id=%ID%'
-                                                                                                                       ),
-                                                                                                                   ],
-                                                                                                                   'general'    => [
-                                                                                                                       'text' => $this->language->get(
-                                                                                                                           'tab_general'
-                                                                                                                       ),
-                                                                                                                       'href' => $this->html->getSecureURL(
-                                                                                                                           'catalog/product/update',
-                                                                                                                           '&product_id=%ID%'
-                                                                                                                       ),
-                                                                                                                   ],
-                                                                                                                   'media'      => [
-                                                                                                                       'text' => $this->language->get(
-                                                                                                                           'tab_media'
-                                                                                                                       ),
-                                                                                                                       'href' => $this->html->getSecureURL(
-                                                                                                                           'catalog/product_images',
-                                                                                                                           '&product_id=%ID%'
-                                                                                                                       ),
-                                                                                                                   ],
-                                                                                                                   'options'    => [
-                                                                                                                       'text' => $this->language->get(
-                                                                                                                           'tab_option'
-                                                                                                                       ),
-                                                                                                                       'href' => $this->html->getSecureURL(
-                                                                                                                           'catalog/product_options',
-                                                                                                                           '&product_id=%ID%'
-                                                                                                                       ),
-                                                                                                                   ],
-                                                                                                                   'files'      => [
-                                                                                                                       'text' => $this->language->get(
-                                                                                                                           'tab_files'
-                                                                                                                       ),
-                                                                                                                       'href' => $this->html->getSecureURL(
-                                                                                                                           'catalog/product_files',
-                                                                                                                           '&product_id=%ID%'
-                                                                                                                       ),
-                                                                                                                   ],
-                                                                                                                   'relations'  => [
-                                                                                                                       'text' => $this->language->get(
-                                                                                                                           'tab_relations'
-                                                                                                                       ),
-                                                                                                                       'href' => $this->html->getSecureURL(
-                                                                                                                           'catalog/product_relations',
-                                                                                                                           '&product_id=%ID%'
-                                                                                                                       ),
-                                                                                                                   ],
-                                                                                                                   'promotions' => [
-                                                                                                                       'text' => $this->language->get(
-                                                                                                                           'tab_promotions'
-                                                                                                                       ),
-                                                                                                                       'href' => $this->html->getSecureURL(
-                                                                                                                           'catalog/product_promotions',
-                                                                                                                           '&product_id=%ID%'
-                                                                                                                       ),
-                                                                                                                   ],
-                                                                                                                   'layout'     => [
-                                                                                                                       'text' => $this->language->get(
-                                                                                                                           'tab_layout'
-                                                                                                                       ),
-                                                                                                                       'href' => $this->html->getSecureURL(
-                                                                                                                           'catalog/product_layout',
-                                                                                                                           '&product_id=%ID%'
-                                                                                                                       ),
-                                                                                                                   ],
+                        [
+                            'quickview'  => [
+                                'text'  => $this->language->get(
+                                    'text_quick_view'
+                                ),
+                                'href'  => $this->html->getSecureURL(
+                                    'catalog/product/update',
+                                    '&product_id=%ID%'
+                                ),
+                                //quick view port URL
+                                'vhref' => $this->html->getSecureURL(
+                                    'r/common/viewport/modal',
+                                    '&viewport_rt=catalog/product/update&product_id=%ID%'
+                                ),
+                            ],
+                            'general'    => [
+                                'text' => $this->language->get(
+                                    'tab_general'
+                                ),
+                                'href' => $this->html->getSecureURL(
+                                    'catalog/product/update',
+                                    '&product_id=%ID%'
+                                ),
+                            ],
+                            'media'      => [
+                                'text' => $this->language->get(
+                                    'tab_media'
+                                ),
+                                'href' => $this->html->getSecureURL(
+                                    'catalog/product_images',
+                                    '&product_id=%ID%'
+                                ),
+                            ],
+                            'options'    => [
+                                'text' => $this->language->get(
+                                    'tab_option'
+                                ),
+                                'href' => $this->html->getSecureURL(
+                                    'catalog/product_options',
+                                    '&product_id=%ID%'
+                                ),
+                            ],
+                            'files'      => [
+                                'text' => $this->language->get(
+                                    'tab_files'
+                                ),
+                                'href' => $this->html->getSecureURL(
+                                    'catalog/product_files',
+                                    '&product_id=%ID%'
+                                ),
+                            ],
+                            'relations'  => [
+                                'text' => $this->language->get(
+                                    'tab_relations'
+                                ),
+                                'href' => $this->html->getSecureURL(
+                                    'catalog/product_relations',
+                                    '&product_id=%ID%'
+                                ),
+                            ],
+                            'promotions' => [
+                                'text' => $this->language->get(
+                                    'tab_promotions'
+                                ),
+                                'href' => $this->html->getSecureURL(
+                                    'catalog/product_promotions',
+                                    '&product_id=%ID%'
+                                ),
+                            ],
+                            'layout'     => [
+                                'text' => $this->language->get(
+                                    'tab_layout'
+                                ),
+                                'href' => $this->html->getSecureURL(
+                                    'catalog/product_layout',
+                                    '&product_id=%ID%'
+                                ),
+                            ],
 
-                                                                                                               ],
-                                                                                                               (array) $this->data['grid_edit_expand']
+                        ],
+                        (array) $this->data['grid_edit_expand']
                     ),
                 ],
 
@@ -460,7 +460,7 @@ class ControllerPagesCatalogProduct extends AController
     {
         $product_id = null;
         $product_info = [];
-        $viewport_mode = isset($args[0]['viewport_mode']) ? $args[0]['viewport_mode'] : '';
+        $viewport_mode = $args[0]['viewport_mode'] ?? '';
         $content_language_id = $this->language->getContentLanguageID();
         if (isset($this->request->get['product_id'])) {
             $product_id = $this->request->get['product_id'];
@@ -911,9 +911,7 @@ class ControllerPagesCatalogProduct extends AController
             [
                 'type'     => 'selectbox',
                 'name'     => 'tax_class_id',
-                'value'    => isset($this->data['tax_class_id'])
-                    ? $this->data['tax_class_id']
-                    : $this->config->get('config_tax_class_id'),
+                'value'    => $this->data['tax_class_id'] ?? $this->config->get('config_tax_class_id'),
                 'options'  => $this->data['tax_classes'],
                 'help_url' => $this->gen_help_url('tax_class'),
                 'style'    => 'medium-field',
@@ -1065,7 +1063,7 @@ class ControllerPagesCatalogProduct extends AController
                 'type'  => 'checkbox',
                 'name'  => 'shipping',
                 'style' => 'btn_switch btn-group-sm',
-                'value' => isset($this->data['shipping']) ? $this->data['shipping'] : 1,
+                'value' => $this->data['shipping'] ?? 1,
             ]
         );
 
@@ -1074,7 +1072,7 @@ class ControllerPagesCatalogProduct extends AController
                 'type'  => 'checkbox',
                 'name'  => 'free_shipping',
                 'style' => 'btn_switch btn-group-sm',
-                'value' => isset($this->data['free_shipping']) ? $this->data['free_shipping'] : 0,
+                'value' => $this->data['free_shipping'] ?? 0,
             ]
         );
 
@@ -1083,7 +1081,7 @@ class ControllerPagesCatalogProduct extends AController
                 'type'  => 'checkbox',
                 'name'  => 'ship_individually',
                 'style' => 'btn_switch btn-group-sm',
-                'value' => isset($this->data['ship_individually']) ? $this->data['ship_individually'] : 0,
+                'value' => $this->data['ship_individually'] ?? 0,
             ]
         );
 
