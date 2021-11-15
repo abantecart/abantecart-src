@@ -1148,7 +1148,7 @@ class ControllerResponsesCheckoutPay extends AController
                     .($order_token ? '&ot='.$order_token : '')
                 );
                 $download_info['text_status'] = '';
-                $download_info['size'] = round(substr($size, 0, strpos($size, '.') + 4), 2).$suffix[$i];
+                $download_info['size'] = round((float)substr($size, 0, strpos($size, '.') + 4), 2).$suffix[$i];
             } else {
                 $download_info['text_status'] = $text_status;
                 $download_info['size'] = '';
@@ -1157,6 +1157,7 @@ class ControllerResponsesCheckoutPay extends AController
                     $this->language->get('fast_checkout_text_order_download_pending');
             }
         }
+        //unset($download_info);
 
         $this->data['order_downloads'] = $order_downloads;
         $downloads_count = sizeof($order_downloads);

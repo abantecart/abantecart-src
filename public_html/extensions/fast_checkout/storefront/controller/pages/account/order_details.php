@@ -465,7 +465,7 @@ class ControllerPagesAccountOrderDetails extends AController
                 ),
                 'name'        => $download_info['name'],
                 'remaining'   => $download_info['remaining_count'],
-                'size'        => round(substr($size, 0, strpos($size, '.') + 4), 2).$suffix[$i],
+                'size'        => round((float)substr($size, 0, strpos($size, '.') + 4), 2).$suffix[$i],
                 'button'      => $download_button,
                 'text'        => $download_text,
                 'expire_date' => dateISO2Display(
