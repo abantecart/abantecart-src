@@ -1812,11 +1812,15 @@ class ControllerResponsesCheckoutPay extends AController
             //if any error in shipping method, need to log
             $shipMethods = $this->fc_session['shipping_methods'] ?? [];
             if (count($shipMethods)) {
+                $orderId = $this->request->get['order_id'] ?? $this->fc_session['order_id'];
                 foreach ($shipMethods as $method) {
                     if ($method['error'] ?? '') {
                         $errText = "Error with shipping quote: ";
-                        if($this->request->get['order_id']){
+                        if($orderId){
                             $errText .= "OrderID: ".$this->request->get['order_id'].' ';
+                        }
+                        if($this->customer->isLogged()){
+                            $errText .= "CustomerID: ".$this->customer->getId().' ';
                         }
                         $this->_to_log($errText.$method['error']);
                     }
