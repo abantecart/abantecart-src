@@ -83,11 +83,7 @@ class ControllerPagesAccountDownload extends AController
         }
 
         if ($this->config->get('config_download')) {
-            if (isset($this->request->get['page'])) {
-                $page = $this->request->get['page'];
-            } else {
-                $page = 1;
-            }
+            $page = $this->request->get['page'] ?? 1;
             $downloads = [];
             //get only enabled, not expired, which have remaining count > 0 and available
             if ($guest) {
@@ -123,7 +119,16 @@ class ControllerPagesAccountDownload extends AController
 
             foreach ($customer_downloads as $download_info) {
                 $text_status = $this->download->getTextStatusForOrderDownload($download_info);
-                $size = filesize(DIR_RESOURCE.$download_info['filename']);
+                $size = 0;
+                if (is_numeric($download_info['filename'])) {
+                    $rl = new AResource('download');
+                    $resource = $rl->getResource($download_info['filename']);
+                    if ($resource && $resource['resource_path']) {
+                        $size = filesize(DIR_RESOURCE.$rl->getTypeDir().$resource['resource_path']);
+                    }
+                }else{
+                    $size = filesize(DIR_RESOURCE.$download_info['filename']);
+                }
                 $i = 0;
                 while (($size / 1024) > 1) {
                     $size = $size / 1024;
@@ -142,7 +147,7 @@ class ControllerPagesAccountDownload extends AController
                             'href'  => $this->html->getSecureURL(
                                 'account/download/startdownload',
                                 '&order_download_id='.$download_info['order_download_id']
-                                .($guest ? '&ot='.$order_token : '')
+                                    .($guest ? '&ot='.$order_token : '')
                             ),
                             'icon'  => 'fa fa-download-alt',
                         ]
@@ -190,12 +195,7 @@ class ControllerPagesAccountDownload extends AController
                     'style'      => 'pagination',
                 ]
             );
-
-            if ($downloads) {
-                $template = 'pages/account/download.tpl';
-            } else {
-                $template = 'pages/error/not_found.tpl';
-            }
+            $template = $downloads ? 'pages/account/download.tpl' : 'pages/error/not_found.tpl';
         } else {
             $template = 'pages/error/not_found.tpl';
         }
@@ -257,10 +257,10 @@ class ControllerPagesAccountDownload extends AController
                     }
                 }
             } //allow download for guest customer
-            elseif (!$this->customer->isLogged() && isset($this->request->get['ot'])
-                && $this->config->get(
-                    'config_guest_checkout'
-                )) {
+            elseif (!$this->customer->isLogged()
+                        && isset($this->request->get['ot'])
+                        && $this->config->get('config_guest_checkout')
+            ) {
                 //try to decrypt order token
                 $order_token = $this->request->get['ot'];
                 if ($order_token) {
