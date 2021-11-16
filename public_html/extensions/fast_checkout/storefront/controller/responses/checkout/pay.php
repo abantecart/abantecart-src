@@ -1134,7 +1134,17 @@ class ControllerResponsesCheckoutPay extends AController
         //build order token for guests
         foreach ($order_downloads as &$download_info) {
             $text_status = $this->download->getTextStatusForOrderDownload($download_info);
-            $size = filesize(DIR_RESOURCE.$download_info['filename']);
+            $size = 0;
+            if (is_numeric($download_info['filename'])) {
+                $rl = new AResource('download');
+                $resource = $rl->getResource($download_info['filename']);
+                if ($resource && $resource['resource_path']) {
+                    $size = filesize(DIR_RESOURCE.$rl->getTypeDir().$resource['resource_path']);
+                }
+            }else{
+                $size = filesize(DIR_RESOURCE.$download_info['filename']);
+            }
+
             $i = 0;
             while (($size / 1024) > 1) {
                 $size = $size / 1024;
