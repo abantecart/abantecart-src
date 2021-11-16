@@ -22,12 +22,13 @@
 				</a>
 			</div>
 			<?php } ?>
-
+            <?php if($insert){ ?>
 			<div class="actionitem btn-group mr10 toolbar">
 				<a class="btn btn-primary lock-on-click tooltips" href="<?php echo $insert; ?>" title="<?php echo $button_add; ?>">
 				<i class="fa fa-plus"></i>
 				</a>
 			</div>
+            <?php } ?>
 		</div>
 
 		<div class="primary_content_actions pull-left">
