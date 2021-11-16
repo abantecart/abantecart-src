@@ -126,7 +126,7 @@ https://www.appneta.com/blog/bootstrap-pagespeed/
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/bootstrap.min.js'); ?>" defer></script>
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/common.js'); ?>" defer async></script>
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/respond.min.js'); ?>" defer async></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.flexslider.min.js'); ?>" defer async></script>
+<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.flexslider-min.js'); ?>" defer async></script>
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/easyzoom.js'); ?>" defer async></script>
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.validate.min.js'); ?>" defer async></script>
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.carouFredSel.min.js'); ?>" defer async></script>
