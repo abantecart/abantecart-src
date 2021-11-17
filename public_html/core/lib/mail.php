@@ -366,7 +366,7 @@ class AMail
             $message .= '--'.$boundary.'_alt'.$this->newline;
             $message .= 'Content-Type: text/html; charset="utf-8"'.$this->newline;
             $message .= 'Content-Transfer-Encoding: base64'.$this->newline.$this->newline;
-            $message .= chunk_split(base64_encode($this->html)).$this->newline;
+            $message .= base64_encode($this->html).$this->newline;
             $message .= '--'.$boundary.'_alt--'.$this->newline;
         }
 
@@ -383,7 +383,7 @@ class AMail
                 $message .= 'Content-Disposition: attachment; filename="'.$attachment['filename'].'"'.$this->newline;
                 $message .= 'Content-ID: <'.basename(urlencode($attachment['filename'])).'>'.$this->newline;
                 $message .= 'X-Attachment-Id: '.basename(urlencode($attachment['filename'])).$this->newline.$this->newline;
-                $message .= chunk_split(base64_encode($content));
+                $message .= base64_encode($content);
             }
         }
 
