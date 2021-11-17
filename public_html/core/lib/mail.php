@@ -348,19 +348,19 @@ class AMail
         if (!$this->html) {
             $message = '--'.$boundary.$this->newline;
             $message .= 'Content-Type: text/plain; charset="utf-8"'.$this->newline;
-            $message .= 'Content-Transfer-Encoding: 8bit'.$this->newline.$this->newline;
-            $message .= $this->text.$this->newline;
+            $message .= 'Content-Transfer-Encoding: base64'.$this->newline.$this->newline;
+            $message .= base64_encode($this->text).$this->newline;
         } else {
             $message = '--'.$boundary.$this->newline;
             $message .= 'Content-Type: multipart/alternative; boundary="'.$boundary.'_alt"'.$this->newline.$this->newline;
             $message .= '--'.$boundary.'_alt'.$this->newline;
             $message .= 'Content-Type: text/plain; charset="utf-8"'.$this->newline;
-            $message .= 'Content-Transfer-Encoding: 8bit'.$this->newline.$this->newline;
+            $message .= 'Content-Transfer-Encoding: base64'.$this->newline.$this->newline;
 
             if ($this->text) {
-                $message .= $this->text.$this->newline;
+                $message .= base64_encode($this->text).$this->newline;
             } else {
-                $message .= 'This is a HTML email and your email client software does not support HTML email!'.$this->newline;
+                $message .= base64_encode('This is a HTML email and your email client software does not support HTML email!').$this->newline;
             }
 
             $message .= '--'.$boundary.'_alt'.$this->newline;
