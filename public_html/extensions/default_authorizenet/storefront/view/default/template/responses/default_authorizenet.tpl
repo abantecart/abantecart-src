@@ -100,6 +100,47 @@
 <script type="text/javascript"><!--
     var submitSent = false;
    jQuery(document).ready(function () {
+
+       $('form.validate-creditcard [name=cc_owner_firstname]').bind({
+           change: function () {
+               $.aCCValidator.checkCCName($(this), 'reset');
+           },
+           blur: function () {
+               $.aCCValidator.checkCCName($(this));
+           },
+           keyup: function (e) {
+               if (e.keyCode === 13) {
+                   //enter pressed. validate all data
+                   $('form.validate-creditcard').submit();
+               } else {
+                   $.aCCValidator.checkCCName($(this), 'reset');
+               }
+           }
+       });
+       $('form.validate-creditcard [name=cc_owner_lastname]').bind({
+           change: function () {
+               $.aCCValidator.checkCCName($(this), 'reset');
+               let val = $('form.validate-creditcard [name=cc_owner_firstname]').val();
+               if(!val.length) {
+                   $('form.validate-creditcard [name=cc_owner_firstname]').change();
+               }
+           },
+           blur: function () {
+               $.aCCValidator.checkCCName($(this));
+               let val = $('form.validate-creditcard [name=cc_owner_firstname]').val();
+               if(!val.length) {
+                   $('form.validate-creditcard [name=cc_owner_firstname]').blur();
+               }
+           },
+           keyup: function (e) {
+               if (e.keyCode === 13) {
+                   //enter pressed. validate all data
+                   $('form.validate-creditcard').submit();
+               } else {
+                   $.aCCValidator.checkCCName($(this), 'reset');
+               }
+           }
+       });
        <?php
        $acjs_url =  $this->config->get('default_authorizenet_test_mode')
                        ? 'https://jstest.authorize.net/v1/Accept.js'

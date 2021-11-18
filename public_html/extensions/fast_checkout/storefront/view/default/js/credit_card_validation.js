@@ -127,6 +127,8 @@
                 checkdigit: true
             }],
             cc_field_name: 'cc_owner',
+            cc_field_firstname: 'cc_owner_firstname',
+            cc_field_lastname: 'cc_owner_lastname',
             name_min: 2,
             cvv_min: 3,
             cvv_max: 4,
@@ -151,7 +153,10 @@
             var failed = false;
             $form.find("input, textarea, select").each(function () {
                 var $field = $(this);
-                if ($field.attr('name') == o.cc_field_name) {
+                if ($field.attr('name') == o.cc_field_name
+                        || $field.attr('name') == o.cc_field_firstname
+                        || $field.attr('name') == o.cc_field_lastname
+                ) {
                     if (!$.aCCValidator.checkCCName($field)) {
                         failed = true;
                     }
@@ -437,7 +442,6 @@
                 return false;
             }
         }
-
     };
 
 })(jQuery);
