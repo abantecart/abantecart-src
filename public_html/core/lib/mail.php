@@ -330,26 +330,26 @@ class AMail
 
         $boundary = '----=_NextPart_'.md5(rand());
 
-        $header = '';
+        $header = [];
         if ($this->protocol != 'mail') {
-            $header .= 'To: '.$to.$this->newline;
-            $header .= 'Subject: '.'=?UTF-8?B?'.base64_encode($this->subject).'?='.$this->newline;
+            $header['To'] = $to;
+            $header['Subject'] = '=?UTF-8?B?'.base64_encode($this->subject).'?=';
         }
 
-        $header .= 'Date: '.date('D, d M Y H:i:s O').$this->newline;
-        $header .= 'From: '.'=?UTF-8?B?'.base64_encode($this->sender).'?='.'<'.$this->from.'>'.$this->newline;
-        $header .= 'Reply-To: '.'=?UTF-8?B?'.base64_encode($this->sender).'?='.'<'.($this->reply_to ? $this->reply_to : $this->from).'>'.$this->newline;
+        $header['Date'] = date('D, d M Y H:i:s O');
+        $header['From'] = '=?UTF-8?B?'.base64_encode($this->sender).'?='.'<'.$this->from.'>';
+        $header['Reply-To'] = '=?UTF-8?B?'.base64_encode($this->sender).'?='.'<'.($this->reply_to ? : $this->from).'>';
 
-        $header .= 'Return-Path: '.$this->from.$this->newline;
-        $header .= 'X-Mailer: PHP/'.phpversion().$this->newline;
-        $header .= 'MIME-Version: 1.0'.$this->newline;
-        $header .= 'Content-Type: multipart/related; boundary="'.$boundary.'"'.$this->newline.$this->newline;
+        $header['Return-Path'] = $this->from;
+        $header['X-Mailer'] = 'PHP/'.phpversion();
+        $header['MIME-Version'] =  '1.0';
+        $header['Content-Type'] = 'multipart/related; boundary="'.$boundary.'"'.$this->newline.$this->newline;
 
         if (!$this->html) {
             $message = '--'.$boundary.$this->newline;
             $message .= 'Content-Type: text/plain; charset="utf-8"'.$this->newline;
             $message .= 'Content-Transfer-Encoding: base64'.$this->newline.$this->newline;
-            $message .= base64_encode($this->text).$this->newline;
+            $message .= chunk_split(base64_encode($this->text)).$this->newline;
         } else {
             $message = '--'.$boundary.$this->newline;
             $message .= 'Content-Type: multipart/alternative; boundary="'.$boundary.'_alt"'.$this->newline.$this->newline;
@@ -358,7 +358,7 @@ class AMail
             $message .= 'Content-Transfer-Encoding: base64'.$this->newline.$this->newline;
 
             if ($this->text) {
-                $message .= base64_encode($this->text).$this->newline;
+                $message .= chunk_split(base64_encode($this->text)).$this->newline;
             } else {
                 $message .= base64_encode('This is a HTML email and your email client software does not support HTML email!').$this->newline;
             }
@@ -366,7 +366,7 @@ class AMail
             $message .= '--'.$boundary.'_alt'.$this->newline;
             $message .= 'Content-Type: text/html; charset="utf-8"'.$this->newline;
             $message .= 'Content-Transfer-Encoding: base64'.$this->newline.$this->newline;
-            $message .= base64_encode($this->html).$this->newline;
+            $message .= chunk_split(base64_encode($this->html)).$this->newline;
             $message .= '--'.$boundary.'_alt--'.$this->newline;
         }
 
@@ -383,7 +383,7 @@ class AMail
                 $message .= 'Content-Disposition: attachment; filename="'.$attachment['filename'].'"'.$this->newline;
                 $message .= 'Content-ID: <'.basename(urlencode($attachment['filename'])).'>'.$this->newline;
                 $message .= 'X-Attachment-Id: '.basename(urlencode($attachment['filename'])).$this->newline.$this->newline;
-                $message .= base64_encode($content);
+                $message .= chunk_split(base64_encode($content));
             }
         }
 
@@ -605,8 +605,11 @@ class AMail
                     $this->log->write($error);
                     $this->error[] = $error;
                 }
-
-                fputs($handle, $header.$message.$this->crlf);
+                $addHeaders = '';
+                foreach($header as $name=>$value){
+                    $addHeaders .= $name.': '.$value.$this->crlf;
+                }
+                fputs($handle, $addHeaders.$message.$this->crlf);
                 fputs($handle, '.'.$this->crlf);
 
                 $reply = '';
