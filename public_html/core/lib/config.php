@@ -181,13 +181,9 @@ final class AConfig
         $domain = str_replace('www.', '', $_SERVER['HTTP_HOST']);
         if ($url != $config_url) {
             // if requested url not a default store URL - do check other stores.
-            $cache_key = 'settings.store.'.md5('http://'.$url);
-            $store_settings = $cache->pull($cache_key);
-
-            if (empty($store_settings)) {
                 $foundStoreId = null;
-                $subPath = trim($_SERVER['REQUEST_URI'], "/");
-                $subPath = $subPath ? explode("/", $subPath) : [];
+                $subPath = '/'.trim($_SERVER['REQUEST_URI'], "/");
+                $subPath = $subPath ? explode("/", $subPath) : [''];
 
                 //get all store IDs by domain name
                 $sql = "SELECT DISTINCT `store_id`, REPLACE(REPLACE(`value`,'http://',''),'https://','') as uri 
@@ -201,10 +197,15 @@ final class AConfig
 
                 // seek by full path first (index page of store)
                 foreach ($result->rows as $row) {
-                    $testUri = $domain.'/'.($subPath ? implode("/", $subPath).'/' : '');
-                    if ($row['uri'] == $testUri) {
-                        $foundStoreId = (int) $row['store_id'];
-                        break;
+                    $sp = '';
+                    foreach($subPath as $sPath) {
+                        $sp .= $sPath.'/';
+                        $testUri = $domain.'/'.$sp;
+                        $testUri = str_replace('//', '/', $testUri);
+                        if ($row['uri'] == $testUri) {
+                            $foundStoreId = (int) $row['store_id'];
+                            break 2;
+                        }
                     }
                 }
                 //if path not found in list - seek by path parts (index page + seo-keyword)
@@ -242,22 +243,12 @@ final class AConfig
                     $store_settings['store_id'] = $foundStoreId;
                 }
                 if ($store_settings) {
-                    $cache_settings = $store_settings;
                     $this->prepareSettings($domain, $store_settings);
                 }
-            } else {
-                $cache_settings = $store_settings;
-                $this->prepareSettings($domain, $store_settings);
-            }
-
             if ($store_settings) {
                 //store found by URL, load settings
                 $this->cnfg = array_merge($this->cnfg, $store_settings);
 
-                //fix for rare issue on a database and creation of empty cache
-                if ($this->cnfg['config_cache_enable']) {
-                    $cache->push($cache_key, $cache_settings);
-                }
                 $this->cnfg['config_store_id'] = (int) $store_settings['store_id'];
                 $this->cnfg['current_store_id'] = $this->cnfg['config_store_id'];
             } else {
