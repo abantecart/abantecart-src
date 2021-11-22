@@ -607,7 +607,7 @@ class AMail
                 }
                 $addHeaders = '';
                 foreach($header as $name=>$value){
-                    $addHeaders .= $name.': '.$value.$this->crlf;
+                    $addHeaders .= $name.': '.$value.$this->newline;
                 }
                 fputs($handle, $addHeaders.$message.$this->crlf);
                 fputs($handle, '.'.$this->crlf);
