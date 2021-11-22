@@ -179,7 +179,7 @@ class AException extends Exception
             exit();
         }
         $url = "static_pages/index.php";
-        $url .= (IS_ADMIN === true) ? '?mode=admin' : '';
+        $url .= (defined('IS_ADMIN') && IS_ADMIN === true) ? '?mode=admin' : '';
         header("Location: $url");
         exit();
     }
