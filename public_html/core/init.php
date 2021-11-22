@@ -111,8 +111,9 @@ if ($path_nodes[0] == 'a') {
 define('INDEX_FILE', 'index.php');
 
 if (defined('ADMIN_PATH')
-    && (isset($_GET['s']) || isset($_POST['s']))
-    && ($_GET['s'] == ADMIN_PATH || $_POST['s'] == ADMIN_PATH)) {
+    &&
+    ((isset($_GET['s']) && $_GET['s'] == ADMIN_PATH)  || (isset($_POST['s'])) && $_POST['s'] == ADMIN_PATH)
+    ) {
     define('IS_ADMIN', true);
     define('DIR_APP_SECTION', DIR_ROOT.'/admin/');
     define('DIR_LANGUAGE', DIR_ROOT.'/admin/language/');
@@ -344,7 +345,6 @@ try {
 // Cache
     $registry->set('cache', new ACache());
 
-/** @var AConfig $config */
     $config = new AConfig($registry);
     $registry->set('config', $config);
 
