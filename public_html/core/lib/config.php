@@ -202,7 +202,7 @@ final class AConfig
                         $sp .= $sPath.'/';
                         $testUri = $domain.'/'.$sp;
                         $testUri = str_replace('//', '/', $testUri);
-                        if ($row['uri'] == $testUri) {
+                        if (str_replace('www.', '', $row['uri']) == $testUri) {
                             $foundStoreId = (int) $row['store_id'];
                             break 2;
                         }
