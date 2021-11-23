@@ -18,7 +18,7 @@ class ControllerResponsesListingGridCollections extends AController
         $this->loadModel('catalog/collection');
 
         $data = $this->request->post;
-        $data['store_id'] = (int) $this->config->get('config_store_id');
+        $data['store_id'] = (int) $this->config->get('current_store_id');
         $result = $this->model_catalog_collection->getCollections($data);
         $response = new stdClass();
         $response->page = $result['page'];
@@ -300,7 +300,7 @@ class ControllerResponsesListingGridCollections extends AController
         $this->loadModel('catalog/category');
         $results = $this->model_catalog_category->getCategories(
             ROOT_CATEGORY_ID,
-            $this->config->get('config_store_id')
+            $this->config->get('current_store_id')
         );
         $categories = array_column($results, 'name', 'category_id');
 

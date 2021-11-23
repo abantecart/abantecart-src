@@ -64,7 +64,7 @@ class ModelToolMigration extends Model
 
     public function clearStepData()
     {
-        $this->session->data['migration'] = array();
+        $this->session->data['migration'] = [];
     }
 
     public function isStepData()
@@ -265,7 +265,7 @@ class ModelToolMigration extends Model
         // get all loginnames to prevent conflicts.
         $query = $this->db->query("SELECT LOWER(`loginname`) AS loginname
 								   FROM ".$this->db->table("customers"));
-        $logins = array();
+        $logins = [];
         foreach ($query->rows as $row) {
             $logins[] = $row['loginname'];
         }
@@ -275,7 +275,7 @@ class ModelToolMigration extends Model
                 continue;
             }
 
-            $store_id = has_value($data['store_id']) ? (int)$data['store_id'] : (int)$this->config->get('config_store_id');
+            $store_id = has_value($data['store_id']) ? (int)$data['store_id'] : (int)$this->config->get('current_store_id');
             $date_added = has_value($data['date_added']) ? "'".$this->db->escape($data['date_added'])."'" : 'NOW()';
             $status = has_value($data['status']) ? $data['status'] : 1;
             $approved = has_value($data['approved']) ? $data['approved'] : 1;
@@ -367,9 +367,9 @@ class ModelToolMigration extends Model
         $this->load->model('tool/image');
 
         $language_id = $this->getDefaultLanguageId();
-        $store_id = $this->config->get('config_store_id');
-        $category_id_map = array();
-        $manufacturer_id_map = array();
+        $store_id = $this->config->get('current_store_id');
+        $category_id_map = [];
+        $manufacturer_id_map = [];
 
         $products = $this->cartObj->getProducts();
 
@@ -547,8 +547,9 @@ class ModelToolMigration extends Model
                     $seo_key = SEOEncode($data['seo_keyword'], 'product_id', $product_id);
                 }
                 $this->language->replaceDescriptions('url_aliases',
-                    array('query' => "product_id=".(int)$product_id),
-                    array((int)$language_id => array('keyword' => $seo_key)));
+                                                     ['query' => "product_id=".(int)$product_id],
+                                                     [(int)$language_id => ['keyword' => $seo_key]]
+                );
             }
 
             $result = $this->db->query("INSERT INTO ".DB_PREFIX."products_to_stores
@@ -582,17 +583,17 @@ class ModelToolMigration extends Model
                     }
 
                     $sql = "INSERT INTO ".DB_PREFIX."reviews
-	                                             (`product_id`, `customer_id`, `author`,
-	                                             `text`,`rating`,`status`,`date_added`,`date_modified`)
-	                                            VALUES ('".(int)$product_id_map[$review['product_id']]."',
-	                                            		'".(int)$customer_id_map[$data['review_customer_id']]."',
-	                                            		'".$this->db->escape($review['review_author'])."',
-	                                            		'".$this->db->escape($review['review_text'])."',
-	                                            		'".(int)$review['review_rating']."',
-	                                            		'".(int)$review['review_status']."',
-														'".$this->db->escape($review['review_date_added'])."',
-														'".$this->db->escape($review['review_date_modified'])."'
-	                                            		);";
+                             (`product_id`, `customer_id`, `author`,
+                             `text`,`rating`,`status`,`date_added`,`date_modified`)
+                            VALUES ('".(int)$product_id_map[$review['product_id']]."',
+                                    '".(int)$customer_id_map[$data['review_customer_id']]."',
+                                    '".$this->db->escape($review['review_author'])."',
+                                    '".$this->db->escape($review['review_text'])."',
+                                    '".(int)$review['review_rating']."',
+                                    '".(int)$review['review_status']."',
+                                    '".$this->db->escape($review['review_date_added'])."',
+                                    '".$this->db->escape($review['review_date_modified'])."'
+                                    );";
 
                     $result = $this->db->query($sql, true);
                     if ($result === false) {
@@ -754,7 +755,7 @@ class ModelToolMigration extends Model
 
     public function getCartList()
     {
-        $result = array();
+        $result = [];
         $files = glob(DIR_ROOT.'/admin/model/tool/migration/*', GLOB_NOSORT);
         if ($files) {
             foreach ($files as $file) {
@@ -778,13 +779,13 @@ class ModelToolMigration extends Model
         return $result;
     }
 
-    private function _migrateImages($data = array(), $object_txt_id = '', $object_id = 0)
+    private function _migrateImages($data = [], $object_txt_id = '', $object_id = 0)
     {
-        $objects = array(
+        $objects = [
             'products'      => 'Product',
             'categories'    => 'Category',
             'manufacturers' => 'Brand',
-        );
+        ];
 
         if (!in_array($object_txt_id, array_keys($objects)) || !$data || !is_array($data)) {
             $this->addLog('Error: data array for object "'.$object_txt_id.'" wrong.');
@@ -823,14 +824,14 @@ class ModelToolMigration extends Model
                         }
                         continue;
                     }
-                    $resource = array(
+                    $resource = [
                         'language_id'   => $this->config->get('storefront_language_id'),
-                        'name'          => array(),
+                        'name'          => [],
                         'title'         => '',
                         'description'   => '',
                         'resource_path' => $image_basename,
                         'resource_code' => '',
-                    );
+                    ];
 
                     foreach ($language_list as $lang) {
                         $resource['name'][$lang['language_id']] = str_replace('%20', ' ', $image_basename);

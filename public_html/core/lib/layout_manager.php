@@ -258,7 +258,7 @@ class ALayoutManager
      */
     public function getLayouts($layout_type = '')
     {
-        $store_id = (int)$this->config->get('config_store_id');
+        $store_id = (int)$this->config->get('current_store_id');
         $cache_key =
             'layout.a.layouts.'.$this->tmpl_id.'.'.$this->page_id.(!empty ($layout_type) ? '.'.$layout_type : '');
         if (( string )$layout_type == '0') {
@@ -349,7 +349,7 @@ class ALayoutManager
      */
     private function _getLayoutBlocks($layout_id = 0)
     {
-        $store_id = (int)$this->config->get('config_store_id');
+        $store_id = (int)$this->config->get('current_store_id');
         $layout_id = !$layout_id ? $this->layout_id : $layout_id;
 
         $cache_key = 'layout.a.blocks.'.$layout_id.'.store_'.$store_id;
@@ -386,7 +386,7 @@ class ALayoutManager
      */
     public function getAllBlocks()
     {
-        $store_id = (int)$this->config->get('config_store_id');
+        $store_id = (int)$this->config->get('current_store_id');
         $language_id = (int)$this->language->getContentLanguageID();
         $cache_key = 'layout.a.blocks.all.store_'.$store_id.'_lang_'.$language_id;
         $blocks = $this->cache->pull($cache_key);

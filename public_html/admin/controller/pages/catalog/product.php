@@ -854,7 +854,7 @@ class ControllerPagesCatalogProduct extends AController
                 //otherwise - take product data
                 'value'       => $product_id
                     ? $this->data['product_store']
-                    : ($this->data['product_store'] ? : [$this->config->get('config_store_id')]),
+                    : ($this->data['product_store'] ? : [$this->config->get('current_store_id')]),
                 'options'     => $this->data['stores'],
                 'style'       => 'chosen',
                 'placeholder' => $this->language->get('entry_store'),

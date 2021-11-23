@@ -631,7 +631,7 @@ class ControllerPagesSaleCoupon extends AController
 
         $this->loadModel('setting/store');
         //Get store name
-        $store_info = $this->model_setting_store->getStore($this->config->get('config_store_id'));
+        $store_info = $this->model_setting_store->getStore($this->config->get('current_store_id'));
         $store_name = 'For store '.$store_info['store_name'].': ';
 
         if ($this->request->get['coupon_id']) {

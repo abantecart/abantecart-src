@@ -120,7 +120,7 @@ class ControllerPagesCatalogCollections extends AController
 
     public function insert()
     {
-        $collection = null;
+        $collection = [];
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->buildHeader();
@@ -129,7 +129,7 @@ class ControllerPagesCatalogCollections extends AController
 
         if ($this->request->is_POST() && $this->validate($this->request->post)) {
             $data = $this->request->post;
-            $data['store_id'] = (int) $this->config->get('config_store_id');
+            $data['store_id'] = (int) $this->config->get('current_store_id');
             $collection = $this->model_catalog_collection->insert($data);
         }
 
@@ -630,11 +630,7 @@ class ControllerPagesCatalogCollections extends AController
         $page_layout = $layout->getPageLayoutIDs($page_controller, $page_key_param, $collection_id);
         $page_id = $page_layout['page_id'];
         $layout_id = $page_layout['layout_id'];
-        if (isset($this->request->get['tmpl_id'])) {
-            $tmpl_id = $this->request->get['tmpl_id'];
-        } else {
-            $tmpl_id = $this->config->get('config_storefront_template');
-        }
+        $tmpl_id = $this->request->get['tmpl_id'] ?? $this->config->get('config_storefront_template');
         $params = [
             'id'        => $collection_id,
             'page_id'   => $page_id,

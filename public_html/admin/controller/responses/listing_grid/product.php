@@ -65,7 +65,6 @@ class ControllerResponsesListingGridProduct extends AController
         $filter_form = new AFilter(['method' => 'get', 'filter_params' => $filter_params]);
         $filter_grid = new AFilter(['method' => 'post', 'grid_filter_params' => $grid_filter_params]);
         $data = array_merge($filter_form->getFilterData(), $filter_grid->getFilterData());
-
         $total = $this->model_catalog_product->getTotalProducts($data);
         $response = new stdClass();
         $response->page = $filter_grid->getParam('page');

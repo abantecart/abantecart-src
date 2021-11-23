@@ -70,7 +70,7 @@ class ControllerPagesDesignTemplate extends AController
             ]
         );
 
-        $this->data['store_id'] = (int) ($this->request->get['store_id'] ?? $this->config->get('config_store_id'));
+        $this->data['store_id'] = (int) ($this->request->get['store_id'] ?? $this->config->get('current_store_id'));
 
         //check if store is active
         $store_info = $this->model_setting_store->getStore($this->data['store_id']);
@@ -101,7 +101,8 @@ class ControllerPagesDesignTemplate extends AController
             $templates[$tmpl] = [
                 'name'          => $tmpl,
                 'edit_url'      => $this->html->getSecureURL('design/template/edit', '&tmpl_id='.$tmpl),
-                // define template type by directory inside core. if does not exists - it is extension otherwise core-template
+                // define template type by directory inside core.
+                // if it does not exist - it's extension, otherwise core-template
                 'template_type' => is_dir(DIR_STOREFRONT.'view/'.$tmpl) ? 'core' : 'extension',
             ];
 
@@ -189,7 +190,7 @@ class ControllerPagesDesignTemplate extends AController
         if ($this->request->get['store_id']) {
             $store_id = (int) $this->request->get['store_id'];
         } else {
-            $store_id = (int) $this->config->get('config_store_id');
+            $store_id = (int) $this->config->get('current_store_id');
         }
 
         if ($this->request->get['tmpl_id']) {
@@ -270,7 +271,7 @@ class ControllerPagesDesignTemplate extends AController
             redirect($this->data['redirect_url']);
         }
 
-        $this->data['store_id'] = (int) ($this->request->get['store_id'] ?? $this->config->get('config_store_id'));
+        $this->data['store_id'] = (int) ($this->request->get['store_id'] ?? $this->config->get('current_store_id'));
 
         $this->data['error'] = $this->error;
 

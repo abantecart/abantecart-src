@@ -522,7 +522,7 @@ class AHtml extends AController
         $registry = $this->registry;
         $view = new AView($this->registry, 0);
         //check if store_id is passed or in the session
-        $store_id = $registry->get('config')->get('config_store_id');
+        $store_id = $registry->get('config')->get('current_store_id');
         //set store selector
         $stores = [];
         $hidden = [];
@@ -542,7 +542,7 @@ class AHtml extends AController
         if (sizeof($result_stores) > 0) {
             foreach ($result_stores as $rs) {
                 $stores[$rs['store_id']] = [
-                    'name'     => $rs['alias'] ? $rs['alias'] : $rs['name'],
+                    'name'     => $rs['alias'] ? : $rs['name'],
                     'store_id' => $rs['store_id'],
                 ];
             }

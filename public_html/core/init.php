@@ -350,9 +350,15 @@ try {
 
 // Session
     $registry->set('session', new ASession(SESSION_ID));
-    if ($config->has('current_store_id')) {
-        $registry->get('session')->data['current_store_id'] = (int) $request->get['store_id']
-            ? : $config->get('current_store_id');
+
+    if (IS_ADMIN === true) {
+        if ($config->has('current_store_id')) {
+            $registry->get('session')->data['current_store_id'] = (int) $config->get('current_store_id');
+        } elseif (isset($registry->get('session')->data['current_store_id'])) {
+            $config->set('current_store_id', $registry->get('session')->data['current_store_id']);
+        }else{
+            $config->set('current_store_id', (int) $config->get('config_store_id'));
+        }
     }
 
 // CSRF Token Class
@@ -384,13 +390,6 @@ try {
 
         //Admin specific loads
         $registry->set('extension_manager', new AExtensionManager());
-
-        //Now we have session, reload config for store if provided or set in session
-        $session = $registry->get('session');
-        if (isset($request->get['store_id']) || isset($session->data['current_store_id'])) {
-            $config = new AConfig($registry);
-            $registry->set('config', $config);
-        }
     } else {
         // Storefront HTTP
         $store_url = $config->get('config_url');

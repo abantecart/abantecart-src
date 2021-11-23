@@ -55,7 +55,7 @@ class ControllerPagesExtensionExtensions extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        //put extension_list for remote install into session to prevent multiple requests for grid
+        //put extension_list for remote installation into session to prevent multiple requests for grid
 
         //connection to marketplace
         $this->loadModel('tool/mp_api');
@@ -100,7 +100,7 @@ class ControllerPagesExtensionExtensions extends AController
         }
 
         //set store id based on param or session.
-        $store_id = (int) $this->config->get('config_store_id');
+        $store_id = (int) $this->config->get('current_store_id');
         if (has_value($this->request->get_or_post('store_id'))) {
             $store_id = (int) $this->request->get_or_post('store_id');
             $this->session->data['current_store_id'] = (int) $this->request->get_or_post('store_id');
@@ -154,7 +154,7 @@ class ControllerPagesExtensionExtensions extends AController
             $this->language->get('column_category'),
             $this->language->get('column_update_date'),
         ];
-        if (!$this->config->get('config_store_id')) {
+        if (!$this->config->get('current_store_id')) {
             $grid_settings['colNames'][] = $this->language->get('tab_store');
         }
         $grid_settings['colNames'][] = $this->language->get('column_status');
@@ -197,7 +197,7 @@ class ControllerPagesExtensionExtensions extends AController
                 'search' => false,
             ],
         ];
-        if (!$this->config->get('config_store_id')) {
+        if (!$this->config->get('current_store_id')) {
             $grid_settings['colModel'][] = [
                 'name'   => 'store_name',
                 'index'  => 'store_name',
@@ -467,7 +467,7 @@ class ControllerPagesExtensionExtensions extends AController
                     // if options need to extract from db
                     $data['options'] = $item['options'];
                     if ($item['model_rt'] != '') {
-                        //force to load models even before extension is enabled
+                        //force loading of models even before extension is enabled
                         $this->loadModel($item['model_rt'], 'force');
                         $model = $this->{'model_'.str_replace("/", "_", $item['model_rt'])};
                         $method_name = $item['method'];
@@ -497,7 +497,7 @@ class ControllerPagesExtensionExtensions extends AController
                     $data['options'] = $item['options'];
                     if (is_array($item['data_source']) && $item['data_source']) {
                         foreach ($item['data_source']['model_rt'] as $k => $model_rt) {
-                            //force to load models even before extension is enabled
+                            //force loading of models even before extension is enabled
                             $this->loadModel($model_rt, 'force');
                             $model = $this->{'model_'.str_replace("/", "_", $model_rt)};
                             $method_name = $item['data_source']['method'][$k];
@@ -508,7 +508,7 @@ class ControllerPagesExtensionExtensions extends AController
                     } else {
                         //TODO: remove it in 2.0
                         if ($item['model_rt'] != '') {
-                            //force to load models even before extension is enabled
+                            //force loading of models even before extension is enabled
                             $this->loadModel($item['model_rt'], 'force');
                             $model = $this->{'model_'.str_replace("/", "_", $item['model_rt'])};
                             $method_name = $item['method'];

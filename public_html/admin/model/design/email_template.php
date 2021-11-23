@@ -175,7 +175,7 @@ class ModelDesignEmailTemplate extends Model
         if (!$textId || !(int) $languageId) {
             return false;
         }
-        $storeId = $this->config->get('config_store_id');
+        $storeId = $this->config->get('current_store_id');
 
         $etTableName = $this->db->table('email_templates');
         $query = 'SELECT * 

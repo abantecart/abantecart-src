@@ -50,7 +50,7 @@ class ControllerResponsesListingGridExtension extends AController
             $search_str = trim($searchData['rules'][0]['data']);
         }
 
-        $store_id = (int) $this->config->get('config_store_id');
+        $store_id = (int) $this->config->get('current_store_id');
         if ($this->request->get_or_post('store_id')) {
             $store_id = $this->request->get_or_post('store_id');
         }
@@ -85,8 +85,8 @@ class ControllerResponsesListingGridExtension extends AController
             'filter'     => $this->session->data['extension_filter'],
             'sort_order' => [$sidx, $sord],
         ];
-        if ($this->config->get('config_store_id')) {
-            $data['store_id'] = (int) $this->config->get('config_store_id');
+        if ($this->config->get('current_store_id')) {
+            $data['store_id'] = (int) $this->config->get('current_store_id');
         }
         //extensions list. NOTE: set "force" mode to get data from db
         $extensions = $this->extension_manager->getExtensionsList($data, 'force');
@@ -303,7 +303,7 @@ class ControllerResponsesListingGridExtension extends AController
                 $category,
                 dateISO2Display($row['date_modified'], $this->language->get('date_format_short'))
             ];
-            if (!$this->config->get('config_store_id')) {
+            if (!$this->config->get('current_store_id')) {
                 $response->rows[$i]['cell'][] = $row['store_name'] ? : $this->language->get('text_default');
             }
             $response->rows[$i]['cell'][] = $status;

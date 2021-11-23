@@ -1410,7 +1410,7 @@ class ModelSaleOrder extends Model
         if (array_key_exists('store_id', $data)) {
             $store_id = $data['store_id'];
         } else {
-            $store_id = (int) $this->config->get('config_store_id');
+            $store_id = (int) $this->config->get('current_store_id');
         }
 
         if ($mode == 'total_only') {

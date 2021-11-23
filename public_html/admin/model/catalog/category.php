@@ -362,7 +362,7 @@ class ModelCatalogCategory extends Model
         if ($data['store_id']) {
             $store_id = (int) $data['store_id'];
         } else {
-            $store_id = (int) $this->config->get('config_store_id');
+            $store_id = (int) $this->config->get('current_store_id');
         }
 
         if ($mode == 'total_only') {

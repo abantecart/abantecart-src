@@ -182,7 +182,7 @@ class ControllerPagesCatalogCategory extends AController
 
         $results = $this->model_catalog_category->getCategories(
             ROOT_CATEGORY_ID,
-            $this->config->get('config_store_id')
+            $this->config->get('current_store_id')
         );
         $parents = [
             'null' => $this->language->get('text_select_all'),

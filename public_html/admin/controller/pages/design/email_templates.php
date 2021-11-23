@@ -110,7 +110,7 @@ class ControllerPagesDesignEmailTemplates extends AController
 
         if ($this->request->is_POST() && $this->validate($this->request->post)) {
             $data = $this->request->post;
-            $data['store_id'] = (int) $this->config->get('config_store_id');
+            $data['store_id'] = (int) $this->config->get('current_store_id');
             $emailTemplate = $this->model_design_email_template->insert($data);
         }
 
@@ -220,7 +220,7 @@ class ControllerPagesDesignEmailTemplates extends AController
         if ((int) $this->request->get['id']) {
             $emailTemplate = $this->model_design_email_template->getById((int) $this->request->get['id']);
             if ((int)$emailTemplate['language_id'] != (int)$this->language->getContentLanguageID()
-                || (int) $emailTemplate['store_id'] != (int) $this->config->get('config_store_id')
+                || (int) $emailTemplate['store_id'] != (int) $this->config->get('current_store_id')
             ) {
                 $existTemplate = $this->model_design_email_template->getByTextIdAndLanguageId(
                     $emailTemplate['text_id'],

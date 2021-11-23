@@ -248,9 +248,7 @@ final class AConfig
             if ($store_settings) {
                 //store found by URL, load settings
                 $this->cnfg = array_merge($this->cnfg, $store_settings);
-
                 $this->cnfg['config_store_id'] = (int) $store_settings['store_id'];
-                $this->cnfg['current_store_id'] = $this->cnfg['config_store_id'];
             } else {
                 //write to log when system check enabled
                 if (php_sapi_name() != 'cli'
@@ -278,21 +276,14 @@ final class AConfig
         if (IS_ADMIN) {
             //Check if admin has specific store in session or selected
             $session = $this->registry->get('session');
-            $store_id = $this->registry->get('request')->get['store_id'] ?? null;
-            if (has_value($store_id)) {
+            $store_id = $this->registry->get('request')->get['store_id'];
+            if (isset($store_id)) {
                 $this->cnfg['current_store_id'] = (int) $store_id;
-            } else {
-                if (isset($session->data['current_store_id']) && has_value($session->data['current_store_id'])) {
-                    $this->cnfg['current_store_id'] = (int) $session->data['current_store_id'];
-                } elseif (isset($session->data['config_store_id'])) {
-                    //nothing to do
-                    $this->cnfg['current_store_id'] = (int) $session->data['config_store_id'];
-                }
             }
-            $this->cnfg['current_store_id'] = $this->cnfg['current_store_id'] ?? null;
             //reload store settings if not what is loaded now
-            if ((int) $this->cnfg['current_store_id'] != $this->cnfg['config_store_id']) {
-                $this->_reload_settings($this->cnfg['current_store_id']);
+//???needed for settings page
+            if (isset($this->cnfg['current_store_id'])) {
+                $this->reloadSettings($this->cnfg['current_store_id']);
                 $this->cnfg['config_store_id'] = $this->cnfg['current_store_id'];
             }
         }
@@ -376,7 +367,7 @@ final class AConfig
         }
     }
 
-    private function _reload_settings($store_id = 0)
+    public function reloadSettings($store_id = 0)
     {
         //we don't use cache here cause domain may be different and we cannot change cache from control panel
         $db = $this->registry->get('db');

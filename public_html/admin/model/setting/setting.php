@@ -173,7 +173,7 @@ class ModelSettingSetting extends Model
     public function editSetting($group, $data, $store_id = null)
     {
         $store_id = is_null($store_id)
-                ? ($this->config->get('config_store_id'))
+                ? ($this->config->get('current_store_id'))
                 : (int)$store_id;
         $translate_override_existing = $this->config->get('translate_override_existing');
         //do not override when content language is not a source!

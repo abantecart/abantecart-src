@@ -669,7 +669,7 @@ class ModelSaleCustomer extends Model
 
         $this->load->model('setting/store');
         if (!$store_id && !$this->model_setting_store->isDefaultStore()) {
-            $store_id = $this->config->get('config_store_id');
+            $store_id = $this->config->get('current_store_id');
         }
 
         if ($store_id !== null) {

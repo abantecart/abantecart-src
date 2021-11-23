@@ -93,7 +93,7 @@ class AMail
         $this->timeout = $config->get('config_smtp_timeout');
         $this->log = $registry->get('log');
         $this->messages = $registry->get('messages');
-        $this->storeId = $config->get('config_store_id') ?: 0;
+        $this->storeId = $config->get('current_store_id') ?? $config->get('config_store_id') ?? 0;
         $this->extensions = $registry->get('extensions');
     }
 
