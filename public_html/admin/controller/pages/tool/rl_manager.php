@@ -1,4 +1,5 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -27,24 +28,23 @@ class ControllerPagesToolRLManager extends AController
 
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->document->setTitle($this->language->get('heading_title'));
 
         $this->document->resetBreadcrumbs();
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('index/home'),
-            'text'      => $this->language->get('text_home'),
-            'separator' => false,
-        ));
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('tool/error_log'),
-            'text'      => $this->language->get('heading_title'),
-            'separator' => ' :: ',
-            'current'   => true,
-        ));
+        $this->document->addBreadcrumb([
+                                           'href'      => $this->html->getSecureURL('index/home'),
+                                           'text'      => $this->language->get('text_home'),
+                                           'separator' => false,
+                                       ]);
+        $this->document->addBreadcrumb([
+                                           'href'      => $this->html->getSecureURL('tool/error_log'),
+                                           'text'      => $this->language->get('heading_title'),
+                                           'separator' => ' :: ',
+                                           'current'   => true,
+                                       ]);
 
         $this->view->assign('current_url', $this->html->currentURL());
 
@@ -55,17 +55,17 @@ class ControllerPagesToolRLManager extends AController
         $latest_limit = 13;
         $resources_scripts = $this->dispatch(
             'responses/common/resource_library/get_resources_scripts',
-            array(
-                null,
-                null,
-                null,
-                null,
-                'mode'  => 'list_all',
-                'page'  => 1,
-                'limit' => $latest_limit,
-                'sort'  => 'date_added',
-                'order' => 'DESC',
-            )
+            [
+                'object_name' => '',
+                'object_id'   => '',
+                'types'       => [],
+                'onload'      => true,
+                'mode'        => 'list_all',
+                'page'        => 1,
+                'limit'       => $latest_limit,
+                'sort'        => 'date_added',
+                'order'       => 'DESC',
+            ]
         );
         $this->view->assign('latest_limit', $latest_limit);
         $this->view->assign('rl_types_url', $this->html->getSecureURL('r/tool/rl_manager/update'));
