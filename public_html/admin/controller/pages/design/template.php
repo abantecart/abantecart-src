@@ -92,7 +92,7 @@ class ControllerPagesDesignTemplate extends AController
         $conf_mngr = new AConfigManager();
 
         //get all enabled templates
-        $tmpls = $conf_mngr->getTemplates('storefront');
+        $tmpls = $conf_mngr->getTemplates('storefront', 1, $this->data['store_id']);
         $settings = $this->model_setting_setting->getSetting('appearance', $this->data['store_id']);
         $this->data['default_template'] = $settings['config_storefront_template'];
         $templates = [];

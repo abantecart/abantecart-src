@@ -1,4 +1,7 @@
-<?php /** @noinspection PhpUndefinedClassInspection */
+<?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
+/** @noinspection PhpUndefinedClassInspection */
 
 /*------------------------------------------------------------------------------
   $Id$
@@ -150,15 +153,13 @@ class AConfigManager
                     }
                     if ($field_name == 'config_url'
                         && (!$field_value
-                            || !preg_match(
-                                "/^(http|https):\/\//", $field_value
-                            ))) {
+                            || !preg_match("/^(http|https):\/\//", $field_value))
+                    ) {
                         $this->errors['url'] = $this->language->get('error_url');
                     }
                     if ($field_name == 'config_ssl_url' && $field_value
-                        && !preg_match(
-                            "/^(http|https):\/\//", $field_value
-                        )) {
+                        && !preg_match("/^(http|https):\/\//", $field_value)
+                    ) {
                         $this->errors['ssl_url'] = $this->language->get('error_ssl_url');
                     } //when quicksave only ssl_url
                     elseif ($field_name == 'config_ssl_url' && $field_value && !has_value($fields['config_url'])) {
@@ -656,18 +657,12 @@ class AConfigManager
             //for multilingual settings
             if (preformatTextID($field_name) == preformatTextID($properties['name'])
                 || (is_int(strpos($field_name, 'config_description'))
-                    && is_int(
-                        strpos($properties['name'], 'config_description')
-                    ))
+                    && is_int(strpos($properties['name'], 'config_description')))
                 || (is_int(strpos($field_name, 'config_title')) && is_int(strpos($properties['name'], 'config_title')))
                 || (is_int(strpos($field_name, 'config_meta_description'))
-                    && is_int(
-                        strpos($properties['name'], 'config_meta_description')
-                    ))
+                    && is_int(strpos($properties['name'], 'config_meta_description')))
                 || (is_int(strpos($field_name, 'config_meta_keywords'))
-                    && is_int(
-                        strpos($properties['name'], 'config_meta_keywords')
-                    ))
+                    && is_int(strpos($properties['name'], 'config_meta_keywords')))
             ) {
                 $names = array_keys($fields);
                 $name = $names[$n];
@@ -1049,11 +1044,11 @@ class AConfigManager
         );
         $fields['phone_validation_pattern'] = $form->getFieldHtml(
             $props[] = [
-                'type'  => 'input',
-                'name'  => 'config_phone_validation_pattern',
-                'value' => $data['config_phone_validation_pattern'],
+                'type'        => 'input',
+                'name'        => 'config_phone_validation_pattern',
+                'value'       => $data['config_phone_validation_pattern'],
                 'placeholder' => '/^[0-9]{3,32}$/',
-                'style' => 'small-field',
+                'style'       => 'small-field',
             ]
         );
         $fields['prevent_email_as_login'] = $form->getFieldHtml(
@@ -1304,16 +1299,18 @@ class AConfigManager
             ];
             $languages = $this->language->getActiveLanguages();
             $logosArr = [
-                'logo' => 'config_logo',
-                'mail_logo' => 'config_mail_logo'
+                'logo'      => 'config_logo',
+                'mail_logo' => 'config_mail_logo',
             ];
-            if(count($languages) > 1){
+            if (count($languages) > 1) {
                 //see if we have resource id or path
                 $languageId = $data['language_id'] ?? $this->language->getContentLanguageID();
-                foreach ($languages as $lang){
+                foreach ($languages as $lang) {
                     $lId = $lang['language_id'];
                     //leave only content language
-                    if($languageId != $lId){ continue;}
+                    if ($languageId != $lId) {
+                        continue;
+                    }
 
                     $logosArr['logo_'.mb_strtolower($lang['name'])] = $fieldset[] = 'config_logo_'.$lId;
                     $logosArr['mail_logo_'.mb_strtolower($lang['name'])] = $fieldset[] = 'config_mail_logo_'.$lId;
@@ -1347,10 +1344,10 @@ class AConfigManager
                     $p['resource_id'] = $defaultValue;
                 } else {
                     $p['resource_path'] = htmlspecialchars(
-                            $defaultValue,
-                            ENT_COMPAT,
-                            'UTF-8'
-                        );
+                        $defaultValue,
+                        ENT_COMPAT,
+                        'UTF-8'
+                    );
                 }
                 $fields[$alias] = (string) $form->getFieldHtml(
                     $props[] = $p
@@ -1546,9 +1543,7 @@ class AConfigManager
             $props[] = [
                 'type'  => 'color',
                 'name'  => 'config_image_resize_fill_color',
-                'value' => $data['config_image_resize_fill_color']
-                            ? $data['config_image_resize_fill_color']
-                            : '#ffffff',
+                'value' => $data['config_image_resize_fill_color'] ? : '#ffffff',
                 'style' => 'small-field',
             ]
         );
@@ -1564,8 +1559,9 @@ class AConfigManager
      * @param int $status - template extension status
      *
      * @return array
+     * @throws AException
      */
-    public function getTemplates($section, $status = 1)
+    public function getTemplates($section, $status = 1, $store_id = 0)
     {
         if (has_value($this->templates[$section])) {
             return $this->templates[$section];
@@ -1582,8 +1578,9 @@ class AConfigManager
             //get extension templates
             $extension_templates = $this->extension_manager->getExtensionsList(
                 [
-                    'filter' => 'template',
-                    'status' => (int) $status
+                    'filter'   => 'template',
+                    'status'   => (int) $status,
+                    'store_id' => $store_id ? : (int) $this->registry->get('config')->get('config_store_id'),
                 ]
             );
             if ($extension_templates->total > 0) {
@@ -1733,9 +1730,8 @@ class AConfigManager
                         'type'       => 'checkbox',
                         'name'       => 'config_storefront_'.$protocol.'_status',
                         'value'      => 1,
-                        'checked'    => $data['config_storefront_'.$protocol.'_status'] ? true : false,
+                        'checked'    => (bool) $data['config_storefront_'.$protocol.'_status'],
                         'label_text' => $this->language->get('text_storefront'),
-                        //'style' => 'btn_switch',
                     ]
                 );
 
@@ -1744,9 +1740,8 @@ class AConfigManager
                         'type'       => 'checkbox',
                         'name'       => 'config_admin_'.$protocol.'_status',
                         'value'      => 1,
-                        'checked'    => $data['config_admin_'.$protocol.'_status'] ? true : false,
+                        'checked'    => (bool) $data['config_admin_'.$protocol.'_status'],
                         'label_text' => $this->language->get('text_admin'),
-                        //'style' => 'btn_switch',
                     ]
                 );
             }
@@ -2057,8 +2052,8 @@ class AConfigManager
                 'type'     => 'input',
                 'name'     => 'cron_command',
                 'value'    => $tmp,
-                'attr'     => 'disabled data-copy="'.htmlspecialchars($tmp,ENT_QUOTES).'"',
-                'help_url' => 'https://abantecart.atlassian.net/wiki/spaces/AD/pages/15007901/Scheduled+Tasks#ScheduledTasks-CRON'
+                'attr'     => 'disabled data-copy="'.htmlspecialchars($tmp, ENT_QUOTES).'"',
+                'help_url' => 'https://abantecart.atlassian.net/wiki/spaces/AD/pages/15007901/Scheduled+Tasks#ScheduledTasks-CRON',
             ]
         );
 
