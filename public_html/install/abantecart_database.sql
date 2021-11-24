@@ -1234,16 +1234,16 @@ CREATE TABLE `ac_order_products` (
   `sku` varchar(64) NOT NULL DEFAULT '',
   `price` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `cost` decimal(15,4) NOT NULL DEFAULT '0.0000',
+  `weight` DECIMAL(15,4) NOT NULL DEFAULT 0.0,
+  `weight_iso_code` VARCHAR(5) NOT NULL DEFAULT '',
+  `width` DECIMAL(15,4) NOT NULL DEFAULT 0,
+  `length` DECIMAL(15,4) NOT NULL DEFAULT 0,
+  `height` DECIMAL(15,4) NOT NULL DEFAULT 0,
+  `length_iso_code` VARCHAR(5) NOT NULL DEFAULT '',
   `total` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `tax` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `quantity` int(4) NOT NULL DEFAULT '0',
   `subtract` int(1) NOT NULL DEFAULT '0',
-  `weight` decimal(5,2) NOT NULL DEFAULT '0.00',
-  `weight_iso_code` VARCHAR(5) NOT NULL DEFAULT '',
-  `length` decimal(5,2) NOT NULL DEFAULT '0.00',
-  `width` decimal(5,2) NOT NULL DEFAULT '0.00',
-  `height` decimal(5,2) NOT NULL DEFAULT '0.00',
-  `length_iso_code` VARCHAR(5) NOT NULL DEFAULT '',
   PRIMARY KEY (`order_product_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
