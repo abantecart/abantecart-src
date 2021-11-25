@@ -1,3 +1,9 @@
+<?php if($error){ ?>
+    <div class="alert alert-error alert-danger">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <?php echo $error; ?>
+    </div>
+<?php }?>
 <div class="spinner-overlay">
     <div class="spinner"></div>
 </div>

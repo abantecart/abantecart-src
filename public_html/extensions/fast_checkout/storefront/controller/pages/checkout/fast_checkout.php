@@ -187,6 +187,12 @@ class ControllerPagesCheckoutFastCheckout extends AController
         //check if two single-checkout tabs opened
         if (isset($this->request->get['product_key'])) {
             $cartProducts = $this->cart->getProducts();
+            //warning about min/max qty exceeding
+            if($fcSession['error']) {
+                $this->data['error'] = $fcSession['error'];
+                unset($this->session->data['fc']['error']);
+            }
+
             $cartSingleProduct = $cartProducts[$this->request->get['product_key']];
             if (count($cartProducts) > 1 && $cartSingleProduct) {
                 redirect(
@@ -216,6 +222,7 @@ class ControllerPagesCheckoutFastCheckout extends AController
 
     public function main()
     {
+
         $cartRt = 'checkout/cart';
         if ($this->config->get('embed_mode') == true) {
             $cartRt = 'r/checkout/cart/embed';

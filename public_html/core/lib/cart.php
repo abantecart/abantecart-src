@@ -159,7 +159,7 @@ class ACart
                 //apply min and max for quantity once we have product details.
                 if ($quantity < $product_result['minimum']) {
                     $this->language->load('checkout/cart', 'silent');
-                    $this->cust_data['error'] = $this->language->get('error_quantity_minimum');
+                    $this->cust_data['error'] = $this->language->get('error_quantity_minimum').'('.$product_result['name'].')';
                     $this->update($key, $product_result['minimum']);
                 }
                 if ($product_result['maximum'] > 0) {
