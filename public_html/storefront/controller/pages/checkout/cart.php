@@ -29,7 +29,7 @@ class ControllerPagesCheckoutCart extends AController
 
     /**
      * @throws AException|ReflectionException
-     * NOTE: this method have a few hk_processData calls.
+     * NOTE: this method has few "hk_processData" calls.
      */
     public function main()
     {
@@ -285,7 +285,7 @@ class ControllerPagesCheckoutCart extends AController
                     $title = '';
                     if ($option['element_type'] == 'H') {
                         continue;
-                    } //hide hidden options
+                    } //hide "hidden" options
 
                     $value = $option['value'];
                     // hide binary value for checkbox
@@ -363,8 +363,10 @@ class ControllerPagesCheckoutCart extends AController
                             'type'  => 'input',
                             'name'  => 'quantity['.$result['key'].']',
                             'value' => $result['quantity'],
-                            'attr'  => ' size="3" ',
                             'style' => 'short',
+                            'attr'  => ' size="3" '
+                                .( (int)$result['maximum'] ? 'max="'.(int)$result['maximum'].'"' : '')
+                                   .( ' min="'.(int)$result['minimum'].'"'),
                         ]
                     ),
                     'stock'        => $result['stock'],

@@ -165,7 +165,7 @@ class ACart
                 if ($product_result['maximum'] > 0) {
                     $this->language->load('checkout/cart', 'silent');
                     if ($quantity > $product_result['maximum']) {
-                        $this->cust_data['error'] = $this->language->get('error_quantity_maximum');
+                        $this->cust_data['error'] = $this->language->get('error_quantity_maximum').'('.$product_result['name'].')';
                         $this->update($key, $product_result['maximum']);
                     }
                 }
