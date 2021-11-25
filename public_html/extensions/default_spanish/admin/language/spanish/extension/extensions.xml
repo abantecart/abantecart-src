@@ -412,4 +412,20 @@
 		<key>button_get_support</key>
 		<value><![CDATA[Obtener apoyo]]></value>
 	</definition>
+	<definition>
+		<key>text_min_volume</key>
+		<value><![CDATA[Volumen de tamaño de paquete de pedido mínimo en (cúbico %s) <span class="help">Valor mínimo para que la opción de envío esté disponible para el cliente. Este valor se basa en tamaños de productos combinados en el pedido.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_max_volume</key>
+		<value><![CDATA[Volumen máximo del tamaño del paquete de pedido en (cúbicos %s) <span class="help">Valor máximo para que la opción de envío esté disponible para el cliente. Este valor se basa en tamaños de productos combinados en el pedido.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_min_weight</key>
+		<value><![CDATA[Peso mínimo del paquete (%s)]]></value>
+	</definition>
+	<definition>
+		<key>text_max_weight</key>
+		<value><![CDATA[Peso máximo del paquete (%s)]]></value>
+	</definition>
 </definitions>

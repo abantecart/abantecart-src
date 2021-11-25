@@ -620,4 +620,12 @@
 		<key>entry_weight_change</key>
 		<value><![CDATA[Вес: <span class="help">Важно! Если значение указано в процентах (%), то вес будет изменен на указанный процент в зависимости от веса основного продукта. Если значение веса в единицах измерения, оно будет использоваться как абсолютное значение для опции, основной вес будет проигнорирован.</span>]]></value>
 	</definition>
+	<definition>
+		<key>error_dimension_value</key>
+		<value><![CDATA[Этот товар требует доставки. Пожалуйста, заполните все значения размеров.]]></value>
+	</definition>
+	<definition>
+		<key>error_length_class</key>
+		<value><![CDATA[Пожалуйста, установите класс длины.]]></value>
+	</definition>
 </definitions>

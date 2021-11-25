@@ -413,4 +413,20 @@
 		<key>button_get_support</key>
 		<value><![CDATA[Получать поддержку]]></value>
 	</definition>
+	<definition>
+		<key>text_min_volume</key>
+		<value><![CDATA[Минимальный размер посылки для заказа в (куб. %s) <span class="help">Минимальная стоимость для варианта отгрузки, доступного для покупателя. Это значение основано на размерах товаров, объединенных в заказе.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_max_volume</key>
+		<value><![CDATA[Максимальный размер посылки заказа в (куб. %s) <span class="help">Максимальное значение для варианта отгрузки, доступного для покупателя. Это значение основано на размерах товаров, объединенных в заказе.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_min_weight</key>
+		<value><![CDATA[Минимальный вес посылки (%s)]]></value>
+	</definition>
+	<definition>
+		<key>text_max_weight</key>
+		<value><![CDATA[Максимальный вес посылки (%s)]]></value>
+	</definition>
 </definitions>

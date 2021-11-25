@@ -620,4 +620,12 @@
 		<key>entry_weight_change</key>
 		<value><![CDATA[Peso: <span class="help">Importante! Se il valore fornito come %(percentuale) il peso dell'opzione verrà modificato della percentuale specificata in base al peso del prodotto principale. Se il valore del peso fornito verrà utilizzato come valore assoluto per l'opzione, il peso principale verrà ignorato.</span>]]></value>
 	</definition>
+	<definition>
+		<key>error_dimension_value</key>
+		<value><![CDATA[Questo prodotto richiede la spedizione. Si prega di compilare tutti i valori delle dimensioni.]]></value>
+	</definition>
+	<definition>
+		<key>error_length_class</key>
+		<value><![CDATA[Si prega di impostare la classe di lunghezza.]]></value>
+	</definition>
 </definitions>
