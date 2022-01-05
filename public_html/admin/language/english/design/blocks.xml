@@ -145,6 +145,10 @@
 		<value><![CDATA[Special Offers]]></value>
 	</definition>
 	<definition>
+		<key>text_products_related</key>
+		<value><![CDATA[Related Products]]></value>
+	</definition>
+	<definition>
 		<key>text_products_popular</key>
 		<value><![CDATA[Popular Products]]></value>
 	</definition>

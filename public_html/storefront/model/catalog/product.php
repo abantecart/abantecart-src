@@ -1448,7 +1448,7 @@ class ModelCatalogProduct extends Model
      * @return array
      * @throws AException
      */
-    public function getProductRelated($product_id)
+    public function getProductRelated($product_id, $limit = 20)
     {
         $product_data = [];
         if (!(int) $product_id) {
@@ -1472,14 +1472,14 @@ class ModelCatalogProduct extends Model
                             $this->_sql_join_string()."
                     WHERE p.product_id = '".(int) $result['related_id']."'
                         AND p2s.store_id = '".(int) $this->config->get('config_store_id')."'
-                        AND p.date_available <= NOW() AND p.status = '1'"
+                        AND p.date_available <= NOW() 
+                        AND p.status = '1' ".($limit ? " LIMIT 0,".(int)$limit : "")
             );
 
             if ($product_query->num_rows) {
                 $product_data[$result['related_id']] = $product_query->row;
             }
         }
-
         return $product_data;
     }
 
