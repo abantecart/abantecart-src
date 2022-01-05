@@ -1,11 +1,12 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2022 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -27,6 +28,7 @@ class ModelLocalisationCountry extends Model
      * @param int $country_id
      *
      * @return array
+     * @throws AException
      */
     public function getCountry($country_id)
     {
@@ -47,12 +49,13 @@ class ModelLocalisationCountry extends Model
 
     /**
      * @return array
+     * @throws AException
      */
     public function getCountries()
     {
         $language_id = $this->language->getLanguageID();
         $default_language_id = $this->language->getDefaultLanguageID();
-        $cache_key = 'localization.country.lang_'.$language_id;
+        $cache_key = 'localization.country.sf.lang_'.$language_id;
         $country_data = $this->cache->pull($cache_key);
 
         if ($country_data === false) {

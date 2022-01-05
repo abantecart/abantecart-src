@@ -29,8 +29,7 @@ $guest_data = $this->session->data['fc']['guest'];
                     <label class="h5 text-uppercase"><?php echo $fast_checkout_text_select_delivery; ?></label>
                 </div>
             </div>
-            <?php
-        } ?>
+<?php   } ?>
 
         <div class="row">
         <?php if ($this->cart->hasShipping()) { ?>
@@ -169,10 +168,11 @@ $guest_data = $this->session->data['fc']['guest'];
                     <div class="row">
                         <div class="registerbox">
                             <table class="table table-striped table-shipments">
-                        <?php   foreach ($csession['shipping_methods'] as $shipping_method) { ?>
-                                    <tr>
-                                        <td colspan="3"><b><?php echo $shipping_method['title']; ?></b></td>
-                                    </tr>
+                            <?php
+                            foreach ($csession['shipping_methods'] as $shipping_method) { ?>
+                                <tr>
+                                    <td colspan="3"><b><?php echo $shipping_method['title']; ?></b></td>
+                                </tr>
                             <?php if (!$shipping_method['error']) { ?>
                                         <?php foreach ($shipping_method['quote'] as $quote) { ?>
                                             <tr>
@@ -220,7 +220,7 @@ $guest_data = $this->session->data['fc']['guest'];
                     </div>
                 <?php } ?>
                 <div class="row">
-                    <div class="form-group col-xxs-12">
+                    <div class="order_email form-group col-xxs-12">
                         <div class="left-inner-addon">
                             <i class="fa fa-envelope"></i>
                             <div class="input-group">
@@ -244,14 +244,14 @@ $guest_data = $this->session->data['fc']['guest'];
 
                 <?php if ($require_telephone) { ?>
                     <div class="row">
-                        <div class="form-group col-xxs-12">
+                        <div class="order_phone form-group col-xxs-12">
                             <div class="left-inner-addon">
                                 <i class="fa fa-phone"></i>
                                 <div class="input-group">
                                     <input id="telephone"
                                            aria-label="telephone"
                                            class="form-control input-lg"
-                                           placeholder="<?php echo $fast_checkout_text_telephone_placeholder; ?>"
+                                           placeholder="<?php echo_html2view($fast_checkout_text_telephone_placeholder); ?>"
                                            name="telephone"
                                            type="text"
                                            value="<?php echo $customer_telephone; ?>"
@@ -271,14 +271,14 @@ $guest_data = $this->session->data['fc']['guest'];
                     echo $this->getHookVar('payment_form_fields');
                     if ($this->config->get('fast_checkout_show_order_comment_field')) { ?>
                         <div class="row">
-                            <div class="form-group col-xxs-12" title="<?php echo $fast_checkout_text_order_comment; ?>">
+                            <div class="order_comment form-group col-xxs-12" title="<?php echo $fast_checkout_text_order_comment; ?>">
                                 <div class="left-inner-addon">
                                     <i class="fa fa-comment"></i>
                                     <div class="input-group">
                                         <textarea aria-label="order_comment" id="comment"
                                                   class="form-control input-lg p"
                                                   name="comment"
-                                                  placeholder="<?php echo $fast_checkout_text_comment_placeholder; ?>"
+                                                  placeholder="<?php echo_html2view($fast_checkout_text_comment_placeholder); ?>"
                                         ><?php echo $comment; ?></textarea>
                                         <span class="input-group-btn">
                                            <button class="btn btn-default btn-lg btn-comment" type="button">
@@ -301,7 +301,7 @@ $guest_data = $this->session->data['fc']['guest'];
                                         <input id="coupon_code"
                                                aria-label="coupon"
                                                class="form-control input-lg"
-                                               placeholder="<?php echo $fast_checkout_text_coupon_code; ?>"
+                                               placeholder="<?php echo_html2view($fast_checkout_text_coupon_code); ?>"
                                                name="coupon_code"
                                                type="text"
                                                value="<?php echo $csession['coupon']; ?>"

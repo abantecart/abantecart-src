@@ -28,17 +28,15 @@ class ControllerResponsesProductProduct extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $html_out = '';
+        $this->data['output'] = '';
         try {
             $this->config->set('embed_mode', true);
             $cntr = $this->dispatch('pages/product/product');
-            $html_out = $cntr->dispatchGetOutput();
-        } catch (AException $e) {
-        }
+            $this->data['output'] = $cntr->dispatchGetOutput();
+        }catch(\Exception $e){}
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-
-        $this->response->setOutput($html_out);
+        $this->response->setOutput($this->data['output']);
     }
 
     public function is_group_option()
@@ -161,12 +159,13 @@ class ControllerResponsesProductProduct extends AController
                 unset($output['images']);
             }
         }
+        $this->data['output'] = $output;
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-       // var_Dump($output); exit;
+
         $this->load->library('json');
         $this->response->addJSONHeader();
-        $this->response->setOutput(AJson::encode($output));
+        $this->response->setOutput(AJson::encode($this->data['output']));
     }
 
     public function addToCart()
@@ -183,7 +182,7 @@ class ControllerResponsesProductProduct extends AController
         }
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-        $this->getCartContent();
+        return $this->getCartContent();
     }
 
     public function getCartContent()
@@ -239,6 +238,7 @@ class ControllerResponsesProductProduct extends AController
                     $value = '';
                 }
                 // strip long textarea value
+                $title = '';
                 if ($option['element_type'] == 'T') {
                     $title = strip_tags($value);
                     $title = str_replace('\r\n', "\n", $title);
@@ -362,9 +362,12 @@ class ControllerResponsesProductProduct extends AController
             $output['price'] = $this->currency->format($output['price']);
         }
 
+        $this->data['output'] = $output;
         //init controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-        $this->response->setOutput(AJson::encode($output));
+
+        $this->load->library('json');
+        $this->response->setOutput(AJson::encode($this->data['output']));
     }
 
     public function editCartProduct()
@@ -377,13 +380,15 @@ class ControllerResponsesProductProduct extends AController
             foreach ($this->request->post['quantity'] as $key => $value) {
                 $this->cart->update($key, $value);
             }
-            unset($this->session->data['shipping_method']);
-            unset($this->session->data['shipping_methods']);
-            unset($this->session->data['payment_method']);
-            unset($this->session->data['payment_methods']);
+            unset(
+                $this->session->data['shipping_method'],
+                $this->session->data['shipping_methods'],
+                $this->session->data['payment_method'],
+                $this->session->data['payment_methods']
+            );
             $this->extensions->hk_UpdateData($this, __FUNCTION__);
         }
-        $this->getCartContent();
+        return $this->getCartContent();
     }
 
     public function removeFromCart()
@@ -396,12 +401,14 @@ class ControllerResponsesProductProduct extends AController
         if ($this->request->post_or_get('key')) {
             $this->cart->remove($this->request->post_or_get('key'));
             $this->session->data['success'] = $this->language->get('text_remove');
-            unset($this->session->data['shipping_method']);
-            unset($this->session->data['shipping_methods']);
-            unset($this->session->data['payment_method']);
-            unset($this->session->data['payment_methods']);
+            unset(
+                $this->session->data['shipping_method'],
+                $this->session->data['shipping_methods'],
+                $this->session->data['payment_method'],
+                $this->session->data['payment_methods']
+            );
             $this->extensions->hk_UpdateData($this, __FUNCTION__);
         }
-        $this->getCartContent();
+        return $this->getCartContent();
     }
 }
