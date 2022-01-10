@@ -42,6 +42,7 @@ class ControllerResponsesCheckoutPay extends AController
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
         $this->allow_guest = $this->config->get('config_guest_checkout');
+        $this->extensions->hk_InitData($this, __FUNCTION__);
         $cartClassName = get_class($this->cart);
         $this->registry->set(
             'cart',

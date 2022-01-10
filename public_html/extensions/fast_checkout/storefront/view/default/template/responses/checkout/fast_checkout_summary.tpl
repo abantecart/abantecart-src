@@ -20,7 +20,8 @@
 						<td style="width:<?php echo $this->config->get('config_image_grid_width'); ?>px">
 							<img src="<?php echo $p['thumbnail']['main_url'] ?>"
 								 style="width:<?php echo $this->config->get('config_image_grid_width'); ?>px; height:auto;"/></td>
-						<td style="text-align: left"><?php echo $p['name'] ?>
+						<td style="text-align: left">
+                            <a href="<?php echo $p['href']?>" target="_blank" ><?php echo $p['name'] ?></a>
                             <?php if ($p['option'] && is_array($p['option'])) { ?>
 							<p class="list-group-item-text">
 
