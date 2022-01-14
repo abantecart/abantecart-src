@@ -34,7 +34,7 @@ $guest_data = $this->session->data['fc']['guest'];
         <div class="row">
         <?php if ($this->cart->hasShipping()) { ?>
             <div class="form-group <?php if ($show_payment) { echo "col-xxs-12 col-xs-6"; } ?>">
-            <?php if ($guest_data['shipping']) {
+            <?php if (!$this->customer->isLogged()) {
                 $address = $this->customer->getFormattedAddress(
                         $guest_data['shipping'],
                         $guest_data['shipping']['address_format']
@@ -93,7 +93,7 @@ $guest_data = $this->session->data['fc']['guest'];
                     }
                     ?>
                         <div class="form-group col-xxs-12 <?php if ($this->cart->hasShipping()) { ?>col-xs-6 <?php } ?>">
-                            <?php if ($guest_data) {
+                            <?php if (!$this->customer->isLogged()) {
                                 $address = $this->customer->getFormattedAddress(
                                     $guest_data,
                                     $guest_data['address_format']

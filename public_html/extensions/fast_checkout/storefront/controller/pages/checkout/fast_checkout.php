@@ -150,6 +150,7 @@ class ControllerPagesCheckoutFastCheckout extends AController
                 }
             }
             //if we added single product via POST request - do redirect to self
+            $this->extensions->hk_ProcessData($this, 'post_single_checkout');
             redirect($this->html->getSecureURL('checkout/fast_checkout', '&product_key='.$productCartKey));
         } //do clone of default cart
         else {
@@ -206,6 +207,7 @@ class ControllerPagesCheckoutFastCheckout extends AController
                 redirect($this->html->getHomeURL());
             }
         }
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
     protected function removeNoStockProducts()
