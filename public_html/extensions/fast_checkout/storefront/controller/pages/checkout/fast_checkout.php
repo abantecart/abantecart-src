@@ -231,6 +231,27 @@ class ControllerPagesCheckoutFastCheckout extends AController
         }
         //validate if order min/max are met
         if (!$this->cart->hasMinRequirement() || !$this->cart->hasMaxRequirement()) {
+            if($this->session->data['fc']['single_checkout']){
+                #Check if order total max/min is set and met
+                $cf_total_min = $this->config->get('total_order_minimum');
+                $cf_total_max = $this->config->get('total_order_maximum');
+                $error_msg = [];
+                $this->loadLanguage('checkout/cart');
+                if (!$this->cart->hasMinRequirement()) {
+                    $error_msg[] = sprintf(
+                        $this->language->get('error_order_minimum'),
+                        $this->currency->format($cf_total_min)
+                    );
+                }
+                if (!$this->cart->hasMaxRequirement()) {
+                    $error_msg[] = sprintf(
+                        $this->language->get('error_order_maximum'),
+                        $this->currency->format($cf_total_max)
+                    );
+                }
+                $this->session->data['error'] = implode(" ",$error_msg);
+                redirect($this->html->getSecureURL('product/product','&product_id='.current($this->cart->getProducts())['product_id']));
+            }
             redirect($this->html->getSecureURL($cartRt));
         }
 
