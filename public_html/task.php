@@ -41,7 +41,8 @@ define('DIR_ROOT', $root_path);
 define('DIR_CORE', DIR_ROOT.'/core/');
 define('RDIR_TEMPLATE', 'admin/view/default/');
 
-require_once(DIR_ROOT.'/system/config.php');
+define('DATA_DIR', DIR_ROOT . "/../data/" . $_SERVER['HOSTNAME']. '/');
+require_once(DATA_DIR.'/system/config.php');
 
 //set server name for correct email sending
 if (defined('SERVER_NAME') && SERVER_NAME != '') {

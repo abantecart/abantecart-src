@@ -32,24 +32,18 @@ if (!function_exists('simplexml_load_file')) {
 // Real path (operating system web root) to the directory where abantecart is installed
 $root_path = dirname(__FILE__);
 
-// Windows IIS Compatibility  
-if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-    define('IS_WINDOWS', true);
-    $root_path = str_replace('\\', '/', $root_path);
-} else {
-    define('IS_WINDOWS', false);
+if (!$_SERVER['HOSTNAME']) {
+    echo "Unauthorized access <br>";
 }
+echo $_SERVER['HOSTNAME']; exit;
 
 define('DIR_ROOT', $root_path);
 define('DIR_CORE', DIR_ROOT.'/core/');
 
-if(is_file(DIR_ROOT.'/system/config.php')) {
-    require_once(DIR_ROOT.'/system/config.php');
-}
-// New Installation
-if (!defined('DB_DATABASE')) {
-    header('Location: install/index.php');
-    exit;
+define('DATA_DIR', DIR_ROOT . "/../data/" . $_SERVER['HOSTNAME']. '/');
+
+if(is_file(DATA_DIR.'/system/config.php')) {
+    require_once(DATA_DIR.'/system/config.php');
 }
 
 // Load all initial set up
