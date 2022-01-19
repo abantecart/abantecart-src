@@ -65,7 +65,7 @@ define('DIR_DOWNLOAD', DATA_DIR.'/download/');
 define('DIR_CACHE', DATA_DIR.'/system/cache/');
 define('DIR_LOGS', DATA_DIR.'/system/logs/');
 
-define('DIR_IMAGE', DIR_ROOT.'/image/');
+define('DIR_IMAGE', DATA_DIR.'/image/');
 define('DIR_DATABASE', DIR_ROOT.'/core/database/');
 define('DIR_CONFIG', DIR_ROOT.'/core/config/');
 define('DIR_VENDORS', DIR_CORE.'/vendors/');
@@ -118,7 +118,7 @@ if (defined('ADMIN_PATH')
     define('IS_ADMIN', true);
     define('DIR_APP_SECTION', DIR_ROOT.'/admin/');
     define('DIR_LANGUAGE', DIR_ROOT.'/admin/language/');
-    define('DIR_TEMPLATE', DIR_ROOT.'/admin/view/');
+    define('DIR_TEMPLATE', DATA_DIR.'/admin/view/');
     define('DIR_STOREFRONT', DIR_ROOT.'/storefront/');
     define('DIR_BACKUP', DATA_DIR.'/admin/system/backup/');
     define('DIR_DATA', DATA_DIR.'/admin/system/data/');
@@ -129,7 +129,7 @@ if (defined('ADMIN_PATH')
     define('IS_ADMIN', false);
     define('DIR_APP_SECTION', DIR_ROOT.'/storefront/');
     define('DIR_LANGUAGE', DIR_ROOT.'/storefront/language/');
-    define('DIR_TEMPLATE', DIR_ROOT.'/storefront/view/');
+    define('DIR_TEMPLATE', DATA_DIR.'/storefront/view/');
     define('SESSION_ID', defined('UNIQUE_ID') ? 'AC_SF_'.strtoupper(substr(UNIQUE_ID, 0, 10)) : 'AC_SF_PHPSESSID');
     define('EMBED_TOKEN_NAME', 'ABC_TOKEN');
 }
@@ -223,7 +223,7 @@ try {
     define('DIR_EXT_TEMPLATE', 'view/');
 
 //resources
-    define('DIR_RESOURCE', DIR_ROOT.'/resources/');
+    define('DIR_RESOURCE', DATA_DIR.'/resources/');
 
 //postfixes for template override
     define('POSTFIX_OVERRIDE', '.override');
