@@ -193,13 +193,12 @@ class ModelCatalogProduct extends Model
                 $tags = (array) $data['product_tags'];
             }
 
-            array_walk_recursive($tags, 'trim');
-
             foreach ($tags as $lang_id => $taglist) {
                 $taglist = array_unique($taglist);
 
                 foreach ($taglist as $tag) {
                     $tag = trim($tag);
+                    $tag = preg_replace('/[^a-zA-Z0-9_\-]/','',$tag);
                     if (!$tag) {
                         continue;
                     }
@@ -404,7 +403,9 @@ class ModelCatalogProduct extends Model
 
         if (isset($data['product_tags'])) {
             $tags = $this->getUniqueTags($data['product_tags']);
+
             foreach ($tags as &$tag) {
+                $tag = preg_replace('/[^a-zA-Z0-9_\-]/','',$tag);
                 $tag = $this->db->escape(trim($tag));
             }
 
