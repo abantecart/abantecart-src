@@ -1450,6 +1450,7 @@ class ModelCatalogProduct extends Model
      */
     public function getProductRelated($product_id, $limit = 20)
     {
+
         $product_data = [];
         if (!(int) $product_id) {
             return [];
@@ -1457,23 +1458,24 @@ class ModelCatalogProduct extends Model
 
         $product_related_query = $this->db->query(
             "SELECT *
-                 FROM ".$this->db->table("products_related")."
-                 WHERE product_id = '".(int) $product_id."'"
+             FROM ".$this->db->table("products_related")."
+             WHERE product_id = '".(int) $product_id."' "
+            .($limit ? " LIMIT 0,".(int)$limit : "")
         );
 
         foreach ($product_related_query->rows as $result) {
             $product_query = $this->db->query(
                 "SELECT DISTINCT *,
-                            pd.name AS name,
-                            m.name AS manufacturer,
-                            ss.name AS stock,
-                            ".$this->_sql_avg_rating_string().", ".
-                            $this->_sql_review_count_string().
-                            $this->_sql_join_string()."
-                    WHERE p.product_id = '".(int) $result['related_id']."'
-                        AND p2s.store_id = '".(int) $this->config->get('config_store_id')."'
-                        AND p.date_available <= NOW() 
-                        AND p.status = '1' ".($limit ? " LIMIT 0,".(int)$limit : "")
+                        pd.name AS name,
+                        m.name AS manufacturer,
+                        ss.name AS stock,
+                        ".$this->_sql_avg_rating_string().", ".
+                        $this->_sql_review_count_string().
+                        $this->_sql_join_string()."
+                WHERE p.product_id = '".(int) $result['related_id']."'
+                    AND p2s.store_id = '".(int) $this->config->get('config_store_id')."'
+                    AND p.date_available <= NOW() 
+                    AND p.status = '1' ".($limit ? " LIMIT 0,".(int)$limit : "")
             );
 
             if ($product_query->num_rows) {
