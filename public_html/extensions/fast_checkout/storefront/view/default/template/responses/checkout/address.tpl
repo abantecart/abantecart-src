@@ -188,7 +188,7 @@
 </form>
 <script type="text/javascript">
     <?php $cz_url = $this->html->getURL('common/zone', '&zone_id='.$zone_id); ?>
-    let cntry = $('#country_id');
+    var cntry = $('#country_id');
     cntry.change(function () {
         $('select[name=\'zone_id\']').load('<?php echo $cz_url;?>&country_id=' + $(this).val());
     });
