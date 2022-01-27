@@ -1047,7 +1047,9 @@ class ControllerResponsesCheckoutPay extends AController
     {
         $customer_data = [
             'status'        => 1,
-            'loginname'     => $order_data['email'],
+            'loginname'     => $this->config->get('prevent_email_as_login')
+                            ? randomWord(7)
+                            : $order_data['email'],
             'password'      => randomWord(7),
             'firstname'     => $order_data['firstname'],
             'lastname'      => $order_data['lastname'],
@@ -1070,6 +1072,15 @@ class ControllerResponsesCheckoutPay extends AController
         $this->loadModel('account/customer');
         $customer_info = $this->model_account_customer->getCustomerByEmail($order_data['email']);
         if (!$customer_info) {
+            if(!$this->config->get('prevent_email_as_login')){
+                $sql = "SELECT count(*) as count
+                        FROM ".$this->db->table('customers')."
+                        WHERE loginname='".$this->db->escape($customer_data['loginname'])."'";
+                $result = $this->db->query($sql);
+                if($result->row['count']>0){
+                    $customer_data['loginname'] .= '_'.time();
+                }
+            }
             $customer_id = (int) $this->model_extension_fast_checkout->addCustomer($customer_data);
             if ($customer_id) {
                 $new_customer = true;
