@@ -224,14 +224,16 @@ class ControllerPagesCheckoutFastCheckout extends AController
 
     public function main()
     {
-
-        $cartRt = 'checkout/cart';
+        $this->data['cart_rt'] = 'checkout/cart';
         if ($this->config->get('embed_mode') == true) {
-            $cartRt = 'r/checkout/cart/embed';
+            $this->data['cart_rt'] = 'r/checkout/cart/embed';
         }
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+
         //validate if order min/max are met
         if (!$this->cart->hasMinRequirement() || !$this->cart->hasMaxRequirement()) {
-            if($this->session->data['fc']['single_checkout']){
+            if ($this->session->data['fc']['single_checkout']) {
                 #Check if order total max/min is set and met
                 $cf_total_min = $this->config->get('total_order_minimum');
                 $cf_total_max = $this->config->get('total_order_maximum');
@@ -252,11 +254,11 @@ class ControllerPagesCheckoutFastCheckout extends AController
                 $this->session->data['error'] = implode(" ",$error_msg);
                 redirect($this->html->getSecureURL('product/product','&product_id='.current($this->cart->getProducts())['product_id']));
             }
-            redirect($this->html->getSecureURL($cartRt));
+            redirect($this->html->getSecureURL($this->data['cart_rt']));
         }
 
         if (!$this->cart->hasProducts() || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
-            redirect($this->html->getSecureURL($cartRt));
+            redirect($this->html->getSecureURL($this->data['cart_rt']));
         }
 
         if (HTTPS !== true) {
@@ -271,8 +273,6 @@ class ControllerPagesCheckoutFastCheckout extends AController
                 exit;
             }
         }
-        //init controller data
-        $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadLanguage('fast_checkout/fast_checkout');
 
