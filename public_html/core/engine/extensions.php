@@ -1164,18 +1164,24 @@ class ExtensionsApi
             } elseif ($can_run !== false) {
                 $return = $result;
             }
-        } elseif (ExtensionCollection::$around_method_found && $result !== false) {
-            //Fake Exception to send result to dispatcher
-            // via AException
-            // and interrupt running of base controller method
-            /** @see ADispatcher::dispatch() */
-            throw new AException(
-                AC_HOOK_OVERRIDE,
-                'Class '.get_class($baseObject).' overridden by extension "override" hook.',
-                '',
-                '',
-                $result
-            );
+        } elseif (ExtensionCollection::$around_method_found) {
+            if ($result) {
+                //Fake Exception to send result to dispatcher
+                // via AException
+                // and interrupt running of base controller method
+                /** @see ADispatcher::dispatch() */
+                throw new AException(
+                    AC_HOOK_OVERRIDE,
+                    'Class '.get_class($baseObject).' overridden by extension hook '.'override'.$extension_method.'.',
+                    '',
+                    '',
+                    $result
+                );
+            } else {
+                $return = false;
+                //if override want to be skipped allow run for other hook types
+                $can_run = true;
+            }
         }
 
         if ($can_run !== false) {
