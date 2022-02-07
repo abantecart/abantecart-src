@@ -1147,9 +1147,10 @@ class ControllerPagesToolPackageInstaller extends AController
 
         $pmanager = new APackageManager();
         // #2. backup previous version
-        if ($already_installed || file_exists(DIR_EXT.$extension_id)) {
-            if (!is_writable(DIR_EXT.$extension_id)) {
-                $this->session->data['error'] = $this->language->get('error_move_backup').DIR_EXT.$extension_id;
+        $extensionDirectory = DIR_EXT.$extension_id;
+        if ($already_installed || file_exists($extensionDirectory)) {
+            if (file_exists($extensionDirectory) && !is_writable($extensionDirectory)) {
+                $this->session->data['error'] = $this->language->get('error_move_backup').$extensionDirectory;
                 redirect($this->_get_begin_href());
             } else {
                 if (!$pmanager->backupPrevious($extension_id)) {

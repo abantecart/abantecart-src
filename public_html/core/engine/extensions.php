@@ -506,7 +506,7 @@ class ExtensionsApi
 
         $query = $this->db->query($sql);
         foreach ($query->rows as $result) {
-            if ($result['key']) {
+            if ($result['key'] && file_exists(DIR_EXT.$result['key'])) {
                 $extension_data[] = $result['key'];
             }
         }
