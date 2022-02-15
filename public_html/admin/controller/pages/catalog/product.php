@@ -683,11 +683,11 @@ class ControllerPagesCatalogProduct extends AController
         );
 
         if (isset($this->request->post['length_class_id'])) {
-            $this->data['length_class_id'] = $this->request->post['length_class_id'];
-        } elseif (isset($product_info)) {
-            $this->data['length_class_id'] = $product_info['length_class_id'];
+            $this->data['length_class_id'] = (int)$this->request->post['length_class_id'];
+        } elseif ($product_info) {
+            $this->data['length_class_id'] = (int)$product_info['length_class_id'];
         } elseif (isset($length_info)) {
-            $this->data['length_class_id'] = $length_info['length_class_id'];
+            $this->data['length_class_id'] = (int)$length_info['length_class_id'];
         } else {
             $this->data['length_class_id'] = '';
         }
