@@ -36,7 +36,6 @@ class ControllerPagesIndexHome extends AController
 
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -64,7 +63,7 @@ class ControllerPagesIndexHome extends AController
 
         $this->view->assign('special', $this->html->getNonSecureURL('product/special'));
 
-        $this->processTemplate();
+        $this->processTemplate('pages/index/home.tpl');
 
         //init controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
