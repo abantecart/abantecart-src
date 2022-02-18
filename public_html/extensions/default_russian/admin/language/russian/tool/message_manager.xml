@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Менеджер писем]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Успешно: Вы изменили список сообщений!]]></value>
+	</definition>
+	<definition>
+		<key>column_title</key>
+		<value><![CDATA[Тема Сообщения]]></value>
+	</definition>
+	<definition>
+		<key>column_create_date</key>
+		<value><![CDATA[Дата]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Статус]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Действие]]></value>
+	</definition>
+	<definition>
+		<key>entry_error</key>
+		<value><![CDATA[Критично]]></value>
+	</definition>
+	<definition>
+		<key>entry_warning</key>
+		<value><![CDATA[Предупреждение]]></value>
+	</definition>
+	<definition>
+		<key>entry_notice</key>
+		<value><![CDATA[Уведомление]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Предупреждение: Вы не имеете прав на изменение списка сообщений!]]></value>
+	</definition>
+	<definition>
+		<key>error_name</key>
+		<value><![CDATA[Заголовок сообщения должен быть от 3 до 32 символов!]]></value>
+	</definition>
+	<definition>
+		<key>text_show</key>
+		<value><![CDATA[Показать]]></value>
+	</definition>
+	<definition>
+		<key>text_not_found</key>
+		<value><![CDATA[Мы не можем найти это сообщение.]]></value>
+	</definition>
+	<definition>
+		<key>text_status</key>
+		<value><![CDATA[Статус сообщения:]]></value>
+	</definition>
+	<definition>
+		<key>text_date</key>
+		<value><![CDATA[Дата:]]></value>
+	</definition>
+	<definition>
+		<key>text_repeats</key>
+		<value><![CDATA[Количество повторений:]]></value>
+	</definition>
+	<definition>
+		<key>text_warning</key>
+		<value><![CDATA[предупреждение]]></value>
+	</definition>
+	<definition>
+		<key>text_error</key>
+		<value><![CDATA[критично]]></value>
+	</definition>
+	<definition>
+		<key>text_notice</key>
+		<value><![CDATA[уведомление]]></value>
+	</definition>
+	<definition>
+		<key>text_delete</key>
+		<value><![CDATA[удалить]]></value>
+	</definition>
+	<definition>
+		<key>text_close</key>
+		<value><![CDATA[закрыть]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm</key>
+		<value><![CDATA[Подтверждаете?]]></value>
+	</definition>
+	<definition>
+		<key>text_linktext</key>
+		<value><![CDATA[эта ссылка]]></value>
+	</definition>
+	<definition>
+		<key>text_notifier_title</key>
+		<value><![CDATA[У Вас %s новых сообщений]]></value>
+	</definition>
+</definitions>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Подписка на новости]]></value>
+	</definition>
+	<definition>
+		<key>text_account</key>
+		<value><![CDATA[Личный Кабинет]]></value>
+	</definition>
+	<definition>
+		<key>text_newsletter</key>
+		<value><![CDATA[Подписка на новости]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Ваша подписка успешно обновлена!]]></value>
+	</definition>
+	<definition>
+		<key>entry_newsletter</key>
+		<value><![CDATA[Подписка на новости:]]></value>
+	</definition>
+	<definition>
+		<key>text_customer_registration</key>
+		<value><![CDATA[Зарегистрироваться как клиент]]></value>
+	</definition>
+	<definition>
+		<key>entry_captcha</key>
+		<value><![CDATA[Введите код: ]]></value>
+	</definition>
+	<definition>
+		<key>error_captcha</key>
+		<value><![CDATA[Набран неверный код с картинки!]]></value>
+	</definition>
+</definitions>

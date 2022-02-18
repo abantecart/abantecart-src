@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - пароль сброшен]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[Сброс пароля запрашивается c %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Чтобы сбросить пароль, нажмите на ссылку ниже:]]></value>
+  </definition>
+  <definition>
+    <key>text_password_reset</key>
+    <value><![CDATA[Ваш пароль был сброшен на %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_new_password</key>
+    <value><![CDATA[Введите новый пароль ниже:]]></value>
+  </definition>
+  <definition>
+    <key>error_reset_token</key>
+    <value><![CDATA[Неправильная ссылка для запроса пароля. Попробуйте сбросить еще один раз и использовать ссылку с самой недавней электронной почты.]]></value>
+  </definition>
+</definitions>

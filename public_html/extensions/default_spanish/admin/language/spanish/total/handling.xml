@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Cargo por Manipulación]]></value>
+	</definition>
+	<definition>
+		<key>total_name</key>
+		<value><![CDATA[Cargo por Manipulación]]></value>
+	</definition>
+	<definition>
+		<key>text_total</key>
+		<value><![CDATA[Total de pedidos]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Correcto: Ha modificado el cargo por manipulación!]]></value>
+	</definition>
+	<definition>
+		<key>entry_total</key>
+		<value><![CDATA[Total de pedido:]]></value>
+	</definition>
+	<definition>
+		<key>entry_fee</key>
+		<value><![CDATA[Cargo:]]></value>
+	</definition>
+	<definition>
+		<key>entry_tax</key>
+		<value><![CDATA[Tax Class:]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Estado:]]></value>
+	</definition>
+	<definition>
+		<key>entry_sort_order</key>
+		<value><![CDATA[Orden:]]></value>
+	</definition>
+	<definition>
+		<key>entry_calculation_order</key>
+		<value><![CDATA[Cálculo orden:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Atención: No tiene permisos para modificar el cargo por manipulación!]]></value>
+	</definition>
+	<definition>
+		<key>error_number</key>
+		<value><![CDATA[Atención: Orden costo total y el manejo debe ser un número!]]></value>
+	</definition>
+	<definition>
+		<key>entry_total_placeholder</key>
+		<value><![CDATA[Valor de texto]]></value>
+	</definition>
+	<definition>
+		<key>entry_payment</key>
+		<value><![CDATA[Pago:]]></value>
+	</definition>
+	<definition>
+		<key>entry_order_subtotal</key>
+		<value><![CDATA[Subtotal de Orden:]]></value>
+	</definition>
+	<definition>
+		<key>entry_total_placeholder</key>
+		<value><![CDATA[Valor de texto]]></value>
+	</definition>
+	<definition>
+		<key>entry_payment_fee</key>
+		<value><![CDATA[Cuota:<span class="help">Cuota que se agregará al total del pedido si no se cumple la condición de suma total mínima. Esta cantidad anula la configuración de la tarifa principal</span>]]></value>
+	</definition>
+</definitions>

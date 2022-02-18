@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>default_pp_standart_name</key>
+    <value><![CDATA[PayPal]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: You have modified PayPal account details!]]></value>
+  </definition>
+  <definition>
+    <key>text_pp_standard</key>
+    <value><![CDATA[<a onclick="window.open('https://www.paypal.com/uk/mrb/pal=W9TBB5DTD6QJW');"><img src="admin/view/default/image/payment/paypal.png" alt="PayPal" title="PayPal" style="border: 1px solid #EEEEEE;" /></a>]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_email</key>
+    <value><![CDATA[Your PayPal Email Address:]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_test</key>
+    <value><![CDATA[Sandbox (Test) Mode:<br /><span class="help">Use the live or testing (sandbox) gateway server to process transactions?</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_test_1</key>
+    <value><![CDATA[ Yes ]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_test_0</key>
+    <value><![CDATA[ No ]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_transaction</key>
+	<value><![CDATA[Transaction Method:<br /><span class="help">PayPal transaction to run at customer's checkout before order status is set. Authorization only or capture.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_transaction_0</key>
+    <value><![CDATA[ Authorization ]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_transaction_1</key>
+    <value><![CDATA[ Sale ]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_order_status_id</key>
+	<value><![CDATA[Order Status:<br /><span class="help">Order status to be set after customer's order finished based on set Transaction Method</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_location_id</key>
+	<value><![CDATA[Location:<br /><span class="help">Restrict to allow only selected locations to use this payment method.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_location_id_0</key>
+    <value><![CDATA[All Locations]]></value>
+  </definition>
+	<definition>
+		<key>button_signup</key>
+		<value><![CDATA[Sign Up Now]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm_email</key>
+		<value><![CDATA[Re-enter PayPal Email Address:]]></value>
+	</definition>
+	<definition>
+		<key>text_signup_account_note</key>
+		<value><![CDATA[<b>Don't have a PayPal account?</b> To use PayPal Payments Standard, you need a PayPal Business Account. Once you're signed up, enter your PayPal email address below to start accepting payments.]]></value>
+	</definition>
+	<definition>
+		<key>text_customize_checkout_page</key>
+		<value><![CDATA[Customize Checkout Page]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_standart_custom_logo_preview</key>
+		<value><![CDATA[Company Logo Preview]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_standart_custom_logo</key>
+		<value><![CDATA[Add Company Logo:<span class="help">Enter local path or URL to your company logo file. The logo may be a JPG, PNG, or GIF up to 190 pixels wide by 60 pixels high. This logo will appear as the header of your PayPal checkout page. </span>]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_standart_cartbordercolor</key>
+		<value><![CDATA[Enter a Background Color HEX-Code:<span class="help">It's recommended that the background color represent your brand. This color that's in your logo or that complements logo colors. Alternatively, neutral colors like black, white or gray will also create a professional look.<br> For ex. #FFF00F</span>]]></value>
+	</definition>
+	<definition>
+		<key>error_confirm_email</key>
+		<value><![CDATA[PayPal email addresses don't match.]]></value>
+	</definition>
+	<definition>
+		<key>text_paypal_email_note</key>
+		<value><![CDATA[To start accepting payments, enter your PayPal email address. In order for you to receive payments, this email address must be the same one you use when signing into your PayPal account.]]></value>
+	</definition>
+	<definition>
+		<key>heading_required_settings</key>
+		<value><![CDATA[Required to accept payment]]></value>
+	</definition>
+	<definition>
+		<key>heading_optional_settings</key>
+		<value><![CDATA[Optional Settings]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_standart_order_status_id_1</key>
+		<value><![CDATA[Pending]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_standart_order_status_id_2</key>
+		<value><![CDATA[Processing]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_standart_order_status_id_5</key>
+		<value><![CDATA[Complete]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_standart_note</key>
+		<value><![CDATA[Nota: se puede activar la opción de cambio automático de su cuenta de Paypal. <a href="https://www.paypal.com/cgi-bin/webscr?cmd=p/mer/express_return_summary-outside" target="_blank">Ver más detalles</a>. Volverá URL es #storefront#rt=checkout/success]]></value>
+	</definition>
+</definitions>

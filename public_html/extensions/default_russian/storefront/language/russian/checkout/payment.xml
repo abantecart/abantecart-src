@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Информация об оплате]]></value>
+	</definition>
+	<definition>
+		<key>text_basket</key>
+		<value><![CDATA[Корзина]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping</key>
+		<value><![CDATA[Доставка]]></value>
+	</definition>
+	<definition>
+		<key>text_payment</key>
+		<value><![CDATA[Оплата]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_to</key>
+		<value><![CDATA[Пожалуйста, выберите из адресной книги, куда вы хотели бы, чтобы счет-фактура был отправлен.]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_address</key>
+		<value><![CDATA[Платежный адрес]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_method</key>
+		<value><![CDATA[Способ оплаты]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_methods</key>
+		<value><![CDATA[Пожалуйста, выберите предпочтительный способ оплаты для использования в этом заказе.]]></value>
+	</definition>
+	<definition>
+		<key>text_comments</key>
+		<value><![CDATA[Добавить комментарии о вашем заказе]]></value>
+	</definition>
+	<definition>
+		<key>text_agree</key>
+		<value><![CDATA[Я прочитал и согласен с ]]></value>
+	</definition>
+	<definition>
+		<key>text_coupon</key>
+		<value><![CDATA[Введите код и нажмите кнопку &quot;Применить Купон&quot; скидки немедленно будут применены к вашему заказу.]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Успех: Ваш купон был применен!]]></value>
+	</definition>
+	<definition>
+		<key>entry_coupon</key>
+		<value><![CDATA[Купон:]]></value>
+	</definition>
+	<definition>
+		<key>error_payment</key>
+		<value><![CDATA[Ошибка: Необходимо указать способ оплаты!]]></value>
+	</definition>
+	<definition>
+		<key>error_agree</key>
+		<value><![CDATA[Ошибка: Вы должны согласиться с %s !]]></value>
+	</definition>
+	<definition>
+		<key>error_coupon</key>
+		<value><![CDATA[Ошибка: Купон либо недействительный, истек или достиг предела использования!]]></value>
+	</definition>
+	<definition>
+		<key>entry_shipping</key>
+		<value><![CDATA[Доставка]]></value>
+	</definition>
+	<definition>
+		<key>entry_payment</key>
+		<value><![CDATA[Оплата]]></value>
+	</definition>
+	<definition>
+		<key>text_coupon_removal</key>
+		<value><![CDATA[Успех: Купон удален!]]></value>
+	</definition>
+</definitions>

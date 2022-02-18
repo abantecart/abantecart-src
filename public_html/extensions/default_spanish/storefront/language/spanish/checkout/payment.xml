@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Información sobre el Pago]]></value>
+	</definition>
+	<definition>
+		<key>text_basket</key>
+		<value><![CDATA[Cesta]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping</key>
+		<value><![CDATA[Envío]]></value>
+	</definition>
+	<definition>
+		<key>text_payment</key>
+		<value><![CDATA[Pago]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_to</key>
+		<value><![CDATA[Por favor, escoja la dirección donde quiere que se envíe el pedido.]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_address</key>
+		<value><![CDATA[Dirección de pago]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_method</key>
+		<value><![CDATA[Forma de pago]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_methods</key>
+		<value><![CDATA[Seleccione forma de pago. (EN LA OPCIÓN PAYPAL, PODRÁ EFECTUAR SU PAGO A TRAVÉS DE TARJETA DE CREDITO)]]></value>
+	</definition>
+	<definition>
+		<key>text_comments</key>
+		<value><![CDATA[Añada comentarios a su pedido]]></value>
+	</definition>
+	<definition>
+		<key>text_agree</key>
+		<value><![CDATA[He leido y estoy de acuerdo con ]]></value>
+	</definition>
+	<definition>
+		<key>error_payment</key>
+		<value><![CDATA[Error: Se requiere una forma de pago!]]></value>
+	</definition>
+	<definition>
+		<key>error_agree</key>
+		<value><![CDATA[Error: Debería estar de acuerdo con %s!]]></value>
+	</definition>
+	<definition>
+		<key>text_coupon</key>
+		<value><![CDATA[Ingrese su código y haga clic en "Aplicar Cupón" y para ver su descuento instantáneamente aplicadas a su fin.]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Éxito: El cupón de descuento se ha aplicado!]]></value>
+	</definition>
+	<definition>
+		<key>entry_coupon</key>
+		<value><![CDATA[Cupón:]]></value>
+	</definition>
+	<definition>
+		<key>error_coupon</key>
+		<value><![CDATA[Error: descuento no es válido, expirado o alcanzado su límite de uso!]]></value>
+	</definition>
+	<definition>
+		<key>entry_shipping</key>
+		<value><![CDATA[Envío]]></value>
+	</definition>
+	<definition>
+		<key>entry_payment</key>
+		<value><![CDATA[Pago]]></value>
+	</definition>
+	<definition>
+		<key>text_coupon_removal</key>
+		<value><![CDATA[Éxito: se eliminó el cupón]]></value>
+	</definition>
+</definitions>

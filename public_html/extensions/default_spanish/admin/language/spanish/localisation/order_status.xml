@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Estado del pedido]]></value>
+	</definition>
+	<definition>
+		<key>text_status</key>
+		<value><![CDATA[Estado del pedido]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Correcto: Ha modificado los estados de pedido!]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Estado del pedido]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Acción]]></value>
+	</definition>
+	<definition>
+		<key>entry_name</key>
+		<value><![CDATA[Estado del pedido:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Atención: No tiene permisos para modificar el estado de los pedidos!]]></value>
+	</definition>
+	<definition>
+		<key>error_name</key>
+		<value><![CDATA[Los estados de los pedidos deben ser mayor de 2 caracteres y menor de 32!]]></value>
+	</definition>
+	<definition>
+		<key>error_default</key>
+		<value><![CDATA[Advertencia: Este estado de la orden no se puede eliminar ya que actualmente está asignado como el estado por defecto para la tienda!]]></value>
+	</definition>
+	<definition>
+		<key>error_download</key>
+		<value><![CDATA[Advertencia: Este estado de la orden no se puede eliminar ya que actualmente está asignado como el estado de la descarga por defecto!]]></value>
+	</definition>
+	<definition>
+		<key>error_store</key>
+		<value><![CDATA[Advertencia: Este estado de pedido no puede suprimirse, ya que esta actualmente asignado a %s tiendas!]]></value>
+	</definition>
+	<definition>
+		<key>error_order</key>
+		<value><![CDATA[Atención: Este estado del pedido no se puede eliminar porque actualmente está asignado a %s pedidos!]]></value>
+	</definition>
+	<definition>
+		<key>error_nondeletable</key>
+		<value><![CDATA[Atención: Este es el estado del pedido importante que está vinculado a los pagos. No se puede eliminar este estado.]]></value>
+	</definition>
+	<definition>
+		<key>column_text_id</key>
+		<value><![CDATA[Estado del pedido Text ID]]></value>
+	</definition>
+	<definition>
+		<key>entry_text_id</key>
+		<value><![CDATA[Estado del pedido Text ID:]]></value>
+	</definition>
+	<definition>
+		<key>error_status_text_id</key>
+		<value><![CDATA[Estado del pedido Text Id debe ser único y entre 2 y 32 caracteres!]]></value>
+	</definition>
+</definitions>

@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Media Resource Library Manager]]></value>
+	</definition>
+	<definition>
+		<key>text_rl_latest</key>
+		<value><![CDATA[Ultimi risorse aggiunte]]></value>
+	</definition>
+	<definition>
+		<key>text_rl_type</key>
+		<value><![CDATA[tipo di risorsa]]></value>
+	</definition>
+	<definition>
+		<key>entry_type_name</key>
+		<value><![CDATA[Tipo di risorsa chiave<br/><span class="help">Questo valore della chiave tipo di risorsa / nome non può essere modificato</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_default_directory</key>
+		<value><![CDATA[Directory di risorse<br/><span class="help">Risorsa localizzazione Directory per questo tipo. Se cambiate, le risorse esistenti non saranno accessibili e dovranno essere copiati nuova directory!</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_default_icon</key>
+		<value><![CDATA[Icona di default<br/><span class="help">Immagine icona da visualizzare nella lista delle risorse (Luogo: /image/... ).</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_file_types</key>
+		<value><![CDATA[Estensioni di file ammessi<br/><span class="help">RegEx con un elenco di estensioni di file consentiti per questo tipo di risorsa</span>]]></value>
+	</definition>
+
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Successo: Hai aggiornato tipo di risorsa!]]></value>
+	</definition>
+	<definition>
+		<key>error_missing_type_id</key>
+		<value><![CDATA[Errore: risorsa mancante tipo ID!]]></value>
+	</definition>
+	<definition>
+		<key>error_type_name</key>
+		<value><![CDATA[Errore: nome tipo di risorsa deve essere compresa tra 2 e 40 caratteri]]></value>
+	</definition>
+	<definition>
+		<key>error_default_directory</key>
+		<value><![CDATA[Errore: directory tipo di risorsa deve essere compresa tra 2 e 64 caratteri]]></value>
+	</definition>
+	<definition>
+		<key>error_default_icon</key>
+		<value><![CDATA[Errore: Tipo di risorsa icona deve essere compresa tra 2 e 64 caratteri]]></value>
+	</definition>
+	<definition>
+		<key>error_file_types</key>
+		<value><![CDATA[Errore: Resource estensioni di file di tipo espressione regolare deve essere compresa tra 2 e 40 caratteri]]></value>
+	</definition>
+</definitions>

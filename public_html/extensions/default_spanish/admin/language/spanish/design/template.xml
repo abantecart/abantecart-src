@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Template Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Éxito: Se ha modificado la plantilla!]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront_templates</key>
+    <value><![CDATA[Plantillas Storefront disponibles]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_extension</key>
+    <value><![CDATA[Configuración de la extensión]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Error: Missing requiere de parámetros en su solicitud!]]></value>
+  </definition>  
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Advertencia: Usted no tiene permiso para modificar el disponibles!]]></value>
+  </definition>    
+</definitions>

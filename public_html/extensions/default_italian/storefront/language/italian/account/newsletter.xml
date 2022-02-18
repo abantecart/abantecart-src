@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Iscriviti alla Newsletter]]></value>
+	</definition>
+	<definition>
+		<key>text_account</key>
+		<value><![CDATA[Account]]></value>
+	</definition>
+	<definition>
+		<key>text_newsletter</key>
+		<value><![CDATA[Newsletter]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Ti sei iscritto alla newsletter con successo!]]></value>
+	</definition>
+	<definition>
+		<key>entry_newsletter</key>
+		<value><![CDATA[Iscriviti:]]></value>
+	</definition>
+	<definition>
+		<key>text_customer_registration</key>
+		<value><![CDATA[Registrazione cliente]]></value>
+	</definition>
+	<definition>
+		<key>entry_captcha</key>
+		<value><![CDATA[Inserisci il codice: ]]></value>
+	</definition>
+	<definition>
+		<key>error_captcha</key>
+		<value><![CDATA[Codice di verifica non corrisponde l'immagine!]]></value>
+	</definition>
+</definitions>

@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Downloads]]></value>
+	</definition>
+	<definition>
+		<key>text_download</key>
+		<value><![CDATA[Download]]></value>
+	</definition>
+	<definition>
+		<key>insert_title</key>
+		<value><![CDATA[Inserisci Download]]></value>
+	</definition>
+	<definition>
+		<key>update_title</key>
+		<value><![CDATA[Aggiorna Download]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[La modifica del Download è stata effettuata!]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Nome Download]]></value>
+	</definition>
+	<definition>
+		<key>column_remaining</key>
+		<value><![CDATA[Totale Downloads consentiti]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Azione]]></value>
+	</definition>
+	<definition>
+		<key>entry_name</key>
+		<value><![CDATA[Nome Download:]]></value>
+	</definition>
+	<definition>
+		<key>entry_filename</key>
+		<value><![CDATA[Nome del file:]]></value>
+	</definition>
+	<definition>
+		<key>entry_remaining</key>
+		<value><![CDATA[Totale Downloads consentiti:]]></value>
+	</definition>
+	<definition>
+		<key>entry_update</key>
+		<value>
+			<![CDATA[Premere per i clienti precedenti:<br /><span class="help">Selezionare questa opzione per aggiornare anche le versioni precedentemente acquistate.</span>]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[ATTENZIONE: Non hai il permesso per modificare i downloads!]]></value>
+	</definition>
+	<definition>
+		<key>error_name</key>
+		<value><![CDATA[Il nome deve essere compreso tra 2 e 32 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_file</key>
+		<value><![CDATA[Impostare il file per il download.]]></value>
+	</definition>
+	<definition>
+		<key>error_product</key>
+		<value>
+			<![CDATA[ATTENZIONE: Questo download non può essere eliminato in quanto è attualmente assegnato ai seguenti prodotti di %s!]]></value>
+	</definition>
+	<definition>
+		<key>column_image</key>
+		<value><![CDATA[Immagine]]></value>
+	</definition>
+	<definition>
+		<key>column_products_count</key>
+		<value><![CDATA[Numero prodotti]]></value>
+	</definition>
+</definitions>

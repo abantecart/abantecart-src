@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Parcelforce 48]]></value>
+  </definition>
+  <definition>
+    <key>text_description</key>
+    <value><![CDATA[Parcelforce 48]]></value>
+  </definition>
+  <definition>
+    <key>text_weight</key>
+    <value><![CDATA[Вес:]]></value>
+  </definition>
+  <definition>
+    <key>text_insurance</key>
+    <value><![CDATA[Страховка до:]]></value>
+  </definition>
+  <definition>
+    <key>text_time</key>
+    <value><![CDATA[Расчетное время: в течение 48 часов]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Su pedido ha sido procesado!]]></value>
+	</definition>
+	<definition>
+		<key>text_message</key>
+		<value><![CDATA[<p>Su pedido ha sido procesado satisfactoriamente! Sus productos llegarán a su destino entre 2-5 días laborables.</p><p>Recuerde que si su pedido se ha pagado por transferencia bancaria, el envio se realizará a partir de la recepción de la transferencia.</p><p>Puede hacer un seguimiento del pedido en <a href="%s">Mi Cuenta</a> y haciendo click en <a href="%s">Historia</a>.</p><p>Estamos totalmente a su disposición. Por favor, dirija cualquier duda que tenga a <a href="%s">ATENCIÓN CLIENTE</a>.</p><p>Gracias por su compra !</p>]]></value>
+	</definition>
+	<definition>
+		<key>text_message_guest</key>
+		<value><![CDATA[<p>Su pedido ha sido procesado con éxito!</p><p>Por favor, dirija cualquier pregunta que tenga con el <a href="%s">dueño de la tienda</a>.</p><p>Gracias por hacer compras con nosotros!</p>]]></value>
+	</definition>
+	<definition>
+		<key>text_basket</key>
+		<value><![CDATA[Cesta]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping</key>
+		<value><![CDATA[Envio]]></value>
+	</definition>
+	<definition>
+		<key>text_payment</key>
+		<value><![CDATA[Pago]]></value>
+	</definition>
+	<definition>
+		<key>text_guest</key>
+		<value><![CDATA[Comprar como invitado]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm</key>
+		<value><![CDATA[Confirme]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Exito]]></value>
+	</definition>
+	<definition>
+		<key>text_message_account</key>
+		<value><![CDATA[
+			<p>Su orden #%s ha sido creada!</p>
+			<p>Puede ver los detalles del pedido por ir a la página de <a href="%s">la factura</a>.</p>
+			<p>Por favor, dirija cualquier pregunta que tenga al <a href="%s">dueño de tienda</a>.</p>
+			<p>Gracias por hacer compras con nosotros en línea!</p>]]></value>
+	</definition>
+	<definition>
+		<key>text_message_failed_order</key>
+		<value><![CDATA[Ups! Hemos experimentado algún problema con su transacción. Su pedido será verificada manualmente por el administrador.]]></value>
+	</definition>
+	<definition>
+		<key>text_title_failed_order_to_admin</key>
+		<value><![CDATA[Para fallado # %s]]></value>
+	</definition>
+	<definition>
+		<key>text_message_failed_order_to_admin</key>
+		<value><![CDATA[Error o una respuesta de verificación de pagos que faltan. Se requiere la verificación manual!]]></value>
+	</definition>
+</definitions>

@@ -117,20 +117,17 @@ if (defined('ADMIN_PATH')
     ) {
     define('IS_ADMIN', true);
     define('DIR_APP_SECTION', DIR_ROOT.'/admin/');
-    define('DIR_APP_SYSTEM', DATA_DIR.'/admin/system/');
     define('DIR_LANGUAGE', DIR_ROOT.'/admin/language/');
     define('DIR_TEMPLATE', DATA_DIR.'/admin/view/');
     define('DIR_STOREFRONT', DIR_ROOT.'/storefront/');
-    define('DIR_ADMIN_SYSTEM', DATA_DIR.'/admin/system/');
-    define('DIR_BACKUP', DIR_ADMIN_SYSTEM.'backup/');
-    define('DIR_DATA', DIR_ADMIN_SYSTEM.'data/');
+    define('DIR_BACKUP', DATA_DIR.'/admin/system/backup/');
+    define('DIR_DATA', DATA_DIR.'/admin/system/data/');
     //generate unique session name.
     //NOTE: This is a session name not to confuse with actual session id. Candidate to renaming
     define('SESSION_ID', defined('UNIQUE_ID') ? 'AC_CP_'.strtoupper(substr(UNIQUE_ID, 0, 10)) : 'AC_CP_PHPSESSID');
 } else {
     define('IS_ADMIN', false);
     define('DIR_APP_SECTION', DIR_ROOT.'/storefront/');
-    define('DIR_APP_SYSTEM', DATA_DIR.'/system/');
     define('DIR_LANGUAGE', DIR_ROOT.'/storefront/language/');
     define('DIR_TEMPLATE', DATA_DIR.'/storefront/view/');
     define('SESSION_ID', defined('UNIQUE_ID') ? 'AC_SF_'.strtoupper(substr(UNIQUE_ID, 0, 10)) : 'AC_SF_PHPSESSID');
@@ -217,7 +214,7 @@ try {
 
 // relative paths for extensions
     define('DIR_EXTENSIONS', 'extensions/');
-    define('DIR_EXT', DATA_DIR.'/'.DIR_EXTENSIONS);
+    define('DIR_EXT', DIR_ROOT.'/'.DIR_EXTENSIONS);
     define('DIR_EXT_CORE', '/core/');
     define('DIR_EXT_STORE', '/storefront/');
     define('DIR_EXT_ADMIN', '/admin/');

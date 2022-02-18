@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Sin resultados!]]></value>
+  </definition>
+  <definition>
+    <key>text_not_found</key>
+    <value><![CDATA[La p&aacutegina que busca no se pudo encontrar. Si los problemas persisten contacte con la  administraci&oacute;n de la tienda]]></value>
+  </definition>
+</definitions>

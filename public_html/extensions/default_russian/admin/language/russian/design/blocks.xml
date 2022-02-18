@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Блоки]]></value>
+	</definition>
+	<definition>
+		<key>text_delete</key>
+		<value><![CDATA[удалить блок]]></value>
+	</definition>
+	<definition>
+		<key>text_edit</key>
+		<value><![CDATA[Редактировать блок]]></value>
+	</definition>
+	<definition>
+		<key>text_details</key>
+		<value><![CDATA[Подробности]]></value>
+	</definition>
+	<definition>
+		<key>text_create</key>
+		<value><![CDATA[Создать блок]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Успешно: Вы изменили блок!]]></value>
+	</definition>
+	<definition>
+		<key>column_block_id</key>
+		<value><![CDATA[ID]]></value>
+	</definition>
+	<definition>
+		<key>column_block_txt_id</key>
+		<value><![CDATA[Уникальный идентификатор текста]]></value>
+	</definition>
+	<definition>
+		<key>column_block_name</key>
+		<value><![CDATA[Название]]></value>
+	</definition>
+	<definition>
+		<key>column_date_added</key>
+		<value><![CDATA[Добавлено]]></value>
+	</definition>
+	<definition>
+		<key>column_block_type</key>
+		<value><![CDATA[Тип]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Действие]]></value>
+	</definition>
+	<definition>
+		<key>column_sort_order</key>
+		<value><![CDATA[Порядок сортировки]]></value>
+	</definition>
+	<definition>
+		<key>column_image</key>
+		<value><![CDATA[Изображение]]></value>
+	</definition>
+	<definition>
+		<key>entry_block_status</key>
+		<value><![CDATA[Статус]]></value>
+	</definition>
+	<definition>
+		<key>entry_block_status_note</key>
+		<value><![CDATA[Примечание: Вы должны добавить этот блок в <a style="text-decoration: underline; font-weight: bold;" href="#admin#rt=design/layout">МАКЕТ</a> на нужную страницу, чтобы увидеть блок]]></value>
+	</definition>
+	<definition>
+		<key>entry_block_type</key>
+		<value><![CDATA[Пользовательский тип блока]]></value>
+	</definition>
+	<definition>
+		<key>entry_block_name</key>
+		<value><![CDATA[Пользовательское имя блока]]></value>
+	</definition>
+	<definition>
+		<key>entry_block_wrapper</key>
+		<value><![CDATA[Использование оболочки блока (внешний вид)]]></value>
+	</definition>
+	<definition>
+		<key>entry_block_framed</key>
+		<value><![CDATA[Использовать рамку блока]]></value>
+	</definition>
+	<definition>
+		<key>entry_block_title</key>
+		<value><![CDATA[Название пользовательского блока]]></value>
+	</definition>
+	<definition>
+		<key>entry_block_description</key>
+		<value><![CDATA[Описание пользовательского блока <p> Примечание: Только для внутреннего использования </p>]]></value>
+	</definition>
+	<definition>
+		<key>entry_block_content</key>
+		<value><![CDATA[Содержание пользовательского блока]]></value>
+	</definition>
+	<definition>
+		<key>entry_listing_datasource</key>
+		<value><![CDATA[Источник данных листинга]]></value>
+	</definition>
+	<definition>
+		<key>text_delete_confirm</key>
+		<value><![CDATA[Подтверждаете удаление блока?]]></value>
+	</definition>
+	<definition>
+		<key>error_empty</key>
+		<value><![CDATA[Пожалуйста, заполните все обязательные поля!]]></value>
+	</definition>
+	<definition>
+		<key>error_delete</key>
+		<value><![CDATA[Не удается удалить, потому что этот блок в использовании. Пожалуйста, посетите раздел Макет.]]></value>
+	</definition>
+	<definition>
+		<key>error_text_status</key>
+		<value><![CDATA[Невозможно изменить статус, потому что этот блок не используется. Пожалуйста, посетите раздел Макет.]]></value>
+	</definition>
+	<definition>
+		<key>text_success_deleted</key>
+		<value><![CDATA[Успешно: Вы удалили пользовательский блок!]]></value>
+	</definition>
+	<definition>
+		<key>entry_data_source</key>
+		<value><![CDATA[Источник данных:]]></value>
+	</definition>
+	<definition>
+		<key>entry_limit</key>
+		<value><![CDATA[Лимит:]]></value>
+	</definition>
+	<definition>
+		<key>text_listing_auto</key>
+		<value><![CDATA[Автоматический список]]></value>
+	</definition>
+	<definition>
+		<key>text_listing_manual</key>
+		<value><![CDATA[Пользовательский список]]></value>
+	</definition>
+	<definition>
+		<key>text_select_listing</key>
+		<value><![CDATA[--- Выбрать источник списка данных ---]]></value>
+	</definition>
+	<definition>
+		<key>text_products_special</key>
+		<value><![CDATA[Специальные предложения]]></value>
+	</definition>
+	<definition>
+		<key>text_products_popular</key>
+		<value><![CDATA[Популярные продукты]]></value>
+	</definition>
+	<definition>
+		<key>text_categories</key>
+		<value><![CDATA[Категории]]></value>
+	</definition>
+	<definition>
+		<key>text_manufacturers</key>
+		<value><![CDATA[Производители]]></value>
+	</definition>
+	<definition>
+		<key>text_featured</key>
+		<value><![CDATA[Рекомендуемые товары]]></value>
+	</definition>
+	<definition>
+		<key>text_latest</key>
+		<value><![CDATA[Последние Продукты]]></value>
+	</definition>
+	<definition>
+		<key>text_bestsellers</key>
+		<value><![CDATA[Bestsellers Products]]></value>
+	</definition>
+	<definition>
+		<key>text_media</key>
+		<value><![CDATA[Медиа]]></value>
+	</definition>
+	<definition>
+		<key>entry_resource_type</key>
+		<value><![CDATA[Тип медиа:]]></value>
+	</definition>
+	<definition>
+		<key>text_custom_products</key>
+		<value><![CDATA[Пользовательские товары]]></value>
+	</definition>
+	<definition>
+		<key>text_custom_categories</key>
+		<value><![CDATA[Пользовательские категории]]></value>
+	</definition>
+	<definition>
+		<key>text_custom_manufacturers</key>
+		<value><![CDATA[Пользовательские бренды]]></value>
+	</definition>
+	<definition>
+		<key>text_html_block</key>
+		<value><![CDATA[HTML]]></value>
+	</definition>
+	<definition>
+		<key>text_listing_block</key>
+		<value><![CDATA[Перечень данных]]></value>
+	</definition>
+	<definition>
+		<key>text_selected</key>
+		<value><![CDATA[Выбранные элементы:]]></value>
+	</definition>
+	<definition>
+		<key>text_data_listed</key>
+		<value><![CDATA[Данные для перечисления]]></value>
+	</definition>
+	<definition>
+		<key>text_save_edit</key>
+		<value><![CDATA[Добавить / Изменить]]></value>
+	</definition>
+	<definition>
+		<key>text_apply</key>
+		<value><![CDATA[Применить выбор]]></value>
+	</definition>
+	<definition>
+		<key>text_block_id</key>
+		<value><![CDATA[ID Блок]]></value>
+	</definition>
+	<definition>
+		<key>text_block_txt_id</key>
+		<value><![CDATA[ID текстового блока]]></value>
+	</definition>
+	<definition>
+		<key>text_controller</key>
+		<value><![CDATA[Контроллер]]></value>
+	</definition>
+	<definition>
+		<key>text_templates</key>
+		<value><![CDATA[Шаблоны блока]]></value>
+	</definition>
+	<definition>
+		<key>text_block_date_added</key>
+		<value><![CDATA[Дата создания блока]]></value>
+	</definition>
+	<definition>
+		<key>text_layouts</key>
+		<value><![CDATA[Используется в макетах]]></value>
+	</definition>
+	<definition>
+		<key>text_block_info</key>
+		<value><![CDATA[Информация о блоке]]></value>
+	</definition>
+	<definition>
+		<key>text_add_block</key>
+		<value><![CDATA[Добавление блока в раздел]]></value>
+	</definition>
+	<definition>
+		<key>text_available_block</key>
+		<value><![CDATA[Доступные блоки]]></value>
+	</definition>
+	<definition>
+		<key>error_block_not_available</key>
+		<value><![CDATA[Этот блок не будет отображаться в выбранном положении на витрине!]]></value>
+	</definition>
+	<definition>
+		<key>text_enable</key>
+		<value><![CDATA[Вкл/Выкл]]></value>
+	</definition>
+	<definition>
+		<key>text_collection</key>
+		<value><![CDATA[Коллекция]]></value>
+	</definition>
+	<definition>
+		<key>entry_collection_resource_type</key>
+		<value><![CDATA[Выбранная коллекция:]]></value>
+	</definition>
+</definitions>

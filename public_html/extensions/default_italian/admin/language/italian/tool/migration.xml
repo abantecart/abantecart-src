@@ -1,0 +1,199 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Migrazione del carrello]]></value>
+	</definition>
+	<definition>
+		<key>heading_title_step_one</key>
+		<value><![CDATA[ - Step 1]]></value>
+	</definition>
+	<definition>
+		<key>heading_title_step_two</key>
+		<value><![CDATA[ - Step 2]]></value>
+	</definition>
+	<definition>
+		<key>heading_title_step_three</key>
+		<value><![CDATA[ - Finito]]></value>
+	</definition>
+	<definition>
+		<key>text_description</key>
+		<value>
+			<![CDATA[Lo strumento di migrazione permette di importare i dati da altri carrelli.<br>Nota: AbanteCart solo per ora supporta l'importazione di mysql.<br> Premere il pulsante di avvio della migrazione per continuare... ]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[I tuoi dati sono stati trasferiti a Abantecart!]]></value>
+	</definition>
+	 <definition>
+        <key>text_cart_info</key>
+        <value>
+            <![CDATA[Source Cart Info<span class="help">Source shopping cart application details.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_db_info</key>
+		<value>
+			<![CDATA[Database Info<span class="help">Nota: AbanteCart, solo per ora, supporta l'importazione per mysql.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_cart_type</key>
+		<value><![CDATA[Tipo di carrello  originario:]]></value>
+	</definition>
+	<definition>
+		<key>entry_cart_url</key>
+		<value><![CDATA[Indirizzo web del carrello originario:]]></value>
+	</definition>
+	<definition>
+		<key>entry_db_host</key>
+		<value><![CDATA[Database Host:]]></value>
+	</definition>
+	<definition>
+		<key>entry_db_user</key>
+		<value><![CDATA[Database utente:]]></value>
+	</definition>
+	<definition>
+		<key>entry_db_password</key>
+		<value><![CDATA[Password:]]></value>
+	</definition>
+	<definition>
+		<key>entry_db_name</key>
+		<value><![CDATA[Database Nome:]]></value>
+	</definition>
+	<definition>
+		<key>entry_db_prefix</key>
+		<value><![CDATA[Database Prefisso:]]></value>
+	</definition>
+	<definition>
+		<key>entry_cart_select</key>
+		<value><![CDATA[ - Seleziona il tipo di carrello - ]]></value>
+	</definition>
+	<definition>
+		<key>entry_cart_osc</key>
+		<value><![CDATA[Oscommerce 2.2RC2]]></value>
+	</definition>
+	<definition>
+		<key>entry_cart_oscmax</key>
+		<value><![CDATA[OscMAX]]></value>
+	</definition>
+	<definition>
+		<key>entry_cart_zen</key>
+		<value><![CDATA[ZenCart 1.3.9h]]></value>
+	</definition>
+	<definition>
+		<key>entry_cart_cre</key>
+		<value><![CDATA[CRE Loaded 6.4.1 STD]]></value>
+	</definition>
+	<definition>
+		<key>entry_cart_opencart</key>
+		<value><![CDATA[OpenCart 1.4.9]]></value>
+	</definition>
+	<definition>
+		<key>entry_migrate_data</key>
+		<value><![CDATA[Seleziona i dati per la migrazione]]></value>
+	</definition>
+	<definition>
+		<key>entry_migrate_data_categories</key>
+		<value><![CDATA[Categorie]]></value>
+	</definition>
+	<definition>
+		<key>entry_migrate_data_products</key>
+		<value><![CDATA[Prodotti, categorie, marchi]]></value>
+	</definition>
+	<definition>
+		<key>entry_migrate_data_customers</key>
+		<value><![CDATA[Clienti]]></value>
+	</definition>
+	<definition>
+		<key>entry_migrate_data_orders</key>
+		<value><![CDATA[Ordini]]></value>
+	</definition>
+	<definition>
+		<key>entry_erase_existing_data</key>
+		<value><![CDATA[Cancellare i dati esistenti?]]></value>
+	</definition>
+	<definition>
+		<key>button_start_migration</key>
+		<value><![CDATA[Avvia migrazione]]></value>
+	</definition>
+	<definition>
+		<key>button_continue</key>
+		<value><![CDATA[Continua]]></value>
+	</definition>
+	<definition>
+		<key>button_back</key>
+		<value><![CDATA[Indietro]]></value>
+	</definition>
+	<definition>
+		<key>button_cancel</key>
+		<value><![CDATA[Annulla]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[ATTENZIONE: Non sei autorizzato ad eseguire la migrazione!]]></value>
+	</definition>
+	<definition>
+		<key>error_db_host</key>
+		<value><![CDATA[Hosting richiesto!]]></value>
+	</definition>
+	<definition>
+		<key>error_db_user</key>
+		<value><![CDATA[Utente richiesto!]]></value>
+	</definition>
+	<definition>
+		<key>error_db_name</key>
+		<value><![CDATA[Nome del Database richiesto!]]></value>
+	</definition>
+	<definition>
+		<key>error_db_connection</key>
+		<value>
+			<![CDATA[ERRORE: Impossibile connettersi al database, si prega di assicurarsi che il server, database, nome utente e password siano corretti.!]]></value>
+	</definition>
+	<definition>
+		<key>error_db_not_exist</key>
+		<value><![CDATA[ERRORE: il Database non esiste!]]></value>
+	</definition>
+	<definition>
+		<key>error_cart_type</key>
+		<value><![CDATA[ERRORE: Selezionare il tipo di carrello!]]></value>
+	</definition>
+	<definition>
+		<key>error_cart_url</key>
+		<value><![CDATA[ERRORE:L'indirizzo web del carrello è richiesto!]]></value>
+	</definition>
+	<definition>
+		<key>error_cart_not_supported</key>
+		<value><![CDATA[ATTENZIONE: Il carrello scelto non è supportato!]]></value>
+	</definition>
+	<definition>
+		<key>error_migrate_data</key>
+		<value><![CDATA[ERRORE: Seleziona almeno una voce!]]></value>
+	</definition>
+	<definition>
+		<key>text_no_customers</key>
+		<value><![CDATA[Nota: Nessuno dei clienti è stato importato.]]></value>
+	</definition>
+	<definition>
+		<key>text_no_products</key>
+		<value><![CDATA[Nota: Nessun prodotto è stato importato.]]></value>
+	</definition>
+	<definition>
+		<key>text_no_orders</key>
+		<value><![CDATA[Nota: Nessun ordine è stato importato.]]></value>
+	</definition>
+	<definition>
+		<key>text_no_brands</key>
+		<value><![CDATA[Nota: Nessun marchio è stato importato.]]></value>
+	</definition>
+	<definition>
+		<key>text_no_categories</key>
+		<value><![CDATA[Nota: Nessuna categoria di prodotto è stata importata.]]></value>
+	</definition>
+	<definition>
+        <key>error_empty_source_cart</key>
+        <value><![CDATA[Warning: Chosen source cart is empty!]]></value>
+    </definition>
+    <definition>
+        <key>text_finished</key>
+        <value><![CDATA[Migration has finished.]]></value>
+    </definition>
+</definitions>

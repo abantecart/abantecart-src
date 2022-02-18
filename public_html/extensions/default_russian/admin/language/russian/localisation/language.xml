@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Языки]]></value>
+	</definition>
+	<definition>
+		<key>text_language</key>
+		<value><![CDATA[Язык]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Успешно: Вы изменили язык!]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Название языка]]></value>
+	</definition>
+	<definition>
+		<key>column_code</key>
+		<value><![CDATA[Код]]></value>
+	</definition>
+	<definition>
+		<key>column_sort_order</key>
+		<value><![CDATA[Порядк сортировки]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Действие]]></value>
+	</definition>
+	<definition>
+		<key>entry_name</key>
+		<value><![CDATA[Название языка:]]></value>
+	</definition>
+	<definition>
+		<key>entry_code</key>
+		<value><![CDATA[Код:<br /><span class="help">Не изменяйте, если это ваш язык по умолчанию.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_locale</key>
+		<value><![CDATA[Язык:]]></value>
+	</definition>
+	<definition>
+		<key>entry_image</key>
+		<value><![CDATA[Изображение:]]></value>
+	</definition>
+	<definition>
+		<key>entry_directory</key>
+		<value><![CDATA[Каталог:]]></value>
+	</definition>
+	<definition>
+		<key>entry_filename</key>
+		<value><![CDATA[Имя файла:]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Статус:]]></value>
+	</definition>
+	<definition>
+		<key>entry_sort_order</key>
+		<value><![CDATA[Порядок сортировки:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Внимание: Вы не имеете прав модифицировать языки!]]></value>
+	</definition>
+	<definition>
+		<key>error_name</key>
+		<value><![CDATA[Название языка должно быть от 2 до 32 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_code</key>
+		<value><![CDATA[Код языка должен быть не менее 2 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_locale</key>
+		<value><![CDATA[Требуется локализация!]]></value>
+	</definition>
+	<definition>
+		<key>error_image</key>
+		<value><![CDATA[Имя файла Изображения должно быть от 2 до 64 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_directory</key>
+		<value><![CDATA[Требуется каталог!]]></value>
+	</definition>
+	<definition>
+		<key>error_filename</key>
+		<value><![CDATA[Имя файла должно быть от 2 до 64 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_default</key>
+		<value><![CDATA[Внимание: этот язык не может быть удален, так как в настоящее время назначен в качестве языка по умолчанию!]]></value>
+	</definition>
+	<definition>
+		<key>error_admin</key>
+		<value><![CDATA[Внимание: этот язык не может быть удален, так как в настоящее время назначен в качестве языка по умолчанию админ панели!]]></value>
+	</definition>
+	<definition>
+		<key>error_store</key>
+		<value><![CDATA[Внимание: этот язык не может быть удален, так как в настоящее время используется в %s магазинах!]]></value>
+	</definition>
+	<definition>
+		<key>error_order</key>
+		<value><![CDATA[Внимание: этот язык не может быть удален, так как в настоящее время используется в %s заказах!]]></value>
+	</definition>
+	<definition>
+		<key>language_edit_title</key>
+		<value><![CDATA[Редактирование параметров языка]]></value>
+	</definition>
+	<definition>
+		<key>load_language_title</key>
+		<value><![CDATA[Загрузка недостающих данных языка]]></value>
+	</definition>
+	<definition>
+		<key>load_language_data_txt</key>
+		<value><![CDATA[Исходный язык:]]></value>
+	</definition>
+	<definition>
+		<key>language_translate_method_txt</key>
+		<value><![CDATA[Метод перевода текста:]]></value>
+	</definition>
+	<definition>
+		<key>load_language_note</key>
+		<value><![CDATA[ПРИМЕЧАНИЕ: Этой операции может потребоваться несколько минут для запуска. Не закрывайте браузер, не оставляйте и не обновляйте страницу!]]></value>
+	</definition>
+	<definition>
+		<key>create_language_note</key>
+		<value><![CDATA[ПРИМЕЧАНИЕ: Мы рекомендуем создавать язык как расширение. Проверьте уже существующие расширения языка. Если вы все еще хотите создать новый язык вручную, необходимо добавить флаг языка в admin/language/[Language Directory]/flag.png и storefront/language/[Language Directory]flag.png После того как язык создан загрузите недостающие языковые данные с помощью перевода или копирования текста из языка оригинала.]]></value>
+	</definition>
+	<definition>
+		<key>button_load_language</key>
+		<value><![CDATA[Загрузить]]></value>
+	</definition>
+	<definition>
+		<key>entry_language_selector</key>
+		<value><![CDATA[Исходный язык: ]]></value>
+	</definition>
+	<definition>
+		<key>entry_translate_method_selector</key>
+		<value><![CDATA[Метод перевода: ]]></value>
+	</definition>
+	<definition>
+		<key>text_incomplete_tasks</key>
+		<value><![CDATA[Незаконченные задания]]></value>
+	</definition>
+	<definition>
+		<key>text_task_id</key>
+		<value><![CDATA[ID Задания:]]></value>
+	</definition>
+	<definition>
+		<key>text_title</key>
+		<value><![CDATA[Название: ]]></value>
+	</definition>
+	<definition>
+		<key>text_last_time_run</key>
+		<value><![CDATA[Время последнего запуска:]]></value>
+	</definition>
+	<definition>
+		<key>text_date_added</key>
+		<value><![CDATA[Создано:]]></value>
+	</definition>
+	<definition>
+		<key>text_starter_name</key>
+		<value><![CDATA[Создал:]]></value>
+	</definition>
+	<definition>
+		<key>text_restart</key>
+		<value><![CDATA[Рестарт]]></value>
+	</definition>
+	<definition>
+		<key>text_remove</key>
+		<value><![CDATA[Удалить]]></value>
+	</definition>
+	<definition>
+		<key>text_task_title</key>
+		<value><![CDATA[Перевод описаний от %s до %s]]></value>
+	</definition>
+	<definition>
+		<key>error_nothing_to_do</key>
+		<value><![CDATA[Ошибка: Пожалуйста укажите язык-источник и метод перевода!]]></value>
+	</definition>
+	<definition>
+		<key>text_translate_override_existing</key>
+		<value><![CDATA[Примечание: Все существующие описания в целевом языке будет заменены на новый перевод. Вы можете отключить переопределение в <a href="%s">Система-&gt; Настройка-&gt; Детали</a> .]]></value>
+	</definition>
+</definitions>

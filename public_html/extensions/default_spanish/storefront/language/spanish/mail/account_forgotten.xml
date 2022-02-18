@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Restablecimiento de contraseña]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[Se pidió un restablecimiento de contraseña de %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Para restablecer su contraseña haga clic a continuación enlace:]]></value>
+  </definition>
+  <definition>
+    <key>text_password_reset</key>
+    <value><![CDATA[Su contraseña se restableció con éxito en %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_new_password</key>
+    <value><![CDATA[Ingrese su nueva contraseña abajo:]]></value>
+  </definition>
+  <definition>
+    <key>error_reset_token</key>
+    <value><![CDATA[Enlace de solicitud de contraseña incorrecta. Tratar de restablecer una vez más y el enlace de correo electrónico más reciente.]]></value>
+  </definition>
+</definitions>

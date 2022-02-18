@@ -1,0 +1,239 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>forms_manager_name</key>
+		<value><![CDATA[Forms Manager]]></value>
+	</definition>
+	<definition>
+		<key>forms_manager_status</key>
+		<value><![CDATA[Status:]]></value>
+	</definition>
+	<definition>
+		<key>forms_manager_note</key>
+		<value><![CDATA[To manage forms please enable extension and follow Design-><a href="#admin#rt=tool/forms_manager">Forms Manager</a>]]></value>
+	</definition>
+	<definition>
+		<key>custom_forms_block</key>
+		<value><![CDATA[Custom Forms Block]]></value>
+	</definition>
+	<definition>
+		<key>entry_form_name</key>
+		<value><![CDATA[Form Name<br/><span class="help">Latin letters, underscore, minus only</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_controller_path</key>
+		<value><![CDATA[Processing Controller]]></value>
+	</definition>
+	<definition>
+		<key>entry_success_page</key>
+		<value><![CDATA[Success page<br/><span class="help">Leave it empty if you want to redirect to the same page as controller</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_form_description</key>
+		<value><![CDATA[Description]]></value>
+	</definition>
+	<definition>
+		<key>text_default_email</key>
+		<value><![CDATA[Default Email]]></value>
+	</definition>
+	<definition>
+		<key>text_contactus_page</key>
+		<value><![CDATA[Contact Us Page]]></value>
+	</definition>
+	<definition>
+		<key>text_form</key>
+		<value><![CDATA[Form]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Name]]></value>
+	</definition>
+	<definition>
+		<key>column_description</key>
+		<value><![CDATA[Description]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Status]]></value>
+	</definition>
+	<definition>
+		<key>filter_exact_match</key>
+		<value><![CDATA[The exact phrase]]></value>
+	</definition>
+	<definition>
+		<key>filter_any_word</key>
+		<value><![CDATA[Any of these words]]></value>
+	</definition>
+	<definition>
+		<key>filter_all_words</key>
+		<value><![CDATA[All of these words]]></value>
+	</definition>
+	<definition>
+		<key>text_clone</key>
+		<value><![CDATA[Clone]]></value>
+	</definition>
+	<definition>
+		<key>filter_form</key>
+		<value><![CDATA[Search for form]]></value>
+	</definition>
+	<definition>
+		<key>text_add_new_field</key>
+		<value><![CDATA[-- Add new field --]]></value>
+	</definition>
+	<definition>
+		<key>button_add_field</key>
+		<value><![CDATA[Add Field]]></value>
+	</definition>
+	<definition>
+		<key>button_reset</key>
+		<value><![CDATA[Reset]]></value>
+	</definition>
+	<definition>
+		<key>text_field_type</key>
+		<value><![CDATA[Field type:]]></value>
+	</definition>
+	<definition>
+		<key>button_remove_field</key>
+		<value><![CDATA[Remove field]]></value>
+	</definition>
+	<definition>
+		<key>entry_field</key>
+		<value><![CDATA[Field]]></value>
+	</definition>
+	<definition>
+		<key>entry_field_name</key>
+		<value><![CDATA[Field name (latin letters, underscore, minus only)]]></value>
+	</definition>
+	<definition>
+		<key>entry_sort_order</key>
+		<value><![CDATA[Sort order]]></value>
+	</definition>
+	<definition>
+		<key>entry_required</key>
+		<value><![CDATA[Required]]></value>
+	</definition>
+	<definition>
+		<key>entry_edit_fields</key>
+		<value><![CDATA[Edit Fields]]></value>
+	</definition>
+	<definition>
+		<key>entry_field_value</key>
+		<value><![CDATA[Field value]]></value>
+	</definition>
+	<definition>
+		<key>error_required</key>
+		<value><![CDATA[This field is required!]]></value>
+	</definition>
+	<definition>
+		<key>error_duplicate_form_name</key>
+		<value><![CDATA[There is already Form with such Name attribute.]]></value>
+	</definition>
+	<definition>
+		<key>error_duplicate_field_name</key>
+		<value><![CDATA[There is already Field with such Name in the current Form.]]></value>
+	</definition>
+	<definition>
+		<key>text_field_removed</key>
+		<value><![CDATA[The field has been successfully removed.]]></value>
+	</definition>
+	<definition>
+		<key>text_success_form</key>
+		<value><![CDATA[The form has been successfully updated.]]></value>
+	</definition>
+	<definition>
+		<key>text_success_field</key>
+		<value><![CDATA[The field has been successfully updated.]]></value>
+	</definition>
+	<definition>
+		<key>text_success_added_form</key>
+		<value><![CDATA[The new Form has been successfully added.]]></value>
+	</definition>
+	<definition>
+		<key>text_success_added_field</key>
+		<value><![CDATA[The new field has been successfully added.]]></value>
+	</definition>
+	<definition>
+		<key>text_add_field</key>
+		<value><![CDATA[Add new field]]></value>
+	</definition>
+	<definition>
+		<key>entry_field_description</key>
+		<value><![CDATA[Display name]]></value>
+	</definition>
+	<definition>
+		<key>entry_add_new_form</key>
+		<value><![CDATA[Add New Form]]></value>
+	</definition>
+	<definition>
+		<key>text_create_block</key>
+		<value><![CDATA[Create Form Block]]></value>
+	</definition>
+	<definition>
+		<key>entry_no_set_values</key>
+		<value><![CDATA[You can't set values for this field type.]]></value>
+	</definition>
+	<definition>
+		<key>text_field_values</key>
+		<value><![CDATA[Field Values]]></value>
+	</definition>
+	<definition>
+		<key>note_create_form_block</key>
+		<value><![CDATA[NOTE: To see this form shown on storefront, create form block at Design-><a href="%s">Blocks</a> and add it to appropriate page at Design-><a href="%s">Layouts</a> page.]]></value>
+	</definition>
+	<definition>
+		<key>note_edit_layout</key>
+		<value><![CDATA[NOTE: To see this block shown on storefront, add it to appropriate page	at Design-><a href="%s">Layouts</a>. To create new form go to Design-><a href="%s">Form Manager</a> page.]]></value>
+	</definition>
+	<definition>
+		<key>text_select_field_type</key>
+		<value><![CDATA[--- Please select ---]]></value>
+	</definition>
+	<definition>
+		<key>entry_field_note</key>
+		<value><![CDATA[Field note]]></value>
+	</definition>
+	<definition>
+		<key>forms_manager_default_sender_name</key>
+		<value><![CDATA[Default Sender:]]></value>
+	</definition>
+	<definition>
+		<key>forms_manager_default_sender_email</key>
+		<value><![CDATA[Default Sender Email:]]></value>
+	</definition>
+	<definition>
+		<key>entry_field_placeholder</key>
+		<value><![CDATA[Placeholder:]]></value>
+	</definition>
+	<definition>
+        <key>entry_regexp_pattern</key>
+        <value><![CDATA[Regular Expression Pattern:]]></value>
+    </definition>
+	<definition>
+        <key>entry_error_text</key>
+        <value><![CDATA[Error Message about invalid Value:]]></value>
+    </definition>
+	<definition>
+		<key>entry_form</key>
+		<value><![CDATA[Form]]></value>
+	</definition>
+	<definition>
+		<key>error_fill_required</key>
+		<value><![CDATA[Please fill all required fields of form!]]></value>
+	</definition>
+	<definition>
+		<key>error_form_name</key>
+		<value><![CDATA[Name of form cannot be empty!]]></value>
+	</definition>
+	<definition>
+		<key>error_form_description</key>
+		<value><![CDATA[Description of form cannot be empty!]]></value>
+	</definition>
+	<definition>
+		<key>error_field_name_exists</key>
+		<value><![CDATA[Field With Name %s already present in the Form!]]></value>
+	</definition>
+	<definition>
+		<key>forms_manager_error_empty_sender</key>
+		<value><![CDATA[Warning! Please set default sender name and default sender email in <a href="#admin#rt=extension/extensions/edit&extension=forms_manager" target="_blank">forms manager settings</a>]]></value>
+	</definition>
+</definitions>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>text_title</key>
+		<value><![CDATA[PayPal]]></value>
+	</definition>
+	<definition>
+		<key>text_suspect_subj</key>
+		<value><![CDATA[Attention. Probably payment conflict. Order #%s]]></value>
+	</definition>
+	<definition>
+		<key>text_suspect</key>
+		<value><![CDATA[Payment needs manual verification.<br>Paypal notification details are:<br>]]></value>
+	</definition>
+</definitions>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Управление кэшем]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Успешно: Вы успешно удалили файлы кэша!]]></value>
+	</definition>
+	<definition>
+		<key>text_configuration</key>
+		<value><![CDATA[Конфигурация]]></value>
+	</definition>
+	<definition>
+		<key>text_layouts_blocks</key>
+		<value><![CDATA[Макеты и Блоки]]></value>
+	</definition>
+	<definition>
+		<key>text_flexyforms</key>
+		<value><![CDATA[Флекси Формы]]></value>
+	</definition>
+	<definition>
+		<key>text_images</key>
+		<value><![CDATA[Изображения]]></value>
+	</definition>
+	<definition>
+		<key>text_products</key>
+		<value><![CDATA[Товары]]></value>
+	</definition>
+	<definition>
+		<key>text_categories</key>
+		<value><![CDATA[Категории]]></value>
+	</definition>
+	<definition>
+		<key>text_manufacturers</key>
+		<value><![CDATA[Производители]]></value>
+	</definition>
+	<definition>
+		<key>text_localisations</key>
+		<value><![CDATA[Локализации]]></value>
+	</definition>
+	<definition>
+		<key>text_error_log</key>
+		<value><![CDATA[Журнал ошибок]]></value>
+	</definition>
+	<definition>
+		<key>text_clear_cache</key>
+		<value><![CDATA[Очистить выбранный кэш]]></value>
+	</definition>
+	<definition>
+		<key>desc_configuration</key>
+		<value><![CDATA[Конфигурация системы и магазина]]></value>
+	</definition>
+	<definition>
+		<key>desc_layouts_blocks</key>
+		<value><![CDATA[Страницы, макеты страниц, блоки]]></value>
+	</definition>
+	<definition>
+		<key>desc_flexyforms</key>
+		<value><![CDATA[Данные флекси форм]]></value>
+	</definition>
+	<definition>
+		<key>desc_images</key>
+		<value><![CDATA[Эскизы изображений]]></value>
+	</definition>
+	<definition>
+		<key>desc_products</key>
+		<value><![CDATA[Данные товаров]]></value>
+	</definition>
+	<definition>
+		<key>desc_categories</key>
+		<value><![CDATA[Данные категорий]]></value>
+	</definition>
+	<definition>
+		<key>desc_manufacturers</key>
+		<value><![CDATA[Данные производителей]]></value>
+	</definition>
+	<definition>
+		<key>desc_localisations</key>
+		<value><![CDATA[Валюта, Язык, Страна, Зона, длина, вес, и другое]]></value>
+	</definition>
+	<definition>
+		<key>desc_error_log</key>
+		<value><![CDATA[Журнал ошибок]]></value>
+	</definition>
+	<definition>
+		<key>column_type</key>
+		<value><![CDATA[Тип Кэш]]></value>
+	</definition>
+	<definition>
+		<key>column_description</key>
+		<value><![CDATA[Описание]]></value>
+	</definition>
+	<definition>
+		<key>text_clear_all_cache</key>
+		<value><![CDATA[Очистить весь кеш]]></value>
+	</definition>
+	<definition>
+		<key>text_html_cache</key>
+		<value><![CDATA[HTML-кеш]]></value>
+	</definition>
+	<definition>
+		<key>desc_html_cache</key>
+		<value><![CDATA[Кеш HTML страниц и блоков]]></value>
+	</definition>
+	<definition>
+		<key>text_install_upgrade_history</key>
+		<value><![CDATA[История обновлений]]></value>
+	</definition>
+	<definition>
+		<key>desc_install_upgrade_history</key>
+		<value><![CDATA[Почистить историю обновлений]]></value>
+	</definition>
+</definitions>

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Ingresar Error!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Usted no se ha autentificado. Usted será redirigido a la página de acceso]]></value>
+  </definition>
+</definitions>

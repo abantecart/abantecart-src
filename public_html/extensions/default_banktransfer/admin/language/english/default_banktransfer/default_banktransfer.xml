@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>default_banktransfer_name</key>
+		<value><![CDATA[Bank Transfer]]></value>
+	</definition>
+	<definition>
+		<key>text_payment</key>
+		<value><![CDATA[Payment]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Success: You have modified bank transfer settings and details!]]></value>
+	</definition>
+	<definition>
+		<key>default_banktransfer_instructions</key>
+		<value><![CDATA[Bank Transfer Instructions:<span class="help">Instruction shown to customers to make bank or wire transfer into your bank account</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_banktransfer_order_min</key>
+		<value><![CDATA[Total Order limit:<span class="help">Minimum order amount to be reached to allow this payment</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_banktransfer_order_status_id</key>
+		<value><![CDATA[Order Status:]]></value>
+	</definition>
+	<definition>
+		<key>default_banktransfer_location_id</key>
+		<value><![CDATA[Location:]]></value>
+	</definition>
+	<definition>
+		<key>default_banktransfer_location_id_0</key>
+		<value><![CDATA[All Locations]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Warning: You do not have permission to modify payment banktransfer!]]></value>
+	</definition>
+	<definition>
+		<key>error_instructions</key>
+		<value><![CDATA[Bank Transfer Instructions are required!]]></value>
+	</definition>
+</definitions>

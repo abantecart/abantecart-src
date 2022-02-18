@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Notificaciones y Newsletter]]></value>
+	</definition>
+	<definition>
+		<key>text_account</key>
+		<value><![CDATA[Cuenta]]></value>
+	</definition>
+	<definition>
+		<key>text_notifications</key>
+		<value><![CDATA[Notificaciones]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Éxito: los ajustes de notificación se ha actualizado correctamente!]]></value>
+	</definition>
+	<definition>
+		<key>text_sendpoint</key>
+		<value><![CDATA[Enviar Point]]></value>
+	</definition>
+</definitions>

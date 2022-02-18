@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Valute]]></value>
+	</definition>
+	<definition>
+		<key>text_currency</key>
+		<value><![CDATA[Valuta]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Le valute sono state modificate!]]></value>
+	</definition>
+	<definition>
+		<key>column_title</key>
+		<value><![CDATA[Titolo della valuta]]></value>
+	</definition>
+	<definition>
+		<key>column_code</key>
+		<value><![CDATA[Codice]]></value>
+	</definition>
+	<definition>
+		<key>column_value</key>
+		<value><![CDATA[Valore]]></value>
+	</definition>
+	<definition>
+		<key>column_date_modified</key>
+		<value><![CDATA[Ultimo aggiornamento]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Stato]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Azione]]></value>
+	</definition>
+	<definition>
+		<key>entry_title</key>
+		<value><![CDATA[Titolo della valuta:]]></value>
+	</definition>
+	<definition>
+		<key>entry_code</key>
+		<value>
+			<![CDATA[Codice:<br /><span class="help">Non cambiare se questa è la valuta predefinita.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_value</key>
+		<value>
+			<![CDATA[Valore:<br /><span class="help">Impostare 1.00000 se questa è la valuta predefinita.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_symbol_left</key>
+		<value><![CDATA[Simbolo a sinistra:]]></value>
+	</definition>
+	<definition>
+		<key>entry_symbol_right</key>
+		<value><![CDATA[Simbolo a destra:]]></value>
+	</definition>
+	<definition>
+		<key>entry_decimal_place</key>
+		<value><![CDATA[Posizioni decimali:]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Stato:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[ATTENZIONE: Non hai l'autorizzazione per modificare le valute!]]></value>
+	</definition>
+	<definition>
+		<key>error_title</key>
+		<value><![CDATA[Il titolo della valuta deve essere compreso tra 2 e 32 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_code</key>
+		<value><![CDATA[Il codice della valuta deve contenere 3 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_default</key>
+		<value>
+			<![CDATA[ATTENZIONE: Questa valuta non può essere eliminata perchè attualmente assegnata come valuta predefinita del negozio!]]></value>
+	</definition>
+	<definition>
+		<key>error_store</key>
+		<value>
+			<![CDATA[ATTENZIONE: Questa valuta non può essere eliminata perchè è attualmente assegnata a %s negozi!]]></value>
+	</definition>
+	<definition>
+		<key>error_order</key>
+		<value>
+			<![CDATA[ATTENZIONE: Questa valuta non può essere eliminata perchè è attualmente assegnata a %s ordini!]]></value>
+	</definition>
+</definitions>

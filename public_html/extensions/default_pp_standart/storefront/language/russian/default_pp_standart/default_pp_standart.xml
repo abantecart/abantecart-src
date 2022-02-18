@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[PayPal]]></value>
+  </definition>
+  <definition>
+    <key>text_suspect_subj</key>
+    <value><![CDATA[Внимание. Вероятно конфликт оплаты. Заказ #%s]]></value>
+  </definition>
+  <definition>
+    <key>text_suspect</key>
+    <value><![CDATA[Оплата должна проверится вручную.<br>Детали уведомления Paypal:<br>]]></value>
+  </definition>
+</definitions>

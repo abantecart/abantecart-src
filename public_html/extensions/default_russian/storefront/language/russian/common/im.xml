@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>im_text_notification</key>
+		<value><![CDATA[ Уведомление]]></value>
+	</definition>
+	<definition>
+		<key>im_error_mail_address</key>
+		<value><![CDATA[ Адрес электронной почты %s не является действительным!]]></value>
+	</definition>
+	<definition>
+		<key>im_protocol_email_title</key>
+		<value><![CDATA[ E-mail]]></value>
+	</definition>
+	<definition>
+		<key>im_protocol_sms_title</key>
+		<value><![CDATA[ SMS]]></value>
+	</definition>
+	<definition>
+		<key>im_protocol_sms_empty_warn</key>
+		<value><![CDATA[ Вы не можете включить нотификации по смс, так как не указан номер мобильного телефона ]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_order_update</key>
+		<value><![CDATA[ Обновление заказа]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_order_update_note</key>
+		<value><![CDATA[ Выберите, если хотите получать уведомления об обновлениях ваших заказов]]></value>
+	</definition>
+	<definition>
+		<key>im_order_update_text_to_admin</key>
+		<value><![CDATA[ Заказ #%s был обновлен! ID статуса заказа %s ]]></value>
+	</definition>
+	<definition>
+		<key>im_order_update_text_to_customer</key>
+		<value><![CDATA[ Ваш заказ #%s обновлен. Новый статус заказа %s ]]></value>
+	</definition>
+	<definition>
+		<key>im_new_order_text_to_admin</key>
+		<value><![CDATA[ Новый заказ #%s был размещен!]]></value>
+	</definition>
+	<definition>
+		<key>im_new_customer_text_to_admin</key>
+		<value><![CDATA[ Новый клиент #%s был зарегистрирован!]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_customer_account_update</key>
+		<value><![CDATA[ Обновление учетной записи]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_customer_account_update_note</key>
+		<value><![CDATA[ Выберите, если хотите получать уведомления о ваших обновлениях в аккаунте.]]></value>
+	</definition>
+	<definition>
+		<key>im_customer_account_update_text_to_customer</key>
+		<value><![CDATA[ Ваш аккаунт был обновлен!]]></value>
+	</definition>
+	<definition>
+		<key>im_customer_contact_admin_text</key>
+		<value><![CDATA[ У вас есть новый запрос от клиента (%s, %s)!]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_newsletter</key>
+		<value><![CDATA[ Информационные бюллетени]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_newsletter_note</key>
+		<value><![CDATA[ Выберите, если хотите получать уведомления о наших продуктах и обновлениях]]></value>
+	</definition>
+	<definition>
+		<key>im_product_review_text_to_admin</key>
+		<value><![CDATA[ Новый обзор продукта был добавлен. Смотрите подробности #admin#rt=catalog/review/update&review_id=%s]]></value>
+	</definition>
+	<definition>
+		<key>im_product_out_of_stock_admin_text</key>
+		<value><![CDATA[ Продукта с ID #%s нет в наличии.]]></value>
+	</definition>
+	<definition>
+		<key>im_customer_account_update_email_to_customer</key>
+		<value><![CDATA[ Ваш адрес электронной почты был изменен на %s! Если это сделали не Вы, пожалуйста обратитесь к владельцу сайта.]]></value>
+	</definition>
+	<definition>
+		<key>im_customer_account_update_login_to_customer</key>
+		<value><![CDATA[ Ваше имя учетной записи почты было изменено на %s! Если это сделали не Вы, пожалуйста обратитесь к владельцу сайта.]]></value>
+	</definition>
+	<definition>
+		<key>im_customer_account_update_password_to_customer</key>
+		<value><![CDATA[	Ваш пароль учетной записи был изменен! Если это сделали не Вы, пожалуйста обратитесь к владельцу сайта.]]></value>
+	</definition>
+	<definition>
+		<key>im_new_subscriber_text_to_admin</key>
+		<value><![CDATA[ Зарегистрирован Новый Подписчик %s !]]></value>
+	</definition>
+</definitions>

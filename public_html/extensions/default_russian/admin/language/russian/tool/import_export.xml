@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>import_export_title</key>
+		<value><![CDATA[Импорт и Экспорт]]></value>
+	</definition>
+	<definition>
+		<key>tab_import</key>
+		<value><![CDATA[Импорт]]></value>
+	</definition>
+	<definition>
+		<key>tab_export</key>
+		<value><![CDATA[Экспорт]]></value>
+	</definition>
+	<definition>
+		<key>text_tables</key>
+		<value><![CDATA[Таблицы]]></value>
+	</definition>
+	<definition>
+		<key>text_options</key>
+		<value><![CDATA[Опции]]></value>
+	</definition>
+	<definition>
+		<key>text_file_format</key>
+		<value><![CDATA[Формат файла:]]></value>
+	</definition>
+	<definition>
+		<key>text_file_name</key>
+		<value><![CDATA[Имя файла:]]></value>
+	</definition>
+	<definition>
+		<key>text_load_file</key>
+		<value><![CDATA[Загрузить файл]]></value>
+	</definition>
+	<definition>
+		<key>text_load</key>
+		<value><![CDATA[Загрузка]]></value>
+	</definition>
+	<definition>
+		<key>text_import_loaded</key>
+		<value><![CDATA[Всего загружено:]]></value>
+	</definition>
+	<definition>
+		<key>text_file_field</key>
+		<value><![CDATA[Файл для импорта:<br><span class="help">Поддерживаемые форматы для импорта файлов: CSV, TXT</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_id_range_from</key>
+		<value><![CDATA[ID диапазон от:]]></value>
+	</definition>
+	<definition>
+		<key>text_to</key>
+		<value><![CDATA[в:]]></value>
+	</definition>
+	<definition>
+		<key>text_csv_delimiter</key>
+		<value><![CDATA[CSV/TXT разделитель:]]></value>
+	</definition>
+	<definition>
+		<key>text_export_note_csv_delimiter</key>
+		<value><![CDATA[<span class="help">Все поля будут заключены в двойные кавычки.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_import_note_csv_delimiter</key>
+		<value><![CDATA[<span class="help">Все поля должны быть заключены в двойные кавычки.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_test_mode</key>
+		<value><![CDATA[Запуск в тестовом режиме<br><span class="help">Рекомендуется запустить импорт данных в тестовом режиме для проверки возможных проблем.</span>]]></value>
+	</definition>
+	<definition>
+		<key>error_file_format</key>
+		<value><![CDATA[Неправильный формат файла!]]></value>
+	</definition>
+	<definition>
+		<key>error_xml_import</key>
+		<value><![CDATA[Ошибка при импорте XML-файла!]]></value>
+	</definition>
+	<definition>
+		<key>error_csv_import</key>
+		<value><![CDATA[Ошибка во время импорта CSV/TXT файла! Пожалуйста, проверьте тип разделителя.]]></value>
+	</definition>
+	<definition>
+		<key>error_data_corrupted</key>
+		<value><![CDATA[Данные отсутствуют или повреждены.]]></value>
+	</definition>
+	<definition>
+		<key>error_writable_backup</key>
+		<value><![CDATA[Каталог резервного копирования должен быть доступен для записи иначе экспорт CSV/TXT не будет работать.]]></value>
+	</definition>
+	<definition>
+		<key>text_updated</key>
+		<value><![CDATA[Обновлено:]]></value>
+	</definition>
+	<definition>
+		<key>text_created</key>
+		<value><![CDATA[Дата создания:]]></value>
+	</definition>
+	<definition>
+		<key>text_errors</key>
+		<value><![CDATA[Ошибки:]]></value>
+	</definition>
+	<definition>
+		<key>text_show_details</key>
+		<value><![CDATA[Показать детали]]></value>
+	</definition>
+	<definition>
+		<key>text_no_children</key>
+		<value><![CDATA[Нет дочерних элементов]]></value>
+	</definition>
+	<definition>
+		<key>text_some_errors</key>
+		<value><![CDATA[Есть некоторые ошибки.]]></value>
+	</definition>
+	<definition>
+		<key>text_test_completed</key>
+		<value><![CDATA[Пробный пуск завершен. Всего SQL запросов:]]></value>
+	</definition>
+	<definition>
+		<key>text_sort_by</key>
+		<value><![CDATA[Сортировать по:]]></value>
+	</definition>
+	<definition>
+		<key>error_file_empty</key>
+		<value><![CDATA[Файл пуст.]]></value>
+	</definition>
+	<definition>
+		<key>import_wizard_title</key>
+		<value><![CDATA[Мастер импорта данных]]></value>
+	</definition>
+	<definition>
+		<key>tab_import_wizard</key>
+		<value><![CDATA[Мастер импорта]]></value>
+	</definition>
+	<definition>
+		<key>text_load_file_notes</key>
+		<value><![CDATA[Вы можете загрузить CSV или текстовый файл для импорта данных. Для структуры данных вы можете следовать собственному формату (см. Экспорт) или в свободном формате. <br/> Для данных со свободным форматом вам необходимо будет отображать элементы данных вручную. Только товары и категории поддерживаются для импорта в свободном формате.]]></value>
+	</definition>
+	<definition>
+		<key>text_import_wizard_notes</key>
+		<value><![CDATA[Выберите таблицу назначения и соответствующее поле базы данных для каждого столбца данных импорта. Если поле не выбрано, данные столбца ввода будут игнорироваться. <br/><b>Примечание.</b> Значения данных языка и хранилища будут назначены текущему хранилищу и выбранному языку контента]]></value>
+	</definition>
+	<definition>
+		<key>text_records_to_be_loaded</key>
+		<value><![CDATA[В этом импорте будут загружены и обработаны %s записи!]]></value>
+	</definition>
+	<definition>
+		<key>text_import_task_title</key>
+		<value><![CDATA[Запуск процесса импорта]]></value>
+	</definition>
+	<definition>
+		<key>text_import_file_col</key>
+		<value><![CDATA[Копировать столбцы импорта]]></value>
+	</definition>
+	<definition>
+		<key>text_import_file_data</key>
+		<value><![CDATA[Пример импорта данных]]></value>
+	</definition>
+	<definition>
+		<key>text_destination_col</key>
+		<value><![CDATA[Выберите таблицу назначения]]></value>
+	</definition>
+	<definition>
+		<key>text_import_update_on</key>
+		<value><![CDATA[Обновить, если существует]]></value>
+	</definition>
+	<definition>
+		<key>text_import_split</key>
+		<value><![CDATA[Разделить данные на]]></value>
+	</definition>
+	<definition>
+		<key>title_export_map</key>
+		<value><![CDATA[Выберите, скопируйте и сохраните это сопоставление для будущего использования.]]></value>
+	</definition>
+	<definition>
+		<key>text_export_map</key>
+		<value><![CDATA[Экспортное сопоставление]]></value>
+	</definition>
+	<definition>
+		<key>title_load_map</key>
+		<value><![CDATA[Опубликовать в поле ниже предварительно сохраненных картографических данных]]></value>
+	</definition>
+	<definition>
+		<key>text_load_map</key>
+		<value><![CDATA[Отображение нагрузки]]></value>
+	</definition>
+	<definition>
+		<key>error_table_selection</key>
+		<value><![CDATA[Не выбрана таблица или поля назначения импорта!]]></value>
+	</definition>
+	<definition>
+		<key>error_required_selection</key>
+		<value><![CDATA[Отсутствует требуемое поле данных &#39;%s&#39; для таблицы назначения!]]></value>
+	</definition>
+	<definition>
+		<key>error_tmp_dir_non_writable</key>
+		<value><![CDATA[Временный каталог %s не доступен для записи! Пожалуйста, измените разрешения для продолжения.]]></value>
+	</definition>
+	<definition>
+		<key>error_empty_request</key>
+		<value><![CDATA[Пустой запрос.]]></value>
+	</definition>
+	<definition>
+		<key>text_complete_import</key>
+		<value><![CDATA[Процесс импорта завершен. %s строк обработано.]]></value>
+	</definition>
+	<definition>
+		<key>text_see_log</key>
+		<value><![CDATA[Подробнее см. <a href="%s" target="_new">Файл журнала %s</a>]]></value>
+	</definition>
+	<definition>
+		<key>text_success_abort</key>
+		<value><![CDATA[Задача прервана успешно.]]></value>
+	</definition>
+	<definition>
+		<key>button_schedule_import</key>
+		<value><![CDATA[Расписание импорта]]></value>
+	</definition>
+	<definition>
+		<key>text_success_scheduled</key>
+		<value><![CDATA[Успех: вы успешно создали запланированную задачу импорта! <a href="%s">Смотрите подробности</a>]]></value>
+	</definition>
+	<definition>
+		<key>text_complete_import_with_errors</key>
+		<value><![CDATA[%s строки с ошибками.]]></value>
+	</definition>
+</definitions>

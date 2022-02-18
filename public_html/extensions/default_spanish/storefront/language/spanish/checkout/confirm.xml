@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Confirmación]]></value>
+	</definition>
+	<definition>
+		<key>text_basket</key>
+		<value><![CDATA[Cesta]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_basket</key>
+		<value><![CDATA[Editar Cesta]]></value>
+	</definition>
+	<definition>
+		<key>text_accept_agree</key>
+		<value>
+			<![CDATA[Al hacer clic en Confirmar pedido, usted acepta todos los términos de ]]></value>
+	</definition>
+	<definition>
+		<key>text_cart_items</key>
+		<value><![CDATA[Los productos en su carrito]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping</key>
+		<value><![CDATA[Envío]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_shipping</key>
+		<value><![CDATA[Editar envío]]></value>
+	</definition>
+	<definition>
+		<key>text_payment</key>
+		<value><![CDATA[Pago]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_payment</key>
+		<value><![CDATA[Editar pago]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping</key>
+		<value><![CDATA[Envío]]></value>
+	</definition>
+	<definition>
+		<key>text_payment</key>
+		<value><![CDATA[Pago]]></value>
+	</definition>
+	<definition>
+		<key>text_guest_step_1</key>
+		<value><![CDATA[Compra invitado - Paso 1]]></value>
+	</definition>
+	<definition>
+		<key>text_guest_step_2</key>
+		<value><![CDATA[Compra invitado - Paso 2]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm</key>
+		<value><![CDATA[Confirmar]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_address</key>
+		<value><![CDATA[Dirección de Envío]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_method</key>
+		<value><![CDATA[Forma de envío]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_address</key>
+		<value><![CDATA[Dirección de pago]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_method</key>
+		<value><![CDATA[Forma de pago]]></value>
+	</definition>
+	<definition>
+		<key>text_change</key>
+		<value><![CDATA[Cambiar]]></value>
+	</definition>
+	<definition>
+		<key>text_comment</key>
+		<value><![CDATA[Añade comentarios sobre tu pedido]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[SU DESCUENTO HA SIDO APLICADO !!]]></value>
+	</definition>
+	<definition>
+		<key>text_discount</key>
+		<value><![CDATA[Cupón de descuento]]></value>
+	</definition>
+	<definition>
+		<key>text_coupon</key>
+		<value><![CDATA[Ingrese su cupón de descuento, si desea que se le aplique en esta compra.]]></value>
+	</definition>
+	<definition>
+		<key>column_product</key>
+		<value><![CDATA[Producto]]></value>
+	</definition>
+	<definition>
+		<key>column_model</key>
+		<value><![CDATA[Modelo]]></value>
+	</definition>
+	<definition>
+		<key>column_quantity</key>
+		<value><![CDATA[Cantidad]]></value>
+	</definition>
+	<definition>
+		<key>column_price</key>
+		<value><![CDATA[Precio]]></value>
+	</definition>
+	<definition>
+		<key>column_total</key>
+		<value><![CDATA[Total]]></value>
+	</definition>
+	<definition>
+		<key>entry_coupon</key>
+		<value><![CDATA[Cupón:]]></value>
+	</definition>
+	<definition>
+		<key>error_coupon</key>
+		<value><![CDATA[Error: Este cupón no es valido, o este producto no admite descuentos!]]></value>
+	</definition>
+	<definition>
+		<key>text_add_coupon</key>
+		<value><![CDATA[Añadir Cupón]]></value>
+	</definition>
+</definitions>

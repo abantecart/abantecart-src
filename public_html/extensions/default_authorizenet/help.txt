@@ -1,0 +1,32 @@
+<b>Authorize.Net Payment Configuration</b>
+<br/><br/>
+1. To use this extension, you need to get API credentials (API Login ID & Transaction Key and Public Client Key) from new or existing Authorize.Net account<br/>
+If you do not have Authorize.Net account, please visit page <a href="http://www.authorize.net/" target="_blank">http://www.authorize.net/</a> <br/>
+<ul>
+<li>Get API login id and key in Account > Security Settings > API Credentials & Keys</li>
+<li>Get Client key in Account > Security Settings > Manage Public Client Key</li>
+</ul>
+<br/><br/>
+2. Fill in required fields with information provided in Authorize.Net dashboard.<br/>
+When you signed up you can use test or live mode connect button.
+<b>Important to know!</b>: Test and live mode do not share customer, cards and transaction information. If you switch connection between modes, existing customers and order payment details from prior mode will not be available in new mode.<br/>
+To obtain sandbox credentials please go to <a href="https://sandbox.authorize.net" target="_blank">https://sandbox.authorize.net</a>
+<br>
+Sandbox testing notes:
+<ul>
+<li>Enable <b>Transaction Details API</b> setting on Account > Settings > Security Settings inside your Authorize.Net account.</li>
+<li>Sandbox account have some delay when process transactions.</li>
+<li>When you test card save feature use different cards for different customers</li>
+<li>In sandbox account you need to enable Live mode for testing! (Sandbox > Account > Settings > 	Test Mode > switch to Live)</li>
+</ul>
+<br/><br/>
+3. Set up Order Status that will be applied when customer successfully payed with Authorize.Net payment option.<br/><br/>
+4. Authorize.Net payment option will appear at customer's checkout at storefront. You can add custom icon or image in the setting to be displayed to customers.<br/><br/>
+5. Once orders with authorize.net are created, you can perform capture, void or refund in order Payment Details section of AbanteCart admin.<br/><br/>
+6. To test how Authorize.Net works go to storefront, add products to cart and follow checkout process. Payment option will be available at payment's details page. For testing you, can enable test mode and save in the extension your sandbox API credentials.
+<br/><br/>
+
+For more details about Authorize.Net service and details about transactions you need to access Authorize.Net dashboard.
+<br/><br/>
+For more details about affiliate program please visit http://reseller.authorize.net/application/?resellerId=34073
+

@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Библиотека Медиа Ресурсов]]></value>
+	</definition>
+	<definition>
+		<key>text_rl_latest</key>
+		<value><![CDATA[Последние добавленные ресурсы]]></value>
+	</definition>
+	<definition>
+		<key>text_rl_type</key>
+		<value><![CDATA[Тип ресурса]]></value>
+	</definition>
+	<definition>
+		<key>entry_type_name</key>
+		<value><![CDATA[Тип ресурса Ключ<br/><span class="help">Это значение типа ресурса ключ/имя не может быть изменено</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_default_directory</key>
+		<value><![CDATA[Каталог ресурсов<br/><span class="help">Каталог ресурсов для определения местоположения этого типа. Если изменино, существующие ресурсы не будут доступны и должны быть скопированы в новый каталог!</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_default_icon</key>
+		<value><![CDATA[Иконка по умолчанию значок<br/><span class="help">Изображение иконки, которое отображается в списке ресурсов (Расположение: /image/... ).</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_file_types</key>
+		<value><![CDATA[Допустимые расширения файлов<br/><span class="help">Regex со списком разрешенных расширений файлов для данного типа ресурса</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Успешно: Вы обновили тип ресурса!]]></value>
+	</definition>
+	<definition>
+		<key>error_missing_type_id</key>
+		<value><![CDATA[Ошибка: Отсутствует ID ресурса!]]></value>
+	</definition>
+	<definition>
+		<key>error_type_name</key>
+		<value><![CDATA[Ошибка: Имя типа ресурса должно быть от 2 до 40 символов]]></value>
+	</definition>
+	<definition>
+		<key>error_default_directory</key>
+		<value><![CDATA[Ошибка: каталог типа ресурса должен быть от 2 до 64 символов]]></value>
+	</definition>
+	<definition>
+		<key>error_default_icon</key>
+		<value><![CDATA[Ошибка: значок типа ресурса должен быть от 2 до 64 символов]]></value>
+	</definition>
+	<definition>
+		<key>error_file_types</key>
+		<value><![CDATA[Ошибка: Типа файла регулярное выражение должно быть от 2 до 40 символов]]></value>
+	</definition>
+
+</definitions>

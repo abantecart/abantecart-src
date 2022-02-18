@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Non sei più iscritto !]]></value>
+	</definition>
+	<definition>
+		<key>text_message</key>
+		<value><![CDATA[La tua sottoscrizione è stata annullata.]]></value>
+	</definition>
+	<definition>
+		<key>text_account</key>
+		<value><![CDATA[Account]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Fatto!]]></value>
+	</definition>
+</definitions>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Cheque / Efectivo]]></value>
+  </definition>
+  <definition>
+    <key>text_payable</key>
+    <value><![CDATA[Hacer Pagable a: ]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[Enviar a: ]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Su pedido no se tramitará hasta que se reciba el pago.]]></value>
+  </definition>
+  <definition>
+    <key>text_wait</key>
+    <value><![CDATA[Please wait!]]></value>
+  </definition>  
+</definitions>

@@ -1,0 +1,22 @@
+<b><a target="_new" href="http://www.realexpayments.com/partner-referral?id=abantecart">Realex</a> Payment Configuration</b>
+<br/><br/>
+
+1. To use this extension, you need to have active Realex Payments account. <br/>
+If you do not have Realex account, please follow <a href="http://www.realexpayments.com/partner-referral?id=abantecart" target="_blank">this link</a> to create an account <br/><br/>
+2. Fill in required fields with information provided by Realex Payments.<br/>
+	
+<b>Merchant ID</b> - Where merchantid represents Realex Payments assigned merchant id.	
+<br/>
+<b>Account (optional)</b> - Where subaccount represents the Realex Payments subaccount to use. If this element is omitted, then the default account is used.
+
+<br/><br/>
+3. Set up Order Status that will be applied when customer successfully payed with Realex Payment option.<br/><br/>
+4. Realex Payment option will appear at customer's checkout at storefront.<br/><br/>
+5. Once orders with Realex Payment are created, you can capture, void or rebate in order section of AbanteCart admin.<br/><br/>
+6. To test how Realex Payments works go to storefront, add products to cart and follow Checkout process. Realex Payment option will be available at payment's details page
+<br/><br/>
+
+For Realex Payments service and details about transactions access Realex RealControl (Transaction Management tool)  
+<br/><br/>
+
+<a target="_new" href="http://www.realexpayments.com/partner-referral?id=abantecart">Access Realex</a>

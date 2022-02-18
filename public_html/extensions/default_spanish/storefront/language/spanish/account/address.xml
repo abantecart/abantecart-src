@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<definitions>
+    <definition>
+        <key>heading_title</key>
+        <value><![CDATA[Direcciones]]></value>
+    </definition>
+    <definition>
+        <key>text_account</key>
+        <value><![CDATA[Cuenta]]></value>
+    </definition>
+    <definition>
+        <key>text_address_book</key>
+        <value><![CDATA[Libro de Direcciones]]></value>
+    </definition>
+    <definition>
+        <key>text_edit_address</key>
+        <value><![CDATA[Editar Dirección]]></value>
+    </definition>
+    <definition>
+        <key>text_insert</key>
+        <value><![CDATA[Su dirección se ha añadido satisfactoriamente]]></value>
+    </definition>
+    <definition>
+        <key>text_update</key>
+        <value><![CDATA[Su dirección se ha actualizado satisfactoriamente]]></value>
+    </definition>
+    <definition>
+        <key>text_delete</key>
+        <value><![CDATA[Su dirección ha sido eliminada]]></value>
+    </definition>
+    <definition>
+        <key>entry_firstname</key>
+        <value><![CDATA[Nombre:]]></value>
+    </definition>
+    <definition>
+        <key>entry_lastname</key>
+        <value><![CDATA[Apellidos:]]></value>
+    </definition>
+    <definition>
+        <key>entry_company</key>
+        <value><![CDATA[Empresa:]]></value>
+    </definition>
+    <definition>
+        <key>entry_address_1</key>
+        <value><![CDATA[Dirección 1:]]></value>
+    </definition>
+    <definition>
+        <key>entry_address_2</key>
+        <value><![CDATA[Dirección 2:]]></value>
+    </definition>
+    <definition>
+        <key>entry_postcode</key>
+        <value><![CDATA[Código Postal:]]></value>
+    </definition>
+    <definition>
+        <key>entry_city</key>
+        <value><![CDATA[Ciudad:]]></value>
+    </definition>
+    <definition>
+        <key>error_postcode</key>
+        <value><![CDATA[Código Postal debe estar entre 3 y 10 caracteres!]]></value>
+    </definition>
+    <definition>
+        <key>entry_country</key>
+        <value><![CDATA[País:]]></value>
+    </definition>
+    <definition>
+        <key>entry_zone</key>
+        <value><![CDATA[Región / Provincia:]]></value>
+    </definition>
+    <definition>
+        <key>entry_default</key>
+        <value><![CDATA[Dirección por defecto:]]></value>
+    </definition>
+    <definition>
+        <key>error_delete</key>
+        <value><![CDATA[Error: debería tener al menos una dirección]]></value>
+    </definition>
+    <definition>
+        <key>error_default</key>
+        <value><![CDATA[Error: no debería borrar su dirección por defecto]]></value>
+    </definition>
+    <definition>
+        <key>error_firstname</key>
+        <value><![CDATA[El nombre debe ser mayor de 3 letras y menor de 32]]></value>
+    </definition>
+    <definition>
+        <key>error_lastname</key>
+        <value><![CDATA[Los apellidos deberían tener al menos 3 letras]]></value>
+    </definition>
+    <definition>
+        <key>error_address_1</key>
+        <value><![CDATA[La dirección debe tener al menos 3 letras y ser menor de 128 caracteres]]></value>
+    </definition>
+    <definition>
+        <key>error_city</key>
+        <value><![CDATA[La ciudad debería ser más grande de 3 caracteres y menos de 128]]></value>
+    </definition>
+    <definition>
+        <key>error_country</key>
+        <value><![CDATA[Por favor, seleccione su país]]></value>
+    </definition>
+    <definition>
+        <key>error_zone</key>
+        <value><![CDATA[Por favor, seleccione su región/provincia]]></value>
+    </definition>
+</definitions>

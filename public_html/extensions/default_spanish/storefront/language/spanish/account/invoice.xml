@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Pedido]]></value>
+	</definition>
+	<definition>
+		<key>text_account</key>
+		<value><![CDATA[Cuenta]]></value>
+	</definition>
+	<definition>
+		<key>text_history</key>
+		<value><![CDATA[Historial del Pedido]]></value>
+	</definition>
+	<definition>
+		<key>text_invoice</key>
+		<value><![CDATA[Pedido]]></value>
+	</definition>
+	<definition>
+		<key>text_invoice_id</key>
+		<value><![CDATA[Invoice ID]]></value>
+	</definition>
+	<definition>
+		<key>text_order_id</key>
+		<value><![CDATA[ID de Pedido]]></value>
+	</definition>
+	<definition>
+		<key>text_order</key>
+		<value><![CDATA[ID]]></value>
+	</definition>
+	<definition>
+		<key>text_email</key>
+		<value><![CDATA[Correo electrónico]]></value>
+	</definition>
+	<definition>
+		<key>text_telephone</key>
+		<value><![CDATA[Teléfono]]></value>
+	</definition>
+	<definition>
+		<key>text_fax</key>
+		<value><![CDATA[Fax]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_address</key>
+		<value><![CDATA[Dirección de Envío]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_method</key>
+		<value><![CDATA[Forma de Envío]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_address</key>
+		<value><![CDATA[Dirección de Pago]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_method</key>
+		<value><![CDATA[Forma de Pago]]></value>
+	</definition>
+	<definition>
+		<key>text_order_history</key>
+		<value><![CDATA[Historial del Pedido]]></value>
+	</definition>
+	<definition>
+		<key>text_product</key>
+		<value><![CDATA[Producto]]></value>
+	</definition>
+	<definition>
+		<key>text_model</key>
+		<value><![CDATA[Modelo]]></value>
+	</definition>
+	<definition>
+		<key>text_quantity</key>
+		<value><![CDATA[Cantidad]]></value>
+	</definition>
+	<definition>
+		<key>text_price</key>
+		<value><![CDATA[Precio Unitario]]></value>
+	</definition>
+	<definition>
+		<key>text_total</key>
+		<value><![CDATA[Total]]></value>
+	</definition>
+	<definition>
+		<key>text_comment</key>
+		<value><![CDATA[Comentarios al Pedido]]></value>
+	</definition>
+	<definition>
+		<key>text_error</key>
+		<value><![CDATA[No se encuentró el pedido solicitado]]></value>
+	</definition>
+	<definition>
+		<key>column_date_added</key>
+		<value><![CDATA[Fecha]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Estado]]></value>
+	</definition>
+	<definition>
+		<key>column_comment</key>
+		<value><![CDATA[Comentarios]]></value>
+	</definition>
+	<definition>
+		<key>text_image</key>
+		<value><![CDATA[Imagen]]></value>
+	</definition>
+	<definition>
+		<key>error_email</key>
+		<value><![CDATA[E-Mail no parece ser válida!]]></value>
+	</definition>
+	<definition>
+		<key>error_order_id</key>
+		<value><![CDATA[ID del pedido se requiere el campo!]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation</key>
+		<value><![CDATA[Solicitar la cancelación de la orden]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation_confirm</key>
+		<value><![CDATA[Su solicitud de cancelación no se puede hacer en algunos casos, por ejemplo, cuando la mercancía ha sido enviado. Continuar?]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation_success</key>
+		<value><![CDATA[Solicitud de cancelación de pedido ha sido enviado]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation_message_title</key>
+		<value><![CDATA[Pedido #%s solicitud de cancelación]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation_message_body</key>
+		<value><![CDATA[Сliente %s ha solicitado la cancelación orden para la orden #%s . Para comentario Ir a %s]]></value>
+	</definition>
+	<definition>
+		<key>text_mobile_phone</key>
+		<value><![CDATA[Teléfono móvil:]]></value>
+	</definition>
+	<definition>
+		<key>text_request_cancellation_from_customer</key>
+		<value><![CDATA[Solicitar una cancelación de pedido de cliente]]></value>
+	</definition>
+</definitions>

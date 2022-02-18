@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Manutenzione]]></value>
+	</definition>
+	<definition>
+		<key>text_maintenance</key>
+		<value><![CDATA[Manutenzione]]></value>
+	</definition>
+	<definition>
+		<key>text_message</key>
+		<value>
+			<![CDATA[<h1 style="text-align:center;">Stiamo eseguendo una manutenzione. <br/>Torneremo appena possibile. Si prega di riprovare più tardi. Grazie..</h1>]]></value>
+	</definition>
+</definitions>

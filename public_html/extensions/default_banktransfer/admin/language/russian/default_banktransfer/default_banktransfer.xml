@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>default_banktransfer_name</key>
+    <value><![CDATA[Банковский перевод]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Оплата]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успешно: Вы изменили параметры Банковского перевода!]]></value>
+  </definition>
+  <definition>
+    <key>default_banktransfer_instructions</key>
+    <value><![CDATA[Инструкции Банковского перевода:<span class="help">Инструкция отображаемая для клиентов, чтобы совершить банковский перевод на ваш банковский счет</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_banktransfer_order_min</key>
+    <value><![CDATA[Минимальная сумма заказа:<span class="help">Минимальный заказ после достижения которого будет доступен этот способ оплаты</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_banktransfer_order_status_id</key>
+    <value><![CDATA[Статус заказа:]]></value>
+  </definition>
+  <definition>
+    <key>default_banktransfer_location_id</key>
+    <value><![CDATA[Географическая зона:]]></value>
+  </definition>
+  <definition>
+    <key>default_banktransfer_location_id_0</key>
+    <value><![CDATA[Все местоположения]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение Банковского перевода!]]></value>
+  </definition>
+  <definition>
+    <key>error_instructions</key>
+    <value><![CDATA[Инструкции Банковского перевода обязательны для заполнения!]]></value>
+  </definition>
+</definitions>

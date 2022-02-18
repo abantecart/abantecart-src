@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>default_skrill_name</key>
+    <value><![CDATA[Skrill Quick Checkout]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Оплата]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успешно: Вы изменили детали Skrill.]]></value>
+  </definition>
+  <definition>
+    <key>text_skrill</key>
+    <value><![CDATA[<a onclick="window.open('https://account.skrill.com/signup?rid=53571612');"><img src="extensions/default_skrill/image/icon.png" alt="Skrill" title="Skrill" /></a>]]></value>
+  </definition>
+  <definition>
+    <key>default_skrill_email</key>
+    <value><![CDATA[Email: <br /><span class="help">Email address of your Skrill account.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_skrill_secret</key>
+    <value><![CDATA[Secret Word (Passphrase): <br /><span class="help">This value is entered in the Settings > Integration Settings section in your Skrill account.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_skrill_order_status_id</key>
+    <value><![CDATA[Статус заказа:]]></value>
+  </definition>
+  <definition>
+    <key>default_skrill_order_status_pending_id</key>
+    <value><![CDATA[Статус ожидания заказа:]]></value>
+  </definition>
+  <definition>
+    <key>default_skrill_order_status_canceled_id</key>
+    <value><![CDATA[Статус отмены заказа:]]></value>
+  </definition>
+  <definition>
+    <key>default_skrill_order_status_failed_id</key>
+    <value><![CDATA[Статус удачного заказа:]]></value>
+  </definition>
+  <definition>
+    <key>default_skrill_order_status_chargeback_id</key>
+    <value><![CDATA[Статус заказа Возвратный платеж:]]></value>
+  </definition>
+  <definition>
+    <key>default_skrill_location_id</key>
+    <value><![CDATA[Географическая зона:]]></value>
+  </definition>
+  <definition>
+    <key>default_skrill_location_id_0</key>
+    <value><![CDATA[Все местоположения]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение Skrill!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Требуется Email!]]></value>
+  </definition>
+</definitions>

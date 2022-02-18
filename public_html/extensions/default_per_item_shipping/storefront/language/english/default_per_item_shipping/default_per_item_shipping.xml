@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Per Item]]></value>
+  </definition>
+  <definition>
+    <key>text_description</key>
+    <value><![CDATA[Per Item Shipping Rate]]></value>
+  </definition>
+</definitions>

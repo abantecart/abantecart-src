@@ -1,0 +1,186 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>banner_manager_name</key>
+		<value><![CDATA[Banner Manager]]></value>
+	</definition>
+	<definition>
+		<key>banner_manager_note</key>
+		<value><![CDATA[
+		To manage banners follow menu <b>Design -> Banner Mannger</b> after extension is enabled <br>
+		To see banner statistic follow <b>Reports -> Banner Statistic</b> after extension is enabled and banners created
+		]]></value>
+	</definition>
+	<definition>
+		<key>banner_manager_list</key>
+		<value><![CDATA[Banner List]]></value>
+	</definition>
+	<definition>
+		<key>banner_manager_name_stat</key>
+		<value><![CDATA[Banner Statistic]]></value>
+	</definition>
+	<definition>
+		<key>column_banner_id</key>
+		<value><![CDATA[ Id ]]></value>
+	</definition>
+	<definition>
+		<key>column_banner_name</key>
+		<value><![CDATA[ Name ]]></value>
+	</definition>
+	<definition>
+		<key>column_banner_group</key>
+		<value><![CDATA[ Group ]]></value>
+	</definition>
+	<definition>
+		<key>column_banner_type</key>
+		<value><![CDATA[ Type ]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[ Status ]]></value>
+	</definition>
+	<definition>
+		<key>column_update_date</key>
+		<value><![CDATA[ Update Date ]]></value>
+	</definition>
+	<definition>
+		<key>column_clicked</key>
+		<value><![CDATA[ Clicks ]]></value>
+	</definition>
+	<definition>
+		<key>column_viewed</key>
+		<value><![CDATA[ Viewed ]]></value>
+	</definition>
+	<definition>
+		<key>column_percent</key>
+		<value><![CDATA[ Conversion ]]></value>
+	</definition>
+	<definition>
+		<key>text_create</key>
+		<value><![CDATA[ Create New Banner ]]></value>
+	</definition>
+	<definition>
+		<key>text_graphic_banner</key>
+		<value><![CDATA[ Graphic Banner ]]></value>
+	</definition>
+	<definition>
+		<key>text_text_banner</key>
+		<value><![CDATA[ Text Banner ]]></value>
+	</definition>
+	<definition>
+		<key>entry_banner_name</key>
+		<value><![CDATA[ Name: ]]></value>
+	</definition>
+	<definition>
+		<key>entry_banner_status</key>
+		<value><![CDATA[ Status: ]]></value>
+	</definition>
+	<definition>
+		<key>entry_banner_group_name</key>
+		<value><![CDATA[ Banner Group Name: ]]></value>
+	</definition>
+	<definition>
+		<key>entry_banner_description</key>
+		<value><![CDATA[ Description: ]]></value>
+	</definition>
+	<definition>
+		<key>entry_banner_html</key>
+		<value><![CDATA[ Banner HTML-code: ]]></value>
+	</definition>
+	<definition>
+		<key>entry_banner_meta</key>
+		<value><![CDATA[ Meta information: <span class="help">SEO keywords etc</span> ]]></value>
+	</definition>
+	<definition>
+		<key>entry_banner_url</key>
+		<value><![CDATA[ URL: ]]></value>
+	</definition>
+	<definition>
+		<key>entry_banner_blank</key>
+		<value><![CDATA[ Open in New Window: ]]></value>
+	</definition>
+	<definition>
+		<key>entry_banner_sort_order</key>
+		<value><![CDATA[ Sort Order in Group: ]]></value>
+	</definition>
+	<definition>
+		<key>entry_banner_date_start</key>
+		<value><![CDATA[ Date Start: ]]></value>
+	</definition>
+	<definition>
+		<key>entry_banner_date_end</key>
+		<value><![CDATA[ Date End: ]]></value>
+	</definition>
+	<definition>
+		<key>text_add_new_group</key>
+		<value><![CDATA[ -- Add New Group -- ]]></value>
+	</definition>
+	<definition>
+		<key>text_put_new_group</key>
+		<value><![CDATA[ Put New Group Name Here ]]></value>
+	</definition>
+	<definition>
+		<key>error_empty</key>
+		<value><![CDATA[ Error: Please Fill All Required Fields of Form. ]]></value>
+	</definition>
+	<definition>
+		<key>text_banner_success</key>
+		<value><![CDATA[ Success : You have modified banner. ]]></value>
+	</definition>
+	<definition>
+		<key>text_view_stat</key>
+		<value><![CDATA[ View Statistic ]]></value>
+	</definition>
+	<definition>
+		<key>text_banner_block</key>
+		<value><![CDATA[ Banner Block ]]></value>
+	</definition>
+	<definition>
+		<key>text_create_block</key>
+		<value><![CDATA[ Create Banner Block ]]></value>
+	</definition>
+	<definition>
+		<key>text_banner</key>
+		<value><![CDATA[ Banner ]]></value>
+	</definition>
+	<definition>
+		<key>entry_banners_selected</key>
+		<value><![CDATA[ Selected banners: ]]></value>
+	</definition>
+	<definition>
+		<key>text_select_banners</key>
+		<value><![CDATA[ Select banners ]]></value>
+	</definition>
+	<definition>
+		<key>text_hours</key>
+		<value><![CDATA[ hours ]]></value>
+	</definition>
+	<definition>
+		<key>text_weeks</key>
+		<value><![CDATA[ week days ]]></value>
+	</definition>
+	<definition>
+		<key>text_days</key>
+		<value><![CDATA[ days ]]></value>
+	</definition>
+	<definition>
+		<key>text_months</key>
+		<value><![CDATA[ months ]]></value>
+	</definition>
+	<definition>
+		<key>text_count</key>
+		<value><![CDATA[ count ]]></value>
+	</definition>
+	<definition>
+		<key>text_banners</key>
+		<value><![CDATA[ Banners ]]></value>
+	</definition>
+	<definition>
+		<key>text_delete_statistic</key>
+		<value><![CDATA[ Delete Statistic ]]></value>
+	</definition>
+	<definition>
+		<key>text_delete_success</key>
+		<value><![CDATA[ Statistic have been successfully deleted! ]]></value>
+	</definition>
+</definitions>

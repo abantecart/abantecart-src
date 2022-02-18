@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>default_flat_rate_shipping_name</key>
+    <value><![CDATA[Фиксированная стоимость доставки]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Доставка]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успешно: Вы изменили Фиксированную стоимость доставки!]]></value>
+  </definition>
+  <definition>
+    <key>default_flat_rate_shipping_status</key>
+    <value><![CDATA[Статус:]]></value>
+  </definition>
+  <definition>
+    <key>default_flat_rate_shipping_cost</key>
+    <value><![CDATA[Стоимость:]]></value>
+  </definition>
+  <definition>
+    <key>default_flat_rate_shipping_tax_class_id</key>
+    <value><![CDATA[Налоговый класс:]]></value>
+  </definition>
+  <definition>
+    <key>default_flat_rate_shipping_tax_class_id_0</key>
+    <value><![CDATA[--- Не учитывать ---]]></value>
+  </definition>
+  <definition>
+    <key>default_flat_rate_shipping_location_id</key>
+    <value><![CDATA[Географическая зона:]]></value>
+  </definition>
+  <definition>
+    <key>default_flat_rate_shipping_location_id_0</key>
+    <value><![CDATA[Все местоположения]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение Фиксированной стоимости доставки!]]></value>
+  </definition>
+</definitions>

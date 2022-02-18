@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>default_fedex_name</key>
+		<value><![CDATA[FEDEX]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping</key>
+		<value><![CDATA[Shipping]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Success: You have modified shipping FEDEX!]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_key</key>
+		<value>
+			<![CDATA[Fedex Key:<br /><span class="help">Enter the Fedex Key Assigned to You, Required.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_password</key>
+		<value><![CDATA[Fedex Password:<br /><span class="help"></span>]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_account</key>
+		<value>
+			<![CDATA[Account Number:<br /><span class="help">Enter the fedex Account Number assigned to you, required.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_meter</key>
+		<value><![CDATA[Fedex Meter Number:<br /><span class="help">Enter FedEx Meter Number.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_address</key>
+		<value><![CDATA[Address:<br /><span class="help">Shipping from street address.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_city</key>
+		<value><![CDATA[City:<br /><span class="help">Shipping from city.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_state</key>
+		<value><![CDATA[State:<br /><span class="help">Shipping from state (two letters).</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_zip</key>
+		<value><![CDATA[Zip/postal code:<br /><span class="help">Shipping from Zip-code.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_country</key>
+		<value><![CDATA[Country:<br /><span class="help">Shipping from country(two letters).</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_quote_type</key>
+		<value>
+			<![CDATA[Quote Type:<br /><span class="help">Quote for Residential or Commercial Delivery.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_quote_type_residential</key>
+		<value><![CDATA[Residential]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_quote_type_commercial</key>
+		<value><![CDATA[Commercial]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_add_chrg</key>
+		<value>
+			<![CDATA[Additional Charges:<br /><span class="help">Additional charge applied to fedex quote.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_default_fedex_us_01</key>
+		<value><![CDATA[ FEDEX First Overnight ]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_default_fedex_us_02</key>
+		<value><![CDATA[ FEDEX Priority Overnight  ]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_default_fedex_us_03</key>
+		<value><![CDATA[ FEDEX Standard Overnight  ]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_default_fedex_us_04</key>
+		<value><![CDATA[ FEDEX 2nd Day ]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_default_fedex_us_05</key>
+		<value><![CDATA[ FEDEX Express Saver  ]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_default_fedex_us_06</key>
+		<value><![CDATA[ FEDEX Ground  ]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Warning: You do not have permission to modify shipping FEDEX!]]></value>
+	</definition>
+	<definition>
+		<key>error_account</key>
+		<value><![CDATA[Account ID Required!]]></value>
+	</definition>
+	<definition>
+		<key>error_meter</key>
+		<value><![CDATA[Fedex Meter ID Required!]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_note</key>
+		<value><![CDATA[To obtain your Meter Number and Authorization Key, you will need to follow these steps:</br>
+         Go to <a href="http://fedex.com/us/developer" target="_blank">http://fedex.com/us/developer</a><br>
+         Login in with FedEx username and password or click Register Now if they don't have one.<br>
+         Click "Technical Resources" (left side).<br>
+         Under that click "FedEx web services for shipping.<br>
+         Click on "Move To Production" (right side).<br>
+         Scroll down to button and click "Obtain Production Key".<br>
+         On form choose "No" on question 1.<br>
+         Check the first box on question 2.<br>
+         Choose "Corporate Developer" on question 3.<br>
+         Accept agreement.<br>
+         Fill out the form (do not use dashes in the account number).<br>
+         Receive meter number and key instantly.  Your Production Password will be emailed to you once you complete the above steps.]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_test</key>
+		<value><![CDATA[Modo de prueba:<br /><span class="help">Utilice el servidor de puerta de enlace en vivo o pruebas?</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_test_1</key>
+		<value><![CDATA[ Si ]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_test_0</key>
+		<value><![CDATA[ No ]]></value>
+	</definition>
+	<definition>
+		<key>text_test_connection</key>
+		<value><![CDATA[Pruebe su conexión:<span class="help">Puede probar si las credenciales de API que ha entrado no son correctos.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_test</key>
+		<value><![CDATA[Prueba]]></value>
+	</definition>
+	<definition>
+		<key>text_connection_success</key>
+		<value><![CDATA[La conexión es exitosa y Credenciales de API están configurados correctamente.]]></value>
+	</definition>
+	<definition>
+		<key>error_turn_extension_on</key>
+		<value><![CDATA[Error! Por favor, compruebe si la extensión se pone en ON.]]></value>
+	</definition>
+</definitions>

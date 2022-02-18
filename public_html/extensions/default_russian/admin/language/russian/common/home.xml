@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Панель мониторинга]]></value>
+	</definition>
+	<definition>
+		<key>text_overview</key>
+		<value><![CDATA[Панель мониторинга]]></value>
+	</definition>
+	<definition>
+		<key>text_statistics</key>
+		<value><![CDATA[Статистика]]></value>
+	</definition>
+	<definition>
+		<key>text_latest_10_orders</key>
+		<value><![CDATA[Последние 10 заказов]]></value>
+	</definition>
+	<definition>
+		<key>text_total_sale</key>
+		<value><![CDATA[Всего продаж:]]></value>
+	</definition>
+	<definition>
+		<key>text_total_sale_year</key>
+		<value><![CDATA[Всего продаж в этом году:]]></value>
+	</definition>
+	<definition>
+		<key>text_total_order</key>
+		<value><![CDATA[Всего заказов:]]></value>
+	</definition>
+	<definition>
+		<key>text_total_customer</key>
+		<value><![CDATA[Количество клиентов:]]></value>
+	</definition>
+	<definition>
+		<key>text_total_customer_approval</key>
+		<value><![CDATA[Клиенты Ожидающие Утверждения:]]></value>
+	</definition>
+	<definition>
+		<key>text_total_product</key>
+		<value><![CDATA[Количество товаров:]]></value>
+	</definition>
+	<definition>
+		<key>text_total_review</key>
+		<value><![CDATA[Количество отзывов:]]></value>
+	</definition>
+	<definition>
+		<key>text_total_review_approval</key>
+		<value><![CDATA[Отзывы ожидающие утверждения:]]></value>
+	</definition>
+	<definition>
+		<key>text_day</key>
+		<value><![CDATA[Сегодня]]></value>
+	</definition>
+	<definition>
+		<key>text_week</key>
+		<value><![CDATA[На этой неделе]]></value>
+	</definition>
+	<definition>
+		<key>text_month</key>
+		<value><![CDATA[В этом месяце]]></value>
+	</definition>
+	<definition>
+		<key>text_year</key>
+		<value><![CDATA[В этом году]]></value>
+	</definition>
+	<definition>
+		<key>text_order</key>
+		<value><![CDATA[Всего заказов]]></value>
+	</definition>
+	<definition>
+		<key>text_order_short</key>
+		<value><![CDATA[Всего заказов]]></value>
+	</definition>
+	<definition>
+		<key>text_customer</key>
+		<value><![CDATA[Всего клиентов]]></value>
+	</definition>
+	<definition>
+		<key>column_order</key>
+		<value><![CDATA[Номер заказа]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Имя заказчика]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Статус]]></value>
+	</definition>
+	<definition>
+		<key>column_date_added</key>
+		<value><![CDATA[Добавлено]]></value>
+	</definition>
+	<definition>
+		<key>column_total</key>
+		<value><![CDATA[Итого]]></value>
+	</definition>
+	<definition>
+		<key>column_firstname</key>
+		<value><![CDATA[Имя]]></value>
+	</definition>
+	<definition>
+		<key>column_lastname</key>
+		<value><![CDATA[Фамилия]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Действие]]></value>
+	</definition>
+	<definition>
+		<key>entry_range</key>
+		<value><![CDATA[Выберите диапазон:]]></value>
+	</definition>
+	<definition>
+		<key>orders_text_all</key>
+		<value><![CDATA[Все заказы]]></value>
+	</definition>
+	<definition>
+		<key>text_customer_all</key>
+		<value><![CDATA[Все клиенты]]></value>
+	</definition>
+	<definition>
+		<key>text_latest_10_customers</key>
+		<value><![CDATA[Последние регистрации]]></value>
+	</definition>
+	<definition>
+		<key>column_email</key>
+		<value><![CDATA[Email]]></value>
+	</definition>
+</definitions>

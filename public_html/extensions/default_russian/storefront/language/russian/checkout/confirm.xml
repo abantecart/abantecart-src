@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Подтверждение Оформления заказа]]></value>
+	</definition>
+	<definition>
+		<key>text_basket</key>
+		<value><![CDATA[Корзина]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_basket</key>
+		<value><![CDATA[Редактировать корзину]]></value>
+	</definition>
+	<definition>
+		<key>text_accept_agree</key>
+		<value><![CDATA[Нажав Подтвердить Заказ, вы принимаете и согласны со всеми условиями ]]></value>
+	</definition>
+	<definition>
+		<key>text_cart_items</key>
+		<value><![CDATA[Товары в корзине]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping</key>
+		<value><![CDATA[Доставка]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_shipping</key>
+		<value><![CDATA[Редактировать доставку]]></value>
+	</definition>
+	<definition>
+		<key>text_payment</key>
+		<value><![CDATA[Оплата]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_payment</key>
+		<value><![CDATA[Редактировать оплату]]></value>
+	</definition>
+	<definition>
+		<key>text_guest_step_1</key>
+		<value><![CDATA[Оформить заказ без регистрации - Шаг 1]]></value>
+	</definition>
+	<definition>
+		<key>text_guest_step_2</key>
+		<value><![CDATA[Оформить заказ без регистрации - Шаг 2]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm</key>
+		<value><![CDATA[Подтверждение заказа]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_address</key>
+		<value><![CDATA[Адрес доставки]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_method</key>
+		<value><![CDATA[Способ доставки]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_address</key>
+		<value><![CDATA[Платежный адрес]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_method</key>
+		<value><![CDATA[Способ оплаты]]></value>
+	</definition>
+	<definition>
+		<key>text_change</key>
+		<value><![CDATA[Изменить]]></value>
+	</definition>
+	<definition>
+		<key>text_comment</key>
+		<value><![CDATA[Ваши комментарии]]></value>
+	</definition>
+	<definition>
+		<key>text_discount</key>
+		<value><![CDATA[Купон]]></value>
+	</definition>
+	<definition>
+		<key>column_product</key>
+		<value><![CDATA[Товар]]></value>
+	</definition>
+	<definition>
+		<key>column_model</key>
+		<value><![CDATA[Модель]]></value>
+	</definition>
+	<definition>
+		<key>column_quantity</key>
+		<value><![CDATA[Количество]]></value>
+	</definition>
+	<definition>
+		<key>column_price</key>
+		<value><![CDATA[Цена]]></value>
+	</definition>
+	<definition>
+		<key>column_total</key>
+		<value><![CDATA[Итого]]></value>
+	</definition>
+	<definition>
+		<key>text_add_coupon</key>
+		<value><![CDATA[Применить купон]]></value>
+	</definition>
+</definitions>

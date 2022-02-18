@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Ошибка оформления заказа]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Корзина]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Доставка]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Оплата]]></value>
+  </definition>
+  <definition>
+    <key>text_failure</key>
+    <value><![CDATA[Ошибка]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Возникла проблема при обработке вашего заказа! </p><p> Если проблема возникает повторно, попробуйте выбрать другой способ оплаты или вы можете связаться с владельцем магазина по <a href="%s">этой ссылке</a> .]]></value>
+  </definition>
+</definitions>

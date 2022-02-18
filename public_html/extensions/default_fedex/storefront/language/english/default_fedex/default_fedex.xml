@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>text_title</key>
+		<value><![CDATA[Fedex]]></value>
+	</definition>
+	<definition>
+		<key>text_description</key>
+		<value><![CDATA[Fedex]]></value>
+	</definition>
+	<definition>
+		<key>fedex_error_empty_postcode</key>
+		<value><![CDATA[Error: Empty postal code.]]></value>
+	</definition>
+	<definition>
+		<key>fedex_error_no_service</key>
+		<value><![CDATA[Service is not available in your area. Check if your shipping address is correct]]></value>
+	</definition>
+</definitions>

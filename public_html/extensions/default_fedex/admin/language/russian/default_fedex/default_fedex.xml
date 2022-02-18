@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>default_fedex_name</key>
+		<value><![CDATA[FEDEX]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping</key>
+		<value><![CDATA[Доставка]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Успешно: Вы изменили FEDEX!]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_key</key>
+		<value>
+			<![CDATA[Fedex Production Key:<br /><span class="help">Введите ваш Fedex Production Key, обязательно.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_password</key>
+		<value><![CDATA[Fedex Production Пароль:<br /><span class="help"></span>]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_account</key>
+		<value>
+			<![CDATA[Номер аккаунта:<br /><span class="help">Введите Ваш FedEx Номер аккаунта, обязательно.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_meter</key>
+		<value><![CDATA[Fedex Meter Number:<br /><span class="help">Введите Fedex Meter Number.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_address</key>
+		<value><![CDATA[Адрес: <br /><span class="help">Доставка от адреса улицы.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_city</key>
+		<value><![CDATA[Город: <br /><span class="help">Доставка из города.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_state</key>
+		<value><![CDATA[Регион:<br /><span class="help">Доставка из региона/области (две буквы).</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_zip</key>
+		<value>
+			<![CDATA[Почтовый индекс:<br /> <span class="help">Почтовый индекс адреса откуда доставляется.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_country</key>
+		<value><![CDATA[Страна:<br /><span class="help">Доставка из страны (две буквы).</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_quote_type</key>
+		<value>
+			<![CDATA[Тип квоты:<br /><span class="help">Квота для не комерческой или коммерческой доставки.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_quote_type_residential</key>
+		<value><![CDATA[Residential]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_quote_type_commercial</key>
+		<value><![CDATA[Commercial]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_add_chrg</key>
+		<value>
+			<![CDATA[Дополнительные сборы:<br /><span class="help">Дополнительная плата применяемая для FedEx квоты.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_default_fedex_us_01</key>
+		<value><![CDATA[ FEDEX First Overnight ]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_default_fedex_us_02</key>
+		<value><![CDATA[ FEDEX Priority Overnight  ]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_default_fedex_us_03</key>
+		<value><![CDATA[ FEDEX Standard Overnight  ]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_default_fedex_us_04</key>
+		<value><![CDATA[ FEDEX 2nd Day ]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_default_fedex_us_05</key>
+		<value><![CDATA[ FEDEX Express Saver  ]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_default_fedex_us_06</key>
+		<value><![CDATA[ FEDEX Ground  ]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Внимание: Вы не имеете прав на изменение доставки FEDEX!]]></value>
+	</definition>
+	<definition>
+		<key>error_account</key>
+		<value><![CDATA[ID аккаунта обязательно!]]></value>
+	</definition>
+	<definition>
+		<key>error_meter</key>
+		<value><![CDATA[Требуется Fedex Meter ID!]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_note</key>
+		<value>
+			<![CDATA[Чтобы получить Ваш Fedex Meter Number и Authorization Key, вам нужно будет выполнить следующие действия:</br>Перейти к <a href="http://fedex.com/us/developer" target="_blank">http://fedex.com/us/developer</a><br>Войти с использованием FedEx имя пользователя и пароля или нажать Register Now, если еще не зарегистрированы.<br>Нажмите &quot;echnical Resources&quot; (с левой стороны). <br> В соответствии с этим нажмите &quot;FedEx web services for shipping&quot;.<br> Нажмите на кнопку &quot;Move To Production&quot; (правая сторона). <br> Прокрутите вниз и нажмите &quot;Obtain Production Key&quot;. <br> В форме выберите &quot;No&quot; на вопрос 1. <br> Выберите первый пункт в вопросе 2. <br> Выберите &quot;Corporate Developer&quot; в вопросе 3. <br> Приймите соглашение.<br> Заполните форму (не используйте тире в номере счета). <br> Получите номер счетчика и ключ мгновенно. Ваш Production Пароль будет отправлен к вам, как только вы выполните описанные выше шаги.]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_test</key>
+		<value>
+			<![CDATA[Тестовый режим: <br /> <span class="help">Используйте рабочий или тестовый шлюз сервера?</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_test_1</key>
+		<value><![CDATA[Да]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_test_0</key>
+		<value><![CDATA[Нет]]></value>
+	</definition>
+	<definition>
+		<key>text_test_connection</key>
+		<value>
+			<![CDATA[Проверка соединения:<span class="help">Вы можете проверить ввели ли вы правильно API учетные данные.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_test</key>
+		<value><![CDATA[Тест]]></value>
+	</definition>
+	<definition>
+		<key>text_connection_success</key>
+		<value><![CDATA[Успешное Соединение и API удостоверение настроены правильно.]]></value>
+	</definition>
+	<definition>
+		<key>error_turn_extension_on</key>
+		<value><![CDATA[Ошибка! Пожалуйста, проверьте, включено ли расширение.]]></value>
+	</definition>
+</definitions>

@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Scheduled Tasks]]></value>
+	</definition>
+	<definition>
+		<key>column_id</key>
+		<value><![CDATA[ Id]]></value>
+	</definition>
+	<definition>
+		<key>column_date_created</key>
+		<value><![CDATA[ Date Created]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[ Name ]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[ Status ]]></value>
+	</definition>
+	<definition>
+		<key>column_start_time</key>
+		<value><![CDATA[ Start Time]]></value>
+	</definition>
+	<definition>
+		<key>text_active</key>
+		<value><![CDATA[ Active]]></value>
+	</definition>
+	<definition>
+		<key>text_scheduled</key>
+		<value><![CDATA[ Scheduled]]></value>
+	</definition>
+	<definition>
+		<key>text_disabled</key>
+		<value><![CDATA[ Disabled]]></value>
+	</definition>
+	<definition>
+		<key>text_restart</key>
+		<value><![CDATA[ Restart Task]]></value>
+	</definition>
+	<definition>
+		<key>text_run</key>
+		<value><![CDATA[ Run Task]]></value>
+	</definition>
+	<definition>
+		<key>text_task_started</key>
+		<value><![CDATA[ Task started]]></value>
+	</definition>
+	<definition>
+		<key>text_stuck</key>
+		<value><![CDATA[ Incollato]]></value>
+	</definition>
+	<definition>
+		<key>text_ready</key>
+		<value><![CDATA[ Pronto]]></value>
+	</definition>
+	<definition>
+		<key>text_running</key>
+		<value><![CDATA[ In esecuzione ]]></value>
+	</definition>
+	<definition>
+		<key>text_failed</key>
+		<value><![CDATA[ Fallito ]]></value>
+	</definition>
+	<definition>
+		<key>text_incomplete</key>
+		<value><![CDATA[ Incompleto ]]></value>
+	</definition>
+	<definition>
+		<key>text_completed</key>
+		<value><![CDATA[ Completato ]]></value>
+	</definition>
+	<definition>
+		<key>text_task_not_found</key>
+		<value><![CDATA[Attività non trovata.]]></value>
+	</definition>
+	<definition>
+		<key>text_empty_task</key>
+		<value><![CDATA[L&#39;attività non contiene passaggi. Rimosso.]]></value>
+	</definition>
+	<definition>
+		<key>text_forbidden_to_restart</key>
+		<value><![CDATA[Vietato riavviare!]]></value>
+	</definition>
+</definitions>

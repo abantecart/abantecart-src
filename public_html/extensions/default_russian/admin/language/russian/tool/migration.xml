@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Миграция магазина]]></value>
+	</definition>
+	<definition>
+		<key>heading_title_step_one</key>
+		<value><![CDATA[- Шаг 1]]></value>
+	</definition>
+	<definition>
+		<key>heading_title_step_two</key>
+		<value><![CDATA[- Шаг 2]]></value>
+	</definition>
+	<definition>
+		<key>heading_title_step_three</key>
+		<value><![CDATA[- Конец]]></value>
+	</definition>
+	<definition>
+		<key>text_description</key>
+		<value><![CDATA[Средство миграции позволяет импортировать данные из другого магазина. <br> Примечание: На данный момент AbanteCart импорт поддерживает только MySQL.<br> Нажмите кнопку запуска миграции чтобы продолжить ...]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Успешно: Ваши данные успешно переданы в Abantecart!]]></value>
+	</definition>
+	<definition>
+		<key>text_db_info</key>
+		<value><![CDATA[Информация базы данных <span class="help">Примечание: импорт AbanteCart поддерживает только MySQL.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_cart_type</key>
+		<value><![CDATA[Тип исходного магазина]]></value>
+	</definition>
+	<definition>
+		<key>entry_cart_url</key>
+		<value><![CDATA[URL исходного магазина:]]></value>
+	</definition>
+	<definition>
+		<key>entry_db_host</key>
+		<value><![CDATA[Хост базы данных:]]></value>
+	</definition>
+	<definition>
+		<key>entry_db_user</key>
+		<value><![CDATA[Пользователь базы данных:]]></value>
+	</definition>
+	<definition>
+		<key>entry_db_password</key>
+		<value><![CDATA[Пароль:]]></value>
+	</definition>
+	<definition>
+		<key>entry_db_name</key>
+		<value><![CDATA[Имя базы данных:]]></value>
+	</definition>
+	<definition>
+		<key>entry_db_prefix</key>
+		<value><![CDATA[Префикс базы данных:]]></value>
+	</definition>
+	<definition>
+		<key>entry_cart_select</key>
+		<value><![CDATA[- Выберите тип магазина -]]></value>
+	</definition>
+	<definition>
+		<key>entry_cart_osc</key>
+		<value><![CDATA[Oscommerce 2.2RC2]]></value>
+	</definition>
+	<definition>
+		<key>entry_cart_oscmax</key>
+		<value><![CDATA[OscMAX]]></value>
+	</definition>
+	<definition>
+		<key>entry_cart_zen</key>
+		<value><![CDATA[ZenCart 1.3.9h-1.5.x]]></value>
+	</definition>
+	<definition>
+		<key>entry_cart_cre</key>
+		<value><![CDATA[CRE Loaded 6.4.1 STD]]></value>
+	</definition>
+	<definition>
+		<key>entry_cart_opencart</key>
+		<value><![CDATA[OpenCart 1.4.9]]></value>
+	</definition>
+	<definition>
+		<key>entry_migrate_data</key>
+		<value><![CDATA[Выберите данные для миграции]]></value>
+	</definition>
+	<definition>
+		<key>entry_migrate_data_categories</key>
+		<value><![CDATA[Категории]]></value>
+	</definition>
+	<definition>
+		<key>entry_migrate_data_products</key>
+		<value><![CDATA[Продукты, Категории, Бренды]]></value>
+	</definition>
+	<definition>
+		<key>entry_migrate_data_customers</key>
+		<value><![CDATA[Клиенты]]></value>
+	</definition>
+	<definition>
+		<key>entry_migrate_data_orders</key>
+		<value><![CDATA[Заказы]]></value>
+	</definition>
+	<definition>
+		<key>entry_erase_existing_data</key>
+		<value><![CDATA[Стереть существующие данные?]]></value>
+	</definition>
+	<definition>
+		<key>button_start_migration</key>
+		<value><![CDATA[Запустить миграцию]]></value>
+	</definition>
+	<definition>
+		<key>button_continue</key>
+		<value><![CDATA[Продолжить]]></value>
+	</definition>
+	<definition>
+		<key>button_back</key>
+		<value><![CDATA[Назад]]></value>
+	</definition>
+	<definition>
+		<key>button_cancel</key>
+		<value><![CDATA[Отменить]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Предупреждение: Вы не имеет прав на выполнение миграции!]]></value>
+	</definition>
+	<definition>
+		<key>error_db_host</key>
+		<value><![CDATA[Укажите хост!]]></value>
+	</definition>
+	<definition>
+		<key>error_db_user</key>
+		<value><![CDATA[Пользователь необходим!]]></value>
+	</definition>
+	<definition>
+		<key>error_db_name</key>
+		<value><![CDATA[Имя базы данных необходимо!]]></value>
+	</definition>
+	<definition>
+		<key>error_db_connection</key>
+		<value><![CDATA[Ошибка: не удалось подключиться к базе данных, пожалуйста, убедитесь, что сервер базы данных, имя пользователя и пароль введены правильно!]]></value>
+	</definition>
+	<definition>
+		<key>error_db_not_exist</key>
+		<value><![CDATA[Ошибка: База данных не существует!]]></value>
+	</definition>
+	<definition>
+		<key>error_cart_type</key>
+		<value><![CDATA[Ошибка: Пожалуйста, выберите тип магазина!]]></value>
+	</definition>
+	<definition>
+		<key>error_cart_url</key>
+		<value><![CDATA[Ошибка: Укажите URL магазина!]]></value>
+	</definition>
+	<definition>
+		<key>error_cart_not_supported</key>
+		<value><![CDATA[Внимание: Выбранный тип магазина не поддерживается на данный момент!]]></value>
+	</definition>
+	<definition>
+		<key>error_migrate_data</key>
+		<value><![CDATA[Ошибка: Пожалуйста, выберите по крайней мере, один пункт!]]></value>
+	</definition>
+	<definition>
+		<key>text_no_customers</key>
+		<value><![CDATA[Примечание: Ни один клиент не был импортирован.]]></value>
+	</definition>
+	<definition>
+		<key>text_no_products</key>
+		<value><![CDATA[Примечание: Ни один продукт не был импортирован.]]></value>
+	</definition>
+	<definition>
+		<key>text_no_orders</key>
+		<value><![CDATA[Примечание: Ни один заказ не был импортирован.]]></value>
+	</definition>
+	<definition>
+		<key>text_no_brands</key>
+		<value><![CDATA[Примечание: Ни один бренд не был импортирован.]]></value>
+	</definition>
+	<definition>
+		<key>text_no_categories</key>
+		<value><![CDATA[Примечание: Ни одна категория не была импортирован.]]></value>
+	</definition>
+	<definition>
+		<key>error_empty_source_cart</key>
+		<value><![CDATA[Внимание: Выбранный исходный магазин пуст! Проверьте базу данных и приставку названий таблиц]]></value>
+	</definition>
+	<definition>
+		<key>text_finished</key>
+		<value><![CDATA[Миграция завершена.]]></value>
+	</definition>
+	<definition>
+		<key>text_cart_info</key>
+		<value><![CDATA[Исходный магазин <span class="help">Детальная информация</span>]]></value>
+	</definition>
+</definitions>

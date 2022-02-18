@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>default_cheque_name</key>
+		<value><![CDATA[Cheque / Envío de dinero]]></value>
+	</definition>
+	<definition>
+		<key>text_payment</key>
+		<value><![CDATA[Pago]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Enhorabuena: Ha modificado los detalles de su cuenta Cheque / Envío de dinero!]]></value>
+	</definition>
+	<definition>
+		<key>default_cheque_payable</key>
+		<value><![CDATA[Pagable a:<span class="help">Proporcionar verificación del nombre debe ser escrito a</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_cheque_address</key>
+		<value><![CDATA[Correo o Enviar a:<br /><span class="help">Proporcionar dirección donde enviar el cheque. Dirección de la tienda principal será usada en blanco</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_cheque_order_status_id</key>
+		<value><![CDATA[Estado del pedido:]]></value>
+	</definition>
+	<definition>
+		<key>default_cheque_location_id</key>
+		<value><![CDATA[Location:]]></value>
+	</definition>
+	<definition>
+		<key>default_cheque_location_id_0</key>
+		<value><![CDATA[All Locations]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Atención: No tiene permisos para modificar Cheque / Envío de dinero!]]></value>
+	</definition>
+	<definition>
+		<key>error_payable</key>
+		<value><![CDATA[Pagable a obligatorio!]]></value>
+	</definition>
+</definitions>

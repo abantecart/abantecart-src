@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_footer_left</key>
+    <value><![CDATA[ AbanteCart es una marca registrada de Belavier Commerce LLC<br /> de Copyright &copy; 2009 - %s Todos los derechos reservados.]]></value>
+  </definition>
+  <definition>
+    <key>text_footer</key>
+    <value><![CDATA[<a href="http://www.abantecart.com">AbanteCart</a> Version ]]></value>
+  </definition>
+
+</definitions>

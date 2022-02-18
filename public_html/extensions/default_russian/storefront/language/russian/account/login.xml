@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Вход в учетную запись]]></value>
+	</definition>
+	<definition>
+		<key>text_account</key>
+		<value><![CDATA[Регистрация аккаунта]]></value>
+	</definition>
+	<definition>
+		<key>text_login</key>
+		<value><![CDATA[Войти]]></value>
+	</definition>
+	<definition>
+		<key>text_i_am_new_customer</key>
+		<value><![CDATA[Войти в Личный Кабинет.]]></value>
+	</definition>
+	<definition>
+		<key>text_checkout</key>
+		<value><![CDATA[Варианты оформления заказа:]]></value>
+	</definition>
+	<definition>
+		<key>text_guest</key>
+		<value><![CDATA[Оформить заказ без регистрации ]]></value>
+	</definition>
+	<definition>
+		<key>text_create_account</key>
+		<value>
+			<![CDATA[Зарегистрировавшись, вы сможете делать покупки быстрее и быть в курсе состояния заказа, и отслеживать заказы, сделанные ранее.]]></value>
+	</definition>
+	<definition>
+		<key>text_returning_customer</key>
+		<value><![CDATA[Зарегистрированный пользователь]]></value>
+	</definition>
+	<definition>
+		<key>text_i_am_returning_customer</key>
+		<value><![CDATA[Войти в Личный Кабинет.]]></value>
+	</definition>
+	<definition>
+		<key>text_forgotten_login</key>
+		<value><![CDATA[Забыли логин?]]></value>
+	</definition>
+	<definition>
+		<key>text_forgotten_password</key>
+		<value><![CDATA[Забыли пароль?]]></value>
+	</definition>
+	<definition>
+		<key>entry_loginname</key>
+		<value><![CDATA[Логин:]]></value>
+	</definition>
+	<definition>
+		<key>entry_email_address</key>
+		<value><![CDATA[E-Mail:]]></value>
+	</definition>
+	<definition>
+		<key>entry_password</key>
+		<value><![CDATA[Пароль:]]></value>
+	</definition>
+	<definition>
+		<key>error_login</key>
+		<value><![CDATA[Ошибка: Неправильно заполнены поля E-Mail и/или пароль.]]></value>
+	</definition>
+	<definition>
+		<key>text_success_activated</key>
+		<value>
+			<![CDATA[Успех: Ваш аккаунт был успешно активирован. Воспользуйтесь логином и паролем для входа.]]></value>
+	</definition>
+	<definition>
+		<key>text_already_activated</key>
+		<value><![CDATA[Ваш аккаунт уже активирован. Воспользуйтесь логином и паролем для входа.]]></value>
+	</definition>
+	<definition>
+		<key>text_resend_activation_email</key>
+		<value>
+			<![CDATA[Ошибка: Ваш электронный адрес еще не подтвержден. Чтобы отправить новое письмо с подтверждением, пожалуйста, нажмите <a href=" %s ">ссылку</a>]]></value>
+	</definition>
+</definitions>

@@ -1,0 +1,199 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>text_enlarge</key>
+		<value><![CDATA[Click para ampliar]]></value>
+	</definition>
+	<definition>
+		<key>text_zoom</key>
+		<value><![CDATA[Moverse Ratón en la imagen para ampliar]]></value>
+	</definition>
+	<definition>
+		<key>text_discount</key>
+		<value><![CDATA[Cantidad para descuento:]]></value>
+	</definition>
+	<definition>
+		<key>text_options</key>
+		<value><![CDATA[Opciones disponibles:]]></value>
+	</definition>
+	<definition>
+		<key>text_error</key>
+		<value><![CDATA[Producto no encontrado!]]></value>
+	</definition>
+	<definition>
+		<key>text_price</key>
+		<value><![CDATA[Precio:]]></value>
+	</definition>
+	<definition>
+		<key>text_availability</key>
+		<value><![CDATA[Disponibilidad:]]></value>
+	</definition>
+	<definition>
+		<key>text_model</key>
+		<value><![CDATA[Modelo:]]></value>
+	</definition>
+	<definition>
+		<key>text_manufacturer</key>
+		<value><![CDATA[Marca:]]></value>
+	</definition>
+	<definition>
+		<key>text_instock</key>
+		<value><![CDATA[En Stock]]></value>
+	</definition>
+	<definition>
+		<key>text_order_quantity</key>
+		<value><![CDATA[Cantidad pedida]]></value>
+	</definition>
+	<definition>
+		<key>text_price_per_item</key>
+		<value><![CDATA[Precio por unidad]]></value>
+	</definition>
+	<definition>
+		<key>text_write</key>
+		<value><![CDATA[Si lo desea, escriba un comentario sobre este producto]]></value>
+	</definition>
+	<definition>
+		<key>text_no_reviews</key>
+		<value><![CDATA[No hay comentarios sobre este producto.]]></value>
+	</definition>
+	<definition>
+		<key>text_average</key>
+		<value><![CDATA[Puntuación media:]]></value>
+	</definition>
+	<definition>
+		<key>text_stars</key>
+		<value><![CDATA[%s de 5 estrellas!]]></value>
+	</definition>
+	<definition>
+		<key>text_no_rating</key>
+		<value><![CDATA[No votado]]></value>
+	</definition>
+	<definition>
+		<key>text_no_images</key>
+		<value><![CDATA[No hay imágenes adicionales para este producto.]]></value>
+	</definition>
+	<definition>
+		<key>text_no_related</key>
+		<value><![CDATA[No hay productos relacionados para este producto.]]></value>
+	</definition>
+	<definition>
+		<key>text_qty</key>
+		<value><![CDATA[Cant.:]]></value>
+	</definition>
+	<definition>
+		<key>text_note</key>
+		<value><![CDATA[<span style="color: #FF0000;">Nota:</span> no se permite HTML!]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Gracias por su comentario. Ha sido enviada al webmaster para aprobación.]]></value>
+	</definition>
+	<definition>
+		<key>text_wait</key>
+		<value><![CDATA[Por favor, espere!]]></value>
+	</definition>
+	<definition>
+		<key>text_search</key>
+		<value><![CDATA[Buscar]]></value>
+	</definition>
+	<definition>
+		<key>entry_name</key>
+		<value><![CDATA[Su Nombre:]]></value>
+	</definition>
+	<definition>
+		<key>entry_review</key>
+		<value><![CDATA[Su Opinión:]]></value>
+	</definition>
+	<definition>
+		<key>entry_rating</key>
+		<value><![CDATA[Valoración:]]></value>
+	</definition>
+	<definition>
+		<key>entry_good</key>
+		<value><![CDATA[Bueno]]></value>
+	</definition>
+	<definition>
+		<key>entry_bad</key>
+		<value><![CDATA[Malo]]></value>
+	</definition>
+	<definition>
+		<key>entry_captcha</key>
+		<value><![CDATA[Introduzca el código a continuación:]]></value>
+	</definition>
+	<definition>
+		<key>tab_description</key>
+		<value><![CDATA[Descripción]]></value>
+	</definition>
+	<definition>
+		<key>tab_image</key>
+		<value><![CDATA[Más Imagenes]]></value>
+	</definition>
+	<definition>
+		<key>tab_review</key>
+		<value><![CDATA[Opiniones (%s)]]></value>
+	</definition>
+	<definition>
+		<key>tab_related</key>
+		<value><![CDATA[Productos Relacionados]]></value>
+	</definition>
+	<definition>
+		<key>error_name</key>
+		<value><![CDATA[Error: Su nombre debe ser más grande de 3 caracteres y menor de 25!]]></value>
+	</definition>
+	<definition>
+		<key>error_text</key>
+		<value><![CDATA[Error: Su opinión debe ser más grande de 25 caracteres y menos de 1000!]]></value>
+	</definition>
+	<definition>
+		<key>error_rating</key>
+		<value><![CDATA[Error: Por favor indique una valoración!]]></value>
+	</definition>
+	<definition>
+		<key>text_tags</key>
+		<value><![CDATA[Tags:]]></value>
+	</definition>
+	<definition>
+		<key>text_minimum</key>
+		<value><![CDATA[(Este producto tiene una cantidad mínima de %s)]]></value>
+	</definition>
+	<definition>
+		<key>text_maximum</key>
+		<value><![CDATA[(Este producto tiene un límite establecido en %s punto por cada pedido)]]></value>
+	</definition>
+	<definition>
+		<key>text_total_price</key>
+		<value><![CDATA[El precio total:]]></value>
+	</definition>
+	<definition>
+		<key>text_login_view_price</key>
+		<value><![CDATA[Por favor ingresa ot registrarse para ver los precios o para.]]></value>
+	</definition>
+	<definition>
+		<key>tab_downloads</key>
+		<value><![CDATA[Descargas]]></value>
+	</definition>
+	<definition>
+		<key>text_start_download</key>
+		<value><![CDATA[Iniciar Descarga]]></value>
+	</definition>
+	<definition>
+		<key>text_new_review</key>
+		<value><![CDATA[La aprobación de revisión de producto está pendiente]]></value>
+	</definition>
+	<definition>
+		<key>text_pending_review_approval</key>
+		<value><![CDATA[Se ha publicado una revisión de la ID del producto %s. ¡Se requiere una acción de aprobación! Haga clic para ver #admin#rt=catalog/review/update&review_id=%s]]></value>
+	</definition>
+	<definition>
+		<key>text_out_of_stock</key>
+		<value><![CDATA[Agotado]]></value>
+	</definition>
+	<definition>
+		<key>tab_review_empty</key>
+		<value><![CDATA[Comentarios]]></value>
+	</definition>
+	<definition>
+		<key>text_verified_review</key>
+		<value><![CDATA[Compra verificada]]></value>
+	</definition>
+</definitions>

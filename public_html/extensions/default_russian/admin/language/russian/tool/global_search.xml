@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Глобальные результаты поиска]]></value>
+	</definition>
+	<definition>
+		<key>no_results_message</key>
+		<value><![CDATA[Извините, но у нас нет результатов.]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Внимание: Вы не имеете прав на поиск!]]></value>
+	</definition>
+	<definition>
+		<key>text_orders</key>
+		<value><![CDATA[Заказы]]></value>
+	</definition>
+	<definition>
+		<key>text_customers</key>
+		<value><![CDATA[Клиенты]]></value>
+	</definition>
+	<definition>
+		<key>text_downloads</key>
+		<value><![CDATA[Файлы для скачивания]]></value>
+	</definition>
+	<definition>
+		<key>text_product_categories</key>
+		<value><![CDATA[Категории товаров]]></value>
+	</definition>
+	<definition>
+		<key>text_products</key>
+		<value><![CDATA[Товары]]></value>
+	</definition>
+	<definition>
+		<key>text_reviews</key>
+		<value><![CDATA[Отзывы]]></value>
+	</definition>
+	<definition>
+		<key>text_manufacturers</key>
+		<value><![CDATA[Бренды]]></value>
+	</definition>
+	<definition>
+		<key>text_languages</key>
+		<value><![CDATA[Языки]]></value>
+	</definition>
+	<definition>
+		<key>text_pages</key>
+		<value><![CDATA[Страницы]]></value>
+	</definition>
+	<definition>
+		<key>text_settings</key>
+		<value><![CDATA[Настройки]]></value>
+	</definition>
+	<definition>
+		<key>text_messages</key>
+		<value><![CDATA[Сообщения]]></value>
+	</definition>
+	<definition>
+		<key>text_extensions</key>
+		<value><![CDATA[Расширения]]></value>
+	</definition>
+	<definition>
+		<key>text_commands</key>
+		<value><![CDATA[Быстрые команды]]></value>
+	</definition>
+	<definition>
+		<key>text_contents</key>
+		<value><![CDATA[Контент-страницы]]></value>
+	</definition>
+</definitions>

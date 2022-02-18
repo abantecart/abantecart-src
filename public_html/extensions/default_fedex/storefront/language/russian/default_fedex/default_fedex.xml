@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>text_title</key>
+		<value><![CDATA[Fedex]]></value>
+	</definition>
+	<definition>
+		<key>text_description</key>
+		<value><![CDATA[Fedex]]></value>
+	</definition>
+	<definition>
+		<key>fedex_error_empty_postcode</key>
+		<value><![CDATA[Ошибка: Не указан почтовый индекс.]]></value>
+	</definition>
+	<definition>
+		<key>fedex_error_no_service</key>
+		<value><![CDATA[Сервис не доступен в вашей области. Убедитесь, что ваш почтовый адрес правильный]]></value>
+	</definition>
+</definitions>

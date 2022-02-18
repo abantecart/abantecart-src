@@ -1,0 +1,206 @@
+/*!
+ * AbanteCart Embed optimized implementation 
+ * Bootstrap v3.3.4 (http://getbootstrap.com)
+ * Copyright 2011-2015 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+
+/*! normalize.css v3.0.2 | MIT License | git.io/normalize */
+
+.abcmodal_close {
+  float: right;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  filter: alpha(opacity=20);
+  opacity: .2;
+}
+.abcmodal_close:hover,
+.abcmodal_close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+  filter: alpha(opacity=50);
+  opacity: .5;
+}
+button.abcmodal_close {
+  -webkit-appearance: none;
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+}
+.abcmodal-open {
+  overflow: hidden;
+}
+.abcmodal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1050;
+  display: none;
+  overflow: hidden;
+  -webkit-overflow-scrolling: touch;
+  outline: 0;
+}
+.abcmodal.fade .abcmodal-dialog {
+  -webkit-transition: -webkit-transform .3s ease-out;
+       -o-transition:      -o-transform .3s ease-out;
+          transition:         transform .3s ease-out;
+  -webkit-transform: translate(0, -25%);
+      -ms-transform: translate(0, -25%);
+       -o-transform: translate(0, -25%);
+          transform: translate(0, -25%);
+}
+.abcmodal.in .abcmodal-dialog {
+  -webkit-transform: translate(0, 0);
+      -ms-transform: translate(0, 0);
+       -o-transform: translate(0, 0);
+          transform: translate(0, 0);
+}
+.abcmodal-open .abcmodal {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.abcmodal-dialog {
+  position: relative;
+  width: auto;
+  margin: 10px;
+}
+.abcmodal-content {
+  position: relative;
+  background-color: #fff;
+  -webkit-background-clip: padding-box;
+          background-clip: padding-box;
+  border: 1px solid #999;
+  border: 1px solid rgba(0, 0, 0, .2);
+  border-radius: 6px;
+  outline: 0;
+  -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+          box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+}
+.abcmodal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+  background-color: #000;
+}
+.abcmodal-backdrop.fade {
+  filter: alpha(opacity=0);
+  opacity: 0;
+}
+.abcmodal-backdrop.in {
+  filter: alpha(opacity=50);
+  opacity: .5;
+}
+.abcmodal-header {
+	min-height: 30px;
+	padding: 12px;
+	border-bottom: 1px solid #e5e5e5;
+	color: #96979d;
+	font-family: "Open Sans",sans-serif;
+	font-size: 13px;
+	overflow: hidden;
+}
+.abcmodal-header img {
+	max-height: 25px;
+    vertical-align: middle;
+}
+.abcmodal-header .close {
+	margin-top: -2px;
+}
+.abcmodal-header-store{
+	font-size: 14px;
+	font-weight: bold;
+	white-space: nowrap;
+	float: left;
+}
+.abcmodal-header-menu {
+	font-size: 14px;
+	font-weight: bold;
+	text-shadow: 0 1px 0 #fff;
+	padding-left: 25px;
+	padding-top: 5px;
+	white-space: nowrap;
+	float: left;
+}
+.abcmodal-header-menu a {
+	color: #00A1CB;
+	text-decoration: none
+}
+.abcmodal-header-menu a:hover {
+	text-decoration: none;
+	color: #d8420e
+}
+.abcmodal-title {
+  margin: 0;
+  line-height: 1.42857143;
+}
+.abcmodal-body {
+  position: relative;
+  padding: 15px;
+}
+.abcmodal-footer {
+  padding: 15px;
+  text-align: right;
+  border-top: 1px solid #e5e5e5;
+}
+.abcmodal-footer .btn + .btn {
+  margin-bottom: 0;
+  margin-left: 5px;
+}
+.abcmodal-footer .btn-group .btn + .btn {
+  margin-left: -1px;
+}
+.abcmodal-footer .btn-block + .btn-block {
+  margin-left: 0;
+}
+.abcmodal-scrollbar-measure {
+  position: absolute;
+  top: -9999px;
+  width: 50px;
+  height: 50px;
+  overflow: scroll;
+}
+@media (min-width: 768px) {
+  .abcmodal-dialog {
+    width: 600px;
+    margin: 30px auto;
+  }
+  .abcmodal-content {
+    -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+  }
+  .abcmodal-sm {
+    width: 300px;
+  }
+}
+@media (max-width: 480px) {
+  .abcmodal-header{
+  	min-height: 45px;
+  }
+  .abcmodal-header-menu {
+  	padding-left: 0px;
+  	padding-top: 10px;
+  }
+}
+@media (min-width: 992px) {
+  .abcmodal-lg {
+    width: 900px;
+  }
+}
+.abcmodal-footer:before,
+.abcmodal-footer:after {
+  display: table;
+  content: " ";
+}
+.abcmodal-footer:after {
+  clear: both;
+}

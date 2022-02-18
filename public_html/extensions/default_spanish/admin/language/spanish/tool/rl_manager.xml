@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Media Library Resource Manager]]></value>
+	</definition>
+	<definition>
+		<key>text_rl_latest</key>
+		<value><![CDATA[Últimos recursos añadidos]]></value>
+	</definition>
+	<definition>
+		<key>text_rl_type</key>
+		<value><![CDATA[tipo de recurso]]></value>
+	</definition>
+	<definition>
+		<key>entry_type_name</key>
+		<value><![CDATA[Tipo de recursos clave<br/><span class="help">Este valor de clave de tipo de recurso / nombre no se puede cambiar</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_default_directory</key>
+		<value><![CDATA[Directorio de recursos<br/><span class="help">Directorio de recursos de localización de este tipo. Si se cambia, los recursos existentes no serán accesibles y tendrán que ser copiado al nuevo directorio!</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_default_icon</key>
+		<value><![CDATA[Icono predeterminado<br/><span class="help">Imagen de icono que se mostrará en la lista de recursos (Ubicación: /image/... ).</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_file_types</key>
+		<value><![CDATA[Extensiones de archivo permitidas <br/><span class="help">RegEx con una lista de extensiones de archivo permitidas para este tipo de recurso</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Éxito: Ha actualizado tipo de recurso!]]></value>
+	</definition>
+	<definition>
+		<key>error_missing_type_id</key>
+		<value><![CDATA[Error: Falta de recursos de tipo ID!]]></value>
+	</definition>
+	<definition>
+		<key>error_type_name</key>
+		<value><![CDATA[Error: Nombre Tipo de recurso debe estar comprendida entre 2 y 40 caracteres]]></value>
+	</definition>
+	<definition>
+		<key>error_default_directory</key>
+		<value><![CDATA[Error: directorio de tipo de recurso debe estar comprendida entre 2 y 64 caracteres]]></value>
+	</definition>
+	<definition>
+		<key>error_default_icon</key>
+		<value><![CDATA[Error: Tipo de recurso icono debe estar comprendida entre 2 y 64 caracteres]]></value>
+	</definition>
+	<definition>
+		<key>error_file_types</key>
+		<value><![CDATA[Error: extensiones de archivo Tipo de recurso expresión regular debe estar comprendida entre 2 y 40 caracteres]]></value>
+	</definition>
+</definitions>

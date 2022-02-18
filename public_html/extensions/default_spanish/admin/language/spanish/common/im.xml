@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>im_text_notification</key>
+		<value><![CDATA[Notificación]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_order_update</key>
+		<value><![CDATA[Pedido de actualización]]></value>
+	</definition>
+	<definition>
+		<key>im_order_update_text_to_customer</key>
+		<value><![CDATA[Su pedido <a href="%s">#%s</a> se ha actualizado. Para más detalles, acceda a %s cuenta.]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_new_order</key>
+		<value><![CDATA[Nuevo orden]]></value>
+	</definition>
+	<definition>
+		<key>im_new_order_text_to_admin</key>
+		<value><![CDATA[Nuevo orden <a href="#admin#rt=sale/order/details&order_id=%s">#%s</a> Ha sido creado]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_new_customer</key>
+		<value><![CDATA[Nuevo cliente]]></value>
+	</definition>
+	<definition>
+		<key>im_new_customer_text_to_admin</key>
+		<value><![CDATA[ Nuevo cliente #%s ha sido añadido]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_account_update</key>
+		<value><![CDATA[Actualización de cuentas de usuario]]></value>
+	</definition>
+	<definition>
+		<key>im_customer_account_update_text_to_admin</key>
+		<value><![CDATA[ Nuevo cliente #%s Ha sido actualizado]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_customer_contact</key>
+		<value><![CDATA[Datos cliente]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_account_update</key>
+		<value><![CDATA[Actualización de cuentas de usuario]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_product_out_of_stock</key>
+		<value><![CDATA[Producto Agotado]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_product_review</key>
+		<value><![CDATA[Añadido revisión sobre nuevos productos]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_newsletter</key>
+		<value><![CDATA[ Boletines]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_system_messages</key>
+		<value><![CDATA[ Mensajes del sistema]]></value>
+	</definition>
+	<definition>
+		<key>im_customer_account_update_text_to_customer</key>
+		<value><![CDATA[Nueva transacción se ha registrado en su %s en cuenta la cantidad de %s. Para más detalles, ingrese a %s cuenta.]]></value>
+	</definition>
+	<definition>
+		<key>text_notification_for</key>
+		<value><![CDATA[Notificación de Usuario %s]]></value>
+	</definition>
+	<definition>
+		<key>error_unknown_sendpoint</key>
+		<value><![CDATA[Sendpoint %s no se encuentra en la lista sendpoints!]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_success_saved</key>
+		<value><![CDATA[Configuración de notificación guardado correctamente]]></value>
+	</definition>
+	<definition>
+		<key>im_error_mail_address</key>
+		<value><![CDATA[Dirección de correo electrónico %s parece no válido]]></value>
+	</definition>
+	<definition>
+		<key>im_account_update_text_to_admin</key>
+		<value><![CDATA[Los detalles de su cuenta de usuario Administrador se han cambiado.]]></value>
+	</definition>
+	<definition>
+		<key>im_order_update_text_to_guest</key>
+		<value><![CDATA[Su orden <a href="%s"># %s</a> se ha actualizado. Para más detalles, visite la página de la orden %s.]]></value>
+	</definition>
+</definitions>

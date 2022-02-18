@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Gestione messaggio]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[L'elenco dei messaggi è stato modificato!]]></value>
+	</definition>
+	<definition>
+		<key>column_title</key>
+		<value><![CDATA[Titolo messaggio]]></value>
+	</definition>
+	<definition>
+		<key>column_create_date</key>
+		<value><![CDATA[Data]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Stato]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Azione]]></value>
+	</definition>
+	<definition>
+		<key>entry_error</key>
+		<value><![CDATA[Critico]]></value>
+	</definition>
+	<definition>
+		<key>entry_warning</key>
+		<value><![CDATA[ATTENZIONE]]></value>
+	</definition>
+	<definition>
+		<key>entry_notice</key>
+		<value><![CDATA[Notare]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[ATTENZIONE: Non hai l'autorizzazione per modificare l'elenco dei messaggi!]]></value>
+	</definition>
+	<definition>
+		<key>error_name</key>
+		<value><![CDATA[Titolo dei messaggi deve avere da 3 a 32 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>text_show</key>
+		<value><![CDATA[Mostra]]></value>
+	</definition>
+	<definition>
+		<key>text_not_found</key>
+		<value><![CDATA[Ooops. Non riusciamo a trovare questo messaggio.]]></value>
+	</definition>
+	<definition>
+		<key>text_status</key>
+		<value><![CDATA[Stao messaggio: ]]></value>
+	</definition>
+	<definition>
+		<key>text_date</key>
+		<value><![CDATA[Data:]]></value>
+	</definition>
+	<definition>
+		<key>text_repeats</key>
+		<value><![CDATA[Numero di ripetizioni:]]></value>
+	</definition>
+	<definition>
+		<key>text_warning</key>
+		<value><![CDATA[ATTENZIONE]]></value>
+	</definition>
+	<definition>
+		<key>text_error</key>
+		<value><![CDATA[Critico]]></value>
+	</definition>
+	<definition>
+		<key>text_notice</key>
+		<value><![CDATA[Notare]]></value>
+	</definition>
+	<definition>
+		<key>text_delete</key>
+		<value><![CDATA[Cancella]]></value>
+	</definition>
+	<definition>
+		<key>text_close</key>
+		<value><![CDATA[Chiudi]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm</key>
+		<value><![CDATA[Confermare?]]></value>
+	</definition>
+	<definition>
+		<key>text_linktext</key>
+		<value><![CDATA[ Questo link]]></value>
+	</definition>
+	<definition>
+		<key>text_notifier_title</key>
+		<value><![CDATA[Tu hai %s nuovi messaggi]]></value>
+	</definition>
+</definitions>

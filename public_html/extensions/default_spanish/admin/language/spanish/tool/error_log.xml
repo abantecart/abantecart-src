@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Registro de errores]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Correcto: Ha limpiado el registro de errores!]]></value>
+  </definition>
+	<definition>
+		<key>text_file_tail</key>
+		<value><![CDATA[                                        Debido al gran tamaño del archivo de registro, sólo 500Kb últimos datos se pueden ver aquí.
+					Para ver el registro completo, se obtiene de su servidor directamente.
+					Ruta de acceso:     ]]></value>
+	</definition>
+</definitions>

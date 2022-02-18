@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Ошибка приложения!]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Пожалуйста, проверьте журнал ошибок для получения дополнительной информации]]></value>
+  </definition>
+</definitions>

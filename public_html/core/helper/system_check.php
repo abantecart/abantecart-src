@@ -193,34 +193,34 @@ function check_file_permissions($registry)
         ];
     }
 
-    if (!is_writable(DIR_ADMIN_SYSTEM)) {
+    if (!is_writable(DIR_ROOT.'/admin/system')) {
         $ret_array[] = [
             'title' => 'Incorrect directory permission',
-            'body'  => DIR_ADMIN_SYSTEM.' directory needs to be set to full permissions(777)! AbanteCart backups and upgrade will not work.',
+            'body'  => DIR_ROOT.'/admin/system'.' directory needs to be set to full permissions(777)! AbanteCart backups and upgrade will not work.',
             'type'  => 'W',
         ];
     }
 
-    if (is_dir(DIR_ADMIN_SYSTEM.'backup') && !is_writable(DIR_ADMIN_SYSTEM.'backup')) {
+    if (is_dir(DIR_ROOT.'/admin/system/backup') && !is_writable(DIR_ROOT.'/admin/system/backup')) {
         $ret_array[] = [
             'title' => 'Incorrect backup directory permission',
-            'body'  => DIR_ADMIN_SYSTEM.'backup'.' directory needs to be set to full permissions(777)! AbanteCart backups and upgrade will not work.',
+            'body'  => DIR_ROOT.'/admin/system/backup'.' directory needs to be set to full permissions(777)! AbanteCart backups and upgrade will not work.',
             'type'  => 'W',
         ];
     }
 
-    if (is_dir(DIR_ADMIN_SYSTEM.'temp') && !is_writable(DIR_ADMIN_SYSTEM.'temp')) {
+    if (is_dir(DIR_ROOT.'/admin/system/temp') && !is_writable(DIR_ROOT.'/admin/system/temp')) {
         $ret_array[] = [
             'title' => 'Incorrect temp directory permission',
-            'body'  => DIR_ADMIN_SYSTEM.'temp'.' directory needs to be set to full permissions(777)!',
+            'body'  => DIR_ROOT.'/admin/system/temp'.' directory needs to be set to full permissions(777)!',
             'type'  => 'W',
         ];
     }
 
-    if (is_dir(DIR_ADMIN_SYSTEM.'uploads') && !is_writable(DIR_ADMIN_SYSTEM.'uploads')) {
+    if (is_dir(DIR_ROOT.'/admin/system/uploads') && !is_writable(DIR_ROOT.'/admin/system/uploads')) {
         $ret_array[] = [
             'title' => 'Incorrect "uploads" directory permission',
-            'body'  => DIR_ADMIN_SYSTEM.'uploads'.' directory needs to be set to full permissions(777)! Probably AbanteCart file uploads will not work.',
+            'body'  => DIR_ROOT.'/admin/system/uploads'.' directory needs to be set to full permissions(777)! Probably AbanteCart file uploads will not work.',
             'type'  => 'W',
         ];
     }

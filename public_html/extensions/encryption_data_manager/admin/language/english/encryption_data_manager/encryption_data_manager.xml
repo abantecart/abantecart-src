@@ -1,0 +1,167 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>encryption_data_manager_name</key>
+    <value><![CDATA[Encryption Data Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions</key>
+    <value><![CDATA[Extensions]]></value>
+  </definition>
+  <definition>
+    <key>text_additional_settings</key>
+    <value><![CDATA[ Encryption Data Tools ]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Sort Order:]]></value>
+  </definition>
+  <definition>
+    <key>button_generate_keys</key>
+    <value><![CDATA[Generate Key Pair]]></value>
+  </definition>
+  <definition>
+    <key>button_encrypt_data</key>
+    <value><![CDATA[Encrypt Data]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Warning: You do not have permission to modify weight based shipping!]]></value>
+  </definition>
+  <definition>
+    <key>error_duplicate_key</key>
+    <value><![CDATA[Error: Selected key name pair already exists!]]></value>
+  </definition>
+  <definition>
+	<key>encryption_data_manager_note</key>
+	<value><![CDATA[
+		  <b>This extension requires ADVANCED configuration and attention</b><br/> 
+		  <b>Once enabled and data encrypted, there is NO undo and extension can not be disabled! </b><br/> 
+		  This extension helps managing encryption keys creation and data migration from open to encrypted tables (initial migration)<br/> 
+		  <b>PLEASE NOTE:</b> you need to have PHP with SSL Encryption  <b>ENABLED</b>
+          <br/>
+          <br/>To enable data encryption please read help instructions (HOW TO button)]]></value>
+  </definition>  
+  <definition>
+    <key>error_openssl_disabled</key>
+    <value><![CDATA[Warning: OpenSSL for PHP is not available or not activated. You can not use encryption or this extension! <br> Check HELP for this extension for more details.]]></value>
+  </definition>
+  <definition>
+    <key>error_data_encryption_disabled</key>
+    <value><![CDATA[Warning: Data Encryption is not enabled on your AbanteCart. You can not encrypt/decrypt data using this extension! <br> Check HELP for this extension for more details.]]></value>
+  </definition>
+  <definition>
+    <key>key_gen_section_name</key>
+    <value><![CDATA[Generate Key Pair]]></value>
+  </definition>
+  <definition>
+    <key>data_encryption</key>
+    <value><![CDATA[Encrypt Data]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data_missing</key>
+    <value><![CDATA[Missing required data field(s). Please check provided values]]></value>
+  </definition>
+  <definition>
+    <key>entry_key_name</key>
+    <value><![CDATA[Unique key pair name:<br /><span class="help">Name should not contain any spaces or special characters. Keeps it short and simple.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_key_length</key>
+    <value><![CDATA[Key length (bits):<br /><span class="help">Specify key encryption bit length. Larger number represent stronger encryption, but can slower performance (Range 256 - 8192 )</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_private_key_type</key>
+    <value><![CDATA[Ecncryption type:<br /><span class="help">This is an encryption algorithm. Use default RSA if you are not advanced user.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_encrypt_key</key>
+    <value><![CDATA[Enable password based key:<br /><span class="help">If enable, addtional passphrase will be required to decrypt text with use of private key. NOTE. This is not currently supported in data encryption.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_passphrase</key>
+    <value><![CDATA[Passphrase or key password:<br /><span class="help">Remember the passphrase or key(s) will be useless and data might be lost</span>]]></value>
+  </definition>  
+  <definition>
+    <key>text_success_key_get</key>
+    <value><![CDATA[<b>Key pair has been created. See keys below and keep them safe.</b> <br/><br/> %s <br/><br/> %s ]]></value>
+  </definition>
+  <definition>
+    <key>error_generating_keys_failed</key>
+    <value><![CDATA[Key pair generation failed. Check your settings and check error log.]]></value>
+  </definition>
+  <definition>
+    <key>entry_enc_key</key>
+    <value><![CDATA[Key pair name:<br /><span class="help">Select key to be used for encryption. IMPORTANT: Remember key that you used</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_enc_tables</key>
+    <value><![CDATA[Table(s) to encrypt:<br /><span class="help">Shown table(s) will be encryted with the key selected. Data can only be opened with this key</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_enc_test_mode</key>
+    <value><![CDATA[Test Mode:<br /><span class="help">Check first that all is OK to be encrepted.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_enc_remove_original</key>
+    <value><![CDATA[Remove source data:<br /><span class="help">Remove source un-encrepted data records after encryption is complete</span>]]></value>
+  </definition>  
+  <definition>
+    <key>text_success_encrypting</key>
+    <value><![CDATA[<b>Data has been encrypted. <br />  See details:</b> <br/><br/> %s <br /><br /> <b>If you want this key to be used for new data encryption, add following line to file system/config.php : define('DATA_ENCRYPTION_KEYPAIR', '%s'); </b> ]]></value>
+  </definition>  
+  <definition>
+    <key>text_encryption_test</key>
+    <value><![CDATA[<b>Data encryption test result</b> Check error log for any possible errors! <br/><br/> %s ]]></value>
+  </definition>
+  <definition>
+    <key>error_encrypting</key>
+    <value><![CDATA[Data encryption failed. Check your settings and check error log.]]></value>
+  </definition>
+  <definition>
+    <key>post_encrypting_notice</key>
+    <value><![CDATA[<b>Important notes! After encryption is completed data will be copied to mirror tables with data encrypted in them. 
+    		<br />Follow instructions to add configuration to system/config.php for AbanteCart to switch read/write operations to encrypted tables. </b><br /> Add following line to configuration file: define('DATA_ENCRYPTION_KEYPAIR', 'your_key_name'); <br> This will be default key for read/write operations ]]></value>
+  </definition>   
+  <definition>
+    <key>encryption_usage</key>
+    <value><![CDATA[Encryption Usage]]></value>
+  </definition>
+  <definition>
+    <key>text_unencrepted_records</key>
+    <value><![CDATA[Un-encrypted data records]]></value>
+  </definition>
+  <definition>
+    <key>warn_encrypt_open_data</key>
+    <value><![CDATA[Use 'Encrypt Data' Tab for initial encryption]]></value>
+  </definition>
+  <definition>
+    <key>text_encrepted_records</key>
+    <value><![CDATA[Encrypted data records]]></value>
+  </definition>
+  <definition>
+    <key>text_usage_heading_key_id</key>
+    <value><![CDATA[Key ID]]></value>
+  </definition>
+  <definition>
+    <key>text_usage_heading_key_name</key>
+    <value><![CDATA[Key Name]]></value>
+  </definition>
+  <definition>
+    <key>text_usage_heading_key_tables</key>
+    <value><![CDATA[Encrypted Tables Usage]]></value>
+  </definition>  
+  <definition>
+    <key>text_usage_heading_key_rotate</key>
+    <value><![CDATA[Rotate (change) Encryption to new key]]></value>
+  </definition>    
+  <definition>
+    <key>text_usage_records</key>
+    <value><![CDATA[record(s)]]></value>
+  </definition>    
+  
+</definitions>

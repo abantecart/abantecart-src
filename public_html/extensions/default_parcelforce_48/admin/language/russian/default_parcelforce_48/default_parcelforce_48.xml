@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>default_parcelforce_48_name</key>
+    <value><![CDATA[Parcelforce 48]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Доставка]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успешно: Вы изменили Parcelforce 48 доставку!]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_rate</key>
+    <value><![CDATA[Parcelforce 48 цены:<br /><span class="help">Пример: 0:0,10:15.99,12:19.99, - Вес менее или равный 10 фунтам будет стоить 15,99 доллара США, вес менее 12 фунтов, но более 10 фунтов будет стоить 19,99 доллара. Где фунт - ваш класс веса в магазине и $ - валюта магазина. Вы можете изменить оба в настройках магазина. Не вводите KG или какие-либо символы. Введите значения до 5,2 знаков после запятой. (12345,67)</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_display_weight</key>
+    <value><![CDATA[Отображать Вес доставки:<br /><span class="help">Вы хотите отобразить вес груза? (Например, Вес поставки: 2,7674 кг)</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_display_weight_1</key>
+    <value><![CDATA[Да]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_display_weight_0</key>
+    <value><![CDATA[Нет]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_display_insurance</key>
+    <value><![CDATA[Показать Страховку:<br /><span class="help">Вы хотите отображать страховку груза? (Например застраховано до 500)</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_display_insurance_1</key>
+    <value><![CDATA[Да]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_display_insurance_0</key>
+    <value><![CDATA[Нет]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_display_time</key>
+    <value><![CDATA[Отображение времени поставки:<br /><span class="help">Вы хотите отображать время доставки? (Например, поставка в течение от 3 ​​до 5 дней)</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_display_time_1</key>
+    <value><![CDATA[Да]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_display_time_0</key>
+    <value><![CDATA[Нет]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_compensation</key>
+    <value><![CDATA[Parcelforce48 тарифы компенсации:<br /><span class="help">Введите значение ДО 5,2 знаков после запятой. (12345,67) Пример: 34:0,100:1,250:2.25 - Страховка покрывает для значений корзины до 34 будет стоить 0.00, значение более чем 100 и до 250 будет стоить 2.25 дополнительно. Не вводите символы валют.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_tax</key>
+    <value><![CDATA[Налоговый класс:]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_tax_0</key>
+    <value><![CDATA[--- Не учитывать ---]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_location_id</key>
+    <value><![CDATA[Географическая зона:]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_location_id_0</key>
+    <value><![CDATA[Все местоположения]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Допустимые методы оплаты:<br /><span class="help">В случае если необходимы только конкретные способы оплаты для этого способа доставки, выберите здесь. Если ничего не выбрано, все доступные способы оплаты будут показаны</span>]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,207 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[collezioni]]></value>
+	</definition>
+	<definition>
+		<key>collection_column_name</key>
+		<value><![CDATA[Nome raccolta]]></value>
+	</definition>
+	<definition>
+		<key>collection_column_status</key>
+		<value><![CDATA[Stato]]></value>
+	</definition>
+	<definition>
+		<key>collection_column_date_added</key>
+		<value><![CDATA[Data aggiunta]]></value>
+	</definition>
+	<definition>
+		<key>entry_name</key>
+		<value><![CDATA[Nome raccolta:]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Stato:]]></value>
+	</definition>
+	<definition>
+		<key>entry_description</key>
+		<value><![CDATA[Descrizione interna:]]></value>
+	</definition>
+	<definition>
+		<key>save_error_name</key>
+		<value><![CDATA[Nome raccolta richiesto.]]></value>
+	</definition>
+	<definition>
+		<key>collection_new</key>
+		<value><![CDATA[Nuova collezione]]></value>
+	</definition>
+	<definition>
+		<key>collection_update</key>
+		<value><![CDATA[Raccolta aggiornamenti]]></value>
+	</definition>
+	<definition>
+		<key>conditions_title</key>
+		<value><![CDATA[condizioni:]]></value>
+	</definition>
+	<definition>
+		<key>text_if_1</key>
+		<value><![CDATA[Se:]]></value>
+	</definition>
+	<definition>
+		<key>text_all</key>
+		<value><![CDATA[Tutti]]></value>
+	</definition>
+	<definition>
+		<key>text_any</key>
+		<value><![CDATA[Qualunque]]></value>
+	</definition>
+	<definition>
+		<key>text_if_2</key>
+		<value><![CDATA[di queste condizioni sono]]></value>
+	</definition>
+	<definition>
+		<key>text_true</key>
+		<value><![CDATA[Vero]]></value>
+	</definition>
+	<definition>
+		<key>text_false</key>
+		<value><![CDATA[falso]]></value>
+	</definition>
+	<definition>
+		<key>entry_condition_object</key>
+		<value><![CDATA[Aggiungi condizione:]]></value>
+	</definition>
+	<definition>
+		<key>text_product_price</key>
+		<value><![CDATA[Prezzo del prodotto]]></value>
+	</definition>
+	<definition>
+		<key>text_categories</key>
+		<value><![CDATA[categorie]]></value>
+	</definition>
+	<definition>
+		<key>text_brands</key>
+		<value><![CDATA[Marche]]></value>
+	</definition>
+	<definition>
+		<key>text_products</key>
+		<value><![CDATA[Prodotti]]></value>
+	</definition>
+	<definition>
+		<key>text_tags</key>
+		<value><![CDATA[tag]]></value>
+	</definition>
+	<definition>
+		<key>entry_categories</key>
+		<value><![CDATA[categorie:]]></value>
+	</definition>
+	<definition>
+		<key>text_in</key>
+		<value><![CDATA[In]]></value>
+	</definition>
+	<definition>
+		<key>text_not_in</key>
+		<value><![CDATA[Non in]]></value>
+	</definition>
+	<definition>
+		<key>text_select_category</key>
+		<value><![CDATA[-Seleziona categoria-]]></value>
+	</definition>
+	<definition>
+		<key>entry_product_price</key>
+		<value><![CDATA[Prezzo del prodotto:]]></value>
+	</definition>
+	<definition>
+		<key>text_equal</key>
+		<value><![CDATA[Pari]]></value>
+	</definition>
+	<definition>
+		<key>text_not_equal</key>
+		<value><![CDATA[Non uguale]]></value>
+	</definition>
+	<definition>
+		<key>text_equal_or_less</key>
+		<value><![CDATA[Uguale o inferiore]]></value>
+	</definition>
+	<definition>
+		<key>text_equal_or_greater</key>
+		<value><![CDATA[Uguale o maggiore]]></value>
+	</definition>
+	<definition>
+		<key>text_greater</key>
+		<value><![CDATA[Maggiore]]></value>
+	</definition>
+	<definition>
+		<key>text_less</key>
+		<value><![CDATA[Di meno]]></value>
+	</definition>
+	<definition>
+		<key>entry_brands</key>
+		<value><![CDATA[Marche:]]></value>
+	</definition>
+	<definition>
+		<key>text_select_manufacturer</key>
+		<value><![CDATA[-Seleziona marchio-]]></value>
+	</definition>
+	<definition>
+		<key>entry_products</key>
+		<value><![CDATA[Prodotti:]]></value>
+	</definition>
+	<definition>
+		<key>entry_tags</key>
+		<value><![CDATA[tag:]]></value>
+	</definition>
+	<definition>
+		<key>text_select_tags</key>
+		<value><![CDATA[-Seleziona tag-]]></value>
+	</definition>
+	<definition>
+		<key>text_select_tag</key>
+		<value><![CDATA[-Seleziona tag-]]></value>
+	</definition>
+	<definition>
+		<key>save_complete</key>
+		<value><![CDATA[Salva completato]]></value>
+	</definition>
+	<definition>
+		<key>entry_meta_keywords</key>
+		<value><![CDATA[Meta parole chiave:]]></value>
+	</definition>
+	<definition>
+		<key>entry_meta_description</key>
+		<value><![CDATA[Meta Description:]]></value>
+	</definition>
+	<definition>
+		<key>entry_keyword</key>
+		<value><![CDATA[Parola chiave SEO:]]></value>
+	</definition>
+	<definition>
+		<key>tab_layout</key>
+		<value><![CDATA[disposizione]]></value>
+	</definition>
+	<definition>
+		<key>text_collection</key>
+		<value><![CDATA[Collezione]]></value>
+	</definition>
+	<definition>
+		<key>text_success_layout</key>
+		<value><![CDATA[Salva layout completato]]></value>
+	</definition>
+	<definition>
+		<key>entry_title</key>
+		<value><![CDATA[Titolo:]]></value>
+	</definition>
+	<definition>
+		<key>entry_products_count</key>
+		<value><![CDATA[Conteggio dei prodotti:]]></value>
+	</definition>
+	<definition>
+		<key>entry_collection_id</key>
+		<value><![CDATA[Seleziona collezione:]]></value>
+	</definition>
+	<definition>
+		<key>save_error_unique_keyword</key>
+		<value><![CDATA[La parola chiave deve essere unica!]]></value>
+	</definition>
+</definitions>

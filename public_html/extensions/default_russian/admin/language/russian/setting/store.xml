@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Настройки магазина]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успешно: Вы изменили настройки!]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[Менеджер изображений]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[По умолчанию]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[Редактировать магазин:]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Название магазина:<br /><span class="help">Скопировано в настройки и показано на стороне витрины.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[URL магазина:<br /><span class="help">Нужен полный URL к вашему магазину. Убедитесь что вы добавили &#39;/&#39; в конце. Например: http://www.yourdomain.com/path/ <br /><br /> Не используйте каталоги для создания нового магазина. Вы должны всегда направлять другой домен или поддомен на ваш хостинг.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[Использование SSL: <br /><span class="help">Для использования SSL проверте ваш хостинг, установлен ли сертификат SSL.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Название:]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[Описание Мета-тегов:]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[Шаблон:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Приветственное сообщение:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Страна:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Регион / Область:]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[Язык:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Статус магазина<br /><span class="help">Статус магазина на витрине. Статус ВЫКЛЮЧЕН перенаправит на магазин по умолчанию. Используйте установку Режим обслуживания, чтобы установить временное сообщение</span> </span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_alias</key>
+    <value><![CDATA[Имя псевдонима<br /><span class="help">Псевдоним названия магазина. Если оставить пустым, будет основываться на сокращенном имени</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[Новый магазин]]></value>
+  </definition>
+  <definition>
+    <key>button_delete_store</key>
+    <value><![CDATA[Удалить магазин]]></value>
+  </definition>
+  <definition>
+    <key>button_edit_settings</key>
+    <value><![CDATA[Изменить настройки]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение магазина!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Название магазина должно быть от 3 до 32 символов!]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[URL магазин необходим!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Название должно быть от 3 до 32 символов!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[Укажите размеры изображения товара!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[Укажите размеры всплывающего окна с изображением товара!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[Укажите размеры листинга категорий!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[Укажите размеры листинга товаров!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[Укажите размеры дополнительных изображений товара!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[Укажите размеры изображений сопутствующих товаров!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[Укажите размеры изображений товаров в корзине!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[Укажите размеры изображений сетки!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Предупреждение: Данный магазин не может быть удален, так как в настоящее время испоьзуется в %s заказах!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Необходимые данные не был введены. Проверьте наличие ошибок полей ввода!]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[Требуется ограничение!]]></value>
+  </definition>
+  <definition>
+    <key>entry_clone_store</key>
+    <value><![CDATA[Параметры копирования:<br/><span class="help">Вы можете скопировать все настройки из какого-то существующего магазина</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[Безопасный URL магазина:<br /><span class="help">используйте полный URL SSL (HTTPS) в вашем магазине. Убедитесь, что добавили &#39;/&#39; в конце. Например: https://www.yourdomain.com/path/ </span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[Укажите Безопасный URL!]]></value>
+  </definition>
+</definitions>

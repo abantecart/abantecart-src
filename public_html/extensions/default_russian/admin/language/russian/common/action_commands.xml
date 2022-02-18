@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>text_possible_commands</key>
+		<value>
+			<![CDATA[Возможные команды. Вы можете говорить более подробную информацию после ключевой командны. Например, &quot;открыть страницу сообщений&quot; или &quot;Вставить продукт&quot;]]></value>
+	</definition>
+	<definition>
+		<key>text_multiple_result_found</key>
+		<value><![CDATA[Найдено несколько результатов:]]></value>
+	</definition>
+	<definition>
+		<key>text_action_confirm</key>
+		<value><![CDATA[Пожалуйста, подтвердите свой запрос:]]></value>
+	</definition>
+	<definition>
+		<key>command_open</key>
+		<value><![CDATA[открыть, открыть страницу, открыть меню]]></value>
+	</definition>
+	<definition>
+		<key>command_find</key>
+		<value><![CDATA[обнаружить, найти, поиск, определить, разыскать]]></value>
+	</definition>
+	<definition>
+		<key>command_clear_cache</key>
+		<value><![CDATA[очистить кэш, кэш удалить, очистить весь кэш]]></value>
+	</definition>
+	<definition>
+		<key>command_view_log</key>
+		<value>
+			<![CDATA[просмотр журнала, журнал смотреть, проверить журнал, смотреть лог, просмотреть журнал ошибок, просмотреть ошибки]]></value>
+	</definition>
+	<definition>
+		<key>command_clear_log</key>
+		<value><![CDATA[очистить журнал, журнал очистить, удалить журнал, журнал удалить, лог удалить]]></value>
+	</definition>
+	<definition>
+		<key>command_view_order</key>
+		<value>
+			<![CDATA[просмотр заказа, номер заказа, открытый заказ, показать заказ, открытый заказ номер, показать заказ номер, смотреть заказ номер, заказ номер]]></value>
+	</definition>
+	<definition>
+		<key>command_create_new</key>
+		<value><![CDATA[вставить, создать, добавить, новый, вставить новые, создать новый, добавить новый]]></value>
+	</definition>
+	<definition>
+		<key>category</key>
+		<value><![CDATA[категория]]></value>
+	</definition>
+	<definition>
+		<key>product</key>
+		<value><![CDATA[товар]]></value>
+	</definition>
+	<definition>
+		<key>brand</key>
+		<value><![CDATA[марка]]></value>
+	</definition>
+	<definition>
+		<key>manufacturer</key>
+		<value><![CDATA[производитель]]></value>
+	</definition>
+	<definition>
+		<key>review</key>
+		<value><![CDATA[отзыв]]></value>
+	</definition>
+	<definition>
+		<key>download</key>
+		<value><![CDATA[скачать]]></value>
+	</definition>
+	<definition>
+		<key>attribute</key>
+		<value><![CDATA[атрибут]]></value>
+	</definition>
+	<definition>
+		<key>customer</key>
+		<value><![CDATA[клиент]]></value>
+	</definition>
+	<definition>
+		<key>coupon</key>
+		<value><![CDATA[купон]]></value>
+	</definition>
+	<definition>
+		<key>discount</key>
+		<value><![CDATA[скидка]]></value>
+	</definition>
+	<definition>
+		<key>block</key>
+		<value><![CDATA[блок]]></value>
+	</definition>
+	<definition>
+		<key>menu</key>
+		<value><![CDATA[меню]]></value>
+	</definition>
+	<definition>
+		<key>content</key>
+		<value><![CDATA[статья]]></value>
+	</definition>
+	<definition>
+		<key>banner</key>
+		<value><![CDATA[баннер]]></value>
+	</definition>
+	<definition>
+		<key>page</key>
+		<value><![CDATA[страница]]></value>
+	</definition>
+	<definition>
+		<key>store</key>
+		<value><![CDATA[магазин]]></value>
+	</definition>
+	<definition>
+		<key>language</key>
+		<value><![CDATA[язык]]></value>
+	</definition>
+	<definition>
+		<key>currency</key>
+		<value><![CDATA[валюта]]></value>
+	</definition>
+	<definition>
+		<key>location</key>
+		<value><![CDATA[расположение]]></value>
+	</definition>
+	<definition>
+		<key>tax</key>
+		<value><![CDATA[налог]]></value>
+	</definition>
+	<definition>
+		<key>command_view_product</key>
+		<value>
+			<![CDATA[смотреть продукт, номер продукта, открыть продукт, показать продукт, открыть номер продукта, смотреть номер продукта, показать номер продукта, продукт №]]></value>
+	</definition>
+</definitions>

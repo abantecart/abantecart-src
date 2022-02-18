@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>default_banktransfer_name</key>
+		<value><![CDATA[Transferencia bancaria]]></value>
+	</definition>
+	<definition>
+		<key>text_payment</key>
+		<value><![CDATA[Pago]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Exito: Se ha modificado la configuración de la transferencia bancaria y detalles!]]></value>
+	</definition>
+	<definition>
+		<key>default_banktransfer_instructions</key>
+		<value><![CDATA[Banco Instrucciones de transferencia:<span class="help">Instrucción se muestra a los clientes para hacer banco o transferencia electrónica a su cuenta de banco</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_banktransfer_order_min</key>
+		<value><![CDATA[Límite total del pedido:<span class="help">Cantidad mínima de pedido para llegar a permitir el pago</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_banktransfer_order_status_id</key>
+		<value><![CDATA[Estado del pedido:]]></value>
+	</definition>
+	<definition>
+		<key>default_banktransfer_location_id</key>
+		<value><![CDATA[Location:]]></value>
+	</definition>
+	<definition>
+		<key>default_banktransfer_location_id_0</key>
+		<value><![CDATA[All Locations]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Advertencia: Usted no tiene permiso para modificar pago Transferencia Bancaria!]]></value>
+	</definition>
+	<definition>
+		<key>error_instructions</key>
+		<value><![CDATA[Los datos bancarios son necesarios!]]></value>
+	</definition>
+</definitions>

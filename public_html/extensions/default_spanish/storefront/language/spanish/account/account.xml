@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Mi cuenta]]></value>
+	</definition>
+	<definition>
+		<key>text_account_dashboard</key>
+		<value><![CDATA[Dashboard cuenta]]></value>
+	</definition>
+	<definition>
+		<key>text_account</key>
+		<value><![CDATA[Cuenta]]></value>
+	</definition>
+	<definition>
+		<key>text_my_account</key>
+		<value><![CDATA[Mi Cuenta]]></value>
+	</definition>
+	<definition>
+		<key>text_my_orders</key>
+		<value><![CDATA[Mis Pedidos]]></value>
+	</definition>
+	<definition>
+		<key>text_my_newsletter</key>
+		<value><![CDATA[Boletín]]></value>
+	</definition>
+	<definition>
+		<key>text_information</key>
+		<value><![CDATA[Editar la información de su cuenta]]></value>
+	</definition>
+	<definition>
+		<key>text_password</key>
+		<value><![CDATA[Cambiar su contraseña]]></value>
+	</definition>
+	<definition>
+		<key>text_address</key>
+		<value><![CDATA[Modifique las direcciones de entrega]]></value>
+	</definition>
+	<definition>
+		<key>text_history</key>
+		<value><![CDATA[Ver historial de pedidos]]></value>
+	</definition>
+	<definition>
+		<key>text_transactions</key>
+		<value><![CDATA[Historia Transacciones]]></value>
+	</definition>
+	<definition>
+		<key>text_download</key>
+		<value><![CDATA[Descargas]]></value>
+	</definition>
+	<definition>
+		<key>text_newsletter</key>
+		<value><![CDATA[Subscribir / Des-suscribirse al boletín]]></value>
+	</definition>
+	<definition>
+		<key>text_account_wishlist</key>
+		<value><![CDATA[Su lista de deseos]]></value>
+	</definition>
+	<definition>
+		<key>text_my_notifications</key>
+		<value><![CDATA[Notificaciones]]></value>
+	</definition>
+</definitions>

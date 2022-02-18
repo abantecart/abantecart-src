@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>banner_manager_name</key>
+		<value><![CDATA[Баннер менеджер]]></value>
+	</definition>
+	<definition>
+		<key>banner_manager_note</key>
+		<value>
+			<![CDATA[Для управления баннерами перейдите в меню <b>Дизайн -&gt; Баннер менеджер</b> после того как будет включено расширение<br> Чтобы увидеть статистику баннера следуйте <b>Отчеты -&gt; Статистика Баннеров</b> после включений расширения и создания баннера]]></value>
+	</definition>
+	<definition>
+		<key>banner_manager_list</key>
+		<value><![CDATA[Список баннеров]]></value>
+	</definition>
+	<definition>
+		<key>banner_manager_name_stat</key>
+		<value><![CDATA[Статистика Баннеров]]></value>
+	</definition>
+	<definition>
+		<key>column_banner_id</key>
+		<value><![CDATA[Id]]></value>
+	</definition>
+	<definition>
+		<key>column_banner_name</key>
+		<value><![CDATA[Название]]></value>
+	</definition>
+	<definition>
+		<key>column_banner_group</key>
+		<value><![CDATA[Группа]]></value>
+	</definition>
+	<definition>
+		<key>column_banner_type</key>
+		<value><![CDATA[Тип]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Статус]]></value>
+	</definition>
+	<definition>
+		<key>column_update_date</key>
+		<value><![CDATA[Дата Обновления]]></value>
+	</definition>
+	<definition>
+		<key>column_clicked</key>
+		<value><![CDATA[Клики]]></value>
+	</definition>
+	<definition>
+		<key>column_viewed</key>
+		<value><![CDATA[Просмотров]]></value>
+	</definition>
+	<definition>
+		<key>column_percent</key>
+		<value><![CDATA[Конверсия]]></value>
+	</definition>
+	<definition>
+		<key>text_create</key>
+		<value><![CDATA[Создать новый баннер]]></value>
+	</definition>
+	<definition>
+		<key>text_graphic_banner</key>
+		<value><![CDATA[Графический баннер]]></value>
+	</definition>
+	<definition>
+		<key>text_text_banner</key>
+		<value><![CDATA[Текстовый Баннер]]></value>
+	</definition>
+	<definition>
+		<key>entry_banner_status</key>
+		<value><![CDATA[ Статус: ]]></value>
+	</definition>
+	<definition>
+		<key>entry_banner_name</key>
+		<value><![CDATA[Имя:]]></value>
+	</definition>
+	<definition>
+		<key>entry_banner_group_name</key>
+		<value><![CDATA[Название группы баннеров:]]></value>
+	</definition>
+	<definition>
+		<key>entry_banner_description</key>
+		<value><![CDATA[Описание:]]></value>
+	</definition>
+	<definition>
+		<key>entry_banner_html</key>
+		<value><![CDATA[HTML-код баннера:]]></value>
+	</definition>
+	<definition>
+		<key>entry_banner_meta</key>
+		<value><![CDATA[Мета информация:<span class="help">SEO ключевые слова и т.д.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_banner_url</key>
+		<value><![CDATA[URL:]]></value>
+	</definition>
+	<definition>
+		<key>entry_banner_blank</key>
+		<value><![CDATA[Открыть в новом окне:]]></value>
+	</definition>
+	<definition>
+		<key>entry_banner_sort_order</key>
+		<value><![CDATA[Порядок сортировки в группе:]]></value>
+	</definition>
+	<definition>
+		<key>entry_banner_daterange</key>
+		<value><![CDATA[Диапазон дат:]]></value>
+	</definition>
+	<definition>
+		<key>entry_banner_rl</key>
+		<value><![CDATA[Изображения:]]></value>
+	</definition>
+	<definition>
+		<key>text_add_new_group</key>
+		<value><![CDATA[- Добавить новую группу -]]></value>
+	</definition>
+	<definition>
+		<key>text_put_new_group</key>
+		<value><![CDATA[Введите имя новой группы здесь]]></value>
+	</definition>
+	<definition>
+		<key>error_empty</key>
+		<value><![CDATA[Ошибка: Пожалуйста, заполните все необходимые поля формы.]]></value>
+	</definition>
+	<definition>
+		<key>text_banner_success</key>
+		<value><![CDATA[Успешно: Вы изменили баннер.]]></value>
+	</definition>
+	<definition>
+		<key>text_view_stat</key>
+		<value><![CDATA[Посмотреть Статистику]]></value>
+	</definition>
+	<definition>
+		<key>text_banner_block</key>
+		<value><![CDATA[Баннер Блок]]></value>
+	</definition>
+	<definition>
+		<key>text_create_block</key>
+		<value><![CDATA[Создать Баннер Блок]]></value>
+	</definition>
+	<definition>
+		<key>text_banner</key>
+		<value><![CDATA[Баннер]]></value>
+	</definition>
+	<definition>
+		<key>entry_banners_selected</key>
+		<value><![CDATA[Избранные баннеры:]]></value>
+	</definition>
+	<definition>
+		<key>text_select_banners</key>
+		<value><![CDATA[Выберите баннеры]]></value>
+	</definition>
+	<definition>
+		<key>text_hours</key>
+		<value><![CDATA[часов]]></value>
+	</definition>
+	<definition>
+		<key>text_weeks</key>
+		<value><![CDATA[дни недели]]></value>
+	</definition>
+	<definition>
+		<key>text_days</key>
+		<value><![CDATA[дней]]></value>
+	</definition>
+	<definition>
+		<key>text_months</key>
+		<value><![CDATA[месяцев]]></value>
+	</definition>
+	<definition>
+		<key>text_count</key>
+		<value><![CDATA[просчитать]]></value>
+	</definition>
+	<definition>
+		<key>text_delete_statistic</key>
+		<value><![CDATA[ Удалить Статистику ]]></value>
+	</definition>
+</definitions>

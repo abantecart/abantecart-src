@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Sommario ordine]]></value>
+	</definition>
+	<definition>
+		<key>text_subtotal</key>
+		<value><![CDATA[Totale parziale:]]></value>
+	</definition>
+	<definition>
+		<key>text_empty</key>
+		<value><![CDATA[0 Articoli]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm</key>
+		<value><![CDATA[Confermi?]]></value>
+	</definition>
+	<definition>
+		<key>text_remove</key>
+		<value><![CDATA[Rimuovi]]></value>
+	</definition>
+	<definition>
+		<key>text_view</key>
+		<value><![CDATA[Vedi carrello]]></value>
+	</definition>
+	<definition>
+		<key>text_checkout</key>
+		<value><![CDATA[Acquista]]></value>
+	</definition>
+	<definition>
+		<key>text_items</key>
+		<value><![CDATA[Articoli]]></value>
+	</definition>
+</definitions>

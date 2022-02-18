@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Создать учетную запись]]></value>
+	</definition>
+	<definition>
+		<key>text_account</key>
+		<value><![CDATA[Личный кабинет]]></value>
+	</definition>
+	<definition>
+		<key>text_create</key>
+		<value><![CDATA[Регистрация]]></value>
+	</definition>
+	<definition>
+		<key>text_account_already</key>
+		<value><![CDATA[Если Вы уже зарегистрированы, пожалуйста, перейдите на <a style="text-decoration: underline" href="%s">страницу входа</a> .]]></value>
+	</definition>
+	<definition>
+		<key>text_your_details</key>
+		<value><![CDATA[Ваши персональные данные]]></value>
+	</definition>
+	<definition>
+		<key>text_your_address</key>
+		<value><![CDATA[Ваш адрес]]></value>
+	</definition>
+	<definition>
+		<key>text_newsletter</key>
+		<value><![CDATA[Подписка на новости]]></value>
+	</definition>
+	<definition>
+		<key>text_your_password</key>
+		<value><![CDATA[Ваш пароль]]></value>
+	</definition>
+	<definition>
+		<key>text_agree</key>
+		<value><![CDATA[Я прочитал и согласен с]]></value>
+	</definition>
+	<definition>
+		<key>entry_loginname</key>
+		<value><![CDATA[Логин:]]></value>
+	</definition>
+	<definition>
+		<key>entry_firstname</key>
+		<value><![CDATA[Имя:]]></value>
+	</definition>
+	<definition>
+		<key>entry_lastname</key>
+		<value><![CDATA[Фамилия:]]></value>
+	</definition>
+	<definition>
+		<key>entry_email</key>
+		<value><![CDATA[E-Mail:]]></value>
+	</definition>
+	<definition>
+		<key>entry_telephone</key>
+		<value><![CDATA[Телефон:]]></value>
+	</definition>
+	<definition>
+		<key>entry_fax</key>
+		<value><![CDATA[Факс:]]></value>
+	</definition>
+	<definition>
+		<key>entry_company</key>
+		<value><![CDATA[Компания:]]></value>
+	</definition>
+	<definition>
+		<key>entry_address_1</key>
+		<value><![CDATA[Адрес 1:]]></value>
+	</definition>
+	<definition>
+		<key>entry_address_2</key>
+		<value><![CDATA[Адрес 2:]]></value>
+	</definition>
+	<definition>
+		<key>entry_postcode</key>
+		<value><![CDATA[Почтовый индекс:]]></value>
+	</definition>
+	<definition>
+		<key>entry_city</key>
+		<value><![CDATA[Город:]]></value>
+	</definition>
+	<definition>
+		<key>entry_country</key>
+		<value><![CDATA[Страна:]]></value>
+	</definition>
+	<definition>
+		<key>entry_zone</key>
+		<value><![CDATA[Регион / Область:]]></value>
+	</definition>
+	<definition>
+		<key>entry_newsletter</key>
+		<value><![CDATA[Подписка на новости:]]></value>
+	</definition>
+	<definition>
+		<key>entry_password</key>
+		<value><![CDATA[Пароль:]]></value>
+	</definition>
+	<definition>
+		<key>entry_confirm</key>
+		<value><![CDATA[Подтвердите пароль:]]></value>
+	</definition>
+	<definition>
+		<key>error_exists</key>
+		<value><![CDATA[Ошибка: Этот E-Mail адрес уже зарегистрирован!]]></value>
+	</definition>
+	<definition>
+		<key>error_loginname</key>
+		<value><![CDATA[Логин должен быть только буквенно-цифровой и от 5 до 64 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_loginname_notunique</key>
+		<value><![CDATA[Этот Логин не доступен. Попробуйте другой!]]></value>
+	</definition>
+	<definition>
+		<key>error_firstname</key>
+		<value><![CDATA[Имя должно быть от 1 до 32 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_lastname</key>
+		<value><![CDATA[Фамилия должна быть от 1 до 32 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_email</key>
+		<value><![CDATA[E-Mail, введён неправильно!]]></value>
+	</definition>
+	<definition>
+		<key>error_email_exists</key>
+		<value><![CDATA[Адрес электронной почты уже существует!]]></value>
+	</definition>
+	<definition>
+		<key>error_password</key>
+		<value><![CDATA[Длина пароля должна быть от 3 до 20 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_confirm</key>
+		<value><![CDATA[Подтверждение пароля не совпадает с паролем!]]></value>
+	</definition>
+	<definition>
+		<key>error_address_1</key>
+		<value><![CDATA[Адрес 1 должен быть от 3 до 128 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_city</key>
+		<value><![CDATA[Город должен быть от 3 до 128 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_postcode</key>
+		<value><![CDATA[Почтовый индекс должен быть от 3 до 10 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_country</key>
+		<value><![CDATA[Пожалуйста, выберите страну!]]></value>
+	</definition>
+	<definition>
+		<key>error_zone</key>
+		<value><![CDATA[Пожалуйста, выберите регион / область!]]></value>
+	</definition>
+	<definition>
+		<key>error_telephone</key>
+		<value><![CDATA[Телефон должен быть от 3 до 32 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_agree</key>
+		<value><![CDATA[Ошибка: Вы должны согласиться с %s !]]></value>
+	</definition>
+	<definition>
+		<key>text_full_register</key>
+		<value><![CDATA[Стать клиентом и зарегистрироваться]]></value>
+	</definition>
+	<definition>
+		<key>text_subscribe_register</key>
+		<value><![CDATA[Стать подписчиком на новости]]></value>
+	</definition>
+	<definition>
+		<key>text_success_subscribe_heading</key>
+		<value><![CDATA[Вы успешно подписаны!]]></value>
+	</definition>
+	<definition>
+		<key>text_success_subscribe</key>
+		<value><![CDATA[Успешно: Ваша подписка была успешно создана!]]></value>
+	</definition>
+	<definition>
+		<key>error_subscriber_exists</key>
+		<value><![CDATA[Наши записи показывают, что у вас есть аккаунт с нами. Пожалуйста, войдите в свой аккаунт для управления подписки на рассылку.]]></value>
+	</definition>
+	<definition>
+		<key>text_new_customer</key>
+		<value><![CDATA[New customer registration approval is pending]]></value>
+	</definition>
+	<definition>
+		<key>text_pending_customer_approval</key>
+		<value><![CDATA[Покупатель %s создал новый аккаунт. Требуется подтверждение. Детали: #admin#rt=sale/customer/update&customer_id=%s]]></value>
+	</definition>
+	<definition>
+		<key>text_pending_subscriber_approval</key>
+		<value><![CDATA[Зарегистрирован новый подписчик %s. Требуется утверждение! Нажмике чтоб посмотреть #admin#rt=sale/customer/update&customer_id=%s]]></value>
+	</definition>
+	<definition>
+		<key>text_login_details</key>
+		<value><![CDATA[Детали входа]]></value>
+	</definition>
+</definitions>

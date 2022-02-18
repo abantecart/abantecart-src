@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Pagina non trovata!]]></value>
+	</definition>
+	<definition>
+		<key>text_not_found</key>
+		<value>
+			<![CDATA[La pagina che stai cercando non è stata trovata! Si prega di contattare l'amministratore se il problema persiste.]]></value>
+	</definition>
+</definitions>

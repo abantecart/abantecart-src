@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Caratteristiche]]></value>
+	</definition>
+	<definition>
+		<key>heading_subtitle</key>
+		<value><![CDATA[Guarda i nostri prodotti più in evidenza]]></value>
+	</definition>
+	<definition>
+		<key>text_stars</key>
+		<value><![CDATA[%s su 5 Stelle!]]></value>
+	</definition>
+</definitions>

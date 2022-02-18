@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>default_paymate_name</key>
+    <value><![CDATA[Paymate]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Payment]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: You have modified Paymate account details!]]></value>
+  </definition>
+  <definition>
+    <key>default_paymate_username</key>
+    <value><![CDATA[Paymate Username:]]></value>
+  </definition>
+  <definition>
+    <key>default_paymate_order_status_id</key>
+    <value><![CDATA[Order Status:]]></value>
+  </definition>
+  <definition>
+    <key>default_paymate_location_id</key>
+    <value><![CDATA[Location:]]></value>
+  </definition>
+  <definition>
+    <key>default_paymate_location_id_0</key>
+    <value><![CDATA[All Locations]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Warning: You do not have permission to modify payment Paymate!]]></value>
+  </definition>
+  <definition>
+    <key>error_username</key>
+    <value><![CDATA[Paymate Username required!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>default_liqpay_name</key>
+		<value><![CDATA[LIQPAY]]></value>
+	</definition>
+	<definition>
+		<key>text_payment</key>
+		<value><![CDATA[Оплата]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Успешно: Вы изменили детали LIQPAY аккаунта!]]></value>
+	</definition>
+	<definition>
+		<key>text_pay</key>
+		<value><![CDATA[LIQPAY]]></value>
+	</definition>
+	<definition>
+		<key>text_card</key>
+		<value><![CDATA[Кредитная карта]]></value>
+	</definition>
+	<definition>
+		<key>default_liqpay_merchant</key>
+		<value><![CDATA[ID продавца:]]></value>
+	</definition>
+	<definition>
+		<key>default_liqpay_signature</key>
+		<value><![CDATA[Подпись:]]></value>
+	</definition>
+	<definition>
+		<key>default_liqpay_type</key>
+		<value><![CDATA[Тип:]]></value>
+	</definition>
+	<definition>
+		<key>default_liqpay_test_mode</key>
+		<value><![CDATA[Тестовый режим:]]></value>
+	</definition>
+	<definition>
+		<key>default_liqpay_type_pay</key>
+		<value><![CDATA[Оплатить]]></value>
+	</definition>
+	<definition>
+		<key>default_liqpay_type_card</key>
+		<value><![CDATA[Карта]]></value>
+	</definition>
+	<definition>
+		<key>default_liqpay_order_status_id</key>
+		<value><![CDATA[Статус заказа:]]></value>
+	</definition>
+	<definition>
+		<key>default_liqpay_location_id_0</key>
+		<value><![CDATA[Все местоположения]]></value>
+	</definition>
+	<definition>
+		<key>default_liqpay_location_id</key>
+		<value><![CDATA[Географическая зона:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Предупреждение: Вы не имеете прав на изменение LiqPAY!]]></value>
+	</definition>
+	<definition>
+		<key>error_merchant</key>
+		<value><![CDATA[ID продавца обязателен!]]></value>
+	</definition>
+	<definition>
+		<key>error_signature</key>
+		<value><![CDATA[Подпись обязательна!]]></value>
+	</definition>
+</definitions>

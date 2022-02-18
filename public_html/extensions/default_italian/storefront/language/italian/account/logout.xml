@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Esci]]></value>
+	</definition>
+	<definition>
+		<key>text_message</key>
+		<value>
+			<![CDATA[<p>Il tuo account è stato disconnesso.</p><p>Il tuo carrello acquisti è stato salvato, ritroverai i prodotti contenuti in esso la prossima volta che accederai al tuo account.</p>]]></value>
+	</definition>
+	<definition>
+		<key>text_account</key>
+		<value><![CDATA[Account]]></value>
+	</definition>
+	<definition>
+		<key>text_logout</key>
+		<value><![CDATA[Esci]]></value>
+	</definition>
+</definitions>

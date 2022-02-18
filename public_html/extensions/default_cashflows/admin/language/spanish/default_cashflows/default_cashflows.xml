@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>default_cashflows_name</key>
+    <value><![CDATA[Cashflows Payments]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Payment]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: You have modified Cashflows Payments account details!]]></value>
+  </definition>
+  <definition>
+    <key>default_cashflows_auth_id</key>
+    <value><![CDATA[Authorization ID:]]></value>
+  </definition>
+  <definition>
+    <key>default_cashflows_auth_pass</key>
+    <value><![CDATA[Authorization Password:]]></value>
+  </definition>
+  <definition>
+    <key>default_cashflows_test</key>
+    <value><![CDATA[Test Mode:<br /><span class="help">Use live or testing to process transactions?</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_cashflows_test_1</key>
+    <value><![CDATA[Sí]]></value>
+  </definition>
+  <definition>
+    <key>default_cashflows_test_0</key>
+    <value><![CDATA[No]]></value>
+  </definition>
+  <definition>
+    <key>default_cashflows_order_status_id</key>
+    <value><![CDATA[Order Status:]]></value>
+  </definition>
+  <definition>
+    <key>default_cashflows_location_id</key>
+    <value><![CDATA[Localidad:]]></value>
+  </definition>
+  <definition>
+    <key>default_cashflows_location_id_0</key>
+    <value><![CDATA[Todos las Localidades:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Warning: You do not have permission to modify payment Cashflows Payments!]]></value>
+  </definition>
+  <definition>
+    <key>error_auth_id</key>
+    <value><![CDATA[Authorization ID Required!]]></value>
+  </definition>
+  <definition>
+    <key>error_auth_pass</key>
+    <value><![CDATA[Authorization Password Required!]]></value>
+  </definition>
+</definitions>

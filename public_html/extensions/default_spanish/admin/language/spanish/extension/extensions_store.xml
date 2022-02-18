@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Extensiones de la tienda]]></value>
+	</definition>
+	<definition>
+		<key>text_install</key>
+		<value><![CDATA[Instalar]]></value>
+	</definition>
+	<definition>
+		<key>text_uninstall</key>
+		<value><![CDATA[Desinstalar]]></value>
+	</definition>
+	<definition>
+		<key>text_uninstall_delete</key>
+		<value><![CDATA[Desinstalar / eliminar]]></value>
+	</definition>
+	<definition>
+		<key>text_uninstall_confirm</key>
+		<value><![CDATA[Por favor, confirme que desea desinstalar la extensión [%% de la extensión]. Todos los ajustes de extensión y los datos relacionados se pueden borrar y perdió.]]></value>
+	</definition>
+	<definition>
+		<key>text_delete</key>
+		<value><![CDATA[Borrar]]></value>
+	</definition>
+	<definition>
+		<key>text_enlarge</key>
+		<value><![CDATA[Haga clic en la imagen para ampliarla]]></value>
+	</definition>
+	<definition>
+		<key>text_activate</key>
+		<value><![CDATA[Activar]]></value>
+	</definition>
+	<definition>
+		<key>text_deactivate</key>
+		<value><![CDATA[Desactivar]]></value>
+	</definition>
+	<definition>
+		<key>text_left</key>
+		<value><![CDATA[Izquierda]]></value>
+	</definition>
+	<definition>
+		<key>text_right</key>
+		<value><![CDATA[Derecho]]></value>
+	</definition>
+	<definition>
+		<key>text_date_added</key>
+		<value><![CDATA[Agregado el]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Advertencia: Usted no tiene permiso para modificar las extensiones!]]></value>
+	</definition>
+	<definition>
+		<key>error_required_field</key>
+		<value><![CDATA[Advertencia: Por favor, rellene los campos obligatorios!]]></value>
+	</definition>
+	<definition>
+		<key>error_payment_uninstall</key>
+		<value><![CDATA[Advertencia: Desactivar la extensión antes de desinstalación!]]></value>
+	</definition>
+	<definition>
+		<key>error_uninstall</key>
+		<value><![CDATA[Advertencia: Desinstalar extensión antes de borrar!]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Éxito: Se ha modificado la configuración de extensión!]]></value>
+	</definition>
+	<definition>
+		<key>text_extensions_store</key>
+		<value><![CDATA[Extensiones de la tienda]]></value>
+	</definition>
+	<definition>
+		<key>text_required</key>
+		<value><![CDATA[Necesario]]></value>
+	</definition>
+	<definition>
+		<key>text_optional</key>
+		<value><![CDATA[Opcional]]></value>
+	</definition>
+	<definition>
+		<key>text_add_new</key>
+		<value><![CDATA[Agregar Nueva extensión]]></value>
+	</definition>
+	<definition>
+		<key>error_connect</key>
+		<value><![CDATA[Lo sentimos, tu Abantecart no se puede conectar con la tienda de extensión. Por favor, consulte Sistema-&gt; error registros para más detalles.]]></value>
+	</definition>
+	<definition>
+		<key>text_my_extensions</key>
+		<value><![CDATA[Mis extensiones]]></value>
+	</definition>
+	<definition>
+		<key>text_my_account</key>
+		<value><![CDATA[Mi Cuenta]]></value>
+	</definition>
+	<definition>
+		<key>text_marketplace_site</key>
+		<value><![CDATA[sitio Marketplace]]></value>
+	</definition>
+	<definition>
+		<key>text_all_categories</key>
+		<value><![CDATA[Todas las categorías]]></value>
+	</definition>
+	<definition>
+		<key>text_connect</key>
+		<value><![CDATA[Сonectar]]></value>
+	</definition>
+	<definition>
+		<key>text_marketplace_connect</key>
+		<value><![CDATA[Conecte al mercado]]></value>
+	</definition>
+	<definition>
+		<key>text_marketplace_extension</key>
+		<value><![CDATA[Extensión de vista previa para ]]></value>
+	</definition>
+	<definition>
+		<key>text_marketplace_buy</key>
+		<value><![CDATA[Obtener esta extensión ahora]]></value>
+	</definition>
+	<definition>
+		<key>text_connected</key>
+		<value><![CDATA[Con fácil acceso al mercado. Haga clic para desconectar]]></value>
+	</definition>
+	<definition>
+		<key>text_disconnect_confirm</key>
+		<value><![CDATA[¿Seguro que desea desconectar]]></value>
+	</definition>
+	<definition>
+		<key>text_disconnect_success</key>
+		<value><![CDATA[Esta tienda fue desconectado!]]></value>
+	</definition>
+	<definition>
+		<key>text_connection_required</key>
+		<value><![CDATA[Es necesario conectar AbanteCart al Marketplace para ver las extensiones! Haga clic en el botón "conectar" en el panel anterior.]]></value>
+	</definition>
+	<definition>
+		<key>text_in_other_store</key>
+		<value><![CDATA[Extensión para este fin se instaló en la otra AbanteCart. Revise sus tiendas conectadas para la historia.]]></value>
+	</definition>
+	<definition>
+		<key>text_no_purchase_or_not_connected</key>
+		<value><![CDATA[No tiene compras para esta tienda o esta tienda se desconectan del Marketplace.]]></value>
+	</definition>
+	<definition>
+		<key>text_no_extensions_loaded</key>
+		<value><![CDATA[No hay extensiones disponibles. Compruebe su selección o intente de nuevo.]]></value>
+	</definition>
+	<definition>
+		<key>text_compatibility</key>
+		<value><![CDATA[Esta extensión no está confirmado para trabajar con su versión de AbanteCart. Contacto desarrollador extensión para confirmar la compatibilidad.]]></value>
+	</definition>
+	<definition>
+		<key>error_mp_connection</key>
+		<value><![CDATA[Vaya, no puede conectarse a AbanteCart MarketPlace. Por favor, tratar de comprobar más tarde o pregunte a su proveedor de servicios de hosting para obtener ayuda.]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_review_asc</key>
+		<value><![CDATA[Conde Comentario Bajo > Alto]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_review_desc</key>
+		<value><![CDATA[Conde Comentario Alto > Bajo]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_price_asc</key>
+		<value><![CDATA[Precio Bajo > Alto]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_price_desc</key>
+		<value><![CDATA[Precio Alto > Bajo]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_rating_desc</key>
+		<value><![CDATA[Rating más alto]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_rating_asc</key>
+		<value><![CDATA[Rating más bajo]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_date_modified_asc</key>
+		<value><![CDATA[Fecha Nuevo a viejo]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_date_modified_desc</key>
+		<value><![CDATA[Fecha Viejo a nuevo]]></value>
+	</definition>
+	<definition>
+		<key>text_search</key>
+		<value><![CDATA[buscar]]></value>
+	</definition>
+	<definition>
+		<key>text_no_extensions_loaded</key>
+		<value><![CDATA[No hay extensiones disponibles. Revise su selección o vuelva a intentarlo.]]></value>
+	</definition>
+</definitions>

@@ -1,0 +1,49 @@
+#pay_modal .modal-body {
+	min-height: 500px;
+}
+
+.modal-body .modal_loader {
+	position: relative;
+	top: -230px;
+	left: 45%;
+	color: #00A1CB;
+}
+
+.modal-body {
+	-ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+/* some adjustments for default template */
+.productpagecart a::before {
+	content: '';
+}
+
+.sch_buynow {
+	background: #f25c27 none repeat scroll 0 0 !important;
+}
+
+.productpagecart a {
+	padding: 10px;
+}
+
+.thumbnail a.sch_productcart::before {
+	content: '';
+}
+
+.thumbnail a.sch_productcart, .thumbnail a.sch_buynow {
+	padding: 8px;
+}
+
+.thumbnail a.sch_buynow {
+	float: right;
+	font-size: 12px;
+	position: relative;
+	text-transform: uppercase;
+	margin-right: 5px;
+	margin-left: 5px;
+}
+
+
+#pay_modal .modal-dialog {
+	width: 95%;
+}

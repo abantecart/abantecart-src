@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Credit or Debit Card (Processed securely by Cashflows Payments)]]></value>
+  </definition>
+  <definition>
+    <key>text_credit_card</key>
+    <value><![CDATA[Credit Card Details]]></value>
+  </definition>
+  <definition>
+    <key>text_start_date</key>
+    <value><![CDATA[(if available)]]></value>
+  </definition>
+  <definition>
+    <key>text_issue</key>
+    <value><![CDATA[(for Maestro and Solo cards only)]]></value>
+  </definition>
+  <definition>
+    <key>text_wait</key>
+    <value><![CDATA[Please wait!]]></value>
+  </definition>
+  <definition>
+    <key>text_transaction</key>
+    <value><![CDATA[Transaction ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_avs</key>
+    <value><![CDATA[AVS/CVV:]]></value>
+  </definition>
+  <definition>
+    <key>text_avs_full_match</key>
+    <value><![CDATA[Full match]]></value>
+  </definition>
+  <definition>
+    <key>text_avs_not_match</key>
+    <value><![CDATA[Not matched]]></value>
+  </definition>
+  <definition>
+    <key>text_authorisation</key>
+    <value><![CDATA[Authorisation code:]]></value>
+  </definition>
+  <definition>
+    <key>entry_cc_number</key>
+    <value><![CDATA[Card Number:]]></value>
+  </definition>
+  <definition>
+    <key>entry_cc_start_date</key>
+    <value><![CDATA[Card Valid From Date:]]></value>
+  </definition>
+  <definition>
+    <key>entry_cc_expire_date</key>
+    <value><![CDATA[Card Expiry Date:]]></value>
+  </definition>
+  <definition>
+    <key>entry_cc_cvv2</key>
+    <value><![CDATA[Card Security Code (CVV2):]]></value>
+  </definition>
+  <definition>
+    <key>entry_cc_issue</key>
+    <value><![CDATA[Card Issue Number:]]></value>
+  </definition>
+</definitions>

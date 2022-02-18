@@ -1,0 +1,267 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Archivos del producto]]></value>
+	</definition>
+	<definition>
+		<key>text_product</key>
+		<value><![CDATA[Producto]]></value>
+	</definition>
+	<definition>
+		<key>tab_files</key>
+		<value><![CDATA[Archivos]]></value>
+	</definition>
+	<definition>
+		<key>entry_file_icon</key>
+		<value><![CDATA[Icono del archivo]]></value>
+	</definition>
+	<definition>
+		<key>entry_name</key>
+		<value><![CDATA[ Nombre]]></value>
+	</definition>
+	<definition>
+		<key>entry_download_name</key>
+		<value><![CDATA[Descarga Nombre]]></value>
+	</definition>
+	<definition>
+		<key>entry_mask</key>
+		<value><![CDATA[Descarga máscara <span class="help">Nombre del fichero de alias para la descarga del cliente de salida </span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_file_full_path</key>
+		<value><![CDATA[File Server Path]]></value>
+	</definition>
+	<definition>
+		<key>entry_file_max_downloads</key>
+		<value><![CDATA[Max Descargar<span class="help">Conde de descargas permitidas para el cliente</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_file_sort_order</key>
+		<value><![CDATA[orden de clasificación]]></value>
+	</definition>
+	<definition>
+		<key>entry_file_status</key>
+		<value><![CDATA[Estado]]></value>
+	</definition>
+	<definition>
+		<key>entry_file_push_to_customers</key>
+		<value><![CDATA[Empujar a los clientes]]></value>
+	</definition>
+	<definition>
+		<key>entry_file_activation</key>
+		<value><![CDATA[Modo de Activación]]></value>
+	</definition>
+	<definition>
+		<key>text_expand</key>
+		<value><![CDATA[ampliar]]></value>
+	</definition>
+	<definition>
+		<key>text_hide</key>
+		<value><![CDATA[ocultar]]></value>
+	</definition>
+	<definition>
+		<key>text_download_attributes</key>
+		<value><![CDATA[Descargar Atributos]]></value>
+	</definition>
+	<definition>
+		<key>text_download_information</key>
+		<value><![CDATA[General]]></value>
+	</definition>
+	<definition>
+		<key>entry_date_added</key>
+		<value><![CDATA[Añadido el ]]></value>
+	</definition>
+	<definition>
+		<key>entry_date_modified</key>
+		<value><![CDATA[Modificado ]]></value>
+	</definition>
+	<definition>
+		<key>entry_max_downloads</key>
+		<value><![CDATA[Max. descargas]]></value>
+	</definition>
+	<definition>
+		<key>entry_activate</key>
+		<value><![CDATA[Activado<span class="help"> Descargar estará activa en el evento seleccionado<br>Ejemplo: Inmediatamente. Download es activa después se hace el pedido, sin importar el estado de su pedido </span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_sort_order</key>
+		<value><![CDATA[Orden de Clasificación]]></value>
+	</definition>
+	<definition>
+		<key>entry_expire_days</key>
+		<value><![CDATA[Caduca días<span class="help">Conde de días desde la fecha de compra</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_before_order</key>
+		<value><![CDATA[Antes de orden]]></value>
+	</definition>
+	<definition>
+		<key>text_immediately</key>
+		<value><![CDATA[Inmediatamente]]></value>
+	</definition>
+	<definition>
+		<key>text_on_order_status</key>
+		<value><![CDATA[el Estado de pedidos]]></value>
+	</definition>
+	<definition>
+		<key>text_manually</key>
+		<value><![CDATA[a mano]]></value>
+	</definition>
+	<definition>
+		<key>text_success_download_save</key>
+		<value><![CDATA[Éxito: Se ha modificado el archivo! ]]></value>
+	</definition>
+	<definition>
+		<key>error_download_exists</key>
+		<value><![CDATA[Error: No se puede actualizar a la descarga ya que no existe en la base de datos! ]]></value>
+	</definition>
+	<definition>
+		<key>error_download_name</key>
+		<value><![CDATA[Error: Descarga nombre debe tener una longitud de entre 2 y 128 caracteres! ]]></value>
+	</definition>
+	<definition>
+		<key>error_max_downloads</key>
+		<value><![CDATA[Error: máximo conteo descargas debe ser mayor 0! ]]></value>
+	</definition>
+	<definition>
+		<key>error_activate</key>
+		<value><![CDATA[Error: seleccione la acción para la activación de la descarga! ]]></value>
+	</definition>
+	<definition>
+		<key>error_order_status</key>
+		<value><![CDATA[Error: seleccione el estado del pedido de activación de descarga! ]]></value>
+	</definition>
+	<definition>
+		<key>error_download_attributes</key>
+		<value><![CDATA[Descargar atributos Error (s):]]></value>
+	</definition>
+	<definition>
+		<key>text_shared_downloads</key>
+		<value><![CDATA[compartidas Descargas]]></value>
+	</definition>
+	<definition>
+		<key>text_create_download</key>
+		<value><![CDATA[Crear nueva descarga]]></value>
+	</definition>
+	<definition>
+		<key>text_path</key>
+		<value><![CDATA[Ruta relativa al archivo]]></value>
+	</definition>
+	<definition>
+		<key>text_preview</key>
+		<value><![CDATA[Avance]]></value>
+	</definition>
+	<definition>
+		<key>entry_shared</key>
+		<value><![CDATA[Descargar compartido]]></value>
+	</definition>
+	<definition>
+		<key>text_assign</key>
+		<value><![CDATA[Guardar]]></value>
+	</definition>
+	<definition>
+		<key>text_assigned_to</key>
+		<value><![CDATA[También asignado a: ]]></value>
+	</definition>
+	<definition>
+		<key>text_select_shared_downloads</key>
+		<value><![CDATA[Seleccione descargas compartidas]]></value>
+	</definition>
+	<definition>
+		<key>error_selected_downloads</key>
+		<value><![CDATA[Advertencia: Por favor, seleccione las descargas compartidas para asignación.]]></value>
+	</definition>
+	<definition>
+		<key>text_map_success</key>
+		<value><![CDATA[Éxito: Ha asignado descargas compartidas a producto!]]></value>
+	</definition>
+	<definition>
+		<key>text_delete_or_refuse</key>
+		<value><![CDATA[borrar o rechazar (uso comunitario)]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm_delete</key>
+		<value><![CDATA[Confirmar borrar descarga / basura]]></value>
+	</definition>
+	<definition>
+		<key>text_success_remove</key>
+		<value><![CDATA[Éxito: lista de archivos del producto cambiado!]]></value>
+	</definition>
+	<definition>
+		<key>text_push</key>
+		<value><![CDATA[Empuje]]></value>
+	</definition>
+	<definition>
+		<key>text_push_to_customers</key>
+		<value><![CDATA[Empuje para Clientes]]></value>
+	</definition>
+	<definition>
+		<key>text_push_to_orders</key>
+		<value><![CDATA[Empuje Descargar para %s Órdenes]]></value>
+	</definition>
+	<definition>
+		<key>text_no_download_attributes_yet</key>
+		<value><![CDATA[ Sin descargas atribuye todavía. <a href="%s" target="_blank">Haga clic para agregar</a>]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm_push</key>
+		<value><![CDATA[ Confirme? ]]></value>
+	</definition>
+	<definition>
+		<key>error_downloads_disabled</key>
+		<value><![CDATA[Advertencia: Las descargas están deshabilitado en la configuración de la tienda. <a href="#admin#rt=setting/setting&active=general" target="_blank">Haga clic para editar</a>!]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Advertencia: Usted no tiene permiso para modificar archivos de producto!]]></value>
+	</definition>
+	<definition>
+		<key>error_file</key>
+		<value><![CDATA[Por favor, configure el archivo para descargar.]]></value>
+	</definition>
+	<definition>
+		<key>attention_shared</key>
+		<value><![CDATA[Vas a editar descarga compartida. Editar afectará a otros productos.]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_product_file</key>
+		<value><![CDATA[Editar archivo de producto]]></value>
+	</definition>
+	<definition>
+		<key>tab_general</key>
+		<value><![CDATA[General]]></value>
+	</definition>
+	<definition>
+		<key>tab_attributes</key>
+		<value><![CDATA[Descarga Atributos]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Estado]]></value>
+	</definition>
+	<definition>
+		<key>entry_resource</key>
+		<value><![CDATA[ Recursos]]></value>
+	</definition>
+	<definition>
+		<key>text_add_file</key>
+		<value><![CDATA[Agregar archivo]]></value>
+	</definition>
+	<definition>
+		<key>text_new_file</key>
+		<value><![CDATA[Añadir Nuevo Archivo]]></value>
+	</definition>
+	<definition>
+		<key>success_push_to_orders</key>
+		<value><![CDATA[éxito: Descargar fue empujado a %s pedido(s) exitosamente]]></value>
+	</definition>
+	<definition>
+		<key>text_shared_with</key>
+		<value><![CDATA[Compartido con:]]></value>
+	</definition>
+	<definition>
+		<key>entry_also_mapped_to</key>
+		<value><![CDATA[Compartido con]]></value>
+	</definition>
+</definitions>

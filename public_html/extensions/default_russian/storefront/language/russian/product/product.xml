@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>text_enlarge</key>
+		<value><![CDATA[Нажмите на изображение, чтобы увеличить]]></value>
+	</definition>
+	<definition>
+		<key>text_zoom</key>
+		<value><![CDATA[Переместите указатель на изображение для увеличения]]></value>
+	</definition>
+	<definition>
+		<key>text_discount</key>
+		<value><![CDATA[оптовая скидка:]]></value>
+	</definition>
+	<definition>
+		<key>text_options</key>
+		<value><![CDATA[Возможные варианты:]]></value>
+	</definition>
+	<definition>
+		<key>text_error</key>
+		<value><![CDATA[Товар не найден!]]></value>
+	</definition>
+	<definition>
+		<key>text_price</key>
+		<value><![CDATA[Цена:]]></value>
+	</definition>
+	<definition>
+		<key>text_availability</key>
+		<value><![CDATA[Наличие:]]></value>
+	</definition>
+	<definition>
+		<key>text_model</key>
+		<value><![CDATA[Модель:]]></value>
+	</definition>
+	<definition>
+		<key>text_manufacturer</key>
+		<value><![CDATA[Производитель:]]></value>
+	</definition>
+	<definition>
+		<key>text_instock</key>
+		<value><![CDATA[На складе]]></value>
+	</definition>
+	<definition>
+		<key>text_order_quantity</key>
+		<value><![CDATA[Объём заказа]]></value>
+	</definition>
+	<definition>
+		<key>text_price_per_item</key>
+		<value><![CDATA[Поштучная цена]]></value>
+	</definition>
+	<definition>
+		<key>text_write</key>
+		<value><![CDATA[Написать отзыв]]></value>
+	</definition>
+	<definition>
+		<key>text_no_reviews</key>
+		<value><![CDATA[Нет отзывов об этом товаре.]]></value>
+	</definition>
+	<definition>
+		<key>text_average</key>
+		<value><![CDATA[Средняя оценка:]]></value>
+	</definition>
+	<definition>
+		<key>text_stars</key>
+		<value><![CDATA[%s из 5 звезд!]]></value>
+	</definition>
+	<definition>
+		<key>text_no_rating</key>
+		<value><![CDATA[Нет оценки]]></value>
+	</definition>
+	<definition>
+		<key>text_no_images</key>
+		<value><![CDATA[Нет дополнительных изображений для данного продукта.]]></value>
+	</definition>
+	<definition>
+		<key>text_no_related</key>
+		<value><![CDATA[Нет сопутствующих товаров для этого продукта.]]></value>
+	</definition>
+	<definition>
+		<key>text_qty</key>
+		<value><![CDATA[Кол-во:]]></value>
+	</definition>
+	<definition>
+		<key>text_note</key>
+		<value><![CDATA[<span style="color: #FF0000;">Примечание:</span> HTML разметка не поддерживается!]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Спасибо за ваш отзыв. Он поступил администратору для проверки на спам и вскоре будет опубликован.]]></value>
+	</definition>
+	<definition>
+		<key>text_wait</key>
+		<value><![CDATA[Пожалуйста, подождите!]]></value>
+	</definition>
+	<definition>
+		<key>text_search</key>
+		<value><![CDATA[Поиск]]></value>
+	</definition>
+	<definition>
+		<key>text_tags</key>
+		<value><![CDATA[Теги:]]></value>
+	</definition>
+	<definition>
+		<key>text_minimum</key>
+		<value><![CDATA[(Минимальное количество заказа этого товара %s )]]></value>
+	</definition>
+	<definition>
+		<key>text_maximum</key>
+		<value><![CDATA[(Этот продукт имеет ограничение %s штук в заказе)]]></value>
+	</definition>
+	<definition>
+		<key>entry_name</key>
+		<value><![CDATA[Ваше имя:]]></value>
+	</definition>
+	<definition>
+		<key>entry_review</key>
+		<value><![CDATA[Ваш отзыв:]]></value>
+	</definition>
+	<definition>
+		<key>entry_rating</key>
+		<value><![CDATA[Оценка:]]></value>
+	</definition>
+	<definition>
+		<key>entry_good</key>
+		<value><![CDATA[Хорошо]]></value>
+	</definition>
+	<definition>
+		<key>entry_bad</key>
+		<value><![CDATA[Плохо]]></value>
+	</definition>
+	<definition>
+		<key>entry_captcha</key>
+		<value><![CDATA[Введите код, указанный на картинке:]]></value>
+	</definition>
+	<definition>
+		<key>tab_description</key>
+		<value><![CDATA[Описание]]></value>
+	</definition>
+	<definition>
+		<key>tab_image</key>
+		<value><![CDATA[Дополнительные изображения]]></value>
+	</definition>
+	<definition>
+		<key>tab_review</key>
+		<value><![CDATA[Отзывы ( %s )]]></value>
+	</definition>
+	<definition>
+		<key>tab_related</key>
+		<value><![CDATA[Сопутствующие товары]]></value>
+	</definition>
+	<definition>
+		<key>error_name</key>
+		<value><![CDATA[Ошибка: Имя должно быть от 3 до 25 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_text</key>
+		<value><![CDATA[Ошибка: Текст отзыва должен быть от 25 до 1000 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_rating</key>
+		<value><![CDATA[Ошибка: Пожалуйста, выберите оценку!]]></value>
+	</definition>
+	<definition>
+		<key>text_total_price</key>
+		<value><![CDATA[Общая стоимость:]]></value>
+	</definition>
+	<definition>
+		<key>text_login_view_price</key>
+		<value><![CDATA[Пожалуйста, войдите или зарегистрируйтесь, чтобы увидеть цену или заказать.]]></value>
+	</definition>
+	<definition>
+		<key>tab_downloads</key>
+		<value><![CDATA[Загрузки]]></value>
+	</definition>
+	<definition>
+		<key>text_start_download</key>
+		<value><![CDATA[Скачать]]></value>
+	</definition>
+	<definition>
+		<key>text_new_review</key>
+		<value><![CDATA[Ожидание одобрения отзыва продукта]]></value>
+	</definition>
+	<definition>
+		<key>text_pending_review_approval</key>
+		<value><![CDATA[Отзыв о продукте № %s сохранен. Требуется одобрение. Кликните чтобы просмотреть #admin#rt=catalog/review/update&review_id=%s]]></value>
+	</definition>
+	<definition>
+		<key>text_out_of_stock</key>
+		<value><![CDATA[Нет на складе]]></value>
+	</definition>
+	<definition>
+		<key>tab_review_empty</key>
+		<value><![CDATA[Отзывы]]></value>
+	</definition>
+	<definition>
+		<key>text_verified_review</key>
+		<value><![CDATA[Подтвержденная покупка]]></value>
+	</definition>
+</definitions>

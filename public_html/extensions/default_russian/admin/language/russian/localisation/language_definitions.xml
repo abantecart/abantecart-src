@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Языковые определения]]></value>
+  </definition>
+  <definition>
+    <key>text_definition</key>
+    <value><![CDATA[Языковые определения]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успешно: Вы изменили языки!]]></value>
+  </definition>
+  <definition>
+    <key>column_language</key>
+    <value><![CDATA[Язык]]></value>
+  </definition>
+  <definition>
+    <key>column_key</key>
+    <value><![CDATA[Ключ]]></value>
+  </definition>
+  <definition>
+    <key>column_translation</key>
+    <value><![CDATA[Перевод]]></value>
+  </definition>
+  <definition>
+    <key>column_block</key>
+    <value><![CDATA[Блок]]></value>
+  </definition>
+  <definition>
+    <key>column_update_date</key>
+    <value><![CDATA[Дата обновления]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Действия]]></value>
+  </definition>
+  <definition>
+    <key>entry_language_key</key>
+    <value><![CDATA[Ключ]]></value>
+  </definition>
+  <definition>
+    <key>entry_language_value</key>
+    <value><![CDATA[Значение]]></value>
+  </definition>
+  <definition>
+    <key>entry_translation</key>
+    <value><![CDATA[Перевод]]></value>
+  </definition>
+  <definition>
+    <key>entry_block</key>
+    <value><![CDATA[Блок]]></value>
+  </definition>
+  <definition>
+    <key>entry_section</key>
+    <value><![CDATA[Раздел]]></value>
+  </definition>
+  <definition>
+    <key>text_admin</key>
+    <value><![CDATA[Админ панель]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront</key>
+    <value><![CDATA[Витрина магазина]]></value>
+  </definition>
+  <definition>
+    <key>error_language_key</key>
+    <value><![CDATA[Требуется ключ языка!]]></value>
+  </definition>
+  <definition>
+    <key>error_language_value</key>
+    <value><![CDATA[Требуется перевод!]]></value>
+  </definition>
+  <definition>
+    <key>error_block</key>
+    <value><![CDATA[Требуется блок!]]></value>
+  </definition>
+  <definition>
+    <key>error_section</key>
+    <value><![CDATA[Требуется раздел!]]></value>
+  </definition>
+  <definition>
+    <key>text_all_section</key>
+    <value><![CDATA[Все разделы]]></value>
+  </definition>
+  <definition>
+    <key>text_all_languages</key>
+    <value><![CDATA[Все Языки]]></value>
+  </definition>
+  <definition>
+    <key>error_already exists</key>
+    <value><![CDATA[Ошибка!<br>Языковое определение с ключем &quot;%s&quot; и блок &quot;%s&quot; для раздела %s уже существует!<br>Нажмите <a target="_blank" href="%s">ссылку</a>, для просмотра]]></value>
+  </definition>
+</definitions>

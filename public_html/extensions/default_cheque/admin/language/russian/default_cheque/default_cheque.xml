@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>default_cheque_name</key>
+    <value><![CDATA[Чек/Денежный перевод]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Оплата]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успешно: Вы изменили данные своей учетной записи Чек/Денежный перевод!]]></value>
+  </definition>
+  <definition>
+    <key>default_cheque_payable</key>
+    <value><![CDATA[Имя получателя: Укажите на чье имя выписывать чек.]]></value>
+  </definition>
+	<definition>
+		<key>default_cheque_address</key>
+		<value><![CDATA[Адрес отправки чека:<br /><span class="help">Укажите адрес, куда отправлять чек. Основной адрес будет использоваться, если не заполнено поле</span>]]></value>
+	</definition>
+  <definition>
+    <key>default_cheque_order_status_id</key>
+    <value><![CDATA[Статус заказа:]]></value>
+  </definition>
+  <definition>
+    <key>default_cheque_location_id</key>
+    <value><![CDATA[Географическая зона:]]></value>
+  </definition>
+  <definition>
+    <key>default_cheque_location_id_0</key>
+    <value><![CDATA[Все местоположения]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение Чек/Денежный перевод!]]></value>
+  </definition>
+  <definition>
+    <key>error_payable</key>
+    <value><![CDATA[Требуется ВЫПИСЫВАТЬ НА!]]></value>
+  </definition>
+</definitions>

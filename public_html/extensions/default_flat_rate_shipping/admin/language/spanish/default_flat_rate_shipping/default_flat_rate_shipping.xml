@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>default_flat_rate_shipping_name</key>
+    <value><![CDATA[Tarifa Plana]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Envio]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Tarifa Plana modificada!]]></value>
+  </definition>
+  <definition>
+    <key>default_flat_rate_shipping_status</key>
+    <value><![CDATA[Estado:]]></value>
+  </definition>
+  <definition>
+    <key>default_flat_rate_shipping_cost</key>
+    <value><![CDATA[Coste:]]></value>
+  </definition>
+  <definition>
+    <key>default_flat_rate_shipping_tax_class_id</key>
+    <value><![CDATA[Tasas:]]></value>
+  </definition>
+  <definition>
+    <key>default_flat_rate_shipping_tax_class_id_0</key>
+    <value><![CDATA[---None----]]></value>
+  </definition>
+  <definition>
+    <key>default_flat_rate_shipping_location_id</key>
+    <value><![CDATA[Localidad:]]></value>
+  </definition>
+  <definition>
+    <key>default_flat_rate_shipping_location_id_0</key>
+    <value><![CDATA[Todos de Localidades]]></value>
+  </definition>
+  <definition>
+    <key>default_flat_rate_shipping_location_id</key>
+    <value><![CDATA[Todo las Localidades]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Atecion: No tienes permiso para modificar Tarifa Plana!]]></value>
+  </definition>
+</definitions>

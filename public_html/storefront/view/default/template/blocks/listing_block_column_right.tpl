@@ -1,0 +1,66 @@
+<div class="side_block">
+	<?php if ($block_framed) { ?>
+	<div class="block_frame block_frame_<?php echo $block_details['block_txt_id'];?>"
+				 id="block_frame_<?php echo $block_details['block_txt_id'].'_'.$block_details['instance_id'] ?>">
+		<h2 class="heading2"><?php echo $heading_title; ?></h2>
+	<?php }	?>
+
+	<ul class="side_prd_list">
+		<?php
+		if ($content) {
+			foreach ($content as $item) {
+				$item['title'] = $item['name'] ? $item['name'] : $item['thumb']['title'];
+				if( $item['thumb']['origin']=='internal'){
+					$item['image'] = '<img alt="'.$item['title'].'" class="thumbnail_small" src="'. $item['thumb']['thumb_url'].'"/>';
+				}else{
+					$item['image'] = $item['thumb']['thumb_html'];
+				}
+
+				$item['description'] = $item['model'];
+				$item['rating'] = ($item['rating']) ? "<img class=\"rating\"  src='" . $this->templateResource('/image/stars_' . $item['rating'] . '.png') . "' alt='" . $item['stars'] . "' width='64' height='12' />" : '';
+
+				$item['info_url'] = $item['href'] ? $item['href'] : $item['thumb']['main_url'];
+				$item['buy_url'] = $item['add'];
+				if (!$display_price) {
+					$item['price'] = '';
+				}
+
+				$review = $button_write;
+				if ($item['rating']) {
+					$review = $item['rating'];
+				}
+
+?>
+
+				<li class="col-xs-12">
+					<?php if ($item[ 'resource_code' ]) {
+						echo $item[ 'resource_code' ];
+					} else {?>
+					<a href="<?php echo $item['info_url'] ?>"><?php echo $item['image'] ?></a>
+					<a class="productname" href="<?php echo $item['info_url'] ?>"><?php echo $item['title']?></a>
+					<?php if ($review_status) { ?>
+					<span class="procategory"><?php echo $item['rating']?></span>
+					<?php } ?>					
+					<?php if($item['price']){?>
+						   <span class="price">
+							<?php  if ($item['special']) { ?>
+								   <span class="pricenew"><?php echo $item['special']?></span>
+								   <span class="priceold"><?php echo $item['price']?></span>
+							<?php } else { ?>
+								   <span class="oneprice"><?php echo $item['price']?></span>
+							<?php } ?>
+						   </span>
+					<?php }
+					}?>
+				</li>
+
+			<?php
+			}
+		}
+		?>
+	</ul>
+
+	<?php if ($block_framed) { ?>
+	</div>
+	<?php } ?>
+</div>

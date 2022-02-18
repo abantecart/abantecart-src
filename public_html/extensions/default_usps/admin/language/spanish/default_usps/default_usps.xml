@@ -1,0 +1,287 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>default_usps_name</key>
+		<value><![CDATA[United States Postal Service]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping</key>
+		<value><![CDATA[Envío]]></value>
+	</definition>
+	<definition>
+		<key>text_additional_settings</key>
+		<value><![CDATA[Ajustes adicionales]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Success: You have modified United States Postal Service!]]></value>
+	</definition>
+	<definition>
+		<key>text_domestic_0</key>
+		<value><![CDATA[First-Class]]></value>
+	</definition>
+	<definition>
+		<key>text_domestic_1</key>
+		<value><![CDATA[Priority Mail]]></value>
+	</definition>
+	<definition>
+		<key>text_domestic_2</key>
+		<value><![CDATA[Express Mail Hold for Pickup]]></value>
+	</definition>
+	<definition>
+		<key>text_domestic_3</key>
+		<value><![CDATA[Express Mail PO to Addressee]]></value>
+	</definition>
+	<definition>
+		<key>text_domestic_4</key>
+		<value><![CDATA[Parcel Post]]></value>
+	</definition>
+	<definition>
+		<key>text_domestic_5</key>
+		<value><![CDATA[Bound Printed Matter]]></value>
+	</definition>
+	<definition>
+		<key>text_domestic_6</key>
+		<value><![CDATA[Media Mail]]></value>
+	</definition>
+	<definition>
+		<key>text_domestic_7</key>
+		<value><![CDATA[Library]]></value>
+	</definition>
+	<definition>
+		<key>text_domestic_12</key>
+		<value><![CDATA[First-Class Postcard Stamped]]></value>
+	</definition>
+	<definition>
+		<key>text_domestic_13</key>
+		<value><![CDATA[Express Mail Flat-Rate Envelope]]></value>
+	</definition>
+	<definition>
+		<key>text_domestic_16</key>
+		<value><![CDATA[Priority Mail Flat-Rate Envelope]]></value>
+	</definition>
+	<definition>
+		<key>text_domestic_17</key>
+		<value><![CDATA[Priority Mail Regular Flat-Rate Box]]></value>
+	</definition>
+	<definition>
+		<key>text_domestic_18</key>
+		<value><![CDATA[Priority Mail Keys and IDs]]></value>
+	</definition>
+	<definition>
+		<key>text_domestic_19</key>
+		<value><![CDATA[First-Class Keys and IDs]]></value>
+	</definition>
+	<definition>
+		<key>text_domestic_22</key>
+		<value><![CDATA[Priority Mail Flat-Rate Large Box]]></value>
+	</definition>
+	<definition>
+		<key>text_domestic_23</key>
+		<value><![CDATA[Express Mail Sunday/Holiday]]></value>
+	</definition>
+	<definition>
+		<key>text_domestic_25</key>
+		<value><![CDATA[Express Mail Flat-Rate Envelope Sunday/Holiday]]></value>
+	</definition>
+	<definition>
+		<key>text_domestic_27</key>
+		<value><![CDATA[Express Mail Flat-Rate Envelope Hold For Pickup]]></value>
+	</definition>
+	<definition>
+		<key>text_domestic_28</key>
+		<value><![CDATA[Priority Mail Small Flat-Rate Box]]></value>
+	</definition>
+	<definition>
+		<key>text_international_1</key>
+		<value><![CDATA[Express Mail International]]></value>
+	</definition>
+	<definition>
+		<key>text_international_2</key>
+		<value><![CDATA[Priority Mail International]]></value>
+	</definition>
+	<definition>
+		<key>text_international_4</key>
+		<value><![CDATA[Global Express Guaranteed (Document and Non-document)]]></value>
+	</definition>
+	<definition>
+		<key>text_international_5</key>
+		<value><![CDATA[Global Express Guaranteed Document used]]></value>
+	</definition>
+	<definition>
+		<key>text_international_6</key>
+		<value><![CDATA[Global Express Guaranteed Non-Document Rectangular shape]]></value>
+	</definition>
+	<definition>
+		<key>text_international_7</key>
+		<value><![CDATA[Global Express Guaranteed Non-Document Non-Rectangular]]></value>
+	</definition>
+	<definition>
+		<key>text_international_8</key>
+		<value><![CDATA[Priority Mail Flat Rate Envelope]]></value>
+	</definition>
+	<definition>
+		<key>text_international_9</key>
+		<value><![CDATA[Priority Mail Flat Rate Box]]></value>
+	</definition>
+	<definition>
+		<key>text_international_10</key>
+		<value><![CDATA[Express Mail International Flat Rate Envelope]]></value>
+	</definition>
+	<definition>
+		<key>text_international_11</key>
+		<value><![CDATA[Priority Mail Large Flat Rate Box]]></value>
+	</definition>
+	<definition>
+		<key>text_international_12</key>
+		<value><![CDATA[Global Express Guaranteed Envelope]]></value>
+	</definition>
+	<definition>
+		<key>text_international_13</key>
+		<value><![CDATA[First Class Mail International Letters]]></value>
+	</definition>
+	<definition>
+		<key>text_international_14</key>
+		<value><![CDATA[First Class Mail International Flats]]></value>
+	</definition>
+	<definition>
+		<key>text_international_15</key>
+		<value><![CDATA[First Class Mail International Parcels]]></value>
+	</definition>
+	<definition>
+		<key>text_international_16</key>
+		<value><![CDATA[Priority Mail Small Flat Rate Box]]></value>
+	</definition>
+	<definition>
+		<key>text_international_21</key>
+		<value><![CDATA[Postcards]]></value>
+	</definition>
+	<definition>
+		<key>text_regular</key>
+		<value><![CDATA[Regular]]></value>
+	</definition>
+	<definition>
+		<key>text_large</key>
+		<value><![CDATA[Large]]></value>
+	</definition>
+	<definition>
+		<key>text_oversize</key>
+		<value><![CDATA[Oversize]]></value>
+	</definition>
+	<definition>
+		<key>text_rectangular</key>
+		<value><![CDATA[Rectangular]]></value>
+	</definition>
+	<definition>
+		<key>text_non_rectangular</key>
+		<value><![CDATA[Non Rectangular]]></value>
+	</definition>
+	<definition>
+		<key>text_variable</key>
+		<value><![CDATA[Variable]]></value>
+	</definition>
+	<definition>
+		<key>entry_user_id</key>
+		<value><![CDATA[User ID:]]></value>
+	</definition>
+	<definition>
+		<key>entry_password</key>
+		<value><![CDATA[Password:]]></value>
+	</definition>
+	<definition>
+		<key>entry_postcode</key>
+		<value><![CDATA[Zip Code:]]></value>
+	</definition>
+	<definition>
+		<key>entry_domestic</key>
+		<value><![CDATA[Domestic Services:]]></value>
+	</definition>
+	<definition>
+		<key>entry_international</key>
+		<value><![CDATA[International Services:]]></value>
+	</definition>
+	<definition>
+		<key>entry_size</key>
+		<value><![CDATA[Size:]]></value>
+	</definition>
+	<definition>
+		<key>entry_weight_class</key>
+		<value><![CDATA[Weight Class:<br /><span class="help">Set to pounds.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_container</key>
+		<value><![CDATA[Container:]]></value>
+	</definition>
+	<definition>
+		<key>entry_machinable</key>
+		<value><![CDATA[Machinable:]]></value>
+	</definition>
+	<definition>
+		<key>entry_dimension</key>
+		<value><![CDATA[Dimensions (L x W x H):]]></value>
+	</definition>
+	<definition>
+		<key>entry_length</key>
+		<value><![CDATA[Dimensions Length:]]></value>
+	</definition>
+	<definition>
+		<key>entry_width</key>
+		<value><![CDATA[Dimensions Width:]]></value>
+	</definition>
+	<definition>
+		<key>entry_height</key>
+		<value><![CDATA[Dimensions Height:]]></value>
+	</definition>
+	<definition>
+		<key>entry_girth</key>
+		<value><![CDATA[Girth:]]></value>
+	</definition>
+	<definition>
+		<key>entry_display_time</key>
+		<value>
+			<![CDATA[Display Delivery Time:<br /><span class="help">Do you want to display the shipping time? (e.g. Ships within 3 to 5 days)</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_display_weight</key>
+		<value>
+			<![CDATA[Display Delivery Weight:<br /><span class="help">Do you want to display the shipping weight? (e.g. Delivery Weight : 2.7674 Kg's)</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_length_class</key>
+		<value><![CDATA[Length Class:<br /><span class="help"></span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_tax</key>
+		<value><![CDATA[Tax Class:]]></value>
+	</definition>
+	<definition>
+		<key>entry_location</key>
+		<value><![CDATA[Location:]]></value>
+	</definition>
+	<definition>
+		<key>entry_sort_order</key>
+		<value><![CDATA[Sort Order:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Warning: You do not have permission to modify United States Postal Service!]]></value>
+	</definition>
+	<definition>
+		<key>error_user_id</key>
+		<value><![CDATA[User ID Required!]]></value>
+	</definition>
+	<definition>
+		<key>error_postcode</key>
+		<value><![CDATA[Zip Code Required!]]></value>
+	</definition>
+	<definition>
+		<key>entry_free_domestic_method</key>
+		<value>
+			<![CDATA[Opción para el envío libre <span class="help"> Por favor, seleccione qué método será elegido por caso cuando la compra contiene solamente productos con el envío libre </span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_free_international_method</key>
+		<value>
+			<![CDATA[Opción para el envío libre de los paquetes internacionales <span class="help"> Por favor, seleccione qué método será elegido por caso cuando la compra contiene solamente productos con el envío libre </span>]]></value>
+	</definition>
+</definitions>

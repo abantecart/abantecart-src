@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Salir]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p>Se ha desconectado de su cuenta. Ahora puede salir con seguridad.</p><p>Su carro de la compra ha sido guardado, podrá acceder a los productos almacenados en su carro una vez que vuelva a conectar a su cuenta.</p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Cuenta]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Desconectar]]></value>
+  </definition>
+</definitions>

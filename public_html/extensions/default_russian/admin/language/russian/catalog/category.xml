@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Категории]]></value>
+	</definition>
+	<definition>
+		<key>text_category</key>
+		<value><![CDATA[Категория]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Успешно: Вы изменили категории!]]></value>
+	</definition>
+	<definition>
+		<key>text_default</key>
+		<value><![CDATA[По умолчанию]]></value>
+	</definition>
+	<definition>
+		<key>text_image_manager</key>
+		<value><![CDATA[Менеджер изображений]]></value>
+	</definition>
+	<definition>
+		<key>update_title</key>
+		<value><![CDATA[Обновление категории]]></value>
+	</definition>
+	<definition>
+		<key>column_image</key>
+		<value><![CDATA[Изображение]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Название категории]]></value>
+	</definition>
+	<definition>
+		<key>column_sort_order</key>
+		<value><![CDATA[Порядок сортировки]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Статус]]></value>
+	</definition>
+	<definition>
+		<key>column_products</key>
+		<value><![CDATA[Счетчик товаров]]></value>
+	</definition>
+	<definition>
+		<key>column_subcategories</key>
+		<value><![CDATA[Количество подкатегорий]]></value>
+	</definition>
+	<definition>
+		<key>entry_name</key>
+		<value><![CDATA[Название категории:]]></value>
+	</definition>
+	<definition>
+		<key>entry_meta_keywords</key>
+		<value><![CDATA[Мета-тег "Ключевые слова":]]></value>
+	</definition>
+	<definition>
+		<key>entry_meta_description</key>
+		<value><![CDATA[Мета-тег "Описание":]]></value>
+	</definition>
+	<definition>
+		<key>entry_description</key>
+		<value><![CDATA[Описание:]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Статус Категории:]]></value>
+	</definition>
+	<definition>
+		<key>entry_parent_category</key>
+		<value><![CDATA[Родительская категория:]]></value>
+	</definition>
+	<definition>
+		<key>entry_category</key>
+		<value><![CDATA[Родительская категория:]]></value>
+	</definition>
+	<definition>
+		<key>entry_store</key>
+		<value><![CDATA[Магазины:]]></value>
+	</definition>
+	<definition>
+		<key>entry_keyword</key>
+		<value><![CDATA[SEO Ключевое слово:]]></value>
+	</definition>
+	<definition>
+		<key>entry_image</key>
+		<value><![CDATA[Изображение:]]></value>
+	</definition>
+	<definition>
+		<key>entry_sort_order</key>
+		<value><![CDATA[Порядок сортировки:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Внимание: Вы не имеете прав для изменения категории!]]></value>
+	</definition>
+	<definition>
+		<key>error_name</key>
+		<value><![CDATA[Название категории должно быть от 2 до 32 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_required_data</key>
+		<value><![CDATA[Требуемые данные не были введены. Проверьте ошибки полей ввода!]]></value>
+	</definition>
+	<definition>
+		<key>text_select_all</key>
+		<value><![CDATA[- Все категории -]]></value>
+	</definition>
+	<definition>
+		<key>text_select_parent</key>
+		<value><![CDATA[- Выберите родительскую категорию -]]></value>
+	</definition>
+	<definition>
+		<key>text_success_layout</key>
+		<value><![CDATA[Успешно: Вы изменили макет страницы категории.]]></value>
+	</definition>
+	<definition>
+		<key>tab_layout</key>
+		<value><![CDATA[Макет]]></value>
+	</definition>
+	<definition>
+		<key>tab_image</key>
+		<value><![CDATA[Изображения]]></value>
+	</definition>
+	<definition>
+		<key>text_top_level</key>
+		<value><![CDATA[- Верхний уровень -]]></value>
+	</definition>
+</definitions>

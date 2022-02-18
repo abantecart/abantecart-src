@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Отчет по просмотренным товарам]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успешно: Вы сбросили отчет!]]></value>
+  </definition>
+  <definition>
+    <key>column_product_id</key>
+    <value><![CDATA[Product ID]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Наименование]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Модель]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[Категория]]></value>
+  </definition>
+  <definition>
+    <key>column_viewed</key>
+    <value><![CDATA[Просмотров]]></value>
+  </definition>
+  <definition>
+    <key>column_percent</key>
+    <value><![CDATA[Процент]]></value>
+  </definition>
+</definitions>

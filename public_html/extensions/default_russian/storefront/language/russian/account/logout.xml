@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Выход из личного кабинета]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Вы были отключены от вашей учетной записи. Можете безопасно оставить компьютер. </p><p> Ваша корзина покупок была сохранена. Она будет восстановлена при следующем входе в Ваш Личный Кабинет. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Личный Кабинет]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Выход]]></value>
+  </definition>
+</definitions>

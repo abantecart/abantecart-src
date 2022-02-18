@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Tipo de impuesto]]></value>
+	</definition>
+	<definition>
+		<key>text_class</key>
+		<value><![CDATA[Impuesto sobre la Clase]]></value>
+	</definition>
+	<definition>
+		<key>text_rate</key>
+		<value><![CDATA[Tasa de Impuesto]]></value>
+	</definition>
+	<definition>
+		<key>tab_details</key>
+		<value><![CDATA[Detalles]]></value>
+	</definition>
+	<definition>
+		<key>tab_rates</key>
+		<value><![CDATA[Precios]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Correcto: Ha modificado los tipos de impuestos!]]></value>
+	</definition>
+	<definition>
+		<key>column_title</key>
+		<value><![CDATA[Tipo de impuesto]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Acción]]></value>
+	</definition>
+	<definition>
+		<key>entry_title</key>
+		<value><![CDATA[Tipo de impuesto:]]></value>
+	</definition>
+	<definition>
+		<key>entry_description</key>
+		<value><![CDATA[Descripción:]]></value>
+	</definition>
+	<definition>
+		<key>entry_location</key>
+		<value><![CDATA[Ubicación:]]></value>
+	</definition>
+	<definition>
+		<key>entry_zone</key>
+		<value><![CDATA[Zona de ubicación de:]]></value>
+	</definition>
+	<definition>
+		<key>entry_priority</key>
+		<value><![CDATA[Prioridad:]]></value>
+	</definition>
+	<definition>
+		<key>entry_rate</key>
+		<value><![CDATA[Tasa:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Atención: No tiene permisos para modificar el tipo de impuesto!]]></value>
+	</definition>
+	<definition>
+		<key>error_tax_title</key>
+		<value><![CDATA[Tipo de impuesto debe ser mayor de 2 caracteres y menor de 32!]]></value>
+	</definition>
+	<definition>
+		<key>error_description</key>
+		<value><![CDATA[Descripción debe ser mayor de 2 caracteres y menor de 255!]]></value>
+	</definition>
+	<definition>
+		<key>error_priority</key>
+		<value><![CDATA[Prioridad obligatoria!]]></value>
+	</definition>
+	<definition>
+		<key>error_rate</key>
+		<value><![CDATA[Cantidad obligatoria!]]></value>
+	</definition>
+	<definition>
+		<key>error_product</key>
+		<value><![CDATA[Atención: Este tipo de impuesto no puede ser eliminado porque actualmente está asignado a %s productos!]]></value>
+	</definition>
+	<definition>
+		<key>text_tax_all_zones</key>
+		<value><![CDATA[todas las zonas]]></value>
+	</definition>
+	<definition>
+		<key>entry_tax_rate_threshold</key>
+		<value><![CDATA[Aplicar este impuesto sólo si, cantidad sujeta a impuestos (producto, el envío, subtotales, etc) es ... ]]></value>
+	</definition>
+	<definition>
+		<key>text_absolute</key>
+		<value><![CDATA[Absoluto]]></value>
+	</definition>
+	<definition>
+		<key>text_percent</key>
+		<value><![CDATA[Por ciento]]></value>
+	</definition>
+	<definition>
+		<key>entry_tax_exempt_groups</key>
+		<value><![CDATA[Exentas de Impuestos Grupos<br /><span class="help">Seleccionar los grupos de clientes a exentos de este impuesto</span>]]></value>
+	</definition>
+</definitions>

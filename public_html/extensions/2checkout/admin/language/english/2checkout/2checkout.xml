@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>2checkout_name</key>
+		<value><![CDATA[2Checkout]]></value>
+	</definition>
+	<definition>
+		<key>text_payment</key>
+		<value><![CDATA[Payment]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Success: You have modified 2Checkout account details!]]></value>
+	</definition>
+	<definition>
+		<key>2checkout_note</key>
+		<value><![CDATA[
+With this extension you can use 2Checkout payment system to accept payments from your customers.<br>
+<b>Sign up free today!  Use promo code ABANTECART2CO for a waiver of your application service fee (a savings of $10.99) and start selling online today! </b> Visit <a href="https://www.2checkout.com/signup/">www.2checkout.com</a>, complete the application, and then enter the code into the promo code field to take advantage of this special offer today!
+<br> Once register login to get account credentials to configure this extension
+<br>Don't forget to setup INS URL and Redirect URL here <a href="https://secure.2checkout.com/cpanel/webhooks_api.php">https://secure.2checkout.com/cpanel/webhooks_api.php</a>.
+<br><br>Your INS URL is <h4>#storefront#rt=extension/2checkout/callback</h4>
+<br><br>Also setup the Redirect URL and choose Return method "Header redirect".
+<br><br>Your Redirect URL is <h4>#storefront#rt=checkout/success</h4>
+		 ]]></value>
+	</definition>
+	<definition>
+		<key>2checkout_account</key>
+		<value><![CDATA[2Checkout Merchant Code:]]></value>
+	</definition>
+	<definition>
+		<key>2checkout_secret</key>
+		<value>
+			<![CDATA[Secret Key:<br /><span class="help">The secret word to confirm transactions with (must be the same as defined on the merchant account configuration page.</span>]]></value>
+	</definition>
+	<definition>
+		<key>2checkout_test</key>
+		<value><![CDATA[Test Mode:]]></value>
+	</definition>
+	<definition>
+		<key>2checkout_test_1</key>
+		<value><![CDATA[Yes]]></value>
+	</definition>
+	<definition>
+		<key>2checkout_test_0</key>
+		<value><![CDATA[No]]></value>
+	</definition>
+	<definition>
+		<key>2checkout_order_status_id</key>
+		<value><![CDATA[Order Status:]]></value>
+	</definition>
+	<definition>
+		<key>2checkout_location_id</key>
+		<value><![CDATA[Location:]]></value>
+	</definition>
+	<definition>
+		<key>2checkout_location_id_0</key>
+		<value><![CDATA[All Locations]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Warning: You do not have permission to modify payment 2Checkout!]]></value>
+	</definition>
+	<definition>
+		<key>error_account</key>
+		<value><![CDATA[Merchant Code Required!]]></value>
+	</definition>
+	<definition>
+		<key>error_secret</key>
+		<value><![CDATA[Secret Key Required!]]></value>
+	</definition>
+</definitions>

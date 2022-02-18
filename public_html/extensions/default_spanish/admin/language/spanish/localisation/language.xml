@@ -1,0 +1,188 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Idioma]]></value>
+	</definition>
+	<definition>
+		<key>text_language</key>
+		<value><![CDATA[Lengua]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Correcto: Ha modificado los idiomas!]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Idioma]]></value>
+	</definition>
+	<definition>
+		<key>column_code</key>
+		<value><![CDATA[Código]]></value>
+	</definition>
+	<definition>
+		<key>column_sort_order</key>
+		<value><![CDATA[Orden]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Acción]]></value>
+	</definition>
+	<definition>
+		<key>entry_name</key>
+		<value><![CDATA[Idioma:]]></value>
+	</definition>
+	<definition>
+		<key>entry_code</key>
+		<value><![CDATA[Code:<br /><span class="help">No lo cambie si este es su idioma por defecto.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_locale</key>
+		<value><![CDATA[Local:]]></value>
+	</definition>
+	<definition>
+		<key>entry_image</key>
+		<value><![CDATA[Imagen:]]></value>
+	</definition>
+	<definition>
+		<key>entry_directory</key>
+		<value><![CDATA[Directorio:]]></value>
+	</definition>
+	<definition>
+		<key>entry_filename</key>
+		<value><![CDATA[Nombre de archivo:]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Estado:]]></value>
+	</definition>
+	<definition>
+		<key>entry_sort_order</key>
+		<value><![CDATA[Orden:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Atención: No tiene permisos para modificar los idiomas!]]></value>
+	</definition>
+	<definition>
+		<key>error_name</key>
+		<value><![CDATA[Idioma debe ser superior a 2 caracteres e inferior a 32!]]></value>
+	</definition>
+	<definition>
+		<key>error_code</key>
+		<value><![CDATA[Código debe tener al menos 2 caracteres!]]></value>
+	</definition>
+	<definition>
+		<key>error_locale</key>
+		<value><![CDATA[Local requerido!]]></value>
+	</definition>
+	<definition>
+		<key>error_image</key>
+		<value><![CDATA[Nombre de archivo de la imagen debe ser superior a 2 caracteres e inferior a 64!]]></value>
+	</definition>
+	<definition>
+		<key>error_directory</key>
+		<value><![CDATA[Directorio obligatorio!]]></value>
+	</definition>
+	<definition>
+		<key>error_filename</key>
+		<value><![CDATA[Nombre de archivo debe ser superior a 2 caracteres e inferior a 64!]]></value>
+	</definition>
+	<definition>
+		<key>error_default</key>
+		<value><![CDATA[Atención: Este idioma no puede ser eliminado porque está actualmente asignado al idioma por defecto de la tienda!]]></value>
+	</definition>
+	<definition>
+		<key>error_store</key>
+		<value><![CDATA[Advertencia: Este lenguaje no puede ser suprimido, ya que esta actualmente asignado a %s tiendas!]]></value>
+	</definition>
+	<definition>
+		<key>error_admin</key>
+		<value><![CDATA[Atención: Este idioma no puede ser eliminado porque está actualmente asignado al idioma de la administración!]]></value>
+	</definition>
+	<definition>
+		<key>error_order</key>
+		<value><![CDATA[Atención: Este idioma no puede ser eliminado porque está actualmente asignado %s pedidos!]]></value>
+	</definition>
+	<definition>
+		<key>language_edit_title</key>
+		<value><![CDATA[Editar detalles del lenguaje]]></value>
+	</definition>
+	<definition>
+		<key>load_language_title</key>
+		<value><![CDATA[Cargar los datos que faltan de idiomas]]></value>
+	</definition>
+	<definition>
+		<key>load_language_data_txt</key>
+		<value><![CDATA[Cargar los datos que faltan de la lengua: ]]></value>
+	</definition>
+	<definition>
+		<key>language_translate_method_txt</key>
+		<value><![CDATA[Idioma método de traducción: ]]></value>
+	</definition>
+	<definition>
+		<key>load_language_note</key>
+		<value><![CDATA[NOTA: Esta operación puede tardar algunos minutos para correr. NO cierre del navegador, dejar o refrescar la página!]]></value>
+	</definition>
+	<definition>
+		<key>create_language_note</key>
+		<value><![CDATA[NOTA: Se recomienda crear el lenguaje como una extensión. Comprobar extensiones existentes lenguaje. Si aún desea crear un nuevo lenguaje de forma manual, debe agregar la opción al administrador de admin/language/[directorio de idioma]/flag.png y storefront/language/[Directorio Language]/flag.png
+				Después de lenguaje se crea carga que faltan datos lingüísticos para traducir o copiar el contenido del texto de la lengua de origen.	]]></value>
+	</definition>
+	<definition>
+		<key>button_load_language</key>
+		<value><![CDATA[Cargar]]></value>
+	</definition>
+	<definition>
+		<key>entry_language_selector</key>
+		<value><![CDATA[Fuente idioma: ]]></value>
+	</definition>
+	<definition>
+		<key>entry_translate_method_selector</key>
+		<value><![CDATA[Método de conversión de texto: ]]></value>
+	</definition>
+	<definition>
+		<key>text_incomplete_tasks</key>
+		<value><![CDATA[Tareas incompletas]]></value>
+	</definition>
+	<definition>
+		<key>text_task_id</key>
+		<value><![CDATA[Task ID:]]></value>
+	</definition>
+	<definition>
+		<key>text_title</key>
+		<value><![CDATA[Título:]]></value>
+	</definition>
+	<definition>
+		<key>text_last_time_run</key>
+		<value><![CDATA[Última ejecución:]]></value>
+	</definition>
+	<definition>
+		<key>text_date_added</key>
+		<value><![CDATA[Creado:]]></value>
+	</definition>
+	<definition>
+		<key>text_starter_name</key>
+		<value><![CDATA[Creado por:]]></value>
+	</definition>
+	<definition>
+		<key>text_restart</key>
+		<value><![CDATA[Reiniciar]]></value>
+	</definition>
+	<definition>
+		<key>text_remove</key>
+		<value><![CDATA[Retirar]]></value>
+	</definition>
+	<definition>
+		<key>text_task_title</key>
+		<value><![CDATA[Traducción de Descripciones De %s a %s]]></value>
+	</definition>
+	<definition>
+		<key>error_nothing_to_do</key>
+		<value><![CDATA[Error: Establecer idioma de origen y método de traducción]]></value>
+	</definition>
+	<definition>
+		<key>text_translate_override_existing</key>
+		<value><![CDATA[Nota: Todas las descripciones existentes en la lengua de destino se reemplazarán con nueva traducción. Puede desactivar imperiosa de <a href="%s">Sistema-&gt; Preferencias-&gt; Detalles tienda</a> .]]></value>
+	</definition>
+</definitions>

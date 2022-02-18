@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Клиенты]]></value>
+	</definition>
+	<definition>
+		<key>text_customer</key>
+		<value><![CDATA[Клиент]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Успешно: Вы изменили клиентов!]]></value>
+	</definition>
+	<definition>
+		<key>text_approved</key>
+		<value><![CDATA[Вы одобрили %s заказ!]]></value>
+	</definition>
+	<definition>
+		<key>tab_customer_address</key>
+		<value><![CDATA[Адрес]]></value>
+	</definition>
+	<definition>
+		<key>text_customer_addresses</key>
+		<value><![CDATA[Адрес клиента]]></value>
+	</definition>
+	<definition>
+		<key>text_add_address</key>
+		<value><![CDATA[Добавить Адрес]]></value>
+	</definition>
+	<definition>
+		<key>tab_address</key>
+		<value><![CDATA[Адрес]]></value>
+	</definition>
+	<definition>
+		<key>button_add</key>
+		<value><![CDATA[Добавить]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Имя клиента]]></value>
+	</definition>
+	<definition>
+		<key>column_email</key>
+		<value><![CDATA[E-Mail]]></value>
+	</definition>
+	<definition>
+		<key>column_customer_group</key>
+		<value><![CDATA[Группа покупателей]]></value>
+	</definition>
+	<definition>
+		<key>column_group</key>
+		<value><![CDATA[Группа]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Статус]]></value>
+	</definition>
+	<definition>
+		<key>column_approved</key>
+		<value><![CDATA[Утвержденный]]></value>
+	</definition>
+	<definition>
+		<key>column_date_added</key>
+		<value><![CDATA[Добавлено]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Действие]]></value>
+	</definition>
+	<definition>
+		<key>entry_loginname</key>
+		<value><![CDATA[Логин:]]></value>
+	</definition>
+	<definition>
+		<key>entry_firstname</key>
+		<value><![CDATA[Имя:]]></value>
+	</definition>
+	<definition>
+		<key>entry_lastname</key>
+		<value><![CDATA[Фамилия:]]></value>
+	</definition>
+	<definition>
+		<key>entry_email</key>
+		<value><![CDATA[E-Mail:]]></value>
+	</definition>
+	<definition>
+		<key>entry_telephone</key>
+		<value><![CDATA[Телефон:]]></value>
+	</definition>
+	<definition>
+		<key>entry_fax</key>
+		<value><![CDATA[Факс:]]></value>
+	</definition>
+	<definition>
+		<key>entry_newsletter</key>
+		<value><![CDATA[Подписка на новости:]]></value>
+	</definition>
+	<definition>
+		<key>entry_customer_group</key>
+		<value><![CDATA[Группа покупателей:]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Статус:]]></value>
+	</definition>
+	<definition>
+		<key>entry_approved</key>
+		<value><![CDATA[Утверждено:]]></value>
+	</definition>
+	<definition>
+		<key>entry_password</key>
+		<value><![CDATA[Пароль:]]></value>
+	</definition>
+	<definition>
+		<key>entry_confirm</key>
+		<value><![CDATA[Подтверждение:]]></value>
+	</definition>
+	<definition>
+		<key>entry_company</key>
+		<value><![CDATA[Компания:]]></value>
+	</definition>
+	<definition>
+		<key>entry_address_1</key>
+		<value><![CDATA[Адрес 1:]]></value>
+	</definition>
+	<definition>
+		<key>entry_address_2</key>
+		<value><![CDATA[Адрес 2:]]></value>
+	</definition>
+	<definition>
+		<key>entry_city</key>
+		<value><![CDATA[Город:]]></value>
+	</definition>
+	<definition>
+		<key>entry_postcode</key>
+		<value><![CDATA[Почтовый индекс:]]></value>
+	</definition>
+	<definition>
+		<key>entry_country</key>
+		<value><![CDATA[Страна:]]></value>
+	</definition>
+	<definition>
+		<key>entry_country_id</key>
+		<value><![CDATA[Страна:]]></value>
+	</definition>
+	<definition>
+		<key>entry_zone</key>
+		<value><![CDATA[Регион / Область:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Предупреждение: Вы не имеете прав на изменение клиентов!]]></value>
+	</definition>
+	<definition>
+		<key>error_loginname</key>
+		<value><![CDATA[Логин должен быть только буквенно-цифровой и от 5 до 64 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_loginname_notunique</key>
+		<value><![CDATA[Этот Логин не доступен. Попробуйте другой!]]></value>
+	</definition>
+	<definition>
+		<key>error_firstname</key>
+		<value><![CDATA[Имя должно быть от 1 до 32 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_lastname</key>
+		<value><![CDATA[Фамилия должна быть от 1 до 32 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_email</key>
+		<value><![CDATA[E-Mail введен не верно!]]></value>
+	</definition>
+	<definition>
+		<key>error_telephone</key>
+		<value><![CDATA[Телефон должен быть от 3 до 32 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_password</key>
+		<value><![CDATA[Пароль должен быть от 3 до 20 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_confirm</key>
+		<value><![CDATA[Пароль и подтверждение пароля не совпадают!]]></value>
+	</definition>
+	<definition>
+		<key>error_address_firstname</key>
+		<value><![CDATA[Имя должно быть от 1 до 32 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_address_lastname</key>
+		<value><![CDATA[Фамилия должна быть от 1 до 32 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_address_1</key>
+		<value><![CDATA[Адрес должен быть от 3 до 128 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_city</key>
+		<value><![CDATA[Город должен быть от 3 до 128 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_country</key>
+		<value><![CDATA[Пожалуйста, выберите страну!]]></value>
+	</definition>
+	<definition>
+		<key>error_zone</key>
+		<value><![CDATA[Пожалуйста, выберите регион / область!]]></value>
+	</definition>
+	<definition>
+		<key>text_select_approved</key>
+		<value><![CDATA[- Выберите Утверждено -]]></value>
+	</definition>
+	<definition>
+		<key>text_select_group</key>
+		<value><![CDATA[- Выбор группы -]]></value>
+	</definition>
+	<definition>
+		<key>tab_customer_details</key>
+		<value><![CDATA[Реквизиты клиента]]></value>
+	</definition>
+	<definition>
+		<key>tab_transactions</key>
+		<value><![CDATA[Сделки]]></value>
+	</definition>
+	<definition>
+		<key>heading_title_transactions</key>
+		<value><![CDATA[Сделки Клиента]]></value>
+	</definition>
+	<definition>
+		<key>column_create_date</key>
+		<value><![CDATA[Дата создания]]></value>
+	</definition>
+	<definition>
+		<key>column_created_by</key>
+		<value><![CDATA[Создано]]></value>
+	</definition>
+	<definition>
+		<key>column_debit</key>
+		<value><![CDATA[Дебет]]></value>
+	</definition>
+	<definition>
+		<key>column_credit</key>
+		<value><![CDATA[Кредит]]></value>
+	</definition>
+	<definition>
+		<key>column_transaction_type</key>
+		<value><![CDATA[Тип операции]]></value>
+	</definition>
+	<definition>
+		<key>text_balance</key>
+		<value><![CDATA[Баланс:]]></value>
+	</definition>
+	<definition>
+		<key>popup_title_info</key>
+		<value><![CDATA[Информация об операции]]></value>
+	</definition>
+	<definition>
+		<key>popup_title_insert</key>
+		<value><![CDATA[Вставить новую транзакцию]]></value>
+	</definition>
+	<definition>
+		<key>entry_credit</key>
+		<value><![CDATA[Кредит (увеличение баланса)]]></value>
+	</definition>
+	<definition>
+		<key>entry_debit</key>
+		<value><![CDATA[Дебет (уменьшение баланса)]]></value>
+	</definition>
+	<definition>
+		<key>entry_transaction_type</key>
+		<value><![CDATA[Тип сделки:]]></value>
+	</definition>
+	<definition>
+		<key>entry_other_type</key>
+		<value><![CDATA[Другой Пользовательский тип сделки:]]></value>
+	</definition>
+	<definition>
+		<key>text_option_other_type</key>
+		<value><![CDATA[Другое ...]]></value>
+	</definition>
+	<definition>
+		<key>entry_transaction_description</key>
+		<value><![CDATA[Описание (для заказчика):]]></value>
+	</definition>
+	<definition>
+		<key>entry_transaction_comment</key>
+		<value><![CDATA[Комментарий (для внутреннего использования):]]></value>
+	</definition>
+	<definition>
+		<key>entry_create_date</key>
+		<value><![CDATA[Дата обновления:]]></value>
+	</definition>
+	<definition>
+		<key>error_transaction_type</key>
+		<value><![CDATA[Ошибка: Пожалуйста, заполните тип сделки в поле формы.]]></value>
+	</definition>
+	<definition>
+		<key>error_empty_debit_credit</key>
+		<value><![CDATA[Ошибка: Пожалуйста, заполните значение дебета или кредита для сделки клиента.]]></value>
+	</definition>
+	<definition>
+		<key>text_transaction_success</key>
+		<value><![CDATA[Успешно: Вы изменили сделку!]]></value>
+	</definition>
+	<definition>
+		<key>text_add_address</key>
+		<value><![CDATA[Добавить новый адрес]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_address</key>
+		<value><![CDATA[Редактировать адрес]]></value>
+	</definition>
+	<definition>
+		<key>entry_default</key>
+		<value><![CDATA[По адрес умолчанию:]]></value>
+	</definition>
+	<definition>
+		<key>error_delete_default</key>
+		<value><![CDATA[Ошибка: Адрес по умолчанию не может быть удален!]]></value>
+	</definition>
+	<definition>
+		<key>error_delete_last</key>
+		<value><![CDATA[Ошибка: вы должны иметь по крайней мере один адрес!]]></value>
+	</definition>
+	<definition>
+		<key>entry_date_added</key>
+		<value><![CDATA[Дата добавления:]]></value>
+	</definition>
+	<definition>
+		<key>entry_date_modified</key>
+		<value><![CDATA[Дата изменения:]]></value>
+	</definition>
+	<definition>
+		<key>warning_actonbehalf_additional_store</key>
+		<value><![CDATA[Чтобы действовать от имени покупателя в дополнительной магазине вы должны войти в контрольную панель этого магазина. Продолжить?]]></value>
+	</definition>
+	<definition>
+		<key>entry_update_date</key>
+		<value><![CDATA[Дата обновления:]]></value>
+	</definition>
+	<definition>
+		<key>entry_notify</key>
+		<value><![CDATA[Уведомить Клиента:]]></value>
+	</definition>
+	<definition>
+		<key>text_transaction_notification_subject</key>
+		<value><![CDATA[Новая транзакция была размещена на вашем %s аккаунте]]></value>
+	</definition>
+	<definition>
+		<key>text_transaction_notification_message</key>
+		<value><![CDATA[Новая транзакция была размещена на вашем %s счет в размере %s. Для получения более подробной информации, войдите в %s аккаунт]]></value>
+	</definition>
+	<definition>
+		<key>text_total_order</key>
+		<value><![CDATA[Всего заказов:]]></value>
+	</definition>
+	<definition>
+		<key>text_last_login</key>
+		<value><![CDATA[Время последнего входа:]]></value>
+	</definition>
+	<definition>
+		<key>text_never</key>
+		<value><![CDATA[Никогда]]></value>
+	</definition>
+	<definition>
+		<key>text_other_type_placeholder</key>
+		<value><![CDATA[введите новое имя здесь]]></value>
+	</definition>
+	<definition>
+		<key>text_register_date</key>
+		<value><![CDATA[Дата регистрации:]]></value>
+	</definition>
+	<definition>
+		<key>column_id</key>
+		<value><![CDATA[Я БЫ]]></value>
+	</definition>
+	<definition>
+		<key>error_incorrect_debit_credit</key>
+		<value><![CDATA[Ошибка: дебетовое или кредитное значение не может превышать 99999999999.9999]]></value>
+	</definition>
+	<definition>
+		<key>error_email_exists</key>
+		<value><![CDATA[Клиент с таким адресом электронной почты уже существует!]]></value>
+	</definition>
+</definitions>

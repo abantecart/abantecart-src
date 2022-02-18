@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Comentarios]]></value>
+	</definition>
+	<definition>
+		<key>text_review</key>
+		<value><![CDATA[Opinar]]></value>
+	</definition>
+	<definition>
+		<key>insert_title</key>
+		<value><![CDATA[Insertar Comentario]]></value>
+	</definition>
+	<definition>
+		<key>update_title</key>
+		<value><![CDATA[Actualización de la Revisión]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Correcto: Ha modificado los comentarios!]]></value>
+	</definition>
+	<definition>
+		<key>column_product</key>
+		<value><![CDATA[Producto]]></value>
+	</definition>
+	<definition>
+		<key>column_author</key>
+		<value><![CDATA[Autor]]></value>
+	</definition>
+	<definition>
+		<key>column_rating</key>
+		<value><![CDATA[Votación]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Estado]]></value>
+	</definition>
+	<definition>
+		<key>column_date_added</key>
+		<value><![CDATA[Fecha agregado]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Acción]]></value>
+	</definition>
+	<definition>
+		<key>entry_product</key>
+		<value><![CDATA[Producto:]]></value>
+	</definition>
+	<definition>
+		<key>entry_author</key>
+		<value><![CDATA[Autor:]]></value>
+	</definition>
+	<definition>
+		<key>entry_rating</key>
+		<value><![CDATA[Votación:]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Estado:]]></value>
+	</definition>
+	<definition>
+		<key>entry_text</key>
+		<value><![CDATA[Texto:]]></value>
+	</definition>
+	<definition>
+		<key>entry_good</key>
+		<value><![CDATA[Bueno]]></value>
+	</definition>
+	<definition>
+		<key>entry_bad</key>
+		<value><![CDATA[Malo]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Atención: No tiene permiso para modificar los comentarios!]]></value>
+	</definition>
+	<definition>
+		<key>error_product</key>
+		<value><![CDATA[Producto obligatorio]]></value>
+	</definition>
+	<definition>
+		<key>error_author</key>
+		<value><![CDATA[El autor debe ser superior a 2 caracteres e inferior a 64!]]></value>
+	</definition>
+	<definition>
+		<key>error_text</key>
+		<value><![CDATA[El texto del comentario	debe ser superior a 25 caracteres e inferior a 1000!]]></value>
+	</definition>
+	<definition>
+		<key>error_rating</key>
+		<value><![CDATA[Votación del comnentario obligatorio!]]></value>
+	</definition>
+	<definition>
+		<key>text_select_product</key>
+		<value><![CDATA[- Seleccione el Producto -]]></value>
+	</definition>
+	<definition>
+		<key>text_select_category</key>
+		<value><![CDATA[- Seleccione el Category -]]></value>
+	</definition>
+	<definition>
+		<key>column_verified_purchase</key>
+		<value><![CDATA[Compra verificada]]></value>
+	</definition>
+	<definition>
+		<key>entry_verified_purchase</key>
+		<value><![CDATA[Compra verificada:]]></value>
+	</definition>
+</definitions>

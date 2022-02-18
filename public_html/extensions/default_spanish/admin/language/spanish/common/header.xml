@@ -1,0 +1,487 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Administraci&oacute;n]]></value>
+	</definition>
+	<definition>
+		<key>text_affiliate</key>
+		<value><![CDATA[Afiliados]]></value>
+	</definition>
+	<definition>
+		<key>text_backup</key>
+		<value><![CDATA[Copia de Seguridad / Restaurar]]></value>
+	</definition>
+	<definition>
+		<key>text_catalog</key>
+		<value><![CDATA[Catalogo]]></value>
+	</definition>
+	<definition>
+		<key>text_category</key>
+		<value><![CDATA[Categor&iacute;as]]></value>
+	</definition>
+	<definition>
+		<key>text_country</key>
+		<value><![CDATA[Pa&iacute;ses]]></value>
+	</definition>
+	<definition>
+		<key>text_coupon</key>
+		<value><![CDATA[Cupones]]></value>
+	</definition>
+	<definition>
+		<key>text_discount</key>
+		<value><![CDATA[Discounts]]></value>
+	</definition>
+	<definition>
+		<key>text_currency</key>
+		<value><![CDATA[Monedas]]></value>
+	</definition>
+	<definition>
+		<key>text_customer</key>
+		<value><![CDATA[Clientes]]></value>
+	</definition>
+	<definition>
+		<key>text_customer_group</key>
+		<value><![CDATA[Grupos clientes]]></value>
+	</definition>
+	<definition>
+		<key>text_dashboard</key>
+		<value><![CDATA[Informe]]></value>
+	</definition>
+	<definition>
+		<key>text_download</key>
+		<value><![CDATA[Descargas]]></value>
+	</definition>
+	<definition>
+		<key>text_error_log</key>
+		<value><![CDATA[Errores]]></value>
+	</definition>
+	<definition>
+		<key>text_extension</key>
+		<value><![CDATA[Extensiones]]></value>
+	</definition>
+	<definition>
+		<key>text_add_extension</key>
+		<value><![CDATA[ Agregar Nueva extensión ]]></value>
+	</definition>
+	<definition>
+		<key>text_extensions_store</key>
+		<value><![CDATA[Extensiones de la tienda]]></value>
+	</definition>
+	<definition>
+		<key>text_front</key>
+		<value><![CDATA[Ir a la tienda]]></value>
+	</definition>
+	<definition>
+		<key>text_location</key>
+		<value><![CDATA[Ubicaciones]]></value>
+	</definition>
+	<definition>
+		<key>text_help</key>
+		<value><![CDATA[Ayuda]]></value>
+	</definition>
+	<definition>
+		<key>text_information</key>
+		<value><![CDATA[Informaci&oacute;n]]></value>
+	</definition>
+	<definition>
+		<key>text_language</key>
+		<value><![CDATA[Lenguajes]]></value>
+	</definition>
+	<definition>
+		<key>text_localisation</key>
+		<value><![CDATA[Localizaci&oacute;n]]></value>
+	</definition>
+	<definition>
+		<key>text_logged</key>
+		<value><![CDATA[Est&aacute;s conectado como <span>%s</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_logout</key>
+		<value><![CDATA[Salir]]></value>
+	</definition>
+	<definition>
+		<key>text_contact</key>
+		<value><![CDATA[Correo]]></value>
+	</definition>
+	<definition>
+		<key>text_manufacturer</key>
+		<value><![CDATA[Marcas]]></value>
+	</definition>
+	<definition>
+		<key>text_order</key>
+		<value><![CDATA[Pedidos]]></value>
+	</definition>
+	<definition>
+		<key>text_order_status</key>
+		<value><![CDATA[Situaci&oacute;n pedidos]]></value>
+	</definition>
+	<definition>
+		<key>text_payment</key>
+		<value><![CDATA[Formas de pago]]></value>
+	</definition>
+	<definition>
+		<key>text_product</key>
+		<value><![CDATA[Productos]]></value>
+	</definition>
+	<definition>
+		<key>text_reports</key>
+		<value><![CDATA[Informes]]></value>
+	</definition>
+	<definition>
+		<key>text_online</key>
+		<value><![CDATA[Online]]></value>
+	</definition>
+	<definition>
+		<key>text_transactions</key>
+		<value><![CDATA[Transacciones]]></value>
+	</definition>
+	<definition>
+		<key>text_tax</key>
+		<value><![CDATA[Impuesto]]></value>
+	</definition>
+	<definition>
+		<key>text_welcome</key>
+		<value><![CDATA[Bienvenida, <b>%s</b>]]></value>
+	</definition>
+	<definition>
+		<key>text_last_login</key>
+		<value><![CDATA[Último inicio de sesión: %s]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_details</key>
+		<value><![CDATA[Editar detalles del perfil]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm</key>
+		<value><![CDATA[Confirmar?]]></value>
+	</definition>
+	<definition>
+		<key>text_report_purchased</key>
+		<value><![CDATA[Productos adquiridos]]></value>
+	</definition>
+	<definition>
+		<key>text_report_sale</key>
+		<value><![CDATA[Ventas]]></value>
+	</definition>
+	<definition>
+		<key>text_report_viewed</key>
+		<value><![CDATA[Productos vistos]]></value>
+	</definition>
+	<definition>
+		<key>text_language_definitions</key>
+		<value><![CDATA[Definiciones del lenguaje]]></value>
+	</definition>
+	<definition>
+		<key>text_abantecart</key>
+		<value><![CDATA[Página principal]]></value>
+	</definition>
+	<definition>
+		<key>text_migrate</key>
+		<value><![CDATA[Herramienta de migración]]></value>
+	</definition>
+	<definition>
+		<key>text_updater</key>
+		<value><![CDATA[Actualizador]]></value>
+	</definition>
+	<definition>
+		<key>text_templates</key>
+		<value><![CDATA[Plantillas]]></value>
+	</definition>
+	<definition>
+		<key>text_review</key>
+		<value><![CDATA[Comentarios]]></value>
+	</definition>
+	<definition>
+		<key>text_sale</key>
+		<value><![CDATA[Ventas]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping</key>
+		<value><![CDATA[Tipos de envio]]></value>
+	</definition>
+	<definition>
+		<key>text_setting</key>
+		<value><![CDATA[General]]></value>
+	</definition>
+	<definition>
+		<key>text_stock_status</key>
+		<value><![CDATA[Estado del Inventario]]></value>
+	</definition>
+	<definition>
+		<key>text_store</key>
+		<value><![CDATA[Gestor de tienda]]></value>
+	</definition>
+	<definition>
+		<key>text_support</key>
+		<value><![CDATA[Soporte Foro]]></value>
+	</definition>
+	<definition>
+		<key>text_system</key>
+		<value><![CDATA[Configuraci&oacute;n]]></value>
+	</definition>
+	<definition>
+		<key>text_tax_class</key>
+		<value><![CDATA[Tipos de impuestos]]></value>
+	</definition>
+	<definition>
+		<key>text_total</key>
+		<value><![CDATA[Resumen del pedido]]></value>
+	</definition>
+	<definition>
+		<key>text_user</key>
+		<value><![CDATA[Usuarios]]></value>
+	</definition>
+	<definition>
+		<key>text_documentation</key>
+		<value><![CDATA[Documentaci&oacute;n]]></value>
+	</definition>
+	<definition>
+		<key>text_users</key>
+		<value><![CDATA[Usuarios]]></value>
+	</definition>
+	<definition>
+		<key>text_user_group</key>
+		<value><![CDATA[Grupos de usuarios]]></value>
+	</definition>
+	<definition>
+		<key>text_weight_class</key>
+		<value><![CDATA[Tipos de peso]]></value>
+	</definition>
+	<definition>
+		<key>text_length_class</key>
+		<value><![CDATA[Tipos de medida]]></value>
+	</definition>
+	<definition>
+		<key>text_zone</key>
+		<value><![CDATA[Zonas]]></value>
+	</definition>
+	<definition>
+		<key>text_extensions</key>
+		<value><![CDATA[Todas las Extensiones]]></value>
+	</definition>
+	<definition>
+		<key>text_extensions_short</key>
+		<value><![CDATA[Extensiones]]></value>
+	</definition>
+	<definition>
+		<key>text_design</key>
+		<value><![CDATA[Dise&ntilde;o]]></value>
+	</definition>
+	<definition>
+		<key>text_template</key>
+		<value><![CDATA[Plantilla]]></value>
+	</definition>
+	<definition>
+		<key>text_layout</key>
+		<value><![CDATA[Diseños]]></value>
+	</definition>
+	<definition>
+		<key>text_blocks</key>
+		<value><![CDATA[Bloques]]></value>
+	</definition>
+	<definition>
+		<key>text_menu</key>
+		<value><![CDATA[Men&uacute;]]></value>
+	</definition>
+	<definition>
+		<key>text_cache</key>
+		<value><![CDATA[Cache]]></value>
+	</definition>
+	<definition>
+		<key>text_datasets_manager</key>
+		<value><![CDATA[Conjuntos de datos]]></value>
+	</definition>
+	<definition>
+		<key>text_messages</key>
+		<value><![CDATA[Mensajes]]></value>
+	</definition>
+	<definition>
+		<key>text_content</key>
+		<value><![CDATA[Contenido]]></value>
+	</definition>
+	<definition>
+		<key>text_install_upgrade_history</key>
+		<value><![CDATA[ Instalar/Actualizar Historia ]]></value>
+	</definition>
+	<definition>
+		<key>text_attribute</key>
+		<value><![CDATA[Atributos globales]]></value>
+	</definition>
+	<definition>
+		<key>text_attribute_groups</key>
+		<value><![CDATA[Grupos de Atributos globales]]></value>
+	</definition>
+	<definition>
+		<key>text_import_export</key>
+		<value><![CDATA[Importar/Exportar]]></value>
+	</definition>
+	<definition>
+		<key>text_data</key>
+		<value><![CDATA[Datos]]></value>
+	</definition>
+	<definition>
+		<key>text_logs</key>
+		<value><![CDATA[Registros]]></value>
+	</definition>
+	<definition>
+		<key>text_quick_edit_form</key>
+		<value><![CDATA[Editar Forma Rápida]]></value>
+	</definition>
+	<definition>
+		<key>text_all_matches</key>
+		<value><![CDATA[todos los partidos]]></value>
+	</definition>
+	<definition>
+		<key>text_file_uploads</key>
+		<value><![CDATA[Subidas de archivos]]></value>
+	</definition>
+	<definition>
+		<key>text_all_settings</key>
+		<value><![CDATA[Todo]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_details</key>
+		<value><![CDATA[Tienda Detalles]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_general</key>
+		<value><![CDATA[General]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_checkout</key>
+		<value><![CDATA[Caja]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_appearance</key>
+		<value><![CDATA[Apariencia]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_mail</key>
+		<value><![CDATA[Correo]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_api</key>
+		<value><![CDATA[API]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_system</key>
+		<value><![CDATA[Sistema]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_newstore</key>
+		<value><![CDATA[Crear nueva tienda]]></value>
+	</definition>
+	<definition>
+		<key>text_tasks</key>
+		<value><![CDATA[Tareas programadas]]></value>
+	</definition>
+	<definition>
+		<key>text_read_all_messages</key>
+		<value><![CDATA[Leer todos los mensajes]]></value>
+	</definition>
+	<definition>
+		<key>text_short_stats</key>
+		<value><![CDATA[Estadísticas rápidas]]></value>
+	</definition>
+	<definition>
+		<key>text_online_now</key>
+		<value><![CDATA[Clientes en línea]]></value>
+	</definition>
+	<definition>
+		<key>text_online_new</key>
+		<value><![CDATA[Nuevo]]></value>
+	</definition>
+	<definition>
+		<key>text_online_registered</key>
+		<value><![CDATA[Conectado]]></value>
+	</definition>
+	<definition>
+		<key>text_today_orders</key>
+		<value><![CDATA[Entradas de Pedidos en la actualidad]]></value>
+	</definition>
+	<definition>
+		<key>text_today_sales</key>
+		<value><![CDATA[Ventas totales Hoy]]></value>
+	</definition>
+	<definition>
+		<key>text_today_customers</key>
+		<value><![CDATA[Clientes Nuevos Hoy]]></value>
+	</definition>
+	<definition>
+		<key>text_today_reviews</key>
+		<value><![CDATA[Comentarios Nuevo Hoy]]></value>
+	</definition>
+	<definition>
+		<key>text_voice_command_prompt</key>
+		<value><![CDATA[Símbolo del sistema de voz.]]></value>
+	</definition>
+	<definition>
+		<key>text_voice_select_dialect</key>
+		<value><![CDATA[Seleccione su dialecto]]></value>
+	</definition>
+	<definition>
+		<key>text_voice_confirm_action</key>
+		<value><![CDATA[Confirme esta acción o cancelar]]></value>
+	</definition>
+	<definition>
+		<key>text_voice_speak_now</key>
+		<value><![CDATA[Habla ahora.]]></value>
+	</definition>
+	<definition>
+		<key>text_voice_no_speach_detected</key>
+		<value><![CDATA[No se detectó expresión. Es posible que tenga que ajustar su <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">configuración del micrófono</a>.]]></value>
+	</definition>
+	<definition>
+		<key>text_voice_no_mic_detected</key>
+		<value><![CDATA[Se ha encontrado ningún micrófono. Asegúrese de que el micrófono está instalado y ese <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892"> configuración del micrófono</a> están configurados correctamente.]]></value>
+	</definition>
+	<definition>
+		<key>text_voice_click_allow</key>
+		<value><![CDATA[Haga clic en el botón "Permitir" arriba para el micrófono.]]></value>
+	</definition>
+	<definition>
+		<key>text_voice_mic_denied</key>
+		<value><![CDATA[El permiso para usar el micrófono fue negado.]]></value>
+	</definition>
+	<definition>
+		<key>text_voice_mic_permission</key>
+		<value><![CDATA[El permiso para usar el micrófono está bloqueada. Para cambiar, vaya al navegador <a href="chrome://settings/contentExceptions#media-stream">configuración de los medios</a>]]></value>
+	</definition>
+	<definition>
+		<key>text_voice_not_supported</key>
+		<value><![CDATA[Control por voz no es compatible con este navegador. <a href="//www.google.com/chrome" target="_new">Chrome</a> versión 25 o posterior.]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_notifications</key>
+		<value><![CDATA[Editar configuración de notificación]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_im</key>
+		<value><![CDATA[MI]]></value>
+	</definition>
+	<definition>
+		<key>text_rl_manager</key>
+		<value><![CDATA[Administrador de medios]]></value>
+	</definition>
+	<definition>
+		<key>text_analytics</key>
+		<value><![CDATA[Analytics & Insights]]></value>
+	</definition>
+	<definition>
+		<key>text_server_time</key>
+		<value><![CDATA[Tiempo de Servidor]]></value>
+	</definition>
+	<definition>
+		<key>text_taxes</key>
+		<value><![CDATA[Contribución]]></value>
+	</definition>
+	<definition>
+		<key>email_templates</key>
+		<value><![CDATA[Plantillas de correo electrónico]]></value>
+	</definition>
+	<definition>
+		<key>text_collection</key>
+		<value><![CDATA[Colecciones]]></value>
+	</definition>
+</definitions>

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>error_required</key>
+		<value><![CDATA[Это поле обязательное!]]></value>
+	</definition>
+	<definition>
+		<key>error_email_not_valid</key>
+		<value><![CDATA[Неправильный адрес электронной почты.]]></value>
+	</definition>
+	<definition>
+		<key>error_number_not_valid</key>
+		<value><![CDATA[Неправильный числовой формат.]]></value>
+	</definition>
+	<definition>
+		<key>error_phone_not_valid</key>
+		<value><![CDATA[Неправильный форма телефонного номера.]]></value>
+	</definition>
+	<definition>
+		<key>error_captcha_not_valid</key>
+		<value><![CDATA[Код проверки не совпадает с тем что на картинке!]]></value>
+	</definition>
+	<definition>
+		<key>error_file_extension</key>
+		<value><![CDATA[Разрешены только файлы с расширением(и) %s !]]></value>
+	</definition>
+	<definition>
+		<key>error_min_file_size</key>
+		<value><![CDATA[Минимальный размер файла для загрузки %s Mb.]]></value>
+	</definition>
+	<definition>
+		<key>error_max_file_size</key>
+		<value><![CDATA[Максимальный размер файла для загрузки %s Mb.]]></value>
+	</definition>
+</definitions>

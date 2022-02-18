@@ -1,0 +1,1 @@
+<div id="payment"><?php echo $payment; ?></div>
