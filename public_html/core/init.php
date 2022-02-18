@@ -60,14 +60,13 @@ if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
 }
 
 //Set up common paths
-define('DIR_SYSTEM', DATA_DIR.'/system/');
-define('DIR_DOWNLOAD', DATA_DIR.'/download/');
-define('DIR_CACHE', DATA_DIR.'/system/cache/');
-define('DIR_LOGS', DATA_DIR.'/system/logs/');
-
+define('DIR_SYSTEM', DIR_ROOT.'/system/');
 define('DIR_IMAGE', DIR_ROOT.'/image/');
+define('DIR_DOWNLOAD', DIR_ROOT.'/download/');
 define('DIR_DATABASE', DIR_ROOT.'/core/database/');
 define('DIR_CONFIG', DIR_ROOT.'/core/config/');
+define('DIR_CACHE', DIR_ROOT.'/system/cache/');
+define('DIR_LOGS', DIR_ROOT.'/system/logs/');
 define('DIR_VENDORS', DIR_CORE.'/vendors/');
 
 require DIR_VENDORS.'/Mustache/Autoloader.php';
@@ -120,8 +119,8 @@ if (defined('ADMIN_PATH')
     define('DIR_LANGUAGE', DIR_ROOT.'/admin/language/');
     define('DIR_TEMPLATE', DIR_ROOT.'/admin/view/');
     define('DIR_STOREFRONT', DIR_ROOT.'/storefront/');
-    define('DIR_BACKUP', DATA_DIR.'/admin/system/backup/');
-    define('DIR_DATA', DATA_DIR.'/admin/system/data/');
+    define('DIR_BACKUP', DIR_ROOT.'/admin/system/backup/');
+    define('DIR_DATA', DIR_ROOT.'/admin/system/data/');
     //generate unique session name.
     //NOTE: This is a session name not to confuse with actual session id. Candidate to renaming
     define('SESSION_ID', defined('UNIQUE_ID') ? 'AC_CP_'.strtoupper(substr(UNIQUE_ID, 0, 10)) : 'AC_CP_PHPSESSID');
