@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Diseño de página &amp; Bloques de Administrador]]></value>
+	</definition>
+	<definition>
+		<key>text_select_template</key>
+		<value><![CDATA[Seleccione la plantilla: ]]></value>
+	</definition>
+	<definition>
+		<key>text_delete_success</key>
+		<value><![CDATA[Éxito: Diseño de página se ha eliminado!]]></value>
+	</definition>
+	<definition>
+		<key>text_delete_restricted</key>
+		<value><![CDATA[Error: Diseño de página es restringido y no se puede quitar!]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Éxito: Se ha modificado el diseño &amp; blocks!]]></value>
+	</definition>
+	<definition>
+		<key>text_preview_generated</key>
+		<value><![CDATA[Vista previa generada!]]></value>
+	</definition>
+	<definition>
+		<key>text_click_here</key>
+		<value><![CDATA[Clickea aquí]]></value>
+	</definition>
+</definitions>

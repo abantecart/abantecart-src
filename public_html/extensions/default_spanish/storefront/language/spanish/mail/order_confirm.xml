@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>text_subject</key>
+		<value><![CDATA[%s - Pedido %s]]></value>
+	</definition>
+	<definition>
+		<key>text_greeting</key>
+		<value><![CDATA[Gracias por su interes en los productos de %s. La orden de su pedido ha sido recibida, y sera procesada una vez que el pago se confirme.]]></value>
+	</definition>
+	<definition>
+		<key>text_received</key>
+		<value><![CDATA[Usted ha recibido un pedido de.]]></value>
+	</definition>
+	<definition>
+		<key>text_order_detail</key>
+		<value><![CDATA[Detalles del pedido]]></value>
+	</definition>
+	<definition>
+		<key>text_order_id</key>
+		<value><![CDATA[Pedido Referencia ID:]]></value>
+	</definition>
+	<definition>
+		<key>text_date_added</key>
+		<value><![CDATA[Fecha del pedido:]]></value>
+	</definition>
+	<definition>
+		<key>text_order_status</key>
+		<value><![CDATA[Estado del pedido:]]></value>
+	</definition>
+	<definition>
+		<key>text_invoice</key>
+		<value><![CDATA[Para ver su pedido haga click en el enlace de abajo:]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_method</key>
+		<value><![CDATA[Metodo de envio:]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_method</key>
+		<value><![CDATA[Metodo de pago:]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_address</key>
+		<value><![CDATA[Direccion de envio]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_address</key>
+		<value><![CDATA[Direccion de pago]]></value>
+	</definition>
+	<definition>
+		<key>text_product</key>
+		<value><![CDATA[Productos:]]></value>
+	</definition>
+	<definition>
+		<key>text_total</key>
+		<value><![CDATA[Total:]]></value>
+	</definition>
+	<definition>
+		<key>text_download</key>
+		<value><![CDATA[Una vez que su pago se confirme, puede hacer clic en el siguiente enlace para acceder a sus productos de descarga:]]></value>
+	</definition>
+	<definition>
+		<key>text_comment</key>
+		<value><![CDATA[Los comentarios sobre su pedido son:]]></value>
+	</definition>
+	<definition>
+		<key>text_footer</key>
+		<value><![CDATA[Por favor, responda a este email si tiene alguna pregunta.]]></value>
+	</definition>
+	<definition>
+		<key>text_powered_by</key>
+		<value><![CDATA[powered by]]></value>
+	</definition>
+	<definition>
+		<key>column_product</key>
+		<value><![CDATA[Producto]]></value>
+	</definition>
+	<definition>
+		<key>column_model</key>
+		<value><![CDATA[Modelo]]></value>
+	</definition>
+	<definition>
+		<key>column_quantity</key>
+		<value><![CDATA[Cantidad]]></value>
+	</definition>
+	<definition>
+		<key>column_price</key>
+		<value><![CDATA[Precio]]></value>
+	</definition>
+	<definition>
+		<key>column_total</key>
+		<value><![CDATA[Total]]></value>
+	</definition>
+	<definition>
+		<key>text_email</key>
+		<value><![CDATA[Email:]]></value>
+	</definition>
+	<definition>
+		<key>text_telephone</key>
+		<value><![CDATA[Teléfono:]]></value>
+	</definition>
+	<definition>
+		<key>text_fax</key>
+		<value><![CDATA[Fax:]]></value>
+	</definition>
+	<definition>
+		<key>text_ip</key>
+		<value><![CDATA[IP Dirección:]]></value>
+	</definition>
+	<definition>
+		<key>text_new_order</key>
+		<value><![CDATA[New Order - #]]></value>
+	</definition>
+	<definition>
+		<key>text_new_order_text</key>
+		<value><![CDATA[Cliente %s añadido nuevo orden]]></value>
+	</definition>
+	<definition>
+		<key>text_mobile_phone</key>
+		<value><![CDATA[Teléfono móvil:]]></value>
+	</definition>
+</definitions>

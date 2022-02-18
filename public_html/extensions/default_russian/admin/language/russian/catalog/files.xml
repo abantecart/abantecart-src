@@ -1,0 +1,267 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Файлы товаров]]></value>
+	</definition>
+	<definition>
+		<key>text_product</key>
+		<value><![CDATA[Товар]]></value>
+	</definition>
+	<definition>
+		<key>tab_files</key>
+		<value><![CDATA[Файлы]]></value>
+	</definition>
+	<definition>
+		<key>entry_file_icon</key>
+		<value><![CDATA[Иконка]]></value>
+	</definition>
+	<definition>
+		<key>entry_name</key>
+		<value><![CDATA[ Название]]></value>
+	</definition>
+	<definition>
+		<key>entry_download_name</key>
+		<value><![CDATA[Название загрузки]]></value>
+	</definition>
+	<definition>
+		<key>entry_mask</key>
+		<value><![CDATA[Маска файла <span class="help">Имя файла выдаваемое покупателю при сохранении файла на диск</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_file_full_path</key>
+		<value><![CDATA[Путь к файлу на сервере]]></value>
+	</definition>
+	<definition>
+		<key>entry_file_max_downloads</key>
+		<value><![CDATA[Макс. количество закачек <span class="help">Количество закачек, позволяемых покупателю</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_file_sort_order</key>
+		<value><![CDATA[Порядковый номер]]></value>
+	</definition>
+	<definition>
+		<key>entry_file_status</key>
+		<value><![CDATA[Статус]]></value>
+	</definition>
+	<definition>
+		<key>entry_file_push_to_customers</key>
+		<value><![CDATA[Отправить покупателям]]></value>
+	</definition>
+	<definition>
+		<key>entry_file_activation</key>
+		<value><![CDATA[Режим активации]]></value>
+	</definition>
+	<definition>
+		<key>text_expand</key>
+		<value><![CDATA[раскрыть]]></value>
+	</definition>
+	<definition>
+		<key>text_hide</key>
+		<value><![CDATA[скрыть]]></value>
+	</definition>
+	<definition>
+		<key>text_download_attributes</key>
+		<value><![CDATA[Атрибуты Загрузки]]></value>
+	</definition>
+	<definition>
+		<key>text_download_information</key>
+		<value><![CDATA[Основное]]></value>
+	</definition>
+	<definition>
+		<key>entry_date_added</key>
+		<value><![CDATA[Дата добавления ]]></value>
+	</definition>
+	<definition>
+		<key>entry_date_modified</key>
+		<value><![CDATA[Изменено ]]></value>
+	</definition>
+	<definition>
+		<key>entry_max_downloads</key>
+		<value><![CDATA[Макс. закачек]]></value>
+	</definition>
+	<definition>
+		<key>entry_activate</key>
+		<value><![CDATA[Активавировать<span class="help">Загрузка будет доаступна по выбранному событию.<br>Пример: Немедленно. Загрузка активируется сразу после размещения заказа, независимо от его статуса.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_sort_order</key>
+		<value><![CDATA[Порядковый номер]]></value>
+	</definition>
+	<definition>
+		<key>entry_expire_days</key>
+		<value><![CDATA[Количество дней до истечения<span class="help">Количество дней с момента покупки</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_before_order</key>
+		<value><![CDATA[перед покупкой]]></value>
+	</definition>
+	<definition>
+		<key>text_immediately</key>
+		<value><![CDATA[Немеледленно]]></value>
+	</definition>
+	<definition>
+		<key>text_on_order_status</key>
+		<value><![CDATA[по статусу заказа]]></value>
+	</definition>
+	<definition>
+		<key>text_manually</key>
+		<value><![CDATA[Вручную]]></value>
+	</definition>
+	<definition>
+		<key>text_success_download_save</key>
+		<value><![CDATA[Успешно: Вы изменили параметры файла товара! ]]></value>
+	</definition>
+	<definition>
+		<key>error_download_exists</key>
+		<value><![CDATA[Ошибка: Невозможно обновить загрузку потому что она не существует в базе данных! ]]></value>
+	</definition>
+	<definition>
+		<key>error_download_name</key>
+		<value><![CDATA[Ошибка: Имя загрузки доолжно иметь длину от 2х до 128 символов! ]]></value>
+	</definition>
+	<definition>
+		<key>error_max_downloads</key>
+		<value><![CDATA[Ошибка: максимальное количество загрузок должно быть больше 0! ]]></value>
+	</definition>
+	<definition>
+		<key>error_activate</key>
+		<value><![CDATA[Ошибка: Укажите действие активации загрузки! ]]></value>
+	</definition>
+	<definition>
+		<key>error_order_status</key>
+		<value><![CDATA[Ошибка: Укажите статус заказа для активации загрузки! ]]></value>
+	</definition>
+	<definition>
+		<key>error_download_attributes</key>
+		<value><![CDATA[Ошибки атрибутов загрузки:]]></value>
+	</definition>
+	<definition>
+		<key>text_shared_downloads</key>
+		<value><![CDATA[Общие Загрузки]]></value>
+	</definition>
+	<definition>
+		<key>text_create_download</key>
+		<value><![CDATA[Создать новую загрузку]]></value>
+	</definition>
+	<definition>
+		<key>text_path</key>
+		<value><![CDATA[Относительный путь к файлу]]></value>
+	</definition>
+	<definition>
+		<key>text_preview</key>
+		<value><![CDATA[Предпросмотр]]></value>
+	</definition>
+	<definition>
+		<key>entry_shared</key>
+		<value><![CDATA[Общая загрузка]]></value>
+	</definition>
+	<definition>
+		<key>text_assign</key>
+		<value><![CDATA[Сохранить]]></value>
+	</definition>
+	<definition>
+		<key>text_assigned_to</key>
+		<value><![CDATA[Также привязана к: ]]></value>
+	</definition>
+	<definition>
+		<key>text_select_shared_downloads</key>
+		<value><![CDATA[Выберите общие загрузки]]></value>
+	</definition>
+	<definition>
+		<key>error_selected_downloads</key>
+		<value><![CDATA[Внимание: Пожалуйста выберите общие загрузки для привязки к товару.]]></value>
+	</definition>
+	<definition>
+		<key>text_map_success</key>
+		<value><![CDATA[Успешно: общие загрузки успешно привязаны к товару!]]></value>
+	</definition>
+	<definition>
+		<key>text_delete_or_refuse</key>
+		<value><![CDATA[удалить или отвязать(для общих)]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm_delete</key>
+		<value><![CDATA[Подтвердить удаление/отвязывание загрузки]]></value>
+	</definition>
+	<definition>
+		<key>text_success_remove</key>
+		<value><![CDATA[Успешно: список файлов продукта изменен!]]></value>
+	</definition>
+	<definition>
+		<key>text_push</key>
+		<value><![CDATA[Добавить к заказам]]></value>
+	</definition>
+	<definition>
+		<key>text_push_to_customers</key>
+		<value><![CDATA[Добавить к заказам]]></value>
+	</definition>
+	<definition>
+		<key>text_push_to_orders</key>
+		<value><![CDATA[Отправить загрузку в %s заказ(ов)]]></value>
+	</definition>
+	<definition>
+		<key>text_no_download_attributes_yet</key>
+		<value><![CDATA[ Здесь пока нет атрибутов. <a href="%s" target="_blank">Нажмите здесь чтоб добавить</a>]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm_push</key>
+		<value><![CDATA[ Подтверждаете? ]]></value>
+	</definition>
+	<definition>
+		<key>attention_shared</key>
+		<value><![CDATA[Редактирование общей загрузки коснется и других товаров.]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_product_file</key>
+		<value><![CDATA[Редактировать файл продукта]]></value>
+	</definition>
+	<definition>
+		<key>tab_general</key>
+		<value><![CDATA[Основное]]></value>
+	</definition>
+	<definition>
+		<key>tab_attributes</key>
+		<value><![CDATA[Атрибуты загрузок]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Статус]]></value>
+	</definition>
+	<definition>
+		<key>entry_resource</key>
+		<value><![CDATA[Ресурс]]></value>
+	</definition>
+	<definition>
+		<key>text_add_file</key>
+		<value><![CDATA[Добавить файл]]></value>
+	</definition>
+	<definition>
+		<key>text_new_file</key>
+		<value><![CDATA[Добавить новый файл]]></value>
+	</definition>
+	<definition>
+		<key>success_push_to_orders</key>
+		<value><![CDATA[Успех: загрузка была добавлена в %s заказ(ов) успешно.]]></value>
+	</definition>
+	<definition>
+		<key>error_downloads_disabled</key>
+		<value><![CDATA[Внимание: Загрузки выключены в настройках магазина. <a href="#admin#rt=setting/setting&active=general" target="new">Изменить</a>!]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Внимание: У Вас нет прав редактировать файлы продукта!]]></value>
+	</definition>
+	<definition>
+		<key>error_file</key>
+		<value><![CDATA[Пожалуйста, укажите файл для загрузки.]]></value>
+	</definition>
+	<definition>
+		<key>text_shared_with</key>
+		<value><![CDATA[Поделиться с:]]></value>
+	</definition>
+	<definition>
+		<key>entry_also_mapped_to</key>
+		<value><![CDATA[Также связано с]]></value>
+	</definition>
+</definitions>

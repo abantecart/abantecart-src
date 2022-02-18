@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>default_subject</key>
+		<value><![CDATA[без темы]]></value>
+	</definition>
+	<definition>
+		<key>text_default_email_title</key>
+		<value><![CDATA[Форма отправлена]]></value>
+	</definition>
+	<definition>
+		<key>text_error_message</key>
+		<value><![CDATA[Возникли некоторые ошибки.]]></value>
+	</definition>
+	<definition>
+		<key>text_success_message</key>
+		<value><![CDATA[Форма отправлена успешно!]]></value>
+	</definition>
+	<definition>
+		<key>error_required</key>
+		<value><![CDATA[Это поле обязательное!]]></value>
+	</definition>
+</definitions>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Buscar]]></value>
+	</definition>
+	<definition>
+	  <key>text_keyword</key>
+	  <value><![CDATA[Buscar]]></value>
+	</definition>
+	<definition>
+	  <key>text_advanced</key>
+	  <value><![CDATA[Búsqueda Avanzada]]></value>
+	</definition>
+</definitions>

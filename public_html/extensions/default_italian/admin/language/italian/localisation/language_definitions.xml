@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Definizioni della lingua]]></value>
+	</definition>
+	<definition>
+		<key>text_definition</key>
+		<value><![CDATA[Definizione della lingua]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Hai modificato le lingue con successo!]]></value>
+	</definition>
+	<definition>
+		<key>column_language</key>
+		<value><![CDATA[Lingua]]></value>
+	</definition>
+	<definition>
+		<key>column_key</key>
+		<value><![CDATA[Chiave]]></value>
+	</definition>
+	<definition>
+		<key>column_translation</key>
+		<value><![CDATA[Traduzione]]></value>
+	</definition>
+	<definition>
+		<key>column_block</key>
+		<value><![CDATA[Blocco]]></value>
+	</definition>
+	<definition>
+		<key>column_update_date</key>
+		<value><![CDATA[Data di aggiornamento]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Azioni]]></value>
+	</definition>
+	<definition>
+		<key>entry_language_key</key>
+		<value><![CDATA[Chiave]]></value>
+	</definition>
+	<definition>
+		<key>entry_language_value</key>
+		<value><![CDATA[Valore]]></value>
+	</definition>
+	<definition>
+		<key>entry_translation</key>
+		<value><![CDATA[Traduzione]]></value>
+	</definition>
+	<definition>
+		<key>entry_block</key>
+		<value><![CDATA[Bloco]]></value>
+	</definition>
+	<definition>
+		<key>entry_section</key>
+		<value><![CDATA[Sezione]]></value>
+	</definition>
+	<definition>
+		<key>text_admin</key>
+		<value><![CDATA[Amministratore]]></value>
+	</definition>
+	<definition>
+		<key>text_storefront</key>
+		<value><![CDATA[Negozio fronte]]></value>
+	</definition>
+	<definition>
+		<key>error_language_key</key>
+		<value><![CDATA[Chiave della lingua richiesta!]]></value>
+	</definition>
+	<definition>
+		<key>error_language_value</key>
+		<value><![CDATA[Traduzione richiesta!]]></value>
+	</definition>
+	<definition>
+		<key>error_block</key>
+		<value><![CDATA[Blocco richiesto!]]></value>
+	</definition>
+	<definition>
+		<key>error_section</key>
+		<value><![CDATA[Sezione richiesta!]]></value>
+	</definition>
+	<definition>
+		<key>text_all_section</key>
+		<value><![CDATA[Tutte le sezioni]]></value>
+	</definition>
+    <definition>
+        <key>text_all_languages</key>
+        <value><![CDATA[Tutte le lingue]]></value>
+    </definition>
+    <definition>
+        <key>error_already exists</key>
+        <value><![CDATA[ERRORE!<br>Definizione della lingua con chiave "%s" e blocco "%s" per %s la sezione esiste già!<br>Clicca <a target="_blank" href="%s">questo link</a> per visualizzare]]></value>
+    </definition>
+</definitions>

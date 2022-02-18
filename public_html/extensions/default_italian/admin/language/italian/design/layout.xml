@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<definitions>
+    <definition>
+        <key>heading_title</key>
+        <value><![CDATA[Impaginazione &amp; Gestione blocchi]]></value>
+    </definition>
+    <definition>
+        <key>text_select_template</key>
+        <value><![CDATA[Seleziona template: ]]></value>
+    </definition>
+     <definition>
+        <key>text_delete_success</key>
+        <value><![CDATA[Successo: il Layout della pagina è stato rimosso!]]></value>
+    </definition>
+    <definition>
+        <key>text_delete_restricted</key>
+        <value><![CDATA[Errore: il Layout di pagina è limitato e non può essere rimosso!]]></value>
+    </definition>  
+    <definition>
+        <key>text_success</key>
+        <value><![CDATA[Hai modificato i blocchi di impaginazione &amp;!]]></value>
+    </definition>
+     <definition>
+        <key>text_preview_generated</key>
+        <value><![CDATA[Anteprima generata!]]></value>
+    </definition>
+    <definition>
+        <key>text_click_here</key>
+        <value><![CDATA[Clicca qua]]></value>
+    </definition>
+</definitions>

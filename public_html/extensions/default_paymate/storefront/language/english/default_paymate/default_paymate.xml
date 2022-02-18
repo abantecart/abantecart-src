@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Credit Card / Debit Card (Paymate)]]></value>
+  </definition>
+  <definition>
+    <key>text_unable</key>
+    <value><![CDATA[Unable to locate or update your order status]]></value>
+  </definition>
+  <definition>
+    <key>text_declined</key>
+    <value><![CDATA[Payment was declined by Paymate]]></value>
+  </definition>
+  <definition>
+    <key>text_failed</key>
+    <value><![CDATA[Paymate Transaction Failed]]></value>
+  </definition>
+  <definition>
+    <key>text_failed_message</key>
+    <value><![CDATA[<p>Unfortunately there was an error processing your Paymate transaction.</p><p><b>Error: </b>%s</p><p>Please verify your Paymate account balance before attempting to re-process this order</p><p> If you believe this transaction has completed successfully, or is showing as a deduction in your Paymate account, please <a href="%s">Contact Us</a> with your order details.</p>]]></value>
+  </definition>
+</definitions>

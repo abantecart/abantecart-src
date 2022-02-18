@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>error_required</key>
+		<value><![CDATA[Este campo es obligatorio!]]></value>
+	</definition>
+	<definition>
+		<key>error_email_not_valid</key>
+		<value><![CDATA[No formato de correo electrónico válida.]]></value>
+	</definition>
+	<definition>
+		<key>error_number_not_valid</key>
+		<value><![CDATA[No formato de número válido.]]></value>
+	</definition>
+	<definition>
+		<key>error_phone_not_valid</key>
+		<value><![CDATA[No formato de teléfono válido.]]></value>
+	</definition>
+	<definition>
+		<key>error_captcha_not_valid</key>
+		<value><![CDATA[Código de verificación no coincide con la imagen!]]></value>
+	</definition>
+	<definition>
+		<key>error_file_extension</key>
+		<value><![CDATA[Only files with extension(s) %s is(are) allowed!]]></value>
+	</definition>
+	<definition>
+		<key>error_min_file_size</key>
+		<value><![CDATA[Minimum file size for upload is %s Mb.]]></value>
+	</definition>
+	<definition>
+		<key>error_max_file_size</key>
+		<value><![CDATA[Maximum file size for upload is %s Mb.]]></value>
+	</definition>
+</definitions>

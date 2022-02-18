@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Moneda]]></value>
+  </definition>
+  <definition>
+    <key>text_currency</key>
+    <value><![CDATA[Moneda]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Correcto: Ha modificado las monedas!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Moneda]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[Código]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Valor]]></value>
+  </definition>
+  <definition>
+    <key>column_date_modified</key>
+    <value><![CDATA[Última actualización]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Acción]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Status]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Título de la moneda:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Code:<br /><span class="help">No LO cambie si esta es su moneda predeterminada.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Valor:<br /><span class="help">Se establece en 1,00000 si esta es su moneda predeterminada.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_symbol_left</key>
+    <value><![CDATA[Símbolo a la izquierda:]]></value>
+  </definition>
+  <definition>
+    <key>entry_symbol_right</key>
+    <value><![CDATA[Símbolo a la derecha:]]></value>
+  </definition>
+  <definition>
+    <key>entry_decimal_place</key>
+    <value><![CDATA[Decimales:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Estado:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Atención: No tiene permisos para modificar las monedas!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Moneda debe ser superior a 2 caracteres e inferior a 32!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[Código debe contener 3!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Atención: Esta moneda no puede ser eliminada porque actualmente está asignada como la moneda por defecto de la tienda!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Advertencia: Esta moneda no puede suprimirse, ya que esta actualmente asignado a %s tiendas!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Atención: Esta moneda no puede ser eliminada porque actualmente está asignada a %s pedidos!]]></value>
+  </definition>
+</definitions>

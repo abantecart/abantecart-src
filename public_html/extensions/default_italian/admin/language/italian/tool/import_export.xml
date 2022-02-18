@@ -1,0 +1,227 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>import_export_title</key>
+		<value><![CDATA[Importa ed Esporta]]></value>
+	</definition>
+	<definition>
+		<key>tab_import</key>
+		<value><![CDATA[Importa]]></value>
+	</definition>
+	<definition>
+		<key>tab_export</key>
+		<value><![CDATA[Esporta]]></value>
+	</definition>
+	<definition>
+		<key>text_tables</key>
+		<value><![CDATA[Tabelle]]></value>
+	</definition>
+	<definition>
+		<key>text_options</key>
+		<value><![CDATA[Opzioni]]></value>
+	</definition>
+	<definition>
+		<key>text_file_format</key>
+		<value><![CDATA[Formato File: ]]></value>
+	</definition>
+	<definition>
+		<key>text_file_name</key>
+		<value><![CDATA[Nome File: ]]></value>
+	</definition>
+	<definition>
+		<key>text_load_file</key>
+		<value><![CDATA[Carica File]]></value>
+	</definition>
+	<definition>
+		<key>text_load</key>
+		<value><![CDATA[Carica]]></value>
+	</definition>
+	<definition>
+		<key>text_import_loaded</key>
+		<value><![CDATA[Totale caricati: ]]></value>
+	</definition>
+	<definition>
+		<key>text_file_field</key>
+		<value><![CDATA[File da importare:<br><span class="help">Questi sono i formati supportati per i file di importazione: CSV, TXT</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_id_range_from</key>
+		<value><![CDATA[ La gamma di ID da: ]]></value>
+	</definition>
+	<definition>
+		<key>text_to</key>
+		<value><![CDATA[A: ]]></value>
+	</definition>
+	<definition>
+		<key>text_csv_delimiter</key>
+		<value><![CDATA[CSV/TXT delimiter: ]]></value>
+	</definition>
+	<definition>
+		<key>text_export_note_csv_delimiter</key>
+		<value><![CDATA[<span class="help">Tutti i campi saranno racchiusi tra le virgolette doppie.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_import_note_csv_delimiter</key>
+		<value><![CDATA[<span class="help">Tutti i campi saranno racchiusi tra le virgolette doppie.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_test_mode</key>
+		<value><![CDATA[Esegui in una modalità di test <br><span class="help">Si consiglia di eseguire l'importazione dei dati in una modalità di test per vedere se sono presenti eventuali problemi.</span>]]></value>
+	</definition>
+	<definition>
+		<key>error_file_format</key>
+		<value><![CDATA[Formato di file errato!]]></value>
+	</definition>
+	<definition>
+		<key>error_xml_import</key>
+		<value><![CDATA[Errore durante l'importazione di file XML!]]></value>
+	</definition>
+	<definition>
+		<key>error_csv_import</key>
+		<value><![CDATA[Errore durante l'importazione del file CSV/TXT! Si prega di controllare i campi che delimitano.]]></value>
+	</definition>
+	<definition>
+		<key>error_data_corrupted</key>
+		<value><![CDATA[Il dato è vuoto o danneggiato.]]></value>
+	</definition>
+	<definition>
+		<key>error_writable_backup</key>
+		<value><![CDATA[La directory di Backup deve essere scivibile per CSV/TXT per esportazione lavoro.]]></value>
+	</definition>
+	<definition>
+		<key>text_updated</key>
+		<value><![CDATA[Aggiornato: ]]></value>
+	</definition>
+	<definition>
+		<key>text_created</key>
+		<value><![CDATA[Creato: ]]></value>
+	</definition>
+	<definition>
+		<key>text_errors</key>
+		<value><![CDATA[Errori: ]]></value>
+	</definition>
+	<definition>
+		<key>text_show_details</key>
+		<value><![CDATA[Mostra dettagli]]></value>
+	</definition>
+	<definition>
+		<key>text_no_children</key>
+		<value><![CDATA[Nessun articolo inferiore]]></value>
+	</definition>
+	<definition>
+		<key>text_some_errors</key>
+		<value><![CDATA[Ci sono alcuni errori.]]></value>
+	</definition>
+	<definition>
+		<key>text_test_completed</key>
+		<value><![CDATA[Test completato. Totale query SQL: ]]></value>
+	</definition>
+	<definition>
+		<key>text_sort_by</key>
+		<value><![CDATA[Ordina per: ]]></value>
+	</definition>
+	<definition>
+		<key>error_file_empty</key>
+		<value><![CDATA[Il file è vuoto.]]></value>
+	</definition>
+	<definition>
+		<key>import_wizard_title</key>
+		<value><![CDATA[Importazione guidata dati]]></value>
+	</definition>
+	<definition>
+		<key>tab_import_wizard</key>
+		<value><![CDATA[Procedura guidata di importazione]]></value>
+	</definition>
+	<definition>
+		<key>text_load_file_notes</key>
+		<value><![CDATA[È possibile caricare file CSV o di testo per importare dati. Per la struttura dei dati, puoi seguire il formato proprietario (vedi esportazione) o il formato libero. <br/> Per i dati con il formato gratuito, sarà necessario mappare manualmente gli elementi dei dati. Solo prodotti e categorie supportati per l&#39;importazione di formati gratuiti.]]></value>
+	</definition>
+	<definition>
+		<key>text_import_wizard_notes</key>
+		<value><![CDATA[Selezionare una tabella di destinazione e il campo del database corrispondente per ciascuna colonna di dati di importazione fornita. Se non viene selezionato alcun campo, i dati della colonna di input verranno ignorati. <br/><b>Nota:</b> i valori dei dati specifici per lingua e archivio verranno assegnati all&#39;attuale archivio di contenuti e lingua selezionata]]></value>
+	</definition>
+	<definition>
+		<key>text_records_to_be_loaded</key>
+		<value><![CDATA[Ci saranno %s record caricati ed elaborati in questa importazione!]]></value>
+	</definition>
+	<definition>
+		<key>text_import_task_title</key>
+		<value><![CDATA[Esecuzione del processo di importazione]]></value>
+	</definition>
+	<definition>
+		<key>text_import_file_col</key>
+		<value><![CDATA[Importa colonna di file]]></value>
+	</definition>
+	<definition>
+		<key>text_import_file_data</key>
+		<value><![CDATA[Importa campione di dati]]></value>
+	</definition>
+	<definition>
+		<key>text_destination_col</key>
+		<value><![CDATA[Seleziona la tabella di destinazione]]></value>
+	</definition>
+	<definition>
+		<key>text_import_update_on</key>
+		<value><![CDATA[Aggiorna se esiste]]></value>
+	</definition>
+	<definition>
+		<key>text_import_split</key>
+		<value><![CDATA[Dividi dati per]]></value>
+	</definition>
+	<definition>
+		<key>title_export_map</key>
+		<value><![CDATA[Seleziona, copia e salva questa mappatura per uso futuro.]]></value>
+	</definition>
+	<definition>
+		<key>text_export_map</key>
+		<value><![CDATA[Esporta mappatura]]></value>
+	</definition>
+	<definition>
+		<key>title_load_map</key>
+		<value><![CDATA[Pubblica nel campo sotto i dati di mappatura pre-salvati]]></value>
+	</definition>
+	<definition>
+		<key>text_load_map</key>
+		<value><![CDATA[Caricare la mappatura]]></value>
+	</definition>
+	<definition>
+		<key>error_table_selection</key>
+		<value><![CDATA[Nessuna tabella o campi di destinazione di importazione selezionati!]]></value>
+	</definition>
+	<definition>
+		<key>error_required_selection</key>
+		<value><![CDATA[Campo dati obbligatorio mancante &#39;%s&#39; per la tabella di destinazione!]]></value>
+	</definition>
+	<definition>
+		<key>error_tmp_dir_non_writable</key>
+		<value><![CDATA[Directory temporanea %s non è scrivibile! Modifica le autorizzazioni per procedere.]]></value>
+	</definition>
+	<definition>
+		<key>error_empty_request</key>
+		<value><![CDATA[Richiesta vuota]]></value>
+	</definition>
+	<definition>
+		<key>text_complete_import</key>
+		<value><![CDATA[Il processo di importazione è stato completato. %s righe elaborate.]]></value>
+	</definition>
+	<definition>
+		<key>text_complete_import_with_errors</key>
+		<value><![CDATA[%s riga (e) con errori.]]></value>
+	</definition>
+	<definition>
+		<key>text_see_log</key>
+		<value><![CDATA[Per ulteriori dettagli, consultare il <a href="%s" target="_new">file di registro %s</a>]]></value>
+	</definition>
+	<definition>
+		<key>text_success_abort</key>
+		<value><![CDATA[Attività interrotta correttamente.]]></value>
+	</definition>
+	<definition>
+		<key>button_schedule_import</key>
+		<value><![CDATA[Importa pianificazione]]></value>
+	</definition>
+	<definition>
+		<key>text_success_scheduled</key>
+		<value><![CDATA[Operazione riuscita: l&#39;attività di importazione pianificata è stata creata correttamente! <a href="%s">Vedi i dettagli</a>]]></value>
+	</definition>
+</definitions>

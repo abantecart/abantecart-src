@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Пользователи]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_details</key>
+		<value><![CDATA[Редактировать Анкетные данные]]></value>
+	</definition>
+	<definition>
+		<key>text_user</key>
+		<value><![CDATA[Пользователь]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Успех: Вы изменили пользователей!]]></value>
+	</definition>
+	<definition>
+		<key>text_success_details</key>
+		<value><![CDATA[Успех: Вы изменили свой профиль!]]></value>
+	</definition>
+	<definition>
+		<key>column_username</key>
+		<value><![CDATA[Имя пользователя]]></value>
+	</definition>
+	<definition>
+		<key>column_group</key>
+		<value><![CDATA[Группа]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Статус]]></value>
+	</definition>
+	<definition>
+		<key>column_date_added</key>
+		<value><![CDATA[Добавлено]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Действие]]></value>
+	</definition>
+	<definition>
+		<key>entry_username</key>
+		<value><![CDATA[Имя пользователя:]]></value>
+	</definition>
+	<definition>
+		<key>entry_password</key>
+		<value><![CDATA[Пароль:]]></value>
+	</definition>
+	<definition>
+		<key>entry_confirm</key>
+		<value><![CDATA[Подтверждение:]]></value>
+	</definition>
+	<definition>
+		<key>entry_firstname</key>
+		<value><![CDATA[Имя:]]></value>
+	</definition>
+	<definition>
+		<key>entry_lastname</key>
+		<value><![CDATA[Фамилия:]]></value>
+	</definition>
+	<definition>
+		<key>entry_email</key>
+		<value><![CDATA[E-Mail:]]></value>
+	</definition>
+	<definition>
+		<key>entry_user_group</key>
+		<value><![CDATA[Группа:]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Статус:]]></value>
+	</definition>
+	<definition>
+		<key>entry_captcha</key>
+		<value><![CDATA[Введите код, указанный на картинке:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Внимание: Вы не имеете права модифицировать пользователей!]]></value>
+	</definition>
+	<definition>
+		<key>error_account</key>
+		<value><![CDATA[Предупреждение: Вы не можете удалять свой собственный счет!]]></value>
+	</definition>
+	<definition>
+		<key>error_username</key>
+		<value><![CDATA[Имя пользователя должно быть уникальным и длиной от 2 до 20 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_password</key>
+		<value><![CDATA[Пароль должен быть не более 3-х символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_confirm</key>
+		<value><![CDATA[Пароль и подтверждение пароля не совпадают!]]></value>
+	</definition>
+	<definition>
+		<key>error_firstname</key>
+		<value><![CDATA[Имя должно быть от 2 до 32 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_lastname</key>
+		<value><![CDATA[Фамилия должна быть от 2 до 32 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_captcha</key>
+		<value><![CDATA[Проверочный код не совпадает с кодом на картинке!]]></value>
+	</definition>
+	<definition>
+		<key>text_select_group</key>
+		<value><![CDATA[- Выбор группы -]]></value>
+	</definition>
+	<definition>
+		<key>error_email</key>
+		<value><![CDATA[Неверный адрес электронной почты!]]></value>
+	</definition>
+	<definition>
+		<key>entry_ims</key>
+		<value><![CDATA[Уведомления]]></value>
+	</definition>
+	<definition>
+		<key>entry_im_email</key>
+		<value><![CDATA[E-Mail:<span class="help">Один или несколько разделенных запятыми адресов электронной почты</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_im_sms</key>
+		<value><![CDATA[Мобильный телефон:<span class="help">Номер телефона в международном формате. +14566887777</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_im</key>
+		<value><![CDATA[Редактировать Уведомления]]></value>
+	</definition>
+	<definition>
+		<key>text_sendpoints</key>
+		<value><![CDATA[SendPoints]]></value>
+	</definition>
+	<definition>
+		<key>text_change_im_addresses</key>
+		<value><![CDATA[Редактировать Адрес Уведомления для этой точки]]></value>
+	</definition>
+	<definition>
+		<key>error_user_group</key>
+		<value><![CDATA[У вас нет разрешения на изменение группы пользователей.]]></value>
+	</definition>
+</definitions>

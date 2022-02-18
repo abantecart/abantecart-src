@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Usuario]]></value>
+	</definition>
+	<definition>
+		<key>text_user</key>
+		<value><![CDATA[User]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_details</key>
+		<value><![CDATA[Editar detalles del perfil]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Correcto: Ha modificado los usuarios!]]></value>
+	</definition>
+	<definition>
+		<key>text_success_details</key>
+		<value><![CDATA[Success: You have modified your profile!]]></value>
+	</definition>
+	<definition>
+		<key>column_username</key>
+		<value><![CDATA[Nombre de usuario]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Estado]]></value>
+	</definition>
+	<definition>
+		<key>column_group</key>
+		<value><![CDATA[Group]]></value>
+	</definition>
+	<definition>
+		<key>column_date_added</key>
+		<value><![CDATA[Fecha de añadido]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Acción]]></value>
+	</definition>
+	<definition>
+		<key>entry_username</key>
+		<value><![CDATA[Nombre de usuario:]]></value>
+	</definition>
+	<definition>
+		<key>entry_password</key>
+		<value><![CDATA[Contraseña:]]></value>
+	</definition>
+	<definition>
+		<key>entry_confirm</key>
+		<value><![CDATA[Confirmar:]]></value>
+	</definition>
+	<definition>
+		<key>entry_firstname</key>
+		<value><![CDATA[Nombre:]]></value>
+	</definition>
+	<definition>
+		<key>entry_lastname</key>
+		<value><![CDATA[Apellidos:]]></value>
+	</definition>
+	<definition>
+		<key>entry_email</key>
+		<value><![CDATA[Correo electrónico:]]></value>
+	</definition>
+	<definition>
+		<key>entry_user_group</key>
+		<value><![CDATA[Grupo de usuario:]]></value>
+	</definition>
+	<definition>
+		<key>entry_captcha</key>
+		<value><![CDATA[Introduce el código en la casilla de abajo:]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Estado:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Atención: No tiene permisos para modificar los usuarios!]]></value>
+	</definition>
+	<definition>
+		<key>error_account</key>
+		<value><![CDATA[Atención: No puede borrar su propia cuenta!]]></value>
+	</definition>
+	<definition>
+		<key>error_username</key>
+		<value><![CDATA[¡El nombre de usuario debe tener entre 2 y 20 caracteres y debe ser único!]]></value>
+	</definition>
+	<definition>
+		<key>error_password</key>
+		<value><![CDATA[La contraseña debe ser mayor de 3 caracteres y menor de 20!]]></value>
+	</definition>
+	<definition>
+		<key>error_confirm</key>
+		<value><![CDATA[La contraseña y la confirmación no coinciden!]]></value>
+	</definition>
+	<definition>
+		<key>error_firstname</key>
+		<value><![CDATA[El nombre debe ser mayor de 2 caracteres y menor de 32!]]></value>
+	</definition>
+	<definition>
+		<key>error_lastname</key>
+		<value><![CDATA[Los apellidos deben ser mayor de 2 caracteres y menor de 32!]]></value>
+	</definition>
+	<definition>
+		<key>error_captcha</key>
+		<value><![CDATA[Código de verificación no coincide con la imagen!]]></value>
+	</definition>
+	<definition>
+		<key>text_select_group</key>
+		<value><![CDATA[- Seleccione el Grupo -]]></value>
+	</definition>
+	<definition>
+		<key>error_email</key>
+		<value><![CDATA[Dirección E-Mail no parece ser válido!]]></value>
+	</definition>
+	<definition>
+		<key>entry_ims</key>
+		<value><![CDATA[Notificaciones]]></value>
+	</definition>
+	<definition>
+		<key>entry_im_email</key>
+		<value><![CDATA[E-Mail:<span class="help">Una o más direcciones de correo electrónico separados por comas</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_im_sms</key>
+		<value><![CDATA[Teléfono móvil:<span class="help">número de teléfono en formato internacional. ejemplo +14566887777</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_im</key>
+		<value><![CDATA[Editar notificaciones]]></value>
+	</definition>
+	<definition>
+		<key>text_sendpoints</key>
+		<value><![CDATA[Enviar Puntos]]></value>
+	</definition>
+	<definition>
+		<key>text_change_im_addresses</key>
+		<value><![CDATA[Direcciones de aviso de edición de este Enviar Punto]]></value>
+	</definition>
+	<definition>
+		<key>error_user_group</key>
+		<value><![CDATA[No tiene permisos para cambiar grupo de usuarios]]></value>
+	</definition>
+</definitions>

@@ -1,0 +1,244 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>default_realex_name</key>
+		<value><![CDATA[Realex Remote Payment]]></value>
+	</definition>
+	<definition>
+		<key>text_payment</key>
+		<value><![CDATA[Payment]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Success: You have modified Realex Remote Payment account details!]]></value>
+	</definition>
+	<definition>
+		<key>default_realex_location_id</key>
+		<value><![CDATA[Location:]]></value>
+	</definition>
+	<definition>
+		<key>default_realex_location_id_0</key>
+		<value><![CDATA[All Locations]]></value>
+	</definition>
+	<definition>
+		<key>text_creditcard_selection_payment</key>
+		<value><![CDATA[Credit cards:<br /><span class="help">Select credit card types you will accept. You can set Merchant ID for each credit card as sub account, otherwise, select default. </span>]]></value>
+	</definition>
+	<definition>
+		<key>text_card_type</key>
+		<value><![CDATA[Credit Card Type]]></value>
+	</definition>
+	<definition>
+		<key>text_enabled</key>
+		<value><![CDATA[ON/OFF]]></value>
+	</definition>
+	<definition>
+		<key>text_default</key>
+		<value><![CDATA[Use Default Account]]></value>
+	</definition>
+	<definition>
+		<key>text_subaccount</key>
+		<value><![CDATA[Sub Account]]></value>
+	</definition>
+	<definition>
+		<key>default_realex_creditcard_selection_visa</key>
+		<value><![CDATA[Visa]]></value>
+	</definition>
+	<definition>
+		<key>default_realex_creditcard_selection_mc</key>
+		<value><![CDATA[Mastercard]]></value>
+	</definition>
+	<definition>
+		<key>default_realex_creditcard_selection_amex</key>
+		<value><![CDATA[American Express]]></value>
+	</definition>
+	<definition>
+		<key>default_realex_creditcard_selection_switch</key>
+		<value><![CDATA[Switch/Maestro]]></value>
+	</definition>
+	<definition>
+		<key>default_realex_creditcard_selection_laser</key>
+		<value><![CDATA[Laser]]></value>
+	</definition>
+	<definition>
+		<key>default_realex_creditcard_selection_diners</key>
+		<value><![CDATA[Diners]]></value>
+	</definition>
+
+	<definition>
+		<key>default_realex_status_success_settled</key>
+		<value><![CDATA[Success & settled:<br /><span class="help">Select main order status you want to set in responce to payment processor status</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_realex_status_success_unsettled</key>
+		<value><![CDATA[Success & not settled:<br /><span class="help">Select main order status you want to set in responce to payment processor status</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_realex_status_decline</key>
+		<value><![CDATA[Decline:<br /><span class="help">Order status you want to record in history in responce to payment processor status. Main order status is not affected. Order will not be placed only after payment is a success.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_realex_status_decline_pending</key>
+		<value><![CDATA[Decline & offline auth:<br /><span class="help">Order status you want to record in history in responce to payment processor status. Main order status is not affected. Order will not be placed only after payment is a success.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_realex_status_decline_stolen</key>
+		<value><![CDATA[Decline & lost or stolen card:<br /><span class="help">Order status you want to record in history in responce to payment processor status. Main order status is not affected. Order will not be placed only after payment is a success.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_realex_status_decline_bank</key>
+		<value><![CDATA[Decline & bank error:<br /><span class="help">Order status you want to record in history in responce to payment processor status. Main order status is not affected. Order will not be placed only after payment is a success.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_realex_status_void</key>
+		<value><![CDATA[Voided:<br /><span class="help">Order status you want to be set if payment is voided in admin/order.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_realex_status_rebate</key>
+		<value><![CDATA[Rebated:<br /><span class="help">Order status you want to be set if payment is rebated in admin/order.</span>]]></value>
+	</definition>
+
+	<definition>
+		<key>default_realex_merchant_id</key>
+		<value><![CDATA[Merchant ID:<br /><span class="help">Realex Payments assigned merchant ID</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_realex_secret</key>
+		<value><![CDATA[Secret:<br /><span class="help">It is very important to keep this shared secret protected.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_realex_rebate_password</key>
+		<value><![CDATA[Rebate password:<br /><span class="help"></span>]]></value>
+	</definition>
+	<definition>
+		<key>default_realex_settlement</key>
+		<value><![CDATA[Settlement type:<br /><span class="help">If set to 'auto', then the transaction will be included in today's settlement. If set to 'delayed', then the transaction will be authorised but not settled. You must manually settle delayed transactions within 28 days of authorisation</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_realex_tss_check</key>
+		<value><![CDATA[TSS checks:<br /><span class="help">Enable TSS Realscore service</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_realex_3d</key>
+		<value><![CDATA[Enable 3D secure:<br /><span class="help"></span>]]></value>
+	</definition>
+	<definition>
+		<key>default_realex_liability_shift</key>
+		<value><![CDATA[Accept 3D failures:<br /><span class="help">Accept non-liability shifting scenarios. You will still accept payments if user fails 3D secure.</span>]]></value>
+	</definition>
+
+	<definition>
+		<key>text_column_date_added</key>
+		<value><![CDATA[Transaction Date]]></value>
+	</definition>
+	<definition>
+		<key>text_column_type</key>
+		<value><![CDATA[Activity]]></value>
+	</definition>
+	<definition>
+		<key>text_column_amount</key>
+		<value><![CDATA[Amount]]></value>
+	</definition>
+
+	<definition>
+		<key>text_captured_ok</key>
+		<value><![CDATA[Funds were captured successfully]]></value>
+	</definition>
+	<definition>
+		<key>text_captured_order</key>
+		<value><![CDATA[Capture was successful, order status updated to success - settled]]></value>
+	</definition>
+	<definition>
+		<key>text_rebated_ok</key>
+		<value><![CDATA[Rebate was processed successfully]]></value>
+	</definition>
+	<definition>
+		<key>text_rebated_order</key>
+		<value><![CDATA[Rebate was successful, order status updated to rebated]]></value>
+	</definition>
+	<definition>
+		<key>text_voided</key>
+		<value><![CDATA[Void was successful, order status updated to voided]]></value>
+	</definition>
+	<definition>
+		<key>default_realex_settlement_auto</key>
+		<value><![CDATA[Auto (authorize and capture]]></value>
+	</definition>
+	<definition>
+		<key>default_realex_settlement_delayed</key>
+		<value><![CDATA[Delayed (autorize only)]]></value>
+	</definition>
+	<definition>
+		<key>default_realex_settlement_multi</key>
+		<value><![CDATA[Multi]]></value>
+	</definition>
+	<definition>
+		<key>text_ip_warning</key>
+		<value><![CDATA[You need to provide your server IP address to your Realex account before going live]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_info</key>
+		<value><![CDATA[Payment Details]]></value>
+	</definition>
+	<definition>
+		<key>text_capture_status</key>
+		<value><![CDATA[Payment was captured]]></value>
+	</definition>
+	<definition>
+		<key>text_void_status</key>
+		<value><![CDATA[Payment was voided]]></value>
+	</definition>
+	<definition>
+		<key>text_rebate_status</key>
+		<value><![CDATA[Payment was rebated]]></value>
+	</definition>
+	<definition>
+		<key>text_rebate_amount</key>
+		<value><![CDATA[Rebate Amount]]></value>
+	</definition>
+	<definition>
+		<key>text_order_ref</key>
+		<value><![CDATA[Order Reference]]></value>
+	</definition>
+	<definition>
+		<key>text_order_total</key>
+		<value><![CDATA[Total amount authorized]]></value>
+	</definition>
+	<definition>
+		<key>text_total_captured</key>
+		<value><![CDATA[Total amount captured]]></value>
+	</definition>
+	<definition>
+		<key>text_transactions</key>
+		<value><![CDATA[Payment Transactions]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm_void</key>
+		<value><![CDATA[Please confirm you want to void the payment?]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm_capture</key>
+		<value><![CDATA[Please confirm you want to capture the payment?]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm_rebate</key>
+		<value><![CDATA[Please confirm you want to rebate the payment?]]></value>
+	</definition>
+	<definition>
+		<key>button_rebate</key>
+		<value><![CDATA[Rebate]]></value>
+	</definition>
+	<definition>
+		<key>button_void</key>
+		<value><![CDATA[Void]]></value>
+	</definition>
+	<definition>
+		<key>button_capture</key>
+		<value><![CDATA[Capture]]></value>
+	</definition>
+
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Warning: You do not have permission to modify Realex Payment!]]></value>
+	</definition>
+</definitions>

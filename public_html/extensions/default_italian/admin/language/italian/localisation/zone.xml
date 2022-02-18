@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Zone]]></value>
+	</definition>
+	<definition>
+		<key>text_zone</key>
+		<value><![CDATA[Zona]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Hai modificato le zone con successo!]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Nome zona]]></value>
+	</definition>
+	<definition>
+		<key>column_code</key>
+		<value><![CDATA[Codice Zona]]></value>
+	</definition>
+	<definition>
+		<key>column_country</key>
+		<value><![CDATA[Nazione]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Azione]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Stato]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Stato Zona:]]></value>
+	</definition>
+	<definition>
+		<key>entry_name</key>
+		<value><![CDATA[Nome Zona:]]></value>
+	</definition>
+	<definition>
+		<key>entry_code</key>
+		<value><![CDATA[Codice Zona:]]></value>
+	</definition>
+	<definition>
+		<key>entry_country</key>
+		<value><![CDATA[Nazione:]]></value>
+	</definition>
+	<definition>
+		<key>text_select_country</key>
+		<value><![CDATA[- Seleziona nazione -]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[ATTENZIONE: Non sei autorizzato a modificare le zone!]]></value>
+	</definition>
+	<definition>
+		<key>error_name</key>
+		<value><![CDATA[Il nome della zona deve avere tra 2 e 128 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_default</key>
+		<value>
+			<![CDATA[ATTENZIONE: Questa zona non può essere eliminata perchè è attualmente assegnata come zona predefinita nel negozio!]]></value>
+	</definition>
+	<definition>
+		<key>error_store</key>
+		<value>
+			<![CDATA[ATTENZIONE: Questa zona non può essere eliminata perchè è attualmente assegnata %s negozi!]]></value>
+	</definition>
+	<definition>
+		<key>error_address</key>
+		<value>
+			<![CDATA[ATTENZIONE: Questa zona non può essere eliminata perchè è attualmente assegnata %s voci della rubrica!]]></value>
+	</definition>
+	<definition>
+		<key>error_zone_to_location</key>
+		<value>
+			<![CDATA[ATTENZIONE: Questa zona non può essere eliminata perchè è attualmente assegnata %s zone di localizzazioni!]]></value>
+	</definition>
+</definitions>

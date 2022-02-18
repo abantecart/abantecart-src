@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Благодарим Вас за покупки с %s ....]]></value>
+  </definition>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Кредитная карта / дебетовая карта (PayPoint)]]></value>
+  </definition>
+  <definition>
+    <key>text_response</key>
+    <value><![CDATA[Ответ PayPoint:]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[... ваш платеж был успешно получен.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_wait</key>
+    <value><![CDATA[<b><span style="color: #FF0000">Пожалуйста, подождите ...</span></b> в то время как мы закончим обработку Вашего заказа. <br> Если вы не перенаправлены автоматически за 10 секунд, пожалуйста, нажмите <a href="%s">здесь</a>.]]></value>
+  </definition>
+  <definition>
+    <key>text_failure</key>
+    <value><![CDATA[... Ваш платеж был отменен!]]></value>
+  </definition>
+  <definition>
+    <key>text_failure_wait</key>
+    <value><![CDATA[<b><span style="color: #FF0000">Пожалуйста, подождите ...</span></b><br>Если вы не перенаправлены автоматически за 10 секунд, пожалуйста, нажмите <a href="%s">здесь</a>.]]></value>
+  </definition>
+</definitions>

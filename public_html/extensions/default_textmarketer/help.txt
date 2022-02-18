@@ -1,0 +1,19 @@
+<b><a target="_new" href="https://www.textmarketer.co.uk/abantecart">Text Marketer</a> SMS Configuration</b>
+<br/><br/>
+
+With Text Marketer SMS service you can enable AbanteCart to send SMS notifications to administrators and customers.
+SMS can be sent to admin in event of new orders, low stock and some other events. Storefront customers can get SMS with order updates, specials and other events.<br>
+Notifications are managed in admin profile or in customer profile
+
+<br/><br/>
+
+1. To use this extension, you need to have active Text Marketer account. <br/>
+If you do not have Text Marketer account, please follow <a href="https://www.textmarketer.co.uk/abantecart" target="_blank">this link</a> to create an account <br/><br/>
+2. Fill in required fields (API Username/Password ) with information provided by Text Marketer.
+<br/><br/>
+3. Select Text Marketer as SMS provider in System -> Settings -> IM.<br/><br/>
+
+Now Text Marketer can be used in admin and storefront to send notifications.  
+<br/><br/>
+
+<a target="_new" href="https://www.textmarketer.co.uk/abantecart">Access Text Marketer</a>

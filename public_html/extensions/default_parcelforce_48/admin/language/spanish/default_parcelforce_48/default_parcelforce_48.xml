@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>default_parcelforce_48_name</key>
+    <value><![CDATA[Parcelforce 48]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Envio]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Correcto: ha modificado el envio por Parcelforce 48!]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_rate</key>
+    <value><![CDATA[Parcelforce 48 Rates:<br /><span class="help">Ejemplo: 0:0,10:15,99,12:19,99, - Pesos menores o iguales a 10 libras costarían $ 15,99, Pesos menos de 12 libras, pero más de 10 libras costará $ 19,99. Donde Pound es tu tienda La clase Weight y $ es la moneda base de la tienda. Puede cambiar ambos en la configuración de tienda. No ingrese KG ni símbolos. Introduzca valores hasta 5,2 decimales. (12345.67)</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_display_weight</key>
+    <value><![CDATA[Indicaci�n de peso de entrega:<br /><span class="help">�Quieres mostrar el peso de embarque? (Por ejemplo, de entrega Peso: 2.7674 Kg's)</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_display_weight_1</key>
+    <value><![CDATA[Si]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_display_weight_0</key>
+    <value><![CDATA[No]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_display_insurance</key>
+    <value><![CDATA[Seguros:<br /><span class="help">�Quieres mostrar el seguro de env�o? (Por ejemplo, asegurado hasta 500)</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_display_insurance_1</key>
+    <value><![CDATA[Si]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_display_insurance_0</key>
+    <value><![CDATA[No]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_display_time</key>
+    <value><![CDATA[Tiempo estimado:<br /><span class="help">�Quieres mostrar el tiempo de env�o? (Por ejemplo, se env�a en 3 a 5 d�as)</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_display_time_1</key>
+    <value><![CDATA[Si]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_display_time_0</key>
+    <value><![CDATA[No]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_compensation</key>
+    <value><![CDATA[Parcelforce48 compesacion:<br /><span class="help">Entre los valores hasta que 5,2 decimales. (12.345,67) Ejemplo: 34:0,100:1,250:2.25 - Cobertura de seguro para el carro hasta que los valores de 34 costar�a 0,00 extra, los valores de m�s de 100 y hasta 250 costar� 2,25 extra. No entre s�mbolos de moneda.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_tax</key>
+    <value><![CDATA[Tipo de impuesto:]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_tax_0</key>
+    <value><![CDATA[---None---]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_location_id</key>
+    <value><![CDATA[Localidad:]]></value>
+  </definition>
+  <definition>
+    <key>default_parcelforce_48_location_id_0</key>
+    <value><![CDATA[Todos las Localidades]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Advertencia: No tiene permiso para modificar el envio por Parcelforce 48!]]></value>
+  </definition>
+</definitions>

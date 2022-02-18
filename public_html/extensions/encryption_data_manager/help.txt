@@ -1,0 +1,69 @@
+<center><b>Data Encryption Configuration Manual</b></center>
+<p>
+It is important for eCommerce site to maintain up to date security for data provided by customers. This is required buy customers, industry and PCI standards.<br/>
+By enabling AbanteCart data encryption you can secure your customers data from access. Information, such as customer addresses, emails, phone numbers, credit cards, etc. will be encrypted and not readable. Encryption key can be stored securely and prevent access to this date in event of hacking or database attack.     
+<br/><br>
+<b>Requirement:</b> PHP => 5.3 and openSSL enabled
+<br>(Contact your server admin or hosting company)<br>
+NOTE: Do not confuse SSL data encryption with signed SSL certificates (HTTPS) used for browser access to sites 
+<br><br>
+
+<b>Important! Backup your code and database before you start!<br> For security keep backup of unencrypted data out of your server!</b> 
+<br><br>
+
+<b>1. Configuration:</b> <br>
+Add key storage location path. <br>
+Add below lines to /system/config.php file. <br>
+<br>
+<b>	define('ENCRYPTION_KEYS_DIR', '/path/to/keys/');</b><br>
+<b>	define('DATA_ENCRYPTION_ENABLED', true);</b><br>
+<br>
+Change path to your specific path on your server and it has to be writable/readable only to webserver
+<br> 
+If ENCRYPTION_KEYS_DIR is not provided, default path will be used in /system/keys/ .
+Important to keep these keys secure!
+<br><br>
+
+<b>2. Generate New Key:</b>
+<br><br>in Encryption Data Tools generate new key with some unique key name provided (no spaces or special characters).
+<br><br>
+Important to use only 1 key at the time and add below line to /system/config.php file with key name that will be default <br>
+<b>	define('DATA_ENCRYPTION_KEYPAIR', 'your_key_name');</b><br>
+This is the key name that will be used for read/write at one given time.
+
+<br><br>
+<b>3. Encrypt all data:</b> <br>
+Now you need to run encryption for all the data using new key created at prior step. 
+<br> You can do this in Encryption Data Tools of Encrypt User's Data tab. Just follow the steps for "data encryption" process 
+
+<br><br>
+
+<b>4. Require login name:</b> <br>
+Customer emails are encrypted now. To prevent login issues and duplicate accounts, set "Require login name" setting to ON.
+<br> Setting is located in <a href="#admin#rt=setting/setting&active=checkout">Settings -> Checkout section</a> <br>
+Existing customers will be asked to create unique login name at next time they login to the account 
+
+<br><br>
+All customers data is secured now! Start testing!
+
+<br><br>
+<b>NOTES: </b><br>
+1. Keep Key in secure location with restricted file permissions for root and apache (webserver)<br>
+3. Backup your keys in some remote secure location. Lost keys will cause loss of all data<br>
+3. There is no key expiration management. <br>
+4. Search or look up by encrypted user data will not work (search by address, phone number, etc. will not work)<br>
+5. <b>Once data in encrypted there is NO undo and extension can not be disabled. </b> <br>
+These needs to be accounted for in key management procedures
+
+<br><br>
+<b>5. Migrate encryption key (optional):</b>
+<br>This process currently is not automated, but possible with below steps
+<br> - Generate new key pair
+<br> - Set new key as default key into configuration file
+<br> - Create and run custom script to decrypt data with original key and encrypt and write with new key. 
+
+<br><br>
+Need help configuring, supporting or extending functionality, 
+contact www.abantecart.com for forum or paid support
+
+</p>

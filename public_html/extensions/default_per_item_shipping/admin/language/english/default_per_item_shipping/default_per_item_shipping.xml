@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>default_per_item_shipping_name</key>
+    <value><![CDATA[Per Item]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Shipping]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: You have modified shipping per item rates!]]></value>
+  </definition>
+  <definition>
+    <key>default_per_item_shipping_cost</key>
+    <value><![CDATA[Cost:]]></value>
+  </definition>
+  <definition>
+    <key>default_per_item_shipping_tax</key>
+    <value><![CDATA[Tax Class:]]></value>
+  </definition>
+  <definition>
+    <key>default_per_item_shipping_tax_0</key>
+    <value><![CDATA[---None---]]></value>
+  </definition>
+  <definition>
+    <key>default_per_item_shipping_location_id</key>
+    <value><![CDATA[Location:]]></value>
+  </definition>
+  <definition>
+    <key>default_per_item_shipping_location_id_0</key>
+    <value><![CDATA[All Locations]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Warning: You do not have permission to modify shipping per item rates!]]></value>
+  </definition>
+</definitions>

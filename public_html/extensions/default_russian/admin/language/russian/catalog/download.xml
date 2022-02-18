@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Файлы для скачивания]]></value>
+	</definition>
+	<definition>
+		<key>text_download</key>
+		<value><![CDATA[Файлы для скачивания]]></value>
+	</definition>
+	<definition>
+		<key>insert_title</key>
+		<value><![CDATA[Добавить файлы для скачивания]]></value>
+	</definition>
+	<definition>
+		<key>update_title</key>
+		<value><![CDATA[Скачать обновление]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Успешно: Вы изменили файл для скачивания!]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Имя файла для скачивания]]></value>
+	</definition>
+	<definition>
+		<key>column_remaining</key>
+		<value><![CDATA[Всего разрешено загрузок]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Действие]]></value>
+	</definition>
+	<definition>
+		<key>entry_name</key>
+		<value><![CDATA[Название:]]></value>
+	</definition>
+	<definition>
+		<key>entry_filename</key>
+		<value><![CDATA[Имя файла:]]></value>
+	</definition>
+	<definition>
+		<key>entry_remaining</key>
+		<value><![CDATA[Всего разрешено загрузок:]]></value>
+	</definition>
+	<definition>
+		<key>entry_update</key>
+		<value>
+			<![CDATA[Нажмите для Предыдущих Клиентов:<br /><span class="help">Отметьте здесь, чтобы обновлять ранее приобретённые версии.</span>]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Внимание: Вы не имеет прав модифицировать файлы для скачивания!]]></value>
+	</definition>
+	<definition>
+		<key>error_name</key>
+		<value><![CDATA[Имя должно быть от 2 до 64 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_file</key>
+		<value><![CDATA[Пожалуйста, добавте файл для скачивания.]]></value>
+	</definition>
+	<definition>
+		<key>error_product</key>
+		<value>
+			<![CDATA[Этот файл не может быть удален, поскольку в настоящее время он прикреплен к %s товару(ам)!]]></value>
+	</definition>
+	<definition>
+		<key>column_image</key>
+		<value><![CDATA[Картинка]]></value>
+	</definition>
+	<definition>
+		<key>column_products_count</key>
+		<value><![CDATA[Количество продуктов]]></value>
+	</definition>
+</definitions>

@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Descargas]]></value>
+	</definition>
+	<definition>
+		<key>text_download</key>
+		<value><![CDATA[Descargar]]></value>
+	</definition>
+	<definition>
+		<key>insert_title</key>
+		<value><![CDATA[Inserte Descargar]]></value>
+	</definition>
+	<definition>
+		<key>update_title</key>
+		<value><![CDATA[Actualizar Descargar]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Correcto: Ha modificado las descargas!]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Nombre de descarga]]></value>
+	</definition>
+	<definition>
+		<key>column_remaining</key>
+		<value><![CDATA[Total de descargas permitidas]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Acción]]></value>
+	</definition>
+	<definition>
+		<key>entry_name</key>
+		<value><![CDATA[Nombre de descarga:]]></value>
+	</definition>
+	<definition>
+		<key>entry_filename</key>
+		<value><![CDATA[Nombre de archivo:]]></value>
+	</definition>
+	<definition>
+		<key>entry_remaining</key>
+		<value><![CDATA[Total de descargas permitidas:]]></value>
+	</definition>
+	<definition>
+		<key>entry_update</key>
+		<value>
+			<![CDATA[Pulsar para los clientes precedentes:<br /><span class="help">Marca esta casilla para actualizar las versiones previamente adquiridos.</span>]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Atención: No tiene permisos para modificar las descargas!]]></value>
+	</definition>
+	<definition>
+		<key>error_name</key>
+		<value><![CDATA[El nombre de la descarga debe ser superior a 2 caracteres e inferior a 64!]]></value>
+	</definition>
+	<definition>
+		<key>error_file</key>
+		<value><![CDATA[Por favor, configure el archivo para su descarga.]]></value>
+	</definition>
+	<definition>
+		<key>error_product</key>
+		<value>
+			<![CDATA[Atención: Esta descarga no puede ser eliminada ya que está actualmente asignada a %s productos!]]></value>
+	</definition>
+	<definition>
+		<key>column_image</key>
+		<value><![CDATA[Imagen]]></value>
+	</definition>
+	<definition>
+		<key>column_products_count</key>
+		<value><![CDATA[Productos Contar]]></value>
+	</definition>
+</definitions>

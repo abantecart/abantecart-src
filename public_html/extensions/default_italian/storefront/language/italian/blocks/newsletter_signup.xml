@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Iscriviti alla Newsletter]]></value>
+	</definition>
+	<definition>
+		<key>text_signup</key>
+		<value><![CDATA[Iscriviti alla nostra newsletter &amp; puoi ottenere interessanti offerte.]]></value>
+	</definition>
+	<definition>
+		<key>text_sign_in</key>
+		<value><![CDATA[Iscriviti]]></value>
+	</definition>
+	<definition>
+		<key>text_subscribe</key>
+		<value><![CDATA[Sottoscrivi Newsletter]]></value>
+	</definition>
+	<definition>
+		<key>button_subscribe</key>
+		<value><![CDATA[sottoscrivi]]></value>
+	</definition>	
+</definitions>

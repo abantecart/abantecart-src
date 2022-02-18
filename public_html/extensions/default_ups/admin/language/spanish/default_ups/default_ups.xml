@@ -1,0 +1,329 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>default_ups_name</key>
+		<value><![CDATA[UPS]]></value>
+	</definition>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[UPS]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping</key>
+		<value><![CDATA[Envio]]></value>
+	</definition>
+	<definition>
+		<key>text_additional_settings</key>
+		<value><![CDATA[Ajustes adicionales]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Correcto: ha modificado el envio por UPS!]]></value>
+	</definition>
+	<definition>
+		<key>text_regular_daily_pickup</key>
+		<value><![CDATA[Regular Daily Pickup]]></value>
+	</definition>
+	<definition>
+		<key>text_customer_counter</key>
+		<value><![CDATA[Customer Counter]]></value>
+	</definition>
+	<definition>
+		<key>text_daily_pickup</key>
+		<value><![CDATA[Daily Pickup]]></value>
+	</definition>
+	<definition>
+		<key>text_one_time_pickup</key>
+		<value><![CDATA[One Time Pickup]]></value>
+	</definition>
+	<definition>
+		<key>text_on_call_air_pickup</key>
+		<value><![CDATA[On Call Air Pickup]]></value>
+	</definition>
+	<definition>
+		<key>text_letter_center</key>
+		<value><![CDATA[Letter Center]]></value>
+	</definition>
+	<definition>
+		<key>text_air_service_center</key>
+		<value><![CDATA[Air Service Center]]></value>
+	</definition>
+	<definition>
+		<key>text_suggested_retail_rates</key>
+		<value><![CDATA[Suggested Retail Rates (UPS Store)]]></value>
+	</definition>
+	<definition>
+		<key>text_package</key>
+		<value><![CDATA[Package]]></value>
+	</definition>
+	<definition>
+		<key>text_default_ups_letter</key>
+		<value><![CDATA[UPS Letter]]></value>
+	</definition>
+	<definition>
+		<key>text_default_ups_tube</key>
+		<value><![CDATA[UPS Tube]]></value>
+	</definition>
+	<definition>
+		<key>text_default_ups_pak</key>
+		<value><![CDATA[UPS Pak]]></value>
+	</definition>
+	<definition>
+		<key>text_default_ups_express_box</key>
+		<value><![CDATA[UPS Express Box]]></value>
+	</definition>
+	<definition>
+		<key>text_default_ups_25kg_box</key>
+		<value><![CDATA[UPS 25kg box]]></value>
+	</definition>
+	<definition>
+		<key>text_default_ups_10kg_box</key>
+		<value><![CDATA[UPS 10kg box]]></value>
+	</definition>
+	<definition>
+		<key>text_us</key>
+		<value><![CDATA[US Origin]]></value>
+	</definition>
+	<definition>
+		<key>text_ca</key>
+		<value><![CDATA[Canada Origin]]></value>
+	</definition>
+	<definition>
+		<key>text_eu</key>
+		<value><![CDATA[European Union Origin]]></value>
+	</definition>
+	<definition>
+		<key>text_pr</key>
+		<value><![CDATA[Puerto Rico Origin]]></value>
+	</definition>
+	<definition>
+		<key>text_mx</key>
+		<value><![CDATA[Mexico Origin]]></value>
+	</definition>
+	<definition>
+		<key>text_other</key>
+		<value><![CDATA[All other origins]]></value>
+	</definition>
+	<definition>
+		<key>text_test</key>
+		<value><![CDATA[Test]]></value>
+	</definition>
+	<definition>
+		<key>text_production</key>
+		<value><![CDATA[Production]]></value>
+	</definition>
+	<definition>
+		<key>text_residential</key>
+		<value><![CDATA[Residential]]></value>
+	</definition>
+	<definition>
+		<key>text_commercial</key>
+		<value><![CDATA[Commercial]]></value>
+	</definition>
+	<definition>
+		<key>text_next_day_air</key>
+		<value><![CDATA[Next Day Air]]></value>
+	</definition>
+	<definition>
+		<key>text_2nd_day_air</key>
+		<value><![CDATA[2nd Day Air]]></value>
+	</definition>
+	<definition>
+		<key>text_ground</key>
+		<value><![CDATA[Ground]]></value>
+	</definition>
+	<definition>
+		<key>text_worldwide_express</key>
+		<value><![CDATA[Worldwide Express]]></value>
+	</definition>
+	<definition>
+		<key>text_worldwide_express_plus</key>
+		<value><![CDATA[Worldwide Express Plus]]></value>
+	</definition>
+	<definition>
+		<key>text_worldwide_expedited</key>
+		<value><![CDATA[Worldwide Expedited]]></value>
+	</definition>
+	<definition>
+		<key>text_express</key>
+		<value><![CDATA[Express]]></value>
+	</definition>
+	<definition>
+		<key>text_standard</key>
+		<value><![CDATA[Standard]]></value>
+	</definition>
+	<definition>
+		<key>text_3_day_select</key>
+		<value><![CDATA[3 Day Select]]></value>
+	</definition>
+	<definition>
+		<key>text_next_day_air_saver</key>
+		<value><![CDATA[Next Day Air Saver]]></value>
+	</definition>
+	<definition>
+		<key>text_next_day_air_early_am</key>
+		<value><![CDATA[Next Day Air Early AM]]></value>
+	</definition>
+	<definition>
+		<key>text_expedited</key>
+		<value><![CDATA[Expedited]]></value>
+	</definition>
+	<definition>
+		<key>text_2nd_day_air_am</key>
+		<value><![CDATA[2nd Day Air AM]]></value>
+	</definition>
+	<definition>
+		<key>text_saver</key>
+		<value><![CDATA[Saver]]></value>
+	</definition>
+	<definition>
+		<key>text_express_early_am</key>
+		<value><![CDATA[Express Early A.M.]]></value>
+	</definition>
+	<definition>
+		<key>text_express_plus</key>
+		<value><![CDATA[Express Plus]]></value>
+	</definition>
+	<definition>
+		<key>text_today_standard</key>
+		<value><![CDATA[Today Standard]]></value>
+	</definition>
+	<definition>
+		<key>text_today_dedicated_courier</key>
+		<value><![CDATA[Today Dedicated Courier]]></value>
+	</definition>
+	<definition>
+		<key>text_today_intercity</key>
+		<value><![CDATA[Today Intercity]]></value>
+	</definition>
+	<definition>
+		<key>text_today_express</key>
+		<value><![CDATA[Today Express]]></value>
+	</definition>
+	<definition>
+		<key>text_today_express_saver</key>
+		<value><![CDATA[Today Express Saver]]></value>
+	</definition>
+	<definition>
+		<key>entry_key</key>
+		<value><![CDATA[Clave de Acceso:<span class="help">Introduzca la clave de las tasas de acceso XML asignada a usted por UPS.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_username</key>
+		<value><![CDATA[Nombre de Usuario:<span class="help">Ingrese su nombre de usuario de servicios de UPS.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_password</key>
+		<value><![CDATA[Contraseña:<span class="help">Ingrese su contraseña de la cuenta de servicios de UPS.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_pickup</key>
+		<value><![CDATA[Método de Recogida:<span class="help">¿Cómo se dan los paquetes de UPS (sólo se utiliza cuando el origen es US.)?</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_packaging</key>
+		<value><![CDATA[Tipo de embalaje:<span class="help">¿Qué tipo de envases se utilizan?</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_classification</key>
+		<value><![CDATA[Código de Clasificación del Cliente:<span class="help">01 - Si está facturando a una cuenta de UPS y tiene una camioneta de UPS al día, 03 - Si no tienes una cuenta de UPS o que está cobrando a una cuenta de UPS, pero no tienen una pastilla al día, 04 - Si usted va a enviar a partir de un punto de venta (sólo se utiliza cuando el origen es US.)</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_origin</key>
+		<value>
+			<![CDATA[Codigo origen envio:<span class="help">Que punto de origen se debe usar (esta opcion solo afecta a lo que los nombres de productos UPS que se muestran al usuario)</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_city</key>
+		<value><![CDATA[Ciudad de origen:<span class="help">Nombre de la ciudad.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_state</key>
+		<value><![CDATA[Provincia de origen:<span class="help">Introduzca el codigo de dos letras de su provincia de origen.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_country</key>
+		<value><![CDATA[Pais de origen:<span class="help">Introduzca el codigo de dos letras de su pais de origen.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_postcode</key>
+		<value><![CDATA[Codigo postal de origen:<span class="help">Enter your origin zip/postalcode.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_test</key>
+		<value><![CDATA[De prueba o modo de produccion:<span class="help">Utilice este modulo en las pruebas o el modo de produccion?</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_quote_type</key>
+		<value><![CDATA[Cita Tipo:<span class="help">Cita para la entrega residencial o comercial.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_account_number</key>
+		<value>
+			<![CDATA[Número de Cuenta UPS:<span class="help">Introduzca su numero de cuenta de UPS para utilizar las tarifas negociadas.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_service</key>
+		<value><![CDATA[Servicios:<span class="help">Seleccione los servicios de UPS para ofrecer en el futuro.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_display_weight</key>
+		<value><![CDATA[Mostrar Peso de entrega:<br /><span class="help">Quieres mostrar el peso de embarque? (Por ejemplo, de entrega Peso: 2.7674 Kg's)</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_weight_code</key>
+		<value><![CDATA[Peso Código:<br /><span class="help">Kilogramos o libras animales Asegúrese de que coincida con la categoría de peso con el UPS reconocida por un peso.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_weight_class</key>
+		<value><![CDATA[Peso Clase:<span class="help">Se establece en kilogramos o libras.</span>]]></value>
+	</definition>
+    <definition>
+        <key>entry_length_class</key>
+        <value><![CDATA[Duración de las clases:<span class="help">pulgadas o centímetros</span>]]></value>
+    </definition>
+    <definition>
+        <key>entry_dimensions</key>
+        <value><![CDATA[Dimensiones (duration x ancho x altura), pulgadas:<span class="help">Esto se supone que es el tamaño promedio de caja de embalaje. Las dimensiones individuales de elementos no son compatibles en este momento por lo que debe entrar en dimensiones medias como 5x5x5.</span>]]></value>
+    </definition>
+	<definition>
+		<key>entry_tax</key>
+		<value><![CDATA[Tipo de impuesto:]]></value>
+	</definition>
+	<definition>
+		<key>entry_location</key>
+		<value><![CDATA[Localidad:]]></value>
+	</definition>
+	<definition>
+		<key>entry_sort_order</key>
+		<value><![CDATA[Orden:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Advertencia: No tiene permiso para modificar el envio por UPS (US)!]]></value>
+	</definition>
+	<definition>
+		<key>error_key</key>
+		<value><![CDATA[Clave de Acceso Requiredo!]]></value>
+	</definition>
+	<definition>
+		<key>error_username</key>
+		<value><![CDATA[Nombre de Usuario Requiredo!]]></value>
+	</definition>
+	<definition>
+		<key>error_password</key>
+		<value><![CDATA[Contraseña Requiredo!]]></value>
+	</definition>
+	<definition>
+		<key>error_city</key>
+		<value><![CDATA[Ciudad Origen!]]></value>
+	</definition>
+	<definition>
+		<key>error_state</key>
+		<value><![CDATA[Provincia Origen Requirido!]]></value>
+	</definition>
+	<definition>
+		<key>error_country</key>
+		<value><![CDATA[Pais de Origen Requirido!]]></value>
+	</definition>
+</definitions>

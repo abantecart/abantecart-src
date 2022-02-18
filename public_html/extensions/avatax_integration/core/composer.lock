@@ -1,0 +1,49 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "d3ff03df801050ad82468c41c4901802",
+    "content-hash": "5fb8947de68c615957563f4f0b61d4f7",
+    "packages": [
+        {
+            "name": "avalara/avatax",
+            "version": "14.4.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/avadev/AvaTax-Calc-REST-PHP.git",
+                "reference": "d81ab462526068e416d4f212ef19586dabaccb70"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/avadev/AvaTax-Calc-REST-PHP/zipball/d81ab462526068e416d4f212ef19586dabaccb70",
+                "reference": "d81ab462526068e416d4f212ef19586dabaccb70",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "AvaTax": "src/"
+                }
+            },
+            "description": "A set of classes to assist with integration to the Avalara AvaTax REST API.",
+            "support": {
+                "source": "https://github.com/avadev/AvaTax-Calc-REST-PHP/tree/v14.4.4",
+                "issues": "https://github.com/avadev/AvaTax-Calc-REST-PHP/issues"
+            },
+            "time": "2014-12-05 22:52:20"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

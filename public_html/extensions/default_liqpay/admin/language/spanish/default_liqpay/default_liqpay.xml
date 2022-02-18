@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>default_liqpay_name</key>
+		<value><![CDATA[LIQPAY]]></value>
+	</definition>
+	<definition>
+		<key>text_payment</key>
+		<value><![CDATA[Pago]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Enhorabuena: Ha modificado los detalles de su cuenta LIQPAY!]]></value>
+	</definition>
+	<definition>
+		<key>text_liqpay</key>
+		<value><![CDATA[LIQPAY]]></value>
+	</definition>
+	<definition>
+		<key>text_card</key>
+		<value><![CDATA[Tarjeta de crédito]]></value>
+	</definition>
+	<definition>
+		<key>text_pay</key>
+		<value><![CDATA[LIQPAY]]></value>
+	</definition>
+	<definition>
+		<key>default_liqpay_merchant</key>
+		<value><![CDATA[Merchant ID:]]></value>
+	</definition>
+	<definition>
+		<key>default_liqpay_signature</key>
+		<value><![CDATA[Firma:]]></value>
+	</definition>
+	<definition>
+		<key>default_liqpay_type</key>
+		<value><![CDATA[Tipo:]]></value>
+	</definition>
+	<definition>
+		<key>default_liqpay_test_mode</key>
+		<value><![CDATA[Test Mode:]]></value>
+	</definition>
+	<definition>
+		<key>default_liqpay_order_status_id</key>
+		<value><![CDATA[Estado del pedido:]]></value>
+	</definition>
+	<definition>
+		<key>default_liqpay_location_id</key>
+		<value><![CDATA[Localidad:]]></value>
+	</definition>
+	<definition>
+		<key>default_liqpay_location_id_0</key>
+		<value><![CDATA[Todas las localidades]]></value>
+	</definition>
+	<definition>
+		<key>default_liqpay_type_pay</key>
+		<value><![CDATA[Pay]]></value>
+	</definition>
+	<definition>
+		<key>default_liqpay_type_card</key>
+		<value><![CDATA[Card]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Atención: No tiene permisos para modificar su cuenta LIQPAY!]]></value>
+	</definition>
+	<definition>
+		<key>error_merchant</key>
+		<value><![CDATA[Merchant ID obligatorio!]]></value>
+	</definition>
+	<definition>
+		<key>error_signature</key>
+		<value><![CDATA[Firma obligatoria!]]></value>
+	</definition>
+</definitions>

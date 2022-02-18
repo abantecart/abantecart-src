@@ -1,0 +1,195 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Mail]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Il tuo messaggio è stato inviato!]]></value>
+	</definition>
+	<definition>
+		<key>text_default</key>
+		<value><![CDATA[Predefinito]]></value>
+	</definition>
+	<definition>
+		<key>text_custom_send</key>
+		<value><![CDATA[Invia al cliente]]></value>
+	</definition>
+	<definition>
+		<key>text_all_subscribers</key>
+		<value><![CDATA[Tutti gli iscritti]]></value>
+	</definition>
+	<definition>
+		<key>text_subscribers_only</key>
+		<value><![CDATA[Solo Abbonati Newsletter (non clienti)]]></value>
+	</definition>
+	<definition>
+		<key>text_customers_only</key>
+		<value><![CDATA[Solo clienti]]></value>
+	</definition>
+	<definition>
+		<key>entry_store</key>
+		<value><![CDATA[Da:]]></value>
+	</definition>
+	<definition>
+		<key>entry_product</key>
+		<value><![CDATA[Per i clienti che hanno ordinato i prodotti:]]></value>
+	</definition>
+	<definition>
+		<key>entry_to</key>
+		<value><![CDATA[A:]]></value>
+	</definition>
+	<definition>
+		<key>entry_subject</key>
+		<value><![CDATA[Oggetto:]]></value>
+	</definition>
+	<definition>
+		<key>entry_message</key>
+		<value><![CDATA[Messaggio:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[ATTENZIONE: Non hai l'autorizzazione per inviare le E-Mail!]]></value>
+	</definition>
+	<definition>
+		<key>error_subject</key>
+		<value><![CDATA[L'oggetto della E-Mail è richiesto!]]></value>
+	</definition>
+	<definition>
+		<key>error_message</key>
+		<value><![CDATA[Il messaggio della E-Mail è richiesto!]]></value>
+	</definition>
+	<definition>
+		<key>error_recipients</key>
+		<value><![CDATA[I destinatari della E-mail sono richiesti!]]></value>
+	</definition>
+	<definition>
+		<key>error_not_sent</key>
+		<value><![CDATA['Errore: Email non inviata! Si prega di consultare il registro degli errori per i dettagli.']]></value>
+	</definition>
+	<definition>
+		<key>text_unsubscribe</key>
+		<value><![CDATA[Questa email è stata inviata a %s, perché le preferenze di e-mail sono impostati per ricevere newsletter. Clicca <a href="%s">qui per annullare l'iscizione</a>. ]]></value>
+	</definition>
+	<definition>
+		<key>text_total_to_be_sent</key>
+		<value><![CDATA[(Totale da inviare a: %s )]]></value>
+	</definition>
+	<definition>
+		<key>text_select_products</key>
+		<value><![CDATA[- Seleziona prodotto -]]></value>
+	</definition>
+	<definition>
+		<key>text_select_customers</key>
+		<value><![CDATA[- Seleziona cliente -]]></value>
+	</definition>
+	<definition>
+		<key>text_send_email</key>
+		<value><![CDATA[Inviare una mail]]></value>
+	</definition>
+	<definition>
+		<key>text_send_sms</key>
+		<value><![CDATA[Inviare SMS]]></value>
+	</definition>
+	<definition>
+		<key>text_customers_who_ordered</key>
+		<value><![CDATA[Per i clienti che hanno ordinato prodotti selezionati]]></value>
+	</definition>
+	<definition>
+		<key>text_customers_from_lookup</key>
+		<value><![CDATA[Iniziare a digitare il nome del cliente per ricerca e selezionare]]></value>
+	</definition>
+	<definition>
+		<key>text_products_from_lookup</key>
+		<value><![CDATA[Inizia a digitare il nome del prodotto per ricerca e selezionare]]></value>
+	</definition>
+	<definition>
+		<key>text_email</key>
+		<value><![CDATA[E-mail]]></value>
+	</definition>
+	<definition>
+		<key>text_sms</key>
+		<value><![CDATA[SMS]]></value>
+	</definition>
+	<definition>
+		<key>text_incompleted_tasks</key>
+		<value><![CDATA[Attività non completate]]></value>
+	</definition>
+	<definition>
+		<key>text_task_id</key>
+		<value><![CDATA[ID attività:]]></value>
+	</definition>
+	<definition>
+		<key>text_last_time_run</key>
+		<value><![CDATA[L'ultima volta aperta:]]></value>
+	</definition>
+	<definition>
+		<key>text_date_added</key>
+		<value><![CDATA[Creato:]]></value>
+	</definition>
+	<definition>
+		<key>text_subject</key>
+		<value><![CDATA[Soggetto:]]></value>
+	</definition>
+	<definition>
+		<key>text_message</key>
+		<value><![CDATA[Messaggio:]]></value>
+	</definition>
+	<definition>
+		<key>text_starter_name</key>
+		<value><![CDATA[Creato da:]]></value>
+	</definition>
+	<definition>
+		<key>text_restart</key>
+		<value><![CDATA[Ricomincia]]></value>
+	</definition>
+	<definition>
+		<key>text_remove</key>
+		<value><![CDATA[Cancella]]></value>
+	</definition>
+	<definition>
+		<key>error_email_no_recipients</key>
+		<value><![CDATA[Attenzione! Il messaggio non sarà inviato]]></value>
+	</definition>
+	<definition>
+		<key>error_sms_no_recipients</key>
+		<value><![CDATA[Attenzione! Non ci sono i clienti con i numeri di cellulare. ]]></value>
+	</definition>
+	<definition>
+		<key>text_attention_recipients_count</key>
+		<value><![CDATA[Attenzione! Il messaggio sarà inviato a %s clienti.]]></value>
+	</definition>
+	<definition>
+		<key>error_no_recipients</key>
+		<value><![CDATA[Attenzione! Non ci sono i clienti con i numeri di cellulare.]]></value>
+	</definition>
+	<definition>
+		<key>text_success_abort</key>
+		<value><![CDATA[Task interrotto con successo.]]></value>
+	</definition>
+	<definition>
+		<key>text_success_sent</key>
+		<value><![CDATA[%s messaggi sono stati inviati.]]></value>
+	</definition>
+	<definition>
+		<key>text_task_failed</key>
+		<value><![CDATA[Alcuni errori si sono verificati durante il processo di operazione. Si prega di consultare il login per i dettagli o riavviare questo compito.]]></value>
+	</definition>
+	<definition>
+		<key>text_sent</key>
+		<value><![CDATA[ %s su %s i messaggi vengono inviati]]></value>
+	</definition>
+	<definition>
+		<key>error_message_email</key>
+		<value><![CDATA[è richiesto corpo del messaggio e-mail!]]></value>
+	</definition>
+	<definition>
+		<key>error_message_sms</key>
+		<value><![CDATA[è richiesto corpo del messaggio SMS!]]></value>
+	</definition>
+	<definition>
+		<key>text_incomplete_tasks</key>
+		<value><![CDATA[Compiti incompleti]]></value>
+	</definition>
+</definitions>

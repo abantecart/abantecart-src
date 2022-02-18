@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Lista dei desideri]]></value>
+	</definition>
+    <definition>
+        <key>text_account</key>
+        <value><![CDATA[Account]]></value>
+    </definition>
+	<definition>
+		<key>text_empty_wishlist</key>
+		<value><![CDATA[Lista dei desideri vuota]]></value>
+	</definition>
+	<definition>
+		<key>button_cart</key>
+		<value><![CDATA[Vedi carrello]]></value>
+	</definition>
+	<definition>
+		<key>button_continue</key>
+		<value><![CDATA[Continua Shopping]]></value>
+	</definition>
+	<definition>
+		<key>column_image</key>
+		<value><![CDATA[Immagine]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Nome]]></value>
+	</definition>
+	<definition>
+		<key>column_model</key>
+		<value><![CDATA[Modello]]></value>
+	</definition>
+	<definition>
+		<key>column_added</key>
+		<value><![CDATA[Aggiungi alla lista dei desideri]]></value>
+	</definition>
+	<definition>
+		<key>column_price</key>
+		<value><![CDATA[Prezzo unitario]]></value>
+	</definition>
+	<definition>
+		<key>column_actions</key>
+		<value><![CDATA[Azioni]]></value>
+	</definition>
+</definitions>

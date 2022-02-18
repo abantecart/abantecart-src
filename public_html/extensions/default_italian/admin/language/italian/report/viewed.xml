@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Rapporto dei prodotti visti]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Hai ripristinato il rapporto dei prodotti visti con successo!]]></value>
+	</definition>
+	<definition>
+		<key>column_product_id</key>
+		<value><![CDATA[Prodotto ID]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Nome prodotto]]></value>
+	</definition>
+	<definition>
+		<key>column_model</key>
+		<value><![CDATA[Modello]]></value>
+	</definition>
+	<definition>
+		<key>column_category</key>
+		<value><![CDATA[Categoria]]></value>
+	</definition>
+	<definition>
+		<key>column_viewed</key>
+		<value><![CDATA[Visti]]></value>
+	</definition>
+	<definition>
+		<key>column_percent</key>
+		<value><![CDATA[Percentuale]]></value>
+	</definition>
+</definitions>

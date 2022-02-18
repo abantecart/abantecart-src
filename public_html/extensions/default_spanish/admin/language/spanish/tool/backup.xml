@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Copia de Seguridad / Restaurar]]></value>
+	</definition>
+	<definition>
+		<key>text_backup</key>
+		<value><![CDATA[Descargar copia de seguridad]]></value>
+	</definition>
+	<definition>
+		<key>text_success_backup</key>
+		<value><![CDATA[Éxito: Ha creado correctamente el archivo de copia de seguridad!]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Correcto: Ha importado la base de datos correctamente!]]></value>
+	</definition>
+	<definition>
+		<key>text_success_xml</key>
+		<value><![CDATA[Éxito: Se ha importado con éxito el código XML!]]></value>
+	</definition>
+	<definition>
+		<key>entry_restore</key>
+		<value><![CDATA[Restaurar copia de seguridad:]]></value>
+	</definition>
+	<definition>
+		<key>entry_tables</key>
+		<value><![CDATA[Backup Tables:]]></value>
+	</definition>
+	<definition>
+		<key>entry_backup</key>
+		<value><![CDATA[Copia seguridad:]]></value>
+	</definition>
+	<definition>
+		<key>entry_loadxml</key>
+		<value><![CDATA[Cargar archivo XML:]]></value>
+	</definition>
+	<definition>
+		<key>tab_backup</key>
+		<value><![CDATA[Copia de seguridad]]></value>
+	</definition>
+	<definition>
+		<key>tab_restore</key>
+		<value><![CDATA[Restaurar]]></value>
+	</definition>
+	<definition>
+		<key>tab_loadxml</key>
+		<value><![CDATA[Diseño y conjunto de datos la carga de XML]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Atención: No tiene permisos para acceder a las copias de seguridad!]]></value>
+	</definition>
+	<definition>
+		<key>error_empty</key>
+		<value><![CDATA[Advertencia: el archivo que has subido estaba vacío o tenía tipo de archivo incorrecto!]]></value>
+	</definition>
+	<definition>
+		<key>error_upload</key>
+		<value><![CDATA[Advertencia: El archivo no se ha subido. Compruebe post_max_size o file_upload de su archivo php.ini.]]></value>
+	</definition>
+	<definition>
+		<key>error_xml</key>
+		<value><![CDATA[Advertencia: El archivo que has subido no se carga como XML! Por favor, consulte el archivo de registro para más detalles]]></value>
+	</definition>
+	<definition>
+		<key>backup_complete_text</key>
+		<value><![CDATA[Para descargar la copia de seguridad de archivos, visita <a href="#admin#rt=tool/install_upgrade_history">Instalar/Historia Actualiza</a> ]]></value>
+	</definition>
+	<definition>
+		<key>error_nothing_to_backup</key>
+		<value><![CDATA[Atención: Por favor, establece lo que desea hacer copia de seguridad!]]></value>
+	</definition>
+	<definition>
+		<key>entry_backup_code</key>
+		<value><![CDATA[Código de copia de seguridad (%s)<br/><span class="help">Los sub-directorios con archivos de código excluyendo archivos dinámicos como caché, archivos de registro, imágenes, recursos, etc. </span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_backup_content</key>
+		<value><![CDATA[El contenido de copia de seguridad (%s)<br/><span class="help">Los sub-directorios con archivos dinámicos como imágenes, descargas, recursos, etc. </span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_compress_backup</key>
+		<value><![CDATA[Comprimir directorio de copia de seguridad	%s ?<br/><span class="help">Archivo *.tar.gz se creará.<br/> Nota: lo posible para llevar mucho tiempo. De lo contrario, usted puede desactivar la compresión y encontrar la copia de seguridad en la carpeta %s</span>]]></value>
+	</definition>
+	<definition>
+		<key>button_backup_now</key>
+		<value><![CDATA[Copia ahora]]></value>
+	</definition>
+	<definition>
+		<key>button_load</key>
+		<value><![CDATA[Carga]]></value>
+	</definition>
+	<definition>
+		<key>button_backup_schedule</key>
+		<value><![CDATA[Programar copia de seguridad]]></value>
+	</definition>
+	<definition>
+		<key>text_success_scheduled</key>
+		<value><![CDATA[éxito: Has creó correctamente programado tarea de copia de seguridad! <a href="%s">Ver detalles</a>]]></value>
+	</definition>
+	<definition>
+		<key>text_fail_note</key>
+		<value><![CDATA[NOTA: Esta ejecución del proceso depende de su tamaño de los datos AbanteCart así como su servidor de tamaño de la memoria virtual. Si el proceso termina con errores, compruebe el directorio %s permisos que se establecen en -rw-rw-rw y <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_blank">[PHP memory setting]</a>. Aumentar configuración de la memoria o de la copia de seguridad de ejecución manualmente si proceso todavía fallan.]]></value>
+	</definition>
+	<definition>
+		<key>backup_complete_text_file</key>
+		<value><![CDATA[Para descargar el backup-archivo por favor visite <a href="#admin#rt=tool/install_upgrade_history">Instale/actualización la historia</a> ]]></value>
+	</definition>
+	<definition>
+		<key>backup_complete_text_dir</key>
+		<value><![CDATA[Directorio de backup-archivos es %s</a> ]]></value>
+	</definition>
+	<definition>
+		<key>error_nothing_to_do</key>
+		<value><![CDATA[Advertencia: Por favor, establece lo que desea hacer copia de seguridad o de importación!]]></value>
+	</definition>
+</definitions>

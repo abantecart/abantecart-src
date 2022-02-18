@@ -1,0 +1,248 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>default_pp_express_name</key>
+		<value><![CDATA[PayPal Salida Exprés]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_custom_logo</key>
+		<value><![CDATA[Añadir Logotipo de la empresa: <span class="help"> Introduce ruta o URL de su archivo de logotipo de la empresa. El logotipo puede ser un archivo JPG, PNG o GIF hasta 190 píxeles de ancho por 60 píxeles de alto. Este logotipo aparecerá como encabezado de la página de pago.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_custom_bg_color</key>
+		<value><![CDATA[Introduzca un fondo de color HEX-Code: <span class="help"> Se recomienda que el color de fondo representa su marca. Este color que hay en su logotipo o logo que complementa los colores. Alternativamente, los colores neutros como el negro, blanco o gris también crearán un aspecto profesional. <br> Por ex. # FFF00F</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_username</key>
+		<value><![CDATA[API Usuario]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_password</key>
+		<value><![CDATA[API Contraseña]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_signature</key>
+		<value><![CDATA[Firma API]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_test</key>
+		<value><![CDATA[(Test) Modo Sandbox: <span class="help"> uso directo o pruebas (sandbox) servidor de puerta de enlace para procesar transacciones </span>]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_test_1</key>
+		<value><![CDATA[ Si ]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_test_0</key>
+		<value><![CDATA[ No ]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_transaction</key>
+		<value><![CDATA[Método de Transacción: <br /> <span class="help"> transacción de PayPal para correr en la facturación del cliente antes de establecer el estado del pedido. Autorización única o capturar.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_transaction_0</key>
+		<value><![CDATA[ Autorización ]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_transaction_1</key>
+		<value><![CDATA[ Venta ]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_order_status_id</key>
+		<value><![CDATA[Estado del pedido: <br /> <span class="help"> Estado de la orden que se establece después de la orden del cliente terminó con base en el set método de transacción</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_location_id</key>
+		<value><![CDATA[Ubicación: <br /> <span class="help"> Restringir a permitir que sólo determinados lugares a utilizar este método de pago.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_location_id_0</key>
+		<value><![CDATA[Todas las localizaciones]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_credit_cards</key>
+		<value><![CDATA[Permitir Tarjetas de crédito <br/> class="help"> <span marcar esta sus clientes podrán pagar con tarjetas de crédito, incluso si no tienen cuenta de PayPal.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_billmelater</key>
+		<value><![CDATA[PayPal Credit (sólo EE.UU.) <br/> <span class="help">Aumentar las ventas ofreciendo PayPal opción de financiación a sus clientes. Revise su cuenta de comerciante PayPal para obtener más detalles. </span>]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_note</key>
+		<value><![CDATA[Para añadir PayPal Exprés Button a la plantilla: <br/>
+		- Ir a Diseño -> <a href="#admin#rt=design/layout" target="_layout"> Layout </a><br/>
+		- Escoger tipo quiere añadir PayPal Exprés Button <br/>
+		- Agregue a la sección superior, inferior, izquierda, derecha, o el contenido
+		NOTA: El botón no funcionará en la página del carro de compras cuando "permitir la salida de huéspedes" ajuste de AbanteCart está desactivado.
+		]]></value>
+	</definition>
+	<definition>
+		<key>text_signup_account_note</key>
+		<value><![CDATA[<b> ¿Todavía no tienes una cuenta PayPal? </ b> Para utilizar Pago exprés, necesita una cuenta PayPal Business. Una vez que estés registrado, introduzca la información necesaria para empezar a aceptar pagos.]]></value>
+	</definition>
+	<definition>
+		<key>button_signup</key>
+		<value><![CDATA[Regístrese ahora]]></value>
+	</definition>
+	<definition>
+		<key>text_api_credentials_note</key>
+		<value><![CDATA[Para procesar las transacciones, por favor, indique sus credenciales de API de PayPal.]]></value>
+	</definition>
+	<definition>
+		<key>button_get_api_credentials</key>
+		<value><![CDATA[Obtenga sus credenciales de API]]></value>
+	</definition>
+	<definition>
+		<key>text_api_credentials</key>
+		<value><![CDATA[Credenciales de API]]></value>
+	</definition>
+	<definition>
+		<key>text_api_credentials_sandbox</key>
+		<value><![CDATA[API de Sandbox Credenciales]]></value>
+	</definition>
+	<definition>
+		<key>text_optional_settings</key>
+		<value><![CDATA[Configuración opcional]]></value>
+	</definition>
+	<definition>
+		<key>text_customize_checkout_page</key>
+		<value><![CDATA[Personalizar la Página del pago]]></value>
+	</definition>
+	<definition>
+		<key>text_custom_logo_preview</key>
+		<value><![CDATA[Logotipo personalizado Vista previa:]]></value>
+	</definition>
+	<definition>
+		<key>text_test_connection</key>
+		<value><![CDATA[Prueba de la conexión: <span class="help"> Se puede comprobar las credenciales de API que ha entrado no son correctos.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_test</key>
+		<value><![CDATA[Prueba]]></value>
+	</definition>
+	<definition>
+		<key>text_connection_success</key>
+		<value><![CDATA[La conexión es exitosa y credenciales de API están configurados correctamente.]]></value>
+	</definition>
+	<definition>
+		<key>error_turn_extension_on</key>
+		<value><![CDATA[Error! Compruebe si la extensión está conectada.]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_order_status_id_1</key>
+		<value><![CDATA[Pendiente]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_order_status_id_2</key>
+		<value><![CDATA[Tratamiento]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_order_status_id_5</key>
+		<value><![CDATA[Completar]]></value>
+	</definition>
+	<definition>
+		<key>text_api_credentials_note_sandbox</key>
+		<value><![CDATA[Para probar las transacciones, por favor, indique sus credenciales de API de PayPal Sandbox.]]></value>
+	</definition>
+	<definition>
+		<key>button_get_api_credentials_sandbox</key>
+		<value><![CDATA[Obtenga sus credenciales API Sandbox]]></value>
+	</definition>
+	<definition>
+		<key>text_capture_funds</key>
+		<value><![CDATA[Captura de los fondos:]]></value>
+	</definition>
+	<definition>
+		<key>text_capture</key>
+		<value><![CDATA[Capturar]]></value>
+	</definition>
+	<definition>
+		<key>text_do_paypal_refund</key>
+		<value><![CDATA[Haga PayPal reembolso: <span class="help">Puede introducir la cantidad que necesita ser devuelto.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_refund</key>
+		<value><![CDATA[Reembolsar]]></value>
+	</definition>
+	<definition>
+		<key>text_capture_success</key>
+		<value><![CDATA[Éxito! Los fondos se han capturado con éxito.]]></value>
+	</definition>
+	<definition>
+		<key>error_no_payment_method_data</key>
+		<value><![CDATA[Error! No hay datos de medios de pago para este pedido.]]></value>
+	</definition>
+	<definition>
+		<key>error_empty_amount</key>
+		<value><![CDATA[Error! La cantidad es incorrecta.]]></value>
+	</definition>
+	<definition>
+		<key>error_no_order_id</key>
+		<value><![CDATA[Error! No hay identificación de la orden.]]></value>
+	</definition>
+	<definition>
+		<key>error_amount_exceeded</key>
+		<value><![CDATA[Error! Cantidad límite excedido.]]></value>
+	</definition>
+	<definition>
+		<key>error_service_unavailable</key>
+		<value><![CDATA[Servicio no está disponible en este momento, por favor intente de nuevo más tarde.]]></value>
+	</definition>
+	<definition>
+		<key>text_refund_success</key>
+		<value><![CDATA[Éxito! Orden ha sido devuelto con éxito.]]></value>
+	</definition>
+	<definition>
+		<key>paypal_refund_title</key>
+		<value><![CDATA[PayPal Reembolso]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_status</key>
+		<value><![CDATA[Estado del pago:]]></value>
+	</definition>
+	<definition>
+		<key>text_already_refunded</key>
+		<value><![CDATA[Ya Reembolsado:]]></value>
+	</definition>
+	<definition>
+		<key>text_already_captured</key>
+		<value><![CDATA[Ya Capturado:]]></value>
+	</definition>
+	<definition>
+		<key>error_wrong_amount</key>
+		<value><![CDATA[Error! La cantidad debe ser mayor que cero.]]></value>
+	</definition>
+	<definition>
+		<key>text_reason</key>
+		<value><![CDATA[Motivo:]]></value>
+	</definition>
+	<definition>
+		<key>text_billmelater_description</key>
+		<value><![CDATA[<b> Sin pagos + sin interés si pagas el total Withing 6 meses </b> en la compra de $99 o más]]></value>
+	</definition>
+	<definition>
+		<key>text_learn_more</key>
+		<value><![CDATA[Más Información]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_email</key>
+		<value><![CDATA[Email Paypal]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_email_error</key>
+		<value><![CDATA[Error: Rellene el campo email de Paypal primero!!]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_i_agree_terms_text</key>
+		<value><![CDATA[Estoy de acuerdo con los términos del programa de publicidad PayPal.]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_see_terms_text</key>
+		<value><![CDATA[Vea los términos.]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_error_bg_color</key>
+		<value><![CDATA[Error: Incorrecto HEX-valor del Fondo Dada color.]]></value>
+	</definition>
+</definitions>

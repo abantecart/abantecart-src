@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Produttori o marchi]]></value>
+	</definition>
+	<definition>
+		<key>text_manufacturer</key>
+		<value><![CDATA[Produttori o marchi]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[La modifica dei produttori è stata effettuata!]]></value>
+	</definition>
+	<definition>
+		<key>text_default</key>
+		<value><![CDATA[Predefinito]]></value>
+	</definition>
+	<definition>
+		<key>text_image_manager</key>
+		<value><![CDATA[Gestione immagine]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Nome produttore]]></value>
+	</definition>
+	<definition>
+		<key>column_sort_order</key>
+		<value><![CDATA[Ordina]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Azione]]></value>
+	</definition>
+	<definition>
+		<key>entry_name</key>
+		<value><![CDATA[Nome produttore:]]></value>
+	</definition>
+	<definition>
+		<key>entry_store</key>
+		<value><![CDATA[Negozi:]]></value>
+	</definition>
+	<definition>
+		<key>entry_keyword</key>
+		<value><![CDATA[SEO Parole chiave:]]></value>
+	</definition>
+	<definition>
+		<key>entry_edit</key>
+		<value><![CDATA[Modifica]]></value>
+	</definition>
+	<definition>
+		<key>entry_layout</key>
+		<value><![CDATA[ Impaginazione ]]></value>
+	</definition>
+	<definition>
+		<key>entry_image</key>
+		<value><![CDATA[Immagine:]]></value>
+	</definition>
+	<definition>
+		<key>entry_sort_order</key>
+		<value><![CDATA[Ordina:]]></value>
+	</definition>
+	<definition>
+		<key>error_manufacturer_not_found</key>
+		<value><![CDATA[ERRORE: Il produttore non è stato trovato!]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[ATTENZIONE: Non hai il permesso per modificare il produttore!]]></value>
+	</definition>
+	<definition>
+		<key>error_name</key>
+		<value><![CDATA[Il nome del produttore deve essere compreso tra 2 e 64 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_product</key>
+		<value>
+			<![CDATA[ATTENZIONE: Questo produttore non può essere eliminato in quanto è attualmente assegnato ai seguenti prodotti di %s!]]></value>
+	</definition>
+	<definition>
+		<key>text_success_layout</key>
+		<value><![CDATA[La modifica della impaginazione della categoria è stata effettuata.]]></value>
+	</definition>
+</definitions>

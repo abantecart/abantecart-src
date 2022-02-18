@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>default_cheque_name</key>
+		<value><![CDATA[Cheque / Money Order]]></value>
+	</definition>
+	<definition>
+		<key>text_payment</key>
+		<value><![CDATA[Payment]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Success: You have modified cheque / money order account details!]]></value>
+	</definition>
+	<definition>
+		<key>default_cheque_payable</key>
+		<value><![CDATA[Payable To:<br /><span class="help">Provide name check needs to be written to</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_cheque_address</key>
+		<value><![CDATA[Mail or Send To:<br /><span class="help">Provide address where to send the check. Main store address will be used if blank</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_cheque_order_status_id</key>
+		<value><![CDATA[Order Status:]]></value>
+	</definition>
+	<definition>
+		<key>default_cheque_location_id</key>
+		<value><![CDATA[Location:]]></value>
+	</definition>
+	<definition>
+		<key>default_cheque_location_id_0</key>
+		<value><![CDATA[All Locations]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Warning: You do not have permission to modify payment cheque / money order!]]></value>
+	</definition>
+	<definition>
+		<key>error_payable</key>
+		<value><![CDATA[Payable To Required!]]></value>
+	</definition>
+</definitions>

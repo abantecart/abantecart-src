@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Счет]]></value>
+	</definition>
+	<definition>
+		<key>text_account</key>
+		<value><![CDATA[Личный Кабинет]]></value>
+	</definition>
+	<definition>
+		<key>text_history</key>
+		<value><![CDATA[История заказов]]></value>
+	</definition>
+	<definition>
+		<key>text_invoice</key>
+		<value><![CDATA[Счет-фактура]]></value>
+	</definition>
+	<definition>
+		<key>text_invoice_id</key>
+		<value><![CDATA[№ Счета]]></value>
+	</definition>
+	<definition>
+		<key>text_order_id</key>
+		<value><![CDATA[Номер заказа]]></value>
+	</definition>
+	<definition>
+		<key>text_email</key>
+		<value><![CDATA[E-Mail]]></value>
+	</definition>
+	<definition>
+		<key>text_telephone</key>
+		<value><![CDATA[Телефон]]></value>
+	</definition>
+	<definition>
+		<key>text_fax</key>
+		<value><![CDATA[Факс]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_address</key>
+		<value><![CDATA[Адрес доставки]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_method</key>
+		<value><![CDATA[Способ доставки]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_address</key>
+		<value><![CDATA[Платёжный адрес]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_method</key>
+		<value><![CDATA[Способ оплаты]]></value>
+	</definition>
+	<definition>
+		<key>text_order_history</key>
+		<value><![CDATA[История заказов]]></value>
+	</definition>
+	<definition>
+		<key>text_product</key>
+		<value><![CDATA[Товар]]></value>
+	</definition>
+	<definition>
+		<key>text_model</key>
+		<value><![CDATA[Модель]]></value>
+	</definition>
+	<definition>
+		<key>text_quantity</key>
+		<value><![CDATA[Количество]]></value>
+	</definition>
+	<definition>
+		<key>text_price</key>
+		<value><![CDATA[Цена за штуку]]></value>
+	</definition>
+	<definition>
+		<key>text_total</key>
+		<value><![CDATA[Всего]]></value>
+	</definition>
+	<definition>
+		<key>text_comment</key>
+		<value><![CDATA[Комментарий к заказу]]></value>
+	</definition>
+	<definition>
+		<key>text_error</key>
+		<value><![CDATA[Запрошенный заказ не найден!]]></value>
+	</definition>
+	<definition>
+		<key>column_date_added</key>
+		<value><![CDATA[Добавлено]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Статус]]></value>
+	</definition>
+	<definition>
+		<key>column_comment</key>
+		<value><![CDATA[Комментарий]]></value>
+	</definition>
+	<definition>
+		<key>text_image</key>
+		<value><![CDATA[Изображение]]></value>
+	</definition>
+	<definition>
+		<key>error_email</key>
+		<value><![CDATA[Неверный e-mail адрес!]]></value>
+	</definition>
+	<definition>
+		<key>error_order_id</key>
+		<value><![CDATA[Номер Заказа требуемое поле!]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation</key>
+		<value><![CDATA[Запрос отмены заказа]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation_confirm</key>
+		<value><![CDATA[Отмена заказа в некотоых случаях невозможна по некоторым причинам, например, когда товар отправлен покупателю. Продолжить?]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation_success</key>
+		<value><![CDATA[Запрос отмены заказа отправлен]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation_message_title</key>
+		<value><![CDATA[Запрос отмены заказа №%s]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation_message_body</key>
+		<value><![CDATA[Покупатель %s запросил отмену заказа №%s . Чтобы посмотреть перейдите %s]]></value>
+	</definition>
+	<definition>
+		<key>text_mobile_phone</key>
+		<value><![CDATA[Мобильный телефон:]]></value>
+	</definition>
+	<definition>
+		<key>text_request_cancellation_from_customer</key>
+		<value><![CDATA[Запрос отмены заказа от клиента]]></value>
+	</definition>
+</definitions>

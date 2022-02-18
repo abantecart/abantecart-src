@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Informazioni]]></value>
+	</definition>
+	<definition>
+		<key>text_contact</key>
+		<value><![CDATA[Contattaci]]></value>
+	</definition>
+	<definition>
+		<key>text_sitemap</key>
+		<value><![CDATA[Mappa del sito]]></value>
+	</definition>
+</definitions>

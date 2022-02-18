@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Администрирование]]></value>
+	</definition>
+	<definition>
+		<key>text_backup</key>
+		<value><![CDATA[Резервное копирование / восстановление]]></value>
+	</definition>
+	<definition>
+		<key>text_welcome</key>
+		<value><![CDATA[Добро пожаловать, %s]]></value>
+	</definition>
+	<definition>
+		<key>text_last_login</key>
+		<value><![CDATA[Последний вход: %s]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_details</key>
+		<value><![CDATA[Редактирование профиля]]></value>
+	</definition>
+	<definition>
+		<key>text_catalog</key>
+		<value><![CDATA[Каталог]]></value>
+	</definition>
+	<definition>
+		<key>text_category</key>
+		<value><![CDATA[Категории]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm</key>
+		<value><![CDATA[Подтвердить?]]></value>
+	</definition>
+	<definition>
+		<key>text_country</key>
+		<value><![CDATA[Страны]]></value>
+	</definition>
+	<definition>
+		<key>text_coupon</key>
+		<value><![CDATA[Купоны]]></value>
+	</definition>
+	<definition>
+		<key>text_discount</key>
+		<value><![CDATA[Скидки]]></value>
+	</definition>
+	<definition>
+		<key>text_currency</key>
+		<value><![CDATA[Валюты]]></value>
+	</definition>
+	<definition>
+		<key>text_customer</key>
+		<value><![CDATA[Покупатели]]></value>
+	</definition>
+	<definition>
+		<key>text_customer_group</key>
+		<value><![CDATA[Группы покупателей]]></value>
+	</definition>
+	<definition>
+		<key>text_dashboard</key>
+		<value><![CDATA[Панель мониторинга]]></value>
+	</definition>
+	<definition>
+		<key>text_download</key>
+		<value><![CDATA[Загрузки]]></value>
+	</definition>
+	<definition>
+		<key>text_error_log</key>
+		<value><![CDATA[Журнал ошибок]]></value>
+	</definition>
+	<definition>
+		<key>text_extension</key>
+		<value><![CDATA[Расширения]]></value>
+	</definition>
+	<definition>
+		<key>text_extensions_short</key>
+		<value><![CDATA[Расширения]]></value>
+	</definition>
+	<definition>
+		<key>text_front</key>
+		<value><![CDATA[Магазин]]></value>
+	</definition>
+	<definition>
+		<key>text_location</key>
+		<value><![CDATA[Локации]]></value>
+	</definition>
+	<definition>
+		<key>text_help</key>
+		<value><![CDATA[Помощь]]></value>
+	</definition>
+	<definition>
+		<key>text_information</key>
+		<value><![CDATA[Информация]]></value>
+	</definition>
+	<definition>
+		<key>text_language</key>
+		<value><![CDATA[Языки]]></value>
+	</definition>
+	<definition>
+		<key>text_language_definitions</key>
+		<value><![CDATA[Языковые определения]]></value>
+	</definition>
+	<definition>
+		<key>text_localisation</key>
+		<value><![CDATA[Локализация]]></value>
+	</definition>
+	<definition>
+		<key>text_logged</key>
+		<value><![CDATA[Вы вошли как %s]]></value>
+	</definition>
+	<definition>
+		<key>text_logout</key>
+		<value><![CDATA[Выход]]></value>
+	</definition>
+	<definition>
+		<key>text_contact</key>
+		<value><![CDATA[Почта]]></value>
+	</definition>
+	<definition>
+		<key>text_manufacturer</key>
+		<value><![CDATA[Производители]]></value>
+	</definition>
+	<definition>
+		<key>text_order</key>
+		<value><![CDATA[Заказы]]></value>
+	</definition>
+	<definition>
+		<key>text_order_status</key>
+		<value><![CDATA[Статусы заказов]]></value>
+	</definition>
+	<definition>
+		<key>text_abantecart</key>
+		<value><![CDATA[Домашняя страница]]></value>
+	</definition>
+	<definition>
+		<key>text_payment</key>
+		<value><![CDATA[Оплата]]></value>
+	</definition>
+	<definition>
+		<key>text_product</key>
+		<value><![CDATA[Товары]]></value>
+	</definition>
+	<definition>
+		<key>text_reports</key>
+		<value><![CDATA[Отчеты]]></value>
+	</definition>
+	<definition>
+		<key>text_online</key>
+		<value><![CDATA[Онлайн]]></value>
+	</definition>
+	<definition>
+		<key>text_transactions</key>
+		<value><![CDATA[Операции]]></value>
+	</definition>
+	<definition>
+		<key>text_tax</key>
+		<value><![CDATA[Налог]]></value>
+	</definition>
+	<definition>
+		<key>text_report_purchased</key>
+		<value><![CDATA[Приобретенные товары]]></value>
+	</definition>
+	<definition>
+		<key>text_report_sale</key>
+		<value><![CDATA[Продажи]]></value>
+	</definition>
+	<definition>
+		<key>text_report_viewed</key>
+		<value><![CDATA[Недавно просмотренные товары]]></value>
+	</definition>
+	<definition>
+		<key>text_review</key>
+		<value><![CDATA[Отзывы]]></value>
+	</definition>
+	<definition>
+		<key>text_sale</key>
+		<value><![CDATA[Продажа]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping</key>
+		<value><![CDATA[Доставка]]></value>
+	</definition>
+	<definition>
+		<key>text_setting</key>
+		<value><![CDATA[Настройки]]></value>
+	</definition>
+	<definition>
+		<key>text_stock_status</key>
+		<value><![CDATA[Статусы состояния на складе]]></value>
+	</definition>
+	<definition>
+		<key>text_support</key>
+		<value><![CDATA[Поддержка]]></value>
+	</definition>
+	<definition>
+		<key>text_system</key>
+		<value><![CDATA[Система]]></value>
+	</definition>
+	<definition>
+		<key>text_tax_class</key>
+		<value><![CDATA[Налоговые ставки]]></value>
+	</definition>
+	<definition>
+		<key>text_total</key>
+		<value><![CDATA[Учитывать в заказе]]></value>
+	</definition>
+	<definition>
+		<key>text_user</key>
+		<value><![CDATA[Пользователи]]></value>
+	</definition>
+	<definition>
+		<key>text_documentation</key>
+		<value><![CDATA[Документация]]></value>
+	</definition>
+	<definition>
+		<key>text_users</key>
+		<value><![CDATA[Пользователи]]></value>
+	</definition>
+	<definition>
+		<key>text_user_group</key>
+		<value><![CDATA[Группы пользователей]]></value>
+	</definition>
+	<definition>
+		<key>text_weight_class</key>
+		<value><![CDATA[Единицы веса]]></value>
+	</definition>
+	<definition>
+		<key>text_length_class</key>
+		<value><![CDATA[Единицы измерения]]></value>
+	</definition>
+	<definition>
+		<key>text_zone</key>
+		<value><![CDATA[Зоны]]></value>
+	</definition>
+	<definition>
+		<key>text_extensions</key>
+		<value><![CDATA[Все расширения]]></value>
+	</definition>
+	<definition>
+		<key>text_add_extension</key>
+		<value><![CDATA[Установить расширение]]></value>
+	</definition>
+	<definition>
+		<key>text_extensions_store</key>
+		<value><![CDATA[Магазин расширений]]></value>
+	</definition>
+	<definition>
+		<key>text_migrate</key>
+		<value><![CDATA[Средство миграции]]></value>
+	</definition>
+	<definition>
+		<key>text_updater</key>
+		<value><![CDATA[Обновление]]></value>
+	</definition>
+	<definition>
+		<key>text_design</key>
+		<value><![CDATA[Дизайн]]></value>
+	</definition>
+	<definition>
+		<key>text_templates</key>
+		<value><![CDATA[Шаблоны]]></value>
+	</definition>
+	<definition>
+		<key>text_layout</key>
+		<value><![CDATA[Макет]]></value>
+	</definition>
+	<definition>
+		<key>text_blocks</key>
+		<value><![CDATA[Блоки]]></value>
+	</definition>
+	<definition>
+		<key>text_menu</key>
+		<value><![CDATA[Меню]]></value>
+	</definition>
+	<definition>
+		<key>text_cache</key>
+		<value><![CDATA[Кэш]]></value>
+	</definition>
+	<definition>
+		<key>text_messages</key>
+		<value><![CDATA[Сообщения]]></value>
+	</definition>
+	<definition>
+		<key>text_content</key>
+		<value><![CDATA[Управление страницами]]></value>
+	</definition>
+	<definition>
+		<key>text_datasets_manager</key>
+		<value><![CDATA[Наборы данных]]></value>
+	</definition>
+	<definition>
+		<key>text_install_upgrade_history</key>
+		<value><![CDATA[История установок/обновлений]]></value>
+	</definition>
+	<definition>
+		<key>text_attribute</key>
+		<value><![CDATA[Глобальные атрибуты]]></value>
+	</definition>
+	<definition>
+		<key>text_attribute_groups</key>
+		<value><![CDATA[Группы глобальных атрибутов]]></value>
+	</definition>
+	<definition>
+		<key>text_import_export</key>
+		<value><![CDATA[Импорт / Экспорт]]></value>
+	</definition>
+	<definition>
+		<key>text_data</key>
+		<value><![CDATA[Данные]]></value>
+	</definition>
+	<definition>
+		<key>text_logs</key>
+		<value><![CDATA[Журналы]]></value>
+	</definition>
+	<definition>
+		<key>text_quick_edit_form</key>
+		<value><![CDATA[Форма быстрого редактирования]]></value>
+	</definition>
+	<definition>
+		<key>text_all_matches</key>
+		<value><![CDATA[все совпадения]]></value>
+	</definition>
+	<definition>
+		<key>text_file_uploads</key>
+		<value><![CDATA[Загрузка файлов]]></value>
+	</definition>
+	<definition>
+		<key>text_all_settings</key>
+		<value><![CDATA[Все настройки]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_details</key>
+		<value><![CDATA[Детали Магазина]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_general</key>
+		<value><![CDATA[Общие]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_checkout</key>
+		<value><![CDATA[Оформление заказа]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_appearance</key>
+		<value><![CDATA[Внешний вид]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_mail</key>
+		<value><![CDATA[Почта]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_api</key>
+		<value><![CDATA[API]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_system</key>
+		<value><![CDATA[Система]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_newstore</key>
+		<value><![CDATA[Создать новый магазин]]></value>
+	</definition>
+	<definition>
+		<key>text_voice_command_prompt</key>
+		<value><![CDATA[Голосовые команды.]]></value>
+	</definition>
+	<definition>
+		<key>text_voice_select_dialect</key>
+		<value><![CDATA[Выберите диалект]]></value>
+	</definition>
+	<definition>
+		<key>text_voice_confirm_action</key>
+		<value><![CDATA[Подтвердите это действие или отмените]]></value>
+	</definition>
+	<definition>
+		<key>text_voice_speak_now</key>
+		<value><![CDATA[Говорить.]]></value>
+	</definition>
+	<definition>
+		<key>text_voice_no_speach_detected</key>
+		<value><![CDATA[Речи не была обнаружена. Возможно, вам нужно настроить <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">настройки микрофона</a>.]]></value>
+	</definition>
+	<definition>
+		<key>text_voice_no_mic_detected</key>
+		<value><![CDATA[Микрофон не найден. Убедитесь, что микрофон включен и что <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">параметры микрофона</a> настроены правильно.]]></value>
+	</definition>
+	<definition>
+		<key>text_voice_click_allow</key>
+		<value><![CDATA[Нажмите на кнопку &quot;Разрешить&quot;, чтобы включить микрофон.]]></value>
+	</definition>
+	<definition>
+		<key>text_voice_mic_denied</key>
+		<value><![CDATA[В доступе к микрофону было отказано.]]></value>
+	</definition>
+	<definition>
+		<key>text_voice_mic_permission</key>
+		<value><![CDATA[Доступ к микрофону заблокирован. Чтобы изменить, перейдите в браузер <a href="chrome://settings/contentExceptions#media-stream">настройки медиа</a>]]></value>
+	</definition>
+	<definition>
+		<key>text_voice_not_supported</key>
+		<value><![CDATA[Голосовое управление не поддерживается в этом браузере. Обновитесь до <a href="//www.google.com/chrome" target="_new">Chrome</a> версии 25 или более поздней версии.]]></value>
+	</definition>
+	<definition>
+		<key>text_tasks</key>
+		<value><![CDATA[Запланированные задачи]]></value>
+	</definition>
+	<definition>
+		<key>text_read_all_messages</key>
+		<value><![CDATA[Все сообщения]]></value>
+	</definition>
+	<definition>
+		<key>text_short_stats</key>
+		<value><![CDATA[Общая статистика]]></value>
+	</definition>
+	<definition>
+		<key>text_online_now</key>
+		<value><![CDATA[Клиенты онлайн]]></value>
+	</definition>
+	<definition>
+		<key>text_online_new</key>
+		<value><![CDATA[Новый]]></value>
+	</definition>
+	<definition>
+		<key>text_online_registered</key>
+		<value><![CDATA[Зарегистрированные]]></value>
+	</definition>
+	<definition>
+		<key>text_today_orders</key>
+		<value><![CDATA[Новые заказы на сегодня]]></value>
+	</definition>
+	<definition>
+		<key>text_today_sales</key>
+		<value><![CDATA[Всего продаж на егодня]]></value>
+	</definition>
+	<definition>
+		<key>text_today_customers</key>
+		<value><![CDATA[Новые клиенты на сегодня]]></value>
+	</definition>
+	<definition>
+		<key>text_today_reviews</key>
+		<value><![CDATA[Новые обзоры на сегодня]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_notifications</key>
+		<value><![CDATA[Изменить настройки уведомлений]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_im</key>
+		<value><![CDATA[МС]]></value>
+	</definition>
+	<definition>
+		<key>text_rl_manager</key>
+		<value><![CDATA[Медиа менеджер]]></value>
+	</definition>
+	<definition>
+		<key>text_analytics</key>
+		<value><![CDATA[Аналитика]]></value>
+	</definition>
+	<definition>
+		<key>text_server_time</key>
+		<value><![CDATA[Время сервера]]></value>
+	</definition>
+	<definition>
+		<key>text_taxes</key>
+		<value><![CDATA[Налоги]]></value>
+	</definition>
+	<definition>
+		<key>email_templates</key>
+		<value><![CDATA[Шаблоны электронной почты]]></value>
+	</definition>
+	<definition>
+		<key>text_collection</key>
+		<value><![CDATA[Коллекции]]></value>
+	</definition>
+</definitions>

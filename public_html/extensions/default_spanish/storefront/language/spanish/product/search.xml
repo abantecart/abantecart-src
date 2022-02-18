@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Buscar]]></value>
+	</definition>
+	<definition>
+		<key>text_search</key>
+		<value><![CDATA[Productos que cumplen las condiciones de búsqueda]]></value>
+	</definition>
+	<definition>
+		<key>text_keyword</key>
+		<value><![CDATA[Producto]]></value>
+	</definition>
+	<definition>
+		<key>text_category</key>
+		<value><![CDATA[Todas las categorias]]></value>
+	</definition>
+	<definition>
+		<key>text_critea</key>
+		<value><![CDATA[Criterios de Búsqueda]]></value>
+	</definition>
+	<definition>
+		<key>text_empty</key>
+		<value><![CDATA[No hay productos que cumplan los criterios de búsqueda.]]></value>
+	</definition>
+	<definition>
+		<key>text_stars</key>
+		<value><![CDATA[%s de 5 Estrellas!]]></value>
+	</definition>
+	<definition>
+		<key>text_sort</key>
+		<value><![CDATA[Ordenado por:]]></value>
+	</definition>
+	<definition>
+		<key>text_default</key>
+		<value><![CDATA[Defecto]]></value>
+	</definition>
+	<definition>
+		<key>text_name_asc</key>
+		<value><![CDATA[Nombre A - Z]]></value>
+	</definition>
+	<definition>
+		<key>text_name_desc</key>
+		<value><![CDATA[Nombre Z - A]]></value>
+	</definition>
+	<definition>
+		<key>text_price_asc</key>
+		<value><![CDATA[Precio menor &gt; mayor]]></value>
+	</definition>
+	<definition>
+		<key>text_price_desc</key>
+		<value><![CDATA[Precio meyor &lt; menor]]></value>
+	</definition>
+	<definition>
+		<key>text_rating_asc</key>
+		<value><![CDATA[Votación más baja]]></value>
+	</definition>
+	<definition>
+		<key>text_rating_desc</key>
+		<value><![CDATA[Votación más alta]]></value>
+	</definition>
+	<definition>
+		<key>entry_search</key>
+		<value><![CDATA[Buscar:]]></value>
+	</definition>
+	<definition>
+		<key>entry_description</key>
+		<value><![CDATA[Buscar en las descripciones de los productos]]></value>
+	</definition>
+	<definition>
+		<key>entry_model</key>
+		<value><![CDATA[Buscar en el modelo de producto]]></value>
+	</definition>
+</definitions>

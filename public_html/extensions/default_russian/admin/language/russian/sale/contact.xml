@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Почта]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Ваше сообщение было успешно отправлено!]]></value>
+	</definition>
+	<definition>
+		<key>text_default</key>
+		<value><![CDATA[По умолчанию]]></value>
+	</definition>
+	<definition>
+		<key>text_custom_send</key>
+		<value><![CDATA[Пользовательская отправка]]></value>
+	</definition>
+	<definition>
+		<key>text_all_subscribers</key>
+		<value><![CDATA[Все подписчики на новости]]></value>
+	</definition>
+	<definition>
+		<key>text_subscribers_only</key>
+		<value><![CDATA[Только подписчики]]></value>
+	</definition>
+	<definition>
+		<key>text_customers_only</key>
+		<value><![CDATA[Только клиенты]]></value>
+	</definition>
+	<definition>
+		<key>text_search</key>
+		<value><![CDATA[Поиск]]></value>
+	</definition>
+	<definition>
+		<key>entry_store</key>
+		<value><![CDATA[От:]]></value>
+	</definition>
+	<definition>
+		<key>entry_product</key>
+		<value><![CDATA[Для клиентов, которые заказали продукты:]]></value>
+	</definition>
+	<definition>
+		<key>entry_to</key>
+		<value><![CDATA[Кому:]]></value>
+	</definition>
+	<definition>
+		<key>entry_subject</key>
+		<value><![CDATA[Тема:]]></value>
+	</definition>
+	<definition>
+		<key>entry_message</key>
+		<value><![CDATA[Сообщение:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Предупреждение: Вы не имеете прав для отправки E-Mail!]]></value>
+	</definition>
+	<definition>
+		<key>error_subject</key>
+		<value><![CDATA[Укажите тему E-Mail!]]></value>
+	</definition>
+	<definition>
+		<key>error_message</key>
+		<value><![CDATA[Введите сообщение!]]></value>
+	</definition>
+	<definition>
+		<key>error_recipients</key>
+		<value><![CDATA[Укажите получателей!]]></value>
+	</definition>
+	<definition>
+		<key>error_not_sent</key>
+		<value><![CDATA[&#39;Ошибка: Письмо не отправлено! Пожалуйста, смотрите подробности в журнале ошибок.&#39;]]></value>
+	</definition>
+	<definition>
+		<key>text_unsubscribe</key>
+		<value><![CDATA[Это сообщение было отправлено %s , потому что ваши почтовые предпочтения установлены получать рассылку новостей. Нажмите <a href="%s">здесь, чтобы Отказаться</a>.]]></value>
+	</definition>
+	<definition>
+		<key>text_total_to_be_sent</key>
+		<value><![CDATA[(Итого будет отправлено: %s )]]></value>
+	</definition>
+	<definition>
+		<key>text_search_placeholder</key>
+		<value><![CDATA[Поиск покупателей]]></value>
+	</definition>
+	<definition>
+		<key>text_select_products</key>
+		<value><![CDATA[- Выберите продукты -]]></value>
+	</definition>
+	<definition>
+		<key>text_select_customers</key>
+		<value><![CDATA[- Выберите покупателей -]]></value>
+	</definition>
+	<definition>
+		<key>text_send_email</key>
+		<value><![CDATA[Отправить письма]]></value>
+	</definition>
+	<definition>
+		<key>text_send_sms</key>
+		<value><![CDATA[Отправить SMS]]></value>
+	</definition>
+	<definition>
+		<key>text_customers_who_ordered</key>
+		<value><![CDATA[Для клиентов, заказавших выбранные продукты]]></value>
+	</definition>
+	<definition>
+		<key>text_customers_from_lookup</key>
+		<value><![CDATA[Начните вводить имя клиента для поиска и выбера]]></value>
+	</definition>
+	<definition>
+		<key>text_products_from_lookup</key>
+		<value><![CDATA[Начните вводить название продукта для поиска и выбера]]></value>
+	</definition>
+	<definition>
+		<key>text_email</key>
+		<value><![CDATA[Email]]></value>
+	</definition>
+	<definition>
+		<key>text_sms</key>
+		<value><![CDATA[SMS]]></value>
+	</definition>
+	<definition>
+		<key>text_incompleted_tasks</key>
+		<value><![CDATA[Незавершенные задачи]]></value>
+	</definition>
+	<definition>
+		<key>text_task_id</key>
+		<value><![CDATA[Идентификатор задачи:]]></value>
+	</definition>
+	<definition>
+		<key>text_last_time_run</key>
+		<value><![CDATA[Время последнего запуска:]]></value>
+	</definition>
+	<definition>
+		<key>text_date_added</key>
+		<value><![CDATA[Создана:]]></value>
+	</definition>
+	<definition>
+		<key>text_subject</key>
+		<value><![CDATA[Тема:]]></value>
+	</definition>
+	<definition>
+		<key>text_message</key>
+		<value><![CDATA[Сообщение:]]></value>
+	</definition>
+	<definition>
+		<key>text_starter_name</key>
+		<value><![CDATA[Создано:]]></value>
+	</definition>
+	<definition>
+		<key>text_restart</key>
+		<value><![CDATA[Перезапуск]]></value>
+	</definition>
+	<definition>
+		<key>text_remove</key>
+		<value><![CDATA[Удалить]]></value>
+	</definition>
+	<definition>
+		<key>error_email_no_recipients</key>
+		<value><![CDATA[Внимание! Сообщение не будет отправлено.]]></value>
+	</definition>
+	<definition>
+		<key>error_sms_no_recipients</key>
+		<value><![CDATA[Внимание! Нет клиентов с номерами мобильных телефонов. ]]></value>
+	</definition>
+	<definition>
+		<key>text_attention_recipients_count</key>
+		<value><![CDATA[Внимание! Сообщение будет отправлено %s клиентам.]]></value>
+	</definition>
+	<definition>
+		<key>error_no_recipients</key>
+		<value><![CDATA[Внимание! Нет клиентов с номерами мобильных телефонов.]]></value>
+	</definition>
+	<definition>
+		<key>text_success_abort</key>
+		<value><![CDATA[Задача успешно прервана.]]></value>
+	</definition>
+	<definition>
+		<key>text_success_sent</key>
+		<value><![CDATA[%s cообщений были посланы.]]></value>
+	</definition>
+	<definition>
+		<key>text_task_failed</key>
+		<value><![CDATA[Некоторые ошибки возникли во время исполнения задачи. Пожалуйста, смотрите подробности в логе ошибок или перезапустите эту задачу.]]></value>
+	</definition>
+	<definition>
+		<key>text_sent</key>
+		<value><![CDATA[ %s из %s сообщений отправлено]]></value>
+	</definition>
+	<definition>
+		<key>error_message_email</key>
+		<value><![CDATA[Требуется Содержимое письма!]]></value>
+	</definition>
+	<definition>
+		<key>error_message_sms</key>
+		<value><![CDATA[Требуется текст SMS-сообщения!]]></value>
+	</definition>
+	<definition>
+		<key>text_incomplete_tasks</key>
+		<value><![CDATA[Незавершенные задания]]></value>
+	</definition>
+</definitions>

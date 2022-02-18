@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Royal Mail]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_weight</key>
+    <value><![CDATA[Weight:]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_insurance</key>
+    <value><![CDATA[Insured upto:]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_eta</key>
+    <value><![CDATA[Estimated Time:]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_1st_class_standard</key>
+    <value><![CDATA[First Class Standard Post]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_1st_class_recorded</key>
+    <value><![CDATA[First Class Recorded Post]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_2nd_class_standard</key>
+    <value><![CDATA[Second Class Standard Post]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_2nd_class_recorded</key>
+    <value><![CDATA[Second Class Recorded Post]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_standard_parcels</key>
+    <value><![CDATA[Standard Parcels]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_airmail</key>
+    <value><![CDATA[Airmail]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_international_signed</key>
+    <value><![CDATA[International Signed]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_airsure</key>
+    <value><![CDATA[Airsure]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_surface</key>
+    <value><![CDATA[Surface]]></value>
+  </definition>
+</definitions>

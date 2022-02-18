@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Pedido Sumaria]]></value>
+  </definition>
+  <definition>
+    <key>text_subtotal</key>
+    <value><![CDATA[Sub-Total:]]></value>
+  </definition>
+  <definition>
+    <key>text_empty</key>
+    <value><![CDATA[0 productos]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Confirm?]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[Remove]]></value>
+  </definition>
+  <definition>
+    <key>text_view</key>
+    <value><![CDATA[View Cart]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Caja]]></value>
+  </definition>
+  <definition>
+    <key>text_items</key>
+    <value><![CDATA[Artículos]]></value>
+  </definition>
+</definitions>

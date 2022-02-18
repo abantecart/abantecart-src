@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Pagar al recepcionar (Contrareembolso)]]></value>
+  </definition>
+  <definition>
+    <key>text_note</key>
+    <value><![CDATA[El pago debe ser establecido sobre la entrega o recogida del producto]]></value>
+  </definition>
+  <definition>
+    <key>text_wait</key>
+    <value><![CDATA[Por favor, espere]]></value>
+  </definition>  
+</definitions>

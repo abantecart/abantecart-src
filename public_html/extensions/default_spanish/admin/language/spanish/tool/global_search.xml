@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Los resultados globales de la búsqueda]]></value>
+	</definition>
+	<definition>
+		<key>no_results_message</key>
+		<value><![CDATA[Lo sentimos, pero no tenemos los resultados.]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Advertencia: Usted no tiene permiso para buscar!]]></value>
+	</definition>
+	<definition>
+		<key>text_downloads</key>
+		<value><![CDATA[Descargas]]></value>
+	</definition>
+	<definition>
+		<key>text_orders</key>
+		<value><![CDATA[Órdenes]]></value>
+	</definition>
+	<definition>
+		<key>text_customers</key>
+		<value><![CDATA[Clientes]]></value>
+	</definition>
+	<definition>
+		<key>text_product_categories</key>
+		<value><![CDATA[Categorías de productos]]></value>
+	</definition>
+	<definition>
+		<key>text_products</key>
+		<value><![CDATA[Productos]]></value>
+	</definition>
+	<definition>
+		<key>text_reviews</key>
+		<value><![CDATA[Comentarios]]></value>
+	</definition>
+	<definition>
+		<key>text_manufacturers</key>
+		<value><![CDATA[Marcas]]></value>
+	</definition>
+	<definition>
+		<key>text_languages</key>
+		<value><![CDATA[Idiomas]]></value>
+	</definition>
+	<definition>
+		<key>text_pages</key>
+		<value><![CDATA[Páginas]]></value>
+	</definition>
+	<definition>
+		<key>text_settings</key>
+		<value><![CDATA[Configuración]]></value>
+	</definition>
+	<definition>
+		<key>text_messages</key>
+		<value><![CDATA[Mensajes]]></value>
+	</definition>
+	<definition>
+		<key>text_extensions</key>
+		<value><![CDATA[Extensiones]]></value>
+	</definition>
+	<definition>
+		<key>text_commands</key>
+		<value><![CDATA[Comandos rápidos]]></value>
+	</definition>
+	<definition>
+		<key>text_contents</key>
+		<value><![CDATA[Páginas de contenido]]></value>
+	</definition>
+</definitions>

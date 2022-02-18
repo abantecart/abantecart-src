@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Заказы покупателя]]></value>
+	</definition>
+	<definition>
+		<key>column_customer_id</key>
+		<value><![CDATA[Ид Покупателя]]></value>
+	</definition>
+	<definition>
+		<key>column_customer</key>
+		<value><![CDATA[Имя Покупателя]]></value>
+	</definition>
+	<definition>
+		<key>column_group</key>
+		<value><![CDATA[Группа Покупателей]]></value>
+	</definition>
+	<definition>
+		<key>column_order_count</key>
+		<value><![CDATA[Количество Заказов]]></value>
+	</definition>
+	<definition>
+		<key>column_total</key>
+		<value><![CDATA[Всего]]></value>
+	</definition>
+</definitions>

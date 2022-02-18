@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Cheque / Money Order]]></value>
+  </definition>
+  <definition>
+    <key>text_payable</key>
+    <value><![CDATA[Make Check Payable To: ]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[Send To: ]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Your order will not ship until we receive payment.]]></value>
+  </definition>
+  <definition>
+    <key>text_wait</key>
+    <value><![CDATA[Please wait!]]></value>
+  </definition>  
+</definitions>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Карта сайта]]></value>
+  </definition>
+  <definition>
+    <key>text_special</key>
+    <value><![CDATA[Специальные предложения]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Личный кабинет]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[Информация об учетной записи]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Пароль]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[Адресная книга]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[История заказов]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Файлы для загрузки]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[Корзина]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Оформить заказ]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Поиск]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[Информация]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[Связаться с Нами]]></value>
+  </definition>
+</definitions>

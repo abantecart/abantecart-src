@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>text_error</key>
+		<value><![CDATA[Informazione: pagina non trovata!]]></value>
+	</definition>
+</definitions>

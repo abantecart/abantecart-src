@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Compra invitado - Paso 1]]></value>
+	</definition>
+	<definition>
+		<key>text_cart</key>
+		<value><![CDATA[Carro]]></value>
+	</definition>
+	<definition>
+		<key>text_guest_step_1</key>
+		<value><![CDATA[Compra invitado - Paso 1]]></value>
+	</definition>
+	<definition>
+		<key>text_your_details</key>
+		<value><![CDATA[Detalles personales]]></value>
+	</definition>
+	<definition>
+		<key>text_your_address</key>
+		<value><![CDATA[Direccion]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_address</key>
+		<value><![CDATA[Dirección de envío]]></value>
+	</definition>
+	<definition>
+		<key>text_indicator</key>
+		<value><![CDATA[Marque aquí si usted tiene una dirección de envío aparte.]]></value>
+	</definition>
+	<definition>
+		<key>entry_firstname</key>
+		<value><![CDATA[Nombre:]]></value>
+	</definition>
+	<definition>
+		<key>entry_lastname</key>
+		<value><![CDATA[Apellido:]]></value>
+	</definition>
+	<definition>
+		<key>entry_email</key>
+		<value><![CDATA[E-Mail:]]></value>
+	</definition>
+	<definition>
+		<key>entry_telephone</key>
+		<value><![CDATA[Telefono:]]></value>
+	</definition>
+	<definition>
+		<key>entry_fax</key>
+		<value><![CDATA[Fax:]]></value>
+	</definition>
+	<definition>
+		<key>entry_company</key>
+		<value><![CDATA[Compa&ntilde;ia:]]></value>
+	</definition>
+	<definition>
+		<key>entry_address_1</key>
+		<value><![CDATA[Direccion 1:]]></value>
+	</definition>
+	<definition>
+		<key>entry_address_2</key>
+		<value><![CDATA[Direccion 2:]]></value>
+	</definition>
+	<definition>
+		<key>entry_postcode</key>
+		<value><![CDATA[Codigo Postal:]]></value>
+	</definition>
+	<definition>
+		<key>entry_city</key>
+		<value><![CDATA[Ciudad:]]></value>
+	</definition>
+	<definition>
+		<key>entry_country</key>
+		<value><![CDATA[Pais:]]></value>
+	</definition>
+	<definition>
+		<key>entry_zone</key>
+		<value><![CDATA[Provincia:]]></value>
+	</definition>
+	<definition>
+		<key>error_firstname</key>
+		<value><![CDATA[El nombre debe tener entre 3 y 32 caracteres!]]></value>
+	</definition>
+	<definition>
+		<key>error_lastname</key>
+		<value><![CDATA[El apellido debe tener entre 3 y 32 caractere!]]></value>
+	</definition>
+	<definition>
+		<key>error_email</key>
+		<value><![CDATA[El e-mail no es correcto!]]></value>
+	</definition>
+	<definition>
+		<key>error_telephone</key>
+		<value><![CDATA[El telefono debe tener entre 3 y 32 caracteres!]]></value>
+	</definition>
+	<definition>
+		<key>error_address_1</key>
+		<value><![CDATA[La direccion 1 debe tener entre 3 y 128 caracteres!]]></value>
+	</definition>
+	<definition>
+		<key>error_city</key>
+		<value><![CDATA[La ciudad 1 debe tener entre 3 y 128 caracteres!]]></value>
+	</definition>
+    <definition>
+        <key>error_postcode</key>
+        <value><![CDATA[Código Postal debe estar entre 3 y 10 caracteres!]]></value>
+    </definition>
+	<definition>
+		<key>error_country</key>
+		<value><![CDATA[Por favor selecciona un pais!]]></value>
+	</definition>
+	<definition>
+		<key>error_zone</key>
+		<value><![CDATA[Por favor selecciona un provincia!]]></value>
+	</definition>
+</definitions>

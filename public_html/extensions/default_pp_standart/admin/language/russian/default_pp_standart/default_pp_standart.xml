@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>default_pp_standart_name</key>
+    <value><![CDATA[PayPal]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успешно: Вы изменили реквизиты PayPal!]]></value>
+  </definition>
+  <definition>
+    <key>text_pp_standard</key>
+    <value><![CDATA[<a onclick="window.open('https://www.paypal.com/uk/mrb/pal=W9TBB5DTD6QJW');"><img src="admin/view/default/image/payment/paypal.png" alt="PayPal" title="PayPal" style="border: 1px solid #EEEEEE;" /></a>]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_email</key>
+    <value><![CDATA[Ваш PayPal E-mail адрес:]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_test</key>
+    <value><![CDATA[Sandbox (Тест) режим:<br /><span class="help">Используйте рабочий или тестовый (Sandbox) шлюз сервера для обработки транзакций?</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_test_1</key>
+    <value><![CDATA[Да]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_test_0</key>
+    <value><![CDATA[Нет]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_transaction</key>
+    <value><![CDATA[Метод транзакций:<br /><span class="help">Запуск PayPal транзакции при оормлении заказа клиентом перед тем как устанавливается статус заказа. Только авторизация или захват.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_transaction_0</key>
+    <value><![CDATA[Авторизация]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_transaction_1</key>
+    <value><![CDATA[Продажа]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_order_status_id</key>
+    <value><![CDATA[Статус заказа:<br /><span class="help">Статус заказа который устанавливается после того как завершается заказа клиента основан на установке Метода Транзакций</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_location_id</key>
+    <value><![CDATA[Географическая зона:<br /><span class="help">Разрешить только выбранные географические зоны для испольования этого способа оплаты.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_location_id_0</key>
+    <value><![CDATA[Все местоположения]]></value>
+  </definition>
+  <definition>
+    <key>button_signup</key>
+    <value><![CDATA[Зарегистрироваться]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_email</key>
+    <value><![CDATA[Повторно введите Ваш PayPal E-mail адрес:]]></value>
+  </definition>
+  <definition>
+    <key>text_signup_account_note</key>
+    <value><![CDATA[<b>У вас нет учетной записи PayPal?</b> Чтобы использовать PayPal Standard, вам нужен PayPal Business Account. После того, как вы зарегистрировались, введите ниже свой PayPal адрес электронной почты, чтобы принимать платежи.]]></value>
+  </definition>
+  <definition>
+    <key>text_customize_checkout_page</key>
+    <value><![CDATA[Настроить страницу оформления заказа]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_custom_logo_preview</key>
+    <value><![CDATA[Логотип компании предварительный просмотр]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_custom_logo</key>
+    <value><![CDATA[Добавить логотип фирмы:<span class="help">Введите локальный путь или URL файла вашего логотипа. Логотип может быть JPG, PNG, GIF до 190 пикселей в ширину и 60 пикселей в высоту. Этот логотип будет отображаться как заголовок вашей страницы PayPal.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_cartbordercolor</key>
+    <value><![CDATA[Введите цвет фона HEX-код:<span class="help">Рекомендуется, что цвет фона соответствовал ​​бренду. Это цвет, который есть в вашем логотипе или дополняет цвета логотипа. С другой стороны, нейтральные цвета, такие как черный, белый или серый также создадут профессиональный вид. <br> Например #FFF00F</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_confirm_email</key>
+    <value><![CDATA[Подтверждение электронной почты PayPal адреса не совпадает.]]></value>
+  </definition>
+  <definition>
+    <key>text_paypal_email_note</key>
+    <value><![CDATA[Чтобы начать принимать платежи, введите свой PayPal адрес электронной почты. Для того, чтобы получать платежи, этот адрес должен быть таким же, который вы используете в своем аккаунте PayPal.]]></value>
+  </definition>
+  <definition>
+    <key>heading_required_settings</key>
+    <value><![CDATA[Требуется принимать платежи]]></value>
+  </definition>
+  <definition>
+    <key>heading_optional_settings</key>
+    <value><![CDATA[Дополнительные настройки]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_order_status_id_1</key>
+    <value><![CDATA[В ожидании]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_order_status_id_2</key>
+    <value><![CDATA[В обработке]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_order_status_id_5</key>
+    <value><![CDATA[Завершен]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_note</key>
+    <value><![CDATA[Примечание: вы можете включить Авто возврат для вашего Paypal аккаунта. <a href="https://www.paypal.com/cgi-bin/webscr?cmd=p/mer/express_return_summary-outside" target="_blank">См. подробности</a>. Ваш URL возврата является #storefront#rt=checkout/success]]></value>
+  </definition>
+</definitions>

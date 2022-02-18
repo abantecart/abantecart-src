@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Gestión de memoria caché]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Éxito: Usted ha borrado los archivos de caché!]]></value>
+	</definition>
+	<definition>
+		<key>text_configuration</key>
+		<value><![CDATA[Configuración]]></value>
+	</definition>
+	<definition>
+		<key>text_layouts_blocks</key>
+		<value><![CDATA[Presentaciones y Bloques]]></value>
+	</definition>
+	<definition>
+		<key>text_translations</key>
+		<value><![CDATA[Traducciones]]></value>
+	</definition>
+	<definition>
+		<key>text_flexyforms</key>
+		<value><![CDATA[Flexy formas]]></value>
+	</definition>
+	<definition>
+		<key>text_images</key>
+		<value><![CDATA[Imágenes]]></value>
+	</definition>
+	<definition>
+		<key>text_products</key>
+		<value><![CDATA[Productos]]></value>
+	</definition>
+	<definition>
+		<key>text_categories</key>
+		<value><![CDATA[Categorías]]></value>
+	</definition>
+	<definition>
+		<key>text_manufacturers</key>
+		<value><![CDATA[Fabricantes]]></value>
+	</definition>
+	<definition>
+		<key>text_localisations</key>
+		<value><![CDATA[Localizaciones]]></value>
+	</definition>
+	<definition>
+		<key>text_error_log</key>
+		<value><![CDATA[Registro de errores]]></value>
+	</definition>
+	<definition>
+		<key>text_clear_cache</key>
+		<value><![CDATA[Borrar la caché seleccionado]]></value>
+	</definition>
+	<definition>
+		<key>desc_configuration</key>
+		<value><![CDATA[Sistema y las configuraciones de la tienda]]></value>
+	</definition>
+	<definition>
+		<key>desc_layouts_blocks</key>
+		<value><![CDATA[Páginas, diseños de página, los bloques]]></value>
+	</definition>
+	<definition>
+		<key>desc_translations</key>
+		<value><![CDATA[Los datos de traducción de idiomas]]></value>
+	</definition>
+	<definition>
+		<key>desc_flexyforms</key>
+		<value><![CDATA[Flexy forma de datos]]></value>
+	</definition>
+	<definition>
+		<key>desc_images</key>
+		<value><![CDATA[Miniaturas de las imágenes]]></value>
+	</definition>
+	<definition>
+		<key>desc_products</key>
+		<value><![CDATA[Datos del producto]]></value>
+	</definition>
+	<definition>
+		<key>desc_categories</key>
+		<value><![CDATA[Categoría de datos]]></value>
+	</definition>
+	<definition>
+		<key>desc_manufacturers</key>
+		<value><![CDATA[Datos del fabricante]]></value>
+	</definition>
+	<definition>
+		<key>desc_localisations</key>
+		<value><![CDATA[Longitud de divisas, de Idiomas, País, Zona, de peso, y otros]]></value>
+	</definition>
+	<definition>
+		<key>desc_error_log</key>
+		<value><![CDATA[Registro de errores]]></value>
+	</definition>
+	<definition>
+		<key>column_type</key>
+		<value><![CDATA[Tipo de caché]]></value>
+	</definition>
+	<definition>
+		<key>column_description</key>
+		<value><![CDATA[Descripción]]></value>
+	</definition>
+	<definition>
+		<key>text_clear_all_cache</key>
+		<value><![CDATA[Borrar todos caché]]></value>
+	</definition>
+	<definition>
+		<key>text_html_cache</key>
+		<value><![CDATA[HTML-caché]]></value>
+	</definition>
+	<definition>
+		<key>desc_html_cache</key>
+		<value><![CDATA[Páginas HTML y bloques de caché]]></value>
+	</definition>
+	<definition>
+		<key>text_install_upgrade_history</key>
+		<value><![CDATA[Instalar / Actualizar Historia]]></value>
+	</definition>
+	<definition>
+		<key>desc_install_upgrade_history</key>
+		<value><![CDATA[Borrar todo Instalar / Actualizar Historia]]></value>
+	</definition>
+</definitions>

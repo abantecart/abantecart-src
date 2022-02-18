@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Cronologia dei miei ordini]]></value>
+	</definition>
+	<definition>
+		<key>text_account</key>
+		<value><![CDATA[Account]]></value>
+	</definition>
+	<definition>
+		<key>text_history</key>
+		<value><![CDATA[Cronologia ordini]]></value>
+	</definition>
+	<definition>
+		<key>text_order</key>
+		<value><![CDATA[ID ordine:]]></value>
+	</definition>
+	<definition>
+		<key>text_status</key>
+		<value><![CDATA[Stato:]]></value>
+	</definition>
+	<definition>
+		<key>text_date_added</key>
+		<value><![CDATA[Data di inserimento:]]></value>
+	</definition>
+	<definition>
+		<key>text_customer</key>
+		<value><![CDATA[Cliente:]]></value>
+	</definition>
+	<definition>
+		<key>text_products</key>
+		<value><![CDATA[Prodotti:]]></value>
+	</definition>
+	<definition>
+		<key>text_total</key>
+		<value><![CDATA[Totale:]]></value>
+	</definition>
+	<definition>
+		<key>text_error</key>
+		<value><![CDATA[Non sono stati effettuati ordini precedenti!]]></value>
+	</definition>
+</definitions>

@@ -1,0 +1,248 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>default_pp_express_name</key>
+		<value><![CDATA[PayPal Express Checkout]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_custom_logo</key>
+		<value><![CDATA[Add Company Logo:<span class="help">Enter path or URL to your company logo file. The logo may be a JPG, PNG, or GIF up to 190 pixels wide by 60 pixels high. This logo will appear as the header of your checkout page.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_custom_bg_color</key>
+		<value><![CDATA[Enter a Background Color HEX-Code:<span class="help">It's recommended that the background color represent your brand. This color that's in your logo or that complements logo colors. Alternatively, neutral colors like black, white or gray will also create a professional look.<br> For ex. #FFF00F</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_username</key>
+		<value><![CDATA[API Username]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_password</key>
+		<value><![CDATA[API Password]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_signature</key>
+		<value><![CDATA[API Signature]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_test</key>
+		<value><![CDATA[Sandbox (Test) Mode:<span class="help">Use live or testing (sandbox) gateway server to process transactions?</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_test_1</key>
+		<value><![CDATA[ Yes ]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_test_0</key>
+		<value><![CDATA[ No ]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_transaction</key>
+		<value><![CDATA[Transaction Method:<br /><span class="help">PayPal transaction to run at customer's checkout before order status is set. Authorization only or capture.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_transaction_0</key>
+		<value><![CDATA[ Authorization ]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_transaction_1</key>
+		<value><![CDATA[ Sale ]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_order_status_id</key>
+		<value><![CDATA[Order Status:<br /><span class="help">Order status to be set after customer's order finished based on set Transaction Method</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_location_id</key>
+		<value><![CDATA[Location:<br /><span class="help">Restrict to allow only selected locations to use this payment method.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_location_id_0</key>
+		<value><![CDATA[All Locations]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_credit_cards</key>
+		<value><![CDATA[Allow Credit Cards<br/><span class="help">Checking this your customers will be able to pay with credit cards even if they don't have PayPal account.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_billmelater</key>
+		<value><![CDATA[PayPal Credit (USA only)<br/><span class="help">Increase sales by offering PayPal finance option to your customers.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_note</key>
+		<value><![CDATA[To add PayPal Express Checkout Button to your template : <br/>
+		- go to Design -> <a href="#admin#rt=design/layout" target="_layout">Layout</a> <br/>
+		- choose layout you want to add PayPal Express Checkout Button<br/>
+		- add it to top, bottom, left, right, or content section
+		NOTE: Button will not work on shopping cart page when "Allow guest checkout" setting of AbanteCart is disabled.
+		]]></value>
+	</definition>
+	<definition>
+		<key>text_signup_account_note</key>
+		<value><![CDATA[<b>Don't have a PayPal account?</b> To use PayPal Express Checkout, you need a PayPal Business Account. Once you're signed up, enter the required information below to start accepting payments.]]></value>
+	</definition>
+	<definition>
+		<key>button_signup</key>
+		<value><![CDATA[Sign Up Now]]></value>
+	</definition>
+	<definition>
+		<key>text_api_credentials_note</key>
+		<value><![CDATA[To process transactions, please provide your PayPal API credentials.]]></value>
+	</definition>
+	<definition>
+		<key>button_get_api_credentials</key>
+		<value><![CDATA[Get Your API Credentials]]></value>
+	</definition>
+	<definition>
+		<key>text_api_credentials</key>
+		<value><![CDATA[API Credentials]]></value>
+	</definition>
+	<definition>
+		<key>text_api_credentials_sandbox</key>
+		<value><![CDATA[API Sandbox Credentials]]></value>
+	</definition>
+	<definition>
+		<key>text_optional_settings</key>
+		<value><![CDATA[Optional Settings]]></value>
+	</definition>
+	<definition>
+		<key>text_customize_checkout_page</key>
+		<value><![CDATA[Customize Checkout Page]]></value>
+	</definition>
+	<definition>
+		<key>text_custom_logo_preview</key>
+		<value><![CDATA[Custom Logo Preview:]]></value>
+	</definition>
+	<definition>
+		<key>text_test_connection</key>
+		<value><![CDATA[Test Your Connection:<span class="help">You can test if API credentials that you've entered are correct.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_test</key>
+		<value><![CDATA[Test]]></value>
+	</definition>
+	<definition>
+		<key>text_connection_success</key>
+		<value><![CDATA[Connection is successful and API Credentials are configured correctly.]]></value>
+	</definition>
+	<definition>
+		<key>error_turn_extension_on</key>
+		<value><![CDATA[Error! Please check if extension is turned ON.]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_order_status_id_1</key>
+		<value><![CDATA[Pending]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_order_status_id_2</key>
+		<value><![CDATA[Processing]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_order_status_id_5</key>
+		<value><![CDATA[Complete]]></value>
+	</definition>
+	<definition>
+		<key>text_api_credentials_note_sandbox</key>
+		<value><![CDATA[To test transactions, please provide your Sandbox PayPal API credentials.]]></value>
+	</definition>
+	<definition>
+		<key>button_get_api_credentials_sandbox</key>
+		<value><![CDATA[Get Your Sandbox API Credentials]]></value>
+	</definition>
+	<definition>
+		<key>text_capture_funds</key>
+		<value><![CDATA[Capture Funds:]]></value>
+	</definition>
+	<definition>
+		<key>text_capture</key>
+		<value><![CDATA[Capture]]></value>
+	</definition>
+	<definition>
+		<key>text_do_paypal_refund</key>
+		<value><![CDATA[Do PayPal Refund:<span class="help">You can enter amount that needs to be refunded.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_refund</key>
+		<value><![CDATA[Refund]]></value>
+	</definition>
+	<definition>
+		<key>text_capture_success</key>
+		<value><![CDATA[Success! Funds have been captured successfully.]]></value>
+	</definition>
+	<definition>
+		<key>error_no_payment_method_data</key>
+		<value><![CDATA[Error! There is no payment method data for this order.]]></value>
+	</definition>
+	<definition>
+		<key>error_empty_amount</key>
+		<value><![CDATA[Error! Amount is wrong.]]></value>
+	</definition>
+	<definition>
+		<key>error_no_order_id</key>
+		<value><![CDATA[Error! There is no order ID.]]></value>
+	</definition>
+	<definition>
+		<key>error_amount_exceeded</key>
+		<value><![CDATA[Error! Amount limit exceeded.]]></value>
+	</definition>
+	<definition>
+		<key>error_service_unavailable</key>
+		<value><![CDATA[Service is unavailable at the moment, please try again later.]]></value>
+	</definition>
+	<definition>
+		<key>text_refund_success</key>
+		<value><![CDATA[Success! Order has been refunded successfully.]]></value>
+	</definition>
+	<definition>
+		<key>paypal_refund_title</key>
+		<value><![CDATA[PayPal Refund]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_status</key>
+		<value><![CDATA[Payment Status:]]></value>
+	</definition>
+	<definition>
+		<key>text_already_refunded</key>
+		<value><![CDATA[Already Refunded:]]></value>
+	</definition>
+	<definition>
+		<key>text_already_captured</key>
+		<value><![CDATA[Already Captured:]]></value>
+	</definition>
+	<definition>
+		<key>error_wrong_amount</key>
+		<value><![CDATA[Error! Amount must be greater than zero.]]></value>
+	</definition>
+	<definition>
+		<key>text_reason</key>
+		<value><![CDATA[Reason:]]></value>
+	</definition>
+	<definition>
+		<key>text_billmelater_description</key>
+		<value><![CDATA[<b>No Payments + No Interest if paid in full withing 6 months</b> on purchases of $99 or more]]></value>
+	</definition>
+	<definition>
+		<key>text_learn_more</key>
+		<value><![CDATA[Learn more]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_email</key>
+		<value><![CDATA[Paypal email]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_email_error</key>
+		<value><![CDATA[Error: Please fill Paypal's email field first!]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_i_agree_terms_text</key>
+		<value><![CDATA[I agree to the terms of the PayPal Advertising Program.]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_see_terms_text</key>
+		<value><![CDATA[See Terms.]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_express_error_bg_color</key>
+		<value><![CDATA[Error: Wrong HEX-value of Given Background Color.]]></value>
+	</definition>
+</definitions>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>default_paypoint_name</key>
+    <value><![CDATA[PayPoint]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Оплата]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успешно: Вы изменили детали PayPoint аккаунта!]]></value>
+  </definition>
+  <definition>
+    <key>text_paypoint</key>
+    <value><![CDATA[<a onclick="window.open('https://www.paypoint.net/partners/abantecart');"><img src="extension/default_paypoint/image/paypoint.png" alt="PayPoint" title="PayPoint" style="border: 1px solid #EEEEEE;" /></a>]]></value>
+  </definition>
+  <definition>
+    <key>default_paypoint_test_live</key>
+    <value><![CDATA[В работе]]></value>
+  </definition>
+  <definition>
+    <key>default_paypoint_test_successful</key>
+    <value><![CDATA[Всегда успешно]]></value>
+  </definition>
+  <definition>
+    <key>default_paypoint_test_fail</key>
+    <value><![CDATA[Всегда Сбой]]></value>
+  </definition>
+  <definition>
+    <key>default_paypoint_merchant</key>
+    <value><![CDATA[ID продавца:]]></value>
+  </definition>
+  <definition>
+    <key>default_paypoint_test</key>
+    <value><![CDATA[Тестовый режим:]]></value>
+  </definition>
+  <definition>
+    <key>default_paypoint_order_status_id</key>
+    <value><![CDATA[Статус заказа:]]></value>
+  </definition>
+  <definition>
+    <key>default_paypoint_location_id</key>
+    <value><![CDATA[Географическая зона:]]></value>
+  </definition>
+  <definition>
+    <key>default_paypoint_location_id_0</key>
+    <value><![CDATA[Все местоположения]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение PayPoint!]]></value>
+  </definition>
+  <definition>
+    <key>error_merchant</key>
+    <value><![CDATA[ID продавца обязателен!]]></value>
+  </definition>
+</definitions>

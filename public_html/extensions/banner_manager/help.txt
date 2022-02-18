@@ -1,0 +1,20 @@
+<center><b>Banner Manager Quick Manual</b></center>
+<p>
+To create new banner go to <a href="#admin#rt=extension/banner_manager">Design -> Banner Manager</a> section
+There are 2 types of banners. 
+<ul>
+<li>Image based banner 
+<li>HTML Based banner
+</ul>
+Both types of banners can be grouped. <br>
+Groups of banners can be used for sliders or listings types of banner based blocks. 
+</p>
+<p>
+To display banner on storefront you need to create a Banner Block in the <a href="#admin#rt=design/blocks">Design -> Blocks</a> section
+</p>
+<p>
+After banner block created enable it to the page and layout you need it to show in <a href="#admin#rt=design/layout">Design -> Layouts</a> section
+</p>
+<p>
+To see banner statistics go to <a href="#admin#rt=extension/banner_manager_stat">Reports -> Banner statistic</a> section 
+</p>

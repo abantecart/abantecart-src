@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Журнал ошибок]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успешно: Вы успешно очистили журнал ошибок!]]></value>
+  </definition>
+  <definition>
+    <key>text_file_tail</key>
+    <value><![CDATA[В связи с большим размером файла журнала, здесь можно проссматривать только последние 500Kb данных. Для просмотра полного журнала, скачайте его с вашего сервера. Путь:]]></value>
+  </definition>
+</definitions>

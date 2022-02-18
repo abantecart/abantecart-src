@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Уведомления и новости]]></value>
+	</definition>
+	<definition>
+		<key>text_account</key>
+		<value><![CDATA[Аккаунт]]></value>
+	</definition>
+	<definition>
+		<key>text_notifications</key>
+		<value><![CDATA[Уведомления]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Успех: Ваши настройки уведомлений были успешно обновлены!]]></value>
+	</definition>
+	<definition>
+		<key>text_sendpoint</key>
+		<value><![CDATA[SendPoint]]></value>
+	</definition>
+</definitions>

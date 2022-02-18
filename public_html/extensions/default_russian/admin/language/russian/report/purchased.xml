@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Отчет по приобретенным товарам]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Наименование]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Модель]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Количество]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Итого]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Менеджер обновлений]]></value>
+	</definition>
+	<definition>
+		<key>text_checkupdates</key>
+		<value><![CDATA[проверить наличие обновлений]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Название расширения]]></value>
+	</definition>
+	<definition>
+		<key>column_type</key>
+		<value><![CDATA[Тип]]></value>
+	</definition>
+	<definition>
+		<key>column_category</key>
+		<value><![CDATA[Категория]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Статус]]></value>
+	</definition>
+	<definition>
+		<key>column_version</key>
+		<value><![CDATA[Текущая версия]]></value>
+	</definition>
+	<definition>
+		<key>column_new_version</key>
+		<value><![CDATA[Новая версия]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Действие]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Успешно: Расширение было успешно обновлено!]]></value>
+	</definition>
+	<definition>
+		<key>text_update</key>
+		<value><![CDATA[Обновление]]></value>
+	</definition>
+	<definition>
+		<key>entry_restore_exts</key>
+		<value><![CDATA[Восстановление резервной копии расширения:]]></value>
+	</definition>
+	<definition>
+		<key>entry_update</key>
+		<value><![CDATA[Обновления:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Предупреждение: Вы не имеете прав на изменение каталога:]]></value>
+	</definition>
+	<definition>
+		<key>warning_server</key>
+		<value><![CDATA[Сервер с обновлениями недоступен.]]></value>
+	</definition>
+	<definition>
+		<key>text_notice_title</key>
+		<value><![CDATA[Уведомление об обновлении для %EXTENSION%]]></value>
+	</definition>
+	<definition>
+		<key>text_notice_text</key>
+		<value><![CDATA[&quot;Новая версия расширения &quot;%EXTENSION%&quot; доступна. Пожалуйста, перейдите к %LINK% и обновите его.]]></value>
+	</definition>
+	<definition>
+		<key>warning_updates</key>
+		<value><![CDATA[Не удается получить информацию об обновлениях.]]></value>
+	</definition>
+	<definition>
+		<key>error_empty</key>
+		<value><![CDATA[Предупреждение: Загруженный файл был пуст!]]></value>
+	</definition>
+	<definition>
+		<key>error_exts_list</key>
+		<value><![CDATA[Внимание: Список расширений не является массивом!]]></value>
+	</definition>
+	<definition>
+		<key>text_nothing_todo</key>
+		<value><![CDATA[Ваши Расширения не нуждаются в обновлении.]]></value>
+	</definition>
+	<definition>
+		<key>text_connect</key>
+		<value><![CDATA[Подключить]]></value>
+	</definition>
+	<definition>
+		<key>text_marketplace_connect</key>
+		<value><![CDATA[Подключить к Marketplace]]></value>
+	</definition>
+	<definition>
+		<key>text_marketplace_connect_your_store</key>
+		<value><![CDATA[Пожалуйста, Подключите Ваш Магазин к Marketplace]]></value>
+	</definition>
+	<definition>
+		<key>text_note</key>
+		<value><![CDATA[Примечание: Обновления доступны только для авторизированных магазинов с историей покупок!]]></value>
+	</definition>
+</definitions>

@@ -1,0 +1,20 @@
+<b>Stripe Payment Configuration</b>
+<br/><br/>
+
+1. To use this extension, you need to connect to new or existing Stripe account using connect button<br/>
+If you do not have Stripe account, please still click connect button on additional settings tab <br/><br/>
+2. Fill in required fields with information provided in Stripe dashboard.<br/>
+	
+When you connect you can use test or live mode connect button. 
+<b>Important to know!</b>: Test and live mode do not share customer, cards and transaction information. If you switch connection between modes, existing customers and order payment details from prior mode will not be available in new mode.
+
+<br/><br/>
+3. Set up Order Status that will be applied when customer successfully payed with Stripe payment option.<br/><br/>
+4. Stripe payment option will appear at customer's checkout at storefront. You can add custom icon or image in the setting to be displayed to customers.<br/><br/>
+6. To test how Stripe works go to storefront, add products to cart and follow checkout process. Strip payment option will be available at payment's details page. For testing you, can connect to test mode.
+<br/><br/>
+
+For more details about Stripe service and details about transactions you need to access Stripe dashboard.  
+<br/><br/>
+
+<a target="_new" href="https://www.stripe.com">Access Stripe</a>

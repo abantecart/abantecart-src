@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_home</key>
+    <value><![CDATA[Главная]]></value>
+  </definition>
+  <definition>
+    <key>text_special</key>
+    <value><![CDATA[Специальные предложения]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[Связаться с нами]]></value>
+  </definition>
+  <definition>
+    <key>text_sitemap</key>
+    <value><![CDATA[Карта сайта]]></value>
+  </definition>
+  <definition>
+    <key>text_bookmark</key>
+    <value><![CDATA[Закладка]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Личный кабинет]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Войти]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Выход]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[Корзина]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Оформить заказ]]></value>
+  </definition>
+  <definition>
+    <key>text_keyword</key>
+    <value><![CDATA[Ключевые слова]]></value>
+  </definition>
+  <definition>
+    <key>text_advanced</key>
+    <value><![CDATA[Расширенный поиск]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[Все категории]]></value>
+  </definition>
+  <definition>
+    <key>entry_search</key>
+    <value><![CDATA[Поиск по сайту:]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Добро пожаловать]]></value>
+  </definition>
+  <definition>
+    <key>text_not</key>
+    <value><![CDATA[Не]]></value>
+  </definition>
+  <definition>
+    <key>text_login_or_register</key>
+    <value><![CDATA[Войти или зарегистрироваться]]></value>
+  </definition>
+  <definition>
+		<key>text_taxes</key>
+		<value><![CDATA[Налоги]]></value>
+	</definition>
+</definitions>

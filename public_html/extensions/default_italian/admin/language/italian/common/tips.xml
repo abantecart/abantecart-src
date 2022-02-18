@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>text_tip</key>
+		<value><![CDATA[Suggerimento]]></value>
+	</definition>
+	<definition>
+		<key>no_enabled_payments_tip</key>
+		<value><![CDATA[
+
+    <div class="info alert alert-warning"><i class="fa fa fa-exclamation-triangle fa-fw"></i> Tu hai ancora un metodo di pagamento attivo.</div>
+    <label class="h4 heading">Controlla i pagamenti più comuni:</label>
+    <div class="row">
+	    <div class="col-sm-6 h5 heading">
+	        <a href="#admin#rt=extension/extensions/install&extension=default_stripe">
+	        <img src="extensions/default_stripe/image/icon.png">Install Stripe Extension</a>
+	    </div>
+	    <div class="col-sm-6 h5 heading">
+	        <a href="#admin#rt=extension/extensions/install&extension=default_pp_standart">
+	        <img src="extensions/default_pp_standart/image/icon.png">Install Paypal Extension</a>
+	    </div>
+    </div>
+
+    ]]></value>
+	</definition>
+</definitions>

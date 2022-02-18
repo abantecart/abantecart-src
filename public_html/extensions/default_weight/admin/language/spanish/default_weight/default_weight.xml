@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>default_weight_name</key>
+    <value><![CDATA[Weight Based Shipping]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Shipping]]></value>
+  </definition>
+  <definition>
+    <key>text_additional_settings</key>
+    <value><![CDATA[ Ajustes adicionales ]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: You have modified weight based shipping!]]></value>
+  </definition>
+  <definition>
+    <key>entry_rate</key>
+    <value><![CDATA[Rates:<br /><span class="help">Ejemplo: 5:10.00,7:12.00 Peso:Costo,Peso:Costo En este ejemplo 5 libras = $ 10.00. Donde Pound es tu tienda La clase Weight y $ es la moneda base de la tienda. Puede cambiar ambos en la configuración de la tienda</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[Tax Class:]]></value>
+  </definition>
+  <definition>
+    <key>entry_location</key>
+    <value><![CDATA[Location:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Sort Order:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Warning: You do not have permission to modify weight based shipping!]]></value>
+  </definition>
+</definitions>

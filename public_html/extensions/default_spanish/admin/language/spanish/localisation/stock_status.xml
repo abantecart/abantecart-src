@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Estado del Inventario]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[Estado del Inventario]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Correcto: Ha modificado el Estado del Inventario!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Estado del Inventario]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Acción]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Estado del Inventario:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Atención: No tiene permisos para modificar el Estado del Inventario!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Estado del Inventario deben ser mayor de 2 caracteres y menor de 32!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Advertencia: Este Estado del Inventario no puede suprimirse, ya que esta actualmente asignado a %s tiendas!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Atención: Este Estado del Inventario no puede ser eliminado porque actualmente está asignado a %s productos!]]></value>
+  </definition>
+</definitions>

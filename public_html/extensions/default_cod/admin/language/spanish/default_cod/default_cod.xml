@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>default_cod_name</key>
+    <value><![CDATA[Contrareembolso]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Pago]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Enhorabuena: Ha modificado los detalles de Contrareembolso!]]></value>
+  </definition>
+  <definition>
+    <key>default_cod_order_status_id</key>
+    <value><![CDATA[Estado del pedido:]]></value>
+  </definition>
+  <definition>
+    <key>default_cod_location_id</key>
+    <value><![CDATA[Location:]]></value>
+  </definition>
+  <definition>
+    <key>default_cod_location_id_0</key>
+    <value><![CDATA[All Locations]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Atención: No tiene permisos para modificar los datos de Contrareembolso!]]></value>
+  </definition>
+</definitions>

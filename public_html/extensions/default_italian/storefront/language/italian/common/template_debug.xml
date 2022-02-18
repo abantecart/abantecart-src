@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>text_block_id</key>
+		<value><![CDATA[Blocco ID:]]></value>
+	</definition>
+	<definition>
+		<key>text_block_name</key>
+		<value><![CDATA[Nome:]]></value>
+	</definition>
+	<definition>
+		<key>text_block_controller</key>
+		<value><![CDATA[Controllore:]]></value>
+	</definition>
+	<definition>
+		<key>text_block_path</key>
+		<value><![CDATA[Path:]]></value>
+	</definition>
+	<definition>
+		<key>text_block_template</key>
+		<value><![CDATA[Template:]]></value>
+	</definition>
+	<definition>
+		<key>text_block_parent</key>
+		<value><![CDATA[Superiore:]]></value>
+	</definition>
+	<definition>
+		<key>text_parent_id</key>
+		<value><![CDATA[ID superiore:]]></value>
+	</definition>
+	<definition>
+		<key>text_close</key>
+		<value><![CDATA[Chiuso]]></value>
+	</definition>
+	<definition>
+		<key>text_click</key>
+		<value><![CDATA[Clicca]]></value>
+	</definition>
+</definitions>

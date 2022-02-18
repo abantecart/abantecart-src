@@ -1,0 +1,164 @@
+<?xml version="1.0"?>
+<definitions>
+    <definition>
+        <key>heading_title</key>
+        <value><![CDATA[Gestor Tienda]]></value>
+    </definition>
+    <definition>
+        <key>text_success</key>
+        <value><![CDATA[Se han modificado la tienda!]]></value>
+    </definition>
+    <definition>
+        <key>text_image_manager</key>
+        <value><![CDATA[Gestor imagenes]]></value>
+    </definition>
+    <definition>
+        <key>text_default</key>
+        <value><![CDATA[Por defecto]]></value>
+    </definition>
+    <definition>
+        <key>text_edit_store</key>
+        <value><![CDATA[Editar Tienda:]]></value>
+    </definition>
+    <definition>
+        <key>entry_name</key>
+        <value><![CDATA[Nombre Tienda:]]></value>
+    </definition>
+    <definition>
+        <key>entry_url</key>
+        <value><![CDATA[Tienda URL:<br /><span class="help">Incluye la URL completa a tu tienda. Asegurate de agregar '/' al final. Ejemplo: http://wwww.tudominio.com/path/</span>]]></value>
+    </definition>
+    <definition>
+        <key>entry_ssl</key>
+        <value><![CDATA[Usar SSL:<br /><span class="help">Para comprobar el uso de SSL con el host si se instala un certificado SSL.</span>]]></value>
+    </definition>
+    <definition>
+        <key>entry_title</key>
+        <value><![CDATA[Titulo:]]></value>
+    </definition>
+    <definition>
+        <key>entry_meta_description</key>
+        <value><![CDATA[Meta Tag Descripcion:]]></value>
+    </definition>
+    <definition>
+        <key>entry_template</key>
+        <value><![CDATA[Plantilla:]]></value>
+    </definition>
+    <definition>
+        <key>entry_description</key>
+        <value><![CDATA[Mensaje de Bienvenida:]]></value>
+    </definition>
+    <definition>
+        <key>entry_country</key>
+        <value><![CDATA[Pais:]]></value>
+    </definition>
+    <definition>
+        <key>entry_zone</key>
+        <value><![CDATA[Region / Estado:]]></value>
+    </definition>
+    <definition>
+        <key>entry_language</key>
+        <value><![CDATA[Lenguaje:]]></value>
+    </definition>
+    <definition>
+        <key>entry_currency</key>
+        <value><![CDATA[Moneda:]]></value>
+    </definition>
+    <definition>
+        <key>entry_status</key>
+        <value><![CDATA[Tienda de Estado]]></value>
+    </definition>
+    <definition>
+        <key>entry_alias</key>
+        <value><![CDATA[Alias Nombre<br /><span class="help">Alias ​​nombre de su tienda. Si deja en blanco, se basará en nombre abreviado</span>]]></value>
+    </definition>
+    <definition>
+        <key>button_add_store</key>
+        <value><![CDATA[Crear nueva Tienda]]></value>
+    </definition>
+    <definition>
+        <key>button_delete_store</key>
+        <value><![CDATA[Borrar Tienda]]></value>
+    </definition>
+    <definition>
+        <key>button_edit_settings</key>
+        <value><![CDATA[Editar la configuración de]]></value>
+    </definition>
+    <definition>
+        <key>error_permission</key>
+        <value><![CDATA[Atencion: No tienes permiso para modificar la tienda!]]></value>
+    </definition>
+    <definition>
+        <key>error_name</key>
+        <value><![CDATA[El nombre de la tienda debe tener mas de 3 letras y menos de 32!]]></value>
+    </definition>
+    <definition>
+        <key>error_url</key>
+        <value><![CDATA[URL Teinda obligatorio!]]></value>
+    </definition>
+    <definition>
+        <key>error_title</key>
+        <value><![CDATA[El titulo debe tener mas de 3 letras y menos de 32!]]></value>
+    </definition>
+    <definition>
+        <key>error_image_thumb</key>
+        <value><![CDATA[Medidas de imagen producto requeridas!]]></value>
+    </definition>
+    <definition>
+        <key>error_image_popup</key>
+        <value><![CDATA[Medidas de imagen producto requeridas!]]></value>
+    </definition>
+    <definition>
+        <key>error_image_category</key>
+        <value><![CDATA[Categoría Tamaño Dimensiones Lista necesario!]]></value>
+    </definition>
+    <definition>
+        <key>error_image_product</key>
+        <value><![CDATA[Dimensiones del producto Tamaño de lista requerida!]]></value>
+    </definition>
+    <definition>
+        <key>error_image_additional</key>
+        <value><![CDATA[Medidas de imagen producto requeridas!]]></value>
+    </definition>
+    <definition>
+        <key>error_image_related</key>
+        <value><![CDATA[Dimensiones relacionadas con la medida de la imagen del producto requerido!]]></value>
+    </definition>
+    <definition>
+        <key>error_image_cart</key>
+        <value><![CDATA[Se requiere medidas de imagen en el carro!]]></value>
+    </definition>
+    <definition>
+        <key>error_default</key>
+        <value><![CDATA[Advertencia: Esta tienda no se pueden eliminar, ya que esta asignada actualmente como tienda predeterminada!]]></value>
+    </definition>
+    <definition>
+        <key>error_store</key>
+        <value><![CDATA[Advertencia: Esta tienda no puede suprimirse, ya que esta actualmente asignada a %s ordenes!]]></value>
+    </definition>
+    <definition>
+        <key>error_image_grid</key>
+        <value><![CDATA[Rejilla dimensiones de tamaño de imagen deseado!]]></value>
+    </definition>
+    <definition>
+        <key>error_required_data</key>
+        <value><![CDATA[Los datos requeridos no se han escrito. Compruebe si hay errores de campo!]]></value>
+    </definition>
+    <definition>
+        <key>error_limit</key>
+        <value><![CDATA[Limite necesario!]]></value>
+    </definition>
+    <definition>
+        <key>entry_clone_store</key>
+        <value>
+            <![CDATA[ Configuración de copia:<br/><span class="help">Puede seleccionar todas las opciones de copia de alguna tienda existente</span> ]]></value>
+    </definition>
+	<definition>
+		<key>entry_ssl_url</key>
+		<value><![CDATA[Segura Tienda URL:<br/><span class="help">Incluya la URL completa SSL (HTTPS) para su tienda. Asegúrese de añadir '/' al final. Ejemplo: https://www.yourdomain.com/path/</span>]]></value>
+	</definition>
+	<definition>
+		<key>error_ssl_url</key>
+		<value><![CDATA[URL Segura necesario!]]></value>
+	</definition>
+</definitions>

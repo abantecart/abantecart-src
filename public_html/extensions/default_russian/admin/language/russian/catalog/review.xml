@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Отзывы]]></value>
+	</definition>
+	<definition>
+		<key>text_review</key>
+		<value><![CDATA[Отзыв]]></value>
+	</definition>
+	<definition>
+		<key>insert_title</key>
+		<value><![CDATA[Добавить отзыв]]></value>
+	</definition>
+	<definition>
+		<key>update_title</key>
+		<value><![CDATA[Обновление отзыва]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Успешно: Вы изменили отзыв!]]></value>
+	</definition>
+	<definition>
+		<key>column_product</key>
+		<value><![CDATA[Товар]]></value>
+	</definition>
+	<definition>
+		<key>column_author</key>
+		<value><![CDATA[Автор]]></value>
+	</definition>
+	<definition>
+		<key>column_rating</key>
+		<value><![CDATA[Рейтинг]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Статус]]></value>
+	</definition>
+	<definition>
+		<key>column_date_added</key>
+		<value><![CDATA[Добавлено]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Действие]]></value>
+	</definition>
+	<definition>
+		<key>entry_product</key>
+		<value><![CDATA[Товар:]]></value>
+	</definition>
+	<definition>
+		<key>entry_author</key>
+		<value><![CDATA[Автор:]]></value>
+	</definition>
+	<definition>
+		<key>entry_rating</key>
+		<value><![CDATA[Оценка:]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Статус:]]></value>
+	</definition>
+	<definition>
+		<key>entry_text</key>
+		<value><![CDATA[Текст:]]></value>
+	</definition>
+	<definition>
+		<key>entry_good</key>
+		<value><![CDATA[Хорошо]]></value>
+	</definition>
+	<definition>
+		<key>entry_bad</key>
+		<value><![CDATA[Плохо]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Внимание: Вы не имеете прав модифицировать отзывы!]]></value>
+	</definition>
+	<definition>
+		<key>error_product</key>
+		<value><![CDATA[Требуется выбрать товар!]]></value>
+	</definition>
+	<definition>
+		<key>error_author</key>
+		<value><![CDATA[Автор должен быть от 2 до 64 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_text</key>
+		<value><![CDATA[Текст отзыва должен быть от 25 до 1000 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_rating</key>
+		<value><![CDATA[Требуется выбрать рейтинг!]]></value>
+	</definition>
+	<definition>
+		<key>text_select_product</key>
+		<value><![CDATA[- Выберите товар -]]></value>
+	</definition>
+	<definition>
+		<key>text_select_category</key>
+		<value><![CDATA[- Выберите категорию -]]></value>
+	</definition>
+	<definition>
+		<key>column_verified_purchase</key>
+		<value><![CDATA[Подтвержденная покупка]]></value>
+	</definition>
+	<definition>
+		<key>entry_verified_purchase</key>
+		<value><![CDATA[Подтвержденная покупка:]]></value>
+	</definition>
+</definitions>

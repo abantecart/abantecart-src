@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>default_paypoint_name</key>
+    <value><![CDATA[PayPoint]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Payment]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: You have modified PayPoint account details!]]></value>
+  </definition>
+  <definition>
+    <key>text_paypoint</key>
+    <value><![CDATA[<a onclick="window.open('https://www.paypoint.net/partners/abantecart');"><img src="extension/default_paypoint/image/paypoint.png" alt="PayPoint" title="PayPoint" style="border: 1px solid #EEEEEE;" /></a>]]></value>
+  </definition>
+  <definition>
+    <key>default_paypoint_test_live</key>
+    <value><![CDATA[Production]]></value>
+  </definition>
+  <definition>
+    <key>default_paypoint_test_successful</key>
+    <value><![CDATA[Always Successful]]></value>
+  </definition>
+  <definition>
+    <key>default_paypoint_test_fail</key>
+    <value><![CDATA[Always Fail]]></value>
+  </definition>
+  <definition>
+    <key>default_paypoint_merchant</key>
+    <value><![CDATA[Merchant ID:]]></value>
+  </definition>
+  <definition>
+    <key>default_paypoint_test</key>
+    <value><![CDATA[Test Mode:]]></value>
+  </definition>
+  <definition>
+    <key>default_paypoint_order_status_id</key>
+    <value><![CDATA[Order Status:]]></value>
+  </definition>
+  <definition>
+    <key>default_paypoint_location_id</key>
+    <value><![CDATA[Localidad:]]></value>
+  </definition>
+  <definition>
+    <key>default_paypoint_location_id_0</key>
+    <value><![CDATA[Todos las Localidades]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Warning: You do not have permission to modify payment PayPoint!]]></value>
+  </definition>
+  <definition>
+    <key>error_merchant</key>
+    <value><![CDATA[Merchant ID Required!]]></value>
+  </definition>
+</definitions>

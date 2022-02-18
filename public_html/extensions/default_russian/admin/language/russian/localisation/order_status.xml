@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Статусы заказов]]></value>
+	</definition>
+	<definition>
+		<key>text_status</key>
+		<value><![CDATA[Статус заказа]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Успешно: Вы изменили статус заказа!]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Название статуса заказа]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Действие]]></value>
+	</definition>
+	<definition>
+		<key>entry_name</key>
+		<value><![CDATA[Название статуса заказа:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Внимание: Вы не имеете прав для изменения статуса заказа!]]></value>
+	</definition>
+	<definition>
+		<key>error_name</key>
+		<value><![CDATA[Название статуса заказа должно быть от 2 до 32 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_default</key>
+		<value><![CDATA[Внимание: этот статус заказа не может быть удален, так как в настоящее время назначен по умолчанию!]]></value>
+	</definition>
+	<definition>
+		<key>error_download</key>
+		<value><![CDATA[Внимание: этот статус заказа не может быть удален, так как в настоящее время привязан к статусу Файлов для скачивания!]]></value>
+	</definition>
+	<definition>
+		<key>error_store</key>
+		<value><![CDATA[Внимание: этот статус заказа не может быть удален, так как в настоящее время используется в %s магазинах!]]></value>
+	</definition>
+	<definition>
+		<key>error_order</key>
+		<value><![CDATA[Внимание: этот статус заказа не может быть удален, так как в настоящее время используется в %s заказах!]]></value>
+	</definition>
+	<definition>
+		<key>error_nondeletable</key>
+		<value><![CDATA[Предупреждение: Это важный статус заказа, который связан с платежами. Вы не можете удалить этот статус.]]></value>
+	</definition>
+	<definition>
+		<key>column_text_id</key>
+		<value><![CDATA[Текстовый ИД Статуса Заказа]]></value>
+	</definition>
+	<definition>
+		<key>entry_text_id</key>
+		<value><![CDATA[Текстовый ИД Статуса Заказа:]]></value>
+	</definition>
+	<definition>
+		<key>error_status_text_id</key>
+		<value><![CDATA[Текстовый ИД Статуса Заказа должен быть уникальным и длиной от 2 до 32 символов!]]></value>
+	</definition>
+</definitions>

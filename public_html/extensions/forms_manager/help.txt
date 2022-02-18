@@ -1,0 +1,44 @@
+Forms Manager Quick Manual
+<br/><br/>
+Forms manager extensions provides very powerful tools to manage customer's forms in AbanteCart. You can create and edit custom forms on your AbanteCart. Forms can have various data/html fields types with pre-defaulted values that can be selected and submitted by your customers. Submitted forms will be emailed to your configured email. 
+Form can be added to block and located on any part of existing pages or new page can be created to the form. 
+<br>Additional:<br>
+Ability to program custom controller to process submitted data and handle in some specific way.       
+
+<br/><br/>
+1. Enable and configure extension 
+<br> Basic information is needed where submitted details needs to be emailed. 
+<br/><br/>
+2. Set up new form in admin -> Design -> Forms Manager. This menu will show after extension is enabled.
+<br>Look for all available field types and values and select and fill what is needed for your form. 
+<br> Once you add new field you can set details value or values to created field.
+<br> Fields can be required. This will require your customers to select or provide input.  
+<br/><br/>
+
+3. Create block that will include your new form. Go to admin -> design -> blocks and select add new with Custom Forms block   
+<br> Provide details, select form that you created and save
+
+2. Select pages there you want to show form block. This can be done in Design -> layouts or in the layout for product, category, manufacture and content edit pages.
+<br>Locate placeholder in the page layout, there you like form to be located, add form block. Save    
+<br>Note: New page can be created just for form in admin -> design -> content section and form block can be added to this page.  
+<br/><br/>
+
+3. Check and test your storefornt and adjust form settings if needed. 
+<br/><br/>
+
+<p>
+<b>File Upload Field Type Notes:</b>
+<br>
+To set up "file upload" field type go to Catalog -> Global Attributes.
+<br>
+You'll see additional non-required settings:
+<br>
+- Allowed Extensions are file extensions (ex.: png) that are allowed for upload. Several extensions may be separated with coma.
+<br>
+- Min/Max Size - min/max allowed file size in Kb.
+<br>
+- Upload Directory - directory where uploaded files will be saved. Your directory will be created in _your_site_folder_/admin/system/uploads. If you'll leave this field empty, files will be uploaded to default directory.
+<br>
+<br>
+You can see uploaded files at Control Panel -> System -> Data -> File Uploads
+</p>

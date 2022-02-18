@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>default_cashflows_name</key>
+    <value><![CDATA[Cashflows Payments]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Оплата]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успеiyj: Вы модифицировали реквизиты Cashflows Payments!]]></value>
+  </definition>
+  <definition>
+    <key>default_cashflows_auth_id</key>
+    <value><![CDATA[ID авторизации:]]></value>
+  </definition>
+  <definition>
+    <key>default_cashflows_auth_pass</key>
+    <value><![CDATA[Пароль авторизации:]]></value>
+  </definition>
+  <definition>
+    <key>default_cashflows_test</key>
+    <value><![CDATA[Тестовый режим:<span class="help">Использовать этот модуль в тестовом (Да) или в рабочем режиме (НЕТ)?</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_cashflows_test_1</key>
+    <value><![CDATA[Да]]></value>
+  </definition>
+  <definition>
+    <key>default_cashflows_test_0</key>
+    <value><![CDATA[Нет]]></value>
+  </definition>
+  <definition>
+    <key>default_cashflows_order_status_id</key>
+    <value><![CDATA[Статус заказа:]]></value>
+  </definition>
+  <definition>
+    <key>default_cashflows_location_id</key>
+    <value><![CDATA[Географическая зона:]]></value>
+  </definition>
+  <definition>
+    <key>default_cashflows_location_id_0</key>
+    <value><![CDATA[Все местоположения]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение Cashflows Payment!]]></value>
+  </definition>
+  <definition>
+    <key>error_auth_id</key>
+    <value><![CDATA[Требуется ID авторизации!]]></value>
+  </definition>
+  <definition>
+    <key>error_auth_pass</key>
+    <value><![CDATA[Требуется пароль авторизации!]]></value>
+  </definition>
+</definitions>

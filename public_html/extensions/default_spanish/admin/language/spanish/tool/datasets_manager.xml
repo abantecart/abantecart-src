@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Conjuntos de datos Administrador de]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Éxito: Se ha modificado la lista de mensajes!]]></value>
+  </definition>
+  <definition>
+    <key>column_id</key>
+    <value><![CDATA[Identificación]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Nombre del conjunto de datos]]></value>
+  </definition>
+  <definition>
+    <key>column_key</key>
+    <value><![CDATA[Conjunto de datos clave]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Acción]]></value>
+  </definition>
+  <definition>
+    <key>text_dataset_name</key>
+    <value><![CDATA[Nombre del conjunto de datos]]></value>
+  </definition>
+  <definition>
+    <key>text_dataset_key</key>
+    <value><![CDATA[Conjunto de datos clave]]></value>
+  </definition>
+  <definition>
+    <key>text_dataset_properties</key>
+    <value><![CDATA[Propiedades del conjunto de datos]]></value>
+  </definition>
+  <definition>
+    <key>text_dataset_column_properties</key>
+    <value><![CDATA[Propiedades del conjunto de datos de columna]]></value>
+  </definition>
+  <definition>
+    <key>text_dataset_column_definition</key>
+    <value><![CDATA[Columnas del conjunto de datos]]></value>
+  </definition>
+  <definition>
+    <key>text_num_rows</key>
+    <value><![CDATA[Recuento de filas del conjunto de datos]]></value>
+  </definition>
+  <definition>
+    <key>text_popup_title</key>
+    <value><![CDATA[Información acerca del conjunto de datos]]></value>
+  </definition>
+  <definition>
+	<key>text_confirm</key>
+	<value><![CDATA[Confirmar?]]></value>
+  </definition>  
+  <definition>
+	<key>text_date</key>
+	<value><![CDATA[Date]]></value>
+  </definition>
+  <definition>
+    <key>text_show</key>
+    <value><![CDATA[Mostrar]]></value>
+  </definition>
+  <definition>
+    <key>text_repeats</key>
+    <value><![CDATA[Número de repeticiones:]]></value>
+  </definition>      
+</definitions>
