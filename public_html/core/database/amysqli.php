@@ -79,7 +79,7 @@ final class AMySQLi
         try {
             $result = $this->connection->query($sql);
         } /** @since php8.1 */
-        catch (mysqli_sql_exception $e) {
+        catch (Exception $e) {
         }
 
         $time_exec = microtime(true) - $time_start;
