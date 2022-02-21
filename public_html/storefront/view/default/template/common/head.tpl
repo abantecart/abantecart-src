@@ -98,94 +98,32 @@ a[href]:after {
 if($faster_browser_rendering == true) { ?>
 <script type="text/javascript"><?php echo $this->PreloadJS('/javascript/jquery-3.5.1.min.js'); ?></script>
 <script type="text/javascript"><?php echo $this->PreloadJS('/javascript/jquery-migrate-1.4.1.min.js'); ?></script>
-<?php } else { ?>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery-3.5.1.min.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery-migrate-1.4.1.min.js');?>"></script>
-<?php }
+<?php
+} else { ?>
+    <script type="text/javascript" src="<?php
+    echo $this->templateResource('/javascript/jquery-3.5.1.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php
+    echo $this->templateResource('/javascript/jquery-migrate-1.4.1.min.js'); ?>"></script>
+<?php
+}
 foreach ($scripts as $script) { ?>
-<script type="text/javascript" src="<?php echo $script; ?>" defer></script>
-<?php } ?>
+    <script type="text/javascript" src="<?php
+    echo $script; ?>" defer></script>
+<?php
+} ?>
 
 <script type="text/javascript">
     let baseUrl = '<?php echo $base; ?>';
-    <?php if($retina){
-    $samesite = ((defined('HTTPS') && HTTPS) ? 'None; secure=1;' : 'lax; secure=0;');
-    ?>
-    if((window.devicePixelRatio===undefined?1:window.devicePixelRatio)>1) {
-        document.cookie = 'HTTP_IS_RETINA=1;path=/; samesite=<?php echo $samesite; ?>';
-    }
-<?php }
-if($cart_ajax){ ?>
-    function update_cart(product_id) {
-        let senddata = {},
-            result = false;
-        if (product_id) {
-            senddata['product_id'] = product_id;
-        }
-        $.ajax({
-            url: '<?php echo $cart_ajax_url; ?>',
-            type: 'GET',
-            dataType: 'json',
-            data: senddata,
-            async: false,
-            success: function (data) {
-                //top cart
-                $('.nav.topcart .dropdown-toggle span').first().html(data.item_count);
-                $('.nav.topcart .dropdown-toggle .cart_total').html(data.total);
-                if ($('#top_cart_product_list')) {
-                    $('#top_cart_product_list').html(data.cart_details);
-                }
-                result = true;
-            }
-        });
-        return result;
-    }
-
-    //event for adding product to cart by ajax
-    $(document).on('click', 'a.productcart', function () {
-        let item = $(this);
-        //check if href provided for product details access
-        if (item.attr('href') && item.attr('href') !== '#') {
-            return true;
-        }
-        if (item.attr('data-id')) {
-            if (update_cart(item.attr('data-id')) === true) {
-                let alert_msg = document.createElement("div");
-                alert_msg.className = "quick_basket";
-                let a = document.createElement("a");
-                a.setAttribute('href', "<?php echo $cart_url ?>");
-                a.setAttribute('title', "<?php echo_html2view($text_add_cart_confirm); ?>");
-                let i = document.createElement("i");
-                i.classList.add("fa", "fa-shopping-cart", "fa-fw");
-                a.appendChild(i);
-                alert_msg.appendChild(a);
-                item.closest('.thumbnail .pricetag').addClass('added_to_cart').prepend(alert_msg);
-            }
-        }
-        return false;
-    });
-    $(window).on('load', function () {
-        update_cart();
-    });
-    <?php }?>
-    $(document).on('click', 'a.call_to_order', function () {
-        goTo('<?php echo $call_to_order_url;?>');
-        return false;
-    });
+    let samesite = '<?php echo((defined('HTTPS') && HTTPS) ? 'None; secure=1;' : 'lax; secure=0;'); ?>';
+    let is_retina = <?php echo $retina ? 'true' : 'false'; ?>;
+    let cart_url = '<?php echo $cart_url; ?>';
+    let call_to_order_url = '<?php echo $call_to_order_url;?>';
+    let search_url = '<?php echo $search_url;?>';
+    let text_add_cart_confirm = <?php js_echo($text_add_cart_confirm); ?>;
 
     <?php
-    //search block form function ?>
-    function search_submit() {
-        let url = '<?php echo $search_url;?>';
-        let filter_keyword = $('#filter_keyword').val();
-        if (filter_keyword) {
-            url += '&keyword=' + encodeURIComponent(filter_keyword);
-        }
-        let filter_category_id = $('#filter_category_id').attr('value');
-        if (filter_category_id) {
-            url += '&category_id=' + filter_category_id;
-        }
-        location = url;
-        return false;
-    }
+    if($cart_ajax){ ?>
+    let cart_ajax_url = '<?php echo $cart_ajax_url; ?>';
+    <?php } ?>
+
 </script>
