@@ -76,7 +76,12 @@ final class AMySQLi
     {
         //echo $this->database_name;
         $time_start = microtime(true);
-        $result = $this->connection->query($sql);
+        try {
+            $result = $this->connection->query($sql);
+        } /** @since php8.1 */
+        catch (mysqli_sql_exception $e) {
+        }
+
         $time_exec = microtime(true) - $time_start;
 
         // to avoid debug class init while setting was not yet loaded
@@ -96,7 +101,7 @@ final class AMySQLi
                 }
 
                 $query = new stdClass();
-                $query->row = isset($data[0]) ? $data[0] : [];
+                $query->row = $data[0] ?? [];
                 $query->rows = $data;
                 $query->num_rows = (int)$result->num_rows;
 
