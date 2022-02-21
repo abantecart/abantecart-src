@@ -1271,6 +1271,10 @@ function check_resize_image($orig_image, $new_image, $width, $height, $quality)
 
 function redirect($url)
 {
+    if (Registry::getInstance()->get('forbid_redirects')) {
+        exit('Redirected to  '.$url);
+    }
+
     if (!$url) {
         return false;
     }
