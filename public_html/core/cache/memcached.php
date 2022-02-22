@@ -70,6 +70,9 @@ class ACacheDriverMemcached extends ACacheDriver
         parent::__construct($expiration, $lock_time);
 
         // Create the memcache connection
+        if (!class_exists('\Memcached')) {
+            throw new AException(AC_ERR_LOAD, 'Error: memcached php library not installed on server.');
+        }
         if ($this->persistent) {
             $this->connect = new Memcached(session_id());
         } else {
