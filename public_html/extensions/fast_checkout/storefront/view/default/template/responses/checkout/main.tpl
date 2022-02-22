@@ -327,20 +327,24 @@
                         <a href="#address" id="new_address" role="tab" data-toggle="tab"
                            class="big btn <?php echo $pay_button_style; ?>">
                             <i class="fa fa-map fa-fw"></i>&nbsp;
-                            <span class="hidden-xxs"><?php echo $type.' '.$fast_checkout_text_address; ?></span>
+                            <span class="hidden-xxs">
+                                <?php echo ${'fast_checkout_text_'.$type.'_address'}; ?>
+                            </span>
                         </a>
                     <?php }
                     if ($step == 'payment' && $this->config->get('config_guest_checkout')) { ?>
                         <a href="#new" id="new_user" role="tab" data-toggle="tab"
                            class="big btn <?php echo $pay_button_style; ?>">
-                            <i class="fa fa-user-plus fa-fw"></i>&nbsp;<span
-                                    class="hidden-xxs"><?php echo $fast_checkout_text_new_customer; ?></span>
+                            <i class="fa fa-user-plus fa-fw"></i>&nbsp;
+                                <span class="hidden-xxs">
+                                    <?php echo $fast_checkout_text_new_customer; ?>
+                                </span>
                         </a>
                     <?php } ?>
                     <a href="#user" id="login_user" role="tab" data-toggle="tab"
                        class="big btn <?php echo $login_button_style; ?>">
-                        <i class="fa fa-user fa-fw"></i>&nbsp;<span
-                                class="hidden-xxs"><?php echo $fast_checkout_text_login; ?></span>
+                        <i class="fa fa-user fa-fw"></i>&nbsp;
+                            <span class="hidden-xxs"><?php echo $fast_checkout_text_login; ?></span>
                     </a>
             </div>
             <?php } ?>
