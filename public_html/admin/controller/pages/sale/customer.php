@@ -576,22 +576,7 @@ class ControllerPagesSaleCustomer extends AController
             );
         }
 
-        $this->data['actas'] = $this->html->buildElement(
-            [
-                'type'   => 'button',
-                'text'   => $this->language->get('button_actas'),
-                'href'   => $this->html->getSecureURL('sale/customer/actonbehalf', '&customer_id='.$customer_id),
-                'target' => 'new',
-            ]
-        );
-        $this->data['message'] = $this->html->buildElement(
-            [
-                'type'   => 'button',
-                'text'   => $this->language->get('button_message'),
-                'href'   => $this->html->getSecureURL('sale/contact', '&to[]='.$customer_id),
-                'target' => 'new',
-            ]
-        );
+        $this->fillCommonData($customer_id);
 
         $form->setForm(
             [
@@ -649,7 +634,7 @@ class ControllerPagesSaleCustomer extends AController
         }
 
         foreach ($required_input as $f) {
-            if ($viewport_mode == 'modal' && in_array($f, ['password'])) {
+            if ($viewport_mode == 'modal' && $f == 'password') {
                 continue;
             }
             $this->data['form']['fields']['details'][$f] = $form->getFieldHtml(
@@ -716,15 +701,6 @@ class ControllerPagesSaleCustomer extends AController
             $this->data['list_url'] = $this->html->getSecureURL('sale/customer', '&saved_list=customer_grid');
         }
 
-        $this->view->assign('help_url', $this->gen_help_url('customer_edit'));
-        $this->loadModel('sale/customer_transaction');
-        $balance = $this->model_sale_customer_transaction->getBalance($customer_id);
-        $this->data['balance'] = $this->language->get('text_balance')
-            .' '
-            .$this->currency->format(
-                $balance,
-                $this->config->get('config_currency')
-            );
         $this->view->batchAssign($this->data);
 
         if ($viewport_mode == 'modal') {
@@ -792,7 +768,8 @@ class ControllerPagesSaleCustomer extends AController
             }
             $this->model_sale_customer->editAddress($customer_id, $address_id, $this->request->post);
             $redirect_url = $this->html->getSecureURL(
-                'sale/customer/update_address', '&customer_id='.$customer_id.'&address_id='.$address_id
+                'sale/customer/update_address',
+                '&customer_id='.$customer_id.'&address_id='.$address_id
             );
 
             $this->session->data['success'] = $this->language->get('text_success');
@@ -928,14 +905,7 @@ class ControllerPagesSaleCustomer extends AController
             ];
         }
 
-        $this->data['actas'] = $this->html->buildElement(
-            [
-                'type'   => 'button',
-                'text'   => $this->language->get('button_actas'),
-                'href'   => $this->html->getSecureURL('sale/customer/actonbehalf', '&customer_id='.$customer_id),
-                'target' => 'new',
-            ]
-        );
+        $this->fillCommonData($customer_id);
 
         $form->setForm(
             [
@@ -973,16 +943,6 @@ class ControllerPagesSaleCustomer extends AController
         }
 
         $this->data['section'] = 'address';
-
-        $this->view->assign('help_url', $this->gen_help_url('customer_edit'));
-        $this->loadModel('sale/customer_transaction');
-        $balance = $this->model_sale_customer_transaction->getBalance($customer_id);
-        $this->data['balance'] = $this->language->get('text_balance')
-            .' '
-            .$this->currency->format(
-                $balance,
-                $this->config->get('config_currency')
-            );
 
         //note: Only allow to delete or change if not default
         if (!$current_address['default']) {
@@ -1026,6 +986,43 @@ class ControllerPagesSaleCustomer extends AController
 
         $this->view->batchAssign($this->data);
         $this->processTemplate('pages/sale/customer_form.tpl');
+    }
+
+    /**
+     * @param int $customer_id
+     *
+     * @return void
+     * @throws AException
+     */
+    protected function fillCommonData($customer_id)
+    {
+        $this->data['help_url'] = $this->gen_help_url('customer_edit');
+        $this->loadModel('sale/customer_transaction');
+        $balance = $this->model_sale_customer_transaction->getBalance($customer_id);
+        $this->data['balance'] = $this->language->get('text_balance')
+            .' '
+            .$this->currency->format(
+                $balance,
+                $this->config->get('config_currency')
+            );
+
+        $this->data['actas'] = $this->html->buildElement(
+            [
+                'type'   => 'button',
+                'text'   => $this->language->get('button_actas'),
+                'href'   => $this->html->getSecureURL('sale/customer/actonbehalf', '&customer_id='.$customer_id),
+                'target' => 'new',
+            ]
+        );
+
+        $this->data['message'] = $this->html->buildElement(
+            [
+                'type'   => 'button',
+                'text'   => $this->language->get('button_message'),
+                'href'   => $this->html->getSecureURL('sale/contact', '&to[]='.$customer_id),
+                'target' => 'new',
+            ]
+        );
     }
 
     public function approve()
