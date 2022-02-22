@@ -4,13 +4,11 @@
 	<meta http-equiv="x-ua-compatible" content="IE=Edge" />
 <![endif]-->
 <title><?php echo $title; ?></title>
-<?php if ($keywords) { ?>
-<meta name="keywords" content="<?php echo $keywords; ?>" />
+<?php
+foreach($meta as $item){
+    if(!$item['content']){ continue;} ?>
+<meta <?php foreach($item as $n=>$v){ echo $n.'="'.$v.'" '; }?>/>
 <?php } ?>
-<?php if ($description) { ?>
-<meta name="description" content="<?php echo $description; ?>" />
-<?php } ?>
-<meta name="generator" content="AbanteCart v<?php echo VERSION; ?> - Open Source eCommerce solution" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <base href="<?php echo $base; ?>" />
 <?php
