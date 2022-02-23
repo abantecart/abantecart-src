@@ -55,7 +55,6 @@ class ControllerCommonFooter extends AController
             $this->view->assign('home', $this->html->getSecureURL('index/login', '', true));
         } else {
             $this->view->assign('logged', sprintf($this->language->get('text_logged'), $this->user->getUserName()));
-            $this->view->assign('avatar', $this->user->getAvatar());
             $this->view->assign('username', $this->user->getUserName());
             if ($this->user->getLastLogin()) {
                 $this->view->assign(

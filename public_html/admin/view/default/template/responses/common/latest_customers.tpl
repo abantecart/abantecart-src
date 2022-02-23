@@ -8,7 +8,7 @@
     <?php } ?> 
         <div class="media">
             <a href="<?php echo $customer['url']; ?>" class="pull-left media-thumb">
-                <img class="media-object" src="<?php echo getGravatar($customer['email']); ?>" alt="<?php echo $customer['name']; ?>"/>
+                <i class="fa fa-user fa-2x col-xs-offset-2"></i>
             </a>
             <div class="media-body">
                 <strong><a href="<?php echo $customer['url']; ?>"><?php echo $customer['name']; ?></a></strong>

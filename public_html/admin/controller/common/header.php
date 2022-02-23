@@ -97,7 +97,6 @@ class ControllerCommonHeader extends AController
         } else {
             $this->data['home'] = $this->html->getSecureURL('index/home', '', true);
             $this->data['logged'] = sprintf($this->language->get('text_logged'), $this->user->getUserName());
-            $this->data['avatar'] = $this->user->getAvatar();
             $this->data['username'] = $this->user->getUserName();
             if ($this->user->getLastLogin()) {
                 $this->data['last_login'] = sprintf(

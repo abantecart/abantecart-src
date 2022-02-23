@@ -715,27 +715,6 @@ function is_html($test_string)
     return false;
 }
 
-/**
- * Get either a Gravatar URL or complete image tag for a specified email address.
- *
- * @param string $email The email address
- * @param int|string $s Size in pixels, defaults to 80px [ 1 - 2048 ]
- * @param string $d Default image set to use [ 404 | mm | identicon | monsterid | wavatar ]
- * @param string $r Maximum rating (inclusive) [ g | pg | r | x ]
- *
- * @return String containing either just a URL or a complete image tag
- */
-function getGravatar($email = '', $s = 80, $d = 'mm', $r = 'g')
-{
-    if (empty($email)) {
-        return null;
-    }
-    $url = 'https://www.gravatar.com/avatar/';
-    $url .= md5(strtolower(trim($email)));
-    $url .= "?s=".$s."&d=".$d."&r=".$r;
-    return $url;
-}
-
 function compressTarGZ($tar_filename, $tar_dir, $compress_level = 5)
 {
     if (!$tar_filename || !$tar_dir) {
