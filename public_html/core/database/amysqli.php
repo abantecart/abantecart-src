@@ -79,7 +79,17 @@ final class AMySQLi
         try {
             $result = $this->connection->query($sql);
         } /** @since php8.1 */
-        catch (Exception $e) {
+        catch (Exception|mysqli_sql_exception $e) {
+            $log = Registry::getInstance()->get('log');
+            if(!$log){
+                $log = new ALog(DIR_LOGS.'error.txt');
+                Registry::getInstance()->set('log', $log);
+            }
+            $errorText = $e->getCode().': '.$e->getMessage();
+            $log->write($errorText);
+            if(php_sapi_name() == 'cli'){
+                echo $errorText.' - sql: '.$sql."\n";
+            }
         }
 
         $time_exec = microtime(true) - $time_start;
