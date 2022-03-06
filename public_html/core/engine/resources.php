@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /** @noinspection PhpUndefinedClassInspection */
 
@@ -508,7 +509,7 @@ class AResource
         }
 
         if ($limit && !$noimage) {
-            $slice_limit = $limit > sizeof($results) ? sizeof($results) : $limit;
+            $slice_limit = min($limit, sizeof($results));
             $results = array_slice($results, 0, $slice_limit);
         }
 
@@ -697,11 +698,15 @@ class AResource
             $language_id = $this->config->get('storefront_language_id');
         }
 
-        $store_id = (int) $this->config->get('config_store_id');
-
         //attempt to load cache
-        $cache_key = 'resources.'.$this->type.'.'.$object_name.'.'.$object_id;
-        $cache_key = preg_replace('/[^a-zA-Z0-9.]/', '', $cache_key).'.store_'.$store_id.'_lang_'.$language_id;
+        $cache_key = 'resources.object.'
+            .md5(
+                $this->type.'.'
+                .$object_name.'.'
+                .$object_id.'.'
+                .$this->config->get('config_url').'.'
+                .$language_id
+            );
         $resources = $this->cache->pull($cache_key);
         if ($resources !== false) {
             return $resources;
@@ -726,8 +731,8 @@ class AResource
                 LEFT JOIN ".$this->db->table("resource_descriptions")." rd
                     ON (rl.resource_id = rd.resource_id AND rd.language_id = '".$language_id."')
                 LEFT JOIN ".$this->db->table("resource_descriptions")." rdd
-                    ON (rl.resource_id = rdd.resource_id AND rdd.language_id = '".$this->language->getDefaultLanguageID(
-            )."')
+                    ON (rl.resource_id = rdd.resource_id 
+                        AND rdd.language_id = '".$this->language->getDefaultLanguageID()."')
                 ".$where."
                 ORDER BY rm.sort_order ASC";
 
@@ -764,7 +769,9 @@ class AResource
         $width = (int) $width;
         $height = (int) $height;
         if (!$object_name || !$object_ids || !is_array($object_ids) || !$width || !$height) {
-            $this->registry->get('log')->write(__METHOD__." Wrong input parameters.\n ".var_export(func_get_args(), true));
+            $this->registry->get('log')->write(
+                __METHOD__." Wrong input parameters.\n ".var_export(func_get_args(), true)
+            );
             return [];
         }
         //cleanup ids
@@ -785,14 +792,16 @@ class AResource
         $language_id = $this->language->getLanguageID();
         $default_language_id = $this->language->getDefaultLanguageID();
 
-        $store_id = (int) $this->config->get('config_store_id');
         //attempt to load cache
         $cache_key = 'resources.list.'
             .$this->type
-            .'.'.md5(implode('.', $object_ids).implode('.', func_get_args()));
-        $cache_key = preg_replace('/[^a-zA-Z0-9.]/', '', $cache_key)
-            .'.store_'.$store_id
-            .'_lang_'.$language_id;
+            .'.'.md5(
+                implode('.', $object_ids)
+                .implode('.', func_get_args())
+                .$this->config->get('config_url')
+                .$language_id
+            );
+
         $output = $this->cache->pull($cache_key);
         if ($output !== false) {
             return $output;
