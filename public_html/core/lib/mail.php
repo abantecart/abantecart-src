@@ -337,7 +337,10 @@ class AMail
         }
 
         $header['Date'] = date('D, d M Y H:i:s O');
-        $header['From'] = '=?UTF-8?B?'.base64_encode($this->sender).'?='.'<'.$this->from.'>';
+        $header['From'] = (preg_match('/[^\x20-\x7f]/', $this->sender)
+                            ? "=?UTF-8?B?". base64_encode($this->sender) ."?="
+                            : $this->sender )
+                   ." <".$this->from.">";
         $header['Reply-To'] = '=?UTF-8?B?'.base64_encode($this->sender).'?='.'<'.($this->reply_to ? : $this->from).'>';
 
         $header['Return-Path'] = $this->from;
