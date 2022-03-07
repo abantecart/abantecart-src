@@ -5,7 +5,6 @@ INSERT INTO `ac_extensions`
  `version`, `license_key`, `date_installed`, `support_expiration`,
  `mp_product_url`,`date_modified`, `date_added`)
 VALUES
-('extensions','neowize_insights','extensions',1,1,'1.0.5',NULL,NOW(),NULL,'',NOW(),NOW()),
 ('payment','default_cod','payment',1,1,'1.0.1',NULL,NOW(),NULL,'',NOW(),NOW()),
 ('shipping','default_flat_rate_shipping','shipping',1,1,'1.0.1',NULL,NOW(),NULL,'',NOW(),NOW()),
 ('shipping','default_local_delivery','shipping',1,10,'1.0.0','',NOW(),NULL,'',NOW(),NOW());
