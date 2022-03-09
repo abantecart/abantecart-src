@@ -9,6 +9,43 @@ VALUES
 ('shipping','default_flat_rate_shipping','shipping',1,1,'1.0.1',NULL,NOW(),NULL,'',NOW(),NOW()),
 ('shipping','default_local_delivery','shipping',1,10,'1.0.0','',NOW(),NULL,'',NOW(),NOW());
 
+INSERT INTO `1.3.0`.`cba_settings`
+(
+`store_id`,
+`group`,
+`key`,
+`value`,
+`date_added`,
+`date_modified`)
+VALUES
+(0,'default_cod','default_cod_sort_order','1',NOW(),NOW()),
+(0,'default_cod','default_cod_order_status_id','1',NOW(),NOW()),
+(0,'default_cod','default_cod_status','1',NOW(),NOW()),
+(0,'default_cod','default_cod_location_id','0',NOW(),NOW()),
+(0,'default_cod','default_cod_autoselect','1',NOW(),NOW()),
+
+(0,'default_flat_rate_shipping','default_flat_rate_shipping_default_status','1',NOW(),NOW()),
+(0,'default_flat_rate_shipping','default_flat_rate_shipping_default_cost','2',NOW(),NOW()),
+(0,'default_flat_rate_shipping','default_flat_rate_shipping_cost_1','2',NOW(),NOW()),
+(0,'default_flat_rate_shipping','default_flat_rate_shipping_tax_class_id_1','0',NOW(),NOW()),
+(0,'default_flat_rate_shipping','default_flat_rate_shipping_default_tax_class_id','0',NOW(),NOW()),
+(0,'default_flat_rate_shipping','default_flat_rate_shipping_status','1',NOW(),NOW()),
+(0,'default_flat_rate_shipping','default_flat_rate_shipping_sort_order','1',NOW(),NOW()),
+(0,'default_flat_rate_shipping','default_flat_rate_shipping_autoselect','1',NOW(),NOW()),
+
+(0,'default_local_delivery','default_local_delivery_accept_payments','0',NOW(),NOW()),
+(0,'default_local_delivery','default_local_delivery_layout','',NOW(),NOW()),
+(0,'default_local_delivery','default_local_delivery_priority','10',NOW(),NOW()),
+(0,'default_local_delivery','default_local_delivery_date_installed',NOW(),NOW(),NOW()),
+(0,'default_local_delivery','default_local_delivery_sort_order','',NOW(),NOW()),
+(0,'default_local_delivery','default_local_delivery_shipping_storefront_icon_resource_id','100256',NOW(),NOW()),
+(0,'default_local_delivery','default_local_delivery_autoselect','0',NOW(),NOW()),
+(0,'default_local_delivery','default_local_delivery_shipping_storefront_icon','image/18/7a/0.png',NOW(),NOW()),
+(0,'default_local_delivery','default_local_delivery_total','',NOW(),NOW()),
+(0,'default_local_delivery','default_local_delivery_postal_codes','',NOW(),NOW()),
+(0,'default_local_delivery','default_local_delivery_cost','',NOW(),NOW()),
+(0,'default_local_delivery','default_local_delivery_status','1',NOW(),NOW()),
+(0,'default_local_delivery','store_id','0',NOW(),NOW());
 --
 -- Dumping data for table `addresses`
 --
