@@ -9,7 +9,7 @@ VALUES
 ('shipping','default_flat_rate_shipping','shipping',1,1,'1.0.1',NULL,NOW(),NULL,'',NOW(),NOW()),
 ('shipping','default_local_delivery','shipping',1,10,'1.0.0','',NOW(),NULL,'',NOW(),NOW());
 
-INSERT INTO `1.3.0`.`cba_settings`
+INSERT INTO `ac_settings`
 (
 `store_id`,
 `group`,
