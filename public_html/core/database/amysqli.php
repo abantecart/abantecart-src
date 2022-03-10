@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2021 Belavier Commerce LLC
+  Copyright © 2011-2022 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,17 +24,11 @@ if (!defined('DIR_CORE')) {
 
 final class AMySQLi
 {
-    /**
-     * @var resource
-     */
+    /** @var resource */
     protected $connection;
-    /**
-     * @var Registry
-     */
+    /** @var Registry */
     private $registry;
-    /**
-     * @var string
-     */
+    /** @var string */
     public $error;
 
     /**
@@ -41,7 +36,7 @@ final class AMySQLi
      * @param string $username
      * @param string $password
      * @param string $database
-     * @param bool   $new_link
+     * @param bool $new_link
      *
      * @throws AException
      */
@@ -51,7 +46,10 @@ final class AMySQLi
         if ($connection->connect_error) {
             $err = new AError('Cannot establish database connection to '.$database.' using '.$username.'@'.$hostname);
             $err->toLog();
-            throw new AException(AC_ERR_MYSQL, 'Cannot establish database connection. Check your database connection settings.');
+            throw new AException(
+                AC_ERR_MYSQL,
+                'Cannot establish database connection. Check your database connection settings.'
+            );
         }
 
         $connection->query("SET NAMES 'utf8'");
@@ -67,7 +65,7 @@ final class AMySQLi
 
     /**
      * @param string $sql
-     * @param bool   $noexcept
+     * @param bool $noexcept
      *
      * @return bool|stdClass
      * @throws AException
@@ -80,15 +78,18 @@ final class AMySQLi
             $result = $this->connection->query($sql);
         } /** @since php8.1 */
         catch (Exception|mysqli_sql_exception $e) {
-            $log = Registry::getInstance()->get('log');
-            if(!$log){
-                $log = new ALog(DIR_LOGS.'error.txt');
-                Registry::getInstance()->set('log', $log);
-            }
-            $errorText = $e->getCode().': '.$e->getMessage();
-            $log->write($errorText);
-            if(php_sapi_name() == 'cli'){
-                echo $errorText.' - sql: '.$sql."\n";
+            $result = false;
+            if (!$noexcept) {
+                $log = Registry::getInstance()->get('log');
+                if (!$log) {
+                    $log = new ALog(DIR_LOGS.'error.txt');
+                    Registry::getInstance()->set('log', $log);
+                }
+                $errorText = $e->getCode().': '.$e->getMessage()."\n\n".$sql;
+                $log->write($errorText);
+                if (php_sapi_name() == 'cli') {
+                    echo $errorText.' - sql: '.$sql."\n";
+                }
             }
         }
 
@@ -106,14 +107,14 @@ final class AMySQLi
                 $i = 0;
                 $data = [];
                 while ($row = $result->fetch_object()) {
-                    $data[$i] = (array)$row;
+                    $data[$i] = (array) $row;
                     $i++;
                 }
 
                 $query = new stdClass();
                 $query->row = $data[0] ?? [];
                 $query->rows = $data;
-                $query->num_rows = (int)$result->num_rows;
+                $query->num_rows = (int) $result->num_rows;
 
                 unset($data);
 
@@ -122,13 +123,15 @@ final class AMySQLi
                 return true;
             }
         } else {
-            $this->error = 'SQL Error: '.mysqli_error($this->connection).'<br />Error No: '.mysqli_errno($this->connection).'<br />SQL: '.$sql."\n";
+            $this->error = 'SQL Error: '.mysqli_error($this->connection)
+                .'<br />Error No: '.mysqli_errno($this->connection)
+                .'<br />SQL: '.$sql."\n";
             if ($noexcept) {
                 return false;
             } else {
                 $dbg = debug_backtrace();
                 $this->error .= "PHP call stack:\n";
-                foreach($dbg as $k=>$d){
+                foreach ($dbg as $k => $d) {
                     $this->error .= "#".$k." ".$d['file'].':'.$d['line']."\n";
                 }
                 throw new AException(AC_ERR_MYSQL, $this->error);
@@ -154,7 +157,7 @@ final class AMySQLi
             $error->toLog()->toDebug()->toMessages();
             return false;
         }
-        $output = $this->connection->real_escape_string((string)$value);
+        $output = $this->connection->real_escape_string((string) $value);
         if ($with_special_chars) {
             $output = str_replace('%', '\%', $output);
         }
