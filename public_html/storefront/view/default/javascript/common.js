@@ -1,12 +1,12 @@
 //fill default values of common variables if not set
 if (!window.hasOwnProperty("baseUrl")) {
-    window.baseUrl = window.location.protocol
+    window.baseUrl = parent.window.location.protocol
         + '//'
-        + window.location.host
-        + window.location.pathname.replace('index.php', '');
+        + parent.window.location.host
+        + parent.window.location.pathname.replace('index.php', '');
 }
 if (!window.hasOwnProperty("samesite")) {
-    window.samesite = window.location.protocol === 'https:' ? 'None; secure=1;' : 'lax; secure=0;';
+    window.samesite = parent.window.location.protocol === 'https:' ? 'None; secure=1;' : 'lax; secure=0;';
 }
 
 if (!window.hasOwnProperty("cart_url")) {
