@@ -16,3 +16,6 @@
 /public_html/system/logs/*
 /public_html/system/config.php
 /public_html/image/thumbnails/*
+/public_html/system/page_builder/*
+/public_html/system/page_builder/default/*
+/public_html/system/page_builder/default/base.html
