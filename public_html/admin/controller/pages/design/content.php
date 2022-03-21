@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2021 Belavier Commerce LLC
+  Copyright © 2011-2022 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -24,16 +25,11 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ControllerPagesDesignContent extends AController
 {
     public $error = [];
-    public $data = [];
-
-    /**
-     * @var AContentManager
-     */
+    /** @var AContentManager */
     protected $acm;
 
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -137,7 +133,6 @@ class ControllerPagesDesignContent extends AController
 
     public function insert()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -147,11 +142,11 @@ class ControllerPagesDesignContent extends AController
         if ($this->request->is_POST() && $this->_validateForm()) {
             $savedata = $this->request->post;
             unset($savedata['parent_content_id'], $savedata['sort_order']);
-            $content_ids = (array)$this->request->post['parent_content_id'];
+            $content_ids = (array) $this->request->post['parent_content_id'];
             foreach ($content_ids as $par_id) {
                 list(, $parent_id) = explode('_', $par_id);
-                $savedata['parent_content_id'][] = (int)$parent_id;
-                $savedata['sort_order'][] = (int)$this->request->post['sort_order'][$par_id];
+                $savedata['parent_content_id'][] = (int) $parent_id;
+                $savedata['sort_order'][] = (int) $this->request->post['sort_order'][$par_id];
             }
 
             $content_id = $this->acm->addContent($savedata);
@@ -198,7 +193,7 @@ class ControllerPagesDesignContent extends AController
             $savedata = $this->request->post;
             unset($savedata['parent_content_id'], $savedata['sort_order']);
             //process parents IDs
-            $parents_ids = (array)$this->request->post['parent_content_id'];
+            $parents_ids = (array) $this->request->post['parent_content_id'];
             //build an array for each parent id
             if (count($parents_ids) == 0) {
                 //set top parent by default
@@ -206,8 +201,8 @@ class ControllerPagesDesignContent extends AController
             }
             foreach ($parents_ids as $par_id) {
                 list(, $parent_id) = explode('_', $par_id);
-                $savedata['parent_content_id'][] = (int)$parent_id;
-                $savedata['sort_order'][$parent_id] = (int)$this->request->post['sort_order'][$par_id];
+                $savedata['parent_content_id'][] = (int) $parent_id;
+                $savedata['sort_order'][$parent_id] = (int) $this->request->post['sort_order'][$par_id];
             }
             $this->acm->editContent($content_id, $savedata);
             $this->session->data['success'] = $this->language->get('text_success');
@@ -215,7 +210,13 @@ class ControllerPagesDesignContent extends AController
         }
         $this->_initTabs('form');
         $this->view->assign('content_id', $content_id);
-        $this->view->assign('insert', $this->html->getSecureURL('design/content/insert', '&parent_content_id='.$content_id));
+        $this->view->assign(
+            'insert',
+            $this->html->getSecureURL(
+                'design/content/insert',
+                '&parent_content_id='.$content_id
+            )
+        );
         $this->_getForm($content_id);
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -232,8 +233,9 @@ class ControllerPagesDesignContent extends AController
         $this->data['tabs'] = [
             'form' => [
                 'href' => $this->html->getSecureURL(
-                    'design/content/'.($content_id ? 'update' : 'insert'),
-                    '&content_id='.$content_id),
+                    'design/content/update',
+                    '&content_id='.$content_id
+                ),
                 'text' => $this->language->get('tab_form'),
             ],
         ];
@@ -288,7 +290,10 @@ class ControllerPagesDesignContent extends AController
         if ($content_id) {
             $this->document->addBreadcrumb(
                 [
-                    'href'      => $this->html->getSecureURL('design/content/update', '&content_id='.$content_id),
+                    'href'      => $this->html->getSecureURL(
+                        'design/content/update',
+                        '&content_id='.$content_id
+                    ),
                     'text'      => $this->language->get('update_title').' - '.$content_info['title'],
                     'separator' => ' :: ',
                     'current'   => true,
@@ -327,7 +332,7 @@ class ControllerPagesDesignContent extends AController
                 $this->data[$field] = '';
             }
         }
-        //if get parent_id, we create new content for parent 
+        //if got parent_id - create new content for parent
         if ($this->request->get['parent_content_id']) {
             $this->data['parent_content_id'][] = $this->request->get['parent_content_id'];
         }
@@ -389,7 +394,7 @@ class ControllerPagesDesignContent extends AController
         // we need get contents list for multiselect
         $multiSelect = $this->acm->getContentsForSelect(false);
         $selected_parents = [];
-        $this->data['parent_content_id'] = (array)$this->data['parent_content_id'];
+        $this->data['parent_content_id'] = (array) $this->data['parent_content_id'];
         $disabled_parents = [];
         foreach ($this->data['parent_content_id'] as $parent_id) {
             //check if we have combined ID
@@ -416,7 +421,7 @@ class ControllerPagesDesignContent extends AController
                 'options'          => $multiSelect,
                 'value'            => $selected_parents,
                 'disabled_options' => $disabled_parents,
-                'attr'             => 'size = "'.(sizeof($multiSelect) > 10 ? 10 : sizeof($multiSelect)).'"',
+                'attr'             => 'size = "'.min(sizeof($multiSelect), 10).'"',
             ]
         );
         $this->data['form']['fields']['title'] = $form->getFieldHtml(
@@ -439,19 +444,19 @@ class ControllerPagesDesignContent extends AController
 
         $this->data['form']['fields']['meta_keywords'] = $form->getFieldHtml(
             [
-            'type'         => 'textarea',
-            'name'         => 'meta_keywords',
-            'value'        => $this->data['meta_keywords'],
-            'multilingual' => true,
+                'type'         => 'textarea',
+                'name'         => 'meta_keywords',
+                'value'        => $this->data['meta_keywords'],
+                'multilingual' => true,
             ]
         );
 
         $this->data['form']['fields']['meta_description'] = $form->getFieldHtml(
             [
-            'type'         => 'textarea',
-            'name'         => 'meta_description',
-            'value'        => $this->data['meta_description'],
-            'multilingual' => true,
+                'type'         => 'textarea',
+                'name'         => 'meta_description',
+                'value'        => $this->data['meta_description'],
+                'multilingual' => true,
             ]
         );
 
@@ -534,7 +539,7 @@ class ControllerPagesDesignContent extends AController
             'responses/common/resource_library/get_resources_scripts',
             [
                 'object_name' => 'contents',
-                'object_id'   => $this->data['parent_content_id'],
+                'object_id'   => (int) $this->data['parent_content_id'],
                 'types'       => ['image'],
             ]
         );
@@ -563,7 +568,8 @@ class ControllerPagesDesignContent extends AController
         }
         if (($error_text = $this->html->isSEOkeywordExists(
             'content_id='.$this->request->get['content_id'],
-            $this->request->post['keyword']))
+            $this->request->post['keyword']
+        ))
         ) {
             $this->error['keyword'] = $error_text;
         }
@@ -648,11 +654,7 @@ class ControllerPagesDesignContent extends AController
         $page_layout = $layout->getPageLayoutIDs($page_controller, $page_key_param, $content_id);
         $page_id = $page_layout['page_id'];
         $layout_id = $page_layout['layout_id'];
-        if (isset($this->request->get['tmpl_id'])) {
-            $tmpl_id = $this->request->get['tmpl_id'];
-        } else {
-            $tmpl_id = $this->config->get('config_storefront_template');
-        }
+        $tmpl_id = $this->request->get['tmpl_id'] ?? $this->config->get('config_storefront_template');
         $params = [
             'content_id' => $content_id,
             'page_id'    => $page_id,
@@ -682,7 +684,7 @@ class ControllerPagesDesignContent extends AController
         $form = new AForm('HT');
         $form->setForm(
             [
-            'form_name' => 'layout_form',
+                'form_name' => 'layout_form',
             ]
         );
 
@@ -727,7 +729,7 @@ class ControllerPagesDesignContent extends AController
         $form = new AForm('HT');
         $form->setForm(
             [
-            'form_name' => 'cp_layout_frm',
+                'form_name' => 'cp_layout_frm',
             ]
         );
 
