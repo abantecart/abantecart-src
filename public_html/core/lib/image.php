@@ -98,7 +98,7 @@ class AImage
     {
         $mime = $this->info['mime'];
 
-        //some images processing can run out of original PHP memory limit size 
+        //some images processing can run out of original PHP memory limit size
         //Dynamic memory allocation based on K.Tamutis solution on the php manual
         $mem_estimate = round(
             ($this->info['width']
@@ -177,6 +177,11 @@ class AImage
         } else {
             $result = copy($this->file, $filename);
         }
+
+        $this->data['result'] = $result;
+        $this->data['filename'] = $filename;
+        //update controller data
+        $this->registry->get('extensions')->hk_UpdateData($this, __FUNCTION__);
 
         return $result;
     }
