@@ -502,7 +502,7 @@ class ControllerPagesDesignMenu extends AController
             'responses/common/resource_library/get_resources_scripts',
             [
                 'object_name' => 'storefront_menu_item',
-                'object_id'   => $this->request->get['item_id'],
+                'object_id'   => (int) $this->request->get['item_id'],
                 'types'       => ['image'],
                 'onload'      => true,
                 'mode'        => 'single',

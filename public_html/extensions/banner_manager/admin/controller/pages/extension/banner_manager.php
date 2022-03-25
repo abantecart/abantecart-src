@@ -6,7 +6,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2021 Belavier Commerce LLC
+  Copyright © 2011-2022 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -530,7 +530,7 @@ class ControllerPagesExtensionBannerManager extends AController
                 'responses/common/resource_library/get_resources_scripts',
                 [
                     'object_name' => 'banners',
-                    'object_id'   => $this->data['banner_id'],
+                    'object_id'   => (int) $this->data['banner_id'],
                     'types'       => ['image'],
                 ]
             );
@@ -665,7 +665,7 @@ class ControllerPagesExtensionBannerManager extends AController
                             $position = 0;
                             if ($block['children']) {
                                 foreach ($block['children'] as $child) {
-                                    $position = $child['position'] > $position ? $child['position'] : $position;
+                                    $position = max($child['position'], $position);
                                 }
                             }
                             break;
@@ -771,7 +771,7 @@ class ControllerPagesExtensionBannerManager extends AController
                 'sort_order' => $i,
             ];
             if ($mode == 'default') {
-                $tabs[$i]['active'] = ($block_id == $this->data['block_id'] ? true : false);
+                $tabs[$i]['active'] = $block_id == $this->data['block_id'];
             } else {
                 $tabs[$i]['inactive'] = true;
             }
@@ -859,7 +859,7 @@ class ControllerPagesExtensionBannerManager extends AController
                         [
                             'data_type'  => 'banner_id',
                             'id'         => $id,
-                            'sort_order' => (int) $k,
+                            'sort_order' => $k,
                             'store_id'   => $this->config->get('config_store_id'),
                         ]
                     );
