@@ -694,7 +694,9 @@ class ControllerResponsesCommonResourceLibrary extends AController
                 $result[$k]->error = $this->language->get('error_not_added');
                 $result[$k]->error_text = $result[$k]->error;
             }
+            $result[$k]->typeDir = $rm->getTypeDir();
         }
+        $this->data['result'] = $result;
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -820,8 +822,11 @@ class ControllerResponsesCommonResourceLibrary extends AController
             ) {
                 unlink(DIR_RESOURCE.$info['type_name'].'/'.$info['resource_path']);
             }
+            $result[$k]->oldResourcePath = $info['resource_path'];
+            $result[$k]->newResourcePath = $resource_path;
+            $result[$k]->typeDir = $rm->getTypeDir();
         }
-
+        $this->data['result'] = $result;
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
@@ -1048,9 +1053,10 @@ class ControllerResponsesCommonResourceLibrary extends AController
                 $resource_id
             );
         }
-        $result = $rm->deleteResource($resource_id);
+        $result['resource'] = $rm->getResource($resource_id);
+        $result['delete_result'] = $rm->deleteResource($resource_id);
 
-        if (!$result) {
+        if (!$result['delete_result']) {
             $error = new AError('');
             $error->toJSONResponse(
                 'VALIDATION_ERROR_406',
@@ -1058,6 +1064,8 @@ class ControllerResponsesCommonResourceLibrary extends AController
             );
             return;
         }
+
+        $this->data['result'] = $result;
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
