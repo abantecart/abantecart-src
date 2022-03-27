@@ -1,0 +1,28 @@
+<h1>Loyverse How to</h1>
+<h4>Create a token</h4>
+<div>Create a token in the Loyverse dashboard &gt; Integrations &gt; Access Tokens page <a href="https://r.loyverse.com/dashboard/#/integrations/tokens">https://r.loyverse.com/dashboard/#/integrations/tokens</a></div>
+<div>Make sure to set the proper expiration date.</div>
+<div>Copy the Loywerse Access token to Extensions &gt; All Extensions &gt; Loyverse Integration. Save and reload the extension page.</div>
+<div>After the token is saved please click the Install/Update webhooks button.</div>
+<p>&nbsp;</p>
+<h4>Upload to Loywerse notes:</h4>
+<ul>
+<li>Before uploading make sure product and product options values must have unique SKUs.</li>
+<li>Product name in loyverse <em>cannot contain more then 64 characters</em></li>
+<li>select the Loyverse Store and Payment method</li>
+<li>The first step upload the products to Loyverse, next is to upload the Inventory</li>
+<li>Loyverse support only one option per product so add a simple select box&nbsp;or radio type option in your AbanteCart or add one combined option as described here <a href="https://abantecart.atlassian.net/wiki/spaces/AD/pages/29819029/Parent+Child+Options">https://abantecart.atlassian.net/wiki/spaces/AD/pages/29819029/Parent+Child+Options</a></li>
+<li>Note: If you remove the option from the product and create a new one after uploading to the Loyverse it became a new product!</li>
+<li>If a product is assigned to multiply categories after uploading the Loyverse will recognize only one category.</li>
+</ul>
+<p>&nbsp;</p>
+<h4>Download from Loyverse notes:</h4>
+<div>Only products with AbanteCart origin will sync back from Loyverse back to your AbanteCart when you click the Download Products button. If you create a product in the Loyverse dashboard it will not sync back to AbanteCart.</div>
+<div>&nbsp;</div>
+
+<div>&nbsp;</div>
+<div>
+<h2 id="ScheduledTasks-CRON">CRON</h2>
+<p>To run sync tasks automatically based on a set schedule, you need to set up a crontab in your server to run the script generated on the Loyverse integration extension page (Cron Command For Sync with Loyverse).</p>
+<p>Note: Do not set this crontab process to run too often&nbsp;</p>
+</div>

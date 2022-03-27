@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>aws_cdn_name</key>
+		<value><![CDATA[AWS CDN]]></value>
+	</definition>
+	<definition>
+		<key>loyverse_integration_note</key>
+		<value><![CDATA[Some Note Here<br />]]></value>
+	</definition>
+</definitions>

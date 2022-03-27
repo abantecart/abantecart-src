@@ -1,0 +1,44 @@
+name: "tagged-release"
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    name: Upload Release Asset
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Build project
+        run: |
+          cd ..
+          mkdir -p loyverse_extension/code/extensions/
+          cp ./loyverse_integration/.assets/* ./loyverse_extension/
+          rm -rf ./loyverse_integration/.assets
+          rm -rf ./loyverse_integration/.git
+          rm -rf ./loyverse_integration/.github
+          cp -Rf ./loyverse_integration/ ./loyverse_extension/code/extensions/
+          zip -x ".*" -r loyverse_integration ./loyverse_extension
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ../loyverse_integration.zip
+          asset_name: loyverse_integration.zip
+          asset_content_type: application/zip

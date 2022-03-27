@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package>
+	<id>aws_cdn</id>
+	<type>extension</type>
+	<install_mode>install</install_mode>
+	<version>1.0.0</version>
+	<minversion>1.3.2</minversion>
+	<cartversions>
+		<item>1.3</item>
+	</cartversions>
+	<package_content>
+		<extensions>
+			<extension>aws_cdn</extension>
+		</extensions>
+	</package_content>
+</package>

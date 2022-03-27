@@ -1,0 +1,54 @@
+EXTENSION LICENSE AGREEMENT
+
+TERMS AND CONDITIONS
+You should carefully read the following Terms and Conditions.
+Your purchase or use of our products implies that you have read
+and accepted these Terms and Conditions.
+
+Definitions :
+
+    1. Extensions means the products for sale on the site including, but not limited to, web designs, shopping cart modules, PHP or other type of code.
+
+    2. Buyer means the client purchasing Extensions made available for sale on the site or through affiliate network.
+
+    3. Seller means the party owning and selling Extensions on the site or through affiliate network.
+
+    4. AbanteCart means open shopping cart development community. AbanteCart is a third party community , not involved with this agreement.
+
+    In the Terms and conditions, any reference to 'We', 'Us' or 'Distributor' means extension distributor and any reference to "you" or "your" means the BUYER.
+
+Terms and Condition Details :
+
+    When you buy an Extension, you acquire a license to use that Extension .
+
+    In buying an Extension, you abide by the following terms :
+
+    1. You cannot cancel an order once it has been submitted and completed.
+
+    2. Once your order for an Extension is completed, you acquire a single non exclusive, non transferrable license to use the Extension on one live domain and one AbanteCart installation. This excludes the case of test installations.
+
+    3. Distributor does not give any guarantee on the continued availability of the Extensions sold on the site .
+
+    4. Ownership of the Extension remains with the seller and provider of the extension.  This can be stated separately in included legal documents or in the code.
+
+    5. You confirm that you will test the Extension prior to  activating it on your live site.
+
+    6. Even though, seller or distributor provides support for the Extensions sold, no party can be hold liable for potential harm to the site or business due to bugs or malfunctions in the code or material provided.
+
+    7. Due to the digital nature of the Extensions offered for sale at the AbanteCart site(s), We maintain a “no refunds” policy for all Extensions sold.
+
+    8. You are authorized to make any necessary modification(s)  to our products to fit your purposes. Keep in mind that if you do changes, you will void support and future upgrades and updates.
+
+    9. Seller or Distributor might offer free future updates and upgrades to Extension. Seller or Distributor reserves the right to change this provision case by case.
+
+    10. Extensions may not be resold or redistributed by the Buyer. You may not place any of Our products, modified or unmodified, on a diskette, CD, website or any other medium and offer them for redistribution or resale of any kind without prior written consent from Our company.
+
+AbanteCart Role
+AbanteCart does not have any control over nor take any responsibility for the quality, safety and legality of the Extensions downloaded by you from the Site. Support for the Extension sold on the site remain the responsibility of the Seller or Distributor. AbanteCart has not reviewed, and cannot review all of the Extensions available on or by means of AbanteCart's websites, and cannot therefore be responsible for that material’s content, use or effects.  AbanteCart does not represent or imply that it endorses the available Product, or that it believes such material to be accurate, useful or nonharmful.  AbanteCart disclaims any responsibility for any harm resulting from Extensions downloaded from the Site.
+
+OWNERSHIP
+You may not claim intellectual or exclusive ownership to any of our products, modified or unmodified. Our products are provided "as is" without warranty of any kind, either expressed or implied. In no event shall our juridical person be liable for any damages including, but not limited to, direct, indirect, special, incidental or consequential damages or other losses arising out of the use of or inability to use our products.
+Unless you purchase the copyright removal license, all copyright notices must remain in the product.
+
+CHANGES
+Seller or Distributor may, at its sole discretion, revise or change the content of the site, including Terms and Conditions, from time to time and at any time without notice to you. You are bound by any such updates or changes, and so, should periodically review these Terms and Conditions. Your continued use of the Sites and/or the content or services made available on or through the Sites after any changes to the Terms and Conditions are posted will be considered acceptance of those changes.

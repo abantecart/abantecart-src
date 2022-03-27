@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension>
+	<id>aws_cdn</id>
+	<version>1.0.0</version>
+	<type>extension</type>
+	<category>extension</category>
+	<cartversions>
+		<item>1.2</item>
+		<item>1.3</item>
+	</cartversions>
+	<priority>10</priority>
+	<dependencies></dependencies>
+	<settings>
+	</settings>
+	<install>
+		<sql>install.sql</sql>
+		<trigger>install.php</trigger>
+	</install>
+	<uninstall>
+		<sql>uninstall.sql</sql>
+		<trigger>uninstall.php</trigger>
+	</uninstall>
+	<note>true</note>
+	<help_file><![CDATA[help.txt]]></help_file>
+</extension>
