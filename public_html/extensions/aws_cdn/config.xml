@@ -11,6 +11,18 @@
 	<priority>10</priority>
 	<dependencies></dependencies>
 	<settings>
+		<item id="aws_cdn_region">
+			<type required="true">input</type>
+			<default_value>us-east-1</default_value>
+		</item>
+		<item id="aws_cdn_aws_profile">
+			<type required="true">input</type>
+			<default_value>default</default_value>
+		</item>
+		<item id="aws_cdn_bucket">
+			<type required="true">input</type>
+			<default_value></default_value>
+		</item>
 	</settings>
 	<install>
 		<sql>install.sql</sql>

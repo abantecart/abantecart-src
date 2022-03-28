@@ -8,4 +8,16 @@
 		<key>loyverse_integration_note</key>
 		<value><![CDATA[Some Note Here<br />]]></value>
 	</definition>
+	<definition>
+		<key>aws_cdn_region</key>
+		<value><![CDATA[Bucket AWS Region]]></value>
+	</definition>
+	<definition>
+		<key>aws_cdn_aws_profile</key>
+		<value><![CDATA[AWS Profile]]></value>
+	</definition>
+	<definition>
+		<key>aws_cdn_bucket</key>
+		<value><![CDATA[AWS S3 Bucket]]></value>
+	</definition>
 </definitions>

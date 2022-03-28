@@ -25,6 +25,8 @@ if (!class_exists('ExtensionAwsCdn')) {
     include 'core/aws_cdn.php';
 }
 
+const AWS_CDN_TAG = 'Aws Cdn';
+
 $controllers = [
     'storefront' => [
         'pages/aws/test',
