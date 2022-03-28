@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>bootstrap5_name</key>
+    <value><![CDATA[bootstrap5]]></value>
+  </definition>
+  <definition>
+    <key>bootstrap5_note</key>
+    <value><![CDATA[]]></value>
+  </definition>
+</definitions>

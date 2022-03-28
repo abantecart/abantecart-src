@@ -73,27 +73,38 @@ class ControllerBlocksContent extends AController
      * Recursive function for building tree of content.
      * Note that same content can have two parents!
      *
-     * @param     $all_contents array with all contents. it contain element with key
+     * @param     $all_contents array with all contents. Contains element with key
      *                          parent_content_id that is array  - all parent ids
      * @param int $parent_id
      * @param int $level
      *
      * @return array
+     * @throws AException
      */
-    private function _buildTree($all_contents, $parent_id = 0, $level = 0)
+    protected function _buildTree($all_contents, $parent_id = 0, $level = 0)
     {
         $output = [];
+        $k = 0;
         foreach ($all_contents as $content) {
             if ($content['parent_content_id'] == $parent_id) {
-                $output[] = [
+                $output[$k] = [
                     'id' => $content['parent_content_id'].'_'.$content['content_id'],
                     'title' => str_repeat('&nbsp;&nbsp;', $level).$content['title'],
+                    'text'  => $content['title'],
                     'href' => $this->html->getSEOURL(
-                        'content/content', '&content_id='.$content['content_id'], '&encode'
+                        'content/content',
+                        '&content_id='.$content['content_id'],
+                        '&encode'
                     ),
                     'level' => $level,
+                    'children' => $this->_buildTree(
+                                    $all_contents,
+                                    $content['content_id'],
+                                    $level + 1
+                                )
                 ];
-                $output = array_merge($output, $this->_buildTree($all_contents, $content['content_id'], $level + 1));
+                $output = array_merge($output, $output[$k]['children']);
+                $k++;
             }
         }
         return $output;
