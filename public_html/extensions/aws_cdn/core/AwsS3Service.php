@@ -22,9 +22,15 @@ class AwsS3Service implements ExternalMediaStorageService
     private $fileAcl;
 
     /**
+     * @var string
+     */
+    private $s3path;
+
+    /**
      * @param string $bucket
      * @param string $region
      * @param string $profile
+     * @param string $s3path
      * @param string $version
      * @param string $fileAcl
      */
@@ -32,6 +38,7 @@ class AwsS3Service implements ExternalMediaStorageService
         string $bucket,
         string $region,
         string $profile = 'default',
+        string $s3path = '',
         string $version = 'latest',
         string $fileAcl = 'public-read'
     ) {
@@ -45,6 +52,7 @@ class AwsS3Service implements ExternalMediaStorageService
         $this->s3Client = $sdk->createS3();
         $this->bucket = $bucket;
         $this->fileAcl = $fileAcl;
+        $this->s3path = $s3path;
     }
 
     /**
@@ -53,6 +61,7 @@ class AwsS3Service implements ExternalMediaStorageService
      */
     public function upload(string $fileName, string $filePath): void
     {
+        $fileName = ($this->s3path) ? $this->s3path . "/" . $fileName : $fileName;
         $this->s3Client->putObject([
             'Bucket'     => $this->bucket,
             'Key'        => $fileName,
@@ -67,6 +76,7 @@ class AwsS3Service implements ExternalMediaStorageService
     public function download(string $fileName): void
     {
         //TODO: Finish method implementation. Possible this method not needed in future
+        $fileName = ($this->s3path) ? $this->s3path . "/" . $fileName : $fileName;
         $this->s3Client->getObject([
             'Bucket' => $this->bucket,
             'Key'    => $fileName,
@@ -78,6 +88,7 @@ class AwsS3Service implements ExternalMediaStorageService
      */
     public function delete(string $fileName): void
     {
+        $fileName = ($this->s3path) ? $this->s3path . "/" . $fileName : $fileName;
         $this->s3Client->deleteObject([
             'Bucket' => $this->bucket,
             'Key'    => $fileName,

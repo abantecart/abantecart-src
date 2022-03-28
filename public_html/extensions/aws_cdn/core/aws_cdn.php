@@ -7,6 +7,7 @@ use AwsS3Service;
 class ExtensionAwsCdn extends Extension
 {
     const RESOURCES = 'resources/';
+    const S3PATH = CLIENT_NAME;
     private $awsS3Service;
     public $registry;
     public $config;
@@ -19,7 +20,8 @@ class ExtensionAwsCdn extends Extension
         $this->awsS3Service = new AwsS3Service(
             $this->config->get('aws_cdn_bucket'),
             $this->config->get('aws_cdn_region'),
-            $this->config->get('aws_cdn_aws_profile')
+            $this->config->get('aws_cdn_aws_profile'),
+            self::S3PATH
         );
         $this->extensionEnabled = $this->config->get('aws_cdn_status');
     }
@@ -57,7 +59,7 @@ class ExtensionAwsCdn extends Extension
         $that = $this->baseObject;
         if ($that->data['result']) {
             $fullFilePath = $that->data['filename'];
-            $relativeFilePath = str_replace(DIR_ROOT.'/', "", $fullFilePath);
+            $relativeFilePath = str_replace(DATA_DIR.'/', "", $fullFilePath);
             try {
                 $this->awsS3Service->upload($relativeFilePath, $fullFilePath);
             } catch (Exception $exception) {
@@ -113,7 +115,8 @@ class ExtensionAwsCdn extends Extension
 
     private function getBaseResourseUrl()
     {
-        return 'https://'.$this->config->get('aws_cdn_bucket').'.s3.'.$this->config->get('aws_cdn_region').'.amazonaws.com/';
+        $path = (self::S3PATH) ?  self::S3PATH . '/'  : '';
+        return 'https://'.$this->config->get('aws_cdn_bucket').'.s3.'.$this->config->get('aws_cdn_region').'.amazonaws.com/'. $path;
     }
 
     public function beforeAResource_processData()
