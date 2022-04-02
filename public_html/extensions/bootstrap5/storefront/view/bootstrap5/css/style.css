@@ -14,6 +14,7 @@ a[href]:after {
 }
 
 
+
 input{
   min-width: 60px;
 }
@@ -50,6 +51,14 @@ li.dropdown{
   display: block;
 }
 
+.dropdown .menu_image, .dropup .menu_image{
+  max-width: 40px;
+  margin-right: 20px;
+}
+
+.product-flex .card{
+  width: 25rem !important;
+}
 
 .language-flag-img{
   width: 20px;
@@ -60,4 +69,9 @@ li.dropdown{
 
 ul.dropdown-menu.topcartopen{
   min-width: 400px;
+}
+
+.latest-column img{
+  max-width: 80px;
+  max-height: 80px;
 }

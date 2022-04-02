@@ -47,42 +47,42 @@ echo $$header; ?>
 	$center_padding = '';
 	if ( !empty($$column_left) ) {
 		$present_columns++;
-		$center_padding .= 'ct_padding_left';
+		$center_padding .= ' ms-1 ';
 	}
 	if ( !empty($$column_right) ) {
 		$present_columns++;
-		$center_padding .= ' ct_padding_right';
+		$center_padding .= ' me-1 ';
 	}
 ?>
 
-	<div class="container-fluid">
+	<div class="d-flex flex-wrap align-items-stretch align-self-stretch">
 		<?php if ( !empty($$column_left ) ) { ?>
-		<div class="column_left col-md-3 col-xs-12">
+		<div class="ms-3 col-3 col-lg-2 col-xs-12">
 		<?php echo $$column_left; ?>
 		</div>
 		<?php } ?>
 
 		<?php $span = 12 - 3 * ($present_columns -1); ?>
-		<div class="col-md-<?php echo $span ?> col-xs-12 mt20">
-		<?php if ( !empty( $$content_top ) ) { ?>
-		<!-- content top blocks placeholder -->
-		<?php echo $$content_top; ?>
-		<!-- content top blocks placeholder (EOF) -->
-		<?php } ?>
+		<div class="flex-grow-1 col-md-<?php echo $span ?> col-xs-12 mt20">
+            <?php if ( !empty( $$content_top ) ) { ?>
+            <!-- content top blocks placeholder -->
+            <?php echo $$content_top; ?>
+            <!-- content top blocks placeholder (EOF) -->
+            <?php } ?>
 
-		<div class="<?php echo $center_padding; ?>">
-		<?php echo $content; ?>
-		</div>
+            <div class="container mx-3">
+            <?php echo $content; ?>
+            </div>
 
-		<?php if ( !empty( $$content_bottom ) ) { ?>
-		<!-- content bottom blocks placeholder -->
-		<?php echo $$content_bottom; ?>
-		<!-- content bottom blocks placeholder (EOF) -->
-		<?php } ?>
+            <?php if ( !empty( $$content_bottom ) ) { ?>
+            <!-- content bottom blocks placeholder -->
+            <?php echo $$content_bottom; ?>
+            <!-- content bottom blocks placeholder (EOF) -->
+            <?php } ?>
 		</div>
 
 		<?php if ( !empty($$column_right ) ) { ?>
-		<div class="column_right col-md-3 col-xs-12 mt20">
+		<div class="col-md-3 col-xs-12 mt20">
 		<?php echo $$column_right; ?>
 		</div>
 		<?php } ?>

@@ -30,6 +30,21 @@
             </div>
             <div class="nav-item">
                 <?php
+                //prepare items
+                function __prepareItems($items)
+                {
+                    foreach ($items as &$cat){
+                        unset($cat['thumb']);
+                        if($cat['level'] == 0){
+                            unset($cat['icon']);
+                        }
+                        if($cat['children']){
+                            $cat['children'] = __prepareItems($cat['children']);
+                        }
+                    }
+                    return $items;
+                }
+                $categories = __prepareItems($categories);
                 echo renderSFMenu(
                         $categories,
                         0,

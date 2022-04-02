@@ -65,7 +65,7 @@ if ($google_tag_manager) { ?>
 <?php } ?>
 
 <script type="text/javascript" src="<?php echo $this->templateResource('/js/jquery-3.6.0.min.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/js/bootstrap.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $this->templateResource('/js/bootstrap.bundle.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo $this->templateResource('/js/custom.js'); ?>"></script>
 
 <?php

@@ -1,5 +1,18 @@
 <?php
 // recursive function!
+
+/**
+ * @param array $menuItems - [ 'id', 'text or ']
+ * @param int $level
+ * @param string $parentId
+ * @param array $options - [
+ *                          'id_key_name' => {unique item text id}
+ *                          'submenu_options' => option array that will be used entire submenu
+ *                          ]
+ *
+ * @return string
+ * @throws AException
+ */
 function renderSFMenu($menuItems, $level = 0, $parentId = '', $options = [ ])
 {
     $logged = Registry::getInstance()->get('customer')->isLogged();
@@ -41,6 +54,8 @@ function renderSFMenu($menuItems, $level = 0, $parentId = '', $options = [ ])
             } elseif ($resource['resource_code']) {
                 $icon = $resource['resource_code'];
             }
+        }elseif( $item['icon_html'] ){
+            $icon = $item['icon_html'];
         }
 
         if ($hasChild) {
@@ -49,7 +64,9 @@ function renderSFMenu($menuItems, $level = 0, $parentId = '', $options = [ ])
             $output .= '<a id="'.$id.'" 
                             href="#" role="button" 
                             class="'.$css.'" 
-                            data-bs-toggle="dropdown" aria-expanded="false">';
+                            data-bs-toggle="dropdown" 
+                            data-bs-target="dropdown" 
+                            aria-expanded="false">';
             $output .= $icon.$item_title;
             if(!isset($options['without_caret'])) {
                 $output .= '&nbsp; <i class="fa fa-caret-down"></i>';
@@ -73,14 +90,29 @@ function renderSFMenu($menuItems, $level = 0, $parentId = '', $options = [ ])
             $output .= "\r\n".call_user_func_array('renderSFMenu',$params);
         } else {
             $css = $level ? "dropdown-item" : "nav-item nav-link " .'text-nowrap ';
-            $output .= '<a href="'.$item['href'].'" class="'.$css.'">'.$icon.$item_title.'</a>';
-            if($item['thumb']){
-                $popover = '<img class="menu_image" src="'.$item['thumb'].'" />&nbsp;';
-            }
+            $popoverAttr = $item['thumb'] ? 'data-bs-toggle="popover" 
+                        data-bs-content="<img src=&quot;'.$item['thumb'].'&quot;>" 
+                        data-bs-html="true" data-bs-offset="5,5"
+                        data-bs-boundary="window" data-bs-placement="right" data-bs-trigger="hover"'
+                : '';
+            $output .= '<a href="'.$item['href'].'" class="'.$css.'" '.$popoverAttr.'>'.$icon.$item_title.'</a>';
         }
         $output .= '</li>';
     }
-
     $output .= "</ul>\n";
+
     return $output;
+}
+
+function renderRatingStars($value, $text){
+    if(!$value){
+        return '';
+    }
+    $i = 1;
+    $output = '<div title="'.htmlspecialchars($text, ENT_QUOTES, 'UTF-8').'">';
+    while($i < 6){
+        $output .= '<i class="fa-star '.($i<=$value ? 'fa-solid' : 'fa-regular').'"></i>';
+        $i++;
+    }
+    return $output.'</div>';
 }

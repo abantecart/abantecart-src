@@ -1,3 +1,8 @@
+$(document).ready(function(){
+    $('[data-bs-toggle="popover"]').popover({});
+});
+
+
 // $('document').ready(function () {
 //
 //     $(document).on('click', 'a.call_to_order', function () {

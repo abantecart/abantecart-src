@@ -18,7 +18,10 @@ $models = [
 ];
 
 $templates = [
-    'storefront' => [],
+    'storefront' => [
+        'blocks/banner_block_content.tpl',
+        'blocks/listing_block/popular_brands_content_bottom.tpl'
+    ],
     'admin'      => [],
 ];
 
