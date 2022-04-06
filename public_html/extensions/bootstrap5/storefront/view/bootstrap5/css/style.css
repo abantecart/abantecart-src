@@ -18,6 +18,9 @@ a[href]:after {
 input{
   min-width: 60px;
 }
+input[type=checkbox],input[type=radio]{
+  min-width:20px;
+}
 /* auto-open for dropdowns */
 .dropup:hover>.dropdown-menu,
 .dropdown:hover>.dropdown-menu {
@@ -74,4 +77,31 @@ ul.dropdown-menu.topcartopen{
 .latest-column img{
   max-width: 80px;
   max-height: 80px;
+}
+
+
+/* PRODUCT PAGE CSS */
+
+* {box-sizing: border-box;}
+.img-zoom-container {
+  position: relative;
+}
+
+.img-zoom-lens {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  /*set the size of the lens:*/
+  width: 40px;
+  height: 40px;
+}
+
+.img-zoom-result {
+  border: 1px solid #d4d4d4;
+  /*set the size of the result div:*/
+  width: 300px;
+  height: 300px;
+}
+#myimage{
+    width: 500px;
+    height: 500px;
 }

@@ -57,7 +57,7 @@ echo $$header; ?>
 
 	<div class="d-flex flex-wrap align-items-stretch align-self-stretch">
 		<?php if ( !empty($$column_left ) ) { ?>
-		<div class="ms-3 col-3 col-lg-2 col-xs-12">
+		<div class="ms-3 col-xs-12 col-sm-9 col-md-8  col-lg-2 ">
 		<?php echo $$column_left; ?>
 		</div>
 		<?php } ?>
@@ -82,7 +82,7 @@ echo $$header; ?>
 		</div>
 
 		<?php if ( !empty($$column_right ) ) { ?>
-		<div class="col-md-3 col-xs-12 mt20">
+		<div class="me-3 col-xs-12 col-sm-9 col-md-8  col-lg-2">
 		<?php echo $$column_right; ?>
 		</div>
 		<?php } ?>
