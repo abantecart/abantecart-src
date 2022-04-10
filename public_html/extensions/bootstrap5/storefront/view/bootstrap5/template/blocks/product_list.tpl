@@ -11,6 +11,8 @@
                     $tax_message = '&nbsp;&nbsp;' . $price_with_tax;
             }
 
+            $product['thumb'] = $product['thumb'] ?? $product['image'];
+
             $item = [];
             $item['image'] = '<img class="m-3" src="'.$product['thumb']['thumb_url'].'">';
             $item['title'] = $product['name'];
@@ -29,7 +31,7 @@
                 $review = $item['rating'];
             }
             ?>
-            <div class="card m-2 shadow ">
+            <div class="card m-2 col-4 shadow ">
                 <a class="link-light card-link text-decoration-none"
                         href="<?php echo $item['info_url'] ?>"
                         title="<?php echo $item['title'] ?>">
@@ -67,10 +69,10 @@
                     <?php echo $this->getHookvar('product_listing_details0_'.$product['product_id']);?>
                     <div class="d-flex justify-content-between p-2 mt-auto align-items-center bg-light">
                     <?php if ($display_price) { ?>
-                        <div class="price text-muted d-flex align-items-center">
+                        <div class="price text-muted d-flex align-items-center me-2">
                                 <?php if ($product['special']) { ?>
                                     <div class="fs-4 text-black me-2"><?php echo $product['special'] . $tax_message; ?></div>
-                                    <div class="fs-6 text-decoration-line-through me-2"><?php echo $product['price']; ?></div>
+                                    <div class="fs-6 text-decoration-line-through"><?php echo $product['price']; ?></div>
                                 <?php } else { ?>
                                     <div class="fs-4 text-black"><?php echo $product['price'] . $tax_message; ?></div>
                                 <?php } ?>

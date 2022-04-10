@@ -144,8 +144,7 @@ if ($error){ ?>
                                                 if ( $option['html']->type == 'hidden') {
                                                     echo $option['html'];
                                                     continue;
-                                                }
-                                                ?>
+                                                }?>
                                             <div class="form-group mb-3">
                                                 <?php
                                                     echo $this->getHookVar('product_option_'.$option['name'].'_additional_info');
@@ -162,11 +161,11 @@ if ($error){ ?>
 
                                     <?php if ($discounts) { ?>
                                         <div class="form-group">
-                                            <label class="control-label"><?php echo $text_discount; ?></label>
+                                            <label class="control-label fw-bold"><?php echo $text_discount; ?></label>
                                             <table class="table table-striped">
                                                 <thead>
-                                                    <th><?php echo $text_order_quantity; ?></th>
-                                                    <th><?php echo $text_price_per_item; ?></th>
+                                                    <th class="fw-normal"><?php echo $text_order_quantity; ?></th>
+                                                    <th class="fw-normal"><?php echo $text_price_per_item; ?></th>
                                                 </thead>
                                             <?php foreach ($discounts as $discount) { ?>
                                                 <tr>
@@ -275,190 +274,268 @@ if ($error){ ?>
 </div>
 
 <!-- Product Description tab & comments-->
-<div id="productdesc">
+<div id="productdesc" class="mt-3 me-4">
     <div class="row">
-        <div class="col-md-12 productdesc">
-            <ul class="nav nav-tabs" id="myTab">
-                <li class="active"><a href="#description"><?php echo $tab_description; ?></a></li>
-                <?php if ($display_reviews || $review_form_status){ ?>
-                    <li><a href="#review"><?php echo $tab_review; ?></a></li>
-                <?php } ?>
-                <?php if ($tags){ ?>
-                    <li><a href="#producttag"><?php echo $text_tags; ?></a></li>
-                <?php } ?>
-                <?php if ($related_products){ ?>
-                    <li><a href="#relatedproducts"><?php echo $tab_related; ?> (<?php echo sizeof((array)$related_products); ?>)</a></li>
-                <?php } ?>
-                <?php if ($downloads){ ?>
-                    <li><a href="#productdownloads"><?php echo $tab_downloads; ?></a></li>
-                <?php } ?>
-                <?php echo $this->getHookVar('product_features_tab'); ?>
-            </ul>
-            <div class="tab-content">
-
-                <div class="tab-pane active" id="description">
-                    <?php echo $description; ?>
-
-                    <ul class="productinfo">
-                        <?php if ($stock){ ?>
-                            <li>
-                                <span class="productinfoleft"><?php echo $text_availability; ?></span> <?php echo $stock; ?>
-                            </li>
-                        <?php } ?>
-                        <?php if ($model){ ?>
-                            <li><span class="productinfoleft"><?php echo $text_model; ?></span> <?php echo $model; ?>
-                            </li>
-                        <?php } ?>
-                        <?php if ($manufacturer){ ?>
-                            <li>
-                                <span class="productinfoleft"><?php echo $text_manufacturer; ?></span>
-                                <a href="<?php echo $manufacturers; ?>">
-                                    <?php if ($manufacturer_icon){ ?>
-                                        <img alt="<?php echo $manufacturer; ?>"
-                                             src="<?php echo $manufacturer_icon; ?>"
-                                             title="<?php echo $manufacturer; ?>"
-                                             style="width: <?php echo $this->config->get('config_image_grid_width'); ?>px;"/>
-                                        <?php
-                                    } else{
-                                        echo $manufacturer;
-                                    } ?>
-                                </a>
-                            </li>
-                        <?php } ?>
-                    </ul>
-
-                </div>
-
-                <?php if (($display_reviews || $review_form_status)){ ?>
-                    <div class="tab-pane" id="review">
-                        <div id="current_reviews" class="mb20"></div>
-                        <?php if($review_form_status){ ?>
-                        <div class="heading" id="review_title"><h4><?php echo $text_write; ?></h4></div>
-                        <div class="content">
-                            <fieldset>
-                                <div class="form-group">
-                                    <div class="form-inline">
-                                        <label class="control-label col-md-3 pull-left"><?php echo $entry_rating; ?>
-                                            <span
-                                                    class="red">*</span></label>
-                                        <?php echo $rating_element; ?>
-                                    </div>
-                                </div>
-                                <div class="form-group mt40">
-                                    <div class="form-inline">
-                                        <label class="control-label col-md-3"><?php echo $entry_name; ?> <span
-                                                    class="red">*</span></label>
-                                        <?php echo $review_name; ?>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="form-inline">
-                                        <label class="control-label col-md-3"><?php echo $entry_review; ?> <span
-                                                    class="red">*</span></label>
-                                        <?php echo $review_text; ?>
-                                    </div>
-                                    <div class="input-group"><?php echo $text_note; ?></div>
-                                </div>
-                                <?php if ($review_recaptcha){ ?>
-                                    <div class="clear form-group">
-                                        <div class="form-inline col-md-6 col-md-offset-1 col-sm-6">
-                                            <?php echo $review_recaptcha; ?>
-                                        </div>
-                                        <div class="form-inline col-md-5 col-sm-6">
-                                            <?php echo $review_button; ?>
-                                        </div>
-                                    </div>
-                                <?php } else{ ?>
-                                    <div class="clear form-group">
-                                        <label class="control-label"><?php echo $entry_captcha; ?> <span
-                                                    class="red">*</span></label>
-
-                                        <div class="form-inline">
-                                            <label class="control-label col-md-3">
-                                                <img src="<?php echo $captcha_url; ?>" id="captcha_img" alt=""/>
-                                            </label>
-                                            <?php
-                                            echo $review_captcha;
-                                            echo $review_button; ?>
-                                        </div>
-                                    </div>
+        <div class="col-12">
+            <div class="accordion" id="productDetailsAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingDescription">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDescription" aria-expanded="true"
+                                aria-controls="collapseDescription"><?php echo $tab_description; ?></button>
+                    </h2>
+                    <div id="collapseDescription" class="accordion-collapse collapse show" aria-labelledby="headingDescription" data-bs-parent="#productDetailsAccordion">
+                        <div class="accordion-body">
+                            <?php echo $description; ?>
+                            <ul class="productinfo list-unstyled">
+                                <?php if ($stock){ ?>
+                                    <li>
+                                        <span class="fw-bold me-2"><?php echo $text_availability; ?></span> <?php echo $stock; ?>
+                                    </li>
                                 <?php } ?>
-
-                            </fieldset>
+                                <?php if ($model){ ?>
+                                    <li><span class="fw-bold me-2"><?php echo $text_model; ?></span> <?php echo $model; ?>
+                                    </li>
+                                <?php } ?>
+                                <?php if ($manufacturer){ ?>
+                                    <li>
+                                        <span class="fw-bold me-2"><?php echo $text_manufacturer; ?></span>
+                                        <a href="<?php echo $manufacturers; ?>">
+                                            <?php if ($manufacturer_icon){ ?>
+                                                <img alt="<?php echo $manufacturer; ?>"
+                                                     src="<?php echo $manufacturer_icon; ?>"
+                                                     title="<?php echo $manufacturer; ?>"
+                                                     style="width: <?php echo $this->config->get('config_image_grid_width'); ?>px;"/>
+                                                <?php
+                                            } else{
+                                                echo $manufacturer;
+                                            } ?>
+                                        </a>
+                                    </li>
+                                <?php } ?>
+                            </ul>
                         </div>
-                        <?php } ?>
                     </div>
-                <?php } ?>
+                </div>
+<?php if ($display_reviews || $review_form_status){ ?>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingReview">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseReview"
+                                aria-expanded="true" aria-controls="collapseReview">
+                            <?php echo $tab_review; ?>
+                        </button>
+                    </h2>
+                    <div id="collapseReview" class="accordion-collapse collapse" aria-labelledby="headingReview" data-bs-parent="#productDetailsAccordion">
+                        <div class="accordion-body">
+                            <div class="tab-pane" id="review">
+                                <div id="current_reviews" class="mb-2"></div>
+                            <?php if($review_form_status){ ?>
+                                <div class="heading" id="review_title"><h4><?php echo $text_write; ?></h4></div>
+                                <div class="content">
+                                    <fieldset>
+                                        <div class="form-group mb-3">
+                                            <label class="control-label fw-bold"><?php echo $entry_rating; ?></label>
+                                            <div class="input-group">
+                                                <?php
+                                                $rating_element->required = true;
+                                                echo $rating_element; ?>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="control-label fw-bold"><?php echo $entry_name; ?></label>
+                                            <div class="input-group">
+                                                <?php
+                                                $review_name->required = true;
+                                                echo $review_name; ?>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="control-label fw-bold"><?php echo $entry_review; ?></label>
+                                            <div class="form-text mb-2"><?php echo $text_note; ?></div>
+                                            <div class="input-group">
+                                                <?php
+                                                $review_text->required = true;
+                                                echo $review_text; ?>
+                                            </div>
+                                        </div>
 
-                <?php if ($tags){ ?>
-                    <div class="tab-pane" id="producttag">
-                        <ul class="tags">
-                            <?php foreach ($tags as $tag){ ?>
-                                <li><a href="<?php echo $tag['href']; ?>"><i
-                                                class="fa fa-tag"></i><?php echo $tag['tag']; ?></a></li>
-                            <?php } ?>
-                        </ul>
-                    </div>
-                <?php } ?>
-
-                <?php if ($related_products){ ?>
-                    <div class="tab-pane" id="relatedproducts">
-                        <ul class="row side_prd_list">
-                            <?php foreach ($related_products as $related_product){
-                                $tax_message = '';
-                                $item['rating'] = ($related_product['rating']) ? "<img src='" . $this->templateResource('/image/stars_' . $related_product['rating'] . '.png') . "' class='rating' alt='" . $related_product['stars'] . "' width='64' height='12' />" : '';
-                                if (!$display_price){
-                                    $related_product['price'] = $related_product['special'] = '';
-                                } else {
-                                    if($config_tax && !$tax_exempt && $related_product['tax_class_id']){
-                                        $tax_message = '&nbsp;&nbsp;'.$price_with_tax;
-                                    }
-                                }
-                            ?>
-                                <li class="col-md-3 col-sm-5 col-xs-6 related_product">
-                                    <a href="<?php echo $related_product['href']; ?>"><?php echo $related_product['image']['thumb_html'] ?></a>
-                                    <a class="productname" title="<?php echo $related_product['name']; ?>"
-                                       href="<?php echo $related_product['href']; ?>"><?php echo $related_product['name']; ?></a>
-                                    <span class="procategory"><?php echo $item['rating'] ?></span>
-
-                                    <div class="price">
-                                        <?php if ($related_product['special']){ ?>
-                                            <span class="pricenew"><?php echo $related_product['special'] . $tax_message ?></span>
-                                            <span class="priceold"><?php echo $related_product['price'] ?></span>
+                                        <?php if ($review_recaptcha){ ?>
+                                            <div class="clear form-group">
+                                                <div class="form-inline col-md-6 col-md-offset-1 col-sm-6">
+                                                    <?php echo $review_recaptcha; ?>
+                                                </div>
+                                                <div class="form-inline col-md-5 col-sm-6">
+                                                    <?php echo $review_button; ?>
+                                                </div>
+                                            </div>
                                         <?php } else{ ?>
-                                            <span class="oneprice"><?php echo $related_product['price'] . $tax_message ?></span>
+                                            <div class="form-group mb-3 d-flex flex-wrap">
+
+                                                    <?php
+                                                    echo $this->html->buildCaptcha(
+                                                            [
+                                                                'name'        => 'captcha',
+                                                                'required'    => true,
+                                                                'captcha_url' => $captcha_url,
+                                                                'placeholder' => $entry_captcha
+                                                            ]
+                                                    );
+                                                     ?>
+                                                    <?php
+                                                        $review_button->style .= ' ms-auto text-nowrap mt-2 mt-md-0';
+                                                        echo $review_button; ?>
+
+                                            </div>
                                         <?php } ?>
-                                    </div>
-                                </li>
-                            <?php } ?>
-                        </ul>
+
+                                    </fieldset>
+                                </div>
+                                <?php } ?>
+                            </div>
+                        </div>
                     </div>
-                <?php } ?>
-
-                <?php if ($downloads){ ?>
-                    <div class="tab-pane" id="productdownloads">
-                        <ul class="list-group">
-                            <?php foreach ($downloads as $download){ ?>
-                                <li class="list-group-item">
-                                    <a class="pull-right btn btn-default"
-                                       href="<?php echo $download['button']->href; ?>"><i
-                                                class="fa fa-download"></i> <?php echo $download['button']->text; ?></a>
-
-                                    <div><?php echo $download['name']; ?>
-                                        <div class="download-list-attributes">
-                                            <?php foreach ($download['attributes'] as $name => $value){
-                                                echo '<small>- ' . $name . ': ' . (is_array($value) ? implode(' ', $value) : $value) . '</small>';
-                                            } ?></div>
-                                    </div>
-                                </li>
-                            <?php } ?>
-                        </ul>
+                </div>
+<?php }
+if ($tags){ ?>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTags">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTags" aria-expanded="true" aria-controls="collapseTags">
+                            <?php echo $text_tags; ?>
+                        </button>
+                    </h2>
+                    <div id="collapseTags" class="accordion-collapse collapse" aria-labelledby="headingTags" data-bs-parent="#productDetailsAccordion">
+                        <div class="accordion-body">
+                            <ul class="list-group list-unstyled list-inline ">
+                                <?php foreach ($tags as $tag){ ?>
+                                    <li class="list-group-item">
+                                        <a class="text-decoration-none text-secondary" href="<?php echo $tag['href']; ?>">
+                                            <i class="fa-solid fa-tag me-2"></i><?php echo $tag['tag']; ?>
+                                        </a>
+                                    </li>
+                                <?php } ?>
+                            </ul>
+                        </div>
                     </div>
-                <?php } ?>
+                </div>
+<?php }
 
-                <?php echo $this->getHookVar('product_features'); ?>
+if ($related_products){ ?>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingRelated">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRelated" aria-expanded="true" aria-controls="collapseRelated">
+                            <?php echo $tab_related; ?> (<?php echo sizeof((array)$related_products); ?>)
+                        </button>
+                    </h2>
+                    <div id="collapseRelated" class="accordion-collapse collapse" aria-labelledby="headingRelated" data-bs-parent="#productDetailsAccordion">
+                        <div class="accordion-body">
+                            <?php
+                            $products = $related_products;
+                            //use common template for all product grids
+                            include($this->templateResource('/template/blocks/product_list.tpl'));
+                            ?>
+                            <ul class="row side_prd_list">
+                                    <?php
+                                    foreach ($related_products as $related_product){ continue;
+                                        $tax_message = '';
+                                        $item['rating'] = ($related_product['rating'])
+                                            ? "<img src='" . $this->templateResource('/image/stars_' . $related_product['rating'] . '.png') . "' class='rating' alt='" . $related_product['stars'] . "' width='64' height='12' />" : '';
+                                        if (!$display_price){
+                                            $related_product['price'] = $related_product['special'] = '';
+                                        } else {
+                                            if($config_tax && !$tax_exempt && $related_product['tax_class_id']){
+                                                $tax_message = '&nbsp;&nbsp;'.$price_with_tax;
+                                            }
+                                        }
+                                    ?>
+                                        <li class="col-md-3 col-sm-5 col-xs-6 related_product">
+                                            <a href="<?php echo $related_product['href']; ?>"><?php echo $related_product['image']['thumb_html'] ?></a>
+                                            <a class="productname" title="<?php echo $related_product['name']; ?>"
+                                               href="<?php echo $related_product['href']; ?>"><?php echo $related_product['name']; ?></a>
+                                            <span class="procategory"><?php echo $item['rating'] ?></span>
 
-            </div>
+                                            <div class="price">
+                                                <?php if ($related_product['special']){ ?>
+                                                    <span class="pricenew"><?php echo $related_product['special'] . $tax_message ?></span>
+                                                    <span class="priceold"><?php echo $related_product['price'] ?></span>
+                                                <?php } else{ ?>
+                                                    <span class="oneprice"><?php echo $related_product['price'] . $tax_message ?></span>
+                                                <?php } ?>
+                                            </div>
+                                        </li>
+                                    <?php } ?>
+                                </ul>
+                        </div>
+                    </div>
+                </div>
+<?php }
+
+if ($downloads){ ?>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingDownloads">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDownloads"
+                                aria-expanded="true" aria-controls="collapseDownloads">
+                            <?php echo $tab_downloads; ?>
+                        </button>
+                    </h2>
+                    <div id="collapseDownloads" class="accordion-collapse collapse" aria-labelledby="headingDownloads" data-bs-parent="#productDetailsAccordion">
+                        <div class="accordion-body">
+                            <ul class="list-group list-unstyled list-inline ">
+                                <?php foreach ($downloads as $download){ ?>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center col-12">
+                                        <div class="fs-5 fw-bolder"><?php echo $download['name'];
+                                            if($download['attributes']){ ?>
+                                                <dl class="fs-6 fw-normal download-list-attributes ms-3 mt-2">
+                                                    <?php foreach ($download['attributes'] as $name => $value){  ?>
+                                                        <dt class="fw-bold me-2"><?php echo $name; ?>:</dt>
+                                                        <dd class=" ms-5 text-secondary"><?php echo (is_array($value) ? implode(' ', $value) : $value); ?></dd>
+                                                <?php } ?>
+                                                </dl>
+                                            <?php } ?>
+                                        </div>
+                                        <a class="ms-auto text-nowrap btn btn-outline-dark"
+                                           href="<?php echo $download['button']->href; ?>"><i
+                                                    class="fa-solid fa-download"></i> <?php echo $download['button']->text; ?></a>
+                                    </li>
+                                <?php } ?>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+<?php }
+//deprecated. Left for compatibility. See new way below!
+if($this->getHookVar('product_features')){ ?>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFeatures">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFeatures"
+                                aria-expanded="true" aria-controls="collapseFeatures">
+                            <?php echo $this->getHookVar('product_features_tab'); ?>
+                        </button>
+                    </h2>
+                    <div id="collapseFeatures" class="accordion-collapse collapse" aria-labelledby="headingFeatures" data-bs-parent="#productDetailsAccordion">
+                        <div class="accordion-body">
+                            <?php echo $this->getHookVar('product_features'); ?>
+                        </div>
+                    </div>
+                </div>
+<?php }
+$hookVarArray = $this->getHookVar('product_description_array');
+if( $hookVarArray ){
+    foreach($hookVarArray as $key=>$hkVar){ ?>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading<?php echo $key; ?>>">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?php echo $key; ?>"
+                                aria-expanded="true" aria-controls="collapse<?php echo $key; ?>">
+                            <?php echo $hkVar['title']; ?>
+                        </button>
+                    </h2>
+                    <div id="collapse<?php echo $key; ?>" class="accordion-collapse collapse" aria-labelledby="heading<?php echo $key; ?>" data-bs-parent="#productDetailsAccordion">
+                        <div class="accordion-body">
+                            <?php echo $hkVar['html']; ?>
+                        </div>
+                    </div>
+                </div>
+<?php }
+} ?>
+
         </div>
     </div>
 </div>
@@ -495,12 +572,18 @@ if ($error){ ?>
         //process clicks in review pagination
         $('#current_reviews').on('click', '.pagination a', function () {
             reload_review($(this).attr('href'));
+            $([document.documentElement, document.body]).animate(
+                {
+                    scrollTop: $("#headingReview").offset().top
+                },
+                1000
+            );
             return false;
         });
 
         /* Process images for product options */
         var $select = $('input[name^=\'option\'], select[name^=\'option\']');
-        $select.change(function () {
+        $select.on('change',function () {
             var valId = $(this).val();
             valId = this.type === 'checkbox' && $(this).attr('data-attribute-value-id') ? $(this).attr('data-attribute-value-id') : valId;
             //skip not selected radio
@@ -524,8 +607,9 @@ if ($error){ ?>
             type: 'GET',
             dataType: 'json'
         });
-
-        $select.change();
+        // call change event for first option value
+        // to refresh pictures for preselected options
+        $select.first().change();
 
         function start_easyzoom() {
             // Instantiate EasyZoom instances
@@ -548,6 +632,7 @@ if ($error){ ?>
         }
 
         function load_option_images(attribute_value_id, product_id) {
+
             var selected = {};
             var k = 0;
             $('[name^=\'option\']').each(function () {
@@ -576,45 +661,55 @@ if ($error){ ?>
                 url: '<?php echo $option_resources_url; ?>',
                 data: data,
                 dataType: 'json',
+                beforeSend: function(){
+                    $('.smallimage img.border').addClass('spinner-grow text-light');
+                },
                 success: function (data) {
                     if (data.length === 0) {
+                        $('.smallimage img.border').removeClass('spinner-grow');
                         return false;
                     }
-                    var html1 = '',
-                        html2 = '',
+                    var mainPicHtml = '',
+                        smallPicsHtml = '',
                         main_image = data.main;
 
                     if (main_image) {
                         if (main_image.origin === 'external') {
-                            html1 = '<a class="html_with_image">';
-                            html1 += main_image.main_html + '</a>';
+                            mainPicHtml = '<a class="html_with_image">';
+                            mainPicHtml += main_image.main_html + '</a>';
                         } else {
-                            html1 = '<a style="width:' + main_image.thumb_width + 'px; height:' + main_image.thumb_height + 'px;" class="local_image" href="' + main_image.main_url + '">';
-                            html1 += '<img style="width:' + main_image.thumb_width + 'px; height:' + main_image.thumb_height + 'px;" src="' + main_image.thumb_url + '" />';
-                            html1 += '<i class="fa fa-arrows  hidden-xs hidden-sm"></i></a>';
+                            mainPicHtml = '<a style="width:' + main_image.thumb_width + 'px; height:' + main_image.thumb_height + 'px;" '+
+                                        'class="local_image" href="' + main_image.main_url + '">';
+                            mainPicHtml += '<img class="border" '+
+                                        'style="width:' + main_image.thumb_width + 'px; height:' + main_image.thumb_height + 'px;" '+
+                                        'src="' + main_image.thumb_url + '" />';
+                            mainPicHtml += '</a>';
                         }
                     }
                     if (data.images.length > 0) {
                         for (var img in data.images) {
                             var image = data.images[img];
-                            html2 += '<li class="producthtumb">';
-                            var img_url = image.main_url;
+                            smallPicsHtml += '<li class="mb-3 pe-4 producthtumb">';
                             var tmb_url = image.thumb_url;
                             var tmb2_url = image.thumb2_url;
                             if (image.origin !== 'external') {
-                                html2 += '<a data-href="' + image.main_url + '" href="' + img_url + '" data-standard="' + tmb2_url + '"><img style="width:' + image.thumb_width + 'px; height:' + image.thumb_height + 'px;" src="' + tmb_url + '" alt="' + image.title + '" title="' + image.title + '" /></a>';
+                                smallPicsHtml += '<a data-href="' + image.main_url + '" href="Javascript:void(0);" ' +
+                                            'data-standard="' + tmb2_url + '">' +
+                                            '<img class="border" style="width:' + image.thumb_width + 'px; height:' + image.thumb_height + 'px;" '+
+                                                ' src="' + tmb_url + '" alt="' + image.title + '" title="' + image.title + '" /></a>';
                             }
-                            html2 += '</li>';
+                            smallPicsHtml += '</li>';
                         }
                     } else {
                         //no images - no action
+                        $('.smallimage img.border').removeClass('spinner-grow');
                         return false;
                     }
                     $('div.bigimage').each(function () {
-                        $(this).html(html1)
+                        $(this).html(mainPicHtml)
                     });
                     $('ul.smallimage').each(function () {
-                        $(this).html(html2);
+                        $(this).html(smallPicsHtml);
                     });
                     start_easyzoom();
                 }
@@ -622,7 +717,6 @@ if ($error){ ?>
         }
 
         function display_total_price() {
-
             $.ajax({
                 type: 'POST',
                 url: '<?php echo $calc_total_url;?>',
@@ -645,7 +739,7 @@ if ($error){ ?>
         }
 
         function review() {
-            var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+            var dismiss = '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
 
             <?php if ($review_recaptcha) { ?>
             var captcha = '&g-recaptcha-response=' + encodeURIComponent($('[name=\'g-recaptcha-response\']').val());
@@ -689,22 +783,22 @@ if ($error){ ?>
                 error: function (jqXHR, exception) {
                     var text = jqXHR.statusText + ": " + jqXHR.responseText;
                     $('#review .alert').remove();
-                    $('#review_title').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
+                    $('#review_title').after('<div class="alert alert-danger alert-dismissible">' + text + dismiss +'</div>');
                 },
                 success: function (data) {
                     if (data.error) {
                         $('#review .alert').remove();
-                        $('#review_title').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
+                        $('#review_title').after('<div class="alert alert-danger alert-dismissible">' + data.error + dismiss + '</div>');
                     } else {
                         $('#review .alert').remove();
-                        $('#review_title').after('<div class="alert alert-success">' + dismiss + data.success + '</div>');
+                        $('#review_title').after('<div class="alert alert-success alert-dismissible">' + data.success + dismiss + '</div>');
 
                         $('input[name=\'name\']').val('');
                         $('textarea[name=\'text\']').val('');
                         $('input[name=\'rating\']:checked').attr('checked', '');
                         $('input[name=\'captcha\']').val('');
                     }
-                    $('img#captcha_img').attr('src', $('img#captcha_img').attr('src') + '&' + Math.random());
+                    $('img[alt=captcha]').attr('src', $('img[alt=captcha]').attr('src') + '&' + Math.random());
                 }
             });
         }
