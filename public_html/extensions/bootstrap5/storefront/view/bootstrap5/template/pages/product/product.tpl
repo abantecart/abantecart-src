@@ -281,7 +281,9 @@ if ($error){ ?>
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingDescription">
                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDescription" aria-expanded="true"
-                                aria-controls="collapseDescription"><?php echo $tab_description; ?></button>
+                                aria-controls="collapseDescription">
+                            <i class="fa-solid fa-circle-info me-2 "></i>
+                            <?php echo $tab_description; ?></button>
                     </h2>
                     <div id="collapseDescription" class="accordion-collapse collapse show" aria-labelledby="headingDescription" data-bs-parent="#productDetailsAccordion">
                         <div class="accordion-body">
@@ -319,8 +321,9 @@ if ($error){ ?>
 <?php if ($display_reviews || $review_form_status){ ?>
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingReview">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseReview"
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseReview"
                                 aria-expanded="true" aria-controls="collapseReview">
+                            <i class="fa-solid fa-comment-dots me-2"></i>
                             <?php echo $tab_review; ?>
                         </button>
                     </h2>
@@ -358,14 +361,14 @@ if ($error){ ?>
                                             </div>
                                         </div>
 
-                                        <?php if ($review_recaptcha){ ?>
-                                            <div class="clear form-group">
-                                                <div class="form-inline col-md-6 col-md-offset-1 col-sm-6">
-                                                    <?php echo $review_recaptcha; ?>
-                                                </div>
-                                                <div class="form-inline col-md-5 col-sm-6">
-                                                    <?php echo $review_button; ?>
-                                                </div>
+                                        <?php
+                                        $review_button->style .= ' ms-auto text-nowrap mt-2 mt-md-0';
+                                        if ($review_recaptcha){ ?>
+                                            <div class="form-group mb-3 d-flex flex-wrap">
+                                            <?php
+                                                echo $review_recaptcha;
+                                                echo $review_button;
+                                            ?>
                                             </div>
                                         <?php } else{ ?>
                                             <div class="form-group mb-3 d-flex flex-wrap">
@@ -379,10 +382,7 @@ if ($error){ ?>
                                                                 'placeholder' => $entry_captcha
                                                             ]
                                                     );
-                                                     ?>
-                                                    <?php
-                                                        $review_button->style .= ' ms-auto text-nowrap mt-2 mt-md-0';
-                                                        echo $review_button; ?>
+                                                    echo $review_button; ?>
 
                                             </div>
                                         <?php } ?>
@@ -398,7 +398,8 @@ if ($error){ ?>
 if ($tags){ ?>
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingTags">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTags" aria-expanded="true" aria-controls="collapseTags">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTags" aria-expanded="true" aria-controls="collapseTags">
+                            <i class="fa-solid fa-tags me-2"></i>
                             <?php echo $text_tags; ?>
                         </button>
                     </h2>
@@ -421,7 +422,8 @@ if ($tags){ ?>
 if ($related_products){ ?>
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingRelated">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRelated" aria-expanded="true" aria-controls="collapseRelated">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRelated" aria-expanded="true" aria-controls="collapseRelated">
+                            <i class="fa-solid fa-shuffle me-2"></i>
                             <?php echo $tab_related; ?> (<?php echo sizeof((array)$related_products); ?>)
                         </button>
                     </h2>
@@ -471,9 +473,9 @@ if ($related_products){ ?>
 if ($downloads){ ?>
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingDownloads">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDownloads"
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDownloads"
                                 aria-expanded="true" aria-controls="collapseDownloads">
-                            <?php echo $tab_downloads; ?>
+                            <i class="fa-solid fa-file-export me-2"></i><?php echo $tab_downloads; ?>
                         </button>
                     </h2>
                     <div id="collapseDownloads" class="accordion-collapse collapse" aria-labelledby="headingDownloads" data-bs-parent="#productDetailsAccordion">
@@ -522,7 +524,7 @@ if( $hookVarArray ){
     foreach($hookVarArray as $key=>$hkVar){ ?>
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="heading<?php echo $key; ?>>">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?php echo $key; ?>"
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?php echo $key; ?>"
                                 aria-expanded="true" aria-controls="collapse<?php echo $key; ?>">
                             <?php echo $hkVar['title']; ?>
                         </button>
@@ -545,9 +547,6 @@ if( $hookVarArray ){
         //waiting for jquery loaded!
         if (!window.jQuery) return setTimeout(load, 50);
         //jQuery-depended code
-
-        var orig_imgs = $('div.bigimage').html();
-        var orig_thumbs = $('ul.smallimage').html();
 
         start_easyzoom();
         display_total_price();
