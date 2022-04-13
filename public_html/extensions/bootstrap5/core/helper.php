@@ -62,7 +62,7 @@ function renderSFMenu($menuItems, $level = 0, $parentId = '', $options = [ ])
             $id = 'menu_'.$item[$idKey];
             $css = 'dropdown-toggle text-nowrap '. ($level ? 'dropdown-item ' : 'nav-link ');
             $output .= '<a id="'.$id.'" 
-                            href="#" role="button" 
+                            href="'.$item['href'].'" 
                             class="'.$css.'" 
                             data-bs-toggle="dropdown" 
                             data-bs-target="dropdown" 

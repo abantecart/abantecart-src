@@ -5,8 +5,49 @@ $(document).ready(function(){
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
           return new bootstrap.Tooltip(tooltipTriggerEl)
         });
+
+        // List & Grid View
+        $('#list_view_btn').on('click',
+            function () {
+                $('#list_view_btn').addClass('btn-secondary').removeClass('btn-light');
+                $('#product_cell_grid').fadeOut();
+                $('#product_list').fadeIn();
+                $('#grid_view_btn').addClass('btn-light').removeClass('btn-secondary');
+            }
+        );
+        $('#grid_view_btn').on('click',
+            function () {
+                $('#grid_view_btn').addClass('btn-secondary').removeClass('btn-light');
+                $('#product_list').fadeOut();
+                $('#product_cell_grid').fadeIn();
+                $('#list_view_btn').addClass('btn-light').removeClass('btn-secondary');
+            }
+        );
+
+        $('#search_form .search-category').on(
+            'click',
+            function(){
+                var ref = $(this).find('a');
+                $('input#filter_category_id').val(ref.attr('data-id'))
+                $('a#category_selected').text(ref.text());
+            }
+        );
 });
 
+function contentSearch(url) {
+    url += '&' + $('#search_page_form').serialize();
+    let sortFld = $('#sort');
+    if (sortFld.val().length>0) {
+        url += '&sort=' + sortFld.val();
+    }
+    location = url;
+}
+
+function ResortProductGrid(url) {
+    url += '&sort=' + $('#sort').val();
+    url += '&limit=' + $('#limit').val();
+    location = url;
+}
 
 // $('document').ready(function () {
 //
@@ -74,19 +115,7 @@ $(document).ready(function(){
 //         $(parent).html($(parent_image).find('img').clone());
 //     });
 //
-//     // List & Grid View
-//     $('#list').click(function () {
-//         $(this).addClass('btn-orange').children('i').addClass('icon-white');
-//         $('.grid').fadeOut();
-//         $('.list').fadeIn();
-//         $('#grid').removeClass('btn-orange').children('i').removeClass('icon-white')
-//     });
-//     $('#grid').click(function () {
-//         $(this).addClass('btn-orange').children('i').addClass('icon-white');
-//         $('.list').fadeOut();
-//         $('.grid').fadeIn();
-//         $('#list').removeClass('btn-orange').children('i').removeClass('icon-white')
-//     });
+
 //
 //     // Product page tab
 //     $('#myTab a:first').tab('show');

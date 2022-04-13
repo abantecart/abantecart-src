@@ -20,7 +20,9 @@ $models = [
 $templates = [
     'storefront' => [
         'blocks/banner_block_content.tpl',
-        'blocks/listing_block/popular_brands_content_bottom.tpl'
+        'blocks/listing_block/popular_brands_content_bottom.tpl',
+        'blocks/product_cell_grid.tpl',
+        'blocks/product_list.tpl'
     ],
     'admin'      => [],
 ];

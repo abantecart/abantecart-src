@@ -70,7 +70,7 @@ echo $$header; ?>
             <!-- content top blocks placeholder (EOF) -->
             <?php } ?>
 
-            <div class="container mx-3">
+            <div class="container-fluid">
             <?php echo $content; ?>
             </div>
 

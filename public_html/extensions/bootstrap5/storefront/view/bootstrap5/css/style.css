@@ -5,6 +5,10 @@ body {
   padding-bottom: 3rem;
   color: #5a5a5a;
 }
+
+.btn-default{
+  composes: btn-secondary;
+}
 /* Basic print styles */
 .visible-print  { display: inherit !important; }
 .hidden-print   { display: none !important; }
@@ -113,4 +117,8 @@ ul.dropdown-menu.topcartopen{
 #myimage{
     width: 500px;
     height: 500px;
+}
+
+#product_list{
+  display: none;
 }
