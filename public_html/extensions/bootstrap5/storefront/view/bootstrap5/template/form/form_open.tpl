@@ -1,10 +1,13 @@
 <form id="<?php echo $id ?>" <?php
-if($action) {
-    ?> action="<?php echo $action ?>"<?php
+echo $action ? ' action="'.$action.'" ' :'';
+echo $method ? ' method="'.$method.'" ' : '';
+echo $enctype ? ' enctype="'.$enctype.'" ' : '';
+// backward compatibility
+$res = preg_match('/(class=)(?<==)["]?((?:.(?!["]?\\s+(\S+)=|[>"]))+.)["]?/', $attr, $matches);
+if($res){
+    $style .= ' '.$matches[2];
+    $attr = str_replace($matches[0], '', $attr);
 }
-if($method) {
-    ?> method="<?php echo $method ?>"<?php }
-
-if($enctype) {
-    ?> enctype="<?php echo $enctype ?>"<?php }
-echo $attr ?> >
+echo $attr;
+//if data was posted
+echo $style ? ' class="'.trim($style).'" ' : ''; ?>>

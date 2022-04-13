@@ -6,9 +6,6 @@ body {
   color: #5a5a5a;
 }
 
-.btn-default{
-  composes: btn-secondary;
-}
 /* Basic print styles */
 .visible-print  { display: inherit !important; }
 .hidden-print   { display: none !important; }
@@ -121,4 +118,10 @@ ul.dropdown-menu.topcartopen{
 
 #product_list{
   display: none;
+}
+
+/* sitemap */
+.sitemap-category-list li, .sitemap-category-list li a {
+  padding: .5rem 1rem;
+  text-decoration: none;
 }

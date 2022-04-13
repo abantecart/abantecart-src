@@ -1,6 +1,7 @@
 <select name="<?php echo $name ?>" id="<?php echo $id ?>" class="form-select <?php echo $style; ?>"
 		data-placeholder="<?php echo $placeholder ?>" <?php echo $attr ?>
-		<?php echo $disabled ? ' disabled="disabled" ' : ''; ?>>
+		<?php echo $disabled ? ' disabled="disabled" ' : ''; ?>
+        <?php if ( $required ) { echo 'required'; }?>>
 	<?php
 	if(!current((array)$value) && $placeholder){ ?>
 		<option value=""><?php echo $placeholder; ?></option>

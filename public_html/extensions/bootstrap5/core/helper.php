@@ -43,7 +43,7 @@ function renderSFMenu($menuItems, $level = 0, $parentId = '', $options = [ ])
         }
         $item_title = $item['text'] ?: $item['title'] ?: $item['name'];
         $hasChild = (bool) $item['children'];
-        $output .= '<li class="dropup">';
+        $output .= '<li class="dropdown">';
         //check icon rl type html, image or none.
         $rl_id = $item['icon'] ? : $item['icon_rl_id'];
         $icon = '';

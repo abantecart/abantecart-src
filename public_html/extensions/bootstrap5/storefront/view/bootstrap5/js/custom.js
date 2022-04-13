@@ -1,10 +1,19 @@
 $(document).ready(function(){
+    //dropdown menu fix of parent
+    $('li.dropdown>a').on('click', function (e) {
+        e.preventDefault();
+        let href = $(this).attr('href');
+        if(href !== '#') {
+            location = href;
+        }
+    })
+
     $('[data-bs-toggle="popover"]').popover({});
 
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-          return new bootstrap.Tooltip(tooltipTriggerEl)
-        });
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
 
         // List & Grid View
         $('#list_view_btn').on('click',
@@ -23,7 +32,7 @@ $(document).ready(function(){
                 $('#list_view_btn').addClass('btn-light').removeClass('btn-secondary');
             }
         );
-
+        //search bar on top
         $('#search_form .search-category').on(
             'click',
             function(){
@@ -33,7 +42,7 @@ $(document).ready(function(){
             }
         );
 });
-
+// search page
 function contentSearch(url) {
     url += '&' + $('#search_page_form').serialize();
     let sortFld = $('#sort');
@@ -42,7 +51,7 @@ function contentSearch(url) {
     }
     location = url;
 }
-
+// product list
 function ResortProductGrid(url) {
     url += '&sort=' + $('#sort').val();
     url += '&limit=' + $('#limit').val();

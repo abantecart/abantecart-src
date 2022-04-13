@@ -25,25 +25,16 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        function searchResult(){
+            contentSearch('<?php echo $this->html->getURL('product/search', '&limit='.$limit); ?>');
+        }
         $('#keyword').keydown(function (e) {
             if (e.keyCode === 13) {
-                contentSearch('<?php echo $this->html->getURL('product/search', '&limit='.$limit); ?>');
+                searchResult()
             }
         });
-
-
-        $('#sort').change(function () {
-            contentSearch('<?php echo $this->html->getURL('product/search', '&limit='.$limit); ?>');
-        });
-
-        $('#search_page_form #search_button').on(
-            'click',
-            function () {
-                contentSearch('<?php echo $this->html->getURL('product/search', '&limit='.$limit); ?>');
-            }
-        );
+        $('#sort').change(searchResult);
+        $('#search_page_form #search_button').on( 'click', searchResult );
     });
-
-
 
 </script>
