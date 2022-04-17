@@ -41,7 +41,18 @@ $(document).ready(function(){
                 $('a#category_selected').text(ref.text());
             }
         );
+
+
 });
+
+function openModalRemote(id, url) {
+
+    let modal = $(id);
+    let modalBody = $(id + ' .modal-body');
+    modalBody.load(url);
+    modal.modal('show');
+}
+
 // search page
 function contentSearch(url) {
     url += '&' + $('#search_page_form').serialize();

@@ -38,6 +38,6 @@
         </div>
 
         <div class="row mt-2">
-        <?php echo $form_output; ?>
+            <?php echo $form_output; ?>
         </div>
     </div>

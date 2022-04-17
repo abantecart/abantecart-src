@@ -149,10 +149,8 @@ if ($error){ ?>
                                                 <?php
                                                     echo $this->getHookVar('product_option_'.$option['name'].'_additional_info');
                                                 ?>
-                                                <label class="control-label fw-bold"><?php echo $option['name']; ?></label>
-                                                <div class="input-group">
+                                                <label class="control-label fw-bold mb-2"><?php echo $option['name']; ?></label>
                                                     <?php echo $option['html'];	?>
-                                                </div>
                                             </div>
                                         <?php } ?>
                                     <?php } ?>
@@ -178,15 +176,17 @@ if ($error){ ?>
                                     <?php } ?>
 
                                     <?php if(!$product_info['call_to_order']){ ?>
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text fs-3"><?php echo $text_qty; ?></span>
-                                            <?php if ($minimum > 1) { ?>
-                                                <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="<?php echo_html2view($text_minimum);?>">&gt;= <?php echo $minimum; ?></span>
-                                            <?php } ?>
-                                            <?php echo $form['minimum'];
-                                            if ($maximum > 0) { ?>
-                                            <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="<?php echo_html2view($text_maximum);?>">&lt;= <?php echo $maximum; ?></span>
-                                            <?php } ?>
+                                        <div class="form-group d-flex mb-3 align-items-stretch">
+                                                <label class="me-3 fs-3"><?php echo $text_qty; ?></label>
+                                                <?php if ($minimum > 1) { ?>
+                                                    <div class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="<?php echo_html2view($text_minimum);?>">&gt;= <?php echo $minimum; ?></div>
+                                                <?php } ?>
+                                                <div class="col-5 align-items-stretch">
+                                                <?php echo $form['minimum']; ?> </div>
+                                            <?php
+                                                if ($maximum > 0) { ?>
+                                                <div class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="<?php echo_html2view($text_maximum);?>">&lt;= <?php echo $maximum; ?></div>
+                                                <?php } ?>
                                         </div>
                                         <div class="m-4 total-price-holder d-flex">
                                             <div class="fs-5 fw-3 me-2 mt-auto"><?php echo $text_total_price; ?></div>
@@ -337,28 +337,22 @@ if ($error){ ?>
                                     <fieldset>
                                         <div class="form-group mb-3">
                                             <label class="control-label fw-bold"><?php echo $entry_rating; ?></label>
-                                            <div class="input-group">
                                                 <?php
                                                 $rating_element->required = true;
                                                 echo $rating_element; ?>
-                                            </div>
                                         </div>
                                         <div class="form-group mb-3">
                                             <label class="control-label fw-bold"><?php echo $entry_name; ?></label>
-                                            <div class="input-group">
                                                 <?php
                                                 $review_name->required = true;
                                                 echo $review_name; ?>
-                                            </div>
                                         </div>
                                         <div class="form-group mb-3">
                                             <label class="control-label fw-bold"><?php echo $entry_review; ?></label>
                                             <div class="form-text mb-2"><?php echo $text_note; ?></div>
-                                            <div class="input-group">
                                                 <?php
                                                 $review_text->required = true;
                                                 echo $review_text; ?>
-                                            </div>
                                         </div>
 
                                         <?php

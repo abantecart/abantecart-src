@@ -53,16 +53,21 @@
             <?php echo $form2['form_open']; ?>
                 <fieldset >
                     <div class="form-floating mb-3">
-                        <?php echo $form2['loginname']?>
-                        <label for="<?php echo $form2['loginname']->element_id; ?>>">
+                        <?php
+                            $form2['loginname']->set('no_wrapper',true);
+                            echo $form2['loginname'];
+                        ?>
+                        <label for="<?php echo $form2['loginname']->element_id; ?>">
                         <?php
                             echo $noemaillogin ? $entry_loginname : $entry_email_address;
                         ?>
                         </label>
                     </div>
                     <div class="form-floating mb-3">
-                        <?php echo $form2['password']?>
-                        <label for="<?php echo $form2['password']->element_id; ?>>"><?php echo $entry_password; ?></label>
+                        <?php
+                        $form2['password']->set('no_wrapper',true);
+                        echo $form2['password']?>
+                        <label for="<?php echo $form2['password']->element_id; ?>"><?php echo $entry_password; ?></label>
                     </div>
                     <div class="d-flex align-items-center">
                         <div id="rescue_links me-2 d-flex align-items-start">
