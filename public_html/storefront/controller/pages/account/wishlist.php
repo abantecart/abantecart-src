@@ -183,6 +183,15 @@ class ControllerPagesAccountWishlist extends AController
                 $this->data['continue'] = $this->html->getHomeURL();
             }
 
+            $this->data['button_continue'] = HtmlElementFactory::create(
+                [
+                    'name'  => 'continue',
+                    'type'  => 'button',
+                    'text'  => $this->language->get('button_continue'),
+                    'href'  => $this->data['continue'],
+                ]
+            );
+
             $this->view->assign('error', '');
             if ($this->session->data['error']) {
                 $this->view->assign('error', $this->session->data['error']);
@@ -217,6 +226,16 @@ class ControllerPagesAccountWishlist extends AController
         }
 
         $this->data['cart'] = $this->html->getSecureURL($cart_rt);
+
+        $this->data['button_cart'] = HtmlElementFactory::create(
+            [
+                'name'  => 'cart',
+                'type'  => 'button',
+                'text'  => $this->language->get('button_cart'),
+                'href'  => $this->data['cart'],
+                'style' => 'button',
+            ]
+        );
 
         $this->view->batchAssign($this->data);
         $this->processTemplate();
