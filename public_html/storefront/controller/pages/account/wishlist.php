@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2022 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,18 +24,15 @@ if (!defined('DIR_CORE')) {
 
 class ControllerPagesAccountWishlist extends AController
 {
-    private $error = array();
-    public $data = array();
 
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         if (!$this->customer->isLogged()) {
             $this->session->data['redirect'] = $this->html->getSecureURL('account/wishlist');
-            $this->redirect($this->html->getSecureURL('account/login'));
+            redirect($this->html->getSecureURL('account/login'));
         }
 
         $this->document->setTitle($this->language->get('heading_title'));
@@ -58,27 +56,32 @@ class ControllerPagesAccountWishlist extends AController
 
         $this->document->resetBreadcrumbs();
 
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getHomeURL(),
-            'text'      => $this->language->get('text_home'),
-            'separator' => false,
-        ));
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getHomeURL(),
+                'text'      => $this->language->get('text_home'),
+                'separator' => false,
+            ]
+        );
 
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('account/account'),
-            'text'      => $this->language->get('text_account'),
-            'separator' => $this->language->get('text_separator'),
-        ));
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('account/account'),
+                'text'      => $this->language->get('text_account'),
+                'separator' => $this->language->get('text_separator'),
+            ]
+        );
 
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('account/wishlist'),
-            'text'      => $this->language->get('heading_title'),
-            'separator' => $this->language->get('text_separator'),
-        ));
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('account/wishlist'),
+                'text'      => $this->language->get('heading_title'),
+                'separator' => $this->language->get('text_separator'),
+            ]
+        );
 
-        $whishlist = $this->customer->getWishList();
-        if ($whishlist) {
-
+        $wishList = $this->customer->getWishList();
+        if ($wishList) {
             $this->loadModel('tool/seo_url');
             $this->loadModel('catalog/product');
 
@@ -86,13 +89,18 @@ class ControllerPagesAccountWishlist extends AController
             $resource = new AResource('image');
             $thumbnails = $resource->getMainThumbList(
                 'products',
-                array_keys($whishlist),
+                array_keys($wishList),
                 $this->config->get('config_image_cart_width'),
                 $this->config->get('config_image_cart_width')
             );
-            $products = array();
-            foreach ($whishlist as $product_id => $timestamp) {
+            $promotion = new APromotion();
+            $products = [];
+            $stock_info = $this->model_catalog_product->getProductsStockInfo(array_keys($wishList));
+            foreach ($wishList as $product_id => $timestamp) {
                 $product_info = $this->model_catalog_product->getProduct($product_id);
+                if (!$product_info) {
+                    continue;
+                }
                 $thumbnail = $thumbnails[$product_id];
                 $options = $this->model_catalog_product->getProductOptions($product_id);
                 if ($options) {
@@ -101,16 +109,69 @@ class ControllerPagesAccountWishlist extends AController
                     $add = $this->html->getSecureURL($cart_rt, '&product_id='.$product_id, '&encode');
                 }
 
-                $products[] = array(
-                    'product_id'    => $product_id,
-                    'name'          => $product_info['name'],
-                    'model'         => $product_info['model'],
-                    'thumb'         => $thumbnail,
-                    'added'         => dateInt2Display($timestamp),
-                    'price'         => $this->currency->format($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax'))),
-                    'href'          => $this->html->getSEOURL('product/product', '&product_id='.$product_id, true),
-                    'call_to_order' => $product_info['call_to_order'],
-                    'add'           => $add,
+                $special = false;
+                $discount = $promotion->getProductDiscount($product_id);
+                if ($discount) {
+                    $price = $this->currency->format(
+                        $this->tax->calculate(
+                            $discount,
+                            $product_info['tax_class_id'],
+                            $this->config->get('config_tax')
+                        )
+                    );
+                } else {
+                    $price = $this->currency->format(
+                        $this->tax->calculate(
+                            $product_info['price'],
+                            $product_info['tax_class_id'],
+                            $this->config->get('config_tax')
+                        )
+                    );
+                    $special = $promotion->getProductSpecial($product_info['product_id']);
+                    if ($special) {
+                        $special = $this->currency->format(
+                            $this->tax->calculate(
+                                $special,
+                                $product_info['tax_class_id'],
+                                $this->config->get('config_tax')
+                            )
+                        );
+                    }
+                }
+
+                //check for stock status, availability and config
+                $track_stock = false;
+                $in_stock = false;
+                $no_stock_text = $this->language->get('text_out_of_stock');
+                $stock_checkout = $product_info['stock_checkout'] === ''
+                    ? $this->config->get('config_stock_checkout')
+                    : $product_info['stock_checkout'];
+                if ($stock_info[$product_id]['subtract']) {
+                    $track_stock = true;
+                    $total_quantity = $this->model_catalog_product->hasAnyStock($product_id);
+                    //we have stock or out of stock checkout is allowed
+                    if ($total_quantity > 0 || $stock_checkout) {
+                        $in_stock = true;
+                    }
+                }
+
+                $products[] = array_merge(
+                    $product_info,
+                    [
+                        'product_id'    => $product_id,
+                        'name'          => $product_info['name'],
+                        'model'         => $product_info['model'],
+                        'thumb'         => $thumbnail,
+                        'added'         => dateInt2Display($timestamp),
+                        'price'         => $price,
+                        'special'       => $special,
+                        'href'          => $this->html->getSEOURL('product/product', '&product_id='.$product_id, true),
+                        'call_to_order' => $product_info['call_to_order'],
+                        'add'           => $add,
+                        'in_stock'      => $in_stock,
+                        'no_stock_text' => $no_stock_text,
+                        'track_stock'   => $track_stock,
+                    ]
                 );
             }
             $this->data['products'] = $products;
@@ -138,18 +199,19 @@ class ControllerPagesAccountWishlist extends AController
             $this->data['display_price'] = $display_price;
 
             $this->view->setTemplate('pages/account/wishlist.tpl');
-
         } else {
             $this->data['heading_title'] = $this->language->get('heading_title');
             $this->data['text_error'] = $this->language->get('text_empty_wishlist');
 
-            $this->data['button_continue'] = HtmlElementFactory::create(array(
-                'name'  => 'continue',
-                'type'  => 'button',
-                'text'  => $this->language->get('button_continue'),
-                'href'  => $this->html->getHomeURL(),
-                'style' => 'button',
-            ));
+            $this->data['button_continue'] = HtmlElementFactory::create(
+                [
+                    'name'  => 'continue',
+                    'type'  => 'button',
+                    'text'  => $this->language->get('button_continue'),
+                    'href'  => $this->html->getHomeURL(),
+                    'style' => 'button',
+                ]
+            );
 
             $this->view->setTemplate('pages/error/not_found.tpl');
         }
@@ -158,7 +220,6 @@ class ControllerPagesAccountWishlist extends AController
 
         $this->view->batchAssign($this->data);
         $this->processTemplate();
-
     }
 
 }
