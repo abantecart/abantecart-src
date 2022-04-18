@@ -86,7 +86,7 @@
                                             <?php } else { ?>
                                                 <div class="fs-4 text-black"><?php echo $product['price'] . $tax_message; ?></div>
                                             <?php } ?>
-                                        </div>
+                                    </div>
                                         <?php echo $this->getHookvar('product_listing_details1_'.$product['product_id']); ?>
                                     <div class="pricetag flex-item">
                                         <?php if($product['call_to_order']){ ?>

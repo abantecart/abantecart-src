@@ -5,12 +5,12 @@
             'dashboard' => [
                     'url'  => $account,
                     'text' => $text_account_dashboard,
-                    'icon' => 'fa-user'
+                    'icon' => 'fa-gauge-high'
             ],
             'wishlist' => [
                     'url'  => $wishlist,
                     'text' => $text_account_wishlist,
-                    'icon' => 'fa-heart-circle-check'
+                    'icon' => 'fa-heart-pulse'
             ],
             'information' => [
                     'url'  => $information,

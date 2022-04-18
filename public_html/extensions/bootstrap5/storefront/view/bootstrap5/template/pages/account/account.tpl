@@ -83,16 +83,18 @@
             echo $this->getHookVar('account_newsletter_dash_icons');
         }
     ?>
-        <a class="position-relative border border-success shadow bg-light text-secondary rounded-2 text-decoration-none me-4 mt-4 text-center p-5"
-           data-bs-toggle="tooltip"
+        <a class="border border-success shadow bg-light text-secondary rounded-2 text-decoration-none m-4 text-center p-5"
            title="<?php echo_html2view($item['text']); ?>"
            href="<?php echo $item['url']; ?>">
-            <i class="fs-1 fa <?php echo $item['icon']; ?> fa-xxl"></i>
-            <?php if($item['badge']){?>
-            <span class="badge position-absolute top-0 start-80 translate-middle rounded-pill bg-success ">
-            <?php echo $item['badge']; ?>
-            </span>
-            <?php } ?>
+            <div class="position-relative p-3">
+                <i class="fs-1 fa <?php echo $item['icon']; ?> fa-xxl"></i>
+                <?php if($item['badge']){?>
+                    <span class="fs-5 shadow badge position-absolute top-0 start-100 translate-middle rounded-pill bg-success ">
+                        <?php echo $item['badge']; ?>
+                    </span>
+                <?php } ?>
+            </div>
+            <p class="fs-4 pt-4 text-wrap"><?php echo $item['text']; ?></p>
         </a>
     <?php
         //hookvar before transactions-item

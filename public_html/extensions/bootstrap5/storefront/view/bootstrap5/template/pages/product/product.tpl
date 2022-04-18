@@ -426,7 +426,7 @@ if ($related_products){ ?>
                             <?php
                             $products = $related_products;
                             //use common template for all product grids
-                            include($this->templateResource('/template/blocks/product_list.tpl'));
+                            include($this->templateResource('/template/blocks/product_cell_grid.tpl'));
                             ?>
                             <ul class="row side_prd_list">
                                     <?php
