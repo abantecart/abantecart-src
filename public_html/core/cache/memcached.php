@@ -352,7 +352,7 @@ class ACacheDriverMemcached extends ACacheDriver
 
     protected function _getCacheId($key, $group)
     {
-        return $group.'.'.$this->_hashCacheKey($key, $group);
+        return $this->secret.'.'.$group.'.'.$this->_hashCacheKey($key, $group);
     }
 
     /**
