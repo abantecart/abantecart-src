@@ -53,7 +53,7 @@
             </div>
         </div>
     </div>
-<script>
+<script type="application/javascript">
     $(".reload_parent").on("click", function (e) {
         var url = $(this).attr("data-href");
         if (window.parentIFrame) {
@@ -63,5 +63,41 @@
         }
         return false;
     });
+    <?php
+    if ($this->config->get('config_google_analytics_code')){
+    //get ecommerce tracking data from checkout page
+    /**
+     * @see ControllerResponsesCheckoutPay::_save_google_analytics()
+     */
+    $ga_data = $this->registry->get('google_analytics_data');
+    if($ga_data){ ?>
+        ga('require', 'ecommerce');
+        ga('ecommerce:addTransaction', {
+            'id': <?php js_echo($ga_data['transaction_id']);?>,
+            'affiliation': <?php js_echo($ga_data['store_name']);?>,
+            'revenue': <?php js_echo($ga_data['total']);?>,
+            'shipping': <?php js_echo($ga_data['shipping']);?>,
+            'tax': <?php js_echo($ga_data['tax']);?>,
+            'currency': <?php js_echo($ga_data['currency_code']);?>,
+            'city':  <?php js_echo($ga_data['city']);?>,
+            'state':  <?php js_echo($ga_data['state']);?>,
+            'country':  <?php js_echo($ga_data['country']);?>
+        });
+
+    <?php if($ga_data['items']){
+            foreach($ga_data['items'] as $item){ ?>
+                ga('ecommerce:addItem', {
+                    'id': <?php js_echo($item['id']); ?>,
+                    'name': <?php js_echo($item['name']); ?>,
+                    'sku': <?php  js_echo($item['sku']); ?>,
+                    'brand': <?php  js_echo($item['brand']); ?>,
+                    'price': <?php  echo $item['price']; ?>,
+                    'quantity': <?php  echo $item['quantity']; ?>
+                });
+            <?php }
+        }?>
+        ga('ecommerce:send');
+        <?php } ?>
+    <?php } ?>
 </script>
 <?php echo $footer; ?>
