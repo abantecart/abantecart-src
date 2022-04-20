@@ -1462,8 +1462,8 @@ class ModelSaleOrder extends Model
         }
 
         if (isset($data['filter_name'])) {
-            $sql .= " AND CONCAT(o.firstname, ' ', o.lastname) 
-                    LIKE '%".$this->db->escape($data['filter_name'], true)."%' ";
+            $sql .= " AND LOWER(CONCAT(o.firstname, ' ', o.lastname)) 
+                    LIKE LOWER('%".$this->db->escape($data['filter_name'], true)."%') ";
         }
 
         if (isset($data['filter_date_added'])) {
