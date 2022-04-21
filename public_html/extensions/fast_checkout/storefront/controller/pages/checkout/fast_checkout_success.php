@@ -25,6 +25,10 @@ class ControllerPagesCheckoutFastCheckoutSuccess extends AController
 {
     public function main()
     {
+        //prevent access to other orders
+        if($this->session->data['processed_order_id'] != $this->request->get['order_id']){
+            redirect($this->html->getHomeURL());
+        }
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 

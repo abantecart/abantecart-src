@@ -887,7 +887,7 @@ class ControllerResponsesCheckoutPay extends AController
     {
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $order_id = $this->request->get['order_id'];
-        if (!$order_id || !is_numeric($order_id)) {
+        if (!$order_id || !is_numeric($order_id) || $this->session->data['processed_order_id'] != $order_id) {
             $this->error['message'] = $this->language->get('fast_checkout_error_unexpected');
             $this->main();
             return;
@@ -987,6 +987,7 @@ class ControllerResponsesCheckoutPay extends AController
             $this->data['order_finished_message'] = $this->language->get('fast_checkout_order_processing_message');
         }
 
+        $order_data['order_products'] = $this->model_account_order->getOrderProducts($order_id);
         $this->_save_google_analytics($order_data);
 
         $this->_clear_data();
@@ -1241,9 +1242,7 @@ class ControllerResponsesCheckoutPay extends AController
             ];
         }
 
-        $this->registry->set(
-            'google_analytics_data',
-            array_merge(
+        $ga_data = array_merge(
                 [
                     'transaction_id' => (int) $order_data['order_id'],
                     'store_name'     => $this->config->get('store_name'),
@@ -1251,9 +1250,36 @@ class ControllerResponsesCheckoutPay extends AController
                     'total'          => $this->currency->format_number($order_total),
                     'tax'            => $this->currency->format_number($order_tax),
                     'shipping'       => $this->currency->format_number($order_shipping),
-                ], $addr
-            )
-        );
+            ], $addr);
+
+        if ($order_data['order_products']) {
+            $ga_data['items'] = [];
+            foreach ($order_data['order_products'] as $product) {
+                //try to get option sku for product. If not presents - take main sku from product details
+                $options = $this->model_account_order->getOrderOptions((int)$order_data['order_id'], $product['order_product_id']);
+                $sku = '';
+                foreach ($options as $opt) {
+                    if ($opt['sku']) {
+                        $sku = $opt['sku'];
+                        break;
+                    }
+                }
+                if (!$sku) {
+                    $sku = $product['sku'];
+                }
+
+                $ga_data['items'][] = [
+                    'id'       => (int)$order_data['order_id'],
+                    'name'     => $product['name'],
+                    'sku'      => $sku,
+                    'price'    => $product['price'],
+                    'quantity' => $product['quantity'],
+                ];
+            }
+        }
+
+        $this->registry->set('google_analytics_data', $ga_data);
+
     }
 
     protected function _clear_data()
