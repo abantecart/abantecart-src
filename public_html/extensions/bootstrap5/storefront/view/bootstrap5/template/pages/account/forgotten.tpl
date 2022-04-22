@@ -34,8 +34,8 @@ if ($error) { ?>
     </div>
 
     <div class="ps-4 p-3 col-12 d-flex flex-wrap">
-        <a href="<?php echo $back; ?>" class="btn btn-secondary" title="<?php echo $form['back']->text ?>">
-            <i class="<?php echo $form['back']->{'icon'}; ?>"></i>
+        <a href="<?php echo $back; ?>" class="btn btn-secondary" title="<?php echo_html2view($form['back']->text); ?>">
+            <i class="<?php echo $form['back']->icon; ?>"></i>
             <?php echo $form['back']->text ?>
         </a>
         <button id="submit_button" type="submit"
