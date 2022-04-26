@@ -217,6 +217,7 @@ class ModelCatalogProduct extends Model
         if (!(int) $product_id) {
             return [];
         }
+        $languageId = (int) $this->config->get('storefront_language_id');
         $query = $this->db->query(
             "SELECT p.*,
                     pd.name,
@@ -230,18 +231,19 @@ class ModelCatalogProduct extends Model
                 FROM ".$this->db->table("products")." p
                 LEFT JOIN ".$this->db->table("product_descriptions")." pd
                     ON (p.product_id = pd.product_id
-                            AND pd.language_id = '".(int) $this->config->get('storefront_language_id')."')
+                            AND pd.language_id = '".$languageId."')
                 LEFT JOIN ".$this->db->table("products_to_categories")." p2c 
                     ON p2c.product_id = p.product_id
                 LEFT JOIN ".$this->db->table("weight_classes")." wc 
                     ON (p.weight_class_id = wc.weight_class_id)
                 LEFT JOIN ".$this->db->table("weight_class_descriptions")." wcd
                     ON (wc.weight_class_id = wcd.weight_class_id
-                            AND wcd.language_id = '".(int) $this->config->get('storefront_language_id')."' )
+                            AND wcd.language_id = '".$languageId."' )
                 LEFT JOIN ".$this->db->table("length_classes")." mc 
                     ON (p.length_class_id = mc.length_class_id)
                 LEFT JOIN ".$this->db->table("length_class_descriptions")." mcd 
-                    ON (mc.length_class_id = mcd.length_class_id)
+                    ON (mc.length_class_id = mcd.length_class_id 
+                            AND mcd.language_id = '".$languageId."' )
                 WHERE p.product_id = '".(int) $product_id."' 
                     AND p.date_available <= NOW() 
                     AND p.status = '1'"
