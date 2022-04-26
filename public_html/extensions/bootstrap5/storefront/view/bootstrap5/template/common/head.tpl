@@ -66,14 +66,6 @@ if ($google_tag_manager) { ?>
 
 <script type="text/javascript" src="<?php echo $this->templateResource('/js/jquery-3.6.0.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo $this->templateResource('/js/bootstrap.bundle.min.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/js/custom.js'); ?>"></script>
-
-<?php
-foreach ($scripts as $script) { ?>
-    <script type="text/javascript" src="<?php echo $script; ?>" defer></script>
-<?php
-} ?>
-
 <script type="text/javascript">
     let baseUrl = '<?php echo $base; ?>';
     let samesite = '<?php echo((defined('HTTPS') && HTTPS) ? 'None; secure=1;' : 'lax; secure=0;'); ?>';
@@ -87,5 +79,11 @@ foreach ($scripts as $script) { ?>
     if($cart_ajax){ ?>
     let cart_ajax_url = '<?php echo $cart_ajax_url; ?>';
     <?php } ?>
-
 </script>
+<script type="text/javascript" src="<?php echo $this->templateResource('/js/custom.js'); ?>"></script>
+<?php
+foreach ($scripts as $script) { ?>
+    <script type="text/javascript" src="<?php echo $script; ?>" defer></script>
+<?php
+} ?>
+

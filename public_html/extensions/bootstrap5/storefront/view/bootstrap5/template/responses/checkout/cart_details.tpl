@@ -17,10 +17,10 @@ if ($total_items > 0) {
 			<td class="image">
 				<?php if($product['href']){ ?>
 				<a href="<?php echo $product['href']; ?>">
-                    <img src="<?php echo $product['thumb']['thumb_url']; ?>">
+                    <img alt="" class="product-icon" src="<?php echo $product['thumb']['thumb_url']; ?>">
                 </a>
 				<?php }else{ ?>
-					<img src="<?php echo $product['thumb']['thumb_url']; ?>">
+					<img alt="" class="product-icon"  src="<?php echo $product['thumb']['thumb_url']; ?>">
 				<?php }?>
 			</td>
 			<td class="name">

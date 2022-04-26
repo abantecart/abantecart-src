@@ -27,7 +27,7 @@
             <div class="col-md-6 d-flex flex-column">
                 <?php if ($telephone) { ?>
                 <b class="mb-2"><?php echo $text_telephone; ?></b><br />
-                <?php echo $telephone; ?><br />
+                    <a href="tel:<?php echo $telephone; ?>"><?php echo $telephone; ?></a><br />
                 <br />
                 <?php }
                 if ($fax) { ?>

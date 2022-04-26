@@ -125,3 +125,12 @@ ul.dropdown-menu.topcartopen{
   padding: .5rem 1rem;
   text-decoration: none;
 }
+
+/* cart*/
+.cart-qnty-wrapper{
+  max-width: 11rem;
+}
+
+#top_cart_product_list .product-icon{
+  max-width: 50px;
+}

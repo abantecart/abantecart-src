@@ -1,4 +1,94 @@
+//fill default values of common variables if not set
+if (!window.hasOwnProperty("baseUrl")) {
+    window.baseUrl = parent.window.location.protocol
+        + '//'
+        + parent.window.location.host
+        + parent.window.location.pathname.replace('index.php', '');
+}
+if (!window.hasOwnProperty("samesite")) {
+    window.samesite = parent.window.location.protocol === 'https:' ? 'None; secure=1;' : 'lax; secure=0;';
+}
+
+if (!window.hasOwnProperty("cart_url")) {
+    window.cart_url = baseUrl + '?rt=checkout/cart';
+}
+
+if (!window.hasOwnProperty("call_to_order_url")) {
+    window.call_to_order_url = baseUrl + '?rt=content/contact';
+}
+
+if (!window.hasOwnProperty("text_add_cart_confirm")) {
+    window.text_add_cart_confirm = 'Added to cart';
+}
+
+if (!window.hasOwnProperty("cart_ajax_url")) {
+    window.cart_ajax_url = baseUrl + '?rt=r/product/product/addToCart';
+}
+if (!window.hasOwnProperty("search_url")) {
+    window.search_url = baseUrl + '?rt=product/search';
+}
+
 $(document).ready(function(){
+
+    if (window.hasOwnProperty("is_retina") && is_retina === true) {
+        if ((window.devicePixelRatio === undefined ? 1 : window.devicePixelRatio) > 1) {
+            document.cookie = 'HTTP_IS_RETINA=1;path=/; samesite=' + samesite;
+        }
+    }
+
+    if (window.hasOwnProperty("cart_ajax_url")) {
+        function add2CartAjax(product_id) {
+            let senddata = {},
+                result = false;
+            if (product_id) {
+                senddata['product_id'] = product_id;
+            }
+            $.ajax({
+                url: cart_ajax_url,
+                type: 'GET',
+                dataType: 'json',
+                data: senddata,
+                async: false,
+                success: function (data) {
+                    //top cart
+                     $('.nav.topcart .dropdown-toggle span').first().html(data.item_count);
+                     $('.nav.topcart .dropdown-toggle .cart_total').html(data.total);
+                     if ($('#top_cart_product_list')) {
+                         $('#top_cart_product_list').html(data.cart_details);
+                     }
+                    result = data;
+                }
+            });
+            return result;
+        }
+
+        //event for adding product to cart by ajax
+        $(document).on('click', 'a.add-to-cart', function (e) {
+            let item = $(this);
+            //check if href provided for product details access
+            if (item.attr('href') && item.attr('href') !== '#') {
+                return true;
+            }
+            e.preventDefault();
+            if (item.attr('data-id')) {
+                let check_cart = item.children('i').first();
+                let icon_cart = item.children('i').last();
+                let spinner = item.children('span');
+                spinner.removeClass('visually-hidden');
+                let data = add2CartAjax(item.attr('data-id'));
+                if ( data !== false) {
+                    check_cart.removeClass('visually-hidden');
+                    icon_cart.addClass('text-warning');
+                    spinner.addClass('visually-hidden');
+                    item.attr('title', text_add_cart_confirm)
+                }
+            }
+            return false;
+        });
+
+        add2CartAjax();
+    }
+
     //dropdown menu fix of parent
     $('li.dropdown>a').on('click', function (e) {
         e.preventDefault();
@@ -15,33 +105,50 @@ $(document).ready(function(){
       return new bootstrap.Tooltip(tooltipTriggerEl)
     });
 
-        // List & Grid View
-        $('#list_view_btn').on('click',
-            function () {
-                $('#list_view_btn').addClass('btn-secondary').removeClass('btn-light');
-                $('#product_cell_grid').fadeOut();
-                $('#product_list').fadeIn();
-                $('#grid_view_btn').addClass('btn-light').removeClass('btn-secondary');
-            }
-        );
-        $('#grid_view_btn').on('click',
-            function () {
-                $('#grid_view_btn').addClass('btn-secondary').removeClass('btn-light');
-                $('#product_list').fadeOut();
-                $('#product_cell_grid').fadeIn();
-                $('#list_view_btn').addClass('btn-light').removeClass('btn-secondary');
-            }
-        );
-        //search bar on top
-        $('#search_form .search-category').on(
-            'click',
-            function(){
-                var ref = $(this).find('a');
-                $('input#filter_category_id').val(ref.attr('data-id'))
-                $('a#category_selected').text(ref.text());
-            }
-        );
+    // List & Grid View
+    $('#list_view_btn').on('click',
+        function () {
+            $('#list_view_btn').addClass('btn-secondary').removeClass('btn-light');
+            $('#product_cell_grid').fadeOut();
+            $('#product_list').fadeIn();
+            $('#grid_view_btn').addClass('btn-light').removeClass('btn-secondary');
+        }
+    );
+    $('#grid_view_btn').on('click',
+        function () {
+            $('#grid_view_btn').addClass('btn-secondary').removeClass('btn-light');
+            $('#product_list').fadeOut();
+            $('#product_cell_grid').fadeIn();
+            $('#list_view_btn').addClass('btn-light').removeClass('btn-secondary');
+        }
+    );
+    //search bar on top
+    $('#search_form .search-category').on(
+        'click',
+        function(){
+            var ref = $(this).find('a');
+            $('input#filter_category_id').val(ref.attr('data-id'))
+            $('a#category_selected').text(ref.text());
+        }
+    );
 
+    //put submitted or clicked button to loading state
+    $('.lock-on-click').each(function () {
+        let btn = $(this);
+        btn.attr('data-loading-text', '<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>');
+        btn.bind('click', function () {
+            $(this).button('loading');
+        });
+    });
+
+    //reset coupon
+    $('#couponForm').on('click', '#remove_coupon_btn', function () {
+        let $form = $("#coupon_coupon").closest('form');
+        $("#coupon_coupon").val('');
+        $form.append('<input type="hidden" name="reset_coupon" value="true" />');
+        $form.submit();
+        return false;
+    });
 
 });
 

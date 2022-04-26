@@ -1,4 +1,9 @@
-<?php if($products){?>
+<?php if($products){
+    $cartProducts = $this->cart->getProducts();
+    if($cartProducts){
+        $cartProducts = array_column($cartProducts,'product_id');
+    }
+?>
 <section id="<?php echo $homeBlockId;?>">
     <div class="container-fluid product-flex">
         <?php if ( $block_framed ) { ?>
@@ -91,9 +96,9 @@
                                     <div class="pricetag flex-item">
                                         <?php if($product['call_to_order']){ ?>
                                             <a data-id="<?php echo $product['product_id'] ?>"
-                                               href="#"
+                                               href="<?php echo $this->html->getSeoUrl('content/contact');?>"
                                                class="btn btn-success call_to_order"
-                                               title="<?php echo $text_call_to_order ?>">
+                                               title="<?php echo_html2view($text_call_to_order); ?>">
                                                <i class="fa fa-phone"></i>
                                             </a>
                                         <?php } else if ($product['track_stock'] && !$product['in_stock']) { ?>
@@ -101,11 +106,13 @@
                                         <?php } elseif ($this->getHookVar('product_add_to_cart_html_'.$product['product_id'])) {
                                             echo $this->getHookVar('product_add_to_cart_html_'.$product['product_id']);
                                             }else{ ?>
-                                            <a data-id="<?php echo $product['product_id'] ?>"
+                                            <a data-id="<?php echo $product['product_id']; ?>"
                                                href="<?php echo $item['buy_url'] ?>"
-                                               class="btn btn-sm btn-success productcart"
+                                               class="btn btn-sm btn-success add-to-cart"
                                                title="<?php echo_html2view($button_add_to_cart); ?>" >
-                                                <i class="fa fa-cart-plus fa-xl"></i>
+                                                <i class="<?php echo !in_array($product['product_id'], $cartProducts) ? 'visually-hidden ' : '';?>fa fa-check fa-xl me-2 text-warning"></i>
+                                                <span class="visually-hidden spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                                <i class="fa fa-cart-plus fa-xl <?php echo in_array($product['product_id'], $cartProducts) ? ' text-warning' : '';?>"></i>
                                             </a>
                                         <?php
                                             }
