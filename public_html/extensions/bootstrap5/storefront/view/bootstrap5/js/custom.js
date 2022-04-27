@@ -78,8 +78,12 @@ $(document).ready(function(){
                 let data = add2CartAjax(item.attr('data-id'));
                 if ( data !== false) {
                     check_cart.removeClass('visually-hidden');
-                    icon_cart.addClass('text-warning');
                     spinner.addClass('visually-hidden');
+                    if(data.added_item_quantity>0){
+                        item.children('span.item-qty-badge').remove();
+                        item.append('<span class="item-qty-badge position-absolute top-0 start-0 translate-middle badge rounded-pill bg-light text-dark border border-2 border-success">'+
+                                    data.added_item_quantity + '</span>');
+                    }
                     item.attr('title', text_add_cart_confirm)
                 }
             }
@@ -150,6 +154,32 @@ $(document).ready(function(){
         return false;
     });
 
+    $('button.plus-qnty').on(
+        'click',
+        function(e){
+            e.preventDefault();
+            let input = $(this).siblings("input");
+            let qty = parseInt(input.val()) + 1;
+            let max = parseInt(input.attr('max'));
+            if(max > 0 && qty > max){
+                return false;
+            }
+            input.val(qty);
+        }
+    );
+    $('button.minus-qnty').on(
+        'click',
+        function(e){
+            e.preventDefault();
+            let input = $(this).siblings("input");
+            let qty = parseInt(input.val()) - 1;
+            let min = parseInt(input.attr('min'));
+            if(qty < 1 || (min > 0 && qty < min) ){
+                return false;
+            }
+            input.val(qty);
+        }
+    );
 });
 
 function openModalRemote(id, url) {

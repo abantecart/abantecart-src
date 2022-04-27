@@ -1,8 +1,10 @@
 <?php if($products){
+    $text_items_in_the_cart = $this->language->get('text_cart_items','checkout/confirm');
+
     $cartProducts = $this->cart->getProducts();
-    if($cartProducts){
-        $cartProducts = array_column($cartProducts,'product_id');
-    }
+    $cartProductIds = $cartProducts ? array_column($cartProducts,'product_id') : [];
+    $cartProducts = array_column($cartProducts,'quantity','product_id');
+
 ?>
 <section id="<?php echo $homeBlockId;?>">
     <div class="container-fluid product-flex">
@@ -80,7 +82,9 @@
                                 </div>
                             </div>
                             <div class="card-body d-flex flex-column">
-                                <div class="card-text blurb text-wrap text-break"><?php echo $product['blurb'] ?></div>
+                                <div class="card-text blurb" data-bs-toggle="tooltip" data-bs-placement="top" title="<?php echo_html2view($product['blurb']); ?>">
+                                    <?php echo $product['blurb'] ?>
+                                </div>
                                 <?php echo $this->getHookvar('product_listing_details0_'.$product['product_id']);?>
                                 <div class="d-flex justify-content-between p-2 mt-auto align-items-center bg-light">
                                 <?php if ($display_price) { ?>
@@ -108,11 +112,18 @@
                                             }else{ ?>
                                             <a data-id="<?php echo $product['product_id']; ?>"
                                                href="<?php echo $item['buy_url'] ?>"
-                                               class="btn btn-sm btn-success add-to-cart"
-                                               title="<?php echo_html2view($button_add_to_cart); ?>" >
-                                                <i class="<?php echo !in_array($product['product_id'], $cartProducts) ? 'visually-hidden ' : '';?>fa fa-check fa-xl me-2 text-warning"></i>
+                                               class="position-relative btn btn-sm btn-success add-to-cart">
+                                                <i title="<?php echo_html2view($text_add_cart_confirm); ?>"
+                                                   class="<?php echo !in_array((int)$product['product_id'], $cartProductIds) ? 'visually-hidden ' : '';?>fa fa-check fa-xl me-2 text-warning"></i>
                                                 <span class="visually-hidden spinner-border spinner-border-sm" aria-hidden="true"></span>
-                                                <i class="fa fa-cart-plus fa-xl <?php echo in_array($product['product_id'], $cartProducts) ? ' text-warning' : '';?>"></i>
+                                                <i title="<?php echo_html2view($button_add_to_cart); ?>"
+                                                   class="fa fa-cart-plus fa-xl"></i>
+                                            <?php if($cartProducts[(int)$product['product_id']]){?>
+                                                <span title="<?php echo_html2view($text_items_in_the_cart); ?>"
+                                                        class="item-qty-badge position-absolute top-0 start-0 translate-middle badge rounded-pill bg-light text-dark border border-2 border-success">
+                                                    <?php echo $cartProducts[(int)$product['product_id']];?>
+                                                </span>
+                                            <?php }?>
                                             </a>
                                         <?php
                                             }

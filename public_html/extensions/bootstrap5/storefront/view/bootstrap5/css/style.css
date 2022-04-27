@@ -134,3 +134,12 @@ ul.dropdown-menu.topcartopen{
 #top_cart_product_list .product-icon{
   max-width: 50px;
 }
+
+.product-flex .blurb {
+   overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   -webkit-line-clamp: 3; /* number of lines to show */
+           line-clamp: 3;
+   -webkit-box-orient: vertical;
+}

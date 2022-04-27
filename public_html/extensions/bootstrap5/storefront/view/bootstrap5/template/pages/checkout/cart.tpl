@@ -153,36 +153,34 @@ if (sizeof((array) $error_warning) > 0) {
                         </tr>
                         <tr>
                             <td>
-                                <div class="registerbox form-horizontal">
-                                    <?php
-                                    echo $form_estimate['form_open']; ?>
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-4"><?php
-                                            echo $text_estimate_country; ?></label>
-                                        <div class="input-group col-sm-8">
-                                            <?php
-                                            echo $form_estimate['country_zones']; ?>
-                                        </div>
+                                <div class="ps-4 p-3 mb-4">
+                                    <?php echo $form_estimate['form_open']; ?>
+                                    <div class="mb-3">
+                                        <label for="<?php echo $form_estimate['country_zones']->element_id?>"
+                                               class="text-nowrap form-label"><?php echo $text_estimate_country; ?></label>
+                                            <?php echo $form_estimate['country_zones']; ?>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-4"><?php
+
+                                    <div class="mb-3">
+                                        <label class="control-label mb-2"><?php
                                             echo $text_estimate_postcode; ?></label>
-                                        <div class="input-group col-sm-8">
-                                            <?php echo $form_estimate['postcode']; ?>
-                                            <span class="input-group-btn">
-                                                <button title="<?php echo $form_estimate['submit']->name; ?>"
-                                                        class="btn btn-default"
+                                        <div class="d-flex flex-nowrap justify-content-between">
+                                            <div class="col-6">
+                                            <?php $form_estimate['postcode']->no_wrapper = true;
+                                                echo $form_estimate['postcode']; ?>
+                                            </div>
+                                            <button title="<?php echo $form_estimate['submit']->name; ?>"
+                                                        class="btn btn-outline-primary"
                                                         value="<?php echo $form_estimate['submit']->form ?>"
                                                         type="submit">
                                                         <i class="fa fa-calculator"></i>
                                                             <?php echo $form_estimate['submit']->name; ?>
                                                 </button>
-                                            </span>
                                         </div>
                                     </div>
-                                    <div class="shippings-offered form-group">
-                                        <label class="control-label col-sm-4"><?php echo $text_estimate_shipments; ?></label>
-                                        <div class="shipments input-group col-sm-8">
+                                    <div class="shippings-offered mb-3">
+                                        <label class="control-label mb-2"><?php echo $text_estimate_shipments; ?></label>
+                                        <div class="shipments ">
                                             <?php echo $form_estimate['shippings']; ?>
                                         </div>
                                     </div>
@@ -196,16 +194,16 @@ if (sizeof((array) $error_warning) > 0) {
         </div>
     <?php } ?>
 
-    <div class="container-fluid cart_total">
-        <div class="col-md-6 cart-info totals pull-right table-responsive">
+    <div class="container-fluid cart_total d-flex justify-content-end">
+        <div class="col-12 col-md-6 col-lg-5 cart-info totals table-responsive">
             <table id="totals_table" class="table table-striped table-bordered">
                 <tbody></tbody>
             </table>
 
-            <div class="d-flex flex-wrap justify-content-end">
+            <div class="d-flex flex-wrap justify-content-between">
                 <?php echo $this->getHookVar('pre_cart_buttons'); ?>
                 <a href="<?php echo $continue; ?>"
-                   class="btn btn-secondary me-1  mb-1" title="">
+                   class="btn btn-secondary me-1 mb-1" title="">
                     <i class="fa fa-arrow-right"></i>
                     <?php echo $text_continue_shopping ?>
                 </a>
@@ -214,16 +212,15 @@ if (sizeof((array) $error_warning) > 0) {
                     <a href="#"
                        onclick="save_and_checkout('<?php echo $checkout_rt; ?>'); return false;"
                        id="cart_checkout2"
-                       class="btn btn-primary"
+                       class="btn btn-primary me-1 mb-1"
                        title="<?php echo $button_checkout; ?>">
-                        <i class="fa fa-shopping-cart fa-fw"></i>
+                        <i class="fa fa-money-bill fa-fw"></i>
                         <?php echo $button_checkout; ?>
                     </a>
                 <?php
                 }
                 echo $this->getHookVar('post_cart_buttons'); ?>
             </div>
-
         </div>
     </div>
 </div>
@@ -253,8 +250,9 @@ if (sizeof((array) $error_warning) > 0) {
             beforeSend: function () {
                 $(replace_obj)
                     .html(
-                        '<div class="progress progress-striped active" style="width: 170px;">'
-                            +'<div class="bar" style="width: 100%;"></div></div>'
+                        '<div class="progress">' +
+                          '<div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: 100%" ' +
+                                'aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>'
                     );
             },
             complete: function () {
@@ -292,7 +290,9 @@ if (sizeof((array) $error_warning) > 0) {
             beforeSend: function () {
                 let html = '';
                 html += '<tr>';
-                html += '<td><div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div></td>';
+                html += '<td><div class="progress">' +
+                          '<div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: 100%" ' +
+                                'aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div></td>';
                 html += '</tr>';
                 $('.cart-info.totals table#totals_table>tbody').html(html);
             },
@@ -305,8 +305,8 @@ if (sizeof((array) $error_warning) > 0) {
                             grand_total = 'totalamout';
                         }
                         html += '<tr>';
-                        html += '<td><span class="extra bold ' + grand_total + '">' + data.totals[i].title + '</span></td>';
-                        html += '<td><span class="bold ' + grand_total + '">' + data.totals[i].text + '</span></td>';
+                        html += '<td><span class="fw-bolder ' + grand_total + '">' + data.totals[i].title + '</span></td>';
+                        html += '<td><span class="fw-bold ' + grand_total + '">' + data.totals[i].text + '</span></td>';
                         html += '</tr>';
                     }
                     $('.cart-info.totals table#totals_table>tbody').html(html);
@@ -339,32 +339,7 @@ if (sizeof((array) $error_warning) > 0) {
             return false;
         });
 
-        $('button.plus-qnty').on(
-            'click',
-            function(e){
-                e.preventDefault();
-                let input = $(this).siblings("input");
-                let qty = parseInt(input.val()) + 1;
-                let max = parseInt(input.attr('max'));
-                if(max > 0 && qty > max){
-                    return false;
-                }
-                input.val(qty);
-            }
-        );
-        $('button.minus-qnty').on(
-            'click',
-            function(e){
-                e.preventDefault();
-                let input = $(this).siblings("input");
-                let qty = parseInt(input.val()) - 1;
-                let min = parseInt(input.attr('min'));
-                if(qty < 1 || (min > 0 && qty < min) ){
-                    return false;
-                }
-                input.val(qty);
-            }
-        );
+
 
     });
 </script>
