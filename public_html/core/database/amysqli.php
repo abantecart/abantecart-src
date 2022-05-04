@@ -169,7 +169,9 @@ final class AMySQLi
      */
     public function countAffected()
     {
-        return $this->connection->affected_rows;
+        if($this->connection) {
+            return $this->connection->affected_rows;
+        }
     }
 
     /**
@@ -182,7 +184,9 @@ final class AMySQLi
 
     public function __destruct()
     {
-        $this->connection->close();
+        try {
+            $this->connection->close();
+        }catch(Exception $e){}
     }
 
     public function getDBError()
