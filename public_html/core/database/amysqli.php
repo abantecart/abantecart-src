@@ -182,13 +182,6 @@ final class AMySQLi
         return $this->connection->insert_id;
     }
 
-    public function __destruct()
-    {
-        try {
-            $this->connection->close();
-        }catch(Exception $e){}
-    }
-
     public function getDBError()
     {
         return [
