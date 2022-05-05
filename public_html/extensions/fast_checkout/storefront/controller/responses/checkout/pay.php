@@ -515,6 +515,20 @@ class ControllerResponsesCheckoutPay extends AController
                 ]
             );
 
+            $this->data['login_form']['loginname'] = $form->getFieldHtml(
+                [
+                    'type'  => 'input',
+                    'name'  => 'loginname',
+                    'value' => $request['loginname'],
+                ]
+            );
+            $this->data['login_form']['password'] = $form->getFieldHtml(
+                [
+                    'type' => 'password',
+                    'name' => 'password',
+                ]
+            );
+
             $this->data['customer_email'] = $request['cc_email'] ? : $this->fc_session['guest']['email'];
             $this->data['customer_telephone'] = $request['telephone'] ? : $this->fc_session['guest']['telephone'];
             $this->data['reset_url'] = $this->html->getSecureURL('account/login');
@@ -1617,15 +1631,7 @@ class ControllerResponsesCheckoutPay extends AController
         $this->data['customer_telephone'] = $data['telephone'] ? : $this->fc_session['guest']['telephone'];
 
         //login form portion
-        $this->data['reset_url'] = $this->html->getSecureURL('account/login');
-        $form->setForm(['form_name' => 'LoginFrm']);
-        $this->data['login_form']['form_open'] = $form->getFieldHtml(
-            [
-                'type'   => 'form',
-                'name'   => 'LoginFrm',
-                'action' => $this->html->getSecureURL('r/checkout/pay/login', $params),
-            ]
-        );
+        $this->addLoginForm($data, $params);
 
         $this->data['action'] = $this->action;
         $this->data['step'] = 'address';
@@ -1910,7 +1916,7 @@ class ControllerResponsesCheckoutPay extends AController
                                 $selected = true;
                             }
                         }
-                        $this->data['shipping_methods'][$k]['quote'][$key]['radio'] = $this->html->buildRadio(
+                        $this->data['shipping_methods'][$k]['quote'][$key]['radio'] = $this->html->buildElement(
                             [
                                 'type'    => 'radio',
                                 'id'      => $val['id'],
