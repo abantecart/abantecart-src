@@ -1,109 +1,13 @@
-//fill default values of common variables if not set
-if (!window.hasOwnProperty("baseUrl")) {
-    window.baseUrl = parent.window.location.protocol
-        + '//'
-        + parent.window.location.host
-        + parent.window.location.pathname.replace('index.php', '');
-}
-if (!window.hasOwnProperty("samesite")) {
-    window.samesite = parent.window.location.protocol === 'https:' ? 'None; secure=1;' : 'lax; secure=0;';
-}
 
-if (!window.hasOwnProperty("cart_url")) {
-    window.cart_url = baseUrl + '?rt=checkout/cart';
-}
-
-if (!window.hasOwnProperty("call_to_order_url")) {
-    window.call_to_order_url = baseUrl + '?rt=content/contact';
-}
-
-if (!window.hasOwnProperty("text_add_cart_confirm")) {
-    window.text_add_cart_confirm = 'Added to cart';
-}
-
-if (!window.hasOwnProperty("cart_ajax_url")) {
-    window.cart_ajax_url = baseUrl + '?rt=r/product/product/addToCart';
-}
-if (!window.hasOwnProperty("search_url")) {
-    window.search_url = baseUrl + '?rt=product/search';
-}
 
 $(document).ready(function () {
     route = getURLVar('rt');
 
-    //search block form function
-    function search_submit() {
-        let url = search_url;
-        let filter_keyword = $('#filter_keyword').val();
-        if (filter_keyword) {
-            url += '&keyword=' + encodeURIComponent(filter_keyword);
-        }
-        let filter_category_id = $('#filter_category_id').attr('value');
-        if (filter_category_id) {
-            url += '&category_id=' + filter_category_id;
-        }
-        location = url;
-        return false;
-    }
 
-    if (window.hasOwnProperty("is_retina") && is_retina === true) {
-        if ((window.devicePixelRatio === undefined ? 1 : window.devicePixelRatio) > 1) {
-            document.cookie = 'HTTP_IS_RETINA=1;path=/; samesite=' + samesite;
-        }
-    }
 
-    if (window.hasOwnProperty("cart_ajax_url")) {
-        function update_cart(product_id) {
-            let senddata = {},
-                result = false;
-            if (product_id) {
-                senddata['product_id'] = product_id;
-            }
-            $.ajax({
-                url: cart_ajax_url,
-                type: 'GET',
-                dataType: 'json',
-                data: senddata,
-                async: false,
-                success: function (data) {
-                    //top cart
-                    $('.nav.topcart .dropdown-toggle span').first().html(data.item_count);
-                    $('.nav.topcart .dropdown-toggle .cart_total').html(data.total);
-                    if ($('#top_cart_product_list')) {
-                        $('#top_cart_product_list').html(data.cart_details);
-                    }
-                    result = true;
-                }
-            });
-            return result;
-        }
 
-        //event for adding product to cart by ajax
-        $(document).on('click', 'a.productcart', function () {
-            let item = $(this);
-            //check if href provided for product details access
-            if (item.attr('href') && item.attr('href') !== '#') {
-                return true;
-            }
-            if (item.attr('data-id')) {
-                if (update_cart(item.attr('data-id')) === true) {
-                    let alert_msg = document.createElement("div");
-                    alert_msg.className = "quick_basket";
-                    let a = document.createElement("a");
-                    a.setAttribute('href', cart_url);
-                    a.setAttribute('title', text_add_cart_confirm);
-                    let i = document.createElement("i");
-                    i.classList.add("fa", "fa-shopping-cart", "fa-fw");
-                    a.appendChild(i);
-                    alert_msg.appendChild(a);
-                    item.closest('.thumbnail .pricetag').addClass('added_to_cart').prepend(alert_msg);
-                }
-            }
-            return false;
-        });
 
-        update_cart();
-    }
+
 
     //submit search
     $('#search_form').submit(function () {
@@ -124,14 +28,7 @@ $(document).ready(function () {
         $('#filter_keyword').focus();
     });
 
-    //put submitted or clicked button to loading state
-    $('.lock-on-click').each(function () {
-        $btn = $(this);
-        $btn.attr('data-loading-text', "<i class='fa fa-refresh fa-spin fa-fw'></i>");
-        $btn.bind('click', function () {
-            $(this).button('loading');
-        });
-    });
+
 
     if (!route) {
         $('#tab_home').addClass('selected');

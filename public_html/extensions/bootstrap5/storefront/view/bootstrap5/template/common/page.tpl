@@ -44,7 +44,7 @@ echo $$header; ?>
 
 <?php
     //check layout dynamically
-    $present_columns = 1;
+    $present_columns = 0;
     $center_padding = '';
     if (!empty($$column_left)) {
         $present_columns++;
@@ -58,13 +58,13 @@ echo $$header; ?>
 
 	<div class="d-flex flex-wrap align-items-stretch align-self-stretch">
 		<?php if ( !empty($$column_left ) ) { ?>
-		<div class="ms-3 col-12 col-sm-9 col-md-8  col-lg-2 ">
+		<div class="ms-3 col-12 col-sm-9 col-md-8 col-lg-2 col-xl-3">
 		<?php echo $$column_left; ?>
 		</div>
 		<?php } ?>
 
-		<?php $span = 12 - 3 * ($present_columns -1); ?>
-		<div class="flex-grow-1 col-12 col-md-<?php echo $span ?>  mt-2">
+		<?php $span = 12 - 4 * $present_columns; ?>
+		<div class="flex-grow-1 col-12 col-xl-<?php echo $span ?>  mt-2">
             <?php if ( !empty( $$content_top ) ) { ?>
             <!-- content top blocks placeholder -->
             <?php echo $$content_top; ?>
@@ -83,7 +83,7 @@ echo $$header; ?>
 		</div>
 
 		<?php if ( !empty($$column_right ) ) { ?>
-		<div class="me-3 col-12 col-sm-9 col-md-8  col-lg-2">
+		<div class="me-3 col-12 col-sm-9 col-md-8 col-lg-2 col-xl-3">
 		<?php echo $$column_right; ?>
 		</div>
 		<?php } ?>

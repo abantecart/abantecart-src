@@ -129,14 +129,16 @@
                        </p>
                         <?php } ?>
                     </div>
-               <?php } ?>
+               <?php }
+               echo $this->getHookVar('product_'.$product['order_product_id'].'_additional_info_1'); ?>
            </div>
+           <?php echo $this->getHookVar('product_'.$product['order_product_id'].'_additional_info_2'); ?>
        </div>
     <?php } ?>
         <?php echo $this->getHookVar('list_more_product_last'); ?>
     </div>
 
-	<div class="table-responsive d-flex justify-content-end mx-3">
+	<div class="table-responsive d-flex justify-content-end mx-3 mb-3">
 		<div class="col-md-5 col-sm-6 col-xs-8">
 			<table class="table table-striped table-bordered">
 				<?php foreach ($totals as $total) { ?>
@@ -149,13 +151,14 @@
 		</div>
 	</div>
 
-	<?php if ($comment) { ?>
-		<div class="container-fluid">
-			<h4 class="heading4"><?php echo $text_comment; ?></h4>
-			<div class="content"><?php echo $comment; ?></div>
-		</div>
-	<?php }
-    echo $this->getHookVar('order_attributes');
+    <?php if ($comment) { ?>
+        <div class="container-fluid mb-3">
+            <h4 class="heading4"><?php echo $text_comment; ?></h4>
+            <div class="content bg-light p-4"><?php echo $comment; ?></div>
+        </div>
+    <?php }
+       echo $this->getHookVar('order_attributes');
+
     if ($historys) { ?>
         <div class="d-flex flex-wrap p-3 rounded">
             <h4 class="heading4"><?php echo $text_order_history; ?></h4>
@@ -195,7 +198,7 @@
         <?php } ?>
 
         <?php if ($button_order_cancel) { ?>
-            <a href="" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#cancelationModal"
+            <a href="#" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#cancelationModal"
                title="<?php echo_html2view($button_order_cancel->text) ?>">
                 <i class="<?php echo $button_order_cancel->icon; ?>"></i>
                 <?php echo $button_order_cancel->text ?>

@@ -17,8 +17,8 @@ if ($total_items > 0) {
 			<td class="image">
 				<?php if($product['href']){ ?>
 				<a href="<?php echo $product['href']; ?>">
-                    <img alt="" class="product-icon" src="<?php echo $product['thumb']['thumb_url']; ?>">
-                </a>
+					<img alt="" class="product-icon" src="<?php echo $product['thumb']['thumb_url']; ?>">
+				</a>
 				<?php }else{ ?>
 					<img alt="" class="product-icon"  src="<?php echo $product['thumb']['thumb_url']; ?>">
 				<?php }?>
@@ -29,11 +29,11 @@ if ($total_items > 0) {
 				<?php }else{
 					echo $product['name'];
 				}?>
-				<div>
+				<div class="d-flex flex-column">
 					<?php foreach ($product['option'] as $option) { ?>
-						<small class="text-muted text-nowrap m-4" title="<?php echo $option['title']?>">
-                            - <?php echo $option['name']; ?> <?php echo $option['value']; ?>
-                        </small>
+						<small class="text-muted text-wrap" title="<?php echo $option['title']?>">
+							- <?php echo $option['name']; ?>: <?php echo substr($option['value'],0,100); ?>
+						</small>
 					<?php } ?>
 				</div>
 			</td>
@@ -48,16 +48,16 @@ if ($total_items > 0) {
 	<?php if ($total_items > $cart_view_limit) {  ?>
 		<tr>
 			<td colspan="5">
-                <a class="d-flex justify-content-center" title="see more cart products" href="<?php echo $view; ?>">
-                    <i class="fa fa-chevron-down fa-lg"></i>
-                </a>
-            </td>
+				<a class="d-flex justify-content-center" title="see more cart products" href="<?php echo $view; ?>">
+					<i class="fa fa-chevron-down fa-lg"></i>
+				</a>
+			</td>
 		</tr>
 	<?php } ?>
 	</tbody>
 </table>
 </div>
-<table class="table table-">
+<table class="table">
 	<tbody>
 	<?php foreach ($totals as $total) { ?>
 		<tr>

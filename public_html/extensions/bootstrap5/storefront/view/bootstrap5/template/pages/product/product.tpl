@@ -14,9 +14,9 @@ $thmb_h = $this->config->get('config_image_thumb_height');
 
 
 if ($error){ ?>
-    <div class="alert alert-error alert-danger">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <strong><?php echo is_array($error) ? implode('<br>', $error) : $error; ?></strong>
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <?php echo is_array($error) ? implode('<br>', $error) : $error; ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 <?php } ?>
 
@@ -208,7 +208,7 @@ if ($error){ ?>
                                                 </div>
                                         <?php
                                             } else { ?>
-                                                <div class="product-page-add2cart mt-3">
+                                                <div class="product-page-add2cart mt-3 text-center ">
                                                     <?php if(!$this->getHookVar('product_add_to_cart_html')) { ?>
                                                         <a class="shadow cart btn btn-success btn-lg w-100"
                                                            href="#" onclick="$(this).closest('form').submit(); return false;" >

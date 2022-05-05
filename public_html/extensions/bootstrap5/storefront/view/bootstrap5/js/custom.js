@@ -69,20 +69,26 @@ $(document).ready(function(){
             if (item.attr('href') && item.attr('href') !== '#') {
                 return true;
             }
+            let wrapper = item.parent();
             e.preventDefault();
             if (item.attr('data-id')) {
-                let check_cart = item.children('i').first();
-                let icon_cart = item.children('i').last();
-                let spinner = item.children('span');
+                let check_cart = wrapper.find('i').first();
+                let icon_cart = wrapper.find('i').last();
+                let spinner = wrapper.children('span');
                 spinner.removeClass('visually-hidden');
+                icon_cart.addClass('visually-hidden');
                 let data = add2CartAjax(item.attr('data-id'));
                 if ( data !== false) {
                     check_cart.removeClass('visually-hidden');
                     spinner.addClass('visually-hidden');
+                    icon_cart.removeClass('visually-hidden');
                     if(data.added_item_quantity>0){
-                        item.children('span.item-qty-badge').remove();
-                        item.append('<span class="item-qty-badge position-absolute top-0 start-0 translate-middle badge rounded-pill bg-light text-dark border border-2 border-success">'+
-                                    data.added_item_quantity + '</span>');
+                        wrapper.children('span.item-qty-badge').remove();
+                        wrapper.append(
+                            '<span class="item-qty-badge position-absolute top-0 start-0 translate-middle badge rounded-pill bg-light text-dark border border-2 border-success">'+
+                                    data.added_item_quantity +
+                            '</span>'
+                        );
                     }
                     item.attr('title', text_add_cart_confirm)
                 }

@@ -97,21 +97,26 @@ foreach ($products as $product) {
                             <?php } elseif ($this->getHookVar('product_add_to_cart_html_'.$product['product_id'])) {
                                 echo $this->getHookVar('product_add_to_cart_html_'.$product['product_id']);
                                 }else{ ?>
-                                <a data-id="<?php echo $product['product_id'] ?>"
-                                   href="<?php echo $item['buy_url'] ?>"
-                                   class="ms-3 position-relative btn btn-sm btn-success add-to-cart">
-                                    <i title="<?php echo_html2view($text_add_cart_confirm); ?>"
-                                            class="<?php echo !in_array($product['product_id'], $cartProductIds) ? 'visually-hidden ' : '';?>fa fa-check fa-xl me-2 text-warning"></i>
+                                <div class="position-relative btn btn-sm btn-success">
+                                    <a class="text-decoration-none text-white"
+                                       href="<?php echo $this->html->getSecureURL('checkout/cart'); ?>">
+                                        <i title="<?php echo_html2view($text_add_cart_confirm); ?>"
+                                           class="<?php echo !in_array((int)$product['product_id'], $cartProductIds) ? 'visually-hidden ' : '';?>fa fa-check fa-xl me-2 text-warning"></i>
+                                    </a>
                                     <span class="visually-hidden spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                    <a class="text-decoration-none text-white add-to-cart"
+                                       data-id="<?php echo $product['product_id']; ?>"
+                                       href="<?php echo $item['buy_url'] ?>">
                                     <i title="<?php echo_html2view($button_add_to_cart); ?>"
                                        class="fa fa-cart-plus fa-xl"></i>
-                                    <?php if($cartProducts[(int)$product['product_id']]){?>
-                                        <span title="<?php echo_html2view($text_items_in_the_cart); ?>"
-                                                class="item-qty-badge position-absolute top-0 start-0 translate-middle badge rounded-pill bg-light text-dark border border-2 border-success">
-                                            <?php echo $cartProducts[(int)$product['product_id']];?>
-                                        </span>
-                                    <?php }?>
-                                </a>
+                                    </a>
+                                <?php if($cartProducts[(int)$product['product_id']]){?>
+                                    <span title="<?php echo_html2view($text_items_in_the_cart); ?>"
+                                            class="item-qty-badge position-absolute top-0 start-0 translate-middle badge rounded-pill bg-light text-dark border border-2 border-success">
+                                        <?php echo $cartProducts[(int)$product['product_id']];?>
+                                    </span>
+                                <?php }?>
+                                </div>
                             <?php
                                 }
                             ?>
