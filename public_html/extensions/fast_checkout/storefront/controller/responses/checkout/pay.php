@@ -901,7 +901,7 @@ class ControllerResponsesCheckoutPay extends AController
     {
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $order_id = $this->request->get['order_id'];
-        if (!$order_id || !is_numeric($order_id)) {
+        if (!$order_id || !is_numeric($order_id) || $this->session->data['processed_order_id'] != $order_id) {
             $this->error['message'] = $this->language->get('fast_checkout_error_unexpected');
             $this->main();
             return;
@@ -1002,6 +1002,7 @@ class ControllerResponsesCheckoutPay extends AController
         }
 
         $order_data['order_products'] = $this->model_account_order->getOrderProducts($order_id);
+        $order_data['totals'] = $this->model_account_order->getOrderTotals($order_id);
         $this->_save_google_analytics($order_data);
 
         $this->_clear_data();
@@ -1233,11 +1234,11 @@ class ControllerResponsesCheckoutPay extends AController
         // google analytics data for js-script in success.tpl
         $order_tax = $order_total = $order_shipping = 0.0;
         foreach ((array) $order_data['totals'] as $total) {
-            if ($total['total_type'] == 'total') {
+            if ($total['type'] == 'total') {
                 $order_total += $total['value'];
-            } elseif ($total['total_type'] == 'tax') {
+            } elseif ($total['type'] == 'tax') {
                 $order_tax += $total['value'];
-            } elseif ($total['total_type'] == 'shipping') {
+            } elseif ($total['type'] == 'shipping') {
                 $order_shipping += $total['value'];
             }
         }
@@ -1257,13 +1258,13 @@ class ControllerResponsesCheckoutPay extends AController
         }
 
         $ga_data = array_merge(
-            [
-                'transaction_id' => (int)$order_data['order_id'],
-                'store_name'     => $this->config->get('store_name'),
-                'currency_code'  => $order_data['currency'],
-                'total'          => $this->currency->format_number($order_total),
-                'tax'            => $this->currency->format_number($order_tax),
-                'shipping'       => $this->currency->format_number($order_shipping),
+                [
+                    'transaction_id' => (int) $order_data['order_id'],
+                    'store_name'     => $this->config->get('store_name'),
+                    'currency_code'  => $order_data['currency'],
+                    'total'          => $this->currency->format_number($order_total),
+                    'tax'            => $this->currency->format_number($order_tax),
+                    'shipping'       => $this->currency->format_number($order_shipping),
             ], $addr);
 
         if ($order_data['order_products']) {
