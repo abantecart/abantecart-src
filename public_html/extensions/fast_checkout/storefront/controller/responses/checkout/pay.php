@@ -988,6 +988,7 @@ class ControllerResponsesCheckoutPay extends AController
         }
 
         $order_data['order_products'] = $this->model_account_order->getOrderProducts($order_id);
+        $order_data['totals'] = $this->model_account_order->getOrderTotals($order_id);
         $this->_save_google_analytics($order_data);
 
         $this->_clear_data();
@@ -1219,11 +1220,11 @@ class ControllerResponsesCheckoutPay extends AController
         // google analytics data for js-script in success.tpl
         $order_tax = $order_total = $order_shipping = 0.0;
         foreach ((array) $order_data['totals'] as $total) {
-            if ($total['total_type'] == 'total') {
+            if ($total['type'] == 'total') {
                 $order_total += $total['value'];
-            } elseif ($total['total_type'] == 'tax') {
+            } elseif ($total['type'] == 'tax') {
                 $order_tax += $total['value'];
-            } elseif ($total['total_type'] == 'shipping') {
+            } elseif ($total['type'] == 'shipping') {
                 $order_shipping += $total['value'];
             }
         }
