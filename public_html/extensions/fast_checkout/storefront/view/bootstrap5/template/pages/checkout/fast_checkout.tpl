@@ -17,33 +17,12 @@ if ($error) { ?>
 
 <script type="application/javascript">
 
-    function readCookie(name) {
-        var nameEQ = name + "=";
-        var ca = document.cookie.split(';');
-        for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-        }
-        return null;
-    }
+document.addEventListener('DOMContentLoaded', function load() {
+    //waiting for jquery loaded!
+    if (!window.jQuery) return setTimeout(load, 50);
+    //jQuery-depended code
 
-    function checkCartKey() {
-        if ($('body').data('cart_key') && $('body').data('cart_key') !== readCookie('fc_cart_key')) {
-            var pKey = $('body').data('product_key');
-            if (pKey) {
-                location = '<?php echo $this->html->getSecureUrl('product/product')?>' + '&key=' + pKey;
-            }
-        }
-    }
-    document.addEventListener('DOMContentLoaded', function load() {
-        //waiting for jquery loaded!
-        if (!window.jQuery) return setTimeout(load, 50);
-        //jQuery-depended code
-    if ($('#fast_checkout_cart').html() === '') {
-        $('.spinner-overlay').fadeIn(100);
-    }
-    <?php if ($cart_url) { ?>
+<?php if ($cart_url) { ?>
     var loadPage = function () {
         $.ajax({
             url: '<?php echo $cart_url; ?>',
@@ -56,6 +35,11 @@ if ($error) { ?>
                 $('#fast_checkout_summary_block').trigger('reload');
                 $('#fast_checkout_cart').hide().html(data).fadeIn(1000);
                 $('.spinner-overlay').fadeOut(500);
+                $('form.needs-validation').each(
+                    function(){
+                        $(this).unbind('submit');
+                    }
+                );
             },
             error: function () {
                 $('.spinner-overlay').fadeOut(500);
@@ -64,22 +48,31 @@ if ($error) { ?>
     };
 
     $(document).ready(loadPage);
-    <?php }
+<?php }
     // set cart key into scratch data
-    ?>
+?>
     $(document).ready( function(){
-        if(!$('body').data('cart_key')){
+        let body = $('body');
+        if(!body.data('cart_key')){
             <?php
             if($single_checkout){
                 //we use this key to open product page when cart-key changed (another simple-checkout process)
                 ?>
-                $('body').data('product_key', '<?php echo $product_key; ?>');
+                body.data('product_key', '<?php echo $product_key; ?>');
             <?php } ?>
-            $('body').data('cart_key', '<?php echo $cart_key; ?>');
+            body.data('cart_key', '<?php echo $cart_key; ?>');
         }
         checkCartKey();
+
+        <?php //run onload validation only for registered customers
+        if($this->customer->isLogged()){ ?>
+            $('form#PayFrm, form#AddressFrm, form#Address2Frm').each( function(e){
+               validateForm($(this));
+            });
+        <?php } ?>
     });
 
     <?php echo $this->getHookVar('fc_js_page'); ?>
-    }, false);
+
+}, false);
 </script>

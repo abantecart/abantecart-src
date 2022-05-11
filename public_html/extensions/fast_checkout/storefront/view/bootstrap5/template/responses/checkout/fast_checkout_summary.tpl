@@ -1,6 +1,6 @@
 
 
-<div id="cart_details d-flex flex-column ">
+<div id="cart_details d-flex flex-column mx-sm-auto">
     <?php if (is_array($products) && count($products) > 0) { ?>
 			<h5 class="">
 				<?php echo $this->language->get('fast_checkout_order_summary');

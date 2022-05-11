@@ -28,6 +28,15 @@ if (!window.hasOwnProperty("search_url")) {
     window.search_url = baseUrl + '?rt=product/search';
 }
 
+$(document).on('submit','form.needs-validation', function(e){
+    if (!$(this)[0].checkValidity()) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    $(this).addClass('was-validated');
+});
+
 $(document).ready(function(){
 
     if (window.hasOwnProperty("is_retina") && is_retina === true) {
@@ -186,6 +195,7 @@ $(document).ready(function(){
             input.val(qty);
         }
     );
+
 });
 
 function openModalRemote(id, url) {

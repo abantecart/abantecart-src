@@ -2,17 +2,22 @@
 if ($show_payment == false) { ?>
 </form>
 <?php }
+
+$login_form['form_open']->style .= ' needs-validation ';
+//block native browser validation messages
+$login_form['form_open']->attr .= ' novalidate ';
 echo $login_form['form_open']; ?>
 <div id="login_error_container">
-    <?php if (in_array($action, ['', 'login']) && $error) { ?>
-		<div class="alert alert-danger" role="alert"><i class="fa fa-exclamation fa-fw"></i> <?php echo $error; ?></div>
-    <?php } ?>
+    <?php if (in_array($action, ['', 'login']) && $error) {
+        include($this->templateResource('/template/responses/checkout/alerts.tpl'));
+     } ?>
 </div>
 <p class="text-center"> <?php echo $fast_checkout_text_please_login; ?>:</p>
 <fieldset>
     <div class="form-floating mb-3 col-6 mx-auto">
         <?php
             $login_form['loginname']->set('no_wrapper',true);
+            $login_form['loginname']->attr .= ' required ';
             echo $login_form['loginname'];
         ?>
         <label for="<?php echo $login_form['loginname']->element_id; ?>">
@@ -22,7 +27,8 @@ echo $login_form['form_open']; ?>
     <div class="form-floating mb-3 col-6 mx-auto">
         <?php
         $login_form['password']->set('no_wrapper',true);
-        echo $login_form['password']?>
+        $login_form['password']->attr .= ' required ';
+        echo $login_form['password']; ?>
         <label for="<?php echo $login_form['password']->element_id; ?>">
             <?php echo_html2view($fast_checkout_text_password); ?>
             </label>

@@ -1,11 +1,13 @@
 <?php
+/** @noinspection PhpUnused */
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2022 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,8 +25,6 @@ if (!defined('DIR_CORE')) {
 
 class ControllerResponsesCommonZone extends AController
 {
-    private $error = array();
-
     public function main()
     {
 
@@ -34,7 +34,7 @@ class ControllerResponsesCommonZone extends AController
 
         if (has_value($this->request->get['country_id']) && is_numeric($this->request->get['country_id'])) {
             $country_id = $this->request->get['country_id'];
-            $stdout = '<option value="FALSE">'.$this->language->get('text_select').'</option>';
+            $stdout = '<option>'.$this->language->get('text_select').'</option>';
 
             $this->loadModel('localisation/zone');
 
@@ -73,7 +73,7 @@ class ControllerResponsesCommonZone extends AController
 
             $country_name = $this->request->get['country_name'];
 
-            $stdout = '<option value="FALSE">'.$this->language->get('text_select').'</option>';
+            $stdout = '<option>'.$this->language->get('text_select').'</option>';
 
             $this->loadModel('localisation/zone');
 

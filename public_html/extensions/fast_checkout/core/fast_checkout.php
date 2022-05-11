@@ -124,6 +124,7 @@ class ExtensionFastCheckout extends Extension
                 'cart_ajax_url',
                 $that->html->getURL('r/product/product/addToCart', '&fc=1')
             );
+            $that->document->addScriptBottom( $that->view->templateResource('/js/fast_checkout.js') );
         }
     }
 

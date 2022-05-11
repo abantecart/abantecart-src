@@ -134,5 +134,7 @@ if ($show_payment == true) {
             let url = '<?php echo $main_url ?>&' + getUrlParams('shipping_address_id', $(this).val());
             pageRequest(url);
         });
+        updateShippingAddressDisplay();
+        updatePaymentAddressDisplay();
     });
 </script>

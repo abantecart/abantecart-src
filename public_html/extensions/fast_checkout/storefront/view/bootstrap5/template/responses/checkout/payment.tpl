@@ -8,7 +8,7 @@ $guest_data = $this->session->data['fc']['guest'];
     <?php } ?>
     <?php if ($error) { ?>
         <div class="alert alert-danger" role="alert">
-            <i class="fa fa-exclamation fa-fw"></i><?php echo $error; ?></div>
+            <i class="fa fa-solid fa-triangle-exclamation fa-fw"></i><?php echo $error; ?></div>
     <?php } ?>
 </div>
 
@@ -81,6 +81,7 @@ if ($show_payment == true) {
                           class="form-control form-control-lg"
                           name="comment"
                           placeholder="<?php echo_html2view($fast_checkout_text_comment_placeholder); ?>"
+                          maxlength="1500"
                 ><?php echo $comment; ?></textarea>
                 <div class="input-group-text">
                    <button class="btn btn-outline-secondary btn-lg btn-comment" type="button">
@@ -145,7 +146,6 @@ if ($show_payment == true) {
             <?php include($this->templateResource('/template/responses/checkout/payment_select.tpl')) ?>
         </div>
 
-
         <div id="returnPolicyModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="returnPolicyModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
@@ -169,10 +169,8 @@ if ($show_payment == true) {
         <div class="alert alert-danger" role="alert">
             <?php echo $this->language->get('fast_checkout_error_no_payment'); ?>
         </div>
-    <?php } ?>
-
-
-    <?php } ?>
+    <?php }
+} ?>
 
 
 
@@ -183,134 +181,9 @@ if ($show_payment == true) {
 <?php } ?>
 
 <script type="text/javascript">
-    getUrlParams = function (key, value) {
-        let searchParams = new URLSearchParams(window.location.search);
-        //Remove old value
-        if (searchParams.has('cart_key')) {
-            searchParams.delete('cart_key')
-        }
-        if (searchParams.has('rt')) {
-            searchParams.delete('rt')
-        }
-        if (searchParams.has('coupon_code')) {
-            searchParams.delete('coupon_code')
-        }
-        if (searchParams.has('remove_coupon')) {
-            searchParams.delete('remove_coupon')
-        }
-
-        //Set New Value
-        if (searchParams.has(key)) {
-            searchParams.set(key, value)
-        } else {
-            searchParams.append(key, value)
-        }
-        return searchParams.toString()
-    };
-
 
 
     $(document).ready(function () {
-        $("#coupon_code").on('keyup', function (e) {
-            if (e.keyCode === 13) {
-                $(".btn-coupon").click()
-            }
-        });
-
-        $(".pay-form").on(
-                "click",
-                ".btn-comment",
-                function () {
-                    let that = $(this).closest('.form-group');
-                    $.ajax(
-                        {
-                            type: "POST",
-                            url: '<?php echo $this->html->getSecureUrl('r/checkout/pay/updateOrderData'); ?>',
-                            data: {
-                                comment: $('textarea[name=comment]').val()
-                            },
-                            success: function(){
-                                that
-                                    .removeClass('has-error')
-                                    .removeClass('has-success')
-                                    .addClass('has-success');
-                            },
-                            error: function(){
-                                that
-                                    .removeClass('has-error')
-                                    .removeClass('has-success')
-                                    .addClass('has-error');
-                            },
-                            complete: checkCartKey
-                        }
-                    );
-        }).on(
-            "click",
-            ".btn-coupon",
-            function () {
-                var $input = $('div.coupon_code').find('input');
-                var coupon = $input.val().replace(/\s+/g, '');
-                if (!coupon) {
-                    $.aCCValidator.show_error($(this), '.form-group');
-                    return false;
-                }
-                let url = '<?php echo $main_url ?>&' + $('#PayFrm').serialize();
-                pageRequest(url);
-            }
-        ).on(
-            "click",
-            ".btn-remove-coupon",
-            function () {
-                let url = '<?php echo $main_url ?>&' + $('#PayFrm').serialize() + '&remove_coupon=true';
-                pageRequest(url);
-            }
-        ).on(
-            "click",
-            ".btn-apply-balance",
-            function () {
-                let url = '<?php echo $main_url ?>&'+ $('#PayFrm').serialize()+ '&' + getUrlParams('balance', 'apply');
-                pageRequest(url);
-            }
-        ).on(
-            "click",
-            ".btn-remove-balance",
-            function () {
-                let url = '<?php echo $main_url ?>&'+ $('#PayFrm').serialize()+ '&' + getUrlParams('balance', 'disapply');
-                pageRequest(url);
-            }
-        ).on(
-            "click",
-            ".payment-option",
-            function () {
-                if ($(this).hasClass('selected')) {
-                    return;
-                }
-                var payment_id = $(this).data('payment-id');
-                const paymentAvailable = $(this).attr('data-payment-available');
-                if (payment_id === 'account_balance' || paymentAvailable === 'false') {
-                    return;
-                }
-                var form = $('#PayFrm');
-                let url = '<?php echo $main_url ?>&' + form.serialize() + '&payment_method=' + payment_id;
-                $('#payment_details').remove();
-                $('form').unbind("submit");
-                form.attr('action', url);
-                $('.spinner-overlay').fadeIn(100);
-                $.ajax(
-                    {
-                        url: url,
-                        type: 'GET',
-                        dataType: 'html',
-                        success: function (data) {
-                            $('#fast_checkout_summary_block').trigger('reload');
-                            $('#fast_checkout_cart').hide().html(data).fadeIn(1000);
-                            $('.spinner-overlay').fadeOut(100);
-                            checkCartKey();
-                        }
-                    }
-                );
-            }
-        );
 
         //load first tab
         <?php if ($payment_available === true){ ?>
@@ -328,84 +201,10 @@ if ($show_payment == true) {
             $('#account_credit').html($('#hidden_account_credit').html());
         });
 
-        $('form.validate-creditcard [name=telephone]').bind({
-            change: function () {
-                //check as telephone is entered
-                if (validateTelephone($(this).val())) {
-                    $.aCCValidator.show_success($(this), '.form-group');
-                } else {
-                    $.aCCValidator.show_error($(this), '.form-group');
-                }
-            },
-            blur: function () {
-                //check full number as lost focus
-                if (validateTelephone($(this).val())) {
-                    $.aCCValidator.show_success($(this), '.form-group');
-                } else {
-                    $.aCCValidator.show_error($(this), '.form-group');
-                }
-            }
-        });
 
-        $('form.validate-creditcard [name=cc_email]').bind({
-            change: function () {
-                //check as email is entered
-                if (validateEmail($(this).val())) {
-                    $.aCCValidator.show_success($(this), '.form-group');
-                } else {
-                    $.aCCValidator.show_error($(this), '.form-group');
-                }
-            },
-            blur: function () {
-                //check full number as lost focus
-                if (validateEmail($(this).val())) {
-                    $.aCCValidator.show_success($(this), '.form-group');
-                } else {
-                    $.aCCValidator.show_error($(this), '.form-group');
-                }
-            }
-        });
 
-        $('form.validate-creditcard [name=cc_number]').bind({
-            change: function () {
-                //check as number is entered
-                $.aCCValidator.precheckCCNumber($(this));
-            },
-            blur: function () {
-                //check full number as lost focus
-                $.aCCValidator.checkCCNumber($(this));
-            }
-        });
 
-        $('form.validate-creditcard [name=cc_expire_date_month]').bind({
-            change: function () {
-                $.aCCValidator.checkExp($(this), 'reset');
-            },
-            blur: function () {
-                $.aCCValidator.checkExp($(this));
-            }
-        });
 
-        $('form.validate-creditcard [name=cc_expire_date_year]').bind({
-            change: function () {
-                $.aCCValidator.checkExp($(this), 'reset');
-            },
-            blur: function () {
-                $.aCCValidator.checkExp($(this));
-            }
-        });
-
-        $('form.validate-creditcard [name=cc_cvv2]').bind({
-            change: function () {
-                $.aCCValidator.checkCVV($(this), 'reset');
-            },
-            blur: function () {
-                $.aCCValidator.checkCVV($(this));
-            }
-        });
-
-        updateShippingAddressDisplay();
-        updatePaymentAddressDisplay();
 
         $('.btn-edit-email').on('click', function (event) {
             <?php if ($this->customer && $this->customer->getId()) { ?>
