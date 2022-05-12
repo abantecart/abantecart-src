@@ -202,10 +202,6 @@ if ($show_payment == true) {
         });
 
 
-
-
-
-
         $('.btn-edit-email').on('click', function (event) {
             <?php if ($this->customer && $this->customer->getId()) { ?>
                 location.replace('<?php echo $this->html->getSecureUrl("account/edit");?>');

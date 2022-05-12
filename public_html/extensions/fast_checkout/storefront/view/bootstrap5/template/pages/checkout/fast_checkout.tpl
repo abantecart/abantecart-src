@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function load() {
             },
             error: function () {
                 $('.spinner-overlay').fadeOut(500);
+                scrollOnTop();
             }
         });
     };

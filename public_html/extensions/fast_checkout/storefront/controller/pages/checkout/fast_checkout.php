@@ -301,7 +301,7 @@ class ControllerPagesCheckoutFastCheckout extends AController
                 'separator' => $this->language->get('text_separator'),
             ]
         );
-
+// TODO: clean up in the future
         $this->document->addStyle(
             [
                 'href' => $this->view->templateResource('/css/bootstrap-xxs.css'),

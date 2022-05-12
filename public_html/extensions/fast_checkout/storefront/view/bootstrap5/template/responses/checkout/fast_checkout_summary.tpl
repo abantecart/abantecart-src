@@ -1,5 +1,4 @@
 
-
 <div id="cart_details d-flex flex-column mx-sm-auto">
     <?php if (is_array($products) && count($products) > 0) { ?>
 			<h5 class="">

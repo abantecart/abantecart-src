@@ -90,7 +90,7 @@ class ExtensionFastCheckout extends Extension
 
         $that = $this->baseObject;
         $that->loadLanguage('fast_checkout/fast_checkout');
-        if ($that->request->get['rt'] === 'checkout/fast_checkout') {
+        if (in_array( $that->request->get['rt'], ['checkout/fast_checkout','checkout/fast_checkout_success'])) {
             $that->processTemplate('responses/includes/page_footer.tpl');
         }
 

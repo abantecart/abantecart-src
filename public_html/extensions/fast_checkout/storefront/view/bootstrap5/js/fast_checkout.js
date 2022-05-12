@@ -47,6 +47,15 @@ function validateForm(formObj){
     return $(formObj)[0].checkValidity();
 }
 
+function scrollOnTop() {
+    $([document.documentElement, document.body]).animate(
+        {
+            scrollTop: $("div.pay-form").offset().top
+        },
+        1000
+    );
+}
+
 showLoading = function (modal_body) {
     modal_body.html('<div class="modal_loader" style="text-align: center"><i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i></div>');
 };
@@ -61,6 +70,7 @@ pageRequest = function (url) {
             validateForm( form );
         }
         checkCartKey();
+        scrollOnTop();
     });
 };
 
@@ -116,6 +126,7 @@ $(document).on(
                     $('#fast_checkout_cart').hide().html(data).fadeIn(1000);
                     $('.spinner-overlay').fadeOut(500);
                     checkCartKey();
+                    scrollOnTop();
                 }
             }
         );
@@ -133,14 +144,12 @@ $(document).on(
                     comment: that.val()
                 },
                 success: function(){
-                    that
-                        .removeClass('is-invalid')
+                    that.removeClass('is-invalid')
                         .removeClass('is-valid')
                         .addClass('is-valid');
                 },
                 error: function(){
-                    that
-                        .removeClass('is-invalid')
+                    that.removeClass('is-invalid')
                         .removeClass('is-valid')
                         .addClass('is-invalid');
                 },
@@ -209,6 +218,12 @@ $(document).on(
                         $('#fast_checkout_cart').hide().html(data).fadeIn(1000);
                         $('.spinner-overlay').fadeOut(100);
                         checkCartKey();
+                        $([document.documentElement, document.body]).animate(
+                            {
+                                scrollTop: $("#payment_details").offset().top
+                            },
+                            1000
+                        );
                     }
                 }
             );
@@ -238,7 +253,8 @@ $(document).on(
                 } else {
                     $('.spinner-overlay').fadeOut(500);
                     $('#fast_checkout_summary_block').trigger('reload');
-                    $('#fast_checkout_cart').hide().html(data).fadeIn(1000)
+                    $('#fast_checkout_cart').hide().html(data).fadeIn(1000);
+                    scrollOnTop();
                 }
             });
             return false;

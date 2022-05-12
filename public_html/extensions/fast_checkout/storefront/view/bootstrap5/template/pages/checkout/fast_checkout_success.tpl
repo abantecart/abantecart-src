@@ -1,5 +1,4 @@
-<link href="<?php
-echo $this->templateResource('/css/pay.css'); ?>" rel="stylesheet" type='text/css'/>
+<link href="<?php echo $this->templateResource('/css/pay.css'); ?>" rel="stylesheet" type='text/css'/>
 <div id="fast_checkout_success"></div>
 <script type="application/javascript">
     document.addEventListener('DOMContentLoaded', function load() {

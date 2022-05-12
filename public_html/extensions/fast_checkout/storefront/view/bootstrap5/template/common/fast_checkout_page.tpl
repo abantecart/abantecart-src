@@ -45,14 +45,11 @@ echo ${$header}; ?>
         <?php
             //check layout dynamically
             $present_columns = 0;
-            $center_padding = '';
             if (!empty($$column_left)) {
                 $present_columns++;
-                $center_padding .= ' ms-1 ';
             }
             if (!empty($$column_right)) {
                 $present_columns++;
-                $center_padding .= ' me-1 ';
             }
         ?>
 
