@@ -40,7 +40,7 @@ echo $$header; ?>
 <!-- header_bottom blocks placeholder -->
 <?php } ?>
 
-<div id="maincontainer">
+<div id="maincontainer" class="mb-3">
 
 <?php
     //check layout dynamically
@@ -56,7 +56,7 @@ echo $$header; ?>
     }
 ?>
 
-	<div class="d-flex flex-wrap align-items-stretch align-self-stretch">
+        <div class="d-flex flex-wrap align-items-stretch align-self-stretch justify-content-center">
 		<?php if ( !empty($$column_left ) ) { ?>
 		<div class="ms-3 col-12 col-sm-9 col-md-8 col-lg-2 col-xl-3">
 		<?php echo $$column_left; ?>
@@ -64,7 +64,7 @@ echo $$header; ?>
 		<?php } ?>
 
 		<?php $span = 12 - 4 * $present_columns; ?>
-		<div class="flex-grow-1 col-12 col-xl-<?php echo $span ?>  mt-2">
+            <div class="flex-grow-1 col-12 col-lg-<?php echo $span ?>  mt-2">
             <?php if ( !empty( $$content_top ) ) { ?>
             <!-- content top blocks placeholder -->
             <?php echo $$content_top; ?>
@@ -83,7 +83,7 @@ echo $$header; ?>
 		</div>
 
 		<?php if ( !empty($$column_right ) ) { ?>
-		<div class="me-3 col-12 col-sm-9 col-md-8 col-lg-2 col-xl-3">
+            <div class="me-3 col-11 col-sm-9 col-md-8 col-lg-2 col-xl-3">
 		<?php echo $$column_right; ?>
 		</div>
 		<?php } ?>
@@ -93,7 +93,7 @@ echo $$header; ?>
 
 <?php if ( !empty( $$footer_top ) ) { ?>
 <!-- footer top blocks placeholder -->
-	<div class="container-fluid">
+	<div class="d-flex w-100 justify-content-evenly flex-wrap px-0 mx-0 border">
 		<div class="col-md-12">
 	    <?php echo $$footer_top; ?>
 	  	</div>

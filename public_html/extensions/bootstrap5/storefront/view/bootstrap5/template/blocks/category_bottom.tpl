@@ -34,12 +34,12 @@
                 if(!function_exists('__prepareItems')) {
                     function __prepareItems($items)
                     {
-                        foreach ($items as &$cat){
+                        foreach ($items as &$cat) {
                             unset($cat['thumb']);
-                            if($cat['level'] == 0){
+                            if ($cat['level'] == 0) {
                                 unset($cat['icon']);
                             }
-                            if($cat['children']){
+                            if ($cat['children']) {
                                 $cat['children'] = __prepareItems($cat['children']);
                             }
                         }

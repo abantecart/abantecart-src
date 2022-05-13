@@ -532,6 +532,7 @@ if( $hookVarArray ){
 <?php }
 } ?>
 
+            </div>
         </div>
     </div>
 </div>

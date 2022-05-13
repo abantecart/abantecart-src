@@ -84,7 +84,13 @@ ul.dropdown-menu.topcartopen{
   min-width: 400px;
 }
 
-.latest-column img{
+.latest-column img,
+.bestsellers-column img,
+.featured-column img,
+.special-column img,
+.listing-block-left img,
+.listing-block-right img
+{
   max-width: 80px;
   max-height: 80px;
 }
@@ -142,4 +148,9 @@ ul.dropdown-menu.topcartopen{
    -webkit-line-clamp: 3; /* number of lines to show */
            line-clamp: 3;
    -webkit-box-orient: vertical;
+}
+
+
+.category-block li:hover{
+    background-color: var(--bs-gray-100);
 }

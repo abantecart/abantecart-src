@@ -1,5 +1,5 @@
 <?php /* Footer */ ?>
-<footer class="bd-footer py-1 mt-5 bg-light">
+<footer class="bd-footer pt-1 bg-light">
     <div class="container py-1">
         <div class="row">
         <?php
