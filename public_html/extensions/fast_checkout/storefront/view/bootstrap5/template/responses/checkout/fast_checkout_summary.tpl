@@ -1,7 +1,7 @@
 
 <div id="cart_details d-flex flex-column mx-sm-auto">
     <?php if (is_array($products) && count($products) > 0) { ?>
-			<h5 class="">
+			<h5>
 				<?php echo $this->language->get('fast_checkout_order_summary');
 				if ($cart_weight){
                     echo '  ('.$cart_weight.')';

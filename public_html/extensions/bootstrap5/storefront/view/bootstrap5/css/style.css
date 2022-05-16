@@ -14,8 +14,6 @@ a[href]:after {
   content: none !important;
 }
 
-
-
 input{
   min-width: 60px;
 }
