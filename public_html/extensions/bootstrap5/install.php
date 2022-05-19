@@ -6,8 +6,6 @@ if (! defined ( 'DIR_CORE' )) {
 }
 
 
-
-
 $file = DIR_EXT . '/bootstrap5/layout.xml';
 $layout = new ALayoutManager('default');
-$layout->loadXml(array('file' => $file));
+$layout->loadXml(['file' => $file]);

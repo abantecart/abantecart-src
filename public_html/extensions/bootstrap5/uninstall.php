@@ -6,8 +6,6 @@ if (! defined ( 'DIR_CORE' )) {
 }
 
 
-
-
 $extension_id = 'bootstrap5';
 // delete template layouts
 try{
