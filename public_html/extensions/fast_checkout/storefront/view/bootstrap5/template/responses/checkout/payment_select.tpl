@@ -5,11 +5,7 @@ if($total_payment || $balance>0 || $no_payment_required){ ?>
 <div class="d-flex flex-wrap justify-content-evenly payment_items ">
 <?php
     if ($total_payment) {
-        $paymentCover = '<div style="height: 100px; 
-                                            background-image: url(\'%s\');
-                                            background-position: center; 
-                                            background-size: contain; 
-                                            background-repeat: no-repeat;"></div>';
+        $paymentCover = '<img style="height: 100px;" src="%s">';
         $defaultPaymentCover = sprintf(
                 $paymentCover,
                 'extensions/fast_checkout/storefront/view/default/images/payment.png'
@@ -17,15 +13,14 @@ if($total_payment || $balance>0 || $no_payment_required){ ?>
 
         foreach ($payment_methods as $id => $payment) {
             $current = ($id == $payment_method) ? ' bg-success bg-opacity-25 ' : ''; ?>
-            <div class="card payment_item border col-11 col-sm-6 col-md-4 col-lg-5 m-2">
-                <div class="card-header text-center fw-bold bg-gradient <?php echo $current; ?>">
-                    <?php
-                        echo ($id == $payment_method ? '<i class="fa fa-check me-2"></i>' : '') . $payment['title'];
-                    ?>
+            <div class="card payment_item border col-11 col-sm-10 col-md-5 col-lg-5 m-2"
+                 data-payment-id="<?php echo $id; ?>"
+                 data-payment-available="<?php echo (!$csession['used_balance_full'] ? 'true': 'false'); ?>">
+                <div class="card-header d-none d-md-block text-start text-md-center fw-bold bg-gradient <?php echo $current; ?>">
+                    <?php echo ($id == $payment_method ? '<i class="fa fa-check me-2"></i>' : '') . $payment['title']; ?>
                 </div>
-                <div class="card-body thumbnail payment-option <?php echo $current; ?>"
-                     data-payment-id="<?php echo $id; ?>"
-                     data-payment-available="<?php echo (!$csession['used_balance_full'] ? 'true': 'false'); ?>">
+                <div class="card-body d-flex flex-nowrap thumbnail justify-content-center text-md-center payment-option <?php echo $current; ?>">
+                    <div class="">
                 <?php
                 if ($payment['icon']) {
                     $icon = $payment['icon'];
@@ -37,6 +32,10 @@ if($total_payment || $balance>0 || $no_payment_required){ ?>
                 } else {
                     echo $defaultPaymentCover;
                 } ?>
+                    </div>
+                    <div class="card-text fw-bold ms-4 w-100 d-md-none text-start text-md-center">
+                        <?php echo ($id == $payment_method ? '<i class="fa fa-check me-2"></i>' : '') . $payment['title']; ?>
+                    </div>
                 </div>
             </div>
         <?php

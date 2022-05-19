@@ -58,7 +58,7 @@ if($this->cart->hasShipping()){
     $(document).ready(function () {
         $("#shipping_method").change(function () {
             let url = '<?php echo $main_url ?>&' + getUrlParams('shipping_method', $(this).val());
-            pageRequest(url);
+            pageRequest(url, false);
         });
 
         $(".shipping-selectors input[type='radio']").change(function () {
@@ -66,7 +66,7 @@ if($this->cart->hasShipping()){
             if ($('#PayFrm').serialize()) {
                 url = '<?php echo $main_url ?>&' + $('#PayFrm').serialize()
             }
-            pageRequest(url);
+            pageRequest(url, false);
         });
     });
 </script>

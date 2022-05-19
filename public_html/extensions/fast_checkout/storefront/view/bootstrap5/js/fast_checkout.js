@@ -59,7 +59,7 @@ function scrollOnTop() {
 showLoading = function (modal_body) {
     modal_body.html('<div class="modal_loader" style="text-align: center"><i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i></div>');
 };
-pageRequest = function (url) {
+pageRequest = function (url, scroll = true) {
     $('.spinner-overlay').fadeIn(100);
     $.get(url, {} , function (data) {
         $('#fast_checkout_summary_block').trigger('reload');
@@ -70,7 +70,9 @@ pageRequest = function (url) {
             validateForm( form );
         }
         checkCartKey();
-        scrollOnTop();
+        if(scroll) {
+            scrollOnTop();
+        }
     });
 };
 
@@ -192,7 +194,7 @@ $(document).on(
         }
     ).on(
         "click",
-        ".payment-option",
+        ".payment_item",
         function () {
             if ($(this).hasClass('selected')) {
                 return;
