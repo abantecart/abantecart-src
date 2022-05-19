@@ -148,7 +148,18 @@ ul.dropdown-menu.topcartopen{
    -webkit-box-orient: vertical;
 }
 
-
 .category-block li:hover{
     background-color: var(--bs-gray-100);
+}
+
+#gotop {
+    position: fixed;
+    bottom: 2px;
+    right: 5px;
+    height: 58px;
+    width: 58px;
+    display: block;
+    overflow: hidden;
+    opacity: 0.5;
+    color: darkgray;
 }

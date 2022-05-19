@@ -108,7 +108,7 @@ echo $$header; ?>
 </div>
 
 </div>
-
+<a id="gotop" class="fs-6" href="#" title="<?php echo_html2view($this->language->get('text_back_on_top'));?>"><i class="fa-solid fa-circle-chevron-up fa-3x"></i></a>
 <!--
 AbanteCart is open source software and you are free to remove the Powered By AbanteCart if you want, but its generally accepted practise to make a small donation.
 Please donate http://www.abantecart.com/donate
@@ -118,9 +118,9 @@ if($scripts_bottom && is_array($scripts_bottom)) {
 	foreach ($scripts_bottom as $script){ ?>
         <script type="text/javascript" src="<?php echo $script; ?>" defer></script>
     <?php }
-} ?>
+}
 
-<?php if ($google_analytics){
+if ($google_analytics){
 	//get ecommerce tracking data from checkout page
 	/**
 	 * @see ControllerPagesCheckoutSuccess::_google_analytics()
