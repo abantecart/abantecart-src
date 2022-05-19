@@ -1,6 +1,6 @@
 <?php
 $total_payment = count((array)$payment_methods);
-if($total_payment || $balance>0){ ?>
+if($total_payment || $balance>0 || $no_payment_required){ ?>
 <h5 class="text-center text-uppercase mb-3"><?php echo $fast_checkout_text_select_payment; ?></h5>
 <div class="d-flex flex-wrap justify-content-evenly payment_items ">
 <?php
@@ -42,7 +42,7 @@ if($total_payment || $balance>0){ ?>
         <?php
         }
     }
-    if ($balance > 0) {
+    if ($balance > 0 && !$no_payment_required) {
         $css = $csession['used_balance'] ? 'balance_applied' : '';
         $css .= $csession['used_balance_full'] ? ' balance_applied_full' : '';
         $current = $csession['used_balance_full'] ? ' bg-success bg-opacity-25 ' : '';

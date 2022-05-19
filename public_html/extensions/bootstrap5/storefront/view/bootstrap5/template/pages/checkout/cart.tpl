@@ -103,7 +103,15 @@ if (sizeof((array) $error_warning) > 0) {
     <div class="container-fluid cart-info product-list">
         <div class="ps-4 p-3 col-12 d-flex flex-wrap justify-content-end">
             <?php
-            echo $this->getHookVar('pre_top_cart_buttons');
+            echo $this->getHookVar('pre_top_cart_buttons'); ?>
+            <button id="submit_button" type="submit"
+                    role="button"
+                    class="btn btn-outline-success lock-on-click mx-2"
+                    title="<?php echo_html2view($button_update); ?>">
+                <i class="fa fa-refresh"></i>
+                <?php echo $button_update; ?>
+            </button>
+            <?php
             if ($form['checkout']) { ?>
             <a href="#"
                onclick="save_and_checkout('<?php echo $checkout_rt; ?>'); return false;"
@@ -113,13 +121,6 @@ if (sizeof((array) $error_warning) > 0) {
                 <?php echo $button_checkout; ?>
             </a>
             <?php } ?>
-            <button id="submit_button" type="submit"
-                    role="button"
-                    class="btn btn-outline-success lock-on-click mx-2"
-                    title="<?php echo_html2view($button_update); ?>">
-                <i class="fa fa-refresh"></i>
-                <?php echo $button_update; ?>
-            </button>
             <?php echo $this->getHookVar('post_top_cart_buttons'); ?>
         </div>
     </div>

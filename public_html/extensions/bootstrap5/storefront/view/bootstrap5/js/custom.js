@@ -198,6 +198,24 @@ $(document).ready(function(){
 
 });
 
+//put submitted or clicked button to loading state
+    $(document).on('click', '.lock-on-click', function () {
+         let btn = $(this);
+         if(!btn.find('span.spinner-border').length) {
+             btn.prepend('<span class="visually-hidden spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+         }
+
+        btn.find('i').addClass('visually-hidden');
+        btn.find('span.spinner-border').removeClass('visually-hidden');
+        btn.addClass('disabled');
+    });
+
+function resetLockedButton(btn){
+    btn.find('i').removeClass('visually-hidden');
+    btn.find('span.spinner-border').addClass('visually-hidden');
+    btn.removeClass('disabled');
+}
+
 function openModalRemote(id, url) {
 
     let modal = $(id);
