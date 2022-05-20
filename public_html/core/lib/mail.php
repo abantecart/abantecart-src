@@ -171,9 +171,10 @@ class AMail
      */
     public function setTemplate($text_id, array $placeholders = [], $languageId = 0)
     {
+
         $text_id = trim($text_id);
         if (empty($text_id)) {
-            $this->log->write('Email text id can\'t be empmty');
+            $this->log->write('Email text id can\'t be empty');
             return;
         }
 
