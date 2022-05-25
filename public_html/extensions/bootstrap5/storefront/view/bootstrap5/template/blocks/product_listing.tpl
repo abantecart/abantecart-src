@@ -1,5 +1,5 @@
 <?php if($products){ ?>
-<div class="container">
+<div class="px-0 container-fluid container-xl">
 <?php
 $cartProducts = $this->cart->getProducts();
 $cartProductIds = $cartProducts ? array_column($cartProducts,'product_id') : [];
@@ -21,7 +21,7 @@ foreach ($products as $product) {
 
     $product['thumb'] = $product['thumb'] ?? $product['image'];
     $item = [];
-    $item['image'] = '<img class="m-3" src="'.$product['thumb']['thumb_url'].'">';
+    $item['image'] = '<img class="img-fluid" src="'.$product['thumb']['thumb_url'].'">';
     $item['title'] = $product['name'];
     $item['description'] = $product['model'];
     $item['rating'] = renderRatingStars($product['rating'], $product['stars']);
@@ -39,9 +39,9 @@ foreach ($products as $product) {
     }
     ?>
             <div class="d-flex flex-wrap pb-3 mb-3 border-bottom border-3">
-                <div class="img-fluid col-3">
+                <div class="col-12 col-sm-3 p-3">
                     <?php if ($product['special']) { ?>
-                        <span class="position-absolute mt-5 fs-4 ms-2 translate-middle badge bg-danger">
+                        <span class="special-badge position-absolute mt-5 fs-4 ms-2 translate-middle badge bg-danger">
                             <?php echo $text_sale; ?>
                           </span>
                     <?php }
@@ -51,7 +51,7 @@ foreach ($products as $product) {
                     <a href="<?php echo $item['info_url'] ?>"><?php echo $item['image'] ?></a>
                 </div>
 
-                <div class="col-9 d-flex flex-column">
+                <div class="col-12 col-sm-9 d-flex flex-column">
                     <a class="text-decoration-none text-secondary card-title" href="<?php echo $item['info_url'] ?>">
                         <h2><?php echo $item['title'].' '. ($product['model'] ? "(".$product['model'].")" :''); ?></h2>
                     </a>

@@ -1,6 +1,21 @@
 <div class="cart-top-block navbar">
     <ul class="nav navbar-nav topcart">
-        <li class="nav-item dropdown hover">
+        <?php //mobile view ?>
+        <li class="nav-item d-block d-md-none">
+            <a href="<?php echo $view; ?>" class="nav-link active">
+                <i class="fa fa-shopping-cart fa-fw"></i>&nbsp;&nbsp;
+                <span class="label label-orange font14">
+                    <?php echo $total_qty;?>
+                </span>
+                <?php echo $text_items;?>
+                -
+                <span class="cart_total">
+                    <?php echo $subtotal; ?>
+                </span>
+            </a>
+        </li>
+        <?php //medium device and larger view ?>
+        <li class="nav-item dropdown d-none d-md-block">
             <a href="<?php echo $view; ?>" class="nav-link active dropdown-toggle">
                 <i class="fa fa-shopping-cart fa-fw"></i>&nbsp;&nbsp;
                 <span class="label label-orange font14">

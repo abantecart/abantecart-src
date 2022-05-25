@@ -29,6 +29,13 @@ input[type=number]::-webkit-inner-spin-button {
   appearance: textfield;
 }
 
+#headerNavbarCollapse a:not(.dropdown-item, .dropdown-item-text a),
+footer>nav a:not(.dropdown-item, .dropdown-item-text a)
+{
+    text-decoration: none;
+    color: white !important;
+}
+
 /* auto-open for dropdowns */
 .dropup:hover>.dropdown-menu,
 .dropdown:hover>.dropdown-menu {
@@ -93,6 +100,40 @@ ul.dropdown-menu.topcartopen{
   max-height: 80px;
 }
 
+@media (max-width: 768px) {
+    #headerNavbarCollapse a:not(.dropdown-item, .dropdown-item-text a)
+    {
+        font-size: 1.5rem;
+    }
+    /* style for top-search box */
+    ul#search-category,
+    .topnavbar .dropdown-menu,
+    .topnavbar .fa-caret-down,
+    #category_top_block .dropdown-menu,
+    #footer .dropdown-menu,
+    #footer .fa-caret-down
+    {
+        display: none !important;
+    }
+
+    .dropdown-currency{
+        font-size: 1.5rem;
+    }
+
+    .currency-switcher{
+        min-width: 12rem;
+    }
+
+    .special-badge {
+        font-size: 0.6rem !important;
+    }
+    .product-flex .card{
+      width: 20rem !important;
+    }
+    .pricetag .btn-success{
+        font-size: 1.2rem;
+    }
+}
 
 /* PRODUCT PAGE CSS */
 

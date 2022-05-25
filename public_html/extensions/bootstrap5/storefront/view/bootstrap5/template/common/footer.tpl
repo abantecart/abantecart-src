@@ -15,32 +15,19 @@
         ?>
         </div>
     </div>
-    <nav class="navbar navbar-expand-xl navbar-dark bg-secondary text-light" role="navigation">
-        <div class="container-fluid">
-            <button class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#footerNavbarCollapse"
-                    aria-controls="footerNavbarCollapse"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div id="footerNavbarCollapse" class="navbar-collapse collapse">
-                <div class="container d-flex flex-wrap justify-content-evenly navbar-nav mb-2 mb-md-0">
-                    <?php
-                    $i = 0;
-                    foreach($children_blocks as $k => $instanceName){ 
-                        $i++;
-                        if(in_array($i, $shown)){ continue; }
-                    ?>
-                        <div class="align-self-center justify-content-center mx-sm-3 mb-3 block_<?php echo $k; ?>">
-                            <?php echo $$instanceName; ?>
-                        </div>
-                    <?php
-                    } ?>
+    <nav class="navbar navbar-dark bg-secondary text-light" role="navigation">
+        <div class="w-100 d-flex flex-wrap justify-content-center navbar-nav mb-2 mb-md-0">
+            <?php
+            $i = 0;
+            foreach($children_blocks as $k => $instanceName){
+                $i++;
+                if(in_array($i, $shown)){ continue; }
+            ?>
+                <div class="align-self-center justify-content-center mx-sm-3 mb-3 block_<?php echo $k; ?>">
+                    <?php echo $$instanceName; ?>
                 </div>
-            </div>
+            <?php
+        } ?>
         </div>
     </nav>
 </footer>

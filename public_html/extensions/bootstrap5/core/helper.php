@@ -24,9 +24,9 @@ function renderSFMenu($menuItems, $level = 0, $parentId = '', $options = [ ])
     $idKey = $options['id_key_name'] ?: 'id';
 
     if ($level == 0) {
-        $output .= '<ul '.($options['top_level']['attr'] ?: 'class="navbar-nav"').'>';
+        $output .= '<div '.($options['top_level']['attr'] ?: 'class="d-flex flex-wrap flex-md-nowrap "').'>';
     } else {
-        $output .= '<ul class="dropdown-menu '.($level > 1 ? 'dropdown-submenu' : '').'" aria-labelledby="'.$parentId.'" '.$options['submenu_level']['attr'].'>';
+        $output .= '<div class="dropdown-menu '.($level > 1 ? 'dropdown-submenu' : '').'" aria-labelledby="'.$parentId.'" '.$options['submenu_level']['attr'].'>';
     }
 
     $ar = new AResource('image');
@@ -41,16 +41,16 @@ function renderSFMenu($menuItems, $level = 0, $parentId = '', $options = [ ])
         ) {
             continue;
         }
-        $item_title = $item['text'] ?: $item['title'] ?: $item['name'];
+        $item_title = '<span class="ms-1">'.($item['text'] ?: $item['title'] ?: $item['name']).'</span>';
         $hasChild = (bool) $item['children'];
-        $output .= '<li class="dropdown">';
+        $output .= '<div class="dropdown me-3 me-sm-0 mb-3 mb-sm-0">';
         //check icon rl type html, image or none.
         $rl_id = $item['icon'] ? : $item['icon_rl_id'];
         $icon = '';
         if ($rl_id) {
             $resource = $ar->getResource($rl_id);
             if ($resource['resource_path'] && is_file(DIR_RESOURCE.'image/'.$resource['resource_path'])) {
-                $icon = '<img class="menu_image" src="'.HTTPS_DIR_RESOURCE.'image/'.$resource['resource_path'].'" />&nbsp;';
+                $icon = '<img class="menu_image" src="'.HTTPS_DIR_RESOURCE.'image/'.$resource['resource_path'].'" />';
             } elseif ($resource['resource_code']) {
                 $icon = $resource['resource_code'];
             }
@@ -60,7 +60,7 @@ function renderSFMenu($menuItems, $level = 0, $parentId = '', $options = [ ])
 
         if ($hasChild) {
             $id = 'menu_'.$item[$idKey];
-            $css = 'dropdown-toggle text-nowrap '. ($level ? 'dropdown-item ' : 'nav-link ');
+            $css = 'dropdown-toggle text-nowrap mb-3 mb-md-0 me-3 '. ($level ? 'dropdown-item ' : '');
             $output .= '<a id="'.$id.'" 
                             href="'.$item['href'].'" 
                             class="'.$css.'" 
@@ -89,7 +89,7 @@ function renderSFMenu($menuItems, $level = 0, $parentId = '', $options = [ ])
 
             $output .= "\r\n".call_user_func_array('renderSFMenu',$params);
         } else {
-            $css = $level ? "dropdown-item" : "nav-item nav-link " .'text-nowrap ';
+            $css = $level ? "dropdown-item" : "text-secondary " .' me-3 mb-3 text-nowrap ';
             $popoverAttr = $item['thumb'] ? 'data-bs-toggle="popover" 
                         data-bs-content="<img src=&quot;'.$item['thumb'].'&quot;>" 
                         data-bs-html="true" data-bs-offset="5,5"
@@ -97,9 +97,9 @@ function renderSFMenu($menuItems, $level = 0, $parentId = '', $options = [ ])
                 : '';
             $output .= '<a href="'.$item['href'].'" class="'.$css.'" '.$popoverAttr.'>'.$icon.$item_title.'</a>';
         }
-        $output .= '</li>';
+        $output .= '</div>';
     }
-    $output .= "</ul>\n";
+    $output .= "</div>\n";
 
     return $output;
 }

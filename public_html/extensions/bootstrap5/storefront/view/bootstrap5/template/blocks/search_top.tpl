@@ -6,7 +6,7 @@
                id="filter-keyword"
                name="keyword"
                autocomplete="off"
-               class="form-control me-2 input-medium search-query dropdown-toggle"
+               class="form-control search-query dropdown-toggle"
                placeholder="<?php echo_html2view($text_keyword); ?>"
                value=""
                data-bs-toggle="dropdown"
@@ -21,7 +21,7 @@
                     'parent_id'   => 0,
                 ]
             );
-?>
+/** @see view/css/style.css for mobile view of dropdown belong */ ?>
             <ul id="search-category" class="dropdown-menu">
                 <li>
                     <a class="active dropdown-item" id="category_selected">

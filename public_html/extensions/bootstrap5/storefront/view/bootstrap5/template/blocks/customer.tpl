@@ -1,13 +1,19 @@
 <div id="customernav" class="navbar">
 	<ul class="nav navbar-nav main_menu" id="customer_menu_top">
 <?php if ($active) { ?>
-        <li class="nav-item dropdown">
+        <li class="nav-item d-block d-md-none">
+            <a class="nav-link active"
+               href="<?php echo $account; ?>">
+                <?php echo $text_welcome.' '.$name; ?>
+            </a>
+        </li>
+        <li class="nav-item dropdown dropend d-none d-md-block">
             <a class="nav-link active dropdown-toggle"
                href="<?php echo $account; ?>" id="customerMenuDropdown"
                role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-autoClose="true">
                 <?php echo $text_welcome.' '.$name; ?>
             </a>
-            <ul class="dropdown-menu" aria-labelledby="customerMenuDropdown">
+            <ul class="dropdown-menu " aria-labelledby="customerMenuDropdown">
                 <?php if ($login) { ?>
                     <li class="dropdown">
                         <a class="dropdown-item" href="<?php echo $login; ?>">
