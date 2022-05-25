@@ -16,14 +16,14 @@
         </div>
     </div>
     <nav class="navbar navbar-dark bg-secondary text-light" role="navigation">
-        <div class="w-100 d-flex flex-wrap justify-content-center navbar-nav mb-2 mb-md-0">
+        <div class="w-100 d-flex flex-wrap justify-content-center mb-2 mb-md-0">
             <?php
             $i = 0;
             foreach($children_blocks as $k => $instanceName){
                 $i++;
                 if(in_array($i, $shown)){ continue; }
             ?>
-                <div class="align-self-center justify-content-center mx-sm-3 mb-3 block_<?php echo $k; ?>">
+                <div class="align-self-center justify-content-center mx-sm-3 my-3 block_<?php echo $k; ?>">
                     <?php echo $$instanceName; ?>
                 </div>
             <?php

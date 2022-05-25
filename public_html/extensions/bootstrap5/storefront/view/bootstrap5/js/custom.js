@@ -109,7 +109,7 @@ $(document).ready(function(){
     }
 
     //dropdown menu fix of parent
-    $('li.dropdown>a').on('click', function (e) {
+    $('.dropdown>a').on('click', function (e) {
         e.preventDefault();
         let href = $(this).attr('href');
         if(href !== '#') {
