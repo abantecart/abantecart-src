@@ -2357,17 +2357,6 @@ class ALayoutManager
                         foreach ($sql as $query) {
                             $this->db->query($query);
                         }
-                    } else {
-                        if (!$restricted) {
-                            //log warning if try to update existing block with new controller or template
-                            if ($block->templates || $block->controller) {
-                                $error_text =
-                                    'Layout ('.$layout_name.') XML warning: Block (block_txt_id: "'.$block->block_txt_id
-                                    .'") cannot be updated. This block is used by another template(s)! Will be linked to existing block';
-                                $error = new AWarning ($error_text);
-                                $error->toLog()->toDebug();
-                            }
-                        }
                     } // end of check for use
 
                     //Finally, relate block with current layout
