@@ -39,7 +39,8 @@ $guest_data = $this->session->data['fc']['guest'];
     ?>
     <div class="order_email input-group input-group-lg mb-3">
         <div class="input-group-text"><i class="fa fa-envelope"></i></div>
-        <input class="form-control" aria-label="cc_email"
+        <input class="form-control <?php echo !preg_match(EMAIL_REGEX_PATTERN, $customer_email) ? 'is-invalid' : ''; ?>"
+               aria-label="cc_email"
                placeholder="<?php echo_html2view($fast_checkout_email_placeholder);?>"
                id="cc_email" name="cc_email"
                type="text" value="<?php echo $customer_email; ?>"
@@ -55,7 +56,7 @@ $guest_data = $this->session->data['fc']['guest'];
         <div class="input-group-text"><i class="fa fa-phone"></i></div>
         <input id="telephone"
                aria-label="telephone"
-               class="form-control"
+               class="form-control <?php echo !preg_match($this->config->get('config_phone_validation_pattern'), $customer_telephone) ? 'is-invalid' : ''; ?>"
                placeholder="<?php echo_html2view($fast_checkout_text_telephone_placeholder); ?>"
                name="telephone"
                type="text"
