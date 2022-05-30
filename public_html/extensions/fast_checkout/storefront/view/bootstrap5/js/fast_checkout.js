@@ -56,6 +56,15 @@ function scrollOnTop() {
     );
 }
 
+//show overlay when order confirmed
+$(document).on('submit', '#payment_details form', function(e){
+    $('.spinner-overlay').fadeIn(100);
+});
+//hide overlay after ajax complete
+$(document).ajaxComplete(function(){
+    $('.spinner-overlay').fadeOut(500);
+});
+
 showLoading = function (modal_body) {
     modal_body.html('<div class="modal_loader" style="text-align: center"><i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i></div>');
 };
