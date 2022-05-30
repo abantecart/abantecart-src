@@ -299,7 +299,7 @@ class ControllerResponsesExtensionCardConnect extends AController
             $json['error'] = $this->language->get('error_system');
         } else {
             //basically reload the page
-            $json['success'] = $this->html->getSecureURL('checkout/confirm');
+            $json['success'] = $this->request->server['HTTP_REFERER'] ?: $this->html->getSecureURL('checkout/confirm');
         }
 
         //init controller data

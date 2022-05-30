@@ -176,7 +176,7 @@ if ($show_payment == true) {
 
 
 <?php if ($payment_form) { ?>
-    <div id="payment_details" class="mt-4 text-center">
+    <div id="payment_details" class="mt-4">
         <?php include($this->templateResource('/template/responses/checkout/payment_form.tpl')); ?>
     </div>
 <?php } ?>
