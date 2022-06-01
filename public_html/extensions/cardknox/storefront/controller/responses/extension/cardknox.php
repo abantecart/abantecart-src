@@ -25,47 +25,47 @@ class ControllerResponsesExtensionCardknox extends AController {
         }
         //build submit form
         $form = new AForm();
-        $form->setForm(array('form_name' => 'cardknox'));
+        $form->setForm(['form_name' => 'cardknox']);
         $data['form_open'] = $form->getFieldHtml(
-            array(
+            [
                 'type' => 'form',
                 'name' => 'cardknox',
                 'attr' => 'class = "form-horizontal validate-creditcard"',
                 'csrf' => true,
-            )
+            ]
         );
 
-        $months = array();
+        $months = [];
         for ($i = 1; $i <= 12; $i++) {
             $months[sprintf('%02d', $i)] = strftime('%B', mktime(0, 0, 0, $i, 1, 2000));
         }
         $data['cc_expire_date_month'] = $form->getFieldHtml(
-            array(
+            [
                 'type'    => 'selectbox',
                 'name'    => 'cc_month',
                 'value'   => sprintf('%02d', date('m')),
                 'options' => $months,
                 'style'   => 'short input-small',
-            )
+            ]
         );
 
         $today = getdate();
-        $years = array();
+        $years = [];
         for ($i = $today['year']; $i < $today['year'] + 11; $i++) {
             $years[strftime('%Y', mktime(0, 0, 0, 1, 1, $i))] = strftime('%Y', mktime(0, 0, 0, 1, 1, $i));
         }
         $data['cc_expire_date_year'] = $form->getFieldHtml(
-            array(
+            [
                 'type'    => 'selectbox',
                 'name'    => 'cc_year',
                 'value'   => sprintf('%02d', date('Y') + 1),
                 'options' => $years,
                 'style'   => 'short input-small',
-            )
+            ]
         );
 
         $data['amount'] = $form->getFieldHtml(
-            array(
+            [
                 'type'  => 'hidden',
                 'name'  => 'amount',
                 'value' => $this->currency->format(
@@ -74,34 +74,34 @@ class ControllerResponsesExtensionCardknox extends AController {
                                 1.00000,
                                 false
                             )
-            )
+            ]
         );
         //payment method of cardknox
         $data['method'] = $form->getFieldHtml(
-            array(
+            [
                 'type'  => 'hidden',
                 'name'  => 'method',
                 'value' => 'cc'
-            )
+            ]
         );
         $data['customer_name'] = $form->getFieldHtml(
-            array(
+            [
                 'type'  => 'input',
                 'name'  => 'xName',
                 'value' => $order_info['payment_firstname'] .' '.$order_info['payment_lastname'],
                 'placeholder' => $this->language->get('cardknox_text_your_name')
-            )
+            ]
         );
         $data['routing_number'] = $form->getFieldHtml(
-            array(
+            [
                 'type'  => 'input',
                 'name'  => 'xRouting',
                 'value' => '',
                 'placeholder' => $this->language->get('cardknox_text_routing_number')
-            )
+            ]
         );
         $data['ebt_type'] = $form->getFieldHtml(
-            array(
+            [
                 'type'  => 'radio',
                 'name'  => 'ebt_type',
                 'options' => [
@@ -109,15 +109,15 @@ class ControllerResponsesExtensionCardknox extends AController {
                     'ebtfs' => 'EBT Food Stamp'
                 ],
                 'value' => 'ebtcb'
-            )
+            ]
         );
         $data['ebt_number'] = $form->getFieldHtml(
-            array(
+            [
                 'type'  => 'input',
                 'name'  => 'EBTCardNum',
                 'value' => '',
                 'placeholder' => $this->language->get('cardknox_text_ebt_number')
-            )
+            ]
         );
 
         if ($this->request->get['rt'] == 'checkout/guest_step_3') {
@@ -129,22 +129,22 @@ class ControllerResponsesExtensionCardknox extends AController {
         $data['ebt_init_url'] = $this->html->getSecureURL('r/extension/cardknox/ebt_init','',true);
         $data['cardknox_text_ebt'] = $this->language->get('cardknox_text_ebt','cardknox/cardknox');
         $data['back'] = $this->html->buildElement(
-            array(
+            [
                 'type'  => 'button',
                 'name'  => 'back',
                 'text'  => $this->language->get('button_back'),
                 'style' => 'button',
                 'href'  => $back_url,
-            )
+            ]
         );
 
         $data['submit'] = $this->html->buildElement(
-            array(
+            [
                 'type'  => 'button',
                 'name'  => 'cardknox_button',
                 'text'  => $this->language->get('button_confirm'),
                 'style' => 'button btn-orange',
-            )
+            ]
         );
 
         $this->view->batchAssign($data);
@@ -157,7 +157,7 @@ class ControllerResponsesExtensionCardknox extends AController {
 
     public function send($redirect = false)
     {
-        $output = array();
+        $output = [];
 
         if (!$this->csrftoken->isTokenValid()) {
             $output['error'] = $this->language->get('error_unknown');
@@ -171,7 +171,7 @@ class ControllerResponsesExtensionCardknox extends AController {
         $this->loadLanguage('cardknox/cardknox');
         $this->load->model('checkout/order');
         $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
-        $data = array();
+        $data = [];
 
         $data['xKey'] = $this->config->get('cardknox_transaction_key');
         $data['xVersion'] = '4.5.8';
@@ -253,7 +253,7 @@ class ControllerResponsesExtensionCardknox extends AController {
                 $output['error'] = 'CURL ERROR: '.curl_errno($curl).'::'.curl_error($curl);
                 $this->log->write('CARDKNOX CURL ERROR: '.curl_errno($curl).'::'.curl_error($curl));
             } elseif ($apiResponse) {
-                $response_info = array();
+                $response_info = [];
                 parse_str($apiResponse, $response_info);
 
                 if (($response_info['xResult'] == 'A')) {
@@ -271,7 +271,12 @@ class ControllerResponsesExtensionCardknox extends AController {
                         var_export($response_info, true),
                         false
                     );
-                    $output['success'] = $this->html->getSecureURL('checkout/success');
+                    $redirect = $this->request->get_or_post('fast_checkout')
+                        ? 'checkout/fast_checkout_success'
+                        : 'checkout/success';
+                    $this->session->data['processed_order_id'] = $this->session->data['order_id'];
+                    $output['success'] = $this->html->getSecureURL($redirect, '&order_id='.$this->session->data['order_id']);
+                    unset($this->session->data['order_id']);
 
                 } else {
                     $output['error'] = $response_info['xError'];
@@ -297,7 +302,8 @@ class ControllerResponsesExtensionCardknox extends AController {
             }else{
                 $this->loadLanguage('cardknox/cardknox');
                 $this->session->data['error'] = $this->language->get('cardknox_ebt_declined').'('.$response_info['xError'].': '.$response_info['xErrorCode'].')';
-                redirect($this->html->getSecureURL('checkout/confirm', '&method='.$this->request->post['method']));
+                $redirect = $this->request->get_or_post('fast_checkout') ? 'checkout/fast_checkout' : 'checkout/confirm';
+                redirect($this->html->getSecureURL($redirect, '&method='.$this->request->post['method']));
             }
         }
         $this->load->library('json');
@@ -317,7 +323,7 @@ class ControllerResponsesExtensionCardknox extends AController {
 
         $this->load->model('checkout/order');
         $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
-        $data = array();
+        $data = [];
 
         $data['xKey'] = $this->config->get('cardknox_transaction_key');
         $data['xVersion'] = '4.5.8';
@@ -370,20 +376,23 @@ class ControllerResponsesExtensionCardknox extends AController {
         curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data, '', '&'));
 
         $apiResponse = curl_exec($curl);
-        $json = array();
+        $json = [];
 
         if (curl_error($curl)) {
             $json['error'] = 'CURL ERROR: ' . curl_errno($curl) . '::' . curl_error($curl);
             $this->log->write('CARDKNOX CURL ERROR: ' . curl_errno($curl) . '::' . curl_error($curl));
         } elseif ($apiResponse) {
-            $response_info = array();
+            $response_info = [];
             parse_str($apiResponse, $response_info);
             if (( $response_info['xResult'] == 'A') ){
                 $this->session->data['cardknox'] = $response_info;
                 $json['success'] = true;
                 $json['PinPadURL'] = $response_info['xPinPadURL'];
                 $json['AccuID'] = $response_info['xAccuID'];
-                $json['AccuReturnURL'] = $this->html->getSecureURL('r/extension/cardknox/ebt_finalize');
+                $json['AccuReturnURL'] = $this->html->getSecureURL(
+                    'r/extension/cardknox/ebt_finalize',
+                    ($this->request->post['fast_checkout'] ? '&fast_checkout=1' : '')
+                );
             } else {
                 $json['error'] = $response_info['xError'];
             }
@@ -417,7 +426,12 @@ class ControllerResponsesExtensionCardknox extends AController {
                 $this->language->get('cardknox_pinpad_error'),
                 $this->language->get('cardknox_pinpad_error_'.strtolower($this->request->post['AccuResponseCode']))
             );
-            redirect($this->html->getSecureURL('checkout/confirm', '&method='.$this->request->post['method']));
+
+$this->log->write( var_export($this->session->data['error'], true) );
+
+            $redirect = $this->request->get['fast_checkout'] ? 'checkout/fast_checkout' : 'checkout/confirm';
+            redirect($this->html->getSecureURL($redirect, '&method='.$this->request->post['method']));
+
         }
 
         $this->send(true);
