@@ -1,5 +1,5 @@
 <div class="card checkout_details col-10 mx-auto mb-5 bg-light" >
-    <h5 class="card-title bg-secondary bg-opacity-10 py-2"><?php echo $text_payment; ?></h5>
+    <h5 class="card-title bg-secondary bg-opacity-10 p-2"><?php echo $text_payment; ?></h5>
     <div class="card-body w-75 mx-auto text-start">
       <p class="card-text"><?php echo $text_payable; ?> <b class="ms-4"><?php echo $payable; ?></b></p>
       <p class="card-text"><?php echo $text_address; ?> <b class="ms-4"><?php echo $address; ?></b></p>
