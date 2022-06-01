@@ -427,8 +427,6 @@ class ControllerResponsesExtensionCardknox extends AController {
                 $this->language->get('cardknox_pinpad_error_'.strtolower($this->request->post['AccuResponseCode']))
             );
 
-$this->log->write( var_export($this->session->data['error'], true) );
-
             $redirect = $this->request->get['fast_checkout'] ? 'checkout/fast_checkout' : 'checkout/confirm';
             redirect($this->html->getSecureURL($redirect, '&method='.$this->request->post['method']));
 
