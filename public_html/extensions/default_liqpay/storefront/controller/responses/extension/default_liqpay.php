@@ -123,7 +123,7 @@ class ControllerResponsesExtensionDefaultLiqPay extends AController
         $mdl = $this->loadModel('checkout/order');
         $mdl->confirm(
             $order_id,
-            $this->config->get('default_liqpay_order_status_id')
+            $this->order_status->getStatusByTextId('pending')
         );
 
         $this->session->data['processed_order_id'] = $order_id;
