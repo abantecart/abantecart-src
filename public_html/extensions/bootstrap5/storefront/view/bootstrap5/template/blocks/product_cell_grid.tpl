@@ -22,6 +22,8 @@
                                 : 'SALE';
                     $tax_exempt = $this->customer->isTaxExempt();
                     $config_tax = $this->config->get('config_tax');
+                    $productImgCss = 'width: '.$this->config->get('config_image_product_width').'px;';
+                    $productImgCss .= ' height: '.$this->config->get('config_image_product_height').'px;';
 
                     foreach ($products as $product) {
                         $tax_message = '';
@@ -31,7 +33,7 @@
 
                         $product['thumb'] = $product['thumb'] ?? $product['image'];
                         $item = [];
-                        $item['image'] = '<img class="m-3" src="'.$product['thumb']['thumb_url'].'">';
+                        $item['image'] = '<img class="m-3" src="'.$product['thumb']['thumb_url'].'" style="'.$productImgCss.'">';
                         $item['title'] = $product['name'];
                         $item['description'] = $product['model'];
                         $item['rating'] = renderRatingStars($product['rating'], $product['stars']);
