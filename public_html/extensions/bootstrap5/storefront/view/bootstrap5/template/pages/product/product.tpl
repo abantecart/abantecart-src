@@ -769,10 +769,7 @@ if( $hookVarArray ){
                     }
 
                     <?php } ?>
-                    try {
-                        resetLockBtn();
-                    } catch (e) {
-                    }
+                    resetLockedButton( $('button#review_submit') );
                 },
                 error: function (jqXHR, exception) {
                     var text = jqXHR.statusText + ": " + jqXHR.responseText;
@@ -790,8 +787,8 @@ if( $hookVarArray ){
                         $('input[name=\'name\']').val('');
                         $('textarea[name=\'text\']').val('');
                         $('input[name=\'rating\']:checked').attr('checked', '');
-                        $('input[name=\'captcha\']').val('');
                     }
+                    $('input[name=\'captcha\']').val('');
                     $('img[alt=captcha]').attr('src', $('img[alt=captcha]').attr('src') + '&' + Math.random());
                 }
             });

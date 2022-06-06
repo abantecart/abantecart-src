@@ -199,16 +199,16 @@ $(document).ready(function(){
 });
 
 //put submitted or clicked button to loading state
-    $(document).on('click', '.lock-on-click', function () {
-         let btn = $(this);
-         if(!btn.find('span.spinner-border').length) {
-             btn.prepend('<span class="visually-hidden spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
-         }
+$(document).on('click', '.lock-on-click', function () {
+     let btn = $(this);
+     if(!btn.find('span.spinner-border').length) {
+         btn.prepend('<span class="visually-hidden spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+     }
 
-        btn.find('i').addClass('visually-hidden');
-        btn.find('span.spinner-border').removeClass('visually-hidden');
-        btn.addClass('disabled');
-    });
+    btn.find('i').addClass('visually-hidden');
+    btn.find('span.spinner-border').removeClass('visually-hidden');
+    btn.addClass('disabled');
+});
 
 function resetLockedButton(btn){
     btn.find('i').removeClass('visually-hidden');
@@ -254,3 +254,78 @@ function ResortProductGrid(url) {
     url += '&limit=' + $('#limit').val();
     location = url;
 }
+
+function bookmark(url, title) {
+    if (window.sidebar) {
+        window.sidebar.addPanel(title, url, "");
+    } else if (document.all) {
+        window.external.AddFavorite(url, title);
+    } else if (window.opera && window.print) {
+        alert('Press ctrl+D to bookmark (Command+D for macs) after you click Ok');
+    } else if (window.chrome) {
+        alert('Press ctrl+D to bookmark (Command+D for macs) after you click Ok');
+    }
+}
+
+//when try to load script from ajax-response
+function loadScript(url, callback) {
+    let script = document.createElement("script")
+    script.type = "text/javascript";
+
+    if (script.readyState) {  //IE
+        script.onreadystatechange = function () {
+            if (script.readyState === "loaded" ||
+                script.readyState === "complete") {
+                script.onreadystatechange = null;
+                callback();
+            }
+        };
+    } else {  //Others
+        script.onload = function () {
+            callback();
+        };
+    }
+
+    script.src = url;
+    document.getElementsByTagName("head")[0].appendChild(script);
+}
+
+function goTo(url, params) {
+    location = url + '&' + params;
+}
+
+function getURLVar(urlVarName) {
+    var urlHalves = String(document.location).toLowerCase().split('?');
+    var urlVarValue = '';
+
+    if (urlHalves[1]) {
+        var urlVars = urlHalves[1].split('&');
+
+        for (var i = 0; i <= (urlVars.length); i++) {
+            if (urlVars[i]) {
+                var urlVarPair = urlVars[i].split('=');
+
+                if (urlVarPair[0] && urlVarPair[0] === urlVarName.toLowerCase()) {
+                    urlVarValue = urlVarPair[1];
+                }
+            }
+        }
+    }
+
+    return urlVarValue;
+}
+
+//function to load modal for messages #msgModal
+// 1. header 2. Message body, 3. on close callback function
+showMsg = function (header, body, callback) {
+    $('#msgModal').modal({
+        backdrop: false,
+        show: false,
+        keyboard: false
+    })
+        .find('.modal-header > h3').text(header).end()
+        .find('.modal-body').html(body).end()
+        .find('.callback-btn').off('click.callback')
+        .on('click.callback', callback).end()
+        .modal('show');
+};
