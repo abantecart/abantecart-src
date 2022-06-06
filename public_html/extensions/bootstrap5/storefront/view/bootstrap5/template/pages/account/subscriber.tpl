@@ -8,6 +8,7 @@
         <h5 class="pt-5 mx-5"><?php echo $success; ?></h5>
         <div class="ps-4 p-3 col-12 d-flex flex-wrap">
             <a class="btn btn-primary ms-auto"
+               href="<?php echo $continue->href; ?>"
                title="<?php echo_html2view($continue->text); ?>">
                 <i class="fa <?php echo $continue->icon ?> me-2"></i>
                 <?php echo $continue->text ?>
