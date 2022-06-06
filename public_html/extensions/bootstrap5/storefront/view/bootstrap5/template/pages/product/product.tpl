@@ -280,8 +280,9 @@ if ($error){ ?>
             <div class="accordion" id="productDetailsAccordion">
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingDescription">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDescription" aria-expanded="true"
-                                aria-controls="collapseDescription">
+                        <button id="description" class="accordion-button" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#collapseDescription"
+                                aria-expanded="true" aria-controls="collapseDescription">
                             <i class="fa-solid fa-circle-info me-2 "></i>
                             <?php echo $tab_description; ?></button>
                     </h2>
@@ -321,7 +322,8 @@ if ($error){ ?>
 <?php if ($display_reviews || $review_form_status){ ?>
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingReview">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseReview"
+                        <button id="review" class="accordion-button collapsed" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#collapseReview"
                                 aria-expanded="true" aria-controls="collapseReview">
                             <i class="fa-solid fa-comment-dots me-2"></i>
                             <?php echo $tab_review; ?>
@@ -392,7 +394,9 @@ if ($error){ ?>
 if ($tags){ ?>
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingTags">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTags" aria-expanded="true" aria-controls="collapseTags">
+                        <button id="tags" class="accordion-button collapsed" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#collapseTags"
+                                aria-expanded="true" aria-controls="collapseTags">
                             <i class="fa-solid fa-tags me-2"></i>
                             <?php echo $text_tags; ?>
                         </button>
@@ -416,7 +420,9 @@ if ($tags){ ?>
 if ($related_products){ ?>
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingRelated">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRelated" aria-expanded="true" aria-controls="collapseRelated">
+                        <button id="related" class="accordion-button collapsed" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#collapseRelated"
+                                aria-expanded="true" aria-controls="collapseRelated">
                             <i class="fa-solid fa-shuffle me-2"></i>
                             <?php echo $tab_related; ?> (<?php echo sizeof((array)$related_products); ?>)
                         </button>
@@ -467,7 +473,8 @@ if ($related_products){ ?>
 if ($downloads){ ?>
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingDownloads">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDownloads"
+                        <button id="downloads" class="accordion-button collapsed" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#collapseDownloads"
                                 aria-expanded="true" aria-controls="collapseDownloads">
                             <i class="fa-solid fa-file-export me-2"></i><?php echo $tab_downloads; ?>
                         </button>
@@ -501,7 +508,8 @@ if ($downloads){ ?>
 if($this->getHookVar('product_features')){ ?>
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingFeatures">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFeatures"
+                        <button id="features" class="accordion-button" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#collapseFeatures"
                                 aria-expanded="true" aria-controls="collapseFeatures">
                             <?php echo $this->getHookVar('product_features_tab'); ?>
                         </button>
@@ -542,6 +550,20 @@ if( $hookVarArray ){
         //waiting for jquery loaded!
         if (!window.jQuery) return setTimeout(load, 50);
         //jQuery-depended code
+        $(document).ready(
+            function(){
+                let hash = location.hash;
+                if($(hash+'.accordion-button').length>0){
+                    $(hash+'.accordion-button').click();
+                    $([document.documentElement, document.body]).animate(
+                        {
+                            scrollTop: $(hash+'.accordion-button').offset().top - 300
+                        },
+                        1000
+                    );
+                }
+            }
+        );
 
         start_easyzoom();
         display_total_price();
@@ -794,73 +816,70 @@ if( $hookVarArray ){
             });
         }
 
+        function wishlist_add() {
+            var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo $product_wishlist_add_url; ?>',
+                dataType: 'json',
+                beforeSend: function () {
+                    $('#wishlist_add').removeClass('d-block').addClass('d-none')
+                        .after('<div class="wait alert alert-secondary p-1 mb-0"><i class="fa-solid fa-spinner fa-spin"></i> <?php echo $text_wait; ?></div>');
+                },
+                complete: function () {
+                    $('.wishlist .wait').remove();
+                },
+                error: function (jqXHR, exception) {
+                    var text = jqXHR.statusText + ": " + jqXHR.responseText;
+                    $('.wishlist .alert').remove();
+                    $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
+                    $('#wishlist_add').removeClass('d-none').addClass('d-block');
+                },
+                success: function (data) {
+                    if (data.error) {
+                        $('.wishlist .alert').remove();
+                        $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
+                        $('#wishlist_add').removeClass('d-none').addClass('d-block');
+                    } else {
+                        $('.wishlist .alert').remove();
+                        $('#wishlist_remove').removeClass('d-none').addClass('d-block');
+                    }
+                }
+            });
+        }
 
-
-
-
+        function wishlist_remove() {
+            var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo $product_wishlist_remove_url; ?>',
+                dataType: 'json',
+                beforeSend: function () {
+                    $('#wishlist_remove').removeClass('d-block').addClass('d-none')
+                        .after('<div class="wait alert alert-secondary p-1 mb-0"><i class="fa-solid fa-spinner fa-spin"></i> <?php echo $text_wait; ?></div>');
+                },
+                complete: function () {
+                    $('.wishlist .wait').remove();
+                },
+                error: function (jqXHR, exception) {
+                    var text = jqXHR.statusText + ": " + jqXHR.responseText;
+                    $('.wishlist .alert').remove();
+                    $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
+                    $('#wishlist_remove').removeClass('d-none').addClass('d-block');
+                },
+                success: function (data) {
+                    if (data.error) {
+                        $('.wishlist .alert').remove();
+                        $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
+                        $('#wishlist_remove').removeClass('d-none').addClass('d-block');
+                    } else {
+                        $('.wishlist .alert').remove();
+                        $('#wishlist_add').removeClass('d-none').addClass('d-block');
+                    }
+                }
+            });
+        }
     });
 
-    function wishlist_add() {
-        var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
-        $.ajax({
-            type: 'POST',
-            url: '<?php echo $product_wishlist_add_url; ?>',
-            dataType: 'json',
-            beforeSend: function () {
-                $('#wishlist_add').removeClass('d-block').addClass('d-none')
-                    .after('<div class="wait alert alert-secondary p-1 mb-0"><i class="fa-solid fa-spinner fa-spin"></i> <?php echo $text_wait; ?></div>');
-            },
-            complete: function () {
-                $('.wishlist .wait').remove();
-            },
-            error: function (jqXHR, exception) {
-                var text = jqXHR.statusText + ": " + jqXHR.responseText;
-                $('.wishlist .alert').remove();
-                $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
-                $('#wishlist_add').removeClass('d-none').addClass('d-block');
-            },
-            success: function (data) {
-                if (data.error) {
-                    $('.wishlist .alert').remove();
-                    $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
-                    $('#wishlist_add').removeClass('d-none').addClass('d-block');
-                } else {
-                    $('.wishlist .alert').remove();
-                    $('#wishlist_remove').removeClass('d-none').addClass('d-block');
-                }
-            }
-        });
-    }
 
-    function wishlist_remove() {
-        var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
-        $.ajax({
-            type: 'POST',
-            url: '<?php echo $product_wishlist_remove_url; ?>',
-            dataType: 'json',
-            beforeSend: function () {
-                $('#wishlist_remove').removeClass('d-block').addClass('d-none')
-                    .after('<div class="wait alert alert-secondary p-1 mb-0"><i class="fa-solid fa-spinner fa-spin"></i> <?php echo $text_wait; ?></div>');
-            },
-            complete: function () {
-                $('.wishlist .wait').remove();
-            },
-            error: function (jqXHR, exception) {
-                var text = jqXHR.statusText + ": " + jqXHR.responseText;
-                $('.wishlist .alert').remove();
-                $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
-                $('#wishlist_remove').removeClass('d-none').addClass('d-block');
-            },
-            success: function (data) {
-                if (data.error) {
-                    $('.wishlist .alert').remove();
-                    $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
-                    $('#wishlist_remove').removeClass('d-none').addClass('d-block');
-                } else {
-                    $('.wishlist .alert').remove();
-                    $('#wishlist_add').removeClass('d-none').addClass('d-block');
-                }
-            }
-        });
-    }
 </script>
