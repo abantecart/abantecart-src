@@ -33,7 +33,7 @@
                 foreach ($top_categories as $category) {
                     if ($category['parent_id'] > 0) { continue; } ?>
                     <li class="search-category">
-                        <a class="dropdown-item" data-id="<?php echo $category['category_id'] ?>"
+                        <a class="dropdown-item" data-id="0,<?php echo $category['category_id'] ?>"
                            id="category_<?php echo $category['category_id'] ?>">
                             <?php echo $category['name'] ?>
                         </a>

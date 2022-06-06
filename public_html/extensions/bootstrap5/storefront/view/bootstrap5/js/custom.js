@@ -243,7 +243,7 @@ function openModalRemote(id, url) {
 function contentSearch(url) {
     url += '&' + $('#search_page_form').serialize();
     let sortFld = $('#sort');
-    if (sortFld.val().length>0) {
+    if (sortFld && sortFld.val().length>0) {
         url += '&sort=' + sortFld.val();
     }
     location = url;
