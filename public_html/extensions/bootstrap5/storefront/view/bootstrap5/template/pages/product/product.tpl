@@ -210,7 +210,7 @@ if ($error){ ?>
                                             } else { ?>
                                                 <div class="product-page-add2cart mt-3 text-center ">
                                                     <?php if(!$this->getHookVar('product_add_to_cart_html')) { ?>
-                                                        <a class="shadow cart btn btn-success btn-lg w-100"
+                                                        <a class="shadow cart btn btn-success btn-lg w-100 mb-3"
                                                            href="#" onclick="$(this).closest('form').submit(); return false;" >
                                                             <i class="fa-solid fa-cart-plus fa-fw"></i>
                                                             <?php echo $button_add_to_cart; ?>
