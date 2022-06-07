@@ -553,7 +553,7 @@ if( $hookVarArray ){
         $(document).ready(
             function(){
                 let hash = location.hash;
-                if($(hash+'.accordion-button').length>0){
+                if(hash && $(hash+'.accordion-button').length>0){
                     $(hash+'.accordion-button').click();
                     $([document.documentElement, document.body]).animate(
                         {
