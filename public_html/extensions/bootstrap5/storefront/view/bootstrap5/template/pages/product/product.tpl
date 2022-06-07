@@ -23,8 +23,8 @@ if ($error){ ?>
 <div id="product_details">
     <div class="d-flex flex-wrap align-content-center">
         <!-- Left Image-->
-        <div class="text-center d-flex flex-nowrap mt-lg-4 mt-5">
-            <ul class="thumbnails mainimage smallimage list-unstyled overflow-auto"
+        <div class="text-center d-flex flex-wrap flex-sm-nowrap mt-lg-4 mt-5">
+            <ul class="thumbnails mainimage smallimage list-unstyled overflow-auto d-flex flex-wrap d-sm-block overflow-scroll"
                 style="max-height: <?php echo $thmb_w?>px">
         <?php
             if (sizeof((array)$images) > 1){
@@ -86,7 +86,7 @@ if ($error){ ?>
                 ?>
                         <a class="local_image">
                             <img class="border"
-                                 style="width: <?php echo $thmb_w; ?>px; height: <?php echo $thmb_h; ?>px;"
+                                 style="width: 100%;"
                                  src="<?php echo $thumb_url; ?>"
                                  alt="<?php echo_html2view($image['title']); ?>"
                                  title="<?php echo_html2view($image['title']); ?>"/>
@@ -643,7 +643,7 @@ if( $hookVarArray ){
                 e.preventDefault();
                 // Use EasyZoom's `swap` method
                 api1.swap($this.data('standard'), $this.attr('data-href'));
-                $('.mainimage.bigimage.hidden-lg').find('img').attr('src', $this.attr('data-href'));
+                $('.mainimage.bigimage').find('img').attr('src', $this.attr('data-href'));
             });
         }
 
