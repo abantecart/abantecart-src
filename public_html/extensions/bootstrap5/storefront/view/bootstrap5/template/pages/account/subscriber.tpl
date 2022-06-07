@@ -30,7 +30,10 @@
 <?php } ?>
 
 <div class="container">
-    <?php echo $form['form_open']; ?>
+    <?php
+    $form['form_open']->style .= ' needs-validation';
+    $form['form_open']->attr .= ' novalidate';
+    echo $form['form_open']; ?>
     <p><?php echo $text_account_already; ?></p>
     <h4><?php echo $text_your_details; ?></h4>
     <div class="ps-4 border p-3 mb-4">
