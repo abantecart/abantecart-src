@@ -2,7 +2,7 @@
     <div id="cart_details d-flex flex-column mx-sm-auto">
 <?php   if ($products || $this->getHookVar('list_more_product_last')) { ?>
         <h2>
-            <?php echo $this->language->get('fast_checkout_order_summary');
+            <?php echo $this->language->get('heading_title', 'blocks/order_summary');
             if ($cart_weight){
                 echo '  ('.$cart_weight.')';
             } ?>

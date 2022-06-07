@@ -186,7 +186,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
             $this->data['paymentaction'] = 'sale';
         }
 
-        $this->data['return'] = $this->html->getSecureURL('checkout/success');
+        $this->data['return'] = $this->html->getSecureURL('r/extension/default_pp_standart/pending_payment');
 
         if ($this->request->get['rt'] == 'checkout/guest_step_3') {
             $back_url = $this->html->getSecureURL('checkout/guest_step_2', '&mode=edit', true);
