@@ -5,6 +5,8 @@
     $cartProductIds = $cartProducts ? array_column($cartProducts,'product_id') : [];
     $cartProducts = array_column($cartProducts,'quantity','product_id');
 
+    $imgW = $imgW ?? $this->config->get('config_image_product_width');
+    $imgH = $imgH ?? $this->config->get('config_image_product_height');
 ?>
 <section id="<?php echo $homeBlockId;?>">
     <div class="container-fluid product-flex">
@@ -22,8 +24,8 @@
                                 : 'SALE';
                     $tax_exempt = $this->customer->isTaxExempt();
                     $config_tax = $this->config->get('config_tax');
-                    $productImgCss = 'width: '.$this->config->get('config_image_product_width').'px;';
-                    $productImgCss .= ' height: '.$this->config->get('config_image_product_height').'px;';
+                    $productImgCss = 'width: '.$imgW.'px;';
+                    $productImgCss .= ' height: '.$imgH.'px;';
 
                     foreach ($products as $product) {
                         $tax_message = '';

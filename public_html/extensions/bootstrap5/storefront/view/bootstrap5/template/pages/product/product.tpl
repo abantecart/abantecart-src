@@ -431,6 +431,8 @@ if ($related_products){ ?>
                         <div class="accordion-body">
                             <?php
                             $products = $related_products;
+                            $imgW = $this->config->get('config_image_related_width');
+                            $imgH = $this->config->get('config_image_related_height');
                             //use common template for all product grids
                             include($this->templateResource('/template/blocks/product_cell_grid.tpl'));
                             ?>
