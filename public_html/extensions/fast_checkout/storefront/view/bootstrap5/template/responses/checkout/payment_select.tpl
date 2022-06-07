@@ -20,21 +20,21 @@ if($total_payment || $balance>0 || $no_payment_required){ ?>
                 <div class="card-header d-none d-md-block text-start text-md-center fw-bold bg-gradient <?php echo $current; ?>">
                     <?php echo ($id == $payment_method ? '<i class="fa fa-check me-2"></i>' : '') . $payment['title']; ?>
                 </div>
-                <div class="card-body d-flex flex-nowrap thumbnail justify-content-center text-md-center payment-option <?php echo $current; ?>">
+                <div class="card-body d-flex flex-wrap flex-sm-nowrap thumbnail justify-content-center text-md-center payment-option <?php echo $current; ?>">
                     <div class="">
-                <?php
-                if ($payment['icon']) {
-                    $icon = $payment['icon'];
-                    if (is_file(DIR_RESOURCE.$icon['image'])) {
-                        echo sprintf( $paymentCover, 'resources/'.$icon['image']);
-                    } else {
-                        echo $icon['resource_code'] ?: $defaultPaymentCover;
-                    }
-                } else {
-                    echo $defaultPaymentCover;
-                } ?>
+                        <?php
+                        if ($payment['icon']) {
+                            $icon = $payment['icon'];
+                            if (is_file(DIR_RESOURCE.$icon['image'])) {
+                                echo sprintf( $paymentCover, 'resources/'.$icon['image']);
+                            } else {
+                                echo $icon['resource_code'] ?: $defaultPaymentCover;
+                            }
+                        } else {
+                            echo $defaultPaymentCover;
+                        } ?>
                     </div>
-                    <div class="card-text fw-bold ms-4 w-100 d-md-none text-start text-md-center">
+                    <div class="card-text fw-bold mt-3 ms-0 ms-sm-4 w-100 d-md-none text-center">
                         <?php echo ($id == $payment_method ? '<i class="fa fa-check me-2"></i>' : '') . $payment['title']; ?>
                     </div>
                 </div>
