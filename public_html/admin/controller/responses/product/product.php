@@ -2016,17 +2016,20 @@ class ControllerResponsesProductProduct extends AController
         if (HTTPS === true && $store_info['config_ssl_url']) {
             $total_calc_url = $store_info['config_ssl_url']
                 .'index.php?rt=r/product/product/calculateTotal'
-                .'&currency='.$order_info['currency'];
+                .'&currency='.$order_info['currency'].'&admin=1';
         } elseif (HTTPS === true && !$store_info['config_ssl_url']) {
             $total_calc_url = str_replace(
                     'http://',
                     'https://',
                     $store_info['config_url']
-                ).'index.php?rt=r/product/product/calculateTotal'.'&currency='.$order_info['currency'];
+                ).'index.php?rt=r/product/product/calculateTotal'
+                .'&currency='.$order_info['currency']
+                .'&admin=1';
         } else {
             $total_calc_url = $store_info['config_url']
                 .'index.php?rt=r/product/product/calculateTotal'
-                .'&currency='.$order_info['currency'];
+                .'&currency='.$order_info['currency']
+                .'&admin=1';
         }
 
         $this->data['total_calc_url'] = $total_calc_url;

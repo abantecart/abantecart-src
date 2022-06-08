@@ -330,6 +330,8 @@ class ControllerResponsesProductProduct extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
+        $config_tax = $this->request->get['admin'] ? 0 : (int) $this->config->get('config_tax');
+
         $output = [];
         //can not show price
         if (!$this->config->get('config_customer_price') && !$this->customer->isLogged()) {
@@ -341,22 +343,13 @@ class ControllerResponsesProductProduct extends AController
             $product_id = $this->request->post['product_id'];
 
             $option = $this->request->post['option'] ?? [];
+            $quantity = (int)$this->request->post['quantity'] ?: 1;
 
-            if (isset($this->request->post['quantity'])) {
-                $quantity = (int) $this->request->post['quantity'];
-            } else {
-                $quantity = 1;
-            }
             $result = $this->cart->buildProductDetails($product_id, $quantity, $option);
-            $output['total'] = $this->tax->calculate(
-                $result['total'],
-                $result['tax_class_id'],
-                (int) $this->config->get('config_tax')
-            );
             $output['price'] = $this->tax->calculate(
                 $result['price'],
                 $result['tax_class_id'],
-                (int) $this->config->get('config_tax')
+                $config_tax
             );
             $output['total'] = $this->currency->format_total($output['price'], $quantity);
             $output['price'] = $this->currency->format($output['price']);
