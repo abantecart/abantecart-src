@@ -1,6 +1,8 @@
 <?php if ($saved_cc_list) { ?>
 <div class="saved_cards">
-	<form id="cardconnect_saved_cc" class="validate-creditcard text-start">
+    <?php
+    $form_open2->style .= ' validate-creditcard text-start ';
+    echo $form_open2;?>
         <h4 class="heading4"><?php echo $text_saved_credit_card; ?></h4>
         <?php echo $this->getHookVar('payment_table_pre'); ?>
         <div class="form-group form-inline control-group mb-4">
@@ -8,7 +10,7 @@
         </div>
         <div class="mb-5">
             <div class="d-flex flex-wrap flex-lg-nowrap justify-content-center">
-                <select class="form-control form-select me-2 mb-2" id="use_saved_cc" name="use_saved_cc">
+                <select id="use_saved_cc" class="form-control form-select me-2 mb-2" name="use_saved_cc">
                 <?php
                     foreach ($saved_cc_list->options as $v => $option) {
                         echo "<option value='$v'>$option</option>";
@@ -44,8 +46,10 @@
 
     <div class="enter_card">
         <?php } ?>
-
-        <form id="cardconnect" class="form-control border-0" novalidate>
+        <?php
+            $form_open->style .= ' form-control border-0 ';
+            $form_open->attr .= ' novalidate ';
+            echo $form_open;?>
             <h4 class="heading4"><?php echo $text_credit_card; ?></h4>
             <?php echo $this->getHookVar('payment_table_pre'); ?>
             <div class="form-group form-inline control-group mb-4">
@@ -226,6 +230,8 @@
                         submitSent = false;
                         //clear cvv if something wrong(for next try)
                         cvv2.val('');
+                        $form.find('input[name=csrftoken]').val(data.csrftoken);
+                        $form.find('input[name=csrfinstance]').val(data.csrfinstance);
                     } else {
                         if (data.error) {
                             $('.wait').remove();
@@ -234,6 +240,8 @@
                             submitSent = false;
                             //clear cvv if something wrong(for next try)
                             cvv2.val('');
+                            $form.find('input[name=csrftoken]').val(data.csrftoken);
+                            $form.find('input[name=csrfinstance]').val(data.csrfinstance);
                         }
                         if (data.success) {
                             location = data.success;
