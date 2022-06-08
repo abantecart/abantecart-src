@@ -180,19 +180,16 @@ if ($scripts_bottom && is_array($scripts_bottom)) {
 			'currency': <?php js_echo($ga_data['currency_code']);?>,
 			'city':  <?php js_echo($ga_data['city']);?>,
 			'state':  <?php js_echo($ga_data['state']);?>,
-			'country':  <?php js_echo($ga_data['country']);?>
-		});
+			'country':  <?php js_echo($ga_data['country']);?>});
 
         <?php if($ga_data['items']){
         foreach($ga_data['items'] as $item){ ?>
-		ga('ecommerce:addItem', {
-			'id': <?php js_echo($item['id']); ?>,
+		ga('ecommerce:addItem', {'id': <?php js_echo($item['id']); ?>,
 			'name': <?php js_echo($item['name']); ?>,
 			'sku': <?php  js_echo($item['sku']); ?>,
 			'brand': <?php  js_echo($item['brand']); ?>,
 			'price': <?php  echo $item['price']; ?>,
-			'quantity': <?php  echo $item['quantity']; ?>
-		});
+			'quantity': <?php  echo $item['quantity']; ?>});
         <?php }
         }?>
 		ga('ecommerce:send');
