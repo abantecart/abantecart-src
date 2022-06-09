@@ -843,6 +843,7 @@ class AResource
 
             $origin = $row['resource_path'] ? 'internal' : 'external';
             $output[$object_id] = [
+                'resource_id' => $row['resource_id'],
                 'origin'      => $origin,
                 'title'       => $row['title'],
                 'description' => $row['description'],

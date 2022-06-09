@@ -294,7 +294,7 @@ class AListing
             ];
         } elseif ($model == 'catalog/collection' && $method == 'getListingBlockProducts') {
             $output = [
-                'collection_id' => $args['collection_id'],
+                'collectionId' => $args['collection_id'],
                 'limit'         => $args['limit'],
             ];
         }

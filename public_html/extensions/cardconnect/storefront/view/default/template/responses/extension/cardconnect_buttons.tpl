@@ -1,8 +1,8 @@
 <?php if ($saved_cc_list) { ?>
 <div class="saved_cards">
+    <?php echo $form_open2;?>
 	<form id="cardconnect_saved_cc" class="validate-creditcard">
 		<h4 class="heading4"><?php echo $text_saved_credit_card; ?></h4>
-
 		<div class="form-group form-inline control-group">
 			<span class="subtext"><?php echo $entry_billing_address; ?>: <?php echo $payment_address; ?>...</span>
 			<div class="col-sm-2 input-group controls">
@@ -61,12 +61,9 @@
 
 	<div class="enter_card">
         <?php } ?>
-
-		<form id="cardconnect" class="validate-creditcard">
+        <?php echo $form_open;?>
 			<h4 class="heading4"><?php echo $text_credit_card; ?></h4>
-
             <?php echo $this->getHookVar('payment_table_pre'); ?>
-
 			<div class="form-group form-inline control-group">
 				<span class="subtext"><?php echo $entry_billing_address; ?>: <?php echo $payment_address; ?>...</span>
 				<div class="col-sm-2 input-group controls">
@@ -88,9 +85,7 @@
 			<div class="form-group form-inline control-group">
 				<label class="col-sm-4 control-label"><?php echo $entry_cc_number; ?></label>
 				<div class="col-sm-5 input-group controls">
-                    <?php
-                    $port = $this->config->get('cardconnect_test_mode') ? 6443 : 8443;
-                    ?>
+            <?php   $port = $this->config->get('cardconnect_test_mode') ? 6443 : 8443; ?>
 					<iframe id="tokenframe"
 							name="tokenframe"
 							src="https://<?php echo $api_domain;?>/itoke/ajax-tokenizer.html?invalidinputevent=true&css=<?php echo urlencode("input{border:1px solid rgb(204, 204, 204); width: 150px; padding: 6px 12px; height: 20px; font-size: 14px; line-height: 1.42857143; color: rgb(85, 85, 85); background-color: rgb(255, 255, 255); } body{ margin: 0;} .error{color: red;}");?>"
@@ -104,8 +99,7 @@
 							<a data-toggle="tooltip"
 							   data-original-title="<?php echo $entry_cc_save_details; ?>"><?php echo $entry_cc_save; ?></a>
 						</label>
-						<input type="checkbox" value="0" id="save_cc" name="save_cc"
-							   style="position: relative; margin-left: 0;">
+						<input type="checkbox" value="0" id="save_cc" name="save_cc" style="position: relative; margin-left: 0;">
 					</div>
                 <?php } ?>
 				<span class="help-block"></span>
@@ -253,6 +247,8 @@
 							//clear cvv if something wrong(for next try)
 							$('#cc_cvv2').val('');
 							$.aCCValidator.checkCVV($('#cc_cvv2'));
+                            $form.find('input[name=csrftoken]').val(data.csrftoken);
+                            $form.find('input[name=csrfinstance]').val(data.csrfinstance);
 						} else {
 							if (data.error) {
 								$('.wait').remove();
@@ -262,6 +258,8 @@
 								//clear cvv if something wrong(for next try)
 								$('#cc_cvv2').val('');
 								$.aCCValidator.checkCVV($('#cc_cvv2'));
+                                $form.find('input[name=csrftoken]').val(data.csrftoken);
+                                $form.find('input[name=csrfinstance]').val(data.csrfinstance);
 							}
 							if (data.success) {
 								location = data.success;

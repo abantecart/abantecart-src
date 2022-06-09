@@ -515,6 +515,20 @@ class ControllerResponsesCheckoutPay extends AController
                 ]
             );
 
+            $this->data['login_form']['loginname'] = $form->getFieldHtml(
+                [
+                    'type'  => 'input',
+                    'name'  => 'loginname',
+                    'value' => $request['loginname'],
+                ]
+            );
+            $this->data['login_form']['password'] = $form->getFieldHtml(
+                [
+                    'type' => 'password',
+                    'name' => 'password',
+                ]
+            );
+
             $this->data['customer_email'] = $request['cc_email'] ? : $this->fc_session['guest']['email'];
             $this->data['customer_telephone'] = $request['telephone'] ? : $this->fc_session['guest']['telephone'];
             $this->data['reset_url'] = $this->html->getSecureURL('account/login');
@@ -529,6 +543,13 @@ class ControllerResponsesCheckoutPay extends AController
             unset($this->data['payment_methods']['default_pp_express']);
         }
         $this->data['payment_method'] = $request['payment_method'];
+
+        if(count($this->data['payment_methods']) == 1
+            && current($this->data['payment_methods'])['id'] == 'no_payment_required'
+        ){
+            $this->data['payment_method'] = 'no_payment_required';
+        }
+
         $selected_payment = $this->fc_session['payment_method'];
         //case when switches shipping method into method with accepted payments list
         if ($selected_payment && !isset($this->data['payment_methods'][$selected_payment['id']])) {
@@ -1618,15 +1639,7 @@ class ControllerResponsesCheckoutPay extends AController
         $this->data['customer_telephone'] = $data['telephone'] ? : $this->fc_session['guest']['telephone'];
 
         //login form portion
-        $this->data['reset_url'] = $this->html->getSecureURL('account/login');
-        $form->setForm(['form_name' => 'LoginFrm']);
-        $this->data['login_form']['form_open'] = $form->getFieldHtml(
-            [
-                'type'   => 'form',
-                'name'   => 'LoginFrm',
-                'action' => $this->html->getSecureURL('r/checkout/pay/login', $params),
-            ]
-        );
+        $this->addLoginForm($data, $params);
 
         $this->data['action'] = $this->action;
         $this->data['step'] = 'address';
@@ -1702,6 +1715,7 @@ class ControllerResponsesCheckoutPay extends AController
         $this->loadModel('checkout/extension');
         $this->loadModel('account/address');
         $method_data = [];
+        $no_payment = false;
 
         // If total amount of order is zero - do redirect on confirmation page
         $total = $this->cart->buildTotalDisplay(true);
@@ -1717,14 +1731,7 @@ class ControllerResponsesCheckoutPay extends AController
             $accept_payment_ids = [];
         }
 
-        if (is_array($accept_payment_ids) && count($accept_payment_ids)) {
-            //#filter only allowed payment methods based on shipping
-            foreach ($results as $result) {
-                if (in_array($result['extension_id'], $accept_payment_ids)) {
-                    $ac_payments[] = $result;
-                }
-            }
-        } elseif ($this->fc_session['used_balance_full']) {
+        if (round($this->cart->getFinalTotal(),4) == 0) {
             $ac_payments = [];
             $paymentHTML = $this->html->buildButton(
                 [
@@ -1736,7 +1743,29 @@ class ControllerResponsesCheckoutPay extends AController
                 ]
             );
             $this->view->assign('payment_form', $paymentHTML);
-        } else {
+            $no_payment = true;
+        }
+        elseif (is_array($accept_payment_ids) && count($accept_payment_ids)) {
+            //#filter only allowed payment methods based on shipping
+            foreach ($results as $result) {
+                if (in_array($result['extension_id'], $accept_payment_ids)) {
+                    $ac_payments[] = $result;
+                }
+            }
+        }
+        elseif ($this->fc_session['used_balance_full']) {
+            $ac_payments = [];
+            $paymentHTML = $this->html->buildButton(
+                [
+                    'text'  => $this->language->get('order_confirm'),
+                    'title' => $this->language->get('order_confirm'),
+                    'id'    => 'no_payment_confirm',
+                    'style' => 'btn btn-primary btn-lg btn-block',
+                    'icon'  => 'fa fa-check',
+                ]
+            );
+            $this->view->assign('payment_form', $paymentHTML);
+        }else {
             $ac_payments = $results;
         }
 
@@ -1777,6 +1806,15 @@ class ControllerResponsesCheckoutPay extends AController
                     $method_data[$pkey]['is_redirect_payment'] = true;
                 }
             }
+        }
+        if($no_payment){
+            $method_data = [
+                'no_payment_required' => [
+                    'id'         => 'no_payment_required',
+                    'title'      => $this->language->get('no_payment_required'),
+                    'sort_order' => 1,
+                ]
+            ];
         }
         $this->session->data['payment_methods'] = $method_data;
         return $method_data;
@@ -1911,7 +1949,7 @@ class ControllerResponsesCheckoutPay extends AController
                                 $selected = true;
                             }
                         }
-                        $this->data['shipping_methods'][$k]['quote'][$key]['radio'] = $this->html->buildRadio(
+                        $this->data['shipping_methods'][$k]['quote'][$key]['radio'] = $this->html->buildElement(
                             [
                                 'type'    => 'radio',
                                 'id'      => $val['id'],
