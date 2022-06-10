@@ -7,7 +7,7 @@ if (! defined ( 'DIR_CORE' )) {
 
 require_once(__DIR__.DIRECTORY_SEPARATOR.'helper.php');
 
-class ExtensionBootstrap6 extends Extension {
+class ExtensionBootstrap5 extends Extension {
 
  }
 
