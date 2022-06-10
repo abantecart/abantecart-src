@@ -626,6 +626,27 @@ class ControllerPagesSaleCustomer extends AController
             ]
         );
 
+        $stores = $this->model_setting_store->getStores();
+        if(count($stores) > 1) {
+            $this->data['entry_store_name'] = $this->language->get('entry_store_name', 'sale/order');
+            $this->data['form']['fields']['details']['store_name'] = $form->getFieldHtml(
+                [
+                    'type'    => 'selectbox',
+                    'name'    => 'store_id',
+                    'value'   => (int)$customer_info['store_id'],
+                    'options' => array_column($stores,'name','store_id'),
+                ]
+            );
+        }else{
+            $this->data['form']['fields']['details']['store_name'] = $form->getFieldHtml(
+                [
+                    'type'    => 'hidden',
+                    'name'    => 'store_id',
+                    'value'   => $this->session->data['current_store_id'],
+                ]
+            );
+        }
+
         $required_input = [];
         foreach ($this->data['fields'] as $field_name => $required) {
             if ($required) {
