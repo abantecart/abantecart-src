@@ -1479,6 +1479,16 @@ VALUES
 --
 
 INSERT INTO `ac_product_specials`
+(`product_special_id`,
+`product_id`,
+`customer_group_id`,
+`quantity`,
+`priority`,
+`price`,
+`date_start`,
+`date_end`,
+`date_added`,
+`date_modified`)
 VALUES
 (252,51,1,0,19.0000,'0000-00-00','0000-00-00',NOW(),NOW()),
 (253,55,1,0,27.0000,'0000-00-00','0000-00-00',NOW(),NOW()),
