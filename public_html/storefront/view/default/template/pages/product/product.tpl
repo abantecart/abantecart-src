@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easyzoom@2.5.3/css/easyzoom.css" />
+<script src="https://cdn.jsdelivr.net/npm/easyzoom@2.5.3/src/easyzoom.js"></script>
 <?php
 $tax_exempt = $this->customer->isTaxExempt();
 $config_tax = $this->config->get('config_tax');
@@ -773,6 +775,5 @@ if ($error){ ?>
                 }
             });
         }
-
     });
 </script>
