@@ -48,7 +48,15 @@ class ControllerPagesCatalogProductSummary extends AController
             $this->config->get('config_image_grid_width'),
             $this->config->get('config_image_grid_height'), true);
         $this->data['product']['image'] = $thumbnail;
-        $this->data['product']['preview'] = $this->html->getCatalogURL('product/product', '&product_id='.$product_info['product_id']);
+        $currStoreId = (int)$this->session->data['current_store_id'];
+        if(!$currStoreId) {
+            $this->data['product']['preview'] = $this->html->getCatalogURL('product/product', '&product_id='.$product_info['product_id']);
+        }else{
+            /** @var ModelSettingSetting $mdl */
+            $mdl = $this->loadModel('setting/setting');
+            $settings = $mdl->getSetting('details',$currStoreId);
+            $this->data['product']['preview'] = $settings['config_url'].INDEX_FILE.'?'.'rt=product/product&product_id='.$product_info['product_id'];
+        }
 
         $this->loadModel('sale/order');
         $this->data['product']['orders'] = $this->model_sale_order->getOrderTotalWithProduct($product_info['product_id']);
