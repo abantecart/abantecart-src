@@ -20,7 +20,6 @@
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
-set_time_limit(0);
 
 clearstatcache();
 

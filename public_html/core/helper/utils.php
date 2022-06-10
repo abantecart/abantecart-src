@@ -955,11 +955,15 @@ function getMimeType($filename)
 function canChangeExecTime()
 {
     $old_set = ini_get('max_execution_time');
-    set_time_limit('1234');
+    if(function_exists('set_time_limit')) {
+        set_time_limit('1234');
+    }
     if (ini_get('max_execution_time') == 1234) {
         return false;
     } else {
-        set_time_limit($old_set);
+        if(function_exists('set_time_limit')) {
+            set_time_limit($old_set);
+        }
         return true;
     }
 }

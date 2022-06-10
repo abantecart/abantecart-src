@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2022 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -18,13 +18,8 @@
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 
-if (!ini_get('safe_mode')) {
-    set_time_limit(0);
-}
-
 class ControllerResponsesCommonResourceLibrary extends AController
 {
-    public $data = [];
     // TODO: need to find solution for this hardcoded preview sizes
     public $thumb_sizes = [
         'width'  => 100,
@@ -73,8 +68,8 @@ class ControllerResponsesCommonResourceLibrary extends AController
 
         $this->data['current_url'] = $this->html->getSecureURL('common/resource_library', '', '&encode');
 
-        $this->data['add'] = isset($this->request->get['add']) ? $this->request->get['add'] : false;
-        $this->data['update'] = isset($this->request->get['update']) ? $this->request->get['update'] : false;
+        $this->data['add'] = $this->request->get['add'] ?? false;
+        $this->data['update'] = $this->request->get['update'] ?? false;
         $this->data['rl_add'] = $this->html->getSecureURL('common/resource_library/add');
         $this->data['rl_resources'] = $this->html->getSecureURL('common/resource_library/resources');
         $this->data['rl_delete'] = $this->html->getSecureURL('common/resource_library/delete');
@@ -189,7 +184,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
             }
         } else {
             //check is mapped at all
-            $resource['can_delete'] = $rm->isMapped($resource['resource_id']) > 0 ? false : true;
+            $resource['can_delete'] = !($rm->isMapped($resource['resource_id']) > 0);
         }
 
         $this->_buildForm($resource);
@@ -257,10 +252,11 @@ class ControllerResponsesCommonResourceLibrary extends AController
         }
         $rm = new AResourceManager();
         if ($this->request->get['mode'] == 'single') {
-            $this->data['types'] = [$rm->getResourceTypeByName($this->request->get['type'])];
+            $this->data['types'] = [
+                $rm->getResourceTypeByName($this->request->get['type'])
+            ];
         } else {
-            $this->data['types'] =
-                $this->session->data['rl_types'] ? $this->session->data['rl_types'] : $rm->getResourceTypes();
+            $this->data['types'] = $this->session->data['rl_types'] ? : $rm->getResourceTypes();
         }
 
         if (!$this->data['types']) {
@@ -276,8 +272,8 @@ class ControllerResponsesCommonResourceLibrary extends AController
         }
 
         $this->data['type'] = $this->request->get['type'];
-        $this->data['wrapper_id'] = $this->request->get['wrapper_id'] ? $this->request->get['wrapper_id'] : false;
-        $this->data['field_id'] = $this->request->get['field_id'] ? $this->request->get['field_id'] : false;
+        $this->data['wrapper_id'] = $this->request->get['wrapper_id'] ? : false;
+        $this->data['field_id'] = $this->request->get['field_id'] ? : false;
 
         $this->data['language_id'] = $this->config->get('storefront_language_id');
 
@@ -577,7 +573,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
             ]
         );
 
-        $this->data['languages'] = $options = [];
+        $this->data['languages'] = [];
         $allLanguages = $this->language->getAvailableLanguages();
         foreach ($allLanguages as $lang) {
             $this->data['languages'][$lang['language_id']] = $lang;
@@ -772,7 +768,6 @@ class ControllerResponsesCommonResourceLibrary extends AController
         $this->response->addHeader('Pragma: no-cache');
         $this->response->addHeader('Cache-Control: private, no-cache');
         $this->response->addHeader('Content-Disposition: inline; filename="files.json"');
-        //$this->response->addHeader('X-Content-Type-Options: nosniff');
 
         $result = null;
         switch ($this->request->server['REQUEST_METHOD']) {
@@ -1442,6 +1437,8 @@ class ControllerResponsesCommonResourceLibrary extends AController
      * @param int $limit
      * @param string $sort
      * @param string $order
+     *
+     * @throws AException
      */
 
     public function get_resources_scripts(
@@ -1592,6 +1589,6 @@ class ControllerResponsesCommonResourceLibrary extends AController
     {
         $this->loadModel('catalog/download');
         $description = $this->model_catalog_download->getDownload($object_id);
-        return $description['name'] ? $description['name'] : $this->language->get('text_new_download');
+        return $description['name'] ? : $this->language->get('text_new_download');
     }
 }
