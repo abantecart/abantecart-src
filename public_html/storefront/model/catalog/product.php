@@ -7,7 +7,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2021 Belavier Commerce LLC
+  Copyright © 2011-2022 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -44,8 +44,8 @@ class ModelCatalogProduct extends Model
             $this->_sql_final_price_string()." ".
             $this->_sql_join_string().
             " LEFT JOIN ".$this->db->table("length_class_descriptions")." lcd
-                                ON (p.length_class_id = lcd.length_class_id
-                                    AND lcd.language_id = '".(int) $this->config->get('storefront_language_id')."')
+                ON (p.length_class_id = lcd.length_class_id
+                    AND lcd.language_id = '".(int) $this->config->get('storefront_language_id')."')
             WHERE p.product_id = '".(int) $product_id."'
                     AND p2s.store_id = '".(int) $this->config->get('config_store_id')."'
                     AND p.date_available <= NOW() AND p.status = '1'"
@@ -185,9 +185,9 @@ class ModelCatalogProduct extends Model
                 } else {
                     $trackable = true;
                 }
-                //calculate only if have no options without tracking
+                //calculate only  no options without tracking
                 if ($total_quantity !== true) {
-                    $total_quantity += $row['quantity'] < 0 ? 0 : $row['quantity'];
+                    $total_quantity += max($row['quantity'], 0);
                 }
             }
             //if some of option value have subtract NO - think product is available
@@ -227,24 +227,24 @@ class ModelCatalogProduct extends Model
                     p2c.category_id,
                     wcd.unit AS weight_class,
                     mcd.unit AS length_class
-                FROM ".$this->db->table("products")." p
-                LEFT JOIN ".$this->db->table("product_descriptions")." pd
-                    ON (p.product_id = pd.product_id
-                            AND pd.language_id = '".(int) $this->config->get('storefront_language_id')."')
-                LEFT JOIN ".$this->db->table("products_to_categories")." p2c 
-                    ON p2c.product_id = p.product_id
-                LEFT JOIN ".$this->db->table("weight_classes")." wc 
-                    ON (p.weight_class_id = wc.weight_class_id)
-                LEFT JOIN ".$this->db->table("weight_class_descriptions")." wcd
-                    ON (wc.weight_class_id = wcd.weight_class_id
-                            AND wcd.language_id = '".(int) $this->config->get('storefront_language_id')."' )
-                LEFT JOIN ".$this->db->table("length_classes")." mc 
-                    ON (p.length_class_id = mc.length_class_id)
-                LEFT JOIN ".$this->db->table("length_class_descriptions")." mcd 
-                    ON (mc.length_class_id = mcd.length_class_id)
-                WHERE p.product_id = '".(int) $product_id."' 
-                    AND p.date_available <= NOW() 
-                    AND p.status = '1'"
+            FROM ".$this->db->table("products")." p
+            LEFT JOIN ".$this->db->table("product_descriptions")." pd
+                ON (p.product_id = pd.product_id
+                        AND pd.language_id = '".(int) $this->config->get('storefront_language_id')."')
+            LEFT JOIN ".$this->db->table("products_to_categories")." p2c 
+                ON p2c.product_id = p.product_id
+            LEFT JOIN ".$this->db->table("weight_classes")." wc 
+                ON (p.weight_class_id = wc.weight_class_id)
+            LEFT JOIN ".$this->db->table("weight_class_descriptions")." wcd
+                ON (wc.weight_class_id = wcd.weight_class_id
+                        AND wcd.language_id = '".(int) $this->config->get('storefront_language_id')."' )
+            LEFT JOIN ".$this->db->table("length_classes")." mc 
+                ON (p.length_class_id = mc.length_class_id)
+            LEFT JOIN ".$this->db->table("length_class_descriptions")." mcd 
+                ON (mc.length_class_id = mcd.length_class_id)
+            WHERE p.product_id = '".(int) $product_id."' 
+                AND p.date_available <= NOW() 
+                AND p.status = '1'"
         );
         $output = [];
         foreach ($query->rows as $row) {
@@ -294,15 +294,15 @@ class ModelCatalogProduct extends Model
         $cache = $this->cache->pull($cache_key);
         if ($cache === false) {
             $sql = "SELECT *,
-                            p.product_id,
-                            ".$this->_sql_final_price_string().",
-                            pd.name AS name, 
-                            pd.blurb,
-                            m.name AS manufacturer,
-                            ss.name AS stock,
-                            ".$this->_sql_avg_rating_string().",
-                            ".$this->_sql_review_count_string()."
-                            ".$this->_sql_join_string()."
+                        p.product_id,
+                        ".$this->_sql_final_price_string().",
+                        pd.name AS name, 
+                        pd.blurb,
+                        m.name AS manufacturer,
+                        ss.name AS stock,
+                        ".$this->_sql_avg_rating_string().",
+                        ".$this->_sql_review_count_string()."
+                        ".$this->_sql_join_string()."
             LEFT JOIN ".$this->db->table("products_to_categories")." p2c
                 ON (p.product_id = p2c.product_id)
             WHERE p.status = '1' AND p.date_available <= NOW()
@@ -1531,13 +1531,14 @@ class ModelCatalogProduct extends Model
             $customer_group_id = (int) $this->config->get('config_customer_group_id');
         }
 
-        $sql = " ( SELECT p2sp.price
+        $sql = " ( SELECT CASE WHEN p2sp.price_prefix='%' THEN p.price - (p2sp.price * (p.price/100)) 
+                            ELSE p2sp.price END as special_price
                     FROM ".$this->db->table("product_specials")." p2sp
                     WHERE p2sp.product_id = p.product_id
                             AND p2sp.customer_group_id = '".$customer_group_id."'
                             AND ((p2sp.date_start = '0000-00-00' OR p2sp.date_start < NOW())
                             AND (p2sp.date_end = '0000-00-00' OR p2sp.date_end > NOW()))
-                    ORDER BY p2sp.priority ASC, p2sp.price ASC LIMIT 1
+                    ORDER BY p2sp.priority ASC, special_price ASC LIMIT 1
                  ) ";
         $sql = "COALESCE( ".$sql.", p.price) as final_price";
 
@@ -1583,19 +1584,23 @@ class ModelCatalogProduct extends Model
         $output = $this->cache->pull($cache_key);
         // if no cache
         if ($output === false) {
-            $sql = "SELECT product_id, price
-                    FROM ".$this->db->table("product_specials")."
-                    WHERE product_id IN (".implode(', ', $products).")
-                            AND customer_group_id = '".$customer_group_id."'
-                            AND ((date_start = '0000-00-00' OR date_start < NOW())
-                            AND (date_end = '0000-00-00' OR date_end > NOW()))
-                    ORDER BY product_id ASC, priority ASC, price ASC";
+            $sql = "SELECT ps.product_id, 
+                        CASE WHEN ps.price_prefix='%' THEN p.price - (ps.price * (p.price/100)) 
+                             ELSE ps.price END AS special_price
+                    FROM ".$this->db->table("product_specials")." ps
+                    LEFT JOIN ".$this->db->table("products")." p
+                        ON p.product_id = ps.product_id
+                    WHERE ps.product_id IN (".implode(', ', $products).")
+                            AND ps.customer_group_id = '".$customer_group_id."'
+                            AND ((ps.date_start = '0000-00-00' OR ps.date_start < NOW())
+                            AND (ps.date_end = '0000-00-00' OR ps.date_end > NOW()))
+                    ORDER BY ps.product_id ASC, ps.priority ASC, special_price ASC";
             $result = $this->db->query($sql);
             $temp = '';
             $specials = [];
             foreach ($result->rows as $row) {
                 if ($row['product_id'] != $temp) {
-                    $specials[$row['product_id']] = $row['price'];
+                    $specials[$row['product_id']] = $row['special_price'];
                 }
                 $temp = $row['product_id'];
             }
@@ -1615,20 +1620,24 @@ class ModelCatalogProduct extends Model
             }
 
             // discounts
-            $sql = "SELECT product_id, price
-                    FROM ".$this->db->table("product_discounts")."
-                    WHERE product_id IN (".implode(', ', $products).")
-                        AND customer_group_id = '".(int) $customer_group_id."'
-                        AND quantity = '1'
-                        AND ((date_start = '0000-00-00' OR date_start < NOW())
-                        AND (date_end = '0000-00-00' OR date_end > NOW()))
-                    ORDER BY  product_id ASC, priority ASC, price ASC";
+            $sql = "SELECT rd.product_id,
+                        CASE WHEN rd.price_prefix='%' THEN p.price - (rd.price * (p.price/100)) 
+                            ELSE rd.price END AS discount_price
+                    FROM ".$this->db->table("product_discounts")." rd
+                    LEFT JOIN ".$this->db->table("products")." p
+                        ON p.product_id = rd.product_id
+                    WHERE rd.product_id IN (".implode(', ', $products).")
+                        AND rd.customer_group_id = '".(int) $customer_group_id."'
+                        AND rd.quantity = '1'
+                        AND ((rd.date_start = '0000-00-00' OR rd.date_start < NOW())
+                        AND (rd.date_end = '0000-00-00' OR rd.date_end > NOW()))
+                    ORDER BY rd.product_id ASC, rd.priority ASC, discount_price ASC";
             $result = $this->db->query($sql);
             $temp = '';
             $discounts = [];
             foreach ($result->rows as $row) {
                 if ($row['product_id'] != $temp) {
-                    $discounts[$row['product_id']] = $row['price'];
+                    $discounts[$row['product_id']] = $row['discount_price'];
                 }
                 $temp = $row['product_id'];
             }
@@ -1711,7 +1720,7 @@ class ModelCatalogProduct extends Model
         }
 
         if ($data || $mode == 'total_only') {
-            $filter = (isset($data['filter']) ? $data['filter'] : []);
+            $filter = $data['filter'] ?? [];
 
             if ($mode == 'total_only') {
                 $sql = "SELECT COUNT(DISTINCT p.product_id) as total
@@ -1909,6 +1918,6 @@ class ModelCatalogProduct extends Model
                     ON (pov.product_option_id = po.product_option_id AND po.status = 1) 
                 WHERE pov.product_id=".(int) $product_id." AND pov.subtract = 1";
         $result = $this->db->query($sql);
-        return ($result->num_rows ? true : false);
+        return (bool) $result->num_rows;
     }
 }

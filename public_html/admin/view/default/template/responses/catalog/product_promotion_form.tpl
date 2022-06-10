@@ -8,25 +8,42 @@
 	<?php echo $form['form_open']; ?>
 	<div class="panel-body panel-body-nopadding">
 		<label class="h4 heading"></label>
-			<?php foreach ($form['fields'] as $name => $field) { ?>
-			<?php
-				//Logic to calculate fields width
-				$widthclasses = "col-sm-7";
-				if ( is_int(stripos($field->style, 'large-field')) ) {
-					$widthclasses = "col-sm-7";
-				} else if ( is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date')) ) {
-					$widthclasses = "col-sm-5";
-				} else if ( is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch')) ) {
-					$widthclasses = "col-sm-3";
-				} else if ( is_int(stripos($field->style, 'tiny-field')) ) {
-					$widthclasses = "col-sm-2";
-				}
-				$widthclasses .= " col-xs-12";
-			?>
+			<?php foreach ($form['fields'] as $name => $field) {
+                if($field->type == 'hidden'){
+                    echo $field;
+                    continue;
+                }
+
+                if($name == 'price_prefix'){
+                    continue;
+                }
+                //Logic to calculate fields width
+                $widthclasses = "col-sm-7";
+                if($name == 'price'){
+                    $widthclasses = "col-sm-3";
+                }elseif ( is_int(stripos($field->style, 'large-field')) ) {
+                    $widthclasses = "col-sm-7";
+                } else if ( is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date')) ) {
+                    $widthclasses = "col-sm-5";
+                } else if ( is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch')) ) {
+                    $widthclasses = "col-sm-3";
+                } else if ( is_int(stripos($field->style, 'tiny-field')) ) {
+                    $widthclasses = "col-sm-2";
+                }
+                $widthclasses .= " col-xs-12";
+?>
 			<div class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
 				<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
 				<div class="input-group afield <?php echo $widthclasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
-					<?php echo $field; ?>
+					<?php
+                    if($name == 'price'){
+                        echo '<span class="input-group-btn" style="width: 55px;">';
+                        echo $form['fields']['price_prefix'];
+                        echo '</span>';
+                        $field->attr .= ' style="width: 100%"';
+                    }
+                    echo $field;
+                ?>
 				</div>
 				<?php if (is_array($error[$name]) && !empty($error[$name])) { ?>
 				<span class="help-block field_err"><?php echo $error[$name]; ?></span>
