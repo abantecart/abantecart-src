@@ -97,10 +97,6 @@
 		<value><![CDATA[Type]]></value>
 	</definition>
 	<definition>
-		<key>text_language</key>
-		<value><![CDATA[Language]]></value>
-	</definition>
-	<definition>
 		<key>text_resource_code</key>
 		<value><![CDATA[Resource HTML]]></value>
 	</definition>

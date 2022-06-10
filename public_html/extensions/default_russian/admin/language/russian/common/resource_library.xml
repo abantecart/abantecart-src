@@ -97,10 +97,6 @@
 		<value><![CDATA[Тип]]></value>
 	</definition>
 	<definition>
-		<key>text_language</key>
-		<value><![CDATA[Язык]]></value>
-	</definition>
-	<definition>
 		<key>text_resource_code</key>
 		<value><![CDATA[URL изображения или ресурс HTML]]></value>
 	</definition>
