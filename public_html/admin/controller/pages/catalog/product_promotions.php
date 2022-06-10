@@ -6,7 +6,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2022 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -47,34 +47,40 @@ class ControllerPagesCatalogProductPromotions extends AController
             if ($this->request->post['promotion_type'] == 'discount') {
                 if (has_value($this->request->get['product_discount_id'])) { //update
                     $this->model_catalog_product->updateProductDiscount(
-                        $this->request->get['product_discount_id'], $this->request->post
+                        $this->request->get['product_discount_id'],
+                        $this->request->post
                     );
                 } else { //insert
                     $this->model_catalog_product->addProductDiscount(
-                        $this->request->get['product_id'], $this->request->post
+                        $this->request->get['product_id'],
+                        $this->request->post
                     );
                 }
             } elseif ($this->request->post['promotion_type'] == 'special') {
                 if (has_value($this->request->get['product_special_id'])) { //update
                     $this->model_catalog_product->updateProductSpecial(
-                        $this->request->get['product_special_id'], $this->request->post
+                        $this->request->get['product_special_id'],
+                        $this->request->post
                     );
                 } else { //insert
                     $this->model_catalog_product->addProductSpecial(
-                        $this->request->get['product_id'], $this->request->post
+                        $this->request->get['product_id'],
+                        $this->request->post
                     );
                 }
             }
             $this->session->data['success'] = $this->language->get('text_success');
             redirect(
                 $this->html->getSecureURL(
-                    'catalog/product_promotions', '&product_id='.$this->request->get['product_id']
+                    'catalog/product_promotions',
+                    '&product_id='.$this->request->get['product_id']
                 )
             );
         }
 
-        $this->data['product_description'] =
-            $this->model_catalog_product->getProductDescriptions($this->request->get['product_id']);
+        $this->data['product_description'] = $this->model_catalog_product->getProductDescriptions(
+            $this->request->get['product_id']
+        );
 
         $this->view->assign('error_warning', $this->error['warning'] = implode('<br>', $this->error));
         $this->view->assign('success', $this->session->data['success']);
@@ -99,17 +105,21 @@ class ControllerPagesCatalogProductPromotions extends AController
         $this->document->addBreadcrumb(
             [
                 'href'      => $this->html->getSecureURL(
-                    'catalog/product/update', '&product_id='.$this->request->get['product_id']
+                    'catalog/product/update',
+                    '&product_id='.$this->request->get['product_id']
                 ),
-                'text'      => $this->language->get('text_edit').'&nbsp;'.$this->language->get('text_product').' - '
-                    .$this->data['product_description'][$this->session->data['content_language_id']]['name'],
+                'text'      => $this->language->get('text_edit')
+                    .'&nbsp;'
+                    .$this->language->get('text_product').' - '
+                    .$this->data['product_description'][$this->language->getContentLanguageID()]['name'],
                 'separator' => ' :: ',
             ]
         );
         $this->document->addBreadcrumb(
             [
                 'href'      => $this->html->getSecureURL(
-                    'catalog/product_promotions', '&product_id='.$this->request->get['product_id']
+                    'catalog/product_promotions',
+                    '&product_id='.$this->request->get['product_id']
                 ),
                 'text'      => $this->language->get('tab_promotions'),
                 'separator' => ' :: ',
@@ -119,12 +129,11 @@ class ControllerPagesCatalogProductPromotions extends AController
 
         $this->loadModel('sale/customer_group');
         $results = $this->model_sale_customer_group->getCustomerGroups();
-        $this->data['customer_groups'] = [];
-        foreach ($results as $r) {
-            $this->data['customer_groups'][$r['customer_group_id']] = $r['name'];
-        }
+        $this->data['customer_groups'] = array_column($results,'name', 'customer_group_id');
 
-        $this->data['form_title'] = $this->language->get('text_edit').'&nbsp;'.$this->language->get('text_product');
+        $this->data['form_title'] = $this->language->get('text_edit')
+            .'&nbsp;'
+            .$this->language->get('text_product');
         $this->data['product_discounts'] = $this->model_catalog_product->getProductDiscounts(
                 $this->request->get['product_id']
             );
@@ -137,8 +146,9 @@ class ControllerPagesCatalogProductPromotions extends AController
             '&product_id='.$this->request->get['product_id'].'&product_discount_id=%ID%'
         );
 
-        $this->data['product_specials'] =
-            $this->model_catalog_product->getProductSpecials($this->request->get['product_id']);
+        $this->data['product_specials'] = $this->model_catalog_product->getProductSpecials(
+            $this->request->get['product_id']
+        );
         $this->data['delete_special'] = $this->html->getSecureURL(
             'catalog/product_promotions/delete',
             '&product_id='.$this->request->get['product_id'].'&product_special_id=%ID%'
@@ -260,7 +270,7 @@ class ControllerPagesCatalogProductPromotions extends AController
                 && $this->request->post['date_start'] != ''
                 && $this->request->post['date_end'] != ''
                 && dateFromFormat($this->request->post['date_start'], $this->language->get('date_format_short'))
-                > dateFromFormat($this->request->post['date_end'], $this->language->get('date_format_short'))
+                    > dateFromFormat($this->request->post['date_end'], $this->language->get('date_format_short'))
             ) {
                 $this->error['date_end'] = $this->language->get('error_date');
             }
