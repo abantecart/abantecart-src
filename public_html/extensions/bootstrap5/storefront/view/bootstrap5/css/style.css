@@ -1,0 +1,206 @@
+/* GLOBAL STYLES
+-------------------------------------------------- */
+/* Padding below the footer and lighter body text */
+body {
+  padding-bottom: 3rem;
+  color: #5a5a5a;
+}
+
+/* Basic print styles */
+.visible-print  { display: inherit !important; }
+.hidden-print   { display: none !important; }
+
+a[href]:after {
+  content: none !important;
+}
+
+input{
+  min-width: 60px;
+}
+input[type=checkbox],input[type=radio]{
+  min-width:20px;
+}
+/* style for number input buttons. Not works in FF v98.0.2 */
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  opacity: 1;
+  height: 50px;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+#headerNavbarCollapse a:not(.dropdown-item, .dropdown-item-text a),
+footer>nav a:not(.dropdown-item, .dropdown-item-text a)
+{
+    text-decoration: none;
+    color: white !important;
+}
+
+/* auto-open for dropdowns */
+.dropup:hover>.dropdown-menu,
+.dropdown:hover>.dropdown-menu {
+    display: block;
+    margin-top: 0;
+ }
+li.dropdown{
+  max-width: 300px;
+}
+
+.dropdown-menu li {
+  position: relative;
+}
+.dropdown-menu .dropdown-submenu {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: -4px;
+}
+.dropdown-menu .dropdown-submenu-left {
+  right: 100%;
+  left: auto;
+}
+@media (max-width: 576px) {
+  .dropdown-menu .dropdown-submenu {
+    right: 0;
+    left: auto;
+  }
+}
+.dropdown-menu > li:hover > .dropdown-submenu {
+  display: block;
+}
+
+.dropdown .menu_image, .dropup .menu_image{
+  max-width: 40px;
+  margin-right: 20px;
+}
+
+.product-flex .card{
+  width: 25rem !important;
+}
+
+.language-flag-img{
+  width: 20px;
+  height: 14px;
+  margin-right: 6px;
+  vertical-align: unset;
+}
+
+ul.dropdown-menu.topcartopen{
+  min-width: 400px;
+}
+
+.latest-column img,
+.bestsellers-column img,
+.featured-column img,
+.special-column img,
+.listing-block-left img,
+.listing-block-right img
+{
+  max-width: 80px;
+  max-height: 80px;
+}
+
+@media (max-width: 768px) {
+    #headerNavbarCollapse a:not(.dropdown-item, .dropdown-item-text a)
+    {
+        font-size: 1.5rem;
+    }
+    /* style for top-search box */
+    ul#search-category,
+    .topnavbar .dropdown-menu,
+    .topnavbar .fa-caret-down,
+    #category_top_block .dropdown-menu,
+    #footer .dropdown-menu,
+    #footer .fa-caret-down
+    {
+        display: none !important;
+    }
+
+    .dropdown-currency{
+        font-size: 1.5rem;
+    }
+
+    .currency-switcher{
+        min-width: 12rem;
+    }
+
+    .special-badge {
+        font-size: 0.6rem !important;
+    }
+    .product-flex .card{
+      width: 20rem !important;
+    }
+    .pricetag .btn-success{
+        font-size: 1.2rem;
+    }
+}
+
+/* PRODUCT PAGE CSS */
+
+* {box-sizing: border-box;}
+.img-zoom-container {
+  position: relative;
+}
+
+.img-zoom-lens {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  /*set the size of the lens:*/
+  width: 40px;
+  height: 40px;
+}
+
+.img-zoom-result {
+  border: 1px solid #d4d4d4;
+  /*set the size of the result div:*/
+  width: 300px;
+  height: 300px;
+}
+#myimage{
+    width: 500px;
+    height: 500px;
+}
+
+#product_list{
+  display: none;
+}
+
+/* sitemap */
+.sitemap-category-list li, .sitemap-category-list li a {
+  padding: .5rem 1rem;
+  text-decoration: none;
+}
+
+/* cart*/
+.cart-qnty-wrapper{
+  max-width: 11rem;
+}
+
+#top_cart_product_list .product-icon{
+  max-width: 50px;
+}
+
+.product-flex .blurb {
+   overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   -webkit-line-clamp: 3; /* number of lines to show */
+           line-clamp: 3;
+   -webkit-box-orient: vertical;
+}
+
+.category-block li:hover{
+    background-color: var(--bs-gray-100);
+}
+
+#gotop {
+    position: fixed;
+    bottom: 2px;
+    right: 5px;
+    height: 58px;
+    width: 58px;
+    display: block;
+    overflow: hidden;
+    opacity: 0.5;
+    color: darkgray;
+}

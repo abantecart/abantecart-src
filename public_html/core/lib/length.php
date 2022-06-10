@@ -75,6 +75,7 @@ class ALength
         $language_id = (int) $registry->get('language')->getLanguageID();
         $cache_key = 'localization.length_classes.lang_'.$language_id;
         $cache_data = $cache->pull($cache_key);
+
         if ($cache_data !== false) {
             $this->lengths = $cache_data;
         } else {
@@ -99,6 +100,8 @@ class ALength
             $this->predefined_length_ids[] = $length['length_class_id'];
         }
         $this->lengths = array_merge($this->lengths, $this->predefined_lengths);
+
+
     }
 
     /**
@@ -124,9 +127,17 @@ class ALength
         if (isset($this->lengths[strtolower($unit_from)])) {
             $from = $this->lengths[strtolower($unit_from)]['value'];
         } else {
-            //do not allow division by zero! (see belong)
-            throw new AException(AC_ERR_USER_ERROR, 'Cannot find length unit value of "'.$unit_from
-                                                  .'". TO solve try to re-save length unit of product and it\'s option and try again.'
+            $dbg = debug_backtrace();
+            $debugText = '';
+            foreach($dbg as $k=>$d){
+                $debugText .= '#'.$k.' '.$d['file'].':'.$d['line']."\n";
+            }
+
+            throw new AException(
+                AC_ERR_USER_ERROR,
+                'Cannot find length unit value of "'.$unit_from
+                    .'". TO solve try to re-save length unit of product and it\'s option and try again.'
+                    ."\n".$debugText
             );
         }
 

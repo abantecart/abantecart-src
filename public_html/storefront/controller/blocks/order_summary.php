@@ -26,6 +26,18 @@ class ControllerBlocksOrderSummary extends AController
     public function main()
     {
 
+        $mSizes = [
+            'main'  =>
+                [
+                    'width'  => $this->config->get('config_image_cart_width'),
+                    'height' => $this->config->get('config_image_cart_height'),
+                ],
+            'thumb' => [
+                'width'  => $this->config->get('config_image_cart_width'),
+                'height' => $this->config->get('config_image_cart_height'),
+            ],
+        ];
+
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -49,6 +61,7 @@ class ControllerBlocksOrderSummary extends AController
         $products = [];
 
         $qty = 0;
+        $resource = new AResource('image');
 
         foreach ($this->cart->getProducts() + $this->cart->getVirtualProducts()  as $result) {
             $option_data = [];
@@ -80,20 +93,46 @@ class ControllerBlocksOrderSummary extends AController
 
             $qty += $result['quantity'];
 
+            //get main image
+            $thumbnail = $resource->getMainImage(
+                'products',
+                $result['product_id'],
+                $this->config->get('config_image_grid_width'),
+                $this->config->get('config_image_grid_height')
+            );
+
+            $main_image = $resource->getResourceAllObjects(
+                'product_option_value',
+                $option['product_option_value_id'],
+                $mSizes,
+                1,
+                false
+            );
+
+            if (!empty($main_image)) {
+                $thumbnail['origin'] = $main_image['origin'];
+                $thumbnail['title'] = $main_image['title'];
+                $thumbnail['description'] = $main_image['description'];
+                $thumbnail['thumb_html'] = $main_image['thumb_html'];
+                $thumbnail['thumb_url'] = $main_image['thumb_url'];
+                $thumbnail['main_url'] = $main_image['main_url'];
+            }
+
             $products[] = [
-                'key'      => $result['key'],
-                'name'     => $result['name'],
-                'option'   => $option_data,
-                'quantity' => $result['quantity'],
-                'stock'    => $result['stock'],
-                'price'    => $this->currency->format(
+                'key'       => $result['key'],
+                'name'      => $result['name'],
+                'option'    => $option_data,
+                'thumbnail' => $thumbnail,
+                'quantity'  => $result['quantity'],
+                'stock'     => $result['stock'],
+                'price'     => $this->currency->format(
                     $this->tax->calculate(
                         $result['price'] ?: $result['amount'],
                         $result['tax_class_id'],
                         $this->config->get('config_tax')
                     )
                 ),
-                'href'     => $result['product_id']
+                'href'      => $result['product_id']
                         ? $this->html->getSEOURL(
                             'product/product',
                             '&product_id='.$result['product_id'],

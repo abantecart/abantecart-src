@@ -274,9 +274,8 @@ class ControllerPagesCheckoutFastCheckout extends AController
             }
         }
 
-        $this->loadLanguage('fast_checkout/fast_checkout');
 
-        $this->document->setTitle($this->language->get('heading_title'));
+        $this->document->setTitle($this->language->get('heading_title', 'fast_checkout/fast_checkout'));
         $this->document->resetBreadcrumbs();
 
         $this->document->addBreadcrumb(
@@ -302,7 +301,7 @@ class ControllerPagesCheckoutFastCheckout extends AController
                 'separator' => $this->language->get('text_separator'),
             ]
         );
-
+// TODO: clean up in the future
         $this->document->addStyle(
             [
                 'href' => $this->view->templateResource('/css/bootstrap-xxs.css'),

@@ -800,6 +800,7 @@ class ModelCheckoutOrder extends Model
                     $attachment['name']
                 );
         }
+        $mail->send();
 
         //send alert email for merchant
         if ($this->config->get('config_alert_mail')) {
