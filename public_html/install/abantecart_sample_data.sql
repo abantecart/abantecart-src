@@ -1482,7 +1482,6 @@ INSERT INTO `ac_product_specials`
 (`product_special_id`,
 `product_id`,
 `customer_group_id`,
-`quantity`,
 `priority`,
 `price`,
 `date_start`,
