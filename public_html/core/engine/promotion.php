@@ -151,17 +151,20 @@ class APromotion
             return $output;
         }
 
-        $sql = "SELECT price
-                FROM ".$this->db->table("product_discounts")."
-                WHERE product_id = '".(int) $product_id."'
-                        AND customer_group_id = '".$customer_group_id."'
-                        AND quantity <= '".(int) $discount_quantity."'
-                        AND ((date_start = '0000-00-00' OR date_start < NOW()) 
-                                AND (date_end = '0000-00-00' OR date_end > NOW()))
-                ORDER BY quantity DESC, priority ASC, price ASC
+        $sql = "SELECT CASE WHEN rd.price_prefix='%' THEN p.price - (rd.price * (p.price/100)) 
+                            ELSE rd.price END AS discount_price
+                FROM ".$this->db->table("product_discounts")." rd
+                LEFT JOIN ".$this->db->table("products")." p
+                    ON p.product_id = rd.product_id
+                WHERE rd.product_id = '".(int) $product_id."'
+                        AND rd.customer_group_id = '".$customer_group_id."'
+                        AND rd.quantity <= '".(int) $discount_quantity."'
+                        AND ((rd.date_start = '0000-00-00' OR rd.date_start < NOW()) 
+                                AND (rd.date_end = '0000-00-00' OR rd.date_end > NOW()))
+                ORDER BY rd.quantity DESC, rd.priority ASC, discount_price ASC
                 LIMIT 1";
         $product_discount_query = $this->db->query($sql);
-        $output = (float) $product_discount_query->row['price'];
+        $output = (float) $product_discount_query->row['discount_price'];
         $this->cache->push($cache_key, $output);
 
         return $output;
@@ -185,18 +188,21 @@ class APromotion
         }
 
         $query = $this->db->query(
-            "SELECT price
-            FROM ".$this->db->table("product_discounts")."
-            WHERE product_id = '".(int) $product_id."'
-                AND customer_group_id = '".$customer_group_id."'
-                AND quantity = '1'
-                AND ((date_start = '0000-00-00' OR date_start < NOW())
-                AND (date_end = '0000-00-00' OR date_end > NOW()))
-            ORDER BY priority ASC, price ASC
+            "SELECT CASE WHEN rd.price_prefix='%' THEN p.price - (rd.price * (p.price/100)) 
+                        ELSE rd.price END AS discount_price
+            FROM ".$this->db->table("product_discounts")." rd
+            LEFT JOIN ".$this->db->table("products")." p
+                ON p.product_id = rd.product_id
+            WHERE rd.product_id = '".(int) $product_id."'
+                AND rd.customer_group_id = '".$customer_group_id."'
+                AND rd.quantity = '1'
+                AND ((rd.date_start = '0000-00-00' OR rd.date_start < NOW())
+                AND (rd.date_end = '0000-00-00' OR rd.date_end > NOW()))
+            ORDER BY rd.priority ASC, discount_price ASC
             LIMIT 1"
         );
         if ($query->num_rows) {
-            $output = $query->row['price'];
+            $output = $query->row['discount_price'];
         } else {
             $output = '';
         }
@@ -222,14 +228,18 @@ class APromotion
             return $output;
         }
         $query = $this->db->query(
-            "SELECT *
-            FROM ".$this->db->table("product_discounts")."
-            WHERE product_id = '".(int) $product_id."'
-                AND customer_group_id = '".(int) $customer_group_id."'
-                AND quantity > 1
-                AND ((date_start = '0000-00-00' OR date_start < NOW())
-                AND (date_end = '0000-00-00' OR date_end > NOW()))
-            ORDER BY quantity ASC, priority ASC, price ASC"
+            "SELECT rd.*, 
+                CASE WHEN rd.price_prefix='%' THEN p.price - (rd.price * (p.price/100)) 
+                        ELSE rd.price END AS price
+            FROM ".$this->db->table("product_discounts")." rd
+            LEFT JOIN ".$this->db->table("products")." p
+                ON p.product_id = rd.product_id
+            WHERE rd.product_id = '".(int) $product_id."'
+                AND rd.customer_group_id = '".(int) $customer_group_id."'
+                AND rd.quantity > 1
+                AND ((rd.date_start = '0000-00-00' OR rd.date_start < NOW())
+                AND (rd.date_end = '0000-00-00' OR rd.date_end > NOW()))
+            ORDER BY rd.quantity ASC, rd.priority ASC"
         );
         $output = $query->rows;
         $this->cache->push($cache_key, $output);
@@ -255,16 +265,20 @@ class APromotion
 
         $output = '';
         $query = $this->db->query(
-            "SELECT price
-            FROM ".$this->db->table("product_specials")."
-            WHERE product_id = '".(int) $product_id."'
-                AND customer_group_id = '".$customer_group_id."'
-                AND ((date_start = '0000-00-00' OR date_start < NOW())
-                AND (date_end = '0000-00-00' OR date_end > NOW()))
-            ORDER BY priority ASC, price ASC LIMIT 1"
+            "SELECT CASE WHEN ps.price_prefix='%' THEN p.price - (ps.price * (p.price/100)) 
+                    ELSE ps.price END AS special_price
+            FROM ".$this->db->table("product_specials")." ps
+            LEFT JOIN ".$this->db->table("products")." p
+                            ON p.product_id = ps.product_id
+            WHERE ps.product_id = '".(int) $product_id."'
+                AND ps.customer_group_id = '".$customer_group_id."'
+                AND ((ps.date_start = '0000-00-00' OR ps.date_start < NOW())
+                AND (ps.date_end = '0000-00-00' OR ps.date_end > NOW()))
+            ORDER BY ps.priority ASC, special_price ASC 
+            LIMIT 1"
         );
         if ($query->num_rows) {
-            $output = (float) $query->row['price'];
+            $output = (float) $query->row['special_price'];
         }
         $this->cache->push($cache_key, $output);
 
@@ -401,14 +415,15 @@ class APromotion
                     WHERE r1.product_id = ps.product_id AND r1.status = '1'
                     GROUP BY r1.product_id) AS rating\n";
         }
-        $sql .= ", (SELECT price
+        $sql .= ", (SELECT CASE WHEN rd.price_prefix='%' THEN p.price - (rd.price * (p.price/100)) 
+                                ELSE rd.price END AS discount_price
                     FROM ".$this->db->table("product_discounts")." rd
                     WHERE rd.product_id = ps.product_id
-                        AND customer_group_id = '".$customer_group_id."'
-                        AND quantity = '1'
-                        AND ((date_start = '0000-00-00' OR date_start < NOW())
-                        AND (date_end = '0000-00-00' OR date_end > NOW()))
-                    ORDER BY priority ASC, price ASC
+                        AND rd.customer_group_id = '".$customer_group_id."'
+                        AND rd.quantity = '1'
+                        AND ((rd.date_start = '0000-00-00' OR rd.date_start < NOW())
+                        AND (rd.date_end = '0000-00-00' OR rd.date_end > NOW()))
+                    ORDER BY rd.priority ASC, discount_price ASC
                     LIMIT 1) as discount_price\n ";
 
         $sql .= "FROM ".$this->db->table("product_specials")." ps
@@ -550,10 +565,10 @@ class APromotion
         if (!is_null($this->customer) && $this->customer->getId()) {
             $coupon_redeem_query = $this->db->query(
                 "SELECT COUNT(*) AS total
-                     FROM `".$this->db->table("orders")."`
-                     WHERE order_status_id > '0'
-                            AND coupon_id = '".(int) $couponInfo['coupon_id']."'
-                            AND customer_id = '".(int) $this->customer->getId()."'"
+                 FROM `".$this->db->table("orders")."`
+                 WHERE order_status_id > '0'
+                        AND coupon_id = '".(int) $couponInfo['coupon_id']."'
+                        AND customer_id = '".(int) $this->customer->getId()."'"
             );
 
             if ($coupon_redeem_query->row['total'] >= $couponInfo['uses_customer']
@@ -564,16 +579,16 @@ class APromotion
 
         $result = $this->db->query(
             "SELECT *
-                FROM ".$this->db->table("coupons_products")."
-                WHERE coupon_id = '".(int) $couponInfo['coupon_id']."'"
+            FROM ".$this->db->table("coupons_products")."
+            WHERE coupon_id = '".(int) $couponInfo['coupon_id']."'"
         );
         $couponProductIds = array_column($result->rows, 'product_id');
         $couponProductIds = array_map('intval', $couponProductIds);
 
         $result = $this->db->query(
             "SELECT *
-                FROM ".$this->db->table("coupons_categories")."
-                WHERE coupon_id = '".(int) $couponInfo['coupon_id']."'"
+            FROM ".$this->db->table("coupons_categories")."
+            WHERE coupon_id = '".(int) $couponInfo['coupon_id']."'"
         );
 
         $couponCategoryIds = $result->num_rows ? array_column($result->rows, 'category_id') : [];

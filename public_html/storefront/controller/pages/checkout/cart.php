@@ -364,9 +364,12 @@ class ControllerPagesCheckoutCart extends AController
                             'name'  => 'quantity['.$result['key'].']',
                             'value' => $result['quantity'],
                             'style' => 'short',
-                            'attr'  => ' size="3" '
+                            'attr'  => ' size="6" '
                                 .( (int)$result['maximum'] ? 'max="'.(int)$result['maximum'].'"' : '')
                                    .( ' min="'.(int)$result['minimum'].'"'),
+                            'size'  => 6,
+                            'max'   => (int)$result['maximum'],
+                            'min'   => (int)$result['minimum']
                         ]
                     ),
                     'stock'        => $result['stock'],

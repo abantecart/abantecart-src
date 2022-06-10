@@ -33,7 +33,7 @@ class ControllerResponsesProductProduct extends AController
             $this->config->set('embed_mode', true);
             $cntr = $this->dispatch('pages/product/product');
             $this->data['output'] = $cntr->dispatchGetOutput();
-        }catch(\Exception $e){}
+        }catch(Exception $e){}
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
         $this->response->setOutput($this->data['output']);
@@ -182,10 +182,10 @@ class ControllerResponsesProductProduct extends AController
         }
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-        return $this->getCartContent();
+        $this->getCartContent($this->request->get['product_id']);
     }
 
-    public function getCartContent()
+    public function getCartContent($productCartKey = null)
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
@@ -198,6 +198,10 @@ class ControllerResponsesProductProduct extends AController
         $this->data['item_count'] = $this->cart->countProducts() + count($this->cart->getVirtualProducts()) ;
 
         $this->data['total'] = $this->currency->format($display_totals['total']);
+        if($productCartKey){
+            $product = $this->cart->getProduct($productCartKey);
+            $this->data['added_item_quantity'] = $product['qty'];
+        }
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
@@ -381,7 +385,7 @@ class ControllerResponsesProductProduct extends AController
             );
             $this->extensions->hk_UpdateData($this, __FUNCTION__);
         }
-        return $this->getCartContent();
+        $this->getCartContent();
     }
 
     public function removeFromCart()
@@ -402,6 +406,6 @@ class ControllerResponsesProductProduct extends AController
             );
             $this->extensions->hk_UpdateData($this, __FUNCTION__);
         }
-        return $this->getCartContent();
+        $this->getCartContent();
     }
 }

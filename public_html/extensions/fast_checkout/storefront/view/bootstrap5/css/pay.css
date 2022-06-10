@@ -1,0 +1,30 @@
+.spinner-overlay {
+    opacity: 0.8;
+    background: #fff;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    z-index: 99999;
+    display: none;
+}
+.spinner-overlay .spinner-border{
+    width: 4rem;
+    height: 4rem;
+}
+
+.shipping-selectors input[type=radio] {
+    border: 0;
+    width: 100%;
+    height: 2em;
+    cursor: pointer;
+}
+.card.payment_item, .shipping-selectors label{
+    cursor: pointer;
+}
+
+.project-label a {
+    color: #cca174;
+    text-decoration: none;
+}

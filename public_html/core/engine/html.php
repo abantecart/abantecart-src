@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2022 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -26,8 +27,8 @@ if (!defined('DIR_CORE')) {
  * @method SelectboxHtmlElement buildSelectBox(array $data)
  * @method MultiSelectboxHtmlElement buildMultiSelectBox(array $data)
  * @method HiddenHtmlElement buildHidden(array $data)
- * @method MultivalueHtmlElement buildMultivalue(array $data)
- * @method MultivalueListHtmlElement buildMultivalueList(array $data)
+ * @method MultiValueHtmlElement buildMultiValue(array $data)
+ * @method MultiValueListHtmlElement buildMultiValueList(array $data)
  * @method SubmitHtmlElement buildSubmit(array $data)
  * @method InputHtmlElement buildInput(array $data)
  * @method PasswordHtmlElement buildPassword(array $data)
@@ -48,7 +49,7 @@ if (!defined('DIR_CORE')) {
  * @method EmailHtmlElement buildEmail(array $data)
  * @method NumberHtmlElement buildNumber(array $data)
  * @method PhoneHtmlElement buildPhone(array $data)
- * @method IPaddressHtmlElement buildIPaddress(array $data)
+ * @method IPAddressHtmlElement buildIPAddress(array $data)
  * @method CountriesHtmlElement buildCountries(array $data)
  * @method ZonesHtmlElement buildZones(array $data)
  * @method PaginationHtmlElement buildPagination(array $data)
@@ -116,34 +117,34 @@ class AHtml extends AController
      */
     private function buildURL($rt, $params = '')
     {
-        $suburl = '';
+        $subUrl = '';
         //#PR Add admin path if we are in admin
         if (IS_ADMIN) {
-            $suburl .= '&s='.ADMIN_PATH;
+            $subUrl .= '&s='.ADMIN_PATH;
         }
         //add template if present
         if (!empty($this->request->get['sf'])) {
-            $suburl .= '&sf='.$this->request->get['sf'];
+            $subUrl .= '&sf='.$this->request->get['sf'];
         }
 
         //if in embed mode add response prefix
         if ($this->registry->get('config')->get('embed_mode') == true) {
-            $suburl .= '&embed_mode=1';
+            $subUrl .= '&embed_mode=1';
             if (substr($rt, 0, 2) != 'r/') {
                 $rt = 'r/'.$rt;
             }
         }
 
-        $suburl = '?'.($rt ? 'rt='.$rt : '').$params.$suburl;
-        return $suburl;
+        $subUrl = '?'.($rt ? 'rt='.$rt : '').$params.$subUrl;
+        return $subUrl;
     }
 
     /**
-     * Get non secure home URL.
+     * Get non-secure home URL.
      *
      * @return string
      *
-     * Note: Non secure URL is base on store_url setting. If this setting is using https URL, all URLs will be secure
+     * Note: Non-secure URL is base on store_url setting. If this setting is using https URL, all URLs will be secure
      * @throws AException
      */
     public function getHomeURL()
@@ -151,7 +152,7 @@ class AHtml extends AController
         $seo_prefix = $this->registry->get('config')->get('seo_prefix');
 
         //for embed mode get home link with getURL
-        if ($this->registry->get('config')->get('embed_mode') == true) {
+        if ($this->registry->get('config')->get('embed_mode')) {
             return $this->getURL('index/home');
         } else {
             //get config_url first
@@ -166,7 +167,7 @@ class AHtml extends AController
     }
 
     /**
-     * Get non secure URL. Read note below.
+     * Get non-secure URL. Read note below.
      *
      * @param string $rt
      * @param string $params
@@ -174,7 +175,7 @@ class AHtml extends AController
      *
      * @return string
      *
-     * Note: Non secure URL is base on store_url setting. If this setting is using https URL, all URLs will be secure
+     * Note: Non-secure URL is base on store_url setting. If this setting is using https URL, all URLs will be secure
      * @throws AException
      */
     public function getNonSecureURL($rt, $params = '', $encode = '')
@@ -183,12 +184,12 @@ class AHtml extends AController
     }
 
     /**
-     * Get URL with auto detection for protocol
+     * Get URL with auto-detection for protocol
      *
      * @param string $rt
      * @param string $params
      * @param string $encode
-     * @param bool $nonsecure - force to be non secure
+     * @param bool $nonsecure - force to be non-secure
      *
      * @return string
      * @throws AException
@@ -246,25 +247,25 @@ class AHtml extends AController
             $params .= '&session_id='.session_id();
         }
 
-        $suburl = $this->buildURL($rt, $params);
+        $subUrl = $this->buildURL($rt, $params);
 
         if (IS_ADMIN === true || (defined('IS_API') && IS_API === true)) {
             //Add session token for admin and API
             if (isset($session->data['token']) && $session->data['token']) {
-                $suburl .= '&token='.$this->registry->get('session')->data['token'];
+                $subUrl .= '&token='.$this->registry->get('session')->data['token'];
             }
         }
 
         //add token for embed mode with forbidden 3d-party cookies
         if ($session->data['session_mode'] == 'embed_token') {
-            $suburl .= '&'.EMBED_TOKEN_NAME.'='.session_id();
+            $subUrl .= '&'.EMBED_TOKEN_NAME.'='.session_id();
         }
 
         if ($config->get('storefront_template_debug') && isset($this->request->get['tmpl_debug'])) {
-            $suburl .= '&tmpl_debug='.$this->request->get['tmpl_debug'];
+            $subUrl .= '&tmpl_debug='.$this->request->get['tmpl_debug'];
         }
 
-        return HTTPS_SERVER.$seo_prefix.INDEX_FILE.$this->url_encode($suburl, $encode);
+        return HTTPS_SERVER.$seo_prefix.INDEX_FILE.$this->url_encode($subUrl, $encode);
     }
 
     /**
@@ -280,12 +281,12 @@ class AHtml extends AController
     public function getSEOURL($rt, $params = '', $encode = '')
     {
         //skip SEO for embed mode
-        if ($this->registry->get('config')->get('embed_mode') == true) {
+        if ($this->registry->get('config')->get('embed_mode')) {
             return $this->getURL($rt, $params);
         }
         $this->loadModel('tool/seo_url');
         //#PR Generate SEO URL based on standard URL
-        //NOTE: SEO URL is non secure url
+        //NOTE: SEO URL is non-secure url
         return $this->url_encode($this->model_tool_seo_url->rewrite($this->getNonSecureURL($rt, $params)), $encode);
     }
 
@@ -328,26 +329,26 @@ class AHtml extends AController
         if ($this->registry->get('session')->data['session_mode'] == 'embed_token') {
             $params .= '&'.EMBED_TOKEN_NAME.'='.session_id();
         }
-        $suburl = '?'.($rt ? 'rt='.$rt : '').$params;
+        $subUrl = '?'.($rt ? 'rt='.$rt : '').$params;
 
         if ($this->registry->get('config')->get('config_ssl') == 2) {
             $ssl = true;
         }
 
-        if($ssl && parse_url($this->registry->get('config')->get('config_ssl_url'), PHP_URL_SCHEME) == 'https'){
+        if ($ssl && parse_url($this->registry->get('config')->get('config_ssl_url'), PHP_URL_SCHEME) == 'https') {
             $HTTPS_SERVER = $this->registry->get('config')->get('config_ssl_url').$seo_prefix;
-        }else{
+        } else {
             $HTTPS_SERVER = HTTPS_SERVER.$seo_prefix;
         }
         $http = $ssl ? $HTTPS_SERVER : HTTP_SERVER.$seo_prefix;
-        return $http.INDEX_FILE.$this->url_encode($suburl, $encode);
+        return $http.INDEX_FILE.$this->url_encode($subUrl, $encode);
     }
 
     /**
      * encode URL for & to be &amp
      *
      * @param string $url
-     * @param bool   $encode
+     * @param bool $encode
      *
      * @return string
      */
@@ -389,8 +390,8 @@ class AHtml extends AController
      *
      * @param $uri
      *
-     * @internal param array $filter_params - array of vars to filter
      * @return string - url without unwanted filter parameters
+     * @internal param array $filter_params - array of vars to filter
      */
     public function encryptURI($uri)
     {
@@ -412,7 +413,6 @@ class AHtml extends AController
      */
     public function buildURI($params_arr, $filter_params = [])
     {
-
         foreach ($filter_params as $rv) {
             unset($params_arr[$rv]);
         }
@@ -450,13 +450,13 @@ class AHtml extends AController
     /**
      * remove get parameters from url.
      *
-     * @deprecated since 1.1.4! Use filterQueryParams() instead
-     *
      * @param $url - url to process
      * @param $remove_vars
      *
-     * @internal   param array|string $vars - single var or array of vars
      * @return string - url without unwanted get parameters
+     * @internal   param array|string $vars - single var or array of vars
+     * @deprecated since 1.1.4! Use filterQueryParams() instead
+     *
      */
     public function removeQueryVar($url, $remove_vars)
     {
@@ -528,7 +528,6 @@ class AHtml extends AController
         $hidden = [];
         $stores[0] = ['name' => $registry->get('language')->get('text_default')];
         $registry->get('load')->model('setting/store');
-        /** @noinspection PhpUndefinedClassInspection */
         /**
          * @var ModelSettingStore $model
          */
@@ -754,7 +753,7 @@ class HtmlElementFactory
         'P' => [
             'type'   => 'multivalue',
             'method' => 'buildMultivalue',
-            'class'  => 'MultivalueHtmlElement',
+            'class'  => 'MultiValueHtmlElement',
         ],
         'L' => [
             'type'   => 'multivaluelist',
@@ -913,7 +912,6 @@ class HtmlElementFactory
      */
     static function create($data)
     {
-
         $class = ucfirst($data['type'].'HtmlElement');
         if (!class_exists($class)) {
             throw new AException(AC_ERR_LOAD, 'Error: Could not load HTML element '.$data['type'].'!');
@@ -928,7 +926,7 @@ class HtmlElementFactory
  * @property mixed $value
  * @property array $options
  * @property array $disabled_options
- * @property bool  $required
+ * @property bool $required
  */
 abstract class HtmlElement
 {
@@ -975,8 +973,8 @@ abstract class HtmlElement
         $this->view = new AView($this->registry, 0);
         $this->data = $data;
         $this->element_id = ($data['id'] ?? '')
-                ? preformatTextID($data['id'])
-                : preformatTextID($data['name'] ?? '');
+            ? preformatTextID($data['id'])
+            : preformatTextID($data['name'] ?? '');
         if ($data['form'] ?? '') {
             $this->element_id = $data['form'].'_'.$this->element_id;
         }
@@ -989,11 +987,21 @@ abstract class HtmlElement
      */
     public function __get($name)
     {
-
         if (array_key_exists($name, $this->data)) {
             return $this->data[$name];
         }
         return null;
+    }
+
+    /**
+     * @param string $name
+     * @param mixed $value
+     *
+     * @return void
+     */
+    public function set(string $name, $value)
+    {
+        $this->data[$name] = $value;
     }
 
     /**
@@ -1019,6 +1027,23 @@ abstract class HtmlElement
         return $javascript.$this->getHtml();
     }
 
+    protected function extendAndBatchAssign(array $array)
+    {
+        $this->view->batchAssign(
+            array_merge($this->data, $array)
+        );
+    }
+
+    protected function getMultiLingual()
+    {
+        if (is_object($this->language) && sizeof($this->language->getActiveLanguages()) > 1) {
+            $multilingual = $this->multilingual;
+        } else {
+            $multilingual = false;
+        }
+        return $multilingual;
+    }
+
     /**
      * @return null
      */
@@ -1029,10 +1054,10 @@ abstract class HtmlElement
 
     protected function _validate_options()
     {
-        $this->disabled_options = (array)$this->disabled_options;
+        $this->disabled_options = (array) $this->disabled_options;
         //check case when all options are disabled
         $all_disabled = true;
-        foreach ((array)$this->options as $id => $text) {
+        foreach ((array) $this->options as $id => $text) {
             if (!in_array($id, $this->disabled_options)) {
                 $all_disabled = false;
                 break;
@@ -1057,7 +1082,8 @@ abstract class HtmlElement
                 $this->registry->get('messages')->saveWarning(
                     'Form Field #'.$this->element_id.' Issue',
                     'Abnormal situation. All options of required field "'.$this->data['name']
-                    .'" are disabled. URL: <a href="'.$url.'">'.$url."</a>");
+                    .'" are disabled. URL: <a href="'.$url.'">'.$url."</a>"
+                );
             }
         }
     }
@@ -1079,7 +1105,7 @@ class HiddenHtmlElement extends HtmlElement
      */
     public function getHtml()
     {
-        $this->view->batchAssign(
+        $this->extendAndBatchAssign(
             [
                 'id'    => $this->element_id,
                 'name'  => $this->name,
@@ -1093,21 +1119,21 @@ class HiddenHtmlElement extends HtmlElement
 }
 
 /**
- * Class MultivalueListHtmlElement
+ * Class MultiValueListHtmlElement
  *
  * @property string $element_id
  * @property string $name
- * @property array  $values
- * @property array  $postvars
+ * @property array $values
+ * @property array $postvars
  * @property string $content_url
  * @property string $edit_url
  * @property string $form
  * @property string $multivalue_hidden_id
  * @property string $return_to
  * @property string $with_sorting
- * @property array  $text
+ * @property array $text
  */
-class MultivalueListHtmlElement extends HtmlElement
+class MultiValueListHtmlElement extends HtmlElement
 {
     /**
      * @return string
@@ -1124,24 +1150,22 @@ class MultivalueListHtmlElement extends HtmlElement
             'postvars'             => $this->postvars,
             'form_name'            => $this->form,
             'multivalue_hidden_id' => $this->multivalue_hidden_id,
-            'return_to'            => ($this->return_to ? $this->return_to
-                : $this->form.'_'.$this->multivalue_hidden_id.'_item_count'),
+            'return_to'            => ($this->return_to ? : $this->form.'_'.$this->multivalue_hidden_id.'_item_count'),
             'with_sorting'         => $this->with_sorting,
         ];
 
-        $data['text']['delete'] = $this->text['delete'] ? $this->text['delete'] : 'delete';
-        $data['text']['delete_confirm'] =
-            $this->text['delete_confirm'] ? $this->text['delete_confirm'] : 'Confirm to delete?';
+        $data['text']['delete'] = $this->text['delete'] ? : 'delete';
+        $data['text']['delete_confirm'] = $this->text['delete_confirm'] ? : 'Confirm to delete?';
         $data['text']['column_action'] = $this->language->get('column_action');
         $data['text']['column_sort_order'] = $this->language->get('text_sort_order');
-        $this->view->batchAssign($data);
+        $this->extendAndBatchAssign($data);
 
         return $this->view->fetch('form/multivalue_list.tpl');
     }
 }
 
 /**
- * Class MultivalueHtmlElement
+ * Class MultiValueHtmlElement
  *
  * @property string $element_id
  * @property string $name
@@ -1152,13 +1176,13 @@ class MultivalueListHtmlElement extends HtmlElement
  * @property string $form
  * @property string $return_to
  * @property string $no_save
- * @property array  $text
- * @property int    $popup_height
- * @property int    $popup_width
- * @property array  $js
- * @property array  $postvars
+ * @property array $text
+ * @property int $popup_height
+ * @property int $popup_width
+ * @property array $js
+ * @property array $postvars
  */
-class MultivalueHtmlElement extends HtmlElement
+class MultiValueHtmlElement extends HtmlElement
 {
     /**
      * @return string
@@ -1168,30 +1192,29 @@ class MultivalueHtmlElement extends HtmlElement
         $data = [
             'id'            => $this->element_id,
             'name'          => $this->name,
-            'selected_name' => ($this->selected_name ? $this->selected_name : 'selected[]'),
+            'selected_name' => ($this->selected_name ? : 'selected[]'),
             'title'         => $this->title,
             'selected'      => $this->selected,
             'content_url'   => $this->content_url,
             'postvars'      => ($this->postvars ? json_encode($this->postvars) : ''),
             'form_name'     => $this->form,
-            'return_to'     => ($this->return_to ? $this->return_to : $this->element_id.'_item_count'),
-            'no_save'       => (isset($this->no_save) ? (bool)$this->no_save : false),
-            'popup_height'  => ((int)$this->popup_height ? (int)$this->popup_height : 620),
-            'popup_width'   => ((int)$this->popup_width ? (int)$this->popup_width : 800),
+            'return_to'     => ($this->return_to ? : $this->element_id.'_item_count'),
+            'no_save'       => (isset($this->no_save) && (bool) $this->no_save),
+            'popup_height'  => ((int) $this->popup_height ? : 620),
+            'popup_width'   => ((int) $this->popup_width ? : 800),
             // custom triggers for dialog events (custom functions calls)
             'js'            => [
                 'apply'  => $this->js['apply'],
                 'cancel' => $this->js['cancel'],
             ],
+            'text_selected' => $this->text['selected'],
+            'text_edit'     => $this->text['edit'] ? : 'Add / Edit',
+            'text_apply'    => $this->text['apply'] ? : 'apply',
+            'text_save'     => $this->text['save'] ? : 'save',
+            'text_reset'    => $this->text['reset'] ? : 'reset',
         ];
 
-        $data['text_selected'] = $this->text['selected'];
-        $data['text_edit'] = $this->text['edit'] ? $this->text['edit'] : 'Add / Edit';
-        $data['text_apply'] = $this->text['apply'] ? $this->text['apply'] : 'apply';
-        $data['text_save'] = $this->text['save'] ? $this->text['save'] : 'save';
-        $data['text_reset'] = $this->text['reset'] ? $this->text['reset'] : 'reset';
-
-        $this->view->batchAssign($data);
+        $this->extendAndBatchAssign($data);
 
         return $this->view->fetch('form/multivalue_hidden.tpl');
     }
@@ -1214,7 +1237,7 @@ class SubmitHtmlElement extends HtmlElement
      */
     public function getHtml()
     {
-        $this->view->batchAssign(
+        $this->extendAndBatchAssign(
             [
                 'form'  => $this->form,
                 'name'  => $this->name,
@@ -1243,7 +1266,7 @@ class SubmitHtmlElement extends HtmlElement
  * @property string $regexp_pattern
  * @property string $error_text
  * @property string $help_url
- * @property bool   $multilingual
+ * @property bool $multilingual
  */
 class InputHtmlElement extends HtmlElement
 {
@@ -1252,7 +1275,6 @@ class InputHtmlElement extends HtmlElement
      */
     public function getHtml()
     {
-
         if (!isset($this->default)) {
             $this->default = '';
         }
@@ -1260,7 +1282,7 @@ class InputHtmlElement extends HtmlElement
             $this->value = $this->default;
         }
 
-        $this->view->batchAssign(
+        $this->extendAndBatchAssign(
             [
                 'name'           => $this->name,
                 'id'             => $this->element_id,
@@ -1273,23 +1295,10 @@ class InputHtmlElement extends HtmlElement
                 'placeholder'    => $this->placeholder,
                 'regexp_pattern' => trim($this->regexp_pattern, '/'),
                 'error_text'     => $this->error_text,
+                'multilingual'   => $this->getMultiLingual(),
+                'help_url'       => $this->help_url,
             ]
         );
-        if (is_object($this->language)
-            && sizeof($this->language->getActiveLanguages()) > 1
-        ) {
-            $multilingual = $this->multilingual;
-        }else{
-            $multilingual = false;
-        }
-        $this->view->assign('multilingual', $multilingual);
-
-        if (!empty($this->help_url)) {
-            $help_url = $this->help_url;
-        }else{
-            $help_url = null;
-        }
-        $this->view->assign('help_url', $help_url);
 
         return $this->view->fetch('form/input.tpl');
     }
@@ -1309,7 +1318,7 @@ class InputHtmlElement extends HtmlElement
  * @property string $regexp_pattern
  * @property string $error_text
  * @property string $help_url
- * @property bool   $multilingual
+ * @property bool $multilingual
  */
 class ColorHtmlElement extends HtmlElement
 {
@@ -1326,27 +1335,21 @@ class ColorHtmlElement extends HtmlElement
             $this->value = $this->default;
         }
 
-        $this->view->batchAssign(
+        $this->extendAndBatchAssign(
             [
-                'name'           => $this->name,
-                'id'             => $this->element_id,
-                'type'           => 'color',
-                'value'          => str_replace('"', '&quot;', $this->value),
-                'default'        => $this->default,
-                'attr'           => $this->attr,
-                'required'       => $this->required,
-                'style'          => $this->style,
-                'error_text'     => $this->error_text,
+                'name'         => $this->name,
+                'id'           => $this->element_id,
+                'type'         => 'color',
+                'value'        => str_replace('"', '&quot;', $this->value),
+                'default'      => $this->default,
+                'attr'         => $this->attr,
+                'required'     => $this->required,
+                'style'        => $this->style,
+                'error_text'   => $this->error_text,
+                'multilingual' => $this->getMultiLingual(),
+                'help_url'     => $this->help_url,
             ]
         );
-        if (is_object($this->language)
-            && sizeof($this->language->getActiveLanguages()) > 1
-        ) {
-            $this->view->assign('multilingual', $this->multilingual);
-        }
-        if (!empty($this->help_url)) {
-            $this->view->assign('help_url', $this->help_url);
-        }
 
         return $this->view->fetch('form/input.tpl');
     }
@@ -1373,7 +1376,6 @@ class PasswordHtmlElement extends HtmlElement
      */
     public function getHtml()
     {
-
         if (!isset($this->default)) {
             $this->default = '';
         }
@@ -1386,7 +1388,7 @@ class PasswordHtmlElement extends HtmlElement
             $value = '';
         }
 
-        $this->view->batchAssign(
+        $this->extendAndBatchAssign(
             [
                 'name'           => $this->name,
                 'id'             => $this->element_id,
@@ -1417,7 +1419,7 @@ class PasswordHtmlElement extends HtmlElement
  * @property string $style
  * @property string $placeholder
  * @property string $label_text
- * @property bool   $multilingual
+ * @property bool $multilingual
  * @property string $help_url
  */
 class TextareaHtmlElement extends HtmlElement
@@ -1427,25 +1429,22 @@ class TextareaHtmlElement extends HtmlElement
      */
     public function getHtml()
     {
-        $this->view->batchAssign(
+        $this->extendAndBatchAssign(
             [
-                'name'        => $this->name,
-                'id'          => $this->element_id,
-                'value'       => $this->value,
-                'ovalue'      => htmlentities($this->value, ENT_QUOTES, 'UTF-8'),
-                'attr'        => $this->attr,
-                'required'    => $this->required,
-                'style'       => $this->style,
-                'placeholder' => $this->placeholder,
-                'label_text'  => $this->label_text,
+                'name'         => $this->name,
+                'id'           => $this->element_id,
+                'value'        => $this->value,
+                'ovalue'       => htmlentities($this->value, ENT_QUOTES, 'UTF-8'),
+                'attr'         => $this->attr,
+                'required'     => $this->required,
+                'style'        => $this->style,
+                'placeholder'  => $this->placeholder,
+                'label_text'   => $this->label_text,
+                'multilingual' => $this->getMultiLingual(),
+                'help_url'     => $this->help_url,
             ]
         );
-        if (is_object($this->language) && sizeof($this->language->getActiveLanguages()) > 1) {
-            $this->view->assign('multilingual', $this->multilingual);
-        }
-        if (!empty($this->help_url)) {
-            $this->view->assign('help_url', $this->help_url);
-        }
+
         return $this->view->fetch('form/textarea.tpl');
     }
 }
@@ -1462,10 +1461,10 @@ class TextareaHtmlElement extends HtmlElement
  * @property string $style
  * @property string $placeholder
  * @property string $base_url - need for inserting pictures into html for emails
- * @property bool   $preview - enable/disable visual mode of tinymce. default true
+ * @property bool $preview - enable/disable visual mode of tinymce. default true
  * @property string $preview_url - custom preview url
  * @property string $js_onload - custom js-code will be run on doc ready
- * @property bool   $multilingual
+ * @property bool $multilingual
  */
 class TextEditorHtmlElement extends HtmlElement
 {
@@ -1476,36 +1475,31 @@ class TextEditorHtmlElement extends HtmlElement
     public function getHtml()
     {
         $this->multilingual = $this->multilingual ?? '';
-        $this->view->batchAssign(
-            [
-                'name'        => $this->name,
-                'id'          => $this->element_id,
-                'value'       => $this->value,
-                'ovalue'      => htmlentities($this->value, ENT_QUOTES, 'UTF-8'),
-                'attr'        => $this->attr ?? '',
-                'required'    => $this->required ?? false,
-                'style'       => $this->style ?? '',
-                'placeholder' => $this->placeholder ?? '',
-                'base_url'    => $this->base_url ?? '',
-                'preview'     => $this->preview ?? true,
-                'preview_url' => $this->preview_url ?? '',
-                'js_onload'   => $this->js_onload ?? ''
-            ]
-        );
+        $data = [
+            'name'        => $this->name,
+            'id'          => $this->element_id,
+            'value'       => $this->value,
+            'ovalue'      => htmlentities($this->value, ENT_QUOTES, 'UTF-8'),
+            'attr'        => $this->attr ?? '',
+            'required'    => $this->required ?? false,
+            'style'       => $this->style ?? '',
+            'placeholder' => $this->placeholder ?? '',
+            'base_url'    => $this->base_url ?? '',
+            'preview'     => $this->preview ?? true,
+            'preview_url' => $this->preview_url ?? '',
+            'js_onload'   => $this->js_onload ?? '',
+        ];
         if (is_object($this->language)) {
             if (sizeof($this->language->getActiveLanguages()) > 1) {
-                $this->view->assign('multilingual', $this->multilingual);
+                $data['multilingual'] = $this->multilingual;
             }
-            $text = [];
-            $text['language_code'] = $this->language->getContentLanguageCode();
-            $text['tab_text'] = $this->language->get('tab_text');
-            $text['tab_visual'] = $this->language->get('tab_visual');
-            $text['button_add_media'] = $this->language->get('button_add_media');
-            $text['button_preview'] = $this->language->get('button_preview');
-
-            $this->view->batchAssign($text);
+            $data['language_code'] = $this->language->getContentLanguageCode();
+            $data['tab_text'] = $this->language->get('tab_text');
+            $data['tab_visual'] = $this->language->get('tab_visual');
+            $data['button_add_media'] = $this->language->get('button_add_media');
+            $data['button_preview'] = $this->language->get('button_preview');
         }
-
+        $this->extendAndBatchAssign($data);
         return $this->view->fetch('form/text_editor.tpl');
     }
 }
@@ -1520,9 +1514,9 @@ class TextEditorHtmlElement extends HtmlElement
  * @property string $required
  * @property string $style
  * @property string $placeholder
- * @property array  $options
- * @property array  $disabled_options
- * @property bool   $disabled
+ * @property array $options
+ * @property array $disabled_options
+ * @property bool $disabled
  * @property string $ajax_url
  * @property string $search_mode
  * @property string $help_url
@@ -1535,14 +1529,13 @@ class SelectboxHtmlElement extends HtmlElement
      */
     public function getHtml()
     {
-
         if (!is_array($this->value)) {
-            $this->value = [$this->value => (string)$this->value];
+            $this->value = [$this->value => (string) $this->value];
         }
 
-        $this->options = !$this->options ? [] : (array)$this->options;
+        $this->options = !$this->options ? [] : (array) $this->options;
         foreach ($this->options as &$opt) {
-            $opt = (string)$opt;
+            $opt = (string) $opt;
         }
         unset($opt);
 
@@ -1559,63 +1552,57 @@ class SelectboxHtmlElement extends HtmlElement
 
         $this->_validate_options();
 
-        $this->view->batchAssign(
-            [
-                'name'                 => $this->name,
-                'id'                   => $this->element_id,
-                'value'                => $this->value,
-                'ovalue'               => $this->value,
-                'options'              => $this->options,
-                'disabled'             => $this->disabled,
-                'disabled_options'     => $this->disabled_options,
-                'attr'                 => $this->attr,
-                'required'             => $this->required,
-                'style'                => $this->style,
-                'placeholder'          => $this->placeholder,
-                'ajax_url'             => $this->ajax_url, //if mode of data load is ajax based
-                'search_mode'          => $this->search_mode,
-                'text_continue_typing' => $text_continue_typing,
-                'text_looking_for'     => $text_looking_for,
-            ]
-        );
-        if (!empty($this->help_url)) {
-            $this->view->assign('help_url', $this->help_url);
-        }
+        $data = [
+            'name'                 => $this->name,
+            'id'                   => $this->element_id,
+            'value'                => $this->value,
+            'ovalue'               => $this->value,
+            'options'              => $this->options,
+            'disabled'             => $this->disabled,
+            'disabled_options'     => $this->disabled_options,
+            'attr'                 => $this->attr,
+            'required'             => $this->required,
+            'style'                => $this->style,
+            'placeholder'          => $this->placeholder,
+            'ajax_url'             => $this->ajax_url, //if mode of data load is ajax based
+            'search_mode'          => $this->search_mode,
+            'text_continue_typing' => $text_continue_typing,
+            'text_looking_for'     => $text_looking_for,
+            'help_url'             => $this->help_url,
+        ];
+
         if (strpos($this->style, 'chosen') !== false) {
-            $this->view->batchAssign(
-                [
-                    'ajax_url'             => $this->ajax_url, //if mode of data load is ajax based
-                    'text_continue_typing' => $text_continue_typing,
-                    'text_looking_for'     => $text_looking_for,
-                ]
-            );
-            $return = $this->view->fetch('form/chosen_select.tpl');
+            $data['ajax_url'] = $this->ajax_url; //if mode of data load is ajax based
+            $data['text_continue_typing'] = $text_continue_typing;
+            $data['text_looking_for'] = $text_looking_for;
+            $template = 'form/chosen_select.tpl';
         } else {
-            $return = $this->view->fetch('form/selectbox.tpl');
+            $template = 'form/selectbox.tpl';
         }
-        return $return;
+        $this->extendAndBatchAssign($data);
+        return $this->view->fetch($template);
     }
 }
 
 /**
- * Class MultiSelectboxHtmlElement
+ * Class MultiSelectBoxHtmlElement
  *
- * @property string       $element_id
- * @property array|mixed  $value
- * @property string       $name
- * @property string       $attr
- * @property string       $required
- * @property string       $style
- * @property string       $placeholder
- * @property array        $options
- * @property array        $disabled_options
- * @property string       $filter_params - some additional parameters
- * @property string       $ajax_url
+ * @property string $element_id
+ * @property array|mixed $value
+ * @property string $name
+ * @property string $attr
+ * @property string $required
+ * @property string $style
+ * @property string $placeholder
+ * @property array $options
+ * @property array $disabled_options
+ * @property string $filter_params - some additional parameters
+ * @property string $ajax_url
  * @property string|array $option_attr
- * @property string       $help_url
- * @property bool         $disabled
+ * @property string $help_url
+ * @property bool $disabled
  */
-class MultiSelectboxHtmlElement extends HtmlElement
+class MultiSelectBoxHtmlElement extends HtmlElement
 {
     /**
      * @return string
@@ -1623,49 +1610,41 @@ class MultiSelectboxHtmlElement extends HtmlElement
      */
     public function getHtml()
     {
-
         if (!is_array($this->value)) {
             $this->value = [$this->value => $this->value];
         }
         $this->_validate_options();
 
-        $this->view->batchAssign(
-            [
-                'name'             => $this->name,
-                'id'               => $this->element_id,
-                'value'            => $this->value,
-                'options'          => $this->options,
-                'disabled_options' => $this->disabled_options,
-                'disabled'         => $this->disabled,
-                'attr'             => $this->attr.' multiple="multiple" ',
-                'required'         => $this->required,
-                'style'            => $this->style,
-                'placeholder'      => $this->placeholder,
-                'filter_params'    => $this->filter_params,
-            ]
-        );
-        if (!empty($this->help_url)) {
-            $this->view->assign('help_url', $this->help_url);
-        }
+        $data = [
+            'name'             => $this->name,
+            'id'               => $this->element_id,
+            'value'            => $this->value,
+            'options'          => $this->options,
+            'disabled_options' => $this->disabled_options,
+            'disabled'         => $this->disabled,
+            'attr'             => $this->attr.' multiple="multiple" ',
+            'required'         => $this->required,
+            'style'            => $this->style,
+            'placeholder'      => $this->placeholder,
+            'filter_params'    => $this->filter_params,
+            'help_url'         => $this->help_url,
+        ];
 
         if (strpos($this->style, 'chosen') !== false) {
-
-            $option_attr =
-                $this->option_attr && !is_array($this->option_attr) ? [$this->option_attr] : $this->option_attr;
-            $option_attr = !$option_attr ? [] : $option_attr;
-            $this->view->batchAssign(
-                [
-                    'ajax_url'             => $this->ajax_url, //if mode of data load is ajax based
-                    'option_attr'          => $option_attr, //list of custom html5 attributes for options of selectbox
-                    'text_continue_typing' => $this->language->get('text_continue_typing', '', true),
-                    'text_looking_for'     => $this->language->get('text_looking_for', '', true),
-                ]
-            );
-            $return = $this->view->fetch('form/chosen_select.tpl');
+            $option_attr = $this->option_attr && !is_array($this->option_attr)
+                ? [$this->option_attr]
+                : $this->option_attr;
+            $option_attr = $option_attr ? : [];
+            $data['ajax_url'] = $this->ajax_url; //if mode of data load is ajax based
+            $data['option_attr'] = $option_attr; //list of custom html5 attributes for options of selectbox
+            $data['text_continue_typing'] = $this->language->get('text_continue_typing', '', true);
+            $data['text_looking_for'] = $this->language->get('text_looking_for', '', true);
+            $template = 'form/chosen_select.tpl';
         } else {
-            $return = $this->view->fetch('form/selectbox.tpl');
+            $template = 'form/selectbox.tpl';
         }
-        return $return;
+        $this->extendAndBatchAssign($data);
+        return $this->view->fetch($template);
     }
 }
 
@@ -1673,14 +1652,14 @@ class MultiSelectboxHtmlElement extends HtmlElement
  * Class CheckboxHtmlElement
  *
  * @property string|int $value
- * @property bool       $checked
- * @property string     $element_id
- * @property string     $name
- * @property string     $attr
- * @property string     $required
- * @property string     $style
- * @property string     $label_text
- * @property string     $help_url
+ * @property bool $checked
+ * @property string $element_id
+ * @property string $name
+ * @property string $attr
+ * @property string $required
+ * @property string $style
+ * @property string $label_text
+ * @property string $help_url
  */
 class CheckboxHtmlElement extends HtmlElement
 {
@@ -1690,9 +1669,8 @@ class CheckboxHtmlElement extends HtmlElement
      */
     public function getHtml()
     {
-
         if (strpos($this->style, 'btn_switch') !== false) { //for switch button NOTE: value is binary (1 or 0)!!!
-            $checked = is_null($this->checked) && $this->value ? true : (bool)$this->checked;
+            $checked = is_null($this->checked) && $this->value ? true : (bool) $this->checked;
             if ($checked) {
                 $this->value = 1;
             } else {
@@ -1714,7 +1692,7 @@ class CheckboxHtmlElement extends HtmlElement
         $text_on = !$text_on || $text_on == 'text_on' ? 'ON' : $text_on;
         $text_off = !$text_off || $text_off == 'text_off' ? 'OFF' : $text_off;
 
-        $this->view->batchAssign(
+        $this->extendAndBatchAssign(
             [
                 'name'       => $this->name,
                 'id'         => $this->element_id,
@@ -1726,12 +1704,9 @@ class CheckboxHtmlElement extends HtmlElement
                 'style'      => $this->style,
                 'text_on'    => $text_on,
                 'text_off'   => $text_off,
+                'help_url'   => $this->help_url,
             ]
         );
-        if (!empty($this->help_url)) {
-            $this->view->assign('help_url', $this->help_url);
-        }
-
         return $this->view->fetch($tpl);
     }
 }
@@ -1740,16 +1715,16 @@ class CheckboxHtmlElement extends HtmlElement
  * Class CheckboxGroupHtmlElement
  *
  * @property string|int $value
- * @property array      $options
- * @property array      $disabled_options
- * @property string     $element_id
- * @property string     $name
- * @property string     $attr
- * @property string     $required
- * @property string     $style
- * @property bool       $scrollbox
- * @property string     $help_url
- * @property string     $placeholder
+ * @property array $options
+ * @property array $disabled_options
+ * @property string $element_id
+ * @property string $name
+ * @property string $attr
+ * @property string $required
+ * @property string $style
+ * @property bool $scrollbox
+ * @property string $help_url
+ * @property string $placeholder
  */
 class CheckboxGroupHtmlElement extends HtmlElement
 {
@@ -1768,7 +1743,7 @@ class CheckboxGroupHtmlElement extends HtmlElement
             }
         }
 
-        $this->view->batchAssign(
+        $this->extendAndBatchAssign(
             [
                 'name'             => $this->name,
                 'id'               => $this->element_id,
@@ -1780,19 +1755,17 @@ class CheckboxGroupHtmlElement extends HtmlElement
                 'scrollbox'        => $this->scrollbox,
                 'style'            => $this->style,
                 'placeholder'      => $this->placeholder,
+                'help_url'         => $this->help_url,
             ]
         );
-        if (!empty($this->help_url)) {
-            $this->view->assign('help_url', $this->help_url);
-        }
 
         if (strpos($this->style, 'chosen') !== false) {
-            $return = $this->view->fetch('form/chosen_select.tpl');
+            $template = 'form/chosen_select.tpl';
         } else {
-            $return = $this->view->fetch('form/checkboxgroup.tpl');
+            $template = 'form/checkboxgroup.tpl';
         }
 
-        return $return;
+        return $this->view->fetch($template);
     }
 }
 
@@ -1815,8 +1788,7 @@ class FileHtmlElement extends HtmlElement
      */
     public function getHtml()
     {
-
-        $this->view->batchAssign(
+        $this->extendAndBatchAssign(
             [
                 'name'         => $this->name,
                 'id'           => $this->element_id,
@@ -1826,12 +1798,9 @@ class FileHtmlElement extends HtmlElement
                 'default_text' => $this->language->get('text_click_browse_file'),
                 'text_browse'  => $this->language->get('text_browse'),
                 'placeholder'  => $this->placeholder,
+                'help_url'     => $this->help_url,
             ]
         );
-
-        if (!empty($this->help_url)) {
-            $this->view->assign('help_url', $this->help_url);
-        }
 
         return $this->view->fetch('form/file.tpl');
     }
@@ -1846,9 +1815,9 @@ class FileHtmlElement extends HtmlElement
  * @property string $attr
  * @property string $required
  * @property string $style
- * @property array  $options
- * @property array  $disabled_options
- * @property array  $disabled
+ * @property array $options
+ * @property array $disabled_options
+ * @property array $disabled
  * @property string $help_url
  */
 class RadioHtmlElement extends HtmlElement
@@ -1861,7 +1830,7 @@ class RadioHtmlElement extends HtmlElement
             $this->options = [$this->value => $this->value];
         }
         $this->_validate_options();
-        $this->view->batchAssign(
+        $this->extendAndBatchAssign(
             [
                 'name'             => $this->name,
                 'id'               => $this->element_id,
@@ -1872,11 +1841,9 @@ class RadioHtmlElement extends HtmlElement
                 'attr'             => $this->attr,
                 'required'         => $this->required,
                 'style'            => $this->style,
+                'help_url'         => $this->help_url,
             ]
         );
-        if (!empty($this->help_url)) {
-            $this->view->assign('help_url', $this->help_url);
-        }
 
         return $this->view->fetch('form/radio.tpl');
     }
@@ -1900,7 +1867,7 @@ class ButtonHtmlElement extends HtmlElement
 
     public function getHtml()
     {
-        $this->view->batchAssign(
+        $this->extendAndBatchAssign(
             [
                 'text'       => $this->text,
                 'title'      => $this->title,
@@ -1927,7 +1894,7 @@ class ButtonHtmlElement extends HtmlElement
  * @property string $method
  * @property string $style
  * @property string $enctype
- * @property bool   $csrf
+ * @property bool $csrf
  */
 class FormHtmlElement extends HtmlElement
 {
@@ -1936,27 +1903,22 @@ class FormHtmlElement extends HtmlElement
     {
         $this->method = empty($this->method) ? 'post' : $this->method;
         $this->enctype = empty($this->enctype) ? 'multipart/form-data' : $this->enctype;
-        $this->view->batchAssign(
-            [
-                'id'      => $this->name,
-                'name'    => $this->name,
-                'action'  => $this->action,
-                'method'  => $this->method,
-                'attr'    => $this->attr,
-                'style'   => $this->style,
-                'enctype' => $this->enctype,
-            ]
-        );
+        $data = [
+            'id'      => $this->name,
+            'name'    => $this->name,
+            'action'  => $this->action,
+            'method'  => $this->method,
+            'attr'    => $this->attr,
+            'style'   => $this->style,
+            'enctype' => $this->enctype,
+        ];
         //add CSRF token
         if ($this->csrf === true) {
             $csrftoken = $this->registry->get('csrftoken');
-            $this->view->batchAssign(
-                [
-                    'csrfinstance' => $csrftoken->setInstance(),
-                    'csrftoken'    => $csrftoken->setToken(),
-                ]
-            );
+            $data['csrfinstance'] = $csrftoken->setInstance();
+            $data['csrftoken'] = $csrftoken->setToken();
         }
+        $this->extendAndBatchAssign($data);
         return $this->view->fetch('form/form_open.tpl').$this->view->fetch('form/form_csrf.tpl');
     }
 }
@@ -1967,8 +1929,8 @@ class FormHtmlElement extends HtmlElement
  * @property string $element_id
  * @property string $name
  * @property string $value
- * @property array  $options
- * @property bool   $required
+ * @property array $options
+ * @property bool $required
  */
 class RatingHtmlElement extends HtmlElement
 {
@@ -1986,9 +1948,9 @@ class RatingHtmlElement extends HtmlElement
 
             $doc->addStyle(
                 [
-                'href'  => $this->view->templateResource('/javascript/jquery/star-rating/jquery.rating.css'),
-                'rel'   => 'stylesheet',
-                'media' => 'screen',
+                    'href'  => $this->view->templateResource('/javascript/jquery/star-rating/jquery.rating.css'),
+                    'rel'   => 'stylesheet',
+                    'media' => 'screen',
                 ]
             );
 
@@ -1998,7 +1960,7 @@ class RatingHtmlElement extends HtmlElement
 
     public function getHtml()
     {
-        $this->view->batchAssign(
+        $this->extendAndBatchAssign(
             [
                 'name'     => $this->name,
                 'id'       => $this->element_id,
@@ -2016,12 +1978,12 @@ class RatingHtmlElement extends HtmlElement
 /**
  * Class CaptchaHtmlElement
  *
- * @property string   $element_id
- * @property string   $name
- * @property string   $style
- * @property string   $attr
- * @property bool     $required
- * @property string   $placeholder
+ * @property string $element_id
+ * @property string $name
+ * @property string $style
+ * @property string $attr
+ * @property bool $required
+ * @property string $placeholder
  * @property Registry $registry
  */
 class CaptchaHtmlElement extends HtmlElement
@@ -2029,7 +1991,7 @@ class CaptchaHtmlElement extends HtmlElement
 
     public function getHtml()
     {
-        $this->view->batchAssign(
+        $this->extendAndBatchAssign(
             [
                 'name'        => $this->name,
                 'id'          => $this->element_id,
@@ -2058,15 +2020,14 @@ class ReCaptchaHtmlElement extends HtmlElement
 {
     public function getHtml()
     {
-
-        $this->view->batchAssign(
+        $this->extendAndBatchAssign(
             [
                 'name'               => $this->name,
                 'id'                 => $this->element_id,
                 'attr'               => $this->attr.' data-aform-field-type="captcha"',
                 'language_code'      => $this->language_code,
                 'recaptcha_site_key' => trim($this->recaptcha_site_key),
-                'recaptcha_v3'       => $this->registry->get('config')->get('account_recaptcha_v3') ?: 0,
+                'recaptcha_v3'       => $this->registry->get('config')->get('account_recaptcha_v3') ? : 0,
             ]
         );
         return $this->view->fetch('form/recaptcha.tpl');
@@ -2081,7 +2042,7 @@ class ReCaptchaHtmlElement extends HtmlElement
  * @property string $value
  * @property string $style
  * @property string $attr
- * @property bool   $required
+ * @property bool $required
  * @property string $placeholder
  */
 class PasswordsetHtmlElement extends HtmlElement
@@ -2089,7 +2050,7 @@ class PasswordsetHtmlElement extends HtmlElement
 
     public function getHtml()
     {
-        $this->view->batchAssign(
+        $this->extendAndBatchAssign(
             [
                 'name'                  => $this->name,
                 'id'                    => $this->element_id,
@@ -2112,10 +2073,10 @@ class PasswordsetHtmlElement extends HtmlElement
  * @property string $element_id
  * @property string $name
  * @property string $resource_path
- * @property int    $resource_id
+ * @property int $resource_id
  * @property string $object_name
  * @property string $object_id
- * @property bool   $hide    - sign to hide image preview
+ * @property bool $hide    - sign to hide image preview
  * @property string $placeholder
  */
 class ResourceHtmlElement extends HtmlElement
@@ -2129,8 +2090,10 @@ class ResourceHtmlElement extends HtmlElement
     public function getHtml()
     {
         if (empty($this->rl_type)) {
-            throw new AException(AC_ERR_LOAD,
-                'Error: Could not load HTML element of resource library. Resource type not given!');
+            throw new AException(
+                AC_ERR_LOAD,
+                'Error: Could not load HTML element of resource library. Resource type not given!'
+            );
         }
         $data = [
             'id'            => $this->element_id,
@@ -2141,7 +2104,7 @@ class ResourceHtmlElement extends HtmlElement
             'object_name'   => $this->object_name,
             'object_id'     => $this->object_id,
             'rl_type'       => $this->rl_type,
-            'hide'          => ($this->hide ? true : false),
+            'hide'          => (bool) $this->hide,
         ];
         if (!$data['resource_id'] && $data['resource_path']) {
             $path = ltrim($data['resource_path'], $data['rl_type'].'/');
@@ -2159,7 +2122,7 @@ class ResourceHtmlElement extends HtmlElement
             }
         }
 
-        $this->view->batchAssign($data);
+        $this->extendAndBatchAssign($data);
         return $this->view->fetch('form/resource.tpl');
     }
 }
@@ -2167,8 +2130,8 @@ class ResourceHtmlElement extends HtmlElement
 /**
  * Class ResourceImageHtmlElement
  *
- * @property int    $width
- * @property int    $height
+ * @property int $width
+ * @property int $height
  * @property string $attr
  * @property string $url
  */
@@ -2182,7 +2145,7 @@ class ResourceImageHtmlElement extends HtmlElement
 
     public function getHtml()
     {
-        $this->view->batchAssign(
+        $this->extendAndBatchAssign(
             [
                 'url'    => $this->url,
                 'width'  => $this->width,
@@ -2204,9 +2167,10 @@ class ResourceImageHtmlElement extends HtmlElement
  * @property string $default
  * @property string $style
  * @property string $attr
- * @property bool   $required
+ * @property bool $required
  * @property string $dateformat
  * @property string $highlight
+ * @property string $help_url
  */
 class DateHtmlElement extends HtmlElement
 {
@@ -2215,24 +2179,27 @@ class DateHtmlElement extends HtmlElement
     {
         parent::__construct($data);
         if (!$this->registry->has('date-field')) {
-
             $doc = $this->registry->get('document');
             $doc->addScript($this->view->templateResource('/javascript/jquery-ui/js/jquery-ui-1.10.4.custom.min.js'));
             $doc->addScript($this->view->templateResource('/javascript/jquery-ui/js/jquery.ui.datepicker.js'));
             if (IS_ADMIN === true) {
                 $doc->addStyle(
                     [
-                    'href'  => $this->view->templateResource('/javascript/jquery-ui/js/css/ui-lightness/ui.all.css'),
-                    'rel'   => 'stylesheet',
-                    'media' => 'screen',
+                        'href'  => $this->view->templateResource(
+                            '/javascript/jquery-ui/js/css/ui-lightness/ui.all.css'
+                        ),
+                        'rel'   => 'stylesheet',
+                        'media' => 'screen',
                     ]
                 );
             } else {
                 $doc->addStyle(
                     [
-                    'href'  => $this->view->templateResource('/javascript/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.min.css'),
-                    'rel'   => 'stylesheet',
-                    'media' => 'screen',
+                        'href'  => $this->view->templateResource(
+                            '/javascript/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.min.css'
+                        ),
+                        'rel'   => 'stylesheet',
+                        'media' => 'screen',
                     ]
                 );
             }
@@ -2247,7 +2214,6 @@ class DateHtmlElement extends HtmlElement
      */
     public function getHtml()
     {
-
         if (!isset($this->default)) {
             $this->default = '';
         }
@@ -2255,7 +2221,7 @@ class DateHtmlElement extends HtmlElement
             $this->value = $this->default;
         }
         $this->element_id = preg_replace('/[\[+\]+]/', '_', $this->element_id);
-        $this->view->batchAssign(
+        $this->extendAndBatchAssign(
             [
                 'name'       => $this->name,
                 'id'         => $this->element_id,
@@ -2263,18 +2229,16 @@ class DateHtmlElement extends HtmlElement
                 'value'      => str_replace('"', '&quot;', $this->value),
                 'default'    => $this->default,
                 //TODO: remove deprecated attribute aform_field_type
-                'attr'       => 'aform_field_type="date" '.$this->attr.' data-aform-field-type="captcha"',
+                'attr'       => 'aform_field_type="date" '.$this->attr
+                    .' data-aform-field-type="captcha"',
                 'required'   => $this->required,
                 'style'      => $this->style,
-                'dateformat' => $this->dateformat
-                    ? $this->dateformat
-                    : format4Datepicker($this->language->get('date_format_short')),
+                'dateformat' => $this->dateformat ? : format4Datepicker($this->language->get('date_format_short')),
                 'highlight'  => $this->highlight,
+                'help_url'   => $this->help_url,
             ]
         );
-        if (!empty($this->help_url)) {
-            $this->view->assign('help_url', $this->help_url);
-        }
+
         return $this->view->fetch('form/date.tpl');
     }
 }
@@ -2288,7 +2252,7 @@ class DateHtmlElement extends HtmlElement
  * @property string $default
  * @property string $style
  * @property string $attr
- * @property bool   $required
+ * @property bool $required
  * @property string $placeholder
  * @property string $regexp_pattern
  * @property string $error_text
@@ -2307,7 +2271,7 @@ class EmailHtmlElement extends HtmlElement
         if ($this->value == '' && !empty($this->default)) {
             $this->value = $this->default;
         }
-        $this->view->batchAssign(
+        $this->extendAndBatchAssign(
             [
                 'name'           => $this->name,
                 'id'             => $this->element_id,
@@ -2321,11 +2285,9 @@ class EmailHtmlElement extends HtmlElement
                 'placeholder'    => $this->placeholder,
                 'regexp_pattern' => trim($this->regexp_pattern, '/'),
                 'error_text'     => $this->error_text,
+                'help_url'       => $this->help_url,
             ]
         );
-        if (!empty($this->help_url)) {
-            $this->view->assign('help_url', $this->help_url);
-        }
 
         return $this->view->fetch('form/input.tpl');
     }
@@ -2342,7 +2304,7 @@ class EmailHtmlElement extends HtmlElement
  * @property string $default
  * @property string $style
  * @property string $attr
- * @property bool   $required
+ * @property bool $required
  * @property string $placeholder
  * @property string $regexp_pattern
  * @property string $error_text
@@ -2355,14 +2317,13 @@ class NumberHtmlElement extends HtmlElement
      */
     public function getHtml()
     {
-
         if (!isset($this->default)) {
             $this->default = '';
         }
         if ($this->value == '' && !empty($this->default)) {
             $this->value = $this->default;
         }
-        $this->view->batchAssign(
+        $this->extendAndBatchAssign(
             [
                 'name'           => $this->name,
                 'id'             => $this->element_id,
@@ -2372,17 +2333,16 @@ class NumberHtmlElement extends HtmlElement
                 'max'            => $this->max,
                 'default'        => $this->default,
                 //TODO: remove deprecated attribute aform_field_type
-                'attr'           => 'aform_field_type="number" '.$this->attr.' data-aform-field-type="captcha"',
+                'attr'           => 'aform_field_type="number" '.$this->attr
+                    .' data-aform-field-type="captcha"',
                 'required'       => $this->required,
                 'style'          => $this->style,
                 'placeholder'    => $this->placeholder,
                 'regexp_pattern' => trim($this->regexp_pattern, '/'),
                 'error_text'     => $this->error_text,
+                'help_url'       => $this->help_url,
             ]
         );
-        if (!empty($this->help_url)) {
-            $this->view->assign('help_url', $this->help_url);
-        }
 
         return $this->view->fetch('form/input.tpl');
     }
@@ -2397,7 +2357,7 @@ class NumberHtmlElement extends HtmlElement
  * @property string $default
  * @property string $style
  * @property string $attr
- * @property bool   $required
+ * @property bool $required
  * @property string $placeholder
  * @property string $regexp_pattern
  * @property string $error_text
@@ -2410,7 +2370,6 @@ class PhoneHtmlElement extends HtmlElement
      */
     public function getHtml()
     {
-
         if (!isset($this->default)) {
             $this->default = '';
         }
@@ -2425,12 +2384,12 @@ class PhoneHtmlElement extends HtmlElement
         $doc->addScript($this->view->templateResource('/javascript/intl-tel-input/js/intlTelInput.min.js'));
         $doc->addStyle(
             [
-            'href' => $this->view->templateResource('/javascript/intl-tel-input/css/intlTelInput.css'),
-            'rel'  => 'stylesheet',
+                'href' => $this->view->templateResource('/javascript/intl-tel-input/css/intlTelInput.css'),
+                'rel'  => 'stylesheet',
             ]
         );
 
-        $this->view->batchAssign(
+        $this->extendAndBatchAssign(
             [
                 'name'           => $this->name,
                 'id'             => $this->element_id,
@@ -2443,11 +2402,9 @@ class PhoneHtmlElement extends HtmlElement
                 'placeholder'    => $this->placeholder,
                 'regexp_pattern' => trim($this->regexp_pattern, '/'),
                 'error_text'     => $this->error_text,
+                'help_url'       => $this->help_url,
             ]
         );
-        if (!empty($this->help_url)) {
-            $this->view->assign('help_url', $this->help_url);
-        }
 
         return $this->view->fetch('form/phone.tpl');
     }
@@ -2460,12 +2417,12 @@ class PhoneHtmlElement extends HtmlElement
  * @property string $name
  * @property string $attr
  */
-class IPaddressHtmlElement extends HtmlElement
+class IPAddressHtmlElement extends HtmlElement
 {
 
     public function getHtml()
     {
-        $this->view->batchAssign(
+        $this->extendAndBatchAssign(
             [
                 'id'    => $this->element_id,
                 'name'  => $this->name,
@@ -2485,10 +2442,10 @@ class IPaddressHtmlElement extends HtmlElement
  * @property string $element_id
  * @property string $name
  * @property string $value
- * @property array  $options
+ * @property array $options
  * @property string $style
  * @property string $attr
- * @property bool   $required
+ * @property bool $required
  * @property string $placeholder
  * @property string $help_url
  */
@@ -2508,12 +2465,11 @@ class CountriesHtmlElement extends HtmlElement
 
     public function getHtml()
     {
-
         if (!is_array($this->value)) {
-            $this->value = [$this->value => (string)$this->value];
+            $this->value = [$this->value => (string) $this->value];
         }
         $this->options = !$this->options ? [] : $this->options;
-        $this->view->batchAssign(
+        $this->extendAndBatchAssign(
             [
                 'name'        => $this->name,
                 'id'          => $this->element_id,
@@ -2523,11 +2479,9 @@ class CountriesHtmlElement extends HtmlElement
                 'required'    => $this->required,
                 'style'       => $this->style,
                 'placeholder' => $this->placeholder,
+                'help_url'    => $this->help_url,
             ]
         );
-        if (!empty($this->help_url)) {
-            $this->view->assign('help_url', $this->help_url);
-        }
         return $this->view->fetch('form/selectbox.tpl');
     }
 }
@@ -2535,24 +2489,24 @@ class CountriesHtmlElement extends HtmlElement
 /**
  * Class ZonesHtmlElement
  *
- * @property string           $element_id
- * @property string           $name
- * @property string           $value
- * @property string           $submit_mode
- * @property int|array        $default_value
- * @property string           $zone_field_name
- * @property string           $default_zone_field_name
- * @property string           $default_zone_name
- * @property array            $default_zone_value
- * @property string           $zone_name
- * @property array            $options
- * @property array            $zone_options
+ * @property string $element_id
+ * @property string $name
+ * @property string $value
+ * @property string $submit_mode
+ * @property int|array $default_value
+ * @property string $zone_field_name
+ * @property string $default_zone_field_name
+ * @property string $default_zone_name
+ * @property array $default_zone_value
+ * @property string $zone_name
+ * @property array $options
+ * @property array $zone_options
  * @property array|string|int $zone_value
- * @property string           $style
- * @property string           $attr
- * @property bool             $required
- * @property string           $placeholder
- * @property string           $help_url
+ * @property string $style
+ * @property string $attr
+ * @property bool $required
+ * @property string $placeholder
+ * @property string $help_url
  */
 class ZonesHtmlElement extends HtmlElement
 {
@@ -2585,7 +2539,7 @@ class ZonesHtmlElement extends HtmlElement
             if (!$this->value) {
                 $this->value = [];
             } else {
-                $this->value = [$this->value => (string)$this->value];
+                $this->value = [$this->value => (string) $this->value];
             }
         }
 
@@ -2603,7 +2557,6 @@ class ZonesHtmlElement extends HtmlElement
         }
 
         $this->registry->get('load')->model('localisation/zone');
-        /** @noinspection PhpUndefinedClassInspection */
         /**
          * @var ModelLocalisationZone $model_zone
          */
@@ -2625,7 +2578,7 @@ class ZonesHtmlElement extends HtmlElement
 
         if (!is_array($this->zone_value)) {
             $this->zone_value =
-                $this->zone_value ? [(string)$this->zone_value => (string)$this->zone_value] : [];
+                $this->zone_value ? [(string) $this->zone_value => (string) $this->zone_value] : [];
         }
         $config_zone_id = $this->registry->get('config')->get('config_zone_id');
         foreach ($results as $result) {
@@ -2643,28 +2596,25 @@ class ZonesHtmlElement extends HtmlElement
             }
         }
 
-        $this->view->batchAssign(
+        $this->extendAndBatchAssign(
             [
                 'name'            => $this->name,
                 'id'              => $this->element_id,
-                'value'           => $this->value ? $this->value : $this->default_value,
+                'value'           => $this->value ? : $this->default_value,
                 'options'         => $this->options,
                 'attr'            => $this->attr,
                 'required'        => $this->required,
                 'style'           => $this->style,
                 'url'             => $url,
-                'zone_field_name' => $this->zone_field_name ? $this->zone_field_name : $this->default_zone_field_name,
-                'zone_name'       => $this->zone_name ? $this->zone_name : $this->default_zone_name,
-                'zone_value'      => (array)($this->zone_value ? $this->zone_value : $this->default_zone_value),
+                'zone_field_name' => $this->zone_field_name ? : $this->default_zone_field_name,
+                'zone_name'       => $this->zone_name ? : $this->default_zone_name,
+                'zone_value'      => (array) ($this->zone_value ? : $this->default_zone_value),
                 'zone_options'    => $this->zone_options,
                 'submit_mode'     => $this->submit_mode,
                 'placeholder'     => $this->placeholder,
+                'help_url'        => $this->help_url,
             ]
         );
-        if (!empty($this->help_url)) {
-            $this->view->assign('help_url', $this->help_url);
-        }
-
         return $this->view->fetch('form/countries_zones.tpl');
     }
 
@@ -2737,7 +2687,7 @@ class PaginationHtmlElement extends HtmlElement
 
         //count limits if needed
         if (!$s['no_perpage'] && !$s['limits']) {
-            $s['limits'][0] = $x = ($s['split'] ? $s['split'] : $registry->get('config')->get('config_catalog_limit'));
+            $s['limits'][0] = $x = ($s['split'] ? : $registry->get('config')->get('config_catalog_limit'));
             while ($x <= 50) {
                 $s['limits'][] = $x;
                 $x += $s['limits'][0];
@@ -2823,7 +2773,7 @@ class PaginationHtmlElement extends HtmlElement
         ];
         $s['text'] = str_replace($find, $replace, $s['text']);
 
-        $this->view->batchAssign($s);
+        $this->extendAndBatchAssign($s);
         return $this->view->fetch('form/pagination.tpl');
     }
 
@@ -2852,7 +2802,6 @@ class ModalHtmlElement extends HtmlElement
     public function __construct($data)
     {
         parent::__construct($data);
-
     }
 
     /**
@@ -2860,10 +2809,9 @@ class ModalHtmlElement extends HtmlElement
      */
     public function getHtml()
     {
+        $modal_type = $this->modal_type ? : 'lg';
 
-        $modal_type = $this->modal_type ? $this->modal_type : 'lg';
-
-        $this->view->batchAssign(
+        $this->extendAndBatchAssign(
             [
                 'id'          => $this->id,
                 'title'       => $this->title,
@@ -2871,11 +2819,11 @@ class ModalHtmlElement extends HtmlElement
                 'footer'      => $this->footer,
                 'modal_type'  => $modal_type,
                 // if 'ajax' we clean up modal content after it close
-                'data_source' => (string)$this->data_source,
+                'data_source' => (string) $this->data_source,
                 // js-triggers for modal events
-                'js_onshow'   => (string)$this->js_onshow,
-                'js_onload'   => ($this->data_source == 'ajax' ? (string)$this->js_onload : ';'),  //if content
-                'js_onclose'  => (string)$this->js_onclose,
+                'js_onshow'   => (string) $this->js_onshow,
+                'js_onload'   => ($this->data_source == 'ajax' ? (string) $this->js_onload : ';'),  //if content
+                'js_onclose'  => (string) $this->js_onclose,
             ]
         );
 
@@ -2894,6 +2842,7 @@ class ModalHtmlElement extends HtmlElement
  * @property string $text
  * @property string $value
  * @property string $style
+ * @property string $help_url
  * @property string $attr
  */
 class LabelHtmlElement extends HtmlElement
@@ -2908,18 +2857,16 @@ class LabelHtmlElement extends HtmlElement
             return null;
         }
 
-        $this->view->batchAssign(
+        $this->extendAndBatchAssign(
             [
-                'name'  => $this->name,
-                'id'    => $this->element_id,
-                'text'  => str_replace('"', '&quot;', ($this->text ? $this->text : $this->value)),
-                'attr'  => $this->attr,
-                'style' => $this->style,
+                'name'     => $this->name,
+                'id'       => $this->element_id,
+                'text'     => str_replace('"', '&quot;', ($this->text ? : $this->value)),
+                'attr'     => $this->attr,
+                'style'    => $this->style,
+                'help_url' => $this->help_url,
             ]
         );
-        if (!empty($this->help_url)) {
-            $this->view->assign('help_url', $this->help_url);
-        }
         return $this->view->fetch('form/label.tpl');
     }
 }

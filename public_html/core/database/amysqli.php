@@ -169,7 +169,9 @@ final class AMySQLi
      */
     public function countAffected()
     {
-        return $this->connection->affected_rows;
+        if($this->connection) {
+            return $this->connection->affected_rows;
+        }
     }
 
     /**
@@ -178,11 +180,6 @@ final class AMySQLi
     public function getLastId()
     {
         return $this->connection->insert_id;
-    }
-
-    public function __destruct()
-    {
-        $this->connection->close();
     }
 
     public function getDBError()

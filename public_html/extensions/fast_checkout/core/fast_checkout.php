@@ -90,6 +90,10 @@ class ExtensionFastCheckout extends Extension
 
         $that = $this->baseObject;
         $that->loadLanguage('fast_checkout/fast_checkout');
+        if (in_array( $that->request->get['rt'], ['checkout/fast_checkout','checkout/fast_checkout_success'])) {
+            $that->processTemplate('responses/includes/page_footer.tpl');
+        }
+
     }
 
     public function onControllerResponsesEmbedHead_InitData()
@@ -120,6 +124,7 @@ class ExtensionFastCheckout extends Extension
                 'cart_ajax_url',
                 $that->html->getURL('r/product/product/addToCart', '&fc=1')
             );
+            $that->document->addScriptBottom( $that->view->templateResource('/js/fast_checkout.js') );
         }
     }
 

@@ -186,7 +186,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
             $this->data['paymentaction'] = 'sale';
         }
 
-        $this->data['return'] = $this->html->getSecureURL('checkout/success');
+        $this->data['return'] = $this->html->getSecureURL('r/extension/default_pp_standart/pending_payment');
 
         if ($this->request->get['rt'] == 'checkout/guest_step_3') {
             $back_url = $this->html->getSecureURL('checkout/guest_step_2', '&mode=edit', true);
@@ -220,6 +220,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
 
     public function callback()
     {
+        $this->log->write( var_export($this->request->post, true));
         $this->load->library('encryption');
         $encryption = new AEncryption($this->config->get('encryption_key'));
 
@@ -229,7 +230,8 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
             $order_id = 0;
         }
 
-        $this->load->model('checkout/order');
+        /** @var ModelCheckoutOrder $mdl */
+        $mdl = $this->load->model('checkout/order');
         $order_info = $this->model_checkout_order->getOrder($order_id);
         $suspect = false;
         $message = '';
@@ -289,11 +291,10 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
             $request .= '&'.$key.'='.urlencode(stripslashes(html_entity_decode($value, ENT_QUOTES, 'UTF-8')));
         }
 
-        if ($this->config->get('default_pp_standart_test')) {
-            $gateway_url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
-        } else {
-            $gateway_url = 'https://www.paypal.com/cgi-bin/webscr';
-        }
+        $gateway_url = $this->config->get('default_pp_standart_test')
+            ? 'https://www.sandbox.paypal.com/cgi-bin/webscr'
+            : 'https://www.paypal.com/cgi-bin/webscr';
+
         $ch = curl_init($gateway_url);
 
         curl_setopt($ch, CURLOPT_POST, true);
@@ -310,11 +311,11 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
         if ($suspect === true) {
             // set pending status for all suspected orders
             $args['order_status_id'] = 1;
-            $args['message'] = $message;
+            $args['comment'] = $message;
         } elseif ($this->request->post['payment_status'] == 'Reversed') {
             $args['order_status_id'] = $this->order_status->getStatusByTextId('reversed');
             if ($method == 'update') {
-                $args['message'] = 'Changed by Paypal IPN';
+                $args['comment'] = 'Changed by Paypal IPN';
                 $this->messages->saveNotice(
                     'Order #'.$order_id.' has been reversed by Paypal IPN request.',
                     'See #admin#rt=sale/order/history&order_id='.$order_id.' for details'
@@ -323,7 +324,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
         } elseif ($this->request->post['payment_status'] == 'Denied') {
             $args['order_status_id'] = $this->order_status->getStatusByTextId('denied');
             if ($method == 'update') {
-                $args['message'] = 'Changed by Paypal IPN';
+                $args['comment'] = 'Changed by Paypal IPN';
                 $this->messages->saveNotice(
                     'Order #'.$order_id.' has been denied by Paypal IPN request.',
                     'See #admin#rt=sale/order/history&order_id='.$order_id.' for details'
@@ -332,7 +333,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
         } elseif (strcmp($response, 'VERIFIED') == 0 || $this->request->post['payment_status'] == 'Completed') {
             $args['order_status_id'] = $this->config->get('default_pp_standart_order_status_id');
             if ($method == 'update') {
-                $args['message'] = 'Changed by Paypal IPN';
+                $args['comment'] = 'Changed by Paypal IPN';
                 $this->messages->saveNotice(
                     'Order #'.$order_id.' has been changed by Paypal IPN request.',
                     'See #admin#rt=sale/order/history&order_id='.$order_id.' for details'
@@ -341,7 +342,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
         } else {
             $args['order_status_id'] = $this->config->get('config_order_status_id');
             if ($method == 'update') {
-                $args['message'] = 'Changed by Paypal IPN';
+                $args['comment'] = 'Changed by Paypal IPN';
                 $this->messages->saveNotice(
                     'Order #'.$order_id.' has been changed by paypal IPN request.',
                     'See #admin#rt=sale/order/history&order_id='.$order_id.' for details'
@@ -349,8 +350,11 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
             }
         }
         //call confirm or update method of model
-        call_user_func_array([$this->model_checkout_order, $method], $args);
-        $this->model_checkout_order->updatePaymentMethodData($this->session->data['order_id'], $response);
+        call_user_func_array([$mdl, $method], $args);
+        $this->model_checkout_order->updatePaymentMethodData(
+            $this->session->data['order_id'],
+            $response
+        );
         return true;
     }
 
@@ -362,7 +366,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
         $this->view->assign('text_message', 'waiting for payment confirmation');
         $this->view->assign('text_redirecting', 'redirecting');
         $this->view->assign('test_url', $this->html->getSecureURL('r/extension/default_pp_standart/is_confirmed'));
-        $this->view->assign('success_url', $this->html->getSecureURL('checkout/success'));
+        $this->view->assign('success_url', $this->html->getSecureURL('checkout/success','&order_id='.$this->session->data['order_id']));
         $this->processTemplate('responses/pending_ipn.tpl');
     }
 
@@ -378,6 +382,8 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
             if ((int) $order_info['order_status_id'] != 0
                 || $order_info['payment_method_key'] != 'default_pp_standart'
             ) {
+                $this->session->data['processed_order_id'] = $order_id;
+                unset($this->session->data['order_id']);
                 $result = true;
             } else {
                 $result = false;
