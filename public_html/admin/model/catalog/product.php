@@ -26,6 +26,7 @@
  */
 class ModelCatalogProduct extends Model
 {
+    const TAG_REGEX_PATTERN = '/[^\\d\s\p{L}\-_]/u';
     /** @param array $data
      * @return int
      * @throws AException
@@ -198,7 +199,7 @@ class ModelCatalogProduct extends Model
 
                 foreach ($taglist as $tag) {
                     $tag = trim($tag);
-                    $tag = preg_replace('/[^a-zA-Z0-9_\-]/','',$tag);
+                    $tag = preg_replace(self::TAG_REGEX_PATTERN,'',$tag);
                     if (!$tag) {
                         continue;
                     }
@@ -407,7 +408,7 @@ class ModelCatalogProduct extends Model
             $tags = $this->getUniqueTags($data['product_tags']);
 
             foreach ($tags as &$tag) {
-                $tag = preg_replace('/[^a-zA-Z0-9_\-]/','',$tag);
+                $tag = preg_replace(self::TAG_REGEX_PATTERN,'',$tag);
                 $tag = $this->db->escape(trim($tag));
             }
 
