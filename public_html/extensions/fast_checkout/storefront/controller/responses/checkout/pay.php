@@ -229,6 +229,7 @@ class ControllerResponsesCheckoutPay extends AController
             );
         } else {
             if ($this->customer->isLogged()) {
+                $this->data['loggedin'] = true;
                 $this->loadModel('account/address');
                 if (!$this->data['all_addresses']) {
                     $this->data['all_addresses'] = $this->model_account_address->getAddresses();
@@ -236,6 +237,10 @@ class ControllerResponsesCheckoutPay extends AController
                 if (!count($this->data['all_addresses'])) {
                     //Something wrong. Account is missing address, direct to regular customer address page.
                     $this->error['message'] = $this->language->get('fast_checkout_error_no_address');
+                    $this->data['error'] = $this->error['message'];
+                    $this->view->batchAssign($this->data);
+                    $this->response->setOutput($this->view->fetch('responses/checkout/main.tpl'));
+                    return;
                 }
                 //was address changed?
                 if ($this->request->get['shipping_address_id']) {
