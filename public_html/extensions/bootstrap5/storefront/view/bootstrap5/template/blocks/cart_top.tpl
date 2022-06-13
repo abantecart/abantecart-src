@@ -4,7 +4,7 @@
         <li class="nav-item d-block d-md-none">
             <a href="<?php echo $view; ?>" class="nav-link active">
                 <i class="fa fa-shopping-cart fa-fw"></i>&nbsp;&nbsp;
-                <span class="label label-orange font14">
+                <span class="label-qnty">
                     <?php echo $total_qty;?>
                 </span>
                 <?php echo $text_items;?>
@@ -18,7 +18,7 @@
         <li class="nav-item dropdown d-none d-md-block">
             <a href="<?php echo $view; ?>" class="nav-link active dropdown-toggle">
                 <i class="fa fa-shopping-cart fa-fw"></i>&nbsp;&nbsp;
-                <span class="label label-orange font14">
+                <span class="label-qnty">
                     <?php echo $total_qty;?>
                 </span>
                 <?php echo $text_items;?>

@@ -63,8 +63,8 @@ $(document).ready(function(){
                 async: false,
                 success: function (data) {
                     //top cart
-                     $('.nav.topcart .dropdown-toggle span').first().html(data.item_count);
-                     $('.nav.topcart .dropdown-toggle .cart_total').html(data.total);
+                     $('.nav.topcart span.label-qnty').html(data.item_count);
+                     $('.nav.topcart span.cart_total').html(data.total);
                      if ($('#top_cart_product_list')) {
                          $('#top_cart_product_list').html(data.cart_details);
                      }
