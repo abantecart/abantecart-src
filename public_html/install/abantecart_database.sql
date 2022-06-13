@@ -849,9 +849,9 @@ INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `v
 ('block', 'latest', '', 1, 1, '', null, now(), now(), now() ),
 ('block', 'featured', '', 1, 1, '', null, now(), now(), now() ),
 
-('extensions', 'banner_manager', 'extensions', 1, 1, '1.0.1', null, now(), now(), now() ),
-('extensions', 'forms_manager', 'extensions', 1, 1, '1.0.2', null, now(), now(), now() ),
-('extensions', 'fast_checkout', 'Checkout', 1, 10, '1.3.0', null, now(), now() + INTERVAL 2 MINUTE , now() )
+('extensions', 'banner_manager', 'extensions', 1, 1, '1.1.0', null, now(), now(), now() ),
+('extensions', 'forms_manager', 'extensions', 1, 1, '1.1.0', null, now(), now(), now() ),
+('extensions', 'fast_checkout', 'Checkout', 1, 10, '1.3.3', null, now(), now() + INTERVAL 2 MINUTE , now() )
 ;
 
 --
@@ -1788,7 +1788,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 
 ('tax', 'tax_status', '1'),
 ('tax', 'tax_sort_order', '5'),
-('tax', 'tax_calculation_order', '5'),
+('tax', 'tax_calculation_order', '2'),
 ('tax', 'tax_total_type', 'tax'),
 
 ('balance', 'balance_status', '1'),
