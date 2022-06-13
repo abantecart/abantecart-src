@@ -220,7 +220,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
 
     public function callback()
     {
-        $this->log->write( var_export($this->request->post, true));
+$this->log->write( var_export($this->request->post, true));
         $this->load->library('encryption');
         $encryption = new AEncryption($this->config->get('encryption_key'));
 
@@ -383,7 +383,20 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
                 || $order_info['payment_method_key'] != 'default_pp_standart'
             ) {
                 $this->session->data['processed_order_id'] = $order_id;
-                unset($this->session->data['order_id']);
+                $this->_debit_transaction($order_id);
+                unset(
+                    $this->session->data['shipping_method'],
+                    $this->session->data['shipping_methods'],
+                    $this->session->data['payment_method'],
+                    $this->session->data['payment_methods'],
+                    $this->session->data['guest'],
+                    $this->session->data['comment'],
+                    $this->session->data['order_id'],
+                    $this->session->data['coupon'],
+                    $this->session->data['used_balance'],
+                    $this->session->data['used_balance_full']
+                );
+
                 $result = true;
             } else {
                 $result = false;
@@ -393,5 +406,42 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
         $this->load->library('json');
         $this->response->addJSONHeader();
         $this->response->setOutput(AJson::encode(['result' => $result]));
+    }
+
+    /**
+     * @param $order_id
+     *
+     * @return bool|null
+     */
+    protected function _debit_transaction($order_id)
+    {
+        // in default currency
+        $amount = $this->session->data['used_balance'];
+        if (!$amount) {
+            return null;
+        }
+        $transaction_data = [
+            'order_id'         => $order_id,
+            'amount'           => $amount,
+            'transaction_type' => 'order',
+            'created_by'       => $this->customer->getId(),
+            'description'      => sprintf($this->language->get('text_applied_balance_to_order'),
+                $this->currency->format($this->currency->convert($amount,
+                    $this->config->get('config_currency'),
+                    $this->session->data['currency']),
+                    $this->session->data['currency'], 1),
+                $order_id),
+        ];
+
+        try {
+            $this->customer->debitTransaction($transaction_data);
+        } catch (AException $e) {
+            $error = new AError('Error: Debit transaction cannot be applied.'.var_export($transaction_data,
+                    true)."\n".$e->getMessage()."\n".$e->getFile());
+            $error->toLog()->toMessages();
+            return false;
+        }
+
+        return true;
     }
 }
