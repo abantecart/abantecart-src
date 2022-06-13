@@ -74,8 +74,8 @@ if (sizeof((array) $error_warning) > 0) {
                 <?php } ?>
                 <div class="cart-qnty-wrapper text-nowrap p-1">
                   <div class="input-group">
-                     <button title="<?php echo $product['quantity']->max ? 'Max: '.$product['quantity']->max : ''; ?>"
-                             class="plus-qnty input-group-text btn btn-outline-success fs-5">&plus;</button>
+                      <button title="<?php echo $product['quantity']->min ? 'Min: '.$product['quantity']->min : ''; ?>"
+                               class="minus-qnty input-group-text btn btn-outline-danger fs-5">&minus;</button>
                 <?php  $product['quantity']->no_wrapper = true; ?>
                       <input type="text" name="<?php echo $product['quantity']->name ?>"
                              id="<?php echo $product['quantity']->element_id ?>"
@@ -83,8 +83,8 @@ if (sizeof((array) $error_warning) > 0) {
                              placeholder="<?php echo $product['quantity']->placeholder ?>"
                              class="form-control text-center fw-bold <?php echo $product['quantity']->style; ?>"
                              <?php echo $product['quantity']->attr; ?>/>
-                     <button title="<?php echo $product['quantity']->min ? 'Min: '.$product['quantity']->min : ''; ?>"
-                             class="minus-qnty input-group-text btn btn-outline-danger fs-5">&minus;</button>
+                      <button title="<?php echo $product['quantity']->max ? 'Max: '.$product['quantity']->max : ''; ?>"
+                               class="plus-qnty input-group-text btn btn-outline-success fs-5">&plus;</button>
                   </div>
                 </div>
                 <div class="flex-fill my-auto text-nowrap p-1 text-center">

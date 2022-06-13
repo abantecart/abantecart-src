@@ -238,7 +238,7 @@ class ControllerPagesAccountCreate extends AController
             ]
         );
 
-        $this->view->assign('zone_id', $this->request->post['zone_id'], 'FALSE');
+        $this->view->assign('zone_id', $this->request->post['zone_id'] ?: $this->config->get('config_zone_id'));
         $this->data['form']['fields']['address']['zone'] = $form->getFieldHtml(
             [
                 'type'     => 'selectbox',

@@ -34,7 +34,7 @@ class ControllerResponsesCommonZone extends AController
 
         if (has_value($this->request->get['country_id']) && is_numeric($this->request->get['country_id'])) {
             $country_id = $this->request->get['country_id'];
-            $stdout = '<option>'.$this->language->get('text_select').'</option>';
+            $stdout = '<option value="">'.$this->language->get('text_select').'</option>';
 
             $this->loadModel('localisation/zone');
 
