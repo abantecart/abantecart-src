@@ -229,12 +229,14 @@ $(document).on(
                         $('#fast_checkout_cart').hide().html(data).fadeIn(1000);
                         $('.spinner-overlay').fadeOut(100);
                         checkCartKey();
-                        $([document.documentElement, document.body]).animate(
-                            {
-                                scrollTop: $("#payment_details").offset().top
-                            },
-                            1000
-                        );
+                        if($("#payment_details").length>0) {
+                            $([document.documentElement, document.body]).animate(
+                                {
+                                    scrollTop: $("#payment_details").offset().top
+                                },
+                                1000
+                            );
+                        }
                     }
                 }
             );
