@@ -243,15 +243,13 @@ if ($error){ ?>
                                             <div class="wishlist mb-2">
                                                 <a id="wishlist_remove"
                                                    class="border btn btn-outline-secondary <?php echo $in_wishlist ? 'd-block': 'd-none';?>"
-                                                   href="Javascript:void(0);"
-                                                   onclick="wishlist_remove(); return false;">
+                                                   href="Javascript:void(0);">
                                                     <i class="fa-solid fa-heart-crack fa-xl"></i>
                                                     <?php echo $button_remove_wishlist; ?>
                                                 </a>
                                                 <a id="wishlist_add"
                                                    class="border btn btn-outline-secondary <?php echo $in_wishlist ? 'd-none': 'd-block';?>"
-                                                   href="Javascript:void(0);"
-                                                   onclick="wishlist_add(); return false;">
+                                                   href="Javascript:void(0);">
                                                     <i class="fa fa-solid fa-heart-circle-plus fa-xl"></i>
                                                     <?php echo $button_add_wishlist; ?>
                                                 </a>
@@ -818,7 +816,8 @@ if( $hookVarArray ){
             });
         }
 
-        function wishlist_add() {
+        $(document).on('click','#wishlist_add', function(e) {
+            e.preventDefault();
             var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
             $.ajax({
                 type: 'POST',
@@ -848,9 +847,10 @@ if( $hookVarArray ){
                     }
                 }
             });
-        }
+        });
 
-        function wishlist_remove() {
+        $(document).on('click','#wishlist_remove', function(e) {
+            e.preventDefault();
             var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
             $.ajax({
                 type: 'POST',
@@ -880,7 +880,7 @@ if( $hookVarArray ){
                     }
                 }
             });
-        }
+        });
     });
 
 
