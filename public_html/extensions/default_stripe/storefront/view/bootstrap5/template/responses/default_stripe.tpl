@@ -25,14 +25,14 @@
         </div>
         <div class="form-group form-inline">
             <label class="col-sm-4 control-label"><?php echo $entry_cc_number; ?></label>
-            <div id="card-element" class="col-sm-7 col-xs-6 input-group field"
+            <div id="card-element" class="col-sm-12 col-xs-12 field"
                  style="min-width:240px; border: 1px solid #ccc; padding: 2px"></div>
         </div>
         <input type="hidden" name="cc_token" id="cc_token">
         <input type="hidden" name="pi_source" id="pi_source">
         <?php echo $this->getHookVar('payment_table_post'); ?>
 
-        <div class="form-group action-buttons text-center">
+        <div class="form-group action-buttons text-center mt-3">
             <a id="<?php echo $back->name ?>" href="<?php echo $back->href; ?>" class="btn btn-default mr10">
                 <i class="fa fa-arrow-left"></i>
                 <?php echo $back->text ?>
@@ -213,7 +213,7 @@
             });
             card.mount('#card-element');
         }
-        $(window).on( 'load',onLoad_func);
+        //$(window).on( 'load',onLoad_func);
         $(document).ready(onLoad_func);
     </script>
 <?php } ?>
