@@ -17,7 +17,10 @@ if ($error) { ?>
 <?php } ?>
 
 <div class="container">
-    <?php echo  $form[ 'form_open' ]; ?>
+    <?php
+    $form[ 'form_open' ]->attr .= ' novalidate';
+    $form[ 'form_open' ]->style .= ' needs-validation';
+    echo $form[ 'form_open' ]; ?>
     <h4><?php echo $help_text; ?></h4>
     <div class="ps-4 border p-3 mb-4">
         <?php
