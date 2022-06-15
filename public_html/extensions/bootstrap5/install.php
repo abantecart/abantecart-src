@@ -4,6 +4,7 @@ if (! defined ( 'DIR_CORE' )) {
  header ( 'Location: static_pages/' );
 }
 
+require_once (DIR_EXT . '/bootstrap5/core/helper.php');
 
 $file = DIR_EXT . '/bootstrap5/layout.xml';
 $layout = new ALayoutManager('default');
