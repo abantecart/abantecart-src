@@ -38,6 +38,14 @@ if(function_exists('preparePageBuilderPreset')) {
         $newPreset['gjs-components'] = json_encode($newPreset['gjs-components']);
         file_put_contents($preset, json_encode($newPreset));
     }
+
+    $presaved_sets = glob(DIR_EXT.'bootstrap5/system/page_builder/bootstrap5/presets/*');
+    foreach($presaved_sets as $item){
+        @copy(
+            $item,
+            DIR_SYSTEM.'page_builder/presets/'.basename($item)
+        );
+    }
 }
 
 
