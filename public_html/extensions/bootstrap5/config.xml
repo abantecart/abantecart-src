@@ -19,11 +19,9 @@
 	</settings>
 	<additional_settings><![CDATA[setting/setting&active=appearance]]></additional_settings>
 	<install>
-		<sql>install.sql</sql>
 		<trigger>install.php</trigger>
 	</install>
 	<uninstall>
-		<sql>uninstall.sql</sql>
 		<trigger>uninstall.php</trigger>
 	</uninstall>
 </extension>
