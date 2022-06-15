@@ -12,13 +12,13 @@ echo $form['form_open']; ?>
     <?php echo $this->getHookVar('address_form_top'); ?>
     <label class="visible-xs text-center text-uppercase"><?php echo $type.' '.$fast_checkout_text_address; ?></label>
     <div class="row mb-3">
-        <div class="form-group col-12 col-sm-6 mb-3 mb-sm-0 <?php if (isset($errors['firstname'])) { echo 'has-error'; } ?>">
+        <div class="form-group col-12 col-sm-6 mb-3 mb-sm-0">
             <div class="input-group">
                 <div class="input-group-text">
                     <i class="fa fa-user"></i>
                 </div>
                 <input aria-label="firstname"
-                       class="form-control form-control-lg"
+                       class="form-control form-control-lg <?php if (isset($errors['firstname'])) { echo 'is-invalid'; } ?>"
                        placeholder="<?php echo_html2view($entry_firstname); ?>"
                        name="firstname"
                        type="text"
@@ -27,13 +27,13 @@ echo $form['form_open']; ?>
                        value="<?php echo $form['firstname']->value; ?>">
             </div>
         </div>
-        <div class="form-group col-12 col-sm-6 <?php if (isset($errors['lastname'])) { echo 'has-error'; } ?>">
+        <div class="form-group col-12 col-sm-6">
             <div class="input-group">
                 <div class="input-group-text">
                     <i class="fa fa-user"></i>
                 </div>
                 <input aria-label="lastname"
-                       class="form-control form-control-lg"
+                       class="form-control form-control-lg <?php if (isset($errors['lastname'])) { echo 'is-invalid'; } ?>"
                        placeholder="<?php echo_html2view($entry_lastname); ?>"
                        name="lastname"
                        type="text"
@@ -44,66 +44,67 @@ echo $form['form_open']; ?>
         </div>
     </div>
 
-    <div class="form-group col-12 mb-3 <?php if (isset($errors['address_1'])) { echo 'has-error'; } ?>">
+    <div class="form-group col-12 mb-3">
         <div class="input-group">
             <div class="input-group-text">
                 <i class="fa fa-building"></i>
             </div>
             <input id="cc_address_1"
                    aria-label="cc_address_1"
-                   class="form-control form-control-lg"
+                   class="form-control form-control-lg <?php if (isset($errors['address_1'])) { echo 'is-invalid'; } ?>"
                    placeholder="<?php echo_html2view($entry_address_1); ?>"
                    name="address_1"
                    type="text"
                    required
-                   maxlength="128"
+                   maxlength="64"
                    value="<?php echo $form['address_1']->value; ?>">
         </div>
     </div>
 
-    <div class="form-group col-12 mb-3 <?php if (isset($errors['address_2'])) { echo 'has-error'; } ?>">
+    <div class="form-group col-12 mb-3">
         <div class="input-group">
             <div class="input-group-text">
                 <i class="fa fa-hotel"></i>
             </div>
             <input id="cc_address_2"
                    aria-label="cc_address_2"
-                   class="form-control form-control-lg"
+                   class="form-control form-control-lg <?php if (isset($errors['address_2'])) { echo 'is-invalid'; } ?>"
                    placeholder="<?php echo_html2view($entry_address_2); ?>"
                    name="address_2"
                    type="text"
-                   maxlength="128"
+                   maxlength="64"
                    value="<?php echo $form['address_2']->value; ?>">
         </div>
     </div>
 
     <div class="row mb-3 ">
-        <div class="form-group col-12 col-sm-6 mb-3 mb-sm-0 <?php if (isset($errors['city'])) { echo 'has-error'; } ?>">
+        <div class="form-group col-12 col-sm-6 mb-3 mb-sm-0">
             <div class="input-group">
                 <div class="input-group-text">
                 <i class="fa fa-city"></i>
                 </div>
                 <input aria-label="city"
-                       class="form-control form-control-lg"
+                       class="form-control form-control-lg <?php if (isset($errors['city'])) { echo 'is-invalid'; } ?>"
                        placeholder="<?php echo_html2view($entry_city); ?>"
                        name="city"
                        type="text"
-                       maxlength="128"
+                       maxlength="32"
                        required
                        value="<?php echo $form['city']->value; ?>">
             </div>
         </div>
-        <div class="form-group col-12 col-sm-6 <?php if (isset($errors['postcode'])) { echo 'has-error'; } ?>">
+        <div class="form-group col-12 col-sm-6">
             <div class="input-group">
                 <div class="input-group-text">
                 <i class="fa fa-bars"></i>
                 </div>
                 <input aria-label="postcode"
-                       class="form-control form-control-lg"
+                       class="form-control form-control-lg <?php if (isset($errors['postcode'])) { echo 'is-invalid'; } ?>"
                        placeholder="<?php echo_html2view($entry_postcode); ?>"
                        name="postcode"
                        type="text"
                        maxlength="10"
+                       minlength="3"
                        required
                        value="<?php echo $form['postcode']->value; ?>">
             </div>
@@ -111,20 +112,22 @@ echo $form['form_open']; ?>
     </div>
 
     <div class="row mb-3">
-        <div class="form-group col-12 col-sm-6 mb-3 mb-sm-0 <?php if (isset($errors['zone'])) { echo 'has-error'; } ?>">
+        <div class="form-group col-12 col-sm-6 mb-3 mb-sm-0">
             <div class="input-group">
                 <div class="input-group-text">
                     <i class="fa fa-bars"></i>
                 </div>
-                <select aria-label="zone" required class="form-select form-select-lg" id="zone_id" name="zone_id"></select>
+                <select aria-label="zone" required class="form-select form-select-lg <?php if (isset($errors['zone'])) { echo 'is-invalid'; } ?>"
+                        id="zone_id" name="zone_id"></select>
             </div>
         </div>
-        <div class="form-group col-12 col-sm-6 <?php if (isset($errors['country'])) { echo 'has-error';} ?>">
+        <div class="form-group col-12 col-sm-6">
             <div class="input-group">
                 <div class="input-group-text">
                     <i class="fa fa-map"></i>
                 </div>
-                <select required aria-label="country" class="form-select form-select-lg" id="country_id" name="country_id">
+                <select required aria-label="country" class="form-select form-select-lg  <?php if (isset($errors['country'])) { echo 'is-invalid';} ?>"
+                        id="country_id" name="country_id">
                 <?php
                     if ($form['country_id']->options) {
                         foreach ($form['country_id']->options as $id => $name) {

@@ -223,11 +223,11 @@ class ModelAccountAddress extends Model
             $this->error['postcode'] = $this->language->get('error_postcode');
         }
 
-        if ($data['country_id'] == 'FALSE') {
+        if ($data['country_id'] == 'FALSE' || $data['country_id'] == '' ) {
             $this->error['country'] = $this->language->get('error_country');
         }
 
-        if ($data['zone_id'] == 'FALSE') {
+        if ($data['zone_id'] == 'FALSE' || $data['zone_id'] == '') {
             $this->error['zone'] = $this->language->get('error_zone');
         }
 
