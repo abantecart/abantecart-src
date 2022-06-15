@@ -52,7 +52,7 @@ if($this->cart->hasShipping()){
                      <div class="alert alert-danger">
                          <i class="fa fa-exclamation"></i> <?php echo $shipping_method['error']; ?>
                      </div>
-                 <?php } ?>?>
+                 <?php } ?>
              </div>
         <?php } ?>
         </div>
