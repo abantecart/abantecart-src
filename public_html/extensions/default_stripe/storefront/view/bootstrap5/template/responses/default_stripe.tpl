@@ -37,7 +37,7 @@
                 <i class="fa fa-arrow-left"></i>
                 <?php echo $back->text ?>
             </a>
-            <button id="<?php echo $submit->name ?>" class="btn btn-orange lock-on-click"
+            <button id="<?php echo $submit->name ?>" class="btn btn-orange"
                     title="<?php echo $submit->text ?>" type="submit">
                 <i class="fa fa-check"></i>
                 <?php echo $submit->text; ?>
