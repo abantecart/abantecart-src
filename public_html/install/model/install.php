@@ -92,7 +92,7 @@ class ModelInstall extends Model
                     $data['db_password'],
                     $data['db_name']
                 );
-            } catch (AException $exception) {
+            } catch (Exception $exception) {
                 $this->errors['warning'] = $exception->getMessage();
             }
         }
