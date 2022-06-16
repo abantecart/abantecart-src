@@ -49,9 +49,8 @@ class ModelExtensionDefaultFlatRateShipping extends Model
                     $tax_class_id = $this->config->get('default_flat_rate_shipping_tax_class_id_'.$customer_location_id);
                     $status = true;
                 } else {
-                    //if cost not set - use default cost
-                    $customer_location_id = 0;
                     $status = $default_status;
+                    $cost = $default_cost;
                 }
             }else
             //if cost not set or unknown location - try use default settings
@@ -65,6 +64,7 @@ class ModelExtensionDefaultFlatRateShipping extends Model
                     $tax_class_id = $default_tax_class_id;
                 }
             }
+            $this->log->write($cost);
         }
 
         if (!$status) {
