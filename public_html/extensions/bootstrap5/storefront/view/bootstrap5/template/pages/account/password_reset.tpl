@@ -17,7 +17,10 @@ if ($error_warning) { ?>
 <?php } ?>
 
 <div class="container">
-    <?php echo $form_open; ?>
+    <?php
+    $form_open->style .= ' needs-validation';
+    $form_open->attr .= ' novalidate';
+    echo $form_open; ?>
     <h4><?php echo $text_new_password; ?></h4>
     <div class="ps-4 border p-3 mb-4">
         <?php

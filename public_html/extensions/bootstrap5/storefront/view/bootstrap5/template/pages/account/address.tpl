@@ -16,7 +16,10 @@ if ($error_warning) { ?>
 <?php } ?>
 
 <div class="container">
-	<?php echo $form['form_open']; ?>
+	<?php
+    $form['form_open']->style .= ' needs-validation';
+    $form['form_open']->attr .= ' novalidate';
+    echo $form['form_open']; ?>
 	<h4><?php echo $text_edit_address; ?></h4>
 	<div class="ps-4 border p-3 mb-4">
     <?php
