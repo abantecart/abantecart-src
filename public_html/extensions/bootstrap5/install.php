@@ -3,12 +3,19 @@
 if (! defined ( 'DIR_CORE' )) {
  header ( 'Location: static_pages/' );
 }
+if(!defined('DS')) {
+    define('DS', DIRECTORY_SEPARATOR);
+}
 
-require_once (DIR_EXT . '/bootstrap5/core/helper.php');
+require_once (DIR_EXT . 'bootstrap5'.DS.'core'.DS.'helper.php');
 
-$file = DIR_EXT . '/bootstrap5/layout.xml';
+$file = DIR_EXT . 'bootstrap5'.DS.'layout.xml';
 $layout = new ALayoutManager('default');
-$layout->loadXml(['file' => $file]);
+$layout->loadXml(
+    [
+        'file' => $file
+    ]
+);
 
 //if pageBuilder installed
 // replace custom_block_ids inside default presets of template
@@ -22,7 +29,12 @@ if(function_exists('preparePageBuilderPreset')) {
         }
     }
     $presetFiles = [
-        DIR_EXT.'/bootstrap5/storefront/view/bootstrap5/default_preset.json'
+        DIR_EXT
+        .'bootstrap5'.DS
+        .'storefront'.DS
+        .'view'.DS
+        .'bootstrap5'.DS
+        .'default_preset.json'
     ];
 
     foreach ($presetFiles as $preset) {
@@ -39,11 +51,11 @@ if(function_exists('preparePageBuilderPreset')) {
         file_put_contents($preset, json_encode($newPreset));
     }
 
-    $presaved_sets = glob(DIR_EXT.'bootstrap5/system/page_builder/bootstrap5/presets/*');
+    $presaved_sets = glob(DIR_EXT.'bootstrap5'.DS.'system'.DS.'page_builder'.DS.'bootstrap5'.DS.'presets'.DS.'*');
     foreach($presaved_sets as $item){
         @copy(
             $item,
-            DIR_SYSTEM.'page_builder/presets/'.basename($item)
+            DIR_SYSTEM.'page_builder'.DS.'presets'.DS.basename($item)
         );
     }
 }
@@ -55,8 +67,8 @@ $rm = new AResourceManager();
 $rm->setType('image');
 
 $result = copy(
-    DIR_EXT.'bootstrap5/image/abc-logo-white.png',
-    DIR_RESOURCE.'image/abc-logo-white.png'
+    DIR_EXT.'bootstrap5'.DS.'image'.DS.'abc-logo-white.png',
+    DIR_RESOURCE.'image'.DS.'abc-logo-white.png'
 );
 
 $resource = [

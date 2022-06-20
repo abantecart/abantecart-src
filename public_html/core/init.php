@@ -29,6 +29,7 @@ error_reporting(E_ERROR & ~E_NOTICE);
 // AbanteCart Version
 include('version.php');
 define('VERSION', MASTER_VERSION.'.'.MINOR_VERSION.'.'.VERSION_BUILT);
+define('DS', DIRECTORY_SEPARATOR);
 
 // Detect if localhost is used.
 if (!isset($_SERVER['HTTP_HOST'])) {
