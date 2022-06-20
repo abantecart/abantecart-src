@@ -121,10 +121,6 @@
           <status>1</status>
           <position>70</position>
         </block>
-        <block>
-          <status>0</status>
-          <position>80</position>
-        </block>
       </block>
       <block>
         <block_txt_id>category</block_txt_id>
@@ -559,19 +555,11 @@ AbanteCart is a free eCommerce solution for merchants to provide ability creatin
           <status>1</status>
           <position>70</position>
         </block>
-        <block>
-          <status>0</status>
-          <position>80</position>
-        </block>
       </block>
       <block>
         <block_txt_id>featured</block_txt_id>
         <controller>blocks/featured</controller>
         <status>1</status>
-        <position>10</position>
-      </block>
-      <block>
-        <status>0</status>
         <position>10</position>
       </block>
       <block>
@@ -1267,10 +1255,6 @@ AbanteCart is a free eCommerce solution for merchants to provide ability creatin
           <status>1</status>
           <position>70</position>
         </block>
-        <block>
-          <status>0</status>
-          <position>80</position>
-        </block>
       </block>
       <block>
         <block_txt_id>category</block_txt_id>
@@ -1704,10 +1688,6 @@ AbanteCart is a free eCommerce solution for merchants to provide ability creatin
           </installed>
           <status>1</status>
           <position>70</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>80</position>
         </block>
       </block>
       <block>
@@ -2155,10 +2135,6 @@ AbanteCart is a free eCommerce solution for merchants to provide ability creatin
           <status>1</status>
           <position>70</position>
         </block>
-        <block>
-          <status>0</status>
-          <position>80</position>
-        </block>
       </block>
       <block>
         <block_txt_id>category</block_txt_id>
@@ -2521,10 +2497,6 @@ AbanteCart is a free eCommerce solution for merchants to provide ability creatin
           <status>0</status>
           <position>70</position>
         </block>
-        <block>
-          <status>0</status>
-          <position>80</position>
-        </block>
       </block>
       <block>
         <block_txt_id>header_bottom</block_txt_id>
@@ -2600,10 +2572,6 @@ AbanteCart is a free eCommerce solution for merchants to provide ability creatin
         <block>
           <status>0</status>
           <position>70</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>80</position>
         </block>
       </block>
     </blocks>
@@ -2728,10 +2696,6 @@ AbanteCart is a free eCommerce solution for merchants to provide ability creatin
           </installed>
           <status>1</status>
           <position>70</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>80</position>
         </block>
       </block>
       <block>
@@ -3185,10 +3149,6 @@ AbanteCart is a free eCommerce solution for merchants to provide ability creatin
           <status>1</status>
           <position>70</position>
         </block>
-        <block>
-          <status>0</status>
-          <position>80</position>
-        </block>
       </block>
       <block>
         <block_txt_id>category</block_txt_id>
@@ -3559,10 +3519,6 @@ AbanteCart is a free eCommerce solution for merchants to provide ability creatin
           <status>0</status>
           <position>70</position>
         </block>
-        <block>
-          <status>0</status>
-          <position>80</position>
-        </block>
       </block>
       <block>
         <block_txt_id>fast_checkout_summary</block_txt_id>
@@ -3656,10 +3612,6 @@ AbanteCart is a free eCommerce solution for merchants to provide ability creatin
         <block>
           <status>0</status>
           <position>70</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>80</position>
         </block>
       </block>
     </blocks>
