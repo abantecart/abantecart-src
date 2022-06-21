@@ -64,7 +64,6 @@ class ModelExtensionDefaultFlatRateShipping extends Model
                     $tax_class_id = $default_tax_class_id;
                 }
             }
-            $this->log->write($cost);
         }
 
         if (!$status) {
