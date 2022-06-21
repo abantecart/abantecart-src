@@ -17,11 +17,12 @@ if($this->cart->hasShipping()){
              <h6 class="fw-bold p-3 bg-gradient bg-secondary bg-opacity-10 text-dark">
                  <?php echo $shipping_method['title']; ?>
              </h6>
-             <div class="d-flex p-2">
+             <div class="d-flex flex-wrap p-2">
              <?php
                 if (!$shipping_method['error']) {
                     foreach ($shipping_method['quote'] as $quote) {
                         $quote['radio']->options = [ key($quote['radio']->options) => '' ]; ?>
+                    <div class="d-flex flex-nowrap col-12 table-hover">
                         <div class="flex-shrink p-2"><?php echo $quote['radio']; ?></div>
                         <label class="p-2 flex-grow-1"
                                id="<?php echo $quote['id'];?>_title"
@@ -46,7 +47,10 @@ if($this->cart->hasShipping()){
                                for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>">
                             <?php echo $quote['text']; ?>
                         </label>
+                    </div>
+
                     <?php } ?>
+
                     <?php echo $this->getHookVar('shipping_'.$shipping_method['title'].'_additional_info'); ?>
                  <?php } else { ?>
                      <div class="alert alert-danger">
