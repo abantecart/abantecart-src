@@ -8,6 +8,7 @@ if($res){
     $style .= ' '.$matches[2];
     $attr = str_replace($matches[0], '', $attr);
 }
-echo $attr;
+echo $attr.' novalidate'; //novalidate blocks browser form validator to make bs5 validation work
+
 //if data was posted
 echo $style ? ' class="'.trim($style).'" ' : ''; ?>>
