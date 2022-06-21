@@ -127,7 +127,7 @@ if ($show_payment == true) {
                             name="create_account"
                             class="form-control-sm form-check-input me-2 px-3"
                             type="checkbox"
-                            checked
+                            checked="checked"
                             value="1">
                     <label class="form-check-label fs-4" for="create_account">
                         <?php echo $fast_checkout_text_create_account; ?>

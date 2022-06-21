@@ -1,5 +1,6 @@
 <script type="application/javascript">
     fc_main_url = '<?php echo $main_url;?>';
+    fc_checkbox_post_url = '<?php echo $this->html->getSecureUrl('r/checkout/pay/changeCheckBox'); ?>';
     fc_comment_post_url = '<?php echo $this->html->getSecureUrl('r/checkout/pay/updateOrderData'); ?>';
     fc_product_page_url = '<?php echo $this->html->getSecureUrl('product/product')?>';
 </script>

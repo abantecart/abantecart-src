@@ -241,6 +241,18 @@ $(document).on(
                 }
             );
         }
+    ).on(
+        "click",
+        "#create_account, #same_as_shipping",
+        function () {
+            $('.spinner-overlay').fadeIn(100);
+            $.post(fc_checkbox_post_url, {
+                fieldName: $(this).attr('name'),
+                isOn: $(this).is(':checked')
+            }).done(function(){
+                $('.spinner-overlay').fadeOut(100);
+            });
+        }
     );
 
     $(document).on(

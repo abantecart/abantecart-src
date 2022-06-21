@@ -156,6 +156,12 @@ class ControllerResponsesCheckoutPay extends AController
 
         if (!$this->customer->isLogged() && $this->allow_guest) {
             $this->data['allow_account_creation'] = $this->config->get('fast_checkout_create_account');
+            //set default value if allow to create account for guests
+            if($this->data['allow_account_creation']
+                && !isset($this->fc_session['additional']['create_account'])
+            ) {
+                $this->fc_session['additional']['create_account'] = true;
+            }
         }
 
         $this->data['payment_equal_shipping_address'] = $this->config->get('fast_checkout_payment_address_equal_shipping');
@@ -196,6 +202,13 @@ class ControllerResponsesCheckoutPay extends AController
             }
             $this->data['payment_address'] = $this->model_account_address->getAddress($this->fc_session['payment_address_id']);
         } elseif ($this->allow_guest) {
+            //set default value if allow to create account for guests
+            if(
+                !isset($this->fc_session['additional']['same_as_shipping'])
+                || $this->data['payment_equal_shipping_address']
+            ) {
+                $this->fc_session['additional']['same_as_shipping'] = true;
+            }
             //note: guest details in stored into main session to share details with main site
             if (!$this->fc_session['guest']['address_1']) {
                 //shipping required, show address form.

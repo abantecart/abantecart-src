@@ -184,7 +184,7 @@ echo $form['form_open']; ?>
     <?php if ($type == 'payment' && $this->cart->hasShipping()) { ?>
         <div class="form-group d-flex justify-content-end">
             <div class="form-check mb-3">
-              <input name="same_as_shipping" class="form-control-sm form-check-input me-2 px-3" type="checkbox" checked value="1" id="same_as_shipping">
+              <input name="same_as_shipping" class="form-control-sm form-check-input me-2 px-3" type="checkbox" checked="checked" value="1" id="same_as_shipping">
               <label class="form-check-label fs-4" for="same_as_shipping">
                   <?php echo $fast_checkout_text_same_as_shipping_address; ?>
               </label>
