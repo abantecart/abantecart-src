@@ -22,11 +22,11 @@
 			<tr class="text-center">
 				<th><?php echo $column_image; ?></th>
 				<th><?php echo $column_name; ?></th>
-				<th><?php echo $column_model; ?></th>
+				<th class="d-none d-sm-block"><?php echo $column_model; ?></th>
             <?php if ($display_price) { ?>
-                <th><?php echo $column_price; ?></th>
+                <th class="d-none d-sm-block"><?php echo $column_price; ?></th>
             <?php } ?>
-				<th><?php echo $column_added; ?></th>
+				<th class="d-none d-sm-block"><?php echo $column_added; ?></th>
 				<th><?php echo $column_actions; ?></th>
 			</tr>
 			<?php
@@ -38,9 +38,9 @@
 					<td class="text-start">
 						<a class="btn mt-auto" href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a>
 					</td>
-					<td><?php echo $product['model']; ?></td>
+					<td class="d-none d-sm-block"><?php echo $product['model']; ?></td>
 					<?php if ($display_price) { ?>
-					<td>
+					<td class="d-none d-sm-block">
                         <div class="price d-flex justify-content-center align-items-center me-2">
                             <?php if ($product['special']) { ?>
                                 <div class="me-2 align-center"><?php echo $product['special'] . $tax_message; ?></div>
@@ -51,13 +51,13 @@
                         </div>
 					</td>
 					<?php } ?>
-					<td><?php echo $product['added']; ?></td>
+					<td class="d-none d-sm-block"><?php echo $product['added']; ?></td>
 					<td>
 
 					<?php if ($display_price) { ?>
 						<?php if($product['call_to_order']){ ?>
 							<a data-id="<?php echo $product['product_id'] ?>"
-                               href="#" class="btn btn-sm btn-outline-info call_to_order"
+                               href="#" class="btn btn-sm btn-outline-info call_to_order mb-1"
                                title="<?php echo $text_call_to_order?>">
 								<i class="fa fa-phone fa-fw"></i>
 							</a>
@@ -66,14 +66,14 @@
 						<?php } else { ?>
 							<a href="<?php echo $product['add']; ?>"
                                title="<?php echo $button_add_to_cart; ?>"
-                               class="btn btn-sm btn-success">
+                               class="btn btn-sm btn-success mb-1">
 								<i class="fa fa-cart-plus fa-fw"></i>
 							</a>
 						<?php } ?>
 					<?php } ?>
 						<a href="Javascript:void(0);)" title="<?php echo $button_remove_wishlist;?>"
                            data-product_id="<?php echo $product['product_id'] ?>"
-                           class="remove-from-list btn btn-sm btn-danger bg-opacity-50"><i class="text-light fa fa-trash fa-fw"></i></a>
+                           class="remove-from-list btn btn-sm btn-danger bg-opacity-50 mb-1"><i class="text-light fa fa-trash fa-fw"></i></a>
 					</td>
 				</tr>
 			<?php } ?>
@@ -84,11 +84,11 @@
 
         <div class="ps-4 p-3 col-12 d-flex flex-wrap justify-content-end">
             <?php echo $this->getHookVar('top_wishlist_buttons');
-            $button_continue->style = 'btn btn-outline-secondary mx-2';
+            $button_continue->style = 'btn btn-outline-secondary mx-2 mb-1';
             $button_continue->icon = 'fa fa-arrow-right';
             echo $button_continue;
 
-            $button_cart->style = 'btn btn-success mx-2';
+            $button_cart->style = 'btn btn-success mx-2 mb-1';
             $button_cart->icon = 'fa fa-shopping-cart';
             echo $button_cart;
             echo $this->getHookVar('bottom_wishlist_buttons'); ?>
