@@ -51,12 +51,13 @@ class ControllerPagesCatalogProductSummary extends AController
             $this->config->get('config_image_grid_height'), true);
         $this->data['product']['image'] = $thumbnail;
         $currStoreId = (int)$this->session->data['current_store_id'];
-        if(!$currStoreId || !in_array((string)$currStoreId, $stores)) {
+
+        if(in_array((string)$currStoreId, $stores)) {
             $this->data['product']['preview'] = $this->html->getCatalogURL('product/product', '&product_id='.$product_id);
         }else{
             /** @var ModelSettingSetting $mdl */
             $mdl = $this->loadModel('setting/setting');
-            $settings = $mdl->getSetting('details',$currStoreId);
+            $settings = $mdl->getSetting('details',current($stores));
             $this->data['product']['preview'] = $settings['config_url'].INDEX_FILE.'?'.'rt=product/product&product_id='.$product_id;
         }
 
