@@ -9,7 +9,9 @@ require_once(__DIR__.DIRECTORY_SEPARATOR.'helper.php');
 
 class ExtensionBootstrap5 extends Extension {
     public function onHook_InitEnd(){
-        Registry::getInstance()->get('language')->load('bootstrap5/bootstrap5');
+        if(Registry::getInstance()->get('config')->get('bootstrap5_status') && IS_ADMIN !== true) {
+            Registry::getInstance()->get('language')->load('bootstrap5/bootstrap5');
+        }
     }
  }
 
