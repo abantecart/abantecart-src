@@ -48,6 +48,9 @@ class ExtensionFastCheckout extends Extension
     // add button BUY-NOW to sf product page
     public function onControllerPagesProductProduct_UpdateData(){
         $that = $this->baseObject;
+        if(!$that->config->get('fast_checkout_buy_now_status')){
+            return;
+        }
         $data= [];
         $data['button_add_to_cart'] = $that->language->get('button_add_to_cart');
         $data['text_buynow'] = $that->language->get('fast_checkout_buy_now');

@@ -33,6 +33,10 @@
 			<type>checkbox</type>
 			<default_value>0</default_value>
 		</item>
+		<item id="fast_checkout_buy_now_status">
+			<type>checkbox</type>
+			<default_value>1</default_value>
+		</item>
 		<item id="fast_checkout_sort_order">
 			<type>input</type>
 			<default_value>10</default_value>
