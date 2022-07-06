@@ -31,7 +31,7 @@ class Extension2Checkout extends Extension
         }
         $that->loadModel('checkout/order');
         $order_info = $that->model_checkout_order->getOrder($order_id);
-        //do nothing if order confirmed or it's not created with paypal standart
+        //do nothing if order confirmed or it's not created with 2Checkout
         if ((int)$order_info['order_status_id'] != 0 || $order_info['payment_method_key'] != '2checkout') {
             return null;
         }

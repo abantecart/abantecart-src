@@ -185,7 +185,7 @@ class ControllerResponsesExtension2Checkout extends AController
         } else {
             $this->loadModel('checkout/order');
             $order_info = $this->model_checkout_order->getOrder($order_id);
-            //do nothing if order confirmed or it's not created with paypal standart
+            //do nothing if order confirmed or it's not created with 2checkout
             if ((int)$order_info['order_status_id'] != 0
                 || $order_info['payment_method_key'] != '2checkout'
             ) {

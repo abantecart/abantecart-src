@@ -118,7 +118,7 @@ echo $extension_summary;
 			}
 			//Logic to calculate fields width
 			$widthcasses = "col-sm-7";
-			if($name=='default_pp_standart_cartbordercolor'){
+			if($name=='cardconnect_cartbordercolor'){
 				$widthcasses = "col-sm-2";
 			}
 			$widthcasses .= " col-xs-12";
