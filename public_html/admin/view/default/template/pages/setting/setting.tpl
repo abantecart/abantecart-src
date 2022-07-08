@@ -211,20 +211,20 @@ jQuery(function () {
         field_list.dsn[0] = 'dsn_entry';
 
         var f, hide = [], show = $('#settingFrm_config_mail_transporting').val();
-        if(show === 'mail'){
-                hide = ['smtp','dsn'];
-        }else if( show === 'smtp'){
-                hide = ['mail','dsn'];
-        }else if( show === 'dsn'){
-                hide = ['mail','smtp'];
+        if (show === 'mail') {
+            hide = ['smtp', 'dsn'];
+        } else if (show === 'smtp') {
+            hide = ['mail', 'dsn'];
+        } else if (show === 'dsn') {
+            hide = ['mail', 'smtp'];
         }
-        for( var h in hide) {
+        for (var h in hide) {
             for (f in field_list[hide[h]]) {
                 $('#settingFrm_config_' + field_list[hide[h]][f] + '_fld').fadeOut();
             }
         }
         for (f in field_list[show]) {
-            $('#settingFrm_config_' + field_list[show][f]+'_fld').fadeIn();
+            $('#settingFrm_config_' + field_list[show][f] + '_fld').fadeIn();
         }
     }
 });
