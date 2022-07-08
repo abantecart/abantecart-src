@@ -21,7 +21,7 @@
 // AbanteCart Version
 define('VERSION', '1.3');
 // Required PHP Version
-define('MIN_PHP_VERSION', '7.3.0');
+define('MIN_PHP_VERSION', '7.4.0');
 // EMAIL REGEXP PATTERN
 define('EMAIL_REGEX_PATTERN', '/^[A-Z0-9._%-]+@[A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,16}$/i');
 
