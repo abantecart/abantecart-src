@@ -1,0 +1,16 @@
+{
+    "require": {
+        "symfony/mailer": "v5.4.10",
+        "symfony/google-mailer": "v5.4.8",
+        "symfony/amazon-mailer": "v5.4.8",
+        "symfony/mailchimp-mailer": "v5.4.7",
+        "symfony/mailgun-mailer": "v5.4.7",
+        "symfony/mailjet-mailer": "v5.4.8",
+        "symfony/postmark-mailer": "v5.4.7",
+        "symfony/sendgrid-mailer": "v5.4.7",
+        "symfony/sendinblue-mailer": "v5.4.8",
+        "symfony/oh-my-smtp-mailer": "v5.4.10",
+        "google/recaptcha": "^1.2",
+        "mustache/mustache": "^2.14"
+    }
+}

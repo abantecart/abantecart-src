@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2022 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,8 +23,7 @@ if (!defined('DIR_CORE')) {
 
 class ControllerResponsesProductReview extends AController
 {
-    public $error = array();
-    public $data = array();
+    public $error = [];
 
     public function review()
     {
@@ -45,25 +44,25 @@ class ControllerResponsesProductReview extends AController
             $page = 1;
         }
 
-        $reviews = array();
+        $reviews = [];
         if ($this->config->get('display_reviews')) {
             $results = $this->model_catalog_review->getReviewsByProductId($product_id, ($page - 1) * 5, 5);
             foreach ($results as $result) {
-                $reviews[] = array(
+                $reviews[] = [
                     'author'            => $result['author'],
                     'rating'            => $result['rating'],
                     'verified_purchase' => $result['verified_purchase'],
                     'text'              => str_replace("\n", '<br />', strip_tags($result['text'])),
                     'stars'             => sprintf($this->language->get('text_stars'), $result['rating']),
                     'date_added'        => dateISO2Display($result['date_added'], $this->language->get('date_format_short')),
-                );
+                ];
             }
 
             $this->data['reviews'] = $reviews;
 
             $review_total = $this->model_catalog_review->getTotalReviewsByProductId($product_id);
 
-            $this->data['pagination_bootstrap'] = HtmlElementFactory::create(array(
+            $this->data['pagination_bootstrap'] = HtmlElementFactory::create([
                 'type'       => 'Pagination',
                 'name'       => 'pagination',
                 'text'       => $this->language->get('text_pagination'),
@@ -74,7 +73,7 @@ class ControllerResponsesProductReview extends AController
                 'no_perpage' => true,
                 'url'        => $this->html->getURL('product/review/review', '&product_id='.$product_id.'&page={page}'),
                 'style'      => 'pagination',
-            ));
+            ]);
         }
 
         $this->view->batchAssign($this->data);
@@ -94,7 +93,7 @@ class ControllerResponsesProductReview extends AController
 
         $this->loadLanguage('product/product');
         $this->loadModel('catalog/review');
-        $json = array();
+        $json = [];
         if ($this->request->is_POST() && $this->_validate()) {
             $review_id = $this->model_catalog_review->addReview($product_id, $this->request->post);
             unset($this->session->data['captcha']);
@@ -102,11 +101,11 @@ class ControllerResponsesProductReview extends AController
 
             //notify admin
             $this->loadLanguage('common/im');
-            $message_arr = array(
-                1 => array(
+            $message_arr = [
+                1 => [
                     'message' => sprintf($this->language->get('im_product_review_text_to_admin'), $review_id),
-                ),
-            );
+                ],
+            ];
             $this->im->send('product_review', $message_arr, 'storefront_product_review_admin_notify', [
                 'product_id'  => $product_id,
                 'product_url' => $this->html->getSecureURL('catalog/review/update', '&review_id='.$product_id),
@@ -137,7 +136,6 @@ class ControllerResponsesProductReview extends AController
         }
 
         if ($this->config->get('config_recaptcha_secret_key')) {
-            require_once DIR_VENDORS.'/google_recaptcha/autoload.php';
             $recaptcha = new \ReCaptcha\ReCaptcha($this->config->get('config_recaptcha_secret_key'));
             $resp = $recaptcha->verify($this->request->post['g-recaptcha-response'],
                 $this->request->getRemoteIP());
@@ -154,10 +152,6 @@ class ControllerResponsesProductReview extends AController
 
         $this->extensions->hk_ValidateData($this);
 
-        if (!$this->error) {
-            return true;
-        } else {
-            return false;
-        }
+        return (!$this->error);
     }
 }

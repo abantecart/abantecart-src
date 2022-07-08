@@ -7,7 +7,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2021 Belavier Commerce LLC
+  Copyright © 2011-2022 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -226,6 +226,19 @@ class ModelInstall extends Model
         $content .= "const UNIQUE_ID = '".md5(time())."';\n";
         $content .= "// Encryption key for protecting sensitive information. NOTE: Change of this key will cause a loss of all existing encrypted information!\n";
         $content .= "const ENCRYPTION_KEY = '".randomWord(6)."';\n";
+        $content .= "
+// details about allowed DSN settings  https://symfony.com/doc/6.0/mailer.html#transport-setup
+/*
+const MAILER = [
+    //'dsn' => null,
+    // OR
+    'protocol' => 'smtp', // or ses+smtp, gmail+smtp, mandrill+smtp, mailgun+smtp, mailjet+smtp, postmark+smtp, sendgrid+smtp, sendinblue+smtp, ohmysmtp+smtp
+    //we use \"username\" also as ID, KEY, API_TOKEN, ACCESS_KEY
+    'username' => 'merchant@yourdomain.com',
+    'password' => '****super-secret-password****',
+    'host'     => 'your-hostname',
+    'port'     => 465 //or 587 etc
+];\n*/";
 
         $file = fopen(DIR_ABANTECART.'system/config.php', 'w');
         fwrite($file, $content);

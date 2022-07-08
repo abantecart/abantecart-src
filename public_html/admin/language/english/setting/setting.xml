@@ -54,11 +54,23 @@
 	</definition>
 	<definition>
 		<key>text_mail</key>
-		<value><![CDATA[Mail]]></value>
+		<value><![CDATA[Inner Mailer]]></value>
 	</definition>
 	<definition>
 		<key>text_smtp</key>
 		<value><![CDATA[SMTP]]></value>
+	</definition>
+	<definition>
+		<key>text_native</key>
+		<value><![CDATA[Native ( sendmail binary and options "sendmail_path" setting of php.ini)]]></value>
+	</definition>
+	<definition>
+		<key>text_dsn</key>
+		<value><![CDATA[Take from system/config.php]]></value>
+	</definition>
+	<definition>
+		<key>text_dsn_description</key>
+		<value><![CDATA[Mailer combines a <a target="_blank" href="https://en.wikipedia.org/wiki/Data_source_name">DSN</a> from config.php file. Please read <a target="_blank" href="http://docs.abantecart.com/tag/mail">our documentation</a> for details  ]]></value>
 	</definition>
 	<definition>
 		<key>tab_all</key>
@@ -429,14 +441,14 @@
 			<![CDATA[Download Order Status:<br /><span class="help">Set the order status the customers order must reach before they are allowed to access their downloadable products.</span>]]></value>
 	</definition>
 	<definition>
-		<key>entry_mail_protocol</key>
+		<key>entry_mail_transporting</key>
 		<value>
-			<![CDATA[Mail Protocol:<span class="help">Mail: Default server mail server will be used. Make sure it is configured and able to send email with PHP mail.]]></value>
+			<![CDATA[Mail Transporting:]]></value>
 	</definition>
 	<definition>
-		<key>entry_mail_parameter</key>
+		<key>text_native_mail_description</key>
 		<value>
-			<![CDATA[Mail Parameters:<span class="help">When using 'Mail', additional mail parameters can be added here (e.g. "-femail@storeaddress.com".]]></value>
+			<![CDATA[Mailer uses the sendmail binary and options configured in the sendmail_path setting of php.ini. ]]></value>
 	</definition>
 	<definition>
 		<key>entry_smtp_host</key>
