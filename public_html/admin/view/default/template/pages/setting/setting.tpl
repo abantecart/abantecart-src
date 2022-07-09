@@ -147,6 +147,10 @@
                             </div>';
                         echo $field;
                         break;
+                    case 'dsn_entry':
+                    case 'mail_parameter':
+                        echo '<div id="settingFrm_config_'.$name.'_fld">'.$field.'</div>';
+                        break;
                     default:
                         echo $field;
                 } ?>
@@ -194,25 +198,33 @@ jQuery(function ($) {
 <?php if ($active == 'mail') { ?>
 jQuery(function () {
     $(document).ready(mail_toggle);
-    $('#settingFrm_config_mail_protocol').change(mail_toggle);
+    $('#settingFrm_config_mail_transporting').change(mail_toggle);
 
     function mail_toggle() {
-        var field_list = {'mail':[], 'smtp':[] };
+        var field_list = {'mail':[], 'smtp':[] , 'dsn':[] };
         field_list.mail[0] = 'mail_parameter';
         field_list.smtp[0] = 'smtp_host';
         field_list.smtp[1] = 'smtp_username';
         field_list.smtp[2] = 'smtp_password';
         field_list.smtp[3] = 'smtp_port';
         field_list.smtp[4] = 'smtp_timeout';
+        field_list.dsn[0] = 'dsn_entry';
 
-        var show = $('#settingFrm_config_mail_protocol').val();
-        var hide = show === 'mail' ? 'smtp' : 'mail';
-
-        for (var f in field_list[hide]) {
-            $('#settingFrm_config_' + field_list[hide][f]+'_fld').fadeOut();
+        var f, hide = [], show = $('#settingFrm_config_mail_transporting').val();
+        if (show === 'mail') {
+            hide = ['smtp', 'dsn'];
+        } else if (show === 'smtp') {
+            hide = ['mail', 'dsn'];
+        } else if (show === 'dsn') {
+            hide = ['mail', 'smtp'];
         }
-        for (var f in field_list[show]) {
-            $('#settingFrm_config_' + field_list[show][f]+'_fld').fadeIn();
+        for (var h in hide) {
+            for (f in field_list[hide[h]]) {
+                $('#settingFrm_config_' + field_list[hide[h]][f] + '_fld').fadeOut();
+            }
+        }
+        for (f in field_list[show]) {
+            $('#settingFrm_config_' + field_list[show][f] + '_fld').fadeIn();
         }
     }
 });
