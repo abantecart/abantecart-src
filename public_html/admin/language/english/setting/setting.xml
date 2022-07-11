@@ -70,7 +70,7 @@
 	</definition>
 	<definition>
 		<key>text_dsn_description</key>
-		<value><![CDATA[Mailer combines a <a target="_blank" href="https://en.wikipedia.org/wiki/Data_source_name">DSN</a> from config.php file. Please read <a target="_blank" href="http://docs.abantecart.com/tag/mail">our documentation</a> for details  ]]></value>
+		<value><![CDATA[Mailer combines a <a target="_blank" href="https://en.wikipedia.org/wiki/Data_source_name">DSN</a> from config.php file. Please read <a target="_blank" href="https://abantecart.atlassian.net/wiki/spaces/AD/pages/7372837/Mail+Settings">our documentation</a> for details  ]]></value>
 	</definition>
 	<definition>
 		<key>tab_all</key>
