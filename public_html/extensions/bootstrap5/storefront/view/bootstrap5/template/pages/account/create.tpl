@@ -113,7 +113,8 @@
                $form['agree']->checked = false;
                $form['agree']->attr .= ' onclick="$(\'#submit_button\').toggle();" autocomplete="off" ';
                echo $form['agree']; ?>
-               <?php echo $text_agree; ?>&nbsp;<a href="<?php echo $text_agree_href; ?>" onclick="openModalRemote('#privacyPolicyModal','<?php echo $text_agree_href; ?>'); return false;"><b><?php echo $text_agree_href_text; ?></b></a>
+               <label for="<?php echo $form['agree']->element_id?>">
+                   <?php echo $text_agree; ?></label>&nbsp;<a href="<?php echo $text_agree_href; ?>" onclick="openModalRemote('#privacyPolicyModal','<?php echo $text_agree_href; ?>'); return false;"><b><?php echo $text_agree_href_text; ?></b></a>
            </div>
         <?php } ?>
 
