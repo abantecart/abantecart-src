@@ -57,9 +57,9 @@
                 <a href="<?php echo $url;?>" target="_new_admin">Stripe</a>
             </div>
             <div class="snapshots col-md-2">
-                <?php $url = '../'.$admin_path."&rt=extension/extensions/install&extension=default_pp_standart"; ?>
+                <?php $url = '../'.$admin_path."&rt=extension/extensions/install&extension=paypal_commerce"; ?>
                 <a href="<?php echo $url;?>" target="_new_admin">
-                    <img src="../extensions/default_pp_standart/image/icon.png" alt="Install Paypal Standart Payment"/>
+                    <img src="../extensions/paypal_commerce/image/icon.png" alt="Install Paypal Commerce Payment"/>
                 </a>
                 <br />
                 <a href="<?php echo $url;?>" target="_new_admin">Paypal</a>

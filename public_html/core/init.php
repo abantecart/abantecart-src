@@ -331,6 +331,13 @@ try {
     $response = new AResponse();
     $response->addHeader('Content-Type: text/html; charset=utf-8');
     $response->addHeader('X-Content-Type-Options: nosniff');
+    if(IS_ADMIN === true) {
+        /** @var ModelToolMPAPI $mpMdl */
+        $mpMdl = $registry->get('load')->model('tool/mp_api');
+        $mpUrl = parse_url($mpMdl->getMPURL());
+        $response->addHeader('Access-Control-Allow-Origin: ' . $mpUrl['scheme'] . "://" . $mpUrl['host']);
+        $response->addHeader('Access-Control-Allow-Credentials: true');
+    }
     $registry->set('response', $response);
     unset($response);
 
