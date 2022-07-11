@@ -66,9 +66,11 @@ class AMail
         //set default configuration values
         $this->transporting = $config->get('config_mail_transporting');
         if ($this->transporting == 'smtp') {
+            $host = $config->get('config_smtp_host');
+            $host = substr($host,0, 6) == 'ssl://' ? substr($host,6) : $host;
             $dsn = 'smtp://'
                 . urlencode($config->get('config_smtp_username')) . ':' . urlencode($config->get('config_smtp_password'))
-                . '@' . urlencode($config->get('config_smtp_host')) . ':' . $config->get('config_smtp_port');
+                . '@' . urlencode($host) . ':' . $config->get('config_smtp_port');
             //try to set timeout silently
             try {
                 ini_set('default_socket_timeout', $config->get('config_smtp_timeout'));
