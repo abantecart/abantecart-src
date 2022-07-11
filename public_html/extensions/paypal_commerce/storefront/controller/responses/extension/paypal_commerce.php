@@ -61,7 +61,8 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 $this->config->get('config_currency'),
                 $currencyCode
             );
-            if ($total['total_type'] == 'discount' || $total['total_type'] == 'coupon' ) {
+
+            if ($total['total_type'] == 'discount' || $total['total_type'] == 'coupon' || $total['total_type'] == 'balance' ) {
                 $discount += abs($data['order_'.$total['id']]);
             } elseif ($total['total_type'] == 'fee') {
                 $handling_fee += abs($data['order_'.$total['id']]);
@@ -288,7 +289,9 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $back_url = $this->html->getSecureURL('checkout/payment', '&mode=edit', true);
         }
 
-        $data['cancel_url'] = $this->html->getSecureURL('checkout/confirm');
+        $data['cancel_url'] = isset($this->session->data['fc'])
+            ? $this->html->getSecureURL('checkout/fast_checkout')
+            :$this->html->getSecureURL('checkout/confirm');
 
         $data['back'] = $this->html->buildElement(
             [
@@ -570,213 +573,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         return $this->data['products'];
     }
 
-    protected function defineShippingMethods($shipping_address)
-    {
-        $this->loadModel('checkout/extension');
-        if (!isset($this->session->data['shipping_methods']) || !$this->config->get('config_shipping_session')) {
-            $quote_data = [];
-            $results = $this->model_checkout_extension->getExtensions('shipping');
-            foreach ($results as $result) {
-                /** @var ModelExtensionDefaultFlatRateShipping|mixed $mdl */
-                $mdl = $this->loadModel('extension/'.$result['key']);
-                $quote = $mdl->getQuote($shipping_address);
-
-                if ($quote) {
-                    $quote_data[$result['key']] = [
-                        'title'      => $quote['title'],
-                        'quote'      => $quote['quote'],
-                        'sort_order' => $quote['sort_order'],
-                        'error'      => $quote['error'],
-                    ];
-                    //# Add storefront icon if available
-                    $ext_setgs = $this->model_checkout_extension->getSettings($result['key']);
-                    $icon = $ext_setgs[$result['key']."_shipping_storefront_icon"];
-                    if (has_value($icon)) {
-                        $icon_data = $this->model_checkout_extension->getSettingImage($icon);
-                        $icon_data['image'] = $icon;
-                        $quote_data[$result['key']]['icon'] = $icon_data;
-                    }
-                }
-            }
-
-            $sort_order = [];
-            foreach ($quote_data as $key => $value) {
-                $sort_order[$key] = $value['sort_order'];
-            }
-
-            array_multisort($sort_order, SORT_ASC, $quote_data);
-            $this->session->data['shipping_methods'] = $quote_data;
-        }
-    }
-
-    public function getSubscriptions()
-    {
-        $this->extensions->hk_InitData($this, __FUNCTION__);
-        if (!$this->customer->isLogged()) {
-            redirect($this->html->getSecureURL('account/login'));
-        }
-        $this->loadLanguage('paypal_commerce/paypal_commerce');
-        /** @var ModelExtensionPaypalCommerce $mdl */
-        $mdl = $this->loadModel('extension/paypal_commerce');
-        $this->data['subscriptions'] = $mdl->getCustomerSubscriptions(
-            $this->customer->getId()
-        );
-
-        foreach ($this->data['subscriptions'] as &$subscription) {
-            $subscription->order_id = sprintf(
-                $this->language->get('paypal_commerce_text_order_id'), $subscription->id, $subscription->custom_id
-            );
-            $subscription->update_payment_url = 'https://www.';
-            if ($this->config->get('paypal_commerce_test_mode')) {
-                $subscription->update_payment_url .= 'sandbox.';
-            }
-            $subscription->update_payment_url .= 'paypal.com/myaccount/autopay/connect/'.$subscription->id.'/funding';
-            $invoices = $mdl->getSubscriptionInvoices(
-                $subscription->id,
-                $subscription->create_time
-            );
-            $subscription->create_time = dateInt2Display(
-                strtotime($subscription->create_time),
-                $this->language->get('date_format_short')." ".$this->language->get('time_format')
-            );
-            if ($invoices) {
-                $this->data['invoices'][$subscription->id] = $invoices;
-            }
-        }
-        $this->data['addressUrl'] = $this->html->getSecureURL('account/address');
-        $this->data['pauseUrl'] = $this->html->getSecureURL('r/extension/paypal_commerce/pause');
-        $this->data['unPauseUrl'] = $this->html->getSecureURL('r/extension/paypal_commerce/unPause');
-        $this->data['cancelUrl'] = $this->html->getSecureURL('r/extension/paypal_commerce/cancel');
-        $this->data['updatePaymentUrl'] = $this->html->getSecureURL(
-            'r/extension/paypal_commerce/updatePaymentMethod'
-        );
-
-        $form = new AForm();
-        $form->setForm(
-            [
-                'form_name' => 'paypal',
-            ]
-        );
-
-        $this->data['form_open'] = $form->getFieldHtml(
-            [
-                'type' => 'form',
-                'name' => 'paypal',
-                'attr' => 'class = "paypal-form"',
-                'csrf' => true,
-            ]
-        );
-
-        $this->view->batchAssign($this->data);
-        $this->processTemplate('pages/extension/paypal_commerce_table.tpl');
-
-        //init controller data
-        $this->extensions->hk_UpdateData($this, __FUNCTION__);
-    }
-
-    public function pause()
-    {
-        $this->extensions->hk_InitData($this, __FUNCTION__);
-        $subscriptionId = $this->request->post['subscriptionId'];
-        $result = [];
-
-        if ($subscriptionId) {
-            /** @var ModelExtensionPaypalCommerce $mdl */
-            $mdl = $this->loadModel('extension/paypal_commerce');
-            if ($mdl->pauseSubscription($subscriptionId)) {
-                $result['success'] = true;
-            } else {
-                $result['error'] = 'Subscription pause error. Incident Reported';
-            }
-        } else {
-            $result['error'] = 'Subscription not found';
-        }
-
-        if ($result['error']) {
-            $error = new AError('subscription pausing error');
-            $error->toJSONResponse(
-                'VALIDATION_ERROR_406',
-                [
-                    'error_title' => $result['error'],
-                ]
-            );
-        }
-
-        //init controller data
-        $this->extensions->hk_UpdateData($this, __FUNCTION__);
-        $this->load->library('json');
-        $this->response->setOutput(AJson::encode($result));
-    }
-
-    public function unPause()
-    {
-        $this->extensions->hk_InitData($this, __FUNCTION__);
-        $subscriptionId = $this->request->post['subscriptionId'];
-        $result = [];
-
-        if ($subscriptionId) {
-            /** @var ModelExtensionPaypalCommerce $mdl */
-            $mdl = $this->loadModel('extension/paypal_commerce');
-            if ($mdl->unPauseSubscription($subscriptionId)) {
-                $result['success'] = true;
-            } else {
-                $result['error'] = 'Subscription unpause error. Incident Reported';
-            }
-        } else {
-            $result['error'] = 'Subscription not found';
-        }
-
-        if ($result['error']) {
-            $error = new AError('subscription pausing error');
-            $error->toJSONResponse(
-                'VALIDATION_ERROR_406',
-                [
-                    'error_title' => $result['error'],
-                ]
-            );
-        }
-
-        //init controller data
-        $this->extensions->hk_UpdateData($this, __FUNCTION__);
-        $this->load->library('json');
-        $this->response->setOutput(AJson::encode($result));
-    }
-
-    public function cancel()
-    {
-        $this->extensions->hk_InitData($this, __FUNCTION__);
-        $subscriptionId = $this->request->post['subscriptionId'];
-        $result = [];
-
-        if ($subscriptionId) {
-            /** @var ModelExtensionPaypalCommerce $mdl */
-            $mdl = $this->loadModel('extension/paypal_commerce');
-            if ($mdl->cancelSubscription($subscriptionId)) {
-                $result['success'] = true;
-            } else {
-                $result['error'] = 'Subscription cancellation failed. Incident reported';
-            }
-        } else {
-            $result['error'] = 'Subscription not found';
-        }
-
-        if ($result['error']) {
-            $error = new AError('subscription cancellation error');
-            $error->toJSONResponse(
-                'VALIDATION_ERROR_406',
-                [
-                    'error_title' => $result['error'],
-                ]
-            );
-        }
-
-        //init controller data
-        $this->extensions->hk_UpdateData($this, __FUNCTION__);
-        $this->load->library('json');
-        $this->response->setOutput(AJson::encode($result));
-    }
-
-    public function webhookPaymentFailed()
+    public function webhookPaymentRefund()
     {
         if (!$this->request->is_POST()) {
             http_response_code('404');
@@ -792,13 +589,14 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    public function webhookPaymentSucceeded()
+    public function webhookPaymentCaptured()
     {
         if (!$this->request->is_POST()) {
             return http_response_code('404');
         }
         $data = file_get_contents("php://input");
         $inData = json_decode($data, true);
+$this->log->write(var_export($inData, true)); exit;
         if (!$inData) {
             $this->log->write("Paypal webhook ".__METHOD__.": incorrect incoming data! \n:".var_export($data, true));
             return http_response_code('406');
@@ -815,9 +613,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $this->loadModel('catalog/product');
         /** @var ModelExtensionPaypalCommerce $mdl */
         $mdl = $this->loadModel('extension/paypal_commerce');
-        $subscriptionId = $inData['resource']['billing_agreement_id'];
-        $parentOrderId = $this->getOrderIdOfSubscription($subscriptionId);
-        $orderInfo = $parentOrderId ? $this->model_checkout_order->getOrder($parentOrderId) : [];
+        $orderInfo = $this->model_checkout_order->getOrder($parentOrderId);
 
         if (!$orderInfo) {
             $this->log->write(
@@ -1157,20 +953,4 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         exit('New order #'.$order_id.' has been created. Invoice "'.$invoiceId.'" has been updated.');
     }
 
-    /**
-     * @param $subscriptionId
-     *
-     * @return false|int
-     * @throws AException
-     */
-    protected function getOrderIdOfSubscription($subscriptionId)
-    {
-        if(!$subscriptionId){
-            return false;
-        }
-        /** @var ModelExtensionPaypalCommerce $mdl */
-        $mdl = $this->loadModel('extension/paypal_commerce');
-        $subscription = $mdl->getSubscription($subscriptionId);
-        return $subscription ? (int)$subscription->custom_id : false;
-    }
 }

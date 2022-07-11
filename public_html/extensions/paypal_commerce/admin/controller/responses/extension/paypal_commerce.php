@@ -40,16 +40,19 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 'paypal_commerce_onboarding' => 1,
                 'paypal_commerce_test_mode'  => $mode == 'test' ? 1 : 0
             ];
+
             foreach($credentials as $k=>$v){
                 $settings['paypal_commerce_'.$k] = $v;
             }
+
             $this->model_setting_setting->editSetting('paypal_commerce', $settings, $storeId);
             $this->loadLanguage('paypal_commerce/paypal_commerce');
             $this->session->data['success'] = $this->language->get('text_connect_success');
+
             redirect(
                 $this->html->getSecureURL(
                     'extension/extensions/edit',
-                    '&extension=paypal_commerce&store_id='.$storeId
+                    '&extension=paypal_commerce&store_id='.$storeId.'&onboarded=1'
                 )
             );
         }else{
@@ -190,21 +193,19 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $this->load->library('json');
         $this->loadLanguage('paypal_commerce/paypal_commerce');
         $this->loadModel('setting/setting');
-        /** @var ModelExtensionPaypalCommerce $mdl */
-        $mdl = $this->loadModel('extension/paypal_commerce');
 
-        $testMode = $this->request->get['testMode'];
-        $clientId = $this->request->get['accountId'];
-        $secretKey = $this->request->get['secretKey'];
+        $testMode = $this->request->get['paypal_commerce_test_mode'] ?: $this->config->get('paypal_commerce_test_mode');
+        $clientId = $this->request->get['paypal_commerce_client_id'] ?: $this->config->get('paypal_commerce_client_id');
+        $clientSecret = $this->request->get['paypal_commerce_client_secret'] ?: $this->config->get('paypal_commerce_client_secret');
 
         try {
-            $client = getPaypalClient($clientId, $secretKey, $testMode);
-            $request = new PayPalCheckoutSdk\Webhooks\WebhooksGetList();
-            $client->execute($request);
             $this->config->set('paypal_commerce_test_mode', $testMode);
             $this->config->set('paypal_commerce_client_id', $clientId);
-            $this->config->set('paypal_commerce_secret_key', $secretKey);
-
+            $this->config->set('paypal_commerce_client_secret', $clientSecret);
+            /** @var ModelExtensionPaypalCommerce $mdl */
+            $mdl = $this->loadModel('extension/paypal_commerce');
+            //re-init ApiClient
+            $mdl->__construct($this->registry);
             $mdl->updateWebHooks();
 
             $json['message'] = $this->language->get('paypal_commerce_text_register_webhooks_success');
@@ -396,6 +397,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
+        $this->load->library('json');
         $json = [];
         if (has_value($this->request->post['order_id'])) {
             $order_id = $this->request->post['order_id'];

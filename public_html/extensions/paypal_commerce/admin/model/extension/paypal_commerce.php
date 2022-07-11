@@ -4,6 +4,7 @@
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
 use PayPalCheckoutSdk\Orders\OrdersGetRequest;
 use PayPalCheckoutSdk\Payments\AuthorizationsCaptureRequest;
+use PayPalCheckoutSdk\Payments\AuthorizationsVoidRequest;
 use PayPalCheckoutSdk\Payments\CapturesRefundRequest;
 use PayPalCheckoutSdk\Webhooks\WebhooksCreateRequest;
 use PayPalCheckoutSdk\Webhooks\WebhooksGetList;
@@ -28,6 +29,7 @@ class ModelExtensionPaypalCommerce extends Model
     public function __construct($registry)
     {
         parent::__construct($registry);
+
         $this->paypal = getPaypalClient(
             $this->config->get('paypal_commerce_client_id'),
             $this->config->get('paypal_commerce_client_secret'),
@@ -138,25 +140,25 @@ class ModelExtensionPaypalCommerce extends Model
         }
     }
 
-//    /**
-//     * @param string $authorizeId
-//     *
-//     * @return stdClass|HttpResponse
-//     * @throws AException
-//     */
-//    public function void($authorizeId)
-//    {
-//        if (!has_value($authorizeId)) {
-//            return null;
-//        }
-//        try {
-//            $request = new AuthorizationsVoidRequest($authorizeId);
-//            $result = $this->paypal->execute($request);
-//            return $result->result;
-//        }catch(Exception $e){
-//            throw new AException($e->getCode(), $e->getMessage());
-//        }
-//    }
+    /**
+     * @param string $authorizeId
+     *
+     * @return stdClass|HttpResponse
+     * @throws AException
+     */
+    public function void($authorizeId)
+    {
+        if (!has_value($authorizeId)) {
+            return null;
+        }
+        try {
+            $request = new AuthorizationsVoidRequest($authorizeId);
+            $result = $this->paypal->execute($request);
+            return $result->result;
+        }catch(Exception $e){
+            throw new AException($e->getCode(), $e->getMessage());
+        }
+    }
 
     public function getOrdersByInvoiceIds($invoiceIds)
     {
@@ -183,74 +185,79 @@ class ModelExtensionPaypalCommerce extends Model
     /**
      * @throws Exception
      */
-//    public function updateWebHooks()
-//    {
-//        $request = new WebhooksGetList();
-//        /** @var stdClass $result */
-//        $result = $this->paypal->execute($request);
-//        $list = $result->result->webhooks;
-//        $we = [];
-//        foreach ($list as $wh) {
-//            $we[$wh->event_types[0]->name] = $wh;
-//        }
-//
-//        $supportedEvents = [
-//            'BILLING.SUBSCRIPTION.PAYMENT.FAILED' => 'webhookPaymentFailed',
-//            'PAYMENT.SALE.COMPLETED'              => 'webhookPaymentSucceeded',
-//        ];
-//        foreach ($supportedEvents as $eventName => $method) {
-//            $whUrl = $this->html->getCatalogURL('r/extension/paypal_commerce/'.$method, '', '', true);
-//            if (isset($we[$eventName])) {
-//                $whId = $we[$eventName]->id;
-//                if ($we[$eventName]->url == $whUrl) {
-//                    //nothing to change
-//                    continue;
-//                }
-//                try {
-//                    $request = new WebhooksPatchRequest($whId);
-//                    $request->body = [
-//                        [
-//                            "op"    => "replace",
-//                            "path"  => "/url",
-//                            "value" => $whUrl,
-//                        ],
-//                    ];
-//                    $this->paypal->execute($request);
-//                } catch (Exception $e) {
-//                    $error_message = 'Webhook "'.$eventName.'" Patch Request Error: '.$e->getMessage()
-//                        ."\n Data sent:\n".var_export($request->body, true);
-//                    $this->log->write($error_message);
-//                    $error_message = 'Cannot to update webhook '.$eventName.'.';
-//                    if (substr($whUrl, 0, 7) == 'http://') {
-//                        $error_message .= ' Webhook endpoint URL is not secure! Please set up SSL URL of store! ';
-//                    }
-//                    $error_message .= ' See error log for details';
-//                    throw new Exception($error_message);
-//                }
-//            } else {
-//                try {
-//                    $body = [
-//                        'url'         => $whUrl,
-//                        'event_types' => [
-//                            [
-//                                'name' => $eventName,
-//                            ],
-//                        ],
-//                    ];
-//                    $request = new WebhooksCreateRequest($body);
-//                    $this->paypal->execute($request);
-//                } catch (Exception $e) {
-//                    $error_message = 'Webhook "'.$eventName.'" Create Request Error: '.$e->getMessage()
-//                        ."\n Data sent:\n".var_export($body, true);
-//                    $this->log->write($error_message);
-//                    $error_message = 'Cannot to create webhook '.$eventName.'.';
-//                    if (substr($whUrl, 0, 7) == 'http://') {
-//                        $error_message .= ' Webhook endpoint URL is not secure! Please set up SSL URL of store! ';
-//                    }
-//                    $error_message .= ' See error log for details';
-//                    throw new Exception($error_message);
-//                }
-//            }
-//        }
-//    }
+    public function updateWebHooks()
+    {
+
+        $request = new WebhooksGetList();
+        /** @var stdClass $result */
+        $result = $this->paypal->execute($request);
+        $list = $result->result->webhooks;
+        $we = [];
+
+        foreach ($list as $wh) {
+            $we[$wh->event_types[0]->name] = $wh;
+        }
+
+        $supportedEvents = [
+            'PAYMENT.SALE.COMPLETED' => 'webhookPaymentSucceeded',
+            'PAYMENT.SALE.DENIED'    => 'webhookPaymentDenied',
+            'PAYMENT.SALE.PENDING'   => 'webhookPaymentPending',
+            'PAYMENT.SALE.REFUNDED'  => 'webhookPaymentRefunded',
+            'PAYMENT.SALE.REVERSED'  => 'webhookPaymentReversed',
+        ];
+        foreach ($supportedEvents as $eventName => $method) {
+            $whUrl = $this->html->getCatalogURL('r/extension/paypal_commerce/'.$method, '', '', true);
+            if (isset($we[$eventName])) {
+                $whId = $we[$eventName]->id;
+                if ($we[$eventName]->url == $whUrl) {
+                    //nothing to change
+                    continue;
+                }
+                try {
+                    $request = new WebhooksPatchRequest($whId);
+                    $request->body = [
+                        [
+                            "op"    => "replace",
+                            "path"  => "/url",
+                            "value" => $whUrl,
+                        ],
+                    ];
+                    $this->paypal->execute($request);
+                } catch (Exception $e) {
+                    $error_message = 'Webhook "'.$eventName.'" Patch Request Error: '.$e->getMessage()
+                        ."\n Data sent:\n".var_export($request->body, true);
+                    $this->log->write($error_message);
+                    $error_message = 'Cannot to update webhook '.$eventName.'.';
+                    if (substr($whUrl, 0, 7) == 'http://') {
+                        $error_message .= ' Webhook endpoint URL is not secure! Please set up SSL URL of store! ';
+                    }
+                    $error_message .= ' See error log for details';
+                    throw new Exception($error_message);
+                }
+            } else {
+                try {
+                    $body = [
+                        'url'         => $whUrl,
+                        'event_types' => [
+                            [
+                                'name' => $eventName,
+                            ],
+                        ],
+                    ];
+                    $request = new WebhooksCreateRequest($body);
+                    $this->paypal->execute($request);
+                } catch (Exception $e) {
+                    $error_message = 'Webhook "'.$eventName.'" Create Request Error: '.$e->getMessage()
+                        ."\n Data sent:\n".var_export($body, true);
+                    $this->log->write($error_message);
+                    $error_message = 'Cannot to create webhook '.$eventName.'.';
+                    if (substr($whUrl, 0, 7) == 'http://') {
+                        $error_message .= ' Webhook endpoint URL is not secure! Please set up SSL URL of store! ';
+                    }
+                    $error_message .= ' See error log for details';
+                    throw new Exception($error_message);
+                }
+            }
+        }
+    }
 }

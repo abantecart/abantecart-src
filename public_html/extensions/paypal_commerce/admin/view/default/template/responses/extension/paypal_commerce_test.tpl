@@ -2,24 +2,39 @@
     <div class="row col-xs-2 input-group afield">
             <?php
             echo $this->html->buildElement(
-                array(
+                [
                     'type'  => 'button',
                     'name'  => 'test_connection',
                     'title' => $paypal_commerce_text_test,
                     'text'  => $paypal_commerce_text_test,
                     'style' => 'btn btn-info',
-                )
+                ]
+            ); ?>
+    </div>
+</div><div class="col-xs-2">
+    <div class="row col-xs-2 input-group afield">
+            <?php
+            echo $this->html->buildElement(
+                [
+                    'type'  => 'button',
+                    'name'  => 'update_webhooks',
+                    'title' => $paypal_commerce_text_update_webhooks,
+                    'text'  => $paypal_commerce_text_update_webhooks,
+                    'style' => 'btn btn-info',
+                ]
             ); ?>
     </div>
 </div>
 <script type="text/javascript">
 
-    $('#test_connection').click(function (e) {
+    $('#test_connection, #update_webhooks').click(function (e) {
 
         var $url, $id;
         $id = $(this).attr('id');
         if($id === 'test_connection') {
             $url = '<?php echo $this->html->getSecureUrl('r/extension/paypal_commerce/test'); ?>';
+        }else if($id === 'update_webhooks'){
+            $url = '<?php echo $this->html->getSecureUrl('r/extension/paypal_commerce/update_webhooks'); ?>';
         }else{
             console.log($(this));
             return false;

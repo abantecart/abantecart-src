@@ -23,7 +23,12 @@ class ExtensionPaypalCommerce extends Extension
         $that = $this->baseObject;
         $current_ext_id = $that->request->get['extension'];
         if (IS_ADMIN === true && $current_ext_id == 'paypal_commerce' && $this->baseObject_method == 'edit') {
-            if ($that->request->get['disconnect']) {
+            //update webhooks after onboarding
+            if ($that->request->get['onboarded']) {
+                /** @var ModelExtensionPaypalCommerce $mdl */
+                $mdl = $that->loadModel('extension/paypal_commerce');
+                $mdl->updateWebHooks();
+            }else if ($that->request->get['disconnect']) {
                 $settings = [
                     'paypal_commerce_client_id' => '',
                     'paypal_commerce_client_secret' => '',
@@ -43,6 +48,19 @@ class ExtensionPaypalCommerce extends Extension
                 }
 
                 $that->session->data['success'] = $that->language->get('text_disconnect_success');
+            }
+
+            //add gears as background when test mode is enabled
+            if($that->config->get('paypal_commerce_client_id') && $that->config->get('paypal_commerce_test_mode') ){
+                $that->view->addHookVar(
+                    'extension_toolbar_buttons',
+                    '<script type="application/javascript">
+    $(document).ready(function(){
+        $("div.panel-body.panel-body-nopadding.tab-content.col-xs-12").addClass("status_test");
+    })
+</script>'
+                );
+
             }
         }
     }
