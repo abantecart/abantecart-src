@@ -96,6 +96,7 @@ class AMail
         $this->extensions = $registry->get('extensions');
 
         $transport = Symfony\Component\Mailer\Transport::fromDsn($dsn);
+        $registry->set('current_mail_transport', get_class($transport));
         $this->mailer = new Mailer($transport);
     }
 
@@ -327,8 +328,12 @@ class AMail
             return false;
         }
 
-        $this->email->ensureValidity();
-        $this->mailer->send($this->email);
+        try {
+            $this->email->ensureValidity();
+            $this->mailer->send($this->email);
+        }catch(Exception $e){
+            $this->log->write(__CLASS__.'. transport: '.Registry::getInstance()->get('current_mail_transport').': '.$e->getMessage());
+        }
 
         if ($this->error) {
             $this->messages->saveError('Mailer error!', 'Can\'t send emails. Please see log for details and check your mail settings.');
