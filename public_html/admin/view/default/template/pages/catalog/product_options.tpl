@@ -197,7 +197,15 @@ jQuery(function ($) {
 	//save option form details. 
 	var editOption = function (id) {
 		$('#notify_error').remove();
-		var senddata = $('#option_edit_form').find('input,select,textarea').serialize()+'&option_id='+current_option_id;
+		var senddata = $('#option_edit_form').find('input,select,textarea').not(preEncodedFields.notIn).serialize()+'&option_id='+current_option_id;
+        //encode some field values
+        for(var k in preEncodedFields.names) {
+            var vvv = $('#option_edit_form').find('[name="' + preEncodedFields.names[k] + '"]');
+            if(vvv.val()) {
+                senddata += '&'+preEncodedFields.names[k] + '=' + btoa(vvv.val());
+            }
+        }
+
 		$.ajax({
 			url: opt_urls.update_option,
 			data: senddata,

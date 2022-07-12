@@ -326,6 +326,8 @@ class ControllerResponsesProductProduct extends AController
         }
 
         if (has_value($this->request->get['regexp_pattern'])) {
+            //value encoded because of xss (see ARequest::clean() for details)
+            $this->request->get['regexp_pattern'] = base64_decode($this->request->get['regexp_pattern']);
             $this->request->get['regexp_pattern'] = trim($this->request->get['regexp_pattern']);
         }
         if (has_value($this->request->get['option_placeholder'])) {
