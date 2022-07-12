@@ -47,8 +47,8 @@ class ModelExtensionPaypalCommerce extends Model
     {
         $qry = $this->db->query(
             "SELECT * 
-            FROM `".$this->db->table("paypal_orders")."` 
-            WHERE `order_id` = '".(int) $order_id."' 
+            FROM `" . $this->db->table("paypal_orders") . "` 
+            WHERE `order_id` = '" . (int)$order_id . "' 
             LIMIT 1"
         );
         if ($qry->num_rows) {
@@ -76,7 +76,7 @@ class ModelExtensionPaypalCommerce extends Model
             return $result->result;
         } catch (Exception $e) {
             //log in AException
-            $this->log->write('Paypal Error: '.__METHOD__.': '.$e->getMessage());
+            $this->log->write('Paypal Error: ' . __METHOD__ . ': ' . $e->getMessage());
             return null;
         }
     }
@@ -99,7 +99,7 @@ class ModelExtensionPaypalCommerce extends Model
             $request->body = [
                 'amount' =>
                     [
-                        'value'         => $amount,
+                        'value' => $amount,
                         'currency_code' => strtoupper($currencyCode),
                     ],
             ];
@@ -129,7 +129,7 @@ class ModelExtensionPaypalCommerce extends Model
             $request->body = [
                 'amount' =>
                     [
-                        'value'         => $amount,
+                        'value' => $amount,
                         'currency_code' => strtoupper($currencyCode),
                     ],
             ];
@@ -155,7 +155,7 @@ class ModelExtensionPaypalCommerce extends Model
             $request = new AuthorizationsVoidRequest($authorizeId);
             $result = $this->paypal->execute($request);
             return $result->result;
-        }catch(Exception $e){
+        } catch (Exception $e) {
             throw new AException($e->getCode(), $e->getMessage());
         }
     }
@@ -166,14 +166,14 @@ class ModelExtensionPaypalCommerce extends Model
             return [];
         }
         $sql = 'SELECT order_id, transaction_id 
-                FROM '.$this->db->table('paypal_orders').' 
-                WHERE transaction_id in ('.implode(
+                FROM ' . $this->db->table('paypal_orders') . ' 
+                WHERE transaction_id in (' . implode(
                 ',', array_map(
-                function ($el) {
-                    return sprintf("'%s'", $el);
-                }, $invoiceIds
-            )
-            ).')';
+                    function ($el) {
+                        return sprintf("'%s'", $el);
+                    }, $invoiceIds
+                )
+            ) . ')';
         $query = $this->db->query($sql);
         $result = [];
         foreach ($query->rows as $row) {
@@ -199,14 +199,15 @@ class ModelExtensionPaypalCommerce extends Model
         }
 
         $supportedEvents = [
-            'PAYMENT.SALE.COMPLETED' => 'webhookPaymentSucceeded',
-            'PAYMENT.SALE.DENIED'    => 'webhookPaymentDenied',
-            'PAYMENT.SALE.PENDING'   => 'webhookPaymentPending',
-            'PAYMENT.SALE.REFUNDED'  => 'webhookPaymentRefunded',
-            'PAYMENT.SALE.REVERSED'  => 'webhookPaymentReversed',
+            'PAYMENT.AUTHORIZATION.CREATED' => 'webhookAuthCreated',
+            'PAYMENT.AUTHORIZATION.VOIDED' => 'webhookAuthVoided',
+            'PAYMENT.CAPTURE.COMPLETED' => 'webhookCaptureCompleted',
+            'PAYMENT.CAPTURE.DENIED' => 'webhookCaptureDenied',
+            'PAYMENT.CAPTURE.PENDING' => 'webhookCapturePending',
+            'PAYMENT.CAPTURE.REFUNDED' => 'webhookCaptureRefunded',
         ];
         foreach ($supportedEvents as $eventName => $method) {
-            $whUrl = $this->html->getCatalogURL('r/extension/paypal_commerce/'.$method, '', '', true);
+            $whUrl = $this->html->getCatalogURL('r/extension/paypal_commerce/' . $method, '', '', true);
             if (isset($we[$eventName])) {
                 $whId = $we[$eventName]->id;
                 if ($we[$eventName]->url == $whUrl) {
@@ -217,17 +218,17 @@ class ModelExtensionPaypalCommerce extends Model
                     $request = new WebhooksPatchRequest($whId);
                     $request->body = [
                         [
-                            "op"    => "replace",
-                            "path"  => "/url",
+                            "op" => "replace",
+                            "path" => "/url",
                             "value" => $whUrl,
                         ],
                     ];
                     $this->paypal->execute($request);
                 } catch (Exception $e) {
-                    $error_message = 'Webhook "'.$eventName.'" Patch Request Error: '.$e->getMessage()
-                        ."\n Data sent:\n".var_export($request->body, true);
+                    $error_message = 'Webhook "' . $eventName . '" Patch Request Error: ' . $e->getMessage()
+                        . "\n Data sent:\n" . var_export($request->body, true);
                     $this->log->write($error_message);
-                    $error_message = 'Cannot to update webhook '.$eventName.'.';
+                    $error_message = 'Cannot to update webhook ' . $eventName . '.';
                     if (substr($whUrl, 0, 7) == 'http://') {
                         $error_message .= ' Webhook endpoint URL is not secure! Please set up SSL URL of store! ';
                     }
@@ -237,7 +238,7 @@ class ModelExtensionPaypalCommerce extends Model
             } else {
                 try {
                     $body = [
-                        'url'         => $whUrl,
+                        'url' => $whUrl,
                         'event_types' => [
                             [
                                 'name' => $eventName,
@@ -247,10 +248,10 @@ class ModelExtensionPaypalCommerce extends Model
                     $request = new WebhooksCreateRequest($body);
                     $this->paypal->execute($request);
                 } catch (Exception $e) {
-                    $error_message = 'Webhook "'.$eventName.'" Create Request Error: '.$e->getMessage()
-                        ."\n Data sent:\n".var_export($body, true);
+                    $error_message = 'Webhook "' . $eventName . '" Create Request Error: ' . $e->getMessage()
+                        . "\n Data sent:\n" . var_export($body, true);
                     $this->log->write($error_message);
-                    $error_message = 'Cannot to create webhook '.$eventName.'.';
+                    $error_message = 'Cannot to create webhook ' . $eventName . '.';
                     if (substr($whUrl, 0, 7) == 'http://') {
                         $error_message .= ' Webhook endpoint URL is not secure! Please set up SSL URL of store! ';
                     }

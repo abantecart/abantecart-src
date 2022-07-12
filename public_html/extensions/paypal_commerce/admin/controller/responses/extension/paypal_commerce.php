@@ -386,6 +386,16 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 $json['msg'] = $this->language->get('error_system');
             }
         }
+        if(!$json['error']){
+            /** @var ModelSaleOrder $mdl */
+            $mdl = $this->loadModel('sale/order');
+            $mdl->addOrderHistory(
+                $order_id,
+                [
+                    'order_status_id' => $this->order_status->getStatusByTextId('refunded')
+                ]
+            );
+        }
 
         //init controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -443,6 +453,17 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         } else {
             $json['error'] = true;
             $json['msg'] = $this->language->get('error_system');
+        }
+
+        if(!$json['error']){
+            /** @var ModelSaleOrder $mdl */
+            $mdl = $this->loadModel('sale/order');
+            $mdl->addOrderHistory(
+                $order_id,
+                [
+                    'order_status_id' => $this->order_status->getStatusByTextId('canceled')
+                ]
+            );
         }
 
         //init controller data

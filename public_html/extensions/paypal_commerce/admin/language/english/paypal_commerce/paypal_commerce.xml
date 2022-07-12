@@ -115,12 +115,8 @@
 			<![CDATA[Decline:<br /><span class="help">Order status you want to record in history in response to payment processor status. Main order status is not affected. Order will not be placed only after payment is a success.</span>]]></value>
 	</definition>
 	<definition>
-		<key>paypal_commerce_status_void</key>
-		<value><![CDATA[Voided:<br /><span class="help">Order status you want to be set if payment is voided in admin/order.</span>]]></value>
-	</definition>
-	<definition>
-		<key>paypal_commerce_status_failed</key>
-		<value><![CDATA[Failed:<br /><span class="help">Order status you want to be set if payment is failed in admin/order.</span>]]></value>
+		<key>paypal_commerce_status_capture_pending</key>
+		<value><![CDATA[Pending:</span>]]></value>
 	</definition>
 	<definition>
 		<key>paypal_commerce_status_refund</key>

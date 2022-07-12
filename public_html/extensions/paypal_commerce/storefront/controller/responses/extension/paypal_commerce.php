@@ -13,7 +13,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
     public function __construct($registry, $instance_id, $controller, $parent_controller = '')
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
-        if(isset($this->session->data['fc'])){
+        if (isset($this->session->data['fc'])) {
             $cartClassName = get_class($this->cart);
             $this->registry->set(
                 'cart',
@@ -28,8 +28,8 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->document->addStyle(
             [
-                'href'  => $this->view->templateResource('/css/paypal_commerce.css'),
-                'rel'   => 'stylesheet',
+                'href' => $this->view->templateResource('/css/paypal_commerce.css'),
+                'rel' => 'stylesheet',
                 'media' => 'screen',
             ]
         );
@@ -43,7 +43,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $data['bn_code'] = $mdl->getBnCode();
         if (!$data['client_token']) {
             $data['error'] = 'Cannot to obtain client token from Paypal API. Incident has been reported.';
-            $this->messages->saveError('Paypal Commerce API Error', $data['error']."\nSee error log for details.");
+            $this->messages->saveError('Paypal Commerce API Error', $data['error'] . "\nSee error log for details.");
         }
 
         //need an order details
@@ -56,39 +56,39 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         $taxes = $discount = $handling_fee = 0.0;
         foreach ($this->cart->getFinalTotalData() as $total) {
-            $data['order_'.$total['id']] = $this->currency->convert(
+            $data['order_' . $total['id']] = $this->currency->convert(
                 $total['value'],
                 $this->config->get('config_currency'),
                 $currencyCode
             );
 
-            if ($total['total_type'] == 'discount' || $total['total_type'] == 'coupon' || $total['total_type'] == 'balance' ) {
-                $discount += abs($data['order_'.$total['id']]);
+            if ($total['total_type'] == 'discount' || $total['total_type'] == 'coupon' || $total['total_type'] == 'balance') {
+                $discount += abs($data['order_' . $total['id']]);
             } elseif ($total['total_type'] == 'fee') {
-                $handling_fee += abs($data['order_'.$total['id']]);
+                $handling_fee += abs($data['order_' . $total['id']]);
             } elseif ($total['total_type'] == 'tax') {
-                $taxes += $data['order_'.$total['id']];
+                $taxes += $data['order_' . $total['id']];
             }
         }
         $data['amountBreakdown'] = [
             'item_total' => [
-                'value'         => $data['order_subtotal'],
+                'value' => $data['order_subtotal'],
                 'currency_code' => $currencyCode,
             ],
-            'tax_total'  => [
-                'value'         => $taxes,
+            'tax_total' => [
+                'value' => $taxes,
                 'currency_code' => $currencyCode,
             ],
-            'shipping'   => [
-                'value'         => (float) $data['order_shipping'],
+            'shipping' => [
+                'value' => (float)$data['order_shipping'],
                 'currency_code' => $currencyCode,
             ],
-            'discount'   => [
-                'value'         => (float) $discount,
+            'discount' => [
+                'value' => (float)$discount,
                 'currency_code' => $currencyCode,
             ],
-            'handling'   => [
-                'value'         => (float) $handling_fee,
+            'handling' => [
+                'value' => (float)$handling_fee,
                 'currency_code' => $currencyCode,
             ],
         ];
@@ -105,17 +105,17 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             if ($country) {
                 $data['shipping'] = [];
                 $data['shipping']['name']['full_name'] = $order_info['shipping_firstname']
-                    .' '
-                    .$order_info['shipping_lastname'];
+                    . ' '
+                    . $order_info['shipping_lastname'];
 
                 $data['shipping']['address'] = [
                     'country_code' => $country['iso_code_2'],
                 ];
                 $flds = [
-                    'address_line_1' => $addressType.'_address_1',
-                    'address_line_2' => $addressType.'_address_2',
-                    'admin_area_2'   => $addressType.'_city',
-                    'postal_code'    => $addressType.'_postcode',
+                    'address_line_1' => $addressType . '_address_1',
+                    'address_line_2' => $addressType . '_address_2',
+                    'admin_area_2' => $addressType . '_city',
+                    'postal_code' => $addressType . '_postcode',
                 ];
                 foreach ($flds as $n => $alias) {
                     if ($order_info[$alias]) {
@@ -133,10 +133,10 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 'country_code' => $country['iso_code_2'],
             ];
             $flds = [
-                'address_line_1' => $addressType.'_address_1',
-                'address_line_2' => $addressType.'_address_2',
-                'admin_area_2'   => $addressType.'_city',
-                'postal_code'    => $addressType.'_postcode',
+                'address_line_1' => $addressType . '_address_1',
+                'address_line_2' => $addressType . '_address_2',
+                'admin_area_2' => $addressType . '_city',
+                'postal_code' => $addressType . '_postcode',
             ];
             foreach ($flds as $n => $alias) {
                 if ($order_info[$alias]) {
@@ -158,20 +158,20 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $taxExts = $this->extensions->getInstalled('tax');
         $enabledExts = $this->extensions->getEnabledExtensions();
         $taxLines = [];
-        if($taxExts){
-            foreach($taxExts as $extTextId) {
-                if(!in_array($extTextId, $enabledExts)){
+        if ($taxExts) {
+            foreach ($taxExts as $extTextId) {
+                if (!in_array($extTextId, $enabledExts)) {
                     continue;
                 }
-                $mdl = $this->loadModel('total/'.$extTextId.'_total');
+                $mdl = $this->loadModel('total/' . $extTextId . '_total');
                 if (!$mdl || !method_exists($mdl, 'getTaxLines')) {
                     continue;
                 }
                 $taxLines[$extTextId] = $mdl->getTaxLines();
                 // around paypal api bug related to shipping tax. Move it into handling
-                if($taxLines[$extTextId]){
-                    foreach($taxLines[$extTextId] as $ln){
-                        if($ln['line_type'] == 'shipping'){
+                if ($taxLines[$extTextId]) {
+                    foreach ($taxLines[$extTextId] as $ln) {
+                        if ($ln['line_type'] == 'shipping') {
                             $data['amountBreakdown']['handling']['value'] += $ln['tax_amount'];
                             $data['amountBreakdown']['tax_total']['value'] -= $ln['tax_amount'];
                         }
@@ -189,25 +189,21 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 foreach ($product['option'] as $opt) {
                     $title = strip_tags($opt['value']);
                     $title = str_replace('\r\n', "\n", $title);
-                    $description .= $opt['name'].':'.$title."; ";
+                    $description .= $opt['name'] . ':' . $title . "; ";
                     if (mb_strlen($description) > 120) {
-                        $description = mb_substr($description, 0, 115).'...';
+                        $description = mb_substr($description, 0, 115) . '...';
                     }
                     if ($opt['sku']) {
-                        $sku .= ' '.$opt['sku'];
+                        $sku .= ' ' . $opt['sku'];
                     }
                 }
             }
 
             $orderDescription[] = [
-                'title' => $product['name'].' '. $description,
+                'title' => $product['name'] . ' ' . $description,
                 'quantity' => $product['quantity'],
                 'sku' => $sku
             ];
-
-
-
-
 
 
             // comment fot yet. Paypal requires amount breakdown for each line including tax amount per item (tax amount for 1 piece).
@@ -216,37 +212,37 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             //We cannot to solve this issue yet.
             //Also found pp api bug with shipping tax. It's not contains it at all. Can be solved with handling fee.
             $data['items'][$i] = [
-                'name'        => $product['name'],
+                'name' => $product['name'],
                 'unit_amount' => [
-                    'value'         => round($product['price'],2),
+                    'value' => round($product['price'], 2),
                     'currency_code' => $this->currency->getCode(),
                 ],
-                'quantity'    => $product['quantity'],
+                'quantity' => $product['quantity'],
                 'item_total' => [
-                    'value' => round($product['price']*$product['quantity'],2),
+                    'value' => round($product['price'] * $product['quantity'], 2),
                     'currency_code' => $this->currency->getCode()
                 ]
             ];
 
-            if($taxLines){
-                foreach($taxLines as $extTextId => $lines){
-                    foreach($lines as $line) {
+            if ($taxLines) {
+                foreach ($taxLines as $extTextId => $lines) {
+                    foreach ($lines as $line) {
                         if ($line['item_code'] == $product['key']) {
                             $data['items'][$i]['tax'] = [
-                                'value'         => round(($line['tax_amount']/$product['quantity']), 2) + (float)$data['items'][$i]['tax']['value'],
+                                'value' => round(($line['tax_amount'] / $product['quantity']), 2) + (float)$data['items'][$i]['tax']['value'],
                                 'currency_code' => $this->currency->getCode()
                             ];
                         }
                     }
                 }
-            }else{
+            } else {
                 $data['items'][$i]['tax'] = [
                     'value' => round(
-                                $this->tax->calcTotalTaxAmount(
-                                    $this->currency->format($product['price']),
-                                    $product['tax_class_id']
-                                ),
-                                2),
+                        $this->tax->calcTotalTaxAmount(
+                            $this->currency->format($product['price']),
+                            $product['tax_class_id']
+                        ),
+                        2),
                     'currency_code' => $this->currency->getCode()
                 ];
             }
@@ -260,14 +256,14 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $i++;
         }
 
-        $charsPerItem = round(126/count($cartProducts));
+        $charsPerItem = round(126 / count($cartProducts));
         $data['order_description'] = '';
-        foreach($orderDescription as $desc){
-            $postfix = $desc['sku']. ' x '.$desc['quantity'];
-            if(mb_strlen($desc['title']) > ($charsPerItem - strlen($postfix))){
-                $data['order_description'] .= mb_substr($desc['title'], 0, ($charsPerItem - strlen($postfix)-3)).'...'.$postfix."  ";
-            }else{
-                $data['order_description'] .= $desc['title'] .' '.$postfix."\n";
+        foreach ($orderDescription as $desc) {
+            $postfix = $desc['sku'] . ' x ' . $desc['quantity'];
+            if (mb_strlen($desc['title']) > ($charsPerItem - strlen($postfix))) {
+                $data['order_description'] .= mb_substr($desc['title'], 0, ($charsPerItem - strlen($postfix) - 3)) . '...' . $postfix . "  ";
+            } else {
+                $data['order_description'] .= $desc['title'] . ' ' . $postfix . "\n";
             }
         }
 
@@ -291,15 +287,15 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         $data['cancel_url'] = isset($this->session->data['fc'])
             ? $this->html->getSecureURL('checkout/fast_checkout')
-            :$this->html->getSecureURL('checkout/confirm');
+            : $this->html->getSecureURL('checkout/confirm');
 
         $data['back'] = $this->html->buildElement(
             [
-                'type'  => 'button',
-                'name'  => 'back',
-                'text'  => $this->language->get('button_back'),
+                'type' => 'button',
+                'name' => 'back',
+                'text' => $this->language->get('button_back'),
                 'style' => 'button',
-                'href'  => $back_url,
+                'href' => $back_url,
             ]
         );
 
@@ -356,7 +352,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         if (!$order_info) {
             $output['error'] = $this->language->get('error_unknown');
             $err = new AError(
-                "Paypal Commerce: ".__CLASS__."::".__METHOD__.": Order #".$orderId." not found"
+                "Paypal Commerce: " . __CLASS__ . "::" . __METHOD__ . ": Order #" . $orderId . " not found"
             );
             $err->toLog()->toDebug();
             $this->load->library('json');
@@ -384,7 +380,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $output['error'] = 'Cannot establish a connection to the server';
             $err = new AError(
                 'Paypal Commerce: Cannot Get Order Information from Paypal. '
-                .'Paypal Transaction Id: '.$transactionDetails['id']
+                . 'Paypal Transaction Id: ' . $transactionDetails['id']
             );
             $err->toLog()->toDebug();
         } //validate order info before confirmation
@@ -396,8 +392,8 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $output['error'] = $this->language->get('error_unknown');
             $err = new AError(
                 "Paypal Commerce: Suspect Order Confirmation Request: "
-                ."\n Order Transaction Details:".var_export($response, true)."\n"
-                ."Requested Order Info:\n".var_export($order_info, true)
+                . "\n Order Transaction Details:" . var_export($response, true) . "\n"
+                . "Requested Order Info:\n" . var_export($order_info, true)
             );
             $err->toLog()->toDebug();
         } else {
@@ -416,14 +412,14 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 $mdl->savePaypalOrder(
                     $orderId,
                     [
-                        'id'             => $transactionDetails['id'],
+                        'id' => $transactionDetails['id'],
                         'transaction_id' => $transactionDetails['id'],
                     ]
                 );
                 try {
                     $output['success'] = $this->html->getSecureURL('checkout/success');
                 } catch (Exception $e) {
-                    $this->log->write(__FILE__.':'.__LINE__.'   - '.$e->getMessage()."\n\n".$e->getTraceAsString());
+                    $this->log->write(__FILE__ . ':' . __LINE__ . '   - ' . $e->getMessage() . "\n\n" . $e->getTraceAsString());
 
                     $output['error'] = 'Oops, Unexpected Application Error';
                 }
@@ -456,18 +452,18 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 }
 
                 $option_data[] = [
-                    'name'  => $option['name'],
-                    'value' => (mb_strlen($value) > 20 ? mb_substr($value, 0, 20).'..' : $value),
+                    'name' => $option['name'],
+                    'value' => (mb_strlen($value) > 20 ? mb_substr($value, 0, 20) . '..' : $value),
                 ];
             }
             $price = $this->currency->format($product['price'], $order_info['currency'], $order_info['value'], false);
             $this->data['products'][] = [
-                'name'        => $product['name'],
-                'model'       => $product['model'],
-                'price'       => $price,
-                'quantity'    => $product['quantity'],
-                'option'      => $option_data,
-                'weight'      => $product['weight'],
+                'name' => $product['name'],
+                'model' => $product['model'],
+                'price' => $price,
+                'quantity' => $product['quantity'],
+                'option' => $option_data,
+                'weight' => $product['weight'],
                 'weight_type' => $product['weight_type'],
             ];
             $this->data['items_total'] += $price * $product['quantity'];
@@ -479,19 +475,19 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         if ($virtual_products) {
             foreach ($virtual_products as $virtual) {
                 $this->data['products'][] = [
-                    'name'     => ($virtual['name'] ? : 'Virtual Product'),
-                    'model'    => '',
-                    'price'    => $this->currency->format(
+                    'name' => ($virtual['name'] ?: 'Virtual Product'),
+                    'model' => '',
+                    'price' => $this->currency->format(
                         $virtual['amount'],
                         $order_info['currency'],
                         $order_info['value'],
                         false
                     ),
-                    'quantity' => ($virtual['quantity'] ? : 1),
-                    'option'   => [],
-                    'weight'   => 0,
+                    'quantity' => ($virtual['quantity'] ?: 1),
+                    'option' => [],
+                    'weight' => 0,
                 ];
-                $this->data['items_total'] += ($virtual['quantity'] ? : 1)
+                $this->data['items_total'] += ($virtual['quantity'] ?: 1)
                     * $this->currency->format($virtual['amount'], $order_info['currency'], $order_info['value'], false);
             }
         }
@@ -521,12 +517,12 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 }
 
                 $this->data['products'][$total['id']] = [
-                    'name'     => $total['title'],
-                    'model'    => '',
-                    'price'    => $price,
+                    'name' => $total['title'],
+                    'model' => '',
+                    'price' => $price,
                     'quantity' => 1,
-                    'option'   => [],
-                    'weight'   => 0,
+                    'option' => [],
+                    'weight' => 0,
                 ];
             }
         }
@@ -544,12 +540,12 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
                 $price = $this->currency->format($total['value'], $order_info['currency'], $order_info['value'], false);
                 $this->data['products'][$total['id']] = [
-                    'name'     => $total['title'],
-                    'model'    => '',
-                    'price'    => $price,
+                    'name' => $total['title'],
+                    'model' => '',
+                    'price' => $price,
                     'quantity' => 1,
-                    'option'   => [],
-                    'weight'   => 0,
+                    'option' => [],
+                    'weight' => 0,
                 ];
             }
         }
@@ -560,12 +556,12 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                     $order_info['value'], false
                 );
             $this->data['products'][] = [
-                'name'     => $this->language->get('text_discount'),
-                'model'    => '',
-                'price'    => $price,
+                'name' => $this->language->get('text_discount'),
+                'model' => '',
+                'price' => $price,
                 'quantity' => 1,
-                'option'   => [],
-                'weight'   => 0,
+                'option' => [],
+                'weight' => 0,
             ];
             $this->data['items_total'] += $price;
         }
@@ -573,384 +569,130 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         return $this->data['products'];
     }
 
-    public function webhookPaymentRefund()
+    /*
+     *  WEBHOOKS SECTION
+     */
+    public function webhookAuthCreated()
     {
-        if (!$this->request->is_POST()) {
-            http_response_code('404');
-            return;
-        }
-
-        $this->extensions->hk_InitData($this, __FUNCTION__);
-        $this->log->write(
-            "WEBHOOK CALLED ".__METHOD__.": \n post data: ".var_export($this->request->post, true)
-            ."\n get data: ".var_export($this->request->get, true)
-            ."\ninput: ".var_export(file_get_contents("php://input"), true)
+        $this->processWebHook(
+            'PAYMENT.AUTHORIZATION.CREATED',
+            $this->config->get('paypal_commerce_status_success_unsettled'),
         );
-        $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    public function webhookPaymentCaptured()
+    public function webhookAuthVoided()
     {
-        if (!$this->request->is_POST()) {
-            return http_response_code('404');
-        }
-        $data = file_get_contents("php://input");
-        $inData = json_decode($data, true);
-$this->log->write(var_export($inData, true)); exit;
-        if (!$inData) {
-            $this->log->write("Paypal webhook ".__METHOD__.": incorrect incoming data! \n:".var_export($data, true));
-            return http_response_code('406');
-        }
-        if ($inData['event_type'] != 'PAYMENT.SALE.COMPLETED') {
-            $this->log->write("Paypal webhook ".__METHOD__.": Wrong Event Type! Waiting for PAYMENT.SALE.COMPLETED  but " . $inData['event_type'] ." was given");
-            return http_response_code('406');
-        }
+        $this->processWebHook(
+            'PAYMENT.AUTHORIZATION.VOIDED',
+            $this->order_status->getStatusByTextId('canceled'),
+        );
+    }
 
-        $this->extensions->hk_InitData($this, __FUNCTION__);
+    public function webhookCaptureCompleted()
+    {
+        $this->processWebHook(
+            'PAYMENT.CAPTURE.COMPLETED',
+            $this->config->get('paypal_commerce_status_success_settled'),
+        );
+    }
 
-        $this->loadModel('checkout/order');
-        $this->loadModel('account/order');
-        $this->loadModel('catalog/product');
-        /** @var ModelExtensionPaypalCommerce $mdl */
-        $mdl = $this->loadModel('extension/paypal_commerce');
-        $orderInfo = $this->model_checkout_order->getOrder($parentOrderId);
+    public function webhookCaptureDenied()
+    {
+        $this->processWebHook(
+            'PAYMENT.CAPTURE.DENIED',
+            $this->config->get('paypal_commerce_status_decline'),
+        );
+    }
 
-        if (!$orderInfo) {
-            $this->log->write(
-                "Paypal webhook "
-                .__METHOD__
-                .": Original order ID ".$parentOrderId." not found!\n Raw input data:\n"
-                .var_export($data, true)
-                ."\n\nParsed data:\n".var_export($inData, true)
-            );
+    public function webhookCapturePending()
+    {
+        $this->processWebHook(
+            'PAYMENT.CAPTURE.PENDING',
+            $this->config->get('paypal_commerce_status_capture_pending'),
+        );
+    }
+
+    public function webhookCaptureRefunded()
+    {
+        $this->processWebHook(
+            'PAYMENT.CAPTURE.REFUNDED',
+            $this->config->get('paypal_commerce_status_refund'),
+        );
+    }
+
+    protected function processWebHook($eventName, $orderStatusId)
+    {
+        $inData = $this->parseWebhookData();
+        if (!$this->webhookValidate($inData, $eventName)) {
             http_response_code('406');
-            exit('order not found');
-        } else {
-            //if next billing circle. check for data creation. must be older than 24hours
-            // otherwise just adds data into order history
-            if( time() - dateISO2Int( $orderInfo['date_added'] ) < 86400 ){
-                $this->model_checkout_order->addHistory(
-                    $orderInfo['order_id'],
-                    $orderInfo['order_status_id'],
-                    "Paypal webhook ".__METHOD__.": \n\nParsed data:\n".var_export($inData, true)
-                );
-                http_response_code('200');
-                exit('Ok');
-            }
-
+            exit;
         }
+        $orderId = $inData['parsed']['resource']['custom_id'];
 
-        $invoiceId = $inData['resource']['id'];
-        if ($inData['resource']['state'] != 'completed') {
-            $this->log->write(
-                "Paypal webhook "
-                .__METHOD__
-                .": Automatic Payment is not completed!\n Raw input data:\n".var_export($data, true)
-            );
-            http_response_code('406');
-            exit('transaction incomplete');
-        }
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-        $this->session->data['customer_id'] = $orderInfo['customer_id'];
-        $this->registry->set('customer', new ACustomer(Registry::getInstance()));
-        $this->registry->set('currency', new ACurrency(Registry::getInstance()));
-        $this->currency->set($inData['resource']['amount']['currency']);
-
-        $addresses = [];
-        if ($this->customer->isLogged()) {
-            $this->loadModel('account/address');
-            $allAddresses = $this->model_account_address->getAddresses();
-            if (!$allAddresses) {
-                $msg = 'Cannot to recreate order of Customer #'.$orderInfo['customer_id'].'. Address List is empty.';
-                $this->messages->saveWarning(
-                    'New order does not created by Paypal subscription '.$subscriptionId,
-                    $msg,
-                    false
-                );
-                http_response_code(400);
-                exit($msg);
-            }
-
-            foreach ($allAddresses as $address) {
-                $addresses[$address['address_id']] = $address;
-                if ($address['address_1'] == $orderInfo['payment_address_1']
-                    && $address['address_2'] == $orderInfo['payment_address_2']
-                    && $address['zone_id'] == $orderInfo['payment_zone_id']
-                    && $address['country_id'] == $orderInfo['payment_country_id']
-                ) {
-                    $this->session->data['payment_address_id'] = $address['address_id'];
-                }
-                if ($address['address_1'] == $orderInfo['shipping_address_1']
-                    && $address['address_2'] == $orderInfo['shipping_address_2']
-                    && $address['zone_id'] == $orderInfo['shipping_zone_id']
-                    && $address['country_id'] == $orderInfo['shipping_country_id']) {
-                    $this->session->data['shipping_address_id'] = $address['address_id'];
-                }
-            }
-
-            if (!$this->session->data['payment_address_id']) {
-                $this->session->data['payment_address_id'] = $this->customer->getAddressId();
-            }
-            if (!$this->session->data['shipping_address_id'] && $orderInfo['shipping_address_1']) {
-                $this->session->data['shipping_address_id'] = $this->customer->getAddressId();
-            }
-
-            if ($this->session->data['shipping_address_id']) {
-                $this->session->data['country_id'] =
-                    $addresses[$this->session->data['shipping_address_id']]['country_id'];
-                $this->session->data['zone_id'] = $addresses[$this->session->data['shipping_address_id']]['zone_id'];
-            } else {
-                $this->session->data['country_id'] =
-                    $addresses[$this->session->data['payment_address_id']]['country_id'];
-                $this->session->data['zone_id'] = $addresses[$this->session->data['payment_address_id']]['zone_id'];
-            }
-        } else {
-            //if guest order
-            $this->session->data['country_id'] = $orderInfo['payment_country_id'];
-            $this->session->data['zone_id'] = $orderInfo['payment_zone_id'];
-            $this->session->data['guest'] = [
-                'firstname'      => $orderInfo['payment_firstname'],
-                'lastname'       => $orderInfo['payment_lastname'],
-                'email'          => $orderInfo['email'],
-                'telephone'      => $orderInfo['telephone'],
-                'fax'            => $orderInfo['fax'],
-                'company'        => $orderInfo['payment_company'],
-                'address_1'      => $orderInfo['payment_address_1'],
-                'address_2'      => $orderInfo['payment_address_2'],
-                'city'           => $orderInfo['payment_city'],
-                'postcode'       => $orderInfo['payment_postcode'],
-                'zone'           => $orderInfo['payment_zone'],
-                'zone_id'        => $orderInfo['payment_zone_id'],
-                'country'        => $orderInfo['payment_country'],
-                'country_id'     => $orderInfo['payment_country_id'],
-                'address_format' => $orderInfo['payment_address_format'],
-            ];
-        }
-        $langId = $orderInfo['language_id'];
-        $this->loadModel('localisation/language');
-        $languages = $this->model_localisation_language->getLanguages();
-        $orderLanguage = $languages[$langId];
-        if (!$orderLanguage) {
-            $orderLanguage = current($languages);
-        }
-
-        //set order language
-        $this->registry->set('language', new ALanguage($this->registry, $orderLanguage['code'], 0));
-        $this->request->get['language'] = $orderLanguage['language_id'];
-        $this->config->set('storefront_language_id', $orderLanguage['language_id']);
-        $this->language->setCurrentLanguage();
-        $this->tax->setZone($this->session->data['country_id'], $this->session->data['zone_id']);
-        $this->session->data['payment_method'] = [
-            'id'    => 'paypal_commerce',
-            'title' => 'Paypal',
-        ];
-        $orderProduct = current($this->model_account_order->getOrderProducts($parentOrderId));
-        if ($orderProduct) {
-            $orderOptions = $this->model_account_order->getOrderOptions(
-                $parentOrderId,
-                $orderProduct['order_product_id']
-            );
-
-            $product_options = [];
-            if ($orderOptions) {
-                foreach ($orderOptions as $oo) {
-                    $ov = $this->model_catalog_product->getProductOptionValue(
-                        $orderProduct['product_id'],
-                        $oo['product_option_value_id']
-                    );
-                    if (isset($product_options[$ov['product_option_id']])) {
-                        $product_options[$ov['product_option_id']][] = $oo['product_option_value_id'];
-                    } else {
-                        $product_options[$ov['product_option_id']] = $oo['product_option_value_id'];
-                    }
-                }
-            }
-            $this->cart->clear();
-            $this->cart->add(
-                $orderProduct['product_id'],
-                $orderProduct['quantity'],
-                $product_options
-            );
-        }
-
-        if (!$this->cart->hasProducts()) {
-            $error_text = 'Cannot to create order of Customer #'.$this->customer->getId()
-                .'. Product ID #'.$orderProduct['product_id'].' cannot be added into the cart.'
-                .' Probably Product disabled or have no stock. '
-                .'Subscription '.$subscriptionId.' paused!';
-            $this->messages->saveWarning(
-                'Order does not created by Paypal Webhook of subscription '.$subscriptionId,
-                $error_text,
-                false
-            );
-
-            $mdl->pauseSubscription($subscriptionId);
-            http_response_code(406);
-            exit($error_text);
-        }
-
-        if (!$this->customer->isLogged()) {
-            $cols = [
-                'firstname',
-                'lastname',
-                'company',
-                'address_1',
-                'address_2',
-                'city',
-                'postcode',
-                'zone',
-                'zone_id',
-                'country',
-                'country_id',
-                'address_format',
-            ];
-            if ($this->cart->hasShipping()) {
-                foreach ($cols as $col) {
-                    $this->session->data['guest']['shipping'][$col] = $orderInfo['shipping_'.$col];
-                }
-            } else {
-                foreach ($cols as $col) {
-                    if ($orderInfo['shipping_'.$col]) {
-                        $this->session->data['guest'][$col] = $orderInfo['shipping_'.$col];
-                    }
-                }
-            }
-        }
-
-        if ($orderInfo['shipping_method']) {
-            list($shipping_key, $shipping_method) = explode('.', $orderInfo['shipping_method_key']);
-            $this->loadModel('extension/'.$shipping_key);
-            /** @var ModelExtensionDefaultFlatRateShipping $mdl */
-            $mdl = $this->{'model_extension_'.$shipping_key};
-            $quote = $mdl->getQuote(
-                $addresses[$this->session->data['shipping_address_id']]
-            );
-            $this->session->data['shipping_method'] = $quote['quote'][$shipping_method];
-        }
-
-        //when requires shipping, but method not found
-        if (!$this->session->data['shipping_method'] && $this->cart->hasShipping()) {
-            $quote_data = [];
-            $this->load->model('checkout/extension');
-            $shipping_address = $this->model_account_address->getAddress($this->session->data['shipping_address_id']);
-            $results = $this->model_checkout_extension->getExtensions('shipping');
-            foreach ($results as $result) {
-                $method_name = $result['key'];
-                $this->loadModel('extension/'.$method_name);
-                $quote = $this->{'model_extension_'.$result['key']}->getQuote($shipping_address);
-                if ($quote) {
-                    $ext_config = $this->model_checkout_extension->getSettings($method_name);
-                    $autoselect = $ext_config[$method_name."_autoselect"];
-                    if ($autoselect) {
-                        $this->session->data['shipping_method'] = current($quote['quote']);
-                    }
-                }
-            }
-            $sort_order = [];
-            foreach ($quote_data as $key => $value) {
-                $sort_order[$key] = $value['sort_order'];
-            }
-            array_multisort($sort_order, SORT_ASC, $quote_data);
-            $this->session->data['shipping_methods'] = $quote_data;
-        }
-
-        $order = new AOrder($this->registry);
-        //mark order as repeated
-        $this->registry->set('paypal_repeated_order', true);
-        $this->data = $order->buildOrderData($this->session->data);
-        $order_id = $order->saveOrder();
-        if (!$order_id) {
-            $error_text = 'Cannot to create order of Customer #'.$orderInfo['customer_id'].' based on session data';
-            $this->messages->saveWarning(
-                'Order does not created by Paypal webhook of subscription '.$subscriptionId,
-                $error_text,
-                false
-            );
-            $this->log->write($error_text."\n Session Data:\n".var_export($this->session->data, true));
-            $this->session->clear();
-            http_response_code(400);
-            exit($error_text);
-        }
-        $this->session->data['order_id'] = $order_id;
-        $this->loadModel('checkout/order');
-        $order_status_id = $this->config->get('paypal_commerce_next_cycle_order_status');
-        if (!$order_status_id) {
-            $order_status_id = $this->order_status->getStatusByTextId('processing');
-        }
-
-        //when total amount of new order not equal of parent order total
-        if (round($this->cart->getFinalTotal(), 2) != round((float)$orderInfo['total'], 2)) {
-            $orderTotals = $this->model_account_order->getOrderTotals($parentOrderId);
-            $sql = "DELETE FROM ".$this->db->table('order_totals')."
-                    WHERE order_id = ".(int) $order_id."; ";
-            $this->db->query($sql);
-            foreach ($orderTotals as $t) {
-                $t['order_id'] = $order_id;
-                unset($t['order_total_id']);
-                $sql = " INSERT INTO ".$this->db->table('order_totals')
-                    ." (`".implode("`, `", array_keys($t))."`) "
-                    ." VALUES ('".implode("', '", $t)."');";
-                $this->db->query($sql);
-            }
-
-            $sql = "UPDATE ".$this->db->table('orders')."
-                    SET `total` = '".$orderInfo['total']."'
-                    WHERE order_id = ".(int) $order_id;
-            $this->db->query($sql);
-        }
-
-        $this->model_checkout_order->confirm(
-            $order_id, $order_status_id,
-            'Autogenerated order by Paypal New Subscription Invoice. Origin subscription order #'.$parentOrderId."\n\n"
+        $this->model_checkout_order->update(
+            $orderId,
+            $orderStatusId,
+            'Order canceled by Paypal webhook request.'
         );
         //save input data into comments but hide from customer
         $this->model_checkout_order->addHistory(
-            $order_id,
-            $order_status_id,
-            "Paypal webhook ".__METHOD__.": \n\nParsed data:\n".var_export($inData, true)
+            $orderId,
+            $orderStatusId,
+            "Paypal webhook " . $eventName . ": \n\nParsed data:\n" . var_export($inData['parsed'], true)
         );
+    }
 
-        $orderData = $order->getOrderData();
-        $mdl->savePaypalOrder(
-            $order_id,
-            [
-                'id'             => null,
-                'transaction_id' => $invoiceId,
-            ]
-        );
-        $hasShipping = false;
-        foreach ($orderData['totals'] as $total) {
-            if (in_array($total['id'], ['subtotal', 'total'])) {
-                continue;
-            }
+    protected function parseWebhookData()
+    {
+        $data = file_get_contents("php://input");
+        $output = [];
+        $output['parsed'] = json_decode($data, true);
+        $output['raw'] = $data;
+        return $output;
+    }
 
-            if ($total['total_type'] == 'shipping') {
-                $hasShipping = true;
-            }
+    protected function webhookValidate($inData, $eventName)
+    {
+        if (!$inData['parsed']) {
+            $this->log->write("Paypal webhook " . $eventName . ": incorrect incoming data! \n:" . var_export($inData['raw'], true));
+            return false;
+        }
+        if ($inData['parsed']['event_type'] != $eventName) {
+            $this->log->write("Paypal webhook processing: Wrong Event Type! Waiting for " . $eventName . "  but " . $inData['parsed']['event_type'] . " was given");
+            return false;
         }
 
-        if ($this->cart->hasShipping() && !$hasShipping) {
-            $this->session->clear();
-            $this->messages->saveError(
-                'Newly generated order #'.$order_id.' have product with shipping, but shipping method is unknown.',
-                'Please check original order #'.$parentOrderId.' of Subscription '.$subscriptionId
-                .'</a>. Looks like It contains disabled shipping method!'
+        $orderId = $inData['parsed']['resource']['custom_id'];
+        $ppOrderId = $inData['parsed']['resource']['supplementary_data']['related_ids']['order_id'];
+        $this->loadModel('checkout/order');
+        $orderInfo = $this->model_checkout_order->getOrder($orderId);
+        if (!$orderInfo) {
+            $this->log->write(
+                "Paypal webhook " . $eventName
+                . ": order ID " . $orderId . " not found!\n Raw input data:\n"
+                . var_export($inData['raw'], true)
+                . "\n\nParsed data:\n" . var_export($inData['parsed'], true)
             );
-            http_response_code(400);
-            exit(
-                'New order #'.$order_id.' has been created. Invoice "'.
-                $invoiceId.'" has been updated But it contains errors. 
-                See Messages on admin-side of your AbanteCart'
-            );
+            return false;
+        }elseif(isset($ppOrderId)){
+            /** @var ModelExtensionPaypalCommerce $mdl */
+            $mdl = $this->loadModel('extension/paypal_commerce');
+            $ppOrderInfo = $mdl->getPaypalOrder($orderId);
+            if($ppOrderInfo['charge_id'] != $ppOrderId){
+                $this->log->write(
+                    "Paypal webhook " . $eventName
+                    . ": order ID " . $orderId
+                    . " \n Paypal related OrderId: ".$ppOrderId." but not found in the database.\n"
+                    . " \n Raw input data:\n"
+                    . var_export($inData['raw'], true)
+                    . "\n\nParsed data:\n" . var_export($inData['parsed'], true)
+                );
+                return false;
+            }
         }
-        $this->session->clear();
-        $this->data['subscription_id'] = $subscriptionId;
-        $this->data['parent_order_id'] = $parentOrderId;
-        $this->data['order_id'] = $order_id;
-        $this->data['order_data'] = $orderData;
-        $this->data['pp_invoice_id'] = $invoiceId;
-        $this->extensions->hk_UpdateData($this, __FUNCTION__);
-        exit('New order #'.$order_id.' has been created. Invoice "'.$invoiceId.'" has been updated.');
+        return true;
     }
 
 }

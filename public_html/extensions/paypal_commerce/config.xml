@@ -72,7 +72,7 @@
 			</variants>
 			<default_value>8</default_value>
 		</item>
-		<item id="paypal_commerce_status_void">
+		<item id="paypal_commerce_status_capture_pending">
 			<type>selectbox</type>
 			<variants>
 				<data_source>
@@ -84,21 +84,7 @@
 					<field>name</field>
 				</fields>
 			</variants>
-			<default_value>11</default_value>
-		</item>
-		<item id="paypal_commerce_status_failed">
-			<type>selectbox</type>
-			<variants>
-				<data_source>
-					<model_rt>localisation/order_status</model_rt>
-					<method>getOrderStatuses</method>
-				</data_source>
-				<fields>
-					<field>order_status_id</field>
-					<field>name</field>
-				</fields>
-			</variants>
-			<default_value>10</default_value>
+			<default_value>1</default_value>
 		</item>
 		<item id="paypal_commerce_status_refund">
 			<type>selectbox</type>
