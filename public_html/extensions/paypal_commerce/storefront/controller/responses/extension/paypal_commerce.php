@@ -385,7 +385,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $err->toLog()->toDebug();
         } //validate order info before confirmation
         elseif (
-            $response->purchase_units[0]->custom_id != $order_info['order_id']
+            $response->purchase_units[0]->custom_id != $order_info['order_id'].'-'.UNIQUE_ID
             || $response->purchase_units[0]->amount->currency_code != $order_info['currency']
             || $response->purchase_units[0]->amount->value != $orderTotalAmt
         ) {
@@ -627,7 +627,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             http_response_code('406');
             exit;
         }
-        $orderId = $inData['parsed']['resource']['custom_id'];
+        list($orderId, $uniqueId) = explode('-',$inData['parsed']['resource']['custom_id']);
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
@@ -664,7 +664,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             return false;
         }
 
-        $orderId = $inData['parsed']['resource']['custom_id'];
+        list($orderId, $uniqueId) = explode('-',$inData['parsed']['resource']['custom_id']);
         $ppOrderId = $inData['parsed']['resource']['supplementary_data']['related_ids']['order_id'];
         $this->loadModel('checkout/order');
         $orderInfo = $this->model_checkout_order->getOrder($orderId);

@@ -89,7 +89,7 @@ if ($error) { ?>
 
                             },
                             purchase_units: [{
-                                custom_id: '<?php echo $this->session->data['order_id']?>',
+                                custom_id: '<?php echo $this->session->data['order_id'].'-'.UNIQUE_ID;?>',
                                 amount: {
                                     value: '<?php echo $order_total; ?>',
                                     breakdown: <?php echo json_encode($amountBreakdown, JSON_PRETTY_PRINT);?>
