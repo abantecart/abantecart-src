@@ -97,6 +97,8 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         $data['intent'] = $this->config->get('paypal_commerce_transaction_type');
         $this->load->model('localisation/country');
+        $this->load->model('localisation/zone');
+
         //shipping address
         if ($order_info['shipping_country_id']) {
             $countryId = $order_info['shipping_country_id'];
@@ -111,12 +113,18 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 $data['shipping']['address'] = [
                     'country_code' => $country['iso_code_2'],
                 ];
+                $zoneInfo = $this->model_localisation_zone->getZone($order_info['shipping_zone_id']);
+                if($zoneInfo && $zoneInfo['code']){
+                    $data['shipping']['address']['admin_area_1'] = $zoneInfo['code'];
+                }
+
                 $flds = [
                     'address_line_1' => $addressType . '_address_1',
                     'address_line_2' => $addressType . '_address_2',
                     'admin_area_2' => $addressType . '_city',
                     'postal_code' => $addressType . '_postcode',
                 ];
+
                 foreach ($flds as $n => $alias) {
                     if ($order_info[$alias]) {
                         $data['shipping']['address'][$n] = $order_info[$alias];
@@ -132,6 +140,11 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $data['address'] = [
                 'country_code' => $country['iso_code_2'],
             ];
+            $zoneInfo = $this->model_localisation_zone->getZone($order_info['payment_zone_id']);
+            if($zoneInfo && $zoneInfo['code']){
+                $data['address']['admin_area_1'] = $zoneInfo['code'];
+            }
+
             $flds = [
                 'address_line_1' => $addressType . '_address_1',
                 'address_line_2' => $addressType . '_address_2',
@@ -145,7 +158,6 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             }
         }
 
-        $this->load->model('localisation/zone');
         $zone = $this->model_localisation_zone->getZoneDescriptions($order_info['payment_zone_id']);
         if ($zone) {
             $data['payment_zone_name'] = $zone[$this->language->getLanguageID()]['name'];
