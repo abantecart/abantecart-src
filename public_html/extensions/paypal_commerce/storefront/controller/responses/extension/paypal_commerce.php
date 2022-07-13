@@ -412,7 +412,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             if ($response->status == 'COMPLETED') {
                 $this->model_checkout_order->confirm(
                     $orderId,
-                    $this->config->get('paypal_commerce_status_success_settled')
+                    $this->order_status->getStatusByTextId('pending')
                 );
 
                 $this->model_checkout_order->updatePaymentMethodData(
