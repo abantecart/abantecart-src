@@ -7,6 +7,7 @@ use PayPalCheckoutSdk\Payments\AuthorizationsCaptureRequest;
 use PayPalCheckoutSdk\Payments\AuthorizationsVoidRequest;
 use PayPalCheckoutSdk\Payments\CapturesRefundRequest;
 use PayPalCheckoutSdk\Webhooks\WebhooksCreateRequest;
+use PayPalCheckoutSdk\Webhooks\WebhooksDeleteRequest as WebhooksDeleteRequestAlias;
 use PayPalCheckoutSdk\Webhooks\WebhooksGetList;
 use PayPalCheckoutSdk\Webhooks\WebhooksPatchRequest;
 use PayPalHttp\HttpResponse;
@@ -25,6 +26,14 @@ class ModelExtensionPaypalCommerce extends Model
 {
     /** @var PayPalHttpClient */
     protected $paypal;
+    protected $supportedEvents = [
+        'PAYMENT.AUTHORIZATION.CREATED' => 'webhookAuthCreated',
+        'PAYMENT.AUTHORIZATION.VOIDED' => 'webhookAuthVoided',
+        'PAYMENT.CAPTURE.COMPLETED' => 'webhookCaptureCompleted',
+        'PAYMENT.CAPTURE.DENIED' => 'webhookCaptureDenied',
+        'PAYMENT.CAPTURE.PENDING' => 'webhookCapturePending',
+        'PAYMENT.CAPTURE.REFUNDED' => 'webhookCaptureRefunded',
+    ];
 
     public function __construct($registry)
     {
@@ -198,15 +207,7 @@ class ModelExtensionPaypalCommerce extends Model
             $we[$wh->event_types[0]->name] = $wh;
         }
 
-        $supportedEvents = [
-            'PAYMENT.AUTHORIZATION.CREATED' => 'webhookAuthCreated',
-            'PAYMENT.AUTHORIZATION.VOIDED' => 'webhookAuthVoided',
-            'PAYMENT.CAPTURE.COMPLETED' => 'webhookCaptureCompleted',
-            'PAYMENT.CAPTURE.DENIED' => 'webhookCaptureDenied',
-            'PAYMENT.CAPTURE.PENDING' => 'webhookCapturePending',
-            'PAYMENT.CAPTURE.REFUNDED' => 'webhookCaptureRefunded',
-        ];
-        foreach ($supportedEvents as $eventName => $method) {
+        foreach ($this->supportedEvents as $eventName => $method) {
             $whUrl = $this->html->getCatalogURL('r/extension/paypal_commerce/' . $method, '', '', true);
             if (isset($we[$eventName])) {
                 $whId = $we[$eventName]->id;
@@ -257,6 +258,42 @@ class ModelExtensionPaypalCommerce extends Model
                     }
                     $error_message .= ' See error log for details';
                     throw new Exception($error_message);
+                }
+            }
+        }
+    }
+    /**
+     * @throws Exception
+     */
+    public function deleteWebHooks()
+    {
+
+        $request = new WebhooksGetList();
+        /** @var stdClass $result */
+        $result = $this->paypal->execute($request);
+        $list = $result->result->webhooks;
+        $we = [];
+
+        foreach ($list as $wh) {
+            $we[$wh->event_types[0]->name] = $wh;
+        }
+
+        foreach ($this->supportedEvents as $eventName => $method) {
+            $whUrl = $this->html->getCatalogURL('r/extension/paypal_commerce/' . $method, '', '', true);
+            if (isset($we[$eventName])) {
+                $whId = $we[$eventName]->id;
+                try {
+                    $request = new WebhooksDeleteRequestAlias($whId);
+                    $this->paypal->execute($request);
+                } catch (Exception $e) {
+                    $error_message = 'Webhook "' . $eventName . '" Remove Request Error: ' . $e->getMessage()
+                        . "\n Data sent:\n" . var_export($request->body, true);
+                    $this->log->write($error_message);
+                    $error_message = 'Cannot to remove webhook ' . $eventName . '.';
+                    if (substr($whUrl, 0, 7) == 'http://') {
+                        $error_message .= ' Webhook endpoint URL is not secure! Please set up SSL URL of store! ';
+                    }
+                    $this->log->write($error_message);
                 }
             }
         }

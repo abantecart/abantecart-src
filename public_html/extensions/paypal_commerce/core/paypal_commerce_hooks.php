@@ -23,12 +23,15 @@ class ExtensionPaypalCommerce extends Extension
         $that = $this->baseObject;
         $current_ext_id = $that->request->get['extension'];
         if (IS_ADMIN === true && $current_ext_id == 'paypal_commerce' && $this->baseObject_method == 'edit') {
+            /** @var ModelExtensionPaypalCommerce $mdl */
+            $mdl = $that->loadModel('extension/paypal_commerce');
+
             //update webhooks after onboarding
             if ($that->request->get['onboarded']) {
-                /** @var ModelExtensionPaypalCommerce $mdl */
-                $mdl = $that->loadModel('extension/paypal_commerce');
                 $mdl->updateWebHooks();
             }else if ($that->request->get['disconnect']) {
+                //delete webhooks before disconnect
+                $mdl->deleteWebHooks();
                 $settings = [
                     'paypal_commerce_client_id' => '',
                     'paypal_commerce_client_secret' => '',
