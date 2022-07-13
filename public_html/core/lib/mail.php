@@ -87,7 +87,7 @@ class AMail
             }
         }
         if(!$dsn){
-            throw new AException(E_ERROR, 'Unknown Mail transporting ('.$this->transporting.')!');
+            $dsn = 'native://default';
         }
 
         $this->log = $registry->get('log');
