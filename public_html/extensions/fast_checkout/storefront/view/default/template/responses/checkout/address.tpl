@@ -1,16 +1,4 @@
 <?php echo $form['form_open']; ?>
-<div id="pay_error_container">
-    <?php if ($info) { ?>
-        <div class="info alert alert-info">
-            <i class="fa fa fa-check fa-fw"></i> <?php echo $info; ?>
-        </div>
-    <?php } ?>
-    <?php if ($error) { ?>
-        <div class="alert alert-danger" role="alert">
-            <i class="fa fa-exclamation fa-fw"></i> <?php echo $error; ?>
-        </div>
-    <?php } ?>
-</div>
 <fieldset>
     <?php echo $this->getHookVar('address_form_top'); ?>
     <label class="visible-xs text-center text-uppercase"><?php echo $type.' '.$fast_checkout_text_address; ?></label>

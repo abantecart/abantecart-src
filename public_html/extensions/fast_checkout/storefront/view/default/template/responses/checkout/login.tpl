@@ -3,11 +3,7 @@ if ($show_payment == false) { ?>
 </form>
 <?php }
 echo $login_form['form_open']; ?>
-<div id="login_error_container">
-    <?php if (in_array($action, ['', 'login']) && $error) { ?>
-		<div class="alert alert-danger" role="alert"><i class="fa fa-exclamation fa-fw"></i> <?php echo $error; ?></div>
-    <?php } ?>
-</div>
+
 <p class="text-center"> <?php echo $fast_checkout_text_please_login; ?>:</p>
 <fieldset>
 	<div class="form-group">
