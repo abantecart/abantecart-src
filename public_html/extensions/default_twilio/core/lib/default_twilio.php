@@ -1,8 +1,10 @@
 <?php
 
+use Twilio\Rest\Client;
+
 final class DefaultTwilio
 {
-    public $errors = array();
+    public $errors = [];
     private $registry;
     private $config;
     private $sender;
@@ -13,12 +15,12 @@ final class DefaultTwilio
         $this->registry->get('language')->load('default_twilio/default_twilio');
         $this->config = $this->registry->get('config');
         try {
-            require_once(DIR_EXT.'default_twilio/core/lib/Services/Twilio.php');
-            require_once(DIR_EXT.'default_twilio/core/lib/Twilio/autoload.php');
+            require_once(DIR_EXT.'default_twilio' . DS . 'core' . DS . 'lib' . DS . 'Services' . DS . 'Twilio.php');
+            require_once(DIR_EXT.'default_twilio' . DS . 'core' . DS . 'lib' . DS . 'Twilio' . DS . 'autoload.php');
             $AccountSid = $this->config->get('default_twilio_username');
             $AuthToken = $this->config->get('default_twilio_token');
 
-            $this->sender = new \Twilio\Rest\Client($AccountSid, $AuthToken);
+            $this->sender = new Client($AccountSid, $AuthToken);
 
         } catch (Exception $e) {
             if ($this->config->get('default_twilio_logging')) {
@@ -55,10 +57,10 @@ final class DefaultTwilio
             $from = $from ? '+'.ltrim($from, '+') : '';
             $this->sender->messages->create(
                 $to,
-                array(
+                [
                     'from' => $from,
                     'body' => $text,
-                )
+                ]
             );
             $result = true;
         } catch (Exception $e) {
@@ -80,7 +82,7 @@ final class DefaultTwilio
 
     public function validateURI($uri)
     {
-        $this->errors = array();
+        $this->errors = [];
         $uri = trim($uri);
         $uri = trim($uri, ',');
 
@@ -119,11 +121,11 @@ final class DefaultTwilio
         $this->registry->get('language')->load('default_twilio/default_twilio');
 
         return $form->getFieldHtml(
-            array(
+            [
                 'type'       => 'phone',
                 'name'       => 'sms',
                 'value'      => $value,
                 'label_text' => $this->registry->get('language')->get('entry_sms'),
-            ));
+            ]);
     }
 }

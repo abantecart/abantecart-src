@@ -3,28 +3,28 @@
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
-require_once('core/lib/default_twilio.php');
-$controllers = array(
-    'storefront' => array(),
-    'admin'      => array('responses/extension/default_twilio'),
-);
+require_once DIR_EXT . 'default_twilio' . DS . 'core' . DS . 'lib' . DS . 'default_twilio.php';
+$controllers = [
+    'storefront' => [],
+    'admin'      => ['responses/extension/default_twilio'],
+];
 
-$models = array(
-    'storefront' => array(),
-    'admin'      => array(),
-);
+$models = [
+    'storefront' => [],
+    'admin'      => [],
+];
 
-$templates = array(
-    'storefront' => array(),
-    'admin'      => array('responses/extension/default_twilio_test.tpl'),
-);
+$templates = [
+    'storefront' => [],
+    'admin'      => ['responses/extension/default_twilio_test.tpl'],
+];
 
-$languages = array(
-    'storefront' => array(
+$languages = [
+    'storefront' => [
         'english/default_twilio/default_twilio',
-    ),
-    'admin'      => array(
+    ],
+    'admin'      => [
         'english/default_twilio/default_twilio',
-    ),
-);
+    ],
+];
 
