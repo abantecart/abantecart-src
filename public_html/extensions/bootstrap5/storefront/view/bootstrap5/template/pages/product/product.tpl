@@ -128,7 +128,7 @@ if ($error){ ?>
                         <?php } ?>
 
 
-                        <?php if($product_info['free_shipping'] && $product_info['shipping_price'] <= 0 && $can_buy) { ?>
+                        <?php if($product_info['free_shipping'] && $product_info['shipping_price'] <= 0) { ?>
                         <div class="alert alert-warning my-2 opacity-75 free-shipping-holder">
                             <i class="fa-solid fa-people-carry-box fa-xl me-2"></i><?php echo $text_free_shipping; ?>
                         </div>
