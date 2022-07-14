@@ -246,11 +246,11 @@ if ($error){ ?>
                                     ?>
                                     <?php if ($is_customer) { ?>
                                     <div class="wishlist">
-                                        <a class="wishlist_remove btn btn-large col-lg-4" href="#" onclick="wishlist_remove(); return false;" <?php echo $no_wishlist; ?>>
+                                        <a class="wishlist_remove btn btn-large col-lg-4" href="#" <?php echo $no_wishlist; ?>>
                                             <i class="fa fa-trash-o fa-fw"></i>
                                             <?php echo $button_remove_wishlist; ?>
                                         </a>
-                                        <a class="wishlist_add btn btn-large col-lg-4" href="#" onclick="wishlist_add(); return false;" <?php echo $wishlist_css; ?>>
+                                        <a class="wishlist_add btn btn-large col-lg-4" href="#" <?php echo $wishlist_css; ?>>
                                             <i class="fa fa-plus-square fa-fw"></i>
                                             <?php echo $button_add_wishlist; ?>
                                         </a>
@@ -338,22 +338,21 @@ if ($error){ ?>
                                 <div class="form-group">
                                     <div class="form-inline">
                                         <label class="control-label col-md-3 pull-left"><?php echo $entry_rating; ?>
-                                            <span
-                                                    class="red">*</span></label>
+                                            <span class="red">*</span></label>
                                         <?php echo $rating_element; ?>
                                     </div>
                                 </div>
                                 <div class="form-group mt40">
                                     <div class="form-inline">
-                                        <label class="control-label col-md-3"><?php echo $entry_name; ?> <span
-                                                    class="red">*</span></label>
+                                        <label class="control-label col-md-3"><?php echo $entry_name; ?>
+                                            <span class="red">*</span></label>
                                         <?php echo $review_name; ?>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="form-inline">
-                                        <label class="control-label col-md-3"><?php echo $entry_review; ?> <span
-                                                    class="red">*</span></label>
+                                        <label class="control-label col-md-3"><?php echo $entry_review; ?>
+                                            <span class="red">*</span></label>
                                         <?php echo $review_text; ?>
                                     </div>
                                     <div class="input-group"><?php echo $text_note; ?></div>
@@ -775,5 +774,16 @@ if ($error){ ?>
                 }
             });
         }
+
+        $(document).on('click','a.wishlist_add', function(e){
+                e.preventDefault();
+                wishlist_add();
+            }
+        );
+        $(document).on('click','a.wishlist_remove', function(e){
+                e.preventDefault();
+                wishlist_remove();
+            }
+        );
     });
 </script>
