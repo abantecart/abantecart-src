@@ -24,7 +24,7 @@ if ($error){ ?>
     <div class="d-flex flex-wrap align-content-center">
         <!-- Left Image-->
         <div class="text-center d-flex flex-wrap flex-sm-nowrap mt-lg-4 mt-5">
-            <ul class="thumbnails mainimage smallimage list-unstyled overflow-auto d-flex flex-wrap d-sm-block overflow-scroll"
+            <ul class="thumbnails mainimage smallimage list-unstyled overflow-auto d-flex flex-wrap d-sm-block overflow-auto"
                 style="max-height: <?php echo $thmb_w?>px">
         <?php
             if (sizeof((array)$images) > 1){
