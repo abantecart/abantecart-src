@@ -646,7 +646,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $this->model_checkout_order->update(
             $orderId,
             $orderStatusId,
-            'Order canceled by Paypal webhook request.'
+            'Order updated by Paypal webhook request.'
         );
         //save input data into comments but hide from customer
         $this->model_checkout_order->addHistory(
