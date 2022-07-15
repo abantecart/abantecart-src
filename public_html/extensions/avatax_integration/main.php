@@ -22,9 +22,7 @@ if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 require_once DIR_EXT . 'avatax_integration' . DS . 'vendor' . DS . 'autoload.php';
-if (!class_exists('ExtensionAvataxIntegration')) {
-    include DIR_EXT . 'avatax_integration' . 'core' . DS . 'avatax_integration.php';
-}
+require_once DIR_EXT . 'avatax_integration' . DS . 'core' . DS . 'avatax_integration.php';
 
 $controllers = [
     'storefront' => ['responses/extension/avatax_integration'],
