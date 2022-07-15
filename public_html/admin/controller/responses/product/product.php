@@ -1471,10 +1471,9 @@ class ControllerResponsesProductProduct extends AController
             ]
         );
 
-        $options = ['' => $this->language->get('text_select')];
-        foreach ($order_statuses as $order_status) {
-            $options[$order_status['order_status_id']] = $order_status['name'];
-        }
+        $options = ['' => $this->language->get('text_select')]
+            + array_column($order_statuses,'name','order_status_id');
+        unset($options[0]);
 
         $this->data['form']['fields']['general']['activate'] .= $form->getFieldHtml(
             [

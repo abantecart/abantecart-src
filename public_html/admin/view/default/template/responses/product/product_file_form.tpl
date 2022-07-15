@@ -138,29 +138,29 @@
 <script type="application/javascript">
 
 $(document).ready(function(){    
-	//manage icons in the acorrdion
+	//manage icons in the accordion
     $('.collapse').on('hidden.bs.collapse', function () {
        $(this).parent().find(".fa-chevron-down").removeClass("fa-chevron-down").addClass("fa-chevron-up");
-    });
-    $('.collapse').on('shown.bs.collapse', function () {
+    }).on('shown.bs.collapse', function () {
        $(this).parent().find(".fa-chevron-up").removeClass("fa-chevron-up").addClass("fa-chevron-down");
     });
 
 	$('#downloadFrm_activate').on('change', function () {
-		if ($(this).val() != 'order_status') {
+		if ($(this).val() !== 'order_status') {
 			$('#downloadFrm_activate_order_status_id').fadeOut().next('.input-group-addon').fadeOut();
 
-			if($(this).val() == 'before_order'){
-				$('#downloadFrm_max_downloads, #downloadFrm_expire_days').parents('.form-group').fadeOut();
+            var parent = $('#downloadFrm_max_downloads, #downloadFrm_expire_days').parents('.form-group');
+			if($(this).val() === 'before_order'){
+                parent.fadeOut();
 			}else{
-				$('#downloadFrm_max_downloads, #downloadFrm_expire_days').parents('.form-group').fadeIn();
+                parent.fadeIn();
 			}
-
 		} else {
 			$('#downloadFrm_activate_order_status_id').fadeIn().next('.input-group-addon').fadeIn();
 			$('#downloadFrm_max_downloads, #downloadFrm_expire_days').parents('.form-group').fadeIn();
 		}
 	});
+    $('#downloadFrm_activate').change();
 
 	$('#downloadFrm').submit(function () {
 		$.ajax(
@@ -169,7 +169,7 @@ $(document).ready(function(){
 					data: $('#downloadFrm').serializeArray(),
 					dataType: 'json',
 					success: function (data) {
-						if (data.result_text != '') {
+						if (data.result_text !== '') {
 						<?php if(!$download_id){?>
 								goTo('<?php echo $file_list_url; ?>');
 						<?php } else { ?>
