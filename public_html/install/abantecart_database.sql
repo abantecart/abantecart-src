@@ -1644,6 +1644,29 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('details','translate_override_existing',0),
 ('details','warn_lang_text_missing',0),
 ('details','config_duplicate_contact_us_to_message',1),
+('details','config_opening_sunday_opens',''),
+('details','config_opening_sunday_closes',''),
+('details','config_opening_monday_opens','9:00'),
+('details','config_opening_monday_closes','18:00'),
+('details','config_opening_tuesday_opens','9:00'),
+('details','config_opening_tuesday_closes','18:00'),
+('details','config_opening_wednesday_opens','9:00'),
+('details','config_opening_wednesday_closes','18:00'),
+('details','config_opening_thursday_opens','9:00'),
+('details','config_opening_thursday_closes','21:00'),
+('details','config_opening_friday_opens','9:00'),
+('details','config_opening_friday_closes','16:00'),
+('details','config_opening_saturday_opens',''),
+('details','config_opening_saturday_closes',''),
+('details','config_postcode','07601'),
+('details','protocol_url','https'),
+('details','protocol_ssl_url','https'),
+('details','config_city','New Jersey'),
+('details','config_latitude','40.887187'),
+('details','config_longitude','-74.037592'),
+('details','translate_method','copy_source_text'),
+('details','config_tax_class_id','1'),
+
 -- general
 ('general','config_admin_limit',20),
 ('general','config_catalog_limit',20),
@@ -1697,6 +1720,8 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout','config_expire_order_days',30),
 ('checkout','config_customer_cancelation_order_status_id',''),
 ('checkout','config_zero_customer_balance','0'),
+('checkout','config_phone_validation_pattern','/^[0-9+\\(\\)#\\.\\s\\/ext-]+$/'),
+('checkout','config_start_order_id',''),
 
 -- Appearance
 
@@ -1820,19 +1845,17 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('forms_manager','forms_manager_default_sender_email', ''),
 ('forms_manager','forms_manager_sort_order', ''),
 
-('fast_checkout','fast_checkout_store_id', 0),
-('fast_checkout','fast_checkout_status', 1),
-('fast_checkout','fast_checkout_layout', ''),
-('fast_checkout','fast_checkout_priority', 10),
-('fast_checkout','fast_checkout_payment_address_equal_shipping', 0),
-('fast_checkout','fast_checkout_allow_coupon', 1),
-('fast_checkout','fast_checkout_require_phone_number', 1),
-('fast_checkout','fast_checkout_show_order_comment_field', 1),
-('fast_checkout','fast_checkout_create_account', 1),
-('fast_checkout','fast_checkout_sort_order', 10),
-('fast_checkout','fast_checkout_buy_now_status', 1)
-;
-
+('fast_checkout','fast_checkout_store_id',0),
+('fast_checkout','fast_checkout_status',1),
+('fast_checkout','fast_checkout_layout',''),
+('fast_checkout','fast_checkout_priority',10),
+('fast_checkout','fast_checkout_payment_address_equal_shipping',0),
+('fast_checkout','fast_checkout_allow_coupon',1),
+('fast_checkout','fast_checkout_require_phone_number',1),
+('fast_checkout','fast_checkout_show_order_comment_field',1),
+('fast_checkout','fast_checkout_create_account',1),
+('fast_checkout','fast_checkout_sort_order',10),
+('fast_checkout','fast_checkout_buy_now_status',1);
 
 --
 -- DDL for table `stock_statuses`
