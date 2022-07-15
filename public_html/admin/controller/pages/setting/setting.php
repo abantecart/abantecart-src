@@ -548,7 +548,13 @@ class ControllerPagesSettingSetting extends AController
                         // otherwise use default
                         $tmpl_id = $this->request->get['tmpl_id'];
                         if (!$tmpl_id) {
-                            $tmpl_id = $this->config->get('config_storefront_template');
+                            $extManager = new AExtensionManager();
+                            $extInfo = $extManager->getExtensionInfo($this->request->get['extension']);
+                            if($extInfo['type'] == 'template'){
+                                $tmpl_id = $extInfo['key'];
+                            }else {
+                                $tmpl_id = $this->config->get('config_storefront_template');
+                            }
                         }
                         redirect($this->html->getSecureURL('design/template/edit', '&tmpl_id='.$tmpl_id));
                     }

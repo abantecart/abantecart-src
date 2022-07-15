@@ -856,7 +856,8 @@ INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `v
 
 ('extensions', 'banner_manager', 'extensions', 1, 1, '1.1.0', null, now(), now(), now() ),
 ('extensions', 'forms_manager', 'extensions', 1, 1, '1.1.0', null, now(), now(), now() ),
-('extensions', 'fast_checkout', 'Checkout', 1, 10, '1.3.3', null, now(), now() + INTERVAL 2 MINUTE , now() )
+('extensions', 'fast_checkout', 'Checkout', 1, 10, '1.3.3', null, now(), now() + INTERVAL 2 MINUTE , now() ),
+('template', 'bootstrap5', 'template', 1, 1, '1.0.0', null, now(), now() + INTERVAL 3 MINUTE , now() )
 ;
 
 --
@@ -1855,7 +1856,14 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('fast_checkout','fast_checkout_show_order_comment_field',1),
 ('fast_checkout','fast_checkout_create_account',1),
 ('fast_checkout','fast_checkout_sort_order',10),
-('fast_checkout','fast_checkout_buy_now_status',1);
+('fast_checkout','fast_checkout_buy_now_status',1),
+
+('bootstrap5', 'bootstrap5_priority',0),
+('bootstrap5', 'bootstrap5_date_installed',NOW()),
+('bootstrap5', 'bootstrap5_sort_order', 1),
+('bootstrap5', 'config_logo',281),
+('bootstrap5', 'bootstrap5_status', 1),
+('bootstrap5', 'store_id', 0);
 
 --
 -- DDL for table `stock_statuses`
@@ -10573,18 +10581,29 @@ CREATE TABLE `ac_layouts` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `ac_layouts` (`layout_id`, `template_id`, `layout_type`, `layout_name`, `date_added`) VALUES
-(11, 'default', 0, 'Default Page Layout',  now()),
-(12, 'default', 1, 'Home Page',  now()),
-(13, 'default', 1, 'Login Page',  now()),
-(14, 'default', 1, 'Default Product Page',  now()),
-(15, 'default', 1, 'Checkout Pages', now()),
-(16, 'default', 1, 'Product Listing Page', now()),
-(17, 'default', 1, 'Maintenance Page', now()),
-(18, 'default', 1, 'Customer Account Pages', now()),
-(19, 'default', 1, 'Cart Page', now()),
-(20, 'default', 1, 'Product Listing Page', now()),
+(11, 'default', 0, 'Default Page Layout',  NOW()),
+(12, 'default', 1, 'Home Page',  NOW()),
+(13, 'default', 1, 'Login Page',  NOW()),
+(14, 'default', 1, 'Default Product Page',  NOW()),
+(15, 'default', 1, 'Checkout Pages', NOW()),
+(16, 'default', 1, 'Product Listing Page', NOW()),
+(17, 'default', 1, 'Maintenance Page', NOW()),
+(18, 'default', 1, 'Customer Account Pages', NOW()),
+(19, 'default', 1, 'Cart Page', NOW()),
+(20, 'default', 1, 'Product Listing Page', NOW()),
 (21, 'default', 1, 'Fast Checkout Page', NOW()),
-(22, 'default', 1, 'Fast Checkout Success Page', NOW())
+(22, 'default', 1, 'Fast Checkout Success Page', NOW()),
+
+(23, 'bootstrap5',0, 'Default Page Layout',NOW()),
+(24, 'bootstrap5',1, 'Home Page',NOW()),
+(25, 'bootstrap5',1, 'Login Page',NOW()),
+(26, 'bootstrap5',1, 'Default Product Page',NOW()),
+(27, 'bootstrap5',1, 'Product Listing Page',NOW()),
+(28, 'bootstrap5',1, 'Maintenance Page',NOW()),
+(29, 'bootstrap5',1, 'Customer Account Pages',NOW()),
+(30, 'bootstrap5',1, 'Cart Page',NOW()),
+(31, 'bootstrap5',1, 'Fast Checkout Page',NOW()),
+(32, 'bootstrap5',1, 'Fast Checkout Success Page',NOW())
  ;
 
 --
@@ -10608,7 +10627,18 @@ INSERT INTO `ac_pages_layouts` (`layout_id`, `page_id`) VALUES
 (19, 12),
 (20, 13),
 (21, 14),
-(22, 15);
+(22, 15),
+-- bs5
+( 23,1),
+( 24,2),
+( 25,4),
+( 26,5),
+( 27,13),
+( 28,10),
+( 29,11),
+( 30,12),
+( 31,14),
+( 32,15);
 
 --
 -- DDL for table `block_layouts`
@@ -12449,7 +12479,8 @@ VALUES
   ( 277, 1, NOW() ),
   ( 278, 1, NOW() ),
   ( 279, 1, NOW() ),
-  ( 280, 1, NOW() );
+  ( 280, 1, NOW() ),
+  ( 281, 1, NOW() );
 
 INSERT INTO `ac_resource_descriptions`
 (`resource_id`, `language_id`, `name`, `title`, `description`, `resource_path`, `resource_code`, `date_added`)
@@ -12515,28 +12546,27 @@ VALUES
   ( 258,1,'Icon Language', '', '', '', '<i class="fa fa-language"></i>&nbsp;', NOW() ),
   ( 259,1,'Icon Language definitions', '', '', '', '<i class="fa fa-sort-alpha-asc"></i>&nbsp;', NOW() ),
   ( 260,1,'Icon Currency', '', '', '', '<i class="fa fa-money"></i>&nbsp;', NOW() ),
-  ( 261,1,'Icon Stockstatus', '', '', '', '<i class="fa fa-list-alt"></i>&nbsp;', NOW() ),
-  ( 262,1,'Icon Orderstatus', '', '', '', '<i class="fa fa-sort-amount-asc"></i>&nbsp;', NOW() ),
+  ( 261,1,'Icon Stock Status', '', '', '', '<i class="fa fa-list-alt"></i>&nbsp;', NOW() ),
+  ( 262,1,'Icon Order Status', '', '', '', '<i class="fa fa-sort-amount-asc"></i>&nbsp;', NOW() ),
   ( 263,1,'Icon Country', '', '', '', '<i class="fa fa-globe"></i>&nbsp;', NOW() ),
   ( 264,1,'Icon Zone', '', '', '', '<i class="fa fa-thumb-tack"></i>&nbsp;', NOW() ),
   ( 265,1,'Icon Location', '', '', '', '<i class="fa fa-flag-checkered"></i>&nbsp;', NOW() ),
-  ( 266,1,'Icon Taxclass', '', '', '', '<i class="fa fa-briefcase"></i>&nbsp;', NOW() ),
-  ( 267,1,'Icon Lengthclass', '', '', '', '<i class="fa fa-arrows-h"></i>&nbsp;', NOW() ),
-  ( 268,1,'Icon Weightclass', '', '', '', '<i class="fa fa-angle-double-down"></i>&nbsp;', NOW() ),
+  ( 266,1,'Icon Tax class', '', '', '', '<i class="fa fa-briefcase"></i>&nbsp;', NOW() ),
+  ( 267,1,'Icon Length class', '', '', '', '<i class="fa fa-arrows-h"></i>&nbsp;', NOW() ),
+  ( 268,1,'Icon Weight class', '', '', '', '<i class="fa fa-angle-double-down"></i>&nbsp;', NOW() ),
   ( 269,1,'Icon Backup', '', '', '', '<i class="fa fa-jsfiddle"></i>&nbsp;', NOW() ),
   ( 270,1,'Icon Migrate', '', '', '', '<i class="fa fa-share-alt-square"></i>&nbsp;', NOW() ),
   ( 271,1,'Icon Datasets', '', '', '', '<i class="fa fa-database"></i>&nbsp;', NOW() ),
   ( 272,1,'Icon Import export', '', '', '', '<i class="fa fa-exchange"></i>&nbsp;', NOW() ),
   ( 273,1,'Icon File uploads', '', '', '', '<i class="fa fa-download"></i>&nbsp;', NOW() ),
-  ( 274,1,'Icon Installlog', '', '', '', '<i class="fa fa-history"></i>&nbsp;', NOW() ),
+  ( 274,1,'Icon Install Log', '', '', '', '<i class="fa fa-history"></i>&nbsp;', NOW() ),
   ( 275,1,'Icon Error log', '', '', '', '<i class="fa fa-exclamation-triangle"></i>&nbsp;', NOW() ),
   ( 276,1,'Icon Settings IM', '', '', '', '<i class="fa fa-bullhorn"></i>&nbsp;', NOW() ),
   ( 277,1,'Icon Resource Library', '', '', '', '<i class="fa fa-image"></i>&nbsp;', NOW() ),
   ( 278,1,'Icon Analytics & Insights', '', '', '', '<i class="fa fa-signal"></i>&nbsp;', NOW() ),
   ( 279,1,'Icon Collections', '', '', '', '<i class="fa fa-paste"></i>&nbsp;', NOW() ),
-  ( 280,1,'Icon Email Templates', '', '', '', '<i class="fa fa-envelope-open-o"></i>&nbsp;', NOW() );
-
-
+  ( 280,1,'Icon Email Templates', '', '', '', '<i class="fa fa-envelope-open-o"></i>&nbsp;', NOW() ),
+  ( 281,1,'abc-logo-white','abc-logo-white','abc-logo-white.png','18/7a/5.png','', NOW() );
 
 --
 -- DDL for table `ac_resource_types`
