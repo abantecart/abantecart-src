@@ -237,7 +237,7 @@ class ControllerPagesUserUser extends AController
         $this->data['cancel'] = $this->html->getSecureURL('user/user');
 
         if (isset($this->request->get['user_id'])) {
-            $user_id = $this->request->get['user_id'];
+            $user_id = (int)$this->request->get['user_id'];
             $this->data['user_id'] = $user_id;
             $user_info = $this->model_user_user->getUser($user_id);
         } else {
