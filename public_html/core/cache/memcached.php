@@ -140,7 +140,6 @@ class ACacheDriverMemcached extends ACacheDriver
     {
 
         $cache_id = $this->_getCacheId($key, $group);
-Registry::getInstance()->get('log')->write('put:  '.$cache_id.'  key: '.$key.'   group: '. $group);
 
         if (!$this->_lock_index()) {
             return false;
@@ -158,12 +157,10 @@ Registry::getInstance()->get('log')->write('put:  '.$cache_id.'  key: '.$key.'  
 
         $index[] = $temp_array;
         $this->connect->replace($this->secret.'-index', $index, 0);
-Registry::getInstance()->get('log')->write('replace before put  '.$this->secret.'-index');
         $this->_unlock_index();
 
         // Prevent double writes, write only if it doesn't exist else replace
         if (!$this->connect->replace($cache_id, $data, $this->expire)) {
-Registry::getInstance()->get('log')->write('put  '.$this->secret.'-index');
             $this->connect->set($cache_id, $data, $this->expire);
         }
 
