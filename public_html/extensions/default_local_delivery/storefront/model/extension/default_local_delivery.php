@@ -59,8 +59,10 @@ class ModelExtensionDefaultLocalDelivery extends Model
             $quote_data['default_local_delivery'] = [
                 'id'           => 'default_local_delivery.default_local_delivery',
                 'title'        => $language->get('text_description'),
-                'cost'         => (float)$this->config->get('default_local_delivery_cost'),
-                'tax_class_id' => (int)$this->config->get('default_local_delivery_tax_class_id'),
+                'cost'         => $this->tax->calculate(
+                    $this->config->get('default_local_delivery_cost'),
+                    (int)$this->config->get('default_local_delivery_tax_class_id')
+                ),
                 'text'         => (float)$this->config->get('default_local_delivery_cost')
                                     ? $this->currency->format((float)$this->config->get('default_local_delivery_cost'))
                                     : $language->get('text_free'),

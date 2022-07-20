@@ -116,7 +116,6 @@ class ModelExtensionDefaultWeight extends Model
                                                         $this->config->get('config_weight_class')
                                             ).')',
                             'cost'         => $taxCost,
-                            'tax_class_id' => $this->config->get('default_weight_tax_class_id'),
                             'text'         => $this->currency->format($taxCost )
                         ];
                     }
@@ -133,7 +132,6 @@ class ModelExtensionDefaultWeight extends Model
                                                     $this->config->get('default_weight_tax_class_id'),
                                                     true
                             ),
-                            'tax_class_id' => $this->config->get('default_weight_tax_class_id'),
                             'text'         => $language->get('text_free'),
                         ];
                     }

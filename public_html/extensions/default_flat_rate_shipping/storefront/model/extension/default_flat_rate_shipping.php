@@ -28,7 +28,6 @@ class ModelExtensionDefaultFlatRateShipping extends Model
         $language->load('default_flat_rate_shipping/default_flat_rate_shipping');
         $status = false;
         $method_data = [];
-
         if ($this->config->get('default_flat_rate_shipping_status')) {
             $default_cost = $this->config->get('default_flat_rate_shipping_default_cost');
             $default_tax_class_id = (int)$this->config->get('default_flat_rate_shipping_default_tax_class_id');
@@ -40,6 +39,7 @@ class ModelExtensionDefaultFlatRateShipping extends Model
                         AND (zone_id = '".(int)$address['zone_id']."')";
             $result = $this->db->query($sql);
             $customer_location_id = (int)$result->row['location_id'];
+
             if ($customer_location_id) {
                 $cost = $this->config->get('default_flat_rate_shipping_cost_'.$customer_location_id);
                 $location_status = $this->config->get('default_flat_rate_shipping_status_'.$customer_location_id);
@@ -51,7 +51,9 @@ class ModelExtensionDefaultFlatRateShipping extends Model
                 } else {
                     $status = $default_status;
                     $cost = $default_cost;
+                    $tax_class_id = $default_tax_class_id;
                 }
+
             }else
             //if cost not set or unknown location - try use default settings
             {
@@ -69,10 +71,12 @@ class ModelExtensionDefaultFlatRateShipping extends Model
         if (!$status) {
             return $method_data;
         }
+        $this->log->write($tax_class_id);
 
         $quote_data = [];
         //Process all products shipped together with not special shipping settings on a product level
         if (count($this->cart->basicShippingProducts()) > 0) {
+
             $quote_data['default_flat_rate_shipping'] = [
                 'id'           => 'default_flat_rate_shipping.default_flat_rate_shipping',
                 'title'        => $language->get('text_description'),
@@ -81,7 +85,6 @@ class ModelExtensionDefaultFlatRateShipping extends Model
                                     $tax_class_id,
                                     true
                                 ),
-                'tax_class_id' => (int)$tax_class_id,
                 'text'         => $this->currency->format(
                                         $this->tax->calculate(
                                             $cost,
@@ -127,7 +130,6 @@ class ModelExtensionDefaultFlatRateShipping extends Model
                     'id'           => 'default_flat_rate_shipping.default_flat_rate_shipping',
                     'title'        => $language->get('text_description'),
                     'cost'         => $fixed_cost,
-                    'tax_class_id' => $tax_class_id,
                     'text'         => '',
                 ];
                 if ($fixed_cost > 0) {
