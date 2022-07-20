@@ -71,7 +71,6 @@ class ModelExtensionDefaultFlatRateShipping extends Model
         if (!$status) {
             return $method_data;
         }
-        $this->log->write($tax_class_id);
 
         $quote_data = [];
         //Process all products shipped together with not special shipping settings on a product level
