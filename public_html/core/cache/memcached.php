@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2022 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -140,6 +140,8 @@ class ACacheDriverMemcached extends ACacheDriver
     {
 
         $cache_id = $this->_getCacheId($key, $group);
+Registry::getInstance()->get('log')->write('put:  '.$cache_id.'  key: '.$key.'   group: '. $group);
+
         if (!$this->_lock_index()) {
             return false;
         }
@@ -156,12 +158,15 @@ class ACacheDriverMemcached extends ACacheDriver
 
         $index[] = $temp_array;
         $this->connect->replace($this->secret.'-index', $index, 0);
+Registry::getInstance()->get('log')->write('replace before put  '.$this->secret.'-index');
         $this->_unlock_index();
 
         // Prevent double writes, write only if it doesn't exist else replace
         if (!$this->connect->replace($cache_id, $data, $this->expire)) {
+Registry::getInstance()->get('log')->write('put  '.$this->secret.'-index');
             $this->connect->set($cache_id, $data, $this->expire);
         }
+
         return true;
     }
 
@@ -176,7 +181,6 @@ class ACacheDriverMemcached extends ACacheDriver
      */
     public function remove($key, $group)
     {
-
         $cache_id = $this->_getCacheId($key, $group);
         if (!$this->_lock_index()) {
             return false;
@@ -228,7 +232,7 @@ class ACacheDriverMemcached extends ACacheDriver
         }
 
         foreach ($index as $key => $value) {
-            if ($group == '*' || strpos($value->name, $group.'.') === 0) {
+            if ($group == '*' || is_int(strpos($value->name, $group.'.')) ) {
                 $this->connect->delete($value->name, 0);
                 unset($index[$key]);
             }
@@ -258,7 +262,7 @@ class ACacheDriverMemcached extends ACacheDriver
      * @param   string  $group    The cache data group
      * @param   integer $locktime Cached item max lock time
      *
-     * @return  boolean
+     * @return  array|false
      *
      * @since   1.2.7
      */
@@ -350,7 +354,7 @@ class ACacheDriverMemcached extends ACacheDriver
 
     protected function _getCacheId($key, $group)
     {
-        return $group.'.'.$this->_hashCacheKey($key, $group);
+        return $this->secret.'.'.$group.'.'.$this->_hashCacheKey($key, $group);
     }
 
     /**
