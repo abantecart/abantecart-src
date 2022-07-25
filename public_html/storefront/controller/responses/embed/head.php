@@ -73,7 +73,7 @@ class ControllerResponsesEmbedHead extends AController
                 'act_on_behalf_warning',
                 sprintf(
                     $this->language->get('text_act_on_behalf'),
-                    $this->customer->getId(),
+                    $this->customer->getEmail(),
                     $this->session->data['merchant_username']
                 )
             );

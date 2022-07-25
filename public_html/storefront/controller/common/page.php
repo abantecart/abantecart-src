@@ -113,8 +113,8 @@ class ControllerCommonPage extends AController
                 'act_on_behalf_warning',
                 sprintf(
                     $this->language->get('text_act_on_behalf'),
-                    $this->customer->getId() ?: 'guest',
-                    $this->session->data['merchant']
+                    $this->customer->getEmail() ?: 'guest',
+                    $this->session->data['merchant_username']
                 )
             );
         }

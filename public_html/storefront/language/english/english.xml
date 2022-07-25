@@ -263,7 +263,7 @@
 	</definition>
 	<definition>
 		<key>text_act_on_behalf</key>
-		<value><![CDATA[Notice: Impersonate mode for Customer: %s. User: %s]]></value>
+		<value><![CDATA[Notice: Impersonate mode for customer "%s" by "%s"]]></value>
 	</definition>
 	<definition>
 		<key>text_browse</key>

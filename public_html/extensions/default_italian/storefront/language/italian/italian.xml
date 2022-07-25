@@ -330,7 +330,7 @@
 	</definition>
 	<definition>
 		<key>text_act_on_behalf</key>
-		<value><![CDATA[Avviso: modalità impersonata per il cliente: %s. Utente: %s]]></value>
+		<value><![CDATA[Avviso: modalità impersonata per il cliente "%s" da "%s"]]></value>
 	</definition>
 	<definition>
 		<key>price_with_tax</key>
