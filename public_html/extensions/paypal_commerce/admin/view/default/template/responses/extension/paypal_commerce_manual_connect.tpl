@@ -9,10 +9,10 @@ if($this->config->get('paypal_commerce_onboarding')){
 ?>
 <div class="pp-manual-connect-settings" style="<?php echo !$visible ? 'display: none;' : ''; ?>">
     <div class="col-12 mb15">
-        <label class="control-label col-sm-2 col-xs-12">
+        <label class="control-label col-sm-3 col-xs-12">
             <?php echo $this->language->get('paypal_commerce_test_mode')?>
         </label>
-        <div class="row col-8 input-group afield">
+        <div class="row col-9 input-group afield ml10">
                 <?php
                 echo $this->html->buildElement(
                     [
@@ -26,10 +26,10 @@ if($this->config->get('paypal_commerce_onboarding')){
         </div>
     </div>
     <div class="col-12 mb15">
-        <label class="control-label col-sm-2 col-xs-12">
+        <label class="control-label col-sm-3 col-xs-12">
             <?php echo $this->language->get('paypal_commerce_client_id')?>
         </label>
-        <div class="row col-8 input-group afield">
+        <div class="row col-9 input-group afield ml10">
                 <?php
                 echo $this->html->buildElement(
                     [
@@ -41,16 +41,16 @@ if($this->config->get('paypal_commerce_onboarding')){
         </div>
     </div>
     <div class="col-12 mb15">
-        <label class="control-label col-sm-2 col-xs-12">
+        <label class="control-label col-sm-3 col-xs-12">
             <?php echo $this->language->get('paypal_commerce_client_secret')?>
         </label>
-        <div class="row col-8 input-group afield">
+        <div class="row col-9 input-group afield ml10">
                 <?php
                 echo $this->html->buildElement(
                     [
                         'type'  => 'input',
                         'name'  => 'paypal_commerce_client_secret',
-                        'value'  => $this->config->get('paypal_commerce_client_secret'),
+                        'value'  => $this->config->get('paypal_commerce_client_secret')
                     ]
                 ); ?>
         </div>

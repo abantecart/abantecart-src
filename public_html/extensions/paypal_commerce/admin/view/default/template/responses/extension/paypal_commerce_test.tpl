@@ -18,9 +18,9 @@
                 [
                     'type'  => 'button',
                     'name'  => 'update_webhooks',
-                    'title' => $paypal_commerce_text_update_webhooks,
+                    'title' => $paypal_commerce_tooltip_update_webhooks,
                     'text'  => $paypal_commerce_text_update_webhooks,
-                    'style' => 'btn btn-info',
+                    'style' => 'btn btn-info tooltips',
                 ]
             ); ?>
     </div>

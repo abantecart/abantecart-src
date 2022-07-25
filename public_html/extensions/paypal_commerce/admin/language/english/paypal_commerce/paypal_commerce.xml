@@ -49,6 +49,10 @@
 		<value><![CDATA[Update Webhooks]]></value>
 	</definition>
 	<definition>
+		<key>paypal_commerce_tooltip_update_webhooks</key>
+		<value><![CDATA[ Webhooks will be set up automatically during connection to PayPal. Use this button to update webhooks in PayPal ]]></value>
+	</definition>
+	<definition>
 		<key>paypal_commerce_connection_success</key>
 		<value><![CDATA[Connection has been established successfully.]]></value>
 	</definition>
