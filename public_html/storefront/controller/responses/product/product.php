@@ -76,7 +76,7 @@ class ControllerResponsesProductProduct extends AController
         $product_id = (int) $this->request->post_or_get('product_id');
         $attribute_value_id = (int) $this->request->post_or_get('attribute_value_id');
         $output = [];
-        if ($attribute_value_id && is_int($attribute_value_id)) {
+        if ($attribute_value_id) {
             $resource = new AResource('image');
 
             // main product image
@@ -135,6 +135,8 @@ class ControllerResponsesProductProduct extends AController
             //no image? see images for other selected options
             if (!$output['images'] && $product_id && $this->request->post['selected_options']) {
                 foreach($this->request->post['selected_options'] as $optValId) {
+                    //case for multiselect options
+                    $optValId = is_array($optValId) ? current($optValId) : $optValId;
                     $images = $resource->getResourceAllObjects(
                         'product_option_value',
                         $optValId,
@@ -235,7 +237,6 @@ class ControllerResponsesProductProduct extends AController
             $option_data = [];
             $thumbnail = $thumbnails[$result['product_id']] ?: $result['thumb'];
             foreach ($result['option'] as $option) {
-                $title = '';
                 $value = $option['value'];
                 // hide binary value for checkbox
                 if ($option['element_type'] == 'C' && in_array($value, [0, 1])) {
