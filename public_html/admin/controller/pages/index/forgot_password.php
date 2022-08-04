@@ -63,7 +63,7 @@ class ControllerPagesIndexForgotPassword extends AController
             $mail->setTo($this->request->post['email']);
             $mail->setFrom($this->config->get('store_main_email'));
             $mail->setSender($this->config->get('config_owner'));
-            $mail->setTemplate('storefront_reset_password_link',
+            $mail->setTemplate('admin_reset_password_link',
                 [
                 'store_name' => $this->config->get('store_name'),
                 'reset_link' => $link

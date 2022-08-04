@@ -333,6 +333,7 @@ class AMail
             $this->mailer->send($this->email);
         }catch(Exception $e){
             $this->log->write(__CLASS__.'. transport: '.Registry::getInstance()->get('current_mail_transport').': '.$e->getMessage());
+            $this->error[] = $e->getMessage();
         }
 
         if ($this->error) {
