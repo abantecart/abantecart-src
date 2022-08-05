@@ -268,7 +268,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $i++;
         }
 
-        $charsPerItem = round(126 / count($cartProducts));
+        $charsPerItem = round(100 / count($cartProducts));
         $data['order_description'] = '';
         foreach ($orderDescription as $desc) {
             $postfix = $desc['sku'] . ' x ' . $desc['quantity'];
