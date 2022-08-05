@@ -5,10 +5,6 @@
 		<value><![CDATA[Fast Checkout]]></value>
 	</definition>
 	<definition>
-		<key>fast_checkout_note</key>
-		<value><![CDATA[]]></value>
-	</definition>
-	<definition>
 		<key>fast_checkout_allow_coupon</key>
 		<value><![CDATA[Allow coupon entry <br /><span class="help">Enable coupon entry by customers and guests</span>]]></value>
 	</definition>
