@@ -71,7 +71,6 @@ const DIR_LOGS = DIR_ROOT . DS . 'system' . DS . 'logs' . DS;
 const DIR_VENDOR = DIR_ROOT . DS . 'vendor' . DS;
 
 require DIR_VENDOR.'autoload.php';
-Mustache_Autoloader::register();
 
 // SEO URL Keyword separator
 const SEO_URL_SEPARATOR = '-';
