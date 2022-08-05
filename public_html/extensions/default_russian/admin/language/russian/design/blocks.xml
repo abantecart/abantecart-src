@@ -260,4 +260,8 @@
 		<key>entry_collection_resource_type</key>
 		<value><![CDATA[Выбранная коллекция:]]></value>
 	</definition>
+	<definition>
+		<key>text_products_related</key>
+		<value><![CDATA[Сопутствующие товары]]></value>
+	</definition>
 </definitions>
