@@ -36,7 +36,6 @@ $(document).on('submit','form.needs-validation', function(e){
         e.preventDefault();
         e.stopPropagation();
     }
-
     $(this).addClass('was-validated');
 });
 
