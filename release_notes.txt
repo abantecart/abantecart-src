@@ -5,8 +5,10 @@ New PayPal commerce payment integration is to combine and replace older PayPal p
 
 Core:
 - Support php8.1 into amysqli db driver
+- added redis cache driver
 - Memcached driver improvement
 - Aconnect class improvements
+- improvement of aMySQLi database driver
 - Mail class fix
 - Added percentage quantity discount for product's promotions (#1536)
 - Extension installation improvement
