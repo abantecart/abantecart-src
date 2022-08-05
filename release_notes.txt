@@ -1,3 +1,47 @@
+AbanteCart version 1.3.3
+
+In this release we introduce new Bootstrap 5 storefront template with page builder support.
+New PayPal commerce payment integration is to combine and replace older PayPal payment options
+
+Core:
+- Support php8.1 into amysqli db driver
+- Memcached driver improvement
+- Aconnect class improvements
+- Mail class fix
+- Added percentage quantity discount for product's promotions (#1536)
+- Extension installation improvement
+- SMPT improvment & php mailer fix
+- Image cache per domain fix
+- Cli install supports 8.1 + improvement related to sample data sql-file
+
+Admin:
+- Data listing block: limit translatable #1518
+- php 8.0: Call to undefined function set_time_limit #1521
+- added store into customer edit form #1522
+- order recalculation fix #1529
+- Removed gravatar from admin template
+
+
+Storefront:
+- New Bootstrap 5 template
+- changes of default preset of default template for PageBuilder
+- fix of easyzoom.js in chrome #1526
+- default template fixes.
+- product page bugfix related to default weight class for new products #1519
+- fix of broken embedding of invoice page
+- Fix of sale/contact button on customer address edit form
+- xss fix #1513
+
+Extensions:
+- PayPal Commerce payment to replace Default Paypal
+- Avatax integration fix
+- FastCheckout. duplicate error message fix
+- FastCheckout. Fix of settings for button "BuyNow"
+- FastCheckout. Added payment address zone.
+- Fast checkout GA fix
+- Discontinued default_cashflows payment support
+
+
 AbanteCart version 1.3.2
 
 In this release:
