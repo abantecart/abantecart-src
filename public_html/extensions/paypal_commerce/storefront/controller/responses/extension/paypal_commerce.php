@@ -268,6 +268,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $i++;
         }
 
+        // cut description (paypal api requirements. See Order->create->purchase_units->description)
         $charsPerItem = round(100 / count($cartProducts));
         $data['order_description'] = '';
         foreach ($orderDescription as $desc) {
