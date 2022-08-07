@@ -336,4 +336,16 @@
 		<key>order_confirm</key>
 		<value><![CDATA[Order Confirm]]></value>
 	</definition>
+	<definition>
+		<key>fast_checkout_text_login_or_email</key>
+		<value><![CDATA[Login name or Email Address]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_password</key>
+		<value><![CDATA[Password]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_authenticating</key>
+		<value><![CDATA[Authenticating ... ]]></value>
+	</definition>
 </definitions>

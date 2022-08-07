@@ -1,6 +1,5 @@
 <?php
 /** @noinspection PhpMultipleClassDeclarationsInspection */
-
 /** @noinspection PhpUndefinedClassInspection */
 
 /*------------------------------------------------------------------------------
@@ -9,7 +8,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2021 Belavier Commerce LLC
+  Copyright © 2011-2022 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -949,8 +948,8 @@ class AConfigManager
             $order_statuses[$item['order_status_id']] = $item['name'];
         }
 
-        $cntmnr = new AContentManager();
-        $results = $cntmnr->getContents([], 'default', $this->session->data['current_store_id']);
+        $cntMnr = new AContentManager();
+        $results = $cntMnr->getContents([], 'default', $this->session->data['current_store_id']);
         $contents = ['' => $this->language->get('text_none')];
         foreach ($results as $item) {
             if (!$item['status']) {
@@ -1605,25 +1604,20 @@ class AConfigManager
         $fields = [];
         //mail section
 
-        $fields['mail_protocol'] = $form->getFieldHtml(
+        $fields['mail_transporting'] = $form->getFieldHtml(
             $props[] = [
                 'type'    => 'selectbox',
-                'name'    => 'config_mail_protocol',
-                'value'   => $data['config_mail_protocol'],
+                'name'    => 'config_mail_transporting',
+                'value'   => $data['config_mail_transporting'],
                 'options' => [
-                    'mail' => $this->language->get('text_mail'),
-                    'smtp' => $this->language->get('text_smtp'),
+                    'mail'   => $this->language->get('text_mail'),
+                    'smtp'   => $this->language->get('text_smtp'),
+                    'dsn'    => $this->language->get('text_dsn'),
                 ],
                 'style'   => "no-save",
             ]
         );
-        $fields['mail_parameter'] = $form->getFieldHtml(
-            $props[] = [
-                'type'  => 'input',
-                'name'  => 'config_mail_parameter',
-                'value' => $data['config_mail_parameter'],
-            ]
-        );
+        $fields['mail_parameter'] = $this->language->get('text_native_mail_description');
         $fields['smtp_host'] = $form->getFieldHtml(
             $props[] = [
                 'type'     => 'input',
@@ -1664,6 +1658,9 @@ class AConfigManager
                 'required' => true,
             ]
         );
+
+        $fields['dsn_entry'] = $this->language->get('text_dsn_description');
+
         $fields['alert_mail'] = $form->getFieldHtml(
             $props[] = [
                 'type'  => 'checkbox',

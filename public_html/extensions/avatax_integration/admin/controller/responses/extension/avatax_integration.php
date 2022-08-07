@@ -18,8 +18,6 @@
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 
-require DIR_EXTENSIONS.'avatax_integration/core/vendor/autoload.php';
-
 class ControllerResponsesExtensionAvataxIntegration extends AController
 {
 

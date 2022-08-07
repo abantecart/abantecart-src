@@ -1629,6 +1629,7 @@ ul.productpagecart li {
 	margin-left: 5px;
 	min-width: 135px;
 	display: block !important;
+	text-align: center;
 }
 
 .productpagecart li a.wish {

@@ -33,7 +33,7 @@
 			<div class="visible-xs hidden-sm hidden-md hidden-lg">
 				<div class="media userlogged">
 					<a href="<?php echo $account_edit; ?>">
-						<img class="tooltips" src="<?php echo $avatar; ?>" title="<?php echo $username; ?>" alt="<?php echo $username; ?>"/>
+                        <i class="tooltips fa fa-user fa-2x col-xs-offset-2" title="<?php echo_html2view($username); ?>"></i>
 					</a>
 				</div>
 			</div>
@@ -178,9 +178,9 @@
 				</li>
 				<?php } ?>
 				<li>
-					<div class="btn-group">
+					<div class="user-top-menu btn-group">
 						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-							<img src="<?php echo $avatar; ?>" alt="<?php echo $username; ?>"/>
+                            <i class="media-thumb fa fa-user" title="<?php echo_html2view($username); ?>"></i>
 							<span class="hidden-xs"><?php echo $username; ?></span>
 							<span class="caret"></span>
 						</button>

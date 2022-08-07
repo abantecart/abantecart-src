@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension>
 	<id>fast_checkout</id>
-	<version>1.3.0</version>
+	<version>1.3.3</version>
 	<type>extension</type>
 	<category>Checkout</category>
 	<cartversions>
@@ -32,6 +32,10 @@
 		<item id="fast_checkout_create_account">
 			<type>checkbox</type>
 			<default_value>0</default_value>
+		</item>
+		<item id="fast_checkout_buy_now_status">
+			<type>checkbox</type>
+			<default_value>1</default_value>
 		</item>
 		<item id="fast_checkout_sort_order">
 			<type>input</type>

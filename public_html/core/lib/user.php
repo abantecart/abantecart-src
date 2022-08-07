@@ -303,14 +303,6 @@ final class AUser
     /**
      * @return string
      */
-    public function getAvatar()
-    {
-        return getGravatar($this->email);
-    }
-
-    /**
-     * @return string
-     */
     public function getUserFirstName()
     {
         return $this->firstname;

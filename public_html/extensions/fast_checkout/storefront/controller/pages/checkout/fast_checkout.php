@@ -150,6 +150,7 @@ class ControllerPagesCheckoutFastCheckout extends AController
                 }
             }
             //if we added single product via POST request - do redirect to self
+            $this->extensions->hk_ProcessData($this, 'post_single_checkout');
             redirect($this->html->getSecureURL('checkout/fast_checkout', '&product_key='.$productCartKey));
         } //do clone of default cart
         else {
@@ -206,6 +207,7 @@ class ControllerPagesCheckoutFastCheckout extends AController
                 redirect($this->html->getHomeURL());
             }
         }
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
     protected function removeNoStockProducts()
@@ -222,18 +224,41 @@ class ControllerPagesCheckoutFastCheckout extends AController
 
     public function main()
     {
-
-        $cartRt = 'checkout/cart';
+        $this->data['cart_rt'] = 'checkout/cart';
         if ($this->config->get('embed_mode') == true) {
-            $cartRt = 'r/checkout/cart/embed';
+            $this->data['cart_rt'] = 'r/checkout/cart/embed';
         }
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+
         //validate if order min/max are met
         if (!$this->cart->hasMinRequirement() || !$this->cart->hasMaxRequirement()) {
-            redirect($this->html->getSecureURL($cartRt));
+            if ($this->session->data['fc']['single_checkout']) {
+                #Check if order total max/min is set and met
+                $cf_total_min = $this->config->get('total_order_minimum');
+                $cf_total_max = $this->config->get('total_order_maximum');
+                $error_msg = [];
+                $this->loadLanguage('checkout/cart');
+                if (!$this->cart->hasMinRequirement()) {
+                    $error_msg[] = sprintf(
+                        $this->language->get('error_order_minimum'),
+                        $this->currency->format($cf_total_min)
+                    );
+                }
+                if (!$this->cart->hasMaxRequirement()) {
+                    $error_msg[] = sprintf(
+                        $this->language->get('error_order_maximum'),
+                        $this->currency->format($cf_total_max)
+                    );
+                }
+                $this->session->data['error'] = implode(" ",$error_msg);
+                redirect($this->html->getSecureURL('product/product','&product_id='.current($this->cart->getProducts())['product_id']));
+            }
+            redirect($this->html->getSecureURL($this->data['cart_rt']));
         }
 
         if (!$this->cart->hasProducts() || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
-            redirect($this->html->getSecureURL($cartRt));
+            redirect($this->html->getSecureURL($this->data['cart_rt']));
         }
 
         if (HTTPS !== true) {
@@ -248,12 +273,9 @@ class ControllerPagesCheckoutFastCheckout extends AController
                 exit;
             }
         }
-        //init controller data
-        $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->loadLanguage('fast_checkout/fast_checkout');
 
-        $this->document->setTitle($this->language->get('heading_title'));
+        $this->document->setTitle($this->language->get('heading_title', 'fast_checkout/fast_checkout'));
         $this->document->resetBreadcrumbs();
 
         $this->document->addBreadcrumb(
@@ -279,7 +301,7 @@ class ControllerPagesCheckoutFastCheckout extends AController
                 'separator' => $this->language->get('text_separator'),
             ]
         );
-
+// TODO: clean up in the future
         $this->document->addStyle(
             [
                 'href' => $this->view->templateResource('/css/bootstrap-xxs.css'),

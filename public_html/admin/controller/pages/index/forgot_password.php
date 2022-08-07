@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2022 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -17,16 +17,17 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
+
+use ReCaptcha\ReCaptcha;
+
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
 
 class ControllerPagesIndexForgotPassword extends AController
 {
-
-    public $data = array();
     private $user_data;
-    public $error = array();
+    public $error = [];
 
     public function main()
     {
@@ -46,25 +47,28 @@ class ControllerPagesIndexForgotPassword extends AController
             //generate hash
             $hash = genToken(32);
             $enc = new AEncryption($this->config->get('encryption_key'));
-            $rtoken = $enc->encrypt($this->request->post['username'].'::'.$hash);
-            $link = $this->html->getSecureURL('index/forgot_password/validate', '&rtoken='.$rtoken);
+            $rToken = $enc->encrypt($this->request->post['username'] . '::' . $hash);
+            $link = $this->html->getSecureURL('index/forgot_password/validate', '&rtoken=' . $rToken);
 
             //create a scratch data for future use
             $password_reset = new ADataset ();
             $password_reset->createDataset('admin_pass_reset', $this->request->post['username']);
-            $password_reset->setDatasetProperties(array(
-                    'hash'  => $hash,
+            $password_reset->setDatasetProperties(
+                [
+                    'hash' => $hash,
                     'email' => $this->request->post['email'],
-                )
+                ]
             );
             $mail = new AMail($this->config);
             $mail->setTo($this->request->post['email']);
             $mail->setFrom($this->config->get('store_main_email'));
             $mail->setSender($this->config->get('config_owner'));
-            $mail->setTemplate('storefront_reset_password_link', [
+            $mail->setTemplate('admin_reset_password_link',
+                [
                 'store_name' => $this->config->get('store_name'),
                 'reset_link' => $link
-            ]);
+                ]
+            );
             $mail->send();
 
             redirect($this->html->getSecureURL('index/forgot_password', '&mail=sent'));
@@ -73,14 +77,10 @@ class ControllerPagesIndexForgotPassword extends AController
         $this->data['login'] = $this->html->getSecureURL('index/login');
 
         if (isset($this->request->get['mail']) && $this->request->get['mail'] == 'sent') {
-
             $this->data['show_instructions'] = true;
-
         } else {
-
             $this->data['error'] = $this->error;
-
-            $fields = array('username', 'email', 'captcha');
+            $fields = ['username', 'email', 'captcha'];
             foreach ($fields as $f) {
                 if (isset ($this->request->post [$f])) {
                     $this->data [$f] = $this->request->post [$f];
@@ -94,66 +94,66 @@ class ControllerPagesIndexForgotPassword extends AController
             $form = new AForm('ST');
 
             $form->setForm(
-                array(
+                [
                     'form_name' => 'forgotFrm',
-                    'update'    => $this->data['update'],
-                )
+                    'update' => $this->data['update'],
+                ]
             );
 
             $this->data['form']['id'] = 'forgotFrm';
             $this->data['form']['form_open'] = $form->getFieldHtml(
-                array(
-                    'type'   => 'form',
-                    'name'   => 'forgotFrm',
+                [
+                    'type' => 'form',
+                    'name' => 'forgotFrm',
                     'action' => $this->data['action'],
-                )
+                ]
             );
             $this->data['form']['submit'] = $form->getFieldHtml(
-                array(
-                    'type'  => 'button',
-                    'name'  => 'submit',
-                    'text'  => $this->language->get('button_reset_password'),
+                [
+                    'type' => 'button',
+                    'name' => 'submit',
+                    'text' => $this->language->get('button_reset_password'),
                     'style' => 'button3',
-                )
+                ]
             );
 
             $this->data['form']['fields']['username'] = $form->getFieldHtml(
-                array(
-                    'type'        => 'input',
-                    'name'        => 'username',
-                    'value'       => $this->data['username'],
-                    'required'    => true,
+                [
+                    'type' => 'input',
+                    'name' => 'username',
+                    'value' => $this->data['username'],
+                    'required' => true,
                     'placeholder' => $this->language->get('entry_username'),
-                )
+                ]
             );
             $this->data['form']['fields']['email'] = $form->getFieldHtml(
-                array(
-                    'type'        => 'input',
-                    'name'        => 'email',
-                    'value'       => $this->data['email'],
-                    'required'    => true,
+                [
+                    'type' => 'input',
+                    'name' => 'email',
+                    'value' => $this->data['email'],
+                    'required' => true,
                     'placeholder' => $this->language->get('entry_email'),
-                )
+                ]
             );
 
             if ($this->config->get('config_recaptcha_site_key')) {
                 $this->data['form']['fields']['captcha'] = $form->getFieldHtml(
-                    array(
-                        'type'               => 'recaptcha',
-                        'name'               => 'captcha',
+                    [
+                        'type' => 'recaptcha',
+                        'name' => 'captcha',
                         'recaptcha_site_key' => $this->config->get('config_recaptcha_site_key'),
-                        'language_code'      => $this->language->getLanguageCode(),
-                    )
+                        'language_code' => $this->language->getLanguageCode(),
+                    ]
                 );
             } else {
                 $this->data['form']['fields']['captcha'] = $form->getFieldHtml(
-                    array(
-                        'type'        => 'captcha',
-                        'name'        => 'captcha',
-                        'value'       => $this->data['captcha'],
-                        'required'    => true,
+                    [
+                        'type' => 'captcha',
+                        'name' => 'captcha',
+                        'value' => $this->data['captcha'],
+                        'required' => true,
                         'placeholder' => $this->language->get('entry_captcha'),
-                    )
+                    ]
                 );
             }
         }
@@ -196,13 +196,15 @@ class ControllerPagesIndexForgotPassword extends AController
 
             //generate password
             $password = $this->request->post['password'];
-            $this->model_user_user->editUser($this->user_data['user_id'], array('password' => $password));
+            $this->model_user_user->editUser($this->user_data['user_id'], ['password' => $password]);
 
             $mail = new AMail($this->config);
             $mail->setTo($this->user_data['email']);
             $mail->setFrom($this->config->get('store_main_email'));
             $mail->setSender($this->config->get('config_owner'));
-            $mail->setTemplate('storefront_reset_password_notify', ['store_name' => $this->config->get('store_name')]);
+            $mail->setTemplate(
+                'storefront_reset_password_notify',
+                ['store_name' => $this->config->get('store_name')]);
             $mail->send();
 
             //destroy scratch data
@@ -210,46 +212,44 @@ class ControllerPagesIndexForgotPassword extends AController
 
             $this->data['show_instructions'] = true;
             $this->data['text_instructions'] = $this->language->get('text_instructions_reset');
-
             //all done and password is reset
-
-        } else {
-
+        }
+        else {
             $this->data['error'] = $this->error;
-            $this->data['action'] = $this->html->getSecureURL('index/forgot_password/validate', '&rtoken='.$this->request->get['rtoken']);
+            $this->data['action'] = $this->html->getSecureURL('index/forgot_password/validate', '&rtoken=' . $this->request->get['rtoken']);
             $this->data['update'] = '';
             $form = new AForm('ST');
 
             $form->setForm(
-                array(
+                [
                     'form_name' => 'forgotFrm',
-                    'update'    => $this->data['update'],
-                )
+                    'update' => $this->data['update'],
+                ]
             );
 
             $this->data['form']['id'] = 'forgotFrm';
             $this->data['form']['form_open'] = $form->getFieldHtml(
-                array(
-                    'type'   => 'form',
-                    'name'   => 'forgotFrm',
+                [
+                    'type' => 'form',
+                    'name' => 'forgotFrm',
                     'action' => $this->data['action'],
-                )
+                ]
             );
             $this->data['form']['submit'] = $form->getFieldHtml(
-                array(
-                    'type'  => 'button',
-                    'name'  => 'submit',
-                    'text'  => $this->language->get('text_please_confirm'),
+                [
+                    'type' => 'button',
+                    'name' => 'submit',
+                    'text' => $this->language->get('text_please_confirm'),
                     'style' => 'button3',
-                )
+                ]
             );
 
             $this->data['form']['fields']['password'] = $form->getFieldHtml(
-                array(
-                    'type'  => 'passwordset',
-                    'name'  => 'password',
+                [
+                    'type' => 'passwordset',
+                    'name' => 'password',
                     'value' => $this->data['password'],
-                )
+                ]
             );
 
         }
@@ -257,7 +257,6 @@ class ControllerPagesIndexForgotPassword extends AController
         $this->view->batchAssign($this->data);
 
         $this->processTemplate('pages/index/forgot_password.tpl');
-
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
@@ -265,9 +264,7 @@ class ControllerPagesIndexForgotPassword extends AController
     private function _validate()
     {
         if ($this->config->get('config_recaptcha_secret_key')) {
-            /** @noinspection PhpIncludeInspection */
-            require_once DIR_VENDORS.'/google_recaptcha/autoload.php';
-            $recaptcha = new \ReCaptcha\ReCaptcha($this->config->get('config_recaptcha_secret_key'));
+            $recaptcha = new ReCaptcha($this->config->get('config_recaptcha_secret_key'));
             $resp = $recaptcha->verify($this->request->post['g-recaptcha-response'],
                 $this->request->getRemoteIP());
             if (!$resp->isSuccess() && $resp->getErrorCodes()) {
@@ -294,12 +291,7 @@ class ControllerPagesIndexForgotPassword extends AController
         }
 
         $this->extensions->hk_ValidateData($this);
-
-        if (!$this->error) {
-            return true;
-        } else {
-            return false;
-        }
+        return (!$this->error);
     }
 
     private function _validateToken($reset_data, $check_hash)
@@ -310,26 +302,19 @@ class ControllerPagesIndexForgotPassword extends AController
             $this->error['warning'] = $this->language->get('error_hash');
         } else {
             $this->loadModel('user/user');
-            $users = $this->model_user_user->getUsers(array('subsql_filter' => "email = '".$this->db->escape($email)."'"));
+            $users = $this->model_user_user->getUsers(['subsql_filter' => "email = '" . $this->db->escape($email) . "'"]);
             if (empty($users)) {
                 $this->error['warning'] = $this->language->get('error_hash');
             } else {
                 $this->user_data = $users[0];
             }
         }
-
-        if (!$this->error) {
-            return true;
-        } else {
-            return false;
-        }
+        return (!$this->error);
     }
 
     private function _validatePassword()
     {
-
         $this->loadLanguage('user/user');
-
         if (!empty($this->request->post['password'])) {
             if (mb_strlen($this->request->post['password']) < 4) {
                 $this->error['password'] = $this->language->get('error_password');
@@ -339,13 +324,7 @@ class ControllerPagesIndexForgotPassword extends AController
                 $this->error['password'] = $this->language->get('error_confirm');
             }
         }
-
         $this->extensions->hk_ValidateData($this);
-
-        if (!$this->error) {
-            return true;
-        } else {
-            return false;
-        }
+        return (!$this->error);
     }
 }

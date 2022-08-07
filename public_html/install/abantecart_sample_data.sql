@@ -1,53 +1,100 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
-INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `version`, `license_key`, `date_installed`, `date_modified`, `date_added`)
-VALUES ('payment', 'default_cod', 'payment', 1, 1, '1.0.1', null, now(), now(), now() );
-INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `version`, `license_key`, `date_installed`, `date_modified`, `date_added`)
-VALUES ('shipping', 'default_flat_rate_shipping', 'shipping', 1, 1, '1.0.1', null, now(), now(), now() );
+INSERT INTO `ac_extensions`
+(`type`, `key`, `category`, `status`, `priority`,
+ `version`, `license_key`, `date_installed`, `support_expiration`,
+ `mp_product_url`,`date_modified`, `date_added`)
+VALUES
+('payment','default_cod','payment',1,1,'1.0.1',NULL,NOW(),NULL,'',NOW(),NOW()),
+('shipping','default_flat_rate_shipping','shipping',1,1,'1.0.1',NULL,NOW(),NULL,'',NOW(),NOW()),
+('shipping','default_local_delivery','shipping',1,10,'1.0.0','',NOW(),NULL,'',NOW(),NOW());
 
-INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_cod', 'default_cod_sort_order', '1');
-INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_cod', 'default_cod_order_status_id', '1');
-INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_cod', 'default_cod_status', '1');
-INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_cod', 'default_cod_location_id', '0');
-INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_cod', 'default_cod_autoselect', '1');
+INSERT INTO `ac_settings`
+(
+`store_id`,
+`group`,
+`key`,
+`value`,
+`date_added`,
+`date_modified`)
+VALUES
+(0,'default_cod','default_cod_sort_order','1',NOW(),NOW()),
+(0,'default_cod','default_cod_order_status_id','1',NOW(),NOW()),
+(0,'default_cod','default_cod_status','1',NOW(),NOW()),
+(0,'default_cod','default_cod_location_id','0',NOW(),NOW()),
+(0,'default_cod','default_cod_autoselect','1',NOW(),NOW()),
 
-INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_flat_rate_shipping', 'default_flat_rate_shipping_default_status', '1');
-INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_flat_rate_shipping', 'default_flat_rate_shipping_default_cost', '2');
-INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_flat_rate_shipping', 'default_flat_rate_shipping_cost_1', '2');
-INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_flat_rate_shipping', 'default_flat_rate_shipping_tax_class_id_1', '0');
-INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_flat_rate_shipping', 'default_flat_rate_shipping_default_tax_class_id', '0');
-INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_flat_rate_shipping', 'default_flat_rate_shipping_status', '1');
-INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_flat_rate_shipping', 'default_flat_rate_shipping_sort_order', '1');
-INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_flat_rate_shipping', 'default_flat_rate_shipping_autoselect', '1');
+(0,'default_flat_rate_shipping','default_flat_rate_shipping_default_status','1',NOW(),NOW()),
+(0,'default_flat_rate_shipping','default_flat_rate_shipping_default_cost','2',NOW(),NOW()),
+(0,'default_flat_rate_shipping','default_flat_rate_shipping_cost_1','2',NOW(),NOW()),
+(0,'default_flat_rate_shipping','default_flat_rate_shipping_tax_class_id_1','0',NOW(),NOW()),
+(0,'default_flat_rate_shipping','default_flat_rate_shipping_default_tax_class_id','0',NOW(),NOW()),
+(0,'default_flat_rate_shipping','default_flat_rate_shipping_status','1',NOW(),NOW()),
+(0,'default_flat_rate_shipping','default_flat_rate_shipping_sort_order','1',NOW(),NOW()),
+(0,'default_flat_rate_shipping','default_flat_rate_shipping_autoselect','1',NOW(),NOW()),
 
+(0,'default_local_delivery','default_local_delivery_accept_payments','0',NOW(),NOW()),
+(0,'default_local_delivery','default_local_delivery_layout','',NOW(),NOW()),
+(0,'default_local_delivery','default_local_delivery_priority','10',NOW(),NOW()),
+(0,'default_local_delivery','default_local_delivery_date_installed',NOW(),NOW(),NOW()),
+(0,'default_local_delivery','default_local_delivery_sort_order','',NOW(),NOW()),
+(0,'default_local_delivery','default_local_delivery_shipping_storefront_icon_resource_id','100257',NOW(),NOW()),
+(0,'default_local_delivery','default_local_delivery_autoselect','0',NOW(),NOW()),
+(0,'default_local_delivery','default_local_delivery_shipping_storefront_icon','image/18/7a/1.png',NOW(),NOW()),
+(0,'default_local_delivery','default_local_delivery_total','',NOW(),NOW()),
+(0,'default_local_delivery','default_local_delivery_postal_codes','',NOW(),NOW()),
+(0,'default_local_delivery','default_local_delivery_cost','',NOW(),NOW()),
+(0,'default_local_delivery','default_local_delivery_status','1',NOW(),NOW()),
+(0,'default_local_delivery','store_id','0',NOW(),NOW());
 --
 -- Dumping data for table `addresses`
 --
-
 INSERT INTO `ac_addresses`
+(`address_id`,
+`customer_id`,
+`company`,
+`firstname`,
+`lastname`,
+`address_1`,
+`address_2`,
+`postcode`,
+`city`,
+`country_id`,
+`zone_id`)
 VALUES
-  (1,2,'','Juliana','Davis','9778 Golden Crescent','Apt 10','85804-7365','Humansville',223,3616),
-  (2,3,'','Keely','Mccoy','5071 Misty Pond Farm','Suite #101','63406-9081','Bumble Bee',223,3648),
-  (3,4,'BelfastCo','Zelda','Weiss','6944 Sleepy Fawn Abbey','Suite #31','86014-8121','Lawyers',223,3616),
-  (4,5,'','Gloria','Macias','7590 Easy Robin Hollow','','73477-3842','Sandymush',223,3660),
-  (5,6,'','Bernard','Horne','5607 Umber Branch Via','','86301-9785','Spook City',223,3616),
-  (6,7,'','James','Curtis','6500 Arapahoe Road','','80303','Boulder',223,3634),
-  (7,8,'','Bruce','Rosarini','61 Cumberland ST','','68624-2273','Skokie',223,3650),
-  (8,9,'','Carlos','Compton','31 Capital Drive','','63142-0892','Fort Misery',223,3648),
-  (9,10,'','Garrison','Baxter','Eddie Hoffman Highway','','64034-2948','Shell Pile',223,3648),
-  (10,11,'','Anthony','Blair','104 Main Street','','29181-8284','Gassaway',223,3666),
-  (11,12,'','Allen','Waters','110 Shenandoah Avenue','','86565-1710','Honohina',223,3616),
-  (12,13,'','Tom','Kipling','100 Main Str','','64034-2948','Shell Pile',223,3648),
-  (13,14,'Eaton Stevenson Inc','Yuri','Howard','22555 Jensen Ave','','93654','Reedley',223,3624),
-  (14,15,'Day and Rivera Traders','Regan','Shields','2355 Boulevard Bastien','','QC G2B 1B3','Québec',38,612),
-  (15,16,'','Randall','Richards','500 N Nebraska Ave','','33603','Tampa',223,3630),
-  (16,16,'Guzman and Morin Inc','Mallory','Ballard','2430 S French Ave','','32771','Sanford',223,3630);
+(1,2,'','Juliana','Davis','9778 Golden Crescent','Apt 10','85804-7365','Humansville',223,3616),
+(2,3,'','Keely','Mccoy','5071 Misty Pond Farm','Suite #101','63406-9081','Bumble Bee',223,3648),
+(3,4,'BelfastCo','Zelda','Weiss','6944 Sleepy Fawn Abbey','Suite #31','86014-8121','Lawyers',223,3616),
+(4,5,'','Gloria','Macias','7590 Easy Robin Hollow','','73477-3842','Sandymush',223,3660),
+(5,6,'','Bernard','Horne','5607 Umber Branch Via','','86301-9785','Spook City',223,3616),
+(6,7,'','James','Curtis','6500 Arapahoe Road','','80303','Boulder',223,3634),
+(7,8,'','Bruce','Rosarini','61 Cumberland ST','','68624-2273','Skokie',223,3650),
+(8,9,'','Carlos','Compton','31 Capital Drive','','63142-0892','Fort Misery',223,3648),
+(9,10,'','Garrison','Baxter','Eddie Hoffman Highway','','64034-2948','Shell Pile',223,3648),
+(10,11,'','Anthony','Blair','104 Main Street','','29181-8284','Gassaway',223,3666),
+(11,12,'','Allen','Waters','110 Shenandoah Avenue','','86565-1710','Honohina',223,3616),
+(12,13,'','Tom','Kipling','100 Main Str','','64034-2948','Shell Pile',223,3648),
+(13,14,'Eaton Stevenson Inc','Yuri','Howard','22555 Jensen Ave','','93654','Reedley',223,3624),
+(14,15,'Day and Rivera Traders','Regan','Shields','2355 Boulevard Bastien','','QC G2B 1B3','Québec',38,612),
+(15,16,'','Randall','Richards','500 N Nebraska Ave','','33603','Tampa',223,3630),
+(16,16,'Guzman and Morin Inc','Mallory','Ballard','2430 S French Ave','','32771','Sanford',223,3630),
+(17,17,'','Michelle','Barnett','3180 S Redwood Rd','','84119','West Valley City',223,3670),
+(18,18,'','Elmer','West','1433 Armand-Frappier','','J3E 3R6','Sainte-Julie',38,612),
+(19,18,'','Elmer','West','291 Central Ave','','10606','White Plains',223,3657);
+
+
 
 -- Dumping data for table `categories`
 --
-
 INSERT INTO `ac_categories`
-VALUES (46,43,0,1,NOW(),NOW()),
+(`category_id`,
+`parent_id`,
+`sort_order`,
+`status`,
+`date_added`,
+`date_modified`)
+VALUES 
+(46,43,0,1,NOW(),NOW()),
 (47,43,0,1,NOW(),NOW()),
 (38,36,0,1,NOW(),NOW()),
 (40,36,0,1,NOW(),NOW()),
@@ -83,7 +130,6 @@ VALUES (46,43,0,1,NOW(),NOW()),
 --
 -- Dumping data for table `categories_to_stores`
 --
-
 INSERT INTO `ac_categories_to_stores`
 VALUES
 (36,0),
@@ -122,14 +168,13 @@ VALUES
 --
 -- Dumping data for table `category_descriptions`
 --
-
 INSERT INTO `ac_category_descriptions`
-(`category_id`,
-`language_id`,
-`name`,
-`meta_keywords`,
-`meta_description`,
-`description`)
+    (`category_id`,
+    `language_id`,
+    `name`,
+    `meta_keywords`,
+    `meta_description`,
+    `description`)
 VALUES
 (43,1,'Skincare','','','&lt;p&gt;\r\n	Products from award-winning skin care brands&lt;/p&gt;\r\n'),
 (41,1,'Lips','','',''),
@@ -164,8 +209,6 @@ VALUES
 (69,1,'Shoes','','',''),
 (70,1,'T-shirts','','','Shop men&amp;#39;s T-shirts');
 
-
-
 INSERT INTO `ac_coupons`
 (`coupon_id`,
 `code`,
@@ -179,14 +222,13 @@ INSERT INTO `ac_coupons`
 `uses_total`,
 `uses_customer`,
 `status`,
+`condition_rule`,
 `date_added`,
 `date_modified`)
 VALUES
-(4,'2222','P',10.0000,0,0,0.0000,'2015-01-01','2019-01-01',10,'10',1,NOW(),NOW()),
-(5,'3333','P',0.0000,0,1,100.0000,'2015-01-01','2019-01-01',10,'10',1,NOW(),NOW()),
-(6,'1111','F',10.0000,0,0,10.0000,'2015-01-01','2019-01-01',10,'10',1,NOW(),NOW());
-
-
+(4,'2222','P',10.0000,0,0,0.0000,'2021-01-01','2022-01-01',30,'3',0,'OR',NOW(),NOW()),
+(5,'3333','P',0.0000,0,1,100.0000,'2021-01-01','2022-01-01',40,'1',0,'OR',NOW(),NOW()),
+(6,'1111','F',10.0000,0,0,10.0000,'2021-01-01','2022-01-01',100,'2',0,'OR',NOW(),NOW());
 
 --
 -- Dumping data for table `coupon_descriptions`
@@ -201,102 +243,404 @@ VALUES
 (5,1,'Coupon (Free Shipping)','Free Shipping'),
 (6,1,'Coupon (-10.00)','Fixed Amount Discount');
 
-
 --
 -- Dumping data for table `coupons_products`
 --
 
-INSERT INTO `ac_coupons_products` VALUES (8,6,68);
+INSERT INTO `ac_coupons_products`
+(`coupon_product_id`,
+`coupon_id`,
+`product_id`)
+VALUES (10,6,68);
 
 --
 -- Dumping data for table `block_layouts`
 --
 INSERT INTO `ac_block_layouts`
-(`instance_id`,`layout_id`,`block_id`,`custom_block_id`,`parent_instance_id`,`position`,`status`,`date_added`,`date_modified`)
-VALUES
-(34,    2,  17, 1,  19,     10, 1,  NOW(),  NOW()),
-(1836,	11,	17,	13,	337,	10,	1,	NOW(),	NOW()),
-(1841,	11,	17,	15,	337,	60,	1,	NOW(),	NOW()),
-(1838,	11,	17,	16,	337,	30,	1,	NOW(),	NOW()),
-(1837,	11,	17,	14,	337,	20,	1,	NOW(),	NOW()),
-(1834,	11,	17,	15,	330,	80,	1,	NOW(),	NOW()),
-(1780,	12,	17,	15,	356,	60,	1,	NOW(),	NOW()),
-(366,	12,	17,	1,	19,		10,	1,	NOW(),	NOW()),
-(1774,	12,	20,	12,	353,	60,	1,	NOW(),	NOW()),
-(1775,	12,	17,	13,	356,	10,	1,	NOW(),	NOW()),
-(1765,	12,	17,	15,	349,	80,	1,	NOW(),	NOW()),
-(1776,	12,	17,	14,	356,	20,	1,	NOW(),	NOW()),
-(1767,	12,	23,	9,	350,	20,	1,	NOW(),	NOW()),
-(1768,	12,	17,	10,	352,	10,	1,	NOW(),	NOW()),
-(1773,	12,	23,	11,	353,	50,	1,	NOW(),	NOW()),
-(1777,	12,	17,	16,	356,	30,	1,	NOW(),	NOW()),
-(1808,	13,	17,	16,	379,	30,	1,	NOW(),	NOW()),
-(1811,	13,	17,	15,	379,	60,	1,	NOW(),	NOW()),
-(1807,	13,	17,	14,	379,	20,	1,	NOW(),	NOW()),
-(1806,	13,	17,	13,	379,	10,	1,	NOW(),	NOW()),
-(1804,	13,	17,	15,	378,	80,	1,	NOW(),	NOW()),
-(1793,	14,	17,	16,	392,	30,	1,	NOW(),	NOW()),
-(1792,	14,	17,	14,	392,	20,	1,	NOW(),	NOW()),
-(1796,	14,	17,	15,	392,	60,	1,	NOW(),	NOW()),
-(1791,	14,	17,	13,	392,	10,	1,	NOW(),	NOW()),
-(1788,	14,	17,	15,	391,	80,	1,	NOW(),	NOW()),
-(1819,	15,	17,	15,	395,	80,	1,	NOW(),	NOW()),
-(1822,	15,	17,	14,	403,	20,	1,	NOW(),	NOW()),
-(1821,	15,	17,	13,	403,	10,	1,	NOW(),	NOW()),
-(1823,	15,	17,	16,	403,	30,	1,	NOW(),	NOW()),
-(1826,	15,	17,	15,	403,	60,	1,	NOW(),	NOW()),
-(1928,	18,	17,	15,	1907,	80,	1,	NOW(),	NOW()),
-(1929,	18,	17,	14,	1908,	20,	1,	NOW(),	NOW()),
-(1931,	18,	17,	13,	1908,	10,	1,	NOW(),	NOW()),
-(1933,	18,	17,	16,	1908,	30,	1,	NOW(),	NOW()),
-(1934,	18,	17,	15,	1908,	60,	1,	NOW(),	NOW()),
-(2030,	19,	17,	15,	2017,	80,	1,	NOW(),	NOW()),
-(2031,	19,	17,	14,	2019,	20,	1,	NOW(),	NOW()),
-(2032,	19,	17,	13,	2019,	10,	1,	NOW(),	NOW()),
-(2033,	19,	17,	16,	2019,	30,	1,	NOW(),	NOW()),
-(2034,	19,	17,	15,	2019,	60,	1,	NOW(),	NOW());
+(`instance_id`,`layout_id`,`block_id`,`custom_block_id`,`parent_instance_id`,
+ `position`,`status`,`date_added`,`date_modified`)
+VALUES 
+(34,2,17,1,19,10,1,NOW(),NOW()),
+(1836,11,17,13,337,10,1,NOW(),NOW()),
+(1841,11,17,15,337,60,1,NOW(),NOW()),
+(1838,11,17,16,337,30,1,NOW(),NOW()),
+(1837,11,17,14,337,20,1,NOW(),NOW()),
+(1834,11,17,15,330,80,1,NOW(),NOW()),
+(1780,12,17,15,356,60,1,NOW(),NOW()),
+(366,12,17,1,19,10,1,NOW(),NOW()),
+(1774,12,20,12,353,60,1,NOW(),NOW()),
+(1775,12,17,13,356,10,1,NOW(),NOW()),
+(1765,12,17,15,349,80,1,NOW(),NOW()),
+(1776,12,17,14,356,20,1,NOW(),NOW()),
+(1767,12,23,9,350,20,1,NOW(),NOW()),
+(1768,12,17,10,352,10,1,NOW(),NOW()),
+(1773,12,23,11,353,50,1,NOW(),NOW()),
+(1777,12,17,16,356,30,1,NOW(),NOW()),
+(1808,13,17,16,379,30,1,NOW(),NOW()),
+(1811,13,17,15,379,60,1,NOW(),NOW()),
+(1807,13,17,14,379,20,1,NOW(),NOW()),
+(1806,13,17,13,379,10,1,NOW(),NOW()),
+(1804,13,17,15,378,80,1,NOW(),NOW()),
+(1793,14,17,16,392,30,1,NOW(),NOW()),
+(1792,14,17,14,392,20,1,NOW(),NOW()),
+(1796,14,17,15,392,60,1,NOW(),NOW()),
+(1791,14,17,13,392,10,1,NOW(),NOW()),
+(1788,14,17,15,391,80,1,NOW(),NOW()),
+(1819,15,17,15,395,80,1,NOW(),NOW()),
+(1822,15,17,14,403,20,1,NOW(),NOW()),
+(1821,15,17,13,403,10,1,NOW(),NOW()),
+(1823,15,17,16,403,30,1,NOW(),NOW()),
+(1826,15,17,15,403,60,1,NOW(),NOW()),
+(1928,18,17,15,1907,80,1,NOW(),NOW()),
+(1929,18,17,14,1908,20,1,NOW(),NOW()),
+(1931,18,17,13,1908,10,1,NOW(),NOW()),
+(1933,18,17,16,1908,30,1,NOW(),NOW()),
+(1934,18,17,15,1908,60,1,NOW(),NOW()),
+(2030,19,17,15,2017,80,1,NOW(),NOW()),
+(2031,19,17,14,2019,20,1,NOW(),NOW()),
+(2032,19,17,13,2019,10,1,NOW(),NOW()),
+(2033,19,17,16,2019,30,1,NOW(),NOW()),
+(2034,19,17,15,2019,60,1,NOW(),NOW()),
+ -- bs5
+( 2086,23,1,0,0,10, 1, NOW(), NOW()),
+( 2087,23,15,0,2086,10, 1, NOW(), NOW()),
+( 2088,23,31,0,2086,20, 1, NOW(), NOW()),
+( 2089,23,27,0,2086,30, 1, NOW(), NOW()),
+( 2090,23,26,0,2086,40, 1, NOW(), NOW()),
+( 2091,23,13,0,2086,50, 1, NOW(), NOW()),
+( 2092,23,14,0,2086,60, 1, NOW(), NOW()),
+( 2093,23,17,17,2086,70, 1, NOW(), NOW()),
+( 2094,23,9,0,0,10, 1, NOW(), NOW()),
+( 2095,23,2,0,0,20, 1, NOW(), NOW()),
+( 2096,23,9,0,2095,10, 1, NOW(), NOW()),
+( 2097,23,28,0,2095,20, 1, NOW(), NOW()),
+( 2098,23,28,0,0,20, 1, NOW(), NOW()),
+( 2099,23,31,0,0,20, 1, NOW(), NOW()),
+( 2100,23,3,0,0,30,0, NOW(), NOW()),
+( 2101,23,27,0,0,30, 1, NOW(), NOW()),
+( 2102,23,25,0,0,40, 1, NOW(), NOW()),
+( 2103,23,26,0,0,40, 1, NOW(), NOW()),
+( 2104,23,4,0,0,40, 1, NOW(), NOW()),
+( 2105,23,13,0,0,50, 1, NOW(), NOW()),
+( 2106,23,5,0,0,50, 1, NOW(), NOW()),
+( 2107,23,11,0,0,50, 1, NOW(), NOW()),
+( 2108,23,6,0,0,60, 1, NOW(), NOW()),
+( 2109,23,14,0,0,60, 1, NOW(), NOW()),
+( 2110,23,7,0,0,70, 1, NOW(), NOW()),
+( 2111,23,15,0,0,70, 1, NOW(), NOW()),
+( 2112,23,24,0,0,70, 1, NOW(), NOW()),
+( 2113,23,8,0,0,80, 1, NOW(), NOW()),
+( 2114,23,17,18,2113,10, 1, NOW(), NOW()),
+( 2115,23,17,19,2113,20, 1, NOW(), NOW()),
+( 2116,23,17,20,2113,30, 1, NOW(), NOW()),
+( 2117,23,25,0,2113,40, 1, NOW(), NOW()),
+( 2118,23,11,0,2113,50, 1, NOW(), NOW()),
+( 2119,23,17,17,2113,60, 1, NOW(), NOW()),
+( 2120,23,24,0,2113,70, 1, NOW(), NOW()),
+( 2121,23,21,0,2113,80, 1, NOW(), NOW()),
+( 2122,23,21,0,0,80, 1, NOW(), NOW()),
+( 2123,24,1,0,0,10, 1, NOW(), NOW()),
+( 2124,24,15,0,2123,10, 1, NOW(), NOW()),
+( 2125,24,31,0,2123,20, 1, NOW(), NOW()),
+( 2126,24,27,0,2123,30, 1, NOW(), NOW()),
+( 2127,24,26,0,2123,40, 1, NOW(), NOW()),
+( 2128,24,13,0,2123,50, 1, NOW(), NOW()),
+( 2129,24,14,0,2123,60, 1, NOW(), NOW()),
+( 2130,24,17,17,2123,70, 1, NOW(), NOW()),
+( 2131,24,19,0,0,10, 1, NOW(), NOW()),
+( 2132,24,9,0,0,10, 1, NOW(), NOW()),
+( 2133,24,31,0,0,20, 1, NOW(), NOW()),
+( 2134,24,2,0,0,20, 1, NOW(), NOW()),
+( 2135,24,9,0,2134,10, 1, NOW(), NOW()),
+( 2136,24,17,21,2134,20, 1, NOW(), NOW()),
+( 2137,24,17,22,2134,30, 1, NOW(), NOW()),
+( 2138,24,12,0,0,20, 1, NOW(), NOW()),
+( 2139,24,27,0,0,30, 1, NOW(), NOW()),
+( 2140,24,18,0,0,30, 1, NOW(), NOW()),
+( 2141,24,3,0,0,30,0, NOW(), NOW()),
+( 2142,24,12,0,2141,10, 1, NOW(), NOW()),
+( 2143,24,4,0,0,40,0, NOW(), NOW()),
+( 2144,24,26,0,0,40, 1, NOW(), NOW()),
+( 2145,24,22,0,0,40, 1, NOW(), NOW()),
+( 2146,24,25,0,0,40, 1, NOW(), NOW()),
+( 2147,24,11,0,0,50, 1, NOW(), NOW()),
+( 2148,24,13,0,0,50, 1, NOW(), NOW()),
+( 2149,24,5,0,0,50, 1, NOW(), NOW()),
+( 2150,24,19,0,2149,10, 1, NOW(), NOW()),
+( 2151,24,12,0,2149,20, 1, NOW(), NOW()),
+( 2152,24,18,0,2149,30, 1, NOW(), NOW()),
+( 2153,24,22,0,2149,40, 1, NOW(), NOW()),
+( 2154,24,14,0,0,60, 1, NOW(), NOW()),
+( 2155,24,6,0,0,60,0, NOW(), NOW()),
+( 2156,24,12,0,2155,10, 1, NOW(), NOW()),
+( 2157,24,15,0,0,70, 1, NOW(), NOW()),
+( 2158,24,7,0,0,70, 1, NOW(), NOW()),
+( 2159,24,23,23,2158,10, 1, NOW(), NOW()),
+( 2160,24,20,24,2158,20, 1, NOW(), NOW()),
+( 2161,24,24,0,0,70, 1, NOW(), NOW()),
+( 2162,24,8,0,0,80, 1, NOW(), NOW()),
+( 2163,24,17,18,2162,10, 1, NOW(), NOW()),
+( 2164,24,17,19,2162,20, 1, NOW(), NOW()),
+( 2165,24,17,20,2162,30, 1, NOW(), NOW()),
+( 2166,24,25,0,2162,40, 1, NOW(), NOW()),
+( 2167,24,11,0,2162,50, 1, NOW(), NOW()),
+( 2168,24,17,17,2162,60, 1, NOW(), NOW()),
+( 2169,24,24,0,2162,70, 1, NOW(), NOW()),
+( 2170,24,21,0,2162,80, 1, NOW(), NOW()),
+( 2171,24,21,0,0,80, 1, NOW(), NOW()),
+( 2172,25,1,0,0,10, 1, NOW(), NOW()),
+( 2173,25,15,0,2172,10, 1, NOW(), NOW()),
+( 2174,25,31,0,2172,20, 1, NOW(), NOW()),
+( 2175,25,27,0,2172,30, 1, NOW(), NOW()),
+( 2176,25,26,0,2172,40, 1, NOW(), NOW()),
+( 2177,25,13,0,2172,50, 1, NOW(), NOW()),
+( 2178,25,14,0,2172,60, 1, NOW(), NOW()),
+( 2179,25,17,17,2172,70, 1, NOW(), NOW()),
+( 2180,25,9,0,0,10, 1, NOW(), NOW()),
+( 2181,25,2,0,0,20, 1, NOW(), NOW()),
+( 2182,25,9,0,2181,10, 1, NOW(), NOW()),
+( 2183,25,28,0,2181,20, 1, NOW(), NOW()),
+( 2184,25,28,0,0,20, 1, NOW(), NOW()),
+( 2185,25,31,0,0,20, 1, NOW(), NOW()),
+( 2186,25,3,0,0,30,0, NOW(), NOW()),
+( 2187,25,27,0,0,30, 1, NOW(), NOW()),
+( 2188,25,25,0,0,40, 1, NOW(), NOW()),
+( 2189,25,26,0,0,40, 1, NOW(), NOW()),
+( 2190,25,4,0,0,40, 1, NOW(), NOW()),
+( 2191,25,13,0,0,50, 1, NOW(), NOW()),
+( 2192,25,5,0,0,50, 1, NOW(), NOW()),
+( 2193,25,11,0,0,50, 1, NOW(), NOW()),
+( 2194,25,6,0,0,60,0, NOW(), NOW()),
+( 2195,25,14,0,0,60, 1, NOW(), NOW()),
+( 2196,25,7,0,0,70, 1, NOW(), NOW()),
+( 2197,25,15,0,0,70, 1, NOW(), NOW()),
+( 2198,25,24,0,0,70, 1, NOW(), NOW()),
+( 2199,25,8,0,0,80, 1, NOW(), NOW()),
+( 2200,25,17,18,2199,10, 1, NOW(), NOW()),
+( 2201,25,17,19,2199,20, 1, NOW(), NOW()),
+( 2202,25,17,20,2199,30, 1, NOW(), NOW()),
+( 2203,25,25,0,2199,40, 1, NOW(), NOW()),
+( 2204,25,11,0,2199,50, 1, NOW(), NOW()),
+( 2205,25,17,17,2199,60, 1, NOW(), NOW()),
+( 2206,25,24,0,2199,70, 1, NOW(), NOW()),
+( 2207,25,21,0,2199,80, 1, NOW(), NOW()),
+( 2208,25,21,0,0,80, 1, NOW(), NOW()),
+( 2209,26,1,0,0,10, 1, NOW(), NOW()),
+( 2210,26,15,0,2209,10, 1, NOW(), NOW()),
+( 2211,26,31,0,2209,20, 1, NOW(), NOW()),
+( 2212,26,27,0,2209,30, 1, NOW(), NOW()),
+( 2213,26,26,0,2209,40, 1, NOW(), NOW()),
+( 2214,26,13,0,2209,50, 1, NOW(), NOW()),
+( 2215,26,14,0,2209,60, 1, NOW(), NOW()),
+( 2216,26,17,17,2209,70, 1, NOW(), NOW()),
+( 2217,26,9,0,0,10, 1, NOW(), NOW()),
+( 2218,26,12,0,0,10, 1, NOW(), NOW()),
+( 2219,26,31,0,0,20, 1, NOW(), NOW()),
+( 2220,26,28,0,0,20, 1, NOW(), NOW()),
+( 2221,26,2,0,0,20, 1, NOW(), NOW()),
+( 2222,26,9,0,2221,10, 1, NOW(), NOW()),
+( 2223,26,28,0,2221,20, 1, NOW(), NOW()),
+( 2224,26,3,0,0,30, 1, NOW(), NOW()),
+( 2225,26,12,0,2224,10, 1, NOW(), NOW()),
+( 2226,26,27,0,0,30, 1, NOW(), NOW()),
+( 2227,26,25,0,0,40, 1, NOW(), NOW()),
+( 2228,26,26,0,0,40, 1, NOW(), NOW()),
+( 2229,26,4,0,0,40, 1, NOW(), NOW()),
+( 2230,26,13,0,0,50, 1, NOW(), NOW()),
+( 2231,26,5,0,0,50, 1, NOW(), NOW()),
+( 2232,26,11,0,0,50, 1, NOW(), NOW()),
+( 2233,26,6,0,0,60,0, NOW(), NOW()),
+( 2234,26,14,0,0,60, 1, NOW(), NOW()),
+( 2235,26,15,0,0,70, 1, NOW(), NOW()),
+( 2236,26,7,0,0,70,0, NOW(), NOW()),
+( 2237,26,24,0,0,70, 1, NOW(), NOW()),
+( 2238,26,8,0,0,80, 1, NOW(), NOW()),
+( 2239,26,17,18,2238,10, 1, NOW(), NOW()),
+( 2240,26,17,19,2238,20, 1, NOW(), NOW()),
+( 2241,26,17,20,2238,30, 1, NOW(), NOW()),
+( 2242,26,25,0,2238,40, 1, NOW(), NOW()),
+( 2243,26,11,0,2238,50, 1, NOW(), NOW()),
+( 2244,26,17,17,2238,60, 1, NOW(), NOW()),
+( 2245,26,24,0,2238,70, 1, NOW(), NOW()),
+( 2246,26,21,0,2238,80, 1, NOW(), NOW()),
+( 2247,26,21,0,0,80, 1, NOW(), NOW()),
+( 2248,27,1,0,0,10, 1, NOW(), NOW()),
+( 2249,27,15,0,2248,10, 1, NOW(), NOW()),
+( 2250,27,31,0,2248,20, 1, NOW(), NOW()),
+( 2251,27,27,0,2248,30, 1, NOW(), NOW()),
+( 2252,27,26,0,2248,40, 1, NOW(), NOW()),
+( 2253,27,13,0,2248,50, 1, NOW(), NOW()),
+( 2254,27,14,0,2248,60, 1, NOW(), NOW()),
+( 2255,27,17,17,2248,70, 1, NOW(), NOW()),
+( 2256,27,9,0,0,10, 1, NOW(), NOW()),
+( 2257,27,2,0,0,20, 1, NOW(), NOW()),
+( 2258,27,9,0,2257,10, 1, NOW(), NOW()),
+( 2259,27,28,0,2257,20, 1, NOW(), NOW()),
+( 2260,27,28,0,0,20, 1, NOW(), NOW()),
+( 2261,27,31,0,0,20, 1, NOW(), NOW()),
+( 2262,27,3,0,0,30, 1, NOW(), NOW()),
+( 2263,27,27,0,0,30, 1, NOW(), NOW()),
+( 2264,27,25,0,0,40, 1, NOW(), NOW()),
+( 2265,27,26,0,0,40, 1, NOW(), NOW()),
+( 2266,27,4,0,0,40, 1, NOW(), NOW()),
+( 2267,27,13,0,0,50, 1, NOW(), NOW()),
+( 2268,27,5,0,0,50, 1, NOW(), NOW()),
+( 2269,27,11,0,0,50, 1, NOW(), NOW()),
+( 2270,27,6,0,0,60, 1, NOW(), NOW()),
+( 2271,27,14,0,0,60, 1, NOW(), NOW()),
+( 2272,27,7,0,0,70, 1, NOW(), NOW()),
+( 2273,27,15,0,0,70, 1, NOW(), NOW()),
+( 2274,27,24,0,0,70, 1, NOW(), NOW()),
+( 2275,27,8,0,0,80, 1, NOW(), NOW()),
+( 2276,27,17,18,2275,10, 1, NOW(), NOW()),
+( 2277,27,17,19,2275,20, 1, NOW(), NOW()),
+( 2278,27,17,20,2275,30, 1, NOW(), NOW()),
+( 2279,27,25,0,2275,40, 1, NOW(), NOW()),
+( 2280,27,11,0,2275,50, 1, NOW(), NOW()),
+( 2281,27,17,17,2275,60, 1, NOW(), NOW()),
+( 2282,27,24,0,2275,70, 1, NOW(), NOW()),
+( 2283,27,21,0,2275,80, 1, NOW(), NOW()),
+( 2284,27,21,0,0,80, 1, NOW(), NOW()),
+( 2285,28,1,0,0,10, 1, NOW(), NOW()),
+( 2286,28,2,0,0,20, 1, NOW(), NOW()),
+( 2287,28,28,0,0,20, 1, NOW(), NOW()),
+( 2288,28,3,0,0,30, 1, NOW(), NOW()),
+( 2289,28,4,0,0,40, 1, NOW(), NOW()),
+( 2290,28,5,0,0,50, 1, NOW(), NOW()),
+( 2291,28,6,0,0,60, 1, NOW(), NOW()),
+( 2292,28,7,0,0,70, 1, NOW(), NOW()),
+( 2293,28,8,0,0,80, 1, NOW(), NOW()),
+( 2294,29,1,0,0,10, 1, NOW(), NOW()),
+( 2295,29,15,0,2294,10, 1, NOW(), NOW()),
+( 2296,29,31,0,2294,20, 1, NOW(), NOW()),
+( 2297,29,27,0,2294,30, 1, NOW(), NOW()),
+( 2298,29,26,0,2294,40, 1, NOW(), NOW()),
+( 2299,29,13,0,2294,50, 1, NOW(), NOW()),
+( 2300,29,14,0,2294,60, 1, NOW(), NOW()),
+( 2301,29,17,17,2294,70, 1, NOW(), NOW()),
+( 2302,29,9,0,0,10, 1, NOW(), NOW()),
+( 2303,29,29,0,0,10, 1, NOW(), NOW()),
+( 2304,29,31,0,0,20, 1, NOW(), NOW()),
+( 2305,29,28,0,0,20, 1, NOW(), NOW()),
+( 2306,29,2,0,0,20, 1, NOW(), NOW()),
+( 2307,29,9,0,2306,10, 1, NOW(), NOW()),
+( 2308,29,28,0,2306,20, 1, NOW(), NOW()),
+( 2309,29,3,0,0,30,0, NOW(), NOW()),
+( 2310,29,27,0,0,30, 1, NOW(), NOW()),
+( 2311,29,25,0,0,40, 1, NOW(), NOW()),
+( 2312,29,26,0,0,40, 1, NOW(), NOW()),
+( 2313,29,4,0,0,40, 1, NOW(), NOW()),
+( 2314,29,13,0,0,50, 1, NOW(), NOW()),
+( 2315,29,5,0,0,50, 1, NOW(), NOW()),
+( 2316,29,11,0,0,50, 1, NOW(), NOW()),
+( 2317,29,6,0,0,60, 1, NOW(), NOW()),
+( 2318,29,29,0,2317,10, 1, NOW(), NOW()),
+( 2319,29,14,0,0,60, 1, NOW(), NOW()),
+( 2320,29,15,0,0,70, 1, NOW(), NOW()),
+( 2321,29,7,0,0,70, 1, NOW(), NOW()),
+( 2322,29,24,0,0,70, 1, NOW(), NOW()),
+( 2323,29,8,0,0,80, 1, NOW(), NOW()),
+( 2324,29,17,18,2323,10, 1, NOW(), NOW()),
+( 2325,29,17,19,2323,20, 1, NOW(), NOW()),
+( 2326,29,17,20,2323,30, 1, NOW(), NOW()),
+( 2327,29,25,0,2323,40, 1, NOW(), NOW()),
+( 2328,29,11,0,2323,50, 1, NOW(), NOW()),
+( 2329,29,17,17,2323,60, 1, NOW(), NOW()),
+( 2330,29,24,0,2323,70, 1, NOW(), NOW()),
+( 2331,29,21,0,2323,80, 1, NOW(), NOW()),
+( 2332,29,21,0,0,80, 1, NOW(), NOW()),
+( 2333,30,1,0,0,10, 1, NOW(), NOW()),
+( 2334,30,15,0,2333,10, 1, NOW(), NOW()),
+( 2335,30,31,0,2333,20, 1, NOW(), NOW()),
+( 2336,30,27,0,2333,30, 1, NOW(), NOW()),
+( 2337,30,26,0,2333,40, 1, NOW(), NOW()),
+( 2338,30,13,0,2333,50, 1, NOW(), NOW()),
+( 2339,30,14,0,2333,60, 1, NOW(), NOW()),
+( 2340,30,17,17,2333,70, 1, NOW(), NOW()),
+( 2341,30,9,0,0,10, 1, NOW(), NOW()),
+( 2342,30,2,0,0,20, 1, NOW(), NOW()),
+( 2343,30,9,0,2342,10,1, NOW(), NOW())
+;
+
 --
 -- Dumping data for table `custom_blocks`
 --
-
-INSERT INTO `ac_custom_blocks` VALUES (1,17,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_custom_blocks` VALUES (2,20,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_custom_blocks` VALUES (3,20,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_custom_blocks` VALUES (12,20,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_custom_blocks` VALUES (13,17,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_custom_blocks` VALUES (11,23,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_custom_blocks` VALUES (9,23,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_custom_blocks` VALUES (10,17,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_custom_blocks` VALUES (14,17,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_custom_blocks` VALUES (15,17,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_custom_blocks` VALUES (16,17,'2015-06-12 09:56:24','2015-06-12 09:56:24');
+INSERT INTO `ac_custom_blocks`
+(`custom_block_id`,
+`block_id`,
+`date_added`,
+`date_modified`)
+VALUES (1,17,NOW(),NOW()),
+(2,20,NOW(),NOW()),
+(3,20,NOW(),NOW()),
+(12,20,NOW(),NOW()),
+(13,17,NOW(),NOW()),
+(11,23,NOW(),NOW()),
+(9,23,NOW(),NOW()),
+(10,17,NOW(),NOW()),
+(14,17,NOW(),NOW()),
+(15,17,NOW(),NOW()),
+(16,17,NOW(),NOW()),
+-- bs5
+(17,17,NOW(),NOW()),
+(18,17,NOW(),NOW()),
+(19,17,NOW(),NOW()),
+(20,17,NOW(),NOW()),
+(21,17,NOW(),NOW()),
+(22,17,NOW(),NOW()),
+(23,23,NOW(),NOW()),
+(24,20,NOW(),NOW())
+;
 
 --
 -- Dumping data for table `block_descriptions`
 --
-
-INSERT INTO `ac_block_descriptions` VALUES (1,1,1,'0',0,'home page static banner','home page banner','','&lt;div style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;index.php?rt=product/special&quot;&gt; &lt;img alt=&quot;banner&quot; src=&quot;storefront/view/default/image/banner1.jpg&quot; /&gt; &lt;/a&gt;&lt;/div&gt;','2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_block_descriptions` VALUES (2,2,1,'0',0,'Video block','Video','','a:3:{s:18:\"listing_datasource\";s:5:\"media\";s:13:\"resource_type\";s:5:\"video\";s:5:\"limit\";s:1:\"1\";}','2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_block_descriptions` VALUES (3,3,1,'0',1,'Custom Listing block','Popular','','a:2:{s:18:\"listing_datasource\";s:34:\"catalog_product_getPopularProducts\";s:5:\"limit\";s:2:\"12\";}','2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_block_descriptions` VALUES (30,16,1,'0',1,'Testimonials','Testimonials','Flexislider testimonials','&lt;div style=&quot;font-family: \'Open Sans\', sans-serif;&quot; class=&quot;flexslider&quot; id=&quot;testimonialsidebar&quot;&gt;\r\n	&lt;ul class=&quot;slides&quot;&gt;\r\n		&lt;li&gt;\r\n			&quot; I was working with many shopping carts, free and hosted for my clients. There is always something missing. In abantecart I find this gap to be much less. Interface is very easy to use and support is very responsive. This is considering its is free. Go abantecart go!&quot;&lt;br /&gt;\r\n			&lt;span class=&quot;pull-left orange&quot;&gt;By : TopShop on reviewcentre.com&lt;/span&gt;&lt;/li&gt;\r\n		&lt;li&gt;\r\n			&quot; Without a doubt the best cart I have used. The title says it all - abantecart is undoubtedly the best I have used. I\'m not an expert in site setup, so something this great looking and easy to use is absolutely perfect ... &quot;&lt;br /&gt;\r\n			&lt;span class=&quot;pull-left orange&quot;&gt;By : johnstenson80 on venturebeat.com&lt;/span&gt;&lt;/li&gt;\r\n		&lt;li&gt;\r\n			&quot; Will not regret using this cart. All good is already mentioned, I want to add my experience with support. My problems with some configuration were resolved quick. Faster than paid shopping cart we had before.&quot;&lt;br /&gt;\r\n			&lt;span class=&quot;pull-left orange&quot;&gt;By : shopper23 at bestshoppingcartreviews.com&lt;/span&gt;&lt;/li&gt;\r\n		&lt;li&gt;\r\n			&quot; Wow! Abante Cart is really a catch! What a nice experience it was for me. I mean, to have all these features so direct, so quick and easy was really essential for my website. I was able to add some features and a cart to my website in no time ...&quot;&lt;br /&gt;\r\n			&lt;span class=&quot;pull-left orange&quot;&gt;By : EcommerceSport at hotscripts.com&lt;/span&gt;&lt;/li&gt;\r\n		&lt;li&gt;\r\n			&quot; Love the cart. I installed it a while back and use it since when. Some features a hidden, but fun to discover them.&quot;&lt;br /&gt;\r\n			&lt;span class=&quot;pull-left orange&quot;&gt;By : Liz Wattkins at shopping-cart-reviews.com&lt;/span&gt;&lt;/li&gt;\r\n\r\n	&lt;/ul&gt;\r\n&lt;/div&gt;\r\n','2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_block_descriptions` VALUES (28,15,1,'0',0,'Social Icons','Social Icons','This is a an HTML block to show social icons and link.\r\nNOTE: Need to edit HTML in block content to add  personal link to social media sites','      &lt;div class=&quot;social_icons&quot;&gt;\r\n        &lt;a href=&quot;http://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; class=&quot;facebook&quot;&gt;Facebook&lt;/a&gt;\r\n        &lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;Twitter&lt;/a&gt;\r\n        &lt;a href=&quot;#&quot; title=&quot;Linkedin&quot; class=&quot;linkedin&quot;&gt;Linkedin&lt;/a&gt;\r\n        &lt;a href=&quot;#&quot; title=&quot;rss&quot; class=&quot;rss&quot;&gt;rss&lt;/a&gt;\r\n        &lt;a href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Googleplus&quot; class=&quot;googleplus&quot;&gt;Googleplus&lt;/a&gt;\r\n        &lt;a href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Skype&quot; class=&quot;skype&quot;&gt;Skype&lt;/a&gt;\r\n        &lt;a href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Flickr&quot; class=&quot;flickr&quot;&gt;Flickr&lt;/a&gt;\r\n      &lt;/div&gt;\r\n','2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_block_descriptions` VALUES (26,14,1,'0',1,'Contact us','Contact Us','','&lt;ul class=&quot;contact&quot;&gt;	&lt;li&gt;&lt;span class=&quot;phone&quot;&gt;&nbsp;&lt;/span&gt;+123 456 7890, +123 456 7890&lt;/li&gt;	&lt;li&gt;&lt;span class=&quot;mobile&quot;&gt;&nbsp;&lt;/span&gt;+123 456 7890, +123 456 78900&lt;/li&gt;	&lt;li&gt;&lt;span class=&quot;email&quot;&gt;&nbsp;&lt;/span&gt;help at abantecart.com&lt;/li&gt;	&lt;li&gt;&lt;span class=&quot;email&quot;&gt;&nbsp;&lt;/span&gt;help at abantecart.com&lt;/li&gt;&lt;/ul&gt;','2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_block_descriptions` VALUES (24,13,1,'0',1,'About Us','About Us','','&lt;p&gt;\r\n	AbanteCart is a free eCommerce solution for merchants to provide ability creating online business and sell products or services online. AbanteCart application is built and supported by experienced enthusiasts that are passionate about their work and contribution to rapidly evolving eCommerce industry. AbanteCart is more than just a shopping cart, it is rapidly growing eCommerce platform with many benefits.&lt;/p&gt;\r\n','2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_block_descriptions` VALUES (22,12,1,'blocks/listing_block/popular_brands_content_bottom.tpl',1,'Brands Scrolling List','Brands Scrolling List','','a:1:{s:18:\"listing_datasource\";s:20:\"custom_manufacturers\";}','2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_block_descriptions` VALUES (20,11,1,'0',0,'Main Page Banner Bottom','Bottom Banners','','a:1:{s:17:\"banner_group_name\";s:19:\"Main bottom banners\";}','2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_block_descriptions` VALUES (18,10,1,'0',0,'Main Page Promo','Promo','','	&lt;section class=&quot;row promo_section&quot;&gt;\r\n	&lt;div class=&quot;col-md-3 col-xs-6 promo_block&quot;&gt;\r\n		&lt;div class=&quot;promo_icon&quot;&gt;&lt;i class=&quot;fa fa-truck fa-fw&quot;&gt;&lt;/i&gt;&lt;/div&gt;\r\n		&lt;div class=&quot;promo_text&quot;&gt;\r\n			&lt;h2&gt;\r\n				Free shipping&lt;/h2&gt;\r\n			All over in world over $200\r\n		&lt;/div&gt;\r\n	&lt;/div&gt;\r\n	&lt;div class=&quot;col-md-3 col-xs-6 promo_block&quot;&gt;\r\n		&lt;div class=&quot;promo_icon&quot;&gt;&lt;i class=&quot;fa fa-money fa-fw&quot;&gt;&lt;/i&gt;&lt;/div&gt;\r\n		&lt;div class=&quot;promo_text&quot;&gt;\r\n			&lt;h2&gt;\r\n				Easy Payment&lt;/h2&gt;\r\n			Payment Gateway support&lt;/div&gt;\r\n	&lt;/div&gt;\r\n	&lt;div class=&quot;col-md-3 col-xs-6 promo_block&quot;&gt;\r\n		&lt;div class=&quot;promo_icon&quot;&gt;&lt;i class=&quot;fa fa-clock-o fa-fw&quot;&gt;&lt;/i&gt;&lt;/div&gt;\r\n		&lt;div class=&quot;promo_text&quot;&gt;\r\n			&lt;h2&gt;\r\n				24hrs Shipping&lt;/h2&gt;\r\n			For All US States&lt;/div&gt;\r\n	&lt;/div&gt;\r\n	&lt;div class=&quot;col-md-3 col-xs-6 promo_block&quot;&gt;\r\n		&lt;div class=&quot;promo_icon&quot;&gt;&lt;i class=&quot;fa fa-tags fa-fw&quot;&gt;&lt;/i&gt;&lt;/div&gt;\r\n		&lt;div class=&quot;promo_text&quot;&gt;\r\n			&lt;h2&gt;\r\n				Large Variety&lt;/h2&gt;\r\n			50,000+ Products&lt;/div&gt;\r\n	&lt;/div&gt;\r\n	&lt;/section&gt;','2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_block_descriptions` VALUES (16,9,1,'blocks/banner_block/one_by_one_slider_banner_block.tpl',0,'Main Page Banner Slider','Main Page Banner Slider','','a:1:{s:17:\"banner_group_name\";s:17:\"Main Page Banners\";}','2015-06-12 09:56:24','2015-06-12 09:56:24');
+INSERT INTO `ac_block_descriptions`
+(`block_description_id`,
+`custom_block_id`,
+`language_id`,
+`block_wrapper`,
+`block_framed`,
+`name`,
+`title`,
+`description`,
+`content`,
+`date_added`,
+`date_modified`)
+VALUES
+(1,1,1,'0',0,'home page static banner','home page banner','','&lt;div style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;index.php?rt=product/special&quot;&gt; &lt;img alt=&quot;banner&quot; src=&quot;storefront/view/default/image/banner1.jpg&quot; /&gt; &lt;/a&gt;&lt;/div&gt;',NOW(),NOW()),
+(2,2,1,'0',0,'Video block','Video','','a:3:{s:18:\"listing_datasource\";s:5:\"media\";s:13:\"resource_type\";s:5:\"video\";s:5:\"limit\";s:1:\"1\";}',NOW(),NOW()),
+(3,3,1,'0',1,'Custom Listing block','Popular','','a:2:{s:18:\"listing_datasource\";s:34:\"catalog_product_getPopularProducts\";s:5:\"limit\";s:2:\"12\";}',NOW(),NOW()),
+(30,16,1,'0',1,'Testimonials','Testimonials','Flexislider testimonials','&lt;div style=&quot;font-family: \'Open Sans\', sans-serif;&quot; class=&quot;flexslider&quot; id=&quot;testimonialsidebar&quot;&gt;\r\n	&lt;ul class=&quot;slides&quot;&gt;\r\n		&lt;li&gt;\r\n			&quot; I was working with many shopping carts, free and hosted for my clients. There is always something missing. In abantecart I find this gap to be much less. Interface is very easy to use and support is very responsive. This is considering its is free. Go abantecart go!&quot;&lt;br /&gt;\r\n			&lt;span class=&quot;pull-left orange&quot;&gt;By : TopShop on reviewcentre.com&lt;/span&gt;&lt;/li&gt;\r\n		&lt;li&gt;\r\n			&quot; Without a doubt the best cart I have used. The title says it all - abantecart is undoubtedly the best I have used. I\'m not an expert in site setup, so something this great looking and easy to use is absolutely perfect ... &quot;&lt;br /&gt;\r\n			&lt;span class=&quot;pull-left orange&quot;&gt;By : johnstenson80 on venturebeat.com&lt;/span&gt;&lt;/li&gt;\r\n		&lt;li&gt;\r\n			&quot; Will not regret using this cart. All good is already mentioned, I want to add my experience with support. My problems with some configuration were resolved quick. Faster than paid shopping cart we had before.&quot;&lt;br /&gt;\r\n			&lt;span class=&quot;pull-left orange&quot;&gt;By : shopper23 at bestshoppingcartreviews.com&lt;/span&gt;&lt;/li&gt;\r\n		&lt;li&gt;\r\n			&quot; Wow! Abante Cart is really a catch! What a nice experience it was for me. I mean, to have all these features so direct, so quick and easy was really essential for my website. I was able to add some features and a cart to my website in no time ...&quot;&lt;br /&gt;\r\n			&lt;span class=&quot;pull-left orange&quot;&gt;By : EcommerceSport at hotscripts.com&lt;/span&gt;&lt;/li&gt;\r\n		&lt;li&gt;\r\n			&quot; Love the cart. I installed it a while back and use it since when. Some features a hidden, but fun to discover them.&quot;&lt;br /&gt;\r\n			&lt;span class=&quot;pull-left orange&quot;&gt;By : Liz Wattkins at shopping-cart-reviews.com&lt;/span&gt;&lt;/li&gt;\r\n\r\n	&lt;/ul&gt;\r\n&lt;/div&gt;\r\n',NOW(),NOW()),
+(28,15,1,'0',0,'Social Icons','Social Icons','This is a an HTML block to show social icons and link.\r\nNOTE: Need to edit HTML in block content to add  personal link to social media sites','      &lt;div class=&quot;social_icons&quot;&gt;\r\n        &lt;a href=&quot;https://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; class=&quot;facebook&quot;&gt;Facebook&lt;/a&gt;\r\n        &lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;Twitter&lt;/a&gt;\r\n        &lt;a href=&quot;#&quot; title=&quot;Linkedin&quot; class=&quot;linkedin&quot;&gt;Linkedin&lt;/a&gt;\r\n        &lt;a href=&quot;#&quot; title=&quot;rss&quot; class=&quot;rss&quot;&gt;rss&lt;/a&gt;\r\n        &lt;a href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Googleplus&quot; class=&quot;googleplus&quot;&gt;Googleplus&lt;/a&gt;\r\n        &lt;a href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Skype&quot; class=&quot;skype&quot;&gt;Skype&lt;/a&gt;\r\n        &lt;a href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Flickr&quot; class=&quot;flickr&quot;&gt;Flickr&lt;/a&gt;\r\n      &lt;/div&gt;\r\n',NOW(),NOW()),
+(26,14,1,'0',1,'Contact us','Contact Us','','&lt;ul class=&quot;contact&quot;&gt;	&lt;li&gt;&lt;span class=&quot;phone&quot;&gt;&nbsp;&lt;/span&gt;+123 456 7890, +123 456 7890&lt;/li&gt;	&lt;li&gt;&lt;span class=&quot;mobile&quot;&gt;&nbsp;&lt;/span&gt;+123 456 7890, +123 456 78900&lt;/li&gt;	&lt;li&gt;&lt;span class=&quot;email&quot;&gt;&nbsp;&lt;/span&gt;help at abantecart.com&lt;/li&gt;	&lt;li&gt;&lt;span class=&quot;email&quot;&gt;&nbsp;&lt;/span&gt;help at abantecart.com&lt;/li&gt;&lt;/ul&gt;',NOW(),NOW()),
+(24,13,1,'0',1,'About Us','About Us','','&lt;p&gt;\r\n	AbanteCart is a free eCommerce solution for merchants to provide ability creating online business and sell products or services online. AbanteCart application is built and supported by experienced enthusiasts that are passionate about their work and contribution to rapidly evolving eCommerce industry. AbanteCart is more than just a shopping cart, it is rapidly growing eCommerce platform with many benefits.&lt;/p&gt;\r\n',NOW(),NOW()),
+(22,12,1,'blocks/listing_block/popular_brands_content_bottom.tpl',1,'Brands Scrolling List','Brands Scrolling List','','a:2:{s:18:\"listing_datasource\";s:33:\"catalog_category_getmanufacturers\";s:5:\"limit\";s:2:\"40\";}',NOW(),NOW()),
+(20,11,1,'0',0,'Main Page Banner Bottom','Bottom Banners','','a:1:{s:17:\"banner_group_name\";s:19:\"Main bottom banners\";}',NOW(),NOW()),
+(18,10,1,'0',0,'Main Page Promo','Promo','','	&lt;section class=&quot;row promo_section&quot;&gt;\r\n	&lt;div class=&quot;col-md-3 col-xs-6 promo_block&quot;&gt;\r\n		&lt;div class=&quot;promo_icon&quot;&gt;&lt;i class=&quot;fa fa-truck fa-fw&quot;&gt;&lt;/i&gt;&lt;/div&gt;\r\n		&lt;div class=&quot;promo_text&quot;&gt;\r\n			&lt;h2&gt;\r\n				Free shipping&lt;/h2&gt;\r\n			All over in world over $200\r\n		&lt;/div&gt;\r\n	&lt;/div&gt;\r\n	&lt;div class=&quot;col-md-3 col-xs-6 promo_block&quot;&gt;\r\n		&lt;div class=&quot;promo_icon&quot;&gt;&lt;i class=&quot;fa fa-money fa-fw&quot;&gt;&lt;/i&gt;&lt;/div&gt;\r\n		&lt;div class=&quot;promo_text&quot;&gt;\r\n			&lt;h2&gt;\r\n				Easy Payment&lt;/h2&gt;\r\n			Payment Gateway support&lt;/div&gt;\r\n	&lt;/div&gt;\r\n	&lt;div class=&quot;col-md-3 col-xs-6 promo_block&quot;&gt;\r\n		&lt;div class=&quot;promo_icon&quot;&gt;&lt;i class=&quot;fa fa-clock-o fa-fw&quot;&gt;&lt;/i&gt;&lt;/div&gt;\r\n		&lt;div class=&quot;promo_text&quot;&gt;\r\n			&lt;h2&gt;\r\n				24hrs Shipping&lt;/h2&gt;\r\n			For All US States&lt;/div&gt;\r\n	&lt;/div&gt;\r\n	&lt;div class=&quot;col-md-3 col-xs-6 promo_block&quot;&gt;\r\n		&lt;div class=&quot;promo_icon&quot;&gt;&lt;i class=&quot;fa fa-tags fa-fw&quot;&gt;&lt;/i&gt;&lt;/div&gt;\r\n		&lt;div class=&quot;promo_text&quot;&gt;\r\n			&lt;h2&gt;\r\n				Large Variety&lt;/h2&gt;\r\n			50,000+ Products&lt;/div&gt;\r\n	&lt;/div&gt;\r\n	&lt;/section&gt;',NOW(),NOW()),
+(16,9,1,'blocks/banner_block/one_by_one_slider_banner_block.tpl',0,'Main Page Banner Slider','Main Page Banner Slider','','a:1:{s:17:\"banner_group_name\";s:17:\"Main Page Banners\";}',NOW(),NOW()),
+-- bootstrap5 blocks
+(31, 17,1,'0',0, 'BS5 Social Icons','bootstrap5_social_icons','','&lt;div class=&quot;bs5_social_icons nav navbar&quot;&gt; &lt;a class=&quot;nav-link m-3&quot; href=&quot;http://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; &gt;&lt;i class=&quot; fa-brands fa-facebook fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;        &lt;a class=&quot;nav-link m-3&quot; href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot;&gt;&lt;i class=&quot; fa-brands fa-twitter fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;Linkedin&quot; &gt;&lt;i class=&quot;fa-brands fa-linkedin fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;rss&quot; &gt;&lt;i class=&quot;fa-solid fa-square-rss fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Skype&quot; &gt;&lt;i class=&quot;fa-brands fa-skype fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Flickr&quot;&gt;&lt;i class=&quot;fa-brands fa-flickr fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;      &lt;/div&gt;', NOW(), NOW()),
+(32, 18,1,'blocks/html_block_footer.tpl',1,'BS5 About Us','About Us','','&lt;p class=&quot;small lh-lg&quot;&gt;AbanteCart is a free eCommerce solution for merchants to provide ability creating online business and sell products or services online. AbanteCart application is built and supported by experienced enthusiasts that are passionate about their work and contribution to rapidly evolving eCommerce industry. AbanteCart is more than just a shopping cart, it is rapidly growing eCommerce platform with many benefits.&lt;/p&gt;', NOW(), NOW()),
+(33,19,1,'blocks/html_block_footer.tpl',1,'BS5 Contact us','Contact Us','','&lt;ul class=&quot;list-unstyled contact small&quot;&gt;   &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-phone&quot;&gt;&lt;/i&gt;&lt;/i&gt; 123 456 7890,  123 456 7890&lt;/li&gt;    &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-mobile-screen&quot;&gt;&lt;/i&gt;&lt;a class=&quot;text-decoration-none&quot;  href=&quot;tel:123 456 7890&quot;&gt; 123 456 7890&lt;/a&gt;,  123 456 78900&lt;/li&gt;    &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-at&quot;&gt;&lt;/i&gt; help at abantecart.com&lt;/li&gt;&lt;/ul&gt;', NOW(), NOW()),
+(34,20,1,'0',1,'BS5 Testimonials','Testimonials','','&lt;div id=&quot;testimonial_sidebar&quot; class=&quot;carousel carousel-dark slide&quot; data-bs-ride=&quot;carousel&quot;&gt; &lt;div class=&quot;carousel-inner&quot;&gt;                   &lt;div class=&quot;carousel-item active&quot;&gt;                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;                        &quot; I was working with many shopping carts, free and hosted for my clients. There is always something missing. In AbanteCart I find this gap to be much less. Interface is very easy to use and support is very responsive. This is considering its is free. Go AbanteCart go!&quot;&lt;br /&gt;                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : TopShop on reviewcentre.com&lt;/span&gt;                        &lt;/div&gt;                    &lt;/div&gt;                    &lt;div class=&quot;carousel-item&quot;&gt;                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;                        &quot; Without a doubt the best cart I have used. The title says it all - AbanteCart is undoubtedly the best I have used. I\'m not an expert in site setup, so something this great looking and easy to use is absolutely perfect ... &quot;&lt;br /&gt;                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : johnstenson80 on venturebeat.com&lt;/span&gt;                        &lt;/div&gt;                    &lt;/div&gt;                    &lt;div class=&quot;carousel-item&quot;&gt;                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;                        &quot; Will not regret using this cart. All good is already mentioned, I want to add my experience with support. My problems with some configuration were resolved quick. Faster than paid shopping cart we had before.&quot;&lt;br /&gt;                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : shopper23 at bestshoppingcartreviews.com&lt;/span&gt;                        &lt;/div&gt;                    &lt;/div&gt;                    &lt;div class=&quot;carousel-item&quot;&gt;                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;                        &quot; Love the cart. I installed it a while back and use it since when. Some features a hidden, but fun to discover them.&quot;&lt;br /&gt;                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : Liz Wattkins at shopping-cart-reviews.com&lt;/span&gt;                        &lt;/div&gt;                    &lt;/div&gt;                &lt;/div&gt;            &lt;/div&gt;', NOW(), NOW()),
+(35,21,1,'0',0,'BS5 Main Page Carousel','BS5 Main Page Carousel','','&lt;div id=&quot;mainPageSliderIndicators&quot; class=&quot;carousel carousel-dark slide bg-light&quot; data-bs-ride=&quot;carousel&quot;&gt;  &lt;div class=&quot;carousel-indicators&quot;&gt;  &lt;button type=&quot;button&quot; data-bs-target=&quot;#carouselExampleIndicators&quot; data-bs-slide-to=&quot;0&quot; class=&quot;active&quot;  aria-current=&quot;true&quot; aria-label=&quot;Slide 1&quot;&gt;&lt;/button&gt;  &lt;button type=&quot;button&quot; data-bs-target=&quot;#carouselExampleIndicators&quot; data-bs-slide-to=&quot;1&quot;  aria-label=&quot;Slide 2&quot;&gt;&lt;/button&gt;  &lt;button type=&quot;button&quot; data-bs-target=&quot;#carouselExampleIndicators&quot; data-bs-slide-to=&quot;2&quot;  aria-label=&quot;Slide 3&quot;&gt;&lt;/button&gt;  &lt;button type=&quot;button&quot; data-bs-target=&quot;#carouselExampleIndicators&quot; data-bs-slide-to=&quot;3&quot;  aria-label=&quot;Slide 4&quot;&gt;&lt;/button&gt;  &lt;/div&gt;  &lt;div class=&quot;carousel-inner&quot;&gt;  &lt;div class=&quot;carousel-item banner active&quot;&gt;  &lt;div class=&quot;d-flex flex-wrap flex-sm-nowrap justify-content-center align-items-center&quot;&gt;  &lt;div class=&quot;flex-item &quot;&gt;  &lt;img class=&quot;my-auto w-100&quot; src=&quot;extensions/bootstrap5/storefront/images/Slide_600x300.jpeg&quot;&gt;  &lt;/div&gt;  &lt;div class=&quot;flex-item col-9 col-sm-3 m-5&quot;&gt;  &lt;h5&gt;HTML5 Responsive Storefront to look great on&lt;/h5&gt;  &lt;h5&gt;ALL Screen Sizes&lt;/h5&gt;  &lt;p&gt;Natively responsive template implemented with bootstrap library and HTML5. Will look good on most  mobile devices and tablets.&lt;/p&gt;  &lt;h3&gt;&lt;a href=&quot;#&quot; class=&quot;&quot;&gt; Try on your device!&lt;/a&gt;&lt;/h3&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;div class=&quot;carousel-item banner&quot;&gt;  &lt;div class=&quot;d-flex flex-wrap flex-sm-nowrap justify-content-center align-items-center&quot;&gt;  &lt;div class=&quot;flex-item &quot;&gt;  &lt;img class=&quot;my-auto w-100&quot; src=&quot;extensions/bootstrap5/storefront/images/Slide_600x300.jpeg&quot;&gt;  &lt;/div&gt;  &lt;div class=&quot;flex-item col-9 col-sm-3  m-5&quot;&gt;  &lt;h5&gt;Highly flexible layout on any page&lt;/h5&gt;  &lt;h5&gt;SEO Friendly&lt;/h5&gt;  &lt;p&gt;Fast Loading&lt;/p&gt;  &lt;h3&gt;&lt;a href=&quot;#&quot; class=&quot;&quot;&gt; Try Now!&lt;/a&gt;&lt;/h3&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;div class=&quot;carousel-item banner&quot;&gt;  &lt;div class=&quot;d-flex flex-wrap flex-sm-nowrap justify-content-center align-items-center&quot;&gt;  &lt;div class=&quot;flex-item &quot;&gt;  &lt;img class=&quot;my-auto w-100&quot; src=&quot;extensions/bootstrap5/storefront/images/Slide_600x300.jpeg&quot;&gt;  &lt;/div&gt;  &lt;div class=&quot;flex-item col-9 col-sm-3  m-5&quot;&gt;  &lt;h5&gt;Feature rich with smart UI&lt;/h5&gt;  &lt;h5&gt;Easy &amp;amp; fun to manage&lt;/h5&gt;  &lt;p&gt;Feature reach shopping cart application right out of the box. Standard features allow to set up  complete eCommerce site with all the tools needed to sell products online.&lt;/p&gt;  &lt;h3&gt;&lt;a href=&quot;#&quot; class=&quot;&quot;&gt;Install Now!&lt;/a&gt;&lt;/h3&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;div class=&quot;carousel-item banner&quot;&gt;  &lt;div class=&quot;d-flex flex-wrap flex-sm-nowrap justify-content-center align-items-center&quot;&gt;  &lt;div class=&quot;flex-item &quot;&gt;  &lt;img class=&quot;my-auto w-100&quot; src=&quot;extensions/bootstrap5/storefront/images/Slide_600x300.jpeg&quot;&gt;  &lt;/div&gt;  &lt;div class=&quot;flex-item col-9 col-sm-3  m-5&quot;&gt;  &lt;h5&gt;Stay in control&lt;/h5&gt;  &lt;h5&gt;Easy updates&lt;/h5&gt;  &lt;p&gt;Upgrade right from admin. Backward supportability in upgrades and automatic backups. Easy  extension download with one step installation.&lt;/p&gt;  &lt;h3&gt;&lt;a href=&quot;#&quot; class=&quot;&quot;&gt;Get Yours!&lt;/a&gt;&lt;/h3&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;button class=&quot;carousel-control-prev&quot; type=&quot;button&quot; data-bs-target=&quot;#mainPageSliderIndicators&quot; data-bs-slide=&quot;prev&quot;&gt;  &lt;span class=&quot;carousel-control-prev-icon&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;  &lt;span class=&quot;visually-hidden&quot;&gt;Previous&lt;/span&gt;  &lt;/button&gt;  &lt;button class=&quot;carousel-control-next&quot; type=&quot;button&quot; data-bs-target=&quot;#mainPageSliderIndicators&quot; data-bs-slide=&quot;next&quot;&gt;  &lt;span class=&quot;carousel-control-next-icon&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;  &lt;span class=&quot;visually-hidden&quot;&gt;Next&lt;/span&gt; &lt;/button&gt; &lt;/div&gt;', NOW(), NOW()),
+(36,22,1,'0',0,'BS5 Main Page Promo','Promo','','&lt;section class=&quot;d-flex flex-wrap justify-content-evenly border m-3&quot;&gt;	&lt;div class=&quot;d-flex flex-item align-items-center&quot;&gt;		&lt;div class=&quot;promo_icon fs-1 m-3&quot;&gt;&lt;i class=&quot;fa-solid fa-2xl fa-truck fs-1&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;div class=&quot;promo_text&quot;&gt;&lt;h2&gt;Free shipping&lt;/h2&gt;All over in world over $200&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;d-flex flex-item align-items-center&quot;&gt;&lt;div class=&quot;promo_icon fs-1 m-3&quot;&gt;&lt;i class=&quot;fa-solid fa-2xl fa-money-bill-1 fs-1&quot;&gt;&lt;/i&gt;&lt;/div&gt;		&lt;div class=&quot;promo_text&quot;&gt;&lt;h2&gt;Easy Payment&lt;/h2&gt;Payment Gateway support&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;d-flex flex-item align-items-center&quot;&gt;		&lt;div class=&quot;promo_icon fs-1 m-3&quot;&gt;&lt;i class=&quot;fa-solid fa-2xl fa-clock fs-1&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;div class=&quot;promo_text&quot;&gt;&lt;h2&gt;24hrs Shipping&lt;/h2&gt;For All US States&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;d-flex flex-item align-items-center&quot;&gt;&lt;div class=&quot;promo_icon fs-1 m-3&quot;&gt;&lt;i class=&quot;fa-solid fa-2xl fa-tags fs-1&quot;&gt;&lt;/i&gt;&lt;/div&gt;		&lt;div class=&quot;promo_text&quot;&gt;&lt;h2&gt;Large Variety&lt;/h2&gt;50,000  Products&lt;/div&gt;&lt;/div&gt;&lt;/section&gt;', NOW(), NOW()),
+(37,23,1,'0',0,'Main Page Banner Bottom','Bottom Banners','','a:1:{s:17:""banner_group_name"";s:19:""Main bottom banners"";}', NOW(), NOW()),
+(38,24,1,'blocks/listing_block/popular_brands_content_bottom.tpl',0,'Brands Scrolling List','Brands Scrolling List','','a:1:{s:18:""listing_datasource"";s:20:""custom_manufacturers"";}', NOW(), NOW())
+;
 
 INSERT INTO `ac_custom_lists`
 (`rowid`,
-  `custom_block_id`,
-  `data_type`,
-  `id`,
-  `store_id`,
-  `sort_order`,
-  `date_added`,
-  `date_modified`)
-VALUES (1,12,'manufacturer_id',12,0,0,NOW(),NOW()),
+`custom_block_id`,
+`data_type`,
+`id`,
+`store_id`,
+`sort_order`,
+`date_added`,
+`date_modified`)
+VALUES
+(1,12,'manufacturer_id',12,0,0,NOW(),NOW()),
 (2,12,'manufacturer_id',14,0,0,NOW(),NOW()),
 (3,12,'manufacturer_id',13,0,0,NOW(),NOW()),
 (4,12,'manufacturer_id',18,0,0,NOW(),NOW()),
@@ -310,408 +654,43 @@ VALUES (1,12,'manufacturer_id',12,0,0,NOW(),NOW()),
 --
 -- Dumping data for table `customers`
 --
-
 INSERT INTO `ac_customers`
-(`customer_id`,
-`store_id`,
-`firstname`,
-`lastname`,
-`loginname`,
-`email`,
-`telephone`,
-`fax`,
-`sms`,
-`salt`,
-`password`,
-`cart`,
-`wishlist`,
-`newsletter`,
-`address_id`,
-`status`,
-`approved`,
-`customer_group_id`,
-`ip`,
-`data`,
-`date_added`,
-`date_modified`,
-`last_login`)
-VALUES (
-2,
-0,
-'Juliana',
-'Davis',
-'julidavis@abantecart.com',
-'julidavis@abantecart.com',
-'6021417191',
-'',
-'',
-'',
-'6b006ba67f3c172e146991a2ad46d865',
-'a:0:{}',
-NULL,
-0,
-1,
-1,
-1,
-1,
-'109.104.166.98',
-NULL,
-'2013-08-31 14:25:37',
-'2015-06-12 09:56:24',
-'0000-00-00 00:00:00'),
-
-(3,
-0,
-'Keely',
-'Mccoy',
-'keelymccoy@abantecart.com',
-'keelymccoy@abantecart.com',
-'6029161822',
-'',
-'',
-'',
-'6b006ba67f3c172e146991a2ad46d865',
-'a:0:{}',
-NULL,
-0,
-2,
-1,
-1,
-1,
-'109.104.166.98',
-NULL,
-'2013-08-31 14:39:08',
-'2015-06-12 09:56:24',
-'0000-00-00 00:00:00'),
-
-(4,
-0,
-'Zelda',
-'Weiss',
-'zeldaweiss@abantecart.com',
-'zeldaweiss@abantecart.com',
-'5398389210',
-'',
-'',
-'',
-'6b006ba67f3c172e146991a2ad46d865',
-'a:0:{}',
-NULL,
-0,
-3,
-1,
-1,
-1,
-'109.104.166.138',
-NULL,
-'2013-08-31 14:42:58',
-'2015-06-12 09:56:24',
-'0000-00-00 00:00:00'),
-
-(5,
-0,
-'Gloria',
-'Macias',
-'gloriamacias@abantecart.com',
-'gloriamacias@abantecart.com',
-'5735002105',
-'',
-'',
-'',
-'6b006ba67f3c172e146991a2ad46d865',
-'a:0:{}',
-NULL,
-0,
-4,
-1,
-1,
-1,
-'109.104.166.98',
-NULL,
-'2013-08-31 14:46:58',
-'2015-06-12 09:56:24',
-'0000-00-00 00:00:00'),
-
-(6,
-0,
-'Bernard',
-'Horne',
-'bernardhorne@abantecart.com',
-'bernardhorne@abantecart.com',
-'5735002105',
-'',
-'',
-'',
-'6b006ba67f3c172e146991a2ad46d865',
-'a:0:{}',
-NULL,
-0,
-5,
-1,
-1,
-1,
-'109.104.166.138',
-NULL,
-'2013-08-31 14:50:27',
-'2015-06-12 09:56:24',
-'0000-00-00 00:00:00'),
-
-(7,
-0,
-'James',
-'Curtis',
-'jamescurtis@abantecart.com',
-'jamescurtis@abantecart.com',
-'6029161822',
-'',
-'',
-'',
-'6b006ba67f3c172e146991a2ad46d865',
-'a:0:{}',
-NULL,
-0,
-6,
-1,
-1,
-1,
-'109.104.166.138',
-NULL,
-'2013-08-31 15:00:03',
-'2015-06-12 09:56:24',
-'0000-00-00 00:00:00'),
-
-(8,
-0,
-'Bruce',
-'Rosarini',
-'brucerosarini@abantecart.com',
-'brucerosarini@abantecart.com',
-'5398389210',
-'',
-'',
-'',
-'6b006ba67f3c172e146991a2ad46d865',
-'a:0:{}',
-NULL,
-0,
-7,
-1,
-1,
-1,
-'109.104.166.98',
-NULL,
-'2013-08-31 15:08:23',
-'2015-06-12 09:56:24',
-'0000-00-00 00:00:00'),
-
-(9,
-0,
-'Carlos',
-'Compton',
-'carloscmpton@abantecart.com',
-'carloscmpton@abantecart.com',
-'9282050511',
-'',
-'',
-'',
-'6b006ba67f3c172e146991a2ad46d865',
-'a:0:{}',
-NULL,
-0,
-8,
-1,
-1,
-1,
-'109.104.166.98',
-NULL,
-'2013-08-31 15:13:14',
-'2015-06-12 09:56:24',
-'0000-00-00 00:00:00'),
-
-(10,
-0,
-'Garrison',
-'Baxter',
-'garrisonbaxter@abantecart.com',
-'garrisonbaxter@abantecart.com',
-'8031895001',
-'',
-'',
-'',
-'6b006ba67f3c172e146991a2ad46d865',
-'a:0:{}',
-NULL,
-0,
-9,
-1,
-1,
-1,
-'109.104.166.138',
-NULL,
-'2013-09-01 12:51:47',
-'2015-06-12 09:56:24',
-'0000-00-00 00:00:00'),
-
-(11,
-0,
-'Anthony',
-'Blair',
-'anthonyblair@abantecart.com',
-'anthonyblair@abantecart.com',
-'4024566398',
-'',
-'',
-'',
-'6b006ba67f3c172e146991a2ad46d865',
-'a:0:{}',
-NULL,
-0,
-10,
-1,
-1,
-1,
-'171.98.12.12',
-NULL,
-'2013-09-01 12:54:26',
-'2015-06-12 09:56:24',
-'0000-00-00 00:00:00'),
-
-(12,
-0,
-'Allen',
-'Waters',
-'allenwaters',
-'allenwaters@abantecart.com',
-'4172807406',
-'',
-'',
-'vkmQqxNw',
-'e9aa1fed0f5c85e84ef9c9e8860c2732326e790b',
-'a:0:{}',
-NULL,
-0,
-11,
-1,
-1,
-1,
-'77.111.246.147',
-NULL,
-'2013-09-01 13:12:56',
-'2019-05-06 06:20:01',
-'2019-03-18 12:19:54'),
-
-(13,
-0,
-'Michael',
-'Neal',
-'michael',
-'michaelj@abantecart.com',
-'5555555555555',
-'',
-'',
-'QqHpW6DV',
-'189212083ca9de5f584e624b7a7c256af90fdcfb',
-'a:0:{}',
-'a:2:{i:108;i:1552911485;i:111;i:1552911579;}',
-1,
-12,
-1,
-1,
-1,
-'77.111.246.167',
-NULL,
-'2013-09-08 15:28:20',
-'2019-03-18 12:19:39',
-'2019-03-18 12:12:59'),
-
-(14,
-0,
-'Yuri',
-'Howard',
-'howard566',
-'howardinc@abantecart.com',
-'16943733146',
-'',
-'',
-'1IVINJ6A',
-'9980a6c101c48ba14277e5fcc7277fed31a8eb34',
-'a:0:{}',
-NULL,
-1,
-13,
-1,
-1,
-1,
-'85.235.65.198',
-'N;',
-'2019-03-18 13:37:18',
-'2019-03-18 13:39:25',
-'2019-03-18 13:37:18'),
-
-(15,
-0,
-'Regan',
-'Shields',
-'RiaGardner',
-'ricuvif@abantecart.com',
-'12671255153',
-'',
-'',
-'QaPiKdCR',
-'30a96d6489cc8089d2f66f1b3407334cfd5a5490',
-'a:0:{}',
-NULL,
-1,
-14,
-1,
-1,
-1,
-'23.129.64.106',
-'N;',
-'2019-03-19 08:32:50',
-'2019-03-19 08:33:16',
-'2019-03-19 08:32:50'),
-
-(16,
-0,
-'Randall',
-'Richards',
-'randallri',
-'randallri@abantecart.com',
-'17887737896',
-'',
-'',
-'oMSzNPSe',
-'47de3df0f279b2edb9d4062a0c1495a738fdb5c7',
-'a:1:{s:7:\"store_0\";a:1:{i:96;a:2:{s:3:\"qty\";i:2;s:7:\"options\";a:0:{}}}}',
-NULL,
-0,
-15,
-1,
-1,
-1,
-'205.185.126.56',
-'N;',
-'2019-03-21 12:08:29',
-'2019-03-21 12:12:32',
-'2019-03-21 12:08:29');
-
-
+VALUES
+(2,0,'Juliana','Davis','julidavis@abantecart.com','julidavis@abantecart.com','(602) 141-7191','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,1,1,1,1,'109.104.166.98',NULL,'2013-08-31 14:25:37','2015-06-12 09:56:24','0000-00-00 00:00:00'),
+(3,0,'Keely','Mccoy','keelymccoy@abantecart.com','keelymccoy@abantecart.com','(602) 916-1822','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,2,1,1,1,'109.104.166.98',NULL,'2013-08-31 14:39:08','2015-06-12 09:56:24','0000-00-00 00:00:00'),
+(4,0,'Zelda','Weiss','zeldaweiss@abantecart.com','zeldaweiss@abantecart.com','(539) 838-9210','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,3,1,1,1,'109.104.166.138',NULL,'2013-08-31 14:42:58','2015-06-12 09:56:24','0000-00-00 00:00:00'),
+(5,0,'Gloria','Macias','gloriamacias@abantecart.com','gloriamacias@abantecart.com','(573) 500-2105','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,4,1,1,1,'109.104.166.98',NULL,'2013-08-31 14:46:58','2015-06-12 09:56:24','0000-00-00 00:00:00'),
+(6,0,'Bernard','Horne','bernardhorne@abantecart.com','bernardhorne@abantecart.com','(573) 500-2105','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,5,1,1,1,'109.104.166.138',NULL,'2013-08-31 14:50:27','2015-06-12 09:56:24','0000-00-00 00:00:00'),
+(7,0,'James','Curtis','jamescurtis@abantecart.com','jamescurtis@abantecart.com','(602) 916-1822','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,6,1,1,1,'109.104.166.138',NULL,'2013-08-31 15:00:03','2015-06-12 09:56:24','0000-00-00 00:00:00'),
+(8,0,'Bruce','Rosarini','brucerosarini@abantecart.com','brucerosarini@abantecart.com','(539) 838-9210','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,7,1,1,1,'109.104.166.98',NULL,'2013-08-31 15:08:23','2015-06-12 09:56:24','0000-00-00 00:00:00'),
+(9,0,'Carlos','Compton','carloscmpton@abantecart.com','carloscmpton@abantecart.com','(928) 205-0511','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,8,1,1,1,'109.104.166.98',NULL,'2013-08-31 15:13:14','2015-06-12 09:56:24','0000-00-00 00:00:00'),
+(10,0,'Garrison','Baxter','garrisonbaxter@abantecart.com','garrisonbaxter@abantecart.com','(803) 189-5001','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,9,1,1,1,'109.104.166.138',NULL,'2013-09-01 12:51:47','2015-06-12 09:56:24','0000-00-00 00:00:00'),
+(11,0,'Anthony','Blair','anthonyblair@abantecart.com','anthonyblair@abantecart.com','(402) 456-6398','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,10,1,1,1,'171.98.12.12',NULL,'2013-09-01 12:54:26','2015-06-12 09:56:24','0000-00-00 00:00:00'),
+(12,0,'Allen','Waters','allenwaters','allenwaters@abantecart.com','(417) 280-7406','','','vkmQqxNw','e9aa1fed0f5c85e84ef9c9e8860c2732326e790b','a:0:{}',NULL,0,11,1,1,1,'77.111.246.147',NULL,'2013-09-01 13:12:56','2019-05-06 06:20:01','2019-03-18 12:19:54'),
+(13,0,'Brock','Wheeler','michael','cotan@mailinator.com','12893654499','','','QqHpW6DV','189212083ca9de5f584e624b7a7c256af90fdcfb','a:0:{}','a:2:{i:108;i:1552911485;i:111;i:1552911579;}',1,12,1,1,1,'77.111.246.167',NULL,'2013-09-08 15:28:20','2022-06-28 08:38:05','2019-03-18 12:12:59'),
+(14,0,'Yuri','Howard','howard566','howardinc@abantecart.com','16943733146','','','1IVINJ6A','9980a6c101c48ba14277e5fcc7277fed31a8eb34','a:0:{}',NULL,1,13,1,1,1,'77.111.247.7','N;','2019-03-18 13:37:18','2022-06-28 08:44:14','2019-03-18 13:37:18'),
+(15,0,'Regan','Shields','RiaGardner','ricuvif@abantecart.com','+1 (267) 125-5153','','','QaPiKdCR','30a96d6489cc8089d2f66f1b3407334cfd5a5490','a:0:{}',NULL,1,14,1,1,1,'23.129.64.106','N;','2019-03-19 08:32:50','2019-03-19 08:33:16','2019-03-19 08:32:50'),
+(16,0,'Randall','Richards','randallri','randallri@abantecart.com','17887737896','','','KGtkpKGm','0664a4c600337892f120b53b81de10646e68ee91','a:1:{s:7:\"store_0\";a:1:{i:96;a:2:{s:3:\"qty\";i:2;s:7:\"options\";a:0:{}}}}',NULL,0,15,1,1,1,'77.111.247.7','N;','2019-03-21 12:08:29','2022-06-28 08:48:15','2022-06-28 08:48:15'),
+(17,0,'Michelle','Barnett','mbarnett','mbarnett@abantecart.com','1 469 537-8505','','','XlUAn9uJ','f47de9ec3628658a74e781634caf9a76b1153ee6',NULL,NULL,0,17,1,1,1,'','N;','2022-06-28 08:05:34','2022-06-28 08:06:15','0000-00-00 00:00:00'),
+(18,0,'Elmer','West','X6QDsfu','elmer@abantecart.com',' 1 (128) 392-8036','','','qkN3jME3','c05a1acf9a9c189533b8ce63db274a61e91e622b','a:1:{s:7:\"store_0\";a:0:{}}',NULL,0,18,1,1,1,'77.111.246.40','N;','2022-06-28 08:11:49','2022-07-13 06:51:46','0000-00-00 00:00:00');
+    
 
 --
 -- Dumping data for table `download_descriptions`
 --
-
 INSERT INTO `ac_download_descriptions`
+(`download_id`,
+`language_id`,
+`name`)
 VALUES
-  (1,1,'Audio CD1'),
-  (2,1,'audio sample mp3'),
-  (5,1,'Find your fit');
+(1,1,'Audio CD1'),
+(2,1,'audio sample mp3'),
+(5,1,'Find your fit'),
+(6,1,'Visionnaire');
 
 --
 -- Dumping data for table `downloads`
 --
-
 INSERT INTO `ac_downloads`
 (`download_id`,
 `filename`,
@@ -726,16 +705,25 @@ INSERT INTO `ac_downloads`
 `date_added`,
 `date_modified`)
 VALUES
-(1,'download/18/76/4.mp3','audio-cd.mp3',50,NULL,0,'order_status',5,0,1,NOW(),NOW()),
-(2,'download/18/76/5.mp3','sample.mp3',NULL,NULL,0,'before_order',0,0,1,NOW(),NOW()),
-(5,'download/18/79/f.pdf','size-fit-guide-print.pdf',NULL,NULL,0,'before_order',0,1,1,NOW(),NOW());
-
+(1,'100196','audio-cd.mp3',50,NULL,2,'order_status',5,0,1,NOW(),NOW()),
+(2,'100197','sample.mp3',NULL,NULL,1,'before_order',0,0,1,NOW(),NOW()),
+(5,'download/18/79/f.pdf','size-fit-guide-print.pdf',NULL,NULL,0,'before_order',0,1,1,NOW(),NOW()),
+(6,'100260','Visionnaire.pdf',NULL,NULL,0,'immediately',0,0,1,NOW(),NOW());
 
 --
 -- Dumping data for table `global_attributes`
 --
-
 INSERT INTO `ac_global_attributes`
+(`attribute_id`,
+`attribute_parent_id`,
+`attribute_group_id`,
+`attribute_type_id`,
+`element_type`,
+`sort_order`,
+`required`,
+`settings`,
+`status`,
+`regexp_pattern`)
 VALUES
 (1,0,0,1,'S',1,1,'',1,NULL),
 (2,0,0,1,'C',0,0,'',1,NULL),
@@ -744,29 +732,31 @@ VALUES
 (7,6,0,1,'S',0,0,'a:4:{s:10:\"extensions\";s:0:\"\";s:8:\"min_size\";s:0:\"\";s:8:\"max_size\";s:0:\"\";s:9:\"directory\";s:0:\"\";}',1,''),
 (8,6,0,1,'S',0,0,'a:4:{s:10:\"extensions\";s:0:\"\";s:8:\"min_size\";s:0:\"\";s:8:\"max_size\";s:0:\"\";s:9:\"directory\";s:0:\"\";}',1,'');
 
-
 --
 -- Dumping data for table `global_attributes_descriptions`
 --
-
 INSERT INTO `ac_global_attributes_descriptions`
-(`attribute_id`, `language_id`, `name`, `error_text`)
-VALUES
-(1,1,'Size',''),
-(2,1,'Gift Wrapping',''),
-(5,1,'Fragrance Type',''),
-(6,1,'Color&amp;Size',''),
-(7,1,'UK Size',''),
-(8,1,'Color','');
-
+(`attribute_id`,
+`language_id`,
+`name`,
+`placeholder`,
+`error_text`)
+    VALUES
+(1,1,'Size','',''),
+(2,1,'Gift Wrapping','',''),
+(5,1,'Fragrance Type','',''),
+(6,1,'Color&amp;Size','',''),
+(7,1,'UK Size','',''),
+(8,1,'Color','','');
 
 --
 -- Dumping data for table `global_attributes_values`
 --
-
 INSERT INTO `ac_global_attributes_values`
-VALUES
-(53,1,0),
+(`attribute_value_id`,
+`attribute_id`,
+`sort_order`)
+VALUES (53,1,0),
 (52,1,0),
 (51,1,0),
 (50,1,0),
@@ -803,8 +793,11 @@ VALUES
 (97,7,0),
 (98,8,0);
 
-
 INSERT INTO `ac_global_attributes_value_descriptions`
+(`attribute_value_id`,
+`attribute_id`,
+`language_id`,
+`value`)
 VALUES
 (53,1,1,'1 oz'),
 (52,1,1,'75ml'),
@@ -843,45 +836,55 @@ VALUES
 (96,7,1,'L'),
 (97,7,1,'M'),
 (98,8,1,'Yellow');
-
 --
 -- Dumping data for table `manufacturers`
 --
-
-INSERT INTO `ac_manufacturers` VALUES (14,'Bvlgari',0);
-INSERT INTO `ac_manufacturers` VALUES (13,'Calvin Klein',0);
-INSERT INTO `ac_manufacturers` VALUES (12,'Benefit',0);
-INSERT INTO `ac_manufacturers` VALUES (11,'M·A·C',0);
-INSERT INTO `ac_manufacturers` VALUES (15,'Lancôme',0);
-INSERT INTO `ac_manufacturers` VALUES (16,'Sephora',0);
-INSERT INTO `ac_manufacturers` VALUES (17,'Pantene',0);
-INSERT INTO `ac_manufacturers` VALUES (18,'Dove',0);
-INSERT INTO `ac_manufacturers` VALUES (19,'Giorgio Armani',0);
-INSERT INTO `ac_manufacturers` VALUES (20,'Gucci',0);
-
+INSERT INTO `ac_manufacturers`
+(`manufacturer_id`,
+`name`,
+`sort_order`)
+VALUES 
+(14,'Bvlgari',0),
+(13,'Calvin Klein',0),
+(12,'Benefit',0),
+(11,'M·A·C',0),
+(15,'Lancôme',0),
+(16,'Sephora',0),
+(17,'Pantene',0),
+(18,'Dove',0),
+(19,'Giorgio Armani',0),
+(20,'Gucci',0);
 
 --
 -- Dumping data for table `manufacturers_to_stores`
 --
-
-INSERT INTO `ac_manufacturers_to_stores` VALUES (11,0);
-INSERT INTO `ac_manufacturers_to_stores` VALUES (12,0);
-INSERT INTO `ac_manufacturers_to_stores` VALUES (13,0);
-INSERT INTO `ac_manufacturers_to_stores` VALUES (14,0);
-INSERT INTO `ac_manufacturers_to_stores` VALUES (15,0);
-INSERT INTO `ac_manufacturers_to_stores` VALUES (16,0);
-INSERT INTO `ac_manufacturers_to_stores` VALUES (17,0);
-INSERT INTO `ac_manufacturers_to_stores` VALUES (18,0);
-INSERT INTO `ac_manufacturers_to_stores` VALUES (19,0);
-INSERT INTO `ac_manufacturers_to_stores` VALUES (20,0);
+INSERT INTO `ac_manufacturers_to_stores`
+(manufacturer_id, store_id)
+VALUES 
+(11,0),
+(12,0),
+(13,0),
+(14,0),
+(15,0),
+(16,0),
+(17,0),
+(18,0),
+(19,0),
+(20,0);
 
 --
 -- Dumping data for table `order_history`
 --
-
 INSERT INTO `ac_order_history`
+(`order_history_id`,
+`order_id`,
+`order_status_id`,
+`notify`,
+`comment`,
+`date_added`,
+`date_modified`)
 VALUES
-(1,1,1,1,'','0000-00-00 00:00:00','2015-06-12 09:56:25'),
+(23,21,1,1,'','2022-06-28 08:05:32','2022-06-28 08:05:32'),
 (2,2,1,1,'','2013-09-07 08:02:31','2015-06-12 09:56:25'),
 (3,3,1,1,'','2013-09-07 08:41:25','2015-06-12 09:56:25'),
 (4,4,1,1,'','2013-09-07 08:51:07','2015-06-12 09:56:25'),
@@ -902,15 +905,27 @@ VALUES
 (19,17,1,1,'','2019-03-19 08:33:15','2019-03-19 08:33:15'),
 (20,18,1,1,'','2019-03-21 12:10:11','2019-03-21 12:10:11'),
 (21,19,1,1,'','2019-05-06 06:05:14','2019-05-06 06:05:14'),
-(22,20,1,1,'','2019-05-06 06:20:00','2019-05-06 06:20:00');
-
+(22,20,1,1,'','2019-05-06 06:20:00','2019-05-06 06:20:00'),
+(24,22,1,1,'','2022-06-28 08:11:47','2022-06-28 08:11:47'),
+(25,23,1,1,'','2022-06-28 08:44:14','2022-06-28 08:44:14');
 
 --
 -- Dumping data for table `order_options`
 --
 INSERT INTO `ac_order_options`
+(`order_option_id`,
+`order_id`,
+`order_product_id`,
+`product_option_value_id`,
+`name`,
+`sku`,
+`value`,
+`price`,
+`cost`,
+`prefix`,
+`settings`)
 VALUES
-(1,1,2,588,'Memory','','8GB',99.0000,0.0000,'+',NULL),
+(45,21,71,657,'Color','','Light Bisque',30.5000,0.0000,'$',''),
 (2,2,7,684,'Color','','brown',10.0000,0.0000,'+',NULL),
 (3,3,9,651,'Size','','33.8 oz',49.0000,0.0000,'+',NULL),
 (4,3,10,650,'Size','','8 oz',19.0000,0.0000,'+',NULL),
@@ -942,76 +957,105 @@ VALUES
 (33,18,59,752,'Colour','','white',26.0000,0.0000,'$',''),
 (32,18,59,749,'UK size','','5 UK ',26.0000,0.0000,'$',''),
 (34,20,61,778,'Size EU','','EU XS (Asia M)',21.0000,0.0000,'$',''),
-(37,20,62,778,'Size EU','','EU XS (Asia M)',0.0000,0.0000,'$',NULL);
+(47,20,62,778,'Size EU','','EU XS (Asia M)',0.0000,0.0000,'$',NULL),
+(46,21,72,653,'Color','','Natural Ambre',38.5000,0.0000,'$',''),
+(51,23,80,662,'Fragrance Size','','50ml',29.0000,0.0000,'$','');
 
-
-INSERT INTO `ac_order_products` (order_product_id, order_id, product_id, name, model, sku, price, cost, total, tax, quantity, subtract
-)
+INSERT INTO `ac_order_products`
+(`order_product_id`,
+`order_id`,
+`product_id`,
+`name`,
+`model`,
+`sku`,
+`price`,
+`cost`,
+`weight`,
+`weight_iso_code`,
+`width`,
+`length`,
+`height`,
+`length_iso_code`,
+`total`,
+`tax`,
+`quantity`,
+`subtract`)
 VALUES
-(6,2,97,'Eye Rejuvenating Serum','GRMBC004','',126.0000,0.0000,126.0000,8.5000,1,0),
-(7,2,100,'Smooth silk lip pencils','GRMBC007','',10.0000,0.0000,40.0000,8.5000,4,0),
-(8,2,93,'Creme Precieuse Nuit 50ml','BVLG003','',220.0000,0.0000,220.0000,8.5000,1,0),
-(9,3,69,'Seaweed Conditioner','SCND001','',49.0000,0.0000,49.0000,0.0000,1,0),
-(10,3,69,'Seaweed Conditioner','SCND001','',19.0000,0.0000,19.0000,0.0000,1,0),
-(11,3,77,'Men+Care Active Clean Shower Tool','DMBW0014','',6.0000,0.0000,6.0000,0.0000,1,0),
-(12,3,98,'Shaving cream','GRMBC005','',98.0000,0.0000,98.0000,0.0000,1,0),
-(13,3,62,'ck one shock for him Deodorant','601232','',14.0000,0.0000,14.0000,0.0000,1,0),
-(14,3,66,'Total Moisture Facial Cream','556240','',38.0000,0.0000,38.0000,0.0000,1,0),
-(15,3,54,'L\'EXTRÊME Instant Extensions Lengthening Mascara','74144','',20.0000,0.0000,20.0000,0.0000,1,0),
-(16,4,57,'Delicate Oil-Free Powder Blush','117148','',29.5000,0.0000,29.5000,8.5000,1,0),
-(17,4,67,'Flash Bronzer Body Gel','463686','',29.0000,0.0000,29.0000,8.5000,1,0),
-(18,4,80,'Acqua Di Gio Pour Homme','GRM001','',84.0000,0.0000,84.0000,8.5000,1,0),
-(19,4,89,'Secret Obsession Perfume','CK0012','',92.0000,0.0000,92.0000,8.5000,1,0),
-(20,4,75,'Dove Men +Care Body Wash','DMBW0012','',6.7000,0.0000,6.7000,8.5000,1,0),
-(21,4,78,'ck IN2U Eau De Toilette Spray for Him','Cl0001','',45.0000,0.0000,45.0000,8.5000,1,0),
-(22,5,97,'Eye Rejuvenating Serum','GRMBC004','',126.0000,0.0000,126.0000,8.5000,1,0),
-(23,5,61,'Color Design Eye Brightening All in One 5 Shadow &amp; Liner Palette','529071','',48.0000,0.0000,48.0000,8.5000,1,0),
-(24,5,61,'Color Design Eye Brightening All in One 5 Shadow &amp; Liner Palette','529071','',48.0000,0.0000,96.0000,8.5000,2,0),
-(25,5,60,'Nail Lacquer','112423','',15.0000,0.0000,15.0000,8.5000,1,0),
-(26,5,55,'LE ROUGE ABSOLU Reshaping &amp; Replenishing LipColour SPF 15','tw152236','',27.0000,0.0000,27.0000,8.5000,1,0),
-(27,5,56,'Waterproof Protective Undereye Concealer','35190','',30.5000,0.0000,30.5000,8.5000,1,0),
-(28,5,51,'BeneFit Girl Meets Pearl','483857','',19.0000,0.0000,19.0000,8.5000,1,0),
-(29,5,93,'Creme Precieuse Nuit 50ml','BVLG003','',220.0000,0.0000,220.0000,8.5000,1,0),
-(30,5,69,'Seaweed Conditioner','SCND001','',49.0000,0.0000,49.0000,8.5000,1,0),
-(31,6,84,'Armani Code Pour Femme','GRM005','',30.0000,0.0000,30.0000,8.5000,1,0),
-(32,6,92,'Body Cream by Bulgari','BVLG002','',57.0000,0.0000,171.0000,8.5000,3,0),
-(33,7,63,'Pour Homme Eau de Toilette','374622','',88.0000,0.0000,88.0000,8.5000,1,0),
-(34,7,78,'ck IN2U Eau De Toilette Spray for Him','Cl0001','',37.0000,0.0000,74.0000,8.5000,2,0),
-(35,8,54,'L\'EXTRÊME Instant Extensions Lengthening Mascara','74144','',20.0000,0.0000,20.0000,0.0000,1,0),
-(36,8,100,'Smooth silk lip pencils','GRMBC007','',10.0000,0.0000,40.0000,0.0000,4,0),
-(37,9,94,'Night Care Crema Nera Obsidian Mineral Complex','GRMBC001','',263.0000,0.0000,263.0000,0.0000,1,0),
-(38,9,67,'Flash Bronzer Body Gel','463686','',29.0000,0.0000,29.0000,0.0000,1,0),
-(39,9,91,'Jasmin Noir Body Lotion 6.8 fl oz','BVLG001','',29.0000,0.0000,58.0000,0.0000,2,0),
-(40,10,72,'Brunette expressions Conditioner','PCND002','',24.0000,0.0000,24.0000,8.5000,1,0),
-(41,10,81,'Armani Eau de Toilette Spray ','GRM002','',61.0000,0.0000,61.0000,8.5000,1,0),
-(42,10,88,'ck one Summer 3.4 oz','CK0011','',27.0000,0.0000,27.0000,8.5000,1,0),
-(43,10,70,'Eau Parfumee au The Vert Shampoo','522823','',31.0000,0.0000,31.0000,8.5000,1,0),
-(44,11,51,'BeneFit Girl Meets Pearl','483857','',19.0000,0.0000,19.0000,0.0000,1,0),
-(45,12,105,'Bvlgari Aqua','PRF00273','',78.5000,0.0000,78.5000,0.0000,1,0),
-(46,12,65,'Absolue Eye Precious Cells','427847','',105.0000,0.0000,105.0000,8.5000,1,0),
-(47,12,110,'Flora By Gucci Eau Fraiche','PRF00278','',90.0000,0.0000,270.0000,8.5000,3,0),
-(48,12,95,'Skin Minerals For Men Cleansing Cream','GRMBC002','',104.0000,0.0000,0.0000,8.5000,0,0),
-(49,13,104,'Calvin Klein Obsession For Women EDP Spray','PRF00271','',72.0000,0.0000,576.0000,8.5000,8,0),
-(50,14,111,'New French With Ease (1 book + 1 mp3 CD)','','',85.0000,0.0000,85.0000,7.2250,1,1),
-(51,15,116,'New Ladies High Wedge Heel Toe Thong Diamante Flip Flop Sandals','','',26.0000,0.0000,26.0000,2.2100,1,1),
-(52,16,123,'Casual 3/4 Sleeve Baseball T-Shirt','LTQFX','#2738',14.0000,0.0000,14.0000,1.1900,1,1),
-(53,17,122,'Mens Fine Cotton Giraffe Polo Shirts','JDSK36','',21.0000,0.0000,21.0000,0.0000,1,1),
-(54,17,75,'Dove Men +Care Body Wash','DMBW0012','',6.7000,6.7000,0.0000,0.0000,1,1),
-(55,17,76,'Men+Care Clean Comfort Deodorant','DMBW0013','1235B',7.2000,7.2000,0.0000,0.0000,1,1),
-(59,18,116,'New Ladies High Wedge Heel Toe Thong Diamante Flip Flop Sandals','','',26.0000,0.0000,26.0000,2.2100,1,1),
-(58,18,51,'BeneFit Girl Meets Pearl','483857','',19.0000,0.0000,19.0000,1.6150,1,1),
-(63,19,58,'Product with stock locations','374002','',34.0000,0.0000,102.0000,0.0000,3,0),
-(62,20,122,'Product with options and stock locations','JDSK36','',21.0000,0.0000,42.0000,0.0000,2,0);
+(6,2,97,'Eye Rejuvenating Serum','GRMBC004','',126.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',126.0000,8.5000,1,0),
+(7,2,100,'Smooth silk lip pencils','GRMBC007','',10.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',40.0000,8.5000,4,0),
+(8,2,93,'Creme Precieuse Nuit 50ml','BVLG003','',220.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',220.0000,8.5000,1,0),
+(9,3,69,'Seaweed Conditioner','SCND001','',49.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',49.0000,0.0000,1,0),
+(10,3,69,'Seaweed Conditioner','SCND001','',19.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',19.0000,0.0000,1,0),
+(11,3,77,'Men+Care Active Clean Shower Tool','DMBW0014','',6.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',6.0000,0.0000,1,0),
+(12,3,98,'Shaving cream','GRMBC005','',98.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',98.0000,0.0000,1,0),
+(13,3,62,'ck one shock for him Deodorant','601232','',14.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',14.0000,0.0000,1,0),
+(14,3,66,'Total Moisture Facial Cream','556240','',38.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',38.0000,0.0000,1,0),
+(15,3,54,'L\'EXTRÊME Instant Extensions Lengthening Mascara','74144','',20.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',20.0000,0.0000,1,0),
+(16,4,57,'Delicate Oil-Free Powder Blush','117148','',29.5000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',29.5000,8.5000,1,0),
+(17,4,67,'Flash Bronzer Body Gel','463686','',29.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',29.0000,8.5000,1,0),
+(18,4,80,'Acqua Di Gio Pour Homme','GRM001','',84.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',84.0000,8.5000,1,0),
+(19,4,89,'Secret Obsession Perfume','CK0012','',92.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',92.0000,8.5000,1,0),
+(20,4,75,'Dove Men +Care Body Wash','DMBW0012','',6.7000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',6.7000,8.5000,1,0),
+(21,4,78,'ck IN2U Eau De Toilette Spray for Him','Cl0001','',45.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',45.0000,8.5000,1,0),
+(22,5,97,'Eye Rejuvenating Serum','GRMBC004','',126.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',126.0000,8.5000,1,0),
+(23,5,61,'Color Design Eye Brightening All in One 5 Shadow &amp; Liner Palette','529071','',48.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',48.0000,8.5000,1,0),
+(24,5,61,'Color Design Eye Brightening All in One 5 Shadow &amp; Liner Palette','529071','',48.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',96.0000,8.5000,2,0),
+(25,5,60,'Nail Lacquer','112423','',15.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',15.0000,8.5000,1,0),
+(26,5,55,'LE ROUGE ABSOLU Reshaping &amp; Replenishing LipColour SPF 15','tw152236','',27.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',27.0000,8.5000,1,0),
+(27,5,56,'Waterproof Protective Undereye Concealer','35190','',30.5000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',30.5000,8.5000,1,0),
+(28,5,51,'BeneFit Girl Meets Pearl','483857','',19.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',19.0000,8.5000,1,0),
+(29,5,93,'Creme Precieuse Nuit 50ml','BVLG003','',220.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',220.0000,8.5000,1,0),
+(30,5,69,'Seaweed Conditioner','SCND001','',49.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',49.0000,8.5000,1,0),
+(31,6,84,'Armani Code Pour Femme','GRM005','',30.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',30.0000,8.5000,1,0),
+(32,6,92,'Body Cream by Bulgari','BVLG002','',57.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',171.0000,8.5000,3,0),
+(33,7,63,'Pour Homme Eau de Toilette','374622','',88.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',88.0000,8.5000,1,0),
+(34,7,78,'ck IN2U Eau De Toilette Spray for Him','Cl0001','',37.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',74.0000,8.5000,2,0),
+(35,8,54,'L\'EXTRÊME Instant Extensions Lengthening Mascara','74144','',20.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',20.0000,0.0000,1,0),
+(36,8,100,'Smooth silk lip pencils','GRMBC007','',10.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',40.0000,0.0000,4,0),
+(37,9,94,'Night Care Crema Nera Obsidian Mineral Complex','GRMBC001','',263.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',263.0000,0.0000,1,0),
+(38,9,67,'Flash Bronzer Body Gel','463686','',29.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',29.0000,0.0000,1,0),
+(39,9,91,'Jasmin Noir Body Lotion 6.8 fl oz','BVLG001','',29.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',58.0000,0.0000,2,0),
+(40,10,72,'Brunette expressions Conditioner','PCND002','',24.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',24.0000,8.5000,1,0),
+(41,10,81,'Armani Eau de Toilette Spray ','GRM002','',61.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',61.0000,8.5000,1,0),
+(42,10,88,'ck one Summer 3.4 oz','CK0011','',27.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',27.0000,8.5000,1,0),
+(43,10,70,'Eau Parfumee au The Vert Shampoo','522823','',31.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',31.0000,8.5000,1,0),
+(44,11,51,'BeneFit Girl Meets Pearl','483857','',19.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',19.0000,0.0000,1,0),
+(45,12,105,'Bvlgari Aqua','PRF00273','',78.5000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',78.5000,0.0000,1,0),
+(46,12,65,'Absolue Eye Precious Cells','427847','',105.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',105.0000,8.5000,1,0),
+(47,12,110,'Flora By Gucci Eau Fraiche','PRF00278','',90.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',270.0000,8.5000,3,0),
+(48,12,95,'Skin Minerals For Men Cleansing Cream','GRMBC002','',104.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',0.0000,8.5000,0,0),
+(49,13,104,'Calvin Klein Obsession For Women EDP Spray','PRF00271','',72.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',576.0000,8.5000,8,0),
+(50,14,111,'New French With Ease (1 book + 1 mp3 CD)','','',85.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',85.0000,7.2250,1,1),
+(51,15,116,'New Ladies High Wedge Heel Toe Thong Diamante Flip Flop Sandals','','',26.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',26.0000,2.2100,1,1),
+(52,16,123,'Casual 3/4 Sleeve Baseball T-Shirt','LTQFX','#2738',14.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',14.0000,1.1900,1,1),
+(53,17,122,'Mens Fine Cotton Giraffe Polo Shirts','JDSK36','',21.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',21.0000,0.0000,1,1),
+(54,17,75,'Dove Men +Care Body Wash','DMBW0012','',6.7000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',6.7000,0.0000,1,1),
+(55,17,76,'Men+Care Clean Comfort Deodorant','DMBW0013','1235B',7.2000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',7.2000,0.0000,1,1),
+(59,18,116,'New Ladies High Wedge Heel Toe Thong Diamante Flip Flop Sandals','','',26.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',26.0000,2.2100,1,1),
+(58,18,51,'BeneFit Girl Meets Pearl','483857','',19.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',19.0000,1.6150,1,1),
+(63,19,58,'Product with stock locations','374002','',34.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',102.0000,0.0000,3,0),
+(62,20,122,'Product with options and stock locations','JDSK36','',21.0000,0.0000,0.0000,'',0.0000,0.0000,0.0000,'',42.0000,0.0000,2,0),
+(72,21,53,'Tropiques Minerale Loose Bronzer','380440','',38.5000,22.0000,100.0000,'g',0.0000,0.0000,0.0000,'in',154.0000,13.0900,4,1),
+(71,21,56,'Waterproof Protective Undereye Concealer','35190','',30.5000,0.0000,85.0000,'g',0.0000,0.0000,0.0000,'cm',30.5000,2.5925,1,1),
+(76,22,77,'Men Care Active Clean Shower Tool','DMBW0014','1234B',6.0000,2.0000,0.3000,'kg',0.0000,0.0000,0.0000,'in',6.0000,0.0000,1,1),
+(80,23,78,'ck IN2U Eau De Toilette Spray for Him','Cl0001','',29.0000,0.0000,125.0000,'g',0.0000,0.0000,0.0000,'cm',29.0000,2.4650,1,1),
+(83,24,96,'Eye master','GRMBC003','',82.0000,67.0000,80.0000,'g',0.0000,0.0000,0.0000,'cm',164.0000,0.0000,2,1);
 
 --
 -- Dumping data for table `order_totals`
 --
-
 INSERT INTO `ac_order_totals`
+(`order_total_id`,
+`order_id`,
+`title`,
+`text`,
+`value`,
+`sort_order`,
+`type`,
+`key`)
 VALUES
-(1,1,'Sub-Total:','£1,583.44',1583.4400,1,'subtotal','sub_total'),
-(2,1,'Flat Shipping Rate:','£2.00',2.0000,3,'shipping','shipping'),
-(3,1,'Total:','£1,585.44',1585.4400,6,'total','total'),
+(88,21,'Total:','189.74€',202.1737,1000,'total','total'),
+(87,21,'Retail 8.5%:','14.72€',15.6800,5,'tax','tax'),
 (4,2,'Sub-Total:','$386.00',386.0000,1,'subtotal','sub_total'),
 (5,2,'Retail 8.5%:','$32.81',32.8100,5,'tax','tax'),
 (6,2,'Total:','$418.81',418.8100,6,'total','total'),
@@ -1077,20 +1121,37 @@ VALUES
 (70,20,'Sub-Total:','$42.00',42.0000,1,'subtotal','subtotal'),
 (71,20,'Flat Shipping Rate:','$2.00',2.0000,3,'shipping','shipping'),
 (72,20,'Retail 8.5%:','$3.57',3.5700,5,'tax','tax'),
-(73,20,'Total:','$47.57',47.5700,1000,'total','total');
+(73,20,'Total:','$47.57',47.5700,1000,'total','total'),
+(85,21,'Sub-Total:','173.14€',184.4859,1,'subtotal','subtotal'),
+(86,21,'Flat Shipping Rate:','1.88€',2.0000,3,'shipping','shipping'),
+(99,22,'Total:','7.51€',8.0000,1000,'total','total'),
+(97,22,'Sub-Total:','5.63€',6.0000,1,'subtotal','subtotal'),
+(98,22,'Flat Shipping Rate:','1.88€',2.0000,3,'shipping','shipping'),
+(113,23,'Retail 8.5%:','$2.47',2.4700,5,'tax','tax'),
+(114,23,'Total:','$33.47',33.4700,1000,'total','total'),
+(112,23,'Flat Shipping Rate:','$2.00',2.0000,3,'shipping','shipping'),
+(111,23,'Sub-Total:','$29.00',29.0000,1,'subtotal','subtotal'),
+(122,24,'Total:','$166.00',166.0000,1000,'total','total'),
+(121,24,'Flat Shipping Rate:','$2.00',2.0000,3,'shipping','shipping'),
+(120,24,'Sub-Total:','$164.00',164.0000,1,'subtotal','subtotal');
 
 INSERT INTO `ac_order_product_stock_locations`
+(`order_product_id`,
+`product_id`,
+`product_option_value_id`,
+`location_id`,
+`location_name`,
+`quantity`,
+`sort_order`)
 VALUES
-(62,122,778,2,'Canada',2,1),
-(62,122,778,1,'USA All States',0,2),
-(63,58,NULL,2,'Canada',3,1),
-(63,58,NULL,1,'USA All States',0,2);
-
+(62,122,778,2,'Canada',2,0),
+(62,122,778,1,'USA All States',0,0),
+(63,58,NULL,2,'Canada',3,0),
+(63,58,NULL,1,'USA All States',0,0);
 
 --
 -- Dumping data for table `orders`
 --
-
 INSERT INTO `ac_orders`
 (`order_id`,
 `invoice_id`,
@@ -1146,7 +1207,7 @@ INSERT INTO `ac_orders`
 `ip`,
 `payment_method_data`)
 VALUES
-(1,0,'',0,'Your Store','demo',1,1,'fdsfdsf','czx','(092) 222-2222','','demo@abantecart.com','fdsfdsf','czx','','addresss','','testing','55555','Maryland',3643,'United States',223,'{firstname} {lastname} {company} {address_1} {address_2} {city}, {zone} {postcode} {country}','Flat Shipping Rate','','fdsfdsf','czx','','addresss','','testing','55555','Maryland',3643,'United States',223,'{firstname} {lastname} {company} {address_1} {address_2} {city}, {zone} {postcode} {country}','Cash On Delivery','','',1585.4400,1,1,1,'GBP',1.00000000,0,'0000-00-00 00:00:00','0000-00-00 00:00:00','127.0.0.1',''),
+(22,0,'',0,'Web Store Name','https://demo.abantecart.com/',18,1,'Elmer','West','(914) 328-0251','','elmer@abantecart.com','Elmer','West','','1433 Armand-Frappier','','Sainte-Julie','J3E 3R6','Qu&eacute;bec',612,'Canada',38,'','Flat Shipping Rate','default_flat_rate_shipping.default_flat_rate_shipping','Elmer','West','','291 Central Ave','','White Plains','10606','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','default_cod','Please drop the parcel on the doorstep if the house is locked',8.0000,1,1,2,'EUR',0.93850000,0,'2022-06-28 08:11:43','2022-06-28 11:15:55','77.111.247.7',''),
 (2,0,'',0,'Web Store Name','demo',11,1,'Anthony','Blair','+1 907-842-2240','','anthonyblair@abantecart.com','','','','','','','','',0,'',0,'','','','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','',418.8100,1,1,1,'USD',1.00000000,0,'2019-03-18 11:37:51','2019-03-18 11:37:51','109.104.166.98',''),
 (3,0,'',0,'Web Store Name','demo',5,1,'Gloria','Macias','+1 418-461-2440','','gloriamacias@abantecart.com','Gloria','Macias','','Camille Marcoux 15','','Blanc-Sablon','1569','Nunavut',609,'Canada',38,'','Flat Shipping Rate','','Gloria','Macias','','Camille Marcoux 15','','Blanc-Sablon','1569','Nunavut',609,'Canada',38,'','Cash On Delivery','','Please ASAP',246.0000,1,1,1,'USD',1.00000000,0,'2019-03-18 11:37:51','2019-03-18 11:37:51','109.104.166.98',''),
 (4,0,'',0,'Web Store Name','demo',5,1,'Gloria','Macias','+1 418-461-2440','','gloriamacias@abantecart.com','','','','','','','','',0,'',0,'','','','Gloria','Macias','','Camille Marcoux 15','','Blanc-Sablon','1569','Nunavut',609,'Canada',38,'','Cash On Delivery','','',310.5270,1,1,1,'USD',1.00000000,0,'2019-03-18 11:37:51','2019-03-18 11:37:51','109.104.166.98',''),
@@ -1163,15 +1224,26 @@ VALUES
 (15,0,'',0,'Web Store Name','demo',12,1,'Allen','Waters','(417) 280-7406','','allenwaters@abantecart.com','Allen','Waters','','110 Shenandoah Avenue','','Honohina','86565-1710','Arizona',3616,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','default_flat_rate_shipping.default_flat_rate_shipping','Allen','Waters','','110 Shenandoah Avenue','','Honohina','86565-1710','Arizona',3616,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','default_cod','',30.2100,3,1,1,'USD',1.00000000,0,'2019-03-18 12:20:54','2019-03-18 12:26:40','77.111.246.167',''),
 (16,0,'',0,'Web Store Name','demo',14,1,'Yuri','Howard','+1 (694) 373-3146','','howardinc@abantecart.com','Yuri','Howard','Eaton Stevenson Inc','22555 Jensen Ave','','Reedley','93654','California',3624,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','default_flat_rate_shipping.default_flat_rate_shipping','Yuri','Howard','Eaton Stevenson Inc','22555 Jensen Ave','','Reedley','93654','California',3624,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','default_cod','',15.1900,1,1,1,'USD',1.00000000,0,'2019-03-18 13:39:08','2019-03-18 13:39:24','85.235.65.198',''),
 (17,0,'',0,'Web Store Name','demo',15,1,'Regan','Shields','+1 (267) 125-5153','','ricuvif@abantecart.com','Regan','Shields','Day and Rivera Traders','2355 Boulevard Bastien','','Québec','QC G2B 1B3','Qu&eacute;bec',612,'Canada',38,'','Flat Shipping Rate','default_flat_rate_shipping.default_flat_rate_shipping','Regan','Shields','Day and Rivera Traders','2355 Boulevard Bastien','','Québec','QC G2B 1B3','Qu&eacute;bec',612,'Canada',38,'','Cash On Delivery','default_cod','',36.9000,5,1,1,'USD',1.00000000,0,'2019-03-19 08:32:53','2019-03-19 08:36:46','23.129.64.106',''),
-(18,0,'',0,'Web Store Name','demo',16,1,'Randall','Richards','+1 (788) 773-7896','+1 (706) 122-6856','randallri@abantecart.com','Randall','Richards','','500 N Nebraska Ave','','Tampa','33603','Florida',3630,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','default_flat_rate_shipping.default_flat_rate_shipping','Mallory','Ballard','Guzman and Morin Inc','2430 S French Ave','','Sanford','32771','Florida',3630,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','default_cod','',50.8300,1,1,1,'USD',1.00000000,0,'2019-03-21 12:10:03','2019-03-21 12:12:09','205.185.126.56',''),
-(19,0,'',0,'Web Store Name','demo',12,1,'Allen','Waters','(417) 280-7406','','allenwaters@abantecart.com','Allen','Waters','','110 Shenandoah Avenue','','Honohina','86565-1710','Arizona',3616,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','default_flat_rate_shipping.default_flat_rate_shipping','Allen','Waters','','110 Shenandoah Avenue','','Honohina','86565-1710','Arizona',3616,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','default_cod','',112.6700,3,1,1,'USD',1.00000000,0,'2019-05-06 06:05:01','2019-05-06 12:23:28','77.111.246.147',''),
-(20,0,'',0,'Web Store Name','demo',12,1,'Allen','Waters','(417) 280-7406','','allenwaters@abantecart.com','Allen','Waters','','110 Shenandoah Avenue','','Honohina','86565-1710','Arizona',3616,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','default_flat_rate_shipping.default_flat_rate_shipping','Allen','Waters','','110 Shenandoah Avenue','','Honohina','86565-1710','Arizona',3616,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','default_cod','',47.5700,1,1,1,'USD',1.00000000,0,'2019-05-06 06:19:57','2019-05-06 12:22:33','77.111.246.147','');
+(18,0,'',0,'Web Store Name','demo',16,1,'Randall','Richards',' 1 (788) 773-7896',' 1 (706) 122-6856','randallri@abantecart.com','Randall','Richards','','500 N Nebraska Ave','','Tampa','33603','Florida',3630,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','default_flat_rate_shipping.default_flat_rate_shipping','Mallory','Ballard','Guzman and Morin Inc','2430 S French Ave','','Sanford','32771','Florida',3630,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','default_cod','',50.8300,1,1,1,'USD',1.00000000,0,'2019-03-21 12:10:03','2022-06-28 08:08:05','205.185.126.56',''),
+(19,0,'',0,'Web Store Name','demo',12,1,'Allen','Waters','(417) 280-7406','','allenwaters@abantecart.com','Allen','Waters','','110 Shenandoah Avenue','','Honohina','86565-1710','Arizona',3616,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','default_flat_rate_shipping.default_flat_rate_shipping','Allen','Waters','','110 Shenandoah Avenue','','Honohina','86565-1710','Arizona',3616,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','default_cod','',112.6700,3,1,1,'USD',1.00000000,0,'2019-05-06 06:05:01','2022-06-28 08:07:42','77.111.246.147',''),
+(20,0,'',0,'Web Store Name','demo',12,1,'Allen','Waters','(417) 280-7406','','allenwaters@abantecart.com','Allen','Waters','','110 Shenandoah Avenue','','Honohina','86565-1710','Arizona',3616,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','default_flat_rate_shipping.default_flat_rate_shipping','Allen','Waters','','110 Shenandoah Avenue','','Honohina','86565-1710','Arizona',3616,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','default_cod','',47.5700,1,1,1,'USD',1.00000000,0,'2019-05-06 06:19:57','2022-06-28 08:07:29','77.111.246.147',''),
+(21,0,'',0,'Web Store Name','https://demo.abantecart.com/',17,1,'Michelle','Barnett','1 469 537-8505','','mbarnett@abantecart.com','Michelle','Barnett','','3180 S Redwood Rd','','West Valley City','84119','Utah',3670,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','default_flat_rate_shipping.default_flat_rate_shipping','Michelle','Barnett','','3180 S Redwood Rd','','West Valley City','84119','Utah',3670,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','default_cod','Please don\'t deliver the shipment on Friday as I won\'t be available',202.1737,1,1,2,'EUR',0.93850000,0,'2022-06-28 08:05:30','2022-06-28 11:15:55','77.111.246.40',''),
+(24,0,'',0,'Web Store Name','https://demo.abantecart.com/',18,1,'Elmer','West',' 1 (128) 392-8036','','elmer@abantecart.com','Elmer','West','','1433 Armand-Frappier','','Sainte-Julie','J3E 3R6','Qu&eacute;bec',612,'Canada',38,'','Flat Shipping Rate','default_flat_rate_shipping.default_flat_rate_shipping','Elmer','West','','1433 Armand-Frappier','','Sainte-Julie','J3E 3R6','Qu&eacute;bec',612,'Canada',38,'','Cash On Delivery','default_cod','',166.0000,0,1,1,'USD',1.00000000,0,'2022-07-13 06:51:51','2022-07-13 07:01:24','77.111.246.40',''),
+(23,0,'',0,'Web Store Name','https://demo.abantecart.com/',14,1,'Yuri','Howard','16943733146','','howardinc@abantecart.com','Yuri','Howard','Eaton Stevenson Inc','22555 Jensen Ave','','Reedley','93654','California',3624,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','default_flat_rate_shipping.default_flat_rate_shipping','Yuri','Howard','Eaton Stevenson Inc','22555 Jensen Ave','','Reedley','93654','California',3624,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','default_cod','Please provide the order with gift wrap',33.4700,1,1,1,'USD',1.00000000,0,'2022-06-28 08:44:08','2022-06-28 11:15:55','77.111.247.7','');
 
 --
 -- Dumping data for table `order_downloads_history`
 --
-
 INSERT INTO `ac_order_downloads_history`
+(`order_download_history_id`,
+`order_download_id`,
+`order_id`,
+`order_product_id`,
+`filename`,
+`mask`,
+`download_id`,
+`download_percent`,
+`time`)
 VALUES
 (1,0,0,0,'download/18/76/5.mp3','sample.mp3',2,100,'2015-07-08 10:36:06'),
 (2,1,14,50,'download/18/76/4.mp3','audio-cd.mp3',1,100,'2019-03-18 12:14:47'),
@@ -1182,23 +1254,48 @@ VALUES
 (7,0,0,0,'download/18/79/f.pdf','size-fit-guide-print.pdf',5,100,'2019-03-19 10:17:30');
 
 INSERT INTO `ac_order_downloads`
+(`order_download_id`,
+`order_id`,
+`order_product_id`,
+`name`,
+`filename`,
+`mask`,
+`download_id`,
+`status`,
+`remaining_count`,
+`percentage`,
+`expire_date`,
+`sort_order`,
+`activate`,
+`activate_order_status_id`,
+`attributes_data`,
+`date_added`,
+`date_modified`)
 VALUES
 (1,14,50,'Audio CD1','download/18/76/4.mp3','audio-cd.mp3',1,1,49,0,NULL,0,'',5,'a:0:{}','2019-03-18 12:13:24','2019-03-18 12:14:47'),
 (2,16,52,'Find your fit','download/18/79/f.pdf','size-fit-guide-print.pdf',5,1,NULL,0,NULL,0,'',0,'a:0:{}','2019-03-18 13:47:47','2019-03-18 13:47:47');
 
-INSERT INTO `ac_order_data` VALUES
+INSERT INTO `ac_order_data`
+(`order_id`,
+`type_id`,
+`data`,
+`date_added`,
+`date_modified`)
+VALUES
 (14,1,'a:2:{s:3:\"uri\";s:23:\"michaelj@abantecart.com\";s:6:\"status\";s:1:\"1\";}','2019-03-18 12:13:24','2019-03-18 12:13:24'),
 (15,1,'a:2:{s:3:\"uri\";s:26:\"allenwaters@abantecart.com\";s:6:\"status\";s:1:\"1\";}','2019-03-18 12:20:54','2019-03-18 12:20:54'),
 (16,1,'a:2:{s:3:\"uri\";s:24:\"howardinc@abantecart.com\";s:6:\"status\";s:1:\"1\";}','2019-03-18 13:39:08','2019-03-18 13:39:08'),
 (17,1,'a:2:{s:3:\"uri\";s:22:\"ricuvif@abantecart.com\";s:6:\"status\";s:1:\"1\";}','2019-03-19 08:32:53','2019-03-19 08:32:53'),
 (19,1,'a:2:{s:3:\"uri\";s:26:\"allenwaters@abantecart.com\";s:6:\"status\";s:1:\"1\";}','2019-05-06 06:05:01','2019-05-06 06:05:01'),
-(20,1,'a:2:{s:3:\"uri\";s:26:\"allenwaters@abantecart.com\";s:6:\"status\";s:1:\"1\";}','2019-05-06 06:19:57','2019-05-06 06:19:57');
-
+(20,1,'a:2:{s:3:\"uri\";s:26:\"allenwaters@abantecart.com\";s:6:\"status\";s:1:\"1\";}','2019-05-06 06:19:57','2019-05-06 06:19:57'),
+(21,1,'a:2:{s:3:\"uri\";s:23:\"mbarnett@abantecart.com\";s:6:\"status\";s:1:\"1\";}','2022-06-28 08:05:30','2022-06-28 08:05:30'),
+(21,3,'Zg4n0EGvzxHOwqPgZvxKPxv69saEan1t','2022-06-28 08:05:34','2022-06-28 08:05:34'),
+(22,1,'a:2:{s:3:\"uri\";s:20:\"elmer@abantecart.com\";s:6:\"status\";s:1:\"1\";}','2022-06-28 08:11:43','2022-06-28 08:11:43'),
+(22,3,'Tb5bV8sMYxBMXGCLw6YkBS1gKBvhcdMf','2022-06-28 08:11:49','2022-06-28 08:11:49');
 
 --
 -- Dumping data for table `product_descriptions`
 --
-
 INSERT INTO `ac_product_descriptions`
 (`product_id`,
 `language_id`,
@@ -1210,11 +1307,11 @@ INSERT INTO `ac_product_descriptions`
 VALUES
 (73,1,'Highlighting Expressions','','','&lt;p&gt;\r\n	WHAT&lt;br /&gt;\r\n	Pantene Pro-V COLOUR HAIR SOLUTIONS Highlighting Expressions™ Conditioner protects and enhances colour treated hair and infuses blonde highlights with shine. The advanced Pro-Vitamin formula restores shine to dull highlights and protects hair from daily damage. This non-colour depositing formula works for all blonde highlights.&lt;/p&gt;\r\n&lt;p&gt;\r\n	WHY&lt;br /&gt;\r\n	Pantene uncovered that oxidative colouring changes hair’s structure. Internally, the chemistry in hair colour attacks strength-giving proteins in hair and makes the fibre more porous, leading to weaker hair that fades more quickly. The surface of the hair fibres becomes uneven and the protective layer of the hair fibre disintegrates. Without the protective layer, the hair fibre is prone to micro-scarring and damage, which changes the way it interacts with light and leads to a dull appearance.&lt;/p&gt;\r\n&lt;p&gt;\r\n	HOW&lt;br /&gt;\r\n	Pantene’s non-colour depositing conditioner is designed to reinforce the structure of blonde highlighted hair and give it what it needs to reveal vibrant, glossy colour. Conditioning ingredients help revitalize and replenish highlighted hair while delivering brilliant shine and protecting from future damage. The result is healthy-looking hair rejuvenated with shimmering blonde highlights.&lt;/p&gt;\r\n&lt;p&gt;\r\n	USE&lt;br /&gt;\r\n	For rich, vibrant colour that’s shiny and healthy-looking, use with Pantene Pro-V Pantene COLOUR HAIR SOLUTIONS Highlighting Expressions™ Shampoo and Colour Nourishing Treatment.&lt;/p&gt;\r\n',''),
 (74,1,'Curls to straight Shampoo','','','&lt;p&gt;\r\n	YOUR HAIR’S STARTING POINT&lt;br /&gt;\r\n	Curly&lt;/p&gt;\r\n&lt;p&gt;\r\n	WHAT&lt;br /&gt;\r\n	Pantene Curly Hair Series Curls to Straight Shampoo gently removes build-up, adding softness and control to your curls. The cleansing formula helps align and smooth the hair fibers. The result is healthy-looking hair that’s protected from frizz and ready for straight styling.&lt;/p&gt;\r\n&lt;p&gt;\r\n	WHY&lt;br /&gt;\r\n	Research shows that each curly hair fibre grows in a unique pattern, twisting and turning in all directions. This unpredictable pattern makes it difficult to create and control straight styles. The curved fibres of curly hair intersect with each other more often than any other hair type, causing friction which can result in breakage. The curvature of the hair fibre also provides a large amount of volume in curly hair, which can be hard to tame.&lt;/p&gt;\r\n&lt;p&gt;\r\n	HOW&lt;br /&gt;\r\n	Pantene’s straight shampoo contains micro-smoothers that aid you in loosening and unwinding curls from their natural pattern. Curly hair is left ready for frizz controlled straight styling, and protected from styling damage.&lt;/p&gt;\r\n&lt;p&gt;\r\n	USE&lt;br /&gt;\r\n	For healthy-looking, curly hair that’s styled straight, use with Curls to Straight Conditioner and Anti-Frizz Straightening Crème.&lt;/p&gt;\r\n',''),
-(75,1,'Dove Men +Care Body Wash','','','&lt;p&gt;\r\n	A body and face wash developed for men\'s skin with Micromoisture technology.&lt;br /&gt;\r\n	Micromoisture activates on skin when lathering up, clinically proven to fight skin dryness.&lt;br /&gt;\r\n	Deep cleansing gel that rinses off easily. With purifying grains.&lt;br /&gt;\r\n	Dermatologist recommended.&lt;/p&gt;\r\n',''),
-(76,1,'Men+Care Clean Comfort Deodorant','','','&lt;p&gt;\r\n        The first scented deodorant from Dove® specifically designed with a non-irritating formula to give men the power of 48-hour protection against underarm odor with advanced ¼ moisturizer technology. The bottom line? It’s tough on odor, not on skin&lt;/p&gt;\r\n',''),
-(77,1,'Men+Care Active Clean Shower Tool','tool, man','','&lt;p&gt;\r\n	Dove® Men+CareTM Active Clean Dual-Sided Shower Tool works with body wash for extra scrubbing power you can’t get from just using your hands. The mesh side delivers the perfect amount of thick cleansing lather, and the scrub side helps exfoliate for a deeper clean. Easy to grip and easy to hang. For best results, replace every 4-6 weeks.&lt;/p&gt;\r\n',''),
+(75,1,'Dove Men  Care Body Wash','','','&lt;p&gt;\r\n	A body and face wash developed for men\'s skin with Micromoisture technology.&lt;br /&gt;\r\n	Micromoisture activates on skin when lathering up, clinically proven to fight skin dryness.&lt;br /&gt;\r\n	Deep cleansing gel that rinses off easily. With purifying grains.&lt;br /&gt;\r\n	Dermatologist recommended.&lt;/p&gt;\r\n',''),
+(76,1,'Men Care Clean Comfort Deodorant','','','&lt;p&gt;\r\n        The first scented deodorant from Dove® specifically designed with a non-irritating formula to give men the power of 48-hour protection against underarm odor with advanced ¼ moisturizer technology. The bottom line? It’s tough on odor, not on skin&lt;/p&gt;\r\n',''),
+(77,1,'Men Care Active Clean Shower Tool','tool, man','','&lt;p&gt;\r\n	Dove® Men CareTM Active Clean Dual-Sided Shower Tool works with body wash for extra scrubbing power you can’t get from just using your hands. The mesh side delivers the perfect amount of thick cleansing lather, and the scrub side helps exfoliate for a deeper clean. Easy to grip and easy to hang. For best results, replace every 4-6 weeks.&lt;/p&gt;\r\n',''),
 (78,1,'ck IN2U Eau De Toilette Spray for Him','','','&lt;p&gt;\r\n	Fresh but warm; a tension that creates sexiness.Spontaneous - sexy - connectedCK IN2U him is a fresh woody oriental that penetrates with lime gin fizz and rushes into a combination of cool musks that radiate from top to bottom and leaves you wanting more.&lt;/p&gt;\r\n',''),
-(79,1,'ck One Gift Set','','','&lt;p&gt;\r\n	2 PC Gift Set includes 3.4 oz EDT Spray + Magnets. Ck One Cologne by Calvin Klein, Two bodies, two minds, and two souls are merged into the heat and passion of one. This erotic cologne combines man and woman with one provocative scent. This clean, refreshing fragrance has notes of bergamot, cardamom, pineapple, papaya, amber, and green tea.&lt;/p&gt;\r\n',''),
+(79,1,'ck One Gift Set','','','&lt;p&gt;\r\n	2 PC Gift Set includes 3.4 oz EDT Spray   Magnets. Ck One Cologne by Calvin Klein, Two bodies, two minds, and two souls are merged into the heat and passion of one. This erotic cologne combines man and woman with one provocative scent. This clean, refreshing fragrance has notes of bergamot, cardamom, pineapple, papaya, amber, and green tea.&lt;/p&gt;\r\n',''),
 (50,1,'Skinsheen Bronzer Stick','','','&lt;p&gt;\r\n	Bronzes, shapes and sculpts the face. Sheer-to-medium buildable coverage that looks naturally radiant and sunny. Stashable - and with its M·A·C Surf, Baby look – way cool. Limited edition.&lt;/p&gt;\r\n',''),
 (51,1,'BeneFit Girl Meets Pearl','','','&lt;p&gt;\r\n	Luxurious liquid pearl…the perfect accessory! This soft golden pink liquid pearl glides on for a breathtakingly luminous complexion. Customise your pearlessence with the easy to use twist up package … a few clicks for a subtle sheen, more clicks for a whoa! glow. Pat the luminous liquid over make up or wear alone for dewy lit from within radiance. It\'s pure pearly pleasure. Raspberry and chamomile for soothing. Light reflecting pigments for exquisite radiance. Sweet almond seed for firming and smoothing. Sesame seed oil for moisturising.Fresh red raspberry scent.&lt;/p&gt;\r\n',''),
 (52,1,'Benefit Bella Bamba','','','&lt;p&gt;\r\n	Amplify cheekbones and create the illusion of sculpted features with this 3D watermelon blush. Laced with shimmering gold undertones, bellabamba is taking eye popping pretty to the third dimension…you’ll never use traditional blush again! Tip: For a poreless complexion that pops, sweep bellabamba on cheeks after applying professional&lt;/p&gt;\r\n',''),
@@ -1245,32 +1342,32 @@ VALUES
 (84,1,'Armani Code Pour Femme','','','&lt;p&gt;\r\n	A seductive new fragrance for women, Armani Code Pour Femme is a fresh, sexy, feminine blend of zesty blood orange, ginger, and pear sorbet softened with hints of sambac jasmine, orange blossom, and lavender honey, warmed with precious woods and vanilla.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	Notes:&lt;br /&gt;\r\n	Blood Orange, Ginger, Pear Sorbet, Sambac Jasmine, Orange Blossom, Seringa Flower, Lavender Honey, Precious Woods Complex, Vanilla.&lt;br /&gt;\r\n	Style:&lt;br /&gt;\r\n	Fresh. Sexy. Feminine.&lt;/p&gt;\r\n',''),
 (85,1,'Forbidden euphoria Eau de Parfum Spray ','','','&lt;p&gt;\r\n	Possessing an innate confidence and sophistication, she is just starting to explore her sexuality. What she doesn\'t yet know is that she already is every man\'s fantasy.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	A younger interpretation of Euphoria, this fruity floriental scent capitalizes on a modern, fresh sexiness with a mysterious twist. Its sparkling top notes seduce the senses with a blend of forbidden fruit such as mandarin, passion fruit, and iced raspberry. The heart blooms with a hypnotic bouquet of tiger orchid and jasmine. Underneath its exotic floralcy lies a layer of addictive patchouli and a sophisticated blend of musks and cashmere woods for an everlasting impression.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	Notes:&lt;br /&gt;\r\n	Sparkling Mandarin, Peach Blossom, Iced Raspberry, Pink Peony, Tiger Orchid, Jasmine, Cashmere Woods, Patchouli Absolute, Skin Musk.&lt;br /&gt;\r\n	Style:&lt;br /&gt;\r\n	Sophisticated. Confident. Forbidden.&lt;/p&gt;\r\n',''),
 (86,1,'Euphoria Men Intense Eau De Toilette Spray','','','&lt;p&gt;\r\n	Launched by the design house of Calvin Klein in 2008, EUPHORIA MEN INTENSE is a men\'s fragrance that possesses a blend of Rain Water, Pepper, Ginger, Sage, Frosted Sudachi, Cedar leaf, Patchouli, Myrrh, Labdanum, Amber Solid, Vetiver&lt;/p&gt;\r\n',''),
-(87,1,'MAN Eau de Toilette Spray','','','&lt;p&gt;\r\n	Man by Calvin Klein was launched in October of 2007 and proposed as a new classic for the modern Calvin Klein man, aged from 25 to 40. The name itself is programmatic and unambiguous, like an English translation of L\'Homme by Yves Saint Laurent. Simple, brief, to the point. You are going to smell the essence of masculinity if you are to take your cue from the name of the fragrance. The packaging is sleek, modernist, with an architectural sense of proportions and looks good. The fragrance was created by perfumers Jacques Cavallier and Harry Fremont from Firmenich in collaboration with consultant Ann Gottlieb. All these people are old hands at marketing successful mainstream fragrances. Man offers therefore a mainstream palatability but without coming across as depersonalized. It plays the distinctiveness card, but in a well reined in manner. The fragrance bears a typical masculine fresh aromatic, woody and spicy signature around the linear heart of the scent which itself is dark, fruity, and sweet enough to feel feminine. This rich amber-fruity accord is made even more seductive thanks to just the right amount of citrus-y counterpoint, which never clarifies the scent but on the contrary helps to deepen the dark fruity sensation.&lt;br /&gt;\r\n	&nbsp;&lt;/p&gt;\r\n',''),
+(87,1,'MAN Eau de Toilette Spray','','','&lt;p&gt;\r\n	Man by Calvin Klein was launched in October of 2007 and proposed as a new classic for the modern Calvin Klein man, aged from 25 to 40. The name itself is programmatic and unambiguous, like an English translation of L\'Homme by Yves Saint Laurent. Simple, brief, to the point. You are going to smell the essence of masculinity if you are to take your cue from the name of the fragrance. The packaging is sleek, modernist, with an architectural sense of proportions and looks good. The fragrance was created by perfumers Jacques Cavallier and Harry Fremont from Firmenich in collaboration with consultant Ann Gottlieb. All these people are old hands at marketing successful mainstream fragrances. Man offers therefore a mainstream palatability but without coming across as depersonalized. It plays the distinctiveness card, but in a well reined in manner. The fragrance bears a typical masculine fresh aromatic, woody and spicy signature around the linear heart of the scent which itself is dark, fruity, and sweet enough to feel feminine. This rich amber-fruity accord is made even more seductive thanks to just the right amount of citrus-y counterpoint, which never clarifies the scent but on the contrary helps to deepen the dark fruity sensation.&lt;br /&gt;\r\n	 &lt;/p&gt;\r\n',''),
 (88,1,'ck one Summer 3.4 oz','','','&lt;p&gt;\r\n	It\'s a concert on a hot summer night. The stage is set and the show\'s about to start. Feel the breeze, catch the vibe, and move to the beat with the pulsating energy of this limited-edition fragrance. A unisex scent, it is fresh, clean, and easy to wear. The fragrance opens with a burst of crisp melon. In the heart notes, an invigorating blend of green citrus and the zesty herbaceous effect of verbena creates a cool, edgy freshness. A base of exotic incense and earthy oakmoss is wrapped in the light, sensuous warmth of cedarwood, musk, and peach skin. Notes:Tangerine, Water Fern, Melon, Lemon, Sea Breeze Accord, Blue Freesia, Verbena, Rhubarb, Cedarwood, Skin Musk, Incense, Peach Skin. Style:Invigorating. Crisp. Cool.&lt;/p&gt;\r\n',''),
 (89,1,'Secret Obsession Perfume','','','&lt;p&gt;\r\n	Calvin Klein Secret Obsession eau de parfum spray for women blends notes of forbidden fruits, exotic flowers and a sultry wood signature to create an intoxicating aroma that is provocative and addictive.Calvin Klein is one of World of Shops most popular brands, and this Calvin Klein Secret Obsession eau de parfum spray for women is a firm favourite amongst our customers for its deep, feminine aroma that is perfect for those special evenings out.&lt;/p&gt;\r\n',''),
 (90,1,'Obsession Night Perfume','','','&lt;p&gt;\r\n	Launched by the design house of Calvin Klein in 2005, OBSESSION NIGHT is a women\'s fragrance that possesses a blend of gardenia, tonka bean, bergamot, vanilla, sandalwood, jasmine, rose, amber, muguet and mandarin. It is recommended for evening wear.&lt;/p&gt;\r\n&lt;p&gt;\r\n	Ingredients&lt;br /&gt;\r\n	Notes: Bergamot, Bitter Orange, Mandarin, White Floral, Angelica Root, Gardenia, Rose, Muguet, Night-Blooming Jasmine, Vanilla, Tonka Bean, Amber, Labdanum, Sandalwood, Cashmere Wood&lt;/p&gt;\r\n',''),
-(91,1,'Jasmin Noir Body Lotion 6.8 fl oz','','','&lt;p&gt;\r\n	A bath collection for the body, scented with the Jasmin Noir fragrance. A tribute to ultimate femininity. Seduction and personal indulgence.&lt;br /&gt;\r\n	Body Lotion Fragrance: The new emblematic creation within the Bvlgari Pour Femme Collection Jasmin Noir, perfectly embodies the luxury and prestige of Bvlgari fine jewelry.&lt;br /&gt;\r\n	Jasmin Noir is a flower of the imagination. Precious jasmine, white and immaculate, in its noire interpretation. A flower of pure mystery. A rich and delicate flower that at nightfall, reveals its intriguing sensuality. A precious floral woody fragrance with ambery accents centered around one of the true jewels of perfumery: the jasmin flower. A scent that conjures forth the bewildering seductiveness of feminity as elegant as it is profoundly sensual.&lt;br /&gt;\r\n	Jasmin Noir tells a voluptuous floral story that begins with the pure radiance of luminous light given by green and scintillating notes: Vegetal Sap and fresh Gardenia Petals. Then, tender and seductive, the Sambac Jasmine Absolute, delivers its generous and bewitching notes. Unexpectedly allied with a transparent silky almond accord, it reveals a heart that is light yet thoroughly exhilarating and marvelously addictive. The scent\'s sumptuously rich notes repose on a bed of Precious Wood and ambery undertones, bringing together the depth and mystery of Patchouli, the warmth of Tonka Bean and the comfort of silky Musks for an elegant and intimate sensuality.&lt;br /&gt;\r\n	An exquisite fragrance of incomparable prestige, Jasmin Noir captures the very essence of the jeweler.&lt;br /&gt;\r\n	Made in Italy&lt;br /&gt;\r\n	&nbsp;&lt;/p&gt;\r\n',''),
+(91,1,'Jasmin Noir Body Lotion 6.8 fl oz','','','&lt;p&gt;\r\n	A bath collection for the body, scented with the Jasmin Noir fragrance. A tribute to ultimate femininity. Seduction and personal indulgence.&lt;br /&gt;\r\n	Body Lotion Fragrance: The new emblematic creation within the Bvlgari Pour Femme Collection Jasmin Noir, perfectly embodies the luxury and prestige of Bvlgari fine jewelry.&lt;br /&gt;\r\n	Jasmin Noir is a flower of the imagination. Precious jasmine, white and immaculate, in its noire interpretation. A flower of pure mystery. A rich and delicate flower that at nightfall, reveals its intriguing sensuality. A precious floral woody fragrance with ambery accents centered around one of the true jewels of perfumery: the jasmin flower. A scent that conjures forth the bewildering seductiveness of feminity as elegant as it is profoundly sensual.&lt;br /&gt;\r\n	Jasmin Noir tells a voluptuous floral story that begins with the pure radiance of luminous light given by green and scintillating notes: Vegetal Sap and fresh Gardenia Petals. Then, tender and seductive, the Sambac Jasmine Absolute, delivers its generous and bewitching notes. Unexpectedly allied with a transparent silky almond accord, it reveals a heart that is light yet thoroughly exhilarating and marvelously addictive. The scent\'s sumptuously rich notes repose on a bed of Precious Wood and ambery undertones, bringing together the depth and mystery of Patchouli, the warmth of Tonka Bean and the comfort of silky Musks for an elegant and intimate sensuality.&lt;br /&gt;\r\n	An exquisite fragrance of incomparable prestige, Jasmin Noir captures the very essence of the jeweler.&lt;br /&gt;\r\n	Made in Italy&lt;br /&gt;\r\n	 &lt;/p&gt;\r\n',''),
 (92,1,'Body Cream by Bulgari','','','&lt;p&gt;\r\n	BVLGARI (Bulgari) by Bvlgari Body Cream 6.7 oz for Women Launched by the design house of Bvlgari in 1994, BVLGARI is classified as a refined, floral fragrance. This feminine scent possesses a blend of violet, orange blossom, and jasmine. Common spellings: Bulgari, Bvlgary, Bulgary.&lt;/p&gt;\r\n',''),
 (93,1,'Creme Precieuse Nuit 50ml','','','&lt;p&gt;\r\n	A luxurious, melting night cream to repair skin during sleep Features Polypeptides that boost production of collagen &amp;amp; elastin Improves skin elasticity &amp;amp; firmness Visibly reduces appearance of wrinkles, fine lines &amp;amp; brown spots Enriched with Bvlgari Gem Essence to restore radiance Skin appears smooth, energized &amp;amp; luminous in morning Perfect for all skin types&lt;/p&gt;\r\n',''),
 (94,1,'Night Care Crema Nera Obsidian Mineral Complex','','','&lt;p&gt;\r\n	When it comes to body, skin or eye care, you want to look to our products and you will find the best there is. These are the most exceptional personal care products available. They meet the strictest standards for quality sourcing, environmental impact, results and safety. Our body care products truly allows you to be good to your whole body.&lt;/p&gt;\r\n&lt;p&gt;\r\n	Giorgio Armani - Cream Nera - Night Care Crema Nera Obsidian Mineral Complex3 Restoring Cream SPF 15 50ml/1.69oz A lavish, fresh &amp;amp; weightless anti-aging creamProvides shielding &amp;amp; moisturizing benefitsDeveloped with Obsidian Mineral Complex technology Formulated with iron, silicon &amp;amp; perlite to create a potent dermal restructuring system Contains Pro-XylaneTM &amp;amp; Hyaluronique Acid Targets loss of substance, sagging of features &amp;amp; deepening of wrinkles Reveals firmer, sleeker &amp;amp; plumper skin in a youthful look. With a fabulous Skincare product like this one, you\'ll be sure to enjoy the ultimate in a Skincare experience with promising results.&lt;/p&gt;\r\n',''),
 (95,1,'Skin Minerals For Men Cleansing Cream','','','&lt;p&gt;\r\n	Ultra-purifying skincare enriched with essential moisturizing minerals, designed to instantly moisturize / purify the skin.&lt;br /&gt;\r\n	Active Ingredients&lt;br /&gt;\r\n	- Sodium and Potassium System: to preserve cutaneous hydration.&lt;br /&gt;\r\n	- Salicylic Acid and Hamamelis Extract: to tighten the pores and tone skin.&lt;br /&gt;\r\n	High Performances: the figures.&lt;br /&gt;\r\n	Self-assessment*:&lt;br /&gt;\r\n	- leaves the skin clean 100%&lt;br /&gt;\r\n	- leaves the skin comfortable 93%&lt;br /&gt;\r\n	- leaves the skin smooth 95%&lt;br /&gt;\r\n	- skin complexion is uniform 89%&lt;br /&gt;\r\n	- skin texture is refined 80%&lt;br /&gt;\r\n	* use test: 60 men 20 -65 years old 4 weeks of self-assessment&lt;/p&gt;\r\n',''),
 (96,1,'Eye master','','','&lt;p&gt;\r\n	The volcanic force of minerals concentrated in multi action skincare specifically designed to target wrinkles, bags and dark circles of the delicate eye area. To combat signs of aging and fatigue and visibly improve skin quality.&lt;br /&gt;\r\n	Active Ingredients&lt;br /&gt;\r\n	- Volcanic Complex: an innovative combination of energy charged minerals, inspired by volcanic rocks&lt;br /&gt;\r\n	- Caffeine extract: to fight puffiness&lt;br /&gt;\r\n	- Conker and butcher’s broom extracts to stimulate cutaneous blood micro-circulation&lt;br /&gt;\r\n	High Performances: the figures.&lt;br /&gt;\r\n	Proven immediate anti-puffiness action*:&lt;br /&gt;\r\n	- 15 minutes after application –19%&lt;br /&gt;\r\n	*instrumental test, 40 men, 42-65 years old&lt;br /&gt;\r\n	Self-assessment&lt;br /&gt;\r\n	- instantly revitalizes skin 77%**&lt;br /&gt;\r\n	- wrinkles appear reduced 78%***&lt;br /&gt;\r\n	- diminishes the appearance of dark circles 68%***&lt;br /&gt;\r\n	** use test, 40 men 42-65 years old, single application, self-assessment&lt;br /&gt;\r\n	*** use test, 40 men 42-65 years old, 4 weeks, self-assessment&lt;/p&gt;\r\n',''),
 (97,1,'Eye Rejuvenating Serum','','','&lt;p&gt;\r\n	The first advanced rejuvenating ‘weapon’ thanks to a corrective and smoothing texture and a power amplifying applicator.&lt;br /&gt;\r\n	The alliance of the [3.R] technology combined with an intensive re-smoothing system.&lt;br /&gt;\r\n	The eye rejuvenation serum also comes in an easily portable tube that boasts a silver bevelled applicator to ensure a good delivery of the product to the eye area as well as offering a means to improve circulation and reduce puffiness and eye bags.&lt;/p&gt;\r\n&lt;p&gt;\r\n	Rarely women have been so convinced of its efficiency on skin rejuvenation:&lt;/p&gt;\r\n&lt;p&gt;\r\n	EYE CONTOUR LOOKS SMOOTHER 85%*&lt;br /&gt;\r\n	EYES LOOK YOUNGER 91%*&lt;br /&gt;\r\n	EYE PUFFINESS LOOKS SOFTENED 83%*&lt;/p&gt;\r\n&lt;p&gt;\r\n	*% of women – self assessment on 60 women after 4 weeks&lt;/p&gt;\r\n',''),
-(98,1,'Shaving cream','','','&lt;p&gt;\r\n	Moisturizing, charged with minerals and enriched with ultra softening agents. Its specific formula ensures an optimal, extremely gentle shave. Even four hours after shaving, the skin remains hydrated, soft and supple.&lt;br /&gt;\r\n	Active Ingredients&lt;br /&gt;\r\n	- Sodium and Potassium System: to preserve cutaneous hydration&lt;br /&gt;\r\n	- Bisabolol: to soothe skin&lt;br /&gt;\r\n	High Performances: the figures.&lt;br /&gt;\r\n	Measurements 4 hours after shaving:&lt;br /&gt;\r\n	- skin hydration +29%*&lt;br /&gt;\r\n	- skin softness +61%**&lt;br /&gt;\r\n	- skin suppleness +18%**&lt;br /&gt;\r\n	- skin dryness -39%**&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;br /&gt;\r\n	* instrumental test, 20 men, 20-70 years old&lt;br /&gt;\r\n	** clinical scorage, 20 men, 20-70 years old&lt;/p&gt;\r\n',''),
+(98,1,'Shaving cream','','','&lt;p&gt;\r\n	Moisturizing, charged with minerals and enriched with ultra softening agents. Its specific formula ensures an optimal, extremely gentle shave. Even four hours after shaving, the skin remains hydrated, soft and supple.&lt;br /&gt;\r\n	Active Ingredients&lt;br /&gt;\r\n	- Sodium and Potassium System: to preserve cutaneous hydration&lt;br /&gt;\r\n	- Bisabolol: to soothe skin&lt;br /&gt;\r\n	High Performances: the figures.&lt;br /&gt;\r\n	Measurements 4 hours after shaving:&lt;br /&gt;\r\n	- skin hydration  29%*&lt;br /&gt;\r\n	- skin softness  61%**&lt;br /&gt;\r\n	- skin suppleness  18%**&lt;br /&gt;\r\n	- skin dryness -39%**&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;br /&gt;\r\n	* instrumental test, 20 men, 20-70 years old&lt;br /&gt;\r\n	** clinical scorage, 20 men, 20-70 years old&lt;/p&gt;\r\n',''),
 (99,1,'Fluid shine nail polish','','','&lt;p&gt;\r\n	Luxurious color at your fingertips. Fluid shine coats nails with intense shine and long-lasting, sophisticated color. The essential accessory to any makeup wardrobe.&lt;/p&gt;\r\n&lt;p&gt;\r\n	Discover the Bronze collection 2010&lt;br /&gt;\r\n	Finish this season’s high summer look with a cranberry n°43 or blackberry n°44 nail, to echo the wet lips with intense color.&lt;/p&gt;\r\n',''),
 (100,1,'Smooth silk lip pencils','','','&lt;p&gt;\r\n	An incredibly soft lip pencil for subtle, precise definition. The silky texture allows for easy application and flawless results. To extend the hold of your lip color, fill lips in completely with Smooth silk lip pencil before applying your lipstick. Choose from a wide range of shades to complement every color in your lipstick wardrobe.&lt;/p&gt;\r\n',''),
-(101,1,'Pro-V Color Hair Solutions Color Preserve Shine Conditioner','pantene, shampoo','','&lt;p&gt;\r\n	PANTENE\'s color preserve shine shampoo and conditioner system with micro-polishers smoothes and refinishes the hair’s outer layer. So your hair reflects light and shines brilliantly. Help preserve your multi-dimensional color.&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;strong&gt;Product Features&lt;/strong&gt;&lt;br /&gt;\r\n	Micro-polishers smooth the outer layer of hair to help Protect color and leave hair shiny&lt;br /&gt;\r\n	Lightweight moisturizers provide protection against damage&lt;br /&gt;\r\n	Designed for color-treated hair; Gentle enough for permed hair&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;strong&gt;Ingredients&lt;/strong&gt;&lt;br /&gt;\r\n	Water, Stearyl Alcohol, Behentrimonium Methosulfate, Cetyl Alcohol, Fragrance, Bis-Aminopropyl Dimethicone, Isopropyl Alcohol, Benzyl Alcohol, Disodium EDTA, Panthenol, Panthenyl Ethyl Ether, Methylchloroisothiazolinone, Methylisothiazolinone&lt;/p&gt;\r\n&lt;p&gt;\r\n	&nbsp;&lt;/p&gt;\r\n',''),
+(101,1,'Pro-V Color Hair Solutions Color Preserve Shine Conditioner','pantene, shampoo','','&lt;p&gt;\r\n	PANTENE\'s color preserve shine shampoo and conditioner system with micro-polishers smoothes and refinishes the hair’s outer layer. So your hair reflects light and shines brilliantly. Help preserve your multi-dimensional color.&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;strong&gt;Product Features&lt;/strong&gt;&lt;br /&gt;\r\n	Micro-polishers smooth the outer layer of hair to help Protect color and leave hair shiny&lt;br /&gt;\r\n	Lightweight moisturizers provide protection against damage&lt;br /&gt;\r\n	Designed for color-treated hair; Gentle enough for permed hair&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;strong&gt;Ingredients&lt;/strong&gt;&lt;br /&gt;\r\n	Water, Stearyl Alcohol, Behentrimonium Methosulfate, Cetyl Alcohol, Fragrance, Bis-Aminopropyl Dimethicone, Isopropyl Alcohol, Benzyl Alcohol, Disodium EDTA, Panthenol, Panthenyl Ethyl Ether, Methylchloroisothiazolinone, Methylisothiazolinone&lt;/p&gt;\r\n&lt;p&gt;\r\n	 &lt;/p&gt;\r\n',''),
 (102,1,'Gucci Guilty','gicci, spray','','&lt;ul&gt;\r\n	&lt;li&gt;\r\n		Notes Consist Of Mandarin, Pink Pepper, Peach, Lilac, Geranium, Amber And Patchouli&lt;/li&gt;\r\n	&lt;li&gt;\r\n		For Casual Use&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	&lt;em&gt;Gucci Guilty&lt;/em&gt; is a warm yet striking oriental floral with hedonism at its heart.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	The scent seizes the attention with a flamboyant opening born of the natural rush that is mandarin shimmering alongside an audacious fist of pink pepper.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	The middle notes are an alluring concoction of heady lilac and geranium, laced with the succulent tactility of peach - all velvet femininity with a beguiling hint of provocation.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	The patchouli that is the hallmark of Gucci fragrances here conveys a message of strength, while the voluptuousness of amber suggests deep femininity.&lt;/p&gt;\r\n',''),
 (103,1,'Jasmin Noir L\'Essence Eau de Parfum Spray 75ml','','','&lt;p&gt;\r\n	A carnal impression of the immaculate jasmine flower, Bvlgari Jasmin Noir L\'Essence dresses the purity of the bloom in jet black mystery.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	The fragrance is a more concentrated Eau de Parfum than the original Jasmin Noir, a blend of rare and precious ingredients that are more seductive, and more addictive than ever before. The profoundly sensual elixir captivates the senses, and enchants its wearer with its generous and bewitching touches.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	A luminous bottle that honours the heritage of Bvlgari.&lt;/p&gt;\r\n',''),
 (104,1,'Calvin Klein Obsession For Women EDP Spray','','','&lt;p&gt;\r\n	Citrus, vanilla and greens lowering to notes of sandalwood, spices and musk. Recommended Use daytime&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;em&gt;\'Obsession\'&lt;/em&gt; perfume was launched by the design house of Calvin Klein in 1985&lt;/p&gt;\r\n&lt;p&gt;\r\n	When you think about Calvin Klein, initially you think of his clothing line – specifically his jeans and underwear lines (not to mention the famous ad with a young Brooke Shields). But Calvin Klein’s penchant for perfume was equally as cutting edge as his foray into fashion.&lt;/p&gt;\r\n',''),
 (105,1,'Bvlgari Aqua','','','&lt;p&gt;\r\n	Bvlgari Aqua (Pour Homme) Eau De Toilette Spray is an enticing and fresh cologne that exudes masculinity from its unique blend of amber santolina, posidonia and mandarin.&lt;/p&gt;\r\n&lt;p&gt;\r\n	Bvlgari Aqua (Pour Homme) Eau De Toilette Spray scent lasts throughout the day without having an overpowering smell. It is subtle enough for daytime use and masculine enough for night wear.&lt;/p&gt;\r\n',''),
-(106,1,'Omnia Eau de Toilette 65ml','bvlgary, omnia, EDT','','&lt;p&gt;\r\n	Choose Your scent&lt;/p&gt;\r\n&lt;p&gt;\r\n	&nbsp;&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;strong&gt;Omnia Coral:&lt;/strong&gt; Inspired by the shimmering hues of precious red coral, Omnia Coral is a radiant floral-fruity Eau de Toilette of tropical Hibiscus and juicy Pomegranate, reminiscent of Summer, the sun, resplendent nature and far-off oceans.&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;strong&gt;Omnia Amethyst:&lt;/strong&gt; Inspired by the shimmering hues of the amethyst gemstone, this floral Eau de Toilette captures the myriad scents of Iris and Rose gardens caressed with morning dew.&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;strong&gt;Omnia Crystalline:&lt;/strong&gt; Created from the glowing clarity and purity of crystal, Omnia Crystalline is a sparkling jewel of light, illuminating and reflecting the gentle sensuality and luminous femininity. Sparkling like a precious jewel, like the rarest of crystals, in an exquisite jewel flacon.&lt;/p&gt;\r\n',''),
+(106,1,'Omnia Eau de Toilette 65ml','bvlgary, omnia, EDT','','&lt;p&gt;\r\n	Choose Your scent&lt;/p&gt;\r\n&lt;p&gt;\r\n	 &lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;strong&gt;Omnia Coral:&lt;/strong&gt; Inspired by the shimmering hues of precious red coral, Omnia Coral is a radiant floral-fruity Eau de Toilette of tropical Hibiscus and juicy Pomegranate, reminiscent of Summer, the sun, resplendent nature and far-off oceans.&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;strong&gt;Omnia Amethyst:&lt;/strong&gt; Inspired by the shimmering hues of the amethyst gemstone, this floral Eau de Toilette captures the myriad scents of Iris and Rose gardens caressed with morning dew.&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;strong&gt;Omnia Crystalline:&lt;/strong&gt; Created from the glowing clarity and purity of crystal, Omnia Crystalline is a sparkling jewel of light, illuminating and reflecting the gentle sensuality and luminous femininity. Sparkling like a precious jewel, like the rarest of crystals, in an exquisite jewel flacon.&lt;/p&gt;\r\n',''),
 (107,1,'Lancome Slimissime 360 Slimming Activating Concentrate Unisex Treatment','','','&lt;ul&gt;\r\n	&lt;li&gt;\r\n		An anti-cellulite body treatment&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Features a special gel-cream texture &amp;amp; a quick-dissolving formula&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Formulated with an exclusive 360 Complex&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	An anti-cellulite body treatment. Features a special gel-cream texture &amp;amp; a quick-dissolving formula. Formulated with an exclusive 360 Complex. Helps combat presence of cellulite &amp;amp; reduce existing cellulite. Provides immediate invigorating &amp;amp; firming results. Concentrated with micro-pearl particles to illuminate skin. Creates svelte &amp;amp; re-sculpted body contours....&lt;/p&gt;\r\n',''),
-(108,1,'Lancome Hypnose Doll Lashes Mascara 4-Piece Gift Set','','','&lt;p&gt;\r\n	&nbsp;Lancome Hypnose Doll Lashes Mascara 4-Piece Gift Set! Limited Edition!&lt;/p&gt;\r\n&lt;ol&gt;\r\n	&lt;li&gt;\r\n		0.22 oz full-size Hypnôse Doll Lashes Mascara in Black&lt;/li&gt;\r\n	&lt;li&gt;\r\n		0.07 oz full-size Le Crayon Khol Eyeliner in Black Ebony&lt;/li&gt;\r\n	&lt;li&gt;\r\n		0.07 oz travel-size Cils Booster XL Super Enhancing Mascara Base&lt;/li&gt;\r\n	&lt;li&gt;\r\n		1.7 fl oz travel-size Bi-Facil Double-Action Eye Makeup Remover&lt;/li&gt;\r\n&lt;/ol&gt;\r\n',''),
-(109,1,'Lancome Visionnaire Advanced Skin Corrector','','','&lt;p&gt;\r\n	Lancôme innovates with VISIONNAIRE [LR 2412 &nbsp;4%], its ?rst&nbsp;skincare product formulated to fundamentally recreate truly&nbsp;beautiful skin.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	A Lancôme technological breakthrough has identi?ed&nbsp;a miraculous new molecule.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	The name of this molecule: LR 2412.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	A molecule that is able to “self-propel” through the layers&nbsp;of the epidermis, to set off a series of tissular micro-transformations.&nbsp;The result is that skin is visibly transformed: the texture is ?ner,&nbsp;wrinkles are erased, pigmentary and vascular irregularities are&nbsp;reduced and pores are tightened.&lt;/p&gt;\r\n&lt;p&gt;\r\n	&nbsp;&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;em&gt;Download Presentation file after order.&lt;/em&gt;&lt;/p&gt;\r\n',''),
+(108,1,'Lancome Hypnose Doll Lashes Mascara 4-Piece Gift Set','','','&lt;p&gt;\r\n	 Lancome Hypnose Doll Lashes Mascara 4-Piece Gift Set! Limited Edition!&lt;/p&gt;\r\n&lt;ol&gt;\r\n	&lt;li&gt;\r\n		0.22 oz full-size Hypnôse Doll Lashes Mascara in Black&lt;/li&gt;\r\n	&lt;li&gt;\r\n		0.07 oz full-size Le Crayon Khol Eyeliner in Black Ebony&lt;/li&gt;\r\n	&lt;li&gt;\r\n		0.07 oz travel-size Cils Booster XL Super Enhancing Mascara Base&lt;/li&gt;\r\n	&lt;li&gt;\r\n		1.7 fl oz travel-size Bi-Facil Double-Action Eye Makeup Remover&lt;/li&gt;\r\n&lt;/ol&gt;\r\n',''),
+(109,1,'Lancome Visionnaire Advanced Skin Corrector','','','&lt;p&gt;\r\n	Lancôme innovates with VISIONNAIRE [LR 2412  4%], its ?rst skincare product formulated to fundamentally recreate truly beautiful skin.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	A Lancôme technological breakthrough has identi?ed a miraculous new molecule.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	The name of this molecule: LR 2412.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	A molecule that is able to “self-propel” through the layers of the epidermis, to set off a series of tissular micro-transformations. The result is that skin is visibly transformed: the texture is ?ner, wrinkles are erased, pigmentary and vascular irregularities are reduced and pores are tightened.&lt;/p&gt;\r\n&lt;p&gt;\r\n	 &lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;em&gt;Download Presentation file after order.&lt;/em&gt;&lt;/p&gt;\r\n',''),
 (110,1,'Flora By Gucci Eau Fraiche','','','&lt;ul&gt;\r\n	&lt;li&gt;\r\n		Perfect for all occasions&lt;/li&gt;\r\n	&lt;li&gt;\r\n		This item is not a tester; New and sealed&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Contains natural ingredients&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	Gucci presents the new spring version of this perfume called flora by Gucci eau fraiche in 2011. Even younger, more airy, vivid, sparkling and fresher than the original, the new fragrance is enriched with additional aromas of citruses in the top notes and aquatic and green nuances in the heart, while the base remains unchanged. The composition begins with mandarin, bergamot, kumquat, lemon and peony. The heart is made of rose petals and Osman thus with green and aquatic additions, laid on the base of sandalwood, patchouli and pink pepper.&lt;/p&gt;\r\n',''),
-(111,1,'New French With Ease (1 book + 1 mp3 CD)','','','This title is available in book and CD. All Assimil courses are based on intuitive assimilations[registered], an original principle that is simple yet highly effective. Assimil has taken this natural process, through which you learned to speak your own language, and adapted it to their book and audio courses. Working progressively, with natural, lively dialogues, simple text notes and exercises, you will progress steadily to a level where you are able to converse in everyday situations. The first part of the course is the passive phase: you immerse yourself in the language by reading and repeating each lesson. During the second, the active phase, you use the structures and reflexes you have already absorbed while continuing to advance and learn. In just a few months, you will be able to speak French easily, fluently and naturally.&lt;br /&gt;\r\n&amp;nbsp;\r\n&lt;ul style=&quot;color: rgb(51, 51, 51); padding: 0px; list-style-type: none; font-size: 13px; font-family: verdana, arial, helvetica, sans-serif; line-height: 19px; orphans: auto; text-align: start; text-indent: 0px;&quot;&gt;\r\n	&lt;li&gt;Audio CD: 610 pages&lt;/li&gt;\r\n	&lt;li&gt;Publisher: ASSiMiL (3 April 2008)&lt;/li&gt;\r\n	&lt;li&gt;Language: English&lt;/li&gt;\r\n	&lt;li&gt;ISBN-10: 2700570057&lt;/li&gt;\r\n	&lt;li&gt;ISBN-13: 978-2700570052&lt;/li&gt;\r\n	&lt;li&gt;Product Dimensions: 23.6 x 17.8 x 5.1 cm&lt;/li&gt;\r\n&lt;/ul&gt;\r\n',''),
-(112,1,'The Miracle Morning: The Not-So-Obvious Secret Guaranteed to Transform Your Life','','','What if you could miraculously wake up tomorrow and any&amp;mdash;or every area of your life was transformed? What would be different? Would you be happier? Healthier? More successful? In better shape? Would you have more energy? Less Stress? More Money? Better relationships? Which of your problems would be solved?&lt;br /&gt;\r\n&amp;nbsp;\r\n&lt;ul style=&quot;color: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 13px; font-style: normal; font-variant: normal; font-weight: normal;&quot;&gt;\r\n	&lt;li&gt;&lt;b style=&quot;font-weight: 700; font-family: verdana, arial, helvetica, sans-serif;&quot;&gt;Print Length:&lt;/b&gt; 172 pages&lt;/li&gt;\r\n	&lt;li&gt;&lt;b style=&quot;font-weight: 700; font-family: verdana, arial, helvetica, sans-serif;&quot;&gt;Page Numbers Source ISBN:&lt;/b&gt; 0979019710&lt;/li&gt;\r\n	&lt;li&gt;&lt;b style=&quot;font-weight: 700; font-family: verdana, arial, helvetica, sans-serif;&quot;&gt;Publication Date:&lt;/b&gt; December 7, 2012&lt;/li&gt;\r\n	&lt;li&gt;&lt;b style=&quot;font-weight: 700; font-family: verdana, arial, helvetica, sans-serif;&quot;&gt;Language:&lt;/b&gt; English&lt;/li&gt;\r\n	&lt;li&gt;&lt;b style=&quot;font-weight: 700; font-family: verdana, arial, helvetica, sans-serif;&quot;&gt;ASIN:&lt;/b&gt; B00AKKS278&lt;/li&gt;\r\n&lt;/ul&gt;\r\n\r\n&lt;hr /&gt;\r\nAbout the Author\r\n&lt;p&gt;At age 20, Hal Elrod was hit head on by a drunk driver at 70 mph, was dead for 6 minutes, and doctors told his parents that if Hal ever came out of his coma, he had permanent brain damage and may never walk again. After 6 days of fighting for his life, Hal proved that we all have the ability to overcome any obstacle and create the life of our dreams. Not only did he walk, he became an ultra-marathon runner, hall of fame business achiever, international Keynote Speaker, Success Coach, husband, father, hip-hop recording artist, and multiple time #1 bestselling author of &amp;quot;The Miracle Morning: The Not-So-Obvious Secret Guaranteed To Transform Your Life... (Before 8AM)&amp;quot; and &amp;quot;Taking Life Head On: How To Love the Life You Have While You Create the Life of Your Dreams&amp;quot;&amp;mdash;two of the highest rated and most acclaimed books on Amazon.com. (Just read a few of the 200+ five-star reviews, and you&amp;rsquo;ll see why.) Hal has appeared on dozens of radio and TV shows, and he&amp;rsquo;s been featured in numerous books, including The Education of Millionaires, Cutting Edge Sales, Living College Life in the Front Row, The Author&amp;rsquo;s Guide To Building An Online Platform, The 800-Pound Gorilla of Sales and the bestselling Chicken Soup for the Soul series. To contact Hal about media appearances, speaking at your event, or if you just want to receive free training videos and resources, visit www.YoPalHal.com. To connect with Hal on Twitter, follow @HalElrod, and on Facebook at www.Facebook.com/YoPalHal.&lt;/p&gt;\r\n',''),
+(111,1,'New French With Ease (1 book   1 mp3 CD)','','','This title is available in book and CD. All Assimil courses are based on intuitive assimilations[registered], an original principle that is simple yet highly effective. Assimil has taken this natural process, through which you learned to speak your own language, and adapted it to their book and audio courses. Working progressively, with natural, lively dialogues, simple text notes and exercises, you will progress steadily to a level where you are able to converse in everyday situations. The first part of the course is the passive phase: you immerse yourself in the language by reading and repeating each lesson. During the second, the active phase, you use the structures and reflexes you have already absorbed while continuing to advance and learn. In just a few months, you will be able to speak French easily, fluently and naturally.&lt;br /&gt;\r\n&amp;nbsp;\r\n&lt;ul style=&quot;color: rgb(51, 51, 51); padding: 0px; list-style-type: none; font-size: 13px; font-family: verdana, arial, helvetica, sans-serif; line-height: 19px; orphans: auto; text-align: start; text-indent: 0px;&quot;&gt;\r\n	&lt;li&gt;Audio CD: 610 pages&lt;/li&gt;\r\n	&lt;li&gt;Publisher: ASSiMiL (3 April 2008)&lt;/li&gt;\r\n	&lt;li&gt;Language: English&lt;/li&gt;\r\n	&lt;li&gt;ISBN-10: 2700570057&lt;/li&gt;\r\n	&lt;li&gt;ISBN-13: 978-2700570052&lt;/li&gt;\r\n	&lt;li&gt;Product Dimensions: 23.6 x 17.8 x 5.1 cm&lt;/li&gt;\r\n&lt;/ul&gt;\r\n',''),
+(112,1,'The Miracle Morning: The Not-So-Obvious Secret Guaranteed to Transform Your Life','','','What if you could miraculously wake up tomorrow and any&amp;mdash;or every area of your life was transformed? What would be different? Would you be happier? Healthier? More successful? In better shape? Would you have more energy? Less Stress? More Money? Better relationships? Which of your problems would be solved?&lt;br /&gt;\r\n&amp;nbsp;\r\n&lt;ul style=&quot;color: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 13px; font-style: normal; font-variant: normal; font-weight: normal;&quot;&gt;\r\n	&lt;li&gt;&lt;b style=&quot;font-weight: 700; font-family: verdana, arial, helvetica, sans-serif;&quot;&gt;Print Length:&lt;/b&gt; 172 pages&lt;/li&gt;\r\n	&lt;li&gt;&lt;b style=&quot;font-weight: 700; font-family: verdana, arial, helvetica, sans-serif;&quot;&gt;Page Numbers Source ISBN:&lt;/b&gt; 0979019710&lt;/li&gt;\r\n	&lt;li&gt;&lt;b style=&quot;font-weight: 700; font-family: verdana, arial, helvetica, sans-serif;&quot;&gt;Publication Date:&lt;/b&gt; December 7, 2012&lt;/li&gt;\r\n	&lt;li&gt;&lt;b style=&quot;font-weight: 700; font-family: verdana, arial, helvetica, sans-serif;&quot;&gt;Language:&lt;/b&gt; English&lt;/li&gt;\r\n	&lt;li&gt;&lt;b style=&quot;font-weight: 700; font-family: verdana, arial, helvetica, sans-serif;&quot;&gt;ASIN:&lt;/b&gt; B00AKKS278&lt;/li&gt;\r\n&lt;/ul&gt;\r\n\r\n&lt;hr /&gt;\r\nAbout the Author\r\n&lt;p&gt;At age 20, Hal Elrod was hit head on by a drunk driver at 70 mph, was dead for 6 minutes, and doctors told his parents that if Hal ever came out of his coma, he had permanent brain damage and may never walk again. After 6 days of fighting for his life, Hal proved that we all have the ability to overcome any obstacle and create the life of our dreams. Not only did he walk, he became an ultra-marathon runner, hall of fame business achiever, international Keynote Speaker, Success Coach, husband, father, hip-hop recording artist, and multiple time #1 bestselling author of &amp;quot;The Miracle Morning: The Not-So-Obvious Secret Guaranteed To Transform Your Life... (Before 8AM)&amp;quot; and &amp;quot;Taking Life Head On: How To Love the Life You Have While You Create the Life of Your Dreams&amp;quot;&amp;mdash;two of the highest rated and most acclaimed books on Amazon.com. (Just read a few of the 200  five-star reviews, and you&amp;rsquo;ll see why.) Hal has appeared on dozens of radio and TV shows, and he&amp;rsquo;s been featured in numerous books, including The Education of Millionaires, Cutting Edge Sales, Living College Life in the Front Row, The Author&amp;rsquo;s Guide To Building An Online Platform, The 800-Pound Gorilla of Sales and the bestselling Chicken Soup for the Soul series. To contact Hal about media appearances, speaking at your event, or if you just want to receive free training videos and resources, visit www.YoPalHal.com. To connect with Hal on Twitter, follow @HalElrod, and on Facebook at www.Facebook.com/YoPalHal.&lt;/p&gt;\r\n',''),
 (113,1,'Paper Towns by John Green','','','&lt;strong&gt;Winner of the Edgar Award&lt;br /&gt;\r\nThe #1 New York Times Bestseller&lt;br /&gt;\r\nPublishers Weekly and USA Today Bestseller&lt;/strong&gt;&lt;br /&gt;\r\n&lt;br /&gt;\r\n&lt;em&gt;Millions of Copies Sold&lt;/em&gt;&lt;br /&gt;\r\n&lt;br /&gt;\r\nQuentin Jacobsen has spent a lifetime loving the magnificent Margo Roth Spiegelman from afar. So when she cracks open a window and climbs back into his life&amp;mdash;summoning him for an ingenious campaign of revenge&amp;mdash;he follows. When their all-nighter ends and a new day breaks, Margo has disappeared. But Q soon learns that there are clues&amp;mdash;and they&amp;rsquo;re for him. Embarking on an exhilarating adventure to find her, the closer Q gets, the less he sees the girl he thought he knew.&lt;br /&gt;\r\n&lt;br /&gt;\r\nOctober 2008&lt;br /&gt;\r\n352 pages&lt;br /&gt;\r\nISBN 9781101010938&lt;br /&gt;\r\nTitle: Paper Towns&lt;br /&gt;\r\nAuthor: John Green',''),
 (114,1,'Allegiant by Veronica Roth','','','Now includes an excerpt from the upcoming Four: A Divergent Collection.&lt;br /&gt;\r\n&lt;br /&gt;\r\nWhat if your whole world was a lie? What if a single revelation&amp;mdash;like a single choice&amp;mdash;changed everything? What if love and loyalty made you do things you never expected?&lt;br /&gt;\r\nThe explosive conclusion to Veronica Roth&amp;#39;s #1 New York Times bestselling Divergent trilogy reveals the secrets of the dystopian world that has captivated millions of readers in &lt;em&gt;Divergent&lt;/em&gt; and &lt;em&gt;Insurgent&lt;/em&gt;.&lt;br /&gt;\r\n&lt;br /&gt;\r\nOctober 2013&lt;br /&gt;\r\n544 pages&lt;br /&gt;\r\nISBN 9780062209276&lt;br /&gt;\r\nTitle: Allegiant&lt;br /&gt;\r\nAuthor: Veronica Roth',''),
 (115,1,'Fiorella Purple Peep Toes','','','Add more charm to your casual footwear collection with these purple peep toes from the house of Fiorella. Featuring a non-leather upper and lining, these slip-ons ate high on durability and style. While the wedge heels add extra inches to your silhouette, the resin sole ensures optimal traction for your feet. Team these peep toes with your casual outfits to complete your look for the day.&lt;br /&gt;\r\n&lt;br /&gt;\r\nSole Material&amp;nbsp; &lt;strong&gt;Resin Sheet&lt;/strong&gt;&lt;br /&gt;\r\nInner Lining&amp;nbsp;&amp;nbsp; &amp;nbsp;&lt;strong&gt;SYNTHETIC&lt;/strong&gt;&lt;br /&gt;\r\nClosing&amp;nbsp;&amp;nbsp; &amp;nbsp;&lt;strong&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;nbsp; &amp;nbsp; Slip On&lt;/strong&gt;&lt;br /&gt;\r\nHeel shape&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;strong&gt;Wedge&lt;/strong&gt;&lt;br /&gt;\r\nHeel height&amp;nbsp;&amp;nbsp; &amp;nbsp;&lt;strong&gt; Medium: 2.5-3.5 Inch&lt;/strong&gt;\r\n&lt;hr /&gt;&amp;nbsp;\r\n&lt;table style=&quot;margin: 0px; padding: 0px; width: 385px; color: rgb(34, 34, 34); font-family: Arial; font-size: 13px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 18px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);&quot;&gt;\r\n	&lt;tbody style=&quot;margin: 0px; padding: 0px;&quot;&gt;\r\n		&lt;tr style=&quot;margin: 0px; padding: 0px;&quot;&gt;\r\n			&lt;th style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap;&quot;&gt;Euro Size&lt;/th&gt;\r\n			&lt;th style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap;&quot;&gt;UK Size&lt;/th&gt;\r\n			&lt;th style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap;&quot;&gt;Foot Size (In Cm)&lt;/th&gt;\r\n		&lt;/tr&gt;\r\n		&lt;tr class=&quot;even&quot; style=&quot;margin: 0px; padding: 0px;&quot;&gt;\r\n			&lt;td class=&quot;f-bold&quot; style=&quot;margin: 0px; padding: 7px; font-weight: bold; text-align: center; white-space: nowrap; background: rgb(238, 238, 238);&quot;&gt;36&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap; background: rgb(238, 238, 238);&quot;&gt;3&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap; background: rgb(238, 238, 238);&quot;&gt;22.8-23.2&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n		&lt;tr style=&quot;margin: 0px; padding: 0px;&quot;&gt;\r\n			&lt;td class=&quot;f-bold&quot; style=&quot;margin: 0px; padding: 7px; font-weight: bold; text-align: center; white-space: nowrap;&quot;&gt;37&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap;&quot;&gt;4&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap;&quot;&gt;23.4-23.7&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n		&lt;tr class=&quot;even&quot; style=&quot;margin: 0px; padding: 0px;&quot;&gt;\r\n			&lt;td class=&quot;f-bold&quot; style=&quot;margin: 0px; padding: 7px; font-weight: bold; text-align: center; white-space: nowrap; background: rgb(238, 238, 238);&quot;&gt;38&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap; background: rgb(238, 238, 238);&quot;&gt;5&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap; background: rgb(238, 238, 238);&quot;&gt;24.0-24.6&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n		&lt;tr style=&quot;margin: 0px; padding: 0px;&quot;&gt;\r\n			&lt;td class=&quot;f-bold&quot; style=&quot;margin: 0px; padding: 7px; font-weight: bold; text-align: center; white-space: nowrap;&quot;&gt;39&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap;&quot;&gt;6&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap;&quot;&gt;24.8-25.2&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n		&lt;tr class=&quot;even&quot; style=&quot;margin: 0px; padding: 0px;&quot;&gt;\r\n			&lt;td class=&quot;f-bold&quot; style=&quot;margin: 0px; padding: 7px; font-weight: bold; text-align: center; white-space: nowrap; background: rgb(238, 238, 238);&quot;&gt;40&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap; background: rgb(238, 238, 238);&quot;&gt;6.5&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap; background: rgb(238, 238, 238);&quot;&gt;25.4-25.7&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n		&lt;tr style=&quot;margin: 0px; padding: 0px;&quot;&gt;\r\n			&lt;td class=&quot;f-bold&quot; style=&quot;margin: 0px; padding: 7px; font-weight: bold; text-align: center; white-space: nowrap;&quot;&gt;41&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap;&quot;&gt;7&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap;&quot;&gt;26.0-26.4&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n	&lt;/tbody&gt;\r\n&lt;/table&gt;\r\n',''),
@@ -1282,22 +1379,32 @@ VALUES
 (121,1,'Designer Men Casual Formal Double Cuffs Grandad Band Collar Shirt Elegant Tie','','','Superb style double cuffs shirt. Made using highest quality cotton. Grandad collar. Slim Fit. Highest quality - made in Turkey. Great as casual or formal shirt.',''),
 (122,1,'Product with options and stock locations','','','Designed by slim fit style FOR men and women in highest qualities and workmanship to bring buyers A different outlook on life of fashion Casual Basic Slim Fit Polo Shirts\r\n&lt;ul&gt;\r\n	&lt;li&gt;100% COTTON&lt;/li&gt;\r\n	&lt;li&gt;If you buy these Polo shits, You&amp;#39;ll never regret about purchase. Because it is so nice designed shirts for your daily look.&lt;/li&gt;\r\n	&lt;li&gt;Soft Elastic Decent slim fit &amp;amp; Button placket &amp;amp; sleeve ribbing with contrast trim.&lt;/li&gt;\r\n	&lt;li&gt;Machine Wash / Hand Wash Recommended&lt;/li&gt;\r\n&lt;/ul&gt;\r\n',''),
 (123,1,'Casual 3/4 Sleeve Baseball T-Shirt','t-shirt','Rich Cotton Raglan T-Shirts','This classic raglan t-shirt is perfect for all occasions. Whether you are working out or hanging out, this shirt is a win for the versatility. Perfect to join your friends to watch and cheer for your favorite team in all sports: basketball, football, football, hockey or baseball.&lt;br /&gt;&lt;br /&gt;&lt;!--n--&gt;&lt;!--n--&gt;The raglan t-shirts are great options for men and women looking for a stylish look in their casual looks. For mild days bet on the 3/4 sleeve model in contrasting color. &lt;br /&gt;Made in 100% cotton fabric, features slim fit and round neckline.','');
-
-
+    
 --
 -- Dumping data for table `product_discounts`
 --
-
 INSERT INTO `ac_product_discounts`
+(`product_discount_id`,
+`product_id`,
+`customer_group_id`,
+`quantity`,
+`priority`,
+`price_prefix`,
+`price`,
+`date_start`,
+`date_end`,
+`date_added`,
+`date_modified`)
 VALUES
-(1,81,1,2,0,59.0000,'0000-00-00','0000-00-00','0000-00-00 00:00:00','2015-06-22 12:40:54'),
-(2,81,1,3,0,56.0000,'0000-00-00','0000-00-00','0000-00-00 00:00:00','2015-06-22 12:41:09'),
-(3,81,1,4,0,50.0000,'0000-00-00','0000-00-00','0000-00-00 00:00:00','2015-06-22 12:41:25');
+(1,81,1,2,0,'',59.0000,'0000-00-00','0000-00-00','0000-00-00 00:00:00','2015-06-22 12:40:54'),
+(2,81,1,3,0,'',56.0000,'0000-00-00','0000-00-00','0000-00-00 00:00:00','2015-06-22 12:41:09'),
+(3,81,1,4,0,'',50.0000,'0000-00-00','0000-00-00','0000-00-00 00:00:00','2015-06-22 12:41:25'),
+(4,119,1,2,0,'%',10.0000,'0000-00-00','0000-00-00','0000-00-00 00:00:00','2022-06-28 09:10:30'),
+(5,119,1,3,0,'%',20.0000,'0000-00-00','0000-00-00','0000-00-00 00:00:00','2022-06-28 09:12:03');
 
 --
 -- Dumping data for table `product_option_descriptions`
 --
-
 INSERT INTO `ac_product_option_descriptions` (product_option_id, language_id, product_id, name, option_placeholder, error_text)
 VALUES (318,1,53,'Color','',''),
 (315,1,54,'Shade','',''),
@@ -1344,10 +1451,13 @@ VALUES (318,1,53,'Color','',''),
 --
 -- Dumping data for table `product_option_value_descriptions`
 --
-
 INSERT INTO `ac_product_option_value_descriptions`
-VALUES
-(653,1,53,'Natural Ambre',NULL),
+(`product_option_value_id`,
+`language_id`,
+`product_id`,
+`name`,
+`grouped_attribute_names`)
+VALUES (653,1,53,'Natural Ambre',NULL),
 (652,1,53,'Natural Golden',NULL),
 (646,1,54,'Brown',''),
 (645,1,54,'Black',''),
@@ -1482,73 +1592,89 @@ VALUES
 --
 
 INSERT INTO `ac_product_option_values`
+(`product_option_value_id`,
+`product_option_id`,
+`product_id`,
+`group_id`,
+`sku`,
+`quantity`,
+`subtract`,
+`price`,
+`cost`,
+`prefix`,
+`weight`,
+`weight_type`,
+`attribute_value_id`,
+`grouped_attribute_data`,
+`sort_order`,
+`default`)
 VALUES
-(646,315,54,0,'',983,1,5.0000,0.0000,'$',0.00000000,'lb',0,'',0,0),
-(653,318,53,0,'',2000,1,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(652,318,53,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(645,315,54,0,'',1000,1,0.0000,0.0000,'$',0.00000000,'lb',0,'',0,1),
-(659,319,56,0,'',999,1,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,2,0),
-(658,319,56,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,1,0),
-(657,319,56,0,'',998,1,1.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(656,319,56,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(655,319,56,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(654,319,56,0,'',555,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(612,304,57,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(613,304,57,0,'',999,1,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(614,304,57,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(615,305,59,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(616,305,59,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(617,305,59,0,'',1000,1,2.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(618,306,55,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(619,306,55,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(620,306,55,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(621,306,55,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(622,307,60,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(623,307,60,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(624,307,60,0,'',0,0,1.4200,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(625,308,61,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(626,308,61,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(627,308,61,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(649,316,63,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(648,316,63,0,'',0,0,20.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(647,316,63,0,'',0,0,25.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(644,314,64,0,'',66,1,22.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(643,314,64,0,'',1000,1,10.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(642,314,64,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(651,317,69,0,'',553,1,30.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(650,317,69,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(662,320,78,0,'',59,1,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(661,320,78,0,'',887,1,16.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(660,320,78,0,'',998,1,8.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(663,321,80,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(664,321,80,0,'',0,0,25.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(665,321,80,0,'',0,0,45.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(666,322,84,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(667,322,84,0,'',1000,1,20.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(668,322,84,0,'',0,0,32.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(646,315,54,0,'',983,1,5.0000,0.0000,'$',0.00000000,'kg',0,'',0,0),
+(653,318,53,0,'',1996,1,0.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(652,318,53,0,'',0,0,0.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(645,315,54,0,'',1000,1,0.0000,0.0000,'$',0.00000000,'kg',0,'',0,1),
+(659,319,56,0,'',999,1,0.0000,0.0000,'$',0.00000000,'g',0,'',2,0),
+(658,319,56,0,'',0,0,0.0000,0.0000,'$',0.00000000,'g',0,'',1,0),
+(657,319,56,0,'',997,1,1.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(656,319,56,0,'',0,0,0.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(655,319,56,0,'',0,0,0.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(654,319,56,0,'',555,0,0.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(612,304,57,0,'',0,0,0.0000,0.0000,'$',0.00000000,'kg',0,'',0,0),
+(613,304,57,0,'',999,1,0.0000,0.0000,'$',0.00000000,'kg',0,'',0,0),
+(614,304,57,0,'',0,0,0.0000,0.0000,'$',0.00000000,'kg',0,'',0,0),
+(615,305,59,0,'',0,0,0.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(616,305,59,0,'',0,0,0.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(617,305,59,0,'',1000,1,2.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(618,306,55,0,'',0,0,0.0000,0.0000,'$',0.00000000,'kg',0,'',0,0),
+(619,306,55,0,'',0,0,0.0000,0.0000,'$',0.00000000,'kg',0,'',0,0),
+(620,306,55,0,'',0,0,0.0000,0.0000,'$',0.00000000,'kg',0,'',0,0),
+(621,306,55,0,'',0,0,0.0000,0.0000,'$',0.00000000,'kg',0,'',0,0),
+(622,307,60,0,'',0,0,0.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(623,307,60,0,'',0,0,0.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(624,307,60,0,'',0,0,1.4200,0.0000,'$',0.00000000,'g',0,'',0,0),
+(625,308,61,0,'',0,0,0.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(626,308,61,0,'',0,0,0.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(627,308,61,0,'',0,0,0.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(649,316,63,0,'',0,0,0.0000,0.0000,'$',0.00000000,'kg',0,'',0,0),
+(648,316,63,0,'',0,0,20.0000,0.0000,'$',0.00000000,'kg',0,'',0,0),
+(647,316,63,0,'',0,0,25.0000,0.0000,'$',0.00000000,'kg',0,'',0,0),
+(644,314,64,0,'',66,1,22.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(643,314,64,0,'',1000,1,10.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(642,314,64,0,'',0,0,0.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(651,317,69,0,'',553,1,30.0000,0.0000,'$',0.00000000,'kg',0,'',0,0),
+(650,317,69,0,'',0,0,0.0000,0.0000,'$',0.00000000,'kg',0,'',0,0),
+(662,320,78,0,'',58,1,0.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(661,320,78,0,'',887,1,16.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(660,320,78,0,'',998,1,8.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(663,321,80,0,'',0,0,0.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(664,321,80,0,'',0,0,25.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(665,321,80,0,'',0,0,45.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(666,322,84,0,'',0,0,0.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(667,322,84,0,'',1000,1,20.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(668,322,84,0,'',0,0,32.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
 (669,323,85,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
 (670,323,85,0,'',100,0,18.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
 (671,323,85,0,'',0,0,23.5000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(672,324,89,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(673,324,89,0,'',0,0,30.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(674,324,89,0,'',1000,1,10.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(676,326,90,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(677,326,90,0,'',556,1,15.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(678,327,99,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(679,327,99,0,'',50,1,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(680,327,99,0,'',48,1,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(681,328,100,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(682,328,100,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(683,328,100,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(684,328,100,0,'',46,1,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(685,328,100,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(686,328,100,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(687,329,101,0,'',256,0,-2.0000,0.0000,'$',0.80000000,'lb',4,NULL,0,0),
-(688,329,101,0,'',155,0,4.0000,0.0000,'$',0.15000000,'lb',5,NULL,0,0),
-(689,329,101,0,'',100,1,10.0000,0.0000,'$',0.33000000,'lb',6,NULL,0,0),
-(690,330,102,0,'',55,0,0.0000,0.0000,'$',0.00000000,'lb',17,NULL,0,0),
-(691,330,102,0,'',55,0,20.0000,0.0000,'$',0.00000000,'lb',18,NULL,0,0),
-(692,330,102,0,'',55,0,30.0000,0.0000,'$',0.00000000,'lb',19,NULL,0,0),
+(672,324,89,0,'',0,0,0.0000,0.0000,'$',0.00000000,'kg',0,'',0,0),
+(673,324,89,0,'',0,0,30.0000,0.0000,'$',0.00000000,'kg',0,'',0,0),
+(674,324,89,0,'',1000,1,10.0000,0.0000,'$',0.00000000,'kg',0,'',0,0),
+(676,326,90,0,'',0,0,0.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(677,326,90,0,'',556,1,15.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(678,327,99,0,'',0,0,0.0000,0.0000,'$',0.00000000,'oz',0,'',0,0),
+(679,327,99,0,'',50,1,0.0000,0.0000,'$',0.00000000,'oz',0,'',0,0),
+(680,327,99,0,'',48,1,0.0000,0.0000,'$',0.00000000,'oz',0,'',0,0),
+(681,328,100,0,'',0,0,0.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(682,328,100,0,'',0,0,0.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(683,328,100,0,'',0,0,0.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(684,328,100,0,'',46,1,0.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(685,328,100,0,'',0,0,0.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(686,328,100,0,'',0,0,0.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(687,329,101,0,'',256,0,-2.0000,0.0000,'$',0.80000000,'oz',0,'',0,0),
+(688,329,101,0,'',155,0,4.0000,0.0000,'$',0.15000000,'oz',0,'',0,0),
+(689,329,101,0,'',100,1,10.0000,0.0000,'$',0.33000000,'oz',0,'',0,0),
+(690,330,102,0,'',55,0,0.0000,0.0000,'$',0.00000000,'oz',0,'',0,0),
+(691,330,102,0,'',55,0,20.0000,0.0000,'$',0.00000000,'oz',0,'',0,0),
+(692,330,102,0,'',55,0,30.0000,0.0000,'$',0.00000000,'oz',0,'',0,0),
 (714,331,104,0,'',50,0,0.0000,0.0000,'$',0.00000000,'lb',53,NULL,0,0),
 (713,331,104,0,'',50,0,20.0000,0.0000,'$',0.00000000,'lb',54,NULL,0,0),
 (700,332,104,0,'',0,0,3.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
@@ -1562,16 +1688,16 @@ VALUES
 (732,338,106,0,'',59,1,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
 (731,338,106,0,'',120,1,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
 (735,339,106,0,'',0,0,1.5000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(737,340,109,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
-(738,341,110,0,'',97,1,0.0000,0.0000,'$',0.00000000,'lb',50,NULL,0,0),
-(739,341,110,0,'',120,1,15.0000,0.0000,'$',0.00000000,'lb',51,NULL,0,0),
-(740,341,110,0,'',56,1,30.0000,0.0000,'$',0.00000000,'lb',52,NULL,0,0),
-(741,342,115,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,'',0,0),
-(742,342,115,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,'',1,0),
-(743,342,115,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,'',2,1),
-(744,342,115,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,'',3,0),
-(745,342,115,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,'',4,0),
-(746,342,115,0,'',9,1,0.0000,0.0000,'$',0.00000000,'lb',0,'',5,0),
+(737,340,109,0,'',0,0,0.0000,0.0000,'$',0.00000000,'oz',0,'',0,0),
+(738,341,110,0,'',97,1,0.0000,0.0000,'$',0.00000000,'oz',0,'',0,0),
+(739,341,110,0,'',120,1,15.0000,0.0000,'$',0.00000000,'oz',0,'',0,0),
+(740,341,110,0,'',56,1,30.0000,0.0000,'$',0.00000000,'oz',0,'',0,0),
+(741,342,115,0,'',0,0,0.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
+(742,342,115,0,'',0,0,0.0000,0.0000,'$',0.00000000,'g',0,'',1,0),
+(743,342,115,0,'',0,0,0.0000,0.0000,'$',0.00000000,'g',0,'',2,1),
+(744,342,115,0,'',0,0,0.0000,0.0000,'$',0.00000000,'g',0,'',3,0),
+(745,342,115,0,'',0,0,0.0000,0.0000,'$',0.00000000,'g',0,'',4,0),
+(746,342,115,0,'',9,1,0.0000,0.0000,'$',0.00000000,'g',0,'',5,0),
 (747,344,116,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,'',0,0),
 (748,344,116,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,'',1,0),
 (749,344,116,0,'',0,0,0.0000,0.0000,'$',0.00000000,'lb',0,'',2,0),
@@ -1603,9 +1729,9 @@ VALUES
 (775,350,121,0,'',0,0,0.0000,0.0000,'$',0.00000000,'g',0,'',1,0),
 (776,351,121,0,'',3,1,0.0000,0.0000,'$',0.00000000,'g',0,'',0,0),
 (777,351,121,0,'',0,0,0.0000,0.0000,'$',0.00000000,'g',0,'',1,1),
-(778,352,122,0,'',30,1,0.0000,0.0000,'$',0.00000000,'g',0,'',0,1),
-(779,352,122,0,'',16,1,0.0000,0.0000,'$',0.00000000,'g',0,'',1,0),
-(780,352,122,0,'',40,1,0.0000,0.0000,'$',0.00000000,'g',0,'',2,0),
+(778,352,122,0,'',14,1,0.0000,0.0000,'$',0.00000000,'g',0,'',0,1),
+(779,352,122,0,'',3,1,0.0000,0.0000,'$',0.00000000,'g',0,'',1,0),
+(780,352,122,0,'',24,1,0.0000,0.0000,'$',0.00000000,'g',0,'',2,0),
 (781,353,123,0,'',20,1,2.0000,0.0000,'$',0.00000000,'g',0,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"93\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"88\";}}',0,0),
 (782,353,123,0,'',20,1,0.0000,0.0000,'$',0.00000000,'g',0,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"94\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"88\";}}',1,0),
 (783,353,123,0,'',9,1,0.0000,0.0000,'$',0.00000000,'g',0,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"95\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"88\";}}',2,0),
@@ -1613,11 +1739,21 @@ VALUES
 (785,353,123,0,'',0,1,0.0000,0.0000,'$',0.00000000,'g',0,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"96\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"91\";}}',4,0),
 (786,353,123,0,'',20,1,2.0000,0.0000,'$',0.00000000,'g',98,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"93\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"98\";}}',5,0),
 (787,353,123,0,'',10,1,0.0000,0.0000,'$',0.00000000,'g',98,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"96\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"98\";}}',6,0);
-
+    
 --
 -- Dumping data for table `product_options`
 --
 INSERT INTO `ac_product_options`
+(`product_option_id`,
+`attribute_id`,
+`product_id`,
+`group_id`,
+`sort_order`,
+`status`,
+`element_type`,
+`required`,
+`regexp_pattern`,
+`settings`)
 VALUES
 (315,0,54,0,0,1,'S',0,'',NULL),
 (318,0,53,0,2,1,'S',0,'',NULL),
@@ -1662,22 +1798,30 @@ VALUES
 (353,6,123,0,0,1,'S',0,'','a:4:{s:10:\"extensions\";s:0:\"\";s:8:\"min_size\";s:0:\"\";s:8:\"max_size\";s:0:\"\";s:9:\"directory\";s:0:\"\";}');
 
 
-
 --
 -- Dumping data for table `product_specials`
 --
 
 INSERT INTO `ac_product_specials`
+(`product_special_id`,
+`product_id`,
+`customer_group_id`,
+`priority`,
+`price_prefix`,
+`price`,
+`date_start`,
+`date_end`,
+`date_added`,
+`date_modified`)
 VALUES
-(252,51,1,0,19.0000,'0000-00-00','0000-00-00',NOW(),NOW()),
-(253,55,1,0,27.0000,'0000-00-00','0000-00-00',NOW(),NOW()),
-(254,67,1,0,29.0000,'0000-00-00','0000-00-00',NOW(),NOW()),
-(255,72,1,0,24.0000,'0000-00-00','0000-00-00',NOW(),NOW()),
-(256,88,1,0,27.0000,'0000-00-00','0000-00-00',NOW(),NOW()),
-(257,93,1,0,220.0000,'0000-00-00','0000-00-00',NOW(),NOW()),
-(258,65,1,1,89.0000,'0000-00-00','0000-00-00',NOW(),NOW()),
-(260,80,1,1,45.0000,'0000-00-00','0000-00-00',NOW(),NOW());
-
+(252,51,1,0,'',19.0000,'0000-00-00','0000-00-00',NOW(),NOW()),
+(253,55,1,0,'',27.0000,'0000-00-00','0000-00-00',NOW(),NOW()),
+(254,67,1,0,'',29.0000,'0000-00-00','0000-00-00',NOW(),NOW()),
+(255,72,1,0,'$',24.0000,'0000-00-00','0000-00-00',NOW(),NOW()),
+(256,88,1,0,'%',2.0000,'0000-00-00','0000-00-00',NOW(),NOW()),
+(257,93,1,0,'$',220.0000,'2022-06-04','0000-00-00',NOW(),NOW()),
+(258,65,1,1,'$',89.0000,'2022-06-01','0000-00-00',NOW(),NOW()),
+(260,80,1,1,'$',45.0000,'2022-06-01','0000-00-00',NOW(),NOW());
 
 --
 -- Dumping data for table `product_tags`
@@ -1773,104 +1917,114 @@ INSERT INTO `ac_products`
 `date_added`,
 `date_modified`)
 VALUES
-(68,'108681','','',1000,'',1,15,1,0,0,0.0000,42.0000,1,'2013-08-30',0.11,1,0.00,0.00,0.00,0,1,1,1,1,1,0,24.0000,0,NULL,NOW(),NOW()),
-(65,'427847','','',1000,'',1,15,1,0,0,0.0000,105.0000,1,'2013-08-30',70.00,2,0.00,0.00,0.00,0,1,22,1,0,1,0,99.0000,0,NULL,NOW(),NOW()),
-(66,'556240','','',145,'',1,12,1,0,0,0.0000,38.0000,1,'2013-08-30',0.40,1,0.00,0.00,0.00,0,1,5,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(67,'463686','','',0,'',2,15,1,0,0,0.0000,34.5000,1,'2013-08-30',0.30,1,0.00,0.00,0.00,2,1,7,1,1,1,0,22.0000,0,NULL,NOW(),NOW()),
-(50,'558003','','',99,'',1,11,1,0,0,0.0000,29.5000,1,'2013-08-29',75.00,2,0.00,0.00,0.00,0,1,9,1,0,1,0,0.0000,0,NULL,NOW(),NOW()),
-(51,'483857','','',97,'',1,12,1,0,0,0.0000,30.0000,1,'2013-08-29',0.05,1,0.00,0.00,0.00,0,1,8,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(52,'523755','','',99,'',1,12,1,0,0,0.0000,28.0000,0,'2013-08-29',0.80,1,0.00,0.00,0.00,0,1,4,1,1,2,0,0.0000,0,NULL,NOW(),NOW()),
-(53,'380440','','',1000,'',3,15,1,0,0,0.0000,38.5000,1,'2013-08-29',100.00,2,0.00,0.00,0.00,0,1,7,1,1,1,0,22.0000,0,NULL,NOW(),NOW()),
-(54,'74144','','',999,'',1,15,1,0,0,0.0000,25.0000,1,'2013-08-29',0.15,1,0.00,0.00,0.00,0,1,14,1,1,1,0,0.0000,1,NULL,NOW(),NOW()),
-(55,'tw152236','','',1000,'',1,15,1,0,0,0.0000,29.0000,1,'2013-08-29',0.08,1,0.00,0.00,0.00,0,1,7,1,1,1,0,22.0000,0,NULL,NOW(),NOW()),
-(56,'35190','','',1000,'',1,15,1,0,0,0.0000,29.5000,1,'2013-08-29',85.00,2,0.00,0.00,0.00,0,1,10,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(57,'117148','','',1000,'',1,15,1,0,0,0.0000,29.5000,1,'2013-08-29',0.20,1,0.00,0.00,0.00,0,1,13,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(58,'374002','','',97,'',2,12,1,0,0,0.0000,34.0000,1,'2013-08-29',25.00,2,0.00,0.00,0.00,0,1,6,1,1,1,0,10.0000,0,NULL,NOW(),NOW()),
-(59,'14.50','','',1000,'',1,11,1,0,0,0.0000,5.0000,1,'2013-08-29',75.00,2,0.00,0.00,0.00,0,1,3,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(60,'112423','','',1000,'',1,11,1,0,0,0.0000,15.0000,1,'2013-08-30',0.30,2,0.00,0.00,0.00,0,1,3,1,0,1,0,0.0000,0,NULL,NOW(),NOW()),
-(61,'529071','','',1000,'',1,15,1,0,0,0.0000,48.0000,1,'2013-08-30',0.13,2,0.00,0.00,0.00,0,1,5,1,0,1,0,29.0000,0,NULL,NOW(),NOW()),
-(62,'601232','','',1000,'',1,13,1,0,0,0.0000,14.0000,1,'2013-08-30',0.50,1,0.00,0.00,0.00,0,1,5,1,0,1,0,8.0000,0,NULL,NOW(),NOW()),
-(63,'374622','','',1000,'',1,14,1,0,0,0.0000,88.0000,1,'2013-08-30',0.75,1,0.00,0.00,0.00,0,1,5,1,0,1,0,55.0000,0,NULL,NOW(),NOW()),
-(64,'497303','','',1000,'',1,13,1,0,0,0.0000,50.0000,1,'2013-08-30',150.00,2,0.00,0.00,0.00,0,1,9,1,1,1,0,33.0000,0,NULL,NOW(),NOW()),
-(69,'SCND001','','',1000,'',1,16,1,0,0,0.0000,19.0000,1,'2013-08-30',0.25,1,0.00,0.00,0.00,0,1,7,1,0,1,0,0.0000,0,NULL,NOW(),NOW()),
-(70,'522823','','',1000,'',1,14,1,0,0,0.0000,31.0000,1,'2013-08-30',0.25,2,0.00,0.00,0.00,0,1,2,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(71,'PCND001','','',1000,'',1,17,1,0,0,0.0000,11.4500,1,'2013-08-30',0.30,1,0.00,0.00,0.00,0,1,4,1,1,1,0,5.0000,0,NULL,NOW(),NOW()),
-(72,'PCND002','','',1000,'',1,17,1,0,0,0.0000,27.0000,1,'2013-08-30',0.40,1,0.00,0.00,0.00,0,1,6,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(73,'PCND003','','',1000,'',1,17,1,0,0,0.0000,33.0000,1,'2013-08-30',0.40,1,0.00,0.00,0.00,0,1,3,1,1,1,0,21.0000,0,NULL,NOW(),NOW()),
-(74,'PCND004','','',10000,'',1,17,1,0,0,0.0000,4.0000,1,'2013-08-30',0.35,1,0.00,0.00,0.00,0,1,5,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(75,'DMBW0012','','',999,'',1,18,1,0,0,0.0000,6.7000,1,'2013-08-30',0.20,1,0.00,0.00,0.00,0,1,3,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(76,'DMBW0013','1235B','',98,'',1,18,1,0,0,0.0000,7.2000,1,'2013-08-30',0.20,1,0.00,0.00,0.00,0,1,6,1,1,1,0,4.0000,0,NULL,NOW(),NOW()),
-(77,'DMBW0014','1234B','',1000,'',1,18,1,0,0,0.0000,6.0000,1,'2013-08-30',0.30,1,0.00,0.00,0.00,0,1,10,1,1,1,0,2.0000,0,NULL,NOW(),NOW()),
-(78,'Cl0001','','',1000,'',1,13,1,0,0,0.0000,29.0000,1,'2013-08-30',125.00,2,0.00,0.00,0.00,0,1,12,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(79,'CKGS01','','',1000,'',1,13,1,0,0,0.0000,36.0000,1,'2013-08-30',250.00,2,0.00,0.00,0.00,0,1,3,1,1,1,0,28.0000,0,NULL,NOW(),NOW()),
-(80,'GRM001','','',850,'',1,19,1,0,0,0.0000,59.0000,1,'2013-09-01',80.00,2,0.00,0.00,0.00,0,1,6,1,1,1,0,33.0000,0,NULL,NOW(),NOW()),
-(81,'GRM002','','',1000,'',1,19,1,0,0,0.0000,61.0000,1,'2013-09-01',150.00,2,0.00,0.00,0.00,0,1,6,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(82,'GRM003','','',1000,'',1,19,1,0,0,0.0000,42.0000,1,'2013-09-01',100.00,2,0.00,0.00,0.00,0,1,3,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(83,'GRM004','','',1000,'',1,19,1,0,0,0.0000,37.5000,1,'2013-09-01',15.00,2,0.00,0.00,0.00,0,1,3,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(84,'GRM005','','',1000,'',1,19,1,0,0,0.0000,30.0000,1,'2013-09-01',175.00,2,0.00,0.00,0.00,0,1,8,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(85,'Ck0010','','',1000,'',1,13,1,0,0,0.0000,45.0000,1,'2013-09-01',0.08,5,0.00,0.00,0.00,0,1,4,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(86,'CK0009','','',1,'',1,13,1,0,0,0.0000,44.1000,1,'2013-09-04',0.17,2,0.00,0.00,0.00,0,1,3,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(87,'CK0010','','',10000,'',1,13,1,0,0,0.0000,37.5000,1,'2013-09-04',0.20,1,0.00,0.00,0.00,0,1,2,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(88,'CK0011','','',1,'',1,13,1,0,0,0.0000,31.0000,1,'2013-09-04',340.00,2,0.00,0.00,0.00,0,1,2,1,1,1,0,19.0000,0,NULL,NOW(),NOW()),
-(89,'CK0012','','',1000,'',3,13,1,0,0,0.0000,62.0000,1,'2013-09-04',0.12,1,0.00,0.00,0.00,0,1,6,1,1,1,0,40.0000,0,NULL,NOW(),NOW()),
-(90,'CK0013','','',1000,'',1,13,1,0,0,0.0000,39.0000,1,'2013-09-04',0.33,2,0.00,0.00,0.00,0,1,3,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(91,'BVLG001','','',1000,'',1,14,1,0,0,0.0000,29.0000,1,'2013-09-04',0.16,2,0.00,0.00,0.00,0,1,3,1,1,1,0,20.0000,0,NULL,NOW(),NOW()),
-(92,'BVLG002','','',1000,'',1,14,1,0,0,0.0000,57.0000,1,'2013-09-04',0.40,5,0.00,0.00,0.00,0,1,8,1,1,1,0,44.0000,0,NULL,NOW(),NOW()),
-(93,'BVLG003','','',1000,'',1,14,1,0,0,0.0000,280.0000,1,'2013-09-04',0.30,5,0.00,0.00,0.00,0,1,9,1,1,1,0,100.0000,0,NULL,NOW(),NOW()),
-(94,'GRMBC001','','',589,'',1,19,1,0,0,0.0000,263.0000,1,'2013-09-04',0.15,1,0.00,0.00,0.00,0,1,4,1,1,1,0,125.0000,0,NULL,NOW(),NOW()),
-(95,'GRMBC002','','',100,'',3,19,1,0,0,0.0000,104.0000,1,'2013-09-04',0.15,1,0.00,0.00,0.00,0,1,6,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(96,'GRMBC003','','',100,'',1,19,1,0,0,0.0000,82.0000,1,'2013-09-04',80.00,2,0.00,0.00,0.00,0,1,10,1,0,2,0,67.0000,0,NULL,NOW(),NOW()),
-(97,'GRMBC004','','',1,'',1,19,1,0,0,0.0000,126.0000,1,'2013-09-04',20.00,2,0.00,0.00,0.00,0,1,10,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(98,'GRMBC005','','',1000,'',1,19,1,0,0,0.0000,98.0000,1,'2013-09-04',40.00,2,0.00,0.00,0.00,0,1,3,1,1,1,0,87.0000,0,NULL,NOW(),NOW()),
-(99,'GRMBC006','','',1000,'',1,19,1,0,0,0.0000,137.0000,1,'2013-09-04',0.09,6,0.00,0.00,0.00,0,1,13,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(100,'GRMBC007','','',1000,'',1,19,1,0,0,0.0000,10.0000,1,'2013-09-04',15.00,2,0.00,0.00,0.00,0,0,13,1,1,4,0,8.0000,0,NULL,NOW(),NOW()),
-(101,'Pro-V','','',1000,'',1,17,1,0,0,0.0000,8.2300,1,'2012-03-13',8.45,6,2.00,3.00,15.00,1,1,37,1,0,1,0,0.0000,0,NULL,NOW(),NOW()),
-(102,'PRF00269','','',1000,'',1,20,1,0,0,0.0000,105.0000,1,'2012-03-14',2.50,6,0.00,0.00,0.00,3,1,7,1,0,1,0,0.0000,0,NULL,NOW(),NOW()),
-(103,'PRF00270','','',100,'',1,14,1,0,0,0.0000,78.0000,1,'2012-03-14',80.00,2,0.00,0.00,0.00,3,1,5,1,0,1,0,0.0000,0,NULL,NOW(),NOW()),
-(104,'PRF00271','','',1000,'',1,13,1,0,0,0.0000,49.0000,1,'2012-03-14',0.00,5,0.00,0.00,0.00,3,1,21,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(105,'PRF00273','','',100,'',2,14,1,0,0,0.0000,55.0000,0,'2012-03-14',0.00,5,0.00,0.00,0.00,3,1,19,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(106,'PRF00274','','',185,'',1,14,1,0,0,0.0000,70.0000,1,'2012-03-14',80.00,5,0.00,0.00,0.00,3,1,9,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(107,'PRF00274','','',0,'',2,15,1,0,0,0.0000,66.0000,1,'2012-03-14',7.00,6,0.00,0.00,0.00,3,1,6,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(108,'PRF00268','','',420,'',1,15,1,0,0,0.0000,125.0000,1,'2012-03-14',2.00,6,0.00,0.00,0.00,3,1,8,1,1,2,0,0.0000,0,NULL,NOW(),NOW()),
-(109,'PRF00279','','',1,'',1,15,1,0,0,0.0000,84.0000,1,'2012-03-14',50.00,6,3.00,2.00,10.00,1,1,7,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(110,'PRF00278','','',1000,'',1,20,1,0,0,0.0000,90.0000,1,'2012-03-14',0.00,6,0.00,0.00,0.00,3,1,22,1,0,1,0,0.0000,0,NULL,NOW(),NOW()),
-(111,'','','',4,'',1,0,1,0,0,0.0000,85.0000,1,'2015-06-11',0.20,1,23.60,17.80,5.10,1,1,16,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(112,'','','',10,'',1,0,1,0,1,0.0000,16.2000,1,'2015-06-11',0.12,1,0.00,0.00,0.00,3,1,6,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(113,'','','',1,'',1,0,1,0,0,0.0000,9.9900,1,'2015-06-11',0.10,1,12.00,10.00,3.00,1,1,6,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(114,'','','',1,'',1,0,1,0,0,0.0000,7.9900,0,'2015-06-11',0.20,1,15.00,12.00,1.00,1,1,3,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(115,'','','',1,'',1,0,1,0,0,0.0000,110.0000,0,'2015-06-15',300.00,2,26.00,10.00,8.00,1,1,18,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(116,'','','',100,'',1,0,1,0,0,0.0000,26.0000,1,'2015-06-15',1.00,5,8.00,5.00,7.00,3,1,27,1,0,1,0,0.0000,0,NULL,NOW(),NOW()),
-(117,'B00OGL2XKO','','',100,'',1,0,1,0,1,0.0000,78.0000,1,'2015-06-17',0.50,5,7.00,4.00,3.00,3,1,25,1,1,1,0,50.0000,0,NULL,NOW(),NOW()),
-(118,'','','',10,'',1,0,1,0,0,0.0000,26.0000,1,'2015-06-21',222.00,2,5.00,5.00,4.00,3,1,9,1,0,1,0,20.0000,0,NULL,NOW(),NOW()),
-(119,'','','',456,'',1,0,1,0,0,0.0000,9.9900,1,'2015-06-21',400.00,2,0.00,0.00,0.00,3,1,7,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(120,'B00UG4NFNY','','',1,'',1,0,1,0,0,0.0000,6.7500,0,'2015-06-21',100.00,2,0.00,0.00,0.00,3,1,6,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
-(121,'','','',17,'',1,19,1,0,0,0.0000,32.0000,1,'2015-06-21',120.00,2,0.00,0.00,0.00,3,1,12,1,0,1,10,0.0000,0,NULL,NOW(),NOW()),
-(122,'JDSK36','','',155,'',1,0,1,0,0,0.0000,21.0000,1,'2015-06-21',140.00,2,23.00,20.00,2.00,1,1,10,1,0,1,0,0.0000,0,NULL,NOW(),NOW()),
-(123,'LTQFX','#2738','',100,'',1,19,1,0,1,0.0000,14.0000,1,'2019-03-17',150.00,2,0.00,0.00,0.00,3,1,7,1,1,1,0,11.0000,0,NULL,NOW(),NOW());
+(68,'108681','','',1000,'',1,15,1,0,0,0.0000,42.0000,1,'2013-08-30',0.11,1,0.00,0.00,0.00,2,1,1,1,1,1,0,24.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 07:46:19'),
+(65,'427847','','',1000,'',1,15,1,0,0,0.0000,105.0000,1,'2013-08-30',70.00,2,0.00,0.00,0.00,1,1,23,1,0,1,0,99.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 07:46:24'),
+(66,'556240','','',145,'',1,12,1,0,0,0.0000,38.0000,1,'2021-08-30',0.40,1,0.00,0.00,0.00,3,1,5,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 07:46:34'),
+(67,'463686','','',0,'',0,15,1,0,0,0.0000,34.5000,1,'2021-08-30',0.30,1,6.00,3.00,5.00,1,1,7,1,1,1,0,22.0000,0,NULL,'2019-07-12 07:21:52','2022-06-27 11:37:15'),
+(50,'558003','','',99,'',1,11,1,0,0,0.0000,29.5000,1,'2022-07-01',75.00,2,0.00,0.00,0.00,1,1,9,1,0,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 07:46:40'),
+(51,'483857','','',97,'',1,12,1,0,0,0.0000,30.0000,1,'2013-08-29',0.05,1,0.00,0.00,0.00,1,1,9,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-27 10:13:49'),
+(52,'523755','','',99,'',1,12,1,0,0,0.0000,28.0000,0,'2013-08-29',0.80,1,0.00,0.00,0.00,2,1,5,1,1,2,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-27 10:13:56'),
+(53,'380440','','',1000,'',0,15,1,0,0,0.0000,38.5000,1,'2021-08-31',100.00,2,0.00,0.00,0.00,3,1,11,1,1,1,0,22.0000,0,NULL,'2019-07-12 07:21:52','2022-06-27 10:14:11'),
+(54,'74144','','',999,'',1,15,1,0,0,0.0000,25.0000,1,'2022-01-06',0.15,1,0.00,0.00,0.00,2,1,15,1,1,1,0,0.0000,1,NULL,'2019-07-12 07:21:52','2022-06-27 10:14:35'),
+(55,'tw152236','','',1000,'',1,15,1,0,0,0.0000,29.0000,1,'2019-08-29',0.08,1,0.00,0.00,0.00,2,1,8,1,1,1,0,22.0000,0,NULL,'2019-07-12 07:21:52','2022-06-27 10:14:47'),
+(56,'35190','','',1000,'',1,15,1,0,0,0.0000,29.5000,1,'2021-08-29',85.00,2,0.00,0.00,0.00,1,1,12,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-27 10:15:03'),
+(57,'117148','SKGLM004','',1000,'',1,15,1,0,0,0.0000,29.5000,1,'2013-08-29',0.20,1,0.00,0.00,0.00,1,1,13,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-27 10:20:36'),
+(58,'374002','','',36,'',0,12,1,0,0,0.0000,34.0000,1,'2013-08-29',25.00,2,0.00,0.00,0.00,3,1,6,1,1,1,0,10.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 07:46:14'),
+(59,'14.50','SKGLM002','',1000,'',1,11,1,0,0,0.0000,5.0000,1,'2021-08-15',75.00,2,0.00,0.00,0.00,1,1,3,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-27 10:20:15'),
+(60,'112423','SKC001','',1000,'',1,11,1,0,0,0.0000,15.0000,1,'2021-08-30',0.30,2,0.00,0.00,0.00,2,1,3,1,0,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-27 10:19:51'),
+(61,'529071','','',1000,'',1,15,1,0,0,0.0000,48.0000,1,'2021-08-30',0.13,2,0.00,0.00,0.00,1,1,5,1,0,1,0,29.0000,0,NULL,'2019-07-12 07:21:52','2022-06-27 11:36:59'),
+(62,'601232','','',1000,'',1,13,1,0,0,0.0000,14.0000,1,'2013-08-30',0.50,1,0.00,0.00,0.00,3,1,5,1,0,1,0,8.0000,0,NULL,'2019-07-12 07:21:52','2022-06-27 11:36:50'),
+(63,'374622','PH001','',1000,'',1,14,1,0,0,0.0000,88.0000,1,'2021-08-30',0.75,1,55.00,90.00,120.00,2,1,5,1,0,1,0,55.0000,0,NULL,'2019-07-12 07:21:52','2022-06-27 11:38:17'),
+(64,'497303','','',1000,'',1,13,1,0,0,0.0000,50.0000,1,'2013-08-30',150.00,2,0.00,0.00,0.00,1,1,9,1,1,1,0,33.0000,0,NULL,'2019-07-12 07:21:52','2022-06-27 11:38:27'),
+(69,'SCND001','','',1000,'',1,16,1,0,0,0.0000,19.0000,1,'2021-08-30',0.25,1,0.00,0.00,0.00,1,1,7,1,0,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-27 11:38:35'),
+(70,'522823','','',1000,'',1,14,1,0,0,0.0000,31.0000,1,'2022-06-05',0.25,2,0.00,0.00,0.00,3,1,5,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-27 11:38:49'),
+(71,'PCND001','','',1000,'',1,17,1,0,0,0.0000,11.4500,1,'2013-08-30',0.30,1,0.00,0.00,0.00,1,1,4,1,1,1,0,5.0000,0,NULL,'2019-07-12 07:21:52','2022-06-27 11:38:57'),
+(72,'PCND002','','',1000,'',1,17,1,0,0,0.0000,27.0000,1,'2013-08-30',0.40,1,0.00,0.00,0.00,1,1,7,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-27 11:39:04'),
+(73,'PCND003','','',1000,'',1,17,1,0,0,0.0000,33.0000,1,'2021-08-30',0.40,1,0.00,0.00,0.00,1,1,3,1,1,1,0,21.0000,0,NULL,'2019-07-12 07:21:52','2022-06-27 11:39:14'),
+(74,'PCND004','','',10000,'',1,17,1,0,0,0.0000,4.0000,1,'2021-08-30',0.35,1,0.00,0.00,0.00,1,1,5,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-27 11:39:26'),
+(75,'DMBW0012','','',999,'',1,18,1,0,0,0.0000,6.7000,1,'2013-08-30',0.20,1,0.00,0.00,0.00,1,1,3,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-27 11:39:45'),
+(76,'DMBW0013','1235B','',98,'',1,18,1,0,0,0.0000,7.2000,1,'2021-08-30',0.20,1,0.00,0.00,0.00,1,1,6,1,1,1,0,4.0000,0,NULL,'2019-07-12 07:21:52','2022-06-27 11:39:52'),
+(77,'DMBW0014','1234B','',999,'',1,18,1,0,0,0.0000,6.0000,1,'2021-08-30',0.30,1,0.00,0.00,0.00,3,1,11,1,1,1,0,2.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 08:11:47'),
+(78,'Cl0001','','',1000,'',1,13,1,0,0,0.0000,29.0000,1,'2021-08-30',125.00,2,0.00,0.00,0.00,1,1,15,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-27 11:40:11'),
+(79,'CKGS01','CK14A','',1000,'',1,13,1,0,0,0.0000,36.0000,1,'2013-08-30',250.00,2,0.00,0.00,0.00,3,1,3,1,1,1,0,28.0000,0,NULL,'2019-07-12 07:21:52','2022-06-27 11:47:50'),
+(80,'GRM001','','',850,'',1,19,1,0,0,0.0000,59.0000,1,'2021-09-01',80.00,2,0.00,0.00,0.00,1,1,6,1,1,1,0,33.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 07:45:31'),
+(81,'GRM002','','',1000,'',1,19,1,0,0,0.0000,61.0000,1,'2013-09-01',150.00,2,0.00,0.00,0.00,2,1,6,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 07:45:07'),
+(82,'GRM003','','',1000,'',1,19,1,0,0,0.0000,42.0000,1,'2021-09-01',100.00,2,0.00,0.00,0.00,2,1,3,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 07:45:00'),
+(83,'GRM004','ACSP23423','',1000,'',1,19,1,0,0,0.0000,37.5000,1,'2021-09-01',15.00,2,0.00,0.00,0.00,1,1,3,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 07:44:51'),
+(84,'GRM005','ACP23453','',1000,'',1,19,1,0,0,0.0000,30.0000,1,'2021-09-01',175.00,2,2.90,1.00,2.00,3,1,8,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 07:44:31'),
+(85,'Ck0010','','',1000,'',1,13,1,0,0,0.0000,45.0000,1,'2021-09-01',0.08,5,0.00,0.00,0.00,3,1,4,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 07:39:07'),
+(86,'CK0009','','',1,'',1,13,1,0,0,0.0000,44.1000,1,'2021-09-04',0.17,2,0.00,0.00,0.00,2,1,3,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 07:38:58'),
+(87,'CK0010','MED923432','',10000,'',1,13,1,0,0,0.0000,37.5000,1,'2013-09-04',0.20,1,0.00,0.00,0.00,2,1,2,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 07:38:41'),
+(88,'CK0011','','',2,'',1,13,1,0,0,0.0000,31.0000,1,'2021-09-04',340.00,2,0.00,0.00,0.00,2,1,3,1,1,1,0,19.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 07:38:24'),
+(89,'CK0012','','',1000,'',0,13,1,0,0,0.0000,62.0000,1,'2021-09-04',0.12,1,0.00,0.00,0.00,2,1,6,1,1,1,0,40.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 07:37:53'),
+(90,'CK0013','','',1000,'',1,13,1,0,0,0.0000,39.0000,1,'1970-01-01',0.33,2,0.00,0.00,0.00,3,1,3,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 07:37:37'),
+(91,'BVLG001','','',1000,'',1,14,1,0,0,0.0000,29.0000,1,'2021-09-04',0.16,2,0.00,0.00,0.00,2,1,3,1,1,1,0,20.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 07:37:05'),
+(92,'BVLG002','','',1000,'',1,14,1,0,0,0.0000,57.0000,1,'2013-09-04',0.40,5,0.00,0.00,0.00,3,1,8,1,1,1,0,44.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 07:37:13'),
+(93,'BVLG003','','',1000,'',1,14,1,0,0,0.0000,280.0000,1,'2013-09-04',0.30,5,0.00,0.00,0.00,2,1,9,1,1,1,0,100.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:44:57'),
+(94,'GRMBC001','','',589,'',1,19,1,0,0,0.0000,263.0000,1,'2013-09-04',0.15,1,0.00,0.00,0.00,2,1,4,1,1,1,0,125.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:44:50'),
+(95,'GRMBC002','SKMCN876','',100,'',0,19,1,0,0,0.0000,104.0000,1,'2021-09-04',0.15,1,0.00,0.00,0.00,1,1,6,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:44:13'),
+(96,'GRMBC003','','',100,'',1,19,1,0,0,0.0000,82.0000,1,'2021-09-04',80.00,2,0.00,0.00,0.00,1,1,11,1,0,2,0,67.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:43:55'),
+(97,'GRMBC004','','',1,'',1,19,1,0,0,0.0000,126.0000,1,'2021-09-04',20.00,2,0.00,0.00,0.00,3,1,10,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:43:13'),
+(98,'GRMBC005','','',1000,'',1,19,1,0,0,0.0000,98.0000,1,'2021-09-04',40.00,2,0.00,0.00,0.00,1,1,3,1,1,1,0,87.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:42:51'),
+(99,'GRMBC006','','',1000,'',1,19,1,0,0,0.0000,137.0000,1,'2021-09-04',0.09,6,0.00,0.00,0.00,1,1,13,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:43:47'),
+(100,'GRMBC007','','',1000,'',1,19,1,0,0,0.0000,10.0000,1,'2013-09-04',15.00,2,0.00,0.00,0.00,1,0,13,1,1,4,0,8.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:43:29'),
+(101,'Pro-V','PRV43545','',1000,'',1,17,1,0,0,0.0000,8.2300,1,'2021-03-13',8.45,6,2.00,3.00,15.00,1,1,37,1,0,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:42:38'),
+(102,'PRF00269','','',1000,'',1,20,1,0,0,0.0000,105.0000,1,'2021-03-14',2.50,6,0.00,0.00,0.00,3,1,7,1,0,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:42:18'),
+(103,'PRF00270','','',100,'',1,14,1,0,0,0.0000,78.0000,1,'2021-03-14',80.00,2,0.00,0.00,0.00,3,1,5,1,0,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:43:22'),
+(104,'PRF00271','','',1000,'',1,13,1,0,0,0.0000,49.0000,1,'2021-03-14',2.10,5,0.00,0.00,0.00,3,1,21,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:41:57'),
+(105,'PRF00273','PRF00273','',100,'',0,14,1,0,0,0.0000,55.0000,1,'2021-03-14',1.00,5,0.00,0.00,0.00,3,1,19,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:41:43'),
+(106,'PRF00274','','',185,'',1,14,1,0,0,0.0000,70.0000,1,'2012-03-14',80.00,5,0.00,0.00,0.00,3,1,9,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:41:00'),
+(107,'PRF00274','','',0,'',0,15,1,0,0,0.0000,66.0000,1,'2012-03-14',7.00,6,0.00,0.00,0.00,3,1,6,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:40:54'),
+(108,'PRF00268','','',420,'',1,15,1,0,0,0.0000,125.0000,1,'2012-03-14',2.00,6,0.00,0.00,0.00,3,1,8,1,1,2,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:41:19'),
+(109,'PRF00279','LNKVGH5','',4,'',1,15,1,0,0,0.0000,84.0000,1,'2012-03-14',50.00,6,3.00,2.00,10.00,1,1,11,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:40:25'),
+(110,'PRF00278','','',1000,'',1,20,1,0,0,0.0000,90.0000,1,'2012-03-14',5.00,6,0.00,0.00,0.00,3,1,22,1,0,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:40:05'),
+(111,'','','',4,'',1,0,1,0,0,0.0000,85.0000,1,'2015-06-11',0.20,1,23.60,17.80,5.10,1,1,16,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:39:33'),
+(112,'','','',10,'',1,0,1,0,1,0.0000,16.2000,1,'2015-06-11',0.12,1,0.00,0.00,0.00,3,1,6,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:39:14'),
+(113,'','','',1,'',1,0,1,0,0,0.0000,9.9900,1,'2015-06-11',0.10,1,12.00,10.00,3.00,1,1,7,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:39:07'),
+(114,'','ABV003SM','',1,'',1,0,1,0,0,0.0000,7.9900,0,'2021-06-01',0.20,1,15.00,12.00,1.00,1,1,3,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:38:56'),
+(115,'','','',1,'',1,0,1,0,0,0.0000,110.0000,0,'2015-06-15',300.00,2,26.00,10.00,8.00,1,1,20,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:38:31'),
+(116,'','','',100,'',1,0,1,0,0,0.0000,26.0000,1,'2022-06-15',1.00,5,8.00,5.00,7.00,3,1,29,1,0,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:38:27'),
+(117,'B00OGL2XKO','','',100,'',1,0,1,0,1,0.0000,78.0000,1,'2021-06-17',0.50,5,7.00,4.00,3.00,3,1,27,1,1,1,0,50.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:37:49'),
+(118,'','','',10,'',1,0,1,0,0,0.0000,26.0000,1,'2015-06-21',222.00,2,5.00,5.00,4.00,3,1,14,1,0,1,0,20.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:37:41'),
+(119,'','','',455,'',1,0,1,0,0,0.0000,9.9900,1,'2015-06-21',400.00,2,0.00,0.00,0.00,3,1,13,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 09:12:03'),
+(120,'B00UG4NFNY','','',1,'',1,0,1,0,0,0.0000,6.7500,0,'2015-06-21',100.00,2,0.00,0.00,0.00,3,1,7,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:41:05'),
+(121,'','','',17,'',1,19,1,0,0,0.0000,32.0000,1,'2021-06-21',120.00,2,0.00,0.00,0.00,3,1,13,1,0,1,10,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:39:22'),
+(122,'JDSK36','','',155,'',1,0,1,0,0,0.0000,21.0000,1,'2015-06-21',140.00,2,23.00,20.00,2.00,1,1,11,1,0,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 07:46:02'),
+(123,'LTQFX','2738','',100,'',1,19,1,0,1,0.0000,14.0000,1,'2020-03-17',150.00,2,0.00,0.00,0.00,3,1,9,1,1,1,0,11.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 07:45:47');
 
-
-
+INSERT INTO `ac_product_stock_locations` 
+VALUES (122,778,1,10,0),
+(122,778,2,4,0),
+(122,779,2,3,0),
+(122,779,1,0,0),
+(122,780,1,4,0),
+(122,780,2,20,0),
+(58,NULL,2,25,0),
+(58,NULL,1,11,0);
 --
 -- Dumping data for table `products_featured`
 --
 
 INSERT INTO `ac_products_featured`
+(`product_id`)
 VALUES
-(50),
+    (50),
 (51),
 (52),
 (53),
 (54),
 (55),
 (56),
-(57);
+(57),
+(123);
 
 --
 -- Dumping data for table `products_related`
 --
 INSERT INTO `ac_products_related`
-VALUES
-(71,101),
+(`product_id`,
+`related_id`)
+VALUES (71,101),
 (100,108),
 (101,71),
 (108,100),
@@ -1893,8 +2047,9 @@ VALUES
 --
 
 INSERT INTO `ac_products_to_categories`
-VALUES
-(50,40),
+(`product_id`,
+`category_id`)
+VALUES (50,40),
 (51,40),
 (52,40),
 (53,36),
@@ -2028,16 +2183,17 @@ VALUES
 --
 
 INSERT INTO `ac_products_to_downloads`
-VALUES
-  (111,1),
-  (111,2),
-  (123,5);
+VALUES (109,6),
+(111,1),
+(111,2),
+(123,5);
 
 --
 -- Dumping data for table `products_to_stores`
 --
 
 INSERT INTO `ac_products_to_stores`
+(`product_id`,`store_id`)
 VALUES
 (50,0),
 (51,0),
@@ -2118,8 +2274,19 @@ VALUES
 --
 -- Dumping data for table `resource_descriptions`
 --
+
 INSERT INTO `ac_resource_descriptions`
+(`resource_id`,
+`language_id`,
+`name`,
+`title`,
+`description`,
+`resource_path`,
+`resource_code`,
+`date_added`,
+`date_modified`)
 VALUES
+
 (100010,1,'demo_product15_1.jpg','','','18/6a/a.jpg','',NOW(),NOW()),
 (100012,1,'demo_product07.jpg','','','18/6a/c.jpg','',NOW(),NOW()),
 (100011,1,'demo_product15.jpg','','','18/6a/b.jpg','',NOW(),NOW()),
@@ -2258,6 +2425,8 @@ VALUES
 (100144,1,'demo_product_18.jpg','','','18/73/0.jpg','',NOW(),NOW()),
 (100145,1,'demo_product_37.jpg','','','18/73/1.jpg','',NOW(),NOW()),
 (100146,1,'demo_product_49_1.png','','','18/73/2.png','',NOW(),NOW()),
+(100147,1,'store_logo.png','','','18/73/3.png','',NOW(),NOW()),
+(100148,1,'favicon.png','','','18/73/4.png','',NOW(),NOW()),
 (100150,1,'demo_product51.png','','','18/73/6.png','',NOW(),NOW()),
 (100153,1,'demo_mf_gucci.jpg','','','18/73/9.jpg','',NOW(),NOW()),
 (100154,1,'demo_product52_1.jpg','','','18/73/a.jpg','',NOW(),NOW()),
@@ -2281,7 +2450,7 @@ VALUES
 (100174,1,'demo_product60_1.jpg','','','18/74/e.jpg','',NOW(),NOW()),
 (100175,1,'demo_product60_2.jpg','','','18/74/f.jpg','',NOW(),NOW()),
 (100176,1,'demo_product60_5.jpg','','','18/75/0.jpg','',NOW(),NOW()),
-(100178,1,'abantecart video','','','','<object width=\"640\" height=\"360\"><param name=\"movie\" value=\"http://www.youtube.com/v/IQ5SLJUWbdA\"></param><param name=\"allowFullScreen\" value=\"true\"></param><param name=\"allowscriptaccess\" value=\"always\"></param><embed src=\"http://www.youtube.com/v/IQ5SLJUWbdA\" type=\"application/x-shockwave-flash\" width=\"640\" height=\"360\" allowscriptaccess=\"always\" allowfullscreen=\"true\"></embed></object>',NOW(),NOW()),
+(100178,1,'abantecart video','','','','<object width=\"640\" height=\"360\"><param name=\"movie\" value=\"https://www.youtube.com/v/IQ5SLJUWbdA\"></param><param name=\"allowFullScreen\" value=\"true\"></param><param name=\"allowscriptaccess\" value=\"always\"></param><embed src=\"https://www.youtube.com/v/IQ5SLJUWbdA\" type=\"application/x-shockwave-flash\" width=\"640\" height=\"360\" allowscriptaccess=\"always\" allowfullscreen=\"true\"></embed></object>',NOW(),NOW()),
 (100188,1,'smbanner.jpg','','','18/75/c.jpg','',NOW(),NOW()),
 (100190,1,'AM_mc_vs_dc_ae_319x110.jpg','PayPal Credit Cards','PayPal logo with supported Credit Cards','18/75/e.jpg','',NOW(),NOW()),
 (100191,1,'AM_SbyPP_mc_vs_dc_ae_319x110.jpg','PayPal Secure Payments','Secure Payments by PayPal logo','18/75/f.jpg','',NOW(),NOW()),
@@ -2344,17 +2513,19 @@ VALUES
 (100251,1,'blue.jpg','blue cotton t-shirt','','18/79/b.jpg','',NOW(),NOW()),
 (100252,1,'red.jpg','','','18/79/c.jpg','',NOW(),NOW()),
 (100253,1,'yellow.jpg','','','18/79/d.jpg','',NOW(),NOW()),
-(100255,1,'size-fit-guide-print.pdf','Fit guide','','18/79/f.pdf','',NOW(),NOW());
-
-
+(100255,1,'size-fit-guide-print.pdf','Fit guide','','18/79/f.pdf','',NOW(),NOW()),
+(100257,1,'local_delivery_icon.png','','','18/7a/1.png','',NOW(),NOW()),
+(100260,1,'Visionnaire.pdf','','','18/7a/4.pdf','',NOW(),NOW());
 
 --
 -- Dumping data for table `resource_library`
 --
-
 INSERT INTO `ac_resource_library`
+(`resource_id`,
+`type_id`,
+`date_added`,
+`date_modified`)
 VALUES
-
 (100010,1,NOW(),NOW()),
 (100012,1,NOW(),NOW()),
 (100011,1,NOW(),NOW()),
@@ -2493,6 +2664,8 @@ VALUES
 (100144,1,NOW(),NOW()),
 (100145,1,NOW(),NOW()),
 (100146,1,NOW(),NOW()),
+(100147,1,NOW(),NOW()),
+(100148,1,NOW(),NOW()),
 (100150,1,NOW(),NOW()),
 (100178,3,NOW(),NOW()),
 (100153,1,NOW(),NOW()),
@@ -2579,14 +2752,23 @@ VALUES
 (100251,1,NOW(),NOW()),
 (100252,1,NOW(),NOW()),
 (100253,1,NOW(),NOW()),
-(100255,6,NOW(),NOW());
+(100255,6,NOW(),NOW()),
+(100257,1,NOW(),NOW()),
+(100260,6,NOW(),NOW());
 
 
 --
 -- Dumping data for table `resource_map`
 --
 INSERT INTO `ac_resource_map`
-VALUES
+(`resource_id`,
+`object_name`,
+`object_id`,
+`default`,
+`sort_order`,
+`date_added`,
+`date_modified`)
+ VALUES 
 (100012,'products',58,0,0,NOW(),NOW()),
 (100014,'products',80,0,0,NOW(),NOW()),
 (100013,'products',68,0,0,NOW(),NOW()),
@@ -2809,39 +2991,55 @@ VALUES
 (100252,'products',123,0,2,NOW(),NOW()),
 (100253,'products',123,0,3,NOW(),NOW());
 
+
 --
 -- Dumping data for table `reviews`
 --
 
 INSERT INTO `ac_reviews`
-(`review_id`, `product_id`, `customer_id`, `author`, `text`, `rating`, `status`, `date_added`, `date_modified`)
+(`review_id`,
+`product_id`,
+`customer_id`,
+`author`,
+`text`,
+`rating`,
+`verified_purchase`,
+`status`,
+`date_added`,
+`date_modified`)
 VALUES
-(63,77,6,'Bernard Horne','I thought since it was made for men that it was the perfect thing to go with the body wash. Its too small and doesn\'t lather up very well.',3,1,NOW(),NOW()),
-(62,54,2,'Juliana Davis','I\'ve been wearing all Lancome mascara\'s and I\'m just get really upset when I\'m out. I\'ve tried other Brands, but it\'s always right back to the Lancome productss. The extend L\'EXTREME is by far the best!!! Really Long and Great! ',5,1,NOW(),NOW()),
-(61,56,0,'Cassandra','Fortunately, I got this as a gift. BUT, I am willing to purchase this when I run out. This may be expensive but it is sooooo worth it! I love this concealer and I wouldn\'t even dare to use other brands. One more thing, the little tube lasts for a long time. I\'ve been using it everyday for 8 months now and I still have about 1/4 left.',5,1,NOW(),NOW()),
-(64,76,7,'James','Finally a deodorant for men that doesn\'t smell like cheap cologne. I\'ve been using this for a couple of weeks now and I can\'t say anything bad about it. To me it just smells fresh',4,1,NOW(),NOW()),
-(65,100,0,'Juli','Smooth Silk is an accurate name for this creamy lip liner. It is by far the best lip pencil I have ever encountered.',5,1,NOW(),NOW()),
-(66,100,0,'Marianne','Nice pencil! This is a smooth, long lasting pencil, wonderful shades!',4,1,NOW(),NOW()),
-(67,97,0,'Ann','Really reduces shades and swellings)',4,1,NOW(),NOW()),
-(68,99,0,'Alice','This is much darker than the picture',2,1,NOW(),NOW()),
-(69,57,0,'Jane','When it arrived, the blush had cracked and was crumbling all over, so I\'m only able to use half of it.',2,1,NOW(),NOW()),
-(70,55,0,'Kristin K.','These lipsticks are moisturizing and have good pigmentation; however, their lasting power is not as advertised! ',4,1,NOW(),NOW()),
-(71,55,0,'lara','This is quite simply good stuff. \nThe color payout is rich, the texture creamy and moist, and best of all no scent. No taste.',5,1,NOW(),NOW()),
-(72,93,0,'L. D.','I totally love it.it smells heavenly . It smells so natural and my skin just loves it. ',5,1,NOW(),NOW()),
-(73,93,0,'Walton','This creme is a bit heavy for my skin; however, as the day goes on it does not create an oily build-up. A little goes a long way, and I could see improvements in my skin tone within a week. Good product, will be purchasing again.',4,1,NOW(),NOW()),
-(74,74,0,'Stefania V','it works very well moisturing and cleaning and unlike many other healthy shampoos it doesn\'t open the hair platelets too far and therefore doesn\'t feel so dry and sticky so I can get away without using a conditioner. Great value.',4,1,NOW(),NOW()),
-(75,102,0,'Mary','This is more of a evening fragrance. I love it',4,1,NOW(),NOW()),
-(76,110,0,'Lara','Product was very reasonably priced. It will make a nice gift.',5,1,NOW(),NOW()),
-(77,111,0,'Mr. G. Thomas','I would totally recommend product for anyone keen to learn a foreign language quickly. \nHowever, you must be fully committed and be ready to dedicate your time for study every day!',5,1,NOW(),NOW()),
-(78,119,0,'F Buckley ','Good quality. Also good enough to wear out.\n\nWould order more in the future. ',5,1,NOW(),NOW()),
-(79,111,13,'Eric',' I\'ve tried every other course out there and this gives you a feeling of instant gratification. The focus is on speaking.',4,0,NOW(),NOW()),
-(80,75,15,'Alex','This worked awesomely for me.  This product is perfect for my dry skin.',5,1,NOW(),NOW());
+(63,77,6,'Bernard Horne','I thought since it was made for men that it was the perfect thing to go with the body wash. Its too small and doesnt lather up very well.',3,1,1,'2022-06-27 07:11:27','2022-06-27 07:11:27'),
+(62,54,2,'Juliana Davis','I\'ve been wearing all Lancome mascara\'s and I\'m just get really upset when I\'m out. I\'ve tried other Brands, but it\'s always right back to the Lancome productss. The extend L\'EXTREME is by far the best!!! Really Long and Great! ',5,0,1,'2022-06-27 07:11:27','2022-06-27 07:11:27'),
+(61,56,0,'Cassandra','Fortunately, I got this as a gift. BUT, I am willing to purchase this when I run out. This may be expensive but it is sooooo worth it! I love this concealer and I wouldn\'t even dare to use other brands. One more thing, the little tube lasts for a long time. I\'ve been using it everyday for 8 months now and I still have about 1/4 left.',5,0,1,'2022-06-27 07:11:27','2022-06-27 07:11:27'),
+(64,76,7,'James','Finally a deodorant for men that doesn\'t smell like cheap cologne. I\'ve been using this for a couple of weeks now and I can\'t say anything bad about it. To me it just smells fresh',4,0,1,'2022-06-27 07:11:27','2022-06-27 07:11:27'),
+(65,100,0,'Juli','Smooth Silk is an accurate name for this creamy lip liner. It is by far the best lip pencil I have ever encountered.',5,0,1,'2022-06-27 07:11:27','2022-06-27 07:11:27'),
+(66,100,0,'Marianne','Nice pencil! This is a smooth, long lasting pencil, wonderful shades!',4,0,1,'2022-06-27 07:11:27','2022-06-27 07:11:27'),
+(67,97,0,'Ann','Really reduces shades and swellings)',4,0,1,'2022-06-27 07:11:27','2022-06-27 07:11:27'),
+(68,99,0,'Alice','This is much darker than the picture',2,0,1,'2022-06-27 07:11:27','2022-06-27 07:11:27'),
+(69,57,0,'Jane','When it arrived, the blush had cracked and was crumbling all over, so I\'m only able to use half of it.',2,0,1,'2022-06-27 07:11:27','2022-06-27 07:11:27'),
+(70,55,0,'Kristin K.','These lipsticks are moisturizing and have good pigmentation; however, their lasting power is not as advertised! ',4,0,1,'2022-06-27 07:11:27','2022-06-27 07:11:27'),
+(71,55,0,'lara','This is quite simply good stuff. \nThe color payout is rich, the texture creamy and moist, and best of all no scent. No taste.',5,0,1,'2022-06-27 07:11:27','2022-06-27 07:11:27'),
+(72,93,0,'L. D.','I totally love it.it smells heavenly . It smells so natural and my skin just loves it. ',5,0,1,'2022-06-27 07:11:27','2022-06-27 07:11:27'),
+(73,93,0,'Walton','This creme is a bit heavy for my skin; however, as the day goes on it does not create an oily build-up. A little goes a long way, and I could see improvements in my skin tone within a week. Good product, will be purchasing again.',4,0,1,'2022-06-27 07:11:27','2022-06-27 07:11:27'),
+(74,74,0,'Stefania V','it works very well moisturing and cleaning and unlike many other healthy shampoos it doesn\'t open the hair platelets too far and therefore doesn\'t feel so dry and sticky so I can get away without using a conditioner. Great value.',4,0,1,'2022-06-27 07:11:27','2022-06-27 07:11:27'),
+(75,102,0,'Mary','This is more of a evening fragrance. I love it',4,0,1,'2022-06-27 07:11:27','2022-06-27 07:11:27'),
+(76,110,0,'Lara','Product was very reasonably priced. It will make a nice gift.',5,0,1,'2022-06-27 07:11:27','2022-06-27 07:11:27'),
+(77,111,0,'Mr. G. Thomas','I would totally recommend product for anyone keen to learn a foreign language quickly. \nHowever, you must be fully committed and be ready to dedicate your time for study every day!',5,0,1,'2022-06-27 07:11:27','2022-06-27 07:11:27'),
+(78,119,0,'F Buckley ','Good quality. Also good enough to wear out.\n\nWould order more in the future. ',5,0,1,'2022-06-27 07:11:27','2022-06-27 07:11:27'),
+(79,111,13,'Eric',' I\'ve tried every other course out there and this gives you a feeling of instant gratification. The focus is on speaking.',4,0,0,'2022-06-27 07:11:27','2022-06-27 07:11:27'),
+(80,75,15,'Alex','This worked awesomely for me.  This product is perfect for my dry skin.',5,0,1,'2022-06-27 07:11:27','2022-06-27 07:11:27'),
+(81,78,14,'Howard','This has to be one of my favorite scents.',5,1,1,'2022-06-28 08:46:45','2022-06-28 08:46:59'),
+(82,51,16,'Annabelle','Unlike most powder highlights, it\'s very long-lasting.',4,1,1,'2022-06-28 08:50:13','2022-06-28 08:50:26'),
+(83,118,0,'Rebecca Hellon','They are very comfortable and easy to go. ',4,0,1,'2022-06-28 09:08:52','2022-06-28 09:09:13');
 
 --
 -- Dumping data for table `url_aliases`
 --
 INSERT INTO `ac_url_aliases`
-(`query`, `keyword`, `language_id`)
+(
+`query`,
+`keyword`,
+`language_id`)
 VALUES
 ('category_id=36','makeup',1),
 ('content_id=1','about_us',1),
@@ -2883,46 +3081,75 @@ VALUES
 ('manufacturer_id=15','lancôme',1),
 ('manufacturer_id=19','giorgio-armani',1),
 ('manufacturer_id=12','benefit',1),
-('manufacturer_id=13','calvin-klein',1);
-
+('manufacturer_id=13','calvin-klein',1),
+('product_id=60','nail-lacquer',1),
+('product_id=59','viva-glam-lipstick',1),
+('product_id=57','delicate-oil-free-powder-blush',1),
+('product_id=61','color-design-eye-brightening-all-in-one-5-shadow',1),
+('product_id=67','flash-bronzer-body-gel',1),
+('product_id=63','pour-homme-eau-de-toilette',1),
+('product_id=73','highlighting-expressions',1),
+('product_id=79','ck-one-gift-set',1),
+('product_id=97','eye-rejuvenating-serum',1),
+('product_id=95','skin-minerals-for-men-cleansing-cream',1),
+('product_id=90','obsession-night-perfume',1),
+('product_id=89','secret-obsession-perfume',1),
+('product_id=88','ck-one-summer-34-oz',1),
+('product_id=87','man-eau-de-toilette-spray',1),
+('product_id=86','euphoria-men-intense-eau-de-toilette-spray',1),
+('product_id=85','forbidden-euphoria-eau-de-parfum-spray',1),
+('product_id=84','armani-code-pour-femme',1),
+('product_id=83','armani-code-sport',1),
+('product_id=82','armani-code-after-shave-balm',1),
+('product_id=81','armani-eau-de-toilette-spray',1),
+('product_id=80','acqua-di-gio-pour-homme',1),
+('product_id=66','total-moisture-facial-cream',1);
 
 --
 -- Dumping data for table `banners`
 --
 
-INSERT INTO `ac_banners` VALUES
-(18,1,1,'Main Page Banners','2013-03-10 00:00:00',NULL,0,'',6,now(), now()),
-(17,1,2,'Main Page Banners','2013-03-10 00:00:00',NULL,0,'',5,now(), now()),
-(16,1,1,'Main bottom banners','2013-03-10 00:00:00',NULL,0,'http://www.abantecart.com',4,now(), now()),
-(15,1,1,'Main bottom banners','2013-03-10 00:00:00',NULL,0,'http://www.abantecart.com',3,now(), now()),
-(14,1,1,'Main bottom banners','2013-03-10 00:00:00',NULL,0,'http://www.abantecart.com',2,now(), now()),
-(13,1,1,'Main bottom banners','2013-03-10 00:00:00',NULL,0,'http://www.abantecart.com',1,now(), now()),
-(11,1,2,'Main Page Banners','2013-03-10 00:00:00',NULL,0,'',4,now(), now()),
-(10,1,2,'Main Page Banners','2013-03-10 00:00:00',NULL,0,'',3,now(), now()),
-(9,1,2,'Main Page Banners','2013-03-10 00:00:00',NULL,0,'',2,now(), now()),
-(8,1,2,'Main Page Banners','2013-03-10 00:00:00',NULL,0,'',1,now(), now());
-
-
-INSERT INTO `ac_banner_descriptions` VALUES
-	(18,1,'fallback','','',now(), now()),
-	(17,1,'Main Banner 5','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 slide2_bot&quot; src=&quot;storefront/view/default/image/banner_image_5.png&quot; width=&quot;600&quot; height=&quot;300&quot; /&gt; &lt;span class=&quot;txt1&quot;&gt;Application and data security&lt;/span&gt; &lt;span class=&quot;txt2&quot;&gt;Secure Solution&lt;/span&gt; &lt;span class=&quot;txt3&quot;&gt;Very secure solution with up to date industry security practices and inline with PCI compliance. Customer information protection with data encryption&lt;/span&gt; &lt;span class=&quot;txt4&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;#&quot;&gt;Install Now!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',now(), now()),
-	(16,1,'banner4','','',now(), now()),
-	(15,1,'banner3','','',now(), now()),
-	(14,1,'banner2','','',now(), now()),
-	(13,1,'banner1','','',now(), now()),
-	(11,1,'Main Banner 4','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 slide3_bot&quot; src=&quot;storefront/view/default/image/banner_image_4.png&quot; width=&quot;600&quot; height=&quot;300&quot; /&gt; &lt;span class=&quot;txt1 blue&quot;&gt;Stay in control&lt;/span&gt; &lt;span class=&quot;txt2 blue&quot;&gt;Easy updates&lt;/span&gt; &lt;span class=&quot;txt3 short&quot;&gt;Upgrade right from admin. Backward supportability in upgrades and automatic backups. Easy extension download with one step installation.&lt;/span&gt; &lt;span class=&quot;txt4 txt4up&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;#&quot;&gt;Get Yours!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',now(), now()),
-	(10,1,'Main Banner 3','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 slide2_bot&quot; src=&quot;storefront/view/default/image/banner_image_3.png&quot; width=&quot;600&quot; height=&quot;300&quot; /&gt; &lt;span class=&quot;txt1&quot;&gt;Feature rich with smart UI&lt;/span&gt; &lt;span class=&quot;txt2&quot;&gt;Easy &amp;amp; fun to manage&lt;/span&gt; &lt;span class=&quot;txt3&quot;&gt;Feature reach shopping cart application right out of the box. Standard features allow to set up complete eCommerce site with all the tools needed to sell products online.&lt;/span&gt; &lt;span class=&quot;txt4&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;#&quot;&gt;Install Now!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',now(), now()),
-	(9,1,'Main Banner 2','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 wp1_left slide2_bot&quot; src=&quot;storefront/view/default/image/banner_image_2.png&quot; width=&quot;600&quot; height=&quot;300&quot; /&gt; &lt;span class=&quot;txt1 blue txt_right2&quot;&gt;Highly flexible layout on any page&lt;/span&gt; &lt;span class=&quot;txt2 blue txt_right2&quot;&gt;SEO Friendly&lt;/span&gt; &lt;span class=&quot;txt2 blue txt_right2&quot;&gt;Fast Loading&lt;/span&gt; &lt;span class=&quot;txt4 txt_right2 txt4up&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;#&quot;&gt;Try Now!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',now(), now()),
-	(8,1,'Main Banner 1','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 slide1_bot&quot; src=&quot;storefront/view/default/image/banner_image_1.png&quot; width=&quot;600&quot; height=&quot;300&quot; /&gt; &lt;span class=&quot;txt1&quot;&gt;HTML5 Responsive Storefront to look great on&lt;/span&gt; &lt;span class=&quot;txt2&quot;&gt;ALL Screen Sizes&lt;/span&gt; &lt;span class=&quot;txt3 short&quot;&gt;Natively responsive template implemented with bootstrap library and HTML5. Will look good on most mobile devices and tablets.&lt;/span&gt; &lt;span class=&quot;txt4 txt4up&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;&quot;&gt;Try on your device!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',now(), now());
-
-
-INSERT INTO `ac_product_stock_locations`
+INSERT INTO `ac_banners`
+(`banner_id`,
+`status`,
+`banner_type`,
+`banner_group_name`,
+`start_date`,
+`end_date`,
+`blank`,
+`target_url`,
+`sort_order`,
+`date_added`,
+`date_modified`)
 VALUES
-(58,NULL,1,60,2),
-(58,NULL,2,37,1),
-(122,778,2,8,1),
-(122,778,1,22,2),
-(122,779,2,4,1),
-(122,779,1,12,2),
-(122,780,2,20,1),
-(122,780,1,20,2);
+ (18,1,1,'Main Page Banners',NOW(),NULL,0,'',6,NOW(),NOW()),
+(17,1,2,'Main Page Banners',NOW(),NULL,0,'',5,NOW(),NOW()),
+(16,1,1,'Main bottom banners',NOW(),NULL,0,'https://www.abantecart.com',4,NOW(),NOW()),
+(15,1,1,'Main bottom banners',NOW(),NULL,0,'https://www.abantecart.com',3,NOW(),NOW()),
+(14,1,1,'Main bottom banners',NOW(),NULL,0,'https://www.abantecart.com',2,NOW(),NOW()),
+(13,1,1,'Main bottom banners',NOW(),NULL,0,'https://www.abantecart.com',1,NOW(),NOW()),
+(11,1,2,'Main Page Banners',NOW(),NULL,0,'',4,NOW(),NOW()),
+(10,1,2,'Main Page Banners',NOW(),NULL,0,'',3,NOW(),NOW()),
+(9,1,2,'Main Page Banners',NOW(),NULL,0,'',2,NOW(),NOW()),
+(8,1,2,'Main Page Banners',NOW(),NULL,0,'',1,NOW(),NOW());
+
+
+INSERT INTO `ac_banner_descriptions`
+(`banner_id`,
+`language_id`,
+`name`,
+`description`,
+`meta`,
+`date_added`,
+`date_modified`)
+VALUES
+(18,1,'fallback','','',NOW(),NOW()),
+(17,1,'Main Banner 5','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 slide2_bot&quot; src=&quot;storefront/view/default/image/banner_image_5.png&quot; width=&quot;600&quot; height=&quot;300&quot; /&gt; &lt;span class=&quot;txt1&quot;&gt;Application and data security&lt;/span&gt; &lt;span class=&quot;txt2&quot;&gt;Secure Solution&lt;/span&gt; &lt;span class=&quot;txt3&quot;&gt;Very secure solution with up to date industry security practices and inline with PCI compliance. Customer information protection with data encryption&lt;/span&gt; &lt;span class=&quot;txt4&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;#&quot;&gt;Install Now!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',NOW(),NOW()),
+(16,1,'banner4','','',NOW(),NOW()),
+(15,1,'banner3','','',NOW(),NOW()),
+(14,1,'banner2','','',NOW(),NOW()),
+(13,1,'banner1','','',NOW(),NOW()),
+(11,1,'Main Banner 4','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 slide3_bot&quot; src=&quot;storefront/view/default/image/banner_image_4.png&quot; width=&quot;600&quot; height=&quot;300&quot; /&gt; &lt;span class=&quot;txt1 blue&quot;&gt;Stay in control&lt;/span&gt; &lt;span class=&quot;txt2 blue&quot;&gt;Easy updates&lt;/span&gt; &lt;span class=&quot;txt3 short&quot;&gt;Upgrade right from admin. Backward supportability in upgrades and automatic backups. Easy extension download with one step installation.&lt;/span&gt; &lt;span class=&quot;txt4 txt4up&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;#&quot;&gt;Get Yours!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',NOW(),NOW()),
+(10,1,'Main Banner 3','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 slide2_bot&quot; src=&quot;storefront/view/default/image/banner_image_3.png&quot; width=&quot;600&quot; height=&quot;300&quot; /&gt; &lt;span class=&quot;txt1&quot;&gt;Feature rich with smart UI&lt;/span&gt; &lt;span class=&quot;txt2&quot;&gt;Easy &amp;amp; fun to manage&lt;/span&gt; &lt;span class=&quot;txt3&quot;&gt;Feature reach shopping cart application right out of the box. Standard features allow to set up complete eCommerce site with all the tools needed to sell products online.&lt;/span&gt; &lt;span class=&quot;txt4&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;#&quot;&gt;Install Now!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',NOW(),NOW()),
+(9,1,'Main Banner 2','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 wp1_left slide2_bot&quot; src=&quot;storefront/view/default/image/banner_image_2.png&quot; width=&quot;600&quot; height=&quot;300&quot; /&gt; &lt;span class=&quot;txt1 blue txt_right2&quot;&gt;Highly flexible layout on any page&lt;/span&gt; &lt;span class=&quot;txt2 blue txt_right2&quot;&gt;SEO Friendly&lt;/span&gt; &lt;span class=&quot;txt2 blue txt_right2&quot;&gt;Fast Loading&lt;/span&gt; &lt;span class=&quot;txt4 txt_right2 txt4up&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;#&quot;&gt;Try Now!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',NOW(),NOW()),
+(8,1,'Main Banner 1','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 slide1_bot&quot; src=&quot;storefront/view/default/image/banner_image_1.png&quot; width=&quot;600&quot; height=&quot;300&quot; /&gt; &lt;span class=&quot;txt1&quot;&gt;HTML5 Responsive Storefront to look great on&lt;/span&gt; &lt;span class=&quot;txt2&quot;&gt;ALL Screen Sizes&lt;/span&gt; &lt;span class=&quot;txt3 short&quot;&gt;Natively responsive template implemented with bootstrap library and HTML5. Will look good on most mobile devices and tablets.&lt;/span&gt; &lt;span class=&quot;txt4 txt4up&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;&quot;&gt;Try on your device!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',NOW(),NOW());

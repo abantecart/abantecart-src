@@ -1,0 +1,335 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>text_title</key>
+		<value><![CDATA[Credit Card / Debit Card (Via Paypal)]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_name</key>
+		<value><![CDATA[Paypal Commerce]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_manual_connect</key>
+		<value><![CDATA[&nbsp;]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_client_id</key>
+		<value><![CDATA[Your API Client ID<br /><span class="help">Locate this in My Apps & Credentials Section Of Paypal Dashboard -> Developer</span>]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_client_secret</key>
+		<value><![CDATA[Your API Secret Key<br /><span class="help">Locate this in My Apps & Credentials Section Of Paypal Dashboard -> Developer</span>]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_test_mode</key>
+		<value><![CDATA[Test Mode]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_transaction_type</key>
+		<value><![CDATA[Transaction Method:<br/><span class="help">PayPal transaction to run at customer's checkout before order status is set. Authorization only or capture.</span>]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_transaction_type_capture</key>
+		<value><![CDATA[Capture]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_transaction_type_authorize</key>
+		<value><![CDATA[Authorize Only]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_test_connection</key>
+		<value><![CDATA[Test Connection]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_text_test</key>
+		<value><![CDATA[Test Now]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_text_update_webhooks</key>
+		<value><![CDATA[Update Webhooks]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_tooltip_update_webhooks</key>
+		<value><![CDATA[ Webhooks will be set up automatically during connection to PayPal. Use this button to update webhooks in PayPal ]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_connection_success</key>
+		<value><![CDATA[Connection has been established successfully.]]></value>
+	</definition>
+	<definition>
+		<key>text_payment</key>
+		<value><![CDATA[Payment]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Success: You have modified Paypal payment settings!]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_location_id</key>
+		<value><![CDATA[Location:]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_location_id_0</key>
+		<value><![CDATA[All Locations]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_status</key>
+		<value><![CDATA[Status:]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_autoselect</key>
+		<value>
+			<![CDATA[Auto Select:<br /><span class="help">You can set to skip payment selection page if there is only one payment option. This payment method will be selected automatically</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_paypal_commerce_connect</key>
+		<value><![CDATA[You need to connect with paypal to set up payment details]]></value>
+	</definition>
+	<definition>
+		<key>text_paypal_commerce_settings</key>
+		<value><![CDATA[Paypal settings]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_sort_order</key>
+		<value><![CDATA[Sort Order]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_test_mode</key>
+		<value><![CDATA[Test mode:<br /><span class="help">Set to ON if you want to use test key</span>]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_text_register_webhooks</key>
+		<value><![CDATA[Update Webhooks Endpoints on API side]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_text_register_webhooks_success</key>
+		<value><![CDATA[Webhooks Endpoints has been updated successfully!]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_status_success_settled</key>
+		<value><![CDATA[Success & captured:<br /><span class="help">Select main order status you want to set in response to payment processor status</span>]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_status_success_unsettled</key>
+		<value><![CDATA[Success & not captured:<br /><span class="help">Select main order status you want to set in response to payment processor status</span>]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_status_decline</key>
+		<value>
+			<![CDATA[Decline:<br /><span class="help">Order status you want to record in history in response to payment processor status. Main order status is not affected. Order will not be placed only after payment is a success.</span>]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_status_capture_pending</key>
+		<value><![CDATA[Pending:</span>]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_status_refund</key>
+		<value><![CDATA[Refunded:<br /><span class="help">Order status you want to be set if payment is refunded in admin/order.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_column_date_added</key>
+		<value><![CDATA[Transaction Date]]></value>
+	</definition>
+	<definition>
+		<key>text_column_amount</key>
+		<value><![CDATA[Amount]]></value>
+	</definition>
+	<definition>
+		<key>text_captured_ok</key>
+		<value><![CDATA[Funds were captured successfully]]></value>
+	</definition>
+	<definition>
+		<key>text_captured_order</key>
+		<value><![CDATA[Capture was successful, order status updated to success - captured]]></value>
+	</definition>
+	<definition>
+		<key>text_refunded_ok</key>
+		<value><![CDATA[Refund was processed successfully]]></value>
+	</definition>
+	<definition>
+		<key>text_refund_order</key>
+		<value><![CDATA[Refund was successful, order status updated to refunded]]></value>
+	</definition>
+	<definition>
+		<key>text_voided</key>
+		<value><![CDATA[Void was successful, order status updated to voided]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_settlement_auto</key>
+		<value><![CDATA[Auto (authorize and capture)]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_settlement_delayed</key>
+		<value><![CDATA[Delayed (authorize only)]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_info</key>
+		<value><![CDATA[Payment Details]]></value>
+	</definition>
+	<definition>
+		<key>text_capture_status</key>
+		<value><![CDATA[Payment was captured]]></value>
+	</definition>
+	<definition>
+		<key>text_void_status</key>
+		<value><![CDATA[Payment was voided]]></value>
+	</definition>
+	<definition>
+		<key>text_refund_status</key>
+		<value><![CDATA[Payment was refunded]]></value>
+	</definition>
+	<definition>
+		<key>text_capture_amount</key>
+		<value><![CDATA[Capture Amount]]></value>
+	</definition>
+	<definition>
+		<key>text_refund_amount</key>
+		<value><![CDATA[Refund Amount]]></value>
+	</definition>
+	<definition>
+		<key>text_order_ref</key>
+		<value><![CDATA[Paypal Charge ID]]></value>
+	</definition>
+	<definition>
+		<key>text_order_total</key>
+		<value><![CDATA[Total amount authorized]]></value>
+	</definition>
+	<definition>
+		<key>text_balance</key>
+		<value><![CDATA[Balance amount]]></value>
+	</definition>
+	<definition>
+		<key>text_transactions</key>
+		<value><![CDATA[Refund Transactions]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm_void</key>
+		<value><![CDATA[Please confirm you want to void the payment?]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm_capture</key>
+		<value><![CDATA[Please confirm you want to capture the payment?]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm_refund</key>
+		<value><![CDATA[Please confirm you want to refund the payment?]]></value>
+	</definition>
+	<definition>
+		<key>button_refund</key>
+		<value><![CDATA[Refund]]></value>
+	</definition>
+	<definition>
+		<key>button_void</key>
+		<value><![CDATA[Void]]></value>
+	</definition>
+	<definition>
+		<key>button_capture</key>
+		<value><![CDATA[Capture]]></value>
+	</definition>
+	<definition>
+		<key>error_system</key>
+		<value><![CDATA[Internal error. Check error log or input parameters!]]></value>
+	</definition>
+	<definition>
+		<key>error_missing_amount</key>
+		<value><![CDATA[Please enter positive amount]]></value>
+	</definition>
+	<definition>
+		<key>error_unable_to_capture</key>
+		<value><![CDATA[Unable to capture, refresh transaction details and check capture amount]]></value>
+	</definition>
+	<definition>
+		<key>error_unable_to_void</key>
+		<value><![CDATA[Unable to void transaction, refresh and check transaction details]]></value>
+	</definition>
+	<definition>
+		<key>error_unable_to_refund</key>
+		<value><![CDATA[Unable to refund, refresh transaction details and check refund amount]]></value>
+	</definition>
+
+	<definition>
+		<key>text_connect</key>
+		<value><![CDATA[Connect with Paypal	]]></value>
+	</definition>
+	<definition>
+		<key>text_disconnect</key>
+		<value><![CDATA[Disconnect Paypal]]></value>
+	</definition>
+	<definition>
+		<key>text_skip_connect</key>
+		<value><![CDATA[Cannot connect?]]></value>
+	</definition>
+	<definition>
+		<key>text_connect_success</key>
+		<value><![CDATA[Connected to Paypal successfully]]></value>
+	</definition>
+	<definition>
+		<key>text_disconnect_success</key>
+		<value><![CDATA[Disconnected from Paypal successfully]]></value>
+	</definition>
+
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Warning: You do not have permission to modify Paypal Commerce Payment!]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_settlement_auto</key>
+		<value><![CDATA[Auto (authorize and capture)]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_settlement_delayed</key>
+		<value><![CDATA[Delayed (authorize only)]]></value>
+	</definition>
+	<definition>
+		<key>error_system</key>
+		<value><![CDATA[Internal error. Check error log or input parameters!]]></value>
+	</definition>
+	<definition>
+		<key>error_paypal_commerce_client_id</key>
+		<value><![CDATA[App Client ID is required]]></value>
+	</definition>
+	<definition>
+		<key>error_paypal_commerce_client_secret</key>
+		<value><![CDATA[App Secret key is required]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Warning: You do not have permission to modify Paypal Commerce Payment!]]></value>
+	</definition>
+	<definition>
+		<key>error_turn_extension_on</key>
+		<value><![CDATA[Error! Please check if extension is turned ON.]]></value>
+	</definition>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	<definition>
+		<key>paypal_commerce_text_back</key>
+		<value><![CDATA[Back]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_webhook_howto_text</key>
+		<value><![CDATA[Note: To complete setup you should to create webhooks on Paypal Account Side.
+<br> Go to Your <a href="https://dashboard.paypal.com/webhooks" target="_new">Paypal Dashboard Developer Section</a>
+and Add Endpoints receiving events from your account. After Endpoint has been created copy Signing Secret and save into Paypal Subscription Extension settings belong.
+]]></value>
+	</definition>
+	
+	
+
+</definitions>

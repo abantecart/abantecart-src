@@ -7,7 +7,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2021 Belavier Commerce LLC
+  Copyright © 2011-2022 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -130,8 +130,8 @@ class ModelAccountCustomer extends Model
         $address_id = $this->db->getLastId();
         $this->db->query(
             "UPDATE ".$this->db->table("customers")."
-                            SET address_id = '".(int) $address_id."'
-                            WHERE customer_id = '".(int) $customer_id."'"
+            SET address_id = '".(int) $address_id."'
+            WHERE customer_id = '".(int) $customer_id."'"
         );
 
         if (!$data['approved']) {
@@ -702,7 +702,6 @@ class ModelAccountCustomer extends Model
         //If captcha enabled, validate
         if ($this->config->get('config_account_create_captcha')) {
             if ($this->config->get('config_recaptcha_secret_key')) {
-                require_once DIR_VENDORS.'/google_recaptcha/autoload.php';
                 $recaptcha = new ReCaptcha($this->config->get('config_recaptcha_secret_key'));
                 $resp = $recaptcha->verify(
                     $data['g-recaptcha-response'],
@@ -836,7 +835,6 @@ class ModelAccountCustomer extends Model
         $this->error = [];
 
         if ($this->config->get('config_recaptcha_secret_key')) {
-            require_once DIR_VENDORS.'/google_recaptcha/autoload.php';
             $recaptcha = new ReCaptcha($this->config->get('config_recaptcha_secret_key'));
             $resp = $recaptcha->verify(
                 $data['g-recaptcha-response'],
@@ -977,8 +975,8 @@ class ModelAccountCustomer extends Model
     {
         $query = $this->db->query(
             "SELECT COUNT(*) AS total
-                                   FROM `".$this->db->table("customer_transactions")."`
-                                   WHERE customer_id = '".(int) $this->customer->getId()."'"
+           FROM `" . $this->db->table("customer_transactions") . "`
+           WHERE customer_id = '".(int) $this->customer->getId()."'"
         );
 
         return (int) $query->row['total'];

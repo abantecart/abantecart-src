@@ -762,7 +762,7 @@ class ACache
         if (!is_null($data) && $this->enabled && $this->cache_driver && $this->cache_driver->isSupported()) {
 
             $lock = $this->lock($key, $group);
-            if ($lock['locked'] == false && $lock['waited'] == true) {
+            if (!$lock['locked'] && $lock['waited']) {
                 //cache is released, try locking again. 
                 $lock = $this->lock($key, $group);
             }
@@ -771,7 +771,7 @@ class ACache
             $data = minify_html($data);
             $ret = $this->cache_driver->put($key, $group, $data);
 
-            if ($lock['locked'] == true) {
+            if ($lock['locked']) {
                 //unlock if cache was locked
                 $this->unlock($key, $group);
             }

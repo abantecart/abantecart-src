@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2022 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
@@ -17,9 +17,6 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE')) {
-    header('Location: static_pages/');
-}
 
 class ModelExtensionDefaultFlatRateShipping extends Model
 {
@@ -30,19 +27,19 @@ class ModelExtensionDefaultFlatRateShipping extends Model
         $language->load($language->language_details['directory']);
         $language->load('default_flat_rate_shipping/default_flat_rate_shipping');
         $status = false;
-        $method_data = array();
-
+        $method_data = [];
         if ($this->config->get('default_flat_rate_shipping_status')) {
             $default_cost = $this->config->get('default_flat_rate_shipping_default_cost');
             $default_tax_class_id = (int)$this->config->get('default_flat_rate_shipping_default_tax_class_id');
             $default_status = $this->config->get('default_flat_rate_shipping_default_status');
             //get location_id
             $sql = "SELECT location_id
-					FROM ".$this->db->table('zones_to_locations')."
-					WHERE country_id = '".(int)$address['country_id']."'
-						AND (zone_id = '".(int)$address['zone_id']."')";
+                    FROM ".$this->db->table('zones_to_locations')."
+                    WHERE country_id = '".(int)$address['country_id']."'
+                        AND (zone_id = '".(int)$address['zone_id']."')";
             $result = $this->db->query($sql);
             $customer_location_id = (int)$result->row['location_id'];
+
             if ($customer_location_id) {
                 $cost = $this->config->get('default_flat_rate_shipping_cost_'.$customer_location_id);
                 $location_status = $this->config->get('default_flat_rate_shipping_status_'.$customer_location_id);
@@ -52,13 +49,14 @@ class ModelExtensionDefaultFlatRateShipping extends Model
                     $tax_class_id = $this->config->get('default_flat_rate_shipping_tax_class_id_'.$customer_location_id);
                     $status = true;
                 } else {
-                    //if cost not set - use default cost
-                    $customer_location_id = 0;
                     $status = $default_status;
+                    $cost = $default_cost;
+                    $tax_class_id = $default_tax_class_id;
                 }
-            }
+
+            }else
             //if cost not set or unknown location - try use default settings
-            if (!$customer_location_id) {
+            {
                 if (empty($default_cost) || !$default_status) {
                     $status = false;
                 } //use default settings for other locations
@@ -74,18 +72,26 @@ class ModelExtensionDefaultFlatRateShipping extends Model
             return $method_data;
         }
 
-        $quote_data = array();
+        $quote_data = [];
         //Process all products shipped together with not special shipping settings on a product level
         if (count($this->cart->basicShippingProducts()) > 0) {
-            $quote_data['default_flat_rate_shipping'] = array(
+
+            $quote_data['default_flat_rate_shipping'] = [
                 'id'           => 'default_flat_rate_shipping.default_flat_rate_shipping',
                 'title'        => $language->get('text_description'),
-                'cost'         => $cost,
-                'tax_class_id' => (int)$tax_class_id,
-                'text'         => $this->currency->format($this->tax->calculate($cost,
-                    $tax_class_id,
-                    (bool)$this->config->get('config_tax'))),
-            );
+                'cost'         => $this->tax->calculate(
+                                    $cost,
+                                    $tax_class_id,
+                                    true
+                                ),
+                'text'         => $this->currency->format(
+                                        $this->tax->calculate(
+                                            $cost,
+                                            $tax_class_id,
+                                            true
+                                        )
+                                  )
+            ];
         }
 
         $special_ship_products = $this->cart->specialShippingProducts();
@@ -112,25 +118,24 @@ class ModelExtensionDefaultFlatRateShipping extends Model
                         $this->tax->calculate(
                             $quote_data['default_flat_rate_shipping']['cost'],
                             $tax_class_id,
-                            (bool)$this->config->get('config_tax')
+                            true
                         )
                     );
                 } else {
                     $quote_data['default_flat_rate_shipping']['text'] = $language->get('text_free');
                 }
             } else {
-                $quote_data['default_flat_rate_shipping'] = array(
+                $quote_data['default_flat_rate_shipping'] = [
                     'id'           => 'default_flat_rate_shipping.default_flat_rate_shipping',
                     'title'        => $language->get('text_description'),
                     'cost'         => $fixed_cost,
-                    'tax_class_id' => $tax_class_id,
                     'text'         => '',
-                );
+                ];
                 if ($fixed_cost > 0) {
                     $quote_data['default_flat_rate_shipping']['text'] = $this->currency->format(
                         $this->tax->calculate($fixed_cost,
                             $tax_class_id,
-                            (bool)$this->config->get('config_tax')
+                            true
                         )
                     );
                 } else {
@@ -140,13 +145,13 @@ class ModelExtensionDefaultFlatRateShipping extends Model
         }
 
         if ($quote_data) {
-            $method_data = array(
+            $method_data = [
                 'id'         => 'default_flat_rate_shipping',
                 'title'      => $language->get('text_title'),
                 'quote'      => $quote_data,
                 'sort_order' => $this->config->get('default_flat_rate_shipping_sort_order'),
                 'error'      => false,
-            );
+            ];
         }
 
         return $method_data;

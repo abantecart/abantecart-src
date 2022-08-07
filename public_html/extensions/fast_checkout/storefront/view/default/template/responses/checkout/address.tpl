@@ -1,16 +1,4 @@
 <?php echo $form['form_open']; ?>
-<div id="pay_error_container">
-    <?php if ($info) { ?>
-        <div class="info alert alert-info">
-            <i class="fa fa fa-check fa-fw"></i> <?php echo $info; ?>
-        </div>
-    <?php } ?>
-    <?php if ($error) { ?>
-        <div class="alert alert-danger" role="alert">
-            <i class="fa fa-exclamation fa-fw"></i> <?php echo $error; ?>
-        </div>
-    <?php } ?>
-</div>
 <fieldset>
     <?php echo $this->getHookVar('address_form_top'); ?>
     <label class="visible-xs text-center text-uppercase"><?php echo $type.' '.$fast_checkout_text_address; ?></label>
@@ -18,8 +6,9 @@
         <div class="form-group col-xxs-12 col-xs-6 <?php if (isset($errors['firstname'])) { echo 'has-error'; } ?>">
             <div class="left-inner-addon">
                 <i class="fa fa-user"></i>
-                <input class="form-control input-lg"
-                       placeholder="<?php echo $entry_firstname; ?>"
+                <input aria-label="firstname"
+                       class="form-control input-lg"
+                       placeholder="<?php echo_html2view($entry_firstname); ?>"
                        name="firstname"
                        type="text"
                        value="<?php echo $form['firstname']->value; ?>">
@@ -28,8 +17,9 @@
         <div class="form-group col-xxs-12 col-xs-6 <?php if (isset($errors['lastname'])) { echo 'has-error'; } ?>">
             <div class="left-inner-addon">
                 <i class="fa fa-user"></i>
-                <input class="form-control input-lg"
-                       placeholder="<?php echo $entry_lastname; ?>"
+                <input aria-label="lastname"
+                       class="form-control input-lg"
+                       placeholder="<?php echo_html2view($entry_lastname); ?>"
                        name="lastname"
                        type="text"
                        value="<?php echo $form['lastname']->value; ?>">
@@ -44,7 +34,7 @@
                 <input id="cc_address_1"
                        aria-label="cc_address_1"
                        class="form-control input-lg"
-                       placeholder="<?php echo $entry_address_1; ?>"
+                       placeholder="<?php echo_html2view($entry_address_1); ?>"
                        name="address_1"
                        type="text"
                        value="<?php echo $form['address_1']->value; ?>">
@@ -59,7 +49,7 @@
                 <input id="cc_address_2"
                        aria-label="cc_address_2"
                        class="form-control input-lg"
-                       placeholder="<?php echo $entry_address_2; ?>"
+                       placeholder="<?php echo_html2view($entry_address_2); ?>"
                        name="address_2"
                        type="text"
                        value="<?php echo $form['address_2']->value; ?>">
@@ -71,7 +61,11 @@
         <div class="form-group col-xxs-12 col-xs-6 <?php if (isset($errors['city'])) { echo 'has-error'; } ?>">
             <div class="left-inner-addon">
                 <i class="fa fa-institution"></i>
-                <input class="form-control input-lg" placeholder="<?php echo $entry_city; ?>" name="city" type="text"
+                <input aria-label="city"
+                       class="form-control input-lg"
+                       placeholder="<?php echo_html2view($entry_city); ?>"
+                       name="city"
+                       type="text"
                        value="<?php echo $form['city']->value; ?>">
             </div>
         </div>
@@ -80,7 +74,10 @@
         } ?>">
             <div class="left-inner-addon">
                 <i class="fa fa-bars"></i>
-                <input class="form-control input-lg" placeholder="<?php echo $entry_postcode; ?>" name="postcode"
+                <input aria-label="postcode"
+                       class="form-control input-lg"
+                       placeholder="<?php echo_html2view($entry_postcode); ?>"
+                       name="postcode"
                        type="text" value="<?php echo $form['postcode']->value; ?>">
             </div>
         </div>
@@ -92,7 +89,7 @@
         } ?>">
             <div class="left-inner-addon">
                 <i class="fa fa-bars"></i>
-                <select class="form-control input-lg" id="zone_id" name="zone_id"></select>
+                <select aria-label="zone" class="form-control input-lg" id="zone_id" name="zone_id"></select>
                 <div class="select_arrow"><i class="fa fa-angle-double-down"></i></div>
             </div>
         </div>
@@ -101,7 +98,7 @@
         } ?>">
             <div class="left-inner-addon">
                 <i class="fa fa-map"></i>
-                <select class="form-control input-lg" id="country_id" name="country_id">
+                <select aria-label="country" class="form-control input-lg" id="country_id" name="country_id">
                 <?php
                     if ($form['country_id']->options) {
                         foreach ($form['country_id']->options as $id => $name) {
@@ -122,8 +119,9 @@
         <div class="form-group col-xxs-12">
             <div class="left-inner-addon">
                 <i class="fa fa-envelope"></i>
-                <input class="form-control input-lg"
-                       placeholder="<?php echo $this->language->get('fast_checkout_email_placeholder'); ?>"
+                <input aria-label="email"
+                       class="form-control input-lg"
+                       placeholder="<?php echo_html2view($this->language->get('fast_checkout_email_placeholder')); ?>"
                        id="cc_email"
                        name="cc_email"
                        type="text"
@@ -137,8 +135,9 @@
         <div class="form-group col-xxs-12">
             <div class="left-inner-addon">
                 <i class="fa fa-phone"></i>
-                <input class="form-control input-lg"
-                       placeholder="<?php echo $this->language->get('fast_checkout_telephone_placeholder'); ?>"
+                <input aria-label="phone"
+                       class="form-control input-lg"
+                       placeholder="<?php echo_html2view($this->language->get('fast_checkout_telephone_placeholder')); ?>"
                        id="telephone"
                        name="telephone"
                        type="text"
@@ -158,7 +157,7 @@
                 <span class="button-checkbox">
                     <button type="button" class="btn"
                             data-color="primary"> <?php echo $fast_checkout_text_same_as_shipping_address; ?></button>
-                    <input type="checkbox" name="same_as_shipping" class="hidden" checked="checked"/>
+                    <input aria-label="same-as" type="checkbox" name="same_as_shipping" class="hidden" checked="checked"/>
                 </span>
                 </div>
             </div>
@@ -174,13 +173,12 @@
     <?php echo $this->getHookVar('address_form_bottom'); ?>
 </fieldset>
 
-
 </form>
-
 <script type="text/javascript">
     <?php $cz_url = $this->html->getURL('common/zone', '&zone_id='.$zone_id); ?>
-    $('#country_id').change(function () {
+    var cntry = $('#country_id');
+    cntry.change(function () {
         $('select[name=\'zone_id\']').load('<?php echo $cz_url;?>&country_id=' + $(this).val());
     });
-    $('select[name=\'zone_id\']').load('<?php echo $cz_url;?>&country_id=' + $('#country_id').val());
+    cntry.change();
 </script>

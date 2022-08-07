@@ -7,8 +7,6 @@
  */
 class ControllerResponsesExtensionCardConnect extends AController
 {
-
-    public $data = [];
     public $error = [];
 
     public function main()
@@ -18,6 +16,17 @@ class ControllerResponsesExtensionCardConnect extends AController
         //need an order details
         $this->loadModel('checkout/order');
         $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
+
+        //build submit form
+        $form = new AForm();
+        $form->setForm(['form_name' => 'cardconnect']);
+        $this->data['form_open'] = $form->getFieldHtml(
+            [
+                'type' => 'form',
+                'name' => 'cardconnect',
+                'csrf' => true,
+            ]
+        );
 
         $this->data['entry_cc_owner'] = $this->language->get('entry_cc_owner');
         $this->data['cc_owner'] = HtmlElementFactory::create(
@@ -103,6 +112,14 @@ class ControllerResponsesExtensionCardConnect extends AController
                                 'options' => $cc_list,
                             ]
                         );
+                        $form->setForm(['form_name' => 'cardconnect_saved_cc']);
+                        $this->data['form_open2'] = $form->getFieldHtml(
+                            [
+                                'type' => 'form',
+                                'name' => 'cardconnect_saved_cc',
+                                'csrf' => true,
+                            ]
+                        );
                     }
                 }
                 //build credit card selector
@@ -148,6 +165,7 @@ class ControllerResponsesExtensionCardConnect extends AController
             ]
         );
 
+
         $this->data['cardconnect_rt'] = 'r/extension/cardconnect';
         $this->data['entry_cc_cvv2'] = $this->language->get('entry_cc_cvv2');
         $this->data['entry_cc_cvv2_short'] = $this->language->get('entry_cc_cvv2_short');
@@ -188,6 +206,12 @@ class ControllerResponsesExtensionCardConnect extends AController
 
     public function send()
     {
+        if (!$this->csrftoken->isTokenValid()) {
+            $output['error'] = $this->language->get('error_unknown');
+            $this->load->library('json');
+            $this->response->setOutput(AJson::encode($output));
+            return;
+        }
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->loadLanguage('cardconnect/cardconnect');
@@ -251,11 +275,17 @@ class ControllerResponsesExtensionCardConnect extends AController
             if ($p_result['code']) {
                 $json['error'] .= ' ('.$p_result['code'].')';
             }
+            $csrftoken = $this->registry->get('csrftoken');
+            $json['csrfinstance'] = $csrftoken->setInstance();
+            $json['csrftoken'] = $csrftoken->setToken();
         } else {
             if ($p_result['paid']) {
                 $json['success'] = $this->html->getSecureURL('checkout/success');
             } else {
                 //Unexpected result
+                $csrftoken = $this->registry->get('csrftoken');
+                $json['csrfinstance'] = $csrftoken->setInstance();
+                $json['csrftoken'] = $csrftoken->setToken();
                 $json['error'] = $this->language->get('error_system');
             }
         }
@@ -269,6 +299,13 @@ class ControllerResponsesExtensionCardConnect extends AController
 
     public function delete_card()
     {
+        if (!$this->csrftoken->isTokenValid()) {
+            $output['error'] = $this->language->get('error_unknown');
+            $this->load->library('json');
+            $this->response->setOutput(AJson::encode($output));
+            return;
+        }
+
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->loadLanguage('cardconnect/cardconnect');
@@ -276,9 +313,15 @@ class ControllerResponsesExtensionCardConnect extends AController
         //validate input
         $post = $this->request->post;
         if (empty($post['use_saved_cc'])) {
+            $csrftoken = $this->registry->get('csrftoken');
+            $json['csrfinstance'] = $csrftoken->setInstance();
+            $json['csrftoken'] = $csrftoken->setToken();
             $json['error'] = $this->language->get('error_system');
         }
         if (!$this->customer->getId()) {
+            $csrftoken = $this->registry->get('csrftoken');
+            $json['csrfinstance'] = $csrftoken->setInstance();
+            $json['csrftoken'] = $csrftoken->setToken();
             $json['error'] = $this->language->get('error_system');
         }
         if (isset($json['error'])) {
@@ -299,7 +342,7 @@ class ControllerResponsesExtensionCardConnect extends AController
             $json['error'] = $this->language->get('error_system');
         } else {
             //basically reload the page
-            $json['success'] = $this->html->getSecureURL('checkout/confirm');
+            $json['success'] = $this->request->server['HTTP_REFERER'] ?: $this->html->getSecureURL('checkout/confirm');
         }
 
         //init controller data

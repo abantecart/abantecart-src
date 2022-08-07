@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>text_title</key>
+		<value><![CDATA[Paypal]]></value>
+	</definition>
+	<definition>
+		<key>text_credit_card</key>
+		<value><![CDATA[Credit Card Details]]></value>
+	</definition>
+	<definition>
+		<key>text_wait</key>
+		<value><![CDATA[Please wait!]]></value>
+	</definition>
+	<definition>
+		<key>error_system</key>
+		<value><![CDATA[Apologies, we have encounter system error. Please try again or contact site administrator!]]></value>
+	</definition>
+	<definition>
+		<key>text_account</key>
+		<value><![CDATA[Account]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_loading</key>
+		<value><![CDATA[Loading...]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_table_invoice</key>
+		<value><![CDATA[Invoice]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_table_paid</key>
+		<value><![CDATA[Paid]]></value>
+	</definition>
+	<definition>
+		<key>text_paypal_commerce_cancel</key>
+		<value><![CDATA[Cancel]]></value>
+	</definition>
+	<definition>
+		<key>text_paypal_commerce_continue</key>
+		<value><![CDATA[Continue]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_text_download_pdf</key>
+		<value><![CDATA[ Download PDF Invoice ]]></value>
+	</definition>
+</definitions>

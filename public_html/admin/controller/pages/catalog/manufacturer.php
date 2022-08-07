@@ -427,7 +427,7 @@ class ControllerPagesCatalogManufacturer extends AController
                 'responses/common/resource_library/get_resources_scripts',
                 [
                     'object_name' => 'manufacturers',
-                    'object_id'   => $manufacturer_id,
+                    'object_id'   => (int) $manufacturer_id,
                     'types'       => ['image', 'audio', 'video', 'pdf'],
                 ]
             );

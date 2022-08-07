@@ -52,7 +52,7 @@ class ControllerResponsesListingGridCategory extends AController
             unset($filter_data['parent_id']);
         }
         $new_level = 0;
-        //get all leave categories 
+        //get all leave categories
         $leaf_nodes = $this->model_catalog_category->getLeafCategories();
         if ($this->request->post['nodeid']) {
             $sort = $filter_data['sort'];
@@ -201,6 +201,7 @@ class ControllerResponsesListingGridCategory extends AController
                         $this->model_catalog_category->deleteCategory($id);
                     }
                 }
+                $this->extensions->hk_ProcessData($this, 'category_delete');
                 break;
             case 'save':
                 $allowedFields = array_merge(
@@ -209,7 +210,7 @@ class ControllerResponsesListingGridCategory extends AController
 
                 $ids = explode(',', $this->request->post['id']);
                 if (!empty($ids)) {
-                    //resort required. 
+                    //resort required.
                     if ($this->request->post['resort'] == 'yes') {
                         //get only ids we need
                         $array = [];
@@ -228,6 +229,7 @@ class ControllerResponsesListingGridCategory extends AController
                         }
                     }
                 }
+                $this->extensions->hk_ProcessData($this, 'category_update');
                 break;
             default:
         }
@@ -280,6 +282,7 @@ class ControllerResponsesListingGridCategory extends AController
                 }
                 $this->model_catalog_category->editCategory($category_id, [$field => $value]);
             }
+            $this->extensions->hk_ProcessData($this, 'category_update', ['category_id' => $category_id]);
             return;
         }
         $language_id = $this->language->getContentLanguageID();

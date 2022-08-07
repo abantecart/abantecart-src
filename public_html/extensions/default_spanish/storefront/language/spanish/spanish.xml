@@ -262,7 +262,7 @@
 	</definition>
 	<definition>
 		<key>text_act_on_behalf</key>
-		<value><![CDATA[Aviso: Modo de suplantación para el cliente: %s. Usuario: %s]]></value>
+		<value><![CDATA[Aviso: Modo de suplantación para el cliente "%s" por "%s"]]></value>
 	</definition>
 	<definition>
 		<key>text_browse</key>

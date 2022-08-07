@@ -84,6 +84,19 @@ if (defined('DB_HOSTNAME') && DB_HOSTNAME) {
     $installed = true;
 }
 
+$optsRequired = [
+    'db_host',
+    'db_user',
+    'db_password',
+    'db_name',
+    'db_prefix',
+    'admin_path',
+    'username',
+    'password',
+    'email',
+    'http_server',
+];
+
 //process command
 
 $script = array_shift($args);
@@ -133,22 +146,22 @@ switch ($command) {
  */
 
 /**
- * @param       $errno
- * @param       $errstr
- * @param       $errfile
- * @param       $errline
- * @param array $errcontext
+ * @param int    $errno
+ * @param string $errstr
+ * @param string $errFile
+ * @param int    $errLine
+ * @param array  $errContext
  *
  * @return bool
  * @throws ErrorException
  */
-function handleError($errno, $errstr, $errfile, $errline, array $errcontext)
+function handleError($errno, $errstr, $errFile, $errLine, array $errContext)
 {
     // error was suppressed with the @-operator
     if (0 === error_reporting()) {
         return false;
     }
-    throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+    throw new ErrorException($errstr, 0, $errno, $errFile, $errLine);
 }
 
 set_error_handler('handleError');
@@ -158,20 +171,20 @@ set_error_handler('handleError');
  */
 function getOptionList()
 {
-    return array(
+    return [
         '--db_host'          => 'localhost',
         '--db_user'          => 'root',
         '--db_password'      => 'pass',
         '--db_name'          => 'abantecart',
         '--db_driver'        => 'amysqli',
         '--db_prefix'        => 'ac_',
-        '--admin_path'       => 'your_admin',
+        '--admin_path'       => '{your-secret-word}',
         '--username'         => 'admin',
         '--password'         => 'admin',
         '--email'            => 'your_email@example.com',
-        '--http_server'      => 'http://localhost/abantecart',
-        '--with-sample-data' => '',
-    );
+        '--http_server'      => 'https://your-domain.com',
+        '--with-sample-data' => '{ full-path-to-sql-file-or-leave-empty-to-load-default-data }',
+    ];
 }
 
 /**
@@ -179,6 +192,7 @@ function getOptionList()
  */
 function help()
 {
+    global $optsRequired;
     $output = "Usage:"."\n";
     $output .= "------------------------------------------------"."\n";
     $output .= "\n";
@@ -191,10 +205,10 @@ function help()
 
     foreach ($options as $opt => $ex) {
         $output .= "\t".$opt;
-        if ($ex) {
-            $output .= "=<value>"."\t"."[required]";
+        if (in_array(str_replace('--','',$opt), $optsRequired)) {
+            $output .= "=<value>"."\t"."[ \e[0;31mrequired \e[m]";
         } else {
-            $output .= "\t"."[optional]";
+            $output .= "\t\t"."[ \e[0;32moptional \e[m]";
         }
         $output .= "\n\n";
 
@@ -221,7 +235,7 @@ function getOptionValues($opt_name = '')
 {
     global $args;
     $args = !$args ? $_SERVER['argv'] : $args;
-    $options = array();
+    $options = [];
     foreach ($args as $v) {
         $is_flag = preg_match('/^--(.*)$/', $v, $match);
         //skip commands
@@ -251,7 +265,7 @@ function getOptionValues($opt_name = '')
     }
 
     if ($opt_name) {
-        return isset($options[$opt_name]) ? $options[$opt_name] : null;
+        return $options[$opt_name] ?? null;
     }
 
     return $options;
@@ -264,27 +278,16 @@ function getOptionValues($opt_name = '')
  */
 function validateOptions($options)
 {
-    $required = array(
-        'db_host',
-        'db_user',
-        'db_password',
-        'db_name',
-        'db_prefix',
-        'admin_path',
-        'username',
-        'password',
-        'email',
-        'http_server',
-    );
-    $missing = array();
-    foreach ($required as $r) {
+    global $optsRequired;
+    $missing = [];
+    foreach ($optsRequired as $r) {
         if (!array_key_exists($r, $options)) {
             $missing[] = $r;
         }
     }
 
     $valid = count($missing) === 0;
-    return array($valid, $missing);
+    return [$valid, $missing];
 }
 
 /**
@@ -328,8 +331,9 @@ function setupDB($data)
 {
 
     $registry = Registry::getInstance();
-    $registry->get('load')->model('install');
-    $registry->get('model_install')->RunSQL($data);
+    /** @var ModelInstall $mdl */
+    $mdl = $registry->get('load')->model('install');
+    $mdl->RunSQL($data);
 
     $load_data = getOptionValues('with-sample-data');
 
@@ -344,18 +348,19 @@ function setupDB($data)
         $registry->set('db', $db);
         define('DIR_LANGUAGE', DIR_ABANTECART.'admin/language/');
 
-        $registry->get('model_install')->loadDemoData($registry);
+        $mdl->loadDemoData($registry, $load_data);
     }
 
 }
 
 /**
  * @param $options
+ *
+ * @throws AException
  */
 function writeConfigFile($options)
 {
     $registry = Registry::getInstance();
     $registry->get('load')->model('install');
     $registry->get('model_install')->configure($options);
-
 }

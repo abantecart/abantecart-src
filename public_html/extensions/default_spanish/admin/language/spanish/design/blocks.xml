@@ -264,4 +264,8 @@
 		<key>entry_collection_resource_type</key>
 		<value><![CDATA[Colección seleccionada:]]></value>
 	</definition>
+	<definition>
+		<key>text_products_related</key>
+		<value><![CDATA[Productos relacionados]]></value>
+	</definition>
 </definitions>

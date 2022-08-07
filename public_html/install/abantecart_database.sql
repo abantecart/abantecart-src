@@ -143,7 +143,7 @@ VALUES
 (58,'DJ','DJI','',1,0),
 (59,'DM','DMA','',1,0),
 (60,'DO','DOM','',1,0),
-(61,'TP','TMP','',1,0),
+(61,'TL','TLS','',1,0),
 (62,'EC','ECU','',1,0),
 (63,'EG','EGY','',1,0),
 (64,'SV','SLV','',1,0),
@@ -318,11 +318,14 @@ VALUES
 (233,'WF','WLF','',1,0),
 (234,'EH','ESH','',1,0),
 (235,'YE','YEM','',1,0),
-(236,'YU','YUG','',1,0),
-(237,'ZR','ZAR','',1,0),
+(236,'ME','MNE','',1,0),
+(237,'CW','CUW','',1,0),
 (238,'ZM','ZMB','',1,0),
 (239,'ZW','ZWE','',1,0),
-(240,'GB','NIR','',1,0);
+(240,'GB','NIR','',1,0),
+(241,'RS','SRB','',1,0),
+(242,'XK','XXK','',1,0);
+
 --
 -- DDL for table `ac_country_descriptions`
 --
@@ -374,7 +377,7 @@ VALUES
 (36,1,'Cambodia'),
 (37,1,'Cameroon'),
 (38,1,'Canada'),
-(39,1,'Cape Verde'),
+(39,1,'Cabo Verde'),
 (40,1,'Cayman Islands'),
 (41,1,'Central African Republic'),
 (42,1,'Chad'),
@@ -387,7 +390,7 @@ VALUES
 (49,1,'Congo'),
 (50,1,'Cook Islands'),
 (51,1,'Costa Rica'),
-(52,1,'Cote D\'Ivoire'),
+(52,1,'Côte d\'Ivoire'),
 (53,1,'Croatia'),
 (54,1,'Cuba'),
 (55,1,'Cyprus'),
@@ -396,7 +399,7 @@ VALUES
 (58,1,'Djibouti'),
 (59,1,'Dominica'),
 (60,1,'Dominican Republic'),
-(61,1,'East Timor'),
+(61,1,'Timor-Leste'),
 (62,1,'Ecuador'),
 (63,1,'Egypt'),
 (64,1,'El Salvador'),
@@ -461,7 +464,7 @@ VALUES
 (123,1,'Lithuania'),
 (124,1,'Luxembourg'),
 (125,1,'Macau'),
-(126,1,'Macedonia'),
+(126,1,'North Macedonia'),
 (127,1,'Madagascar'),
 (128,1,'Malawi'),
 (129,1,'Malaysia'),
@@ -537,7 +540,7 @@ VALUES
 (199,1,'Sudan'),
 (200,1,'Suriname'),
 (201,1,'Svalbard and Jan Mayen Islands'),
-(202,1,'Swaziland'),
+(202,1,'Eswatini'),
 (203,1,'Sweden'),
 (204,1,'Switzerland'),
 (205,1,'Syrian Arab Republic'),
@@ -571,11 +574,13 @@ VALUES
 (233,1,'Wallis and Futuna Islands'),
 (234,1,'Western Sahara'),
 (235,1,'Yemen'),
-(236,1,'Yugoslavia'),
-(237,1,'Zaire'),
+(236,1,'Montenegro'),
+(237,1,'Curaçao'),
 (238,1,'Zambia'),
 (239,1,'Zimbabwe'),
-(240,1,'Northern Ireland');
+(240,1,'Northern Ireland'),
+(241,1,'Serbia'),
+(242,1,'Kosovo');
 
 
 --
@@ -849,9 +854,10 @@ INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `v
 ('block', 'latest', '', 1, 1, '', null, now(), now(), now() ),
 ('block', 'featured', '', 1, 1, '', null, now(), now(), now() ),
 
-('extensions', 'banner_manager', 'extensions', 1, 1, '1.0.1', null, now(), now(), now() ),
-('extensions', 'forms_manager', 'extensions', 1, 1, '1.0.2', null, now(), now(), now() ),
-('extensions', 'fast_checkout', 'Checkout', 1, 10, '1.3.0', null, now(), now() + INTERVAL 2 MINUTE , now() )
+('extensions', 'banner_manager', 'extensions', 1, 1, '1.1.0', null, now(), now(), now() ),
+('extensions', 'forms_manager', 'extensions', 1, 1, '1.1.0', null, now(), now(), now() ),
+('extensions', 'fast_checkout', 'Checkout', 1, 10, '1.3.3', null, now(), now() + INTERVAL 2 MINUTE , now() ),
+('template', 'bootstrap5', 'template', 1, 1, '1.0.0', null, now(), now() + INTERVAL 3 MINUTE , now() )
 ;
 
 --
@@ -1396,6 +1402,7 @@ CREATE TABLE `ac_product_discounts` (
   `customer_group_id` int(11) NOT NULL,
   `quantity` int(4) NOT NULL DEFAULT '0',
   `priority` int(5) NOT NULL DEFAULT '1',
+  `price_prefix` CHAR(1) NOT NULL DEFAULT '',
   `price` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `date_start` date NOT NULL DEFAULT '0000-00-00',
   `date_end` date NOT NULL DEFAULT '0000-00-00',
@@ -1512,6 +1519,7 @@ CREATE TABLE `ac_product_specials` (
   `product_id` int(11) NOT NULL,
   `customer_group_id` int(11) NOT NULL,
   `priority` int(5) NOT NULL DEFAULT '1',
+  `price_prefix` CHAR(1) NOT NULL DEFAULT '',
   `price` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `date_start` date NOT NULL DEFAULT '0000-00-00',
   `date_end` date NOT NULL DEFAULT '0000-00-00',
@@ -1637,6 +1645,29 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('details','translate_override_existing',0),
 ('details','warn_lang_text_missing',0),
 ('details','config_duplicate_contact_us_to_message',1),
+('details','config_opening_sunday_opens',''),
+('details','config_opening_sunday_closes',''),
+('details','config_opening_monday_opens','9:00'),
+('details','config_opening_monday_closes','18:00'),
+('details','config_opening_tuesday_opens','9:00'),
+('details','config_opening_tuesday_closes','18:00'),
+('details','config_opening_wednesday_opens','9:00'),
+('details','config_opening_wednesday_closes','18:00'),
+('details','config_opening_thursday_opens','9:00'),
+('details','config_opening_thursday_closes','21:00'),
+('details','config_opening_friday_opens','9:00'),
+('details','config_opening_friday_closes','16:00'),
+('details','config_opening_saturday_opens',''),
+('details','config_opening_saturday_closes',''),
+('details','config_postcode','07601'),
+('details','protocol_url','https'),
+('details','protocol_ssl_url','https'),
+('details','config_city','New Jersey'),
+('details','config_latitude','40.887187'),
+('details','config_longitude','-74.037592'),
+('details','translate_method','copy_source_text'),
+('details','config_tax_class_id','1'),
+
 -- general
 ('general','config_admin_limit',20),
 ('general','config_catalog_limit',20),
@@ -1654,7 +1685,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('general','config_show_tree_data',1),
 ('general','config_embed_status',1),
 ('general','config_embed_click_action', 'modal'),
-('general','config_product_default_sort_order','date_modified-ASC'),
+('general','config_product_default_sort_order','date_modified-DESC'),
 ('general','config_account_create_captcha','0'),
 ('general','config_recaptcha_site_key',''),
 ('general','config_recaptcha_secret_key',''),
@@ -1674,7 +1705,6 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout','config_customer_group_id',1),
 ('checkout','config_customer_approval',0),
 ('checkout','config_customer_email_activation',0),
-('checkout','config_phone_validation_pattern','/^[0-9]{3,32}$/'),
 ('checkout','prevent_email_as_login',1),
 ('checkout','config_guest_checkout',1),
 ('checkout','config_account_id',2),
@@ -1690,6 +1720,8 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout','config_expire_order_days',30),
 ('checkout','config_customer_cancelation_order_status_id',''),
 ('checkout','config_zero_customer_balance','0'),
+('checkout','config_phone_validation_pattern','/^[0-9+\\(\\)#\\.\\s\\/ext-]+$/'),
+('checkout','config_start_order_id',''),
 
 -- Appearance
 
@@ -1714,7 +1746,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('appearance','config_image_category_height',120),
 ('appearance','config_image_category_width',120),
 ('appearance','config_image_manufacturer_height',56),
-('appearance','config_image_manufacturer_width',56),
+('appearance','config_image_manufacturer_width',130),
 ('appearance','admin_template','default'),
 ('appearance','admin_width','100%'),
 ('appearance','config_storefront_template','default'),
@@ -1786,7 +1818,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 
 ('tax', 'tax_status', '1'),
 ('tax', 'tax_sort_order', '5'),
-('tax', 'tax_calculation_order', '5'),
+('tax', 'tax_calculation_order', '2'),
 ('tax', 'tax_total_type', 'tax'),
 
 ('balance', 'balance_status', '1'),
@@ -1813,19 +1845,24 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('forms_manager','forms_manager_default_sender_email', ''),
 ('forms_manager','forms_manager_sort_order', ''),
 
-('fast_checkout','fast_checkout_store_id', 0),
-('fast_checkout','fast_checkout_status', 1),
-('fast_checkout','fast_checkout_layout', ''),
-('fast_checkout','fast_checkout_priority', 10),
-('fast_checkout','fast_checkout_payment_address_equal_shipping', 0),
-('fast_checkout','fast_checkout_allow_coupon', 1),
-('fast_checkout','fast_checkout_require_phone_number', 1),
-('fast_checkout','fast_checkout_show_order_comment_field', 1),
-('fast_checkout','fast_checkout_create_account', 1),
-('fast_checkout','fast_checkout_sort_order', 10),
-('fast_checkout','fast_checkout_status', 1)
-;
+('fast_checkout','fast_checkout_store_id',0),
+('fast_checkout','fast_checkout_status',1),
+('fast_checkout','fast_checkout_layout',''),
+('fast_checkout','fast_checkout_priority',10),
+('fast_checkout','fast_checkout_payment_address_equal_shipping',0),
+('fast_checkout','fast_checkout_allow_coupon',1),
+('fast_checkout','fast_checkout_require_phone_number',1),
+('fast_checkout','fast_checkout_show_order_comment_field',1),
+('fast_checkout','fast_checkout_create_account',1),
+('fast_checkout','fast_checkout_sort_order',10),
+('fast_checkout','fast_checkout_buy_now_status',1),
 
+('bootstrap5', 'bootstrap5_priority',0),
+('bootstrap5', 'bootstrap5_date_installed',NOW()),
+('bootstrap5', 'bootstrap5_sort_order', 1),
+('bootstrap5', 'config_logo',281),
+('bootstrap5', 'bootstrap5_status', 1),
+('bootstrap5', 'store_id', 0);
 
 --
 -- DDL for table `stock_statuses`
@@ -1929,7 +1966,7 @@ CREATE INDEX `ac_tax_rates_idx` ON `ac_tax_rates` ( `location_id`, `zone_id`, `t
 --
 -- Dumping data for table `tax_rate`
 --
-INSERT INTO `ac_tax_rates` (`tax_rate_id`, `location_id`, `tax_class_id`, `priority`, `rate`) VALUES (1, 1, 1, 1, '8.5000');
+INSERT INTO `ac_tax_rates` VALUES (1,1,0,1,1,8.5000,'%','',0.0000,'a:1:{i:0;s:1:\"0\";}','0000-00-00 00:00:00','2022-06-28 08:53:21');
 
 --
 -- DDL for table `tax_rate_descriptions`
@@ -5906,21 +5943,21 @@ VALUES
 (3805,235,'SN',1,0),
 (3806,235,'SH',1,0),
 (3807,235,'TA',1,0),
-(3808,236,'KOS',1,0),
-(3809,236,'MON',1,0),
-(3810,236,'SER',1,0),
-(3811,236,'VOJ',1,0),
-(3812,237,'BC',1,0),
-(3813,237,'BN',1,0),
-(3814,237,'EQ',1,0),
-(3815,237,'KA',1,0),
-(3816,237,'KE',1,0),
-(3817,237,'KN',1,0),
-(3818,237,'KW',1,0),
-(3819,237,'MA',1,0),
-(3820,237,'NK',1,0),
-(3821,237,'OR',1,0),
-(3822,237,'SK',1,0),
+(3808,236,'AND',1,0),
+(3809,236,'BAR',1,0),
+(3810,236,'BER',1,0),
+(3811,236,'BIP',1,0),
+(3812,49,'BC',1,0),
+(3813,49,'BN',1,0),
+(3814,49,'EQ',1,0),
+(3815,49,'KA',1,0),
+(3816,49,'KE',1,0),
+(3817,49,'KN',1,0),
+(3818,49,'KW',1,0),
+(3819,49,'MA',1,0),
+(3820,49,'NK',1,0),
+(3821,49,'OR',1,0),
+(3822,49,'SK',1,0),
 (3823,238,'CE',1,0),
 (3824,238,'CB',1,0),
 (3825,238,'EA',1,0),
@@ -6047,7 +6084,47 @@ VALUES
 (3965,190,'GZ',1,0),
 (3966,190,'CK',1,0),
 (3967,188,'SG',1,0),
-(3968,168,'MTM',1,0);
+(3968,168,'MTM',1,0),
+(3969,236,'BDV',1,0),
+(3970,236,'CET',1,0),
+(3971,236,'DNG',1,0),
+(3972,236,'GSN',1,0),
+(3973,236,'HGN',1,0),
+(3974,236,'KLN',1,0),
+(3975,236,'KOR',1,0),
+(3976,236,'MKC',1,0),
+(3977,236,'NKS',1,0),
+(3978,236,'PTN',1,0),
+(3979,236,'PLV',1,0),
+(3980,236,'PVL',1,0),
+(3981,236,'PZN',1,0),
+(3982,236,'PGC',1,0),
+(3983,236,'ROZ',1,0),
+(3984,236,'SNK',1,0),
+(3985,236,'TVT',1,0),
+(3986,236,'TZI',1,0),
+(3987,236,'ULN',1,0),
+(3988,236,'ZBK',1,0),
+(3989,241,'VDN',1,0),
+(3990,241,'BGD',1,0),
+(3991,241,'SWS',1,0),
+(3992,241,'SES',1,0),
+(3993,241,'KMT',1,0),
+(3994,242,'FRZ',1,0),
+(3995,242,'GKV',1,0),
+(3996,242,'GLN',1,0),
+(3997,242,'MTR',1,0),
+(3998,242,'PJA',1,0),
+(3999,242,'PRN',1,0),
+(4000,242,'PRZ',1,0),
+(4001,126,'ESN',1,0),
+(4002,126,'NTN',1,0),
+(4003,126,'PLG',1,0),
+(4004,126,'POL',1,0),
+(4005,126,'SKP',1,0),
+(4006,126,'SEN',1,0),
+(4007,126,'SWN',1,0),
+(4008,126,'VDR',1,0);
 
 
 DROP TABLE IF EXISTS `ac_zone_descriptions`;
@@ -6060,8 +6137,7 @@ CREATE TABLE `ac_zone_descriptions` (
 
 
 INSERT INTO `ac_zone_descriptions`
-VALUES
-(1,1,'Badakhshan'),
+VALUES (1,1,'Badakhshan'),
 (2,1,'Badghis'),
 (3,1,'Baghlan'),
 (4,1,'Balkh'),
@@ -9867,10 +9943,10 @@ VALUES
 (3805,1,'San\'a'),
 (3806,1,'Shabwah'),
 (3807,1,'Ta\'izz'),
-(3808,1,'Kosovo'),
-(3809,1,'Montenegro'),
-(3810,1,'Serbia'),
-(3811,1,'Vojvodina'),
+(3808,1,'Andrijevica'),
+(3809,1,'Bar'),
+(3810,1,'Berane'),
+(3811,1,'Bijelo Polje'),
 (3812,1,'Bas-Congo'),
 (3813,1,'Bandundu'),
 (3814,1,'Equateur'),
@@ -10008,8 +10084,47 @@ VALUES
 (3965,1,'Gorizia'),
 (3966,1,'Coastal–Karst'),
 (3967,1,'Singapore'),
-(3968,1,'Metro Manila');
-
+(3968,1,'Metro Manila'),
+(3969,1,'Budva'),
+(3970,1,'Cetinje'),
+(3971,1,'Danilovgrad'),
+(3972,1,'Gusinje'),
+(3973,1,'Herceg Novi'),
+(3974,1,'Kolašin'),
+(3975,1,'Kotor'),
+(3976,1,'Mojkovac'),
+(3977,1,'Nikšić'),
+(3978,1,'Petnjica'),
+(3979,1,'Plav'),
+(3980,1,'Pljevlja'),
+(3981,1,'Plužine'),
+(3982,1,'Podgorica'),
+(3983,1,'Rožaje'),
+(3984,1,'Šavnik'),
+(3985,1,'Tivat'),
+(3986,1,'Tuzi'),
+(3987,1,'Ulcinj'),
+(3988,1,'Žabljak'),
+(3989,1,'Vojvodina'),
+(3990,1,'Belgrade'),
+(3991,1,'Šumadija and Western Serbia'),
+(3992,1,'Southern and Eastern Serbia'),
+(3993,1,'Kosovo and Metohija'),
+(3994,1,'Ferizaj'),
+(3995,1,'Gjakova'),
+(3996,1,'Gjilan'),
+(3997,1,'Mitrovica'),
+(3998,1,'Peja'),
+(3999,1,'Pristina'),
+(4000,1,'Prizren'),
+(4001,1,'Eastern'),
+(4002,1,'Northeastern'),
+(4003,1,'Pelagonia'),
+(4004,1,'Polog'),
+(4005,1,'Skopje'),
+(4006,1,'Southeastern'),
+(4007,1,'Southwestern'),
+(4008,1,'Vardar');
 
 --
 -- DDL for table `zone_to_locations`
@@ -10465,19 +10580,29 @@ CREATE TABLE `ac_layouts` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `ac_layouts` (`layout_id`, `template_id`, `layout_type`, `layout_name`, `date_added`) VALUES
-(11, 'default', 0, 'Default Page Layout',  now()),
-(12, 'default', 1, 'Home Page',  now()),
-(13, 'default', 1, 'Login Page',  now()),
-(14, 'default', 1, 'Default Product Page',  now()),
-(15, 'default', 1, 'Checkout Pages', now()),
-(16, 'default', 1, 'Product Listing Page', now()),
-(17, 'default', 1, 'Maintenance Page', now()),
-(18, 'default', 1, 'Customer Account Pages', now()),
-(19, 'default', 1, 'Cart Page', now()),
-(20, 'default', 1, 'Product Listing Page', now()),
+(11, 'default', 0, 'Default Page Layout',  NOW()),
+(12, 'default', 1, 'Home Page',  NOW()),
+(13, 'default', 1, 'Login Page',  NOW()),
+(14, 'default', 1, 'Default Product Page',  NOW()),
+(15, 'default', 1, 'Checkout Pages', NOW()),
+(16, 'default', 1, 'Product Listing Page', NOW()),
+(17, 'default', 1, 'Maintenance Page', NOW()),
+(18, 'default', 1, 'Customer Account Pages', NOW()),
+(19, 'default', 1, 'Cart Page', NOW()),
+(20, 'default', 1, 'Product Listing Page', NOW()),
 (21, 'default', 1, 'Fast Checkout Page', NOW()),
-(22, 'default', 1, 'Fast Checkout Success Page', NOW())
- ;
+(22, 'default', 1, 'Fast Checkout Success Page', NOW()),
+
+(23, 'bootstrap5',0, 'Default Page Layout',NOW()),
+(24, 'bootstrap5',1, 'Home Page',NOW()),
+(25, 'bootstrap5',1, 'Login Page',NOW()),
+(26, 'bootstrap5',1, 'Default Product Page',NOW()),
+(27, 'bootstrap5',1, 'Product Listing Page',NOW()),
+(28, 'bootstrap5',1, 'Maintenance Page',NOW()),
+(29, 'bootstrap5',1, 'Customer Account Pages',NOW()),
+(30, 'bootstrap5',1, 'Cart Page',NOW()),
+(31, 'bootstrap5',1, 'Fast Checkout Page',NOW()),
+(32, 'bootstrap5',1, 'Fast Checkout Success Page',NOW());
 
 --
 -- DDL for table `pages_layouts`
@@ -10500,7 +10625,18 @@ INSERT INTO `ac_pages_layouts` (`layout_id`, `page_id`) VALUES
 (19, 12),
 (20, 13),
 (21, 14),
-(22, 15);
+(22, 15),
+-- bs5
+( 23,1),
+( 24,2),
+( 25,4),
+( 26,5),
+( 27,13),
+( 28,10),
+( 29,11),
+( 30,12),
+( 31,14),
+( 32,15);
 
 --
 -- DDL for table `block_layouts`
@@ -10751,25 +10887,66 @@ VALUES
 -- FastCheckout page layout
 INSERT INTO `ac_block_layouts`
 (`instance_id`,`layout_id`,`block_id`,`custom_block_id`,`parent_instance_id`,`position`,`status`,`date_added`,`date_modified`)
-VALUES
-( 2068, 21, 1, 0,     0, 10, 1, NOW(), NOW()),
-( 2069, 21, 32, 0, 2068, 40, 1, NOW(), NOW()),
-( 2070, 21, 2, 0, 0, 20,     0, NOW(), NOW()),
-( 2071, 21, 3, 0, 0, 30,     0, NOW(), NOW()),
-( 2072, 21, 4, 0, 0, 40,     0, NOW(), NOW()),
-( 2073, 21, 5, 0, 0, 50,     0, NOW(), NOW()),
-( 2074, 21, 6, 0, 0, 60,     1, NOW(), NOW()),
-( 2075, 21, 33, 0, 2074, 10, 1, NOW(), NOW()),
-( 2076, 21, 7, 0, 0, 70,     0, NOW(), NOW()),
-( 2077, 21, 8, 0, 0, 80,     1, NOW(), NOW()),
-( 2078, 22, 1, 0, 0, 10,     1, NOW(), NOW()),
-( 2079, 22, 2, 0, 0, 20,     0, NOW(), NOW()),
-( 2080, 22, 3, 0, 0, 30,     0, NOW(), NOW()),
-( 2081, 22, 4, 0, 0, 40,     0, NOW(), NOW()),
-( 2082, 22, 5, 0, 0, 50,     0, NOW(), NOW()),
-( 2083, 22, 6, 0, 0, 60,     1, NOW(), NOW()),
-( 2084, 22, 7, 0, 0, 70,     0, NOW(), NOW()),
-( 2085, 22, 8, 0, 0, 80,     1, NOW(), NOW())
+VALUES (2068, 21, 1, 0, 0, 10, 1, NOW(), NOW()),
+       (2069, 21, 32, 0, 2068, 40, 1, NOW(), NOW()),
+       (2070, 21, 2, 0, 0, 20, 0, NOW(), NOW()),
+       (2071, 21, 3, 0, 0, 30, 0, NOW(), NOW()),
+       (2072, 21, 4, 0, 0, 40, 0, NOW(), NOW()),
+       (2073, 21, 5, 0, 0, 50, 0, NOW(), NOW()),
+       (2074, 21, 6, 0, 0, 60, 1, NOW(), NOW()),
+       (2075, 21, 33, 0, 2074, 10, 1, NOW(), NOW()),
+       (2076, 21, 7, 0, 0, 70, 0, NOW(), NOW()),
+       (2077, 21, 8, 0, 0, 80, 1, NOW(), NOW()),
+       (2078, 22, 1, 0, 0, 10, 1, NOW(), NOW()),
+       (2079, 22, 2, 0, 0, 20, 0, NOW(), NOW()),
+       (2080, 22, 3, 0, 0, 30, 0, NOW(), NOW()),
+       (2081, 22, 4, 0, 0, 40, 0, NOW(), NOW()),
+       (2082, 22, 5, 0, 0, 50, 0, NOW(), NOW()),
+       (2083, 22, 6, 0, 0, 60, 1, NOW(), NOW()),
+       (2084, 22, 7, 0, 0, 70, 0, NOW(), NOW()),
+       (2085, 22, 8, 0, 0, 80, 1, NOW(), NOW()),
+
+       (2378, 30, 15, 0, 0, 10, 1, NOW(), NOW()),
+       (2379, 30, 31, 0, 0, 20, 1, NOW(), NOW()),
+       (2380, 30, 27, 0, 0, 30, 1, NOW(), NOW()),
+       (2381, 30, 26, 0, 0, 40, 1, NOW(), NOW()),
+       (2382, 30, 13, 0, 0, 50, 1, NOW(), NOW()),
+       (2383, 30, 14, 0, 0, 60, 1, NOW(), NOW()),
+       (2385, 30, 28, 0, 0, 20, 1, NOW(), NOW()),
+       (2386, 30, 3, 0, 0, 30, 0, NOW(), NOW()),
+       (2387, 30, 25, 0, 0, 40, 1, NOW(), NOW()),
+       (2388, 30, 4, 0, 0, 40, 1, NOW(), NOW()),
+       (2389, 30, 5, 0, 0, 50, 1, NOW(), NOW()),
+       (2390, 30, 11, 0, 0, 50, 1, NOW(), NOW()),
+       (2391, 30, 6, 0, 0, 60, 1, NOW(), NOW()),
+       (2392, 30, 7, 0, 0, 70, 1, NOW(), NOW()),
+       (2393, 30, 24, 0, 0, 70, 1, NOW(), NOW()),
+       (2394, 30, 8, 0, 0, 80, 1, NOW(), NOW()),
+       (2398, 30, 25, 0, 2394, 40, 1, NOW(), NOW()),
+       (2399, 30, 11, 0, 2394, 50, 1, NOW(), NOW()),
+       (2401, 30, 24, 0, 2394, 70, 1, NOW(), NOW()),
+       (2402, 30, 21, 0, 2394, 80, 1, NOW(), NOW()),
+       (2403, 30, 21, 0, 0, 80, 1, NOW(), NOW()),
+       (2404, 31, 1, 0, 0, 10, 1, NOW(), NOW()),
+       (2405, 31, 32, 0, 2404, 40, 1, NOW(), NOW()),
+       (2406, 31, 33, 0, 0, 10, 1, NOW(), NOW()),
+       (2407, 31, 2, 0, 0, 20, 0, NOW(), NOW()),
+       (2408, 31, 3, 0, 0, 30, 0, NOW(), NOW()),
+       (2409, 31, 4, 0, 0, 40, 0, NOW(), NOW()),
+       (2410, 31, 32, 0, 0, 40, 1, NOW(), NOW()),
+       (2411, 31, 5, 0, 0, 50, 0, NOW(), NOW()),
+       (2412, 31, 6, 0, 0, 60, 1, NOW(), NOW()),
+       (2413, 31, 33, 0, 2412, 10, 1, NOW(), NOW()),
+       (2414, 31, 7, 0, 0, 70, 0, NOW(), NOW()),
+       (2415, 31, 8, 0, 0, 80, 1, NOW(), NOW()),
+       (2416, 32, 1, 0, 0, 10, 1, NOW(), NOW()),
+       (2417, 32, 2, 0, 0, 20, 0, NOW(), NOW()),
+       (2418, 32, 3, 0, 0, 30, 0, NOW(), NOW()),
+       (2419, 32, 4, 0, 0, 40, 0, NOW(), NOW()),
+       (2420, 32, 5, 0, 0, 50, 0, NOW(), NOW()),
+       (2421, 32, 6, 0, 0, 60, 1, NOW(), NOW()),
+       (2422, 32, 7, 0, 0, 70, 0, NOW(), NOW()),
+       (2423, 32, 8, 0, 0, 80, 1, NOW(), NOW())
 ;
 --
 -- DDL for table `forms_pages`
@@ -12174,7 +12351,7 @@ VALUES  (20, NOW(),'1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (21,'AbanteCart','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (22,'1.3.2','1');
+VALUES  (22,'1.3.3','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (23,'','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
@@ -12341,7 +12518,8 @@ VALUES
   ( 277, 1, NOW() ),
   ( 278, 1, NOW() ),
   ( 279, 1, NOW() ),
-  ( 280, 1, NOW() );
+  ( 280, 1, NOW() ),
+  ( 281, 1, NOW() );
 
 INSERT INTO `ac_resource_descriptions`
 (`resource_id`, `language_id`, `name`, `title`, `description`, `resource_path`, `resource_code`, `date_added`)
@@ -12407,28 +12585,27 @@ VALUES
   ( 258,1,'Icon Language', '', '', '', '<i class="fa fa-language"></i>&nbsp;', NOW() ),
   ( 259,1,'Icon Language definitions', '', '', '', '<i class="fa fa-sort-alpha-asc"></i>&nbsp;', NOW() ),
   ( 260,1,'Icon Currency', '', '', '', '<i class="fa fa-money"></i>&nbsp;', NOW() ),
-  ( 261,1,'Icon Stockstatus', '', '', '', '<i class="fa fa-list-alt"></i>&nbsp;', NOW() ),
-  ( 262,1,'Icon Orderstatus', '', '', '', '<i class="fa fa-sort-amount-asc"></i>&nbsp;', NOW() ),
+  ( 261,1,'Icon Stock Status', '', '', '', '<i class="fa fa-list-alt"></i>&nbsp;', NOW() ),
+  ( 262,1,'Icon Order Status', '', '', '', '<i class="fa fa-sort-amount-asc"></i>&nbsp;', NOW() ),
   ( 263,1,'Icon Country', '', '', '', '<i class="fa fa-globe"></i>&nbsp;', NOW() ),
   ( 264,1,'Icon Zone', '', '', '', '<i class="fa fa-thumb-tack"></i>&nbsp;', NOW() ),
   ( 265,1,'Icon Location', '', '', '', '<i class="fa fa-flag-checkered"></i>&nbsp;', NOW() ),
-  ( 266,1,'Icon Taxclass', '', '', '', '<i class="fa fa-briefcase"></i>&nbsp;', NOW() ),
-  ( 267,1,'Icon Lengthclass', '', '', '', '<i class="fa fa-arrows-h"></i>&nbsp;', NOW() ),
-  ( 268,1,'Icon Weightclass', '', '', '', '<i class="fa fa-angle-double-down"></i>&nbsp;', NOW() ),
+  ( 266,1,'Icon Tax class', '', '', '', '<i class="fa fa-briefcase"></i>&nbsp;', NOW() ),
+  ( 267,1,'Icon Length class', '', '', '', '<i class="fa fa-arrows-h"></i>&nbsp;', NOW() ),
+  ( 268,1,'Icon Weight class', '', '', '', '<i class="fa fa-angle-double-down"></i>&nbsp;', NOW() ),
   ( 269,1,'Icon Backup', '', '', '', '<i class="fa fa-jsfiddle"></i>&nbsp;', NOW() ),
   ( 270,1,'Icon Migrate', '', '', '', '<i class="fa fa-share-alt-square"></i>&nbsp;', NOW() ),
   ( 271,1,'Icon Datasets', '', '', '', '<i class="fa fa-database"></i>&nbsp;', NOW() ),
   ( 272,1,'Icon Import export', '', '', '', '<i class="fa fa-exchange"></i>&nbsp;', NOW() ),
   ( 273,1,'Icon File uploads', '', '', '', '<i class="fa fa-download"></i>&nbsp;', NOW() ),
-  ( 274,1,'Icon Installlog', '', '', '', '<i class="fa fa-history"></i>&nbsp;', NOW() ),
+  ( 274,1,'Icon Install Log', '', '', '', '<i class="fa fa-history"></i>&nbsp;', NOW() ),
   ( 275,1,'Icon Error log', '', '', '', '<i class="fa fa-exclamation-triangle"></i>&nbsp;', NOW() ),
   ( 276,1,'Icon Settings IM', '', '', '', '<i class="fa fa-bullhorn"></i>&nbsp;', NOW() ),
   ( 277,1,'Icon Resource Library', '', '', '', '<i class="fa fa-image"></i>&nbsp;', NOW() ),
   ( 278,1,'Icon Analytics & Insights', '', '', '', '<i class="fa fa-signal"></i>&nbsp;', NOW() ),
   ( 279,1,'Icon Collections', '', '', '', '<i class="fa fa-paste"></i>&nbsp;', NOW() ),
-  ( 280,1,'Icon Email Templates', '', '', '', '<i class="fa fa-envelope-open-o"></i>&nbsp;', NOW() );
-
-
+  ( 280,1,'Icon Email Templates', '', '', '', '<i class="fa fa-envelope-open-o"></i>&nbsp;', NOW() ),
+  ( 281,1,'abc-logo-white','abc-logo-white','abc-logo-white.png','18/7a/5.png','', NOW() );
 
 --
 -- DDL for table `ac_resource_types`
@@ -12741,7 +12918,7 @@ CREATE TABLE `ac_email_templates` (
 --
 INSERT INTO `ac_email_templates` (`id`, `status`, `text_id`, `language_id`, `headers`, `subject`, `html_body`, `text_body`, `allowed_placeholders`, `store_id` )
 VALUES
-(1,1,'storefront_reset_password_link',1,'','{{store_name}} - Password reset','A password reset was requested from {{store_name}}&lt;br /&gt;\r\nTo reset your password click link below:&lt;br /&gt;\r\n{{ reset_link }}\r\n&lt;br /&gt;&lt;br /&gt;\r\n{{{ text_project_label }}}','A password reset was requested from {{store_name}} \r\nTo reset your password click link below:\r\n{{ reset_link }}\r\n\r\n\r\n{{{ text_project_label }}}','store_name, reset_link, text_project_label',0),
+(1,1,'admin_reset_password_link',1,'','{{store_name}} - Password reset','A password reset was requested from {{store_name}}&lt;br /&gt;\r\nTo reset your password click link below:&lt;br /&gt;\r\n{{ reset_link }}\r\n&lt;br /&gt;&lt;br /&gt;\r\n{{{ text_project_label }}}','A password reset was requested from {{store_name}} \r\nTo reset your password click link below:\r\n{{ reset_link }}\r\n\r\n\r\n{{{ text_project_label }}}','store_name, reset_link, text_project_label',0),
 (2,1,'storefront_welcome_email_activated',1,'','Welcome, {{store_name}}','&lt;html&gt;\r\n	&lt;head&gt;\r\n		&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot;&gt;\r\n	&lt;/head&gt;\r\n	&lt;body&gt;\r\n		&lt;table style=&quot;font-family: Verdana,sans-serif; font-size: 11px; color: #374953; width: 600px;&quot;&gt;\r\n			&lt;tr&gt;\r\n				&lt;td class=&quot;align_left&quot;&gt;\r\n				&lt;a href=&quot;{{ store_url }}&quot; title=&quot;{{ store_name }}&quot;&gt;\r\n						{{# logo_uri}}\r\n				&lt;img src=&quot;{{ logo_uri }}&quot; alt=&quot;{{store_name}}&quot; style=&quot;border: none;&quot;&gt;\r\n                                                 {{/ logo_uri}}\r\n                                                 {{^ logo_uri}}\r\n                                                       {{# logo_html}}\r\n                                                        {{logo_html}}\r\n                                                       {{/ logo_html}}\r\n                                                 {{/ logo_uri}}\r\n					&lt;/a&gt;\r\n				&lt;/td&gt;\r\n			&lt;/td&gt;\r\n			&lt;/tr&gt;\r\n			&lt;tr&gt;\r\n				&lt;td&gt;&amp;nbsp;&lt;/td&gt;\r\n			&lt;/tr&gt;\r\n			&lt;tr&gt;\r\n		&lt;td&gt;Welcome and thank you for registering at {{ store_name }}&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n			&lt;tr&gt;\r\n				&lt;td&gt;&amp;nbsp;&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n			&lt;tr&gt;\r\n				&lt;td&gt;\r\n                          Your account has now been created and you can log in by using your email address and password by visiting our website or at the following URL:&lt;br/&gt;\r\n&lt;a href=&quot;{{ login_url }}&quot;&gt;{{ login_url }}&lt;/a&gt;&lt;br/&gt;\r\nOnce you logging in, you will be able to access, your wishlist, order history, printing invoices and editing your account information.\r\n	&lt;/td&gt;\r\n			&lt;/tr&gt;\r\n			&lt;tr&gt;\r\n				&lt;td&gt;&amp;nbsp;&lt;/td&gt;\r\n			&lt;/tr&gt;\r\n			&lt;tr&gt;\r\n				&lt;td&gt;\r\n					Thank you.&lt;br/&gt;\r\n                                        {{ store_name }}\r\n&lt;br/&gt;&lt;br/&gt;\r\n{{{ text_project_label }}}\r\n		&lt;/td&gt;\r\n			&lt;/tr&gt;\r\n		&lt;/table&gt;\r\n	&lt;/body&gt;\r\n&lt;/html&gt;','Welcome and thank you for registering at {{ store_name }}\r\n\r\nYour account has now been created and you can log in by using your email address and password by visiting our website or at the following URL:\r\n{{ login_url }}\r\n\r\nOnce you logging in, you will be able to access, your wishlist, order history, printing invoices and editing your account information.\r\n\r\nThank you.\r\n{{ store_name }}\r\n{{{ text_project_label }}}','store_name, login_url, store_url, logo_html, logo_uri, text_project_label',0),
 (3,1,'storefront_welcome_email_approval',1,'','Welcome, {{store_name}}','&lt;html&gt;\r\n	&lt;head&gt;\r\n		&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot;&gt;\r\n	&lt;/head&gt;\r\n	&lt;body&gt;\r\n		&lt;table style=&quot;font-family: Verdana,sans-serif; font-size: 11px; color: #374953; width: 600px;&quot;&gt;\r\n			&lt;tr&gt;\r\n				&lt;td class=&quot;align_left&quot;&gt;\r\n					&lt;a href=&quot;{{ store_url }}&quot; title=&quot;{{ store_name }}&quot;&gt;\r\n				{{#logo_uri}}\r\n				&lt;img src=&quot;{{ logo_uri }}&quot; alt=&quot;{{store_name}}&quot; style=&quot;border: none;&quot;&gt;\r\n                                                 {{/logo_uri}}\r\n                                                 {{^logo_uri}}\r\n                                                       {{#logo_html}}\r\n                                                        {{logo_html}}\r\n                                                       {{/logo_html}}\r\n                                                 {{/logo_uri}}\r\n					&lt;/a&gt;\r\n				&lt;/td&gt;\r\n			&lt;/tr&gt;\r\n			&lt;tr&gt;\r\n				&lt;td&gt;&amp;nbsp;&lt;/td&gt;\r\n			&lt;/tr&gt;\r\n			&lt;tr&gt;\r\n				&lt;td&gt;Welcome and thank you for registering at {{ store_name }}&lt;/td&gt;\r\n			&lt;/tr&gt;\r\n			&lt;tr&gt;\r\n				&lt;td&gt;&amp;nbsp;&lt;/td&gt;\r\n			&lt;/tr&gt;\r\n			&lt;tr&gt;\r\n				&lt;td&gt;\r\n                          Your account must be approved before you can login. Once approved you can log in by using your email address and password by visiting our website or at the following URL:&lt;br/&gt;\r\n&lt;a href=&quot;{{ login_url }}&quot;&gt;{{ login_url }}&lt;/a&gt;&lt;br/&gt;\r\nOnce you logging in, you will be able to access, your wishlist, order history, printing invoices and editing your account information.\r\n		&lt;/td&gt;\r\n			&lt;/tr&gt;\r\n			&lt;tr&gt;\r\n				&lt;td&gt;&amp;nbsp;&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n			&lt;tr&gt;\r\n				&lt;td&gt;\r\n					Thank you.&lt;br/&gt;\r\n                                        {{ store_name }}\r\n&lt;br/&gt;&lt;br/&gt;\r\n{{{ text_project_label }}}\r\n		&lt;/td&gt;\r\n			&lt;/tr&gt;\r\n		&lt;/table&gt;\r\n	&lt;/body&gt;\r\n&lt;/html&gt;','Welcome and thank you for registering at {{ store_name }}\r\n\r\nYour account must be approved before you can login. Once approved you can log in by using your email address and password by visiting our website or at the following URL:\r\n{{ login_url }}\r\n\r\nOnce you logging in, you will be able to access, your wishlist, order history, printing invoices and editing your account information.\r\n\r\nThank you.\r\n{{ store_name }}\r\n{{{ text_project_label }}}','store_name, login_url, store_url, logo_html, logo_uri, text_project_label',0),
 (4,1,'storefront_send_activate_link',1,'','{{store_name}} - Thank you for registering','&lt;html&gt;\r\n	&lt;head&gt;\r\n		&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot;&gt;\r\n	&lt;/head&gt;\r\n	&lt;body&gt;\r\n		&lt;table style=&quot;font-family: Verdana,sans-serif; font-size: 11px; color: #374953; width: 600px;&quot;&gt;\r\n			&lt;tr&gt;\r\n				&lt;td class=&quot;align_left&quot;&gt;\r\n					&lt;a href=&quot;{{ store_url }}&quot; title=&quot;{{ store_name }}&quot;&gt;\r\n					{{#logo_uri}}\r\n							&lt;img src=&quot;{{ logo_uri }}&quot; alt=&quot;{{store_name}}&quot; style=&quot;border: none;&quot;&gt;\r\n                                                 {{/logo_uri}}\r\n                                                 {{^logo_uri}}\r\n                                                       {{#logo_html}}\r\n                                                        {{logo_html}}\r\n                                                       {{/logo_html}}\r\n                                                 {{/logo_uri}}\r\n					&lt;/a&gt;\r\n			&lt;/td&gt;\r\n			&lt;/tr&gt;\r\n			&lt;tr&gt;\r\n				&lt;td&gt;&amp;nbsp;&lt;/td&gt;\r\n			&lt;/tr&gt;\r\n			&lt;tr&gt;\r\n		&lt;td&gt;Welcome and thank you for registering at {{ store_name }}&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n			&lt;tr&gt;\r\n				&lt;td&gt;&amp;nbsp;&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n			&lt;tr&gt;\r\n				&lt;td&gt;\r\n                          Before we can activate your account one last step must be taken to complete your registration.&lt;br/&gt;\r\nYou must complete this last step to become a registered member. Please click the following link to activate your account:&lt;br/&gt;\r\n{{{ activate_url }}}&lt;br/&gt;\r\n\r\n				&lt;/td&gt;\r\n			&lt;/tr&gt;\r\n			&lt;tr&gt;\r\n				&lt;td&gt;&amp;nbsp;&lt;/td&gt;\r\n			&lt;/tr&gt;\r\n			&lt;tr&gt;\r\n		&lt;td&gt;\r\n					Thank you.&lt;br/&gt;\r\n                                        {{ store_name }}\r\n&lt;br/&gt;\r\n&lt;br/&gt;\r\n{{{ text_project_label }}}\r\n			 	&lt;/td&gt;\r\n			&lt;/tr&gt;\r\n		&lt;/table&gt;\r\n	&lt;/body&gt;\r\n&lt;/html&gt;','Welcome and thank you for registering at {{ store_name }}!\r\n\r\nBefore we can activate your account one last step must be taken to complete your registration.\r\nYou must complete this last step to become a registered member. Please click the following link to activate your account\r\n{{ activate_url }}\r\n\r\nThank you,\r\n{{ store_name }}\r\n\r\n{{{ text_project_label }}}','store_name, activate_url, logo_uri, logo_html, store_url, text_project_label',0),

@@ -782,19 +782,23 @@ class ModelCheckoutOrder extends Model
         $mail->setFrom($this->config->get('store_main_email'));
         $mail->setSender($order_row['store_name']);
         $mail->setTemplate('storefront_order_confirm', $this->data['mail_template_data']);
-        $attachment = [];
+
+        $attachments = [];
         if (is_file(DIR_RESOURCE.$mailLogo)) {
-            $attachment = [
+            $attachments[] = [
                 'file' => DIR_RESOURCE.$mailLogo,
                 'name' => md5(pathinfo($mailLogo, PATHINFO_FILENAME))
-                        .'.'
+                    .'.'
                     .pathinfo($mailLogo, PATHINFO_EXTENSION)
             ];
+        }
 
-            $mail->addAttachment(
-                $attachment['file'],
-                $attachment['name']
-            );
+        $attachments = array_merge($attachments, (array)$this->data['mail_attachments']);
+        foreach($attachments as $attachment) {
+                  $mail->addAttachment(
+                    $attachment['file'],
+                    $attachment['name']
+                );
         }
         $mail->send();
 

@@ -24,8 +24,8 @@ if (!IS_ADMIN || !defined('DIR_CORE')) {
 class ControllerResponsesExtensionDefaultFedex extends AController
 {
 
-    public $data = array();
-    private $cfg = array();
+    public $data = [];
+    private $cfg = [];
 
     public function test()
     {
@@ -36,8 +36,8 @@ class ControllerResponsesExtensionDefaultFedex extends AController
         /**
          * @var ModelExtensionDefaultFedex $sf_model
          */
-        $json = array();
-        $required_fields = array(
+        $json = [];
+        $required_fields = [
             'key'        => 'default_fedex_key',
             'pass'       => 'default_fedex_password',
             'acc'        => 'default_fedex_account',
@@ -47,15 +47,15 @@ class ControllerResponsesExtensionDefaultFedex extends AController
             'zone_code'  => 'default_fedex_state',
             'postcode'   => 'default_fedex_zip',
             'iso_code_2' => 'default_fedex_country',
-        );
-        $address = array();
+        ];
+        $address = [];
         foreach ($required_fields as $k => $fld) {
             if (!$this->cfg[$fld]) {
                 $json['error'] = true;
                 $json['message'] = 'Error: Please fill and save all required fields and try again.';
                 break;
             }
-            if (in_array($fld, array('default_fedex_country', 'default_fedex_state')) && strlen($this->cfg[$fld]) > 2) {
+            if (in_array($fld, ['default_fedex_country', 'default_fedex_state']) && strlen($this->cfg[$fld]) > 2) {
                 $json['error'] = true;
                 $json['message'] = 'Error: Please check "State" and "Country" settings values. It must be two-letters code. ( '.$this->cfg[$fld].' )';
                 break;
@@ -96,7 +96,7 @@ class ControllerResponsesExtensionDefaultFedex extends AController
         } else {
             $path_to_wsdl = DIR_EXT.'default_fedex/core/lib/RateService_v9.wsdl';
         }
-        $client = new SoapClient($path_to_wsdl, array('trace' => 1)); // Refer to http://us3.php.net/manual/en/ref.soap.php for more information
+        $client = new SoapClient($path_to_wsdl, ['trace' => 1]); // Refer to http://us3.php.net/manual/en/ref.soap.php for more information
 
         //Fedex Key
         $fedex_key = $this->cfg['default_fedex_key'];
@@ -125,7 +125,7 @@ class ControllerResponsesExtensionDefaultFedex extends AController
         //Recepient Info
         $shipping_address = $address;
 
-        $request = array();
+        $request = [];
 
         $product_weight = 1.00;
         $product_length = 1.00;
@@ -136,66 +136,66 @@ class ControllerResponsesExtensionDefaultFedex extends AController
         $product_total = 1.0;
 
         //BUILD REQUEST START
-        $request['WebAuthenticationDetail'] = array(
-            'UserCredential' => array(
+        $request['WebAuthenticationDetail'] = [
+            'UserCredential' => [
                 'Key'      => $fedex_key,
                 'Password' => $fedex_password,
-            ),
-        );
-        $request['ClientDetail'] = array('AccountNumber' => $fedex_account, 'MeterNumber' => $fedex_meter_id);
-        $request['TransactionDetail'] = array('CustomerTransactionId' => ' *** Rate Request v9 using PHP ***');
-        $request['Version'] = array('ServiceId' => 'crs', 'Major' => '9', 'Intermediate' => '0', 'Minor' => '0');
+            ],
+        ];
+        $request['ClientDetail'] = ['AccountNumber' => $fedex_account, 'MeterNumber' => $fedex_meter_id];
+        $request['TransactionDetail'] = ['CustomerTransactionId' => ' *** Rate Request v9 using PHP ***'];
+        $request['Version'] = ['ServiceId' => 'crs', 'Major' => '9', 'Intermediate' => '0', 'Minor' => '0'];
         $request['ReturnTransitAndCommit'] = true;
         $request['RequestedShipment']['DropoffType'] = 'REGULAR_PICKUP'; // valid values REGULAR_PICKUP, REQUEST_COURIER, ...
         $request['RequestedShipment']['ShipTimestamp'] = date('c');
         //$request['RequestedShipment']['ServiceType'] = 'GROUND_HOME_DELIVERY'; // valid values STANDARD_OVERNIGHT, PRIORITY_OVERNIGHT, FEDEX_GROUND, ...
         $request['RequestedShipment']['PackagingType'] = 'YOUR_PACKAGING'; // valid values FEDEX_BOX, FEDEX_PAK, FEDEX_TUBE, YOUR_PACKAGING, ...
-        $request['RequestedShipment']['TotalInsuredValue'] = array('Ammount' => $product_total, 'Currency' => 'USD');
-        $request['RequestedShipment']['Shipper'] = array(
-            'Address' => array(
-                'StreetLines'         => array($fedex_addr), // Origin details
+        $request['RequestedShipment']['TotalInsuredValue'] = ['Ammount' => $product_total, 'Currency' => 'USD'];
+        $request['RequestedShipment']['Shipper'] = [
+            'Address' => [
+                'StreetLines'         => [$fedex_addr], // Origin details
                 'City'                => $fedex_city,
                 'StateOrProvinceCode' => $fedex_state,
                 'PostalCode'          => $fedex_zip,
                 'CountryCode'         => $fedex_country,
-            ),
-        );
+            ],
+        ];
 
-        $request['RequestedShipment']['Recipient'] = array(
-            'Address' => array(
-                'StreetLines'         => array($shipping_address['address_1'], $shipping_address['address_2']),
+        $request['RequestedShipment']['Recipient'] = [
+            'Address' => [
+                'StreetLines'         => [$shipping_address['address_1'], $shipping_address['address_2']],
                 'City'                => $shipping_address['city'],
                 'StateOrProvinceCode' => $shipping_address['zone_code'],
                 'PostalCode'          => $shipping_address['postcode'],
                 'CountryCode'         => $shipping_address['iso_code_2'],
                 'Residential'         => $fedex_residential,
-            ),
-        );
-        $request['RequestedShipment']['ShippingChargesPayment'] = array(
+            ],
+        ];
+        $request['RequestedShipment']['ShippingChargesPayment'] = [
             'PaymentType' => 'SENDER',
-            'Payor'       => array(
+            'Payor'       => [
                 'AccountNumber' => $fedex_account,
                 'CountryCode'   => 'US',
-            ),
-        );
+            ],
+        ];
         $request['RequestedShipment']['RateRequestTypes'] = 'ACCOUNT';
         $request['RequestedShipment']['RateRequestTypes'] = 'LIST';
         $request['RequestedShipment']['PackageCount'] = $product_quantity;
         $request['RequestedShipment']['PackageDetail'] = 'INDIVIDUAL_PACKAGES';  //  Or PACKAGE_SUMMARY
 
         for ($q = 0; $q < $product_quantity; $q++) {
-            $request['RequestedShipment']['RequestedPackageLineItems'] = array(
-                'Weight'     => array(
+            $request['RequestedShipment']['RequestedPackageLineItems'] = [
+                'Weight'     => [
                     'Value' => $product_weight,
                     'Units' => 'LB',
-                ),
-                'Dimensions' => array(
+                ],
+                'Dimensions' => [
                     'Length' => $product_length,
                     'Width'  => $product_width,
                     'Height' => $product_height,
                     'Units'  => 'IN',
-                ),
-            );
+                ],
+            ];
         }
 
         $error_msg = '';
@@ -211,15 +211,14 @@ class ControllerResponsesExtensionDefaultFedex extends AController
             }
 
         } catch (SoapFault $exception) {
-            $error_text = 'Fault'."<br>\n";
-            $error_text .= "Code:".$exception->faultcode."\n";
-            $error_text .= "String:".$exception->faultstring."\n";
-            $error_text .= $client;
-            $this->message->saveError('fedex extension soap error', $error_text);
-            $this->log->write($error_text);
+            $error_msg = 'Fault'."<br>\n";
+            $error_msg .= "Code:".$exception->faultcode."\n";
+            $error_msg .= "String:".$exception->faultstring."\n";
+            $this->messages->saveError('fedex extension soap error', $error_msg);
+            $this->log->write($error_msg);
         }
 
-        return array('error' => $error_msg);
+        return ['error' => $error_msg];
     }
 
     private function _get_notifications($notes)

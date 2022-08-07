@@ -135,6 +135,11 @@ class ControllerResponsesListingGridSetting extends AController
                 if (has_value($data['store_name'])) {
                     $data['store_name'] = html_entity_decode($data['store_name'], ENT_COMPAT, 'UTF-8');
                 }
+                //decode regex pattern
+                if (has_value($data['config_phone_validation_pattern'])) {
+                    //value encoded because of xss( see ARequest:clean())
+                    $data['config_phone_validation_pattern'] = base64_decode($data['config_phone_validation_pattern']);
+                }
 
                 //when change base currency for default store also change values for all currencies in database before saving
                 if (!(int)$this->request->get['store_id']

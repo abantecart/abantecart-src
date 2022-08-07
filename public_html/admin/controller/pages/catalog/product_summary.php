@@ -32,12 +32,14 @@ class ControllerPagesCatalogProductSummary extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadLanguage('catalog/product');
-        $this->loadModel('catalog/product');
-
-        $this->data['product'] = $product_info = $this->model_catalog_product->getProduct($this->request->get['product_id']);
-        $this->data['product']['product_id'] = '#'.$this->data['product']['product_id'];
+        /** @var ModelCatalogProduct $mdl */
+        $mdl = $this->loadModel('catalog/product');
+        $product_id = (int)$this->request->get['product_id'];
+        $this->data['product'] = $product_info = $mdl->getProduct($product_id);
+        $stores = $mdl->getProductStores($product_id);
+        $this->data['product']['product_id'] = '#'.$product_id;
         $this->data['product']['price'] = $this->currency->format($this->data['product']['price']);
-        $this->data['product']['condition'] = $this->model_catalog_product->getProductCondition($this->request->get['product_id']);
+        $this->data['product']['condition'] = $mdl->getProductCondition($product_id);
 
         $this->data['text_product_condition'] = $this->language->get('text_product_condition');
         $this->data['text_product_available'] = $this->language->get('text_product_available');
@@ -48,11 +50,20 @@ class ControllerPagesCatalogProductSummary extends AController
             $this->config->get('config_image_grid_width'),
             $this->config->get('config_image_grid_height'), true);
         $this->data['product']['image'] = $thumbnail;
-        $this->data['product']['preview'] = $this->html->getCatalogURL('product/product', '&product_id='.$product_info['product_id']);
+        $currStoreId = (int)$this->session->data['current_store_id'];
+
+        if(in_array((string)$currStoreId, $stores)) {
+            $this->data['product']['preview'] = $this->html->getCatalogURL('product/product', '&product_id='.$product_id);
+        }else{
+            /** @var ModelSettingSetting $mdl */
+            $mdl = $this->loadModel('setting/setting');
+            $settings = $mdl->getSetting('details',current($stores));
+            $this->data['product']['preview'] = $settings['config_url'].INDEX_FILE.'?'.'rt=product/product&product_id='.$product_id;
+        }
 
         $this->loadModel('sale/order');
-        $this->data['product']['orders'] = $this->model_sale_order->getOrderTotalWithProduct($product_info['product_id']);
-        $this->data['product']['orders_url'] = $this->html->getSecureURL('sale/order', '&product_id='.$product_info['product_id']);
+        $this->data['product']['orders'] = $this->model_sale_order->getOrderTotalWithProduct($product_id);
+        $this->data['product']['orders_url'] = $this->html->getSecureURL('sale/order', '&product_id='.$product_id);
 
         $this->view->assign('help_url', $this->gen_help_url('product_summary'));
         $this->view->batchAssign($this->data);

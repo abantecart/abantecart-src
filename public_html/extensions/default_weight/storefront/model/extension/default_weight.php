@@ -31,7 +31,7 @@ class ModelExtensionDefaultWeight extends Model
         $language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
         $language->load($language->language_details['directory']);
         $language->load('default_weight/default_weight');
-        $quote_data = array();
+        $quote_data = [];
         if ($this->config->get('default_weight_status')) {
             $query = $this->db->query("SELECT * FROM ".$this->db->table("locations")." ORDER BY name");
             foreach ($query->rows as $result) {
@@ -57,7 +57,7 @@ class ModelExtensionDefaultWeight extends Model
                     //Process all products shipped together with not special shipping settings on a product level
                     $b_products = $this->cart->basicShippingProducts();
                     if (count($b_products) > 0) {
-                        $prod_ids = array();
+                        $prod_ids = [];
                         foreach ($b_products as $prd) {
                             $prod_ids[] = $prd['product_id'];
                         }
@@ -76,7 +76,7 @@ class ModelExtensionDefaultWeight extends Model
                     //Process products that have special shipping settings
                     $special_ship_products = $this->cart->specialShippingProducts();
                     foreach ($special_ship_products as $product) {
-                        $weight = $this->cart->getWeight(array($product['product_id']));
+                        $weight = $this->cart->getWeight([$product['product_id']]);
                         if ($product['free_shipping']) {
                             continue;
                         } else {
@@ -93,7 +93,7 @@ class ModelExtensionDefaultWeight extends Model
                                     $data = explode(':', $rate);
                                     if ($data[0] >= $weight) {
                                         if (isset($data[1])) {
-                                            $cost = $cost + $data[1];
+                                            $cost = $cost + (float)$data[1];
                                         }
                                         break;
                                     }
@@ -103,28 +103,24 @@ class ModelExtensionDefaultWeight extends Model
                     }
 
                     if ((string)$cost != '') {
-                        $quote_data['default_weight_'.$result['location_id']] = array(
+                        $taxCost = $this->tax->calculate(
+                                    $cost,
+                                    $this->config->get('default_weight_tax_class_id'),
+                                    true
+                        );
+                        $quote_data['default_weight_'.$result['location_id']] = [
                             'id'           => 'default_weight.default_weight_'.$result['location_id'],
                             'title'        => $result['name'].'  ('.$language->get('text_weight')
                                             .' '.$this->weight->format(
                                                         $this->cart->getWeight(),
                                                         $this->config->get('config_weight_class')
                                             ).')',
-                            'cost'         => $this->tax->calculate(
-                                                            $cost,
-                                                            $this->config->get('default_weight_tax_class_id'),
-                                                            $this->config->get('config_tax')
-                                                ),
-                            'tax_class_id' => $this->config->get('default_weight_tax_class_id'),
-                            'text'         => $this->currency->format(
-                                                            $this->tax->calculate($cost,
-                                                            $this->config->get('default_weight_tax_class_id'),
-                                                            $this->config->get('config_tax'))
-                                                )
-                        );
+                            'cost'         => $taxCost,
+                            'text'         => $this->currency->format($taxCost )
+                        ];
                     }
                     if ($this->cart->areAllFreeShipping()) {
-                        $quote_data['default_weight_'.$result['location_id']] = array(
+                        $quote_data['default_weight_'.$result['location_id']] = [
                             'id'           => 'default_weight.default_weight_'.$result['location_id'],
                             'title'        => $result['name'].'  ('.$language->get('text_weight')
                                                 .' '.$this->weight->format(
@@ -134,26 +130,25 @@ class ModelExtensionDefaultWeight extends Model
                             'cost'         => $this->tax->calculate(
                                                     $cost,
                                                     $this->config->get('default_weight_tax_class_id'),
-                                                    $this->config->get('config_tax')
+                                                    true
                             ),
-                            'tax_class_id' => $this->config->get('default_weight_tax_class_id'),
                             'text'         => $language->get('text_free'),
-                        );
+                        ];
                     }
                 }
             }
         }
 
-        $method_data = array();
+        $method_data = [];
 
         if ($quote_data) {
-            $method_data = array(
+            $method_data = [
                 'id'         => 'default_weight.default_weight',
                 'title'      => $language->get('text_title'),
                 'quote'      => $quote_data,
                 'sort_order' => $this->config->get('default_weight_sort_order'),
                 'error'      => false,
-            );
+            ];
         }
 
         return $method_data;

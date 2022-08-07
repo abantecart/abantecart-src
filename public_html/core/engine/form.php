@@ -693,7 +693,6 @@ class AForm
             //for captcha or recaptcha
             if ($field['element_type'] == 'K' || $field['element_type'] == 'J') {
                 if ($this->config->get('config_recaptcha_secret_key')) {
-                    require_once DIR_VENDORS.'/google_recaptcha/autoload.php';
                     $recaptcha = new ReCaptcha($this->config->get('config_recaptcha_secret_key'));
                     $resp = $recaptcha->verify($data['g-recaptcha-response'], $this->request->getRemoteIP());
                     if (!$resp->isSuccess() && $resp->getErrorCodes()) {

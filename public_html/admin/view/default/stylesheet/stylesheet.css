@@ -1972,6 +1972,7 @@ a.resource_edit .img-responsive {
 
 .latestuserlist .approved .media-thumb {
 	border-color: #F19013;
+	width: 41px;
 }
 
 .latestuserlist .media-object {
@@ -3645,4 +3646,16 @@ table.table.table-striped.table-bordered.import-table img { max-width: 100%; }
 }
 .popular .fa::before  {
 	color: #f38108;
+}
+
+.user-top-menu .media-thumb {
+	-moz-border-radius: 30px;
+	-webkit-border-radius: 30px;
+	border-radius: 30px;
+	border: 0;
+	color: white;
+	background-color: #c4c4c4;
+	padding: 3px;
+	font-size: 18px;
+	width: 26px;
 }

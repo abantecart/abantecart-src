@@ -1,13 +1,11 @@
 <?php
-/** @noinspection PhpUndefinedClassInspection */
-
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2021 Belavier Commerce LLC
+  Copyright © 2011-2022 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -36,10 +34,23 @@ class ControllerCommonHead extends AController
         run_system_check($this->registry, 'log');
 
         $this->loadLanguage('common/header');
-
+        $meta = [
+            'keywords' => [
+                'name' => 'keywords',
+                'content' => $this->document->getKeywords()
+            ],
+            'description' => [
+                'name' => 'description',
+                'content' => $this->document->getDescription()
+            ],
+            'generator' => [
+                'name' => 'generator',
+                'content' => 'AbanteCart v'.VERSION.' - Open Source eCommerce solution'
+            ],
+        ];
+        $this->view->assign('meta', $meta);
         $this->view->assign('title', $this->document->getTitle());
-        $this->view->assign('keywords', $this->document->getKeywords());
-        $this->view->assign('description', $this->document->getDescription());
+
         $this->view->assign('template', $this->config->get('config_storefront_template'));
 
         $retina = $this->config->get('config_retina_enable');

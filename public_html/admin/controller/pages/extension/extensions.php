@@ -1071,8 +1071,17 @@ class ControllerPagesExtensionExtensions extends AController
             $validate = $this->extension_manager->validate($this->request->get['extension']);
             if (!$validate) {
                 $this->session->data['error'] = implode('<br>', $this->extension_manager->errors);
-                redirect($this->html->getSecureURL('extension/extensions/'.$this->session->data['extension_filter']));
+                if($this->extension_manager->isExtensionInstalled($this->request->get['extension'])){
+                    $url = $this->html->getSecureURL(
+                        'extension/extensions/edit',
+                        '&extension='.$this->request->get['extension']
+                    );
+                }else {
+                    $url = $this->html->getSecureURL( 'extension/extensions/' . $this->session->data['extension_filter'] );
+                }
+                redirect( $url );
             }
+
             $config = getExtensionConfigXml($this->request->get['extension']);
             if ($config === false) {
                 $filename = DIR_EXT.str_replace('../', '', $this->request->get['extension']).'/config.xml';

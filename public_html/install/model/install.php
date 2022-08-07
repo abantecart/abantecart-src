@@ -7,7 +7,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2021 Belavier Commerce LLC
+  Copyright © 2011-2022 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -92,7 +92,7 @@ class ModelInstall extends Model
                     $data['db_password'],
                     $data['db_name']
                 );
-            } catch (AException $exception) {
+            } catch (Exception $exception) {
                 $this->errors['warning'] = $exception->getMessage();
             }
         }
@@ -100,6 +100,20 @@ class ModelInstall extends Model
         if (!is_writable(DIR_ABANTECART.'system/config.php')) {
             $this->errors['warning'] = 'Error: Could not write to config.php please check you have '
                 .'set the correct permissions on: '.DIR_ABANTECART.'system/config.php!';
+        }
+
+        if ($data['with-sample-data']) {
+            $sampleDataFile = '';
+            if(!is_file($data['with-sample-data'])){
+                if(is_file(DIR_APP_SECTION.$data['with-sample-data'])){
+                    $sampleDataFile = DIR_APP_SECTION.$data['with-sample-data'];
+                }
+            }else{
+                $sampleDataFile = $data['with-sample-data'];
+            }
+            if(!$sampleDataFile) {
+                $this->errors['with-sample-data'] = 'Sample data file not found!';
+            }
         }
 
         return (!$this->errors);
@@ -196,22 +210,35 @@ class ModelInstall extends Model
         $content .= "   Copyright © 2011-".date('Y')." Belavier Commerce LLC\n\n";
         $content .= "   Released under the Open Software License (OSL 3.0)\n";
         $content .= "*/\n\n";
-        $content .= "define('SERVER_NAME', '".getenv('SERVER_NAME')."');\n";
+        $content .= "const SERVER_NAME = '".getenv('SERVER_NAME')."';\n";
         $content .= "// Admin Section Configuration. You can change this value to any name. Will use ?s=name to access the admin\n";
-        $content .= "define('ADMIN_PATH', '".$data['admin_path']."');\n\n";
+        $content .= "const ADMIN_PATH = '".$data['admin_path']."';\n\n";
         $content .= "// Database Configuration\n";
-        $content .= "define('DB_DRIVER', '".$data['db_driver']."');\n";
-        $content .= "define('DB_HOSTNAME', '".$data['db_host']."');\n";
-        $content .= "define('DB_USERNAME', '".$data['db_user']."');\n";
-        $content .= "define('DB_PASSWORD', '".$data['db_password']."');\n";
-        $content .= "define('DB_DATABASE', '".$data['db_name']."');\n";
-        $content .= "define('DB_PREFIX', '".DB_PREFIX."');\n";
+        $content .= "const DB_DRIVER = '".$data['db_driver']."';\n";
+        $content .= "const DB_HOSTNAME = '".$data['db_host']."';\n";
+        $content .= "const DB_USERNAME = '".$data['db_user']."';\n";
+        $content .= "const DB_PASSWORD = '".$data['db_password']."';\n";
+        $content .= "const DB_DATABASE = '".$data['db_name']."';\n";
+        $content .= "const DB_PREFIX = '".DB_PREFIX."';\n";
         $content .= "\n";
-        $content .= "define('CACHE_DRIVER', 'file');\n";
+        $content .= "const CACHE_DRIVER = 'file';\n";
         $content .= "// Unique AbanteCart store ID\n";
-        $content .= "define('UNIQUE_ID', '".md5(time())."');\n";
+        $content .= "const UNIQUE_ID = '".md5(time())."';\n";
         $content .= "// Encryption key for protecting sensitive information. NOTE: Change of this key will cause a loss of all existing encrypted information!\n";
-        $content .= "define('ENCRYPTION_KEY', '".randomWord(6)."');\n";
+        $content .= "const ENCRYPTION_KEY = '".randomWord(6)."';\n";
+        $content .= "
+// details about allowed DSN settings  https://symfony.com/doc/6.0/mailer.html#transport-setup
+/*
+const MAILER = [
+    //'dsn' => null,
+    // OR
+    'protocol' => 'smtp', // or ses+smtp, gmail+smtp, mandrill+smtp, mailgun+smtp, mailjet+smtp, postmark+smtp, sendgrid+smtp, sendinblue+smtp, ohmysmtp+smtp
+    //we use \"username\" also as ID, KEY, API_TOKEN, ACCESS_KEY
+    'username' => 'merchant@yourdomain.com',
+    'password' => '****super-secret-password****',
+    'host'     => 'your-hostname',
+    'port'     => 465 //or 587 etc
+];\n*/";
 
         $file = fopen(DIR_ABANTECART.'system/config.php', 'w');
         fwrite($file, $content);
@@ -317,41 +344,41 @@ class ModelInstall extends Model
      * @return null
      * @throws AException
      */
-    public function loadDemoData($registry)
+    public function loadDemoData($registry, $file = '')
     {
         /** @var ADB $db */
         $db = $registry->get('db');
         $db->query("SET NAMES 'utf8'");
         $db->query("SET CHARACTER SET utf8");
 
-        $file = DIR_APP_SECTION.'abantecart_sample_data.sql';
+        $file = DIR_APP_SECTION.($file ? : 'abantecart_sample_data.sql');
+        if(!is_file($file)){
+            return;
+        }else{
+            $sql = file($file);
+        }
+        $query = '';
 
-        if ($sql = file($file)) {
-            $query = '';
+        foreach ($sql as $line) {
+            $tsl = trim($line);
 
-            foreach ($sql as $line) {
-                $tsl = trim($line);
+            if (($line != '') && (substr($tsl, 0, 2) != "--") && (substr($tsl, 0, 1) != '#')) {
+                $query .= $line;
+                if (preg_match('/;\s*$/', $line)) {
+                    $query = str_replace("DROP TABLE IF EXISTS `ac_", "DROP TABLE IF EXISTS `".DB_PREFIX, $query);
+                    $query = str_replace("CREATE TABLE `ac_", "CREATE TABLE `".DB_PREFIX, $query);
+                    $query = str_replace("INSERT INTO `ac_", "INSERT INTO `".DB_PREFIX, $query);
+                    $result = $db->query($query);
 
-                if (($sql != '') && (substr($tsl, 0, 2) != "--") && (substr($tsl, 0, 1) != '#')) {
-                    $query .= $line;
-
-                    if (preg_match('/;\s*$/', $line)) {
-                        $query = str_replace("DROP TABLE IF EXISTS `ac_", "DROP TABLE IF EXISTS `".DB_PREFIX, $query);
-                        $query = str_replace("CREATE TABLE `ac_", "CREATE TABLE `".DB_PREFIX, $query);
-                        $query = str_replace("INSERT INTO `ac_", "INSERT INTO `".DB_PREFIX, $query);
-
-                        $result = $db->query($query);
-
-                        if (!$result || $db->error) {
-                            die($db->error.'<br>'.$query);
-                        }
-
-                        $query = '';
+                    if (!$result || $db->error) {
+                        exit($db->error.'<br>'.$query);
                     }
+
+                    $query = '';
                 }
             }
-            $db->query("SET CHARACTER SET utf8");
         }
+        $db->query("SET CHARACTER SET utf8");
         //clear earlier created cache by AConfig and ALanguage classes in previous step
         $cache = new ACache();
         $cache->setCacheStorageDriver('file');

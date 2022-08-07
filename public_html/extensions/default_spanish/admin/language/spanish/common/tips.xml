@@ -15,8 +15,8 @@
 	        <img src="extensions/default_stripe/image/icon.png"><br>Instale Stripe </a>
 	    </div>
 	    <div class="col-sm-4 h5 center">
-	        <a href="#admin#rt=extension/extensions/install&extension=default_pp_standart">
-	        <img src="extensions/default_pp_standart/image/icon.png"><br>Instale Paypal Extensión</a>
+	        <a href="#admin#rt=extension/extensions/install&extension=paypal_commerce">
+	        <img src="extensions/paypal_commerce/image/icon.png"><br>Instale Paypal Extensión</a>
 	    </div>
 	    <div class="col-sm-4 h5 center">
 	        <a href="#admin#rt=extension/extensions/payment" target="_extension">

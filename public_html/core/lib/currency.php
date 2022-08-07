@@ -208,13 +208,13 @@ final class ACurrency
      *
      * @param float $number
      * @param string $currency
-     * @param string $crr_value
+     * @param float $crr_value
      * @param bool $format
      *
      * @return string|float
      * @throws AException
      */
-    public function format($number, $currency = '', $crr_value = '', $format = true)
+    public function format($number, $currency = '', $crr_value = 0.0, $format = true)
     {
         if (empty ($currency)) {
             $currency = $this->code;
@@ -225,9 +225,9 @@ final class ACurrency
         }
 
         if ($crr_value) {
-            $value = $number * $crr_value;
+            $value = (float)$number * (float)$crr_value;
         } else {
-            $value = $number;
+            $value = (float)$number;
         }
 
         $decimal_place = (int) $this->currencies[$currency]['decimal_place'];

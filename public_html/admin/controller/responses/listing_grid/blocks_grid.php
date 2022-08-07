@@ -264,6 +264,7 @@ class ControllerResponsesListingGridBlocksGrid extends AController
                 'name'     => 'limit',
                 'value'    => $content['limit'],
                 'style'    => 'no-save',
+                'multilingual' => true,
                 'help_url' => $this->gen_help_url('block_limit'),
             ]
         )
@@ -328,6 +329,7 @@ class ControllerResponsesListingGridBlocksGrid extends AController
                         'name'     => 'limit',
                         'value'    => $content['limit'],
                         'style'    => 'no-save',
+                        'multilingual' => true,
                         'help_url' => $this->gen_help_url('block_limit'),
                     ]
                 ),
@@ -390,6 +392,7 @@ class ControllerResponsesListingGridBlocksGrid extends AController
                         'name'     => 'limit',
                         'value'    => $content['limit'],
                         'style'    => 'no-save',
+                        'multilingual' => true,
                         'help_url' => $this->gen_help_url('block_limit'),
                     ]
                 ),

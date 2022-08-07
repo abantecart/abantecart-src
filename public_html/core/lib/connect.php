@@ -60,7 +60,7 @@ final class AConnect
      *
      * @var int
      */
-    private $timeout = 5;
+    private $timeout = 10;
     /**
      * http-authentication parameters
      *
@@ -206,6 +206,8 @@ final class AConnect
     private function _checkURL($url, $secure = false)
     {
         $url = trim($url);
+        $protocol = parse_url($url, PHP_URL_SCHEME);
+        $secure = $protocol=='https' ? true : $secure;
 
         if (!$url) {
             $this->error = "Error: empty URL was given for connection.";
@@ -376,7 +378,7 @@ final class AConnect
         $curlInfo = [];
         //Curl Connection for HTTP and HTTPS
         $authentication = $this->auth['name'] ? 1 : 0;
-        $curl_sock = curl_init();
+        $curl_sock = curl_init($url);
         // write downloaded size into session for response-preloader (progressbar).
         $this->registry->get('session')->data['curl'][CURLINFO_SIZE_DOWNLOAD] =
             curl_getinfo($curl_sock, CURLINFO_SIZE_DOWNLOAD);

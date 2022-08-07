@@ -28,14 +28,21 @@
 					<td></td>
 				</tr>
 				</thead>
-				<?php $discount_row = 0; ?>
-				<?php foreach ($product_discounts as $product_discount) { ?>
+				<?php
+                $discount_row = 0;
+
+                foreach ($product_discounts as $product_discount) { ?>
 					<tbody id="discount_row<?php echo $discount_row; ?>">
 					<tr>
 						<td class="left"><?php echo $customer_groups[$product_discount['customer_group_id']]; ?></td>
 						<td class="left"><?php echo $product_discount['quantity']; ?></td>
 						<td class="left"><?php echo $product_discount['priority']; ?></td>
-						<td class="left"><?php echo moneyDisplayFormat($product_discount['price']); ?></td>
+						<td class="left"><?php
+                            echo $product_discount['price_prefix'] == '%'
+                            ? round($product_discount['price'],2).'%'
+                            : $this->currency->format($product_discount['price']);
+
+                            ?></td>
 						<td class="left"><?php echo $product_discount['date_start']; ?></td>
 						<td class="left"><?php echo $product_discount['date_end']; ?></td>
 						<td class="left">
@@ -91,7 +98,11 @@
 					<tr>
 						<td class="left col-sm-6"><?php echo $customer_groups[$item['customer_group_id']]; ?></td>
 						<td class="left"><?php echo $item['priority']; ?></td>
-						<td class="left"><?php echo moneyDisplayFormat($item['price']); ?></td>
+						<td class="left"><?php
+                            echo $item['price_prefix'] == '%'
+                            ? round($item['price'],2).'%'
+                            : $this->currency->format($item['price']);
+                        ?></td>
 						<td class="left"><?php echo $item['date_start']; ?></td>
 						<td class="left"><?php echo $item['date_end']; ?></td>
 						<td class="left">

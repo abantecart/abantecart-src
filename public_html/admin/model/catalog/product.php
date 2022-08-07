@@ -26,6 +26,7 @@
  */
 class ModelCatalogProduct extends Model
 {
+    const TAG_REGEX_PATTERN = '/[^\\d\s\p{L}\-_]/u';
     /** @param array $data
      * @return int
      * @throws AException
@@ -193,13 +194,12 @@ class ModelCatalogProduct extends Model
                 $tags = (array) $data['product_tags'];
             }
 
-            array_walk_recursive($tags, 'trim');
-
             foreach ($tags as $lang_id => $taglist) {
                 $taglist = array_unique($taglist);
 
                 foreach ($taglist as $tag) {
                     $tag = trim($tag);
+                    $tag = preg_replace(self::TAG_REGEX_PATTERN,'',$tag);
                     if (!$tag) {
                         continue;
                     }
@@ -238,6 +238,7 @@ class ModelCatalogProduct extends Model
                 customer_group_id = '".(int) $data['customer_group_id']."',
                 quantity = '".preformatInteger($data['quantity'])."',
                 priority = '".(int) $data['priority']."',
+                price_prefix = '".$this->db->escape($data['price_prefix'])."',
                 price = '".preformatFloat($data['price'])."',
                 date_start = '".$this->db->escape($data['date_start'])."',
                 date_end = '".$this->db->escape($data['date_end'])."'"
@@ -269,6 +270,7 @@ class ModelCatalogProduct extends Model
             SET product_id = '".(int) $product_id."',
                 customer_group_id = '".(int) $data['customer_group_id']."',
                 priority = '".(int) $data['priority']."',
+                price_prefix = '".$this->db->escape($data['price_prefix'])."',
                 price = '".preformatFloat($data['price'], $this->language->get('decimal_point'))."',
                 date_start = '".$this->db->escape($data['date_start'])."',
                 date_end = '".$this->db->escape($data['date_end'])."'"
@@ -404,7 +406,9 @@ class ModelCatalogProduct extends Model
 
         if (isset($data['product_tags'])) {
             $tags = $this->getUniqueTags($data['product_tags']);
+
             foreach ($tags as &$tag) {
+                $tag = preg_replace(self::TAG_REGEX_PATTERN,'',$tag);
                 $tag = $this->db->escape(trim($tag));
             }
 
@@ -453,7 +457,7 @@ class ModelCatalogProduct extends Model
      */
     public function updateProductDiscount($product_discount_id, $data)
     {
-        $fields = ["customer_group_id", "quantity", "priority", "price", "date_start", "date_end",];
+        $fields = ["customer_group_id", "quantity", "priority", "price_prefix", "price", "date_start", "date_end",];
         if (isset($data['price'])) {
             $data['price'] = preformatFloat($data['price'], $this->language->get('decimal_point'));
         }
@@ -488,7 +492,7 @@ class ModelCatalogProduct extends Model
      */
     public function updateProductSpecial($product_special_id, $data)
     {
-        $fields = ["customer_group_id", "priority", "price", "date_start", "date_end",];
+        $fields = ["customer_group_id", "priority", "price_prefix", "price", "date_start", "date_end",];
         if (isset($data['price'])) {
             $data['price'] = preformatFloat($data['price'], $this->language->get('decimal_point'));
         }

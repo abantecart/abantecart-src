@@ -1,6 +1,5 @@
 <?php
 /** @noinspection PhpMultipleClassDeclarationsInspection */
-
 /** @noinspection PhpUndefinedClassInspection */
 
 /*------------------------------------------------------------------------------
@@ -21,8 +20,6 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-
-require 'vendor/autoload.php';
 
 class ExtensionAvataxIntegration extends Extension
 {
@@ -962,7 +959,6 @@ class ExtensionAvataxIntegration extends Extension
         }
 
         $that = $this->baseObject;
-        require_once DIR_EXTENSIONS.'avatax_integration/core/vendor/autoload.php';
 
         // Header Level Elements
         // Required Header Level Elements

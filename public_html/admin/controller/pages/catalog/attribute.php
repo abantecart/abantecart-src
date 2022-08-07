@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2022 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,8 +23,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerPagesCatalogAttribute extends AController
 {
-    public $data = array();
-    public $error = array();
+    public $error = [];
     /**
      * @var AAttribute_Manager
      */
@@ -50,19 +49,19 @@ class ControllerPagesCatalogAttribute extends AController
             unset($this->session->data['success']);
         }
 
-        $this->document->initBreadcrumb(array(
+        $this->document->initBreadcrumb([
             'href'      => $this->html->getSecureURL('index/home'),
             'text'      => $this->language->get('text_home'),
             'separator' => false,
-        ));
-        $this->document->addBreadcrumb(array(
+        ]);
+        $this->document->addBreadcrumb([
             'href'      => $this->html->getSecureURL('catalog/attribute'),
             'text'      => $this->language->get('heading_title'),
             'separator' => ' :: ',
             'current'   => true,
-        ));
+        ]);
 
-        $grid_settings = array(
+        $grid_settings = [
             'table_id'         => 'attribute_grid',
             'url'              => $this->html->getSecureURL('listing_grid/attribute'),
             'editurl'          => $this->html->getSecureURL('listing_grid/attribute/update'),
@@ -71,62 +70,62 @@ class ControllerPagesCatalogAttribute extends AController
             'drag_sort_column' => 'sort_order',
             'sortorder'        => 'asc',
             'columns_search'   => true,
-            'actions'          => array(
-                'edit'   => array(
+            'actions'          => [
+                'edit'   => [
                     'text' => $this->language->get('text_edit'),
                     'href' => $this->html->getSecureURL('catalog/attribute/update', '&attribute_id=%ID%'),
-                ),
-                'save'   => array(
+                ],
+                'save'   => [
                     'text' => $this->language->get('button_save'),
-                ),
-                'delete' => array(
+                ],
+                'delete' => [
                     'text' => $this->language->get('button_delete'),
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $grid_settings['search_form'] = false;
 
-        $grid_settings['colNames'] = array(
+        $grid_settings['colNames'] = [
             $this->language->get('column_name'),
             $this->language->get('column_type'),
             $this->language->get('column_sort_order'),
             $this->language->get('column_status'),
-        );
-        $grid_settings['colModel'] = array(
-            array(
+        ];
+        $grid_settings['colModel'] = [
+            [
                 'name'  => 'name',
                 'index' => 'name',
                 'align' => 'left',
-            ),
-            array(
+            ],
+            [
                 'name'  => 'attribute_type',
                 'index' => 'type_name',
                 'align' => 'left',
                 'width' => 90,
-            ),
-            array(
+            ],
+            [
                 'name'   => 'sort_order',
                 'index'  => 'sort_order',
                 'align'  => 'center',
                 'width'  => 60,
                 'search' => false,
-            ),
-            array(
+            ],
+            [
                 'name'   => 'status',
                 'index'  => 'status',
                 'align'  => 'center',
                 'width'  => 80,
                 'search' => false,
-            ),
-        );
+            ],
+        ];
 
         if ($this->config->get('config_show_tree_data')) {
             $grid_settings['expand_column'] = "name";
             $grid_settings['multiaction_class'] = 'hidden';
         }
 
-        $grid = $this->dispatch('common/listing_grid', array($grid_settings));
+        $grid = $this->dispatch('common/listing_grid', [$grid_settings]);
         $this->view->assign('listing_grid', $grid->dispatchGetOutput());
 
         $this->view->assign('insert', $this->html->getSecureURL('catalog/attribute/insert'));
@@ -195,21 +194,21 @@ class ControllerPagesCatalogAttribute extends AController
     private function _getForm()
     {
 
-        $this->data = array();
+        $this->data = [];
         $this->data['error'] = $this->error;
         $this->data['cancel'] = $this->html->getSecureURL('catalog/attribute');
         $this->data['get_attribute_type'] = $this->html->getSecureURL('r/catalog/attribute/get_attribute_type');
 
-        $this->document->initBreadcrumb(array(
+        $this->document->initBreadcrumb([
             'href'      => $this->html->getSecureURL('index/home'),
             'text'      => $this->language->get('text_home'),
             'separator' => false,
-        ));
-        $this->document->addBreadcrumb(array(
+        ]);
+        $this->document->addBreadcrumb([
             'href'      => $this->html->getSecureURL('catalog/attribute'),
             'text'      => $this->language->get('heading_title'),
             'separator' => ' :: ',
-        ));
+        ]);
 
         $attribute_id = (int)$this->request->get['attribute_id'];
 
@@ -230,7 +229,7 @@ class ControllerPagesCatalogAttribute extends AController
                     $attribute_id,
                     $this->language->getContentLanguageID()
                 );
-                $attribute_info['values'] = array();
+                $attribute_info['values'] = [];
                 foreach ($values as $v) {
                     $attribute_info['values'][] = addslashes(html_entity_decode($v['value'], ENT_COMPAT, 'UTF-8'));
                 }
@@ -245,7 +244,7 @@ class ControllerPagesCatalogAttribute extends AController
             $attribute_type_info = $this->attribute_manager->getAttributeTypeInfoById((int)$this->request->get['attribute_type_id']);
         }
 
-        $fields = array(
+        $fields = [
             'name',
             'attribute_group_id',
             'attribute_type_id',
@@ -258,7 +257,7 @@ class ControllerPagesCatalogAttribute extends AController
             'settings',
             'status',
             'values',
-        );
+        ];
 
         if ($attribute_type_info['type_key'] != 'download_attribute') {
             $fields[] = 'attribute_parent_id';
@@ -314,68 +313,68 @@ class ControllerPagesCatalogAttribute extends AController
             $this->data['attribute_id'] = $attribute_id;
         }
 
-        $this->document->addBreadcrumb(array(
+        $this->document->addBreadcrumb([
             'href'      => $this->data['action'],
             'text'      => $this->data['heading_title'],
             'separator' => ' :: ',
             'current'   => true,
-        ));
+        ]);
 
-        $form->setForm(array(
+        $form->setForm([
             'form_name' => 'editFrm',
             'update'    => $this->data['update'],
-        ));
+        ]);
 
         $this->data['form']['id'] = 'editFrm';
-        $this->data['form']['form_open'] = $form->getFieldHtml(array(
+        $this->data['form']['form_open'] = $form->getFieldHtml([
             'type'   => 'form',
             'name'   => 'editFrm',
             'attr'   => 'data-confirm-exit="true" class="aform form-horizontal"',
             'action' => $this->data['action'],
-        ));
-        $this->data['form']['submit'] = $form->getFieldHtml(array(
+        ]);
+        $this->data['form']['submit'] = $form->getFieldHtml([
             'type'  => 'button',
             'name'  => 'submit',
             'text'  => $this->language->get('button_save'),
             'style' => 'button1',
-        ));
-        $this->data['form']['cancel'] = $form->getFieldHtml(array(
+        ]);
+        $this->data['form']['cancel'] = $form->getFieldHtml([
             'type'  => 'button',
             'name'  => 'cancel',
             'text'  => $this->language->get('button_cancel'),
             'style' => 'button2',
-        ));
+        ]);
 
-        $this->data['form']['fields']['status'] = $form->getFieldHtml(array(
+        $this->data['form']['fields']['status'] = $form->getFieldHtml([
             'type'  => 'checkbox',
             'name'  => 'status',
             'value' => $this->data['status'],
             'style' => 'btn_switch',
-        ));
-        $this->data['form']['fields']['name'] = $form->getFieldHtml(array(
+        ]);
+        $this->data['form']['fields']['name'] = $form->getFieldHtml([
             'type'         => 'input',
             'name'         => 'name',
             'value'        => $this->data['name'],
             'required'     => true,
             'style'        => 'large-field',
             'multilingual' => true,
-        ));
+        ]);
 
         if ($attribute_type_info['type_key'] != 'download_attribute') {
-            $parent_attributes = array('' => $this->language->get('text_select'));
-            $results = $this->attribute_manager->getAttributes(array('attribute_type_id' => $attribute_type_id, 'limit' => null), 0, 0);
+            $parent_attributes = ['' => $this->language->get('text_select')];
+            $results = $this->attribute_manager->getAttributes(['attribute_type_id' => $attribute_type_id, 'limit' => null], 0, 0);
             foreach ($results as $type) {
                 if ($attribute_id && $attribute_id == $type['attribute_id']) {
                     continue;
                 }
                 $parent_attributes[$type['attribute_id']] = $type['name'];
             }
-            $this->data['form']['fields']['attribute_parent'] = $form->getFieldHtml(array(
+            $this->data['form']['fields']['attribute_parent'] = $form->getFieldHtml([
                 'type'    => 'selectbox',
                 'name'    => 'attribute_parent_id',
                 'value'   => $this->data['attribute_parent_id'],
                 'options' => $parent_attributes,
-            ));
+            ]);
         }
         //NOTE: Future implementation ????
         /*$this->data['form']['fields']['attribute_group'] = $form->getFieldHtml(array(
@@ -387,13 +386,13 @@ class ControllerPagesCatalogAttribute extends AController
 
         if ($this->data['attribute_types'][$attribute_type_id]['controller']) {
             $subform = $this->dispatch($this->data['attribute_types'][$attribute_type_id]['controller'],
-                array(
-                    array(
+                [
+                    [
                         'data'              => $this->data,
                         'aform'             => $form,
                         'attribute_manager' => $this->attribute_manager,
-                    ),
-                )
+                    ],
+                ]
             );
             $this->data['subform'] = $subform->dispatchGetOutput();
         }
@@ -434,6 +433,8 @@ class ControllerPagesCatalogAttribute extends AController
         }
 
         if (has_value($this->request->post['regexp_pattern'])) {
+            //value encoded because of xss (see ARequest::clean() for details)
+            $this->request->post['regexp_pattern'] = base64_decode($this->request->post['regexp_pattern']);
             $this->request->post['regexp_pattern'] = trim($this->request->post['regexp_pattern']);
         }
         if (has_value($this->request->post['placeholder'])) {
@@ -445,11 +446,7 @@ class ControllerPagesCatalogAttribute extends AController
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-        if (!$this->error) {
-            return true;
-        } else {
-            return false;
-        }
+        return (!$this->error);
     }
 
     private function _initTabs($active = null)
@@ -470,10 +467,10 @@ class ControllerPagesCatalogAttribute extends AController
                 }
             }
 
-            $this->data['tabs'][$type_id] = array(
+            $this->data['tabs'][$type_id] = [
                 'text' => $type['type_name'],
                 'href' => $method == 'insert' ? $this->html->getSecureURL('catalog/attribute/'.$method, '&attribute_type_id='.$type_id) : '',
-            );
+            ];
         }
 
         if (in_array($active, array_keys($this->data['tabs']))) {

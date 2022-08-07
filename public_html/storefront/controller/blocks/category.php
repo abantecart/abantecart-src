@@ -156,7 +156,8 @@ class ControllerBlocksCategory extends AController
             $category['children'] = $this->_buildNestedCategoryList($category['category_id']);
             $thumbnail = $this->thumbnails[$category['category_id']];
             $category['thumb'] = $thumbnail['thumb_url'];
-            //get product counts from children levels. 
+            $category['icon'] = $thumbnail['resource_id'];
+            //get product counts from children levels.
             if (count($category['children'])) {
                 foreach ($category['children'] as $child) {
                     $category['product_count'] += $child['product_count'];

@@ -313,6 +313,13 @@ class AOrderManager extends AOrder
             }
         }
 
+        //reorder $original_totals by calculation order
+        $calc_order = array();
+        foreach ($original_totals as $value) {
+            $calc_order[$value['key']] = (int)$this->config->get($value['key'].'_calculation_order');
+        }
+        array_multisort($calc_order, SORT_ASC, $original_totals);
+
         //Create new totals, based on old order.
         $is_missing_keys = false;
         $upd_total = array('totals' => array());

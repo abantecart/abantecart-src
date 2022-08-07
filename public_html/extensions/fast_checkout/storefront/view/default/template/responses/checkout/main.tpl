@@ -309,7 +309,16 @@
 
 </script>
 <?php echo $header; ?>
-
+<div id="pay_error_container">
+    <?php if ($info ?? '') { ?>
+        <div class="info alert alert-info">
+            <i class="fa fa fa-check fa-fw"></i> <?php echo $info; ?></div>
+    <?php } ?>
+    <?php if ($error ?? '') { ?>
+        <div class="alert alert-danger" role="alert">
+            <i class="fa fa-exclamation fa-fw"></i><?php echo $error; ?></div>
+    <?php } ?>
+</div>
     <div class="pay-form">
         <div class="text-center">
             <?php if ($loggedin !== true) { ?>
@@ -327,20 +336,24 @@
                         <a href="#address" id="new_address" role="tab" data-toggle="tab"
                            class="big btn <?php echo $pay_button_style; ?>">
                             <i class="fa fa-map fa-fw"></i>&nbsp;
-                            <span class="hidden-xxs"><?php echo $type.' '.$fast_checkout_text_address; ?></span>
+                            <span class="hidden-xxs">
+                                <?php echo ${'fast_checkout_text_'.$type.'_address'}; ?>
+                            </span>
                         </a>
                     <?php }
                     if ($step == 'payment' && $this->config->get('config_guest_checkout')) { ?>
                         <a href="#new" id="new_user" role="tab" data-toggle="tab"
                            class="big btn <?php echo $pay_button_style; ?>">
-                            <i class="fa fa-user-plus fa-fw"></i>&nbsp;<span
-                                    class="hidden-xxs"><?php echo $fast_checkout_text_new_customer; ?></span>
+                            <i class="fa fa-user-plus fa-fw"></i>&nbsp;
+                                <span class="hidden-xxs">
+                                    <?php echo $fast_checkout_text_new_customer; ?>
+                                </span>
                         </a>
                     <?php } ?>
                     <a href="#user" id="login_user" role="tab" data-toggle="tab"
                        class="big btn <?php echo $login_button_style; ?>">
-                        <i class="fa fa-user fa-fw"></i>&nbsp;<span
-                                class="hidden-xxs"><?php echo $fast_checkout_text_login; ?></span>
+                        <i class="fa fa-user fa-fw"></i>&nbsp;
+                            <span class="hidden-xxs"><?php echo $fast_checkout_text_login; ?></span>
                     </a>
             </div>
             <?php } ?>

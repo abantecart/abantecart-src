@@ -326,6 +326,8 @@ class ControllerResponsesProductProduct extends AController
         }
 
         if (has_value($this->request->get['regexp_pattern'])) {
+            //value encoded because of xss (see ARequest::clean() for details)
+            $this->request->get['regexp_pattern'] = base64_decode($this->request->get['regexp_pattern']);
             $this->request->get['regexp_pattern'] = trim($this->request->get['regexp_pattern']);
         }
         if (has_value($this->request->get['option_placeholder'])) {
@@ -1469,10 +1471,9 @@ class ControllerResponsesProductProduct extends AController
             ]
         );
 
-        $options = ['' => $this->language->get('text_select')];
-        foreach ($order_statuses as $order_status) {
-            $options[$order_status['order_status_id']] = $order_status['name'];
-        }
+        $options = ['' => $this->language->get('text_select')]
+            + array_column($order_statuses,'name','order_status_id');
+        unset($options[0]);
 
         $this->data['form']['fields']['general']['activate'] .= $form->getFieldHtml(
             [
@@ -2016,17 +2017,20 @@ class ControllerResponsesProductProduct extends AController
         if (HTTPS === true && $store_info['config_ssl_url']) {
             $total_calc_url = $store_info['config_ssl_url']
                 .'index.php?rt=r/product/product/calculateTotal'
-                .'&currency='.$order_info['currency'];
+                .'&currency='.$order_info['currency'].'&admin=1';
         } elseif (HTTPS === true && !$store_info['config_ssl_url']) {
             $total_calc_url = str_replace(
                     'http://',
                     'https://',
                     $store_info['config_url']
-                ).'index.php?rt=r/product/product/calculateTotal'.'&currency='.$order_info['currency'];
+                ).'index.php?rt=r/product/product/calculateTotal'
+                .'&currency='.$order_info['currency']
+                .'&admin=1';
         } else {
             $total_calc_url = $store_info['config_url']
                 .'index.php?rt=r/product/product/calculateTotal'
-                .'&currency='.$order_info['currency'];
+                .'&currency='.$order_info['currency']
+                .'&admin=1';
         }
 
         $this->data['total_calc_url'] = $total_calc_url;

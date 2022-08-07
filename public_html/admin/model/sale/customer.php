@@ -50,7 +50,8 @@ class ModelSaleCustomer extends Model
         $salt_key = genToken(8);
         $this->db->query(
             "INSERT INTO ".$this->db->table("customers")."
-            SET loginname = '".$this->db->escape($data['loginname'])."',
+            SET store_id = '".(int)$data['store_id']."',
+                loginname = '".$this->db->escape($data['loginname'])."',
                 firstname = '".$this->db->escape($data['firstname'])."',
                 lastname = '".$this->db->escape($data['lastname'])."',
                 email = '".$this->db->escape($data['email'])."',
@@ -128,7 +129,8 @@ class ModelSaleCustomer extends Model
         }
         $this->db->query(
             "UPDATE ".$this->db->table("customers")."
-            SET loginname = '".$this->db->escape($data['loginname'])."',
+            SET store_id = '".(int)$data['store_id']."',
+                loginname = '".$this->db->escape($data['loginname'])."',
                 firstname = '".$this->db->escape($data['firstname'])."',
                 lastname = '".$this->db->escape($data['lastname'])."',
                 email = '".$this->db->escape($data['email'])."',

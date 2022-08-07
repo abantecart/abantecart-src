@@ -1,0 +1,3577 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template_layouts>
+	<layout>
+		<name>Default Page Layout</name>
+		<template_id>bootstrap5</template_id>
+		<type>Default</type>
+		<pages>
+			<page>
+				<controller>generic</controller>
+				<page_descriptions>
+					<page_description>
+						<language>english</language>
+						<name><![CDATA[All Other Pages]]></name>
+					</page_description>
+				</page_descriptions>
+			</page>
+		</pages>
+		<blocks>
+			<block>
+				<block_txt_id>header</block_txt_id>
+				<controller>common/header</controller>
+				<status>1</status>
+				<position>10</position>
+				<block>
+					<block_txt_id>cart</block_txt_id>
+					<controller>blocks/cart</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/cart_top.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>10</position>
+				</block>
+				<block>
+					<block_txt_id>customer</block_txt_id>
+					<controller>blocks/customer</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/customer.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>20</position>
+				</block>
+				<block>
+					<block_txt_id>menu</block_txt_id>
+					<controller>blocks/menu</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/menu_top.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>30</position>
+				</block>
+				<block>
+					<block_txt_id>search</block_txt_id>
+					<controller>blocks/search</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/search_top.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>40</position>
+				</block>
+				<block>
+					<block_txt_id>language</block_txt_id>
+					<controller>blocks/language</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/language.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>50</position>
+				</block>
+				<block>
+					<block_txt_id>currency</block_txt_id>
+					<controller>blocks/currency</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/currency.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>60</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5socialicons_35</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Social Icons]]></name>
+							<title><![CDATA[bootstrap5_social_icons]]></title>
+							<block_wrapper><![CDATA[0]]></block_wrapper>
+							<block_framed><![CDATA[0]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[      &lt;div class=&quot;bs5_social_icons nav navbar&quot;&gt;
+        &lt;a class=&quot;nav-link m-3&quot; href=&quot;http://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; &gt;&lt;i class=&quot; fa-brands fa-facebook fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot; href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot;&gt;&lt;i class=&quot; fa-brands fa-twitter fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;Linkedin&quot; &gt;&lt;i class=&quot;fa-brands fa-linkedin fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;rss&quot; &gt;&lt;i class=&quot;fa-solid fa-square-rss fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Skype&quot; &gt;&lt;i class=&quot;fa-brands fa-skype fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Flickr&quot;&gt;&lt;i class=&quot;fa-brands fa-flickr fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+      &lt;/div&gt;]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>header</placeholder>
+					</installed>
+					<status>1</status>
+					<position>70</position>
+				</block>
+			</block>
+			<block>
+				<block_txt_id>category</block_txt_id>
+				<controller>blocks/category</controller>
+				<status>1</status>
+				<position>10</position>
+			</block>
+			<block>
+				<block_txt_id>header_bottom</block_txt_id>
+				<controller>common/header_bottom</controller>
+				<status>1</status>
+				<position>20</position>
+				<block>
+					<block_txt_id>category</block_txt_id>
+					<controller>blocks/category</controller>
+					<templates>
+						<template>
+							<parent_block>header_bottom</parent_block>
+							<template_name>blocks/category_top.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>10</position>
+				</block>
+				<block>
+					<block_txt_id>breadcrumbs</block_txt_id>
+					<controller>blocks/breadcrumbs</controller>
+					<templates>
+						<template>
+							<parent_block>header_bottom</parent_block>
+							<template_name>blocks/breadcrumbs.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>20</position>
+				</block>
+			</block>
+			<block>
+				<block_txt_id>breadcrumbs</block_txt_id>
+				<controller>blocks/breadcrumbs</controller>
+				<status>1</status>
+				<position>20</position>
+			</block>
+			<block>
+				<block_txt_id>customer</block_txt_id>
+				<controller>blocks/customer</controller>
+				<status>1</status>
+				<position>20</position>
+			</block>
+			<block>
+				<block_txt_id>column_left</block_txt_id>
+				<controller>common/column_left</controller>
+				<status>0</status>
+				<position>30</position>
+			</block>
+			<block>
+				<block_txt_id>menu</block_txt_id>
+				<controller>blocks/menu</controller>
+				<status>1</status>
+				<position>30</position>
+			</block>
+			<block>
+				<block_txt_id>newsletter_signup</block_txt_id>
+				<controller>blocks/newsletter_signup</controller>
+				<status>1</status>
+				<position>40</position>
+			</block>
+			<block>
+				<block_txt_id>search</block_txt_id>
+				<controller>blocks/search</controller>
+				<status>1</status>
+				<position>40</position>
+			</block>
+			<block>
+				<block_txt_id>content_top</block_txt_id>
+				<controller>common/content_top</controller>
+				<status>1</status>
+				<position>40</position>
+			</block>
+			<block>
+				<block_txt_id>language</block_txt_id>
+				<controller>blocks/language</controller>
+				<status>1</status>
+				<position>50</position>
+			</block>
+			<block>
+				<block_txt_id>content_bottom</block_txt_id>
+				<controller>common/content_bottom</controller>
+				<status>1</status>
+				<position>50</position>
+			</block>
+			<block>
+				<block_txt_id>content</block_txt_id>
+				<controller>blocks/content</controller>
+				<status>1</status>
+				<position>50</position>
+			</block>
+			<block>
+				<block_txt_id>column_right</block_txt_id>
+				<controller>common/column_right</controller>
+				<status>1</status>
+				<position>60</position>
+			</block>
+			<block>
+				<block_txt_id>currency</block_txt_id>
+				<controller>blocks/currency</controller>
+				<status>1</status>
+				<position>60</position>
+			</block>
+			<block>
+				<block_txt_id>footer_top</block_txt_id>
+				<controller>common/footer_top</controller>
+				<status>1</status>
+				<position>70</position>
+			</block>
+			<block>
+				<block_txt_id>cart</block_txt_id>
+				<controller>blocks/cart</controller>
+				<status>1</status>
+				<position>70</position>
+			</block>
+			<block>
+				<block_txt_id>credit_cards</block_txt_id>
+				<controller>blocks/credit_cards</controller>
+				<status>1</status>
+				<position>70</position>
+			</block>
+			<block>
+				<block_txt_id>footer</block_txt_id>
+				<controller>common/footer</controller>
+				<status>1</status>
+				<position>80</position>
+				<block>
+					<custom_block_txt_id>bs5aboutus_27</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 About Us]]></name>
+							<title><![CDATA[About Us]]></title>
+							<block_wrapper><![CDATA[blocks/html_block_footer.tpl]]></block_wrapper>
+							<block_framed><![CDATA[1]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[&lt;p class=&quot;small lh-lg&quot;&gt;
+AbanteCart is a free eCommerce solution for merchants to provide ability creating online business and sell products or services online. AbanteCart application is built and supported by experienced enthusiasts that are passionate about their work and contribution to rapidly evolving eCommerce industry. AbanteCart is more than just a shopping cart, it is rapidly growing eCommerce platform with many benefits.&lt;/p&gt;
+]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer</placeholder>
+					</installed>
+					<status>1</status>
+					<position>10</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5contactus_28</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Contact us]]></name>
+							<title><![CDATA[Contact Us]]></title>
+							<block_wrapper><![CDATA[blocks/html_block_footer.tpl]]></block_wrapper>
+							<block_framed><![CDATA[1]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[&lt;ul class=&quot;list-unstyled contact small&quot;&gt;
+   &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-phone&quot;&gt;&lt;/i&gt;&lt;/i&gt; 123 456 7890,  123 456 7890&lt;/li&gt;
+    &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-mobile-screen&quot;&gt;&lt;/i&gt;&lt;a class=&quot;text-decoration-none&quot;  href=&quot;tel:123 456 7890&quot;&gt; 123 456 7890&lt;/a&gt;,  123 456 78900&lt;/li&gt;
+    &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-at&quot;&gt;&lt;/i&gt; help at abantecart.com&lt;/li&gt;
+&lt;/ul&gt;]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer</placeholder>
+					</installed>
+					<status>1</status>
+					<position>20</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5testimonials_36</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Testimonials]]></name>
+							<title><![CDATA[Testimonials]]></title>
+							<block_wrapper><![CDATA[0]]></block_wrapper>
+							<block_framed><![CDATA[1]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[&lt;div id=&quot;testimonial_sidebar&quot; class=&quot;carousel carousel-dark slide&quot; data-bs-ride=&quot;carousel&quot;&gt;
+                &lt;div class=&quot;carousel-inner&quot;&gt;
+                    &lt;div class=&quot;carousel-item active&quot;&gt;
+                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;
+                        &quot; I was working with many shopping carts, free and hosted for my clients. There is always something missing. In AbanteCart I find this gap to be much less. Interface is very easy to use and support is very responsive. This is considering its is free. Go AbanteCart go!&quot;&lt;br /&gt;
+                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : TopShop on reviewcentre.com&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;carousel-item&quot;&gt;
+                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;
+                        &quot; Without a doubt the best cart I have used. The title says it all - AbanteCart is undoubtedly the best I have used. I'm not an expert in site setup, so something this great looking and easy to use is absolutely perfect ... &quot;&lt;br /&gt;
+                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : johnstenson80 on venturebeat.com&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;carousel-item&quot;&gt;
+                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;
+                        &quot; Will not regret using this cart. All good is already mentioned, I want to add my experience with support. My problems with some configuration were resolved quick. Faster than paid shopping cart we had before.&quot;&lt;br /&gt;
+                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : shopper23 at bestshoppingcartreviews.com&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;carousel-item&quot;&gt;
+                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;
+                        &quot; Love the cart. I installed it a while back and use it since when. Some features a hidden, but fun to discover them.&quot;&lt;br /&gt;
+                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : Liz Wattkins at shopping-cart-reviews.com&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer</placeholder>
+					</installed>
+					<status>1</status>
+					<position>30</position>
+				</block>
+				<block>
+					<block_txt_id>newsletter_signup</block_txt_id>
+					<controller>blocks/newsletter_signup</controller>
+					<templates>
+						<template>
+							<parent_block>footer</parent_block>
+							<template_name>blocks/newsletter_signup_footer.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>40</position>
+				</block>
+				<block>
+					<block_txt_id>content</block_txt_id>
+					<controller>blocks/content</controller>
+					<templates>
+						<template>
+							<parent_block>footer</parent_block>
+							<template_name>blocks/content_footer.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>50</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5socialicons_35</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Social Icons]]></name>
+							<title><![CDATA[bootstrap5_social_icons]]></title>
+							<block_wrapper><![CDATA[0]]></block_wrapper>
+							<block_framed><![CDATA[0]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[      &lt;div class=&quot;bs5_social_icons nav navbar&quot;&gt;
+        &lt;a class=&quot;nav-link m-3&quot; href=&quot;http://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; &gt;&lt;i class=&quot; fa-brands fa-facebook fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot; href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot;&gt;&lt;i class=&quot; fa-brands fa-twitter fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;Linkedin&quot; &gt;&lt;i class=&quot;fa-brands fa-linkedin fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;rss&quot; &gt;&lt;i class=&quot;fa-solid fa-square-rss fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Skype&quot; &gt;&lt;i class=&quot;fa-brands fa-skype fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Flickr&quot;&gt;&lt;i class=&quot;fa-brands fa-flickr fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+      &lt;/div&gt;]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer</placeholder>
+					</installed>
+					<status>1</status>
+					<position>60</position>
+				</block>
+				<block>
+					<block_txt_id>credit_cards</block_txt_id>
+					<controller>blocks/credit_cards</controller>
+					<templates>
+						<template>
+							<parent_block>footer</parent_block>
+							<template_name>blocks/credit_cards.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>70</position>
+				</block>
+				<block>
+					<block_txt_id>donate</block_txt_id>
+					<controller>blocks/donate</controller>
+					<templates>
+						<template>
+							<parent_block>footer</parent_block>
+							<template_name>blocks/donate.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>80</position>
+				</block>
+			</block>
+			<block>
+				<block_txt_id>donate</block_txt_id>
+				<controller>blocks/donate</controller>
+				<status>1</status>
+				<position>80</position>
+			</block>
+		</blocks>
+	</layout>
+	<layout>
+		<name>Home Page</name>
+		<template_id>bootstrap5</template_id>
+		<type>Active</type>
+		<pages>
+			<page>
+				<controller>pages/index/home</controller>
+				<page_descriptions>
+					<page_description>
+						<language>english</language>
+						<name><![CDATA[Home Page]]></name>
+					</page_description>
+				</page_descriptions>
+			</page>
+		</pages>
+		<blocks>
+			<block>
+				<block_txt_id>header</block_txt_id>
+				<controller>common/header</controller>
+				<status>1</status>
+				<position>10</position>
+				<block>
+					<block_txt_id>cart</block_txt_id>
+					<controller>blocks/cart</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/cart_top.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>10</position>
+				</block>
+				<block>
+					<block_txt_id>customer</block_txt_id>
+					<controller>blocks/customer</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/customer.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>20</position>
+				</block>
+				<block>
+					<block_txt_id>menu</block_txt_id>
+					<controller>blocks/menu</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/menu_top.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>30</position>
+				</block>
+				<block>
+					<block_txt_id>search</block_txt_id>
+					<controller>blocks/search</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/search_top.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>40</position>
+				</block>
+				<block>
+					<block_txt_id>language</block_txt_id>
+					<controller>blocks/language</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/language.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>50</position>
+				</block>
+				<block>
+					<block_txt_id>currency</block_txt_id>
+					<controller>blocks/currency</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/currency.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>60</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5socialicons_35</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Social Icons]]></name>
+							<title><![CDATA[bootstrap5_social_icons]]></title>
+							<block_wrapper><![CDATA[0]]></block_wrapper>
+							<block_framed><![CDATA[0]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[      &lt;div class=&quot;bs5_social_icons nav navbar&quot;&gt;
+        &lt;a class=&quot;nav-link m-3&quot; href=&quot;http://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; &gt;&lt;i class=&quot; fa-brands fa-facebook fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot; href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot;&gt;&lt;i class=&quot; fa-brands fa-twitter fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;Linkedin&quot; &gt;&lt;i class=&quot;fa-brands fa-linkedin fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;rss&quot; &gt;&lt;i class=&quot;fa-solid fa-square-rss fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Skype&quot; &gt;&lt;i class=&quot;fa-brands fa-skype fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Flickr&quot;&gt;&lt;i class=&quot;fa-brands fa-flickr fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+      &lt;/div&gt;]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>header</placeholder>
+					</installed>
+					<status>1</status>
+					<position>70</position>
+				</block>
+			</block>
+			<block>
+				<block_txt_id>featured</block_txt_id>
+				<controller>blocks/featured</controller>
+				<status>1</status>
+				<position>10</position>
+			</block>
+			<block>
+				<block_txt_id>category</block_txt_id>
+				<controller>blocks/category</controller>
+				<status>1</status>
+				<position>10</position>
+			</block>
+			<block>
+				<block_txt_id>customer</block_txt_id>
+				<controller>blocks/customer</controller>
+				<status>1</status>
+				<position>20</position>
+			</block>
+			<block>
+				<block_txt_id>header_bottom</block_txt_id>
+				<controller>common/header_bottom</controller>
+				<status>1</status>
+				<position>20</position>
+				<block>
+					<block_txt_id>category</block_txt_id>
+					<controller>blocks/category</controller>
+					<templates>
+						<template>
+							<parent_block>header_bottom</parent_block>
+							<template_name>blocks/category_top.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>10</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5mainpagecarousel_38</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Main Page Carousel]]></name>
+							<title><![CDATA[BS5 Main Page Carousel]]></title>
+							<block_wrapper><![CDATA[0]]></block_wrapper>
+							<block_framed><![CDATA[0]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[&lt;div id=&quot;mainPageSliderIndicators&quot; class=&quot;carousel carousel-dark slide bg-light&quot; data-bs-ride=&quot;carousel&quot;&gt;
+                  &lt;div class=&quot;carousel-indicators&quot;&gt;
+                      &lt;button type=&quot;button&quot; data-bs-target=&quot;#carouselExampleIndicators&quot; data-bs-slide-to=&quot;0&quot; class=&quot;active&quot;
+                              aria-current=&quot;true&quot; aria-label=&quot;Slide 1&quot;&gt;&lt;/button&gt;
+                      &lt;button type=&quot;button&quot; data-bs-target=&quot;#carouselExampleIndicators&quot; data-bs-slide-to=&quot;1&quot;
+                              aria-label=&quot;Slide 2&quot;&gt;&lt;/button&gt;
+                      &lt;button type=&quot;button&quot; data-bs-target=&quot;#carouselExampleIndicators&quot; data-bs-slide-to=&quot;2&quot;
+                              aria-label=&quot;Slide 3&quot;&gt;&lt;/button&gt;
+                      &lt;button type=&quot;button&quot; data-bs-target=&quot;#carouselExampleIndicators&quot; data-bs-slide-to=&quot;3&quot;
+                              aria-label=&quot;Slide 4&quot;&gt;&lt;/button&gt;
+
+                  &lt;/div&gt;
+                  &lt;div class=&quot;carousel-inner&quot;&gt;
+                      &lt;div class=&quot;carousel-item banner active&quot;&gt;
+                          &lt;div class=&quot;d-flex flex-wrap flex-sm-nowrap justify-content-center align-items-center&quot;&gt;
+                              &lt;div class=&quot;flex-item &quot;&gt;
+                                      &lt;img class=&quot;my-auto w-100&quot; src=&quot;extensions/bootstrap5/storefront/images/Slide_600x300.jpeg&quot;&gt;
+                              &lt;/div&gt;
+                              &lt;div class=&quot;flex-item col-9 col-sm-3 m-5&quot;&gt;
+                                  &lt;h5&gt;HTML5 Responsive Storefront to look great on&lt;/h5&gt;
+                                  &lt;h5&gt;ALL Screen Sizes&lt;/h5&gt;
+                                  &lt;p&gt;Natively responsive template implemented with bootstrap library and HTML5. Will look good on most
+                                      mobile devices and tablets.&lt;/p&gt;
+                                  &lt;h3&gt;&lt;a href=&quot;#&quot; class=&quot;&quot;&gt; Try on your device!&lt;/a&gt;&lt;/h3&gt;
+                              &lt;/div&gt;
+                          &lt;/div&gt;
+                      &lt;/div&gt;
+                      &lt;div class=&quot;carousel-item banner&quot;&gt;
+                          &lt;div class=&quot;d-flex flex-wrap flex-sm-nowrap justify-content-center align-items-center&quot;&gt;
+                              &lt;div class=&quot;flex-item &quot;&gt;
+                                      &lt;img class=&quot;my-auto w-100&quot; src=&quot;extensions/bootstrap5/storefront/images/Slide_600x300.jpeg&quot;&gt;
+                              &lt;/div&gt;
+                              &lt;div class=&quot;flex-item col-9 col-sm-3  m-5&quot;&gt;
+                                  &lt;h5&gt;Highly flexible layout on any page&lt;/h5&gt;
+                                  &lt;h5&gt;SEO Friendly&lt;/h5&gt;
+                                  &lt;p&gt;Fast Loading&lt;/p&gt;
+                                  &lt;h3&gt;&lt;a href=&quot;#&quot; class=&quot;&quot;&gt; Try Now!&lt;/a&gt;&lt;/h3&gt;
+                              &lt;/div&gt;
+                          &lt;/div&gt;
+                      &lt;/div&gt;
+                      &lt;div class=&quot;carousel-item banner&quot;&gt;
+                          &lt;div class=&quot;d-flex flex-wrap flex-sm-nowrap justify-content-center align-items-center&quot;&gt;
+                              &lt;div class=&quot;flex-item &quot;&gt;
+                                      &lt;img class=&quot;my-auto w-100&quot; src=&quot;extensions/bootstrap5/storefront/images/Slide_600x300.jpeg&quot;&gt;
+                              &lt;/div&gt;
+                              &lt;div class=&quot;flex-item col-9 col-sm-3  m-5&quot;&gt;
+                                  &lt;h5&gt;Feature rich with smart UI&lt;/h5&gt;
+                                  &lt;h5&gt;Easy &amp;amp; fun to manage&lt;/h5&gt;
+                                  &lt;p&gt;Feature reach shopping cart application right out of the box. Standard features allow to set up
+                                      complete eCommerce site with all the tools needed to sell products online.&lt;/p&gt;
+                                  &lt;h3&gt;&lt;a href=&quot;#&quot; class=&quot;&quot;&gt;Install Now!&lt;/a&gt;&lt;/h3&gt;
+                              &lt;/div&gt;
+                          &lt;/div&gt;
+                      &lt;/div&gt;
+                      &lt;div class=&quot;carousel-item banner&quot;&gt;
+                          &lt;div class=&quot;d-flex flex-wrap flex-sm-nowrap justify-content-center align-items-center&quot;&gt;
+                              &lt;div class=&quot;flex-item &quot;&gt;
+                                      &lt;img class=&quot;my-auto w-100&quot; src=&quot;extensions/bootstrap5/storefront/images/Slide_600x300.jpeg&quot;&gt;
+                              &lt;/div&gt;
+                              &lt;div class=&quot;flex-item col-9 col-sm-3  m-5&quot;&gt;
+                                  &lt;h5&gt;Stay in control&lt;/h5&gt;
+                                  &lt;h5&gt;Easy updates&lt;/h5&gt;
+                                  &lt;p&gt;Upgrade right from admin. Backward supportability in upgrades and automatic backups. Easy
+                                      extension download with one step installation.&lt;/p&gt;
+                                  &lt;h3&gt;&lt;a href=&quot;#&quot; class=&quot;&quot;&gt;Get Yours!&lt;/a&gt;&lt;/h3&gt;
+                              &lt;/div&gt;
+                          &lt;/div&gt;
+                      &lt;/div&gt;
+                  &lt;/div&gt;
+                  &lt;button class=&quot;carousel-control-prev&quot; type=&quot;button&quot; data-bs-target=&quot;#mainPageSliderIndicators&quot; data-bs-slide=&quot;prev&quot;&gt;
+                      &lt;span class=&quot;carousel-control-prev-icon&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;
+                      &lt;span class=&quot;visually-hidden&quot;&gt;Previous&lt;/span&gt;
+                  &lt;/button&gt;
+                  &lt;button class=&quot;carousel-control-next&quot; type=&quot;button&quot; data-bs-target=&quot;#mainPageSliderIndicators&quot; data-bs-slide=&quot;next&quot;&gt;
+                      &lt;span class=&quot;carousel-control-next-icon&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;
+                      &lt;span class=&quot;visually-hidden&quot;&gt;Next&lt;/span&gt;
+                  &lt;/button&gt;
+              &lt;/div&gt;
+]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>header_bottom</placeholder>
+					</installed>
+					<status>1</status>
+					<position>20</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5mainpagepromo_32</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Main Page Promo]]></name>
+							<title><![CDATA[Promo]]></title>
+							<block_wrapper><![CDATA[0]]></block_wrapper>
+							<block_framed><![CDATA[0]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[	&lt;section class=&quot;d-flex flex-wrap justify-content-evenly border m-3&quot;&gt;
+	&lt;div class=&quot;d-flex flex-item align-items-center&quot;&gt;
+		&lt;div class=&quot;promo_icon fs-1 m-3&quot;&gt;&lt;i class=&quot;fa-solid fa-2xl fa-truck fs-1&quot;&gt;&lt;/i&gt;&lt;/div&gt;
+		&lt;div class=&quot;promo_text&quot;&gt;
+			&lt;h2&gt;Free shipping&lt;/h2&gt;
+			All over in world over $200
+		&lt;/div&gt;
+	&lt;/div&gt;
+	&lt;div class=&quot;d-flex flex-item align-items-center&quot;&gt;
+		&lt;div class=&quot;promo_icon fs-1 m-3&quot;&gt;&lt;i class=&quot;fa-solid fa-2xl fa-money-bill-1 fs-1&quot;&gt;&lt;/i&gt;&lt;/div&gt;
+		&lt;div class=&quot;promo_text&quot;&gt;
+			&lt;h2&gt;Easy Payment&lt;/h2&gt;
+			Payment Gateway support&lt;/div&gt;
+	&lt;/div&gt;
+	&lt;div class=&quot;d-flex flex-item align-items-center&quot;&gt;
+		&lt;div class=&quot;promo_icon fs-1 m-3&quot;&gt;&lt;i class=&quot;fa-solid fa-2xl fa-clock fs-1&quot;&gt;&lt;/i&gt;&lt;/div&gt;
+		&lt;div class=&quot;promo_text&quot;&gt;
+			&lt;h2&gt;24hrs Shipping&lt;/h2&gt;
+			For All US States&lt;/div&gt;
+	&lt;/div&gt;
+	&lt;div class=&quot;d-flex flex-item align-items-center&quot;&gt;
+		&lt;div class=&quot;promo_icon fs-1 m-3&quot;&gt;&lt;i class=&quot;fa-solid fa-2xl fa-tags fs-1&quot;&gt;&lt;/i&gt;&lt;/div&gt;
+		&lt;div class=&quot;promo_text&quot;&gt;
+			&lt;h2&gt;Large Variety&lt;/h2&gt;
+			50,000  Products&lt;/div&gt;
+	&lt;/div&gt;
+	&lt;/section&gt;]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>header_bottom</placeholder>
+					</installed>
+					<status>1</status>
+					<position>30</position>
+				</block>
+			</block>
+			<block>
+				<block_txt_id>latest</block_txt_id>
+				<controller>blocks/latest</controller>
+				<status>1</status>
+				<position>20</position>
+			</block>
+			<block>
+				<block_txt_id>menu</block_txt_id>
+				<controller>blocks/menu</controller>
+				<status>1</status>
+				<position>30</position>
+			</block>
+			<block>
+				<block_txt_id>bestsellers</block_txt_id>
+				<controller>blocks/bestseller</controller>
+				<status>1</status>
+				<position>30</position>
+			</block>
+			<block>
+				<block_txt_id>column_left</block_txt_id>
+				<controller>common/column_left</controller>
+				<status>0</status>
+				<position>30</position>
+				<block>
+					<block_txt_id>latest</block_txt_id>
+					<controller>blocks/latest</controller>
+					<templates>
+						<template>
+							<parent_block>column_left</parent_block>
+							<template_name>blocks/latest.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>10</position>
+				</block>
+			</block>
+			<block>
+				<block_txt_id>content_top</block_txt_id>
+				<controller>common/content_top</controller>
+				<status>0</status>
+				<position>40</position>
+			</block>
+			<block>
+				<block_txt_id>search</block_txt_id>
+				<controller>blocks/search</controller>
+				<status>1</status>
+				<position>40</position>
+			</block>
+			<block>
+				<block_txt_id>special</block_txt_id>
+				<controller>blocks/special</controller>
+				<status>1</status>
+				<position>40</position>
+			</block>
+			<block>
+				<block_txt_id>newsletter_signup</block_txt_id>
+				<controller>blocks/newsletter_signup</controller>
+				<status>1</status>
+				<position>40</position>
+			</block>
+			<block>
+				<block_txt_id>content</block_txt_id>
+				<controller>blocks/content</controller>
+				<status>1</status>
+				<position>50</position>
+			</block>
+			<block>
+				<block_txt_id>language</block_txt_id>
+				<controller>blocks/language</controller>
+				<status>1</status>
+				<position>50</position>
+			</block>
+			<block>
+				<block_txt_id>content_bottom</block_txt_id>
+				<controller>common/content_bottom</controller>
+				<status>1</status>
+				<position>50</position>
+				<block>
+					<block_txt_id>featured</block_txt_id>
+					<controller>blocks/featured</controller>
+					<templates>
+						<template>
+							<parent_block>content_bottom</parent_block>
+							<template_name>blocks/featured_home.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>10</position>
+				</block>
+				<block>
+					<block_txt_id>latest</block_txt_id>
+					<controller>blocks/latest</controller>
+					<templates>
+						<template>
+							<parent_block>content_bottom</parent_block>
+							<template_name>blocks/latest_home.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>20</position>
+				</block>
+				<block>
+					<block_txt_id>bestsellers</block_txt_id>
+					<controller>blocks/bestseller</controller>
+					<templates>
+						<template>
+							<parent_block>content_bottom</parent_block>
+							<template_name>blocks/bestseller_home.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>30</position>
+				</block>
+				<block>
+					<block_txt_id>special</block_txt_id>
+					<controller>blocks/special</controller>
+					<templates>
+						<template>
+							<parent_block>content_bottom</parent_block>
+							<template_name>blocks/special_home.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>40</position>
+				</block>
+			</block>
+			<block>
+				<block_txt_id>currency</block_txt_id>
+				<controller>blocks/currency</controller>
+				<status>1</status>
+				<position>60</position>
+			</block>
+			<block>
+				<block_txt_id>column_right</block_txt_id>
+				<controller>common/column_right</controller>
+				<status>0</status>
+				<position>60</position>
+				<block>
+					<block_txt_id>latest</block_txt_id>
+					<controller>blocks/latest</controller>
+					<templates>
+						<template>
+							<parent_block>column_right</parent_block>
+							<template_name>blocks/latest.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>10</position>
+				</block>
+			</block>
+			<block>
+				<block_txt_id>cart</block_txt_id>
+				<controller>blocks/cart</controller>
+				<status>1</status>
+				<position>70</position>
+			</block>
+			<block>
+				<block_txt_id>footer_top</block_txt_id>
+				<controller>common/footer_top</controller>
+				<status>1</status>
+				<position>70</position>
+				<block>
+					<custom_block_txt_id>mainpagebannerbottom_24</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>banner_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[Main Page Banner Bottom]]></name>
+							<title><![CDATA[Bottom Banners]]></title>
+							<block_wrapper><![CDATA[0]]></block_wrapper>
+							<block_framed><![CDATA[0]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[a:1:{s:17:"banner_group_name";s:19:"Main bottom banners";}]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer_top</placeholder>
+					</installed>
+					<status>1</status>
+					<position>10</position>
+				</block>
+				<block>
+					<custom_block_txt_id>brandsscrollinglist_12</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>listing_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[Brands Scrolling List]]></name>
+							<title><![CDATA[Brands Scrolling List]]></title>
+							<block_wrapper><![CDATA[blocks/listing_block/popular_brands_content_bottom.tpl]]></block_wrapper>
+							<block_framed><![CDATA[0]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[a:1:{s:18:"listing_datasource";s:20:"custom_manufacturers";}]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer_top</placeholder>
+					</installed>
+					<status>1</status>
+					<position>20</position>
+				</block>
+			</block>
+			<block>
+				<block_txt_id>credit_cards</block_txt_id>
+				<controller>blocks/credit_cards</controller>
+				<status>1</status>
+				<position>70</position>
+			</block>
+			<block>
+				<block_txt_id>footer</block_txt_id>
+				<controller>common/footer</controller>
+				<status>1</status>
+				<position>80</position>
+				<block>
+					<custom_block_txt_id>bs5aboutus_27</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 About Us]]></name>
+							<title><![CDATA[About Us]]></title>
+							<block_wrapper><![CDATA[blocks/html_block_footer.tpl]]></block_wrapper>
+							<block_framed><![CDATA[1]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[&lt;p class=&quot;small lh-lg&quot;&gt;
+AbanteCart is a free eCommerce solution for merchants to provide ability creating online business and sell products or services online. AbanteCart application is built and supported by experienced enthusiasts that are passionate about their work and contribution to rapidly evolving eCommerce industry. AbanteCart is more than just a shopping cart, it is rapidly growing eCommerce platform with many benefits.&lt;/p&gt;
+]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer</placeholder>
+					</installed>
+					<status>1</status>
+					<position>10</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5contactus_28</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Contact us]]></name>
+							<title><![CDATA[Contact Us]]></title>
+							<block_wrapper><![CDATA[blocks/html_block_footer.tpl]]></block_wrapper>
+							<block_framed><![CDATA[1]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[&lt;ul class=&quot;list-unstyled contact small&quot;&gt;
+   &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-phone&quot;&gt;&lt;/i&gt;&lt;/i&gt; 123 456 7890,  123 456 7890&lt;/li&gt;
+    &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-mobile-screen&quot;&gt;&lt;/i&gt;&lt;a class=&quot;text-decoration-none&quot;  href=&quot;tel:123 456 7890&quot;&gt; 123 456 7890&lt;/a&gt;,  123 456 78900&lt;/li&gt;
+    &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-at&quot;&gt;&lt;/i&gt; help at abantecart.com&lt;/li&gt;
+&lt;/ul&gt;]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer</placeholder>
+					</installed>
+					<status>1</status>
+					<position>20</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5testimonials_36</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Testimonials]]></name>
+							<title><![CDATA[Testimonials]]></title>
+							<block_wrapper><![CDATA[0]]></block_wrapper>
+							<block_framed><![CDATA[1]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[&lt;div id=&quot;testimonial_sidebar&quot; class=&quot;carousel carousel-dark slide&quot; data-bs-ride=&quot;carousel&quot;&gt;
+                &lt;div class=&quot;carousel-inner&quot;&gt;
+                    &lt;div class=&quot;carousel-item active&quot;&gt;
+                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;
+                        &quot; I was working with many shopping carts, free and hosted for my clients. There is always something missing. In AbanteCart I find this gap to be much less. Interface is very easy to use and support is very responsive. This is considering its is free. Go AbanteCart go!&quot;&lt;br /&gt;
+                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : TopShop on reviewcentre.com&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;carousel-item&quot;&gt;
+                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;
+                        &quot; Without a doubt the best cart I have used. The title says it all - AbanteCart is undoubtedly the best I have used. I'm not an expert in site setup, so something this great looking and easy to use is absolutely perfect ... &quot;&lt;br /&gt;
+                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : johnstenson80 on venturebeat.com&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;carousel-item&quot;&gt;
+                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;
+                        &quot; Will not regret using this cart. All good is already mentioned, I want to add my experience with support. My problems with some configuration were resolved quick. Faster than paid shopping cart we had before.&quot;&lt;br /&gt;
+                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : shopper23 at bestshoppingcartreviews.com&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;carousel-item&quot;&gt;
+                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;
+                        &quot; Love the cart. I installed it a while back and use it since when. Some features a hidden, but fun to discover them.&quot;&lt;br /&gt;
+                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : Liz Wattkins at shopping-cart-reviews.com&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer</placeholder>
+					</installed>
+					<status>1</status>
+					<position>30</position>
+				</block>
+				<block>
+					<block_txt_id>newsletter_signup</block_txt_id>
+					<controller>blocks/newsletter_signup</controller>
+					<templates>
+						<template>
+							<parent_block>footer</parent_block>
+							<template_name>blocks/newsletter_signup_footer.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>40</position>
+				</block>
+				<block>
+					<block_txt_id>content</block_txt_id>
+					<controller>blocks/content</controller>
+					<templates>
+						<template>
+							<parent_block>footer</parent_block>
+							<template_name>blocks/content_footer.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>50</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5socialicons_35</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Social Icons]]></name>
+							<title><![CDATA[bootstrap5_social_icons]]></title>
+							<block_wrapper><![CDATA[0]]></block_wrapper>
+							<block_framed><![CDATA[0]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[      &lt;div class=&quot;bs5_social_icons nav navbar&quot;&gt;
+        &lt;a class=&quot;nav-link m-3&quot; href=&quot;http://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; &gt;&lt;i class=&quot; fa-brands fa-facebook fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot; href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot;&gt;&lt;i class=&quot; fa-brands fa-twitter fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;Linkedin&quot; &gt;&lt;i class=&quot;fa-brands fa-linkedin fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;rss&quot; &gt;&lt;i class=&quot;fa-solid fa-square-rss fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Skype&quot; &gt;&lt;i class=&quot;fa-brands fa-skype fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Flickr&quot;&gt;&lt;i class=&quot;fa-brands fa-flickr fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+      &lt;/div&gt;]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer</placeholder>
+					</installed>
+					<status>1</status>
+					<position>60</position>
+				</block>
+				<block>
+					<block_txt_id>credit_cards</block_txt_id>
+					<controller>blocks/credit_cards</controller>
+					<templates>
+						<template>
+							<parent_block>footer</parent_block>
+							<template_name>blocks/credit_cards.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>70</position>
+				</block>
+				<block>
+					<block_txt_id>donate</block_txt_id>
+					<controller>blocks/donate</controller>
+					<templates>
+						<template>
+							<parent_block>footer</parent_block>
+							<template_name>blocks/donate.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>80</position>
+				</block>
+			</block>
+			<block>
+				<block_txt_id>donate</block_txt_id>
+				<controller>blocks/donate</controller>
+				<status>1</status>
+				<position>80</position>
+			</block>
+		</blocks>
+	</layout>
+	<layout>
+		<name>Login Page</name>
+		<template_id>bootstrap5</template_id>
+		<type>Active</type>
+		<pages>
+			<page>
+				<controller>pages/account/login</controller>
+				<page_descriptions>
+					<page_description>
+						<language>english</language>
+						<name><![CDATA[Login Page]]></name>
+					</page_description>
+				</page_descriptions>
+			</page>
+		</pages>
+		<blocks>
+			<block>
+				<block_txt_id>header</block_txt_id>
+				<controller>common/header</controller>
+				<status>1</status>
+				<position>10</position>
+				<block>
+					<block_txt_id>cart</block_txt_id>
+					<controller>blocks/cart</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/cart_top.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>10</position>
+				</block>
+				<block>
+					<block_txt_id>customer</block_txt_id>
+					<controller>blocks/customer</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/customer.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>20</position>
+				</block>
+				<block>
+					<block_txt_id>menu</block_txt_id>
+					<controller>blocks/menu</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/menu_top.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>30</position>
+				</block>
+				<block>
+					<block_txt_id>search</block_txt_id>
+					<controller>blocks/search</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/search_top.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>40</position>
+				</block>
+				<block>
+					<block_txt_id>language</block_txt_id>
+					<controller>blocks/language</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/language.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>50</position>
+				</block>
+				<block>
+					<block_txt_id>currency</block_txt_id>
+					<controller>blocks/currency</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/currency.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>60</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5socialicons_35</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Social Icons]]></name>
+							<title><![CDATA[bootstrap5_social_icons]]></title>
+							<block_wrapper><![CDATA[0]]></block_wrapper>
+							<block_framed><![CDATA[0]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[      &lt;div class=&quot;bs5_social_icons nav navbar&quot;&gt;
+        &lt;a class=&quot;nav-link m-3&quot; href=&quot;http://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; &gt;&lt;i class=&quot; fa-brands fa-facebook fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot; href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot;&gt;&lt;i class=&quot; fa-brands fa-twitter fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;Linkedin&quot; &gt;&lt;i class=&quot;fa-brands fa-linkedin fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;rss&quot; &gt;&lt;i class=&quot;fa-solid fa-square-rss fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Skype&quot; &gt;&lt;i class=&quot;fa-brands fa-skype fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Flickr&quot;&gt;&lt;i class=&quot;fa-brands fa-flickr fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+      &lt;/div&gt;]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>header</placeholder>
+					</installed>
+					<status>1</status>
+					<position>70</position>
+				</block>
+			</block>
+			<block>
+				<block_txt_id>category</block_txt_id>
+				<controller>blocks/category</controller>
+				<status>1</status>
+				<position>10</position>
+			</block>
+			<block>
+				<block_txt_id>header_bottom</block_txt_id>
+				<controller>common/header_bottom</controller>
+				<status>1</status>
+				<position>20</position>
+				<block>
+					<block_txt_id>category</block_txt_id>
+					<controller>blocks/category</controller>
+					<templates>
+						<template>
+							<parent_block>header_bottom</parent_block>
+							<template_name>blocks/category_top.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>10</position>
+				</block>
+				<block>
+					<block_txt_id>breadcrumbs</block_txt_id>
+					<controller>blocks/breadcrumbs</controller>
+					<templates>
+						<template>
+							<parent_block>header_bottom</parent_block>
+							<template_name>blocks/breadcrumbs.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>20</position>
+				</block>
+			</block>
+			<block>
+				<block_txt_id>breadcrumbs</block_txt_id>
+				<controller>blocks/breadcrumbs</controller>
+				<status>1</status>
+				<position>20</position>
+			</block>
+			<block>
+				<block_txt_id>customer</block_txt_id>
+				<controller>blocks/customer</controller>
+				<status>1</status>
+				<position>20</position>
+			</block>
+			<block>
+				<block_txt_id>column_left</block_txt_id>
+				<controller>common/column_left</controller>
+				<status>0</status>
+				<position>30</position>
+			</block>
+			<block>
+				<block_txt_id>menu</block_txt_id>
+				<controller>blocks/menu</controller>
+				<status>1</status>
+				<position>30</position>
+			</block>
+			<block>
+				<block_txt_id>newsletter_signup</block_txt_id>
+				<controller>blocks/newsletter_signup</controller>
+				<status>1</status>
+				<position>40</position>
+			</block>
+			<block>
+				<block_txt_id>search</block_txt_id>
+				<controller>blocks/search</controller>
+				<status>1</status>
+				<position>40</position>
+			</block>
+			<block>
+				<block_txt_id>content_top</block_txt_id>
+				<controller>common/content_top</controller>
+				<status>1</status>
+				<position>40</position>
+			</block>
+			<block>
+				<block_txt_id>language</block_txt_id>
+				<controller>blocks/language</controller>
+				<status>1</status>
+				<position>50</position>
+			</block>
+			<block>
+				<block_txt_id>content_bottom</block_txt_id>
+				<controller>common/content_bottom</controller>
+				<status>1</status>
+				<position>50</position>
+			</block>
+			<block>
+				<block_txt_id>content</block_txt_id>
+				<controller>blocks/content</controller>
+				<status>1</status>
+				<position>50</position>
+			</block>
+			<block>
+				<block_txt_id>column_right</block_txt_id>
+				<controller>common/column_right</controller>
+				<status>0</status>
+				<position>60</position>
+			</block>
+			<block>
+				<block_txt_id>currency</block_txt_id>
+				<controller>blocks/currency</controller>
+				<status>1</status>
+				<position>60</position>
+			</block>
+			<block>
+				<block_txt_id>footer_top</block_txt_id>
+				<controller>common/footer_top</controller>
+				<status>1</status>
+				<position>70</position>
+			</block>
+			<block>
+				<block_txt_id>cart</block_txt_id>
+				<controller>blocks/cart</controller>
+				<status>1</status>
+				<position>70</position>
+			</block>
+			<block>
+				<block_txt_id>credit_cards</block_txt_id>
+				<controller>blocks/credit_cards</controller>
+				<status>1</status>
+				<position>70</position>
+			</block>
+			<block>
+				<block_txt_id>footer</block_txt_id>
+				<controller>common/footer</controller>
+				<status>1</status>
+				<position>80</position>
+				<block>
+					<custom_block_txt_id>bs5aboutus_27</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 About Us]]></name>
+							<title><![CDATA[About Us]]></title>
+							<block_wrapper><![CDATA[blocks/html_block_footer.tpl]]></block_wrapper>
+							<block_framed><![CDATA[1]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[&lt;p class=&quot;small lh-lg&quot;&gt;
+AbanteCart is a free eCommerce solution for merchants to provide ability creating online business and sell products or services online. AbanteCart application is built and supported by experienced enthusiasts that are passionate about their work and contribution to rapidly evolving eCommerce industry. AbanteCart is more than just a shopping cart, it is rapidly growing eCommerce platform with many benefits.&lt;/p&gt;
+]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer</placeholder>
+					</installed>
+					<status>1</status>
+					<position>10</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5contactus_28</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Contact us]]></name>
+							<title><![CDATA[Contact Us]]></title>
+							<block_wrapper><![CDATA[blocks/html_block_footer.tpl]]></block_wrapper>
+							<block_framed><![CDATA[1]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[&lt;ul class=&quot;list-unstyled contact small&quot;&gt;
+   &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-phone&quot;&gt;&lt;/i&gt;&lt;/i&gt; 123 456 7890,  123 456 7890&lt;/li&gt;
+    &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-mobile-screen&quot;&gt;&lt;/i&gt;&lt;a class=&quot;text-decoration-none&quot;  href=&quot;tel:123 456 7890&quot;&gt; 123 456 7890&lt;/a&gt;,  123 456 78900&lt;/li&gt;
+    &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-at&quot;&gt;&lt;/i&gt; help at abantecart.com&lt;/li&gt;
+&lt;/ul&gt;]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer</placeholder>
+					</installed>
+					<status>1</status>
+					<position>20</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5testimonials_36</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Testimonials]]></name>
+							<title><![CDATA[Testimonials]]></title>
+							<block_wrapper><![CDATA[0]]></block_wrapper>
+							<block_framed><![CDATA[1]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[&lt;div id=&quot;testimonial_sidebar&quot; class=&quot;carousel carousel-dark slide&quot; data-bs-ride=&quot;carousel&quot;&gt;
+                &lt;div class=&quot;carousel-inner&quot;&gt;
+                    &lt;div class=&quot;carousel-item active&quot;&gt;
+                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;
+                        &quot; I was working with many shopping carts, free and hosted for my clients. There is always something missing. In AbanteCart I find this gap to be much less. Interface is very easy to use and support is very responsive. This is considering its is free. Go AbanteCart go!&quot;&lt;br /&gt;
+                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : TopShop on reviewcentre.com&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;carousel-item&quot;&gt;
+                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;
+                        &quot; Without a doubt the best cart I have used. The title says it all - AbanteCart is undoubtedly the best I have used. I'm not an expert in site setup, so something this great looking and easy to use is absolutely perfect ... &quot;&lt;br /&gt;
+                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : johnstenson80 on venturebeat.com&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;carousel-item&quot;&gt;
+                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;
+                        &quot; Will not regret using this cart. All good is already mentioned, I want to add my experience with support. My problems with some configuration were resolved quick. Faster than paid shopping cart we had before.&quot;&lt;br /&gt;
+                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : shopper23 at bestshoppingcartreviews.com&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;carousel-item&quot;&gt;
+                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;
+                        &quot; Love the cart. I installed it a while back and use it since when. Some features a hidden, but fun to discover them.&quot;&lt;br /&gt;
+                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : Liz Wattkins at shopping-cart-reviews.com&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer</placeholder>
+					</installed>
+					<status>1</status>
+					<position>30</position>
+				</block>
+				<block>
+					<block_txt_id>newsletter_signup</block_txt_id>
+					<controller>blocks/newsletter_signup</controller>
+					<templates>
+						<template>
+							<parent_block>footer</parent_block>
+							<template_name>blocks/newsletter_signup_footer.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>40</position>
+				</block>
+				<block>
+					<block_txt_id>content</block_txt_id>
+					<controller>blocks/content</controller>
+					<templates>
+						<template>
+							<parent_block>footer</parent_block>
+							<template_name>blocks/content_footer.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>50</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5socialicons_35</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Social Icons]]></name>
+							<title><![CDATA[bootstrap5_social_icons]]></title>
+							<block_wrapper><![CDATA[0]]></block_wrapper>
+							<block_framed><![CDATA[0]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[      &lt;div class=&quot;bs5_social_icons nav navbar&quot;&gt;
+        &lt;a class=&quot;nav-link m-3&quot; href=&quot;http://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; &gt;&lt;i class=&quot; fa-brands fa-facebook fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot; href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot;&gt;&lt;i class=&quot; fa-brands fa-twitter fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;Linkedin&quot; &gt;&lt;i class=&quot;fa-brands fa-linkedin fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;rss&quot; &gt;&lt;i class=&quot;fa-solid fa-square-rss fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Skype&quot; &gt;&lt;i class=&quot;fa-brands fa-skype fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Flickr&quot;&gt;&lt;i class=&quot;fa-brands fa-flickr fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+      &lt;/div&gt;]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer</placeholder>
+					</installed>
+					<status>1</status>
+					<position>60</position>
+				</block>
+				<block>
+					<block_txt_id>credit_cards</block_txt_id>
+					<controller>blocks/credit_cards</controller>
+					<templates>
+						<template>
+							<parent_block>footer</parent_block>
+							<template_name>blocks/credit_cards.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>70</position>
+				</block>
+				<block>
+					<block_txt_id>donate</block_txt_id>
+					<controller>blocks/donate</controller>
+					<templates>
+						<template>
+							<parent_block>footer</parent_block>
+							<template_name>blocks/donate.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>80</position>
+				</block>
+			</block>
+			<block>
+				<block_txt_id>donate</block_txt_id>
+				<controller>blocks/donate</controller>
+				<status>1</status>
+				<position>80</position>
+			</block>
+		</blocks>
+	</layout>
+	<layout>
+		<name>Default Product Page</name>
+		<template_id>bootstrap5</template_id>
+		<type>Active</type>
+		<pages>
+			<page>
+				<controller>pages/product/product</controller>
+				<page_descriptions>
+					<page_description>
+						<language>english</language>
+						<name><![CDATA[Default Product Page]]></name>
+					</page_description>
+				</page_descriptions>
+			</page>
+		</pages>
+		<blocks>
+			<block>
+				<block_txt_id>header</block_txt_id>
+				<controller>common/header</controller>
+				<status>1</status>
+				<position>10</position>
+				<block>
+					<block_txt_id>cart</block_txt_id>
+					<controller>blocks/cart</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/cart_top.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>10</position>
+				</block>
+				<block>
+					<block_txt_id>customer</block_txt_id>
+					<controller>blocks/customer</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/customer.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>20</position>
+				</block>
+				<block>
+					<block_txt_id>menu</block_txt_id>
+					<controller>blocks/menu</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/menu_top.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>30</position>
+				</block>
+				<block>
+					<block_txt_id>search</block_txt_id>
+					<controller>blocks/search</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/search_top.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>40</position>
+				</block>
+				<block>
+					<block_txt_id>language</block_txt_id>
+					<controller>blocks/language</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/language.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>50</position>
+				</block>
+				<block>
+					<block_txt_id>currency</block_txt_id>
+					<controller>blocks/currency</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/currency.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>60</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5socialicons_35</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Social Icons]]></name>
+							<title><![CDATA[bootstrap5_social_icons]]></title>
+							<block_wrapper><![CDATA[0]]></block_wrapper>
+							<block_framed><![CDATA[0]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[      &lt;div class=&quot;bs5_social_icons nav navbar&quot;&gt;
+        &lt;a class=&quot;nav-link m-3&quot; href=&quot;http://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; &gt;&lt;i class=&quot; fa-brands fa-facebook fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot; href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot;&gt;&lt;i class=&quot; fa-brands fa-twitter fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;Linkedin&quot; &gt;&lt;i class=&quot;fa-brands fa-linkedin fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;rss&quot; &gt;&lt;i class=&quot;fa-solid fa-square-rss fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Skype&quot; &gt;&lt;i class=&quot;fa-brands fa-skype fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Flickr&quot;&gt;&lt;i class=&quot;fa-brands fa-flickr fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+      &lt;/div&gt;]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>header</placeholder>
+					</installed>
+					<status>1</status>
+					<position>70</position>
+				</block>
+			</block>
+			<block>
+				<block_txt_id>category</block_txt_id>
+				<controller>blocks/category</controller>
+				<status>1</status>
+				<position>10</position>
+			</block>
+			<block>
+				<block_txt_id>latest</block_txt_id>
+				<controller>blocks/latest</controller>
+				<status>1</status>
+				<position>10</position>
+			</block>
+			<block>
+				<block_txt_id>customer</block_txt_id>
+				<controller>blocks/customer</controller>
+				<status>1</status>
+				<position>20</position>
+			</block>
+			<block>
+				<block_txt_id>breadcrumbs</block_txt_id>
+				<controller>blocks/breadcrumbs</controller>
+				<status>1</status>
+				<position>20</position>
+			</block>
+			<block>
+				<block_txt_id>header_bottom</block_txt_id>
+				<controller>common/header_bottom</controller>
+				<status>1</status>
+				<position>20</position>
+				<block>
+					<block_txt_id>category</block_txt_id>
+					<controller>blocks/category</controller>
+					<templates>
+						<template>
+							<parent_block>header_bottom</parent_block>
+							<template_name>blocks/category_top.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>10</position>
+				</block>
+				<block>
+					<block_txt_id>breadcrumbs</block_txt_id>
+					<controller>blocks/breadcrumbs</controller>
+					<templates>
+						<template>
+							<parent_block>header_bottom</parent_block>
+							<template_name>blocks/breadcrumbs.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>20</position>
+				</block>
+			</block>
+			<block>
+				<block_txt_id>column_left</block_txt_id>
+				<controller>common/column_left</controller>
+				<status>1</status>
+				<position>30</position>
+				<block>
+					<block_txt_id>latest</block_txt_id>
+					<controller>blocks/latest</controller>
+					<templates>
+						<template>
+							<parent_block>column_left</parent_block>
+							<template_name>blocks/latest.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>10</position>
+				</block>
+			</block>
+			<block>
+				<block_txt_id>menu</block_txt_id>
+				<controller>blocks/menu</controller>
+				<status>1</status>
+				<position>30</position>
+			</block>
+			<block>
+				<block_txt_id>newsletter_signup</block_txt_id>
+				<controller>blocks/newsletter_signup</controller>
+				<status>1</status>
+				<position>40</position>
+			</block>
+			<block>
+				<block_txt_id>search</block_txt_id>
+				<controller>blocks/search</controller>
+				<status>1</status>
+				<position>40</position>
+			</block>
+			<block>
+				<block_txt_id>content_top</block_txt_id>
+				<controller>common/content_top</controller>
+				<status>1</status>
+				<position>40</position>
+			</block>
+			<block>
+				<block_txt_id>language</block_txt_id>
+				<controller>blocks/language</controller>
+				<status>1</status>
+				<position>50</position>
+			</block>
+			<block>
+				<block_txt_id>content_bottom</block_txt_id>
+				<controller>common/content_bottom</controller>
+				<status>1</status>
+				<position>50</position>
+			</block>
+			<block>
+				<block_txt_id>content</block_txt_id>
+				<controller>blocks/content</controller>
+				<status>1</status>
+				<position>50</position>
+			</block>
+			<block>
+				<block_txt_id>column_right</block_txt_id>
+				<controller>common/column_right</controller>
+				<status>0</status>
+				<position>60</position>
+			</block>
+			<block>
+				<block_txt_id>currency</block_txt_id>
+				<controller>blocks/currency</controller>
+				<status>1</status>
+				<position>60</position>
+			</block>
+			<block>
+				<block_txt_id>cart</block_txt_id>
+				<controller>blocks/cart</controller>
+				<status>1</status>
+				<position>70</position>
+			</block>
+			<block>
+				<block_txt_id>footer_top</block_txt_id>
+				<controller>common/footer_top</controller>
+				<status>0</status>
+				<position>70</position>
+			</block>
+			<block>
+				<block_txt_id>credit_cards</block_txt_id>
+				<controller>blocks/credit_cards</controller>
+				<status>1</status>
+				<position>70</position>
+			</block>
+			<block>
+				<block_txt_id>footer</block_txt_id>
+				<controller>common/footer</controller>
+				<status>1</status>
+				<position>80</position>
+				<block>
+					<custom_block_txt_id>bs5aboutus_27</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 About Us]]></name>
+							<title><![CDATA[About Us]]></title>
+							<block_wrapper><![CDATA[blocks/html_block_footer.tpl]]></block_wrapper>
+							<block_framed><![CDATA[1]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[&lt;p class=&quot;small lh-lg&quot;&gt;
+AbanteCart is a free eCommerce solution for merchants to provide ability creating online business and sell products or services online. AbanteCart application is built and supported by experienced enthusiasts that are passionate about their work and contribution to rapidly evolving eCommerce industry. AbanteCart is more than just a shopping cart, it is rapidly growing eCommerce platform with many benefits.&lt;/p&gt;
+]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer</placeholder>
+					</installed>
+					<status>1</status>
+					<position>10</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5contactus_28</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Contact us]]></name>
+							<title><![CDATA[Contact Us]]></title>
+							<block_wrapper><![CDATA[blocks/html_block_footer.tpl]]></block_wrapper>
+							<block_framed><![CDATA[1]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[&lt;ul class=&quot;list-unstyled contact small&quot;&gt;
+   &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-phone&quot;&gt;&lt;/i&gt;&lt;/i&gt; 123 456 7890,  123 456 7890&lt;/li&gt;
+    &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-mobile-screen&quot;&gt;&lt;/i&gt;&lt;a class=&quot;text-decoration-none&quot;  href=&quot;tel:123 456 7890&quot;&gt; 123 456 7890&lt;/a&gt;,  123 456 78900&lt;/li&gt;
+    &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-at&quot;&gt;&lt;/i&gt; help at abantecart.com&lt;/li&gt;
+&lt;/ul&gt;]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer</placeholder>
+					</installed>
+					<status>1</status>
+					<position>20</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5testimonials_36</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Testimonials]]></name>
+							<title><![CDATA[Testimonials]]></title>
+							<block_wrapper><![CDATA[0]]></block_wrapper>
+							<block_framed><![CDATA[1]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[&lt;div id=&quot;testimonial_sidebar&quot; class=&quot;carousel carousel-dark slide&quot; data-bs-ride=&quot;carousel&quot;&gt;
+                &lt;div class=&quot;carousel-inner&quot;&gt;
+                    &lt;div class=&quot;carousel-item active&quot;&gt;
+                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;
+                        &quot; I was working with many shopping carts, free and hosted for my clients. There is always something missing. In AbanteCart I find this gap to be much less. Interface is very easy to use and support is very responsive. This is considering its is free. Go AbanteCart go!&quot;&lt;br /&gt;
+                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : TopShop on reviewcentre.com&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;carousel-item&quot;&gt;
+                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;
+                        &quot; Without a doubt the best cart I have used. The title says it all - AbanteCart is undoubtedly the best I have used. I'm not an expert in site setup, so something this great looking and easy to use is absolutely perfect ... &quot;&lt;br /&gt;
+                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : johnstenson80 on venturebeat.com&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;carousel-item&quot;&gt;
+                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;
+                        &quot; Will not regret using this cart. All good is already mentioned, I want to add my experience with support. My problems with some configuration were resolved quick. Faster than paid shopping cart we had before.&quot;&lt;br /&gt;
+                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : shopper23 at bestshoppingcartreviews.com&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;carousel-item&quot;&gt;
+                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;
+                        &quot; Love the cart. I installed it a while back and use it since when. Some features a hidden, but fun to discover them.&quot;&lt;br /&gt;
+                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : Liz Wattkins at shopping-cart-reviews.com&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer</placeholder>
+					</installed>
+					<status>1</status>
+					<position>30</position>
+				</block>
+				<block>
+					<block_txt_id>newsletter_signup</block_txt_id>
+					<controller>blocks/newsletter_signup</controller>
+					<templates>
+						<template>
+							<parent_block>footer</parent_block>
+							<template_name>blocks/newsletter_signup_footer.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>40</position>
+				</block>
+				<block>
+					<block_txt_id>content</block_txt_id>
+					<controller>blocks/content</controller>
+					<templates>
+						<template>
+							<parent_block>footer</parent_block>
+							<template_name>blocks/content_footer.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>50</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5socialicons_35</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Social Icons]]></name>
+							<title><![CDATA[bootstrap5_social_icons]]></title>
+							<block_wrapper><![CDATA[0]]></block_wrapper>
+							<block_framed><![CDATA[0]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[      &lt;div class=&quot;bs5_social_icons nav navbar&quot;&gt;
+        &lt;a class=&quot;nav-link m-3&quot; href=&quot;http://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; &gt;&lt;i class=&quot; fa-brands fa-facebook fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot; href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot;&gt;&lt;i class=&quot; fa-brands fa-twitter fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;Linkedin&quot; &gt;&lt;i class=&quot;fa-brands fa-linkedin fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;rss&quot; &gt;&lt;i class=&quot;fa-solid fa-square-rss fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Skype&quot; &gt;&lt;i class=&quot;fa-brands fa-skype fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Flickr&quot;&gt;&lt;i class=&quot;fa-brands fa-flickr fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+      &lt;/div&gt;]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer</placeholder>
+					</installed>
+					<status>1</status>
+					<position>60</position>
+				</block>
+				<block>
+					<block_txt_id>credit_cards</block_txt_id>
+					<controller>blocks/credit_cards</controller>
+					<templates>
+						<template>
+							<parent_block>footer</parent_block>
+							<template_name>blocks/credit_cards.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>70</position>
+				</block>
+				<block>
+					<block_txt_id>donate</block_txt_id>
+					<controller>blocks/donate</controller>
+					<templates>
+						<template>
+							<parent_block>footer</parent_block>
+							<template_name>blocks/donate.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>80</position>
+				</block>
+			</block>
+			<block>
+				<block_txt_id>donate</block_txt_id>
+				<controller>blocks/donate</controller>
+				<status>1</status>
+				<position>80</position>
+			</block>
+		</blocks>
+	</layout>
+	<layout>
+		<name>Product Listing Page</name>
+		<template_id>bootstrap5</template_id>
+		<type>Active</type>
+		<pages>
+			<page>
+				<controller>pages/product/category</controller>
+			</page>
+		</pages>
+		<blocks>
+			<block>
+				<block_txt_id>header</block_txt_id>
+				<controller>common/header</controller>
+				<status>1</status>
+				<position>10</position>
+				<block>
+					<block_txt_id>cart</block_txt_id>
+					<controller>blocks/cart</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/cart_top.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>10</position>
+				</block>
+				<block>
+					<block_txt_id>customer</block_txt_id>
+					<controller>blocks/customer</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/customer.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>20</position>
+				</block>
+				<block>
+					<block_txt_id>menu</block_txt_id>
+					<controller>blocks/menu</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/menu_top.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>30</position>
+				</block>
+				<block>
+					<block_txt_id>search</block_txt_id>
+					<controller>blocks/search</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/search_top.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>40</position>
+				</block>
+				<block>
+					<block_txt_id>language</block_txt_id>
+					<controller>blocks/language</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/language.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>50</position>
+				</block>
+				<block>
+					<block_txt_id>currency</block_txt_id>
+					<controller>blocks/currency</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/currency.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>60</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5socialicons_35</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Social Icons]]></name>
+							<title><![CDATA[bootstrap5_social_icons]]></title>
+							<block_wrapper><![CDATA[0]]></block_wrapper>
+							<block_framed><![CDATA[0]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[      &lt;div class=&quot;bs5_social_icons nav navbar&quot;&gt;
+        &lt;a class=&quot;nav-link m-3&quot; href=&quot;http://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; &gt;&lt;i class=&quot; fa-brands fa-facebook fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot; href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot;&gt;&lt;i class=&quot; fa-brands fa-twitter fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;Linkedin&quot; &gt;&lt;i class=&quot;fa-brands fa-linkedin fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;rss&quot; &gt;&lt;i class=&quot;fa-solid fa-square-rss fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Skype&quot; &gt;&lt;i class=&quot;fa-brands fa-skype fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Flickr&quot;&gt;&lt;i class=&quot;fa-brands fa-flickr fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+      &lt;/div&gt;]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>header</placeholder>
+					</installed>
+					<status>1</status>
+					<position>70</position>
+				</block>
+			</block>
+			<block>
+				<block_txt_id>category</block_txt_id>
+				<controller>blocks/category</controller>
+				<status>1</status>
+				<position>10</position>
+			</block>
+			<block>
+				<block_txt_id>header_bottom</block_txt_id>
+				<controller>common/header_bottom</controller>
+				<status>1</status>
+				<position>20</position>
+				<block>
+					<block_txt_id>category</block_txt_id>
+					<controller>blocks/category</controller>
+					<templates>
+						<template>
+							<parent_block>header_bottom</parent_block>
+							<template_name>blocks/category_top.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>10</position>
+				</block>
+				<block>
+					<block_txt_id>breadcrumbs</block_txt_id>
+					<controller>blocks/breadcrumbs</controller>
+					<templates>
+						<template>
+							<parent_block>header_bottom</parent_block>
+							<template_name>blocks/breadcrumbs.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>20</position>
+				</block>
+			</block>
+			<block>
+				<block_txt_id>breadcrumbs</block_txt_id>
+				<controller>blocks/breadcrumbs</controller>
+				<status>1</status>
+				<position>20</position>
+			</block>
+			<block>
+				<block_txt_id>customer</block_txt_id>
+				<controller>blocks/customer</controller>
+				<status>1</status>
+				<position>20</position>
+			</block>
+			<block>
+				<block_txt_id>column_left</block_txt_id>
+				<controller>common/column_left</controller>
+				<status>1</status>
+				<position>30</position>
+			</block>
+			<block>
+				<block_txt_id>menu</block_txt_id>
+				<controller>blocks/menu</controller>
+				<status>1</status>
+				<position>30</position>
+			</block>
+			<block>
+				<block_txt_id>newsletter_signup</block_txt_id>
+				<controller>blocks/newsletter_signup</controller>
+				<status>1</status>
+				<position>40</position>
+			</block>
+			<block>
+				<block_txt_id>search</block_txt_id>
+				<controller>blocks/search</controller>
+				<status>1</status>
+				<position>40</position>
+			</block>
+			<block>
+				<block_txt_id>content_top</block_txt_id>
+				<controller>common/content_top</controller>
+				<status>1</status>
+				<position>40</position>
+			</block>
+			<block>
+				<block_txt_id>language</block_txt_id>
+				<controller>blocks/language</controller>
+				<status>1</status>
+				<position>50</position>
+			</block>
+			<block>
+				<block_txt_id>content_bottom</block_txt_id>
+				<controller>common/content_bottom</controller>
+				<status>1</status>
+				<position>50</position>
+			</block>
+			<block>
+				<block_txt_id>content</block_txt_id>
+				<controller>blocks/content</controller>
+				<status>1</status>
+				<position>50</position>
+			</block>
+			<block>
+				<block_txt_id>column_right</block_txt_id>
+				<controller>common/column_right</controller>
+				<status>1</status>
+				<position>60</position>
+			</block>
+			<block>
+				<block_txt_id>currency</block_txt_id>
+				<controller>blocks/currency</controller>
+				<status>1</status>
+				<position>60</position>
+			</block>
+			<block>
+				<block_txt_id>footer_top</block_txt_id>
+				<controller>common/footer_top</controller>
+				<status>1</status>
+				<position>70</position>
+			</block>
+			<block>
+				<block_txt_id>cart</block_txt_id>
+				<controller>blocks/cart</controller>
+				<status>1</status>
+				<position>70</position>
+			</block>
+			<block>
+				<block_txt_id>credit_cards</block_txt_id>
+				<controller>blocks/credit_cards</controller>
+				<status>1</status>
+				<position>70</position>
+			</block>
+			<block>
+				<block_txt_id>footer</block_txt_id>
+				<controller>common/footer</controller>
+				<status>1</status>
+				<position>80</position>
+				<block>
+					<custom_block_txt_id>bs5aboutus_27</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 About Us]]></name>
+							<title><![CDATA[About Us]]></title>
+							<block_wrapper><![CDATA[blocks/html_block_footer.tpl]]></block_wrapper>
+							<block_framed><![CDATA[1]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[&lt;p class=&quot;small lh-lg&quot;&gt;
+AbanteCart is a free eCommerce solution for merchants to provide ability creating online business and sell products or services online. AbanteCart application is built and supported by experienced enthusiasts that are passionate about their work and contribution to rapidly evolving eCommerce industry. AbanteCart is more than just a shopping cart, it is rapidly growing eCommerce platform with many benefits.&lt;/p&gt;
+]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer</placeholder>
+					</installed>
+					<status>1</status>
+					<position>10</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5contactus_28</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Contact us]]></name>
+							<title><![CDATA[Contact Us]]></title>
+							<block_wrapper><![CDATA[blocks/html_block_footer.tpl]]></block_wrapper>
+							<block_framed><![CDATA[1]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[&lt;ul class=&quot;list-unstyled contact small&quot;&gt;
+   &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-phone&quot;&gt;&lt;/i&gt;&lt;/i&gt; 123 456 7890,  123 456 7890&lt;/li&gt;
+    &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-mobile-screen&quot;&gt;&lt;/i&gt;&lt;a class=&quot;text-decoration-none&quot;  href=&quot;tel:123 456 7890&quot;&gt; 123 456 7890&lt;/a&gt;,  123 456 78900&lt;/li&gt;
+    &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-at&quot;&gt;&lt;/i&gt; help at abantecart.com&lt;/li&gt;
+&lt;/ul&gt;]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer</placeholder>
+					</installed>
+					<status>1</status>
+					<position>20</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5testimonials_36</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Testimonials]]></name>
+							<title><![CDATA[Testimonials]]></title>
+							<block_wrapper><![CDATA[0]]></block_wrapper>
+							<block_framed><![CDATA[1]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[&lt;div id=&quot;testimonial_sidebar&quot; class=&quot;carousel carousel-dark slide&quot; data-bs-ride=&quot;carousel&quot;&gt;
+                &lt;div class=&quot;carousel-inner&quot;&gt;
+                    &lt;div class=&quot;carousel-item active&quot;&gt;
+                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;
+                        &quot; I was working with many shopping carts, free and hosted for my clients. There is always something missing. In AbanteCart I find this gap to be much less. Interface is very easy to use and support is very responsive. This is considering its is free. Go AbanteCart go!&quot;&lt;br /&gt;
+                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : TopShop on reviewcentre.com&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;carousel-item&quot;&gt;
+                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;
+                        &quot; Without a doubt the best cart I have used. The title says it all - AbanteCart is undoubtedly the best I have used. I'm not an expert in site setup, so something this great looking and easy to use is absolutely perfect ... &quot;&lt;br /&gt;
+                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : johnstenson80 on venturebeat.com&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;carousel-item&quot;&gt;
+                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;
+                        &quot; Will not regret using this cart. All good is already mentioned, I want to add my experience with support. My problems with some configuration were resolved quick. Faster than paid shopping cart we had before.&quot;&lt;br /&gt;
+                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : shopper23 at bestshoppingcartreviews.com&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;carousel-item&quot;&gt;
+                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;
+                        &quot; Love the cart. I installed it a while back and use it since when. Some features a hidden, but fun to discover them.&quot;&lt;br /&gt;
+                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : Liz Wattkins at shopping-cart-reviews.com&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer</placeholder>
+					</installed>
+					<status>1</status>
+					<position>30</position>
+				</block>
+				<block>
+					<block_txt_id>newsletter_signup</block_txt_id>
+					<controller>blocks/newsletter_signup</controller>
+					<templates>
+						<template>
+							<parent_block>footer</parent_block>
+							<template_name>blocks/newsletter_signup_footer.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>40</position>
+				</block>
+				<block>
+					<block_txt_id>content</block_txt_id>
+					<controller>blocks/content</controller>
+					<templates>
+						<template>
+							<parent_block>footer</parent_block>
+							<template_name>blocks/content_footer.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>50</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5socialicons_35</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Social Icons]]></name>
+							<title><![CDATA[bootstrap5_social_icons]]></title>
+							<block_wrapper><![CDATA[0]]></block_wrapper>
+							<block_framed><![CDATA[0]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[      &lt;div class=&quot;bs5_social_icons nav navbar&quot;&gt;
+        &lt;a class=&quot;nav-link m-3&quot; href=&quot;http://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; &gt;&lt;i class=&quot; fa-brands fa-facebook fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot; href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot;&gt;&lt;i class=&quot; fa-brands fa-twitter fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;Linkedin&quot; &gt;&lt;i class=&quot;fa-brands fa-linkedin fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;rss&quot; &gt;&lt;i class=&quot;fa-solid fa-square-rss fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Skype&quot; &gt;&lt;i class=&quot;fa-brands fa-skype fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Flickr&quot;&gt;&lt;i class=&quot;fa-brands fa-flickr fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+      &lt;/div&gt;]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer</placeholder>
+					</installed>
+					<status>1</status>
+					<position>60</position>
+				</block>
+				<block>
+					<block_txt_id>credit_cards</block_txt_id>
+					<controller>blocks/credit_cards</controller>
+					<templates>
+						<template>
+							<parent_block>footer</parent_block>
+							<template_name>blocks/credit_cards.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>70</position>
+				</block>
+				<block>
+					<block_txt_id>donate</block_txt_id>
+					<controller>blocks/donate</controller>
+					<templates>
+						<template>
+							<parent_block>footer</parent_block>
+							<template_name>blocks/donate.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>80</position>
+				</block>
+			</block>
+			<block>
+				<block_txt_id>donate</block_txt_id>
+				<controller>blocks/donate</controller>
+				<status>1</status>
+				<position>80</position>
+			</block>
+		</blocks>
+	</layout>
+	<layout>
+		<name>Maintenance Page</name>
+		<template_id>bootstrap5</template_id>
+		<type>Active</type>
+		<pages>
+			<page>
+				<controller>pages/index/maintenance</controller>
+				<page_descriptions>
+					<page_description>
+						<language>english</language>
+						<name><![CDATA[Maintenance Page]]></name>
+					</page_description>
+				</page_descriptions>
+			</page>
+		</pages>
+		<blocks>
+			<block>
+				<block_txt_id>header</block_txt_id>
+				<controller>common/header</controller>
+				<status>1</status>
+				<position>10</position>
+			</block>
+			<block>
+				<block_txt_id>header_bottom</block_txt_id>
+				<controller>common/header_bottom</controller>
+				<status>1</status>
+				<position>20</position>
+			</block>
+			<block>
+				<block_txt_id>breadcrumbs</block_txt_id>
+				<controller>blocks/breadcrumbs</controller>
+				<status>1</status>
+				<position>20</position>
+			</block>
+			<block>
+				<block_txt_id>column_left</block_txt_id>
+				<controller>common/column_left</controller>
+				<status>1</status>
+				<position>30</position>
+			</block>
+			<block>
+				<block_txt_id>content_top</block_txt_id>
+				<controller>common/content_top</controller>
+				<status>1</status>
+				<position>40</position>
+			</block>
+			<block>
+				<block_txt_id>content_bottom</block_txt_id>
+				<controller>common/content_bottom</controller>
+				<status>1</status>
+				<position>50</position>
+			</block>
+			<block>
+				<block_txt_id>column_right</block_txt_id>
+				<controller>common/column_right</controller>
+				<status>1</status>
+				<position>60</position>
+			</block>
+			<block>
+				<block_txt_id>footer_top</block_txt_id>
+				<controller>common/footer_top</controller>
+				<status>1</status>
+				<position>70</position>
+			</block>
+			<block>
+				<block_txt_id>footer</block_txt_id>
+				<controller>common/footer</controller>
+				<status>1</status>
+				<position>80</position>
+			</block>
+		</blocks>
+	</layout>
+	<layout>
+		<name>Customer Account Pages</name>
+		<template_id>bootstrap5</template_id>
+		<type>Active</type>
+		<pages>
+			<page>
+				<controller>pages/account</controller>
+				<page_descriptions>
+					<page_description>
+						<language>english</language>
+						<name><![CDATA[Customer Account Pages]]></name>
+					</page_description>
+				</page_descriptions>
+			</page>
+		</pages>
+		<blocks>
+			<block>
+				<block_txt_id>header</block_txt_id>
+				<controller>common/header</controller>
+				<status>1</status>
+				<position>10</position>
+				<block>
+					<block_txt_id>cart</block_txt_id>
+					<controller>blocks/cart</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/cart_top.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>10</position>
+				</block>
+				<block>
+					<block_txt_id>customer</block_txt_id>
+					<controller>blocks/customer</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/customer.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>20</position>
+				</block>
+				<block>
+					<block_txt_id>menu</block_txt_id>
+					<controller>blocks/menu</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/menu_top.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>30</position>
+				</block>
+				<block>
+					<block_txt_id>search</block_txt_id>
+					<controller>blocks/search</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/search_top.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>40</position>
+				</block>
+				<block>
+					<block_txt_id>language</block_txt_id>
+					<controller>blocks/language</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/language.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>50</position>
+				</block>
+				<block>
+					<block_txt_id>currency</block_txt_id>
+					<controller>blocks/currency</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/currency.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>60</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5socialicons_35</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Social Icons]]></name>
+							<title><![CDATA[bootstrap5_social_icons]]></title>
+							<block_wrapper><![CDATA[0]]></block_wrapper>
+							<block_framed><![CDATA[0]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[      &lt;div class=&quot;bs5_social_icons nav navbar&quot;&gt;
+        &lt;a class=&quot;nav-link m-3&quot; href=&quot;http://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; &gt;&lt;i class=&quot; fa-brands fa-facebook fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot; href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot;&gt;&lt;i class=&quot; fa-brands fa-twitter fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;Linkedin&quot; &gt;&lt;i class=&quot;fa-brands fa-linkedin fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;rss&quot; &gt;&lt;i class=&quot;fa-solid fa-square-rss fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Skype&quot; &gt;&lt;i class=&quot;fa-brands fa-skype fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Flickr&quot;&gt;&lt;i class=&quot;fa-brands fa-flickr fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+      &lt;/div&gt;]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>header</placeholder>
+					</installed>
+					<status>1</status>
+					<position>70</position>
+				</block>
+			</block>
+			<block>
+				<block_txt_id>category</block_txt_id>
+				<controller>blocks/category</controller>
+				<status>1</status>
+				<position>10</position>
+			</block>
+			<block>
+				<block_txt_id>account</block_txt_id>
+				<controller>blocks/account</controller>
+				<status>1</status>
+				<position>10</position>
+			</block>
+			<block>
+				<block_txt_id>customer</block_txt_id>
+				<controller>blocks/customer</controller>
+				<status>1</status>
+				<position>20</position>
+			</block>
+			<block>
+				<block_txt_id>breadcrumbs</block_txt_id>
+				<controller>blocks/breadcrumbs</controller>
+				<status>1</status>
+				<position>20</position>
+			</block>
+			<block>
+				<block_txt_id>header_bottom</block_txt_id>
+				<controller>common/header_bottom</controller>
+				<status>1</status>
+				<position>20</position>
+				<block>
+					<block_txt_id>category</block_txt_id>
+					<controller>blocks/category</controller>
+					<templates>
+						<template>
+							<parent_block>header_bottom</parent_block>
+							<template_name>blocks/category_top.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>10</position>
+				</block>
+				<block>
+					<block_txt_id>breadcrumbs</block_txt_id>
+					<controller>blocks/breadcrumbs</controller>
+					<templates>
+						<template>
+							<parent_block>header_bottom</parent_block>
+							<template_name>blocks/breadcrumbs.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>20</position>
+				</block>
+			</block>
+			<block>
+				<block_txt_id>column_left</block_txt_id>
+				<controller>common/column_left</controller>
+				<status>0</status>
+				<position>30</position>
+			</block>
+			<block>
+				<block_txt_id>menu</block_txt_id>
+				<controller>blocks/menu</controller>
+				<status>1</status>
+				<position>30</position>
+			</block>
+			<block>
+				<block_txt_id>newsletter_signup</block_txt_id>
+				<controller>blocks/newsletter_signup</controller>
+				<status>1</status>
+				<position>40</position>
+			</block>
+			<block>
+				<block_txt_id>search</block_txt_id>
+				<controller>blocks/search</controller>
+				<status>1</status>
+				<position>40</position>
+			</block>
+			<block>
+				<block_txt_id>content_top</block_txt_id>
+				<controller>common/content_top</controller>
+				<status>1</status>
+				<position>40</position>
+			</block>
+			<block>
+				<block_txt_id>language</block_txt_id>
+				<controller>blocks/language</controller>
+				<status>1</status>
+				<position>50</position>
+			</block>
+			<block>
+				<block_txt_id>content_bottom</block_txt_id>
+				<controller>common/content_bottom</controller>
+				<status>1</status>
+				<position>50</position>
+			</block>
+			<block>
+				<block_txt_id>content</block_txt_id>
+				<controller>blocks/content</controller>
+				<status>1</status>
+				<position>50</position>
+			</block>
+			<block>
+				<block_txt_id>column_right</block_txt_id>
+				<controller>common/column_right</controller>
+				<status>1</status>
+				<position>60</position>
+				<block>
+					<block_txt_id>account</block_txt_id>
+					<controller>blocks/account</controller>
+					<templates>
+						<template>
+							<parent_block>column_right</parent_block>
+							<template_name>blocks/account.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>10</position>
+				</block>
+			</block>
+			<block>
+				<block_txt_id>currency</block_txt_id>
+				<controller>blocks/currency</controller>
+				<status>1</status>
+				<position>60</position>
+			</block>
+			<block>
+				<block_txt_id>cart</block_txt_id>
+				<controller>blocks/cart</controller>
+				<status>1</status>
+				<position>70</position>
+			</block>
+			<block>
+				<block_txt_id>footer_top</block_txt_id>
+				<controller>common/footer_top</controller>
+				<status>1</status>
+				<position>70</position>
+			</block>
+			<block>
+				<block_txt_id>credit_cards</block_txt_id>
+				<controller>blocks/credit_cards</controller>
+				<status>1</status>
+				<position>70</position>
+			</block>
+			<block>
+				<block_txt_id>footer</block_txt_id>
+				<controller>common/footer</controller>
+				<status>1</status>
+				<position>80</position>
+				<block>
+					<custom_block_txt_id>bs5aboutus_27</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 About Us]]></name>
+							<title><![CDATA[About Us]]></title>
+							<block_wrapper><![CDATA[blocks/html_block_footer.tpl]]></block_wrapper>
+							<block_framed><![CDATA[1]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[&lt;p class=&quot;small lh-lg&quot;&gt;
+AbanteCart is a free eCommerce solution for merchants to provide ability creating online business and sell products or services online. AbanteCart application is built and supported by experienced enthusiasts that are passionate about their work and contribution to rapidly evolving eCommerce industry. AbanteCart is more than just a shopping cart, it is rapidly growing eCommerce platform with many benefits.&lt;/p&gt;
+]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer</placeholder>
+					</installed>
+					<status>1</status>
+					<position>10</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5contactus_28</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Contact us]]></name>
+							<title><![CDATA[Contact Us]]></title>
+							<block_wrapper><![CDATA[blocks/html_block_footer.tpl]]></block_wrapper>
+							<block_framed><![CDATA[1]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[&lt;ul class=&quot;list-unstyled contact small&quot;&gt;
+   &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-phone&quot;&gt;&lt;/i&gt;&lt;/i&gt; 123 456 7890,  123 456 7890&lt;/li&gt;
+    &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-mobile-screen&quot;&gt;&lt;/i&gt;&lt;a class=&quot;text-decoration-none&quot;  href=&quot;tel:123 456 7890&quot;&gt; 123 456 7890&lt;/a&gt;,  123 456 78900&lt;/li&gt;
+    &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-at&quot;&gt;&lt;/i&gt; help at abantecart.com&lt;/li&gt;
+&lt;/ul&gt;]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer</placeholder>
+					</installed>
+					<status>1</status>
+					<position>20</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5testimonials_36</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Testimonials]]></name>
+							<title><![CDATA[Testimonials]]></title>
+							<block_wrapper><![CDATA[0]]></block_wrapper>
+							<block_framed><![CDATA[1]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[&lt;div id=&quot;testimonial_sidebar&quot; class=&quot;carousel carousel-dark slide&quot; data-bs-ride=&quot;carousel&quot;&gt;
+                &lt;div class=&quot;carousel-inner&quot;&gt;
+                    &lt;div class=&quot;carousel-item active&quot;&gt;
+                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;
+                        &quot; I was working with many shopping carts, free and hosted for my clients. There is always something missing. In AbanteCart I find this gap to be much less. Interface is very easy to use and support is very responsive. This is considering its is free. Go AbanteCart go!&quot;&lt;br /&gt;
+                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : TopShop on reviewcentre.com&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;carousel-item&quot;&gt;
+                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;
+                        &quot; Without a doubt the best cart I have used. The title says it all - AbanteCart is undoubtedly the best I have used. I'm not an expert in site setup, so something this great looking and easy to use is absolutely perfect ... &quot;&lt;br /&gt;
+                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : johnstenson80 on venturebeat.com&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;carousel-item&quot;&gt;
+                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;
+                        &quot; Will not regret using this cart. All good is already mentioned, I want to add my experience with support. My problems with some configuration were resolved quick. Faster than paid shopping cart we had before.&quot;&lt;br /&gt;
+                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : shopper23 at bestshoppingcartreviews.com&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;carousel-item&quot;&gt;
+                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;
+                        &quot; Love the cart. I installed it a while back and use it since when. Some features a hidden, but fun to discover them.&quot;&lt;br /&gt;
+                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : Liz Wattkins at shopping-cart-reviews.com&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer</placeholder>
+					</installed>
+					<status>1</status>
+					<position>30</position>
+				</block>
+				<block>
+					<block_txt_id>newsletter_signup</block_txt_id>
+					<controller>blocks/newsletter_signup</controller>
+					<templates>
+						<template>
+							<parent_block>footer</parent_block>
+							<template_name>blocks/newsletter_signup_footer.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>40</position>
+				</block>
+				<block>
+					<block_txt_id>content</block_txt_id>
+					<controller>blocks/content</controller>
+					<templates>
+						<template>
+							<parent_block>footer</parent_block>
+							<template_name>blocks/content_footer.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>50</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5socialicons_35</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Social Icons]]></name>
+							<title><![CDATA[bootstrap5_social_icons]]></title>
+							<block_wrapper><![CDATA[0]]></block_wrapper>
+							<block_framed><![CDATA[0]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[      &lt;div class=&quot;bs5_social_icons nav navbar&quot;&gt;
+        &lt;a class=&quot;nav-link m-3&quot; href=&quot;http://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; &gt;&lt;i class=&quot; fa-brands fa-facebook fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot; href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot;&gt;&lt;i class=&quot; fa-brands fa-twitter fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;Linkedin&quot; &gt;&lt;i class=&quot;fa-brands fa-linkedin fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;rss&quot; &gt;&lt;i class=&quot;fa-solid fa-square-rss fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Skype&quot; &gt;&lt;i class=&quot;fa-brands fa-skype fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Flickr&quot;&gt;&lt;i class=&quot;fa-brands fa-flickr fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+      &lt;/div&gt;]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer</placeholder>
+					</installed>
+					<status>1</status>
+					<position>60</position>
+				</block>
+				<block>
+					<block_txt_id>credit_cards</block_txt_id>
+					<controller>blocks/credit_cards</controller>
+					<templates>
+						<template>
+							<parent_block>footer</parent_block>
+							<template_name>blocks/credit_cards.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>70</position>
+				</block>
+				<block>
+					<block_txt_id>donate</block_txt_id>
+					<controller>blocks/donate</controller>
+					<templates>
+						<template>
+							<parent_block>footer</parent_block>
+							<template_name>blocks/donate.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>80</position>
+				</block>
+			</block>
+			<block>
+				<block_txt_id>donate</block_txt_id>
+				<controller>blocks/donate</controller>
+				<status>1</status>
+				<position>80</position>
+			</block>
+		</blocks>
+	</layout>
+	<layout>
+		<name>Cart Page</name>
+		<template_id>bootstrap5</template_id>
+		<type>Active</type>
+		<pages>
+			<page>
+				<controller>pages/checkout/cart</controller>
+				<page_descriptions>
+					<page_description>
+						<language>english</language>
+						<name><![CDATA[Cart Page]]></name>
+					</page_description>
+				</page_descriptions>
+			</page>
+		</pages>
+		<blocks>
+			<block>
+				<block_txt_id>header</block_txt_id>
+				<controller>common/header</controller>
+				<status>1</status>
+				<position>10</position>
+				<block>
+					<block_txt_id>cart</block_txt_id>
+					<controller>blocks/cart</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/cart_top.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>10</position>
+				</block>
+				<block>
+					<block_txt_id>customer</block_txt_id>
+					<controller>blocks/customer</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/customer.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>20</position>
+				</block>
+				<block>
+					<block_txt_id>menu</block_txt_id>
+					<controller>blocks/menu</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/menu_top.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>30</position>
+				</block>
+				<block>
+					<block_txt_id>search</block_txt_id>
+					<controller>blocks/search</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/search_top.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>40</position>
+				</block>
+				<block>
+					<block_txt_id>language</block_txt_id>
+					<controller>blocks/language</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/language.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>50</position>
+				</block>
+				<block>
+					<block_txt_id>currency</block_txt_id>
+					<controller>blocks/currency</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/currency.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>60</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5socialicons_35</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Social Icons]]></name>
+							<title><![CDATA[bootstrap5_social_icons]]></title>
+							<block_wrapper><![CDATA[0]]></block_wrapper>
+							<block_framed><![CDATA[0]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[      &lt;div class=&quot;bs5_social_icons nav navbar&quot;&gt;
+        &lt;a class=&quot;nav-link m-3&quot; href=&quot;http://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; &gt;&lt;i class=&quot; fa-brands fa-facebook fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot; href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot;&gt;&lt;i class=&quot; fa-brands fa-twitter fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;Linkedin&quot; &gt;&lt;i class=&quot;fa-brands fa-linkedin fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;rss&quot; &gt;&lt;i class=&quot;fa-solid fa-square-rss fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Skype&quot; &gt;&lt;i class=&quot;fa-brands fa-skype fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Flickr&quot;&gt;&lt;i class=&quot;fa-brands fa-flickr fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+      &lt;/div&gt;]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>header</placeholder>
+					</installed>
+					<status>1</status>
+					<position>70</position>
+				</block>
+			</block>
+			<block>
+				<block_txt_id>category</block_txt_id>
+				<controller>blocks/category</controller>
+				<status>1</status>
+				<position>10</position>
+			</block>
+			<block>
+				<block_txt_id>header_bottom</block_txt_id>
+				<controller>common/header_bottom</controller>
+				<status>1</status>
+				<position>20</position>
+				<block>
+					<block_txt_id>category</block_txt_id>
+					<controller>blocks/category</controller>
+					<templates>
+						<template>
+							<parent_block>header_bottom</parent_block>
+							<template_name>blocks/category_top.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>10</position>
+				</block>
+				<block>
+					<block_txt_id>breadcrumbs</block_txt_id>
+					<controller>blocks/breadcrumbs</controller>
+					<templates>
+						<template>
+							<parent_block>header_bottom</parent_block>
+							<template_name>blocks/breadcrumbs.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>20</position>
+				</block>
+			</block>
+			<block>
+				<block_txt_id>breadcrumbs</block_txt_id>
+				<controller>blocks/breadcrumbs</controller>
+				<status>1</status>
+				<position>20</position>
+			</block>
+			<block>
+				<block_txt_id>customer</block_txt_id>
+				<controller>blocks/customer</controller>
+				<status>1</status>
+				<position>20</position>
+			</block>
+			<block>
+				<block_txt_id>column_left</block_txt_id>
+				<controller>common/column_left</controller>
+				<status>0</status>
+				<position>30</position>
+			</block>
+			<block>
+				<block_txt_id>menu</block_txt_id>
+				<controller>blocks/menu</controller>
+				<status>1</status>
+				<position>30</position>
+			</block>
+			<block>
+				<block_txt_id>newsletter_signup</block_txt_id>
+				<controller>blocks/newsletter_signup</controller>
+				<status>1</status>
+				<position>40</position>
+			</block>
+			<block>
+				<block_txt_id>search</block_txt_id>
+				<controller>blocks/search</controller>
+				<status>1</status>
+				<position>40</position>
+			</block>
+			<block>
+				<block_txt_id>content_top</block_txt_id>
+				<controller>common/content_top</controller>
+				<status>1</status>
+				<position>40</position>
+			</block>
+			<block>
+				<block_txt_id>language</block_txt_id>
+				<controller>blocks/language</controller>
+				<status>1</status>
+				<position>50</position>
+			</block>
+			<block>
+				<block_txt_id>content_bottom</block_txt_id>
+				<controller>common/content_bottom</controller>
+				<status>1</status>
+				<position>50</position>
+			</block>
+			<block>
+				<block_txt_id>content</block_txt_id>
+				<controller>blocks/content</controller>
+				<status>1</status>
+				<position>50</position>
+			</block>
+			<block>
+				<block_txt_id>column_right</block_txt_id>
+				<controller>common/column_right</controller>
+				<status>1</status>
+				<position>60</position>
+			</block>
+			<block>
+				<block_txt_id>currency</block_txt_id>
+				<controller>blocks/currency</controller>
+				<status>1</status>
+				<position>60</position>
+			</block>
+			<block>
+				<block_txt_id>footer_top</block_txt_id>
+				<controller>common/footer_top</controller>
+				<status>1</status>
+				<position>70</position>
+			</block>
+			<block>
+				<block_txt_id>cart</block_txt_id>
+				<controller>blocks/cart</controller>
+				<status>1</status>
+				<position>70</position>
+			</block>
+			<block>
+				<block_txt_id>credit_cards</block_txt_id>
+				<controller>blocks/credit_cards</controller>
+				<status>1</status>
+				<position>70</position>
+			</block>
+			<block>
+				<block_txt_id>footer</block_txt_id>
+				<controller>common/footer</controller>
+				<status>1</status>
+				<position>80</position>
+				<block>
+					<custom_block_txt_id>bs5aboutus_27</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 About Us]]></name>
+							<title><![CDATA[About Us]]></title>
+							<block_wrapper><![CDATA[blocks/html_block_footer.tpl]]></block_wrapper>
+							<block_framed><![CDATA[1]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[&lt;p class=&quot;small lh-lg&quot;&gt;
+AbanteCart is a free eCommerce solution for merchants to provide ability creating online business and sell products or services online. AbanteCart application is built and supported by experienced enthusiasts that are passionate about their work and contribution to rapidly evolving eCommerce industry. AbanteCart is more than just a shopping cart, it is rapidly growing eCommerce platform with many benefits.&lt;/p&gt;
+]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer</placeholder>
+					</installed>
+					<status>1</status>
+					<position>10</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5contactus_28</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Contact us]]></name>
+							<title><![CDATA[Contact Us]]></title>
+							<block_wrapper><![CDATA[blocks/html_block_footer.tpl]]></block_wrapper>
+							<block_framed><![CDATA[1]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[&lt;ul class=&quot;list-unstyled contact small&quot;&gt;
+   &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-phone&quot;&gt;&lt;/i&gt;&lt;/i&gt; 123 456 7890,  123 456 7890&lt;/li&gt;
+    &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-mobile-screen&quot;&gt;&lt;/i&gt;&lt;a class=&quot;text-decoration-none&quot;  href=&quot;tel:123 456 7890&quot;&gt; 123 456 7890&lt;/a&gt;,  123 456 78900&lt;/li&gt;
+    &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-at&quot;&gt;&lt;/i&gt; help at abantecart.com&lt;/li&gt;
+&lt;/ul&gt;]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer</placeholder>
+					</installed>
+					<status>1</status>
+					<position>20</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5testimonials_36</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Testimonials]]></name>
+							<title><![CDATA[Testimonials]]></title>
+							<block_wrapper><![CDATA[0]]></block_wrapper>
+							<block_framed><![CDATA[1]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[&lt;div id=&quot;testimonial_sidebar&quot; class=&quot;carousel carousel-dark slide&quot; data-bs-ride=&quot;carousel&quot;&gt;
+                &lt;div class=&quot;carousel-inner&quot;&gt;
+                    &lt;div class=&quot;carousel-item active&quot;&gt;
+                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;
+                        &quot; I was working with many shopping carts, free and hosted for my clients. There is always something missing. In AbanteCart I find this gap to be much less. Interface is very easy to use and support is very responsive. This is considering its is free. Go AbanteCart go!&quot;&lt;br /&gt;
+                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : TopShop on reviewcentre.com&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;carousel-item&quot;&gt;
+                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;
+                        &quot; Without a doubt the best cart I have used. The title says it all - AbanteCart is undoubtedly the best I have used. I'm not an expert in site setup, so something this great looking and easy to use is absolutely perfect ... &quot;&lt;br /&gt;
+                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : johnstenson80 on venturebeat.com&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;carousel-item&quot;&gt;
+                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;
+                        &quot; Will not regret using this cart. All good is already mentioned, I want to add my experience with support. My problems with some configuration were resolved quick. Faster than paid shopping cart we had before.&quot;&lt;br /&gt;
+                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : shopper23 at bestshoppingcartreviews.com&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;carousel-item&quot;&gt;
+                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;
+                        &quot; Love the cart. I installed it a while back and use it since when. Some features a hidden, but fun to discover them.&quot;&lt;br /&gt;
+                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : Liz Wattkins at shopping-cart-reviews.com&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer</placeholder>
+					</installed>
+					<status>1</status>
+					<position>30</position>
+				</block>
+				<block>
+					<block_txt_id>newsletter_signup</block_txt_id>
+					<controller>blocks/newsletter_signup</controller>
+					<templates>
+						<template>
+							<parent_block>footer</parent_block>
+							<template_name>blocks/newsletter_signup_footer.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>40</position>
+				</block>
+				<block>
+					<block_txt_id>content</block_txt_id>
+					<controller>blocks/content</controller>
+					<templates>
+						<template>
+							<parent_block>footer</parent_block>
+							<template_name>blocks/content_footer.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>50</position>
+				</block>
+				<block>
+					<custom_block_txt_id>bs5socialicons_35</custom_block_txt_id>
+					<kind>custom</kind>
+					<type>html_block</type>
+					<block_descriptions>
+						<block_description>
+							<language>english</language>
+							<name><![CDATA[BS5 Social Icons]]></name>
+							<title><![CDATA[bootstrap5_social_icons]]></title>
+							<block_wrapper><![CDATA[0]]></block_wrapper>
+							<block_framed><![CDATA[0]]></block_framed>
+							<description><![CDATA[]]></description>
+							<content><![CDATA[      &lt;div class=&quot;bs5_social_icons nav navbar&quot;&gt;
+        &lt;a class=&quot;nav-link m-3&quot; href=&quot;http://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; &gt;&lt;i class=&quot; fa-brands fa-facebook fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot; href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot;&gt;&lt;i class=&quot; fa-brands fa-twitter fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;Linkedin&quot; &gt;&lt;i class=&quot;fa-brands fa-linkedin fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;rss&quot; &gt;&lt;i class=&quot;fa-solid fa-square-rss fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Skype&quot; &gt;&lt;i class=&quot;fa-brands fa-skype fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Flickr&quot;&gt;&lt;i class=&quot;fa-brands fa-flickr fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+      &lt;/div&gt;]]></content>
+						</block_description>
+					</block_descriptions>
+					<installed>
+						<placeholder>footer</placeholder>
+					</installed>
+					<status>1</status>
+					<position>60</position>
+				</block>
+				<block>
+					<block_txt_id>credit_cards</block_txt_id>
+					<controller>blocks/credit_cards</controller>
+					<templates>
+						<template>
+							<parent_block>footer</parent_block>
+							<template_name>blocks/credit_cards.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>70</position>
+				</block>
+				<block>
+					<block_txt_id>donate</block_txt_id>
+					<controller>blocks/donate</controller>
+					<templates>
+						<template>
+							<parent_block>footer</parent_block>
+							<template_name>blocks/donate.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>80</position>
+				</block>
+			</block>
+			<block>
+				<block_txt_id>donate</block_txt_id>
+				<controller>blocks/donate</controller>
+				<status>1</status>
+				<position>80</position>
+			</block>
+		</blocks>
+	</layout>
+	<layout>
+		<name>Fast Checkout Page</name>
+		<template_id>bootstrap5</template_id>
+		<type>Active</type>
+		<pages>
+			<page>
+				<controller>pages/checkout/fast_checkout</controller>
+				<page_descriptions>
+					<page_description>
+						<language>english</language>
+						<name><![CDATA[Fast Checkout Page]]></name>
+					</page_description>
+				</page_descriptions>
+			</page>
+		</pages>
+		<blocks>
+			<block>
+				<block_txt_id>header</block_txt_id>
+				<controller>common/header</controller>
+				<status>1</status>
+				<position>10</position>
+				<block>
+					<block_txt_id>fast_checkout_cart_btn</block_txt_id>
+					<controller>blocks/fast_checkout_cart_btn</controller>
+					<templates>
+						<template>
+							<parent_block>header</parent_block>
+							<template_name>blocks/fast_checkout_cart_btn.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>40</position>
+				</block>
+			</block>
+			<block>
+				<block_txt_id>fast_checkout_summary</block_txt_id>
+				<controller>blocks/fast_checkout_summary</controller>
+				<status>1</status>
+				<position>10</position>
+			</block>
+			<block>
+				<block_txt_id>header_bottom</block_txt_id>
+				<controller>common/header_bottom</controller>
+				<status>0</status>
+				<position>20</position>
+			</block>
+			<block>
+				<block_txt_id>column_left</block_txt_id>
+				<controller>common/column_left</controller>
+				<status>0</status>
+				<position>30</position>
+			</block>
+			<block>
+				<block_txt_id>content_top</block_txt_id>
+				<controller>common/content_top</controller>
+				<status>0</status>
+				<position>40</position>
+			</block>
+			<block>
+				<block_txt_id>fast_checkout_cart_btn</block_txt_id>
+				<controller>blocks/fast_checkout_cart_btn</controller>
+				<status>1</status>
+				<position>40</position>
+			</block>
+			<block>
+				<block_txt_id>content_bottom</block_txt_id>
+				<controller>common/content_bottom</controller>
+				<status>0</status>
+				<position>50</position>
+			</block>
+			<block>
+				<block_txt_id>column_right</block_txt_id>
+				<controller>common/column_right</controller>
+				<status>1</status>
+				<position>60</position>
+				<block>
+					<block_txt_id>fast_checkout_summary</block_txt_id>
+					<controller>blocks/fast_checkout_summary</controller>
+					<templates>
+						<template>
+							<parent_block>column_right</parent_block>
+							<template_name>blocks/fast_checkout_summary.tpl</template_name>
+						</template>
+					</templates>
+					<status>1</status>
+					<position>10</position>
+				</block>
+			</block>
+			<block>
+				<block_txt_id>footer_top</block_txt_id>
+				<controller>common/footer_top</controller>
+				<status>0</status>
+				<position>70</position>
+			</block>
+			<block>
+				<block_txt_id>footer</block_txt_id>
+				<controller>common/footer</controller>
+				<status>1</status>
+				<position>80</position>
+			</block>
+		</blocks>
+	</layout>
+	<layout>
+		<name>Fast Checkout Success Page</name>
+		<template_id>bootstrap5</template_id>
+		<type>Active</type>
+		<pages>
+			<page>
+				<controller>pages/checkout/fast_checkout_success</controller>
+				<page_descriptions>
+					<page_description>
+						<language>english</language>
+						<name><![CDATA[Fast Checkout Success Page]]></name>
+					</page_description>
+				</page_descriptions>
+			</page>
+		</pages>
+		<blocks>
+			<block>
+				<block_txt_id>header</block_txt_id>
+				<controller>common/header</controller>
+				<status>1</status>
+				<position>10</position>
+			</block>
+			<block>
+				<block_txt_id>header_bottom</block_txt_id>
+				<controller>common/header_bottom</controller>
+				<status>0</status>
+				<position>20</position>
+			</block>
+			<block>
+				<block_txt_id>column_left</block_txt_id>
+				<controller>common/column_left</controller>
+				<status>0</status>
+				<position>30</position>
+			</block>
+			<block>
+				<block_txt_id>content_top</block_txt_id>
+				<controller>common/content_top</controller>
+				<status>0</status>
+				<position>40</position>
+			</block>
+			<block>
+				<block_txt_id>content_bottom</block_txt_id>
+				<controller>common/content_bottom</controller>
+				<status>0</status>
+				<position>50</position>
+			</block>
+			<block>
+				<block_txt_id>column_right</block_txt_id>
+				<controller>common/column_right</controller>
+				<status>1</status>
+				<position>60</position>
+			</block>
+			<block>
+				<block_txt_id>footer_top</block_txt_id>
+				<controller>common/footer_top</controller>
+				<status>0</status>
+				<position>70</position>
+			</block>
+			<block>
+				<block_txt_id>footer</block_txt_id>
+				<controller>common/footer</controller>
+				<status>1</status>
+				<position>80</position>
+			</block>
+		</blocks>
+	</layout>
+</template_layouts>

@@ -69,6 +69,11 @@ class ControllerPagesSettingSetting extends AController
             if (isset($post['store_name'])) {
                 $post['store_name'] = html_entity_decode($post['store_name'], ENT_COMPAT, 'UTF-8');
             }
+            //decode regex pattern
+            if (has_value($post['config_phone_validation_pattern'])) {
+                //value encoded because of xss( see ARequest:clean())
+                $post['config_phone_validation_pattern'] = base64_decode($post['config_phone_validation_pattern']);
+            }
 
             //when change base currency for default store also change values for all currencies in database before saving
             if (!(int) $get['store_id']
@@ -543,7 +548,13 @@ class ControllerPagesSettingSetting extends AController
                         // otherwise use default
                         $tmpl_id = $this->request->get['tmpl_id'];
                         if (!$tmpl_id) {
-                            $tmpl_id = $this->config->get('config_storefront_template');
+                            $extManager = new AExtensionManager();
+                            $extInfo = $extManager->getExtensionInfo($this->request->get['extension']);
+                            if($extInfo['type'] == 'template'){
+                                $tmpl_id = $extInfo['key'];
+                            }else {
+                                $tmpl_id = $this->config->get('config_storefront_template');
+                            }
                         }
                         redirect($this->html->getSecureURL('design/template/edit', '&tmpl_id='.$tmpl_id));
                     }

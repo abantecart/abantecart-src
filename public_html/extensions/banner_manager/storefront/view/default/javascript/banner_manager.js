@@ -1,4 +1,8 @@
-$(window).load(function () {
+document.addEventListener('DOMContentLoaded', function load() {
+	//waiting for jquery loaded!
+	if (!window.jQuery) return setTimeout(load, 50);
+
+	//jQuery-depended code
 	//register all banner view after page load
 	$('.banner [data-banner-id], .banner[data-banner-id], .banner a[data-banner-id]').each(function () {
 		var banner_id = $(this).attr("data-banner-id");

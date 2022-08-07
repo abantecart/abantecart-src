@@ -28,17 +28,15 @@ class ControllerResponsesProductProduct extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $html_out = '';
+        $this->data['output'] = '';
         try {
             $this->config->set('embed_mode', true);
             $cntr = $this->dispatch('pages/product/product');
-            $html_out = $cntr->dispatchGetOutput();
-        } catch (AException $e) {
-        }
+            $this->data['output'] = $cntr->dispatchGetOutput();
+        }catch(Exception $e){}
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-
-        $this->response->setOutput($html_out);
+        $this->response->setOutput($this->data['output']);
     }
 
     public function is_group_option()
@@ -78,7 +76,7 @@ class ControllerResponsesProductProduct extends AController
         $product_id = (int) $this->request->post_or_get('product_id');
         $attribute_value_id = (int) $this->request->post_or_get('attribute_value_id');
         $output = [];
-        if ($attribute_value_id && is_int($attribute_value_id)) {
+        if ($attribute_value_id) {
             $resource = new AResource('image');
 
             // main product image
@@ -137,6 +135,8 @@ class ControllerResponsesProductProduct extends AController
             //no image? see images for other selected options
             if (!$output['images'] && $product_id && $this->request->post['selected_options']) {
                 foreach($this->request->post['selected_options'] as $optValId) {
+                    //case for multiselect options
+                    $optValId = is_array($optValId) ? current($optValId) : $optValId;
                     $images = $resource->getResourceAllObjects(
                         'product_option_value',
                         $optValId,
@@ -161,12 +161,13 @@ class ControllerResponsesProductProduct extends AController
                 unset($output['images']);
             }
         }
+        $this->data['output'] = $output;
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-       // var_Dump($output); exit;
+
         $this->load->library('json');
         $this->response->addJSONHeader();
-        $this->response->setOutput(AJson::encode($output));
+        $this->response->setOutput(AJson::encode($this->data['output']));
     }
 
     public function addToCart()
@@ -183,10 +184,10 @@ class ControllerResponsesProductProduct extends AController
         }
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-        $this->getCartContent();
+        $this->getCartContent($this->request->get['product_id']);
     }
 
-    public function getCartContent()
+    public function getCartContent($productCartKey = null)
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
@@ -199,6 +200,10 @@ class ControllerResponsesProductProduct extends AController
         $this->data['item_count'] = $this->cart->countProducts() + count($this->cart->getVirtualProducts()) ;
 
         $this->data['total'] = $this->currency->format($display_totals['total']);
+        if($productCartKey){
+            $product = $this->cart->getProduct($productCartKey);
+            $this->data['added_item_quantity'] = $product['qty'];
+        }
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
@@ -232,13 +237,13 @@ class ControllerResponsesProductProduct extends AController
             $option_data = [];
             $thumbnail = $thumbnails[$result['product_id']] ?: $result['thumb'];
             foreach ($result['option'] as $option) {
-                $title = '';
                 $value = $option['value'];
                 // hide binary value for checkbox
                 if ($option['element_type'] == 'C' && in_array($value, [0, 1])) {
                     $value = '';
                 }
                 // strip long textarea value
+                $title = '';
                 if ($option['element_type'] == 'T') {
                     $title = strip_tags($value);
                     $title = str_replace('\r\n', "\n", $title);
@@ -330,6 +335,8 @@ class ControllerResponsesProductProduct extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
+        $config_tax = $this->request->get['admin'] ? 0 : (int) $this->config->get('config_tax');
+
         $output = [];
         //can not show price
         if (!$this->config->get('config_customer_price') && !$this->customer->isLogged()) {
@@ -341,30 +348,24 @@ class ControllerResponsesProductProduct extends AController
             $product_id = $this->request->post['product_id'];
 
             $option = $this->request->post['option'] ?? [];
+            $quantity = (int)$this->request->post['quantity'] ?: 1;
 
-            if (isset($this->request->post['quantity'])) {
-                $quantity = (int) $this->request->post['quantity'];
-            } else {
-                $quantity = 1;
-            }
             $result = $this->cart->buildProductDetails($product_id, $quantity, $option);
-            $output['total'] = $this->tax->calculate(
-                $result['total'],
-                $result['tax_class_id'],
-                (int) $this->config->get('config_tax')
-            );
             $output['price'] = $this->tax->calculate(
                 $result['price'],
                 $result['tax_class_id'],
-                (int) $this->config->get('config_tax')
+                $config_tax
             );
             $output['total'] = $this->currency->format_total($output['price'], $quantity);
             $output['price'] = $this->currency->format($output['price']);
         }
 
+        $this->data['output'] = $output;
         //init controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-        $this->response->setOutput(AJson::encode($output));
+
+        $this->load->library('json');
+        $this->response->setOutput(AJson::encode($this->data['output']));
     }
 
     public function editCartProduct()
@@ -377,10 +378,12 @@ class ControllerResponsesProductProduct extends AController
             foreach ($this->request->post['quantity'] as $key => $value) {
                 $this->cart->update($key, $value);
             }
-            unset($this->session->data['shipping_method']);
-            unset($this->session->data['shipping_methods']);
-            unset($this->session->data['payment_method']);
-            unset($this->session->data['payment_methods']);
+            unset(
+                $this->session->data['shipping_method'],
+                $this->session->data['shipping_methods'],
+                $this->session->data['payment_method'],
+                $this->session->data['payment_methods']
+            );
             $this->extensions->hk_UpdateData($this, __FUNCTION__);
         }
         $this->getCartContent();
@@ -396,10 +399,12 @@ class ControllerResponsesProductProduct extends AController
         if ($this->request->post_or_get('key')) {
             $this->cart->remove($this->request->post_or_get('key'));
             $this->session->data['success'] = $this->language->get('text_remove');
-            unset($this->session->data['shipping_method']);
-            unset($this->session->data['shipping_methods']);
-            unset($this->session->data['payment_method']);
-            unset($this->session->data['payment_methods']);
+            unset(
+                $this->session->data['shipping_method'],
+                $this->session->data['shipping_methods'],
+                $this->session->data['payment_method'],
+                $this->session->data['payment_methods']
+            );
             $this->extensions->hk_UpdateData($this, __FUNCTION__);
         }
         $this->getCartContent();

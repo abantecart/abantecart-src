@@ -67,6 +67,7 @@ class ControllerBlocksListingBlock extends AController
                     [
                         'collection',
                         'custom_products',
+                        'catalog_product_getRelatedProducts',
                         'catalog_product_getPopularProducts',
                         'catalog_product_getSpecialProducts',
                         'catalog_product_getfeatured',
@@ -291,9 +292,9 @@ class ControllerBlocksListingBlock extends AController
     protected function _getBlockContent($instance_id = 0, $custom_block_id = 0)
     {
         $output = [];
-        if($custom_block_id ){
+        if ($custom_block_id) {
             $this->data['custom_block_id'] = $custom_block_id;
-        }else {
+        } else {
             $this->data['block_info'] = $this->layout->getBlockDetails($instance_id);
             $this->data['custom_block_id'] = $this->data['block_info']['custom_block_id'];
         }
@@ -447,7 +448,10 @@ class ControllerBlocksListingBlock extends AController
             } else {
                 // otherwise -  select list from method
                 if ($route) {
-                    $args = ['limit' => $limit];
+                    $args = [
+                        'product_id' => $this->request->get['product_id'],
+                        'limit'      => $limit,
+                    ];
 
                     if ($route == 'collection' && $content['collection_id']) {
                         $args['collection_id'] = $content['collection_id'];

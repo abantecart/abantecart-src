@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<extension>
+	<id>paypal_commerce</id>
+	<version>1.0.0</version>
+	<type>payment</type>
+	<category>payment</category>
+	<cartversions>
+		<item>1.3.1</item>
+	</cartversions>
+	<layout/>
+	<priority>100</priority>
+	<settings>
+		<item id="paypal_commerce_manual_connect">
+			<type>html_template</type>
+			<template>responses/extension/paypal_commerce_manual_connect.tpl</template>
+		</item>
+		<item id="paypal_commerce_test_connection">
+			<type>html_template</type>
+			<template>responses/extension/paypal_commerce_test.tpl</template>
+		</item>
+		<item id="paypal_commerce_transaction_type">
+            <type>selectbox</type>
+			<variants>
+				<item>capture</item>
+				<item>authorize</item>
+			</variants>
+			<default_value>capture</default_value>
+		</item>
+		<item id="paypal_commerce_autoselect">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="paypal_commerce_status_success_settled">
+			<type>selectbox</type>
+			<variants>
+				<data_source>
+					<model_rt>localisation/order_status</model_rt>
+					<method>getOrderStatuses</method>
+				</data_source>
+				<fields>
+					<field>order_status_id</field>
+					<field>name</field>
+				</fields>
+			</variants>
+			<default_value>2</default_value>
+		</item>
+		<item id="paypal_commerce_status_success_unsettled">
+			<type>selectbox</type>
+			<variants>
+				<data_source>
+					<model_rt>localisation/order_status</model_rt>
+					<method>getOrderStatuses</method>
+				</data_source>
+				<fields>
+					<field>order_status_id</field>
+					<field>name</field>
+				</fields>
+			</variants>
+			<default_value>2</default_value>
+		</item>
+		<item id="paypal_commerce_status_decline">
+			<type>selectbox</type>
+			<variants>
+				<data_source>
+					<model_rt>localisation/order_status</model_rt>
+					<method>getOrderStatuses</method>
+				</data_source>
+				<fields>
+					<field>order_status_id</field>
+					<field>name</field>
+				</fields>
+			</variants>
+			<default_value>8</default_value>
+		</item>
+		<item id="paypal_commerce_status_capture_pending">
+			<type>selectbox</type>
+			<variants>
+				<data_source>
+					<model_rt>localisation/order_status</model_rt>
+					<method>getOrderStatuses</method>
+				</data_source>
+				<fields>
+					<field>order_status_id</field>
+					<field>name</field>
+				</fields>
+			</variants>
+			<default_value>1</default_value>
+		</item>
+		<item id="paypal_commerce_status_refund">
+			<type>selectbox</type>
+			<variants>
+				<data_source>
+					<model_rt>localisation/order_status</model_rt>
+					<method>getOrderStatuses</method>
+				</data_source>
+				<fields>
+					<field>order_status_id</field>
+					<field>name</field>
+				</fields>
+			</variants>
+			<default_value>11</default_value>
+		</item>
+		<item id="paypal_commerce_location_id">
+			<type>selectbox</type>
+			<variants>
+				<item>0</item>
+				<data_source>
+					<model_rt>localisation/location</model_rt>
+					<method>getLocations</method>
+				</data_source>
+				<fields>
+					<field>location_id</field>
+					<field>name</field>
+				</fields>
+			</variants>
+		</item>
+	</settings>
+	<install>
+		<sql>install.sql</sql>
+		<trigger>install.php</trigger>
+	</install>
+	<uninstall>
+		<sql>uninstall.sql</sql>
+		<trigger>uninstall.php</trigger>
+	</uninstall>
+</extension>

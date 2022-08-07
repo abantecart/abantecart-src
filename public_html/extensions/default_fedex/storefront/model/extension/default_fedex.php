@@ -428,11 +428,10 @@ class ModelExtensionDefaultFedex extends Model
                     $error_msg = $this->getNotifications($response->Notifications);
                 }
 
-            } catch (SoapFault $exception) {
+            } catch (\Exception $exception) {
                 $error_text = 'Fault'."<br>\n";
-                $error_text .= "Code:".$exception->faultcode."\n";
-                $error_text .= "String:".$exception->faultstring."\n";
-                $error_text .= $client;
+                $error_text .= "Code:".$exception->getCode()."\n";
+                $error_text .= "String:".$exception->getMessage()."\n";
                 $this->messages->saveError('fedex extension soap error', $error_text);
                 $this->log->write($error_text);
             }

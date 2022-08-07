@@ -13,6 +13,20 @@
 		- data-orgvalue attribute provides original value of the field 
 */
 
+var preEncodedFields = {
+	"names": [
+		"config_phone_validation_pattern",
+		"regexp_pattern"
+	],
+	"notIn": ''
+};
+for(var k in preEncodedFields.names){
+	if(preEncodedFields.notIn){
+		preEncodedFields.notIn += ', ';
+	}
+	preEncodedFields.notIn += '[name="'+ preEncodedFields.names[k] +'"]';
+}
+
 (function ($) {
 	$.aform = {
 		defaults:{
@@ -637,12 +651,20 @@
 				}
 			});
 
-			var $data = $wrapper.find('input, select, textarea').serialize();
+			var $data = $wrapper.find('input, select, textarea').not(preEncodedFields.notIn).serialize();
+
 			//if empty and we have select, need to pass blank value
 			if (!$data) {
 				$wrapper.find('select').each(function () {
 					$data += $(this).attr('name')+'=\'\'&';
 				});
+			}
+			//encode some field values
+			for(var k in preEncodedFields.names) {
+				var vvv = $wrapper.find('[name="' + preEncodedFields.names[k] + '"]');
+				if(vvv.val()) {
+					$data += preEncodedFields.names[k] + '=\'' + btoa(vvv.val()) + '\'&';
+				}
 			}
 
 			$wrapper.find('input.aswitcher').each(function () {
@@ -797,12 +819,27 @@ jQuery(document).ready(function() {
 	//Convert span help to toggles
 	spanHelp2Toggles();
 
-	$('.switcher').bind('click', function () {
-		$(this).find('.option').slideDown('fast');
-	});
-	$('.switcher').bind('mouseleave', function () {
+	$('.switcher')
+		.bind('click', function () {
+			$(this).find('.option').slideDown('fast');
+	}).bind('mouseleave', function () {
 		$(this).find('.option').slideUp('fast');
 	});
+
+	$(document).on(
+		"submit",
+		"form",
+		function(){
+			var vvv;
+			//encode some field values
+			for(var k in preEncodedFields.names) {
+				vvv = $(this).find('[name="' + preEncodedFields.names[k] + '"]');
+				if(vvv.val()) {
+					vvv.val(btoa(vvv.val()));
+				}
+			}
+		}
+	);
 
 	/* Handling forms exit */
 	$(window).bind('beforeunload', function () {

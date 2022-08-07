@@ -48,6 +48,9 @@ class ExtensionFastCheckout extends Extension
     // add button BUY-NOW to sf product page
     public function onControllerPagesProductProduct_UpdateData(){
         $that = $this->baseObject;
+        if(!$that->config->get('fast_checkout_buy_now_status')){
+            return;
+        }
         $data= [];
         $data['button_add_to_cart'] = $that->language->get('button_add_to_cart');
         $data['text_buynow'] = $that->language->get('fast_checkout_buy_now');
@@ -90,6 +93,10 @@ class ExtensionFastCheckout extends Extension
 
         $that = $this->baseObject;
         $that->loadLanguage('fast_checkout/fast_checkout');
+        if (in_array( $that->request->get['rt'], ['checkout/fast_checkout','checkout/fast_checkout_success'])) {
+            $that->processTemplate('responses/includes/page_footer.tpl');
+        }
+
     }
 
     public function onControllerResponsesEmbedHead_InitData()
@@ -120,6 +127,7 @@ class ExtensionFastCheckout extends Extension
                 'cart_ajax_url',
                 $that->html->getURL('r/product/product/addToCart', '&fc=1')
             );
+            $that->document->addScriptBottom( $that->view->templateResource('/js/fast_checkout.js') );
         }
     }
 

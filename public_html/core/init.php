@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2022 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -28,7 +28,8 @@ ini_set('default_charset', 'utf-8');
 error_reporting(E_ERROR & ~E_NOTICE);
 // AbanteCart Version
 include('version.php');
-define('VERSION', MASTER_VERSION.'.'.MINOR_VERSION.'.'.VERSION_BUILT);
+const VERSION = MASTER_VERSION . '.' . MINOR_VERSION . '.' . VERSION_BUILT;
+const DS = DIRECTORY_SEPARATOR;
 
 // Detect if localhost is used.
 if (!isset($_SERVER['HTTP_HOST'])) {
@@ -60,32 +61,31 @@ if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
 }
 
 //Set up common paths
-define('DIR_SYSTEM', DIR_ROOT.'/system/');
-define('DIR_IMAGE', DIR_ROOT.'/image/');
-define('DIR_DOWNLOAD', DIR_ROOT.'/download/');
-define('DIR_DATABASE', DIR_ROOT.'/core/database/');
-define('DIR_CONFIG', DIR_ROOT.'/core/config/');
-define('DIR_CACHE', DIR_ROOT.'/system/cache/');
-define('DIR_LOGS', DIR_ROOT.'/system/logs/');
-define('DIR_VENDORS', DIR_CORE.'/vendors/');
+const DIR_SYSTEM = DIR_ROOT . DS . 'system' . DS;
+const DIR_IMAGE = DIR_ROOT . DS . 'image' . DS;
+const DIR_DOWNLOAD = DIR_ROOT . DS . 'download' . DS;
+const DIR_DATABASE = DIR_ROOT . DS . 'core' . DS . 'database' . DS;
+const DIR_CONFIG = DIR_ROOT . DS . 'core' . DS . 'config' . DS;
+const DIR_CACHE = DIR_ROOT . DS . 'system' . DS . 'cache' . DS;
+const DIR_LOGS = DIR_ROOT . DS . 'system' . DS . 'logs' . DS;
+const DIR_VENDOR = DIR_ROOT . DS . 'vendor' . DS;
 
-require DIR_VENDORS.'/Mustache/Autoloader.php';
-Mustache_Autoloader::register();
+require DIR_VENDOR.'autoload.php';
 
 // SEO URL Keyword separator
-define('SEO_URL_SEPARATOR', '-');
+const SEO_URL_SEPARATOR = '-';
 
 //root category ID
-define('ROOT_CATEGORY_ID', 0);
+const ROOT_CATEGORY_ID = 0;
 
 // EMAIL REGEXP PATTERN
-define('EMAIL_REGEX_PATTERN', '/^[A-Z0-9._%-]+@[A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,16}$/i');
+const EMAIL_REGEX_PATTERN = '/^[A-Z0-9._%-]+@[A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,16}$/i';
 
 // Error Reporting
-require_once(DIR_CORE.'/lib/debug.php');
-require_once(DIR_CORE.'/lib/exceptions.php');
-require_once(DIR_CORE.'/lib/error.php');
-require_once(DIR_CORE.'/lib/warning.php');
+require_once(DIR_CORE.'lib'.DS.'debug.php');
+require_once(DIR_CORE.'lib'.DS.'exceptions.php');
+require_once(DIR_CORE.'lib'.DS.'error.php');
+require_once(DIR_CORE.'lib'.DS.'warning.php');
 
 //define rt - route for application controller
 if (isset($_GET['rt'])) {
@@ -108,27 +108,27 @@ if ($path_nodes[0] == 'a') {
 
 //Detect the section of the cart to access and build the path definitions
 // s=admin or s=storefront (default nothing)
-define('INDEX_FILE', 'index.php');
+const INDEX_FILE = 'index.php';
 
 if (defined('ADMIN_PATH')
     &&
     ((isset($_GET['s']) && $_GET['s'] == ADMIN_PATH)  || (isset($_POST['s'])) && $_POST['s'] == ADMIN_PATH)
     ) {
     define('IS_ADMIN', true);
-    define('DIR_APP_SECTION', DIR_ROOT.'/admin/');
-    define('DIR_LANGUAGE', DIR_ROOT.'/admin/language/');
-    define('DIR_TEMPLATE', DIR_ROOT.'/admin/view/');
-    define('DIR_STOREFRONT', DIR_ROOT.'/storefront/');
-    define('DIR_BACKUP', DIR_ROOT.'/admin/system/backup/');
-    define('DIR_DATA', DIR_ROOT.'/admin/system/data/');
+    define('DIR_APP_SECTION', DIR_ROOT.DS.'admin'.DS);
+    define('DIR_LANGUAGE', DIR_ROOT.DS.'admin'.DS.'language'.DS);
+    define('DIR_TEMPLATE', DIR_ROOT.DS.'admin'.DS.'view'.DS);
+    define('DIR_STOREFRONT', DIR_ROOT.DS.'storefront'.DS);
+    define('DIR_BACKUP', DIR_ROOT.DS.'admin'.DS.'system'.DS.'backup'.DS);
+    define('DIR_DATA', DIR_ROOT.DS.'admin'.DS.'system'.DS.'data'.DS);
     //generate unique session name.
     //NOTE: This is a session name not to confuse with actual session id. Candidate to renaming
     define('SESSION_ID', defined('UNIQUE_ID') ? 'AC_CP_'.strtoupper(substr(UNIQUE_ID, 0, 10)) : 'AC_CP_PHPSESSID');
 } else {
     define('IS_ADMIN', false);
-    define('DIR_APP_SECTION', DIR_ROOT.'/storefront/');
-    define('DIR_LANGUAGE', DIR_ROOT.'/storefront/language/');
-    define('DIR_TEMPLATE', DIR_ROOT.'/storefront/view/');
+    define('DIR_APP_SECTION', DIR_ROOT.DS.'storefront'.DS);
+    define('DIR_LANGUAGE', DIR_ROOT.DS.'storefront'.DS.'language'.DS);
+    define('DIR_TEMPLATE', DIR_ROOT.DS.'storefront'.DS.'view'.DS);
     define('SESSION_ID', defined('UNIQUE_ID') ? 'AC_SF_'.strtoupper(substr(UNIQUE_ID, 0, 10)) : 'AC_SF_PHPSESSID');
     define('EMBED_TOKEN_NAME', 'ABC_TOKEN');
 }
@@ -212,17 +212,17 @@ try {
     }
 
 // relative paths for extensions
-    define('DIR_EXTENSIONS', 'extensions/');
-    define('DIR_EXT', DIR_ROOT.'/'.DIR_EXTENSIONS);
-    define('DIR_EXT_CORE', '/core/');
-    define('DIR_EXT_STORE', '/storefront/');
-    define('DIR_EXT_ADMIN', '/admin/');
-    define('DIR_EXT_IMAGE', '/image/');
-    define('DIR_EXT_LANGUAGE', 'language/');
-    define('DIR_EXT_TEMPLATE', 'view/');
+    define('DIR_EXTENSIONS', 'extensions'.DS);
+    define('DIR_EXT', DIR_ROOT.DS.DIR_EXTENSIONS);
+    define('DIR_EXT_CORE', DS.'core'.DS);
+    define('DIR_EXT_STORE', DS.'storefront'.DS);
+    define('DIR_EXT_ADMIN', DS.'admin'.DS);
+    define('DIR_EXT_IMAGE', DS.'image'.DS);
+    define('DIR_EXT_LANGUAGE', 'language'.DS);
+    define('DIR_EXT_TEMPLATE', 'view'.DS);
 
 //resources
-    define('DIR_RESOURCE', DIR_ROOT.'/resources/');
+    define('DIR_RESOURCE', DIR_ROOT.DS.'resources'.DS);
 
 //postfixes for template override
     define('POSTFIX_OVERRIDE', '.override');
@@ -230,90 +230,90 @@ try {
     define('POSTFIX_POST', '.post');
 
 // Include Engine
-    require_once(DIR_CORE.'engine/router.php');
-    require_once(DIR_CORE.'engine/page.php');
-    require_once(DIR_CORE.'engine/response.php');
-    require_once(DIR_CORE.'engine/api.php');
-    require_once(DIR_CORE.'engine/task.php');
-    require_once(DIR_CORE.'engine/dispatcher.php');
-    require_once(DIR_CORE.'engine/controller.php');
-    require_once(DIR_CORE.'engine/controller_api.php');
-    require_once(DIR_CORE.'engine/view.php');
-    require_once(DIR_CORE.'engine/loader.php');
-    require_once(DIR_CORE.'engine/model.php');
-    require_once(DIR_CORE.'engine/registry.php');
-    require_once(DIR_CORE.'engine/resources.php');
-    require_once(DIR_CORE.'engine/html.php');
-    require_once(DIR_CORE.'engine/layout.php');
-    require_once(DIR_CORE.'engine/form.php');
-    require_once(DIR_CORE.'engine/extensions.php');
-    require_once(DIR_CORE.'engine/hook.php');
-    require_once(DIR_CORE.'engine/attribute.php');
-    require_once(DIR_CORE.'engine/promotion.php');
-    require_once(DIR_CORE.'engine/language.php');
+    require_once(DIR_CORE.'engine'.DS.'router.php');
+    require_once(DIR_CORE.'engine'.DS.'page.php');
+    require_once(DIR_CORE.'engine'.DS.'response.php');
+    require_once(DIR_CORE.'engine'.DS.'api.php');
+    require_once(DIR_CORE.'engine'.DS.'task.php');
+    require_once(DIR_CORE.'engine'.DS.'dispatcher.php');
+    require_once(DIR_CORE.'engine'.DS.'controller.php');
+    require_once(DIR_CORE.'engine'.DS.'controller_api.php');
+    require_once(DIR_CORE.'engine'.DS.'view.php');
+    require_once(DIR_CORE.'engine'.DS.'loader.php');
+    require_once(DIR_CORE.'engine'.DS.'model.php');
+    require_once(DIR_CORE.'engine'.DS.'registry.php');
+    require_once(DIR_CORE.'engine'.DS.'resources.php');
+    require_once(DIR_CORE.'engine'.DS.'html.php');
+    require_once(DIR_CORE.'engine'.DS.'layout.php');
+    require_once(DIR_CORE.'engine'.DS.'form.php');
+    require_once(DIR_CORE.'engine'.DS.'extensions.php');
+    require_once(DIR_CORE.'engine'.DS.'hook.php');
+    require_once(DIR_CORE.'engine'.DS.'attribute.php');
+    require_once(DIR_CORE.'engine'.DS.'promotion.php');
+    require_once(DIR_CORE.'engine'.DS.'language.php');
 
-    require_once(DIR_CORE.'helper/html.php');
-    require_once(DIR_CORE.'helper/utils.php');
-    require_once(DIR_CORE.'helper/system_check.php');
+    require_once(DIR_CORE.'helper'.DS.'html.php');
+    require_once(DIR_CORE.'helper'.DS.'utils.php');
+    require_once(DIR_CORE.'helper'.DS.'system_check.php');
 
 // Include library files
-    require_once(DIR_CORE.'lib/cache.php');
-    require_once(DIR_CORE.'lib/config.php');
-    require_once(DIR_CORE.'lib/db.php');
-    require_once(DIR_CORE.'lib/connect.php');
-    require_once(DIR_CORE.'lib/document.php');
-    require_once(DIR_CORE.'lib/image.php');
-    require_once(DIR_CORE.'lib/log.php');
-    require_once(DIR_CORE.'lib/mail.php');
-    require_once(DIR_CORE.'lib/message.php');
-    require_once(DIR_CORE.'lib/pagination.php');
-    require_once(DIR_CORE.'lib/request.php');
-    require_once(DIR_CORE.'lib/response.php');
-    require_once(DIR_CORE.'lib/session.php');
-    require_once(DIR_CORE.'lib/template.php');
-    require_once(DIR_CORE.'lib/xml2array.php');
-    require_once(DIR_CORE.'lib/data.php');
-    require_once(DIR_CORE.'lib/file.php');
-    require_once(DIR_CORE.'lib/download.php');
+    require_once(DIR_CORE.'lib'.DS.'cache.php');
+    require_once(DIR_CORE.'lib'.DS.'config.php');
+    require_once(DIR_CORE.'lib'.DS.'db.php');
+    require_once(DIR_CORE.'lib'.DS.'connect.php');
+    require_once(DIR_CORE.'lib'.DS.'document.php');
+    require_once(DIR_CORE.'lib'.DS.'image.php');
+    require_once(DIR_CORE.'lib'.DS.'log.php');
+    require_once(DIR_CORE.'lib'.DS.'mail.php');
+    require_once(DIR_CORE.'lib'.DS.'message.php');
+    require_once(DIR_CORE.'lib'.DS.'pagination.php');
+    require_once(DIR_CORE.'lib'.DS.'request.php');
+    require_once(DIR_CORE.'lib'.DS.'response.php');
+    require_once(DIR_CORE.'lib'.DS.'session.php');
+    require_once(DIR_CORE.'lib'.DS.'template.php');
+    require_once(DIR_CORE.'lib'.DS.'xml2array.php');
+    require_once(DIR_CORE.'lib'.DS.'data.php');
+    require_once(DIR_CORE.'lib'.DS.'file.php');
+    require_once(DIR_CORE.'lib'.DS.'download.php');
 
 // Application Classes
-    require_once(DIR_CORE.'lib/customer.php');
-    require_once(DIR_CORE.'lib/order.php');
-    require_once(DIR_CORE.'lib/order_status.php');
-    require_once(DIR_CORE.'lib/currency.php');
-    require_once(DIR_CORE.'lib/tax.php');
-    require_once(DIR_CORE.'lib/weight.php');
-    require_once(DIR_CORE.'lib/length.php');
-    require_once(DIR_CORE.'lib/cart.php');
-    require_once(DIR_CORE.'lib/user.php');
-    require_once(DIR_CORE.'lib/dataset.php');
-    require_once(DIR_CORE.'lib/encryption.php');
-    require_once(DIR_CORE.'lib/menu_control.php');
-    require_once(DIR_CORE.'lib/menu_control_storefront.php');
-    require_once(DIR_CORE.'lib/rest.php');
-    require_once(DIR_CORE.'lib/filter.php');
-    require_once(DIR_CORE.'lib/listing.php');
-    require_once(DIR_CORE.'lib/task_manager.php');
-    require_once(DIR_CORE.'lib/im.php');
-    require_once(DIR_CORE.'lib/csrf_token.php');
+    require_once(DIR_CORE.'lib'.DS.'customer.php');
+    require_once(DIR_CORE.'lib'.DS.'order.php');
+    require_once(DIR_CORE.'lib'.DS.'order_status.php');
+    require_once(DIR_CORE.'lib'.DS.'currency.php');
+    require_once(DIR_CORE.'lib'.DS.'tax.php');
+    require_once(DIR_CORE.'lib'.DS.'weight.php');
+    require_once(DIR_CORE.'lib'.DS.'length.php');
+    require_once(DIR_CORE.'lib'.DS.'cart.php');
+    require_once(DIR_CORE.'lib'.DS.'user.php');
+    require_once(DIR_CORE.'lib'.DS.'dataset.php');
+    require_once(DIR_CORE.'lib'.DS.'encryption.php');
+    require_once(DIR_CORE.'lib'.DS.'menu_control.php');
+    require_once(DIR_CORE.'lib'.DS.'menu_control_storefront.php');
+    require_once(DIR_CORE.'lib'.DS.'rest.php');
+    require_once(DIR_CORE.'lib'.DS.'filter.php');
+    require_once(DIR_CORE.'lib'.DS.'listing.php');
+    require_once(DIR_CORE.'lib'.DS.'task_manager.php');
+    require_once(DIR_CORE.'lib'.DS.'im.php');
+    require_once(DIR_CORE.'lib'.DS.'csrf_token.php');
 
 //Admin manager classes
     if (IS_ADMIN === true) {
-        require_once(DIR_CORE.'lib/order_manager.php');
-        require_once(DIR_CORE.'lib/layout_manager.php');
-        require_once(DIR_CORE.'lib/content_manager.php');
-        require_once(DIR_CORE.'lib/package_manager.php');
-        require_once(DIR_CORE.'lib/form_manager.php');
-        require_once(DIR_CORE.'lib/extension_manager.php');
-        require_once(DIR_CORE.'lib/resource_manager.php');
-        require_once(DIR_CORE.'lib/resource_upload.php');
-        require_once(DIR_CORE.'lib/listing_manager.php');
-        require_once(DIR_CORE.'lib/attribute_manager.php');
-        require_once(DIR_CORE.'lib/language_manager.php');
-        require_once(DIR_CORE.'lib/backup.php');
-        require_once(DIR_CORE.'lib/file_uploads_manager.php');
-        require_once(DIR_CORE.'lib/admin_commands.php');
-        require_once(DIR_CORE.'lib/im_manager.php');
+        require_once(DIR_CORE.'lib'.DS.'order_manager.php');
+        require_once(DIR_CORE.'lib'.DS.'layout_manager.php');
+        require_once(DIR_CORE.'lib'.DS.'content_manager.php');
+        require_once(DIR_CORE.'lib'.DS.'package_manager.php');
+        require_once(DIR_CORE.'lib'.DS.'form_manager.php');
+        require_once(DIR_CORE.'lib'.DS.'extension_manager.php');
+        require_once(DIR_CORE.'lib'.DS.'resource_manager.php');
+        require_once(DIR_CORE.'lib'.DS.'resource_upload.php');
+        require_once(DIR_CORE.'lib'.DS.'listing_manager.php');
+        require_once(DIR_CORE.'lib'.DS.'attribute_manager.php');
+        require_once(DIR_CORE.'lib'.DS.'language_manager.php');
+        require_once(DIR_CORE.'lib'.DS.'backup.php');
+        require_once(DIR_CORE.'lib'.DS.'file_uploads_manager.php');
+        require_once(DIR_CORE.'lib'.DS.'admin_commands.php');
+        require_once(DIR_CORE.'lib'.DS.'im_manager.php');
     }
 
 // Registry
@@ -330,6 +330,13 @@ try {
     $response = new AResponse();
     $response->addHeader('Content-Type: text/html; charset=utf-8');
     $response->addHeader('X-Content-Type-Options: nosniff');
+    if(IS_ADMIN === true) {
+        /** @var ModelToolMPAPI $mpMdl */
+        $mpMdl = $registry->get('load')->model('tool/mp_api');
+        $mpUrl = parse_url($mpMdl->getMPURL());
+        $response->addHeader('Access-Control-Allow-Origin: ' . $mpUrl['scheme'] . "://" . $mpUrl['host']);
+        $response->addHeader('Access-Control-Allow-Credentials: true');
+    }
     $registry->set('response', $response);
     unset($response);
 

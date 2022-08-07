@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>bootstrap5_name</key>
+    <value><![CDATA[bootstrap5]]></value>
+  </definition>
+  <definition>
+    <key>text_badge_sale</key>
+    <value><![CDATA[SALE]]></value>
+  </definition>
+</definitions>

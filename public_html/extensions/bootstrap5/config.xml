@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension>
+	<id>bootstrap5</id>
+	<version>1.0.0</version>
+	<type>template</type>
+	<category>template</category>
+	<cartversions>
+		<item>1.3</item>
+	</cartversions>
+	<priority>0</priority>
+	<dependencies>
+        <item prior_version="1.3.0" version="1.3.3">fast_checkout</item>
+    </dependencies>
+	<settings>
+		<item id="bootstrap5_status">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+	</settings>
+	<additional_settings><![CDATA[setting/setting&active=appearance]]></additional_settings>
+	<install>
+		<trigger>install.php</trigger>
+	</install>
+	<uninstall>
+		<trigger>uninstall.php</trigger>
+	</uninstall>
+</extension>

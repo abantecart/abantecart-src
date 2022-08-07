@@ -267,8 +267,8 @@ class ControllerResponsesListingGridCustomer extends AController
             );
             return;
         }
-        $customer_id = $this->request->get['id'] ?? null;
-        $address_id = $this->request->get['address_id'] ?? null;
+        $customer_id = (int)$this->request->get['id'] ?: null;
+        $address_id = (int)$this->request->get['address_id'] ?: null;
         $post_data = $this->request->post;
         if (isset($customer_id)) {
             if ($post_data['password'] || $post_data['password_confirm']) {
@@ -329,7 +329,7 @@ class ControllerResponsesListingGridCustomer extends AController
             }
             //update controller data
             $this->extensions->hk_UpdateData($this, __FUNCTION__);
-            return;
+            return ;
         }
 
         //request sent from jGrid. ID is key of array

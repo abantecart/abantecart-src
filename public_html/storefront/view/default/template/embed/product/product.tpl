@@ -419,11 +419,12 @@ if ($error) { ?>
 </div>
 
 <script type="text/javascript">
-
-    var orig_imgs = $('ul.bigimage').html();
-    var orig_thumbs = $('ul.smallimage').html();
-
-    jQuery(function ($) {
+    document.addEventListener('DOMContentLoaded', function load() {
+        //waiting for jquery loaded!
+        if (!window.jQuery) return setTimeout(load, 50);
+        //jQuery-depended code
+        var orig_imgs = $('ul.bigimage').html();
+        var orig_thumbs = $('ul.smallimage').html();
 
         start_easyzoom();
 
@@ -438,240 +439,255 @@ if ($error) { ?>
         display_total_price();
 
         $('#current_reviews .pagination a').on('click', function () {
-            $('#current_reviews').slideUp('slow');
-            $('#current_reviews').load(this.href);
-            $('#current_reviews').slideDown('slow');
+            $('#current_reviews').slideUp('slow')
+                .load(this.href)
+                .slideDown('slow');
             return false;
         });
 
         reload_review('<?php echo $product_review_url; ?>');
-    });
 
-    $('#product_add_to_cart').click(function () {
-        $('#product').submit();
-    });
-    $('#review_submit').click(function () {
-        review();
-    })
 
-    //process clicks in review pagination
-    $('#current_reviews').on('click', '.pagination a', function () {
-        reload_review($(this).attr('href'));
-        return false;
-    })
-
-    /* Process images for product options */
-    $('input[name^=\'option\'], select[name^=\'option\']').change(function () {
-        load_option_images($(this).val(), '<?php echo $product_id; ?>');
-        display_total_price();
-    });
-
-    $('input[name=quantity]').keyup(function () {
-        display_total_price();
-    });
-
-    function start_easyzoom() {
-        // Instantiate EasyZoom instances
-        var $easyzoom = $('.easyzoom').easyZoom();
-
-        // Get an instance API
-        var api1 = $easyzoom.filter('.easyzoom--with-thumbnails').data('easyZoom');
-        //clean and reload esisting events
-        api1.teardown();
-        api1._init();
-
-        // Setup thumbnails
-        $('.thumbnails').on('click', 'a', function(e) {
-           var $this = $(this);
-           e.preventDefault();
-           // Use EasyZoom's `swap` method
-           api1.swap($this.data('standard'), $this.attr('href'));
+        $('#product_add_to_cart').click(function () {
+            $('#product').submit();
         });
-    }
+        $('#review_submit').click(function () {
+            review();
+        })
 
-    function load_option_images( attribute_value_id, product_id ) {
-        $.ajax({
-            type: 'POST',
-            url: '<?php echo $option_resources_url; ?>&attribute_value_id='+attribute_value_id+'&product_id='+product_id,
-            dataType: 'json',
-            success: function (data) {
-                var html1 = '';
-                var html2 = '';
+        //process clicks in review pagination
+        $('#current_reviews').on('click', '.pagination a', function () {
+            reload_review($(this).attr('href'));
+            return false;
+        })
 
-                if (data.main) {
-                    if (data.main.origin == 'external') {
-                        html1 = '<a class="html_with_image">';
-                        html1 += data.main.main_html + '</a>';
-                    } else {
-                        html1 = '<a href="' + data.main.main_url + '">';
-                        html1 += '<img src="' + data.main.thumb_url + '" style="width:'+data.main.thumb_width+'px; height:'+data.main.thumb_height+'px;"/>';
-                        html1 += '<i class="fa fa-arrows"></i></a>';
-                    }
-                }
-                if (data.images) {
-                    for (img in data.images) {
-                        html2 += '<li class="producthtumb">';
-                        var img_url = data.images[img].main_url;
-                        var tmb_url = data.images[img].thumb_url;
-                        var tmb2_url = data.images[img].thumb2_url;
-                        if (data.images[img].origin != 'external') {
-                            html2 += '<a href="'+img_url+'" data-standard="'+tmb2_url+'"><img src="' + tmb_url + '" alt="' + data.images[img].title + '" title="' + data.images[img].title + '" /></a>';
+        /* Process images for product options */
+        $select.change(function () {
+            load_option_images($(this).val(), '<?php echo $product_id; ?>');
+            display_total_price();
+        });
+
+        $('input[name=quantity]').on(
+            'change keyup',
+            function () {
+                display_total_price();
+            }
+        );
+
+        function start_easyzoom() {
+            // Instantiate EasyZoom instances
+            var $easyzoom = $('.easyzoom').easyZoom();
+
+            // Get an instance API
+            var api1 = $easyzoom.filter('.easyzoom--with-thumbnails').data('easyZoom');
+            //clean and reload events
+            api1.teardown();
+            api1._init();
+
+            // Setup thumbnails
+            $('.thumbnails').on('click', 'a', function (e) {
+                var $this = $(this);
+                e.preventDefault();
+                // Use EasyZoom's `swap` method
+                api1.swap($this.data('standard'), $this.attr('href'));
+            });
+        }
+
+        function load_option_images(attribute_value_id, product_id) {
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo $option_resources_url; ?>&attribute_value_id=' + attribute_value_id + '&product_id=' + product_id,
+                dataType: 'json',
+                success: function (data) {
+                    var html1 = '';
+                    var html2 = '';
+
+                    if (data.main) {
+                        if (data.main.origin == 'external') {
+                            html1 = '<a class="html_with_image">';
+                            html1 += data.main.main_html + '</a>';
+                        } else {
+                            html1 = '<a href="' + data.main.main_url + '">';
+                            html1 += '<img src="' + data.main.thumb_url + '" style="width:' + data.main.thumb_width + 'px; height:' + data.main.thumb_height + 'px;"/>';
+                            html1 += '<i class="fa fa-arrows"></i></a>';
                         }
-                        html2 += '</li>';
                     }
-                } else {
-                    //no images - no action
-                    return false;
+                    if (data.images) {
+                        for (img in data.images) {
+                            html2 += '<li class="producthtumb">';
+                            var img_url = data.images[img].main_url;
+                            var tmb_url = data.images[img].thumb_url;
+                            var tmb2_url = data.images[img].thumb2_url;
+                            if (data.images[img].origin != 'external') {
+                                html2 += '<a href="' + img_url + '" data-standard="' + tmb2_url + '"><img src="' + tmb_url + '" alt="' + data.images[img].title + '" title="' + data.images[img].title + '" /></a>';
+                            }
+                            html2 += '</li>';
+                        }
+                    } else {
+                        //no images - no action
+                        return false;
+                    }
+                    $('div.bigimage').html(html1);
+                    $('ul.smallimage').html(html2);
+                    start_easyzoom();
                 }
-                $('div.bigimage').html(html1);
-                $('ul.smallimage').html(html2);
-                start_easyzoom();
-            }
-        });
-    }
+            });
+        }
 
-    function display_total_price() {
+        function display_total_price() {
 
-        $.ajax({
-            type: 'POST',
-            url: '<?php echo $calc_total_url;?>',
-            dataType: 'json',
-            data: $("#product").serialize(),
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo $calc_total_url;?>',
+                dataType: 'json',
+                data: $("#product").serialize(),
 
-            success: function (data) {
-                if (data && data.total) {
-                    $('.total-price-holder').show();
-                    $('.total-price-holder').css('visibility', 'visible');
-                    $('.total-price').html(data.total);
+                success: function (data) {
+                    if (data && data.total) {
+                        $('.total-price-holder').show();
+                        $('.total-price-holder').css('visibility', 'visible');
+                        $('.total-price').html(data.total);
+                    }
                 }
-            }
-        });
+            });
+        }
 
-    }
+        function reload_review(url) {
+            $('#current_reviews').load(url);
+        }
 
-    function reload_review( url) {
-        $('#current_reviews').load(url);
-    }
+        function review() {
+            var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
 
-    function review() {
-        var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+            <?php if ($review_recaptcha) { ?>
+            var captcha = '&g-recaptcha-response=' + encodeURIComponent($('[name=\'g-recaptcha-response\']').val());
+            <?php } else { ?>
+            var captcha = '&captcha=' + encodeURIComponent($('input[name=\'captcha\']').val());
+            <?php } ?>
 
-        <?php if ($review_recaptcha) { ?>
-        var captcha = '&g-recaptcha-response=' + encodeURIComponent($('[name=\'g-recaptcha-response\']').val());
-        <?php } else { ?>
-        var captcha = '&captcha=' + encodeURIComponent($('input[name=\'captcha\']').val());
-        <?php } ?>
-
-        $.ajax({
-            type: 'POST',
-            url: '<?php echo $product_review_write_url;?>',
-            dataType: 'json',
-            data: 'name=' + encodeURIComponent($('input[name=\'name\']').val()) + '&text=' + encodeURIComponent($('textarea[name=\'text\']').val()) + '&rating=' + encodeURIComponent($('input[name=\'rating\']:checked').val() ? $('input[name=\'rating\']:checked').val() : '') + captcha,
-            beforeSend: function () {
-                $('.success, .warning').remove();
-                $('#review_button').attr('disabled', 'disabled');
-                $('#review_title').after('<div class="wait"><i class="fa fa-spinner fa-spin"></i> <?php echo $text_wait; ?></div>');
-            },
-            complete: function () {
-                $('#review_button').attr('disabled', '');
-                $('.wait').remove();
-                <?php if ($review_recaptcha) { ?>
-                    try{ grecaptcha.reset();} catch(e){}
-                    try{ ReCaptchaCallbackV3(); } catch(e){}
-                <?php } ?>
-            },
-            error: function (jqXHR, exception) {
-                var text = jqXHR.statusText + ": " + jqXHR.responseText;
-                $('#review .alert').remove();
-                $('#review_title').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
-                try { resetLockBtn(); } catch (e){}
-            },
-            success: function (data) {
-                if (data.error) {
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo $product_review_write_url;?>',
+                dataType: 'json',
+                data: 'name=' + encodeURIComponent($('input[name=\'name\']').val()) + '&text=' + encodeURIComponent($('textarea[name=\'text\']').val()) + '&rating=' + encodeURIComponent($('input[name=\'rating\']:checked').val() ? $('input[name=\'rating\']:checked').val() : '') + captcha,
+                beforeSend: function () {
+                    $('.success, .warning').remove();
+                    $('#review_button').attr('disabled', 'disabled');
+                    $('#review_title').after('<div class="wait"><i class="fa fa-spinner fa-spin"></i> <?php echo $text_wait; ?></div>');
+                },
+                complete: function () {
+                    $('#review_button').attr('disabled', '');
+                    $('.wait').remove();
+                    <?php if ($review_recaptcha) { ?>
+                    try {
+                        grecaptcha.reset();
+                    } catch (e) {
+                    }
+                    try {
+                        ReCaptchaCallbackV3();
+                    } catch (e) {
+                    }
+                    <?php } ?>
+                },
+                error: function (jqXHR, exception) {
+                    var text = jqXHR.statusText + ": " + jqXHR.responseText;
                     $('#review .alert').remove();
-                    $('#review_title').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
-                } else {
-                    $('#review .alert').remove();
-                    $('#review_title').after('<div class="alert alert-success">' + dismiss + data.success + '</div>');
+                    $('#review_title').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
+                    try {
+                        resetLockBtn();
+                    } catch (e) {
+                    }
+                },
+                success: function (data) {
+                    if (data.error) {
+                        $('#review .alert').remove();
+                        $('#review_title').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
+                    } else {
+                        $('#review .alert').remove();
+                        $('#review_title').after('<div class="alert alert-success">' + dismiss + data.success + '</div>');
 
-                    $('input[name=\'name\']').val('');
-                    $('textarea[name=\'text\']').val('');
-                    $('input[name=\'rating\']:checked').attr('checked', '');
-                    $('input[name=\'captcha\']').val('');
+                        $('input[name=\'name\']').val('');
+                        $('textarea[name=\'text\']').val('');
+                        $('input[name=\'rating\']:checked').attr('checked', '');
+                        $('input[name=\'captcha\']').val('');
+                    }
+                    $('img#captcha_img').attr('src', $('img#captcha_img').attr('src') + '&' + Math.random());
+                    try {
+                        resetLockBtn();
+                    } catch (e) {
+                    }
                 }
-                $('img#captcha_img').attr('src', $('img#captcha_img').attr('src') + '&' + Math.random());
-                try { resetLockBtn(); } catch (e){}
-            }
-        });
-    }
+            });
+        }
 
-    function wishlist_add() {
-        var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
-        $.ajax({
-            type: 'POST',
-            url: '<?php echo $product_wishlist_add_url; ?>',
-            dataType: 'json',
-            beforeSend: function () {
-                $('.success, .warning').remove();
-                $('.wishlist_add').hide();
-                $('.wishlist').after('<div class="wait"><i class="fa fa-spinner fa-spin"></i> <?php echo $text_wait; ?></div>');
-            },
-            complete: function () {
-                $('.wait').remove();
-            },
-            error: function (jqXHR, exception) {
-                var text = jqXHR.statusText + ": " + jqXHR.responseText;
-                $('.wishlist .alert').remove();
-                $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
-                $('.wishlist_add').show();
-            },
-            success: function (data) {
-                if (data.error) {
+        function wishlist_add() {
+            var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo $product_wishlist_add_url; ?>',
+                dataType: 'json',
+                beforeSend: function () {
+                    $('.success, .warning').remove();
+                    $('.wishlist_add').hide();
+                    $('.wishlist').after('<div class="wait"><i class="fa fa-spinner fa-spin"></i> <?php echo $text_wait; ?></div>');
+                },
+                complete: function () {
+                    $('.wait').remove();
+                },
+                error: function (jqXHR, exception) {
+                    var text = jqXHR.statusText + ": " + jqXHR.responseText;
                     $('.wishlist .alert').remove();
-                    $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
+                    $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
                     $('.wishlist_add').show();
-                } else {
-                    $('.wishlist .alert').remove();
-                    //$('.wishlist').after('<div class="alert alert-success">' + dismiss + data.success + '</div>');
-                    $('.wishlist_remove').show();
+                },
+                success: function (data) {
+                    if (data.error) {
+                        $('.wishlist .alert').remove();
+                        $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
+                        $('.wishlist_add').show();
+                    } else {
+                        $('.wishlist .alert').remove();
+                        //$('.wishlist').after('<div class="alert alert-success">' + dismiss + data.success + '</div>');
+                        $('.wishlist_remove').show();
+                    }
                 }
-            }
-        });
-    }
+            });
+        }
 
-    function wishlist_remove() {
-        var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
-        $.ajax({
-            type: 'POST',
-            url: '<?php echo $product_wishlist_remove_url; ?>',
-            dataType: 'json',
-            beforeSend: function () {
-                $('.success, .warning').remove();
-                $('.wishlist_remove').hide();
-                $('.wishlist').after('<div class="wait"><i class="fa fa-spinner fa-spin"></i> <?php echo $text_wait; ?></div>');
-            },
-            complete: function () {
-                $('.wait').remove();
-            },
-            error: function (jqXHR, exception) {
-                var text = jqXHR.statusText + ": " + jqXHR.responseText;
-                $('.wishlist .alert').remove();
-                $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
-                $('.wishlist_remove').show();
-            },
-            success: function (data) {
-                if (data.error) {
+        function wishlist_remove() {
+            var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo $product_wishlist_remove_url; ?>',
+                dataType: 'json',
+                beforeSend: function () {
+                    $('.success, .warning').remove();
+                    $('.wishlist_remove').hide();
+                    $('.wishlist').after('<div class="wait"><i class="fa fa-spinner fa-spin"></i> <?php echo $text_wait; ?></div>');
+                },
+                complete: function () {
+                    $('.wait').remove();
+                },
+                error: function (jqXHR, exception) {
+                    var text = jqXHR.statusText + ": " + jqXHR.responseText;
                     $('.wishlist .alert').remove();
-                    $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
+                    $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
                     $('.wishlist_remove').show();
-                } else {
-                    $('.wishlist .alert').remove();
-                    //$('.wishlist').after('<div class="alert alert-success">' + dismiss + data.success + '</div>');
-                    $('.wishlist_add').show();
+                },
+                success: function (data) {
+                    if (data.error) {
+                        $('.wishlist .alert').remove();
+                        $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
+                        $('.wishlist_remove').show();
+                    } else {
+                        $('.wishlist .alert').remove();
+                        //$('.wishlist').after('<div class="alert alert-success">' + dismiss + data.success + '</div>');
+                        $('.wishlist_add').show();
+                    }
                 }
-            }
-        });
-    }
-
+            });
+        }
+    });
 </script>
-<?php echo $footer; ?>
+<?php
+echo $footer; ?>

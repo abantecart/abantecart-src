@@ -632,7 +632,7 @@ class ControllerPagesCatalogCategory extends AController
             'responses/common/resource_library/get_resources_scripts',
             [
                 'object_name' => 'categories',
-                'object_id'   => $category_id,
+                'object_id'   => (int) $category_id,
                 'types'       => ['image'],
             ]
         );

@@ -217,7 +217,11 @@ jQuery(function ($) {
 		var flds = ['status', 'field_name', 'field_description', 'field_note', 'sort_order', 'required', 'regexp_pattern', 'error_text'];
 		var data = {field_id: current_field_id};
 		for (var k in flds) {
-			data[flds[k]] = $('#' + flds[k]).val();
+            if(flds[k] === 'regexp_pattern'){
+                data[flds[k]] = btoa($('#' + flds[k]).val());
+            }else {
+                data[flds[k]] = $('#' + flds[k]).val();
+            }
 		}
 		var settings = $('input[name^=settings]');
 		if(settings.length>0){

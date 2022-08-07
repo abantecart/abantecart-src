@@ -1,0 +1,41 @@
+<?php return array(
+    'root' => array(
+        'pretty_version' => '1.3.3.x-dev',
+        'version' => '1.3.3.9999999-dev',
+        'type' => 'library',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'reference' => 'ad5c6626a95e2f4d61eaa7883deb4b30215a6a54',
+        'name' => '__root__',
+        'dev' => true,
+    ),
+    'versions' => array(
+        '__root__' => array(
+            'pretty_version' => '1.3.3.x-dev',
+            'version' => '1.3.3.9999999-dev',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'reference' => 'ad5c6626a95e2f4d61eaa7883deb4b30215a6a54',
+            'dev_requirement' => false,
+        ),
+        'paypal/paypal-checkout-sdk' => array(
+            'pretty_version' => 'dev-dev-products',
+            'version' => 'dev-dev-products',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../paypal/paypal-checkout-sdk',
+            'aliases' => array(),
+            'reference' => 'f5771050214849faaa9e27118e77a6715d64618d',
+            'dev_requirement' => false,
+        ),
+        'paypal/paypalhttp' => array(
+            'pretty_version' => '1.0.1',
+            'version' => '1.0.1.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../paypal/paypalhttp',
+            'aliases' => array(),
+            'reference' => '7b09c89c80828e842c79230e7f156b61fbb68d25',
+            'dev_requirement' => false,
+        ),
+    ),
+);

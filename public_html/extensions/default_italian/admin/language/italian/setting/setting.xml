@@ -1006,4 +1006,26 @@
 		<key>entry_cron_command</key>
 		<value><![CDATA[Comando Crontab in Linux <span class="help">Esegui il comando crontab -e con lo stesso utente Linux che esegue un server web per AbanteCart. Nell&#39;editor aggiungi il comando</span>]]></value>
 	</definition>
+	<definition>
+		<key>text_native</key>
+		<value><![CDATA[Nativo ( binario sendmail e opzioni &quot;sendmail_path&quot; impostazione di php.ini)]]></value>
+	</definition>
+	<definition>
+		<key>text_dsn</key>
+		<value><![CDATA[Prendi da system/config.php]]></value>
+	</definition>
+	<definition>
+		<key>text_dsn_description</key>
+		<value><![CDATA[Mailer combina un <a target="_blank" href="https://en.wikipedia.org/wiki/Data_source_name">DSN</a> dal file config.php. Si prega di leggere <a target="_blank" href="https://abantecart.atlassian.net/wiki/spaces/AD/pages/7372837/Mail+Settings">la nostra documentazione</a> per i dettagli]]></value>
+	</definition>
+	<definition>
+		<key>entry_mail_transporting</key>
+		<value><![CDATA[
+ Trasporto Posta:]]></value>
+	</definition>
+	<definition>
+		<key>text_native_mail_description</key>
+		<value><![CDATA[
+ Mailer utilizza il binario sendmail e le opzioni configurate nell&#39;impostazione sendmail_path di php.ini.]]></value>
+	</definition>
 </definitions>

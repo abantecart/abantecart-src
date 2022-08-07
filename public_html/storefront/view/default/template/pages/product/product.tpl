@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easyzoom@2.5.3/css/easyzoom.css" />
+<script src="https://cdn.jsdelivr.net/npm/easyzoom@2.5.3/src/easyzoom.js"></script>
 <?php
 $tax_exempt = $this->customer->isTaxExempt();
 $config_tax = $this->config->get('config_tax');
@@ -244,11 +246,11 @@ if ($error){ ?>
                                     ?>
                                     <?php if ($is_customer) { ?>
                                     <div class="wishlist">
-                                        <a class="wishlist_remove btn btn-large col-lg-4" href="#" onclick="wishlist_remove(); return false;" <?php echo $no_wishlist; ?>>
+                                        <a class="wishlist_remove btn btn-large col-lg-4" href="#" <?php echo $no_wishlist; ?>>
                                             <i class="fa fa-trash-o fa-fw"></i>
                                             <?php echo $button_remove_wishlist; ?>
                                         </a>
-                                        <a class="wishlist_add btn btn-large col-lg-4" href="#" onclick="wishlist_add(); return false;" <?php echo $wishlist_css; ?>>
+                                        <a class="wishlist_add btn btn-large col-lg-4" href="#" <?php echo $wishlist_css; ?>>
                                             <i class="fa fa-plus-square fa-fw"></i>
                                             <?php echo $button_add_wishlist; ?>
                                         </a>
@@ -336,22 +338,21 @@ if ($error){ ?>
                                 <div class="form-group">
                                     <div class="form-inline">
                                         <label class="control-label col-md-3 pull-left"><?php echo $entry_rating; ?>
-                                            <span
-                                                    class="red">*</span></label>
+                                            <span class="red">*</span></label>
                                         <?php echo $rating_element; ?>
                                     </div>
                                 </div>
                                 <div class="form-group mt40">
                                     <div class="form-inline">
-                                        <label class="control-label col-md-3"><?php echo $entry_name; ?> <span
-                                                    class="red">*</span></label>
+                                        <label class="control-label col-md-3"><?php echo $entry_name; ?>
+                                            <span class="red">*</span></label>
                                         <?php echo $review_name; ?>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="form-inline">
-                                        <label class="control-label col-md-3"><?php echo $entry_review; ?> <span
-                                                    class="red">*</span></label>
+                                        <label class="control-label col-md-3"><?php echo $entry_review; ?>
+                                            <span class="red">*</span></label>
                                         <?php echo $review_text; ?>
                                     </div>
                                     <div class="input-group"><?php echo $text_note; ?></div>
@@ -461,11 +462,13 @@ if ($error){ ?>
 </div>
 
 <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function load() {
+        //waiting for jquery loaded!
+        if (!window.jQuery) return setTimeout(load, 50);
+        //jQuery-depended code
 
-    var orig_imgs = $('div.bigimage').html();
-    var orig_thumbs = $('ul.smallimage').html();
-
-    $(window).load(function () {
+        var orig_imgs = $('div.bigimage').html();
+        var orig_thumbs = $('ul.smallimage').html();
 
         start_easyzoom();
         display_total_price();
@@ -494,20 +497,24 @@ if ($error){ ?>
         });
 
         /* Process images for product options */
-        $('input[name^=\'option\'], select[name^=\'option\']').change(function () {
+        var $select = $('input[name^=\'option\'], select[name^=\'option\']');
+        $select.change(function () {
             var valId = $(this).val();
             valId = this.type === 'checkbox' && $(this).attr('data-attribute-value-id') ? $(this).attr('data-attribute-value-id') : valId;
             //skip not selected radio
-            if( (this.type === 'radio' || this.type === 'checkbox') && $(this).prop('checked') === false){
+            if ((this.type === 'radio' || this.type === 'checkbox') && $(this).prop('checked') === false) {
                 return false;
             }
             load_option_images(valId, '<?php echo $product_id; ?>');
             display_total_price();
         });
 
-        $('input[name=quantity]').keyup(function () {
-            display_total_price();
-        });
+        $('input[name=quantity]').on(
+            'change keyup',
+            function () {
+                display_total_price();
+            }
+        );
 
 
         $.ajax({
@@ -516,247 +523,267 @@ if ($error){ ?>
             dataType: 'json'
         });
 
-        $('input[name^=\'option\'], select[name^=\'option\']').change();
-    });
+        $select.change();
 
-    function start_easyzoom() {
-        // Instantiate EasyZoom instances
-        var $easyzoom = $('.easyzoom').easyZoom();
+        function start_easyzoom() {
+            // Instantiate EasyZoom instances
+            var $easyzoom = $('.easyzoom').easyZoom();
 
-        // Get an instance API
-        var api1 = $easyzoom.filter('.easyzoom--with-thumbnails').data('easyZoom');
-        //clean and reload existing events
-        api1.teardown();
-        api1._init();
+            // Get an instance API
+            var api1 = $easyzoom.filter('.easyzoom--with-thumbnails').data('easyZoom');
+            //clean and reload existing events
+            api1.teardown();
+            api1._init();
 
-        // Setup thumbnails
-        $('.thumbnails .producthtumb').on('click', 'a', function (e) {
-            var $this = $(this);
-            e.preventDefault();
-            // Use EasyZoom's `swap` method
-            api1.swap($this.data('standard'), $this.attr('data-href'));
-            $('.mainimage.bigimage.hidden-lg').find('img').attr('src', $this.attr('data-href'));
-        });
-    }
+            // Setup thumbnails
+            $('.thumbnails .producthtumb').on('click', 'a', function (e) {
+                var $this = $(this);
+                e.preventDefault();
+                // Use EasyZoom's `swap` method
+                api1.swap($this.data('standard'), $this.attr('data-href'));
+                $('.mainimage.bigimage.hidden-lg').find('img').attr('src', $this.attr('data-href'));
+            });
+        }
 
-    function load_option_images(attribute_value_id, product_id) {
-        var selected  = {};
-        var k = 0;
-        $('[name^=\'option\']').each(function(){
-            var valId = $(this).val();
-            valId = this.type === 'checkbox' && $(this).attr('data-attribute-value-id') ? $(this).attr('data-attribute-value-id') : valId;
-            //skip not selected radio
-            if( (this.type === 'radio' || this.type === 'checkbox') && $(this).prop('checked') === false){
-                return;
-            }
-            //exclude just clicked option
-            if(valId === attribute_value_id){
-                return;
-            }
-            selected[k] = valId;
-            k++;
-        });
-
-        var data = {
-            attribute_value_id: attribute_value_id,
-            product_id: product_id,
-            selected_options: selected
-        };
-
-        $.ajax({
-            type: 'POST',
-            url: '<?php echo $option_resources_url; ?>',
-            data: data,
-            dataType: 'json',
-            success: function (data) {
-                if (data.length === 0) {
-                    return false;
+        function load_option_images(attribute_value_id, product_id) {
+            var selected = {};
+            var k = 0;
+            $('[name^=\'option\']').each(function () {
+                var valId = $(this).val();
+                valId = this.type === 'checkbox' && $(this).attr('data-attribute-value-id') ? $(this).attr('data-attribute-value-id') : valId;
+                //skip not selected radio
+                if ((this.type === 'radio' || this.type === 'checkbox') && $(this).prop('checked') === false) {
+                    return;
                 }
-                var html1 = '',
-                    html2 = '',
-                    main_image = data.main;
+                //exclude just clicked option
+                if (valId === attribute_value_id) {
+                    return;
+                }
+                selected[k] = valId;
+                k++;
+            });
 
-                if (main_image) {
-                    if (main_image.origin === 'external') {
-                        html1 = '<a class="html_with_image">';
-                        html1 += main_image.main_html + '</a>';
-                    } else {
-                        html1 = '<a style="width:' + main_image.thumb_width + 'px; height:' + main_image.thumb_height + 'px;" class="local_image" href="' + main_image.main_url + '">';
-                        html1 += '<img style="width:' + main_image.thumb_width + 'px; height:' + main_image.thumb_height + 'px;" src="' + main_image.thumb_url + '" />';
-                        html1 += '<i class="fa fa-arrows  hidden-xs hidden-sm"></i></a>';
+            var data = {
+                attribute_value_id: attribute_value_id,
+                product_id: product_id,
+                selected_options: selected
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo $option_resources_url; ?>',
+                data: data,
+                dataType: 'json',
+                success: function (data) {
+                    if (data.length === 0) {
+                        return false;
                     }
-                }
-                if (data.images.length>0) {
-                    for (var img in data.images) {
-                        var image = data.images[img];
-                        html2 += '<li class="producthtumb">';
-                        var img_url = image.main_url;
-                        var tmb_url = image.thumb_url;
-                        var tmb2_url = image.thumb2_url;
-                        if (image.origin !== 'external') {
-                            html2 += '<a data-href="'+image.main_url+'" href="' + img_url + '" data-standard="' + tmb2_url + '"><img style="width:' + image.thumb_width + 'px; height:' + image.thumb_height + 'px;" src="' + tmb_url + '" alt="' + image.title + '" title="' + image.title + '" /></a>';
+                    var html1 = '',
+                        html2 = '',
+                        main_image = data.main;
+
+                    if (main_image) {
+                        if (main_image.origin === 'external') {
+                            html1 = '<a class="html_with_image">';
+                            html1 += main_image.main_html + '</a>';
+                        } else {
+                            html1 = '<a style="width:' + main_image.thumb_width + 'px; height:' + main_image.thumb_height + 'px;" class="local_image" href="' + main_image.main_url + '">';
+                            html1 += '<img style="width:' + main_image.thumb_width + 'px; height:' + main_image.thumb_height + 'px;" src="' + main_image.thumb_url + '" />';
+                            html1 += '<i class="fa fa-arrows  hidden-xs hidden-sm"></i></a>';
                         }
-                        html2 += '</li>';
                     }
-                } else {
-                    //no images - no action
-                    return false;
+                    if (data.images.length > 0) {
+                        for (var img in data.images) {
+                            var image = data.images[img];
+                            html2 += '<li class="producthtumb">';
+                            var img_url = image.main_url;
+                            var tmb_url = image.thumb_url;
+                            var tmb2_url = image.thumb2_url;
+                            if (image.origin !== 'external') {
+                                html2 += '<a data-href="' + image.main_url + '" href="' + img_url + '" data-standard="' + tmb2_url + '"><img style="width:' + image.thumb_width + 'px; height:' + image.thumb_height + 'px;" src="' + tmb_url + '" alt="' + image.title + '" title="' + image.title + '" /></a>';
+                            }
+                            html2 += '</li>';
+                        }
+                    } else {
+                        //no images - no action
+                        return false;
+                    }
+                    $('div.bigimage').each(function () {
+                        $(this).html(html1)
+                    });
+                    $('ul.smallimage').each(function () {
+                        $(this).html(html2);
+                    });
+                    start_easyzoom();
                 }
-                $('div.bigimage').each(function () {
-                    $(this).html(html1)
-                });
-                $('ul.smallimage').each(function () {
-                    $(this).html(html2);
-                });
-                start_easyzoom();
-            }
-        });
-    }
+            });
+        }
 
-    function display_total_price() {
+        function display_total_price() {
 
-        $.ajax({
-            type: 'POST',
-            url: '<?php echo $calc_total_url;?>',
-            dataType: 'json',
-            data: $("#product").serialize(),
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo $calc_total_url;?>',
+                dataType: 'json',
+                data: $("#product").serialize(),
 
-            success: function (data) {
-                if (data && data.total) {
-                    $('.total-price-holder').show()
-                        .css('visibility', 'visible');
-                    $('.total-price').html(data.total);
+                success: function (data) {
+                    if (data && data.total) {
+                        $('.total-price-holder').show()
+                            .css('visibility', 'visible');
+                        $('.total-price').html(data.total);
+                    }
                 }
-            }
-        });
+            });
 
-    }
+        }
 
-    function reload_review(url) {
-        $('#current_reviews').load(url);
-    }
+        function reload_review(url) {
+            $('#current_reviews').load(url);
+        }
 
-    function review() {
-        var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+        function review() {
+            var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
 
-        <?php if ($review_recaptcha) { ?>
-        var captcha = '&g-recaptcha-response=' + encodeURIComponent($('[name=\'g-recaptcha-response\']').val());
-        <?php } else { ?>
-        var captcha = '&captcha=' + encodeURIComponent($('input[name=\'captcha\']').val());
-        <?php } ?>
+            <?php if ($review_recaptcha) { ?>
+            var captcha = '&g-recaptcha-response=' + encodeURIComponent($('[name=\'g-recaptcha-response\']').val());
+            <?php } else { ?>
+            var captcha = '&captcha=' + encodeURIComponent($('input[name=\'captcha\']').val());
+            <?php } ?>
 
-        $.ajax({
-            type: 'POST',
-            url: '<?php echo $product_review_write_url;?>',
-            dataType: 'json',
-            data: 'name='
-                + encodeURIComponent($('input[name=\'name\']').val())
-                + '&text='
-                + encodeURIComponent($('textarea[name=\'text\']').val())
-                + '&rating=' + encodeURIComponent($('input[name=\'rating\']:checked').val() ? $('input[name=\'rating\']:checked').val() : '') + captcha,
-            beforeSend: function () {
-                $('.success, .warning').remove();
-                $('#review_button').attr('disabled', 'disabled');
-                $('#review_title').after('<div class="wait"><i class="fa fa-spinner fa-spin"></i> <?php echo $text_wait; ?></div>');
-            },
-            complete: function () {
-                $('#review_button').attr('disabled', '');
-                $('.wait').remove();
-                <?php if ($review_recaptcha) { ?>
-                try{ grecaptcha.reset();} catch(e){}
-                try{ ReCaptchaCallbackV3(); } catch(e){}
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo $product_review_write_url;?>',
+                dataType: 'json',
+                data: 'name='
+                    + encodeURIComponent($('input[name=\'name\']').val())
+                    + '&text='
+                    + encodeURIComponent($('textarea[name=\'text\']').val())
+                    + '&rating=' + encodeURIComponent($('input[name=\'rating\']:checked').val() ? $('input[name=\'rating\']:checked').val() : '') + captcha,
+                beforeSend: function () {
+                    $('.success, .warning').remove();
+                    $('#review_button').attr('disabled', 'disabled');
+                    $('#review_title').after('<div class="wait"><i class="fa fa-spinner fa-spin"></i> <?php echo $text_wait; ?></div>');
+                },
+                complete: function () {
+                    $('#review_button').attr('disabled', '');
+                    $('.wait').remove();
+                    <?php if ($review_recaptcha) { ?>
+                    try {
+                        grecaptcha.reset();
+                    } catch (e) {
+                    }
+                    try {
+                        ReCaptchaCallbackV3();
+                    } catch (e) {
+                    }
 
-                <?php } ?>
-                try { resetLockBtn(); } catch (e){}
-            },
-            error: function (jqXHR, exception) {
-                var text = jqXHR.statusText + ": " + jqXHR.responseText;
-                $('#review .alert').remove();
-                $('#review_title').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
-            },
-            success: function (data) {
-                if (data.error) {
+                    <?php } ?>
+                    try {
+                        resetLockBtn();
+                    } catch (e) {
+                    }
+                },
+                error: function (jqXHR, exception) {
+                    var text = jqXHR.statusText + ": " + jqXHR.responseText;
                     $('#review .alert').remove();
-                    $('#review_title').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
-                } else {
-                    $('#review .alert').remove();
-                    $('#review_title').after('<div class="alert alert-success">' + dismiss + data.success + '</div>');
+                    $('#review_title').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
+                },
+                success: function (data) {
+                    if (data.error) {
+                        $('#review .alert').remove();
+                        $('#review_title').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
+                    } else {
+                        $('#review .alert').remove();
+                        $('#review_title').after('<div class="alert alert-success">' + dismiss + data.success + '</div>');
 
-                    $('input[name=\'name\']').val('');
-                    $('textarea[name=\'text\']').val('');
-                    $('input[name=\'rating\']:checked').attr('checked', '');
-                    $('input[name=\'captcha\']').val('');
+                        $('input[name=\'name\']').val('');
+                        $('textarea[name=\'text\']').val('');
+                        $('input[name=\'rating\']:checked').attr('checked', '');
+                        $('input[name=\'captcha\']').val('');
+                    }
+                    $('img#captcha_img').attr('src', $('img#captcha_img').attr('src') + '&' + Math.random());
                 }
-                $('img#captcha_img').attr('src', $('img#captcha_img').attr('src') + '&' + Math.random());
-            }
-        });
-    }
+            });
+        }
 
-    function wishlist_add() {
-        var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
-        $.ajax({
-            type: 'POST',
-            url: '<?php echo $product_wishlist_add_url; ?>',
-            dataType: 'json',
-            beforeSend: function () {
-                $('.success, .warning').remove();
-                $('.wishlist_add').hide();
-                $('.wishlist').after('<div class="wait"><i class="fa fa-spinner fa-spin"></i> <?php echo $text_wait; ?></div>');
-            },
-            complete: function () {
-                $('.wait').remove();
-            },
-            error: function (jqXHR, exception) {
-                var text = jqXHR.statusText + ": " + jqXHR.responseText;
-                $('.wishlist .alert').remove();
-                $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
-                $('.wishlist_add').show();
-            },
-            success: function (data) {
-                if (data.error) {
+        function wishlist_add() {
+            var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo $product_wishlist_add_url; ?>',
+                dataType: 'json',
+                beforeSend: function () {
+                    $('.success, .warning').remove();
+                    $('.wishlist_add').hide();
+                    $('.wishlist').after('<div class="wait"><i class="fa fa-spinner fa-spin"></i> <?php echo $text_wait; ?></div>');
+                },
+                complete: function () {
+                    $('.wait').remove();
+                },
+                error: function (jqXHR, exception) {
+                    var text = jqXHR.statusText + ": " + jqXHR.responseText;
                     $('.wishlist .alert').remove();
-                    $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
+                    $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
                     $('.wishlist_add').show();
-                } else {
-                    $('.wishlist .alert').remove();
-                    //$('.wishlist').after('<div class="alert alert-success">' + dismiss + data.success + '</div>');
-                    $('.wishlist_remove').show();
+                },
+                success: function (data) {
+                    if (data.error) {
+                        $('.wishlist .alert').remove();
+                        $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
+                        $('.wishlist_add').show();
+                    } else {
+                        $('.wishlist .alert').remove();
+                        //$('.wishlist').after('<div class="alert alert-success">' + dismiss + data.success + '</div>');
+                        $('.wishlist_remove').show();
+                    }
                 }
-            }
-        });
-    }
+            });
+        }
 
-    function wishlist_remove() {
-        var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
-        $.ajax({
-            type: 'POST',
-            url: '<?php echo $product_wishlist_remove_url; ?>',
-            dataType: 'json',
-            beforeSend: function () {
-                $('.success, .warning').remove();
-                $('.wishlist_remove').hide();
-                $('.wishlist').after('<div class="wait"><i class="fa fa-spinner fa-spin"></i> <?php echo $text_wait; ?></div>');
-            },
-            complete: function () {
-                $('.wait').remove();
-            },
-            error: function (jqXHR, exception) {
-                var text = jqXHR.statusText + ": " + jqXHR.responseText;
-                $('.wishlist .alert').remove();
-                $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
-                $('.wishlist_remove').show();
-            },
-            success: function (data) {
-                if (data.error) {
+        function wishlist_remove() {
+            var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo $product_wishlist_remove_url; ?>',
+                dataType: 'json',
+                beforeSend: function () {
+                    $('.success, .warning').remove();
+                    $('.wishlist_remove').hide();
+                    $('.wishlist').after('<div class="wait"><i class="fa fa-spinner fa-spin"></i> <?php echo $text_wait; ?></div>');
+                },
+                complete: function () {
+                    $('.wait').remove();
+                },
+                error: function (jqXHR, exception) {
+                    var text = jqXHR.statusText + ": " + jqXHR.responseText;
                     $('.wishlist .alert').remove();
-                    $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
+                    $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
                     $('.wishlist_remove').show();
-                } else {
-                    $('.wishlist .alert').remove();
-                    //$('.wishlist').after('<div class="alert alert-success">' + dismiss + data.success + '</div>');
-                    $('.wishlist_add').show();
+                },
+                success: function (data) {
+                    if (data.error) {
+                        $('.wishlist .alert').remove();
+                        $('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
+                        $('.wishlist_remove').show();
+                    } else {
+                        $('.wishlist .alert').remove();
+                        //$('.wishlist').after('<div class="alert alert-success">' + dismiss + data.success + '</div>');
+                        $('.wishlist_add').show();
+                    }
                 }
+            });
+        }
+
+        $(document).on('click','a.wishlist_add', function(e){
+                e.preventDefault();
+                wishlist_add();
             }
-        });
-    }
+        );
+        $(document).on('click','a.wishlist_remove', function(e){
+                e.preventDefault();
+                wishlist_remove();
+            }
+        );
+    });
 </script>

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2022 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -28,7 +28,7 @@ include_once('driver.php');
  * Memcached driver
  *
  * NOTE: to use this driver put lines belong into your system/config.php
- *
+ * NOTE: Memcached php-extension required!
  * define('CACHE_DRIVER', 'memcached');
  * define('CACHE_HOST', 'localhost');
  * define('CACHE_PORT', 11211);
@@ -63,13 +63,15 @@ class ACacheDriverMemcached extends ACacheDriver
      */
     public function __construct($expiration, $lock_time = 0)
     {
-
         if (!$lock_time) {
             $lock_time = 10;
         }
         parent::__construct($expiration, $lock_time);
 
         // Create the memcache connection
+        if (!class_exists('\Memcached')) {
+            throw new AException(AC_ERR_LOAD, 'Error: memcached php library not installed on server.');
+        }
         if ($this->persistent) {
             $this->connect = new Memcached(session_id());
         } else {
@@ -84,10 +86,9 @@ class ACacheDriverMemcached extends ACacheDriver
         $this->connect->setOption(Memcached::OPT_COMPRESSION, $this->compress_level);
         // Memcached has no list keys, we do our own accounting, initialise key index
         if ($this->connect->get($this->secret.'-index') === false) {
-            $empty = array();
+            $empty = [];
             $this->connect->set($this->secret.'-index', $empty, 0);
         }
-
     }
 
     /**
@@ -139,6 +140,7 @@ class ACacheDriverMemcached extends ACacheDriver
     {
 
         $cache_id = $this->_getCacheId($key, $group);
+
         if (!$this->_lock_index()) {
             return false;
         }
@@ -146,7 +148,7 @@ class ACacheDriverMemcached extends ACacheDriver
         $index = $this->connect->get($this->secret.'-index');
 
         if ($index === false) {
-            $index = array();
+            $index = [];
         }
 
         $temp_array = new stdClass;
@@ -161,6 +163,7 @@ class ACacheDriverMemcached extends ACacheDriver
         if (!$this->connect->replace($cache_id, $data, $this->expire)) {
             $this->connect->set($cache_id, $data, $this->expire);
         }
+
         return true;
     }
 
@@ -175,7 +178,6 @@ class ACacheDriverMemcached extends ACacheDriver
      */
     public function remove($key, $group)
     {
-
         $cache_id = $this->_getCacheId($key, $group);
         if (!$this->_lock_index()) {
             return false;
@@ -184,7 +186,7 @@ class ACacheDriverMemcached extends ACacheDriver
         $index = $this->connect->get($this->secret.'-index');
 
         if ($index === false) {
-            $index = array();
+            $index = [];
         }
 
         foreach ($index as $key => $value) {
@@ -223,11 +225,11 @@ class ACacheDriverMemcached extends ACacheDriver
 
         $index = $this->connect->get($this->secret.'-index');
         if ($index === false) {
-            $index = array();
+            $index = [];
         }
 
         foreach ($index as $key => $value) {
-            if ($group == '*' || strpos($value->name, $group.'.') === 0) {
+            if ($group == '*' || is_int(strpos($value->name, $group.'.')) ) {
                 $this->connect->delete($value->name, 0);
                 unset($index[$key]);
             }
@@ -257,7 +259,7 @@ class ACacheDriverMemcached extends ACacheDriver
      * @param   string  $group    The cache data group
      * @param   integer $locktime Cached item max lock time
      *
-     * @return  boolean
+     * @return  array|false
      *
      * @since   1.2.7
      */
@@ -266,7 +268,7 @@ class ACacheDriverMemcached extends ACacheDriver
 
         $cache_id = $this->_getCacheId($key, $group);
 
-        $output = array();
+        $output = [];
         $output['waited'] = false;
 
         $loops = $locktime * 10;
@@ -278,7 +280,7 @@ class ACacheDriverMemcached extends ACacheDriver
         $index = $this->connect->get($this->secret.'-index');
 
         if ($index === false) {
-            $index = array();
+            $index = [];
         }
 
         $temp_array = new stdClass;
@@ -332,7 +334,7 @@ class ACacheDriverMemcached extends ACacheDriver
         $index = $this->connect->get($this->secret.'-index');
 
         if ($index === false) {
-            $index = array();
+            $index = [];
         }
 
         foreach ($index as $key => $value) {
@@ -349,7 +351,7 @@ class ACacheDriverMemcached extends ACacheDriver
 
     protected function _getCacheId($key, $group)
     {
-        return $group.'.'.$this->_hashCacheKey($key, $group);
+        return $this->secret.'.'.$group.'.'.$this->_hashCacheKey($key, $group);
     }
 
     /**
@@ -391,7 +393,6 @@ class ACacheDriverMemcached extends ACacheDriver
      */
     protected function _unlock_index()
     {
-        $result = $this->connect->delete($this->secret.'-index_lock');
-        return $result;
+        return $this->connect->delete($this->secret.'-index_lock');
     }
 }

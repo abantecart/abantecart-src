@@ -78,15 +78,15 @@
     <div class="row">
 	    <div class="col-sm-3 h5 center">
 	        <a href="#admin#rt=extension/extensions/install&extension=default_stripe" target="_extension">
-	        <img src="extensions/default_stripe/image/icon.png"><br>Install Stripe</a>
+	        <img style="width: 94px; width: height: 94px;" src="extensions/default_stripe/image/icon.png"><br>Stripe</a>
 	    </div>
 	    <div class="col-sm-3 h5 center">
 	        <a href="#admin#rt=extension/extensions/install&extension=cardknox" target="_extension">
-	        <img src="extensions/cardknox/image/icon.png"><br>Install CardKnox</a>
+	        <img style="width: 94px; width: height: 94px;" src="extensions/cardknox/image/icon.png"><br>CardKnox</a>
 	    </div>
 	    <div class="col-sm-3 h5 center">
-	        <a href="#admin#rt=extension/extensions/install&extension=default_authorizenet" target="_extension">
-	        <img src="extensions/default_authorizenet/image/icon.png"><br>Install Authorize.Net</a>
+	        <a href="#admin#rt=extension/extensions/install&extension=paypal_commerce" target="_extension">
+	        <img style="width: 94px; width: height: 94px;" src="extensions/paypal_commerce/image/icon.png"><br>Paypal Commerce</a>
 	    </div>
 	    <div class="col-sm-3 h5 center">
 	        <a href="#admin#rt=extension/extensions/payment" target="_extension">
