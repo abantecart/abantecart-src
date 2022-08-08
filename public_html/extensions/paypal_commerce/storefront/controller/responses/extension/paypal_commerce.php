@@ -269,16 +269,20 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         }
 
         // cut description (paypal api requirements. See Order->create->purchase_units->description)
-        $charsPerItem = round(100 / count($cartProducts));
+        $charsPerItem = round(120 / count($cartProducts));
         $data['order_description'] = '';
         foreach ($orderDescription as $desc) {
-            $postfix = $desc['sku'] . ' x ' . $desc['quantity'];
+            $postfix = ' x ' . $desc['quantity'];
             if (mb_strlen($desc['title']) > ($charsPerItem - strlen($postfix))) {
                 $data['order_description'] .= mb_substr($desc['title'], 0, ($charsPerItem - strlen($postfix) - 3)) . '...' . $postfix . "  ";
             } else {
                 $data['order_description'] .= $desc['title'] . ' ' . $postfix . "\n";
             }
         }
+        //this description cannot be more than 127 chars length
+        $data['order_description'] = mb_strlen($data['order_description'])>127
+            ? mb_substr($data['order_description'],0,127 )
+            : $data['order_description'];
 
         //build submit form
         $form = new AForm();
