@@ -71,18 +71,18 @@ class ControllerPagesAccountForgotten extends AController
                     $this->registry->get('config')->set('embed_mode', false);
                     $link = $this->html->getSecureURL('account/forgotten/reset', '&rtoken='.$rtoken);
                     $this->registry->get('config')->set('embed_mode', $embed_mode);
-
                     $subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
-                    $message = sprintf($this->language->get('text_greeting'), $this->config->get('store_name'))."\n\n";
-                    $message .= $this->language->get('text_password')."\n\n";
-                    $message .= $link;
-
                     $mail = new AMail($this->config);
                     $mail->setTo($customer_details['email']);
                     $mail->setFrom($this->config->get('store_main_email'));
                     $mail->setSender($this->config->get('store_name'));
                     $mail->setSubject($subject);
-                    $mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
+                    $mail->setTemplate('storefront_reset_password_link',
+                        [
+                            'store_name' => $this->config->get('store_name'),
+                            'reset_link' => $link
+                        ]
+                    );
                     $mail->send();
 
                     $this->session->data['success'] = $this->language->get('text_success');
@@ -216,16 +216,17 @@ class ControllerPagesAccountForgotten extends AController
                     $this->request->post['password']
                 );
                 $subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
-                $message = sprintf(
-                    $this->language->get('text_password_reset'),
-                    $this->config->get('store_name')
-                    )."\n\n";
+
                 $mail = new AMail($this->config);
                 $mail->setTo($customer_details['email']);
                 $mail->setFrom($this->config->get('store_main_email'));
                 $mail->setSender($this->config->get('store_name'));
                 $mail->setSubject($subject);
-                $mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
+                $mail->setTemplate('storefront_reset_password_notify',
+                    [
+                        'store_name' => $this->config->get('store_name'),
+                    ]
+                );
                 $mail->send();
 
                 //update data and remove password_reset code
