@@ -45,7 +45,7 @@ if(function_exists('preparePageBuilderPreset')) {
         $pbTemplateData = json_decode($pbTemplateData, true, JSON_PRETTY_PRINT);
 
         $newPreset = $pbTemplateData;
-        $newPreset['gjs-html'] = preparePageBuilderPreset($pbTemplateData['gjs-html'], 'html', $bs5Blocks);
+        $newPreset['pageHtml']['html'] = preparePageBuilderPreset($pbTemplateData['pageHtml']['html'], 'html', $bs5Blocks);
         $newPreset['gjs-components'] = preparePageBuilderPreset($pbTemplateData['gjs-components'], 'components', $bs5Blocks);
         $newPreset['gjs-components'] = json_encode($newPreset['gjs-components']);
         file_put_contents($preset, json_encode($newPreset));

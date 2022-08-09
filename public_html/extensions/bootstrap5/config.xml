@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension>
 	<id>bootstrap5</id>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<type>template</type>
 	<category>template</category>
 	<cartversions>
-		<item>1.3</item>
+		<item>1.3.4</item>
 	</cartversions>
 	<priority>0</priority>
 	<dependencies>
