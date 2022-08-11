@@ -41,14 +41,18 @@ echo $tabs;
 
 <?php echo $form['form_open']; ?>
 <div class="panel-body panel-body-nopadding tab-content col-xs-12">
-
-	<?php if ($extension_info['note']) { ?>
+<?php
+    if ($extension_info['note']) {
+        if($extension_info['note_wrapper']){
+            echo $extension_info['note_wrapper'];
+        } else {?>
 	<div class="alert alert-warning alert-dismissible" role="alert">
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 		<i class="fa fa-info-circle fa-fw fa-lg"></i>
 		<?php echo $extension_info['note']; ?>
 	</div>
-	<?php } ?>
+	<?php }
+    } ?>
 	
 	<label class="h4 heading"><?php echo ${'tab_' . $section}; ?></label>
 	<?php foreach ($settings as $name => $field) {
