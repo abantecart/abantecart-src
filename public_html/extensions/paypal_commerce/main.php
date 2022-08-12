@@ -40,6 +40,7 @@ $templates = [
         'pages/sale/paypal_commerce_payment_details.tpl',
         'responses/extension/paypal_commerce_connect.tpl',
         'responses/extension/paypal_commerce_test.tpl',
-        'responses/extension/paypal_commerce_manual_connect.tpl'
+        'responses/extension/paypal_commerce_manual_connect.tpl',
+        'responses/extension/paypal_commerce_note_wrapper.tpl'
     ]
 ];
