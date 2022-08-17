@@ -271,13 +271,15 @@ class ControllerResponsesExtensionCardknox extends AController {
                         var_export($response_info, true),
                         false
                     );
-                    $redirect = $this->request->get_or_post('fast_checkout')
+                    $redirectUrl = $this->request->get_or_post('fast_checkout')
                         ? 'checkout/fast_checkout_success'
                         : 'checkout/success';
                     $this->session->data['processed_order_id'] = $this->session->data['order_id'];
-                    $output['success'] = $this->html->getSecureURL($redirect, '&order_id='.$this->session->data['order_id']);
+                    $output['success'] = $this->html->getSecureURL(
+                        $redirectUrl,
+                        '&order_id='.$this->session->data['order_id']
+                    );
                     unset($this->session->data['order_id']);
-
                 } else {
                     $output['error'] = $response_info['xError'];
                 }
@@ -302,8 +304,12 @@ class ControllerResponsesExtensionCardknox extends AController {
             }else{
                 $this->loadLanguage('cardknox/cardknox');
                 $this->session->data['error'] = $this->language->get('cardknox_ebt_declined').'('.$response_info['xError'].': '.$response_info['xErrorCode'].')';
-                $redirect = $this->request->get_or_post('fast_checkout') ? 'checkout/fast_checkout' : 'checkout/confirm';
-                redirect($this->html->getSecureURL($redirect, '&method='.$this->request->post['method']));
+                $redirectUrl = $this->request->get_or_post('fast_checkout') ? 'checkout/fast_checkout' : 'checkout/confirm';
+                redirect(
+                    $this->html->getSecureURL(
+                        $redirectUrl,
+                        '&method='.$this->request->post['method'])
+                );
             }
         }
         $this->load->library('json');
