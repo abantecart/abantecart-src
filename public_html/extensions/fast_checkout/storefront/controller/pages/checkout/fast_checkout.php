@@ -38,6 +38,12 @@ class ControllerPagesCheckoutFastCheckout extends AController
 
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
+        //errors after redirects
+        if($this->session->data['error_warning']) {
+            $this->data['error'] = $this->session->data['error_warning'];
+            unset($this->session->data['error_warning']);
+        }
+
         //set sign for commonHead controller.
         // Needed to change url in the tpl. See addToCart method inside js
         $registry->set('fast_checkout', true);
