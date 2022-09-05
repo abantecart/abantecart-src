@@ -204,3 +204,14 @@ ul.dropdown-menu.topcartopen{
     opacity: 0.5;
     color: darkgray;
 }
+
+#customernav li .current{
+    background-color: var(--bs-primary);
+
+}
+#customernav li .current a{
+    color: var(--bs-white);
+}
+#customernav li .current a:hover{
+    color: var(--bs-dark);
+}
