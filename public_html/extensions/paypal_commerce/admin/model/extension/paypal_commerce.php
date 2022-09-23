@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /** @noinspection PhpUndefinedClassInspection */
 
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
@@ -56,8 +57,8 @@ class ModelExtensionPaypalCommerce extends Model
     {
         $qry = $this->db->query(
             "SELECT * 
-            FROM `" . $this->db->table("paypal_orders") . "` 
-            WHERE `order_id` = '" . (int)$order_id . "' 
+            FROM " . $this->db->table("paypal_orders") . " 
+            WHERE order_id = '" . (int)$order_id . "' 
             LIMIT 1"
         );
         if ($qry->num_rows) {
@@ -125,7 +126,7 @@ class ModelExtensionPaypalCommerce extends Model
      * @param float $amount
      * @param string $currencyCode - upper case Currency Code
      *
-     * @return array|HttpResponse|stdClass|string
+     * @return array|stdClass|string
      * @throws AException
      */
     public function capture($captureId, $amount, $currencyCode)
@@ -152,7 +153,7 @@ class ModelExtensionPaypalCommerce extends Model
     /**
      * @param string $authorizeId
      *
-     * @return stdClass|HttpResponse
+     * @return stdClass
      * @throws AException
      */
     public function void($authorizeId)
@@ -260,6 +261,8 @@ class ModelExtensionPaypalCommerce extends Model
                     throw new Exception($error_message);
                 }
             }
+            // to avoid of rate limit blocking
+            sleep(1);
         }
     }
     /**
@@ -296,6 +299,8 @@ class ModelExtensionPaypalCommerce extends Model
                     $this->log->write($error_message);
                 }
             }
+            // to avoid of rate limit blocking
+            sleep(1);
         }
     }
 }
