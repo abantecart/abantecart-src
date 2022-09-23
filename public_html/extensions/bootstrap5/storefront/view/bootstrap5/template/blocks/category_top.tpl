@@ -53,5 +53,6 @@
                         ]
                 ); ?>
             </div>
+        <?php echo $this->getHookVar('categories_additional_info'); ?>
     </div>
 </nav>
