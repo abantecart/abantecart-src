@@ -40,7 +40,7 @@ foreach ($products as $product) {
             <div class="d-flex flex-wrap pb-3 mb-3 border-bottom border-3">
                 <div class="col-12 col-sm-3 p-3">
                     <?php if ($product['special']) { ?>
-                        <span class="special-badge position-absolute mt-5 fs-4 ms-2 translate-middle badge bg-danger">
+                        <span class="special-badge sale_<?php echo $product['product_id']; ?> position-absolute mt-5 fs-4 ms-2 translate-middle badge bg-danger">
                             <?php echo $text_sale; ?>
                           </span>
                     <?php }

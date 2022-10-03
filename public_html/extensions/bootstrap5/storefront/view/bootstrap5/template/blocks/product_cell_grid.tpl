@@ -63,7 +63,7 @@
                             </a>
                             <div class="card-img-top text-center">
                                 <?php if ($product['special']) { ?>
-                                    <span class="position-absolute mt-5 fs-4 ms-2 translate-middle badge bg-danger">
+                                    <span class="sale_<?php echo $product['product_id']; ?> position-absolute mt-5 fs-4 ms-2 translate-middle badge bg-danger">
                                         <?php echo $text_sale; ?>
                                       </span>
                                 <?php }
