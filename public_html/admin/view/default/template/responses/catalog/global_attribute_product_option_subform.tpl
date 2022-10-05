@@ -36,20 +36,26 @@
 					</thead>
 					<tbody>
 					<?php foreach ($form['attribute_values'] as $atr_val_id => $atr_field) { ?>
-						<tr class="value">
+						<tr id="<?php echo $atr_val_id;?>" class="value">
 							<td><?php echo $atr_field['attribute_value_ids']; ?><?php echo $atr_field['values']; ?></td>
 							<td><?php $atr_field['sort_order']->style = 'col-sm-2';
 								echo $atr_field['sort_order']; ?></td>
-							<td><a class="remove btn btn-danger-alt" title="<?php echo $button_remove; ?>"><i
-											class="fa fa-minus-circle"></i></a></td>
+							<td>
+                                <?php echo $this->getHookVar('attribute_value_extra_buttons_'.$atr_val_id); ?>
+                                <a class="remove btn btn-danger-alt" title="<?php echo $button_remove; ?>">
+                                    <i class="fa fa-minus-circle"></i>
+                                </a>
+                            </td>
 						</tr>
+                        <?php echo $this->getHookVar('attribute_value_extra_'.$atr_val_id); ?>
 					<?php } ?>
 					<tr>
 						<td></td>
 						<td></td>
 						<td>
-							<a href="#" title="<?php echo $button_add ?>" id="add_option_value" class="btn btn-success"><i
-										class="fa fa-plus-circle fa-lg"></i></a>
+							<a href="#" title="<?php echo $button_add ?>" id="add_option_value" class="btn btn-success">
+                                <i class="fa fa-plus-circle fa-lg"></i>
+                            </a>
 						</td>
 					</tr>
 					</tbody>

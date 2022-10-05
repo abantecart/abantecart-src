@@ -37,7 +37,6 @@
 	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 			<?php
 				foreach ($form['fields'] as $name => $field) {
-
 				//Logic to calculate fields width
 				$widthcasses = "col-sm-7";
 				if ( is_int(stripos($field->style, 'large-field')) ) {
@@ -61,12 +60,12 @@
 		    <?php } ?>
 		</div>
 
-			<?php }  ?><!-- <div class="fieldset"> -->
+        <?php }
 
-		<?php
 		// extension related piece of form
-		echo $subform; ?>
-
+		echo $subform;
+        echo $this->getHookvar('attribute_form_hook_var');
+        ?>
 	</div>
 
 	<div class="panel-footer col-xs-12">
