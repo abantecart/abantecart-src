@@ -17,16 +17,11 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE') || !IS_ADMIN) {
-    header('Location: static_pages/');
-}
 
 class ControllerPagesCatalogAttribute extends AController
 {
     public $error = [];
-    /**
-     * @var AAttribute_Manager
-     */
+    /** @var AAttribute_Manager */
     private $attribute_manager;
 
     public function __construct($registry, $instance_id, $controller, $parent_controller = '')
@@ -37,7 +32,6 @@ class ControllerPagesCatalogAttribute extends AController
 
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -49,17 +43,21 @@ class ControllerPagesCatalogAttribute extends AController
             unset($this->session->data['success']);
         }
 
-        $this->document->initBreadcrumb([
-            'href'      => $this->html->getSecureURL('index/home'),
-            'text'      => $this->language->get('text_home'),
-            'separator' => false,
-        ]);
-        $this->document->addBreadcrumb([
-            'href'      => $this->html->getSecureURL('catalog/attribute'),
-            'text'      => $this->language->get('heading_title'),
-            'separator' => ' :: ',
-            'current'   => true,
-        ]);
+        $this->document->initBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('index/home'),
+                'text'      => $this->language->get('text_home'),
+                'separator' => false,
+            ]
+        );
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('catalog/attribute'),
+                'text'      => $this->language->get('heading_title'),
+                'separator' => ' :: ',
+                'current'   => true,
+            ]
+        );
 
         $grid_settings = [
             'table_id'         => 'attribute_grid',
@@ -127,7 +125,6 @@ class ControllerPagesCatalogAttribute extends AController
 
         $grid = $this->dispatch('common/listing_grid', [$grid_settings]);
         $this->view->assign('listing_grid', $grid->dispatchGetOutput());
-
         $this->view->assign('insert', $this->html->getSecureURL('catalog/attribute/insert'));
 
         $results = $this->attribute_manager->getAttributeTypes();
@@ -148,7 +145,6 @@ class ControllerPagesCatalogAttribute extends AController
 
     public function insert()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -157,7 +153,7 @@ class ControllerPagesCatalogAttribute extends AController
         if ($this->request->is_POST() && $this->validateAttributeForm()) {
             $attribute_id = $this->attribute_manager->addAttribute($this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
-            redirect($this->html->getSecureURL('catalog/attribute/update', '&attribute_id='.$attribute_id));
+            redirect($this->html->getSecureURL('catalog/attribute/update', '&attribute_id=' . $attribute_id));
         }
         $this->_getForm();
 
@@ -177,12 +173,16 @@ class ControllerPagesCatalogAttribute extends AController
         $this->document->setTitle($this->language->get('heading_title'));
 
         if ($this->request->is_POST() && $this->validateAttributeForm()) {
-            $this->data['inserted'] =
-                $this->attribute_manager->updateAttribute($this->request->get['attribute_id'], $this->request->post);
+            $this->data['inserted'] = $this->attribute_manager->updateAttribute(
+                $this->request->get['attribute_id'],
+                $this->request->post
+            );
             $this->extensions->hk_ProcessData($this, __FUNCTION__);
             $this->session->data['success'] = $this->language->get('text_success');
-            redirect($this->html->getSecureURL('catalog/attribute/update',
-                '&attribute_id='.$this->request->get['attribute_id']));
+            redirect($this->html->getSecureURL(
+                'catalog/attribute/update',
+                '&attribute_id=' . $this->request->get['attribute_id'])
+            );
         }
 
         $this->_getForm();
@@ -191,10 +191,10 @@ class ControllerPagesCatalogAttribute extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    private function _getForm()
+    protected function _getForm()
     {
 
-        $this->data = [];
+        $this->data = $attribute_type_info = [];
         $this->data['error'] = $this->error;
         $this->data['cancel'] = $this->html->getSecureURL('catalog/attribute');
         $this->data['get_attribute_type'] = $this->html->getSecureURL('r/catalog/attribute/get_attribute_type');
@@ -218,7 +218,9 @@ class ControllerPagesCatalogAttribute extends AController
                 $this->language->getContentLanguageID()
             );
 
-            $attribute_type_info = $this->attribute_manager->getAttributeTypeInfoById((int)$attribute_info['attribute_type_id']);
+            $attribute_type_info = $this->attribute_manager->getAttributeTypeInfoById(
+                (int)$attribute_info['attribute_type_id']
+            );
 
             //load values for attributes with options
 
@@ -241,7 +243,9 @@ class ControllerPagesCatalogAttribute extends AController
         }
 
         if (has_value($this->request->get['attribute_type_id'])) {
-            $attribute_type_info = $this->attribute_manager->getAttributeTypeInfoById((int)$this->request->get['attribute_type_id']);
+            $attribute_type_info = $this->attribute_manager->getAttributeTypeInfoById(
+                (int)$this->request->get['attribute_type_id']
+            );
         }
 
         $fields = [
@@ -301,14 +305,14 @@ class ControllerPagesCatalogAttribute extends AController
         }*/
 
         if (!$attribute_id) {
-            $this->data['action'] = $this->html->getSecureURL('catalog/attribute/insert', '&attribute_type_id='.$attribute_type_id);
-            $this->data['heading_title'] = $this->language->get('text_insert').$this->language->get('text_attribute');
+            $this->data['action'] = $this->html->getSecureURL('catalog/attribute/insert', '&attribute_type_id=' . $attribute_type_id);
+            $this->data['heading_title'] = $this->language->get('text_insert') . $this->language->get('text_attribute');
             $this->data['update'] = '';
             $form = new AForm('ST');
         } else {
-            $this->data['action'] = $this->html->getSecureURL('catalog/attribute/update', '&attribute_id='.$attribute_id.'&attribute_type_id='.$attribute_type_id);
-            $this->data['heading_title'] = $this->language->get('text_edit').$this->language->get('text_attribute');
-            $this->data['update'] = $this->html->getSecureURL('listing_grid/attribute/update_field', '&id='.$attribute_id);
+            $this->data['action'] = $this->html->getSecureURL('catalog/attribute/update', '&attribute_id=' . $attribute_id . '&attribute_type_id=' . $attribute_type_id);
+            $this->data['heading_title'] = $this->language->get('text_edit') . $this->language->get('text_attribute');
+            $this->data['update'] = $this->html->getSecureURL('listing_grid/attribute/update_field', '&id=' . $attribute_id);
             $form = new AForm('HT');
             $this->data['attribute_id'] = $attribute_id;
         }
@@ -441,15 +445,17 @@ class ControllerPagesCatalogAttribute extends AController
             $this->request->post['placeholder'] = trim($this->request->post['placeholder']);
         }
 
-        $this->error = array_merge($this->error, $this->attribute_manager->validateAttributeCommonData($this->request->post));
+        $this->error = array_merge(
+            $this->error,
+            $this->attribute_manager->validateAttributeCommonData($this->request->post)
+        );
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-
         return (!$this->error);
     }
 
-    private function _initTabs($active = null)
+    protected function _initTabs($active = null)
     {
         $method = (has_value($this->request->get['attribute_id']) ? 'update' : 'insert');
 
@@ -469,15 +475,16 @@ class ControllerPagesCatalogAttribute extends AController
 
             $this->data['tabs'][$type_id] = [
                 'text' => $type['type_name'],
-                'href' => $method == 'insert' ? $this->html->getSecureURL('catalog/attribute/'.$method, '&attribute_type_id='.$type_id) : '',
+                'href' => $method == 'insert'
+                    ? $this->html->getSecureURL('catalog/attribute/' . $method, '&attribute_type_id=' . $type_id)
+                    : '',
             ];
         }
 
-        if (in_array($active, array_keys($this->data['tabs']))) {
-            $this->data['tabs'][$active]['active'] = 1;
-        } else {
-            $this->data['tabs'][key($this->data['tabs'])]['active'] = 1;
-        }
+        $active = in_array($active, array_keys($this->data['tabs']))
+            ? $active
+            : key($this->data['tabs']);
+        $this->data['tabs'][$active]['active'] = 1;
     }
 }
 
