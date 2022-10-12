@@ -82,7 +82,7 @@
             //need to send message to iframe to reset content
         });
 
-        $("#pay_modal_frame").load(function () {
+        $("#pay_modal_frame").on('load',function () {
             content_start_loading();
         });
     });
