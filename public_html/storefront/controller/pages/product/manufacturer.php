@@ -279,8 +279,9 @@ class ControllerPagesProductManufacturer extends AController
                 foreach ($this->data['sorts'] as $item => $text) {
                     $sort_options[$item] = $text;
                 }
-                $sorting = $this->html->buildSelectbox(
+                $sorting = $this->html->buildElement(
                     [
+                        'type'    => 'selectbox',
                         'name'    => 'sort',
                         'options' => $sort_options,
                         'value'   => $sort.'-'.$order,
