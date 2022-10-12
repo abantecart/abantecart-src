@@ -48,11 +48,14 @@ $(document).ready(function(){
     }
 
     if (window.hasOwnProperty("cart_ajax_url")) {
-        function add2CartAjax(product_id) {
+        function add2CartAjax(product_id, option = []) {
             let senddata = {},
                 result = false;
             if (product_id) {
                 senddata['product_id'] = product_id;
+            }
+            if(option){
+                senddata['option'] = option;
             }
             $.ajax({
                 url: cart_ajax_url,
@@ -83,12 +86,16 @@ $(document).ready(function(){
             let wrapper = item.parent();
             e.preventDefault();
             if (item.attr('data-id')) {
+                let options;
                 let check_cart = wrapper.find('i').first();
                 let icon_cart = wrapper.find('i').last();
                 let spinner = wrapper.children('span');
                 spinner.removeClass('visually-hidden');
                 icon_cart.addClass('visually-hidden');
-                let data = add2CartAjax(item.attr('data-id'));
+                if( item.attr('data-options').length ) {
+                    options = JSON.parse(item.attr('data-options'));
+                }
+                let data = add2CartAjax(item.attr('data-id'), options);
                 if ( data !== false) {
                     check_cart.removeClass('visually-hidden');
                     spinner.addClass('visually-hidden');

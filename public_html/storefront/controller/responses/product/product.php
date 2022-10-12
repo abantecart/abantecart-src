@@ -179,7 +179,9 @@ class ControllerResponsesProductProduct extends AController
         $product_info = $this->model_catalog_product->getProduct($this->request->get['product_id']);
         if ($product_info) {
             $this->cart->add(
-                $this->request->get['product_id'], ($product_info['minimum'] ? : 1)
+                $this->request->get['product_id'],
+                ($product_info['minimum'] ? : 1),
+                (array)$this->request->get['option']
             );
         }
 
