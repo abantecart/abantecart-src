@@ -295,7 +295,7 @@ class ModelCatalogProduct extends Model
             .'_lang_'.$language_id;
         $cache = $this->cache->pull($cache_key);
         if ($cache === false) {
-            $sql = "SELECT *,
+            $sql = "SELECT DISTINCT ".$this->db->getSqlCalcTotalRows()." p.*, 
                         p.product_id,
                         ".$this->_sql_final_price_string().",
                         pd.name AS name, 
@@ -340,7 +340,7 @@ class ModelCatalogProduct extends Model
 
             $sql .= " LIMIT ".(int) $start.",".(int) $limit;
             $query = $this->db->query($sql);
-
+            $query->rows[0]['total_num_rows'] = $this->db->getTotalNumRows();
             $cache = $query->rows;
             $this->cache->push($cache_key, $cache);
         }
@@ -596,7 +596,7 @@ class ModelCatalogProduct extends Model
         //trim keyword
         $keyword = trim($keyword);
         if ($keyword) {
-            $sql = "SELECT  *,
+            $sql = "SELECT  DISTINCT ".$this->db->getSqlCalcTotalRows()." p.*, 
                             p.product_id,  
                             ".$this->_sql_final_price_string().",
                             pd.name AS name, 
@@ -684,7 +684,9 @@ class ModelCatalogProduct extends Model
             $query = $this->db->query($sql);
             $products = [];
             if ($query->num_rows) {
+                $total_num_rows = $this->db->getTotalNumRows();
                 foreach ($query->rows as $value) {
+                    $value['total_num_rows'] = $total_num_rows;
                     $products[$value['product_id']] = $value;
                 }
             }

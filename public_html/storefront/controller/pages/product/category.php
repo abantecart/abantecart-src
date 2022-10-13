@@ -158,8 +158,16 @@ class ControllerPagesProductCategory extends AController
 
             $this->loadModel('catalog/product');
             $category_total = $this->model_catalog_category->getTotalCategoriesByCategoryId($category_id);
-            $product_total = $this->model_catalog_product->getTotalProductsByCategoryId($category_id);
+            $products_result = $this->model_catalog_product->getProductsByCategoryId(
+                $category_id,
+                $sort,
+                $order,
+                ($page - 1) * $limit,
+                $limit
+            );
 
+            $product_total = $products_result[0]['total_num_rows']
+                ?? $this->model_catalog_product->getTotalProductsByCategoryId($category_id);
             if ($category_total || $product_total) {
                 $categories = [];
 
@@ -191,13 +199,7 @@ class ControllerPagesProductCategory extends AController
                 $this->view->assign('categories', $categories);
                 $this->loadModel('catalog/review');
                 $this->view->assign('button_add_to_cart', $this->language->get('button_add_to_cart'));
-                $products_result = $this->model_catalog_product->getProductsByCategoryId(
-                    $category_id,
-                    $sort,
-                    $order,
-                    ($page - 1) * $limit,
-                    $limit
-                );
+
                 $product_ids = array_column($products_result, 'product_id');
                 $products = [];
 

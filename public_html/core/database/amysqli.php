@@ -115,9 +115,7 @@ final class AMySQLi
                 $query->row = $data[0] ?? [];
                 $query->rows = $data;
                 $query->num_rows = (int) $result->num_rows;
-
                 unset($data);
-
                 return $query;
             } else {
                 return true;
@@ -180,6 +178,27 @@ final class AMySQLi
     public function getLastId()
     {
         return $this->connection->insert_id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSqlCalcTotalRows()
+    {
+        return 'SQL_CALC_FOUND_ROWS';
+    }
+
+    /**
+     * @return false|int
+     */
+    public function getTotalNumRows()
+    {
+        $result = $this->connection->query('select found_rows() as total;');
+        if( $result !== false ){
+            $row = (array)$result->fetch_object();
+            return (int)$row['total'];
+        }
+        return false;
     }
 
     public function getDBError()
