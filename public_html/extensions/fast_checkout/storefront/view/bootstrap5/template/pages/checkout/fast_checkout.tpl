@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function load() {
     //jQuery-depended code
 
 <?php if ($cart_url) { ?>
-    var loadPage = function () {
+    loadPage = function () {
         $.ajax({
             url: '<?php echo $cart_url; ?>',
             type: 'GET',
