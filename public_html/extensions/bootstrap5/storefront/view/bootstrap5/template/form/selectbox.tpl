@@ -1,4 +1,6 @@
-<div class="input-group">
+<?php if(!$no_wrapper){?>
+    <div class="input-group h-100">
+<?php } ?>
     <select name="<?php echo $name ?>" id="<?php echo $id ?>" class="form-select <?php echo $style; ?>"
             data-placeholder="<?php echo $placeholder ?>" <?php echo $attr ?>
             <?php echo $disabled ? ' disabled="disabled" ' : ''; ?>
@@ -18,4 +20,6 @@
     if ( $required ) { ?>
     <span class="input-group-text text-danger">*</span>
     <?php } ?>
+    <?php if(!$no_wrapper){?>
 </div>
+<?php } ?>

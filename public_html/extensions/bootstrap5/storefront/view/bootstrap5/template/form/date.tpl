@@ -1,4 +1,6 @@
-<div class="input-group">
+<?php if(!$no_wrapper){?>
+<div class="input-group h-100">
+<?php } ?>
     <input type="<?php echo $type ?>" name="<?php echo $name ?>" id="<?php echo $id ?>" value="<?php echo $value; ?>" <?php echo $attr; ?> class="form-control <?php echo $style; ?>" <?php if ( $required ) { echo 'required'; }?>/>
     <?php if ( $required ) { ?>
     <span class="input-group-text text-danger">*</span>
@@ -20,4 +22,6 @@
             <?php } ?>
         });
     </script>
-</div>
+<?php if(!$no_wrapper){?>
+    </div>
+<?php } ?>

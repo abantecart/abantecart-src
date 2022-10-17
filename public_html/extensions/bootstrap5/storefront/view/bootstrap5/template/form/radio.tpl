@@ -1,4 +1,7 @@
-<div class="form-check-inline d-flex flex-wrap">
+<?php if(!$no_wrapper){?>
+<div class="input-group h-100">
+<?php } ?>
+<div class="form-check-inline d-flex flex-wrap form-control me-0">
 <?php
 	foreach ( (array)$options as $v => $text ) {
 	$radio_id = preg_replace('/[^a-zA-Z0-9\.-_]/', '', $id . $v);
@@ -14,8 +17,11 @@
         <label class="form-check-label" for="<?php echo $radio_id ?>"><?php echo $text ?></label>
     </div>
 <?php } ?>
-    <?php
-    if ( $required ) { ?>
-        <div class="ms-auto text-danger">*</div>
-    <?php } ?>
 </div>
+<?php
+if ( $required ) { ?>
+    <span class="input-group-text text-danger">*</span>
+<?php } ?>
+<?php if(!$no_wrapper){?>
+</div>
+<?php } ?>
