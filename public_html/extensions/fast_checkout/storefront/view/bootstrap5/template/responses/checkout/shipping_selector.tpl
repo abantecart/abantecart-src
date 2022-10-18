@@ -21,9 +21,12 @@ if($this->cart->hasShipping()){
              <?php
                 if (!$shipping_method['error']) {
                     foreach ($shipping_method['quote'] as $quote) {
-                        $quote['radio']->options = [ key($quote['radio']->options) => '' ]; ?>
+                        $quote['radio']->options = [ key($quote['radio']->options) => '' ];
+                        ?>
                     <div class="d-flex flex-nowrap col-12 table-hover">
-                        <div class="flex-shrink p-2"><?php echo $quote['radio']; ?></div>
+                        <div class="flex-shrink p-2 fc-radio-noborder">
+                            <?php  echo $quote['radio']; ?>
+                        </div>
                         <label class="p-2 flex-grow-1"
                                id="<?php echo $quote['id'];?>_title"
                                for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>"

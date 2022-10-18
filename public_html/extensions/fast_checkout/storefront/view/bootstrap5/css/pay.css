@@ -28,3 +28,7 @@
     color: #cca174;
     text-decoration: none;
 }
+
+.fc-radio-noborder .form-check-inline{
+    border: 0 !important;
+}
