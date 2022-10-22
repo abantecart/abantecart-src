@@ -57,8 +57,9 @@ if (sizeof((array) $error_warning) > 0) {
                   <p class="fs-6 mt-2 ms-0 ms-sm-3" title="<?php echo $option['title']?>"> - <?php echo $option['name']; ?> <?php echo $option['value']; ?></p>
               <?php
               } ?>
+                <?php echo $this->getHookVar('checkout_cart_product_'.$product['key'].'_additional_info_1'); ?>
             </h5>
-            <?php echo $this->getHookVar('checkout_cart_product_'.$product['key'].'_additional_info_1'); ?>
+            <?php echo $this->getHookVar('checkout_cart_product_'.$product['key'].'_additional_info_2'); ?>
             </div>
             </div>
             <div class="col-7 col-md-10 col-lg-8 col-xl-7 d-flex flex-wrap align-content-center justify-content-between align-items-center">
@@ -97,6 +98,7 @@ if (sizeof((array) $error_warning) > 0) {
                 </div>
             </div>
         </div>
+        <?php echo $this->getHookVar('checkout_cart_product_'.$product['key'].'_additional_info_3'); ?>
         <?php } ?>
         <?php echo $this->getHookVar('list_more_product_last'); ?>
     </div>

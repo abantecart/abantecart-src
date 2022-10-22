@@ -132,6 +132,7 @@
                </div>
                <?php echo $this->getHookVar('product_'.$product['order_product_id'].'_additional_info_2'); ?>
            </div>
+        <?php echo $this->getHookVar('product_'.$product['order_product_id'].'_additional_info_3'); ?>
         <?php } ?>
             <?php echo $this->getHookVar('list_more_product_last'); ?>
         </div>
