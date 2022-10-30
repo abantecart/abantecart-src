@@ -13,6 +13,9 @@ if ($google_tag_manager) {
     <?php
 }
 ?>
+
+<?php echo $this->getHookVar('top_page'); ?>
+
 <div class="container-fixed" style="max-width: <?php echo $layout_width; ?>">
 
     <?php if ($maintenance_warning) { ?>
