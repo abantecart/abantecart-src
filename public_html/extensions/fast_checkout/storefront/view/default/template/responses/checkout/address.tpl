@@ -168,7 +168,7 @@
 
 
     <button type="submit" class="btn btn-primary btn-lg btn-block btn-pay">
-        <?php echo $fast_checkout_text_enter_address.' '.$text_mmmm; ?>
+        <?php echo $fast_checkout_text_enter_address; ?>
     </button>
     <?php echo $this->getHookVar('address_form_bottom'); ?>
 </fieldset>

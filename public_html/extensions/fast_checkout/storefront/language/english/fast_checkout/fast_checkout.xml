@@ -178,7 +178,7 @@
 	</definition>
 	<definition>
 		<key>fast_checkout_text_enter_address</key>
-		<value><![CDATA[Enter Address]]></value>
+		<value><![CDATA[Continue]]></value>
 	</definition>
 	<definition>
 		<key>fast_checkout_text_card_number</key>

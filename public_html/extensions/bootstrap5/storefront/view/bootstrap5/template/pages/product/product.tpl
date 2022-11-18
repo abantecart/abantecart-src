@@ -602,10 +602,6 @@ if( $hookVarArray ){
         $select.on('change',function () {
             var valId = $(this).val();
             valId = this.type === 'checkbox' && $(this).attr('data-attribute-value-id') ? $(this).attr('data-attribute-value-id') : valId;
-            //skip not selected radio
-            if ((this.type === 'radio' || this.type === 'checkbox') && $(this).prop('checked') === false) {
-                return false;
-            }
             load_option_images(valId, '<?php echo $product_id; ?>');
             display_total_price();
         });
