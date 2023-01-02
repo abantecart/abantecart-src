@@ -18,7 +18,7 @@
 	</definition>
 	<definition>
 		<key>entry_total</key>
-		<value><![CDATA[Order Total:<span class="help">Minimum order amount to be reached to apply the fee. If customer order total will exceed this amount, handling feee will not be applied. This value is overridden with payment specific setting.</span>]]></value>
+		<value><![CDATA[Order Total:<span class="help">Minimum order amount to be reached to apply the fee. If customer order total will exceed this amount, handling fee will not be applied. This value is overridden with payment specific setting.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_total_placeholder</key>

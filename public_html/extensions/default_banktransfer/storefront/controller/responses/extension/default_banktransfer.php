@@ -54,8 +54,8 @@ class ControllerResponsesExtensionDefaultBanktransfer extends AController
         }
 
         //check total for to meat min requirement 
-        if (has_value($this->config->get('default_banktransfer_order_min'))) {
-            if ($this->cart->getTotal() < $this->config->get('default_banktransfer_order_min')) {
+        if (has_value($this->config->get('default_banktransfer_payment_minimum_total'))) {
+            if ($this->cart->getTotal() < $this->config->get('default_banktransfer_payment_minimum_total')) {
                 $this->view->assign('minimum_notmet', $this->language->get('text_minimum_notmet'));
             }
         }
