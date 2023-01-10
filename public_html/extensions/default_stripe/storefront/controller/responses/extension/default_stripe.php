@@ -150,7 +150,6 @@ class ControllerResponsesExtensionDefaultStripe extends AController
                     'carrier' => $order_info['shipping_method'],
                     'phone'   => $order_info['telephone'],
                 ],
-                //'statement_descriptor' => 'Order #'.$order_info['order_id'],
                 "metadata"             => [
                     'integration_check' => 'accept_a_payment',
                     "order_id" => $order_info['order_id'],

@@ -79,7 +79,6 @@ class ModelExtensionDefaultStripe extends Model
             $charge_data['amount'] = $pd['amount'];
             $charge_data['currency'] = $pd['currency'];
             $charge_data['description'] = $this->config->get('store_name').' Order #'.$pd['order_id'];
-            $charge_data['statement_descriptor'] = 'Order #'.$pd['order_id'];
             $charge_data['receipt_email'] = $order_info['email'];
             $charge_data['source'] = $pd['cc_token'];
 
