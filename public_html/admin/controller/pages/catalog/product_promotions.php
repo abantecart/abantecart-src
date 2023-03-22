@@ -25,6 +25,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ControllerPagesCatalogProductPromotions extends AController
 {
     public $error = [];
+    public $data = [];
 
     public function main()
     {
@@ -51,7 +52,7 @@ class ControllerPagesCatalogProductPromotions extends AController
                         $this->request->post
                     );
                 } else { //insert
-                    $this->model_catalog_product->addProductDiscount(
+                   $this->data['product_discount_id'] = $this->model_catalog_product->addProductDiscount(
                         $this->request->get['product_id'],
                         $this->request->post
                     );
@@ -63,13 +64,14 @@ class ControllerPagesCatalogProductPromotions extends AController
                         $this->request->post
                     );
                 } else { //insert
-                    $this->model_catalog_product->addProductSpecial(
+                    $this->data['product_special_id'] = $this->model_catalog_product->addProductSpecial(
                         $this->request->get['product_id'],
                         $this->request->post
                     );
                 }
             }
             $this->session->data['success'] = $this->language->get('text_success');
+            $this->extensions->hk_ProcessData($this, __FUNCTION__);
             redirect(
                 $this->html->getSecureURL(
                     'catalog/product_promotions',
