@@ -359,16 +359,17 @@ class ControllerResponsesListingGridProduct extends AController
 
         $this->loadLanguage('catalog/product');
         $this->loadModel('catalog/product');
-        if (isset($this->request->get['id'])) {
+        $product_discount_id = (int) $this->request->get['id'];
+        if (isset($product_discount_id)) {
             //request sent from edit form. ID in url
             foreach ($post as $key => $value) {
                 $data = [$key => $value];
                 $this->model_catalog_product->updateProductDiscount(
-                    $this->request->get['id'],
+                    $product_discount_id,
                     $data
                 );
             }
-            return;
+            $this->extensions->hk_ProcessData($this, 'product_update_discount', ['product_discount_id' => $product_discount_id]);
         }
 
         //update controller data
@@ -398,16 +399,17 @@ class ControllerResponsesListingGridProduct extends AController
 
         $this->loadLanguage('catalog/product');
         $this->loadModel('catalog/product');
-        if (isset($this->request->get['id'])) {
+        $product_special_id = (int) $this->request->get['id'];
+        if (isset($product_special_id)) {
             //request sent from edit form. ID in url
             foreach ($post as $key => $value) {
                 $data = [$key => $value];
                 $this->model_catalog_product->updateProductSpecial(
-                    $this->request->get['id'],
+                    $product_special_id,
                     $data
                 );
             }
-            return;
+            $this->extensions->hk_ProcessData($this, 'product_update_special', ['product_special_id' => $product_special_id]);
         }
 
         //update controller data
@@ -436,13 +438,14 @@ class ControllerResponsesListingGridProduct extends AController
 
         $this->loadLanguage('catalog/product');
         $this->loadModel('catalog/product');
-        if (isset($this->request->get['id'])) {
+        $product_id = (int)$this->request->get['id'];
+        if (isset($product_id)) {
             //request sent from edit form. ID in url
             foreach ($this->request->post as $key => $value) {
                 $data = [$key => $value];
-                $this->model_catalog_product->updateProductLinks($this->request->get['id'], $data);
+                $this->model_catalog_product->updateProductLinks($product_id, $data);
             }
-            return;
+            $this->extensions->hk_ProcessData($this, 'product_update_special', ['product_id' => $product_id]);
         }
 
         //update controller data
