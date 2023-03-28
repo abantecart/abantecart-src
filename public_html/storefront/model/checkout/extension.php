@@ -87,7 +87,7 @@ class ModelCheckoutExtension extends Model
                     $maxOrderSubtotal = $this->currency->convert($maxOrderSubtotal, $this->config->get('config_currency'), $this->currency->getCode());
 
                     if ($cartSubtotal
-                        && ($cartSubtotal <= $minOrderSubtotal || ($maxOrderSubtotal && $cartSubtotal >= $maxOrderSubtotal))
+                        && ($cartSubtotal < $minOrderSubtotal || ($maxOrderSubtotal && $cartSubtotal > $maxOrderSubtotal))
                     ) {
                         continue;
                     }
