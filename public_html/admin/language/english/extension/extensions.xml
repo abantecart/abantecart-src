@@ -429,4 +429,12 @@
 		<key>text_max_weight</key>
 		<value><![CDATA[Maximum Weight of Parcel (%s)]]></value>
 	</definition>
+	<definition>
+		<key>text_min_order_subtotal</key>
+		<value><![CDATA[Minimum Order Subtotal: <span class="help">Enter the minimum order subtotal value for shipment option to be available for customer. This field is optional.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_max_order_subtotal</key>
+		<value><![CDATA[Maximum Order Subtotal: <span class="help">Enter the maximum order subtotal value for shipment option to be available for customer. This field is optional.</span>]]></value>
+	</definition>
 </definitions>
