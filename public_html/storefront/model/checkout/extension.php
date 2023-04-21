@@ -8,6 +8,8 @@
 
   Copyright © 2011-2021 Belavier Commerce LLC
 
+  Modified by WHY2 for AbanteCart
+
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
@@ -38,6 +40,7 @@ class ModelCheckoutExtension extends Model
         if($type == 'shipping'){
             $cartWeight = $this->cart->getWeight();
             $cartVolume = $this->cart->getVolume();
+            $cartSubtotal = $this->currency->convert($this->cart->getSubTotal(), $this->config->get('config_currency'), $this->currency->getCode()) ;
         }
 
         $output = [];
@@ -75,6 +78,18 @@ class ModelCheckoutExtension extends Model
                                 $err
                             );
                         }
+                    }
+
+                    //filter by order subtotal limits
+                    $minOrderSubtotal = $this->config->get($row['key']."_min_order_subtotal") ? : 0;
+                    $maxOrderSubtotal = $this->config->get($row['key']."_max_order_subtotal") ? : 0;
+                    $minOrderSubtotal = $this->currency->convert($minOrderSubtotal, $this->config->get('config_currency'), $this->currency->getCode());
+                    $maxOrderSubtotal = $this->currency->convert($maxOrderSubtotal, $this->config->get('config_currency'), $this->currency->getCode());
+
+                    if ($cartSubtotal
+                        && ($cartSubtotal < $minOrderSubtotal || ($maxOrderSubtotal && $cartSubtotal > $maxOrderSubtotal))
+                    ) {
+                        continue;
                     }
                 }
 
