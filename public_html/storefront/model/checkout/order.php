@@ -780,6 +780,7 @@ class ModelCheckoutOrder extends Model
         $mail = new AMail($this->config);
         $mail->setTo($order_row['email']);
         $mail->setFrom($this->config->get('store_main_email'));
+        $mail->setReplyTo($this->config->get('store_main_email'));
         $mail->setSender($order_row['store_name']);
         $mail->setTemplate('storefront_order_confirm', $this->data['mail_template_data']);
 
@@ -979,6 +980,7 @@ class ModelCheckoutOrder extends Model
                 $mail = new AMail($this->config);
                 $mail->setTo($order_row['email']);
                 $mail->setFrom($this->config->get('store_main_email'));
+                $mail->setReplyTo($this->config->get('store_main_email'));
                 $mail->setSender($order_row['store_name']);
                 $mail->setTemplate('admin_order_status_notify', $data);
                 $mail->send();
