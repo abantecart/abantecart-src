@@ -84,12 +84,7 @@ class ControllerPagesAccountTransactions extends AController
                 $page = 1;
             }
 
-            if (isset($this->request->get['limit'])) {
-                $limit = (int)$this->request->get['limit'];
-                $limit = $limit > 50 ? 50 : $limit;
-            } else {
-                $limit = $this->config->get('config_catalog_limit');
-            }
+            $limit = $this->config->get('config_catalog_limit');
 
             $trans = [];
 

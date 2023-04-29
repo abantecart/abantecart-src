@@ -136,9 +136,7 @@ class ControllerPagesProductCategory extends AController
             $this->data['text_sort'] = $this->language->get('text_sort');
 
             $page = $request['page'] ?? 1;
-            $limit = isset($request['limit'])
-                ? min((int)$request['limit'], 50)
-                : $this->config->get('config_catalog_limit');
+            $limit = $this->config->get('config_catalog_limit');
 
             $sorting_href = $request['sort'];
             if (!$sorting_href || !isset($this->data['sorts'][$request['sort']])) {

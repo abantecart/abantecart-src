@@ -123,13 +123,7 @@ class ControllerPagesProductSearch extends AController
         }
 
         $limit = $this->config->get('config_catalog_limit');
-        if (isset($request['limit']) && intval($request['limit']) > 0) {
-            $limit = intval($request['limit']);
-            if ($limit > 50) {
-                $limit = 50;
-            }
-        }
-
+    
         $sorting_href = $request['sort'];
         if (!$sorting_href || !isset($this->data['sorts'][$request['sort']])) {
             $sorting_href = $this->config->get('config_product_default_sort_order');
