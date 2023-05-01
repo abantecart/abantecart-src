@@ -75,8 +75,8 @@ class ControllerPagesAccountDownload extends AController
             ]
         );
 
-        if (isset($this->request->get['limit'])) {
-           $limit = (int) $this->request->get['limit'];
+        if ((int)$this->request->get['limit'] ) {
+           $limit = min((int) $this->request->get['limit'], 50);
         } else {  
            $limit = $this->config->get('config_catalog_limit');
         }
