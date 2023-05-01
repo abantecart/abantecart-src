@@ -132,7 +132,11 @@ class ControllerPagesProductManufacturer extends AController
                     $page = 1;
                 }
 
+              if (isset($this->request->get['limit'])) {
+                $limit = (int) $this->request->get['limit'];
+              } else {
                 $limit = $this->config->get('config_catalog_limit');
+              }
 
                 $sorting_href = $request['sort'];
                 if (!$sorting_href || !isset($this->data['sorts'][$request['sort']])) {
