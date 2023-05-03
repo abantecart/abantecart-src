@@ -94,11 +94,11 @@ class ControllerPagesProductCollection extends AController
             $this->view->assign('text_sort', $this->language->get('text_sort'));
 
             $page = $request['page'] ?? 1;
-            if (isset($request['limit'])) {
-                $limit = (int) $request['limit'];
-                $limit = $limit > 50 ? 50 : $limit;
+
+            if (isset($this->request->get['limit'])) {
+              $limit = (int) $this->request->get['limit'];
             } else {
-                $limit = $this->config->get('config_catalog_limit');
+              $limit = $this->config->get('config_catalog_limit');
             }
 
             $sorting_href = $request['sort'];
