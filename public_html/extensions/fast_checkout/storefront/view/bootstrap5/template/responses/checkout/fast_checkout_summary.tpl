@@ -38,16 +38,17 @@
                                         - <?php echo $option['name']; ?> <?php echo $option['value']; ?>
                                     </small>
                                 <?php } ?>
+                                <?php echo $this->getHookVar('fast_checkout_summary_product_'.$product['key'].'_additional_info'); ?>
                             </div>
-                            <?php echo $this->getHookVar('fast_checkout_summary_product_'.$product['key'].'_additional_info'); ?>
+                            <?php echo $this->getHookVar('fast_checkout_summary_product_'.$product['key'].'_additional_info_1'); ?>
                         </div>
                         <div class="ms-auto text-end">
                             <?php echo $product['price']; ?>
                             <span class="text-nowrap"><i class="mx-2 fa fa-times fa-fw"></i><?php echo $product['quantity']; ?></span>
                         </div>
-                        <?php echo $this->getHookVar('fast_checkout_summary_product_'.$product['key'].'_additional_info_1'); ?>
+                        <?php echo $this->getHookVar('fast_checkout_summary_product_'.$product['key'].'_additional_info_2'); ?>
                     </td>
-                    <?php echo $this->getHookVar('fast_checkout_summary_product_'.$product['key'].'_additional_info_2'); ?>
+                    <?php echo $this->getHookVar('fast_checkout_summary_product_'.$product['key'].'_additional_info_3'); ?>
                 </tr>
             <?php } ?>
 
