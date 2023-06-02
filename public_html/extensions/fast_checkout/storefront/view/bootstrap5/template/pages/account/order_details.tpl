@@ -115,6 +115,7 @@
                           <p class="fs-6 mt-2 ms-0 ms-sm-3" title="<?php echo $option['title']?>"> - <?php echo $option['name']; ?> <?php echo $option['value']; ?></p>
                           <?php echo $this->getHookVar('option_'.$option['name'].'_additional_info'); ?>
                       <?php } ?>
+                      <?php echo $this->getHookVar('product_'.$product['order_product_id'].'_additional_info_1'); ?>
                   </h5>
               </div>
               <div class="col-7 d-flex flex-wrap ">
@@ -128,11 +129,11 @@
                             <?php } ?>
                         </div>
                    <?php } ?>
-                  <?php echo $this->getHookVar('product_'.$product['order_product_id'].'_additional_info_1'); ?>
+                  <?php echo $this->getHookVar('product_'.$product['order_product_id'].'_additional_info_2'); ?>
                </div>
-               <?php echo $this->getHookVar('product_'.$product['order_product_id'].'_additional_info_2'); ?>
+               <?php echo $this->getHookVar('product_'.$product['order_product_id'].'_additional_info_3'); ?>
            </div>
-        <?php echo $this->getHookVar('product_'.$product['order_product_id'].'_additional_info_3'); ?>
+        <?php echo $this->getHookVar('product_'.$product['order_product_id'].'_additional_info_4'); ?>
         <?php } ?>
             <?php echo $this->getHookVar('list_more_product_last'); ?>
         </div>
