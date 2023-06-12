@@ -23,10 +23,10 @@
             ?>
                 <tr>
                     <td class="d-flex flex-wrap align-items-center justify-content-between">
-                        <div class="d-none d-md-flex mx-1">
+                        <div class="d-none d-xl-flex mx-1 col-md-2">
                             <img alt="" class="product-icon" src="<?php echo $product['thumbnail']['main_url']; ?>">
                         </div>
-                        <div class="ms-auto me-1 text-wrap">
+                        <div class="ms-auto text-wrap col-12 col-xl-9">
                             <?php if($product['href']){ ?>
                                 <a class="link-dark link-"  href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a>
                             <?php }else{
