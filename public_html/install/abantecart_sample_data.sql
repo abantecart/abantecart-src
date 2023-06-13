@@ -685,8 +685,7 @@ INSERT INTO `ac_download_descriptions`
 VALUES
 (1,1,'Audio CD1'),
 (2,1,'audio sample mp3'),
-(5,1,'Find your fit'),
-(6,1,'Visionnaire');
+(5,1,'Find your fit');
 
 --
 -- Dumping data for table `downloads`
@@ -707,8 +706,7 @@ INSERT INTO `ac_downloads`
 VALUES
 (1,'100196','audio-cd.mp3',50,NULL,2,'order_status',5,0,1,NOW(),NOW()),
 (2,'100197','sample.mp3',NULL,NULL,1,'before_order',0,0,1,NOW(),NOW()),
-(5,'download/18/79/f.pdf','size-fit-guide-print.pdf',NULL,NULL,0,'before_order',0,1,1,NOW(),NOW()),
-(6,'100260','Visionnaire.pdf',NULL,NULL,0,'immediately',0,0,1,NOW(),NOW());
+(5,'download/18/79/f.pdf','size-fit-guide-print.pdf',NULL,NULL,0,'before_order',0,1,1,NOW(),NOW());
 
 --
 -- Dumping data for table `global_attributes`
