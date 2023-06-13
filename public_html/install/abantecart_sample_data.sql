@@ -2181,7 +2181,7 @@ VALUES (50,40),
 --
 
 INSERT INTO `ac_products_to_downloads`
-VALUES (109,6),
+VALUES
 (111,1),
 (111,2),
 (123,5);
@@ -2512,8 +2512,7 @@ VALUES
 (100252,1,'red.jpg','','','18/79/c.jpg','',NOW(),NOW()),
 (100253,1,'yellow.jpg','','','18/79/d.jpg','',NOW(),NOW()),
 (100255,1,'size-fit-guide-print.pdf','Fit guide','','18/79/f.pdf','',NOW(),NOW()),
-(100257,1,'local_delivery_icon.png','','','18/7a/1.png','',NOW(),NOW()),
-(100260,1,'Visionnaire.pdf','','','18/7a/4.pdf','',NOW(),NOW());
+(100257,1,'local_delivery_icon.png','','','18/7a/1.png','',NOW(),NOW());
 
 --
 -- Dumping data for table `resource_library`
