@@ -1749,7 +1749,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('appearance','config_image_manufacturer_width',130),
 ('appearance','admin_template','default'),
 ('appearance','admin_width','100%'),
-('appearance','config_storefront_template','default'),
+('appearance','config_storefront_template','bootstrap5'),
 ('appearance','config_image_resize_fill_color', '#ffffff'),
 
 
