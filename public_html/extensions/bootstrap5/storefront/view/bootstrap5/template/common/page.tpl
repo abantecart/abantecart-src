@@ -62,12 +62,12 @@ echo $$header; ?>
 
         <div class="d-flex flex-wrap align-items-stretch align-self-stretch justify-content-center">
 		<?php if ( !empty($$column_left ) ) { ?>
-		<div class="ms-3 col-12 col-sm-9 col-md-8 col-lg-2 col-xl-3">
+		<div class="ms-3 col-12 col-sm-9 col-md-8 col-lg-3 col-xl-3">
 		<?php echo $$column_left; ?>
 		</div>
 		<?php } ?>
 
-		<?php $span = 12 - 4 * $present_columns; ?>
+		<?php $span = 12 - 6 * $present_columns; ?>
             <div class="flex-grow-1 col-12 col-lg-<?php echo $span ?>  mt-2">
             <?php if ( !empty( $$content_top ) ) { ?>
             <!-- content top blocks placeholder -->
@@ -87,7 +87,7 @@ echo $$header; ?>
 		</div>
 
 		<?php if ( !empty($$column_right ) ) { ?>
-            <div class="me-3 col-11 col-sm-9 col-md-8 col-lg-2 col-xl-3">
+            <div class="me-3 col-11 col-sm-9 col-md-8 col-lg-3 col-xl-3">
 		<?php echo $$column_right; ?>
 		</div>
 		<?php } ?>

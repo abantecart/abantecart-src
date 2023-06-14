@@ -188,8 +188,8 @@ if ($error){ ?>
                                                 <div class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="<?php echo_html2view($text_maximum);?>">&lt;= <?php echo $maximum; ?></div>
                                                 <?php } ?>
                                         </div>
-                                        <div class="m-4 total-price-holder d-flex">
-                                            <div class="fs-5 fw-3 me-2 mt-auto"><?php echo $text_total_price; ?></div>
+                                        <div class="ms-0 my-4 total-price-holder d-flex">
+                                            <div class="fs-5 fw-3 me-4 mt-auto"><?php echo $text_total_price; ?></div>
                                             <div class="fs-3 fw-3 total-price mt-auto"><i class="ms-2 fa-solid fa-spinner fa-spin"></i></div>
                                             <div class="fs-3 fw-3 mt-auto"><?php echo $tax_message; ?></div>
                                         </div>
@@ -356,7 +356,7 @@ if ($error){ ?>
                                         </div>
 
                                         <?php
-                                        $review_button->style .= ' ms-auto text-nowrap mt-2 mt-md-0';
+                                        $review_button->style .= ' ms-auto text-nowrap mt-4';
                                         if ($review_recaptcha){ ?>
                                             <div class="form-group mb-3 d-flex flex-wrap">
                                             <?php
