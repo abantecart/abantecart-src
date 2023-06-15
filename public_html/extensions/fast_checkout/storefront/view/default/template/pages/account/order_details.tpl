@@ -118,6 +118,8 @@
         </div>
     </div>
 
+    <?php echo $this->getHookVar('order_pre_attributes'); ?>
+
     <?php if ($comment) { ?>
         <div class="container-fluid">
             <h4 class="heading4"><?php echo $text_comment; ?></h4>
