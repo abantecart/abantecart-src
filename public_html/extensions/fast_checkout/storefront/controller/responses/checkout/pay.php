@@ -8,7 +8,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2022 Belavier Commerce LLC
+  Copyright © 2011-2023 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -1086,6 +1086,8 @@ class ControllerResponsesCheckoutPay extends AController
 
     protected function _save_customer_account($order_data)
     {
+        /** @var ModelExtensionFastCheckout $mdl */
+        $mdl = $this->loadModel('extension/fast_checkout');
         $customer_data = [
             'status'        => 1,
             'loginname'     => $this->config->get('prevent_email_as_login')
@@ -1122,7 +1124,11 @@ class ControllerResponsesCheckoutPay extends AController
                     $customer_data['loginname'] .= '_'.time();
                 }
             }
-            $customer_id = (int) $this->model_extension_fast_checkout->addCustomer($customer_data);
+            $this->data['account_data'] = $customer_data;
+            // add ability to overwrite data via hooks
+            $this->extensions->hk_ProcessData($this, __FUNCTION__);
+
+            $customer_id = (int) $mdl->addCustomer($this->data['account_data']);
             if ($customer_id) {
                 $new_customer = true;
                 $this->data['text_account_created'] = $this->language->get('fast_checkout_text_account_created');
@@ -1153,15 +1159,17 @@ class ControllerResponsesCheckoutPay extends AController
         }
         //update order_details
         if ($customer_id) {
-            $this->loadModel('extension/fast_checkout');
-            $this->model_extension_fast_checkout->updateOrderCustomer(
+            $mdl->updateOrderCustomer(
                 $order_data['order_id'],
                 $customer_id
             );
             if ($new_customer == true) {
-                $this->model_extension_fast_checkout->sendEmailActivation($customer_data);
+                $mdl->sendEmailActivation($this->data['account_data']);
             }
         }
+
+        $this->data['customer_id'] = $customer_id;
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
     /**
