@@ -97,6 +97,7 @@
 				</tr>
 			<?php } ?>
 		</table>
+		<?php echo $this->getHookVar('order_invoice_'.$order['order_id'].'_top_info'); ?>
 		<table class="product">
 			<tr class="heading">
 				<td><b><?php echo $column_comment; ?></b></td>
