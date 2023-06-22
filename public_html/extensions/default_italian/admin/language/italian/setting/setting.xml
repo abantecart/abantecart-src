@@ -765,10 +765,6 @@
 		<value><![CDATA[Coupon sulla pagina del carrello:<br /><span class="help">Consentono ai clienti di inserire il codice coupon e vedono sconto nel carrello.</span>]]></value>
 	</definition>
 	<definition>
-		<key>entry_google_analytics</key>
-		<value><![CDATA[Google Analytics Account Number:<br /><span class="help">Aggiungi il tuo <a href="https://support.google.com/analytics/answer/1032385?hl=en&ref_topic=1008082" target="_blank">Google Analytics Account Number</a> per consentire il monitoraggio attività del sito. Ciò consente anche il monitoraggio di attività e-commerce. È necessario attivare il monitoraggio e-commerce in Google nella pagina delle impostazioni del profilo per il tuo sito.</span>]]></value>
-	</definition>
-	<definition>
 		<key>entry_ssl_url</key>
 		<value><![CDATA[Sicuro Store URL:<br /><span class="help">Include the full SSL URL(HTTPS) to your store. Make sure to add '/' at the end. Example: https://www.yourdomain.com/path/</span>]]></value>
 	</definition>

@@ -92,7 +92,7 @@ $(document).ready(function(){
                 let spinner = wrapper.children('span');
                 spinner.removeClass('visually-hidden');
                 icon_cart.addClass('visually-hidden');
-                if( item.attr('data-options').length ) {
+                if( item.attr('data-options') && item.attr('data-options').length ) {
                     options = JSON.parse(item.attr('data-options'));
                 }
                 let data = add2CartAjax(item.attr('data-id'), options);

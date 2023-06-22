@@ -546,6 +546,24 @@ if( $hookVarArray ){
 </div>
 
 <script type="text/javascript">
+    <?php if($this->config->get('config_google_tag_manager_id')){ ?>
+    try {
+        dataLayer.push({ecommerce: null});
+        dataLayer.push({
+            event: "view_item",
+            ecommerce: {
+                items: [{
+                    item_name: <?php js_echo($heading_title);?>,
+                    item_id: <?php echo (int)$product_info['product_id']; ?>,
+                    price: <?php echo $display_price ? $product_info['price'] : 0; ?>,
+                    item_brand: <?php js_echo($manufacturer);?>,
+                    quantity: <?php echo (int)$form['minimum']->value;?>
+                }]
+            }
+        });
+    } catch (e) {
+    }
+    <?php } ?>
     document.addEventListener('DOMContentLoaded', function load() {
         //waiting for jquery loaded!
         if (!window.jQuery) return setTimeout(load, 50);

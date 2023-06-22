@@ -13,28 +13,20 @@ foreach($meta as $item){
 <base href="<?php echo $base; ?>" />
 <?php
 if ($google_tag_manager) { ?>
-<!-- Google Tag Manager -->
-<script type="application/javascript">
-    (
-        function(w,d,s,l,i){
-            w[l]=w[l]||[];
-            w[l].push(
-                {
-                    'gtm.start': new Date().getTime(),
-                    event:'gtm.js'
-                }
-            );
-            let f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s),
-                dl = l !== 'dataLayer' ? '&l=' + l : '';
-            j.async=true;
-            j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;
-            f.parentNode.insertBefore(j,f);
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $google_tag_manager; ?>"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
         }
-    )(window,document,'script','dataLayer','<?php echo trim($google_tag_manager); ?>');
-</script>
-<!-- End Google Tag Manager -->
-<?php } ?>
+
+        gtag('js', new Date());
+        gtag('config', <?php js_echo($google_tag_manager); ?>);
+    </script>
+    <?php
+} ?>
 
 <?php if ( is_file( DIR_RESOURCE . $icon ) ) {  ?>
 <link href="resources/<?php echo $icon; ?>" type="<?php echo mime_content_type(DIR_RESOURCE . $icon)?>" rel="icon" />

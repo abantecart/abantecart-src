@@ -62,40 +62,36 @@
         return false;
     });
     <?php
-    if ($this->config->get('config_google_analytics_code')){
+    if (trim($this->config->get('config_google_tag_manager_id'))) {
     //get ecommerce tracking data from checkout page
     /**
+     * @see ControllerPagesCheckoutSuccess::_google_analytics()
      * @see ControllerResponsesCheckoutPay::_save_google_analytics()
      */
-    $ga_data = $this->registry->get('google_analytics_data');
-    if($ga_data){ ?>
-        ga('require', 'ecommerce');
-        ga('ecommerce:addTransaction', {
-            'id': <?php js_echo($ga_data['transaction_id']);?>,
-            'affiliation': <?php js_echo($ga_data['store_name']);?>,
-            'revenue': <?php js_echo($ga_data['total']);?>,
-            'shipping': <?php js_echo($ga_data['shipping']);?>,
-            'tax': <?php js_echo($ga_data['tax']);?>,
-            'currency': <?php js_echo($ga_data['currency_code']);?>,
-            'city':  <?php js_echo($ga_data['city']);?>,
-            'state':  <?php js_echo($ga_data['state']);?>,
-            'country':  <?php js_echo($ga_data['country']);?>
-        });
-
-    <?php if($ga_data['items']){
-            foreach($ga_data['items'] as $item){ ?>
-                ga('ecommerce:addItem', {
-                    'id': <?php js_echo($item['id']); ?>,
-                    'name': <?php js_echo($item['name']); ?>,
-                    'sku': <?php  js_echo($item['sku']); ?>,
-                    'brand': <?php  js_echo($item['brand']); ?>,
-                    'price': <?php  echo $item['price']; ?>,
-                    'quantity': <?php  echo $item['quantity']; ?>
-                });
-            <?php }
-        }?>
-        ga('ecommerce:send');
-        <?php } ?>
-    <?php } ?>
+    $gaOrderData = $this->session->data['google_analytics_order_data'];
+    unset($this->session->data['google_analytics_order_data']);
+    if ($gaOrderData) { ?>
+        dataLayer.push({ecommerce: null});
+        dataLayer.push({
+        event: "purchase",
+        ecommerce: {
+            transaction_id: <?php js_echo($gaOrderData['transaction_id']);?>,
+            affiliation: <?php js_echo($gaOrderData['store_name']);?>,
+            value: <?php js_echo($gaOrderData['total']); ?>,
+            tax: <?php js_echo($gaOrderData['tax']); ?>,
+            shipping: <?php js_echo($gaOrderData['shipping']); ?>,
+            currency: <?php js_echo($gaOrderData['currency_code']); ?>,
+            coupon: <?php js_echo($gaOrderData['coupon']); ?>,
+            city: <?php js_echo($gaOrderData['city']); ?>,
+            state: <?php js_echo($gaOrderData['state']);?>,
+            country: <?php js_echo($gaOrderData['country']);?>
+<?php if ($gaOrderData['items']) { ?>
+,
+            items: <?php js_echo($gaOrderData['items']); ?>
+<?php } ?>
+        }
+    });
+<?php }
+} ?>
 </script>
 <?php echo $footer; ?>

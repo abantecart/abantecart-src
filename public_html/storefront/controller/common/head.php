@@ -25,7 +25,6 @@ class ControllerCommonHead extends AController
 {
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -95,7 +94,7 @@ class ControllerCommonHead extends AController
         }
 
         if ($this->config->get('config_google_tag_manager_id')) {
-            $this->view->assign( 'google_tag_manager', $this->config->get('config_google_tag_manager_id'));
+            $this->view->assign( 'google_tag_manager', trim($this->config->get('config_google_tag_manager_id')));
         }
 
         $this->view->assign('icon', $iconUri);

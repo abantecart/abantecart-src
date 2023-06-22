@@ -23,19 +23,25 @@ if (!defined('DIR_CORE')) {
 
 class ControllerPagesCheckoutSuccess extends AController
 {
-    public $data = array();
-    public $errors = array();
+    public $errors = [];
 
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $order_id = (int)$this->session->data['order_id'];
+        $this->loadModel('account/order');
+        $orderInfo = $this->model_account_order->getOrder($order_id);
+        $order_totals = $this->model_account_order->getOrderTotals($order_id);
+        if($orderInfo) {
+            $orderInfo['order_products'] = $this->model_account_order->getOrderProducts($order_id);
+        }
 
-        if ($order_id && $this->validate($order_id)) {
+        if ($order_id && $this->validate($orderInfo)) {
             //debit transaction
             $this->_debit_transaction($order_id);
+
+            $this->_google_analytics($orderInfo, $order_totals);
 
             //clear session before redirect
             $this->_clear_order_session();
@@ -66,71 +72,64 @@ class ControllerPagesCheckoutSuccess extends AController
         $this->view->assign('heading_title', $heading_title);
 
         $this->document->resetBreadcrumbs();
-        $this->document->addBreadcrumb(array(
+        $this->document->addBreadcrumb([
             'href'      => $this->html->getHomeURL(),
             'text'      => $this->language->get('text_home'),
             'separator' => false,
-        ));
+        ]);
 
-        $this->document->addBreadcrumb(array(
+        $this->document->addBreadcrumb([
             'href'      => $this->html->getSecureURL('checkout/cart'),
             'text'      => $this->language->get('text_basket'),
             'separator' => $this->language->get('text_separator'),
-        ));
+        ]);
 
         if ($this->customer->isLogged()) {
-            $this->document->addBreadcrumb(array(
+            $this->document->addBreadcrumb([
                 'href'      => $this->html->getSecureURL('checkout/shipping'),
                 'text'      => $this->language->get('text_shipping'),
                 'separator' => $this->language->get('text_separator'),
-            ));
+            ]);
 
-            $this->document->addBreadcrumb(array(
+            $this->document->addBreadcrumb([
                 'href'      => $this->html->getSecureURL('checkout/payment'),
                 'text'      => $this->language->get('text_payment'),
                 'separator' => $this->language->get('text_separator'),
-            ));
+            ]);
 
-            $this->document->addBreadcrumb(array(
+            $this->document->addBreadcrumb([
                 'href'      => $this->html->getSecureURL('checkout/confirm'),
                 'text'      => $this->language->get('text_confirm'),
                 'separator' => $this->language->get('text_separator'),
-            ));
+            ]);
         } else {
-            $this->document->addBreadcrumb(array(
+            $this->document->addBreadcrumb([
                 'href'      => $this->html->getSecureURL('checkout/guest'),
                 'text'      => $this->language->get('text_guest'),
                 'separator' => $this->language->get('text_separator'),
-            ));
+            ]);
 
-            $this->document->addBreadcrumb(array(
+            $this->document->addBreadcrumb([
                 'href'      => $this->html->getSecureURL('checkout/guest/confirm'),
                 'text'      => $this->language->get('text_confirm'),
                 'separator' => $this->language->get('text_separator'),
-            ));
+            ]);
         }
 
-        $this->document->addBreadcrumb(array(
+        $this->document->addBreadcrumb([
             'href'      => $this->html->getURL('checkout/success'),
             'text'      => $this->language->get('text_success'),
             'separator' => $this->language->get('text_separator'),
-        ));
+        ]);
 
-        $this->loadModel('account/order');
-        $order_info = $this->model_account_order->getOrder($order_id);
-        if ($order_info) {
-            $order_info['order_products'] = $this->model_account_order->getOrderProducts($order_id);
-        }
-
-        $order_totals = $this->model_account_order->getOrderTotals($order_id);
-        $this->_google_analytics($order_info, $order_totals);
+        $this->_google_analytics($orderInfo, $order_totals);
 
         if ($this->errors) {
             $this->view->assign('text_message', implode('<br>', $this->errors));
         } elseif ($this->session->data['account'] == 'guest') {
             //give link on order page for quest
             $enc = new AEncryption($this->config->get('encryption_key'));
-            $order_token = $enc->encrypt($order_id.'::'.$order_info['email']);
+            $order_token = $enc->encrypt($order_id.'::'.$orderInfo['email']);
             $order_url = $this->html->getSecureURL('account/invoice', '&ot='.$order_token);
             $this->view->assign('text_message',
                 sprintf($this->language->get('text_message_guest'),
@@ -149,17 +148,17 @@ class ControllerPagesCheckoutSuccess extends AController
         $this->view->assign('button_continue', $this->language->get('button_continue'));
         $this->view->assign('continue', $this->html->getHomeURL());
         $continue = $this->html->buildElement(
-            array(
+            [
                 'type'  => 'button',
                 'name'  => 'continue_button',
                 'text'  => $this->language->get('button_continue'),
                 'style' => 'button',
-            ));
+            ]);
         $this->view->assign('continue_button', $continue);
         //clear session anyway
         $this->_clear_order_session();
 
-        if ($this->config->get('embed_mode') == true) {
+        if ($this->config->get('embed_mode')) {
             //load special headers
             $this->addChild('responses/embed/head', 'head');
             $this->addChild('responses/embed/footer', 'footer');
@@ -175,24 +174,22 @@ class ControllerPagesCheckoutSuccess extends AController
     /**
      * Validating order data for different cases
      *
-     * @param int $order_id
+     * @param array $orderInfo
      *
      * @return bool
+     * @throws AException
      */
-    protected function validate($order_id)
+    protected function validate(array $orderInfo)
     {
-
-        //check is order incomplete
-        $this->loadModel('checkout/order');
-        $order_info = $this->model_checkout_order->getOrder($order_id);
-        //when order exists but still incomplete by some reasons - mark it as failed
-        if ((int)$order_info['order_status_id'] == $this->order_status->getStatusByTextId('incomplete')) {
+        $orderId = $orderInfo['order_id'];
+        //when order exists but incomplete by some reasons - mark it as failed
+        if ((int)$orderInfo['order_status_id'] == $this->order_status->getStatusByTextId('incomplete')) {
             $new_status_id = $this->order_status->getStatusByTextId('failed');
-            $this->model_checkout_order->confirm($order_id, $new_status_id);
-            $this->_debit_transaction($order_id);
+            $this->model_checkout_order->confirm($orderId, $new_status_id);
+            $this->_debit_transaction($orderId);
             $this->messages->saveWarning(
-                sprintf($this->language->get('text_title_failed_order_to_admin'), $order_id),
-                $this->language->get('text_message_failed_order_to_admin').' '.'#admin#rt=sale/order/details&order_id='.$order_id
+                sprintf($this->language->get('text_title_failed_order_to_admin'), $orderId),
+                $this->language->get('text_message_failed_order_to_admin').' '.'#admin#rt=sale/order/details&order_id='.$orderId
             );
             $text_message = $this->language->get('text_message_failed_order');
             $this->errors[] = $text_message;
@@ -212,6 +209,7 @@ class ControllerPagesCheckoutSuccess extends AController
      * @param $order_id
      *
      * @return bool|null
+     * @throws AException
      */
     protected function _debit_transaction($order_id)
     {
@@ -220,7 +218,7 @@ class ControllerPagesCheckoutSuccess extends AController
         if (!$amount) {
             return null;
         }
-        $transaction_data = array(
+        $transaction_data = [
             'order_id'         => $order_id,
             'amount'           => $amount,
             'transaction_type' => 'order',
@@ -231,13 +229,16 @@ class ControllerPagesCheckoutSuccess extends AController
                     $this->session->data['currency']),
                     $this->session->data['currency'], 1),
                 $order_id),
-        );
+        ];
 
         try {
             $this->customer->debitTransaction($transaction_data);
         } catch (AException $e) {
-            $error = new AError('Error: Debit transaction cannot be applied.'.var_export($transaction_data,
-                    true)."\n".$e->getMessage()."\n".$e->getFile());
+            $error = new AError(
+                'Error: Debit transaction cannot be applied.'
+                .var_export($transaction_data,true)."\n"
+                .$e->getMessage()."\n"
+                .$e->getFile());
             $error->toLog()->toMessages();
             return false;
         }
@@ -266,11 +267,14 @@ class ControllerPagesCheckoutSuccess extends AController
 
     protected function _google_analytics($order_data, $order_totals)
     {
+        if(!$order_data){
+            return;
+        }
 
-        //google analytics data for js-script.
+        //Google Analytics data for js-script.
         //This will be shown in the footer of the page
         $order_tax = $order_total = $order_shipping = 0.0;
-        foreach ($order_totals as $i => $total) {
+        foreach ($order_totals as $total) {
             if ($total['type'] == 'total') {
                 $order_total += $total['value'];
             } elseif ($total['type'] == 'tax') {
@@ -281,31 +285,34 @@ class ControllerPagesCheckoutSuccess extends AController
         }
 
         if (!$order_data['shipping_city']) {
-            $addr = array(
+            $addr = [
                 'city'    => $order_data['payment_city'],
                 'state'   => $order_data['payment_zone'],
                 'country' => $order_data['payment_country'],
-            );
+            ];
         } else {
-            $addr = array(
+            $addr = [
                 'city'    => $order_data['shipping_city'],
                 'state'   => $order_data['shipping_zone'],
                 'country' => $order_data['shipping_country'],
-            );
+            ];
         }
 
-        $ga_data = array_merge(
-            array(
+        $gaOrderData = array_merge(
+            [
                 'transaction_id' => (int)$order_data['order_id'],
                 'store_name'     => $this->config->get('store_name'),
                 'currency_code'  => $order_data['currency'],
                 'total'          => $this->currency->format_number($order_total),
                 'tax'            => $this->currency->format_number($order_tax),
                 'shipping'       => $this->currency->format_number($order_shipping),
-            ), $addr);
+                'coupon'         => $this->session->data['coupon']
+            ],
+            $addr
+        );
 
         if ($order_data['order_products']) {
-            $ga_data['items'] = array();
+            $gaOrderData['items'] = [];
             foreach ($order_data['order_products'] as $product) {
                 //try to get option sku for product. If not presents - take main sku from product details
                 $options = $this->model_account_order->getOrderOptions((int)$order_data['order_id'], $product['order_product_id']);
@@ -320,17 +327,16 @@ class ControllerPagesCheckoutSuccess extends AController
                     $sku = $product['sku'];
                 }
 
-                $ga_data['items'][] = array(
-                    'id'       => (int)$order_data['order_id'],
-                    'name'     => $product['name'],
-                    'sku'      => $sku,
-                    'price'    => $product['price'],
-                    'quantity' => $product['quantity'],
-                );
+                $gaOrderData['items'][] = [
+                    'item_id'   => (int)$order_data['order_id'],
+                    'item_name' => $product['name'],
+                    'sku'       => $sku,
+                    'price'     => $product['price'],
+                    'quantity'  => $product['quantity'],
+                ];
             }
         }
 
-        $this->registry->set('google_analytics_data', $ga_data);
+        $this->session->data['google_analytics_order_data'] = $gaOrderData;
     }
-
 }

@@ -789,10 +789,6 @@
 		<value><![CDATA[Promocional en la página cesta de compras:<br /><span class="help">Permite a los clientes a entrar en el código de cupón de descuento y ver en el carrito de compras.</span>]]></value>
 	</definition>
 	<definition>
-		<key>entry_google_analytics</key>
-		<value><![CDATA[Número de cuenta Google Analytics:<br /><span class="help">Añadir el <a href="https://support.google.com/analytics/answer/1032385?hl=es&ref_topic=1008082" target="_blank">Número de cuenta Google Analytics</a> para que el sitio de seguimiento de la actividad. Esto también permite el seguimiento de la actividad de comercio electrónico. Debe habilitar el seguimiento de comercio electrónico en google en la página de configuración de perfil para su página web</span>]]></value>
-	</definition>
-	<definition>
 		<key>entry_ssl_url</key>
 		<value><![CDATA[Segura Tienda URL:<br/><span class="help">Incluya la URL completa SSL (HTTPS) para su tienda. Asegúrese de añadir '/' al final. Ejemplo: https://www.yourdomain.com/path/</span>]]></value>
 	</definition>

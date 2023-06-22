@@ -773,10 +773,6 @@
 		<value><![CDATA[Купон на странице корзины:<br /><span class="help">Позволить клиентам вводить код купона и получить скидку.</span>]]></value>
 	</definition>
 	<definition>
-		<key>entry_google_analytics</key>
-		<value><![CDATA[Google Analytics номер аккаунта:<br /><span class="help">Добавить ваш <a href="https://support.google.com/analytics/answer/1032385?hl=en&ref_topic=1008082" target="_blank">номер аккаунта Google Analytics</a>, чтобы включить отслеживание активности сайта. Это также позволяет отслеживать активность электронной коммерции. Вы должны включить отслеживание электронной коммерции в Google на странице настроек профиля для вашего сайта</span>]]></value>
-	</definition>
-	<definition>
 		<key>entry_ssl_url</key>
 		<value><![CDATA[Безопасный URL магазина:<br /><span class="help">используйте полный URL SSL (HTTPS) в вашем магазине. Убедитесь, что добавили &#39;/&#39; в конце. Например: https://www.yourdomain.com/path/ </span>]]></value>
 	</definition>

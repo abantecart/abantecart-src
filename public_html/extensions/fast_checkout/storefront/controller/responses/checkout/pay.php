@@ -1290,18 +1290,20 @@ class ControllerResponsesCheckoutPay extends AController
             ];
         }
 
-        $ga_data = array_merge(
+        $gaOrderData = array_merge(
                 [
-                    'transaction_id' => (int) $order_data['order_id'],
+                    'transaction_id' => (int)$order_data['order_id'],
                     'store_name'     => $this->config->get('store_name'),
                     'currency_code'  => $order_data['currency'],
                     'total'          => $this->currency->format_number($order_total),
                     'tax'            => $this->currency->format_number($order_tax),
                     'shipping'       => $this->currency->format_number($order_shipping),
-            ], $addr);
+                    'coupon'         => $this->session->data['coupon']
+                ],
+                $addr);
 
         if ($order_data['order_products']) {
-            $ga_data['items'] = [];
+            $gaOrderData['items'] = [];
             foreach ($order_data['order_products'] as $product) {
                 //try to get option sku for product. If not presents - take main sku from product details
                 $options = $this->model_account_order->getOrderOptions((int)$order_data['order_id'], $product['order_product_id']);
@@ -1316,18 +1318,16 @@ class ControllerResponsesCheckoutPay extends AController
                     $sku = $product['sku'];
                 }
 
-                $ga_data['items'][] = [
-                    'id'       => (int)$order_data['order_id'],
-                    'name'     => $product['name'],
-                    'sku'      => $sku,
-                    'price'    => $product['price'],
-                    'quantity' => $product['quantity'],
+                $gaOrderData['items'][] = [
+                    'item_id'   => (int)$order_data['order_id'],
+                    'item_name' => $product['name'],
+                    'sku'       => $sku,
+                    'price'     => $product['price'],
+                    'quantity'  => $product['quantity'],
                 ];
             }
         }
-
-        $this->registry->set('google_analytics_data', $ga_data);
-
+        $this->session->data['google_analytics_order_data'] = $gaOrderData;
     }
 
     protected function _clear_data()
