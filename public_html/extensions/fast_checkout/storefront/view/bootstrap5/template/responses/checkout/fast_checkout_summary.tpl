@@ -24,7 +24,7 @@
                 <tr>
                     <td class="d-flex flex-wrap align-items-center justify-content-between">
                         <div class="d-none d-xl-flex mx-1 col-md-2">
-                            <img alt="" class="product-icon" src="<?php echo $product['thumbnail']['main_url']; ?>">
+                            <img style="width:<?php echo $product['thumbnail']['width']?>px;" class="product-icon" src="<?php echo $product['thumbnail']['main_url']; ?>">
                         </div>
                         <div class="ms-auto text-wrap col-12 col-xl-9">
                             <?php if($product['href']){ ?>
