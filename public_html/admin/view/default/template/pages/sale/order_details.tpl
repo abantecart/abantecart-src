@@ -169,7 +169,7 @@ echo $order_tabs;
 		<?php echo $this->getHookVar('order_details_right_post'); ?>
 	</div>
 	</div>
-
+	<?php echo $this->getHookVar('order_pre_details'); ?>
 	<?php if ($comment) { ?>
 		<div class="form-group">
 			<label class="control-label col-sm-5"><?php echo $entry_comment; ?></label>
