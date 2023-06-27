@@ -51,7 +51,7 @@
                             $review = $item['rating'];
                         }
                         ?>
-                        <div class="card m-3 col-4 shadow ">
+                        <div class="card m-3 col-4 shadow">
                             <a class="link-light card-link text-decoration-none"
                                     href="<?php echo $item['info_url'] ?>"
                                     title="<?php echo $item['title'] ?>">

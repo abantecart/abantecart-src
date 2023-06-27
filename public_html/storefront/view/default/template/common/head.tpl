@@ -12,9 +12,9 @@ foreach($meta as $item){
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <base href="<?php echo $base; ?>" />
 <?php
-if ($google_tag_manager) { ?>
+if ($google_analytics_code) { ?>
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $google_tag_manager; ?>"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $google_analytics_code; ?>"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -23,7 +23,7 @@ if ($google_tag_manager) { ?>
         }
 
         gtag('js', new Date());
-        gtag('config', <?php js_echo($google_tag_manager); ?>);
+        gtag('config', <?php js_echo($google_analytics_code); ?>);
     </script>
     <?php
 } ?>

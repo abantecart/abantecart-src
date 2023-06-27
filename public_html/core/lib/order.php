@@ -423,4 +423,87 @@ class AOrder
         return $this->customer_id;
     }
 
+    public static function getGoogleAnalyticsOrderData(array $order_data)
+    {
+        if(!$order_data){
+            return [];
+        }
+
+        $registry = Registry::getInstance();
+        $currency = $registry->get('currency');
+
+        //Google Analytics data for js-script.
+        //This will be shown in the footer of the page
+        $order_tax = $order_total = $order_shipping = 0.0;
+
+        foreach ($order_data['totals'] as $total) {
+            $total['value'] = (float)$total['value'];
+            $total['type'] = $total['type'] ?: $total['total_type'];
+            if ($total['type'] == 'total') {
+                $order_total += $total['value'];
+            } elseif ($total['type'] == 'tax') {
+                $order_tax += $total['value'];
+            } elseif ($total['type'] == 'shipping') {
+                $order_shipping += $total['value'];
+            }
+        }
+
+        if (!$order_data['shipping_city']) {
+            $addr = [
+                'city'    => $order_data['payment_city'],
+                'state'   => $order_data['payment_zone'],
+                'country' => $order_data['payment_country'],
+            ];
+        } else {
+            $addr = [
+                'city'    => $order_data['shipping_city'],
+                'state'   => $order_data['shipping_zone'],
+                'country' => $order_data['shipping_country'],
+            ];
+        }
+
+        $gaOrderData = array_merge(
+            [
+                'transaction_id' => (int)$order_data['order_id'],
+                'store_name'     => $registry->get('config')->get('store_name'),
+                'currency_code'  => $order_data['currency']?: $registry->get('currency')->getCode(),
+                'total'          => (float)$currency->format_number($order_total),
+                'tax'            => (float)$currency->format_number($order_tax),
+                'shipping'       => (float)$currency->format_number($order_shipping),
+                'coupon'         => $registry->get('session')->data['coupon']
+            ],
+            $addr
+        );
+
+        if ($order_data['order_products']) {
+            /** @var ModelAccountOrder $mdl */
+            $mdl = $registry->get('load')->model('account/order');
+            $gaOrderData['items'] = [];
+            foreach ($order_data['order_products'] as $product) {
+                //try to get option sku for product. If not presents - take main sku from product details
+                $options = $mdl->getOrderOptions((int)$order_data['order_id'], $product['order_product_id']);
+                $sku = '';
+                foreach ($options as $opt) {
+                    if ($opt['sku']) {
+                        $sku = $opt['sku'];
+                        break;
+                    }
+                }
+                if (!$sku) {
+                    $sku = $product['sku'];
+                }
+
+                $gaOrderData['items'][] = [
+                    'item_id'   => (int)$order_data['order_id'],
+                    'item_name' => $product['name'],
+                    'sku'       => $sku,
+                    'price'     => (float)$product['price'],
+                    'quantity'  => $product['quantity'],
+                ];
+            }
+        }
+
+        return $gaOrderData;
+    }
+
 }

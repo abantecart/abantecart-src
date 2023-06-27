@@ -64,24 +64,21 @@
         return false;
     });
 <?php
-if (trim($this->config->get('config_google_tag_manager_id'))) {
+if (trim($this->config->get('config_google_analytics_code'))) {
     //get ecommerce tracking data from checkout page
     /**
-     * @see ControllerPagesCheckoutSuccess::_google_analytics()
-     * @see ControllerResponsesCheckoutPay::_save_google_analytics()
+     * @see AOrder::getGoogleAnalyticsOrderData()
      */
     $gaOrderData = $this->session->data['google_analytics_order_data'];
     unset($this->session->data['google_analytics_order_data']);
     if ($gaOrderData) { ?>
-    dataLayer.push({ecommerce: null});
-    dataLayer.push({
-        event: "purchase",
-        ecommerce: {
+    gtag("event", "purchase",
+        {
             transaction_id: <?php js_echo($gaOrderData['transaction_id']);?>,
             affiliation: <?php js_echo($gaOrderData['store_name']);?>,
-            value: <?php js_echo($gaOrderData['total']); ?>,
-            tax: <?php js_echo($gaOrderData['tax']); ?>,
-            shipping: <?php js_echo($gaOrderData['shipping']); ?>,
+            value: <?php echo $gaOrderData['total']; ?>,
+            tax: <?php echo $gaOrderData['tax']; ?>,
+            shipping: <?php echo $gaOrderData['shipping']; ?>,
             currency: <?php js_echo($gaOrderData['currency_code']); ?>,
             coupon: <?php js_echo($gaOrderData['coupon']); ?>,
             city: <?php js_echo($gaOrderData['city']); ?>,

@@ -126,36 +126,59 @@ if ($scripts_bottom && is_array($scripts_bottom)) {
     }
 }
 
-if (trim($this->config->get('config_google_tag_manager_id'))) {
+if (trim($this->config->get('config_google_analytics_code'))) { ?>
+<script type="text/javascript">
+<?php
     //get ecommerce tracking data from checkout page
     /**
-     * @see ControllerPagesCheckoutSuccess::_google_analytics()
-     * @see ControllerResponsesCheckoutPay::_save_google_analytics()
+     * @see AOrder::getGoogleAnalyticsOrderData()
      */
+    //when checkout begin
+    $gaCheckoutData = $this->session->data['google_analytics_begin_checkout_data'];
+    unset($this->session->data['google_analytics_begin_checkout_data']);
+    if ($gaCheckoutData) { ?>
+        gtag(
+            "event",
+            "begin_checkout",
+            {
+                currency: <?php js_echo($gaCheckoutData['currency_code']); ?>,
+                coupon: <?php js_echo($gaCheckoutData['coupon']); ?>,
+                value: <?php js_echo($gaCheckoutData['total']); ?>
+    <?php if ($gaCheckoutData['items']) { ?>
+    , items: <?php js_echo($gaCheckoutData['items']); ?>
+<?php } ?>
+            }
+        );
+    <?php }
+
+    //when purchase complete
     $gaOrderData = $this->session->data['google_analytics_order_data'];
     unset($this->session->data['google_analytics_order_data']);
     if ($gaOrderData) { ?>
-        dataLayer.push({ecommerce: null});
-        dataLayer.push({
-        event: "purchase",
-        ecommerce: {
-        transaction_id: <?php js_echo($gaOrderData['transaction_id']);?>,
-        affiliation: <?php js_echo($gaOrderData['store_name']);?>,
-        value: <?php js_echo($gaOrderData['total']); ?>,
-        tax: <?php js_echo($gaOrderData['tax']); ?>,
-        shipping: <?php js_echo($gaOrderData['shipping']); ?>,
-        currency: <?php js_echo($gaOrderData['currency_code']); ?>,
-        coupon: <?php js_echo($gaOrderData['coupon']); ?>,
-        city: <?php js_echo($gaOrderData['city']); ?>,
-        state: <?php js_echo($gaOrderData['state']);?>,
-        country: <?php js_echo($gaOrderData['country']);?>
-        <?php if ($gaOrderData['items']) { ?>
-            , items: <?php js_echo($gaOrderData['items']); ?>
-        <?php } ?>
-        }
-        });
-    <?php }
-} ?>
+
+        gtag(
+            "event",
+            "purchase",
+            {
+                transaction_id: <?php js_echo($gaOrderData['transaction_id']);?>,
+                affiliation: <?php js_echo($gaOrderData['store_name']);?>,
+                value: <?php js_echo($gaOrderData['total']); ?>,
+                tax: <?php js_echo($gaOrderData['tax']); ?>,
+                shipping: <?php js_echo($gaOrderData['shipping']); ?>,
+                currency: <?php js_echo($gaOrderData['currency_code']); ?>,
+                coupon: <?php js_echo($gaOrderData['coupon']); ?>,
+                city: <?php js_echo($gaOrderData['city']); ?>,
+                state: <?php js_echo($gaOrderData['state']);?>,
+                country: <?php js_echo($gaOrderData['country']);?>
+                <?php if ($gaOrderData['items']) { ?>
+, items: <?php js_echo($gaOrderData['items']); ?>
+                <?php } ?>
+            }
+        );
+
+    <?php } ?>
+</script>
+<?php } ?>
 
 </body>
 </html>

@@ -113,20 +113,17 @@ if($scripts_bottom && is_array($scripts_bottom)) {
     <?php }
 }
 
-if (trim($this->config->get('config_google_tag_manager_id'))) {
+if (trim($this->config->get('config_google_analytics_code'))) {
     //get ecommerce tracking data from checkout page
     /**
-     * @see ControllerPagesCheckoutSuccess::_google_analytics()
-     * @see ControllerResponsesCheckoutPay::_save_google_analytics()
+     * @see AOrder::getGoogleAnalyticsOrderData()
      */
     $gaOrderData = $this->session->data['google_analytics_order_data'];
     unset($this->session->data['google_analytics_order_data']);
     if ($gaOrderData) { ?>
 <script type="application/javascript">
-    dataLayer.push({ecommerce: null});
-    dataLayer.push({
-        event: "purchase",
-        ecommerce: {
+    gtag("event", "purchase",
+        {
             transaction_id: <?php js_echo($gaOrderData['transaction_id']);?>,
             affiliation: <?php js_echo($gaOrderData['store_name']);?>,
             value: <?php js_echo($gaOrderData['total']); ?>,
@@ -141,7 +138,7 @@ if (trim($this->config->get('config_google_tag_manager_id'))) {
             , items: <?php js_echo($gaOrderData['items']); ?>
             <?php } ?>
         }
-    });
+    );
 </script>
 <?php }
 } ?>

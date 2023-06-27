@@ -462,12 +462,12 @@ if ($error){ ?>
 </div>
 
 <script type="text/javascript">
-    <?php if($this->config->get('config_google_tag_manager_id')){ ?>
+    <?php if($this->config->get('config_google_analytics_code')){ ?>
     try {
-        dataLayer.push({ecommerce: null});
-        dataLayer.push({
-            event: "view_item",
-            ecommerce: {
+        gtag(
+            "event",
+            "view_item",
+            {
                 items: [{
                     item_name: <?php js_echo($heading_title);?>,
                     item_id: <?php echo (int)$product_info['product_id']; ?>,
@@ -476,9 +476,8 @@ if ($error){ ?>
                     quantity: <?php echo (int)$form['minimum']->value;?>
                 }]
             }
-        });
-    } catch (e) {
-    }
+        );
+    } catch (e) { }
     <?php } ?>
 
     document.addEventListener('DOMContentLoaded', function load() {

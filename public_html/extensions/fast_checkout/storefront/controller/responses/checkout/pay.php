@@ -1028,7 +1028,9 @@ class ControllerResponsesCheckoutPay extends AController
 
         $order_data['order_products'] = $this->model_account_order->getOrderProducts($order_id);
         $order_data['totals'] = $this->model_account_order->getOrderTotals($order_id);
-        $this->_save_google_analytics($order_data);
+        $this->session->data['google_analytics_order_data'] = AOrder::getGoogleAnalyticsOrderData(
+            $order_data
+        );
 
         $this->_clear_data();
         $this->data['step'] = 'process';
@@ -1260,74 +1262,6 @@ class ControllerResponsesCheckoutPay extends AController
         }
 
         return ['count' => $downloads_count, 'download_url' => $download_url];
-    }
-
-    protected function _save_google_analytics($order_data)
-    {
-        // google analytics data for js-script in success.tpl
-        $order_tax = $order_total = $order_shipping = 0.0;
-        foreach ((array) $order_data['totals'] as $total) {
-            if ($total['type'] == 'total') {
-                $order_total += $total['value'];
-            } elseif ($total['type'] == 'tax') {
-                $order_tax += $total['value'];
-            } elseif ($total['type'] == 'shipping') {
-                $order_shipping += $total['value'];
-            }
-        }
-
-        if (!$order_data['shipping_city']) {
-            $addr = [
-                'city'    => $order_data['payment_city'],
-                'state'   => $order_data['payment_zone'],
-                'country' => $order_data['payment_country'],
-            ];
-        } else {
-            $addr = [
-                'city'    => $order_data['shipping_city'],
-                'state'   => $order_data['shipping_zone'],
-                'country' => $order_data['shipping_country'],
-            ];
-        }
-
-        $gaOrderData = array_merge(
-                [
-                    'transaction_id' => (int)$order_data['order_id'],
-                    'store_name'     => $this->config->get('store_name'),
-                    'currency_code'  => $order_data['currency'],
-                    'total'          => $this->currency->format_number($order_total),
-                    'tax'            => $this->currency->format_number($order_tax),
-                    'shipping'       => $this->currency->format_number($order_shipping),
-                    'coupon'         => $this->session->data['coupon']
-                ],
-                $addr);
-
-        if ($order_data['order_products']) {
-            $gaOrderData['items'] = [];
-            foreach ($order_data['order_products'] as $product) {
-                //try to get option sku for product. If not presents - take main sku from product details
-                $options = $this->model_account_order->getOrderOptions((int)$order_data['order_id'], $product['order_product_id']);
-                $sku = '';
-                foreach ($options as $opt) {
-                    if ($opt['sku']) {
-                        $sku = $opt['sku'];
-                        break;
-                    }
-                }
-                if (!$sku) {
-                    $sku = $product['sku'];
-                }
-
-                $gaOrderData['items'][] = [
-                    'item_id'   => (int)$order_data['order_id'],
-                    'item_name' => $product['name'],
-                    'sku'       => $sku,
-                    'price'     => $product['price'],
-                    'quantity'  => $product['quantity'],
-                ];
-            }
-        }
-        $this->session->data['google_analytics_order_data'] = $gaOrderData;
     }
 
     protected function _clear_data()

@@ -546,12 +546,10 @@ if( $hookVarArray ){
 </div>
 
 <script type="text/javascript">
-    <?php if($this->config->get('config_google_tag_manager_id')){ ?>
+    <?php if($this->config->get('config_google_analytics_code')){ ?>
     try {
-        dataLayer.push({ecommerce: null});
-        dataLayer.push({
-            event: "view_item",
-            ecommerce: {
+        gtag("event", "view_item",
+            {
                 items: [{
                     item_name: <?php js_echo($heading_title);?>,
                     item_id: <?php echo (int)$product_info['product_id']; ?>,
@@ -560,7 +558,7 @@ if( $hookVarArray ){
                     quantity: <?php echo (int)$form['minimum']->value;?>
                 }]
             }
-        });
+        );
     } catch (e) {
     }
     <?php } ?>
@@ -597,6 +595,7 @@ if( $hookVarArray ){
 
 
         $('#product_add_to_cart').click(function () {
+            ga_event_fire('add_to_cart');
             $('#product').submit();
         });
         $('#review_submit').click(function () {
@@ -858,6 +857,7 @@ if( $hookVarArray ){
                     } else {
                         $('.wishlist .alert').remove();
                         $('#wishlist_remove').removeClass('d-none').addClass('d-block');
+                        ga_event_fire("add_to_wishlist");
                     }
                 }
             });
@@ -895,7 +895,30 @@ if( $hookVarArray ){
                 }
             });
         });
+
+        //Google Analytics 4
+        function ga_event_fire(evtName){
+            if(!ga4_enabled){
+                return;
+            }
+
+            let card = $('.product-page-preset-box');
+            let prodName = card.find('h1').text();
+            let price = card.find('.product-price > .text-black').text();
+
+            gtag("event", evtName, {
+                currency: currency,
+                value: $('.total-price').text(),
+                items: [
+                    {
+                        item_id: <?php echo (int)$product_info['product_id']; ?>,
+                        item_name: prodName.trim(),
+                        affiliation: storeName,
+                        price: price,
+                        quantity: $('#product_quantity').val()
+                    }
+                ]
+            });
+        }
     });
-
-
 </script>

@@ -109,6 +109,25 @@ $(document).ready(function(){
                         );
                     }
                     item.attr('title', text_add_cart_confirm)
+                    if(ga4_enabled){
+                        let card = item.parents('.card');
+                        let prodName = card.find('.card-title').text();
+                        let price = card.find('.price > .text-black').text();
+
+                        gtag("event", "add_to_cart", {
+                            currency: currency,
+                            value: data.total,
+                            items: [
+                                {
+                                    item_id: item.attr('data-id'),
+                                    item_name: prodName.trim(),
+                                    affiliation: storeName,
+                                    price: price,
+                                    quantity: data.added_item_quantity
+                                }
+                            ]
+                        });
+                    }
                 }
             }
             return false;

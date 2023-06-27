@@ -12,9 +12,9 @@ foreach($meta as $item){
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <base href="<?php echo $base; ?>" />
 <?php
-if ($google_tag_manager) { ?>
+if ($google_analytics_code) { ?>
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $google_tag_manager; ?>"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $google_analytics_code; ?>"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -23,7 +23,7 @@ if ($google_tag_manager) { ?>
         }
 
         gtag('js', new Date());
-        gtag('config', <?php js_echo($google_tag_manager); ?>);
+        gtag('config', <?php js_echo($google_analytics_code); ?>);
     </script>
     <?php
 } ?>
@@ -69,9 +69,12 @@ if($direction == 'rtl'){ ?>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js" integrity="sha512-VK2zcvntEufaimc+efOYi622VN5ZacdnufnmX7zIhCPmjhKnOi9ZDMtg1/ug5l183f19gG1/cBstPO4D8N/Img==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type="text/javascript">
+    let storeName = '<?php echo $this->config->get('config_title_'.$this->language->getLanguageID()); ?>';
     let baseUrl = '<?php echo $base; ?>';
     let samesite = '<?php echo((defined('HTTPS') && HTTPS) ? 'None; secure=1;' : 'lax; secure=0;'); ?>';
     let is_retina = <?php echo $retina ? 'true' : 'false'; ?>;
+    let currency = '<?php echo $this->request->cookie['currency']; ?>';
+    let language = '<?php echo $this->request->cookie['language']; ?>';
     let cart_url = '<?php echo $cart_url; ?>';
     let call_to_order_url = '<?php echo $call_to_order_url;?>';
     let search_url = '<?php echo $search_url;?>';
@@ -80,8 +83,11 @@ if($direction == 'rtl'){ ?>
 if($cart_ajax){ ?>
     let cart_ajax_url = '<?php echo $cart_ajax_url; ?>';
 <?php } ?>
+    let ga4_enabled = <?php echo $this->config->get('config_google_analytics_code') ? 'true' : 'false'; ?>;
 </script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/js/main.js'); ?>"></script>
+<script type="text/javascript" src="<?php
+/** @see public_html/extensions/bootstrap5/storefront/view/bootstrap5/js/main.js */
+echo $this->templateResource('/js/main.js'); ?>"></script>
 <?php
 foreach ($scripts as $script) { ?>
     <script type="text/javascript" src="<?php echo $script; ?>" defer></script>
