@@ -1670,11 +1670,11 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 
 -- general
 ('general','config_admin_limit',20),
-('general','config_catalog_limit',20),
-('general','config_bestseller_limit',4),
-('general','config_featured_limit',4),
-('general','config_latest_limit',4),
-('general','config_special_limit',4),
+('general','config_catalog_limit',18),
+('general','config_bestseller_limit',3),
+('general','config_featured_limit',3),
+('general','config_latest_limit',3),
+('general','config_special_limit',3),
 ('general','config_stock_display',1),
 ('general','config_nostock_autodisable',0),
 ('general','config_stock_status_id',0),
