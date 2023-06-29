@@ -180,8 +180,7 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
             mcei.visual = false;
         <?php }
         //add ability to call custom js-code from php
-        echo $js_onload; ?>
-
+        //echo $js_onload; ?>
         tinymce.init(mcei);
 
         //for modal mode
