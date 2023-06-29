@@ -41,7 +41,7 @@ class ControllerPagesCheckoutSuccess extends AController
             //debit transaction
             $this->_debit_transaction($order_id);
             $orderInfo['totals'] = $order_totals;
-            $this->session->data['google_analytics_order_data'] = AOrder::getGoogleAnalyticsOrderData( $orderInfo );
+            $this->view->assign('gaOrderData',AOrder::getGoogleAnalyticsOrderData( $orderInfo ) );
 
             //clear session before redirect
             $this->_clear_order_session();
@@ -123,7 +123,7 @@ class ControllerPagesCheckoutSuccess extends AController
         ]);
 
         $orderInfo['totals'] = $order_totals;
-        $this->session->data['google_analytics_order_data'] = AOrder::getGoogleAnalyticsOrderData( $orderInfo );
+        $this->view->assign('gaOrderData', AOrder::getGoogleAnalyticsOrderData( $orderInfo ) );
 
         if ($this->errors) {
             $this->view->assign('text_message', implode('<br>', $this->errors));

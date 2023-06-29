@@ -67,27 +67,28 @@
     /**
      * @see AOrder::getGoogleAnalyticsOrderData()
      */
-    $gaOrderData = $this->session->data['google_analytics_order_data'];
-    unset($this->session->data['google_analytics_order_data']);
+
     if ($gaOrderData) { ?>
-        gtag("event", "purchase",
-        {
+        let ga_ecommerce = {
             transaction_id: <?php js_echo($gaOrderData['transaction_id']);?>,
             affiliation: <?php js_echo($gaOrderData['store_name']);?>,
             value: <?php js_echo($gaOrderData['total']); ?>,
             tax: <?php js_echo($gaOrderData['tax']); ?>,
             shipping: <?php js_echo($gaOrderData['shipping']); ?>,
             currency: <?php js_echo($gaOrderData['currency_code']); ?>,
-            coupon: <?php js_echo($gaOrderData['coupon']); ?>,
             city: <?php js_echo($gaOrderData['city']); ?>,
             state: <?php js_echo($gaOrderData['state']);?>,
             country: <?php js_echo($gaOrderData['country']);?>
-<?php if ($gaOrderData['items']) { ?>
+            <?php
+            if($gaOrderData['coupon']){ ?>
+,           coupon: <?php js_echo($gaOrderData['coupon']); ?>
+            <?php }
+            if ($gaOrderData['items']) { ?>
 ,
             items: <?php js_echo($gaOrderData['items']); ?>
-<?php } ?>
-        }
-    );
+            <?php } ?>
+            };
+        gtag("event", "purchase", ga_ecommerce );
 <?php }
 } ?>
 </script>

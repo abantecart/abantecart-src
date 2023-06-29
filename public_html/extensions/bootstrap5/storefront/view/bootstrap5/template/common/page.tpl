@@ -111,35 +111,6 @@ if($scripts_bottom && is_array($scripts_bottom)) {
 	foreach ($scripts_bottom as $script){ ?>
         <script type="text/javascript" src="<?php echo $script; ?>" defer></script>
     <?php }
-}
-
-if (trim($this->config->get('config_google_analytics_code'))) {
-    //get ecommerce tracking data from checkout page
-    /**
-     * @see AOrder::getGoogleAnalyticsOrderData()
-     */
-    $gaOrderData = $this->session->data['google_analytics_order_data'];
-    unset($this->session->data['google_analytics_order_data']);
-    if ($gaOrderData) { ?>
-<script type="application/javascript">
-    gtag("event", "purchase",
-        {
-            transaction_id: <?php js_echo($gaOrderData['transaction_id']);?>,
-            affiliation: <?php js_echo($gaOrderData['store_name']);?>,
-            value: <?php js_echo($gaOrderData['total']); ?>,
-            tax: <?php js_echo($gaOrderData['tax']); ?>,
-            shipping: <?php js_echo($gaOrderData['shipping']); ?>,
-            currency: <?php js_echo($gaOrderData['currency_code']); ?>,
-            coupon: <?php js_echo($gaOrderData['coupon']); ?>,
-            city: <?php js_echo($gaOrderData['city']); ?>,
-            state: <?php js_echo($gaOrderData['state']);?>,
-            country: <?php js_echo($gaOrderData['country']);?>
-            <?php if ($gaOrderData['items']) { ?>
-            , items: <?php js_echo($gaOrderData['items']); ?>
-            <?php } ?>
-        }
-    );
-</script>
-<?php }
 } ?>
-</body></html>
+    </body>
+</html>

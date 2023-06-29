@@ -1028,9 +1028,7 @@ class ControllerResponsesCheckoutPay extends AController
 
         $order_data['order_products'] = $this->model_account_order->getOrderProducts($order_id);
         $order_data['totals'] = $this->model_account_order->getOrderTotals($order_id);
-        $this->session->data['google_analytics_order_data'] = AOrder::getGoogleAnalyticsOrderData(
-            $order_data
-        );
+        $this->data['gaOrderData'] = AOrder::getGoogleAnalyticsOrderData( $order_data );
 
         $this->_clear_data();
         $this->data['step'] = 'process';
