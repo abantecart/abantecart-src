@@ -463,7 +463,6 @@ class ControllerPagesSaleOrder extends AController
         $this->data['comment'] = nl2br($order_info['comment']);
         $this->data['firstname'] = $order_info['firstname'];
         $this->data['lastname'] = $order_info['lastname'];
-        $this->data['lastname'] = $order_info['lastname'];
         $this->data['total'] = $this->currency->format(
             $order_info['total'],
             $order_info['currency'],
