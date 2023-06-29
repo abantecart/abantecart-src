@@ -1,3 +1,4 @@
+let evtName = '';
 //fill default values of common variables if not set
 if (!window.hasOwnProperty("baseUrl")) {
     window.baseUrl = parent.window.location.protocol
@@ -77,14 +78,23 @@ $(document).ready(function(){
         }
 
         //event for adding product to cart by ajax
-        $(document).on('click', 'a.add-to-cart', function (e) {
+        $(document).on('click touchstart', 'a.add-to-cart', function (e) {
+
             let item = $(this);
             //check if href provided for product details access
             if (item.attr('href') && item.attr('href') !== '#') {
                 return true;
             }
-            let wrapper = item.parent();
             e.preventDefault();
+            e.stopPropagation();
+            if(e.handleObj.type === 'click' && evtName === 'touchstart'){
+                evtName = '';
+                return true;
+            }
+            evtName = e.handleObj.type;
+
+            let wrapper = item.parent();
+
             if (item.attr('data-id')) {
                 let options;
                 let check_cart = wrapper.find('i').first();
