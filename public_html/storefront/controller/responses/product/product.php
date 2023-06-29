@@ -239,6 +239,10 @@ class ControllerResponsesProductProduct extends AController
             $option_data = [];
             $thumbnail = $thumbnails[$result['product_id']] ?: $result['thumb'];
             foreach ($result['option'] as $option) {
+                //do not show hidden option
+                if($option['element_type'] == 'H'){
+                    continue;
+                }
                 $value = $option['value'];
                 // hide binary value for checkbox
                 if ($option['element_type'] == 'C' && in_array($value, [0, 1])) {
