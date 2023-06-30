@@ -3659,3 +3659,21 @@ table.table.table-striped.table-bordered.import-table img { max-width: 100%; }
 	font-size: 18px;
 	width: 26px;
 }
+
+blockquote {
+	margin: 0;
+}
+
+blockquote p {
+	padding: 15px;
+	background: #eee;
+	border-radius: 5px;
+}
+
+blockquote p::before {
+	content: '\201C';
+}
+
+blockquote p::after {
+	content: '\201D';
+}
