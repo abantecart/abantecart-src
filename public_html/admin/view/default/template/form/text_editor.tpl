@@ -172,16 +172,17 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
             tinymce.remove('textarea#text_editor_<?php echo $id ?>');
         } catch (e) {}
         //initiate editor
-        mcei.selector = 'textarea#text_editor_<?php echo $id ?>';
+        let cfg = mcei;
+        cfg.selector = 'textarea#text_editor_<?php echo $id ?>';
         tinymce.baseURL = "<?php echo $template_dir; ?>javascript/tinymce";
 
         <?php
         if(!$preview){ ?>
-            mcei.visual = false;
+            cfg.visual = false;
         <?php }
         //add ability to call custom js-code from php
-        //echo $js_onload; ?>
-        tinymce.init(mcei);
+        echo $js_onload; ?>
+        tinymce.init(cfg);
 
         //for modal mode
         if ($('#<?php echo $wrapper_id; ?>').parents('.modal-content').length > 0) {
@@ -249,11 +250,12 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
             let newtab_id = $(e.target).attr('aria-controls'), // newly activated tab
                 prevtab_id = $(e.relatedTarget).attr('aria-controls'); // previous active tab
 
-            let textarea, value;
+            let textarea, value, editor;
+            editor = tinymce.get('text_editor_<?php echo $id ?>');
             textarea = $('#' + prevtab_id + ' textarea');
 
             if (prevtab_id === 'visual_<?php echo $wrapper_id?>') {
-                value = tinymce.get('text_editor_<?php echo $id ?>').getContent();
+                value = editor.getContent();
                 value = visual2html(value);
                 $('#' + newtab_id + ' textarea')
                     .val(value)
@@ -262,11 +264,9 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
                 $('#' + newtab_id + ' textarea')
                     .val(textarea.val())
                     .removeAttr('disabled');
-                if (tinyMCE.activeEditor != null) {
-                    value = textarea.val();
-                    value = html2visual(value);
-                    tinyMCE.activeEditor.setContent(value);
-                }
+                value = textarea.val();
+                value = html2visual(value);
+                editor.setContent(value);
             }
 
             //block previous textarea
