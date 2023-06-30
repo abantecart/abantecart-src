@@ -102,6 +102,9 @@ class ControllerResponsesCheckoutFastCheckoutSummary extends AController
             $option_data = [];
             $option = [];
             foreach ($result['option'] as $option) {
+                if ($option['element_type'] == 'H') {
+                    continue;
+                } //skip hidden options
                 $value = $option['value'];
                 // hide binary value for checkbox
                 if ($option['element_type'] == 'C' && in_array($value, [0, 1], true)) {
