@@ -49,9 +49,9 @@
         <div class="container-fluid installation-complete">
             <div class="h4 heading col-md-12 text-center">Enable Payment & Shipping</div>
             <div class="snapshots col-md-2">
-                <?php $url = '../'.$admin_path."&rt=extension/extensions/install&extension=default_stripe"; ?>
+                <?php $url = '../'.$admin_path."&rt=extension/extensions/install&extension=stripe"; ?>
                 <a href="<?php echo $url;?>" target="_new_admin">
-                    <img src="../extensions/default_stripe/image/icon.png" alt="Install Stripe Payment"/>
+                    <img src="../extensions/stripe/image/icon.png" alt="Install Stripe Payment"/>
                 </a>
                 <br />
                 <a href="<?php echo $url;?>" target="_new_admin">Stripe</a>

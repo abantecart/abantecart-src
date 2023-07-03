@@ -77,8 +77,8 @@
     </div>
     <div class="row">
 	    <div class="col-sm-3 h5 center">
-	        <a href="#admin#rt=extension/extensions/install&extension=default_stripe" target="_extension">
-	        <img style="width: 94px; width: height: 94px;" src="extensions/default_stripe/image/icon.png"><br>Stripe</a>
+	        <a href="#admin#rt=extension/extensions/install&extension=stripe" target="_extension">
+	        <img style="width: 94px; width: height: 94px;" src="extensions/stripe/image/icon.png"><br>Stripe</a>
 	    </div>
 	    <div class="col-sm-3 h5 center">
 	        <a href="#admin#rt=extension/extensions/install&extension=cardknox" target="_extension">
