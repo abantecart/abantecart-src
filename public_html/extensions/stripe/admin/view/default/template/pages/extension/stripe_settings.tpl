@@ -48,13 +48,6 @@ echo $tabs; ?>
                             echo $text_connect; ?> (test) </span>
                     </a>
                 </div>
-                <div class="btn-group mr10 toolbar">
-                    <a href="<?php
-                    echo $skip_url; ?>&mode=test">
-                        <?php
-                        echo $text_skip_connect; ?>
-                    </a>
-                </div>
             <?php
             } ?>
         </div>

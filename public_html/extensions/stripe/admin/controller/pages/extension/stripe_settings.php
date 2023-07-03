@@ -3,7 +3,6 @@
 class ControllerPagesExtensionStripeSettings extends AController
 {
     protected $error = [];
-    public $data = [];
     protected $errors = [
         'stripe_pk_live',
         'stripe_sk_live',
@@ -132,20 +131,6 @@ class ControllerPagesExtensionStripeSettings extends AController
             }
         }
 
-        //if skip connect is selected or API keys are set up
-        $this->data['skip_connect'] = $this->request->get['skip_connect'];
-        if ($this->data['skip_connect']
-            || (!$this->data['stripe_access_token']
-                    && ($this->data['stripe_sk_test'] || $this->data['stripe_sk_live']))
-        ) {
-            $this->data['skip_connect'] = true;
-        }
-
-        $this->data['action'] = $this->html->getSecureURL(
-            'extension/stripe_settings',
-            '&extension=stripe'
-            .'&skip_connect='.(int)$this->data['skip_connect']
-        );
         $this->data['disconnect'] = $this->html->getSecureURL(
             'extension/stripe_settings',
             '&extension=stripe&disconnect=true'
@@ -170,11 +155,6 @@ class ControllerPagesExtensionStripeSettings extends AController
         if ($stripe_code) {
             //validate the token
             $this->data['connected'] = true;
-        } else {
-            $this->data['skip_url'] = $this->html->getSecureURL(
-                'extension/stripe_settings',
-                '&extension=stripe&skip_connect=true'
-            );
         }
         $form = new AForm('HT');
         $form->setForm(
@@ -200,25 +180,7 @@ class ControllerPagesExtensionStripeSettings extends AController
             ]
         );
 
-        //stripe related settings
-        $this->data['form']['fields']['stripe_pk_live'] = $form->getFieldHtml(
-            [
-            'type'     => 'input',
-            'name'     => 'stripe_pk_live',
-            'value'    => $this->data['stripe_pk_live'],
-            'placeholder' => 'pk_live_*************',
-            'required' => true,
-            ]
-        );
-        $this->data['form']['fields']['stripe_sk_live'] = $form->getFieldHtml(
-            [
-            'type'     => 'input',
-            'name'     => 'stripe_sk_live',
-            'value'    => $this->data['stripe_sk_live'],
-            'placeholder' => 'sk_live_*************',
-            'required' => true,
-            ]
-        );
+
         $this->data['test_mode'] = $this->data['stripe_test_mode'];
         $this->data['form']['fields']['stripe_test_mode'] = $form->getFieldHtml(
             [
@@ -226,26 +188,6 @@ class ControllerPagesExtensionStripeSettings extends AController
             'name'  => 'stripe_test_mode',
             'value' => $this->data['stripe_test_mode'],
             'style' => 'btn_switch',
-            ]
-        );
-
-        $this->data['form']['fields']['stripe_pk_test'] = $form->getFieldHtml(
-            [
-            'type'     => 'input',
-            'name'     => 'stripe_pk_test',
-            'value'    => $this->data['stripe_pk_test'],
-            'placeholder' => 'pk_test_*************',
-            'required' => true,
-            ]
-        );
-
-        $this->data['form']['fields']['stripe_sk_test'] = $form->getFieldHtml(
-            [
-            'type'     => 'input',
-            'name'     => 'stripe_sk_test',
-            'value'    => $this->data['stripe_sk_test'],
-            'placeholder' => 'sk_test_*************',
-            'required' => true,
             ]
         );
 
