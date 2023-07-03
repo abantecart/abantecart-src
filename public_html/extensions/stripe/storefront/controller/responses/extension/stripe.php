@@ -161,6 +161,8 @@ class ControllerResponsesExtensionStripe extends AController
             "metadata"             => [
                 "order_id" => $order_info['order_id'],
             ],
+            'statement_descriptor' => substr($this->config->get('store_name'),0,22),
+            'statement_descriptor_suffix' => substr('Order #'.$order_info['order_id'],0,22)
         ];
 
         $paymentMethods = unserialize($this->config->get('stripe_payment_method_list'));
