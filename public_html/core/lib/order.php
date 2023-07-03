@@ -498,7 +498,7 @@ class AOrder
                     'item_name' => $product['name'],
                     'sku'       => $sku,
                     'price'     => (float)$product['price'],
-                    'quantity'  => $product['quantity'],
+                    'quantity'  => (int)$product['quantity'],
                 ];
             }
         }
