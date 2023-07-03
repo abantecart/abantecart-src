@@ -305,30 +305,30 @@ class ACart
                 }
                 $is_some_option_stock_trackable += $option_value_query['subtract'];
                 unset($option_value_query);
-            } else {
-                if ($option_value_queries) {
-                    foreach ($option_value_queries as $item) {
-                        $option_data[] = [
-                            'product_option_value_id' => $item['product_option_value_id'],
-                            'product_option_id'       => $product_option_id,
-                            'name'                    => $option_query['name'],
-                            'value'                   => $item['name'],
-                            'prefix'                  => $item['prefix'],
-                            'price'                   => $item['price'],
-                            'cost'                    => $item['cost'],
-                            'sku'                     => $item['sku'],
-                            'inventory_quantity'      => ($item['subtract'] ? (int) $item['quantity'] : 1000000),
-                            'weight'                  => $item['weight'],
-                            'weight_type'             => $item['weight_type'],
-                        ];
-                        //check if need to track stock and we have it
-                        if ($item['subtract'] && $item['quantity'] < $quantity) {
-                            $stock = false;
-                        }
-                        $is_some_option_stock_trackable += $option_value_query['subtract'];
+            }
+            //for multi-value options
+            else if ($option_value_queries) {
+                foreach ($option_value_queries as $item) {
+                    $option_data[] = [
+                        'product_option_value_id' => $item['product_option_value_id'],
+                        'product_option_id'       => $product_option_id,
+                        'name'                    => $option_query['name'],
+                        'value'                   => $item['name'],
+                        'prefix'                  => $item['prefix'],
+                        'price'                   => $item['price'],
+                        'cost'                    => $item['cost'],
+                        'sku'                     => $item['sku'],
+                        'inventory_quantity'      => ($item['subtract'] ? (int) $item['quantity'] : 1000000),
+                        'weight'                  => $item['weight'],
+                        'weight_type'             => $item['weight_type'],
+                    ];
+                    //check if need to track stock and we have it
+                    if (!$product_query['stock_checkout'] && $item['subtract'] && $item['quantity'] < $quantity) {
+                        $stock = false;
                     }
-                    unset($option_value_queries);
+                    $is_some_option_stock_trackable += $option_value_query['subtract'];
                 }
+                unset($option_value_queries);
             }
         } // end of options build
 
