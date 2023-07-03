@@ -108,7 +108,7 @@ if (sizeof((array) $error_warning) > 0) {
             echo $this->getHookVar('pre_top_cart_buttons'); ?>
             <button id="submit_button" type="submit"
                     role="button"
-                    class="btn btn-outline-success lock-on-click mx-2"
+                    class="btn btn-outline-success lock-on-click mx-2 mb-2 m-md-0"
                     title="<?php echo_html2view($button_update); ?>">
                 <i class="fa fa-refresh"></i>
                 <?php echo $button_update; ?>
@@ -118,7 +118,7 @@ if (sizeof((array) $error_warning) > 0) {
             <a href="#"
                onclick="save_and_checkout('<?php echo $checkout_rt; ?>'); return false;"
                id="cart_checkout1"
-               class="btn btn-primary mx-2" title="<?php echo_html2view($button_checkout); ?>">
+               class="btn btn-primary mx-2 mb-2 m-md-0" title="<?php echo_html2view($button_checkout); ?>">
                 <i class="fa fa-shopping-cart"></i>
                 <?php echo $button_checkout; ?>
             </a>
