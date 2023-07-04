@@ -67,6 +67,7 @@ class ControllerPagesCheckoutFastCheckoutSuccess extends AController
             '&viewport=window&order_id='.$this->request->get['order_id']
         );
         $this->data['gaOrderData'] = $this->session->data['gaOrderData'];
+        $this->data['gaOrderData']['transaction_id'] = $this->request->get['order_id'];
         //use only one time
         unset($this->session->data['gaOrderData']);
         $this->view->batchAssign($this->data);
