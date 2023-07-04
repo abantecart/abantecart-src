@@ -46,5 +46,3 @@ $resource_id = $rm->addResource($resource);
 if ($resource_id) {
     $settings['stripe_payment_storefront_icon'] = $resource_id;
 }
-
-$settings['stripe_custom_logo'] = $this->config->get('config_logo');

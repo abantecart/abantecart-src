@@ -12604,7 +12604,7 @@ VALUES
   ( 278,1,'Icon Analytics & Insights', '', '', '', '<i class="fa fa-signal"></i>&nbsp;', NOW() ),
   ( 279,1,'Icon Collections', '', '', '', '<i class="fa fa-paste"></i>&nbsp;', NOW() ),
   ( 280,1,'Icon Email Templates', '', '', '', '<i class="fa fa-envelope-open-o"></i>&nbsp;', NOW() ),
-  ( 281,1,'abc-logo-white','abc-logo-white','abc-logo-white.png','18/7a/5.png','', NOW() );
+  ( 281,1,'abc-logo-white','abc-logo-white','abc-logo-white.png','18/7a/logo.png','', NOW() );
 
 --
 -- DDL for table `ac_resource_types`
