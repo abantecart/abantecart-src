@@ -66,7 +66,9 @@ class ControllerPagesCheckoutFastCheckoutSuccess extends AController
             'r/checkout/pay/success',
             '&viewport=window&order_id='.$this->request->get['order_id']
         );
-
+        $this->data['gaOrderData'] = $this->session->data['gaOrderData'];
+        //use only one time
+        unset($this->session->data['gaOrderData']);
         $this->view->batchAssign($this->data);
 
         $this->view->setTemplate('pages/checkout/fast_checkout_success.tpl');
