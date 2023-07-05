@@ -306,7 +306,7 @@ class ModelSaleCoupon extends Model
         } else {
             $language_id = (int) $this->config->get('storefront_language_id');
         }
-        $sqlDateRange = "(CASE WHEN c.date_start < NOW() AND c.date_end > NOW() THEN 1 ELSE 0 END)";
+        $sqlDateRange = "(CASE WHEN c.date_start < NOW() AND c.date_end > NOW() AND c.status=1 THEN 1 ELSE 0 END)";
 
         if ($mode == 'total_only') {
             $total_sql = 'count(*) as total';
