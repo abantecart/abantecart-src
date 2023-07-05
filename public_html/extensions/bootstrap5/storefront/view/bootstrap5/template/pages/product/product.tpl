@@ -210,8 +210,8 @@ if ($error){ ?>
                                             } else { ?>
                                                 <div class="product-page-add2cart mt-3 text-center ">
                                                     <?php if(!$this->getHookVar('product_add_to_cart_html')) { ?>
-                                                        <a class="shadow cart btn btn-success btn-lg w-100 mb-3"
-                                                           href="#" onclick="$(this).closest('form').submit(); return false;" >
+                                                        <a id="product_add_to_cart" class="shadow cart btn btn-success btn-lg w-100 mb-3"
+                                                           href="Javascript:void(0);">
                                                             <i class="fa-solid fa-cart-plus fa-fw"></i>
                                                             <?php echo $button_add_to_cart; ?>
                                                         </a>
@@ -594,7 +594,8 @@ if( $hookVarArray ){
         reload_review('<?php echo $product_review_url; ?>');
 
 
-        $('#product_add_to_cart').click(function () {
+        $('#product_add_to_cart').click(function (e) {
+            e.preventDefault();
             ga_event_fire('add_to_cart');
             $('#product').submit();
         });
@@ -899,6 +900,7 @@ if( $hookVarArray ){
         //Google Analytics 4
         function ga_event_fire(evtName){
             if(!ga4_enabled){
+                console.log('google analytics data collection is disabled')
                 return;
             }
 
