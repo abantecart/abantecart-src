@@ -287,11 +287,11 @@ class ACart
                     'value'                   => $option_value_query['name'],
                     'prefix'                  => $option_value_query['prefix'],
                     'price'                   => $option_value_query['price'],
-                    'cost'                   => $option_value_query['cost'],
+                    'cost'                    => $option_value_query['cost'],
                     'sku'                     => $option_value_query['sku'],
                     'inventory_quantity'      => ($option_value_query['subtract']
-                                                ? (int) $option_value_query['quantity']
-                                                : 1000000),
+                                                    ? (int) $option_value_query['quantity']
+                                                    : 1000000),
                     'weight'                  => $option_value_query['weight'],
                     'weight_type'             => $option_value_query['weight_type'],
                 ];

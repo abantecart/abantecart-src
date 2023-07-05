@@ -110,34 +110,44 @@ $(document).ready(function(){
                     check_cart.removeClass('visually-hidden');
                     spinner.addClass('visually-hidden');
                     icon_cart.removeClass('visually-hidden');
-                    if(data.added_item_quantity>0){
-                        wrapper.children('span.item-qty-badge').remove();
-                        wrapper.append(
-                            '<span class="item-qty-badge position-absolute top-0 start-0 translate-middle badge rounded-pill bg-light text-dark border border-2 border-success">'+
-                                    data.added_item_quantity +
-                            '</span>'
-                        );
-                    }
-                    item.attr('title', text_add_cart_confirm)
+
                     if(ga4_enabled){
                         let card = item.parents('.card');
                         let prodName = card.find('.card-title').text();
-                        let price = card.find('.price > .text-black').text();
+                        let productData;
 
+                        $.each(data.products, function(idx){
+                            if(data.products[idx].key == item.attr('data-id')){
+                                productData = data.products[idx];
+                            }
+                        });
+                        let addedQnty = item.next().text()
+                            ? data.added_item_quantity - parseInt(item.next().text(),10)
+                            : data.added_item_quantity;
                         gtag("event", "add_to_cart", {
                             currency: currency,
-                            value: data.total,
+                            value: addedQnty * productData.price_num,
                             items: [
                                 {
                                     item_id: item.attr('data-id'),
                                     item_name: prodName.trim(),
                                     affiliation: storeName,
-                                    price: price,
-                                    quantity: data.added_item_quantity
+                                    price: productData.price_num.toFixed(2),
+                                    quantity: addedQnty
                                 }
                             ]
                         });
                     }
+
+                    if(data.added_item_quantity>0){
+                        wrapper.children('span.item-qty-badge').remove();
+                        wrapper.append(
+                            '<span class="item-qty-badge position-absolute top-0 start-0 translate-middle badge rounded-pill bg-light text-dark border border-2 border-success">'+
+                            data.added_item_quantity +
+                            '</span>'
+                        );
+                    }
+                    item.attr('title', text_add_cart_confirm);
                 }
             }
             return false;

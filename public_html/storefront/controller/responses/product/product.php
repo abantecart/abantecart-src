@@ -178,9 +178,10 @@ class ControllerResponsesProductProduct extends AController
         $this->loadModel('catalog/product');
         $product_info = $this->model_catalog_product->getProduct($this->request->get['product_id']);
         if ($product_info) {
+            $priorAdded = $this->cart->getProduct($this->request->get['product_id']);
             $this->cart->add(
                 $this->request->get['product_id'],
-                ($product_info['minimum'] ? : 1),
+                (int)$priorAdded['qty'] >= (int)$product_info['minimum'] ? 1  : $product_info['minimum'],
                 (array)$this->request->get['option']
             );
         }
@@ -195,13 +196,19 @@ class ControllerResponsesProductProduct extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $display_totals = $this->cart->buildTotalDisplay();
-        /** @see get_cart_details() */
-        $dispatch = $this->dispatch('responses/product/product/get_cart_details', [$display_totals]);
 
-        $this->data['cart_details'] = $dispatch->dispatchGetOutput();
+        $this->data['cart_details'] = $this->get_cart_details($display_totals, 'html');
+
         $this->data['item_count'] = $this->cart->countProducts() + count($this->cart->getVirtualProducts()) ;
 
         $this->data['total'] = $this->currency->format($display_totals['total']);
+        $this->data['total_num'] = $display_totals['total'];
+        $this->data['raw_total_num'] = $this->currency->convert(
+            $display_totals['total'],
+            $this->currency->getCode(),
+            $this->config->get('config_currency')
+        );
+
         if($productCartKey){
             $product = $this->cart->getProduct($productCartKey);
             $this->data['added_item_quantity'] = $product['qty'];
@@ -214,7 +221,7 @@ class ControllerResponsesProductProduct extends AController
         $this->response->setOutput(AJson::encode($this->data));
     }
 
-    public function get_cart_details($totals)
+    public function get_cart_details($totals, $mode = '')
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
@@ -295,22 +302,22 @@ class ControllerResponsesProductProduct extends AController
             }
 
             $qty += $result['quantity'];
-
+            $price = $this->tax->calculate(
+                $result['price'] ?: $result['amount'],
+                $result['tax_class_id'],
+                $this->config->get('config_tax')
+            );
             $this->data['products'][] = [
-                'key'      => $result['key'],
-                'name'     => $result['name'],
-                'option'   => $option_data,
-                'quantity' => $result['quantity'],
-                'stock'    => $result['stock'],
-                'price'    => $this->currency->format(
-                    $this->tax->calculate(
-                        $result['price'] ?: $result['amount'],
-                        $result['tax_class_id'],
-                        $this->config->get('config_tax')
-                    )
-                ),
-                'href'     => $result['product_id'] ? $this->html->getSEOURL('product/product', '&product_id='.$result['product_id']) : null,
-                'thumb'    => $thumbnail,
+                'key'           => $result['key'],
+                'name'          => $result['name'],
+                'option'        => $option_data,
+                'quantity'      => $result['quantity'],
+                'stock'         => $result['stock'],
+                'price'         => $this->currency->format($price),
+                'price_num'     => $price,
+                'raw_price_num' => $this->currency->convert($price, $this->currency->getCode(), $this->config->get('config_currency')),
+                'href'          => $result['product_id'] ? $this->html->getSEOURL('product/product', '&product_id=' . $result['product_id']) : null,
+                'thumb'         => $thumbnail,
             ];
         }
 
@@ -329,7 +336,11 @@ class ControllerResponsesProductProduct extends AController
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-        $this->processTemplate('responses/checkout/cart_details.tpl');
+        if($mode == 'html') {
+            return $this->view->fetch('responses/checkout/cart_details.tpl');
+        }else{
+            $this->processTemplate('responses/checkout/cart_details.tpl');
+        }
     }
 
     /*

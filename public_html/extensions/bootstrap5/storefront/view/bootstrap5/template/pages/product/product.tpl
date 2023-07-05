@@ -906,17 +906,19 @@ if( $hookVarArray ){
 
             let card = $('.product-page-preset-box');
             let prodName = card.find('h1').text();
-            let price = card.find('.product-price > .text-black').text();
-
             gtag("event", evtName, {
                 currency: currency,
-                value: $('.total-price').text(),
+                value: (<?php echo round( ( $special_num ?: $price_num ), 2); ?> * $('#product_quantity').val()),
                 items: [
                     {
                         item_id: <?php echo (int)$product_info['product_id']; ?>,
                         item_name: prodName.trim(),
                         affiliation: storeName,
-                        price: price,
+                        price: <?php echo round($price_num,2); ?>,
+                        <?php
+                        if($special_num){
+                            echo 'discount: '.round( ((float)$price_num - (float)$special_num),2).','."\n";
+                        } ?>
                         quantity: $('#product_quantity').val()
                     }
                 ]
