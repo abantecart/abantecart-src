@@ -1028,15 +1028,14 @@ class ControllerResponsesCheckoutPay extends AController
 
         $order_data['order_products'] = $this->model_account_order->getOrderProducts($order_id);
         $order_data['totals'] = $this->model_account_order->getOrderTotals($order_id);
-        $this->session->data['gaOrderData'] = AOrder::getGoogleAnalyticsOrderData( $order_data );
 
+        $this->data['gaOrderData'] = AOrder::getGoogleAnalyticsOrderData( $order_data );
+        $this->data['gaOrderData']['transaction_id'] = $order_id;
         $this->_clear_data();
         $this->data['step'] = 'process';
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-
         $this->data['order_id'] = $order_id;
-
         $this->view->batchAssign($this->data);
         $this->response->setOutput($this->view->fetch('responses/checkout/success.tpl'));
     }
