@@ -74,6 +74,7 @@ if($direction == 'rtl'){ ?>
     let samesite = '<?php echo((defined('HTTPS') && HTTPS) ? 'None; secure=1;' : 'lax; secure=0;'); ?>';
     let is_retina = <?php echo $retina ? 'true' : 'false'; ?>;
     let currency = '<?php echo $this->request->cookie['currency']; ?>';
+    let default_currency = '<?php echo $this->config->get('config_currency'); ?>';
     let language = '<?php echo $this->request->cookie['language']; ?>';
     let cart_url = '<?php echo $cart_url; ?>';
     let call_to_order_url = '<?php echo $call_to_order_url;?>';

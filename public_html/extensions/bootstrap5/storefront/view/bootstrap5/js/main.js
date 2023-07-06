@@ -125,7 +125,7 @@ $(document).ready(function(){
                             ? data.added_item_quantity - parseInt(item.next().text(),10)
                             : data.added_item_quantity;
                         gtag("event", "add_to_cart", {
-                            currency: currency,
+                            currency: default_currency,
                             value: addedQnty * productData.price_num,
                             items: [
                                 {
