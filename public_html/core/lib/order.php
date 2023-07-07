@@ -494,7 +494,7 @@ class AOrder
                 }
 
                 $gaOrderData['items'][] = [
-                    'item_id'   => (int)$order_data['order_id'],
+                    'item_id'   => (int)$product['product_id'],
                     'item_name' => $product['name'],
                     'sku'       => $sku,
                     'price'     => (float)$product['price'],
