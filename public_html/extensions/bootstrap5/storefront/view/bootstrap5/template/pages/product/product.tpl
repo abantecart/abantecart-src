@@ -103,7 +103,10 @@ if ($error){ ?>
                     <div class="blurb"><?php echo $product_info['blurb'] ?></div>
                     <div class="d-flex flex-column product-price mb-4">
                         <?php
-                        if ($display_price){
+                        if ($display_price){ ?>
+                            <input id="product_price_num" type="hidden" disabled value="<?php echo round(($special_num ?: $price_num), 2);?>">
+                            <input id="product_total_num" type="hidden" disabled value="">
+                        <?php
                             $tax_message = '';
                             if($config_tax && !$tax_exempt && $tax_class_id){
                                 $tax_message = '&nbsp;&nbsp;<span class="productpricesmall">'.$price_with_tax.'</span>';
@@ -553,7 +556,7 @@ if( $hookVarArray ){
                 items: [{
                     item_name: <?php js_echo($heading_title);?>,
                     item_id: <?php echo (int)$product_info['product_id']; ?>,
-                    price: <?php echo $display_price ? $product_info['price'] : 0; ?>,
+                    price: $('#product_price_num') ? $('#product_price_num').val() :  0 ,
                     item_brand: <?php js_echo($manufacturer);?>,
                     quantity: <?php echo (int)$form['minimum']->value;?>
                 }]
@@ -758,10 +761,13 @@ if( $hookVarArray ){
                         $('.total-price-holder').show()
                             .css('visibility', 'visible');
                         $('.total-price').html(data.total);
+                        if( $('product_price_num') ){
+                            $('product_price_num').val( data.raw_price_num);
+                            $('product_total_num').val( data.raw_total_num);
+                        }
                     }
                 }
             });
-
         }
 
         function reload_review(url) {

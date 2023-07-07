@@ -374,6 +374,18 @@ class ControllerResponsesProductProduct extends AController
                 $config_tax
             );
             $output['total'] = $this->currency->format_total($output['price'], $quantity);
+
+            $output['raw_total_num'] = $this->currency->convert(
+                $output['price']*$quantity,
+                $this->currency->getCode(),
+                $this->config->get('config_currency')
+            );
+
+            $output['raw_price_num'] = $this->currency->convert(
+                $output['price'],
+                $this->currency->getCode(),
+                $this->config->get('config_currency')
+            );
             $output['price'] = $this->currency->format($output['price']);
         }
 
