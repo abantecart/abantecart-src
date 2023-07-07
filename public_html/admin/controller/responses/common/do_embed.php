@@ -373,28 +373,37 @@ class ControllerResponsesCommonDoEmbed extends AController
         $this->data['help_url'] = $this->gen_help_url('embed');
 
         $template_name = $this->config->get('config_storefront_template');
-        $this->data['sf_css_embed_url'] = $remote_store_url.'storefront/view/default/stylesheet/embed.css';
-
-        //override css url for extension templates
-        if ($template_name != 'default') {
-            $css_file = DIR_ROOT
-                .'/extensions/'
-                .$template_name
-                .'/storefront/view/'
-                .$template_name
-                .'/stylesheet/embed.css';
-
+        //look into extensions
+        foreach(['stylesheet','css'] as $cssDir){
+            $cssRelPath = 'extensions/'.$template_name.'/storefront/view/'.$template_name.'/'.$cssDir.'/embed.css';
+            $css_file = DIR_ROOT.'/'.$cssRelPath;
             if (is_file($css_file)) {
-                $this->data['sf_css_embed_url'] =
-                    $remote_store_url
-                    .'extensions/'
-                    .$template_name
-                    .'/storefront/view/'
-                    .$template_name
-                    .'/stylesheet/embed.css';
+                $this->data['sf_css_embed_url'] = $remote_store_url.$cssRelPath;
+                break;
             }
         }
-
+        //look into core
+        if(!$this->data['sf_css_embed_url']) {
+            foreach (['stylesheet', 'css'] as $cssDir) {
+                $cssRelPath = 'storefront/view/' . $template_name . '/' . $cssDir . '/embed.css';
+                $css_file = DIR_ROOT . '/' . $cssRelPath;
+                if (is_file($css_file)) {
+                    $this->data['sf_css_embed_url'] = $remote_store_url . $cssRelPath;
+                    break;
+                }
+            }
+        }
+        //look into default
+        if(!$this->data['sf_css_embed_url']) {
+            foreach (['stylesheet', 'css'] as $cssDir) {
+                $cssRelPath = 'storefront/view/default/' . $cssDir . '/embed.css';
+                $css_file = DIR_ROOT . '/' . $cssRelPath;
+                if (is_file($css_file)) {
+                    $this->data['sf_css_embed_url'] = $remote_store_url . $cssRelPath;
+                    break;
+                }
+            }
+        }
         $this->loadlanguage('common/do_embed');
         $this->view->batchAssign($this->language->getASet('common/do_embed'));
         $this->view->batchAssign($this->data);
