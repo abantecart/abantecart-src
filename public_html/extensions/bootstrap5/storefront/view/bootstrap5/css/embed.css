@@ -33,15 +33,15 @@ AbanteCart storefront CSS-styles for embedded blocks
 
 .abantecart-widget-cart .cart_count {
     position: relative;
-    top: 66px;
-    left: 48px;
+    top: 46px;
+    left: 40px;
     width: 47px;
     text-align: center;
     color: #000000;
     font-weight: bolder;
     font-family: "Arial", "sans-serif";
-    background-color: white;
-    border: 2px solid black;
+    background: none;
+    border: 0;
 }
 
 a.abantecart-widget-cart {
