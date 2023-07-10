@@ -762,8 +762,8 @@ if( $hookVarArray ){
                             .css('visibility', 'visible');
                         $('.total-price').html(data.total);
                         if( $('product_price_num') ){
-                            $('product_price_num').val( data.raw_price_num);
-                            $('product_total_num').val( data.raw_total_num);
+                            $('#product_price_num').val( data.raw_price_num);
+                            $('#product_total_num').val( data.raw_total_num);
                         }
                     }
                 }
