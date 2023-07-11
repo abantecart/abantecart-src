@@ -27,14 +27,14 @@ AbanteCart storefront CSS-styles for embedded blocks
     overflow: auto;
     visibility: visible;
     background: transparent url(../image/shoppingbag_icon.png) no-repeat;
-    background-size: 130px;
+    background-size: 80px;
     z-index: 20000;
 }
 
 .abantecart-widget-cart .cart_count {
     position: relative;
-    top: 46px;
-    left: 40px;
+    top: 27px;
+    left: 17px;
     width: 47px;
     text-align: center;
     color: #000000;
