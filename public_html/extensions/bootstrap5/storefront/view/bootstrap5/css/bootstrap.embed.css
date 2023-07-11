@@ -6,17 +6,17 @@
 }
 .abcmodal_close {
   float: right;
-  font-size: 16px;
+  font-size: 24px;
   font-weight: bold;
   line-height: 1;
-  color: #000;
+  color: #ffffff;
   text-shadow: 0 1px 0 #fff;
-  filter: alpha(opacity=20);
-  opacity: .2;
+  filter: alpha(opacity=90);
+  opacity: .9;
 }
 .abcmodal_close:hover,
 .abcmodal_close:focus {
-  color: #000;
+  color: #bfc9ff;
   text-decoration: none;
   cursor: pointer;
   filter: alpha(opacity=50);

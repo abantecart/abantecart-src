@@ -210,6 +210,11 @@ var init = function () {
                         abc_populate_cart(w_url, abc_add_common_params($first_obj));
                     });
             } else {
+                function popupwindow(url, title, w, h) {
+                    var left = (screen.width/2)-(w/2);
+                    var top = (screen.height/2)-(h/2);
+                    return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);
+                }
                 //for direct-link mode
                 $(document).on('click', "[data-toggle='abcmodal']", function () {
                     var url = $(this).attr('data-href');
@@ -218,16 +223,12 @@ var init = function () {
                         if (embed_click_action === 'same_window') {
                             window.location = url;
                         } else {
-                            window.open(url,
-                                'embed-store',
-                                'width=800,height=600,left=200,top=200'
-                            );
+                            popupwindow(url,'embed-store', 960, 600);
                         }
                         return false;
                     }
                 });
             }
-
 
             // Poll for abc_process_wrapper to come into existence
             var processReady = function (callback) {

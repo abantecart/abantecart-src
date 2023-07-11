@@ -86,4 +86,4 @@ foreach ($scripts as $script) { ?>
 <script type="text/javascript" src="<?php echo $script; ?>" defer></script>
 <?php } ?>
 </head>
-<body>
+<body style="padding: 15px;">

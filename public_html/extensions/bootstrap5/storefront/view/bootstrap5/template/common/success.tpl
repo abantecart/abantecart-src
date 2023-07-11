@@ -1,3 +1,3 @@
 <?php echo $head;
-include($this->templateResource('/template/pages/common/success.tpl'));
+include($this->templateResource('/template/common/success.tpl'));
 echo $footer; ?>
