@@ -100,6 +100,7 @@ class ControllerResponsesCheckoutPay extends AController
 
     public function main()
     {
+        $this->data['error'] = '';
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $request = array_merge($this->request->get, $this->request->post);
         //handle coupon
@@ -201,6 +202,12 @@ class ControllerResponsesCheckoutPay extends AController
                 $this->fc_session['payment_address_id'] = $adr['address_id'];
             }
             $this->data['payment_address'] = $this->model_account_address->getAddress($this->fc_session['payment_address_id']);
+            $addressData = $this->model_account_address->getAddress($this->fc_session['payment_address_id']);
+            //validate payment address. See hook calls inside. Some extensions can affect on it
+            $this->error = $this->model_account_address->validateAddressData($addressData);
+            if($this->error) {
+                $this->data['error'] = implode("\n", $this->error);
+            }
         } elseif ($this->allow_guest) {
             //set default value if allow to create account for guests
             if(
@@ -405,7 +412,7 @@ class ControllerResponsesCheckoutPay extends AController
 
         //last step with payment form
         $this->data['action'] = $this->action;
-        $this->data['error'] = '';
+
         if ($this->fc_session['guest']) {
             $this->data['edit_address_url'] = $this->html->getSecureURL(
                 'r/checkout/pay/edit_address',
