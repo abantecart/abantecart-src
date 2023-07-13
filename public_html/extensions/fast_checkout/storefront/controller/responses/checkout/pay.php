@@ -199,14 +199,15 @@ class ControllerResponsesCheckoutPay extends AController
             }
             if (!$address_id) {
                 $adr = current($this->data['all_addresses']);
-                $this->fc_session['payment_address_id'] = $adr['address_id'];
+                $address_id = $this->fc_session['payment_address_id'] = $adr['address_id'];
             }
-            $this->data['payment_address'] = $this->model_account_address->getAddress($this->fc_session['payment_address_id']);
-            $addressData = $this->model_account_address->getAddress($this->fc_session['payment_address_id']);
-            //validate payment address. See hook calls inside. Some extensions can affect on it
-            $this->error = $this->model_account_address->validateAddressData($addressData);
-            if($this->error) {
-                $this->data['error'] = implode("\n", $this->error);
+            $this->data['payment_address'] = $this->model_account_address->getAddress($address_id);
+            if(!$this->request->get['shipping_address_id']) {
+                //validate payment address. See hook calls inside. Some extensions can affect on it
+                $this->error = $this->model_account_address->validateAddressData($this->data['payment_address']);
+                if ($this->error) {
+                    $this->data['error'] = $this->language->get('fast_checkout_text_payment_address') . ": " . implode("\n", $this->error);
+                }
             }
         } elseif ($this->allow_guest) {
             //set default value if allow to create account for guests
@@ -285,13 +286,20 @@ class ControllerResponsesCheckoutPay extends AController
                 }
                 if (!$address_id) {
                     $adr = current($this->data['all_addresses']);
-                    $this->fc_session['shipping_address_id'] = $adr['address_id'];
+                    $address_id = $this->fc_session['shipping_address_id'] = $adr['address_id'];
                     if (!$this->config->get('config_tax_customer')) {
                         $tax_zone_id = $adr['zone_id'];
                         $tax_country_id = $adr['country_id'];
                     }
                 }elseif($this->config->get('fast_checkout_payment_address_equal_shipping')){
                     $this->fc_session['payment_address_id'] = $address_id;
+                }
+
+                $addressData = $this->model_account_address->getAddress($address_id);
+                //validate payment address. See hook calls inside. Some extensions can affect on it
+                $this->error = $this->model_account_address->validateAddressData($addressData);
+                if($this->error) {
+                    $this->data['error'] = $this->language->get('fast_checkout_text_shipping_address').": ". implode("\n", $this->error);
                 }
             } else {
                 if ($this->allow_guest && !$this->fc_session['guest']['shipping']) {
@@ -352,10 +360,8 @@ class ControllerResponsesCheckoutPay extends AController
 
         //do we show payment details yet? Show only if shipping selected
         $this->data['show_payment'] = true;
-        if ($this->cart->hasShipping()
-            && count(
-                $this->fc_session['shipping_methods']
-            )) {
+        if ($this->cart->hasShipping() && count($this->fc_session['shipping_methods'])
+        ) {
             if (!$this->fc_session['shipping_method']) {
                 //no shipping selected yet, not ready for payment
                 $this->data['show_payment'] = false;
