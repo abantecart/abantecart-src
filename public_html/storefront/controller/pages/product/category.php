@@ -62,7 +62,7 @@ class ControllerPagesProductCategory extends AController
         $request = $this->request->get;
 
         //is this an embed mode
-        $cart_rt = $this->config->get('embed_mode')
+        $this->data['cart_rt'] = $this->config->get('embed_mode')
             ? 'r/checkout/cart/embed'
             : 'checkout/cart';
 
@@ -164,8 +164,12 @@ class ControllerPagesProductCategory extends AController
                 $limit
             );
 
-            $product_total = $products_result[0]['total_num_rows']
-                ?? $this->model_catalog_product->getTotalProductsByCategoryId($category_id);
+            $product_total = $products_result
+                ? ( $products_result[0]['total_num_rows']
+                    ?? $this->model_catalog_product->getTotalProductsByCategoryId($category_id)
+                  )
+                : 0;
+
             if ($category_total || $product_total) {
                 $categories = [];
 
@@ -255,7 +259,7 @@ class ControllerPagesProductCategory extends AController
                         $add = $this->config->get('config_cart_ajax')
                             ? '#'
                             : $this->html->getSecureURL(
-                                $cart_rt,
+                                $this->data['cart_rt'],
                                 '&product_id=' . $result['product_id'],
                                 '&encode'
                             );

@@ -115,7 +115,7 @@
                                             }else{ ?>
                                             <div class="position-relative btn btn-sm btn-success">
                                                 <a class="text-decoration-none text-white"
-                                                   href="<?php echo $this->html->getSecureURL('checkout/cart'); ?>">
+                                                   href="<?php echo $this->html->getSecureURL( ($cart_rt ?:'checkout/cart')); ?>">
                                                     <i title="<?php echo_html2view($text_add_cart_confirm); ?>"
                                                        class="<?php echo !in_array((int)$product['product_id'], $cartProductIds) ? 'visually-hidden ' : '';?>fa fa-check fa-xl me-2 text-warning"></i>
                                                 </a>

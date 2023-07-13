@@ -340,7 +340,9 @@ class ModelCatalogProduct extends Model
 
             $sql .= " LIMIT ".(int) $start.",".(int) $limit;
             $query = $this->db->query($sql);
-            $query->rows[0]['total_num_rows'] = $this->db->getTotalNumRows();
+            if($query->rows) {
+                $query->rows[0]['total_num_rows'] = $this->db->getTotalNumRows();
+            }
             $cache = $query->rows;
             $this->cache->push($cache_key, $cache);
         }
