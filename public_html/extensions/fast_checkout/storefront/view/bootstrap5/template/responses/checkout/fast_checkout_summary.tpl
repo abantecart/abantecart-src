@@ -54,9 +54,9 @@
 
             <?php if ($total_items > $cart_view_limit) {  ?>
                 <tr>
-                    <td >
-                        <a class="d-flex justify-content-center" title="see more cart products" href="<?php echo $view; ?>">
-                            <i class="fa fa-chevron-down fa-lg"></i>
+                    <td class="table-light text-center">
+                        <a class="btn btn-lightblue btn-sm" title="see more cart products" href="<?php echo $this->html->getSecureUrl($cart_rt); ?>">
+                            <i class="fa fa-angles-down fa-lg"></i>
                         </a>
                     </td>
                 </tr>

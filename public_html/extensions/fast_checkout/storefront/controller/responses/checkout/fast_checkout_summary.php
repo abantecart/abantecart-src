@@ -70,6 +70,11 @@ class ControllerResponsesCheckoutFastCheckoutSummary extends AController
 
     public function main()
     {
+        //is this an embed mode
+        $this->data['cart_rt'] = $this->config->get('embed_mode')
+            ? 'r/checkout/cart/embed'
+            : 'checkout/cart';
+
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->loadLanguage('fast_checkout/fast_checkout');
