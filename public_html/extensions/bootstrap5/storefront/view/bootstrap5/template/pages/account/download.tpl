@@ -56,7 +56,7 @@ if ($error_warning) { ?>
         </div>
     <?php } ?>
     <?php echo $pagination_bootstrap; ?>
-    <a href="<?php echo $continue; ?>" class="btn btn-secondary mt-3" title="<?php echo_html2view($button_continue->text); ?>">
+    <a href="<?php echo $button_continue->href; ?>" class="btn btn-secondary mt-3" title="<?php echo_html2view($button_continue->text); ?>">
         <i class="<?php echo $button_continue->icon; ?>"></i>
         <?php echo $button_continue->text ?>
     </a>
