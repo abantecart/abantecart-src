@@ -605,13 +605,13 @@ AbanteCart is a free eCommerce solution for merchants to provide ability creatin
 							<description><![CDATA[]]></description>
 							<content><![CDATA[&lt;div id=&quot;mainPageSliderIndicators&quot; class=&quot;carousel carousel-dark slide bg-light&quot; data-bs-ride=&quot;carousel&quot;&gt;
                   &lt;div class=&quot;carousel-indicators&quot;&gt;
-                      &lt;button type=&quot;button&quot; data-bs-target=&quot;#carouselExampleIndicators&quot; data-bs-slide-to=&quot;0&quot; class=&quot;active&quot;
+                      &lt;button type=&quot;button&quot; data-bs-target=&quot;#mainPageSliderIndicators&quot; data-bs-slide-to=&quot;0&quot; class=&quot;active&quot;
                               aria-current=&quot;true&quot; aria-label=&quot;Slide 1&quot;&gt;&lt;/button&gt;
-                      &lt;button type=&quot;button&quot; data-bs-target=&quot;#carouselExampleIndicators&quot; data-bs-slide-to=&quot;1&quot;
+                      &lt;button type=&quot;button&quot; data-bs-target=&quot;#mainPageSliderIndicators&quot; data-bs-slide-to=&quot;1&quot;
                               aria-label=&quot;Slide 2&quot;&gt;&lt;/button&gt;
-                      &lt;button type=&quot;button&quot; data-bs-target=&quot;#carouselExampleIndicators&quot; data-bs-slide-to=&quot;2&quot;
+                      &lt;button type=&quot;button&quot; data-bs-target=&quot;#mainPageSliderIndicators&quot; data-bs-slide-to=&quot;2&quot;
                               aria-label=&quot;Slide 3&quot;&gt;&lt;/button&gt;
-                      &lt;button type=&quot;button&quot; data-bs-target=&quot;#carouselExampleIndicators&quot; data-bs-slide-to=&quot;3&quot;
+                      &lt;button type=&quot;button&quot; data-bs-target=&quot;#mainPageSliderIndicators&quot; data-bs-slide-to=&quot;3&quot;
                               aria-label=&quot;Slide 4&quot;&gt;&lt;/button&gt;
 
                   &lt;/div&gt;
