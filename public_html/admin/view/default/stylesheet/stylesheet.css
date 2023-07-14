@@ -24,6 +24,14 @@ body {
 	line-height: 21px;
 	color: #636e7b;
 }
+.blink {
+	animation: blinker 0.5s linear infinite;
+}
+@keyframes blinker {
+	50% {
+		opacity: 0.1;
+	}
+}
 
 .abc_orange {
 	color: #F19013;
