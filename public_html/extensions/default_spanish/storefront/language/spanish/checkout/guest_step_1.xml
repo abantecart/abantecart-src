@@ -100,10 +100,10 @@
 		<key>error_city</key>
 		<value><![CDATA[La ciudad 1 debe tener entre 3 y 128 caracteres!]]></value>
 	</definition>
-    <definition>
-        <key>error_postcode</key>
-        <value><![CDATA[Código Postal debe estar entre 3 y 10 caracteres!]]></value>
-    </definition>
+	<definition>
+		<key>error_postcode</key>
+		<value><![CDATA[Código Postal debe estar entre 3 y 10 caracteres!]]></value>
+	</definition>
 	<definition>
 		<key>error_country</key>
 		<value><![CDATA[Por favor selecciona un pais!]]></value>
