@@ -30,7 +30,7 @@
 	</definition>
 	<definition>
 		<key>text_discount</key>
-		<value><![CDATA[Discounts]]></value>
+		<value><![CDATA[Descuentos]]></value>
 	</definition>
 	<definition>
 		<key>text_currency</key>
@@ -130,7 +130,7 @@
 	</definition>
 	<definition>
 		<key>text_online</key>
-		<value><![CDATA[Online]]></value>
+		<value><![CDATA[En línea]]></value>
 	</definition>
 	<definition>
 		<key>text_transactions</key>
@@ -466,7 +466,7 @@
 	</definition>
 	<definition>
 		<key>text_analytics</key>
-		<value><![CDATA[Analytics & Insights]]></value>
+		<value><![CDATA[Análisis e información]]></value>
 	</definition>
 	<definition>
 		<key>text_server_time</key>

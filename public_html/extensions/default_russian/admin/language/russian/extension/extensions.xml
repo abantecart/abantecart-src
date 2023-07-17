@@ -226,7 +226,7 @@
 	</definition>
 	<definition>
 		<key>text_update_available</key>
-		<value><![CDATA[New version (%s) is available. <a href="%s">Click to update now.</a>]]></value>
+		<value><![CDATA[Доступна новая версия (%s). <a href="%s">Нажмите, чтобы обновить сейчас.</a>]]></value>
 	</definition>
 	<definition>
 		<key>text_update_it</key>
@@ -335,63 +335,63 @@
 	</definition>
 	<definition>
 		<key>text_ready_to_install</key>
-		<value><![CDATA[Ready to install]]></value>
+		<value><![CDATA[Готов к установке]]></value>
 	</definition>
 	<definition>
 		<key>button_install</key>
-		<value><![CDATA[Install]]></value>
+		<value><![CDATA[Установить]]></value>
 	</definition>
 	<definition>
 		<key>error_dependencies</key>
-		<value><![CDATA[This extension cannot be enabled because required dependency missing or not enabled.]]></value>
+		<value><![CDATA[Это расширение нельзя включить, так как необходимая зависимость отсутствует или не включена.]]></value>
 	</definition>
 	<definition>
 		<key>button_howto</key>
-		<value><![CDATA[How To]]></value>
+		<value><![CDATA[Помощь]]></value>
 	</definition>
 	<definition>
 		<key>text_developer_site</key>
-		<value><![CDATA[External support site]]></value>
+		<value><![CDATA[Сайт поддержки]]></value>
 	</definition>
 	<definition>
 		<key>text_preview</key>
-		<value><![CDATA[Preview]]></value>
+		<value><![CDATA[Предварительный просмотр]]></value>
 	</definition>
 	<definition>
 		<key>text_confirmation</key>
-		<value><![CDATA[Confirmation]]></value>
+		<value><![CDATA[Подтверждение]]></value>
 	</definition>
 	<definition>
 		<key>button_confirm</key>
-		<value><![CDATA[Confirm]]></value>
+		<value><![CDATA[Подтвердить]]></value>
 	</definition>
 	<definition>
 		<key>button_continue</key>
-		<value><![CDATA[Continue]]></value>
+		<value><![CDATA[Продолжить]]></value>
 	</definition>
 	<definition>
 		<key>button_cancel</key>
-		<value><![CDATA[Cancel]]></value>
+		<value><![CDATA[Отмена]]></value>
 	</definition>
 	<definition>
 		<key>error_could_not_load_config</key>
-		<value><![CDATA[Error: Could not load config for <b>%s</b> (%s)!]]></value>
+		<value><![CDATA[Ошибка: Не удалось загрузить конфигурацию для <b>%s</b> (%s)!]]></value>
 	</definition>
 	<definition>
 		<key>error_could_not_load_override</key>
-		<value><![CDATA[Error: Cannot load override template %s in extension %s!]]></value>
+		<value><![CDATA[Ошибка: Невозможно загрузить шаблон переопределения %s в расширение %s!]]></value>
 	</definition>
 	<definition>
 		<key>tab_general</key>
-		<value><![CDATA[General]]></value>
+		<value><![CDATA[Общее]]></value>
 	</definition>
 	<definition>
 		<key>tab_additional_settings</key>
-		<value><![CDATA[Additional Settings]]></value>
+		<value><![CDATA[Дополнительные настройки]]></value>
 	</definition>
 	<definition>
 		<key>text_more_extensions</key>
-		<value><![CDATA[More extensions are available for easy install.]]></value>
+		<value><![CDATA[Больше расширений доступно для легкой установки.]]></value>
 	</definition>
 	<definition>
 		<key>text_save_success</key>
@@ -428,5 +428,13 @@
 	<definition>
 		<key>text_max_weight</key>
 		<value><![CDATA[Максимальный вес посылки (%s)]]></value>
+	</definition>
+	<definition>
+		<key>text_min_order_subtotal</key>
+		<value><![CDATA[Минимальная промежуточная сумма заказа: <span class="help">введите минимальную промежуточную сумму заказа для варианта доставки, который будет доступен для клиента. Это поле является необязательным.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_max_order_subtotal</key>
+		<value><![CDATA[Максимальная промежуточная сумма заказа: <span class="help">введите максимальную промежуточную сумму заказа для варианта доставки, доступного для клиента. Это поле является необязательным.</span>]]></value>
 	</definition>
 </definitions>

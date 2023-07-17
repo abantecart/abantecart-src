@@ -2,11 +2,11 @@
 <definitions>
 	<definition>
 		<key>text_get_product_embed_code</key>
-		<value><![CDATA[Product Embed Code]]></value>
+		<value><![CDATA[Codice di incorporamento del prodotto]]></value>
 	</definition>
 	<definition>
 		<key>text_get_category_embed_code</key>
-		<value><![CDATA[Category Embed Code]]></value>
+		<value><![CDATA[Codice di incorporamento della categoria]]></value>
 	</definition>
 	<definition>
 		<key>text_get_manufacturer_embed_code</key>
@@ -14,43 +14,43 @@
 	</definition>
 	<definition>
 		<key>entry_image</key>
-		<value><![CDATA[Show Image]]></value>
+		<value><![CDATA[Mostra immagine]]></value>
 	</definition>
 	<definition>
 		<key>entry_name</key>
-		<value><![CDATA[Show Name]]></value>
+		<value><![CDATA[Mostra nome]]></value>
 	</definition>
 	<definition>
 		<key>entry_price</key>
-		<value><![CDATA[Show Price]]></value>
+		<value><![CDATA[Mostra prezzo]]></value>
 	</definition>
 	<definition>
 		<key>entry_rating</key>
-		<value><![CDATA[Show Reviews And Rating]]></value>
+		<value><![CDATA[Mostra recensioni e valutazione]]></value>
 	</definition>
 	<definition>
 		<key>entry_blurb</key>
-		<value><![CDATA[Show Blurb]]></value>
+		<value><![CDATA[Mostra Blurb]]></value>
 	</definition>
 	<definition>
 		<key>entry_quantity</key>
-		<value><![CDATA[Show Quantity]]></value>
+		<value><![CDATA[Mostra quantità]]></value>
 	</definition>
 	<definition>
 		<key>entry_addtocart</key>
-		<value><![CDATA[Show Button]]></value>
+		<value><![CDATA[Mostra pulsante]]></value>
 	</definition>
 	<definition>
 		<key>entry_language</key>
-		<value><![CDATA[Select Language]]></value>
+		<value><![CDATA[Seleziona la lingua]]></value>
 	</definition>
 	<definition>
 		<key>entry_currency</key>
-		<value><![CDATA[Select Currency]]></value>
+		<value><![CDATA[Seleziona Valuta]]></value>
 	</definition>
 	<definition>
 		<key>entry_products_count</key>
-		<value><![CDATA[Products Count]]></value>
+		<value><![CDATA[Conteggio prodotti]]></value>
 	</definition>
 	<definition>
 		<key>entry_products_count</key>

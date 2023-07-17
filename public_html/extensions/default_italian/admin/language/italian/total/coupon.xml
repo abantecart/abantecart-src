@@ -2,11 +2,11 @@
 <definitions>
 	<definition>
 		<key>heading_title</key>
-		<value><![CDATA[Coupon]]></value>
+		<value><![CDATA[Buono]]></value>
 	</definition>
 	<definition>
 		<key>total_name</key>
-		<value><![CDATA[Coupon]]></value>
+		<value><![CDATA[Buono]]></value>
 	</definition>
 	<definition>
 		<key>text_total</key>

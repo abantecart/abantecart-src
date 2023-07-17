@@ -38,7 +38,7 @@
 	</definition>
 	<definition>
 		<key>text_import_loaded</key>
-		<value><![CDATA[Total loaded: ]]></value>
+		<value><![CDATA[Totalmente cargado:]]></value>
 	</definition>
 	<definition>
 		<key>text_file_field</key>

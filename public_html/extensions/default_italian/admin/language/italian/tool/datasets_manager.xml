@@ -10,7 +10,7 @@
 	</definition>
 	<definition>
 		<key>column_id</key>
-		<value><![CDATA[ Id ]]></value>
+		<value><![CDATA[Id]]></value>
 	</definition>
 	<definition>
 		<key>column_name</key>

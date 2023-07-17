@@ -46,7 +46,7 @@
 	</definition>
 	<definition>
 		<key>entry_mask</key>
-		<value><![CDATA[Download mask <span class="help">Filename alias for customer download output</span>]]></value>
+		<value><![CDATA[Maschera di download <span class="help">Alias nome file per l&#39;output di download del cliente</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_file_full_path</key>
@@ -54,7 +54,7 @@
 	</definition>
 	<definition>
 		<key>entry_file_max_downloads</key>
-		<value><![CDATA[Max Download]]></value>
+		<value><![CDATA[Download massimo]]></value>
 	</definition>
 	<definition>
 		<key>entry_file_sort_order</key>
@@ -98,7 +98,7 @@
 	</definition>
 	<definition>
 		<key>entry_max_downloads</key>
-		<value><![CDATA[Max downloads <span class="help">Count of downloads allowed for customer</span>]]></value>
+		<value><![CDATA[Numero massimo di download <span class="help">Numero di download consentiti per il cliente</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_activate</key>
@@ -110,7 +110,7 @@
 	</definition>
 	<definition>
 		<key>entry_expire_days</key>
-		<value><![CDATA[Expire days<span class="help">Count of days from date of purchase</span>]]></value>
+		<value><![CDATA[Giorni di scadenza <span class="help">Numero di giorni dalla data di acquisto</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_before_order</key>
@@ -134,47 +134,47 @@
 	</definition>
 	<definition>
 		<key>error_download_exists</key>
-		<value><![CDATA[Error: Cannot to update download because it does not exists in database! ]]></value>
+		<value><![CDATA[Errore: impossibile aggiornare il download perché non esiste nel database!]]></value>
 	</definition>
 	<definition>
 		<key>error_download_name</key>
-		<value><![CDATA[Error: Download name must have length between 2 and 128 characters! ]]></value>
+		<value><![CDATA[Errore: il nome del download deve avere una lunghezza compresa tra 2 e 128 caratteri!]]></value>
 	</definition>
 	<definition>
 		<key>error_max_downloads</key>
-		<value><![CDATA[Error: maximum downloads count must be greater 0! ]]></value>
+		<value><![CDATA[Errore: il numero massimo di download deve essere maggiore di 0!]]></value>
 	</definition>
 	<definition>
 		<key>error_activate</key>
-		<value><![CDATA[Error: select action for activation of download! ]]></value>
+		<value><![CDATA[Errore: selezionare l&#39;azione per l&#39;attivazione del download!]]></value>
 	</definition>
 	<definition>
 		<key>error_order_status</key>
-		<value><![CDATA[Error: select order status for activation of download! ]]></value>
+		<value><![CDATA[Errore: seleziona lo stato dell&#39;ordine per l&#39;attivazione del download!]]></value>
 	</definition>
 	<definition>
 		<key>error_download_attributes</key>
-		<value><![CDATA[Download Attributes Error(s):]]></value>
+		<value><![CDATA[Scarica gli attributi Error(s):]]></value>
 	</definition>
 	<definition>
 		<key>text_shared_downloads</key>
-		<value><![CDATA[Shared Downloads]]></value>
+		<value><![CDATA[Download condivisi]]></value>
 	</definition>
 	<definition>
 		<key>text_create_download</key>
-		<value><![CDATA[Create new download]]></value>
+		<value><![CDATA[Crea nuovo download]]></value>
 	</definition>
 	<definition>
 		<key>text_path</key>
-		<value><![CDATA[Relative path to file]]></value>
+		<value><![CDATA[Percorso relativo al file]]></value>
 	</definition>
 	<definition>
 		<key>text_preview</key>
-		<value><![CDATA[Preview]]></value>
+		<value><![CDATA[Anteprima]]></value>
 	</definition>
 	<definition>
 		<key>entry_shared</key>
-		<value><![CDATA[Shared Download]]></value>
+		<value><![CDATA[Download condiviso]]></value>
 	</definition>
 	<definition>
 		<key>text_assign</key>
@@ -182,43 +182,43 @@
 	</definition>
 	<definition>
 		<key>text_assigned_to</key>
-		<value><![CDATA[Also assigned to: ]]></value>
+		<value><![CDATA[Assegnato anche a:]]></value>
 	</definition>
 	<definition>
 		<key>text_select_shared_downloads</key>
-		<value><![CDATA[Select shared downloads]]></value>
+		<value><![CDATA[Seleziona i download condivisi]]></value>
 	</definition>
 	<definition>
 		<key>error_selected_downloads</key>
-		<value><![CDATA[Warning: Please select the shared downloads for assign.]]></value>
+		<value><![CDATA[Avviso: selezionare i download condivisi per l&#39;assegnazione.]]></value>
 	</definition>
 	<definition>
 		<key>text_map_success</key>
-		<value><![CDATA[Success: You have assigned shared downloads to product!]]></value>
+		<value><![CDATA[Operazione riuscita: hai assegnato i download condivisi al prodotto!]]></value>
 	</definition>
 	<definition>
 		<key>text_delete_or_refuse</key>
-		<value><![CDATA[delete or refuse (for shared)]]></value>
+		<value><![CDATA[elimina o rifiuta (per condiviso)]]></value>
 	</definition>
 	<definition>
 		<key>text_confirm_delete</key>
-		<value><![CDATA[Confirm download delete/refuse]]></value>
+		<value><![CDATA[Conferma l&#39;eliminazione/rifiuto del download]]></value>
 	</definition>
 	<definition>
 		<key>text_success_remove</key>
-		<value><![CDATA[Success: product files list changed!]]></value>
+		<value><![CDATA[Successo: elenco dei file del prodotto modificato!]]></value>
 	</definition>
 	<definition>
 		<key>text_push</key>
-		<value><![CDATA[Push]]></value>
+		<value><![CDATA[Spingere]]></value>
 	</definition>
 	<definition>
 		<key>text_push_to_customers</key>
-		<value><![CDATA[Push to Customers]]></value>
+		<value><![CDATA[Spingere ai clienti]]></value>
 	</definition>
 	<definition>
 		<key>text_push_to_orders</key>
-		<value><![CDATA[Push Download to %s Orders]]></value>
+		<value><![CDATA[Spingi il download su %s Ordini]]></value>
 	</definition>
 	<definition>
 		<key>success_push_to_orders</key>
@@ -226,31 +226,31 @@
 	</definition>
 	<definition>
 		<key>text_no_download_attributes_yet</key>
-		<value><![CDATA[ No download attributes yet. <a href="%s" target="_blank">Click to add</a>]]></value>
+		<value><![CDATA[Nessun attributo di download ancora. <a href="%s" target="_blank">Clicca per aggiungere</a>]]></value>
 	</definition>
 	<definition>
 		<key>text_confirm_push</key>
-		<value><![CDATA[ Confirm? ]]></value>
+		<value><![CDATA[Confermare?]]></value>
 	</definition>
 	<definition>
 		<key>error_downloads_disabled</key>
-		<value><![CDATA[Warning: Downloads are disabled in store settings. <a href="#admin#rt=setting/setting&active=general" target="new">Click to Edit</a>!]]></value>
+		<value><![CDATA[Attenzione: i download sono disabilitati nelle impostazioni del negozio. <a href="#admin#rt=setting/setting&active=general" target="new">Clicca per modificare</a> !]]></value>
 	</definition>
 	<definition>
 		<key>error_permission</key>
-		<value><![CDATA[Warning: You do not have permission to modify product files!]]></value>
+		<value><![CDATA[Attenzione: non sei autorizzato a modificare i file del prodotto!]]></value>
 	</definition>
 	<definition>
 		<key>error_file</key>
-		<value><![CDATA[Please set the file for download.]]></value>
+		<value><![CDATA[Si prega di impostare il file per il download.]]></value>
 	</definition>
 	<definition>
 		<key>attention_shared</key>
-		<value><![CDATA[You are about to edit shared download. Edit will effect other products.]]></value>
+		<value><![CDATA[Stai per modificare il download condiviso. La modifica avrà effetto su altri prodotti.]]></value>
 	</definition>
 	<definition>
 		<key>text_shared_with</key>
-		<value><![CDATA[Shared with:]]></value>
+		<value><![CDATA[Condiviso con:]]></value>
 	</definition>
 	<definition>
 		<key>entry_also_mapped_to</key>

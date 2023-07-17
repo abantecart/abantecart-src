@@ -6,7 +6,7 @@
 	</definition>
 	<definition>
 		<key>text_user</key>
-		<value><![CDATA[User]]></value>
+		<value><![CDATA[Usuario]]></value>
 	</definition>
 	<definition>
 		<key>text_edit_details</key>
@@ -18,7 +18,7 @@
 	</definition>
 	<definition>
 		<key>text_success_details</key>
-		<value><![CDATA[Success: You have modified your profile!]]></value>
+		<value><![CDATA[Éxito: ¡Has modificado tu perfil!]]></value>
 	</definition>
 	<definition>
 		<key>column_username</key>
@@ -30,7 +30,7 @@
 	</definition>
 	<definition>
 		<key>column_group</key>
-		<value><![CDATA[Group]]></value>
+		<value><![CDATA[Grupo]]></value>
 	</definition>
 	<definition>
 		<key>column_date_added</key>

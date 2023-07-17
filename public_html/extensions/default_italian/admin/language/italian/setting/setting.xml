@@ -82,7 +82,7 @@
 	</definition>
 	<definition>
 		<key>entry_email</key>
-		<value><![CDATA[E-Mail:]]></value>
+		<value><![CDATA[E-mail:]]></value>
 	</definition>
 	<definition>
 		<key>entry_alert_emails</key>
@@ -402,11 +402,11 @@
 	</definition>
 	<definition>
 		<key>entry_smtp_port</key>
-		<value><![CDATA[SMTP Port:]]></value>
+		<value><![CDATA[Porta SMTP:]]></value>
 	</definition>
 	<definition>
 		<key>entry_smtp_timeout</key>
-		<value><![CDATA[SMTP Timeout:]]></value>
+		<value><![CDATA[Timeout SMTP:]]></value>
 	</definition>
 	<definition>
 		<key>entry_ssl</key>
@@ -522,11 +522,11 @@
 	</definition>
 	<definition>
 		<key>entry_debug_level_4</key>
-		<value><![CDATA[Level 4 - #3 + dump mysql statements ]]></value>
+		<value><![CDATA[Livello 4 - #3 + dump istruzioni mysql]]></value>
 	</definition>
 	<definition>
 		<key>entry_debug_level_5</key>
-		<value><![CDATA[Level 5 - #4 + intermediate variable ]]></value>
+		<value><![CDATA[Livello 5 - #4 + variabile intermedia]]></value>
 	</definition>
 	<definition>
 		<key>entry_template_debug</key>
@@ -714,39 +714,39 @@
 	</definition>
 	<definition>
 		<key>text_sorting_sort_order_asc</key>
-		<value><![CDATA[Product's Sort Order Low &gt; High]]></value>
+		<value><![CDATA[Ordinamento del prodotto Basso &gt; Alto]]></value>
 	</definition>
 	<definition>
 		<key>text_sorting_name_asc</key>
-		<value><![CDATA[Name A - Z]]></value>
+		<value><![CDATA[Nome dalla A alla Z]]></value>
 	</definition>
 	<definition>
 		<key>text_sorting_name_desc</key>
-		<value><![CDATA[Name Z - A]]></value>
+		<value><![CDATA[Nome Z-A]]></value>
 	</definition>
 	<definition>
 		<key>text_sorting_price_asc</key>
-		<value><![CDATA[Price Low &gt; High]]></value>
+		<value><![CDATA[Prezzo Basso &gt; Alto]]></value>
 	</definition>
 	<definition>
 		<key>text_sorting_price_desc</key>
-		<value><![CDATA[Price High &gt; Low]]></value>
+		<value><![CDATA[Prezzo Alto &gt; Basso]]></value>
 	</definition>
 	<definition>
 		<key>text_sorting_rating_asc</key>
-		<value><![CDATA[Rating Lowest]]></value>
+		<value><![CDATA[Valutazione più bassa]]></value>
 	</definition>
 	<definition>
 		<key>text_sorting_rating_desc</key>
-		<value><![CDATA[Rating Highest]]></value>
+		<value><![CDATA[Voto più alto]]></value>
 	</definition>
 	<definition>
 		<key>text_sorting_date_asc</key>
-		<value><![CDATA[Date Old &gt; New]]></value>
+		<value><![CDATA[Data Vecchio &gt; Nuovo]]></value>
 	</definition>
 	<definition>
 		<key>text_sorting_date_desc</key>
-		<value><![CDATA[Date New &gt; Old]]></value>
+		<value><![CDATA[Data Nuovo &gt; Vecchio]]></value>
 	</definition>
 	<definition>
 		<key>entry_product_default_sort_order</key>
@@ -778,27 +778,27 @@
 	</definition>
 	<definition>
 		<key>text_clone_template</key>
-		<value><![CDATA[Clone Template With AbanteCart Developer Tools]]></value>
+		<value><![CDATA[Modello clone con strumenti per sviluppatori AbanteCart]]></value>
 	</definition>
 	<definition>
 		<key>entry_embed_status</key>
-		<value><![CDATA[Enable Storefront Embed:]]></value>
+		<value><![CDATA[Abilita l&#39;incorporamento della vetrina:]]></value>
 	</definition>
 	<definition>
 		<key>entry_embed_click_action</key>
-		<value><![CDATA[Embed Click Action:]]></value>
+		<value><![CDATA[Incorpora azione clic:]]></value>
 	</definition>
 	<definition>
 		<key>text_embed_click_action_modal</key>
-		<value><![CDATA[Same page Modal Dialog]]></value>
+		<value><![CDATA[Finestra di dialogo modale sulla stessa pagina]]></value>
 	</definition>
 	<definition>
 		<key>text_embed_click_action_new_window</key>
-		<value><![CDATA[Open new page in new tab]]></value>
+		<value><![CDATA[Apri una nuova pagina in una nuova scheda]]></value>
 	</definition>
 	<definition>
 		<key>text_embed_click_action_same_window</key>
-		<value><![CDATA[Open new page in same window]]></value>
+		<value><![CDATA[Apri una nuova pagina nella stessa finestra]]></value>
 	</definition>
 	<definition>
 		<key>entry_customer_cancelation_order_status</key>
@@ -863,7 +863,7 @@
 	</definition>
 	<definition>
 		<key>entry_sms_driver</key>
-		<value><![CDATA[SMS Provider]]></value>
+		<value><![CDATA[Fornitore di SMS]]></value>
 	</definition>
 	<definition>
 		<key>entry_sms_driver_tooltip</key>
@@ -911,8 +911,8 @@
 	</definition>
 	<definition>
 		<key>entry_google_analytics</key>
-		<value>
-			<![CDATA[Google Analytics 4 tag ID:<br /><span class="help">Add your <a href="https://support.google.com/analytics/answer/9539598?hl=en" target="_blank">Google Analytics tag ID</a> to enable site activity tracking. This also enables ecommerce activity tracking. You must enable ecommerce tracking in google on the profile settings page for your website</span>]]></value>
+		<value><![CDATA[
+ ID tag Google Analytics 4: <br/><span class="help">Aggiungi il tuo <a href="https://support.google.com/analytics/answer/9539598?hl=en" target="_blank">ID tag Google Analytics</a> per abilitare il monitoraggio dell&#39;attività del sito. Ciò consente anche il monitoraggio delle attività di e-commerce. Devi abilitare il monitoraggio dell&#39;e-commerce in google nella pagina delle impostazioni del profilo per il tuo sito web</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_duplicate_contact_us</key>

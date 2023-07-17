@@ -82,7 +82,7 @@
 	</definition>
 	<definition>
 		<key>entry_email</key>
-		<value><![CDATA[E-Mail:]]></value>
+		<value><![CDATA[Электронная почта:]]></value>
 	</definition>
 	<definition>
 		<key>entry_alert_emails</key>
@@ -786,11 +786,11 @@
 	</definition>
 	<definition>
 		<key>text_clone_template</key>
-		<value><![CDATA[Clone Template With AbanteCart Developer Tools]]></value>
+		<value><![CDATA[Клонирование шаблона с помощью инструментов разработчика AbanteCart]]></value>
 	</definition>
 	<definition>
 		<key>text_set_template</key>
-		<value><![CDATA[Set this template for the storefront]]></value>
+		<value><![CDATA[Установить этот шаблон для витрины]]></value>
 	</definition>
 	<definition>
 		<key>entry_embed_status</key>
@@ -859,11 +859,11 @@
 	</definition>
 	<definition>
 		<key>text_im_protocol</key>
-		<value><![CDATA[IM Protocol]]></value>
+		<value><![CDATA[Протокол обмена мгновенными сообщениями]]></value>
 	</definition>
 	<definition>
 		<key>entry_sms_driver</key>
-		<value><![CDATA[SMS Provider]]></value>
+		<value><![CDATA[SMS-провайдер]]></value>
 	</definition>
 	<definition>
 		<key>entry_sms_driver_tooltip</key>
@@ -915,8 +915,8 @@
 	</definition>
 	<definition>
 		<key>entry_google_analytics</key>
-		<value>
-			<![CDATA[Google Analytics 4 tag ID:<br /><span class="help">Add your <a href="https://support.google.com/analytics/answer/9539598?hl=en" target="_blank">Google Analytics tag ID</a> to enable site activity tracking. This also enables ecommerce activity tracking. You must enable ecommerce tracking in google on the profile settings page for your website</span>]]></value>
+		<value><![CDATA[
+ Идентификатор тега Google Analytics 4: <br/><span class="help">Добавьте <a href="https://support.google.com/analytics/answer/9539598?hl=en" target="_blank">идентификатор тега Google Analytics</a> , чтобы включить отслеживание активности на сайте. Это также позволяет отслеживать активность электронной торговли. Вы должны включить отслеживание электронной торговли в Google на странице настроек профиля вашего сайта.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_tax_class</key>

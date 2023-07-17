@@ -90,11 +90,11 @@
 	</definition>
 	<definition>
 		<key>text_sorting_review_asc</key>
-		<value><![CDATA[Review Count Low > High]]></value>
+		<value><![CDATA[Rivedere il conteggio basso &gt; alto]]></value>
 	</definition>
 	<definition>
 		<key>text_sorting_review_desc</key>
-		<value><![CDATA[Review Count High > Low]]></value>
+		<value><![CDATA[Esamina Conteggio alto &gt; Basso]]></value>
 	</definition>
 	<definition>
 		<key>text_sorting_price_asc</key>
@@ -130,7 +130,7 @@
 	</definition>
 	<definition>
 		<key>text_marketplace_site</key>
-		<value><![CDATA[Marketplace Site]]></value>
+		<value><![CDATA[Sito del mercato]]></value>
 	</definition>
 	<definition>
 		<key>text_all_categories</key>

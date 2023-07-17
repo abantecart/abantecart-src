@@ -626,11 +626,11 @@
 	</definition>
 	<definition>
 		<key>text_on</key>
-		<value><![CDATA[ON]]></value>
+		<value><![CDATA[EN]]></value>
 	</definition>
 	<definition>
 		<key>text_off</key>
-		<value><![CDATA[OFF]]></value>
+		<value><![CDATA[APAGADO]]></value>
 	</definition>
 	<definition>
 		<key>text_external_help</key>

@@ -38,7 +38,7 @@
 	</definition>
 	<definition>
 		<key>entry_email</key>
-		<value><![CDATA[E-Mail:]]></value>
+		<value><![CDATA[E-mail:]]></value>
 	</definition>
 	<definition>
 		<key>entry_telephone</key>
@@ -78,7 +78,7 @@
 	</definition>
 	<definition>
 		<key>error_firstname</key>
-		<value><![CDATA[Il nome deve essere superiore di  3 e inferiore di 32 caratteri!]]></value>
+		<value><![CDATA[Il nome deve essere superiore di 3 e inferiore di 32 caratteri!]]></value>
 	</definition>
 	<definition>
 		<key>error_lastname</key>
@@ -100,10 +100,10 @@
 		<key>error_city</key>
 		<value><![CDATA[La città deve avere da 3 a 128 caratteri!]]></value>
 	</definition>
-    <definition>
-        <key>error_postcode</key>
-        <value><![CDATA[Inserisci C.A.P.!]]></value>
-    </definition>
+	<definition>
+		<key>error_postcode</key>
+		<value><![CDATA[Inserisci C.A.P.!]]></value>
+	</definition>
 	<definition>
 		<key>error_country</key>
 		<value><![CDATA[Saeleziona nazione!]]></value>

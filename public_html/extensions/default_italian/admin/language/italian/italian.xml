@@ -38,7 +38,7 @@
 	</definition>
 	<definition>
 		<key>text_no</key>
-		<value><![CDATA[No]]></value>
+		<value><![CDATA[NO]]></value>
 	</definition>
 	<definition>
 		<key>text_plus</key>
@@ -134,7 +134,7 @@
 	</definition>
 	<definition>
 		<key>button_reset</key>
-		<value><![CDATA[Reset]]></value>
+		<value><![CDATA[Ripristina]]></value>
 	</definition>
 	<definition>
 		<key>button_clear</key>
@@ -282,7 +282,7 @@
 	</definition>
 	<definition>
 		<key>tab_system</key>
-		<value><![CDATA[System]]></value>
+		<value><![CDATA[Sistema]]></value>
 	</definition>
 	<definition>
 		<key>tab_store</key>
@@ -298,7 +298,7 @@
 	</definition>
 	<definition>
 		<key>tab_mail</key>
-		<value><![CDATA[Mail]]></value>
+		<value><![CDATA[Posta]]></value>
 	</definition>
 	<definition>
 		<key>tab_order</key>
@@ -606,7 +606,7 @@
 	</definition>
 	<definition>
 		<key>button_download</key>
-		<value><![CDATA[Download]]></value>
+		<value><![CDATA[Scaricamento]]></value>
 	</definition>
 	<definition>
 		<key>recent_customers</key>

@@ -6,11 +6,11 @@
 	</definition>
 	<definition>
 		<key>heading_title_step_one</key>
-		<value><![CDATA[ - Step 1]]></value>
+		<value><![CDATA[- Passo 1]]></value>
 	</definition>
 	<definition>
 		<key>heading_title_step_two</key>
-		<value><![CDATA[ - Step 2]]></value>
+		<value><![CDATA[- Passo 2]]></value>
 	</definition>
 	<definition>
 		<key>heading_title_step_three</key>
@@ -18,26 +18,23 @@
 	</definition>
 	<definition>
 		<key>text_description</key>
-		<value>
-			<![CDATA[Lo strumento di migrazione permette di importare i dati da altri carrelli.<br>Nota: AbanteCart solo per ora supporta l'importazione di mysql.<br> Premere il pulsante di avvio della migrazione per continuare... ]]></value>
+		<value><![CDATA[Lo strumento di migrazione permette di importare i dati da altri carrelli.<br>Nota: AbanteCart solo per ora supporta l'importazione di mysql.<br> Premere il pulsante di avvio della migrazione per continuare... ]]></value>
 	</definition>
 	<definition>
 		<key>text_success</key>
 		<value><![CDATA[I tuoi dati sono stati trasferiti a Abantecart!]]></value>
 	</definition>
-	 <definition>
-        <key>text_cart_info</key>
-        <value>
-            <![CDATA[Source Cart Info<span class="help">Source shopping cart application details.</span>]]></value>
+	<definition>
+		<key>text_cart_info</key>
+		<value><![CDATA[Informazioni sul carrello di origine <span class="help">Dettagli dell&#39;applicazione del carrello degli acquisti di origine.</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_db_info</key>
-		<value>
-			<![CDATA[Database Info<span class="help">Nota: AbanteCart, solo per ora, supporta l'importazione per mysql.</span>]]></value>
+		<value><![CDATA[Database Info<span class="help">Nota: AbanteCart, solo per ora, supporta l'importazione per mysql.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_cart_type</key>
-		<value><![CDATA[Tipo di carrello  originario:]]></value>
+		<value><![CDATA[Tipo di carrello originario:]]></value>
 	</definition>
 	<definition>
 		<key>entry_cart_url</key>
@@ -45,7 +42,7 @@
 	</definition>
 	<definition>
 		<key>entry_db_host</key>
-		<value><![CDATA[Database Host:]]></value>
+		<value><![CDATA[Host database:]]></value>
 	</definition>
 	<definition>
 		<key>entry_db_user</key>
@@ -53,7 +50,7 @@
 	</definition>
 	<definition>
 		<key>entry_db_password</key>
-		<value><![CDATA[Password:]]></value>
+		<value><![CDATA[Parola d&#39;ordine:]]></value>
 	</definition>
 	<definition>
 		<key>entry_db_name</key>
@@ -145,8 +142,7 @@
 	</definition>
 	<definition>
 		<key>error_db_connection</key>
-		<value>
-			<![CDATA[ERRORE: Impossibile connettersi al database, si prega di assicurarsi che il server, database, nome utente e password siano corretti.!]]></value>
+		<value><![CDATA[ERRORE: Impossibile connettersi al database, si prega di assicurarsi che il server, database, nome utente e password siano corretti.!]]></value>
 	</definition>
 	<definition>
 		<key>error_db_not_exist</key>
@@ -189,11 +185,11 @@
 		<value><![CDATA[Nota: Nessuna categoria di prodotto è stata importata.]]></value>
 	</definition>
 	<definition>
-        <key>error_empty_source_cart</key>
-        <value><![CDATA[Warning: Chosen source cart is empty!]]></value>
-    </definition>
-    <definition>
-        <key>text_finished</key>
-        <value><![CDATA[Migration has finished.]]></value>
-    </definition>
+		<key>error_empty_source_cart</key>
+		<value><![CDATA[Warning: Chosen source cart is empty!]]></value>
+	</definition>
+	<definition>
+		<key>text_finished</key>
+		<value><![CDATA[La migrazione è terminata.]]></value>
+	</definition>
 </definitions>

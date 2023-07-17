@@ -2,27 +2,27 @@
 <definitions>
 	<definition>
 		<key>heading_title</key>
-		<value><![CDATA[Scheduled Tasks]]></value>
+		<value><![CDATA[Attività pianificate]]></value>
 	</definition>
 	<definition>
 		<key>column_id</key>
-		<value><![CDATA[ Id]]></value>
+		<value><![CDATA[Id]]></value>
 	</definition>
 	<definition>
 		<key>column_date_created</key>
-		<value><![CDATA[ Date Created]]></value>
+		<value><![CDATA[data di creazione]]></value>
 	</definition>
 	<definition>
 		<key>column_name</key>
-		<value><![CDATA[ Name ]]></value>
+		<value><![CDATA[Nome]]></value>
 	</definition>
 	<definition>
 		<key>column_status</key>
-		<value><![CDATA[ Status ]]></value>
+		<value><![CDATA[Stato]]></value>
 	</definition>
 	<definition>
 		<key>column_start_time</key>
-		<value><![CDATA[ Start Time]]></value>
+		<value><![CDATA[Ora di inizio]]></value>
 	</definition>
 	<definition>
 		<key>text_active</key>
@@ -30,23 +30,23 @@
 	</definition>
 	<definition>
 		<key>text_scheduled</key>
-		<value><![CDATA[ Scheduled]]></value>
+		<value><![CDATA[Programmato]]></value>
 	</definition>
 	<definition>
 		<key>text_disabled</key>
-		<value><![CDATA[ Disabled]]></value>
+		<value><![CDATA[Disabilitato]]></value>
 	</definition>
 	<definition>
 		<key>text_restart</key>
-		<value><![CDATA[ Restart Task]]></value>
+		<value><![CDATA[Riavvia attività]]></value>
 	</definition>
 	<definition>
 		<key>text_run</key>
-		<value><![CDATA[ Run Task]]></value>
+		<value><![CDATA[Esegui attività]]></value>
 	</definition>
 	<definition>
 		<key>text_task_started</key>
-		<value><![CDATA[ Task started]]></value>
+		<value><![CDATA[Attività iniziata]]></value>
 	</definition>
 	<definition>
 		<key>text_stuck</key>

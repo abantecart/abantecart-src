@@ -50,7 +50,7 @@
 	</definition>
 	<definition>
 		<key>text_select_country</key>
-		<value><![CDATA[- Seleccione el país -]]></value>
+		<value><![CDATA[- Seleccionar país -]]></value>
 	</definition>
 	<definition>
 		<key>text_to</key>
@@ -146,7 +146,7 @@
 	</definition>
 	<definition>
 		<key>entry_append</key>
-		<value><![CDATA[Append Comments:]]></value>
+		<value><![CDATA[Agregar comentarios:]]></value>
 	</definition>
 	<definition>
 		<key>entry_add_product</key>
@@ -166,7 +166,7 @@
 	</definition>
 	<definition>
 		<key>entry_email</key>
-		<value><![CDATA[E-Mail:]]></value>
+		<value><![CDATA[Correo electrónico:]]></value>
 	</definition>
 	<definition>
 		<key>entry_telephone</key>
@@ -366,7 +366,7 @@
 	</definition>
 	<definition>
 		<key>column_mask</key>
-		<value><![CDATA[Mask]]></value>
+		<value><![CDATA[Mascarilla]]></value>
 	</definition>
 	<definition>
 		<key>text_add_product_to_order</key>

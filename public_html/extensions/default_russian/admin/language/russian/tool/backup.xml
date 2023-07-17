@@ -26,7 +26,7 @@
 	</definition>
 	<definition>
 		<key>entry_tables</key>
-		<value><![CDATA[Backup Tables:]]></value>
+		<value><![CDATA[Резервировать таблицы:]]></value>
 	</definition>
 	<definition>
 		<key>entry_backup</key>

@@ -26,7 +26,7 @@
 	</definition>
 	<definition>
 		<key>text_newsletter</key>
-		<value><![CDATA[Newsletter]]></value>
+		<value><![CDATA[Notiziario]]></value>
 	</definition>
 	<definition>
 		<key>text_your_password</key>
@@ -50,7 +50,7 @@
 	</definition>
 	<definition>
 		<key>entry_email</key>
-		<value><![CDATA[E-Mail:]]></value>
+		<value><![CDATA[E-mail:]]></value>
 	</definition>
 	<definition>
 		<key>entry_telephone</key>
@@ -94,7 +94,7 @@
 	</definition>
 	<definition>
 		<key>entry_password</key>
-		<value><![CDATA[Password:]]></value>
+		<value><![CDATA[Parola d&#39;ordine:]]></value>
 	</definition>
 	<definition>
 		<key>entry_confirm</key>

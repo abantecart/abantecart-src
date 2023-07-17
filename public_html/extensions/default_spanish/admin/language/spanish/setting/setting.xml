@@ -34,15 +34,15 @@
 	</definition>
 	<definition>
 		<key>text_edit_store_settings</key>
-		<value><![CDATA[Edit Settings:]]></value>
+		<value><![CDATA[Editar ajustes:]]></value>
 	</definition>
 	<definition>
 		<key>text_edit_template_settings</key>
-		<value><![CDATA[Edit Template Settings:]]></value>
+		<value><![CDATA[Editar configuración de plantilla:]]></value>
 	</definition>
 	<definition>
 		<key>text_common_template_settings</key>
-		<value><![CDATA[Template Selection]]></value>
+		<value><![CDATA[Selección de plantilla]]></value>
 	</definition>
 	<definition>
 		<key>text_select_group</key>
@@ -186,7 +186,7 @@
 	</definition>
 	<definition>
 		<key>entry_debug_2</key>
-		<value><![CDATA[Log]]></value>
+		<value><![CDATA[Registro]]></value>
 	</definition>
 	<definition>
 		<key>entry_debug_level</key>
@@ -266,7 +266,7 @@
 	</definition>
 	<definition>
 		<key>text_admin</key>
-		<value><![CDATA[Admin]]></value>
+		<value><![CDATA[Administración]]></value>
 	</definition>
 	<definition>
 		<key>text_edit_store</key>
@@ -298,7 +298,7 @@
 	</definition>
 	<definition>
 		<key>entry_email</key>
-		<value><![CDATA[E-Mail:]]></value>
+		<value><![CDATA[Correo electrónico:]]></value>
 	</definition>
 	<definition>
 		<key>entry_telephone</key>
@@ -702,7 +702,7 @@
 	</definition>
 	<definition>
 		<key>error_uploaded_image</key>
-		<value><![CDATA[Uploaded file %s is not image or broken!]]></value>
+		<value><![CDATA[¡El archivo cargado %s no es una imagen o está roto!]]></value>
 	</definition>
 	<definition>
 		<key>error_limit</key>
@@ -802,11 +802,11 @@
 	</definition>
 	<definition>
 		<key>text_clone_template</key>
-		<value><![CDATA[Clone Template With AbanteCart Developer Tools]]></value>
+		<value><![CDATA[Plantilla de clonación con las herramientas de desarrollo de AbanteCart]]></value>
 	</definition>
 	<definition>
 		<key>text_set_template</key>
-		<value><![CDATA[Set this template for the storefront]]></value>
+		<value><![CDATA[Establecer esta plantilla para el escaparate]]></value>
 	</definition>
 	<definition>
 		<key>entry_embed_status</key>
@@ -933,8 +933,8 @@ imagen</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_google_analytics</key>
-		<value>
-			<![CDATA[Google Analytics 4 tag ID:<br /><span class="help">Add your <a href="https://support.google.com/analytics/answer/9539598?hl=en" target="_blank">Google Analytics tag ID</a> to enable site activity tracking. This also enables ecommerce activity tracking. You must enable ecommerce tracking in google on the profile settings page for your website</span>]]></value>
+		<value><![CDATA[
+ ID de etiqueta de Google Analytics 4: <br/><span class="help">Agregue su <a href="https://support.google.com/analytics/answer/9539598?hl=en" target="_blank">ID de etiqueta de Google Analytics</a> para habilitar el seguimiento de la actividad del sitio. Esto también permite el seguimiento de la actividad de comercio electrónico. Debe habilitar el seguimiento de comercio electrónico en Google en la página de configuración de perfil de su sitio web</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_tax_class</key>
