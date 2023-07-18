@@ -14,8 +14,7 @@ echo $tabs;?>
 	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 
 		<label class="h4 heading" id="<?php echo $section;?>"><?php echo ${'tab_' . $section}; ?></label>
-			<?php foreach ($form['fields'] as $name => $field) { ?>
-			<?php
+			<?php foreach ($form['fields'] as $name => $field) {
 				//Logic to calculate fields width
 				$widthcasses = "col-sm-7";
 				if ( is_int(stripos($field->style, 'large-field')) ) {
@@ -29,13 +28,12 @@ echo $tabs;?>
 				}
 				$widthcasses .= " col-xs-12";
 		 ?>
-
 		<div id="ship_<?php echo $name; ?>" class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
 			<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
 			<?php if($name=='domestic' || $name=='international'){ ?>
 				<div id="<?php echo $name; ?>" class="form-group input-group afield <?php echo $widthcasses; ?>">
 				<?php foreach($field as $k=>$f){ ?>
-					<div class="form-group input-group afield"><?php echo $f.' &nbsp;' .${'text_'.$k}; ?></div>
+					<div class="form-group input-group afield"><?php echo $f.' &nbsp;' .${'entry_'.$k}; ?></div>
 				<?php } ?>
 				</div>
 			<?php }else{ ?>
