@@ -743,6 +743,7 @@ class ModelCheckoutOrder extends Model
             $this->data['products'][] = [
                 'name'       => $product['name'],
                 'product_id' => $product['product_id'],
+                'order_product_id' => $product['order_product_id'],
                 'sku'        => $product['sku'],
                 'model'      => $product['model'],
                 'option'     => $option_data,
