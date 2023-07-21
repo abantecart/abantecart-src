@@ -120,7 +120,7 @@ class ControllerPagesExtensionExtensionsStore extends AController
         $this->data['amp_product_url'] = $this->model_tool_mp_api->getMPURL().$mp_params.$token_param;
 
         $return_url = base64_encode($this->html->getSecureURL('tool/extensions_store/install'));
-        $mp_params = '?rt=r/checkout/purchase&return_url='.$return_url;
+        $mp_params = '?rt=r/product/product&return_url='.$return_url;
         $mp_params .= '&store_id='.UNIQUE_ID;
         $mp_params .= '&store_url='.HTTPS_SERVER;
         $mp_params .= '&store_version='.VERSION;

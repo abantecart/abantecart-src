@@ -60,8 +60,8 @@
     </div>
     <div class="row">
 	    <div class="col-sm-3 h5 center">
-	        <a href="#admin#rt=extension/extensions/install&extension=default_stripe" target="_extension">
-	        <img src="extensions/default_stripe/image/icon.png"><br>Instalar Stripe</a>
+	        <a href="#admin#rt=extension/extensions/install&extension=stripe" target="_extension">
+	        <img src="extensions/stripe/image/icon.png"><br>Instalar Stripe</a>
 	    </div>
 	    <div class="col-sm-3 h5 center">
 	        <a href="#admin#rt=extension/extensions/install&extension=paypal_commerce" target="_extension">

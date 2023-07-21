@@ -18,7 +18,7 @@
 	</definition>
 	<definition>
 		<key>text_flexyforms</key>
-		<value><![CDATA[Flexy Forms]]></value>
+		<value><![CDATA[Forme flessibili]]></value>
 	</definition>
 	<definition>
 		<key>text_images</key>
@@ -50,7 +50,7 @@
 	</definition>
 	<definition>
 		<key>text_clear_all_cache</key>
-		<value><![CDATA[Clear All Cache]]></value>
+		<value><![CDATA[Cancella tutta la cache]]></value>
 	</definition>
 	<definition>
 		<key>desc_configuration</key>
@@ -62,7 +62,7 @@
 	</definition>
 	<definition>
 		<key>desc_flexyforms</key>
-		<value><![CDATA[Flexy forms data]]></value>
+		<value><![CDATA[Dati dei moduli Flexy]]></value>
 	</definition>
 	<definition>
 		<key>desc_images</key>
@@ -98,7 +98,7 @@
 	</definition>
 	<definition>
 		<key>text_html_cache</key>
-		<value><![CDATA[HTML-cache]]></value>
+		<value><![CDATA[Cache HTML]]></value>
 	</definition>
 	<definition>
 		<key>desc_html_cache</key>

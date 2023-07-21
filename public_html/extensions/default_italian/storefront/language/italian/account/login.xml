@@ -26,8 +26,7 @@
 	</definition>
 	<definition>
 		<key>text_create_account</key>
-		<value>
-			<![CDATA[Creando un nuoco account sarai in grado di acquistare velocemente, essere sempre aggiornato sullo stato di un ordine e rivedere la cronologia degli ordini che hai effettuato.]]></value>
+		<value><![CDATA[Creando un nuoco account sarai in grado di acquistare velocemente, essere sempre aggiornato sullo stato di un ordine e rivedere la cronologia degli ordini che hai effettuato.]]></value>
 	</definition>
 	<definition>
 		<key>text_returning_customer</key>
@@ -55,7 +54,7 @@
 	</definition>
 	<definition>
 		<key>entry_password</key>
-		<value><![CDATA[Password:]]></value>
+		<value><![CDATA[Parola d&#39;ordine:]]></value>
 	</definition>
 	<definition>
 		<key>error_login</key>
@@ -63,8 +62,7 @@
 	</definition>
 	<definition>
 		<key>text_success_activated</key>
-		<value>
-			<![CDATA[Il tuo account è stato attivato con successo. Ora puoi entrare con le tue credenziali.]]></value>
+		<value><![CDATA[Il tuo account è stato attivato con successo. Ora puoi entrare con le tue credenziali.]]></value>
 	</definition>
 	<definition>
 		<key>text_already_activated</key>
@@ -72,7 +70,6 @@
 	</definition>
 	<definition>
 		<key>text_resend_activation_email</key>
-		<value>
-			<![CDATA[Errore: Il tuo indirizzo e-mail non è stato ancora confermato. Per inviare nuovamente nuova email di conferma cliccare questo <a href=" %s ">link</a>]]></value>
+		<value><![CDATA[Errore: Il tuo indirizzo e-mail non è stato ancora confermato. Per inviare nuovamente nuova email di conferma cliccare questo <a href=" %s ">link</a>]]></value>
 	</definition>
 </definitions>

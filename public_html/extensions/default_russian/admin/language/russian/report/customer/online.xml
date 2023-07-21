@@ -22,6 +22,6 @@
 	</definition>
 	<definition>
 		<key>text_referer</key>
-		<value><![CDATA[Referer:]]></value>
+		<value><![CDATA[Реферер:]]></value>
 	</definition>
 </definitions>

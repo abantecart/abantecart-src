@@ -24,7 +24,6 @@ if (!defined('DIR_CORE')) {
 
 class ControllerPagesCheckoutFastCheckout extends AController
 {
-
     public function __construct($registry, $instanceId, $controller, $parentController = '')
     {
         parent::__construct($registry, $instanceId, $controller, $parentController);
@@ -320,8 +319,11 @@ class ControllerPagesCheckoutFastCheckout extends AController
                 'rel'  => 'stylesheet',
             ]
         );
-        $this->document->addScript($this->view->templateResource('/js/credit_card_validation.js'));
-        $this->document->addScript($this->view->templateResource('/javascript/common.js'));
+        if(is_file(DIR_EXTENSIONS.'fast_checkout/storefront/view/'.$this->config->get('config_storefront_template').'/js/credit_card_validation.js')
+        ) {
+            $this->document->addScript($this->view->templateResource('/js/credit_card_validation.js'));
+            $this->document->addScript($this->view->templateResource('/javascript/common.js'));
+        }
 
         $this->data['cart_url'] = $this->html->getSecureURL('r/checkout/pay');
         $this->data['cart_key'] = $this->session->data['fc']['cart_key'];
@@ -330,8 +332,17 @@ class ControllerPagesCheckoutFastCheckout extends AController
             $this->data['product_key'] = $this->request->get['product_key'];
         }
 
-        $this->view->batchAssign($this->data);
 
+        $order_data = [
+            'order_products' => $this->cart->getProducts(),
+            'totals' => $this->cart->getFinalTotalData()
+        ];
+
+        $this->session->data['google_analytics_begin_checkout_data'] = AOrder::getGoogleAnalyticsOrderData(
+            $order_data
+        );
+
+        $this->view->batchAssign($this->data);
         $this->view->setTemplate('pages/checkout/fast_checkout.tpl');
         $this->processTemplate();
         //update data before render

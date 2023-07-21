@@ -12,9 +12,9 @@
         <div class="content"><?php echo $text_error; ?></div>
     <?php } ?>
     <?php if ($categories) { ?>
-    <ul class="list-unstyled d-flex flex-wrap justify-content-evenly m-5">
+    <ul class="list-unstyled d-flex flex-wrap justify-content-evenly m-0 m-md-5">
         <?php foreach ($categories as $category){ ?>
-         <li class="card d-flex flex-wrap align-items-center shadow mb-4 me-4">
+         <li class="card d-flex flex-wrap align-items-center shadow mb-4 me-0 me-md-4">
             <a class="p-5" href="<?php echo $category['href']; ?>">
                 <?php echo $category['thumb']['thumb_html']; ?>
             </a>

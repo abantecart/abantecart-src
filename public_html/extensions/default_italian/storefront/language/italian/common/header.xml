@@ -2,7 +2,7 @@
 <definitions>
 	<definition>
 		<key>text_home</key>
-		<value><![CDATA[Home]]></value>
+		<value><![CDATA[Casa]]></value>
 	</definition>
 	<definition>
 		<key>text_special</key>
@@ -14,11 +14,11 @@
 	</definition>
 	<definition>
 		<key>text_sitemap</key>
-		<value><![CDATA[Sitemap]]></value>
+		<value><![CDATA[Mappa del sito]]></value>
 	</definition>
 	<definition>
 		<key>text_bookmark</key>
-		<value><![CDATA[Bookmark]]></value>
+		<value><![CDATA[Segnalibro]]></value>
 	</definition>
 	<definition>
 		<key>text_account</key>

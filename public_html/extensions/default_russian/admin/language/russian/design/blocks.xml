@@ -26,7 +26,7 @@
 	</definition>
 	<definition>
 		<key>column_block_id</key>
-		<value><![CDATA[ID]]></value>
+		<value><![CDATA[ИДЕНТИФИКАТОР]]></value>
 	</definition>
 	<definition>
 		<key>column_block_txt_id</key>
@@ -162,7 +162,7 @@
 	</definition>
 	<definition>
 		<key>text_bestsellers</key>
-		<value><![CDATA[Bestsellers Products]]></value>
+		<value><![CDATA[Продукты-бестселлеры]]></value>
 	</definition>
 	<definition>
 		<key>text_media</key>

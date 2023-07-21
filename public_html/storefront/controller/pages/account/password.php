@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2023 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,7 +23,7 @@ if (!defined('DIR_CORE')) {
 
 class ControllerPagesAccountPassword extends AController
 {
-    public $error = array();
+    public $error = [];
 
     public function main()
     {
@@ -33,7 +33,7 @@ class ControllerPagesAccountPassword extends AController
 
         if (!$this->customer->isLogged()) {
             $this->session->data['redirect'] = $this->html->getSecureURL('account/password');
-            $this->redirect($this->html->getSecureURL('account/login'));
+            redirect($this->html->getSecureURL('account/login'));
         }
 
         $this->document->setTitle($this->language->get('heading_title'));
@@ -42,31 +42,33 @@ class ControllerPagesAccountPassword extends AController
             $this->loadModel('account/customer');
             $this->model_account_customer->editPassword($this->customer->getLoginName(), $this->request->post['password']);
             $this->session->data['success'] = $this->language->get('text_success');
-            $this->redirect($this->html->getSecureURL('account/account'));
+            $this->customer->logout();
+            redirect($this->html->getSecureURL('account/account'));
         }
 
         $this->document->resetBreadcrumbs();
-
         $this->document->addBreadcrumb(
-            array(
+            [
                 'href'      => $this->html->getHomeURL(),
                 'text'      => $this->language->get('text_home'),
                 'separator' => false,
-            ));
-
+            ]
+        );
         $this->document->addBreadcrumb(
-            array(
+            [
                 'href'      => $this->html->getSecureURL('account/account'),
                 'text'      => $this->language->get('text_account'),
                 'separator' => $this->language->get('text_separator'),
-            ));
+            ]
+        );
 
         $this->document->addBreadcrumb(
-            array(
+            [
                 'href'      => $this->html->getSecureURL('account/password'),
                 'text'      => $this->language->get('heading_title'),
                 'separator' => $this->language->get('text_separator'),
-            ));
+            ]
+        );
 
         $this->view->assign('error_warning', $this->error['warning']);
         $this->view->assign('error_current_password', $this->error['current_password']);
@@ -74,44 +76,44 @@ class ControllerPagesAccountPassword extends AController
         $this->view->assign('error_confirm', $this->error['confirm']);
 
         $form = new AForm();
-        $form->setForm(array('form_name' => 'PasswordFrm'));
+        $form->setForm(['form_name' => 'PasswordFrm']);
         $form_open = $form->getFieldHtml(
-            array(
+            [
                 'type'   => 'form',
                 'name'   => 'PasswordFrm',
                 'action' => $this->html->getSecureURL('account/password'),
                 'csrf'   => true,
-            )
+            ]
         );
         $this->view->assign('form_open', $form_open);
 
         $current_password = $form->getFieldHtml(
-            array(
+            [
                 'type'     => 'password',
                 'name'     => 'current_password',
                 'value'    => '',
                 'required' => true,
-            ));
+            ]);
         $password = $form->getFieldHtml(
-            array(
+            [
                 'type'     => 'password',
                 'name'     => 'password',
                 'value'    => '',
                 'required' => true,
-            ));
+            ]);
         $confirm = $form->getFieldHtml(
-            array(
+            [
                 'type'     => 'password',
                 'name'     => 'confirm',
                 'value'    => '',
                 'required' => true,
-            ));
+            ]);
         $submit = $form->getFieldHtml(
-            array(
+            [
                 'type' => 'submit',
                 'name' => $this->language->get('button_continue'),
                 'icon' => 'fa fa-check',
-            ));
+            ]);
 
         $this->view->assign('current_password', $current_password);
         $this->view->assign('password', $password);
@@ -120,13 +122,13 @@ class ControllerPagesAccountPassword extends AController
         $this->view->assign('back', $this->html->getSecureURL('account/account'));
 
         $back = $this->html->buildElement(
-            array(
+            [
                 'type'  => 'button',
                 'name'  => 'back',
                 'text'  => $this->language->get('button_back'),
                 'icon'  => 'fa fa-arrow-left',
                 'style' => 'button',
-            ));
+            ]);
         $this->view->assign('button_back', $back);
 
         $this->processTemplate('pages/account/password.tpl');

@@ -23,8 +23,6 @@ if (!defined('DIR_CORE')) {
 
 class ControllerResponsesEmbedFooter extends AController
 {
-    public $data = array();
-
     public function main()
     {
 
@@ -33,12 +31,6 @@ class ControllerResponsesEmbedFooter extends AController
 
         $this->loadLanguage('common/footer');
         $this->data['text_copy'] = $this->config->get('store_name').' &copy; '.date('Y', time());
-
-        if ($this->config->get('config_google_analytics_code')) {
-            $this->data['google_analytics'] = $this->config->get('config_google_analytics_code');
-        } else {
-            $this->data['google_analytics'] = '';
-        }
 
         $this->data['text_project_label'] = $this->language->get('text_powered_by').' '.project_base();
 

@@ -6,7 +6,7 @@
 	</definition>
 	<definition>
 		<key>text_backup</key>
-		<value><![CDATA[Download Backup]]></value>
+		<value><![CDATA[Scarica Sostegno]]></value>
 	</definition>
 	<definition>
 		<key>text_success_backup</key>
@@ -26,7 +26,7 @@
 	</definition>
 	<definition>
 		<key>entry_tables</key>
-		<value><![CDATA[Backup Tables:]]></value>
+		<value><![CDATA[Tabelle di backup:]]></value>
 	</definition>
 	<definition>
 		<key>entry_restore</key>
@@ -46,7 +46,7 @@
 	</definition>
 	<definition>
 		<key>tab_loadxml</key>
-		<value><![CDATA[Layout and dataset load XML]]></value>
+		<value><![CDATA[Layout e set di dati caricano XML]]></value>
 	</definition>
 	<definition>
 		<key>error_permission</key>
@@ -70,11 +70,11 @@
 	</definition>
 	<definition>
 		<key>entry_backup_code</key>
-		<value><![CDATA[Backup Code (%s)<br/><span class="help">Sub-directories with code files excluding dynamic files such as cache, log files, images, resources etc </span>]]></value>
+		<value><![CDATA[Codice di backup (%s) <br/><span class="help">sottodirectory con file di codice esclusi file dinamici come cache, file di registro, immagini, risorse ecc.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_backup_content</key>
-		<value><![CDATA[Backup Content (%s)<br/><span class="help">Sub-directories with dynamic files such as images, downloads, resources etc </span>]]></value>
+		<value><![CDATA[Contenuto di backup (%s) <br/><span class="help">sottodirectory con file dinamici come immagini, download, risorse ecc</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_compress_backup</key>
@@ -82,31 +82,31 @@
 	</definition>
 	<definition>
 		<key>button_backup_now</key>
-		<value><![CDATA[Backup Now]]></value>
+		<value><![CDATA[Esegui il backup ora]]></value>
 	</definition>
 	<definition>
 		<key>button_load</key>
-		<value><![CDATA[Load]]></value>
+		<value><![CDATA[Carico]]></value>
 	</definition>
 	<definition>
 		<key>button_backup_schedule</key>
-		<value><![CDATA[Schedule Backup]]></value>
+		<value><![CDATA[Programma backup]]></value>
 	</definition>
 	<definition>
 		<key>text_success_scheduled</key>
-		<value><![CDATA[Success: You have successfully created scheduled backup task! <a href="%s">See details</a>]]></value>
+		<value><![CDATA[Operazione riuscita: hai creato correttamente l&#39;attività di backup pianificata! <a href="%s">Guarda i detagli</a>]]></value>
 	</definition>
 	<definition>
 		<key>text_fail_note</key>
-		<value><![CDATA[NOTE: This process execution depends on your AbanteCart data size as well as your server virtual memory size. If process terminates with errors, check directory %s permissions to be set to -rw-rw-rw and <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_blank">[PHP memory setting]</a>. Increase memory setting or run backup manually if process still fail.]]></value>
+		<value><![CDATA[NOTA: l&#39;esecuzione di questo processo dipende dalla dimensione dei dati di AbanteCart e dalla dimensione della memoria virtuale del server. Se il processo termina con errori, controlla le autorizzazioni della directory %s da impostare su -rw-rw-rw e <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_blank">[impostazione della memoria PHP]</a>. Aumentare l&#39;impostazione della memoria o eseguire il backup manualmente se il processo continua a fallire.]]></value>
 	</definition>
 	<definition>
 		<key>backup_complete_text_file</key>
-		<value><![CDATA[To download backup-file please visit <a href="#admin#rt=tool/install_upgrade_history">Install/Upgrade History</a> ]]></value>
+		<value><![CDATA[Per scaricare il file di backup, visitare <a href="#admin#rt=tool/install_upgrade_history">la cronologia di installazione/aggiornamento</a>]]></value>
 	</definition>
 	<definition>
 		<key>backup_complete_text_dir</key>
-		<value><![CDATA[Directory with backup-files is %s</a> ]]></value>
+		<value><![CDATA[La directory con i file di backup è %s]]></value>
 	</definition>
 	<definition>
 		<key>error_nothing_to_do</key>

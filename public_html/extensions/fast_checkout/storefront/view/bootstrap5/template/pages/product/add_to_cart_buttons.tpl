@@ -1,6 +1,4 @@
-<a href="#"
-   onclick="$(this).closest('form').submit(); return false;"
-   class="shadow cart btn btn-success btn-lg mx-2 mb-3">
+<a id="product_add_to_cart" href="Javascript:void(0)" class="shadow cart btn btn-success btn-lg mx-2 mb-3">
     <i class="fa-solid fa-cart-plus fa-fw"></i>
     <?php echo $button_add_to_cart; ?>
 </a>

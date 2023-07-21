@@ -325,7 +325,6 @@ class ControllerResponsesSettingSettingQuickForm extends AController
             'country_id_zones',
         );
         $this->data['qs_fields']['general'] = array(
-            'google_analytics',
             'stock_display',
             'nostock_autodisable',
             'stock_status',

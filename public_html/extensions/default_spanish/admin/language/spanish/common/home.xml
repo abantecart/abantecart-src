@@ -34,7 +34,7 @@
 	</definition>
 	<definition>
 		<key>text_total_customer_approval</key>
-    <value><![CDATA[Clientes en espera de aprobaci&oacute;n:]]></value>
+		<value><![CDATA[Clientes en espera de aprobaci&oacute;n:]]></value>
 	</definition>
 	<definition>
 		<key>text_total_product</key>
@@ -128,5 +128,4 @@
 		<key>column_email</key>
 		<value><![CDATA[Correo electrónico]]></value>
 	</definition>
-
 </definitions>

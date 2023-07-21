@@ -72,7 +72,7 @@ foreach ($products as $product) {
                         echo $product['buttons']; ?>
                     </div>
 
-                    <div class="d-flex p-2 mt-auto align-items-center">
+                    <div class="d-flex p-2 mt-auto align-items-center justify-content-between">
                     <?php if ($display_price) { ?>
                         <div class="price text-muted d-flex align-items-center me-2">
                                 <?php if ($product['special']) { ?>
@@ -83,7 +83,7 @@ foreach ($products as $product) {
                                 <?php } ?>
                             </div>
                             <?php echo $this->getHookvar('product_listing_details1_'.$product['product_id']); ?>
-                        <div class="pricetag flex-item">
+                        <div class="pricetag flex-item ">
                             <?php if($product['call_to_order']){ ?>
                                 <a data-id="<?php echo $product['product_id'] ?>"
                                    href="<?php echo $this->html->getSeoUrl('content/contact');?>"
@@ -96,11 +96,14 @@ foreach ($products as $product) {
                             <?php } elseif ($this->getHookVar('product_add_to_cart_html_'.$product['product_id'])) {
                                 echo $this->getHookVar('product_add_to_cart_html_'.$product['product_id']);
                                 }else{ ?>
-                                <div class="position-relative btn btn-sm btn-success">
+                                <div class="position-relative btn btn-sm btn-success mt-2">
                                     <a class="text-decoration-none text-white"
-                                       href="<?php echo $this->html->getSecureURL('checkout/cart'); ?>">
+                                       href="<?php echo $this->html->getSecureURL( ($cart_rt ?:'checkout/cart') ); ?>">
                                         <i title="<?php echo_html2view($text_add_cart_confirm); ?>"
-                                           class="<?php echo !in_array((int)$product['product_id'], $cartProductIds) ? 'visually-hidden ' : '';?>fa fa-check fa-xl me-2 text-warning"></i>
+                                           class="<?php
+                                           echo !in_array((int)$product['product_id'], $cartProductIds)
+                                               ? 'visually-hidden '
+                                               : '';?> fa fa-check fa-xl me-2 text-warning"></i>
                                     </a>
                                     <span class="visually-hidden spinner-border spinner-border-sm" aria-hidden="true"></span>
                                     <a class="text-decoration-none text-white add-to-cart"

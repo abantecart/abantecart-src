@@ -42,7 +42,7 @@
 	</definition>
 	<definition>
 		<key>column_email</key>
-		<value><![CDATA[E-Mail]]></value>
+		<value><![CDATA[Электронная почта]]></value>
 	</definition>
 	<definition>
 		<key>column_customer_group</key>
@@ -82,7 +82,7 @@
 	</definition>
 	<definition>
 		<key>entry_email</key>
-		<value><![CDATA[E-Mail:]]></value>
+		<value><![CDATA[Электронная почта:]]></value>
 	</definition>
 	<definition>
 		<key>entry_telephone</key>

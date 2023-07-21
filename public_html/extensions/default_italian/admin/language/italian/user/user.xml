@@ -46,7 +46,7 @@
 	</definition>
 	<definition>
 		<key>entry_password</key>
-		<value><![CDATA[Password:]]></value>
+		<value><![CDATA[Parola d&#39;ordine:]]></value>
 	</definition>
 	<definition>
 		<key>entry_confirm</key>
@@ -62,7 +62,7 @@
 	</definition>
 	<definition>
 		<key>entry_email</key>
-		<value><![CDATA[E-Mail:]]></value>
+		<value><![CDATA[E-mail:]]></value>
 	</definition>
 	<definition>
 		<key>entry_user_group</key>

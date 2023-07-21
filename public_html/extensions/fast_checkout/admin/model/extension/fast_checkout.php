@@ -35,7 +35,7 @@ class ModelExtensionFastCheckout extends Model
         $output = array();
         $output[] = array('' => '--- choose payment with handler ---');
         foreach ($query->rows as $row) {
-            if (file_exists(DIR_EXT.$row['key'].DIR_EXT_CORE.'lib/handler.php') || $row['key'] == 'default_stripe') {
+            if (file_exists(DIR_EXT.$row['key'].DIR_EXT_CORE.'lib/handler.php') || $row['key'] == 'stripe') {
                 $output[] = $row;
             }
         }

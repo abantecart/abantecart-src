@@ -9,8 +9,7 @@ if( isset(current((array)$products)['product_id']) ){
             <?php } ?>
 <?php
 // categories and brands
-    if (isset(current((array)$content)['category_id'])
-        || isset(current((array)$content)['manufacturer_id'])
+    if ($content && (isset(current((array)$content)['category_id']) || isset(current((array)$content)['manufacturer_id']))
     ){ ?>
 
             <ul class="list-unstyled d-flex flex-wrap justify-content-evenly m-5">
@@ -30,7 +29,7 @@ if( isset(current((array)$products)['product_id']) ){
             </ul>
 <?php }
     //media
-    elseif(count(current((array)$content)) == 1 && isset(current($content)['thumb']) ){ ?>
+    elseif($content && count(current((array)$content)) == 1 && isset(current((array)$content)['thumb'])){ ?>
         <ul class="list-unstyled d-flex flex-wrap justify-content-evenly m-5">
             <?php foreach ($content as $item){ ?>
              <li class="card d-flex flex-wrap align-items-center shadow mb-4 me-4">

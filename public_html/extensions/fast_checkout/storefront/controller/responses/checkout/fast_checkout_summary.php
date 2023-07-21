@@ -70,6 +70,11 @@ class ControllerResponsesCheckoutFastCheckoutSummary extends AController
 
     public function main()
     {
+        //is this an embed mode
+        $this->data['cart_rt'] = $this->config->get('embed_mode')
+            ? 'r/checkout/cart/embed'
+            : 'checkout/cart';
+
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->loadLanguage('fast_checkout/fast_checkout');
@@ -102,6 +107,9 @@ class ControllerResponsesCheckoutFastCheckoutSummary extends AController
             $option_data = [];
             $option = [];
             foreach ($result['option'] as $option) {
+                if ($option['element_type'] == 'H') {
+                    continue;
+                } //skip hidden options
                 $value = $option['value'];
                 // hide binary value for checkbox
                 if ($option['element_type'] == 'C' && in_array($value, [0, 1], true)) {

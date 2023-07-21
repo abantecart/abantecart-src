@@ -34,7 +34,7 @@ class ControllerPagesCheckoutFastCheckoutSuccess extends AController
 
         $this->loadLanguage('fast_checkout/fast_checkout');
 
-        $this->document->setTitle($this->language->get('heading_title'));
+        $this->document->setTitle($this->language->get('fast_checkout_order_success_message'));
         $this->document->resetBreadcrumbs();
 
         $this->document->addBreadcrumb(
@@ -66,7 +66,8 @@ class ControllerPagesCheckoutFastCheckoutSuccess extends AController
             'r/checkout/pay/success',
             '&viewport=window&order_id='.$this->request->get['order_id']
         );
-
+        //use only one time
+        unset($this->session->data['gaOrderData']);
         $this->view->batchAssign($this->data);
 
         $this->view->setTemplate('pages/checkout/fast_checkout_success.tpl');

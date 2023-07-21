@@ -2,7 +2,7 @@
 <definitions>
 	<definition>
 		<key>heading_title</key>
-		<value><![CDATA[Media Resource Library Manager]]></value>
+		<value><![CDATA[Gestore della libreria delle risorse multimediali]]></value>
 	</definition>
 	<definition>
 		<key>text_rl_latest</key>
@@ -28,7 +28,6 @@
 		<key>entry_file_types</key>
 		<value><![CDATA[Estensioni di file ammessi<br/><span class="help">RegEx con un elenco di estensioni di file consentiti per questo tipo di risorsa</span>]]></value>
 	</definition>
-
 	<definition>
 		<key>text_success</key>
 		<value><![CDATA[Successo: Hai aggiornato tipo di risorsa!]]></value>

@@ -56,11 +56,9 @@ class ControllerPagesProductSearch extends AController
         $this->path = explode(',', $request['category_id']);
 
         //is this an embed mode
-        if ($this->config->get('embed_mode') == true) {
-            $cart_rt = 'r/checkout/cart/embed';
-        } else {
-            $cart_rt = 'checkout/cart';
-        }
+        $this->data['cart_rt'] = $this->config->get('embed_mode')
+            ? 'r/checkout/cart/embed'
+            : 'checkout/cart';
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
@@ -321,7 +319,7 @@ class ControllerPagesProductSearch extends AController
                                 $add = '#';
                             } else {
                                 $add = $this->html->getSecureURL(
-                                    $cart_rt,
+                                    $this->data['cart_rt'],
                                     '&product_id='.$result['product_id'],
                                     '&encode'
                                 );

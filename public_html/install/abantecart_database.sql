@@ -1670,11 +1670,11 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 
 -- general
 ('general','config_admin_limit',20),
-('general','config_catalog_limit',20),
-('general','config_bestseller_limit',4),
-('general','config_featured_limit',4),
-('general','config_latest_limit',4),
-('general','config_special_limit',4),
+('general','config_catalog_limit',18),
+('general','config_bestseller_limit',3),
+('general','config_featured_limit',3),
+('general','config_latest_limit',3),
+('general','config_special_limit',3),
 ('general','config_stock_display',1),
 ('general','config_nostock_autodisable',0),
 ('general','config_stock_status_id',0),
@@ -1690,7 +1690,6 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('general','config_recaptcha_site_key',''),
 ('general','config_recaptcha_secret_key',''),
 ('general','config_google_analytics_code',''),
-('general','config_google_tag_manager_id',''),
 
 
 -- Checkout
@@ -1749,7 +1748,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('appearance','config_image_manufacturer_width',130),
 ('appearance','admin_template','default'),
 ('appearance','admin_width','100%'),
-('appearance','config_storefront_template','default'),
+('appearance','config_storefront_template','bootstrap5'),
 ('appearance','config_image_resize_fill_color', '#ffffff'),
 
 
@@ -12605,7 +12604,7 @@ VALUES
   ( 278,1,'Icon Analytics & Insights', '', '', '', '<i class="fa fa-signal"></i>&nbsp;', NOW() ),
   ( 279,1,'Icon Collections', '', '', '', '<i class="fa fa-paste"></i>&nbsp;', NOW() ),
   ( 280,1,'Icon Email Templates', '', '', '', '<i class="fa fa-envelope-open-o"></i>&nbsp;', NOW() ),
-  ( 281,1,'abc-logo-white','abc-logo-white','abc-logo-white.png','18/7a/5.png','', NOW() );
+  ( 281,1,'abc-logo-white','abc-logo-white','abc-logo-white.png','18/7a/logo.png','', NOW() );
 
 --
 -- DDL for table `ac_resource_types`

@@ -43,8 +43,8 @@ class ControllerCommonPage extends AController
             }
         }
 
-        if ($this->config->get('config_google_tag_manager_id')) {
-            $this->view->assign('google_tag_manager', $this->config->get('config_google_tag_manager_id'));
+        if ($this->config->get('config_google_analytics_code')) {
+            $this->view->assign('google_analytics_code', $this->config->get('config_google_analytics_code'));
         }
 
         $this->view->assign('lang', $this->language->getLanguageCode());

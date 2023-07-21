@@ -38,7 +38,7 @@
 	</definition>
 	<definition>
 		<key>text_instock</key>
-		<value><![CDATA[In Stock]]></value>
+		<value><![CDATA[In magazzino]]></value>
 	</definition>
 	<definition>
 		<key>text_order_quantity</key>
@@ -98,7 +98,7 @@
 	</definition>
 	<definition>
 		<key>text_tags</key>
-		<value><![CDATA[Tags:]]></value>
+		<value><![CDATA[Tag:]]></value>
 	</definition>
 	<definition>
 		<key>text_minimum</key>

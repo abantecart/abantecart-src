@@ -54,7 +54,7 @@
 	</definition>
 	<definition>
 		<key>text_csv_delimiter</key>
-		<value><![CDATA[CSV/TXT delimiter: ]]></value>
+		<value><![CDATA[Delimitatore CSV/TXT:]]></value>
 	</definition>
 	<definition>
 		<key>text_export_note_csv_delimiter</key>

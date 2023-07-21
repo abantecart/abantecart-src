@@ -54,7 +54,7 @@
 	</definition>
 	<definition>
 		<key>im_sendpoint_name_newsletter</key>
-		<value><![CDATA[ Newsletters ]]></value>
+		<value><![CDATA[Newsletter]]></value>
 	</definition>
 	<definition>
 		<key>im_sendpoint_name_system_messages</key>

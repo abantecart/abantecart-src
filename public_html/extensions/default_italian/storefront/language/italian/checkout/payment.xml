@@ -50,7 +50,7 @@
 	</definition>
 	<definition>
 		<key>entry_coupon</key>
-		<value><![CDATA[Coupon:]]></value>
+		<value><![CDATA[Buono:]]></value>
 	</definition>
 	<definition>
 		<key>error_payment</key>

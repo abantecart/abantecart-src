@@ -8,7 +8,7 @@
                    name="<?php echo $name ?>"
                    placeholder="<?php echo $placeholder ?>"
                    value="<?php echo $value ?>"
-                   autocomplete="off" <?php echo $attr; if ( $required ) { echo 'required'; }?>/>
+                   autocomplete="off" <?php echo $attr; if ( $required ) { echo ' required'; }?>/>
     </div>
     <?php if($required){?>
         <div class="input-group-text text-danger">*</div>

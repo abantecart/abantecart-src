@@ -279,8 +279,9 @@ final class ACurrency
      */
     public function convert($value, $code_from, $code_to)
     {
-        $from = isset($this->currencies[$code_from]['value']) ? $this->currencies[$code_from]['value'] : 0;
-        $to = isset($this->currencies[$code_to]['value']) ? $this->currencies[$code_to]['value'] : 0;
+        $value = (float)$value;
+        $from = isset($this->currencies[$code_from]['value']) ? (float)$this->currencies[$code_from]['value'] : 0;
+        $to = isset($this->currencies[$code_to]['value']) ? (float)$this->currencies[$code_to]['value'] : 0;
         $to_decimal = isset($this->currencies[$code_to]['decimal_place'])
             ? (int) $this->currencies[$code_to]['decimal_place']
             : 2;

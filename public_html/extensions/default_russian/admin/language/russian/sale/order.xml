@@ -154,7 +154,7 @@
 	</definition>
 	<definition>
 		<key>entry_email</key>
-		<value><![CDATA[E-Mail:]]></value>
+		<value><![CDATA[Электронная почта:]]></value>
 	</definition>
 	<definition>
 		<key>entry_ip</key>

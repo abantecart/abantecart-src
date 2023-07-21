@@ -1686,7 +1686,8 @@ class ModelSaleOrder extends Model
             LEFT JOIN ".$this->db->table("product_options")." po
                 ON pov.product_option_id = po.product_option_id
             WHERE op.order_id = '".(int) $order_id."'
-                AND op.order_product_id = '".(int) $order_product_id."'"
+                AND op.order_product_id = '".(int) $order_product_id."'
+            ORDER BY po.sort_order"
         );
         return $query->rows;
     }

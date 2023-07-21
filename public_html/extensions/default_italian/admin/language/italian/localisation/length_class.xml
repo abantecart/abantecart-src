@@ -66,10 +66,10 @@
 	</definition>
 	<definition>
 		<key>entry_iso_code</key>
-		<value><![CDATA[ISO-code:]]></value>
+		<value><![CDATA[Codice ISO:]]></value>
 	</definition>
 	<definition>
 		<key>column_iso_code</key>
-		<value><![CDATA[ISO-code]]></value>
+		<value><![CDATA[Codice ISO]]></value>
 	</definition>
 </definitions>

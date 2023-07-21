@@ -70,7 +70,7 @@
 	</definition>
 	<definition>
 		<key>text_disclaimer_heading</key>
-		<value><![CDATA[ Disclaimer ]]></value>
+		<value><![CDATA[Disclaimer]]></value>
 	</definition>
 	<definition>
 		<key>text_disclaimer</key>
@@ -91,43 +91,43 @@ Ideal OpenSource Ecommerce Solution ]]></value>
 	</definition>
 	<definition>
 		<key>warning_already_installed</key>
-		<value><![CDATA[<p class="success">You already have %EXTENSION% extension installed! If you want to proceed and upgrade, please confirm.</p>]]></value>
+		<value><![CDATA[<p class="success">Hai già l&#39;estensione %EXTENSION% installata! Se vuoi procedere con l&#39;upgrade, conferma.</p>]]></value>
 	</definition>
 	<definition>
 		<key>warning_already_installed_uninstall</key>
-		<value><![CDATA[You already have this extension "%EXTENSION%" installed! If you want to proceed to reinstall, please uninstall and delete extension first.]]></value>
+		<value><![CDATA[Hai già installato questa estensione &quot;%EXTENSION%&quot;! Se si desidera procedere alla reinstallazione, disinstallare ed eliminare prima l&#39;estensione.]]></value>
 	</definition>
 	<definition>
 		<key>error_pack_file_not_found</key>
-		<value><![CDATA[Error: Can not extract extension from the archive to %s. Check <a href="#admin#rt=tool/error_log" target="_blank">log</a> for errors ]]></value>
+		<value><![CDATA[Errore: impossibile estrarre l&#39;estensione dall&#39;archivio in %s. Controlla <a href="#admin#rt=tool/error_log" target="_blank">il registro</a> per gli errori]]></value>
 	</definition>
 	<definition>
 		<key>error_mp</key>
-		<value><![CDATA[ Marketplace error: ]]></value>
+		<value><![CDATA[Errore del mercato:]]></value>
 	</definition>
 	<definition>
 		<key>error_repository</key>
-		<value><![CDATA[ Error: Cannot download file. Repository error or invalid extension key. Try one more time. If problem persist download file in your order history and install manually. ]]></value>
+		<value><![CDATA[Errore: impossibile scaricare il file. Errore del repository o chiave di estensione non valida. Prova un&#39;altra volta. Se il problema persiste, scarica il file nella cronologia degli ordini e installalo manualmente.]]></value>
 	</definition>
 	<definition>
 		<key>error_ftp_user</key>
-		<value><![CDATA[ Error: FTP User Name is empty. ]]></value>
+		<value><![CDATA[Errore: il nome utente FTP è vuoto.]]></value>
 	</definition>
 	<definition>
 		<key>error_ftp_password</key>
-		<value><![CDATA[ Error: FTP User Password is empty. ]]></value>
+		<value><![CDATA[Errore: la password utente FTP è vuota.]]></value>
 	</definition>
 	<definition>
 		<key>error_ftp_connect</key>
-		<value><![CDATA[ Error: Can't connect to ftp-server ]]></value>
+		<value><![CDATA[Errore: impossibile connettersi al server ftp]]></value>
 	</definition>
 	<definition>
 		<key>error_ftp_login</key>
-		<value><![CDATA[ Error: Can't login to ftp-server. Invalid Username or Password. ]]></value>
+		<value><![CDATA[Errore: impossibile accedere al server ftp. Nome utente o password errati.]]></value>
 	</definition>
 	<definition>
 		<key>error_ftp_path</key>
-		<value><![CDATA[ Error: Can't find root directory of AbanteCart by FTP path.<br>Try leave it empty for automatic search. ]]></value>
+		<value><![CDATA[Errore: impossibile trovare la directory principale di AbanteCart tramite il percorso FTP. <br/> Prova a lasciarlo vuoto per la ricerca automatica.]]></value>
 	</definition>
 	<definition>
 		<key>error_ftp_path_array</key>
@@ -135,39 +135,39 @@ Ideal OpenSource Ecommerce Solution ]]></value>
 	</definition>
 	<definition>
 		<key>error_dir_permission</key>
-		<value><![CDATA[ Can't to save file because directory is not writable: ]]></value>
+		<value><![CDATA[Impossibile salvare il file perché la directory non è scrivibile:]]></value>
 	</definition>
 	<definition>
 		<key>error_package_structure</key>
-		<value><![CDATA[ Error: Probably package is broken. Structure of package error. ]]></value>
+		<value><![CDATA[Errore: probabilmente il pacchetto è danneggiato. Struttura dell&#39;errore del pacchetto.]]></value>
 	</definition>
 	<definition>
 		<key>error_package_config_xml</key>
-		<value><![CDATA[ Error: Cannot locate file package.xml inside of extracted extension. Possibly extension was not extracted correctly. Check <a href="#admin#rt=tool/error_log" target="_blank">log</a> for errors ]]></value>
+		<value><![CDATA[Errore: impossibile individuare il file package.xml all&#39;interno dell&#39;estensione estratta. Probabilmente l&#39;estensione non è stata estratta correttamente. Controlla <a href="#admin#rt=tool/error_log" target="_blank">il registro</a> per gli errori]]></value>
 	</definition>
 	<definition>
 		<key>error_package_config2</key>
-		<value><![CDATA[ Error: Can't find installation mode in package.xml inside package. ]]></value>
+		<value><![CDATA[Errore: impossibile trovare la modalità di installazione in package.xml all&#39;interno del pacchetto.]]></value>
 	</definition>
 	<definition>
 		<key>error_package_info_not_exists</key>
-		<value><![CDATA[ Error: Can't find package session info about this download. ]]></value>
+		<value><![CDATA[Errore: impossibile trovare le informazioni sulla sessione del pacchetto relative a questo download.]]></value>
 	</definition>
 	<definition>
 		<key>error_unpack</key>
-		<value><![CDATA[ Error: Can't unpack package "%PACKAGE%" after download. Archive error. See error log for details. ]]></value>
+		<value><![CDATA[Errore: impossibile decomprimere il pacchetto &quot;%PACKAGE%&quot; dopo il download. Errore di archiviazione. Vedere il registro degli errori per i dettagli.]]></value>
 	</definition>
 	<definition>
 		<key>error_move</key>
-		<value><![CDATA[ Error: Can't move package code after unpacking. Please try check write permissions of directory: ]]></value>
+		<value><![CDATA[Errore: impossibile spostare il codice del pacchetto dopo averlo disimballato. Prova a controllare i permessi di scrittura della directory:]]></value>
 	</definition>
 	<definition>
 		<key>error_install_mode</key>
-		<value><![CDATA[ Error: Can't install extension "%package%" because it already installed. You need deinstall and delete it first or get package for upgrade. ]]></value>
+		<value><![CDATA[Errore: impossibile installare l&#39;estensione &quot;%package%&quot; perché è già installata. Devi prima disinstallarlo ed eliminarlo o ottenere il pacchetto per l&#39;aggiornamento.]]></value>
 	</definition>
 	<definition>
 		<key>error_install_mode2</key>
-		<value><![CDATA[ Error: Can't upgrade extension "%package%" because it not installed. You need get package for install. ]]></value>
+		<value><![CDATA[Errore: impossibile aggiornare l&#39;estensione &quot;%package%&quot; perché non è installata. È necessario ottenere il pacchetto per l&#39;installazione.]]></value>
 	</definition>
 	<definition>
 		<key>error_version_compatibility</key>
@@ -175,11 +175,11 @@ Ideal OpenSource Ecommerce Solution ]]></value>
 	</definition>
 	<definition>
 		<key>error_package_version_compatibility</key>
-		<value><![CDATA[ Error: Can't upgrade package. Newer package version is already installed. ]]></value>
+		<value><![CDATA[Errore: impossibile aggiornare il pacchetto. La versione più recente del pacchetto è già installata.]]></value>
 	</definition>
 	<definition>
 		<key>error_install</key>
-		<value><![CDATA[ Error: Can't install package. Please see System -> Error Log for details. ]]></value>
+		<value><![CDATA[Errore: impossibile installare il pacchetto. Consultare Sistema -&gt; Registro errori per i dettagli.]]></value>
 	</definition>
 	<definition>
 		<key>error_core_version</key>
@@ -187,7 +187,7 @@ Ideal OpenSource Ecommerce Solution ]]></value>
 	</definition>
 	<definition>
 		<key>text_interrupt</key>
-		<value><![CDATA[ Interrupt ]]></value>
+		<value><![CDATA[Interrompere]]></value>
 	</definition>
 	<definition>
 		<key>text_continue</key>
@@ -195,52 +195,52 @@ Ideal OpenSource Ecommerce Solution ]]></value>
 	</definition>
 	<definition>
 		<key>confirm_version_incompatibility</key>
-		<value><![CDATA[ Current copy of this extension is not verified for your version of AbanteCart (v%s).<br>Extension build is specified for AbanteCart v%s.<br>
-		This is not a problem, but if you notice issues or incompatibility, please contact extension developer. ]]></value>
+		<value><![CDATA[La copia corrente di questa estensione non è verificata per la tua versione di AbanteCart (v%s). <br/> La build dell&#39;estensione è specificata per AbanteCart v%s. <br/> 
+ Questo non è un problema, ma se noti problemi o incompatibilità, contatta lo sviluppatore dell&#39;estensione.]]></value>
 	</definition>
 	<definition>
 		<key>error_move_ftp</key>
-		<value><![CDATA[ Error: Can't move package code after unpacking. Probably FTP path is incorrect.<br>Also, please, try to check write permissions of directory: ]]></value>
+		<value><![CDATA[Errore: impossibile spostare il codice del pacchetto dopo averlo disimballato. Probabilmente il percorso FTP non è corretto. <br/> Inoltre, prova a controllare i permessi di scrittura della directory:]]></value>
 	</definition>
 	<definition>
 		<key>text_network_install</key>
-		<value><![CDATA[ Network Install ]]></value>
+		<value><![CDATA[Installazione in rete]]></value>
 	</definition>
 	<definition>
 		<key>text_extension_upload</key>
-		<value><![CDATA[ Extension Upload ]]></value>
+		<value><![CDATA[Caricamento dell&#39;estensione]]></value>
 	</definition>
 	<definition>
 		<key>error_archive_extension</key>
-		<value><![CDATA[ Error: Only .tar.gz files supported. ]]></value>
+		<value><![CDATA[Errore: sono supportati solo i file .tar.gz.]]></value>
 	</definition>
 	<definition>
 		<key>entry_upload_file</key>
-		<value><![CDATA[ Upload file: ]]></value>
+		<value><![CDATA[Caricare un file:]]></value>
 	</definition>
 	<definition>
 		<key>entry_upload_url</key>
-		<value><![CDATA[ Insert URL: ]]></value>
+		<value><![CDATA[Inserisci URL:]]></value>
 	</definition>
 	<definition>
 		<key>error_move_backup</key>
-		<value><![CDATA[ Error: Can't backup files before upgrade. Check write permissions of directory: ]]></value>
+		<value><![CDATA[Errore: impossibile eseguire il backup dei file prima dell&#39;aggiornamento. Controlla i permessi di scrittura della directory:]]></value>
 	</definition>
 	<definition>
 		<key>text_core_upgrade_title</key>
-		<value><![CDATA[ Abantecart Core Upgrade ]]></value>
+		<value><![CDATA[Abantecart Core Upgrade]]></value>
 	</definition>
 	<definition>
 		<key>text_core_upgrade_attention</key>
-		<value><![CDATA[ Attention!
-AbanteCart is about to be upgraded to version %s!
- ]]></value>
+		<value><![CDATA[Attenzione! 
+ AbanteCart sta per essere aggiornato alla versione %s! 
+]]></value>
 	</definition>
 	<definition>
 		<key>text_core_upgrade_warning</key>
-		<value><![CDATA[ There is no undo after starting upgrade process.
-Complete database and code backup is highly recommended.
-Test upgrade on non-live sites first. Upgrade on live sites should be done only after testing. ]]></value>
+		<value><![CDATA[Non è possibile annullare dopo l&#39;avvio del processo di aggiornamento. 
+ Si consiglia vivamente di eseguire il backup completo del database e del codice. 
+ Testare prima l&#39;aggiornamento sui siti non live. L&#39;aggiornamento sui siti live dovrebbe essere eseguito solo dopo il test.]]></value>
 	</definition>
 	<definition>
 		<key>text_upgrade_now</key>
@@ -252,7 +252,7 @@ Test upgrade on non-live sites first. Upgrade on live sites should be done only 
 	</definition>
 	<definition>
 		<key>error_notconnected</key>
-		<value><![CDATA[ Can not upgrade or install extensions from the marketplace. This store is not authenticated/connected. Please authenticate and connect to the <a href="%s">marketplace</a> ]]></value>
+		<value><![CDATA[Impossibile aggiornare o installare estensioni dal marketplace. Questo negozio non è autenticato/connesso. Autenticati e connettiti al <a href="%s">marketplace</a>]]></value>
 	</definition>
 	<definition>
 		<key>text_success</key>

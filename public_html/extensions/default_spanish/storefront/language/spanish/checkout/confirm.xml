@@ -14,8 +14,7 @@
 	</definition>
 	<definition>
 		<key>text_accept_agree</key>
-		<value>
-			<![CDATA[Al hacer clic en Confirmar pedido, usted acepta todos los términos de ]]></value>
+		<value><![CDATA[Al hacer clic en Confirmar pedido, usted acepta todos los términos de ]]></value>
 	</definition>
 	<definition>
 		<key>text_cart_items</key>

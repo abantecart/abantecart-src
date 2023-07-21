@@ -69,6 +69,7 @@ class ControllerPagesProductManufacturer extends AController
         } else {
             $cart_rt = 'checkout/cart';
         }
+        $this->data['cart_rt'] = $cart_rt;
 
         $this->loadLanguage('product/manufacturer');
 

@@ -428,4 +428,12 @@
 		<key>text_max_weight</key>
 		<value><![CDATA[Peso massimo del pacco (%s)]]></value>
 	</definition>
+	<definition>
+		<key>text_min_order_subtotal</key>
+		<value><![CDATA[Subtotale ordine minimo: <span class="help">inserire il valore del subtotale minimo dell&#39;ordine affinché l&#39;opzione di spedizione sia disponibile per il cliente. Questo campo è facoltativo.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_max_order_subtotal</key>
+		<value><![CDATA[Subtotale massimo dell&#39;ordine: <span class="help">immettere il valore massimo del subtotale dell&#39;ordine per l&#39;opzione di spedizione disponibile per il cliente. Questo campo è facoltativo.</span>]]></value>
+	</definition>
 </definitions>

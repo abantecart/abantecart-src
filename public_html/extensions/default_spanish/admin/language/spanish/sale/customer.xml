@@ -42,7 +42,7 @@
 	</definition>
 	<definition>
 		<key>column_email</key>
-		<value><![CDATA[E-Mail]]></value>
+		<value><![CDATA[Correo electrónico]]></value>
 	</definition>
 	<definition>
 		<key>column_group</key>
@@ -82,7 +82,7 @@
 	</definition>
 	<definition>
 		<key>entry_email</key>
-		<value><![CDATA[E-Mail:]]></value>
+		<value><![CDATA[Correo electrónico:]]></value>
 	</definition>
 	<definition>
 		<key>entry_telephone</key>
@@ -210,7 +210,7 @@
 	</definition>
 	<definition>
 		<key>text_select_group</key>
-		<value><![CDATA[- Seleccione el Grupo -]]></value>
+		<value><![CDATA[- Selecciona grupo -]]></value>
 	</definition>
 	<definition>
 		<key>entry_approved</key>
@@ -222,35 +222,35 @@
 	</definition>
 	<definition>
 		<key>tab_customer_details</key>
-		<value><![CDATA[Customer details]]></value>
+		<value><![CDATA[Detalles del cliente]]></value>
 	</definition>
 	<definition>
 		<key>tab_transactions</key>
-		<value><![CDATA[Transactions]]></value>
+		<value><![CDATA[Actas]]></value>
 	</definition>
 	<definition>
 		<key>heading_title_transactions</key>
-		<value><![CDATA[Customer's transactions]]></value>
+		<value><![CDATA[transacciones del cliente]]></value>
 	</definition>
 	<definition>
 		<key>column_create_date</key>
-		<value><![CDATA[Date Created]]></value>
+		<value><![CDATA[fecha de creacion]]></value>
 	</definition>
 	<definition>
 		<key>column_created_by</key>
-		<value><![CDATA[Created By]]></value>
+		<value><![CDATA[Creado por]]></value>
 	</definition>
 	<definition>
 		<key>column_debit</key>
-		<value><![CDATA[Debit]]></value>
+		<value><![CDATA[Débito]]></value>
 	</definition>
 	<definition>
 		<key>column_credit</key>
-		<value><![CDATA[Credit]]></value>
+		<value><![CDATA[Crédito]]></value>
 	</definition>
 	<definition>
 		<key>column_transaction_type</key>
-		<value><![CDATA[Transaction Type]]></value>
+		<value><![CDATA[tipo de transacción]]></value>
 	</definition>
 	<definition>
 		<key>text_balance</key>
@@ -258,11 +258,11 @@
 	</definition>
 	<definition>
 		<key>popup_title_info</key>
-		<value><![CDATA[Transaction information]]></value>
+		<value><![CDATA[Información de la transacción]]></value>
 	</definition>
 	<definition>
 		<key>popup_title_insert</key>
-		<value><![CDATA[Insert New Transaction]]></value>
+		<value><![CDATA[Insertar nueva transacción]]></value>
 	</definition>
 	<definition>
 		<key>entry_credit</key>

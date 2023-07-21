@@ -8,7 +8,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2021 Belavier Commerce LLC
+  Copyright © 2011-2023 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -20,6 +20,8 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
+
+use AvaTax\TaxLine;
 
 class ExtensionAvataxIntegration extends Extension
 {
@@ -390,7 +392,6 @@ class ExtensionAvataxIntegration extends Extension
      */
     public function getTax($that, $cust_data, $commit = false, $total_data = 0, $return = false)
     {
-        $docHash = '';
         $load = $this->registry->get('load');
         $config = $this->registry->get('config');
         $session = $this->registry->get('session')->data['fc'] && $config->get('fast_checkout_status')
@@ -484,7 +485,7 @@ class ExtensionAvataxIntegration extends Extension
             // Required Request Parameters
             $cust_data['customer_id'] = $customer_id ? : 'guest';
             $getTaxRequest->setCustomerCode($cust_data['customer_id']);
-            if ($order_data['date_added'] && $return == false) {
+            if ($order_data['date_added'] && !$return) {
                 $date = new DateTime($order_data['date_added']);
                 $date = $date->format('Y-m-d');
             } else {
@@ -515,14 +516,13 @@ class ExtensionAvataxIntegration extends Extension
                 $getTaxRequest->setDocCode($docCode);
                 $getTaxRequest->setDetailLevel(AvaTax\DetailLevel::$Tax);
                 //commit doc by parameter. ON sf-side it always false
-                if ($commit == true) {
+                if ($commit) {
                     $getTaxRequest->setCommit(true);
                 } //commit doc by settings
                 elseif ($config->get('avatax_integration_commit_documents')
                     && ($order_data['order_status_id'] == $config->get('avatax_integration_status_success_settled'))
-                    && (!$customer_settings['exemption_number']
-                        || $customer_settings['status'] == 1
-                        && $customer_settings['exemption_number'])
+                    && ( !$customer_settings['exemption_number']
+                            || ($customer_settings['status'] == 1 && $customer_settings['exemption_number']))
                 ) {
                     $getTaxRequest->setCommit(true);
                 } else {
@@ -543,7 +543,7 @@ class ExtensionAvataxIntegration extends Extension
             if (is_array($total_data)) {
                 $getTaxRequest->setDiscount($this->calcTotalDiscount($total_data));
             }
-            if ($order_data['date_added'] && $return == true) {
+            if ($order_data['date_added'] && $return) {
                 $date = new DateTime($order_data['date_added']);
                 $date = $date->format('Y-m-d');
                 $taxOverride = new AvaTax\TaxOverride();
@@ -572,68 +572,29 @@ class ExtensionAvataxIntegration extends Extension
             $address2 = new AvaTax\Address();
             $address2->setAddressCode("2");
 
-            if (isset($order_data['shipping_postcode']) && !empty($order_data['shipping_postcode'])
-                && $config->get('config_tax_customer') == 0
-            ) {
-                $address2->setLine1(
-                    $customerAddress['address_1'] ? : $order_data['shipping_address_1']
-                );
-                $address2->setLine2(
-                    $customerAddress['address_2'] ? : $order_data['shipping_address_2']
-                );
-                $address2->setCity(
-                    $customerAddress['city'] ? : $order_data['shipping_city']
-                );
-                $address2->setRegion(
-                    $customerAddress['zone_code'] ? : $order_data['shipping_zone_code']
-                );
-                $address2->setCountry(
-                    $customerAddress['iso_code_2'] ? : $order_data['shipping_iso_code_2']
-                );
-                $address2->setPostalCode(
-                    $customerAddress['postcode'] ? : $order_data['shipping_postcode']
-                );
-            } elseif (isset($order_data['payment_postcode'])
-                && !empty($order_data['payment_postcode'])
-                && $config->get('config_tax_customer') == 1
-            ) {
-                $address2->setLine1(
-                    $customerAddress['address_1'] ? : $order_data['payment_address_1']
-                );
-                $address2->setLine2(
-                    $customerAddress['address_2'] ? : $order_data['payment_address_2']
-                );
-                $address2->setCity(
-                    $customerAddress['city'] ? : $order_data['payment_city']
-                );
-                $address2->setRegion(
-                    $customerAddress['zone_code'] ? : $order_data['payment_zone_code']
-                );
-                $address2->setCountry(
-                    $customerAddress['iso_code_2'] ? : $order_data['payment_iso_code_2']
-                );
-                $address2->setPostalCode(
-                    $customerAddress['postcode'] ? : $order_data['payment_postcode']
-                );
+            if (!empty($order_data['shipping_postcode']) && $config->get('config_tax_customer') == 0 )
+            {
+                $address2->setLine1( $customerAddress['address_1'] ? : $order_data['shipping_address_1'] );
+                $address2->setLine2( $customerAddress['address_2'] ? : $order_data['shipping_address_2'] );
+                $address2->setCity( $customerAddress['city'] ? : $order_data['shipping_city'] );
+                $address2->setRegion( $customerAddress['zone_code'] ? : $order_data['shipping_zone_code'] );
+                $address2->setCountry( $customerAddress['iso_code_2'] ? : $order_data['shipping_iso_code_2'] );
+                $address2->setPostalCode( $customerAddress['postcode'] ? : $order_data['shipping_postcode'] );
+            } elseif (!empty($order_data['payment_postcode']) && $config->get('config_tax_customer') == 1)
+            {
+                $address2->setLine1( $customerAddress['address_1'] ? : $order_data['payment_address_1'] );
+                $address2->setLine2( $customerAddress['address_2'] ? : $order_data['payment_address_2'] );
+                $address2->setCity( $customerAddress['city'] ? : $order_data['payment_city'] );
+                $address2->setRegion( $customerAddress['zone_code'] ? : $order_data['payment_zone_code'] );
+                $address2->setCountry( $customerAddress['iso_code_2'] ? : $order_data['payment_iso_code_2']);
+                $address2->setPostalCode( $customerAddress['postcode'] ? : $order_data['payment_postcode'] );
             } else {
-                $address2->setLine1(
-                    $customerAddress['address_1'] ? : $order_data['address_1']
-                );
-                $address2->setLine2(
-                    $customerAddress['address_2'] ? : $order_data['address_2']
-                );
-                $address2->setCity(
-                    $customerAddress['city'] ? : $order_data['city']
-                );
-                $address2->setRegion(
-                    $customerAddress['zone_code'] ? : $order_data['zone_code']
-                );
-                $address2->setCountry(
-                    $customerAddress['iso_code_2'] ? : $order_data['iso_code_2']
-                );
-                $address2->setPostalCode(
-                    $customerAddress['postcode'] ? : $order_data['postcode']
-                );
+                $address2->setLine1( $customerAddress['address_1'] ? : $order_data['address_1'] );
+                $address2->setLine2( $customerAddress['address_2'] ? : $order_data['address_2'] );
+                $address2->setCity( $customerAddress['city'] ? : $order_data['city'] );
+                $address2->setRegion( $customerAddress['zone_code'] ? : $order_data['zone_code'] );
+                $address2->setCountry( $customerAddress['iso_code_2'] ? : $order_data['iso_code_2'] );
+                $address2->setPostalCode( $customerAddress['postcode'] ? : $order_data['postcode'] );
             }
 
             $addresses[] = $address2;
@@ -669,7 +630,7 @@ class ExtensionAvataxIntegration extends Extension
                     ];
 
                     $line->setQty($values['quantity']);
-                    if ($return == false) {
+                    if (!$return) {
                         $line->setAmount($values['total']);
                     } else {
                         $line->setAmount(-1 * $values['total']);
@@ -718,7 +679,7 @@ class ExtensionAvataxIntegration extends Extension
 
             //add freight item
             //see https://developer.avalara.com/avatax/calculating-tax/
-            if (IS_ADMIN == true) {
+            if (IS_ADMIN === true) {
                 list($shp_method,) = explode('.', $order_data['shipping_method_key']);
                 $shp_title = $order_data['shipping_method'];
                 /** @var ModelSaleOrder $mdl */
@@ -802,7 +763,7 @@ class ExtensionAvataxIntegration extends Extension
                     $taxLines = $getTaxResult->getTaxLines();
 
                     foreach($taxLines as $line){
-                        /** @var \AvaTax\TaxLine $line */
+                        /** @var TaxLine $line */
                         $linesMapping[$line->getLineNo()]['tax_amount'] = $line->getTaxCalculated();
                     }
 
@@ -818,6 +779,7 @@ class ExtensionAvataxIntegration extends Extension
 
     /**
      * @param array $cust_data
+     * @throws AException
      */
     public function cancelTax($cust_data)
     {
@@ -1164,6 +1126,9 @@ class ExtensionAvataxIntegration extends Extension
         $that->view->addHookVar('customer_attributes', $view->fetch('pages/account/tax_exempt_edit.tpl'));
     }
 
+    /**
+     *@see  ModelAccountAddress::validateAddressData()
+     */
     public function onModelAccountAddress_ValidateData()
     {
         /** @var ModelAccountAddress $that */
@@ -1174,7 +1139,7 @@ class ExtensionAvataxIntegration extends Extension
         ) {
             $address = func_get_arg(0)['address'];
             if ($that->customer->isLogged()) {
-                $session = $this->registry->get('fast_checkout') == true || $this->registry->get('session')->data['fc']
+                $session = $this->registry->get('fast_checkout') || $this->registry->get('session')->data['fc']
                     ? $this->registry->get('session')->data['fc']
                     : $this->registry->get('session')->data;
                 $address['address_id'] = $session['shipping_address_id']

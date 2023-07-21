@@ -23,10 +23,10 @@
             ?>
                 <tr>
                     <td class="d-flex flex-wrap align-items-center justify-content-between">
-                        <div class="d-none d-md-flex mx-1">
-                            <img alt="" class="product-icon" src="<?php echo $product['thumbnail']['main_url']; ?>">
+                        <div class="d-none d-xl-flex mx-1 col-md-2">
+                            <img style="width:<?php echo $product['thumbnail']['width']?>px;" class="product-icon" src="<?php echo $product['thumbnail']['main_url']; ?>">
                         </div>
-                        <div class="ms-auto me-1 text-wrap">
+                        <div class="ms-auto text-wrap col-12 col-xl-9">
                             <?php if($product['href']){ ?>
                                 <a class="link-dark link-"  href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a>
                             <?php }else{
@@ -54,9 +54,9 @@
 
             <?php if ($total_items > $cart_view_limit) {  ?>
                 <tr>
-                    <td >
-                        <a class="d-flex justify-content-center" title="see more cart products" href="<?php echo $view; ?>">
-                            <i class="fa fa-chevron-down fa-lg"></i>
+                    <td class="table-light text-center">
+                        <a class="btn btn-lightblue btn-sm" title="see more cart products" href="<?php echo $this->html->getSecureUrl($cart_rt); ?>">
+                            <i class="fa fa-angles-down fa-lg"></i>
                         </a>
                     </td>
                 </tr>

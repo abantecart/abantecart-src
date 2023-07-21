@@ -94,7 +94,7 @@
 	</definition>
 	<definition>
 		<key>error_mp</key>
-		<value><![CDATA[ Marketplace error: ]]></value>
+		<value><![CDATA[Ошибка торговой площадки:]]></value>
 	</definition>
 	<definition>
 		<key>error_repository</key>

@@ -167,7 +167,10 @@ class ExtensionFastCheckout extends Extension
                 'media' => 'screen',
             ]
         );
-        $that->document->addScript($that->view->templateResource('/js/credit_card_validation.js'));
+        if(is_file(DIR_EXTENSIONS.'fast_checkout/storefront/view/'.$that->config->get('config_storefront_template').'/js/credit_card_validation.js')){
+           $that->document->addScript($that->view->templateResource('/js/credit_card_validation.js'));
+        }
+        $that->document->addScriptBottom( $that->view->templateResource('/js/fast_checkout.js') );
         $that->loadLanguage('fast_checkout/fast_checkout');
         $this->init_loaded = true;
     }

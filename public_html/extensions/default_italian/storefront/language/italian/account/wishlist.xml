@@ -4,10 +4,10 @@
 		<key>heading_title</key>
 		<value><![CDATA[Lista dei desideri]]></value>
 	</definition>
-    <definition>
-        <key>text_account</key>
-        <value><![CDATA[Account]]></value>
-    </definition>
+	<definition>
+		<key>text_account</key>
+		<value><![CDATA[Account]]></value>
+	</definition>
 	<definition>
 		<key>text_empty_wishlist</key>
 		<value><![CDATA[Lista dei desideri vuota]]></value>

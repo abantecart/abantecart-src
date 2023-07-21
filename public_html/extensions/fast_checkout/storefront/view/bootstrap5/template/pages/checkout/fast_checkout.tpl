@@ -17,6 +17,8 @@ if ($error) { ?>
 
 <script type="application/javascript">
 
+
+
 document.addEventListener('DOMContentLoaded', function load() {
     //waiting for jquery loaded!
     if (!window.jQuery) return setTimeout(load, 50);

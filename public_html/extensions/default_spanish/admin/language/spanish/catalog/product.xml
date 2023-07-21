@@ -10,7 +10,7 @@
 	</definition>
 	<definition>
 		<key>tab_media</key>
-		<value><![CDATA[Media]]></value>
+		<value><![CDATA[Medios de comunicación]]></value>
 	</definition>
 	<definition>
 		<key>tab_shipping</key>
@@ -114,7 +114,7 @@
 	</definition>
 	<definition>
 		<key>entry_meta_keywords</key>
-		<value><![CDATA[Meta Tag Keywords:]]></value>
+		<value><![CDATA[Palabras clave de etiquetas meta:]]></value>
 	</definition>
 	<definition>
 		<key>entry_minimum</key>
@@ -362,7 +362,7 @@
 	</definition>
 	<definition>
 		<key>filter_price_max</key>
-		<value><![CDATA[max]]></value>
+		<value><![CDATA[máximo]]></value>
 	</definition>
 	<definition>
 		<key>text_view</key>
@@ -598,7 +598,7 @@
 	</definition>
 	<definition>
 		<key>error_weight_class</key>
-		<value><![CDATA[Please set weight class.]]></value>
+		<value><![CDATA[Por favor, establezca la clase de peso.]]></value>
 	</definition>
 	<definition>
 		<key>entry_allowed_extensions</key>

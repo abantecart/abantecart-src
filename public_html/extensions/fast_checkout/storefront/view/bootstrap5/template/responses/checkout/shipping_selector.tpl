@@ -20,10 +20,11 @@ if($this->cart->hasShipping()){
              <div class="d-flex flex-wrap p-2">
              <?php
                 if (!$shipping_method['error']) {
+                    $k = 0;
                     foreach ($shipping_method['quote'] as $quote) {
                         $quote['radio']->options = [ key($quote['radio']->options) => '' ];
                         ?>
-                    <div class="d-flex flex-nowrap col-12 table-hover">
+                    <div class="d-flex flex-nowrap col-12 align-items-center <?php echo $k%2 ? 'bg-light': ''; ?>">
                         <div class="flex-shrink p-2 fc-radio-noborder">
                             <?php  echo $quote['radio']; ?>
                         </div>
@@ -52,7 +53,9 @@ if($this->cart->hasShipping()){
                         </label>
                     </div>
 
-                    <?php } ?>
+                    <?php
+                    $k++;
+                    } ?>
 
                     <?php echo $this->getHookVar('shipping_'.$shipping_method['title'].'_additional_info'); ?>
                  <?php } else { ?>

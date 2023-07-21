@@ -38,7 +38,7 @@
 	</definition>
 	<definition>
 		<key>entry_locale</key>
-		<value><![CDATA[Locale:]]></value>
+		<value><![CDATA[Località:]]></value>
 	</definition>
 	<definition>
 		<key>entry_image</key>
@@ -46,7 +46,7 @@
 	</definition>
 	<definition>
 		<key>entry_directory</key>
-		<value><![CDATA[Directory:]]></value>
+		<value><![CDATA[Rubrica:]]></value>
 	</definition>
 	<definition>
 		<key>entry_filename</key>

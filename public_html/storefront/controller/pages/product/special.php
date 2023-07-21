@@ -60,6 +60,11 @@ class ControllerPagesProductSpecial extends AController
     {
         $request = $this->request->get;
 
+        //is this an embed mode
+        $this->data['cart_rt'] = $this->config->get('embed_mode')
+            ? 'r/checkout/cart/embed'
+            : 'checkout/cart';
+
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 

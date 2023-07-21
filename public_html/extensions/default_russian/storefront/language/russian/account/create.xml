@@ -50,7 +50,7 @@
 	</definition>
 	<definition>
 		<key>entry_email</key>
-		<value><![CDATA[E-Mail:]]></value>
+		<value><![CDATA[Электронная почта:]]></value>
 	</definition>
 	<definition>
 		<key>entry_telephone</key>
@@ -186,7 +186,7 @@
 	</definition>
 	<definition>
 		<key>text_new_customer</key>
-		<value><![CDATA[New customer registration approval is pending]]></value>
+		<value><![CDATA[Ожидается одобрение регистрации нового клиента]]></value>
 	</definition>
 	<definition>
 		<key>text_pending_customer_approval</key>

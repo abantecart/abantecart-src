@@ -93,13 +93,13 @@ if ($show_payment == true) {
             </div>
     <?php }
     if ($enabled_coupon) { ?>
-            <div class="coupon_code input-group mb-3">
+            <div class="coupon_code input-group input-group-lg mb-3">
                 <div class="input-group-text">
                     <i class="fa fa-ticket"></i>
                 </div>
                 <input id="coupon_code"
                        aria-label="coupon"
-                       class="form-control input-lg"
+                       class="form-control"
                        placeholder="<?php echo_html2view($fast_checkout_text_coupon_code); ?>"
                        name="coupon_code"
                        type="text"

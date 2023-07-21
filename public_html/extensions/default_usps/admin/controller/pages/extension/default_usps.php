@@ -23,13 +23,19 @@ if (!defined('DIR_CORE')) {
 
 class ControllerPagesExtensionDefaultUsps extends AController
 {
-    private $error = array();
-    public $data = array();
-    private $fields = array(
+    public $error = [];
+    public $fields = [
         'default_usps_user_id',
         'default_usps_password',
         'default_usps_postcode',
         'default_usps_domestic_0',
+        'default_usps_domestic_4058',
+        'default_usps_domestic_1058',
+        'default_usps_domestic_2058',
+        'default_usps_domestic_6058',
+        'default_usps_domestic_4096',
+        'default_usps_domestic_1096',
+        'default_usps_domestic_2096',
         'default_usps_domestic_1',
         'default_usps_domestic_2',
         'default_usps_domestic_3',
@@ -81,7 +87,7 @@ class ControllerPagesExtensionDefaultUsps extends AController
         'default_usps_location_id',
         'default_usps_status',
         'default_usps_sort_order',
-    );
+    ];
 
     public function main()
     {
@@ -116,45 +122,45 @@ class ControllerPagesExtensionDefaultUsps extends AController
             unset($this->session->data['success']);
         }
 
-        $this->document->initBreadcrumb(array(
+        $this->document->initBreadcrumb([
             'href'      => $this->html->getSecureURL('index/home'),
             'text'      => $this->language->get('text_home'),
             'separator' => false,
-        ));
-        $this->document->addBreadcrumb(array(
+        ]);
+        $this->document->addBreadcrumb([
             'href'      => $this->html->getSecureURL('extension/extensions/shipping'),
             'text'      => $this->language->get('text_shipping'),
             'separator' => ' :: ',
-        ));
-        $this->document->addBreadcrumb(array(
+        ]);
+        $this->document->addBreadcrumb([
             'href'      => $this->html->getSecureURL('extension/default_usps'),
             'text'      => $this->language->get('default_usps_name'),
             'separator' => ' :: ',
             'current'   => true,
-        ));
+        ]);
 
-        $sizes = array(
+        $sizes = [
             'REGULAR'  => $this->language->get('text_regular'),
             'LARGE'    => $this->language->get('text_large'),
             'OVERSIZE' => $this->language->get('text_oversize'),
-        );
+        ];
 
-        $containers = array(
+        $containers = [
             'RECTANGULAR'    => $this->language->get('text_rectangular'),
             'NONRECTANGULAR' => $this->language->get('text_non_rectangular'),
             'VARIABLE'       => $this->language->get('text_variable'),
-        );
+        ];
 
         $this->load->model('localisation/tax_class');
         $results = $this->model_localisation_tax_class->getTaxClasses();
-        $tax_classes = array(0 => $this->language->get('text_none'));
+        $tax_classes = [0 => $this->language->get('text_none')];
         foreach ($results as $k => $v) {
             $tax_classes[$v['tax_class_id']] = $v['title'];
         }
 
         $this->load->model('localisation/location');
         $results = $this->model_localisation_location->getLocations();
-        $locations = array(0 => $this->language->get('text_all_zones'));
+        $locations = [0 => $this->language->get('text_all_zones')];
         foreach ($results as $k => $v) {
             $locations[$v['location_id']] = $v['name'];
         }
@@ -175,166 +181,174 @@ class ControllerPagesExtensionDefaultUsps extends AController
         $this->data ['update'] = $this->html->getSecureURL('r/extension/default_usps_save/update');
 
         $form = new AForm ('HS');
-        $form->setForm(array('form_name' => 'editFrm', 'update' => $this->data ['update']));
+        $form->setForm(['form_name' => 'editFrm', 'update' => $this->data ['update']]);
 
-        $this->data['form']['form_open'] = $form->getFieldHtml(array(
+        $this->data['form']['form_open'] = $form->getFieldHtml([
             'type'   => 'form',
             'name'   => 'editFrm',
             'action' => $this->data ['action'],
             'attr'   => 'data-confirm-exit="true" class="aform form-horizontal"',
-        ));
-        $this->data['form']['submit'] = $form->getFieldHtml(array(
+        ]);
+        $this->data['form']['submit'] = $form->getFieldHtml([
             'type' => 'button',
             'name' => 'submit',
             'text' => $this->language->get('button_save'),
-        ));
-        $this->data['form']['cancel'] = $form->getFieldHtml(array(
+        ]);
+        $this->data['form']['cancel'] = $form->getFieldHtml([
             'type' => 'button',
             'name' => 'cancel',
             'text' => $this->language->get('button_cancel'),
-        ));
+        ]);
 
-        $this->data['form']['fields']['user_id'] = $form->getFieldHtml(array(
+        $this->data['form']['fields']['user_id'] = $form->getFieldHtml([
             'type'     => 'input',
             'name'     => 'default_usps_user_id',
             'value'    => $this->data['default_usps_user_id'],
             'required' => true,
-        ));
-        $this->data['form']['fields']['password'] = $form->getFieldHtml(array(
+        ]);
+        $this->data['form']['fields']['password'] = $form->getFieldHtml([
             'type'  => 'input',
             'name'  => 'default_usps_password',
             'value' => $this->data['default_usps_password'],
-        ));
-        $this->data['form']['fields']['postcode'] = $form->getFieldHtml(array(
-            'type'     => 'input',
-            'name'     => 'default_usps_postcode',
-            'value'    => $this->data['default_usps_postcode'],
-            'required' => true,
-        ));
+        ]);
+        $this->data['form']['fields']['postcode'] = $form->getFieldHtml(
+            [
+                'type'     => 'input',
+                'name'     => 'default_usps_postcode',
+                'value'    => $this->data['default_usps_postcode'],
+                'required' => true,
+            ]
+        );
 
-        $domestic = array(0, 1, 2, 3, 4, 5, 6, 7, 12, 13, 16, 17, 18, 19, 22, 23, 25, 27, 28);
-        $this->data['form']['fields']['domestic'] = array();
+        $this->data['form']['fields']['domestic'] = [];
 
-        $options = array();
-        foreach ($domestic as $i) {
-            $title = 'domestic_'.$i;
+        $options = [];
+        foreach (USPS_CLASSES['domestic'] as $i => $title) {
             $name = 'default_usps_domestic_'.$i;
-            $this->data['form']['fields']['domestic'][$title] = $form->getFieldHtml(array(
-                'type'  => 'checkbox',
-                'name'  => $name,
-                'style' => 'btn_switch',
-                'value' => $this->data[$name],
-            ));
-            $options[$title] = $this->language->get('text_'.$title);
+            $this->data['form']['fields']['domestic'][$name] = $form->getFieldHtml(
+                [
+                    'type'  => 'checkbox',
+                    'name'  => $name,
+                    'style' => 'btn_switch',
+                    'value' => $this->data[$name],
+                ]
+            );
+            $options[$title] =  $this->data['entry_'.$name] = $title;
         }
 
-        $this->data['form']['fields']['free_domestic_method'] = $form->getFieldHtml(array(
-            'type'    => 'selectbox',
-            'name'    => 'default_usps_free_domestic_method',
-            'options' => $options,
-            'value'   => $this->data['default_usps_free_domestic_method'],
-        ));
+        $this->data['form']['fields']['free_domestic_method'] = $form->getFieldHtml(
+            [
+                'type'    => 'selectbox',
+                'name'    => 'default_usps_free_domestic_method',
+                'options' => $options,
+                'value'   => $this->data['default_usps_free_domestic_method'],
+            ]
+        );
 
-        $international = array(1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 21);
-        $this->data['form']['fields']['international'] = array();
-        $options = array();
-        foreach ($international as $i) {
-            $title = 'international_'.$i;
+        $this->data['form']['fields']['international'] = [];
+        $options = [];
+        foreach (USPS_CLASSES['international'] as $i => $title) {
+
             $name = 'default_usps_international_'.$i;
-            $this->data['form']['fields']['international'][$title] = $form->getFieldHtml(array(
-                'type'  => 'checkbox',
-                'name'  => $name,
-                'style' => 'btn_switch',
-                'value' => $this->data[$name],
-            ));
-            $options[$title] = $this->language->get('text_'.$title);
+            $this->data['form']['fields']['international'][$name] = $form->getFieldHtml(
+                [
+                    'type'  => 'checkbox',
+                    'name'  => $name,
+                    'style' => 'btn_switch',
+                    'value' => $this->data[$name],
+                ]
+            );
+            $options[$title] =  $this->data['entry_'.$name] = $title;
         }
-//method of usps for products with free shipping
-        $this->data['form']['fields']['free_international_method'] = $form->getFieldHtml(array(
-            'type'    => 'selectbox',
-            'name'    => 'default_usps_free_international_method',
-            'options' => $options,
-            'value'   => $this->data['default_usps_free_international_method'],
-        ));
 
-        $this->data['form']['fields']['size'] = $form->getFieldHtml(array(
+        //method of usps for products with free shipping
+        $this->data['form']['fields']['free_international_method'] = $form->getFieldHtml(
+            [
+                'type'    => 'selectbox',
+                'name'    => 'default_usps_free_international_method',
+                'options' => $options,
+                'value'   => $this->data['default_usps_free_international_method'],
+            ]
+        );
+
+        $this->data['form']['fields']['size'] = $form->getFieldHtml([
             'type'    => 'selectbox',
             'name'    => 'default_usps_size',
             'options' => $sizes,
             'value'   => $this->data['default_usps_size'],
-        ));
-        $this->data['form']['fields']['container'] = $form->getFieldHtml(array(
+        ]);
+        $this->data['form']['fields']['container'] = $form->getFieldHtml([
             'type'    => 'selectbox',
             'name'    => 'default_usps_container',
             'options' => $containers,
             'value'   => $this->data['default_usps_container'],
-        ));
-        $this->data['form']['fields']['machinable'] = $form->getFieldHtml(array(
+        ]);
+        $this->data['form']['fields']['machinable'] = $form->getFieldHtml([
             'type'    => 'selectbox',
             'name'    => 'default_usps_machinable',
-            'options' => array(
+            'options' => [
                 1 => $this->language->get('text_yes'),
                 0 => $this->language->get('text_no'),
-            ),
+            ],
             'value'   => $this->data['default_usps_machinable'],
-        ));
-        $this->data['form']['fields']['length'] = $form->getFieldHtml(array(
+        ]);
+        $this->data['form']['fields']['length'] = $form->getFieldHtml([
             'type'  => 'input',
             'name'  => 'default_usps_length',
             'value' => $this->data['default_usps_length'],
-        ));
-        $this->data['form']['fields']['width'] = $form->getFieldHtml(array(
+        ]);
+        $this->data['form']['fields']['width'] = $form->getFieldHtml([
             'type'  => 'input',
             'name'  => 'default_usps_width',
             'value' => $this->data['default_usps_width'],
-        ));
-        $this->data['form']['fields']['height'] = $form->getFieldHtml(array(
+        ]);
+        $this->data['form']['fields']['height'] = $form->getFieldHtml([
             'type'  => 'input',
             'name'  => 'default_usps_height',
             'value' => $this->data['default_usps_height'],
-        ));
-        $this->data['form']['fields']['girth'] = $form->getFieldHtml(array(
+        ]);
+        $this->data['form']['fields']['girth'] = $form->getFieldHtml([
             'type'  => 'input',
             'name'  => 'default_usps_girth',
             'value' => $this->data['default_usps_girth'],
-        ));
+        ]);
 
-        $this->data['form']['fields']['display_time'] = $form->getFieldHtml(array(
+        $this->data['form']['fields']['display_time'] = $form->getFieldHtml([
             'value'   => $this->data['default_usps_display_time'],
             'type'    => 'selectbox',
             'name'    => 'default_usps_display_time',
-            'options' => array(
+            'options' => [
                 1 => $this->language->get('text_yes'),
                 0 => $this->language->get('text_no'),
-            ),
-        ));
-        $this->data['form']['fields']['display_weight'] = $form->getFieldHtml(array(
+            ],
+        ]);
+        $this->data['form']['fields']['display_weight'] = $form->getFieldHtml([
             'type'    => 'selectbox',
             'name'    => 'default_usps_display_weight',
             'value'   => $this->data['default_usps_display_weight'],
-            'options' => array(
+            'options' => [
                 1 => $this->language->get('text_yes'),
                 0 => $this->language->get('text_no'),
-            ),
-        ));
+            ],
+        ]);
 
-        $this->data['form']['fields']['tax'] = $form->getFieldHtml(array(
+        $this->data['form']['fields']['tax'] = $form->getFieldHtml([
             'type'    => 'selectbox',
             'name'    => 'default_usps_tax_class_id',
             'options' => $tax_classes,
             'value'   => $this->data['default_usps_tax_class_id'],
-        ));
-        $this->data['form']['fields']['location'] = $form->getFieldHtml(array(
+        ]);
+        $this->data['form']['fields']['location'] = $form->getFieldHtml([
             'type'    => 'selectbox',
             'name'    => 'default_usps_location_id',
             'options' => $locations,
             'value'   => $this->data['default_usps_location_id'],
-        ));
-        $this->data['form']['fields']['sort_order'] = $form->getFieldHtml(array(
+        ]);
+        $this->data['form']['fields']['sort_order'] = $form->getFieldHtml([
             'type'  => 'input',
             'name'  => 'default_usps_sort_order',
             'value' => $this->data['default_usps_sort_order'],
-        ));
+        ]);
 
         //load tabs controller
 
@@ -342,11 +356,11 @@ class ControllerPagesExtensionDefaultUsps extends AController
         $this->data['link_additional_settings'] = '';
         $this->data['active_group'] = 'additional_settings';
 
-        $tabs_obj = $this->dispatch('pages/extension/extension_tabs', array($this->data));
+        $tabs_obj = $this->dispatch('pages/extension/extension_tabs', [$this->data]);
         $this->data['tabs'] = $tabs_obj->dispatchGetOutput();
         unset($tabs_obj);
 
-        $obj = $this->dispatch('pages/extension/extension_summary', array($this->data));
+        $obj = $this->dispatch('pages/extension/extension_summary', [$this->data]);
         $this->data['extension_summary'] = $obj->dispatchGetOutput();
         unset($obj);
 

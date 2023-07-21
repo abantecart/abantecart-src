@@ -96,7 +96,7 @@ class ModelTotalCoupon extends Model
                         $ship_data['tax_class_id']
                     );
                 }
-                $discount_total += $ship_data['cost'];
+                $discount_total += (float)$ship_data['cost'];
             }
 
             $total_data[] = [

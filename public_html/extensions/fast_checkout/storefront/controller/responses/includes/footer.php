@@ -31,14 +31,7 @@ class ControllerResponsesIncludesFooter extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->loadLanguage('common/footer');
         $this->data['text_copy'] = $this->config->get('store_name').' &copy; '.date('Y', time());
-
         $this->data['text_project_label'] = $this->language->get('text_powered_by').' '.project_base();
-
-        if ($this->config->get('config_google_analytics_code')) {
-            $this->data['google_analytics'] = $this->config->get('config_google_analytics_code');
-        } else {
-            $this->data['google_analytics'] = '';
-        }
 
         $this->view->assign('scripts_bottom', $this->document->getScriptsBottom());
         $this->data['text_project_label'] = $this->language->get('text_powered_by').' '.project_base();

@@ -170,7 +170,7 @@ class ControllerResponsesListingGridCoupon extends AController
                     $value = -1;
                 }
 
-                $err = $this->_validateForm($field, $value);
+                $err = $this->_validateForm($this->request->get['id'], $field, $value);
                 if (in_array($field, ['date_start', 'date_end'])) {
                     $value = dateDisplay2ISO($value);
                 }
@@ -201,7 +201,7 @@ class ControllerResponsesListingGridCoupon extends AController
         //request sent from jGrid. ID is key of array
         foreach ($this->request->post as $field => $value) {
             foreach ($value as $k => $v) {
-                $err = $this->_validateForm($field, $v);
+                $err = $this->_validateForm($k, $field, $v);
                 if (!$err) {
                     $this->model_sale_coupon->editCoupon($k, [$field => $v]);
                 } else {
@@ -216,12 +216,12 @@ class ControllerResponsesListingGridCoupon extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    protected function _validateForm($field, $value)
+    protected function _validateForm($couponId, $field, $value)
     {
         $err = false;
         switch ($field) {
             case 'coupon_description' :
-                foreach ($value as $language_id => $v) {
+                foreach ($value as $v) {
                     if (isset($v['name'])) {
                         if (mb_strlen($v['name']) < 2 || mb_strlen($v['name']) > 64) {
                             $err = $this->language->get('error_name');
@@ -243,6 +243,12 @@ class ControllerResponsesListingGridCoupon extends AController
             case 'date_start':
             case 'date_end':
                 if (!dateDisplay2ISO($value)) {
+                    $err = $this->language->get('error_date');
+                }
+                break;
+            case 'status':
+                $couponData = $this->model_sale_coupon->getCouponByID($couponId);
+                if($value && $couponData['date_end'] && dateISO2Int($couponData['date_end']) < time() ){
                     $err = $this->language->get('error_date');
                 }
                 break;
