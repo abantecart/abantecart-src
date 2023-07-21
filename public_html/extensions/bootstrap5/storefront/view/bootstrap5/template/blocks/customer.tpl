@@ -61,13 +61,13 @@
               <a class="dropdown-item" href="<?php echo $notification; ?>"><i class="fa fa-bell fa-fw me-2"></i> <?php echo $text_my_notifications; ?></a>
             </li>
 
+            <?php echo $this->getHookVar('customer_account_links'); ?>
+
             <li class="dropdown <?php if ( $logout == $current) echo 'current'; ?>">
               <a class="dropdown-item" href="<?php echo $logout; ?>">
                   <i class="fa fa-arrow-right-from-bracket fa-fw me-2"></i>
                 <?php echo $text_not.' '.$name.'? '.$text_logout; ?></a>
             </li>
-
-            <?php echo $this->getHookVar('customer_account_links'); ?>
         </ul>
     </li>
 <?php } else { ?>

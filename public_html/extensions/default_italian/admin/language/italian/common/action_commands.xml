@@ -18,19 +18,19 @@
 	</definition>
 	<definition>
 		<key>command_find</key>
-		<value><![CDATA[locate, find, search, search for, search 4]]></value>
+		<value><![CDATA[individuare, trovare, cercare, cercare, cercare 4]]></value>
 	</definition>
 	<definition>
 		<key>command_clear_cache</key>
-		<value><![CDATA[clear cache, cache clear, clear all cache]]></value>
+		<value><![CDATA[cancella cache, cancella cache, cancella tutta la cache]]></value>
 	</definition>
 	<definition>
 		<key>command_view_log</key>
-		<value><![CDATA[view log, log view, inspect log, see log, view error log, view errors]]></value>
+		<value><![CDATA[visualizza registro, visualizza registro, ispeziona registro, visualizza registro, visualizza registro errori, visualizza errori]]></value>
 	</definition>
 	<definition>
 		<key>command_clear_log</key>
-		<value><![CDATA[clear log, log clear, delete log, log delete]]></value>
+		<value><![CDATA[cancella registro, cancella registro, elimina registro, elimina registro]]></value>
 	</definition>
 	<definition>
 		<key>command_view_order</key>
@@ -82,39 +82,39 @@
 	</definition>
 	<definition>
 		<key>block</key>
-		<value><![CDATA[block]]></value>
+		<value><![CDATA[bloccare]]></value>
 	</definition>
 	<definition>
 		<key>menu</key>
-		<value><![CDATA[menu]]></value>
+		<value><![CDATA[menù]]></value>
 	</definition>
 	<definition>
 		<key>content</key>
-		<value><![CDATA[content]]></value>
+		<value><![CDATA[contenuto]]></value>
 	</definition>
 	<definition>
 		<key>banner</key>
-		<value><![CDATA[banner]]></value>
+		<value><![CDATA[bandiera]]></value>
 	</definition>
 	<definition>
 		<key>page</key>
-		<value><![CDATA[page]]></value>
+		<value><![CDATA[pagina]]></value>
 	</definition>
 	<definition>
 		<key>store</key>
-		<value><![CDATA[store]]></value>
+		<value><![CDATA[negozio]]></value>
 	</definition>
 	<definition>
 		<key>language</key>
-		<value><![CDATA[language]]></value>
+		<value><![CDATA[lingua]]></value>
 	</definition>
 	<definition>
 		<key>currency</key>
-		<value><![CDATA[currency]]></value>
+		<value><![CDATA[valuta]]></value>
 	</definition>
 	<definition>
 		<key>location</key>
-		<value><![CDATA[location]]></value>
+		<value><![CDATA[posizione]]></value>
 	</definition>
 	<definition>
 		<key>tax</key>

@@ -14,11 +14,11 @@
 	</definition>
 	<definition>
 		<key>text_block_path</key>
-		<value><![CDATA[Path:]]></value>
+		<value><![CDATA[Sentiero:]]></value>
 	</definition>
 	<definition>
 		<key>text_block_template</key>
-		<value><![CDATA[Template:]]></value>
+		<value><![CDATA[Modello:]]></value>
 	</definition>
 	<definition>
 		<key>text_block_parent</key>

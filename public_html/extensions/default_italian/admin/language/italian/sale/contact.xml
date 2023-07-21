@@ -110,7 +110,7 @@
 	</definition>
 	<definition>
 		<key>text_sms</key>
-		<value><![CDATA[SMS]]></value>
+		<value><![CDATA[sms]]></value>
 	</definition>
 	<definition>
 		<key>text_incompleted_tasks</key>

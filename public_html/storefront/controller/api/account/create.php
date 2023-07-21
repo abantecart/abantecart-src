@@ -69,6 +69,7 @@ class ControllerApiAccountCreate extends AControllerAPI
             $mail = new AMail($this->config);
             $mail->setTo($request_data['email']);
             $mail->setFrom($this->config->get('store_main_email'));
+            $mail->setReplyTo($this->config->get('store_main_email'));
             $mail->setSender($this->config->get('store_name'));
             $mail->setTemplate($template, $this->data['mail_template_data']);
             $mail->send();

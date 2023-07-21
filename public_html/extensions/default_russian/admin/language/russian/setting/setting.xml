@@ -82,7 +82,7 @@
 	</definition>
 	<definition>
 		<key>entry_email</key>
-		<value><![CDATA[E-Mail:]]></value>
+		<value><![CDATA[Электронная почта:]]></value>
 	</definition>
 	<definition>
 		<key>entry_alert_emails</key>
@@ -773,10 +773,6 @@
 		<value><![CDATA[Купон на странице корзины:<br /><span class="help">Позволить клиентам вводить код купона и получить скидку.</span>]]></value>
 	</definition>
 	<definition>
-		<key>entry_google_analytics</key>
-		<value><![CDATA[Google Analytics номер аккаунта:<br /><span class="help">Добавить ваш <a href="https://support.google.com/analytics/answer/1032385?hl=en&ref_topic=1008082" target="_blank">номер аккаунта Google Analytics</a>, чтобы включить отслеживание активности сайта. Это также позволяет отслеживать активность электронной коммерции. Вы должны включить отслеживание электронной коммерции в Google на странице настроек профиля для вашего сайта</span>]]></value>
-	</definition>
-	<definition>
 		<key>entry_ssl_url</key>
 		<value><![CDATA[Безопасный URL магазина:<br /><span class="help">используйте полный URL SSL (HTTPS) в вашем магазине. Убедитесь, что добавили &#39;/&#39; в конце. Например: https://www.yourdomain.com/path/ </span>]]></value>
 	</definition>
@@ -790,11 +786,11 @@
 	</definition>
 	<definition>
 		<key>text_clone_template</key>
-		<value><![CDATA[Clone Template With AbanteCart Developer Tools]]></value>
+		<value><![CDATA[Клонирование шаблона с помощью инструментов разработчика AbanteCart]]></value>
 	</definition>
 	<definition>
 		<key>text_set_template</key>
-		<value><![CDATA[Set this template for the storefront]]></value>
+		<value><![CDATA[Установить этот шаблон для витрины]]></value>
 	</definition>
 	<definition>
 		<key>entry_embed_status</key>
@@ -863,11 +859,11 @@
 	</definition>
 	<definition>
 		<key>text_im_protocol</key>
-		<value><![CDATA[IM Protocol]]></value>
+		<value><![CDATA[Протокол обмена мгновенными сообщениями]]></value>
 	</definition>
 	<definition>
 		<key>entry_sms_driver</key>
-		<value><![CDATA[SMS Provider]]></value>
+		<value><![CDATA[SMS-провайдер]]></value>
 	</definition>
 	<definition>
 		<key>entry_sms_driver_tooltip</key>
@@ -918,8 +914,9 @@
 		<value><![CDATA[Логотип в email-письме:]]></value>
 	</definition>
 	<definition>
-		<key>entry_google_tag_manager</key>
-		<value><![CDATA[Идентификатор менеджера тегов Google: <br/>]]></value>
+		<key>entry_google_analytics</key>
+		<value><![CDATA[
+ Идентификатор тега Google Analytics 4: <br/><span class="help">Добавьте <a href="https://support.google.com/analytics/answer/9539598?hl=en" target="_blank">идентификатор тега Google Analytics</a> , чтобы включить отслеживание активности на сайте. Это также позволяет отслеживать активность электронной торговли. Вы должны включить отслеживание электронной торговли в Google на странице настроек профиля вашего сайта.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_tax_class</key>

@@ -99,7 +99,7 @@ Solución ideal para comercio electrónico OpenSource ]]></value>
 	</definition>
 	<definition>
 		<key>error_mp</key>
-		<value><![CDATA[ Marketplace error: ]]></value>
+		<value><![CDATA[Error del mercado:]]></value>
 	</definition>
 	<definition>
 		<key>error_repository</key>
@@ -221,7 +221,8 @@ Solución ideal para comercio electrónico OpenSource ]]></value>
 	<definition>
 		<key>error_move_backup</key>
 		<value><![CDATA[ Error: No se puede copia de seguridad de los archivos antes de la actualización. Compruebe los permisos de escritura del directorio: ]]></value>
-	</definition><definition>
+	</definition>
+	<definition>
 		<key>text_core_upgrade_title</key>
 		<value><![CDATA[ Actualización Abantecart Core ]]></value>
 	</definition>

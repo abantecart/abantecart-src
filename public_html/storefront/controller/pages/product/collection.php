@@ -43,11 +43,9 @@ class ControllerPagesProductCollection extends AController
         $request = $this->request->get;
 
         //is this an embed mode
-        if ($this->config->get('embed_mode') == true) {
-            $cart_rt = 'r/checkout/cart/embed';
-        } else {
-            $cart_rt = 'checkout/cart';
-        }
+        $this->data['cart_rt'] = $this->config->get('embed_mode')
+            ? 'r/checkout/cart/embed'
+            : 'checkout/cart';
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
@@ -94,11 +92,11 @@ class ControllerPagesProductCollection extends AController
             $this->view->assign('text_sort', $this->language->get('text_sort'));
 
             $page = $request['page'] ?? 1;
-            if (isset($request['limit'])) {
-                $limit = (int) $request['limit'];
-                $limit = $limit > 50 ? 50 : $limit;
+
+            if (isset($this->request->get['limit'])) {
+              $limit = (int) $this->request->get['limit'];
             } else {
-                $limit = $this->config->get('config_catalog_limit');
+              $limit = $this->config->get('config_catalog_limit');
             }
 
             $sorting_href = $request['sort'];
@@ -186,7 +184,7 @@ class ControllerPagesProductCollection extends AController
                         if ($this->config->get('config_cart_ajax')) {
                             $add = '#';
                         } else {
-                            $add = $this->html->getSecureURL($cart_rt, '&product_id='.$result['product_id'], '&encode');
+                            $add = $this->html->getSecureURL($this->data['cart_rt'], '&product_id='.$result['product_id'], '&encode');
                         }
                     }
                     //check for stock status, availability and config
@@ -248,8 +246,9 @@ class ControllerPagesProductCollection extends AController
                 foreach ($this->data['sorts'] as $item => $text) {
                     $sort_options[$item] = $text;
                 }
-                $sorting = $this->html->buildSelectbox(
+                $sorting = $this->html->buildElement(
                     [
+                        'type'    => 'selectbox',
                         'name'    => 'sort',
                         'options' => $sort_options,
                         'value'   => $sort.'-'.$order,

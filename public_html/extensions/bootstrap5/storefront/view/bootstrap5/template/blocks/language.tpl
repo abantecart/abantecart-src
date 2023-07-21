@@ -8,7 +8,7 @@
     <div class="language-switcher navbar">
         <ul class="nav navbar-nav main_menu">
             <li class="nav-item dropdown">
-                <a id="dropdownLang" class="nav-link dropdown-toggle"
+                <a href="Javascript:void(0)" id="dropdownLang" class="nav-link dropdown-toggle"
                data-bs-toggle="dropdown" aria-expanded="false">
                 <?php if ($current['image']){ ?>
                     <img class="language-flag-img" src="<?php echo $current['image']; ?>" alt="<?php echo_html2view($current['name']); ?>"/>

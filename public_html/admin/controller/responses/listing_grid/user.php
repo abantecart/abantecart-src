@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2023 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,8 +23,6 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerResponsesListingGridUser extends AController
 {
-    public $data = array();
-
     public function main()
     {
 
@@ -35,24 +33,24 @@ class ControllerResponsesListingGridUser extends AController
         $this->loadModel('user/user');
 
         $this->loadModel('user/user_group');
-        $user_groups = array('' => $this->language->get('text_select_group'),);
+        $user_groups = ['' => $this->language->get('text_select_group'),];
         $results = $this->model_user_user_group->getUserGroups();
         foreach ($results as $r) {
             $user_groups[$r['user_group_id']] = $r['name'];
         }
 
         //Prepare filter config
-        $filter_params = array_merge(array('status', 'user_group_id'), (array)$this->data['filter_params']);
-        $grid_filter_params = array_merge(array('username'), (array)$this->data['grid_filter_params']);
+        $filter_params = array_merge(['status', 'user_group_id'], (array)$this->data['filter_params']);
+        $grid_filter_params = array_merge(['username'], (array)$this->data['grid_filter_params']);
 
         //Build query string based on GET params first 
-        $filter_form = new AFilter(array('method' => 'get', 'filter_params' => $filter_params));
+        $filter_form = new AFilter(['method' => 'get', 'filter_params' => $filter_params]);
         //Build final filter
-        $filter_grid = new AFilter(array(
+        $filter_grid = new AFilter([
             'method'                   => 'post',
             'grid_filter_params'       => $grid_filter_params,
             'additional_filter_string' => $filter_form->getFilterString(),
-        ));
+        ]);
         $total = $this->model_user_user->getTotalUsers($filter_grid->getFilterData());
         $response = new stdClass();
         $response->page = $filter_grid->getParam('page');
@@ -64,16 +62,16 @@ class ControllerResponsesListingGridUser extends AController
         foreach ($results as $result) {
 
             $response->rows[$i]['id'] = $result['user_id'];
-            $response->rows[$i]['cell'] = array(
+            $response->rows[$i]['cell'] = [
                 $result['username'],
                 $user_groups[$result['user_group_id']],
-                $this->html->buildCheckbox(array(
+                $this->html->buildCheckbox([
                     'name'  => 'status['.$result['user_id'].']',
                     'value' => $result['status'],
                     'style' => 'btn_switch',
-                )),
+                ]),
                 dateISO2Display($result['date_added'], $this->language->get('date_format_short')),
-            );
+            ];
             $i++;
         }
         $this->data['response'] = $response;
@@ -91,11 +89,13 @@ class ControllerResponsesListingGridUser extends AController
 
         if (!$this->user->canModify('listing_grid/user')) {
             $error = new AError('');
-            return $error->toJSONResponse('NO_PERMISSIONS_402',
-                array(
+            $error->toJSONResponse('NO_PERMISSIONS_402',
+                [
                     'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/user'),
                     'reset_value' => true,
-                ));
+                ]
+            );
+            return;
         }
 
         $this->loadModel('user/user');
@@ -118,7 +118,12 @@ class ControllerResponsesListingGridUser extends AController
                 $ids = explode(',', $this->request->post['id']);
                 if (!empty($ids)) {
                     foreach ($ids as $id) {
-                        $this->model_user_user->editUser($id, array('status' => isset($this->request->post['status'][$id]) ? $this->request->post['status'][$id] : 0));
+                        $this->model_user_user->editUser(
+                            $id,
+                            [
+                                'status' => $this->request->post['status'][$id] ?? 0
+                            ]
+                        );
                     }
                 }
 
@@ -142,70 +147,85 @@ class ControllerResponsesListingGridUser extends AController
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-
         if (!$this->user->canModify('listing_grid/user')) {
             $error = new AError('');
-            return $error->toJSONResponse('NO_PERMISSIONS_402',
-                array(
+            $error->toJSONResponse('NO_PERMISSIONS_402',
+                [
                     'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/user'),
                     'reset_value' => true,
-                ));
+                ]
+            );
+            return;
         }
 
         $this->loadLanguage('user/user');
         $this->loadModel('user/user');
         $user_id = (int)$this->request->get['id'];
         if ( $user_id ) {
+            $user_info = $this->model_user_user->getUser($user_id);
             //request sent from edit form. ID in url
             foreach ($this->request->post as $key => $value) {
                 if ($key == 'password_confirm') {
                     continue;
                 }elseif($key == 'username'){
                     $exists = $this->model_user_user->getUsers(
-                        array(
+                        [
                             'subsql_filter' => " `username` = '".$this->db->escape($value)."' AND user_id <> ".$user_id
-                        ),
+                        ],
                         'total_only'
                     );
                     if($exists){
                         $error = new AError('');
-                        return $error->toJSONResponse(
+                        $error->toJSONResponse(
                             'VALIDATION_ERROR_406',
-                            array(
+                            [
                                 'error_text'  => $this->language->get('error_username'),
                                 'reset_value' => true,
-                            ));
+                            ]
+                        );
+                        return;
                     }
                 }elseif ($key == 'user_group_id') {
-                    $user_info = $this->model_user_user->getUser($user_id);
                     if ($user_info['user_group_id'] != $value) {
                         if ( //cannot to change group for yourself
                             $user_id == $this->user->getId()
                             //or current user is not admin
                             || $this->user->getUserGroupId() != 1
                         ) {
-
                             $error = new AError('');
-                            return $error->toJSONResponse(
+                            $error->toJSONResponse(
                                 'VALIDATION_ERROR_406',
-                                array(
+                                [
                                     'error_text'  => $this->language->get('error_user_group'),
                                     'reset_value' => true,
-                                ));
+                                ]
+                            );
+                            return;
                         }
                     }
                 }
 
-                $data = array($key => $value);
+                $data = [$key => $value];
                 $this->model_user_user->editUser($this->request->get['id'], $data);
             }
-            return null;
+
+            if($this->request->post['password'] && $this->request->post['password_confirm'] ){
+                //logout when password was changed
+                $salt_key = $user_info['salt'];
+                if($this->user->getId() == $user_id
+                    && $user_info['password']
+                    && $user_info['password'] != sha1($salt_key.sha1($salt_key.sha1($this->request->post['password'])))
+                ){
+                    $this->user->logout();
+                }
+            }
+            return;
         }
 
         //request sent from jGrid. ID is key of array
         foreach ($this->request->post as $field => $value) {
             foreach ($value as $k => $v) {
-                $this->model_user_user->editUser($k, array($field => $v));
+                $this->model_user_user->editUser($k, [$field => $v]);
             }
         }
 

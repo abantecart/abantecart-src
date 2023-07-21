@@ -36,7 +36,7 @@
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery.cookies.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-ui/jquery-ui-1.10.4.custom.min.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/bootstrap.min.js"></script>
-<script defer type="text/javascript" src="<?php echo $template_dir; ?>javascript/tinymce/tinymce.min.js"></script>
+<script defer type="text/javascript" src="<?php echo $template_dir; ?>javascript/tinymce/tinymce.js"></script>
 
 <?php foreach ($scripts as $script) { ?>
 <script type="text/javascript" src="<?php echo $script; ?>"></script>
@@ -78,7 +78,7 @@ var mcei = {
     end_container_on_empty_block: true,
     editimage_disable_captions: false,
     editimage_html5_captions: true,
-    plugins: "charmap,hr,lists,media,paste,tabfocus,fullscreen,link,table",
+    plugins: "charmap,lists,media,fullscreen,link,table",
     resize: true,
     menubar: false,
     autop: true,

@@ -23,10 +23,10 @@
             ?>
                 <tr>
                     <td class="d-flex flex-wrap align-items-center justify-content-between">
-                        <div class="d-none d-md-flex mx-1">
-                            <img alt="" class="product-icon" src="<?php echo $product['thumbnail']['main_url']; ?>">
+                        <div class="d-none d-xl-flex mx-1 col-md-2">
+                            <img style="width:<?php echo $product['thumbnail']['width']?>px;" class="product-icon" src="<?php echo $product['thumbnail']['main_url']; ?>">
                         </div>
-                        <div class="ms-auto me-1 text-wrap">
+                        <div class="ms-auto text-wrap col-12 col-xl-9">
                             <?php if($product['href']){ ?>
                                 <a class="link-dark link-"  href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a>
                             <?php }else{
@@ -38,21 +38,25 @@
                                         - <?php echo $option['name']; ?> <?php echo $option['value']; ?>
                                     </small>
                                 <?php } ?>
+                                <?php echo $this->getHookVar('fast_checkout_summary_product_'.$product['key'].'_additional_info'); ?>
                             </div>
+                            <?php echo $this->getHookVar('fast_checkout_summary_product_'.$product['key'].'_additional_info_1'); ?>
                         </div>
                         <div class="ms-auto text-end">
                             <?php echo $product['price']; ?>
                             <span class="text-nowrap"><i class="mx-2 fa fa-times fa-fw"></i><?php echo $product['quantity']; ?></span>
                         </div>
+                        <?php echo $this->getHookVar('fast_checkout_summary_product_'.$product['key'].'_additional_info_2'); ?>
                     </td>
+                    <?php echo $this->getHookVar('fast_checkout_summary_product_'.$product['key'].'_additional_info_3'); ?>
                 </tr>
             <?php } ?>
 
             <?php if ($total_items > $cart_view_limit) {  ?>
                 <tr>
-                    <td >
-                        <a class="d-flex justify-content-center" title="see more cart products" href="<?php echo $view; ?>">
-                            <i class="fa fa-chevron-down fa-lg"></i>
+                    <td class="table-light text-center">
+                        <a class="btn btn-lightblue btn-sm" title="see more cart products" href="<?php echo $this->html->getSecureUrl($cart_rt); ?>">
+                            <i class="fa fa-angles-down fa-lg"></i>
                         </a>
                     </td>
                 </tr>

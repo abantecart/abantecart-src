@@ -226,7 +226,7 @@
 	</definition>
 	<definition>
 		<key>text_update_available</key>
-		<value><![CDATA[New version (%s) is available. <a href="%s">Click to update now.</a>]]></value>
+		<value><![CDATA[La nueva versión (%s) está disponible. <a href="%s">Haga clic para actualizar ahora.</a>]]></value>
 	</definition>
 	<definition>
 		<key>text_update_it</key>
@@ -334,7 +334,7 @@
 	</definition>
 	<definition>
 		<key>text_ready_to_install</key>
-		<value><![CDATA[Ready to install]]></value>
+		<value><![CDATA[Listo para instalar]]></value>
 	</definition>
 	<definition>
 		<key>button_install</key>
@@ -342,15 +342,15 @@
 	</definition>
 	<definition>
 		<key>error_dependencies</key>
-		<value><![CDATA[This extension cannot be enabled because required dependency missing or not enabled.]]></value>
+		<value><![CDATA[Esta extensión no se puede habilitar porque falta la dependencia requerida o no está habilitada.]]></value>
 	</definition>
 	<definition>
 		<key>button_howto</key>
-		<value><![CDATA[How To]]></value>
+		<value><![CDATA[Cómo]]></value>
 	</definition>
 	<definition>
 		<key>text_developer_site</key>
-		<value><![CDATA[External support site]]></value>
+		<value><![CDATA[Sitio de soporte externo]]></value>
 	</definition>
 	<definition>
 		<key>text_preview</key>
@@ -374,11 +374,11 @@
 	</definition>
 	<definition>
 		<key>error_could_not_load_config</key>
-		<value><![CDATA[Error: Could not load config for <b>%s</b> (%s)!]]></value>
+		<value><![CDATA[Error: ¡No se pudo cargar la configuración para <b>%s</b> (%s)!]]></value>
 	</definition>
 	<definition>
 		<key>error_could_not_load_override</key>
-		<value><![CDATA[Error: Cannot load override template %s in extension %s!]]></value>
+		<value><![CDATA[Error: ¡No se puede cargar la plantilla anulada %s en la extensión %s!]]></value>
 	</definition>
 	<definition>
 		<key>tab_general</key>
@@ -427,5 +427,13 @@
 	<definition>
 		<key>text_max_weight</key>
 		<value><![CDATA[Peso máximo del paquete (%s)]]></value>
+	</definition>
+	<definition>
+		<key>text_min_order_subtotal</key>
+		<value><![CDATA[Subtotal de pedido mínimo: <span class="help">Ingrese el valor del subtotal de pedido mínimo para que la opción de envío esté disponible para el cliente. Este campo es opcional.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_max_order_subtotal</key>
+		<value><![CDATA[Subtotal máximo del pedido: <span class="help">ingrese el valor máximo del subtotal del pedido para que la opción de envío esté disponible para el cliente. Este campo es opcional.</span>]]></value>
 	</definition>
 </definitions>

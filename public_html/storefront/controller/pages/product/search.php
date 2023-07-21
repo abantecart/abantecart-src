@@ -56,11 +56,9 @@ class ControllerPagesProductSearch extends AController
         $this->path = explode(',', $request['category_id']);
 
         //is this an embed mode
-        if ($this->config->get('embed_mode') == true) {
-            $cart_rt = 'r/checkout/cart/embed';
-        } else {
-            $cart_rt = 'checkout/cart';
-        }
+        $this->data['cart_rt'] = $this->config->get('embed_mode')
+            ? 'r/checkout/cart/embed'
+            : 'checkout/cart';
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
@@ -122,6 +120,12 @@ class ControllerPagesProductSearch extends AController
             $page = 1;
         }
 
+        if (isset($this->request->get['limit'])) {
+            $limit = (int) $this->request->get['limit'];
+        } else {  
+            $limit = $this->config->get('config_catalog_limit');
+        } 
+    
         $sorting_href = $request['sort'];
         if (!$sorting_href || !isset($this->data['sorts'][$request['sort']])) {
             $sorting_href = $this->config->get('config_product_default_sort_order');
@@ -201,12 +205,24 @@ class ControllerPagesProductSearch extends AController
                 $category_id = '';
             }
 
-            $product_total = $this->model_catalog_product->getTotalProductsByKeyword(
+            $products_result = $this->model_catalog_product->getProductsByKeyword(
                 $request['keyword'],
                 $category_id,
                 $request['description'] ?? '',
-                $request['model'] ?? ''
+                $request['model'] ?? '',
+                $sort,
+                $order,
+                ($page - 1) * $limit,
+                $limit
             );
+
+            $product_total = $products_result[0]['total_num_rows']
+                ?? $this->model_catalog_product->getTotalProductsByKeyword(
+                        $request['keyword'],
+                        $category_id,
+                        $request['description'] ?? '',
+                        $request['model'] ?? ''
+                    );
 
             if ($product_total) {
                 $url = '';
@@ -222,27 +238,9 @@ class ControllerPagesProductSearch extends AController
                     $url .= '&model='.$request['model'];
                 }
 
-                $limit = $this->config->get('config_catalog_limit');
-                if (isset($request['limit']) && intval($request['limit']) > 0) {
-                    $limit = intval($request['limit']);
-                    if ($limit > 50) {
-                        $limit = 50;
-                    }
-                }
-
                 $this->loadModel('catalog/review');
                 $this->loadModel('tool/seo_url');
                 $products = [];
-                $products_result = $this->model_catalog_product->getProductsByKeyword(
-                    $request['keyword'],
-                    $category_id,
-                    $request['description'] ?? '',
-                    $request['model'] ?? '',
-                    $sort,
-                    $order,
-                    ($page - 1) * $limit,
-                    $limit
-                );
 
                 //if single result, redirect to the product
                 if (count($products_result) == 1) {
@@ -321,7 +319,7 @@ class ControllerPagesProductSearch extends AController
                                 $add = '#';
                             } else {
                                 $add = $this->html->getSecureURL(
-                                    $cart_rt,
+                                    $this->data['cart_rt'],
                                     '&product_id='.$result['product_id'],
                                     '&encode'
                                 );

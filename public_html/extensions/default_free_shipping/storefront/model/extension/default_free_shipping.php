@@ -7,6 +7,8 @@
 
   Copyright © 2011-2020 Belavier Commerce LLC
 
+  Modified by WHY2 for AbanteCart
+
   This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
@@ -45,10 +47,6 @@ class ModelExtensionDefaultFreeShipping extends Model
                 $status = false;
             }
         } else {
-            $status = false;
-        }
-
-        if ($this->cart->getSubTotal() < $this->config->get('default_free_shipping_total')) {
             $status = false;
         }
 

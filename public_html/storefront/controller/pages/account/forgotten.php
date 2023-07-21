@@ -75,6 +75,7 @@ class ControllerPagesAccountForgotten extends AController
                     $mail = new AMail($this->config);
                     $mail->setTo($customer_details['email']);
                     $mail->setFrom($this->config->get('store_main_email'));
+                    $mail->setReplyTo($this->config->get('store_main_email'));
                     $mail->setSender($this->config->get('store_name'));
                     $mail->setSubject($subject);
                     $mail->setTemplate('storefront_reset_password_link',
@@ -220,6 +221,7 @@ class ControllerPagesAccountForgotten extends AController
                 $mail = new AMail($this->config);
                 $mail->setTo($customer_details['email']);
                 $mail->setFrom($this->config->get('store_main_email'));
+                $mail->setReplyTo($this->config->get('store_main_email'));
                 $mail->setSender($this->config->get('store_name'));
                 $mail->setSubject($subject);
                 $mail->setTemplate('storefront_reset_password_notify',
@@ -351,6 +353,7 @@ class ControllerPagesAccountForgotten extends AController
                     $mail = new AMail($this->config);
                     $mail->setTo($customer_details['email']);
                     $mail->setFrom($this->config->get('store_main_email'));
+                    $mail->setReplyTo($this->config->get('store_main_email'));
                     $mail->setSender($this->config->get('store_name'));
                     $mail->setSubject($subject);
                     $mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));

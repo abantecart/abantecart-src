@@ -147,7 +147,7 @@
 	</definition>
 	<definition>
 		<key>text_task_id</key>
-		<value><![CDATA[Task ID:]]></value>
+		<value><![CDATA[Identificación de la tarea:]]></value>
 	</definition>
 	<definition>
 		<key>text_title</key>

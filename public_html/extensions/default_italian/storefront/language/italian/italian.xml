@@ -34,7 +34,7 @@
 	</definition>
 	<definition>
 		<key>text_home</key>
-		<value><![CDATA[Home]]></value>
+		<value><![CDATA[Casa]]></value>
 	</definition>
 	<definition>
 		<key>text_yes</key>
@@ -42,7 +42,7 @@
 	</definition>
 	<definition>
 		<key>text_no</key>
-		<value><![CDATA[No]]></value>
+		<value><![CDATA[NO]]></value>
 	</definition>
 	<definition>
 		<key>text_none</key>
@@ -298,7 +298,7 @@
 	</definition>
 	<definition>
 		<key>text_download</key>
-		<value><![CDATA[Download]]></value>
+		<value><![CDATA[Scaricamento]]></value>
 	</definition>
 	<definition>
 		<key>text_free</key>

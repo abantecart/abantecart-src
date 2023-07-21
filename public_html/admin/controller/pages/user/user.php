@@ -21,9 +21,9 @@
 
 class ControllerPagesUserUser extends AController
 {
-    public $data = array();
-    public $error = array();
-    protected $fields = array('username', 'firstname', 'lastname', 'email', 'user_group_id', 'status');
+    public $data = [];
+    public $error = [];
+    protected $fields = ['username', 'firstname', 'lastname', 'email', 'user_group_id', 'status'];
 
     public function main()
     {
@@ -39,126 +39,126 @@ class ControllerPagesUserUser extends AController
             unset($this->session->data['success']);
         }
 
-        $this->document->initBreadcrumb(array(
+        $this->document->initBreadcrumb([
             'href'      => $this->html->getSecureURL('index/home'),
             'text'      => $this->language->get('text_home'),
             'separator' => false,
-        ));
-        $this->document->addBreadcrumb(array(
+        ]);
+        $this->document->addBreadcrumb([
             'href'      => $this->html->getSecureURL('user/user'),
             'text'      => $this->language->get('heading_title'),
             'separator' => ' :: ',
             'current'   => true,
-        ));
+        ]);
 
-        $grid_settings = array(
+        $grid_settings = [
             'table_id'     => 'user_grid',
             'url'          => $this->html->getSecureURL('listing_grid/user'),
             'editurl'      => $this->html->getSecureURL('listing_grid/user/update'),
             'update_field' => $this->html->getSecureURL('listing_grid/user/update_field'),
             'sortname'     => 'username',
             'sortorder'    => 'asc',
-            'actions'      => array(
-                'edit'   => array(
+            'actions'      => [
+                'edit'   => [
                     'text' => $this->language->get('text_edit'),
                     'href' => $this->html->getSecureURL('user/user/update', '&user_id=%ID%'),
-                ),
-                'save'   => array(
+                ],
+                'save'   => [
                     'text' => $this->language->get('button_save'),
-                ),
-                'delete' => array(
+                ],
+                'delete' => [
                     'text' => $this->language->get('button_delete'),
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
-        $grid_settings['colNames'] = array(
+        $grid_settings['colNames'] = [
             $this->language->get('column_username'),
             $this->language->get('column_group'),
             $this->language->get('column_status'),
             $this->language->get('column_date_added'),
-        );
-        $grid_settings['colModel'] = array(
-            array(
+        ];
+        $grid_settings['colModel'] = [
+            [
                 'name'  => 'username',
                 'index' => 'username',
                 'width' => 300,
                 'align' => 'left',
-            ),
-            array(
+            ],
+            [
                 'name'   => 'user_group_id',
                 'index'  => 'user_group_id',
                 'width'  => 120,
                 'align'  => 'left',
                 'search' => false,
-            ),
-            array(
+            ],
+            [
                 'name'   => 'status',
                 'index'  => 'status',
                 'width'  => 130,
                 'align'  => 'center',
                 'search' => false,
-            ),
-            array(
+            ],
+            [
                 'name'   => 'date_added',
                 'index'  => 'date_added',
                 'width'  => 100,
                 'align'  => 'center',
                 'search' => false,
-            ),
-        );
+            ],
+        ];
 
-        $statuses = array(
+        $statuses = [
             '' => $this->language->get('text_select_status'),
             1  => $this->language->get('text_enabled'),
             0  => $this->language->get('text_disabled'),
-        );
+        ];
 
         $this->loadModel('user/user_group');
-        $user_groups = array('' => $this->language->get('text_select_group'),);
+        $user_groups = ['' => $this->language->get('text_select_group'),];
         $results = $this->model_user_user_group->getUserGroups();
         foreach ($results as $r) {
             $user_groups[$r['user_group_id']] = $r['name'];
         }
 
         $form = new AForm();
-        $form->setForm(array(
+        $form->setForm([
             'form_name' => 'user_grid_search',
-        ));
+        ]);
 
-        $grid_search_form = array();
+        $grid_search_form = [];
         $grid_search_form['id'] = 'user_grid_search';
-        $grid_search_form['form_open'] = $form->getFieldHtml(array(
+        $grid_search_form['form_open'] = $form->getFieldHtml([
             'type'   => 'form',
             'name'   => 'user_grid_search',
             'action' => '',
-        ));
-        $grid_search_form['submit'] = $form->getFieldHtml(array(
+        ]);
+        $grid_search_form['submit'] = $form->getFieldHtml([
             'type'  => 'button',
             'name'  => 'submit',
             'text'  => $this->language->get('button_go'),
             'style' => 'button1',
-        ));
-        $grid_search_form['reset'] = $form->getFieldHtml(array(
+        ]);
+        $grid_search_form['reset'] = $form->getFieldHtml([
             'type'  => 'button',
             'name'  => 'reset',
             'text'  => $this->language->get('button_reset'),
             'style' => 'button2',
-        ));
-        $grid_search_form['fields']['status'] = $form->getFieldHtml(array(
+        ]);
+        $grid_search_form['fields']['status'] = $form->getFieldHtml([
             'type'    => 'selectbox',
             'name'    => 'status',
             'options' => $statuses,
-        ));
-        $grid_search_form['fields']['group'] = $form->getFieldHtml(array(
+        ]);
+        $grid_search_form['fields']['group'] = $form->getFieldHtml([
             'type'    => 'selectbox',
             'name'    => 'user_group_id',
             'options' => $user_groups,
-        ));
+        ]);
 
         $grid_settings['search_form'] = true;
 
-        $grid = $this->dispatch('common/listing_grid', array($grid_settings));
+        $grid = $this->dispatch('common/listing_grid', [$grid_settings]);
         $this->view->assign('listing_grid', $grid->dispatchGetOutput());
         $this->view->assign('search_form', $grid_search_form);
 
@@ -197,6 +197,8 @@ class ControllerPagesUserUser extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
+        $userId = (int)$this->request->get['user_id'];
+
         $this->loadLanguage('user/user');
         $this->document->setTitle($this->language->get('heading_title'));
         $this->loadModel('user/user');
@@ -205,11 +207,20 @@ class ControllerPagesUserUser extends AController
         if (isset($this->session->data['success'])) {
             unset($this->session->data['success']);
         }
-
-        if ($this->request->is_POST() && $this->validateForm()) {
+        $user_info = $this->model_user_user->getUser($userId);
+        if ($this->request->is_POST() && $this->validateForm($user_info)) {
             $this->model_user_user->editUser($this->request->get['user_id'], $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
-            redirect($this->html->getSecureURL('user/user/update', '&user_id='.$this->request->get['user_id']));
+            //logout when password was changed
+            $salt_key = $user_info['salt'];
+            if($this->user->getId() == $userId
+                && $user_info['password']
+                && $user_info['password'] != sha1($salt_key.sha1($salt_key.sha1($this->request->post['password'])))
+            ){
+                $this->user->logout();
+            }
+
+            redirect($this->html->getSecureURL('user/user/update', '&user_id='.$userId));
         }
         $this->getForm();
 
@@ -220,19 +231,19 @@ class ControllerPagesUserUser extends AController
     protected function getForm()
     {
 
-        $this->data = array();
+        $this->data = [];
         $this->data['error'] = $this->error;
 
-        $this->document->initBreadcrumb(array(
+        $this->document->initBreadcrumb([
             'href'      => $this->html->getSecureURL('index/home'),
             'text'      => $this->language->get('text_home'),
             'separator' => false,
-        ));
-        $this->document->addBreadcrumb(array(
+        ]);
+        $this->document->addBreadcrumb([
             'href'      => $this->html->getSecureURL('user/user'),
             'text'      => $this->language->get('heading_title'),
             'separator' => ' :: ',
-        ));
+        ]);
 
         $this->data['cancel'] = $this->html->getSecureURL('user/user');
 
@@ -275,55 +286,55 @@ class ControllerPagesUserUser extends AController
 
         }
 
-        $this->document->addBreadcrumb(array(
+        $this->document->addBreadcrumb([
             'href'      => $this->data['action'],
             'text'      => $this->data['heading_title'],
             'separator' => ' :: ',
             'current'   => true,
-        ));
+        ]);
 
-        $form->setForm(array(
+        $form->setForm([
             'form_name' => 'cgFrm',
             'update'    => $this->data['update'],
-        ));
+        ]);
 
         $this->data['form']['id'] = 'cgFrm';
-        $this->data['form']['form_open'] = $form->getFieldHtml(array(
+        $this->data['form']['form_open'] = $form->getFieldHtml([
             'type'   => 'form',
             'name'   => 'cgFrm',
             'action' => $this->data['action'],
             'attr'   => 'data-confirm-exit="true" class="aform form-horizontal"',
-        ));
-        $this->data['form']['submit'] = $form->getFieldHtml(array(
+        ]);
+        $this->data['form']['submit'] = $form->getFieldHtml([
             'type'  => 'button',
             'name'  => 'submit',
             'text'  => $this->language->get('button_save'),
             'style' => 'button1',
-        ));
-        $this->data['form']['cancel'] = $form->getFieldHtml(array(
+        ]);
+        $this->data['form']['cancel'] = $form->getFieldHtml([
             'type'  => 'button',
             'name'  => 'cancel',
             'text'  => $this->language->get('button_cancel'),
             'style' => 'button2',
-        ));
+        ]);
 
-        $this->data['form']['fields']['status'] = $form->getFieldHtml(array(
+        $this->data['form']['fields']['status'] = $form->getFieldHtml([
             'type'  => 'checkbox',
             'name'  => 'status',
             'value' => $this->data['status'],
             'style' => 'btn_switch',
-        ));
+        ]);
 
-        $input = array('username', 'firstname', 'lastname', 'password');
+        $input = ['username', 'firstname', 'lastname', 'password'];
         foreach ($input as $f) {
-            $this->data['form']['fields'][$f] = $form->getFieldHtml(array(
+            $this->data['form']['fields'][$f] = $form->getFieldHtml([
                 'type'     => ($f == 'password' ? 'passwordset' : 'input'),
                 'name'     => $f,
                 'value'    => $this->data[$f],
                 'required' => true,
-                'attr'     => (in_array($f, array('password', 'password_confirm')) ? 'class="no-save"' : ''),
+                'attr'     => (in_array($f, ['password', 'password_confirm']) ? 'class="no-save"' : ''),
                 'style'    => ($f == 'password' ? 'medium-field' : ''),
-            ));
+            ]);
         }
 
         //forbid to downgrade permissions
@@ -339,7 +350,7 @@ class ControllerPagesUserUser extends AController
         }
 
         $this->loadModel('user/user_group');
-        $user_groups = array('' => $this->language->get('text_select_group'),);
+        $user_groups = ['' => $this->language->get('text_select_group'),];
         $results = $this->model_user_user_group->getUserGroups();
 
         foreach ($results as $r) {
@@ -350,20 +361,20 @@ class ControllerPagesUserUser extends AController
             $user_groups[$r['user_group_id']] = $r['name'];
         }
 
-        $this->data['form']['fields']['user_group'] = $form->getFieldHtml(array(
+        $this->data['form']['fields']['user_group'] = $form->getFieldHtml([
             'type'    => 'selectbox',
             'name'    => 'user_group_id',
             'value'   => $this->data['user_group_id'],
             'options' => $user_groups,
             'attr'    => $attr,
-        ));
+        ]);
 
-        $this->data['form']['fields']['email'] = $form->getFieldHtml(array(
+        $this->data['form']['fields']['email'] = $form->getFieldHtml([
             'type'     => 'input',
             'name'     => 'email',
             'value'    => $this->data['email'],
             'required' => true,
-        ));
+        ]);
 
         $this->view->assign('help_url', $this->gen_help_url('user_edit'));
         $this->view->batchAssign($this->data);
@@ -399,23 +410,23 @@ class ControllerPagesUserUser extends AController
             unset($this->session->data['success']);
         }
 
-        $this->document->initBreadcrumb(array(
+        $this->document->initBreadcrumb([
             'href'      => $this->html->getSecureURL('index/home'),
             'text'      => $this->language->get('text_home'),
             'separator' => false,
-        ));
-        $this->document->addBreadcrumb(array(
+        ]);
+        $this->document->addBreadcrumb([
             'href'      => $this->html->getSecureURL('user/user'),
             'text'      => $this->language->get('heading_title'),
             'separator' => ' :: ',
-        ));
+        ]);
 
-        $this->document->addBreadcrumb(array(
+        $this->document->addBreadcrumb([
             'href'      => $this->html->getSecureURL('user/user/update', '&user='.$user_id),
             'text'      => sprintf($this->language->get('text_notification_for', 'common/im'), $user_info['username']),
             'separator' => ' :: ',
             'current'   => true,
-        ));
+        ]);
 
         $this->data['cancel'] = $this->html->getSecureURL('user/user');
 
@@ -427,7 +438,7 @@ class ControllerPagesUserUser extends AController
         foreach ($sendpoints as $sendpoint) {
             $ims = $this->im->getUserIMs($user_id, $this->session->data['current_store_id']);
             $imsettings = array_merge((array)$ims['storefront'][$sendpoint], (array)$ims['admin'][$sendpoint]);
-            $values = array();
+            $values = [];
 
             foreach ($imsettings as $row) {
                 if ($row['uri'] && in_array($row['protocol'], $protocols)) {
@@ -436,11 +447,11 @@ class ControllerPagesUserUser extends AController
             }
             //send notification id present for admin => 1
             if (!empty($this->im->sendpoints[$sendpoint][1]) || !empty($this->im->admin_sendpoints[$sendpoint][1])) {
-                $this->data['sendpoints'][$sendpoint] = array(
+                $this->data['sendpoints'][$sendpoint] = [
                     'id'     => $sendpoint,
                     'text'   => $this->language->get('im_sendpoint_name_'.preformatTextID($sendpoint)),
                     'values' => $values,
-                );
+                ];
             }
         }
 
@@ -456,7 +467,7 @@ class ControllerPagesUserUser extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    protected function validateForm()
+    protected function validateForm(?array $user_info = [])
     {
         if (!$this->user->canModify('user/user')) {
             $this->error['warning'] = $this->language->get('error_permission');
@@ -467,9 +478,9 @@ class ControllerPagesUserUser extends AController
         }else{
             $inc = $this->request->get['user_id'] ? ' AND user_id <> '.(int)$this->request->get['user_id'] : '';
             $exists = $this->model_user_user->getUsers(
-                array(
+                [
                     'subsql_filter' => " `username` = '".$this->db->escape($this->request->post['username'])."'".$inc
-                ),
+                ],
                 'total_only'
             );
             if($exists ){
@@ -502,7 +513,6 @@ class ControllerPagesUserUser extends AController
         }
 
         if ($this->request->post['user_group_id']) {
-            $user_info = $this->model_user_user->getUser($this->request->get['user_id']);
             if ($user_info['user_group_id'] != $this->request->post['user_group_id']) {
                 if ( //cannot to change group for yourself
                     $this->request->get['id'] == $this->user->getId()

@@ -114,7 +114,7 @@
 	</definition>
 	<definition>
 		<key>text_email</key>
-		<value><![CDATA[Email]]></value>
+		<value><![CDATA[Электронная почта]]></value>
 	</definition>
 	<definition>
 		<key>text_sms</key>

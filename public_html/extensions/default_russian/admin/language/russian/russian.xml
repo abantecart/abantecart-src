@@ -406,7 +406,7 @@
 	</definition>
 	<definition>
 		<key>button_go</key>
-		<value><![CDATA[GO]]></value>
+		<value><![CDATA[Вперед]]></value>
 	</definition>
 	<definition>
 		<key>search_everywhere</key>
@@ -574,11 +574,11 @@
 	</definition>
 	<definition>
 		<key>text_new_download</key>
-		<value><![CDATA[New Download]]></value>
+		<value><![CDATA[Новая загрузка]]></value>
 	</definition>
 	<definition>
 		<key>text_free</key>
-		<value><![CDATA[Free]]></value>
+		<value><![CDATA[Бесплатно]]></value>
 	</definition>
 	<definition>
 		<key>text_sure</key>
@@ -626,11 +626,11 @@
 	</definition>
 	<definition>
 		<key>text_on</key>
-		<value><![CDATA[ON]]></value>
+		<value><![CDATA[ВКЛ]]></value>
 	</definition>
 	<definition>
 		<key>text_off</key>
-		<value><![CDATA[OFF]]></value>
+		<value><![CDATA[ВЫКЛ]]></value>
 	</definition>
 	<definition>
 		<key>text_external_help</key>

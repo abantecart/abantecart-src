@@ -792,6 +792,13 @@ class ControllerPagesExtensionExtensions extends AController
         $this->data['extension_info']['note'] = $ext->getConfig('note')
             ? $this->html->convertLinks($this->language->get($extension.'_note'))
             : '';
+        $noteWrp = $ext->getConfig('note_wrapper');
+        if($noteWrp) {
+            $view = new AView(Registry::getInstance(),0);
+            $view->assign('note_text', $this->data['extension_info']['note']);
+            $this->data['extension_info']['note_wrapper'] = $view->fetch($noteWrp);
+        }
+
         $config = $ext->getConfig();
         if (!empty($config->preview->item)) {
             foreach ($config->preview->item as $item) {

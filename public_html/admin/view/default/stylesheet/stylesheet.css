@@ -24,6 +24,14 @@ body {
 	line-height: 21px;
 	color: #636e7b;
 }
+.blink {
+	animation: blinker 0.5s linear infinite;
+}
+@keyframes blinker {
+	50% {
+		opacity: 0.1;
+	}
+}
 
 .abc_orange {
 	color: #F19013;
@@ -3658,4 +3666,22 @@ table.table.table-striped.table-bordered.import-table img { max-width: 100%; }
 	padding: 3px;
 	font-size: 18px;
 	width: 26px;
+}
+
+blockquote {
+	margin: 0;
+}
+
+blockquote p {
+	padding: 15px;
+	background: #eee;
+	border-radius: 5px;
+}
+
+blockquote p::before {
+	content: '\201C';
+}
+
+blockquote p::after {
+	content: '\201D';
 }

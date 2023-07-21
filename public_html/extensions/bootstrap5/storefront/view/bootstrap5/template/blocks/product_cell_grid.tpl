@@ -51,7 +51,7 @@
                             $review = $item['rating'];
                         }
                         ?>
-                        <div class="card m-3 col-4 shadow ">
+                        <div class="card m-3 col-4 shadow">
                             <a class="link-light card-link text-decoration-none"
                                     href="<?php echo $item['info_url'] ?>"
                                     title="<?php echo $item['title'] ?>">
@@ -63,7 +63,7 @@
                             </a>
                             <div class="card-img-top text-center">
                                 <?php if ($product['special']) { ?>
-                                    <span class="position-absolute mt-5 fs-4 ms-2 translate-middle badge bg-danger">
+                                    <span class="sale_<?php echo $product['product_id']; ?> position-absolute mt-5 fs-4 ms-2 translate-middle badge bg-danger">
                                         <?php echo $text_sale; ?>
                                       </span>
                                 <?php }
@@ -115,7 +115,7 @@
                                             }else{ ?>
                                             <div class="position-relative btn btn-sm btn-success">
                                                 <a class="text-decoration-none text-white"
-                                                   href="<?php echo $this->html->getSecureURL('checkout/cart'); ?>">
+                                                   href="<?php echo $this->html->getSecureURL( ($cart_rt ?:'checkout/cart')); ?>">
                                                     <i title="<?php echo_html2view($text_add_cart_confirm); ?>"
                                                        class="<?php echo !in_array((int)$product['product_id'], $cartProductIds) ? 'visually-hidden ' : '';?>fa fa-check fa-xl me-2 text-warning"></i>
                                                 </a>

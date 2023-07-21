@@ -62,7 +62,7 @@
 	</definition>
 	<definition>
 		<key>text_notice_title</key>
-		<value><![CDATA[Update Notice for %EXTENSION%]]></value>
+		<value><![CDATA[Avviso di aggiornamento per %EXTENSION%]]></value>
 	</definition>
 	<definition>
 		<key>text_notice_text</key>

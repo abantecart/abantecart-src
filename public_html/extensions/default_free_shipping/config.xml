@@ -10,10 +10,6 @@
     <layout></layout>
     <priority>10</priority>
     <settings>
-        <item id="default_free_shipping_total">
-            <type>input</type>
-            <default_value></default_value>
-        </item>
 	    <item id="default_free_shipping_location_id">
             <type>selectbox</type>
 			<variants>

@@ -124,6 +124,21 @@ final class ADB
     }
 
     /**
+     * @return string
+     */
+    public function getSqlCalcTotalRows()
+    {
+        return $this->driver->getSqlCalcTotalRows();
+    }
+    /**
+     * @return int|false
+     */
+    public function getTotalNumRows()
+    {
+        return $this->driver->getTotalNumRows();
+    }
+
+    /**
      * @param $file
      *
      * @return null

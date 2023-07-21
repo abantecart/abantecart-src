@@ -1,5 +1,22 @@
 <?php
+/*------------------------------------------------------------------------------
+  $Id$
 
+  AbanteCart, Ideal OpenSource Ecommerce Solution
+  http://www.AbanteCart.com
+
+  Copyright © 2011-2023 Belavier Commerce LLC
+
+  This source file is subject to Open Software License (OSL 3.0)
+  License details is bundled with this package in the file LICENSE.txt.
+  It is also available at this URL:
+  <http://www.opensource.org/licenses/OSL-3.0>
+
+ UPGRADE NOTE:
+   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+   versions in the future. If you wish to customize AbanteCart for your
+   needs please refer to http://www.AbanteCart.com for more information.
+------------------------------------------------------------------------------*/
 final class APDOMySQL
 {
     /**
@@ -23,7 +40,7 @@ final class APDOMySQL
     {
         try {
             $this->connection = new PDO("mysql:host=".$hostname.";port=".$port.";dbname=".$database,
-                $username, $password, array(PDO::ATTR_PERSISTENT => true));
+                $username, $password, [PDO::ATTR_PERSISTENT => true]);
             $this->connection->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
         } catch (Exception $e) {
             $err = new AError('Cannot establish database connection to '.$database.' using '.$username.'@'.$hostname);
@@ -55,7 +72,7 @@ final class APDOMySQL
         }
     }
 
-    public function query($sql, $noexcept = false, $params = array())
+    public function query($sql, $noexcept = false, $params = [])
     {
         if (!$noexcept) {
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -68,14 +85,14 @@ final class APDOMySQL
         $time_start = microtime(true);
         try {
             if ($this->statement && $this->statement->execute($params)) {
-                $data = array();
+                $data = [];
                 if ($this->statement->columnCount()) {
                     while ($row = $this->statement->fetch(PDO::FETCH_ASSOC)) {
                         $data[] = $row;
                     }
 
                     $result = new stdClass();
-                    $result->row = (isset($data[0]) ? $data[0] : array());
+                    $result->row = (isset($data[0]) ? $data[0] : []);
                     $result->rows = $data;
                     $result->num_rows = $this->statement->rowCount();
                 }
@@ -108,8 +125,8 @@ final class APDOMySQL
             return $result;
         } else {
             $result = new stdClass();
-            $result->row = array();
-            $result->rows = array();
+            $result->row = [];
+            $result->rows = [];
             $result->num_rows = 0;
             return $result;
         }
@@ -128,9 +145,13 @@ final class APDOMySQL
             return false;
         }
 
-        $search = array("\\", "\0", "\n", "\r", "\x1a", "'", '"', "%");
-        $replace = array("\\\\", "\\0", "\\n", "\\r", "\Z", "\'", '\"', "\%");
-        return str_replace($search, $replace, $value);
+        $search = ["\\", "\0", "\n", "\r", "\x1a", "'", '"'];
+        $replace = ["\\\\", "\\0", "\\n", "\\r", "\Z", "\'", '\"'];
+        $output = str_replace($search, $replace, $value);
+        if ($with_special_chars) {
+            $output = str_replace('%', '\%', $output);
+        }
+        return $output;
     }
 
     public function countAffected()
@@ -146,6 +167,27 @@ final class APDOMySQL
     {
         return $this->connection->lastInsertId();
     }
+    /**
+     * @return string
+     */
+    public function getSqlCalcTotalRows()
+    {
+        return 'SQL_CALC_FOUND_ROWS';
+    }
+
+    /**
+     * @return false|int
+     */
+    public function getTotalNumRows()
+    {
+        $statement = $this->connection->prepare('select found_rows() as total;');
+        if(!$statement){
+            return false;
+        }
+        $statement->execute();
+        $row = (array)$statement->fetch(PDO::FETCH_ASSOC);
+        return (int)$row['total'];
+    }
 
     public function __destruct()
     {
@@ -154,9 +196,9 @@ final class APDOMySQL
 
     public function getTextDBError()
     {
-        return array(
+        return [
             'error_text' => '',
             'errno'      => '',
-        );
+        ];
     }
 }

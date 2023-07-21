@@ -32,7 +32,7 @@
 <?php } ?>
     </form>
 
-        <div class="form-group">
+        <div class="form-group mt10">
             <a href="<?php
             echo $forgot_password ?>"><?php echo $entry_forgot_password ?></a>
             <?php echo $text_help_link ?>
@@ -42,5 +42,7 @@
 <script type="application/javascript">
     $(document).ready( function (){
        $('#loginFrm_username').focus();
+       $('.warning.alert-danger').addClass('blink');
     });
+
 </script>

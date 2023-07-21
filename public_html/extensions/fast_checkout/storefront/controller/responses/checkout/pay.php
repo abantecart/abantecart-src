@@ -8,7 +8,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2022 Belavier Commerce LLC
+  Copyright © 2011-2023 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -100,6 +100,7 @@ class ControllerResponsesCheckoutPay extends AController
 
     public function main()
     {
+        $this->data['error'] = '';
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $request = array_merge($this->request->get, $this->request->post);
         //handle coupon
@@ -198,9 +199,16 @@ class ControllerResponsesCheckoutPay extends AController
             }
             if (!$address_id) {
                 $adr = current($this->data['all_addresses']);
-                $this->fc_session['payment_address_id'] = $adr['address_id'];
+                $address_id = $this->fc_session['payment_address_id'] = $adr['address_id'];
             }
-            $this->data['payment_address'] = $this->model_account_address->getAddress($this->fc_session['payment_address_id']);
+            $this->data['payment_address'] = $this->model_account_address->getAddress($address_id);
+            if(!$this->request->get['shipping_address_id']) {
+                //validate payment address. See hook calls inside. Some extensions can affect on it
+                $this->error = $this->model_account_address->validateAddressData($this->data['payment_address']);
+                if ($this->error) {
+                    $this->data['error'] = $this->language->get('fast_checkout_text_payment_address') . ": " . implode("\n", $this->error);
+                }
+            }
         } elseif ($this->allow_guest) {
             //set default value if allow to create account for guests
             if(
@@ -278,13 +286,20 @@ class ControllerResponsesCheckoutPay extends AController
                 }
                 if (!$address_id) {
                     $adr = current($this->data['all_addresses']);
-                    $this->fc_session['shipping_address_id'] = $adr['address_id'];
+                    $address_id = $this->fc_session['shipping_address_id'] = $adr['address_id'];
                     if (!$this->config->get('config_tax_customer')) {
                         $tax_zone_id = $adr['zone_id'];
                         $tax_country_id = $adr['country_id'];
                     }
                 }elseif($this->config->get('fast_checkout_payment_address_equal_shipping')){
                     $this->fc_session['payment_address_id'] = $address_id;
+                }
+
+                $addressData = $this->model_account_address->getAddress($address_id);
+                //validate payment address. See hook calls inside. Some extensions can affect on it
+                $this->error = $this->model_account_address->validateAddressData($addressData);
+                if($this->error) {
+                    $this->data['error'] = $this->language->get('fast_checkout_text_shipping_address').": ". implode("\n", $this->error);
                 }
             } else {
                 if ($this->allow_guest && !$this->fc_session['guest']['shipping']) {
@@ -345,10 +360,8 @@ class ControllerResponsesCheckoutPay extends AController
 
         //do we show payment details yet? Show only if shipping selected
         $this->data['show_payment'] = true;
-        if ($this->cart->hasShipping()
-            && count(
-                $this->fc_session['shipping_methods']
-            )) {
+        if ($this->cart->hasShipping() && count($this->fc_session['shipping_methods'])
+        ) {
             if (!$this->fc_session['shipping_method']) {
                 //no shipping selected yet, not ready for payment
                 $this->data['show_payment'] = false;
@@ -405,7 +418,7 @@ class ControllerResponsesCheckoutPay extends AController
 
         //last step with payment form
         $this->data['action'] = $this->action;
-        $this->data['error'] = '';
+
         if ($this->fc_session['guest']) {
             $this->data['edit_address_url'] = $this->html->getSecureURL(
                 'r/checkout/pay/edit_address',
@@ -1028,15 +1041,14 @@ class ControllerResponsesCheckoutPay extends AController
 
         $order_data['order_products'] = $this->model_account_order->getOrderProducts($order_id);
         $order_data['totals'] = $this->model_account_order->getOrderTotals($order_id);
-        $this->_save_google_analytics($order_data);
 
+        $this->data['gaOrderData'] = AOrder::getGoogleAnalyticsOrderData( $order_data );
+        $this->data['gaOrderData']['transaction_id'] = $order_id;
         $this->_clear_data();
         $this->data['step'] = 'process';
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-
         $this->data['order_id'] = $order_id;
-
         $this->view->batchAssign($this->data);
         $this->response->setOutput($this->view->fetch('responses/checkout/success.tpl'));
     }
@@ -1086,6 +1098,8 @@ class ControllerResponsesCheckoutPay extends AController
 
     protected function _save_customer_account($order_data)
     {
+        /** @var ModelExtensionFastCheckout $mdl */
+        $mdl = $this->loadModel('extension/fast_checkout');
         $customer_data = [
             'status'        => 1,
             'loginname'     => $this->config->get('prevent_email_as_login')
@@ -1122,7 +1136,11 @@ class ControllerResponsesCheckoutPay extends AController
                     $customer_data['loginname'] .= '_'.time();
                 }
             }
-            $customer_id = (int) $this->model_extension_fast_checkout->addCustomer($customer_data);
+            $this->data['account_data'] = $customer_data;
+            // add ability to overwrite data via hooks
+            $this->extensions->hk_ProcessData($this, __FUNCTION__);
+
+            $customer_id = (int) $mdl->addCustomer($this->data['account_data']);
             if ($customer_id) {
                 $new_customer = true;
                 $this->data['text_account_created'] = $this->language->get('fast_checkout_text_account_created');
@@ -1153,15 +1171,17 @@ class ControllerResponsesCheckoutPay extends AController
         }
         //update order_details
         if ($customer_id) {
-            $this->loadModel('extension/fast_checkout');
-            $this->model_extension_fast_checkout->updateOrderCustomer(
+            $mdl->updateOrderCustomer(
                 $order_data['order_id'],
                 $customer_id
             );
             if ($new_customer == true) {
-                $this->model_extension_fast_checkout->sendEmailActivation($customer_data);
+                $mdl->sendEmailActivation($this->data['account_data']);
             }
         }
+
+        $this->data['customer_id'] = $customer_id;
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
     /**
@@ -1252,74 +1272,6 @@ class ControllerResponsesCheckoutPay extends AController
         }
 
         return ['count' => $downloads_count, 'download_url' => $download_url];
-    }
-
-    protected function _save_google_analytics($order_data)
-    {
-        // google analytics data for js-script in success.tpl
-        $order_tax = $order_total = $order_shipping = 0.0;
-        foreach ((array) $order_data['totals'] as $total) {
-            if ($total['type'] == 'total') {
-                $order_total += $total['value'];
-            } elseif ($total['type'] == 'tax') {
-                $order_tax += $total['value'];
-            } elseif ($total['type'] == 'shipping') {
-                $order_shipping += $total['value'];
-            }
-        }
-
-        if (!$order_data['shipping_city']) {
-            $addr = [
-                'city'    => $order_data['payment_city'],
-                'state'   => $order_data['payment_zone'],
-                'country' => $order_data['payment_country'],
-            ];
-        } else {
-            $addr = [
-                'city'    => $order_data['shipping_city'],
-                'state'   => $order_data['shipping_zone'],
-                'country' => $order_data['shipping_country'],
-            ];
-        }
-
-        $ga_data = array_merge(
-                [
-                    'transaction_id' => (int) $order_data['order_id'],
-                    'store_name'     => $this->config->get('store_name'),
-                    'currency_code'  => $order_data['currency'],
-                    'total'          => $this->currency->format_number($order_total),
-                    'tax'            => $this->currency->format_number($order_tax),
-                    'shipping'       => $this->currency->format_number($order_shipping),
-            ], $addr);
-
-        if ($order_data['order_products']) {
-            $ga_data['items'] = [];
-            foreach ($order_data['order_products'] as $product) {
-                //try to get option sku for product. If not presents - take main sku from product details
-                $options = $this->model_account_order->getOrderOptions((int)$order_data['order_id'], $product['order_product_id']);
-                $sku = '';
-                foreach ($options as $opt) {
-                    if ($opt['sku']) {
-                        $sku = $opt['sku'];
-                        break;
-                    }
-                }
-                if (!$sku) {
-                    $sku = $product['sku'];
-                }
-
-                $ga_data['items'][] = [
-                    'id'       => (int)$order_data['order_id'],
-                    'name'     => $product['name'],
-                    'sku'      => $sku,
-                    'price'    => $product['price'],
-                    'quantity' => $product['quantity'],
-                ];
-            }
-        }
-
-        $this->registry->set('google_analytics_data', $ga_data);
-
     }
 
     protected function _clear_data()

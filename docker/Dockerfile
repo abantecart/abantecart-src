@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y \
     docker-php-ext-install -j$(nproc) iconv mbstring mysqli pdo_mysql zip soap && \
     docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ && \
     docker-php-ext-install -j$(nproc) gd && \
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer 
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 ADD default /etc/nginx/sites-available/
 
@@ -38,7 +38,7 @@ RUN git clone https://github.com/abantecart/abantecart-src.git /var/www/abanteca
 RUN chown -R www-data:www-data /var/www/abantecart
 WORKDIR /var/www/abantecart/public_html/
 
-RUN  service mariadb start && /usr/local/bin/php ./install/cli_install.php install --db_host=127.0.0.1 --db_user=admin --db_password=pass --db_name=abantecart  --db_driver=amysqli  --db_prefix=abc_ --admin_path=admin  --username=admin  --password=admin  --email=admin@admin.com  --http_server=http://localhost --with-sample-data
+RUN  service mariadb start && /usr/local/bin/php ./install/cli_install.php install --db_host=127.0.0.1 --db_user=admin --db_password=pass --db_name=abantecart  --db_driver=amysqli  --db_prefix=abc_ --admin_path=admin  --username=admin  --password=admin  --email=admin@admin.com  --http_server=http://localhost --with-sample-data=abantecart_sample_data.sql
 
 RUN apt-get clean
 

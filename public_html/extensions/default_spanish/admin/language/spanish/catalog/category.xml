@@ -66,7 +66,7 @@
 	</definition>
 	<definition>
 		<key>entry_parent_category</key>
-		<value><![CDATA[Parent Category:]]></value>
+		<value><![CDATA[Categoría principal:]]></value>
 	</definition>
 	<definition>
 		<key>entry_category</key>
@@ -74,7 +74,7 @@
 	</definition>
 	<definition>
 		<key>entry_meta_keywords</key>
-		<value><![CDATA[Meta Tag Keywords:]]></value>
+		<value><![CDATA[Palabras clave de etiquetas meta:]]></value>
 	</definition>
 	<definition>
 		<key>entry_status</key>
@@ -106,7 +106,7 @@
 	</definition>
 	<definition>
 		<key>error_required_data</key>
-		<value><![CDATA[Required Data has not been entered. Check for field errors!]]></value>
+		<value><![CDATA[No se han ingresado los datos requeridos. ¡Comprueba si hay errores de campo!]]></value>
 	</definition>
 	<definition>
 		<key>text_select_all</key>

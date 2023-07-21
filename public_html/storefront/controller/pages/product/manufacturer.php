@@ -69,6 +69,7 @@ class ControllerPagesProductManufacturer extends AController
         } else {
             $cart_rt = 'checkout/cart';
         }
+        $this->data['cart_rt'] = $cart_rt;
 
         $this->loadLanguage('product/manufacturer');
 
@@ -131,12 +132,12 @@ class ControllerPagesProductManufacturer extends AController
                 } else {
                     $page = 1;
                 }
-                if (isset($request['limit'])) {
-                    $limit = (int) $request['limit'];
-                    $limit = $limit > 50 ? 50 : $limit;
-                } else {
-                    $limit = $this->config->get('config_catalog_limit');
-                }
+
+              if (isset($this->request->get['limit'])) {
+                $limit = (int) $this->request->get['limit'];
+              } else {
+                $limit = $this->config->get('config_catalog_limit');
+              }
 
                 $sorting_href = $request['sort'];
                 if (!$sorting_href || !isset($this->data['sorts'][$request['sort']])) {
@@ -279,8 +280,9 @@ class ControllerPagesProductManufacturer extends AController
                 foreach ($this->data['sorts'] as $item => $text) {
                     $sort_options[$item] = $text;
                 }
-                $sorting = $this->html->buildSelectbox(
+                $sorting = $this->html->buildElement(
                     [
+                        'type'    => 'selectbox',
                         'name'    => 'sort',
                         'options' => $sort_options,
                         'value'   => $sort.'-'.$order,

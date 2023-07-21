@@ -162,7 +162,7 @@
 	</definition>
 	<definition>
 		<key>entry_email</key>
-		<value><![CDATA[E-Mail:]]></value>
+		<value><![CDATA[E-mail:]]></value>
 	</definition>
 	<definition>
 		<key>entry_ip</key>

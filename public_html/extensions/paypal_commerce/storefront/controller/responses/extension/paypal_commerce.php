@@ -49,7 +49,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         //need an order details
         $data['order_info'] = $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
         $data['order_total'] = $this->currency->convert(
-            $order_info['total'],
+            (float)$order_info['total'],
             $currencyCode,
             $this->currency->getCode()
         );
@@ -57,7 +57,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $taxes = $discount = $handling_fee = 0.0;
         foreach ($this->cart->getFinalTotalData() as $total) {
             $data['order_' . $total['id']] = $this->currency->convert(
-                $total['value'],
+                (float)$total['value'],
                 $this->config->get('config_currency'),
                 $currencyCode
             );

@@ -130,7 +130,7 @@
 	</definition>
 	<definition>
 		<key>error_regexp_pattern</key>
-		<value><![CDATA[Regular Expression Pattern is invalid!]]></value>
+		<value><![CDATA[¡El patrón de expresión regular no es válido!]]></value>
 	</definition>
 	<definition>
 		<key>entry_show_to_customer</key>

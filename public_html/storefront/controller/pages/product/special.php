@@ -60,6 +60,11 @@ class ControllerPagesProductSpecial extends AController
     {
         $request = $this->request->get;
 
+        //is this an embed mode
+        $this->data['cart_rt'] = $this->config->get('embed_mode')
+            ? 'r/checkout/cart/embed'
+            : 'checkout/cart';
+
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -93,10 +98,9 @@ class ControllerPagesProductSpecial extends AController
             $page = 1;
         }
 
-        if (isset($request['limit'])) {
-            $limit = (int) $request['limit'];
-            $limit = $limit > 50 ? 50 : $limit;
-        } else {
+        if (isset($this->request->get['limit'])) {
+            $limit = (int) $this->request->get['limit'];
+        } else {  
             $limit = $this->config->get('config_catalog_limit');
         }
 

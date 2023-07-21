@@ -18,7 +18,7 @@
 	</definition>
 	<definition>
 		<key>text_password</key>
-		<value><![CDATA[Password]]></value>
+		<value><![CDATA[Parola d&#39;ordine]]></value>
 	</definition>
 	<definition>
 		<key>text_address</key>

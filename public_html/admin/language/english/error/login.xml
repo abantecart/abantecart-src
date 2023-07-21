@@ -6,6 +6,6 @@
   </definition>
   <definition>
     <key>text_login</key>
-    <value><![CDATA[You are not logged in. You will be redirected to login page]]></value>
+    <value><![CDATA[You are not logged in. You will be redirected to login page. If problem still presents try to clear cookie. However, your page must be opened in secure mode (https).]]></value>
   </definition>
 </definitions>

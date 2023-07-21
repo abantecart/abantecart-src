@@ -498,7 +498,7 @@
 	</definition>
 	<definition>
 		<key>entry_option_placeholder</key>
-		<value><![CDATA[Placeholder:]]></value>
+		<value><![CDATA[Заполнитель:]]></value>
 	</definition>
 	<definition>
 		<key>entry_regexp_pattern</key>

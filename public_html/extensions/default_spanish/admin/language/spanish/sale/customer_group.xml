@@ -30,7 +30,7 @@
 	</definition>
 	<definition>
 		<key>error_default</key>
-		<value><![CDATA[Warning: This customer group cannot be deleted as it is currently assigned as the default store customer group!]]></value>
+		<value><![CDATA[Advertencia: ¡Este grupo de clientes no se puede eliminar ya que actualmente está asignado como el grupo de clientes de la tienda predeterminado!]]></value>
 	</definition>
 	<definition>
 		<key>error_store</key>
@@ -42,7 +42,7 @@
 	</definition>
 	<definition>
 		<key>breadcrumb_title</key>
-		<value><![CDATA[Customer Groups]]></value>
+		<value><![CDATA[Grupos de clientes]]></value>
 	</definition>
 	<definition>
 		<key>column_tax_exempt</key>

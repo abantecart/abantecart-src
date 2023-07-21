@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension>
 	<id>fast_checkout</id>
-	<version>1.3.3</version>
+	<version>1.3.4</version>
 	<type>extension</type>
 	<category>Checkout</category>
 	<cartversions>

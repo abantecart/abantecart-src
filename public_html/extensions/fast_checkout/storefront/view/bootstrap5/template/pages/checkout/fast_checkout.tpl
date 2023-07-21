@@ -17,13 +17,15 @@ if ($error) { ?>
 
 <script type="application/javascript">
 
+
+
 document.addEventListener('DOMContentLoaded', function load() {
     //waiting for jquery loaded!
     if (!window.jQuery) return setTimeout(load, 50);
     //jQuery-depended code
 
 <?php if ($cart_url) { ?>
-    var loadPage = function () {
+    loadPage = function () {
         $.ajax({
             url: '<?php echo $cart_url; ?>',
             type: 'GET',

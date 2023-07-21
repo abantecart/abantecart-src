@@ -1,29 +1,35 @@
 <?php
-require_once 'core/hooks.php';
-require_once 'vendor/autoload.php';
+require_once DIR_EXT . 'default_authorizenet' . DS .'core'.DS.'hooks.php';
+require_once DIR_EXT . 'default_authorizenet' . DS . 'vendor' . DS . '/autoload.php';
 
-$controllers = array(
-    'storefront' => array('responses/extension/default_authorizenet'),
-    'admin' => array(),
-);
+$controllers = [
+    'storefront' => [
+        'responses/extension/default_authorizenet'
+    ],
+    'admin' => [],
+];
 
-$models = array(
-    'storefront' => array('extension/default_authorizenet'),
-    'admin'      => array('extension/default_authorizenet'),
-);
+$models = [
+    'storefront' => [
+        'extension/default_authorizenet'
+    ],
+    'admin'      => [
+        'extension/default_authorizenet'
+    ],
+];
 
-$languages = array(
-    'storefront' => array(
+$languages = [
+    'storefront' => [
         'default_authorizenet/default_authorizenet',
-    ),
-    'admin'      => array(
+    ],
+    'admin'      => [
         'default_authorizenet/default_authorizenet',
-    ),
-);
+    ],
+];
 
-$templates = array(
-    'storefront' => array(
+$templates = [
+    'storefront' => [
         'responses/default_authorizenet.tpl',
-    ),
-    'admin'      => array(),
-);
+    ],
+    'admin'      => [],
+];

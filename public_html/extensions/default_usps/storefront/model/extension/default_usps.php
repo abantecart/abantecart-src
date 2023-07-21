@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2023 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -31,11 +31,18 @@ class ModelExtensionDefaultUsps extends Model
 {
     public function getQuote($address)
     {
+        if(!class_exists('DOMDocument')){
+            $this->log->write('USPS CRITICAL ERROR! DOMDocument class not found. Please install ext-dom php-extension to solve an issue.');
+        }
+        if(!function_exists('curl_init')){
+            $this->log->write('USPS CRITICAL ERROR! CURL is not supported by php. Please install ext-curl php-extension to solve an issue.');
+        }
+
         //create new instance of language for case when model called from admin-side
         $language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
         $language->load($language->language_details['directory']);
         $language->load('default_usps/default_usps');
-        $country = array();
+        $country = [];
         $weight = 0.001;
         if (!$this->config->get('default_usps_status')) {
             return false;
@@ -45,38 +52,34 @@ class ModelExtensionDefaultUsps extends Model
         if (!$this->config->get('default_usps_location_id')) {
             $status = true;
         } else {
-            $query = $this->db->query("SELECT *
-											FROM ".$this->db->table('zones_to_locations')."
-											WHERE location_id = '".(int)$this->config->get('default_usps_location_id')."'
-												AND country_id = '".(int)$address['country_id']."'
-												AND (zone_id = '".(int)$address['zone_id']."' OR zone_id = '0')");
-            if ($query->num_rows) {
-                $status = true;
-            } else {
-                $status = false;
-            }
+            $query = $this->db->query(
+                "SELECT *
+                 FROM ".$this->db->table('zones_to_locations')."
+                 WHERE location_id = '".(int)$this->config->get('default_usps_location_id')."'
+                     AND country_id = '".(int)$address['country_id']."'
+                     AND (zone_id = '".(int)$address['zone_id']."' OR zone_id = '0')"
+            );
+            $status = (bool)$query->num_rows;
         }
 
         //load all countries and codes
         $countries = $this->model_localisation_country->getCountries();
-        foreach ($countries as $item) {
-            $country[$item['iso_code_2']] = $item['name'];
-        }
+        $country = array_column($countries, 'name', 'iso_code_2');
 
         if ($status && !has_value($country[$address['iso_code_2']])) {
             $status = false;
         }
 
-        $method_data = array();
         if (!$status) {
-            return $method_data;
+            return [];
         }
 
-        $quote_data = array();
+        $method_data = [];
+        $quote_data = [];
 
         //build array with cost for shipping
         // ids of products without special shipping cost
-        $generic_product_ids = $free_shipping_ids = $shipping_price_ids = array();
+        $generic_product_ids = $free_shipping_ids = $shipping_price_ids = [];
         // total shipping cost of product with fixed shipping price
         $shipping_price_cost = 0;
         $cart_products = $this->cart->getProducts();
@@ -93,15 +96,19 @@ class ModelExtensionDefaultUsps extends Model
             $generic_product_ids[] = $product['product_id'];
         }
         //convert fixed prices to USD
-        $shipping_price_cost = $this->currency->convert($shipping_price_cost, $this->config->get('config_currency'), 'USD');
+        $shipping_price_cost = $this->currency->convert(
+            $shipping_price_cost,
+            $this->config->get('config_currency'),
+            'USD'
+        );
 
         if ($generic_product_ids) {
             $api_weight_product_ids = array_diff($generic_product_ids, $shipping_price_ids);
             //WHEN ONLY PRODUCTS WITH FIXED SHIPPING PRICES ARE IN BASKET
             if (!$api_weight_product_ids) {
                 $cost = $shipping_price_cost;
-                $quote_data = array(
-                    'default_usps' => array(
+                $quote_data = [
+                    'default_usps' => [
                         'id'           => 'default_usps.default_usps',
                         'title'        => $language->get('text_title'),
                         'cost'         => $this->currency->convert(
@@ -119,16 +126,15 @@ class ModelExtensionDefaultUsps extends Model
                                 $this->config->get('config_tax')),
                             $this->currency->getCode(),
                             1.0000000),
-                    ),
-                );
-                $method_data = array(
+                    ],
+                ];
+                return [
                     'id'         => 'default_usps',
                     'title'      => $language->get('text_title'),
                     'quote'      => $quote_data,
                     'sort_order' => $this->config->get('default_usps_sort_order'),
                     'error'      => '',
-                );
-                return $method_data;
+                ];
             }
         } else {
             $api_weight_product_ids = $shipping_price_ids;
@@ -145,7 +151,7 @@ class ModelExtensionDefaultUsps extends Model
                 $cart_weight_class_id,
                 $this->weight->getClassIDByCode('PUND')
             );
-            $weight = ($weight < 0.001 ? 0.001 : $weight);
+            $weight = max($weight, 0.001);
         }
 
         $pounds = floor($weight);
@@ -154,8 +160,8 @@ class ModelExtensionDefaultUsps extends Model
 
         // FOR CASE WHEN ONLY FREE SHIPPING PRODUCTS IN BASKET
         if (!$api_weight_product_ids && $free_shipping_ids) {
-            $quote_data = array(
-                'default_usps' => array(
+            $quote_data = [
+                'default_usps' => [
                     'id'           => 'default_usps.default_usps',
                     'title'        => $language->get('text_'.($address['iso_code_2'] == 'US'
                             ? $this->config->get('default_usps_free_domestic_method')
@@ -163,15 +169,15 @@ class ModelExtensionDefaultUsps extends Model
                     'cost'         => 0.0,
                     'tax_class_id' => $this->config->get('default_usps_tax_class_id'),
                     'text'         => $language->get('text_free'),
-                ),
-            );
-            $method_data = array(
+                ],
+            ];
+            $method_data = [
                 'id'         => 'default_usps',
                 'title'      => $language->get('text_title'),
                 'quote'      => $quote_data,
                 'sort_order' => $this->config->get('default_usps_sort_order'),
                 'error'      => '',
-            );
+            ];
             return $method_data;
         }
 
@@ -233,9 +239,14 @@ class ModelExtensionDefaultUsps extends Model
         }
 
         $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, 'https://secure.shippingapis.com/ShippingAPI.dll?'.$request);
-        curl_setopt($curl, CURLOPT_HEADER, 0);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt_array($curl,
+            [
+                CURLOPT_URL => 'https://secure.shippingapis.com/ShippingAPI.dll?'.$request,
+                CURLOPT_HEADER => 0,
+                CURLOPT_RETURNTRANSFER => 1
+            ]
+        );
+
         $result = curl_exec($curl);
         curl_close($curl);
 
@@ -253,45 +264,28 @@ class ModelExtensionDefaultUsps extends Model
             }
             $dom = new DOMDocument('1.0', 'UTF-8');
             $dom->loadXml($result);
-            /**
-             * @var $rate_response DOMElement
-             */
             $rate_response = $dom->getElementsByTagName('RateV4Response')->item(0);
-            /**
-             * @var $intl_rate_response DOMElement
-             */
             $intl_rate_response = $dom->getElementsByTagName('IntlRateV2Response')->item(0);
             $error = $dom->getElementsByTagName('Error')->item(0);
 
-            $first_classes = array(
+            $first_classes = [
                 'First-Class Mail Parcel',
                 'First-Class Mail Large Envelope',
                 'First-Class Mail Stamped Letter',
                 'First-Class Mail Postcards',
-            );
+            ];
             if ($rate_response || $intl_rate_response) {
                 if ($address['iso_code_2'] == 'US') {
-                    $allowed = array(0, 1, 2, 3, 4, 5, 6, 7, 12, 13, 16, 17, 18, 19, 22, 23, 25, 27, 28);
-                    /**
-                     * @var $package DOMElement
-                     */
+                    $domesticClassIDs = array_keys(USPS_CLASSES['domestic']);
                     $package = $rate_response->getElementsByTagName('Package')->item(0);
-                    /**
-                     * @var $error DOMElement
-                     */
                     $error = $package->getElementsByTagName('Error')->item(0);
-                    /**
-                     * @var  DOMElement $postages
-                     */
                     $postages = $package->getElementsByTagName('Postage');
+
                     if ($postages->length) {
-                        /**
-                         * @var $postage DOMElement
-                         */
                         foreach ($postages as $postage) {
-                            $class_id = $postage->getAttribute('CLASSID');
-                            if (in_array($class_id, $allowed)) {
-                                if ($class_id == '0') {
+                            $class_id = (int)$postage->getAttribute('CLASSID');
+                            if (in_array($class_id, $domesticClassIDs)) {
+                                if ($class_id == 0) {
                                     $mail_service = $postage->getElementsByTagName('MailService')->item(0)->nodeValue;
                                     foreach ($first_classes as $k => $first_class) {
                                         if ($first_class == $mail_service) {
@@ -299,70 +293,83 @@ class ModelExtensionDefaultUsps extends Model
                                             break;
                                         }
                                     }
-                                    if (($this->config->get('default_usps_domestic_'.$class_id))) {
+                                    if ( $this->config->get('default_usps_domestic_'.$class_id) ) {
                                         $cost = $postage->getElementsByTagName('Rate')->item(0)->nodeValue;
                                         if ($generic_product_ids) {
                                             $cost += $shipping_price_cost;
                                         }
-                                        $quote_data[$class_id] = array(
+                                        $quote_data[$class_id] = [
                                             'id'           => 'default_usps.'.$class_id,
                                             'title'        => $postage->getElementsByTagName('MailService')->item(0)->nodeValue,
-                                            'cost'         => $this->currency->convert($cost, 'USD',
-                                                $this->config->get('config_currency')),
+                                            'cost'         => $this->currency->convert(
+                                                $cost,
+                                                'USD',
+                                                $this->config->get('config_currency')
+                                            ),
                                             'tax_class_id' => $this->config->get('default_usps_tax_class_id'),
-                                            'text'         => $this->currency->format($this->tax->calculate($this->currency->convert($cost,
-                                                'USD', $this->currency->getCode()),
-                                                $this->config->get('default_usps_tax_class_id'),
-                                                $this->config->get('config_tax')), $this->currency->getCode(),
-                                                1.0000000),
-                                        );
+                                            'text'         => $this->currency->format(
+                                                $this->tax->calculate(
+                                                    $this->currency->convert(
+                                                        $cost,
+                                                        'USD',
+                                                        $this->currency->getCode()
+                                                    ),
+                                                    $this->config->get('default_usps_tax_class_id'),
+                                                    $this->config->get('config_tax')
+                                                ),
+                                                $this->currency->getCode(),
+                                                1.0000000
+                                            ),
+                                        ];
                                     }
                                 } elseif ($this->config->get('default_usps_domestic_'.$class_id)) {
                                     $cost = $postage->getElementsByTagName('Rate')->item(0)->nodeValue;
                                     if ($generic_product_ids) {
                                         $cost += $shipping_price_cost;
                                     }
-                                    $quote_data[$class_id] = array(
+                                    $quote_data[$class_id] = [
                                         'id'           => 'default_usps.'.$class_id,
                                         'title'        => $postage->getElementsByTagName('MailService')->item(0)->nodeValue,
-                                        'cost'         => $this->currency->convert($cost, 'USD',
-                                            $this->config->get('config_currency')),
+                                        'cost'         => $this->currency->convert(
+                                            $cost,
+                                            'USD',
+                                            $this->config->get('config_currency')
+                                        ),
                                         'tax_class_id' => $this->config->get('default_usps_tax_class_id'),
-                                        'text'         => $this->currency->format($this->tax->calculate($this->currency->convert($cost,
-                                            'USD', $this->currency->getCode()),
-                                            $this->config->get('default_usps_tax_class_id'),
-                                            $this->config->get('config_tax')), $this->currency->getCode(),
-                                            1.0000000),
-                                    );
+                                        'text'         => $this->currency->format(
+                                            $this->tax->calculate(
+                                                $this->currency->convert(
+                                                    $cost,
+                                                    'USD',
+                                                    $this->currency->getCode()
+                                                ),
+                                                $this->config->get('default_usps_tax_class_id'),
+                                                $this->config->get('config_tax')
+                                            ),
+                                            $this->currency->getCode(),
+                                            1.0000000
+                                        )
+                                    ];
                                 }
                             }
                         }
                     } else {
 
-                        $method_data = array(
+                        $method_data = [
                             'id'         => 'default_usps',
                             'title'      => $language->get('text_title'),
                             'quote'      => $quote_data,
                             'sort_order' => $this->config->get('default_usps_sort_order'),
                             'error'      => $error->getElementsByTagName('Description')->item(0)->nodeValue,
-                        );
+                        ];
                     }
                 } else {
-                    $allowed = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 21);
-                    /**
-                     * @var $package DOMElement
-                     */
+                    $intClassIDs = array_keys(USPS_CLASSES['international']);
                     $package = $intl_rate_response->getElementsByTagName('Package')->item(0);
-                    /**
-                     * @var $services DOMElement
-                     */
                     $services = $package->getElementsByTagName('Service');
-                    /**
-                     * @var $service DOMElement
-                     */
                     foreach ($services as $service) {
                         $id = $service->getAttribute('ID');
-                        if (in_array($id, $allowed) && $this->config->get('default_usps_international_'.$id)) {
+                        if (in_array($id, $intClassIDs) && $this->config->get('default_usps_international_'.$id)) {
                             $title = $service->getElementsByTagName('SvcDescription')->item(0)->nodeValue;
                             if (!$title) {
                                 continue;
@@ -374,7 +381,7 @@ class ModelExtensionDefaultUsps extends Model
                             if ($generic_product_ids) {
                                 $cost += $shipping_price_cost;
                             }
-                            $quote_data[$id] = array(
+                            $quote_data[$id] = [
                                 'id'           => 'default_usps.'.$id,
                                 'title'        => $title,
                                 'cost'         => $this->currency->convert($cost, 'USD',
@@ -390,21 +397,18 @@ class ModelExtensionDefaultUsps extends Model
                                         $this->config->get('config_tax')),
                                     $this->currency->getCode(),
                                     1.0000000),
-                            );
+                            ];
                         }
                     }
                 }
             } elseif ($error) {
-                /**
-                 * @var $error DOMElement
-                 */
-                $method_data = array(
+                $method_data = [
                     'id'         => 'default_usps',
                     'title'      => $language->get('text_title'),
                     'quote'      => $quote_data,
                     'sort_order' => $this->config->get('default_usps_sort_order'),
                     'error'      => $error->getElementsByTagName('Description')->item(0)->nodeValue,
-                );
+                ];
             }
         }
 
@@ -416,13 +420,13 @@ class ModelExtensionDefaultUsps extends Model
                         $this->weight->getClassIDByUnit($this->config->get('config_weight_class'))).')';
             }
 
-            $method_data = array(
+            $method_data = [
                 'id'         => 'default_usps',
                 'title'      => $title,
                 'quote'      => $quote_data,
                 'sort_order' => $this->config->get('default_usps_sort_order'),
                 'error'      => false,
-            );
+            ];
         }
         return $method_data;
     }

@@ -11,8 +11,8 @@
     <label class="h4 heading">Compruebe pagos más comunes:</label>
     <div class="row">
 	    <div class="col-sm-4 h5 center">
-	        <a href="#admin#rt=extension/extensions/install&extension=default_stripe">
-	        <img src="extensions/default_stripe/image/icon.png"><br>Instale Stripe </a>
+	        <a href="#admin#rt=extension/extensions/install&extension=stripe">
+	        <img src="extensions/stripe/image/icon.png"><br>Instale Stripe </a>
 	    </div>
 	    <div class="col-sm-4 h5 center">
 	        <a href="#admin#rt=extension/extensions/install&extension=paypal_commerce">

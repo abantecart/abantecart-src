@@ -167,6 +167,8 @@
 		<?php echo $this->getHookVar('list_more_product_last'); ?>
 	</table>
 
+	<?php echo $this->getHookVar('order_pre_attributes'); ?>
+
 	<?php if ($comment) { ?>
 		<h4 class="heading4"><?php echo $text_comment; ?></h4>
 		<div class="container mb10"><?php echo $comment; ?></div>

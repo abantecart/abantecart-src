@@ -126,6 +126,6 @@
 	</definition>
 	<definition>
 		<key>column_email</key>
-		<value><![CDATA[Email]]></value>
+		<value><![CDATA[Электронная почта]]></value>
 	</definition>
 </definitions>

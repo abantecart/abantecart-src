@@ -107,14 +107,12 @@
 
     <div class="ps-4 p-3 col-12 d-flex flex-wrap">
         <?php if ($text_agree) { ?>
-           <div class="d-flex flex-nowrap text-nowrap align-items-center ">
+           <div class="form-check-inline me-0 d-flex flex-nowrap text-nowrap align-items-center ">
                <?php
-               $form['agree']->style .= 'me-3';
                $form['agree']->checked = false;
                $form['agree']->attr .= ' onclick="$(\'#submit_button\').toggle();" autocomplete="off" ';
+               $form['agree']->label_text = $text_agree.'&nbsp;<a href="'.$text_agree_href.'" onclick="openModalRemote(\'#privacyPolicyModal\',\''.$text_agree_href.'\'); return false;"><b>'. $text_agree_href_text . '</b></a>';
                echo $form['agree']; ?>
-               <label for="<?php echo $form['agree']->element_id?>">
-                   <?php echo $text_agree; ?></label>&nbsp;<a href="<?php echo $text_agree_href; ?>" onclick="openModalRemote('#privacyPolicyModal','<?php echo $text_agree_href; ?>'); return false;"><b><?php echo $text_agree_href_text; ?></b></a>
            </div>
         <?php } ?>
 

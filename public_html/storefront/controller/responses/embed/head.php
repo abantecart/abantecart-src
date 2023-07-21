@@ -67,6 +67,10 @@ class ControllerResponsesEmbedHead extends AController
             $this->view->assign('maintenance_warning', $this->language->get('text_maintenance_notice'));
         }
 
+        if ($this->config->get('config_google_analytics_code')) {
+            $this->view->assign( 'google_analytics_code', trim($this->config->get('config_google_analytics_code')));
+        }
+
         if (isset($this->session->data['merchant'])) {
             unset($this->session->data['guest']);
             $this->view->assign(

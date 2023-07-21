@@ -38,7 +38,7 @@
 	</definition>
 	<definition>
 		<key>column_email</key>
-		<value><![CDATA[E-Mail]]></value>
+		<value><![CDATA[E-mail]]></value>
 	</definition>
 	<definition>
 		<key>column_customer_group</key>
@@ -78,7 +78,7 @@
 	</definition>
 	<definition>
 		<key>entry_email</key>
-		<value><![CDATA[E-Mail:]]></value>
+		<value><![CDATA[E-mail:]]></value>
 	</definition>
 	<definition>
 		<key>entry_telephone</key>
@@ -90,7 +90,7 @@
 	</definition>
 	<definition>
 		<key>entry_newsletter</key>
-		<value><![CDATA[Newsletter:]]></value>
+		<value><![CDATA[Notiziario:]]></value>
 	</definition>
 	<definition>
 		<key>entry_customer_group</key>
@@ -106,7 +106,7 @@
 	</definition>
 	<definition>
 		<key>entry_password</key>
-		<value><![CDATA[Password:]]></value>
+		<value><![CDATA[Parola d&#39;ordine:]]></value>
 	</definition>
 	<definition>
 		<key>entry_confirm</key>

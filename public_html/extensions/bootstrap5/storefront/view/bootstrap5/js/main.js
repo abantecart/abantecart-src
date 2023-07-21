@@ -1,3 +1,4 @@
+let evtName = '';
 //fill default values of common variables if not set
 if (!window.hasOwnProperty("baseUrl")) {
     window.baseUrl = parent.window.location.protocol
@@ -48,11 +49,14 @@ $(document).ready(function(){
     }
 
     if (window.hasOwnProperty("cart_ajax_url")) {
-        function add2CartAjax(product_id) {
+        function add2CartAjax(product_id, option = []) {
             let senddata = {},
                 result = false;
             if (product_id) {
                 senddata['product_id'] = product_id;
+            }
+            if(option){
+                senddata['option'] = option;
             }
             $.ajax({
                 url: cart_ajax_url,
@@ -74,34 +78,76 @@ $(document).ready(function(){
         }
 
         //event for adding product to cart by ajax
-        $(document).on('click', 'a.add-to-cart', function (e) {
+        $(document).on('click touchstart', 'a.add-to-cart', function (e) {
+
             let item = $(this);
             //check if href provided for product details access
             if (item.attr('href') && item.attr('href') !== '#') {
                 return true;
             }
-            let wrapper = item.parent();
             e.preventDefault();
+            e.stopPropagation();
+            if(e.handleObj.type === 'click' && evtName === 'touchstart'){
+                evtName = '';
+                return true;
+            }
+            evtName = e.handleObj.type;
+
+            let wrapper = item.parent();
+
             if (item.attr('data-id')) {
+                let options;
                 let check_cart = wrapper.find('i').first();
                 let icon_cart = wrapper.find('i').last();
                 let spinner = wrapper.children('span');
                 spinner.removeClass('visually-hidden');
                 icon_cart.addClass('visually-hidden');
-                let data = add2CartAjax(item.attr('data-id'));
+                if( item.attr('data-options') && item.attr('data-options').length ) {
+                    options = JSON.parse(item.attr('data-options'));
+                }
+                let data = add2CartAjax(item.attr('data-id'), options);
                 if ( data !== false) {
                     check_cart.removeClass('visually-hidden');
                     spinner.addClass('visually-hidden');
                     icon_cart.removeClass('visually-hidden');
+
+                    if(ga4_enabled){
+                        let card = item.parents('.card');
+                        let prodName = card.find('.card-title').text();
+                        let productData;
+
+                        $.each(data.products, function(idx){
+                            if(data.products[idx].key == item.attr('data-id')){
+                                productData = data.products[idx];
+                            }
+                        });
+                        let addedQnty = item.next().text()
+                            ? data.added_item_quantity - parseInt(item.next().text(),10)
+                            : data.added_item_quantity;
+                        gtag("event", "add_to_cart", {
+                            currency: default_currency,
+                            value: addedQnty * productData.price_num,
+                            items: [
+                                {
+                                    item_id: item.attr('data-id'),
+                                    item_name: prodName.trim(),
+                                    affiliation: storeName,
+                                    price: productData.price_num.toFixed(2),
+                                    quantity: addedQnty
+                                }
+                            ]
+                        });
+                    }
+
                     if(data.added_item_quantity>0){
                         wrapper.children('span.item-qty-badge').remove();
                         wrapper.append(
                             '<span class="item-qty-badge position-absolute top-0 start-0 translate-middle badge rounded-pill bg-light text-dark border border-2 border-success">'+
-                                    data.added_item_quantity +
+                            data.added_item_quantity +
                             '</span>'
                         );
                     }
-                    item.attr('title', text_add_cart_confirm)
+                    item.attr('title', text_add_cart_confirm);
                 }
             }
             return false;

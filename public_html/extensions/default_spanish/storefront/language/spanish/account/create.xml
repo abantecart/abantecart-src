@@ -186,11 +186,11 @@
 	</definition>
 	<definition>
 		<key>text_new_customer</key>
-		<value><![CDATA[New customer registration approval is pending]]></value>
+		<value><![CDATA[La aprobación de registro de nuevo cliente está pendiente]]></value>
 	</definition>
 	<definition>
 		<key>text_pending_customer_approval</key>
-		<value><![CDATA[Customer %s has registered with new account. Action of approval is required! Click to view #admin#rt=sale/customer/update&customer_id=%s]]></value>
+		<value><![CDATA[El cliente %s se ha registrado con una nueva cuenta. ¡Se requiere acción de aprobación! Haga clic para ver #admin#rt=sale/customer/update&customer_id=%s]]></value>
 	</definition>
 	<definition>
 		<key>text_pending_subscriber_approval</key>

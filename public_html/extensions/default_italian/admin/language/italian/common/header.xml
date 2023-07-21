@@ -130,7 +130,7 @@
 	</definition>
 	<definition>
 		<key>text_abantecart</key>
-		<value><![CDATA[Homepage]]></value>
+		<value><![CDATA[Pagina iniziale]]></value>
 	</definition>
 	<definition>
 		<key>text_payment</key>
@@ -146,7 +146,7 @@
 	</definition>
 	<definition>
 		<key>text_online</key>
-		<value><![CDATA[Online]]></value>
+		<value><![CDATA[in linea]]></value>
 	</definition>
 	<definition>
 		<key>text_transactions</key>
@@ -254,7 +254,7 @@
 	</definition>
 	<definition>
 		<key>text_design</key>
-		<value><![CDATA[Design]]></value>
+		<value><![CDATA[Progetto]]></value>
 	</definition>
 	<definition>
 		<key>text_templates</key>
@@ -270,7 +270,7 @@
 	</definition>
 	<definition>
 		<key>text_menu</key>
-		<value><![CDATA[Menu]]></value>
+		<value><![CDATA[Menù]]></value>
 	</definition>
 	<definition>
 		<key>text_cache</key>
@@ -346,7 +346,7 @@
 	</definition>
 	<definition>
 		<key>text_settings_mail</key>
-		<value><![CDATA[Mail]]></value>
+		<value><![CDATA[Posta]]></value>
 	</definition>
 	<definition>
 		<key>text_settings_api</key>
@@ -450,7 +450,7 @@
 	</definition>
 	<definition>
 		<key>text_rl_manager</key>
-		<value><![CDATA[Media Manager]]></value>
+		<value><![CDATA[Responsabile multimediale]]></value>
 	</definition>
 	<definition>
 		<key>text_analytics</key>

@@ -962,12 +962,6 @@ class ExtensionsApi
             }
         }
 
-        //reverse $extensions_lookup_list when looking for tpl
-        // need to take last from the list
-        if ($resource_type == 'T') {
-            $extensions_lookup_list = array_reverse($extensions_lookup_list);
-        }
-
         foreach ($extensions_lookup_list as $ext) {
             $f = DIR_EXT.$ext.$file;
             if ($ext_status == 'all'

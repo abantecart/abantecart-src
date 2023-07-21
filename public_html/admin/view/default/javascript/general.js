@@ -573,7 +573,7 @@ $(document).ajaxError(function (e, jqXHR, settings, exception) {
 			for (var k in errlist) {
 				if (errlist[k].length > 0) {
 					//show error and prepend the title of the error
-					gl_error_alert(err.error_title+' '+errlist[k], false);
+					gl_error_alert((err.error_title ?? '') +' '+errlist[k], false);
 				}
 			}
 			var sent_params = $.parseParams(settings.data);

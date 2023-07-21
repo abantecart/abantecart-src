@@ -39,6 +39,15 @@
 			<type>input</type>
 			<default_value/>
 		</item>
+		<item id="min_order_subtotal">
+			<type>input</type>
+			<default_value/>
+		</item>
+		<item id="max_order_subtotal">
+			<type>input</type>
+			<default_value/>
+		</item>
+
 		<item id="sort_order">
 			<type>input</type>
 			<default_value/>
