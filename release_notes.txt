@@ -1,3 +1,57 @@
+AbanteCart version 1.3.4
+
+Release Highlights:
+
+In this latest release, we are excited to introduce several significant improvements and upgrades to enhance your user experience.
+
+1. Bootstrap v5 Storefront Template:
+We have set the Bootstrap v5 storefront template as the new default, providing you with a modern and streamlined interface. This update brings a fresh look and improved responsiveness to your storefront.
+
+2. Updated Embed Pages with Bootstrap v5:
+Not only is the storefront template upgraded, but we have also updated all embed pages with Bootstrap v5. This ensures consistency across the entire platform and guarantees a seamless user experience.
+
+3. Google Analytics Upgrade to GA4:
+To stay at the forefront of analytics capabilities, we have upgraded Google Analytics to the latest GA4 version. With this upgrade, you gain access to new features and better insights into your website's performance and user behavior.
+
+4. New Stripe Payment Integration:
+We are thrilled to introduce a new and improved Stripe payment integration. This update expands the range of payment options available, making it easier for your customers to complete their transactions securely and conveniently.
+
+5. USPS Update with New Shipment Methods:
+We have updated USPS shipping methods to offer you more flexibility and efficiency in managing your shipments. This means a smoother shipping process and improved delivery options for your customers.
+
+6. Other Improvements:
+Additionally, we've implemented several other enhancements to optimize the platform's performance and fix minor issues. These improvements are aimed at providing you with a better overall experience.
+
+We hope these updates contribute to making your experience with our platform even more enjoyable. As always, we value your feedback, so please don't hesitate to share your thoughts and suggestions with us.
+
+Core:
+- Set min Support for php8.0
+- Order product options sorting fix
+- jquery upgraded to v3.7.0
+- Added new hooks to support extension API.
+- fix for apdomysql driver
+- Add Logout after password change for customers and admin users
+- ACurrency lib bug fix
+- Bug fixes
+
+Admin:
+- tinyMCE upgraded to v6.5.0
+- Improvement of settings page for extensions
+
+Storefront:
+- Google Analytics 4 Support
+- Bootstrap v5 template set as default
+- Embed update with Bootstrap v 5
+- Fast checkout improvement and fixes.
+- Update email templates
+
+Extensions:
+- Updated Stripe with many payment methods included
+- USPS updated with new methods
+- Paypal Commerce. added "sleep" to webhook setup method.
+- Cardnox Fast checkout fix
+
+
 AbanteCart version 1.3.3
 
 In this release, we introduce a new Bootstrap 5 storefront template with page builder support.
