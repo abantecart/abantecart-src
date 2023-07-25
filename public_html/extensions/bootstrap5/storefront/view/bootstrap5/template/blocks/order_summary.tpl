@@ -15,11 +15,12 @@
                     <tr>
                         <td class="d-flex flex-wrap align-items-center justify-content-between">
                             <div class="d-none d-md-flex mx-1">
-                                <img alt="" class="product-icon" src="<?php echo $product['thumbnail']['main_url']; ?>">
+                                <img alt="<?php echo_html2view($product['name']);?>" class="product-icon" src="<?php echo $product['thumbnail']['main_url']; ?>"
+                                style="width:75px;">
                             </div>
                             <div class="ms-auto me-1 text-wrap">
                                 <?php if($product['href']){ ?>
-                                    <a class="link-dark link-"  href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a>
+                                    <a class="link-dark"  href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a>
                                 <?php }else{
                                     echo $product['name'];
                                 }?>
