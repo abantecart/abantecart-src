@@ -2022,7 +2022,7 @@ class ReCaptchaHtmlElement extends HtmlElement
     {
         $this->extendAndBatchAssign(
             [
-                'name'               => $this->name,
+                'name'               => $this->name ?: 'g-recaptcha-response',
                 'id'                 => $this->element_id,
                 'attr'               => $this->attr.' data-aform-field-type="captcha"',
                 'language_code'      => $this->language_code,
