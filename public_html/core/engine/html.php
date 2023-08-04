@@ -994,12 +994,23 @@ abstract class HtmlElement
     }
 
     /**
+     * @deprecated
      * @param string $name
      * @param mixed $value
      *
      * @return void
      */
     public function set(string $name, $value)
+    {
+        $this->__set($name,$value);
+    }
+    /**
+     * @param string $name
+     * @param mixed $value
+     *
+     * @return void
+     */
+    public function __set(string $name, $value)
     {
         $this->data[$name] = $value;
     }
@@ -1281,7 +1292,6 @@ class InputHtmlElement extends HtmlElement
         if ($this->value == '' && !empty($this->default)) {
             $this->value = $this->default;
         }
-
         $this->extendAndBatchAssign(
             [
                 'name'           => $this->name,
@@ -1299,7 +1309,6 @@ class InputHtmlElement extends HtmlElement
                 'help_url'       => $this->help_url,
             ]
         );
-
         return $this->view->fetch('form/input.tpl');
     }
 }
