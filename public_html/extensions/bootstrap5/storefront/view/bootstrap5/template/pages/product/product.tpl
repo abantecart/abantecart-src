@@ -398,7 +398,7 @@ if ($tags){ ?>
                         <button id="tags" class="accordion-button collapsed" type="button"
                                 data-bs-toggle="collapse" data-bs-target="#collapseTags"
                                 aria-expanded="true" aria-controls="collapseTags">
-                            <i class="fa-solid fa-tags me-2"></i>
+                            <i class="fa-solid fa-hashtag me-2"></i>
                             <?php echo $text_tags; ?>
                         </button>
                     </h2>
@@ -408,7 +408,7 @@ if ($tags){ ?>
                                 <?php foreach ($tags as $tag){ ?>
                                     <li class="list-group-item">
                                         <a class="text-decoration-none text-secondary" href="<?php echo $tag['href']; ?>">
-                                            <i class="fa-solid fa-tag me-2"></i><?php echo $tag['tag']; ?>
+                                            <i class="fa-solid fa-hashtag"></i><?php echo $tag['tag']; ?>
                                         </a>
                                     </li>
                                 <?php } ?>
@@ -514,7 +514,7 @@ if($this->getHookVar('product_features')){ ?>
                         <button id="features" class="accordion-button" type="button"
                                 data-bs-toggle="collapse" data-bs-target="#collapseFeatures"
                                 aria-expanded="true" aria-controls="collapseFeatures">
-                            <?php echo $this->getHookVar('product_features_tab'); ?>
+                            <i class="fa-solid fa-tags me-2"></i><?php echo $this->getHookVar('product_features_tab'); ?>
                         </button>
                     </h2>
                     <div id="collapseFeatures" class="accordion-collapse collapse" aria-labelledby="headingFeatures" data-bs-parent="#productDetailsAccordion">

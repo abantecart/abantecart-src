@@ -59,7 +59,7 @@
                 <fieldset >
                     <div class="form-floating mb-3">
                         <?php
-                            $form2['loginname']->set('no_wrapper',true);
+                            $form2['loginname']->no_wrapper = true;
                             echo $form2['loginname'];
                         ?>
                         <label for="<?php echo $form2['loginname']->element_id; ?>">
@@ -70,7 +70,7 @@
                     </div>
                     <div class="form-floating mb-3">
                         <?php
-                        $form2['password']->set('no_wrapper',true);
+                        $form2['password']->no_wrapper = true;
                         echo $form2['password']?>
                         <label for="<?php echo $form2['password']->element_id; ?>"><?php echo $entry_password; ?></label>
                     </div>
