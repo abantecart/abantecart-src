@@ -256,7 +256,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
                 //validate if captured
                 if ($chargeData->intent == 'AUTHORIZE' && $data['amount'] >= $amount) {
-                    $capture = $mdl->capture($authId, $amount, $currencyCode);
+                    $capture = $mdl->capture($authId, number_format($amount,2), $currencyCode);
                     if ($capture->id) {
                         $json['msg'] = $this->language->get('text_captured_order');
                         // update main order status
@@ -349,7 +349,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 //validate if captured
                 if ($remainder >= $amount) {
 
-                    $refund = $mdl->refund($captureId, $amount, $currencyCode);
+                    $refund = $mdl->refund($captureId, number_format($amount,2), $currencyCode);
 
                     if ($refund->id) {
                         $json['msg'] = $this->language->get('text_refund_order');
