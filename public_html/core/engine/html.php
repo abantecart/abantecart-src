@@ -2466,10 +2466,11 @@ class CountriesHtmlElement extends HtmlElement
         parent::__construct($data);
         $this->registry->get('load')->model('localisation/country');
         $results = $this->registry->get('model_localisation_country')->getCountries();
-        $this->options = [];
+        $options = [];
         foreach ($results as $c) {
-            $this->options[$c['name']] = $c['name'];
+            $options[$c['name']] = $c['name'];
         }
+        $this->options = $options;
     }
 
     public function getHtml()
@@ -2519,27 +2520,27 @@ class CountriesHtmlElement extends HtmlElement
  */
 class ZonesHtmlElement extends HtmlElement
 {
-    //private $default_zone_value, $default_value;
     public function __construct($data)
     {
         parent::__construct($data);
         $this->registry->get('load')->model('localisation/country');
         $results = $this->registry->get('model_localisation_country')->getCountries();
-        $this->options = [];
         $this->zone_options = [];
         $this->default_zone_field_name = 'zone_id';
         $config_country_id = $this->registry->get('config')->get('config_country_id');
+        $options = [];
         foreach ($results as $c) {
             if ($c['country_id'] == $config_country_id) {
                 $this->default_value =
                     $this->submit_mode == 'id' ? [$config_country_id] : [$c['name'] => $c['name']];
             }
             if ($this->submit_mode == 'id') {
-                $this->options[$c['country_id']] = $c['name'];
+                $options[$c['country_id']] = $c['name'];
             } else {
-                $this->options[$c['name']] = $c['name'];
+                $options[$c['name']] = $c['name'];
             }
         }
+        $this->options = $options;
     }
 
     public function getHtml()
@@ -2590,6 +2591,7 @@ class ZonesHtmlElement extends HtmlElement
                 $this->zone_value ? [(string) $this->zone_value => (string) $this->zone_value] : [];
         }
         $config_zone_id = $this->registry->get('config')->get('config_zone_id');
+        $zone_options = [];
         foreach ($results as $result) {
             // default zone_id is zone of shop
             if ($result['zone_id'] == $config_zone_id) {
@@ -2599,10 +2601,11 @@ class ZonesHtmlElement extends HtmlElement
             }
 
             if ($this->submit_mode == 'id') {
-                $this->zone_options[$result['zone_id']] = $result['name'];
+                $zone_options[$result['zone_id']] = $result['name'];
             } else {
-                $this->zone_options[$result['name']] = $result['name'];
+                $zone_options[$result['name']] = $result['name'];
             }
+            $this->zone_options = $zone_options;
         }
 
         $this->extendAndBatchAssign(
