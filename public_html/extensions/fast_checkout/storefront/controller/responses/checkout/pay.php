@@ -182,7 +182,16 @@ class ControllerResponsesCheckoutPay extends AController
                 $address_id = $this->request->get['payment_address_id'];
             } else {
                 if ($this->fc_session['payment_address_id']) {
-                    $address_id = $this->fc_session['payment_address_id'];
+                    if(
+                        in_array(
+                            $this->fc_session['payment_address_id'],
+                            array_column($this->data['all_addresses'],'address_id')
+                        )
+                    ) {
+                        $address_id = $this->fc_session['payment_address_id'];
+                    }else{
+                        $this->fc_session['payment_address_id'] = $address_id;
+                    }
                 }
             }
             foreach ($this->data['all_addresses'] as $adr) {
