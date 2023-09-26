@@ -413,7 +413,7 @@ class ControllerResponsesCheckoutPay extends AController
             }
         }
 
-        if ($this->data['show_payment'] == true) {
+        if ($this->data['show_payment']) {
             //Order must be created before payment form rendering!
             if (!$this->session->data['order_id'] || $this->request->get['payment_address_id']) {
                 $this->updateOrCreateOrder($this->fc_session, $request);
@@ -1711,7 +1711,6 @@ class ControllerResponsesCheckoutPay extends AController
         }
 
         if (round($this->cart->getFinalTotal(),4) == 0) {
-            $ac_payments = [];
             $paymentHTML = $this->html->buildButton(
                 [
                     'text'  => $this->language->get('order_confirm'),
@@ -1748,7 +1747,7 @@ class ControllerResponsesCheckoutPay extends AController
             $ac_payments = $results;
         }
 
-        $payment_address = $this->customer->isLogged()
+        $this->data['payment_address'] = $payment_address = $this->customer->isLogged()
             ? $this->model_account_address->getAddress(
                     $this->fc_session['payment_address_id']
                 )
@@ -1796,7 +1795,9 @@ class ControllerResponsesCheckoutPay extends AController
             ];
         }
         $this->session->data['payment_methods'] = $method_data;
-        return $method_data;
+        $this->extensions->hk_ProcessData($this, 'fast_checkout_get_payments_list');
+
+        return $this->session->data['payment_methods'];
     }
 
     protected function _select_shipping($selected = '')
