@@ -297,7 +297,6 @@ if ($error){ ?>
 
                 <div class="tab-pane active" id="description">
                     <?php echo $description; ?>
-
                     <ul class="productinfo">
                         <?php if ($stock){ ?>
                             <li>
@@ -306,6 +305,11 @@ if ($error){ ?>
                         <?php } ?>
                         <?php if ($model){ ?>
                             <li><span class="productinfoleft"><?php echo $text_model; ?></span> <?php echo $model; ?>
+                            </li>
+                        <?php } ?>
+
+                        <?php if ($sku){ ?>
+                            <li><span class="productinfoleft"><?php echo $text_sku; ?></span> <?php echo $sku; ?>
                             </li>
                         <?php } ?>
                         <?php if ($manufacturer){ ?>

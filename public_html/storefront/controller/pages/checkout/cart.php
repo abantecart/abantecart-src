@@ -344,7 +344,6 @@ class ControllerPagesCheckoutCart extends AController
                     $result['tax_class_id'],
                     $this->config->get('config_tax')
                 );
-
                 $products[] = [
                     'remove'       => $form->getFieldHtml(
                         [
@@ -356,6 +355,7 @@ class ControllerPagesCheckoutCart extends AController
                     'key'          => $result['key'],
                     'name'         => $result['name'],
                     'model'        => $result['model'],
+                    'sku'        => $result['sku'],
                     'thumb'        => $thumbnail,
                     'option'       => $option_data,
                     'quantity'     => $form->getFieldHtml(

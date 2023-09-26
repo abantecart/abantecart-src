@@ -188,7 +188,7 @@ class ControllerPagesCatalogProduct extends AController
         $grid_settings['colNames'] = [
             '',
             $this->language->get('column_name'),
-            $this->language->get('column_model'),
+            $this->language->get('column_sku'),
             $this->language->get('column_price'),
             $this->language->get('column_quantity'),
             $this->language->get('column_status'),
@@ -209,8 +209,8 @@ class ControllerPagesCatalogProduct extends AController
                 'width' => 200,
             ],
             [
-                'name'  => 'model',
-                'index' => 'model',
+                'name'  => 'sku',
+                'index' => 'sku',
                 'align' => 'center',
                 'width' => 120,
             ],

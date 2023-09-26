@@ -300,6 +300,10 @@ if ($error){ ?>
                                     <li><span class="fw-bold me-2"><?php echo $text_model; ?></span> <?php echo $model; ?>
                                     </li>
                                 <?php } ?>
+                                <?php if ($sku){ ?>
+                                    <li><span class="fw-bold me-2"><?php echo $text_sku; ?></span> <?php echo $sku; ?>
+                                    </li>
+                                <?php } ?>
                                 <?php if ($manufacturer){ ?>
                                     <li>
                                         <span class="fw-bold me-2"><?php echo $text_manufacturer; ?></span>
