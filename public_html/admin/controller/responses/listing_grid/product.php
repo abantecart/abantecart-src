@@ -60,7 +60,7 @@ class ControllerResponsesListingGridProduct extends AController
             'pto',
         ];
 
-        $grid_filter_params = ['name', 'sort_order', 'model'];
+        $grid_filter_params = ['name', 'sort_order', 'sku'];
 
         $filter_form = new AFilter(['method' => 'get', 'filter_params' => $filter_params]);
         $filter_grid = new AFilter(['method' => 'post', 'grid_filter_params' => $grid_filter_params]);
@@ -115,7 +115,7 @@ class ControllerResponsesListingGridProduct extends AController
                 ),
                 $this->html->buildInput(
                     [
-                        'name'  => 'model['.$result['product_id'].']',
+                        'name'  => 'sku['.$result['product_id'].']',
                         'value' => $result['sku'],
                     ]
                 ),
@@ -191,6 +191,7 @@ class ControllerResponsesListingGridProduct extends AController
                     [
                         'product_description',
                         'model',
+                        'sku',
                         'call_to_order',
                         'price',
                         'quantity',
@@ -309,6 +310,7 @@ class ControllerResponsesListingGridProduct extends AController
             [
                 'product_description',
                 'model',
+                'sku',
                 'price',
                 'call_to_order',
                 'quantity',
@@ -472,6 +474,11 @@ class ControllerResponsesListingGridProduct extends AController
             case 'model' :
                 if (mb_strlen($value) > 64) {
                     $this->data['error'] = $this->language->get('error_model');
+                }
+                break;
+            case 'sku' :
+                if (mb_strlen($value) > 64) {
+                    $this->data['error'] = $this->language->get('error_sku');
                 }
                 break;
             case 'keyword' :

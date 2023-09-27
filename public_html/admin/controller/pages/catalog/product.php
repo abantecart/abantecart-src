@@ -872,11 +872,11 @@ class ControllerPagesCatalogProduct extends AController
             ]
         );
 
-        $this->data['form']['fields']['data']['model'] = $form->getFieldHtml(
+        $this->data['form']['fields']['data']['sku'] = $form->getFieldHtml(
             [
                 'type'     => 'input',
-                'name'     => 'model',
-                'value'    => $this->data['model'],
+                'name'     => 'sku',
+                'value'    => $this->data['sku'],
                 'required' => false,
             ]
         );
@@ -996,11 +996,11 @@ class ControllerPagesCatalogProduct extends AController
             ]
         );
 
-        $this->data['form']['fields']['data']['sku'] = $form->getFieldHtml(
+        $this->data['form']['fields']['data']['model'] = $form->getFieldHtml(
             [
                 'type'  => 'input',
-                'name'  => 'sku',
-                'value' => $this->data['sku'],
+                'name'  => 'model',
+                'value' => $this->data['model'],
             ]
         );
 
@@ -1238,10 +1238,12 @@ class ControllerPagesCatalogProduct extends AController
             $this->error['name'] = $this->language->get_error('error_name');
         }
 
+        if (mb_strlen($post['sku']) > 64) {
+            $this->error['sku'] = $this->language->get_error('error_sku');
+        }
         if (mb_strlen($post['model']) > 64) {
             $this->error['model'] = $this->language->get_error('error_model');
         }
-
         if (($error_text = $this->html->isSEOkeywordExists(
             'product_id='.$productId,
             $post['keyword']

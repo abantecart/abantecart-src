@@ -354,6 +354,10 @@
 		<value><![CDATA[Error: Product not found!]]></value>
 	</definition>
 	<definition>
+		<key>error_sku</key>
+		<value><![CDATA[Error: SKU not found!]]></value>
+	</definition>
+	<definition>
 		<key>filter_product</key>
 		<value><![CDATA[Search for product]]></value>
 	</definition>
