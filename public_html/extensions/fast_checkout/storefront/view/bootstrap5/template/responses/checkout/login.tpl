@@ -16,7 +16,7 @@ echo $login_form['form_open']; ?>
 <fieldset>
     <div class="form-floating mb-3 col-10 col-sm-6 mx-auto">
         <?php
-            $login_form['loginname']->set('no_wrapper',true);
+            $login_form['loginname']->no_wrapper = true;
             $login_form['loginname']->attr .= ' required ';
             echo $login_form['loginname'];
         ?>
@@ -26,7 +26,7 @@ echo $login_form['form_open']; ?>
     </div>
     <div class="form-floating mb-3 col-10 col-sm-6 mx-auto">
         <?php
-        $login_form['password']->set('no_wrapper',true);
+        $login_form['password']->no_wrapper = true;
         $login_form['password']->attr .= ' required ';
         echo $login_form['password']; ?>
         <label for="<?php echo $login_form['password']->element_id; ?>">

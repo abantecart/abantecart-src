@@ -44,6 +44,8 @@ if (!defined('DIR_CORE')) {
  */
 class AConfigManager
 {
+    /** comma-separated alert emails regex pattern  */
+    const ALERT_EMAILS_REGEX = '/^([A-Z0-9._%-]+@[A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,16}(,\s)*)*$/i';
     protected $registry;
     protected $groups = [];
     protected $templates = [];
@@ -274,6 +276,13 @@ class AConfigManager
                             || ($field_name == 'config_smtp_timeout' && !$field_value))
                     ) {
                         $this->errors['mail'] = $this->language->get('error_mail');
+                    }
+
+                    if($field_name == 'config_alert_emails'
+                        && $field_value
+                        && !preg_match(self::ALERT_EMAILS_REGEX, $field_value)
+                    ){
+                        $this->errors['alert_emails'] = $this->language->get('error_alert_emails');
                     }
                     break;
 
@@ -1666,6 +1675,7 @@ class AConfigManager
                 'name'  => 'config_alert_emails',
                 'value' => $data['config_alert_emails'],
                 'style' => 'large-field',
+                'attr' => ' pattern="'.self::ALERT_EMAILS_REGEX.'"'
             ]
         );
         if (isset($data['one_field'])) {

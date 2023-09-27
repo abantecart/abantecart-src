@@ -771,12 +771,21 @@ class ModelAccountCustomer extends Model
             $this->error['postcode'] = $this->language->get('error_postcode');
         }
 
-        if ($data['country_id'] == 'FALSE') {
+        if ($data['country_id'] == 'FALSE' || !$data['country_id'] ) {
             $this->error['country'] = $this->language->get('error_country');
         }
 
-        if ($data['zone_id'] == 'FALSE') {
-            $this->error['zone'] = $this->language->get('error_zone');
+        if ($data['zone_id'] == 'FALSE' || !$data['zone_id']) {
+            if($this->error['country']) {
+                $this->error['zone'] = $this->language->get('error_zone');
+            }else{
+                //check if zones exists
+                /** @var ModelLocalisationZone $mdl */
+                $mdl = $this->load->model('localisation/zone');
+                if( count($mdl->getZonesByCountryId($data['country_id'])) > 0 ){
+                    $this->error['zone'] = $this->language->get('error_zone');
+                }
+            }
         }
 
         //check password length considering html entities (special case for characters " > < & )

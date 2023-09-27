@@ -21,6 +21,7 @@
 // set default encoding for multibyte php mod
 mb_internal_encoding('UTF-8');
 ini_set('default_charset', 'utf-8');
+ini_set('serialize_precision', 16);
 
 //default error reporting level.
 // See another levels based on debug settings

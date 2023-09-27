@@ -107,7 +107,9 @@ $(document).ready(function(){
                 }
                 let data = add2CartAjax(item.attr('data-id'), options);
                 if ( data !== false) {
-                    check_cart.removeClass('visually-hidden');
+                    if(!check_cart.is(":visible")) {
+                        check_cart.toggle("slide:left");
+                    }
                     spinner.addClass('visually-hidden');
                     icon_cart.removeClass('visually-hidden');
 

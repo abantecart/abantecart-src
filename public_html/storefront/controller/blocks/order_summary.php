@@ -122,7 +122,7 @@ class ControllerBlocksOrderSummary extends AController
                 'key'       => $result['key'],
                 'name'      => $result['name'],
                 'option'    => $option_data,
-                'thumbnail' => $thumbnail,
+                'thumbnail' => $thumbnail ?: $result['thumb'] ?: $result['thumbnail'],
                 'quantity'  => $result['quantity'],
                 'stock'     => $result['stock'],
                 'price'     => $this->currency->format(

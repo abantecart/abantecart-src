@@ -103,6 +103,11 @@
 			<![CDATA[Additional Alert E-Mails:<br /><span class="help">Any additional emails you want to receive the alert email, in addition to the main store email. (comma separated)</span>]]></value>
 	</definition>
 	<definition>
+		<key>error_alert_emails</key>
+		<value>
+			<![CDATA[Alert E-Mails must be valid and comma-separated!]]></value>
+	</definition>
+	<definition>
 		<key>entry_telephone</key>
 		<value><![CDATA[Telephone:]]></value>
 	</definition>

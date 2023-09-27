@@ -27,40 +27,46 @@ class ControllerResponsesCommonZone extends AController
 {
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $stdout = '';
+        $output = '';
 
-        if (has_value($this->request->get['country_id']) && is_numeric($this->request->get['country_id'])) {
+        if (is_numeric($this->request->get['country_id'])){
             $country_id = $this->request->get['country_id'];
-            $stdout = '<option value="">'.$this->language->get('text_select').'</option>';
+            $zoneId = $this->request->get['zone_id'];
+            $zoneName = $this->request->get['zone_name'];
 
-            $this->loadModel('localisation/zone');
-
-            $results = $this->model_localisation_zone->getZonesByCountryId($country_id);
-            if (count($results)) {
+            /** @var ModelLocalisationZone $mdl */
+            $mdl = $this->loadModel('localisation/zone');
+            $results = $mdl->getZonesByCountryId($country_id);
+            $totalZones = count($results);
+            if($totalZones > 1) {
+                $output = '<option value="">' . $this->language->get('text_select') . '</option>';
+            }
+            if ($totalZones) {
                 foreach ($results as $result) {
-                    $stdout .= '<option value="'.$result['zone_id'].'"';
-                    if ((isset($this->request->get['zone_name']) && ($this->request->get['zone_name'] == $result['name']))
-                        || (isset($this->request->get['zone_id']) && ($this->request->get['zone_id'] == $result['zone_id']))
+                    $output .= '<option value="'.$result['zone_id'].'"';
+                    if ( ($zoneName !== null && $zoneName == $result['name'])
+                        || ($zoneId !== null && $zoneId == $result['zone_id'])
+                        || $totalZones == 1
                     ) {
-                        $stdout .= ' selected="selected"';
+                        $output .= ' selected="selected"';
                     }
-                    $stdout .= '>'.$result['name'].'</option>';
+                    $output .= '>'.$result['name'].'</option>';
                 }
             } else {
-                if (!$this->request->get['zone_id']) {
-                    $stdout .= '<option value="0" selected="selected">'.$this->language->get('text_none').'</option>';
+                if (!$zoneId) {
+                    $output .= '<option value="0" selected="selected">'.$this->language->get('text_none').'</option>';
                 } else {
-                    $stdout .= '<option value="0">'.$this->language->get('text_none').'</option>';
+                    $output .= '<option value="0">'.$this->language->get('text_none').'</option>';
                 }
             }
         }
+        $this->data['output']  = $output;
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->response->setOutput($stdout, $this->config->get('config_compression'));
+        $this->response->setOutput($this->data['output'], $this->config->get('config_compression'));
     }
 
     public function names()

@@ -115,7 +115,9 @@ class ControllerResponsesListingGridProduct extends AController
                 ),
                 $this->html->buildInput(
                     [
+
                         'name'  => 'sku['.$result['product_id'].']',
+                        'name'  => 'model['.$result['product_id'].']',
                         'value' => $result['sku'],
                     ]
                 ),

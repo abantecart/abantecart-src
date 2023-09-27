@@ -117,7 +117,8 @@
                                                 <a class="text-decoration-none text-white"
                                                    href="<?php echo $this->html->getSecureURL( ($cart_rt ?:'checkout/cart')); ?>">
                                                     <i title="<?php echo_html2view($text_add_cart_confirm); ?>"
-                                                       class="<?php echo !in_array((int)$product['product_id'], $cartProductIds) ? 'visually-hidden ' : '';?>fa fa-check fa-xl me-2 text-warning"></i>
+                                                    <?php echo !in_array((int)$product['product_id'], $cartProductIds) ? 'style="display:none;"' : '';?>
+                                                       class="fa fa-check fa-xl me-2 text-warning"></i>
                                                 </a>
                                                 <span class="visually-hidden spinner-border spinner-border-sm" aria-hidden="true"></span>
                                                 <a class="text-decoration-none text-white add-to-cart"
