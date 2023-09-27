@@ -64,7 +64,7 @@ if (sizeof((array) $error_warning) > 0) {
             </div>
             <div class="col-7 col-md-10 col-lg-8 col-xl-7 d-flex flex-wrap align-content-center justify-content-between align-items-center">
                 <?php
-                foreach(['model', 'price'] as $item){ ?>
+                foreach(['model', 'price', 'sku'] as $item){ ?>
                     <div class="flex-fill my-auto text-nowrap p-3">
                        <?php if($product[$item]){ ?>
                        <p class="col-12 col-sm mt-0 mt-sm-2 card-text"><?php echo ${'column_'.$item}; ?>:<br>

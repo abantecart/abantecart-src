@@ -410,6 +410,7 @@ class ControllerPagesProductProduct extends AController
         );
 
         $this->data['model'] = $product_info['model'];
+        $this->data['sku'] = $product_info['sku'];
         $this->data['manufacturer'] = $product_info['manufacturer'];
         $this->data['manufacturers'] = $this->html->getSEOURL(
             'product/manufacturer',

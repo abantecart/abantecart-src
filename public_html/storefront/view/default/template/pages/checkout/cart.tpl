@@ -71,6 +71,7 @@ if (sizeof((array) $error_warning) > 0) {
                         <?php echo $this->getHookVar('checkout_cart_product_'.$product['key'].'_additional_info_1'); ?>
                     </td>
                     <td class="align_left"><?php echo $product['model']; ?></td>
+                    <td class="align_left"><?php echo $product['sku']; ?></td>
                     <td class="align_right"><?php echo $product['price'].$tax_message; ?></td>
                     <td class="align_center">
                         <div class="center input-group input-group-sm"><?php echo $product['quantity']; ?></div>

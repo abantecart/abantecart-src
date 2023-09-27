@@ -264,7 +264,7 @@ class ControllerResponsesProductProduct extends AController
                     'id'         => $product_info['product_id'],
                     'product_id' => $product_info['product_id'],
                     'name'       => $product_info['name'],
-                    'model'      => $product_info['model'],
+                    'sku'      => $product_info['sku'],
                     'sort_order' => 0,
                 ];
             }

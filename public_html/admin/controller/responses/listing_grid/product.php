@@ -116,7 +116,7 @@ class ControllerResponsesListingGridProduct extends AController
                 $this->html->buildInput(
                     [
                         'name'  => 'model['.$result['product_id'].']',
-                        'value' => $result['model'],
+                        'value' => $result['sku'],
                     ]
                 ),
                 $price,
