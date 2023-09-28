@@ -872,11 +872,11 @@ class ControllerPagesCatalogProduct extends AController
             ]
         );
 
-        $this->data['form']['fields']['data']['sku'] = $form->getFieldHtml(
+        $this->data['form']['fields']['data']['model'] = $form->getFieldHtml(
             [
                 'type'     => 'input',
-                'name'     => 'sku',
-                'value'    => $this->data['sku'],
+                'name'     => 'model',
+                'value'    => $this->data['model'],
                 'required' => false,
             ]
         );
@@ -996,11 +996,11 @@ class ControllerPagesCatalogProduct extends AController
             ]
         );
 
-        $this->data['form']['fields']['data']['model'] = $form->getFieldHtml(
+        $this->data['form']['fields']['data']['sku'] = $form->getFieldHtml(
             [
                 'type'  => 'input',
-                'name'  => 'model',
-                'value' => $this->data['model'],
+                'name'  => 'sku',
+                'value' => $this->data['sku'],
             ]
         );
 
