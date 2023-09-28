@@ -34,7 +34,8 @@ if (sizeof((array) $error_warning) > 0) {
             <tr>
                 <th class="align_center"><?php echo $column_image; ?></th>
                 <th class="align_left"><?php echo $column_name; ?></th>
-                <th class="align_left"><?php echo $column_model; ?></th>
+                <th class="align_center"><?php echo $column_model; ?></th>
+                <th class="align_center"><?php echo $column_sku; ?></th>
                 <th class="align_right"><?php echo $column_price; ?></th>
                 <th class="align_center"><?php echo $column_quantity; ?></th>
                 <th class="align_right"><?php echo $column_total; ?></th>
@@ -70,8 +71,8 @@ if (sizeof((array) $error_warning) > 0) {
                         </div>
                         <?php echo $this->getHookVar('checkout_cart_product_'.$product['key'].'_additional_info_1'); ?>
                     </td>
-                    <td class="align_left"><?php echo $product['model']; ?></td>
-                    <td class="align_left"><?php echo $product['sku']; ?></td>
+                    <td class="align_center"><?php echo $product['model']; ?></td>
+                    <td class="align_center"><?php echo $product['sku']; ?></td>
                     <td class="align_right"><?php echo $product['price'].$tax_message; ?></td>
                     <td class="align_center">
                         <div class="center input-group input-group-sm"><?php echo $product['quantity']; ?></div>
