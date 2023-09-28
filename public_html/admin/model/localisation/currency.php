@@ -82,9 +82,22 @@ class ModelLocalisationCurrency extends Model
 
         $fields = array('title', 'code', 'symbol_left', 'symbol_right', 'decimal_place', 'value', 'status',);
         $update = array('date_modified = NOW()');
+        $updateSettings = false;
         foreach ($fields as $f) {
             if (isset($data[$f])) {
                 $update[] = $f." = '".$this->db->escape($data[$f])."'";
+                //check default currency in settings
+                if($f == 'code'){
+                    $res = $this->db->query(
+                        "SELECT DISTINCT `value`
+                        FROM ".$this->db->table("settings")." 
+                        WHERE `group` = 'details' AND `key` = 'config_currency'"
+                    );
+                    $priorCode = $res->row['value'];
+                    if($priorCode != $data['code']){
+                        $updateSettings = true;
+                    }
+                }
             }
         }
         if (!empty($update)) {
@@ -92,6 +105,13 @@ class ModelLocalisationCurrency extends Model
                               SET ".implode(',', $update)."
                               WHERE currency_id = '".(int)$currency_id."'");
             $this->cache->remove('localization');
+            if($updateSettings){
+                $this->db->query(
+                    "UPDATE ".$this->db->table("settings")." 
+                    SET `value` = '".$this->db->escape($data['code'])."'
+                    WHERE `group` = 'details' AND `key` = 'config_currency'");
+                $this->cache->remove('settings');
+            }
         }
 
         return true;
