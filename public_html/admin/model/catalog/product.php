@@ -2509,6 +2509,8 @@ class ModelCatalogProduct extends Model
             }
             if ($filter['category']) {
                 $sql .= " AND p2c.category_id = '".(int) $filter['category']."'";
+            }if ($filter['sku']) {
+                $sql .= " AND p.sku LIKE '%". $this->db->escape($filter['sku'])."%'";
             }
             if (isset($filter['status']) && !is_null($filter['status'])) {
                 $sql .= " AND p.status = '".(int) $filter['status']."'";
@@ -2524,6 +2526,7 @@ class ModelCatalogProduct extends Model
                 'product_id'    => 'p.product_id',
                 'name'          => 'pd.name',
                 'model'         => 'p.model',
+                'sku'           => 'p.sku',
                 'quantity'      => 'quantity',
                 'price'         => 'p.price',
                 'status'        => 'p.status',

@@ -105,6 +105,10 @@
 		<value><![CDATA[Unit Price]]></value>
 	</definition>
 	<definition>
+		<key>column_sku</key>
+		<value><![CDATA[SKU]]></value>
+	</definition>
+	<definition>
 		<key>column_download</key>
 		<value><![CDATA[Download Name]]></value>
 	</definition>
