@@ -100,9 +100,9 @@ class ControllerPagesProductSearch extends AController
         }
 
         if (isset($request['page'])) {
-            $url .= '&page='.$request['page'];
+            $url .= '&page='.(int)$request['page'];
         }
-        if (isset($request['limit'])) {
+        if ((int)$request['limit']) {
             $url .= '&limit='.$request['limit'];
         }
 
@@ -120,12 +120,8 @@ class ControllerPagesProductSearch extends AController
             $page = 1;
         }
 
-        if (isset($this->request->get['limit'])) {
-            $limit = (int) $this->request->get['limit'];
-        } else {  
-            $limit = $this->config->get('config_catalog_limit');
-        } 
-    
+        $limit = (int) $this->request->get['limit'] ?: $this->config->get('config_catalog_limit');
+
         $sorting_href = $request['sort'];
         if (!$sorting_href || !isset($this->data['sorts'][$request['sort']])) {
             $sorting_href = $this->config->get('config_product_default_sort_order');

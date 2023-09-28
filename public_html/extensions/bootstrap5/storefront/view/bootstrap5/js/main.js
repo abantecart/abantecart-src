@@ -296,10 +296,10 @@ function openModalRemote(id, url) {
 function contentSearch(url) {
     url += '&' + $('#search_page_form').serialize();
     let sortFld = $('#sort');
-    if (sortFld && sortFld.val().length>0) {
+    if (sortFld.length>0 && sortFld.val().length>0) {
         url += '&sort=' + sortFld.val();
     }
-    location = url;
+    window.location = url;
 }
 // product list
 function ResortProductGrid(url) {
