@@ -22,11 +22,11 @@
 	</definition>
 	<definition>
 		<key>text_basket</key>
-		<value><![CDATA[Basket]]></value>
+		<value><![CDATA[Cart]]></value>
 	</definition>
 	<definition>
 		<key>text_shipping</key>
-		<value><![CDATA[Shipping]]></value>
+		<value><![CDATA[Shipping ]]></value>
 	</definition>
 	<definition>
 		<key>text_payment</key>
