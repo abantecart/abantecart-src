@@ -174,7 +174,7 @@
 	</definition>
 	<definition>
 		<key>fast_checkout_text_same_as_shipping_address</key>
-		<value><![CDATA[Same as delivery]]></value>
+		<value><![CDATA[Same for delivery]]></value>
 	</definition>
 	<definition>
 		<key>fast_checkout_text_enter_address</key>
