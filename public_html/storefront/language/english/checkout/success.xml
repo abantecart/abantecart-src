@@ -26,7 +26,7 @@
 	</definition>
 	<definition>
 		<key>text_shipping</key>
-		<value><![CDATA[Shipping]]></value>
+		<value><![CDATA[Shipping ]]></value>
 	</definition>
 	<definition>
 		<key>text_payment</key>
