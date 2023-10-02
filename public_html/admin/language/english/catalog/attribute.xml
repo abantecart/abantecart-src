@@ -140,4 +140,12 @@
 		<key>entry_show_to_customer</key>
 		<value><![CDATA[Show to Customer]]></value>
 	</definition>
+	<definition>
+		<key>entry_price_prefix</key>
+		<value><![CDATA[Modify Price By:]]></value>
+	</definition>
+	<definition>
+		<key>entry_price_modifier</key>
+		<value><![CDATA[Price Modifier:]]></value>
+	</definition>
 </definitions>

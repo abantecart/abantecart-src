@@ -20,8 +20,7 @@
 		<?php } ?>
 	</div>
 
-	<?php if ($name == 'element_type') { ?>
-	<?php
+	<?php if ($name == 'element_type') {
 		if ($child_count == 0) { ?>
 			<div id="values" style="display: none;">
 				<label class="control-label col-sm-3 col-xs-12"></label>
@@ -30,6 +29,8 @@
 					<thead>
 						<tr>
 							<th><?php echo $entry_element_values; ?></th>
+                            <th><?php echo $entry_price_prefix;?></th>
+                            <th><?php echo $entry_price_modifier; ?></th>
 							<th><?php echo $column_sort_order; ?></th>
 							<th></th>
 						</tr>
@@ -38,8 +39,15 @@
 					<?php foreach ($form['attribute_values'] as $atr_val_id => $atr_field) { ?>
 						<tr id="<?php echo $atr_val_id;?>" class="value">
 							<td><?php echo $atr_field['attribute_value_ids']; ?><?php echo $atr_field['values']; ?></td>
+							<td class="center">
+                                <?php echo $atr_field['price_modifier']; ?>
+                            </td>
+                            <td class="center">
+                                <?php echo $atr_field['price_prefix']; ?>
+                            </td>
 							<td><?php $atr_field['sort_order']->style = 'col-sm-2';
-								echo $atr_field['sort_order']; ?></td>
+								echo $atr_field['sort_order']; ?>
+                            </td>
 							<td>
                                 <?php echo $this->getHookVar('attribute_value_extra_buttons_'.$atr_val_id); ?>
                                 <a class="remove btn btn-danger-alt" title="<?php echo $button_remove; ?>">
@@ -143,6 +151,8 @@
 		});
 
 		$('#add_option_value').on('click', function () {
+            let so = Number($('#values').find('input[name^=sort_orders]').last().val());
+            so += 1;
 			var row = $('#values tr.value').last().clone();
 			$('#values tr.value').last().after(row);
 
@@ -150,7 +160,12 @@
 			last.find('input[name^=attribute_value_ids]').val('new').removeAttr('id');
 			last.find('input[name^=attribute_value_ids]').attr("name", "attribute_value_ids[]").removeAttr('id');
 			last.find('input[name^=values]').attr("name", "values[]").removeAttr('id');
-			last.find('input[name^=sort_orders]').attr("name", "sort_orders[]").removeAttr('id');
+			last.find('input[name^=price_modifiers]').attr("name", "price_modifiers[]").removeAttr('id');
+			last.find('input[name^=price_prefixes]').attr("name", "price_prefixes[]").removeAttr('id');
+			last.find('input[name^=sort_orders]')
+                .attr("name", "sort_orders[]")
+                .removeAttr('id')
+                .val( so );
 
 			last.removeClass('danger');
 			return false;

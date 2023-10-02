@@ -12692,9 +12692,11 @@ CREATE TABLE `ac_global_attributes_descriptions` (
 
 DROP TABLE IF EXISTS `ac_global_attributes_values`;
 CREATE TABLE `ac_global_attributes_values` (
-  `attribute_value_id` 	int(11) NOT NULL AUTO_INCREMENT,
-  `attribute_id` 		int(11) NOT NULL,
-  `sort_order` 			int(3) NOT NULL DEFAULT '0',
+    `attribute_value_id` int(11) NOT NULL AUTO_INCREMENT,
+    `attribute_id` 		 int(11) NOT NULL,
+    `price_modifier`     float default 0.0 null,
+    `price_prefix`       char(1) null,
+    `sort_order` 		 int(3) NOT NULL DEFAULT '0',
   PRIMARY KEY (`attribute_value_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 CREATE INDEX `ac_global_attributes_values_idx` ON `ac_global_attributes_values` ( `attribute_id` );
