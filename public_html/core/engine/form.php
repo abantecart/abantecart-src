@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection SqlResolve */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /*------------------------------------------------------------------------------
@@ -7,7 +7,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2021 Belavier Commerce LLC
+  Copyright © 2011-2023 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -455,9 +455,7 @@ class AForm
      */
     protected function addFormJs()
     {
-        /**
-         * @var ALanguageManager
-         */
+        /** @var ALanguageManager $language */
         $language = $this->registry->get('language');
         $view = new AView($this->registry, 0);
 
@@ -746,6 +744,9 @@ class AForm
      */
     public function processFileUploads($files = [])
     {
+        if(!$files){
+            return [];
+        }
         if ($this->fields) {
             $this->_loadFields();
         }
