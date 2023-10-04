@@ -59,23 +59,41 @@ class ControllerResponsesListingGridManufacturer extends AController
                     $this->config->get('config_image_grid_height')
                 )
             : [];
-
+        $title = $this->language->get('text_view').' '.$this->language->get('tab_product');
         $i = 0;
         foreach ($results as $result) {
             $thumbnail = $thumbnails[$result['manufacturer_id']];
             $response->rows[$i]['id'] = $result['manufacturer_id'];
+            if (!$result['products_count']) {
+                $products_count = 0;
+            } else {
+                $products_count = (string) $this->html->buildElement(
+                    [
+                        'type'  => 'button',
+                        'name'  => 'view products',
+                        'text'  => $result['products_count'],
+                        'href'  => $this->html->getSecureURL(
+                            'catalog/product',
+                            '&manufacturer='.$result['manufacturer_id']
+                        ),
+                        'title' => $title,
+                    ]
+                );
+            }
             $response->rows[$i]['cell'] = array(
                 $thumbnail['thumb_html'],
                 $this->html->buildInput(array(
                     'name'  => 'name['.$result['manufacturer_id'].']',
                     'value' => $result['name'],
                 )),
+                $products_count,
                 $this->html->buildInput(array(
                     'name'  => 'sort_order['.$result['manufacturer_id'].']',
                     'value' => $result['sort_order'],
                 )),
             );
             $i++;
+
         }
         $this->data['response'] = $response;
 

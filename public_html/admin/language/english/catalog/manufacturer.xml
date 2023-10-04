@@ -33,6 +33,10 @@
     <value><![CDATA[Action]]></value>
   </definition>
   <definition>
+    <key>column_products</key>
+    <value><![CDATA[Products count]]></value>
+  </definition>
+  <definition>
     <key>entry_name</key>
     <value><![CDATA[Brand Name:]]></value>
   </definition>
