@@ -419,6 +419,6 @@ class ControllerResponsesCatalogAttribute extends AController
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-        $this->processTemplate('responses/catalog/global_attribute_product_option_subform.tpl');
+        $this->processTemplate('responses/catalog/global_attribute_download_subform.tpl');
     }
 }
