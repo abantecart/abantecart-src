@@ -753,7 +753,7 @@ class AForm
 
         $output = [];
         foreach ($this->fields as $field) {
-            if ($field['element_type'] != 'U') {
+            if ($field['element_type'] != 'U' || !$files[$field['field_name']]['tmp_name']) {
                 continue;
             }
 
