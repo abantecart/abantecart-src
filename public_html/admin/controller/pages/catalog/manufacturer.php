@@ -120,6 +120,7 @@ class ControllerPagesCatalogManufacturer extends AController
         $grid_settings['colNames'] = [
             '',
             $this->language->get('column_name'),
+            $this->language->get('column_products'),
             $this->language->get('column_sort_order'),
         ];
         $grid_settings['colModel'] = [
@@ -136,6 +137,14 @@ class ControllerPagesCatalogManufacturer extends AController
                 'index' => 'name',
                 'width' => 600,
                 'align' => 'center',
+            ],
+            [
+                'name'     => 'products',
+                'index'    => 'products',
+                'width'    => 100,
+                'align'    => 'center',
+                'search'   => false,
+                'sortable' => false,
             ],
             [
                 'name'   => 'sort_order',

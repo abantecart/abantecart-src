@@ -258,7 +258,11 @@ class ModelCatalogManufacturer extends Model
             if ($mode == 'total_only') {
                 $total_sql = 'count(*) as total';
             } else {
-                $total_sql = 'ms.*, m.*';
+                $total_sql = "*,
+                          m.manufacturer_id,
+                          (SELECT count(*) as cnt
+                            FROM ".$this->db->table('products')." p
+                            WHERE p.manufacturer_id = m.manufacturer_id) as products_count ";
             }
             $sql = "SELECT $total_sql 
                     FROM ".$this->db->table("manufacturers")." m
