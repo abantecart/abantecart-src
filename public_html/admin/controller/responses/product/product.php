@@ -119,7 +119,7 @@ class ControllerResponsesProductProduct extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
         $this->load->library('json');
-        $this->response->a÷ddJSONHeader();
+        $this->response->addJSONHeader();
         $this->response->setOutput(AJson::encode($products_data));
     }
 
