@@ -156,13 +156,13 @@
 						&nbsp;
 						<small title="<?php echo $option['title']?>"> - <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
 					<?php } ?>
-					<?php echo $this->getHookVar('checkout_confirm_product_'.$product['product_id'].'_additional_info_1'); ?>
+					<?php echo $this->getHookVar('checkout_confirm_product_'.$product['key'].'_additional_info_1'); ?>
 				</td>
 				<td><?php echo $product['price']; ?></td>
 				<td><?php echo $product['quantity']; ?></td>
 				<td class="checkout_heading"><?php echo $product['total']; ?></td>
 			</tr>
-		<?php echo $this->getHookVar('checkout_confirm_product_'.$product['product_id'].'_additional_info_2'); ?>
+		<?php echo $this->getHookVar('checkout_confirm_product_'.$product['key'].'_additional_info_2'); ?>
 		<?php } ?>
 		<?php echo $this->getHookVar('list_more_product_last'); ?>
 	</table>
