@@ -21,6 +21,9 @@ if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
+require_once('vendor/ups-php-sdk/oauth-client-credentials/vendor/autoload.php');
+require_once('vendor/ups-php-sdk/rating/vendor/autoload.php');
+
 $controllers = array(
     'storefront' => array(),
     'admin'      => array(

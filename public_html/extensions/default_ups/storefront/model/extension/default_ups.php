@@ -18,6 +18,12 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
+
+use UPSOAuthClientCredentials\Request\GenerateTokenRequest;
+use UPSRating\RateClientFactory;
+use UPSRating\Request\RateRequest;
+use UPSShipping\Schema\ShipmentShipper;
+
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -104,7 +110,85 @@ class ModelExtensionDefaultUps extends Model
             );
 
         $use_width = $use_length = $use_height = 0;
-        $request = $this->_buildRequest($address, $weight, $length, $width, $height);
+##############################################################
+        $clientId = 'IRWwra5OOdRMm4SpLSIb5bIAizGQByoEWguPdEl0ImUraB5X';
+        $password = '1GQhyY13PoHUmZjL2kZ7yjkAltJ6mFVOdKrzQAmayidBTI8Uzy5fo4r0dJ3rpJfq';
+        $guzzle  = new \GuzzleHttp\Client(
+            [
+                'base_uri' => 'https://wwwcie.ups.com/',
+                'headers' => [
+                    "Authorization" => "Basic " . base64_encode($clientId.":".$password)
+                ]
+            ]
+        );
+
+        $factory = new \UPSOAuthClientCredentials\OAuthClientFactory();
+        $client  = $factory->create($guzzle);
+
+        $body = new \UPSOAuthClientCredentials\Schema\GenerateTokenRequestBody('client_credentials',);
+        //$credentials = new AuthenticationCredentials($clientId, $password);
+
+        $request = new GenerateTokenRequest($body);
+        $result  = $client->GenerateToken($request);
+        $response = $result->toArray();
+
+        $accessToken = $response['access_token'];
+
+
+        $guzzle = new \GuzzleHttp\Client(
+            [
+                'base_uri' => 'https://wwwcie.ups.com/api/rating/',
+                'headers' => [
+                    "Authorization" => "Bearer ".$accessToken,
+                    "Content-Type"  => "application/json"
+                ]
+            ]
+        );
+
+        $factory = new RateClientFactory();
+        $client  = $factory->create($guzzle);
+
+
+        /** @var ModelLocalisationCountry $countryModel */
+        $countryModel = $this->load->model('localisation/country');
+        $country = $countryModel->getCountry($this->config->get('config_country_id'));
+        /** @var ModelLocalisationZone $zoneModel */
+        $zoneModel = $this->load->model('localisation/zone');
+        $zone = $zoneModel->getZone($this->config->get('config_zone_id'));
+        $fromAddress = new \UPSRating\Schema\ShipperAddress(
+            [$this->config->get('config_address')],
+            $country['iso_code_2']
+        );
+        $fromAddress->setCity($this->config->get('config_city'));
+        $fromAddress->setPostalCode($this->config->get('config_postcode'));
+        $fromAddress->setStateProvinceCode($zone['code']);
+
+        $shipper = new \UPSRating\Schema\ShipmentShipper($fromAddress);
+        $toAddress = new \UPSRating\Schema\ShipToAddress(
+            [$address['address_1'], $address['address_2'] ],
+            $address['iso_code_2']
+        );
+        $toAddress->setCity($address['city']);
+        $toAddress->setPostalCode($address['postcode']);
+        $toAddress->setStateProvinceCode($address['zone_code']);
+
+        $shipTo = new \UPSRating\Schema\ShipmentShipTo($toAddress);
+        $packageCollection = new \UPSRating\Schema\ShipmentPackageCollection();
+
+        $rateRequestShipment = new \UPSRating\Schema\RateRequestShipment($shipper, $shipTo, $packageCollection);
+        $rrr = new \UPSRating\Schema\RateRequestRequest('rate');
+        $rateRequest = new \UPSRating\Schema\RateRequest($rrr, $rateRequestShipment);
+        $request = new RateRequest( new \UPSRating\Schema\RateRequestWrapper($rateRequest), 'shop');
+        $result = $client->sendRequest($request);
+        //$result  = $client->Rate($request);
+
+
+        var_Dump($result->getHeaders());
+        return;
+
+
+####################################################################
+        //$request = $this->_buildRequest($address, $weight, $length, $width, $height);
 
         $quote_data = $this->_processRequest($request);
         $error_msg = $quote_data['error_msg'];
