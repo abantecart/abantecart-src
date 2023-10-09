@@ -1,11 +1,11 @@
-<?php
+<?php /** @noinspection SqlResolve */
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2021 Belavier Commerce LLC
+  Copyright © 2011-2023 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -116,7 +116,12 @@ class AAttribute_Manager extends AAttribute
         if (!empty($data['values'])) {
             $data['values'] = array_unique($data['values']);
             foreach ($data['values'] as $id => $value) {
-                $attribute_value_id = $this->addAttributeValue($attribute_id, $data['sort_orders'][$id]);
+                $attribute_value_id = $this->addAttributeValue(
+                    $attribute_id,
+                    $data['sort_orders'][$id],
+                    $data['price_modifiers'][$id],
+                    $data['price_prefixes'][$id]
+                );
                 $this->addAttributeValueDescription($attribute_id, $attribute_value_id, $language_id, $value);
             }
         }
@@ -134,7 +139,7 @@ class AAttribute_Manager extends AAttribute
     public function updateAttribute($attribute_id, $data)
     {
         //Note: update is done per 1 language
-        $language_id = $this->session->data['content_language_id'];
+        $language_id = $this->language->getContentLanguageID();
         $fields = [
             'attribute_type_id',
             'attribute_group_id',
@@ -209,7 +214,9 @@ class AAttribute_Manager extends AAttribute
                         // New need to create
                         $attribute_value_id = $this->addAttributeValue(
                             $attribute_id,
-                            $data['sort_orders'][$atr_val_id]
+                            $data['sort_orders'][$atr_val_id],
+                            $data['price_modifiers'][$atr_val_id],
+                            $data['price_prefixes'][$atr_val_id]
                         );
                         $insertedValues[$attribute_value_id] = [
                             'id'         => $attribute_value_id,
@@ -226,7 +233,12 @@ class AAttribute_Manager extends AAttribute
                         }
                     } else {
                         //Existing need to update
-                        $this->updateAttributeValue($atr_val_id, $data['sort_orders'][$atr_val_id]);
+                        $this->updateAttributeValue(
+                            $atr_val_id,
+                            $data['sort_orders'][$atr_val_id],
+                            $data['price_modifiers'][$atr_val_id],
+                            $data['price_prefixes'][$atr_val_id]
+                        );
                         $this->updateAttributeValueDescription($attribute_id, $atr_val_id, $language_id, $value);
                     }
                 }
@@ -244,13 +256,15 @@ class AAttribute_Manager extends AAttribute
      * @return bool|int
      * @throws AException
      */
-    public function addAttributeValue($attribute_id, $sort_order)
+    public function addAttributeValue($attribute_id, $sort_order, $price_modifier = 0.0, $price_prefix = '')
     {
         if (empty($attribute_id)) {
             return false;
         }
         $sql = "INSERT INTO ".$this->db->table("global_attributes_values")." 
                 SET attribute_id = '".(int)$attribute_id."',
+                    price_modifier = '".(float)$price_modifier."',
+                    price_prefix = '".$this->db->escape($price_prefix)."',
                     sort_order = '".(int)$sort_order."'";
         $this->db->query($sql);
         return $this->db->getLastId();
@@ -286,14 +300,17 @@ class AAttribute_Manager extends AAttribute
      * @return bool
      * @throws AException
      */
-    public function updateAttributeValue($attribute_value_id, $sort_order)
+    public function updateAttributeValue($attribute_value_id, $sort_order, $price_modifier = null, $price_prefix = null)
     {
         if (empty($attribute_value_id)) {
             return false;
         }
 
         $sql = "UPDATE ".$this->db->table("global_attributes_values")." 
-                SET sort_order = '".(int)$sort_order."'
+                SET 
+                    sort_order = '".(int)$sort_order."'
+                    ".(isset($price_modifier) ? ", price_modifier=".(float)$price_modifier : '' ) ."
+                    ".(isset($price_prefix) ? ", price_prefix='".$this->db->escape($price_prefix)."'" : '' ) ."
                 WHERE attribute_value_id = '".(int)$attribute_value_id."'";
         $this->db->query($sql);
         $this->clearCache();
@@ -639,7 +656,7 @@ class AAttribute_Manager extends AAttribute
     public function getAttributeValues($attribute_id, $language_id = 0)
     {
         if (!$language_id) {
-            $language_id = $this->session->data['content_language_id'];
+            $language_id = $this->language->getContentLanguageID();
         }
         $query = $this->db->query(
             "SELECT ga.*, gad.value
@@ -734,7 +751,6 @@ class AAttribute_Manager extends AAttribute
             $sql .= " AND ga.attribute_type_id = ".(int)$data['attribute_type_id'];
         }
 
-        //If for total, we done building the query
         if ($mode == 'total_only') {
             $query = $this->db->query($sql);
             return $query->row['total'];

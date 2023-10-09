@@ -117,7 +117,6 @@ class ControllerResponsesListingGridProduct extends AController
                     [
 
                         'name'  => 'sku['.$result['product_id'].']',
-                        'name'  => 'model['.$result['product_id'].']',
                         'value' => $result['sku'],
                     ]
                 ),

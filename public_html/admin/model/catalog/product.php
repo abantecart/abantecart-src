@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection SqlResolve */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /*------------------------------------------------------------------------------
@@ -7,7 +7,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2021 Belavier Commerce LLC
+  Copyright © 2011-2023 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -186,18 +186,18 @@ class ModelCatalogProduct extends Model
                 $tags = [$language_id => $tags];
             } elseif (is_array($data['product_tags'])) {
                 $tags = $data['product_tags'];
-                foreach ($tags as &$taglist) {
-                    $taglist = $this->getUniqueTags($taglist);
+                foreach ($tags as &$tagList) {
+                    $tagList = $this->getUniqueTags($tagList);
                 }
-                unset($taglist);
+                unset($tagList);
             } else {
                 $tags = (array) $data['product_tags'];
             }
 
-            foreach ($tags as $lang_id => $taglist) {
-                $taglist = array_unique($taglist);
+            foreach ($tags as $lang_id => $tagList) {
+                $tagList = array_unique($tagList);
 
-                foreach ($taglist as $tag) {
+                foreach ($tagList as $tag) {
                     $tag = trim($tag);
                     $tag = preg_replace(self::TAG_REGEX_PATTERN,'',$tag);
                     if (!$tag) {
@@ -693,7 +693,7 @@ class ModelCatalogProduct extends Model
             $attributeDescriptions = $am->getAttributeDescriptions($data['attribute_id']);
         }
 
-        foreach ($attributeDescriptions as $language_id => $descr) {
+        foreach ($attributeDescriptions as $language_id => $desc) {
             $this->language->replaceDescriptions(
                 'product_option_descriptions',
                 [
@@ -702,8 +702,8 @@ class ModelCatalogProduct extends Model
                 ],
                 [
                     $language_id => [
-                        'name'               => $descr['name'],
-                        'error_text'         => $descr['error_text'],
+                        'name'               => $desc['name'],
+                        'error_text'         => $desc['error_text'],
                         'option_placeholder' => $data['placeholder'],
                     ],
                 ]
@@ -714,6 +714,14 @@ class ModelCatalogProduct extends Model
         $elements_with_options = HtmlElementFactory::getElementsWithOptions();
         if (!in_array($data['element_type'], $elements_with_options)) {
             $this->insertProductOptionValue($product_id, $product_option_id, '', '', []);
+        }elseif($attribute){
+            //add all values into product option
+            $values = $am->getAttributeValues($data['attribute_id']);
+            foreach($values as $gaValue){
+                $gaValue['price'] = $gaValue['price_modifier'];
+                $gaValue['prefix'] = $gaValue['price_prefix'];
+                $this->addProductOptionValueAndDescription($product_id, $product_option_id,$gaValue);
+            }
         }
 
         $this->_touch_product($product_id);
@@ -1791,7 +1799,7 @@ class ModelCatalogProduct extends Model
             LEFT JOIN ".$this->db->table("products_to_categories")." p2c 
                 ON (p.product_id = p2c.product_id)
             WHERE p2c.category_id = '".(int) $category_id."'
-            ORDER BY pd.name ASC"
+            ORDER BY pd.name"
         );
         if ($mode == 'total_only') {
             return $query->num_rows;
@@ -2424,7 +2432,7 @@ class ModelCatalogProduct extends Model
                 $sql .= " AND ".$data['subsql_filter'];
             }
 
-            if (isset($filter['match']) && !is_null($filter['match'])) {
+            if (isset($filter['match'])) {
                 $match = $filter['match'];
             }
 
@@ -2444,7 +2452,7 @@ class ModelCatalogProduct extends Model
                 }
             }
 
-            if (isset($filter['keyword']) && !is_null($filter['keyword'])) {
+            if (isset($filter['keyword'])) {
                 $keywords = explode(' ', $filter['keyword']);
 
                 if ($match == 'any') {
@@ -2501,10 +2509,10 @@ class ModelCatalogProduct extends Model
                 }
             }
 
-            if (isset($filter['pfrom']) && !is_null($filter['pfrom'])) {
+            if (isset($filter['pfrom'])) {
                 $sql .= " AND p.price >= '".(float) $filter['pfrom']."'";
             }
-            if (isset($filter['pto']) && !is_null($filter['pto'])) {
+            if (isset($filter['pto'])) {
                 $sql .= " AND p.price <= '".(float) $filter['pto']."'";
             }
             if ($filter['category']) {
@@ -2512,7 +2520,7 @@ class ModelCatalogProduct extends Model
             }if ($filter['sku']) {
                 $sql .= " AND p.sku LIKE '%". $this->db->escape($filter['sku'])."%'";
             }
-            if (isset($filter['status']) && !is_null($filter['status'])) {
+            if (isset($filter['status'])) {
                 $sql .= " AND p.status = '".(int) $filter['status']."'";
             }
 
@@ -2568,7 +2576,7 @@ class ModelCatalogProduct extends Model
                     FROM ".$this->db->table("products")." p
                     LEFT JOIN ".$this->db->table("product_descriptions")." pd
                         ON (p.product_id = pd.product_id AND pd.language_id = '".$language_id."')
-                    ORDER BY pd.name ASC"
+                    ORDER BY pd.name"
                 );
                 $product_data = $query->rows;
                 $this->cache->push($cache_key, $product_data);
@@ -2935,7 +2943,7 @@ class ModelCatalogProduct extends Model
                     $notrack_qnt += 10000000;
                     continue;
                 }
-                $total_quantity += $row['quantity'] < 0 ? 0 : $row['quantity'];
+                $total_quantity += max($row['quantity'], 0);
             }
             //if any of options value have "subtract" NO - think product is available
             if ($total_quantity == 0 && $notrack_qnt) {
@@ -3055,7 +3063,7 @@ class ModelCatalogProduct extends Model
                         AND COALESCE(ps.product_option_value_id,0) = COALESCE(ops.product_option_value_id,0)
                         AND ps.location_id = ops.location_id ) 
                 WHERE ops.order_product_id=".(int) $order_product_id."
-                ORDER BY ops.sort_order ASC, ps.sort_order ASC";
+                ORDER BY ops.sort_order, ps.sort_order";
         $result = $this->db->query($sql);
 
         $product_id = 0;
