@@ -67,18 +67,7 @@ class ControllerResponsesListingGridManufacturer extends AController
             if (!$result['products_count']) {
                 $products_count = 0;
             } else {
-                $products_count = (string) $this->html->buildElement(
-                    [
-                        'type'  => 'button',
-                        'name'  => 'view products',
-                        'text'  => $result['products_count'],
-                        'href'  => $this->html->getSecureURL(
-                            'catalog/product',
-                            '&manufacturer='.$result['manufacturer_id']
-                        ),
-                        'title' => $title,
-                    ]
-                );
+                $products_count = $result['products_count'];
             }
             $response->rows[$i]['cell'] = array(
                 $thumbnail['thumb_html'],
