@@ -630,7 +630,7 @@ echo $this->html->buildElement(
                     }
                     //reset chosen if any
                     if ($s.parent().find(".chosen-select").length > 0) {
-                        $s.parent().find(".chosen-select").trigger("chosen:updated");
+                        $s.parent().find(".chosen-select").find('option:first-child').prop('selected', true).end().trigger('chosen:updated');
                     }
                 });
             });
