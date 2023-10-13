@@ -618,22 +618,61 @@ function checkAll(fldName, checked) {
 }
 
 var numberSeparators = {};
-function formatPrice(field) {
-	numberSeparators = numberSeparators.length==0 ? {decimal:'.', thousand:','} : numberSeparators;
-	var pattern = new RegExp(/[^0-9\-\.]+/g);
+function formatPrice(field, precision) {
+	numberSeparators = numberSeparators.length === 0
+			? {precision: 2, dec_point:'.', thousands_point:null }
+			: numberSeparators;
+	var pattern = new RegExp(/[^0-9\-.]+/g);
 	var price = field.value.replace(pattern, '');
-	field.value = $().number_format(price, { numberOfDecimals:2,
-		decimalSeparator:numberSeparators.decimal,
-		thousandSeparator:numberSeparators.thousand});
+	field.value = number_format(price, numberSeparators);
 }
 function formatQty(field) {
-	numberSeparators = numberSeparators.length==0 ? {decimal:'.', thousand:''} : numberSeparators;
-	var pattern = new RegExp(/[^0-9\.]+/g);
+	numberSeparators = numberSeparators.length === 0
+		? { precision:0, thousands_point:null}
+		: numberSeparators;
+	var pattern = new RegExp(/[^0-9.]+/g);
 	var price = field.value.replace(pattern, '');
-	field.value = $().number_format(price, { numberOfDecimals:0,
-		decimalSeparator:numberSeparators.decimal,
-		thousandSeparator:numberSeparators.thousand});
+	field.value = number_format(price, numberSeparators);
 }
+
+function number_format(number, options) {
+
+	let decimals = options.precision,
+		dec_point = options.dec_point,
+		thousands_point = options.thousands_point;
+
+	//when last char is decimal point think number is incomplete
+	if(number === '' || (number.at(-1) === dec_point && !decimals) ){
+		return number;
+	}
+
+	if (!isFinite(number)) {
+		throw new TypeError("number is not valid");
+	}
+
+	if (decimals === null) {
+		var len = number.toString().split('.').length;
+		decimals = len > 1 ? len : 0;
+	}
+
+	if (!dec_point) {
+		dec_point = '.';
+	}
+
+	if (thousands_point === null) {
+		thousands_point = '';
+	}
+
+	number = parseFloat(number).toFixed(decimals);
+	number = number.replace(".", dec_point);
+
+	var splitNum = number.split(dec_point);
+	splitNum[0] = splitNum[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousands_point);
+	number = splitNum.join(dec_point);
+
+	return number;
+}
+
 
 function textareaInsert(editor, text) {
 	caretPos = editor.getCursorPosition();

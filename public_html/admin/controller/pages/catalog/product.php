@@ -890,14 +890,44 @@ class ControllerPagesCatalogProduct extends AController
             ]
         );
 
+        $this->data['currency'] = $this->currency->getCurrency($this->config->get('config_currency'));
         $this->data['form']['fields']['data']['price'] = $form->getFieldHtml(
             [
                 'type'  => 'input',
                 'name'  => 'price',
                 'value' => moneyDisplayFormat($this->data['price']),
-                'style' => 'small-field',
             ]
         );
+        $this->data['form']['tax_selector'] = $form->getFieldHtml(
+            [
+                'type'     => 'selectbox',
+                'name'     => 'tax_selector',
+                'value'    => $this->data['tax_class_id'] ?? $this->config->get('config_tax_class_id'),
+                'options'  => $this->data['tax_classes'],
+                'style' => 'no-save'
+            ]
+        );
+        $this->data['entry_tax_rule'] =
+            $this->html->buildElement(
+                [
+                    'type' => "button",
+                    'href' => $this->html->getSecureURL('localisation/tax_class'),
+                    'text' => $this->language->get('entry_tax_rule'),
+                    'target' => '_blank',
+                    'style' => ' '
+                ]
+            );
+
+        $this->data['entry_price_with_tax'] = $this->language->get('entry_price_with_tax');
+        $this->data['form']['price_with_tax'] = $form->getFieldHtml(
+            [
+                'type'  => 'input',
+                'name'  => 'price_with_tax',
+                'value' => '',
+                'style' => 'no-save',
+            ]
+        );
+        $this->data['price_calc_url'] = $this->html->getSecureURL('r/product/product/getTaxPrice');
         $this->data['form']['fields']['data']['cost'] = $form->getFieldHtml(
             [
                 'type'  => 'input',

@@ -35,7 +35,8 @@
 
         <?php foreach ($form['fields'] as $section => $fields) { ?>
 			<label class="h4 heading"><?php echo ${'tab_'.$section}; ?></label>
-            <?php foreach ($fields as $name => $field) { ?>
+            <?php
+            foreach ($fields as $name => $field) { ?>
                 <?php
                 //Logic to calculate fields width
                 $widthcasses = "col-sm-7";
@@ -44,6 +45,7 @@
                 } else {
                     if (is_int(stripos($field->style, 'medium-field'))
 						|| is_int(stripos($field->style, 'date'))
+                        || $name == 'price'
 					) {
                         $widthcasses = "col-sm-5";
                     } else {
@@ -64,14 +66,20 @@
 				<div class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
 					<label class="control-label col-sm-3 col-xs-12"
 						   for="<?php echo $field->element_id; ?>"><?php echo ${'entry_'.$name}; ?></label>
-					<div class="input-group afield <?php echo $widthcasses; ?> <?php
+					<div class="input-group <?php echo ($name == 'price' ? '' : ' afield '). $widthcasses; ?>
+					<?php
 					echo($name == 'description' ? 'ml_ckeditor' : '') ?>">
                         <?php if ($name == 'keyword') { ?>
 							<span class="input-group-btn">
 								<?php echo $keyword_button; ?>
 							</span>
-                        <?php } ?>
-                        <?php echo $field; ?>
+                        <?php }
+                        if($name == 'price'){
+                            // include part with price-with-taxes calculation
+                            include (__DIR__.DIRECTORY_SEPARATOR.   'product_form_price.tpl');
+                        }else{?>
+                            <?php echo $field;
+                        }?>
 					</div>
                     <?php if (!empty($error[$name])) { ?>
 						<span class="help-block field_err"><?php echo $error[$name]; ?></span>
@@ -79,7 +87,6 @@
 				</div>
             <?php } ?>
         <?php } ?>
-
 	</div>
 
 	<div class="panel-footer col-xs-12">
