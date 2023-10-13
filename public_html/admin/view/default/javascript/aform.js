@@ -545,7 +545,7 @@ for(var k in preEncodedFields.names){
 			var $field = $(elem);
 			var $wrapper = $(elem).closest('.afield');
 			//locate btn container if it is present
-			var $btncontainer = $wrapper.find(o.btnContainer);
+			var $btncontainer = $wrapper.find(o.btnContainer).last();
 
 			//show quicksave button set only if not yet shown or configured
 			if (!o.showButtons || $btncontainer.find(o.btnGrpSelector).length != 0) {
