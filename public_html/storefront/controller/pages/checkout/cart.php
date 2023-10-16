@@ -338,9 +338,9 @@ class ControllerPagesCheckoutCart extends AController
                         $thumbnail['thumb_url'] = $main_image['thumb_url'];
                     }
                 }
-
+                $unitPrice = $result['price'] ?: $result['amount'];
                 $price_with_tax = $this->tax->calculate(
-                    $result['price'] ?: $result['amount'],
+                    $unitPrice,
                     $result['tax_class_id'],
                     $this->config->get('config_tax')
                 );
@@ -356,7 +356,6 @@ class ControllerPagesCheckoutCart extends AController
                     'name'         => $result['name'],
                     'model'        => $result['model'],
                     'sku'          => $result['sku'],
-                    'sku'        => $result['sku'],
                     'thumb'        => $thumbnail,
                     'option'       => $option_data,
                     'quantity'     => $form->getFieldHtml(
@@ -376,7 +375,13 @@ class ControllerPagesCheckoutCart extends AController
                     'stock'        => $result['stock'],
                     'tax_class_id' => $result['tax_class_id'],
                     'price'        => $this->currency->format($price_with_tax),
-                    'total'        => $this->currency->format_total($price_with_tax, $result['quantity']),
+                    'total'        => $this->currency->format(
+                                        $this->tax->calculate(
+                                            $unitPrice * $result['quantity'],
+                                            $result['tax_class_id'],
+                                            $this->config->get('config_tax')
+                                        )
+                    ),
                     'href'         => $this->html->getSEOURL(
                         $product_rt,
                         '&product_id='.$result['product_id'].'&key='.$result['key'],

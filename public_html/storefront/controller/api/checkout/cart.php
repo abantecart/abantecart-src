@@ -181,7 +181,18 @@ class ControllerApiCheckoutCart extends AControllerAPI
                     }
                 }
 
-                $price_with_tax = $this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'));
+                $price_with_tax = $this->tax->calculate(
+                    $result['price'],
+                    $result['tax_class_id'],
+                    $this->config->get('config_tax')
+                );
+
+                $total_with_tax = $this->tax->calculate(
+                    $result['price']*$result['quantity'],
+                    $result['tax_class_id'],
+                    $this->config->get('config_tax')
+                );
+
                 $products[] = array(
                     'key'      => $result['key'],
                     'name'     => $result['name'],
@@ -191,7 +202,7 @@ class ControllerApiCheckoutCart extends AControllerAPI
                     'quantity' => $result['quantity'],
                     'stock'    => $result['stock'],
                     'price'    => $this->currency->format($price_with_tax),
-                    'total'    => $this->currency->format_total($price_with_tax, $result['quantity']),
+                    'total'    => $this->currency->format_total($total_with_tax),
                 );
             }
             $this->data['products'] = $products;
