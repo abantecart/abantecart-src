@@ -1204,3 +1204,7 @@ dl {
 .modal-body div.alert-success, .modal-body div.alert-danger {
    overflow: auto;
 }
+
+.input-group input, .input-group select {
+   min-width: 92px;
+}

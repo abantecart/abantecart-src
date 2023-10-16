@@ -33,13 +33,24 @@
 <script type="text/javascript">
     let priorElm;
     $(document).on(
-        'keyup change blur drop focus',
+        'change blur drop focus',
         'select[name="tax_selector"], input[name="price"], input[name="price_with_tax"]',
         function (e) {
-            priorElm = e.type === 'keyup' || e.type === 'drop' ? $(this) : priorElm;
-            getTaxedPrice($(this), priorElm);
+            priorElm = e.type === 'drop' ? $(this) : priorElm;
         }
     );
+    let timer;
+    const waitTime = 500;
+
+    $('input[name="price"]')[0].addEventListener('keyup', onKUp);
+    $('input[name="price_with_tax"]')[0].addEventListener('keyup', onKUp);
+    function onKUp(event){
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            priorElm = $(event.target).change();
+            getTaxedPrice($(event.target));
+        }, waitTime);
+    }
 
     function getTaxedPrice(initiator) {
         let priceElm = $('input[name="price"]');
@@ -49,7 +60,8 @@
             initiator = priceElm;
         }
         if (initiator.val().length > 0) {
-            let end = initiator.val().split('.').slice(-1)[0];
+            let arr = initiator.val().split('.');
+            let end = arr.length>1 ? initiator.val().split('.').slice(-1)[0] : 0;
             precision = end.length > precision ? end.length : precision;
         }
         numberSeparators = {precision: precision, dec_point: '.', thousands_point: null};
