@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>back_to_stock_notification_name</key>
+    <value><![CDATA[Back to stock notification]]></value>
+  </definition>
+  <definition>
+    <key>back_to_stock_notification_query</key>
+    <value><![CDATA[query]]></value>
+  </definition>
+</definitions>

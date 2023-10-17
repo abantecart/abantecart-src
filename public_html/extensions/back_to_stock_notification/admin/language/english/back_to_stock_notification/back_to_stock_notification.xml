@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>back_to_stock_notification_name</key>
+    <value><![CDATA[Back to stock notification]]></value>
+  </definition>
+  <definition>
+    <key>back_to_stock_notification_note</key>
+    <value><![CDATA[]]></value>
+  </definition>
+  <definition>
+    <key>back_to_stock_notification_note</key>
+    <value><![CDATA[]]></value>
+  </definition>
+  <definition>
+    <key>back_to_stock_notification_email_send</key>
+    <value><![CDATA[This email was sent to %s, because the product appeared on display. Click <a href="%s">here to show product</a>. ]]></value>
+  </definition>
+
+</definitions>
