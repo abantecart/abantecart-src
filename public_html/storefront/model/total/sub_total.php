@@ -53,7 +53,9 @@ class ModelTotalSubTotal extends Model
                             $product['tax_class_id']
                     );
             }
-            $subtotal = max(($subTotalWithTax - $taxAmount), $subtotal);
+            if($this->config->get('config_tax')) {
+                $subtotal = max(($subTotalWithTax - $taxAmount), $subtotal);
+            }
             $converted_sum = $this->currency->format_number($subtotal);
 
             //currency display value
