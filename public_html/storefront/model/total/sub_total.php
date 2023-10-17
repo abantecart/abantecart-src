@@ -33,23 +33,28 @@ class ModelTotalSubTotal extends Model
 
             //currency based recalculation for all products to avoid fractional loss
             $converted_sum = 0;
-            $subtotal = 0;
+            $subtotal = $taxAmount = $subTotalWithTax = 0;
             $products = $this->cart->getProducts() + $this->cart->getVirtualProducts();
+
             foreach ($products as $product) {
                 $price = $product['price'] ?: $product['amount'];
                 $subtotal += ($price * $product['quantity']);
-                //correct way to calc total with currency conversion. 
-                $converted_sum += ($this->currency->format_number($price) * (int)$product['quantity']);
+                $subTotalWithTax += $product['quantity']
+                    * round(
+                        $this->tax->calculate(
+                            $price,
+                            $product['tax_class_id']),
+                        $this->currency->getCurrency()['decimal_place']
+                    );
+                $taxAmount += $product['quantity']
+                    *
+                        $this->tax->calcTotalTaxAmount(
+                            $price,
+                            $product['tax_class_id']
+                    );
             }
-
-            //if there is a conversion fractional loss, adjust subtotal base currency price. 
-            //This is not ideal solution, need to address in the future. 
-            $converted_subtotal = $this->currency->format_number($subtotal);
-            if ($converted_subtotal != $converted_sum) {
-                $curr = $this->currency->getCurrency();
-                //calculate adjusted total without rounding
-                $subtotal = $converted_sum / $curr['value'];
-            }
+            $subtotal = max(($subTotalWithTax - $taxAmount), $subtotal);
+            $converted_sum = $this->currency->format_number($subtotal);
 
             //currency display value
             $converted_sum_txt = $this->currency->format(max(0, $converted_sum), '', 1);

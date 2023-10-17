@@ -202,7 +202,7 @@ class ControllerApiCheckoutCart extends AControllerAPI
                     'quantity' => $result['quantity'],
                     'stock'    => $result['stock'],
                     'price'    => $this->currency->format($price_with_tax),
-                    'total'    => $this->currency->format_total($total_with_tax),
+                    'total'    => $this->currency->format_total($price_with_tax, $result['quantity']),
                 );
             }
             $this->data['products'] = $products;
