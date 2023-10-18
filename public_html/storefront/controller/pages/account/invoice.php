@@ -314,17 +314,10 @@ class ControllerPagesAccountInvoice extends AController
                         ]
                     );
 
-                    if (!$guest) {
-                        $this->data['order_cancelation_url'] = $this->html->getSecureURL(
-                            'account/invoice/CancelOrder',
-                            '&order_id='.$order_id
-                        );
-                    } else {
-                        $this->data['order_cancelation_url'] = $this->html->getSecureURL(
-                            'account/invoice/CancelOrder',
-                            '&ot='.$order_token
-                        );
-                    }
+                    $this->data['order_cancelation_url'] = $this->html->getSecureURL(
+                        'account/invoice/CancelOrder',
+                        '&order_id='.($guest ? $order_token : $order_id)
+                    );
                 }
             }
 
