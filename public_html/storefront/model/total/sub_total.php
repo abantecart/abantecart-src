@@ -32,80 +32,39 @@ class ModelTotalSubTotal extends Model
             $language->load('total/sub_total');
 
             //currency based recalculation for all products to avoid fractional loss
-            $subtotal = $taxAmount = $subTotalWithTax = $convertedSubTotal = $convertedTaxAmount = $convertedSubTotalWithTax = 0;
+            $converted_sum = 0;
+            $subtotal = $taxAmount = $subTotalWithTax = 0;
             $products = $this->cart->getProducts() + $this->cart->getVirtualProducts();
-            $decPlace = $this->currency->getCurrency()['decimal_place'];
 
             foreach ($products as $product) {
                 $price = $product['price'] ?: $product['amount'];
-                $convertedPrice = round($this->currency->convert(
-                    $price,
-                    $this->config->get('config_currency'),
-                    $this->currency->getCode()
-                ),$decPlace);
                 $subtotal += ($price * $product['quantity']);
-                $convertedSubTotalWithTax += $product['quantity']
-                    *
-                    round(
-                        $this->tax->calculate( $convertedPrice, $product['tax_class_id'] )
-                        ,$decPlace
-                    );
-
                 $subTotalWithTax += $product['quantity']
-                    *
-                    round(
-                        $this->tax->calculate( $price, $product['tax_class_id']),
-                        $decPlace
+                    * round(
+                        $this->tax->calculate(
+                            $price,
+                            $product['tax_class_id']),
+                        $this->currency->getCurrency()['decimal_place']
                     );
-
-                $taxAmount += $product['quantity'] * $this->tax->calcTotalTaxAmount($price, $product['tax_class_id']);
-
-                $convertedTaxAmount += $product['quantity']
+                $taxAmount += $product['quantity']
                     *
-                    round(
-                        $this->tax->calcTotalTaxAmount($convertedPrice, $product['tax_class_id'] ),
-                        $decPlace
+                        $this->tax->calcTotalTaxAmount(
+                            $price,
+                            $product['tax_class_id']
                     );
             }
-
             if($this->config->get('config_tax')) {
-                $subtotal = max(
-                    ($subTotalWithTax - $taxAmount),
-                    $subtotal
-                );
+                $subtotal = max(($subTotalWithTax - $taxAmount), $subtotal);
             }
+            $converted_sum = $this->currency->format_number($subtotal);
 
             //currency display value
-            //in case when current currency is not default - get text based on
-            if($this->config->get('config_currency') != $this->currency->getCode()){
-                $subtotal = max(
-                    $subtotal,
-                    $this->currency->convert(
-                        ($convertedSubTotalWithTax - $convertedTaxAmount),
-                        $this->currency->getCode(),
-                        $this->config->get('config_currency')
-                    )
-                );
-
-                $converted_sum_txt = $this->currency->format(
-                    ($convertedSubTotalWithTax-$convertedTaxAmount),
-                    $this->currency->getCode(),
-                    1
-                );
-            }else {
-                //if current currency is default - just format total amount without conversion
-                $converted_sum_txt = $this->currency->format(
-                    max(0, $subtotal),
-                    '',
-                    1
-                );
-            }
-
+            $converted_sum_txt = $this->currency->format(max(0, $converted_sum), '', 1);
             $total_data[] = [
                 'id'         => 'subtotal',
                 'title'      => $language->get('text_sub_total'),
                 'text'       => $converted_sum_txt,
-                'converted'  => $convertedSubTotal,
+                'converted'  => $converted_sum,
                 'value'      => $subtotal,
                 'sort_order' => $this->config->get('sub_total_sort_order'),
                 'total_type' => $this->config->get('sub_total_total_type'),
