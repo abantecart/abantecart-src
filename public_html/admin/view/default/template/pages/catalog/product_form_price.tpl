@@ -34,11 +34,13 @@
     let priorElm;
     $(document).on(
         'change blur drop focus',
-        'select[name="tax_selector"], input[name="price"], input[name="price_with_tax"]',
+        'input[name="price"], input[name="price_with_tax"]',
         function (e) {
             priorElm = e.type === 'drop' ? $(this) : priorElm;
         }
     );
+    $(document).on('change', 'select[name="tax_selector"]', onKUp);
+
     let timer;
     const waitTime = 500;
 
@@ -47,8 +49,10 @@
     function onKUp(event){
         clearTimeout(timer);
         timer = setTimeout(() => {
-            priorElm = $(event.target).change();
-            getTaxedPrice($(event.target));
+            if($(event.target).attr('name')!=='tax_selector') {
+                priorElm = $(event.target).change();
+            }
+            getTaxedPrice(priorElm);
         }, waitTime);
     }
 
