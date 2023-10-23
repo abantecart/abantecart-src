@@ -1208,3 +1208,8 @@ dl {
 .input-group input, .input-group select {
    min-width: 92px;
 }
+
+.open > .dropdown-menu {
+   overflow: scroll;
+   max-height: 600px;
+}

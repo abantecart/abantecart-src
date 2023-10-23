@@ -6,7 +6,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2021 Belavier Commerce LLC
+  Copyright © 2011-2023 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -25,7 +25,6 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ControllerPagesCatalogProductLayout extends AController
 {
     protected $error = [];
-    public $data = [];
 
     public function main()
     {
@@ -114,11 +113,8 @@ class ControllerPagesCatalogProductLayout extends AController
         $page_layout = $layout->getPageLayoutIDs($page_controller, $page_key_param, $product_id);
         $page_id = $page_layout['page_id'];
         $layout_id = $page_layout['layout_id'];
-        if (isset($this->request->get['tmpl_id'])) {
-            $tmpl_id = $this->request->get['tmpl_id'];
-        } else {
-            $tmpl_id = $this->config->get('config_storefront_template');
-        }
+        $tmpl_id = $this->request->get['tmpl_id'] ?: $this->config->get('config_storefront_template');
+
         $params = [
             'product_id' => $product_id,
             'page_id'    => $page_id,
@@ -179,8 +175,8 @@ class ControllerPagesCatalogProductLayout extends AController
         // insert external form of layout
         $layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
 
-        $layoutform = $this->dispatch('common/page_layout', [$layout]);
-        $this->data['layoutform'] = $layoutform->dispatchGetOutput();
+        $layoutForm = $this->dispatch('common/page_layout', [$layout]);
+        $this->data['layoutform'] = $layoutForm->dispatchGetOutput();
 
         //build pages and available layouts for cloning
         $this->data['pages'] = $layout->getAllPages();
@@ -236,13 +232,13 @@ class ControllerPagesCatalogProductLayout extends AController
 
         $page_controller = 'pages/product/product';
         $page_key_param = 'product_id';
-        $product_id = $this->request->post['product_id'];
+        $product_id = (int)$this->request->post['product_id'];
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->loadLanguage('catalog/product');
 
-        if (!has_value($product_id)) {
+        if (!$product_id) {
             unset($this->session->data['success']);
             $this->session->data['warning'] = $this->language->get('error_product_not_found');
             redirect($this->html->getSecureURL('catalog/product/update'));
@@ -277,7 +273,7 @@ class ControllerPagesCatalogProductLayout extends AController
             $layout_id = '';
             // need to generate layout name
             $default_language_id = $this->language->getDefaultLanguageID();
-            $post_data['layout_name'] = 'Product: '.$product_info[$default_language_id]['name'];
+            $post_data['layout_name'] = $this->language->get('text_product').': '.$product_info[$default_language_id]['name'];
         }
 
         //create new instance with specific template/page/layout data
@@ -294,8 +290,6 @@ class ControllerPagesCatalogProductLayout extends AController
                 $this->session->data['success'] = $this->language->get('text_success_layout');
             }
         }
-
         redirect($this->html->getSecureURL('catalog/product_layout', '&product_id='.$product_id));
     }
-
 }

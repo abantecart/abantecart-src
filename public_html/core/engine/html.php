@@ -472,7 +472,7 @@ class AHtml extends AController
      * @return string
      * @throws AException
      */
-    public function isSEOKeywordExists($query, $keyword = '')
+    public function isSEOKeywordExists($query = '', $keyword = '')
     {
         if (!$keyword) {
             return '';

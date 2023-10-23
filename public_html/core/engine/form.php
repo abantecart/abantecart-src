@@ -456,7 +456,7 @@ class AForm
             case 'ST': //standards
                 $view->batchAssign(
                     [
-                        'id' => $this->form['form_name'] ?? '',
+                        'id' => $this->form['form_name'] ?: $this->form['id'],
                     ]
                 );
                 $output = $view->fetch('form/form_js_st.tpl');
@@ -464,7 +464,7 @@ class AForm
             case 'HS': //highlight on change and show save button
                 $view->batchAssign(
                     [
-                        'id'              => $this->form['form_name'] ?? '',
+                        'id'              => $this->form['form_name'] ?: $this->form['id'],
                         'button_save'     => $language->get('button_save'),
                         'button_reset'    => $language->get('button_reset'),
                         'update'          => $this->form['update'] ?? '',

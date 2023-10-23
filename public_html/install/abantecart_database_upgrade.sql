@@ -4,3 +4,6 @@ alter table `ac_global_attributes_values`
 alter table `ac_global_attributes_values`
     add price_prefix char(1) null after price_modifier;
 
+alter table `ac_page_descriptions`
+    alter column `date_added` set default (CURRENT_TIMESTAMP);
+
