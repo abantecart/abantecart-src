@@ -119,7 +119,7 @@
                                     <li><a href="javascript: void(0);" onclick="switch_protocol(\''.$name.'\',\'http\');"><i class="fa fa-globe"></i>&nbsp;&nbsp;HTTP</a></li>
                                     <li><a href="javascript: void(0);" onclick="switch_protocol(\''.$name.'\',\'https\');"><i class="fa fa-lock"></i>&nbsp;&nbsp;HTTPS</a></li>    
                                 </ul>
-                                <input name="protocol_'.$name.'" id="protocol_'.$name.'_hidden" value="'.$protocol.'">
+                                <input type="hidden" name="protocol_'.$name.'" id="protocol_'.$name.'_hidden" value="'.$protocol.'">
                             </div>';
                         echo $field;
                         break;
@@ -181,7 +181,7 @@
     </div>
     </form>
 
-</div><!-- <div class="tab-content"> -->
+</div>
 
 
 <?php echo $resources_scripts ?>
