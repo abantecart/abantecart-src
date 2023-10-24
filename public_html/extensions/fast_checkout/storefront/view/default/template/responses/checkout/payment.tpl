@@ -505,7 +505,7 @@ if ($show_payment == true) {
             pageRequest(url);
         });
 
-        $(".registerbox input[type='radio']").change(function () {
+        $(".registerbox input:radio[name='shipping_method']").change(function () {
             let url = '<?php echo $main_url ?>&' + getUrlParams('shipping_method', $(this).val());
             if ($('#PayFrm').serialize()) {
                 url = '<?php echo $main_url ?>&' + $('#PayFrm').serialize()
