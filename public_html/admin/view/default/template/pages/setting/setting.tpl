@@ -59,7 +59,7 @@
                         foreach ($days as $day) {
                             $opening_hours .= '<div class="col-xs-9 row">
                                                 <div class="row col-xs-3 text-right padding5 mr5">'
-                                                    .strftime('%A', strtotime($day)).':</div>';
+                                                    .date('l', strtotime($day)).':</div>';
                             $tt = [];
                             foreach (['opens', 'closes'] as $state) {
                                 $f = $form['fields']['opening_'.$day.'_'.$state];

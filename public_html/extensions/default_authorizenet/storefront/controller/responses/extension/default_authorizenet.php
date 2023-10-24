@@ -128,7 +128,7 @@ class ControllerResponsesExtensionDefaultAuthorizeNet extends AController
         $months = [];
 
         for ($i = 1; $i <= 12; $i++) {
-            $months[sprintf('%02d', $i)] = sprintf('%02d - ', $i).strftime('%B', mktime(0, 0, 0, $i, 1, 2000));
+            $months[sprintf('%02d', $i)] = sprintf('%02d - ', $i).date('F', mktime(0, 0, 0, $i, 1, 2000));
         }
         $this->data['cc_expire_date_month'] = HtmlElementFactory::create(
             [
@@ -144,7 +144,7 @@ class ControllerResponsesExtensionDefaultAuthorizeNet extends AController
         $today = getdate();
         $years = [];
         for ($i = $today['year']; $i < $today['year'] + 11; $i++) {
-            $years[strftime('%Y', mktime(0, 0, 0, 1, 1, $i))] = strftime('%Y', mktime(0, 0, 0, 1, 1, $i));
+            $years[date('Y', mktime(0, 0, 0, 1, 1, $i))] = date('Y', mktime(0, 0, 0, 1, 1, $i));
         }
         $this->data['cc_expire_date_year'] = HtmlElementFactory::create(
             [
