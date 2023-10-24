@@ -1205,7 +1205,7 @@ dl {
    overflow: auto;
 }
 
-.input-group input, .input-group select {
+.input-group input[type=text], .input-group select {
    min-width: 92px;
 }
 
