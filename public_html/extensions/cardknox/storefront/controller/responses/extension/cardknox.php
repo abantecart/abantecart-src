@@ -37,7 +37,7 @@ class ControllerResponsesExtensionCardknox extends AController {
 
         $months = [];
         for ($i = 1; $i <= 12; $i++) {
-            $months[sprintf('%02d', $i)] = strftime('%B', mktime(0, 0, 0, $i, 1, 2000));
+            $months[sprintf('%02d', $i)] = date('F', mktime(0, 0, 0, $i, 1, 2000));
         }
         $data['cc_expire_date_month'] = $form->getFieldHtml(
             [
@@ -52,7 +52,7 @@ class ControllerResponsesExtensionCardknox extends AController {
         $today = getdate();
         $years = [];
         for ($i = $today['year']; $i < $today['year'] + 11; $i++) {
-            $years[strftime('%Y', mktime(0, 0, 0, 1, 1, $i))] = strftime('%Y', mktime(0, 0, 0, 1, 1, $i));
+            $years[date('Y', mktime(0, 0, 0, 1, 1, $i))] = date('Y', mktime(0, 0, 0, 1, 1, $i));
         }
         $data['cc_expire_date_year'] = $form->getFieldHtml(
             [

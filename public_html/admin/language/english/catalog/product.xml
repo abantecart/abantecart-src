@@ -642,4 +642,12 @@
 		<key>text_disable_selected</key>
 		<value><![CDATA[Disable Selected]]></value>
 	</definition>
+	<definition>
+		<key>entry_tax_rule</key>
+		<value><![CDATA[Tax Rule]]></value>
+	</definition>
+	<definition>
+		<key>entry_price_with_tax</key>
+		<value><![CDATA[Price With Taxes:]]></value>
+	</definition>
 </definitions>

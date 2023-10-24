@@ -241,7 +241,6 @@ class ModelExtensionStripe extends Model
 
         $message = 'Order id: '.(string)$pd['order_id']."\n";
         $message .= 'Charge id: '.(string)$response['id']."\n";
-        //$timestamp = strftime("%Y%m%d%H%M%S");
         $message .= 'Transaction Timestamp: '.(string)date( 'm/d/Y H:i:s', $response['created'] );
 
         if ( $response['paid'] ) {

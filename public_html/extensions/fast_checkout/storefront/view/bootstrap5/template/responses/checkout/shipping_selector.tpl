@@ -75,7 +75,7 @@ if($this->cart->hasShipping()){
             pageRequest(url, false);
         });
 
-        $(".shipping-selectors input[type='radio']").change(function () {
+        $(".shipping-selectors input:radio[name='shipping_method']").change(function () {
             let url = '<?php echo $main_url ?>&' + getUrlParams('shipping_method', $(this).val());
             if ($('#PayFrm').serialize()) {
                 url = '<?php echo $main_url ?>&' + $('#PayFrm').serialize()

@@ -25,6 +25,15 @@ class ControllerCommonSeoUrl extends AController
 {
     protected $is_set_canonical = false;
 
+    public $coreRoutes = [
+        'product_id'      => 'pages/product/product',
+        'path'            => 'pages/product/category',
+        'manufacturer_id' => 'pages/product/manufacturer',
+        'content_id'      => 'pages/content/content',
+        'collection_id'   => 'pages/product/collection',
+        'check_seo'       => 'pages/index/check_seo'
+    ];
+
     public function main()
     {
         //init controller data
@@ -33,59 +42,60 @@ class ControllerCommonSeoUrl extends AController
             $parts = explode('/', $this->request->get['_route_']);
             //Possible area for improvement. Only need to check last node in the path
             foreach ($parts as $part) {
-                $query = $this->db->query("SELECT query
-											FROM ".$this->db->table('url_aliases')."
-											WHERE keyword = '".$this->db->escape($part)."'");
+                $query = $this->db->query(
+                    "SELECT query
+                    FROM ".$this->db->table('url_aliases')."
+                    WHERE keyword = '".$this->db->escape($part)."'"
+                );
+
                 //Add caching of the result.
                 if ($query->num_rows) {
                     //Note: query is a field containing area=id to identify location
-                    $url = explode('=', $query->row['query']);
-
-                    if ($url[0] == 'product_id') {
-                        $this->request->get['product_id'] = $url[1];
-                    }
-
-                    if ($url[0] == 'category_id') {
-                        if (!isset($this->request->get['path'])) {
-                            $this->request->get['path'] = $url[1];
-                        } else {
-                            $this->request->get['path'] .= '_'.$url[1];
+                    parse_str($query->row['query'], $httpQuery);
+                    $keys = $this->coreRoutes;
+                    unset($keys['path']);
+                    $keys = array_keys($keys);
+                    foreach($keys as $paramName)
+                    {
+                        if ( isset($httpQuery[$paramName]) ) {
+                            $this->request->get[$paramName] = $httpQuery[$paramName];
+                            unset($httpQuery[$paramName]);
                         }
                     }
 
-                    if ($url[0] == 'manufacturer_id') {
-                        $this->request->get['manufacturer_id'] = $url[1];
+                    if ( isset($httpQuery['category_id']) ) {
+                        if (!isset($this->request->get['path'])) {
+                            $this->request->get['path'] = $httpQuery['category_id'];
+                        } else {
+                            $this->request->get['path'] .= '_'.$httpQuery['category_id'];
+                        }
                     }
-
-                    if ($url[0] == 'content_id') {
-                        $this->request->get['content_id'] = $url[1];
-                    }
-
-                    if ($url[0] == 'collection_id') {
-                        $this->request->get['collection_id'] = $url[1];
-                    }
-
-                    if ($url[0] == 'check_seo') {
-                        $this->request->get['check_seo'] = $url[1];
+                    // case for manually added pages
+                    if (isset($httpQuery['rt'])) {
+                        $this->request->get['rt'] = $httpQuery['rt'];
+                        unset($httpQuery['rt']);
+                        if(count($httpQuery)>1){
+                            foreach($httpQuery as $n=>$v){
+                                if(!isset($this->request->get[$n])){
+                                    $this->request->get[$n] = $v;
+                                }
+                            }
+                        }
                     }
                 } else {
                     $this->request->get['rt'] = 'pages/error/not_found';
                 }
             }
 
-            if (isset($this->request->get['product_id'])) {
-                $this->request->get['rt'] = 'pages/product/product';
-            } elseif (isset($this->request->get['path'])) {
-                $this->request->get['rt'] = 'pages/product/category';
-            } elseif (isset($this->request->get['manufacturer_id'])) {
-                $this->request->get['rt'] = 'pages/product/manufacturer';
-            } elseif (isset($this->request->get['content_id'])) {
-                $this->request->get['rt'] = 'pages/content/content';
-            } elseif (isset($this->request->get['collection_id'])) {
-                $this->request->get['rt'] = 'pages/product/collection';
-            } elseif (isset($this->request->get['check_seo'])) {
-                $this->request->get['rt'] = 'pages/index/check_seo';
+            foreach($this->coreRoutes as $key => $rt){
+                if (isset($this->request->get[$key])) {
+                    if($key == 'path' && isset($this->request->get['product_id'])) {
+                        continue;
+                    }
+                    $this->request->get['rt'] = $rt;
+                }
             }
+
             $this->extensions->hk_ProcessData($this, 'seo_url');
             if (isset($this->request->get['rt'])) {
                 //build canonical seo-url
@@ -120,25 +130,21 @@ class ControllerCommonSeoUrl extends AController
         if (!$url) {
             $method = $mode == 'seo' ? 'getSecureSEOURL' : 'getSecureURL';
             $get = $this->request->get;
-            if (isset($get['product_id'])) {
-                $url = $this->html->{$method}('product/product', '&product_id='.$get['product_id']);
-            } elseif (isset($get['path'])) {
-                $url = $this->html->{$method}('product/category', '&path='.$get['path']);
-            } elseif (isset($get['manufacturer_id'])) {
-                $url = $this->html->{$method}('product/manufacturer', '&manufacturer_id='.$get['manufacturer_id']);
-            } elseif (isset($get['content_id'])) {
-                $url = $this->html->{$method}('content/content', '&content_id='.$get['content_id']);
-            } elseif (isset($get['collection_id'])) {
-                $url = $this->html->{$method}('product/collection', '&collection_id='.$get['collection_id']);
+            foreach($this->coreRoutes as $key => $rt){
+                if (isset($get[$key])) {
+                    $impactRt = str_replace("pages/","",$rt);
+                    $url = $this->html->{$method}($impactRt, '&'.$key.'='.$get[$key]);
+                    break;
+                }
             }
         }
 
         if ($url) {
             $this->document->addLink(
-                array(
+                [
                     'rel'  => 'canonical',
                     'href' => $url,
-                )
+                ]
             );
             $this->is_set_canonical = true;
             return true;

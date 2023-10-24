@@ -1,4 +1,5 @@
-<?php /** @noinspection SqlResolve */
+<?php
+/** @noinspection SqlResolve */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /*------------------------------------------------------------------------------
@@ -77,22 +78,14 @@ class AForm
      * @var $groups - fields groups
      */
     protected $groups;
-    /**
-     * @var $page_id - current page id
-     */
+    /** @var $page_id - current page id */
     public $page_id;
-    /**
-     * @var $errors - field_name -=> error
-     */
+    /** @var $errors - field_name -=> error */
     protected $errors;
-    /**
-     * @var $form_edit_action - ( ST = standard,  HS = highlight save,  HT = highlight )
-     */
+    /** @var $form_edit_action - ( ST = standard,  HS = highlight save,  HT = highlight ) */
     protected $form_edit_action;
 
-    /**
-     * @param string $form_edit_action
-     */
+    /** @param string $form_edit_action */
     public function __construct($form_edit_action = '')
     {
         $this->registry = Registry::getInstance();
@@ -114,11 +107,11 @@ class AForm
     }
 
     /**
-     * @param array $errors - array of validation errors - field_name -=> error
+     * @param array|null $errors - array of validation errors - field_name -=> error
      *
      * @void
      */
-    public function setErrors($errors)
+    public function setErrors(?array $errors)
     {
         $this->errors = $errors;
     }
@@ -310,7 +303,7 @@ class AForm
     /**
      * set form data
      *
-     * @param array $form
+     * @param array $form - [ 'form_name' => 'YOUR-FORM-TEXT-ID', 'update'    => URL-FOR-INLINE-UPDATE ]
      *
      * @return void
      */
@@ -341,15 +334,15 @@ class AForm
     /**
      * Get given field, type, values and selected/default
      *
-     * @param string $fname
+     * @param string $fieldName
      *
      * @return array with field data
      * @throws AException
      */
-    public function getField($fname)
+    public function getField($fieldName)
     {
         foreach ($this->fields as $field) {
-            if ($field['field_name'] == $fname) {
+            if ($field['field_name'] == $fieldName) {
                 return [
                     'field_name'   => $field['field_name'],
                     'element_type' => $field['element_type'],
@@ -362,7 +355,7 @@ class AForm
             }
         }
 
-        $err = new AError('NOT EXIST Form field with name '.$fname);
+        $err = new AError('NOT EXIST Form field with name '.$fieldName);
         $err->toDebug()->toLog();
         return null;
     }
@@ -370,15 +363,15 @@ class AForm
     /**
      * assign value(s) to given field name
      *
-     * @param string $fname
+     * @param string $fieldName
      * @param string $value
      *
      * @return void
      */
-    public function assign($fname, $value = '')
+    public function assign($fieldName, $value = '')
     {
         foreach ($this->fields as $key => $field) {
-            if ($field['field_name'] == $fname) {
+            if ($field['field_name'] == $fieldName) {
                 $this->fields[$key]['value'] = $value;
                 break;
             }
@@ -390,7 +383,7 @@ class AForm
      *
      * @param array $values - array of field name -> value
      *
-     * @return void
+     * @void
      */
     public function batchAssign($values)
     {
@@ -402,15 +395,15 @@ class AForm
     /**
      * load values to select, multiselect, checkbox group etc
      *
-     * @param string $fname
+     * @param string $fieldName
      * @param array $values
      *
-     * @return void
+     * @void
      */
-    public function loadFieldOptions($fname, $values)
+    public function loadFieldOptions($fieldName, $values)
     {
         foreach ($this->fields as $key => $field) {
-            if ($field['field_name'] == $fname) {
+            if ($field['field_name'] == $fieldName) {
                 $this->fields[$key]['options'] = $values;
                 break;
             }
@@ -463,7 +456,7 @@ class AForm
             case 'ST': //standards
                 $view->batchAssign(
                     [
-                        'id' => $this->form['form_name'] ?? '',
+                        'id' => $this->form['form_name'] ?: $this->form['id'],
                     ]
                 );
                 $output = $view->fetch('form/form_js_st.tpl');
@@ -471,7 +464,7 @@ class AForm
             case 'HS': //highlight on change and show save button
                 $view->batchAssign(
                     [
-                        'id'              => $this->form['form_name'] ?? '',
+                        'id'              => $this->form['form_name'] ?: $this->form['id'],
                         'button_save'     => $language->get('button_save'),
                         'button_reset'    => $language->get('button_reset'),
                         'update'          => $this->form['update'] ?? '',

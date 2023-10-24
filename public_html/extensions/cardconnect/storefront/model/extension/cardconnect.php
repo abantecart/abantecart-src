@@ -269,8 +269,8 @@ class ModelExtensionCardConnect extends Model
 
         for ($i = $today['year']; $i < $today['year'] + 11; $i++) {
             $years[] = [
-                'text'  => strftime('%Y', mktime(0, 0, 0, 1, 1, $i)),
-                'value' => strftime('%y', mktime(0, 0, 0, 1, 1, $i)),
+                'text'  => date('Y', mktime(0, 0, 0, 1, 1, $i)),
+                'value' => date('y', mktime(0, 0, 0, 1, 1, $i)),
             ];
         }
 

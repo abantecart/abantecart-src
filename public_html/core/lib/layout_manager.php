@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection SqlResolve */
 /** @noinspection SqlDialectInspection */
 
 /*------------------------------------------------------------------------------
@@ -7,7 +7,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2022 Belavier Commerce LLC
+  Copyright © 2011-2023 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -187,6 +187,112 @@ class ALayoutManager
     public function __set($key, $value)
     {
         $this->registry->set($key, $value);
+    }
+
+    /**
+     * @param bool|null $enabled - if null - returns all, true - only enabled
+     * @return array
+     * @throws AException
+     */
+    public function getTemplateList(?bool $enabled = null){
+        $directories = glob(DIR_STOREFRONT.'view/*', GLOB_ONLYDIR) ?: [];
+        $layout_data['templates'] = array_map('basename',$directories);
+
+        $filter = [
+            'filter' => 'template',
+        ];
+        if(isset($enabled)){
+            $filter['status'] = $enabled ? 1 : 0;
+        }
+
+        $enabled_templates = $this->extensions->getExtensionsList( $filter );
+
+        $list = array_merge(
+            $layout_data['templates'],
+            array_column($enabled_templates->rows,'key')
+        );
+        return array_combine($list,$list);
+    }
+
+    public function getExtensionsPageRoutes()
+    {
+        $allControllers = $this->extensions->getExtensionControllers();
+        $pageControllers = [];
+        foreach($allControllers as $extensionId => $sections){
+            foreach($sections as $section=>$routes){
+                if($section != 'storefront') continue;
+                foreach($routes as $rt) {
+                    if(!str_starts_with($rt,'pages/')) continue;
+                    $controllerInfo = $this->detectSfController($rt, $extensionId);
+                    include_once($controllerInfo['path']);
+                    if(class_exists($controllerInfo['name'])) {
+                        if($controllerInfo['method'] != 'main'){
+                            $rt = $controllerInfo['rt'];
+                        }
+                        $pageControllers[$extensionId][] = $rt;
+
+                        $rfl = new ReflectionClass($controllerInfo['name']);
+                        $methods = $rfl->getMethods(ReflectionMethod::IS_PUBLIC);
+                        foreach($methods as $mtd){
+                            if(in_array($mtd->name, ['main','__construct','__destruct','__invoke'])
+                                || $mtd->class != $controllerInfo['name']
+                            ){ continue; }
+                            $pageControllers[$extensionId][] = $controllerInfo['rt'].'/'.$mtd->name;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $pageControllers;
+    }
+
+    protected function detectSfController($rt, $extension_id = '' )
+    {
+        if(!$extension_id) {
+           $dir_app = DIR_APP_SECTION . 'controller/';
+        }else{
+           $dir_app = DIR_EXT.$extension_id.DIR_EXT_STORE.'controller/';
+        }
+        $path_nodes = explode('/', $rt);
+        $path_build = '';
+
+        //process path and try to locate the controller
+        foreach ($path_nodes as $path_node) {
+            $path_node = trim($path_node);
+            $path_build .= $path_node;
+            if (is_dir($dir_app.$path_build)) {
+                $path_build .= '/';
+                array_shift($path_nodes);
+                continue;
+            }
+
+            if (is_file($dir_app.$path_build.'.php')) {
+                //Controller found. Save information and return TRUE
+                //Set controller and method for future use
+                $output['name'] = 'Controller'
+                    .str_replace(
+                        ' ',
+                        '',
+                        ucwords(preg_replace('/[^a-zA-Z0-9]/', ' ', $path_build)
+                        )
+                    );
+                $output['rt'] = $path_build;
+                $output['path'] = $dir_app.$path_build.'.php';
+
+                //Last part is the method of function to call
+                array_shift($path_nodes);
+                $method_to_call = $path_nodes;
+                if ($method_to_call) {
+                    $output['method'] = $method_to_call;
+                } else {
+                    //Set default method
+                    $output['method'] = 'main';
+                }
+                return $output;
+            }
+        }
+        return [];
     }
 
     /**
@@ -380,7 +486,7 @@ class ALayoutManager
                 FROM ".$this->db->table("blocks")." as b
                 LEFT JOIN ".$this->db->table("block_layouts")." as bl ON (bl.block_id = b.block_id)
                 WHERE bl.layout_id = '".$layout_id."'
-                ORDER BY bl.parent_instance_id ASC, bl.position ASC";
+                ORDER BY bl.parent_instance_id, bl.position";
 
         $query = $this->db->query($sql);
         $blocks = $query->rows;
@@ -1152,7 +1258,7 @@ class ALayoutManager
             LEFT JOIN ".$this->db->table("layouts")." l ON l.layout_id = bl.layout_id
             LEFT JOIN ".$this->db->table("pages_layouts")." pl ON pl.layout_id = l.layout_id
             WHERE b.block_id='".$block_id."' ".$where." 
-            ORDER BY bl.layout_id ASC";
+            ORDER BY bl.layout_id";
 
         $result = $this->db->query($sql);
         return $result->rows;

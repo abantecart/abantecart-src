@@ -356,7 +356,6 @@ class ControllerPagesCheckoutCart extends AController
                     'name'         => $result['name'],
                     'model'        => $result['model'],
                     'sku'          => $result['sku'],
-                    'sku'        => $result['sku'],
                     'thumb'        => $thumbnail,
                     'option'       => $option_data,
                     'quantity'     => $form->getFieldHtml(

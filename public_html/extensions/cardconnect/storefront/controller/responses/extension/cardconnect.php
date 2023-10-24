@@ -58,7 +58,7 @@ class ControllerResponsesExtensionCardConnect extends AController
                     '%02d - ',
                     $i
                 )
-                .strftime('%B', mktime(0, 0, 0, $i, 1, 2000));
+                .date('F', mktime(0, 0, 0, $i, 1, 2000));
         }
         $this->data['cc_expire_date_month'] = HtmlElementFactory::create(
             [
@@ -73,13 +73,13 @@ class ControllerResponsesExtensionCardConnect extends AController
         $today = getdate();
         $this->data['years'] = [];
         for ($i = $today['year']; $i < $today['year'] + 11; $i++) {
-            $this->data['years'][strftime('%Y', mktime(0, 0, 0, 1, 1, $i))] = strftime('%Y', mktime(0, 0, 0, 1, 1, $i));
+            $this->data['years'][date('Y', mktime(0, 0, 0, 1, 1, $i))] = date('Y', mktime(0, 0, 0, 1, 1, $i));
         }
         $this->data['cc_expire_date_year'] = HtmlElementFactory::create(
             [
                 'type'    => 'selectbox',
                 'name'    => 'cc_expire_date_year',
-                'value'   => sprintf('%02d', date('Y') + 1),
+                'value'   => sprintf('%02d', (date('Y') + 1)),
                 'options' => $this->data['years'],
                 'style'   => 'short',
             ]

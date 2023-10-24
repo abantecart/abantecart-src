@@ -1,13 +1,12 @@
 <?xml version="1.0"?>
 <extension>
 	<id>default_authorizenet</id>
-	<version>1.2.0</version>
+	<version>1.2.1</version>
 	<type>payment</type>
 	<category>payment</category>
 	<cartversions>
 		<item>1.3</item>
 	</cartversions>
-	<layout></layout>
 	<priority>101</priority>
 	<settings>
 		<item id="default_authorizenet_api_login_id">

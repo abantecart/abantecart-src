@@ -181,7 +181,18 @@ class ControllerApiCheckoutCart extends AControllerAPI
                     }
                 }
 
-                $price_with_tax = $this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'));
+                $price_with_tax = $this->tax->calculate(
+                    $result['price'],
+                    $result['tax_class_id'],
+                    $this->config->get('config_tax')
+                );
+
+                $total_with_tax = $this->tax->calculate(
+                    $result['price']*$result['quantity'],
+                    $result['tax_class_id'],
+                    $this->config->get('config_tax')
+                );
+
                 $products[] = array(
                     'key'      => $result['key'],
                     'name'     => $result['name'],
