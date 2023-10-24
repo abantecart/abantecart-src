@@ -89,6 +89,9 @@ class ControllerCommonSeoUrl extends AController
 
             foreach($this->coreRoutes as $key => $rt){
                 if (isset($this->request->get[$key])) {
+                    if($key == 'path' && isset($this->request->get['product_id'])) {
+                        continue;
+                    }
                     $this->request->get['rt'] = $rt;
                 }
             }
