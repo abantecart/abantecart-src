@@ -80,10 +80,10 @@
                 function (res) {
                     if (initiator.attr('name') === 'price') {
                         priceWithTaxElm.val(res);
-                        formatPrice(priceWithTaxElm.get(0));
+                        formatPrice(priceWithTaxElm.get(0), <?php echo (int)$currency['decimal_place']; ?>);
                     } else {
                         priceElm.val(res);
-                        formatPrice(priceElm.get(0));
+                        formatPrice(priceElm.get(0), <?php echo (int)$currency['decimal_place']; ?>);
                         priceElm.aform().change();
                     }
                 }

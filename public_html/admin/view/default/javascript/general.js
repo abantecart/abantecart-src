@@ -622,9 +622,13 @@ function formatPrice(field, precision) {
 	numberSeparators = numberSeparators.length === 0
 			? {precision: 2, dec_point:'.', thousands_point:null }
 			: numberSeparators;
-	var pattern = new RegExp(/[^0-9\-.]+/g);
-	var price = field.value.replace(pattern, '');
-	field.value = number_format(price, numberSeparators);
+	let ns = numberSeparators;
+	if(precision){
+		ns.precision = precision;
+	}
+	let pattern = new RegExp(/[^0-9\-.]+/g);
+	let price = field.value.replace(pattern, '');
+	field.value = number_format(price, ns);
 }
 function formatQty(field) {
 	numberSeparators = numberSeparators.length === 0
