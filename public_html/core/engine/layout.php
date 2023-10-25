@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection SqlResolve */
 
 /*------------------------------------------------------------------------------
   $Id$
@@ -6,7 +6,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2022 Belavier Commerce LLC
+  Copyright © 2011-2023 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -74,8 +74,9 @@ class ALayout
      * @return int
      * @throws AException
      */
-    public function buildPageData($controller)
+    public function buildPageData($controller, $method = 'main')
     {
+        $pages = [];
         //for Maintenance mode
         if ($this->config->get('config_maintenance')) {
             /** @noinspection PhpIncludeInspection */
@@ -106,15 +107,23 @@ class ALayout
         }
 
         $key_param = is_null($key_value) ? null : $key_param;
-        $pages = $this->getPages($controller, $key_param, $key_value);
-        if (empty($pages)) {
-            //if no specific page found try to get page for group
+        //seek route with method first
+        if($method != 'main'){
+            $pages = $this->getPages($controller.'/'.$method, $key_param, $key_value);
+        }
+        //then seek controller route
+        if(!$pages) {
+            $pages = $this->getPages($controller, $key_param, $key_value);
+        }
+
+        //if no specific page found try to get page for group
+        if (!$pages) {
             $new_path = preg_replace('/\/\w*$/', '', $controller);
             $pages = $this->getPages($new_path);
         }
 
-        if (empty($pages)) {
-            //if no specific page found load generic
+        //if no specific page found load generic
+        if (!$pages) {
             $pages = $this->getPages('generic');
         } else {
             /* if specific pages with key_param presents...

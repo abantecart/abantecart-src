@@ -353,7 +353,9 @@ class ALayoutManager
         //process pages and tag restricted layout/pages
         //restricted layouts are the once without key_param and key_value
         foreach ($pages as $count => $page) {
-            if (!has_value($page['key_param']) && !has_value($page['key_value'])) {
+            if (!has_value($page['key_param']) && !has_value($page['key_value'])
+                && !$this->extensions->isExtensionController($page['controller'], false)
+            ) {
                 $pages[$count]['restricted'] = true;
             }
         }
@@ -371,8 +373,10 @@ class ALayoutManager
     public function getLayouts($layout_type = '')
     {
         $store_id = (int) $this->config->get('current_store_id');
-        $cache_key =
-            'layout.a.layouts.'.$this->tmpl_id.'.'.$this->page_id.(!empty ($layout_type) ? '.'.$layout_type : '');
+        $cache_key = 'layout.a.layouts.'.$this->tmpl_id
+            .'.'.$this->page_id
+            .(!empty ($layout_type) ? '.'.$layout_type : '');
+
         if (( string ) $layout_type == '0') {
             $cache_key = 'layout.a.default.'.$this->tmpl_id;
         }
