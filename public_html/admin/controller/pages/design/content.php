@@ -781,7 +781,9 @@ class ControllerPagesDesignContent extends AController
             $pages = $layout->getPages($page_controller, $page_key_param, $content_id);
             if (count($pages)) {
                 $page_id = $pages[0]['page_id'];
-                $layout_id = $pages[0]['layout_id'];
+                if($tmpl_id == $pages[0]['template_id']) {
+                    $layout_id = $pages[0]['layout_id'];
+                }
             } else {
                 // create new page record
                 $page_info = [

@@ -913,7 +913,9 @@ class ControllerPagesCatalogCategory extends AController
         $pages = $layout->getPages($page_controller, $page_key_param, $category_id);
         if (count($pages)) {
             $page_id = $pages[0]['page_id'];
-            $layout_id = $pages[0]['layout_id'];
+            if($tmpl_id == $pages[0]['template_id']) {
+                $layout_id = $pages[0]['layout_id'];
+            }
         } else {
             $page_info = [
                 'controller' => $page_controller,

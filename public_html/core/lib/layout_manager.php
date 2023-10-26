@@ -337,7 +337,8 @@ class ALayoutManager
                         pd.description,
                         pd.content,
                         pl.layout_id,
-                        l.layout_name
+                        l.layout_name,
+                        l.template_id
                 FROM ".$this->db->table("pages")." p "."
                 LEFT JOIN ".$this->db->table("page_descriptions")." pd 
                     ON (p.page_id = pd.page_id AND pd.language_id = '".(int) $language_id."' )
