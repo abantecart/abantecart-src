@@ -477,6 +477,9 @@ class ControllerPagesExtensionExtensions extends AController
                                 $field1 = $item['field1'];
                                 $field2 = $item['field2'];
                                 foreach ($res as $opt) {
+                                    if(!$item['allowed']  || !in_array($opt[$field1], $item['allowed'])){
+                                        continue;
+                                    }
                                     $data['options'][$opt[$field1]] = $opt[$field2];
                                 }
                             }
