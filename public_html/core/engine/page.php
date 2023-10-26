@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2023 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -33,7 +33,7 @@ final class APage
      * @var Registry
      */
     protected $registry;
-    protected $pre_dispatch = array();
+    protected $pre_dispatch = [];
     protected $error;
     private $pade_id;
     private $recursion_limit = 0;
@@ -60,7 +60,7 @@ final class APage
 
     public function addPreDispatch($dispatch_rt)
     {
-        $this->pre_dispatch[] = new ADispatcher($dispatch_rt, array("instance_id" => "0"));
+        $this->pre_dispatch[] = new ADispatcher($dispatch_rt, ["instance_id" => "0"]);
     }
 
     public function build($dispatch_rt)
@@ -97,14 +97,16 @@ final class APage
                 $dispatch_rt = preg_replace('/^(pages)\//', '', $dispatch_rt);
                 $dispatch_rt = 'pages/'.$dispatch_rt;
                 //get controller only part. Layout needs only controller path
-                $controller = $this->router->getController();
-                $this->pade_id = $this->layout->buildPageData($controller);
+                $this->pade_id = $this->layout->buildPageData(
+                    $this->router->getController(),
+                    $this->router->getMethod()
+                );
                 //add controller and a child to parent page controller
                 $this->layout->addChildFirst(0, $dispatch_rt, 'content', $dispatch_rt.'.tpl');
                 $dispatch_rt = "common/page";
             }
             //Do the magic
-            $dispatch = new ADispatcher($dispatch_rt, array("instance_id" => "0"));
+            $dispatch = new ADispatcher($dispatch_rt, ["instance_id" => "0"]);
             $dispatch_rt = $dispatch->dispatch();
         }
 

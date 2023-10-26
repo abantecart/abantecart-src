@@ -759,7 +759,9 @@ class ControllerPagesCatalogCollections extends AController
         $pages = $layout->getPages($page_controller, $page_key_param, $collection_id);
         if (count($pages)) {
             $page_id = $pages[0]['page_id'];
-            $layout_id = $pages[0]['layout_id'];
+            if($tmpl_id == $pages[0]['template_id']) {
+                $layout_id = $pages[0]['layout_id'];
+            }
         } else {
             $page_info = [
                 'controller' => $page_controller,
@@ -789,6 +791,6 @@ class ControllerPagesCatalogCollections extends AController
             }
         }
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-        redirect($this->html->getSecureURL('catalog/collections/edit_layout', '&id='.$collection_id));
+        redirect($this->html->getSecureURL('catalog/collections/edit_layout', '&id='.$collection_id.'&tmpl_id='.$tmpl_id));
     }
 }
