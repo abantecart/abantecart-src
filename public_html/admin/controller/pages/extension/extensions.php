@@ -524,6 +524,9 @@ class ControllerPagesExtensionExtensions extends AController
                         $data['style'] .= " status_switch";
                     }
                     break;
+                case 'zones':
+                    $data['submit_mode'] = 'id';
+                    break;
                 case 'resource':
                     $item['resource_type'] = (string) $item['resource_type'];
                     $data['rl_types'] = [$item['resource_type']];
