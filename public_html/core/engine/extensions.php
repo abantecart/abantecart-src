@@ -1377,6 +1377,11 @@ class ExtensionUtils
                 if (isset($item->variants->fields->field)) {
                     $result[$i]['field2'] = (string) $item->variants->fields->field[1];
                 }
+                if($item->variants->allowed){
+                    foreach($item->variants->allowed->id as $id){
+                        $result[$i]['allowed'][] = (string)$id;
+                    }
+                }
                 $result[$i]['template'] = (string) $item->template;
 
                 // if just static option values are used
