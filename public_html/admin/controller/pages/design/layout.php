@@ -240,10 +240,10 @@ class ControllerPagesDesignLayout extends AController
         }
 
         $url = '';
+        if ($tmpl_id) {
+            $url .= '&tmpl_id='.$tmpl_id;
+        }
         if (!$success) {
-            if ($tmpl_id) {
-                $url .= '&tmpl_id='.$tmpl_id;
-            }
             if ($layout_id) {
                 $url .= '&layout_id='.$layout_id;
             }

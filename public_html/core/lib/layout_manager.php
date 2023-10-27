@@ -337,8 +337,7 @@ class ALayoutManager
                         pd.description,
                         pd.content,
                         pl.layout_id,
-                        l.layout_name,
-                        l.template_id
+                        l.layout_name
                 FROM ".$this->db->table("pages")." p "."
                 LEFT JOIN ".$this->db->table("page_descriptions")." pd 
                     ON (p.page_id = pd.page_id AND pd.language_id = '".(int) $language_id."' )
@@ -844,20 +843,20 @@ class ALayoutManager
     /**
      * Process post data and prepare for layout to save
      *
-     * @param array $post
+     * @param array $inData
      *
      * @return array
      */
-    public function prepareInput($post)
+    public function prepareInput($inData)
     {
-        if (empty($post)) {
-            return null;
+        if (empty($inData)) {
+            return [];
         }
         $data = [];
-        $section = $post['section'];
-        $block = $post['block'];
-        $parentBlock = $post['parentBlock'];
-        $blockStatus = $post['blockStatus'];
+        $section = $inData['section'];
+        $block = $inData['block'];
+        $parentBlock = $inData['parentBlock'];
+        $blockStatus = $inData['blockStatus'];
 
         foreach ($section as $k => $item) {
             $section[$k]['children'] = [];
@@ -873,7 +872,7 @@ class ALayoutManager
             ];
         }
 
-        $data['layout_name'] = $post['layout_name'];
+        $data['layout_name'] = $inData['layout_name'];
         $data['blocks'] = $section;
         return $data;
     }
@@ -1061,12 +1060,17 @@ class ALayoutManager
         }
 
         $this->db->query("DELETE FROM ".$this->db->table("layouts")." WHERE layout_id = '".(int) $layout_id."'");
-        $this->db->query("DELETE FROM ".$this->db->table("pages")." WHERE page_id = '".(int) $page_id."'");
-        $this->db->query("DELETE FROM ".$this->db->table("page_descriptions")." WHERE page_id = '".(int) $page_id."'");
         $this->db->query(
             "DELETE FROM ".$this->db->table("pages_layouts")." WHERE layout_id = '".(int) $layout_id
             ."' AND page_id = '".(int) $page_id."'"
         );
+        $sql = "SELECT COUNT(*) as count FROM ".$this->db->table("pages_layouts")." WHERE page_id = ".(int)$page_id;
+        $result = $this->db->query($sql);
+        if($result->row['count'] < 1 ) {
+            $this->db->query("DELETE FROM " . $this->db->table("pages") . " WHERE page_id = '" . (int)$page_id . "'");
+            $this->db->query("DELETE FROM " . $this->db->table("page_descriptions") . " WHERE page_id = '" . (int)$page_id . "'");
+        }
+
         $this->deleteAllLayoutBlocks($layout_id);
 
         $this->cache->remove('layout');

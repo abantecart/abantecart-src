@@ -625,12 +625,12 @@ class ControllerPagesCatalogCollections extends AController
         $this->data['collection_tabs'] = $tabs_obj->dispatchGetOutput();
         unset($tabs_obj);
 
-        $layout = new ALayoutManager();
+        $tmpl_id = $this->request->get['tmpl_id'] ?: $this->config->get('config_storefront_template');
+        $layout = new ALayoutManager($tmpl_id);
         //get existing page layout or generic
         $page_layout = $layout->getPageLayoutIDs($page_controller, $page_key_param, $collection_id);
         $page_id = $page_layout['page_id'];
         $layout_id = $page_layout['layout_id'];
-        $tmpl_id = $this->request->get['tmpl_id'] ?? $this->config->get('config_storefront_template');
         $params = [
             'id'        => $collection_id,
             'page_id'   => $page_id,
@@ -713,7 +713,7 @@ class ControllerPagesCatalogCollections extends AController
         $this->data['cp_layout_select'] = $form->getFieldHtml(
             [
                 'type'    => 'selectbox',
-                'name'    => 'layout_change',
+                'name'    => 'source_layout_id',
                 'value'   => '',
                 'options' => $av_layouts,
             ]
@@ -736,61 +736,46 @@ class ControllerPagesCatalogCollections extends AController
 
     public function save_layout()
     {
-        if ($this->request->is_GET()) {
+        if ($this->request->is_GET() || !$this->request->post) {
             redirect($this->html->getSecureURL('catalog/collections'));
         }
-
-        $page_controller = 'pages/product/collection';
-        $page_key_param = 'collection_id';
-        $collection_id = (int) $this->request->get_or_post('id');
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
+
+        $post = $this->request->post;
+        $pageData = [
+            'controller' => 'pages/product/collection',
+            'key_param'  => 'collection_id',
+            'key_value'  => (int)$post['id'],
+        ];
+
+
         $this->loadLanguage('catalog/collections');
 
-        if (!$collection_id) {
-            redirect($this->html->getSecureURL('catalog/collections'));
+        if (!$pageData['key_value']) {
+            unset($this->session->data['success']);
+            redirect($this->html->getSecureURL('catalog/product/update'));
         }
 
-        // need to know unique page existing
-        $post_data = $this->request->post;
-        $tmpl_id = $post_data['tmpl_id'];
-        $layout = new ALayoutManager();
-        $pages = $layout->getPages($page_controller, $page_key_param, $collection_id);
-        if (count($pages)) {
-            $page_id = $pages[0]['page_id'];
-            if($tmpl_id == $pages[0]['template_id']) {
-                $layout_id = $pages[0]['layout_id'];
-            }
-        } else {
-            $page_info = [
-                'controller' => $page_controller,
-                'key_param'  => $page_key_param,
-                'key_value'  => $collection_id,
-            ];
-            $this->loadModel('catalog/collection');
-            $collection_info = $this->model_catalog_collection->getById($collection_id);
-            $page_id = $layout->savePage($page_info);
-            $layout_id = '';
-            // need to generate layout name
-            $post_data['layout_name'] = 'Collection: '.$collection_info['name'];
+        /** @var ModelCatalogCollection $mdl */
+        $mdl = $this->loadModel('catalog/collection');
+        $collectionInfo = $mdl->getById($pageData['key_value']);
+        if ($collectionInfo) {
+            $post['layout_name'] = $this->language->get('text_collection'). ': '. $collectionInfo['name'];
+            $pageData['page_descriptions'] = [ $this->language->getContentLanguageID() => $collectionInfo ];
         }
 
-        //create new instance with specific template/page/layout data
-        $layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
-        if (has_value($post_data['layout_change'])) {
-            //update layout request. Clone source layout
-            $layout->clonePageLayout($post_data['layout_change'], $layout_id, $post_data['layout_name']);
+        if(saveOrCreateLayout($post['tmpl_id'], $pageData, $post)){
             $this->session->data['success'] = $this->language->get('text_success_layout');
-        } else {
-            //save new layout
-            $layout_data = $layout->prepareInput($post_data);
-            if ($layout_data) {
-                $layout->savePageLayout($layout_data);
-                $this->session->data['success'] = $this->language->get('text_success_layout');
-            }
         }
+
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-        redirect($this->html->getSecureURL('catalog/collections/edit_layout', '&id='.$collection_id.'&tmpl_id='.$tmpl_id));
+
+        redirect(
+            $this->html->getSecureURL(
+                'catalog/collections/edit_layout',
+                '&id='.$pageData['key_value'].'&tmpl_id='.$post['tmpl_id']
+            )
+        );
     }
 }

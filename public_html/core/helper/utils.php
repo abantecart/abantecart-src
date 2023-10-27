@@ -1423,3 +1423,59 @@ function isAssocArray($array){
    $keys = array_keys($array);
    return $keys !== array_keys($keys);
 }
+
+function saveOrCreateLayout( string $templateTextId, array $pageData, array $layoutData )
+{
+    if(IS_ADMIN !== true){
+        throw new AException(0,'Forbidden.');
+    }
+    $db = Registry::getInstance()->get('db');
+    // need to know if unique page existing
+    $layoutId = null;
+
+    $where = [
+        "p.controller = '".$db->escape($pageData['controller'])."'"
+    ];
+    if ($pageData['key_value']) {
+        $where[] = "p.key_param = '".$db->escape($pageData['key_param'])."'";
+        $where[] = "p.key_value = '".$db->escape($pageData['key_value'])."'";
+    }
+
+    $sql = " SELECT *
+            FROM ".$db->table("pages")." p 
+            ".($where ? " WHERE ".implode(" AND ",$where) : '')."
+            ORDER BY p.page_id ASC";
+    $result = $db->query($sql);
+    if($result->row){
+        $pageId = (int)$result->row['page_id'];
+        $sql = " SELECT pl.layout_id
+                FROM ".$db->table("pages_layouts")." pl 
+                INNER JOIN ".$db->table("layouts")." l 
+                    ON (l.layout_id = pl.layout_id AND l.template_id = '".$db->escape($templateTextId)."') 
+                WHERE pl.page_id = ".$pageId;
+        $result = $db->query($sql);
+        if($result->row){
+            $layoutId = $result->row['layout_id'];
+        }
+    }else{
+        //create page if not exists
+        $layout = new ALayoutManager();
+        $pageId = $layout->savePage($pageData);
+    }
+    //create new instance with specific template/page/layout data
+    $layout = new ALayoutManager($templateTextId, $pageId, $layoutId);
+
+    if(!$layoutId){
+        //remove layoutId of base layout if current layout not found
+        //this layoutId is ID of default layout for page. Not needed when save.
+        unset($layoutData['layout_id']);
+    }
+
+    if (has_value($layoutData['source_layout_id'])) {
+        //update layout request. Clone source layout
+        return $layout->clonePageLayout($layoutData['source_layout_id'], $layoutId, $layoutData['layout_name']);
+    } else {
+        //save new layout
+        return $layout->savePageLayout($layout->prepareInput($layoutData));
+    }
+}

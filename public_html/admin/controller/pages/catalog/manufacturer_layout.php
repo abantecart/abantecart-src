@@ -94,12 +94,12 @@ class ControllerPagesCatalogManufacturerLayout extends AController
 
         $this->data['active'] = 'layout';
 
-        $layout = new ALayoutManager();
+        $tmpl_id = $this->request->get['tmpl_id'] ?: $this->config->get('config_storefront_template');
+        $layout = new ALayoutManager($tmpl_id);
         //get existing page layout or generic
         $page_layout = $layout->getPageLayoutIDs($page_controller, $page_key_param, $manufacturer_id);
         $page_id = $page_layout['page_id'];
         $layout_id = $page_layout['layout_id'];
-        $tmpl_id = $this->request->get['tmpl_id'] ?: $this->config->get('config_storefront_template');
 
         $params = [
             'manufacturer_id' => $manufacturer_id,
@@ -183,7 +183,7 @@ class ControllerPagesCatalogManufacturerLayout extends AController
         $this->data['cp_layout_select'] = $form->getFieldHtml(
             [
                 'type'    => 'selectbox',
-                'name'    => 'layout_change',
+                'name'    => 'source_layout_id',
                 'value'   => '',
                 'options' => $av_layouts,
             ]
@@ -213,69 +213,49 @@ class ControllerPagesCatalogManufacturerLayout extends AController
 
     public function save()
     {
-        if ($this->request->is_GET()) {
+        if ($this->request->is_GET() || !$this->request->post) {
             redirect($this->html->getSecureURL('catalog/manufacturer_layout'));
         }
-
-        $page_controller = 'pages/product/manufacturer';
-        $page_key_param = 'manufacturer_id';
-        $manufacturer_id = (int)$this->request->post['manufacturer_id'];
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
+
+        $post = $this->request->post;
+        $pageData = [
+            'controller' => 'pages/product/manufacturer',
+            'key_param'  => 'manufacturer_id',
+            'key_value'  => (int)$post['manufacturer_id'],
+        ];
+
+
         $this->loadLanguage('catalog/manufacturer');
 
-        if (!has_value($manufacturer_id)) {
-            $this->session->data['error'] = $this->language->get('error_product_not_found');
-            redirect($this->html->getSecureURL('catalog/manufacturer/update'));
+        if (!$pageData['key_value']) {
+            unset($this->session->data['success']);
+            redirect($this->html->getSecureURL('catalog/manufacturer'));
         }
 
-        $post_data = $this->request->post;
-        $tmpl_id = $post_data['tmpl_id'];
-        // need to know unique page existing
-        $layout = new ALayoutManager();
-        $pages = $layout->getPages($page_controller, $page_key_param, $manufacturer_id);
-        if (count($pages)) {
-            $page_id = $pages[0]['page_id'];
-            if($tmpl_id == $pages[0]['template_id']) {
-                $layout_id = $pages[0]['layout_id'];
-            }
-        } else {
-            $page_info = [
-                'controller' => $page_controller,
-                'key_param'  => $page_key_param,
-                'key_value'  => $manufacturer_id,
-            ];
-
+        /** @var ModelCatalogManufacturer $mdl */
+        $mdl = $this->loadModel('catalog/manufacturer');
+        $manufacturerInfo = $mdl->getManufacturer($pageData['key_value']);
+        if ($manufacturerInfo) {
+            $post['layout_name'] = $this->language->get('text_manufacturer'). ': '. $manufacturerInfo['name'];
             $languages = $this->language->getAvailableLanguages();
-            $this->loadModel('catalog/manufacturer');
-            $manufacturer_info = $this->model_catalog_manufacturer->getManufacturer($manufacturer_id);
-            if ($manufacturer_info) {
-                foreach ($languages as $l) {
-                    $page_info['page_descriptions'][$l['language_id']] = $manufacturer_info;
-                }
+            foreach ($languages as $l) {
+                $pageData['page_descriptions'][$l['language_id']] = $manufacturerInfo;
             }
-            $page_id = $layout->savePage($page_info);
-            $layout_id = '';
-
-            // need to generate layout name
-            $post_data['layout_name'] = $this->language->get('text_manufacturer') . ': ' . $manufacturer_info['name'];
         }
 
-        //create new instance with specific template/page/layout data
-        $layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
-        if (has_value($post_data['layout_change'])) {
-            //update layout request. Clone source layout
-            $layout->clonePageLayout($post_data['layout_change'], $layout_id, $post_data['layout_name']);
+        if(saveOrCreateLayout($post['tmpl_id'], $pageData, $post)){
             $this->session->data['success'] = $this->language->get('text_success_layout');
-        } else {
-            //save new layout
-            $layout_data = $layout->prepareInput($post_data);
-            if ($layout_data) {
-                $layout->savePageLayout($layout_data);
-                $this->session->data['success'] = $this->language->get('text_success_layout');
-            }
         }
-        redirect($this->html->getSecureURL('catalog/manufacturer_layout', '&manufacturer_id=' . $manufacturer_id));
+
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+        redirect(
+            $this->html->getSecureURL(
+                'catalog/manufacturer_layout',
+                '&manufacturer_id='.$pageData['key_value'].'&tmpl_id='.$post['tmpl_id']
+            )
+        );
     }
 }
