@@ -174,6 +174,8 @@ class ControllerResponsesDesignPageLayout extends AController
             return;
         }
 
+        $languageId = $this->language->getContentLanguageID();
+
         $post = $this->request->post;
 
         $pageData = [
@@ -181,7 +183,7 @@ class ControllerResponsesDesignPageLayout extends AController
             'key_param'  => $post['key_parameter_name'],
             'key_value'  => $post['key_parameter_value'],
             'page_descriptions' => [
-                $this->language->getContentLanguageID() => [
+                $languageId => [
                     'name' => $post['page_name'],
                     'title' => $post['page_title']
                 ]
@@ -207,6 +209,19 @@ class ControllerResponsesDesignPageLayout extends AController
                 'layout_id' => $result->row['layout_id'],
                 'page_id'   => $result->row['page_id']
             ];
+            //add seo-keyword
+            if($post['seo_keyword']){
+                $this->language->replaceDescriptions(
+                    'url_aliases',
+                    [
+                        'query' => "rt=".$post['page_rt']
+                            .($post['key_parameter_value']
+                                ? '&'.$post['key_parameter_name'].'='.$post['key_parameter_value']
+                                : '')
+                    ],
+                    [(int) $languageId => ['keyword' => $post['seo_keyword']]]
+                );
+            }
         }else{
             $err = new AError(AC_ERR_LOAD);
             $err->toJSONResponse(
@@ -217,10 +232,6 @@ class ControllerResponsesDesignPageLayout extends AController
             );
             return;
         }
-
-
-
-
 
         $this->view->batchAssign($this->data);
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
