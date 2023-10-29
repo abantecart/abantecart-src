@@ -202,9 +202,9 @@ class ALayout
     {
         $store_id = (int) $this->config->get('config_store_id');
         $cache_key = 'layout.pages'
-            .(!empty($controller) ? '.'.$controller : '')
-            .(!empty($key_param) ? '.'.$key_param : '')
-            .(!empty($key_value) ? '.'.$key_value : '');
+            .($controller ? '.'.$controller : '')
+            .($key_param ? '.'.$key_param : '')
+            .($key_value ? '.'.$key_value : '');
         $cache_key = preg_replace('/[^a-zA-Z\d.]/', '', $cache_key).'.store_'.$store_id.'.template_'.$this->tmpl_id;
         $pages = $this->cache->pull($cache_key);
         if ($pages !== false) {
@@ -213,16 +213,16 @@ class ALayout
         }
 
         $where = '';
-        if (!empty ($controller)) {
-            $where .= "WHERE controller = '".$this->db->escape($controller)."' ";
+        if ($controller) {
+            $where .= "WHERE controller = '".$this->db->escape($controller)."' AND template_id = '".$this->tmpl_id."' ";
+
             if (!empty ($key_param)) {
                 if (!empty ($key_value)) {
                     // so if we have key_param key_value pair we select pages with controller and with or without key_param
                     $where .= " AND ( COALESCE( key_param, '' ) = ''
                                         OR
                                         ( key_param = '".$this->db->escape($key_param)."'
-                                            AND key_value = '".$this->db->escape($key_value)."' ) )
-                                AND template_id = '".$this->tmpl_id."' ";
+                                            AND key_value = '".$this->db->escape($key_value)."' ) ) ";
                 } else { //write to log this stuff. it's abnormal situation
                     $message = "Error: Error in data of page with controller: '".$controller
                         ."'. Please check for key_value present where key_param was set.\n";
@@ -241,8 +241,12 @@ class ALayout
                     ON pl.page_id = p.page_id 
                 LEFT JOIN ".$this->db->table("layouts")." l 
                     ON l.layout_id = pl.layout_id ".
-            $where."
-                ORDER BY key_param DESC, key_value DESC, p.page_id ASC";
+                $where;
+        if($key_value){
+            $sql .= " ORDER BY key_param DESC, key_value DESC, p.page_id ASC";
+        }else{
+            $sql .= " ORDER BY key_param, key_value, p.page_id";
+        }
         $query = $this->db->query($sql);
         $pages = $query->rows;
         $this->cache->push($cache_key, $pages);
@@ -253,9 +257,11 @@ class ALayout
      * @param string $controller
      *
      * @return string
+     * @throws AException
      */
     public function getKeyParamByController($controller = '')
     {
+        $this->data['key'] = '';
         switch ($controller) {
             case 'pages/product/product':
                 $this->data['key'] = 'product_id';
@@ -269,8 +275,24 @@ class ALayout
             case 'pages/content/content':
                 $this->data['key'] = 'content_id';
                 break;
+            case 'pages/product/collection':
+                $this->data['key'] = 'collection_id';
+                break;
             default:
-                $this->data['key'] = '';
+                $get = $this->request->get;
+                $cache_key = 'layout.pages-by-controller.'.$controller.'.'.$this->tmpl_id;
+                $cache_key = preg_replace('/[^a-zA-Z\d.]/', '', $cache_key);
+                $pages = $this->cache->pull($cache_key);
+                if ($pages === false) {
+                    $sql = "SELECT * FROM " . $this->db->table('pages') . " WHERE controller='" . $controller . "'";
+                    $pages = $this->db->query($sql)->rows;
+                }
+                foreach($pages as $p){
+                    if( $get[$p['key_param']] == $p['key_value'] ){
+                        $this->data['key'] = $p['key_param'];
+                        break;
+                    }
+                }
                 break;
         }
         $this->extensions->hk_ProcessData($this, __FUNCTION__, func_get_args());
@@ -294,7 +316,7 @@ class ALayout
             $sql = "SELECT layout_id, layout_type, layout_name, date_added, date_modified
                     FROM ".$this->db->table("layouts")."
                     ".$where."
-                    ORDER BY layout_id ASC";
+                    ORDER BY layout_id";
 
             $result = $this->db->query($sql);
             $layouts = $result->rows;
