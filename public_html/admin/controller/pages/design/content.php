@@ -649,12 +649,12 @@ class ControllerPagesDesignContent extends AController
 
         $this->_initTabs('layout');
 
-        $layout = new ALayoutManager();
+        $tmpl_id = $this->request->get['tmpl_id'] ?: $this->config->get('config_storefront_template');
+        $layout = new ALayoutManager($tmpl_id);
         //get existing page layout or generic
         $page_layout = $layout->getPageLayoutIDs($page_controller, $page_key_param, $content_id);
         $page_id = $page_layout['page_id'];
         $layout_id = $page_layout['layout_id'];
-        $tmpl_id = $this->request->get['tmpl_id'] ?? $this->config->get('config_storefront_template');
         $params = [
             'content_id' => $content_id,
             'page_id'    => $page_id,
@@ -736,7 +736,7 @@ class ControllerPagesDesignContent extends AController
         $this->data['cp_layout_select'] = $form->getFieldHtml(
             [
                 'type'    => 'selectbox',
-                'name'    => 'layout_change',
+                'name'    => 'source_layout_id',
                 'value'   => '',
                 'options' => $av_layouts,
             ]
@@ -762,68 +762,47 @@ class ControllerPagesDesignContent extends AController
 
     public function save_layout()
     {
-        $page_controller = 'pages/content/content';
-        $page_key_param = 'content_id';
-        $content_id = $this->_get_content_id($this->request->get_or_post('content_id'));
+        if ($this->request->is_GET() || !$this->request->post) {
+            redirect($this->html->getSecureURL('design/content'));
+        }
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->acm = new AContentManager();
-        if (!has_value($content_id)) {
+        $post = $this->request->post;
+        $content_id = $this->_get_content_id($post['content_id']);
+        $pageData = [
+            'controller' => 'pages/content/content',
+            'key_param'  => 'content_id',
+            'key_value'  => $content_id,
+        ];
+
+        $this->loadLanguage('catalog/product');
+        if (!$pageData['key_value']) {
+            unset($this->session->data['success']);
             redirect($this->html->getSecureURL('design/content'));
         }
 
-        if ($this->request->is_POST()) {
-            // need to know unique page existing
-            $post_data = $this->request->post;
-            $tmpl_id = $post_data['tmpl_id'];
-            $layout = new ALayoutManager();
-            $pages = $layout->getPages($page_controller, $page_key_param, $content_id);
-            if (count($pages)) {
-                $page_id = $pages[0]['page_id'];
-                if($tmpl_id == $pages[0]['template_id']) {
-                    $layout_id = $pages[0]['layout_id'];
-                }
-            } else {
-                // create new page record
-                $page_info = [
-                    'controller' => $page_controller,
-                    'key_param'  => $page_key_param,
-                    'key_value'  => $content_id,
-                ];
-
-                $default_language_id = $this->language->getDefaultLanguageID();
-                $content_info = $this->acm->getContent($content_id, $default_language_id);
-                if ($content_info) {
-                    if ($content_info['title']) {
-                        $page_info['page_descriptions'][$default_language_id]['name'] = $content_info['title'];
-                    } else {
-                        $page_info['page_descriptions'][$default_language_id]['name'] = 'Unnamed content page';
-                    }
-                }
-                $page_id = $layout->savePage($page_info);
-                $layout_id = '';
-                // need to generate layout name
-                $post_data['layout_name'] = 'Content: '.$content_info['title'];
-            }
-
-            //create new instance with specific template/page/layout data
-            $layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
-            if (has_value($post_data['layout_change'])) {
-                //update layout request. Clone source layout
-                $layout->clonePageLayout($post_data['layout_change'], $layout_id, $post_data['layout_name']);
-                $this->session->data['success'] = $this->language->get('text_success_layout');
-            } else {
-                //save new layout
-                $layout_data = $layout->prepareInput($post_data);
-                if ($layout_data) {
-                    $layout->savePageLayout($layout_data);
-                    $this->session->data['success'] = $this->language->get('text_success_layout');
-                }
-            }
-            redirect($this->html->getSecureURL('design/content/edit_layout', '&content_id='.$content_id));
+        $this->acm = new AContentManager();
+        $languageId = $this->language->getDefaultLanguageID();
+        $content_info = $this->acm->getContent($content_id, $languageId);
+        if ($content_info) {
+            $title = $content_info['title'] ?: 'Unnamed content page';
+            $pageData['page_descriptions'][$languageId]['name'] = $title;
+            $post['layout_name'] = $this->language->get('text_content','common/header').': '.$title;
         }
-        redirect($this->html->getSecureURL('design/content/'));
+
+        if(saveOrCreateLayout($post['tmpl_id'], $pageData, $post)){
+            $this->session->data['success'] = $this->language->get('text_success_layout');
+        }
+
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+        redirect(
+            $this->html->getSecureURL(
+                'design/content/edit_layout',
+                '&content_id='.$content_id.'&tmpl_id='.$post['tmpl_id']
+            )
+        );
     }
 
     protected function _get_content_id($input)

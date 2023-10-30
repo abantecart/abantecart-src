@@ -174,41 +174,64 @@ class ControllerResponsesDesignPageLayout extends AController
             return;
         }
 
-        $layout = new ALayoutManager();
+        $languageId = $this->language->getContentLanguageID();
 
-        $pages = $layout->getPages(
-            $post['page_rt'],
-            $post['key_parameter_name'],
-            $post['key_parameter_value']
-        );
+        $post = $this->request->post;
 
-        if (count($pages)) {
-            $pageId = $pages[0]['page_id'];
-            $layoutId = $pages[0]['layout_id'];
-        } else {
-            $page_info = [
-                'controller' => $post['page_rt'],
-                'key_param'  => $post['key_parameter_name'],
-                'key_value'  => $post['key_parameter_value'],
-                'page_descriptions' => [
-                    $this->language->getContentLanguageID() => [
-                        'name' => $post['page_name'],
-                        'title' => $post['page_title']
-                    ]
+        $pageData = [
+            'controller' => $post['page_rt'],
+            'key_param'  => $post['key_parameter_name'],
+            'key_value'  => $post['key_parameter_value'],
+            'page_descriptions' => [
+                $languageId => [
+                    'name' => $post['page_name'],
+                    'title' => $post['page_title']
                 ]
-            ];
-            $pageId = $layout->savePage($page_info);
-            $layoutId = '';
-        }
-
-        //create new instance with specific template/page/layout data
-        $layout = new ALayoutManager($post['tmpl_id'], $pageId, $layoutId);
-        //update layout request. Clone source layout
-        $layout->clonePageLayout($post['source_layout_id'], $layoutId, $post['page_name']);
-        $this->data['output'] = [
-            'layout_id' => $layout->getLayoutId(),
-            'page_id'   => $pageId
+            ]
         ];
+        $post['layout_name'] = $post['page_name'];
+
+        $result = saveOrCreateLayout($post['tmpl_id'], $pageData, $post);
+        if($result){
+            $sql = " SELECT p.page_id, l.layout_id
+                    FROM ".$this->db->table("pages")." p "."
+                    INNER JOIN ".$this->db->table("pages_layouts")." pl 
+                        ON pl.page_id = p.page_id
+                    INNER JOIN ".$this->db->table("layouts")." l 
+                        ON l.layout_id = pl.layout_id AND l.template_id = '".$post['tmpl_id']."'
+                    WHERE p.controller = '".$post['page_rt']."'";
+            if($post['key_parameter_value']){
+                $sql .= " AND p.key_param = '".$post['key_parameter_name']."'";
+                $sql .= " AND p.key_value = '".$post['key_parameter_value']."'";
+            }
+            $result = $this->db->query($sql);
+            $this->data['output'] = [
+                'layout_id' => $result->row['layout_id'],
+                'page_id'   => $result->row['page_id']
+            ];
+            //add seo-keyword
+            if($post['seo_keyword']){
+                $this->language->replaceDescriptions(
+                    'url_aliases',
+                    [
+                        'query' => "rt=".$post['page_rt']
+                            .($post['key_parameter_value']
+                                ? '&'.$post['key_parameter_name'].'='.$post['key_parameter_value']
+                                : '')
+                    ],
+                    [(int) $languageId => ['keyword' => $post['seo_keyword']]]
+                );
+            }
+        }else{
+            $err = new AError(AC_ERR_LOAD);
+            $err->toJSONResponse(
+                'VALIDATION_ERROR_406',
+                [
+                    'error_text' => 'Cannot save layout',
+                ]
+            );
+            return;
+        }
 
         $this->view->batchAssign($this->data);
         $this->extensions->hk_UpdateData($this, __FUNCTION__);

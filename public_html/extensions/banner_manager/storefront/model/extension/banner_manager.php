@@ -117,9 +117,10 @@ class ModelExtensionBannerManager extends Model
                 LEFT JOIN ".$this->db->table("banner_descriptions")." bd ON (b.banner_id = bd.banner_id)
                 WHERE bd.language_id = '".$language_id."'
                     AND b.status='1'
-                    AND (NOW() BETWEEN CASE WHEN `start_date` IS NULL THEN NOW() ELSE `start_date` END
-                        AND
-                        CASE WHEN `end_date` IS NULL THEN  NOW() + INTERVAL 1 MONTH ELSE `end_date` END)
+                    AND ( 
+                        (COALESCE(`start_date`, NOW()) <= NOW() || `start_date` = '0000-00-00 00:00:00') 
+                            AND (COALESCE(`end_date`, NOW())>= NOW() OR `end_date` = '0000-00-00 00:00:00') 
+                        )
                     AND (`banner_group_name` = '".$this->db->escape($banner_group_name)."'
                         OR b.banner_id IN (SELECT DISTINCT id
                                     FROM ".$this->db->table("custom_lists")." 
