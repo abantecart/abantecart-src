@@ -21,7 +21,7 @@ if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
-require_once('vendor/ups-php/vendor/autoload.php');
+
 
 $controllers = array(
     'storefront' => array(),
