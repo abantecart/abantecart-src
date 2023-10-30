@@ -1968,7 +1968,12 @@ class AConfigManager
                     'name'  => 'config_upload_max_size',
                     'value' => (int) $data['config_upload_max_size'],
                 ]
-            ).sprintf($this->language->get('text_setting_php_exceed'), 'post_max_size', (int) ini_get('post_max_size'));
+            )
+            .sprintf(
+                $this->language->get('text_setting_php_exceed'),
+                'upload_max_filesize',
+                ini_get('upload_max_filesize')
+            );
 
         $fields['error_display'] = $form->getFieldHtml(
             $props[] = [
