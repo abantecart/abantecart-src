@@ -285,7 +285,10 @@ class ALayout
                 $cache_key = preg_replace('/[^a-zA-Z\d.]/', '', $cache_key);
                 $pages = $this->cache->pull($cache_key);
                 if ($pages === false) {
-                    $sql = "SELECT * FROM " . $this->db->table('pages') . " WHERE controller='" . $cntrl . "'";
+                    $sql = "SELECT * 
+                            FROM " . $this->db->table('pages') . " 
+                            WHERE controller='" . $cntrl . "' 
+                            ORDER BY key_value DESC";
                     $pages = $this->db->query($sql)->rows;
                 }
                 foreach($pages as $p){
