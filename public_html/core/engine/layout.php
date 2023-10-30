@@ -91,7 +91,7 @@ class ALayout
         $unique_page = [];
 
         // find page records for given controller
-        $key_param = $this->getKeyParamByController($controller);
+        $key_param = $this->getKeyParamByController($controller, $method);
         $key_value = null;
         if ($key_param) {
             $key_value = $this->request->get[$key_param] ?? null;
@@ -259,7 +259,7 @@ class ALayout
      * @return string
      * @throws AException
      */
-    public function getKeyParamByController($controller = '')
+    public function getKeyParamByController($controller = '', $method = 'main')
     {
         $this->data['key'] = '';
         switch ($controller) {
@@ -280,11 +280,12 @@ class ALayout
                 break;
             default:
                 $get = $this->request->get;
-                $cache_key = 'layout.pages-by-controller.'.$controller.'.'.$this->tmpl_id;
+                $cntrl = $method !='main' ? $controller.'/'.$method : $controller;
+                $cache_key = 'layout.pages-by-controller.'.$cntrl.'.'.$this->tmpl_id. md5(implode(',',$get));
                 $cache_key = preg_replace('/[^a-zA-Z\d.]/', '', $cache_key);
                 $pages = $this->cache->pull($cache_key);
                 if ($pages === false) {
-                    $sql = "SELECT * FROM " . $this->db->table('pages') . " WHERE controller='" . $controller . "'";
+                    $sql = "SELECT * FROM " . $this->db->table('pages') . " WHERE controller='" . $cntrl . "'";
                     $pages = $this->db->query($sql)->rows;
                 }
                 foreach($pages as $p){
