@@ -1549,7 +1549,11 @@ class ExtensionUtils
                     continue;
                 }
 
-                if (in_array((string) $item->type, ['checkboxgroup', 'multiselectbox'])) {
+                $attr = $item->default_value->attributes();
+                $cfgKey = trim((string) $attr['config_key']);
+                if ($cfgKey) {
+                    $value = $this->registry->get('config')->get($cfgKey);
+                }elseif (in_array((string) $item->type, ['checkboxgroup', 'multiselectbox'])) {
                     $value = (string) $item->default_value;
                 } else {
                     $value = $this->registry->get('html')->convertLinks(
