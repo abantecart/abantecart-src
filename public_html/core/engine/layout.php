@@ -92,10 +92,7 @@ class ALayout
 
         // find page records for given controller
         $key_param = $this->getKeyParamByController($controller, $method);
-        $key_value = null;
-        if ($key_param) {
-            $key_value = $this->request->get[$key_param] ?? null;
-        }
+        $key_value = $key_param ? $this->request->get[$key_param] : null;
 
         // for nested categories
         if ($key_param == 'path' && $key_value) {
@@ -201,10 +198,7 @@ class ALayout
     public function getPages($controller = '', $key_param = '', $key_value = '')
     {
         $store_id = (int) $this->config->get('config_store_id');
-        $cache_key = 'layout.pages'
-            .($controller ? '.'.$controller : '')
-            .($key_param ? '.'.$key_param : '')
-            .($key_value ? '.'.$key_value : '');
+        $cache_key = 'layout.pages'. md5(implode('-',func_get_args()));
         $cache_key = preg_replace('/[^a-zA-Z\d.]/', '', $cache_key).'.store_'.$store_id.'.template_'.$this->tmpl_id;
         $pages = $this->cache->pull($cache_key);
         if ($pages !== false) {
@@ -232,6 +226,8 @@ class ALayout
                     $error = new AError ($message);
                     $error->toLog()->toDebug();
                 }
+            }else{
+                $where .= " AND ( COALESCE( key_param, '' ) = '' AND COALESCE( key_value, '' ) = '') ";
             }
         }
 
@@ -292,7 +288,7 @@ class ALayout
                     $pages = $this->db->query($sql)->rows;
                 }
                 foreach($pages as $p){
-                    if( $get[$p['key_param']] == $p['key_value'] ){
+                    if( isset($get[$p['key_param']]) && $get[$p['key_param']] == $p['key_value'] ){
                         $this->data['key'] = $p['key_param'];
                         break;
                     }
