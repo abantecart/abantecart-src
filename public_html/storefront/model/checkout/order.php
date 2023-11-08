@@ -463,8 +463,9 @@ class ModelCheckoutOrder extends Model
                     ];
                     $this->load->model('catalog/product');
                     $stock = $this->model_catalog_product->hasAnyStock((int) $product['product_id']);
+                    $threshold = $this->config->get('product_out_of_stock_threshold');
                     if ($stock <= 0 && $this->config->get('config_nostock_autodisable')
-                        && (int) $product['product_id']) {
+                        && (int) $product['product_id'] && $stock > $threshold)  {
                         $this->db->query(
                             'UPDATE '.$this->db->table('products').' 
                             SET status=0 WHERE product_id='.(int) $product['product_id']
