@@ -217,6 +217,16 @@ class ALength
         return '';
     }
 
+    public function getUnitByCode(?string $isoCode = null)
+    {
+        foreach ($this->lengths as $lth) {
+            if ($lth['iso_code'] == $isoCode) {
+                return $lth['unit'];
+            }
+        }
+        return '';
+    }
+
     /**
      * get length_class_id based on unit code
      *

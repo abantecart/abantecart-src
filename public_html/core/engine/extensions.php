@@ -1377,6 +1377,11 @@ class ExtensionUtils
                 if (isset($item->variants->fields->field)) {
                     $result[$i]['field2'] = (string) $item->variants->fields->field[1];
                 }
+                if($item->variants->allowed){
+                    foreach($item->variants->allowed->id as $id){
+                        $result[$i]['allowed'][] = (string)$id;
+                    }
+                }
                 $result[$i]['template'] = (string) $item->template;
 
                 // if just static option values are used
@@ -1544,7 +1549,11 @@ class ExtensionUtils
                     continue;
                 }
 
-                if (in_array((string) $item->type, ['checkboxgroup', 'multiselectbox'])) {
+                $attr = $item->default_value->attributes();
+                $cfgKey = trim((string) $attr['config_key']);
+                if ($cfgKey) {
+                    $value = $this->registry->get('config')->get($cfgKey);
+                }elseif (in_array((string) $item->type, ['checkboxgroup', 'multiselectbox'])) {
                     $value = (string) $item->default_value;
                 } else {
                     $value = $this->registry->get('html')->convertLinks(

@@ -248,6 +248,20 @@ class AWeight
         }
         return false;
     }
+    /**
+     * @param string $iso_code
+     *
+     * @return string|false
+     */
+    public function getUnitByCode($iso_code)
+    {
+        foreach ($this->weights as $w) {
+            if (strtolower($w['iso_code']) == strtolower($iso_code)) {
+                return $w['unit'];
+            }
+        }
+        return false;
+    }
 
     /**
      * @deprecated since 1.2.11
