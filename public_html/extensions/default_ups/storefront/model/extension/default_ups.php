@@ -18,9 +18,6 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-
-use UPS\Rating\Rating\ShipperAddress;
-
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -249,7 +246,7 @@ $this->config->set('default_ups_weight_class', 'LBS');
                 .$ratedShipment['total_charges']['monetary_value'].$ratedShipment['total_charges']['currency_code']."<br>";
             }
         } catch (\UPS\Rating\ApiException $e) {
-            echo 'Exception when calling DefaultApi->rate: ', $e->getMessage(), PHP_EOL;
+            echo 'wwwwwwwwwException when calling DefaultApi->rate: ', $e->getMessage(), PHP_EOL;
             //var_Dump($e->getResponseBody());
         }
 

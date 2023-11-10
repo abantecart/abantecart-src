@@ -21,8 +21,6 @@ if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
-
-
 $controllers = array(
     'storefront' => array(),
     'admin'      => array(
