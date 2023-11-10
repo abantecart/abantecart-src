@@ -75,13 +75,12 @@ class ModelExtensionDefaultUps extends Model
             $height += $this->length->convert($product['height'], $product['length_class'], 'in');
         }
 
-$this->config->set('default_ups_weight_class', 'LBS');
         $weight = $this->weight->convert(
             $this->cart->getWeight($product_ids),
             $this->config->get('config_weight_class'),
             $this->config->get('default_ups_weight_class')
         );
-
+        $weight = ($weight < 0.1 ? 0.1 : $weight);
         $length = $length
             ? :
             $this->length->convert(
@@ -105,157 +104,7 @@ $this->config->set('default_ups_weight_class', 'LBS');
             );
 
         $use_width = $use_length = $use_height = 0;
-##############################################################
-        $accNumber = '54EA96';
-        $clientId = 'IRWwra5OOdRMm4SpLSIb5bIAizGQByoEWguPdEl0ImUraB5X';
-      //  $clientId = 'QULyQ5CvumWqPAtD0ZR37S8ESqrCV8zGWxnPb9QAJGOFf1Dk';
-        $password = '1GQhyY13PoHUmZjL2kZ7yjkAltJ6mFVOdKrzQAmayidBTI8Uzy5fo4r0dJ3rpJfq';
-       // $password = 'rAlRrfm8vGEVAwMHDe0sm6qgdIZ98oytmapGriKyMeAq3hN3Dsgrh4GHAJYAruEB';
-
-
-        $config = \UPS\OAuthClientCredentials\Configuration::getDefaultConfiguration()
-            ->setUsername($clientId)
-            ->setPassword($password);
-
-        $apiInstance = new \UPS\OAuthClientCredentials\Request\DefaultApi(
-        // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-        // This is optional, `GuzzleHttp\Client` will be used as default.
-            new \GuzzleHttp\Client(),
-            $config
-        );
-        $grant_type = "client_credentials"; // string |
-        $x_merchant_id = $accNumber; // string | Client merchant ID
-
-        try {
-            $result = $apiInstance->generateToken($grant_type, $x_merchant_id);
-            $accessToken = $result['access_token'];
-        } catch (UPS\OAuthClientCredentials\ApiException $e) {
-            echo 'Exception when calling DefaultApi->generateToken: ', $e->getMessage(), PHP_EOL;
-            echo 'Response Body: '.var_export($e->getResponseBody(), true);
-        }
-
-
-###############
-        ///swagger client
-       // Configure OAuth2 access token for authorization: oauth2
-        $config = \UPS\Rating\Configuration::getDefaultConfiguration()->setAccessToken($accessToken);
-
-        $apiInstance = new UPS\Rating\Request\DefaultApi(
-        // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-        // This is optional, `GuzzleHttp\Client` will be used as default.
-            new \GuzzleHttp\Client(
-            ),
-            $config
-        );
-
-        /** @var ModelLocalisationCountry $countryModel */
-        $countryModel = $this->load->model('localisation/country');
-        $country = $countryModel->getCountry($this->config->get('config_country_id'));
-        /** @var ModelLocalisationZone $zoneModel */
-        $zoneModel = $this->load->model('localisation/zone');
-        $zone = $zoneModel->getZone($this->config->get('config_zone_id'));
-        $fromAddress = new ShipperAddress(
-            [
-                'address_line' =>  $this->config->get('config_address'),
-                'city' => $this->config->get('config_city'),
-                'state_province_code' => $zone['code'],
-                'postal_code' => $this->config->get('config_postcode'),
-                'country_code' => $country['iso_code_2']
-            ]
-        );
-
-        $toAddress = new \UPS\Rating\Rating\ShipToAddress(
-            [
-                'address_line' =>  $address['address_1'].' '. $address['address_2'],
-                'city' => $address['city'],
-                'state_province_code' => $address['zone_code'],
-                'postal_code' => $address['postcode'],
-                'country_code' => $address['iso_code_2']
-            ]
-        );
-
-
-        $shipper = new \UPS\Rating\Rating\ShipmentShipper();
-        $shipper->setAddress($fromAddress);
-        $shipper->setShipperNumber('54EA96');
-        $shipTo = new \UPS\Rating\Rating\ShipmentShipTo();
-        $shipTo->setAddress($toAddress);
-
-        $rateRequestShipment = new \UPS\Rating\Rating\RateRequestShipment();
-
-        $rateRequestShipment->setShipper($shipper);
-        $paymentDetails = new \UPS\Rating\Rating\ShipmentPaymentDetails();
-        $paymentDetails->setShipmentCharge(
-            [new \UPS\Rating\Rating\PaymentDetailsShipmentCharge(['type' => '01', 'bill_shipper' => ['AccountNumber' => '54EA96']])]
-        );
-
-        $rateRequestShipment
-            ->setShipTo($shipTo)
-            ->setPaymentDetails( $paymentDetails);
-
-            $package = new \UPS\Rating\Rating\ShipmentPackage();
-            $packageType = new \UPS\Rating\Rating\PackagePackagingType();
-            $packageType->setCode('00');
-            $package->setPackagingType($packageType);
-            $dims = new \UPS\Rating\Rating\PackageDimensions();
-            $dims->setLength($length);
-            $dims->setWidth($width);
-            $dims->setHeight($height);
-            $dims->setUnitOfMeasurement( new \UPS\Rating\Rating\DimensionsUnitOfMeasurement(['code' => 'in', 'description' => 'inches']));
-            $package->setDimensions( $dims );
-
-            $pw = new \UPS\Rating\Rating\PackagePackageWeight( );
-            $pw->setWeight( number_format($weight,4) );
-            $pw->setUnitOfMeasurement(
-                new \UPS\Rating\Rating\PackageWeightUnitOfMeasurement(
-                    [
-                        'code' => $this->config->get('default_ups_weight_class'),
-                        'description' => $this->config->get('default_ups_weight_class')
-                    ]
-                )
-            );
-            $package->setPackageWeight($pw);
-
-
-        $packages = [ $package ];
-        $rateRequestShipment->setPackage( $packages);
-
-        $rateRequest = new \UPS\Rating\Rating\RateRequest();
-        $rateRequest->setShipment($rateRequestShipment);
-        $rateRequestRequest = new \UPS\Rating\Rating\RateRequestRequest();
-        $rateRequestRequest->setRequestOption('Shop');
-        $rateRequest->setRequest($rateRequestRequest);
-
-        $body = new \UPS\Rating\Rating\RATERequestWrapper();
-        $body->setRateRequest($rateRequest);
-
-        $version = 'v1';
-        $requestoption = "Shop";
-        $trans_id = "abantecart";
-        $transaction_src = "testing";
-        $additionalinfo = '';
-
-        try {
-            $result = $apiInstance->rate($body, $version, $requestoption, $trans_id, $transaction_src, $additionalinfo);
-            $rated = $result->getRateResponse();
-
-            foreach($rated['rated_shipment'] as $ratedShipment){
-                /** @var \UPS\Rating\Rating\RateResponseRatedShipment */
-
-                echo $language->get('text_us_origin_'.$ratedShipment['service']['code'],'default_ups/default_ups').": "
-                .$ratedShipment['total_charges']['monetary_value'].$ratedShipment['total_charges']['currency_code']."<br>";
-            }
-        } catch (\UPS\Rating\ApiException $e) {
-            echo 'wwwwwwwwwException when calling DefaultApi->rate: ', $e->getMessage(), PHP_EOL;
-            //var_Dump($e->getResponseBody());
-        }
-
-
-        return;
-
-
-####################################################################
-        //$request = $this->_buildRequest($address, $weight, $length, $width, $height);
+        $request = $this->_buildRequest($address, $weight, $length, $width, $height);
 
         $quote_data = $this->_processRequest($request);
         $error_msg = $quote_data['error_msg'];
