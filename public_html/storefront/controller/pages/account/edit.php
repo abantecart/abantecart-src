@@ -200,14 +200,6 @@ class ControllerPagesAccountEdit extends AController
                 'value' => $telephone,
             ]
         );
-        $this->data['form']['fields']['fax'] = $form->getFieldHtml(
-            [
-                'type'     => 'input',
-                'name'     => 'fax',
-                'value'    => $fax,
-                'required' => false,
-            ]
-        );
 
         //get only active IM drivers
         $im_drivers = $this->im->getIMDriverObjects();
