@@ -63,6 +63,9 @@ class AView
     /** @var string */
     protected $html_cache_key;
 
+    /** @var array */
+    protected $restrictedFields = ['model'=>''];
+
     /**
      * @param Registry $registry
      * @param int $instance_id
@@ -167,6 +170,11 @@ class AView
     {
         if (empty($template_variable)) {
             return;
+        }
+        foreach ($this->restrictedFields as $k => $restricted){
+            if($k == $template_variable){
+                throw new AException(AC_ERR_CONNECT_METHOD, 'You are using a reserved variable model in the output!');
+            }
         }
         if (!is_null($value)) {
             $this->data[$template_variable] = $value;
