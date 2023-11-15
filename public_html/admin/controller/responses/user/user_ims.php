@@ -187,7 +187,7 @@ class ControllerResponsesUserUserIMs extends AController
             $this->load->model('setting/setting');
             $this->model_setting_setting->editSetting('product_out_of_stock_threshold',
                 array(
-                    'product_out_of_stock_threshold' =>
+                    'product_out_of_stock_threshold'=>
                         isset($this->request->post['product_out_of_stock_threshold'])));
 
             $output['result_text'] = $this->language->get('text_settings_success_saved');
