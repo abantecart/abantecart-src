@@ -7,3 +7,6 @@ alter table `ac_global_attributes_values`
 alter table `ac_page_descriptions`
     alter column `date_added` set default (CURRENT_TIMESTAMP);
 
+alter table `ac_order_data`
+    alter column `date_added` set default (CURRENT_TIMESTAMP);
+

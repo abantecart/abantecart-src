@@ -60,7 +60,7 @@ if($this->cart->hasShipping()){
                     <?php echo $this->getHookVar('shipping_'.$shipping_method['title'].'_additional_info'); ?>
                  <?php } else { ?>
                      <div class="alert alert-danger">
-                         <i class="fa fa-exclamation"></i> <?php echo $shipping_method['error']; ?>
+                         <i class="fa fa-exclamation-triangle"></i> <?php echo $shipping_method['error']; ?>
                      </div>
                  <?php } ?>
              </div>

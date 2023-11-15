@@ -142,11 +142,6 @@ class ControllerPagesAccountEdit extends AController
             $telephone = $customer_info['telephone'];
         }
 
-        if (isset($request_data['fax'])) {
-            $fax = $request_data['fax'];
-        } elseif (isset($customer_info)) {
-            $fax = $customer_info['fax'];
-        }
         $form = new AForm();
         $form->setForm(['form_name' => 'AccountFrm']);
         $this->data['form']['form_open'] = $form->getFieldHtml(
@@ -203,14 +198,6 @@ class ControllerPagesAccountEdit extends AController
                 'type'  => 'input',
                 'name'  => 'telephone',
                 'value' => $telephone,
-            ]
-        );
-        $this->data['form']['fields']['fax'] = $form->getFieldHtml(
-            [
-                'type'     => 'input',
-                'name'     => 'fax',
-                'value'    => $fax,
-                'required' => false,
             ]
         );
 

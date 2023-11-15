@@ -265,7 +265,7 @@
                         if (data.error) {
                             $('.wait').remove();
                             $('#cardknox .action-buttons').show().find('button').removeAttr('disabled');
-                            $('#cardknox').before('<div class="alert alert-warning"><i class="fa fa-exclamation"></i> ' + data.error + '</div>');
+                            $('#cardknox').before('<div class="alert alert-warning"><i class="fa fa-exclamation-triangle"></i> ' + data.error + '</div>');
                             submitSent = false;
                             $form.find('input[name=csrfinstance]').val(data.csrfinstance);
                             $form.find('input[name=csrftoken]').val(data.csrftoken);
@@ -278,7 +278,7 @@
                 error: function (jqXHR, textStatus, errorThrown) {
                     $('.wait').remove();
                     $('#cardknox .action-buttons').show().find('button').removeAttr('disabled');
-                    $('#cardknox').before('<div class="alert alert-danger"><i class="fa fa-exclamation"></i> ' + textStatus + ' ' + errorThrown + '</div>');
+                    $('#cardknox').before('<div class="alert alert-danger"><i class="fa fa-exclamation-triangle"></i> ' + textStatus + ' ' + errorThrown + '</div>');
                     submitSent = false;
                     $form.find('input[name=csrfinstance]').val(data.csrfinstance);
                     $form.find('input[name=csrftoken]').val(data.csrftoken);
@@ -325,7 +325,7 @@
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    $('#cardknox').before('<div class="alert alert-danger"><i class="fa fa-exclamation"></i> ' + textStatus + ' ' + errorThrown + '</div>');
+                    $('#cardknox').before('<div class="alert alert-danger"><i class="fa fa-exclamation-triangle"></i> ' + textStatus + ' ' + errorThrown + '</div>');
                     submitSent = false;
                 }
             });

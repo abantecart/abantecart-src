@@ -2595,8 +2595,9 @@ class ZonesHtmlElement extends HtmlElement
         foreach ($results as $result) {
             // default zone_id is zone of shop
             if ($result['zone_id'] == $config_zone_id) {
-                $this->default_zone_value =
-                    $this->submit_mode == 'id' ? [$config_zone_id] : [$result['name'] => $result['name']];
+                $this->default_zone_value = $this->submit_mode == 'id'
+                    ? [$config_zone_id]
+                    : [$result['name'] => $result['name']];
                 $this->default_zone_name = $result['name'];
             }
 

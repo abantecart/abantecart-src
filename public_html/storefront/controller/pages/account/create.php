@@ -179,14 +179,6 @@ class ControllerPagesAccountCreate extends AController
                 'value' => $this->request->post['telephone'],
             ]
         );
-        $this->data['form']['fields']['general']['fax'] = $form->getFieldHtml(
-            [
-                'type'     => 'input',
-                'name'     => 'fax',
-                'value'    => $this->request->post['fax'],
-                'required' => false,
-            ]
-        );
 
         //get only active IM drivers
         $im_drivers = $this->im->getIMDriverObjects();

@@ -477,6 +477,9 @@ class ControllerPagesExtensionExtensions extends AController
                                 $field1 = $item['field1'];
                                 $field2 = $item['field2'];
                                 foreach ($res as $opt) {
+                                    if($item['allowed']  && !in_array($opt[$field1], $item['allowed'])){
+                                        continue;
+                                    }
                                     $data['options'][$opt[$field1]] = $opt[$field2];
                                 }
                             }
@@ -523,6 +526,11 @@ class ControllerPagesExtensionExtensions extends AController
                     if ($item['name'] == $extension.'_status') {
                         $data['style'] .= " status_switch";
                     }
+                    break;
+                case 'zones':
+                    $data['submit_mode'] = 'id';
+                    $data['zone_field_name'] = $data['name'].'_zone';
+                    $data['zone_value'] = $this->config->get($data['name'].'_zone');
                     break;
                 case 'resource':
                     $item['resource_type'] = (string) $item['resource_type'];
