@@ -463,19 +463,22 @@ class ModelCheckoutOrder extends Model
                     ];
                     $this->load->model('catalog/product');
                     $stock = $this->model_catalog_product->hasAnyStock((int) $product['product_id']);
-                    if ($stock <= 0 && $this->config->get('config_nostock_autodisable')
-                        && (int) $product['product_id']) {
-                        $this->db->query(
-                            'UPDATE '.$this->db->table('products').' 
+                    $threshold = $this->config->get('product_out_of_stock_threshold');
+                    if ($stock <= $threshold && $this->config->get('config_nostock_autodisable')
+                        && (int) $product['product_id'] )  {
+                        if($stock <= 0){
+                            $this->db->query(
+                                'UPDATE '.$this->db->table('products').' 
                             SET status=0 WHERE product_id='.(int) $product['product_id']
+                            );
+                        }
+                        $this->im->send(
+                            'product_out_of_stock',
+                            $message_arr,
+                            'storefront_product_out_of_stock_admin_notify',
+                            $product
                         );
                     }
-                    $this->im->send(
-                        'product_out_of_stock',
-                        $message_arr,
-                        'storefront_product_out_of_stock_admin_notify',
-                        $product
-                    );
                 }
             }
 
