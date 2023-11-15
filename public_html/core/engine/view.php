@@ -64,7 +64,7 @@ class AView
     protected $html_cache_key;
 
     /** @var array */
-    protected $restrictedFields = ['model'=>''];
+    protected $restrictedKeys = [];
 
     /**
      * @param Registry $registry
@@ -171,10 +171,8 @@ class AView
         if (empty($template_variable)) {
             return;
         }
-        foreach ($this->restrictedFields as $k => $restricted){
-            if($k == $template_variable){
-                throw new AException(AC_ERR_CONNECT_METHOD, 'You are using a reserved variable model in the output!');
-            }
+        if(in_array($template_variable, $this->restrictedKeys)){
+            throw new AException(AC_ERR_CONNECT_METHOD, 'You are using a reserved variable model in the output!');
         }
         if (!is_null($value)) {
             $this->data[$template_variable] = $value;
@@ -218,6 +216,9 @@ class AView
         }
 
         foreach ($assign_arr as $key => $value) {
+            if(in_array($key, $this->restrictedKeys)){
+                throw new AException(AC_ERR_CONNECT_METHOD, 'You are using a reserved variable model in the output!');
+            }
             //when key already defined and type of old and new values are different send warning in debug-mode
             if (isset($this->data[$key]) && is_object($this->data[$key])) {
                 $warning_text = 'Warning! Variable "'.$key.'" in template "'
