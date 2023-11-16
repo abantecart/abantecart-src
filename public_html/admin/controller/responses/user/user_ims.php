@@ -139,9 +139,9 @@ class ControllerResponsesUserUserIMs extends AController
             $this->data['form']['fields']['threshold'] = $form->getFieldHtml(array(
                 'type'  => 'number',
                 'name'  => 'product_out_of_stock_threshold',
-                'text'  => $this->language->get('im_threshold'),
                 'value' => $this->config->get('product_out_of_stock_threshold'),
             ));
+            $this->data['entry_im_threshold'] = $this->language->get('im_threshold');
         }
         $this->view->batchAssign($this->data);
         $this->processTemplate('/responses/user/user_im_settings.tpl');
@@ -184,11 +184,14 @@ class ControllerResponsesUserUserIMs extends AController
                 $this->session->data['current_store_id'],
                 $this->request->post['settings']
             );
-            $this->load->model('setting/setting');
-            $this->model_setting_setting->editSetting('product_out_of_stock_threshold',
-                array(
-                    'product_out_of_stock_threshold'=>
-                        isset($this->request->post['product_out_of_stock_threshold'])));
+
+             if(isset($this->request->post['product_out_of_stock_threshold'])){
+                $this->load->model('setting/setting');
+                $this->model_setting_setting->editSetting('product_out_of_stock_threshold',
+                    array(
+                        'product_out_of_stock_threshold'=>
+                            $this->request->post['product_out_of_stock_threshold']));
+            }
 
             $output['result_text'] = $this->language->get('text_settings_success_saved');
 
