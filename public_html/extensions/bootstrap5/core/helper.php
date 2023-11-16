@@ -50,7 +50,8 @@ function renderSFMenu($menuItems, $level = 0, $parentId = '', $options = [ ])
         if ($rl_id) {
             $resource = $ar->getResource($rl_id);
             if ($resource['resource_path'] && is_file(DIR_RESOURCE.'image/'.$resource['resource_path'])) {
-                $icon = '<img class="menu_image" src="'.HTTPS_DIR_RESOURCE.'image/'.$resource['resource_path'].'" />';
+                //set relative path here because of cdn-extension
+                $icon = '<img class="menu_image" src="resources/image/'.$resource['resource_path'].'" />';
             } elseif ($resource['resource_code']) {
                 $icon = $resource['resource_code'];
             }
