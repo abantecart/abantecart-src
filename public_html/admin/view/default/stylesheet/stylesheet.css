@@ -3685,3 +3685,7 @@ blockquote p::before {
 blockquote p::after {
 	content: '\201D';
 }
+
+.common_content_actions {
+	display: flex;
+}
