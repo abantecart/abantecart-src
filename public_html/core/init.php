@@ -428,7 +428,7 @@ try {
         }
     }
 
-    $registry->get('response')->addHeader('Access-Control-Allow-Origin: '.$_SERVER['REQUEST_SCHEME'].'//'.REAL_HOST);
+    $registry->get('response')->addHeader('Access-Control-Allow-Origin: '.$_SERVER['REQUEST_SCHEME'].'://'.REAL_HOST);
 //Messages
     $registry->set('messages', new AMessage());
 
