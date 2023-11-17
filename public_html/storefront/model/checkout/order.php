@@ -451,7 +451,8 @@ class ModelCheckoutOrder extends Model
                         WHERE product_option_value_id = '".(int) $option['product_option_value_id']."'
                             AND subtract = 1";
                 $res = $this->db->query($sql);
-                if ($res->num_rows && $res->row['quantity'] <= 0) {
+                $threshold = $this->config->get('product_out_of_stock_threshold');
+                if ($res->num_rows && $res->row['quantity'] <= $threshold) {
                     //notify admin with out of stock for option based product
                     $message_arr = [
                         1 => [
@@ -463,13 +464,11 @@ class ModelCheckoutOrder extends Model
                     ];
                     $this->load->model('catalog/product');
                     $stock = $this->model_catalog_product->hasAnyStock((int) $product['product_id']);
-                    $threshold = $this->config->get('product_out_of_stock_threshold');
-                    if ($stock <= $threshold && $this->config->get('config_nostock_autodisable')
-                        && (int) $product['product_id'] )  {
-                        if($stock <= 0){
+                    if ($stock <= $threshold && (int)$product['product_id']) {
+                        if ($stock <= 0 && $this->config->get('config_nostock_autodisable')) {
                             $this->db->query(
                                 'UPDATE '.$this->db->table('products').' 
-                            SET status=0 WHERE product_id='.(int) $product['product_id']
+                            SET status=0 WHERE product_id='.(int)$product['product_id']
                             );
                         }
                         $this->im->send(
@@ -501,7 +500,8 @@ class ModelCheckoutOrder extends Model
                         FROM ".$this->db->table("products")."
                         WHERE product_id = '".(int) $product['product_id']."' AND subtract = 1";
                 $res = $this->db->query($sql);
-                if ($res->num_rows && $res->row['quantity'] <= 0) {
+                $threshold = $this->config->get('product_out_of_stock_threshold');
+                if ($res->num_rows && $res->row['quantity'] <= $threshold) {
                     //notify admin with out of stock
                     $message_arr = [
                         1 => [
@@ -513,20 +513,20 @@ class ModelCheckoutOrder extends Model
                     ];
                     $this->load->model('catalog/product');
                     $stock = $this->model_catalog_product->hasAnyStock((int) $product['product_id']);
-                    if ($stock <= 0 && $this->config->get('config_nostock_autodisable')
-                        && (int) $product['product_id']) {
-                        $this->db->query(
-                            'UPDATE '.$this->db->table('products').' 
-                            SET status=0 
-                            WHERE product_id='.(int) $product['product_id']
+                    if ($stock <= $threshold && (int)$product['product_id']) {
+                        if ($stock <= 0 && $this->config->get('config_nostock_autodisable')) {
+                            $this->db->query(
+                                'UPDATE '.$this->db->table('products').' 
+                            SET status=0 WHERE product_id='.(int)$product['product_id']
+                            );
+                        }
+                        $res = $this->im->send(
+                            'product_out_of_stock',
+                            $message_arr,
+                            'storefront_product_out_of_stock_admin_notify',
+                            $product
                         );
                     }
-                    $this->im->send(
-                        'product_out_of_stock',
-                        $message_arr,
-                        'storefront_product_out_of_stock_admin_notify',
-                        $product
-                    );
                 }
             }
         }
