@@ -406,6 +406,7 @@ class ACart
             'categories'         => $product_query['categories'],
             'name'               => $product_query['name'],
             'model'              => $product_query['model'],
+            'manufacturer_id'    => $product_query['manufacturer_id'],
             'shipping'           => $product_query['shipping'],
             'option'             => $option_data,
             'download'           => $download_data,

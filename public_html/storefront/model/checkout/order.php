@@ -468,7 +468,7 @@ class ModelCheckoutOrder extends Model
                         if ($stock <= 0 && $this->config->get('config_nostock_autodisable')) {
                             $this->db->query(
                                 'UPDATE '.$this->db->table('products').' 
-                            SET status=0 WHERE product_id='.(int)$product['product_id']
+                            SET status=0 WHERE product_id='.(int) $product['product_id']
                             );
                         }
                         $this->im->send(
