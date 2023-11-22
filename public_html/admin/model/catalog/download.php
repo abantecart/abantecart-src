@@ -54,7 +54,7 @@ class ModelCatalogDownload extends Model
                   expire_days = ".((int) $data['expire_days'] ? "'".(int) $data['expire_days']."'" : 'NULL').",
                   sort_order = '".(int) $data['sort_order']."',
                   activate = '".$this->db->escape($data['activate'])."',
-                  activate_order_status_id = '".serialize($data['activate_order_status_id'])."',
+                  activate_order_status_id = '".$this->db->escape(serialize($data['activate_order_status_id']))."',
                   status = '".(int) $data['status']."',
                   date_added = NOW()"
         );
