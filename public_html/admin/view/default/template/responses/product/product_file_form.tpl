@@ -87,6 +87,10 @@
 							</div>
 							<?php } else { ?>
 							<div class="input-group afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
+                                <?php if ($field->type == 'checkboxgroup') {
+                                    echo '<div class="c_wrapper">'.$field.'</div>';
+                                    $field = '';
+                                } ?>
 							<?php echo $field; ?>
 							<?php if($section=='attributes' && $field->type=='radio'){ echo '<a class="btn uncheck">[x]</a>';} ?>
 							</div>
@@ -147,7 +151,7 @@ $(document).ready(function(){
 
 	$('#downloadFrm_activate').on('change', function () {
 		if ($(this).val() !== 'order_status') {
-			$('#downloadFrm_activate_order_status_id').fadeOut().next('.input-group-addon').fadeOut();
+			$('#downloadFrm_activate_order_status_id').parent('.c_wrapper').fadeOut();
 
             var parent = $('#downloadFrm_max_downloads, #downloadFrm_expire_days').parents('.form-group');
 			if($(this).val() === 'before_order'){
@@ -156,12 +160,11 @@ $(document).ready(function(){
                 parent.fadeIn();
 			}
 		} else {
-			$('#downloadFrm_activate_order_status_id').fadeIn().next('.input-group-addon').fadeIn();
+			$('#downloadFrm_activate_order_status_id').parent('.c_wrapper').fadeIn();
 			$('#downloadFrm_max_downloads, #downloadFrm_expire_days').parents('.form-group').fadeIn();
 		}
 	});
     $('#downloadFrm_activate').change();
-
 	$('#downloadFrm').submit(function () {
 		$.ajax(
 				{   url: '<?php echo $form['form_open']->action; ?>',

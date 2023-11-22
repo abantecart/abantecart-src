@@ -1476,14 +1476,14 @@ class ControllerResponsesProductProduct extends AController
             + array_column($order_statuses, 'name', 'order_status_id');
         unset($options[0]);
 
-        $this->data['form']['fields']['general']['activate'] .= $form->getFieldHtml(
+        $this->data['form']['fields']['general']['activate_status'] = $form->getFieldHtml(
             [
-                'type'     => 'selectbox',
-                'name'     => 'activate_order_status_id',
-                'value'    => $file_data['activate_order_status_id'],
+                'type'     => 'checkboxgroup',
+                'name'     => 'activate_order_status_id[]',
+                'value'    => unserialize($file_data['activate_order_status_id']),
                 'options'  => $options,
                 'required' => true,
-                'style'    => ' no-save ',
+                'style'    => ' no-save chosen ',
             ]
         );
 
