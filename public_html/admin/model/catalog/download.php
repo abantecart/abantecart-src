@@ -54,7 +54,7 @@ class ModelCatalogDownload extends Model
                   expire_days = ".((int) $data['expire_days'] ? "'".(int) $data['expire_days']."'" : 'NULL').",
                   sort_order = '".(int) $data['sort_order']."',
                   activate = '".$this->db->escape($data['activate'])."',
-                  activate_order_status_id = '".(int) $data['activate_order_status_id']."',
+                  activate_order_status_id = '".$this->db->escape(serialize($data['activate_order_status_id']))."',
                   status = '".(int) $data['status']."',
                   date_added = NOW()"
         );
@@ -93,7 +93,6 @@ class ModelCatalogDownload extends Model
         if (!(int) $download_id || !$data) {
             return false;
         }
-
         $fields = [
             'filename'                 => 'string',
             'mask'                     => 'string',
@@ -102,7 +101,7 @@ class ModelCatalogDownload extends Model
             'expire_days'              => 'int',
             'sort_order'               => 'int',
             'activate'                 => 'string',
-            'activate_order_status_id' => 'int',
+            'activate_order_status_id' => 'string',
             'status'                   => 'int',
         ];
 
@@ -119,7 +118,11 @@ class ModelCatalogDownload extends Model
         foreach ($fields as $field_name => $type) {
             if (isset($data[$field_name])) {
                 if ($type == 'string') {
-                    $update[] = "`".$field_name."` = '".$this->db->escape($data[$field_name])."'";
+                    if($field_name == 'activate_order_status_id'){
+                        $update[] = "`".$field_name."` = '".$this->db->escape(serialize($data[$field_name]))."'";
+                    }else {
+                        $update[] = "`".$field_name."` = '".$this->db->escape($data[$field_name])."'";
+                    }
                 } elseif ($type == 'int') {
                     if (in_array($field_name, ['max_downloads', 'expire_days'])) {
                         $update[] = "`".$field_name."` = ".((int) $data[$field_name]
