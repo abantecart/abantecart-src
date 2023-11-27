@@ -481,7 +481,7 @@ class ModelCheckoutOrder extends Model
                 }
             }
 
-            if (!$stock_updated) {
+            if (!$stock_updated && !$order_option_query->num_rows) {
                 $this->db->query(
                     "UPDATE ".$this->db->table("products")."
                     SET quantity = (quantity - ".(int) $product['quantity'].")
