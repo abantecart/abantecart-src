@@ -777,7 +777,7 @@ CREATE TABLE `ac_downloads` (
   `expire_days` int(11) DEFAULT NULL,  -- default to NULL -> No expiration
   `sort_order` int(11) NOT NULL,
   `activate` varchar(64) NOT NULL,
-  `activate_order_status_id` int(11) NOT NULL DEFAULT '0',
+  `activate_order_status_id` varchar(256) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `shared` int(1) NOT NULL DEFAULT '0', -- if used by other products set to 1
   `status` int(1) NOT NULL DEFAULT '0', -- in migration set to 1
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
