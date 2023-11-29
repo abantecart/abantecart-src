@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>novator_name</key>
+    <value><![CDATA[Novator]]></value>
+  </definition>
+  <definition>
+    <key>text_badge_sale</key>
+    <value><![CDATA[SALE]]></value>
+  </definition>
+</definitions>
