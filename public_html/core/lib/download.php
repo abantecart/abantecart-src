@@ -682,9 +682,9 @@ class ADownload
         } elseif ($download_info['remaining_count'] == '0') {
             $text_status = $this->language->get('text_reached_limit');
         }
-
-        if (unserialize($download_info['activate_order_status_id']) > 0) {
-            if (unserialize($download_info['activate_order_status_id']) != (int) $download_info['order_status_id']) {
+        $activateStatuses = (array) unserialize($download_info['activate_order_status_id']);
+        if (count($activateStatuses) > 0) {
+            if (!in_array((int) $download_info['order_status_id'], $activateStatuses)) {
                 $text_status = $this->language->get('text_pending');
             }
         }
