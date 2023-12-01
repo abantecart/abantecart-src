@@ -67,8 +67,8 @@ $rm = new AResourceManager();
 $rm->setType('image');
 
 $result = copy(
-    DIR_EXT.'novator'.DS.'image'.DS.'abc-logo-white.png',
-    DIR_RESOURCE.'image'.DS.'abc-logo-white.png'
+    DIR_EXT.'novator'.DS.'image'.DS.'abc-logo.png',
+    DIR_RESOURCE.'image'.DS.'abc-logo.png'
 );
 
 $resource = [
@@ -81,9 +81,9 @@ $resource = [
 ];
 
 foreach ($language_list as $lang) {
-    $resource['name'][$lang['language_id']] = 'abc-logo-white';
-    $resource['title'][$lang['language_id']] = 'abc-logo-white';
-    $resource['description'][$lang['language_id']] = 'abc-logo-white.png';
+    $resource['name'][$lang['language_id']] = 'abc-logo';
+    $resource['title'][$lang['language_id']] = 'abc-logo';
+    $resource['description'][$lang['language_id']] = 'abc-logo.png';
 }
 $resource_id = $rm->addResource($resource);
 
