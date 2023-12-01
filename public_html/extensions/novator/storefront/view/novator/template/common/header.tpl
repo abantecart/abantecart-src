@@ -1,5 +1,4 @@
 <div class="d-none d-lg-block ">
-    
         <div class="top-bar fixed-top py-4" role="navigation">
             <div class="container">
                 <div class="row">
