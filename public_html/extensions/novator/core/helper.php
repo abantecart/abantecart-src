@@ -118,3 +118,13 @@ function renderRatingStarsNv($value, $text){
     }
     return $output.'</div>';
 }
+
+function noRatingStarsNv($text){
+    $i = 1;
+    $output = '<div title="'.htmlspecialchars($text, ENT_QUOTES, 'UTF-8').'">';
+    while($i < 6){
+        $output .= '<i class="fa-star fa-regular"></i>';
+        $i++;
+    }
+    return $output.'</div>';
+}
