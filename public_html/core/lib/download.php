@@ -255,7 +255,7 @@ class ADownload
                                 remaining_count = ".((int) $download['max_downloads'] ? "'"
                 .(int) $download['max_downloads']."'" : 'NULL').",
                                 status = '".(int) $download['status']."',
-                                activate_order_status_id = '".(int) $download['activate_order_status_id']."',
+                                activate_order_status_id = '". $this->db->escape(serialize($download['activate_order_status_id'])) ."',
                                 expire_date = ".$expire.",
                                 attributes_data = '".$this->db->escape($download['attributes_data'])."',
                                 date_modified = NOW()
@@ -296,7 +296,7 @@ class ADownload
                                 remaining_count = ".((int) $download['max_downloads'] ? "'"
                 .(int) $download['max_downloads']."'" : 'NULL').",
                                 status = '".(int) $download['status']."',
-                                activate_order_status_id = '".(int) $download['activate_order_status_id']."',
+                                activate_order_status_id = '".$this->db->escape(serialize($download['activate_order_status_id']))."',
                                 expire_date = ".$expire.",
                                 attributes_data = '".$this->db->escape($download['attributes_data'])."',
                                 date_modified = NOW(),
@@ -682,9 +682,9 @@ class ADownload
         } elseif ($download_info['remaining_count'] == '0') {
             $text_status = $this->language->get('text_reached_limit');
         }
-
-        if (unserialize($download_info['activate_order_status_id']) > 0) {
-            if (unserialize($download_info['activate_order_status_id']) != (int) $download_info['order_status_id']) {
+        $activateStatuses = (array) unserialize($download_info['activate_order_status_id']);
+        if (count($activateStatuses) > 0) {
+            if (!in_array((int) $download_info['order_status_id'], $activateStatuses)) {
                 $text_status = $this->language->get('text_pending');
             }
         }
