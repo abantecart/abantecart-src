@@ -86,6 +86,6 @@
   	</definition>
 	<definition>
 		<key>im_threshold</key>
-		<value><![CDATA[Stock threshold notification]]></value>
+		<value><![CDATA[Minimum stock level threshold]]></value>
 	</definition>
 </definitions>
