@@ -255,7 +255,7 @@ class ADownload
                                 remaining_count = ".((int) $download['max_downloads'] ? "'"
                 .(int) $download['max_downloads']."'" : 'NULL').",
                                 status = '".(int) $download['status']."',
-                                activate_order_status_id = '".(int) $download['activate_order_status_id']."',
+                                activate_order_status_id = '". $this->db->escape(serialize($download['activate_order_status_id'])) ."',
                                 expire_date = ".$expire.",
                                 attributes_data = '".$this->db->escape($download['attributes_data'])."',
                                 date_modified = NOW()
@@ -296,7 +296,7 @@ class ADownload
                                 remaining_count = ".((int) $download['max_downloads'] ? "'"
                 .(int) $download['max_downloads']."'" : 'NULL').",
                                 status = '".(int) $download['status']."',
-                                activate_order_status_id = '".(int) $download['activate_order_status_id']."',
+                                activate_order_status_id = '".$this->db->escape(unserialize($download['activate_order_status_id']))."',
                                 expire_date = ".$expire.",
                                 attributes_data = '".$this->db->escape($download['attributes_data'])."',
                                 date_modified = NOW(),
