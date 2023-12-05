@@ -1,5 +1,5 @@
 <?php
-
+/** @var $this AExtensionManager */
 
 if (! defined ( 'DIR_CORE' )) {
  header ( 'Location: static_pages/' );
@@ -9,8 +9,14 @@ if (! defined ( 'DIR_CORE' )) {
 $extension_id = 'novator';
 // delete template layouts
 try{
-$layout = new ALayoutManager($extension_id);
-$layout->deleteTemplateLayouts();
+    if($this->config->get('config_storefront_template') == $extension_id){
+        /** @var ModelSettingSetting $mdl */
+        $mdl = $this->load->model('setting/setting');
+        $mdl->editSetting('appearance',['config_storefront_template' => 'default']);
+    }
+
+    $layout = new ALayoutManager($extension_id);
+    $layout->deleteTemplateLayouts();
 }catch(AException $e){}
 
 $rm = new AResourceManager();

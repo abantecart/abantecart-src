@@ -14,7 +14,7 @@
                    class="btn btn-outline-danger m-2"><i class="fa fa-trash fa-fw"></i></a>
             <?php } ?>
             <button id="apply_coupon_btn" title="<?php echo_html2view($submit->name); ?>"
-                    class="btn btn-success" type="submit">
+                    class="btn btn-outline-primary" type="submit">
             <i class="fa fa-check"></i>
             <?php echo $submit->name; ?>
             </button>

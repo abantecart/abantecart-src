@@ -1,4 +1,140 @@
 <?php
+
+function renderAllCategoriesSFMenuNv(array $menuItems, $level = 0, $parentId = '', $options = [ ]){
+
+    $menuItems = (array) $menuItems;
+    if (!$menuItems || $level>1 //only 2 levels of category tree
+    ) {
+        return '';
+    }
+    $idKey = $options['id_key_name'] ?: 'id';
+
+    if($level==0) {
+        $output = '<div class="dropdown list-unstyled category-links" aria-labelledby="' . $parentId . '" ' . $options['submenu_level']['attr'] . '>';
+    }else{
+        $output = '<div class="dropdown-menu dropdown-submenu list-unstyled category-sub-links" aria-labelledby="' . $parentId . '" ' . $options['submenu_level']['attr'] . '>';
+    }
+
+
+    //$ar = new AResource('image');
+    foreach ($menuItems as $i => $item) {
+
+        if (!is_array($item)) {
+            unset($menuItems[$i]);
+            continue;
+        }
+        $item_title = $item['text'] ?: $item['title'] ?: $item['name'];
+
+        $hasChild = (bool) $item['children'];
+        if ($hasChild) {
+            $id = 'menu_'.$item[$idKey];
+            $css = 'dropdown-toggle text-nowrap '. ($level ? 'dropdown-item ' : '');
+            $output .= '<div class="dropend d-flex flex-column col-6">
+                            <a id="'.$id.'" href="'.$item['href'].'" 
+                                class="dropdown-toggle text-nowrap '. ($level ? 'dropdown-item ' : '').'" 
+                                data-bs-toggle="dropdown" data-bs-target="dropdown"
+                                aria-expanded="false" data-bs-offset="10,20">'
+                            . $item_title. '</a>';
+
+            $params = [
+                'menuItems' => $item['children'],
+                'level' => $level + 1,
+                'parentId' => $id,
+                'options' => [
+                    'id_key_name' => $idKey
+                ]
+            ];
+
+            // for case when pass options into deep of menu
+            if($options['pass_options_recursively']){
+                $params['options'] = array_merge($params['options'], $options['submenu_options']);
+            }
+
+            $output .= call_user_func_array('renderAllCategoriesSFMenuNv',$params).'</div>';
+        } else {
+            $output .= '<a href="'.$item['href'].'" class="'.$css.'" >'.$icon.$item_title.'</a>';
+        }
+    }
+
+    $output .= "</div>\n";
+    return $output;
+}
+
+
+function prepareNVCatItems($items)
+{
+    foreach ($items as &$cat){
+        unset($cat['thumb']);
+        if($cat['level'] == 0){
+            unset($cat['icon']);
+        }
+        if($cat['children']){
+            $cat['children'] = prepareNVCatItems($cat['children']);
+        }
+    }
+    return $items;
+}
+
+function renderCategoryNavbarSFMenuNv(array $menuItems, $level = 0, $parentId = '', $options = [ ]){
+
+    $menuItems = (array) $menuItems;
+    if (!$menuItems || $level>1 //only 2 levels of category tree
+    ) {
+        return '';
+    }
+    $idKey = $options['id_key_name'] ?: 'id';
+
+    if($level==0) {
+        $output = '<div class="dropdown mega-menu me-3 me-sm-0 mb-3 mb-lg-0">';
+    }else{
+        $output = '<div class="dropdown-menu list-unstyled category-sub-links" aria-labelledby="' . $parentId . '" ' . $options['submenu_level']['attr'] . '>';
+    }
+
+
+    //$ar = new AResource('image');
+    foreach ($menuItems as $i => $item) {
+
+        if (!is_array($item)) {
+            unset($menuItems[$i]);
+            continue;
+        }
+        $item_title = $item['text'] ?: $item['title'] ?: $item['name'];
+
+        $hasChild = (bool) $item['children'];
+        if ($hasChild) {
+            $id = 'menu_'.$item[$idKey];
+            $css = 'dropdown-toggle text-nowrap '. ($level ? 'dropdown-item ' : '');
+            $output .= '<a id="'.$id.'" href="'.$item['href'].'" 
+                                class="nav-link dropdown-toggle text-nowrap " 
+                                data-bs-toggle="dropdown" data-bs-target="dropdown"
+                                aria-expanded="false">'
+                . $item_title. '</a>';
+
+            $params = [
+                'menuItems' => $item['children'],
+                'level' => $level + 1,
+                'parentId' => $id,
+                'options' => [
+                    'id_key_name' => $idKey
+                ]
+            ];
+
+            // for case when pass options into deep of menu
+            if($options['pass_options_recursively']){
+                $params['options'] = array_merge($params['options'], $options['submenu_options']);
+            }
+
+            $output .= call_user_func_array('renderCategoryNavbarSFMenuNv',$params);
+        } else {
+            $output .= '<a href="'.$item['href'].'" class="'.$css.'" >'.$icon.$item_title.'</a>';
+        }
+    }
+
+    $output .= "</div>\n";
+    return $output;
+}
+
+
 // recursive function!
 
 /**
@@ -24,9 +160,9 @@ function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
     $idKey = $options['id_key_name'] ?: 'id';
 
     if ($level == 0) {
-        // Hello Abentacart team you need to check here Starts
+        // Hello AbanteCart team you need to check here Starts
         $output .= '<div '.($options['top_level']['attr'] ?: 'class="navbar-nav ms-auto me-auto mb-2 mb-lg-0 align-items-start"').'>';
-        // Hello Abentacart team you need to check here ends
+        // Hello AbanteCart team you need to check here ends
     } else {
         $output .= '<div class="dropdown-menu dropdown-mega-menu'.($level > 1 ? 'dropdown-submenu' : '').'" aria-labelledby="'.$parentId.'" '.$options['submenu_level']['attr'].'>';
     }
@@ -114,6 +250,16 @@ function renderRatingStarsNv($value, $text){
     $output = '<div title="'.htmlspecialchars($text, ENT_QUOTES, 'UTF-8').'">';
     while($i < 6){
         $output .= '<i class="fa-star '.($i<=$value ? 'fa-solid' : 'fa-regular').'"></i>';
+        $i++;
+    }
+    return $output.'</div>';
+}
+
+function noRatingStarsNv($text){
+    $i = 1;
+    $output = '<div title="'.htmlspecialchars($text, ENT_QUOTES, 'UTF-8').'">';
+    while($i < 6){
+        $output .= '<i class="fa-star fa-regular"></i>';
         $i++;
     }
     return $output.'</div>';

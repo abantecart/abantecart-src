@@ -14,7 +14,7 @@ File: style.css
   --pc-active-background: #B5B5BC;
   --pc-body-alt-color: #F6F6FB;
   --top-bar-bg: #fff;
-  --pc-card-box-shadow: 0px 8px 24px rgba(27, 46, 94, 0.12);
+  --pc-card-box-shadow: 0 8px 24px rgba(27, 46, 94, 0.12);
   --Black-1: #000;
   --Grey-2: #4B4C4F;
   --Grey-3: #828282;
@@ -710,7 +710,7 @@ textarea.form-control-lg {
 
 .input-group .btn:focus {
   z-index: 5;
-} */
+}
 
 .input-group-text {
   padding: 0.8rem 0.75rem;
@@ -1791,7 +1791,7 @@ section {
 }
 
 .nav-tabs .nav-item {
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 
 .nav-tabs .nav-item .nav-link {
@@ -1847,7 +1847,7 @@ section {
   line-height: 1;
   width: 60px;
   height: 60px;
-  border-radius: 20px 0px 0px 20px;
+  border-radius: 20px 0 0 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1906,7 +1906,7 @@ section {
 
 .top-bar .input-group .dropdown-menu {
   min-width: 180px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 .top-bar .input-group .dropdown-menu .dropdown-item {
@@ -1979,7 +1979,7 @@ section {
 .top-bar .btn-group .dropdown-menu,
 .menu-offcanvas .btn-group .dropdown-menu {
   min-width: 99px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 .top-bar .btn-group .dropdown-menu .dropdown-item,
@@ -2024,7 +2024,7 @@ section {
   background: var(--bs-primary);
   width: 30px;
   height: 6px;
-  border-radius: 2px 2px 0px 0px;
+  border-radius: 2px 2px 0 0;
 }
 
 .navbar .dropdown-toggle:after {
@@ -2046,9 +2046,9 @@ section {
   right: 0;
   padding: 45px 30px;
   border: none;
-  border-radius: 0px 0px 12px 12px;
+  border-radius: 0 0 12px 12px;
   background: #fff;
-  box-shadow: 0px 4px 60px 0px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 60px 0 rgba(0, 0, 0, 0.05);
 }
 
 .navbar .mega-menu .category-title {
@@ -2181,7 +2181,7 @@ section {
 .menu-offcanvas .btn-icon svg {
   width: 20px;
   height: 20px;
-  margin-right: 0px;
+  margin-right: 0;
 }
 
 .menu-offcanvas .list-group-item {
@@ -2503,7 +2503,7 @@ section {
   padding: 22px 24px 22px 24px;
   border-radius: 10px;
   border: 1px solid var(--Grey-5);
-  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.0509803922), 0px 6px 13px 0px rgba(0, 0, 0, 0.0509803922), 0px 24px 24px 0px rgba(0, 0, 0, 0.0392156863), 0px 54px 33px 0px rgba(0, 0, 0, 0.031372549), 0px 97px 39px 0px rgba(0, 0, 0, 0.0117647059), 0px 151px 42px 0px rgba(0, 0, 0, 0);
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.0509803922), 0 6px 13px 0 rgba(0, 0, 0, 0.0509803922), 0 24px 24px 0 rgba(0, 0, 0, 0.0392156863), 0 54px 33px 0 rgba(0, 0, 0, 0.031372549), 0 97px 39px 0 rgba(0, 0, 0, 0.0117647059), 0 151px 42px 0 rgba(0, 0, 0, 0);
 }
 
 .brand-section .owl-carousel .owl-stage-outer {
@@ -2557,7 +2557,7 @@ section {
 .comment-section .comment-card {
   width: 745px;
   border: 1px solid #E0E0E0;
-  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.0509803922), 0px 6px 13px 0px rgba(0, 0, 0, 0.0509803922), 0px 24px 24px 0px rgba(0, 0, 0, 0.0392156863), 0px 54px 33px 0px rgba(0, 0, 0, 0.031372549), 0px 97px 39px 0px rgba(0, 0, 0, 0.0117647059), 0px 151px 42px 0px rgba(0, 0, 0, 0);
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.0509803922), 0 6px 13px 0 rgba(0, 0, 0, 0.0509803922), 0 24px 24px 0 rgba(0, 0, 0, 0.0392156863), 0 54px 33px 0 rgba(0, 0, 0, 0.031372549), 0 97px 39px 0 rgba(0, 0, 0, 0.0117647059), 0 151px 42px 0 rgba(0, 0, 0, 0);
 }
 
 .comment-section .owl-dots {
@@ -2824,7 +2824,7 @@ section {
 }
 
 .prod-list-card {
-  box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.1019607843);
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.1019607843);
   margin-bottom: 20px;
   border: none;
 }
@@ -2983,7 +2983,7 @@ section {
   display: none;
 }
 .account-card .badge {
-  right: 0px;
+  right: 0;
 }
 .account-card:hover {
   color: var(--bs-primary);
@@ -3560,3 +3560,31 @@ section {
 .form-control#product_quantity{
   width: 80px !important;
 }
+
+/* auto-open for dropdowns */
+
+.dropdown:hover>.dropdown-menu {
+  display: block;
+}
+
+.dropdown .dropdown-menu {
+  display: none;
+}
+.dropdown:hover > .dropdown-menu,
+.dropend:hover > .dropdown-menu {
+  display: block;
+  margin-top: 0.125em;
+  margin-left: 0;
+}
+
+
+/*.dropdown.mega-menu li.dropdown{*/
+/*  max-width: 300px;*/
+/*}*/
+
+/*.dropdown.mega-menu .dropdown-submenu{*/
+/*  top:0;*/
+/*  float:right;*/
+/*  left:20rem;*/
+/*  !*border: 0;*!*/
+/*}*/
