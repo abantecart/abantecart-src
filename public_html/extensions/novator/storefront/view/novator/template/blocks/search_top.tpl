@@ -1,6 +1,6 @@
 <form id="search_form" action="<?php echo HTTPS_SERVER.INDEX_FILE; ?>" class="d-flex form-search top-search">
     <div class="input-group rounded-1">
-        <button class="btn dropdown-toggle arrow-none border-0 shadow-none d-inline-flex align-items-center justify-content-space-between" id="filter-keyword" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <button class="btn dropdown-toggle arrow-none border-0 shadow-none d-inline-flex align-items-center justify-content-between" id="filter-keyword" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             <?php echo_html2view($text_keyword); ?> <i class="bi bi-chevron-down"></i>
         </button>
         <?php
@@ -25,7 +25,7 @@
                 foreach ($top_categories as $category) {
                     if ($category['parent_id'] > 0) { continue; } ?>
                     <li class="search-category">
-                        <a class="dropdown-item rounded-1" data-id="0,<?php echo $category['category_id'] ?>"
+                        <a href="#" class="dropdown-item rounded-1" data-id="0,<?php echo $category['category_id'] ?>"
                            id="category_<?php echo $category['category_id'] ?>">
                             <?php echo $category['name'] ?>
                         </a>

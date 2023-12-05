@@ -1863,7 +1863,18 @@ section {
 .theme-change .icon-light {
   display: inline-block;
 }
-
+#product_details{
+  .product-sticky{
+    top: 110px;
+  }
+}
+.prod-desc .tab-content ul li{
+  position: relative;
+}
+.prod-desc .tab-content ul li::before{
+  content: "";
+  pos
+}
 @media (max-width: 575.98px) {
   .theme-change {
     display: none;
@@ -1881,7 +1892,8 @@ section {
 
 .top-bar .input-group .dropdown-toggle {
   border-right: 1px solid #D4D4D4 !important;
-  max-width: 180px;
+  max-width: 100%;
+  width: 205px;
 }
 
 .top-bar .input-group .dropdown-toggle .bi {

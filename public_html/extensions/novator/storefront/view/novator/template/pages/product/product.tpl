@@ -285,9 +285,9 @@ if ($error){ ?>
                                             } else { ?>
                                                 <div class="product-page-add2cart">
                                                     <?php if(!$this->getHookVar('product_add_to_cart_html')) { ?>
-                                                        <a id="product_add_to_cart" class="shadow cart btn btn-success btn-lg w-100 mb-3"
+                                                        <a id="product_add_to_cart" class="btn btn-outline-primary cart"
                                                         href="Javascript:void(0);">
-                                                            <i class="fa-solid fa-cart-plus fa-fw"></i>
+                                                            <i class="bi bi-handbag"></i>
                                                             <?php echo $button_add_to_cart; ?>
                                                         </a>
                                                         <?php } else { ?>
