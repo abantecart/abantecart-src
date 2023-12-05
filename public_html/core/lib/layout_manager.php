@@ -207,10 +207,17 @@ class ALayoutManager
 
         $enabled_templates = $this->extensions->getExtensionsList( $filter );
 
-        $list = array_merge(
-            $layout_data['templates'],
-            array_column($enabled_templates->rows,'key')
-        );
+        if(!$enabled) {
+            $list = array_merge(
+                $layout_data['templates'],
+                array_column($enabled_templates->rows, 'key')
+            );
+        }else{
+            $list = array_merge(
+                array_column($enabled_templates->rows, 'key'),
+                $layout_data['templates']
+            );
+        }
         return array_combine($list,$list);
     }
 

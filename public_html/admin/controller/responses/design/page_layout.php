@@ -54,7 +54,7 @@ class ControllerResponsesDesignPageLayout extends AController
             [
                 'type'    => 'selectbox',
                 'name'    => 'tmpl_id',
-                'options' => $layout->getTemplateList(),
+                'options' => $layout->getTemplateList(true),
                 'value'   => $this->request->get['tmpl_id'],
                 'require' => true
             ]

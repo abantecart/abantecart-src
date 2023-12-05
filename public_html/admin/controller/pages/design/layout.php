@@ -57,7 +57,7 @@ class ControllerPagesDesignLayout extends AController
         $url = '&'.$this->html->buildURI($params);
 
         // get templates
-        $layout_data['templates'] = $layout->getTemplateList();
+        $layout_data['templates'] = $layout->getTemplateList(true);
 
         // breadcrumb path
         $this->document->initBreadcrumb(
