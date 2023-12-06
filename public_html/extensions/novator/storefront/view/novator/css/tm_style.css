@@ -1853,7 +1853,7 @@ section {
   justify-content: center;
   padding: 0 0 0 7px;
   background: var(--bs-dark);
-  color: #fff;
+  color: #fff !important;
 }
 
 .theme-change .icon-dark {
@@ -1868,12 +1868,29 @@ section {
     top: 110px;
   }
 }
+.prod-desc .tab-content ul{
+  list-style: none;
+  padding-left: 0;
+}
 .prod-desc .tab-content ul li{
   position: relative;
+  padding: 8px 0 8px 30px;
 }
 .prod-desc .tab-content ul li::before{
-  content: "";
-  pos
+  content: "\f272";
+  display: inline-block;
+  font-family: bootstrap-icons !important;
+  font-style: normal;
+  position: absolute;
+  top: 10px;
+  left: 0;
+  background: #E7F4FC;
+  color: #164C96;
+  font-size: 14px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  text-align: center;
 }
 @media (max-width: 575.98px) {
   .theme-change {

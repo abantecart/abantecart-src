@@ -204,17 +204,17 @@ if ($error){ ?>
                                                     echo $option['html'];
                                                     continue;
                                                 }?>
+                                                <div class="d-block">
+                                                    <h5 class="text-muted control-label fw-bold">
+                                                        <?php echo $option['name']; ?>
+                                                    </h5>
+                                                </div>
                                             <div class="form-group mb-3 d-flex align-items-center">
                                                 <?php
                                                     echo $this->getHookVar('product_option_'.$option['name'].'_additional_info');
                                                 ?>
                                                 <div class="flex-shrink-0">
                                                     <?php echo $option['html'];	?>
-                                                </div>
-                                                <div class="flex-grow-1 ms-3">
-                                                    <h5 class="text-muted control-label fw-bold mb-0">
-                                                        <?php echo $option['name']; ?>
-                                                    </h5>
                                                 </div>
                                             </div>
                                             <hr class="my-4">
