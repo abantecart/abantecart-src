@@ -81,18 +81,6 @@
           <status>1</status>
           <position>50</position>
         </block>
-        <block>
-          <status>0</status>
-          <position>60</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>70</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>80</position>
-        </block>
       </block>
       <block>
         <block_txt_id>category</block_txt_id>
@@ -279,7 +267,7 @@
           <block_descriptions>
             <block_description>
               <language>english</language>
-              <name><![CDATA[Footer link block main]]></name>
+              <name><![CDATA[Novator Footer link block main]]></name>
               <title><![CDATA[Footer link block main]]></title>
               <block_wrapper><![CDATA[0]]></block_wrapper>
               <block_framed><![CDATA[0]]></block_framed>
@@ -341,22 +329,6 @@
           </templates>
           <status>1</status>
           <position>40</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>50</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>60</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>70</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>80</position>
         </block>
       </block>
       <block>
@@ -447,18 +419,6 @@
           </templates>
           <status>1</status>
           <position>50</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>60</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>70</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>80</position>
         </block>
       </block>
       <block>
@@ -596,24 +556,6 @@
         <position>30</position>
       </block>
       <block>
-        <block_txt_id>column_left</block_txt_id>
-        <controller>common/column_left</controller>
-        <status>0</status>
-        <position>30</position>
-        <block>
-          <block_txt_id>latest</block_txt_id>
-          <controller>blocks/latest</controller>
-          <templates>
-            <template>
-              <parent_block>column_left</parent_block>
-              <template_name>blocks/latest.tpl</template_name>
-            </template>
-          </templates>
-          <status>1</status>
-          <position>10</position>
-        </block>
-      </block>
-      <block>
         <block_txt_id>newsletter_signup</block_txt_id>
         <controller>blocks/newsletter_signup</controller>
         <status>1</status>
@@ -661,7 +603,7 @@
           <block_descriptions>
             <block_description>
               <language>english</language>
-              <name><![CDATA[Icon block]]></name>
+              <name><![CDATA[Novator Icon block]]></name>
               <title><![CDATA[Promo]]></title>
               <block_wrapper><![CDATA[0]]></block_wrapper>
               <block_framed><![CDATA[0]]></block_framed>
@@ -855,7 +797,7 @@
           <block_descriptions>
             <block_description>
               <language>english</language>
-              <name><![CDATA[Featured Banner]]></name>
+              <name><![CDATA[Novator Featured Banner]]></name>
               <title><![CDATA[Featured Banner 1]]></title>
               <block_wrapper><![CDATA[0]]></block_wrapper>
               <block_framed><![CDATA[0]]></block_framed>
@@ -967,7 +909,7 @@
           <block_descriptions>
             <block_description>
               <language>english</language>
-              <name><![CDATA[Making Commerce]]></name>
+              <name><![CDATA[Novator Making Commerce]]></name>
               <title><![CDATA[Making Commerce]]></title>
               <block_wrapper><![CDATA[0]]></block_wrapper>
               <block_framed><![CDATA[0]]></block_framed>
@@ -1004,7 +946,7 @@
           <block_descriptions>
             <block_description>
               <language>english</language>
-              <name><![CDATA[See Our Most Featured Product]]></name>
+              <name><![CDATA[Novator See Our Most Featured Product]]></name>
               <title><![CDATA[See Our Most Featured Product]]></title>
               <block_wrapper><![CDATA[0]]></block_wrapper>
               <block_framed><![CDATA[0]]></block_framed>
@@ -1034,7 +976,7 @@
           <block_descriptions>
             <block_description>
               <language>english</language>
-              <name><![CDATA[Brands Scrolling List]]></name>
+              <name><![CDATA[Novator Brands Scrolling List]]></name>
               <title><![CDATA[Brands Scrolling List]]></title>
               <block_wrapper><![CDATA[blocks/listing_block/popular_brands_content_bottom.tpl]]></block_wrapper>
               <block_framed><![CDATA[1]]></block_framed>
@@ -1246,7 +1188,7 @@
           <block_descriptions>
             <block_description>
               <language>english</language>
-              <name><![CDATA[Footer link block main]]></name>
+              <name><![CDATA[Novator Footer link block main]]></name>
               <title><![CDATA[Footer link block main]]></title>
               <block_wrapper><![CDATA[0]]></block_wrapper>
               <block_framed><![CDATA[0]]></block_framed>
@@ -1308,22 +1250,6 @@
           </templates>
           <status>1</status>
           <position>40</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>50</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>60</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>70</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>80</position>
         </block>
       </block>
       <block>
@@ -1414,18 +1340,6 @@
           </templates>
           <status>1</status>
           <position>50</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>60</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>70</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>80</position>
         </block>
       </block>
       <block>
@@ -1613,7 +1527,7 @@
           <block_descriptions>
             <block_description>
               <language>english</language>
-              <name><![CDATA[Footer link block main]]></name>
+              <name><![CDATA[Novator Footer link block main]]></name>
               <title><![CDATA[Footer link block main]]></title>
               <block_wrapper><![CDATA[0]]></block_wrapper>
               <block_framed><![CDATA[0]]></block_framed>
@@ -1675,22 +1589,6 @@
           </templates>
           <status>1</status>
           <position>40</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>50</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>60</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>70</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>80</position>
         </block>
       </block>
       <block>
@@ -1781,18 +1679,6 @@
           </templates>
           <status>1</status>
           <position>50</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>60</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>70</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>80</position>
         </block>
       </block>
       <block>
@@ -1986,7 +1872,7 @@
           <block_descriptions>
             <block_description>
               <language>english</language>
-              <name><![CDATA[Footer link block main]]></name>
+              <name><![CDATA[Novator Footer link block main]]></name>
               <title><![CDATA[Footer link block main]]></title>
               <block_wrapper><![CDATA[0]]></block_wrapper>
               <block_framed><![CDATA[0]]></block_framed>
@@ -2048,22 +1934,6 @@
           </templates>
           <status>1</status>
           <position>40</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>50</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>60</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>70</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>80</position>
         </block>
       </block>
       <block>
@@ -2149,18 +2019,6 @@
           <status>1</status>
           <position>50</position>
         </block>
-        <block>
-          <status>0</status>
-          <position>60</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>70</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>80</position>
-        </block>
       </block>
       <block>
         <block_txt_id>category</block_txt_id>
@@ -2186,29 +2044,14 @@
           <position>10</position>
         </block>
         <block>
-          <custom_block_txt_id>categorybannersec_31</custom_block_txt_id>
-          <kind>custom</kind>
-          <type>html_block</type>
-          <block_descriptions>
-            <block_description>
-              <language>english</language>
-              <name><![CDATA[Category Banner Sec]]></name>
-              <title><![CDATA[Category Banner Sec]]></title>
-              <block_wrapper><![CDATA[0]]></block_wrapper>
-              <block_framed><![CDATA[0]]></block_framed>
-              <description><![CDATA[Category Banner Sec]]></description>
-              <content><![CDATA[&lt;section class=&quot;category-banner-sec p-0&quot;&gt;&lt;div class=&quot;container&quot;&gt;&lt;div class=&quot;row align-items-center&quot;&gt;&lt;div class=&quot;col-sm-6&quot;&gt;&lt;div class=&quot;py-3&quot;&gt;&lt;h1 class=&quot;h3 mb-3&quot;&gt;Grab Upto 50% Off On Selected Headphone&lt;/h1&gt;&lt;a href=&quot;#&quot; class=&quot;btn btn-dark&quot;&gt;Buy Now&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;col-sm-6 text-sm-end&quot;&gt;
-&lt;img src=&quot;extensions/novator/storefront/view/novator/image/presets/18/7b/9.png&quot; alt=&quot;images&quot; class=&quot;img-fluid&quot;&gt;
-
-&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/section&gt;
-
-
-]]></content>
-            </block_description>
-          </block_descriptions>
-          <installed>
-            <placeholder>header_bottom</placeholder>
-          </installed>
+          <block_txt_id>category_slides</block_txt_id>
+          <controller>blocks/category_slides</controller>
+          <templates>
+            <template>
+              <parent_block>header_bottom</parent_block>
+              <template_name>blocks/category_slides.tpl</template_name>
+            </template>
+          </templates>
           <status>1</status>
           <position>20</position>
         </block>
@@ -2255,7 +2098,7 @@
           <block_descriptions>
             <block_description>
               <language>english</language>
-              <name><![CDATA[Category Filter]]></name>
+              <name><![CDATA[Novator Category Filter]]></name>
               <title><![CDATA[Category Filter]]></title>
               <block_wrapper><![CDATA[0]]></block_wrapper>
               <block_framed><![CDATA[0]]></block_framed>
@@ -2475,7 +2318,7 @@
           <block_descriptions>
             <block_description>
               <language>english</language>
-              <name><![CDATA[Left banner 1]]></name>
+              <name><![CDATA[Novator Left banner 1]]></name>
               <title><![CDATA[Left banner 1]]></title>
               <block_wrapper><![CDATA[0]]></block_wrapper>
               <block_framed><![CDATA[0]]></block_framed>
@@ -2500,7 +2343,7 @@
           <block_descriptions>
             <block_description>
               <language>english</language>
-              <name><![CDATA[Left banner 2]]></name>
+              <name><![CDATA[Novator Left banner 2]]></name>
               <title><![CDATA[Left banner 2]]></title>
               <block_wrapper><![CDATA[0]]></block_wrapper>
               <block_framed><![CDATA[0]]></block_framed>
@@ -2645,7 +2488,7 @@
           <block_descriptions>
             <block_description>
               <language>english</language>
-              <name><![CDATA[Footer link block main]]></name>
+              <name><![CDATA[Novator Footer link block main]]></name>
               <title><![CDATA[Footer link block main]]></title>
               <block_wrapper><![CDATA[0]]></block_wrapper>
               <block_framed><![CDATA[0]]></block_framed>
@@ -2708,22 +2551,6 @@
           <status>1</status>
           <position>40</position>
         </block>
-        <block>
-          <status>0</status>
-          <position>50</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>60</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>70</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>80</position>
-        </block>
       </block>
       <block>
         <block_txt_id>donate</block_txt_id>
@@ -2754,108 +2581,12 @@
         <controller>common/header</controller>
         <status>1</status>
         <position>10</position>
-        <block>
-          <block_txt_id>search</block_txt_id>
-          <controller>blocks/search</controller>
-          <templates>
-            <template>
-              <parent_block>header</parent_block>
-              <template_name>blocks/search_top.tpl</template_name>
-            </template>
-          </templates>
-          <status>1</status>
-          <position>10</position>
-        </block>
-        <block>
-          <block_txt_id>language</block_txt_id>
-          <controller>blocks/language</controller>
-          <templates>
-            <template>
-              <parent_block>header</parent_block>
-              <template_name>blocks/language.tpl</template_name>
-            </template>
-          </templates>
-          <status>1</status>
-          <position>20</position>
-        </block>
-        <block>
-          <block_txt_id>currency</block_txt_id>
-          <controller>blocks/currency</controller>
-          <templates>
-            <template>
-              <parent_block>header</parent_block>
-              <template_name>blocks/currency.tpl</template_name>
-            </template>
-          </templates>
-          <status>1</status>
-          <position>30</position>
-        </block>
-        <block>
-          <block_txt_id>cart</block_txt_id>
-          <controller>blocks/cart</controller>
-          <templates>
-            <template>
-              <parent_block>header</parent_block>
-              <template_name>blocks/cart_top.tpl</template_name>
-            </template>
-          </templates>
-          <status>1</status>
-          <position>40</position>
-        </block>
-        <block>
-          <block_txt_id>customer</block_txt_id>
-          <controller>blocks/customer</controller>
-          <templates>
-            <template>
-              <parent_block>header</parent_block>
-              <template_name>blocks/customer.tpl</template_name>
-            </template>
-          </templates>
-          <status>1</status>
-          <position>50</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>60</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>70</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>80</position>
-        </block>
       </block>
       <block>
         <block_txt_id>header_bottom</block_txt_id>
         <controller>common/header_bottom</controller>
         <status>1</status>
         <position>20</position>
-        <block>
-          <block_txt_id>category</block_txt_id>
-          <controller>blocks/category</controller>
-          <templates>
-            <template>
-              <parent_block>header_bottom</parent_block>
-              <template_name>blocks/category_top.tpl</template_name>
-            </template>
-          </templates>
-          <status>1</status>
-          <position>10</position>
-        </block>
-        <block>
-          <block_txt_id>breadcrumbs</block_txt_id>
-          <controller>blocks/breadcrumbs</controller>
-          <templates>
-            <template>
-              <parent_block>header_bottom</parent_block>
-              <template_name>blocks/breadcrumbs.tpl</template_name>
-            </template>
-          </templates>
-          <status>1</status>
-          <position>20</position>
-        </block>
       </block>
       <block>
         <block_txt_id>breadcrumbs</block_txt_id>
@@ -2892,145 +2623,12 @@
         <controller>common/footer_top</controller>
         <status>1</status>
         <position>70</position>
-        <block>
-          <block_txt_id>newsletter_signup</block_txt_id>
-          <controller>blocks/newsletter_signup</controller>
-          <templates>
-            <template>
-              <parent_block>footer_top</parent_block>
-              <template_name>blocks/newsletter_signup_footer_top.tpl</template_name>
-            </template>
-          </templates>
-          <status>1</status>
-          <position>10</position>
-        </block>
       </block>
       <block>
         <block_txt_id>footer</block_txt_id>
         <controller>common/footer</controller>
         <status>1</status>
         <position>80</position>
-        <block>
-          <custom_block_txt_id>nvaboutus_18</custom_block_txt_id>
-          <kind>custom</kind>
-          <type>html_block</type>
-          <block_descriptions>
-            <block_description>
-              <language>english</language>
-              <name><![CDATA[Novator About Us]]></name>
-              <title><![CDATA[Novator About Us]]></title>
-              <block_wrapper><![CDATA[blocks/html_block_footer.tpl]]></block_wrapper>
-              <block_framed><![CDATA[0]]></block_framed>
-              <description><![CDATA[Novator About Us]]></description>
-              <content><![CDATA[&lt;div class=&quot;footer-abtus text-center text-md-start&quot;&gt;
-&lt;h3 class=&quot;h5 text-white mb-4&quot;&gt;
-  Where art and fashion fuse. Elevate your style with Balenciaga.&lt;/h3&gt;
-  &lt;ul class=&quot;list-inline&quot;&gt;
-    &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;i class=&quot;bi bi-layers&quot;&gt;&lt;/i&gt; Top Brands&lt;/a&gt;&lt;/li&gt;
-    &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;i class=&quot;bi bi-tag&quot;&gt;&lt;/i&gt; Disscount&lt;/a&gt;&lt;/li&gt;
-  &lt;/ul&gt;
-  &lt;div class=&quot;social_icons&quot;&gt;
-    &lt;ul class=&quot;list-inline&quot;&gt;
-      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; class=&quot;facebook&quot;&gt;&lt;i class=&quot;fa-brands fa-facebook-f&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
-      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
-      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;#&quot; title=&quot;Linkedin&quot; class=&quot;linkedin&quot;&gt;&lt;i class=&quot;fa-brands fa-linkedin-in&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
-     &lt;/ul&gt;
-  &lt;/div&gt;
-&lt;/div&gt;]]></content>
-            </block_description>
-          </block_descriptions>
-          <installed>
-            <placeholder>footer</placeholder>
-          </installed>
-          <status>1</status>
-          <position>10</position>
-        </block>
-        <block>
-          <custom_block_txt_id>footerlinkblockmain_35</custom_block_txt_id>
-          <kind>custom</kind>
-          <type>html_block</type>
-          <block_descriptions>
-            <block_description>
-              <language>english</language>
-              <name><![CDATA[Footer link block main]]></name>
-              <title><![CDATA[Footer link block main]]></title>
-              <block_wrapper><![CDATA[0]]></block_wrapper>
-              <block_framed><![CDATA[0]]></block_framed>
-              <description><![CDATA[Footer link block main]]></description>
-              <content><![CDATA[&lt;div class=&quot;footer-main-links row&quot;&gt;
-  &lt;div class=&quot;col-md-4&quot;&gt;
-  &lt;h3 class=&quot;h5 text-white text-start&quot;&gt;Product&lt;/h3&gt;
-  &lt;ul class=&quot;list-unstyled footer-link&quot;&gt;&lt;li&gt;&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;Smart&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;Habits&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;Tasks&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;Calendar Sync&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;Buffer Time&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;Use Cases&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
-  &lt;/div&gt;
-  &lt;div class=&quot;col-md-4&quot;&gt;
-  &lt;h3 class=&quot;h5 text-white text-start&quot;&gt;Product&lt;/h3&gt;
-  &lt;ul class=&quot;list-unstyled footer-link&quot;&gt;&lt;li&gt;&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;Smart&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;Habits&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;Tasks&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;Calendar Sync&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;Buffer Time&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;Use Cases&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
-  &lt;/div&gt;
-  &lt;div class=&quot;col-md-4&quot;&gt;
-  &lt;h3 class=&quot;h5 text-white text-start&quot;&gt;Product&lt;/h3&gt;
-  &lt;ul class=&quot;list-unstyled footer-link&quot;&gt;&lt;li&gt;&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;Smart&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;Habits&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;Tasks&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;Calendar Sync&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;Buffer Time&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;Use Cases&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
-  &lt;/div&gt;
-  &lt;/div&gt;
-  ]]></content>
-            </block_description>
-          </block_descriptions>
-          <installed>
-            <placeholder>footer</placeholder>
-          </installed>
-          <status>1</status>
-          <position>20</position>
-        </block>
-        <block>
-          <custom_block_txt_id>nvcontactus_19</custom_block_txt_id>
-          <kind>custom</kind>
-          <type>html_block</type>
-          <block_descriptions>
-            <block_description>
-              <language>english</language>
-              <name><![CDATA[Novator Contact us]]></name>
-              <title><![CDATA[Contact us]]></title>
-              <block_wrapper><![CDATA[blocks/html_block_footer.tpl]]></block_wrapper>
-              <block_framed><![CDATA[0]]></block_framed>
-              <description><![CDATA[]]></description>
-              <content><![CDATA[&lt;div class=&quot;contactus-block text-center text-md-start&quot;&gt;
-&lt;img src=&quot;extensions/novator/storefront/view/novator/image/presets/18/7b/5.svg&quot; alt=&quot;images&quot; class=&quot;img-fluid h-auto&quot; width=&quot;350&quot; height=&quot;79&quot;&gt;&lt;p class=&quot;text-white&quot;&gt;1487 Rocky Horse Carrefour&lt;br&gt;Arlington, TX 16819&lt;/p&gt;&lt;h4 class=&quot;text-white&quot;&gt;&lt;i class=&quot;bi bi-telephone&quot;&gt;&lt;/i&gt; (444) 019 120 0401&lt;/h4&gt;&lt;button class=&quot;btn btn-success&quot;&gt;Live Chat&lt;/button&gt; &lt;button class=&quot;btn btn-outline-light&quot;&gt;Help Desk&lt;/button&gt;
-&lt;/div&gt;]]></content>
-            </block_description>
-          </block_descriptions>
-          <installed>
-            <placeholder>footer</placeholder>
-          </installed>
-          <status>1</status>
-          <position>30</position>
-        </block>
-        <block>
-          <block_txt_id>content</block_txt_id>
-          <controller>blocks/content</controller>
-          <templates>
-            <template>
-              <parent_block>footer</parent_block>
-              <template_name>blocks/content_footer.tpl</template_name>
-            </template>
-          </templates>
-          <status>1</status>
-          <position>40</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>50</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>60</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>70</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>80</position>
-        </block>
       </block>
     </blocks>
   </layout>
@@ -3114,18 +2712,6 @@
           </templates>
           <status>1</status>
           <position>50</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>60</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>70</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>80</position>
         </block>
       </block>
       <block>
@@ -3331,7 +2917,7 @@
           <block_descriptions>
             <block_description>
               <language>english</language>
-              <name><![CDATA[Footer link block main]]></name>
+              <name><![CDATA[Novator Footer link block main]]></name>
               <title><![CDATA[Footer link block main]]></title>
               <block_wrapper><![CDATA[0]]></block_wrapper>
               <block_framed><![CDATA[0]]></block_framed>
@@ -3393,22 +2979,6 @@
           </templates>
           <status>1</status>
           <position>40</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>50</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>60</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>70</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>80</position>
         </block>
       </block>
       <block>
@@ -3511,18 +3081,6 @@
           </templates>
           <status>1</status>
           <position>50</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>60</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>70</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>80</position>
         </block>
       </block>
       <block>
@@ -3698,7 +3256,7 @@
           <block_descriptions>
             <block_description>
               <language>english</language>
-              <name><![CDATA[Footer link block main]]></name>
+              <name><![CDATA[Novator Footer link block main]]></name>
               <title><![CDATA[Footer link block main]]></title>
               <block_wrapper><![CDATA[0]]></block_wrapper>
               <block_framed><![CDATA[0]]></block_framed>
@@ -3760,22 +3318,6 @@
           </templates>
           <status>1</status>
           <position>40</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>50</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>60</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>70</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>80</position>
         </block>
       </block>
       <block>
@@ -3878,14 +3420,6 @@
           </templates>
           <status>1</status>
           <position>60</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>70</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>80</position>
         </block>
       </block>
       <block>
@@ -4060,18 +3594,6 @@
           </templates>
           <status>1</status>
           <position>50</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>60</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>70</position>
-        </block>
-        <block>
-          <status>0</status>
-          <position>80</position>
         </block>
       </block>
       <block>

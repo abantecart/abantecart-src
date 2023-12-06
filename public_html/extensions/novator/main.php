@@ -4,11 +4,12 @@ if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
-if (!class_exists('ExtensionBootstrap6')) {
-    include_once('core/novator_hook.php');
-}
+require_once('core/novator_hook.php');
+
 $controllers = [
-    'storefront' => [],
+    'storefront' => [
+        'blocks/category_slides'
+    ],
     'admin'      => [],
 ];
 

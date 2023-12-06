@@ -17,6 +17,15 @@ try{
 
     $layout = new ALayoutManager($extension_id);
     $layout->deleteTemplateLayouts();
+    $sql = "SELECT DISTINCT custom_block_id as id 
+            FROM ". $this->db->table('block_descriptions')."
+            WHERE `name` LIKE 'Novator%'";
+    $res = $this->db->query($sql);
+    $ids = array_column($res->rows,'id');
+    foreach ($ids as $id){
+        $layout->deleteCustomBlock($id);
+    }
+
 }catch(AException $e){}
 
 $rm = new AResourceManager();

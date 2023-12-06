@@ -835,8 +835,10 @@ CREATE TABLE `ac_extensions` (
 -- Dumping data for table `extension`
 --
 
-INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `version`, `license_key`, `date_installed`, `date_modified`, `date_added`) VALUES
+INSERT INTO `ac_extensions`
+    (`type`, `key`, `category`, `status`, `priority`, `version`, `license_key`, `date_installed`, `date_modified`, `date_added`)
 
+VALUES
 ('total', 'coupon', '', 1, 1, '', null, now(), now(), now() ),
 ('total', 'shipping', 'shipping', 1, 1, '', null, now(), now(), now() ),
 ('total', 'low_order_fee', '', 0, 1, '', null, now(), now(), now() ),
@@ -857,7 +859,8 @@ INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `v
 ('extensions', 'banner_manager', 'extensions', 1, 1, '1.1.0', null, now(), now(), now() ),
 ('extensions', 'forms_manager', 'extensions', 1, 1, '1.1.0', null, now(), now(), now() ),
 ('extensions', 'fast_checkout', 'Checkout', 1, 10, '1.3.5', null, now(), now() + INTERVAL 2 MINUTE , now() ),
-('template', 'bootstrap5', 'template', 1, 1, '1.0.0', null, now(), now() + INTERVAL 3 MINUTE , now() )
+('template', 'bootstrap5', 'template', 1, 1, '1.0.0', null, now(), now() + INTERVAL 3 MINUTE , now() ),
+('template', 'novator', 'template', 0, 1, '1.0.0', null, '0000-00-00 00:00:00', now() + INTERVAL 4 MINUTE , now() )
 ;
 
 --
