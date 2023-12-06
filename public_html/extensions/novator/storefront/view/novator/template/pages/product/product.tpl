@@ -147,7 +147,7 @@ if ($error){ ?>
                             if($config_tax && !$tax_exempt && $tax_class_id){
                                 $tax_message = '&nbsp;&nbsp;<span class="productpricesmall">'.$price_with_tax.'</span>';
                             }?>
-                        
+
                         <div class="price text-muted d-flex align-items-center">
                             <?php if ($special){ ?>
                                 <div class="h2 mb-0 text-danger">
@@ -184,9 +184,17 @@ if ($error){ ?>
                                 <?php echo renderRatingStarsNv($average,''); ?>
                             </div>
                             <!-- Hello Abentacart team you need to check here ends -->
-                        <?php } 
+                        <?php } else{?>
+                            <div class="text-warning rating-stars text-sm-end">
+                                <?php echo noRatingStarsNv(''); ?>
+                            </div>
+                        <?php }
                     ?>
+                    <?php if($display_reviews){?>
+                    <div class="rounded-pill bg-light-secondary badge fs-6"><i class="bi bi-chat-left-dots"></i> <?php echo $display_reviews?> Reviews</div>
+                    <?php }?>
                 </div>
+                <p class="text-muted text-start mb-0 text-sm-end"><b class="text-success">93% </b>of buyers have recommended this.</p>
             </div>
             <hr class="my-4">
 
