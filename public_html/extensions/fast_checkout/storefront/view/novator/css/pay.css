@@ -31,4 +31,9 @@
 
 .fc-radio-noborder .form-check-inline{
     border: 0 !important;
+    width: 56px;
+}
+
+.prod-option .form-check .form-check-input {
+    border: 1px solid #1692e1;
 }
