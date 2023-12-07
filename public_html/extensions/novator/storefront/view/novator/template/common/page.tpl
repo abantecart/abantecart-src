@@ -38,7 +38,7 @@
             <?php echo $$header; ?>
         <!-- Main header section Ends -->
 
-        <a href="#" class="theme-change"><i class="bi bi-sun-fill icon-dark"></i> <i class="bi bi-moon-stars-fill icon-light"></i> </a>
+        <a href="javascript:void(0)" class="theme-change"><i class="bi bi-sun-fill icon-dark"></i> <i class="bi bi-moon-stars-fill icon-light"></i> </a>
 
         <!-- header-bottom-section Starts -->
             <div class="header-bottom-section">
