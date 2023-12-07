@@ -143,25 +143,7 @@ class ModelCatalogReview extends Model
     /**
      * @return int
      */
-    public function getTotalReviews()
-    {
-        $cacheKey = 'product.reviews.totals';
-        $cache = $this->cache->pull($cacheKey);
-        if ($cache === false) {
-            $query = $this->db->query(
-                "SELECT COUNT(*) AS total
-                FROM ".$this->db->table("reviews")." r
-                LEFT JOIN ".$this->db->table("products")." p 
-                    ON (r.product_id = p.product_id)
-                WHERE p.date_available <= NOW()
-                    AND p.status = '1'
-                    AND r.status = '1'"
-            );
-            $cache = (int) $query->row['total'];
-            $this->cache->push($cacheKey, $cache);
-        }
-        return $cache;
-    }
+
 
     /**
      * @param int $product_id
@@ -192,5 +174,30 @@ class ModelCatalogReview extends Model
             $this->cache->push($cache_key, $cache);
         }
         return $cache;
+    }
+
+    /**
+     * Function get positive review in percent
+     * @param int $product_id
+     * @return int $percentage
+     */
+    public function getPositiveReviewPercentage($product_id)
+    {
+        $totalReviews = $this->getTotalReviewsByProductId($product_id);
+        if ($totalReviews === 0) {
+            return 0;
+        }
+        $query = $this->db->query(
+            "SELECT COUNT(*) AS positive
+        FROM " . $this->db->table("reviews") . " 
+        WHERE `product_id` = '".$product_id."'
+            AND `status` = '1'
+            AND `rating` >= '4'"
+        );
+
+        $positiveReviews = (int)$query->row['positive'];
+
+        $percentage = ($positiveReviews / $totalReviews) * 100;
+        return round($percentage, 2);
     }
 }

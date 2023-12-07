@@ -222,7 +222,7 @@ class ControllerPagesProductProduct extends AController
         $average = $this->data['display_reviews']
             ? $this->model_catalog_review->getAverageRating($product_id)
             : false;
-
+        $this->data['review_percentage'] = $this->model_catalog_review->getPositiveReviewPercentage($product_id);
         if ($this->data['review_form_status']) {
             $this->data['rating_element'] = HtmlElementFactory::create(
                 [
@@ -916,7 +916,6 @@ class ControllerPagesProductProduct extends AController
                 $this->data['in_wishlist'] = true;
             }
         }
-
         $this->view->setTemplate('pages/product/product.tpl');
         $this->view->batchAssign($this->data);
         $this->processTemplate();

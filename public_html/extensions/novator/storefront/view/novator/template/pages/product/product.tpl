@@ -120,7 +120,7 @@ if ($error){ ?>
                             <div class="wishlist mb-2">
                                 <a id="wishlist_remove" class="bg-light-danger badge fs-6 <?php echo $in_wishlist ? 'd-block': 'd-none';?>" href="Javascript:void(0);">
                                     <i class="bi bi-heart"></i>
-                                    <?php echo $button_remove_wishlist; ?> 109
+                                    <?php echo $button_remove_wishlist; ?>
                                 </a>
                                 <a id="wishlist_add"
                                 class="bg-light-danger badge fs-6 <?php echo $in_wishlist ? 'd-none': 'd-block';?>" href="Javascript:void(0);">
@@ -194,7 +194,9 @@ if ($error){ ?>
                     <div class="rounded-pill bg-light-secondary badge fs-6"><i class="bi bi-chat-left-dots"></i> <?php echo $display_reviews?> Reviews</div>
                     <?php }?>
                 </div>
-                <p class="text-muted text-start mb-0 text-sm-end"><b class="text-success">93% </b>of buyers have recommended this.</p>
+                <?php if($review_percentage){?>
+                <p class="text-muted text-start mb-0 text-sm-end"><b class="text-success"><?php echo $review_percentage?>%</b>of buyers have recommended this.</p>
+                <?php }?>
             </div>
             <hr class="my-4">
 
