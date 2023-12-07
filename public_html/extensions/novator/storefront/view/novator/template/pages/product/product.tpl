@@ -190,12 +190,12 @@ if ($error){ ?>
                             </div>
                         <?php }
                     ?>
-                    <?php if($display_reviews){?>
-                    <div class="rounded-pill bg-light-secondary badge fs-6"><i class="bi bi-chat-left-dots"></i> <?php echo $display_reviews?> Reviews</div>
+                    <?php if($count_reviews){?>
+                    <div class="rounded-pill bg-light-secondary badge fs-6"><i class="bi bi-chat-left-dots"></i> <?php echo $count_reviews;?> Reviews</div>
                     <?php }?>
                 </div>
                 <?php if($review_percentage){?>
-                <p class="text-muted text-start mb-0 text-sm-end"><b class="text-success"><?php echo $review_percentage?>%</b>of buyers have recommended this.</p>
+                <p class="text-muted text-start mb-0 text-sm-end"><b class="text-success"><?php echo $review_percentage?>% </b>of buyers have recommended this.</p>
                 <?php }?>
             </div>
             <hr class="my-4">
