@@ -18,6 +18,7 @@
 				<a class="btn btn-primary tooltips" href="<?php echo $insert; ?>" title="<?php echo $button_add; ?>">
 				<i class="fa fa-plus"></i>
 				</a>
+                <?php echo $this->getHookVar('category_form_toolbar_buttons'); ?>
 			</div>
 		<?php } ?>
 		</div>
@@ -65,7 +66,9 @@
 	</div>
 	<div class="col-md-3 mb10">
 			<div id="image">
-			   <?php if ( !empty($update) ) {
+			   <?php
+               echo $this->getHookVar('category_form_hook_before_resources');
+               if ( !empty($update) ) {
 				echo $resources_html;
 			}
 			// add RL-scripts anyway for ckeditor usage

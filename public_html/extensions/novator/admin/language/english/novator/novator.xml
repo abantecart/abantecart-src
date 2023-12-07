@@ -8,4 +8,8 @@
     <key>novator_note</key>
     <value><![CDATA[]]></value>
   </definition>
+  <definition>
+    <key>novator_category_form_info_alert</key>
+    <value><![CDATA[<div class="alert alert-info">All images following the first one can be used in the 'category slides' block. (see block in the category page layout)</div>]]></value>
+  </definition>
 </definitions>

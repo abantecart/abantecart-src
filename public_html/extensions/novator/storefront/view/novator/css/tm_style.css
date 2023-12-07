@@ -3565,6 +3565,9 @@ section {
   margin-left: 0;
 }
 
+#categorySlides .carousel-inner{
+  height: 400px;
+}
 
 /*.dropdown.mega-menu li.dropdown{*/
 /*  max-width: 300px;*/
