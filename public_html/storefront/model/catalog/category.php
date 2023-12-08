@@ -30,6 +30,10 @@ if (!defined('DIR_CORE')) {
  */
 class ModelCatalogCategory extends Model
 {
+    protected $category_id = 0;
+    protected $thumbnails = [];
+    protected $path = [];
+    protected $selected_root_id = [];
     /**
      * @param int $category_id
      *
@@ -49,7 +53,10 @@ class ModelCatalogCategory extends Model
                 "SELECT DISTINCT *,
                     (SELECT COUNT(p2c.product_id) as cnt
                      FROM ".$this->db->table('products_to_categories')." p2c
-                     INNER JOIN ".$this->db->table('products')." p ON p.product_id = p2c.product_id AND p.status = '1'
+                     INNER JOIN ".$this->db->table('products')." p 
+                        ON ( p.product_id = p2c.product_id 
+                            AND p.status = '1'
+                            AND COALESCE(p.date_available,'1970-01-01')< NOW() )
                      WHERE  p2c.category_id = c.category_id) as products_count
                 FROM ".$this->db->table("categories")." c
                 LEFT JOIN ".$this->db->table("category_descriptions")." cd 
@@ -107,7 +114,9 @@ class ModelCatalogCategory extends Model
                     FROM ".$this->db->table('products_to_categories')." p2c
                     INNER JOIN ".$this->db->table('products')." p 
                         ON p.product_id = p2c.product_id
-                    WHERE p2c.category_id in (".implode(",", $category_ids).") AND p.status = '1' 
+                    WHERE p2c.category_id in (".implode(",", $category_ids).") 
+                        AND p.status = '1' 
+                        AND COALESCE(p.date_available,'1970-01-01')< NOW()
                     GROUP BY p2c.category_id "
                 );
 
@@ -155,7 +164,9 @@ class ModelCatalogCategory extends Model
                           (SELECT count(*) as cnt
                             FROM ".$this->db->table('products_to_categories')." p2c
                             INNER JOIN ".$this->db->table('products')." p ON p.product_id = p2c.product_id
-                            WHERE p2c.category_id = c.category_id AND p.status = '1') as products_count ";
+                            WHERE p2c.category_id = c.category_id 
+                                AND p.status = '1' 
+                                AND COALESCE(p.date_available,'1970-01-01')< NOW() ) as products_count ";
         }
         $where = (isset($data['parent_id']) ? " c.parent_id = '".(int) $data['parent_id']."'" : '');
         //filter result by given ids array
@@ -355,11 +366,7 @@ class ModelCatalogCategory extends Model
      */
     public function getCategoriesProductsCount($categories = [])
     {
-        $categories = (array) $categories;
-        foreach ($categories as &$val) {
-            $val = (int) $val;
-        }
-        unset($val);
+        $categories = array_map('intval',(array) $categories);
         $categories = array_unique($categories);
         if ($categories) {
             $query = $this->db->query(
@@ -368,6 +375,7 @@ class ModelCatalogCategory extends Model
                 INNER JOIN ".$this->db->table('products')." p
                     ON p.product_id = p2c.product_id
                 WHERE p.status = '1' 
+                    AND COALESCE(p.date_available,'1970-01-01')< NOW()
                     AND p2c.category_id IN (".implode(', ', $categories).");"
             );
             $output = (int) $query->row['total'];
@@ -402,7 +410,9 @@ class ModelCatalogCategory extends Model
                     WHERE p.product_id IN (SELECT DISTINCT p2c.product_id
                                            FROM ".$this->db->table('products_to_categories')." p2c
                                            INNER JOIN ".$this->db->table('products')." p 
-                                                ON p.product_id = p2c.product_id AND p.status = '1'
+                                                ON ( p.product_id = p2c.product_id 
+                                                    AND p.status = '1'
+                                                    AND COALESCE(p.date_available,'1970-01-01')< NOW() )
                                            WHERE p2c.category_id IN (".implode(', ', $categories)."));";
             $query = $this->db->query($sql);
             $output = $query->rows;
@@ -475,6 +485,88 @@ class ModelCatalogCategory extends Model
             $output = array_merge($output, $this->getChildrenIDs($category['category_id']));
         }
         $this->cache->push($cacheKey, $output);
+        return $output;
+    }
+
+    /** Function builds one dimensional category tree based on given array
+     *
+     * @param array $all_categories
+     * @param int $parent_id
+     * @param string $path
+     *
+     * @return array
+     * @throws AException
+     */
+    public function buildCategoryTree($all_categories = [], $parent_id = 0, $path = '')
+    {
+        $output = [];
+        foreach ($all_categories as $category) {
+            if ((int)$parent_id != $category['parent_id']) {
+                continue;
+            }
+            $category['path'] = $path ? $path.'_'.$category['category_id'] : $category['category_id'];
+            $category['parents'] = explode("_", $category['path']);
+            //dig into level
+            $category['level'] = sizeof($category['parents']) - 1;
+            if ($category['category_id'] == $this->category_id) {
+                //mark root
+                $this->selected_root_id = $category['parents'][0];
+            }
+            $output[] = $category;
+            $output = array_merge(
+                $output, $this->buildCategoryTree($all_categories, $category['category_id'], $category['path'])
+            );
+        }
+        if ($parent_id == 0) {
+            //place result into memory for future usage (for menu. see below)
+            $this->data['all_categories'] = $output;
+            // cut list and expand only selected tree branch
+            $cutted_tree = [];
+            foreach ($output as $category) {
+                if ($category['parent_id'] != 0 && !in_array($this->selected_root_id, $category['parents'])) {
+                    continue;
+                }
+                $category['href'] = $this->html->getSEOURL('product/category', '&path='.$category['path'], '&encode');
+                $cutted_tree[] = $category;
+            }
+            return $cutted_tree;
+        } else {
+            return $output;
+        }
+    }
+
+    /** Function builds one multi-dimensional (nested) category tree for menu
+     *
+     * @param int $parent_id
+     *
+     * @return array
+     * @throws AException
+     */
+    public function buildNestedCategoryList($parent_id = 0)
+    {
+        $output = [];
+        foreach ($this->data['all_categories'] as $category) {
+            $category['current'] = false;
+            if ($category['parent_id'] != $parent_id) {
+                continue;
+            }
+            $category['children'] = $this->buildNestedCategoryList($category['category_id']);
+            $thumbnail = $this->thumbnails[$category['category_id']];
+            $category['thumb'] = $thumbnail['thumb_url'];
+            $category['icon'] = $thumbnail['resource_id'];
+            //get product counts from children levels.
+            if (count($category['children'])) {
+                foreach ($category['children'] as $child) {
+                    $category['product_count'] += $child['product_count'];
+                }
+            }
+            $category['href'] = $this->html->getSEOURL('product/category', '&path='.$category['path'], '&encode');
+            //mark current category
+            if (in_array($category['category_id'], $this->path)) {
+                $category['current'] = true;
+            }
+            $output[] = $category;
+        }
         return $output;
     }
 }

@@ -8,7 +8,8 @@ require_once('core/novator_hook.php');
 
 $controllers = [
     'storefront' => [
-        'blocks/category_slides'
+        'blocks/category_slides',
+        'blocks/category_filter'
     ],
     'admin'      => [],
 ];
