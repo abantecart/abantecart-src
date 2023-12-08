@@ -23,7 +23,7 @@
                         -->
                     </div>
 
-                    <div class="header-right col-8">
+                    <div class="header-right col-lg-9 col-xl-8">
                         <div class="header-right-content d-flex flex-wrap align-items-center">
                             <?php
                             foreach($children_blocks as $k => $instanceName){ ?>
