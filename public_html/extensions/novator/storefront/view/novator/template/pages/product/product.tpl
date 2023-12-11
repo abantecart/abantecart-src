@@ -381,8 +381,8 @@ if ($error){ ?>
 
     <ul class="nav nav-tabs profile-tabs mb-4 border-bottom" id="myTab" role="tablist">
         
-        <li class="nav-item active" role="presentation">
-            <a class="nav-link" id="description" data-bs-toggle="tab" href="#collapseDescription" role="tab" aria-controls="collapseDescription" aria-selected="true">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="description" data-bs-toggle="tab" href="#collapseDescription" role="tab" aria-controls="collapseDescription" aria-selected="true">
                 <?php echo $tab_description; ?>
             </a>
         </li>
@@ -443,7 +443,7 @@ if ($error){ ?>
     <div class="tab-content">
 
         <!-- Description Tab Content Starts -->
-            <div class="tab-pane active show" id="ecomtab-1" role="tabpanel" aria-labelledby="description">
+            <div class="tab-pane active show" id="collapseDescription" role="tabpanel" aria-labelledby="description">
                 <div class="tab-pane-body">
                     <?php echo $description; ?>
                     <ul class="productinfo list-unstyled">
