@@ -2092,6 +2092,18 @@
         <status>1</status>
         <position>30</position>
         <block>
+          <block_txt_id>category_filter</block_txt_id>
+          <controller>blocks/category_filter</controller>
+          <templates>
+            <template>
+              <parent_block>column_left</parent_block>
+              <template_name>blocks/category_filter.tpl</template_name>
+            </template>
+          </templates>
+          <status>1</status>
+          <position>10</position>
+        </block>
+        <block>
           <custom_block_txt_id>categoryfilter_34</custom_block_txt_id>
           <kind>custom</kind>
           <type>html_block</type>
@@ -2308,7 +2320,7 @@
           <installed>
             <placeholder>column_left</placeholder>
           </installed>
-          <status>1</status>
+          <status>0</status>
           <position>10</position>
         </block>
         <block>

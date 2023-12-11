@@ -20,7 +20,7 @@
 </div>
 <?php
 if ( $required ) { ?>
-    <span class="input-group-text text-danger">*</span>
+    <span class="input-group-text border-0 text-danger">*</span>
 <?php } ?>
 <?php if(!$no_wrapper){?>
 </div>
