@@ -17,80 +17,23 @@
                                     Category
                                 </a>
                                 <div class="collapse show" id="filtercollapse1">
-                                    <div>
-                                        <?php foreach($category_tree as $cat){
-                                            $inputId =  'category'. $cat['category_id'];
-                                            ?>
-                                        <div class="form-check my-2">
-                                            <input class="form-check-input" type="checkbox" id="<?php echo $inputId; ?>" value="<?php echo $cat['category_id']; ?>">
-                                            <label class="form-check-label d-block" for="<?php echo $inputId; ?>"><?php echo $cat['name']?> <span
-                                                    class="float-end">(<?php echo $cat['product_count']?>)</span></label>
-                                        </div>
-                                        <?php
-                                        if(!$cat['children']){ continue; }
-                                            foreach($cat['children'] as $child){ ?>
-                                                <div class="form-check my-2">
-                                                    <label class="form-check-label d-block" > - <?php echo $child['name']?> <span
-                                                                class="float-end">(<?php echo $child['product_count']?>)</span></label>
-                                                </div>
-                                            <?php }
-                                        } ?>
-                                    </div>
+                                    <?php echo $category_tree ?>
+
                                 </div>
                             </li>
                             <li class="list-group-item border-0 px-0 py-2">
-                                <a class="btn border-0 px-0 text-start w-100 pb-0" data-bs-toggle="collapse"
-                                   href="#filtercollapse2">
+                                <a class="btn border-0 px-0 text-start w-100 pb-0 mb-2" data-bs-toggle="collapse"
+                                   href="#category_rating-collapse">
                                     <div class="float-end"><i class="bi bi-chevron-down"></i></div>
                                     Ratings
                                 </a>
-                                <div class="collapse show" id="filtercollapse2">
-                                    <div>
-                                        <div class="form-check my-2">
-                                            <input class="form-check-input" type="radio" name="ratings" id="categoryfilter1"
-                                                   value="option1">
-                                            <label class="form-check-label d-block" for="categoryfilter1"><i
-                                                    class="bi bi-star-fill text-warning fs-6 me-1"></i><i
-                                                    class="bi bi-star-fill text-warning fs-6 me-1"></i><i
-                                                    class="bi bi-star-fill text-warning fs-6 me-1"></i><i
-                                                    class="bi bi-star-fill text-warning fs-6 me-1"></i><i
-                                                    class="bi bi-star-fill text-warning fs-6 me-1"></i>4.5 & up <span
-                                                    class="float-end">(12)</span></label>
+                                <div class="collapse show" id="category_rating-collapse">
+                                    <?php foreach($ratings as $stars => $count){ ?>
+                                        <div class="w-100 mt-1 d-flex justify-content-between">
+                                                <?php echo renderRatingStarsNv($stars,$stars) ?>
+                                                <span class="float-end">(<?php echo $count?>)</span>
                                         </div>
-                                        <div class="form-check my-2">
-                                            <input class="form-check-input" type="radio" name="ratings" id="categoryfilter2"
-                                                   value="option2">
-                                            <label class="form-check-label d-block" for="categoryfilter2"><i
-                                                    class="bi bi-star-fill text-warning fs-6 me-1"></i><i
-                                                    class="bi bi-star-fill text-warning fs-6 me-1"></i><i
-                                                    class="bi bi-star-fill text-warning fs-6 me-1"></i><i
-                                                    class="bi bi-star-fill text-warning fs-6 me-1"></i><i
-                                                    class="bi bi-star-fill text-warning fs-6 me-1"></i>4.0 & up <span
-                                                    class="float-end">(12)</span></label>
-                                        </div>
-                                        <div class="form-check my-2">
-                                            <input class="form-check-input" type="radio" name="ratings" id="categoryfilter3"
-                                                   value="option3">
-                                            <label class="form-check-label d-block" for="categoryfilter3"><i
-                                                    class="bi bi-star-fill text-warning fs-6 me-1"></i><i
-                                                    class="bi bi-star-fill text-warning fs-6 me-1"></i><i
-                                                    class="bi bi-star-fill text-warning fs-6 me-1"></i><i
-                                                    class="bi bi-star-fill text-warning fs-6 me-1"></i><i
-                                                    class="bi bi-star-fill text-warning fs-6 me-1"></i>3.5 & up <span
-                                                    class="float-end">(12)</span></label>
-                                        </div>
-                                        <div class="form-check my-2">
-                                            <input class="form-check-input" type="radio" name="ratings" id="categoryfilter4"
-                                                   value="option1">
-                                            <label class="form-check-label d-block" for="categoryfilter4"><i
-                                                    class="bi bi-star-fill text-warning fs-6 me-1"></i><i
-                                                    class="bi bi-star-fill text-warning fs-6 me-1"></i><i
-                                                    class="bi bi-star-fill text-warning fs-6 me-1"></i><i
-                                                    class="bi bi-star-fill text-warning fs-6 me-1"></i><i
-                                                    class="bi bi-star-fill text-warning fs-6 me-1"></i>3.0 & up <span
-                                                    class="float-end">(12)</span></label>
-                                        </div>
-                                    </div>
+                                    <?php } ?>
                                 </div>
                             </li>
                             <li class="list-group-item border-0 px-0 py-2">

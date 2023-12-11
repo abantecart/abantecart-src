@@ -3594,6 +3594,10 @@ section {
   margin-left: 0;
 }
 
+#category_rating-collapse .fa-star{
+  color: #e8901e;
+  margin-right: 5px;
+}
 
 /*.dropdown.mega-menu li.dropdown{*/
 /*  max-width: 300px;*/

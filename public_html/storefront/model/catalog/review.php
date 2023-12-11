@@ -183,21 +183,53 @@ class ModelCatalogReview extends Model
      */
     public function getPositiveReviewPercentage($product_id)
     {
-        $totalReviews = $this->getTotalReviewsByProductId($product_id);
-        if ($totalReviews === 0) {
-            return 0;
+        $cache_key = 'product.reviews.positive.percents.'.$product_id;
+        $cache = $this->cache->pull($cache_key);
+        if ($cache === false) {
+            $totalReviews = $this->getTotalReviewsByProductId($product_id);
+            if ($totalReviews === 0) {
+                return 0;
+            }
+            $query = $this->db->query(
+                "SELECT COUNT(*) AS positive
+                FROM " . $this->db->table("reviews") . " 
+                WHERE `product_id` = '" . $product_id . "'
+                    AND `status` = '1'
+                    AND `rating` >= '4'"
+            );
+            $positiveReviews = (int)$query->row['positive'];
+            $percentage = ($positiveReviews / $totalReviews) * 100;
+            $cache = round($percentage, 2);
+            $this->cache->push($cache_key, $cache);
         }
-        $query = $this->db->query(
-            "SELECT COUNT(*) AS positive
-        FROM " . $this->db->table("reviews") . " 
-        WHERE `product_id` = '".$product_id."'
-            AND `status` = '1'
-            AND `rating` >= '4'"
-        );
-
-        $positiveReviews = (int)$query->row['positive'];
-
-        $percentage = ($positiveReviews / $totalReviews) * 100;
-        return round($percentage, 2);
+        return $cache;
     }
+
+    /**
+     * @param array $categoryIds
+     * @return array
+     * @throws AException
+     */
+    public function getCategoriesAVGRatings($categoryIds)
+    {
+        $cache_key = 'product.categories.avg.rating'.md5(implode(',',$categoryIds));
+        $cache = $this->cache->pull($cache_key);
+        if ($cache === false) {
+            $ids = array_unique(array_map('intval', $categoryIds));
+            $query = $this->db->query(
+                "SELECT *
+                FROM " . $this->db->table("reviews") . " r 
+                RIGHT JOIN  " . $this->db->table("products_to_categories") . " p2c
+                    ON ( p2c.category_id IN (" . implode(',', $ids) . " )
+                        AND p2c.product_id = r.product_id)
+                WHERE r.status = 1"
+            );
+            $cache = [5 => 0, 4 => 0, 3 => 0, 2 => 0, 1 => 0];
+            foreach ($query->rows as $row) {
+                $cache[(int)$row['rating']]++;
+            }
+        }
+        return $cache;
+    }
+
 }
