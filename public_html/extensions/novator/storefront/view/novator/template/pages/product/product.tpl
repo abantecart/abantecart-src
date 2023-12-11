@@ -179,10 +179,7 @@ if ($error){ ?>
                         <?php }
 
                         if ($average){ ?>
-                            <!-- Hello Abentacart team you need to check here Starts -->
-                            <div class="text-warning rating-stars text-sm-end">
-                                <?php echo renderRatingStarsNv($average,''); ?>
-                            </div>
+                            <div class="rounded-pill bg-light-warning badge fs-6"><i class="bi bi-star"></i> <?php echo $average;?></div>
                             <!-- Hello Abentacart team you need to check here ends -->
                         <?php } else{?>
                             <div class="text-warning rating-stars text-sm-end">
@@ -488,61 +485,142 @@ if ($error){ ?>
         <!-- Review Tab Content Starts -->
             <div class="tab-pane" id="collapseReview" role="tabpanel" aria-labelledby="review">
                 <div class="tab-pane-body">
-                    <div class="tab-pane" id="review">
-                        <div id="current_reviews" class="mb-2"></div>
-                        <?php if($review_form_status){ ?>
-                            <div class="heading" id="review_title"><h4><?php echo $text_write; ?></h4></div>
-                            <div class="content">
-                                <fieldset>
-                                    <div class="form-group mb-3">
-                                        <label class="control-label fw-bold"><?php echo $entry_rating; ?></label>
-                                            <?php
-                                            $rating_element->required = true;
-                                            echo $rating_element; ?>
+                    <div class="row">
+                        <div class="col-xxl-8 col-md-10"><h4 class="fw-normal">Customers Feedback</h4>
+                            <div class="row g-4 mb-4 justify-content-between align-items-stretch">
+                                <?php if($average) {?>
+                                <div class="col-xxl-4 col-xl-5">
+                                    <div class="card h-100 text-center">
+                                        <div class="card-body"><h2 class="mb-0"><b><?php echo $average; ?></b></h2>
+                                            <div class="d-flex align-items-center justify-content-center gap-2 text-warning my-3">
+                                                <div class="text-warning rating-stars text-sm-end">
+                                                    <?php echo renderRatingStarsNv($average,''); ?>
+                                                </div></div>
+                                            <p class="mb-0 text-muted">Product Rating</p></div>
                                     </div>
-                                    <div class="form-group mb-3">
-                                        <label class="control-label fw-bold"><?php echo $entry_name; ?></label>
-                                            <?php
-                                            $review_name->required = true;
-                                            echo $review_name; ?>
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label class="control-label fw-bold"><?php echo $entry_review; ?></label>
-                                        <div class="form-text mb-2"><?php echo $text_note; ?></div>
-                                            <?php
-                                            $review_text->required = true;
-                                            echo $review_text; ?>
-                                    </div>
-
-                                    <?php
-                                    $review_button->style .= ' ms-auto text-nowrap mt-4';
-                                    if ($review_recaptcha){ ?>
-                                        <div class="form-group mb-3 d-flex flex-wrap">
-                                        <?php
-                                            echo $review_recaptcha;
-                                            echo $review_button;
-                                        ?>
+                                </div>
+                                <?php } ?>
+                                <div class="col-xxl-8 col-xl-7">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center">
+                                                <div class="w-100">
+                                                    <div class="row align-items-center my-2">
+                                                        <div class="col">
+                                                            <div class="progress" style="height: 5px">
+                                                                <div class="progress-bar bg-success"
+                                                                     style="width: 80%"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="d-flex align-items-center gap-1 text-warning"><i
+                                                                        class="bi bi-star-fill fs-6"></i> <i
+                                                                        class="bi bi-star-fill fs-6"></i> <i
+                                                                        class="bi bi-star-fill fs-6"></i> <i
+                                                                        class="bi bi-star-fill fs-6"></i> <i
+                                                                        class="bi bi-star-fill fs-6"></i>
+                                                                <p class="mb-0 text-primary">70%</p></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-center my-2">
+                                                        <div class="col">
+                                                            <div class="progress" style="height: 5px">
+                                                                <div class="progress-bar bg-success"
+                                                                     style="width: 70%"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="d-flex align-items-center gap-1 text-warning"><i
+                                                                        class="bi bi-star-fill fs-6"></i> <i
+                                                                        class="bi bi-star-fill fs-6"></i> <i
+                                                                        class="bi bi-star-fill fs-6"></i> <i
+                                                                        class="bi bi-star-fill fs-6"></i> <i
+                                                                        class="bi bi-star-fill fs-6"></i>
+                                                                <p class="mb-0 text-primary">15%</p></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-center my-2">
+                                                        <div class="col">
+                                                            <div class="progress" style="height: 5px">
+                                                                <div class="progress-bar bg-success"
+                                                                     style="width: 60%"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="d-flex align-items-center gap-1 text-warning"><i
+                                                                        class="bi bi-star-fill fs-6"></i> <i
+                                                                        class="bi bi-star-fill fs-6"></i> <i
+                                                                        class="bi bi-star-fill fs-6"></i> <i
+                                                                        class="bi bi-star-fill fs-6"></i> <i
+                                                                        class="bi bi-star-fill fs-6"></i>
+                                                                <p class="mb-0 text-primary">10%</p></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-center my-2">
+                                                        <div class="col">
+                                                            <div class="progress" style="height: 5px">
+                                                                <div class="progress-bar bg-success"
+                                                                     style="width: 50%"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="d-flex align-items-center gap-1 text-warning"><i
+                                                                        class="bi bi-star-fill fs-6"></i> <i
+                                                                        class="bi bi-star-fill fs-6"></i> <i
+                                                                        class="bi bi-star-fill fs-6"></i> <i
+                                                                        class="bi bi-star-fill fs-6"></i> <i
+                                                                        class="bi bi-star-fill fs-6"></i>
+                                                                <p class="mb-0 text-primary">3%</p></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-center my-2">
+                                                        <div class="col">
+                                                            <div class="progress" style="height: 5px">
+                                                                <div class="progress-bar bg-success"
+                                                                     style="width: 40%"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="d-flex align-items-center gap-1 text-warning"><i
+                                                                        class="bi bi-star-fill fs-6"></i> <i
+                                                                        class="bi bi-star-fill fs-6"></i> <i
+                                                                        class="bi bi-star-fill fs-6"></i> <i
+                                                                        class="bi bi-star-fill fs-6"></i> <i
+                                                                        class="bi bi-star-fill fs-6"></i>
+                                                                <p class="mb-0 text-primary">2%</p></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    <?php } else{ ?>
-                                        <div class="form-group mb-3 d-flex flex-wrap">
-
-                                                <?php
-                                                echo $this->html->buildCaptcha(
-                                                        [
-                                                            'name'        => 'captcha',
-                                                            'required'    => true,
-                                                            'captcha_url' => $captcha_url,
-                                                            'placeholder' => $entry_captcha
-                                                        ]
-                                                );
-                                                echo $review_button; ?>
-
-                                        </div>
-                                    <?php } ?>
-
-                                </fieldset>
+                                    </div>
+                                </div>
                             </div>
-                        <?php } ?>
+                            <h4>Reviews</h4>
+                            <ul class="list-group list-group-flush">
+                                <div id="current_reviews" class="mb-2"></div>
+                            </ul>
+                            <h4>Write a Review</h4>
+                            <?php if($review_form_status){ ?>
+                            <div class="mb-3">
+                                <div class="mb-3"><label class="form-label"><?php echo $entry_rating; ?></label>
+                                    <div class="d-flex align-items-center gap-1 text-warning"><?php
+                                        $rating_element->required = true;
+                                        echo $rating_element; ?></div>
+                                </div>
+                                <div class="mb-3"><label class="form-label"><?php echo $entry_name; ?></label> <?php
+                                    $review_name->required = true;
+                                    echo $review_name; ?>
+                                </div>
+                                <div class="mb-3"><label class="form-label"><?php echo $entry_review; ?></label>
+                                    <div class="form-text mb-2"><?php echo $text_note; ?></div>
+                                    <?php
+                                    $review_text->required = true;
+                                    echo $review_text; ?></div>
+                                <?php echo $review_button; ?>
+                            </div>
+                            <?php } ?>
+                        </div>
                     </div>
                 </div>
             </div>
