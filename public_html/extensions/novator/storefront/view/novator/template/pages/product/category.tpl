@@ -24,9 +24,9 @@
 </div>
 
     <?php if ($products) { ?>
-        
-            <?php include( $this->templateResource('/template/pages/product/product_listing.tpl') ) ?>
-        
+        <?php
+        /** @see product_listing.tpl */
+        include( $this->templateResource('/template/pages/product/product_listing.tpl') ) ?>
     <?php } ?>
 
 
