@@ -3605,6 +3605,10 @@ section {
 [data-bs-theme=dark] .ecom-filter a:hover, .ecom-filter a:hover {
   color: RGBA(var(--bs-primary-rgb)) !important;
 }
+/* product listing variant. default is hidden*/
+#product_list{
+  display: none;
+}
 
 /*.dropdown.mega-menu li.dropdown{*/
 /*  max-width: 300px;*/
