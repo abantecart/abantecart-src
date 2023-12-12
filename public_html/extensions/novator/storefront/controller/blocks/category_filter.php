@@ -6,6 +6,7 @@ class ControllerBlocksCategoryFilter extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
+        $this->loadLanguage('novator/novator');
         $request = $this->request->get;
         /** @var ModelCatalogCategory $mdl */
         $mdl = $this->loadModel('catalog/category');
