@@ -3599,6 +3599,13 @@ section {
   margin-right: 5px;
 }
 
+[data-bs-theme=dark] .ecom-filter a.link-secondary {
+  color: RGBA(var(--bs-light-rgb)) !important;
+}
+[data-bs-theme=dark] .ecom-filter a:hover, .ecom-filter a:hover {
+  color: RGBA(var(--bs-primary-rgb)) !important;
+}
+
 /*.dropdown.mega-menu li.dropdown{*/
 /*  max-width: 300px;*/
 /*}*/

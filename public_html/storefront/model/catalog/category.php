@@ -299,12 +299,12 @@ class ModelCatalogCategory extends Model
         if ($categories !== false) {
             return $categories;
         }
+        $categories = [];
 
         $this->load->model('catalog/product');
         $this->load->model('catalog/manufacturer');
 
         $results = $this->getCategories($parent_id);
-
         foreach ($results as $result) {
             if (!$path) {
                 $new_path = $result['category_id'];
@@ -404,7 +404,7 @@ class ModelCatalogCategory extends Model
 
         $categories = array_unique($categories);
         if ($categories) {
-            $sql = "SELECT DISTINCT p.manufacturer_id, m.name
+            $sql = "SELECT p.manufacturer_id, m.name, COUNT(p.product_id) as product_count
                     FROM ".$this->db->table('products')." p
                     LEFT JOIN ".$this->db->table('manufacturers')." m ON p.manufacturer_id = m.manufacturer_id
                     WHERE p.product_id IN (SELECT DISTINCT p2c.product_id
@@ -413,7 +413,10 @@ class ModelCatalogCategory extends Model
                                                 ON ( p.product_id = p2c.product_id 
                                                     AND p.status = '1'
                                                     AND COALESCE(p.date_available,'1970-01-01')< NOW() )
-                                           WHERE p2c.category_id IN (".implode(', ', $categories)."));";
+                                           WHERE p2c.category_id IN (".implode(', ', $categories)."))
+                    AND LENGTH(m.name)>0
+                    GROUP BY p.manufacturer_id, m.name
+                    ORDER BY m.name";
             $query = $this->db->query($sql);
             $output = $query->rows;
         } else {
