@@ -1147,7 +1147,11 @@ function js_echo($text)
  */
 function echo_html2view($html)
 {
-    echo htmlspecialchars($html, ENT_QUOTES, 'UTF-8');
+    echo html2view($html);
+}
+function html2view($html)
+{
+    return htmlspecialchars($html, ENT_QUOTES, 'UTF-8');
 }
 
 /**
