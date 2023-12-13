@@ -6,6 +6,7 @@ class ControllerBlocksCategoryFilter extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
+        $this->loadLanguage('novator/novator');
         $request = $this->request->get;
         /** @var ModelCatalogCategory $mdl */
         $mdl = $this->loadModel('catalog/category');
@@ -61,6 +62,7 @@ class ControllerBlocksCategoryFilter extends AController
         /** @var ModelCatalogReview $mdlReview */
         $mdlReview = $this->loadModel('catalog/review');
         $this->view->assign('ratings', $mdlReview->getCategoriesAVGRatings($ids));
+        $this->view->assign('brands', $mdl->getCategoriesBrands($ids));
 
         $this->processTemplate();
 
@@ -68,15 +70,18 @@ class ControllerBlocksCategoryFilter extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    protected function renderTree($tree, $level = 0, $currentId = 0){
+    protected function renderTree($tree, $level = 0, $currentId = 0)
+    {
+        if(!$tree || !is_array($tree)){
+            return false;
+        }
         $output = '<div>';
-
         foreach($tree as $cat){
             $cat['name'] = ($level ? ' - ' : '') .$cat['name'];
                 $output .=
                     '<div class="my-2 ms-'.$level.'">
                         <a href="'.$this->html->getSEOURL('product/category','&category_id='.$cat['category_id']).'" 
-                            class="'.($currentId == $cat['category_id'] ? 'link-primary' : 'link-secondary').' d-block ms-'.$level.'" >'. str_repeat('&nbsp;', $level ).$cat['name'].'
+                            class="link '.($currentId == $cat['category_id'] ? 'fw-bolder link-primary' : 'link-secondary').' d-block ms-'.$level.'" >'. str_repeat('&nbsp;', $level ).$cat['name'].'
                             <span class="float-end">('. $cat['product_count'].')</span>
                         </a>
                     </div>';

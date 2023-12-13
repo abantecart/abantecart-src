@@ -27,5 +27,12 @@ class ExtensionNovator extends Extension {
             $that->language->get('novator_category_form_info_alert')
         );
     }
- }
 
+    public function afterAHook_InitEnd()
+    {
+        if(!IS_ADMIN) {
+            Registry::getInstance()->get('language')->load('novator/novator');
+        }
+    }
+
+ }

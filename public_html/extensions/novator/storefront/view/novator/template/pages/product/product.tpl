@@ -1,5 +1,5 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easyzoom@2.5.3/css/easyzoom.css" />
-<script src="https://cdn.jsdelivr.net/npm/easyzoom@2.5.3/src/easyzoom.js"></script>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/easyzoom@2.5.3/css/easyzoom.css" />
+<script src="//cdn.jsdelivr.net/npm/easyzoom@2.5.3/src/easyzoom.js"></script>
 
 <?php
 $tax_exempt = $this->customer->isTaxExempt();
@@ -381,8 +381,8 @@ if ($error){ ?>
 
     <ul class="nav nav-tabs profile-tabs mb-4 border-bottom" id="myTab" role="tablist">
         
-        <li class="nav-item active" role="presentation">
-            <a class="nav-link" id="description" data-bs-toggle="tab" href="#collapseDescription" role="tab" aria-controls="collapseDescription" aria-selected="true">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="description" data-bs-toggle="tab" href="#collapseDescription" role="tab" aria-controls="collapseDescription" aria-selected="true">
                 <?php echo $tab_description; ?>
             </a>
         </li>
@@ -443,7 +443,7 @@ if ($error){ ?>
     <div class="tab-content">
 
         <!-- Description Tab Content Starts -->
-            <div class="tab-pane active show" id="ecomtab-1" role="tabpanel" aria-labelledby="description">
+            <div class="tab-pane active show" id="collapseDescription" role="tabpanel" aria-labelledby="description">
                 <div class="tab-pane-body">
                     <?php echo $description; ?>
                     <ul class="productinfo list-unstyled">
@@ -505,91 +505,7 @@ if ($error){ ?>
                                         <div class="card-body">
                                             <div class="d-flex align-items-center">
                                                 <div class="w-100">
-                                                    <div class="row align-items-center my-2">
-                                                        <div class="col">
-                                                            <div class="progress" style="height: 5px">
-                                                                <div class="progress-bar bg-success"
-                                                                     style="width: 80%"></div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <div class="d-flex align-items-center gap-1 text-warning"><i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i>
-                                                                <p class="mb-0 text-primary">70%</p></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row align-items-center my-2">
-                                                        <div class="col">
-                                                            <div class="progress" style="height: 5px">
-                                                                <div class="progress-bar bg-success"
-                                                                     style="width: 70%"></div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <div class="d-flex align-items-center gap-1 text-warning"><i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i>
-                                                                <p class="mb-0 text-primary">15%</p></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row align-items-center my-2">
-                                                        <div class="col">
-                                                            <div class="progress" style="height: 5px">
-                                                                <div class="progress-bar bg-success"
-                                                                     style="width: 60%"></div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <div class="d-flex align-items-center gap-1 text-warning"><i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i>
-                                                                <p class="mb-0 text-primary">10%</p></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row align-items-center my-2">
-                                                        <div class="col">
-                                                            <div class="progress" style="height: 5px">
-                                                                <div class="progress-bar bg-success"
-                                                                     style="width: 50%"></div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <div class="d-flex align-items-center gap-1 text-warning"><i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i>
-                                                                <p class="mb-0 text-primary">3%</p></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row align-items-center my-2">
-                                                        <div class="col">
-                                                            <div class="progress" style="height: 5px">
-                                                                <div class="progress-bar bg-success"
-                                                                     style="width: 40%"></div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <div class="d-flex align-items-center gap-1 text-warning"><i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i>
-                                                                <p class="mb-0 text-primary">2%</p></div>
-                                                        </div>
-                                                    </div>
+                                                    <?php echo renderProductRatingStars((int)$product_id);?>
                                                 </div>
                                             </div>
                                         </div>
