@@ -2654,17 +2654,31 @@ class PaginationHtmlElement extends HtmlElement
         $this->sts['total'] = 0;
         $this->sts['page'] = 1;
         $this->sts['limit'] = 20;
-        $this->sts['split'] = 10;
+        $this->sts['split'] = $data['split'] ?: 10;
         $this->sts['limits'] = [];
         //max pages to show in pagination
-        $this->sts['num_links'] = 10;
+        $this->sts['num_links'] = $data['num_links'] ?: 10;
         $this->sts['url'] = '';
-        $this->sts['text'] = 'Showing {start} to {end} of {total} ({pages} Pages)';
-        $this->sts['text_limit'] = 'Per Page';
-        $this->sts['text_first'] = '&lt;&lt;';
-        $this->sts['text_last'] = '&gt;&gt;';
-        $this->sts['text_next'] = '&gt;';
-        $this->sts['text_prev'] = '&lt;';
+        $this->sts['text'] = $this->language->get('text_pagination_pages_info');
+        $this->sts['text'] = $this->sts['text'] == 'text_pagination_pages_info'
+            ? 'Showing {start} to {end} of {total} ({pages} Pages)'
+            : $this->sts['text'];
+
+        $this->sts['text_limit'] = $this->language->get('text_per_page');
+        $this->sts['text_limit'] = $this->sts['text_limit'] == 'text_per_page' ? 'Per Page' : $this->sts['text_limit'];
+
+        $this->sts['text_first'] = $this->language->get('text_first');
+        $this->sts['text_first'] = $this->sts['text_first'] == 'text_first' ? '|<<' : $this->sts['text_first'];
+
+        $this->sts['text_last'] = $this->language->get('text_last');
+        $this->sts['text_last'] = $this->sts['text_last'] == 'text_last' ? '>>|' : $this->sts['text_last'];
+
+        $this->sts['text_next'] = $this->language->get('text_next');
+        $this->sts['text_next'] = $this->sts['text_next'] == 'text_next' ? '>' : $this->sts['text_next'];
+
+        $this->sts['text_prev'] = $this->language->get('text_previous');
+        $this->sts['text_prev'] = $this->sts['text_prev'] == 'text_previous' ? '<' : $this->sts['text_prev'];
+
         $this->sts['style_links'] = 'links';
         $this->sts['style_results'] = 'results';
         $this->sts['style_limits'] = 'limits';
