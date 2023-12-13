@@ -356,7 +356,7 @@ class ControllerResponsesProductProduct extends AController
 
         $output = [];
         //can not show price
-        if (!$this->config->get('config_customer_price') && !$this->customer->isLogged()) {
+        if (!$this->request->get['admin'] && !$this->config->get('config_customer_price') && !$this->customer->isLogged()) {
             $this->response->setOutput(AJson::encode($output));
             return;
         }
