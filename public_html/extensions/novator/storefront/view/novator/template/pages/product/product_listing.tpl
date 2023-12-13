@@ -27,7 +27,7 @@
 <div id="product_cell_grid" class="product_cell_grid">
     <?php include( $this->templateResource('/template/blocks/product_cell_grid.tpl') ); ?>
 </div>
-<div id="product_list" class="product_list">
+<div id="product_list" class="product_list" style="display:none;">
     <?php include( $this->templateResource('/template/blocks/product_listing.tpl') ); ?>
 </div>
 <div class="w-100 mt-3 sorting well">
