@@ -42,8 +42,8 @@
 					$product['thumb'] = $product['thumb'] ?? $product['image'];
 					$item = [];
 
-					$item['image'] = '<img alt="images" class="img-fluid h-auto" width="312" height="400" src="'.$product['thumb']['thumb_url'].'" style="'.$productImgCss.'">';
-					$item['image1'] = '<img alt="images" class="img-fluid h-auto img-overlay" width="312" height="400" src="'.$product['thumb']['thumb_url'].'" style="'.$productImgCss.'">';
+					$item['image'] = '<img alt="'.html2view($product['name']).'" class="img-fluid h-auto" src="'.$product['thumb']['thumb_url'].'" style="'.$productImgCss.'">';
+					$item['image1'] = '<img class="img-fluid h-auto img-overlay" src="'.$product['thumb']['thumb_url'].'" style="'.$productImgCss.'">';
 					$item['title'] = $product['name'];
 					$item['description'] = $product['model'];
 					$item['rating'] = renderRatingStarsNv($product['rating'], $product['stars']);
@@ -84,9 +84,7 @@
 											<div class="col-auto">
 												<ul class="list-inline mb-0">
 													<li class="list-inline-item btn-wishlist">
-														<a href="#">
-														<i class="bi bi-heart"></i>
-														</a>
+														<a href="#"><i class="bi bi-heart"></i></a>
 													</li>
 													<li class="list-inline-item btn-quickview">
 														<a href="<?php echo $item['info_url'] ?>" data-bs-toggle="tooltip" title="<?php echo $button_view ?>">
