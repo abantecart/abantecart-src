@@ -315,13 +315,6 @@ if ($error){ ?>
                                             </div>
                                             <?php }
                                         } ?>
-                                        <div class="d-flex flex-wrap align-items-start justify-content-start mt-2">
-                                            <a class="product-page-print btn btn-outline-primary mb-2" href="javascript:window.print();">
-                                                <i class="bi bi-printer"></i>
-                                                <?php echo $button_print; ?>
-                                            </a>
-                                            
-                                        </div>
                                     </div>
                                     <?php
                                      if($product_info['free_shipping'] && $product_info['shipping_price'] <= 0) { ?>
@@ -565,7 +558,7 @@ if ($error){ ?>
         <!-- downloads Tab Content Starts -->
             <div class="tab-pane" id="collapseDownloads" role="tabpanel" aria-labelledby="downloads">
                 <div class="tab-pane-body">
-                        <ul class="list-group list-unstyled list-inline ">
+
                                     <?php foreach ($downloads as $download){ ?>
                                         <li class="list-group-item d-flex justify-content-between align-items-center col-12">
                                             <div class="fs-5 fw-bolder"><?php echo $download['name'];
@@ -583,7 +576,7 @@ if ($error){ ?>
                                                         class="fa-solid fa-download"></i> <?php echo $download['button']->text; ?></a>
                                         </li>
                                     <?php } ?>
-                                </ul>
+
                 </div>
             </div>
         <!-- downloads Tab Content Ends -->
