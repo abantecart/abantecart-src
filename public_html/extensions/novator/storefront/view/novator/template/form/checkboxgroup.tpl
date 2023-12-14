@@ -1,8 +1,7 @@
-
 <?php if(!$no_wrapper){?>
 <div class="input-group h-100">
     <?php } ?>
-    <div class="form-check-inline d-flex flex-wrap form-control me-0">
+    <div class="prod-option">
         <?php
         foreach ( $options as $v => $text ) {
             $check_id = preg_replace('/[^a-zA-Z0-9.-_]/', '', $id . $v); ?>
@@ -23,11 +22,10 @@
                 </div>
             </div>
         <?php } ?>
-    </div>
         <?php if ( $required) { ?>
-            <span class="input-group-text text-danger">*</span>
+            <span class="input-group-text border-0 text-danger">*</span>
         <?php } ?>
-
+    </div>
         <?php
         if(!$no_wrapper){?>
     </div>
