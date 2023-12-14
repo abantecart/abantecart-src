@@ -1,7 +1,8 @@
-<?php if($products){ ?>
-
-    <div class="px-0 hello-wrld">
-        <?php
+<?php if($products){
+    $wishlist = $wishlist ?? $this->customer->getWishlist();
+    ?>
+    <div class="px-0">
+<?php
         $cartProducts = $this->cart->getProducts();
         $cartProductIds = $cartProducts ? array_column($cartProducts,'product_id') : [];
         $cartProducts = array_column($cartProducts,'quantity','product_id');
@@ -64,7 +65,15 @@
                                         </h2>
                                       
                                         <ul class="list-inline mb-0">
-                                            <li class="list-inline-item "><a href="#"><i class="bi bi-heart"></i></a></li>
+                                            <li class="list-inline-item ">
+                                                <a class="wish" href="javascript:void(0)">
+                                                    <i class="<?php
+                                                    echo isset($wishlist[$product['product_id']])
+                                                        ? 'fa-solid'
+                                                        : 'fa-regular';
+                                                    ?> fa-heart"></i>
+                                                </a>
+                                            </li>
                                             <li class="list-inline-item">
                                                 <a href="<?php echo $item['info_url'] ?>">
                                                 <i class="bi bi-eye"></i>
