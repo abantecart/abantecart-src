@@ -108,8 +108,12 @@ if ($error){ ?>
                 <div class="col-sm-6">
                     <h1 class="h3"><?php echo $heading_title; ?></h1>
                     <!-- TM Static content start -->
-                    <h6 class="my-2 text-warning"><u>Louis Vuitton</u></h6>
-                    <p class="text-muted">Teixeira Design Studio</p>
+                    <?php if($manufacturer){?>
+                    <h6 class="my-2 text-warning"><u><?php echo $manufacturer; ?></u></h6>
+                    <?php }?>
+                    <?php if($blurb){?>
+                    <p class="text-muted"><?php echo $blurb; ?></p>
+                    <?php }?>
                     <!-- TM Static content ends -->
                 </div>
                 <div class="col-sm-6">

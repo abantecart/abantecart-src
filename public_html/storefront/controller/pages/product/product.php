@@ -176,12 +176,12 @@ class ControllerPagesProductProduct extends AController
                 'separator' => $this->language->get('text_separator'),
             ]
         );
-
         $this->document->setTitle($product_info['name']);
         $this->document->setKeywords($product_info['meta_keywords']);
         $this->document->setDescription($product_info['meta_description']);
 
         $this->data['heading_title'] = $product_info['name'];
+        $this->data['blurb'] = $product_info['blurb'];
         $this->data['minimum'] = $product_info['minimum'];
         $this->data['text_minimum'] = sprintf($this->language->get('text_minimum'), $product_info['minimum']);
         $this->data['maximum'] = $product_info['maximum'];
