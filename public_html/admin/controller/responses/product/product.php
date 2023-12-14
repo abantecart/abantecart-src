@@ -1643,7 +1643,7 @@ class ControllerResponsesProductProduct extends AController
         if (!in_array($data['activate'], ['before_order', 'immediately', 'order_status', 'manually'])) {
             $this->error['activate'] = $this->language->get('error_activate');
         } else {
-            if ($data['activate'] == 'order_status' && !(int)$data['activate_order_status_id']) {
+            if ($data['activate'] == 'order_status' && !(array) $data['activate_order_status_id']) {
                 $this->error['order_status'] = $this->language->get('error_order_status');
             }
         }
