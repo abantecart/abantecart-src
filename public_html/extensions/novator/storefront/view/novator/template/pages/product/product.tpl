@@ -508,7 +508,7 @@ if ($error){ ?>
                             <ul class="list-group list-group-flush">
                                 <div id="current_reviews" class="mb-2"></div>
                             </ul>
-                            <h4><?php echo $write_review_title; ?></h4>
+                            <div class="heading" id="review_title"><h4><?php echo $write_review_title; ?></h4></div>
                             <fieldset>
                             <?php if($review_form_status){ ?>
                             <div class="mb-3">
