@@ -123,12 +123,12 @@ if ($error){ ?>
                         if ($is_customer) { ?>
                             <div class="wishlist d-flex align-items-center justify-content-between">
                                 <a id="wishlist_remove" class="bg-light-danger badge fs-6 <?php echo $in_wishlist ? 'd-block': 'd-none';?>" href="Javascript:void(0);">
-                                    <i class="fa-solid fa-heart"></i>
+                                    <i class="bi bi-heart-fill"></i>
                                     <?php echo $button_remove_wishlist; ?>
                                 </a>
                                 <a id="wishlist_add"
                                 class="bg-light-danger badge fs-6 <?php echo $in_wishlist ? 'd-none': 'd-block';?>" href="Javascript:void(0);">
-                                    <i class="fa-regular fa-heart"></i>
+                                    <i class="bi bi-heart"></i>
                                     <?php echo $button_add_wishlist; ?>
                                 </a>
                             </div>

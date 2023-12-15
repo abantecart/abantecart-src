@@ -65,15 +65,16 @@
                                         </h2>
                                       
                                         <ul class="list-inline mb-0">
+                                            <?php if($this->customer->isLogged()){ ?>
                                             <li class="list-inline-item ">
                                                 <a class="wish" href="javascript:void(0)">
-                                                    <i class="<?php
+                                                    <i class="bi <?php
                                                     echo isset($wishlist[$product['product_id']])
-                                                        ? 'fa-solid'
-                                                        : 'fa-regular';
-                                                    ?> fa-heart"></i>
+                                                        ? 'bi-heart-fill'
+                                                        : 'bi-heart'; ?>"></i>
                                                 </a>
                                             </li>
+                                            <?php } ?>
                                             <li class="list-inline-item">
                                                 <a href="<?php echo $item['info_url'] ?>">
                                                 <i class="bi bi-eye"></i>
