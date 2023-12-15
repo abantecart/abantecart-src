@@ -232,4 +232,22 @@ class ModelCatalogReview extends Model
         return $cache;
     }
 
+    public function getProductAVGRatings($productId)
+    {
+        $cache_key = 'product.avg.ratings'.$productId;
+        $cache = $this->cache->pull($cache_key);
+        if ($cache === false) {
+            $query = $this->db->query(
+                "SELECT *
+                FROM " . $this->db->table("reviews") . " r 
+                WHERE r.status = 1 AND product_id = ".(int)$productId
+            );
+            $cache = [5 => 0, 4 => 0, 3 => 0, 2 => 0, 1 => 0];
+            foreach ($query->rows as $row) {
+                $cache[(int)$row['rating']]++;
+            }
+        }
+        return $cache;
+    }
+
 }

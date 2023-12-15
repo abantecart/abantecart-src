@@ -715,9 +715,9 @@ class ModelCatalogDownload extends Model
         if ($download_info['remaining_count'] == '0') {
             $text_status[] = $this->language->get('text_download_remaining_count').': 0';
         }
-
-        if ((int) $download_info['activate_order_status_id'] > 0) {
-            if ((int) $download_info['activate_order_status_id'] != (int) $download_info['order_status_id']) {
+        $activateStatuses = (array) unserialize($download_info['activate_order_status_id']);
+        if (count($activateStatuses) > 0) {
+            if (!in_array((int) $download_info['order_status_id'], $activateStatuses)) {
                 $this->load->model('localisation/order_status');
                 $order_status_info = $this->model_localisation_order_status->getOrderStatus(
                     $download_info['activate_order_status_id']

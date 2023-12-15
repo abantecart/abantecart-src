@@ -76,15 +76,11 @@ $categories = prepareNVCatItems($categories);
 
                 </div>
             </div>
-            <button class="navbar-toggler rounded" type="button" data-bs-toggle="offcanvas" aria-label="menu-toggle" data-bs-target="#menucartoffcanvas">
-                    <span class="navbar-toggler-icon">
-                    </span>
-            </button>
             <div class="collapse d-none d-lg-flex navbar-collapse">
                 <ul class="navbar-nav mb-2 mb-lg-0 align-items-start">
                     <li class="nav-item">
-                        <a class="btn btn-primary d-inline-flex align-items-center rounded-1 p-2" href="#" aria-label="User">
-                            <i class="bi bi-patch-check-fill"></i> Offer
+                        <a class="btn btn-primary d-inline-flex align-items-center rounded-1 p-2" href="<?php echo $this->html->getSeoUrl('product/special')?>">
+                            <i class="bi bi-patch-check-fill"></i> <?php echo  $this->language->get('text_special')?>
                         </a>
                     </li>
                 </ul>

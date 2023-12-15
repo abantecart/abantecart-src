@@ -90,3 +90,6 @@ $resource_id = $rm->addResource($resource);
 if ($resource_id) {
     $settings['config_logo'] = $resource_id;
 }
+
+$settings['config_image_product_width'] = 312;
+$settings['config_image_product_height'] = 400;

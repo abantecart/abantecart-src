@@ -9,7 +9,7 @@
                                 <a class="btn fw-bold border-0 px-0 text-start w-100 pb-0" data-bs-toggle="collapse"
                                    href="#tree_collapse">
                                     <div class="float-end"><i class="bi bi-chevron-down"></i></div>
-                                    Category
+                                    <?php echo $this->language->get('text_categories')?>
                                 </a>
                                 <div class="collapse show" id="tree_collapse" >
                                     <?php echo $category_tree ?>
@@ -19,7 +19,7 @@
                                 <a class="btn fw-bold border-0 px-0 text-start w-100 pb-0 mb-2" data-bs-toggle="collapse"
                                    href="#category_rating-collapse">
                                     <div class="float-end"><i class="bi bi-chevron-down"></i></div>
-                                    Ratings
+                                    <?php echo $this->language->get('text_ratings')?>
                                 </a>
                                 <div class="collapse show" id="category_rating-collapse">
                                     <?php foreach($ratings as $stars => $count){ ?>
@@ -34,16 +34,16 @@
                                 <a class="btn fw-bold border-0 px-0 text-start w-100 pb-2" data-bs-toggle="collapse"
                                    href="#brand_list_collapse">
                                     <div class="float-end"><i class="bi bi-chevron-down"></i></div>
-                                    Brand
+                                    <?php echo $this->language->get('text_brands')?>
                                 </a>
                                 <div class="collapse show" id="brand_list_collapse">
-                                        <?php foreach($brands as $brand){ ?>
-                                            <div class="w-100 mt-1 d-flex justify-content-between">
-                                                <a href="<?php echo $this->html->getSEOURL('product/manufacturer','&manufacturer_id='.$brand['manufacturer_id'])?>"
-                                                   class="link-secondary d-block "><?php echo $brand['name']?></a>
-                                                <span class="float-end">(<?php echo $brand['product_count']?>)</span>
-                                            </div>
-                                        <?php } ?>
+                                    <?php foreach($brands as $brand){ ?>
+                                        <div class="w-100 mt-1 d-flex justify-content-between">
+                                            <a href="<?php echo $this->html->getSEOURL('product/manufacturer','&manufacturer_id='.$brand['manufacturer_id'])?>"
+                                               class="link-secondary d-block "><?php echo $brand['name']?></a>
+                                            <span class="float-end">(<?php echo $brand['product_count']?>)</span>
+                                        </div>
+                                    <?php } ?>
                                 </div>
                             </li>
                         </ul>

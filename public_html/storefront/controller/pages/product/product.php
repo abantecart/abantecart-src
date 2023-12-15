@@ -176,12 +176,12 @@ class ControllerPagesProductProduct extends AController
                 'separator' => $this->language->get('text_separator'),
             ]
         );
-
         $this->document->setTitle($product_info['name']);
         $this->document->setKeywords($product_info['meta_keywords']);
         $this->document->setDescription($product_info['meta_description']);
 
         $this->data['heading_title'] = $product_info['name'];
+        $this->data['blurb'] = $product_info['blurb'];
         $this->data['minimum'] = $product_info['minimum'];
         $this->data['text_minimum'] = sprintf($this->language->get('text_minimum'), $product_info['minimum']);
         $this->data['maximum'] = $product_info['maximum'];
@@ -217,7 +217,11 @@ class ControllerPagesProductProduct extends AController
         } else {
             $this->data['tab_review'] = $this->language->get('tab_review_empty');
         }
-        $this->data['count_reviews'] = $this->model_catalog_review->getTotalReviewsByProductId($product_id);
+        $this->data['review_percentage_translate'] = $this->language->get('percentage_review');
+        $this->data['feedback_customer_title']=$this->language->get('feedback_customer_title');
+        $this->data['review_title']=$this->language->get('review_title');
+        $this->data['write_review_title']=$this->language->get('write_review_title');
+        $this->data['product_rate_title']=$this->language->get('product_rate_title');
         $this->data['review_form_status'] = $this->isReviewAllowed($product_id);
         $average = $this->data['display_reviews']
             ? $this->model_catalog_review->getAverageRating($product_id)

@@ -7,6 +7,7 @@
 
     $imgW = $imgW ?? $this->config->get('config_image_product_width');
     $imgH = $imgH ?? $this->config->get('config_image_product_height');
+    $wishlist = $wishlist ?? $this->customer->getWishlist();
 ?>
 
     <section class="product-sec" id="<?php echo $homeBlockId;?>">
@@ -42,8 +43,8 @@
 					$product['thumb'] = $product['thumb'] ?? $product['image'];
 					$item = [];
 
-					$item['image'] = '<img alt="images" class="img-fluid h-auto" width="312" height="400" src="'.$product['thumb']['thumb_url'].'" style="'.$productImgCss.'">';
-					$item['image1'] = '<img alt="images" class="img-fluid h-auto img-overlay" width="312" height="400" src="'.$product['thumb']['thumb_url'].'" style="'.$productImgCss.'">';
+					$item['image'] = '<img alt="'.html2view($product['name']).'" class="img-fluid h-auto" src="'.$product['thumb']['thumb_url'].'" style="'.$productImgCss.'">';
+					$item['image1'] = '<img class="img-fluid h-auto img-overlay" src="'.$product['thumb']['thumb_url'].'" style="'.$productImgCss.'">';
 					$item['title'] = $product['name'];
 					$item['description'] = $product['model'];
 					$item['rating'] = renderRatingStarsNv($product['rating'], $product['stars']);
@@ -61,7 +62,9 @@
                     }
 					?>
 					<div class="col-6 col-lg-3">
-						<div class="product-card card p-0 border-0">
+						<div class="product-card card p-0 border-0"
+                             data-raw-price="<?php echo round($product['raw_price'],2)?>"
+                             data-product-id="<?php echo round($product['product_id'],2)?>">
 							<div class="prod-img position-relative overflow-hidden">
 								<a href="<?php echo $item['info_url'] ?>">
 									<?php echo $item['image'] ?>
@@ -83,11 +86,17 @@
 										<div class="row g-2 align-items-center justify-content-between">
 											<div class="col-auto">
 												<ul class="list-inline mb-0">
+                                                    <?php if($this->customer->isLogged()){ ?>
 													<li class="list-inline-item btn-wishlist">
-														<a href="#">
-														<i class="bi bi-heart"></i>
-														</a>
+														<a class="wish" href="javascript:void(0)">
+                                                            <i class="bi <?php
+                                                                echo isset($wishlist[$product['product_id']])
+                                                                    ? 'bi-heart-fill'
+                                                                    : 'bi-heart';
+                                                                ?>"></i>
+                                                        </a>
 													</li>
+                                                    <?php } ?>
 													<li class="list-inline-item btn-quickview">
 														<a href="<?php echo $item['info_url'] ?>" data-bs-toggle="tooltip" title="<?php echo $button_view ?>">
 															<i class="bi bi-eye" ></i>
@@ -114,8 +123,8 @@
 																			href="<?php echo $this->html->getSeoUrl('content/contact');?>"
 																			class="call_to_order badge text-bg-primary"
 																			title="<?php echo_html2view($text_call_to_order); ?>">
-																			<i class="bi bi-phone"></i>
-																			contact us
+																			<i class="bi bi-telephone-fill"></i>
+                                        <?php echo $text_call_to_order; ?>
 																			</a>
 																		</p>
 																	<?php } else if ($product['track_stock'] && !$product['in_stock']) { ?>

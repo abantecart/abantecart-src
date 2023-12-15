@@ -1,5 +1,5 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easyzoom@2.5.3/css/easyzoom.css" />
-<script src="https://cdn.jsdelivr.net/npm/easyzoom@2.5.3/src/easyzoom.js"></script>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/easyzoom@2.5.3/css/easyzoom.css" />
+<script src="//cdn.jsdelivr.net/npm/easyzoom@2.5.3/src/easyzoom.js"></script>
 
 <?php
 $tax_exempt = $this->customer->isTaxExempt();
@@ -108,8 +108,12 @@ if ($error){ ?>
                 <div class="col-sm-6">
                     <h1 class="h3"><?php echo $heading_title; ?></h1>
                     <!-- TM Static content start -->
-                    <h6 class="my-2 text-warning"><u>Louis Vuitton</u></h6>
-                    <p class="text-muted">Teixeira Design Studio</p>
+                    <?php if($manufacturer){?>
+                    <h6 class="my-2 text-warning"><u><?php echo $manufacturer; ?></u></h6>
+                    <?php }?>
+                    <?php if($blurb){?>
+                    <p class="text-muted"><?php echo $blurb; ?></p>
+                    <?php }?>
                     <!-- TM Static content ends -->
                 </div>
                 <div class="col-sm-6">
@@ -117,9 +121,9 @@ if ($error){ ?>
                     <!-- Hello Abentacart team you need to check here Starts -->
                         <?php echo $this->getHookVar('buttons');
                         if ($is_customer) { ?>
-                            <div class="wishlist mb-2">
+                            <div class="wishlist d-flex align-items-center justify-content-between">
                                 <a id="wishlist_remove" class="bg-light-danger badge fs-6 <?php echo $in_wishlist ? 'd-block': 'd-none';?>" href="Javascript:void(0);">
-                                    <i class="bi bi-heart"></i>
+                                    <i class="bi bi-heart-fill"></i>
                                     <?php echo $button_remove_wishlist; ?>
                                 </a>
                                 <a id="wishlist_add"
@@ -181,18 +185,13 @@ if ($error){ ?>
                         if ($average){ ?>
                             <div class="rounded-pill bg-light-warning badge fs-6"><i class="bi bi-star"></i> <?php echo $average;?></div>
                             <!-- Hello Abentacart team you need to check here ends -->
-                        <?php } else{?>
-                            <div class="text-warning rating-stars text-sm-end">
-                                <?php echo noRatingStarsNv(''); ?>
-                            </div>
-                        <?php }
-                    ?>
-                    <?php if($count_reviews){?>
-                    <div class="rounded-pill bg-light-secondary badge fs-6"><i class="bi bi-chat-left-dots"></i> <?php echo $count_reviews;?> Reviews</div>
+                        <?php }?>
+                    <?php if($tab_review){?>
+                    <div class="rounded-pill bg-light-secondary badge fs-6"><i class="bi bi-chat-left-dots"></i> <?php echo $tab_review;?> </div>
                     <?php }?>
                 </div>
                 <?php if($review_percentage){?>
-                <p class="text-muted text-start mb-0 text-sm-end"><b class="text-success"><?php echo $review_percentage?>% </b>of buyers have recommended this.</p>
+                <p class="text-muted text-start mb-0 text-sm-end"><b class="text-success"><?php echo $review_percentage?>% </b><?php echo $review_percentage_translate; ?></p>
                 <?php }?>
             </div>
             <hr class="my-4">
@@ -315,13 +314,6 @@ if ($error){ ?>
                                             </div>
                                             <?php }
                                         } ?>
-                                        <div class="d-flex flex-wrap align-items-start justify-content-start mt-2">
-                                            <a class="product-page-print btn btn-outline-primary mb-2" href="javascript:window.print();">
-                                                <i class="bi bi-printer"></i>
-                                                <?php echo $button_print; ?>
-                                            </a>
-                                            
-                                        </div>
                                     </div>
                                     <?php
                                      if($product_info['free_shipping'] && $product_info['shipping_price'] <= 0) { ?>
@@ -486,7 +478,7 @@ if ($error){ ?>
             <div class="tab-pane" id="collapseReview" role="tabpanel" aria-labelledby="review">
                 <div class="tab-pane-body">
                     <div class="row">
-                        <div class="col-xxl-8 col-md-10"><h4 class="fw-normal">Customers Feedback</h4>
+                        <div class="col-xxl-8 col-md-10"><h4 class="fw-normal"><?php echo $feedback_customer_title;?></h4>
                             <div class="row g-4 mb-4 justify-content-between align-items-stretch">
                                 <?php if($average) {?>
                                 <div class="col-xxl-4 col-xl-5">
@@ -496,7 +488,7 @@ if ($error){ ?>
                                                 <div class="text-warning rating-stars text-sm-end">
                                                     <?php echo renderRatingStarsNv($average,''); ?>
                                                 </div></div>
-                                            <p class="mb-0 text-muted">Product Rating</p></div>
+                                            <p class="mb-0 text-muted"><?php echo $product_rate_title; ?></p></div>
                                     </div>
                                 </div>
                                 <?php } ?>
@@ -505,102 +497,19 @@ if ($error){ ?>
                                         <div class="card-body">
                                             <div class="d-flex align-items-center">
                                                 <div class="w-100">
-                                                    <div class="row align-items-center my-2">
-                                                        <div class="col">
-                                                            <div class="progress" style="height: 5px">
-                                                                <div class="progress-bar bg-success"
-                                                                     style="width: 80%"></div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <div class="d-flex align-items-center gap-1 text-warning"><i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i>
-                                                                <p class="mb-0 text-primary">70%</p></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row align-items-center my-2">
-                                                        <div class="col">
-                                                            <div class="progress" style="height: 5px">
-                                                                <div class="progress-bar bg-success"
-                                                                     style="width: 70%"></div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <div class="d-flex align-items-center gap-1 text-warning"><i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i>
-                                                                <p class="mb-0 text-primary">15%</p></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row align-items-center my-2">
-                                                        <div class="col">
-                                                            <div class="progress" style="height: 5px">
-                                                                <div class="progress-bar bg-success"
-                                                                     style="width: 60%"></div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <div class="d-flex align-items-center gap-1 text-warning"><i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i>
-                                                                <p class="mb-0 text-primary">10%</p></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row align-items-center my-2">
-                                                        <div class="col">
-                                                            <div class="progress" style="height: 5px">
-                                                                <div class="progress-bar bg-success"
-                                                                     style="width: 50%"></div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <div class="d-flex align-items-center gap-1 text-warning"><i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i>
-                                                                <p class="mb-0 text-primary">3%</p></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row align-items-center my-2">
-                                                        <div class="col">
-                                                            <div class="progress" style="height: 5px">
-                                                                <div class="progress-bar bg-success"
-                                                                     style="width: 40%"></div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <div class="d-flex align-items-center gap-1 text-warning"><i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i> <i
-                                                                        class="bi bi-star-fill fs-6"></i>
-                                                                <p class="mb-0 text-primary">2%</p></div>
-                                                        </div>
-                                                    </div>
+                                                    <?php echo renderProductRatingStars((int)$product_id);?>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <h4>Reviews</h4>
+                            <h4><?php echo $review_title; ?></h4>
                             <ul class="list-group list-group-flush">
                                 <div id="current_reviews" class="mb-2"></div>
                             </ul>
-                            <h4>Write a Review</h4>
+                            <div class="heading" id="review_title"><h4><?php echo $write_review_title; ?></h4></div>
+                            <fieldset>
                             <?php if($review_form_status){ ?>
                             <div class="mb-3">
                                 <div class="mb-3"><label class="form-label"><?php echo $entry_rating; ?></label>
@@ -617,9 +526,34 @@ if ($error){ ?>
                                     <?php
                                     $review_text->required = true;
                                     echo $review_text; ?></div>
-                                <?php echo $review_button; ?>
                             </div>
+                                <?php
+                                $review_button->style .= ' ms-auto text-nowrap mt-4';
+                                if ($review_recaptcha){ ?>
+                                    <div class="form-group mb-3 d-flex flex-wrap">
+                                        <?php
+                                        echo $review_recaptcha;
+                                        echo $review_button;
+                                        ?>
+                                    </div>
+                                <?php } else{ ?>
+                                    <div class="form-group mb-3 d-flex flex-wrap">
+
+                                        <?php
+                                        echo $this->html->buildCaptcha(
+                                            [
+                                                'name'        => 'captcha',
+                                                'required'    => true,
+                                                'captcha_url' => $captcha_url,
+                                                'placeholder' => $entry_captcha
+                                            ]
+                                        );
+                                        echo $review_button; ?>
+
+                                    </div>
+                                <?php } ?>
                             <?php } ?>
+                            </fieldset>
                         </div>
                     </div>
                 </div>
@@ -649,7 +583,7 @@ if ($error){ ?>
         <!-- downloads Tab Content Starts -->
             <div class="tab-pane" id="collapseDownloads" role="tabpanel" aria-labelledby="downloads">
                 <div class="tab-pane-body">
-                        <ul class="list-group list-unstyled list-inline ">
+
                                     <?php foreach ($downloads as $download){ ?>
                                         <li class="list-group-item d-flex justify-content-between align-items-center col-12">
                                             <div class="fs-5 fw-bolder"><?php echo $download['name'];
@@ -667,7 +601,7 @@ if ($error){ ?>
                                                         class="fa-solid fa-download"></i> <?php echo $download['button']->text; ?></a>
                                         </li>
                                     <?php } ?>
-                                </ul>
+
                 </div>
             </div>
         <!-- downloads Tab Content Ends -->

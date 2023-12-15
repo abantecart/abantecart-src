@@ -36,6 +36,7 @@ class ModelCatalogProduct extends Model
         $query = $this->db->query(
             "SELECT DISTINCT *,
                         pd.name AS name,
+                        pd.blurb AS blurb,
                         m.name AS manufacturer,
                         ss.name AS stock_status,
                         stock_checkout,

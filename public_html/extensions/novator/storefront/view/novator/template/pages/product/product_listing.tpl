@@ -37,4 +37,62 @@
 $('#sort').change(function () {
     ResortProductGrid('<?php echo $url; ?>');
 });
+
+//Google Analytics 4
+function ga_event_fire(evtName, card){
+    if(!ga4_enabled){
+        console.log('google analytics data collection is disabled')
+        return;
+    }
+
+    let prodName = card.find('h6.m-3>a').text().trim();
+    let price = card.find('.pricenew').text() ?? card.find('.prod-price').text();
+    gtag("event", evtName, {
+        currency: default_currency,
+        value: price,
+        items: [
+            {
+                item_id: <?php echo (int)$product_info['product_id']; ?>,
+                item_name: prodName,
+                affiliation: storeName,
+                price: price ,
+                quantity: 1
+            }
+        ]
+    });
+}
+
+$(document).on('click','.wish', function(e) {
+    e.preventDefault();
+    let that = $(this).find('i.bi');
+    let card = that.parents('.product-card');
+    let added = that.hasClass('bi-heart-fill');
+    let url = '';
+    if(added){
+        url = '<?php echo $this->html->getSecureURL('product/wishlist/remove');?>&product_id='+ card.attr('data-product-id');
+    }else{
+        url = '<?php echo $this->html->getSecureURL('product/wishlist/add');?>&product_id='+ card.attr('data-product-id');
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: url,
+        dataType: 'json',
+        beforeSend: function () {
+            that.addClass('fa-spin');
+        },
+        complete: function () {
+            that.removeClass('fa-spin');
+        },
+        success: function (data) {
+            if (added) {
+                that.removeClass('bi-heart-fill').addClass('bi-heart');
+            } else {
+                that.removeClass('bi-heart').addClass('bi-heart-fill');
+                ga_event_fire("add_to_wishlist", card);
+            }
+        }
+    });
+});
+
 </script>

@@ -264,3 +264,40 @@ function noRatingStarsNv($text){
     }
     return $output.'</div>';
 }
+
+function renderProductRatingStars( int $productId){
+    if(!$productId){
+        return false;
+    }
+    /** @var ModelCatalogReview $mdl */
+    $mdl = Registry::getInstance()->get('load')->load->model('catalog/review');
+    $ratings = $mdl->getProductAVGRatings($productId);
+    $totalRate = array_sum($ratings);
+    if(!$totalRate){
+        return '';
+    }
+
+    $output = '';
+    foreach($ratings as $stars => $count){
+        $prc = round(($count*100/$totalRate));
+        $output .= '<div class="row align-items-center my-2">
+        <div class="col">
+            <div class="progress" style="height: 5px">
+                <div class="progress-bar bg-success"
+                     style="width: '.$prc.'%"></div>
+            </div>
+        </div>
+        <div class="col-auto">
+            <div class="d-flex align-items-center gap-1 text-warning">';
+        $i = 1;
+        while ($i < 6) {
+            $output .= '<i class="fa-star ' . ($i <= $stars ? 'fa-solid' : 'fa-regular') . '"></i>';
+            $i++;
+        }
+        $output .= '      <p class="mb-0 text-primary text-end" style="width: 50px;">'.$prc.'%</p></div>
+        </div>
+    </div>';
+    }
+
+    return $output;
+}

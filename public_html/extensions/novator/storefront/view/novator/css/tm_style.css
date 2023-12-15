@@ -2806,7 +2806,7 @@ section {
   --bs-pagination-active-bg: var(--bs-primary);
 }
 
-.pagination .page-link {
+.pagination .page-link{
   margin: 0 5px;
   border-radius: var(--bs-border-radius);
 }
@@ -2815,8 +2815,8 @@ section {
   color: var(--bs-body-color);
 }
 
-.wid-100 {
-  width: 100px;
+#limit.form-select{
+  padding: 0.4rem 2rem 0.4rem 0.75rem;
 }
 
 .breadcrumb {
