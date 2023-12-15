@@ -64,9 +64,9 @@ function ga_event_fire(evtName, card){
 
 $(document).on('click','.wish', function(e) {
     e.preventDefault();
-    let that = $(this).find('i.fa-heart');
+    let that = $(this).find('i.bi');
     let card = that.parents('.product-card');
-    let added = that.hasClass('fa-solid');
+    let added = that.hasClass('bi-heart-fill');
     let url = '';
     if(added){
         url = '<?php echo $this->html->getSecureURL('product/wishlist/remove');?>&product_id='+ card.attr('data-product-id');
@@ -86,9 +86,9 @@ $(document).on('click','.wish', function(e) {
         },
         success: function (data) {
             if (added) {
-                that.removeClass('fa-solid').addClass('fa-regular');
+                that.removeClass('bi-heart-fill').addClass('bi-heart');
             } else {
-                that.removeClass('fa-regular').addClass('fa-solid');
+                that.removeClass('bi-heart').addClass('bi-heart-fill');
                 ga_event_fire("add_to_wishlist", card);
             }
         }

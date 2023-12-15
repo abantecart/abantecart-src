@@ -86,15 +86,17 @@
 										<div class="row g-2 align-items-center justify-content-between">
 											<div class="col-auto">
 												<ul class="list-inline mb-0">
+                                                    <?php if($this->customer->isLogged()){ ?>
 													<li class="list-inline-item btn-wishlist">
 														<a class="wish" href="javascript:void(0)">
-                                                            <i class="<?php
+                                                            <i class="bi <?php
                                                                 echo isset($wishlist[$product['product_id']])
-                                                                    ? 'fa-solid'
-                                                                    : 'fa-regular';
-                                                                ?> fa-heart"></i>
+                                                                    ? 'bi-heart-fill'
+                                                                    : 'bi-heart';
+                                                                ?>"></i>
                                                         </a>
 													</li>
+                                                    <?php } ?>
 													<li class="list-inline-item btn-quickview">
 														<a href="<?php echo $item['info_url'] ?>" data-bs-toggle="tooltip" title="<?php echo $button_view ?>">
 															<i class="bi bi-eye" ></i>
@@ -121,7 +123,7 @@
 																			href="<?php echo $this->html->getSeoUrl('content/contact');?>"
 																			class="call_to_order badge text-bg-primary"
 																			title="<?php echo_html2view($text_call_to_order); ?>">
-																			<i class="fa fa-phone"></i>
+																			<i class="bi bi-telephone-fill"></i>
                                                                                 <?php echo $text_call_to_order; ?>
 																			</a>
 																		</p>
