@@ -1,5 +1,5 @@
 <h1 class="ms-3 mt-2 heading-title ">
-    <i class="fa fa-search"></i> <?php echo $heading_title; ?>
+    <i class="bi bi-search"></i> <?php echo $heading_title; ?>
 </h1>
 
 <div class="container-fluid mt-3">

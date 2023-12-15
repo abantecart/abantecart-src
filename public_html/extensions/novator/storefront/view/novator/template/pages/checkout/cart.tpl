@@ -99,7 +99,7 @@ if (sizeof((array) $error_warning) > 0) {
                         </div>
                         <div class="my-auto ms-auto text-nowrap p-1">
                         <a href="<?php echo $product['remove_url']; ?>" class="btn btn-outline-danger">
-                            <i class="fa fa-trash fa-fw"></i>
+                            <i class="bi bi-trash fa-fw"></i>
                         </a>
                         </div>
                     </div>
@@ -118,7 +118,7 @@ if (sizeof((array) $error_warning) > 0) {
                             role="button"
                             class="btn btn-outline-success lock-on-click mx-2 mb-2 m-md-0 mx-md-2"
                             title="<?php echo_html2view($button_update); ?>">
-                        <i class="fa fa-refresh"></i>
+                        <i class="bi bi-refresh"></i>
                         <?php echo $button_update; ?>
                     </button>
                     <?php
@@ -127,7 +127,7 @@ if (sizeof((array) $error_warning) > 0) {
                     onclick="save_and_checkout('<?php echo $checkout_rt; ?>'); return false;"
                     id="cart_checkout1"
                     class="btn btn-primary mx-2 mb-2 m-md-0 mx-md-2" title="<?php echo_html2view($button_checkout); ?>">
-                        <i class="fa fa-shopping-cart"></i>
+                        <i class="bi bi-shopping-cart"></i>
                         <?php echo $button_checkout; ?>
                     </a>
                     <?php } ?>
@@ -190,7 +190,7 @@ if (sizeof((array) $error_warning) > 0) {
                                                                     class="btn btn-outline-primary"
                                                                     value="<?php echo $form_estimate['submit']->form ?>"
                                                                     type="submit">
-                                                                    <i class="fa fa-calculator"></i>
+                                                                    <i class="bi bi-calculator"></i>
                                                                         <?php echo $form_estimate['submit']->name; ?>
                                                         </button>
                                                     </div>
@@ -227,7 +227,7 @@ if (sizeof((array) $error_warning) > 0) {
                     <?php echo $this->getHookVar('pre_cart_buttons'); ?>
                     <a href="<?php echo $continue; ?>"
                     class="btn btn-secondary me-1 mb-1" title="">
-                        <i class="fa fa-arrow-right"></i>
+                        <i class="bi bi-arrow-right"></i>
                         <?php echo $text_continue_shopping ?>
                     </a>
                     <?php
@@ -237,7 +237,7 @@ if (sizeof((array) $error_warning) > 0) {
                         id="cart_checkout2"
                         class="btn btn-primary me-1 mb-1"
                         title="<?php echo $button_checkout; ?>">
-                            <i class="fa fa-money-bill fa-fw"></i>
+                            <i class="bi bi-money-bill fa-fw"></i>
                             <?php echo $button_checkout; ?>
                         </a>
                     <?php

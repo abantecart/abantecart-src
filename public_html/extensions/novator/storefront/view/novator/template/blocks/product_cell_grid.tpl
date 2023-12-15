@@ -114,7 +114,7 @@
 																			href="<?php echo $this->html->getSeoUrl('content/contact');?>"
 																			class="call_to_order badge text-bg-primary"
 																			title="<?php echo_html2view($text_call_to_order); ?>">
-																			<i class="fa fa-phone"></i>
+																			<i class="bi bi-phone"></i>
 																			contact us
 																			</a>
 																		</p>

@@ -10,7 +10,7 @@
     <div class="form-group action-buttons">
         <div class="col-md-12">
             <button id="checkout_btn" type="submit" class="btn btn-orange pull-right lock-on-click" title="<?php echo $button_confirm->text ?>">
-                <i class="fa fa-check"></i>
+                <i class="bi bi-check"></i>
                 <?php echo $button_confirm->text; ?>
             </button>
         </div>
@@ -28,7 +28,7 @@ $('#CqFrm').on('submit',function(e) {
                     $('.alert').remove();
                     $('.action-buttons')
                         .hide()
-                        .before('<div class="wait alert alert-info text-center"><i class="fa fa-refresh fa-spin"></i> <?php echo $text_wait; ?></div>');
+                        .before('<div class="wait alert alert-info text-center"><i class="bi bi-refresh fa-spin"></i> <?php echo $text_wait; ?></div>');
                 },
                 success: function() {
                     location = '<?php echo $continue; ?>';

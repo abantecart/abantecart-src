@@ -10,7 +10,7 @@
 	<p><?php echo $text_message; ?></p>
 	
 	<a href="<?php echo $continue; ?>" class="btn btn-default mr10" title="<?php echo $continue_button->text ?>">
-	    <i class="fa fa-arrow-right"></i>
+	    <i class="bi bi-arrow-right"></i>
 	    <?php echo $continue_button->text ?>
 	</a>
 </section>

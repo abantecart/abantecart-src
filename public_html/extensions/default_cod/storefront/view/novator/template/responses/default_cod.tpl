@@ -2,7 +2,7 @@
     <div class="form-group action-buttons">
         <div class="col-md-12">
             <button type="submit" id="checkout_btn" class="btn btn-primary" title="<?php echo $button_confirm->text ?>">
-                <i class="fa fa-check"></i>
+                <i class="bi bi-check"></i>
                 <?php echo $button_confirm->text; ?>
             </button>
         </div>
@@ -19,7 +19,7 @@
                 $('.alert').remove();
                 $('.action-buttons')
                     .hide()
-                    .before('<div class="wait alert alert-info text-center"><i class="fa fa-refresh fa-spin"></i> <?php echo $text_wait; ?></div>');
+                    .before('<div class="wait alert alert-info text-center"><i class="bi bi-refresh fa-spin"></i> <?php echo $text_wait; ?></div>');
             },
             success: function () {
                 location = '<?php echo $continue; ?>';

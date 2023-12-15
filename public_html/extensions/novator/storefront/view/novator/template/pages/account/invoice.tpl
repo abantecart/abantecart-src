@@ -223,7 +223,7 @@
                         <div class="modal-footer d-flex justify-content-between">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo $text_close; ?></button>
                             <button type="button" class="btn btn-primary" onclick="location='<?php echo $order_cancelation_url;?>';">
-                                <i class="fa fa-arrow-right me-2"></i><?php echo $button_continue->text; ?>
+                                <i class="bi bi-arrow-right me-2"></i><?php echo $button_continue->text; ?>
                             </button>
                         </div>
                     </div>

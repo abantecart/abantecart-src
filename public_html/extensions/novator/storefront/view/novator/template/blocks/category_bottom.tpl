@@ -6,7 +6,7 @@
         <div class="collapse navbar-collapse" id="categoryNavB">
             <div class="dropdown ">
                 <a id="home_dropdown" href="<?php echo $home_href; ?>" role="button" class="dropdown-toggle text-nowrap nav-item nav-link   "
-                           data-bs-toggle="dropdown" aria-expanded="false"><?php echo $text_home; ?>&nbsp; <i class="fa fa-caret-down"></i>
+                           data-bs-toggle="dropdown" aria-expanded="false"><?php echo $text_home; ?>&nbsp; <i class="bi bi-caret-down"></i>
                         </a>
                         <?php
                         $storefront_menu = (array)$this->session->data['storefront_menu'];

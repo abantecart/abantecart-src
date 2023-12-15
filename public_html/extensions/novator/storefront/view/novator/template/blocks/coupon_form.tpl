@@ -11,11 +11,11 @@
             <?php if($coupon_code) { ?>
                 <a id="remove_coupon_btn" href="Javascript:void(0);"
                    title="<?php echo_html2view($remove); ?>"
-                   class="btn btn-outline-danger m-2"><i class="fa fa-trash fa-fw"></i></a>
+                   class="btn btn-outline-danger m-2"><i class="bi bi-trash fa-fw"></i></a>
             <?php } ?>
             <button id="apply_coupon_btn" title="<?php echo_html2view($submit->name); ?>"
                     class="btn btn-outline-primary" type="submit">
-            <i class="fa fa-check"></i>
+            <i class="bi bi-check"></i>
             <?php echo $submit->name; ?>
             </button>
         </div>

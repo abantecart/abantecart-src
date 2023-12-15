@@ -44,12 +44,12 @@ if ($error_warning) { ?>
                 <div class="flex-md-fill flex-lg-fill text-start my-auto text-nowrap p-2 text-end">
                    <?php if($download['text']){ ?>
                        <a class="btn btn-primary disabled">
-                           <i class="fa fa-download"></i>
+                           <i class="bi bi-download"></i>
                            <?php echo $download['text']; ?>
                        </a>
                    <?php }else{ ?>
                        <a href="<?php echo $download['button']->href; ?>" class="btn btn-primary">
-                            <i class="fa fa-download"></i>
+                            <i class="bi bi-download"></i>
                             <?php echo $download['button']->text; ?>
                        </a>
                    <?php } ?>

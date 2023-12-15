@@ -38,7 +38,7 @@ if ($total_items > 0) {
 				</div>
 			</td>
 			<td class="total"><?php echo $product['price']; ?></td>
-			<td class="times"><i class="fa fa-times fa-fw"></i></td>
+			<td class="times"><i class="bi bi-times fa-fw"></i></td>
 			<td class="quantity"><?php echo $product['quantity']; ?></td>
 		</tr>
 	<?php echo $this->getHookVar('cart_details_'.$product['key'].'_additional_info_1'); ?>
@@ -49,7 +49,7 @@ if ($total_items > 0) {
 		<tr>
 			<td colspan="5">
 				<a class="d-flex justify-content-center" title="see more cart products" href="<?php echo $view; ?>">
-					<i class="fa fa-chevron-down fa-lg"></i>
+					<i class="bi bi-chevron-down fa-lg"></i>
 				</a>
 			</td>
 		</tr>
@@ -69,6 +69,6 @@ if ($total_items > 0) {
 </table>
 <?php } else { ?>
 	<div class="empty_cart text-center">
-		<i class="fa fa-shopping-cart"></i>
+		<i class="bi bi-shopping-cart"></i>
 	</div>
 <?php } ?>

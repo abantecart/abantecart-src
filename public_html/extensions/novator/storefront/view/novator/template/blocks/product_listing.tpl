@@ -112,7 +112,7 @@
                                                         href="<?php echo $this->html->getSeoUrl('content/contact');?>"
                                                         class="call_to_order badge text-bg-primary"
                                                         title="<?php echo $text_call_to_order ?>">
-                                                        <i class="fa fa-phone"></i>
+                                                        <i class="bi bi-phone"></i>
                                                         </a>
                                                     <?php } else if ($product['track_stock'] && !$product['in_stock']) { ?>
                                                         <a class="badge text-bg-warning mb-0 disabled"><?php echo $text_out_of_stock; ?></a>

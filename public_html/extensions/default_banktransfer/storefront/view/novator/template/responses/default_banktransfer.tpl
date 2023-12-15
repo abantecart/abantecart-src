@@ -14,7 +14,7 @@
     <div class="text-center">
 <?php if (!$minimum_notmet) { ?>
         <a id="checkout_btn" onclick="confirmOrder();" class="btn btn-primary lock-on-click checkout_btn">
-            <i class="fa fa-check"></i>
+            <i class="bi bi-check"></i>
             <?php echo $button_confirm; ?>
         </a>
 <?php } ?>
@@ -33,7 +33,7 @@ function confirmOrder() {
             $('.alert').remove();
             $('.action-buttons')
                 .hide()
-                .before('<div class="wait alert alert-info text-center"><i class="fa fa-refresh fa-spin"></i> <?php echo $text_wait; ?></div>');
+                .before('<div class="wait alert alert-info text-center"><i class="bi bi-refresh fa-spin"></i> <?php echo $text_wait; ?></div>');
         },
         success: function() {
             goTo('<?php echo $continue; ?>');
