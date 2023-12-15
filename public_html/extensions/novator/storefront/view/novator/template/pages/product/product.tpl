@@ -478,8 +478,7 @@ if ($error){ ?>
             <div class="tab-pane" id="collapseReview" role="tabpanel" aria-labelledby="review">
                 <div class="tab-pane-body">
                     <div class="row">
-                        <fieldset>
-                        <div class="col-xxl-8 col-md-10"><h4 class="fw-normal">Customers Feedback</h4>
+                        <div class="col-xxl-8 col-md-10"><h4 class="fw-normal"><?php echo $feedback_customer_title;?></h4>
                             <div class="row g-4 mb-4 justify-content-between align-items-stretch">
                                 <?php if($average) {?>
                                 <div class="col-xxl-4 col-xl-5">
@@ -489,7 +488,7 @@ if ($error){ ?>
                                                 <div class="text-warning rating-stars text-sm-end">
                                                     <?php echo renderRatingStarsNv($average,''); ?>
                                                 </div></div>
-                                            <p class="mb-0 text-muted">Product Rating</p></div>
+                                            <p class="mb-0 text-muted"><?php echo $product_rate_title; ?></p></div>
                                     </div>
                                 </div>
                                 <?php } ?>
@@ -505,11 +504,12 @@ if ($error){ ?>
                                     </div>
                                 </div>
                             </div>
-                            <h4>Reviews</h4>
+                            <h4><?php echo $review_title; ?></h4>
                             <ul class="list-group list-group-flush">
                                 <div id="current_reviews" class="mb-2"></div>
                             </ul>
-                            <h4>Write a Review</h4>
+                            <h4><?php echo $write_review_title; ?></h4>
+                            <fieldset>
                             <?php if($review_form_status){ ?>
                             <div class="mb-3">
                                 <div class="mb-3"><label class="form-label"><?php echo $entry_rating; ?></label>
@@ -553,8 +553,8 @@ if ($error){ ?>
                                     </div>
                                 <?php } ?>
                             <?php } ?>
+                            </fieldset>
                         </div>
-                        </fieldset>
                     </div>
                 </div>
             </div>
