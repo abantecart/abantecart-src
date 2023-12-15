@@ -478,6 +478,7 @@ if ($error){ ?>
             <div class="tab-pane" id="collapseReview" role="tabpanel" aria-labelledby="review">
                 <div class="tab-pane-body">
                     <div class="row">
+                        <fieldset>
                         <div class="col-xxl-8 col-md-10"><h4 class="fw-normal">Customers Feedback</h4>
                             <div class="row g-4 mb-4 justify-content-between align-items-stretch">
                                 <?php if($average) {?>
@@ -525,10 +526,35 @@ if ($error){ ?>
                                     <?php
                                     $review_text->required = true;
                                     echo $review_text; ?></div>
-                                <?php echo $review_button; ?>
                             </div>
+                                <?php
+                                $review_button->style .= ' ms-auto text-nowrap mt-4';
+                                if ($review_recaptcha){ ?>
+                                    <div class="form-group mb-3 d-flex flex-wrap">
+                                        <?php
+                                        echo $review_recaptcha;
+                                        echo $review_button;
+                                        ?>
+                                    </div>
+                                <?php } else{ ?>
+                                    <div class="form-group mb-3 d-flex flex-wrap">
+
+                                        <?php
+                                        echo $this->html->buildCaptcha(
+                                            [
+                                                'name'        => 'captcha',
+                                                'required'    => true,
+                                                'captcha_url' => $captcha_url,
+                                                'placeholder' => $entry_captcha
+                                            ]
+                                        );
+                                        echo $review_button; ?>
+
+                                    </div>
+                                <?php } ?>
                             <?php } ?>
                         </div>
+                        </fieldset>
                     </div>
                 </div>
             </div>
