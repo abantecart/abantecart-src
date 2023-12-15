@@ -185,12 +185,7 @@ if ($error){ ?>
                         if ($average){ ?>
                             <div class="rounded-pill bg-light-warning badge fs-6"><i class="bi bi-star"></i> <?php echo $average;?></div>
                             <!-- Hello Abentacart team you need to check here ends -->
-                        <?php } else{?>
-                            <div class="text-warning rating-stars text-sm-end">
-                                <?php echo noRatingStarsNv(''); ?>
-                            </div>
-                        <?php }
-                    ?>
+                        <?php }?>
                     <?php if($count_reviews){?>
                     <div class="rounded-pill bg-light-secondary badge fs-6"><i class="bi bi-chat-left-dots"></i> <?php echo $count_reviews;?> Reviews</div>
                     <?php }?>
