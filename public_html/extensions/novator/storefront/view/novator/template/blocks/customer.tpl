@@ -11,64 +11,69 @@
             <a class="nav-link active dropdown-toggle"
                href="<?php echo $account; ?>" id="customerMenuDropdown"
                role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-autoClose="true">
-                <!-- Hello Abentacart team you need to check here Starts -->
-                    <!-- can we have this name in the dropdown and a simple user icon in header as it shows without login -->
                     <?php echo $text_welcome.' '.$name; ?>
-                <!-- Hello Abentacart team you need to check here ends -->
             </a>
             <ul class="dropdown-menu " aria-labelledby="customerMenuDropdown">
                 <?php if ($login) { ?>
                     <li class="dropdown">
                         <a class="dropdown-item" href="<?php echo $login; ?>">
-                            <i class="bi bi-unlock fa-fw me-2"></i> <?php echo $text_login; ?></a>
+                            <i class="bi bi-unlock me-2"></i> <?php echo $text_login; ?></a>
                     </li>
                 <?php } ?>
                 <li class="dropdown <?php if ( $account == $current) echo 'current'; ?>">
                     <a class="dropdown-item" href="<?php echo $account; ?>">
-                        <i class="bi bi-gauge-high fa-fw me-2"></i> <?php echo $text_account_dashboard; ?></a>
+                        <i class="bi bi-grid-3x3-gap-fill me-2"></i> <?php echo $text_account_dashboard; ?></a>
                 </li>
                 <li class="dropdown <?php if ( $wishlist == $current) echo 'current'; ?>">
                     <a class="dropdown-item"  href="<?php echo $wishlist; ?>">
-                        <i class="bi bi-heart-pulse fa-fw me-2"></i> <?php echo $text_account_wishlist; ?>
+                        <i class="bi bi-hearts me-2"></i> <?php echo $text_account_wishlist; ?>
                     </a>
                 </li>
                 <li class="dropdown <?php if ( $information == $current) echo 'current'; ?>">
                     <a class="dropdown-item"  href="<?php echo $information; ?>">
-                        <i class="bi bi-edit fa-fw me-2"></i> <?php echo $text_information; ?>
+                        <i class="bi bi-pencil-square me-2"></i> <?php echo $text_information; ?>
                     </a>
                 </li>
                 <li class="dropdown <?php if ( $password == $current) echo 'current'; ?>">
                     <a class="dropdown-item"  href="<?php echo $password; ?>">
-                        <i class="bi bi-key fa-fw me-2"></i> <?php echo $text_password; ?>
+                        <i class="bi bi-key-fill me-2"></i> <?php echo $text_password; ?>
                     </a>
                 </li>
                 <li class="dropdown <?php if ( $address == $current) echo 'current'; ?>">
                     <a class="dropdown-item"  href="<?php echo $address; ?>">
-                        <i class="bi bi-address-book fa-fw me-2"></i> <?php echo $text_address; ?>
+                        <i class="bi bi-geo-alt-fill me-2"></i> <?php echo $text_address; ?>
                     </a>
                 </li>
                 <li class="dropdown <?php if ( $history == $current) echo 'current'; ?>">
-                    <a class="dropdown-item"  href="<?php echo $history; ?>"><i class="bi bi-clock-rotate-left fa-fw me-2"></i> <?php echo $text_history; ?></a>
+                    <a class="dropdown-item"  href="<?php echo $history; ?>">
+                        <i class="bi bi-clock-history me-2"></i> <?php echo $text_history; ?>
+                    </a>
                 </li>
                 <li class="dropdown <?php if ( $transactions == $current) echo 'current'; ?>">
-                    <a class="dropdown-item" href="<?php echo $transactions; ?>"><i class="fa-solid fa-money-bill-transfer me-2"></i> <?php echo $text_transactions; ?></a>
+                    <a class="dropdown-item" href="<?php echo $transactions; ?>">
+                        <i class="bi-credit-card-2-back-fill me-2"></i> <?php echo $text_transactions; ?>
+                    </a>
                 </li>
 
             <?php if ($this->config->get('config_download')) { ?>
                 <li class="dropdown <?php if ( $download == $current) echo 'current'; ?>">
-                  <a class="dropdown-item" href="<?php echo $download; ?>"><i class="bi bi-download fa-fw me-2"></i> <?php echo $text_download; ?></a>
+                  <a class="dropdown-item" href="<?php echo $download; ?>">
+                      <i class="bi bi-download me-2"></i> <?php echo $text_download; ?>
+                  </a>
                 </li>
             <?php } ?>
 
             <li class="dropdown <?php if ( $notification == $current) echo 'current'; ?>">
-              <a class="dropdown-item" href="<?php echo $notification; ?>"><i class="bi bi-bell fa-fw me-2"></i> <?php echo $text_my_notifications; ?></a>
+              <a class="dropdown-item" href="<?php echo $notification; ?>">
+                  <i class="bi bi-bell-fill me-2"></i> <?php echo $text_my_notifications; ?>
+              </a>
             </li>
 
             <?php echo $this->getHookVar('customer_account_links'); ?>
 
             <li class="dropdown <?php if ( $logout == $current) echo 'current'; ?>">
               <a class="dropdown-item" href="<?php echo $logout; ?>">
-                  <i class="bi bi-arrow-right-from-bracket fa-fw me-2"></i>
+                  <i class="bi bi-box-arrow-right me-2"></i>
                 <?php echo $text_not.' '.$name.'? '.$text_logout; ?></a>
             </li>
         </ul>

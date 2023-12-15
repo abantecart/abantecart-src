@@ -49,12 +49,12 @@
 
                         <div class="col-sm-6 col-xs-6 text-center">
                             <a class="btn btn-outline-dark" href="<?php echo $view; ?>" title="<?php echo $text_view;?>">
-                                <i class="bi bi-shopping-cart fa-fw"></i>
+                                <i class="bi bi-shopping-cart"></i>
                             </a>
                         </div>
                         <div class="col-sm-6 col-xs-6  text-center">
                             <a class="btn btn-outline-primary" href="<?php echo $checkout; ?>" title="<?php echo $text_checkout; ?>">
-                                <i class="bi bi-money-bill fa-fw"></i>
+                                <i class="bi bi-money-bill"></i>
                             </a>
                         </div>
 

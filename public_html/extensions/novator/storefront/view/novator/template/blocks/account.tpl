@@ -8,52 +8,52 @@
                                 'dashboard' => [
                                         'url'  => $account,
                                         'text' => $text_account_dashboard,
-                                        'icon' => 'fa-gauge-high'
+                                        'icon' => 'bi-grid-3x3-gap-fill'
                                 ],
                                 'wishlist' => [
                                         'url'  => $wishlist,
                                         'text' => $text_account_wishlist,
-                                        'icon' => 'fa-heart-pulse'
+                                        'icon' => 'bi-hearts'
                                 ],
                                 'information' => [
                                         'url'  => $information,
                                         'text' => $text_information,
-                                        'icon' => 'fa-edit'
+                                        'icon' => 'bi-pencil-square'
                                 ],
                                 'password' => [
                                         'url'  => $password,
                                         'text' => $text_password,
-                                        'icon' => 'fa-key'
+                                        'icon' => 'bi-key-fill'
                                 ],
                                 'address' => [
                                         'url'  => $address,
                                         'text' => $text_address,
-                                        'icon' => 'fa-address-book'
+                                        'icon' => 'bi-geo-alt-fill'
                                 ],
                                 'history' => [
                                         'url'  => $history,
                                         'text' => $text_history,
-                                        'icon' => 'fa-clock-rotate-left'
+                                        'icon' => 'bi-clock-history'
                                 ],
                                 'transactions' => [
                                         'url'  => $transactions,
                                         'text' => $text_transactions,
-                                        'icon' => 'fa-money-bill'
+                                        'icon' => 'bi-credit-card-2-back-fill'
                                 ],
                                 'download' => [
                                         'url'  => $download,
                                         'text' => $text_download,
-                                        'icon' => 'fa-download'
+                                        'icon' => 'bi-download'
                                 ],
                                 'notification' => [
                                         'url'  => $notification,
                                         'text' => $text_my_notifications,
-                                        'icon' => 'fa-bell'
+                                        'icon' => 'bi-bell-fill'
                                 ],
                                 'logout' => [
                                         'url'  => $logout,
                                         'text' => $text_logout,
-                                        'icon' => 'fa-arrow-right-from-bracket'
+                                        'icon' => 'bi-box-arrow-right'
                                 ]
                                 ];
 
@@ -71,7 +71,7 @@
                                         <li class="list-group-item">
                                                 <a class="<?php echo $item['url'] == $current ? 'text-primary' : 'text-secondary';?>"
                                                 href="<?php echo $item['url']; ?>">
-                                                <i class="fa <?php echo $item['icon']; ?> fa-fw me-2"></i>
+                                                <i class="<?php echo $item['icon']; ?> me-2"></i>
                                                 <?php echo $item['text']; ?>
                                                 </a>
                                         </li>

@@ -30,52 +30,52 @@
                 'information' => [
                         'url'  => $information,
                         'text' => $text_information,
-                        'icon' => 'fa-edit'
+                        'icon' => 'bi-pencil-square fs-1'
                 ],
                 'password' => [
                         'url'  => $password,
                         'text' => $text_password,
-                        'icon' => 'fa-key'
+                        'icon' => 'bi-key-fill fs-1'
                 ],
                 'address' => [
                         'url'  => $address,
                         'text' => $text_address,
-                        'icon' => 'fa-address-book',
+                        'icon' => 'bi-geo-alt-fill fs-1',
                         'badge'=> $total_adresses
                 ],
                 'wishlist' => [
                         'url'  => $wishlist,
                         'text' => $text_account_wishlist,
-                        'icon' => 'fa-heart-circle-check',
+                        'icon' => 'bi-hearts fs-1',
                         'badge'=> $total_wishlist
                 ],
                 'history' => [
                         'url'  => $history,
                         'text' => $text_history,
-                        'icon' => 'fa-clock-rotate-left',
+                        'icon' => 'bi-clock-history fs-1',
                         'badge'=> $total_orders
                 ],
                 'transactions' => [
                         'url'  => $transactions,
                         'text' => $text_transactions,
-                        'icon' => 'fa-money-bill',
+                        'icon' => 'bi-credit-card-2-back-fill fs-1',
                         'badge'=> $balance_amount
                 ],
                 'download' => [
                         'url'  => $download,
                         'text' => $text_download,
-                        'icon' => 'fa-download',
+                        'icon' => 'bi-download fs-1',
                         'badge'=> $total_downloads
                 ],
                 'notification' => [
                         'url'  => $notification,
                         'text' => $text_my_notifications,
-                        'icon' => 'fa-bell'
+                        'icon' => 'bi-bell-fill fs-1'
                 ],
                 'logout' => [
                         'url'  => $logout,
                         'text' => $text_logout,
-                        'icon' => 'fa-arrow-right-from-bracket'
+                        'icon' => 'bi-box-arrow-right fs-1'
                 ]
             ];
 
@@ -94,7 +94,7 @@
             href="<?php echo $item['url']; ?>">
                 <div class="card-body">
                     <div class="position-relative pb-3">
-                        <i class="fa <?php echo $item['icon']; ?>"></i>
+                        <i class="<?php echo $item['icon']; ?>"></i>
                         <?php if($item['badge']){?>
                             <span class="badge position-absolute top-0 d-flex justify-content-center align-items-center px-2 py-1 rounded-pill bg-success ">
                                 <?php echo $item['badge']; ?>
