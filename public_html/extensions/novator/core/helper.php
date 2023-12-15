@@ -249,7 +249,7 @@ function renderRatingStarsNv($value, $text){
     $i = 1;
     $output = '<div title="'.htmlspecialchars($text, ENT_QUOTES, 'UTF-8').'">';
     while($i < 6){
-        $output .= '<i class="bi '.($i<=$value ? 'bi-star' : 'bi-star-fill').'"></i>';
+        $output .= '<i class="bi '.($i<=$value ? 'bi-star-fill' : 'bi-star').'"></i>';
         $i++;
     }
     return $output.'</div>';
