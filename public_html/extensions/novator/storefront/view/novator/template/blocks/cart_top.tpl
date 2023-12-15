@@ -4,7 +4,7 @@
         <li class="nav-item d-block d-md-none">
             <!-- Commented by TM 
             <a href="<?php echo $view; ?>" class="nav-link active">
-                <i class="bi bi-shopping-cart fa-fw"></i>&nbsp;&nbsp;
+                <i class="bi bi-shopping-cart"></i>&nbsp;&nbsp;
                 <span class="label-qnty">
                     <?php echo $total_qty;?>
                 </span>
@@ -23,7 +23,7 @@
         <?php //medium device and larger view ?>
         <li class="nav-item dropdown d-none d-md-block">
             <!-- <a href="<?php echo $view; ?>" class="nav-link active dropdown-toggle">
-                <i class="bi bi-shopping-cart fa-fw"></i>&nbsp;&nbsp;
+                <i class="bi bi-shopping-cart"></i>&nbsp;&nbsp;
                 <span class="label-qnty">
                     <?php echo $total_qty;?>
                 </span>

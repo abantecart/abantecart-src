@@ -118,7 +118,7 @@ if (sizeof((array) $error_warning) > 0) {
                             role="button"
                             class="btn btn-outline-success lock-on-click mx-2 mb-2 m-md-0 mx-md-2"
                             title="<?php echo_html2view($button_update); ?>">
-                        <i class="bi bi-refresh"></i>
+                        <i class="bi bi-repeat"></i>
                         <?php echo $button_update; ?>
                     </button>
                     <?php

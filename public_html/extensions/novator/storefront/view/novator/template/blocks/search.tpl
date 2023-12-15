@@ -49,7 +49,7 @@
         <div class="btn-group search-bar">
             <button class="btn btn-success"
                     title="<?php echo_html2view($button_go); ?>">
-                <i class="bi bi-solid fa-magnifying-glass"></i>
+                <i class="bi bi-search"></i>
             </button>
         </div>
     </form>

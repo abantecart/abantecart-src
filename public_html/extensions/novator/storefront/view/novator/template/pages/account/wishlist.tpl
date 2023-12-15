@@ -63,7 +63,7 @@
                                 <a data-id="<?php echo $product['product_id'] ?>"
                                 href="#" class="btn btn-sm btn-outline-info call_to_order mb-1"
                                 title="<?php echo $text_call_to_order?>">
-                                    <i class="bi bi-phone fa-fw"></i>
+                                    <i class="bi bi-phone"></i>
                                 </a>
                             <?php } else if ($product['track_stock'] && !$product['in_stock']) { ?>
                                 <span class="btn btn-sm disabled nostock bg-secondary text-light me-2"><?php echo $product['no_stock_text']; ?></span>
@@ -71,13 +71,13 @@
                                 <a href="<?php echo $product['add']; ?>"
                                 title="<?php echo $button_add_to_cart; ?>"
                                 class="btn btn-sm btn-success mb-1">
-                                    <i class="bi bi-cart-plus fa-fw"></i>
+                                    <i class="bi bi-cart-plus"></i>
                                 </a>
                             <?php } ?>
                         <?php } ?>
                             <a href="Javascript:void(0);)" title="<?php echo $button_remove_wishlist;?>"
                             data-product_id="<?php echo $product['product_id'] ?>"
-                            class="remove-from-list btn btn-sm btn-danger bg-opacity-50 mb-1"><i class="text-light fa fa-trash fa-fw"></i></a>
+                            class="remove-from-list btn btn-sm btn-danger bg-opacity-50 mb-1"><i class="text-light bi-trash"></i></a>
                         </td>
                     </tr>
                 <?php } ?>

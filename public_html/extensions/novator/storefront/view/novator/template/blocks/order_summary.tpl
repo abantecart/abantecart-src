@@ -33,7 +33,7 @@
                             </div>
                             <div class="ms-auto text-end">
                                 <?php echo $product['price']; ?>
-                                <span class="text-nowrap"><i class="mx-2 fa fa-times fa-fw"></i><?php echo $product['quantity']; ?></span>
+                                <span class="text-nowrap"><i class="mx-2 bi-x"></i><?php echo $product['quantity']; ?></span>
                             </div>
                             <?php echo $this->getHookVar('order_summary_product_'.$product['key'].'_additional_info_1'); ?>
                         </td>

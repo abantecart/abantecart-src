@@ -38,7 +38,7 @@ if ($total_items > 0) {
 				</div>
 			</td>
 			<td class="total"><?php echo $product['price']; ?></td>
-			<td class="times"><i class="bi bi-times fa-fw"></i></td>
+			<td class="times"><i class="bi bi-x"></i></td>
 			<td class="quantity"><?php echo $product['quantity']; ?></td>
 		</tr>
 	<?php echo $this->getHookVar('cart_details_'.$product['key'].'_additional_info_1'); ?>
