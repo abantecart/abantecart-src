@@ -20,7 +20,7 @@
     <div class="d-flex flex-wrap m-3 justify-content-between align-items-center">
         <?php echo $this->getHookVar('pre_content_button'); ?>
         <a href="<?php echo $continue; ?>" class="btn btn-secondary ms-auto mb-2" title="<?php echo_html2view($button_continue->text);?>">
-            <i class="fa fa-arrow-right"></i>
+            <i class="bi bi-arrow-right"></i>
             <?php echo $button_continue->text ?>
         </a>
         <?php echo $this->getHookVar('post_content_button'); ?>

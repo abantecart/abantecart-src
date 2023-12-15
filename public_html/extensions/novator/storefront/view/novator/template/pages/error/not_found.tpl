@@ -14,7 +14,7 @@
             }
         ?>
         <a href="<?php echo $continue; ?>" class="btn btn-secondary me-2" title="<?php echo $button_continue->text ?>">
-            <i class="fa fa-arrow-right"></i>
+            <i class="bi bi-arrow-right"></i>
             <?php echo $button_continue->text ?>
         </a>
     </section>

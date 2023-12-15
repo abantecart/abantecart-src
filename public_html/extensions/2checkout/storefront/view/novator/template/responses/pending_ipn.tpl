@@ -4,7 +4,7 @@
 <body>
 <div class="container-fixed">
 	<div class="contentpanel" style="margin-top: 5%">
-		<h3 class=" col-sm-5 col-sm-offset-4"><i class="fa fa-spinner fa-pulse"></i> <?php echo $text_message; ?></h3>
+		<h3 class=" col-sm-5 col-sm-offset-4"><i class="bi bi-spinner bi-pulse"></i> <?php echo $text_message; ?></h3>
 	</div>
 </div>
 	<script type="text/javascript" src="<?php echo $this->templateResource('/js/bootstrap.bundle.min.js'); ?>" defer></script>

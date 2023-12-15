@@ -19,7 +19,7 @@
                 <td rowspan="2" class="text-end">
                     <?php
                     $order['button']->style = "btn btn-outline-secondary text-nowrap";
-                    $order['button']->icon = "fa fa-eye";
+                    $order['button']->icon = "bi bi-eye";
                     $order['button']->attr = "";
                     $order['button']->href = $order['href'];
                     echo $order[ 'button' ];?>

@@ -4,7 +4,7 @@
         <li class="nav-item d-block d-md-none">
             <!-- Commented by TM 
             <a href="<?php echo $view; ?>" class="nav-link active">
-                <i class="fa fa-shopping-cart fa-fw"></i>&nbsp;&nbsp;
+                <i class="bi bi-shopping-cart fa-fw"></i>&nbsp;&nbsp;
                 <span class="label-qnty">
                     <?php echo $total_qty;?>
                 </span>
@@ -23,7 +23,7 @@
         <?php //medium device and larger view ?>
         <li class="nav-item dropdown d-none d-md-block">
             <!-- <a href="<?php echo $view; ?>" class="nav-link active dropdown-toggle">
-                <i class="fa fa-shopping-cart fa-fw"></i>&nbsp;&nbsp;
+                <i class="bi bi-shopping-cart fa-fw"></i>&nbsp;&nbsp;
                 <span class="label-qnty">
                     <?php echo $total_qty;?>
                 </span>
@@ -49,12 +49,12 @@
 
                         <div class="col-sm-6 col-xs-6 text-center">
                             <a class="btn btn-outline-dark" href="<?php echo $view; ?>" title="<?php echo $text_view;?>">
-                                <i class="fa fa-shopping-cart fa-fw"></i>
+                                <i class="bi bi-shopping-cart fa-fw"></i>
                             </a>
                         </div>
                         <div class="col-sm-6 col-xs-6  text-center">
                             <a class="btn btn-outline-primary" href="<?php echo $checkout; ?>" title="<?php echo $text_checkout; ?>">
-                                <i class="fa fa-money-bill fa-fw"></i>
+                                <i class="bi bi-money-bill fa-fw"></i>
                             </a>
                         </div>
 

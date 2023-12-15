@@ -63,7 +63,7 @@
                                 <a data-id="<?php echo $product['product_id'] ?>"
                                 href="#" class="btn btn-sm btn-outline-info call_to_order mb-1"
                                 title="<?php echo $text_call_to_order?>">
-                                    <i class="fa fa-phone fa-fw"></i>
+                                    <i class="bi bi-phone fa-fw"></i>
                                 </a>
                             <?php } else if ($product['track_stock'] && !$product['in_stock']) { ?>
                                 <span class="btn btn-sm disabled nostock bg-secondary text-light me-2"><?php echo $product['no_stock_text']; ?></span>
@@ -71,7 +71,7 @@
                                 <a href="<?php echo $product['add']; ?>"
                                 title="<?php echo $button_add_to_cart; ?>"
                                 class="btn btn-sm btn-success mb-1">
-                                    <i class="fa fa-cart-plus fa-fw"></i>
+                                    <i class="bi bi-cart-plus fa-fw"></i>
                                 </a>
                             <?php } ?>
                         <?php } ?>

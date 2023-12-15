@@ -54,7 +54,7 @@
         </table>
         <div class="col-12 py-3 d-flex align-content-stretch mb-2">
             <a href="<?php echo $continue; ?>" class="btn btn-secondary" title="<?php echo_html2view($button_continue->text); ?>">
-                <i class="fa fa-arrow-right"></i>
+                <i class="bi bi-arrow-right"></i>
                 <?php echo $button_continue->text ?>
             </a>
             <?php echo $this->getHookVar('account_transactions_button_hook_var'); ?>

@@ -16,7 +16,7 @@
                         <a class="text-decoration-none" href="<?php echo $breadcrumb['href']; ?>">
                         <?php
                             }
-                                echo ($breadcrumb['text'] == $text_home ? '<i class="fa fa-home me-1" title="' . $text_home . '"></i> ' : '');
+                                echo ($breadcrumb['text'] == $text_home ? '<i class="bi bi-home me-1" title="' . $text_home . '"></i> ' : '');
                                 echo $breadcrumb['text'];
                             if($key != $lastKey){    ?>
                             </a>

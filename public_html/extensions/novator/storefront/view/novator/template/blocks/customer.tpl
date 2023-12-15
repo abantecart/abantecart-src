@@ -20,35 +20,35 @@
                 <?php if ($login) { ?>
                     <li class="dropdown">
                         <a class="dropdown-item" href="<?php echo $login; ?>">
-                            <i class="fa fa-unlock fa-fw me-2"></i> <?php echo $text_login; ?></a>
+                            <i class="bi bi-unlock fa-fw me-2"></i> <?php echo $text_login; ?></a>
                     </li>
                 <?php } ?>
                 <li class="dropdown <?php if ( $account == $current) echo 'current'; ?>">
                     <a class="dropdown-item" href="<?php echo $account; ?>">
-                        <i class="fa fa-gauge-high fa-fw me-2"></i> <?php echo $text_account_dashboard; ?></a>
+                        <i class="bi bi-gauge-high fa-fw me-2"></i> <?php echo $text_account_dashboard; ?></a>
                 </li>
                 <li class="dropdown <?php if ( $wishlist == $current) echo 'current'; ?>">
                     <a class="dropdown-item"  href="<?php echo $wishlist; ?>">
-                        <i class="fa fa-heart-pulse fa-fw me-2"></i> <?php echo $text_account_wishlist; ?>
+                        <i class="bi bi-heart-pulse fa-fw me-2"></i> <?php echo $text_account_wishlist; ?>
                     </a>
                 </li>
                 <li class="dropdown <?php if ( $information == $current) echo 'current'; ?>">
                     <a class="dropdown-item"  href="<?php echo $information; ?>">
-                        <i class="fa fa-edit fa-fw me-2"></i> <?php echo $text_information; ?>
+                        <i class="bi bi-edit fa-fw me-2"></i> <?php echo $text_information; ?>
                     </a>
                 </li>
                 <li class="dropdown <?php if ( $password == $current) echo 'current'; ?>">
                     <a class="dropdown-item"  href="<?php echo $password; ?>">
-                        <i class="fa fa-key fa-fw me-2"></i> <?php echo $text_password; ?>
+                        <i class="bi bi-key fa-fw me-2"></i> <?php echo $text_password; ?>
                     </a>
                 </li>
                 <li class="dropdown <?php if ( $address == $current) echo 'current'; ?>">
                     <a class="dropdown-item"  href="<?php echo $address; ?>">
-                        <i class="fa fa-address-book fa-fw me-2"></i> <?php echo $text_address; ?>
+                        <i class="bi bi-address-book fa-fw me-2"></i> <?php echo $text_address; ?>
                     </a>
                 </li>
                 <li class="dropdown <?php if ( $history == $current) echo 'current'; ?>">
-                    <a class="dropdown-item"  href="<?php echo $history; ?>"><i class="fa fa-clock-rotate-left fa-fw me-2"></i> <?php echo $text_history; ?></a>
+                    <a class="dropdown-item"  href="<?php echo $history; ?>"><i class="bi bi-clock-rotate-left fa-fw me-2"></i> <?php echo $text_history; ?></a>
                 </li>
                 <li class="dropdown <?php if ( $transactions == $current) echo 'current'; ?>">
                     <a class="dropdown-item" href="<?php echo $transactions; ?>"><i class="fa-solid fa-money-bill-transfer me-2"></i> <?php echo $text_transactions; ?></a>
@@ -56,19 +56,19 @@
 
             <?php if ($this->config->get('config_download')) { ?>
                 <li class="dropdown <?php if ( $download == $current) echo 'current'; ?>">
-                  <a class="dropdown-item" href="<?php echo $download; ?>"><i class="fa fa-download fa-fw me-2"></i> <?php echo $text_download; ?></a>
+                  <a class="dropdown-item" href="<?php echo $download; ?>"><i class="bi bi-download fa-fw me-2"></i> <?php echo $text_download; ?></a>
                 </li>
             <?php } ?>
 
             <li class="dropdown <?php if ( $notification == $current) echo 'current'; ?>">
-              <a class="dropdown-item" href="<?php echo $notification; ?>"><i class="fa fa-bell fa-fw me-2"></i> <?php echo $text_my_notifications; ?></a>
+              <a class="dropdown-item" href="<?php echo $notification; ?>"><i class="bi bi-bell fa-fw me-2"></i> <?php echo $text_my_notifications; ?></a>
             </li>
 
             <?php echo $this->getHookVar('customer_account_links'); ?>
 
             <li class="dropdown <?php if ( $logout == $current) echo 'current'; ?>">
               <a class="dropdown-item" href="<?php echo $logout; ?>">
-                  <i class="fa fa-arrow-right-from-bracket fa-fw me-2"></i>
+                  <i class="bi bi-arrow-right-from-bracket fa-fw me-2"></i>
                 <?php echo $text_not.' '.$name.'? '.$text_logout; ?></a>
             </li>
         </ul>

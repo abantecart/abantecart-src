@@ -18,12 +18,12 @@
                 </select>
                 <a id="delete_card" class="btn btn-outline-danger text-nowrap me-2 mb-2"
                    title="<?php echo $text_delete_saved_credit_card; ?>">
-                    <i class="fa fa-trash fa-fw"></i>
+                    <i class="bi bi-trash fa-fw"></i>
                     <?php echo $text_delete_saved_credit_card; ?>
                 </a>
             <?php if ($save_cc) { ?>
                 <a id="new_card" class="btn btn-success text-nowrap me-2 mb-2" title="<?php echo $text_new_credit_card; ?>">
-                    <i class="fa fa-plus fa-fw"></i>
+                    <i class="bi bi-plus fa-fw"></i>
                     <?php echo $text_new_credit_card; ?>
                 </a>
             <?php } ?>
@@ -34,7 +34,7 @@
                     class="btn btn-primary"
                     title="<?php echo_html2view($submit->text); ?>"
                     type="submit">
-                <i class="fa fa-check"></i>
+                <i class="bi bi-check"></i>
                 <?php echo $submit->text; ?>
             </button>
         </div>
@@ -124,7 +124,7 @@
                         class="btn btn-primary"
                         title="<?php echo_html2view($submit->text); ?>"
                         type="submit">
-                    <i class="fa fa-check"></i>
+                    <i class="bi bi-check"></i>
                     <?php echo $submit->text; ?>
                 </button>
             </div>
@@ -220,13 +220,13 @@
                 beforeSend: function () {
                     $('.alert').remove();
                     $form.find('.action-buttons').hide();
-                    $form.find('.action-buttons').before('<div class="wait alert alert-info text-center"><i class="fa fa-refresh fa-spin fa-fw"></i> <?php echo $text_wait; ?></div>');
+                    $form.find('.action-buttons').before('<div class="wait alert alert-info text-center"><i class="bi bi-refresh fa-spin fa-fw"></i> <?php echo $text_wait; ?></div>');
                 },
                 success: function (data) {
                     if (!data) {
                         $('.wait').remove();
                         $form.find('.action-buttons').show();
-                        $form.before('<div class="alert alert-danger"><i class="fa fa-bug fa-fw"></i> <?php echo $error_unknown; ?></div>');
+                        $form.before('<div class="alert alert-danger"><i class="bi bi-bug fa-fw"></i> <?php echo $error_unknown; ?></div>');
                         submitSent = false;
                         //clear cvv if something wrong(for next try)
                         cvv2.val('');
@@ -236,7 +236,7 @@
                         if (data.error) {
                             $('.wait').remove();
                             $form.find('.action-buttons').show();
-                            $form.before('<div class="alert alert-warning"><i class="fa fa-exclamation fa-fw"></i> ' + data.error + '</div>');
+                            $form.before('<div class="alert alert-warning"><i class="bi bi-exclamation fa-fw"></i> ' + data.error + '</div>');
                             submitSent = false;
                             //clear cvv if something wrong(for next try)
                             cvv2.val('');
@@ -251,7 +251,7 @@
                 error: function (jqXHR, textStatus, errorThrown) {
                     $('.wait').remove();
                     $form.find('.action-buttons').show();
-                    $form.before('<div class="alert alert-danger"><i class="fa fa-exclamation fa-fw"></i> ' + textStatus + ' ' + errorThrown + '</div>');
+                    $form.before('<div class="alert alert-danger"><i class="bi bi-exclamation fa-fw"></i> ' + textStatus + ' ' + errorThrown + '</div>');
                     submitSent = false;
                     //clear cvv if something wrong(for next try)
                     cvv2.val('');

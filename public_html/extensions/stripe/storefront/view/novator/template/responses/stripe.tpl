@@ -1,6 +1,6 @@
 <?php
 if ($error) { ?>
-    <div class="alert alert-danger"><i class="fa fa-bug fa-fw"></i> <?php echo $error; ?></div>
+    <div class="alert alert-danger"><i class="bi bi-bug fa-fw"></i> <?php echo $error; ?></div>
 <?php } else { ?>
     <div class="enter_card">
         <?php echo $form_open; ?>
@@ -20,12 +20,12 @@ if ($error) { ?>
 
         <div class="form-group action-buttons text-center mt-3">
             <a id="<?php echo $back->name ?>" href="<?php echo $back->href; ?>" class="btn btn-default mr10">
-                <i class="fa fa-arrow-left"></i>
+                <i class="bi bi-arrow-left"></i>
                 <?php echo $back->text ?>
             </a>
             <button id="<?php echo $submit->name ?>" class="btn btn-primary"
                     title="<?php echo $submit->text ?>" type="submit">
-                <i class="fa fa-check"></i>
+                <i class="bi bi-check"></i>
                 <?php echo $submit->text; ?>
             </button>
         </div>
@@ -89,7 +89,7 @@ if ($error) { ?>
                     var $form = $(this);
                     $('.alert').remove();
                     $form.find('.action-buttons').hide().before(
-                            '<div class="wait alert alert-info text-center"><i class="fa fa-refresh fa-spin fa-fw"></i> <?php echo $text_wait; ?></div>'
+                            '<div class="wait alert alert-info text-center"><i class="bi bi-refresh fa-spin fa-fw"></i> <?php echo $text_wait; ?></div>'
                     );
 
                     stripe.confirmPayment(
@@ -106,7 +106,7 @@ if ($error) { ?>
                             if (result.error) {
                                 $('.wait').remove();
                                 $form.find('.action-buttons').show();
-                                $form.before('<div class="alert alert-warning"><i class="fa fa-exclamation fa-fw"></i> ' + result.error.message + '</div>');
+                                $form.before('<div class="alert alert-warning"><i class="bi bi-exclamation fa-fw"></i> ' + result.error.message + '</div>');
                                 submitSent = false;
                             }
                         });

@@ -21,7 +21,7 @@
 
 <?php }else{ ?>
     <h1 class="ms-3 my-2 heading-title ">
-        <i class="fa fa-group me-2"></i>
+        <i class="bi bi-group me-2"></i>
         <?php echo $text_subscribe_register; ?>
     </h1>
 

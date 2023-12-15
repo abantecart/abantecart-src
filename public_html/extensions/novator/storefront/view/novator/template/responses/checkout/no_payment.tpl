@@ -1,7 +1,7 @@
 <div class="form-group action-buttons">
     <div class="col-md-12">
         <button id="<?php echo $button_confirm->name ?>" class="btn btn-primary lock-on-click " title="<?php echo $button_confirm->name ?>" type="submit">
-            <i class="fa fa-check"></i>
+            <i class="bi bi-check"></i>
             <?php echo $button_confirm->text; ?>
         </button>
     </div>

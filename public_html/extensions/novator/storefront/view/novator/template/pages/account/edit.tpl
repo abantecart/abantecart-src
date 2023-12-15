@@ -48,7 +48,7 @@ if ($error_warning) { ?>
                     role="button"
                     class="btn btn-primary ms-auto lock-on-click"
                     title="<?php echo_html2view($form['continue']->name); ?>">
-                <i class="fa fa-check"></i>
+                <i class="bi bi-check"></i>
                 <?php echo $form['continue']->name ?>
             </button>
         </div>

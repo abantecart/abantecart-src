@@ -124,7 +124,7 @@
 																			class="call_to_order badge text-bg-primary"
 																			title="<?php echo_html2view($text_call_to_order); ?>">
 																			<i class="bi bi-telephone-fill"></i>
-                                                                                <?php echo $text_call_to_order; ?>
+                                        <?php echo $text_call_to_order; ?>
 																			</a>
 																		</p>
 																	<?php } else if ($product['track_stock'] && !$product['in_stock']) { ?>

@@ -207,7 +207,7 @@ function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
                             aria-expanded="false">';
             $output .= $icon.$item_title;
             if(!isset($options['without_caret'])) {
-                $output .= '&nbsp; <i class="fa fa-caret-down"></i>';
+                $output .= '&nbsp; <i class="bi bi-caret-down"></i>';
             }
             $output .= '</a>';
 
@@ -249,7 +249,7 @@ function renderRatingStarsNv($value, $text){
     $i = 1;
     $output = '<div title="'.htmlspecialchars($text, ENT_QUOTES, 'UTF-8').'">';
     while($i < 6){
-        $output .= '<i class="fa-star '.($i<=$value ? 'fa-solid' : 'fa-regular').'"></i>';
+        $output .= '<i class="bi '.($i<=$value ? 'bi-star-fill' : 'bi-star').'"></i>';
         $i++;
     }
     return $output.'</div>';
@@ -259,7 +259,7 @@ function noRatingStarsNv($text){
     $i = 1;
     $output = '<div title="'.htmlspecialchars($text, ENT_QUOTES, 'UTF-8').'">';
     while($i < 6){
-        $output .= '<i class="fa-star fa-regular"></i>';
+        $output .= '<i class="bi bi-star"></i>';
         $i++;
     }
     return $output.'</div>';

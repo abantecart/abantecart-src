@@ -51,10 +51,10 @@
         </div>
         <div class="d-flex flex-wrap justify-content-center ">
             <a class="btn btn-secondary btn-sm m-2" href="<?php echo $view; ?>">
-                <i class="fa fa-shopping-cart "></i> <?php echo $text_view;?></a>
+                <i class="bi bi-shopping-cart "></i> <?php echo $text_view;?></a>
             <a class="btn btn-primary btn-sm m-2 "
                href="<?php echo $checkout; ?>">
-                <i class="fa fa-pencil"></i>  <?php echo $text_checkout; ?></a>
+                <i class="bi bi-pencil"></i>  <?php echo $text_checkout; ?></a>
         </div>
 	</div>
 </div>
