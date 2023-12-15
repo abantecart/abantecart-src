@@ -217,7 +217,7 @@ class ControllerPagesProductProduct extends AController
         } else {
             $this->data['tab_review'] = $this->language->get('tab_review_empty');
         }
-        $this->data['count_reviews'] = $this->model_catalog_review->getTotalReviewsByProductId($product_id);
+        $this->data['review_percentage_translate'] = $this->language->get('percentage_review');
         $this->data['review_form_status'] = $this->isReviewAllowed($product_id);
         $average = $this->data['display_reviews']
             ? $this->model_catalog_review->getAverageRating($product_id)

@@ -44,4 +44,8 @@
         <key>text_per_page</key>
         <value><![CDATA[Per Page]]></value>
     </definition>
+    <definition>
+        <key>percentage_review</key>
+        <value><![CDATA[of buyers have recommended this.]]></value>
+    </definition>
 </definitions>

@@ -121,7 +121,7 @@ if ($error){ ?>
                     <!-- Hello Abentacart team you need to check here Starts -->
                         <?php echo $this->getHookVar('buttons');
                         if ($is_customer) { ?>
-                            <div class="wishlist mb-2">
+                            <div class="wishlist d-flex align-items-center justify-content-between">
                                 <a id="wishlist_remove" class="bg-light-danger badge fs-6 <?php echo $in_wishlist ? 'd-block': 'd-none';?>" href="Javascript:void(0);">
                                     <i class="fa-solid fa-heart"></i>
                                     <?php echo $button_remove_wishlist; ?>
@@ -186,12 +186,12 @@ if ($error){ ?>
                             <div class="rounded-pill bg-light-warning badge fs-6"><i class="bi bi-star"></i> <?php echo $average;?></div>
                             <!-- Hello Abentacart team you need to check here ends -->
                         <?php }?>
-                    <?php if($count_reviews){?>
-                    <div class="rounded-pill bg-light-secondary badge fs-6"><i class="bi bi-chat-left-dots"></i> <?php echo $count_reviews;?> Reviews</div>
+                    <?php if($tab_review){?>
+                    <div class="rounded-pill bg-light-secondary badge fs-6"><i class="bi bi-chat-left-dots"></i> <?php echo $tab_review;?> </div>
                     <?php }?>
                 </div>
                 <?php if($review_percentage){?>
-                <p class="text-muted text-start mb-0 text-sm-end"><b class="text-success"><?php echo $review_percentage?>% </b>of buyers have recommended this.</p>
+                <p class="text-muted text-start mb-0 text-sm-end"><b class="text-success"><?php echo $review_percentage?>% </b><?php echo $review_percentage_translate; ?></p>
                 <?php }?>
             </div>
             <hr class="my-4">

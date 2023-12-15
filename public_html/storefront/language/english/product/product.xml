@@ -196,4 +196,8 @@
 		<key>text_verified_review</key>
 		<value><![CDATA[Verified purchase]]></value>
 	</definition>
+	<definition>
+		<key>percentage_review</key>
+		<value><![CDATA[of buyers have recommended this.]]></value>
+	</definition>
 </definitions>
