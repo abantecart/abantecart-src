@@ -498,14 +498,14 @@ if ($error){ ?>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div><?php if($review_form_status){ ?>
                             <h4><?php echo $review_title; ?></h4>
                             <ul class="list-group list-group-flush">
                                 <div id="current_reviews" class="mb-2"></div>
                             </ul>
                             <div class="heading" id="review_title"><h4><?php echo $write_review_title; ?></h4></div>
                             <fieldset>
-                            <?php if($review_form_status){ ?>
+
                             <div class="mb-3">
                                 <div class="mb-3"><label class="form-label"><?php echo $entry_rating; ?></label>
                                     <div class="d-flex align-items-center gap-1 text-warning"><?php
