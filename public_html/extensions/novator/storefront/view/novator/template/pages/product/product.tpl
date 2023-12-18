@@ -181,11 +181,11 @@ if ($error){ ?>
                             <div class="rounded-pill bg-light-warning badge fs-6"><i class="bi bi-star"></i> <?php echo $average;?></div>
                             <!-- Hello Abentacart team you need to check here ends -->
                         <?php }?>
-                    <?php if($tab_review){?>
+                    <?php if($tab_review && $display_reviews){?>
                     <div class="rounded-pill bg-light-secondary badge fs-6"><i class="bi bi-chat-left-dots"></i> <a class="bg-light-secondary fs-6" href=""><?php echo $tab_review;?></a>  </div>
                     <?php }?>
                 </div>
-                <?php if($review_percentage){?>
+                <?php if($review_percentage && $display_reviews ){?>
                 <p class="text-muted text-start mb-0 text-sm-end"><b class="text-success"><?php echo $review_percentage?>% </b><?php echo $review_percentage_translate; ?></p>
                 <?php }?>
             </div>
