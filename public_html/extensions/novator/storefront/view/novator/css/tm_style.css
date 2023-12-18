@@ -3008,7 +3008,9 @@ section {
 .column_right-section .list-group-item a {
   font-size: 15px;
 } 
-
+.category-links a.nav-link::after{
+  display: none;
+} 
 /**  =====================
       responsive page
 ==========================  **/
