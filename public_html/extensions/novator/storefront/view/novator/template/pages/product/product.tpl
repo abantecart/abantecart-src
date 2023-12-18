@@ -152,22 +152,17 @@ if ($error){ ?>
                                 $tax_message = '&nbsp;&nbsp;<span class="productpricesmall">'.$price_with_tax.'</span>';
                             }?>
 
-                        <div class="price text-muted d-flex align-items-center">
-                            <?php if ($special){ ?>
-                                <div class="h2 mb-0 text-danger">
-                                    <?php echo $special . $tax_message; ?>
-                                </div>
-                                <span class="h5 my-2 text-muted fw-normal text-decoration-line-through product-old-price d-block">
-                                    <?php echo $price; ?>
-                                </span>
-                            <?php } else { ?>
-                                <div class="h2 text-primary me-2">
-                                    <?php echo $price . $tax_message; ?>
-                                </div>
-                            <?php } ?>
-                        </div>
+                            <div class="col-sm-6">
+                                <?php if ($special) { ?>
+                                    <h2 class="mb-0 text-danger"><?php echo $special . $tax_message; ?></h2>
+                                    <h5 class="my-2 text-muted fw-normal">
+                                        <del><?php echo $price; ?></del>
+                                    </h5>
+                                <?php } else { ?>
+                                    <h2 class="mb-0 text-primary"><?php echo $price . $tax_message; ?></h2>
+                                <?php } ?>
+                            </div>
 
-                        
                         <?php } ?>
                     </div>
                 </div>
@@ -484,7 +479,7 @@ if ($error){ ?>
                                 <div class="col-xxl-4 col-xl-5">
                                     <div class="card h-100 text-center">
                                         <div class="card-body"><h2 class="mb-0"><b><?php echo $average; ?></b></h2>
-                                            <div class="d-flex align-items-center justify-content-center gap-2 text-warning my-3">
+                                                <div class="d-flex align-items-center justify-content-center gap-2 text-warning my-3">
                                                 <div class="text-warning rating-stars text-sm-end">
                                                     <?php echo renderRatingStarsNv($average,''); ?>
                                                 </div></div>
@@ -629,13 +624,13 @@ if ($error){ ?>
         if( $hookVarArray ){
             foreach($hookVarArray as $key=>$hkVar){ ?>
 
-
-                <div class="tab-pane" id="collapse<?php echo $key; ?>" role="tabpanel" aria-labelledby="ecomtab-tab-4">
+                <div class="tab-content">
+                <div class="tab-pane" id="ecomtab-3" role="tabpanel" aria-labelledby="ecomtab-tab-4">
                     <div class="tab-pane-body">
                         <?php echo $hkVar['html']; ?>
                     </div>
                 </div>
-
+                </div>
         <?php }
 
         } ?>
