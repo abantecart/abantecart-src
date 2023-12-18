@@ -9,7 +9,9 @@
 		
 	<div class="container-fluid mt20">
 	    <div style="width: 49%; float: left; margin-bottom: 2px;"><b><?php echo $text_order; ?></b>
-	    	#<?php echo $order[ 'order_id' ]; ?></div>
+	    	#<?php echo $order[ 'order_id' ]; ?>
+			<?php echo $this->getHookVar('order_history_order_id'.$order['order_id'].'_additional_info'); ?>
+		</div>
 	    <div style="width: 49%; float: right; margin-bottom: 2px; text-align: right;">
 	    	<b><?php echo $text_status; ?></b> <?php echo $order[ 'status' ]; ?></div>
 	    <div class="content" style="clear: both; padding: 5px;">

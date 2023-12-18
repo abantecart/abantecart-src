@@ -6,7 +6,9 @@
 <?php foreach ($orders as $order) { ?>
     <div class="d-flex flex-column mt-2 border p-3">
         <div class="d-flex flex-nowrap justify-content-between py-2">
-            <div><b><?php echo $text_order; ?></b>#<?php echo $order[ 'order_id' ]; ?></div>
+            <div><b><?php echo $text_order; ?></b>#<?php echo $order[ 'order_id' ]; ?>
+                <?php echo $this->getHookVar('order_history_order_id'.$order['order_id'].'_additional_info'); ?>
+            </div>
             <div><b><?php echo $text_status; ?></b> <?php echo $order[ 'status' ]; ?></div>
         </div>
         <table class="w-100">
