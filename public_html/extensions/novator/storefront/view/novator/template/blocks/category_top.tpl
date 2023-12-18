@@ -16,7 +16,104 @@ $categories = prepareNVCatItems($categories);
                             <div class="dropdown-menu dropdown-mega-menu mt-0">
                                 <div class="container">
                                     <div class="row">
-                                        <div class="col-lg-7">
+                                        <div class="col-lg-7">                                    
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <ul class="nav nav-tabs flex-column category-links mt-0" id="myTab" role="tablist">
+                                                    <li class="nav-item" role="presentation"><a class="m-0 nav-link active" id="drp-1-tab"
+                                                        data-bs-toggle="tab" data-bs-target="#drp-1-tab-pane" type="button" role="tab"
+                                                        aria-controls="drp-1-tab-pane" aria-selected="true">Men</a></li>
+                                                    <li class="nav-item" role="presentation"><a class="m-0 nav-link" id="drp-2-tab"
+                                                        data-bs-toggle="tab" data-bs-target="#drp-2-tab-pane" type="button" role="tab"
+                                                        aria-controls="drp-2-tab-pane" aria-selected="false">Female</a></li>
+                                                    <li class="nav-item" role="presentation"><a class="m-0 nav-link" id="drp-3-tab"
+                                                        data-bs-toggle="tab" data-bs-target="#drp-3-tab-pane" type="button" role="tab"
+                                                        aria-controls="drp-3-tab-pane" aria-selected="false">Fragrance</a></li>
+                                                    <li class="nav-item" role="presentation"><a class="m-0 nav-link" id="drp-4-tab"
+                                                        data-bs-toggle="tab" data-bs-target="#drp-4-tab-pane" type="button" role="tab"
+                                                        aria-controls="drp-4-tab-pane" aria-selected="false">Makeup</a></li>
+                                                    <li class="nav-item" role="presentation"><a class="m-0 nav-link" id="drp-5-tab"
+                                                        data-bs-toggle="tab" data-bs-target="#drp-5-tab-pane" type="button" role="tab"
+                                                        aria-controls="drp-5-tab-pane" aria-selected="false">Skincare</a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="tab-content" id="myTabContent">
+                                                    <div class="tab-pane fade show active" id="drp-1-tab-pane" role="tabpanel"
+                                                        aria-labelledby="drp-1-tab" tabindex="0">
+                                                        <h6 class="category-title">Men</h6>
+                                                        <ul class="list-unstyled category-sub-links">
+                                                        <li><a href="#">Watches</a></li>
+                                                        <li><a href="#">Personal Care</a></li>
+                                                        <li><a href="#">Topwear</a></li>
+                                                        <li><a href="#">Footwear</a></li>
+                                                        <li><a href="#">Gadgets</a></li>
+                                                        <li><a href="#">Plus Size</a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="drp-2-tab-pane" role="tabpanel"
+                                                        aria-labelledby="drp-2-tab" tabindex="0">
+                                                        <h6 class="category-title">Female</h6>
+                                                        <ul class="list-unstyled category-sub-links">
+                                                        <li><a href="#">Watches</a></li>
+                                                        <li><a href="#">Personal Care</a></li>
+                                                        <li><a href="#">Topwear</a></li>
+                                                        <li><a href="#">Footwear</a></li>
+                                                        <li><a href="#">Gadgets</a></li>
+                                                        <li><a href="#">Plus Size</a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="drp-2-tab-pane" role="tabpanel"
+                                                        aria-labelledby="drp-2-tab" tabindex="0">
+                                                        <h6 class="category-title">Female</h6>
+                                                        <ul class="list-unstyled category-sub-links">
+                                                        <li><a href="#">Watches</a></li>
+                                                        <li><a href="#">Personal Care</a></li>
+                                                        <li><a href="#">Topwear</a></li>
+                                                        <li><a href="#">Footwear</a></li>
+                                                        <li><a href="#">Gadgets</a></li>
+                                                        <li><a href="#">Plus Size</a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="drp-3-tab-pane" role="tabpanel"
+                                                        aria-labelledby="drp-3-tab" tabindex="0">
+                                                        <h6 class="category-title">Fragrance</h6>
+                                                        <ul class="list-unstyled category-sub-links">
+                                                        <li><a href="#">Watches</a></li>
+                                                        <li><a href="#">Personal Care</a></li>
+                                                        <li><a href="#">Topwear</a></li>
+                                                        <li><a href="#">Footwear</a></li>
+                                                        <li><a href="#">Gadgets</a></li>
+                                                        <li><a href="#">Plus Size</a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="drp-4-tab-pane" role="tabpanel"
+                                                        aria-labelledby="drp-4-tab" tabindex="0">
+                                                        <h6 class="category-title">Makeup</h6>
+                                                        <ul class="list-unstyled category-sub-links">
+                                                        <li><a href="#">Watches</a></li>
+                                                        <li><a href="#">Personal Care</a></li>
+                                                        <li><a href="#">Topwear</a></li>
+                                                        <li><a href="#">Footwear</a></li>
+                                                        <li><a href="#">Gadgets</a></li>
+                                                        <li><a href="#">Plus Size</a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="drp-5-tab-pane" role="tabpanel"
+                                                        aria-labelledby="drp-5-tab" tabindex="0">
+                                                        <h6 class="category-title">Skincare</h6>
+                                                        <ul class="list-unstyled category-sub-links">
+                                                        <li><a href="#">Watches</a></li>
+                                                        <li><a href="#">Personal Care</a></li>
+                                                        <li><a href="#">Topwear</a></li>
+                                                        <li><a href="#">Footwear</a></li>
+                                                        <li><a href="#">Gadgets</a></li>
+                                                        <li><a href="#">Plus Size</a></li>
+                                                        </ul>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="dropdown">
                                                     <?php
                                                     //prepare items
