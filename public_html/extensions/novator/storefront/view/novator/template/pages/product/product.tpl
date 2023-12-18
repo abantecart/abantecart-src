@@ -109,7 +109,7 @@ if ($error){ ?>
                     <h1 class="h3"><?php echo $heading_title; ?></h1>
                     <!-- TM Static content start -->
                     <?php if($manufacturer){?>
-                    <h6 class="my-2 text-warning"><u><?php echo $manufacturer; ?></u></h6>
+                        <h6 class="my-2 text-warning"><u><a class="my-2 text-warning" href="<?php echo $manufacturers;  ?>"><?php echo $manufacturer; ?></a></u></h6>
                     <?php }?>
                     <?php if($blurb){?>
                     <p class="text-muted"><?php echo $blurb; ?></p>
