@@ -1,6 +1,8 @@
 <?php if ($reviews) {
     foreach ($reviews as $review) { ?>
             <div class="d-flex">
+                <div class="flex-shrink-0"><div class="user-avtar bg-primary text-white"><span><?php
+                            echo $review['initials']; ?></span></div></div>
                 <div class="flex-grow-1 ms-3"><h5 class="mb-1"><?php echo $review['author']; ?> <small
                                 class="text-muted fw-normal"><?php echo $review['date_added'];?></small>
                         <?php if ($review['verified_purchase']) {?>

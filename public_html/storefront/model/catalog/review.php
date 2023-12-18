@@ -250,4 +250,15 @@ class ModelCatalogReview extends Model
         return $cache;
     }
 
+    public function getInitialsReviewUser($author)
+    {
+        $words = explode(" ", $author);
+
+        $initials = "";
+        foreach ($words as $word) {
+            $initials .= strtoupper(substr($word, 0, 1));
+        }
+        return $initials;
+    }
+
 }

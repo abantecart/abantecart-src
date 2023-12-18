@@ -47,11 +47,14 @@ class ControllerResponsesProductReview extends AController
         $reviews = [];
         if ($this->config->get('display_reviews')) {
             $results = $this->model_catalog_review->getReviewsByProductId($product_id, ($page - 1) * 5, 5);
+
             foreach ($results as $result) {
+
                 $reviews[] = [
                     'author'            => $result['author'],
                     'rating'            => $result['rating'],
                     'verified_purchase' => $result['verified_purchase'],
+                    'initials'          => $this->model_catalog_review->getInitialsReviewUser($result['author']),
                     'text'              => str_replace("\n", '<br />', strip_tags($result['text'])),
                     'stars'             => sprintf($this->language->get('text_stars'), $result['rating']),
                     'date_added'        => dateISO2Display($result['date_added'], $this->language->get('date_format_short')),
