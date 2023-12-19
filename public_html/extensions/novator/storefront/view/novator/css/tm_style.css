@@ -1892,6 +1892,9 @@ section {
   border-radius: 50%;
   text-align: center;
 }
+li#review-set::before{
+  display: none;
+}
 @media (max-width: 575.98px) {
   .theme-change {
     display: none;
