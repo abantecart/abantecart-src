@@ -423,7 +423,7 @@ class ControllerPagesProductProduct extends AController
         );
         $this->data['description'] = html_entity_decode($product_info['description'], ENT_QUOTES, 'UTF-8');
         $this->data['product_id'] = $product_id;
-        $this->data['average'] = $average;
+        $this->data['average'] = number_format($product_info['rating'],1,'.');
 
         if (!has_value($product_info['stock_checkout'])) {
             $product_info['stock_checkout'] = $this->config->get('config_stock_checkout');

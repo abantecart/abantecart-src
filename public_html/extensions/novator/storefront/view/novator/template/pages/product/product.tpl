@@ -1078,4 +1078,7 @@ if ($error){ ?>
             });
         }
     });
+    $(document).ready(function (){
+
+    });
 </script>
