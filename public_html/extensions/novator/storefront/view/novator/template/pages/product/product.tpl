@@ -473,9 +473,9 @@ if ($error){ ?>
             <div class="tab-pane" id="collapseReview" role="tabpanel" aria-labelledby="review">
                 <div class="tab-pane-body">
                     <div class="row">
+                        <?php if($average) {?>
                         <div class="col-xxl-8 col-md-10"><h4 class="fw-normal"><?php echo $feedback_customer_title;?></h4>
                             <div class="row g-4 mb-4 justify-content-between align-items-stretch">
-                                <?php if($average) {?>
                                 <div class="col-xxl-4 col-xl-5">
                                     <div class="card h-100 text-center">
                                         <div class="card-body"><h2 class="mb-0"><b><?php echo $average; ?></b></h2>
@@ -486,7 +486,7 @@ if ($error){ ?>
                                             <p class="mb-0 text-muted"><?php echo $product_rate_title; ?></p></div>
                                     </div>
                                 </div>
-                                <?php } ?>
+
                                 <div class="col-xxl-8 col-xl-7">
                                     <div class="card h-100">
                                         <div class="card-body">
@@ -498,7 +498,8 @@ if ($error){ ?>
                                         </div>
                                     </div>
                                 </div>
-                            </div><?php if($review_form_status){ ?>
+                            </div><?php } ?>
+                            <?php if($review_form_status){ ?>
                             <h4><?php echo $review_title; ?></h4>
                             <ul class="list-group list-group-flush">
                                 <div id="current_reviews" class="mb-2"></div>
