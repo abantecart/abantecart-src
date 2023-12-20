@@ -32,7 +32,7 @@ if($this->cart->hasShipping()){
                                id="<?php echo $quote['id'];?>_title"
                                for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>"
                                title="<?php echo_html2view($quote['description'] ? : $quote['title']); ?>">
-                            <?php $icon = (array)$shipping_method['icon'];
+                            <?php $icon = (array)$quote['icon'] ?: (array)$shipping_method['icon'];
                             if (sizeof($icon)) {
                                 if (empty($icon['resource_code'])) { ?>
                                     <span class="shipping_icon mr10">

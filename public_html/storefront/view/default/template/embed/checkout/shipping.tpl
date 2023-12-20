@@ -59,7 +59,7 @@
 				<label id="<?php echo $quote['id'];?>_title" for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>"
                        title="<?php echo has_value($quote['description']) ? $quote['description'] : ''; ?>"
                        style="cursor: pointer;">
-				<?php $icon = $shipping_method['icon'];
+				<?php $icon = (array)$quote['icon'] ?: (array)$shipping_method['icon'];
 				if ( $icon ) {  ?>
 				<?php if ( is_file(DIR_RESOURCE . $icon['image']) ) { ?>
 					<span class="shipping_icon mr10"><img src="resources/<?php echo $icon['image']; ?>" title="<?php echo $icon['title']; ?>" /></span>

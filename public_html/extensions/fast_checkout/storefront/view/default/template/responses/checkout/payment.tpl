@@ -172,7 +172,7 @@ $guest_data = $this->session->data['fc']['guest'];
                                                                 echo preg_replace('/[^a-zA-Z0-9\.-_]/', '', $idd.$quote['id']); ?>"
                                                            title="<?php echo has_value($quote['description']) ? $quote['description'] : $quote['title']; ?>"
                                                        style="cursor: pointer;">
-                                                        <?php $icon = (array)$shipping_method['icon'];
+                                                        <?php $icon = (array)$quote['icon'] ?: (array)$shipping_method['icon'];;
                                                         if (sizeof($icon)) {
                                                             if (empty($icon['resource_code'])) { ?>
                                                                 <span class="shipping_icon mr10">
