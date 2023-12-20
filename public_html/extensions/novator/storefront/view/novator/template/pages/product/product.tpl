@@ -499,11 +499,11 @@ if ($error){ ?>
                                     </div>
                                 </div>
                             </div><?php } ?>
-                            <?php if($review_form_status){ ?>
-                            <h4><?php echo $review_title; ?></h4>
                             <ul class="list-group list-group-flush">
                                 <div id="current_reviews" class="mb-2"></div>
                             </ul>
+                            <?php if($review_form_status){ ?>
+                            <h4><?php echo $review_title; ?></h4>
                             <div class="heading" id="review_title"><h4><?php echo $write_review_title; ?></h4></div>
                             <fieldset>
 
