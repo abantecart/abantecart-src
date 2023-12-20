@@ -181,7 +181,7 @@ if ($error){ ?>
                             <div class="rounded-pill bg-light-warning badge fs-6"><i class="bi bi-star"></i> <?php echo $average;?></div>
                             <!-- Hello Abentacart team you need to check here ends -->
                         <?php }?>
-                    <?php if($tab_review && $display_reviews){?>
+                    <?php if($tab_review && $display_reviews && $total_reviews>0){?>
                     <div class="rounded-pill bg-light-secondary badge fs-6"><i class="bi bi-chat-left-dots"></i> <a class="bg-light-secondary fs-6" href=""><?php echo $tab_review;?></a>  </div>
                     <?php }?>
                 </div>
@@ -375,11 +375,13 @@ if ($error){ ?>
         </li>
         
         <?php if ($display_reviews || $review_form_status){ ?>
+                <?php if($review_form_status or $total_reviews>0){?>
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="review" data-bs-toggle="tab" href="#collapseReview" role="tab" aria-controls="collapseReview" aria-selected="false" tabindex="-1" aria-selected="true">
                     <?php echo $tab_review; ?>
                 </a>
             </li>
+            <?php }?>
         <?php } ?>
 
         <?php if ($tags){ ?>
@@ -504,9 +506,11 @@ if ($error){ ?>
                             <?php }?>
                             <?php }?>
                             <h4><?php echo $review_title; ?></h4>
+
                             <ul class="list-group list-group-flush">
                                 <div id="current_reviews" class="mb-2"></div>
                             </ul>
+
                             <?php if($review_form_status){ ?>
                             <div class="heading" id="review_title"><h4><?php echo $write_review_title; ?></h4></div>
                             <fieldset>
