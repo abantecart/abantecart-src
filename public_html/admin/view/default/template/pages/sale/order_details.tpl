@@ -40,6 +40,7 @@ echo $order_tabs;
 			<p class="form-control-static"><?php echo $order_id; ?></p>
 			</div>
 		</div>
+		<?php echo $this->getHookVar('order_details_left_top_attributes'); ?>
 		<div class="form-group">
 			<label class="control-label col-sm-5"><?php echo $entry_invoice_id; ?></label>
 			<div class="input-group afield col-sm-7"><p class="form-control-static">
