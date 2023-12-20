@@ -474,7 +474,9 @@ if ($error){ ?>
                 <div class="tab-pane-body">
                     <div class="row">
                         <?php if($average && $average >'0.0') {?>
-                        <div class="col-xxl-8 col-md-10"><h4 class="fw-normal"><?php echo $feedback_customer_title;?></h4>
+                        <div class="col-xxl-8 col-md-10">
+                            <?php if($display_reviews){?>
+                            <h4 class="fw-normal"><?php echo $feedback_customer_title;?></h4>
                             <div class="row g-4 mb-4 justify-content-between align-items-stretch">
                                 <div class="col-xxl-4 col-xl-5">
                                     <div class="card h-100 text-center">
@@ -498,12 +500,14 @@ if ($error){ ?>
                                         </div>
                                     </div>
                                 </div>
-                            </div><?php } ?>
+                            </div>
+                            <?php }?>
+                            <?php }?>
+                            <h4><?php echo $review_title; ?></h4>
                             <ul class="list-group list-group-flush">
                                 <div id="current_reviews" class="mb-2"></div>
                             </ul>
                             <?php if($review_form_status){ ?>
-                            <h4><?php echo $review_title; ?></h4>
                             <div class="heading" id="review_title"><h4><?php echo $write_review_title; ?></h4></div>
                             <fieldset>
 
