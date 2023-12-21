@@ -177,7 +177,7 @@ if ($error){ ?>
 
                         <?php }
 
-                        if ($average && $average >'0.0'){ ?>
+                        if ($average && $average >'0.0' && $display_reviews){ ?>
                             <div class="rounded-pill bg-light-warning badge fs-6"><i class="bi bi-star"></i> <?php echo $average;?></div>
                             <!-- Hello Abentacart team you need to check here ends -->
                         <?php }?>
