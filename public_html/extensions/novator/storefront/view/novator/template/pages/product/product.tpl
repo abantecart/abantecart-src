@@ -177,7 +177,7 @@ if ($error){ ?>
 
                         <?php }
 
-                        if ($average && $average >'0.0' && $display_reviews){ ?>
+                        if ((float)$average  && $display_reviews){ ?>
                             <div class="rounded-pill bg-light-warning badge fs-6"><i class="bi bi-star"></i> <?php echo $average;?></div>
                             <!-- Hello Abentacart team you need to check here ends -->
                         <?php }?>
@@ -475,7 +475,7 @@ if ($error){ ?>
             <div class="tab-pane" id="collapseReview" role="tabpanel" aria-labelledby="review">
                 <div class="tab-pane-body">
                     <div class="row">
-                        <?php if($average && $average >'0.0') {?>
+                        <?php if((float)$average) {?>
                         <div class="col-xxl-8 col-md-10">
                             <?php if($display_reviews){?>
                             <h4 class="fw-normal"><?php echo $feedback_customer_title;?></h4>
