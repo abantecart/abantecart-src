@@ -5,40 +5,40 @@
                 <ul class="pagination mb-0">
                 <div class="pagination">
                     <?php if ($page > 1) { ?>
-                    <li class="page-item">
+                    <div class="page-item">
                             <a class="page-link" href="<?php echo $first_url; ?>"
                             title="<?php echo_html2view($text_first); ?>" aria-label="<?php echo_html2view($text_first); ?>">
                                 <?php echo_html2view($text_first); ?>
                             </a>
-                    </li>
-                    <li class="page-item">
+                    </div>
+                    <div class="page-item">
                             <a class="page-link" href="<?php echo $prev_url; ?>"
                             title="<?php echo_html2view($text_prev); ?>" aria-label="<?php echo_html2view($text_prev); ?>">
                                 <?php echo_html2view($text_prev); ?>
                             </a>
-                    </li>
+                    </div>
                     <?php
                     }
                     for ($i = $start; $i <= $end; $i++) { ?>
-                    <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
+                    <div class="page-item <?php echo $page == $i ? 'active' : ''; ?>" id="paginate-before">
                             <a class="page-link"
                             href="<?php echo str_replace('{page}', $i, $url) ?>"
                             title="<?php echo $i; ?>" ><?php echo $i; ?></a>
-                    </li>
+                    </div>
                     <?php }
                     if ($page < $total_pages) {
                         if($page != 1){ ?>
-                        <li class="page-item">
+                        <div class="page-item">
                             <a class="page-link" href="<?php echo $next_url; ?>" title="<?php echo_html2view($text_next); ?>">
                                 <?php echo_html2view($text_next); ?>
                             </a>
-                        </li>
+                        </div>
                         <?php } ?>
-                        <li class="page-item">
+                        <div class="page-item">
                             <a class="page-link" href="<?php echo $last_url; ?>" title="<?php echo_html2view($text_last); ?>">
                                 <?php echo_html2view($text_last); ?>
                             </a>
-                        </li>
+                        </div>
                     <?php } ?>
                 </div>
                 </ul>
