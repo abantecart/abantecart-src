@@ -934,6 +934,7 @@ if ($error){ ?>
         function reload_review(url) {
             $('#current_reviews').load(url);
         }
+
         function review() {
             var dismiss = '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
 
