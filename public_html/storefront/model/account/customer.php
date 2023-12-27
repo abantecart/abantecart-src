@@ -704,7 +704,7 @@ class ModelAccountCustomer extends Model
             if ($this->config->get('config_recaptcha_secret_key')) {
                 $recaptcha = new ReCaptcha($this->config->get('config_recaptcha_secret_key'));
                 $resp = $recaptcha->verify(
-                    $data['g-recaptcha-response'],
+                    $data['g-recaptcha-response'] ?:$data['captcha'] ?:$data['recaptcha'],
                     $this->request->getRemoteIP()
                 );
                 if (!$resp->isSuccess() && $resp->getErrorCodes()) {
