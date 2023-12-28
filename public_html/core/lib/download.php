@@ -33,6 +33,7 @@ if (!defined('DIR_CORE')) {
  * @property ALoader $load
  * @property ExtensionsAPI $extensions
  * @property ARequest $request
+ * @property AOrderStatus $order_status
  */
 class ADownload
 {
@@ -246,7 +247,9 @@ class ADownload
         } else {
             $expire = 'NULL';
         }
-
+        $activateOrderStatusId = is_serialized($download['activate_order_status_id'])
+            ? $download['activate_order_status_id']
+            : serialize($download['activate_order_status_id']);
         $this->db->query(
             "UPDATE ".$this->db->table("order_downloads")."
                             SET name = '".$this->db->escape($download['name'])."',
@@ -255,7 +258,7 @@ class ADownload
                                 remaining_count = ".((int) $download['max_downloads'] ? "'"
                 .(int) $download['max_downloads']."'" : 'NULL').",
                                 status = '".(int) $download['status']."',
-                                activate_order_status_id = '". $this->db->escape(serialize($download['activate_order_status_id'])) ."',
+                                activate_order_status_id = '". $this->db->escape($activateOrderStatusId) ."',
                                 expire_date = ".$expire.",
                                 attributes_data = '".$this->db->escape($download['attributes_data'])."',
                                 date_modified = NOW()
@@ -285,6 +288,9 @@ class ADownload
         } else {
             $expire = 'NULL';
         }
+        $activateOrderStatusId = is_serialized($download['activate_order_status_id'])
+            ? $download['activate_order_status_id']
+            : serialize($download['activate_order_status_id']);
         $this->db->query(
             "INSERT INTO ".$this->db->table("order_downloads")."
                             SET order_id = '".(int) $order_id."',
@@ -296,7 +302,7 @@ class ADownload
                                 remaining_count = ".((int) $download['max_downloads'] ? "'"
                 .(int) $download['max_downloads']."'" : 'NULL').",
                                 status = '".(int) $download['status']."',
-                                activate_order_status_id = '".$this->db->escape(serialize($download['activate_order_status_id']))."',
+                                activate_order_status_id = '".$this->db->escape($activateOrderStatusId)."',
                                 expire_date = ".$expire.",
                                 attributes_data = '".$this->db->escape($download['attributes_data'])."',
                                 date_modified = NOW(),
@@ -682,13 +688,12 @@ class ADownload
         } elseif ($download_info['remaining_count'] == '0') {
             $text_status = $this->language->get('text_reached_limit');
         }
-        $activateStatuses = (array) unserialize($download_info['activate_order_status_id']);
-        if (count($activateStatuses) > 0) {
+        $activateStatuses = unserialize($download_info['activate_order_status_id']);
+        if ($activateStatuses) {
             if (!in_array((int) $download_info['order_status_id'], $activateStatuses)) {
                 $text_status = $this->language->get('text_pending');
             }
         }
-
         //2. check is file exists
         $download_info['filename'] = trim($download_info['filename']);
         if (!$this->isFileAvailable($download_info['filename'])) {
