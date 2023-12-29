@@ -41,7 +41,11 @@ $(document).on('submit','form.needs-validation', function(e){
 });
 
 $(document).ready(function(){
-
+    $(".category-links a.nav-link").hover(function(){
+        $(this).tab('show');
+        var actTab = new bootstrap.Tab($(this));
+        actTab.show();
+    });
     if (window.hasOwnProperty("is_retina") && is_retina === true) {
         if ((window.devicePixelRatio === undefined ? 1 : window.devicePixelRatio) > 1) {
             document.cookie = 'HTTP_IS_RETINA=1;path=/; samesite=' + samesite;
