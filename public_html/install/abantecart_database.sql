@@ -324,7 +324,8 @@ VALUES
 (239,'ZW','ZWE','',1,0),
 (240,'GB','NIR','',1,0),
 (241,'RS','SRB','',1,0),
-(242,'XK','XXK','',1,0);
+(242,'XK','XXK','',1,0),
+(243,'SS','RSS','',1,0);
 
 --
 -- DDL for table `ac_country_descriptions`
@@ -580,7 +581,8 @@ VALUES
 (239,1,'Zimbabwe'),
 (240,1,'Northern Ireland'),
 (241,1,'Serbia'),
-(242,1,'Kosovo');
+(242,1,'Kosovo'),
+(243,1,'South Sudan');
 
 
 --

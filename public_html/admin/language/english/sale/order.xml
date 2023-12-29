@@ -382,6 +382,6 @@
 	</definition>
 	<definition>
 		<key>text_enable_google_map</key>
-		<value><![CDATA[To view addresses on the interective Google map provide Google API key in the general settings]]></value>
+		<value><![CDATA[To view addresses on the interactive Google map provide Google API key in the general settings]]></value>
 	</definition>
 </definitions>

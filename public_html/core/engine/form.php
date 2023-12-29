@@ -685,7 +685,7 @@ class AForm
             if ($field['element_type'] == 'K' || $field['element_type'] == 'J') {
                 if ($this->config->get('config_recaptcha_secret_key')) {
                     $recaptcha = new ReCaptcha($this->config->get('config_recaptcha_secret_key'));
-                    $resp = $recaptcha->verify($data['g-recaptcha-response'] ?:$data['captcha'], $this->request->getRemoteIP());
+                    $resp = $recaptcha->verify($data['g-recaptcha-response']?:$data['captcha'], $this->request->getRemoteIP());
                     if (!$resp->isSuccess() && $resp->getErrorCodes()) {
                         $errors[$field['field_name']] = $this->language->get('error_captcha');
                     }

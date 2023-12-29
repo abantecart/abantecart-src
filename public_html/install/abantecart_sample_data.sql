@@ -704,9 +704,9 @@ INSERT INTO `ac_downloads`
 `date_added`,
 `date_modified`)
 VALUES
-(1,'100196','audio-cd.mp3',50,NULL,2,'order_status','{i:0;s:1:"5";}',0,1,NOW(),NOW()),
-(2,'100197','sample.mp3',NULL,NULL,1,'before_order','{i:0;s:1:"0";}',0,1,NOW(),NOW()),
-(5,'download/18/79/f.pdf','size-fit-guide-print.pdf',NULL,NULL,0,'before_order','{i:0;s:1:"0";}',1,1,NOW(),NOW());
+(1,'100196','audio-cd.mp3',50,NULL,2,'order_status','a:1:{i:0;s:1:"5";}',0,1,NOW(),NOW()),
+(2,'100197','sample.mp3',NULL,NULL,1,'before_order','a:1:{i:0;s:0:"";}',0,1,NOW(),NOW()),
+(5,'download/18/79/f.pdf','size-fit-guide-print.pdf',NULL,NULL,0,'before_order','a:1:{i:0;s:0:"";}',1,1,NOW(),NOW());
 
 --
 -- Dumping data for table `global_attributes`
@@ -1376,7 +1376,9 @@ VALUES
 (120,1,'Jersey Cotton Striped Polo Shirt','','t-shirs, men','&lt;p&gt;Classically designed Charles Wilson polo shirts now available.&lt;br /&gt;\r\nThis premium polo collection is a result of many years experience in designing and manufacturing polo shirts.&lt;br /&gt;\r\nPart of our Jersey Stripe polo range this colourful jersey cotton polo shirt is a must have piece for any casual wardrobe.&lt;br /&gt;\r\nDesigned in the UK&lt;br /&gt;\r\n100% Cotton&lt;br /&gt;\r\nJersey Stripe Polo&lt;br /&gt;\r\nMulti-Stripe Design&lt;br /&gt;\r\nThree Button Design&lt;br /&gt;\r\nMachine Washable at 40 Degrees&lt;/p&gt;\r\n',''),
 (121,1,'Designer Men Casual Formal Double Cuffs Grandad Band Collar Shirt Elegant Tie','','','Superb style double cuffs shirt. Made using highest quality cotton. Grandad collar. Slim Fit. Highest quality - made in Turkey. Great as casual or formal shirt.',''),
 (122,1,'Product with options and stock locations','','','Designed by slim fit style FOR men and women in highest qualities and workmanship to bring buyers A different outlook on life of fashion Casual Basic Slim Fit Polo Shirts\r\n&lt;ul&gt;\r\n	&lt;li&gt;100% COTTON&lt;/li&gt;\r\n	&lt;li&gt;If you buy these Polo shits, You&amp;#39;ll never regret about purchase. Because it is so nice designed shirts for your daily look.&lt;/li&gt;\r\n	&lt;li&gt;Soft Elastic Decent slim fit &amp;amp; Button placket &amp;amp; sleeve ribbing with contrast trim.&lt;/li&gt;\r\n	&lt;li&gt;Machine Wash / Hand Wash Recommended&lt;/li&gt;\r\n&lt;/ul&gt;\r\n',''),
-(123,1,'Casual 3/4 Sleeve Baseball T-Shirt','t-shirt','Rich Cotton Raglan T-Shirts','This classic raglan t-shirt is perfect for all occasions. Whether you are working out or hanging out, this shirt is a win for the versatility. Perfect to join your friends to watch and cheer for your favorite team in all sports: basketball, football, football, hockey or baseball.&lt;br /&gt;&lt;br /&gt;&lt;!--n--&gt;&lt;!--n--&gt;The raglan t-shirts are great options for men and women looking for a stylish look in their casual looks. For mild days bet on the 3/4 sleeve model in contrasting color. &lt;br /&gt;Made in 100% cotton fabric, features slim fit and round neckline.','');
+(123,1,'Casual 3/4 Sleeve Baseball T-Shirt','t-shirt','Rich Cotton Raglan T-Shirts','This classic raglan t-shirt is perfect for all occasions. Whether you are working out or hanging out, this shirt is a win for the versatility. Perfect to join your friends to watch and cheer for your favorite team in all sports: basketball, football, football, hockey or baseball.&lt;br /&gt;&lt;br /&gt;&lt;!--n--&gt;&lt;!--n--&gt;The raglan t-shirts are great options for men and women looking for a stylish look in their casual looks. For mild days bet on the 3/4 sleeve model in contrasting color. &lt;br /&gt;Made in 100% cotton fabric, features slim fit and round neckline.',''),
+(124, 1, 'Test name: Infinite Comfort Performance Jackson\'s  Running Shoes with Shock Absorption Technology - AirFlex Pro Elite Series', 'Running shoes, Performance footwear, Shock absorption technology, Comfortable running sneakers, Athletic footwear, Jogging shoes, Elite series shoes, Sports shoes, Cushioned running shoes, Breathable mesh upper, Impact reduction shoes, Fitness footwear, M', 'Step into ultimate comfort and performance with the AirFlex Pro Elite Series running shoes. Engineered with advanced shock absorption technology, these athletic sneakers offer a smooth and cushioned ride', '&lt;p&gt;The annual Summer trend for wedges is back with these classic flip flop wedge heels. The sandals have a toe thong design, diamante detailing to the front and look fab worn with a maxi dress for a classic Summer look. Available in a choice of five different colours.&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Available in 5 different colours&lt;/li&gt;\r\n	&lt;li&gt;Diamante detailing to the front&lt;/li&gt;\r\n	&lt;li&gt;Outer Material: &lt;em&gt;Synthetic&lt;/em&gt;&lt;/li&gt;\r\n	&lt;li&gt;Inner Material: &lt;em&gt;Manmade&lt;/em&gt;&lt;/li&gt;\r\n	&lt;li&gt;Heel Height: &lt;em&gt;9.5 centimetres&lt;/em&gt;&lt;/li&gt;\r\n	&lt;li&gt;Heel Type: Wedge&lt;/li&gt;\r\n	&lt;li&gt;Sandals have a toe thong design&lt;/li&gt;\r\n	&lt;li&gt;Classic flip flop wedge heels&lt;/li&gt;\r\n	&lt;li&gt;&lt;strong&gt;Perfect for the Summer!&lt;/strong&gt;&lt;/li&gt;\r\n&lt;/ul&gt;\r\n\r\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\r\n', 'Step into a world of unparalleled comfort and performance with our AirFlex Pro Elite Series, the ultimate running shoes for athletes and fitness enthusiasts.')
+;
     
 --
 -- Dumping data for table `product_discounts`
@@ -1398,7 +1400,12 @@ VALUES
 (2,81,1,3,0,'',56.0000,'0000-00-00','0000-00-00','0000-00-00 00:00:00','2015-06-22 12:41:09'),
 (3,81,1,4,0,'',50.0000,'0000-00-00','0000-00-00','0000-00-00 00:00:00','2015-06-22 12:41:25'),
 (4,119,1,2,0,'%',10.0000,'0000-00-00','0000-00-00','0000-00-00 00:00:00','2022-06-28 09:10:30'),
-(5,119,1,3,0,'%',20.0000,'0000-00-00','0000-00-00','0000-00-00 00:00:00','2022-06-28 09:12:03');
+(5,119,1,3,0,'%',20.0000,'0000-00-00','0000-00-00','0000-00-00 00:00:00','2022-06-28 09:12:03'),
+(6, 124, 1, 4, 2, '$', '80.0000', '0000-00-00', '0000-00-00', '0000-00-00 00:00:00', '2023-12-05 13:47:44'),
+(7, 124, 2, 4, 1, '%', '20.0000', '0000-00-00', '0000-00-00', '0000-00-00 00:00:00', '2023-12-05 13:48:06'),
+(8, 124, 1, 5, 0, '$', '75.0000', '2023-10-01', '0000-00-00', '0000-00-00 00:00:00', '2023-12-05 13:48:26'),
+(9, 124, 2, 5, 0, '%', '35.0000', '0000-00-00', '2033-12-23', '0000-00-00 00:00:00', '2023-12-05 13:48:51')
+;
 
 --
 -- Dumping data for table `product_option_descriptions`
@@ -1444,7 +1451,19 @@ VALUES (318,1,53,'Color','',''),
 (350,1,121,'Colour','',''),
 (351,1,121,'Size','',''),
 (352,1,122,'Size EU','',''),
-(353,1,123,'Color&amp;Size','','');
+(353,1,123,'Color&amp;Size','',''),
+(354, 1, 124, 'UK size', '', ''),
+(355, 1, 124, 'Colour', '', ''),
+(356, 1, 124, 'File', 'Please attach file', ''),
+(357, 1, 124, 'Hidden', '', ''),
+(358, 1, 124, 'Text', 'Enter engraving text max 10 chars', 'maximum 10 chars allowed'),
+(359, 1, 124, 'Textarea', '', ''),
+(360, 1, 124, 'Multi-select', 'Choose preffered type', ''),
+(361, 1, 124, 'Checkbox', '', ''),
+(362, 1, 124, 'Checkbox Group', '', ''),
+(363, 1, 124, 'Date', 'Select pickup date', ''),
+(364, 1, 124, 'Label title', '', '')
+;
 
 --
 -- Dumping data for table `product_option_value_descriptions`
@@ -1583,7 +1602,26 @@ VALUES (653,1,53,'Natural Ambre',NULL),
 (784,1,123,'XXL / Blue','a:3:{i:0;a:2:{s:9:\"attr_v_id\";s:2:\"93\";s:4:\"name\";s:3:\"XXL\";}i:1;a:2:{s:9:\"attr_v_id\";s:2:\"91\";s:4:\"name\";s:4:\"Blue\";}i:2;a:2:{i:0;s:3:\"XXL\";i:1;s:4:\"Blue\";}}'),
 (785,1,123,'L / Blue','a:3:{i:0;a:2:{s:9:\"attr_v_id\";s:2:\"96\";s:4:\"name\";s:1:\"L\";}i:1;a:2:{s:9:\"attr_v_id\";s:2:\"91\";s:4:\"name\";s:4:\"Blue\";}i:2;a:2:{i:0;s:1:\"L\";i:1;s:4:\"Blue\";}}'),
 (786,1,123,'XXL / Yellow','a:2:{i:0;a:2:{s:9:\"attr_v_id\";s:2:\"93\";s:4:\"name\";s:3:\"XXL\";}i:1;a:2:{s:9:\"attr_v_id\";s:2:\"98\";s:4:\"name\";s:6:\"Yellow\";}}'),
-(787,1,123,'L / Yellow','a:2:{i:0;a:2:{s:9:\"attr_v_id\";s:2:\"96\";s:4:\"name\";s:1:\"L\";}i:1;a:2:{s:9:\"attr_v_id\";s:2:\"98\";s:4:\"name\";s:6:\"Yellow\";}}');
+(787,1,123,'L / Yellow','a:2:{i:0;a:2:{s:9:\"attr_v_id\";s:2:\"96\";s:4:\"name\";s:1:\"L\";}i:1;a:2:{s:9:\"attr_v_id\";s:2:\"98\";s:4:\"name\";s:6:\"Yellow\";}}'),
+(788, 1, 124, '3 UK ', 'N;'),
+(789, 1, 124, '4 UK ', 'N;'),
+(790, 1, 124, '5 UK ', 'N;'),
+(791, 1, 124, '6 UK ', 'N;'),
+(792, 1, 124, '7 UK ', 'N;'),
+(793, 1, 124, 'white', 'N;'),
+(794, 1, 124, 'red', 'N;'),
+(795, 1, 124, 'black', 'N;'),
+(797, 1, 124, '555555', ''),
+(799, 1, 124, 'Please enter long text.', ''),
+(800, 1, 124, 'Type1', ''),
+(801, 1, 124, 'Type2', ''),
+(802, 1, 124, 'Type3', ''),
+(803, 1, 124, 'yes', ''),
+(804, 1, 124, 'green', ''),
+(805, 1, 124, 'black', ''),
+(806, 1, 124, 'white', ''),
+(808, 1, 124, 'the label text', '')
+;
 
 --
 -- Dumping data for table `product_option_values`
@@ -1736,7 +1774,29 @@ VALUES
 (784,353,123,0,'',5,1,2.0000,0.0000,'$',0.00000000,'g',0,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"93\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"91\";}}',3,0),
 (785,353,123,0,'',0,1,0.0000,0.0000,'$',0.00000000,'g',0,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"96\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"91\";}}',4,0),
 (786,353,123,0,'',20,1,2.0000,0.0000,'$',0.00000000,'g',98,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"93\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"98\";}}',5,0),
-(787,353,123,0,'',10,1,0.0000,0.0000,'$',0.00000000,'g',98,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"96\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"98\";}}',6,0);
+(787,353,123,0,'',10,1,0.0000,0.0000,'$',0.00000000,'g',98,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"96\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"98\";}}',6,0),
+(788, 354, 124, 0, '', 0, 0, '0.0000', '0.0000', '$', '0.00000000', 'lb', 0, '', 0, 0),
+(789, 354, 124, 0, '', 0, 0, '0.0000', '0.0000', '$', '0.00000000', 'lb', 0, '', 1, 0),
+(790, 354, 124, 0, '', 0, 0, '0.0000', '0.0000', '$', '0.00000000', 'lb', 0, '', 2, 0),
+(791, 354, 124, 0, '', 0, 0, '0.0000', '0.0000', '$', '0.00000000', 'lb', 0, '', 3, 0),
+(792, 354, 124, 0, '', 0, 1, '0.0000', '0.0000', '$', '0.00000000', 'lb', 0, '', 4, 0),
+(793, 355, 124, 0, '', 2, 1, '0.0000', '0.0000', '$', '0.00000000', 'lb', 0, '', 0, 0),
+(794, 355, 124, 0, '', 0, 0, '0.0000', '0.0000', '$', '0.00000000', 'lb', 0, '', 1, 1),
+(795, 355, 124, 0, '', 3, 1, '0.0000', '0.0000', '$', '0.10000000', 'lb', 0, '', 2, 0),
+(796, 356, 124, 0, '', 0, 0, '0.0000', '0.0000', '', '0.00000000', '', 0, '', 0, 0),
+(797, 357, 124, 0, '', 0, 0, '0.0000', '0.0000', '$', '0.00000000', 'lb', 0, '', 0, 0),
+(798, 358, 124, 0, '', 0, 0, '0.0000', '0.0000', '', '0.00000000', '', 0, '', 0, 0),
+(799, 359, 124, 0, '', 0, 0, '0.0000', '0.0000', '$', '0.00000000', 'lb', 0, '', 0, 0),
+(800, 360, 124, 0, '', -1, 1, '0.0000', '0.0000', '$', '0.00000000', 'lb', 0, '', 0, 0),
+(801, 360, 124, 0, '', 0, 0, '0.0000', '0.0000', '$', '0.00000000', 'lb', 0, '', 1, 0),
+(802, 360, 124, 0, '', 40, 1, '2.0000', '0.0000', '$', '0.00000000', 'lb', 0, '', 2, 0),
+(803, 361, 124, 0, '', 0, 0, '0.0000', '0.0000', '$', '0.00000000', 'lb', 0, '', 0, 0),
+(804, 362, 124, 0, '', 0, 1, '0.0000', '0.0000', '$', '0.00000000', 'lb', 0, '', 0, 0),
+(805, 362, 124, 0, '', 40, 1, '10.0000', '0.0000', '%', '0.00000000', 'lb', 0, '', 1, 0),
+(806, 362, 124, 0, '', 0, 0, '0.0000', '0.0000', '$', '0.00000000', 'lb', 0, '', 2, 0),
+(807, 363, 124, 0, '', 0, 0, '0.0000', '0.0000', '', '0.00000000', '', 0, '', 0, 0),
+(808, 364, 124, 0, '', 0, 0, '0.0000', '0.0000', '$', '0.00000000', '', 0, '', 0, 0)
+;
     
 --
 -- Dumping data for table `product_options`
@@ -1793,7 +1853,19 @@ VALUES
 (350,0,121,0,0,1,'S',1,'',''),
 (351,0,121,0,0,1,'S',1,'',''),
 (352,0,122,0,0,1,'S',1,'',''),
-(353,6,123,0,0,1,'S',0,'','a:4:{s:10:\"extensions\";s:0:\"\";s:8:\"min_size\";s:0:\"\";s:8:\"max_size\";s:0:\"\";s:9:\"directory\";s:0:\"\";}');
+(353,6,123,0,0,1,'S',0,'','a:4:{s:10:\"extensions\";s:0:\"\";s:8:\"min_size\";s:0:\"\";s:8:\"max_size\";s:0:\"\";s:9:\"directory\";s:0:\"\";}'),
+(354, 0, 124, 0, 2, 1, 'R', 1, '', NULL),
+(355, 0, 124, 0, 1, 1, 'S', 1, '', NULL),
+(356, 0, 124, 0, 3, 1, 'U', 0, '', 'a:4:{s:10:\"extensions\";s:15:\"txt,png,jpg,zip\";s:8:\"min_size\";s:0:\"\";s:8:\"max_size\";s:4:\"6000\";s:9:\"directory\";s:13:\"productfiles/\";}'),
+(357, 0, 124, 0, 4, 1, 'H', 1, '', ''),
+(358, 0, 124, 0, 5, 1, 'I', 0, '/^.{0,10}$/', ''),
+(359, 0, 124, 0, 7, 1, 'T', 0, '', ''),
+(360, 0, 124, 0, 8, 1, 'M', 0, '', ''),
+(361, 0, 124, 0, 9, 1, 'C', 0, '', ''),
+(362, 0, 124, 0, 10, 1, 'G', 0, '', ''),
+(363, 0, 124, 0, 11, 1, 'D', 0, '', ''),
+(364, 0, 124, 0, 12, 1, 'B', 1, '', '')
+;
 
 
 --
@@ -1819,7 +1891,9 @@ VALUES
 (256,88,1,0,'%',2.0000,'0000-00-00','0000-00-00',NOW(),NOW()),
 (257,93,1,0,'$',220.0000,'2022-06-04','0000-00-00',NOW(),NOW()),
 (258,65,1,1,'$',89.0000,'2022-06-01','0000-00-00',NOW(),NOW()),
-(260,80,1,1,'$',45.0000,'2022-06-01','0000-00-00',NOW(),NOW());
+(260,80,1,1,'$',45.0000,'2022-06-01','0000-00-00',NOW(),NOW()),
+(261, 124, 1, 1, '$', '90.0000', '2023-12-04', '0000-00-00', '0000-00-00 00:00:00', '2023-12-05 13:34:43')
+;
 
 --
 -- Dumping data for table `product_tags`
@@ -1876,7 +1950,9 @@ INSERT INTO `ac_product_tags` VALUES (50,'cheeks',1),
 (123,'red',1),
 (123,'shirt',1),
 (123,'white',1),
-(123,'yellow',1);
+(123,'yellow',1),
+(124, 'fashion', 1),
+(124, 'shoe', 1);
 
 --
 -- Dumping data for table `products`
@@ -1988,7 +2064,8 @@ VALUES
 (120,'B00UG4NFNY','','',1,'',1,0,1,0,0,0.0000,6.7500,0,'2015-06-21',100.00,2,0.00,0.00,0.00,3,1,7,1,1,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:41:05'),
 (121,'','','',17,'',1,19,1,0,0,0.0000,32.0000,1,'2021-06-21',120.00,2,0.00,0.00,0.00,3,1,13,1,0,1,10,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 06:39:22'),
 (122,'JDSK36','','',155,'',1,0,1,0,0,0.0000,21.0000,1,'2015-06-21',140.00,2,23.00,20.00,2.00,1,1,11,1,0,1,0,0.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 07:46:02'),
-(123,'LTQFX','2738','',100,'',1,19,1,0,1,0.0000,14.0000,1,'2020-03-17',150.00,2,0.00,0.00,0.00,3,1,9,1,1,1,0,11.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 07:45:47');
+(123,'LTQFX','2738','',100,'',1,19,1,0,1,0.0000,14.0000,1,'2020-03-17',150.00,2,0.00,0.00,0.00,3,1,9,1,1,1,0,11.0000,0,NULL,'2019-07-12 07:21:52','2022-06-28 07:45:47'),
+(124, 'model1', 'SKUTEST', 'location1', 100, '0', 1, 14, 1, 1, 1, '0.0000', '100.0000', 1, '2022-06-15', '1.40', 5, '8.00', '5.00', '7.00', 3, 0, 36, 1, 0, 2, 5, '10.0000', 0, NULL, '2023-12-05 13:22:18', '2023-12-07 08:08:43');
 
 INSERT INTO `ac_product_stock_locations` 
 VALUES (122,778,1,10,0),
@@ -2014,7 +2091,8 @@ VALUES
 (55),
 (56),
 (57),
-(123);
+(123),
+(124);
 
 --
 -- Dumping data for table `products_related`
@@ -2022,23 +2100,37 @@ VALUES
 INSERT INTO `ac_products_related`
 (`product_id`,
 `related_id`)
-VALUES (71,101),
+VALUES
+(62, 124),
+(71,101),
+(77, 124),
+(89, 124),
+(90, 124),
 (100,108),
 (101,71),
 (108,100),
 (115,116),
 (115,118),
+(115, 124),
 (116,115),
 (116,118),
+(117, 124),
 (118,115),
 (118,116),
+(118, 124),
 (119,123),
 (121,123),
 (122,123),
 (123,119),
 (123,121),
-(123,122);
-
+(123,122),
+(124, 62),
+(124, 77),
+(124, 89),
+(124, 90),
+(124, 115),
+(124, 117),
+(124, 118);
 
 --
 -- Dumping data for table `products_to_categories`
@@ -2174,7 +2266,9 @@ VALUES (50,40),
 (121,70),
 (122,68),
 (122,70),
-(123,70);
+(123,70),
+(124, 68),
+(124, 69);
 
 --
 -- Dumping data for table `products_to_downloads`
@@ -2184,7 +2278,9 @@ INSERT INTO `ac_products_to_downloads`
 VALUES
 (111,1),
 (111,2),
-(123,5);
+(123,5),
+(124,5),
+(124,6);
 
 --
 -- Dumping data for table `products_to_stores`
@@ -2266,7 +2362,8 @@ VALUES
 (120,0),
 (121,0),
 (122,0),
-(123,0);
+(123,0),
+(124,0);
 
 
 --
@@ -2986,8 +3083,15 @@ INSERT INTO `ac_resource_map`
 (100243,'categories',70,0,1,NOW(),NOW()),
 (100251,'products',123,0,1,NOW(),NOW()),
 (100252,'products',123,0,2,NOW(),NOW()),
-(100253,'products',123,0,3,NOW(),NOW());
-
+(100253,'products',123,0,3,NOW(),NOW()),
+(100225, 'products', 124, 0, 1, NOW(),NOW()),
+(100226, 'products', 124, 0, 2, NOW(),NOW()),
+(100224, 'products', 124, 0, 3, NOW(),NOW()),
+(100223, 'products', 124, 0, 4, NOW(),NOW()),
+(100222, 'products', 124, 0, 5, NOW(),NOW()),
+(100227, 'products', 124, 0, 6, NOW(),NOW()),
+(100178, 'products', 124, 0, 7, NOW(),NOW())
+;
 
 --
 -- Dumping data for table `reviews`
@@ -3027,7 +3131,11 @@ VALUES
 (80,75,15,'Alex','This worked awesomely for me.  This product is perfect for my dry skin.',5,0,1,'2022-06-27 07:11:27','2022-06-27 07:11:27'),
 (81,78,14,'Howard','This has to be one of my favorite scents.',5,1,1,'2022-06-28 08:46:45','2022-06-28 08:46:59'),
 (82,51,16,'Annabelle','Unlike most powder highlights, it\'s very long-lasting.',4,1,1,'2022-06-28 08:50:13','2022-06-28 08:50:26'),
-(83,118,0,'Rebecca Hellon','They are very comfortable and easy to go. ',4,0,1,'2022-06-28 09:08:52','2022-06-28 09:09:13');
+(83,118,0,'Rebecca Hellon','They are very comfortable and easy to go. ',4,0,1,'2022-06-28 09:08:52','2022-06-28 09:09:13'),
+(84, 124, 0, 'Adena Heath', 'I bought these sandals for my summer vacation and I dont love them! They are not comfortable and not stylish.', 1, 1, 1, '2023-12-05 14:04:55', '2023-12-07 07:28:56'),
+(85, 124, 0, 'Odesa Hamilton', 'The wedge heel gives me some extra height and the diamante detail adds some sparkle to my outfit. They are easy to slip on and off and they fit true to size. I got many compliments on them and they look great with dresses, shorts, or jeans. They are also very durable and well-made. I have worn them several times and they still look new. I would highly recommend these sandals to anyone looking for a cute and versatile pair of shoes.', 5, 0, 1, '2023-12-05 14:05:25', '2023-12-05 14:05:41'),
+(86, 124, 0, 'Adara Brennan', 'Not published review\nNot published review\nNot published review', 3, 0, 0, '2023-12-05 14:06:21', '2023-12-05 14:06:21')
+;
 
 --
 -- Dumping data for table `url_aliases`
@@ -3100,7 +3208,9 @@ VALUES
 ('product_id=82','armani-code-after-shave-balm',1),
 ('product_id=81','armani-eau-de-toilette-spray',1),
 ('product_id=80','acqua-di-gio-pour-homme',1),
-('product_id=66','total-moisture-facial-cream',1);
+('product_id=66','total-moisture-facial-cream',1),
+('product_id=124','new-ladies-high-wedge-heel-toe-thong-diamante-flip-flop-sandals-124', 1)
+;
 
 --
 -- Dumping data for table `banners`

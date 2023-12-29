@@ -44,6 +44,7 @@
 								<td><b><?php echo $text_order_id; ?></b></td>
 								<td><?php echo $order['order_id']; ?></td>
 							</tr>
+							<?php echo $this->getHookVar('order_invoice_'.$order['order_id'].'_more_order_info_2'); ?>
 						</table>
 					</td>
 				</tr>

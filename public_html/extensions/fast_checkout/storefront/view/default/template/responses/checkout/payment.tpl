@@ -170,9 +170,9 @@ $guest_data = $this->session->data['fc']['guest'];
                                                     <label id="<?php echo $quote['id'];?>_title" for="<?php
                                                             $idd = str_replace('.', '', $quote['id']);
                                                                 echo preg_replace('/[^a-zA-Z0-9\.-_]/', '', $idd.$quote['id']); ?>"
-                                                           title="<?php echo has_value($quote['description']) ? $quote['description'] : $quote['title']; ?>"
+                                                           title="<?php echo_html2view($quote['description']); ?>"
                                                        style="cursor: pointer;">
-                                                        <?php $icon = (array)$shipping_method['icon'];
+                                                        <?php $icon = (array)$quote['icon'] ?: (array)$shipping_method['icon'];;
                                                         if (sizeof($icon)) {
                                                             if (empty($icon['resource_code'])) { ?>
                                                                 <span class="shipping_icon mr10">

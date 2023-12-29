@@ -44,7 +44,6 @@ class ModelCatalogDownload extends Model
             $data['expire_days'] = 0;
             $data['max_downloads'] = 0;
         }
-
         $this->db->query(
             "INSERT INTO ".$this->db->table('downloads')."
               SET filename  = '".$this->db->escape($data['filename'])."',
@@ -719,12 +718,14 @@ class ModelCatalogDownload extends Model
         if (count($activateStatuses) > 0) {
             if (!in_array((int) $download_info['order_status_id'], $activateStatuses)) {
                 $this->load->model('localisation/order_status');
-                $order_status_info = $this->model_localisation_order_status->getOrderStatus(
-                    $download_info['activate_order_status_id']
-                );
+                $names = [];
+                foreach ($download_info['activate_order_status_id'] as $id){
+                    $names[] = $this->model_localisation_order_status->getOrderStatus($id)['name'];
+                }
+
                 $text_status[] = sprintf(
                     $this->language->get('text_order_status_required'),
-                    $order_status_info['name']
+                    implode(',',$names)
                 );
             }
         }

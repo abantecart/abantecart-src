@@ -28,20 +28,20 @@ if($this->cart->hasShipping()){
                         <div class="flex-shrink p-2 fc-radio-noborder">
                             <?php  echo $quote['radio']; ?>
                         </div>
-                        <label class="p-2 flex-grow-1"
+                        <label class="p-2 flex-grow-1 d-flex flex-wrap align-items-center "
                                id="<?php echo $quote['id'];?>_title"
                                for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>"
-                               title="<?php echo_html2view($quote['description'] ? : $quote['title']); ?>">
-                            <?php $icon = (array)$shipping_method['icon'];
+                               title="<?php echo_html2view($quote['description']); ?>">
+                            <?php $icon = (array)$quote['icon'] ?: (array)$shipping_method['icon'];
                             if (sizeof($icon)) {
                                 if (empty($icon['resource_code'])) { ?>
-                                    <span class="shipping_icon mr10">
+                                    <span class="shipping_icon mx-2">
                                         <img style="width:<?php echo $this->config->get('config_image_grid_width'); ?>px; height:auto;"
                                              src="resources/<?php echo $icon['type_dir'].$icon['resource_path']; ?>"
                                              title="<?php echo_html2view($icon['title']); ?>" alt=""/>
                                     </span>
                                 <?php } else { ?>
-                                        <span class="shipping_icon mr10"><?php echo $icon['resource_code']; ?></span>
+                                        <span class="shipping_icon mx-2"><?php echo $icon['resource_code']; ?></span>
                                 <?php }
                             } ?>
                             <?php echo $quote['title']; ?>
