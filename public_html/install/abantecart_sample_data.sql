@@ -704,9 +704,9 @@ INSERT INTO `ac_downloads`
 `date_added`,
 `date_modified`)
 VALUES
-(1,'100196','audio-cd.mp3',50,NULL,2,'order_status','{i:0;s:1:"5";}',0,1,NOW(),NOW()),
-(2,'100197','sample.mp3',NULL,NULL,1,'before_order','{i:0;s:1:"0";}',0,1,NOW(),NOW()),
-(5,'download/18/79/f.pdf','size-fit-guide-print.pdf',NULL,NULL,0,'before_order','{i:0;s:1:"0";}',1,1,NOW(),NOW());
+(1,'100196','audio-cd.mp3',50,NULL,2,'order_status','a:1:{i:0;s:1:"5";}',0,1,NOW(),NOW()),
+(2,'100197','sample.mp3',NULL,NULL,1,'before_order','a:1:{i:0;s:0:"";}',0,1,NOW(),NOW()),
+(5,'download/18/79/f.pdf','size-fit-guide-print.pdf',NULL,NULL,0,'before_order','a:1:{i:0;s:0:"";}',1,1,NOW(),NOW());
 
 --
 -- Dumping data for table `global_attributes`
