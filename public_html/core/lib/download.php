@@ -690,7 +690,7 @@ class ADownload
         }
         $activateStatuses = unserialize($download_info['activate_order_status_id']);
         if ($activateStatuses) {
-            if (!in_array((int) $download_info['order_status_id'], $activateStatuses)) {
+            if (!in_array((int) $download_info['order_status_id'],(array) $activateStatuses)) {
                 $text_status = $this->language->get('text_pending');
             }
         }
