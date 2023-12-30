@@ -1724,7 +1724,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout','config_expire_order_days',30),
 ('checkout','config_customer_cancelation_order_status_id',''),
 ('checkout','config_zero_customer_balance','0'),
-('checkout','config_phone_validation_pattern','/^[0-9+\\(\\)#\\.\\s\\/ext-]+$/'),
+('checkout','config_phone_validation_pattern','/(\+)?[0-9\s]+/'),
 ('checkout','config_start_order_id',''),
 
 -- Appearance
