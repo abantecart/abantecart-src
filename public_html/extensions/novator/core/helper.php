@@ -1,20 +1,43 @@
 <?php
 
-function renderAllCategoriesSFMenuNv(array $menuItems, $level = 0, $parentId = '', $options = [ ]){
+function renderAllCategoriesSFMenuNv(array $menuItems, $options = [ ]){
 
     $menuItems = (array) $menuItems;
-    if (!$menuItems || $level>1 //only 2 levels of category tree
-    ) {
+    if (!$menuItems ) {
         return '';
     }
+
     $idKey = $options['id_key_name'] ?: 'id';
 
-    if($level==0) {
-        $output = '<div class="dropdown list-unstyled category-links" aria-labelledby="' . $parentId . '" ' . $options['submenu_level']['attr'] . '>';
-    }else{
-        $output = '<div class="dropdown-menu dropdown-submenu list-unstyled category-sub-links" aria-labelledby="' . $parentId . '" ' . $options['submenu_level']['attr'] . '>';
-    }
+    $output = '
+                                    <div class="col-3">
+                                        <ul class="nav nav-tabs flex-column category-links mt-0" id="myTab" role="tablist">';
 
+    $children = '<div class="col-9">
+                    <div class="tab-content" id="myTabContent">';
+
+    $cards = '<div class="col-5">
+                <div class="row h-100 g-4">
+                    <div class="col-6">
+                        <div class="card bg-secondary h-100">
+                            <div class="card-body" style="height: 400px">
+                                <div class="bulb-icon d-flex align-items-center justify-content-center">
+
+                                </div>
+                                <p class="mb-0 text-white">Choose some<br>treatment and you’ll<br>see the solutions!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card bg-secondary h-100">
+                            <div class="card-body" style="height: 400px">
+                                <div class="bulb-icon d-flex align-items-center justify-content-center"></div>
+                                <p class="mb-0 text-white">Choose some<br>treatment and you’ll<br>see the solutions!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>';
 
     //$ar = new AResource('image');
     foreach ($menuItems as $i => $item) {
@@ -25,38 +48,32 @@ function renderAllCategoriesSFMenuNv(array $menuItems, $level = 0, $parentId = '
         }
         $item_title = $item['text'] ?: $item['title'] ?: $item['name'];
 
+        $output .= '<li class="nav-item" role="presentation">
+                        <a href="'.$item['href'].'" class="m-0 nav-link" id="drp-'.$item['category_id'].'-tab"
+                        data-bs-toggle="tab" data-bs-target="#drp-'.$item['category_id'].'-tab-pane" type="button" role="tab"
+                        aria-controls="drp-'.$item['category_id'].'-tab-pane" aria-selected="true">'.$item_title.'</a></li>';
+
         $hasChild = (bool) $item['children'];
         if ($hasChild) {
-            $id = 'menu_'.$item[$idKey];
-            $css = 'dropdown-toggle text-nowrap '. ($level ? 'dropdown-item ' : '');
-            $output .= '<div class="dropend d-flex flex-column col-6">
-                            <a id="'.$id.'" href="'.$item['href'].'" 
-                                class="dropdown-toggle text-nowrap '. ($level ? 'dropdown-item ' : '').'" 
-                                data-bs-toggle="dropdown" data-bs-target="dropdown"
-                                aria-expanded="false" data-bs-offset="10,20">'
-                            . $item_title. '</a>';
-
-            $params = [
-                'menuItems' => $item['children'],
-                'level' => $level + 1,
-                'parentId' => $id,
-                'options' => [
-                    'id_key_name' => $idKey
-                ]
-            ];
-
-            // for case when pass options into deep of menu
-            if($options['pass_options_recursively']){
-                $params['options'] = array_merge($params['options'], $options['submenu_options']);
+            $children .= '<div class="tab-pane fade" id="drp-'.$item['category_id'].'-tab-pane" role="tabpanel"
+                                aria-labelledby="drp-'.$item['category_id'].'-tab">
+                                <div class="d-flex flex-nowrap h-100">
+                                <div class="col-4">
+                                    <ul class="list-unstyled category-sub-links">';
+            foreach($item['children'] as $child){
+                $childTitle = $child['text'] ?: $child['title'] ?: $child['name'];
+                $children .= '<li><a href="'.$child['href'].'">'.$childTitle.'</a></li>';
             }
+            $children .= '</ul></div>'.$cards.'</div></div>';
 
-            $output .= call_user_func_array('renderAllCategoriesSFMenuNv',$params).'</div>';
-        } else {
-            $output .= '<a href="'.$item['href'].'" class="'.$css.'" >'.$icon.$item_title.'</a>';
         }
     }
 
-    $output .= "</div>\n";
+
+
+    $output .= '</ul></div>'.$children.'</div></div>';
+
+
     return $output;
 }
 
