@@ -162,6 +162,7 @@ class ControllerPagesExtensionDefaultWeight extends AController
                 'name'  => $rate,
                 'value' => $this->data[$rate],
                 'style' => 'xl-field',
+                'placeholder' =>  $this->language->get('example_currency')."\n".$this->language->get('example_weight'),
             ));
         }
 

@@ -58,9 +58,11 @@ echo $tabs;?>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-3 col-xs-12" for="editFrm_<?php echo $rate; ?>"><?php echo $entry_rate; ?></label>
-				<div class="input-group afield col-sm-3 col-xs-12 ml_ckeditor">
+                <div class="input-group afield col-sm-3 col-xs-12 ml_ckeditor" >
+
 					<?php echo $form['fields']['rates'][$rate]; ?>
-				</div>
+
+                </div>
 			</div>
 
 		<?php } ?>
