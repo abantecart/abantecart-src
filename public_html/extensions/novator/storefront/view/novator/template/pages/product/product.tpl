@@ -507,7 +507,7 @@ if ($error){ ?>
                             </div>
                             <?php }?>
                             <?php }?>
-                            <h4><?php echo $review_title; ?></h4>
+                            <h4 id="headingReview"><?php echo $review_title; ?></h4>
 
                             <ul class="list-group list-group-flush">
                                 <div id="current_reviews" class="mb-2"></div>
@@ -748,7 +748,8 @@ if ($error){ ?>
         start_easyzoom();
         display_total_price();
 
-        $('#current_reviews .pagination a').on('click', function () {
+        $('#current_reviews .pagination a').on('click', function (e) {
+            e.preventDefault();
             $('#current_reviews').slideUp('slow')
                 .load(this.href)
                 .slideDown('slow');
@@ -768,11 +769,12 @@ if ($error){ ?>
         });
 
         //process clicks in review pagination
-        $('#current_reviews').on('click', '.pagination a', function () {
+        $('#current_reviews').on('click', '.pagination a', function (e) {
+            e.preventDefault();
             reload_review($(this).attr('href'));
             $([document.documentElement, document.body]).animate(
                 {
-                    scrollTop: $("#headingReview").offset().top
+                    scrollTop: $("#headingReview").offset().top - 100
                 },
                 1000
             );
