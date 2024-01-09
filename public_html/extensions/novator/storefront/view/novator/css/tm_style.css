@@ -1677,6 +1677,14 @@ textarea.form-control.is-invalid {
   border-color: #515151;
 }
 
+
+.mega-menu .featured-products .card-body{
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 400px;
+}
+
 [data-bs-theme=dark] .table {
   --bs-table-border-color: #2B2B2B;
 }

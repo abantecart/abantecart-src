@@ -1,80 +1,74 @@
 <?php
 
-function renderAllCategoriesSFMenuNv(array $menuItems, $options = [ ]){
+function renderAllCategoriesSFMenuNv(array $menuItems, $options = [ ])
+{
 
     $menuItems = (array) $menuItems;
     if (!$menuItems ) {
         return '';
     }
 
-    $idKey = $options['id_key_name'] ?: 'id';
-
-    $output = '
-                                    <div class="col-3">
-                                        <ul class="nav nav-tabs flex-column category-links mt-0" id="myTab" role="tablist">';
+    $output = '<div class="col-3">
+                <ul class="nav nav-tabs flex-column category-links mt-0" id="myTab" role="tablist">';
 
     $children = '<div class="col-9">
                     <div class="tab-content" id="myTabContent">';
 
-    $cards = '<div class="col-5">
-                <div class="row h-100 g-4">
-                    <div class="col-6">
-                        <div class="card bg-secondary h-100">
-                            <div class="card-body" style="height: 400px">
-                                <div class="bulb-icon d-flex align-items-center justify-content-center">
-
-                                </div>
-                                <p class="mb-0 text-white">Choose some<br>treatment and you’ll<br>see the solutions!</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="card bg-secondary h-100">
-                            <div class="card-body" style="height: 400px">
-                                <div class="bulb-icon d-flex align-items-center justify-content-center"></div>
-                                <p class="mb-0 text-white">Choose some<br>treatment and you’ll<br>see the solutions!</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>';
-
-    //$ar = new AResource('image');
     foreach ($menuItems as $i => $item) {
-
         if (!is_array($item)) {
             unset($menuItems[$i]);
             continue;
         }
         $item_title = $item['text'] ?: $item['title'] ?: $item['name'];
-
         $output .= '<li class="nav-item" role="presentation">
                         <a href="'.$item['href'].'" class="m-0 nav-link" id="drp-'.$item['category_id'].'-tab"
                         data-bs-toggle="tab" data-bs-target="#drp-'.$item['category_id'].'-tab-pane" type="button" role="tab"
                         aria-controls="drp-'.$item['category_id'].'-tab-pane" aria-selected="true">'.$item_title.'</a></li>';
-
+        $cards = renderFeaturedProductsCards( $item );
         $hasChild = (bool) $item['children'];
         if ($hasChild) {
             $children .= '<div class="tab-pane fade" id="drp-'.$item['category_id'].'-tab-pane" role="tabpanel"
                                 aria-labelledby="drp-'.$item['category_id'].'-tab">
-                                <div class="d-flex flex-nowrap h-100">
+                                <div class="d-flex flex-nowrap align-items-stretch">
                                 <div class="col-4">
                                     <ul class="list-unstyled category-sub-links">';
             foreach($item['children'] as $child){
                 $childTitle = $child['text'] ?: $child['title'] ?: $child['name'];
-                $children .= '<li><a href="'.$child['href'].'">'.$childTitle.'</a></li>';
+                $children .= '<li><a href="'.$child['href'].'"
+                                    class="subcategory-link"
+                                    id="child-'.$child['category_id'].'-tab">'.$childTitle.'</a></li>';
+
+                $cards .= renderFeaturedProductsCards( $child );
             }
             $children .= '</ul></div>'.$cards.'</div></div>';
-
         }
     }
-
-
-
     $output .= '</ul></div>'.$children.'</div></div>';
-
-
     return $output;
+}
+
+function renderFeaturedProductsCards( $item )
+{
+    $html = Registry::getInstance()->get('html');
+    $cards = '<div id="card-'.$item['category_id'].'-tab-pane" class="featured-products col-8 tab-pane fade" role="tabpanel" >
+                    <div class="row g-4">';
+    $k=0;
+    while( $k<2 ){
+        $product = $item['featured_products'][$k];
+        $cards .= '<div class="col-6 ">
+                        <a href="'.$html->getSEOURL('product/product','&product_id='.$product['product_id']).'">
+                            <div class="card-body d-flex rounded" style="background-image: url('.$product['thumbnail']['thumb_url'].');">
+                                <div class="d-flex flex-wrap w-100 rounded align-items-end justify-content-center bg-secondary bg-opacity-50 text-white p-3">
+                                    <div class="w-100 mb-1 fs-5">'.$product['name'].'</div>
+                                    <div class="w-100 mb-0 fs-6">'.($product['blurb'] ? mb_substr($product['blurb'], 0, 150).'...' : '').'</div>
+                                </div>
+                            </div>                            
+                        </a>
+                    </div>';
+        $k++;
+    }
+    $cards .= '</div></div>';
+    return $cards;
 }
 
 
@@ -82,9 +76,6 @@ function prepareNVCatItems($items)
 {
     foreach ($items as &$cat){
         unset($cat['thumb']);
-        if($cat['level'] == 0){
-            unset($cat['icon']);
-        }
         if($cat['children']){
             $cat['children'] = prepareNVCatItems($cat['children']);
         }
