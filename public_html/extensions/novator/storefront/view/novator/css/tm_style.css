@@ -2825,7 +2825,9 @@ li#review-set::before{
 .pagination .page-link:not(.active) {
   color: var(--bs-body-color);
 }
-
+.pagination .page-link.active {
+  color: var(--bs-pagination-active-color);
+}
 #limit.form-select{
   padding: 0.4rem 2rem 0.4rem 0.75rem;
 }

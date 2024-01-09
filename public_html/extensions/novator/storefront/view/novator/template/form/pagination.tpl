@@ -21,7 +21,7 @@
                     }
                     for ($i = $start; $i <= $end; $i++) { ?>
                     <div class="page-item <?php echo $page == $i ? 'active' : ''; ?>" id="paginate-before">
-                            <a class="page-link"
+                            <a class="page-link <?php echo $page == $i ? 'active' : ''; ?>"
                             href="<?php echo str_replace('{page}', $i, $url) ?>"
                             title="<?php echo $i; ?>" ><?php echo $i; ?></a>
                     </div>
