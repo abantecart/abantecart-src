@@ -94,7 +94,6 @@ class ControllerPagesExtensionDefaultWeight extends AController
         }
 
         $settings = $this->model_setting_setting->getSetting('default_weight', $store_id);
-
         foreach ($this->fields as $f) {
             if (isset ($this->request->post [$f])) {
                 $this->data [$f] = $this->request->post [$f];
@@ -128,7 +127,6 @@ class ControllerPagesExtensionDefaultWeight extends AController
             'form_name' => 'editFrm',
             'update'    => $this->data ['update'],
         ));
-
         $this->data['form']['form_open'] = $form->getFieldHtml(array(
             'type'   => 'form',
             'name'   => 'editFrm',
@@ -176,7 +174,10 @@ class ControllerPagesExtensionDefaultWeight extends AController
             'name'  => 'default_weight_sort_order',
             'value' => $this->data['default_weight_sort_order'],
         ));
-
+        $def_set_weight = $this->model_setting_setting->getSetting('details',$store_id);
+        $this->data['weight_currency'] = $this->language->get('example_weight_text') .
+            $def_set_weight['config_weight_class'] .' '.
+            $this->language->get('example_currency_text').$def_set_weight['config_currency'];
         $this->view->batchAssign($this->language->getASet());
 
         //load tabs controller
