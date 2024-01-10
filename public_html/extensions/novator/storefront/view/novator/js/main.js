@@ -159,14 +159,13 @@ $(document).ready(function(){
                     }
 
                     if(data.added_item_quantity>0){
-                        wrapper.children('span.item-qty-badge').remove();
-                        wrapper.append(
-                            '<span class="item-qty-badge position-absolute top-0 start-0 translate-middle badge rounded-pill bg-light text-dark border border-2 border-success">'+
-                            data.added_item_quantity +
-                            '</span>'
-                        );
+                        item.find('i')
+                            .removeClass('bi-bag-fill')
+                            .addClass('bi-bag-check-fill text-success')
+                            .attr('title', text_add_cart_confirm + ' ('+data.added_item_quantity+')');
+                    }else {
+                        item.attr('title', text_add_cart_confirm);
                     }
-                    item.attr('title', text_add_cart_confirm);
                 }
             }
             return false;

@@ -4,6 +4,7 @@
     $cartProducts = $this->cart->getProducts();
     $cartProductIds = $cartProducts ? array_column($cartProducts,'product_id') : [];
     $cartProducts = array_column($cartProducts,'quantity','product_id');
+    $cartUrl = $this->html->getSecureURL( ($cart_rt ?:'checkout/cart'));
 
     $imgW = $imgW ?? $this->config->get('config_image_product_width');
     $imgH = $imgH ?? $this->config->get('config_image_product_height');
@@ -60,6 +61,7 @@
 					if ($item['rating']) {
                         $review = $item['rating'];
                     }
+                    $inCart = in_array((int)$product['product_id'], $cartProductIds);
 					?>
 					<div class="col-6 col-lg-3">
 						<div class="product-card card p-0 border-0"
@@ -110,10 +112,7 @@
 												</ul>
 											</div>
 											<div class="col-auto">
-
-												<!-- Hello Abentacart team you need to check here starts -->
-
-												<div class="add-to-cart-block">
+    											<div class="add-to-cart-block">
 													<div class="qty-status-block">
 														<?php if ($display_price) { ?>
 															<?php echo $this->getHookvar('product_listing_details1_'.$product['product_id']); ?>
@@ -124,7 +123,7 @@
 																			class="call_to_order badge text-bg-primary"
 																			title="<?php echo_html2view($text_call_to_order); ?>">
 																			<i class="bi bi-telephone-fill"></i>
-                                        <?php echo $text_call_to_order; ?>
+                                                                            <?php echo $text_call_to_order; ?>
 																			</a>
 																		</p>
 																	<?php } else if ($product['track_stock'] && !$product['in_stock']) { ?>
@@ -146,9 +145,11 @@
 																<?php } elseif ($this->getHookVar('product_add_to_cart_html_'.$product['product_id'])) {
 																	echo $this->getHookVar('product_add_to_cart_html_'.$product['product_id']);
 																	}else{ ?>
-																		<span class="visually-hidden spinner-border spinner-border-sm" aria-hidden="true"></span>
-																		<a data-id="<?php echo $product['product_id']; ?>" href="<?php echo $this->html->getSecureURL( ($cart_rt ?:'checkout/cart')); ?>">
-																			<i title="<?php echo_html2view($button_add_to_cart); ?>" class="bi bi-handbag-fill"></i>
+																		<a class="add-to-cart"
+                                                                           title="<?php $inCart ? echo_html2view($text_items_in_the_cart) : echo_html2view($button_add_to_cart); ?>"
+                                                                           data-id="<?php echo $product['product_id']; ?>"
+                                                                           href="<?php echo $inCart ? $cartUrl : $item['buy_url']; ?>">
+																			<i class="bi <?php echo $inCart ? 'bi-bag-check-fill text-success' :'bi-bag-fill';?>"></i>
                                                                             <?php echo_html2view($button_add_to_cart); ?>
 																		</a>
 																<?php
@@ -158,47 +159,6 @@
 														echo $this->getHookVar('product_price_hook_var_' . $product['product_id']);
 													?>
 												</div>
-
-												<!-- Hello Abentacart team you need to check here end -->
-												<!--
-												<div class="d-flex two">
-													<?php if ($display_price) { ?>
-														<?php echo $this->getHookvar('product_listing_details1_'.$product['product_id']); ?>
-															<div class="pricetag flex-item">
-
-																<?php if($product['call_to_order']){ ?>
-
-																<?php } else if ($product['track_stock'] && !$product['in_stock']) { ?>
-
-																<?php } elseif ($this->getHookVar('product_add_to_cart_html_'.$product['product_id'])) {
-																	echo $this->getHookVar('product_add_to_cart_html_'.$product['product_id']);
-																	}else{ ?>
-
-																		<a class="text-decoration-none text-white"
-																		href="<?php echo $this->html->getSecureURL( ($cart_rt ?:'checkout/cart')); ?>">
-
-																			<i title="<?php echo_html2view($text_add_cart_confirm); ?>"
-																			class="<?php echo !in_array((int)$product['product_id'], $cartProductIds) ? 'visually-hidden ' : '';?>fa fa-check me-2 text-warning">
-																			</i>
-																		</a>
-
-																		<?php if($cartProducts[(int)$product['product_id']]){?>
-																			<span title="<?php echo_html2view($text_items_in_the_cart); ?>"
-																					class="item-qty-badge">
-																				<?php echo $cartProducts[(int)$product['product_id']];?>
-																			</span>
-																		<?php }?>
-
-																<?php
-																	}
-																?>
-															</div>
-													<?php }
-														echo $this->getHookVar('product_price_hook_var_' . $product['product_id']);
-													?>
-												</div>
-												-->
-
 											</div>
 										</div>
 									</div>

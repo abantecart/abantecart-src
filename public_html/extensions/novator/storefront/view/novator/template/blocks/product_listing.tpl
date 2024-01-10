@@ -1,5 +1,7 @@
 <?php if($products){
     $wishlist = $wishlist ?? $this->customer->getWishlist();
+    $cartUrl = $this->html->getSecureURL( ($cart_rt ?:'checkout/cart'));
+
     ?>
     <div class="px-0">
 <?php
@@ -38,6 +40,7 @@
         if ($item['rating']) {
             $review = $item['rating'];
         }
+        $inCart = in_array((int)$product['product_id'], $cartProductIds);
         ?>
                 <div class="card prod-list-card position-relative">
                     <div class="card-body p-3">
@@ -92,11 +95,8 @@
                                             <?php }
                                                 echo $product['buttons']; 
                                             ?>
-
                                         </div>
-
                                     </div>
-
                                     <div class="col-sm-6 text-sm-end">
                                         <?php if ($display_price) { ?>
                                             <div class="mb-2 prod-price price  me-2">
@@ -131,55 +131,29 @@
                                                         }else{ ?>
 
                                                         <div class="position-relative btn btn-dark btn-sm mt-2">
-                                                            <a class="text-decoration-none text-white"
-                                                            href="<?php echo $this->html->getSecureURL( ($cart_rt ?:'checkout/cart') ); ?>">
-                                                                <i title="<?php echo_html2view($text_add_cart_confirm); ?>"
-                                                                class="<?php
-                                                                echo !in_array((int)$product['product_id'], $cartProductIds)
-                                                                    ? 'visually-hidden '
-                                                                    : '';?> fa fa-check me-2 text-warning"></i>
+                                                            <a class="add-to-cart text-white"
+                                                               title="<?php $inCart ? echo_html2view($text_items_in_the_cart) : echo_html2view($button_add_to_cart); ?>"
+                                                               data-id="<?php echo $product['product_id']; ?>"
+                                                               href="<?php echo $inCart ? $cartUrl : $item['buy_url']; ?>">
+                                                                <i class="bi <?php echo $inCart ? 'bi-bag-check-fill text-success' :'bi-bag-fill';?>"></i>
+                                                                <?php echo_html2view($button_add_to_cart); ?>
                                                             </a>
-                                                            <span class="visually-hidden spinner-border spinner-border-sm" aria-hidden="true"></span>
-                                                            <a class="text-decoration-none text-white add-to-cart"
-                                                            data-id="<?php echo $product['product_id']; ?>"
-                                                            href="<?php echo $item['buy_url'] ?>">
-                                                            <i title="<?php echo_html2view($button_add_to_cart); ?>"
-                                                            class="bi bi-handbag-fill"></i> Shop Now
-                                                            </a>
-                                                            <?php if($cartProducts[(int)$product['product_id']]){?>
-                                                                <span title="<?php echo_html2view($text_items_in_the_cart); ?>"
-                                                                        class="item-qty-badge position-absolute top-0 start-0 translate-middle badge rounded-pill bg-light text-dark border border-2 border-success">
-                                                                    <?php echo $cartProducts[(int)$product['product_id']];?>
-                                                                </span>
-                                                            <?php }?>
                                                         </div>
-                                                    <?php
-                                                        }
-                                                    ?>
+                                                <?php } ?>
                                                 </div>
 
                                             <?php
                                                 }
-                                                echo $this->getHookVar('product_price_hook_var_' . $product['product_id']);
+                                            echo $this->getHookVar('product_price_hook_var_' . $product['product_id']);
                                         ?>
-                                    
                                     </div>
-
-                                    
-
                                     <div class="product-description-list my-2"><?php echo $product['description'] ?></div>
-
-                                    <!-- <div class="blurb mb-2"><?php // echo $product['blurb'] ?></div> -->
                                     <?php echo $this->getHookvar('product_listing_details00_'.$product['product_id']);?>
-
-                                    
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-        <?php
-        }
-        ?>
+<?php   } ?>
     </div>
 <?php } ?>

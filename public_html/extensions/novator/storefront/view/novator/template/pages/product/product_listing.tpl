@@ -18,7 +18,6 @@
         </li>
         <li class="list-inline-item">
             <form class="form-inline d-flex text-nowrap p-0 align-items-center">
-                <!-- <?php echo $text_sort; ?>&nbsp;&nbsp; -->
                 <?php echo $sorting; ?>
             </form>
         </li>
