@@ -57,14 +57,18 @@ echo $tabs;?>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-sm-3 col-xs-12" for="editFrm_<?php echo $rate; ?>"><?php echo $entry_rate; ?></label>
-				<div class="input-group afield col-sm-3 col-xs-12 ml_ckeditor">
-					<?php echo $form['fields']['rates'][$rate]; ?>
-				</div>
+                <label class="control-label col-sm-3 col-xs-12">&nbsp;</label>
+                <div class="input-group afield col-sm-3 col-xs-12" >
+                    <?php echo $weight_currency; ?>
+                </div>
 			</div>
-
+            <div class="form-group">
+                <label class="control-label col-sm-3 col-xs-12" for="editFrm_<?php echo $rate; ?>"><?php echo $entry_rate; ?></label>
+                <div class="input-group afield col-sm-3 col-xs-12 ml_ckeditor" >
+                    <?php echo $form['fields']['rates'][$rate]; ?>
+                </div>
+			</div>
 		<?php } ?>
-
 	</div>
 
 	<div class="panel-footer col-xs-12">

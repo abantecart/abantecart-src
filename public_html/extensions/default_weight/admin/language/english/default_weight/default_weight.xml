@@ -40,4 +40,12 @@
     <key>error_permission</key>
     <value><![CDATA[Warning: You do not have permission to modify weight based shipping!]]></value>
   </definition>
+  <definition>
+    <key>example_weight_text</key>
+    <value><![CDATA[Weight: ]]></value>
+  </definition>
+  <definition>
+    <key>example_currency_text</key>
+    <value><![CDATA[Currency: ]]></value>
+  </definition>
 </definitions>
