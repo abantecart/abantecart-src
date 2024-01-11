@@ -119,15 +119,19 @@
 																	<?php if($product['call_to_order']){ ?>
 																		<p class="mb-0 text-capitalize">
 																			<a data-id="<?php echo $product['product_id'] ?>"
-																			href="<?php echo $this->html->getSeoUrl('content/contact');?>"
-																			class="call_to_order badge text-bg-primary"
+																			href="<?php
+                                                                            echo $this->html->getSeoUrl(
+                                                                                    'content/contact',
+                                                                                    '&product_id='.$product['product_id'].'&product_name='.$product['name']);
+                                                                            ?>"
+																			class="call_to_order"
 																			title="<?php echo_html2view($text_call_to_order); ?>">
 																			<i class="bi bi-telephone-fill"></i>
                                                                             <?php echo $text_call_to_order; ?>
 																			</a>
 																		</p>
 																	<?php } else if ($product['track_stock'] && !$product['in_stock']) { ?>
-																		<p class="badge text-bg-warning mb-0 disabled"><?php echo $text_out_of_stock; ?></p>
+																		<p class="text-warning mb-0 disabled"><?php echo $text_out_of_stock; ?></p>
 																	<?php } elseif ($this->getHookVar('product_add_to_cart_html_'.$product['product_id'])) {
 																		echo $this->getHookVar('product_add_to_cart_html_'.$product['product_id']);
 																		}else{ ?>

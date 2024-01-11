@@ -111,21 +111,19 @@
                                                             <span class="text-muted"><?php echo $product['price'] . $tax_message; ?></span>
                                                         </p>
                                                     <?php } ?>
-
                                             </div>
-
                                             <?php echo $this->getHookvar('product_listing_details1_'.$product['product_id']); ?>
-                                            
                                                 <div class="pricetag flex-item ">
                                                     <?php if($product['call_to_order']){ ?>
                                                         <a data-id="<?php echo $product['product_id'] ?>"
-                                                        href="<?php echo $this->html->getSeoUrl('content/contact');?>"
-                                                        class="call_to_order badge text-bg-primary"
-                                                        title="<?php echo $text_call_to_order ?>">
-                                                        <i class="bi bi-phone"></i>
+                                                        href="<?php echo $this->html->getSeoUrl(
+                                                            'content/contact',
+                                                            '&product_id='.$product['product_id'].'&product_name='.$product['name']); ?>"
+                                                        class="call_to_order btn btn-primary btn-sm text-white">
+                                                        <i class="bi bi-telephone-fill"></i> <?php echo $text_call_to_order ?>
                                                         </a>
                                                     <?php } else if ($product['track_stock'] && !$product['in_stock']) { ?>
-                                                        <a class="badge text-bg-warning mb-0 disabled"><?php echo $text_out_of_stock; ?></a>
+                                                        <a class="btn btn-outline-warning btn-sm mb-0 disabled"><?php echo $text_out_of_stock; ?></a>
                                                     <?php } elseif ($this->getHookVar('product_add_to_cart_html_'.$product['product_id'])) {
                                                         echo $this->getHookVar('product_add_to_cart_html_'.$product['product_id']);
                                                         }else{ ?>

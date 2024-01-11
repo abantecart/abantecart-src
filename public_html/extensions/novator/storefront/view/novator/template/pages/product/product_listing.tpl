@@ -3,19 +3,19 @@
         <li class="list-inline-item">
             <nav>
                 <div class="nav nav-pills">
-                <button class="nav-link active" id="grid_view_btn"><i class="bi bi-grid"></i> Visual</button>
-                <button class="nav-link" id="list_view_btn"><i class="bi bi-layout-split"></i> List</button>
+                <button class="nav-link active" id="grid_view_btn"><i class="bi bi-grid"></i></button>
+                <button class="nav-link" id="list_view_btn"><i class="bi bi-list"></i></button>
                 </div>
             </nav>
         </li>
     </ul>
     <ul class="list-inline ms-auto my-1">
-        <li class="list-inline-item align-bottom">
-            <a href="#" class="d-xl-none btn btn-outline-secondary" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvas_mail_filter">
-                <i class="bi bi-sliders f-16"></i> Filter
-            </a>
-        </li>
+<!--        <li class="list-inline-item align-bottom">-->
+<!--            <a href="#" class="d-xl-none btn btn-outline-secondary" data-bs-toggle="offcanvas"-->
+<!--                data-bs-target="#offcanvas_mail_filter">-->
+<!--                <i class="bi bi-sliders f-16"></i> Filter-->
+<!--            </a>-->
+<!--        </li>-->
         <li class="list-inline-item">
             <form class="form-inline d-flex text-nowrap p-0 align-items-center">
                 <?php echo $sorting; ?>
