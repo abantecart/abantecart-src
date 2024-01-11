@@ -170,15 +170,13 @@ $(document).ready(function(){
             }
             return false;
         });
-
-        add2CartAjax();
     }
 
     //dropdown menu fix of parent
     $('.dropdown>a').on('click', function (e) {
         e.preventDefault();
         let href = $(this).attr('href');
-        if(href !== '#') {
+        if(href.substring(0,1) !== '#') {
             location = href;
         }
     })
