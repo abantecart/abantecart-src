@@ -37,3 +37,7 @@
 .prod-option .form-check .form-check-input {
     border: 1px solid #1692e1;
 }
+
+body.checkout-fast_checkout .top-bar.fixed-top.pt-4.pb-3[role="navigation"]{
+    position: static !important;
+}

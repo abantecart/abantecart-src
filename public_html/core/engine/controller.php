@@ -628,4 +628,28 @@ abstract class AController
                 return false;
         }
     }
+
+    protected function storefrontServiceWarnings()
+    {
+        if(IS_ADMIN === true){
+            return;
+        }
+        if ($this->config->get('config_maintenance') && isset($this->session->data['merchant'])) {
+            $this->view->assign('maintenance_warning', $this->language->get('text_maintenance_notice'));
+        }
+
+        if (isset($this->session->data['merchant'])) {
+            unset($this->session->data['guest']);
+            $this->view->assign(
+                'act_on_behalf_warning',
+                sprintf(
+                    $this->language->get('text_act_on_behalf'),
+                    $this->customer->getEmail() ?: 'guest',
+                    $this->session->data['merchant_username']
+                )
+            );
+        }
+        //add ability to create custom warnings
+        $this->extensions->hk_ProcessData($this,__FUNCTION__);
+    }
 }

@@ -3362,42 +3362,6 @@
         <status>1</status>
         <position>10</position>
         <block>
-          <block_txt_id>search</block_txt_id>
-          <controller>blocks/search</controller>
-          <templates>
-            <template>
-              <parent_block>header</parent_block>
-              <template_name>blocks/search_top.tpl</template_name>
-            </template>
-          </templates>
-          <status>1</status>
-          <position>10</position>
-        </block>
-        <block>
-          <block_txt_id>language</block_txt_id>
-          <controller>blocks/language</controller>
-          <templates>
-            <template>
-              <parent_block>header</parent_block>
-              <template_name>blocks/language.tpl</template_name>
-            </template>
-          </templates>
-          <status>1</status>
-          <position>20</position>
-        </block>
-        <block>
-          <block_txt_id>currency</block_txt_id>
-          <controller>blocks/currency</controller>
-          <templates>
-            <template>
-              <parent_block>header</parent_block>
-              <template_name>blocks/currency.tpl</template_name>
-            </template>
-          </templates>
-          <status>1</status>
-          <position>30</position>
-        </block>
-        <block>
           <block_txt_id>fast_checkout_cart_btn</block_txt_id>
           <controller>blocks/fast_checkout_cart_btn</controller>
           <templates>
@@ -3409,78 +3373,18 @@
           <status>1</status>
           <position>40</position>
         </block>
-        <block>
-          <block_txt_id>cart</block_txt_id>
-          <controller>blocks/cart</controller>
-          <templates>
-            <template>
-              <parent_block>header</parent_block>
-              <template_name>blocks/cart_top.tpl</template_name>
-            </template>
-          </templates>
-          <status>1</status>
-          <position>50</position>
-        </block>
-        <block>
-          <block_txt_id>customer</block_txt_id>
-          <controller>blocks/customer</controller>
-          <templates>
-            <template>
-              <parent_block>header</parent_block>
-              <template_name>blocks/customer.tpl</template_name>
-            </template>
-          </templates>
-          <status>1</status>
-          <position>60</position>
-        </block>
-      </block>
-      <block>
-        <block_txt_id>fast_checkout_summary</block_txt_id>
-        <controller>blocks/fast_checkout_summary</controller>
-        <status>1</status>
-        <position>10</position>
       </block>
       <block>
         <block_txt_id>header_bottom</block_txt_id>
         <controller>common/header_bottom</controller>
         <status>1</status>
         <position>20</position>
-        <block>
-          <block_txt_id>category</block_txt_id>
-          <controller>blocks/category</controller>
-          <templates>
-            <template>
-              <parent_block>header_bottom</parent_block>
-              <template_name>blocks/category_top.tpl</template_name>
-            </template>
-          </templates>
-          <status>1</status>
-          <position>10</position>
-        </block>
-        <block>
-          <block_txt_id>breadcrumbs</block_txt_id>
-          <controller>blocks/breadcrumbs</controller>
-          <templates>
-            <template>
-              <parent_block>header_bottom</parent_block>
-              <template_name>blocks/breadcrumbs.tpl</template_name>
-            </template>
-          </templates>
-          <status>1</status>
-          <position>20</position>
-        </block>
       </block>
       <block>
         <block_txt_id>column_left</block_txt_id>
         <controller>common/column_left</controller>
         <status>0</status>
         <position>30</position>
-      </block>
-      <block>
-        <block_txt_id>fast_checkout_cart_btn</block_txt_id>
-        <controller>blocks/fast_checkout_cart_btn</controller>
-        <status>1</status>
-        <position>40</position>
       </block>
       <block>
         <block_txt_id>content_top</block_txt_id>

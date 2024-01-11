@@ -103,21 +103,7 @@ class ControllerCommonPage extends AController
         $this->view->assign('rnk_link', base64_decode('aHR0cDovL3d3dy5hYmFudGVjYXJ0LmNvbQ=='));
         $this->view->assign('rnk_text', base64_decode('UG93ZXJlZCBieSBBYmFudGVjYXJ0IGVDb21tZXJjZSBTb2x1dGlvbg=='));
 
-        if ($this->config->get('config_maintenance') && isset($this->session->data['merchant'])) {
-            $this->view->assign('maintenance_warning', $this->language->get('text_maintenance_notice'));
-        }
-
-        if (isset($this->session->data['merchant'])) {
-            unset($this->session->data['guest']);
-            $this->view->assign(
-                'act_on_behalf_warning',
-                sprintf(
-                    $this->language->get('text_act_on_behalf'),
-                    $this->customer->getEmail() ?: 'guest',
-                    $this->session->data['merchant_username']
-                )
-            );
-        }
+        $this->storefrontServiceWarnings();
 
         $this->view->assign('scripts_bottom', $this->document->getScriptsBottom());
         if ($this->config->get('config_google_analytics_code')) {

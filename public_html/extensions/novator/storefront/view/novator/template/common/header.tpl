@@ -2,6 +2,26 @@
         <div class="top-bar fixed-top pt-4 pb-3" role="navigation">
             <div class="container">
                 <div class="row">
+                    <?php if($maintenance_warning){ ?>
+                        <div class="alert alert-warning alert-dismissible mb-2">
+                            <i class="fa-solid fa-circle-exclamation fa-xl me-2"></i>
+                            <b><?php echo $maintenance_warning;?></b>
+                            <?php if($act_on_behalf_warning){ ?>
+                                <b><?php echo $act_on_behalf_warning;?></b>
+                            <?php } ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        <?php
+                    }
+
+                    if($act_on_behalf_warning && !$maintenance_warning){ ?>
+                        <div class="alert alert-warning alert-dismissible mb-2">
+                            <i class="fa-solid fa-circle-exclamation me-2"></i>
+                            <b><?php echo $act_on_behalf_warning;?></b>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php } ?>
+
                     <div class="col" style="min-width:<?php echo $logo_width; ?>px">
                         <?php if (is_file(DIR_RESOURCE . $logo)) {
                             $imgLogo = '<img src="resources/'.$logo.'"
