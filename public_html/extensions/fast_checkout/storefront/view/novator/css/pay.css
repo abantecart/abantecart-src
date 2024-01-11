@@ -41,3 +41,8 @@
 body.checkout-fast_checkout .top-bar.fixed-top.pt-4.pb-3[role="navigation"]{
     position: static !important;
 }
+
+body.checkout-fast_checkout .header-right-block.block_3.ms-2
+{
+    margin-right: 0 !important;
+}

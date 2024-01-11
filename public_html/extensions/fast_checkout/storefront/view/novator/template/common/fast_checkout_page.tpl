@@ -6,25 +6,7 @@
 <?php echo $this->getHookVar('top_page'); ?>
 
 <div class="container-fixed" style="max-width: <?php echo $layout_width; ?>">
-
-    <?php if ($maintenance_warning) { ?>
-        <div class="alert alert-warning alert-dismissible">
-           <i class="fa-solid fa-circle-exclamation me-2">
-           <strong><?php echo $maintenance_warning;?></strong>
-           <?php if($act_on_behalf_warning){ ?>
-              <br/><strong><?php echo $act_on_behalf_warning;?></strong>
-           <?php } ?>
-           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-<?php
-    }
-    if ($act_on_behalf_warning && !$maintenance_warning) { ?>
-        <div class="alert alert-warning alert-dismissible">
-            <i class="fa-solid fa-circle-exclamation me-2"></i><strong><?php echo $act_on_behalf_warning;?></strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    <?php }
-echo ${$header}; ?>
+    <?php echo ${$header}; ?>
 
     <?php if ( !empty( $$header_bottom ) ) { ?>
     <!-- header_bottom blocks placeholder -->

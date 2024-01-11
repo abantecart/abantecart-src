@@ -4,36 +4,9 @@
 <body class="<?php echo str_replace("/", "-", $this->request->get['rt']) ?: 'home'; ?>">
 <?php echo $this->getHookVar('top_page'); ?>
 
-<!-- 
-    Commented by TM
-    <div class="main-container"  style="max-width: <?php echo $layout_width; ?>">
--->
-
 <!-- header section Starts -->
 <header>
     <div class="nav-wrapper">
-        <?php if($maintenance_warning){ ?>
-            <div class="alert alert-warning alert-dismissible mb-0">
-                <i class="fa-solid fa-circle-exclamation fa-xl me-2"></i>
-                <b><?php echo $maintenance_warning;?></b>
-                <?php if($act_on_behalf_warning){ ?>
-                <b><?php echo $act_on_behalf_warning;?></b>
-                <?php } ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php
-        }
-
-        if($act_on_behalf_warning && !$maintenance_warning){ ?>
-            <div class="alert alert-warning alert-dismissible mb-0">
-                <i class="fa-solid fa-circle-exclamation me-2"></i>
-                <b><?php echo $act_on_behalf_warning;?></b>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php }
-        ?>
-
-
         <!-- Main header section Starts -->
             <?php echo $$header; ?>
         <!-- Main header section Ends -->
