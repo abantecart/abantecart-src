@@ -24,7 +24,6 @@ if (!defined('DIR_CORE')) {
 
 class ControllerPagesContentContact extends AController
 {
-    public $data = [];
     public $error = [];
     /**
      * @var AForm
@@ -184,6 +183,17 @@ class ControllerPagesContentContact extends AController
         if ($this->request->is_POST()) {
             foreach ($this->request->post as $name => $value) {
                 $this->form->assign($name, $value);
+            }
+        }else{
+            if($this->customer->isLogged()){
+                $this->form->assign('first_name', $this->session->data['guest']['payment_firstname'] ?: $this->customer->getFirstName());
+                $this->form->assign('email', $this->session->data['guest']['email'] ?: $this->customer->getEmail());
+            }
+            if($this->request->get['product_name']) {
+                $this->form->assign(
+                    'enquiry',
+                    $this->request->get['product_name'] . ' (#' . $this->request->get['product_id'] . ')'."\n\n"
+                );
             }
         }
 
