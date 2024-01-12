@@ -1941,7 +1941,9 @@ li#review-set::before{
   transition: all 0.3s ease-in-out;
 }
 
-.top-bar .input-group .dropdown-menu .dropdown-item:hover {
+.top-bar .input-group .dropdown-menu .dropdown-item:hover,
+.top-bar .input-group .dropdown-menu .dropdown-item.selected
+{
   color: #fff;
   background: var(--bs-primary);
 }

@@ -209,9 +209,13 @@ $(document).ready(function(){
     $('#search_form .search-category').on(
         'click',
         function(){
-            var ref = $(this).find('a');
+            $('#search_form .search-category').removeClass('selected');
+            let ref = $(this).find('a');
+            ref.addClass('selected');
             $('input#filter_category_id').val(ref.attr('data-id'))
-            $('a#category_selected').text(ref.text());
+            $('div#category_selected').fadeOut(500, function() {
+                $(this).text(ref.text()).fadeIn(500);
+            });
         }
     );
 
