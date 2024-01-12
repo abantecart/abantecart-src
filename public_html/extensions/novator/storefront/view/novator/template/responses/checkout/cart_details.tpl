@@ -6,56 +6,33 @@ $cart_view_limit = 5;
 if ($total_items > 0) {
 ?>
 <div class="products">
-<table class="table table-hover table-borderless">
-	<tbody>
-	<?php echo $this->getHookVar('cart_top_pre_list_hook'); ?>
-	<?php 
-	for ($i = 0; $i < $cart_view_limit && $i < $total_items; $i++) {
-	$product = $products[$i];
-	?>
-		<tr>
-			<td class="image">
-				<?php if($product['href']){ ?>
-				<a href="<?php echo $product['href']; ?>">
-					<img alt="" class="product-icon" src="<?php echo $product['thumb']['thumb_url']; ?>">
-				</a>
-				<?php }else{ ?>
-					<img alt="" class="product-icon"  src="<?php echo $product['thumb']['thumb_url']; ?>">
-				<?php }?>
-			</td>
-			<td class="name">
-				<?php if($product['href']){ ?>
-					<a class="link-dark link-"  href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a>
-				<?php }else{
-					echo $product['name'];
-				}?>
-				<div class="d-flex flex-column">
-					<?php foreach ($product['option'] as $option) { ?>
-						<small class="text-muted text-wrap" title="<?php echo $option['title']?>">
-							- <?php echo $option['name']; ?>: <?php echo substr($option['value'],0,100); ?>
-						</small>
-					<?php } ?>
-				</div>
-			</td>
-			<td class="total"><?php echo $product['price']; ?></td>
-			<td class="times"><i class="bi bi-x"></i></td>
-			<td class="quantity"><?php echo $product['quantity']; ?></td>
-		</tr>
-	<?php echo $this->getHookVar('cart_details_'.$product['key'].'_additional_info_1'); ?>
-	<?php } ?>
-
-	<?php echo $this->getHookVar('cart_top_post_list_hook'); ?>
-	<?php if ($total_items > $cart_view_limit) {  ?>
-		<tr>
-			<td colspan="5">
-				<a class="d-flex justify-content-center" title="see more cart products" href="<?php echo $view; ?>">
-					<i class="bi bi-chevron-down fa-lg"></i>
-				</a>
-			</td>
-		</tr>
-	<?php } ?>
-	</tbody>
-</table>
+    <?php echo $this->getHookVar('cart_top_pre_list_hook'); ?>
+    <?php
+    for ($i = 0; $i < $cart_view_limit && $i < $total_items; $i++) {
+        $product = $products[$i];
+        ?>
+    <div class="d-flex">
+        <div class="flex-shrink-0"><img src="<?php echo $product['thumb']['thumb_url']; ?>" alt="image" class="img-fluid h-auto"
+                                        width="90" height="90"></div>
+        <div class="flex-grow-1 ms-3">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+                <p class="mb-0"><?php echo $product['name']; ?></p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="btn-group btn-group-sm mb-0" role="group" aria-label="button groups sm">
+                    <button type="button"
+                            id="decrease" onclick="decreaseValue('number')" class="btn border-0 shadow-none">-</button> <input
+                            class="text-center border-0 shadow-none" type="text" id="number" value="<?php echo $product['quantity']; ?>"> <button
+                            type="button" id="increase" onclick="increaseValue('number')"
+                            class="btn border-0 shadow-none">+</button>
+                </div>
+                <h5 class="mb-0"><?php echo $product['price']; ?></h5>
+            </div>
+        </div>
+    </div>
+        <?php echo $this->getHookVar('cart_details_'.$product['key'].'_additional_info_1'); ?>
+    <?php } ?>
 </div>
 <table class="table">
 	<tbody>
