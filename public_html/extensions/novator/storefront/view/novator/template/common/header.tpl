@@ -47,7 +47,7 @@
                         -->
                     </div>
 
-                    <div class="header-right col-lg-9 col-xl-8">
+                    <div class="header-right col-lg-9 col-xl-8 d-flex flex-wrap align-items-center justify-content-end">
                         <div class="header-right-content d-flex flex-wrap align-items-center justify-content-end">
                             <?php
                             foreach($children_blocks as $k => $instanceName){ ?>
