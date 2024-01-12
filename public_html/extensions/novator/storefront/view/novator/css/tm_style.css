@@ -1950,7 +1950,14 @@ li#review-set::before{
   position: absolute;
   top: 17px;
   right: 20px;
+  border: none;
+  background: none;
+  color: var(--bs-primary);
 }
+.top-bar .input-group .btn-search:hover {
+  cursor: pointer;
+}
+
 
 .top-bar .link-badge {
   width: 22px;

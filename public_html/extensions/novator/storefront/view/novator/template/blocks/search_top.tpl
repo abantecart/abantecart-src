@@ -1,4 +1,6 @@
 <form id="search_form" action="<?php echo HTTPS_SERVER.INDEX_FILE; ?>" class="d-flex form-search top-search">
+    <input type="hidden" name="rt" value="product/search"/>
+    <input type="hidden" name="category_id" id="filter_category_id" value="0"/>
     <div class="input-group rounded-1">
         <button class="btn dropdown-toggle arrow-none border-0 shadow-none d-inline-flex align-items-center justify-content-between" id="filter-keyword" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             <?php echo_html2view($text_keyword); ?> <i class="bi bi-chevron-down"></i>
@@ -25,7 +27,8 @@
                 foreach ($top_categories as $category) {
                     if ($category['parent_id'] > 0) { continue; } ?>
                     <li class="search-category">
-                        <a  href="#" class="dropdown-item rounded-1" data-id="0,<?php echo $category['category_id'] ?>"
+                        <a class="dropdown-item rounded-1"
+                           data-id="0,<?php echo $category['category_id'] ?>"
                            id="category_<?php echo $category['category_id'] ?>">
                             <?php echo $category['name'] ?>
                         </a>
@@ -35,10 +38,17 @@
             </ul>
         <?php
         } ?>
-        <a class="btn-search lh-1" aria-label="Search" href="#" role="button">
+        <button class="btn-search lh-1"
+                title="<?php echo_html2view($button_go); ?>">
             <i class="bi bi-search"></i>
-        </a>
-        <input type="text" class="form-control bg-transparent shadow-none border-0 pe-5" placeholder="What are you searching for?">
+        </button>
+        <input type="text"
+               id="filter-keyword"
+               name="keyword"
+               autocomplete="off"
+               class="form-control bg-transparent shadow-none border-0 me-5"
+               placeholder="<?php echo_html2view($text_keyword); ?>"
+               value=""/>
     </div>
 
   <!-- Commented by TM  
