@@ -32,16 +32,4 @@
             </div>
         </div>
     </div>
-    <div class="offcanvas-body border-top mt-4 pt-4">
-    <div class="row">
-        <?php echo $this->getHookVar('cart_top_pre_buttons_hook'); ?>
-        <div class="col-6">
-            <a href="<?php echo $this->html->getSecureURL(('checkout/cart')); ?>"><div class="d-grid"><button class="btn btn-dark">VIEW CART</button></div></a>
-        </div>
-        <div class="col-6">
-            <a href="<?php echo $this->html->getSecureURL('checkout/shipping');?>"><div class="d-grid"><button class="btn btn-warning">CHECKOUT</button></div></a>
-        </div>
-        <?php echo $this->getHookVar('cart_top_post_buttons_hook'); ?>
-    </div>
-    </div>
 </div>

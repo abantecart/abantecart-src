@@ -93,3 +93,6 @@ if ($resource_id) {
 
 $settings['config_image_product_width'] = 312;
 $settings['config_image_product_height'] = 400;
+
+$settings['config_image_additional_width'] = 90;
+$settings['config_image_additional_height'] = 90;
