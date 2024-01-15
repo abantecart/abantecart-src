@@ -34,6 +34,8 @@ if ($total_items > 0) {
         <?php echo $this->getHookVar('cart_details_'.$product['key'].'_additional_info_1'); ?>
     <?php } ?>
 </div>
+    <div class="d-flex flex-column justify-content-center align-items-end vh-100">
+         <div class="table-container w-100">
 <table class="table">
 	<tbody>
 	<?php foreach ($totals as $total) { ?>
@@ -44,6 +46,8 @@ if ($total_items > 0) {
 	<?php } ?>
 	</tbody>
 </table>
+         </div>
+    </div>
 <?php } else { ?>
 	<div class="empty_cart text-center">
 		<i class="bi bi-shopping-cart"></i>
