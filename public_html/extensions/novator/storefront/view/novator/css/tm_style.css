@@ -3618,6 +3618,12 @@ li#review-set::before{
   margin-left: 0;
 }
 
+.dropstart:hover>.dropdown-menu{
+  position: absolute;
+  right: 0;
+  top:2.4rem;
+}
+
 #category_rating-collapse .fa-star{
   color: #e8901e;
   margin-right: 5px;
