@@ -1,15 +1,9 @@
 <div class="cart-top-block">
     <ul class="nav navbar-nav topcart">
         <?php //mobile view ?>
-        <li class="nav-item d-block d-md-none">
+        <li class="nav-item d-none d-md-block">
             <a class="image-link d-inline-flex position-relative align-items-center justify-content-center rounded-circle" data-bs-toggle="offcanvas" href="javascript:void(0)" role="button" aria-controls="cartoffcanvas" aria-label="cart link">
                 <i class="bi bi-cart3"></i> <span class="link-badge bg-danger position-absolute rounded-circle d-flex align-items-center justify-content-center"><?php echo $total_qty;?> </span>
-            </a>
-        </li>
-        <?php //medium device and larger view ?>
-        <li class="nav-item dropdown d-none d-md-block">
-            <a class="image-link d-inline-flex position-relative align-items-center justify-content-center rounded-circle" data-bs-toggle="offcanvas" href="#cartoffcanvas" role="button" aria-controls="cartoffcanvas" aria-label="cart link">
-                <i class="bi bi-cart3"></i> <span class="link-badge bg-danger rounded-circle position-absolute d-flex align-items-center justify-content-center"><?php echo $total_qty;?> </span>
             </a>
         </li>
     </ul>
