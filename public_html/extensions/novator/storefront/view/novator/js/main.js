@@ -25,6 +25,9 @@ if (!window.hasOwnProperty("text_add_cart_confirm")) {
 if (!window.hasOwnProperty("cart_ajax_url")) {
     window.cart_ajax_url = baseUrl + '?rt=r/product/product/addToCart';
 }
+if (!window.hasOwnProperty("cart_ajax_update_url")) {
+    window.cart_ajax_update_url = baseUrl + '?rt=r/product/product/updateQuantityCart';
+}
 if (!window.hasOwnProperty("search_url")) {
     window.search_url = baseUrl + '?rt=product/search';
 }
@@ -169,6 +172,11 @@ $(document).ready(function(){
                 }
             }
             return false;
+        });
+        $('#cartoffcanvas').on('shown.bs.offcanvas',function (){
+            $('#theme-switcher').removeClass('d-flex').addClass('d-none');
+        }).on('hidden.bs.offcanvas',function (){
+            $('#theme-switcher').removeClass('d-none').addClass('d-flex');
         });
     }
 

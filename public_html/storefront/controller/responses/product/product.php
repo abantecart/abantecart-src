@@ -190,6 +190,20 @@ class ControllerResponsesProductProduct extends AController
         $this->getCartContent($this->request->get['product_id']);
     }
 
+    public function updateQuantityCart()
+    {
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+        $product_info = $this->model_catalog_product->getProduct($this->request->get['product_id']);
+        if ($product_info) {
+            if($this->request->get['quantity']){
+            $this->cart->update($this->request->get['product_id'],$this->request->get['quantity']);
+            }
+        }
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+        $this->getCartContent($this->request->get['product_id']);
+
+    }
+
     public function getCartContent($productCartKey = null)
     {
         //init controller data

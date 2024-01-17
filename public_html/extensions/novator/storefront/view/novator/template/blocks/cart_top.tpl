@@ -26,10 +26,6 @@
         </div>
     </div>
     <div class="offcanvas-body">
-        <div class="alert alert-dismissible fade show pe-3" role="alert">
-            <div id="top_cart_product_list">
                 <?php include( $this->templateResource('/template/responses/checkout/cart_details.tpl') ) ?>
-            </div>
-        </div>
     </div>
 </div>
