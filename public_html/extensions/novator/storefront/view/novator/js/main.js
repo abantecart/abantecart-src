@@ -272,6 +272,28 @@ $(document).ready(function(){
         }
     );
 
+    $('#cart_quantity111').on('change', function() {
+        var productId = 111;  // Замените на актуальный идентификатор продукта
+        var quantity = $(this).val();
+        $.ajax({
+            url: cart_ajax_update_url,
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                product_id: product_id,
+                quantity: quantity
+            },
+            success: function (data) {
+                // Обработка успешного ответа от сервера
+                console.log('Успешно обновлено');
+            },
+            error: function (xhr, status, error) {
+                // Обработка ошибок при запросе
+                console.error('Ошибка обновления: ' + error);
+            }
+        });
+    });
+
 });
 
 //put submitted or clicked button to loading state
