@@ -1,7 +1,7 @@
 <div class="cart-top-block">
     <ul class="nav navbar-nav topcart">
         <?php //mobile view ?>
-        <li class="nav-item d-block d-md-none">
+        <li class="nav-item d-none d-md-block">
             <a class="image-link d-inline-flex position-relative align-items-center justify-content-center rounded-circle" data-bs-toggle="offcanvas" href="javascript:void(0)" role="button" aria-controls="cartoffcanvas" aria-label="cart link">
                 <i class="bi bi-cart3"></i> <span class="link-badge bg-danger position-absolute rounded-circle d-flex align-items-center justify-content-center"><span id="cart_qnty"><?php echo $total_qty;?></span> </span>
             </a>
@@ -25,7 +25,7 @@
                                                                                   data-bs-dismiss="offcanvas" aria-label="Close"></button></div>
         </div>
     </div>
-    <div class="offcanvas-body" >
+    <div class="offcanvas-body">
                 <?php include( $this->templateResource('/template/responses/checkout/cart_details.tpl') ) ?>
     </div>
 </div>
