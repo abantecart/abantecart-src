@@ -3639,7 +3639,15 @@ li#review-set::before{
 #product_list{
   display: none;
 }
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
+input[type="number"] {
+  -moz-appearance: textfield;
+}
 /*.dropdown.mega-menu li.dropdown{*/
 /*  max-width: 300px;*/
 /*}*/

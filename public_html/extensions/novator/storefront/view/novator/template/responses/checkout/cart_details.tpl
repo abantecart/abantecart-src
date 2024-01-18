@@ -20,18 +20,14 @@ if ($total_items > 0) {
                     <div class="flex-grow-1 ms-3">
                         <div class="d-flex align-items-center justify-content-between mb-2">
                             <p class="mb-0"><?php echo $product['name']; ?></p>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div class="input-group input-group-sm mx-auto" style="width: 150px;">
-                                <button title="Min: 1" class="minus-qnty input-group-text btn btn-outline-danger">−
-                                </button>
-                                <input type="text" name="quantity[111]" id="cart_quantity111" value="<?php echo $product['quantity']; ?>" placeholder=""
-                                       class="form-control text-center fw-bold short form-control-sm text-center"
-                                       size="6" min="1">
-                                <button title="" class="plus-qnty input-group-text btn btn-outline-success">+</button>
-                            </div>
                             <h5 class="mb-0"><?php echo $product['price']; ?></h5>
+                            <button type="button" id="delete_product" class="btn-close" data-bs-dismiss="alert" aria-label="Close" data-product-key="<?php echo $product['key']; ?>"></button>
+                        </div>
+                        <div class="input-group input-group-sm mx-auto" style="width: 150px;">
+                            <button title="Min: 1" class="minus-qnty input-group-text btn btn-outline-danger" data-product-id="<?php echo $product['key']; ?>">−</button>
+                            <input type="number" name="quantity[<?php echo $product['key']; ?>]" class="cart-quantity-input form-control text-center fw-bold short form-control-sm text-center"
+                                   value="<?php echo $product['quantity']; ?>" placeholder="" size="6" min="1" data-product-id="<?php echo $product['key']; ?>">
+                            <button title="" class="plus-qnty input-group-text btn btn-outline-success" data-product-id="<?php echo $product['key']; ?>">+</button>
                         </div>
                     </div>
                 </div>
@@ -56,14 +52,14 @@ if ($total_items > 0) {
             <div class="col-5">
                 <a href="<?php echo $this->html->getSecureURL('checkout/cart'); ?>">
                     <div class="d-grid">
-                        <button class="btn btn-dark">VIEW CART</button>
+                        <button class="btn btn-dark"><?php echo $text_view;?></button>
                     </div>
                 </a>
             </div>
             <div class="col-5">
                 <a href="<?php echo $this->html->getSecureURL('checkout/shipping'); ?>">
                     <div class="d-grid">
-                        <button class="btn btn-warning">CHECKOUT</button>
+                        <button class="btn btn-warning"><?php echo $text_checkout;?></button>
                     </div>
                 </a>
             </div>
@@ -72,6 +68,8 @@ if ($total_items > 0) {
     </div>
 <?php } else { ?>
 	<div class="empty_cart text-center">
-		<i class="bi bi-shopping-cart"></i>
+        <?php echo $this->getHookVar('cart_top_pre_cart_emty_title'); ?>
+        <i class="bi bi-shopping-cart"><?php echo $text_empty;?></i>
+        <?php echo $this->getHookVar('cart_top_post_cart_emty_title'); ?>
 	</div>
 <?php } ?>

@@ -193,15 +193,29 @@ class ControllerResponsesProductProduct extends AController
     public function updateQuantityCart()
     {
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $product_info = $this->model_catalog_product->getProduct($this->request->get['product_id']);
+        $this->loadModel('catalog/product');
+        $product_info = $this->model_catalog_product->getProduct($this->request->get['product_key']);
+
         if ($product_info) {
             if($this->request->get['quantity']){
-            $this->cart->update($this->request->get['product_id'],$this->request->get['quantity']);
+            $this->cart->update($this->request->get['product_key'],$this->request->get['quantity']);
             }
         }
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-        $this->getCartContent($this->request->get['product_id']);
+        $this->getCartContent($this->request->get['product_key']);
 
+    }
+    public function deleteQuantityCart()
+    {
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+        $this->loadModel('catalog/product');
+        $this->log->write(var_export($this->request->get['product_key'],true));
+        $product_info = $this->model_catalog_product->getProduct($this->request->get['product_key']);
+        if ($product_info) {
+                $this->cart->remove($this->request->get['product_key']);
+        }
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+        $this->getCartContent($this->request->get['product_key']);
     }
 
     public function getCartContent($productCartKey = null)
@@ -251,8 +265,8 @@ class ControllerResponsesProductProduct extends AController
             ? $resource->getMainThumbList(
                 'products',
                 $product_ids,
-                $this->config->get('config_image_product_width'),
-                $this->config->get('config_image_product_height')
+                $this->config->get('config_image_additional_width'),
+                $this->config->get('config_image_additional_height')
             )
             : $product_ids;
         $qty = 0;

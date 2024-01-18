@@ -28,6 +28,9 @@ if (!window.hasOwnProperty("cart_ajax_url")) {
 if (!window.hasOwnProperty("cart_ajax_update_url")) {
     window.cart_ajax_update_url = baseUrl + '?rt=r/product/product/updateQuantityCart';
 }
+if (!window.hasOwnProperty("cart_ajax_delete_product_url")) {
+    window.cart_ajax_delete_product_url = baseUrl + '?rt=r/product/product/deleteQuantityCart';
+}
 if (!window.hasOwnProperty("search_url")) {
     window.search_url = baseUrl + '?rt=product/search';
 }
@@ -271,29 +274,62 @@ $(document).ready(function(){
             input.val(qty);
         }
     );
+    $(document).on('click','#delete_product', function() {
+        let product_key = $(this).data('product-key');
+        $.ajax({
+            url: cart_ajax_delete_product_url,
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                product_key: product_key
+            },
+            success: function (data) {
+                //top cart
+                $('#label_qnty').html(data.item_count);
+                $('#cart_qnty').html(data.item_count);
+                $('.nav.topcart span.cart_total').html(data.total);
+                $('#cartoffcanvas .offcanvas-body').html(data.cart_details);
+            }
+        });
+    });
 
-    $('#cart_quantity111').on('change', function() {
-        var productId = 111;  // Замените на актуальный идентификатор продукта
-        var quantity = $(this).val();
+    $(document).on('click','.minus-qnty, .plus-qnty', function() {
+        let productId = $(this).data('product-id');
+        let quantityInput = $('.cart-quantity-input[data-product-id="' + productId + '"]');
+        let quantity = parseInt(quantityInput.val());
+
+        if ($(this).hasClass('minus-qnty')) {
+            quantity = Math.max(quantity - 1, 1);
+        } else if ($(this).hasClass('plus-qnty')) {
+            quantity++;
+        }
+        replaceCartDetailsNv(productId,quantity);
+    });
+
+    $(document).on('change','.cart-quantity-input', function() {
+        let productId = $(this).data('product-id');
+        let quantity = parseInt($(this).val());
+        replaceCartDetailsNv(productId,quantity);
+    });
+
+    function replaceCartDetailsNv (productId,quantity){
         $.ajax({
             url: cart_ajax_update_url,
             type: 'GET',
             dataType: 'json',
             data: {
-                product_id: product_id,
+                product_key: productId,
                 quantity: quantity
             },
             success: function (data) {
-                // Обработка успешного ответа от сервера
-                console.log('Успешно обновлено');
-            },
-            error: function (xhr, status, error) {
-                // Обработка ошибок при запросе
-                console.error('Ошибка обновления: ' + error);
+                //top cart
+                $('#label_qnty').html(data.item_count);
+                $('#cart_qnty').html(data.item_count);
+                $('.nav.topcart span.cart_total').html(data.total);
+                $('#cartoffcanvas .offcanvas-body').html(data.cart_details);
             }
         });
-    });
-
+    }
 });
 
 //put submitted or clicked button to loading state
