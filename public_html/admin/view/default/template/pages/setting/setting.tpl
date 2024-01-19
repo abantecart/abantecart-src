@@ -12,13 +12,13 @@
                 </a>
             </div>
         <?php } ?>
-
+            <?php if($new_store_button->title && $new_store_button->href){ ?>
             <div class="btn-group">
                 <a class="btn btn-primary actionitem tooltips" title="<?php echo $new_store_button->title; ?>" href="<?php echo $new_store_button->href; ?>">
                 <i class="fa fa-plus"></i>
                 </a>
             </div>
-
+        <?php }?>
         <?php if($active=='appearance'){?>
             <div class="btn-group">
                 <a class="btn btn-primary actionitem tooltips" title="<?php echo $manage_extensions->title; ?>" href="<?php echo $manage_extensions->href; ?>">
