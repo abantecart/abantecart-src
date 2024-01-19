@@ -164,14 +164,7 @@ $(document).ready(function(){
                         });
                     }
 
-                    if(data.added_item_quantity>0){
-                        item.find('i')
-                            .removeClass('bi-bag-fill')
-                            .addClass('bi-bag-check-fill text-success')
-                            .attr('title', text_add_cart_confirm + ' ('+data.added_item_quantity+')');
-                    }else {
-                        item.attr('title', text_add_cart_confirm);
-                    }
+                    $('#cart_qnty, #label_qnty').html(data.item_count);
                 }
             }
             return false;
