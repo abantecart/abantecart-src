@@ -145,15 +145,16 @@ class ControllerPagesSettingSetting extends AController
             unset($this->session->data['error']);
         }
 
-        $this->data['new_store_button'] = $this->html->buildElement(
-            [
-                'type'  => 'button',
-                'title' => $this->language->get('button_add_store'),
-                'text'  => '&nbsp;',
-                'href'  => $this->html->getSecureURL('setting/store/insert'),
-            ]
-        );
-
+        if ($this->data['active'] == 'details') {
+            $this->data['new_store_button'] = $this->html->buildElement(
+                [
+                    'type' => 'button',
+                    'title' => $this->language->get('button_add_store'),
+                    'text' => '&nbsp;',
+                    'href' => $this->html->getSecureURL('setting/store/insert'),
+                ]
+            );
+        }
         if ($group == 'system') {
             $this->data['phpinfo_button'] = $this->html->buildElement(
                 [
@@ -349,15 +350,6 @@ class ControllerPagesSettingSetting extends AController
         );
 
         $grid_settings['search_form'] = true;
-
-        $this->data['insert'] = $this->html->buildElement(
-            [
-                'type'  => 'button',
-                'title' => $this->language->get('button_add_store'),
-                'text'  => $this->language->get('button_insert'),
-                'href'  => $this->html->getSecureURL('setting/store/insert'),
-            ]
-        );
 
         //load tabs controller
         $this->data['active'] = 'all';
