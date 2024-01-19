@@ -6,13 +6,6 @@ include($tpl_common_dir.'action_confirm.tpl'); ?>
         <div class="panel-heading col-xs-12">
             <div class="primary_content_actions pull-left">
                 <div class="btn-group mr10 toolbar">
-                    <a class="btn btn-primary lock-on-click tooltips"
-                       title="<?php echo_html2view($insert->title); ?>"
-                       href="<?php echo $insert->href; ?>">
-                        <i class="fa fa-plus"></i>
-                    </a>
-                </div>
-                <div class="btn-group mr10 toolbar">
             <?php
                     if (!empty($search_form)) { ?>
                         <form id="<?php echo $search_form['form_open']->name; ?>"
