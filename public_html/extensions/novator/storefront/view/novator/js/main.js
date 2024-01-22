@@ -29,7 +29,7 @@ if (!window.hasOwnProperty("cart_ajax_update_url")) {
     window.cart_ajax_update_url = baseUrl + '?rt=r/product/product/updateQuantityCart';
 }
 if (!window.hasOwnProperty("cart_ajax_delete_product_url")) {
-    window.cart_ajax_delete_product_url = baseUrl + '?rt=r/product/product/deleteQuantityCart';
+    window.cart_ajax_delete_product_url = baseUrl + '?rt=r/product/product/removeProductFromCart';
 }
 if (!window.hasOwnProperty("search_url")) {
     window.search_url = baseUrl + '?rt=product/search';

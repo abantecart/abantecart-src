@@ -205,11 +205,10 @@ class ControllerResponsesProductProduct extends AController
         $this->getCartContent($this->request->get['product_key']);
 
     }
-    public function deleteQuantityCart()
+    public function removeProductFromCart()
     {
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->loadModel('catalog/product');
-        $this->log->write(var_export($this->request->get['product_key'],true));
         $product_info = $this->model_catalog_product->getProduct($this->request->get['product_key']);
         if ($product_info) {
                 $this->cart->remove($this->request->get['product_key']);

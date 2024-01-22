@@ -55,7 +55,7 @@ if ($error){ ?>
                     } ?>
                 </div>
 
-                <ul class="position-relative product-carousel-indicators my-sm-3 mx-0 thumbnails mainimage smallimage list-unstyled"
+                <ul class="d-flex flex-nowrap overflow-auto position-relative product-carousel-indicators my-sm-3 mx-0 thumbnails mainimage smallimage list-unstyled"
                     style="max-height: <?php echo $thmb_w?>px">
                     <?php
                         if (sizeof((array)$images) > 1){
@@ -245,7 +245,7 @@ if ($error){ ?>
                                             </div>
                                         </div>
                                     <?php } ?>
-                                        <div class="row align-items-center g-2 my-3">
+                                        <div class="row align-items-center g-2 my-3 ">
                                             <div class="col-auto">
                                                 <?php if(!$product_info['call_to_order']){ ?>
                                                     <div class="form-group d-inline-flex">
@@ -261,7 +261,7 @@ if ($error){ ?>
                                                     </div>
                                                 <?php }?>
                                             </div>
-                                            <div class="col-auto">
+                                            <div class="col-auto mt-n1">
                                                 <?php if(!$product_info['call_to_order']){ ?>
 
                                                     <h3 class="text-primary">
