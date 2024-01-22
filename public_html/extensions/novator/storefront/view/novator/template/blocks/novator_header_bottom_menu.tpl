@@ -38,8 +38,9 @@ $categories = prepareNVCatItems($categories);
             <div class="collapse d-none d-lg-flex navbar-collapse ">
                 <div class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-start">
                     <?php
-                    echo  renderCategoryNavbarSFMenuNv(
-                        $categories,
+                    $last = array_pop($storefront_menu);
+                    echo  renderSFMenuNv(
+                        $storefront_menu,
                         0,
                         '',
                         [
@@ -50,17 +51,28 @@ $categories = prepareNVCatItems($categories);
 
                 </div>
             </div>
-            <div class="collapse d-none d-lg-flex navbar-collapse">
-                <ul class="navbar-nav mb-2 mb-lg-0 align-items-start">
-                    <li class="nav-item">
-                        <a class="btn btn-primary d-inline-flex align-items-center rounded-1 p-2" href="<?php echo $this->html->getSeoUrl('product/special')?>">
-                            <i class="bi bi-patch-check-fill"></i> <?php echo  $this->language->get('text_special')?>
-                        </a>
-                    </li>
-                </ul>
+            <div class="d-none d-lg-flex">
+                <a class="btn btn-primary d-inline-flex align-items-center rounded-1 p-2" href="<?php echo $last['href']?>">
+                    <?php
+                    //check icon rl type html, image or none.
+                    $rl_id = $last['icon'] ? : $last['icon_rl_id'];
+                    $icon = '';
+                    $ar = new AResource('image');
+                    if ($rl_id) {
+                        $resource = $ar->getResource($rl_id);
+                        if ($resource['resource_path'] && is_file(DIR_RESOURCE.'image/'.$resource['resource_path'])) {
+                            $icon = '<img class="bottom-header-menu-icon img-fluid" src="resources/image/'.$resource['resource_path'].'" />';
+                        } elseif ($resource['resource_code']) {
+                            $icon = $resource['resource_code'];
+                        }
+                    }elseif( $last['icon_html'] ){
+                        $icon = $last['icon_html'];
+                    }else{
+                        $icon = '<i class="bi bi-patch-check-fill"></i>';
+                    }
+                    echo $icon.$last['text']; ?>
+                </a>
             </div>
-            <?php echo $this->getHookVar('categories_additional_info'); ?>
         </div>
     </nav>
 </div>
-

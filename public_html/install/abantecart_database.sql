@@ -11215,7 +11215,8 @@ VALUES  (1,'item_id','varchar',1),
         (1,'parent_id','varchar',4),
         (1,'sort_order','integer',5),
         (1,'item_type','varchar',6),
-        (1,'item_icon_rl_id','integer',7);
+        (1,'item_icon_rl_id','integer',7),
+        (1,'settings','text',8);
 -- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (1,'home',1),
@@ -11260,13 +11261,13 @@ VALUES  (4,'',1),
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
 VALUES  (5,10,1),
-        (5,20,2),
-        (5,30,3),
-        (5,40,4),
-        (5,50,5),
-        (5,60,6),
-        (5,11,7),
-        (5,20,8);
+        (5,11,2),
+        (5,12,3),
+        (5,20,4),
+        (5,30,5),
+        (5,50,6),
+        (5,60,7),
+        (5,13,8);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (6,'core',1),
@@ -11287,6 +11288,16 @@ VALUES  (7,'2',1),
        	(7,'260',6),
        	(7,'244',7),
        	(7,'266',8);
+-- settings
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_text`,`row_id`)
+VALUES  (8,'',1),
+        (8,'',2),
+        (8,'',3),
+        (8,'',4),
+        (8,'',5),
+       	(8,'',6),
+       	(8,'',7),
+       	(8,'',8);
 
 --
 -- ADMIN MENU SECTION

@@ -11,7 +11,6 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
            <?php }
-
                 if($act_on_behalf_warning && !$maintenance_warning){ ?>
                     <div class="alert alert-warning alert-dismissible mb-2">
                         <i class="fa-solid fa-circle-exclamation me-2"></i>
@@ -20,8 +19,6 @@
                     </div>
                 <?php } ?>
                 <div class="d-flex flex-nowrap justify-content-between">
-
-
                     <div class="w-auto" style="min-width:<?php echo $logo_width; ?>px">
                         <?php if (is_file(DIR_RESOURCE . $logo)) {
                             $imgLogo = '<img src="resources/'.$logo.'"
@@ -47,24 +44,4 @@
                 </div>
             </div>
         </div>
-</div>
-
-<?php // MOBILE HEADER MODE ?>
-<div class="d-block d-lg-none">
-    <div class="top-bar mobile-top-bar py-3">
-        <div class="container">
-            <div class="row align-items-center justify-content-center g-2">
-                <div class="col col-sm-7">
-                    <?php if (is_file(DIR_RESOURCE . $logo)) { ?>
-                        <a class="navbar-brand logo" href="<?php echo $homepage; ?>"><?php echo $imgLogo; ?></a>
-                        <?php } else if (!empty($logo)) { ?>
-                            <a class="navbar-brand logo" href="<?php echo $homepage; ?>"><?php echo $logo; ?></a>
-                    <?php } ?>
-                </div>
-                <div class="col text-end text-end">
-                    <a class="mob-nav-btn menu-icon bg-transparent text-primary" data-bs-toggle="offcanvas" href="#menuoffcanvas" role="button" aria-controls="menuoffcanvas" aria-label="search"><i class="bi bi-justify"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>

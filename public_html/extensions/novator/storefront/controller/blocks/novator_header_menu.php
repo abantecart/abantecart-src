@@ -20,6 +20,7 @@
 
 class ControllerBlocksNovatorHeaderMenu extends AController
 {
+    protected $menu_items;
     protected $category_id = 0;
     protected $path = [];
     protected $selected_root_id = [];
@@ -38,16 +39,30 @@ class ControllerBlocksNovatorHeaderMenu extends AController
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
+        $this->loadLanguage('blocks/menu');
+        $this->loadLanguage('blocks/category');
+        $this->loadLanguage('common/header');
 
-        //HTML cache only for non-customer
-        if (!$this->customer->isLogged() && !$this->customer->isUnauthCustomer()) {
-            $allowed_cache_keys = ['path'];
-            $cache_val = ['path' => $request['path']];
-            $this->buildHTMLCacheKey($allowed_cache_keys, $cache_val);
-        }
+        $this->buildCategories();
 
-        $this->view->assign('heading_title', $this->language->get('heading_title', 'blocks/category'));
 
+        //Framed needs to show frames for generic block.
+        //If tpl used by listing block framed was set by listing block settings
+        $this->data['block_framed'] = true;
+        $this->data['home_href'] =  $this->html->getHomeURL();
+
+
+
+        $this->buildMenu();
+
+        $this->view->batchAssign($this->data);
+        $this->processTemplate();
+
+        //init controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
+
+    protected function buildCategories(){
         /** @var ModelCatalogCategory $mdl */
         $mdl = $this->loadModel('catalog/category');
 
@@ -55,8 +70,8 @@ class ControllerBlocksNovatorHeaderMenu extends AController
             $this->path = explode('_', $request['path']);
             $this->category_id = end($this->path);
         }
-        $this->view->assign('selected_category_id', $this->category_id);
-        $this->view->assign('path', $request['path']);
+        $this->data['selected_category_id'] = $this->category_id;
+        $this->data['path'] = $request['path'];
 
         //load main level categories
         $all_categories = $mdl->getAllCategories();
@@ -104,17 +119,7 @@ class ControllerBlocksNovatorHeaderMenu extends AController
         $this->_buildCategoryTree($all_categories);
         $categories = $this->_buildNestedCategoryList();
 
-        $this->view->assign('categories', $categories);
-
-        //Framed needs to show frames for generic block.
-        //If tpl used by listing block framed was set by listing block settings
-        $this->view->assign('block_framed', true);
-        $this->view->assign('home_href', $this->html->getHomeURL());
-
-        $this->processTemplate();
-
-        //init controller data
-        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+        $this->data['categories'] = $categories;
     }
 
     /** Function builds one dimensional category tree based on given array
@@ -201,5 +206,54 @@ class ControllerBlocksNovatorHeaderMenu extends AController
     }
 
 
+    protected function buildMenu()
+    {
+        $cache_key = 'storefront_menu'.
+            '.store_'.(int) $this->config->get('config_store_id')
+            .'_lang_'.$this->config->get('storefront_language_id');
+        $this->menu_items = $this->cache->pull($cache_key);
+        if ($this->menu_items === false) {
+            $menu = new AMenu_Storefront();
+            $this->menu_items = $menu->getMenuItems();
+            //writes into cache result of calling _buildMenu func!
+            $this->cache->push($cache_key, $this->menu_items);
+        }
+
+        //build menu structure after caching. related to http/https urls
+        $this->menu_items = $this->prepareMenu('');
+
+        $storefront_menu = $this->menu_items;
+        $this->data['storefront_menu'] = $this->session->data['storefront_menu'] = $storefront_menu;
+    }
+
+    protected function prepareMenu($parent = '')
+    {
+        $menu = [];
+        if (empty($this->menu_items[$parent])) {
+            return $menu;
+        }
+        $lang_id = (int) $this->config->get('storefront_language_id');
+
+        foreach ($this->menu_items[$parent] as $item) {
+            if (preg_match("/^http/i", $item ['item_url'])) {
+                $href = $item ['item_url'];
+            } //process relative url such as ../blog/index.php
+            elseif (preg_match("/^\.\.\//i", $item ['item_url'])) {
+                $href = str_replace('../', '', $item ['item_url']);
+            } else {
+                $href = $this->html->getSecureURL($item ['item_url']);
+            }
+            $menu[] = [
+                'id'         => $item['item_id'],
+                'current'    => $item['current'] ?? false,
+                'icon'       => $item['item_icon'] ?? '',
+                'icon_rl_id' => $item['item_icon_rl_id'] ?? '',
+                'href'       => $href,
+                'text'       => $item['item_text'][$lang_id] ?? '',
+                'children'   => $this->prepareMenu($item['item_id']),
+            ];
+        }
+        return $menu;
+    }
 
 }

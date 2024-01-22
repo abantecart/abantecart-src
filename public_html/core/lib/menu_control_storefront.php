@@ -99,6 +99,9 @@ class AMenu_Storefront extends AMenu
                 $menu_item['item_text'][$item['language_id']] = $item['item_text'];
             }
         }
+        if(isset($menu_item['settings'])){
+            $menu_item['settings'] = unserialize($menu_item['settings']);
+        }
         return $menu_item;
     }
 
@@ -139,7 +142,8 @@ class AMenu_Storefront extends AMenu
         }
 
         //clean text id
-        $item ["item_id"] = preformatTextID($item ["item_id"]);
+        $item["item_id"] = preformatTextID($item ["item_id"]);
+        $item['settings'] = !is_serialized($item['settings']) ? serialize($item['settings']) : $item['settings'];
 
         $check_array = [
             "item_id",
@@ -150,6 +154,7 @@ class AMenu_Storefront extends AMenu
             "sort_order",
             "item_type",
             "item_icon_rl_id",
+            "settings"
         ];
 
         if (!$item ["item_id"] || !$item ["item_text"]
@@ -167,8 +172,7 @@ class AMenu_Storefront extends AMenu
             $new_sort_order = 0;
             if ($brothers) {
                 foreach ($brothers as $brother) {
-                    $new_sort_order =
-                        $brother ['sort_order'] > $new_sort_order ? $brother ['sort_order'] : $new_sort_order;
+                    $new_sort_order = max($brother ['sort_order'], $new_sort_order);
                 }
             }
             $new_sort_order += 10;

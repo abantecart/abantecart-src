@@ -64,4 +64,8 @@
 		<key>text_custom_link_type</key>
 		<value><![CDATA[Custom Link or URL]]></value>
 	</definition>
+	<definition>
+		<key>entry_include_children_items</key>
+		<value><![CDATA[Include children items]]></value>
+	</definition>
 </definitions>

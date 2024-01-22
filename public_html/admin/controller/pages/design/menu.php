@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -214,6 +214,7 @@ class ControllerPagesDesignMenu extends AController
                     'item_url'        => $post['item_url'],
                     'sort_order'      => $post['sort_order'],
                     'item_type'       => 'core',
+                    'settings'        => serialize(['include_children' => (int)$post['include_children']])
                 ]
             );
 
@@ -250,6 +251,9 @@ class ControllerPagesDesignMenu extends AController
             if (isset ($post['item_icon'])) {
                 $post['item_icon'] = (int)$post['item_icon'];
             }
+            if (isset ($post['include_children'])) {
+                $post['settings'] = serialize(['include_children' => (int)$post['include_children']]);
+            }
 
             $item_keys = [
                 'item_icon',
@@ -257,6 +261,7 @@ class ControllerPagesDesignMenu extends AController
                 'item_url',
                 'parent_id',
                 'sort_order',
+                'settings',
             ];
 
             $update_item = [];
@@ -407,13 +412,16 @@ class ControllerPagesDesignMenu extends AController
             ]
         );
 
-        $this->data['link_types'] = [
-            'category' => $this->language->get('text_category_link_type'),
-            'content'  => $this->language->get('text_content_link_type'),
-            'custom'   => $this->language->get('text_custom_link_type'),
-        ];
+        $this->data['link_types'] = array_merge(
+            [
+                'category' => $this->language->get('text_category_link_type'),
+                'content'  => $this->language->get('text_content_link_type'),
+                'custom'   => $this->language->get('text_custom_link_type'),
+            ],
+            (array)$this->data['link_types']
+        );
 
-        $this->data['link_type'] = $this->html->buildElement(
+        $this->data['form']['fields']['link_type'] = $this->html->buildElement(
             [
                 'type'    => 'selectbox',
                 'name'    => 'link_type',
@@ -452,6 +460,17 @@ class ControllerPagesDesignMenu extends AController
             ]
         );
 
+        $this->data['link_category_include_children'] = $this->html->buildElement(
+            [
+                'type'    => 'checkbox',
+                'id'      => 'category_children',
+                'name'    => 'include_children',
+                'value'   => 1,
+                'checked'   => (bool)$this->data['settings']['include_children'],
+                'style'   => 'no-save btn_switch',
+            ]
+        );
+
         $acm = new AContentManager();
         $results = $acm->getContents();
         $options = ['' => $this->language->get('text_select')];
@@ -468,6 +487,16 @@ class ControllerPagesDesignMenu extends AController
                 'name'    => 'menu_information',
                 'options' => $options,
                 'style'   => 'no-save short-field',
+            ]
+        );
+        $this->data['link_content_include_children'] = $this->html->buildElement(
+            [
+                'type'    => 'checkbox',
+                'id'      => 'content_children',
+                'name'    => 'include_children',
+                'value'   => 1,
+                'checked' => (bool)$this->data['settings']['include_children'],
+                'style'   => 'no-save short-field btn_switch',
             ]
         );
 
@@ -542,7 +571,7 @@ class ControllerPagesDesignMenu extends AController
 
         if (!empty($post['item_id'])) {
             $ids = $this->menu->getItemIds();
-            if (!ctype_alnum($post['item_id'])) {
+            if (!preg_match("/^[A-Za-z0-9]*$/",$post['item_id'])) {
                 $this->error['item_id'] = $this->language->get('error_non_ascii');
             } else {
                 if (in_array($post['item_id'], $ids)) {

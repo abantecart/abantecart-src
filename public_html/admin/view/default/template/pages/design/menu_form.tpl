@@ -36,37 +36,37 @@
 				}
 				$widthcasses .= " col-xs-12";	?>
 
-			<?php
-			if($name=='item_url'){ ?>
-			<div class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
-				<label class="control-label col-sm-3 col-xs-12" ></label>
-				<div class="input-group afield col-sm-9 col-xs-12">
-					<div class="pull-left col-sm-6 col-xs-12">
-						<label class="control-label col-sm-5 mt10" for="<?php echo $link_type->element_id; ?>">
-							<?php echo $entry_link_type; ?></label>
-						<div class="input-group afield col-sm-7 mt10">
-						<?php echo $link_type;  ?>
-						</div>
-					</div>
-				<?php foreach(array('link_category', 'link_content') as $subfld_name){?>
-						<div id="<?php echo $subfld_name.'_wrapper';?>" class="link_types pull-left col-sm-6 col-xs-12 <?php echo ($subfld_name == 'link_type' ? '' : 'hide');?>">
-							<div class="input-group afield col-sm-7 mt10">
-							<?php echo $$subfld_name;  ?>
-							</div>
-						</div>
-					<?php } ?>
-				</div>
-			</div>
-			<?php } ?>
 			<div class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
 				<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
 				<div class="input-group afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
 					<?php echo $field; ?>
+                    <?php
+                    if($name=='link_type'){ ?>
+                        <?php foreach( ['link_category', 'link_content'] as $subfld_name){?>
+                            <div id="<?php echo $subfld_name.'_wrapper';?>" class="input-group afield link_types form-inline col-12 <?php echo ($subfld_name == 'link_type' ? '' : 'hide');?>">
+                                <div class="form-group mt10 ">
+                                    <?php echo $$subfld_name;  ?>
+                                </div>
+                                <div class="form-group afield mt10">
+                                    <label class="ml20"><?php echo $entry_include_children_items; ?></label>
+                                    <?php echo ${$subfld_name.'_include_children'};  ?>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    <?php
+                    }  ?>
 				</div>
 				<?php if (!empty($error[$name])) { ?>
 				<span class="help-block field_err"><?php echo $error[$name]; ?></span>
 				<?php } ?>
+
+
 			</div>
+
+
+
+
+
 		<?php }  ?><!-- <div class="fieldset"> -->
 
 
