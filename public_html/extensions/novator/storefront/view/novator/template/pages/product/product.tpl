@@ -245,7 +245,7 @@ if ($error){ ?>
                                             </div>
                                         </div>
                                     <?php } ?>
-                                        <div class="row align-items-center g-2 my-3">
+                                        <div class="row align-items-center g-2 my-3 ">
                                             <div class="col-auto">
                                                 <?php if(!$product_info['call_to_order']){ ?>
                                                     <div class="form-group d-inline-flex">
@@ -261,7 +261,7 @@ if ($error){ ?>
                                                     </div>
                                                 <?php }?>
                                             </div>
-                                            <div class="col-auto">
+                                            <div class="col-auto mt-n1">
                                                 <?php if(!$product_info['call_to_order']){ ?>
 
                                                     <h3 class="text-primary">
