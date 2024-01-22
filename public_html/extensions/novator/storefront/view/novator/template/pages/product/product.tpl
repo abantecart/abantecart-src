@@ -55,7 +55,7 @@ if ($error){ ?>
                     } ?>
                 </div>
 
-                <ul class="position-relative product-carousel-indicators my-sm-3 mx-0 thumbnails mainimage smallimage list-unstyled"
+                <ul class="d-flex flex-nowrap overflow-auto position-relative product-carousel-indicators my-sm-3 mx-0 thumbnails mainimage smallimage list-unstyled"
                     style="max-height: <?php echo $thmb_w?>px">
                     <?php
                         if (sizeof((array)$images) > 1){
