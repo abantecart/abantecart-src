@@ -71,11 +71,6 @@
                         'url'  => $notification,
                         'text' => $text_my_notifications,
                         'icon' => 'bi-bell-fill fs-1'
-                ],
-                'logout' => [
-                        'url'  => $logout,
-                        'text' => $text_logout,
-                        'icon' => 'bi-box-arrow-right fs-1'
                 ]
             ];
 
