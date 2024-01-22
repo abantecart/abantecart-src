@@ -573,10 +573,8 @@ class ControllerPagesDesignMenu extends AController
             $ids = $this->menu->getItemIds();
             if (!preg_match("/^[A-Za-z0-9]*$/",$post['item_id'])) {
                 $this->error['item_id'] = $this->language->get('error_non_ascii');
-            } else {
-                if (in_array($post['item_id'], $ids)) {
-                    $this->error['item_id'] = $this->language->get('error_non_unique');
-                }
+            } else if (in_array($post['item_id'], $ids)) {
+                $this->error['item_id'] = $this->language->get('error_non_unique');
             }
         }
         if (empty ($post['item_id']) && empty ($this->request->get['item_id'])) {
