@@ -23,7 +23,7 @@
 <?php } ?>
 
 <div class="row">
-    <div class="col-md-6 p-3 newcustomer">
+    <div class="d-flex col-md-6 p-3 newcustomer">
         <?php if(!$this->getHookVar('register_box_html')){ ?>
         <div class="loginbox card m-2">
             <div class="card-body">
@@ -41,9 +41,9 @@
                 <?php } ?>
                     <div class="d-flex align-items-start">
                         <div class="mt-2">
-                            <p><?php echo $text_create_account; ?></p>
+                            <p class="mt-2"><?php echo $text_create_account; ?></p>
                         </div>
-                        <button type="submit" class="float-end text-nowrap btn btn-primary"  title="<?php echo $form1['continue']->name ?>">
+                        <button type="submit" class="float-end text-nowrap btn btn-primary mt-auto align-self-end"  title="<?php echo $form1['continue']->name ?>">
                             <i class="<?php echo $form1['continue']->icon; ?> fa"></i>
                             <?php echo $form1['continue']->name ?>
                         </button>
