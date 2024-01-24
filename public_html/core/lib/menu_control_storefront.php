@@ -65,7 +65,7 @@ class AMenu_Storefront extends AMenu
             }
             $item['item_url'] = html_entity_decode($item['item_url']);
 
-            $tmp [$item['parent_id']] [$item['sort_order']] = $item;
+            $tmp[$item['parent_id']][$item['sort_order']] = $item;
             $this->item_ids[] = $item['item_id'];
             $item['settings'] = unserialize($item['settings']) ?: [];
 
@@ -75,6 +75,7 @@ class AMenu_Storefront extends AMenu
                 && !$item['category_tree']
             ){
                 $leaf = $this->addNestedCategoryItems($item, $languageId);
+                $tmp[$item['parent_id']][$item['sort_order']]['category'] = true;
             }
             //tree of content menu
             if(str_starts_with($item['item_url'],'content/content&content_id=')
@@ -82,6 +83,7 @@ class AMenu_Storefront extends AMenu
                 && !$item['content_tree']
             ){
                 $leaf = $this->addNestedContentItems($item, $languageId);
+                $tmp[$item['parent_id']][$item['sort_order']]['content'] = true;
             }
 
             if($leaf){
