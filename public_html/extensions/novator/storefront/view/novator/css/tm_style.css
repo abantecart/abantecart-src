@@ -3658,3 +3658,7 @@ input[type="number"] {
 /*  left:20rem;*/
 /*  !*border: 0;*!*/
 /*}*/
+
+img.menu_image{
+  max-width: 25px;
+}

@@ -17,7 +17,6 @@
  *    versions in the future. If you wish to customize AbanteCart for your
  *    needs please refer to http://www.AbanteCart.com for more information.
  */
-/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -88,7 +87,10 @@ class ModelCatalogCategory extends Model
     {
         $language_id = (int)$this->config->get('storefront_language_id');
         $store_id = (int)$this->config->get('config_store_id');
-        $cache_key = 'category.list.' . $parent_id . '.store_' . $store_id . '_limit_' . $limit . '_lang_' . $language_id;
+        $cache_key = 'category.list.' . $parent_id
+            . '.store_' . $store_id
+            . '_limit_' . $limit
+            . '_lang_' . $language_id;
         $cache = $this->cache->pull($cache_key);
 
         if ($cache === false) {
@@ -106,10 +108,7 @@ class ModelCatalogCategory extends Model
             );
             $cache = $query->rows;
             //optimized selection of product counts.
-            $category_ids = [];
-            foreach ($cache as $row) {
-                $category_ids[] = $row['category_id'];
-            }
+            $category_ids = array_column($cache, 'category_id');
             if (count($category_ids)) {
                 $query = $this->db->query(
                     "SELECT p2c.category_id as category_id, count(*) as product_count
@@ -158,6 +157,15 @@ class ModelCatalogCategory extends Model
             $store_id = (int)$this->config->get('config_store_id');
         }
 
+        $cache_key = 'category.list.' . $mode
+            . '.store_' . $store_id
+            . '_lang_' . $language_id. md5(var_export($data, true));
+        $cache = $this->cache->pull($cache_key);
+
+        if ($cache !== false) {
+            return $cache;
+        }
+
         if ($mode == 'total_only') {
             $total_sql = 'count(*) as total';
         } else {
@@ -173,13 +181,7 @@ class ModelCatalogCategory extends Model
         $where = (isset($data['parent_id']) ? " c.parent_id = '" . (int)$data['parent_id'] . "'" : '');
         //filter result by given ids array
         if ($data['filter_ids']) {
-            $ids = [];
-            foreach ($data['filter_ids'] as $id) {
-                $id = (int)$id;
-                if ($id) {
-                    $ids[] = $id;
-                }
-            }
+            $ids = array_unique(array_map('intval', (array)$data['filter_ids']));
             $where = " c.category_id IN (" . implode(', ', $ids) . ")";
         }
 
@@ -234,18 +236,9 @@ class ModelCatalogCategory extends Model
         }
 
         $query = $this->db->query($sql);
-        $category_data = [];
-        foreach ($query->rows as $result) {
-            $category_data[] = [
-                'category_id'    => $result['category_id'],
-                'name'           => $result['name'],
-                'status'         => $result['status'],
-                'sort_order'     => $result['sort_order'],
-                'products_count' => $result['products_count'],
+        $this->cache->push($cache_key, $query->rows);
+        return $query->rows;
 
-            ];
-        }
-        return $category_data;
     }
 
     /**

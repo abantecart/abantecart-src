@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-  
- UPGRADE NOTE: 
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.  
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -42,30 +41,60 @@ class AMenu_Storefront extends AMenu
 
     protected function _buildMenu()
     {
+        $languageId = $this->registry->get('language')->getLanguageID();
         $this->dataset_rows = (array) $this->dataset->getRows();
         $this->dataset_description_rows = (array) $this->dataset_description->getRows();
 
         // need to resort by sort_order property
-        $offset = 0; // it needs for process repeating sort numbers
         $tmp = $this->item_ids = [];
         foreach ($this->dataset_rows as $item) {
+            $leaf = [];
             foreach ($this->dataset_description_rows as $description_item) {
                 if ($description_item['item_id'] == $item['item_id']) {
                     $item['item_text'][$description_item['language_id']] = $description_item['item_text'];
                 }
             }
 
-            if (isset ($tmp [$item ['parent_id']] [$item['sort_order']])) {
-                $offset++;
+            while(isset ($tmp[$leafItem['parent_id']][$item['sort_order']])) {
+                $item['sort_order']++;
             }
             //mark current page
             $rt = $this->registry->get('request')->get_or_post('rt');
             if ($item['item_url'] == $rt) {
                 $item['current'] = true;
             }
+            $item['item_url'] = html_entity_decode($item['item_url']);
 
-            $tmp [$item['parent_id']] [$item['sort_order'] + $offset] = $item;
-            $this->item_ids [] = $item['item_id'];
+            $tmp [$item['parent_id']] [$item['sort_order']] = $item;
+            $this->item_ids[] = $item['item_id'];
+            $item['settings'] = unserialize($item['settings']) ?: [];
+
+            //tree of subcategories
+            if(str_starts_with($item['item_url'],'product/category&path=')
+                && $item['settings']['include_children']
+                && !$item['category_tree']
+            ){
+                $leaf = $this->addNestedCategoryItems($item, $languageId);
+            }
+            //tree of content menu
+            if(str_starts_with($item['item_url'],'content/content&content_id=')
+                && $item['settings']['include_children']
+                && !$item['content_tree']
+            ){
+                $leaf = $this->addNestedContentItems($item, $languageId);
+            }
+
+            if($leaf){
+                //merge children with parent item
+                foreach($leaf as $parentId => $child){
+                    foreach($child as $sortOrder => $itm) {
+                        while(isset ($output[$parentId][$sortOrder])) {
+                            $sortOrder++;
+                        }
+                        $tmp[$parentId][$sortOrder] = $itm;
+                    }
+                }
+            }
         }
         $menu = [];
         foreach ($tmp as $key => $item) {
@@ -74,6 +103,108 @@ class AMenu_Storefront extends AMenu
         }
 
         $this->menu_items = $menu;
+    }
+
+    /**
+     * @param array $parentItem
+     * @param int $languageId
+     * @return array
+     * @throws AException
+     */
+    protected function addNestedCategoryItems($parentItem, $languageId)
+    {
+        $output = [];
+        $resource = new AResource('image');
+
+        parse_str($parentItem['item_url'], $qry);
+        $path = explode("_",$qry['path']);
+        $parentId = (int)end($path);
+        if(!$parentId) {
+            return $output;
+        }
+        /** @var ModelCatalogCategory $mdl */
+        $mdl = $this->registry->get('load')->model('catalog/category');
+        $childrenIDs = $mdl->getChildrenIDs($parentId);
+        if(!$childrenIDs){
+            return $output;
+        }
+
+        $leaf = $mdl->getCategoriesData(['filter_ids' => $childrenIDs]);
+        if(!$leaf){ return $output; }
+
+        foreach ( $leaf as $k => $cat) {
+            if (!$cat['products_count']) {
+                unset($leaf[$k]);
+            }else {
+                $leafItem = $cat;
+                $leafItem['path'] = $mdl->buildPath($cat['category_id']);
+                $leafItem['category_tree'] = true;
+                if ($cat['parent_id'] == $parentId) {
+                    $leafItem['parent_id'] = $parentItem['item_id'];
+                    $leafItem['item_id'] = $parentItem['item_id'] . '.' . $leafItem['path'];
+                } else {
+                    $leafItem['item_id'] = $parentItem['item_id'] . '.' . $leafItem['path'];
+                    $pth = explode('_', $leafItem['path']);
+                    array_pop($pth);
+                    $leafItem['parent_id'] = $parentItem['item_id'] . '.' . implode('_', $pth);
+                }
+                $leafItem['item_url'] = 'product/category&path=' . $leafItem['path'];
+                $leafItem['item_text'] = [$languageId => $cat['name']];
+                $leafItem['sort_order'] = $cat['sort_order'];
+                $this->item_ids[] = $leafItem['item_id'];
+                while(isset ($output[$leafItem['parent_id']][$leafItem['sort_order']])) {
+                    $leafItem['sort_order']++;
+                }
+
+                $resources = $resource->getResources( 'categories', $cat['category_id'], $languageId );
+                $leafItem['item_icon_rl_id'] = $resources[0]['resource_id'];
+                $output[$leafItem['parent_id']][$leafItem['sort_order']] = $leafItem;
+            }
+        }
+        return $output;
+    }
+
+    protected function addNestedContentItems($parentItem, $languageId)
+    {
+        $output = [];
+
+        parse_str($parentItem['item_url'], $qry);
+        $parentId = $qry['content_id'];
+        if(!$parentId) {
+            return $output;
+        }
+        //build dynamic content (pages) links
+        /** @var ModelCatalogContent $mdl */
+        $mdl = $this->registry->get('load')->model('catalog/content');
+        $mdl->getContents();
+        $childrenIDs = $mdl->getChildrenIDs($parentId);
+
+        if(!$childrenIDs){
+            return $output;
+        }
+        $leaf = $mdl->getContents(['filter_ids' => $childrenIDs]);
+        if(!$leaf){ return $output; }
+
+        foreach ( $leaf as $cntnt) {
+            $leafItem = $cntnt;
+            $leafItem['content_tree'] = true;
+            if ($cntnt['parent_content_id'] == $parentId) {
+                $leafItem['parent_id'] = $parentItem['item_id'];
+                $leafItem['item_id'] = $parentItem['item_id'] . '.' . $leafItem['content_id'];
+            } else {
+                $leafItem['item_id'] = $parentItem['item_id'] . '.' . $leafItem['content_id'];
+                $leafItem['parent_id'] = $parentItem['item_id'] . '.' . $leafItem['parent_content_id'];
+            }
+            $leafItem['item_url'] = 'content/content&content_id=' . $leafItem['content_id'];
+            $leafItem['item_text'] = [$languageId => $cntnt['name']];
+            $leafItem['sort_order'] = $cntnt['sort_order'];
+            $this->item_ids[] = $leafItem['item_id'];
+            while(isset ($output[$leafItem['parent_content_id']][$leafItem['sort_order']])) {
+                $leafItem['sort_order']++;
+            }
+            $output[$leafItem['parent_id']][$leafItem['sort_order']] = $leafItem;
+        }
+        return $output;
     }
 
     /**
