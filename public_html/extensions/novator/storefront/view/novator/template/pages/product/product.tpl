@@ -452,14 +452,14 @@ if ($error){ ?>
                             </li>
                         <?php } ?>
                         <?php if ($manufacturer){ ?>
-                            <li>
+                            <li class="d-flex align-items-center">
                                 <span class="fw-bold me-2"><?php echo $text_manufacturer; ?></span>
-                                <a href="<?php echo $manufacturers; ?>">
+                                <a href="<?php echo $manufacturers; ?>" class="d-inline-flex align-items-center" style="height: 17px;">
                                     <?php if ($manufacturer_icon){ ?>
                                         <img alt="<?php echo $manufacturer; ?>"
-                                                src="<?php echo $manufacturer_icon; ?>"
-                                                title="<?php echo $manufacturer; ?>"
-                                                style="width: <?php echo $this->config->get('config_image_grid_width'); ?>px;"/>
+                                             src="<?php echo $manufacturer_icon; ?>"
+                                             title="<?php echo $manufacturer; ?>"
+                                             style="width: <?php echo $this->config->get('config_image_grid_width'); ?>px;"/>
                                         <?php
                                     } else{
                                         echo $manufacturer;
