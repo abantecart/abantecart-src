@@ -255,7 +255,7 @@ class ControllerPagesProductProduct extends AController
             $this->data['review_recaptcha'] = HtmlElementFactory::create(
                 [
                     'type'               => 'recaptcha',
-                    'name'               => 'recaptcha',
+                    'name'               => 'g-recaptcha-response',
                     'recaptcha_site_key' => $this->data['recaptcha_site_key'],
                     'language_code'      => $this->language->getLanguageCode(),
                 ]
