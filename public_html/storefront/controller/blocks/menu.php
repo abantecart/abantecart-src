@@ -74,15 +74,16 @@ class ControllerBlocksMenu extends AController
             } else {
                 $href = $this->html->getSecureURL($item ['item_url']);
             }
-            $menu[] = [
-                'id'         => $item['item_id'],
-                'current'    => $item['current'] ?? false,
-                'icon'       => $item['item_icon'] ?? '',
-                'icon_rl_id' => $item['item_icon_rl_id'] ?? '',
-                'href'       => $href,
-                'text'       => $item['item_text'][$lang_id] ?? '',
-                'children'   => $this->_buildMenu($item['item_id']),
-            ];
+
+            $item['id'] = $item['item_id'];
+            $item['current'] = $item['current'] ?? false;
+            $item['icon'] = $item['item_icon'] ?? '';
+            $item['icon_rl_id'] = $item['item_icon_rl_id'] ?? '';
+            $item['href'] = $href;
+            $item['text'] = $item['item_text'][$lang_id] ?? '';
+            $item['children'] = $this->_buildMenu($item['item_id']);
+
+            $menu[] = $item;
         }
         return $menu;
     }

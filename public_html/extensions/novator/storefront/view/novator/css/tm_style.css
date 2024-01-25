@@ -3614,7 +3614,7 @@ li#review-set::before{
 .dropdown:hover > .dropdown-menu,
 .dropend:hover > .dropdown-menu {
   display: block;
-  margin-top: 0.125em;
+  /*margin-top: 0.125em;*/
   margin-left: 0;
 }
 
