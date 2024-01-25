@@ -14,3 +14,21 @@ if ($result->num_rows > 0) {
         }
     }
 }
+$block_info['block_txt_id'] = 'viewed_products';
+$block_info['controller'] = 'viewed_products/viewed_products';
+
+$block_info['templates'] = [
+    ['parent_block_txt_id' => 'header', 'template' => 'viewed_products/viewed_products_tblock.tpl'],
+    ['parent_block_txt_id' => 'header_bottom', 'template' => 'viewed_products/viewed_products_cblock.tpl'],
+    ['parent_block_txt_id' => 'content_top', 'template' => 'viewed_products/viewed_products_cblock.tpl'],
+    ['parent_block_txt_id' => 'content_bottom', 'template' => 'viewed_products/viewed_products_cblock.tpl'],
+    ['parent_block_txt_id' => 'footer', 'template' => 'viewed_products/viewed_products_tblock.tpl'],
+    ['parent_block_txt_id' => 'footer_top', 'template' => 'viewed_products/viewed_products_cblock.tpl'],
+    ['parent_block_txt_id' => 'column_left', 'template' => 'viewed_products/viewed_products_sblock.tpl'],
+    ['parent_block_txt_id' => 'column_right', 'template' => 'viewed_products/viewed_products_sblock.tpl'],
+];
+
+$block_info['descriptions'] = [['language_name' => 'english', 'name' => 'Viewed Products']];
+
+$layout = new ALayoutManager();
+$layout->saveBlock($block_info);
