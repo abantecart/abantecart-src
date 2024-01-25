@@ -140,7 +140,7 @@ class ControllerPagesIndexForgotPassword extends AController
                 $this->data['form']['fields']['captcha'] = $form->getFieldHtml(
                     [
                         'type' => 'recaptcha',
-                        'name' => 'captcha',
+                        'name' => 'g-recaptcha-response',
                         'recaptcha_site_key' => $this->config->get('config_recaptcha_site_key'),
                         'language_code' => $this->language->getLanguageCode(),
                     ]

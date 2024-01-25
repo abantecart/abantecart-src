@@ -304,7 +304,7 @@ class ControllerPagesAccountCreate extends AController
                 $this->data['form']['fields']['newsletter']['captcha'] = $form->getFieldHtml(
                     [
                         'type'               => 'recaptcha',
-                        'name'               => 'recaptcha',
+                        'name'               => 'g-recaptcha-response',
                         'recaptcha_site_key' => $this->config->get('config_recaptcha_site_key'),
                         'language_code'      => $this->language->getLanguageCode(),
                     ]
