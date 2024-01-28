@@ -22,6 +22,7 @@ echo $order_tabs;
 				<i class="fa fa-file-text"></i>
 			</a>
 			</div>
+			<?php echo $this->getHookVar('order_details_top_button'); ?>
 		</div>
 
 		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>
