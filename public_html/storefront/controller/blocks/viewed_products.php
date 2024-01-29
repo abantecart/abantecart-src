@@ -9,10 +9,10 @@ class ControllerBlocksViewedProducts extends AController
 
     public function main()
     {
-        //init controller data
+
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->language->load('viewed_products/viewed_products');
+        $this->language->load('blocks/viewed');
         $this->view->assign('heading_title', $this->language->get('heading_title'));
 
         $this->loadModel('catalog/product');
@@ -148,7 +148,6 @@ class ControllerBlocksViewedProducts extends AController
         }
         $this->data['review_status'] = $this->config->get('enable_reviews');
         $this->view->batchAssign($this->data);
-
         $this->processTemplate();
 
         //init controller data

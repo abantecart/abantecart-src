@@ -10408,7 +10408,7 @@ INSERT INTO `ac_blocks` (`block_id`, `block_txt_id`, `controller`, `date_added`)
 (31, 'customer', 'blocks/customer', now() ),
 (32, 'fast_checkout_cart_btn', 'blocks/fast_checkout_cart_btn', NOW()),
 (33, 'fast_checkout_summary', 'blocks/fast_checkout_summary', NOW()),
-(34, 'viewed_products','blocks/viewed_products/viewed_products_tblock.tpl',NOW())
+(34, 'viewed_products','blocks/viewed_products',NOW())
 ;
 
 --
@@ -10564,14 +10564,14 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `da
 (31, 1, 'blocks/customer.tpl', now() ),
 (32, 1, 'blocks/fast_checkout_cart_btn.tpl', NOW()),
 (33, 6, 'blocks/fast_checkout_summary.tpl', NOW()),
-(34, 1, 'blocks/viewed_products/viewed_products_tblock.tpl',NOW()),
-(35, 2, 'blocks/viewed_products/viewed_products_tblock.tpl',NOW()),
-(36, 4, 'blocks/viewed_products/viewed_products_tblock.tpl',NOW()),
-(37, 5, 'blocks/viewed_products/viewed_products_tblock.tpl',NOW()),
-(38, 7, 'blocks/viewed_products/viewed_products_tblock.tpl',NOW()),
-(39, 8, 'blocks/viewed_products/viewed_products_tblock.tpl',NOW()),
-(40, 6, 'blocks/viewed_products/viewed_products_tblock.tpl',NOW()),
-(41, 3, 'blocks/viewed_products/viewed_products_tblock.tpl',NOW())
+(34, 1, 'blocks/viewed_block_column_header.tpl',NOW()),
+(34, 2, 'blocks/viewed_block_column_header_bottom.tpl',NOW()),
+(34, 4, 'blocks/viewed_block_column_content_top.tpl',NOW()),
+(34, 5, 'blocks/viewed_block_column_content_bottom.tpl',NOW()),
+(34, 7, 'blocks/viewed_block_column_footer_top.tpl',NOW()),
+(34, 8, 'blocks/viewed_block_column_footer.tpl',NOW()),
+(34, 6, 'blocks/viewed_block_column_right.tpl',NOW()),
+(34, 3, 'blocks/viewed_block_column_left.tpl',NOW())
 ;
 
 --
