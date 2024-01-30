@@ -154,7 +154,9 @@ class ControllerResponsesSaleInvoice extends AController
 
                 $total_data = $this->model_sale_order->getOrderTotals($order_id);
 
-                $this->data['orders'][] = [
+                $this->data['orders'][] = array_merge(
+                    $order_info,
+                    [
                     'order_id'           => $order_id,
                     'invoice_id'         => $invoice_id,
                     'date_added'         => dateISO2Display(
@@ -175,7 +177,7 @@ class ControllerResponsesSaleInvoice extends AController
                     'comment'            => $order_info['comment'],
                     'product'            => $product_data,
                     'total'              => $total_data,
-                ];
+                ]);
             }
         }
 
