@@ -24,10 +24,10 @@ if ($error){ ?>
     <div class="row justify-content-between">
 
         <!-- Left Image-->
-        <div class="col-md-6 col-xxl-5 text-center">
+        <div class="col-md-4">
             <div class="sticky-md-top product-sticky">
                 
-                <div class="bg-light border rounded position-relative mainimage bigimage d-none d-md-block  easyzoom easyzoom--overlay easyzoom--with-thumbnails">
+                <div class="bg-light text-center border rounded position-relative mainimage bigimage d-none d-md-block  easyzoom easyzoom--overlay easyzoom--with-thumbnails">
                     <?php
                     if ($image_main){
                         //NOTE: ZOOM is not supported for embed image tags
@@ -103,7 +103,7 @@ if ($error){ ?>
         </div>
 
         <!-- Right Details-->
-        <div class="col-md-6 col-xxl-7 detail position-relative product-page-preset-box mt-4 mt-md-0">
+        <div class="col-md-7 mt-3 mt-sm-0 detail position-relative">
             <div class="row g-1">
                 <div class="col-sm-6">
                     <h1 class="h3"><?php echo $heading_title; ?></h1>
@@ -211,7 +211,7 @@ if ($error){ ?>
                                                     continue;
                                                 }?>
                                             <div class="d-block">
-                                                <h5 class="text-muted control-label fw-bold mb-0">
+                                                <h5 class="text-muted control-label">
                                                     <?php echo $option['name']; ?>
                                                 </h5>
                                             </div>
@@ -219,9 +219,9 @@ if ($error){ ?>
                                                 <?php
                                                     echo $this->getHookVar('product_option_'.$option['name'].'_additional_info');
                                                 ?>
-                                                <div class="flex-shrink-0">
-                                                    <?php echo $option['html'];	?>
-                                                </div>
+                                                
+                                                <?php echo $option['html'];	?>
+                                                
                                             </div>
                                             <hr class="my-4">
                                         <?php } ?>
@@ -655,9 +655,8 @@ if ($error){ ?>
     <div class="related_products-block">
         <div class="row title justify-content-center sec-heading-block text-center">       
             <div class="col-xl-8">
-                <h2><?php echo $tab_related; ?> (<?php echo sizeof((array)$related_products); ?>)</h2>
-                <p>Lorem ipsum it amet, consectetur adipiscing elit. Lorem ipsum it amet, consectetur adipiscing elit. 
-                Lorem ipsum it amet, conseng elit. Lorem ipsum it</p>
+                <h2><?php echo $tab_related; ?> <!-- Commented by TM (<?php echo sizeof((array)$related_products); ?>) --> </h2>
+                
             </div>
         </div>
         <?php

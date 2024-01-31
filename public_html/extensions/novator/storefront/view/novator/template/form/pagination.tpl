@@ -4,16 +4,18 @@
             <div class="col-auto d-flex flex-nowrap align-items-center">
                 <div class="pagination ">
                     <?php if ($page > 1) { ?>
+                    <!-- Commented by TM 
                         <div class="page-item">
                             <a class="my-1 page-link" href="<?php echo $first_url; ?>"
                             title="<?php echo_html2view($text_first); ?>" aria-label="<?php echo_html2view($text_first); ?>">
                                 <i class="my-1 fa-solid fa-backward-step"></i>
                             </a>
                         </div>
+                    -->
                         <div class="page-item">
                             <a class="my-1 page-link" href="<?php echo $prev_url; ?>"
                             title="<?php echo_html2view($text_prev); ?>" aria-label="<?php echo_html2view($text_prev); ?>">
-                                <i class="my-1 fa-solid fa-angle-left"></i>
+                                Previous
                             </a>
                         </div>
                     <?php
@@ -29,15 +31,17 @@
                         if($page != 1){ ?>
                         <div class="page-item">
                             <a class="my-1 page-link" href="<?php echo $next_url; ?>" title="<?php echo_html2view($text_next); ?>" aria-label="<?php echo_html2view($text_next); ?>">
-                                <i class="my-1 fa-solid fa-angle-left"></i>
+                                Next
                             </a>
                         </div>
                         <?php } ?>
+                        <!-- Commented by TM 
                         <div class="page-item">
                             <a class="my-1 page-link" href="<?php echo $last_url; ?>" title="<?php echo_html2view($text_last); ?>">
                                 <i class="my-1 fa-solid fa-step-forward"></i>
                             </a>
                         </div>
+                        -->
                     <?php } ?>
                 </div>
             </div>

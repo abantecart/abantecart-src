@@ -98,7 +98,7 @@
 													</li>
                                                     <?php } ?>
 													<li class="list-inline-item btn-quickview">
-														<a href="<?php echo $item['info_url'] ?>" data-bs-toggle="tooltip" title="<?php echo $button_view ?>">
+														<a href="<?php echo $item['info_url'] ?>" title="<?php echo $button_view ?>">
 															<i class="bi bi-eye" ></i>
 														</a>
 													</li>

@@ -1968,6 +1968,8 @@ section {
 .mobile-top-bar img {
   max-width: 100%;
   height: auto;
+  min-width: unset!important;
+  min-height: unset!important;
 }
 
 .top-bar .btn-group .btn,
