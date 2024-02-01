@@ -41,8 +41,10 @@ class ControllerBlocksViewedProducts extends AController
             $product_ids = array_slice($product_ids, 0, $this->config->get('viewed_products_limit'));
         }
 
-        $products = $this->getProductsFromIDs($product_ids);
+
+
         $products_info = $this->model_catalog_product->getProductsAllInfo($product_ids);
+        $products = $this->model_catalog_product->getProductsFromIDs($product_ids);
         $resource = new AResource('image');
 
         $width = $this->config->get('viewed_products_image_width');
@@ -152,27 +154,5 @@ class ControllerBlocksViewedProducts extends AController
 
         //init controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-    }
-
-    protected function getProductsFromIDs($products)
-    {
-        if (!$products) {
-            return [];
-        }
-
-        $sql = "SELECT *
-                FROM ".$this->db->table("products")." p
-                LEFT JOIN ".$this->db->table("product_descriptions")." pd 
-                    ON (p.product_id = pd.product_id 
-                        AND pd.language_id = '".(int) $this->config->get('storefront_language_id')."')
-                LEFT JOIN ".$this->db->table("products_to_stores")." p2s 
-                    ON (p.product_id = p2s.product_id)
-                WHERE p2s.store_id = '".(int) $this->config->get('config_store_id')."'
-                        AND p.product_id IN (".implode(', ', $products).")
-                        AND p.status='1'
-                        AND p.date_available <= NOW()
-                ORDER BY p.sort_order ASC, p.date_available DESC";
-        $query = $this->db->query($sql);
-        return $query->rows;
     }
 }
