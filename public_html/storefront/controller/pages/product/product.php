@@ -919,6 +919,7 @@ class ControllerPagesProductProduct extends AController
 
         $this->view->setTemplate('pages/product/product.tpl');
         $this->view->batchAssign($this->data);
+        $this->session->data['viewed_products'][] = $this->request->get['product_id'];
         $this->processTemplate();
 
         //init controller data
