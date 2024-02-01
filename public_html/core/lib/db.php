@@ -49,8 +49,16 @@ final class ADB
             throw new AException(AC_ERR_MYSQL, 'Error: Could not load database file '.$driver.'!');
         }
 
-        $this->driver = new $driver($hostname, $username, $password, $database);
-
+        try {
+            $this->driver = new $driver($hostname, $username, $password, $database);
+        }catch(Exception|Error $e){
+            $err = new AError(
+                'Cannot establish database connection to '.$database.' using '.$username.'@'.$hostname
+                ."\n".$e->getMessage()
+            );
+            $err->toLog();
+            exit('Cannot establish connection to database');
+        }
         $this->registry = Registry::getInstance();
     }
 

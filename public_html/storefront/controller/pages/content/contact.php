@@ -29,14 +29,14 @@ class ControllerPagesContentContact extends AController
     /**
      * @var AForm
      */
-    private $form;
+    public $form;
 
     public function main()
     {
-        //init controller data
-        $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->document->setTitle($this->language->get('heading_title'));
         $this->form = new AForm('ContactUsFrm');
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->form->loadFromDb('ContactUsFrm');
         $form = $this->form->getForm();
         $languageId = $this->language->getContentLanguageID() ?? $this->language->getLanguageID();

@@ -409,7 +409,6 @@ class ModelExtensionStripe extends Model
         } else {
             $settle_status = 0;
         }
-        var_dump($order_info, $response ,$this->session->data);exit();
         $test_mode = $this->config->get( 'stripe_test_mode' ) ? 1 : 0;
         $this->db->query( "INSERT INTO `".$this->db->table( "stripe_orders" )."` 
 			SET `order_id` = '".(int)$order_info['order_id']."', 
