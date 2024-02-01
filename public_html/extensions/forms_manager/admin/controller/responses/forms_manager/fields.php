@@ -349,6 +349,7 @@ class ControllerResponsesFormsManagerFields extends AController
 
         $this->data['new_value_row'] = $this->_field_value_form([], $form);
 
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
         $this->view->batchAssign($this->data);
         $this->processTemplate('responses/forms_manager/field_values.tpl');
 
