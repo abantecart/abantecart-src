@@ -1,14 +1,14 @@
 <?php if(!$no_wrapper){?>
 <div class="input-group h-100">
     <?php } ?>
-    <div class="prod-option">
+    <div class="prod-option d-block" >
         <?php
         foreach ( $options as $v => $text ) {
             $check_id = preg_replace('/[^a-zA-Z0-9.-_]/', '', $id . $v); ?>
-            <div class="prod-option">
-                <div class="form-check form-check-inline">
+            <div class="prod-option m-2">
+                <div class="form-check form-check-inline w-100">
                     <input id="<?php echo $check_id ?>"
-                           class="form-check-input"
+                           class="form-check-input "
                            type="checkbox"
                            value="<?php echo $v ?>"
                            name="<?php echo $name ?>"
