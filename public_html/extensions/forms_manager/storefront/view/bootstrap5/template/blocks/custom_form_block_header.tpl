@@ -1,4 +1,4 @@
-<div class="header_block">
+<div class="header_block m-5">
 	<?php if ( $block_framed ) { ?>
 	<div class="block_frame block_frame_<?php echo $block_details['block_txt_id']; ?>"
 		 id="block_frame_<?php echo $block_details['block_txt_id'] . '_' . $block_details['instance_id'] ?>">
