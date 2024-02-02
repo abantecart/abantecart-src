@@ -131,11 +131,11 @@ class ControllerBlocksViewedProducts extends AController
                     'options' => $options,
                     'special' => $special,
                     'thumb' => $thumbnail,
-                    'href' => $options ? $this->html->getSEOURL(
+                    'href' => $this->html->getSEOURL(
                         'product/product',
                         '&product_id='.$result['product_id'],
                         '&encode'
-                    ) : '#',
+                    ),
                     'add' => $add,
                 ];
             }
