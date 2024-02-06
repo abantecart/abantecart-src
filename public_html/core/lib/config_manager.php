@@ -1548,7 +1548,8 @@ class AConfigManager
                     'type'  => 'input',
                     'name'  => 'viewed_products_image_width',
                     'value' => $data['viewed_products_image_width'],
-                    'style' => 'medium-field',
+                    'style'    => 'small-field',
+                    'required' => true,
                 ]
             );
             $fields['viewed_products_image_height'] = $form->getFieldHtml(
@@ -1556,7 +1557,8 @@ class AConfigManager
                     'type'  => 'input',
                     'name'  => 'viewed_products_image_height',
                     'value' => $data['viewed_products_image_height'],
-                    'style' => 'medium-field',
+                    'style'    => 'small-field',
+                    'required' => true,
                 ]
             );
         }
