@@ -1,8 +1,8 @@
-<form id="search_form" action="<?php echo HTTPS_SERVER.INDEX_FILE; ?>" class="form-search top-search">
+<form id="search_form" action="<?php echo HTTPS_SERVER.INDEX_FILE; ?>" class="form-search top-search d-flex w-100 justify-content-center">
     <input type="hidden" name="rt" value="product/search"/>
     <input type="hidden" name="category_id" id="filter_category_id" value="0"/>
 
-    <div class="d-none d-lg-flex input-group rounded-1 d">
+    <div class="d-none d-lg-flex input-group rounded-1 d ms-auto">
         <?php
         if ($top_categories) {
             array_unshift(
@@ -18,7 +18,7 @@
                     type="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
                 <div id="category_selected" class="d-md-none d-xl-flex"><?php echo $top_categories[0]['name'] ?></div>
-                <i class="ms-2 bi bi-chevron-down"></i>
+                <i class="ms-4 bi bi-chevron-down"></i>
             </button>
             <?php
             /** @see view/css/style.css for mobile view of dropdown belong */ ?>
@@ -45,7 +45,7 @@
                class="form-control bg-transparent shadow-none border-0 m-0"
                placeholder="<?php echo_html2view($text_keyword); ?>"
                value=""/>
-        <button class="btn-search lh-1" title="<?php echo_html2view($button_go); ?>">
+        <button class="btn-search lh-1 ms-4" title="<?php echo_html2view($button_go); ?>">
             <i class="bi bi-search"></i>
         </button>
     </div>

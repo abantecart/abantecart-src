@@ -32,7 +32,7 @@
                             <a class="navbar-brand logo" href="<?php echo $homepage; ?>"><?php echo $logo; ?></a>
                         <?php } ?>
                     </div>
-                    <div class="header-right w-100 d-flex flex-nowrap align-items-center justify-content-end">
+                    <div class="header-right w-75 d-flex flex-nowrap align-items-center justify-content-end">
                             <?php
                             foreach($children_blocks as $k => $instanceName){ ?>
                                 <div class="header-right-block block_<?php echo $k; ?> ms-2 d-flex justify-content-end">
