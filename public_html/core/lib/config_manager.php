@@ -1548,7 +1548,7 @@ class AConfigManager
                     'type'  => 'input',
                     'name'  => 'viewed_products_image_width',
                     'value' => $data['viewed_products_image_width'],
-                    'style'    => 'small-field',
+                    'style' => 'small-field',
                     'required' => true,
                 ]
             );
@@ -1557,7 +1557,7 @@ class AConfigManager
                     'type'  => 'input',
                     'name'  => 'viewed_products_image_height',
                     'value' => $data['viewed_products_image_height'],
-                    'style'    => 'small-field',
+                    'style' => 'small-field',
                     'required' => true,
                 ]
             );
