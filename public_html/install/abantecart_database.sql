@@ -1692,6 +1692,10 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('general','config_recaptcha_site_key',''),
 ('general','config_recaptcha_secret_key',''),
 ('general','config_google_analytics_code',''),
+('general','viewed_products_limit',3),
+('bootstrap5','viewed_products_image_height',250),
+('bootstrap5','viewed_products_image_width',250),
+
 
 
 -- Checkout

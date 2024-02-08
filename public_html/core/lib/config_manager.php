@@ -924,23 +924,6 @@ class AConfigManager
                 'style' => 'medium-field',
             ]
         );
-        $fields['viewed_products_image_width'] = $form->getFieldHtml(
-            $props[] = [
-                'type'  => 'input',
-                'name'  => 'viewed_products_image_width',
-                'value' => $data['viewed_products_image_width'],
-                'style' => 'medium-field',
-            ]
-        );
-        $fields['viewed_products_image_height'] = $form->getFieldHtml(
-            $props[] = [
-                'type'  => 'input',
-                'name'  => 'viewed_products_image_height',
-                'value' => $data['viewed_products_image_height'],
-                'style' => 'medium-field',
-            ]
-        );
-
         if (isset($data['one_field'])) {
             $fields = $this->_filterField($fields, $props, $data['one_field']);
         }
@@ -1557,6 +1540,24 @@ class AConfigManager
                     'name'     => 'config_image_grid_height',
                     'value'    => $data['config_image_grid_height'],
                     'style'    => 'small-field',
+                    'required' => true,
+                ]
+            );
+            $fields['viewed_products_image_width'] = $form->getFieldHtml(
+                $props[] = [
+                    'type'  => 'input',
+                    'name'  => 'viewed_products_image_width',
+                    'value' => $data['viewed_products_image_width'],
+                    'style' => 'small-field',
+                    'required' => true,
+                ]
+            );
+            $fields['viewed_products_image_height'] = $form->getFieldHtml(
+                $props[] = [
+                    'type'  => 'input',
+                    'name'  => 'viewed_products_image_height',
+                    'value' => $data['viewed_products_image_height'],
+                    'style' => 'small-field',
                     'required' => true,
                 ]
             );

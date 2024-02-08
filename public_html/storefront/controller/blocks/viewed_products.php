@@ -131,11 +131,11 @@ class ControllerBlocksViewedProducts extends AController
                     'options' => $options,
                     'special' => $special,
                     'thumb' => $thumbnail,
-                    'href' => $options ? $this->html->getSEOURL(
+                    'href' => $this->html->getSEOURL(
                         'product/product',
                         '&product_id='.$result['product_id'],
                         '&encode'
-                    ) : '#',
+                    ),
                     'add' => $add,
                 ];
             }
@@ -149,6 +149,8 @@ class ControllerBlocksViewedProducts extends AController
             $this->data['display_price'] = false;
         }
         $this->data['review_status'] = $this->config->get('enable_reviews');
+        $this->data['imgW'] = $width;
+        $this->data['imgH'] = $height;
         $this->view->batchAssign($this->data);
         $this->processTemplate();
 
