@@ -20,9 +20,7 @@
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
-if (!class_exists('ExtensionDefaultLocalDelivery')) {
-    include_once('core/default_local_delivery_hooks.php');
-}
+include_once(DIR_EXT.'default_local_delivery/core/default_local_delivery_hooks.php');
 
 $controllers = array(
     'storefront' => array(),

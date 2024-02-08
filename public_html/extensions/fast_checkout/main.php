@@ -22,7 +22,7 @@ if (!defined('DIR_CORE')) {
 }
 
 if (!class_exists('ExtensionFastCheckout')) {
-    include_once('core/fast_checkout.php');
+    include_once(DIR_EXT.'fast_checkout/core/fast_checkout.php');
 }
 $controllers = [
     'storefront' => [
