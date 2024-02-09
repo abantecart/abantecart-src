@@ -1287,6 +1287,39 @@ class ModelCatalogProduct extends Model
     }
 
     /**
+     * @param array $products
+     * @return array|mixed
+     * @throws AException
+     */
+    public function getProductsFromIDs($products)
+    {
+        if (!$products) {
+            return [];
+        }
+        $cacheKey = 'productsFromIDs_' . implode('_', $products);
+        $cachedData = $this->cache->pull($cacheKey);
+        if ($cachedData !== false) {
+            return $cachedData;
+        }
+        $sql = "SELECT *
+                FROM " . $this->db->table("products") . " p
+                LEFT JOIN " . $this->db->table("product_descriptions") . " pd 
+                    ON (p.product_id = pd.product_id 
+                        AND pd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
+                LEFT JOIN " . $this->db->table("products_to_stores") . " p2s 
+                    ON (p.product_id = p2s.product_id)
+                WHERE p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
+                        AND p.product_id IN (" . implode(', ', $products) . ")
+                        AND p.status='1'
+                        AND p.date_available <= NOW()
+                ORDER BY p.sort_order ASC, p.date_available DESC";
+        $query = $this->db->query($sql);
+        $result = $query->rows;
+        $this->cache->push($cacheKey, $result);
+        return $result;
+    }
+
+    /**
      * @param int $product_id
      * @param int $product_option_id
      *
