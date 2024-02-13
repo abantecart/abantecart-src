@@ -26,80 +26,46 @@ if ($error){ ?>
         <!-- Left Image-->
         <div class="col-md-6 col-xxl-5 text-center">
             <div class="sticky-md-top product-sticky">
-                <div class="bg-light border rounded position-relative mainimage bigimage d-none d-md-block  easyzoom easyzoom--overlay easyzoom--with-thumbnails">
-                    <?php
-                    if ($image_main){
-                        //NOTE: ZOOM is not supported for embed image tags
-                        if ($image_main['origin'] == 'external'){ ?>
-                            <a class="html_with_image">
-                                <?php echo $image_main['main_html']; ?>
-                            </a>
-                    <?php
-                        } else {
-                            $image_url = $image_main['main_url'];
-                            $thumb_url = $image_main['thumb_url'];
-                    ?>
-                        <a class="rounded local_image"
-                        href="<?php echo $image_url; ?>"
-                        target="_blank"
-                        title="<?php echo $image_main['title']; ?>">
-                            <img class="rounded img-fluid"
-                                    style="width: <?php echo $thmb_w; ?>px; height: <?php echo $thmb_h; ?>px;"
-                                    src="<?php echo $thumb_url; ?>"
-                                    alt="<?php echo $image_main['title']; ?>"
-                                    title="<?php echo $image_main['title']; ?>"/>
-                        </a>
-                        <?php
-                        }
-                    } ?>
-                </div>
+                    <div id="carouselProductImages" class="carousel slide ecomm-prod-slider" data-bs-ride="carousel">
+                        <div class="carousel-inner bg-light rounded position-relative">
+                            <!-- Main Image -->
+                            <?php foreach ($images as $index => $image) {  ?>
+                                <div class="carousel-item <?php echo ($index === 0) ? 'active' : ''; ?>">
+                                    <?php
+                                    if ($image['origin'] == 'external') {
+                                        echo $image['main_html'];
+                                    } else {
+                                        ?>
+                                        <img class="demo-trigger d-block w-100"
 
-                <ul class="d-flex flex-nowrap overflow-auto my-sm-3 mx-0 thumbnails mainimage smallimage list-unstyled"
-                    style="max-height: <?php echo $thmb_w?>px">
-                    <?php
-                        if (sizeof((array)$images) > 1){
-                            foreach ($images as $image){ ?>
-                                <li class="mb-3 pe-4 producthtumb"><?php
-                                    if ($image['origin'] != 'external'){?>
-                                        <a href="Javascript:void(0);" data-href="<?php echo $image['main_url']; ?>"
-                                        data-standard="<?php echo $image['thumb2_url']; ?>">
-                                            <img class="border" style="width: <?php echo $add_w; ?>px; height: <?php echo $add_h; ?>px;"
-                                                src="<?php echo $image['thumb_url']; ?>" alt="<?php echo $image['title']; ?>"
-                                                title="<?php echo $image['title']; ?>"/></a>
-                                    <?php }
-                                ?></li>
-                        <?php
-                            }
-                        } ?>
-                </ul>
-
-                <!-- for mobile devices-->
-                <div class="mainimage bigimage d-md-none">
-                    <?php
-                    if ($image_main){
-                        //NOTE: ZOOM is not supported for embed image tags
-                        if ($image_main['origin'] == 'external'){
+                                             src="<?php echo $image['main_url']; ?>"
+                                             alt="<?php echo_html2view($image['title']); ?>"
+                                             title="<?php echo_html2view($image['title']); ?>" />
+                                    <?php } ?>
+                                </div>
+                            <?php } ?>
+                        </div>
+                        <ul class="carousel-indicators position-relative product-carousel-indicators my-sm-3 mx-0 col-12 justify-content-between">
+                            <?php if (sizeof((array)$images) > 1) {
+                            foreach ($images as $i => $image) {
+                            if ($image['origin'] != 'external') {
                             ?>
-                            <a class="html_with_image">
-                                <?php echo $image_main['main_html']; ?>
-                            </a>
-                    <?php
-                        } else{
-                            $image_url = $image_main['main_url'];
-                            $thumb_url = $image_main['thumb_url'];
-                    ?>
-                            <a class="local_image">
-                                <img class="border"
-                                    style="width: 100%;"
-                                    src="<?php echo $thumb_url; ?>"
-                                    alt="<?php echo_html2view($image['title']); ?>"
-                                    title="<?php echo_html2view($image['title']); ?>"/>
-                            </a>
-                        <?php }
-                    } ?>
-                </div>
+                            <li data-bs-target="#carouselProductImages" data-bs-slide-to="<?php echo $i;?>"
+                                class="w-25  rounded h-auto <?php echo ($i === 0) ? 'active' : ''; ?> "><img
+                                                                class="d-block wid-100 rounded"
+                                                                src="<?php echo $image['thumb_url']; ?>"
+                                                                alt="<?php echo_html2view( $image['title']); ?>"
+                                                                title="<?php echo_html2view($image['title']); ?>">
+                            </li>
+                                <?php
+                            }
+                            }
+                            } ?>
+                        </ul>
+                    </div>
             </div>
         </div>
+
 
         <!-- Right Details-->
         <div class="col-md-6 col-xxl-7 detail position-relative product-page-preset-box mt-4 mt-md-0">
@@ -805,6 +771,7 @@ if ($error){ ?>
         $select.first().change();
 
         function start_easyzoom() {
+            return;
             // Instantiate EasyZoom instances
             var $easyzoom = $('.easyzoom').easyZoom();
 

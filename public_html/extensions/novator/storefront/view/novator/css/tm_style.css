@@ -2896,6 +2896,11 @@ li#review-set::before{
   flex-wrap: nowrap;
 }
 
+.list-prod-icon-link, .product-carousel-indicators {
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
 .product-carousel-indicators [data-bs-target] {
   margin-right: 0;
   margin-left: 0;
