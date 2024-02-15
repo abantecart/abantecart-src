@@ -596,9 +596,13 @@ function check_session_save_path()
         $parts = explode(';', $save_path);
         $path = array_pop($parts);
         if (!is_writable($path)) {
+            Registry::getInstance()?->get('log')->write(
+                __FUNCTION__ .': Session save path "'.$path.' (session.save_path='.$save_path.')" is not writable! '
+            );
             return [
                 'title' => 'Session save path is not writable! ',
-                'body'  => 'Your server is unable to create a session necessary for AbanteCart functionality. Check logs for exact error details and contact your hosting support administrator to resolve this error.',
+                'body'  => 'Your server is unable to create a session necessary for AbanteCart functionality. '
+                    .'Check logs for exact error details and contact your hosting support administrator to resolve this error.',
             ];
         }
     }
