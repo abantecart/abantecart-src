@@ -1696,8 +1696,6 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('general','config_recaptcha_secret_key',''),
 ('general','config_google_analytics_code',''),
 ('general','viewed_products_limit',3),
-('novator','viewed_products_image_height',312),
-('novator','viewed_products_image_width',400),
 
 
 -- Checkout
@@ -1869,7 +1867,23 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('bootstrap5', 'bootstrap5_sort_order', 1),
 ('bootstrap5', 'config_logo',281),
 ('bootstrap5', 'bootstrap5_status', 1),
-('bootstrap5', 'store_id', 0);
+('bootstrap5', 'store_id', 0),
+
+-- Novator
+('novator','viewed_products_image_height',312),
+('novator','viewed_products_image_width',400),
+('novator','config_image_related_width',312),
+('novator','config_image_related_height',400),
+('novator','config_image_thumb_width', 420),
+('novator','config_image_thumb_height',534),
+('novator','config_image_popup_width',500),
+('novator','config_image_popup_height',636),
+('novator','config_bestseller_limit',4),
+('novator','config_featured_limit',4),
+('novator','config_latest_limit',4),
+('novator','config_special_limit',4),
+('novator','config_catalog_limit',20)
+;
 
 --
 -- DDL for table `stock_statuses`
