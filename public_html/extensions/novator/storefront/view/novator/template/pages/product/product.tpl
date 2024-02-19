@@ -46,21 +46,24 @@ if ($error){ ?>
                             <?php } ?>
                         </div>
                         <ul class="carousel-indicators position-relative product-carousel-indicators my-sm-3 mx-0 col-12 justify-content-between">
-                            <?php if (sizeof((array)$images) > 1) {
-                            foreach ($images as $i => $image) {
-                            if ($image['origin'] != 'external') {
+                            <?php
+                            if (sizeof((array)$images) > 1) {
+                                $imageCount = sizeof($images);
+                                foreach ($images as $i => $image) {
+                                    if ($image['origin'] != 'external') {
+                                        ?>
+                                        <li data-bs-target="#carouselProductImages" data-bs-slide-to="<?php echo $i; ?>"
+                                            class="w-25 h-auto <?php echo ($i === 0) ? 'active' : ''; ?> mx-auto">
+                                            <img class="d-block wid-100 rounded "
+                                                 src="<?php echo $image['thumb_url']; ?>"
+                                                 alt="<?php echo_html2view($image['title']); ?>"
+                                                 title="<?php echo_html2view($image['title']); ?>">
+                                        </li>
+                                        <?php
+                                    }
+                                }
+                            }
                             ?>
-                            <li data-bs-target="#carouselProductImages" data-bs-slide-to="<?php echo $i;?>"
-                                class="w-25  rounded h-auto <?php echo ($i === 0) ? 'active' : ''; ?> "><img
-                                                                class="d-block wid-100 rounded"
-                                                                src="<?php echo $image['thumb_url']; ?>"
-                                                                alt="<?php echo_html2view( $image['title']); ?>"
-                                                                title="<?php echo_html2view($image['title']); ?>">
-                            </li>
-                                <?php
-                            }
-                            }
-                            } ?>
                         </ul>
                     </div>
             </div>
