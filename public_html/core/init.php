@@ -81,6 +81,7 @@ const ROOT_CATEGORY_ID = 0;
 
 // EMAIL REGEXP PATTERN
 const EMAIL_REGEX_PATTERN = '/^[A-Z0-9._%-]+@[A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,16}$/i';
+const DEFAULT_PHONE_REGEX_PATTERN = '/^[0-9\+\(\)\.\s\-,]+$/';
 
 // Error Reporting
 require_once(DIR_CORE.'lib'.DS.'debug.php');

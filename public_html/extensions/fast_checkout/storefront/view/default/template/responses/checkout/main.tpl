@@ -7,7 +7,7 @@
         return re.test(email);
     };
     var validateTelephone = function (number) {
-        <?php $pattern = $this->config->get('config_phone_validation_pattern') ? : '/^[0-9]{3,32}$/'; ?>
+        <?php $pattern = $this->config->get('config_phone_validation_pattern') ? : DEFAULT_PHONE_REGEX_PATTERN; ?>
         var re = <?php echo $pattern; ?>im;
         return re.test(number);
     };

@@ -70,8 +70,6 @@ class ControllerResponsesFormsManagerFields extends AController
         }
 
         if (has_value($this->request->post['regexp_pattern'])) {
-            //value encoded because of xss (see ARequest::clean() for details)
-            $this->request->post['regexp_pattern'] = base64_decode($this->request->post['regexp_pattern']);
             $this->request->post['regexp_pattern'] = trim($this->request->post['regexp_pattern']);
         }
 

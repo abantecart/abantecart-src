@@ -405,7 +405,7 @@ class ControllerResponsesCheckoutPay extends AController
             $this->data['customer_email'] = $this->customer->getEmail();
             $phone = $this->data['customer_telephone'] = $this->customer->getTelephone();
             if ($phone && $this->config->get('fast_checkout_require_phone_number')) {
-                $pattern = $this->config->get('config_phone_validation_pattern') ? : '/^[0-9]{3,32}$/';
+                $pattern = $this->config->get('config_phone_validation_pattern') ? : DEFAULT_PHONE_REGEX_PATTERN;
                 if (mb_strlen($phone) < 3 || mb_strlen($phone) > 32 || !preg_match($pattern, $phone)) {
                     //hide payment form when phone number required and incorrect
                     $this->data['show_payment'] = false;
