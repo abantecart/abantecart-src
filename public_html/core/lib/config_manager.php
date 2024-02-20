@@ -1053,7 +1053,7 @@ class AConfigManager
                 'type'        => 'input',
                 'name'        => 'config_phone_validation_pattern',
                 'value'       => $data['config_phone_validation_pattern'],
-                'placeholder' => '/^[0-9]{3,32}$/',
+                'placeholder' => '/^[0-9\+\(\)\.\s\-,]+$/',
                 'style'       => 'small-field',
             ]
         );
