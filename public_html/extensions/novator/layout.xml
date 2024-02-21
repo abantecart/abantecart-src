@@ -1550,6 +1550,18 @@
         <controller>common/content_bottom</controller>
         <status>1</status>
         <position>50</position>
+        <block>
+          <block_txt_id>viewed_products</block_txt_id>
+          <controller>blocks/viewed_products</controller>
+          <templates>
+            <template>
+              <parent_block>viewed_products</parent_block>
+              <template_name>blocks/viewed_block_column_footer_top.tpl</template_name>
+            </template>
+          </templates>
+          <status>1</status>
+          <position>10</position>
+        </block>
       </block>
       <block>
         <block_txt_id>column_right</block_txt_id>

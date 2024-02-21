@@ -13,7 +13,7 @@ class ControllerBlocksViewedProducts extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->language->load('blocks/viewed');
-        $this->view->assign('heading_title', $this->language->get('heading_title'));
+        $this->view->assign('heading_title', $this->language->get('text_recently_viewed'));
 
         $this->loadModel('catalog/product');
         $this->loadModel('catalog/review');
