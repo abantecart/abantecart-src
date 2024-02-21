@@ -157,8 +157,4 @@ class ControllerBlocksViewedProducts extends AController
         //init controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 1.3.5
