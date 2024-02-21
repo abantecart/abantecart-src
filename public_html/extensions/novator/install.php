@@ -96,3 +96,17 @@ $settings['config_image_product_height'] = 400;
 
 $settings['config_image_additional_width'] = 90;
 $settings['config_image_additional_height'] = 90;
+
+$settings['viewed_products_image_height'] = 312;
+$settings['viewed_products_image_width'] = 400;
+$settings['config_image_related_width'] = 312;
+$settings['config_image_related_height'] = 400;
+$settings['config_image_thumb_width'] = 420;
+$settings['config_image_thumb_height'] = 534;
+$settings['config_image_popup_width'] = 500;
+$settings['config_image_popup_height'] = 636;
+$settings['config_bestseller_limit'] = 4;
+$settings['config_featured_limit'] = 4;
+$settings['config_latest_limit'] = 4;
+$settings['config_special_limit'] = 4;
+$settings['config_catalog_limit'] = 20;
