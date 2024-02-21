@@ -70,8 +70,6 @@ class ControllerResponsesFormsManagerFields extends AController
         }
 
         if (has_value($this->request->post['regexp_pattern'])) {
-            //value encoded because of xss (see ARequest::clean() for details)
-            $this->request->post['regexp_pattern'] = base64_decode($this->request->post['regexp_pattern']);
             $this->request->post['regexp_pattern'] = trim($this->request->post['regexp_pattern']);
         }
 
@@ -349,6 +347,7 @@ class ControllerResponsesFormsManagerFields extends AController
 
         $this->data['new_value_row'] = $this->_field_value_form([], $form);
 
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
         $this->view->batchAssign($this->data);
         $this->processTemplate('responses/forms_manager/field_values.tpl');
 

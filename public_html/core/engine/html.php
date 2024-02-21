@@ -1910,8 +1910,8 @@ class FormHtmlElement extends HtmlElement
 
     public function getHtml()
     {
-        $this->method = empty($this->method) ? 'post' : $this->method;
-        $this->enctype = empty($this->enctype) ? 'multipart/form-data' : $this->enctype;
+        $this->method = $this->method ?: 'post';
+        $this->enctype = $this->enctype ?: 'application/x-www-form-urlencoded';
         $data = [
             'id'      => $this->name,
             'name'    => $this->name,

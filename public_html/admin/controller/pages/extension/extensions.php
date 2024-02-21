@@ -818,18 +818,11 @@ class ControllerPagesExtensionExtensions extends AController
             //image gallery scripts and css for previews
             $this->document->addStyle(
                 [
-                    'href' => RDIR_TEMPLATE.'javascript/blueimp-gallery/css/bootstrap-image-gallery.css',
+                    'href' => RDIR_TEMPLATE.'javascript/lightbox/css/lightbox.css',
                     'rel'  => 'stylesheet',
                 ]
             );
-            $this->document->addStyle(
-                [
-                    'href' => RDIR_TEMPLATE.'javascript/blueimp-gallery/css/blueimp-gallery.min.css',
-                    'rel'  => 'stylesheet',
-                ]
-            );
-            $this->document->addScript(RDIR_TEMPLATE.'javascript/blueimp-gallery/jquery.blueimp-gallery.min.js');
-            $this->document->addScript(RDIR_TEMPLATE.'javascript/blueimp-gallery/bootstrap-image-gallery.js');
+            $this->document->addScript(RDIR_TEMPLATE.'javascript/lightbox/js/lightbox.js');
         }
 
         if ($ext->getConfig('help_link')) {
