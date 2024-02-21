@@ -685,7 +685,8 @@ INSERT INTO `ac_download_descriptions`
 VALUES
 (1,1,'Audio CD1'),
 (2,1,'audio sample mp3'),
-(5,1,'Find your fit');
+(5,1,'Find your fit'),
+(6,1,'Sample PDF');
 
 --
 -- Dumping data for table `downloads`
@@ -706,7 +707,8 @@ INSERT INTO `ac_downloads`
 VALUES
 (1,'100196','audio-cd.mp3',50,NULL,2,'order_status','a:1:{i:0;s:1:"5";}',0,1,NOW(),NOW()),
 (2,'100197','sample.mp3',NULL,NULL,1,'before_order','a:1:{i:0;s:0:"";}',0,1,NOW(),NOW()),
-(5,'download/18/79/f.pdf','size-fit-guide-print.pdf',NULL,NULL,0,'before_order','a:1:{i:0;s:0:"";}',1,1,NOW(),NOW());
+(5,'download/18/79/f.pdf','size-fit-guide-print.pdf',NULL,NULL,0,'before_order','a:1:{i:0;s:0:"";}',1,1,NOW(),NOW()),
+(6,'100261','file-sample_150kB.pdf',NULL,NULL,0,'immediately',0,0,1,NOW(),NOW());
 
 --
 -- Dumping data for table `global_attributes`
@@ -2609,7 +2611,8 @@ VALUES
 (100252,1,'red.jpg','','','18/79/c.jpg','',NOW(),NOW()),
 (100253,1,'yellow.jpg','','','18/79/d.jpg','',NOW(),NOW()),
 (100255,1,'size-fit-guide-print.pdf','Fit guide','','18/79/f.pdf','',NOW(),NOW()),
-(100257,1,'local_delivery_icon.png','','','18/7a/1.png','',NOW(),NOW());
+(100257,1,'local_delivery_icon.png','','','18/7a/1.png','',NOW(),NOW()),
+(100261,1,'file-sample_150kB.pdf','','','18/7a/5.pdf','',NOW(),NOW());
 
 --
 -- Dumping data for table `resource_library`
@@ -2848,7 +2851,9 @@ VALUES
 (100253,1,NOW(),NOW()),
 (100255,6,NOW(),NOW()),
 (100257,1,NOW(),NOW()),
-(100260,6,NOW(),NOW());
+(100260,6,NOW(),NOW()),
+(100261,6,NOW(),NOW());
+
 
 
 --
