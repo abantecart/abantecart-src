@@ -165,6 +165,7 @@ $(document).ready(function(){
                     }
 
                     $('#cart_qnty, #label_qnty').html(data.item_count);
+                    item.find('i').addClass('text-success bi-bag-check-fill').removeClass('bi-bag-fill');
                 }
             }
             return false;
