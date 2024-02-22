@@ -668,21 +668,6 @@ class ControllerResponsesCheckoutPay extends AController
             ]
         );
 
-        //check if any payment is available for address or show balance if available.
-        $this->data['payment_select_action'] = $payment_select_action;
-        $this->data['payment_available'] = $this->data['payment_methods'] || $this->fc_session['used_balance_full'];
-        if ($this->data['balance_enough'] !== true
-            && $this->data['payment_available'] !== true
-        ) {
-            $this->error['message'] = $this->data['payment_available'];
-            $this->data['payment_available'] = false;
-        } else {
-            if ($this->data['balance_enough'] === true && $this->data['payment_available'] !== true) {
-                //we only have balance
-                $this->data['payment_available'] = false;
-            }
-        }
-
         //check if logged in
         if ($this->customer->isLogged()) {
             if ($this->session->data['order_id']) {
@@ -717,6 +702,7 @@ class ControllerResponsesCheckoutPay extends AController
             if ($balance > 0 && $balance >= $this->data['total']) {
                 $this->data['balance_enough'] = true;
             }
+
             $this->data['balance'] = $balance;
             $this->data['balance_value'] = $this->currency->format(
                 $balance,
@@ -738,6 +724,20 @@ class ControllerResponsesCheckoutPay extends AController
                     $balance_def_currency - (float) $this->data['used_balance']
                 );
             }
+
+            //check if any payment is available for address or show balance if available.
+            $this->data['payment_select_action'] = $payment_select_action;
+            $this->data['payment_available'] = $this->data['payment_methods'] || $this->fc_session['used_balance_full'];
+            if (!$this->data['balance_enough'] && !$this->data['payment_available']) {
+                $this->error['message'] = $this->data['payment_available'];
+                $this->data['payment_available'] = false;
+            } else {
+                if ($this->data['balance_enough'] && !$this->data['payment_available']) {
+                    //we only have balance
+                    $this->data['payment_available'] = true;
+                }
+            }
+
         } else {
             $this->data['customer_telephone'] = $this->fc_session['guest']['telephone'];
         }
