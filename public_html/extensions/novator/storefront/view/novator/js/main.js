@@ -91,8 +91,9 @@ $(document).ready(function(){
                     //top cart
                      $('.nav.topcart span.label-qnty').html(data.item_count);
                      $('.nav.topcart span.cart_total').html(data.total);
-                     if ($('#top_cart_product_list')) {
-                         $('#top_cart_product_list').html(data.cart_details);
+                     let pList = $('#cartoffcanvas .offcanvas-body');
+                     if (pList) {
+                         pList.html(data.cart_details);
                      }
                     result = data;
                 }

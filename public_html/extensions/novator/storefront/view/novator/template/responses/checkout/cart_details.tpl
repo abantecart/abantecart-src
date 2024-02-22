@@ -52,14 +52,14 @@ if ($total_items > 0) {
             <div class="col-5">
                 <a href="<?php echo $this->html->getSecureURL('checkout/cart'); ?>">
                     <div class="d-grid">
-                        <button class="btn btn-dark"><?php echo $text_view;?></button>
+                        <button class="btn btn-dark"><?php echo $this->language->get('text_view', 'blocks/cart');?></button>
                     </div>
                 </a>
             </div>
             <div class="col-5">
                 <a href="<?php echo $this->html->getSecureURL('checkout/shipping'); ?>">
                     <div class="d-grid">
-                        <button class="btn btn-warning"><?php echo $text_checkout;?></button>
+                        <button class="btn btn-warning"><?php echo $this->language->get('text_checkout', 'blocks/cart'); ?></button>
                     </div>
                 </a>
             </div>
