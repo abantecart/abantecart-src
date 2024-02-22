@@ -1,17 +1,14 @@
 <?php
 $no_payment_required = ($this->data['payment_method'] == 'no_payment_required');
-
+$total_payment = count((array)$payment_methods);
 //do not show payment method card if method only one
-if ( ($balance <= 0 || $no_payment_required) && count($payment_methods) == 1){
+if ( ($balance <= 0 || $no_payment_required) && $total_payment == 1){
     return;
 }
 
-$total_payment = count((array)$payment_methods);
-
 if($total_payment || $balance>0 || $no_payment_required){
-    if(count($payment_methods) > 1){
-?>
-<h5 class="text-center text-uppercase mb-3"><?php echo $fast_checkout_text_select_payment; ?></h5>
+    if($total_payment > 1){ ?>
+        <h5 class="text-center text-uppercase mb-3"><?php echo $fast_checkout_text_select_payment; ?></h5>
 <?php } ?>
 <div class="d-flex flex-wrap justify-content-evenly payment_items ">
 <?php
