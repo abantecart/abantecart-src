@@ -23,7 +23,10 @@
 			</li>	
 			<li class="dropdown <?php if ( $address == $current) echo 'current'; ?>">
 			  <a href="<?php echo $address; ?>"><i class="fa fa-book fa-fw"></i>&nbsp; <?php echo $text_address; ?></a>
-			</li>		      			
+			</li>
+
+			<?php echo $this->getHookVar('customer_account_links'); ?>
+
 			<li class="dropdown <?php if ( $history == $current) echo 'current'; ?>">
 			  <a href="<?php echo $history; ?>"><i class="fa fa-briefcase fa-fw"></i>&nbsp; <?php echo $text_history; ?></a>
 			</li>	  		
@@ -36,17 +39,19 @@
 			  <a href="<?php echo $download; ?>"><i class="fa fa-cloud-download fa-fw"></i>&nbsp; <?php echo $text_download; ?></a>
 			</li>	  		
 			<?php } ?>
-			
+
+			<?php echo $this->getHookVar('customer_account_order_links'); ?>
+
 			<li class="dropdown <?php if ( $notification == $current) echo 'current'; ?>">
 			  <a href="<?php echo $notification; ?>"><i class="fa fa-bullhorn fa-fw"></i>&nbsp; <?php echo $text_my_notifications; ?></a>
-			</li>	  		
-			
+			</li>
+
+			<?php echo $this->getHookVar('customer_account_newsletter_links'); ?>
+
 			<li class="dropdown <?php if ( $logout == $current) echo 'current'; ?>">
 			  <a href="<?php echo $logout; ?>"><i class="fa fa-lock fa-fw"></i>&nbsp;
 			  	<?php echo $text_not.' '.$name.'? '.$text_logout; ?></a>
-			</li>	  		
-			
-			<?php echo $this->getHookVar('customer_account_links'); ?>
+			</li>
 		</ul>
 		</li>
 <?php } else { ?>
