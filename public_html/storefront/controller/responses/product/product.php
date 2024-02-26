@@ -81,7 +81,7 @@ class ControllerResponsesProductProduct extends AController
 
             // main product image
             $mSizes = [
-                'main'  =>
+                'main_images'  =>
                     [
                         'width'  => $this->config->get('config_image_popup_width'),
                         'height' => $this->config->get('config_image_popup_height'),
@@ -92,21 +92,21 @@ class ControllerResponsesProductProduct extends AController
                 ],
             ];
 
-            $output['main'] = $resource->getResourceAllObjects(
+            $output['main_images'] = $resource->getResourceAllObjects(
                 'product_option_value',
                 $attribute_value_id,
                 $mSizes,
-                1,
+                0,
                 false
             );
 
-            if (!$output['main']) {
-                unset($output['main']);
+            if (!$output['main_images']) {
+                unset($output['main_images']);
             }
 
             // additional images
             $oSizes = [
-                'main'   =>
+                'main_images'   =>
                     [
                         'width'  => $this->config->get('config_image_popup_width'),
                         'height' => $this->config->get('config_image_popup_height'),
@@ -145,11 +145,11 @@ class ControllerResponsesProductProduct extends AController
                         false
                     );
                     if ($images) {
-                        $output['main'] = $resource->getResourceAllObjects(
+                        $output['main_images'] = $resource->getResourceAllObjects(
                             'product_option_value',
                             $optValId,
                             $mSizes,
-                            1,
+                            0,
                             false
                         );
                         $output['images'] = $images;

@@ -27,9 +27,11 @@ if ($error){ ?>
         <div class="col-md-6 col-xxl-5 text-center">
             <div class="sticky-md-top product-sticky">
                     <div id="carouselProductImages" class="carousel slide ecomm-prod-slider" data-bs-ride="carousel">
-                        <div class="carousel-inner bg-light rounded position-relative">
+                        <div class="carousel-inner bg-light rounded position-relative mainimage bigimage">
                             <!-- Main Image -->
-                            <?php foreach ($images as $index => $image) {  ?>
+                            <?php foreach ($images as $index => $image) {
+                                $image['title'] = $image['title'] ? : $heading_title;
+                                ?>
                                 <div class="carousel-item <?php echo ($index === 0) ? 'active' : ''; ?>">
                                     <?php
                                     if ($image['origin'] == 'external') {
@@ -37,7 +39,7 @@ if ($error){ ?>
                                     } else {
                                         ?>
                                         <img class="demo-trigger d-block w-100"
-
+                                             style="width: <?php echo $thmb_w;?>px; height: <?php echo $thmb_h;?>px;"
                                              src="<?php echo $image['main_url']; ?>"
                                              alt="<?php echo_html2view($image['title']); ?>"
                                              title="<?php echo_html2view($image['title']); ?>" />
@@ -45,7 +47,7 @@ if ($error){ ?>
                                 </div>
                             <?php } ?>
                         </div>
-                        <ul class="carousel-indicators position-relative product-carousel-indicators my-sm-3 mx-0 col-12 justify-content-between">
+                        <ul class="carousel-indicators mainimage smallimage position-relative product-carousel-indicators my-sm-3 mx-0 col-12 justify-content-left">
                             <?php
                             if (sizeof((array)$images) > 1) {
                                 $imageCount = sizeof($images);
@@ -53,7 +55,7 @@ if ($error){ ?>
                                     if ($image['origin'] != 'external') {
                                         ?>
                                         <li data-bs-target="#carouselProductImages" data-bs-slide-to="<?php echo $i; ?>"
-                                            class="w-25 h-auto <?php echo ($i === 0) ? 'active' : ''; ?> mx-auto">
+                                            class="w-25 h-auto <?php echo ($i === 0) ? 'active' : ''; ?> ">
                                             <img class="d-block wid-100 rounded "
                                                  src="<?php echo $image['thumb_url']; ?>"
                                                  alt="<?php echo_html2view($image['title']); ?>"
@@ -73,8 +75,10 @@ if ($error){ ?>
         <!-- Right Details-->
         <div class="col-md-6 col-xxl-7 detail position-relative product-page-preset-box mt-4 mt-md-0">
             <div class="row g-1">
-                <div class="col-sm-6">
-                    <h1 class="h3"><?php echo $heading_title; ?></h1>
+
+                <div class="col-6">
+                    <h1 class="h3" style="width: 100%;"><?php echo $heading_title; ?></h1>
+
                     <!-- TM Static content start -->
                     <?php if($manufacturer){?>
                         <h6 class="my-2 text-warning"><u><a class="my-2 text-warning" href="<?php echo $manufacturers;  ?>"><?php echo $manufacturer; ?></a></u></h6>
@@ -793,7 +797,6 @@ if ($error){ ?>
         }
 
         function load_option_images(attribute_value_id, product_id) {
-
             var selected = {};
             var k = 0;
             $('[name^=\'option\']').each(function () {
@@ -816,7 +819,6 @@ if ($error){ ?>
                 product_id: product_id,
                 selected_options: selected
             };
-
             $.ajax({
                 type: 'POST',
                 url: '<?php echo $option_resources_url; ?>',
@@ -827,39 +829,46 @@ if ($error){ ?>
                 },
                 success: function (data) {
                     if (data.length === 0) {
+
                         $('.smallimage img.border').removeClass('spinner-grow');
                         return false;
                     }
+
                     var mainPicHtml = '',
                         smallPicsHtml = '',
-                        main_image = data.main;
-
-                    if (main_image) {
-                        if (main_image.origin === 'external') {
-                            mainPicHtml = '<a class="html_with_image">';
-                            mainPicHtml += main_image.main_html + '</a>';
+                        main_images = data.main_images;
+                    for (var key in data.main_images) {
+                    if (main_images) {
+                        if (main_images.origin === 'external') {
+                            mainPicHtml = '<div class="html_with_image">' + main_images.main_html + '</div>';
                         } else {
-                            mainPicHtml = '<a style="width:' + main_image.thumb_width + 'px; height:' + main_image.thumb_height + 'px;" '+
-                                        'class="local_image" href="' + main_image.main_url + '">';
-                            mainPicHtml += '<img class="border" '+
-                                        'style="width:' + main_image.thumb_width + 'px; height:' + main_image.thumb_height + 'px;" '+
-                                        'src="' + main_image.thumb_url + '" />';
-                            mainPicHtml += '</a>';
+                            if (data.main_images.length > 0) {
+
+                                    var image = data.main_images[key];
+                                    var tmb_url = image.thumb_url;
+                                    mainPicHtml += '<div class="carousel-item' + (parseInt(key) === 0 ? ' active' : '') + '"><img class="demo-trigger d-block w-100" style="width: <?php echo $thmb_w;?>px; height: <?php echo $thmb_h;?>px;" ' +
+                                        'src="' + tmb_url + '" /></div>';
+
+                            } else {
+                                //no images - no action
+                                $('.bigimage img.border').removeClass('spinner-grow');
+                                return false;
+                            }
+                            }
                         }
                     }
                     if (data.images.length > 0) {
-                        for (var img in data.images) {
-                            var image = data.images[img];
-                            smallPicsHtml += '<li class="mb-3 pe-4 producthtumb">';
-                            var tmb_url = image.thumb_url;
-                            var tmb2_url = image.thumb2_url;
-                            if (image.origin !== 'external') {
-                                smallPicsHtml += '<a data-href="' + image.main_url + '" href="Javascript:void(0);" ' +
-                                            'data-standard="' + tmb2_url + '">' +
-                                            '<img class="border" style="width:' + image.thumb_width + 'px; height:' + image.thumb_height + 'px;" '+
-                                                ' src="' + tmb_url + '" alt="' + image.title + '" title="' + image.title + '" /></a>';
+                        for (var key1 in data.images) {
+                            var image1 = data.images[key1];
+                            smallPicsHtml += '<li data-bs-target="#carouselProductImages" data-bs-slide-to="' + key1 + '" class="w-25 h-auto ' + (parseInt(key1) === 0 ? ' active' : '') + '">';
+                            var tmb_url1 = image1.thumb_url;
+                            var tmb2_url = image1.thumb2_url;
+                            if (image1.origin !== 'external') {
+                                smallPicsHtml += '<img class="d-block wid-100 rounded" style="width: <?php echo $add_w;?>px; height: <?php echo $add_h;?>px;" ' +
+                                    ' src="' + tmb_url1 + '" alt="' + image1.title + '" title="' + image1.title + '" />';
                             }
                             smallPicsHtml += '</li>';
+
                         }
                     } else {
                         //no images - no action
