@@ -219,22 +219,6 @@ class AConfigManager
                         $this->errors['city'] = $this->language->get('error_city');
                     }
                     break;
-
-                case 'general':
-                    $fields = [
-                        'catalog_limit',
-                        'bestseller_limit',
-                        'featured_limit',
-                        'latest_limit',
-                        'special_limit',
-                    ];
-                    foreach ($fields as $name) {
-                        if ($field_name == 'config_'.$name && !$field_value) {
-                            $this->errors[$name] = $this->language->get('error_limit');
-                        }
-                    }
-                    break;
-
                 case 'appearance':
                     $item_name = [
                         'thumb',
@@ -252,6 +236,19 @@ class AConfigManager
                             if ($field_name == 'config_image_'.$key.'_'.$dim && !$field_value) {
                                 $this->errors['image_'.$key.'_'.$dim] = $this->language->get('error_image_'.$key);
                             }
+                        }
+                    }
+
+                    $fields = [
+                        'catalog_limit',
+                        'bestseller_limit',
+                        'featured_limit',
+                        'latest_limit',
+                        'special_limit',
+                    ];
+                    foreach ($fields as $name) {
+                        if ($field_name == 'config_'.$name && !$field_value) {
+                            $this->errors[$name] = $this->language->get('error_limit');
                         }
                     }
 
@@ -698,57 +695,11 @@ class AConfigManager
         foreach ($results as $item) {
             $stock_statuses[$item['stock_status_id']] = $item['name'];
         }
-
-        $fields['catalog_limit'] = $form->getFieldHtml(
-            $props[] = [
-                'type'     => 'input',
-                'name'     => 'config_catalog_limit',
-                'value'    => $data['config_catalog_limit'],
-                'required' => true,
-                'style'    => 'small-field',
-            ]
-        );
         $fields['admin_limit'] = $form->getFieldHtml(
             $props[] = [
                 'type'     => 'input',
                 'name'     => 'config_admin_limit',
                 'value'    => $data['config_admin_limit'],
-                'required' => true,
-                'style'    => 'small-field',
-            ]
-        );
-        $fields['bestseller_limit'] = $form->getFieldHtml(
-            $props[] = [
-                'type'     => 'input',
-                'name'     => 'config_bestseller_limit',
-                'value'    => $data['config_bestseller_limit'],
-                'required' => true,
-                'style'    => 'small-field',
-            ]
-        );
-        $fields['featured_limit'] = $form->getFieldHtml(
-            $props[] = [
-                'type'     => 'input',
-                'name'     => 'config_featured_limit',
-                'value'    => $data['config_featured_limit'],
-                'required' => true,
-                'style'    => 'small-field',
-            ]
-        );
-        $fields['latest_limit'] = $form->getFieldHtml(
-            $props[] = [
-                'type'     => 'input',
-                'name'     => 'config_latest_limit',
-                'value'    => $data['config_latest_limit'],
-                'required' => true,
-                'style'    => 'small-field',
-            ]
-        );
-        $fields['special_limit'] = $form->getFieldHtml(
-            $props[] = [
-                'type'     => 'input',
-                'name'     => 'config_special_limit',
-                'value'    => $data['config_special_limit'],
                 'required' => true,
                 'style'    => 'small-field',
             ]
@@ -1284,6 +1235,11 @@ class AConfigManager
                 'config_logo',
                 'config_mail_logo',
                 'config_icon',
+                'config_catalog_limit',
+                'config_bestseller_limit',
+                'config_featured_limit',
+                'config_latest_limit',
+                'config_special_limit',
                 'config_image_thumb_width',
                 'config_image_thumb_height',
                 'config_image_popup_width',
@@ -1380,6 +1336,53 @@ class AConfigManager
                     ]
                 );
             }
+
+            $fields['catalog_limit'] = $form->getFieldHtml(
+                $props[] = [
+                    'type'     => 'input',
+                    'name'     => 'config_catalog_limit',
+                    'value'    => $data['config_catalog_limit'],
+                    'required' => true,
+                    'style'    => 'small-field',
+                ]
+            );
+
+            $fields['bestseller_limit'] = $form->getFieldHtml(
+                $props[] = [
+                    'type'     => 'input',
+                    'name'     => 'config_bestseller_limit',
+                    'value'    => $data['config_bestseller_limit'],
+                    'required' => true,
+                    'style'    => 'small-field',
+                ]
+            );
+            $fields['featured_limit'] = $form->getFieldHtml(
+                $props[] = [
+                    'type'     => 'input',
+                    'name'     => 'config_featured_limit',
+                    'value'    => $data['config_featured_limit'],
+                    'required' => true,
+                    'style'    => 'small-field',
+                ]
+            );
+            $fields['latest_limit'] = $form->getFieldHtml(
+                $props[] = [
+                    'type'     => 'input',
+                    'name'     => 'config_latest_limit',
+                    'value'    => $data['config_latest_limit'],
+                    'required' => true,
+                    'style'    => 'small-field',
+                ]
+            );
+            $fields['special_limit'] = $form->getFieldHtml(
+                $props[] = [
+                    'type'     => 'input',
+                    'name'     => 'config_special_limit',
+                    'value'    => $data['config_special_limit'],
+                    'required' => true,
+                    'style'    => 'small-field',
+                ]
+            );
 
             $fields['image_thumb_width'] = $form->getFieldHtml(
                 $props[] = [

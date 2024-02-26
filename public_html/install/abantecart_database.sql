@@ -1675,11 +1675,6 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 
 -- general
 ('general','config_admin_limit',20),
-('general','config_catalog_limit',18),
-('general','config_bestseller_limit',3),
-('general','config_featured_limit',3),
-('general','config_latest_limit',3),
-('general','config_special_limit',3),
 ('general','config_stock_display',1),
 ('general','config_nostock_autodisable',0),
 ('general','config_stock_status_id',0),
@@ -1737,6 +1732,13 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('appearance','config_logo','7'),
 ('appearance','config_mail_logo','7'),
 ('appearance','config_icon','8'),
+
+('appearance','config_catalog_limit',18),
+('appearance','config_bestseller_limit',3),
+('appearance','config_featured_limit',3),
+('appearance','config_latest_limit',3),
+('appearance','config_special_limit',3),
+
 ('appearance','config_image_thumb_width',380),
 ('appearance','config_image_thumb_height',380),
 ('appearance','config_image_popup_width',500),

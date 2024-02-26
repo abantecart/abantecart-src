@@ -10,3 +10,13 @@ alter table `ac_page_descriptions`
 alter table `ac_order_data`
     alter column `date_added` set default (CURRENT_TIMESTAMP);
 
+update `ac_settings`
+SET `group` = 'appearance'
+WHERE `group` = 'general'
+    AND `key` IN (
+                   'config_catalog_limit',
+                   'config_bestseller_limit',
+                   'config_featured_limit',
+                   'config_latest_limit',
+                   'config_special_limit'
+                  );
