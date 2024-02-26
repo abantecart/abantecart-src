@@ -186,11 +186,15 @@ class ControllerPagesCheckoutSuccess extends AController
         //when order exists but incomplete by some reasons - mark it as failed
         if ((int)$orderInfo['order_status_id'] == $this->order_status->getStatusByTextId('incomplete')) {
             $new_status_id = $this->order_status->getStatusByTextId('failed');
-            $this->model_checkout_order->confirm($orderId, $new_status_id);
+
+            $mdl = $this->loadModel('checkout/order');
+            /** @var ModelCheckoutOrder $mdl */
+            $mdl->confirm($orderId, $new_status_id);
             $this->_debit_transaction($orderId);
             $this->messages->saveWarning(
                 sprintf($this->language->get('text_title_failed_order_to_admin'), $orderId),
-                $this->language->get('text_message_failed_order_to_admin').' '.'#admin#rt=sale/order/details&order_id='.$orderId
+                $this->language->get('text_message_failed_order_to_admin')
+                    .' '.'#admin#rt=sale/order/details&order_id='.$orderId
             );
             $text_message = $this->language->get('text_message_failed_order');
             $this->errors[] = $text_message;

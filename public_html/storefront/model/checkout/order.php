@@ -1,24 +1,24 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
+
 /** @noinspection PhpUndefinedClassInspection */
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
 
 /**
  * Class ModelCheckoutOrder
@@ -29,8 +29,6 @@
  */
 class ModelCheckoutOrder extends Model
 {
-    public $data = [];
-
     /**
      * @param $order_id
      *
@@ -453,7 +451,7 @@ class ModelCheckoutOrder extends Model
                 $res = $this->db->query($sql);
                 $threshold = (int) $this->config->get('product_out_of_stock_threshold');
                 if ($res->num_rows && $res->row['quantity'] <= $threshold) {
-                    //notify admin with out of stock for option based product
+                    //notify admin about out of stock for option based product
                     $message_arr = [
                         1 => [
                             'message' => sprintf(
@@ -468,7 +466,8 @@ class ModelCheckoutOrder extends Model
                         if ($stock <= 0 && $this->config->get('config_nostock_autodisable')) {
                             $this->db->query(
                                 'UPDATE '.$this->db->table('products').' 
-                            SET status=0 WHERE product_id='.(int) $product['product_id']
+                                SET status=0 
+                                WHERE product_id='.(int) $product['product_id']
                             );
                         }
                         $this->im->send(
@@ -481,7 +480,7 @@ class ModelCheckoutOrder extends Model
                 }
             }
 
-            if (!$stock_updated && !$order_option_query->num_rows) {
+            if (!$stock_updated) {
                 $this->db->query(
                     "UPDATE ".$this->db->table("products")."
                     SET quantity = (quantity - ".(int) $product['quantity'].")
@@ -502,7 +501,7 @@ class ModelCheckoutOrder extends Model
                 $res = $this->db->query($sql);
                 $threshold = (int) $this->config->get('product_out_of_stock_threshold');
                 if ($res->num_rows && $res->row['quantity'] <= $threshold) {
-                    //notify admin with out of stock
+                    //notify admin about out of stock
                     $message_arr = [
                         1 => [
                             'message' => sprintf(
@@ -643,14 +642,13 @@ class ModelCheckoutOrder extends Model
         $this->data['mail_template_data']['customer_telephone'] = $order_row['telephone'];
         $this->data['mail_template_data']['customer_mobile_phone'] = $this->im->getCustomerURI(
             'sms',
-            (int) $order_row['customer_id'], $order_id
+            (int) $order_row['customer_id'],
+            $order_id
         );
         $this->data['mail_template_data']['customer_fax'] = $order_row['fax'];
         $this->data['mail_template_data']['customer_ip'] = $order_row['ip'];
         $this->data['mail_template_data']['comment'] = trim(
-            nl2br(
-                html_entity_decode($order_row['comment'], ENT_QUOTES, 'UTF-8')
-            )
+            nl2br( html_entity_decode($order_row['comment'], ENT_QUOTES, 'UTF-8') )
         );
 
         //override with the data from the before hooks

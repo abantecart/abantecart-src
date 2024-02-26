@@ -862,7 +862,7 @@ VALUES
 ('extensions', 'forms_manager', 'extensions', 1, 1, '1.1.0', null, now(), now(), now() ),
 ('extensions', 'fast_checkout', 'Checkout', 1, 10, '1.3.5', null, now(), now() + INTERVAL 2 MINUTE , now() ),
 ('template', 'bootstrap5', 'template', 1, 1, '1.0.0', null, now(), now() + INTERVAL 3 MINUTE , now() ),
-('template', 'novator', 'template', 0, 1, '1.0.0', null, '0000-00-00 00:00:00', now() + INTERVAL 4 MINUTE , now() )
+('template', 'novator', 'template', 0, 1, '1.0.0', null, NOW(), now() + INTERVAL 4 MINUTE , now() )
 ;
 
 --
@@ -1696,6 +1696,9 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('general','config_recaptcha_secret_key',''),
 ('general','config_google_analytics_code',''),
 ('general','viewed_products_limit',3),
+('bootstrap5','viewed_products_image_height',250),
+('bootstrap5','viewed_products_image_width',250),
+
 
 
 -- Checkout
@@ -1867,9 +1870,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('bootstrap5', 'bootstrap5_sort_order', 1),
 ('bootstrap5', 'config_logo',281),
 ('bootstrap5', 'bootstrap5_status', 1),
-('bootstrap5', 'store_id', 0)
-
-;
+('bootstrap5', 'store_id', 0);
 
 --
 -- DDL for table `stock_statuses`

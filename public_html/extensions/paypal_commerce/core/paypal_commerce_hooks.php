@@ -105,7 +105,7 @@ class ExtensionPaypalCommerce extends Extension
             $mpMdl = $that->loadModel('tool/mp_api');
             $data['connect_url'] = $mpMdl->getMPURL().'?rt=index/paypal_onboarding'
             . '&abc_onboard_url='.base64_encode(  $that->html->getSecureURL('extension/paypal_commerce/onboard'))
-            . '&nonce='.base64_encode(UNIQUE_ID)
+            . '&nonce='.base64_encode(UNIQUE_ID.UNIQUE_ID.UNIQUE_ID)
             . '&store_id='.(int)$that->session->data['current_store_id'];
 
             //see if we are connected yet to paypal

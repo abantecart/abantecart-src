@@ -2411,6 +2411,7 @@ li#review-set::before{
 
 .product-card .prod-img {
   border-radius: 12px;
+  background-color: #E9E9E9;
 }
 
 .product-card .prod-img img {

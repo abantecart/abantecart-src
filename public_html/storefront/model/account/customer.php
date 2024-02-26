@@ -751,7 +751,7 @@ class ModelAccountCustomer extends Model
 
         $phone = $data['telephone'] ?? '';
         if ($phone) {
-            $pattern = $this->config->get('config_phone_validation_pattern') ? : '/^[0-9]{3,32}$/';
+            $pattern = $this->config->get('config_phone_validation_pattern') ? : DEFAULT_PHONE_REGEX_PATTERN;
             if (mb_strlen($phone) < 3
                 || mb_strlen($phone) > 32
                 || !preg_match($pattern, $phone)
@@ -940,7 +940,7 @@ class ModelAccountCustomer extends Model
         }
         $phone = $data['telephone'] ?? '';
         if ($phone) {
-            $pattern = $this->config->get('config_phone_validation_pattern') ? : '/^[0-9]{3,32}$/';
+            $pattern = $this->config->get('config_phone_validation_pattern') ? : DEFAULT_PHONE_REGEX_PATTERN;
             if (mb_strlen($phone) < 3
                 || mb_strlen($phone) > 32
                 || !preg_match($pattern, $phone)

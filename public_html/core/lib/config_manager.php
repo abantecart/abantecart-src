@@ -1053,7 +1053,7 @@ class AConfigManager
                 'type'        => 'input',
                 'name'        => 'config_phone_validation_pattern',
                 'value'       => $data['config_phone_validation_pattern'],
-                'placeholder' => '/^[0-9]{3,32}$/',
+                'placeholder' => '/^[0-9\+\(\)\.\s\-,]+$/',
                 'style'       => 'small-field',
             ]
         );
@@ -1540,6 +1540,24 @@ class AConfigManager
                     'name'     => 'config_image_grid_height',
                     'value'    => $data['config_image_grid_height'],
                     'style'    => 'small-field',
+                    'required' => true,
+                ]
+            );
+            $fields['viewed_products_image_width'] = $form->getFieldHtml(
+                $props[] = [
+                    'type'  => 'input',
+                    'name'  => 'viewed_products_image_width',
+                    'value' => $data['viewed_products_image_width'],
+                    'style' => 'small-field',
+                    'required' => true,
+                ]
+            );
+            $fields['viewed_products_image_height'] = $form->getFieldHtml(
+                $props[] = [
+                    'type'  => 'input',
+                    'name'  => 'viewed_products_image_height',
+                    'value' => $data['viewed_products_image_height'],
+                    'style' => 'small-field',
                     'required' => true,
                 ]
             );

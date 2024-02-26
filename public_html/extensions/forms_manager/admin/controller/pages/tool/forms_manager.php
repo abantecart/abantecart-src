@@ -945,7 +945,6 @@ class ControllerPagesToolFormsManager extends AController
                 'options' => $forms,
                 'value'   => $this->data['form_id'],
                 'style'   => 'no-save',
-                'attr'    => 'multiple="multiple"',
             ]
         );
         $this->data['form']['text']['form'] = $this->language->get('text_form');
