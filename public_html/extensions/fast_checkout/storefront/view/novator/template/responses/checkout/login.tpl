@@ -17,7 +17,7 @@ echo $login_form['form_open']; ?>
     <div class="form-floating mb-3 col-10 col-sm-6 mx-auto">
         <?php
             $login_form['loginname']->no_wrapper = true;
-            $login_form['loginname']->attr .= ' required ';
+            $login_form['loginname']->attr .= ' autocomplete="username email" required  aria-required="true" ';
             echo $login_form['loginname'];
         ?>
         <label for="<?php echo $login_form['loginname']->element_id; ?>">
@@ -27,7 +27,7 @@ echo $login_form['form_open']; ?>
     <div class="form-floating mb-3 col-10 col-sm-6 mx-auto">
         <?php
         $login_form['password']->no_wrapper = true;
-        $login_form['password']->attr .= ' required ';
+        $login_form['password']->attr .= ' autocomplete="current-password" aria-required="true" required ';
         echo $login_form['password']; ?>
         <label for="<?php echo $login_form['password']->element_id; ?>">
             <?php echo_html2view($fast_checkout_text_password); ?>

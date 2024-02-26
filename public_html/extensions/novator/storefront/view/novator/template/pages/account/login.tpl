@@ -63,11 +63,12 @@
             <div class="card-body">
                 <h4 class="mb-3 text-nowrap w-100"><?php echo $text_returning_customer; ?></h4>
                 <h6><?php echo $text_i_am_returning_customer; ?></h6>
-                <?php echo $form2['form_open']; ?>
+                <?php echo str_replace('novalidate','',$form2['form_open']); ?>
                     <fieldset >
                         <div class="form-floating mb-3">
                             <?php
                                 $form2['loginname']->no_wrapper = true;
+                                $form2['loginname']->attr .= ' autocomplete="username email" required  aria-required="true"';
                                 echo $form2['loginname'];
                             ?>
                             <label for="<?php echo $form2['loginname']->element_id; ?>">
@@ -79,6 +80,8 @@
                         <div class="form-floating mb-3">
                             <?php
                             $form2['password']->no_wrapper = true;
+                            $form2['password']->attr .= ' autocomplete="current-password" aria-required="true" required';
+
                             echo $form2['password']?>
                             <label for="<?php echo $form2['password']->element_id; ?>"><?php echo $entry_password; ?></label>
                         </div>
