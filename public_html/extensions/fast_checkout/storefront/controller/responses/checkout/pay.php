@@ -724,22 +724,21 @@ class ControllerResponsesCheckoutPay extends AController
                     $balance_def_currency - (float) $this->data['used_balance']
                 );
             }
-
-            //check if any payment is available for address or show balance if available.
-            $this->data['payment_select_action'] = $payment_select_action;
-            $this->data['payment_available'] = $this->data['payment_methods'] || $this->fc_session['used_balance_full'];
-            if (!$this->data['balance_enough'] && !$this->data['payment_available']) {
-                $this->error['message'] = $this->data['payment_available'];
-                $this->data['payment_available'] = false;
-            } else {
-                if ($this->data['balance_enough'] && !$this->data['payment_available']) {
-                    //we only have balance
-                    $this->data['payment_available'] = true;
-                }
-            }
-
         } else {
             $this->data['customer_telephone'] = $this->fc_session['guest']['telephone'];
+        }
+
+        //check if any payment is available for address or show balance if available.
+        $this->data['payment_select_action'] = $payment_select_action;
+        $this->data['payment_available'] = $this->data['payment_methods'] || $this->fc_session['used_balance_full'];
+        if (!$this->data['balance_enough'] && !$this->data['payment_available']) {
+            $this->error['message'] = $this->data['payment_available'];
+            $this->data['payment_available'] = false;
+        } else {
+            if ($this->data['balance_enough'] && !$this->data['payment_available']) {
+                //we only have balance
+                $this->data['payment_available'] = true;
+            }
         }
 
         if ($this->data['payment_available'] === true) {
