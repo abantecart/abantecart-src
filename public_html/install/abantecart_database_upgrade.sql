@@ -20,3 +20,5 @@ WHERE `group` = 'general'
                    'config_latest_limit',
                    'config_special_limit'
                   );
+INSERT INTO `ac_settings` (`group`, `key`, `value` )
+VALUES ('appearance', 'viewed_products_limit', 3);
