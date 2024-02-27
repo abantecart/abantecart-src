@@ -27,7 +27,7 @@ if ($error){ ?>
         <div class="col-md-6 col-xxl-5 text-center">
             <div class="sticky-md-top product-sticky">
                     <div id="carouselProductImages" class="carousel slide ecomm-prod-slider" data-bs-ride="carousel">
-                        <div class="carousel-inner bg-light rounded position-relative mainimage bigimage">
+                        <div class="carousel-inner bg-light rounded position-relative mainimage bigimage easyzoom easyzoom--overlay easyzoom--with-thumbnails">
                             <!-- Main Image -->
                             <?php foreach ($images as $index => $image) {
                                 $image['title'] = $image['title'] ? : $heading_title;
@@ -38,7 +38,7 @@ if ($error){ ?>
                                         echo $image['main_html'];
                                     } else {
                                         ?>
-                                        <img class="demo-trigger d-block w-100"
+                                        <img class="demo-trigger d-block w-auto mx-auto"
                                              style="width: <?php echo $thmb_w;?>px; height: <?php echo $thmb_h;?>px;"
                                              src="<?php echo $image['main_url']; ?>"
                                              alt="<?php echo_html2view($image['title']); ?>"
