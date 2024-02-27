@@ -20,7 +20,6 @@
 
 class ControllerBlocksNovatorHeaderMenu extends AController
 {
-    protected $menu_items;
     protected $category_id = 0;
     protected $path = [];
     protected $selected_root_id = [];
@@ -29,8 +28,6 @@ class ControllerBlocksNovatorHeaderMenu extends AController
     public function __construct($registry, $instance_id, $controller, $parent_controller = '')
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
-        $this->data['empty_render_text'] =
-            'To view content of block you should be logged in and prices must be without taxes';
     }
 
     public function main()
@@ -43,17 +40,13 @@ class ControllerBlocksNovatorHeaderMenu extends AController
         $this->loadLanguage('blocks/category');
         $this->loadLanguage('common/header');
 
-        $this->buildCategories();
+        $this->data['categories'] = $this->buildCategories($request);
 
-
-        //Framed needs to show frames for generic block.
-        //If tpl used by listing block framed was set by listing block settings
+        //Show frames for generic block.
         $this->data['block_framed'] = true;
         $this->data['home_href'] =  $this->html->getHomeURL();
 
-
-
-        $this->buildMenu();
+        $this->data['storefront_menu'] = $this->buildMenu();
 
         $this->view->batchAssign($this->data);
         $this->processTemplate();
@@ -62,26 +55,23 @@ class ControllerBlocksNovatorHeaderMenu extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    protected function buildCategories(){
+    protected function buildCategories($request){
         /** @var ModelCatalogCategory $mdl */
         $mdl = $this->loadModel('catalog/category');
 
+        //detect selected category
         if (isset($request['path'])) {
-            $this->path = explode('_', $request['path']);
-            $this->category_id = end($this->path);
-        }
-        $this->data['selected_category_id'] = $this->category_id;
-        $this->data['path'] = $request['path'];
-
-        //load main level categories
-        $all_categories = $mdl->getAllCategories();
-        //build thumbnails list
-        foreach ($all_categories as $k => $cat) {
-            if (!$cat['product_count']) {
-                unset($all_categories[$k]);
-            }
+            $this->path = $this->data['path'] = explode('_', $request['path']);
+            $this->category_id = $this->data['selected_category_id'] = end($this->path);
         }
 
+        //load main level categories and filter categories without products
+        $all_categories = array_filter(
+            $mdl->getAllCategories(),
+            function ($cat) { return (bool)$cat['product_count']; }
+        );
+
+        //build thumbnails list and featured products
         $category_ids = array_column($all_categories, 'category_id');
         $resource = new AResource('image');
         $this->thumbnails = $category_ids
@@ -99,7 +89,6 @@ class ControllerBlocksNovatorHeaderMenu extends AController
         }
 
         $featuredProductsIds = array_unique($featuredProductsIds);
-
         $productThumbnails = $featuredProductsIds
             ? $resource->getMainThumbList(
                 'products',
@@ -116,10 +105,8 @@ class ControllerBlocksNovatorHeaderMenu extends AController
         }
 
         //Build category tree
-        $this->_buildCategoryTree($all_categories);
-        $categories = $this->_buildNestedCategoryList();
-
-        $this->data['categories'] = $categories;
+        $categoryTree = $this->buildCategoryTree($all_categories);
+        return $this->buildNestedCategoryList($categoryTree);
     }
 
     /** Function builds one dimensional category tree based on given array
@@ -131,7 +118,7 @@ class ControllerBlocksNovatorHeaderMenu extends AController
      * @return array
      * @throws AException
      */
-    protected function _buildCategoryTree($all_categories = [], $parent_id = 0, $path = '')
+    protected function buildCategoryTree($all_categories = [], $parent_id = 0, $path = '')
     {
         $output = [];
         foreach ($all_categories as $category) {
@@ -148,25 +135,11 @@ class ControllerBlocksNovatorHeaderMenu extends AController
             }
             $output[] = $category;
             $output = array_merge(
-                $output, $this->_buildCategoryTree($all_categories, $category['category_id'], $category['path'])
+                $output, $this->buildCategoryTree($all_categories, $category['category_id'], $category['path'])
             );
         }
-        if ($parent_id == 0) {
-            //place result into memory for future usage (for menu. see below)
-            $this->data['all_categories'] = $output;
-            // cut list and expand only selected tree branch
-            $cutted_tree = [];
-            foreach ($output as $category) {
-                if ($category['parent_id'] != 0 && !in_array($this->selected_root_id, $category['parents'])) {
-                    continue;
-                }
-                $category['href'] = $this->html->getSEOURL('product/category', '&path=' . $category['path'], '&encode');
-                $cutted_tree[] = $category;
-            }
-            return $cutted_tree;
-        } else {
-            return $output;
-        }
+
+        return $output;
     }
 
     /** Function builds one multi-dimensional (nested) category tree for menu
@@ -176,15 +149,15 @@ class ControllerBlocksNovatorHeaderMenu extends AController
      * @return array
      * @throws AException
      */
-    protected function _buildNestedCategoryList($parent_id = 0)
+    protected function buildNestedCategoryList($categoryTree, $parent_id = 0)
     {
         $output = [];
-        foreach ($this->data['all_categories'] as $category) {
+        foreach ($categoryTree as $category) {
             $category['current'] = false;
             if ($category['parent_id'] != $parent_id) {
                 continue;
             }
-            $category['children'] = $this->_buildNestedCategoryList($category['category_id']) ?? [];
+            $category['children'] = $this->buildNestedCategoryList($categoryTree, $category['category_id']) ?? [];
             $category['featured_products'] = $this->featured[$category['category_id']] ?? [];
             $thumbnail = $this->thumbnails[$category['category_id']];
             $category['thumb'] = $thumbnail['thumb_url'];
@@ -205,41 +178,35 @@ class ControllerBlocksNovatorHeaderMenu extends AController
         return $output;
     }
 
-
     protected function buildMenu()
     {
         $cache_key = 'storefront_menu'.
             '.store_'.(int) $this->config->get('config_store_id')
             .'_lang_'.$this->config->get('storefront_language_id');
-        $this->menu_items = $this->cache->pull($cache_key);
-        if ($this->menu_items === false) {
+        $menu_items = $this->cache->pull($cache_key);
+        if ($menu_items === false) {
             $menu = new AMenu_Storefront();
-            $this->menu_items = $menu->getMenuItems();
-            //writes into cache result of calling _buildMenu func!
-            $this->cache->push($cache_key, $this->menu_items);
+            $menu_items = $menu->getMenuItems();
+            $this->cache->push($cache_key, $menu_items);
         }
-
-
         //build menu structure after caching. related to http/https urls
-        $this->menu_items = $this->prepareMenu('');
-
-        $storefront_menu = $this->menu_items;
-        $this->data['storefront_menu'] = $this->session->data['storefront_menu'] = $storefront_menu;
+        return $this->session->data['storefront_menu'] = $this->prepareMenu($menu_items, '');
     }
 
-    protected function prepareMenu($parent = '')
+    protected function prepareMenu($menu_items, $parent = '')
     {
         $menu = [];
-        if (empty($this->menu_items[$parent])) {
+        if ($parent && empty($menu_items[$parent])) {
             return $menu;
         }
         $lang_id = (int) $this->config->get('storefront_language_id');
-
-        foreach ($this->menu_items[$parent] as $item) {
+        foreach ($menu_items[$parent] as $item) {
             if (preg_match("/^http/i", $item ['item_url'])) {
+                //process full URLs
                 $href = $item ['item_url'];
-            } //process relative url such as ../blog/index.php
+            }
             elseif (preg_match("/^\.\.\//i", $item ['item_url'])) {
+                //process relative url such as ../blog/index.php
                 $href = str_replace('../', '', $item ['item_url']);
             } else {
                 $href = $this->html->getSecureURL($item ['item_url']);
@@ -250,7 +217,7 @@ class ControllerBlocksNovatorHeaderMenu extends AController
             $item['icon_rl_id'] = $item['item_icon_rl_id'] ?? '';
             $item['href'] = $href;
             $item['text'] = $item['item_text'][$lang_id] ?? '';
-            $item['children'] = $this->prepareMenu($item['item_id']);
+            $item['children'] = $this->prepareMenu($menu_items, $item['item_id']);
 
             $menu[] = $item;
         }

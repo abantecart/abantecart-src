@@ -52,30 +52,39 @@ class AMenu_Storefront extends AMenu
             foreach ($this->dataset_description_rows as $description_item) {
                 if ($description_item['item_id'] == $item['item_id']) {
                     $item['item_text'][$description_item['language_id']] = $description_item['item_text'];
+                    break;
                 }
             }
 
-            while(isset ($tmp[$leafItem['parent_id']][$item['sort_order']])) {
+            //Increment sort for child
+            while(isset ($tmp[$leaf['parent_id']][$item['sort_order']])) {
                 $item['sort_order']++;
             }
+
             //mark current page
             $rt = $this->registry->get('request')->get_or_post('rt');
             if ($item['item_url'] == $rt) {
                 $item['current'] = true;
             }
-            $item['item_url'] = html_entity_decode($item['item_url']);
 
-            $tmp[$item['parent_id']][$item['sort_order']] = $item;
-            $this->item_ids[] = $item['item_id'];
+            $item['item_url'] = html_entity_decode($item['item_url']);
             $item['settings'] = unserialize($item['settings']) ?: [];
+            $this->item_ids[] = $item['item_id'];
 
             //tree of subcategories
             if(str_starts_with($item['item_url'],'product/category&path=')
                 && $item['settings']['include_children']
                 && !$item['category_tree']
             ){
-                $leaf = $this->addNestedCategoryItems($item, $languageId);
-                $tmp[$item['parent_id']][$item['sort_order']]['category'] = true;
+                $requestID = $this->registry->get('request')->get_or_post('path');
+                parse_str($item['item_url'], $qry);
+                $ctgTrail = explode("_", $qry['path']);
+                if (count($ctgTrail) && in_array($requestID, $ctgTrail)) {
+                    $item['current'] = true;
+                }
+                //process leaves
+                $leaf = $this->addNestedCategoryItems($item, $languageId, $requestID);
+                $item['category'] = true;
             }
             //tree of content menu
             if(str_starts_with($item['item_url'],'content/content&content_id=')
@@ -83,8 +92,10 @@ class AMenu_Storefront extends AMenu
                 && !$item['content_tree']
             ){
                 $leaf = $this->addNestedContentItems($item, $languageId);
-                $tmp[$item['parent_id']][$item['sort_order']]['content'] = true;
+                $item['content'] = true;
             }
+
+            $tmp[$item['parent_id']][$item['sort_order']] = $item;
 
             if($leaf){
                 //merge children with parent item
@@ -96,6 +107,7 @@ class AMenu_Storefront extends AMenu
                         $tmp[$parentId][$sortOrder] = $itm;
                     }
                 }
+                //$item['current'] = true; ????
             }
         }
         $menu = [];
@@ -110,10 +122,11 @@ class AMenu_Storefront extends AMenu
     /**
      * @param array $parentItem
      * @param int $languageId
+     * @param int $requestId
      * @return array
      * @throws AException
      */
-    protected function addNestedCategoryItems($parentItem, $languageId)
+    protected function addNestedCategoryItems($parentItem, $languageId, $requestId)
     {
         $output = [];
         $resource = new AResource('image');
@@ -132,12 +145,14 @@ class AMenu_Storefront extends AMenu
         }
 
         $leaf = $mdl->getCategoriesData(['filter_ids' => $childrenIDs]);
-        if(!$leaf){ return $output; }
+        if(!$leaf){
+            return $output;
+        }
 
         foreach ( $leaf as $k => $cat) {
             if (!$cat['products_count']) {
                 unset($leaf[$k]);
-            }else {
+            } else {
                 $leafItem = $cat;
                 $leafItem['path'] = $mdl->buildPath($cat['category_id']);
                 $leafItem['category_tree'] = true;
@@ -153,6 +168,9 @@ class AMenu_Storefront extends AMenu
                 $leafItem['item_url'] = 'product/category&path=' . $leafItem['path'];
                 $leafItem['item_text'] = [$languageId => $cat['name']];
                 $leafItem['sort_order'] = $cat['sort_order'];
+                if ($cat['category_id'] == $requestId ) {
+                    $leafItem['current'] = true;
+                }
                 $this->item_ids[] = $leafItem['item_id'];
                 while(isset ($output[$leafItem['parent_id']][$leafItem['sort_order']])) {
                     $leafItem['sort_order']++;
@@ -160,6 +178,7 @@ class AMenu_Storefront extends AMenu
 
                 $resources = $resource->getResources( 'categories', $cat['category_id'], $languageId );
                 $leafItem['item_icon_rl_id'] = $resources[0]['resource_id'];
+                $leafItem['resources'] = $resources;
                 $output[$leafItem['parent_id']][$leafItem['sort_order']] = $leafItem;
             }
         }
