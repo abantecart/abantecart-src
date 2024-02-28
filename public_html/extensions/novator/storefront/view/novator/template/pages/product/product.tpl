@@ -76,7 +76,7 @@ if ($error){ ?>
         <div class="col-md-6 col-xxl-7 detail position-relative product-page-preset-box mt-4 mt-md-0">
             <div class="row g-1">
 
-                <div class="col-sm-6" style="flex: 0 0 70%;">
+                <div class="col-sm-9" >
                     <h1 class="h3" style="width: 100%;"><?php echo $heading_title; ?></h1>
 
                     <!-- TM Static content start -->
@@ -88,7 +88,7 @@ if ($error){ ?>
                     <?php }?>
                     <!-- TM Static content ends -->
                 </div>
-                <div class="col-sm-6" style="flex: 0 0 30%;" ">
+                <div class="col-sm-3">
                     <div class="d-flex justify-content-sm-end gap-2">
                     <!-- Hello Abentacart team you need to check here Starts -->
                         <?php echo $this->getHookVar('buttons');
