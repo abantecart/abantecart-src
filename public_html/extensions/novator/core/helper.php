@@ -111,11 +111,9 @@ function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
 
     if ($level == 0) {
         $output .= '<div '.($options['top_level']['attr'] ?: 'class="navbar-nav ms-auto me-auto mb-2 mb-lg-0 align-items-start"').'>';
-    }else {
-
+    } else {
         $output .= '<div class="dropdown-menu '.($level > 1 ? 'dropdown-submenu' : '').'" aria-labelledby="'.$parentId.'" '.$options['submenu_level']['attr'].'>';
     }
-
 
     $ar = new AResource('image');
     foreach ($menuItems as $i => $item) {
@@ -142,7 +140,7 @@ function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
             } elseif ($resource['resource_code']) {
                 $icon = $resource['resource_code'];
             }
-        }elseif( $item['icon_html'] ){
+        } elseif ( $item['icon_html'] ){
             $icon = $item['icon_html'];
         }
 
@@ -164,7 +162,7 @@ function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
             }
             if($item['category']){
                 $output .= "\r\n".renderCategorySubMenuNV( $item['children'], $level + 1, $id, $chOptions );
-            }else{
+            } else {
                 $output .= "\r\n".renderSFMenuNv( $item['children'], $level + 1, $id, $chOptions );
             }
 

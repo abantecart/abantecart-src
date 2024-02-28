@@ -70,7 +70,7 @@ if ($error){ ?>
         <!-- Right Details-->
         <div class="col-md-12 col-lg-6  col-xxl-7 position-relative product-page-preset-box mt-4 mt-md-0">
             <div class="row g-1">
-                <div class="col-6">
+                <div class="col-sm-9" >
                     <h1 class="h3" style="width: 100%;"><?php echo $heading_title; ?></h1>
                     <?php if($manufacturer){?>
                         <h6 class="my-2 text-warning"><u><a class="my-2 text-warning" href="<?php echo $manufacturers;  ?>"><?php echo $manufacturer; ?></a></u></h6>
@@ -79,7 +79,7 @@ if ($error){ ?>
                     <p class="text-muted"><?php echo $blurb; ?></p>
                     <?php }?>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-3">
                     <div class="d-flex justify-content-sm-end gap-2">
                         <?php echo $this->getHookVar('buttons');
                         if ($is_customer) { ?>
