@@ -1690,7 +1690,6 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('general','config_recaptcha_site_key',''),
 ('general','config_recaptcha_secret_key',''),
 ('general','config_google_analytics_code',''),
-('general','viewed_products_limit',3),
 ('bootstrap5','viewed_products_image_height',250),
 ('bootstrap5','viewed_products_image_width',250),
 
@@ -1738,6 +1737,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('appearance','config_featured_limit',3),
 ('appearance','config_latest_limit',3),
 ('appearance','config_special_limit',3),
+('appearance','viewed_products_limit',3),
 
 ('appearance','config_image_thumb_width',380),
 ('appearance','config_image_thumb_height',380),
@@ -1872,7 +1872,14 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('bootstrap5', 'bootstrap5_sort_order', 1),
 ('bootstrap5', 'config_logo',281),
 ('bootstrap5', 'bootstrap5_status', 1),
-('bootstrap5', 'store_id', 0);
+('bootstrap5', 'store_id', 0),
+('bootstrap5', 'config_catalog_limit',18),
+('bootstrap5', 'config_bestseller_limit',3),
+('bootstrap5', 'config_featured_limit',3),
+('bootstrap5', 'config_latest_limit',3),
+('bootstrap5', 'config_special_limit',3),
+('bootstrap5', 'viewed_products_limit',3)
+;
 
 --
 -- DDL for table `stock_statuses`
