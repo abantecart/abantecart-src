@@ -382,3 +382,12 @@ showMsg = function (header, body, callback) {
         .on('click.callback', callback).end()
         .modal('show');
 };
+
+function escapeHtml(text) {
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}

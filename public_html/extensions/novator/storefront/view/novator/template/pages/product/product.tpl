@@ -1,6 +1,3 @@
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/easyzoom@2.5.3/css/easyzoom.css" />
-<script src="//cdn.jsdelivr.net/npm/easyzoom@2.5.3/src/easyzoom.js"></script>
-
 <?php
 $tax_exempt = $this->customer->isTaxExempt();
 $config_tax = $this->config->get('config_tax');
@@ -12,7 +9,6 @@ $add_h = $this->config->get('config_image_additional_height');
 $thmb_w = $this->config->get('config_image_thumb_width');
 $thmb_h = $this->config->get('config_image_thumb_height');
 
-
 if ($error){ ?>
     <div class="alert alert-danger alert-dismissible" role="alert">
         <?php echo is_array($error) ? implode('<br>', $error) : $error; ?>
@@ -22,75 +18,69 @@ if ($error){ ?>
 
 <div id="product_details" class="mt-4">
     <div class="row justify-content-between">
-
         <!-- Left Image-->
-        <div class="col-md-6 col-xxl-5 text-center">
-            <div class="sticky-md-top product-sticky">
-                    <div id="carouselProductImages" class="carousel slide ecomm-prod-slider" data-bs-ride="carousel">
-                        <div class="carousel-inner bg-light rounded position-relative mainimage bigimage easyzoom easyzoom--overlay easyzoom--with-thumbnails">
-                            <!-- Main Image -->
-                            <?php foreach ($images as $index => $image) {
-                                $image['title'] = $image['title'] ? : $heading_title;
-                                ?>
-                                <div class="carousel-item <?php echo ($index === 0) ? 'active' : ''; ?>">
-                                    <?php
-                                    if ($image['origin'] == 'external') {
-                                        echo $image['main_html'];
-                                    } else {
-                                        ?>
-                                        <img class="demo-trigger d-block w-auto mx-auto"
-                                             style="width: <?php echo $thmb_w;?>px; height: <?php echo $thmb_h;?>px;"
-                                             src="<?php echo $image['main_url']; ?>"
-                                             alt="<?php echo_html2view($image['title']); ?>"
-                                             title="<?php echo_html2view($image['title']); ?>" />
-                                    <?php } ?>
-                                </div>
-                            <?php } ?>
-                        </div>
-                        <ul class="carousel-indicators mainimage smallimage position-relative product-carousel-indicators my-sm-3 mx-0 col-12 justify-content-left">
+        <div class="col-md-12 col-lg-6 col-xxl-5 text-center">
+            <div class="w-auto sticky-md-top product-sticky">
+                <div class="zoom-pane position-absolute col-12"></div>
+                <div id="carouselProductImages" class="carousel slide mx-auto" data-bs-ride="carousel" style="width: <?php echo $thmb_w;?>px !important;">
+                    <div class="carousel-inner bg-light rounded position-relative">
+                        <!-- Main Image -->
+                        <?php foreach ($images as $index => $image) {
+                            $image['title'] = $image['title'] ? : $heading_title;
+                            $image['description'] = $image['description'] ? : $heading_title; ?>
+                            <div class="carousel-item <?php echo ($index === 0) ? 'active' : ''; ?>" >
                             <?php
-                            if (sizeof((array)$images) > 1) {
-                                $imageCount = sizeof($images);
-                                foreach ($images as $i => $image) {
-                                    if ($image['origin'] != 'external') {
-                                        ?>
-                                        <li data-bs-target="#carouselProductImages" data-bs-slide-to="<?php echo $i; ?>"
-                                            class="w-25 h-auto <?php echo ($i === 0) ? 'active' : ''; ?> ">
+                                if ($image['origin'] == 'external') {
+                                    echo $image['main_html'];
+                                } else { ?>
+                                    <img class="zoom-trigger d-block w-auto mx-auto"
+                                         style="width: <?php echo $image['thumb2_width'];?>px; height: <?php echo $image['thumb2_height'];?>px;"
+                                         src="<?php echo $image['thumb2_url']; ?>"
+                                         data-zoom="<?php echo $image['main_url']; ?>"
+                                         alt="<?php echo_html2view($image['title']); ?>"
+                                         title="<?php echo_html2view($image['description']); ?>" />
+                                <?php } ?>
+                            </div>
+                        <?php } ?>
+                    </div>
+                    <ul class="thumbnails carousel-indicators position-relative product-carousel-indicators my-sm-3 mx-0 col-12 justify-content-left">
+                        <?php
+                        if (sizeof((array)$images) > 1) {
+                            $imageCount = sizeof($images);
+                            foreach ($images as $i => $image) {
+                                if ($image['origin'] != 'external') {
+                                    ?>
+                                    <li data-bs-target="#carouselProductImages" data-bs-slide-to="<?php echo $i; ?>"
+                                        class="product-thumb w-auto h-auto <?php echo ($i === 0) ? 'active' : ''; ?> ">
                                             <img class="d-block wid-100 rounded "
                                                  src="<?php echo $image['thumb_url']; ?>"
+                                                 style="width: <?php echo $image['thumb_width'];?>px; height: <?php echo $image['thumb_height'];?>px;"
                                                  alt="<?php echo_html2view($image['title']); ?>"
-                                                 title="<?php echo_html2view($image['title']); ?>">
-                                        </li>
-                                        <?php
-                                    }
+                                                 title="<?php echo_html2view($image['description']); ?>">
+                                    </li>
+                                    <?php
                                 }
                             }
-                            ?>
-                        </ul>
-                    </div>
+                        }
+                        ?>
+                    </ul>
+                </div>
             </div>
         </div>
-
-
         <!-- Right Details-->
-        <div class="col-md-6 col-xxl-7 detail position-relative product-page-preset-box mt-4 mt-md-0">
+        <div class="col-md-12 col-lg-6  col-xxl-7 position-relative product-page-preset-box mt-4 mt-md-0">
             <div class="row g-1">
-
                 <div class="col-6">
                     <h1 class="h3" style="width: 100%;"><?php echo $heading_title; ?></h1>
-
-                    <!-- TM Static content start -->
                     <?php if($manufacturer){?>
                         <h6 class="my-2 text-warning"><u><a class="my-2 text-warning" href="<?php echo $manufacturers;  ?>"><?php echo $manufacturer; ?></a></u></h6>
                     <?php }?>
                     <?php if($blurb){?>
                     <p class="text-muted"><?php echo $blurb; ?></p>
                     <?php }?>
-                    <!-- TM Static content ends -->
                 </div>
                 <div class="col-sm-6">
                     <div class="d-flex justify-content-sm-end gap-2">
-                    <!-- Hello Abentacart team you need to check here Starts -->
                         <?php echo $this->getHookVar('buttons');
                         if ($is_customer) { ?>
                             <div class="wishlist d-flex align-items-center justify-content-between">
@@ -104,7 +94,6 @@ if ($error){ ?>
                             </div>
                         <?php } ?>
                         <a href="#" class="bg-light-secondary badge fs-6"><i class="bi bi-share"></i></a>
-                        <!-- Hello Abentacart team you need to check here ends -->
                     </div>
                 </div>
             </div>
@@ -155,19 +144,16 @@ if ($error){ ?>
                         <div class="rounded-pill bg-light-secondary badge fs-6">
                             <i class="bi bi-chat-left-dots"></i>
                             <a class="bg-light-secondary fs-6" href="javascript:void(0);" onclick="scrollToReview()"><?php echo $tab_review;?></a>
-                        </div>                  <?php }?>
+                        </div>
+                    <?php }?>
                 </div>
                 <?php if($review_percentage && $display_reviews ){?>
                 <p class="text-muted text-start mb-0 text-sm-end"><b class="text-success"><?php echo $review_percentage?>% </b><?php echo $review_percentage_translate; ?></p>
                 <?php }?>
             </div>
             <hr class="my-4">
-
             <div class="col-md-12 d-flex flex-column">
-                    
                     <div class="blurb"><?php echo $product_info['blurb'] ?></div>
-                    
-
                     <div class="quantitybox">
                         <?php if ($display_price) { echo $form['form_open']; ?>
                                 <fieldset>
@@ -202,8 +188,10 @@ if ($error){ ?>
                                             <div class="table-responsive">
                                                 <table class="table table-bordered">
                                                     <thead class="h6">
-                                                        <th><?php echo $text_order_quantity; ?></th>
-                                                        <th><?php echo $text_price_per_item; ?></th>
+                                                        <tr>
+                                                            <th><?php echo $text_order_quantity; ?></th>
+                                                            <th><?php echo $text_price_per_item; ?></th>
+                                                        </tr>
                                                     </thead>
                                                 <?php foreach ($discounts as $discount) { ?>
                                                     <tr>
@@ -222,10 +210,9 @@ if ($error){ ?>
                                                         <h5 class="text-muted d-none"><?php echo $text_qty; ?></h5>
                                                         <?php if ($minimum > 1) { ?>
                                                             <div class="input-group-text me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="<?php echo_html2view($text_minimum);?>">&gt;= <?php echo $minimum; ?></div>
-                                                        <?php } ?>
-                                                        <?php echo $form['minimum']; ?> 
-                                                        <?php
-                                                            if ($maximum > 0) { ?>
+                                                        <?php }
+                                                        echo $form['minimum'];
+                                                        if ($maximum > 0) { ?>
                                                             <div class="input-group-text ms-1" data-bs-toggle="tooltip" data-bs-placement="top" title="<?php echo_html2view($text_maximum);?>">&lt;= <?php echo $maximum; ?></div>
                                                         <?php } ?>
                                                     </div>
@@ -233,13 +220,11 @@ if ($error){ ?>
                                             </div>
                                             <div class="col-auto">
                                                 <?php if(!$product_info['call_to_order']){ ?>
-
                                                     <h3 class="text-primary">
                                                         <small class="text-muted fw-normal"><?php echo $text_total_price; ?></small>
                                                         <span class="total-price mt-auto"><i class="ms-2 fa-solid fa-spinner fa-spin"></i></span>
                                                     </h3>
-                                                        <div class="mt-auto"><?php echo $tax_message; ?></div>
-                                                    
+                                                    <div class="mt-auto"><?php echo $tax_message; ?></div>
                                                 <?php }?>
                                             </div>
                                         </div>
@@ -312,10 +297,7 @@ if ($error){ ?>
                                             </ul>
                                             </div>
                                         </div>
-                                        
                                     <?php } ?>
-
-
                                 </fieldset>
                             </form>
                         <?php } elseif(!$product_info['call_to_order']) { ?>
@@ -326,26 +308,16 @@ if ($error){ ?>
                     </div>
                 </div>
         </div>
-
     </div>
 </div>
-
-
-
-
-<!-- Hello Abentacart team you need to check here Starts -->
 <!-- Product Description tab & comments-->
-
-<section class="prod-desc mt-3 mt-lg-0"> 
-
+<section class="prod-desc mt-3 mt-lg-0">
     <ul class="nav nav-tabs profile-tabs mb-4 border-bottom" id="myTab" role="tablist">
-        
         <li class="nav-item" role="presentation">
             <a class="nav-link active" id="description" data-bs-toggle="tab" href="#collapseDescription" role="tab" aria-controls="collapseDescription" aria-selected="true">
                 <?php echo $tab_description; ?>
             </a>
         </li>
-        
         <?php if ($display_reviews || $review_form_status){ ?>
                 <?php if($review_form_status or $total_reviews>0){?>
             <li class="nav-item" role="presentation">
@@ -353,58 +325,44 @@ if ($error){ ?>
                     <?php echo $tab_review; ?>
                 </a>
             </li>
-            <?php }?>
-        <?php } ?>
-
-        <?php if ($tags){ ?>
+            <?php }
+        }
+        if ($tags){ ?>
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="tags" data-bs-toggle="tab" href="#collapseTags" role="tab" aria-controls="collapseTags" aria-selected="false" tabindex="-1">
                     <?php echo $text_tags; ?>
                 </a>
             
             </li>
-        <?php } ?>
-
-
-
-        <?php if ($downloads){ ?>
+        <?php }
+        if ($downloads){ ?>
         <li class="nav-item" role="presentation">
             <a class="nav-link" id="downloads" data-bs-toggle="tab" href="#collapseDownloads" role="tab" aria-controls="collapseDownloads" aria-selected="false" tabindex="-1">
                 <?php echo $tab_downloads; ?>
             </a>
         </li>
-        <?php } ?>
-
-
-        <?php if ($this->getHookVar('product_features')){ ?>
+        <?php }
+        if ($this->getHookVar('product_features')){ ?>
         <li class="nav-item" role="presentation">
             <a class="nav-link" id="features" data-bs-toggle="tab" href="#collapseFeatures" role="tab" aria-controls="collapseFeatures" aria-selected="false" tabindex="-1">
                 <?php echo $this->getHookVar('product_features_tab'); ?>
             </a>
         </li>
-        <?php } ?>
-
-        <?php 
+        <?php }
         $hookVarArray = $this->getHookVar('product_description_array');
         if( $hookVarArray ){
             foreach($hookVarArray as $key=>$hkVar){ ?>
-
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="ecomtab-tab-4" data-bs-toggle="tab" href="#collapse<?php echo $key; ?>" role="tab" aria-controls="collapse<?php echo $key; ?>" aria-selected="false" tabindex="-1">  
                     <?php echo $hkVar['title']; ?>
                 </a>
             </li>
-
         <?php }
-
         } ?>
-
     </ul>
 
     <div class="tab-content">
-
-        <!-- Description Tab Content Starts -->
-            <div class="tab-pane active show" id="collapseDescription" role="tabpanel" aria-labelledby="description">
+        <div class="tab-pane active show" id="collapseDescription" role="tabpanel" aria-labelledby="description">
                 <div class="tab-pane-body">
                     <?php echo $description; ?>
                     <ul class="productinfo list-unstyled">
@@ -412,16 +370,16 @@ if ($error){ ?>
                             <li>
                                 <span class="fw-bold me-2"><?php echo $text_availability; ?></span> <?php echo $stock; ?>
                             </li>
-                        <?php } ?>
-                        <?php if ($model){ ?>
+                        <?php }
+                        if ($model){ ?>
                             <li><span class="fw-bold me-2"><?php echo $text_model; ?></span> <?php echo $model; ?>
                             </li>
-                        <?php } ?>
-                        <?php if ($sku){ ?>
+                        <?php }
+                        if ($sku){ ?>
                             <li><span class="fw-bold me-2"><?php echo $text_sku; ?></span> <?php echo $sku; ?>
                             </li>
-                        <?php } ?>
-                        <?php if ($manufacturer){ ?>
+                        <?php }
+                        if ($manufacturer){ ?>
                             <li class="d-flex align-items-center">
                                 <span class="fw-bold me-2"><?php echo $text_manufacturer; ?></span>
                                 <a href="<?php echo $manufacturers; ?>" class="d-inline-flex align-items-center" style="height: 17px;">
@@ -462,7 +420,6 @@ if ($error){ ?>
                                             <p class="mb-0 text-muted"><?php echo $product_rate_title; ?></p></div>
                                     </div>
                                 </div>
-
                                 <div class="col-xxl-8 col-xl-7">
                                     <div class="card h-100">
                                         <div class="card-body">
@@ -479,9 +436,9 @@ if ($error){ ?>
                             <?php }?>
                             <h4 id="headingReview"><?php echo $review_title; ?></h4>
 
-                            <ul class="list-group list-group-flush">
+                            <div class="list-group list-group-flush">
                                 <div id="current_reviews" class="mb-2"></div>
-                            </ul>
+                            </div>
 
                             <?php if($review_form_status){ ?>
                             <div class="heading" id="review_title"><h4><?php echo $write_review_title; ?></h4></div>
@@ -514,7 +471,6 @@ if ($error){ ?>
                                     </div>
                                 <?php } else{ ?>
                                     <div class="form-group mb-3 d-flex flex-wrap">
-
                                         <?php
                                         echo $this->html->buildCaptcha(
                                             [
@@ -525,7 +481,6 @@ if ($error){ ?>
                                             ]
                                         );
                                         echo $review_button; ?>
-
                                     </div>
                                 <?php } ?>
                             <?php } ?>
@@ -535,59 +490,48 @@ if ($error){ ?>
                 </div>
             </div>
         <!-- Review Tab Content Ends -->
-        <?php } ?>
-
-        <?php if ($tags){ ?>
+        <?php }
+        if ($tags){ ?>
         <!-- tags Tab Content Starts -->
             <div class="tab-pane" id="collapseTags" role="tabpanel" aria-labelledby="tags">
                 <div class="tab-pane-body">
-                    
-                        <?php foreach ($tags as $tag){ ?>
-                            
-                                <a class="badge bg-secondary" href="<?php echo $tag['href']; ?>">
-                                    <i class="fa-solid fa-hashtag"></i><?php echo $tag['tag']; ?>
-                                </a>
-                          
-                        <?php } ?>
-                
+                <?php
+                foreach ($tags as $tag){ ?>
+                    <a class="badge bg-secondary" href="<?php echo $tag['href']; ?>">
+                        <i class="fa-solid fa-hashtag"></i><?php echo $tag['tag']; ?>
+                    </a>
+                <?php } ?>
                 </div>
             </div>
         <!-- tags Tab Content Ends -->
-        <?php } ?>
-
-        <?php if ($downloads){ ?>
+        <?php }
+        if ($downloads){ ?>
         <!-- downloads Tab Content Starts -->
-            <div class="tab-pane" id="collapseDownloads" role="tabpanel" aria-labelledby="downloads">
-                <div class="tab-pane-body">
-
-                                    <?php foreach ($downloads as $download){ ?>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center col-12">
-                                            <div class="fs-5 fw-bolder"><?php echo $download['name'];
-                                                if($download['attributes']){ ?>
-                                                    <dl class="fs-6 fw-normal download-list-attributes ms-3 mt-2">
-                                                        <?php foreach ($download['attributes'] as $name => $value){  ?>
-                                                            <dt class="fw-bold me-2"><?php echo $name; ?>:</dt>
-                                                            <dd class=" ms-5 text-secondary"><?php echo (is_array($value) ? implode(' ', $value) : $value); ?></dd>
-                                                    <?php } ?>
-                                                    </dl>
-                                                <?php } ?>
-                                            </div>
-                                            <a class="ms-auto text-nowrap btn btn-outline-dark"
-                                            href="<?php echo $download['button']->href; ?>"><i
-                                                        class="fa-solid fa-download"></i> <?php echo $download['button']->text; ?></a>
-                                        </li>
-                                    <?php } ?>
-
-                </div>
+        <div class="tab-pane" id="collapseDownloads" role="tabpanel" aria-labelledby="downloads">
+            <div class="tab-pane-body">
+            <?php foreach ($downloads as $download){ ?>
+                <li class="list-group-item d-flex justify-content-between align-items-center col-12">
+                    <div class="fs-5 fw-bolder"><?php echo $download['name'];
+                        if($download['attributes']){ ?>
+                            <dl class="fs-6 fw-normal download-list-attributes ms-3 mt-2">
+                                <?php foreach ($download['attributes'] as $name => $value){  ?>
+                                    <dt class="fw-bold me-2"><?php echo $name; ?>:</dt>
+                                    <dd class=" ms-5 text-secondary"><?php echo (is_array($value) ? implode(' ', $value) : $value); ?></dd>
+                            <?php } ?>
+                            </dl>
+                        <?php } ?>
+                    </div>
+                    <a class="ms-auto text-nowrap btn btn-outline-dark"
+                        href="<?php echo $download['button']->href; ?>">
+                            <i class="fa-solid fa-download"></i> <?php echo $download['button']->text; ?>
+                    </a>
+                </li>
+            <?php } ?>
             </div>
+        </div>
         <!-- downloads Tab Content Ends -->
-        <?php } ?>
-
-
-        <!-- deprecated. Left for compatibility. See new way below! -->
-
-        <?php if ($this->getHookVar('product_features')){ ?>
-        
+        <?php }
+        if ($this->getHookVar('product_features')){ ?>
         <!-- features Products Tab Content Starts -->
             <div class="tab-pane" id="collapseFeatures" role="tabpanel" aria-labelledby="features">
                 <div class="tab-pane-body">
@@ -595,36 +539,21 @@ if ($error){ ?>
                 </div>
             </div>
         <!-- features Products Tab Content Ends -->
-
-        <?php } ?>
-
-  
-
-        <?php 
+        <?php }
         $hookVarArray = $this->getHookVar('product_description_array');
         if( $hookVarArray ){
             foreach($hookVarArray as $key=>$hkVar){ ?>
-
                 <div class="tab-content">
-                <div class="tab-pane" id="ecomtab-3" role="tabpanel" aria-labelledby="ecomtab-tab-4">
-                    <div class="tab-pane-body">
-                        <?php echo $hkVar['html']; ?>
+                    <div class="tab-pane" id="ecomtab-3" role="tabpanel" aria-labelledby="ecomtab-tab-4">
+                        <div class="tab-pane-body">
+                            <?php echo $hkVar['html']; ?>
+                        </div>
                     </div>
                 </div>
-                </div>
         <?php }
-
         } ?>
-
     </div>
-
 </section>
-
-<!-- Hello Abentacart team you need to check here ends -->
-
-
-
-
 
 <?php if ($related_products){ ?>
 <!-- Related Products Section Content Starts -->
@@ -642,41 +571,43 @@ if ($error){ ?>
             include($this->templateResource('/template/blocks/product_cell_grid.tpl'));
         ?>
         <div class="row g-4 side_prd_list pro-sec">
-                <?php
-                    foreach ($related_products as $related_product){ continue;
-                    $tax_message = '';
-                    $item['rating'] = ($related_product['rating'])
-                        ? "<img src='" . $this->templateResource('/image/stars_' . $related_product['rating'] . '.png') . "' class='rating' alt='" . $related_product['stars'] . "' width='64' height='12' />" : '';
-                    if (!$display_price){
-                        $related_product['price'] = $related_product['special'] = '';
-                    } else {
-                        if($config_tax && !$tax_exempt && $related_product['tax_class_id']){
-                            $tax_message = '&nbsp;&nbsp;'.$price_with_tax;
-                        }
+        <?php
+            foreach ($related_products as $related_product){
+                $tax_message = '';
+                $item['rating'] = ($related_product['rating'])
+                    ? "<img src='" . $this->templateResource('/image/stars_' . $related_product['rating'] . '.png')
+                        . "' class='rating' alt='" . $related_product['stars'] . "' width='64' height='12' />" : '';
+                if (!$display_price){
+                    $related_product['price'] = $related_product['special'] = '';
+                } else {
+                    if($config_tax && !$tax_exempt && $related_product['tax_class_id']){
+                        $tax_message = '&nbsp;&nbsp;'.$price_with_tax;
                     }
-                ?>
-                    <div class="col-md-3 col-sm-5 col-xs-6 related_product">
-                        <a href="<?php echo $related_product['href']; ?>"><?php echo $related_product['image']['thumb_html'] ?></a>
-                        <a class="productname" title="<?php echo $related_product['name']; ?>"
-                        href="<?php echo $related_product['href']; ?>"><?php echo $related_product['name']; ?></a>
-                        <span class="procategory"><?php echo $item['rating'] ?></span>
+                }
+            ?>
+            <div class="col-md-3 col-sm-5 col-xs-6 related_product">
+                <a href="<?php echo $related_product['href']; ?>"><?php echo $related_product['image']['thumb_html'] ?></a>
+                <a class="productname" title="<?php echo $related_product['name']; ?>"
+                href="<?php echo $related_product['href']; ?>"><?php echo $related_product['name']; ?></a>
+                <span class="procategory"><?php echo $item['rating'] ?></span>
 
-                        <div class="price">
-                            <?php if ($related_product['special']){ ?>
-                                <span class="pricenew"><?php echo $related_product['special'] . $tax_message ?></span>
-                                <span class="priceold"><?php echo $related_product['price'] ?></span>
-                            <?php } else{ ?>
-                                <span class="oneprice"><?php echo $related_product['price'] . $tax_message ?></span>
-                            <?php } ?>
-                        </div>
-                    </div>
-                <?php } ?>
+                <div class="price">
+                    <?php if ($related_product['special']){ ?>
+                        <span class="pricenew"><?php echo $related_product['special'] . $tax_message ?></span>
+                        <span class="priceold"><?php echo $related_product['price'] ?></span>
+                    <?php } else{ ?>
+                        <span class="oneprice"><?php echo $related_product['price'] . $tax_message ?></span>
+                    <?php } ?>
+                </div>
+            </div>
+        <?php } ?>
         </div>
     </div>
 <!-- Related Products Section Content Ends -->
 <?php }?>
 
-
+<script src="//cdn.jsdelivr.net/npm/drift-zoom@1.5.1/dist/Drift.min.js "></script>
+<link href="//cdn.jsdelivr.net/npm/drift-zoom@1.5.1/dist/drift-basic.min.css " rel="stylesheet">
 <script type="text/javascript">
     <?php if($this->config->get('config_google_analytics_code')){ ?>
     try {
@@ -710,10 +641,23 @@ if ($error){ ?>
                         1000
                     );
                 }
+
+                //pause carousel of main image
+                $('#carouselProductImages').on(
+                    'mouseover mouseout',
+                    '.carousel-item.mainimage, .carousel-item.mainimage img',
+                    function(e){
+                        $('#carouselProductImages').carousel(
+                            {
+                                pause: e.type==='mouseover' ? "false" : "true"
+                            }
+                        );
+                    }
+                ).on('slid.bs.carousel', initZoom);
             }
         );
 
-        start_easyzoom();
+        initZoom();
         display_total_price();
 
         $('#current_reviews .pagination a').on('click', function (e) {
@@ -725,7 +669,6 @@ if ($error){ ?>
         });
 
         reload_review('<?php echo $product_review_url; ?>');
-
 
         $('#product_add_to_cart').click(function (e) {
             e.preventDefault();
@@ -775,30 +718,24 @@ if ($error){ ?>
         // to refresh pictures for preselected options
         $select.first().change();
 
-        function start_easyzoom() {
-            return;
-            // Instantiate EasyZoom instances
-            var $easyzoom = $('.easyzoom').easyZoom();
-
-            // Get an instance API
-            var api1 = $easyzoom.filter('.easyzoom--with-thumbnails').data('easyZoom');
-            //clean and reload existing events
-            api1.teardown();
-            api1._init();
-
-            // Setup thumbnails
-            $('.thumbnails .producthtumb').on('click', 'a', function (e) {
-                var $this = $(this);
-                e.preventDefault();
-                // Use EasyZoom's `swap` method
-                api1.swap($this.data('standard'), $this.attr('data-href'));
-                $('.mainimage.bigimage').find('img').attr('src', $this.attr('data-href'));
-            });
+        function initZoom() {
+            try {
+                var paneContainer = document.querySelector('.zoom-pane');
+                var elem = document.querySelectorAll('.zoom-trigger');
+                for (var j = 0; j < elem.length; j++) {
+                    new Drift(elem[j], {
+                        paneContainer: paneContainer,
+                        inlinePane: false,
+                    });
+                }
+            }catch(e){
+                console.log(e);
+            }
         }
 
         function load_option_images(attribute_value_id, product_id) {
-            var selected = {};
-            var k = 0;
+            let selected = {};
+            let k = 0;
             $('[name^=\'option\']').each(function () {
                 var valId = $(this).val();
                 valId = this.type === 'checkbox' && $(this).attr('data-attribute-value-id') ? $(this).attr('data-attribute-value-id') : valId;
@@ -814,74 +751,60 @@ if ($error){ ?>
                 k++;
             });
 
-            var data = {
+            const data = {
                 attribute_value_id: attribute_value_id,
                 product_id: product_id,
                 selected_options: selected
             };
+            const thumbnails = $('#carouselProductImages ul.thumbnails img');
             $.ajax({
                 type: 'POST',
                 url: '<?php echo $option_resources_url; ?>',
                 data: data,
                 dataType: 'json',
                 beforeSend: function(){
-                    $('.smallimage img.border').addClass('spinner-grow text-light');
+                    thumbnails.addClass('spinner-grow text-light');
                 },
                 success: function (data) {
                     if (data.length === 0) {
-
-                        $('.smallimage img.border').removeClass('spinner-grow');
+                        thumbnails.removeClass('spinner-grow text-light');
                         return false;
                     }
 
-                    var mainPicHtml = '',
-                        smallPicsHtml = '',
-                        main_images = data.main_images;
-                    for (var key in data.main_images) {
-                    if (main_images) {
-                        if (main_images.origin === 'external') {
-                            mainPicHtml = '<div class="html_with_image">' + main_images.main_html + '</div>';
+                    let mainPicHtml = '', smallPicsHtml = '';
+                    for (let key in data.images) {
+                        let image = data.images[key];
+                        if(image.length) continue;
+                        let active = parseInt(key) === 0 ? 'active' : '';
+                        mainPicHtml += '<div class="carousel-item ' + active + '">';
+                        smallPicsHtml += '<li data-bs-target="#carouselProductImages" data-bs-slide-to="' + key +
+                            '" class="w-25 h-auto ' + active + '">';
+
+                        if (image.origin === 'external') {
+                            mainPicHtml += '<div class="html_with_image">' + image.main_html + '</div>';
+                            smallPicsHtml += '<div class="html_with_image">' + image.main_html + '</div>';
                         } else {
-                            if (data.main_images.length > 0) {
+                            mainPicHtml += '<img class="zoom-trigger d-block w-auto mx-auto" ' +
+                                'style="width: '+image.thumb2_width+'px; height: '+image.thumb2_height+'px;" ' +
+                                'data-zoom="'+image.main_url+'" ' +
+                                'alt="'+escapeHtml(image.title)+'" ' +
+                                'title="'+escapeHtml(image.description)+'" ' +
+                                'src="' + image.thumb2_url + '"/>';
 
-                                    var image = data.main_images[key];
-                                    var tmb_url = image.thumb_url;
-                                    mainPicHtml += '<div class="carousel-item' + (parseInt(key) === 0 ? ' active' : '') + '"><img class="demo-trigger d-block w-100" style="width: <?php echo $thmb_w;?>px; height: <?php echo $thmb_h;?>px;" ' +
-                                        'src="' + tmb_url + '" /></div>';
-
-                            } else {
-                                //no images - no action
-                                $('.bigimage img.border').removeClass('spinner-grow');
-                                return false;
-                            }
-                            }
+                            smallPicsHtml += '<img class="d-block wid-100 rounded" ' +
+                                'style="width: '+image.thumb_width+'px; height: '+image.thumb_height+'px;" ' +
+                                'src="' + image.thumb_url + '" ' +
+                                'alt="'+escapeHtml(image.title)+'" ' +
+                                'title="'+escapeHtml(image.description)+'"/>';
                         }
+                        mainPicHtml += '</div>';
+                        smallPicsHtml += '</li>';
                     }
-                    if (data.images.length > 0) {
-                        for (var key1 in data.images) {
-                            var image1 = data.images[key1];
-                            smallPicsHtml += '<li data-bs-target="#carouselProductImages" data-bs-slide-to="' + key1 + '" class="w-25 h-auto ' + (parseInt(key1) === 0 ? ' active' : '') + '">';
-                            var tmb_url1 = image1.thumb_url;
-                            var tmb2_url = image1.thumb2_url;
-                            if (image1.origin !== 'external') {
-                                smallPicsHtml += '<img class="d-block wid-100 rounded" style="width: <?php echo $add_w;?>px; height: <?php echo $add_h;?>px;" ' +
-                                    ' src="' + tmb_url1 + '" alt="' + image1.title + '" title="' + image1.title + '" />';
-                            }
-                            smallPicsHtml += '</li>';
 
-                        }
-                    } else {
-                        //no images - no action
-                        $('.smallimage img.border').removeClass('spinner-grow');
-                        return false;
-                    }
-                    $('div.bigimage').each(function () {
-                        $(this).html(mainPicHtml)
-                    });
-                    $('ul.smallimage').each(function () {
-                        $(this).html(smallPicsHtml);
-                    });
-                    start_easyzoom();
+                    $('#carouselProductImages .carousel-inner').html(mainPicHtml)
+                    $('#carouselProductImages ul.thumbnails').html(smallPicsHtml);
+                    initZoom();
+                    thumbnails.removeClass('spinner-grow text-light');
                 }
             });
         }
