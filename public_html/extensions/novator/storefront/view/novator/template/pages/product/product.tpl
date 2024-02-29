@@ -279,18 +279,6 @@ if ($error){ ?>
                                                         </div>
                                                         <div class="flex-grow-1 ms-3">
                                                         <h5><?php echo $text_free_shipping; ?></h5>
-                                                        <u>Enter your Postal code for Delivery Availability</u>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li class="list-group-item px-0 pb-0">
-                                                    <div class="d-flex">
-                                                        <div class="flex-shrink-0">
-                                                        <i class="bi bi-bag fs-4 text-danger"></i>
-                                                        </div>
-                                                        <div class="flex-grow-1 ms-3">
-                                                        <h5>Return Delivery</h5>
-                                                        <u>Free 30 days Delivery Return. Details</u>
                                                         </div>
                                                     </div>
                                                 </li>
@@ -405,34 +393,34 @@ if ($error){ ?>
             <div class="tab-pane" id="collapseReview" role="tabpanel" aria-labelledby="review">
                 <div class="tab-pane-body">
                     <div class="row">
-                        <?php if((float)$average) {?>
                         <div class="col-xxl-8 col-md-10">
-                            <?php if($display_reviews){?>
-                            <h4 class="fw-normal"><?php echo $feedback_customer_title;?></h4>
-                            <div class="row g-4 mb-4 justify-content-between align-items-stretch">
-                                <div class="col-xxl-4 col-xl-5">
-                                    <div class="card h-100 text-center">
-                                        <div class="card-body"><h2 class="mb-0"><b><?php echo $average; ?></b></h2>
-                                                <div class="d-flex align-items-center justify-content-center gap-2 text-warning my-3">
-                                                <div class="text-warning rating-stars text-sm-end">
-                                                    <?php echo renderRatingStarsNv($average,''); ?>
-                                                </div></div>
-                                            <p class="mb-0 text-muted"><?php echo $product_rate_title; ?></p></div>
-                                    </div>
-                                </div>
-                                <div class="col-xxl-8 col-xl-7">
-                                    <div class="card h-100">
-                                        <div class="card-body">
-                                            <div class="d-flex align-items-center">
-                                                <div class="w-100">
-                                                    <?php echo renderProductRatingStars((int)$product_id);?>
+                            <?php if((float)$average) {?>
+                                <?php if($display_reviews){?>
+                                    <h4 class="fw-normal"><?php echo $feedback_customer_title;?></h4>
+                                    <div class="row g-4 mb-4 justify-content-between align-items-stretch">
+                                        <div class="col-xxl-4 col-xl-5">
+                                            <div class="card h-100 text-center">
+                                                <div class="card-body"><h2 class="mb-0"><b><?php echo $average; ?></b></h2>
+                                                        <div class="d-flex align-items-center justify-content-center gap-2 text-warning my-3">
+                                                        <div class="text-warning rating-stars text-sm-end">
+                                                            <?php echo renderRatingStarsNv($average,''); ?>
+                                                        </div></div>
+                                                    <p class="mb-0 text-muted"><?php echo $product_rate_title; ?></p></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xxl-8 col-xl-7">
+                                            <div class="card h-100">
+                                                <div class="card-body">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="w-100">
+                                                            <?php echo renderProductRatingStars((int)$product_id);?>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <?php }?>
+                                <?php }?>
                             <?php }?>
                             <h4 id="headingReview"><?php echo $review_title; ?></h4>
 
@@ -443,23 +431,22 @@ if ($error){ ?>
                             <?php if($review_form_status){ ?>
                             <div class="heading" id="review_title"><h4><?php echo $write_review_title; ?></h4></div>
                             <fieldset>
-
-                            <div class="mb-3">
-                                <div class="mb-3"><label class="form-label"><?php echo $entry_rating; ?></label>
-                                    <div class="d-flex align-items-center gap-1 text-warning"><?php
-                                        $rating_element->required = true;
-                                        echo $rating_element; ?></div>
+                                <div class="mb-3">
+                                    <div class="mb-3"><label class="form-label"><?php echo $entry_rating; ?></label>
+                                        <div class="d-flex align-items-center gap-1 text-warning"><?php
+                                            $rating_element->required = true;
+                                            echo $rating_element; ?></div>
+                                    </div>
+                                    <div class="mb-3"><label class="form-label"><?php echo $entry_name; ?></label>
+                                        <?php $review_name->required = true;
+                                        echo $review_name; ?>
+                                    </div>
+                                    <div class="mb-3"><label class="form-label"><?php echo $entry_review; ?></label>
+                                        <div class="form-text mb-2"><?php echo $text_note; ?></div>
+                                        <?php
+                                        $review_text->required = true;
+                                        echo $review_text; ?></div>
                                 </div>
-                                <div class="mb-3"><label class="form-label"><?php echo $entry_name; ?></label> <?php
-                                    $review_name->required = true;
-                                    echo $review_name; ?>
-                                </div>
-                                <div class="mb-3"><label class="form-label"><?php echo $entry_review; ?></label>
-                                    <div class="form-text mb-2"><?php echo $text_note; ?></div>
-                                    <?php
-                                    $review_text->required = true;
-                                    echo $review_text; ?></div>
-                            </div>
                                 <?php
                                 $review_button->style .= ' ms-auto text-nowrap mt-4';
                                 if ($review_recaptcha){ ?>
@@ -470,20 +457,20 @@ if ($error){ ?>
                                         ?>
                                     </div>
                                 <?php } else{ ?>
-                                    <div class="form-group mb-3 d-flex flex-wrap">
-                                        <?php
-                                        echo $this->html->buildCaptcha(
-                                            [
-                                                'name'        => 'captcha',
-                                                'required'    => true,
-                                                'captcha_url' => $captcha_url,
-                                                'placeholder' => $entry_captcha
-                                            ]
-                                        );
-                                        echo $review_button; ?>
-                                    </div>
+                                        <div class="form-group mb-3 d-flex flex-wrap">
+                                            <?php
+                                            echo $this->html->buildCaptcha(
+                                                [
+                                                    'name'        => 'captcha',
+                                                    'required'    => true,
+                                                    'captcha_url' => $captcha_url,
+                                                    'placeholder' => $entry_captcha
+                                                ]
+                                            );
+                                            echo $review_button; ?>
+                                        </div>
+                                    <?php } ?>
                                 <?php } ?>
-                            <?php } ?>
                             </fieldset>
                         </div>
                     </div>
