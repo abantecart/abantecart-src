@@ -269,23 +269,25 @@ if ($error){ ?>
                                     </div>
                                     <?php
                                      if($product_info['free_shipping'] && $product_info['shipping_price'] <= 0) { ?>
-                                        <div class="card mt-3 mb-0">
-                                            <div class="card-body">
-                                            <ul class="list-group list-group-flush">
-                                                <li class="list-group-item px-0 pt-0">
-                                                    <div class="d-flex">
-                                                        <div class="flex-shrink-0">
-                                                        <i class="bi bi-truck fs-4 text-danger"></i>
-                                                        </div>
-                                                        <div class="flex-grow-1 ms-3">
-                                                        <h5><?php echo $text_free_shipping; ?></h5>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                            </div>
-                                        </div>
-                                    <?php } ?>
+                                         <div class="mt-3 mb-0">
+                                             <div class="card-body p-0">
+                                                 <ul class="list-group list-group-flush">
+                                                     <li class="list-group-item border-0 px-0 pt-0">
+                                                         <div class="d-flex align-items-center">
+                                                             <div class="flex-shrink-0">
+                                                                 <i class="bi bi-truck fs-4 text-danger me-2"></i>
+                                                             </div>
+                                                             <div class="flex-grow-1">
+                                                                 <h5 class="m-0"><?php echo $text_free_shipping; ?></h5>
+                                                             </div>
+                                                         </div>
+                                                     </li>
+                                                 </ul>
+                                             </div>
+                                         </div>
+
+
+                                     <?php } ?>
                                 </fieldset>
                             </form>
                         <?php } elseif(!$product_info['call_to_order']) { ?>
