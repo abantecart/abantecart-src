@@ -761,7 +761,7 @@ if ($error){ ?>
                     let mainPicHtml = '', smallPicsHtml = '';
                     for (let key in data.images) {
                         let image = data.images[key];
-                        if(image.length) continue;
+                        if(image.length == 0 ){ continue; }
                         let active = parseInt(key) === 0 ? 'active' : '';
                         mainPicHtml += '<div class="carousel-item ' + active + '">';
                         smallPicsHtml += '<li data-bs-target="#carouselProductImages" data-bs-slide-to="' + key +
