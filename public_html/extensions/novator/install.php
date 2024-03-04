@@ -97,8 +97,8 @@ $settings['config_image_product_height'] = 400;
 $settings['config_image_additional_width'] = 90;
 $settings['config_image_additional_height'] = 90;
 
-$settings['viewed_products_image_height'] = 312;
-$settings['viewed_products_image_width'] = 400;
+$settings['viewed_products_image_height'] = 400;
+$settings['viewed_products_image_width'] = 312;
 $settings['viewed_products_limit'] = 4;
 $settings['config_image_related_width'] = 312;
 $settings['config_image_related_height'] = 400;

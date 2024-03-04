@@ -547,7 +547,7 @@ if ($error){ ?>
 <?php if ($related_products){ ?>
 <!-- Related Products Section Content Starts -->
     <div class="related_products-block">
-        <div class="row title justify-content-center sec-heading-block text-center">       
+        <div class="row title justify-content-center sec-heading-block text-center">
             <div class="col-xl-8">
                 <h4><?php echo $tab_related; ?> (<?php echo sizeof((array)$related_products); ?>)</h4>
             </div>
@@ -559,38 +559,7 @@ if ($error){ ?>
             //use common template for all product grids
             include($this->templateResource('/template/blocks/product_cell_grid.tpl'));
         ?>
-        <div class="row g-4 side_prd_list pro-sec">
-        <?php
-            foreach ($related_products as $related_product){
-                $tax_message = '';
-                $item['rating'] = ($related_product['rating'])
-                    ? "<img src='" . $this->templateResource('/image/stars_' . $related_product['rating'] . '.png')
-                        . "' class='rating' alt='" . $related_product['stars'] . "' width='64' height='12' />" : '';
-                if (!$display_price){
-                    $related_product['price'] = $related_product['special'] = '';
-                } else {
-                    if($config_tax && !$tax_exempt && $related_product['tax_class_id']){
-                        $tax_message = '&nbsp;&nbsp;'.$price_with_tax;
-                    }
-                }
-            ?>
-            <div class="col-md-3 col-sm-5 col-xs-6 related_product">
-                <a href="<?php echo $related_product['href']; ?>"><?php echo $related_product['image']['thumb_html'] ?></a>
-                <a class="productname" title="<?php echo $related_product['name']; ?>"
-                href="<?php echo $related_product['href']; ?>"><?php echo $related_product['name']; ?></a>
-                <span class="procategory"><?php echo $item['rating'] ?></span>
 
-                <div class="price">
-                    <?php if ($related_product['special']){ ?>
-                        <span class="pricenew"><?php echo $related_product['special'] . $tax_message ?></span>
-                        <span class="priceold"><?php echo $related_product['price'] ?></span>
-                    <?php } else{ ?>
-                        <span class="oneprice"><?php echo $related_product['price'] . $tax_message ?></span>
-                    <?php } ?>
-                </div>
-            </div>
-        <?php } ?>
-        </div>
     </div>
 <!-- Related Products Section Content Ends -->
 <?php }?>

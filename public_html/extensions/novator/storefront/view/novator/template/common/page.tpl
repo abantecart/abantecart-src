@@ -59,9 +59,7 @@
             
             <?php if ( !empty( $$content_top ) ) { ?>  
                 <!-- content-top-section Starts -->
-                    <div class="content-top-section">                  
-                        <?php echo $$content_top; ?>
-                    </div>
+                <?php echo $$content_top; ?>
                 <!-- content-top-section Ends (EOF) -->
             <?php } ?>
             
