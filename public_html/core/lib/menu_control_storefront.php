@@ -52,7 +52,6 @@ class AMenu_Storefront extends AMenu
             foreach ($this->dataset_description_rows as $description_item) {
                 if ($description_item['item_id'] == $item['item_id']) {
                     $item['item_text'][$description_item['language_id']] = $description_item['item_text'];
-                    break;
                 }
             }
 
@@ -82,7 +81,7 @@ class AMenu_Storefront extends AMenu
                 if (count($ctgTrail) && in_array($requestID, $ctgTrail)) {
                     $item['current'] = true;
                 }
-                //process leaves
+                //process leafs
                 $leaf = $this->addNestedCategoryItems($item, $languageId, $requestID);
                 $item['category'] = true;
             }
