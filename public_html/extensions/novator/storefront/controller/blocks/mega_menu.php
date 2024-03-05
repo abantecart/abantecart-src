@@ -18,7 +18,7 @@
  *    needs please refer to http://www.AbanteCart.com for more information.
  */
 
-class ControllerBlocksNovatorHeaderMenu extends AController
+class ControllerBlocksMegaMenu extends AController
 {
     protected $category_id = 0;
     protected $path = [];
