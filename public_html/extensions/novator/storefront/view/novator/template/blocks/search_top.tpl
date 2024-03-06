@@ -1,6 +1,6 @@
 <form id="search_form" action="<?php echo HTTPS_SERVER.INDEX_FILE; ?>" class="form-search top-search d-flex w-100 justify-content-center">
     <input type="hidden" name="rt" value="product/search"/>
-    <input type="hidden" name="category_id" id="filter_category_id" value="0"/>
+    <input type="hidden" name="category_id" id="filter_category_id" value="<?php echo (int) $this->request->get['category_id']?>"/>
 
     <div class="d-none d-lg-flex input-group rounded-1 d ms-auto">
         <?php
@@ -13,7 +13,7 @@
                     'parent_id'   => 0,
                 ]
             ); ?>
-            <button id="filter-keyword"
+            <button
                     class="btn arrow-none border-end shadow-none d-inline-flex align-items-center justify-content-between m-0 p-2"
                     type="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -38,14 +38,16 @@
             </ul>
             <?php
         } ?>
+        <div>
         <input type="text"
                id="filter-keyword"
-               name="keyword"
+               name="keyword" data-dd = '1'
                autocomplete="off"
                class="form-control bg-transparent shadow-none border-0 m-0"
                placeholder="<?php echo_html2view($text_keyword); ?>"
-               value=""/>
-        <button class="btn-search lh-1 ms-4" title="<?php echo_html2view($button_go); ?>">
+               value="" disabled/>
+        </div>
+        <button id="search-button" class="btn-search lh-1 ms-4" title="<?php echo_html2view($button_go); ?>">
             <i class="bi bi-search"></i>
         </button>
     </div>
@@ -66,7 +68,7 @@
             <div class="btn-group">
                 <?php
                 if ($top_categories) {  ?>
-                    <button id="filter-keyword"
+                    <button
                             class="btn dropdown-toggle arrow-none bg-transparent shadow-none border-0"
                             type="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -94,8 +96,8 @@
             </div>
             <div class="input-group">
                 <input type="text" id="filter-keyword" name="keyword"
-                       autocomplete="off" class="form-control bg-transparent shadow-none border-0 m-0"
-                       placeholder="<?php echo_html2view($text_keyword); ?>" value=""/>
+                       autocomplete="off" class="form-control bg-transparent shadow-none border-0 m-0" data-dd = '2'
+                       placeholder="<?php echo_html2view($text_keyword); ?>" value="" disabled/>
             </div>
             <div class="d-grid">
                 <button class="btn btn-primary" title="<?php echo_html2view($button_go); ?>">

@@ -47,6 +47,22 @@ $(document).on('submit','form.needs-validation', function(e){
 });
 
 $(document).ready(function(){
+    var searchOffcanvas = $('#searchoffcanvas');
+    var filterKeywordInput = $('input[name=keyword]');
+
+    searchOffcanvas.on('shown.bs.offcanvas', function () {
+        filterKeywordInput.first().attr('disabled', 'disabled');
+        filterKeywordInput.last().removeAttr('disabled');
+    });
+
+    searchOffcanvas.on('hidden.bs.offcanvas', function () {
+        filterKeywordInput.first().removeAttr('disabled');
+        filterKeywordInput.last().attr('disabled', 'disabled');
+    });
+    if (filterKeywordInput.first().is(":visible")) {
+        filterKeywordInput.first().removeAttr('disabled');
+    }
+
     $(".category-links a.nav-link").hover(
         function(){
             let actTab = new bootstrap.Tab($(this));
