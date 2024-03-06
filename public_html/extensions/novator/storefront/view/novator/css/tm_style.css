@@ -3831,6 +3831,6 @@ input[type="number"] {
     }
     #recipeCarousel .card .img-wrapper img{
         max-height: 100%;
-        max-width: 250px;
+        width: 180px;
     }
 }

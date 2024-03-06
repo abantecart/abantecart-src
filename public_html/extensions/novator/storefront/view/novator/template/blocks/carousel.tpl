@@ -45,15 +45,17 @@ foreach ($listItems as $si => $subitem) {
             $("#recipeCarousel .carousel-control-next").on("click", function () {
                 const carouselWidth = $("#recipeCarousel .carousel-inner")[0].scrollWidth;
                 const cardWidth = $("#recipeCarousel .carousel-item").width();
-                if (scrollPosition < (carouselWidth - cardWidth * 5)) { //check if you can go any further
-                    scrollPosition += cardWidth;  //update scroll position
-                    $("#recipeCarousel .carousel-inner").animate(
-                        {
-                            scrollLeft: scrollPosition
-                        },
-                        600
-                    );
+                if (scrollPosition < (carouselWidth - cardWidth * 5)) {
+                    scrollPosition += cardWidth;
+                }else{
+                    scrollPosition = 0;
                 }
+                $("#recipeCarousel .carousel-inner").animate(
+                    {
+                        scrollLeft: scrollPosition
+                    },
+                    600
+                );
             });
 
             $("#recipeCarousel .carousel-control-prev").on("click", function () {
@@ -79,16 +81,21 @@ foreach ($listItems as $si => $subitem) {
                 $(multipleCardCarousel).addClass("slide");
             }
 
-            // function toggleCarouselControl(){
-            //     const carouselWidth = $("#recipeCarousel .carousel-inner")[0].scrollWidth;
-            //     const cardWidth = $("#recipeCarousel .carousel-item").width();
-            //     const ctrl = $("#recipeCarousel").find(".carousel-control-next,  .carousel-control-prev");
-            //     if(carouselWidth <= cardWidth * $("#recipeCarousel .carousel-item").length){
-            //         ctrl.hide();
-            //     }else{
-            //         ctrl.show();
-            //     }
-            // }
+            $('.mega-menu a.dropdown-toggle').on(
+                'mouseover',
+                function(){
+                    let inner = $("#recipeCarousel .carousel-inner")[0];
+                    const carouselWidth = inner.offsetWidth>0 ? inner.offsetWidth : inner.scrollWidth;
+                    const items = $("#recipeCarousel .carousel-item");
+                    const cardWidth = items.width();
+                    const ctrl = $("#recipeCarousel").find(".carousel-control-next,  .carousel-control-prev");
+                    if(carouselWidth >= (cardWidth * items.length)){
+                        ctrl.hide();
+                    }else{
+                        ctrl.show();
+                    }
+                }
+            );
         }
     );
 </script>
