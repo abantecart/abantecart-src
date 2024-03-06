@@ -226,9 +226,9 @@ class ATax
     {
         if (!$this->customer_data['tax_exempt'] && ($calculate) && (isset($this->taxes[$tax_class_id]))) {
             if ($backward) {
-                return $value - $this->calcTotalTaxAmount($value, $tax_class_id, $backward);
+                return (float)$value - $this->calcTotalTaxAmount($value, $tax_class_id, $backward);
             } else {
-                return $value + $this->calcTotalTaxAmount($value, $tax_class_id, $backward);
+                return (float)$value + $this->calcTotalTaxAmount($value, $tax_class_id, $backward);
             }
         } else {
             //skip calculation
