@@ -94,8 +94,10 @@ $categories = prepareNVCatItems($categories);
 									}
                                     $listItems = $item['children'];
 									if ($sHas3rdLevel) {
+                                        /** @see column_list.tpl */
                                         include($this->templateResource('/template/blocks/column_list.tpl'));
                                     } else {
+                                        /** @see carousel.tpl */
                                         include($this->templateResource('/template/blocks/carousel.tpl'));
                                     }
 									?>

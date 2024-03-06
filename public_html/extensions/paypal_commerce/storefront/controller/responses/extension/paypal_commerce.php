@@ -64,7 +64,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
             if ($total['total_type'] == 'discount' || $total['total_type'] == 'coupon' || $total['total_type'] == 'balance') {
                 $discount += abs($data['order_' . $total['id']]);
-            } elseif ($total['total_type'] == 'fee') {
+            } elseif ($total['total_type'] == 'fee' || str_ends_with($total['total_type'], '_fee')) {
                 $handling_fee += abs($data['order_' . $total['id']]);
             } elseif ($total['total_type'] == 'tax') {
                 $taxes += $data['order_' . $total['id']];

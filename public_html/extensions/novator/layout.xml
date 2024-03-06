@@ -82,12 +82,12 @@
           <position>50</position>
         </block>
         <block>
-          <block_txt_id>novator_header_menu</block_txt_id>
-          <controller>blocks/novator_header_menu</controller>
+          <block_txt_id>mega_menu_header</block_txt_id>
+          <controller>blocks/mega_menu</controller>
           <templates>
             <template>
               <parent_block>header</parent_block>
-              <template_name>blocks/novator_header_menu.tpl</template_name>
+              <template_name>blocks/mega_menu_header.tpl</template_name>
             </template>
           </templates>
           <status>1</status>
@@ -101,12 +101,12 @@
         <status>1</status>
         <position>20</position>
         <block>
-          <block_txt_id>novator_header_menu</block_txt_id>
-          <controller>blocks/novator_header_menu</controller>
+          <block_txt_id>mega_menu_header</block_txt_id>
+          <controller>blocks/mega_menu</controller>
           <templates>
             <template>
               <parent_block>header_bottom</parent_block>
-              <template_name>blocks/novator_header_bottom_menu.tpl</template_name>
+              <template_name>blocks/mega_menu_header_bottom.tpl</template_name>
             </template>
           </templates>
           <status>1</status>
@@ -369,12 +369,12 @@
           <position>50</position>
         </block>
         <block>
-          <block_txt_id>novator_header_menu</block_txt_id>
-          <controller>blocks/novator_header_menu</controller>
+          <block_txt_id>mega_menu_header</block_txt_id>
+          <controller>blocks/mega_menu</controller>
           <templates>
             <template>
               <parent_block>header</parent_block>
-              <template_name>blocks/novator_header_menu.tpl</template_name>
+              <template_name>blocks/mega_menu_header.tpl</template_name>
             </template>
           </templates>
           <status>1</status>
@@ -387,12 +387,12 @@
         <status>1</status>
         <position>20</position>
         <block>
-          <block_txt_id>novator_header_menu</block_txt_id>
-          <controller>blocks/novator_header_menu</controller>
+          <block_txt_id>mega_menu_header</block_txt_id>
+          <controller>blocks/mega_menu</controller>
           <templates>
             <template>
               <parent_block>header_bottom</parent_block>
-              <template_name>blocks/novator_header_bottom_menu.tpl</template_name>
+              <template_name>blocks/mega_menu_header_bottom.tpl</template_name>
             </template>
           </templates>
           <status>1</status>
@@ -1206,12 +1206,12 @@
           <position>50</position>
         </block>
         <block>
-          <block_txt_id>novator_header_menu</block_txt_id>
-          <controller>blocks/novator_header_menu</controller>
+          <block_txt_id>mega_menu_header</block_txt_id>
+          <controller>blocks/mega_menu</controller>
           <templates>
             <template>
               <parent_block>header</parent_block>
-              <template_name>blocks/novator_header_menu.tpl</template_name>
+              <template_name>blocks/mega_menu_header.tpl</template_name>
             </template>
           </templates>
           <status>1</status>
@@ -1224,12 +1224,12 @@
         <status>1</status>
         <position>20</position>
         <block>
-          <block_txt_id>novator_header_menu</block_txt_id>
-          <controller>blocks/novator_header_menu</controller>
+          <block_txt_id>mega_menu_header</block_txt_id>
+          <controller>blocks/mega_menu</controller>
           <templates>
             <template>
               <parent_block>header_bottom</parent_block>
-              <template_name>blocks/novator_header_bottom_menu.tpl</template_name>
+              <template_name>blocks/mega_menu_header_bottom.tpl</template_name>
             </template>
           </templates>
           <status>1</status>
@@ -1491,12 +1491,12 @@
           <position>50</position>
         </block>
         <block>
-          <block_txt_id>novator_header_menu</block_txt_id>
-          <controller>blocks/novator_header_menu</controller>
+          <block_txt_id>mega_menu_header</block_txt_id>
+          <controller>blocks/mega_menu</controller>
           <templates>
             <template>
               <parent_block>header</parent_block>
-              <template_name>blocks/novator_header_menu.tpl</template_name>
+              <template_name>blocks/mega_menu_header.tpl</template_name>
             </template>
           </templates>
           <status>1</status>
@@ -1509,12 +1509,12 @@
         <status>1</status>
         <position>20</position>
         <block>
-          <block_txt_id>novator_header_menu</block_txt_id>
-          <controller>blocks/novator_header_menu</controller>
+          <block_txt_id>mega_menu_header</block_txt_id>
+          <controller>blocks/mega_menu</controller>
           <templates>
             <template>
               <parent_block>header_bottom</parent_block>
-              <template_name>blocks/novator_header_bottom_menu.tpl</template_name>
+              <template_name>blocks/mega_menu_header_bottom.tpl</template_name>
             </template>
           </templates>
           <status>1</status>
@@ -1776,12 +1776,12 @@
           <position>50</position>
         </block>
         <block>
-          <block_txt_id>novator_header_menu</block_txt_id>
-          <controller>blocks/novator_header_menu</controller>
+          <block_txt_id>mega_menu_header</block_txt_id>
+          <controller>blocks/mega_menu</controller>
           <templates>
             <template>
               <parent_block>header</parent_block>
-              <template_name>blocks/novator_header_menu.tpl</template_name>
+              <template_name>blocks/mega_menu_header.tpl</template_name>
             </template>
           </templates>
           <status>1</status>
@@ -1794,12 +1794,12 @@
         <status>1</status>
         <position>20</position>
         <block>
-          <block_txt_id>novator_header_menu</block_txt_id>
-          <controller>blocks/novator_header_menu</controller>
+          <block_txt_id>mega_menu_header</block_txt_id>
+          <controller>blocks/mega_menu</controller>
           <templates>
             <template>
               <parent_block>header_bottom</parent_block>
-              <template_name>blocks/novator_header_bottom_menu.tpl</template_name>
+              <template_name>blocks/mega_menu_header_bottom.tpl</template_name>
             </template>
           </templates>
           <status>1</status>
@@ -2410,12 +2410,12 @@
           <position>40</position>
         </block>
         <block>
-          <block_txt_id>novator_header_menu</block_txt_id>
-          <controller>blocks/novator_header_menu</controller>
+          <block_txt_id>mega_menu_header</block_txt_id>
+          <controller>blocks/mega_menu</controller>
           <templates>
             <template>
               <parent_block>header</parent_block>
-              <template_name>blocks/novator_header_menu.tpl</template_name>
+              <template_name>blocks/mega_menu_header.tpl</template_name>
             </template>
           </templates>
           <status>1</status>
@@ -2428,12 +2428,12 @@
         <status>1</status>
         <position>20</position>
         <block>
-          <block_txt_id>novator_header_menu</block_txt_id>
-          <controller>blocks/novator_header_menu</controller>
+          <block_txt_id>mega_menu_header</block_txt_id>
+          <controller>blocks/mega_menu</controller>
           <templates>
             <template>
               <parent_block>header_bottom</parent_block>
-              <template_name>blocks/novator_header_bottom_menu.tpl</template_name>
+              <template_name>blocks/mega_menu_header_bottom.tpl</template_name>
             </template>
           </templates>
           <status>1</status>
@@ -2701,12 +2701,12 @@
           <position>50</position>
         </block>
         <block>
-          <block_txt_id>novator_header_menu</block_txt_id>
-          <controller>blocks/novator_header_menu</controller>
+          <block_txt_id>mega_menu_header</block_txt_id>
+          <controller>blocks/mega_menu</controller>
           <templates>
             <template>
               <parent_block>header</parent_block>
-              <template_name>blocks/novator_header_menu.tpl</template_name>
+              <template_name>blocks/mega_menu_header.tpl</template_name>
             </template>
           </templates>
           <status>1</status>
@@ -2719,12 +2719,12 @@
         <status>1</status>
         <position>20</position>
         <block>
-          <block_txt_id>novator_header_menu</block_txt_id>
-          <controller>blocks/novator_header_menu</controller>
+          <block_txt_id>mega_menu_header</block_txt_id>
+          <controller>blocks/mega_menu</controller>
           <templates>
             <template>
               <parent_block>header_bottom</parent_block>
-              <template_name>blocks/novator_header_bottom_menu.tpl</template_name>
+              <template_name>blocks/mega_menu_header_bottom.tpl</template_name>
             </template>
           </templates>
           <status>1</status>
@@ -3070,12 +3070,12 @@
           <position>50</position>
         </block>
         <block>
-          <block_txt_id>novator_header_menu</block_txt_id>
-          <controller>blocks/novator_header_menu</controller>
+          <block_txt_id>mega_menu_header</block_txt_id>
+          <controller>blocks/mega_menu</controller>
           <templates>
             <template>
               <parent_block>header</parent_block>
-              <template_name>blocks/novator_header_menu.tpl</template_name>
+              <template_name>blocks/mega_menu_header.tpl</template_name>
             </template>
           </templates>
           <status>1</status>
@@ -3088,12 +3088,12 @@
         <status>1</status>
         <position>20</position>
         <block>
-          <block_txt_id>novator_header_menu</block_txt_id>
-          <controller>blocks/novator_header_menu</controller>
+          <block_txt_id>mega_menu_header</block_txt_id>
+          <controller>blocks/mega_menu</controller>
           <templates>
             <template>
               <parent_block>header_bottom</parent_block>
-              <template_name>blocks/novator_header_bottom_menu.tpl</template_name>
+              <template_name>blocks/mega_menu_header_bottom.tpl</template_name>
             </template>
           </templates>
           <status>1</status>
