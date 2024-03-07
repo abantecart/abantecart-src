@@ -155,8 +155,8 @@ jQuery(function($){
 			id = val.replace('content/content&content_id=', '');
 			$('#menu_information').val(id).change();
 			$('#link_content_wrapper').removeClass('hide')
-                .find('[name="include_children"]').attr('disabled','disabled');
-            $('#link_category_wrapper').find('[name="include_children"]').removeAttr('disabled');
+                .find('[name="include_children"]').removeAttr('disabled');
+            $('#link_category_wrapper').find('[name="include_children"]').attr('disabled','disabled');
 			$('#link_type').val('content');
 			$('input[name="item_url"]').attr('readonly','readonly');
 		}else{
