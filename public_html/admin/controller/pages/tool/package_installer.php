@@ -191,6 +191,7 @@ class ControllerPagesToolPackageInstaller extends AController
                 'name'   => 'uploadFrm',
                 'action' => $this->html->getSecureURL('tool/package_installer/upload'),
                 'attr'   => 'data-confirm-exit="true" class="aform form-horizontal"',
+                'enctype' => 'multipart/form-data'
             ]
         );
 
@@ -817,8 +818,8 @@ class ControllerPagesToolPackageInstaller extends AController
         } // confirmation for ftp access to file system
         elseif ($ftp_mode) {
             $template = 'pages/tool/package_installer_ftp_form.tpl';
-            $ftp_user = $package_info['ftp_user'] ? $package_info['ftp_user'] : '';
-            $ftp_host = $package_info['ftp_host'] ? $package_info['ftp_host'] : '';
+            $ftp_user = $package_info['ftp_user'] ?: '';
+            $ftp_host = $package_info['ftp_host'] ?: '';
 
             $this->data['form']['fuser'] = $form->getFieldHtml(
                 [
