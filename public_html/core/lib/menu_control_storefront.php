@@ -106,7 +106,6 @@ class AMenu_Storefront extends AMenu
                         $tmp[$parentId][$sortOrder] = $itm;
                     }
                 }
-                //$item['current'] = true; ????
             }
         }
         $menu = [];
@@ -167,7 +166,7 @@ class AMenu_Storefront extends AMenu
                 $leafItem['item_url'] = 'product/category&path=' . $leafItem['path'];
                 $leafItem['item_text'] = [$languageId => $cat['name']];
                 $leafItem['sort_order'] = $cat['sort_order'];
-                if ($cat['category_id'] == $requestId ) {
+                if ($cat['path'] == $requestId ) {
                     $leafItem['current'] = true;
                 }
                 $this->item_ids[] = $leafItem['item_id'];

@@ -36,20 +36,18 @@ $categories = prepareNVCatItems($categories);
                 </div>
             </div>
             <div class="collapse d-none d-lg-flex navbar-collapse ">
-                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-start">
+                <ul class="mega-sf-menu navbar-nav mx-auto mb-2 mb-lg-0 align-items-start">
                     <?php
 					//get last menu item
                     $last = array_pop($storefront_menu);
-                    ?>
-					<?php
                     foreach ($storefront_menu as $i => $item) {
+                        $text = $item['text'] ?: $item['title'] ?: $item['name'];
 						$hasChild = (bool) $item['children'];
 						$active = $item['current'] ? 'active' : '';
-						if (!$hasChild) {
-						?>
+						if (!$hasChild) { ?>
 						<li class="nav-item">
-							<a class="nav-link <?php echo $active; ?>>" href="<?php echo $item['href']; ?>">
-								<?php echo $item['text'] ?: $item['title'] ?: $item['name']; ?>
+							<a class="nav-link <?php echo $active; ?>" href="<?php echo $item['href']; ?>">
+								<?php echo $text; ?>
 							</a>
 						</li>
 					<?php
@@ -58,55 +56,50 @@ $categories = prepareNVCatItems($categories);
 							//non category nested menu
 					?>
 						<li class="nav-item dropdown mega-menu">
-							<a class="nav-link <?php echo $active; ?> dropdown-toggle" href="<?php echo $item['href']; ?>" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-                                <?php echo $item['text'] ?: $item['title'] ?: $item['name']; ?>
+							<a class="nav-link <?php echo $active; ?> dropdown-toggle" href="<?php echo $item['href']; ?>"
+                               role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                                <?php echo $text; ?>
 							</a>
 							<ul class="dropdown-menu list-unstyled category-sub-links">
-								<?php
-								foreach ($item['children'] as $si => $subitem) {
-                                    $sActive = $subitem['current'] ? 'active' : '';
-								?>
+                            <?php
+								foreach ($item['children'] as $si => $subItem) {
+                                    $sActive = $subItem['current'] ? 'active' : ''; ?>
 									<li>
-										<a class="nav-link <?php echo $sActive; ?>" href="<?php echo $subitem['href']; ?>">
-                                            <?php echo $subitem['text'] ?: $subitem['title'] ?: $subitem['name']; ?>
+										<a class="nav-link <?php echo $sActive; ?>" href="<?php echo $subItem['href']; ?>">
+                                            <?php echo $subItem['text'] ?: $subItem['title'] ?: $subItem['name']; ?>
 										</a>
 									</li>
-                                <?php
-								}
-								?>
+                            <?php } ?>
 							</ul>
 						</li>
-					<?php
-                            } else {
-								// display category
-								?>
+					<?php }
+                        // display category
+                        else { ?>
 							<li class="nav-item dropdown mega-menu">
-								<a class="nav-link <?php echo $active; ?> dropdown-toggle" href="<?php echo $item['href']; ?>" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-                                    <?php echo $item['text'] ?: $item['title'] ?: $item['name']; ?>
+								<a class="nav-link <?php echo $active; ?> dropdown-toggle" href="<?php echo $item['href']; ?>"
+                                   role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                                    <?php echo $text; ?>
 								</a>
 								<div class="dropdown-menu dropdown-mega-menu">
 									<?php
 									//detect categories with one more level menu (3rd level)
 									$sHas3rdLevel = false;
-									foreach ($item['children'] as $si => $subitem) {
-                                        $sHas3rdLevel = (bool) $subitem['children'];
+									foreach ($item['children'] as $si => $subItem) {
+                                        $sHas3rdLevel = (bool)$subItem['children'];
 										if ($sHas3rdLevel) { break; }
 									}
                                     $listItems = $item['children'];
 									if ($sHas3rdLevel) {
-                                        /** @see column_list.tpl */
-                                        include($this->templateResource('/template/blocks/column_list.tpl'));
+                                        /** @see mega_menu_category_column_list.tpl */
+                                        include($this->templateResource('/template/blocks/mega_menu_category_column_list.tpl'));
                                     } else {
-                                        /** @see carousel.tpl */
-                                        include($this->templateResource('/template/blocks/carousel.tpl'));
-                                    }
-									?>
+                                        /** @see mega_menu_category_carousel.tpl */
+                                        include($this->templateResource('/template/blocks/mega_menu_category_carousel.tpl'));
+                                    } ?>
 								</div>
 							</li>
 								<?php
                             }
-					?>
-					<?php
                         }
 					} //main foreach
 					?>

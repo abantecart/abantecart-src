@@ -47,7 +47,6 @@ class ControllerBlocksMegaMenu extends AController
         $this->data['home_href'] =  $this->html->getHomeURL();
 
         $this->data['storefront_menu'] = $this->buildMenu();
-
         $this->view->batchAssign($this->data);
         $this->processTemplate();
 
@@ -170,7 +169,7 @@ class ControllerBlocksMegaMenu extends AController
             }
             $category['href'] = $this->html->getSEOURL('product/category', '&path=' . $category['path'], '&encode');
             //mark current category
-            if (in_array($category['category_id'], $this->path)) {
+            if ($category['category_id'] == $this->category_id) {
                 $category['current'] = true;
             }
             $output[] = $category;
@@ -193,14 +192,22 @@ class ControllerBlocksMegaMenu extends AController
         return $this->session->data['storefront_menu'] = $this->prepareMenu($menu_items, '');
     }
 
-    protected function prepareMenu($menu_items, $parent = '')
+    protected function prepareMenu($menu_items, $level = '')
     {
+        $logged = $this->customer->isLogged();
         $menu = [];
-        if ($parent && empty($menu_items[$parent])) {
+        if ($level && empty($menu_items[$level])) {
             return $menu;
         }
         $lang_id = (int) $this->config->get('storefront_language_id');
-        foreach ($menu_items[$parent] as $item) {
+        foreach ($menu_items[$level] as $item) {
+
+            if (($logged && $item['item_id'] == 'login')
+                || (!$logged && $item['item_id'] == 'logout')
+            ) {
+                continue;
+            }
+
             if (preg_match("/^http/i", $item ['item_url'])) {
                 //process full URLs
                 $href = $item ['item_url'];
@@ -212,16 +219,27 @@ class ControllerBlocksMegaMenu extends AController
                 $href = $this->html->getSecureURL($item ['item_url']);
             }
             $item['id'] = $item['item_id'];
-            $item['current'] = $item['current'] ?? false;
             $item['icon'] = $item['item_icon'] ?? '';
             $item['icon_rl_id'] = $item['item_icon_rl_id'] ?? '';
             $item['href'] = $href;
             $item['text'] = $item['item_text'][$lang_id] ?? '';
             $item['children'] = $this->prepareMenu($menu_items, $item['item_id']);
 
+            //if at least one child is current - mark parent as current too
+            if($item['children']) {
+                $item['current'] = in_array(true, array_column($item['children'], 'current'));
+            }
+
+            parse_str($item['item_url'], $urlParams);
+            if(!$level && $item['category']){
+                $item['current'] = in_array($urlParams['path'], $this->path);
+            }elseif(isset($item['path'])) {
+                $item['current'] = str_starts_with($this->request->get['path'], $item['path']);
+            }elseif( !isset($item['current']) ){
+                $item['current'] = array_key_first($urlParams) == $this->request->get['rt'];
+            }
             $menu[] = $item;
         }
         return $menu;
     }
-
 }
