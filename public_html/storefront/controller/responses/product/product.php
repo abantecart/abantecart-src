@@ -180,10 +180,9 @@ class ControllerResponsesProductProduct extends AController
         $mdl = $this->loadModel('catalog/product');
         $product_info = $mdl->getProduct($product_id);
         if ($product_info) {
-            $text_errors = $mdl->validateProductOptions(
-                $product_id,
-                (array)$this->request->get_or_post('option')
-            );
+            $options = (array)$this->request->get_or_post('option');
+            $key = $product_id .( $options ? ':'.md5(serialize($options)) : '' );
+            $text_errors = $mdl->validateProductOptions( $product_id, $options );
 
             if ($text_errors) {
                 $err = new AError('Data Validation');
@@ -197,12 +196,20 @@ class ControllerResponsesProductProduct extends AController
                 return;
             }
 
-            $priorAdded = $this->cart->getProduct( $product_id );
-            $this->cart->add(
-                $product_id,
-                (int)$priorAdded['qty'] >= (int)$product_info['minimum'] ? 1  : $product_info['minimum'],
-                (array)$this->request->get_or_post('option')
-            );
+            $product_info['minimum'] = (int)$product_info['minimum']?:1;
+            $priorAdded = $this->cart->getProduct( $key );
+            $qnty = (int)$priorAdded['qty'] + $this->request->get_or_post('quantity');
+            $qnty = max($qnty,$product_info['minimum']);
+
+            if((int)$product_info['maximum'] && $qnty > (int)$product_info['maximum']){
+                $qnty = (int)$product_info['maximum'];
+            }
+
+            if(!$priorAdded) {
+                $this->cart->add( $key, $qnty, $options );
+            }else{
+                $this->cart->update( $key, $qnty );
+            }
         }
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
