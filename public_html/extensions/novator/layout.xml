@@ -1555,7 +1555,7 @@
           <controller>blocks/viewed_products</controller>
           <templates>
             <template>
-              <parent_block>viewed_products</parent_block>
+              <parent_block>content_bottom</parent_block>
               <template_name>blocks/viewed_block_column_footer_top.tpl</template_name>
             </template>
           </templates>
