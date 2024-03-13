@@ -40,7 +40,7 @@ footer>nav a:not(.dropdown-item, .dropdown-item-text a)
 .dropup:hover>.dropdown-menu,
 .dropdown:hover>.dropdown-menu {
     display: block;
-    margin-top: 0;
+    margin-top: var(--bs-dropdown-spacer);
  }
 li.dropdown{
   max-width: 300px;

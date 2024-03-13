@@ -164,6 +164,8 @@ class AMenu_Storefront extends AMenu
                     $leafItem['parent_id'] = $parentItem['item_id'] . '.' . implode('_', $pth);
                 }
                 $leafItem['item_url'] = 'product/category&path=' . $leafItem['path'];
+                $leafItem['settings']['target'] = $leafItem['settings']['target'] ?? $parentItem['settings']['target'];
+
                 $leafItem['item_text'] = [$languageId => $cat['name']];
                 $leafItem['sort_order'] = $cat['sort_order'];
                 if ($cat['path'] == $requestId ) {

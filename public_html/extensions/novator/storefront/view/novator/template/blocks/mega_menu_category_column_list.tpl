@@ -1,12 +1,12 @@
 <div class="container">
 	<div class="row">
-    <?php
+<?php
         foreach ($listItems as $si => $subitem) {
         $sActive = $subitem['current'] ? 'active' : ''; ?>
 		<div class="col-3">
 			<ul class="list-unstyled category-sub-links">
                 <li>
-                    <a class="<?php echo $sActive; ?>" href="<?php echo $subitem['href']; ?>">
+                    <a class="<?php echo $sActive; ?>" href="<?php echo $subitem['href']; ?>" target="<?php echo $subitem['settings']['target']; ?>">
                         <h6 class="category-title">
                             <?php echo $subitem['text'] ?: $subitem['title'] ?: $subitem['name']; ?>
                         </h6>
@@ -16,7 +16,7 @@
                 foreach ($subitem['children'] as $sci => $subChildItem) {
                     $schActive = $subChildItem['current'] ? 'active' : ''; ?>
 					<li>
-						<a class="<?php echo $schActive; ?>" href="<?php echo $subChildItem['href']; ?>">
+						<a class="<?php echo $schActive; ?>" href="<?php echo $subChildItem['href']; ?>" target="<?php echo $subChildItem['settings']['target']; ?>">
                             <?php echo $subChildItem['text'] ?: $subChildItem['title'] ?: $subChildItem['name']; ?>
 						</a>
 					</li>
@@ -24,8 +24,6 @@
                 } ?>
 			</ul>
 		</div>
-		<?php
-        }
-		?>
+<?php  } ?>
 	</div>
 </div>

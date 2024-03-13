@@ -12,17 +12,16 @@ foreach ($listItems as $si => $subitem) {
         $img = '<img class="image-fluid " src="resources/image/'.$resource['resource_path'].'" />';
     } elseif ($resource['resource_code']) {
         $img = $resource['resource_code'];
-    }
-?>
+    } ?>
                 <div class="carousel-item">
                     <div class="card">
-                        <a class="<?php echo $schActive; ?>" href="<?php echo $subitem['href']; ?>">
+                        <a class="<?php echo $schActive; ?>" href="<?php echo $subitem['href']; ?>" target="<?php echo $subitem['settings']['target']; ?>">
                             <div class="img-wrapper">
                                 <?php echo $img; ?>
                             </div>
                         </a>
                         <div class="card-body">
-                            <a class="<?php echo $schActive; ?>" href="<?php echo $subitem['href']; ?>">
+                            <a class="<?php echo $schActive; ?>" href="<?php echo $subitem['href']; ?>" target="<?php echo $subitem['settings']['target']; ?>">
                                 <h6 class="category-title menu-img-caption">
                                 <?php echo $subitem['text'] ?: $subitem['title'] ?: $subitem['name']; ?>
                                 </h6>

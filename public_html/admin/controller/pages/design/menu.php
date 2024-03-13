@@ -29,6 +29,7 @@ class ControllerPagesDesignMenu extends AController
         'item_icon',
         'item_text',
         'item_url',
+        'target',
         'parent_id',
         'sort_order',
     ];
@@ -214,7 +215,12 @@ class ControllerPagesDesignMenu extends AController
                     'item_url'        => $post['item_url'],
                     'sort_order'      => $post['sort_order'],
                     'item_type'       => 'core',
-                    'settings'        => serialize(['include_children' => (int)$post['include_children']])
+                    'settings'        => serialize(
+                        [
+                            'include_children' => (int)$post['include_children'],
+                            'target' => $post['target']
+                        ]
+                    )
                 ]
             );
 
@@ -252,8 +258,12 @@ class ControllerPagesDesignMenu extends AController
                 $post['item_icon'] = (int)$post['item_icon'];
             }
             if (isset ($post['include_children'])) {
-                $post['settings'] = serialize(['include_children' => (int)$post['include_children']]);
+                $post['settings']['include_children'] = (int)$post['include_children'];
             }
+            if (isset ($post['target'])) {
+                $post['settings']['target'] = $post['target'];
+            }
+            $post['settings'] = serialize( $post['settings'] );
 
             $item_keys = [
                 'item_icon',
@@ -439,6 +449,19 @@ class ControllerPagesDesignMenu extends AController
                 'style'    => 'large-field',
                 'required' => true,
                 'help_url' => $this->gen_help_url('item_url'),
+            ]
+        );
+        $this->data['form']['fields']['item_target'] = $form->getFieldHtml(
+            [
+                'type'     => 'selectbox',
+                'name'     => 'target',
+                'value'    => $this->data['settings']['target'],
+                'options'  => [
+                    '_self' => '_self',
+                    '_blank' => '_blank'
+                ],
+                'style'    => 'small-field',
+                'required' => true
             ]
         );
 

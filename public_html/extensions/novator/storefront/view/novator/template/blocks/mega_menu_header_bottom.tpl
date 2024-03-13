@@ -46,7 +46,7 @@ $categories = prepareNVCatItems($categories);
 						$active = $item['current'] ? 'active' : '';
 						if (!$hasChild) { ?>
 						<li class="nav-item">
-							<a class="nav-link <?php echo $active; ?>" href="<?php echo $item['href']; ?>">
+							<a class="nav-link <?php echo $active; ?>" href="<?php echo $item['href']; ?>" target="<?php echo $item['settings']['target']; ?>">
 								<?php echo $text; ?>
 							</a>
 						</li>
@@ -56,7 +56,9 @@ $categories = prepareNVCatItems($categories);
 							//non category nested menu
 					?>
 						<li class="nav-item dropdown mega-menu">
-							<a class="nav-link <?php echo $active; ?> dropdown-toggle" href="<?php echo $item['href']; ?>"
+							<a class="nav-link <?php echo $active; ?> dropdown-toggle"
+                               href="<?php echo $item['href']; ?>"
+                               target="<?php echo $item['settings']['target']; ?>"
                                role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                                 <?php echo $text; ?>
 							</a>
@@ -76,7 +78,9 @@ $categories = prepareNVCatItems($categories);
                         // display category
                         else { ?>
 							<li class="nav-item dropdown mega-menu">
-								<a class="nav-link <?php echo $active; ?> dropdown-toggle" href="<?php echo $item['href']; ?>"
+								<a class="nav-link <?php echo $active; ?> dropdown-toggle"
+                                   href="<?php echo $item['href']; ?>"
+                                   target="<?php echo $item['settings']['target']; ?>"
                                    role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                                     <?php echo $text; ?>
 								</a>

@@ -64,6 +64,7 @@ function renderSFMenu($menuItems, $level = 0, $parentId = '', $options = [ ])
             $css = 'dropdown-toggle text-nowrap mb-3 mb-md-0 me-3 '. ($level ? 'dropdown-item ' : '');
             $output .= '<a id="'.$id.'" 
                             href="'.$item['href'].'" 
+                            target="'.$item['settings']['target'].'"
                             class="'.$css.'" 
                             data-bs-toggle="dropdown" 
                             data-bs-target="dropdown" 
@@ -91,12 +92,12 @@ function renderSFMenu($menuItems, $level = 0, $parentId = '', $options = [ ])
             $output .= "\r\n".call_user_func_array('renderSFMenu',$params);
         } else {
             $css = $level ? "dropdown-item" : "text-secondary " .' me-3 mb-3 text-nowrap ';
-            $popoverAttr = $item['thumb'] ? 'data-bs-toggle="popover" 
-                        data-bs-content="<img src=&quot;'.$item['thumb'].'&quot;>" 
-                        data-bs-html="true" data-bs-offset="5,5"
-                        data-bs-boundary="window" data-bs-placement="right" data-bs-trigger="hover"'
+            $popoverAttr = $item['thumb']
+                ? 'data-bs-toggle="popover" data-bs-content="<img src=&quot;'.$item['thumb'].'&quot;>" '
+                        .'data-bs-html="true" data-bs-offset="5,5" data-bs-boundary="window" '
+                        .'data-bs-placement="right" data-bs-trigger="hover"'
                 : '';
-            $output .= '<a href="'.$item['href'].'" class="'.$css.'" '.$popoverAttr.'>'.$icon.$item_title.'</a>';
+            $output .= '<a href="'.$item['href'].'" target="'.$item['settings']['target'].'" class="'.$css.'" '.$popoverAttr.'>'.$icon.$item_title.'</a>';
         }
         $output .= '</div>';
     }

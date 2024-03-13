@@ -160,10 +160,12 @@ $(document).ready(function(){
 
     //dropdown menu fix of parent
     $('.dropdown>a').on('click', function (e) {
-        e.preventDefault();
-        let href = $(this).attr('href');
-        if(href !== '#') {
-            location = href;
+        if(!$(this).attr('target')) {
+            e.preventDefault();
+            let href = $(this).attr('href');
+            if (href !== '#') {
+                location = href;
+            }
         }
     })
 
