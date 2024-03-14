@@ -78,6 +78,12 @@ if($products){ ?>
                                         <?php echo $text_sale; ?>
                                     </span>
                                             <?php } ?>
+                                            <?php if ($product['track_stock'] && !$product['in_stock']) { ?>
+                                                <span class="sale_<?php echo $product['product_id']; ?>
+									prod-badge badge rounded-0 position-absolute text-uppercase bg-white text-dark">
+										<?php echo $text_out_of_stock; ?>
+									</span>
+                                            <?php }?>
                                             <div class="overlay d-flex align-items-end end-0 start-0 bottom-0 position-absolute">
                                                 <?php
                                                 if ($product['new_product']) { ?>

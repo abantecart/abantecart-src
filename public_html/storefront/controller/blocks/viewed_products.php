@@ -55,7 +55,7 @@ class ControllerBlocksViewedProducts extends AController
         if (!has_value($height)) {
             $height = $this->config->get('config_image_product_height');
         }
-
+        $stock_info = $this->model_catalog_product->getProductsStockInfo($product_ids);
         if (is_array($products)) {
             foreach ($products as $result) {
                 $thumbnail = $resource->getMainThumb(
@@ -119,6 +119,21 @@ class ControllerBlocksViewedProducts extends AController
                         );
                     }
                 }
+                $track_stock = false;
+                $in_stock = false;
+                $no_stock_text = $this->language->get('text_out_of_stock');
+                $total_quantity = 0;
+                $stock_checkout = $result['stock_checkout'] === ''
+                    ? $this->config->get('config_stock_checkout')
+                    : $result['stock_checkout'];
+                if ($stock_info[$result['product_id']]['subtract']) {
+                    $track_stock = true;
+                    $total_quantity = $this->model_catalog_product->hasAnyStock($result['product_id']);
+                    //we have stock or out of stock checkout is allowed
+                    if ($total_quantity > 0 || $stock_checkout) {
+                        $in_stock = true;
+                    }
+                }
 
                 $this->data['products'][] = [
                     'product_id' => $result['product_id'],
@@ -137,6 +152,10 @@ class ControllerBlocksViewedProducts extends AController
                         '&encode'
                     ),
                     'add' => $add,
+                    'track_stock'    => $track_stock,
+                    'in_stock'       => $in_stock,
+                    'no_stock_text'  => $no_stock_text,
+                    'total_quantity' => $total_quantity,
                 ];
             }
         }
