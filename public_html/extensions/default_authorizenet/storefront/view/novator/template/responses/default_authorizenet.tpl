@@ -29,12 +29,12 @@ echo $form_open;?>
             <?php echo $cc_expire_date_year; ?>
         </div>
     </div>
-    <div class="mb-3 row">
-        <label for="cc_owner" class="col-9 col-form-label"><?php echo $entry_cc_cvv2; ?>
+    <div class="mb-3 row g-3 d-flex flex-wrap justify-content-between">
+        <label for="cc_owner" class="col-auto col-form-label"><?php echo $entry_cc_cvv2; ?>
             <a onclick="openModalRemote('#ccModal', '<?php echo $cc_cvv2_help_url; ?>')"
                href="Javascript:void(0);"><?php echo $entry_cc_cvv2_short; ?></a>
         </label>
-        <div class="col-3">
+        <div class="col-auto">
             <?php echo $cc_cvv2; ?>
             <input type="hidden" name="dataValue" id="dataValue" />
             <input type="hidden" name="dataDescriptor" id="dataDescriptor" />
