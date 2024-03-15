@@ -81,7 +81,7 @@ if ($error){ ?>
                 </div>
                 <div class="col-sm-3">
                     <div class="d-flex justify-content-sm-end gap-2">
-                        <?php echo $this->getHookVar('buttons');
+                        <?php
                         if ($is_customer) { ?>
                             <div class="wishlist d-flex align-items-center justify-content-between">
                                 <a id="wishlist_remove" class="bg-light-danger badge fs-6 <?php echo $in_wishlist ? 'd-block': 'd-none';?>" href="Javascript:void(0);">
@@ -239,6 +239,7 @@ if ($error){ ?>
                                                 <div class="alert alert-warning my-2 no-stock-alert">
                                                     <label class="control-label"><?php echo $stock; ?></label>
                                                 </div>
+                                                <div class="col-9 "><?php echo $this->getHookVar('buttons'); ?></div>
                                         <?php
                                             } else { ?>
                                                 <div class="product-page-add2cart">
