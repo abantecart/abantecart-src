@@ -649,7 +649,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController
             $this->error['email'] = $this->language->get('error_email');
         }
 
-        $pattern = $this->config->get('config_phone_validation_pattern') ? : '/^[0-9]{3,32}$/';
+        $pattern = $this->config->get('config_phone_validation_pattern') ? : DEFAULT_PHONE_REGEX_PATTERN;
         $phone = $data['telephone'] ?? '';
         if ($phone
             && (mb_strlen($phone) < 3

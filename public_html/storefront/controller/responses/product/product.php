@@ -175,19 +175,38 @@ class ControllerResponsesProductProduct extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->loadModel('catalog/product');
-        $product_info = $this->model_catalog_product->getProduct($this->request->get['product_id']);
+        $product_id = (int)$this->request->get_or_post('product_id');
+        /** @var ModelCatalogProduct $mdl */
+        $mdl = $this->loadModel('catalog/product');
+        $product_info = $mdl->getProduct($product_id);
         if ($product_info) {
-            $priorAdded = $this->cart->getProduct($this->request->get['product_id']);
+            $text_errors = $mdl->validateProductOptions(
+                $product_id,
+                (array)$this->request->get_or_post('option')
+            );
+
+            if ($text_errors) {
+                $err = new AError('Data Validation');
+                $err->toJSONResponse(
+                    'VALIDATION_ERROR_406',
+                    [
+                        'error_text' => current($text_errors),
+                        'errors' => $text_errors
+                    ]
+                );
+                return;
+            }
+
+            $priorAdded = $this->cart->getProduct( $product_id );
             $this->cart->add(
-                $this->request->get['product_id'],
+                $product_id,
                 (int)$priorAdded['qty'] >= (int)$product_info['minimum'] ? 1  : $product_info['minimum'],
-                (array)$this->request->get['option']
+                (array)$this->request->get_or_post('option')
             );
         }
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-        $this->getCartContent($this->request->get['product_id']);
+        $this->getCartContent($product_id);
     }
 
     public function getCartContent($productCartKey = null)

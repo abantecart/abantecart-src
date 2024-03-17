@@ -119,7 +119,7 @@ final class ARequest
                 }
             }
         } else {
-            $data = htmlspecialchars(urldecode($data), ENT_COMPAT, 'UTF-8');
+            $data = trim(htmlspecialchars($data, ENT_COMPAT, 'UTF-8'));
         }
         return $data;
     }

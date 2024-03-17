@@ -1420,13 +1420,13 @@ class ModelCatalogProduct extends Model
             foreach ($product_options as $option) {
                 if ($option['required']) {
                     if (empty($input_options[$option['product_option_id']])) {
-                        $errors[] = $option['name'].': '.$this->language->get('error_required_options');
+                        $errors[$option['product_option_id']] = $option['name'].': '.$this->language->get('error_required_options');
                     }
                 }
 
                 if ($option['regexp_pattern']
                     && !preg_match($option['regexp_pattern'], (string) $input_options[$option['product_option_id']])) {
-                    $errors[] = $option['name'].': '.$option['error_text'];
+                    $errors[$option['product_option_id']] = $option['name'].': '.$option['error_text'];
                 }
             }
         }
@@ -1778,7 +1778,7 @@ class ModelCatalogProduct extends Model
                         ".$this->_sql_join_string();
             }
 
-            if (isset($filter['category_id']) && !is_null($filter['category_id'])) {
+            if (isset($filter['category_id'])) {
                 $sql .= " LEFT JOIN ".$this->db->table("products_to_categories")." p2c 
                             ON (p.product_id = p2c.product_id)";
             }
@@ -1790,13 +1790,13 @@ class ModelCatalogProduct extends Model
                 $sql .= " AND ".$data['subsql_filter'];
             }
 
-            if (isset($filter['match']) && !is_null($filter['match'])) {
+            if (isset($filter['match'])) {
                 $match = $filter['match'];
             } else {
                 $match = 'exact';
             }
 
-            if (isset($filter['keyword']) && !is_null($filter['keyword'])) {
+            if (isset($filter['keyword'])) {
                 $keywords = explode(' ', $filter['keyword']);
 
                 if ($match == 'any') {
@@ -1831,20 +1831,20 @@ class ModelCatalogProduct extends Model
                 }
             }
 
-            if (isset($filter['pfrom']) && !is_null($filter['pfrom'])) {
+            if (isset($filter['pfrom'])) {
                 $sql .= " AND final_price >= '".(float) $filter['pfrom']."'";
             }
-            if (isset($filter['pto']) && !is_null($filter['pto'])) {
+            if (isset($filter['pto'])) {
                 $sql .= " AND final_price <= '".(float) $filter['pto']."'";
             }
-            if (isset($filter['category_id']) && !is_null($filter['category_id'])) {
+            if (isset($filter['category_id'])) {
                 $sql .= " AND p2c.category_id = '".(int) $filter['category_id']."'";
             }
-            if (isset($filter['manufacturer_id']) && !is_null($filter['manufacturer_id'])) {
+            if (isset($filter['manufacturer_id'])) {
                 $sql .= " AND p.manufacturer_id = '".(int) $filter['manufacturer_id']."'";
             }
 
-            if (isset($filter['status']) && !is_null($filter['status'])) {
+            if (isset($filter['status'])) {
                 $sql .= " AND p.status = '".(int) $filter['status']."'";
             }
 

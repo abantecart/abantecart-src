@@ -21,9 +21,7 @@ if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
-if (!class_exists('ExtensionDefaultStorePickup')) {
-    include_once('core/default_store_pickup.php');
-}
+include_once(DIR_EXT.'default_store_pickup/core/default_store_pickup.php');
 
 $controllers = [
     'storefront' => [],

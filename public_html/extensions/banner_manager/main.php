@@ -20,7 +20,7 @@
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
-include_once('core/custom_block_hook.php');
+include_once(DIR_EXT.'banner_manager/core/custom_block_hook.php');
 $controllers = array(
     'storefront' => array(
         'responses/extension/banner_manager',
