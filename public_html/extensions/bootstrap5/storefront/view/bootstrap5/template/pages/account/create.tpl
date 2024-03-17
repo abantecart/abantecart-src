@@ -115,17 +115,15 @@
                echo $form['agree']; ?>
            </div>
         <?php } ?>
-
         <button id="submit_button" type="submit"
                 role="button" data-bs-toggle="button"
-                style="display:none;"
+                style="<?php echo $text_agree ? 'display:none;' : ''; ?>"
                 onclick="$('#AccountFrm').submit();"
                 class="btn btn-primary ms-auto lock-on-click"
                 title="<?php echo_html2view($form['continue']->name); ?>">
             <i class="fa fa-check"></i>
             <?php echo $form['continue']->name ?>
         </button>
-
     </div>
     </form>
 </div>
