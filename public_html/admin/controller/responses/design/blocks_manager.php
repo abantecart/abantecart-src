@@ -157,9 +157,9 @@ class ControllerResponsesDesignBlocksManager extends AController
             $language_id = $this->language->getContentLanguageID();
             $this->data['title'] = $descr[$language_id]['title'];
             $this->data['description'] = $descr[$language_id]['description'];
-
+            $this->data['allowed_txt_ids'] = ['html_block', 'listing_block', 'custom_form_block'];
             //detect edit URL and build button
-            if ($this->data['block_txt_id'] == 'html_block' || $this->data['block_txt_id'] == 'listing_block' || $this->data['block_txt_id'] == 'custom_form_block') {
+            if (in_array($this->data['block_txt_id'],$this->data['allowed_txt_ids'])) {
                 $edit_url = $this->html->getSecureURL('design/blocks/edit', '&custom_block_id='.$custom_block_id);
             } else {
                 if ($this->data['block_txt_id'] == 'banner_block') {
