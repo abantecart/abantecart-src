@@ -27,29 +27,29 @@ if ($products) {
 
         $review = $button_write;
 ?>
-        <div class=" d-flex align-items-start mt-5">
-            <a href="<?php echo $item['info_url']?>">
-                <img alt="<?php echo_html2view($item['title']); ?>"
-                     class="d-block" src="<?php echo $item['image']?>"/>
+        <div class="d-flex align-items-start mt-5">
+            <a href="<?php echo $item['info_url']?>" class="flex-shrink-0">
+                <img alt="<?php echo_html2view($item['title']); ?>" class="d-block img-fluid" src="<?php echo $item['image']?>" style="max-width: 150px; height: auto;"/>
             </a>
-            <a href="<?php echo $item['info_url']?>" class="d-block ms-2 text-decoration-none text-secondary">
+            <a href="<?php echo $item['info_url']?>" class="d-block ms-2 text-decoration-none text-secondary flex-grow-1">
                 <h6 class="text-decoration-none text-wrap"><?php echo $item['title']?></h6>
                 <?php if ($review_status) { ?>
                     <?php echo $item['rating']?>
                 <?php }
                 if ($display_price) { ?>
                     <div class="price text-muted d-flex flex-wrap align-items-center">
-                    <?php  if ($product['special']) { ?>
-                        <div class="fs-6 text-black me-2"><?php echo $product['special'] . $tax_message; ?></div>
-                        <div class="fs-6 text-decoration-line-through me-2"><?php echo $product['price']; ?></div>
-                    <?php } else { ?>
-                        <div class="text-black"><?php echo $product['price'] . $tax_message?></div>
-                    <?php } ?>
+                        <?php  if ($product['special']) { ?>
+                            <div class="fs-6 text-black me-2"><?php echo $product['special'] . $tax_message; ?></div>
+                            <div class="fs-6 text-decoration-line-through me-2"><?php echo $product['price']; ?></div>
+                        <?php } else { ?>
+                            <div class="text-black"><?php echo $product['price'] . $tax_message?></div>
+                        <?php } ?>
                     </div>
-            <?php } ?>
+                <?php } ?>
             </a>
         </div>
-<?php
+
+        <?php
 	}
 }
 ?>
