@@ -37,6 +37,7 @@
 	<i class="fa fa-star"></i> <span class="badge badge-success"><?php echo $total_wishlist; ?></span>
 	</a>
 	</li>
+	<?php echo $this->getHookVar('account_history_dash_icons'); ?>
 	<li>
 	<a title="<?php echo $text_history; ?>" data-toggle="tooltip" href="<?php echo $history; ?>" data-original-title="<?php echo $text_history; ?>">
 	<i class="fa fa-briefcase"></i> <span class="badge badge-success"><?php echo $total_orders; ?></span>
@@ -81,6 +82,7 @@
 			<div class="dash-tile-text"><?php echo $total_adresses; ?></div>
 		</div>
 	</div>
+	<?php echo $this->getHookVar('account_links_dash_icons'); ?>
 	<div class="col-md-3 col-sm-6">
 		<div class="dash-tile dash-tile-flower clearfix">
 			<div class="dash-tile-header">

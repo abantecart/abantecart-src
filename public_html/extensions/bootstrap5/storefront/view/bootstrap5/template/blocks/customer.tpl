@@ -44,6 +44,9 @@
                         <i class="fa fa-address-book fa-fw me-2"></i> <?php echo $text_address; ?>
                     </a>
                 </li>
+
+                <?php echo $this->getHookVar('customer_address_links'); ?>
+
                 <li class="dropdown <?php if ( $history == $current) echo 'current'; ?>">
                     <a class="dropdown-item"  href="<?php echo $history; ?>"><i class="fa fa-clock-rotate-left fa-fw me-2"></i> <?php echo $text_history; ?></a>
                 </li>
@@ -56,6 +59,8 @@
                   <a class="dropdown-item" href="<?php echo $download; ?>"><i class="fa fa-download fa-fw me-2"></i> <?php echo $text_download; ?></a>
                 </li>
             <?php } ?>
+
+            <?php echo $this->getHookVar('customer_download_links'); ?>
 
             <li class="dropdown <?php if ( $notification == $current) echo 'current'; ?>">
               <a class="dropdown-item" href="<?php echo $notification; ?>"><i class="fa fa-bell fa-fw me-2"></i> <?php echo $text_my_notifications; ?></a>
