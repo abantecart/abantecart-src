@@ -63,8 +63,8 @@ if($products){ ?>
                                 }
                                 $inCart = in_array((int)$product['product_id'], $cartProductIds);
                                 ?>
-                                <div class="px-0 mx-0 carousel-item <?php echo !$i ? 'active' : '';?>">
-                                    <div class="product-card card p-0 border-0 col-6 col-lg-3 "
+                                <div class="px-0 mx-0 carousel-item position-relative <?php echo !$i ? 'active' : '';?> ">
+                                    <div class="product-card card p-0 border-0  col-md-6 col-lg-3"
                                          data-raw-price="<?php echo round($product['raw_price'],2)?>"
                                          data-product-id="<?php echo round($product['product_id'],2)?>">
                                         <div class="prod-img position-relative overflow-hidden">
@@ -217,13 +217,13 @@ if($products){ ?>
                         ?>
 
                     </div>
-                    <a class="carousel-control-prev bg-transparent w-auto"
+                    <a class="carousel-control-prev bg-transparent w-auto d-lg-flex"
                        href="#<?php echo $carouselId; ?>" role="button" data-bs-slide="prev">
                         <div class="carousel-control-prev-icon-box" aria-hidden="true">
                             <i class="bi bi-arrow-left"></i>
                         </div>
                     </a>
-                    <a class="carousel-control-next bg-transparent w-auto"
+                    <a class="carousel-control-next bg-transparent w-auto d-lg-flex"
                        href="#<?php echo $carouselId; ?>" role="button" data-bs-slide="next">
                         <div class="carousel-control-next-icon-box" aria-hidden="true">
                             <i class="bi bi-arrow-right"></i>
