@@ -7,7 +7,7 @@ if($products){ ?>
 
     if ( $block_framed ) { ?>
     <div id="block_frame_<?php echo $block_details['block_txt_id'] . '_' . $block_details['instance_id'] ?>"
-    class="container block_frame block_frame_<?php echo $block_details['block_txt_id']; ?>">
+    class="container-md block_frame block_frame_<?php echo $block_details['block_txt_id']; ?> ">
     <div class="row title justify-content-center sec-heading-block text-center">
         <div class="col-xl-8">
             <h2><?php echo $heading_title; ?></h2>
@@ -217,18 +217,20 @@ if($products){ ?>
                         ?>
 
                     </div>
-                    <a class="carousel-control-prev bg-transparent w-auto d-lg-flex"
+                    <div class="row justify-content-center">
+                    <a class="carousel-control-prev bg-transparent w-auto d-none d-sm-block"
                        href="#<?php echo $carouselId; ?>" role="button" data-bs-slide="prev">
                         <div class="carousel-control-prev-icon-box" aria-hidden="true">
                             <i class="bi bi-arrow-left"></i>
                         </div>
                     </a>
-                    <a class="carousel-control-next bg-transparent w-auto d-lg-flex"
+                    <a class="carousel-control-next bg-transparent w-auto d-none d-sm-block"
                        href="#<?php echo $carouselId; ?>" role="button" data-bs-slide="next">
                         <div class="carousel-control-next-icon-box" aria-hidden="true">
                             <i class="bi bi-arrow-right"></i>
                         </div>
                     </a>
+                    </div>
                 </div>
             </div>
     <?php
