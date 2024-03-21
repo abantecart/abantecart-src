@@ -151,16 +151,15 @@ class ControllerResponsesDesignBlocksManager extends AController
         //expect only 1 block details per layout
         $this->data = array_merge($info[0], $this->data);
         $this->data['block_info'] = $info;
-
-        //get specific description 
+        //get specific description
         if ($custom_block_id > 0) {
             $descr = $lm->getBlockDescriptions((int)$custom_block_id);
             $language_id = $this->language->getContentLanguageID();
             $this->data['title'] = $descr[$language_id]['title'];
             $this->data['description'] = $descr[$language_id]['description'];
-
+            $this->data['allowed_txt_ids'] = ['html_block', 'listing_block', 'custom_form_block'];
             //detect edit URL and build button
-            if ($this->data['block_txt_id'] == 'html_block' || $this->data['block_txt_id'] == 'listing_block') {
+            if (in_array($this->data['block_txt_id'],$this->data['allowed_txt_ids'])) {
                 $edit_url = $this->html->getSecureURL('design/blocks/edit', '&custom_block_id='.$custom_block_id);
             } else {
                 if ($this->data['block_txt_id'] == 'banner_block') {
