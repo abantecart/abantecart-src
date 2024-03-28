@@ -217,20 +217,20 @@ if($products){ ?>
                         ?>
 
                     </div>
-                    <div class="row justify-content-center">
-                    <a class="carousel-control-prev bg-transparent w-auto d-none d-sm-block"
-                       href="#<?php echo $carouselId; ?>" role="button" data-bs-slide="prev">
-                        <div class="carousel-control-prev-icon-box" aria-hidden="true">
-                            <i class="bi bi-arrow-left"></i>
-                        </div>
-                    </a>
-                    <a class="carousel-control-next bg-transparent w-auto d-none d-sm-block"
-                       href="#<?php echo $carouselId; ?>" role="button" data-bs-slide="next">
-                        <div class="carousel-control-next-icon-box" aria-hidden="true">
-                            <i class="bi bi-arrow-right"></i>
-                        </div>
-                    </a>
+                    <div class="justify-content-center">
+                        <a class="carousel-control-prev bg-transparent w-auto d-none d-sm-block d-lg-flex" href="#<?php echo $carouselId; ?>" role="button" data-bs-slide="prev">
+                            <div class="carousel-control-prev-icon-box" aria-hidden="true">
+                                <i class="bi bi-arrow-left"></i>
+                            </div>
+                        </a>
+                        <a class="carousel-control-next bg-transparent w-auto d-none d-sm-block d-lg-flex" href="#<?php echo $carouselId; ?>" role="button" data-bs-slide="next">
+                            <div class="carousel-control-next-icon-box" aria-hidden="true">
+                                <i class="bi bi-arrow-right"></i>
+                            </div>
+                        </a>
                     </div>
+
+
                 </div>
             </div>
     <?php
