@@ -675,8 +675,7 @@ class ModelExtensionStripe extends Model
         require_once(DIR_EXT.'stripe/core/stripe_modules.php');
         grantStripeAccess($this->config);
 
-        $response = PaymentIntent::update($pi_id, $data);
-        return $response;
+        PaymentIntent::update($pi_id, $data);
     }
 
 }
