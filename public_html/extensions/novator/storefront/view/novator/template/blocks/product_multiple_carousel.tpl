@@ -64,7 +64,7 @@ if($products){ ?>
                                 $inCart = in_array((int)$product['product_id'], $cartProductIds);
                                 ?>
                                 <div class="px-0 mx-0 carousel-item position-relative <?php echo !$i ? 'active' : '';?> ">
-                                    <div class="product-card card p-0 border-0  col-md-6 col-lg-3"
+                                    <div class="product-card card p-0 border-0  col-12 col-sm-6 col-md-4 col-lg-3"
                                          data-raw-price="<?php echo round($product['raw_price'],2)?>"
                                          data-product-id="<?php echo round($product['product_id'],2)?>">
                                         <div class="prod-img position-relative overflow-hidden">
@@ -210,6 +210,7 @@ if($products){ ?>
                                                 <?php echo $this->getHookvar('product_listing_details0_'.$product['product_id']);?>
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
                         <?php
