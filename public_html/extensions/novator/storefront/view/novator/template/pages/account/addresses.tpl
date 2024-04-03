@@ -23,7 +23,7 @@ if ($error_warning) { ?>
     <h4 class="mb-4 mt-3 pb-3 border-bottom"><?php echo $text_address_book; ?></h4>
     <?php echo $this->getHookvar('pre_address');?>
     <?php foreach ($addresses as $result) { ?>
-    <div class="genericbox card">
+    <div class="genericbox card p-3 mb-3">
         <div class="card-body">
         <div class="table-responsive">
         <table class="w-100">
