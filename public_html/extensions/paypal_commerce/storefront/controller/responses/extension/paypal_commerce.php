@@ -10,8 +10,6 @@ if (!defined('DIR_CORE')) {
  */
 class ControllerResponsesExtensionPaypalCommerce extends AController
 {
-  public $data = [];
-
     public function __construct($registry, $instance_id, $controller, $parent_controller = '')
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
@@ -41,16 +39,16 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $this->load->model('checkout/order');
         /** @var ModelExtensionPaypalCommerce $mdl */
         $mdl = $this->load->model('extension/paypal_commerce');
-        $this->data['client_token'] = $mdl->getClientToken();
-        $this->data['bn_code'] = $mdl->getBnCode();
-        if (!$this->data['client_token']) {
-            $this->data['error'] = 'Cannot to obtain client token from Paypal API. Incident has been reported.';
-            $this->messages->saveError('Paypal Commerce API Error', $this->data['error'] . "\nSee error log for details.");
+        $data['client_token'] = $mdl->getClientToken();
+        $data['bn_code'] = $mdl->getBnCode();
+        if (!$data['client_token']) {
+            $data['error'] = 'Cannot to obtain client token from Paypal API. Incident has been reported.';
+            $this->messages->saveError('Paypal Commerce API Error', $data['error'] . "\nSee error log for details.");
         }
 
         //need an order details
-        $this->data['order_info'] = $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
-        $this->data['order_total'] = $this->currency->convert(
+        $data['order_info'] = $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
+        $data['order_total'] = $this->currency->convert(
             (float)$order_info['total'],
             $currencyCode,
             $this->currency->getCode()
@@ -58,23 +56,23 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         $taxes = $discount = $handling_fee = 0.0;
         foreach ($this->cart->getFinalTotalData() as $total) {
-            $this->data['order_' . $total['id']] = $this->currency->convert(
+            $data['order_' . $total['id']] = $this->currency->convert(
                 (float)$total['value'],
                 $this->config->get('config_currency'),
                 $currencyCode
             );
 
             if ($total['total_type'] == 'discount' || $total['total_type'] == 'coupon' || $total['total_type'] == 'balance') {
-                $discount += abs($this->data['order_' . $total['id']]);
+                $discount += abs($data['order_' . $total['id']]);
             } elseif ($total['total_type'] == 'fee') {
-                $handling_fee += abs($this->data['order_' . $total['id']]);
+                $handling_fee += abs($data['order_' . $total['id']]);
             } elseif ($total['total_type'] == 'tax') {
-                $taxes += $this->data['order_' . $total['id']];
+                $taxes += $data['order_' . $total['id']];
             }
         }
-        $this->data['amountBreakdown'] = [
+        $data['amountBreakdown'] = [
             'item_total' => [
-                'value' => $this->data['order_subtotal'],
+                'value' => $data['order_subtotal'],
                 'currency_code' => $currencyCode,
             ],
             'tax_total' => [
@@ -82,7 +80,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 'currency_code' => $currencyCode,
             ],
             'shipping' => [
-                'value' => (float)$this->data['order_shipping'],
+                'value' => (float)$data['order_shipping'],
                 'currency_code' => $currencyCode,
             ],
             'discount' => [
@@ -97,7 +95,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         $cartProducts = $this->cart->getProducts() + $this->cart->getVirtualProducts();
 
-        $this->data['intent'] = $this->config->get('paypal_commerce_transaction_type');
+        $data['intent'] = $this->config->get('paypal_commerce_transaction_type');
         $this->load->model('localisation/country');
         $this->load->model('localisation/zone');
 
@@ -107,17 +105,17 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $addressType = 'shipping';
             $country = $this->model_localisation_country->getCountry($countryId);
             if ($country) {
-                $this->data['shipping'] = [];
-                $this->data['shipping']['name']['full_name'] = $order_info['shipping_firstname']
+                $data['shipping'] = [];
+                $data['shipping']['name']['full_name'] = $order_info['shipping_firstname']
                     . ' '
                     . $order_info['shipping_lastname'];
 
-                $this->data['shipping']['address'] = [
+                $data['shipping']['address'] = [
                     'country_code' => $country['iso_code_2'],
                 ];
                 $zoneInfo = $this->model_localisation_zone->getZone($order_info['shipping_zone_id']);
                 if($zoneInfo && $zoneInfo['code']){
-                    $this->data['shipping']['address']['admin_area_1'] = $zoneInfo['code'];
+                    $data['shipping']['address']['admin_area_1'] = $zoneInfo['code'];
                 }
 
                 $flds = [
@@ -129,7 +127,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
                 foreach ($flds as $n => $alias) {
                     if ($order_info[$alias]) {
-                        $this->data['shipping']['address'][$n] = $order_info[$alias];
+                        $data['shipping']['address'][$n] = $order_info[$alias];
                     }
                 }
             }
@@ -139,12 +137,12 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $addressType = 'payment';
         $country = $this->model_localisation_country->getCountry($countryId);
         if ($country) {
-            $this->data['address'] = [
+            $data['address'] = [
                 'country_code' => $country['iso_code_2'],
             ];
             $zoneInfo = $this->model_localisation_zone->getZone($order_info['payment_zone_id']);
             if($zoneInfo && $zoneInfo['code']){
-                $this->data['address']['admin_area_1'] = $zoneInfo['code'];
+                $data['address']['admin_area_1'] = $zoneInfo['code'];
             }
 
             $flds = [
@@ -155,18 +153,18 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             ];
             foreach ($flds as $n => $alias) {
                 if ($order_info[$alias]) {
-                    $this->data['address'][$n] = $order_info[$alias];
+                    $data['address'][$n] = $order_info[$alias];
                 }
             }
         }
 
         $zone = $this->model_localisation_zone->getZoneDescriptions($order_info['payment_zone_id']);
         if ($zone) {
-            $this->data['payment_zone_name'] = $zone[$this->language->getLanguageID()]['name'];
+            $data['payment_zone_name'] = $zone[$this->language->getLanguageID()]['name'];
         }
         $template = 'responses/paypal_commerce_confirm.tpl';
 
-        $this->data['action'] = $this->html->getSecureURL('r/extension/paypal_commerce/send');
+        $data['action'] = $this->html->getSecureURL('r/extension/paypal_commerce/send');
 
         //get tax per item lines
         $taxExts = $this->extensions->getInstalled('tax');
@@ -186,8 +184,8 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 if ($taxLines[$extTextId]) {
                     foreach ($taxLines[$extTextId] as $ln) {
                         if ($ln['line_type'] == 'shipping') {
-                            $this->data['amountBreakdown']['handling']['value'] += $ln['tax_amount'];
-                            $this->data['amountBreakdown']['tax_total']['value'] -= $ln['tax_amount'];
+                            $data['amountBreakdown']['handling']['value'] += $ln['tax_amount'];
+                            $data['amountBreakdown']['tax_total']['value'] -= $ln['tax_amount'];
                         }
                     }
                 }
@@ -225,7 +223,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             //Approach for tax amount calculation of abc and pp are different.
             //We cannot to solve this issue yet.
             //Also found pp api bug with shipping tax. It's not contains it at all. Can be solved with handling fee.
-            $this->data['items'][$i] = [
+            $data['items'][$i] = [
                 'name' => $product['name'],
                 'unit_amount' => [
                     'value' => round($product['price'], 2),
@@ -242,15 +240,15 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 foreach ($taxLines as $extTextId => $lines) {
                     foreach ($lines as $line) {
                         if ($line['item_code'] == $product['key']) {
-                            $this->data['items'][$i]['tax'] = [
-                                'value' => round(($line['tax_amount'] / $product['quantity']), 2) + (float)$this->data['items'][$i]['tax']['value'],
+                            $data['items'][$i]['tax'] = [
+                                'value' => round(($line['tax_amount'] / $product['quantity']), 2) + (float)$data['items'][$i]['tax']['value'],
                                 'currency_code' => $this->currency->getCode()
                             ];
                         }
                     }
                 }
             } else {
-                $this->data['items'][$i]['tax'] = [
+                $data['items'][$i]['tax'] = [
                     'value' => round(
                         $this->tax->calcTotalTaxAmount(
                             $this->currency->format($product['price']),
@@ -262,36 +260,34 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             }
 
             if ($description) {
-                $this->data['items'][$i]['description'] = $description;
+                $data['items'][$i]['description'] = $description;
             }
             if ($sku) {
-                $this->data['items'][$i]['sku'] = $sku;
+                $data['items'][$i]['sku'] = $sku;
             }
             $i++;
         }
 
         // cut description (paypal api requirements. See Order->create->purchase_units->description)
-        if ($cartProducts) {
-            $charsPerItem = round(120 / count($cartProducts));
-        }
-        $this->data['order_description'] = '';
+        $charsPerItem = round(120 / count($cartProducts));
+        $data['order_description'] = '';
         foreach ($orderDescription as $desc) {
             $postfix = ' x ' . $desc['quantity'];
             if (mb_strlen($desc['title']) > ($charsPerItem - strlen($postfix))) {
-                $this->data['order_description'] .= mb_substr($desc['title'], 0, ($charsPerItem - strlen($postfix) - 3)) . '...' . $postfix . "  ";
+                $data['order_description'] .= mb_substr($desc['title'], 0, ($charsPerItem - strlen($postfix) - 3)) . '...' . $postfix . "  ";
             } else {
-                $this->data['order_description'] .= $desc['title'] . ' ' . $postfix . "\n";
+                $data['order_description'] .= $desc['title'] . ' ' . $postfix . "\n";
             }
         }
         //this description cannot be more than 127 chars length
-        $this->data['order_description'] = mb_strlen($this->data['order_description'])>127
-            ? mb_substr($this->data['order_description'],0,127 )
-            : $this->data['order_description'];
+        $data['order_description'] = mb_strlen($data['order_description'])>127
+            ? mb_substr($data['order_description'],0,127 )
+            : $data['order_description'];
 
         //build submit form
         $form = new AForm();
         $form->setForm(['form_name' => 'paypalFrm']);
-        $this->data['form_open'] = $form->getFieldHtml(
+        $data['form_open'] = $form->getFieldHtml(
             [
                 'type' => 'form',
                 'name' => 'paypalFrm',
@@ -306,11 +302,11 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $back_url = $this->html->getSecureURL('checkout/payment', '&mode=edit', true);
         }
 
-        $this->data['cancel_url'] = isset($this->session->data['fc'])
+        $data['cancel_url'] = isset($this->session->data['fc'])
             ? $this->html->getSecureURL('checkout/fast_checkout')
             : $this->html->getSecureURL('checkout/confirm');
 
-        $this->data['back'] = $this->html->buildElement(
+        $data['back'] = $this->html->buildElement(
             [
                 'type' => 'button',
                 'name' => 'back',
@@ -321,10 +317,11 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         );
 
 
-        $this->view->batchAssign($this->data);
+        $this->view->batchAssign($data);
         $this->processTemplate($template);
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
+
     public function send()
     {
         $output = [];
