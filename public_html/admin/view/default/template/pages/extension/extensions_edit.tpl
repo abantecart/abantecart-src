@@ -128,9 +128,6 @@ echo $tabs;
 		<div class="slides"></div>
 		<!-- Controls for the borderless lightbox -->
 		<h3 class="title"></h3>
-		<a class="prev">‹</a>
-		<a class="next">›</a>
-		<a class="close">×</a>
 		<a class="play-pause"></a>
 		<ol class="indicator"></ol>
 		<!-- The modal dialog, which will be used to wrap the lightbox content -->
