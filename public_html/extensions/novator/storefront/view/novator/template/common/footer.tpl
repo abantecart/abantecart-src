@@ -36,8 +36,8 @@
                         </li>
                     </ul>
                     <!-- TM Static content start -->
-                    <p class="text-white text-opacity-75 my-4">Copyright © 2022 abantecart. All Rights Reserved</p>
-                    <p class="text-white text-opacity-75 mb-0">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like</p>
+                    <p class="text-white text-opacity-75 my-4"><?php echo $text_project_label ?></p>
+                    <p class="text-white text-opacity-75 mb-0"> <?php echo $text_copy; ?></p>
                     <!-- TM Static content ends -->
                 </div>
             </div>
