@@ -10,5 +10,5 @@ function grantStripeAccess($config)
     } else {
         Stripe\Stripe::setApiKey($config->get('stripe_sk_live'));
     }
-    \Stripe\Stripe::setApiVersion("2019-02-19");
+    \Stripe\Stripe::setApiVersion("2024-04-10");
 }
