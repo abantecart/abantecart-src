@@ -19,7 +19,7 @@ $layout->loadXml(
 
 //if pageBuilder installed
 // replace custom_block_ids inside default presets of template
-if(function_exists('preparePageBuilderPreset')) {
+/*if(function_exists('preparePageBuilderPreset')) {
     $layout = new ALayoutManager('novator');
     $allBlocks = $layout->getBlocksList();
     $bs5Blocks = [];
@@ -58,7 +58,7 @@ if(function_exists('preparePageBuilderPreset')) {
             DIR_SYSTEM.'page_builder'.DS.'presets'.DS.basename($item)
         );
     }
-}
+}*/
 
 
 $language_list = $this->model_localisation_language->getLanguages();
@@ -76,7 +76,7 @@ $resource = [
     'name'          => [],
     'title'         => [],
     'description'   => [],
-    'resource_path' => 'abc-logo-white.png',
+    'resource_path' => 'abc-logo-white-nv.png',
     'resource_code' => '',
 ];
 
@@ -85,8 +85,12 @@ foreach ($language_list as $lang) {
     $resource['title'][$lang['language_id']] = 'abc-logo';
     $resource['description'][$lang['language_id']] = 'abc-logo.png';
 }
-$resource_id = $rm->addResource($resource);
 
+
+try {
+    $resource_id = $rm->addResource($resource);
+}catch (Exception $e)
+{}
 if ($resource_id) {
     $settings['config_logo'] = $resource_id;
 }
