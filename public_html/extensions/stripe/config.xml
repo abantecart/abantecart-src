@@ -29,23 +29,29 @@
 				<item>bacs_debit</item>
 				<item>bancontact</item>
 				<item>blik</item>
+				<item>boleto</item>
 				<item>eps</item>
 				<item>fpx</item>
 				<item>giropay</item>
 				<item>grabpay</item>
 				<item>ideal</item>
+				<item>interac_present</item>
 				<item>klarna</item>
 				<item>konbini</item>
 				<item>link</item>
-				<item>multibanco</item>
+				<item>mobilepay</item>
 				<item>oxxo</item>
 				<item>p24</item>
 				<item>paynow</item>
+				<item>pix</item>
 				<item>promptpay</item>
+				<item>revolut_pay</item>
 				<item>sepa_debit</item>
 				<item>sofort</item>
+				<item>swish</item>
 				<item>us_bank_account</item>
 				<item>wechat_pay</item>
+				<item>zip</item>
 			</variants>
 			<default_value>2</default_value>
 		</item>
