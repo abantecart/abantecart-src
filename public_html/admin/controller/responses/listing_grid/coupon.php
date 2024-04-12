@@ -6,7 +6,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2021 Belavier Commerce LLC
+  Copyright © 2011-2024 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -195,19 +195,19 @@ class ControllerResponsesListingGridCoupon extends AController
                     $this->model_sale_coupon->editCouponCategories($this->request->get['id'], $this->request->post);
                 }
             }
-            return;
-        }
+        }else {
 
-        //request sent from jGrid. ID is key of array
-        foreach ($this->request->post as $field => $value) {
-            foreach ($value as $k => $v) {
-                $err = $this->_validateForm($k, $field, $v);
-                if (!$err) {
-                    $this->model_sale_coupon->editCoupon($k, [$field => $v]);
-                } else {
-                    $error = new AError('');
-                    $error->toJSONResponse('VALIDATION_ERROR_406', ['error_text' => $err]);
-                    return;
+            //request sent from jGrid. ID is key of array
+            foreach ($this->request->post as $field => $value) {
+                foreach ($value as $k => $v) {
+                    $err = $this->_validateForm($k, $field, $v);
+                    if (!$err) {
+                        $this->model_sale_coupon->editCoupon($k, [$field => $v]);
+                    } else {
+                        $error = new AError('');
+                        $error->toJSONResponse('VALIDATION_ERROR_406', ['error_text' => $err]);
+                        return;
+                    }
                 }
             }
         }
