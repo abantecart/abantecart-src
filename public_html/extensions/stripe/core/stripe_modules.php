@@ -5,10 +5,9 @@
  */
 function grantStripeAccess($config)
 {
-    if ($config->get('stripe_test_mode')) {
-        Stripe\Stripe::setApiKey($config->get('stripe_sk_test'));
-    } else {
-        Stripe\Stripe::setApiKey($config->get('stripe_sk_live'));
-    }
+    $apiKey = $config->get('stripe_test_mode') ? $config->get('stripe_sk_test') : $config->get('stripe_sk_live');
+    Stripe\Stripe::setApiKey($apiKey);
     \Stripe\Stripe::setApiVersion("2024-04-10");
+    return new Stripe\StripeClient($apiKey);
+
 }

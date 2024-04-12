@@ -25,7 +25,7 @@
 							<div class="form-group form-inline">
 								<div class="input-group">
 									<input type="text" id="capture_amount" class="form-control"
-										   value="<?php echo $stripe_order['total']; ?>"
+										   value="<?php echo $stripe_order['amount']; ?>"
 										   placeholder="<?php echo $text_capture_amount; ?>"/>
 								</div>
 								<div class="input-group">

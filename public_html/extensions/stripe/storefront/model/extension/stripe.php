@@ -1,5 +1,10 @@
 <?php
 
+use Stripe\Exception\ApiConnectionException;
+use Stripe\Exception\ApiErrorException;
+use Stripe\Exception\AuthenticationException;
+use Stripe\Exception\CardException;
+use Stripe\Exception\InvalidRequestException;
 use Stripe\PaymentIntent;
 
 if ( ! defined( 'DIR_CORE' ) ) {
@@ -14,7 +19,6 @@ if ( ! defined( 'DIR_CORE' ) ) {
  */
 class ModelExtensionStripe extends Model
 {
-
     public function getMethod( $address )
     {
         $this->load->language( 'stripe/stripe' );
@@ -85,48 +89,14 @@ class ModelExtensionStripe extends Model
                         'Stripe failed to get card token for order_id '.$pd['order_id'],
                         'Unable to use card for customer'.$customer_stripe_id
                     );
-                    $response = ['error' => $this->language->get( 'error_system' )];
-
-                    return $response;
+                    return ['error' => $this->language->get( 'error_system' )];
                 }
             }
 
-            //if saved card or new card used
-            if ( $pd['use_saved_cc'] || $pd['save_cc'] ) {
-                //first save customer and card if requested.
-                if ( $pd['save_cc'] ) {
-                    //we save customer only if saving credit card is requested.
-                    if ( ! $customer_stripe_id ) {
-                        $custom_response = $this->model_extension_stripe->createStripeCustomer( $this->customer );
-                        if ( $custom_response['id'] ) {
-                            $customer_stripe_id = $custom_response['id'];
-                        }
-                    }
-
-                    $cc_id = $this->saveCreditCard( $cc_details['id'], $customer_stripe_id );
-                    if ( ! $cc_id ) {
-                        $msg = new AMessage();
-                        $msg->saveError(
-                            'Stripe failed to save credit card for order_id '.$pd['order_id'],
-                            'Unable to save card for customer'.$customer_stripe_id
-                        );
-                        $response = ['error' => $this->language->get( 'error_system' )];
-
-                        return $response;
-                    }
-                    $pd['use_saved_cc'] = $cc_id;
-                }
-
-                //prepare details
-                $charge_data['customer'] = $customer_stripe_id;
-                $charge_data['card'] = $pd['use_saved_cc'];
-
-            } else {
-                $charge_data['card'] = $cc_details['id'];
-            }
+            $charge_data['card'] = $cc_details['id'];
 
             if ( $order_info['shipping_method'] ) {
-                $shipping_name = $order_info['shipping_firstname'] ? $order_info['shipping_firstname'] : $order_info['firstname'];
+                $shipping_name = $order_info['shipping_firstname'] ? : $order_info['firstname'];
                 $shipping_name .= ' '.$order_info['shipping_lastname'] ? $order_info['shipping_lastname'] : $order_info['lastname'];
                 $charge_data['shipping'] = [
                     'name'    => $shipping_name,
@@ -152,14 +122,14 @@ class ModelExtensionStripe extends Model
 
             $response = Stripe\Charge::create( $charge_data );
 
-        } catch ( Stripe\Error\Card $e ) {
+        } catch ( CardException $e ) {
             $response = [];
             // card errors
             $body = $e->getJsonBody();
             $response['error'] = $body['error']['message'];
             $response['code'] = $body['error']['code'];
             return $response;
-        } catch ( Stripe\Error\InvalidRequest $e ) {
+        } catch ( InvalidRequestException $e ) {
             $response = [];
             // Invalid parameters were supplied to Stripe's API
             $body = $e->getJsonBody();
@@ -171,7 +141,7 @@ class ModelExtensionStripe extends Model
             $response['error'] = $this->language->get( 'error_system' );
 
             return $response;
-        } catch ( Stripe\Error\Authentication $e ) {
+        } catch ( AuthenticationException $e ) {
             $response = [];
             // Authentication with Stripe's API failed
             $body = $e->getJsonBody();
@@ -183,7 +153,7 @@ class ModelExtensionStripe extends Model
             $response['error'] = $this->language->get( 'error_system' );
 
             return $response;
-        } catch ( Stripe\Error\ApiConnection $e ) {
+        } catch ( ApiConnectionException $e ) {
             $response = [];
             // Network communication with Stripe failed
             $body = $e->getJsonBody();
@@ -195,7 +165,7 @@ class ModelExtensionStripe extends Model
             $response['error'] = $this->language->get( 'error_system' );
 
             return $response;
-        } catch ( Stripe\Error\Base $e ) {
+        } catch ( ApiErrorException $e ) {
             $response = [];
             // Display a very generic error to the user, and maybe send
             $body = $e->getJsonBody();
@@ -239,9 +209,9 @@ class ModelExtensionStripe extends Model
             return $response;
         }
 
-        $message = 'Order id: '.(string)$pd['order_id']."\n";
-        $message .= 'Charge id: '.(string)$response['id']."\n";
-        $message .= 'Transaction Timestamp: '.(string)date( 'm/d/Y H:i:s', $response['created'] );
+        $message = 'Order id: '.$pd['order_id']."\n";
+        $message .= 'Charge id: '.$response['id']."\n";
+        $message .= 'Transaction Timestamp: '.date( 'm/d/Y H:i:s', $response['created'] );
 
         if ( $response['paid'] ) {
             //finalize order only if payment is a success
@@ -290,17 +260,6 @@ class ModelExtensionStripe extends Model
                     'plan' => $plan_id,
                 ],
             ];
-            //build cc details
-            $cc_details = [
-                'id'              => $pd['cc_token'],
-                'name'            => $pd['cc_owner'],
-                'address_line1'   => $order_info['payment_address_1'],
-                'address_line2'   => $order_info['payment_address_2'],
-                'address_city'    => $order_info['payment_city'],
-                'address_zip'     => $order_info['payment_postcode'],
-                'address_state'   => $order_info['payment_zone'],
-                'address_country' => $order_info['payment_iso_code_2'],
-            ];
 
             //we save customer if not yet saved.
             if ( ! has_value( $customer_stripe_id ) ) {
@@ -310,7 +269,7 @@ class ModelExtensionStripe extends Model
                 }
             }
             $subscription_data['customer'] = $customer_stripe_id;
-            $subscription_data['source'] = $pd['use_saved_cc'] ? $pd['use_saved_cc'] : $cc_details['id'];
+            $subscription_data['source'] = $pd['cc_token'];
             $subscription_data['metadata'] = [];
             $subscription_data['metadata']['order_id'] = $pd['order_id'];
             if ( $this->customer->getId() > 0 ) {
@@ -319,7 +278,7 @@ class ModelExtensionStripe extends Model
             ADebug::variable( 'Processing stripe subscription request: ', $subscription_data );
             Stripe\Subscription::create( $subscription_data );
             $response['result'] = true;
-        } catch ( Stripe\Error\Card $e ) {
+        } catch ( CardException $e ) {
             $response = [];
             // card errors
             $body = $e->getJsonBody();
@@ -327,7 +286,7 @@ class ModelExtensionStripe extends Model
             $response['code'] = $body['error']['code'];
 
             return $response;
-        } catch ( Stripe\Error\InvalidRequest $e ) {
+        } catch ( InvalidRequestException $e ) {
             $response = [];
             // Invalid parameters were supplied to Stripe's API
             $body = $e->getJsonBody();
@@ -339,7 +298,7 @@ class ModelExtensionStripe extends Model
             $response['error'] = $this->language->get( 'error_system' );
 
             return $response;
-        } catch ( Stripe\Error\Authentication $e ) {
+        } catch ( AuthenticationException $e ) {
             $response = [];
             // Authentication with Stripe's API failed
             $body = $e->getJsonBody();
@@ -351,7 +310,7 @@ class ModelExtensionStripe extends Model
             $response['error'] = $this->language->get( 'error_system' );
 
             return $response;
-        } catch ( Stripe\Error\ApiConnection $e ) {
+        } catch ( ApiConnectionException $e ) {
             $response = [];
             // Network communication with Stripe failed
             $body = $e->getJsonBody();
@@ -363,7 +322,7 @@ class ModelExtensionStripe extends Model
             $response['error'] = $this->language->get( 'error_system' );
 
             return $response;
-        } catch ( Stripe\Error\Base $e ) {
+        } catch ( ApiErrorException $e ) {
             $response = [];
             // Display a very generic error to the user, and maybe send
             $body = $e->getJsonBody();
@@ -404,11 +363,6 @@ class ModelExtensionStripe extends Model
     //record order with stripe database
     public function recordOrder( $order_info, $response )
     {
-        if ($this->config->get('stripe_settlement') == 'automatic') {
-            $settle_status = 1;
-        } else {
-            $settle_status = 0;
-        }
         $test_mode = $this->config->get( 'stripe_test_mode' ) ? 1 : 0;
         $this->db->query( "INSERT INTO `".$this->db->table( "stripe_orders" )."` 
 			SET `order_id` = '".(int)$order_info['order_id']."', 
@@ -425,6 +379,7 @@ class ModelExtensionStripe extends Model
      * @param $customer_id
      *
      * @return bool| Stripe\Customer
+     * @throws AException
      */
     public function getStripeCustomerID( $customer_id )
     {
@@ -501,110 +456,13 @@ class ModelExtensionStripe extends Model
         }
     }
 
-    public function getStripeCustomerCCs( $customer_stripe_id )
-    {
-        if ( ! has_value( $customer_stripe_id ) ) {
-            return [];
-        }
-        $cc_limit = $this->config->get( 'stripe_save_cards_limit' );
-        if ( ! $cc_limit ) {
-            return [];
-        }
-
-        try {
-            require_once( DIR_EXT.'stripe/core/stripe_modules.php' );
-            grantStripeAccess( $this->config );
-
-            $cc_list = Stripe\Customer::retrieve( $customer_stripe_id )->cards->all( ['limit' => $cc_limit]);
-
-            return $cc_list['data'];
-        } catch ( Exception $e ) {
-            //log in AException
-            $ae = new AException( $e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine() );
-            ac_exception_handler( $ae );
-
-            return null;
-        }
-    }
-    public function getStripeCustomerSources( $customer_stripe_id )
-    {
-        if ( ! has_value( $customer_stripe_id ) ) {
-            return [];
-        }
-        $cc_limit = $this->config->get( 'stripe_save_cards_limit' );
-        if ( ! $cc_limit ) {
-            return [];
-        }
-
-        try {
-            require_once( DIR_EXT.'stripe/core/stripe_modules.php' );
-            grantStripeAccess( $this->config );
-
-            $cc_list = Stripe\Customer::retrieve( $customer_stripe_id )->sources->all( ['limit' => $cc_limit]);
-
-            return $cc_list['data'];
-        } catch ( Exception $e ) {
-            //log in AException
-            $ae = new AException( $e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine() );
-            ac_exception_handler( $ae );
-
-            return null;
-        }
-    }
-
-    public function saveCreditCard( $cc_token, $customer_stripe_id )
-    {
-
-        if ( ! has_value( $customer_stripe_id ) || ! has_value( $cc_token ) ) {
-            return null;
-        }
-
-        try {
-            require_once( DIR_EXT.'stripe/core/stripe_modules.php' );
-            grantStripeAccess( $this->config );
-
-            $cu = Stripe\Customer::retrieve( $customer_stripe_id );
-            $cc = $cu->cards->create( ["source" => $cc_token]);
-
-            return $cc['id'];
-        } catch ( Exception $e ) {
-            //log in AException
-            $ae = new AException( $e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine() );
-            ac_exception_handler( $ae );
-
-            return null;
-        }
-    }
-
-    public function deleteSource( $source_id, $customer_stripe_id )
-    {
-        if ( ! has_value( $customer_stripe_id ) || ! has_value( $source_id ) ) {
-            return null;
-        }
-
-        try {
-            require_once( DIR_EXT.'stripe/core/stripe_modules.php' );
-            grantStripeAccess( $this->config );
-
-            $customer = \Stripe\Customer::retrieve($customer_stripe_id);
-            $cc = $customer->sources->retrieve($source_id)->detach();
-
-            return $cc['status'];
-        } catch ( Exception $e ) {
-            //log in AException
-            $ae = new AException( $e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine() );
-            ac_exception_handler( $ae );
-
-            return null;
-        }
-    }
-
     /**
      * for subscriptions
      *
      * @param int $product_id
      *
      * @return bool
+     * @throws AException
      */
 
     public function getProductSubscription( $product_id )
@@ -632,7 +490,7 @@ class ModelExtensionStripe extends Model
             $response = PaymentIntent::create( $data );
             $this->session->data['stripe']['pi']['id'] = $response['id'];
             return $response;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return [
                 'error' => $e->getMessage()
             ];
@@ -668,6 +526,7 @@ class ModelExtensionStripe extends Model
     /**
      * @param string $pi_id
      * @param array $data
+     * @throws ApiErrorException
      */
     public function updatePaymentIntent($pi_id, $data)
     {

@@ -6,7 +6,6 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 /**
  * Class ControllerResponsesExtensionStripe
  *
- * @property ModelExtensionStripe $model_extension_stripe
  */
 class ControllerResponsesExtensionStripe extends AController
 {
@@ -16,17 +15,18 @@ class ControllerResponsesExtensionStripe extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadLanguage('stripe/stripe');
-        $json = array();
+        $json = [];
 
         if (has_value($this->request->post['order_id']) && $this->request->post['amount'] > 0) {
             $order_id = $this->request->post['order_id'];
             $amount = (float)preg_replace('/[^0-9\.]/', '.', $this->request->post['amount']);
-            $this->loadModel('extension/stripe');
+            /** @var ModelExtensionStripe $mdl */
+            $mdl = $this->loadModel('extension/stripe');
 
-            $stripe_order = $this->model_extension_stripe->getStripeOrder($order_id);
+            $stripe_order = $mdl->getStripeOrder($order_id);
             try {
                 //get current order
-                $ch_data = $this->model_extension_stripe->getStripeCharge($stripe_order['charge_id']);
+                $ch_data = $mdl->getStripeCharge($stripe_order['charge_id']);
                 $ch_data['amount'] = round($ch_data['amount'] / 100, 2);
                 //validate if captured
 
@@ -38,17 +38,17 @@ class ControllerResponsesExtensionStripe extends AController
                         $method = 'captureStripe';
                     }
 
-                    $capture = $this->model_extension_stripe->{$method}($stripe_order['charge_id'], $amount);
+                    $capture = $mdl->{$method}($stripe_order['charge_id'], $amount);
                     if ($capture['amount']) {
                         $json['msg'] = $this->language->get('text_captured_order');
                         // update main order status
                         $this->loadModel('sale/order');
-                        $this->model_sale_order->addOrderHistory($order_id, array(
+                        $this->model_sale_order->addOrderHistory($order_id, [
                             'order_status_id' => $this->config->get('stripe_status_success_settled'),
                             'notify'          => 0,
                             'append'          => 1,
                             'comment'         => $amount.' '.$this->language->get('text_captured_ok'),
-                        ));
+                        ]);
                     }
                 } else {
                     $json['error'] = true;
@@ -78,39 +78,38 @@ class ControllerResponsesExtensionStripe extends AController
 
     public function refund()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadLanguage('stripe/stripe');
-        $json = array();
+        $json = [];
 
-        if (has_value($this->request->post['order_id']) && $this->request->post['amount'] > 0) {
+        if ($this->request->post['order_id'] && $this->request->post['amount'] > 0) {
+            $order_id = (int)$this->request->post['order_id'];
+            $amount = (float)preg_replace('/[^0-9.]/', '.', $this->request->post['amount']);
+            /** @var ModelExtensionStripe $mdl */
+            $mdl = $this->loadModel('extension/stripe');
 
-            $order_id = $this->request->post['order_id'];
-            $amount = (float)preg_replace('/[^0-9\.]/', '.', $this->request->post['amount']);
-            $this->loadModel('extension/stripe');
-
-            $stripe_order = $this->model_extension_stripe->getStripeOrder($order_id);
+            $stripe_order = $mdl->getStripeOrder($order_id);
             try {
                 //get current order
-                $ch_data = $this->model_extension_stripe->getStripeCharge($stripe_order['charge_id']);
+                $ch_data = $mdl->getStripeCharge($stripe_order['charge_id']);
                 $ch_data['amount'] = round($ch_data['amount'] / 100, 2);
                 $ch_data['amount_refunded'] = round($ch_data['amount_refunded'] / 100, 2);
                 $remainder = $ch_data['amount'] - $ch_data['amount_refunded'];
                 //validate if captured
                 if ($ch_data['captured'] && $remainder >= $amount) {
-                    $refund = $this->model_extension_stripe->refund($ch_data->id, $amount);
+                    $refund = $mdl->refund($ch_data->id, $amount);
                     if ($refund['amount']) {
                         $json['msg'] = $this->language->get('text_refund_order');
                         // update main order status
                         $this->loadModel('sale/order');
-                        $this->model_sale_order->addOrderHistory($order_id, array(
+                        $this->model_sale_order->addOrderHistory($order_id, [
                             'order_status_id' => $this->config->get('stripe_status_refund'),
                             'notify'          => 0,
                             'append'          => 1,
                             'comment'         => $amount.' '.$this->language->get('text_refunded_ok'),
-                        ));
+                        ]);
                     }
                 } else {
                     $json['error'] = true;
@@ -141,7 +140,7 @@ class ControllerResponsesExtensionStripe extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $json = array();
+        $json = [];
         if (has_value($this->request->post['order_id'])) {
             $order_id = $this->request->post['order_id'];
             $this->loadModel('extension/stripe');
@@ -174,12 +173,12 @@ class ControllerResponsesExtensionStripe extends AController
                         $json['msg'] = $this->language->get('text_voided');
                         // update main order status
                         $this->loadModel('sale/order');
-                        $this->model_sale_order->addOrderHistory($order_id, array(
+                        $this->model_sale_order->addOrderHistory($order_id, [
                             'order_status_id' => $this->config->get('stripe_status_void'),
                             'notify'          => 0,
                             'append'          => 1,
                             'comment'         => $this->language->get('text_voided'),
-                        ));
+                        ]);
                     }
 
                 } else {
