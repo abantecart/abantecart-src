@@ -161,49 +161,6 @@ class ExtensionStripe extends Extension
         $this->r_data = $that->model_extension_stripe->getstripeOrder($order_id);
     }
 
-    /*
-    * custom tpl for product edit page
-    */
-    public function onControllerPagesCatalogProduct_InitData()
-    {
-        $that = $this->baseObject;
-        if (!$this->_is_enabled($that)) {
-            return null;
-        }
-        if (IS_ADMIN !== true) {
-            return;
-        }
-
-        $product_id = (int)$that->request->get['product_id'];
-        $stripe_plan = $that->request->get['stripe_plan'];
-        $that->load->language('stripe/stripe');
-        /** @var ModelExtensionStripe $mdl */
-        $mdl = $that->load->model('extension/stripe');
-        if ($product_id && has_value($stripe_plan)) {
-            if ($stripe_plan) {
-                //Set up product for subscription
-                //update product price with plan price
-                //update stripe metadata for description
-                $ret = $mdl->setProductAsSubscription($product_id, $stripe_plan);
-                if ([$ret] && $ret['error']) {
-                    $that->session->data['warning'] = implode("\n", $ret['error']);
-                    header('Location: ' . $that->html->getSecureURL('catalog/product/update',
-                            '&product_id=' . $product_id));
-                    exit;
-                }
-            } else {
-                //reset to no plan
-                $ret = $mdl->removeProductAsSubscription($product_id);
-                if ([$ret] && $ret['error']) {
-                    $that->session->data['warning'] = implode("\n", $ret['error']);
-                    header('Location: ' . $that->html->getSecureURL('catalog/product/update',
-                            '&product_id=' . $product_id));
-                    exit;
-                }
-            }
-        }
-    }
-
     public function onControllerPagesAccountCreate_InitData()
     {
         $that =& $this->baseObject;

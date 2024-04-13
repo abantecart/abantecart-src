@@ -1,8 +1,9 @@
 <?php
 
 if (!class_exists('ExtensionStripe')) {
-    require_once(DIR_EXT.'stripe/vendor/autoload.php');
-    require_once(DIR_EXT.'stripe/core/stripe_hooks.php');
+    require_once(DIR_EXT.'stripe'.DS.'vendor'.DS.'autoload.php');
+    require_once(DIR_EXT . 'stripe'.DS.'core'.DS.'stripe_modules.php');
+    require_once(DIR_EXT.'stripe'.DS.'core'.DS.'stripe_hooks.php');
 }
 
 $controllers = [

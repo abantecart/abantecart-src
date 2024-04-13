@@ -61,9 +61,14 @@
 					<td id="refund_status"><?php if ($stripe_order['refunded']) { ?>
 							<span><i class="fa fa-check-square-o fa-fw"></i> <?php echo $text_yes; ?></span>
 						<?php } else { ?>
-							<?php if ($stripe_order['balance'] > 0 && !$stripe_order['void_status']) { ?>
+							<?php
+                            if ($stripe_order['balance'] > 0 && !$stripe_order['void_status']) { ?>
 								<div class="form-group form-inline">
 									<div class="input-group">
+                                        <?php
+                                        if($stripe_order['amount_refunded']){
+                                            echo '<div class="input-group-addon">'.$stripe_order['amount_refunded'].'</div>';
+                                        }?>
 										<input type="text" id="refund_amount" class="form-control"
 											   placeholder="<?php echo $text_refund_amount; ?>"/>
 									</div>
@@ -77,7 +82,6 @@
 					</td>
 				</tr>
 			<?php } ?>
-
 			<tr>
 				<td><b><?php echo $text_balance; ?></b></td>
 				<td><b><?php echo $stripe_order['balance_formatted']; ?></b></td>

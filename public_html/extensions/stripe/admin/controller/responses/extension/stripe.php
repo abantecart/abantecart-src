@@ -19,7 +19,7 @@ class ControllerResponsesExtensionStripe extends AController
 
         if (has_value($this->request->post['order_id']) && $this->request->post['amount'] > 0) {
             $order_id = $this->request->post['order_id'];
-            $amount = (float)preg_replace('/[^0-9\.]/', '.', $this->request->post['amount']);
+            $amount = (float)preg_replace('/[^0-9.]/', '.', $this->request->post['amount']);
             /** @var ModelExtensionStripe $mdl */
             $mdl = $this->loadModel('extension/stripe');
 
@@ -60,11 +60,10 @@ class ControllerResponsesExtensionStripe extends AController
             }
 
         } else {
+            $json['error'] = true;
             if ($this->request->post['amount'] <= 0) {
-                $json['error'] = true;
                 $json['msg'] = $this->language->get('error_missing_amount');
             } else {
-                $json['error'] = true;
                 $json['msg'] = $this->language->get('error_system');
             }
         }
@@ -115,16 +114,15 @@ class ControllerResponsesExtensionStripe extends AController
                     $json['error'] = true;
                     $json['msg'] = $this->language->get('error_unable_to_refund');
                 }
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $json['error'] = true;
                 $json['msg'] = $e->getMessage();
             }
         } else {
+            $json['error'] = true;
             if ($this->request->post['amount'] <= 0) {
-                $json['error'] = true;
                 $json['msg'] = $this->language->get('error_missing_amount');
             } else {
-                $json['error'] = true;
                 $json['msg'] = $this->language->get('error_system');
             }
         }
@@ -143,8 +141,9 @@ class ControllerResponsesExtensionStripe extends AController
         $json = [];
         if (has_value($this->request->post['order_id'])) {
             $order_id = $this->request->post['order_id'];
-            $this->loadModel('extension/stripe');
-            $stripe_order = $this->model_extension_stripe->getStripeOrder($order_id);
+            /** @var ModelExtensionStripe $mdl */
+            $mdl = $this->loadModel('extension/stripe');
+            $stripe_order = $mdl->getStripeOrder($order_id);
             try {
                 //get current order
                 if(is_int(strpos($stripe_order['charge_id'],'pi_'))){
@@ -154,16 +153,16 @@ class ControllerResponsesExtensionStripe extends AController
                     $paymentIntent = false;
                     $method = 'getStripeCharge';
                 }
-                $ch_data = $this->model_extension_stripe->{$method}($stripe_order['charge_id']);
+                $ch_data = $mdl->{$method}($stripe_order['charge_id']);
 
                 //validate if captured
                 if (!$ch_data['captured']) {
                     //refund with full amount
                     $ch_data['amount'] = round($ch_data['amount'] / 100, 2);
                     if($paymentIntent){
-                        $refund = $this->model_extension_stripe->cancelPaymentIntent( $stripe_order['charge_id'] );
+                        $refund = $mdl->cancelPaymentIntent( $stripe_order['charge_id'] );
                     }else {
-                        $refund = $this->model_extension_stripe->refund(
+                        $refund = $mdl->refund(
                             $ch_data['charge_id'],
                             $ch_data['amount']
                         );
