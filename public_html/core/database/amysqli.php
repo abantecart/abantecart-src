@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2022 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -58,6 +57,14 @@ final class AMySQLi
         $connection->query("SET SQL_MODE = ''");
         $connection->query("SET session wait_timeout=60;");
         $connection->query("SET SESSION SQL_BIG_SELECTS=1;");
+        try {
+            $timezone = date_default_timezone_get();
+            if($timezone) {
+                $connection->query("SET time_zone='" . $timezone . "';");
+            }
+        } catch (\Exception $e) {
+            error_log($e->getMessage());
+        }
 
         $this->registry = Registry::getInstance();
         $this->connection = $connection;
@@ -67,7 +74,7 @@ final class AMySQLi
      * @param string $sql
      * @param bool $noexcept
      *
-     * @return bool|stdClass
+     * @return bool|db_result_meta
      * @throws AException
      */
     public function query($sql, $noexcept = false)
@@ -111,7 +118,7 @@ final class AMySQLi
                     $i++;
                 }
 
-                $query = new stdClass();
+                $query = new db_result_meta();
                 $query->row = $data[0] ?? [];
                 $query->rows = $data;
                 $query->num_rows = (int) $result->num_rows;

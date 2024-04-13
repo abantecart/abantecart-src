@@ -21,6 +21,15 @@ if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
+/**
+ * do the phpdoc-trick with meta-class for query result
+ * @property array $row
+ * @property array $rows
+ * @property int $num_rows
+ */
+class db_result_meta extends  stdClass {}
+
+
 final class ADB
 {
     /**
@@ -66,7 +75,7 @@ final class ADB
      * @param string $sql
      * @param bool $noexcept
      *
-     * @return bool|stdClass
+     * @return bool|db_result_meta
      * @throws AException
      */
     public function query($sql, $noexcept = false)
@@ -102,7 +111,7 @@ final class ADB
      * @param string $sql
      * @param bool $noexcept
      *
-     * @return bool|stdClass
+     * @return bool|db_result_meta
      * @throws AException
      */
     public function _query($sql, $noexcept = false)
