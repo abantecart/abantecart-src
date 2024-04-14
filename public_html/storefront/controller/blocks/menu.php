@@ -72,7 +72,7 @@ class ControllerBlocksMenu extends AController
             elseif (preg_match("/^\.\.\//i", $item ['item_url'])) {
                 $href = str_replace('../', '', $item ['item_url']);
             } else {
-                $href = $this->html->getSecureURL($item ['item_url']);
+                $href = $item ['item_url']=='#' ? '#' :$this->html->getSecureURL($item ['item_url']);
             }
 
             $item['id'] = $item['item_id'];

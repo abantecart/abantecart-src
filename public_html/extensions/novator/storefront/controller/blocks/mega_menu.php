@@ -216,7 +216,7 @@ class ControllerBlocksMegaMenu extends AController
                 //process relative url such as ../blog/index.php
                 $href = str_replace('../', '', $item ['item_url']);
             } else {
-                $href = $this->html->getSecureURL($item ['item_url']);
+                $href = $item ['item_url']=='#' ? '#' : $this->html->getSecureURL($item ['item_url']);
             }
             $item['id'] = $item['item_id'];
             $item['icon'] = $item['item_icon'] ?? '';
