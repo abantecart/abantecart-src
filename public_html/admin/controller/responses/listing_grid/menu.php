@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 class ControllerResponsesListingGridMenu extends AController
 {
@@ -29,12 +28,12 @@ class ControllerResponsesListingGridMenu extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $language_id = $this->language->getContentLanguageID();
+        $languageId = $this->language->getContentLanguageID();
         $this->loadLanguage('design/menu');
         $this->loadModel('tool/image');
 
         $page = $this->request->post['page']; // get the requested page
-        if ((int) $page < 0) {
+        if ((int)$page < 0) {
             $page = 0;
         }
         $limit = $this->request->post['rows']; // get how many rows we want to have into the grid
@@ -43,25 +42,24 @@ class ControllerResponsesListingGridMenu extends AController
 
         //process custom search form
         $this->menu = new AMenu_Storefront();
-        $menu_items = $this->menu->getMenuItems();
-        $new_level = 0;
+        $itemTree = $this->menu->getMenuItems();
+        $newLevel = 0;
         //get all leave menus
-        $leaf_nodes = $this->menu->getLeafMenus();
+        $leafNodes = $this->menu->getLeafMenus();
         //build parent id
-        $menu_parent_id = '';
-        if ($this->request->get['parent_id']) {
-            $menu_parent_id = $this->request->get['parent_id'];
-        } else {
-            if ($this->request->post['nodeid']) {
-                $menu_parent_id = $this->request->post['nodeid'];
-                $new_level = (integer) $this->request->post["n_level"] + 1;
-            }
+        $menuParentId = '';
+
+        if ($this->request->post['nodeid']) {
+            $menuParentId = $this->request->post['nodeid'];
+            $newLevel = (integer)$this->request->post["n_level"] + 1;
+        } elseif ($this->request->get['parent_id']) {
+            $menuParentId = $this->request->get['parent_id'];
         }
 
-        if (!empty($menu_parent_id)) {
-            $menu_items = $menu_items[$menu_parent_id];
+        if ($menuParentId) {
+            $itemTree = $itemTree[$menuParentId];
         } else {
-            $menu_items = $menu_items[""];
+            $itemTree = $itemTree[""];
         }
 
         //sort
@@ -70,61 +68,58 @@ class ControllerResponsesListingGridMenu extends AController
         if (!in_array($sidx, $allowedSort)) {
             $sidx = $allowedSort[0];
         }
-        if (!in_array($sord, $allowedDirection)) {
-            $sord = SORT_ASC;
-        } else {
-            $sord = array_search($sord, $allowedDirection);
-        }
+        $sord = in_array($sord, $allowedDirection) ? array_search($sord, $allowedDirection) : SORT_ASC;
 
         $sort = [];
-        $total = count((array) $menu_items);
+        $total = count((array)$itemTree);
         $response = new stdClass();
 
         if ($total > 0) {
-            foreach ($menu_items as $item) {
-                if ($sidx == 'item_text') {
-                    $sort[] = $item[$sidx][$language_id];
-                } else {
-                    $sort[] = $item[$sidx];
-                }
+            foreach ($itemTree as $item) {
+                $sort[] = $sidx == 'item_text' ? $item[$sidx][$languageId] : $item[$sidx];
             }
 
-            array_multisort($sort, $sord, $menu_items);
+            array_multisort($sort, $sord, $itemTree);
             $total_pages = ceil($total / $limit);
 
-            $results = array_slice($menu_items, ($page - 1) * -$limit, $limit);
+            $results = array_slice($itemTree, ($page - 1) * -$limit, $limit);
 
             $i = 0;
             $ar = new AResource('image');
-            $w = (int) $this->config->get('config_image_grid_width');
-            $h = (int) $this->config->get('config_image_grid_height');
+            $w = (int)$this->config->get('config_image_grid_width');
+            $h = (int)$this->config->get('config_image_grid_height');
             foreach ($results as $result) {
                 $icon = '';
-                $iconRLId = $result['item_icon'] ? : $result['item_icon_rl_id'];
+                $iconRLId = $result['item_icon'] ?: $result['item_icon_rl_id'];
                 $resource = $ar->getResource($iconRLId);
-                if ($resource['resource_path'] || !$resource['resource_code']) {
+                if ($resource['resource_code']) {
+                    $icon = '<i class="fa fa-code fa-2x"></i>';
+                }elseif ($resource['resource_path']) {
                     $thumb = $ar->getResourceThumb($iconRLId, $w, $h);
                     $icon = $thumb
-                            ? '<img src="'.$thumb.'" alt="" style="width: '.$w.'px; height: '.$h.'px;"/>'
-                            : '';
-                } elseif ($resource['resource_code']) {
-                    $icon = '<i class="fa fa-code fa-2x"></i>';
+                        ? $this->html->buildResourceImage(
+                            [
+                                'url'    => $thumb,
+                                'width'  => $w,
+                                'height' => $h
+                            ]
+                        ) : '';
                 }
                 $response->rows[$i]['id'] = $result['item_id'];
                 $response->rows[$i]['cell'] = [
                     $icon,
                     $result['item_id'],
-                    $result['item_text'][$language_id],
+                    $result['item_text'][$languageId],
                     $this->html->buildInput(
                         [
-                            'name'  => 'sort_order['.$result['item_id'].']',
+                            'name'  => 'sort_order[' . $result['item_id'] . ']',
                             'value' => $result['sort_order'],
                         ]
                     ),
                     'action',
-                    $new_level,
-                    ($menu_parent_id ? : null),
-                    ($result['item_id'] == $leaf_nodes[$result['item_id']]),
+                    $newLevel,
+                    ($menuParentId ?: null),
+                    ($result['item_id'] == $leafNodes[$result['item_id']]),
                     false,
                 ];
                 $i++;
@@ -243,7 +238,7 @@ class ControllerResponsesListingGridMenu extends AController
         $menu = new AMenu_Storefront();
         $allowedFields = array_merge(
             ['item_icon', 'item_text', 'item_url', 'parent_id', 'sort_order'],
-            (array) $this->data['allowed_fields']
+            (array)$this->data['allowed_fields']
         );
 
         if (isset($this->request->get['id'])) {
@@ -255,7 +250,8 @@ class ControllerResponsesListingGridMenu extends AController
                 $data = [$key => $value];
                 $menu->updateMenuItem($this->request->get['id'], $data);
             }
-            return null;
+            $this->extensions->hk_ProcessData($this, __FUNCTION__);
+            return;
         }
 
         //request sent from jGrid. ID is key of array
