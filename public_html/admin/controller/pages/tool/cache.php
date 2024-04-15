@@ -110,12 +110,6 @@ class ControllerPagesToolCache extends AController
                 'description' => $this->language->get('desc_install_upgrade_history'),
                 'keywords'    => 'install_upgrade_history',
             ],
-//            [
-//                'id'          => 'html_cache',
-//                'text'        => $this->language->get('text_html_cache'),
-//                'description' => $this->language->get('desc_html_cache'),
-//                'keywords'    => 'html_cache',
-//            ],
         ];
 
         $form = new AForm('ST');
@@ -188,9 +182,6 @@ class ControllerPagesToolCache extends AController
                             $this->loadModel('tool/install_upgrade_history');
                             $this->model_tool_install_upgrade_history->deleteData();
                             break;
-//                        case 'html_cache':
-//                            $this->cache->remove('html_cache');
-//                            break;
                         default:
                             $this->cache->remove($group);
                             foreach ($languages as $lang) {

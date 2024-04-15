@@ -156,7 +156,6 @@ class ModelCatalogDownload extends Model
         if (isset($data['product_id'])) {
             $this->mapDownload($download_id, $data['product_id']);
         }
-        $this->cache->remove('html_cache');
         return true;
     }
 
@@ -188,7 +187,6 @@ class ModelCatalogDownload extends Model
                 download_id = '".(int) $download_id."'"
         );
 
-        $this->cache->remove('html_cache');
         return $this->db->getLastId();
     }
 
@@ -212,7 +210,6 @@ class ModelCatalogDownload extends Model
              WHERE product_id = '".(int) $product_id."'
                AND download_id = '".(int) $download_id."'"
         );
-        $this->cache->remove('html_cache');
         return true;
     }
 
@@ -233,7 +230,6 @@ class ModelCatalogDownload extends Model
             "DELETE FROM ".$this->db->table('products_to_downloads')."
              WHERE product_id = '".(int) $product_id."'"
         );
-        $this->cache->remove('html_cache');
         return true;
     }
 
@@ -312,7 +308,6 @@ class ModelCatalogDownload extends Model
             "DELETE FROM ".$this->db->table("products_to_downloads")." 
             WHERE download_id = '".(int) $download_id."'"
         );
-        $this->cache->remove('html_cache');
     }
 
     /**
@@ -525,7 +520,6 @@ class ModelCatalogDownload extends Model
                 );
             }
         }
-        $this->cache->remove('html_cache');
     }
 
     /**
@@ -565,7 +559,6 @@ class ModelCatalogDownload extends Model
                 );
             }
         }
-        $this->cache->remove('html_cache');
     }
 
     /**
@@ -650,7 +643,6 @@ class ModelCatalogDownload extends Model
                 WHERE order_download_id='".(int) $order_download_id."'"
             );
         }
-        $this->cache->remove('html_cache');
         return true;
     }
 

@@ -23,16 +23,6 @@ if (!defined('DIR_CORE')) {
 
 class ControllerPagesContentContent extends AController
 {
-    /**
-     * Check if HTML Cache is enabled for the method
-     *
-     * @return array - array of data keys to be used for cache key building
-     */
-    public static function main_cache_keys()
-    {
-        return array('content_id');
-    }
-
     public function main()
     {
         $request = $this->request->get;

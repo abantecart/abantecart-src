@@ -898,10 +898,6 @@
 		<value><![CDATA[Требуются размеры лого производителя в списках!]]></value>
 	</definition>
 	<definition>
-		<key>entry_html_cache</key>
-		<value><![CDATA[HTML кеш:<br/><span class="help">Включение кеширования HTML страниц и блоков увеличивает скорость загрузки.</span>]]></value>
-	</definition>
-	<definition>
 		<key>entry_task_api_key</key>
 		<value><![CDATA[Ключ API Заданий:<br/><span class="help">Этот секретный ключ позволяет запускать запланированные задания из браузера через /task.php файл. Если не указан то задания не запустятся через браузер.<br/>Примечание: Этот ключ не требуется для запуска заданий из коммандной строки.</span>]]></value>
 	</definition>

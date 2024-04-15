@@ -46,16 +46,6 @@ class ControllerPagesProductSpecial extends AController
         ];
     }
 
-    /**
-     * Check if HTML Cache is enabled for the method
-     *
-     * @return array - array of data keys to be used for cache key building
-     */
-    public static function main_cache_keys()
-    {
-        return ['page', 'limit', 'sort', 'order'];
-    }
-
     public function main()
     {
         $request = $this->request->get;

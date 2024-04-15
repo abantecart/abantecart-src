@@ -105,14 +105,6 @@
 		<value><![CDATA[Borrar todos caché]]></value>
 	</definition>
 	<definition>
-		<key>text_html_cache</key>
-		<value><![CDATA[HTML-caché]]></value>
-	</definition>
-	<definition>
-		<key>desc_html_cache</key>
-		<value><![CDATA[Páginas HTML y bloques de caché]]></value>
-	</definition>
-	<definition>
 		<key>text_install_upgrade_history</key>
 		<value><![CDATA[Instalar / Actualizar Historia]]></value>
 	</definition>

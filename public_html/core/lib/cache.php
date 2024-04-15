@@ -256,32 +256,6 @@ class ACache
     }
 
     /**
-     * Deprecated. Old cache compatibility. Will be removed in 1.3
-     *
-     * @deprecated
-     *
-     * @param     $key
-     * @param     $data
-     * @param int $language_id
-     * @param int $store_id
-     *
-     * @return bool
-     */
-    public function set($key, $data, $language_id = 0, $store_id = 0)
-    {
-        if ($language_id || $store_id) {
-            if ($language_id && $store_id) {
-                $key = $key.".store_".$store_id."_lang_".$language_id;
-            } elseif ($store_id) {
-                $key = $key.".store_".$store_id;
-            } else {
-                $key = $key.".lang_".$language_id;
-            }
-        }
-        return $this->push($key, $data);
-    }
-
-    /**
      * Retrieves the cache contents.
      *
      * The contents will be first attempted to be retrieved by the key from the cache in memory data structure.
@@ -339,38 +313,6 @@ class ACache
     }
 
     /**
-     * Deprecated. Old cache compatibility. Will be removed in 1.3
-     *
-     * @deprecated
-     *
-     * @param     $key
-     * @param int $language_id
-     * @param int $store_id
-     *
-     * @return false|mixed|null
-     */
-    public function get($key, $language_id = 0, $store_id = 0)
-    {
-        if ($language_id || $store_id) {
-            if ($language_id && $store_id) {
-                $key = $key.".store_".$store_id."_lang_".$language_id;
-            } elseif ($store_id) {
-                $key = $key.".store_".$store_id;
-            } else {
-                $key = $key.".lang_".$language_id;
-            }
-        }
-        $return = $this->pull($key);
-        if ($return === false) {
-            //Should return false if no cache present.
-            //for legacy support we return NULL. Starting v1.3 FALSE will be returned. 
-            return null;
-        } else {
-            return $return;
-        }
-    }
-
-    /**
      * Removes the contents of the cache key in the group.
      *
      * If the cache key does not exist in the group, then nothing will happen.
@@ -413,39 +355,7 @@ class ACache
             }
         }
 
-        if (trim($key) != '*' && $group != 'html_cache') {
-            //remove HTML cache on any other cache clean up as data changed or expired
-            unset($this->cache['html_cache']);
-            $this->cache_driver->clean('html_cache');
-        }
-
         return true;
-    }
-
-    /**
-     *  Old cache compatibility. Will be removed in 1.3
-     *
-     * @deprecated
-     *
-     * @param            $key
-     * @param int|string $language_id
-     * @param int|string $store_id
-     *
-     * @return bool
-     */
-    public function delete($key, $language_id = 0, $store_id = 0)
-    {
-        if ($language_id || $store_id) {
-            if ($language_id && $store_id) {
-                $key = $key.".store_".$store_id."_lang_".$language_id;
-            } elseif ($store_id) {
-                $key = $key.".store_".$store_id;
-            } else {
-                $key = $key.".lang_".$language_id;
-            }
-        }
-
-        return $this->remove($key);
     }
 
     /**
@@ -704,79 +614,4 @@ class ACache
         }
         return $group;
     }
-
-    // Special Case of HTML Cache handling
-
-    /**
-     * Read HTML cache file
-     *
-     * @param string $key
-     *
-     * @return string
-     */
-    public function get_html_cache($key)
-    {
-        if (!$key) {
-            return '';
-        }
-        $group = $this->_get_group($key);
-        if ($this->enabled && $this->cache_driver && $this->cache_driver->isSupported()) {
-            //load cache from storage		
-            $data = $this->cache_driver->get($key, $group);
-            if ($data === false) {
-                //check if cache is locked
-                $lock = $this->lock($key, $group);
-                if ($lock['locked'] == true && $lock['waited'] == true) {
-                    //try to get cache again 
-                    $data = $this->cache_driver->get($key, $group);
-                    $this->unlock($key, $group);
-                }
-            }
-
-            if ($data !== false) {
-                $this->cache_loads[$group][$key] += 1;
-                return $data;
-            }
-        }
-
-        $this->cache_misses[$group][$key] += 1;
-        return '';
-    }
-
-    /**
-     * Write HTML Cache file
-     *
-     * @param string $key
-     * @param string $data
-     *
-     * @return bool
-     */
-    public function save_html_cache($key, $data)
-    {
-        $ret = false;
-        if (!$key) {
-            return false;
-        }
-
-        $group = $this->_get_group($key);
-        if (!is_null($data) && $this->enabled && $this->cache_driver && $this->cache_driver->isSupported()) {
-
-            $lock = $this->lock($key, $group);
-            if (!$lock['locked'] && $lock['waited']) {
-                //cache is released, try locking again. 
-                $lock = $this->lock($key, $group);
-            }
-            //Minify HTML before saving to cache
-            require_once(DIR_CORE.'helper/html-css-js-minifier.php');
-            $data = minify_html($data);
-            $ret = $this->cache_driver->put($key, $group, $data);
-
-            if ($lock['locked']) {
-                //unlock if cache was locked
-                $this->unlock($key, $group);
-            }
-        }
-        return $ret;
-    }
-
 }

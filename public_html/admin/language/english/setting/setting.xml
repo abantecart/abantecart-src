@@ -1014,11 +1014,6 @@
 		<value><![CDATA[These settings are for instant messages sent automatically during AbanteCart events in storefront and admin. ]]></value>
 	</definition>
 	<definition>
-		<key>entry_html_cache</key>
-		<value>
-			<![CDATA[HTML Cache:<br /><span class="help">Enabled HTML pages and blocks caching to get better speed for your pages. This is additional caching to regular data caching enabled in system/config.php file</span>]]></value>
-	</definition>
-	<definition>
 		<key>entry_task_api_key</key>
 		<value>
 			<![CDATA[Tasks API Key:<br/><span class="help">This is a secret key to allow AbanteCart to run scheduled processes from the browser with /task.php file. If not set, tasks will not run via browser.<br/>NOTE: This API Key is not required for running tasks command line.</span>]]></value>

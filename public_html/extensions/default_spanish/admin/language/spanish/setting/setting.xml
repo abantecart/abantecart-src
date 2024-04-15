@@ -916,10 +916,6 @@ imagen</span>]]></value>
 		<value><![CDATA[Marca la lista de iconos dimensiones tamaño requerido!]]></value>
 	</definition>
 	<definition>
-		<key>entry_html_cache</key>
-		<value><![CDATA[Caché HTML: <br/><span class="help">Páginas HTML y bloques de almacenamiento en caché permitió obtener una mejor velocidad para sus páginas. Este es el almacenamiento en caché adicional para el almacenamiento en caché de datos regular habilitada en el system/config.php</span>]]></value>
-	</definition>
-	<definition>
 		<key>entry_task_api_key</key>
 		<value><![CDATA[Tareas clave de la API:<br/><span class="help">Esta es una clave secreta para permitir que AbanteCart ejecute los procesos programados desde el navegador con el archivo /task.php. Si no se establece, las tareas no se ejecutarán a través del navegador.<br/>NOTA: Esta clave de API no es necesaria para ejecutar la línea de comandos de tareas.</span>]]></value>
 	</definition>

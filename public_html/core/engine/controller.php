@@ -118,7 +118,6 @@ abstract class AController
     public $view;
     protected $config;
     protected $languages = [];
-    protected $html_cache_key;
 
     /**
      * @param                    $registry Registry
@@ -173,80 +172,9 @@ abstract class AController
         $this->clear();
     }
 
-    /**
-     * Function to enable caching for this page/block
-     *
-     * @return bool
-     */
-    public function html_cache()
-    {
-        //check is HTML cache is enabled and it is storefront
-        if (!$this->config->get('config_html_cache') || IS_ADMIN) {
-            return false;
-        }
-        //build HTML cache key if not yet built for this controller.
-        if (!$this->html_cache_key) {
-            $this->html_cache_key = $this->buildHTMLCacheKey();
-        }
-        //check if can load HTML files and stop
-        return $this->view->checkHTMLCache($this->html_cache_key);
-    }
-
-    //function to get html cache key
-    public function buildHTMLCacheKey($allowed_params = [], $values = [], $controller = '')
-    {
-        //build HTML cache key
-        //build cache string based on allowed params
-        $cache_params = [];
-        if (is_array($allowed_params) && $allowed_params) {
-            sort($allowed_params);
-            foreach ($allowed_params as $key) {
-                if (has_value($values[$key])) {
-                    $cache_params[$key] = $values[$key];
-                }
-            }
-        }
-        //build unique key based on params
-        $param_string = md5($this->cache->paramsToString($cache_params));
-        //build HTML cache path
-        $cache_state_vars = [
-            'template'      => $this->config->get('config_storefront_template'),
-            'store_id'      => $this->config->get('config_store_id'),
-            'language_id'   => $this->language->getLanguageID(),
-            'currency_code' => $this->currency->getCode(),
-            //in case with shared ssl-domain
-            'https'         => (HTTPS === true ? 1 : 0),
-        ];
-        if (is_object($this->customer)) {
-            $cache_state_vars['customer_group_id'] = $this->customer->getCustomerGroupId();
-        }
-
-        if (!$controller) {
-            $controller = $this->controller;
-        }
-        //NOTE: Blocks are cached based on unique instanced ID
-        $this->html_cache_key = 'html_cache.'.
-            str_replace('/', '.', $controller)
-            .".".implode('.', $cache_state_vars)."_".$this->instance_id;
-        //add specific params to the key
-        if ($param_string) {
-            $this->html_cache_key .= "_".$param_string;
-        }
-        //pass html_cache_key to view for future use
-        $this->view->setCacheKey($this->html_cache_key);
-        return $this->html_cache_key;
-    }
-
-    //function to get html cache key
-    public function getHTMLCacheKey()
-    {
-        return $this->html_cache_key;
-    }
-
     //Get cache key values for provided controller
     public function getCacheKeyValues($controller)
     {
-        //check if requested controller allows HTML caching
         //use dispatcher to get class and details
         $ds = new ADispatcher($controller, ["instance_id" => "0"]);
         $rt_class = $ds->getClass();

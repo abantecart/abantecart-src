@@ -60,8 +60,6 @@ class AView
     protected $render;
     /** @var bool */
     protected $has_extensions;
-    /** @var string */
-    protected $html_cache_key;
 
     /** @var array */
     protected $restrictedKeys = [];
@@ -369,15 +367,6 @@ class AView
                 }
             }
             ADebug::checkpoint('fetch '.$filename.' end');
-
-            //Write HTML Cache if we need and can write
-            if ($this->config && $this->config->get('config_html_cache') && $this->html_cache_key) {
-                if ($this->cache->save_html_cache($this->html_cache_key, $content) === false) {
-                    $error = new AError('Error: Cannot create HTML cache for file '.$this->html_cache_key.'! Directory to write cache is not writable', AC_ERR_LOAD);
-                    $error->toDebug()->toLog();
-                }
-            }
-
             return $content;
         } else {
             $error = new AError('Error: Cannot load template '.$filename.'! File '.$file.' is missing or incorrect. Check blocks in the layout or enable debug mode to get more details. ', AC_ERR_LOAD);
@@ -449,42 +438,7 @@ class AView
         }
     }
 
-    /**
-     *
-     * @param string $key
-     *
-     */
-    public function setCacheKey($key)
-    {
-        $this->html_cache_key = $key;
-    }
-
-    /**
-     * Check if HTML Cache file present
-     *
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function checkHTMLCache($key)
-    {
-        if (!$key) {
-            return false;
-        }
-        $this->html_cache_key = $key;
-        $html_cache = $this->cache->get_html_cache($key);
-        if ($html_cache) {
-            $compression = '';
-            if ($this->config) {
-                $compression = $this->config->get('config_compression');
-            }
-            $this->response->setOutput($html_cache, $compression);
-            return true;
-        }
-        return false;
-    }
-
-    /**
+     /**
      * Beta!
      * Build or load minified CSS and return an output.
      *

@@ -97,14 +97,6 @@
 		<value><![CDATA[Очистить весь кеш]]></value>
 	</definition>
 	<definition>
-		<key>text_html_cache</key>
-		<value><![CDATA[HTML-кеш]]></value>
-	</definition>
-	<definition>
-		<key>desc_html_cache</key>
-		<value><![CDATA[Кеш HTML страниц и блоков]]></value>
-	</definition>
-	<definition>
 		<key>text_install_upgrade_history</key>
 		<value><![CDATA[История обновлений]]></value>
 	</definition>

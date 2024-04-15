@@ -42,13 +42,6 @@ class ControllerBlocksCategory extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        //HTML cache only for non-customer
-        if (!$this->customer->isLogged() && !$this->customer->isUnauthCustomer()) {
-            $allowed_cache_keys = ['path'];
-            $cache_val = ['path' => $request['path']];
-            $this->buildHTMLCacheKey($allowed_cache_keys, $cache_val);
-        }
-
         $this->view->assign('heading_title', $this->language->get('heading_title', 'blocks/category'));
 
         /** @var ModelCatalogCategory $mdl */

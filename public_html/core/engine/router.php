@@ -192,7 +192,6 @@ final class ARouter
                 //Load required controller for storefront
                 $page_controller->addPreDispatch('common/maintenance');
                 $page_controller->addPreDispatch('common/seo_url');
-                $page_controller->addPreDispatch('common/html_cache');
             } else {
                 //Load required controller for admin
                 $page_controller->addPreDispatch('common/home/login');

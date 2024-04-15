@@ -32,29 +32,6 @@ class ControllerPagesProductProduct extends AController
         }
     }
 
-    /**
-     * Check if HTML Cache is enabled for the method
-     *
-     * @return array - array of data keys to be used for cache key building
-     */
-    public static function main_cache_keys()
-    {
-        //disable cache when some error occurred and need to show it
-        $registry = Registry::getInstance();
-        if (!empty($registry->get('session')->data['error'])) {
-            return null;
-        }
-        return [
-            'product_id',
-            'path',
-            'key',
-            'manufacturer_id',
-            'category_id',
-            'description',
-            'keyword'
-        ];
-    }
-
     public function main()
     {
         $request = $this->request->get;
