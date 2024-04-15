@@ -52,9 +52,8 @@ $categories = prepareNVCatItems($categories);
 						</li>
 					<?php
                         } else {
-							if (!$item['category']) {
-							//non category nested menu
-					?>
+                            //non category nested menu
+                            if (!$item['category']) { ?>
 						<li class="nav-item dropdown mega-menu">
 							<a class="nav-link <?php echo $active; ?> dropdown-toggle"
                                href="<?php echo $item['href']; ?>"
@@ -62,16 +61,10 @@ $categories = prepareNVCatItems($categories);
                                role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                                 <?php echo $text; ?>
 							</a>
-							<ul class="dropdown-menu list-unstyled category-sub-links">
+							<ul class="dropdown-menu list-unstyled">
                             <?php
-								foreach ($item['children'] as $si => $subItem) {
-                                    $sActive = $subItem['current'] ? 'active' : ''; ?>
-									<li>
-										<a class="nav-link <?php echo $sActive; ?>" href="<?php echo $subItem['href']; ?>">
-                                            <?php echo $subItem['text'] ?: $subItem['title'] ?: $subItem['name']; ?>
-										</a>
-									</li>
-                            <?php } ?>
+                            //render recursive item tree
+                            echo renderSFMenuNv($item['children']); ?>
 							</ul>
 						</li>
 					<?php }

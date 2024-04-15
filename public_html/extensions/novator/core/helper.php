@@ -150,9 +150,6 @@ function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
             $output .= '<a id="'.$id.'" href="'.$item['href'].'" 
                            class="'.$css.'" data-bs-toggle="dropdown" data-bs-target="dropdown" aria-expanded="false">';
             $output .= $icon.$item_title;
-            if(!isset($options['without_caret'])) {
-                $output .= '&nbsp; <i class="bi bi-caret-down"></i>';
-            }
             $output .= '</a>';
             $chOptions = [ 'id_key_name' => $idKey ];
 
