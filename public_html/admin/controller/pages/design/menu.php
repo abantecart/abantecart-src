@@ -489,7 +489,7 @@ class ControllerPagesDesignMenu extends AController
                 'id'      => 'category_children',
                 'name'    => 'include_children',
                 'value'   => 1,
-                'checked'   => (bool)$this->data['settings']['include_children'],
+                'checked'   => $this->request->post['include_children'] ?? (bool)$this->data['settings']['include_children'],
                 'style'   => 'no-save btn_switch',
             ]
         );
@@ -518,7 +518,7 @@ class ControllerPagesDesignMenu extends AController
                 'id'      => 'content_children',
                 'name'    => 'include_children',
                 'value'   => 1,
-                'checked' => (bool)$this->data['settings']['include_children'],
+                'checked' => $this->request->post['include_children'] ?? (bool)$this->data['settings']['include_children'],
                 'style'   => 'no-save short-field btn_switch',
             ]
         );
