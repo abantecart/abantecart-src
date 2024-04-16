@@ -110,7 +110,7 @@ function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
     $idKey = $options['id_key_name'] ?: 'id';
 
     if ($level == 0) {
-        $output .= '<div '.($options['top_level']['attr'] ?: 'class="navbar-nav ms-auto me-auto mb-2 mb-lg-0 align-items-start"').'>';
+        $output .= '<div '.($options['top_level']['attr'] ?: 'class="navbar-nav ms-auto me-auto mb-2 mb-lg-0 align-items-start flex-wrap"').'>';
     } else {
         $output .= '<div class="dropdown-menu '.($level > 1 ? 'dropdown-submenu' : '').'" aria-labelledby="'.$parentId.'" '.$options['submenu_level']['attr'].'>';
     }
@@ -129,20 +129,10 @@ function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
         }
         $item_title = '<span class="menu-img-caption">'.($item['text'] ?: $item['title'] ?: $item['name']).'</span>';
         $hasChild = (bool) $item['children'];
-        $output .= '<div class="dropdown me-3 me-sm-0 mb-3 mb-lg-0">';
+        $output .= '<div class="dropdown me-3 me-sm-0 mb-3 mb-lg-0 col-12">';
         //check icon rl type html, image or none.
-        $rl_id = $item['icon'] ? : $item['icon_rl_id'];
-        $icon = '';
-        if ($rl_id) {
-            $resource = $ar->getResource($rl_id);
-            if ($resource['resource_path'] && is_file(DIR_RESOURCE.'image/'.$resource['resource_path'])) {
-                $icon = '<img class="img-fluid" src="resources/image/'.$resource['resource_path'].'" />';
-            } elseif ($resource['resource_code']) {
-                $icon = $resource['resource_code'];
-            }
-        } elseif ( $item['icon_html'] ){
-            $icon = $item['icon_html'];
-        }
+        $rlId = $item['icon'] ? : $item['icon_rl_id'];
+        $icon = renderMenuItemIconNv($item, $rlId);
 
         if ($hasChild) {
             $id = 'menu_'.$item[$idKey];
@@ -177,6 +167,30 @@ function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
     $output .= "</div>\n";
 
     return $output;
+}
+
+/**
+ * @param array $item
+ * @param int $resourceId
+ * @param string $imgCssClass
+ * @return string
+ * @throws AException
+ */
+function renderMenuItemIconNv($item, $resourceId, $imgCssClass = 'img-fluid')
+{
+    $icon = '';
+    if ($resourceId) {
+        $ar = new AResource('image');
+        $resource = $ar->getResource($resourceId);
+        if ($resource['resource_path'] && is_file(DIR_RESOURCE.'image/'.$resource['resource_path'])) {
+            $icon = '<img class="'.$imgCssClass.'" src="resources/image/'.$resource['resource_path'].'" />';
+        } elseif ($resource['resource_code']) {
+            $icon = $resource['resource_code'];
+        }
+    } elseif ( $item['icon_html'] ){
+        $icon = $item['icon_html'];
+    }
+    return $icon;
 }
 
 function renderCategorySubMenuNV($menuItems, $level = 0, $parentId = '', $options = [ ])

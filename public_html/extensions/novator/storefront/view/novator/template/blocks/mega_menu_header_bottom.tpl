@@ -36,18 +36,19 @@ $categories = prepareNVCatItems($categories);
                 </div>
             </div>
             <div class="collapse d-none d-lg-flex navbar-collapse ">
-                <ul class="mega-sf-menu navbar-nav mx-auto mb-2 mb-lg-0 align-items-start">
+                <ul class="mega-sf-menu navbar-nav mx-auto mb-2 mb-lg-0 align-items-start flex-wrap">
                     <?php
 					//get last menu item
                     $last = array_pop($storefront_menu);
                     foreach ($storefront_menu as $i => $item) {
                         $text = $item['text'] ?: $item['title'] ?: $item['name'];
+                        $rlId = ($item['icon'] ? : $item['icon_rl_id']);
 						$hasChild = (bool) $item['children'];
 						$active = $item['current'] ? 'active' : '';
 						if (!$hasChild) { ?>
-						<li class="nav-item">
+						<li class="nav-item ">
 							<a class="nav-link <?php echo $active; ?>" href="<?php echo $item['href']; ?>" target="<?php echo $item['settings']['target']; ?>">
-								<?php echo $text; ?>
+								<?php echo renderMenuItemIconNv($item, $rlId).$text; ?>
 							</a>
 						</li>
 					<?php
@@ -59,7 +60,7 @@ $categories = prepareNVCatItems($categories);
                                href="<?php echo $item['href']; ?>"
                                target="<?php echo $item['settings']['target']; ?>"
                                role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-                                <?php echo $text; ?>
+                                <?php echo renderMenuItemIconNv($item, $rlId).$text; ?>
 							</a>
 							<ul class="dropdown-menu list-unstyled">
                             <?php
@@ -75,7 +76,7 @@ $categories = prepareNVCatItems($categories);
                                    href="<?php echo $item['href']; ?>"
                                    target="<?php echo $item['settings']['target']; ?>"
                                    role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-                                    <?php echo $text; ?>
+                                    <?php echo renderMenuItemIconNv($item, $rlId).$text; ?>
 								</a>
 								<div class="dropdown-menu dropdown-mega-menu">
 									<?php
@@ -106,19 +107,9 @@ $categories = prepareNVCatItems($categories);
                 <a class="btn btn-primary d-inline-flex align-items-center rounded-1 p-2" href="<?php echo $last['href']?>">
                     <?php
                     //identify icon rl type (html, image or none).
-                    $rl_id = $last['icon'] ? : $last['icon_rl_id'];
-                    $icon = '';
-                    $ar = new AResource('image');
-                    if ($rl_id) {
-                        $resource = $ar->getResource($rl_id);
-                        if ($resource['resource_path'] && is_file(DIR_RESOURCE.'image/'.$resource['resource_path'])) {
-                            $icon = '<img class="bottom-header-menu-icon img-fluid" src="resources/image/'.$resource['resource_path'].'" />';
-                        } elseif ($resource['resource_code']) {
-                            $icon = $resource['resource_code'];
-                        }
-                    } elseif ( $last['icon_html'] ){
-                        $icon = $last['icon_html'];
-                    } else {
+                    $rlId = $last['icon'] ? : $last['icon_rl_id'];
+                    $icon = renderMenuItemIconNv($last, $rlId, 'bottom-header-menu-icon img-fluid');
+                    if(!$icon){
                         $icon = '<i class="bi bi-patch-check-fill"></i>';
                     }
                     echo $icon.$last['text']; ?>

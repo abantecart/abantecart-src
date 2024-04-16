@@ -92,7 +92,7 @@ class ALayout
 
         // find page records for given controller
         $key_param = $this->getKeyParamByController($controller, $method);
-        $key_value = $key_param ? $this->request->get[$key_param] : null;
+        $key_value = $key_param ? (string)$this->request->get[$key_param] : null;
 
         // for nested categories
         if ($key_param == 'path' && $key_value) {
