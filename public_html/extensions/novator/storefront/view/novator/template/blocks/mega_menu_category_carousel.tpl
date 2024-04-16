@@ -31,12 +31,14 @@ foreach ($listItems as $si => $subitem) {
                 </div>
 <?php } ?>
             </div>
+            <?php if(count($listItems)>2){?>
             <a class="carousel-control-prev bg-transparent w-auto" href="#<?php echo $carouselId;?>" role="button" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             </a>
             <a class="carousel-control-next bg-transparent w-auto" href="#<?php echo $carouselId;?>" role="button" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
             </a>
+            <?php } ?>
         </div>
     </div>
 </div>
