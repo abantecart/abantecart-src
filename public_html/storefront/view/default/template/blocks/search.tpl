@@ -1,32 +1,56 @@
-<div class="sidewidt">
-<?php if ( $block_framed ) { ?>
+<div class="mt-3">
 	<h2 class="heading2"><span><?php echo $heading_title; ?></span></h2>
-<?php } ?>
-<form id="search_form" class="form-search top-search">
-    <input  type="hidden" name="filter_category_id" id="filter_category_id" value="0"/>
-    <div class="btn-group search-bar">
-    	<input type="text" id="filter_keyword" name="filter_keyword" autocomplete="off"
-    		   class="pull-left input-medium search-query" placeholder="<?php echo $text_keyword; ?>" value=""
-    		   class="btn dropdown-toggle" data-toggle="dropdown" href="#"
-    			/>
-    	 <div class="button-in-search" title="<?php echo $button_go; ?>"></div>
+    <form id="search_form" action="<?php echo HTTPS_SERVER.INDEX_FILE; ?>" class="d-flex form-search top-search">
+        <input type="hidden" name="rt" value="product/search"/>
+        <input type="hidden" name="category_id" id="filter_category_id" value="0"/>
+        <div class="dropdown">
+            <input type="text"
+                   id="filter-keyword"
+                   name="keyword"
+                   autocomplete="off"
+                   class="form-control me-2 input-medium search-query dropdown-toggle"
+                   placeholder="<?php echo_html2view($text_keyword); ?>"
+                   value=""
+                   data-bs-toggle="dropdown"
+                   aria-expanded="false"/>
     <?php
-    	if($top_categories){
-    		array_unshift($top_categories, array('category_id' => 0, 'name' => $text_category, 'parent_id' => 0));
+            if ($top_categories) {
+                array_unshift(
+                    $top_categories,
+                    [
+                        'category_id' => 0,
+                        'name'        => $text_category,
+                        'parent_id'   => 0,
+                    ]
+                );
     ?>
-    	<ul class="dropdown dropdown-menu col-md-2 noclose">
-    		<li class="active"><a id="category_selected"><?php echo $top_categories[0]['name']?></a></li>
-    		<li class="divider"></li>
-    		<span id="search-category">
-    		<?php foreach($top_categories as $category){
-				if($category['parent_id'] > 0){ continue;} ?>
-    			<li><a id="category_<?php echo $category['category_id']?>"><?php echo $category['name']?></a></li>
-    		<?php } ?>
-    		</span>
-    	</ul>
-    <?php } ?>
-    </div>
-</form>
-<?php if ( $block_framed ) { ?>
-<?php } ?>
+                <ul id="search-category" class="dropdown-menu">
+                    <li>
+                        <a class="active dropdown-item" id="category_selected">
+                            <?php echo $top_categories[0]['name'] ?>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <?php
+                    foreach ($top_categories as $category) {
+                        if ($category['parent_id'] > 0) { continue; } ?>
+                        <li class="search-category">
+                            <a class="dropdown-item" data-id="<?php echo $category['category_id'] ?>"
+                               id="category_<?php echo $category['category_id'] ?>">
+                                <?php echo $category['name'] ?>
+                            </a>
+                        </li>
+                    <?php
+                    } ?>
+                </ul>
+            <?php
+            } ?>
+        </div>
+        <div class="btn-group search-bar">
+            <button class="btn btn-success"
+                    title="<?php echo_html2view($button_go); ?>">
+                <i class="fa fa-solid fa-magnifying-glass"></i>
+            </button>
+        </div>
+    </form>
 </div>

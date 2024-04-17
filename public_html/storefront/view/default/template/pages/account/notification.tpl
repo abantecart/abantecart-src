@@ -1,13 +1,13 @@
-<h1 class="heading1">
-  <span class="maintext"><i class="fa fa-bullhorn"></i> <?php echo $heading_title; ?></span>
-  <span class="subtext"></span>
+<h1 class="ms-3 my-2 heading-title ">
+    <i class="fa fa-bell me-2"></i>
+    <?php echo $heading_title; ?>
 </h1>
+
 <?php echo $form['form_open']; ?>
-<div class="contentpanel">
+<div class="container-fluid">
 	<table class="table table-striped notification-table">
 		<thead>
 			<tr>
-
 				<th><?php echo $text_sendpoint; ?></th>
 				<?php foreach($protocols as $protocol){?>
 					<th><?php echo $protocol['title']; ?></th>
@@ -45,20 +45,19 @@
 	<?php } } ?>
 	</table>
 
-	
-	<div class="form-group">
-	    <div class="col-md-12">
-	    	<button class="btn btn-orange pull-right lock-on-click" title="<?php echo $form['continue']->name ?>" type="submit">
-	    	    <i class="<?php echo $form['continue']->{'icon'}; ?> fa"></i>
-	    	    <?php echo $form['continue']->name ?>
-	    	</button>
-	    	<a href="<?php echo $back; ?>" class="btn btn-default mr10" title="<?php echo $form['back']->text ?>">
-	    	    <i class="<?php echo $form['back']->{'icon'}; ?>"></i>
-	    	    <?php echo $form['back']->text ?>
-	    	</a>
-	    </div>
-	</div>
-
+    <div class="ps-4 p-3 col-12 d-flex flex-wrap">
+        <a href="<?php echo $back; ?>" class="btn btn-secondary" title="<?php echo $form['back']->text ?>">
+            <i class="<?php echo $form['back']->icon; ?>"></i>
+            <?php echo $form['back']->text ?>
+        </a>
+        <button id="submit_button" type="submit"
+                role="button"
+                class="btn btn-primary ms-auto lock-on-click"
+                title="<?php echo_html2view($form['continue']->name); ?>">
+            <i class="fa <?php echo $form['continue']->icon; ?>"></i>
+            <?php echo $form['continue']->name ?>
+        </button>
+    </div>
 </div>
 
 </form>

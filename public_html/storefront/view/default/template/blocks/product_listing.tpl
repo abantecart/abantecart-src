@@ -9,7 +9,7 @@ $text_items_in_the_cart = $this->language->get('text_cart_items','checkout/confi
 
 $tax_exempt = $this->customer->isTaxExempt();
 $config_tax = $this->config->get('config_tax');
-$text_sale = $this->language->get('text_badge_sale','bootstrap5/bootstrap5');
+$text_sale = $this->language->get('text_badge_sale');
 $text_sale = $text_sale == 'text_badge_sale' ? 'SALE' : $text_sale;
 
 foreach ($products as $product) {

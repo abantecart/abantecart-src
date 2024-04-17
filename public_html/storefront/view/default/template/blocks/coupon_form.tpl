@@ -1,32 +1,24 @@
-    <p><?php echo $text_coupon; ?></p>
-	<div class="registerbox">
-		<?php echo $form_open; ?>
-		<div class="form-inline">
-			<label class="checkbox"><?php echo $entry_coupon; ?></label>
-		    <?php echo $coupon; ?>
-			<?php if($coupon_code) { ?>
-				<a href="#" id="remove_coupon_btn" title="<?php echo $remove; ?>" class="btn btn-primary" value="" type="submit">
-					<i class="fa fa-remove"></i>
-				</a>
-			<?php } ?>
-		    <button id="apply_coupon_btn" title="<?php echo $submit->name; ?>" class="btn btn-default mr10" value="<?php echo $submit->form ?>" type="submit">
-			<i class="fa fa-check"></i>
-			<?php echo $submit->name; ?>
-			</button>
-		</div>
-		</form>
-	</div>
-	<script type="text/javascript">
-
-		jQuery(function ($) {
-			//reset coupon
-			$('.registerbox').on('click', '#remove_coupon_btn', function () {
-				var $form = $("#coupon_coupon").closest('form');
-				$("#coupon_coupon").val('');
-				$form.append('<input type="hidden" name="reset_coupon" value="true" />');
-				$form.submit();
-				return false;
-			});
-		});
-
-	</script>
+<p><?php echo $text_coupon; ?></p>
+<div id="couponForm" class="ps-4 p-3 mb-4">
+    <?php echo $form_open; ?>
+        <div class="mb-3 row">
+            <label for="<?php echo $coupon->element_id?>" class="text-nowrap col-sm-2 col-form-label me-2"><?php echo $entry_coupon; ?></label>
+            <div class="col-sm-9 h-100">
+                <?php echo $coupon; ?>
+            </div>
+        </div>
+        <div class="d-flex flex-wrap justify-content-end">
+            <?php if($coupon_code) { ?>
+                <a id="remove_coupon_btn" href="Javascript:void(0);"
+                   title="<?php echo_html2view($remove); ?>"
+                   class="btn btn-outline-danger m-2"><i class="fa fa-trash fa-fw"></i></a>
+            <?php } ?>
+            <button id="apply_coupon_btn" title="<?php echo_html2view($submit->name); ?>"
+                    class="btn btn-success m-2" type="submit">
+            <i class="fa fa-check"></i>
+            <?php echo $submit->name; ?>
+            </button>
+        </div>
+    </div>
+    </form>
+</div>

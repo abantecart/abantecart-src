@@ -44,3 +44,5 @@ $block_info['descriptions'] = [['language_name' => 'english', 'name' => 'Viewed 
 
 $layout = new ALayoutManager();
 $layout->saveBlock($block_info);
+
+// remove prior "default" layouts

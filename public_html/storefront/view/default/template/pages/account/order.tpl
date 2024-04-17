@@ -1,56 +1,54 @@
-<h1 class="heading1">
-  <span class="maintext"><i class="fa fa-book"></i> <?php echo $heading_title; ?></span>
-  <span class="subtext"></span>
+<h1 class="ms-3 my-2 heading-title ">
+    <i class="fa fa-file-invoice me-2"></i>
+    <?php echo $heading_title; ?>
 </h1>
-
 <?php if ($success) { ?>
-<div class="alert alert-success">
-<button type="button" class="close" data-dismiss="alert">&times;</button>
-<?php echo $success; ?>
-</div>
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <?php echo $success; ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php }
+if ($error_warning) { ?>
+    <div class="alert alert-error alert-danger alert-dismissible" role="alert">
+        <?php echo $error_warning; ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 <?php } ?>
 
-<?php if ($error_warning) { ?>
-<div class="alert alert-error alert-danger">
-<button type="button" class="close" data-dismiss="alert">&times;</button>
-<?php echo $error_warning; ?>
-</div>
-<?php } ?>
-
-<div class="contentpanel">
+<div class="container">
 	<?php echo $form['form_open']; ?>
-	<div class="registerbox form-horizontal">
-		<fieldset>
-		<?php
-			$field_list = array('order_id' => 'order_id',
-								'email' => 'email'
-								);
-			
-		foreach ($field_list as $field_name => $field_id) { ?>
-			<div class="form-group <?php if ($error[$field_name]) echo 'has-error'; ?>">
-				<label class="control-label col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
-				<div class="input-group col-md-4">
-				    <?php echo $form[$field_id]; ?>
-				</div>
-				<span class="help-block"><?php echo $error[$field_name]; ?></span>
-			</div>		
-		<?php }	?>
+    <div class="ps-4 border p-3 mb-4">
+        <?php
+            $field_list = [
+                    'order_id' => 'order_id',
+                    'email' => 'email'
+            ];
 
-			<?php echo $this->getHookVar('check_order_sections'); ?>
-			<div class="form-group">
-				<div class="col-md-12">
-					<button class="btn btn-orange pull-right" title="<?php echo $form['submit']->name ?>" type="submit">
-					    <i class="<?php echo $form['submit']->{'icon'}; ?>"></i>
-					    <?php echo $form['submit']->name ?>
-					</button>
-					<a href="<?php echo $back; ?>" class="btn btn-default mr10" title="<?php echo $form['back']->text ?>">
-					    <i class="<?php echo $form['back']->{'icon'}; ?>"></i>
-					    <?php echo $form['back']->text ?>
-					</a>
-				</div>
-			</div>
-			
-		</fieldset>
-	</div>
+        foreach ($field_list as $field_name => $field_id) {
+            $field = $form[$field_id]; ?>
+            <div class="mb-3 row">
+                <label for="<?php echo $field->element_id; ?>" class="text-nowrap col-sm-2 col-form-label me-2"><?php echo ${'entry_'.$field_name}; ?></label>
+                <div class="col-sm-9 h-100">
+                    <?php echo $field; ?>
+                    <span class="help-block text-danger"><?php echo $error[$field_name]; ?></span>
+                </div>
+            </div>
+        <?php }	?>
+        <?php echo $this->getHookVar('check_order_sections'); ?>
+
+    </div>
+    <div class="ps-4 p-3 col-12 d-flex flex-wrap">
+        <a href="<?php echo $back; ?>" class="btn btn-secondary" title="<?php echo $form['back']->text ?>">
+            <i class="<?php echo $form['back']->icon; ?>"></i>
+            <?php echo $form['back']->text ?>
+        </a>
+        <button id="submit_button" type="submit"
+                role="button"
+                class="btn btn-primary ms-auto lock-on-click"
+                title="<?php echo_html2view($form['submit']->name); ?>">
+            <i class="<?php echo $form['submit']->icon; ?>"></i>
+            <?php echo $form['submit']->name ?>
+        </button>
+    </div>
 	</form>
 </div>

@@ -19,7 +19,7 @@
 
             <div class="d-flex flex-wrap block-product-items justify-content-evenly">
             <?php
-                    $text_sale = $this->language->get('text_badge_sale','bootstrap5/bootstrap5');
+                    $text_sale = $this->language->get('text_badge_sale');
                     $text_sale = $text_sale == 'text_badge_sale' ? 'SALE' : $text_sale;
                     $tax_exempt = $this->customer->isTaxExempt();
                     $config_tax = $this->config->get('config_tax');

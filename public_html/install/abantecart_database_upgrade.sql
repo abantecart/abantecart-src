@@ -22,3 +22,14 @@ WHERE `group` = 'general'
                   );
 INSERT INTO `ac_settings` (`group`, `key`, `value` )
 VALUES ('appearance', 'viewed_products_limit', 3);
+
+alter table `ac_block_layouts`
+    modify date_added timestamp default CURRENT_TIMESTAMP null;
+
+alter table `ac_block_layouts`
+    modify date_modified timestamp default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP;
+alter table cba_block_descriptions
+    modify date_added timestamp default CURRENT_TIMESTAMP null;
+
+alter table `ac_block_descriptions`
+    modify date_modified timestamp default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP;

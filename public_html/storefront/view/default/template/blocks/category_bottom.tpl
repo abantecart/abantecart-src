@@ -1,61 +1,63 @@
-<div class="container-fluid">
-	<section id="categorymenu">
-	<h4 class="hidden">&nbsp;</h4>
-		<nav class="subnav">
-			<ul class="nav-pills categorymenu">
-				<li><a class="active menu_home" href="<?php echo $home_href; ?>"><?php echo $text_home; ?></a>
-
-					<div>
-						<ul id="main_menu" class="nav">
-							<?php
-							$storefront_menu = (array)$this->session->data['storefront_menu'];
-
-							foreach ($storefront_menu as $i => $menu_item) {
-								if ($menu_item['id'] == 'home') {
-									unset($storefront_menu[$i]);
-									break;
-								}
-							}?>
-							<!-- Top Nav Start -->
-							<?php echo  renderStoreMenu($storefront_menu); ?>
-						</ul>
-					</div>
-				</li>
-				<?php if ($categories) { ?>
-					<?php foreach ($categories as $category) { ?>
-						<li><a href="<?php echo $category['href']; ?>"><?php echo $category['name']; ?></a>
-							<?php $sub_cat = $category['children']; ?>
-							<?php if ($sub_cat) { ?>
-								<!-- Subcategories -->
-								<div class="subcategories">
-									<ul>
-										<?php foreach ($sub_cat as $scat) { ?>
-											<li><a href="<?php echo $scat['href']; ?>">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $scat['name']; ?></a>
-											<img class="sub_cat_image" style="display:none" src="<?php echo $scat['thumb']; ?>"
-													 alt="<?php echo $scat['name']; ?>"
-													 title="<?php echo $scat['name']; ?>">
-											</li>
-										<?php } ?>
-									</ul>
-									<?php if ($category['thumb']) { ?>
-										<ul>
-											<li class="parent_cat_image" style="display:none"><img class="root_cat_image" style="display:block" src="<?php echo $category['thumb']; ?>"
-													 alt="<?php echo $category['name']; ?>"
-													 title="<?php echo $category['name']; ?>">
-											</li>
-											<li class="cat_image"><img class="root_cat_image" style="display:block" src="<?php echo $category['thumb']; ?>"
-													 alt="<?php echo $category['name']; ?>"
-													 title="<?php echo $category['name']; ?>">
-											</li>
-										</ul>
-									<?php } ?>
-								</div>
-							<?php } ?>
-						</li>
-					<?php } ?>
-				<?php } ?>
-				<?php echo $this->getHookVar('categories_additional_info'); ?>
-			</ul>
-		</nav>
-	</section>
-</div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#categoryNavB" aria-controls="categoryNavB" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="categoryNavB">
+            <div class="dropdown ">
+                <a id="home_dropdown" href="<?php echo $home_href; ?>" role="button" class="dropdown-toggle text-nowrap nav-item nav-link   "
+                           data-bs-toggle="dropdown" aria-expanded="false"><?php echo $text_home; ?>&nbsp; <i class="fa fa-caret-down"></i>
+                        </a>
+                        <?php
+                        $storefront_menu = (array)$this->session->data['storefront_menu'];
+                        foreach ($storefront_menu as $i => $menu_item) {
+                            if ($menu_item['id'] == 'home') {
+                                unset($storefront_menu[$i]);
+                                break;
+                            }
+                        }
+                        echo  renderSFMenu(
+                                $storefront_menu,
+                                1, //start level for submenu
+                                '',
+                                [
+                                    'top_level' => [
+                                            'attr' => ' class="dropdown-menu" '
+                                    ]
+                                ]
+                        );
+                   ?>
+            </div>
+            <div class="nav-item">
+                <?php
+                //prepare items
+                if(!function_exists('__prepareItems')) {
+                    function __prepareItems($items)
+                    {
+                        foreach ($items as &$cat) {
+                            unset($cat['thumb']);
+                            if ($cat['level'] == 0) {
+                                unset($cat['icon']);
+                            }
+                            if ($cat['children']) {
+                                $cat['children'] = __prepareItems($cat['children']);
+                            }
+                        }
+                        return $items;
+                    }
+                }
+                $categories = __prepareItems($categories);
+                echo renderSFMenu(
+                        $categories,
+                        0,
+                        '',
+                        [
+                                'id_key_name' => 'path',
+                                'without_caret' => true
+                        ]
+                ); ?>
+            </div>
+            <?php echo $this->getHookVar('categories_additional_info'); ?>
+        </div>
+    </div>
+</nav>

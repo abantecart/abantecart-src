@@ -1,3 +1,4 @@
-<?php foreach ($children_blocks as $k => $block) { ?>
-<?php echo ${$block}; ?>
-<?php } ?>
+<?php
+foreach ($children_blocks as $block) {
+    echo $$block;
+} ?>

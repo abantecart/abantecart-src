@@ -24,7 +24,7 @@ foreach ($params as $param => $v) {
 <ul style="display:none;"
     class="abantecart-widget-container"
     data-url="<?php echo $sf_base_url; ?>"
-    data-css-url="<?php echo $sf_css_embed_url; ?>"
+    data-css-url="<?php echo AUTO_SERVER . $this->templateResource('/css/embed.css'); ?>"
     data-language="<?php echo $params['language'] ?>"
     data-currency="<?php echo $params['currency'] ?>">
     <?php foreach ($params['manufacturer_id'] as $id) { ?>

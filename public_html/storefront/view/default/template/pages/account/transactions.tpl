@@ -1,9 +1,9 @@
-<h1 class="heading1">
-  <span class="maintext"><i class="fa fa-money"></i> <?php echo $heading_title; ?></span>
-  <span class="subtext"></span>
+<h1 class="ms-3 my-2 heading-title ">
+    <i class="fa fa-money-bill-transfer me-2"></i>
+    <?php echo $heading_title; ?>
 </h1>
 
-<div class="contentpanel">
+<div class="container-fluid">
 	<table class="table table-striped transaction-table">
 	<thead>
 	<tr>
@@ -27,37 +27,31 @@
 		<?php echo $this->getHookVar('account_transactions_row_hook_var'); ?>
 	<?php } } ?>
 	</table>
-
-	<?php
-	if ( sizeof((array)$transactions) <=0 ) {
-	?>
+	<?php if ( sizeof((array)$transactions) <=0 ) { ?>
 		<div><?php echo $text_error; ?></div>
-	<?php	
-	}
-	?>
-
+	<?php } ?>
 	<div class="pagination"><?php echo $pagination_bootstrap; ?></div>
-	
 </div>
 <?php echo $this->getHookVar('account_transactions_hook_var'); ?>
 
 <div class="container-fluid cart_total">
-	<div class="cart-info totals pull-right">
-	    <table class="table table-striped table-bordered">
-	    	<tr>
-	    		<td>
-	    			<span class="extra bold totalamout"><?php echo $text_total; ?></span>
-	    		</td>
-	    		<td>
-	    			<span class="bold totalamout"><?php echo $balance_amount; ?></span>
-	    		</td>
-	    	</tr>
-	    </table>
-
-	    <a href="<?php echo $continue; ?>" class="btn btn-default mr10 pull-right" title="<?php echo $button_continue->text ?>">
-	    	    <i class="fa fa-arrow-right"></i>
-	    	    <?php echo $button_continue->text ?>
-	    </a>
-		<?php echo $this->getHookVar('account_transactions_button_hook_var'); ?>
-	</div>
+    <div class="cart-info totals pull-right">
+        <table class="table table-striped table-bordered">
+            <tr>
+                <td>
+                    <span class="fw-bold"><?php echo $text_total; ?></span>
+                </td>
+                <td class="text-end">
+                    <span class="fw-bold"><?php echo $balance_amount; ?></span>
+                </td>
+            </tr>
+        </table>
+        <div class="col-12 p-3 d-flex align-content-stretch mb-2">
+            <a href="<?php echo $continue; ?>" class="btn btn-secondary" title="<?php echo_html2view($button_continue->text); ?>">
+                <i class="fa fa-arrow-right"></i>
+                <?php echo $button_continue->text ?>
+            </a>
+            <?php echo $this->getHookVar('account_transactions_button_hook_var'); ?>
+        </div>
+    </div>
 </div>

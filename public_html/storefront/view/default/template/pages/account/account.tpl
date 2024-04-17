@@ -1,127 +1,113 @@
-<h1 class="heading1">
-	<span class="maintext"><i class="fa fa-user"></i> <?php echo $heading_title; ?></span>
-	<span class="subtext"><?php echo $customer_name; ?></span>
-	<?php if($balance){?>
-	<span class="subtext"><?php echo $balance; ?></span>
-	<?php }?>
+<h1 class="ms-3 my-2 heading-title ">
+    <i class="fa fa-user me-2"></i><?php echo $heading_title; ?>
 </h1>
+<h4 class="ms-5">
+    <span class="ms-3"><?php echo $customer_name; ?></span>
+    <?php if($balance){?>
+    <span class="ms-3"><?php echo $balance; ?></span>
+    <?php }?>
+</h4>
 
 <?php if ($success) { ?>
-<div class="alert alert-success">
-<button type="button" class="close" data-dismiss="alert">&times;</button>
-<?php echo $success; ?>
-</div>
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <?php echo $success; ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 <?php } ?>
+
 
 <?php echo $this->getHookVar('account_top'); ?>
 
-<ul class="nav-dash">
-	<li>
-	<a title="<?php echo $text_information; ?>" data-toggle="tooltip" href="<?php echo $information; ?>" data-original-title="<?php echo $text_information; ?>">
-	<i class="fa fa-edit"></i>
-	</a>
-	</li>
-	<li>
-	<a title="<?php echo $text_password; ?>" data-toggle="tooltip" href="<?php echo $password; ?>" data-original-title="<?php echo $text_password; ?>">
-	<i class="fa fa-key"></i>
-	</a>
-	</li>
-	<li>
-	<a title="<?php echo $text_address; ?>" data-toggle="tooltip" href="<?php echo $address; ?>" data-original-title="<?php echo $text_address; ?>">
-	<i class="fa fa-book"></i> <span class="badge badge-success"><?php echo $total_adresses; ?></span>
-	</a>
-	</li>
-	<?php echo $this->getHookVar('account_dash_icons'); ?>
-	<li>
-	<a title="<?php echo $text_account_wishlist; ?>" data-toggle="tooltip" href="<?php echo $wishlist; ?>" data-original-title="<?php echo $text_account_wishlist; ?>">
-	<i class="fa fa-star"></i> <span class="badge badge-success"><?php echo $total_wishlist; ?></span>
-	</a>
-	</li>
-	<?php echo $this->getHookVar('account_history_dash_icons'); ?>
-	<li>
-	<a title="<?php echo $text_history; ?>" data-toggle="tooltip" href="<?php echo $history; ?>" data-original-title="<?php echo $text_history; ?>">
-	<i class="fa fa-briefcase"></i> <span class="badge badge-success"><?php echo $total_orders; ?></span>
-	</a>
-	</li>
-	<li>
-	<a title="<?php echo $text_transactions; ?>" data-toggle="tooltip" href="<?php echo $transactions; ?>" data-original-title="<?php echo $text_transactions; ?>">
-	<i class="fa fa-money"></i> <span class="badge badge-success"><?php echo $balance_amount; ?></span>
-	</a>
-	</li>
-	<?php echo $this->getHookVar('account_order_dash_icons'); ?>
-	<?php if ($this->config->get('config_download')) { ?>
-	<li>
-	<a title="<?php echo $text_download; ?>" data-toggle="tooltip" href="<?php echo $download; ?>" data-original-title="<?php echo $text_download; ?>">
-	<i class="fa fa-cloud-download"></i> <span class="badge badge-success"><?php echo $total_downloads; ?></span>
-	</a>
-	</li>
-	<?php } ?>
-	<li>
-	<a title="<?php echo $text_my_notifications; ?>" data-toggle="tooltip" href="<?php echo $notification; ?>" data-original-title="<?php echo $text_my_notifications; ?>">
-	<i class="fa fa-bullhorn"></i>
-	</a>
-	</li>
-	<?php echo $this->getHookVar('account_newsletter_dash_icons'); ?>
-	<li>
-	<a title="<?php echo $text_logout; ?>" data-toggle="tooltip" href="<?php echo $logout; ?>" data-original-title="<?php echo $text_logout; ?>">
-	<i class="fa fa-unlock"></i>
-	</a>
-	</li>
-</ul>
+<div class="container-fluid">
+    <div class="mt-4 col-12 d-flex flex-wrap justify-content-center">
+    <?php
+        $array = [
+            'information' => [
+                    'url'  => $information,
+                    'text' => $text_information,
+                    'icon' => 'fa-edit'
+            ],
+            'password' => [
+                    'url'  => $password,
+                    'text' => $text_password,
+                    'icon' => 'fa-key'
+            ],
+            'address' => [
+                    'url'  => $address,
+                    'text' => $text_address,
+                    'icon' => 'fa-address-book',
+                    'badge'=> $total_adresses
+            ],
+            'wishlist' => [
+                    'url'  => $wishlist,
+                    'text' => $text_account_wishlist,
+                    'icon' => 'fa-heart-circle-check',
+                    'badge'=> $total_wishlist
+            ],
+            'history' => [
+                    'url'  => $history,
+                    'text' => $text_history,
+                    'icon' => 'fa-clock-rotate-left',
+                    'badge'=> $total_orders
+            ],
+            'transactions' => [
+                    'url'  => $transactions,
+                    'text' => $text_transactions,
+                    'icon' => 'fa-money-bill',
+                    'badge'=> $balance_amount
+            ],
+            'download' => [
+                    'url'  => $download,
+                    'text' => $text_download,
+                    'icon' => 'fa-download',
+                    'badge'=> $total_downloads
+            ],
+            'notification' => [
+                    'url'  => $notification,
+                    'text' => $text_my_notifications,
+                    'icon' => 'fa-bell'
+            ],
+            'logout' => [
+                    'url'  => $logout,
+                    'text' => $text_logout,
+                    'icon' => 'fa-arrow-right-from-bracket'
+            ]
+        ];
 
-<div class="dash-tiles row">
-	<div class="col-md-3 col-sm-6">
-		<div class="dash-tile dash-tile-ocean clearfix">
-			<div class="dash-tile-header">
-			<div class="dash-tile-options">
-			<a title="" data-toggle="tooltip" class="btn" href="<?php echo $address; ?>" data-original-title="<?php echo $text_address; ?>"><i class="fa fa-cog"></i></a>
-			</div>
-			<?php echo $text_address; ?>
-			</div>
-			<div class="dash-tile-icon"><i class="fa fa-book"></i></div>
-			<div class="dash-tile-text"><?php echo $total_adresses; ?></div>
-		</div>
-	</div>
-	<?php echo $this->getHookVar('account_links_dash_icons'); ?>
-	<div class="col-md-3 col-sm-6">
-		<div class="dash-tile dash-tile-flower clearfix">
-			<div class="dash-tile-header">
-			<div class="dash-tile-options">
-			<a title="<?php echo $text_history; ?>" data-toggle="tooltip" class="btn" href="<?php echo $history; ?>" data-original-title="<?php echo $text_history; ?>"><i class="fa fa-cog"></i></a>
-			</div>
-			<?php echo $text_history; ?>
-			</div>
-			<div class="dash-tile-icon"><i class="fa fa-briefcase"></i></div>
-			<div class="dash-tile-text"><?php echo $total_orders; ?></div>
-		</div>
-	</div>
-	<?php if ($this->config->get('config_download')) { ?>
-	<div class="col-md-3 col-sm-6">
-		<div class="dash-tile dash-tile-oil clearfix">
-			<div class="dash-tile-header">
-			<div class="dash-tile-options">
-			<a title="<?php echo $text_download; ?>" data-toggle="tooltip" class="btn" href="<?php echo $download; ?>" data-original-title="<?php echo $text_download; ?>"><i class="fa fa-cog"></i></a>
-			</div>
-			<?php echo $text_download; ?>
-			</div>
-			<div class="dash-tile-icon"><i class="fa fa-cloud-download"></i></div>
-			<div class="dash-tile-text"><?php echo $total_downloads; ?></div>
-		</div>
-	</div>
-	<?php }?>
-	<div class="col-md-3 col-sm-6">
-		<div class="dash-tile dash-tile-balloon clearfix">
-			<div class="dash-tile-header">
-			<div class="dash-tile-options">
-			<a title="<?php echo $text_transactions; ?>" data-toggle="tooltip" class="btn" href="<?php echo $transactions; ?>" data-original-title="<?php echo $text_transactions; ?>"><i class="fa fa-cog"></i></a>
-			</div>
-			<?php echo $text_transactions; ?>
-			</div>
-			<div class="dash-tile-icon"><i class="fa fa-money"></i></div>
-			<div class="dash-tile-text"><?php echo $balance_amount; ?></div>
-		</div>
-	</div>
-	<?php echo $this->getHookVar('account_sections'); ?>
-</div>	
+    foreach($array as $key => $item){
+        if($key == 'download' && !$this->config->get('config_download')){ continue; }
+        //hookvar before
+        if($key == 'history'){
+        echo $this->getHookVar('account_links_dash_icons');
+        }elseif($key == 'wishlist'){
+            echo $this->getHookVar('account_dash_icons');
+        }elseif($key == 'logout'){
+            echo $this->getHookVar('account_newsletter_dash_icons');
+        }
+    ?>
+        <a class="border border-success shadow bg-light text-secondary rounded-2 text-decoration-none m-4 text-center p-5"
+           title="<?php echo_html2view($item['text']); ?>"
+           href="<?php echo $item['url']; ?>">
+            <div class="position-relative p-3">
+                <i class="fs-1 fa <?php echo $item['icon']; ?> fa-xxl"></i>
+                <?php if($item['badge']){?>
+                    <span class="fs-5 shadow badge position-absolute top-0 start-100 translate-middle rounded-pill bg-success ">
+                        <?php echo $item['badge']; ?>
+                    </span>
+                <?php } ?>
+            </div>
+            <p class="fs-4 pt-4 text-wrap"><?php echo $item['text']; ?></p>
+        </a>
+    <?php
+        //hookvar before transactions-item
+        if($key == 'transactions'){
+            echo $this->getHookVar('account_order_dash_icons');
+        }
+    }
+        echo $this->getHookVar('account_sections'); ?>
+    </div>
 
+
+</div>
 <?php echo $this->getHookVar('account_bottom'); ?>
+

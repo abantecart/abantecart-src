@@ -8,7 +8,6 @@ if (window.abc_count === undefined) {
 }
 var embed_click_action = '<?php echo $embed_click_action;?>';
 embed_click_action = (window.location !== window.parent.location) ? 'new_window' : embed_click_action;
-
 var init = function () {
     // Localize jQuery
     var jQuery;
@@ -20,7 +19,7 @@ var init = function () {
 
     /******** Load jQuery if not yet loaded (note: supported jquery >= 10 ) *********/
     if (window.jQuery === undefined) {
-        script_loader("//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js");
+        script_loader("//cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js");
         // Poll for jQuery to come into existence
         var scounter = 0;
         var checkReady = function (callback, second) {
@@ -46,7 +45,7 @@ var init = function () {
             },
             function ($) {
                 //one more attempt to load local library
-                script_loader("<?php echo $this->templateResource("/javascript/jquery-3.5.1.min.js"); ?>");
+                script_loader("//cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js");
                 checkReady(function ($) {
                     jQuery = window.jQuery.noConflict(true);
                     main();
@@ -142,8 +141,8 @@ var init = function () {
             //for embedding with modal
             if (embed_click_action === 'modal') {
                 /******** Load custom modal *********/
-                css_loader("<?php echo AUTO_SERVER . '/' . $this->templateResource('/stylesheet/bootstrap.embed.css'); ?>");
-                script_loader("<?php echo AUTO_SERVER . '/' . $this->templateResource('/javascript/bootstrap.embed.js'); ?>");
+                css_loader("<?php echo AUTO_SERVER . $this->templateResource('/css/bootstrap.embed.css'); ?>");
+                script_loader("<?php echo AUTO_SERVER . $this->templateResource('/js/bootstrap.embed.js'); ?>");
 
                 // Load bootstrap custom modal (single instance)
                 modal = '<div id="abc_embed_modal" class="abcmodal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">' +
@@ -211,6 +210,11 @@ var init = function () {
                         abc_populate_cart(w_url, abc_add_common_params($first_obj));
                     });
             } else {
+                function popupwindow(url, title, w, h) {
+                    var left = (screen.width/2)-(w/2);
+                    var top = (screen.height/2)-(h/2);
+                    return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);
+                }
                 //for direct-link mode
                 $(document).on('click', "[data-toggle='abcmodal']", function () {
                     var url = $(this).attr('data-href');
@@ -219,16 +223,12 @@ var init = function () {
                         if (embed_click_action === 'same_window') {
                             window.location = url;
                         } else {
-                            window.open(url,
-                                'embed-store',
-                                'width=800,height=600,left=200,top=200'
-                            );
+                            popupwindow(url,'embed-store', 960, 600);
                         }
                         return false;
                     }
                 });
             }
-
 
             // Poll for abc_process_wrapper to come into existence
             var processReady = function (callback) {
