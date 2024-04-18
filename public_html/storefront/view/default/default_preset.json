@@ -1281,7 +1281,7 @@
                                         "components": [
                                           {
                                             "type": "textnode",
-                                            "content": "\u00a0\n              "
+                                            "content": "\u00a0\n"
                                           }
                                         ]
                                       }
@@ -1295,7 +1295,7 @@
                                     "components": [
                                       {
                                         "type": "textnode",
-                                        "content": "\n            "
+                                        "content": "\n"
                                       }
                                     ]
                                   }
