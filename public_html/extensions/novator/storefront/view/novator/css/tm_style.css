@@ -3872,3 +3872,11 @@ input[type="number"] {
     padding-right: calc(var(--bs-gutter-x) * .5) !important;
     padding-left: calc(var(--bs-gutter-x) * .5) !important;
 }
+.top-bar {
+    margin-bottom: -20px;
+    position: relative;
+    z-index: 1000;
+}
+#category_top_block {
+    margin-top: 20px;
+}
