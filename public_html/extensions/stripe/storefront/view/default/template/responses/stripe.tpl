@@ -7,12 +7,12 @@ if ($error) { ?>
         <input type="hidden" value="" id="pi_source" name="pi_source">
         <h4 class="heading4"><?php echo $text_credit_card; ?></h4>
         <?php echo $this->getHookVar('payment_table_pre'); ?>
-        <div class="form-group form-inline control-group">
+        <div class="form-group form-inline control-group m-2">
             <span class="col-sm-10 subtext"><?php echo $entry_billing_address; ?>: <?php echo implode(',',$payment_address); ?></span>
         </div>
-        <div style="align-items: center">
-            <div id="payment-element"
-                 style="padding: 20px; min-width: 250px;"></div>
+        <div class="form-group form-inline m-3">
+            <div id="payment-element" class="col-sm-12 col-xs-12 field"
+                 style="min-width:240px; border: 1px solid #ccc; padding: 2px"></div>
             <input type="hidden" name="cc_token" id="cc_token">
             <span class="help-block"></span>
         </div>
@@ -23,8 +23,8 @@ if ($error) { ?>
                 <i class="fa fa-arrow-left"></i>
                 <?php echo $back->text ?>
             </a>
-            <button id="<?php echo $submit->name ?>" class="btn btn-orange" title="<?php echo $submit->text ?>"
-                    type="submit">
+            <button id="<?php echo $submit->name ?>" class="btn btn-primary"
+                    title="<?php echo $submit->text ?>" type="submit">
                 <i class="fa fa-check"></i>
                 <?php echo $submit->text; ?>
             </button>

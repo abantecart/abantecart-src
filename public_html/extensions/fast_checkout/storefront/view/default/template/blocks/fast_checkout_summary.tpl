@@ -1,6 +1,6 @@
-<div id="fast_checkout_summary_block"></div>
+<div id="fast_checkout_summary_block" class=" mt-3"></div>
 
-<script>
+<script type="application/javascript">
 	showLoading = function (modal_body) {
 		modal_body.html('<div class="modal_loader" style="text-align: center"><i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i></div>');
 	}
@@ -21,7 +21,10 @@
 	}
     <?php } ?>
 
-	$('#fast_checkout_summary_block').on('reload', function () {
-		loadBlockContent()
-	});
+    $(document).ready(function(){
+        $('#fast_checkout_summary_block').on('reload', function () {
+            loadBlockContent()
+        });
+        loadBlockContent();
+    });
 </script>

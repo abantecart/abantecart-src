@@ -1,90 +1,88 @@
-<?php $total_payment = count((array)$payment_methods);
-if($total_payment || $balance>0){
-?>
-<h5 class="text-center"><?php echo $fast_checkout_text_select_payment; ?>:</h5>
-<div class="row">
-    <div class="form-group col-xxs-12 payment_items">
-        <?php
-        if ($total_payment) {
-            foreach ($payment_methods as $id => $payment) {
-                $current = '';
-                if ($id == $payment_method) {
-                    $current = ' selected ';
-                } ?>
-                <div class="payment_item">
-                    <div class="thumbnail payment-option <?php echo $current; ?>"
-                         data-payment-id="<?php echo $id; ?>"
-                         data-payment-available="<?php echo (!$csession['used_balance_full'] ? 'true': 'false'); ?>">
-                        <div class="caption">
-                            <p class="text-center"><?php
-                                if ($id == $payment_method) {
-                                    echo '<i class="fa fa-check"></i>'; } echo $payment['title'];
-                                ?></p>
-                        </div>
-                        <?php if ($payment['icon']) {
+<?php
+$no_payment_required = ($this->data['payment_method'] == 'no_payment_required');
+$total_payment = count((array)$payment_methods);
+
+//do not show payment method card if method only one
+if ( ($balance <= 0 || $no_payment_required) && $total_payment == 1){
+    return;
+}
+
+if($total_payment || $balance>0 || $no_payment_required){
+    if($total_payment > 1){ ?>
+        <h5 class="text-center text-uppercase mb-3"><?php echo $fast_checkout_text_select_payment; ?></h5>
+<?php }?>
+<div class="d-flex flex-wrap justify-content-evenly payment_items ">
+<?php
+    if ($total_payment) {
+        $paymentCover = '<img style="height: 100px;" src="%s">';
+        $defaultPaymentCover = sprintf(
+                $paymentCover,
+                'extensions/fast_checkout/storefront/view/default/images/payment.png'
+        );
+
+        foreach ($payment_methods as $id => $payment) {
+            $current = ($id == $payment_method) ? ' bg-success bg-opacity-25 ' : ''; ?>
+            <div class="card payment_item border col-11 col-sm-10 col-md-5 col-lg-5 m-2"
+                 data-payment-id="<?php echo $id; ?>"
+                 data-payment-available="<?php echo (!$csession['used_balance_full'] ? 'true': 'false'); ?>">
+                <div class="card-header d-none d-md-block text-start text-md-center fw-bold bg-gradient <?php echo $current; ?>">
+                    <?php echo ($id == $payment_method ? '<i class="fa fa-check me-2"></i>' : '') . $payment['title']; ?>
+                </div>
+                <div class="card-body d-flex flex-wrap flex-sm-nowrap thumbnail justify-content-center text-md-center payment-option <?php echo $current; ?>">
+                    <div class="">
+                        <?php
+                        if ($payment['icon']) {
                             $icon = $payment['icon'];
-                            ?>
-                            <?php if (is_file(DIR_RESOURCE.$icon['image'])) { ?>
-                                <div style="height: 100px; background-image: url('resources/<?php echo $icon['image']; ?>');
-                                        background-position: center; background-size: contain; background-repeat: no-repeat;" >
-                                </div>
-                            <?php } else {
-                                if (!empty($icon['resource_code'])) { ?>
-                                    <?php echo $icon['resource_code']; ?>
-                                <?php } else { ?>
-                                    <div style="height: 100px; background-image: url('extensions/fast_checkout/storefront/view/default/images/payment.png');
-                                            background-position: center; background-size: contain; background-repeat: no-repeat;" >
-                                    </div>
-                                <?php }
-                            } ?>
-                        <?php } else { ?>
-                            <div style="height: 100px; background-image: url('extensions/fast_checkout/storefront/view/default/images/payment.png');
-                                            background-position: center; background-size: contain; background-repeat: no-repeat;" >
-                            </div>
-                        <?php } ?>
+                            if (is_file(DIR_RESOURCE.$icon['image'])) {
+                                echo sprintf( $paymentCover, 'resources/'.$icon['image']);
+                            } else {
+                                echo $icon['resource_code'] ?: $defaultPaymentCover;
+                            }
+                        } else {
+                            echo $defaultPaymentCover;
+                        } ?>
                     </div>
-                </div>
-                <?php
-            }
-        }
-        if ($balance > 0) { ?>
-        <div class="payment_item <?php if ($csession['used_balance']) { ?>balance_applied<?php } ?> <?php if ($csession['used_balance_full']) { ?>balance_applied_full<?php } ?>">
-            <div class="thumbnail payment-option <?php if ($csession['used_balance_full']) { ?>current<?php } ?>" data-payment-id="account_balance">
-                <div class="caption">
-                    <p class="text-center"><?php if ($csession['used_balance_full']) {  echo '<i class="fa fa-check"></i>'; } ?>
-                        <span class="hidden-xxs"><?php
-                            echo sprintf(
-                                    $fast_checkout_text_account_credit,
-                                    $balance_value);
-                            ?></span>
-                        <span class="visible-xxs"><?php echo $balance_value; ?></span>
-                    </p>
-                </div>
-                <div style="min-height: 66px;"><i class="fa fa-money fa-fw fa-3x"></i></div>
-                <div>
-                    <div class="input-group">
-                        <span class="input-group-btn">
-                        <?php if ($csession['used_balance']) { ?>
-                            <button class="btn btn-default btn-md btn-remove-balance" type="button">
-                            <i class="fa fa-trash fa-fw"></i>
-                            <span class="hidden-xxs">
-                                <?php echo $fast_checkout_text_remove; ?>
-                            </span>
-                          </button>
-                        <?php } else { ?>
-                            <button class="btn btn-default btn-md btn-apply-balance" type="button">
-                            <i class="fa fa-check fa-fw"></i>
-                            <span class="hidden-xxs">
-                                <?php echo $fast_checkout_text_apply; ?>
-                            </span>
-                          </button>
-                        <?php } ?>
-                        </span>
+                    <div class="card-text fw-bold mt-3 ms-0 ms-sm-4 w-100 d-md-none text-center">
+                        <?php echo ($id == $payment_method ? '<i class="fa fa-check me-2"></i>' : '') . $payment['title']; ?>
                     </div>
                 </div>
             </div>
+        <?php
+        }
+    }
+    if ($balance > 0 && !$no_payment_required) {
+        $css = $csession['used_balance'] ? 'balance_applied' : '';
+        $css .= $csession['used_balance_full'] ? ' balance_applied_full' : '';
+        $current = $csession['used_balance_full'] ? ' bg-success bg-opacity-25 ' : '';
+    ?>
+    <div class="card payment_item border col-11 col-sm-6 col-md-4 col-lg-5 m-2 <?php echo $css; ?>">
+        <div class="card-header text-center fw-bold bg-gradient <?php echo $current; ?>">
+            <?php echo ($csession['used_balance_full'] ? '<i class="fa fa-check me-2"></i>' : '')
+                    . sprintf( $fast_checkout_text_account_credit, $balance_value );
+            ?>
         </div>
-        <?php } ?>
+        <div class="card-body thumbnail payment-option <?php echo $current; ?> d-flex flex-column align-items-center justify-content-center"
+             data-payment-id="account_balance">
+                <i class="fa fa-money-bill-transfer fa-fw fa-3x my-4"></i>
+                <div class="mb-3">
+                    <?php if ($csession['used_balance']) { ?>
+                        <button class="btn btn-outline-secondary btn-md btn-remove-balance" type="button">
+                        <i class="fa fa-trash fa-fw"></i>
+                        <span class="hidden-xxs">
+                            <?php echo $fast_checkout_text_remove; ?>
+                        </span>
+                      </button>
+                    <?php } else { ?>
+                        <button class="btn btn-outline-secondary btn-md btn-apply-balance" type="button">
+                        <i class="fa fa-check fa-fw"></i>
+                        <span class="hidden-xxs">
+                            <?php echo $fast_checkout_text_apply; ?>
+                        </span>
+                      </button>
+                    <?php } ?>
+                </div>
+        </div>
     </div>
+    <?php } ?>
 </div>
 <?php } ?>

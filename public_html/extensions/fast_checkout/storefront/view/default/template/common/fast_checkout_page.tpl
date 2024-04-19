@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" dir="<?php echo $direction; ?>" lang="<?php echo $lang; ?>" xml:lang="<?php echo $lang; ?>" <?php echo $this->getHookVar('hk_html_attribute'); ?>>
-<head><?php echo $head; ?></head>
+<head><?php	echo $head; ?></head>
 <body class="<?php echo str_replace("/", "-", $this->request->get['rt']) ?: 'home'; ?>">
 
 <?php echo $this->getHookVar('top_page'); ?>
@@ -8,96 +8,94 @@
 <div class="container-fixed" style="max-width: <?php echo $layout_width; ?>">
 
     <?php if ($maintenance_warning) { ?>
-		<div class="alert alert-warning">
-			<button type="button" class="close" data-dismiss="alert">&times;</button>
-			<strong><?php echo $maintenance_warning; ?></strong>
-            <?php if ($act_on_behalf_warning) { ?>
-				<br/><strong><?php echo $act_on_behalf_warning; ?></strong>
-            <?php } ?>
-		</div>
-        <?php
+        <div class="alert alert-warning alert-dismissible">
+           <i class="fa-solid fa-circle-exclamation me-2">
+           <strong><?php echo $maintenance_warning;?></strong>
+           <?php if($act_on_behalf_warning){ ?>
+              <br/><strong><?php echo $act_on_behalf_warning;?></strong>
+           <?php } ?>
+           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+<?php
     }
     if ($act_on_behalf_warning && !$maintenance_warning) { ?>
-		<div class="alert alert-warning">
-			<button type="button" class="close" data-dismiss="alert">&times;</button>
-			<strong><?php echo $act_on_behalf_warning; ?></strong>
-		</div>
+        <div class="alert alert-warning alert-dismissible">
+            <i class="fa-solid fa-circle-exclamation me-2"></i><strong><?php echo $act_on_behalf_warning;?></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     <?php }
-    echo ${$header}; ?>
+echo ${$header}; ?>
 
-    <?php if (!empty(${$header_bottom})) { ?>
-		<!-- header_bottom blocks placeholder -->
-		<div class="container-fluid">
-            <?php echo ${$header_bottom}; ?>
-		</div>
-		<!-- header_bottom blocks placeholder -->
+    <?php if ( !empty( $$header_bottom ) ) { ?>
+    <!-- header_bottom blocks placeholder -->
+        <div class="container-fluid">
+            <?php echo $$header_bottom; ?>
+        </div>
+    <!-- header_bottom blocks placeholder -->
     <?php } ?>
 
 	<div id="maincontainer">
 
         <?php
-        //check layout dynamicaly
-        $present_columns = 1;
-        $center_padding = '';
-        if (!empty(${$column_left})) {
-            $present_columns++;
-            $center_padding .= 'ct_padding_left';
-        }
-        if (!empty(${$column_right})) {
-            $present_columns++;
-            $center_padding .= ' ct_padding_right';
-        }
+            //check layout dynamically
+            $present_columns = 0;
+            if (!empty($$column_left)) {
+                $present_columns++;
+            }
+            if (!empty($$column_right)) {
+                $present_columns++;
+            }
         ?>
 
-		<div class="container-fluid">
-            <?php if (!empty(${$column_left})) { ?>
-				<div class="column_left col-md-4 col-xs-12">
-                    <?php echo ${$column_left}; ?>
-				</div>
-            <?php } ?>
-            <?php $span = 12 - 4 * ($present_columns - 1); ?>
-
-            <?php if (!empty(${$column_right})) { ?>
-				<div class="column_right col-md-4 col-xs-12 col-md-push-<?php echo $span ?>  mt10">
-                    <?php echo ${$column_right}; ?>
-				</div>
+        <div class="d-flex flex-wrap align-items-stretch align-self-stretch justify-content-center">
+            <?php if ( !empty($$column_left ) ) { ?>
+            <div class="ms-3 col-12 col-sm-9 col-md-8 col-lg-2 col-xl-3">
+            <?php echo $$column_left; ?>
+            </div>
             <?php } ?>
 
-			<div class="col-md-<?php echo $span ?> col-xs-12 <?php if (!empty(${$column_right})) { ?> col-md-pull-4 <?php } ?> mt10">
-                <?php if (!empty(${$content_top})) { ?>
-					<!-- content top blocks placeholder -->
-                    <?php echo ${$content_top}; ?>
-					<!-- content top blocks placeholder (EOF) -->
-                <?php } ?>
+            <?php $span = 12 - 4 * $present_columns; ?>
+            <div class="flex-grow-1 col-12 col-lg-<?php echo $span ?>  mt-2">
+                   <?php if ( !empty( $$content_top ) ) { ?>
+                   <!-- content top blocks placeholder -->
+                   <?php echo $$content_top; ?>
+                   <!-- content top blocks placeholder (EOF) -->
+                   <?php } ?>
 
-				<div class="<?php echo $center_padding; ?>">
-                    <?php echo $content; ?>
-				</div>
+                   <div class="container-fluid">
+                   <?php echo $content; ?>
+                   </div>
 
-                <?php if (!empty(${$content_bottom})) { ?>
-					<!-- content bottom blocks placeholder -->
-                    <?php echo ${$content_bottom}; ?>
-					<!-- content bottom blocks placeholder (EOF) -->
-                <?php } ?>
-			</div>
-		</div>
+                   <?php if ( !empty( $$content_bottom ) ) { ?>
+                   <!-- content bottom blocks placeholder -->
+                   <?php echo $$content_bottom; ?>
+                   <!-- content bottom blocks placeholder (EOF) -->
+                   <?php } ?>
+            </div>
 
-	</div>
+            <?php if ( !empty($$column_right ) ) { ?>
+            <div class="me-3 col-11 col-sm-9 col-md-8 col-lg-2 col-xl-3">
+            <?php echo $$column_right; ?>
+            </div>
+            <?php } ?>
+        </div>
 
-    <?php if (!empty(${$footer_top})) { ?>
-		<!-- footer top blocks placeholder -->
-		<div class="container-fluid">
-			<div class="col-md-12">
-                <?php echo ${$footer_top}; ?>
-			</div>
-		</div>
-		<!-- footer top blocks placeholder -->
+    </div>
+
+    <?php if ( !empty( $$footer_top ) ) { ?>
+    <!-- footer top blocks placeholder -->
+        <div class="container-fluid">
+            <div class="col-md-12">
+            <?php echo $$footer_top; ?>
+            </div>
+        </div>
+    <!-- footer top blocks placeholder -->
     <?php } ?>
 
-	<!-- footer blocks placeholder -->
-	<div id="footer">
-        <?php echo ${$footer}; ?>
-	</div>
+    <!-- footer blocks placeholder -->
+    <div id="footer">
+    	<?php echo $$footer; ?>
+    </div>
 
 </div>
 
@@ -117,27 +115,42 @@ Check Dan Riti's blog for more fine tunning suggestion:
 https://www.appneta.com/blog/bootstrap-pagespeed/
 		*/
 ?>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/bootstrap.min.js'); ?>" defer></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/common.js'); ?>" defer async></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/respond.min.js'); ?>" defer async></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.flexslider-min.js'); ?>" defer async></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/easyzoom.js'); ?>" defer async></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.validate.min.js'); ?>" defer async></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.carouFredSel.min.js'); ?>" defer async></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.mousewheel.min.js'); ?>" defer async></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.touchSwipe.min.js'); ?>" defer async></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.ba-throttle-debounce.min.js'); ?>" defer async></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.onebyone.min.js'); ?>" defer async></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/custom.js'); ?>" defer async></script>
+<script type="text/javascript" src="<?php echo $this->templateResource('/js/jquery-3.6.0.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $this->templateResource('/js/bootstrap.bundle.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $this->templateResource('/js/custom.js'); ?>"></script>
 <?php
 if ($scripts_bottom && is_array($scripts_bottom)) {
-    foreach ($scripts_bottom as $script) {
-        ?>
-		<script type="text/javascript" src="<?php echo $script; ?>" defer></script>
-        <?php
+    foreach ($scripts_bottom as $script) { ?>
+        <script type="text/javascript" src="<?php echo $script; ?>" defer></script>
+<?php
     }
 }
-?>
+
+if (trim($this->config->get('config_google_analytics_code'))) { ?>
+<script type="text/javascript">
+<?php
+    //get ecommerce tracking data from checkout page
+    /**
+     * @see AOrder::getGoogleAnalyticsOrderData()
+     */
+    //when checkout begin
+    $gaCheckoutData = $this->session->data['google_analytics_begin_checkout_data'];
+    unset($this->session->data['google_analytics_begin_checkout_data']);
+    if ($gaCheckoutData) { ?>
+        gtag(
+            "event",
+            "begin_checkout",
+            {
+                currency: <?php js_echo($gaCheckoutData['currency_code']); ?>,
+                value: <?php js_echo($gaCheckoutData['total']); ?>
+    <?php if ($gaCheckoutData['items']) { ?>
+    , items: <?php js_echo($gaCheckoutData['items']); ?>
+<?php } ?>
+            }
+        );
+    <?php } ?>
+</script>
+<?php } ?>
 
 </body>
 </html>

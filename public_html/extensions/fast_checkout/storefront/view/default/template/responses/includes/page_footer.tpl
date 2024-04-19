@@ -1,55 +1,29 @@
 <?php /* Footer */ ?>
-<footer>
-    <?php /* footer blocks placeholder */ ?>
-    <section class="footersocial">
-        <h4 class="hidden">&nbsp;</h4>
-
+<footer class="bd-footer py-1 mt-5 bg-light">
+    <nav class="navbar navbar-expand navbar-dark bg-secondary text-light" role="navigation">
         <div class="container-fluid">
-            <div class="col-md-3">
-                <?php echo ${$children_blocks[0]}; ?>
-            </div>
-            <div class="col-md-3">
-                <?php echo ${$children_blocks[1]}; ?>
-            </div>
-            <div class="col-md-3">
-                <?php echo ${$children_blocks[2]}; ?>
-            </div>
-            <div class="col-md-3">
-                <?php echo ${$children_blocks[3]}; ?>
+            <div id="footerNavbarCollapse" class="navbar-collapse collapse">
+                <div class="container d-flex flex-wrap justify-content-evenly text-center navbar-nav mb-2 mb-md-0">
+                    <?php
+                    $i = 0;
+                    foreach($children_blocks as $k => $instanceName){
+                        $i++;
+                        if(in_array($i, (array)$shown)){ continue; }
+                    ?>
+                        <div class="align-self-center justify-content-center mx-sm-3 mb-3 block_<?php echo $k; ?>">
+                            <?php echo $$instanceName; ?>
+                        </div>
+                    <?php
+                    } ?>
+                    <div class="project-label col-lg-3 my-3">
+                        <?php echo $text_copy; ?>
+                        <br>
+                        <?php echo $text_project_label ?>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
-
-    <section class="footerlinks">
-        <h2 class="hidden">&nbsp;</h2>
-
-        <div class="container-fluid">
-            <div class="pull-left">
-                <?php echo ${$children_blocks[4]}; ?>
-            </div>
-            <div class="pull-right">
-                <?php echo ${$children_blocks[5]}; ?>
-            </div>
-        </div>
-    </section>
-
-    <section class="copyrightbottom align_center">
-        <h2 class="hidden">&nbsp;</h2>
-
-        <div class="container-fluid">
-            <div class="pull-left mt5">
-                <?php echo ${$children_blocks[6]}; ?>
-            </div>
-            <div class="pull-right align_center">
-                <?php echo $text_project_label ?>
-                <br/>
-                <?php echo $text_copy; ?>
-            </div>
-            <div class="pull-right mr20 mt5">
-                <?php echo ${$children_blocks[7]}; ?>
-            </div>
-        </div>
-    </section>
+    </nav>
 </footer>
 
 
@@ -58,8 +32,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close callback-btn" data-dismiss="modal"
-                        aria-hidden="true">&times;
-                </button>
+                        aria-hidden="true">&times;</button>
                 <h3 class="hidden">&nbsp;</h3>
             </div>
             <div class="modal-body">

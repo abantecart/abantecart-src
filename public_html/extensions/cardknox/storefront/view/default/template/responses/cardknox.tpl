@@ -23,9 +23,7 @@
         margin-left: 3%;
         margin-right: 11px;
     }
-    .cardknox-300{
-        width: 300px !important;
-    }
+
     .ebt-types>label{
         width: 100%;
         clear: both;
@@ -40,81 +38,101 @@
     echo $form_open;
     echo $amount;
     echo $method;
-    ?>
-<div id="accordion">
-    <h4 class="heading4"><?php echo $text_credit_card; ?></h4>
-    <div data-idx="0" data-method="cc" class="form-group form-inline">
-            <div class="text-center">
-                <iframe data-ifields-id="card-number" data-ifields-placeholder="Card Number"
-                        src="https://cdn.cardknox.com/ifields/<?php echo $iFieldsVersion; ?>/ifield.htm"></iframe>
-                <input data-ifields-id="card-number-token" name="xCardNum" type="hidden">
-            </div>
-            <div class="center mb10 cardknox-300">
-                <div class="input-group">
-                    <?php echo $cc_expire_date_month; ?>
+?>
+
+    <div class="accordion mb-3" id="accordion">
+        <div data-idx="0" data-method="cc"  class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                        aria-expanded="true" aria-controls="collapseOne">
+                    <?php echo $text_credit_card; ?>
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                 data-bs-parent="#accordion">
+                <div class="accordion-body">
+                    <div class="text-center mb-3">
+                        <iframe data-ifields-id="card-number" data-ifields-placeholder="Card Number"
+                                width="100%" height="44"
+                                src="https://cdn.cardknox.com/ifields/<?php echo $iFieldsVersion; ?>/ifield.htm"></iframe>
+                        <input data-ifields-id="card-number-token" name="xCardNum" type="hidden">
+                    </div>
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <?php echo $cc_expire_date_month; ?>
+                        </div>
+                        <div class="input-group">
+                            <?php echo $cc_expire_date_year; ?>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <iframe data-ifields-id="cvv" data-ifields-placeholder="CVV"
+                                width="50%" height="44"
+                                src="https://cdn.cardknox.com/ifields/<?php echo $iFieldsVersion; ?>/ifield.htm"></iframe>
+                        <input data-ifields-id="cvv-token" name="xCVV" type="hidden">
+                    </div>
+                    <div class="text-center">
+                        <!--And a field for all errors from the iFields-->
+                        <label id="transaction-status"></label>
+                        <label data-ifields-id="card-data-error" style="color: red;"></label>
+                    </div>
                 </div>
-                <div class="input-group">
-                    <?php echo $cc_expire_date_year; ?>
+            </div>
+        </div>
+        <div data-idx="1" data-method="ach" class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    <?php echo $cardknox_text_check_ach; ?>
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                 data-bs-parent="#accordion">
+                <div class="accordion-body">
+                    <div class="center mb-3">
+                        <?php
+                        echo $customer_name; ?>
+                    </div>
+                    <iframe class="mb-3" data-ifields-id="ach"
+                            width="100%" height="44"
+                            data-ifields-placeholder="Account Number"
+                            src="https://cdn.cardknox.com/ifields/<?php
+                            echo $iFieldsVersion; ?>/ifield.htm"></iframe>
+                    <input data-ifields-id="ach-token" name="xACH" type="hidden"/>
+                    <div class="mb-3">
+                        <?php
+                        echo $routing_number; ?>
+                    </div>
                 </div>
-                <span class="help-block"></span>
-            </div>
-            <div class="text-center">
-                <iframe data-ifields-id="cvv" data-ifields-placeholder="CVV"
-                        src="https://cdn.cardknox.com/ifields/<?php echo $iFieldsVersion; ?>/ifield.htm"></iframe>
-                <input data-ifields-id="cvv-token" name="xCVV" type="hidden">
-            </div>
-            <div class="text-center">
-                <!--And a field for all errors from the iFields-->
-                <label id="transaction-status"></label>
-                <label data-ifields-id="card-data-error" style="color: red;"></label>
             </div>
         </div>
-    <h4 class="heading4"><?php echo $cardknox_text_check_ach; ?></h4>
-    <div data-idx="1" data-method="ach"  class="form-group form-inline">
-        <div class="center mb10 cardknox-300">
-            <?php echo $customer_name; ?>
-        </div>
-        <div class="text-center">
-            <iframe data-ifields-id="ach"
-                    data-ifields-placeholder="Account Number"
-                    src="https://cdn.cardknox.com/ifields/<?php echo $iFieldsVersion; ?>/ifield.htm"></iframe>
-            <input data-ifields-id="ach-token" name="xACH" type="hidden"/>
-        </div>
-        <div class="center cardknox-300">
-            <?php echo $routing_number; ?>
-        </div>
-    </div>
-    <h4 class="heading4"><?php echo $cardknox_text_ebt; ?></h4>
-    <div data-idx="2" data-method="ebt" class="form-group form-inline mb10">
-        <div class="center cardknox-300 ebt-types">
-            <?php echo $ebt_type; ?>
-        </div>
-        <div class="center cardknox-300">
-            <?php echo $ebt_number; ?>
+        <div data-idx="2" data-method="ebt" class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                <?php echo $cardknox_text_ebt; ?>
+                </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                 data-bs-parent="#accordion">
+                <div class="accordion-body">
+                    <div class="mb-3 ebt-types"><?php echo $ebt_type; ?></div>
+                    <div class="mb-3"><?php echo $ebt_number; ?></div>
+                </div>
+            </div>
         </div>
     </div>
 
-</div>
     <div class="form-group action-buttons text-center">
-        <a id="<?php
-        echo $back->name ?>" href="<?php
-        echo $back->href; ?>" class="btn btn-default mr10">
-            <i class="fa fa-arrow-left"></i>
-            <?php
-            echo $back->text ?>
-        </a>
-        <button id="<?php
-        echo $submit->name ?>"
-                class="btn btn-orange"
-                title="<?php
-                echo $submit->text ?>" type="submit">
+        <button id="<?php echo $submit->name ?>" class="btn btn-primary"
+                title="<?php echo $submit->text ?>" type="submit">
             <i class="fa fa-check"></i>
-            <?php
-            echo $submit->text; ?>
+            <?php echo $submit->text; ?>
         </button>
     </div>
+    </form>
 </div>
-</form>
+
 <form id="EBTPinPad" action="" method="post">
     <input type="hidden" id="AccuID" name="AccuId" value="">
     <input type="hidden" id="AccuReturnURL" name="AccuReturnURL" value="">
@@ -132,8 +150,8 @@
 
             if (script.readyState){  //IE
                 script.onreadystatechange = function(){
-                    if (script.readyState == "loaded" ||
-                            script.readyState == "complete"){
+                    if (script.readyState === "loaded" || script.readyState === "complete")
+                    {
                         script.onreadystatechange = null;
                         callback();
                     }
@@ -149,26 +167,23 @@
         }
     }
     jQuery(document).ready(function () {
-        loadScript(
-            'https://code.jquery.com/ui/1.12.1/jquery-ui.js',
-            function(){
-                $( "#accordion" ).accordion(
-                    {
-                        activate: function( event, ui ) {
-                            let method = $(ui.newPanel).attr('data-method');
-                            $('#cardknox_method').val(method);
-                        }
-                    }
-                );
-                <?php if($this->request->get['method']){ ?>
-                    let div = $("div[data-method^='<?php echo $this->request->get['method']?>']");
-                    let idx = div.attr('data-idx');
-                    idx = parseInt(idx);
-                    $("#accordion").accordion({ active: idx });
-                    $("#cardknox_method").val(div.attr('data-method'));
-                <?php }?>
-            });
         loadScript('https://cdn.cardknox.com/ifields/<?php echo $iFieldsVersion; ?>/ifields.min.js', InitCardKnox);
+
+        let method = getURLVar('method');
+        if(method !== undefined && method.length>0){
+            let div = $("div[data-method^='"+method+"']");
+            div.find('.accordion-header>button').click();
+            let idx = div.attr('data-idx');
+            idx = parseInt(idx);
+            $("#cardknox_method").val(div.attr('data-method'));
+        }
+
+        var myCollapsible = $('#accordion .accordion-collapse');
+        myCollapsible.on('shown.bs.collapse', function () {
+            let methd = $(this).parents('.accordion-item').attr('data-method')
+            $('#cardknox_method').val(methd);
+        });
+
 
         function InitCardKnox() {
             setAccount(
@@ -179,44 +194,60 @@
             enableAutoFormatting(' ');
             enable3DS('cardknox_amount', 'cardknox_cc_month', 'cardknox_cc_year');
             let css = {
-                'width': '200px'
+                'border-radius': '.25rem',
+                'width': '90%',
+                'height': '36px',
+                'padding': '0px 12px',
+                'font-size': '16px',
             };
             setIfieldStyle('ach', css);
             setIfieldStyle('card-number', css);
-            setIfieldStyle('cvv', {'width': '50px'});
+            setIfieldStyle(
+                'cvv',
+                {
+                    'border-radius': '.25rem',
+                    'height': '36px',
+                    'padding': '0px 12px',
+                    'font-size': '16px',
+                    'width': '50px'
+                }
+            );
 
-            document.getElementById('cardknox').addEventListener('submit', function (e) {
-                e.preventDefault();
-                $('.alert').remove();
-                $('#cardknox .action-buttons')
-                    .hide()
-                    .before('<div class="wait alert alert-info text-center"><i class="fa fa-refresh fa-spin"></i> <?php echo $text_wait; ?></div>');
-                var submitBtn = document.getElementById('<?php echo $submit->name ?>');
-                //when EBT
-                if( $('div[data-method="ebt"]').css('display') !== 'none' ){
-                    if( $('#cardknox_ebtcardnum').val().length > 12 ){
-                        loadPinPad();
-                    }else{
-                        alert('Please fill EBT card Number!');
-                        $('.wait').remove();
-                        $('#cardknox .action-buttons').show().find('button').removeAttr('disabled');
-                        return false;
+            $('#cardknox').on(
+                'submit',
+                function (e) {
+                    e.preventDefault();
+                    $('.alert').remove();
+                    $('#cardknox .action-buttons')
+                        .hide()
+                        .before('<div class="wait alert alert-info text-center"><i class="fa fa-refresh fa-spin"></i> <?php echo $text_wait; ?></div>');
+                    var submitBtn = document.getElementById('<?php echo $submit->name ?>');
+                    //when EBT
+                    if( $('div[data-method="ebt"]').find('.accordion-collapse').hasClass('show') ){
+                        if( $('#cardknox_ebtcardnum').val().length > 12 ){
+                            loadPinPad();
+                        }else{
+                            alert('Please fill EBT card Number!');
+                            $('.wait').remove();
+                            $('#cardknox .action-buttons').show().find('button').removeAttr('disabled');
+                            return false;
+                        }
+                    }
+                    //when other methods
+                    else{
+                        submitBtn.disabled = true;
+                        getTokens(
+                            function () {
+                                confirmSubmit($('#cardknox'));
+                            },
+                            function () { //onError
+                                submitBtn.disabled = false;
+                            },
+                            30000, //30 second timeout
+                        );
                     }
                 }
-                //when other methods
-                else{
-                    submitBtn.disabled = true;
-                    getTokens(
-                        function () {
-                            confirmSubmit($('#cardknox'));
-                        },
-                        function () { //onError
-                            submitBtn.disabled = false;
-                        },
-                        30000, //30 second timeout
-                    );
-                }
-            });
+            );
         }
         function confirmSubmit($form) {
             $.ajax({
@@ -234,7 +265,7 @@
                         if (data.error) {
                             $('.wait').remove();
                             $('#cardknox .action-buttons').show().find('button').removeAttr('disabled');
-                            $('#cardknox').before('<div class="alert alert-warning"><i class="fa fa-exclamation"></i> ' + data.error + '</div>');
+                            $('#cardknox').before('<div class="alert alert-warning"><i class="fa fa-exclamation-triangle"></i> ' + data.error + '</div>');
                             submitSent = false;
                             $form.find('input[name=csrfinstance]').val(data.csrfinstance);
                             $form.find('input[name=csrftoken]').val(data.csrftoken);
@@ -247,7 +278,7 @@
                 error: function (jqXHR, textStatus, errorThrown) {
                     $('.wait').remove();
                     $('#cardknox .action-buttons').show().find('button').removeAttr('disabled');
-                    $('#cardknox').before('<div class="alert alert-danger"><i class="fa fa-exclamation"></i> ' + textStatus + ' ' + errorThrown + '</div>');
+                    $('#cardknox').before('<div class="alert alert-danger"><i class="fa fa-exclamation-triangle"></i> ' + textStatus + ' ' + errorThrown + '</div>');
                     submitSent = false;
                     $form.find('input[name=csrfinstance]').val(data.csrfinstance);
                     $form.find('input[name=csrftoken]').val(data.csrftoken);
@@ -263,7 +294,8 @@
                 data: {
                     csrftoken: $form.find('input[name=csrftoken]').val(),
                     csrfinstance: $form.find('input[name=csrfinstance]').val(),
-                    xCardNum: $form.find('[name=EBTCardNum]').val()
+                    xCardNum: $form.find('[name=EBTCardNum]').val(),
+                    fast_checkout: true
                 },
                 dataType: 'json',
                 success: function (data) {
@@ -293,7 +325,7 @@
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    $('#cardknox').before('<div class="alert alert-danger"><i class="fa fa-exclamation"></i> ' + textStatus + ' ' + errorThrown + '</div>');
+                    $('#cardknox').before('<div class="alert alert-danger"><i class="fa fa-exclamation-triangle"></i> ' + textStatus + ' ' + errorThrown + '</div>');
                     submitSent = false;
                 }
             });
