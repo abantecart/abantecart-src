@@ -76,7 +76,7 @@ $resource = [
     'name'          => [],
     'title'         => [],
     'description'   => [],
-    'resource_path' => 'abc-logo-white-nv.png',
+    'resource_path' => 'abc-logo.png',
     'resource_code' => '',
 ];
 
