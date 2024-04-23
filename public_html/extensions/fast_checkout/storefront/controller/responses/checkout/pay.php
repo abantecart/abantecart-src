@@ -2103,7 +2103,7 @@ class ControllerResponsesCheckoutPay extends AController
         }
 
         //validate post data
-        $this->extensions->hk_ValidateData($this);
+        $this->extensions->hk_ValidateData($this, [ 'coupon_code' => $coupon_code ]);
 
         return (!$this->error);
     }
