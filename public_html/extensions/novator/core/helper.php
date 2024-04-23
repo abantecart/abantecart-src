@@ -112,7 +112,7 @@ function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
     if ($level == 0) {
         $output .= '<div '.($options['top_level']['attr'] ?: 'class="navbar-nav ms-auto me-auto mb-2 mb-lg-0 align-items-start flex-wrap"').'>';
     } else {
-        $output .= '<div class="dropdown-menu '.($level > 1 ? 'dropdown-submenu' : '').'" aria-labelledby="'.$parentId.'" '.$options['submenu_level']['attr'].'>';
+        $output .= '<div class="dropdown-menu dropdown-menu-footer'.($level > 1 ? 'dropdown-submenu' : '').'" aria-labelledby="'.$parentId.'" '.$options['submenu_level']['attr'].'>';
     }
 
     $ar = new AResource('image');
@@ -129,7 +129,7 @@ function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
         }
         $item_title = '<span class="menu-img-caption">'.($item['text'] ?: $item['title'] ?: $item['name']).'</span>';
         $hasChild = (bool) $item['children'];
-        $output .= '<div class="dropdown me-3 me-sm-0 mb-3 mb-lg-0 col-12">';
+        $output .= '<div class="dropdown me-3 me-sm-0 mb-3 mb-lg-0 col-12" >';
         //check icon rl type html, image or none.
         $rlId = $item['icon'] ? : $item['icon_rl_id'];
         $icon = renderMenuItemIconNv($item, $rlId);
