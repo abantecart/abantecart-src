@@ -55,7 +55,7 @@ if($direction == 'rtl'){ ?>
 <?php } ?>
 
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<!--<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">-->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 <!-- <link href="<?php echo $this->templateResource('/css/style.css'); ?>" rel="stylesheet" type='text/css' /> -->
 <link href="<?php echo $this->templateResource('/css/plugins/owl.carousel.min.css'); ?>" rel="stylesheet" type='text/css' />
 <link href="<?php echo $this->templateResource('/css/tm_style.css'); ?>" rel="stylesheet" type='text/css' />
