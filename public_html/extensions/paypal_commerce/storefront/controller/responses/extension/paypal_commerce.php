@@ -302,9 +302,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $back_url = $this->html->getSecureURL('checkout/payment', '&mode=edit', true);
         }
 
-        $data['cancel_url'] = isset($this->session->data['fc'])
-            ? $this->html->getSecureURL('checkout/fast_checkout')
-            : $this->html->getSecureURL('checkout/confirm');
+        $data['cancel_url'] = $this->html->getSecureURL('checkout/fast_checkout');
 
         $data['back'] = $this->html->buildElement(
             [

@@ -939,7 +939,7 @@ class ModelAccountCustomer extends Model
             $this->error['warning'] = $this->language->get('error_exists');
         }
         $phone = $data['telephone'] ?? '';
-        if ($phone) {
+        if ($phone || $this->config->get('fast_checkout_require_phone_number')) {
             $pattern = $this->config->get('config_phone_validation_pattern') ? : DEFAULT_PHONE_REGEX_PATTERN;
             if (mb_strlen($phone) < 3
                 || mb_strlen($phone) > 32

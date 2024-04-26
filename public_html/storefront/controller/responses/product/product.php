@@ -24,6 +24,17 @@ if (!defined('DIR_CORE')) {
 
 class ControllerResponsesProductProduct extends AController
 {
+    public function __construct($registry, $instance_id, $controller, $parent_controller = '')
+    {
+        parent::__construct($registry, $instance_id, $controller, $parent_controller);
+        if($this->request->get['fc']){
+            $cartClassName = get_class($this->cart);
+            $registry->set(
+                'cart',
+                new $cartClassName( $registry, $this->session->data['fc'])
+            );
+        }
+    }
     public function main()
     {
         //init controller data

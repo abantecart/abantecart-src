@@ -23,7 +23,7 @@ if (!window.hasOwnProperty("text_add_cart_confirm")) {
 }
 
 if (!window.hasOwnProperty("cart_ajax_url")) {
-    window.cart_ajax_url = baseUrl + '?rt=r/product/product/addToCart';
+    window.cart_ajax_url = baseUrl + '?rt=r/product/product/addToCart&fc=1';
 }
 if (!window.hasOwnProperty("search_url")) {
     window.search_url = baseUrl + '?rt=product/search';

@@ -257,7 +257,7 @@ class ControllerResponsesExtensionStripe extends AController
 
         if ($output['error']) {
             $this->session->data['error'] = $this->session->data['error_warning'] = $output['error'];
-            $rt = $this->session->data['fc'] ? 'checkout/fast_checkout' : 'checkout/confirm';
+            $rt = 'checkout/fast_checkout';
             redirect($this->html->getSecureURL($rt));
         }
 

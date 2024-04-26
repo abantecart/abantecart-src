@@ -860,7 +860,6 @@ VALUES
 
 ('extensions', 'banner_manager', 'extensions', 1, 1, '1.1.0', null, now(), now(), now() ),
 ('extensions', 'forms_manager', 'extensions', 1, 1, '1.1.0', null, now(), now(), now() ),
-('extensions', 'fast_checkout', 'Checkout', 1, 10, '1.3.5', null, now(), now() + INTERVAL 2 MINUTE , now() ),
 ('template', 'novator', 'template', 0, 1, '1.0.0', null, NOW(), now() + INTERVAL 4 MINUTE , now() )
 ;
 
@@ -1719,6 +1718,8 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout','config_zero_customer_balance','0'),
 ('checkout','config_phone_validation_pattern','/^[0-9\\+\\(\\)\\.\\s\\-,]+$/'),
 ('checkout','config_start_order_id',''),
+('checkout','fast_checkout_allow_coupon',1),
+('checkout','fast_checkout_show_order_comment_field',1),
 
 -- Appearance
 
@@ -1849,19 +1850,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('forms_manager','forms_manager_status',1),
 ('forms_manager','forms_manager_default_sender_name', ''),
 ('forms_manager','forms_manager_default_sender_email', ''),
-('forms_manager','forms_manager_sort_order', ''),
-
-('fast_checkout','fast_checkout_store_id',0),
-('fast_checkout','fast_checkout_status',1),
-('fast_checkout','fast_checkout_layout',''),
-('fast_checkout','fast_checkout_priority',10),
-('fast_checkout','fast_checkout_payment_address_equal_shipping',0),
-('fast_checkout','fast_checkout_allow_coupon',1),
-('fast_checkout','fast_checkout_require_phone_number',1),
-('fast_checkout','fast_checkout_show_order_comment_field',1),
-('fast_checkout','fast_checkout_create_account',1),
-('fast_checkout','fast_checkout_sort_order',10),
-('fast_checkout','fast_checkout_buy_now_status',1);
+('forms_manager','forms_manager_sort_order', '');
 
 --
 -- DDL for table `stock_statuses`
@@ -10235,8 +10224,8 @@ CREATE TABLE `ac_pages` (
   `page_id` int(10) NOT NULL auto_increment,
   `parent_page_id` int(10) NOT NULL DEFAULT '0',
   `controller` varchar(100) NOT NULL,
-  `key_param` varchar(40) NOT NULL default '', -- Example product_id=10 identifies uniqe product page
-  `key_value` varchar(40) NOT NULL default '', -- Example product_id=10 identifies uniqe product page
+  `key_param` varchar(40) NOT NULL default '', -- Example product_id identifies unique product page
+  `key_value` varchar(40) NOT NULL default '', -- Example 10 identifies unique product ID
   `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`page_id`)
@@ -10252,7 +10241,6 @@ INSERT INTO `ac_pages` (`page_id`, `parent_page_id`, `controller`, `key_param`, 
 VALUES
 (1, 0, 'generic', '', '', now() ),
 (2, 0, 'pages/index/home', '', '', now() ),
-(3, 0, 'pages/checkout', '', '', now() ),
 (4, 0, 'pages/account/login', '', '', now() ),
 (5, 0, 'pages/product/product', '', '', now()),
 (10, 0, 'pages/index/maintenance', '', '', now() ),
@@ -10285,7 +10273,6 @@ CREATE TABLE `ac_page_descriptions` (
 INSERT INTO `ac_page_descriptions` (`page_id`, `language_id`, `name`, `title`, `seo_url`, `keywords`, `description`, `content`, `date_added`) VALUES
 (1, 1, 'All Other Pages', '', '', '', '', '', now() ),
 (2, 1, 'Home Page', '', '', '', '', '', now() ),
-(3, 1, 'Checkout Pages', '', '', '', '', '', now() ),
 (4, 1, 'Login Page', '', '', '', '', '', now() ),
 (5, 1, 'Default Product Page', '', '', '', '', '', now() ),
 (10, 1, 'Maintenance Page', '', '', '', '', '', now() ),
@@ -12054,7 +12041,7 @@ VALUES  (20, NOW(),'1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (21,'AbanteCart','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (22,'1.3.5','1');
+VALUES  (22,'1.4.0','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (23,'','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)

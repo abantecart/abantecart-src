@@ -23,7 +23,7 @@ if (!window.hasOwnProperty("text_add_cart_confirm")) {
 }
 
 if (!window.hasOwnProperty("cart_ajax_url")) {
-    window.cart_ajax_url = baseUrl + '?rt=r/product/product/addToCart';
+    window.cart_ajax_url = baseUrl + '?rt=r/product/product/addToCart&fc=1';
 }
 if (!window.hasOwnProperty("cart_ajax_update_url")) {
     window.cart_ajax_update_url = baseUrl + '?rt=r/product/product/updateQuantityCart';
@@ -358,6 +358,14 @@ $(document).ready(function(){
                 next = next.nextElementSibling
             }
         });
+    });
+    $('.theme-change').on('click', function () {
+        let html = $("html");
+        if (html.attr("data-bs-theme")) {
+            html.removeAttr("data-bs-theme", "dark");
+        } else {
+            html.attr("data-bs-theme", "dark");
+        }
     });
 });
 

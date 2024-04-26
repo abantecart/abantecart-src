@@ -1,30 +1,29 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
 class ControllerPagesAccountLogin extends AController
 {
-    public $error = array();
-    public $data = array();
+    public $error = [];
 
     public function main()
     {
@@ -75,6 +74,7 @@ class ControllerPagesAccountLogin extends AController
                     } else {
                         $redirect_url = $this->html->getSecureURL('account/account');
                     }
+                    unset($this->session->data['fc']);
                     $this->extensions->hk_ProcessData($this);
                     redirect($redirect_url);
                 }
@@ -114,25 +114,25 @@ class ControllerPagesAccountLogin extends AController
         $this->document->resetBreadcrumbs();
 
         $this->document->addBreadcrumb(
-            array(
+            [
                 'href'      => $this->html->getHomeURL(),
                 'text'      => $this->language->get('text_home'),
                 'separator' => false,
-            ));
+            ]);
 
         $this->document->addBreadcrumb(
-            array(
+            [
                 'href'      => $this->html->getSecureURL('account/account'),
                 'text'      => $this->language->get('text_account'),
                 'separator' => $this->language->get('text_separator'),
-            ));
+            ]);
 
         $this->document->addBreadcrumb(
-            array(
+            [
                 'href'      => $this->html->getSecureURL('account/login'),
                 'text'      => $this->language->get('text_login', 'account/login'),
                 'separator' => $this->language->get('text_separator'),
-            ));
+            ]);
 
         $this->view->assign('error', '');
         if (isset($this->error['message'])) {
@@ -140,55 +140,55 @@ class ControllerPagesAccountLogin extends AController
         }
 
         $form = new AForm();
-        $form->setForm(array('form_name' => 'accountFrm'));
+        $form->setForm(['form_name' => 'accountFrm']);
         $this->data['form1']['form_open'] = $form->getFieldHtml(
-            array(
+            [
                 'type'   => 'form',
                 'name'   => 'accountFrm',
                 'action' => $this->html->getSecureURL('account/login'),
                 'csrf'   => true,
-            )
+            ]
         );
 
         $this->data['form1']['register'] = $form->getFieldHtml(
-            array(
+            [
                 'type'    => 'radio',
                 'id'      => 'account',
                 'name'    => 'account',
-                'options' => array(
+                'options' => [
                     'register' => $this->language->get('text_account'),
-                ),
+                ],
                 'value'   => (isset($this->session->data['account']) ? $this->session->data['account'] : 'register'),
-            )
+            ]
         );
         $this->data['form1']['guest'] = $form->getFieldHtml(
-            array(
+            [
                 'type'    => 'radio',
                 'id'      => 'account',
                 'name'    => 'account',
-                'options' => array(
+                'options' => [
                     'guest' => $this->language->get('text_guest'),
-                ),
+                ],
                 'value'   => ($this->session->data['account'] == 'guest' ? 'guest' : ''),
-            )
+            ]
         );
         $this->data['form1']['continue'] = $form->getFieldHtml(
-            array(
+            [
                 'type' => 'submit',
                 'name' => $this->language->get('button_continue'),
                 'icon' => 'fa fa-check',
-            ));
+            ]);
 
         //second form
         $form = new AForm();
-        $form->setForm(array('form_name' => 'loginFrm'));
+        $form->setForm(['form_name' => 'loginFrm']);
         $this->data['form2']['form_open'] = $form->getFieldHtml(
-            array(
+            [
                 'type'   => 'form',
                 'name'   => 'loginFrm',
                 'action' => $this->html->getSecureURL('account/login'),
                 'csrf'   => true,
-            )
+            ]
         );
 
         if ($this->config->get('prevent_email_as_login')) {
@@ -196,29 +196,29 @@ class ControllerPagesAccountLogin extends AController
         }
 
         $this->data['form2']['loginname'] = $form->getFieldHtml(
-            array(
+            [
                 'type'  => 'input',
                 'name'  => 'loginname',
                 'value' => $loginname,
-            ));
+            ]);
         //support old email based logging. Remove in the future
         $this->data['form2']['email'] = $form->getFieldHtml(
-            array(
+            [
                 'type'  => 'input',
                 'name'  => 'email',
                 'value' => $loginname,
-            ));
+            ]);
         $this->data['form2']['password'] = $form->getFieldHtml(
-            array(
+            [
                 'type' => 'password',
                 'name' => 'password',
-            ));
+            ]);
         $this->data['form2']['login_submit'] = $form->getFieldHtml(
-            array(
+            [
                 'type' => 'submit',
                 'name' => $this->language->get('button_login'),
                 'icon' => 'fa fa-lock',
-            ));
+            ]);
 
         $this->view->assign('success', '');
         if (isset($this->session->data['success'])) {

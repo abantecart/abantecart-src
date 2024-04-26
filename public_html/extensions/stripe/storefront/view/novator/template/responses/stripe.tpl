@@ -77,6 +77,7 @@ if ($error) { ?>
             }
         }
         jQuery(document).ready(function () {
+            let firstLoad = true;
             loadScript("https://js.stripe.com/v3/", initStripe);
             var submitSent = false;
 
@@ -118,12 +119,31 @@ if ($error) { ?>
                 if (Stripe === undefined) { return; }
                 stripe = Stripe('<?php echo $public_key;?>');
                 elements = stripe.elements( { clientSecret: '<?php echo $client_secret;?>' } );
+                const defPm = jQuery.data(document,'data-payment-method') ? [jQuery.data(document,'data-payment-method')] : [];
                 paymentElement = elements.create(
                     'payment',
                     {
-                        defaultValues: source_data.owner
-                    });
+                        defaultValues: source_data.owner,
+                        paymentMethodOrder: defPm
+                    }
+                );
                 paymentElement.mount("#payment-element");
+                paymentElement.on('change', function(event) {
+                    if(firstLoad){
+                        firstLoad = false;
+                        return;
+                    }
+                    const paymentMethod = event.value.type;
+                    if(paymentMethod === jQuery.data(document,'data-payment-method')){
+                        return;
+                    }
+
+                    jQuery.data(document,'data-payment-method', paymentMethod);
+                    if(paymentMethod && typeof loadFCBlockSummaryContent === 'function'){
+                        firstLoad = true;
+                        loadFCBlockSummaryContent('&payment_method_key='+paymentMethod);
+                    }
+                });
             }
         });
 

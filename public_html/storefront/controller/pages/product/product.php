@@ -25,11 +25,12 @@ class ControllerPagesProductProduct extends AController
     protected function _init()
     {
         //is this an embed mode
-        if ($this->config->get('embed_mode') == true) {
+        if ($this->config->get('embed_mode')) {
             $this->routes['cart_rt'] = 'r/checkout/cart/embed';
         } else {
             $this->routes['cart_rt'] = 'checkout/cart';
         }
+        $this->loadLanguage('checkout/fast_checkout');
     }
 
     public function main()
@@ -898,6 +899,25 @@ class ControllerPagesProductProduct extends AController
                 $this->data['in_wishlist'] = true;
             }
         }
+
+        if($this->config->get('fast_checkout_buy_now_status')) {
+
+            $data = [];
+            $data['button_add_to_cart'] = $this->language->get('button_add_to_cart');
+            $data['text_buynow'] = $this->language->get('fast_checkout_buy_now');
+            $data['buynow_url'] = $this->html->getSecureURL('checkout/fast_checkout', '&single_checkout=1');
+            $data['add_to_cart'] = $this->language->get('button_add_to_cart');
+
+            /** @var AView $view */
+            $viewClass = get_class($this->view);
+            $view = new $viewClass(Registry::getInstance(), 0);
+            $view->batchAssign($data);
+            $this->view->addHookVar(
+                'product_add_to_cart_html',
+                $view->fetch('pages/product/add_to_cart_buttons.tpl')
+            );
+        }
+
         $this->view->setTemplate('pages/product/product.tpl');
         $this->view->batchAssign($this->data);
         $this->session->data['viewed_products'][] = $this->request->get['product_id'];

@@ -133,15 +133,5 @@ if($scripts_bottom && is_array($scripts_bottom)) {
         <script type="text/javascript" src="<?php echo $script; ?>" defer></script>
     <?php }
 } ?>
-    <script type="text/javascript">
-    $('.theme-change').on('click', function () {
-        if ($("html").attr("data-bs-theme")) {
-            $("html").removeAttr("data-bs-theme", "dark");
-        } else {
-            $("html").attr("data-bs-theme", "dark");
-        }
-    });
-    </script>
-
     </body>
 </html>

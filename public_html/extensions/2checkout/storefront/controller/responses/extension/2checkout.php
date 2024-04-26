@@ -161,7 +161,7 @@ class ControllerResponsesExtension2Checkout extends AController
                 'Status changed by 2Checkout INS'
             );
         } else {
-            redirect($this->html->getSecureURL('checkout/confirm'));
+            redirect($this->html->getSecureURL('checkout/fast_checkout'));
         }
     }
 

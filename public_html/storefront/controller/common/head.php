@@ -109,7 +109,7 @@ class ControllerCommonHead extends AController
         $this->view->assign('cart_url', $this->html->getSecureURL('checkout/cart'));
         $this->view->assign('cart_ajax', (int)$this->config->get('config_cart_ajax'));
         //URL should be automatic for CORS
-        $this->view->assign('cart_ajax_url', $this->html->getURL('r/product/product/addToCart'));
+        $this->view->assign('cart_ajax_url', $this->html->getURL('r/product/product/addToCart', '&fc=1'));
         $this->view->assign('search_url', $this->html->getNonSecureURL('product/search'));
         $this->view->assign('call_to_order_url', $this->html->getURL('content/contact'));
         //load template debug resources if needed

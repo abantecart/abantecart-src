@@ -1,1 +1,0 @@
-<?php //do not delete this file until bs5 become default template ?>

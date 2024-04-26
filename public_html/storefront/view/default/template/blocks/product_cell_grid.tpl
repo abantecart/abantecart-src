@@ -1,5 +1,5 @@
 <?php if($products){
-    $text_items_in_the_cart = $this->language->get('text_cart_items','checkout/confirm');
+    $text_items_in_the_cart = $this->language->get('text_cart_items','checkout/fast_checkout');
 
     $cartProducts = $this->cart->getProducts();
     $cartProductIds = $cartProducts ? array_column($cartProducts,'product_id') : [];

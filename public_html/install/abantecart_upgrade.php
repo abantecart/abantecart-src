@@ -1,5 +1,8 @@
 <?php
 /** @var AController $this */
+
+$langs = $this->language->getAvailableLanguages();
+
 $sqlSelect = "SELECT activate_order_status_id FROM `ac_downloads`";
 $result = $this->db->query($sqlSelect);
 
@@ -45,4 +48,30 @@ $block_info['descriptions'] = [['language_name' => 'english', 'name' => 'Viewed 
 $layout = new ALayoutManager();
 $layout->saveBlock($block_info);
 
-// remove prior "default" layouts
+// remove prior "checkout" layouts
+$allLayouts = $layout->getLayouts();
+$res = $layout->getPageLayoutIDs('pages/checkout','','');
+if($res) {
+    $layout->deletePageLayoutByID($res['layout_id'],$res['page_id']);
+}
+
+//check guest_token order data
+$sql = "SELECT * FROM `ac_order_data_types` WHERE `name` = 'guest_token'";
+$result = $this->db->query($sql);
+if (!$result->num_rows) {
+    foreach($langs as $language){
+        $sql = "INSERT INTO `ac_order_data_types` (`language_id`, `name`, `date_added`) 
+        VALUES (".(int)$language['language_id'].", 'guest_token', NOW())";
+        $this->db->query($sql);
+    }
+
+   $sql = "INSERT INTO `".$this->db->table('email_templates')."` (`status`, `text_id`, `language_id`, `headers`, `subject`, `html_body`, `text_body`, `allowed_placeholders`, `store_id` )
+        VALUES
+        (1, 'fast_checkout_welcome_email_guest_registration', 1, '', 'Welcome, {{store_name}}',
+         '&lt;html&gt;\r\n	&lt;head&gt;\r\n		&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot;&gt;\r\n	&lt;/head&gt;\r\n	&lt;body&gt;\r\n		&lt;table style=&quot;font-family: Verdana,sans-serif; font-size: 11px; color: #374953; width: 600px;&quot;&gt;\r\n			&lt;tr&gt;\r\n				&lt;td class=&quot;align_left&quot;&gt;\r\n				&lt;a href=&quot;{{ store_url }}&quot; title=&quot;{{ store_name }}&quot;&gt;\r\n						{{# logo_uri}}\r\n				&lt;img src=&quot;{{ logo_uri }}&quot; alt=&quot;{{store_name}}&quot; style=&quot;border: none;&quot;&gt;\r\n                                                 {{/ logo_uri}}\r\n                                                 {{^ logo_uri}}\r\n                                                       {{# logo_html}}\r\n                                                        {{logo_html}}\r\n                                                       {{/ logo_html}}\r\n                                                 {{/ logo_uri}}\r\n					&lt;/a&gt;\r\n				&lt;/td&gt;\r\n			&lt;/td&gt;\r\n			&lt;/tr&gt;\r\n			&lt;tr&gt;\r\n				&lt;td&gt;&amp;nbsp;&lt;/td&gt;\r\n			&lt;/tr&gt;\r\n			&lt;tr&gt;\r\n		&lt;td&gt;Welcome and thank you for registering at {{ store_name }}&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n			&lt;tr&gt;\r\n				&lt;td&gt;&amp;nbsp;&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n			&lt;tr&gt;\r\n				&lt;td&gt;\r\n                          Your account has now been created and you can log in by using your email address and password by visiting our website or at the following URL:&lt;br/&gt;\r\n&lt;a href=&quot;{{ login_url }}&quot;&gt;{{ login_url }}&lt;/a&gt;&lt;br/&gt;\r\n&lt;br/&gt;\r\nYour Login Name: {{login}}  &lt;br/&gt;\r\nYour Password: {{password}}  &lt;br/&gt;\r\n	&lt;/td&gt;\r\n			&lt;/tr&gt;\r\n			&lt;tr&gt;\r\n				&lt;td&gt;&amp;nbsp;&lt;/td&gt;\r\n			&lt;/tr&gt;\r\n			&lt;tr&gt;\r\n				&lt;td&gt;\r\n					Thank you.&lt;br/&gt;\r\n                                        {{ store_name }}\r\n&lt;br/&gt;&lt;br/&gt;\r\n{{{ text_project_label }}}\r\n		&lt;/td&gt;\r\n			&lt;/tr&gt;\r\n		&lt;/table&gt;\r\n	&lt;/body&gt;\r\n&lt;/html&gt;',
+         'Welcome and thank you for registering at {{ store_name }}\r\n\r\nYour account has now been created and you can log in by using your email address and password by visiting our website or at the following URL:\r\n{{ login_url }}\r\n\r\nYour Login Name: {{login}}\r\nYour Password: {{password}}\r\n\r\n\r\nThank you.\r\n{{ store_name }}{{{ text_project_label }}}',
+         'store_name, login_url, store_url, logo_html, logo_uri, text_project_label, login, password', 0)
+        ;";
+    $this->db->query($sql);
+}
+

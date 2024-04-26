@@ -33,3 +33,8 @@ alter table cba_block_descriptions
 
 alter table `ac_block_descriptions`
     modify date_modified timestamp default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP;
+
+#replace group with "checkout"
+UPDATE `ac_settings` SET `group` = 'checkout' WHERE `group`='fast_checkout';
+DELETE FROM `ac_settings` WHERE `key` IN ('fast_checkout_store_id', 'fast_checkout_status', 'fast_checkout_layout', 'fast_checkout_priority','fast_checkout_sort_order');
+DELETE FROM `ac_extensions` WHERE `key` = 'fast_checkout';

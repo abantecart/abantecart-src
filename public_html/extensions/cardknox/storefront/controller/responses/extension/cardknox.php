@@ -304,7 +304,7 @@ class ControllerResponsesExtensionCardknox extends AController {
             }else{
                 $this->loadLanguage('cardknox/cardknox');
                 $this->session->data['error'] = $this->language->get('cardknox_ebt_declined').'('.$response_info['xError'].': '.$response_info['xErrorCode'].')';
-                $redirectUrl = $this->request->get_or_post('fast_checkout') ? 'checkout/fast_checkout' : 'checkout/confirm';
+                $redirectUrl = 'checkout/fast_checkout';
                 redirect(
                     $this->html->getSecureURL(
                         $redirectUrl,

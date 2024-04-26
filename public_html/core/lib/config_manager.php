@@ -1,39 +1,29 @@
 <?php
 /** @noinspection PhpMultipleClassDeclarationsInspection */
-/** @noinspection PhpUndefinedClassInspection */
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2022 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
 /**
  * @property AExtensionManager $extension_manager
- * @property ModelSettingSetting $model_setting_setting
- * @property ModelLocalisationCountry $model_localisation_country
- * @property ModelLocalisationCurrency $model_localisation_currency
- * @property ModelLocalisationLengthClass $model_localisation_length_class
- * @property ModelLocalisationWeightClass $model_localisation_weight_class
- * @property ModelLocalisationStockStatus $model_localisation_stock_status
- * @property ModelLocalisationOrderStatus $model_localisation_order_status
- * @property ModelSaleCustomerGroup $model_sale_customer_group
  * @property ASession $session
  * @property ALanguageManager $language
  * @property ALoader $load
@@ -51,6 +41,8 @@ class AConfigManager
     protected $templates = [];
     public $data = [];
     public $errors = [];
+    /** @var ModelSettingSetting */
+    protected $mdl;
 
     public function __construct()
     {
@@ -58,8 +50,7 @@ class AConfigManager
             throw new AException (AC_ERR_LOAD, 'Error: permission denied to access class AConfigManager');
         }
         $this->registry = Registry::getInstance();
-        $this->load->model('setting/extension');
-        $this->load->model('setting/setting');
+        $this->mdl = $this->load->model('setting/setting');
         $this->groups = $this->config->groups;
     }
 
@@ -87,8 +78,8 @@ class AConfigManager
     public function getFormField($setting_key, $form, $data, $store_id, $group = '')
     {
         //locate setting group first
-        if (empty($group)) {
-            $group = $this->model_setting_setting->getSettingGroup($setting_key, $store_id);
+        if (!$group) {
+            $group = $this->mdl->getSettingGroup($setting_key, $store_id);
             $group = $group[0];
         }
         //set template id to get settings for default template in appearance section
@@ -164,12 +155,12 @@ class AConfigManager
                         $this->errors['ssl_url'] = $this->language->get('error_ssl_url');
                     } //when quicksave only ssl_url
                     elseif ($field_name == 'config_ssl_url' && $field_value && !has_value($fields['config_url'])) {
-                        $saved_settings = $this->model_setting_setting->getSetting($group, $store_id);
+                        $saved_settings = $this->mdl->getSetting($group, $store_id);
                         $config_url = $saved_settings['config_url'];
                         $config_ssl_url = $field_value;
                     } //when quicksave only url
                     elseif ($field_name == 'config_url' && $field_value && !has_value($fields['config_ssl_url'])) {
-                        $saved_settings = $this->model_setting_setting->getSetting($group, $store_id);
+                        $saved_settings = $this->mdl->getSetting($group, $store_id);
                         $config_ssl_url = $saved_settings['config_ssl_url'];
                         $config_url = $field_value;
                     }
@@ -506,33 +497,25 @@ class AConfigManager
             $language_codes[$lng_code] = $v['name'];
         }
 
-        $this->load->model('localisation/currency');
-        $results = $this->model_localisation_currency->getCurrencies();
-        $currencies = [];
-        foreach ($results as $v) {
-            $currencies[$v['code']] = $v['title'];
-        }
+        /** @var ModelLocalisationCurrency $mdl */
+        $mdl = $this->load->model('localisation/currency');
+        $currencies = array_column($mdl->getCurrencies(), 'title','code');
 
-        $this->load->model('localisation/length_class');
-        $results = $this->model_localisation_length_class->getLengthClasses();
-        $length_classes = [];
-        foreach ($results as $v) {
-            $length_classes[$v['unit']] = $v['title'];
-        }
+        /** @var ModelLocalisationLengthClass $mdl */
+        $mdl = $this->load->model('localisation/length_class');
+        $length_classes = array_column($mdl->getLengthClasses(),'title','unit');
 
-        $this->load->model('localisation/weight_class');
-        $results = $this->model_localisation_weight_class->getWeightClasses();
-        $weight_classes = [];
-        foreach ($results as $v) {
-            $weight_classes[$v['unit']] = $v['title'];
-        }
+        /** @var ModelLocalisationWeightClass $mdl */
+        $mdl =  $this->load->model('localisation/weight_class');
+        $weight_classes = array_column($mdl->getWeightClasses(),'title','unit');
+
         /** @var ModelLocalisationTaxClass $mdl */
         $mdl = $this->load->model('localisation/tax_class');
-        $results = $mdl->getTaxClasses();
-        $tax_classes = ['' => $this->language->get('text_select')];
-        foreach ($results as $v) {
-            $tax_classes[$v['tax_class_id']] = $v['title'];
-        }
+        $tax_classes = array_merge(
+            ['' => $this->language->get('text_select')],
+            array_column($mdl->getTaxClasses(), 'title','tax_class_id')
+        );
+
 
         $fields['duplicate_contact_us'] = $form->getFieldHtml(
             $props[] = [
@@ -689,12 +672,13 @@ class AConfigManager
     {
         $fields = [];
         //general section
-        $this->load->model('localisation/stock_status');
-        $stock_statuses = ['0' => $this->language->get('text_none')];
-        $results = $this->model_localisation_stock_status->getStockStatuses();
-        foreach ($results as $item) {
-            $stock_statuses[$item['stock_status_id']] = $item['name'];
-        }
+        /** @var ModelLocalisationStockStatus $mdl */
+        $mdl = $this->load->model('localisation/stock_status');
+        $stock_statuses = array_merge(
+            ['0' => $this->language->get('text_none')],
+            array_column($mdl->getStockStatuses(),'name','stock_status_id')
+        );
+
         $fields['admin_limit'] = $form->getFieldHtml(
             $props[] = [
                 'type'     => 'input',
@@ -884,20 +868,13 @@ class AConfigManager
     protected function _build_form_checkout($form, $data)
     {
         $fields = [];
-        //checkout section
-        $this->load->model('sale/customer_group');
-        $results = $this->model_sale_customer_group->getCustomerGroups();
-        $customer_groups = [];
-        foreach ($results as $item) {
-            $customer_groups[$item['customer_group_id']] = $item['name'];
-        }
+        /** @var ModelSaleCustomerGroup $mdl */
+        $mdl = $this->load->model('sale/customer_group');
+        $customer_groups = array_column($mdl->getCustomerGroups(), 'name', 'customer_group_id');
 
-        $this->load->model('localisation/order_status');
-        $order_statuses = [];
-        $results = $this->model_localisation_order_status->getOrderStatuses();
-        foreach ($results as $item) {
-            $order_statuses[$item['order_status_id']] = $item['name'];
-        }
+        /** @var ModelLocalisationOrderStatus $mdl2 */
+        $mdl2 = $this->load->model('localisation/order_status');
+        $order_statuses = array_column($mdl2->getOrderStatuses(), 'name', 'order_status_id');
 
         $cntMnr = new AContentManager();
         $results = $cntMnr->getContents([], 'default', $this->session->data['current_store_id']);
@@ -1131,6 +1108,55 @@ class AConfigManager
                 'style' => 'btn_switch',
             ]
         );
+        $fields['fast_checkout_allow_coupon'] = $form->getFieldHtml(
+            $props[] = [
+                'type'  => 'checkbox',
+                'name'  => 'fast_checkout_allow_coupon',
+                'value' => $data['fast_checkout_allow_coupon'],
+                'style' => 'btn_switch',
+            ]
+        );
+        $fields['fast_checkout_require_phone_number'] = $form->getFieldHtml(
+            $props[] = [
+                'type'  => 'checkbox',
+                'name'  => 'fast_checkout_require_phone_number',
+                'value' => $data['fast_checkout_require_phone_number'],
+                'style' => 'btn_switch',
+            ]
+        );
+
+        $fields['fast_checkout_payment_address_equal_shipping'] = $form->getFieldHtml(
+            $props[] = [
+                'type'  => 'checkbox',
+                'name'  => 'fast_checkout_payment_address_equal_shipping',
+                'value' => $data['fast_checkout_payment_address_equal_shipping'],
+                'style' => 'btn_switch',
+            ]
+        );
+        $fields['fast_checkout_show_order_comment_field'] = $form->getFieldHtml(
+            $props[] = [
+                'type'  => 'checkbox',
+                'name'  => 'fast_checkout_show_order_comment_field',
+                'value' => $data['fast_checkout_show_order_comment_field'],
+                'style' => 'btn_switch',
+            ]
+        );
+        $fields['fast_checkout_create_account'] = $form->getFieldHtml(
+            $props[] = [
+                'type'  => 'checkbox',
+                'name'  => 'fast_checkout_create_account',
+                'value' => $data['fast_checkout_create_account'],
+                'style' => 'btn_switch',
+            ]
+        );
+        $fields['fast_checkout_buy_now_status'] = $form->getFieldHtml(
+            $props[] = [
+                'type'  => 'checkbox',
+                'name'  => 'fast_checkout_buy_now_status',
+                'value' => $data['fast_checkout_buy_now_status'],
+                'style' => 'btn_switch',
+            ]
+        );
 
         if (isset($data['one_field'])) {
             $fields = $this->_filterField($fields, $props, $data['one_field']);
@@ -1150,7 +1176,7 @@ class AConfigManager
         $fields = [];
         //this method ca build fields for general appearance or template specific
         //for template settings, need to specify 'tmpl_id' as template_id for settings section
-        if (empty($data['tmpl_id'])) {
+        if (!$data['tmpl_id']) {
             //general appearance section
             $templates = $this->getTemplates('storefront');
 
@@ -1222,7 +1248,7 @@ class AConfigManager
             );
         } else {
             // settings per template
-            $default_values = $this->model_setting_setting->getSetting('appearance', (int) $data['store_id']);
+            $default_values = $this->mdl->getSetting('appearance', (int)$data['store_id']);
             $fieldset = [
                 'storefront_width',
                 'config_logo',
@@ -1266,9 +1292,9 @@ class AConfigManager
                     if ($languageId != $lId) {
                         continue;
                     }
-
-                    $logosArr['logo_'.mb_strtolower($lang['name'])] = $fieldset[] = 'config_logo_'.$lId;
-                    $logosArr['mail_logo_'.mb_strtolower($lang['name'])] = $fieldset[] = 'config_mail_logo_'.$lId;
+                    $lName = mb_strtolower($lang['name']);
+                    $logosArr['logo_'.$lName] = $fieldset[] = 'config_logo_'.$lId;
+                    $logosArr['mail_logo_'.$lName] = $fieldset[] = 'config_mail_logo_'.$lId;
                 }
             }
 
@@ -2088,4 +2114,3 @@ class AConfigManager
     }
 
 }
-

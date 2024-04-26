@@ -19,7 +19,7 @@ if($products){ ?>
                 <div id="<?php echo $carouselId; ?>" class="carousel m-0 p-0" >
                     <div class="carousel-inner m-0 d-flex flex-nowrap justify-content-between row" role="listbox">
             <?php
-                            $text_items_in_the_cart = $this->language->get('text_cart_items','checkout/confirm');
+                            $text_items_in_the_cart = $this->language->get('text_cart_items','checkout/fast_checkout');
                             $cartProducts = $this->cart->getProducts();
                             $cartProductIds = $cartProducts ? array_column($cartProducts,'product_id') : [];
                             $cartProducts = array_column($cartProducts,'quantity','product_id');

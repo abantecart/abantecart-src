@@ -9,7 +9,7 @@
         $cartProductIds = $cartProducts ? array_column($cartProducts,'product_id') : [];
         $cartProducts = array_column($cartProducts,'quantity','product_id');
 
-        $text_items_in_the_cart = $this->language->get('text_cart_items','checkout/confirm');
+        $text_items_in_the_cart = $this->language->get('text_cart_items','checkout/fast_checkout');
 
         $tax_exempt = $this->customer->isTaxExempt();
         $config_tax = $this->config->get('config_tax');
