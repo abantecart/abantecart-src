@@ -596,7 +596,8 @@ class ADownload
                       od.mask,
                       od.remaining_count,
                       od.expire_date,
-                      op.product_id
+                      op.product_id,
+                      o.email
                FROM ".$this->db->table("order_downloads")." od
                INNER JOIN ".$this->db->table("orders")." o ON (od.order_id = o.order_id)
                LEFT JOIN ".$this->db->table("downloads")." d ON (d.download_id = od.download_id)

@@ -3,7 +3,7 @@ if ($show_payment == false) { ?>
 </form>
 <?php }
 
-$login_form['form_open']->style .= ' needs-validation ';
+$login_form['form_open']->style = ' needs-validation ';
 //block native browser validation messages
 $login_form['form_open']->attr .= ' novalidate ';
 echo $login_form['form_open']; ?>

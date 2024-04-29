@@ -167,40 +167,6 @@ class ModelCheckoutFastCheckout extends Model
     }
 
     /**
-     * @param array $data
-     *
-     * @return int
-     * @throws AException
-     */
-    public function addAddress($data = [])
-    {
-        if (!$data || !(int)$data['customer_id']) {
-            return false;
-        }
-        //encrypt customer data
-        $key_sql = '';
-        if ($this->dcrypt->active) {
-            $data = $this->dcrypt->encrypt_data($data, 'addresses');
-            $key_sql = ", key_id = '".(int)$data['key_id']."'";
-        }
-
-        $this->db->query(
-            "INSERT INTO `".$this->db->table("addresses")."`
-            SET customer_id = '".(int)$data['customer_id']."',
-            company = '".$this->db->escape($data['company'])."',
-            firstname = '".$this->db->escape($data['firstname'])."',
-            lastname = '".$this->db->escape($data['lastname'])."',
-            address_1 = '".$this->db->escape($data['address_1'])."',
-            address_2 = '".$this->db->escape($data['address_2'])."',
-            postcode = '".$this->db->escape($data['postcode'])."',
-            city = '".$this->db->escape($data['city'])."',
-            zone_id = '".(int)$data['zone_id']."',
-            country_id = '".(int)$data['country_id']."'".$key_sql);
-        return $this->db->getLastId();
-
-    }
-
-    /**
      * @param int $order_id
      * @param array $data
      *
@@ -231,51 +197,6 @@ class ModelCheckoutFastCheckout extends Model
         $this->db->query($sql);
         return true;
 
-    }
-
-    /**
-     * @param int $order_id
-     * @param int $customer_id
-     *
-     * @return array
-     * @throws AException
-     */
-    public function getCustomerOrderDownloads($order_id, $customer_id)
-    {
-        $customer_id = (int)$customer_id;
-        $order_id = (int)$order_id;
-        if (!$order_id) {
-            return [];
-        }
-        $sql = "SELECT o.order_id,
-                      o.order_status_id,
-                      od.download_id,
-                      od.status,
-                      od.date_added,
-                      od.order_download_id,
-                      d.activate,
-                      od.activate_order_status_id,
-                      od.name,
-                      od.filename,
-                      od.mask,
-                      od.remaining_count,
-                      od.expire_date,
-                      op.product_id,
-                      o.email
-               FROM ".$this->db->table("order_downloads")." od
-               INNER JOIN ".$this->db->table("orders")." o ON (od.order_id = o.order_id)
-               LEFT JOIN ".$this->db->table("downloads")." d ON (d.download_id = od.download_id)
-               LEFT JOIN ".$this->db->table("order_products")." op ON (op.order_product_id = od.order_product_id)
-               WHERE o.order_id = '".$order_id."'
-               ".($customer_id ? " AND o.customer_id = '".$customer_id."'" : "")."
-               ORDER BY  o.date_added DESC, od.sort_order ASC ";
-
-        $query = $this->db->query($sql);
-        $downloads = [];
-        foreach ($query->rows as $download_info) {
-            $downloads[$download_info['order_download_id']] = $download_info;
-        }
-        return $downloads;
     }
 
     /**

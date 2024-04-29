@@ -1,31 +1,26 @@
 <?php
-/** @noinspection PhpUndefinedClassInspection */
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
-
-/**
- * @property ModelExtensionFastCheckout $model_extension_fast_checkout
- */
 class ControllerPagesAccountOrderDetails extends AController
 {
     public $error = [];
@@ -38,8 +33,10 @@ class ControllerPagesAccountOrderDetails extends AController
         $order_token = '';
         $this->data['guest'] = $guest = false;
 
-        $this->loadModel('account/order');
-        $this->loadModel('checkout/fast_checkout');
+        /** @var ModelAccountOrder $mdlOrder */
+        $mdlOrder = $this->loadModel('account/order');
+        /** @var ModelCheckoutFastCheckout $mdl */
+        $mdl = $this->loadModel('checkout/fast_checkout');
 
         //validate input and re-route
         if ($this->customer->isLogged()) {
@@ -49,33 +46,23 @@ class ControllerPagesAccountOrderDetails extends AController
                 redirect($this->html->getSecureURL('account/history'));
                 return;
             }
-            $order_info = $this->model_account_order->getOrder($order_id);
+            $order_info = $mdlOrder->getOrder($order_id);
         } else {
             if (isset($this->request->get['ot']) && $this->config->get('config_guest_checkout')) {
                 //try to decrypt order token
                 $order_token = $this->request->get['ot'];
-                list($order_id, $email) = $this->model_extension_fast_checkout->parseOrderToken($order_token);
+                list($order_id, $email) = $mdl->parseOrderToken($order_token);
                 if ($order_id && $email) {
                     $this->data['order_token'] = $order_token;
                     $this->data['guest'] = $guest = true;
-                    $order_info = $this->model_account_order->getOrder($order_id, '', 'view');
+                    $order_info = $mdlOrder->getOrder($order_id, '', 'view');
                 } else {
                     redirect($this->html->getSecureURL('account/history'));
                     return;
                 }
             } else {
-                //redirect to login
-                if (!$this->customer->isLogged() && $order_id) {
-                    $this->session->data['redirect'] = $this->html->getSecureURL(
-                        'account/order_details',
-                        '&order_id='.$order_id
-                    );
-                    redirect($this->html->getSecureURL('account/login'));
-                    return;
-                } else {
-                    redirect($this->html->getSecureURL('account/history'));
-                    return;
-                }
+                redirect($this->html->getSecureURL('account/login'));
+                return;
             }
         }
 
@@ -179,7 +166,7 @@ class ControllerPagesAccountOrderDetails extends AController
             $this->data['payment_method'] = $order_info['payment_method'];
 
             $products = [];
-            $order_products = $this->model_account_order->getOrderProducts($order_id);
+            $order_products = $mdlOrder->getOrderProducts($order_id);
             $product_ids = array_column($order_products, 'product_id');
 
             //get thumbnails by one pass
@@ -195,7 +182,7 @@ class ControllerPagesAccountOrderDetails extends AController
             : [];
 
             foreach ($order_products as $product) {
-                $options = $this->model_account_order->getOrderOptions($order_id, $product['order_product_id']);
+                $options = $mdlOrder->getOrderOptions($order_id, $product['order_product_id']);
                 $thumbnail = $thumbnails[$product['product_id']];
 
                 $option_data = $option = [];
@@ -279,11 +266,11 @@ class ControllerPagesAccountOrderDetails extends AController
                 ];
             }
             $this->data['products'] = $products;
-            $this->data['totals'] = $this->model_account_order->getOrderTotals($order_id);
+            $this->data['totals'] = $mdlOrder->getOrderTotals($order_id);
             $this->data['comment'] = $order_info['comment'];
 
             $histories = [];
-            $results = $this->model_account_order->getOrderHistories($order_id);
+            $results = $mdlOrder->getOrderHistories($order_id);
             foreach ($results as $result) {
                 $histories[] = [
                     'date_added' => dateISO2Display(
@@ -295,12 +282,9 @@ class ControllerPagesAccountOrderDetails extends AController
                 ];
             }
             $this->data['histories'] = $histories;
-
-            if ($guest) {
-                $this->data['continue'] = $this->html->getHomeURL();
-            } else {
-                $this->data['continue'] = $this->html->getSecureURL('account/history');
-            }
+            $this->data['continue'] =  $guest
+                ? $this->html->getHomeURL()
+                : $this->html->getSecureURL('account/history');
 
             $this->data['button_print'] = $this->html->buildElement(
                 [
@@ -342,23 +326,19 @@ class ControllerPagesAccountOrderDetails extends AController
             //get downloads if we have them?
             $this->_build_download_list($order_id);
 
-            if ($this->config->get('embed_mode') == true) {
+            if ($this->config->get('embed_mode')) {
                 //load special headers
                 $this->addChild('responses/embed/head', 'head');
                 $this->addChild('responses/embed/footer', 'footer');
-                $this->view->setTemplate('embed/account/order_details.tpl');
+                $tpl = 'embed/account/order_details.tpl';
             } else {
-                $this->view->setTemplate('pages/account/order_details.tpl');
+                $tpl = 'pages/account/order_details.tpl';
             }
         } else {
-            if ($guest) {
-                $this->data['continue'] = $this->html->getHomeURL();
-            } else {
-                $this->data['continue'] = $this->html->getSecureURL('account/account');
-            }
-            $this->view->setTemplate('pages/error/not_found.tpl');
+            $this->data['continue'] = $guest ? $this->html->getHomeURL() : $this->html->getSecureURL('account/account');
+            $tpl = 'pages/error/not_found.tpl';
         }
-
+        $this->view->setTemplate($tpl);
         $this->data['button_continue'] = $this->html->buildElement(
             [
                 'type'  => 'button',
@@ -390,9 +370,9 @@ class ControllerPagesAccountOrderDetails extends AController
         $downloads = [];
         //get only enabled, not expired, which have remaining count > 0 and available
         if ($this->data['guest']) {
-            $customer_downloads = $this->model_extension_fast_checkout->getCustomerOrderDownloads($order_id, 0);
+            $customer_downloads = $this->download->getCustomerOrderDownloads($order_id, 0);
         } else {
-            $customer_downloads = $this->model_extension_fast_checkout->getCustomerOrderDownloads(
+            $customer_downloads = $this->download->getCustomerOrderDownloads(
                 $order_id,
                 $this->customer->getId()
             );
@@ -491,7 +471,8 @@ class ControllerPagesAccountOrderDetails extends AController
             redirect($this->html->getSecureURL('account/account'));
         }
 
-        $this->loadModel('checkout/fast_checkout');
+        /** @var ModelCheckoutFastCheckout $mdl */
+        $mdl = $this->loadModel('checkout/fast_checkout');
 
         $can_access = false;
         $download_info = [];
@@ -521,10 +502,9 @@ class ControllerPagesAccountOrderDetails extends AController
                     //try to decrypt order token
                     $order_token = $this->request->get['ot'];
                     if ($order_token) {
-                        $this->load->model('account/customer');
-                        list($order_id, $email) = $this->model_extension_fast_checkout->parseOrderToken($order_token);
+                        list($order_id, $email) = $mdl->parseOrderToken($order_token);
                         if ($order_id && $email) {
-                            $order_downloads = $this->model_extension_fast_checkout->getCustomerOrderDownloads(
+                            $order_downloads = $this->download->getCustomerOrderDownloads(
                                 $order_id,
                                 0
                             );
@@ -650,5 +630,43 @@ class ControllerPagesAccountOrderDetails extends AController
         }
 
         redirect($url);
+    }
+
+    /**
+     * @param string $ot - order token
+     *
+     * @return array
+     * @throws AException
+     */
+    public function parseOrderToken($ot)
+    {
+        if (!$ot) {
+            return [];
+        }
+
+        //try to decrypt order token
+        $enc = new AEncryption($this->config->get('encryption_key'));
+        $decrypted = $enc->decrypt($ot);
+        list($order_id, $email, $sec_token) = explode('::', $decrypted);
+
+        $order_id = (int)$order_id;
+        if (!$decrypted || !$order_id || !$email || !$sec_token) {
+            return [];
+        }
+        /** @var ModelAccountOrder $mdlOrder */
+        $mdlOrder = $this->load->model('account/order');
+        $order_info = $mdlOrder->getOrder($order_id, '', 'view');
+
+        //compare emails
+        if ($order_info['email'] != $email) {
+            return [];
+        }
+        //compare security token
+        /** @var ModelCheckoutFastCheckout $mdl */
+        $mdl = $this->load->model('checkout/fast_checkout');
+        if ($sec_token != $mdl->getGuestToken($order_id)) {
+            return [];
+        }
+        return [$order_id, $email, $sec_token];
     }
 }

@@ -28,7 +28,6 @@ if (!defined('DIR_CORE')) {
 /**
  * Class ControllerResponsesCheckoutPay
  *
- * @property ModelExtensionFastCheckout $model_extension_fast_checkout
  */
 class ControllerResponsesCheckoutPay extends AController
 {
@@ -498,12 +497,13 @@ class ControllerResponsesCheckoutPay extends AController
         $order->buildOrderData($in_data);
         $order_id = $order->saveOrder();
 
-        $this->loadModel('checkout/fast_checkout');
+        /** @var ModelCheckoutFastCheckout $mdl */
+        $mdl = $this->loadModel('checkout/fast_checkout');
 
         if ($order_id) {
             if ($request['cc_telephone'] || $request['telephone']) {
                 $telephone = $request['cc_telephone'] ? : $request['telephone'];
-                $this->model_extension_fast_checkout->updateOrderDetails(
+                $mdl->updateOrderDetails(
                     $order_id,
                     [
                         'telephone' => $telephone,
@@ -514,7 +514,7 @@ class ControllerResponsesCheckoutPay extends AController
                 }
             }
             if ($request['comment']) {
-                $this->model_extension_fast_checkout->updateOrderDetails(
+                $mdl->updateOrderDetails(
                     $order_id,
                     [
                         'comment' => $request['comment'],
@@ -996,9 +996,10 @@ class ControllerResponsesCheckoutPay extends AController
             }
         } else {
             //for guest build tokenized access to download and order details.
-            $this->loadModel('checkout/fast_checkout');
+            /** @var ModelCheckoutFastCheckout $mdl */
+            $mdl = $this->loadModel('checkout/fast_checkout');
             $sec_token = genToken(32);
-            $this->model_extension_fast_checkout->saveGuestToken($order_id, $sec_token);
+            $mdl->saveGuestToken($order_id, $sec_token);
             $enc = new AEncryption($this->config->get('encryption_key'));
             $order_token = $enc->encrypt($order_id.'::'.$order_data['email'].'::'.$sec_token);
 
@@ -1011,7 +1012,8 @@ class ControllerResponsesCheckoutPay extends AController
                 ]
             );
             if ($this->config->get('fast_checkout_create_account')
-                && $this->session->data['fc']['additional']['create_account'] == true) {
+                && $this->session->data['fc']['additional']['create_account']
+            ) {
                 $this->_save_customer_account($order_data);
             }
 
@@ -1032,13 +1034,14 @@ class ControllerResponsesCheckoutPay extends AController
                         $this->data['order_details_url'] = $download['download_url'];
                     }
                     //email download link for guest.
-                    $this->model_extension_fast_checkout->emailDownloads($order_data, $download);
+                    $mdl->emailDownloads($order_data, $download);
                 }
             }
         }
 
-        $this->loadModel('account/order');
-        $order_details = $this->model_account_order->getOrder($order_id);
+        /** @var ModelAccountOrder $mdlOrder */
+        $mdlOrder = $this->loadModel('account/order');
+        $order_details = $mdlOrder->getOrder($order_id);
 
         //build custom order message based on the status
         if ($this->order_status->getStatusByTextId('completed') == $order_details['order_status_id']) {
@@ -1047,8 +1050,8 @@ class ControllerResponsesCheckoutPay extends AController
             $this->data['order_finished_message'] = $this->language->get('fast_checkout_order_processing_message');
         }
 
-        $order_data['order_products'] = $this->model_account_order->getOrderProducts($order_id);
-        $order_data['totals'] = $this->model_account_order->getOrderTotals($order_id);
+        $order_data['order_products'] = $mdlOrder->getOrderProducts($order_id);
+        $order_data['totals'] = $mdlOrder->getOrderTotals($order_id);
 
         $this->data['gaOrderData'] = AOrder::getGoogleAnalyticsOrderData( $order_data );
         $this->data['gaOrderData']['transaction_id'] = $order_id;
@@ -1169,7 +1172,8 @@ class ControllerResponsesCheckoutPay extends AController
                         'country_id'  => $order_data['payment_country_id'],
                         'zone_id'     => $order_data['payment_zone_id'],
                     ];
-                    $this->model_extension_fast_checkout->addAddress($address);
+                    $this->loadModel('account/address');
+                    $this->model_account_address->addAddress($address);
                 }
             }
         } else {
@@ -1183,7 +1187,7 @@ class ControllerResponsesCheckoutPay extends AController
                 $order_data['order_id'],
                 $customer_id
             );
-            if ($new_customer == true) {
+            if ($new_customer) {
                 $mdl->sendEmailActivation($this->data['account_data']);
             }
         }
@@ -1204,8 +1208,7 @@ class ControllerResponsesCheckoutPay extends AController
         $download_url = '';
         $customer_id = (int) $this->customer->getId();
 
-        $this->loadModel('checkout/fast_checkout');
-        $order_downloads = $this->model_extension_fast_checkout->getCustomerOrderDownloads($order_id, $customer_id);
+        $order_downloads = $this->download->getCustomerOrderDownloads($order_id, $customer_id);
 
         if (!$order_downloads) {
             return [];

@@ -51,10 +51,13 @@ class ModelAccountAddress extends Model
             $data = $this->dcrypt->encrypt_data($data, 'addresses');
             $key_sql = ", key_id = '".(int) $data['key_id']."'";
         }
-
+        $customerId = (int)$data['customer_id'] ?: (int) $this->customer->getId();
+        if(!$customerId){
+            throw new AException(AC_ERR_USER_ERROR,'Cannot add new address. Customer ID is unknown');
+        }
         $this->db->query(
             "INSERT INTO `".$this->db->table("addresses")."`
-            SET customer_id = '".(int) $this->customer->getId()."',
+            SET customer_id = '".$customerId."',
                 company = '".$this->db->escape($data['company'])."',
                 firstname = '".$this->db->escape($data['firstname'])."',
                 lastname = '".$this->db->escape($data['lastname'])."',
@@ -72,7 +75,7 @@ class ModelAccountAddress extends Model
             $this->db->query(
                 "UPDATE ".$this->db->table("customers")."
                 SET address_id = '".(int) $address_id."'
-                WHERE customer_id = '".(int) $this->customer->getId()."'"
+                WHERE customer_id = '".$customerId."'"
             );
         }
 
