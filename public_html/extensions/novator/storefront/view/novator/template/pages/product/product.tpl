@@ -260,7 +260,7 @@ if ($error){ ?>
                                                 echo $this->getHookVar('product_call_to_order_html');
                                             } else { ?>
                                             <div class="product-page-call_to_order mt-3">
-                                                <a href="#" class="cart btn btn-success">
+                                                <a href="<?php echo $this->html->getSeoUrl('content/contact');?>" class="cart btn btn-success">
                                                     <i class="bi bi-telephone"></i>&nbsp;&nbsp;
                                                     <?php echo $text_call_to_order; ?>
                                                 </a>

@@ -229,7 +229,7 @@ if ($error){ ?>
                                                 echo $this->getHookVar('product_call_to_order_html');
                                             } else { ?>
                                             <div class="product-page-call_to_order mt-3">
-                                                <a href="#" class="shadow cart btn btn-success btn-lg w-100">
+                                                <a href="<?php echo $this->html->getSeoUrl('content/contact');?>" class="shadow cart btn btn-success btn-lg w-100">
                                                     <i class="fa-solid fa-phone fa-fw"></i>&nbsp;&nbsp;
                                                     <?php echo $text_call_to_order; ?>
                                                 </a>
