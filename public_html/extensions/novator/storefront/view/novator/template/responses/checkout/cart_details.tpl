@@ -57,7 +57,7 @@ if ($total_items > 0) {
                 </a>
             </div>
             <div class="col-5">
-                <a href="<?php echo $this->html->getSecureURL('checkout/shipping'); ?>">
+                <a href="<?php echo $this->html->getSecureURL('checkout/fast_checkout'); ?>">
                     <div class="d-grid">
                         <button class="btn btn-warning"><?php echo $this->language->get('text_checkout', 'blocks/cart'); ?></button>
                     </div>

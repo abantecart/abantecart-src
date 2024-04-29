@@ -42,7 +42,7 @@ class ControllerApiCheckoutShipping extends AControllerAPI
         }
 
         //load language from main section
-        $this->loadLanguage('checkout/shipping');
+        $this->loadLanguage('checkout/fast_checkout');
         if ($request['mode'] == 'select' && $this->validate($request)) {
             $shipping = explode('.', $request['shipping_method']);
             $this->session->data['shipping_method'] = $this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]];

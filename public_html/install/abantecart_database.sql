@@ -10920,7 +10920,7 @@ VALUES  (3,'index/home',1),
         (3,'account/logout',3),
         (3,'account/account',4),
         (3,'checkout/cart',5),
-        (3,'checkout/shipping',6),
+        (3,'checkout/fast_checkout',6),
         (3,'product/special',7),
         (3,'account/invoice',8);
 -- PARENT_ID

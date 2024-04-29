@@ -156,13 +156,13 @@ class ControllerPagesCheckoutFastCheckout extends AController
             }
             //if we added single product via POST request - do redirect to self
             $this->extensions->hk_ProcessData($this, 'post_single_checkout');
-            redirect($this->html->getSecureURL('checkout/fast_checkout', '&product_key='.$productCartKey));
+            redirect($this->html->getSecureURL('checkout/fast_checkout', '&fc=1&product_key='.$productCartKey));
         } //do clone of default cart
         else {
             if (!$fcSession['single_checkout']) {
                 $fcSession['single_checkout'] = false;
             }
-            $fcSession['cart'] = $fcSession['cart'] ? : $this->session->data['cart'];
+            $fcSession['cart'] = $this->request->get['fc'] ? $fcSession['cart'] : $this->session->data['cart'];
             $this->removeNoStockProducts();
             if (isset($this->session->data['coupon'])) {
                 $fcSession['coupon'] = $this->session->data['coupon'];

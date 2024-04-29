@@ -56,7 +56,7 @@ class ControllerPagesContentSitemap extends AController
         $this->view->assign('address', $this->html->getSecureURL('account/address'));
         $this->view->assign('history', $this->html->getSecureURL('account/history'));
         $this->view->assign('download', $this->html->getSecureURL('account/download'));
-        $this->view->assign('checkout', $this->html->getSecureURL('checkout/shipping'));
+        $this->view->assign('checkout', $this->html->getSecureURL('checkout/fast_checkout'));
 
         $this->view->assign('cart', $this->html->getSecureURL('checkout/cart'));
         $this->view->assign('search', $this->html->getNonSecureURL('product/search'));

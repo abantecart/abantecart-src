@@ -57,7 +57,7 @@ $routes = array(
     'text_account_account_menu'   => 'account/account',
     'text_account_invoice_menu'   => 'account/invoice',
     'text_checkout_cart_menu'     => 'checkout/cart',
-    'text_checkout_shipping_menu' => 'checkout/shipping',
+    'text_checkout_shipping_menu' => 'checkout/fast_checkout',
 );
 
 if ($xml) {

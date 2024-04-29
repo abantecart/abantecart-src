@@ -54,7 +54,7 @@ class ControllerBlocksOrderSummary extends AController
             $this->view->assign('checkout', '');
         } else {
             if ($this->cart->hasMinRequirement() && $this->cart->hasMaxRequirement()) {
-                $this->view->assign('checkout', $this->html->getSecureURL('checkout/shipping'));
+                $this->view->assign('checkout', $this->html->getSecureURL('checkout/fast_checkout'));
             }
         }
 

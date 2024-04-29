@@ -32,7 +32,6 @@ class ControllerCommonFooter extends AController
         $this->loadLanguage('common/header');
         $this->loadLanguage('checkout/fast_checkout');
         $this->data['text_copy'] = $this->config->get('store_name').' &copy; '.date('Y', time());
-
         $this->data['home'] = $this->html->getHomeURL();
         $this->data['special'] = $this->html->getNonSecureURL('product/special');
         $this->data['contact'] = $this->html->getURL('content/contact');
@@ -42,7 +41,7 @@ class ControllerCommonFooter extends AController
         $this->data['login'] = $this->html->getSecureURL('account/login');
         $this->data['logout'] = $this->html->getSecureURL('account/logout');
         $this->data['cart'] = $this->html->getSecureURL('checkout/cart');
-        $this->data['checkout'] = $this->html->getSecureURL('checkout/shipping');
+        $this->data['checkout'] = $this->html->getSecureURL('checkout/fast_checkout');
 
         $children = $this->getChildren();
         foreach ($children as $child) {

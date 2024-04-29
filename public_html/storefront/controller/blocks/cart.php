@@ -38,13 +38,14 @@ class ControllerBlocksCart extends AController
         $this->data['text_items'] = $this->language->get('text_items');
         $this->data['text_total'] = $this->language->get('text_total');
         $this->data['view'] = $this->html->getSecureURL('checkout/cart');
-        $this->data['checkout'] = $this->html->getSecureURL('checkout/shipping');
+        $this->data['checkout'] = $this->html->getSecureURL('checkout/fast_checkout');
         $this->data['remove'] = $this->html->getURL('r/checkout/cart');
 
         $products = [];
 
         $qty = 0;
         $cart_products = $this->cart->getProducts() + $this->cart->getVirtualProducts();
+
         $product_ids = array_column($cart_products, 'product_id');
         $resource = new AResource('image');
         $thumbnails = $product_ids

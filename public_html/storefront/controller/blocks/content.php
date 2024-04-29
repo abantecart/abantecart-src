@@ -52,7 +52,7 @@ class ControllerBlocksContent extends AController
         $this->data['login'] = $this->html->getSecureURL('account/login', '', true);
         $this->data['logout'] = $this->html->getSecureURL('account/logout');
         $this->data['cart'] = $this->html->getSecureURL('checkout/cart');
-        $this->data['checkout'] = $this->html->getSecureURL('checkout/shipping');
+        $this->data['checkout'] = $this->html->getSecureURL('checkout/fast_checkout');
 
         //build dynamic content (pages) links
         $this->loadModel('catalog/content');
