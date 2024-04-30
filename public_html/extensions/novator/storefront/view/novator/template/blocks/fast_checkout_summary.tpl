@@ -6,10 +6,8 @@
 	}
 
     <?php if ($summaryUrl) { ?>
-	let loadFCBlockSummaryContent = function (urlQuery = '') {
-		if ($('#fast_checkout_summary_block').html() == '') {
-			//showLoading($('#fast_checkout_summary_block'))
-		}
+	let loadFCBlockSummaryContent = function (e=null, urlQuery = '')
+    {
 		$.ajax({
 			url: '<?php echo $summaryUrl; ?>'+ urlQuery,
 			type: 'GET',

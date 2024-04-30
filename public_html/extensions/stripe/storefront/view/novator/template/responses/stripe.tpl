@@ -141,7 +141,7 @@ if ($error) { ?>
                     jQuery.data(document,'data-payment-method', paymentMethod);
                     if(paymentMethod && typeof loadFCBlockSummaryContent === 'function'){
                         firstLoad = true;
-                        loadFCBlockSummaryContent('&payment_method_key='+paymentMethod);
+                        loadFCBlockSummaryContent(event, '&payment_method_key='+paymentMethod);
                     }
                 });
             }

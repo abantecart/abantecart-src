@@ -1,4 +1,3 @@
-
 <div id="cart_details d-flex flex-column mx-sm-auto">
     <?php if (is_array($products) && count($products) > 0) { ?>
 			<h5>
@@ -12,8 +11,7 @@
         //To remove limit set $cart_view_limit = $total_items;
         //To enable scroll for all products look for #top_cart_product_list .products in styles.css
         $cart_view_limit = 5;
-        if ($total_items > 0) {
-        ?>
+        if ($total_items > 0) { ?>
         <div class="products">
         <table class="table table-hover table-borderless">
             <tbody>
