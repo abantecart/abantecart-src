@@ -296,24 +296,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             ]
         );
 
-        if ($this->request->get['rt'] == 'checkout/guest_step_3') {
-            $back_url = $this->html->getSecureURL('checkout/guest_step_2', '&mode=edit', true);
-        } else {
-            $back_url = $this->html->getSecureURL('checkout/payment', '&mode=edit', true);
-        }
-
         $data['cancel_url'] = $this->html->getSecureURL('checkout/fast_checkout');
-
-        $data['back'] = $this->html->buildElement(
-            [
-                'type' => 'button',
-                'name' => 'back',
-                'text' => $this->language->get('button_back'),
-                'style' => 'button',
-                'href' => $back_url,
-            ]
-        );
-
 
         $this->view->batchAssign($data);
         $this->processTemplate($template);
@@ -386,8 +369,8 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 $this->request->post['transaction_details'],
                 ENT_QUOTES,
                 'UTF-8'
-            )
-            , true
+            ),
+            true
         );
         $response = $mdl->getOrder($transactionDetails['id']);
 
@@ -432,10 +415,9 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                     ]
                 );
                 try {
-                    $output['success'] = $this->html->getSecureURL('checkout/success');
+                    $output['success'] = $this->html->getSecureURL('checkout/finalize');
                 } catch (Exception $e) {
                     $this->log->write(__FILE__ . ':' . __LINE__ . '   - ' . $e->getMessage() . "\n\n" . $e->getTraceAsString());
-
                     $output['error'] = 'Oops, Unexpected Application Error';
                 }
             } else {
@@ -521,9 +503,9 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             } else {
                 $price = $this->currency->format($total['value'], $order_info['currency'], $order_info['value'], false);
 
-                if (in_array($total['total_type'], ['tax'])) {
+                if ($total['total_type'] == 'tax') {
                     $this->data['tax_total'] += $price;
-                } elseif (in_array($total['total_type'], ['shipping'])) {
+                } elseif ($total['total_type'] == 'shipping') {
                     $this->data['shipping_total'] += $price;
                 } elseif (in_array($total['total_type'], ['handling', 'fee'])) {
                     $this->data['handling_total'] += $price;
@@ -709,5 +691,4 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         }
         return true;
     }
-
 }

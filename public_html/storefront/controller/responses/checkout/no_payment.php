@@ -44,13 +44,7 @@ class ControllerResponsesCheckoutNoPayment extends AController
             'icon'  => 'fa fa-check',
         ));
 
-        $this->data['continue'] = $this->html->getSecureURL('checkout/success');
-
-        if ($this->request->get['rt'] != 'checkout/guest_step_3') {
-            $this->data['back'] = $this->html->getSecureURL('checkout/cart');
-        } else {
-            $this->data['back'] = $this->html->getSecureURL('checkout/guest_step_2');
-        }
+        $this->data['continue'] = $this->html->getSecureURL('checkout/finalize');
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
         $this->view->batchAssign($this->data);

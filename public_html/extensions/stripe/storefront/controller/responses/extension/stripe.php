@@ -76,22 +76,6 @@ class ControllerResponsesExtensionStripe extends AController
         $this->data['button_confirm'] = $this->language->get('button_confirm');
         $this->data['button_back'] = $this->language->get('button_back');
 
-        if ($this->request->get['rt'] == 'checkout/guest_step_3') {
-            $back_url = $this->html->getSecureURL('checkout/guest_step_2', '&mode=edit', true);
-        } else {
-            $back_url = $this->html->getSecureURL('checkout/payment', '&mode=edit', true);
-        }
-        $this->data['back'] = $this->html->buildElement(
-            [
-                'type'  => 'button',
-                'name'  => 'back',
-                'text'  => $this->language->get('button_back'),
-                'style' => 'button',
-                'href'  => $back_url,
-                'icon'  => 'icon-arrow-left',
-            ]
-        );
-
         $this->data['submit'] = $this->html->buildElement(
             [
                 'type'  => 'button',
@@ -246,7 +230,7 @@ class ControllerResponsesExtensionStripe extends AController
             }
         } else {
             if ($p_result['paid']) {
-                $output['success'] = $this->html->getSecureURL('checkout/success');
+                $output['success'] = $this->html->getSecureURL('checkout/finalize');
             } else {
                 //Unexpected result
                 $output['error'] = $this->language->get('error_system')
@@ -265,7 +249,7 @@ class ControllerResponsesExtensionStripe extends AController
         //init controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-        $rt = $this->session->data['fc'] ? 'checkout/fast_checkout_success' : 'checkout/success';
+        $rt = $this->session->data['fc'] ? 'checkout/fast_checkout_success' : 'checkout/finalize';
         $this->session->data['processed_order_id'] = $order_id;
         $url = $this->html->getSecureURL( $rt, '&order_id='.$order_id );
         unset($this->session->data['order_id']);

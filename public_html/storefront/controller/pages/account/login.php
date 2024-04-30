@@ -53,7 +53,7 @@ class ControllerPagesAccountLogin extends AController
                     }
 
                     if ($this->request->post['account'] == 'guest') {
-                        redirect($this->html->getSecureURL('checkout/guest_step_1'));
+                        redirect($this->html->getSecureURL('checkout/fast_checkout'));
                     }
                 }
                 //support old email based login

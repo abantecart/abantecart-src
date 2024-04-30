@@ -242,7 +242,7 @@ class ModelExtensionCardConnect extends Model
             $this->_log("Update order {$pd['order_id']} with Status ID: {$order_status_id}");
 
             $response['paid'] = true;
-            $response['success'] = $this->html->getSecureURL('checkout/success', '', true);
+            $response['success'] = $this->html->getSecureURL('checkout/finalize', '', true);
 
         } else {
             //stay in status incomplete, as order not yet paid

@@ -37,14 +37,6 @@
 		<value><![CDATA[Редактировать оплату]]></value>
 	</definition>
 	<definition>
-		<key>text_guest_step_1</key>
-		<value><![CDATA[Оформить заказ без регистрации - Шаг 1]]></value>
-	</definition>
-	<definition>
-		<key>text_guest_step_2</key>
-		<value><![CDATA[Оформить заказ без регистрации - Шаг 2]]></value>
-	</definition>
-	<definition>
 		<key>text_confirm</key>
 		<value><![CDATA[Подтверждение заказа]]></value>
 	</definition>

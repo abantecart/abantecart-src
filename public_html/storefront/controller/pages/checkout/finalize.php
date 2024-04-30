@@ -21,7 +21,7 @@ if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
-class ControllerPagesCheckoutSuccess extends AController
+class ControllerPagesCheckoutFinalize extends AController
 {
     public $errors = [];
 
@@ -30,11 +30,12 @@ class ControllerPagesCheckoutSuccess extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $order_id = (int)$this->session->data['order_id'];
-        $this->loadModel('account/order');
-        $orderInfo = $this->model_account_order->getOrder($order_id);
-        $order_totals = $this->model_account_order->getOrderTotals($order_id);
+        /** @var ModelAccountOrder $mdl */
+        $mdl = $this->loadModel('account/order');
+        $orderInfo = $mdl->getOrder($order_id);
+        $order_totals = $mdl->getOrderTotals($order_id);
         if($orderInfo) {
-            $orderInfo['order_products'] = $this->model_account_order->getOrderProducts($order_id);
+            $orderInfo['order_products'] = $mdl->getOrderProducts($order_id);
         }
 
         if ($order_id && $this->validate($orderInfo)) {
@@ -55,21 +56,15 @@ class ControllerPagesCheckoutSuccess extends AController
         } //when validation failed
         elseif ($order_id) {
             $this->session->data['processed_order_id'] = $order_id;
-        } else {
-            $order_id = $this->session->data['processed_order_id'];
+            $this->session->data['processing_order_errors'] = $this->errors;
         }
 
         //check if payment was processed
         if (!(int)$this->session->data['processed_order_id']) {
             redirect($this->html->getURL('index/home'));
-        } elseif (!$order_id && (int)$this->session->data['processed_order_id']) {
-            $order_id = (int)$this->session->data['processed_order_id'];
+        } else{
+            redirect($this->html->getSecureURL('checkout/fast_checkout_success'));
         }
-        unset($this->session->data['processed_order_id']);
-
-
-        //init controller data
-        $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
     /**
@@ -102,12 +97,7 @@ class ControllerPagesCheckoutSuccess extends AController
 
         //perform additional custom order validation in extensions
         $this->extensions->hk_ValidateData($this);
-
-        if ($this->errors) {
-            return false;
-        } else {
-            return true;
-        }
+        return ($this->errors);
     }
 
     /**
@@ -147,7 +137,6 @@ class ControllerPagesCheckoutSuccess extends AController
             $error->toLog()->toMessages();
             return false;
         }
-
         return true;
     }
 
@@ -158,7 +147,8 @@ class ControllerPagesCheckoutSuccess extends AController
     {
         $this->cart->clear();
         $this->customer->clearCustomerCart();
-        unset($this->session->data['shipping_method'],
+        unset(
+            $this->session->data['shipping_method'],
             $this->session->data['shipping_methods'],
             $this->session->data['payment_method'],
             $this->session->data['payment_methods'],
@@ -167,6 +157,7 @@ class ControllerPagesCheckoutSuccess extends AController
             $this->session->data['order_id'],
             $this->session->data['coupon'],
             $this->session->data['used_balance'],
-            $this->session->data['used_balance_full']);
+            $this->session->data['used_balance_full']
+        );
     }
 }

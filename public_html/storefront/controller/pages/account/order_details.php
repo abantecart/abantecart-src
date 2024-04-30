@@ -504,10 +504,7 @@ class ControllerPagesAccountOrderDetails extends AController
                     if ($order_token) {
                         list($order_id, $email) = $mdl->parseOrderToken($order_token);
                         if ($order_id && $email) {
-                            $order_downloads = $this->download->getCustomerOrderDownloads(
-                                $order_id,
-                                0
-                            );
+                            $order_downloads = $this->download->getCustomerOrderDownloads($order_id,0);
                             if ($order_downloads) {
                                 //check is customer has requested download in his order
                                 if (in_array($order_download_id, array_keys($order_downloads))) {

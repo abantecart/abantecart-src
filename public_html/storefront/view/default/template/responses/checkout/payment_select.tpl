@@ -15,10 +15,7 @@ if($total_payment || $balance>0 || $no_payment_required){
 <?php
     if ($total_payment) {
         $paymentCover = '<img style="height: 100px;" src="%s">';
-        $defaultPaymentCover = sprintf(
-                $paymentCover,
-                'extensions/fast_checkout/storefront/view/default/images/payment.png'
-        );
+        $defaultPaymentCover = sprintf( $paymentCover, 'image/default_payment_logo.png' );
 
         foreach ($payment_methods as $id => $payment) {
             $current = ($id == $payment_method) ? ' bg-success bg-opacity-25 ' : ''; ?>

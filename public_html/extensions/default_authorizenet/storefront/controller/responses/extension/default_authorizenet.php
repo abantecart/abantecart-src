@@ -157,20 +157,6 @@ class ControllerResponsesExtensionDefaultAuthorizeNet extends AController
             ]
         );
 
-        $back = $this->request->get['rt'] != 'checkout/guest_step_3'
-            ? $this->html->getSecureURL('checkout/payment')
-            : $this->html->getSecureURL('checkout/guest_step_2');
-        $this->data['back'] = HtmlElementFactory::create(
-            [
-                'type'  => 'button',
-                'name'  => 'back',
-                'text'  => $this->language->get('button_back'),
-                'style' => 'button',
-                'href'  => $back,
-                'icon'  => 'icon-arrow-left',
-            ]
-        );
-
         $this->data['submit'] = HtmlElementFactory::create(
             [
                 'type'  => 'button',
@@ -273,7 +259,7 @@ class ControllerResponsesExtensionDefaultAuthorizeNet extends AController
             }
         } else {
             if ($p_result['paid']) {
-                $json['success'] = $this->html->getSecureURL('checkout/success');
+                $json['success'] = $this->html->getSecureURL('checkout/finalize');
             } else {
                 //Unexpected result
                 $json['error'] = $this->language->get('error_system').'(abc)';

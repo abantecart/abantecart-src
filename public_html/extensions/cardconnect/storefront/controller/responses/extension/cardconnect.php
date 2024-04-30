@@ -141,20 +141,6 @@ class ControllerResponsesExtensionCardConnect extends AController
         $this->data['action'] = $this->html->getSecureURL('extension/cardconnect/send');
         $this->data['delete_card_url'] = $this->html->getSecureURL('extension/cardconnect/delete_card');
 
-        $back = $this->request->get['rt'] != 'checkout/guest_step_3'
-            ? $this->html->getSecureURL('checkout/payment')
-            : $this->html->getSecureURL('checkout/guest_step_2');
-        $this->data['back'] = HtmlElementFactory::create(
-            [
-                'type'  => 'button',
-                'name'  => 'back',
-                'text'  => $this->language->get('button_back'),
-                'style' => 'button',
-                'href'  => $back,
-                'icon'  => 'icon-arrow-left',
-            ]
-        );
-
         $this->data['submit'] = HtmlElementFactory::create(
             [
                 'type'  => 'button',
@@ -280,7 +266,7 @@ class ControllerResponsesExtensionCardConnect extends AController
             $json['csrftoken'] = $csrftoken->setToken();
         } else {
             if ($p_result['paid']) {
-                $json['success'] = $this->html->getSecureURL('checkout/success');
+                $json['success'] = $this->html->getSecureURL('checkout/finalize');
             } else {
                 //Unexpected result
                 $csrftoken = $this->registry->get('csrftoken');

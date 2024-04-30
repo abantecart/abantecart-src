@@ -10,16 +10,15 @@
             <?php
             //if we have custom message
             if ($order_finished_message) {
-                echo '<h5 class="lh-lg">'.$order_finished_message.'<br>'
+                echo '<h5 class="lh-lg">'
+                    .(is_array($order_finished_message) ? implode('<br>', $order_finished_message) : $order_finished_message)
+                    .'<br>'
                     .$fast_checkout_text_thank_you.'</h5>';
             }
             //if guest wish to be registered - show message
             if ($text_account_created) {
                 echo '<h5 class="lh-lg">'.$text_account_created.'</h5>';
             }
-            ?>
-
-            <?php
             //if we have download and it pending - show message
             if ($text_order_download_pending) {
                 echo "<p>".$text_order_download_pending."</p><br/>";

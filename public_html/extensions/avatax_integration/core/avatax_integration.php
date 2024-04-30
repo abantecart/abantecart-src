@@ -866,7 +866,7 @@ class ExtensionAvataxIntegration extends Extension
         }
     }
 
-    public function onControllerPagesCheckoutSuccess_InitData()
+    public function onControllerPagesCheckoutFinalize_InitData()
     {
         $that = $this->baseObject;
         if (isset($that->session->data['order_id'])) {
@@ -874,7 +874,7 @@ class ExtensionAvataxIntegration extends Extension
         }
     }
 
-    public function onControllerPagesCheckoutSuccess_ProcessData()
+    public function onControllerPagesCheckoutFinalize_ProcessData()
     {
         $that = $this->baseObject;
         $that->session->data['avatax_order_id'] = 0;

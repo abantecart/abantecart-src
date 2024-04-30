@@ -45,13 +45,7 @@ class ControllerResponsesExtensionDefaultBanktransfer extends AController
         }
 
         $this->view->assign('instructions', nl2br($instructions));
-        $this->view->assign('continue', $this->html->getSecureURL('checkout/success'));
-
-        if ($this->request->get['rt'] == 'checkout/guest_step_3') {
-            $this->view->assign('back', $this->html->getSecureURL('checkout/guest_step_2', '&mode=edit', true));
-        } else {
-            $this->view->assign('back', $this->html->getSecureURL('checkout/payment', '', true));
-        }
+        $this->view->assign('continue', $this->html->getSecureURL('checkout/finalize'));
 
         //check total for to meat min requirement 
         if (has_value($this->config->get('default_banktransfer_payment_minimum_total'))) {

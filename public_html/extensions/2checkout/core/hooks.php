@@ -22,7 +22,7 @@
 class Extension2Checkout extends Extension
 {
     //payment confirmation pending page
-    public function onControllerPagesCheckoutSuccess_InitData()
+    public function onControllerPagesCheckoutFinalize_InitData()
     {
         $that = $this->baseObject;
         $order_id = (int)$that->session->data['order_id'];
@@ -41,7 +41,7 @@ class Extension2Checkout extends Extension
     }
 
     //delete sign after success
-    public function onControllerPagesCheckoutSuccess_UpdateData()
+    public function onControllerPagesCheckoutFinalize_UpdateData()
     {
         unset($this->baseObject->session->data['2checkout_pending_ipn_skip']);
     }

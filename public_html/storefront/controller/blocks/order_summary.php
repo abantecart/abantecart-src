@@ -47,7 +47,7 @@ class ControllerBlocksOrderSummary extends AController
         $this->view->assign('view', $this->html->getSecureURL('checkout/cart'));
 
         $rt = $this->request->get['rt'];
-        if($rt == 'checkout/success') {
+        if($rt == 'checkout/finalize') {
             //do now show any info on success page
             return;
         }elseif (strpos($rt, 'checkout') !== false && $rt != 'checkout/cart') {

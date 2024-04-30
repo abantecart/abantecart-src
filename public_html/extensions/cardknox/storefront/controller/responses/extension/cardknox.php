@@ -120,12 +120,6 @@ class ControllerResponsesExtensionCardknox extends AController {
             ]
         );
 
-        if ($this->request->get['rt'] == 'checkout/guest_step_3') {
-            $back_url = $this->html->getSecureURL('checkout/guest_step_2', '&mode=edit', true);
-        } else {
-            $back_url = $this->html->getSecureURL('checkout/payment', '&mode=edit', true);
-        }
-
         $data['ebt_init_url'] = $this->html->getSecureURL('r/extension/cardknox/ebt_init','',true);
         $data['cardknox_text_ebt'] = $this->language->get('cardknox_text_ebt','cardknox/cardknox');
         $data['back'] = $this->html->buildElement(
@@ -273,7 +267,7 @@ class ControllerResponsesExtensionCardknox extends AController {
                     );
                     $redirectUrl = $this->request->get_or_post('fast_checkout')
                         ? 'checkout/fast_checkout_success'
-                        : 'checkout/success';
+                        : 'checkout/finalize';
                     $this->session->data['processed_order_id'] = $this->session->data['order_id'];
                     $output['success'] = $this->html->getSecureURL(
                         $redirectUrl,
