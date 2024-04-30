@@ -62,15 +62,15 @@
                            value="<?php echo $cc_owner->value; ?>" id="cc_owner" name="cc_owner" required>
             </div>
             <div class="mb-3 g-3">
-                <label class="col-form-label"><?php echo $entry_cc_number; ?></label>
+                <label class="col-form-label "><?php echo $entry_cc_number; ?></label>
                 <?php
                     $port = $this->config->get('cardconnect_test_mode') ? 6443 : 8443;
                 ?>
-                <div>
+                <div class="mb-3">
                     <iframe id="tokenframe" name="tokenframe"
                             src="https://<?php echo $api_domain;?>/itoke/ajax-tokenizer.html?invalidinputevent=true&css=<?php echo urlencode("input{border:1px solid rgb(204, 204, 204); border-radius: .25rem; width: 95%; height: 36px; padding: 0px 12px; font-size: 16px; line-height: 1.42857143; color: rgb(85, 85, 85); background-color: rgb(255, 255, 255); } body{ margin: 3px;} .error{color: red;}");?>"
                             width="100%" height="44"></iframe>
-                    <input type="hidden" name="cc_token" id="cc_token">
+                    <input type="hidden" name="cc_token" id="cc_token" class="form-control">
                 </div>
             </div>
             <div class="mb-3 row g-3 d-flex flex-wrap justify-content-end">
