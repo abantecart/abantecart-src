@@ -46,7 +46,8 @@ class ControllerResponsesProductReview extends AController
 
         $reviews = [];
         if ($this->config->get('display_reviews')) {
-            $results = $this->model_catalog_review->getReviewsByProductId($product_id, ($page - 1) * 5, 5);
+            $perPage = $this->config->get('reviews_per_page') ?: 2;
+            $results = $this->model_catalog_review->getReviewsByProductId($product_id, ($page - 1) * $perPage, $perPage);
 
             foreach ($results as $result) {
 
@@ -65,6 +66,7 @@ class ControllerResponsesProductReview extends AController
 
             $review_total = $this->model_catalog_review->getTotalReviewsByProductId($product_id);
 
+            /** @see PaginationHtmlElement */
             $this->data['pagination_bootstrap'] = HtmlElementFactory::create([
                 'type'       => 'Pagination',
                 'name'       => 'pagination',
@@ -72,9 +74,10 @@ class ControllerResponsesProductReview extends AController
                 'text_limit' => $this->language->get('text_per_page'),
                 'total'      => $review_total,
                 'page'       => $page,
-                'limit'      => 5,
+                'limit'      => $perPage,
                 'no_perpage' => true,
                 'url'        => $this->html->getURL('product/review/review', '&product_id='.$product_id.'&page={page}'),
+                'direct_url' => $this->html->getURL('product/product', '&product_id='.$product_id.'&page={page}#review'),
                 'style'      => 'pagination',
             ]);
         }

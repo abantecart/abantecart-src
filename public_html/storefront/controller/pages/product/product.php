@@ -233,6 +233,12 @@ class ControllerPagesProductProduct extends AController
             ]
         );
 
+        //show page of approval reviews
+        if ($this->data['display_reviews'] || $this->data['review_form_status']) {
+            $this->addChild('responses/product/review/review', 'current_reviews');
+        }
+
+
         if ($this->config->get('config_recaptcha_site_key')) {
             $this->data['recaptcha_site_key'] = $this->config->get('config_recaptcha_site_key');
             $this->data['review_recaptcha'] = HtmlElementFactory::create(

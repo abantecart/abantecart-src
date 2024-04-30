@@ -143,7 +143,7 @@ if ($error){ ?>
                     <?php if($tab_review && $display_reviews ){?>
                         <div class="rounded-pill bg-light-secondary badge fs-6">
                             <i class="bi bi-chat-left-dots"></i>
-                            <a class="bg-light-secondary fs-6" href="javascript:void(0);" onclick="scrollToReview()"><?php echo $tab_review;?></a>
+                            <a class="bg-light-secondary fs-6" href="javascript:void(0);" onclick="scrollTo('review')"><?php echo $tab_review;?></a>
                         </div>
                     <?php }?>
                 </div>
@@ -303,7 +303,7 @@ if ($error){ ?>
 </div>
 <!-- Product Description tab & comments-->
 <section class="prod-desc mt-3 mt-lg-0">
-    <ul class="nav nav-tabs profile-tabs mb-4 border-bottom" id="myTab" role="tablist">
+    <ul id="productTabs" class="nav nav-tabs profile-tabs mb-4 border-bottom" role="tablist">
         <li class="nav-item" role="presentation">
             <a class="nav-link active" id="description" data-bs-toggle="tab" href="#collapseDescription" role="tab" aria-controls="collapseDescription" aria-selected="true">
                 <?php echo $tab_description; ?>
@@ -428,7 +428,7 @@ if ($error){ ?>
                             <h4 id="headingReview"><?php echo $review_title; ?></h4>
 
                             <div class="list-group list-group-flush">
-                                <div id="current_reviews" class="mb-2"></div>
+                                <div id="current_reviews" class="mb-2"><?php echo $current_reviews;?></div>
                             </div>
 
                             <?php if($review_form_status){ ?>
@@ -591,14 +591,8 @@ if ($error){ ?>
         $(document).ready(
             function(){
                 let hash = location.hash;
-                if(hash && $(hash+'.accordion-button').length>0){
-                    $(hash+'.accordion-button').click();
-                    $([document.documentElement, document.body]).animate(
-                        {
-                            scrollTop: $(hash+'.accordion-button').offset().top - 300
-                        },
-                        1000
-                    );
+                if(hash && $(hash).length>0){
+                    scrollTo(hash.replace('#',''));
                 }
 
                 //pause carousel of main image
@@ -619,16 +613,6 @@ if ($error){ ?>
         initZoom();
         display_total_price();
 
-        $('#current_reviews .pagination a').on('click', function (e) {
-            e.preventDefault();
-            $('#current_reviews').slideUp('slow')
-                .load(this.href)
-                .slideDown('slow');
-            return false;
-        });
-
-        reload_review('<?php echo $product_review_url; ?>');
-
         $('#product_add_to_cart').click(function (e) {
             e.preventDefault();
             ga_event_fire('add_to_cart');
@@ -641,7 +625,9 @@ if ($error){ ?>
         //process clicks in review pagination
         $('#current_reviews').on('click', '.pagination a', function (e) {
             e.preventDefault();
-            reload_review($(this).attr('href'));
+<?php // note: if direct_url property is set in the pagination show it but works with ajax-url (data-url attribute) ?>
+            const url = $(this).attr('data-url') ? $(this).attr('data-url') : $(this).attr('href');
+            reload_review( url );
             $([document.documentElement, document.body]).animate(
                 {
                     scrollTop: $("#headingReview").offset().top - 100
@@ -946,13 +932,11 @@ if ($error){ ?>
             });
         }
     });
-    function scrollToReview() {
-        var element = document.getElementById('collapseReview');
-        var tab = new bootstrap.Tab(document.getElementById('review'));
-
+    function scrollTo(ID) {
+        let element = document.getElementById('collapse'+ID[0].toUpperCase() + ID.substring(1));
+        let tab = new bootstrap.Tab(document.getElementById(ID));
         if (element && tab) {
             tab.show();
-
             setTimeout(function() {
                 element.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 100);

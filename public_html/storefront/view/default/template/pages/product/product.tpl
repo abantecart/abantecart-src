@@ -337,7 +337,7 @@ if ($error){ ?>
                     <div id="collapseReview" class="accordion-collapse collapse" aria-labelledby="headingReview" data-bs-parent="#productDetailsAccordion">
                         <div class="accordion-body">
                             <div class="tab-pane" id="review">
-                                <div id="current_reviews" class="mb-2"></div>
+                                <div id="current_reviews" class="mb-2"><?php echo $current_reviews;?></div>
                             <?php if($review_form_status){ ?>
                                 <div class="heading" id="review_title"><h4><?php echo $text_write; ?></h4></div>
                                 <div class="content">
@@ -591,16 +591,6 @@ if( $hookVarArray ){
         start_easyzoom();
         display_total_price();
 
-        $('#current_reviews .pagination a').on('click', function () {
-            $('#current_reviews').slideUp('slow')
-                .load(this.href)
-                .slideDown('slow');
-            return false;
-        });
-
-        reload_review('<?php echo $product_review_url; ?>');
-
-
         $('#product_add_to_cart').click(function (e) {
             e.preventDefault();
             ga_event_fire('add_to_cart');
@@ -612,7 +602,8 @@ if( $hookVarArray ){
 
         //process clicks in review pagination
         $('#current_reviews').on('click', '.pagination a', function () {
-            reload_review($(this).attr('href'));
+<?php // note: if direct_url property is set in the pagination show it but works with ajax-url (data-url attribute) ?>
+            reload_review($(this).attr('data-url')?.$(this).attr('href'));
             $([document.documentElement, document.body]).animate(
                 {
                     scrollTop: $("#headingReview").offset().top
@@ -623,9 +614,9 @@ if( $hookVarArray ){
         });
 
         /* Process images for product options */
-        var $select = $('input[name^=\'option\'], select[name^=\'option\']');
+        let $select = $('input[name^=\'option\'], select[name^=\'option\']');
         $select.on('change',function () {
-            var valId = $(this).val();
+            let valId = $(this).val();
             valId = this.type === 'checkbox' && $(this).attr('data-attribute-value-id') ? $(this).attr('data-attribute-value-id') : valId;
             load_option_images(valId, '<?php echo $product_id; ?>');
             display_total_price();

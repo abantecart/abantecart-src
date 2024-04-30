@@ -2635,7 +2635,7 @@ class ZonesHtmlElement extends HtmlElement
 
 /*
 * Build pagination HTML element based on the template.
-* Supported v 1.1.5+
+* @since 1.1.5
 */
 
 class PaginationHtmlElement extends HtmlElement
@@ -2722,6 +2722,7 @@ class PaginationHtmlElement extends HtmlElement
         }
 
         $s['url'] = str_replace('{limit}', $s['limit'], $s['url']);
+        $s['direct_url'] = str_replace('{limit}', $s['limit'], $s['direct_url']);
         $s['total_pages'] = ceil($s['total'] / $s['limit']);
 
         if ($s['page'] > 1) {
