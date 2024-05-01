@@ -233,9 +233,10 @@ class ControllerResponsesExtensionStripe extends AController
                 $output['success'] = $this->html->getSecureURL('checkout/finalize');
             } else {
                 //Unexpected result
+                $pi = $this->model_extension_stripe->getPaymentIntent($pi_id);
                 $output['error'] = $this->language->get('error_system')
-                    . '. Payment Intent Status: '
-                        .$this->model_extension_stripe->getPaymentIntentStatus($pi_id);
+                    . '. '.$pi?->last_payment_error['message'].' ('.$pi?->last_payment_error['code'].')';
+                $this->log->write("Payment attempt failed: \n".var_export($pi->toArray(), true));
             }
         }
 

@@ -304,6 +304,10 @@ class ControllerResponsesCheckoutPay extends AController
                 }
 
                 $addressData = $this->model_account_address->getAddress($address_id);
+                if($addressData === false){
+                    $address_id = $this->customer->getAddressId();
+                    $addressData = $this->model_account_address->getAddress($address_id);
+                }
                 //validate payment address. See hook calls inside. Some extensions can affect on it
                 $this->error = $this->model_account_address->validateAddressData($addressData);
                 if($this->error) {

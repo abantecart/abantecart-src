@@ -1,5 +1,6 @@
 <?php
 
+use Stripe\Customer;
 use Stripe\Exception\ApiConnectionException;
 use Stripe\Exception\ApiErrorException;
 use Stripe\Exception\AuthenticationException;
@@ -19,6 +20,14 @@ if ( ! defined( 'DIR_CORE' ) ) {
  */
 class ModelExtensionStripe extends Model
 {
+    /**
+     * @param Registry $registry
+     */
+    public function __construct($registry)
+    {
+        parent::__construct($registry);
+        grantStripeAccess($this->config);
+    }
     public function getMethod( $address )
     {
         $this->load->language( 'stripe/stripe' );
@@ -67,9 +76,6 @@ class ModelExtensionStripe extends Model
         $order_info = $this->model_checkout_order->getOrder($paymentData['order_id'] );
 
         try {
-            require_once( DIR_EXT.'stripe/core/stripe_modules.php' );
-            grantStripeAccess( $this->config );
-
             //build charge data array
             $charge_data = [];
             $charge_data['amount'] = $paymentData['amount'];
@@ -292,7 +298,7 @@ class ModelExtensionStripe extends Model
 
     /**
      * @param int $customerId
-     * @return false|\Stripe\Customer
+     * @return false|Customer
      * @throws AException
      */
     public function getStripeCustomer($customerId )
@@ -302,8 +308,6 @@ class ModelExtensionStripe extends Model
             return false;
         }
         try {
-            require_once( DIR_EXT.'stripe/core/stripe_modules.php' );
-            grantStripeAccess( $this->config );
             return Stripe\Customer::retrieve( $customer_stripe_id );
         } catch ( Exception $e ) {
             //log in AException
@@ -355,16 +359,11 @@ class ModelExtensionStripe extends Model
     /**
      * @param array $data
      * @return array|PaymentIntent
-     * @throws AException
      */
 
     public function createPaymentIntent($data)
     {
-        $this->load->model('checkout/order');
         try {
-            require_once(DIR_EXT.'stripe/core/stripe_modules.php');
-            grantStripeAccess($this->config);
-
             $response = PaymentIntent::create( $data );
             $this->session->data['stripe']['pi']['id'] = $response['id'];
             return $response;
@@ -382,9 +381,6 @@ class ModelExtensionStripe extends Model
      */
     public function isPaymentIntentSuccessful($intentId)
     {
-        require_once(DIR_EXT.'stripe/core/stripe_modules.php');
-        grantStripeAccess($this->config);
-
         $intent = PaymentIntent::retrieve($intentId);
         $this->data['pi_statuses'][$intentId] = $intent->status;
         if( in_array($intent->status, ['succeeded', 'requires_capture'])){
@@ -395,19 +391,16 @@ class ModelExtensionStripe extends Model
 
     /**
      * @param string $intentId
-     * @return mixed|string
+     * @return PaymentIntent
      * @throws ApiErrorException
      */
-    public function getPaymentIntentStatus($intentId)
+    public function getPaymentIntent($intentId)
     {
-        if(isset($this->data['pi_statuses'][$intentId])){
-            return $this->data['pi_statuses'][$intentId];
+        try {
+            return PaymentIntent::retrieve($intentId);
+        }catch ( Exception $e ) {
+            return new stdClass();
         }
-        require_once(DIR_EXT.'stripe/core/stripe_modules.php');
-        grantStripeAccess($this->config);
-
-        $intent = PaymentIntent::retrieve($intentId);
-        return $intent->status;
     }
 
     /**
@@ -417,10 +410,6 @@ class ModelExtensionStripe extends Model
      */
     public function updatePaymentIntent($intentId, $data)
     {
-        require_once(DIR_EXT.'stripe/core/stripe_modules.php');
-        grantStripeAccess($this->config);
-
         PaymentIntent::update($intentId, $data);
     }
-
 }

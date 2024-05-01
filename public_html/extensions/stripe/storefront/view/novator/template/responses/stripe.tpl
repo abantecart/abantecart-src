@@ -19,10 +19,6 @@ if ($error) { ?>
         <?php echo $this->getHookVar('payment_table_post'); ?>
 
         <div class="form-group action-buttons text-center mt-3">
-            <a id="<?php echo $back->name ?>" href="<?php echo $back->href; ?>" class="btn btn-default mr10">
-                <i class="bi bi-arrow-left"></i>
-                <?php echo $back->text ?>
-            </a>
             <button id="<?php echo $submit->name ?>" class="btn btn-primary"
                     title="<?php echo $submit->text ?>" type="submit">
                 <i class="bi bi-check"></i>
