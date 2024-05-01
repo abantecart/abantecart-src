@@ -124,24 +124,7 @@ if ($error) { ?>
                     }
                 );
                 paymentElement.mount("#payment-element");
-                paymentElement.on('change', function(event) {
-                    if(firstLoad){
-                        firstLoad = false;
-                        return;
-                    }
-                    const paymentMethod = event.value.type;
-                    if(paymentMethod === jQuery.data(document,'data-payment-method')){
-                        return;
-                    }
-
-                    jQuery.data(document,'data-payment-method', paymentMethod);
-                    if(paymentMethod && typeof loadFCBlockSummaryContent === 'function'){
-                        firstLoad = true;
-                        loadFCBlockSummaryContent(event, '&payment_method_key='+paymentMethod);
-                    }
-                });
             }
         });
-
     </script>
 <?php } ?>

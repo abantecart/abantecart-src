@@ -110,12 +110,12 @@ if ($error) { ?>
                     return false;
                 }
             });
-
             function initStripe() {
                 if (Stripe === undefined) { return; }
                 stripe = Stripe('<?php echo $public_key;?>');
                 elements = stripe.elements( { clientSecret: '<?php echo $client_secret;?>' } );
-                const defPm = jQuery.data(document,'data-payment-method') ? [jQuery.data(document,'data-payment-method')] : [];
+                let defPm = jQuery.data(window,'data-payment-method') ? [jQuery.data(window,'data-payment-method')] : [];
+                jQuery.data(window,'data-payment-method', false);
                 paymentElement = elements.create(
                     'payment',
                     {
@@ -124,22 +124,6 @@ if ($error) { ?>
                     }
                 );
                 paymentElement.mount("#payment-element");
-                paymentElement.on('change', function(event) {
-                    if(firstLoad){
-                        firstLoad = false;
-                        return;
-                    }
-                    const paymentMethod = event.value.type;
-                    if(paymentMethod === jQuery.data(document,'data-payment-method')){
-                        return;
-                    }
-
-                    jQuery.data(document,'data-payment-method', paymentMethod);
-                    if(paymentMethod && typeof loadFCBlockSummaryContent === 'function'){
-                        firstLoad = true;
-                        loadFCBlockSummaryContent(event, '&payment_method_key='+paymentMethod);
-                    }
-                });
             }
         });
 
