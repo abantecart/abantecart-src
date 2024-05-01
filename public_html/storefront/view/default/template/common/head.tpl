@@ -54,7 +54,7 @@ if($direction == 'rtl'){ ?>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap-utilities.min.css" integrity="sha512-4ocAKAxnrkSm7MvkkF1D435kko3/HWWvoi/U9+7+ln94B/U01Mggca05Pm3W59BIv3abl0U3MPdygAPLo5aeqg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <?php } ?>
 
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"  crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <link href="<?php echo $this->templateResource('/css/style.css'); ?>" rel="stylesheet" type='text/css' />
 
