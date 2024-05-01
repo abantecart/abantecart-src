@@ -3,8 +3,8 @@
             $guest_data['shipping'],
             $guest_data['shipping']['address_format']
     ); ?>
-    <div class="flex-item flex-fill pe-sm-0 pe-md-1 pb-1">
-        <div class="d-flex justify-content-between col-12 bg-light-primary border">
+    <div class="flex-item flex-fill pb-1">
+        <div class="d-flex justify-content-between col-12 bg-light-primary border pe-sm-0 pe-xl-1 pe-sm-0">
             <div class="card bg-light-primary border-0 ms-3">
                 <div class="card-body">
                     <h5 class="card-title">
@@ -26,9 +26,9 @@ if ($show_payment == true) {
                         $guest_data,
                         $guest_data['address_format']
                     ); ?>
-    <div class="flex-item flex-fill ps-md-1 ps-0 pt-0 pb-1">
-        <div class="d-flex justify-content-between col-12 bg-light-primary border">
-            <div class="card border-0 bg-light ms-3">
+    <div class="flex-item flex-fill ps-0 pt-0 pb-1">
+        <div class="d-flex justify-content-between col-12 bg-light-primary border ">
+            <div class="card border-0 bg-light-primary ms-3">
                 <div class="card-body">
                     <h5 class="card-title">
                         <i class="fa fa-bank" id="bank_icon"></i> <?php echo $fast_checkout_text_payment_address; ?></h5>

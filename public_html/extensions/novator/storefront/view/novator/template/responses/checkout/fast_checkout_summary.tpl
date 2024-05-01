@@ -64,16 +64,12 @@
             </tbody>
         </table>
         </div>
-        <table class="table">
-            <tbody>
-            <?php foreach ($totals as $total) { ?>
-                <tr>
-                    <th><?php echo $total['title']; ?></th>
-                    <td><span class="float-end"><?php echo $total['text']; ?></span></td>
-                </tr>
-            <?php } ?>
-            </tbody>
-        </table>
+        <?php foreach ($totals as $total) { ?>
+            <div class="d-flex flex-nowrap justify-content-between mb-1">
+                <div class="fw-bold"><?php echo $total['title']; ?></div>
+                <div><span class="float-end"><?php echo $total['text']; ?></span></div>
+            </div>
+        <?php } ?>
         <?php } else { ?>
             <div class="empty_cart text-center">
                 <i class="fa fa-shopping-cart"></i>
