@@ -46,7 +46,8 @@ class ControllerResponsesProductReview extends AController
 
         $reviews = [];
         if ($this->config->get('display_reviews')) {
-            $perPage = $this->config->get('reviews_per_page') ?: 2;
+            //todo: add this setting in the appearance section of admin
+            $perPage = $this->config->get('reviews_per_page') ?: 5;
             $results = $this->model_catalog_review->getReviewsByProductId($product_id, ($page - 1) * $perPage, $perPage);
 
             foreach ($results as $result) {
