@@ -3,7 +3,7 @@
             $guest_data['shipping'],
             $guest_data['shipping']['address_format']
     ); ?>
-    <div class="flex-item flex-fill pe-sm-0 pe-md-1 pb-1">
+    <div class="flex-item flex-fill pb-1">
         <div class="d-flex justify-content-between col-12 bg-light border">
             <div class="card bg-light border-0 ms-3">
                 <div class="card-body">
@@ -26,7 +26,7 @@ if ($show_payment == true) {
                         $guest_data,
                         $guest_data['address_format']
                     ); ?>
-    <div class="flex-item flex-fill ps-md-1 ps-0 pt-0 pb-1">
+    <div class="flex-item flex-fill ps-0 pt-0 pb-1">
         <div class="d-flex justify-content-between col-12 bg-light border">
             <div class="card border-0 bg-light ms-3">
                 <div class="card-body">
