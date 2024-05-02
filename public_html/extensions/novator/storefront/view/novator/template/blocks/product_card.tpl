@@ -4,7 +4,6 @@
     <div class="prod-img position-relative overflow-hidden">
         <a href="<?php echo $item['info_url'] ?>">
             <?php echo $item['image'] ?>
-            <?php echo $item['image1'] ?>
         </a>
         <?php if ($product['special']) { ?>
             <span class="sale_<?php echo $product['product_id']; ?> prod-badge bg-warning badge rounded-0 position-absolute text-uppercase text-white">
