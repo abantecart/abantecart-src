@@ -204,13 +204,14 @@ $(document).on(
             if ($(this).hasClass('selected')) {
                 return;
             }
-            var payment_id = $(this).data('payment-id');
+            const payment_id = $(this).find('.card-body').attr('data-payment-id');
+
             const paymentAvailable = $(this).attr('data-payment-available');
             if (payment_id === 'account_balance' || paymentAvailable === 'false') {
                 return;
             }
-            var form = $('#PayFrm');
-            let url = fc_main_url +'&' + $(form[0].elements).not("textarea#comment").serialize() + '&payment_method=' + payment_id;
+            let form = $('#PayFrm');
+            let url = fc_main_url +'&' + $(form[0].elements).not("textarea#comment").serialize();
             $('#payment_details').remove();
             $('form').unbind("submit");
             form.attr('action', url);
