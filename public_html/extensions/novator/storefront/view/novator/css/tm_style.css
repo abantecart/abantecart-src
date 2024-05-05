@@ -2966,8 +2966,8 @@ li#review-set::before {
 }
 
 .prod-option .form-check .form-check-input {
-    margin: 0 4px 0;
-    font-size: 14px;
+    margin: 4px;
+    font-size: 15px;
 }
 
 .prod-desc .nav-tabs .nav-item .nav-link {
