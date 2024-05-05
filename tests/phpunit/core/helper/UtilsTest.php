@@ -10,7 +10,7 @@ class UtilsTest extends AbanteCartTest
 
     protected function setUp(): void
     {
-        parent::__construct();
+        parent::bootstrap();
     }
 
     protected function tearDown(): void
