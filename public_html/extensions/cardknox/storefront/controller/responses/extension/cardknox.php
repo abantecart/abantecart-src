@@ -1,5 +1,22 @@
 <?php
-
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 if (! defined ( 'DIR_CORE' )) {
  header ( 'Location: static_pages/' );
@@ -58,7 +75,7 @@ class ControllerResponsesExtensionCardknox extends AController {
             [
                 'type'    => 'selectbox',
                 'name'    => 'cc_year',
-                'value'   => sprintf('%02d', date('Y') + 1),
+                'value'   => sprintf('%02d', (int)date('Y') + 1),
                 'options' => $years,
                 'style'   => 'short input-small',
             ]
@@ -122,15 +139,6 @@ class ControllerResponsesExtensionCardknox extends AController {
 
         $data['ebt_init_url'] = $this->html->getSecureURL('r/extension/cardknox/ebt_init','',true);
         $data['cardknox_text_ebt'] = $this->language->get('cardknox_text_ebt','cardknox/cardknox');
-        $data['back'] = $this->html->buildElement(
-            [
-                'type'  => 'button',
-                'name'  => 'back',
-                'text'  => $this->language->get('button_back'),
-                'style' => 'button',
-                'href'  => $back_url,
-            ]
-        );
 
         $data['submit'] = $this->html->buildElement(
             [
@@ -151,11 +159,12 @@ class ControllerResponsesExtensionCardknox extends AController {
 
     public function send($redirect = false)
     {
-        $output = [];
+        $output = $response_info = [];
 
         if (!$this->csrftoken->isTokenValid()) {
             $output['error'] = $this->language->get('error_unknown');
             $this->load->library('json');
+            $this->response->addJSONHeader();
             $this->response->setOutput(AJson::encode($output));
             return;
         }
@@ -247,7 +256,6 @@ class ControllerResponsesExtensionCardknox extends AController {
                 $output['error'] = 'CURL ERROR: '.curl_errno($curl).'::'.curl_error($curl);
                 $this->log->write('CARDKNOX CURL ERROR: '.curl_errno($curl).'::'.curl_error($curl));
             } elseif ($apiResponse) {
-                $response_info = [];
                 parse_str($apiResponse, $response_info);
 
                 if (($response_info['xResult'] == 'A')) {
@@ -284,13 +292,13 @@ class ControllerResponsesExtensionCardknox extends AController {
             curl_close($curl);
         }
 
-        if (isset($output['error'])) {
-            if ($output['error']) {
-                $csrftoken = $this->registry->get('csrftoken');
-                $output['csrfinstance'] = $csrftoken->setInstance();
-                $output['csrftoken'] = $csrftoken->setToken();
-            }
+        if ($output['error']) {
+            $csrftoken = $this->registry->get('csrftoken');
+            $output['csrfinstance'] = $csrftoken->setInstance();
+            $output['csrftoken'] = $csrftoken->setToken();
+            $redirect = true;
         }
+
         if($redirect){
             if($output['success']) {
                 redirect($output['success']);
@@ -407,6 +415,7 @@ class ControllerResponsesExtensionCardknox extends AController {
         $json['csrftoken'] = $csrftoken->setToken();
 
         $this->load->library('json');
+        $this->response->addJSONHeader();
         $this->response->setOutput(AJson::encode($json));
     }
 

@@ -276,12 +276,16 @@
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
+                    let data = jqXHR.responseJSON;
                     $('.wait').remove();
                     $('#cardknox .action-buttons').show().find('button').removeAttr('disabled');
                     $('#cardknox').before('<div class="alert alert-danger"><i class="fa fa-exclamation-triangle"></i> ' + textStatus + ' ' + errorThrown + '</div>');
                     submitSent = false;
                     $form.find('input[name=csrfinstance]').val(data.csrfinstance);
                     $form.find('input[name=csrftoken]').val(data.csrftoken);
+                },
+                complete: function(){
+                    $('.spinner-overlay').fadeOut(100);
                 }
             });
         }

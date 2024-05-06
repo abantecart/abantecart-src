@@ -1,15 +1,15 @@
 <?php
 
-if (! defined ( 'DIR_CORE' )) {
- header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')) {
+    header('Location: static_pages/');
 }
-include_once(DIR_EXT.'cardknox/core/cardknox_hooks.php');
+include_once(DIR_EXT . 'cardknox/core/cardknox_hooks.php');
 
 $controllers = [
     'storefront' => [
         'responses/extension/cardknox'
     ],
-    'admin' => [
+    'admin'      => [
         'responses/extension/cardknox'
     ]
 ];
@@ -18,14 +18,14 @@ $models = [
     'storefront' => [
         'extension/cardknox'
     ],
-    'admin' => [
+    'admin'      => [
         'extension/cardknox'
     ]
 ];
 
 $templates = [
     'storefront' => [],
-    'admin' => [
+    'admin'      => [
         'pages/sale/cardknox_payment_details.tpl'
     ]
 ];
@@ -34,7 +34,7 @@ $languages = [
     'storefront' => [
         'english/cardknox/cardknox'
     ],
-    'admin' => [
+    'admin'      => [
         'english/cardknox/cardknox'
     ]
 ];
