@@ -181,8 +181,10 @@ class ControllerResponsesExtensionStripe extends AController
 
         //validate input
         $order_id = $this->session->data['order_id'] ?: $this->request->get['order_id'];
-        $this->loadModel('checkout/order');
-        $this->loadModel('extension/stripe');
+        /** @var ModelCheckoutOrder $mdlOrder */
+        $mdlOrder = $this->loadModel('checkout/order');
+        /** @var ModelExtensionStripe $mdl */
+        $mdl = $this->loadModel('extension/stripe');
         $this->loadLanguage('stripe/stripe');
         $pi_id = $this->request->get['payment_intent'];
         //compare payment intents from session and request
@@ -196,22 +198,21 @@ class ControllerResponsesExtensionStripe extends AController
 
 
         try {
-            $paymentStatus = $this->model_extension_stripe->getPaymentIntentStatus($pi_id);
+            $paymentStatus = $mdl->getPaymentIntent($pi_id)->status;
             //TODO: add webhooks to complete payment via api request for processing status of intent
             if (in_array($paymentStatus, ['processing', 'succeeded', 'requires_capture'])) {
                 $p_result['paid'] = true;
-                $this->load->model('checkout/order');
-                $order_info = $this->model_checkout_order->getOrder($order_id);
-                $this->model_extension_stripe->recordOrder($order_info, ['id' => $pi_id]);
+                $order_info = $mdlOrder->getOrder($order_id);
+                $mdl->recordOrder($order_info, ['id' => $pi_id]);
                 $orderStatus = ($paymentStatus == 'processing'
                     ? $this->order_status->getStatusByTextId('processing')
                     : ($this->config->get('stripe_settlement') == 'automatic'
                         ? $this->config->get('stripe_status_success_settled')
                         : $this->config->get('stripe_status_success_unsettled') ));
-                $this->model_checkout_order->confirm( $order_id, $orderStatus );
+                $mdlOrder->confirm( $order_id, $orderStatus );
             } else {
                 // Some other error, assume payment declined
-                $this->model_checkout_order->addHistory(
+                $mdlOrder->addHistory(
                     $order_id,
                     $this->config->get('stripe_status_decline'),
                     'Unsuccessful payment Intent. ID '.$pi_id.'.'
@@ -233,10 +234,11 @@ class ControllerResponsesExtensionStripe extends AController
                 $output['success'] = $this->html->getSecureURL('checkout/finalize');
             } else {
                 //Unexpected result
-                $pi = $this->model_extension_stripe->getPaymentIntent($pi_id);
+                $pi = $mdl->getPaymentIntent($pi_id);
                 $output['error'] = $this->language->get('error_system')
                     . '. '.$pi?->last_payment_error['message'].' ('.$pi?->last_payment_error['code'].')';
                 $this->log->write("Payment attempt failed: \n".var_export($pi->toArray(), true));
+                $this->log->write("Response: \n".var_export($p_result, true));
             }
         }
 

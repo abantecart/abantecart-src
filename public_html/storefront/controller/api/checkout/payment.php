@@ -43,7 +43,7 @@ class ControllerApiCheckoutPayment extends AControllerAPI
         }
 
         //load language from main section
-        $this->loadLanguage('checkout/payment');
+        $this->loadLanguage('checkout/fast_checkout');
         //check coupon
         if (isset($request['coupon']) && $this->_validateCoupon($request['coupon'])) {
             //process data

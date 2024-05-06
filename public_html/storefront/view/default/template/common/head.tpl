@@ -83,7 +83,7 @@ if($cart_ajax){ ?>
     let ga4_enabled = <?php echo $this->config->get('config_google_analytics_code') ? 'true' : 'false'; ?>;
 </script>
 <script type="text/javascript" src="<?php
-/** @see public_html/storefront/view/bootstrap5/js/main.js */
+/** @see public_html/storefront/view/default/js/main.js */
 echo $this->templateResource('/js/main.js'); ?>"></script>
 <?php
 foreach ($scripts as $script) { ?>
