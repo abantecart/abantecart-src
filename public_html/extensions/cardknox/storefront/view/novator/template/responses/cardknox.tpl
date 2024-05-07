@@ -59,10 +59,11 @@
                     </div>
                     <div class="mb-3">
                         <div class="input-group">
-                            <?php echo $cc_expire_date_month; ?>
-                        </div>
-                        <div class="input-group">
-                            <?php echo $cc_expire_date_year; ?>
+                            <?php
+                            $cc_expire_date_month->no_wrapper = true;
+                            echo $cc_expire_date_month;
+                            $cc_expire_date_year->no_wrapper = true;
+                            echo $cc_expire_date_year; ?>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -282,6 +283,9 @@
                     submitSent = false;
                     $form.find('input[name=csrfinstance]').val(data.csrfinstance);
                     $form.find('input[name=csrftoken]').val(data.csrftoken);
+                },
+                complete: function(){
+                    $('.spinner-overlay').fadeOut(100);
                 }
             });
         }

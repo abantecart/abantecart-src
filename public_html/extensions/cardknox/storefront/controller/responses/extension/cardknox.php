@@ -296,7 +296,6 @@ class ControllerResponsesExtensionCardknox extends AController {
             $csrftoken = $this->registry->get('csrftoken');
             $output['csrfinstance'] = $csrftoken->setInstance();
             $output['csrftoken'] = $csrftoken->setToken();
-            $redirect = true;
         }
 
         if($redirect){
@@ -315,6 +314,7 @@ class ControllerResponsesExtensionCardknox extends AController {
             }
         }
         $this->load->library('json');
+        $this->response->addJSONHeader();
         $this->response->setOutput(AJson::encode($output));
     }
 
