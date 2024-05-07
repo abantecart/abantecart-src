@@ -1252,9 +1252,11 @@ textarea.form-control.is-invalid {
     --bs-dropdown-header-color: #050509;
     --bs-dropdown-header-padding-x: 12px;
 }
-.dropdown-menu-footer {
-    background-color: #091e2c; /* Цвет фона */
-    border: 1px solid #091e2c; /* Цвет бордера и его толщина */
+footer .dropdown, footer .dropdown-menu   {
+    background-color: #091e2c;
+}
+footer .dropdown-menu   {
+    border: 1px solid var(--bs-dropdown-border-color);
 }
 
 .dropdown-item:hover,

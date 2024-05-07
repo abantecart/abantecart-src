@@ -19,7 +19,5 @@
             'text' => $text_cart,
             'href' => $cart
     ];
-
     echo renderSFMenuNv($contents);
 ?>
-

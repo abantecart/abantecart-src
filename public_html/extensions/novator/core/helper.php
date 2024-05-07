@@ -112,10 +112,10 @@ function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
     if ($level == 0) {
         $output .= '<div '.($options['top_level']['attr'] ?: 'class="navbar-nav ms-auto me-auto mb-2 mb-lg-0 align-items-start flex-wrap"').'>';
     } else {
-        $output .= '<div class="dropdown-menu dropdown-menu-footer'.($level > 1 ? 'dropdown-submenu' : '').'" aria-labelledby="'.$parentId.'" '.$options['submenu_level']['attr'].'>';
+        $output .= '<div class="dropdown-menu position-absolute '.($level > 1 ? 'dropdown-submenu' : '')
+            .'" aria-labelledby="'.$parentId.'" '.$options['submenu_level']['attr'].'>';
     }
 
-    $ar = new AResource('image');
     foreach ($menuItems as $i => $item) {
         if ($item[$idKey] == 'home' || !is_array($item)) {
             unset($menuItems[$i]);
@@ -129,7 +129,7 @@ function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
         }
         $item_title = '<span class="menu-img-caption">'.($item['text'] ?: $item['title'] ?: $item['name']).'</span>';
         $hasChild = (bool) $item['children'];
-        $output .= '<div class="dropdown me-3 me-sm-0 mb-3 mb-lg-0 col-12" >';
+        $output .= '<div class="dropdown me-3 me-sm-0 mb-3 mb-lg-0 " >';
         //check icon rl type html, image or none.
         $rlId = $item['icon'] ? : $item['icon_rl_id'];
         $icon = renderMenuItemIconNv($item, $rlId);
@@ -137,10 +137,8 @@ function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
         if ($hasChild) {
             $id = 'menu_'.$item[$idKey];
             $css = 'dropdown-toggle text-nowrap mb-3 mb-md-0 nav-link'. ($level ? 'dropdown-item ' : '');
-            $output .= '<a id="'.$id.'" href="'.$item['href'].'" 
-                           class="'.$css.'" data-bs-toggle="dropdown" data-bs-target="dropdown" aria-expanded="false">';
-            $output .= $icon.$item_title;
-            $output .= '</a>';
+            $output .= '<a id="'.$id.'" href="'.$item['href'].'" class="'.$css.'" data-bs-toggle="dropdown" data-bs-target="dropdown" aria-expanded="false">'
+                        . $icon.$item_title.'</a>';
             $chOptions = [ 'id_key_name' => $idKey ];
 
             // for case when pass options into deep of menu
