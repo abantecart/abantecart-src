@@ -115,5 +115,7 @@ $settings['config_featured_limit'] = 4;
 $settings['config_latest_limit'] = 4;
 $settings['config_special_limit'] = 4;
 $settings['config_catalog_limit'] = 20;
-$settings['fast_checkout_buy_now_status'] = 1;
-$settings['fast_checkout_create_account'] = 1;
+
+/* @var ModelSettingSetting $mdlSetting */
+$mdlSetting = $this->load->model('setting/setting');
+$mdlSetting->editSetting('checkout', ['fast_checkout_buy_now_status'=>1,'fast_checkout_create_account'=>1]);
