@@ -31,7 +31,7 @@ jobs:
         if: ${{ matrix.db.ver == 'mariadb' }}
         uses: getong/mariadb-action@v1.1
         with:
-          mysql version: ${{ matrix.db.release }}
+          mariadb version: ${{ matrix.db.release }}
           mysql database: 'abantecart_test_build'
           mysql user: 'abantecart'
           mysql password: 'cartsarecool'
