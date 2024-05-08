@@ -1,0 +1,58 @@
+name: Integration tests
+on:
+  push:
+  pull_request:
+
+jobs:
+  integration:
+    permissions:
+      contents: read   #   to clone the repos and get release assets (shivammathur/setup-php)
+    name: Integration tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: [ '8.1', '8.2', '8.3' ]
+        db:
+          - ver: mysql
+            release: 8.0
+          - ver: mariadb
+            release: latest
+      fail-fast: false
+
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, gd, soap, zip, iconv, pdo_mysql
+          tools: phpunit
+
+      - name: Setup MariaDB
+        if: ${{ matrix.db.ver == 'mariadb' }}
+        uses: getong/mariadb-action@v1.1
+        with:
+          mysql version: ${{ matrix.db.release }}
+          mysql database: 'abantecart_test_build'
+          mysql user: 'abantecart'
+          mysql password: 'cartsarecool'
+
+      - name: Setup MySQL
+        if: ${{ matrix.db.ver == 'mysql' }}
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          mysql version: ${{ matrix.db.release }}
+          mysql database: 'abantecart_test_build'
+          mysql user: 'abantecart'
+          mysql password: 'cartsarecool'
+
+      - uses: actions/checkout@v4
+
+      - name: Add a pause to be sure that ${{ matrix.db.ver}}
+        run: to=15; until mysql -h 127.0.0.1 -u abantecart -pcartsarecool -e 'select 1' abantecart_test_build || [ $to -eq 0 ]; do sleep 1; echo not there yet - remaining $to; to=$(( to - 1 )); done; echo "ready"
+
+      - name: Initialize ${{ matrix.db.ver }} Database
+        id: db-init
+        run: php ./public_html/install/cli_install.php install --db_host=127.0.0.1 --db_user=abantecart --db_password=cartsarecool --db_name=abantecart_test_build  --db_driver=amysqli  --db_prefix=abc_ --admin_path=admin  --username=admin  --password=admin  --email=dsuprunenko@abantecart.com  --http_server=https://abantecart.nowhere/public_html --with-sample-data=public_html/install/abantecart_sample_data.sql
+
+      - name: Run phpunit for ${{ matrix.db.ver }}
+        run: phpunit -c tests/phpunit/phpunit_mysql.xml

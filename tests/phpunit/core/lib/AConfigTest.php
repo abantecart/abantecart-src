@@ -12,7 +12,7 @@ class AConfigTest extends AbanteCartTest
 
     protected function setUp(): void
     {
-        parent::__construct();
+        parent::bootstrap();
 
         $stores[0] = ['store_id' => 0];
 
