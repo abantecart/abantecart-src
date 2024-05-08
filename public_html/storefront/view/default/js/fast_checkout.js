@@ -66,6 +66,7 @@ showLoading = function (modal_body) {
 };
 pageRequest = function (url, scroll = true) {
     $('.spinner-overlay').fadeIn(100);
+    $('#fast_checkout_summary_block').html('');
     $.get(url, {} , function (data) {
         $('#fast_checkout_summary_block').trigger('reload');
         $('#fast_checkout_cart').hide().html(data).fadeIn(1000);
