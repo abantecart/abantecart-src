@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <extension>
 	<id>default_usps</id>
-	<version>1.2.0</version>
+	<version>1.2.1</version>
 	<type>shipping</type>
 	<category>shipping</category>
 	<cartversions>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <extension>
 	<id>banner_manager</id>
-	<version>1.1.0</version>
+	<version>1.1.1</version>
 	<type>extensions</type>
 	<category>extensions</category>
 	<cartversions>

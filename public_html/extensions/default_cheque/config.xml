@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <extension>
     <id>default_cheque</id>
-    <version>1.1.1</version>
+    <version>1.1.2</version>
 	<type>payment</type>
 	<category>payment</category>
     <cartversions>

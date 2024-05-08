@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension>
 	<id>novator</id>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<type>template</type>
 	<category>template</category>
 	<cartversions>
-
 		<item>1.4.0</item>
 	</cartversions>
 	<priority>0</priority>

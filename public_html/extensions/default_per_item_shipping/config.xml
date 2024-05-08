@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <extension>
     <id>default_per_item_shipping</id>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
 	<type>shipping</type>
 	<category>shipping</category>
     <cartversions>

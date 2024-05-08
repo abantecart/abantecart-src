@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <extension>
 	<id>default_authorizenet</id>
-	<version>1.2.2</version>
+	<version>1.2.3</version>
 	<type>payment</type>
 	<category>payment</category>
 	<cartversions>
