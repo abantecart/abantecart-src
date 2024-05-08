@@ -1,25 +1,22 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
-
-/** @noinspection PhpUndefinedClassInspection */
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2023 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+<?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -104,12 +101,13 @@ class ControllerResponsesCheckoutPay extends AController
         $request = array_merge($this->request->get, $this->request->post);
         //handle coupon
         $this->_handleCoupon($request);
-        $get_params = '';
+        $getParams = '';
         $this->data['onChangeCheckboxBtnUrl'] = $this->html->getSecureURL('r/checkout/pay/changeCheckBox');
         if ($this->config->get('config_checkout_id')) {
             $this->loadLanguage('checkout/fast_checkout');
-            $this->loadModel('catalog/content');
-            $content_info = $this->model_catalog_content->getContent($this->config->get('config_checkout_id'));
+            /** @var ModelCatalogContent $mdl */
+            $mdl = $this->loadModel('catalog/content');
+            $content_info = $mdl->getContent($this->config->get('config_checkout_id'));
             if ($content_info) {
                 $this->data['text_accept_agree'] = $this->language->get('text_accept_agree');
                 $this->data['text_accept_agree_href'] = $this->html->getURL(
@@ -402,7 +400,7 @@ class ControllerResponsesCheckoutPay extends AController
             if (!$this->data['customer_name']) {
                 $this->data['customer_name'] = $this->customer->getFirstName().' '.$this->customer->getLastName();
             }
-            $this->data['logout_url'] = $this->html->getSecureURL('r/checkout/pay/logout', $get_params);
+            $this->data['logout_url'] = $this->html->getSecureURL('r/checkout/pay/logout', $getParams);
 
             //customer details
             $this->data['customer_email'] = $this->customer->getEmail();
@@ -421,10 +419,10 @@ class ControllerResponsesCheckoutPay extends AController
             if (!$this->session->data['order_id'] || $this->request->get['payment_address_id']) {
                 $this->updateOrCreateOrder($this->fc_session, $request);
             }
-            $this->_build_payment_view($request, $get_params);
+            $this->_build_payment_view($request, $getParams);
         }
 
-        $this->addLoginForm($request, $get_params);
+        $this->addLoginForm($request, $getParams);
 
         $this->data['step'] = $this->data['step'] ?: 'payment';
 
@@ -434,10 +432,10 @@ class ControllerResponsesCheckoutPay extends AController
         if ($this->fc_session['guest']) {
             $this->data['edit_address_url'] = $this->html->getSecureURL(
                 'r/checkout/pay/edit_address',
-                $get_params
+                $getParams
             );
         }
-        $this->data['main_url'] = $this->html->getSecureURL('r/checkout/pay/main', $get_params);
+        $this->data['main_url'] = $this->html->getSecureURL('r/checkout/pay/main', $getParams);
         if (isset($this->error['message'])) {
             $this->data['error'] = $this->error['message'];
         }
@@ -761,13 +759,11 @@ class ControllerResponsesCheckoutPay extends AController
      */
     protected function _build_cart_product_details()
     {
-        $qty = 0;
         $resource = new AResource('image');
         $products = [];
-        foreach ($this->cart->getProducts()  as $result) {
+        foreach ($this->cart->getProducts()  as $cartProduct) {
             $option_data = [];
-
-            foreach ($result['option'] as $option) {
+            foreach ($cartProduct['option'] as $option) {
                 $value = $option['value'];
                 // hide binary value for checkbox
                 if ($option['element_type'] == 'C' && in_array($value, [0, 1], true)) {
@@ -792,31 +788,29 @@ class ControllerResponsesCheckoutPay extends AController
                 ];
             }
 
-            $qty += $result['quantity'];
-
             //get main image
             $thumbnail = $resource->getMainImage(
                 'products',
-                $result['product_id'],
+                $cartProduct['product_id'],
                 $this->config->get('config_image_grid_width'),
                 $this->config->get('config_image_grid_height')
             );
 
             $products[] = [
-                'key'       => $result['key'],
-                'name'      => $result['name'],
+                'key'       => $cartProduct['key'],
+                'name'      => $cartProduct['name'],
                 'thumbnail' => $thumbnail,
                 'option'    => $option_data,
-                'quantity'  => $result['quantity'],
-                'stock'     => $result['stock'],
+                'quantity'  => $cartProduct['quantity'],
+                'stock'     => $cartProduct['stock'],
                 'price'     => $this->currency->format(
                     $this->tax->calculate(
-                        $result['price'],
-                        $result['tax_class_id'],
+                        $cartProduct['price'],
+                        $cartProduct['tax_class_id'],
                         $this->config->get('config_tax')
                     )
                 ),
-                'href'      => $this->html->getSEOURL('product/product', '&product_id='.$result['product_id'], true),
+                'href'      => $this->html->getSEOURL('product/product', '&product_id='.$cartProduct['product_id'], true),
             ];
         }
 
@@ -1021,6 +1015,7 @@ class ControllerResponsesCheckoutPay extends AController
                 $this->_save_customer_account($order_data);
             }
 
+
             //if download build download link for one download or downloads list
             if ($this->config->get('config_download')) {
                 $download = $this->_get_download($order_id, $order_token);
@@ -1070,52 +1065,9 @@ class ControllerResponsesCheckoutPay extends AController
         $this->response->setOutput($this->view->fetch('responses/checkout/success.tpl'));
     }
 
-    /**
-     * @param float $amount
-     * @param int $order_id
-     *
-     * @return bool
-     * @throws AException
-     */
-    protected function _process_account_balance($amount, $order_id)
-    {
-        if ($amount) {
-            $transaction_data = [
-                'order_id'         => (int) $order_id,
-                'amount'           => $amount,
-                'transaction_type' => 'order',
-                'created_by'       => $this->customer->getId(),
-                'description'      => sprintf(
-                    $this->language->get('text_applied_balance_to_order'),
-                    $this->currency->format_number(
-                        $amount,
-                        $this->session->data['currency'],
-                        1
-                    ),
-                    (int) $order_id
-                ),
-            ];
-            try {
-                $this->customer->debitTransaction($transaction_data);
-                //validate no error in debitTransaction
-                return true;
-            } catch (Exception $e) {
-                //if something goes wrong mark order as failed
-                $this->_to_log(
-                    $this->language->get('fast_checkout_error_balance_apply').' #'.$order_id.'. '.$e->getMessage()
-                );
-                $this->model_checkout_order->update(
-                    $order_id, $this->order_status->getStatusByTextId('failed'),
-                    $this->language->get('fast_checkout_error_balance_apply')
-                );
-            }
-        }
-        return false;
-    }
-
     protected function _save_customer_account($order_data)
     {
-        /** @var ModelExtensionFastCheckout $mdl */
+        /** @var ModelCheckoutFastCheckout $mdl */
         $mdl = $this->loadModel('checkout/fast_checkout');
         $customer_data = [
             'status'        => 1,
@@ -1203,36 +1155,34 @@ class ControllerResponsesCheckoutPay extends AController
     }
 
     /**
-     * @param int $order_id
-     * @param string $order_token
+     * @param int $orderId
+     * @param string $orderToken
      *
      * @return array
      * @throws AException
      */
-    protected function _get_download($order_id, $order_token = '')
+    protected function _get_download($orderId, $orderToken = '')
     {
-        $download_url = '';
-        $customer_id = (int) $this->customer->getId();
-
-        $order_downloads = $this->download->getCustomerOrderDownloads($order_id, $customer_id);
-
-        if (!$order_downloads) {
+        $downloadUrl = '';
+        $customerId = (int) $this->customer->getId();
+        $orderDownloads = $this->download->getCustomerOrderDownloads($orderId, $customerId);
+        if (!$orderDownloads) {
             return [];
         }
 
         $suffix = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
         //build order token for guests
-        foreach ($order_downloads as &$download_info) {
-            $text_status = $this->download->getTextStatusForOrderDownload($download_info);
+        foreach ($orderDownloads as &$downloadInfo) {
+            $text_status = $this->download->getTextStatusForOrderDownload($downloadInfo);
             $size = 0;
-            if (is_numeric($download_info['filename'])) {
+            if (is_numeric($downloadInfo['filename'])) {
                 $rl = new AResource('download');
-                $resource = $rl->getResource($download_info['filename']);
+                $resource = $rl->getResource($downloadInfo['filename']);
                 if ($resource && $resource['resource_path']) {
                     $size = filesize(DIR_RESOURCE.$rl->getTypeDir().$resource['resource_path']);
                 }
             }else{
-                $size = filesize(DIR_RESOURCE.$download_info['filename']);
+                $size = filesize(DIR_RESOURCE.$downloadInfo['filename']);
             }
 
             $i = 0;
@@ -1242,45 +1192,45 @@ class ControllerResponsesCheckoutPay extends AController
             }
             //if download available
             if (!$text_status) {
-                $download_info['href'] = $this->html->getSecureURL(
+                $downloadInfo['href'] = $this->html->getSecureURL(
                     'account/order_details/startdownload',
-                    '&order_download_id='.$download_info['order_download_id']
-                    .($order_token ? '&ot='.$order_token : '')
+                    '&order_download_id='.$downloadInfo['order_download_id']
+                    .($orderToken ? '&ot='.$orderToken : '')
                 );
-                $download_info['text_status'] = '';
-                $download_info['size'] = round((float)substr($size, 0, strpos($size, '.') + 4), 2).$suffix[$i];
+                $downloadInfo['text_status'] = '';
+                $downloadInfo['size'] = round((float)substr($size, 0, strpos($size, '.') + 4), 2).$suffix[$i];
             } else {
-                $download_info['text_status'] = $text_status;
-                $download_info['size'] = '';
+                $downloadInfo['text_status'] = $text_status;
+                $downloadInfo['size'] = '';
                 //for pending downloads
-                $this->data['text_order_download_pending'] =
-                    $this->language->get('fast_checkout_text_order_download_pending');
+                $this->data['text_order_download_pending'] = $this->language->get(
+                    'fast_checkout_text_order_download_pending'
+                );
             }
         }
-        //unset($download_info);
 
-        $this->data['order_downloads'] = $order_downloads;
-        $downloads_count = sizeof($order_downloads);
+        $this->data['order_downloads'] = $orderDownloads;
+        $downloadsCount = sizeof($orderDownloads);
 
-        if ($downloads_count == 1) {
-            $order_downloads = array_values($order_downloads);
-            $download_info = $order_downloads[0];
+        if ($downloadsCount == 1) {
+            $orderDownloads = array_values($orderDownloads);
+            $downloadInfo = $orderDownloads[0];
             //if download available
-            if (!$download_info['text_status']) {
-                $download_url = $download_info['href'];
+            if (!$downloadInfo['text_status']) {
+                $downloadUrl = $downloadInfo['href'];
             } else {
-                $download_url = $this->html->getSecureURL('account/order_details', '&ot='.$order_token);
+                $downloadUrl = $this->html->getSecureURL('account/order_details', '&ot='.$orderToken);
             }
         } else {
-            if ($downloads_count > 1) {
+            if ($downloadsCount > 1) {
                 //if some of them is available - show download button
-                foreach ($order_downloads as $d) {
+                foreach ($orderDownloads as $d) {
                     if (!$d['text_status']) {
-                        if (!$customer_id) {
+                        if (!$customerId) {
                             //guest download
-                            $download_url = $this->html->getSecureURL('account/order_details', '&ot='.$order_token);
+                            $downloadUrl = $this->html->getSecureURL('account/order_details', '&ot='.$orderToken);
                         } else {
-                            $download_url = $this->html->getSecureURL('account/download');
+                            $downloadUrl = $this->html->getSecureURL('account/download');
                         }
                         break;
                     }
@@ -1288,7 +1238,10 @@ class ControllerResponsesCheckoutPay extends AController
             }
         }
 
-        return ['count' => $downloads_count, 'download_url' => $download_url];
+        return [
+            'count' => $downloadsCount,
+            'download_url' => $downloadUrl
+        ];
     }
 
     protected function _clear_data()
@@ -1846,8 +1799,8 @@ class ControllerResponsesCheckoutPay extends AController
                         'sort_order' => $quote['sort_order'],
                         'error'      => $quote['error'],
                     ];
-                    $ext_setgs = $this->model_checkout_extension->getSettings($shpTxtId);
-                    $icon = $ext_setgs[$shpTxtId."_shipping_storefront_icon"];
+                    $shpSettings = $this->model_checkout_extension->getSettings($shpTxtId);
+                    $icon = $shpSettings[$shpTxtId."_shipping_storefront_icon"];
                     if (has_value($icon)) {
                         $icon_data = $this->model_checkout_extension->getSettingImage($icon);
                         $icon_data['image'] = $icon;
@@ -1898,7 +1851,7 @@ class ControllerResponsesCheckoutPay extends AController
             }
         }
 
-        //# If only 1 shipping and it is set to be defaulted
+        //# If only 1 shipping - set it as default
         if ($selected_shipping) {
             //user selected new shipping method
             $this->fc_session['shipping_method'] =
@@ -2087,13 +2040,7 @@ class ControllerResponsesCheckoutPay extends AController
             }
             $this->session->data['used_balance'] = $this->fc_session['used_balance'];
             $this->updateOrCreateOrder($this->fc_session, $request);
-
-            $order_totals = $this->cart->buildTotalDisplay(true);
-            $order_total = $order_totals['total'];
-            //if balance enough to cover order amount
-            if ($order_total == 0 && $this->fc_session['used_balance_full']) {
-                return;
-            }
+            $this->cart->buildTotalDisplay(true);
         }
     }
 
@@ -2147,11 +2094,13 @@ class ControllerResponsesCheckoutPay extends AController
      * @param string $error_text
      *
      * @return string
+     * @throws AException
      */
     protected function _build_error($error_text = '')
     {
         $this->data['error'] = $error_text;
         $this->view->batchAssign($this->data);
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
         return $this->view->fetch('responses/checkout/error.tpl');
     }
 

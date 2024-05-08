@@ -29,18 +29,18 @@ class ControllerPagesCheckoutFinalize extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $order_id = (int)$this->session->data['order_id'];
+        $orderId = (int)$this->session->data['order_id'];
         /** @var ModelAccountOrder $mdl */
         $mdl = $this->loadModel('account/order');
-        $orderInfo = $mdl->getOrder($order_id);
-        $order_totals = $mdl->getOrderTotals($order_id);
+        $orderInfo = $mdl->getOrder($orderId);
+        $order_totals = $mdl->getOrderTotals($orderId);
         if($orderInfo) {
-            $orderInfo['order_products'] = $mdl->getOrderProducts($order_id);
+            $orderInfo['order_products'] = $mdl->getOrderProducts($orderId);
         }
 
-        if ($order_id && $this->validate($orderInfo)) {
+        if ($orderId && $this->validate($orderInfo)) {
             //debit transaction
-            $this->_debit_transaction($order_id);
+            $this->_debit_transaction($orderId);
             $orderInfo['totals'] = $order_totals;
             $this->view->assign('gaOrderData',AOrder::getGoogleAnalyticsOrderData( $orderInfo ) );
 
@@ -48,14 +48,14 @@ class ControllerPagesCheckoutFinalize extends AController
             $this->_clear_order_session();
 
             //save order_id into session as processed order to allow one redirect
-            $this->session->data['processed_order_id'] = $order_id;
+            $this->session->data['processed_order_id'] = $orderId;
 
             $this->extensions->hk_ProcessData($this);
             //Redirect back to load new page with cleared shopping cart content
             redirect($this->html->getSecureURL('checkout/fast_checkout_success'));
         } //when validation failed
-        elseif ($order_id) {
-            $this->session->data['processed_order_id'] = $order_id;
+        elseif ($orderId) {
+            $this->session->data['processed_order_id'] = $orderId;
             $this->session->data['processing_order_errors'] = $this->errors;
         }
 
@@ -80,11 +80,11 @@ class ControllerPagesCheckoutFinalize extends AController
         $orderId = $orderInfo['order_id'];
         //when order exists but incomplete by some reasons - mark it as failed
         if ((int)$orderInfo['order_status_id'] == $this->order_status->getStatusByTextId('incomplete')) {
-            $new_status_id = $this->order_status->getStatusByTextId('failed');
+            $newStatusId = $this->order_status->getStatusByTextId('failed');
 
             $mdl = $this->loadModel('checkout/order');
             /** @var ModelCheckoutOrder $mdl */
-            $mdl->confirm($orderId, $new_status_id);
+            $mdl->confirm($orderId, $newStatusId);
             $this->_debit_transaction($orderId);
             $this->messages->saveWarning(
                 sprintf($this->language->get('text_title_failed_order_to_admin'), $orderId),
@@ -97,7 +97,7 @@ class ControllerPagesCheckoutFinalize extends AController
 
         //perform additional custom order validation in extensions
         $this->extensions->hk_ValidateData($this);
-        return ($this->errors);
+        return !($this->errors);
     }
 
     /**

@@ -51,14 +51,13 @@ if($total_payment || $balance>0 || $no_payment_required){
         $css .= $csession['used_balance_full'] ? ' balance_applied_full' : '';
         $current = $csession['used_balance_full'] ? ' bg-success bg-opacity-25 ' : '';
     ?>
-    <div class="card payment_item border col-11 col-sm-6 col-md-4 col-lg-5 m-2 <?php echo $css; ?>">
+    <div class="card payment_item border col-11 col-sm-6 col-md-4 col-lg-5 m-2 <?php echo $css; ?>" data-payment-id="account_balance">
         <div class="card-header text-center fw-bold bg-gradient <?php echo $current; ?>">
             <?php echo ($csession['used_balance_full'] ? '<i class="fa fa-check me-2"></i>' : '')
                     . sprintf( $fast_checkout_text_account_credit, $balance_value );
             ?>
         </div>
-        <div class="card-body thumbnail payment-option <?php echo $current; ?> d-flex flex-column align-items-center justify-content-center"
-             data-payment-id="account_balance">
+        <div class="card-body thumbnail payment-option <?php echo $current; ?> d-flex flex-column align-items-center justify-content-center">
                 <i class="fa fa-money-bill-transfer fa-fw fa-3x my-4"></i>
                 <div class="mb-3">
                     <?php if ($csession['used_balance']) { ?>

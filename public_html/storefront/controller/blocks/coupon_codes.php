@@ -36,7 +36,7 @@ class ControllerBlocksCouponCodes extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->loadLanguage('checkout/payment');
+        $this->loadLanguage('checkout/fast_checkout');
 
         if (!$this->config->get('coupon_status')) {
             return;
