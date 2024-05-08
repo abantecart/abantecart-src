@@ -9,9 +9,8 @@ class AbanteCartTest extends PHPUnit\Framework\TestCase
 {
     protected $registry;
 
-    public function __construct()
+    protected function bootstrap()
     {
-        parent::__construct();
         $GLOBALS['error_descriptions'] = 'Abantecart PhpUnit test';
 
         $dirname = dirname(__FILE__);

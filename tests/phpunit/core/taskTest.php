@@ -13,7 +13,7 @@ class TaskTest extends AbanteCartTest
 
     protected function setUp(): void
     {
-        parent::__construct();
+        parent::bootstrap();
 
         $this->load->model('tool/backup');
         $this->task_details = $this->model_tool_backup->createBackupTask(
