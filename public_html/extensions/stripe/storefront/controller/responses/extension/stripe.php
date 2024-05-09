@@ -246,14 +246,8 @@ class ControllerResponsesExtensionStripe extends AController
             redirect($this->html->getSecureURL('checkout/fast_checkout', $pKey ? '&fc=1&product_key='.$pKey : ''));
         }
 
-
         //init controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-
-        $rt = $this->session->data['fc'] ? 'checkout/fast_checkout_success' : 'checkout/finalize';
-        $this->session->data['processed_order_id'] = $order_id;
-        $url = $this->html->getSecureURL( $rt, '&order_id='.$order_id );
-        unset($this->session->data['order_id']);
-        redirect($url);
+        redirect($this->html->getSecureURL( 'checkout/finalize', '&order_id='.$order_id ));
     }
 }

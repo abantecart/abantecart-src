@@ -82,9 +82,8 @@ class ControllerPagesCheckoutFinalize extends AController
         //when order exists but incomplete by some reasons - mark it as failed
         if ((int)$orderInfo['order_status_id'] == $this->order_status->getStatusByTextId('incomplete')) {
             $newStatusId = $this->order_status->getStatusByTextId('failed');
-
-            $mdl = $this->loadModel('checkout/order');
             /** @var ModelCheckoutOrder $mdl */
+            $mdl = $this->loadModel('checkout/order');
             $mdl->confirm($orderId, $newStatusId);
             $this->_debit_transaction($orderId);
             $this->messages->saveWarning(
