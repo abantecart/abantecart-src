@@ -6,6 +6,8 @@
         "ext-zlib": "*",
         "ext-dom": "*",
         "ext-gd": "*",
+        "ext-fileinfo": "*",
+        "ext-libxml": "*",
         "symfony/mailer": "v5.4.10",
         "symfony/google-mailer": "v5.4.8",
         "symfony/amazon-mailer": "v5.4.8",

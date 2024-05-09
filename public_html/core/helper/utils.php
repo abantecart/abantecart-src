@@ -23,16 +23,17 @@ function isFunctionAvailable($func_name)
     return function_exists($func_name);
 }
 
-/*
- * prepare prices and other floats for database writing,, based on locale settings of number formatting
- * */
+/**
+ * prepare prices and other floats for database writing, based on locale settings of number formatting
+ * @see moneyDisplayFormat()
+ */
 function preformatFloat($value, $decimal_point = '.')
 {
     if ($decimal_point != '.' && strpos($value, $decimal_point)) {
         $value = str_replace('.', '~', $value);
         $value = str_replace($decimal_point, '.', $value);
     }
-    return (float) preg_replace('/[^0-9\-\.]/', '', $value);
+    return (float) preg_replace('/[^0-9\-.]/', '', $value);
 }
 
 /*
@@ -61,8 +62,9 @@ function preformatTextID($value)
  * @throws AException
  * @since 1.1.8
  *
+ * @see preformatFloat() - backward function
+ *
  */
-
 function moneyDisplayFormat($value, $mode = 'no_round')
 {
     $value = (float) $value;
@@ -195,7 +197,7 @@ function getUniqueSeoKeyword($seo_key, $object_key_name = '', $object_id = 0)
 
         $i = 0;
         while (in_array($seo_key, $keywords) && $i < 20) {
-            $seo_key = $seo_key.SEO_URL_SEPARATOR.($object_id ? $object_id : $i);
+            $seo_key = $seo_key.SEO_URL_SEPARATOR.($object_id ?: $i);
             $i++;
         }
     }
@@ -258,7 +260,7 @@ function versionCompare($version1, $version2, $operator)
         if (isset($version2[$i])) {
             $version2[$i] = (int) $version2[$i];
         } else {
-            $version2[$i] = ($i == 2 && isset($version1[$i])) ? (int) $version1[$i] : 99;
+            $version2[$i] = $i == 2 ? (int) $version1[$i] : 99;
         }
         $i++;
     }
@@ -327,8 +329,7 @@ function format4Datepicker($date_format)
     $new_format = preg_replace('/m/', 'mm', $new_format);
     $new_format = preg_replace('/n/', 'm', $new_format);
     $new_format = preg_replace('/F/', 'MM', $new_format);
-    $new_format = preg_replace('/Y/', 'yy', $new_format);
-    return $new_format;
+    return preg_replace('/Y/', 'yy', $new_format);
 }
 
 /*
@@ -468,7 +469,7 @@ if (!function_exists("strptime")) {
  * @param string $extension_txt_id
  *
  * @return SimpleXMLElement | false
- * @throws AException
+ * @throws AException|DOMException
  */
 function getExtensionConfigXml($extension_txt_id)
 {
@@ -787,7 +788,7 @@ function gzip($src, $level = 5, $dst = false)
         return false;
     }
 
-    if ($dst == false) {
+    if (!$dst) {
         $dst = $src.".gz";
     }
     if (file_exists($src) && filesize($src)) {
@@ -944,8 +945,7 @@ function getMimeType($filename)
         $finfo = finfo_open(FILEINFO_MIME);
         $mimetype = finfo_file($finfo, $filename);
         finfo_close($finfo);
-        $mimetype = !$mimetype ? 'application/octet-stream' : $mimetype;
-        return $mimetype;
+        return !$mimetype ? 'application/octet-stream' : $mimetype;
     } else {
         return 'application/octet-stream';
     }
@@ -1076,22 +1076,18 @@ function make_writable_dir($dir)
         if (is_writable_dir($dir)) {
             return true;
         } else {
-            if (is_dir($dir)) {
-                //Try to make directory writable
-                chmod($dir, 0777);
-                return is_writable_dir($dir);
-            } else {
+            if (!is_dir($dir)) {
                 //Try to create directory
                 mkdir($dir, 0777);
-                chmod($dir, 0777);
-                return is_writable_dir($dir);
             }
+            chmod($dir, 0777);
+            return is_writable_dir($dir);
         }
     }
 }
 
 /**
- * Create (multiple level) dir if does not exists and/or make all missing writable
+ * Create (multiple level) dir if not exists and/or make all missing writable
  *
  * @param string $path
  *
@@ -1174,7 +1170,7 @@ function human_filesize($bytes, $decimals = 2)
  *
  * @param $filename
  *
- * @return array|bool
+ * @return array
  * @throws AException
  */
 function get_image_size($filename)
@@ -1403,7 +1399,7 @@ function isExtensionSupportsCart($versions)
     foreach ($versions as $item) {
         $version = (string) $item;
         $versions[] = $version;
-        $subVersionArray = explode('.', preg_replace('/[^0-9\.]/', '', $version));
+        $subVersionArray = explode('.', preg_replace('/[^0-9.]/', '', $version));
         $full_check = versionCompare($version, VERSION, '<=');
         $minor_check = !$minor_check
             ? versionCompare(

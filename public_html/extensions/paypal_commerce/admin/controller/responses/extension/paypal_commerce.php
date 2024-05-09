@@ -230,8 +230,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         if (has_value($this->request->post['order_id'])) {
             $order_id = $this->request->post['order_id'];
-            $amount = (float)preg_replace('/[^0-9\.]/', '.', $this->request->post['amount']);
-            $this->loadModel('extension/paypal_commerce');
+            $amount = preformatFloat($this->request->post['amount']);
             $this->loadModel('sale/order');
             /** @var ModelExtensionPaypalCommerce $mdl */
             $mdl = $this->loadModel('extension/paypal_commerce');
@@ -313,13 +312,10 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $json = [];
 
         if (has_value($this->request->post['order_id'])) {
-
             $order_id = $this->request->post['order_id'];
-            $amount = (float)preg_replace('/[^0-9\.]/', '.', $this->request->post['amount']);
-
+            $amount = preformatFloat($this->request->post['amount']);
             /** @var ModelExtensionPaypalCommerce $mdl */
             $mdl = $this->loadModel('extension/paypal_commerce');
-
             $paypalOrder = $mdl->getPaypalOrder($order_id);
             $amt = 0;
             try {
@@ -415,7 +411,6 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $mdl = $this->loadModel('extension/paypal_commerce');
 
             $paypalOrder = $mdl->getPaypalOrder($order_id);
-            $amt = 0;
             try {
                 //get current order
                 $chargeData = $mdl->getPaypalCharge($paypalOrder['charge_id']);
@@ -472,6 +467,4 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $this->load->library('json');
         $this->response->setOutput(AJson::encode($json));
     }
-
-
 }

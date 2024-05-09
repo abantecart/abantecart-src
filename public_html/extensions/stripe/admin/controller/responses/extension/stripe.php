@@ -19,10 +19,9 @@ class ControllerResponsesExtensionStripe extends AController
 
         if (has_value($this->request->post['order_id']) && $this->request->post['amount'] > 0) {
             $order_id = $this->request->post['order_id'];
-            $amount = (float)preg_replace('/[^0-9.]/', '.', $this->request->post['amount']);
+            $amount = preformatFloat($this->request->post['amount']);
             /** @var ModelExtensionStripe $mdl */
             $mdl = $this->loadModel('extension/stripe');
-
             $stripe_order = $mdl->getStripeOrder($order_id);
             try {
                 //get current order
@@ -85,10 +84,9 @@ class ControllerResponsesExtensionStripe extends AController
 
         if ($this->request->post['order_id'] && $this->request->post['amount'] > 0) {
             $order_id = (int)$this->request->post['order_id'];
-            $amount = (float)preg_replace('/[^0-9.]/', '.', $this->request->post['amount']);
+            $amount = preformatFloat($this->request->post['amount']);
             /** @var ModelExtensionStripe $mdl */
             $mdl = $this->loadModel('extension/stripe');
-
             $stripe_order = $mdl->getStripeOrder($order_id);
             try {
                 //get current order
@@ -200,5 +198,4 @@ class ControllerResponsesExtensionStripe extends AController
         $this->load->library('json');
         $this->response->setOutput(AJson::encode($json));
     }
-
 }
