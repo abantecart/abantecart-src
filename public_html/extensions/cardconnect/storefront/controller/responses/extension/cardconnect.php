@@ -328,7 +328,9 @@ class ControllerResponsesExtensionCardConnect extends AController
             $json['error'] = $this->language->get('error_system');
         } else {
             //basically reload the page
-            $json['success'] = $this->request->server['HTTP_REFERER'] ?: $this->html->getSecureURL('checkout/fast_checkout');
+            $pKey = $this->session->data['fc']['product_key'];
+            $json['success'] = $this->request->server['HTTP_REFERER']
+                ?: $this->html->getSecureURL('checkout/fast_checkout', $pKey ? '&fc=1&product_key='.$pKey : '');
         }
 
         //init controller data

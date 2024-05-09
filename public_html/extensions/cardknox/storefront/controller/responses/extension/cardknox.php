@@ -257,31 +257,17 @@ class ControllerResponsesExtensionCardknox extends AController {
                 $this->log->write('CARDKNOX CURL ERROR: '.curl_errno($curl).'::'.curl_error($curl));
             } elseif ($apiResponse) {
                 parse_str($apiResponse, $response_info);
-
+                $orderId = $this->session->data['order_id'];
                 if (($response_info['xResult'] == 'A')) {
-                    $this->model_checkout_order->confirm(
-                        $this->session->data['order_id'],
-                        $this->config->get('cardknox_success_order_status')
-                    );
-                    $this->model_checkout_order->updatePaymentMethodData(
-                        $this->session->data['order_id'],
-                        serialize($response_info)
-                    );
+                    $this->model_checkout_order->confirm( $orderId, $this->config->get('cardknox_success_order_status') );
+                    $this->model_checkout_order->updatePaymentMethodData( $orderId, serialize($response_info) );
                     $this->model_checkout_order->update(
-                        $this->session->data['order_id'],
+                        $orderId,
                         $this->config->get('cardknox_success_order_status'),
                         var_export($response_info, true),
                         false
                     );
-                    $redirectUrl = $this->request->get_or_post('fast_checkout')
-                        ? 'checkout/fast_checkout_success'
-                        : 'checkout/finalize';
-                    $this->session->data['processed_order_id'] = $this->session->data['order_id'];
-                    $output['success'] = $this->html->getSecureURL(
-                        $redirectUrl,
-                        '&order_id='.$this->session->data['order_id']
-                    );
-                    unset($this->session->data['order_id']);
+                    $output['success'] = $this->html->getSecureURL( 'checkout/finalize' );
                 } else {
                     $output['error'] = $response_info['xError'];
                 }
@@ -305,11 +291,12 @@ class ControllerResponsesExtensionCardknox extends AController {
             }else{
                 $this->loadLanguage('cardknox/cardknox');
                 $this->session->data['error'] = $this->language->get('cardknox_ebt_declined').'('.$response_info['xError'].': '.$response_info['xErrorCode'].')';
-                $redirectUrl = 'checkout/fast_checkout';
+                $pKey = $this->session->data['fc']['product_key'];
                 redirect(
                     $this->html->getSecureURL(
-                        $redirectUrl,
-                        '&method='.$this->request->post['method'])
+                        'checkout/fast_checkout',
+                        '&method='.$this->request->post['method']
+                            .$pKey ? '&fc=1&product_key='.$pKey : '')
                 );
             }
         }

@@ -111,12 +111,7 @@ class ControllerResponsesExtensionDefaultLiqPay extends AController
             $this->order_status->getStatusByTextId('pending')
         );
 
-        $this->session->data['processed_order_id'] = $order_id;
-        unset($this->session->data['order_id']);
-        $redirect = $this->request->get['fast_checkout']
-            ? 'checkout/fast_checkout_success'
-            : 'checkout/finalize';
-        redirect( $this->html->getSecureURL( $redirect, '&order_id='.$order_id ) );
+        redirect( $this->html->getSecureURL( 'checkout/finalize', '&order_id='.$order_id ) );
     }
 
     private function getOrderStatus($liqpay_status)

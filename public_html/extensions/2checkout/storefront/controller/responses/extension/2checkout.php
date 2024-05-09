@@ -155,7 +155,8 @@ class ControllerResponsesExtension2Checkout extends AController
                 'Status changed by 2Checkout INS'
             );
         } else {
-            redirect($this->html->getSecureURL('checkout/fast_checkout'));
+            $pKey = $this->session->data['fc']['product_key'];
+            redirect($this->html->getSecureURL('checkout/fast_checkout', $pKey ? '&fc=1&product_key='.$pKey : ''));
         }
     }
 

@@ -27,6 +27,7 @@ class ControllerPagesCheckoutFinalize extends AController
 
     public function main()
     {
+        $this->loadLanguage('checkout/fast_checkout');
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $orderId = (int)$this->session->data['order_id'];
