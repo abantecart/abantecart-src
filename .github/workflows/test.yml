@@ -14,7 +14,11 @@ jobs:
         php: [ '8.1', '8.2', '8.3' ]
         db:
           - ver: mysql
-            release: 8.0
+            release: '5.7'
+          - ver: mysql
+            release: latest
+          - ver: mariadb
+            release: 10.5
           - ver: mariadb
             release: latest
       fail-fast: false
@@ -47,7 +51,7 @@ jobs:
 
       - uses: actions/checkout@v4
 
-      - name: Add a pause to be sure that ${{ matrix.db.ver}}
+      - name: Add a pause to be sure that ${{ matrix.db.ver}} is running
         run: to=15; until mysql -h 127.0.0.1 -u abantecart -pcartsarecool -e 'select 1' abantecart_test_build || [ $to -eq 0 ]; do sleep 1; echo not there yet - remaining $to; to=$(( to - 1 )); done; echo "ready"
 
       - name: Initialize ${{ matrix.db.ver }} Database
