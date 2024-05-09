@@ -34,7 +34,6 @@ class ControllerPagesCheckoutFastCheckout extends AController
         } elseif (!$this->session->data['fc']['cart_key']) {
             $this->session->data['fc']['cart_key'] = randomWord(5);
         }
-
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         //errors after redirects
@@ -52,6 +51,7 @@ class ControllerPagesCheckoutFastCheckout extends AController
         $cartClassName = get_class($this->cart);
         //create new cart with single product (onclick buy-now button)
         if ($this->request->get['single_checkout'] && $this->request->is_POST()) {
+            unset($this->session->data['fc']['product_key']);
             $post = $this->request->post;
             $fcSession['single_checkout'] = $this->data['single_checkout'] = true;
             $fcSession['cart'] = [];
@@ -211,6 +211,7 @@ class ControllerPagesCheckoutFastCheckout extends AController
                 //if product not found in the cart - just redirect to home
                 redirect($this->html->getHomeURL());
             }
+            $fcSession['product_key'] =  $this->request->get['product_key'];
         }
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }

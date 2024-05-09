@@ -241,9 +241,10 @@ class ControllerResponsesExtensionStripe extends AController
         }
 
         if ($output['error']) {
-            $this->session->data['error'] = $this->session->data['error_warning'] = $output['error'];
+            $this->session->data['error_warning'] = $output['error'];
             $rt = 'checkout/fast_checkout';
-            redirect($this->html->getSecureURL($rt));
+            $pKey = $this->session->data['fc']['product_key'];
+            redirect($this->html->getSecureURL($rt, $pKey ? '&fc=1&product_key='.$pKey : ''));
         }
 
 
