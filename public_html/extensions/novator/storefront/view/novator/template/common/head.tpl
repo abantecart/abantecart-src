@@ -29,7 +29,7 @@ if ($google_analytics_code) { ?>
 } ?>
 
 <?php if ( is_file( DIR_RESOURCE . $icon ) ) {  ?>
-<link href="resources/<?php echo $icon; ?>" type="<?php echo mime_content_type(DIR_RESOURCE . $icon)?>" rel="icon" />
+<link href="resources/<?php echo $icon; ?>" type="<?php echo getMimeType(DIR_RESOURCE . $icon)?>" rel="icon" />
 <?php } ?>
 
 <link href="<?php echo $this->templateResource('/image/apple-touch-icon.png');?>" rel="apple-touch-icon" />

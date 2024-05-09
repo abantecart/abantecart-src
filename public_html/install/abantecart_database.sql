@@ -1720,6 +1720,8 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout','config_start_order_id',''),
 ('checkout','fast_checkout_allow_coupon',1),
 ('checkout','fast_checkout_show_order_comment_field',1),
+('checkout','fast_checkout_buy_now_status',1),
+('checkout','fast_checkout_create_account',1),
 
 -- Appearance
 
