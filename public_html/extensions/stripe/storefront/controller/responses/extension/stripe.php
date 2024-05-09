@@ -145,8 +145,6 @@ class ControllerResponsesExtensionStripe extends AController
             "metadata"             => [
                 "order_id" => $order_info['order_id'],
             ],
-            //'statement_descriptor' => substr($this->config->get('store_name'),0,22),
-            //'statement_descriptor_suffix' => substr('Order #'.$order_info['order_id'],0,22)
         ];
 
         $paymentMethods = unserialize($this->config->get('stripe_payment_method_list'));
@@ -235,8 +233,8 @@ class ControllerResponsesExtensionStripe extends AController
             } else {
                 //Unexpected result
                 $pi = $mdl->getPaymentIntent($pi_id);
-                $output['error'] = $this->language->get('error_system')
-                    . '. '.$pi?->last_payment_error['message'].' ('.$pi?->last_payment_error['code'].')';
+                $output['error'] = $pi?->last_payment_error['message'].' ('.$pi?->last_payment_error['code'].') '
+                    .$this->language->get('error_payment_method');
                 $this->log->write("Payment attempt failed: \n".var_export($pi->toArray(), true));
                 $this->log->write("Response: \n".var_export($p_result, true));
             }
