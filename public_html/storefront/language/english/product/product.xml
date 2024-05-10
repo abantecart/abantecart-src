@@ -33,6 +33,10 @@
 		<value><![CDATA[Model:]]></value>
 	</definition>
 	<definition>
+		<key>text_sku</key>
+		<value><![CDATA[SKU:]]></value>
+	</definition>
+	<definition>
 		<key>text_manufacturer</key>
 		<value><![CDATA[Brand:]]></value>
 	</definition>
