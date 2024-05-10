@@ -82,7 +82,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         curl_setopt_array(
             $curl,
             [
-                CURLOPT_URL => $endpointUrl .'?grant_type=authorization_code&code='.$authCode.'&code_verifier='.base64_encode(UNIQUE_ID.UNIQUE_ID.UNIQUE_ID),
+                CURLOPT_URL => $endpointUrl .'?grant_type=authorization_code&code='.$authCode.'&code_verifier='.getNonce(UNIQUE_ID),
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
