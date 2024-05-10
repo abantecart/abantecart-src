@@ -93,8 +93,8 @@
 	        <img src="extensions/default_fedex/image/icon.png"><br>Fedex</a>
 	    </div>
 	    <div class="col-sm-3 h5 center">
-	        <a href="#admin#rt=extension/extensions/install&extension=default_ups" target="_extension">
-	        <img src="extensions/default_ups/image/icon.png"><br>UPS</a>
+	        <a href="#admin#rt=extension/extensions/install&extension=default_local_delivery" target="_extension">
+	        <img src="extensions/default_local_delivery/image/icon.png"><br>Entrega Local</a>
 	    </div>
 	    <div class="col-sm-3 h5 center">
 	        <a href="#admin#rt=extension/extensions/shipping" target="_extension">

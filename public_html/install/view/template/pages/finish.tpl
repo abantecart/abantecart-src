@@ -73,9 +73,9 @@
                 <a href="<?php echo $url;?>" target="_new_admin">Free Shipping</a>
             </div>
             <div class="snapshots col-md-2">
-                <?php $url = '../'.$admin_path."&rt=extension/extensions/install&extension=default_ups"; ?>
+                <?php $url = '../'.$admin_path."&rt=extension/extensions/install&extension=default_local_delivery"; ?>
                 <a href="<?php echo $url;?>" target="_new_admin">
-                    <img src="../extensions/default_ups/image/icon.png" alt="Install UPS Shipping"/>
+                    <img src="../extensions/default_local_delivery/image/icon.png" alt="Install Local Delivery"/>
                 </a>
                 <br />
                 <a href="<?php echo $url;?>" target="_new_admin">UPS</a>
