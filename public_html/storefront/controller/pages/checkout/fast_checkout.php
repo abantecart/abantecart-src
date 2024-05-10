@@ -320,11 +320,6 @@ class ControllerPagesCheckoutFastCheckout extends AController
                 'rel'  => 'stylesheet',
             ]
         );
-        if(is_file(DIR_EXTENSIONS.'fast_checkout/storefront/view/'.$this->config->get('config_storefront_template').'/js/credit_card_validation.js')
-        ) {
-            $this->document->addScript($this->view->templateResource('/js/credit_card_validation.js'));
-            $this->document->addScript($this->view->templateResource('/javascript/common.js'));
-        }
 
         $this->data['cart_url'] = $this->html->getSecureURL('r/checkout/pay');
         $this->data['cart_key'] = $this->session->data['fc']['cart_key'];

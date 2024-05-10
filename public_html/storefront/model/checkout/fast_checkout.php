@@ -215,7 +215,7 @@ class ModelCheckoutFastCheckout extends Model
         $language = new ALanguage($this->registry, $data['language_code']);
         $language->setCurrentLanguage();
         $languageId = $language->getLanguageID();
-        $language->load('fast_checkout/fast_checkout');
+        $language->load('checkout/fast_checkout');
         $language->load('mail/account_create');
 
         //build welcome email in text format
@@ -271,7 +271,7 @@ class ModelCheckoutFastCheckout extends Model
         }
 
         //build confirmation email
-        $this->language->load('fast_checkout/fast_checkout');
+        $this->language->load('checkout/fast_checkout');
         $languageId = $this->language->getContentLanguageID() ? : $this->language->getLanguageID();
 
         $subject = sprintf($this->language->get('fast_checkout_download_subject'), $this->config->get('store_name'));
