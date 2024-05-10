@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2022 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -92,7 +91,7 @@ class ControllerPagesAccountHistory extends AController
                     'date_added' => dateISO2Display($result['date_added'], $this->language->get('date_format_short')),
                     'products'   => $product_total,
                     'total'      => $this->currency->format($result['total'], $result['currency'], $result['value']),
-                    'href'       => $this->html->getSecureURL('account/invoice', '&order_id='.$result['order_id']),
+                    'href'       => $this->html->getSecureURL('account/order_details', '&order_id='.$result['order_id']),
                     'button'     => $this->html->buildElement(
                         [
                             'type'  => 'button',
@@ -106,7 +105,7 @@ class ControllerPagesAccountHistory extends AController
                 ];
             }
 
-            $this->data['order_url'] = $this->html->getSecureURL('account/invoice');
+            $this->data['order_url'] = $this->html->getSecureURL('account/order_details');
             $this->data['orders'] = $orders;
 
             $this->data['pagination_bootstrap'] = $this->html->buildElement(

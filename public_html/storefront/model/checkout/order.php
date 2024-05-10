@@ -97,7 +97,7 @@ class ModelCheckoutOrder extends Model
      * @param array $data
      * @param int $set_order_id
      *
-     * @return mixed
+     * @return null|bool|int
      */
     public function create($data, $set_order_id = null)
     {
@@ -627,11 +627,11 @@ class ModelCheckoutOrder extends Model
             $enc = new AEncryption($this->config->get('encryption_key'));
             $order_token = $enc->encrypt($order_id.'::'.$order_row['email']);
             $this->data['mail_template_data']['invoice'] = $order_row['store_url']
-                .'index.php?rt=account/invoice&ot='.$order_token."\n\n";
+                .'index.php?rt=account/order_details&ot='.$order_token."\n\n";
         }//give link on order for registered customers
         elseif ($order_row['customer_id']) {
             $this->data['mail_template_data']['invoice'] = $order_row['store_url']
-                .'index.php?rt=account/invoice&order_id='.$order_id;
+                .'index.php?rt=account/order_details&order_id='.$order_id;
         }
 
         $this->data['mail_template_data']['firstname'] = $order_row['firstname'];
@@ -944,7 +944,7 @@ class ModelCheckoutOrder extends Model
                 $enc = new AEncryption($this->config->get('encryption_key'));
                 $order_token = $enc->encrypt($order_id.'::'.$order_row['email']);
                 if ($order_token) {
-                    $invoiceUrl = $order_row['store_url'].'index.php?rt=account/invoice&ot='.$order_token;
+                    $invoiceUrl = $order_row['store_url'].'index.php?rt=account/order_details&ot='.$order_token;
                 }
             }
 
@@ -954,7 +954,7 @@ class ModelCheckoutOrder extends Model
                 'order_date_added' => dateISO2Display($order_row['date_added'], $language->get('date_format_short')),
                 'order_status'     => $order_status_query->num_rows ? $order_status_query->row['name'] : '',
                 'invoice'          => $order_row['customer_id']
-                                    ? $order_row['store_url'].'index.php?rt=account/invoice&order_id='.$order_id
+                                    ? $order_row['store_url'].'index.php?rt=account/order_details&order_id='.$order_id
                                     : $invoiceUrl,
                 'comment'          => $comment ? : '',
             ];
@@ -1108,9 +1108,7 @@ class ModelCheckoutOrder extends Model
                 VALUES( 
                     ".(int) $order_product_id.",
                     ".(int) $product_id.", 
-                    ".((int) $product_option_value_id
-                    ? (int) $product_option_value_id
-                    : 'NULL').", 
+                    ".((int) $product_option_value_id ?: 'NULL').", 
                     ".(int) $row['location_id'].", 
                     '".$this->db->escape($row['location_name'])."',
                     ".(int) $quantity.", 
