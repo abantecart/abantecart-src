@@ -323,7 +323,6 @@ class ControllerPagesSaleOrder extends AController
         $fields = [
             'email',
             'telephone',
-            'fax',
             'shipping_method',
             'payment_method',
         ];
@@ -514,12 +513,6 @@ class ControllerPagesSaleOrder extends AController
             ]
         );
 
-        $this->data['fax'] = $this->html->buildInput(
-            [
-                'name'  => 'fax',
-                'value' => $order_info['fax'],
-            ]
-        );
 
         if (isset($order_info['im'])) {
             foreach ($order_info['im'] as $protocol => $setting) {
