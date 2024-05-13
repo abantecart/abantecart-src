@@ -37,7 +37,7 @@
 
     <div class="form-group action-buttons">
         <div class="col-md-12">
-            <button id="checkout_btn" class="btn btn-orange pull-right lock-on-click" title="<?php echo $button_confirm; ?>">
+            <button id="checkout_btn" class="btn btn-primary btn-lg btn-block pull-right lock-on-click" title="<?php echo $button_confirm; ?>">
                 <i class="bi bi-check"></i>
                 <?php echo $button_confirm; ?>
             </button>

@@ -37,6 +37,7 @@ class ControllerResponsesCheckoutPay extends AController
     public function __construct($registry, $instance_id, $controller, $parent_controller = '')
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
+        $this->load->library('json');
         $this->allow_guest = $this->config->get('config_guest_checkout');
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $cartClassName = get_class($this->cart);
@@ -474,7 +475,7 @@ class ControllerResponsesCheckoutPay extends AController
     protected function updateOrCreateOrder($in_data, $request)
     {
         //do not allow to run if already ran and failed
-        if($this->error['updateOrCreateOrder'] == true){
+        if($this->error['updateOrCreateOrder']){
             return;
         }
 
@@ -631,30 +632,7 @@ class ControllerResponsesCheckoutPay extends AController
             }
 
             $dd = new ADispatcher($rt);
-            //style buttons
-            $paymentHTML = preg_replace(
-                "/<a id=\"back\".*?<\/a>/si",
-                '',
-                $dd->dispatchGetOutput()
-            );
-            $paymentHTML = preg_replace(
-                '/btn-orange/',
-                'btn-primary btn-lg btn-block',
-                $paymentHTML
-            );
-
-            $paymentHTML = preg_replace(
-                '/<a class="btn btn-default pull-left".*?<\/a>/si',
-                '',
-                $paymentHTML
-            );
-
-            $paymentHTML = preg_replace(
-                '/<a .*? class="btn btn-default".*?<\/a>/si',
-                '',
-                $paymentHTML
-            );
-            $this->view->assign('payment_form', $paymentHTML);
+            $this->view->assign('payment_form', $dd->dispatchGetOutput());
         }
 
         //build a form
@@ -682,15 +660,7 @@ class ControllerResponsesCheckoutPay extends AController
             }
 
             if (!$this->data['customer_telephone'] && $this->config->get('fast_checkout_require_phone_number')) {
-                //redirect by ajax call if phone number required!
-                $this->response->setOutput(
-                    '<script type="application/javascript">
-                    location = "'.$this->html->getSecureURL('account/edit', '&telephone=').'";
-                    e.stopPropagation();
-                </script>'
-                );
-                $this->response->output();
-                exit;
+                redirect($this->html->getSecureURL('account/edit', '&telephone='));
             }
             //balance handling
             $balance_def_currency = $this->customer->getBalance();

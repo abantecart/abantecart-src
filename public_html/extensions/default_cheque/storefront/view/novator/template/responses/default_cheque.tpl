@@ -9,7 +9,7 @@
 <form id="CqFrm">
     <div class="form-group action-buttons">
         <div class="col-md-12">
-            <button id="checkout_btn" type="submit" class="btn btn-orange pull-right lock-on-click" title="<?php echo $button_confirm->text ?>">
+            <button id="checkout_btn" type="submit" class="btn btn-primary btn-lg btn-block pull-right lock-on-click" title="<?php echo $button_confirm->text ?>">
                 <i class="bi bi-check"></i>
                 <?php echo $button_confirm->text; ?>
             </button>

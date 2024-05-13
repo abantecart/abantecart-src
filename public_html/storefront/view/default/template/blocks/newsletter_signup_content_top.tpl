@@ -9,7 +9,7 @@
 				<?php } ?>
 				<input type="text" placeholder="<?php echo $text_subscribe; ?>" name="email" id="appendedInputButton" class="form-control">
 				<span class="input-group-btn">
-					<button class="btn btn-orange" type="submit"><?php echo $button_subscribe;?></button>
+					<button class="btn btn-primary btn-lg btn-block" type="submit"><?php echo $button_subscribe;?></button>
 				</span>
 			</div>
 		</form>
