@@ -581,11 +581,7 @@ class ControllerResponsesCheckoutPay extends AController
     protected function _build_payment_view($request, $get_params)
     {
         $this->data['payment_methods'] = $this->_get_payment_methods();
-        //ignore unsupported paypal express payment
-        if (isset($this->data['payment_methods']['default_pp_express'])) {
-            unset($this->data['payment_methods']['default_pp_express']);
-        }
-        $this->data['payment_method'] = $request['payment_method'];
+        $this->data['payment_method'] = $request['payment_method'] ?: $this->data['payment_method'];
 
         if(count($this->data['payment_methods']) == 1
             && current($this->data['payment_methods'])['id'] == 'no_payment_required'
@@ -1691,6 +1687,8 @@ class ControllerResponsesCheckoutPay extends AController
             $psettings[$pkey] = $this->model_checkout_extension->getSettings($pkey);
             $min = $psettings[$pkey][$pkey."_payment_minimum_total"] ?? null;
             $max = $psettings[$pkey][$pkey."_payment_maximum_total"] ?? null;
+            $autoselect = $psettings[$pkey][$pkey."_autoselect"] ?? null;
+
             if ((has_value($min) && $total['total'] < $min)
                 || (has_value($max) && $total['total'] > $max)
             ) {
@@ -1714,6 +1712,10 @@ class ControllerResponsesCheckoutPay extends AController
                 if ($psettings[$pkey][$pkey."_redirect_payment"]) {
                     $method_data[$pkey]['is_redirect_payment'] = true;
                 }
+                //if payment with autoselect presents in the list - set first as preselected
+                if(!$this->data['payment_method'] && $autoselect){
+                    $this->data['payment_method'] = $method['id'];
+                }
             }
         }
         if($no_payment){
@@ -1725,6 +1727,12 @@ class ControllerResponsesCheckoutPay extends AController
                 ]
             ];
         }
+        // if no "autoselect" methods - set first as preselected
+        if(!$this->data['payment_method']){
+            reset($method_data);
+            $this->data['payment_method'] = current($method_data)['id'];
+        }
+
         $this->session->data['payment_methods'] = $method_data;
         $this->extensions->hk_ProcessData($this, 'fast_checkout_get_payments_list');
 
