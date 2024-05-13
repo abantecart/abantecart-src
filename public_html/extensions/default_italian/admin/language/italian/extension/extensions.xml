@@ -317,14 +317,6 @@
 		<value><![CDATA[Storefront Icona:<span class="help">Icona del trasporto da visualizzare in selezione spedizione della cassa.</span>]]></value>
 	</definition>
 	<definition>
-		<key>text_autoselect_payment</key>
-		<value><![CDATA[Seleziona automaticamente:<span class="help">È possibile impostare il pagamento deve essere selezionata per impostazione predefinita. Questo metodo di pagamento sarà pre selezionati per pagamenti multipli. Se questa è l'unica opzione di pagamento disponibili, opzione di pagamento fase di selezione verrà saltata.</span>]]></value>
-	</definition>
-	<definition>
-		<key>text_autoselect_shipping</key>
-		<value><![CDATA[Seleziona automaticamente:<span class="help">È possibile impostare che puoi saltare la pagina di selezione trasporto, se c'è una sola opzione di trasporto. Questo metodo di trasporto viene selezionato automaticamente.</span>]]></value>
-	</definition>
-	<definition>
 		<key>text_accept_payments_shipping</key>
 		<value><![CDATA[Accetta questi pagamenti:<span class="help">Se sono necessari metodidi pagamento specifici perquesto metodo di trasporto, selezionarli qui. Se non selezionati verranno visualizzati tuttii metodi di pagamento disponibili.</span>]]></value>
 	</definition>

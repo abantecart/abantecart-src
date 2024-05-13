@@ -321,14 +321,6 @@
 		<value><![CDATA[Escaparate Icono:<span class="help">Envios Icono que se mostrará en la selección del envío checkout</span>]]></value>
 	</definition>
 	<definition>
-		<key>text_autoselect_payment</key>
-		<value><![CDATA[Selección automática:<br/><span class="help">Puede establecer este pago para ser seleccionado por defecto. Esta forma de pago será pre seleccionado para varios pagos. Si esta es la única opción de pago disponible, se omitirá la opción de pago etapa de selección.</span>]]></value>
-	</definition>
-	<definition>
-		<key>text_autoselect_shipping</key>
-		<value><![CDATA[Selección automática:<br/><span class="help"> Puede configurar para pasar la página de selección de envío si sólo hay una opción de envío. Este método de envío se seleccionará automáticamente</span>]]></value>
-	</definition>
-	<definition>
 		<key>text_accept_payments_shipping</key>
 		<value><![CDATA[Acepte los siguientes pagos: <br/><span class="help"> Si sólo se necesitan métodos de pago específicos para este método de envío, seleccione aquí. Si no hay nada seleccionado, todos los métodos de pago disponibles se mostrarán</span>]]></value>
 	</definition>
