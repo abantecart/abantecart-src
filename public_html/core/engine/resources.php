@@ -768,6 +768,10 @@ class AResource
     {
         $width = (int) $width;
         $height = (int) $height;
+        if(is_array($object_ids) && !count($object_ids)) {
+            return [];
+        }
+
         if (!$object_name || !$object_ids || !is_array($object_ids) || !$width || !$height) {
             $this->registry->get('log')->write(
                 __METHOD__." Wrong input parameters.\n ".var_export(func_get_args(), true)
