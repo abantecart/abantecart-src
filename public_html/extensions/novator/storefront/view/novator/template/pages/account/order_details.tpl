@@ -120,7 +120,7 @@
               </div>
               <div class="col-7 d-flex flex-wrap ">
                    <?php
-                   foreach(['model', 'price', 'quantity', 'total'] as $item){ ?>
+                   foreach(['model', 'sku' ,'price', 'quantity', 'total'] as $item){ ?>
                         <div class="flex-fill text-start my-auto text-nowrap p-1">
                            <?php if($product[$item]){ ?>
                            <p class="col-12 col-sm mt-0 mt-sm-2 card-text"><?php echo ${'text_'.$item}; ?>:
