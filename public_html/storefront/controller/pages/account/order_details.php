@@ -244,13 +244,13 @@ class ControllerPagesAccountOrderDetails extends AController
                     $thumbnail['thumb_url'] = $main_image['thumb_url'];
                     $thumbnail['main_url'] = $main_image['main_url'];
                 }
-
-                $products[] = [
+               $products[] = [
                     'id'               => (int)$product['product_id'],
                     'order_product_id' => (int)$product['order_product_id'],
                     'thumbnail'        => $thumbnail,
                     'name'             => $product['name'],
                     'model'            => $product['model'],
+                    'sku'              => $product['sku'],
                     'option'           => $option_data,
                     'quantity'         => $product['quantity'],
                     'price'            => $this->currency->format(

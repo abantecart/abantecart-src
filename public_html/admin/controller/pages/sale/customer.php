@@ -488,7 +488,6 @@ class ControllerPagesSaleCustomer extends AController
                 'lastname'          => 'required',
                 'email'             => 'required',
                 'telephone'         => 'required',
-                'fax'               => 'required',
                 'sms'               => null,
                 'newsletter'        => null,
                 'customer_group_id' => null,
@@ -663,7 +662,7 @@ class ControllerPagesSaleCustomer extends AController
                     'type'     => ($f == 'password' ? 'passwordset' : 'input'),
                     'name'     => $f,
                     'value'    => $this->data[$f],
-                    'required' => !in_array($f, ['password', 'fax', 'telephone']),
+                    'required' => !in_array($f, ['password', 'telephone']),
                     'style'    => ($f == 'password' ? 'small-field' : ''),
                 ]
             );
