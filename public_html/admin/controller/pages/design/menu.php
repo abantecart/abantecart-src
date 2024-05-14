@@ -62,10 +62,10 @@ class ControllerPagesDesignMenu extends AController
         $this->menu = new AMenu_Storefront();
         $menu_parents = $this->menu->getItemIds();
 
-        $menu_id = ['' => $this->language->get('text_select_parent_id')];
+        $parentIds = ['' => $this->language->get('text_select_parent_id')];
         foreach ($menu_parents as $item) {
             if ($item != '') {
-                $menu_id[$item] = $item;
+                $parentIds[$item] = $item;
             }
         }
 
@@ -122,7 +122,7 @@ class ControllerPagesDesignMenu extends AController
             [
                 'type'    => 'selectbox',
                 'name'    => 'parent_id',
-                'options' => $menu_id,
+                'options' => $parentIds,
                 'value'   => $this->request->get['parent_id'],
             ]
         );
@@ -326,16 +326,13 @@ class ControllerPagesDesignMenu extends AController
         $item_id = $this->request->get['item_id'];
 
         $menu_item = null;
-        $parent_id = [];
+        $this->menu_items = $this->menu->getItemIds();
+        $parentIds = ['' => $this->language->get('text_none')];
 
-        $this->menu_items = $this->menu->getMenuItems();
-        $this->_buildMenuTree('');
-
-        if ($item_id) {
-            unset($this->menu_tree[$item_id]);
-        }
-        foreach ($this->menu_tree as $item) {
-            $parent_id[$item['item_id']] = $item['text'];
+        foreach ($this->menu_items as $item) {
+            if ($item != '') {
+                $parentIds[$item] = $item;
+            }
         }
 
         foreach ($this->columns as $column) {
@@ -527,7 +524,7 @@ class ControllerPagesDesignMenu extends AController
             [
                 'type'    => 'selectbox',
                 'name'    => 'parent_id',
-                'options' => array_merge(['' => $this->language->get('text_none')], $parent_id),
+                'options' => $parentIds,
                 'value'   => $this->data['parent_id'],
                 'style'   => 'medium-field',
             ]
