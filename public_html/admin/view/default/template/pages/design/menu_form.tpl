@@ -59,16 +59,8 @@
 				<?php if (!empty($error[$name])) { ?>
 				<span class="help-block field_err"><?php echo $error[$name]; ?></span>
 				<?php } ?>
-
-
 			</div>
-
-
-
-
-
-		<?php }  ?><!-- <div class="fieldset"> -->
-
+		<?php }  ?>
 
 	</div>
 	<div class="panel-footer col-xs-12">
@@ -98,10 +90,10 @@ jQuery(function($){
 		$('div.link_types').each(function(){
 		    if($(this).attr('id') === 'link_'+type_name+'_wrapper'){
 		        $(this).show().removeClass('hide')
-                    .find('[name="include_children"]').removeAttr('disabled');
+                    .find('[name="settings[include_children]"]').removeAttr('disabled');
 			}else{
 				$(this).hide().addClass('hide')
-                    .find('[name="include_children"]').attr('disabled','disabled');
+                    .find('[name="settings[include_children]"]').attr('disabled','disabled');
 			}
 		});
 		if(type_name === 'custom'){
@@ -144,9 +136,9 @@ jQuery(function($){
 			id = val.replace('product/category&path=', '');
 			$('#menu_categories').val(id).change();
 			$('#link_category_wrapper').removeClass('hide')
-                .find('[name="include_children"]').removeAttr('disabled');
+                .find('[name="settings[include_children]"]').removeAttr('disabled');
 
-            $('#link_content_wrapper').find('[name="include_children"]')
+            $('#link_content_wrapper').find('[name="settings[include_children]"]')
                 .attr('disabled','disabled');
 			$('#link_type').val('category');
 			$('input[name="item_url"]').attr('readonly','readonly');
@@ -155,8 +147,8 @@ jQuery(function($){
 			id = val.replace('content/content&content_id=', '');
 			$('#menu_information').val(id).change();
 			$('#link_content_wrapper').removeClass('hide')
-                .find('[name="include_children"]').removeAttr('disabled');
-            $('#link_category_wrapper').find('[name="include_children"]').attr('disabled','disabled');
+                .find('[name="settings[include_children]"]').removeAttr('disabled');
+            $('#link_category_wrapper').find('[name="settings[include_children]"]').attr('disabled','disabled');
 			$('#link_type').val('content');
 			$('input[name="item_url"]').attr('readonly','readonly');
 		}else{

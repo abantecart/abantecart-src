@@ -215,12 +215,7 @@ class ControllerPagesDesignMenu extends AController
                     'item_url'        => $post['item_url'],
                     'sort_order'      => $post['sort_order'],
                     'item_type'       => 'core',
-                    'settings'        => serialize(
-                        [
-                            'include_children' => (int)$post['include_children'],
-                            'target' => $post['target']
-                        ]
-                    )
+                    'settings'        => serialize($post['settings'])
                 ]
             );
 
@@ -256,12 +251,6 @@ class ControllerPagesDesignMenu extends AController
             $post = $this->request->post;
             if (isset ($post['item_icon'])) {
                 $post['item_icon'] = (int)$post['item_icon'];
-            }
-            if (isset ($post['include_children'])) {
-                $post['settings']['include_children'] = (int)$post['include_children'];
-            }
-            if (isset ($post['target'])) {
-                $post['settings']['target'] = $post['target'];
             }
             $post['settings'] = serialize( $post['settings'] );
 
@@ -451,7 +440,7 @@ class ControllerPagesDesignMenu extends AController
         $this->data['form']['fields']['item_target'] = $form->getFieldHtml(
             [
                 'type'     => 'selectbox',
-                'name'     => 'target',
+                'name'     => 'settings[target]',
                 'value'    => $this->data['settings']['target'],
                 'options'  => [
                     '_self' => '_self',
@@ -484,9 +473,9 @@ class ControllerPagesDesignMenu extends AController
             [
                 'type'    => 'checkbox',
                 'id'      => 'category_children',
-                'name'    => 'include_children',
+                'name'    => 'settings[include_children]',
                 'value'   => 1,
-                'checked'   => $this->request->post['include_children'] ?? (bool)$this->data['settings']['include_children'],
+                'checked'   => $this->request->post['settings']['include_children'] ?? (bool)$this->data['settings']['include_children'],
                 'style'   => 'no-save btn_switch',
             ]
         );
@@ -513,9 +502,9 @@ class ControllerPagesDesignMenu extends AController
             [
                 'type'    => 'checkbox',
                 'id'      => 'content_children',
-                'name'    => 'include_children',
+                'name'    => 'settings[include_children]',
                 'value'   => 1,
-                'checked' => $this->request->post['include_children'] ?? (bool)$this->data['settings']['include_children'],
+                'checked' => $this->request->post['settings']['include_children'] ?? (bool)$this->data['settings']['include_children'],
                 'style'   => 'no-save short-field btn_switch',
             ]
         );
