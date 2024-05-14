@@ -3885,3 +3885,9 @@ input[type="number"] {
 #category_top_block {
     margin-top: 20px;
 }
+
+.dropdown-menu[data-bs-popper]
+{
+    left: auto !important;
+    margin-top: auto !important;
+}
