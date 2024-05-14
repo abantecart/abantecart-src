@@ -299,7 +299,7 @@ class ModelCheckoutFastCheckout extends Model
         $this->data['mail_template_data']['email_download_link'] = $email_download_link;
         $this->data['mail_template_data']['text_project_label'] = project_base();
 
-        $this->data['mail_template'] = 'mail/guest_download.tpl';
+        $this->data['mail_template'] = 'mail/order_download.tpl';
 
         $mailLogo = $this->config->get('config_mail_logo_'.$languageId)
                     ?: $this->config->get('config_mail_logo');
