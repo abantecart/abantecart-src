@@ -84,11 +84,13 @@ if (sizeof((array) $error_warning) > 0) {
                                 <button title="<?php echo $product['quantity']->min ? 'Min: '.$product['quantity']->min : ''; ?>"
                                     class="minus-qnty input-group-text btn btn-outline-danger">&minus;</button>
                                 <?php  $product['quantity']->no_wrapper = true; ?>
-                                    <input type="text" name="<?php echo $product['quantity']->name ?>"
-                                        id="<?php echo $product['quantity']->element_id ?>"
-                                        value="<?php echo $product['quantity']->value ?>"
-                                        placeholder="<?php echo $product['quantity']->placeholder ?>"
-                                        class="form-control text-center fw-bold <?php echo $product['quantity']->style; ?>"
+                                    <input type="text"
+                                           name="<?php echo $product['quantity']->name ?>"
+                                           id="<?php echo $product['quantity']->element_id ?>"
+                                           value="<?php echo $product['quantity']->value ?>"
+                                           inputmode="numeric"
+                                           placeholder="<?php echo $product['quantity']->placeholder ?>"
+                                           class="form-control text-center fw-bold <?php echo $product['quantity']->style; ?>"
                                     <?php echo $product['quantity']->attr; ?>/>
                                     <button title="<?php echo $product['quantity']->max ? 'Max: '.$product['quantity']->max : ''; ?>"
                                     class="plus-qnty input-group-text btn btn-outline-success">&plus;</button>
@@ -363,8 +365,9 @@ if (sizeof((array) $error_warning) > 0) {
             display_shippings();
             return false;
         });
+    });
 
-
-
+    $('.cart-qnty-wrapper input').on('input', function() {
+        $(this).val($(this).val().replace(/[^0-9]/gi, ''));
     });
 </script>

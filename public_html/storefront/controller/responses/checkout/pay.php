@@ -405,7 +405,7 @@ class ControllerResponsesCheckoutPay extends AController
 
             //customer details
             $this->data['customer_email'] = $this->customer->getEmail();
-            $phone = $this->data['customer_telephone'] = $this->customer->getTelephone();
+            $phone = $this->data['customer_telephone'] = $this->customer->getTelephone() ?: $this->fc_session['telephone'];
             if ($phone && $this->config->get('fast_checkout_require_phone_number')) {
                 $pattern = $this->config->get('config_phone_validation_pattern') ? : DEFAULT_PHONE_REGEX_PATTERN;
                 if (mb_strlen($phone) < 3 || mb_strlen($phone) > 32 || !preg_match($pattern, $phone)) {
@@ -502,19 +502,29 @@ class ControllerResponsesCheckoutPay extends AController
 
         /** @var ModelCheckoutFastCheckout $mdl */
         $mdl = $this->loadModel('checkout/fast_checkout');
-
         if ($order_id) {
-            if ($request['cc_telephone'] || $request['telephone']) {
-                $telephone = $request['cc_telephone'] ? : $request['telephone'];
+            if ($request['telephone']) {
                 $mdl->updateOrderDetails(
                     $order_id,
                     [
-                        'telephone' => $telephone,
+                        'telephone' => $request['telephone'],
                     ]
                 );
                 if (!$this->customer->isLogged()) {
-                    $this->fc_session['guest']['telephone'] = $telephone;
+                    $this->fc_session['guest']['telephone'] = $request['telephone'];
+                }elseif(!$this->customer->getTelephone()){
+                    $this->loadModel('account/customer');
+                    $this->model_account_customer->editCustomer(
+                        [
+                            'firstname' => $this->customer->getFirstName(),
+                            'lastname'  => $this->customer->getLastName(),
+                            'email'     => $this->customer->getEmail(),
+                            'telephone' => $request['telephone'],
+                            'fax'       => $this->customer->getFax()
+                        ]
+                    );
                 }
+                $this->fc_session['telephone'] = $request['telephone'];
             }
             if ($request['comment']) {
                 $mdl->updateOrderDetails(
@@ -572,7 +582,7 @@ class ControllerResponsesCheckoutPay extends AController
                 ]
             );
 
-            $this->data['customer_email'] = $request['cc_email'] ? : $this->fc_session['guest']['email'];
+            $this->data['customer_email'] = $request['email'] ? : $this->fc_session['guest']['email'];
             $this->data['customer_telephone'] = $request['telephone'] ? : $this->fc_session['guest']['telephone'];
             $this->data['reset_url'] = $this->html->getSecureURL('account/login');
         }
@@ -648,16 +658,11 @@ class ControllerResponsesCheckoutPay extends AController
         if ($this->customer->isLogged()) {
             if ($this->session->data['order_id']) {
                 $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
-                if ($order_info['telephone'] ?? '') {
-                    $this->fc_session['telephone']
-                        = $this->data['customer_telephone']
-                        = $this->customer->getTelephone();
+                if ($order_info['telephone']) {
+                    $this->fc_session['telephone'] = $this->data['customer_telephone'] = $order_info['telephone'];
                 }
             }
 
-            if (!$this->data['customer_telephone'] && $this->config->get('fast_checkout_require_phone_number')) {
-                redirect($this->html->getSecureURL('account/edit', '&telephone='));
-            }
             //balance handling
             $balance_def_currency = $this->customer->getBalance();
             $balance = $this->currency->convert(
@@ -870,9 +875,9 @@ class ControllerResponsesCheckoutPay extends AController
         if (!$this->customer->getId()) {
             $guest_info =& $this->fc_session['guest'];
             //add email into guest session data
-            $guest_info['email'] = $request['cc_email'];
-            if ($request['cc_telephone']) {
-                $guest_info['telephone'] = $request['cc_telephone'];
+            $guest_info['email'] = $request['email'];
+            if ($request['telephone']) {
+                $guest_info['telephone'] = $request['telephone'];
             }
         }
 
@@ -1344,7 +1349,7 @@ class ControllerResponsesCheckoutPay extends AController
             //do not clear if we have guest data and edit
             $sessionGuest['firstname'] = $post['firstname'];
             $sessionGuest['lastname'] = $post['lastname'];
-            $sessionGuest['email'] = $post['cc_email'];
+            $sessionGuest['email'] = $post['email'];
             $sessionGuest['company'] = '';
             $sessionGuest['telephone'] = $post['telephone'];
             $sessionGuest['address_1'] = $post['address_1'];
@@ -1388,7 +1393,7 @@ class ControllerResponsesCheckoutPay extends AController
             || isset($post['same_as_shipping'])
             || $this->config->get('fast_checkout_payment_address_equal_shipping')
         ) {
-            $sessionGuest['email'] = $post['cc_email'];
+            $sessionGuest['email'] = $post['email'];
             $sessionGuest['telephone'] = $post['telephone'];
             $sessionGuest['shipping']['company'] = '';
             $sessionGuest['shipping']['firstname'] = $post['firstname'];
@@ -1541,7 +1546,7 @@ class ControllerResponsesCheckoutPay extends AController
         $this->loadModel('localisation/country');
         $this->data['countries'] = $this->model_localisation_country->getCountries();
 
-        $this->data['customer_email'] = $data['cc_email'] ? : $this->fc_session['guest']['email'];
+        $this->data['customer_email'] = $data['email'] ? : $this->fc_session['guest']['email'];
         $this->data['customer_telephone'] = $data['telephone'] ? : $this->fc_session['guest']['telephone'];
 
         //login form portion
@@ -1920,15 +1925,13 @@ class ControllerResponsesCheckoutPay extends AController
             }
         }
 
-        if ($this->config->get('fast_checkout_require_phone_number')
-            && !$request['telephone']
-            && !$request['cc_telephone']
-        ) {
+        if ($this->config->get('fast_checkout_require_phone_number') && !$request['telephone'])
+        {
             $this->error['message'] = $this->language->get('fast_checkout_error_phone');
             return false;
         }
 
-        if (!$request['cc_email']) {
+        if (!$request['email']) {
             $this->error['message'] = $this->language->get('fast_checkout_error_email');
             return false;
         }
@@ -1942,7 +1945,7 @@ class ControllerResponsesCheckoutPay extends AController
             $errors[] = $this->language->get('fast_checkout_error_phone');
         }
 
-        if (!$request['cc_email']) {
+        if (!$request['email']) {
             $errors[] = $this->language->get('fast_checkout_error_email');
         }
         if ($errors) {

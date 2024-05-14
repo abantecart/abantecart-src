@@ -40,9 +40,9 @@ $guest_data = $this->session->data['fc']['guest'];
     <div class="order_email input-group input-group-lg mb-3">
         <div class="input-group-text"><i class="fa fa-envelope"></i></div>
         <input class="form-control <?php echo !preg_match(EMAIL_REGEX_PATTERN, $customer_email) ? 'is-invalid' : ''; ?>"
-               aria-label="cc_email"
+               aria-label="email"
                placeholder="<?php echo_html2view($fast_checkout_email_placeholder);?>"
-               id="cc_email" name="cc_email"
+               id="email" name="email"
                type="text" value="<?php echo $customer_email; ?>"
                readonly>
         <div class="input-group-text">
@@ -51,24 +51,23 @@ $guest_data = $this->session->data['fc']['guest'];
             </button>
         </div>
     </div>
-<?php if ($require_telephone) { ?>
+
     <div class="order_phone input-group input-group-lg mb-3">
         <div class="input-group-text"><i class="fa fa-phone"></i></div>
-        <input id="telephone"
-               aria-label="telephone"
+        <input id="telephone" aria-label="telephone" name="telephone" inputmode="tel"
                class="form-control <?php echo !preg_match($this->config->get('config_phone_validation_pattern'), $customer_telephone) ? 'is-invalid' : ''; ?>"
                placeholder="<?php echo_html2view($fast_checkout_text_telephone_placeholder); ?>"
-               name="telephone"
-               type="text"
-               value="<?php echo $customer_telephone; ?>"
-               readonly>
+               pattern="<?php echo trim($this->config->get('config_phone_validation_pattern'), "/")?>"
+               type="text" value="<?php echo $customer_telephone; ?>"
+        <?php echo $this->config->get('fast_checkout_require_phone_number') ? 'required' : ''?> >
         <span class="input-group-text">
-            <button class="btn btn-outline-secondary btn-lg btn-edit-email" type="button">
-                <i class="fa fa-edit fa-fw"></i>
+            <button class="btn btn-outline-secondary btn-lg btn-telephone" type="button"
+                    title="<?php echo_html2view($this->language->get('fast_checkout_text_apply'))?>">
+                <i class="fa fa-check fa-fw"></i><?php echo $this->language->get('fast_checkout_text_apply')?>
             </button>
         </span>
     </div>
-<?php }
+<?php
     echo $this->getHookVar('customer_additional_attributes');
 if ($show_payment == true) {
     echo $this->getHookVar('payment_form_fields');
@@ -221,6 +220,27 @@ if ($show_payment == true) {
                     }
                 });
             <?php } ?>
+        });
+
+        $(".btn-telephone").on('click', function () {
+            let elm = $('[name=telephone]');
+            if ( validateForm( $(this).closest('form')) ) {
+                $.ajax({
+                    type: "POST",
+                    url: '<?php echo $this->html->getSecureUrl('r/checkout/pay/updateOrderData') ?>',
+                    data: { telephone: elm.val() },
+                });
+                elm.removeClass('is-invalid').addClass('is-valid');
+            }else{
+                elm.removeClass('is-valid').addClass('is-invalid');
+            }
+        });
+
+        $('[name=telephone]').on('blur', function(e){
+            let related = $(e.relatedTarget);
+            if(!related.hasClass('btn-telephone')){
+                $(".btn-telephone").click();
+            }
         });
 
         $('#no_payment_confirm').on('click', function (e) {

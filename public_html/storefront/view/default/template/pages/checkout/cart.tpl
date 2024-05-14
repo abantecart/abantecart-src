@@ -82,6 +82,7 @@ if (sizeof((array) $error_warning) > 0) {
                              id="<?php echo $product['quantity']->element_id ?>"
                              value="<?php echo $product['quantity']->value ?>"
                              placeholder="<?php echo $product['quantity']->placeholder ?>"
+                             inputmode="numeric"
                              class="form-control text-center fw-bold <?php echo $product['quantity']->style; ?>"
                              <?php echo $product['quantity']->attr; ?>/>
                       <button title="<?php echo $product['quantity']->max ? 'Max: '.$product['quantity']->max : ''; ?>"
@@ -341,8 +342,10 @@ if (sizeof((array) $error_warning) > 0) {
             display_shippings();
             return false;
         });
-
-
-
     });
+
+    $('.cart-qnty-wrapper input').on('input', function() {
+        $(this).val($(this).val().replace(/[^0-9]/gi, ''));
+    });
+
 </script>
