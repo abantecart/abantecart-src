@@ -38,11 +38,11 @@
                         </button>
                     <?php }
                     if ($step == 'payment' && $this->config->get('config_guest_checkout')) { ?>
-                        <button class="nav-link border mx-1"
+                        <button class="nav-link border mx-1 active"
                                 id="new_user"
                                 data-bs-toggle="tab"
-                                data-bs-target="#new" type="button" role="tab"
-                                aria-controls="new" aria-selected="true">
+                                data-bs-target="#payment_details" type="button" role="tab"
+                                aria-controls="payment_details" aria-selected="true">
                             <i class="fa fa-user-plus fa-fw"></i>&nbsp;
                             <span class="hidden-xxs">
                                 <?php echo $fast_checkout_text_new_customer; ?>
@@ -54,7 +54,7 @@
                         id="login_user"
                         data-bs-toggle="tab"
                         data-bs-target="#user" type="button" role="tab"
-                        aria-controls="new" aria-selected="true">
+                        aria-controls="payment_details" aria-selected="true">
                     <i class="fa fa-user fa-fw"></i>&nbsp;
                     <span class="hidden-xxs">
                         <?php echo $fast_checkout_text_login; ?>
@@ -73,13 +73,13 @@
                     </div>
                 <?php }
                 if ($step == 'payment' && ($loggedin === true || $this->config->get('config_guest_checkout'))) { ?>
-                    <div id="new" role="tabpanel"
+                    <div id="payment_details" role="tabpanel"
                          class="tab-pane fade <?php if (!$action || $action == 'payment') {echo 'active show';} ?>">
                         <?php include($this->templateResource('/template/responses/checkout/payment.tpl')) ?>
                     </div>
                 <?php }
                 if ($step == 'confirm' && ($loggedin === true || $this->config->get('config_guest_checkout'))) { ?>
-                    <div id="new" role="tabpanel"
+                    <div id="payment_details" role="tabpanel"
                          class="tab-pane fade <?php if (!$action || $action == 'confirm') {echo 'active show';} ?>">
                         <?php include($this->templateResource('/template/responses/checkout/payment_form.tpl')) ?>
                     </div>
