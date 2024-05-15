@@ -446,6 +446,9 @@ class AMenu_Storefront extends AMenu
 
         $this->_buildMenu();
         $this->cache->remove('storefront_menu');
+        //for case
+        $this->cache->remove('category');
+        $this->cache->remove('content');
         return true;
     }
 
