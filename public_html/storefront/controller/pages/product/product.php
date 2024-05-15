@@ -422,7 +422,7 @@ class ControllerPagesProductProduct extends AController
             (int) $this->config->get('config_image_grid_height')
         );
 
-        if (!preg_match('/no_image/', $thumbnail['thumb_url'])) {
+        if (!str_contains($thumbnail['thumb_url'], 'no_image')) {
             $this->data['manufacturer_icon'] = $thumbnail['thumb_url'];
         }
 
@@ -471,13 +471,9 @@ class ControllerPagesProductProduct extends AController
                         //show out of stock message
                         $opt_stock_message = $this->language->get('text_out_of_stock');
                         $disabled_values[] = $option_value['product_option_value_id'];
-                    } else {
-                        if ($this->config->get('config_stock_display')) {
-                            if ($option_value['quantity'] > 0) {
-                                $opt_stock_message = $option_value['quantity']." ".$this->language->get('text_instock');
-                                $opt_stock_message = "(".$opt_stock_message.")";
-                            }
-                        }
+                    } elseif ($this->config->get('config_stock_display')) {
+                        $opt_stock_message = $option_value['quantity']." ".$this->language->get('text_instock');
+                        $opt_stock_message = "(".$opt_stock_message.")";
                     }
                 } else {
                     if ($option_value['subtract'] && $product_info['stock_checkout']) {
@@ -525,6 +521,10 @@ class ControllerPagesProductProduct extends AController
                         $name .= $price;
                     }
                     $option['required'] = false;
+                }
+                // if at least one option is file - change enctype for form
+                if ($option['element_type'] == 'U') {
+                    $this->data['form']['form_open']->enctype = "multipart/form-data";
                 }
             }
 
