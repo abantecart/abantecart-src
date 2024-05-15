@@ -371,12 +371,11 @@ class ControllerResponsesCheckoutPay extends AController
 
         //do we show payment details yet? Show only if shipping selected
         $this->data['show_payment'] = true;
-        if ($this->cart->hasShipping() && count($this->fc_session['shipping_methods'])
+        if ($this->cart->hasShipping()
+            && (!$this->fc_session['shipping_method'] || !count($this->fc_session['shipping_methods']))
         ) {
-            if (!$this->fc_session['shipping_method']) {
                 //no shipping selected yet, not ready for payment
                 $this->data['show_payment'] = false;
-            }
         }
 
         $form = new AForm();
