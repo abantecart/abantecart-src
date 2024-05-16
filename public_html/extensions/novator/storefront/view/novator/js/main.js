@@ -198,10 +198,15 @@ $(document).ready(function(){
     $('.dropdown>a').on('click', function (e) {
         e.preventDefault();
         let href = $(this).attr('href');
+        let target = $(this).attr('target');
         if(href.substring(0,1) !== '#') {
-            location = href;
+            if( target === '_self') {
+                location = href;
+            }else{
+                window.open(href, target);
+            }
         }
-    })
+    });
 
     $('[data-bs-toggle="popover"]').popover({});
 

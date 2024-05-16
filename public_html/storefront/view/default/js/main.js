@@ -160,14 +160,17 @@ $(document).ready(function(){
 
     //dropdown menu fix of parent
     $('.dropdown>a').on('click', function (e) {
-        if(!$(this).attr('target')) {
-            e.preventDefault();
-            let href = $(this).attr('href');
-            if (href !== '#') {
+        e.preventDefault();
+        let href = $(this).attr('href');
+        let target = $(this).attr('target');
+        if(href.substring(0,1) !== '#') {
+            if( target === '_self') {
                 location = href;
+            }else{
+                window.open(href, target);
             }
         }
-    })
+    });
 
     $('[data-bs-toggle="popover"]').popover({});
 
