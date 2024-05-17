@@ -2621,7 +2621,7 @@ body.stickyheader .sticky_left {
 	color: #333333;
 }
 
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .open .dropdown-toggle.btn-primary {
+.btn-primary:not([readonly]):hover, .btn-primary:not([readonly]):focus, .btn-primary:not([readonly]):active, .open .dropdown-toggle.btn-primary {
 	background-color: #F19013;
 	border-color: #285E8E;
 	color: #FFFFFF;
@@ -2629,6 +2629,10 @@ body.stickyheader .sticky_left {
 
 .btn-toggle.btn_switch {
 	min-width: 100px;
+}
+.btn-toggle.btn_switch[readonly], .btn-toggle.btn_switch[readonly]>button {
+	opacity: 0.8;
+	cursor: not-allowed;
 }
 
 .btn-toggle.btn_switch.xs {

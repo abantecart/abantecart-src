@@ -133,6 +133,7 @@ class ControllerPagesDesignMenu extends AController
             '',
             $this->language->get('entry_item_id'),
             $this->language->get('entry_item_text'),
+            $this->language->get('entry_status'),
             $this->language->get('entry_sort_order'),
         ];
         $grid_settings['colModel'] = [
@@ -155,6 +156,12 @@ class ControllerPagesDesignMenu extends AController
                 'name'   => 'item_text',
                 'index'  => 'item_text',
                 'width'  => 360,
+                'align'  => 'center',
+                'search' => false,
+            ],
+            [
+                'name'   => 'status',
+                'index'  => 'settings[status]',
                 'align'  => 'center',
                 'search' => false,
             ],
@@ -387,6 +394,15 @@ class ControllerPagesDesignMenu extends AController
             ]
         );
 
+        $this->data['form']['fields']['status'] = $form->getFieldHtml(
+            [
+                'type'     => 'checkbox',
+                'name'     => 'settings[status]',
+                'value'    => $this->data['settings']['status'] ?? 1,
+                'required' => true,
+                'style'    => 'btn_switch',
+            ]
+        );
         $this->data['form']['fields']['item_id'] = $form->getFieldHtml(
             [
                 'type'     => 'input',

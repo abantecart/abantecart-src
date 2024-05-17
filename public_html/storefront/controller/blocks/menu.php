@@ -66,6 +66,10 @@ class ControllerBlocksMenu extends AController
         $lang_id = (int) $this->config->get('storefront_language_id');
 
         foreach ($this->menu_items[$parent] as $item) {
+            // is status not set - set it as an active
+            if(!($item['settings']['status'] ?? 1)){
+                continue;
+            }
             if (preg_match("/^http/i", $item ['item_url'])) {
                 $href = $item ['item_url'];
             } //process relative url such as ../blog/index.php

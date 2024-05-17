@@ -777,4 +777,8 @@
 		<key>column_sku</key>
 		<value><![CDATA[SKU]]></value>
 	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Status:]]></value>
+	</definition>
 </definitions>

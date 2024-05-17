@@ -110,6 +110,14 @@ class ControllerResponsesListingGridMenu extends AController
                     $icon,
                     $result['item_id'],
                     $result['item_text'][$languageId],
+                    $this->html->buildCheckbox(
+                        [
+                            'name'  => 'status[' . $result['item_id'] . ']',
+                            'value' => $result['settings']['status'],
+                            'style' => 'btn_switch',
+                            'attr'  => 'readonly="true"',
+                        ]
+                    ),
                     $this->html->buildInput(
                         [
                             'name'  => 'sort_order[' . $result['item_id'] . ']',

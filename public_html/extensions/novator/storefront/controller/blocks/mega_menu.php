@@ -202,6 +202,11 @@ class ControllerBlocksMegaMenu extends AController
         $lang_id = (int) $this->config->get('storefront_language_id');
         foreach ($menu_items[$level] as $item) {
 
+            // is status not set - set it as an active
+            if(!($item['settings']['status'] ?? 1)){
+                continue;
+            }
+
             if (($logged && $item['item_id'] == 'login')
                 || (!$logged && $item['item_id'] == 'logout')
             ) {
