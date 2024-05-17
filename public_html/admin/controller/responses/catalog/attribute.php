@@ -147,14 +147,23 @@ class ControllerResponsesCatalogAttribute extends AController
                 $attributes_fields[$attrValueId]['sort_order'] = $form->getFieldHtml(
                     [
                     'type'  => 'number',
-                    'name'  => 'sort_orders['.$attrValueId.']',
+                    'name'  => 'values['.$attrValueId.'][sort_orders]',
                     'value' => $atr_val['sort_order'],
                     ]
                 );
+
+                $attributes_fields[$attrValueId]['txt_id'] = $form->getFieldHtml(
+                    [
+                        'type'  => 'input',
+                        'name'  => 'values['.$attrValueId.'][txt_id]',
+                        'value' => $atr_val['txt_id'],
+                    ]
+                );
+
                 $attributes_fields[$attrValueId]['price_modifier'] = $form->getFieldHtml(
                     [
                     'type'  => 'input',
-                    'name'  => 'price_modifiers['.$attrValueId.']',
+                    'name'  => 'values['.$attrValueId.'][price_modifier]',
                     'value' => number_format((float)$atr_val['price_modifier'],2)
                     ]
                 );
@@ -165,7 +174,7 @@ class ControllerResponsesCatalogAttribute extends AController
                 $attributes_fields[$attrValueId]['price_prefix'] = $form->getFieldHtml(
                     [
                         'type'    => 'selectbox',
-                        'name'    => 'price_prefixes['.$attrValueId.']',
+                        'name'    => 'values['.$attrValueId.'][price_prefix]',
                         'value'   => $atr_val['price_prefix'],
                         'options' => [
                             '$' => $currency_symbol,
@@ -177,7 +186,7 @@ class ControllerResponsesCatalogAttribute extends AController
                 $attributes_fields[$attrValueId]['values'] = $form->getFieldHtml(
                     [
                     'type'  => 'input',
-                    'name'  => 'values['.$attrValueId.']',
+                    'name'  => 'values['.$attrValueId.'][value]',
                     'value' => $atr_val['value'],
                     'style' => 'medium-field',
                     ]
@@ -196,14 +205,14 @@ class ControllerResponsesCatalogAttribute extends AController
             $attributes_fields[0]['price_modifier'] = $form->getFieldHtml(
                 [
                     'type'  => 'input',
-                    'name'  => 'price_modifiers[]',
+                    'name'  => 'values[new][price_modifier]',
                     'value' => 0.0
                 ]
             );
             $attributes_fields[0]['price_prefix'] = $form->getFieldHtml(
                 [
                     'type'    => 'selectbox',
-                    'name'    => 'price_prefixes[]',
+                    'name'    => 'values[new][price_prefixes]',
                     'value'   => '$',
                     'options' => [
                         '$' => $currency_symbol,
@@ -214,15 +223,23 @@ class ControllerResponsesCatalogAttribute extends AController
             $attributes_fields[0]['sort_order'] = $form->getFieldHtml(
                 [
                 'type'  => 'number',
-                'name'  => 'sort_orders[]',
+                'name'  => 'values[new][sort_order]',
                 'value' => '1',
+                'style' => 'small-field no-save',
+                ]
+            );
+            $attributes_fields[0]['txt_id'] = $form->getFieldHtml(
+                [
+                'type'  => 'input',
+                'name'  => 'values[new][txt_id]',
+                'value' => '',
                 'style' => 'small-field no-save',
                 ]
             );
             $attributes_fields[0]['values'] = $form->getFieldHtml(
                 [
                 'type'  => 'input',
-                'name'  => 'values[]',
+                'name'  => 'values[new][value]',
                 'value' => '',
                 'style' => 'medium-field no-save',
                 ]
@@ -230,7 +247,7 @@ class ControllerResponsesCatalogAttribute extends AController
             $attributes_fields[0]['attribute_value_ids'] = $form->getFieldHtml(
                 [
                 'type'  => 'hidden',
-                'name'  => 'attribute_value_ids['.$attrValueId.']',
+                'name'  => 'attribute_value_ids[new]',
                 'value' => 'new',
                 'style' => 'medium-field',
                 ]
@@ -281,7 +298,7 @@ class ControllerResponsesCatalogAttribute extends AController
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-
+        /** @see public_html/admin/view/default/template/responses/catalog/global_attribute_product_option_subform.tpl */
         $this->processTemplate('responses/catalog/global_attribute_product_option_subform.tpl');
     }
 
@@ -363,7 +380,7 @@ class ControllerResponsesCatalogAttribute extends AController
                 $attributesFields[$atr_val_id]['sort_order'] = $form->getFieldHtml(
                     [
                     'type'  => 'input',
-                    'name'  => 'sort_orders['.$atr_val_id.']',
+                    'name'  => 'values['.$atr_val_id.'][sort_order]',
                     'value' => $atr_val['sort_order'],
                     'style' => 'small-field',
                     ]
@@ -371,7 +388,7 @@ class ControllerResponsesCatalogAttribute extends AController
                 $attributesFields[$atr_val_id]['values'] = $form->getFieldHtml(
                     [
                     'type'  => 'input',
-                    'name'  => 'values['.$atr_val_id.']',
+                    'name'  => 'values['.$atr_val_id.'][value]',
                     'value' => $atr_val['value'],
                     'style' => 'medium-field',
                     ]
@@ -390,7 +407,7 @@ class ControllerResponsesCatalogAttribute extends AController
             $attributesFields[0]['sort_order'] = $form->getFieldHtml(
                 [
                 'type'  => 'input',
-                'name'  => 'sort_orders[]',
+                'name'  => 'values[new][sort_order]',
                 'value' => '',
                 'style' => 'small-field no-save',
                 ]
@@ -398,7 +415,7 @@ class ControllerResponsesCatalogAttribute extends AController
             $attributesFields[0]['values'] = $form->getFieldHtml(
                 [
                 'type'  => 'input',
-                'name'  => 'values[]',
+                'name'  => 'values[new][value]',
                 'value' => '',
                 'style' => 'medium-field no-save',
                 ]
@@ -406,7 +423,7 @@ class ControllerResponsesCatalogAttribute extends AController
             $attributesFields[0]['attribute_value_ids'] = $form->getFieldHtml(
                 [
                 'type'  => 'hidden',
-                'name'  => 'attribute_value_ids['.$atr_val_id.']',
+                'name'  => 'attribute_value_ids[new]',
                 'value' => 'new',
                 'style' => 'medium-field',
                 ]

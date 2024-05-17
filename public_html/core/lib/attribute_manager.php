@@ -25,6 +25,8 @@ if (!defined('DIR_CORE')) {
  * Class to handle access to global attributes
  *
  * @property ASession $session
+ * @property ExtensionsApi $extensions
+ * @property AHtml $html
  */
 class AAttribute_Manager extends AAttribute
 {
@@ -114,15 +116,12 @@ class AAttribute_Manager extends AAttribute
         );
 
         if (!empty($data['values'])) {
-            $data['values'] = array_unique($data['values']);
-            foreach ($data['values'] as $id => $value) {
+            foreach ($data['values'] as $valueData) {
                 $attribute_value_id = $this->addAttributeValue(
                     $attribute_id,
-                    $data['sort_orders'][$id],
-                    $data['price_modifiers'][$id],
-                    $data['price_prefixes'][$id]
+                    $valueData
                 );
-                $this->addAttributeValueDescription($attribute_id, $attribute_value_id, $language_id, $value);
+                $this->addAttributeValueDescription($attribute_id, $attribute_value_id, $language_id, $valueData['value']);
             }
         }
 
@@ -178,8 +177,8 @@ class AAttribute_Manager extends AAttribute
         }
         if (!empty($update)) {
             $sql = "UPDATE ".$this->db->table("global_attributes")."
-                SET ".implode(',', $update)."
-                WHERE attribute_id = '".(int)$attribute_id."'";
+                    SET ".implode(',', $update)."
+                    WHERE attribute_id = '".(int)$attribute_id."'";
             $this->db->query($sql);
         }
 
@@ -202,44 +201,34 @@ class AAttribute_Manager extends AAttribute
         $insertedValues = [];
         //Update Attribute Values
         if (!empty($data['values']) && in_array($data['element_type'], $elements_with_options)) {
-            foreach ($data['values'] as $atr_val_id => $value) {
+            foreach ($data['values'] as $attrValueId => $valueData) {
                 //Check if new or update
-                if ($data['attribute_value_ids'][$atr_val_id] == 'delete') {
+                if ($data['attribute_value_ids'][$attrValueId] == 'delete') {
                     //delete the description
-                    $this->deleteAllAttributeValueDescriptions($atr_val_id);
+                    $this->deleteAllAttributeValueDescriptions($attrValueId);
                     //delete value if no other language
-                    $this->deleteAttributeValues($atr_val_id);
+                    $this->deleteAttributeValues($attrValueId);
                 } else {
-                    if ($data['attribute_value_ids'][$atr_val_id] == 'new') {
+                    if (str_starts_with($attrValueId,'new')) {
                         // New need to create
-                        $attribute_value_id = $this->addAttributeValue(
-                            $attribute_id,
-                            $data['sort_orders'][$atr_val_id],
-                            $data['price_modifiers'][$atr_val_id],
-                            $data['price_prefixes'][$atr_val_id]
-                        );
+                        $attribute_value_id = $this->addAttributeValue( $attribute_id,$valueData );
                         $insertedValues[$attribute_value_id] = [
                             'id'         => $attribute_value_id,
-                            'value'      => $value,
-                            'sort_order' => $data['sort_orders'][$atr_val_id],
+                            'value'      => $valueData,
+                            'sort_order' => $data['sort_orders'][$attrValueId],
                         ];
                         if ($attribute_value_id) {
                             $this->addAttributeValueDescription(
                                 $attribute_id,
                                 $attribute_value_id,
                                 $language_id,
-                                $value
+                                $valueData['value']
                             );
                         }
                     } else {
                         //Existing need to update
-                        $this->updateAttributeValue(
-                            $atr_val_id,
-                            $data['sort_orders'][$atr_val_id],
-                            $data['price_modifiers'][$atr_val_id],
-                            $data['price_prefixes'][$atr_val_id]
-                        );
-                        $this->updateAttributeValueDescription($attribute_id, $atr_val_id, $language_id, $value);
+                        $this->updateAttributeValue( $attrValueId, $valueData );
+                        $this->updateAttributeValueDescription($attribute_id, $attrValueId, $language_id, $valueData['value']);
                     }
                 }
             }
@@ -251,21 +240,37 @@ class AAttribute_Manager extends AAttribute
 
     /**
      * @param int $attribute_id
-     * @param int $sort_order
+     * @param array $data
      *
      * @return bool|int
      * @throws AException
      */
-    public function addAttributeValue($attribute_id, $sort_order, $price_modifier = 0.0, $price_prefix = '')
+    public function addAttributeValue($attribute_id, $data = [])
     {
-        if (empty($attribute_id)) {
+        if (!$attribute_id || !$data) {
             return false;
         }
+        $upd = [];
+        $allowed = ['txt_id', 'price_modifier', 'price_prefix', 'sort_order'];
+        foreach($data as $key => $value) {
+            if(!in_array($key, $allowed)) {
+                continue;
+            }
+            if($key == 'sort_order'){
+                $value = (int)$value;
+            }if($key == 'price_modifier'){
+                $value = (float)$value;
+            }
+            if($key == 'txt_id'){
+                $upd[] = $key . " = ".($value ? "'" . $this->db->escape($value) . "'" : " NULL ");
+            }else {
+                $upd[] = $key . " = '" . $this->db->escape($value) . "'";
+            }
+        }
+
         $sql = "INSERT INTO ".$this->db->table("global_attributes_values")." 
                 SET attribute_id = '".(int)$attribute_id."',
-                    price_modifier = '".(float)$price_modifier."',
-                    price_prefix = '".$this->db->escape($price_prefix)."',
-                    sort_order = '".(int)$sort_order."'";
+                " . implode(', ', $upd);
         $this->db->query($sql);
         return $this->db->getLastId();
 
@@ -295,23 +300,36 @@ class AAttribute_Manager extends AAttribute
 
     /**
      * @param int $attribute_value_id
-     * @param int $sort_order
+     * @param array $data
      *
      * @return bool
      * @throws AException
      */
-    public function updateAttributeValue($attribute_value_id, $sort_order, $price_modifier = null, $price_prefix = null)
+    public function updateAttributeValue( $attribute_value_id, $data = [] )
     {
         if (empty($attribute_value_id)) {
             return false;
         }
 
+        $allowed = ['txt_id', 'price_modifier', 'price_prefix', 'sort_order'];
         $sql = "UPDATE ".$this->db->table("global_attributes_values")." 
-                SET 
-                    sort_order = '".(int)$sort_order."'
-                    ".(isset($price_modifier) ? ", price_modifier=".(float)$price_modifier : '' ) ."
-                    ".(isset($price_prefix) ? ", price_prefix='".$this->db->escape($price_prefix)."'" : '' ) ."
-                WHERE attribute_value_id = '".(int)$attribute_value_id."'";
+                SET ";
+        $upd = [];
+        foreach($data as $key => $value) {
+            if(!in_array($key, $allowed)) {
+                continue;
+            }
+            if($key == 'sort_order'){
+                $value = (int)$value;
+            }
+            if($key == 'txt_id'){
+                $upd[] = $key . " = ".($value ? "'" . $this->db->escape($value) . "'" : " NULL ");
+            }else {
+                $upd[] = $key . " = '" . $this->db->escape($value) . "'";
+            }
+        }
+        $sql .= implode(', ', $upd)
+                ." WHERE attribute_value_id = '".(int)$attribute_value_id."'";
         $this->db->query($sql);
         $this->clearCache();
         return true;
@@ -834,7 +852,7 @@ class AAttribute_Manager extends AAttribute
      */
     public function validateAttributeCommonData($data = [])
     {
-        $error = [];
+        $this->error = [];
         $this->load->language('catalog/attribute');
         // required
         if (empty($data['attribute_type_id'])) {
@@ -842,22 +860,65 @@ class AAttribute_Manager extends AAttribute
         }
         // required
         if ((mb_strlen($data['name']) < 2) || (mb_strlen($data['name']) > 64)) {
-            $error['name'] = $this->language->get('error_attribute_name');
+            $this->error['name'] = $this->language->get('error_attribute_name');
         }
         // not required
         if (mb_strlen($data['error_text']) > 255) {
-            $error['error_text'] = $this->language->get('error_error_text');
+            $this->error['error_text'] = $this->language->get('error_error_text');
         }
         // required
         if (empty($data['element_type'])) {
-            $error['element_type'] = $this->language->get('error_required').': "element_type"';
+            $this->error['element_type'] = $this->language->get('error_required').': "element_type"';
         }
         if (has_value($data['regexp_pattern'])) {
             if (@preg_match($data['regexp_pattern'], "AbanteCart") === false) {
-                $error['regexp_pattern'] = $this->language->get('error_regexp_pattern');
+                $this->error['regexp_pattern'] = $this->language->get('error_regexp_pattern');
+            }
+        }
+        $this->extensions->hk_ValidateData($this, [__FUNCTION__]);
+        return $this->error;
+    }
+
+    /**
+     * @param int $attrId
+     * @param array $data
+     * @return array
+     * @throws AException
+     */
+    public function validateAttributeValues(int $attrId, array $data)
+    {
+
+        $attrId = (int)$attrId;
+        $this->error = [];
+        $this->load->language('catalog/attribute');
+
+        $txtIds = array_filter(array_map('trim', array_column($data, 'txt_id')));
+        if( count($txtIds) != count(array_unique($txtIds)) ){
+            $this->error['txt_id'] = $this->language->get('error_not_unique');
+        }
+
+        if(!$this->error && $txtIds) {
+            $sql = "SELECT gv.*, gad.name 
+                    FROM `" . $this->db->table("global_attributes_values") . "` gv
+                    LEFT JOIN  `" . $this->db->table("global_attributes_descriptions") . "` gad
+                        ON (gad.attribute_id = gv.attribute_id 
+                            AND gad.language_id = '".(int)$this->language->getContentLanguageID()."')
+                    WHERE `txt_id` IN ('" . implode("','", $txtIds) . "')";
+            if ($attrId) {
+                $sql .= " AND gv.attribute_id <> " . (int)$attrId;
+            }
+            $exists = $this->db->query($sql);
+            if($exists->num_rows){
+                $this->error['txt_id'] = $this->language->get('error_not_unique')." (";
+                $dd = [];
+                foreach($exists->rows as $row) {
+                    $dd[] = '<a target="_blank" href="'.$this->html->getSecureUrl('catalog/attribute/update', '&attribute_id='.$row['attribute_id']).'">'.$row['name'].'</a>';
+                }
+                $this->error['txt_id'] .= implode(', ', $dd)." )";
             }
         }
 
-        return $error;
+        $this->extensions->hk_ValidateData($this, [__FUNCTION__]);
+        return $this->error;
     }
 }

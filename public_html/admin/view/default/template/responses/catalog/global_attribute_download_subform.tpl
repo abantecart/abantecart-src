@@ -116,24 +116,21 @@
 
 <script type="text/javascript">
 	jQuery(function ($) {
-
-		var elements_with_options = [];
+		let elements_with_options = [];
 		<?php
 		foreach ($elements_with_options as $el) {
 			echo "elements_with_options.push('$el');\r\n";
 		} ?>
 
-		function addValue(val) {
-			var add = $('#values a.add');
-			$(add).before($(add).prev().clone());
-			$('input', $(add).prev()).val(val);
-		}
-
 		$('#values .aform').show();
 		$(document).on('click', '#values a.remove', function () {
-			var row = $(this).parents('tr');
+			let row = $(this).parents('tr');
+            if(row.hasClass('danger')){
+                row.removeClass('danger');
+                return;
+            }
 			if ($('#values tr.value').length > 1) {
-				if (row.find('input[name^=attribute_value_ids]').val() == 'new') {
+                if (row.find('input[name^=attribute_value_ids]').val().substring(0,3) == 'new') {
 					row.remove();
 				} else {
 					row.addClass('danger');
@@ -143,20 +140,19 @@
 		});
 
 		$('#add_option_value').on('click', function () {
-            let so = Number($('#values').find('input[name^=sort_orders]').last().val());
+            const key = Date.now();
+            let so = Number($('#values').find('input[name*=sort_order]').last().val());
             so += 1;
-			var row = $('#values tr.value').last().clone();
+			let row = $('#values tr.value').last().clone();
 			$('#values tr.value').last().after(row);
 
-			var last = $('#values tr.value').last();
-			last.find('input[name^=attribute_value_ids]').val('new').removeAttr('id');
-			last.find('input[name^=attribute_value_ids]').attr("name", "attribute_value_ids[]").removeAttr('id');
-			last.find('input[name^=values]').attr("name", "values[]").removeAttr('id');
-			last.find('input[name^=sort_orders]')
-                .attr("name", "sort_orders[]")
+			let last = $('#values tr.value').last();
+            last.find('input[name^=attribute_value_ids').attr("name", "attribute_value_ids[new"+key+"]").removeAttr('id').val('new'+key);
+            last.find('input[name*="[value]"]').attr("name", "values[new"+key+"][value]").removeAttr('id');
+            last.find('input[name*=sort_order]')
+                .attr("name", "values[new"+key+"][sort_order]")
                 .removeAttr('id')
                 .val( so );
-
 			last.removeClass('danger');
 			return false;
 		});

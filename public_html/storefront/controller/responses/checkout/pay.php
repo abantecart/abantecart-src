@@ -542,7 +542,7 @@ class ControllerResponsesCheckoutPay extends AController
             $this->_to_log(
                 sprintf(
                     $this->language->get('fast_checkout_error_unexpected_log'),
-                    var_export($in_data, true)
+                    var_export($in_data, true)."\nOrderID: ".var_export($order_id, true)."\nOrderData: ".var_export($order->getOrderData(), true)
                 )
             );
             $this->error['message'] = $this->language->get('fast_checkout_error_unexpected');

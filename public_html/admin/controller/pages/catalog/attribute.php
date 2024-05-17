@@ -193,9 +193,9 @@ class ControllerPagesCatalogAttribute extends AController
 
     protected function _getForm()
     {
-
         $this->data = $attribute_type_info = [];
-        $this->data['error'] = $this->error;
+        $this->data['error_warning'] = implode("\n", $this->error);
+
         $this->data['cancel'] = $this->html->getSecureURL('catalog/attribute');
         $this->data['get_attribute_type'] = $this->html->getSecureURL('r/catalog/attribute/get_attribute_type');
 
@@ -297,13 +297,6 @@ class ControllerPagesCatalogAttribute extends AController
 
         $this->_initTabs($attribute_type_id);
 
-        //NOTE: Future implementation ???????????
-        /*$attribute_groups = array( '' => $this->language->get('text_select'));
-        $results = $this->attribute_manager->getAttributeGroups(array('language_id' => $this->session->data['content_language_id']));
-        foreach ($results as $type) {
-            $attribute_groups[$type['attribute_group_id']] = $type['name'];
-        }*/
-
         if (!$attribute_id) {
             $this->data['action'] = $this->html->getSecureURL('catalog/attribute/insert', '&attribute_type_id=' . $attribute_type_id);
             $this->data['heading_title'] = $this->language->get('text_insert') . $this->language->get('text_attribute');
@@ -380,13 +373,6 @@ class ControllerPagesCatalogAttribute extends AController
                 'options' => $parent_attributes,
             ]);
         }
-        //NOTE: Future implementation ????
-        /*$this->data['form']['fields']['attribute_group'] = $form->getFieldHtml(array(
-            'type' => 'selectbox',
-            'name' => 'attribute_group_id',
-            'value' => $this->data['attribute_group_id'],
-            'options' => $attribute_groups,
-        ));*/
 
         if ($this->data['attribute_types'][$attribute_type_id]['controller']) {
             $subform = $this->dispatch($this->data['attribute_types'][$attribute_type_id]['controller'],
@@ -445,7 +431,11 @@ class ControllerPagesCatalogAttribute extends AController
 
         $this->error = array_merge(
             $this->error,
-            $this->attribute_manager->validateAttributeCommonData($this->request->post)
+            $this->attribute_manager->validateAttributeCommonData($this->request->post),
+            $this->attribute_manager->validateAttributeValues(
+                (int)$this->request->get_or_post('attribute_id'),
+                (array)$this->request->post['values']
+            )
         );
 
         //update controller data

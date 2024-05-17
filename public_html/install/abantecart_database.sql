@@ -12390,7 +12390,9 @@ CREATE TABLE `ac_global_attributes_values` (
     `price_modifier`     float default 0.0 null,
     `price_prefix`       char(1) null,
     `sort_order` 		 int(3) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`attribute_value_id`)
+    `txt_id` 		     varchar(255) NULL,
+  PRIMARY KEY (`attribute_value_id`),
+  UNIQUE KEY `ga_value_txt_id_idx` (`txt_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 CREATE INDEX `ac_global_attributes_values_idx` ON `ac_global_attributes_values` ( `attribute_id` );
 
