@@ -200,7 +200,7 @@ $(document).ready(function(){
         let href = $(this).attr('href');
         let target = $(this).attr('target');
         if(href.substring(0,1) !== '#') {
-            if( target === '_self') {
+            if( !target || target === '_self') {
                 location = href;
             }else{
                 window.open(href, target);
