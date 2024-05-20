@@ -26,7 +26,7 @@
             <?php if ($loggedin !== true) { ?>
             <div class="mb-3 nav nav-pills d-flex justify-content-center" role="tablist">
                     <?php if ($step == 'address' && $this->config->get('config_guest_checkout')) { ?>
-                        <button class="nav-link border active mx-1"
+                        <button class="nav-link border mx-1 <?php echo $action != 'login' ? 'active' : ''?>"
                                 id="new_address"
                                 data-bs-toggle="tab"
                                 data-bs-target="#address" type="button" role="tab"
@@ -38,7 +38,7 @@
                         </button>
                     <?php }
                     if ($step == 'payment' && $this->config->get('config_guest_checkout')) { ?>
-                        <button class="nav-link border mx-1 active"
+                        <button class="nav-link border mx-1 <?php echo $action=='login' ? ' active ' : ''?>"
                                 id="new_user"
                                 data-bs-toggle="tab"
                                 data-bs-target="#payment_details" type="button" role="tab"

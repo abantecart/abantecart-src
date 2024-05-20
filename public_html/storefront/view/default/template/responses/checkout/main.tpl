@@ -26,7 +26,7 @@
             <?php if ($loggedin !== true) { ?>
             <div class="mb-3 nav nav-pills d-flex justify-content-center" role="tablist">
                     <?php if ($step == 'address' && $this->config->get('config_guest_checkout')) { ?>
-                        <button class="nav-link border active mx-1"
+                        <button class="nav-link border mx-1 <?php echo $action != 'login' ? 'active' : ''?>"
                                 id="new_address"
                                 data-bs-toggle="tab"
                                 data-bs-target="#address" type="button" role="tab"
@@ -50,7 +50,7 @@
                         </button>
 
                     <?php } ?>
-                <button class="nav-link border mx-1"
+                <button class="nav-link border mx-1 <?php echo $action=='login' ? ' active ' : ''?>"
                         id="login_user"
                         data-bs-toggle="tab"
                         data-bs-target="#user" type="button" role="tab"
@@ -65,7 +65,8 @@
         </div>
         <div class="col-12" >
             <div class="tab-content">
-                <?php if ($step == 'address' && ($loggedin === true || $this->config->get('config_guest_checkout'))) { ?>
+                <?php
+                if ($step == 'address' && ($loggedin === true || $this->config->get('config_guest_checkout'))) { ?>
                     <div id="address" role="tabpanel"
                          class="tab-pane fade <?php if (!$action || $action == 'enter') {echo 'active show';} ?>"
                          aria-labelledby="new_address">

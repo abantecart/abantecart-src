@@ -1243,7 +1243,10 @@ class ControllerResponsesCheckoutPay extends AController
             $this->loadLanguage('account/login');
             $this->error['message'] = $this->language->get('error_login');
             if ($this->request->get['type']) {
-                $this->_addressForm($this->request->get['type'], $this->request->post);
+                $data = $this->request->get['type'] == 'shipping'
+                    ? $this->fc_session['guest']['shipping']
+                    : $this->fc_session['guest'];
+                $this->_addressForm($this->request->get['type'], $data);
                 return;
             }
         } elseif (!$this->_validate_login($loginname, $password)) {
@@ -1254,7 +1257,10 @@ class ControllerResponsesCheckoutPay extends AController
                 .$this->language->get('error_login');
 
             if ($this->request->get['type']) {
-                $this->_addressForm($this->request->get['type'], $this->request->post);
+                $data = $this->request->get['type'] == 'shipping'
+                    ? $this->fc_session['guest']['shipping']
+                    : $this->fc_session['guest'];
+                $this->_addressForm($this->request->get['type'], $data);
                 return;
             }
         } else {
