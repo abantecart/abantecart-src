@@ -497,13 +497,14 @@ class ControllerPagesDesignMenu extends AController
         );
 
         $acm = new AContentManager();
-        $results = $acm->getContents();
+        $results = $acm->getContentsForSelect(false,false,0,true);
+
         $options = ['' => $this->language->get('text_select')];
-        foreach ($results as $c) {
-            if (!$c['status']) {
+        foreach ($results as $k=>$c) {
+            if ($k == '0_0') {
                 continue;
             }
-            $options[$c['content_id']] = $c['title'];
+            $options[explode('_',$k)[1]] = $c;
         }
 
         $this->data['link_content'] = $this->html->buildElement(

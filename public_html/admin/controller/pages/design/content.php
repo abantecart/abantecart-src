@@ -266,7 +266,7 @@ class ControllerPagesDesignContent extends AController
         }
 
         $this->data['error'] = $this->error;
-        $this->data['language_id'] = $this->config->get('storefront_language_id');
+        $this->data['language_id'] = $this->language->getContentLanguageID();
         $content_info = [];
         if ($content_id && $this->request->is_GET()) {
             $content_info = $this->acm->getContent($content_id);
