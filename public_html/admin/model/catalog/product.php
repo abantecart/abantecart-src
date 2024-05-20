@@ -26,6 +26,7 @@
  */
 class ModelCatalogProduct extends Model
 {
+    public $errors = [];
     const TAG_REGEX_PATTERN = '/[^\\d\s\p{L}\-_]/u';
     /** @param array $data
      * @return int
@@ -1007,6 +1008,7 @@ class ModelCatalogProduct extends Model
             SET product_option_id = '".(int) $option_id."',
                 product_id = '".(int) $product_id."',
                 group_id = '".(int) $pd_opt_val_id."',
+                txt_id = '".$this->db->escape($data['txt_id'])."',
                 sku = '".$this->db->escape($data['sku'])."',
                 quantity = '".$this->db->escape($data['quantity'])."',
                 subtract = '".$this->db->escape($data['subtract'])."',
@@ -1045,7 +1047,8 @@ class ModelCatalogProduct extends Model
 
         $this->db->query(
             "UPDATE ".$this->db->table("product_option_values")."
-            SET sku = '".$this->db->escape($data['sku'])."',
+            SET txt_id = '".$this->db->escape($data['txt_id'])."', 
+                sku = '".$this->db->escape($data['sku'])."',
                 quantity = '".$this->db->escape($data['quantity'])."',
                 subtract = '".$this->db->escape($data['subtract'])."',
                 price = '".$this->db->escape($data['price'])."',
@@ -1402,6 +1405,7 @@ class ModelCatalogProduct extends Model
                             "INSERT INTO ".$this->db->table("product_option_values")." 
                             SET product_option_id = '".(int) $product_option_id."',
                                 product_id = '".(int) $product_id."',
+                                txt_id = '".$this->db->escape($pd_opt_vals['txt_id'])."',
                                 sku = '".$this->db->escape($pd_opt_vals['sku'])."',
                                 quantity = '".(int) $pd_opt_vals['quantity']."',
                                 subtract = '".(int) $pd_opt_vals['subtract']."',
@@ -2031,6 +2035,7 @@ class ModelCatalogProduct extends Model
                 'grouped_attribute_data' => $data['grouped_attribute_data'][$opt_val_id],
                 'name'                   => $data['name'][$opt_val_id],
                 'sku'                    => $data['sku'][$opt_val_id],
+                'txt_id'                 => $data['txt_id'][$opt_val_id],
                 'quantity'               => $data['quantity'][$opt_val_id],
                 'subtract'               => $data['subtract'][$opt_val_id],
                 'price'                  => preformatFloat(
@@ -2110,10 +2115,11 @@ class ModelCatalogProduct extends Model
             'product_option_value_id' => $option_value['product_option_value_id'],
             'language'                => $value_description_data,
             'sku'                     => $option_value['sku'],
+            'txt_id'                  => $option_value['txt_id'],
             'quantity'                => $option_value['quantity'],
             'subtract'                => $option_value['subtract'],
             'price'                   => $option_value['price'],
-            'cost'                   => $option_value['cost'],
+            'cost'                    => $option_value['cost'],
             'prefix'                  => $option_value['prefix'],
             'weight'                  => $option_value['weight'],
             'weight_type'             => $option_value['weight_type'],
@@ -2841,6 +2847,7 @@ class ModelCatalogProduct extends Model
                             'settings'                => $product_option['settings'],
                             'children_options_names'  => $pd_opt_val_description_qr->row['children_options_names'],
                             'sku'                     => $product_option_value['sku'],
+                            'txt_id'                  => $product_option_value['txt_id'],
                             'price'                   => $product_option_value['price'],
                             'prefix'                  => $product_option_value['prefix'],
                             'weight'                  => $product_option_value['weight'],
@@ -3109,5 +3116,50 @@ class ModelCatalogProduct extends Model
     {
         $tags = array_map('trim', explode(',', $string));
         return array_intersect_key($tags, array_unique(array_map('strtolower', $tags)));
+    }
+
+    /**
+     * @param int $optionId
+     * @param array $data
+     * @return array
+     * @throws AException
+     */
+    public function validateOptionValues(int $optionId, array $data)
+    {
+        $optionId = (int)$optionId;
+        $this->errors = [];
+        $this->load->language('catalog/attribute');
+
+        $txtIds = array_filter(array_map('trim', $data['txt_id']));
+        if( count($txtIds) != count(array_unique($txtIds)) ){
+            $this->errors['txt_id'] = $this->language->get('error_not_unique');
+        }
+
+        if(!$this->errors && $txtIds) {
+            $sql = "SELECT pov.*, pod.name 
+                    FROM `" . $this->db->table("product_option_values") . "` pov
+                    LEFT JOIN  `" . $this->db->table("product_option_descriptions") . "` pod
+                        ON (pod.product_option_id = pov.product_option_id 
+                            AND pod.language_id = '".(int)$this->language->getContentLanguageID()."')
+                    WHERE `txt_id` IN ('" . implode("','", $txtIds) . "')";
+            if ($optionId) {
+                $sql .= " AND pov.product_option_id <> " . (int)$optionId;
+            }
+            $exists = $this->db->query($sql);
+            if($exists->num_rows){
+                $this->errors['txt_id'] = $this->language->get('error_not_unique')." (";
+                $dd = [];
+                foreach($exists->rows as $row) {
+                    $dd[] = '<a target="_blank" href="'.$this->html->getSecureUrl(
+                        'catalog/product_options',
+                        '&product_id='.$row['product_id'])
+                        .'">'.$row['name'].'</a>';
+                }
+                $this->errors['txt_id'] .= implode(', ', $dd)." )";
+            }
+        }
+
+        $this->extensions->hk_ValidateData($this, [__FUNCTION__]);
+        return $this->errors;
     }
 }

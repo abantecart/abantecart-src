@@ -7,6 +7,8 @@ alter table `ac_global_attributes_values`
 alter table `ac_global_attributes_values`
     add constraint ga_value_txt_id_idx
         unique (txt_id);
+alter table `ac_product_option_values`
+    add txt_id varchar(255) null after group_id;
 
 alter table `ac_global_attributes_values`
     add price_prefix char(1) null after price_modifier;

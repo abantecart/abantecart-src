@@ -650,4 +650,8 @@
 		<key>entry_price_with_tax</key>
 		<value><![CDATA[Price With Taxes:]]></value>
 	</definition>
+	<definition>
+		<key>entry_txt_id</key>
+		<value><![CDATA[Unique Text ID:]]></value>
+	</definition>
 </definitions>

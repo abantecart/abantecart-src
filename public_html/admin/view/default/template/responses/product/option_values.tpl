@@ -106,10 +106,9 @@
 			<?php if (in_array($option_data['element_type'], $elements_with_options)) { ?>
 			<a href="#" title="<?php echo $button_add?>" id="add_option_value" class="btn btn-success"><i class="fa fa-plus-circle fa-lg"></i></a>&nbsp;&nbsp;
 			<?php } ?>
-			<button type="submit" class="btn btn-primary">
+			<button type="submit" class="btn btn-primary lock-on-click  ">
 			    <i class="fa fa-save"></i> <?php echo $button_save->text; ?>
 			</button>
-			&nbsp;
 			<a id="reset_option" class="btn btn-default" href="<?php echo $button_reset->href; ?>">
 			    <i class="fa fa-refresh"></i> <?php echo $button_reset->text; ?>
 			</a>

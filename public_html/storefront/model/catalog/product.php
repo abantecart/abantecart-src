@@ -1244,6 +1244,7 @@ class ModelCatalogProduct extends Model
                                     'error_text'              => $product_option['error_text'],
                                     'settings'                => $product_option['settings'],
                                     'children_options_names'  => $pd_opt_val_description_qr->row['children_options_names'],
+                                    'txt_id'                  => $product_option_value['txt_id'],
                                     'sku'                     => $product_option_value['sku'],
                                     'price'                   => $product_option_value['price'],
                                     'prefix'                  => $product_option_value['prefix'],

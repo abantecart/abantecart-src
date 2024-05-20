@@ -429,7 +429,7 @@ class ControllerPagesProductProduct extends AController
         // Prepare options and values for display
         $elements_with_options = HtmlElementFactory::getElementsWithOptions();
         $options = [];
-        $option_images = [];
+        $option_images = $txtIds = [];
         $product_options = $this->model_catalog_product->getProductOptions($product_id);
 
         //get info from cart if key presents
@@ -461,6 +461,10 @@ class ControllerPagesProductProduct extends AController
                 if ($option_value['subtract'] && $this->config->get('config_nostock_autodisable')
                     && $option_value['quantity'] <= 0) {
                     continue;
+                }
+
+                if($option_value['txt_id']) {
+                    $txtIds[$option_value['product_option_value_id']] = $option_value['txt_id'];
                 }
 
                 //Stock and status
@@ -532,7 +536,7 @@ class ControllerPagesProductProduct extends AController
 
             //if not values are build, nothing to show
             if (count($values)) {
-                $value = $attr = '';
+                $value = $data_attr = '';
                 //add price to option name if it is not element with options
                 if (!in_array($option['element_type'], $elements_with_options) && $option['element_type'] != 'B') {
                     $option['name'] .= ' <small>'.$price.'</small>';
@@ -555,10 +559,14 @@ class ControllerPagesProductProduct extends AController
 
                 //for checkbox with empty value
                 if ($option['element_type'] == 'C') {
-                    if ($value == '') {
-                        $value = 1;
-                    }
-                    $attr = key($option['option_value']);
+                    $value = $value ?: 1;
+                    $data_attr .= ' data-attribute-value-id="'.key($option['option_value']).'"';
+                }
+
+                if(in_array($option['element_type'], HtmlElementFactory::getElementsWithOptions())){
+                    $data_attr .= ' data-txt-ids="'.base64_encode(json_encode($txtIds)).'"';
+                }else{
+                    $data_attr .= ' data-txt-ids="'.html2view(current($txtIds)).'"';
                 }
 
                 $option_data = [
@@ -567,7 +575,8 @@ class ControllerPagesProductProduct extends AController
                         !in_array($option['element_type'], HtmlElementFactory::getMultivalueElements())
                             ? 'option['.$option['product_option_id'].']'
                             : 'option['.$option['product_option_id'].'][]',
-                    'attr'             => ' data-attribute-value-id="'.$attr.'"',
+                    'attr'             => $data_attr,
+                    'extra'            => count($txtIds)==1 ? ['txt_id' => current($txtIds)] : ['txt_id' => $txtIds],
                     'value'            => $value,
                     'options'          => $values,
                     'disabled_options' => $disabled_values,

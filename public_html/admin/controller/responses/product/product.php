@@ -425,8 +425,10 @@ class ControllerResponsesProductProduct extends AController
                 '&product_id=' . $product_id . '&option_id=' . $option_id
             );
 
-            $this->data['option_values'] =
-                $this->model_catalog_product->getProductOptionValues($product_id, $option_id);
+            $this->data['option_values'] = $this->model_catalog_product->getProductOptionValues(
+                $product_id,
+                $option_id
+            );
 
             $this->data['option_name'] = $this->html->buildElement(
                 [
@@ -694,11 +696,30 @@ class ControllerResponsesProductProduct extends AController
             }
         }
 
-        $this->model_catalog_product->updateProductOptionValues(
-            $this->request->get['product_id'],
-            $this->request->get['option_id'],
-            $this->request->post
+
+        $errors = $this->model_catalog_product->validateOptionValues(
+                    $this->request->get['option_id'],
+                    $this->request->post
         );
+
+        if (!$errors) {
+            $this->model_catalog_product->updateProductOptionValues(
+                $this->request->get['product_id'],
+                $this->request->get['option_id'],
+                $this->request->post
+            );
+        } else {
+            $error = new AError('');
+            $error->toJSONResponse(
+                '',
+                [
+                    'error_title' => implode('<br>', $errors),
+                ]
+            );
+            return;
+        }
+
+
 
         foreach ((array)$this->request->post['product_option_value_id'] as $product_option_value_id) {
             $stock_locations = $this->request->post['stock_location'][$product_option_value_id];
@@ -818,6 +839,7 @@ class ControllerResponsesProductProduct extends AController
         $fields = [
             'default',
             'name',
+            'txt_id',
             'sku',
             'quantity',
             'subtract',
@@ -919,6 +941,14 @@ class ControllerResponsesProductProduct extends AController
                 'type'  => 'input',
                 'name'  => 'sku[' . $product_option_value_id . ']',
                 'value' => $this->data['sku'],
+            ]
+        );
+
+        $this->data['form']['fields']['txt_id'] = $form->getFieldHtml(
+            [
+                'type'  => 'input',
+                'name'  => 'txt_id[' . $product_option_value_id . ']',
+                'value' => $this->data['txt_id'],
             ]
         );
         $stock_locations = null;

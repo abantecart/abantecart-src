@@ -1470,6 +1470,7 @@ CREATE TABLE `ac_product_option_values` (
   `product_option_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL DEFAULT '0',
+  `txt_id` varchar(255) NULL,
   `sku` varchar(255) DEFAULT NULL,
   `quantity` int(4) NOT NULL DEFAULT '0',
   `subtract` int(1) NOT NULL DEFAULT '0',
