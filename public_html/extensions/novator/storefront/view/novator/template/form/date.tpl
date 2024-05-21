@@ -1,3 +1,7 @@
+<script src="//cdnjs.cloudflare.com/ajax/libs/datepicker/1.0.10/datepicker.min.js"
+        integrity="sha512-RCgrAvvoLpP7KVgTkTctrUdv7C6t7Un3p1iaoPr1++3pybCyCsCZZN7QEHMZTcJTmcJ7jzexTO+eFpHk4OCFAg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/datepicker/1.0.10/datepicker.min.css" integrity="sha512-YdYyWQf8AS4WSB0WWdc3FbQ3Ypdm0QCWD2k4hgfqbQbRCJBEgX0iAegkl2S1Evma5ImaVXLBeUkIlP6hQ1eYKQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <?php if(!$no_wrapper){?>
 <div class="input-group h-100">
 <?php } ?>
