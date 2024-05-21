@@ -252,12 +252,13 @@ class ControllerResponsesListingGridMenu extends AController
         if (isset($this->request->get['id'])) {
             $menuData = $menu->getMenuItem($this->request->get['id']);
             //request sent from edit form. ID in url
+
             foreach ($this->request->post as $key => $value) {
                 if (!in_array($key, $allowedFields)) {
                     continue;
                 }
 
-                if(is_array($value)){
+                if( $key == 'settings'){
                     $value = array_merge($menuData[$key], $value);
                     $value = serialize($value);
                 }
