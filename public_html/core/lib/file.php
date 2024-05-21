@@ -81,13 +81,16 @@ class AFile
         }
 
         if (!empty($settings['extensions'])) {
-            $allowed_extensions = explode(',', str_replace(' ', '', $settings['extensions']));
-            $extension = substr(strrchr($data['name'], '.'), 1);
-
+            $allowed_extensions = explode(',', $settings['extensions']);
+            $allowed_extensions = array_map('trim', $allowed_extensions);
+            $allowed_extensions = array_map('strtolower', $allowed_extensions);
+            $extension = strtolower(pathinfo($data['name'], PATHINFO_EXTENSION));
             if (!in_array($extension, $allowed_extensions)) {
-                $errors[] =
-                    sprintf($this->language->get('error_file_extension'), $settings['extensions']).' ('.$data['name']
-                    .')';
+                $errors[] = sprintf(
+                    $this->language->get('error_file_extension'),
+                    $settings['extensions']
+                )
+                    .' ('.$data['name'].')';
             }
         }
 
