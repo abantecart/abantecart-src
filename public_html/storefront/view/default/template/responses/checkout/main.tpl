@@ -38,7 +38,7 @@
                         </button>
                     <?php }
                     if ($step == 'payment' && $this->config->get('config_guest_checkout')) { ?>
-                        <button class="nav-link border mx-1 active"
+                        <button class="nav-link border mx-1 <?php echo $action!='login' ? ' active ' : ''?>"
                                 id="new_user"
                                 data-bs-toggle="tab"
                                 data-bs-target="#payment_details" type="button" role="tab"
