@@ -1,12 +1,4 @@
-  <section class="viral">
-    <div class="container">
-      <div class="row title justify-content-center">
-        <div class="col-xl-8">
-          <h2>See Our Most Featured Product</h2>
-          <p>Lorem ipsum it amet, consectetur adipiscing elit. Lorem ipsum it amet, consectetur adipiscing elit.Lorem
-            ipsum it amet, conseng elit. Lorem ipsum it</p>
-        </div>
-      </div>
+
 
 <div class="featured-column mt-3">
     <?php
@@ -63,8 +55,5 @@ if ($products) {
 	}
 }
 ?>
-		</div>
+        </div>
 </div>
-
-</div>
-</section>
