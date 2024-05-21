@@ -1140,8 +1140,7 @@ class ModelSaleOrder extends Model
                         ) . "\n\n";
                 } //give link on order page for quest
                 elseif ($this->config->get('config_guest_checkout') && $order_query->row['email']) {
-                    $enc = new AEncryption($this->config->get('encryption_key'));
-                    $order_token = $enc->encrypt($order_id . '::' . $order_query->row['email']);
+                    $order_token = generateOrderToken($order_id, $order_query->row['email']);
                     $invoice = html_entity_decode(
                             $order_query->row['store_url'] . 'index.php?rt=account/order_details&ot=' . $order_token,
                             ENT_QUOTES,
@@ -1151,8 +1150,10 @@ class ModelSaleOrder extends Model
                 }
 
                 if ($this->dcrypt->active) {
-                    $customer_email =
-                        $this->dcrypt->decrypt_field($order_query->row['email'], $order_query->row['key_id']);
+                    $customer_email = $this->dcrypt->decrypt_field(
+                        $order_query->row['email'],
+                        $order_query->row['key_id']
+                    );
                 } else {
                     $customer_email = $order_query->row['email'];
                 }

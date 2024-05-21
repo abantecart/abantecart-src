@@ -964,13 +964,7 @@ class ControllerResponsesCheckoutPay extends AController
             }
         } else {
             //for guest build tokenized access to download and order details.
-            /** @var ModelCheckoutFastCheckout $mdl */
-            $mdl = $this->loadModel('checkout/fast_checkout');
-            $sec_token = genToken(32);
-            $mdl->saveGuestToken($order_id, $sec_token);
-            $enc = new AEncryption($this->config->get('encryption_key'));
-            $order_token = $enc->encrypt($order_id.'::'.$order_data['email'].'::'.$sec_token);
-
+            $order_token = generateOrderToken($order_id,$order_data['email']);
             $this->data['button_order_details'] = $this->html->buildElement(
                 [
                     'type' => 'button',

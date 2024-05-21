@@ -627,42 +627,4 @@ class ControllerPagesAccountOrderDetails extends AController
         $url = $this->html->getSecureURL($this->data['order_details_rt'], $params);
         redirect($url);
     }
-
-    /**
-     * @param string $ot - order token
-     *
-     * @return array
-     * @throws AException
-     */
-    public function parseOrderToken($ot)
-    {
-        if (!$ot) {
-            return [];
-        }
-
-        //try to decrypt order token
-        $enc = new AEncryption($this->config->get('encryption_key'));
-        $decrypted = $enc->decrypt($ot);
-        list($order_id, $email, $sec_token) = explode('::', $decrypted);
-
-        $order_id = (int)$order_id;
-        if (!$decrypted || !$order_id || !$email || !$sec_token) {
-            return [];
-        }
-        /** @var ModelAccountOrder $mdlOrder */
-        $mdlOrder = $this->load->model('account/order');
-        $order_info = $mdlOrder->getOrder($order_id, '', 'view');
-
-        //compare emails
-        if ($order_info['email'] != $email) {
-            return [];
-        }
-        //compare security token
-        /** @var ModelCheckoutFastCheckout $mdl */
-        $mdl = $this->load->model('checkout/fast_checkout');
-        if ($sec_token != $mdl->getGuestToken($order_id)) {
-            return [];
-        }
-        return [$order_id, $email, $sec_token];
-    }
 }

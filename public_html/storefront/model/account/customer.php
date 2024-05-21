@@ -1168,36 +1168,4 @@ class ModelAccountCustomer extends Model
         }
         $mail->send();
     }
-
-    /**
-     * @param string $ot - order token
-     *
-     * @return array
-     * @throws AException
-     */
-    public function parseOrderToken($ot)
-    {
-        if (!$ot || !$this->config->get('config_guest_checkout')) {
-            return [];
-        }
-
-        //try to decrypt order token
-        $enc = new AEncryption($this->config->get('encryption_key'));
-        $decrypted = $enc->decrypt($ot);
-        list($order_id, $email) = explode('::', $decrypted);
-
-        $order_id = (int) $order_id;
-        if (!$decrypted || !$order_id || !$email) {
-            return [];
-        }
-        $this->load->model('account/order');
-        $order_info = $this->model_account_order->getOrder($order_id, '', 'view');
-
-        //compare emails
-        if ($order_info['email'] != $email) {
-            return [];
-        }
-
-        return [$order_id, $email];
-    }
 }

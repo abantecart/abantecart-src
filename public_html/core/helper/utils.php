@@ -1599,3 +1599,14 @@ function renderRatingStars($value, $text){
     }
     return $output.'</div>';
 }
+
+function generateOrderToken($orderId, $email)
+{
+    $registry = Registry::getInstance();
+    $enc = new AEncryption($registry->get('config')->get('encryption_key'));
+    /** @var ModelCheckoutFastCheckout $mdl */
+    $mdl = $registry->get('load')->model('checkout/fast_checkout');
+    $secToken = genToken(32);
+    $mdl->saveGuestToken($orderId, $secToken);
+    return $enc->encrypt($orderId.'::'.$email.'::'.$secToken);
+}

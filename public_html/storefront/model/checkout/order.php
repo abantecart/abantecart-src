@@ -624,8 +624,7 @@ class ModelCheckoutOrder extends Model
 
         //give link on order page for quest
         if ($this->config->get('config_guest_checkout') && $order_row['email']) {
-            $enc = new AEncryption($this->config->get('encryption_key'));
-            $order_token = $enc->encrypt($order_id.'::'.$order_row['email']);
+            $order_token = generateOrderToken($order_id,$order_row['email']);
             $this->data['mail_template_data']['invoice'] = $order_row['store_url']
                 .'index.php?rt=account/order_details&ot='.$order_token."\n\n";
         }//give link on order for registered customers
@@ -941,8 +940,7 @@ class ModelCheckoutOrder extends Model
 
             $invoiceUrl = '';
             if (!$order_row['customer_id'] && $this->config->get('config_guest_checkout') && $order_row['email']) {
-                $enc = new AEncryption($this->config->get('encryption_key'));
-                $order_token = $enc->encrypt($order_id.'::'.$order_row['email']);
+                $order_token = generateOrderToken($order_id,$order_row['email']);
                 if ($order_token) {
                     $invoiceUrl = $order_row['store_url'].'index.php?rt=account/order_details&ot='.$order_token;
                 }
