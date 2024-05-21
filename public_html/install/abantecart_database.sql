@@ -10968,14 +10968,14 @@ VALUES  (7,'2',1),
        	(7,'266',8);
 -- settings
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_text`,`row_id`)
-VALUES  (8,'',1),
-        (8,'',2),
-        (8,'',3),
-        (8,'',4),
-        (8,'',5),
-       	(8,'',6),
-       	(8,'',7),
-       	(8,'',8);
+VALUES  (8,'a:3:{s:6:"status";s:1:"1";s:16:"include_children";s:1:"0";s:6:"target";s:5:"_self";}',1),
+        (8,'a:3:{s:6:"status";s:1:"1";s:16:"include_children";s:1:"0";s:6:"target";s:5:"_self";}',2),
+        (8,'a:3:{s:6:"status";s:1:"1";s:16:"include_children";s:1:"0";s:6:"target";s:5:"_self";}',3),
+        (8,'a:3:{s:6:"status";s:1:"1";s:16:"include_children";s:1:"0";s:6:"target";s:5:"_self";}',4),
+        (8,'a:3:{s:6:"status";s:1:"1";s:16:"include_children";s:1:"0";s:6:"target";s:5:"_self";}',5),
+       	(8,'a:3:{s:6:"status";s:1:"1";s:16:"include_children";s:1:"0";s:6:"target";s:5:"_self";}',6),
+       	(8,'a:3:{s:6:"status";s:1:"1";s:16:"include_children";s:1:"0";s:6:"target";s:5:"_self";}',7),
+       	(8,'a:3:{s:6:"status";s:1:"1";s:16:"include_children";s:1:"0";s:6:"target";s:5:"_self";}',8);
 
 --
 -- ADMIN MENU SECTION
