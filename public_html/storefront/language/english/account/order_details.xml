@@ -89,7 +89,7 @@
 	</definition>
 	<definition>
 		<key>text_sku</key>
-		<value><![CDATA[SQU]]></value>
+		<value><![CDATA[SKU]]></value>
 	</definition>
 	<definition>
 		<key>text_quantity</key>
