@@ -979,7 +979,6 @@ class ControllerResponsesCheckoutPay extends AController
                 $this->_save_customer_account($order_data);
             }
 
-
             //if download build download link for one download or downloads list
             if ($this->config->get('config_download')) {
                 $download = $this->_get_download($order_id, $order_token);
@@ -997,6 +996,8 @@ class ControllerResponsesCheckoutPay extends AController
                         $this->data['order_details_url'] = $download['download_url'];
                     }
                     //email download link for guest.
+                    /** @var ModelCheckoutFastCheckout $mdl */
+                    $mdl = $this->loadModel('checkout/fast_checkout', 'storefront');
                     $mdl->emailDownloads($order_data, $download);
                 }
             }
@@ -1839,21 +1840,31 @@ class ControllerResponsesCheckoutPay extends AController
             $this->fc_session['shipping_method'] =
                 $this->fc_session['shipping_methods'][$selected_shipping[0]]['quote'][$selected_shipping[1]];
         } else {
-            if (count($this->fc_session['shipping_methods']) == 1) {
-                //set only method
-                $only_method = $this->fc_session['shipping_methods'];
-                foreach ($only_method as $key => $value) {
-                    $method_name = $key;
-                    #Check config if we allowed to set this shipping and skip the step
-                    $ext_config = $this->model_checkout_extension->getSettings($method_name);
-                    $autoselect = $ext_config[$method_name."_autoselect"];
-                    if (
-                        (is_array($value['quote']) && sizeof($value['quote']) == 1)
-                        || $autoselect
-                    ) {
-                        $this->fc_session['shipping_method'] = current($only_method[$method_name]['quote']);
+            //set only method
+            $only_method = $this->fc_session['shipping_methods'];
+            $autoSelects = [];
+            foreach ($only_method as $shpKey => $value) {
+                $as = $this->config->get($shpKey.'_autoselect');
+                if($as) {
+                    $autoSelects[$shpKey] = $as;
+                }
+            }
+            if(count($autoSelects)){
+                $currentKey = key($autoSelects);
+                $this->fc_session['shipping_method'] = current($only_method[$currentKey]['quote']);
+                $this->fc_session['shipping_method']['auto_selected'] = true;
+            }else{
+                foreach ($only_method as $value) {
+                    if (is_array($value['quote']) && sizeof($value['quote']) == 1) {
+                        $this->fc_session['shipping_method'] = current($value['quote']);
+                        $this->fc_session['shipping_method']['auto_selected'] = true;
                     }
                 }
+            }
+            if(!$this->fc_session['shipping_method']){
+                $currentKey = key($only_method);
+                $this->fc_session['shipping_method'] = current($only_method[$currentKey]['quote']);
+                $this->fc_session['shipping_method']['auto_selected'] = true;
             }
         }
 
