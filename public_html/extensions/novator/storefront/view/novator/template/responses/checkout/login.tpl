@@ -40,7 +40,7 @@ echo $login_form['form_open']; ?>
 		<i class="fa fa-user-plus fa-fw"></i> <?php echo $fast_checkout_button_reset_login; ?>
 	</a>
     <button id="LoginFrm_Submit" class="btn btn-primary me-2" data-loading-text="<i class='fa fa-spinner fa-spin '></i> <?php echo_html2view($fast_checkout_text_authenticating); ?>">
-        <i class="fa fa-lock fa-fw"></i> <?php echo $fast_checkout_button_login; ?>
+        <i class="fa fa-lock fa-fw"></i> <?php echo $button_submit; ?>
     </button>
 </div>
 </form>
