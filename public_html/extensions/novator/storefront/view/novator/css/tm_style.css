@@ -3891,3 +3891,32 @@ input[type="number"] {
     left: auto !important;
     margin-top: auto !important;
 }
+
+#ecom-filter input[type=checkbox]:checked + label {
+    color: #1692e1 !important;
+    font-weight: bold;
+}
+#ecom-filter input[type=checkbox]:disabled + label {
+    opacity: 0.5 !important;
+}
+
+#preloader{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    opacity:0.5;
+    z-index: 10000;
+}
+#preloader_status {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
+#preloader_status .spinner-border {
+    width: 60px;
+    height: 60px;
+}

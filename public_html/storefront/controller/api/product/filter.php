@@ -56,7 +56,7 @@ class ControllerApiProductFilter extends AControllerAPI
         if ($keyword) {
             $total = $this->model_catalog_product->getTotalProducts($filters);
         } elseif ($category_id) {
-            $total = $this->model_catalog_product->getTotalProductsByCategoryId($category_id);
+            $total = $this->model_catalog_product->getTotalProductsByCategoryId((int)$category_id);
         } elseif ($manufacturer_id) {
             $total = $this->model_catalog_product->getTotalProductsByManufacturerId($manufacturer_id);
         }

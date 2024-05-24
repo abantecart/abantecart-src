@@ -63,6 +63,10 @@ $(document).ready(function(){
         filterKeywordInput.first().removeAttr('disabled');
     }
 
+    $(window).on('beforeunload', function () {
+       $('#preloader').css('display', 'block');
+    });
+
     $(".category-links a.nav-link").hover(
         function(){
             let actTab = new bootstrap.Tab($(this));

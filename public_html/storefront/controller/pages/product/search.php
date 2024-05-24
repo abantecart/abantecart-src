@@ -477,7 +477,7 @@ class ControllerPagesProductSearch extends AController
         $data = [];
         $cat_id = explode(',', $parent_id);
         end($cat_id);
-        $results = $this->model_catalog_category->getCategories(current($cat_id));
+        $results = $this->model_catalog_category->getCategories((int)current($cat_id));
 
         foreach ($results as $result) {
             if (in_array($result['category_id'], $this->path)) {

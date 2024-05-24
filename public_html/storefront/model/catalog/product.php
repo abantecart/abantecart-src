@@ -267,50 +267,71 @@ class ModelCatalogProduct extends Model
     }
 
     /**
-     * @param int $category_id
-     * @param string $sort
-     * @param string $order
-     * @param int $start
-     * @param int $limit
+     * @param int|array $category_id
+     * @param array $data
      *
      * @return array
      * @throws AException
      */
-    public function getProductsByCategoryId(
-        $category_id,
-        $sort = 'p.sort_order',
-        $order = 'ASC',
-        $start = 0,
-        $limit = 20
-    ) {
-        $start = abs((int) $start);
-        $limit = abs((int) $limit);
+    public function getProductsByCategoryId( $category_id, $data)
+    {
+        if(!$category_id){
+            return [];
+        }
+
+        $filter = (array)$data['filter'];
+        $sort = $data['sort'] ?: 'p.sort_order';
+        $order = $data['order'] ?: 'ASC';
+        $start = abs((int) $data['start']);
+        $limit = abs((int) $data['limit']?:20);
         $store_id = (int) $this->config->get('config_store_id');
         $language_id = (int) $this->config->get('storefront_language_id');
-        $cache_key = 'product.listing.products_category.'.(int) $category_id
-            .'.store_'.$store_id
-            .'_sort_'.$sort
-            .'_order_'.$order
-            .'_start_'.$start
-            .'_limit_'.$limit
-            .'_lang_'.$language_id;
+        $cache_key = 'product.listing.products_category.'
+            .md5(var_export($category_id, true).$store_id.$sort.$order.$start.$limit.$language_id.var_export($filter, true));
         $cache = $this->cache->pull($cache_key);
         if ($cache === false) {
-            $sql = "SELECT DISTINCT ".$this->db->getSqlCalcTotalRows()." p.*, 
+            $sql = "SELECT DISTINCT " . $this->db->getSqlCalcTotalRows() . " p.*, 
                         p.product_id,
-                        ".$this->_sql_final_price_string().",
+                        " . $this->_sql_final_price_string() . ",
                         pd.name AS name, 
                         pd.blurb,
                         m.name AS manufacturer,
                         ss.name AS stock,
-                        ".$this->_sql_avg_rating_string().",
-                        ".$this->_sql_review_count_string()."
-                        ".$this->_sql_join_string()."
-            LEFT JOIN ".$this->db->table("products_to_categories")." p2c
+                        " . $this->_sql_avg_rating_string() . ",
+                        " . $this->_sql_review_count_string() . "
+                        " . $this->_sql_join_string() . "
+            LEFT JOIN " . $this->db->table("products_to_categories") . " p2c
                 ON (p.product_id = p2c.product_id)
             WHERE p.status = '1' AND p.date_available <= NOW()
-                    AND p2s.store_id = '".$store_id."'
-                    AND p2c.category_id = '".(int) $category_id."'";
+                    AND p2s.store_id = '" . $store_id . "' ";
+            if (is_array($category_id)) {
+                $ids = filterIntegerIdList($category_id) ?: [0];
+                $sql .= " AND p2c.category_id IN (" . implode(',', $ids) . ")";
+            } else {
+                $sql .= " AND p2c.category_id = '" . (int)$category_id . "'";
+            }
+            if ($filter['manufacturer']) {
+                $ids = array_map('intval', array_filter((array)$filter['manufacturer']));
+                if ($ids) {
+                    $sql .= " AND p.manufacturer_id IN (" . implode(',', $ids) . ")";
+                }
+            }
+
+            if (isset($filter['rating'])) {
+                $sql .= " AND ( SELECT AVG(r.rating)
+                         FROM " . $this->db->table("reviews") . " r
+                         WHERE p.product_id = r.product_id AND status = 1
+                         GROUP BY r.product_id 
+                 ) ";
+                if (is_array($filter['rating'])) {
+                    $ids = array_map('intval', array_filter($filter['rating']));
+                    if ($ids) {
+                        $sql .= " IN (" . implode(',', $ids) . ")";
+                    }
+                } else {
+                    $sql .= " = " . (int)$filter['rating'];
+                }
+            }
 
             $sort_data = [
                 'pd.name'       => 'LCASE(pd.name)',
@@ -357,27 +378,31 @@ class ModelCatalogProduct extends Model
      * @return int
      * @throws AException
      */
-    public function getTotalProductsByCategoryId($category_id = 0)
+    public function getTotalProductsByCategoryId(int|array $category_id = 0)
     {
         $store_id = (int) $this->config->get('config_store_id');
 
-        $cache_key = 'product.listing.products_by_category.'.(int) $category_id.'.store_'.$store_id;
+        $cache_key = 'product.listing.products_by_category.'.md5(var_export($category_id,true)).'.store_'.$store_id;
         $cache = $this->cache->pull($cache_key);
         if ($cache === false) {
-            $query = $this->db->query(
-                "SELECT COUNT(*) AS total
+            $sql = "SELECT COUNT(*) AS total
                 FROM ".$this->db->table("products_to_categories")." p2c
                 LEFT JOIN ".$this->db->table("products")." p 
                     ON (p2c.product_id = p.product_id)
                 LEFT JOIN ".$this->db->table("products_to_stores")." p2s 
                     ON (p.product_id = p2s.product_id)
-                WHERE 
-                    p2c.category_id = '".(int) $category_id."'
-                    AND p.status = '1'
+                WHERE p.status = '1'
                     AND p.date_available <= NOW()
-                    AND p2s.store_id = '".$store_id."'"
-            );
+                    AND p2s.store_id = '".$store_id."'";
 
+            if (is_array($category_id)) {
+                $ids = filterIntegerIdList($category_id) ?: [0];
+                $sql .= " AND p2c.category_id IN (" . implode(',', $ids) . ")";
+            } else {
+                $sql .= " AND p2c.category_id = '" . (int)$category_id . "'";
+            }
+
+            $query = $this->db->query($sql);
             $cache = $query->row['total'];
             $this->cache->push($cache_key, $cache);
         }

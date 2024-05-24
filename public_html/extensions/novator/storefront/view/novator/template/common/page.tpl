@@ -3,7 +3,17 @@
 <head><?php	echo $head; ?></head>
 <body class="<?php echo str_replace("/", "-", $this->request->get['rt']) ?: 'home'; ?>">
 <?php echo $this->getHookVar('top_page'); ?>
-
+<div id="preloader" >
+    <div id="preloader_status">
+        <div class="spinner-overlay my-auto">
+            <div class="text-center h-100 d-flex align-items-center justify-content-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- header section Starts -->
 <header>
     <div class="nav-wrapper">
