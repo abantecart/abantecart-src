@@ -1,21 +1,22 @@
-<div class="card checkout_details col-10 mx-auto mb-5 bg-light" >
-    <h5 class="card-title bg-secondary bg-opacity-10 p-2"><?php echo $text_payment; ?></h5>
-    <div class="card-body w-75 mx-auto text-start">
-      <p class="card-text"><?php echo $text_payable; ?> <b class="ms-4"><?php echo $payable; ?></b></p>
-      <p class="card-text"><?php echo $text_address; ?> <b class="ms-4"><?php echo $address; ?></b></p>
-  </div>
-</div>
+<div class="container-fluid px-0">
+    <div class="card checkout_details col-12 mx-auto mb-5 bg-light">
+        <h5 class="card-title bg-secondary bg-opacity-10 p-2"><?php echo $text_payment; ?></h5>
+        <div class="card-body mx-auto text-start" style="width: 90%;">
+            <p class="card-text"><?php echo $text_payable; ?> <b class="ms-4"><?php echo $payable; ?></b></p>
+            <p class="card-text"><?php echo $text_address; ?> <b class="ms-4"><?php echo $address; ?></b></p>
+        </div>
+    </div>
 
-<form id="CqFrm">
-    <div class="form-group action-buttons">
-        <div class="col-md-12">
-            <button id="checkout_btn" type="submit" class="btn btn-primary btn-lg btn-block pull-right lock-on-click" title="<?php echo $button_confirm->text ?>">
+    <form id="CqFrm" class="mx-auto text-center">
+        <div class="form-group">
+            <button id="checkout_btn" type="submit" class="btn btn-primary btn-lg lock-on-click" title="<?php echo $button_confirm->text ?>">
                 <i class="fa fa-check"></i>
                 <?php echo $button_confirm->text; ?>
             </button>
         </div>
-    </div>
-</form>
+    </form>
+</div>
+
 <script type="text/javascript">
 $('#CqFrm').on('submit',function(e) {
         e.preventDefault();
