@@ -5,133 +5,131 @@
         padding: 0;
         margin: 0;
     }
-    #cardknox_cc_month{
+    #cardknox_cc_month {
         width: 110px;
         padding: 5px;
     }
-    #cardknox_cc_year{
-        padding: 5px;
+    #cardknox_cc_year {
+        padding: 20px;
     }
-
-    #accordion>h4{
+    #accordion > h4 {
         background-color: #f6f6f6;
         padding: 10px;
     }
-    #accordion>div{
+    #accordion > div {
         background-color: gainsboro;
         padding-top: 15px;
         margin-left: 3%;
         margin-right: 11px;
     }
-
-    .ebt-types>label{
+    .ebt-types > label {
         width: 100%;
         clear: both;
     }
+    .container-fluid-custom {
+        width: 100%;
+        padding: 0 15px;
+        margin: 0 auto;
+    }
 </style>
-<div class="enter_card">
-    <?php
-    if($error){ ?>
-        <div class="alert alert-danger"><i class="fa fa-bug"></i> <?php echo $error; ?></div>
-    <?php }
 
-    echo $form_open;
-    echo $amount;
-    echo $method;
-?>
+<div class="container-fluid container-fluid-custom">
+    <div class="card checkout_details col-12 mx-auto mb-5 bg-light">
+        <h5 class="card-title bg-secondary bg-opacity-10 p-2"><?php echo $text_payment; ?></h5>
+        <div class="card-body text-start">
+            <p class="card-text"><?php echo $text_payable; ?> <b class="ms-4"><?php echo $payable; ?></b></p>
+            <p class="card-text"><?php echo $text_address; ?> <b class="ms-4"><?php echo $address; ?></b></p>
+        </div>
+    </div>
 
-    <div class="accordion mb-3" id="accordion">
-        <div data-idx="0" data-method="cc"  class="accordion-item">
-            <h2 class="accordion-header" id="headingOne">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
-                        aria-expanded="true" aria-controls="collapseOne">
-                    <?php echo $text_credit_card; ?>
-                </button>
-            </h2>
-            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-                 data-bs-parent="#accordion">
-                <div class="accordion-body">
-                    <div class="text-center mb-3">
-                        <iframe data-ifields-id="card-number" data-ifields-placeholder="Card Number"
-                                width="100%" height="44"
-                                src="https://cdn.cardknox.com/ifields/<?php echo $iFieldsVersion; ?>/ifield.htm"></iframe>
-                        <input data-ifields-id="card-number-token" name="xCardNum" type="hidden">
-                    </div>
-                    <div class="mb-3">
-                        <div class="input-group">
-                            <?php
-                            $cc_expire_date_month->no_wrapper = true;
-                            echo $cc_expire_date_month;
-                            $cc_expire_date_year->no_wrapper = true;
-                            echo $cc_expire_date_year; ?>
+    <form id="CqFrm" class="text-center">
+        <div class="form-group action-buttons">
+            <button id="checkout_btn" type="submit" class="btn btn-primary btn-lg lock-on-click" title="<?php echo $button_confirm->text; ?>">
+                <i class="fa fa-check"></i>
+                <?php echo $button_confirm->text; ?>
+            </button>
+        </div>
+    </form>
+
+    <div class="enter_card">
+        <?php if($error) { ?>
+            <div class="alert alert-danger"><i class="fa fa-bug"></i> <?php echo $error; ?></div>
+        <?php } ?>
+        <?php echo $form_open; ?>
+        <?php echo $amount; ?>
+        <?php echo $method; ?>
+        <div class="accordion mb-3" id="accordion">
+            <div data-idx="0" data-method="cc" class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        <?php echo $text_credit_card; ?>
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordion">
+                    <div class="accordion-body">
+                        <div class="text-center mb-3">
+                            <iframe data-ifields-id="card-number" data-ifields-placeholder="Card Number" width="100%" height="44" src="https://cdn.cardknox.com/ifields/<?php echo $iFieldsVersion; ?>/ifield.htm"></iframe>
+                            <input data-ifields-id="card-number-token" name="xCardNum" type="hidden">
+                        </div>
+                        <div class="mb-3">
+                            <div class="input-group">
+                                <?php $cc_expire_date_month->no_wrapper = true; echo $cc_expire_date_month; ?>
+                                <?php $cc_expire_date_year->no_wrapper = true; echo $cc_expire_date_year; ?>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <iframe data-ifields-id="cvv" data-ifields-placeholder="CVV" width="50%" height="44" src="https://cdn.cardknox.com/ifields/<?php echo $iFieldsVersion; ?>/ifield.htm"></iframe>
+                            <input data-ifields-id="cvv-token" name="xCVV" type="hidden">
+                        </div>
+                        <div class="text-center">
+                            <label id="transaction-status"></label>
+                            <label data-ifields-id="card-data-error" style="color: red;"></label>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <iframe data-ifields-id="cvv" data-ifields-placeholder="CVV"
-                                width="50%" height="44"
-                                src="https://cdn.cardknox.com/ifields/<?php echo $iFieldsVersion; ?>/ifield.htm"></iframe>
-                        <input data-ifields-id="cvv-token" name="xCVV" type="hidden">
+                </div>
+            </div>
+            <div data-idx="1" data-method="ach" class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        <?php echo $cardknox_text_check_ach; ?>
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordion">
+                    <div class="accordion-body">
+                        <div class="center mb-3">
+                            <?php echo $customer_name; ?>
+                        </div>
+                        <iframe class="mb-3" data-ifields-id="ach" width="100%" height="44" data-ifields-placeholder="Account Number" src="https://cdn.cardknox.com/ifields/<?php echo $iFieldsVersion; ?>/ifield.htm"></iframe>
+                        <input data-ifields-id="ach-token" name="xACH" type="hidden"/>
+                        <div class="mb-3">
+                            <?php echo $routing_number; ?>
+                        </div>
                     </div>
-                    <div class="text-center">
-                        <!--And a field for all errors from the iFields-->
-                        <label id="transaction-status"></label>
-                        <label data-ifields-id="card-data-error" style="color: red;"></label>
+                </div>
+            </div>
+            <div data-idx="2" data-method="ebt" class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        <?php echo $cardknox_text_ebt; ?>
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordion">
+                    <div class="accordion-body">
+                        <div class="mb-3 ebt-types"><?php echo $ebt_type; ?></div>
+                        <div class="mb-3"><?php echo $ebt_number; ?></div>
                     </div>
                 </div>
             </div>
         </div>
-        <div data-idx="1" data-method="ach" class="accordion-item">
-            <h2 class="accordion-header" id="headingTwo">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    <?php echo $cardknox_text_check_ach; ?>
-                </button>
-            </h2>
-            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                 data-bs-parent="#accordion">
-                <div class="accordion-body">
-                    <div class="center mb-3">
-                        <?php
-                        echo $customer_name; ?>
-                    </div>
-                    <iframe class="mb-3" data-ifields-id="ach"
-                            width="100%" height="44"
-                            data-ifields-placeholder="Account Number"
-                            src="https://cdn.cardknox.com/ifields/<?php
-                            echo $iFieldsVersion; ?>/ifield.htm"></iframe>
-                    <input data-ifields-id="ach-token" name="xACH" type="hidden"/>
-                    <div class="mb-3">
-                        <?php
-                        echo $routing_number; ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div data-idx="2" data-method="ebt" class="accordion-item">
-            <h2 class="accordion-header" id="headingThree">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                <?php echo $cardknox_text_ebt; ?>
-                </button>
-            </h2>
-            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
-                 data-bs-parent="#accordion">
-                <div class="accordion-body">
-                    <div class="mb-3 ebt-types"><?php echo $ebt_type; ?></div>
-                    <div class="mb-3"><?php echo $ebt_number; ?></div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="form-group action-buttons text-center">
-        <button id="<?php echo $submit->name ?>" class="btn btn-primary"
-                title="<?php echo $submit->text ?>" type="submit">
-            <i class="fa fa-check"></i>
-            <?php echo $submit->text; ?>
-        </button>
+        <div class="form-group action-buttons text-center">
+            <button id="<?php echo $submit->name ?>" class="btn btn-primary" title="<?php echo $submit->text ?>" type="submit">
+                <i class="fa fa-check"></i>
+                <?php echo $submit->text; ?>
+            </button>
+        </div>
+        </form>
     </div>
-    </form>
 </div>
 
 <form id="EBTPinPad" action="" method="post">
@@ -141,6 +139,7 @@
     <input type="hidden" name="csrftoken" value="">
     <input type="hidden" name="csrfinstance" value="">
 </form>
+
 
 <script type="text/javascript">
     if (typeof window['loadScript'] !== "function") {
