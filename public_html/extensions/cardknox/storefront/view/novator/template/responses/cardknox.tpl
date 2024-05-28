@@ -34,23 +34,6 @@
 </style>
 
 <div class="container-fluid container-fluid-custom">
-    <div class="card checkout_details col-12 mx-auto mb-5 bg-light">
-        <h5 class="card-title bg-secondary bg-opacity-10 p-2"><?php echo $text_payment; ?></h5>
-        <div class="card-body text-start">
-            <p class="card-text"><?php echo $text_payable; ?> <b class="ms-4"><?php echo $payable; ?></b></p>
-            <p class="card-text"><?php echo $text_address; ?> <b class="ms-4"><?php echo $address; ?></b></p>
-        </div>
-    </div>
-
-    <form id="CqFrm" class="text-center">
-        <div class="form-group action-buttons">
-            <button id="checkout_btn" type="submit" class="btn btn-primary btn-lg lock-on-click" title="<?php echo $button_confirm->text; ?>">
-                <i class="fa fa-check"></i>
-                <?php echo $button_confirm->text; ?>
-            </button>
-        </div>
-    </form>
-
     <div class="enter_card">
         <?php if($error) { ?>
             <div class="alert alert-danger"><i class="fa fa-bug"></i> <?php echo $error; ?></div>
