@@ -54,7 +54,7 @@
                                         <div class="w-100 mt-1 d-flex justify-content-between">
                                             <div class="w-100 d-flex flex-nowrap m-0">
                                                 <input class="form-check-input product-filter me-2" id="filter_man<?php echo $brand['manufacturer_id']?>"
-                                                       type="checkbox" name="manufacturer[]" value="<?php echo $brand['manufacturer_id']?>"
+                                                       type="checkbox" name="manufacturer_id[]" value="<?php echo $brand['manufacturer_id']?>"
                                                 <?php echo $checked ? 'checked' : ''; ?>>
                                                 <label for="filter_man<?php echo $brand['manufacturer_id']?>"
                                                        class="w-100 link link-secondary d-flex flex-nowrap justify-content-between" ><?php echo $brand['name']?>

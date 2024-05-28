@@ -53,24 +53,18 @@ class ModelCatalogManufacturer extends Model
      *
      * @return array
      */
-    public function getManufacturers($data = array())
+    public function getManufacturers($data = [])
     {
         $store_id = (int)$this->config->get('config_store_id');
+        $data['filter']['manufacturer_id'] = filterIntegerIdList((array)$data['filter']['manufacturer_id']);
 
         if (isset($data['start']) || isset($data['limit'])) {
-            $data['start'] = (int)$data['start'];
-            $data['limit'] = (int)$data['limit'];
+            $data['start'] = max((int)$data['start'],0);
+            $data['limit'] = max((int)$data['limit'],1);
 
-            if ($data['start'] < 0) {
-                $data['start'] = 0;
-            }
-            if ($data['limit'] < 1) {
-                $data['limit'] = 0;
-            }
-            $cache_key = 'manufacturer.list.'.md5((int)$data['start'].(int)$data['limit']).'.store_'.$store_id;
+            $cache_key = 'manufacturer.list.'.md5(var_export($data, true)).'.store_'.$store_id;
         } else {
             $cache_key = 'manufacturer.list.store_'.$store_id;
-            unset($data['limit']);
         }
 
         $output = $this->cache->pull($cache_key);
@@ -82,13 +76,15 @@ class ModelCatalogManufacturer extends Model
         $sql = "SELECT *
 				FROM ".$this->db->table("manufacturers")." m
 				LEFT JOIN ".$this->db->table("manufacturers_to_stores")." m2s
-					ON (m.manufacturer_id = m2s.manufacturer_id)
-				WHERE m2s.store_id = '".$store_id."'
-				ORDER BY sort_order, LCASE(m.name) ASC";
+					ON (m.manufacturer_id = m2s.manufacturer_id)";
 
-        if ($data['limit']) {
-            $sql .= " LIMIT ".(int)$data['start'].",".(int)$data['limit'];
+        if($data['filter']['manufacturer_id']){
+            $sql .= " AND m.manufacturer_id IN (" . implode(',',$data['filter']['manufacturer_id']) . ")";
         }
+        $sql .= " WHERE m2s.store_id = '".$store_id."'"
+				  ." ORDER BY sort_order, LCASE(m.name) ASC";
+        $sql .= " LIMIT ".$data['start'].", ".$data['limit'];
+
         $query = $this->db->query($sql);
         $output = $query->rows;
         $this->cache->push($cache_key, $output);
@@ -113,15 +109,17 @@ class ModelCatalogManufacturer extends Model
      * @param array $data
      *
      * @return array
+     * @throws AException
      */
-    public function getManufacturersData($data = array())
+    public function getManufacturersData($data = [])
     {
         $sql = "SELECT *,
-						(SELECT count(*) as cnt
-				        FROM ".$this->db->table('products')." p
-				        WHERE p.manufacturer_id = m.manufacturer_id and p.status=1) as products_count
-					FROM ".$this->db->table("manufacturers")." m
-					LEFT JOIN ".$this->db->table("manufacturers_to_stores")." m2s ON (m.manufacturer_id = m2s.manufacturer_id)";
+                    (SELECT count(*) as cnt
+                    FROM ".$this->db->table('products')." p
+                    WHERE p.manufacturer_id = m.manufacturer_id and p.status=1) as product_count
+                FROM ".$this->db->table("manufacturers")." m
+                LEFT JOIN ".$this->db->table("manufacturers_to_stores")." m2s 
+                ON (m.manufacturer_id = m2s.manufacturer_id)";
 
         $sql .= " WHERE m2s.store_id = '".(int)$this->config->get('config_store_id')."' ";
         if (!empty($data['subsql_filter'])) {
@@ -131,5 +129,37 @@ class ModelCatalogManufacturer extends Model
 
         $query = $this->db->query($sql);
         return $query->rows;
+    }
+
+    /**
+     * @param array $manufacturerIds
+     * @return array
+     * @throws AException
+     */
+    public function getCategories(array $manufacturerIds = [])
+    {
+        $manufacturerIds = filterIntegerIdList($manufacturerIds);
+        if(!$manufacturerIds){
+            return [];
+        }
+
+        $store_id = (int)$this->config->get('config_store_id');
+        $cache_key = 'manufacturer.category_ids.' . md5(implode('.',$manufacturerIds)). '.store_' . $store_id;
+        $categories = $this->cache->pull($cache_key);
+        if ($categories !== false) {
+            return $categories;
+        }
+
+        $sql = "SELECT DISTINCT p2c.category_id
+                FROM " . $this->db->table('products') . " p
+                INNER JOIN " . $this->db->table('products_to_categories') . " p2c 
+                    ON p.product_id = p2c.product_id
+                WHERE p.status = '1'
+                    AND COALESCE(p.date_available,'1970-01-01')< NOW() 
+                    AND p.manufacturer_id IN (" . implode(', ', $manufacturerIds) . ")";
+        $query = $this->db->query($sql);
+        $output = array_map('intval', array_column($query->rows,'category_id'));
+        $this->cache->push($cache_key, $output);
+        return $output;
     }
 }

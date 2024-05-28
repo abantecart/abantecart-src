@@ -1613,8 +1613,10 @@ function generateOrderToken($orderId, $email)
 
 function filterIntegerIdList(?array $list = [])
 {
-    return array_filter(
-        array_map('intval',
-            array_map('trim', (array)$list))
+    return array_unique(
+        array_filter(
+            array_map('intval',
+                array_map('trim', (array)$list))
+        )
     );
 }

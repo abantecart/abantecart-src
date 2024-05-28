@@ -23,24 +23,7 @@ class ControllerPagesProductCategory extends AController
     public function __construct(Registry $registry, $instance_id, $controller, $parent_controller = '')
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
-        $default_sorting = $this->config->get('config_product_default_sort_order');
-        $sort_prefix = '';
-        if (strpos($default_sorting, 'name-') === 0) {
-            $sort_prefix = 'pd.';
-        } elseif (strpos($default_sorting, 'price-') === 0) {
-            $sort_prefix = 'p.';
-        }
-        $this->data['sorts'] = [
-            $sort_prefix . $default_sorting => $this->language->get('text_default'),
-            'pd.name-ASC'                   => $this->language->get('text_sorting_name_asc'),
-            'pd.name-DESC'                  => $this->language->get('text_sorting_name_desc'),
-            'p.price-ASC'                   => $this->language->get('text_sorting_price_asc'),
-            'p.price-DESC'                  => $this->language->get('text_sorting_price_desc'),
-            'rating-DESC'                   => $this->language->get('text_sorting_rating_desc'),
-            'rating-ASC'                    => $this->language->get('text_sorting_rating_asc'),
-            'date_modified-DESC'            => $this->language->get('text_sorting_date_desc'),
-            'date_modified-ASC'             => $this->language->get('text_sorting_date_asc'),
-        ];
+        $this->prepareProductListingParameters();
         $this->data['thumb_no_image'] = [
             'category' => true,
             'product'  => true
@@ -70,35 +53,17 @@ class ControllerPagesProductCategory extends AController
         );
 
         $category_info = [];
-        $httpQuery = [];
+        $httpQuery = $this->prepareProductFilterParameters();
+        extract($httpQuery);
 
-        $page = $request['page'] ?? 1;
-        $httpQuery['page'] = $page;
-        $limit = (int)$this->request->get['limit'] ?: $this->config->get('config_catalog_limit');
-        $httpQuery['limit'] = $limit;
-
-        $sorting_href = $request['sort'];
-        if (!$sorting_href || !isset($this->data['sorts'][$request['sort']])) {
-            $sorting_href = $this->config->get('config_product_default_sort_order');
-        }
-        list($sort, $order) = explode("-", $sorting_href);
-        if ($sort == 'name') {
-            $sort = 'pd.' . $sort;
-        } elseif (in_array($sort, ['sort_order', 'price'])) {
-            $sort = 'p.' . $sort;
-        }
-        $httpQuery['sort'] = $sort;
-        $httpQuery['order'] = $order;
-
-        $brands = $this->request->get['manufacturer'];
+        $brands = $request['manufacturer_id'];
         if ($brands && is_array($brands)) {
-            $httpQuery['manufacturer'] = $brands;
+            $httpQuery['manufacturer_id'] = $brands;
         }
-        $ratings = $this->request->get['rating'];
+        $ratings = $request['rating'];
         if ($ratings && is_array($ratings)) {
             $httpQuery['rating'] = $ratings;
         }
-
 
         /** @var ModelCatalogCategory $mdl */
         $mdl = $this->loadModel('catalog/category');
@@ -172,7 +137,7 @@ class ControllerPagesProductCategory extends AController
         }
 
         //if category not set but brands are selected
-        if(!$category_id && $httpQuery['manufacturer']){
+        if(!$category_id && $httpQuery['manufacturer_id']){
           redirect($this->html->getSecureURL('product/manufacturer', '&' . http_build_query($httpQuery)));
         }
 
@@ -190,8 +155,6 @@ class ControllerPagesProductCategory extends AController
             }
             $this->data['text_sort'] = $this->language->get('text_sort');
 
-
-
             $this->loadModel('catalog/product');
             $category_total = !is_array($category_id) ? $mdl->getTotalCategoriesByCategoryId($category_id) : 0;
             $productFilter = [
@@ -201,8 +164,8 @@ class ControllerPagesProductCategory extends AController
                 'start' => ($page - 1) * $limit,
             ];
 
-            if (isset($this->request->get['manufacturer'])) {
-                $productFilter['filter']['manufacturer'] = $this->request->get['manufacturer'];
+            if (isset($this->request->get['manufacturer_id'])) {
+                $productFilter['filter']['manufacturer_id'] = $this->request->get['manufacturer_id'];
             }
             if (isset($this->request->get['rating'])) {
                 $productFilter['filter']['rating'] = $this->request->get['rating'];
@@ -439,7 +402,7 @@ class ControllerPagesProductCategory extends AController
 
             $this->document->setTitle($this->language->get('text_error'));
             $this->data['heading_title'] = $this->language->get('text_error');
-            $this->data['text_error'] = $this->language->get('text_error').'eeeeddd';
+            $this->data['text_error'] = $this->language->get('text_error');
             $this->data['button_continue'] = $this->html->buildElement(
                 [
                     'type'  => 'button',

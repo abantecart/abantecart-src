@@ -307,7 +307,7 @@ function renderProductRatingStars( int $productId){
 }
 
 
-function renderFilterCategoryTreeNV($tree, $level = 0, int|array $currentId = 0)
+function renderFilterCategoryTreeNV($tree, $level = 0, int|array|null $currentId = 0)
 {
     if(!$tree || !is_array($tree)){
         return false;

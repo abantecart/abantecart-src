@@ -207,29 +207,50 @@ class ModelCatalogReview extends Model
 
     /**
      * @param array $categoryIds
+     * @param array|null $data
      * @return array
      * @throws AException
      */
-    public function getCategoriesAVGRatings($categoryIds)
+    public function getCategoriesAVGRatings(array $categoryIds, ?array $data = [])
     {
-        $cache_key = 'product.categories.avg.rating'.md5(implode(',',$categoryIds));
-        $cache = $this->cache->pull($cache_key);
-        if ($cache === false) {
-            $ids = array_unique(array_map('intval', $categoryIds));
-            $query = $this->db->query(
-                "SELECT *
-                FROM " . $this->db->table("reviews") . " r 
-                RIGHT JOIN  " . $this->db->table("products_to_categories") . " p2c
-                    ON ( p2c.category_id IN (" . implode(',', $ids) . " )
-                        AND p2c.product_id = r.product_id)
-                WHERE r.status = 1"
-            );
-            $cache = [5 => 0, 4 => 0, 3 => 0, 2 => 0, 1 => 0];
-            foreach ($query->rows as $row) {
-                $cache[(int)$row['rating']]++;
-            }
+        $categoryIds = filterIntegerIdList($categoryIds);
+        if(!$categoryIds){
+            return [];
         }
-        return $cache;
+        $cacheKey = 'product.categories.avg.rating'.md5(var_export(func_get_args(),true));
+        $output = $this->cache->pull($cacheKey);
+        if ($output !== false) {
+            return $output;
+        }
+
+        $sql = "SELECT r.rating
+                FROM " . $this->db->table("reviews") . " r
+                LEFT JOIN " . $this->db->table("products") . " p
+                    ON (r.product_id = p.product_id 
+                        AND p.status = '1' AND COALESCE(p.date_available, NOW()) <= NOW() )
+                RIGHT JOIN  " . $this->db->table("products_to_categories") . " p2c
+                    ON ( p2c.category_id IN (" . implode(',', $categoryIds) . " )
+                        AND p2c.product_id = r.product_id)";
+
+        $sql .= " WHERE r.status = 1";
+
+        $data['filter']['rating'] = filterIntegerIdList((array)$data['filter']['rating']);
+        if($data['filter']['rating']){
+            $sql .= " AND r.rating IN (".implode(',',(array)$data['filter']['rating']).")";
+        }
+        $data['filter']['manufacturer_id'] = filterIntegerIdList((array)$data['filter']['manufacturer_id']);
+        if($data['filter']['manufacturer_id']){
+            $sql .= " AND p.manufacturer_id IN (".implode(',',(array)$data['filter']['manufacturer_id']).")";
+        }
+
+
+        $query = $this->db->query( $sql );
+        $output = [5 => 0, 4 => 0, 3 => 0, 2 => 0, 1 => 0];
+        foreach ($query->rows as $row) {
+            $output[(int)$row['rating']]++;
+        }
+        $this->cache->push($cacheKey, $output);
+        return $output;
     }
 
     public function getProductAVGRatings($productId)
@@ -248,6 +269,49 @@ class ModelCatalogReview extends Model
             }
         }
         return $cache;
+    }
+
+    /**
+     * @param array|null $manufacturerIds
+     * @param array|null $data
+     * @return array
+     * @throws AException
+     */
+    public function getBrandsAVGRatings(?array $manufacturerIds = [], ?array $data = [])
+    {
+        $manufacturerIds = filterIntegerIdList($manufacturerIds);
+        if(!$manufacturerIds){
+            return [];
+        }
+        $cacheKey = 'product.brands.avg.rating'.md5(var_export(func_get_args(),true));
+        $output = $this->cache->pull($cacheKey);
+        if ($output !== false) {
+            return $output;
+        }
+
+        $sql = "SELECT DISTINCT r.*
+                FROM " . $this->db->table("reviews") . " r 
+                INNER JOIN  " . $this->db->table("products") . " p
+                    ON ( p.manufacturer_id IN (" . implode(',', $manufacturerIds) . " )
+                        AND p.product_id = r.product_id) ";
+
+        if($data['filter']['category_id']){
+            $sql .= " INNER JOIN ".$this->db->table('products_to_categories')." p2c
+                ON (p2c.category_id IN (".implode(',',(array)$data['filter']['category_id']).") 
+                    AND p.product_id = p2c.product_id) ";
+        }
+        $sql .= "WHERE r.status = 1";
+        $data['filter']['rating'] = filterIntegerIdList((array)$data['filter']['rating']);
+        if($data['filter']['rating']){
+            $sql .= " AND r.rating IN (".implode(',',(array)$data['filter']['rating']).")";
+        }
+        $query = $this->db->query( $sql );
+        $output = [5 => 0, 4 => 0, 3 => 0, 2 => 0, 1 => 0];
+        foreach ($query->rows as $row) {
+            $output[(int)$row['rating']]++;
+        }
+        $this->cache->push($cacheKey, $output);
+        return $output;
     }
 
     public function getInitialsReviewUser($author)

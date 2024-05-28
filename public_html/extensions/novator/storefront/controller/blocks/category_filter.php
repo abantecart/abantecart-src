@@ -25,40 +25,99 @@ class ControllerBlocksCategoryFilter extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->loadLanguage('novator/novator');
-        $request = $this->request->get;
-        /** @var ModelCatalogCategory $mdl */
-        $mdl = $this->loadModel('catalog/category');
-        $this->loadModel('tool/seo_url');
+        $get = $this->request->get;
+
+        $this->buildCategoryTree();
+
+        $this->data['selected_brand'] = filterIntegerIdList($get['manufacturer_id']);
+        $this->data['selected_rating'] = filterIntegerIdList($get['rating']);
+
+        $this->data['text_apply'] = $this->language->get('fast_checkout_text_apply', 'checkout/fast_checkout');
+
+        $httpQuery = $this->prepareProductFilterParameters();
+        extract($httpQuery);
+
+        $this->data['page_url'] = $this->html->getSEOURL($this->request->get['rt'], '&'.http_build_query($httpQuery));
+        $this->view->batchAssign($this->data);
+        $this->processTemplate();
+
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
+
+    protected function buildCategoryTree()
+    {
+        $get = $this->request->get;
         //can be int or array
-        $categoryId = $request['category_id'];
-        if (isset($request['path'])) {
-            $path = '';
-            $parts = explode('_', $request['path']);
+        $categoryMdl = $this->model_catalog_category;
+        $categoryId = $get['category_id'];
+        if (isset($get['path'])) {
+            $parts = explode('_', $get['path']);
             if (count($parts) == 1) {
                 //see if this is a category ID to sub category, need to build full path
-                $parts = explode('_', $mdl->buildPath($request['path']));
-            }
-            foreach ($parts as $path_id) {
-                $category_info = $mdl->getCategory($path_id);
-                if ($category_info) {
-                    if (!$path) {
-                        $path = $path_id;
-                    } else {
-                        $path .= '_' . $path_id;
-                    }
-                }
+                $parts = explode('_', $categoryMdl->buildPath($get['path']));
             }
             $categoryId = array_unique([(int)array_pop($parts), (int)$parts[0]]);
         }elseif(is_array($categoryId)){
             $categoryId = filterIntegerIdList($categoryId);
-            $parts = explode('_',$mdl->buildPath($categoryId[0]));
+            $parts = explode('_',$categoryMdl->buildPath($categoryId[0]));
             $categoryId[] = (int)$parts[0];
             $categoryId = array_unique($categoryId);
         }
+        if(str_contains($get['rt'],'manufacturer')){
+            /** @var ModelCatalogManufacturer $mdl */
+            $mdl = $this->loadModel('catalog/manufacturer');
+            if(!$categoryId) {
+                $categoryId = $mdl->getCategories((array)$get['manufacturer_id']);
+            }
+            $this->data['brands'] = $mdl->getManufacturersData(
+                [
+                    'filter' => [
+                        'manufacturer_id' => (array)$get['manufacturer_id'],
+                        'rating'=>$get['rating']
+                    ]
+                ]
+            );
+            $this->data['ratings'] = $this->model_catalog_review->getBrandsAVGRatings(
+                (array)$get['manufacturer_id'],
+                ['filter'=>[
+                    'rating'      => $get['rating'],
+                    'category_id' => $categoryId,
+                    ]
+                ]
+            );
+        }elseif ($categoryId && str_contains($get['rt'],'category')){
+            $filter = [
+                'filter'=>[
+                    'rating'=>$get['rating'],
+                    'manufacturer_id' => (array)$get['manufacturer_id']
+                ]
+            ];
+            $get['category_id'] = $categoryId;
+            $this->data['brands'] = $categoryMdl->getCategoriesBrands( $categoryId, $filter );
+            $this->data['ratings'] = $this->model_catalog_review->getCategoriesAVGRatings( $categoryId, $filter );
+        }else{
+            $this->data['brands'] = $categoryMdl->getCategoriesBrands((array)$categoryId);
+            $this->data['ratings'] = $this->model_catalog_review->getCategoriesAVGRatings(
+                (array)$categoryId,
+                ['filter'=>['rating'=>$get['rating']] ]
+            );
+        }
 
-        $mdl->buildCategoryTree( $mdl->getAllCategories(),0 );
 
-        $all = $mdl->data['all_categories'];
+        $catList = $categoryMdl->getAllCategories(
+            [
+                'filter'=>[
+                    'rating'=>$get['rating'],
+                    'manufacturer_id' => (array)$get['manufacturer_id']
+                ]
+            ]
+        );
+        $categoryMdl->buildCategoryTree(
+            $catList ,
+            0 );
+
+        $all = $categoryMdl->data['all_categories'];
 
         foreach($all as $i=>$c){
             //exclude empty categories
@@ -71,47 +130,10 @@ class ControllerBlocksCategoryFilter extends AController
             }
         }
 
-        $mdl->data['all_categories'] = $all;
-        $categoryTree = $mdl->buildNestedCategoryList(0);
+        $categoryMdl->data['all_categories'] = $all;
+        $categoryTree = $categoryMdl->buildNestedCategoryList(0,['no_sum_children' => true]);
 
-        $this->view->assign('category_tree', renderFilterCategoryTreeNV($categoryTree, 0, $categoryId));
+        $this->data['category_tree'] = renderFilterCategoryTreeNV($categoryTree, 0, $get['category_id']);
 
-
-        /** @var ModelCatalogReview $mdlReview */
-        $mdlReview = $this->loadModel('catalog/review');
-        $this->data['ratings'] = $mdlReview->getCategoriesAVGRatings($categoryId);
-        $this->data['brands'] = $mdl->getCategoriesBrands($categoryId);
-        $this->data['selected_brand'] = filterIntegerIdList($this->request->get['manufacturer']);
-        $this->data['selected_rating'] = filterIntegerIdList($this->request->get['rating']);
-
-        $this->data['text_apply'] = $this->language->get('fast_checkout_text_apply', 'checkout/fast_checkout');
-
-        $httpQuery = [];
-
-        $page = $request['page'] ?? 1;
-        $httpQuery['page'] = $page;
-        $limit = (int)$this->request->get['limit'] ?: $this->config->get('config_catalog_limit');
-        $httpQuery['limit'] = $limit;
-
-        $sorting_href = $request['sort'];
-        if (!$sorting_href || !isset($this->data['sorts'][$request['sort']])) {
-            $sorting_href = $this->config->get('config_product_default_sort_order');
-        }
-        list($sort, $order) = explode("-", $sorting_href);
-        if ($sort == 'name') {
-            $sort = 'pd.' . $sort;
-        } elseif (in_array($sort, ['sort_order', 'price'])) {
-            $sort = 'p.' . $sort;
-        }
-        $httpQuery['sort'] = $sort;
-        $httpQuery['order'] = $order;
-
-        $this->data['page_url'] = $this->html->getSEOURL($this->request->get['rt'], '&'.http_build_query($httpQuery));
-
-        $this->view->batchAssign($this->data);
-        $this->processTemplate();
-
-        //update controller data
-        $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 }
