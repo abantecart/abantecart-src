@@ -50,29 +50,31 @@ class ControllerCommonANT extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $url = "/index.php?option=com_antresponses&format=raw";
-        $url .= "&store_id=".UNIQUE_ID;
-        $url .= "&store_ip=".$_SERVER ['SERVER_ADDR'];
-        $url .= "&store_url=".HTTP_SERVER;
-        $url .= "&software_name=AbanteCart";
-        $url .= "&store_version=".VERSION;
-        $url .= "&language_code=".$this->request->cookie ['language'];
-        //check if user login first time 
+        $httpQuery['option'] = 'com_antresponses';
+        $httpQuery['format'] = 'raw';
+        $httpQuery['software_name'] = 'AbanteCart';
+        $httpQuery['store_id'] = UNIQUE_ID;
+        $httpQuery['store_ip'] = $_SERVER ['SERVER_ADDR'];
+        $httpQuery['store_url'] = HTTP_SERVER;
+        $httpQuery['store_version'] = VERSION;
+        $httpQuery['language_code'] = $this->request->cookie ['language'];
+
+        //check if user login first time
         if (!$this->user->getLastLogin()) {
-            $url .= "&new_cart=1";
+            $httpQuery['new_cart'] = 1;
         }
 
         //send extension info
         $extensions_list = $this->extensions->getExtensionsList();
         if ($extensions_list) {
             foreach ($extensions_list->rows as $ext) {
-                $url .= "&extension[]=".$ext ['key']."~".$ext ['version'];
+                $httpQuery['extension'][] = $ext ['key'] . "~" . $ext ['version'];
             }
         }
 
         //do connect without any http-redirects
         $connect = new AConnect (true);
-        $result = $connect->getResponseSecure($url);
+        $result = $connect->getResponseSecure("/index.php?".http_build_query($httpQuery));
         $this->session->data ['ant_messages'] = []; // prevent requests in future at this session
         // insert new messages in database
         if ($result && is_array($result)) {
