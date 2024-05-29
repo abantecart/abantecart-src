@@ -674,4 +674,46 @@ class ModelCatalogCategory extends Model
         $this->cache->push($cacheKey, $output);
         return $output;
     }
+
+
+    /**
+     * Get Total products in categories
+     *
+     * @param array $productIds
+     *
+     * @return array
+     * @throws AException
+     */
+    public function getCategoriesOfProducts($productIds = [])
+    {
+        $productIds = filterIntegerIdList($productIds);
+
+        if (!$productIds) {
+            return [];
+        }
+        $cacheKey = 'product.categories.' . implode(',', $productIds);
+        $output = $this->cache->pull($cacheKey);
+        if($output !== false){
+            return $output;
+        }
+
+        $sql = "SELECT p.product_id, c.category_id, cd.name 
+            FROM " . $this->db->table("products_to_categories") . " p2c
+            INNER JOIN " . $this->db->table('products') . " p
+                ON p.product_id = p2c.product_id
+            INNER JOIN " . $this->db->table('categories') . " c
+                ON c.category_id = p2c.category_id AND c.status = 1
+            LEFT JOIN " . $this->db->table("category_descriptions") . " cd
+                ON (cd.category_id = p2c.category_id 
+                    AND cd.language_id = " . (int)$this->language->getLanguageID() .")                    
+            WHERE p.status = 1  
+                AND COALESCE(p.date_available,'1970-01-01')< NOW()
+                AND p.product_id IN (" . implode(', ', $productIds) . ")
+            ORDER BY cd.name;";
+
+        $query = $this->db->query( $sql );
+        $output = $query->rows;
+        $this->cache->push($cacheKey, $output);
+        return $output;
+    }
 }

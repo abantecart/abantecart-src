@@ -33,7 +33,7 @@ class ControllerPagesProductManufacturer extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $httpQuery = $this->prepareProductFilterParameters();
+        $httpQuery = $this->prepareProductSortingParameters();
         extract($httpQuery);
 
         $brands = $get['manufacturer_id'];

@@ -602,7 +602,7 @@ abstract class AController
             'date_modified-ASC'             => $this->language->get('text_sorting_date_asc'),
         ];
     }
-    protected function prepareProductFilterParameters()
+    protected function prepareProductSortingParameters()
     {
         $request = $this->request->get;
         $page = $request['page'] ?? 1;

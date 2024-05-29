@@ -53,7 +53,7 @@ class ControllerPagesProductCategory extends AController
         );
 
         $category_info = [];
-        $httpQuery = $this->prepareProductFilterParameters();
+        $httpQuery = $this->prepareProductSortingParameters();
         extract($httpQuery);
 
         $brands = $request['manufacturer_id'];
