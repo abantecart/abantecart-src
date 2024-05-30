@@ -66,16 +66,16 @@
                 <?php
                     $port = $this->config->get('cardconnect_test_mode') ? 6443 : 8443;
                 ?>
-                <div class="mb-3">
-                    <iframe id="tokenframe" name="tokenframe"
+                <div class="mb-3 g-3 d-flex">
+                    <iframe id="tokenframe" name="ccnumfield" type="tel"
                             src="https://<?php echo $api_domain;?>/itoke/ajax-tokenizer.html?invalidinputevent=true&css=<?php echo urlencode("input{border:1px solid rgb(204, 204, 204); border-radius: .25rem; width: 95%; height: 36px; padding: 0px 12px; font-size: 16px; line-height: 1.42857143; color: rgb(85, 85, 85); background-color: rgb(255, 255, 255); } body{ margin: 3px;} .error{color: red;}");?>"
-                            width="100%" height="44"></iframe>
+                            width="500" height="50"></iframe>
                     <input type="hidden" name="cc_token" id="cc_token" class="form-control">
                 </div>
             </div>
             <div class="mb-3 row g-3 d-flex flex-wrap justify-content-end">
                 <label class="col-auto control-label"><?php echo $entry_cc_expire_date; ?></label>
-                <div class="col-6 col-sm-4">
+                <div class="col-7 col-sm-4">
                     <select id="cc_expire_date_month" required
                             class="form-select"
                             name="cc_expire_date_month">
@@ -86,10 +86,8 @@
                         ?>
                     </select>
                 </div>
-                <div class="col-auto">
-                    <select class="form-select" required
-                            id="cc_expire_date_year"
-                            name="cc_expire_date_year">
+                <div class="col-6 col-sm-4">
+                    <select class="form-select" required id="cc_expire_date_year" name="cc_expire_date_year">
                         <?php
                         foreach ($cc_expire_date_year->options as $v => $option) {
                             echo "<option value='$v'>$option</option>";
@@ -97,6 +95,7 @@
                         ?>
                     </select>
                 </div>
+
             </div>
             <div class="mb-3 row">
                 <label for="cc_owner" class="col-9 col-form-label"><?php echo $entry_cc_cvv2; ?>
@@ -109,7 +108,7 @@
                 </div>
             </div>
         <?php if ($save_cc) { ?>
-            <div class="mb-3 d-flex align-items-end">
+            <div class="mb-3 d-flex align-items-end ">
                 <label class="ms-auto form-check-label me-3"
                        data-toggle="tooltip"
                        data-original-title="<?php echo_html2view($entry_cc_save_details); ?>">
