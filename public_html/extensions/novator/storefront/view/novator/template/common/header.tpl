@@ -34,8 +34,18 @@
                     </div>
                     <div class="header-right w-75 d-flex flex-nowrap align-items-center justify-content-end">
                             <?php
-                            foreach($children_blocks as $k => $instanceName){ ?>
-                                <div class="header-right-block block_<?php echo $k; ?> ms-2 d-flex justify-content-end">
+                            foreach($children_blocks as $k => $instanceName){
+                                if(!$$instanceName){
+                                    continue;
+                                }
+                                if(str_starts_with($instanceName,'customer')) {
+                                    $offcanvasInstanses['customer'] = $instanceName;
+                                }
+                                if(str_starts_with($instanceName,'currency')) {
+                                    $offcanvasInstanses['currency'] = $instanceName;
+                                }
+                                ?>
+                                <div class="header-right-block block_<?php echo $k; ?> d-flex justify-content-end">
                                     <?php echo $$instanceName; ?>
                                 </div>
                             <?php
@@ -44,4 +54,93 @@
                 </div>
             </div>
         </div>
+</div>
+<div class="offcanvas menu-offcanvas offcanvas-end" tabindex="-1" id="menuoffcanvas"
+     aria-labelledby="cartoffcanvasLabel">
+    <div class="offcanvas-body">
+        <div class="menu-top-btn d-flex justify-content-between">
+            <button type="button" class="btn btn-danger btn-icon" data-bs-dismiss="offcanvas" aria-label="Close"><i
+                        class="bi bi-x"></i></button>
+
+            <a class="btn btn-primary image-link d-inline-flex me-2 position-relative align-items-center justify-content-center" data-bs-toggle="offcanvas"
+               href="#cartoffcanvas" role="button" aria-controls="cartoffcanvas" aria-label="cart link">
+                <i class="bi bi-cart3 me-2"></i> <?php echo $text_cart;?>
+            </a>
+
+            <a href="<?php echo $this->html->getSecureUrl('account/account') ?>" class="btn btn-primary"><i class="bi bi-person me-2"></i> <?php echo $text_account;?></a>
+        </div>
+    </div>
+    <div class="scroll-div">
+        <div class="offcanvas-body">
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <?php if($mobile_menu_categories){ ?>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#mob-menu-collapseOne" aria-expanded="false"
+                                aria-controls="mob-menu-collapseOne"><?php echo $text_home;?>
+                        </button>
+                    </h2>
+                    <div id="mob-menu-collapseOne" class="accordion-collapse collapse"
+                         data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body px-0">
+                            <div class="list-group list-group-flush">
+                                <?php foreach($mobile_menu_categories as $cat){?>
+                                <a href="<?php echo $this->html->getSeoUrl('product/category','&path='.$cat['category_id'])?>"
+                                   class="list-group-item list-group-item-action border-0"><?php echo $cat['name']?></a>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php }?>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <a href="<?php echo $this->html->getSecureUrl('product/special') ?>" class="accordion-button collapsed no-icon"><?php echo $text_special;?>
+                        </a>
+                    </h2>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <a href="<?php echo $this->html->getSecureUrl('account/history') ?>" class="accordion-button collapsed no-icon">
+                            <?php echo $this->language->get('heading_title','account/history');?>
+                        </a>
+                    </h2>
+                </div>
+            </div>
+        </div>
+        <?php if($mobile_menu_contents){ ?>
+        <div class="offcanvas-body border-top border-bottom">
+            <h5 class="ms-4"><?php echo $mobile_menu_title; ?></h5>
+            <div class="list-group list-group-flush mt-4">
+            <?php foreach($mobile_menu_contents as $item){ ?>
+                <a href="<?php echo $item['href']?>" class="list-group-item list-group-item-action border-0"><?php echo $item['text']; ?></a>
+            <?php } ?>
+            </div>
+        </div>
+        <?php } ?>
+        <div class="offcanvas-body">
+            <div class="btn-group">
+                <button class="btn dropdown-toggle arrow-none bg-transparent shadow-none" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">ENG <i data-feather="chevron-down"></i></button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">HINDI</a></li>
+                    <li><a class="dropdown-item" href="#">FRENCH</a></li>
+                    <li><a class="dropdown-item" href="#">SPENISH</a></li>
+                    <li><a class="dropdown-item" href="#">URDU</a></li>
+                </ul>
+            </div>
+            <div class="btn-group ms-2">
+                <button class="btn dropdown-toggle arrow-none bg-transparent shadow-none" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">$ USD <i data-feather="chevron-down"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">RUPEES</a></li>
+                    <li><a class="dropdown-item" href="#">EURO</a></li>
+                    <li><a class="dropdown-item" href="#">POUND</a></li>
+                    <li><a class="dropdown-item" href="#">DIRHAM</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>

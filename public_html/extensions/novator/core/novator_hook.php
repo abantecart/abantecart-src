@@ -35,4 +35,37 @@ class ExtensionNovator extends Extension {
         }
     }
 
+    public function onControllerCommonHeader_UpdateData()
+    {
+        $that = $this->baseObject;
+        if($that->config->get('config_storefront_template') != 'novator'){
+            return;
+        }
+        $dd = new ADispatcher('blocks/content');
+        $dd->dispatch();
+        $scratchData = Registry::getInstance()->get('novator_scratch')['blocks/content'];
+        $that->view->assign('mobile_menu_title', $scratchData['title']);
+        $that->view->assign('mobile_menu_contents', $scratchData['contents']);
+        /** @var ModelCatalogCategory $mdl */
+        $mdl = $that->loadModel('catalog/category');
+        $that->view->assign('mobile_menu_categories',  $mdl->getCategories(0) );
+    }
+
+    public function onControllerBlocksContent_UpdateData()
+    {
+        $that = $this->baseObject;
+        if($that->config->get('config_storefront_template') != 'novator'){
+            return;
+        }
+        Registry::getInstance()->set(
+            'novator_scratch',
+            [
+            'blocks/content' => [
+                'title' => $that->data['heading_title'],
+                'contents' => $that->data['contents']
+            ]
+            ]
+        );
+    }
+
  }

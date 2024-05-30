@@ -1,6 +1,6 @@
 <div class="row title justify-content-center sec-heading-block text-center">
     <div class="col-xl-8">
-        <h1 class="h2 heading-title mb-0">
+        <h1 class="h2 heading-title mb-0 mt-3">
             <?php echo $heading_title; ?>
         </h1>
     </div>
