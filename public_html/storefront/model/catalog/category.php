@@ -716,4 +716,40 @@ class ModelCatalogCategory extends Model
         $this->cache->push($cacheKey, $output);
         return $output;
     }
+
+    /**
+     * @param int $category_id
+     * @param int $language_id
+     *
+     * @return string
+     * @throws AException
+     */
+    public function getPath($category_id, $language_id = 0)
+    {
+        $category_id = (int) $category_id;
+        $language_id = (int) $language_id;
+        if (!$language_id) {
+            $language_id = (int) $this->language->getLanguageID();
+        }
+        $query = $this->db->query(
+            "SELECT name, parent_id
+            FROM ".$this->db->table("categories")." c
+            LEFT JOIN ".$this->db->table("category_descriptions")." cd
+                ON (c.category_id = cd.category_id)
+            WHERE c.category_id = '".(int) $category_id."' 
+                AND cd.language_id = '".$language_id."'
+            ORDER BY c.sort_order, cd.name ASC"
+        );
+
+        $category_info = $query->row;
+
+        if ($category_info['parent_id']) {
+            return $this->getPath(
+                    $category_info['parent_id'],
+                    $language_id
+                ).$this->language->get('text_separator').$category_info['name'];
+        } else {
+            return $category_info['name'];
+        }
+    }
 }

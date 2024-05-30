@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 /**
  * Class ControllerPagesProductSearch
@@ -69,7 +69,7 @@ class ControllerPagesProductSearch extends AController
             $httpQuery['category_id'] = (array)$get['category_id'];
         }
         if (isset($get['sort'])) {
-            $httpQuery['sort'] = $get['sort'];
+            $httpQuery['sort'] = (string)$get['sort'];
         }
         if (isset($get['page'])) {
             $httpQuery['page'] = (int)$get['page'];
@@ -145,7 +145,7 @@ class ControllerPagesProductSearch extends AController
             $this->loadModel('catalog/product');
             $promotion = new APromotion();
 
-            $this->data['raw_data'] = $products_result = $this->model_catalog_product->getProductsByKeyword(
+            $this->data['raw_data'] = $products_result = $this->model_catalog_product->getFilteredProducts(
                 [
                     'filter' => [
                         'keyword'         => $get['keyword'],
@@ -176,24 +176,9 @@ class ControllerPagesProductSearch extends AController
             $product_total = current($products_result)['total_num_rows'];
 
             if ($product_total) {
-                $url = '';
-                if (isset($get['category_id'])) {
-                    $url .= '&category_id='.$get['category_id'];
-                }
-
-                if (isset($get['description'])) {
-                    $url .= '&description='.$get['description'];
-                }
-
-                if (isset($get['model'])) {
-                    $url .= '&model='.$get['model'];
-                }
-
                 $this->loadModel('catalog/review');
                 $this->loadModel('tool/seo_url');
                 $products = [];
-
-
 
                 if ($products_result) {
                     $product_ids = array_column($products_result, 'product_id');
@@ -296,7 +281,7 @@ class ControllerPagesProductSearch extends AController
                                 'href'           =>
                                     $this->html->getSEOURL(
                                         'product/product',
-                                        '&keyword='.$get['keyword'].$url.'&product_id='.$result['product_id'],
+                                        '&keyword='.$get['keyword'].'&product_id='.$result['product_id'],
                                         '&encode'
                                     ),
                                 'add'            => $add,
@@ -320,7 +305,6 @@ class ControllerPagesProductSearch extends AController
                     $display_price = false;
                 }
                 $this->data['display_price'] = $display_price;
-                $this->data['url'] = $this->html->getSEOURL('product/manufacturer', '&'.http_build_query($httpQuery));
 
                 $sort_options = $this->data['sorts'];
                 $sorting = $this->html->buildElement(

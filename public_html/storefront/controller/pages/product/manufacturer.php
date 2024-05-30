@@ -225,31 +225,34 @@ class ControllerPagesProductManufacturer extends AController
                         }
                     }
 
-                    $products[] = [
-                        'product_id'     => $result['product_id'],
-                        'name'           => $result['name'],
-                        'blurb'          => $result['blurb'],
-                        'model'          => $result['model'],
-                        'rating'         => $rating,
-                        'stars'          => sprintf($this->language->get('text_stars'), $rating),
-                        'thumb'          => $thumbnail,
-                        'price'          => $price,
-                        'raw_price'      => $result['price'],
-                        'call_to_order'  => $result['call_to_order'],
-                        'options'        => $products_info[$result['product_id']]['options'],
-                        'special'        => $special,
-                        'href'           => $this->html->getSEOURL(
-                            'product/product',
-                            '&product_id='.$result['product_id'],'&encode'
-                        ),
-                        'add'            => $add,
-                        'description'    => html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
-                        'track_stock'    => $track_stock,
-                        'in_stock'       => $in_stock,
-                        'no_stock_text'  => $no_stock_text,
-                        'total_quantity' => $total_quantity,
-                        'tax_class_id'   => $result['tax_class_id'],
-                    ];
+                    $products[] = array_merge(
+                        $result,
+                        [
+                            'product_id'     => $result['product_id'],
+                            'name'           => $result['name'],
+                            'blurb'          => $result['blurb'],
+                            'model'          => $result['model'],
+                            'rating'         => $rating,
+                            'stars'          => sprintf($this->language->get('text_stars'), $rating),
+                            'thumb'          => $thumbnail,
+                            'price'          => $price,
+                            'raw_price'      => $result['price'],
+                            'call_to_order'  => $result['call_to_order'],
+                            'options'        => $products_info[$result['product_id']]['options'],
+                            'special'        => $special,
+                            'href'           => $this->html->getSEOURL(
+                                'product/product',
+                                '&product_id='.$result['product_id'],'&encode'
+                            ),
+                            'add'            => $add,
+                            'description'    => html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
+                            'track_stock'    => $track_stock,
+                            'in_stock'       => $in_stock,
+                            'no_stock_text'  => $no_stock_text,
+                            'total_quantity' => $total_quantity,
+                            'tax_class_id'   => $result['tax_class_id'],
+                        ]
+                    );
                 }
                 $this->data['products'] = $products;
 

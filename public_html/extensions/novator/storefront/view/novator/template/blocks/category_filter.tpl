@@ -5,6 +5,7 @@
                 <div class="card">
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
+                            <?php if($category_tree){ ?>
                             <li class="category-tree list-group-item border-0 px-0 py-2">
                                 <a class="btn fw-bold border-0 px-0 text-start w-100 pb-0 mb-2" data-bs-toggle="collapse"
                                    href="#tree_collapse">
@@ -15,6 +16,9 @@
                                     <?php echo $category_tree ?>
                                 </div>
                             </li>
+                            <?php
+                            }
+                            if($ratings){?>
                             <li class="ratings list-group-item border-0 px-0 py-2">
                                 <a class="btn fw-bold border-0 px-0 text-start w-100 pb-0 mb-2" data-bs-toggle="collapse"
                                    href="#category_rating-collapse">
@@ -41,6 +45,8 @@
                                     <?php } ?>
                                 </div>
                             </li>
+                            <?php }
+                            if($brands){ ?>
                             <li class="brand-list list-group-item border-0 px-0 py-2">
                                 <a class="btn fw-bold border-0 px-0 text-start w-100 pb-2" data-bs-toggle="collapse"
                                    href="#brand_list_collapse">
@@ -65,6 +71,7 @@
                                     <?php } ?>
                                 </div>
                             </li>
+                            <?php }?>
                         </ul>
                     </div>
                 </div>

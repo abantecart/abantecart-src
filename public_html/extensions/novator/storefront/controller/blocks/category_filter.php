@@ -20,18 +20,16 @@
 
 class ControllerBlocksCategoryFilter extends AController
 {
-
     public function __construct($registry, $instance_id, $controller, $parent_controller = '')
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
         $this->data['data_sources'] = [
             'pages/product/search' => [
                 'model_rt' => 'catalog/product',
-                'model_method' => 'getProductsByKeyword',
+                'model_method' => 'getFilteredProducts',
             ]
         ];
     }
-
 
     public function main()
     {
@@ -158,14 +156,21 @@ class ControllerBlocksCategoryFilter extends AController
 
                 $productIds = array_column($productList, 'product_id');
                 $prodCatList = $categoryMdl->getCategoriesOfProducts($productIds);
+                $names = array_column($prodCatList,'name','category_id');
                 $counts = $catList = [];
                 foreach($prodCatList as $item){
                     $counts[$item['category_id']]++;
-                    $catList[$item['category_id']] = $item;
+                    $catList[(int)$item['category_id']] = [
+                        'category_id' => $item['category_id'],
+                        'name' => $item['name']
+                    ];
                 }
+                $sortIdx = [];
                 foreach($catList as &$item){
-                    $item['product_count'] =  $counts[$item['category_id']]++;
+                    $item['name'] = $categoryMdl->getPath($item['category_id']);
+                    $sortIdx[$item['category_id']]  = $item['name'];
                 }
+                array_multisort($catList, SORT_STRING, $sortIdx);
             }
         }
         if(!$catList) {

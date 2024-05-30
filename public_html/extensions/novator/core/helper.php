@@ -322,7 +322,7 @@ function renderFilterCategoryTreeNV($tree, $level = 0, int|array|null $currentId
                     <input class="form-check-input product-filter me-2" id="filter_cat'.$cat['category_id'].'" type="checkbox" name="category_id[]" value="'.$cat['category_id'].'" '.($checked ? 'checked' : '').'>
                     <label for="filter_cat'.$cat['category_id'].'" 
                         class="w-100 ms-'.$level.' link '.($checked ? 'fw-bolder link-primary' : 'link-secondary').' d-block ms-'.$level.'" >'. str_repeat('&nbsp;', $level ).$cat['name'].'
-                        <span class="float-end">('. $cat['product_count'].')</span>
+                        '. ( $cat['product_count'] ? '<span class="float-end">('. $cat['product_count'].')</span>' : '').'
                     </label>
                 </div>
             </div>';
