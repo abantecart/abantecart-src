@@ -47,7 +47,7 @@ class ControllerBlocksSpecial extends AController
         $promotion = new APromotion();
         $this->data['button_add_to_cart'] = $this->language->get('button_add_to_cart');
         $this->data['products'] = [];
-        $results = $promotion->getSpecialProducts(
+        $results = $this->model_catalog_product->getSpecialProducts(
             [
                 'sort'       => 'pd.name',
                 'order'      => 'ASC',

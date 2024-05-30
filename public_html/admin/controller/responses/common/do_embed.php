@@ -171,7 +171,7 @@ class ControllerResponsesCommonDoEmbed extends AController
             $subcategories = [];
             //if embed for only one category
             if (sizeof($category_id) == 1) {
-                $cat_id = current($category_id);
+                $cat_id = (int)current($category_id);
                 $category_info = $this->model_catalog_category->getCategory($cat_id);
                 $subcategories = $this->model_catalog_category->getCategories($cat_id);
                 if ($category_info['parent_id'] == 0) {

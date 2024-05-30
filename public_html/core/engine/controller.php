@@ -580,4 +580,48 @@ abstract class AController
         //add ability to create custom warnings
         $this->extensions->hk_ProcessData($this,__FUNCTION__);
     }
+
+    protected function prepareProductListingParameters()
+    {
+        $default_sorting = $this->config->get('config_product_default_sort_order');
+        $sort_prefix = '';
+        if (strpos($default_sorting, 'name-') === 0) {
+            $sort_prefix = 'pd.';
+        } elseif (strpos($default_sorting, 'price-') === 0) {
+            $sort_prefix = 'p.';
+        }
+        $this->data['sorts'] = [
+            $sort_prefix . $default_sorting => $this->language->get('text_default'),
+            'pd.name-ASC'                   => $this->language->get('text_sorting_name_asc'),
+            'pd.name-DESC'                  => $this->language->get('text_sorting_name_desc'),
+            'p.price-ASC'                   => $this->language->get('text_sorting_price_asc'),
+            'p.price-DESC'                  => $this->language->get('text_sorting_price_desc'),
+            'rating-DESC'                   => $this->language->get('text_sorting_rating_desc'),
+            'rating-ASC'                    => $this->language->get('text_sorting_rating_asc'),
+            'date_modified-DESC'            => $this->language->get('text_sorting_date_desc'),
+            'date_modified-ASC'             => $this->language->get('text_sorting_date_asc'),
+        ];
+    }
+    protected function prepareProductSortingParameters()
+    {
+        $request = $this->request->get;
+        $page = $request['page'] ?? 1;
+        $limit = (int)$request['limit'] ?: $this->config->get('config_catalog_limit');
+        $sorting_href = $request['sort'];
+        if (!$sorting_href || !isset($this->data['sorts'][$request['sort']])) {
+            $sorting_href = $this->config->get('config_product_default_sort_order');
+        }
+        list($sort, $order) = explode("-", $sorting_href);
+        if ($sort == 'name') {
+            $sort = 'pd.' . $sort;
+        } elseif (in_array($sort, ['sort_order', 'price'])) {
+            $sort = 'p.' . $sort;
+        }
+        return [
+            'sort' => $sort,
+            'order' => $order,
+            'page' => $page,
+            'limit' => $limit
+        ];
+    }
 }

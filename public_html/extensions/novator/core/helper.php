@@ -253,7 +253,7 @@ function renderRatingStarsNv($value, $text){
     $i = 1;
     $output = '<div title="'.htmlspecialchars($text, ENT_QUOTES, 'UTF-8').'">';
     while($i < 6){
-        $output .= '<i class="bi '.($i<=$value ? 'bi-star-fill' : 'bi-star').'"></i>';
+        $output .= '<i class="bi '.($i<=$value ? 'bi-star-fill' : 'bi-star').' text-warning me-1"></i>';
         $i++;
     }
     return $output.'</div>';
@@ -263,7 +263,7 @@ function noRatingStarsNv($text){
     $i = 1;
     $output = '<div title="'.htmlspecialchars($text, ENT_QUOTES, 'UTF-8').'">';
     while($i < 6){
-        $output .= '<i class="bi bi-star"></i>';
+        $output .= '<i class="bi bi-star text-warning"></i>';
         $i++;
     }
     return $output.'</div>';
@@ -303,5 +303,32 @@ function renderProductRatingStars( int $productId){
     </div>';
     }
 
+    return $output;
+}
+
+
+function renderFilterCategoryTreeNV($tree, $level = 0, int|array|null $currentId = 0)
+{
+    if(!$tree || !is_array($tree)){
+        return false;
+    }
+    $output = '';
+    foreach($tree as $cat){
+        $cat['name'] = ($level ? ' - ' : '') .$cat['name'];
+        $checked = in_array($cat['category_id'], (array)$currentId);
+        $output .=
+            '<div class="row g-3 align-items-center my-0">
+                  <div class="d-flex flex-nowrap m-0">
+                    <input class="form-check-input product-filter me-2" id="filter_cat'.$cat['category_id'].'" type="checkbox" name="category_id[]" value="'.$cat['category_id'].'" '.($checked ? 'checked' : '').'>
+                    <label for="filter_cat'.$cat['category_id'].'" 
+                        class="w-100 ms-'.$level.' link '.($checked ? 'fw-bolder link-primary' : 'link-secondary').' d-block ms-'.$level.'" >'. str_repeat('&nbsp;', $level ).$cat['name'].'
+                        '. ( $cat['product_count'] ? '<span class="float-end">('. $cat['product_count'].')</span>' : '').'
+                    </label>
+                </div>
+            </div>';
+
+        if(!$cat['children']){ continue; }
+        $output .= renderFilterCategoryTreeNV($cat['children'], $level+1, $currentId);
+    }
     return $output;
 }

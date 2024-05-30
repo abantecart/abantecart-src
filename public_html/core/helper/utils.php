@@ -1610,3 +1610,13 @@ function generateOrderToken($orderId, $email)
     $mdl->saveGuestToken($orderId, $secToken);
     return $enc->encrypt($orderId.'::'.$email.'::'.$secToken);
 }
+
+function filterIntegerIdList(?array $list = [])
+{
+    return array_unique(
+        array_filter(
+            array_map('intval',
+                array_map('trim', (array)$list))
+        )
+    );
+}

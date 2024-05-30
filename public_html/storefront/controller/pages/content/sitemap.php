@@ -76,7 +76,7 @@ class ControllerPagesContentSitemap extends AController
     {
         $output = '';
 
-        $results = $this->model_catalog_category->getCategories($parent_id);
+        $results = $this->model_catalog_category->getCategories((int)$parent_id);
 
         if ($results) {
             $output .= '<ul class="list-group">';
