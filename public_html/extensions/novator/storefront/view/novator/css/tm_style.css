@@ -3796,7 +3796,6 @@ input[type="number"] {
         border: none;
     }
     #MegaMenuCategoryCarousel .carousel-control-prev, .carousel-control-next{
-        background-color: #e1e1e1;
         width: 6vh;
         height: 6vh;
         border-radius: 50%;
