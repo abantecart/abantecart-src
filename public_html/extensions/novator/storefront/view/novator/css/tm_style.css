@@ -3920,3 +3920,7 @@ input[type="number"] {
     width: 60px;
     height: 60px;
 }
+
+#menuoffcanvas .d-none{
+    display: block !important;
+}

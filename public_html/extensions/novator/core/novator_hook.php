@@ -41,11 +41,19 @@ class ExtensionNovator extends Extension {
         if($that->config->get('config_storefront_template') != 'novator'){
             return;
         }
+        //add elements into mobile version of menu canvas
         $dd = new ADispatcher('blocks/content');
         $dd->dispatch();
         $scratchData = Registry::getInstance()->get('novator_scratch')['blocks/content'];
         $that->view->assign('mobile_menu_title', $scratchData['title']);
         $that->view->assign('mobile_menu_contents', $scratchData['contents']);
+
+        $dd = new ADispatcher('blocks/currency');
+        $that->view->assign( 'mobile_menu_currency', $dd->dispatchGetOutput());
+
+        $dd = new ADispatcher('blocks/language');
+        $that->view->assign( 'mobile_menu_language', $dd->dispatchGetOutput());
+
         /** @var ModelCatalogCategory $mdl */
         $mdl = $that->loadModel('catalog/category');
         $that->view->assign('mobile_menu_categories',  $mdl->getCategories(0) );

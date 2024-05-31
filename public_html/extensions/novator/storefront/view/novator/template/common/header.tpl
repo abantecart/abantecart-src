@@ -120,26 +120,11 @@
         </div>
         <?php } ?>
         <div class="offcanvas-body">
-            <div class="btn-group">
-                <button class="btn dropdown-toggle arrow-none bg-transparent shadow-none" type="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">ENG <i data-feather="chevron-down"></i></button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">HINDI</a></li>
-                    <li><a class="dropdown-item" href="#">FRENCH</a></li>
-                    <li><a class="dropdown-item" href="#">SPENISH</a></li>
-                    <li><a class="dropdown-item" href="#">URDU</a></li>
-                </ul>
+            <div class="btn-group me-2">
+                <?php echo $mobile_menu_language; ?>
             </div>
-            <div class="btn-group ms-2">
-                <button class="btn dropdown-toggle arrow-none bg-transparent shadow-none" type="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">$ USD <i data-feather="chevron-down"></i>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">RUPEES</a></li>
-                    <li><a class="dropdown-item" href="#">EURO</a></li>
-                    <li><a class="dropdown-item" href="#">POUND</a></li>
-                    <li><a class="dropdown-item" href="#">DIRHAM</a></li>
-                </ul>
+            <div class="btn-group">
+                <?php echo $mobile_menu_currency; ?>
             </div>
         </div>
     </div>
