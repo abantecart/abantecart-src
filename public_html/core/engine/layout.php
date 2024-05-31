@@ -1,23 +1,21 @@
-<?php /** @noinspection SqlResolve */
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2023 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-  
- UPGRADE NOTE: 
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.  
-------------------------------------------------------------------------------*/
+<?php /*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -92,12 +90,19 @@ class ALayout
 
         // find page records for given controller
         $key_param = $this->getKeyParamByController($controller, $method);
-        $key_value = $key_param ? (string)$this->request->get[$key_param] : null;
+        $key_value = $key_param
+            ? (is_array($this->request->get[$key_param]) && count($this->request->get[$key_param]) == 1
+                ? current($this->request->get[$key_param])
+                : $this->request->get[$key_param])
+            : null;
 
         // for nested categories
-        if ($key_param == 'path' && $key_value) {
-            if (is_int(strpos($key_value, '_'))) {
-                $key_value = (int) substr($key_value, strrpos($key_value, '_') + 1);
+        if ($key_param == 'path') {
+            $key_value = !$key_value && count((array)$this->request->get['category_id'])
+                ? current((array)$this->request->get['category_id'])
+                : $key_value;
+            if(str_contains($key_value, '_')){
+                $key_value = last(explode('_',$key_value));
             }
         } elseif (!$key_value) {
             $key_value = $key_param = null;
