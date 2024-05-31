@@ -14,21 +14,15 @@ echo $login_form['form_open']; ?>
 </div>
 <p class="text-center"> <?php echo $fast_checkout_text_please_login; ?>:</p>
 <fieldset>
-    <div class="form-floating mb-3 col-10 col-sm-6 mx-auto">
-        <?php
-            $login_form['loginname']->no_wrapper = true;
-            $login_form['loginname']->attr .= ' autocomplete="username email" required  aria-required="true" ';
-            echo $login_form['loginname'];
-        ?>
-        <label for="<?php echo $login_form['loginname']->element_id; ?>">
-            <?php echo_html2view($fast_checkout_text_login_or_email); ?>
-        </label>
+    <div class="form-floating mb-3 col-10 col-offset-2 col-sm-6 col-sm-offset-3 mx-auto">
+            <input type="text" name="loginname" id="LoginFrm_loginname" value="<?php echo $login_form['loginname']->value;?>"
+                   class="form-control w-100 " autocomplete="username email" required aria-required="true">
+            <label for="<?php echo $login_form['loginname']->element_id; ?>">
+                <?php echo_html2view($fast_checkout_text_login_or_email); ?>
+            </label>
     </div>
     <div class="form-floating mb-3 col-10 col-sm-6 mx-auto">
-        <?php
-        $login_form['password']->no_wrapper = true;
-        $login_form['password']->attr .= ' autocomplete="current-password" aria-required="true" required ';
-        echo $login_form['password']; ?>
+        <input type="password" name="password" id="LoginFrm_password" value="" class="form-control w-100 " autocomplete="current-password" aria-required="true" required>
         <label for="<?php echo $login_form['password']->element_id; ?>">
             <?php echo_html2view($fast_checkout_text_password); ?>
             </label>
