@@ -40,8 +40,8 @@ class ControllerBlocksCategoryFilter extends AController
 
         $this->buildCategoryTree();
 
-        $this->data['selected_brand'] = filterIntegerIdList($get['manufacturer_id']);
-        $this->data['selected_rating'] = filterIntegerIdList($get['rating']);
+        $this->data['selected_brand'] = filterIntegerIdList((array)$get['manufacturer_id']);
+        $this->data['selected_rating'] = filterIntegerIdList((array)$get['rating']);
 
         $this->data['text_apply'] = $this->language->get('fast_checkout_text_apply', 'checkout/fast_checkout');
 
@@ -65,6 +65,7 @@ class ControllerBlocksCategoryFilter extends AController
 
     protected function buildCategoryTree()
     {
+        $extra = [];
         $get = $this->request->get;
         $dataSource = false;
         //can be int or array
@@ -79,7 +80,11 @@ class ControllerBlocksCategoryFilter extends AController
                 //see if this is a category ID to sub category, need to build full path
                 $parts = explode('_', $categoryMdl->buildPath($get['path']));
             }
-            $categoryId = array_unique([(int)array_pop($parts), (int)$parts[0]]);
+            foreach(array_reverse($parts) as $i){
+                if($i){
+                    $categoryId[] = $i;
+                }
+            }
         }elseif(is_array($categoryId)){
             $categoryId = filterIntegerIdList($categoryId);
             $parts = explode('_',$categoryMdl->buildPath($categoryId[0]));
@@ -110,6 +115,8 @@ class ControllerBlocksCategoryFilter extends AController
                 ]
             );
         }elseif ($categoryId && $parentRoute == 'pages/product/category'){
+
+
             $filter = [
                 'filter'=>[
                     'rating'=>$get['rating'],
@@ -119,6 +126,7 @@ class ControllerBlocksCategoryFilter extends AController
             $get['category_id'] = $categoryId;
             $this->data['brands'] = $categoryMdl->getCategoriesBrands( $categoryId, $filter );
             $this->data['ratings'] = $this->model_catalog_review->getCategoriesAVGRatings( $categoryId, $filter );
+            $extra['lock_one_category'] = count((array)$get['category_id']) == 1;
         }elseif($this->data['data_sources'][$parentRoute]){
             $dataSource = true;
             $sourceInfo = $this->data['data_sources'][$parentRoute];
@@ -205,6 +213,6 @@ class ControllerBlocksCategoryFilter extends AController
         }
 
         $categoryTree = $categoryMdl->buildNestedCategoryList(0,['no_sum_children' => true]);
-        $this->data['category_tree'] = renderFilterCategoryTreeNV($categoryTree, 0, (array)$get['category_id']);
+        $this->data['category_tree'] = renderFilterCategoryTreeNV($categoryTree, 0, (array)$get['category_id'], $extra);
     }
 }
