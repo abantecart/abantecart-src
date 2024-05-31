@@ -5,7 +5,7 @@
             break;
         }
     } ?>
-    <div class="btn-group d-none d-md-block">
+    <div class="btn-group d-none d-md-block me-2">
         <button class="btn dropdown-toggle arrow-none bg-transparent shadow-none" type="button"
                 data-bs-toggle="dropdown" aria-expanded="false"> <div class="d-flex flex-nowrap">
                 <span class="d-none d-md-block me-2"><?php echo $current[ 'name' ]; ?></span>
