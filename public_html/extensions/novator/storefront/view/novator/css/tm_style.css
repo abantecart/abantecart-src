@@ -3815,7 +3815,8 @@ input[type="number"] {
     }
     #MegaMenuCategoryCarousel .card .img-wrapper img{
         max-height: 100%;
-        width: 235px;
+        width: 100%;
+        border-radius: 13px;
     }
 }
 
