@@ -1797,11 +1797,11 @@ section {
     padding-bottom: 75px;
 }
 
-.home .top-section > .container {
+.index-home .top-section > .container {
     max-width: 100%;
 }
 
-.home .page-main-content {
+.index-home .page-main-content {
     padding: 0;
 }
 

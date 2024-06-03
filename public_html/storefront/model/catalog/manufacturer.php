@@ -60,7 +60,7 @@ class ModelCatalogManufacturer extends Model
 
         if (isset($data['start']) || isset($data['limit'])) {
             $data['start'] = max((int)$data['start'],0);
-            $data['limit'] = max((int)$data['limit'],1);
+            $data['limit'] = max((int)$data['limit'],(int)$this->config->get('config_catalog_limit'));
 
             $cache_key = 'manufacturer.list.'.md5(var_export($data, true)).'.store_'.$store_id;
         } else {

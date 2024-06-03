@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" dir="<?php echo $direction; ?>" lang="<?php echo $lang; ?>" xml:lang="<?php echo $lang; ?>" <?php echo $this->getHookVar('hk_html_attribute'); ?>>
 <head><?php	echo $head; ?></head>
-<body class="<?php echo str_replace("/", "-", $this->request->get['rt']) ?: 'home'; ?>">
+<body class="<?php echo str_replace("/", "-", $this->request->get['rt']) ?: 'index-home';?>">
 <?php echo $this->getHookVar('top_page'); ?>
 <div id="preloader" >
     <div id="preloader_status">

@@ -448,10 +448,11 @@ class ControllerBlocksListingBlock extends AController
             } else {
                 // otherwise -  select list from method
                 if ($route) {
-                    $args = [
+                    $lineArg = [
                         'product_id' => $this->request->get['product_id'],
-                        'limit'      => $limit,
+                        'limit'      => $limit
                     ];
+                    $args = array_merge(['data' => $lineArg], $lineArg);
 
                     if ($route == 'collection' && $content['collection_id']) {
                         $args['collection_id'] = $content['collection_id'];

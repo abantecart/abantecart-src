@@ -53,6 +53,7 @@ class AListing
                 'rl_object_name'       => 'products',
                 'data_type'            => 'product_id',
                 'storefront_model'     => 'catalog/product',
+                /** @see ModelCatalogProduct::getProductRelated() */
                 'storefront_method'    => 'getProductRelated',
                 'storefront_view_path' => 'product/product',
             ],
@@ -61,6 +62,7 @@ class AListing
                 'rl_object_name'       => 'products',
                 'data_type'            => 'product_id',
                 'storefront_model'     => 'catalog/product',
+                /** @see ModelCatalogProduct::getPopularProducts() */
                 'storefront_method'    => 'getPopularProducts',
                 'storefront_view_path' => 'product/product',
             ],
@@ -69,6 +71,7 @@ class AListing
                 'rl_object_name'       => 'products',
                 'data_type'            => 'product_id',
                 'storefront_model'     => 'catalog/product',
+                /** @see ModelCatalogProduct::getProductSpecials() */
                 'storefront_method'    => 'getProductSpecials',
                 'storefront_view_path' => 'product/product',
             ],
@@ -77,14 +80,17 @@ class AListing
                 'rl_object_name'       => 'categories',
                 'data_type'            => 'category_id',
                 'storefront_model'     => 'catalog/category',
+                /** @see ModelCatalogCategory::getCategories() */
                 'storefront_method'    => 'getCategories',
                 'storefront_view_path' => 'product/category',
             ],
+
             'catalog_category_getmanufacturers'  => [
                 'text'                 => 'text_manufacturers',
                 'rl_object_name'       => 'manufacturers',
                 'data_type'            => 'manufacturer_id',
                 'storefront_model'     => 'catalog/manufacturer',
+                /** @see ModelCatalogManufacturer::getManufacturers() */
                 'storefront_method'    => 'getManufacturers',
                 'storefront_view_path' => 'product/manufacturer',
             ],
@@ -93,6 +99,7 @@ class AListing
                 'rl_object_name'       => 'products',
                 'data_type'            => 'product_id',
                 'storefront_model'     => 'catalog/product',
+                /** @see ModelCatalogProduct::getFeaturedProducts() */
                 'storefront_method'    => 'getFeaturedProducts',
                 'storefront_view_path' => 'product/product',
             ],
@@ -101,6 +108,7 @@ class AListing
                 'rl_object_name'       => 'products',
                 'data_type'            => 'product_id',
                 'storefront_model'     => 'catalog/product',
+                /** @see ModelCatalogProduct::getLatestProducts() */
                 'storefront_method'    => 'getLatestProducts',
                 'storefront_view_path' => 'product/product',
             ],
@@ -109,6 +117,7 @@ class AListing
                 'rl_object_name'       => 'products',
                 'data_type'            => 'product_id',
                 'storefront_model'     => 'catalog/product',
+                /** @see ModelCatalogProduct::getBestSellerProducts() */
                 'storefront_method'    => 'getBestsellerProducts',
                 'storefront_view_path' => 'product/product',
             ],
@@ -124,6 +133,7 @@ class AListing
                 'rl_object_name'       => 'products',
                 'text'                 => 'text_custom_products',
                 'storefront_model'     => 'catalog/product',
+                /** @see ModelCatalogProduct::getProduct() */
                 'storefront_method'    => 'getProduct',
                 'storefront_view_path' => 'product/product',
                 'items_list_url'       => 'product/product/related',
@@ -131,6 +141,7 @@ class AListing
             'custom_categories'                  => [
                 'model'                => 'catalog/category',
                 'total_method'         => 'getTotalCategories',
+                /** @see ModelCatalogCategory::getCategoriesData() */
                 'method'               => 'getCategoriesData',
                 'language'             => 'catalog/category',
                 'data_type'            => 'category_id',
@@ -145,6 +156,7 @@ class AListing
             'custom_manufacturers'               => [
                 'model'                => 'catalog/manufacturer',
                 'total_method'         => 'getTotalManufacturers',
+                /** @see ModelCatalogManufacturer::getManufacturers() */
                 'method'               => 'getManufacturers',
                 'language'             => 'catalog/manufacturer',
                 'data_type'            => 'manufacturer_id',
@@ -158,6 +170,7 @@ class AListing
             ],
             'collection'                         => [
                 'model'             => 'catalog/collection',
+                /** @see ModelCatalogCollection::getCollections() */
                 'method'            => 'getCollections',
                 'language'          => 'catalog/collections',
                 'text'              => 'text_collection',
