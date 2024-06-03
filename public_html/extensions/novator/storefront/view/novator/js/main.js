@@ -372,8 +372,10 @@ $(document).ready(function(){
         let html = $("html");
         if (html.attr("data-bs-theme")) {
             html.removeAttr("data-bs-theme", "dark");
+            setCookie("data-bs-theme", "light", 100);
         } else {
             html.attr("data-bs-theme", "dark");
+            setCookie("data-bs-theme", "dark", 100);
         }
     });
 });
@@ -520,4 +522,14 @@ function escapeHtml(text) {
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
+}
+
+function setCookie(name,value,days) {
+    let expires = "";
+    if (days) {
+        let date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
 }
