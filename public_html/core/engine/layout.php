@@ -102,7 +102,8 @@ class ALayout
                 ? current((array)$this->request->get['category_id'])
                 : $key_value;
             if(str_contains($key_value, '_')){
-                $key_value = last(explode('_',$key_value));
+                $parts = explode('_', $key_value);
+                $key_value = end($parts);
             }
         } elseif (!$key_value) {
             $key_value = $key_param = null;
