@@ -68,8 +68,11 @@
                 ?>
                 <div class="mb-3 g-3 d-flex">
                     <iframe id="tokenframe" name="ccnumfield" type="tel"
-                            src="https://<?php echo $api_domain;?>/itoke/ajax-tokenizer.html?invalidinputevent=true&css=<?php echo urlencode("input{border:1px solid rgb(204, 204, 204); border-radius: .25rem; width: 95%; height: 36px; padding: 0px 12px; font-size: 16px; line-height: 1.42857143; color: rgb(85, 85, 85); background-color: rgb(255, 255, 255); } body{ margin: 3px;} .error{color: red;}");?>"
-                            width="500" height="50"></iframe>
+                            src="https://<?php echo $api_domain;?>/itoke/ajax-tokenizer.html?invalidinputevent=true&css=<?php
+                            echo urlencode("input{padding: 0.8rem 0.75rem; font-size: 0.875rem; color: #1B1C2D; border: 1px solid #E6E8ED; border-radius: 8px; width: 94%; font-weight: 400;
+  line-height: 1.5; appearance: none; background-clip: padding-box;transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}} body{ margin: 3px;} .error{color: red;}");?>"
+                            width="100%" height="55" style="margin: 0; padding: 0;"></iframe>
                     <input type="hidden" name="cc_token" id="cc_token" class="form-control">
                 </div>
             </div>
