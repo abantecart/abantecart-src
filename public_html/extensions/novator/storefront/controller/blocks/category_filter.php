@@ -79,6 +79,7 @@ class ControllerBlocksCategoryFilter extends AController
             if (count($parts) == 1) {
                 //see if this is a category ID to sub category, need to build full path
                 $parts = explode('_', $categoryMdl->buildPath($get['path']));
+                $get['category_id'] = end($parts);
             }
             foreach(array_reverse($parts) as $i){
                 if($i){
@@ -92,7 +93,7 @@ class ControllerBlocksCategoryFilter extends AController
             $categoryId = array_unique($categoryId);
         }
 
-        if($parentRoute == 'pages/product/manufacturer'){
+        if(str_starts_with($parentRoute, 'pages/product/manufacturer')){
             /** @var ModelCatalogManufacturer $mdl */
             $mdl = $this->loadModel('catalog/manufacturer');
             if(!$categoryId) {
@@ -114,7 +115,7 @@ class ControllerBlocksCategoryFilter extends AController
                     ]
                 ]
             );
-        }elseif ($categoryId && $parentRoute == 'pages/product/category'){
+        }elseif ($categoryId && str_starts_with($parentRoute, 'pages/product/category')){
 
 
             $filter = [
