@@ -45,6 +45,12 @@ class AMenu_Storefront extends AMenu
         $this->dataset_rows = (array) $this->dataset->getRows();
         $this->dataset_description_rows = (array) $this->dataset_description->getRows();
 
+        /** @var ModelCatalogCategory $categoryMdl */
+        $categoryMdl = $this->registry->get('load')->model('catalog/category');
+
+        /** @var ModelCatalogContent $contentMdl */
+        $contentMdl = $this->registry->get('load')->model('catalog/content');
+
         // need to resort by sort_order property
         $tmp = $this->item_ids = [];
         foreach ($this->dataset_rows as $item) {
@@ -56,7 +62,7 @@ class AMenu_Storefront extends AMenu
             }
 
             //Increment sort for child
-            while(isset ($tmp[$leaf['parent_id']][$item['sort_order']])) {
+            while (isset ($tmp[$leaf['parent_id']][$item['sort_order']])) {
                 $item['sort_order']++;
             }
 
@@ -70,28 +76,40 @@ class AMenu_Storefront extends AMenu
             $item['settings'] = unserialize($item['settings']) ?: [];
             $this->item_ids[] = $item['item_id'];
 
-            //tree of subcategories
-            if(str_starts_with($item['item_url'],'product/category&path=')
-                && $item['settings']['include_children']
-                && !$item['category_tree']
-            ){
-                $requestID = $this->registry->get('request')->get_or_post('path');
+            $isCategory = str_starts_with($item['item_url'], 'product/category&path=');
+            if ($isCategory) {
                 parse_str($item['item_url'], $qry);
                 $ctgTrail = explode("_", $qry['path']);
-                if (count($ctgTrail) && in_array($requestID, $ctgTrail)) {
-                    $item['current'] = true;
+                if (!$categoryMdl->getCategory(end($ctgTrail))) {
+                    //skip if category not from current store
+                    continue;
                 }
-                //process leafs
-                $leaf = $this->addNestedCategoryItems($item, $languageId, $requestID);
                 $item['category'] = true;
+                //tree of subcategories
+                if ($item['settings']['include_children'] && !$item['category_tree']
+                ) {
+                    $requestID = $this->registry->get('request')->get_or_post('path');
+                    if (count($ctgTrail) && in_array($requestID, $ctgTrail)) {
+                        $item['current'] = true;
+                    }
+                    //process leafs
+                    $leaf = $this->addNestedCategoryItems($item, $languageId, $requestID);
+                }
             }
             //tree of content menu
-            if(str_starts_with($item['item_url'],'content/content&content_id=')
-                && $item['settings']['include_children']
-                && !$item['content_tree']
-            ){
-                $leaf = $this->addNestedContentItems($item, $languageId);
-                $item['content'] = true;
+            $isContent = str_starts_with($item['item_url'],'content/content&content_id=');
+            if( $isContent) {
+                parse_str($item['item_url'], $qry);
+                $contentId = $qry['content_id'];
+
+                if(!$contentMdl->getContent($contentId)){
+                    continue;
+                }
+
+                if ($item['settings']['include_children'] && !$item['content_tree'] ) {
+                    $leaf = $this->addNestedContentItems($item, $languageId);
+                    $item['content'] = true;
+                }
             }
 
             $tmp[$item['parent_id']][$item['sort_order']] = $item;
@@ -188,15 +206,15 @@ class AMenu_Storefront extends AMenu
     protected function addNestedContentItems($parentItem, $languageId)
     {
         $output = [];
-
+        /** @var ModelCatalogContent $mdl */
+        $mdl = $this->registry->get('load')->model('catalog/content');
         parse_str($parentItem['item_url'], $qry);
         $parentId = $qry['content_id'];
         if(!$parentId) {
             return $output;
         }
         //build dynamic content (pages) links
-        /** @var ModelCatalogContent $mdl */
-        $mdl = $this->registry->get('load')->model('catalog/content');
+
         $mdl->getContents();
         $childrenIDs = $mdl->getChildrenIDs($parentId);
 
