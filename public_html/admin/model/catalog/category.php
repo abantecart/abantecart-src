@@ -371,8 +371,10 @@ class ModelCatalogCategory extends Model
             $total_sql = "*,
                           c.category_id,
                           (SELECT count(*) as cnt
-                            FROM ".$this->db->table('products_to_categories')." p
-                            WHERE p.category_id = c.category_id) as products_count ";
+                           FROM ".$this->db->table('products_to_categories')." p
+                           INNER JOIN ".$this->db->table('products_to_stores')." s
+                                ON (p.product_id = s.product_id AND s.store_id = ".$store_id.")
+                           WHERE p.category_id = c.category_id) as products_count ";
         }
         $where = (isset($data['parent_id']) ? "WHERE c.parent_id = '".(int) $data['parent_id']."'" : '');
         $sql = "SELECT ".$total_sql."
