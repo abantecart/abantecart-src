@@ -113,22 +113,35 @@ class ModelCatalogManufacturer extends Model
      */
     public function getManufacturersData($data = [])
     {
+        $cacheKey = 'manufacturer.data.'.md5(var_export($data, true));
+        $output = $this->cache->pull($cacheKey);
+        if ($output !== false) {
+            return $output;
+        }
+        $storeId = (int)$this->config->get('config_store_id');
         $sql = "SELECT *,
                     (SELECT count(*) as cnt
                     FROM ".$this->db->table('products')." p
-                    WHERE p.manufacturer_id = m.manufacturer_id and p.status=1) as product_count
+                    INNER JOIN " . $this->db->table('products_to_stores') . " s 
+                        ON (p.product_id = s.product_id AND s.store_id=".$storeId.")
+                    WHERE p.manufacturer_id = m.manufacturer_id 
+                        AND p.status=1                    
+                        AND COALESCE(p.date_available,'1970-01-01')< NOW() 
+                    ) as product_count
                 FROM ".$this->db->table("manufacturers")." m
                 LEFT JOIN ".$this->db->table("manufacturers_to_stores")." m2s 
                 ON (m.manufacturer_id = m2s.manufacturer_id)";
 
-        $sql .= " WHERE m2s.store_id = '".(int)$this->config->get('config_store_id')."' ";
+        $sql .= " WHERE m2s.store_id = '".$storeId."' ";
         if (!empty($data['subsql_filter'])) {
             $sql .= ' AND '.$data['subsql_filter'];
         }
         $sql .= " ORDER BY sort_order, LCASE(m.name) ASC";
 
         $query = $this->db->query($sql);
-        return $query->rows;
+        $output = $query->rows;
+        $this->cache->push($cacheKey, $output);
+        return $output;
     }
 
     /**

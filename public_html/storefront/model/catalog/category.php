@@ -58,6 +58,8 @@ class ModelCatalogCategory extends Model
                         ON ( p.product_id = p2c.product_id 
                             AND p.status = '1'
                             AND COALESCE(p.date_available,'1970-01-01')< NOW() )
+                     INNER JOIN cba_products_to_stores s
+                        ON (p.product_id = s.product_id AND s.store_id = ".$store_id.")
                      WHERE  p2c.category_id = c.category_id) as products_count
                 FROM " . $this->db->table("categories") . " c
                 LEFT JOIN " . $this->db->table("category_descriptions") . " cd 
@@ -118,12 +120,14 @@ class ModelCatalogCategory extends Model
             $sql = "SELECT p2c.category_id as category_id, count(*) as product_count
                     FROM " . $this->db->table('products_to_categories') . " p2c
                     INNER JOIN " . $this->db->table('products') . " p 
-                        ON p.product_id = p2c.product_id ";
+                        ON p.product_id = p2c.product_id
+                    INNER JOIN " . $this->db->table('products_to_stores') . " s 
+                        ON p.product_id = s.product_id AND s.store_id=".$store_id;
 
             if($data['filter']['rating']){
                 $sql .= " INNER JOIN ".$this->db->table('reviews')." r
                 ON (r.rating IN (".implode(',',(array)$data['filter']['rating']).") 
-                    AND p.product_id = r.product_id AND r.status = 1) ";
+                    AND p.product_id = r.product_id AND r.status = 1 ) ";
             }
             $data['filter']['manufacturer_id'] = filterIntegerIdList((array)$data['filter']['manufacturer_id']);
             if($data['filter']['manufacturer_id']){
@@ -186,7 +190,10 @@ class ModelCatalogCategory extends Model
                           c.category_id,
                           (SELECT count(*) as cnt
                             FROM " . $this->db->table('products_to_categories') . " p2c
-                            INNER JOIN " . $this->db->table('products') . " p ON p.product_id = p2c.product_id
+                            INNER JOIN " . $this->db->table('products') . " p 
+                                ON p.product_id = p2c.product_id
+                            INNER JOIN cba_products_to_stores s
+                                ON (p.product_id = s.product_id AND s.store_id = ".$store_id.")
                             WHERE p2c.category_id = c.category_id 
                                 AND p.status = '1' 
                                 AND COALESCE(p.date_available,'1970-01-01')< NOW() ) as products_count ";
