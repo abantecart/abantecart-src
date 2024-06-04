@@ -214,6 +214,7 @@ class ModelCatalogProduct extends Model
         }
         $this->cache->remove('product');
         $this->cache->remove('collection');
+        $this->cache->remove('storefront_menu');
         return $product_id;
     }
 
@@ -2899,6 +2900,7 @@ class ModelCatalogProduct extends Model
         );
         $this->cache->remove('product');
         $this->cache->remove('collection');
+        $this->cache->remove('storefront_menu');
         return true;
     }
 
