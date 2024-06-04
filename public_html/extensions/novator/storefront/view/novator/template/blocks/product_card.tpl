@@ -43,7 +43,10 @@
                                 </a>
                             </li>
                             <li class="list-inline-item btn-compare">
-                                <a href="#">
+                                <a href="javascript:void(0)"
+                                   class="share"
+                                   data-title="<?php echo_html2view($product['name']);?>"
+                                   data-url="<?php echo $item['info_url'];?>">
                                     <i class="bi bi-shuffle"></i>
                                 </a>
                             </li>

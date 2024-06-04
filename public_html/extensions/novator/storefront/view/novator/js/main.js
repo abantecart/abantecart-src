@@ -533,3 +533,19 @@ function setCookie(name,value,days) {
     }
     document.cookie = name + "=" + (value || "")  + expires + "; path=/";
 }
+
+$(document).on("click", "a.share", function(){ shareProduct(this) });
+function shareProduct(elm)
+{
+    let card = $(elm);
+    let data = { "url" : card.attr('data-url'), "title": card.attr('data-title') };
+    if(!data.url){ return;}
+    try {
+        navigator.share(data);
+    }
+    catch(e){
+        navigator.clipboard.writeText(data.url);
+        alert("Copied!");
+    }
+
+}
