@@ -1891,6 +1891,7 @@ section {
 #product_details {
     .product-sticky {
         top: 110px;
+        z-index: 999!important;
     }
 }
 
