@@ -3705,7 +3705,7 @@ li#review-set::before {
     margin-right: 5px;
 }
 
-[data-bs-theme=dark] .ecom-filter a.link-secondary {
+[data-bs-theme=dark] .ecom-filter .link-secondary,  [data-bs-theme=dark] .search-category  {
     color: RGBA(var(--bs-light-rgb)) !important;
 }
 
