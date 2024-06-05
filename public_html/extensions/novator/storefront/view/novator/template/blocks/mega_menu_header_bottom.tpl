@@ -8,7 +8,7 @@ $categories = prepareNVCatItems($categories);
                 <div class="col">
                     <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-start">
                         <li class="dropdown mega-menu">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            <a id="menu_all_categories" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                aria-expanded="true"
                                data-bs-auto-close="outside">
                                 <i class="bi bi-ui-checks-grid"></i> <?php echo $this->language->get('text_category');?>
@@ -47,7 +47,8 @@ $categories = prepareNVCatItems($categories);
 						$active = $item['current'] ? 'active' : '';
 						if (!$hasChild) { ?>
 						<li class="nav-item ">
-							<a class="nav-link <?php echo $active; ?>" href="<?php echo $item['href']; ?>" target="<?php echo $item['settings']['target']; ?>">
+							<a id="menu_<?php echo $item['item_id'];?>" class="nav-link <?php echo $active; ?>" href="<?php echo $item['href']; ?>"
+                               target="<?php echo $item['settings']['target']; ?>">
 								<?php echo renderMenuItemIconNv($item, $rlId).$text; ?>
 							</a>
 						</li>
@@ -56,7 +57,8 @@ $categories = prepareNVCatItems($categories);
                             //non category nested menu
                             if (!$item['category']) { ?>
 						<li class="nav-item dropdown mega-menu">
-							<a class="nav-link <?php echo $active; ?> dropdown-toggle"
+							<a id="menu_<?php echo $item['item_id'];?>"
+                               class="nav-link <?php echo $active; ?> dropdown-toggle"
                                href="<?php echo $item['href']; ?>"
                                target="<?php echo $item['settings']['target']; ?>"
                                role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
@@ -72,7 +74,8 @@ $categories = prepareNVCatItems($categories);
                         // display category
                         else { ?>
 							<li class="nav-item dropdown mega-menu">
-								<a class="nav-link <?php echo $active; ?> dropdown-toggle"
+								<a id="menu_<?php echo $item['item_id'];?>"
+                                   class="nav-link <?php echo $active; ?> dropdown-toggle"
                                    href="<?php echo $item['href']; ?>"
                                    target="<?php echo $item['settings']['target']; ?>"
                                    role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
@@ -104,8 +107,10 @@ $categories = prepareNVCatItems($categories);
                 </ul>
             </div>
             <div class="d-none d-lg-flex">
-                <a class="btn btn-primary d-inline-flex align-items-center rounded-1 p-2" href="<?php echo $last['href']?>">
+                <a id="menu_<?php echo $last['item_id'];?>"
+                   class="btn btn-primary d-inline-flex align-items-center rounded-1 p-2" href="<?php echo $last['href']?>">
                     <?php
+                    //special last link on menu
                     //identify icon rl type (html, image or none).
                     $rlId = $last['icon'] ? : $last['icon_rl_id'];
                     $icon = renderMenuItemIconNv($last, $rlId, 'bottom-header-menu-icon img-fluid');

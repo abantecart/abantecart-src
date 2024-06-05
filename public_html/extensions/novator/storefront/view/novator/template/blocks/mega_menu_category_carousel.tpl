@@ -12,16 +12,18 @@ foreach ($listItems as $si => $subitem) {
         $img = '<img class="image-fluid " src="resources/image/'.$resource['resource_path'].'" />';
     } elseif ($resource['resource_code']) {
         $img = $resource['resource_code'];
+    }else{
+        $img = '<img class="image-fluid " src="image/no_image.jpg">';
     } ?>
                 <div class="carousel-item">
                     <div class="card">
-                        <a class="<?php echo $schActive; ?>" href="<?php echo $subitem['href']; ?>" target="<?php echo $subitem['settings']['target']; ?>">
+                        <a id="menu_<?php echo $subitem['item_id'];?>_img" class="<?php echo $schActive; ?>" href="<?php echo $subitem['href']; ?>" target="<?php echo $subitem['settings']['target']; ?>">
                             <div class="img-wrapper">
                                 <?php echo $img; ?>
                             </div>
                         </a>
                         <div class="card-body">
-                            <a class="<?php echo $schActive; ?>" href="<?php echo $subitem['href']; ?>" target="<?php echo $subitem['settings']['target']; ?>">
+                            <a id="menu_<?php echo $subitem;?>" class="<?php echo $schActive; ?>" href="<?php echo $subitem['href']; ?>" target="<?php echo $subitem['settings']['target']; ?>">
                                 <h6 class="category-title menu-img-caption">
                                 <?php echo $subitem['text'] ?: $subitem['title'] ?: $subitem['name']; ?>
                                 </h6>
