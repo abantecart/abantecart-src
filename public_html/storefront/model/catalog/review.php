@@ -223,9 +223,9 @@ class ModelCatalogReview extends Model
             return $output;
         }
 
-        $sql = "SELECT r.rating
+        $sql = "SELECT AVG(r.rating) as rating, p.product_id
                 FROM " . $this->db->table("reviews") . " r
-                LEFT JOIN " . $this->db->table("products") . " p
+                INNER JOIN " . $this->db->table("products") . " p
                     ON (r.product_id = p.product_id 
                         AND p.status = '1' AND COALESCE(p.date_available, NOW()) <= NOW() )
                 RIGHT JOIN  " . $this->db->table("products_to_categories") . " p2c
@@ -242,7 +242,7 @@ class ModelCatalogReview extends Model
         if($data['filter']['manufacturer_id']){
             $sql .= " AND p.manufacturer_id IN (".implode(',',(array)$data['filter']['manufacturer_id']).")";
         }
-
+        $sql .= " GROUP BY p.product_id";
 
         $query = $this->db->query( $sql );
         $output = [5 => 0, 4 => 0, 3 => 0, 2 => 0, 1 => 0];
@@ -289,11 +289,12 @@ class ModelCatalogReview extends Model
             return $output;
         }
 
-        $sql = "SELECT DISTINCT r.*
+        $sql = "SELECT AVG(r.rating) as rating, p.product_id
                 FROM " . $this->db->table("reviews") . " r 
                 INNER JOIN  " . $this->db->table("products") . " p
                     ON ( p.manufacturer_id IN (" . implode(',', $manufacturerIds) . " )
-                        AND p.product_id = r.product_id) ";
+                        AND p.product_id = r.product_id
+                         AND p.status = '1' AND COALESCE(p.date_available, NOW()) <= NOW() ) ";
 
         if($data['filter']['category_id']){
             $sql .= " INNER JOIN ".$this->db->table('products_to_categories')." p2c
@@ -305,6 +306,7 @@ class ModelCatalogReview extends Model
         if($data['filter']['rating']){
             $sql .= " AND r.rating IN (".implode(',',(array)$data['filter']['rating']).")";
         }
+        $sql .= " GROUP BY p.product_id";
         $query = $this->db->query( $sql );
         $output = [5 => 0, 4 => 0, 3 => 0, 2 => 0, 1 => 0];
         foreach ($query->rows as $row) {
