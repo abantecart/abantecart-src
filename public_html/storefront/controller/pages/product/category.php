@@ -73,7 +73,6 @@ class ControllerPagesProductCategory extends AController
             $request['path'] = $request['category_id'];
         }
 
-
         if (isset($request['path'])) {
             $httpQuery['path'] = $this->data['path'] = $request['path'];
             $path = '';
@@ -99,8 +98,8 @@ class ControllerPagesProductCategory extends AController
                     );
                 }
             }
-            $category_id = array_pop($parts);
-            $category_info = $mdl->getCategory($category_id);
+            $category_id = $parts;
+            $category_info = $mdl->getCategory(end($category_id));
         } elseif (is_array($request['category_id'])) {
             $category_id = filterIntegerIdList($request['category_id']);
             if($category_id){

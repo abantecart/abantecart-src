@@ -64,8 +64,10 @@ class ControllerCommonSeoUrl extends AController
                     }
 
                     if ( isset($httpQuery['category_id']) ) {
+                        /** @var ModelCatalogCategory $mdl */
+                        $mdl = $this->loadModel('catalog/category');
                         if (!isset($this->request->get['path'])) {
-                            $this->request->get['path'] = $httpQuery['category_id'];
+                            $this->request->get['path'] = $mdl->buildPath($httpQuery['category_id']);
                         } else {
                             $this->request->get['path'] .= '_'.$httpQuery['category_id'];
                         }
