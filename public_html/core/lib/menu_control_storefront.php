@@ -41,7 +41,8 @@ class AMenu_Storefront extends AMenu
 
     protected function _buildMenu()
     {
-        $languageId = $this->registry->get('language')->getLanguageID();
+        $languageId = $this->registry->get('language')->getContentLanguageID();
+        $storeId = (int)$this->registry->get('session')->data['current_store_id'];
         $this->dataset_rows = (array) $this->dataset->getRows();
         $this->dataset_description_rows = (array) $this->dataset_description->getRows();
 
@@ -49,7 +50,7 @@ class AMenu_Storefront extends AMenu
         $categoryMdl = $this->registry->get('load')->model('catalog/category');
 
         /** @var ModelCatalogContent $contentMdl */
-        $contentMdl = $this->registry->get('load')->model('catalog/content');
+        $contentMdl = $this->registry->get('load')->model('catalog/content', 'storefront');
 
         // need to resort by sort_order property
         $tmp = $this->item_ids = [];
@@ -100,9 +101,8 @@ class AMenu_Storefront extends AMenu
             $isContent = str_starts_with($item['item_url'],'content/content&content_id=');
             if( $isContent) {
                 parse_str($item['item_url'], $qry);
-                $contentId = $qry['content_id'];
-
-                if(!$contentMdl->getContent($contentId)){
+                $contentId = (int)$qry['content_id'];
+                if(!$contentMdl->getContent($contentId, $storeId, $languageId)){
                     continue;
                 }
 

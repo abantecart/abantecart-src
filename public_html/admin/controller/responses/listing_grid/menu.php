@@ -51,7 +51,7 @@ class ControllerResponsesListingGridMenu extends AController
 
         if ($this->request->post['nodeid']) {
             $menuParentId = $this->request->post['nodeid'];
-            $newLevel = (integer)$this->request->post["n_level"] + 1;
+            $newLevel = (int)$this->request->post["n_level"] + 1;
         } elseif ($this->request->get['parent_id']) {
             $menuParentId = $this->request->get['parent_id'];
         }
