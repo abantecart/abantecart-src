@@ -48,7 +48,7 @@ class ModelLocalisationCurrency extends Model
                                   '".$this->db->escape($data['code'])."',
                                   '".$this->db->escape($data['symbol_left'])."',
                                   '".$this->db->escape($data['symbol_right'])."',
-                                  '".$this->db->escape($data['decimal_place'])."',
+                                  '".(int)$data['decimal_place']."',
                                   '".$this->db->escape($data['value'])."',
                                   '".(int)$data['status']."',
                                   NOW())");
@@ -214,7 +214,7 @@ class ModelLocalisationCurrency extends Model
                         'code'          => $result['code'],
                         'symbol_left'   => $result['symbol_left'],
                         'symbol_right'  => $result['symbol_right'],
-                        'decimal_place' => $result['decimal_place'],
+                        'decimal_place' => (int)$result['decimal_place'],
                         'value'         => $result['value'],
                         'status'        => $result['status'],
                         'date_modified' => $result['date_modified'],

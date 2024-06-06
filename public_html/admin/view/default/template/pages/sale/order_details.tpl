@@ -448,7 +448,7 @@ echo $order_tabs;
 <script type="text/javascript">
 
 	var decimal_point = '<?php echo $decimal_point; ?>';
-	var decimal_place = '<?php echo $currency['decimal_place']; ?>';
+	var decimal_place = '<?php echo (int)$currency['decimal_place']; ?>';
 	var thousand_point = '<?php echo $thousand_point; ?>';
 	<?php if ($currency['symbol_left']) { ?>
 	var currency_symbol = '<?php echo $currency['symbol_left']; ?>';

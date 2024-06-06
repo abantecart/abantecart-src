@@ -34,7 +34,7 @@ class ModelTotalSubTotal extends Model
             //currency based recalculation for all products to avoid fractional loss
             $subtotal = $taxAmount = $subTotalWithTax = $convertedSubTotal = $convertedTaxAmount = $convertedSubTotalWithTax = 0;
             $products = $this->cart->getProducts() + $this->cart->getVirtualProducts();
-            $decPlace = $this->currency->getCurrency()['decimal_place'];
+            $decPlace = (int)$this->currency->getCurrency()['decimal_place'];
 
             foreach ($products as $product) {
                 $price = $product['price'] ?: $product['amount'];
