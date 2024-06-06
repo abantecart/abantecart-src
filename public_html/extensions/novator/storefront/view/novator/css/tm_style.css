@@ -2100,7 +2100,7 @@ li#review-set::before {
     top: 100%;
     left: 0;
     right: 0;
-    padding: 20px 30px;
+    padding: 20px 5px;
     border: none;
     border-radius: 0 0 12px 12px;
     background: #fff;
@@ -3780,51 +3780,33 @@ input[type="number"] {
 }
 
 @media (min-width: 768px) {
-    #MegaMenuCategoryCarousel .carousel-inner {
-        display: flex;
-    }
-    #MegaMenuCategoryCarousel  .carousel-item {
-        margin-right: 0;
-        display: block;
-        flex: 0 0 25%;
-    }
 
-    #MegaMenuCategoryCarousel .carousel-inner{
-        padding: 1em;
-    }
     #MegaMenuCategoryCarousel .card{
-        margin: 0 .5em;
+        margin: 0 auto;
         border: none;
-    }
-    #MegaMenuCategoryCarousel .carousel-control-prev, .carousel-control-next{
-        width: 6vh;
-        height: 6vh;
-        border-radius: 50%;
-        top: 50%;
-        transform: translateY(-50%);
     }
 
     #MegaMenuCategoryCarousel .card .img-wrapper {
-        width: 240px;
+        min-width: 173px;
         height: 240px;
         display: flex;
         justify-content: center;
         align-items: center;
-        border:1px solid #e0e0e0;
+        border: 1px solid #e0e0e0;
         border-radius: 15px;
+        width: 90%;
+        margin: auto 5px;
     }
     #MegaMenuCategoryCarousel .card .img-wrapper img{
         max-height: 100%;
-        width: auto;
+        width: 100%;
         max-width: 250px;
         margin: auto;
         border-radius: 13px;
+        min-width: 170px;
     }
 }
 
-.product-multi-carousel .carousel-control-prev{
-    left: -60px;
-}
 .product-multi-carousel .carousel-control-prev .carousel-control-prev-icon-box,
 .product-multi-carousel .carousel-control-next .carousel-control-next-icon-box
 {
@@ -3839,9 +3821,8 @@ input[type="number"] {
     color: var(--bs-warning);
     border: 1px solid #efbc7a;
 }
-
-.product-multi-carousel .carousel-control-next{
-    right: -50px;
+.product-multi-carousel .carousel-item-start{
+    visibility: hidden !important;
 }
 
 @media (max-width: 767px) {
