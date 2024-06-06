@@ -187,6 +187,7 @@ class ModelCatalogCategory extends Model
         $this->cache->remove('category');
         $this->cache->remove('product');
         $this->cache->remove('collection');
+        $this->cache->remove('storefront_menu');
     }
 
     /**
