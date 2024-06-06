@@ -192,7 +192,7 @@ class ModelCatalogCategory extends Model
                             FROM " . $this->db->table('products_to_categories') . " p2c
                             INNER JOIN " . $this->db->table('products') . " p 
                                 ON p.product_id = p2c.product_id
-                            INNER JOIN cba_products_to_stores s
+                            INNER JOIN " . $this->db->table('products_to_stores')." s
                                 ON (p.product_id = s.product_id AND s.store_id = ".$store_id.")
                             WHERE p2c.category_id = c.category_id 
                                 AND p.status = '1' 
