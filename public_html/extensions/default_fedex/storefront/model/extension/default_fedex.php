@@ -98,8 +98,7 @@ class ModelExtensionDefaultFedex extends Model
                     if ($product['ship_individually']) {
                         $fixed_cost = $fixed_cost * $product['quantity'];
                     }
-                    $fixed_cost = $this->currency->convert($fixed_cost, $this->config->get('config_currency'),
-                        $this->currency->getCode());
+                    $fixed_cost = $fixed_cost;
                     $total_fixed_cost += $fixed_cost;
                 } else {
                     //case of shipping individually with no fixed price
@@ -488,7 +487,7 @@ class ModelExtensionDefaultFedex extends Model
                 'id'           => 'default_fedex.'.'FEDEX_STANDARD_OVERNIGHT',
                 'title'        => 'Fedex Standard Overnight',
                 'cost'         => $this->currency->convert($standard_overnight_quote, 'USD',
-                    $this->currency->getCode()),
+                    $this->config->get('config_currency')),
                 'tax_class_id' => 0,
                 'text'         => $this->currency->format($this->currency->convert($standard_overnight_quote, 'USD',
                     $this->currency->getCode()),'',1),
@@ -500,7 +499,7 @@ class ModelExtensionDefaultFedex extends Model
             $quote_data['FEDEX_2_DAY'] = [
                 'id'           => 'default_fedex.'.'FEDEX_2_DAY',
                 'title'        => 'Fedex 2 Day',
-                'cost'         => $this->currency->convert($two_day_quote, 'USD', $this->currency->getCode()),
+                'cost'         => $this->currency->convert($two_day_quote, 'USD', $this->config->get('config_currency')),
                 'tax_class_id' => 0,
                 'text'         => $this->currency->format($this->currency->convert($two_day_quote, 'USD',
                     $this->currency->getCode()),'',1),
@@ -512,7 +511,7 @@ class ModelExtensionDefaultFedex extends Model
             $quote_data['FEDEX_EXPRESS_SAVER'] = [
                 'id'           => 'default_fedex.'.'FEDEX_EXPRESS_SAVER',
                 'title'        => 'Fedex Express Saver',
-                'cost'         => $this->currency->convert($express_saver_quote, 'USD', $this->currency->getCode()),
+                'cost'         => $this->currency->convert($express_saver_quote, 'USD', $this->config->get('config_currency')),
                 'tax_class_id' => 0,
                 'text'         => $this->currency->format(
                     $this->currency->convert($express_saver_quote, 'USD', $this->currency->getCode()),
@@ -527,7 +526,7 @@ class ModelExtensionDefaultFedex extends Model
             $quote_data['FEDEX_GROUND'] = [
                 'id'           => 'default_fedex.'.'FEDEX_GROUND',
                 'title'        => 'Fedex Ground',
-                'cost'         => $this->currency->convert($ground_quote, 'USD', $this->currency->getCode()),
+                'cost'         => $this->currency->convert($ground_quote, 'USD', $this->config->get('config_currency')),
                 'tax_class_id' => 0,
                 'text'         => $this->currency->format(
                     $this->currency->convert($ground_quote,'USD',$this->currency->getCode()),
