@@ -1,11 +1,8 @@
 <?php
 $total_items = sizeof((array)$products);
-//To remove limit set $cart_view_limit = $total_items;
-//To enable scroll for all products look for #top_cart_product_list .products in styles.css
-$cart_view_limit = 5;
-if ($total_items > 0) {
-?>
-<div class="products">
+$cart_view_limit = $total_items;
+if ($total_items > 0) { ?>
+<div id="top_cart_product_list" class="products">
 
     <?php echo $this->getHookVar('cart_top_pre_list_hook'); ?>
     <?php
@@ -13,10 +10,11 @@ if ($total_items > 0) {
         $product = $products[$i];
         ?>
         <div class="alert alert-dismissible fade show" role="alert">
-            <div id="top_cart_product_list">
                 <div class="d-flex mb-1">
-                    <div class="flex-shrink-0"><img src="<?php echo $product['thumb']['thumb_url']; ?>" alt="image"
-                                                    class="img-fluid h-auto"></div>
+                    <div class="flex-shrink-0">
+                        <img src="<?php echo $product['thumb']['thumb_url']; ?>" alt="<?php echo_html2view($product['name']);?>"
+                             class="img-fluid h-auto">
+                    </div>
                     <div class="flex-grow-1 ms-3">
                         <div class="d-flex align-items-center justify-content-between mb-2">
                             <p class="mb-0"><?php echo $product['name']; ?></p>
@@ -24,14 +22,16 @@ if ($total_items > 0) {
                             <button type="button" id="delete_product" class="btn-close" data-bs-dismiss="alert" aria-label="Close" data-product-key="<?php echo $product['key']; ?>"></button>
                         </div>
                         <div class="input-group input-group-sm mx-auto" style="width: 150px;">
-                            <button title="Min: 1" class="minus-qnty input-group-text btn btn-outline-danger" data-product-id="<?php echo $product['key']; ?>">−</button>
-                            <input type="number" name="quantity[<?php echo $product['key']; ?>]" class="cart-quantity-input form-control text-center fw-bold short form-control-sm text-center"
-                                   value="<?php echo $product['quantity']; ?>" placeholder="" size="6" min="1" data-product-id="<?php echo $product['key']; ?>">
+                            <button title="Min: 1" class="minus-qnty input-group-text btn btn-outline-danger"
+                                    data-product-id="<?php echo $product['key']; ?>">−</button>
+                            <input type="number" name="quantity[<?php echo $product['key']; ?>]"
+                                   class="cart-quantity-input form-control text-center fw-bold short form-control-sm text-center"
+                                   value="<?php echo $product['quantity']; ?>" placeholder="" size="6" min="1"
+                                   data-product-id="<?php echo $product['key']; ?>">
                             <button title="" class="plus-qnty input-group-text btn btn-outline-success" data-product-id="<?php echo $product['key']; ?>">+</button>
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
         <?php echo $this->getHookVar('cart_details_'.$product['key'].'_additional_info_1'); ?>
     <?php } ?>

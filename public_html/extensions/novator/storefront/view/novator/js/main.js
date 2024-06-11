@@ -343,8 +343,7 @@ $(document).ready(function(){
             },
             success: function (data) {
                 //top cart
-                $('#label_qnty').html(data.item_count);
-                $('#cart_qnty').html(data.item_count);
+                $('.cart_counter').html(data.item_count);
                 $('.nav.topcart span.cart_total').html(data.total);
                 $('#cartoffcanvas .offcanvas-body').html(data.cart_details);
             }

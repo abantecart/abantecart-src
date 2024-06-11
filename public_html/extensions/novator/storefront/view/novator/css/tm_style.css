@@ -3908,3 +3908,7 @@ input[type="number"] {
 #menuoffcanvas .d-none{
     display: block !important;
 }
+
+#top_cart_product_list img.img-fluid{
+    height: 90px;
+}
