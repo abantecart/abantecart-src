@@ -93,7 +93,11 @@ if ($error){ ?>
                                 </a>
                             </div>
                         <?php } ?>
-                        <a href="#" class="bg-light-secondary badge fs-6"><i class="bi bi-share"></i></a>
+                        <a href="javascript:void(0)"
+                           class="share bg-light-secondary badge fs-6"
+                           data-title="<?php echo_html2view($heading_title);?>"
+                           data-url="<?php echo_html2view( $product_url);?>">
+                        <i class="bi bi-share"></i></a>
                     </div>
                 </div>
             </div>
