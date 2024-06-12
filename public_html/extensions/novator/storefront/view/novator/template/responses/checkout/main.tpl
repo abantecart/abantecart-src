@@ -38,7 +38,7 @@
                         </button>
                     <?php }
                     if ($step == 'payment' && $this->config->get('config_guest_checkout')) { ?>
-                        <button class="nav-link border mx-1 <?php echo $action=='login' ? ' active ' : ''?>"
+                        <button class="nav-link border mx-1 <?php echo $action!='login' ? ' active ' : ''?>"
                                 id="new_user"
                                 data-bs-toggle="tab"
                                 data-bs-target="#payment_details" type="button" role="tab"
@@ -50,7 +50,7 @@
                         </button>
 
                     <?php } ?>
-                <button class="nav-link border mx-1"
+                <button class="nav-link border mx-1 <?php echo $action=='login' ? ' active ' : ''?>"
                         id="login_user"
                         data-bs-toggle="tab"
                         data-bs-target="#user" type="button" role="tab"
@@ -81,7 +81,8 @@
                 if ($step == 'confirm' && ($loggedin === true || $this->config->get('config_guest_checkout'))) { ?>
                     <div id="payment_details" role="tabpanel"
                          class="tab-pane fade <?php if (!$action || $action == 'confirm') {echo 'active show';} ?>">
-                        <?php include($this->templateResource('/template/responses/checkout/payment_form.tpl')) ?>
+                        <?php
+                        include($this->templateResource('/template/responses/checkout/payment_form.tpl')) ?>
                     </div>
                 <?php }
                 if ($loggedin !== true) { ?>
