@@ -147,7 +147,7 @@ if ($error){ ?>
                     <?php if($tab_review && $display_reviews ){?>
                         <div class="rounded-pill bg-light-secondary badge fs-6">
                             <i class="bi bi-chat-left-dots"></i>
-                            <a class="bg-light-secondary fs-6" href="javascript:void(0);" onclick="scrollTo('review')"><?php echo $tab_review;?></a>
+                            <a class="bg-light-secondary fs-6" href="javascript:void(0);" onclick="scrollToTab('review')"><?php echo $tab_review;?></a>
                         </div>
                     <?php }?>
                 </div>
@@ -936,14 +936,4 @@ if ($error){ ?>
             });
         }
     });
-    function scrollTo(ID) {
-        let element = document.getElementById('collapse'+ID[0].toUpperCase() + ID.substring(1));
-        let tab = new bootstrap.Tab(document.getElementById(ID));
-        if (element && tab) {
-            tab.show();
-            setTimeout(function() {
-                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 100);
-        }
-    }
 </script>

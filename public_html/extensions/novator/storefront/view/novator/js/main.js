@@ -546,5 +546,15 @@ function shareProduct(elm)
         navigator.clipboard.writeText(data.url);
         alert("Copied!");
     }
+}
 
+function scrollToTab(ID) {
+    let element = document.getElementById('collapse'+ID[0].toUpperCase() + ID.substring(1));
+    let tab = new bootstrap.Tab(document.getElementById(ID));
+    if (element && tab) {
+        tab.show();
+        setTimeout(function() {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    }
 }
