@@ -1278,6 +1278,7 @@ class SubmitHtmlElement extends HtmlElement
  * @property string $error_text
  * @property string $help_url
  * @property bool $multilingual
+ * @property array $list
  */
 class InputHtmlElement extends HtmlElement
 {
@@ -1292,6 +1293,7 @@ class InputHtmlElement extends HtmlElement
         if ($this->value == '' && !empty($this->default)) {
             $this->value = $this->default;
         }
+
         $this->extendAndBatchAssign(
             [
                 'name'           => $this->name,
@@ -1307,6 +1309,7 @@ class InputHtmlElement extends HtmlElement
                 'error_text'     => $this->error_text,
                 'multilingual'   => $this->getMultiLingual(),
                 'help_url'       => $this->help_url,
+                'list'           => $this->list,
             ]
         );
         return $this->view->fetch('form/input.tpl');

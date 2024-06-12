@@ -1468,6 +1468,7 @@ class ControllerResponsesCheckoutPay extends AController
                 'type'     => 'input',
                 'name'     => 'firstname',
                 'value'    => $data['firstname'],
+                'attr'     =>' minlength="1" maxlength="32" ',
                 'required' => true,
             ]
         );
@@ -1476,6 +1477,7 @@ class ControllerResponsesCheckoutPay extends AController
                 'type'     => 'input',
                 'name'     => 'lastname',
                 'value'    => $data['lastname'],
+                'attr'     =>' minlength="1" maxlength="32" ',
                 'required' => true,
             ]
         );
@@ -1484,6 +1486,7 @@ class ControllerResponsesCheckoutPay extends AController
                 'type'     => 'input',
                 'name'     => 'address_1',
                 'value'    => $data['address_1'],
+                'attr'     =>' minlength="3" maxlength="128" ',
                 'required' => true,
             ]
         );
@@ -1492,6 +1495,7 @@ class ControllerResponsesCheckoutPay extends AController
                 'type'     => 'input',
                 'name'     => 'address_2',
                 'value'    => $data['address_2'],
+                'attr'     =>' maxlength="128" ',
                 'required' => false,
             ]
         );
@@ -1500,6 +1504,7 @@ class ControllerResponsesCheckoutPay extends AController
                 'type'     => 'input',
                 'name'     => 'city',
                 'value'    => $data['city'],
+                'attr'     =>' minlength="3" maxlength="128" ',
                 'required' => true,
             ]
         );
@@ -1515,7 +1520,8 @@ class ControllerResponsesCheckoutPay extends AController
                 'type'     => 'input',
                 'name'     => 'postcode',
                 'value'    => $data['postcode'],
-                'required' => true,
+                'attr'     =>' minlength="3" maxlength="10" ',
+                'required' => true
             ]
         );
 

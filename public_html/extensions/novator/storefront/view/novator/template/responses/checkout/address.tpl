@@ -22,8 +22,8 @@ echo $form['form_open']; ?>
                        placeholder="<?php echo_html2view($entry_firstname); ?>"
                        name="firstname"
                        type="text"
-                       maxlength="32"
-                       required
+                       <?php echo $form['firstname']->attr; ?>
+                       <?php echo $form['firstname']->required ? 'required' : ''; ?>
                        value="<?php echo $form['firstname']->value; ?>">
             </div>
         </div>
@@ -37,8 +37,8 @@ echo $form['form_open']; ?>
                        placeholder="<?php echo_html2view($entry_lastname); ?>"
                        name="lastname"
                        type="text"
-                       maxlength="32"
-                       required
+                       <?php echo $form['lastname']->attr; ?>
+                       <?php echo $form['lastname']->required ? 'required' : ''; ?>
                        value="<?php echo $form['lastname']->value; ?>">
             </div>
         </div>
@@ -55,8 +55,8 @@ echo $form['form_open']; ?>
                    placeholder="<?php echo_html2view($entry_address_1); ?>"
                    name="address_1"
                    type="text"
-                   required
-                   maxlength="64"
+                   <?php echo $form['address_1']->attr; ?>
+                   <?php echo $form['address_1']->required ? 'required' : ''; ?>
                    value="<?php echo $form['address_1']->value; ?>">
         </div>
     </div>
@@ -72,7 +72,8 @@ echo $form['form_open']; ?>
                    placeholder="<?php echo_html2view($entry_address_2); ?>"
                    name="address_2"
                    type="text"
-                   maxlength="64"
+                   <?php echo $form['address_2']->attr; ?>
+                   <?php echo $form['address_2']->required ? 'required' : ''; ?>
                    value="<?php echo $form['address_2']->value; ?>">
         </div>
     </div>
@@ -88,8 +89,8 @@ echo $form['form_open']; ?>
                        placeholder="<?php echo_html2view($entry_city); ?>"
                        name="city"
                        type="text"
-                       maxlength="32"
-                       required
+                       <?php echo $form['city']->attr; ?>
+                       <?php echo $form['city']->required ? 'required' : ''; ?>
                        value="<?php echo $form['city']->value; ?>">
             </div>
         </div>
@@ -103,9 +104,8 @@ echo $form['form_open']; ?>
                        placeholder="<?php echo_html2view($entry_postcode); ?>"
                        name="postcode"
                        type="text"
-                       maxlength="10"
-                       minlength="3"
-                       required
+                       <?php echo $form['postcode']->attr; ?>
+                       <?php echo $form['postcode']->required ? 'required' : ''; ?>
                        value="<?php echo $form['postcode']->value; ?>">
             </div>
         </div>
