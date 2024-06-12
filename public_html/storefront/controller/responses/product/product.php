@@ -1,23 +1,22 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */ /** @noinspection PhpMultipleClassDeclarationsInspection */
 
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -27,13 +26,6 @@ class ControllerResponsesProductProduct extends AController
     public function __construct($registry, $instance_id, $controller, $parent_controller = '')
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
-//        if($this->request->get['fc']){
-//            $cartClassName = get_class($this->cart);
-//            $registry->set(
-//                'cart',
-//                new $cartClassName( $registry, $this->session->data['fc'])
-//            );
-//        }
     }
     public function main()
     {
@@ -97,10 +89,11 @@ class ControllerResponsesProductProduct extends AController
                         'width'  => $this->config->get('config_image_popup_width'),
                         'height' => $this->config->get('config_image_popup_height'),
                     ],
-                'thumb' => [
-                    'width'  => $this->config->get('config_image_thumb_width'),
-                    'height' => $this->config->get('config_image_thumb_height'),
-                ],
+                'thumb' =>
+                    [
+                        'width'  => $this->config->get('config_image_thumb_width'),
+                        'height' => $this->config->get('config_image_thumb_height'),
+                    ],
             ];
 
             $output['main_images'] = $resource->getResourceAllObjects(
@@ -291,7 +284,7 @@ class ControllerResponsesProductProduct extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         if (!$this->view->isTemplateExists('responses/checkout/cart_details.tpl')) {
-            return;
+            return '';
         }
 
         $cart_products = $this->cart->getProducts() + $this->cart->getVirtualProducts();
@@ -301,11 +294,23 @@ class ControllerResponsesProductProduct extends AController
             ? $resource->getMainThumbList(
                 'products',
                 $product_ids,
-                $this->config->get('config_image_additional_width'),
-                $this->config->get('config_image_additional_height')
+                $this->config->get('config_image_cart_width'),
+                $this->config->get('config_image_cart_height'),
             )
             : $product_ids;
-        $qty = 0;
+
+        // product image by option value
+        $mSizes = [
+            'main'  =>
+                [
+                    'width'  => $this->config->get('config_image_cart_width'),
+                    'height' => $this->config->get('config_image_cart_height'),
+                ],
+            'thumb' => [
+                'width'  => $this->config->get('config_image_cart_width'),
+                'height' => $this->config->get('config_image_cart_height'),
+            ],
+        ];
         foreach ($cart_products as $result) {
             $option_data = [];
             $thumbnail = $thumbnails[$result['product_id']] ?: $result['thumb'];
@@ -336,18 +341,7 @@ class ControllerResponsesProductProduct extends AController
                     'value' => $value,
                     'title' => $title,
                 ];
-                // product image by option value
-                $mSizes = [
-                    'main'  =>
-                        [
-                            'width'  => $this->config->get('config_image_cart_width'),
-                            'height' => $this->config->get('config_image_cart_height'),
-                        ],
-                    'thumb' => [
-                        'width'  => $this->config->get('config_image_cart_width'),
-                        'height' => $this->config->get('config_image_cart_height'),
-                    ],
-                ];
+
                 $main_image = $resource->getResourceAllObjects(
                     'product_option_value',
                     $option['product_option_value_id'],
@@ -365,7 +359,6 @@ class ControllerResponsesProductProduct extends AController
                 }
             }
 
-            $qty += $result['quantity'];
             $price = $this->tax->calculate(
                 $result['price'] ?: $result['amount'],
                 $result['tax_class_id'],
@@ -405,6 +398,7 @@ class ControllerResponsesProductProduct extends AController
         }else{
             $this->processTemplate('responses/checkout/cart_details.tpl');
         }
+        return '';
     }
 
     /*
