@@ -352,10 +352,11 @@ $(document).ready(function(){
     //process multi-item carousel. rebuild elements
     $('.product-multi-carousel').each( function(){
         let items = $(this)[0].querySelectorAll('.carousel-item');
+        let minPerSlide = 4;
+        minPerSlide = items.length < minPerSlide ? items.length : minPerSlide;
         items.forEach((el) => {
-            const minPerSlide = 4
             let next = el.nextElementSibling
-            for (var i=1; i<minPerSlide; i++) {
+            for (let i=1; i<minPerSlide; i++) {
                 if (!next) {
                     // wrap carousel by using first child
                     next = items[0]
@@ -366,6 +367,7 @@ $(document).ready(function(){
             }
         });
     });
+
     $('.theme-change').on('click', function () {
         let html = $("html");
         if (html.attr("data-bs-theme")) {
