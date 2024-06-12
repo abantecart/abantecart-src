@@ -963,8 +963,11 @@ class ControllerResponsesCheckoutPay extends AController
                 }
             }
         } else {
+            /** @var ModelCheckoutFastCheckout $mdl */
+            $mdl = $this->loadModel('checkout/fast_checkout', 'storefront');
             //for guest build tokenized access to download and order details.
-            $order_token = generateOrderToken($order_id,$order_data['email']);
+            $secToken = $mdl->getGuestToken($order_id);
+            $order_token = generateOrderToken($order_id,$order_data['email'], $secToken);
             $this->data['button_order_details'] = $this->html->buildElement(
                 [
                     'type' => 'button',
@@ -996,8 +999,6 @@ class ControllerResponsesCheckoutPay extends AController
                         $this->data['order_details_url'] = $download['download_url'];
                     }
                     //email download link for guest.
-                    /** @var ModelCheckoutFastCheckout $mdl */
-                    $mdl = $this->loadModel('checkout/fast_checkout', 'storefront');
                     $mdl->emailDownloads($order_data, $download);
                 }
             }
