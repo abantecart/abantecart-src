@@ -31,7 +31,7 @@ if ($error_warning) { ?>
                 <td><address><?php echo $result['address']; ?></address></td>
                 <td class="text-end">
                 <?php
-                    $result['button_edit']->style = ' btn btn-outline-primary';
+                    $result['button_edit']->style = ' btn btn-outline-primary mb-2 mb-md-0';
                     echo $result['button_edit'];
                     if ( !$result['default'] ) {
                         $result['button_delete']->style .= ' btn btn-outline-danger ';
