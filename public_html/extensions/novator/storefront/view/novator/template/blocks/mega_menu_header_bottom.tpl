@@ -17,16 +17,16 @@ $categories = prepareNVCatItems($categories);
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-lg-12">
-                                                <div class="row">
-                                                    <?php
-                                                    echo renderAllCategoriesSFMenuNv(
-                                                        $categories,
-                                                        [
-                                                            'id_key_name' => 'path',
-                                                            'without_caret' => true
-                                                        ]
-                                                    ); ?>
-                                                </div>
+                                            <div class="row">
+                                                <?php
+                                                echo renderAllCategoriesSFMenuNv(
+                                                    $categories,
+                                                    [
+                                                        'id_key_name' => 'path',
+                                                        'without_caret' => true
+                                                    ]
+                                                ); ?>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -81,7 +81,7 @@ $categories = prepareNVCatItems($categories);
                                    role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                                     <?php echo renderMenuItemIconNv($item, $rlId).$text; ?>
 								</a>
-								<div class="dropdown-menu dropdown-mega-menu">
+								<div class="dropdown-menu dropdown-mega-menu mx-auto ">
 									<?php
 									//detect categories with one more level menu (3rd level)
 									$sHas3rdLevel = false;

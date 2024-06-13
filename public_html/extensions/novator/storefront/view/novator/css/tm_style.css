@@ -2105,6 +2105,7 @@ li#review-set::before {
     border-radius: 0 0 12px 12px;
     background: #fff;
     box-shadow: 0 4px 60px 0 rgba(0, 0, 0, 0.05);
+    width: fit-content;
 }
 
 .navbar .mega-menu .category-title {
@@ -3784,6 +3785,9 @@ input[type="number"] {
     #MegaMenuCategoryCarousel .card{
         margin: 0 auto;
         border: none;
+    }
+    #MegaMenuCategoryCarousel .card>a{
+        min-width: 250px;
     }
 
     #MegaMenuCategoryCarousel .card .img-wrapper {
