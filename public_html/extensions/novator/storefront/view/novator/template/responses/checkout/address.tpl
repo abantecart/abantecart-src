@@ -181,7 +181,11 @@ echo $form['form_open']; ?>
     </div>
 
     <?php echo $this->getHookVar('address_attributes'); ?>
-    <?php if ($type == 'payment' && $this->cart->hasShipping()) { ?>
+    <?php if (
+            $type == 'payment'
+            && $this->cart->hasShipping()
+            && !$this->config->get('fast_checkout_payment_address_equal_shipping')
+    ){ ?>
         <div class="form-group d-flex justify-content-end">
             <div class="form-check mb-3">
               <input name="same_as_shipping" class="form-control-sm form-check-input me-2 px-3" type="checkbox" checked="checked" value="1" id="same_as_shipping">
