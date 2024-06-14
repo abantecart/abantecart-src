@@ -709,11 +709,11 @@ class ControllerResponsesProductProduct extends AController
                 $this->request->post
             );
         } else {
-            $error = new AError('');
+            $error = new AError(implode(',', $errors));
             $error->toJSONResponse(
-                '',
+                'VALIDATION_ERROR_406',
                 [
-                    'error_title' => implode('<br>', $errors),
+                    'error_text' => implode('<br>', $errors),
                 ]
             );
             return;
