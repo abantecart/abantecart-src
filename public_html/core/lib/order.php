@@ -186,7 +186,7 @@ class AOrder
             $order_info['firstname'] = $this->customer->getFirstName();
             $order_info['lastname'] = $this->customer->getLastName();
             $order_info['email'] = $this->customer->getEmail();
-            $order_info['telephone'] = $this->customer->getTelephone();
+            $order_info['telephone'] = $indata['telephone'] ?: $this->customer->getTelephone();
             $order_info['fax'] = $this->customer->getFax();
 
             $this->load->model('account/address');
