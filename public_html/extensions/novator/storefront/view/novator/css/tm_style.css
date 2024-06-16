@@ -1692,14 +1692,6 @@ footer .dropdown-menu   {
     border-color: #515151;
 }
 
-
-.mega-menu .featured-products .card-body {
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    height: 400px;
-}
-
 [data-bs-theme=dark] .table {
     --bs-table-border-color: #2B2B2B;
 }
@@ -2143,6 +2135,13 @@ li#review-set::before {
 .navbar .mega-menu .category-sub-links a.active,
 .navbar .mega-menu .category-sub-links a:hover {
     color: var(--bs-primary);
+}
+
+.mega-menu .featured-products .card-body {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 400px;
 }
 
 .card-offcanvas {

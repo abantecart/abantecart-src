@@ -251,6 +251,24 @@ $(document).ready(function(){
         }
     );
 
+    $(".category-links a.nav-link").hover(
+        function(){
+            let actTab = new bootstrap.Tab($(this));
+            actTab.show();
+            $('[id^="card-"]').removeClass('show').css('display','none');
+            $('#'+actTab._element.id.replace('drp-','card-') + '-pane').addClass('show').css('display','block');
+        }
+    ).on(
+        'click',
+        function(){
+            location = $(this).attr('href')
+        }
+    );
+    $("#myTabContent a.subcategory-link").hover(function(){
+        $('[id^="card-"]').removeClass('show').css('display','none');
+        $('#'+$(this).attr('id').replace('child-','card-') + '-pane').addClass('show').css('display','block');
+    });
+
 });
 
 //put submitted or clicked button to loading state

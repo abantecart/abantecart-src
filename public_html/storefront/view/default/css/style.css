@@ -237,3 +237,54 @@ blockquote p::before {
 blockquote p::after {
     content: '\201D';
 }
+
+.navbar .mega-menu {
+    position: static;
+}
+
+.mega-sf-menu > li.nav-item > a.active:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 6px;
+}
+
+.navbar .mega-menu .dropdown-menu.dropdown-mega-menu {
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: 20px 5px;
+    border: none;
+    width: fit-content;
+}
+.navbar .mega-menu .dropdown-menu.dropdown-mega-menu .tab-content {
+    min-width: 850px;
+}
+
+.navbar .mega-menu .category-links a {
+    display: flex;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: 700;
+    border: none;
+}
+
+.navbar .mega-menu .category-sub-links a {
+    display: flex;
+    transition: all 0.2s ease-in-out;
+    margin-top: 5px;
+    font-size: 16px;
+    font-weight: 400;
+    height: 40px;
+}
+
+.mega-menu .featured-products .card-body {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 400px;
+}
