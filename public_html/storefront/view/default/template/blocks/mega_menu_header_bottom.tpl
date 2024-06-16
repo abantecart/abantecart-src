@@ -15,8 +15,6 @@ $categories = prepareNVCatItems($categories);
                             </a>
                             <div class="dropdown-menu dropdown-mega-menu mt-0">
                                 <div class="container">
-                                    <div class="row">
-                                        <div class="col-lg-12">
                                                 <div class="row">
                                                     <?php
                                                     echo renderAllCategoriesSFMenuNv(
@@ -27,8 +25,6 @@ $categories = prepareNVCatItems($categories);
                                                         ]
                                                     ); ?>
                                                 </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </li>

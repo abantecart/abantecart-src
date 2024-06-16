@@ -29,7 +29,7 @@ function renderAllCategoriesSFMenuNv(array $menuItems, $options = [ ])
         if ($hasChild) {
             $children .= '<div class="tab-pane fade" id="drp-'.$item['category_id'].'-tab-pane" role="tabpanel"
                                 aria-labelledby="drp-'.$item['category_id'].'-tab">
-                                <div class="d-flex flex-nowrap align-items-stretch">
+                                <div class="container d-flex flex-nowrap align-items-stretch">
                                 <div class="col-4">
                                     <ul class="list-unstyled category-sub-links">';
             foreach($item['children'] as $child){
@@ -50,7 +50,7 @@ function renderAllCategoriesSFMenuNv(array $menuItems, $options = [ ])
 function renderFeaturedProductsCards( $item )
 {
     $html = Registry::getInstance()->get('html');
-    $cards = '<div id="card-'.$item['category_id'].'-tab-pane" class="featured-products col-8 tab-pane fade" role="tabpanel" >
+    $cards = '<div id="card-'.$item['category_id'].'-tab-pane" class="container featured-products col-8 tab-pane fade" role="tabpanel" >
                     <div class="row g-4">';
     $k=0;
     while( $k<2 ){

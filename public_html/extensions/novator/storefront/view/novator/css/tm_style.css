@@ -1830,10 +1830,6 @@ section {
     background: #1B1C2D;
     position: absolute;
     transition: all 0.3s ease-in-out;
-    left: 50%;
-    right: 50%;
-    bottom: -3px;
-    height: 4px;
     border-radius: 4px;
 }
 
@@ -1847,12 +1843,6 @@ section {
     background: transparent;
     color: #1B1C2D;
     font-weight: 600;
-}
-
-.nav-tabs .nav-item.show .nav-link:after,
-.nav-tabs .nav-link.active:after {
-    left: 0;
-    right: 0;
 }
 
 .dropdown-toggle.arrow-none::after {
@@ -2106,6 +2096,10 @@ li#review-set::before {
     background: #fff;
     box-shadow: 0 4px 60px 0 rgba(0, 0, 0, 0.05);
     width: fit-content;
+}
+
+.navbar .mega-menu .dropdown-menu.dropdown-mega-menu .tab-content {
+    min-width: 850px;
 }
 
 .navbar .mega-menu .category-title {

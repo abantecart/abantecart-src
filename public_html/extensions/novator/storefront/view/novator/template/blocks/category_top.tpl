@@ -16,18 +16,14 @@ $categories = prepareNVCatItems($categories);
                             <div class="dropdown-menu dropdown-mega-menu mt-0">
                                 <div class="container">
                                     <div class="row">
-                                        <div class="col-lg-12">
-                                                <div class="row">
-                                                    <?php
-                                                    echo renderAllCategoriesSFMenuNv(
-                                                        $categories,
-                                                        [
-                                                            'id_key_name' => 'path',
-                                                            'without_caret' => true
-                                                        ]
-                                                    ); ?>
-                                                </div>
-                                        </div>
+                                        <?php
+                                        echo renderAllCategoriesSFMenuNv(
+                                            $categories,
+                                            [
+                                                'id_key_name' => 'path',
+                                                'without_caret' => true
+                                            ]
+                                        ); ?>
                                     </div>
                                 </div>
                             </div>

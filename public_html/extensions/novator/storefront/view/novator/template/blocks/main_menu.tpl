@@ -15,8 +15,6 @@ $categories = prepareNVCatItems($categories);
                             </a>
                             <div class="dropdown-menu dropdown-mega-menu mt-0">
                                 <div class="container">
-                                    <div class="row">
-                                        <div class="col-lg-12">
                                                 <div class="row">
                                                     <?php
                                                     echo renderAllCategoriesSFMenuNv(
@@ -27,8 +25,6 @@ $categories = prepareNVCatItems($categories);
                                                         ]
                                                     ); ?>
                                                 </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </li>
@@ -38,17 +34,7 @@ $categories = prepareNVCatItems($categories);
             <div class="collapse d-none d-lg-flex navbar-collapse ">
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-start">
                     <?php
-					//get last menu item
                     $last = array_pop($storefront_menu);
-					//echo_array($storefront_menu);
-//                    echo  renderSFMenuNv(
-//                        $storefront_menu,
-//                        0,
-//                        '',
-//                        [
-//                            'id_key_name' => 'path',
-//                        ]
-//                    );
                     ?>
 					<?php
                     foreach ($storefront_menu as $i => $item) {
