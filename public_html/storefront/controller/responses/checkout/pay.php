@@ -1859,19 +1859,25 @@ class ControllerResponsesCheckoutPay extends AController
             if(count($autoSelects)){
                 $currentKey = key($autoSelects);
                 $this->fc_session['shipping_method'] = current($only_method[$currentKey]['quote']);
-                $this->fc_session['shipping_method']['auto_selected'] = true;
+                if($this->fc_session['shipping_method']) {
+                    $this->fc_session['shipping_method']['auto_selected'] = true;
+                }
             }else{
                 foreach ($only_method as $value) {
                     if (is_array($value['quote']) && sizeof($value['quote']) == 1) {
                         $this->fc_session['shipping_method'] = current($value['quote']);
-                        $this->fc_session['shipping_method']['auto_selected'] = true;
+                        if($this->fc_session['shipping_method']) {
+                            $this->fc_session['shipping_method']['auto_selected'] = true;
+                        }
                     }
                 }
             }
             if(!$this->fc_session['shipping_method']){
                 $currentKey = key($only_method);
                 $this->fc_session['shipping_method'] = current((array)$only_method[$currentKey]['quote']);
-                $this->fc_session['shipping_method']['auto_selected'] = true;
+                if($this->fc_session['shipping_method']) {
+                    $this->fc_session['shipping_method']['auto_selected'] = true;
+                }
             }
         }
 
