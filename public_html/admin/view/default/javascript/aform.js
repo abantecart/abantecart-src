@@ -862,6 +862,10 @@ var formOnExit = function(){
 		}
 		$btn.attr('data-loading-text',spinner);
 		$btn.on('click', function (event) {
+			let form = $(this).parents('form');
+			if(form && !form.valid()){
+				return;
+			}
 			//chrome submit fix
 			//If we detect child was clicked, and not the actual button,
 			// stop the propagation and trigger the "click" event on the button.

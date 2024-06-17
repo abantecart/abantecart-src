@@ -42,7 +42,7 @@ class ControllerPagesTotalHandling extends AController
         $this->document->setTitle($this->language->get('heading_title'));
         $this->loadModel('setting/setting');
 
-        if ($this->request->is_POST() && $this->_validate()) {
+        if ($this->request->is_POST() && $this->_validate($this->request->post)) {
             $settings = $this->request->post;
             foreach ($settings['handling_payment'] as $i => $payment) {
                 if (!trim($payment)) {
@@ -250,15 +250,21 @@ class ControllerPagesTotalHandling extends AController
             'options' => $options,
             'value'   => $this->data['handling_fee_total_type'],
         ]);
+
         $this->data['form']['fields']['sort_order'] = $form->getFieldHtml([
-            'type'  => 'input',
+            'type'  => 'number',
             'name'  => 'handling_sort_order',
-            'value' => $this->data['handling_sort_order'],
+            'value' => $this->data['handling_sort_order']
         ]);
+        $defaultCalcOrder = (int)$this->config->get('subtotal_calculation_order')+1;
+        $value = (int)($this->data['handling_calculation_order'] ?? $defaultCalcOrder);
+        $value = max($value, $defaultCalcOrder);
+
         $this->data['form']['fields']['calculation_order'] = $form->getFieldHtml([
-            'type'  => 'input',
+            'type'  => 'number',
             'name'  => 'handling_calculation_order',
-            'value' => $this->data['handling_calculation_order'],
+            'value' => $value,
+            'attr' => 'min="'.$defaultCalcOrder.'" '
         ]);
         $this->view->assign('help_url', $this->gen_help_url('edit_handling'));
         $this->view->batchAssign($this->data);
@@ -268,33 +274,32 @@ class ControllerPagesTotalHandling extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    private function _validate()
+    protected function _validate($inData)
     {
         if (!$this->user->canModify('total/handling')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
 
-        foreach ($this->request->post['handling_payment'] as $i => $payment_id) {
+        foreach ($inData['handling_payment'] as $i => $payment_id) {
             if ($payment_id) {
-                if (!(int)$this->request->post['handling_payment_subtotal'][$i]) {
+                if (!(int)$inData['handling_payment_subtotal'][$i]) {
                     $this->error['warning'] = $this->language->get('error_number');
                 }
-                if (!(float)$this->request->post['handling_payment_fee'][$i]) {
+                if (!(float)$inData['handling_payment_fee'][$i]) {
                     $this->error['warning'] = $this->language->get('error_number');
                 }
             }
         }
-        $total = (float)$this->request->post['handling_total'];
+        $total = (float)$inData['handling_total'];
         if (!$total) {
             $this->error['total'] = $this->language->get('error_number');
         }
-        $fee = (float)$this->request->post['handling_fee'];
+        $fee = (float)$inData['handling_fee'];
         if (!$fee) {
             $this->error['fee'] = $this->language->get('error_number');
         }
 
         $this->extensions->hk_ValidateData($this);
-
         return (!$this->error);
     }
 }
