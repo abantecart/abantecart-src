@@ -13,7 +13,7 @@ if ($total_items > 0) { ?>
                 <div class="d-flex mb-1">
                     <div class="flex-shrink-0">
                         <img src="<?php echo $product['thumb']['thumb_url']; ?>" alt="<?php echo_html2view($product['name']);?>"
-                             class="img-fluid h-auto">
+                             class="img-fluid">
                     </div>
                     <div class="flex-grow-1 ms-3">
                         <div class="d-flex align-items-center justify-content-between mb-2">
