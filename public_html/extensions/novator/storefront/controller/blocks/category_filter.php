@@ -79,7 +79,11 @@ class ControllerBlocksCategoryFilter extends AController
             if (count($parts) == 1) {
                 //see if this is a category ID to sub category, need to build full path
                 $parts = explode('_', $categoryMdl->buildPath($get['path']));
-                $get['category_id'] = end($parts);
+                $children = $categoryMdl->getChildrenIDs(end($parts));
+                $get['category_id'] = array_merge( [end($parts)],$children);
+            }
+            if($children){
+                $categoryId = array_merge((array)$categoryId, $children);
             }
             foreach(array_reverse($parts) as $i){
                 if($i){
@@ -88,6 +92,11 @@ class ControllerBlocksCategoryFilter extends AController
             }
         }elseif(is_array($categoryId)){
             $categoryId = filterIntegerIdList($categoryId);
+            if(count($categoryId) == 1) {
+                $children = $categoryMdl->getChildrenIDs(end($categoryId));
+                $get['category_id'] = array_merge([end($categoryId)], $children);
+                $categoryId = array_merge($categoryId, $children);
+            }
             $parts = explode('_',$categoryMdl->buildPath($categoryId[0]));
             $categoryId[] = (int)$parts[0];
             $categoryId = array_unique($categoryId);
@@ -184,15 +193,14 @@ class ControllerBlocksCategoryFilter extends AController
             $catList = $categoryMdl->getAllCategories(
                 [
                     'filter' => [
+                        'category_id' => $categoryId,
                         'rating'          => $get['rating'],
                         'manufacturer_id' => (array)$get['manufacturer_id']
                     ]
                 ]
             );
         }
-        $categoryMdl->buildCategoryTree(
-            $catList ,
-            0 );
+        $categoryMdl->buildCategoryTree( $catList , 0 );
 
         if(!$dataSource) {
             $all = $categoryMdl->data['all_categories'];
@@ -210,8 +218,11 @@ class ControllerBlocksCategoryFilter extends AController
         }else{
             $categoryMdl->data['all_categories'] = $catList;
         }
-
-        $categoryTree = $categoryMdl->buildNestedCategoryList(0,['no_sum_children' => true]);
+        $parentId = count($categoryMdl->data['all_categories'])==1 ? current($categoryMdl->data['all_categories'])['parent_id'] : 0;
+        $categoryTree = $categoryMdl->buildNestedCategoryList(
+            $parentId,
+            ['no_sum_children' => true]
+        );
         $this->data['category_tree'] = renderFilterCategoryTreeNV($categoryTree, 0, (array)$get['category_id'], $extra);
     }
 }

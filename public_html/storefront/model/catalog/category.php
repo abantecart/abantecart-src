@@ -90,8 +90,9 @@ class ModelCatalogCategory extends Model
         $limit = (int)$data['limit'];
         $language_id = (int)$data['language_id'] ?: (int)$this->config->get('storefront_language_id');
         $store_id = (int)$data['store_id'] ?: (int)$this->config->get('config_store_id');
-        $cache_key = 'category.list.' . md5(var_export(array_merge((array)$parent_id,$data),true))
-            . '.store_' . $store_id. '_limit_' . $limit. '_lang_' . $language_id;
+        $cache_key = 'category.list.'
+            . md5(var_export(array_merge((array)$parent_id,$data),true))
+            . '.store_' . $store_id . '_limit_' . $limit. '_lang_' . $language_id;
         $output = $this->cache->pull($cache_key);
         if ($output !== false) {
             return $output;
@@ -104,10 +105,14 @@ class ModelCatalogCategory extends Model
                 LEFT JOIN " . $this->db->table("categories_to_stores") . " c2s 
                     ON (c.category_id = c2s.category_id)
                 WHERE c2s.store_id = '" . $store_id . "' AND c.status = 1 ";
-        if(is_int($parent_id) && $parent_id >= 0){
-            $sql .= " AND c.parent_id = '" . (int)$parent_id . "'";
-        }elseif(is_array($parent_id)){
-            $sql .= " AND c.parent_id IN (" . implode(',',$parent_id) . ")";
+        if($data['filter']['category_id']){
+            $sql .= " AND c.category_id IN (" . implode(',', array_map("intval",(array)$data['filter']['category_id'])) . ")";
+        }else {
+            if (is_int($parent_id) && $parent_id >= 0) {
+                $sql .= " AND c.parent_id = '" . (int)$parent_id . "'";
+            } elseif (is_array($parent_id)) {
+                $sql .= " AND c.parent_id IN (" . implode(',', $parent_id) . ")";
+            }
         }
         $sql .= " ORDER BY c.sort_order, LCASE(cd.name) " . ((int)$limit ? "LIMIT " . (int)$limit : '') . " ";
 
