@@ -65,7 +65,7 @@ class ControllerBlocksCategoryFilter extends AController
 
     protected function buildCategoryTree()
     {
-        $extra = [];
+        $extra = $catList = [];
         $get = $this->request->get;
         $dataSource = false;
         //can be int or array
@@ -115,9 +115,8 @@ class ControllerBlocksCategoryFilter extends AController
                     ]
                 ]
             );
-        }elseif ($categoryId && str_starts_with($parentRoute, 'pages/product/category')){
-
-
+        }
+        elseif ($categoryId && str_starts_with($parentRoute, 'pages/product/category')){
             $filter = [
                 'filter'=>[
                     'rating'=>$get['rating'],
@@ -165,8 +164,7 @@ class ControllerBlocksCategoryFilter extends AController
 
                 $productIds = array_column($productList, 'product_id');
                 $prodCatList = $categoryMdl->getCategoriesOfProducts($productIds);
-                $names = array_column($prodCatList,'name','category_id');
-                $counts = $catList = [];
+                $counts = [];
                 foreach($prodCatList as $item){
                     $counts[$item['category_id']]++;
                     $catList[(int)$item['category_id']] = [

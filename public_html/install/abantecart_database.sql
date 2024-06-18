@@ -1841,6 +1841,10 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('total', 'total_status', 1),
 ('total', 'total_total_type', 'total'),
 
+('handling', 'handling_calculation_order', 2),
+('handling', 'handling_status', 0),
+('handling', 'handling_fee_total_type', 'fee'),
+
 ('banner_manager','banner_manager_layout',''),
 ('banner_manager','banner_manager_priority',10),
 ('banner_manager','banner_manager_date_installed', NOW()),

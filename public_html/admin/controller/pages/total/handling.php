@@ -102,21 +102,20 @@ class ControllerPagesTotalHandling extends AController
 
         $this->loadModel('localisation/tax_class');
         $_tax_classes = $this->model_localisation_tax_class->getTaxClasses();
-        $tax_classes = [0 => $this->language->get('text_none')];
-        foreach ($_tax_classes as $k => $v) {
-            $tax_classes[$v['tax_class_id']] = $v['title'];
-        }
+        $tax_classes = [0 => $this->language->get('text_none')]
+            + array_column($_tax_classes, 'title', 'tax_class_id');
+
 
         foreach ($this->fields as $f) {
-            $this->data [$f] = $this->config->get($f);
+            $this->data[$f] = $this->request->post [$f] ?? $this->config->get($f);
             if ($f == 'handling_per_payment') {
                 $this->data[$f] = unserialize($this->data[$f]);
             }
         }
 
         $this->data ['action'] = $this->html->getSecureURL('total/handling');
-        $this->data['cancel'] = $this->html->getSecureURL('extension/total');
-        $this->data ['heading_title'] = $this->language->get('text_edit').$this->language->get('text_total');
+        $this->data ['cancel'] = $this->html->getSecureURL('extension/total');
+        $this->data ['heading_title'] = $this->language->get('text_edit') . $this->language->get('text_total');
         $this->data ['form_title'] = $this->language->get('heading_title');
         $this->data ['update'] = $this->html->getSecureURL('listing_grid/total/update_field', '&id=handling');
 
@@ -144,7 +143,7 @@ class ControllerPagesTotalHandling extends AController
         ]);
 
         $currency_symbol = $this->currency->getCurrency($this->config->get('config_currency'));
-        $currency_symbol = $currency_symbol['symbol_left'].$currency_symbol['symbol_right'];
+        $currency_symbol = $currency_symbol['symbol_left'] . $currency_symbol['symbol_right'];
 
         $this->data['form']['fields']['status'] = $form->getFieldHtml([
             'type'  => 'checkbox',
@@ -194,7 +193,7 @@ class ControllerPagesTotalHandling extends AController
         }
 
         foreach ($this->data['handling_per_payment']['handling_payment'] as $i => $payment) {
-            $this->data['form']['fields']['payment_fee'.$i] = [
+            $this->data['form']['fields']['payment_fee' . $i] = [
                 $this->language->get('entry_payment'),
                 $form->getFieldHtml([
                     'type'    => 'selectbox',
@@ -212,7 +211,7 @@ class ControllerPagesTotalHandling extends AController
                 $this->language->get('entry_payment_fee'),
                 $form->getFieldHtml([
                     'type'    => 'selectbox',
-                    'name'    => 'handling_payment_prefix['.$i.']',
+                    'name'    => 'handling_payment_prefix[' . $i . ']',
                     'value'   => $this->data['handling_per_payment']['handling_payment_prefix'][$i],
                     'options' => [
                         '$' => $currency_symbol,
@@ -256,7 +255,7 @@ class ControllerPagesTotalHandling extends AController
             'name'  => 'handling_sort_order',
             'value' => $this->data['handling_sort_order']
         ]);
-        $defaultCalcOrder = (int)$this->config->get('subtotal_calculation_order')+1;
+        $defaultCalcOrder = (int)$this->config->get('subtotal_calculation_order') + 1;
         $value = (int)($this->data['handling_calculation_order'] ?? $defaultCalcOrder);
         $value = max($value, $defaultCalcOrder);
 
@@ -264,7 +263,7 @@ class ControllerPagesTotalHandling extends AController
             'type'  => 'number',
             'name'  => 'handling_calculation_order',
             'value' => $value,
-            'attr' => 'min="'.$defaultCalcOrder.'" '
+            'attr'  => 'min="' . $defaultCalcOrder . '" '
         ]);
         $this->view->assign('help_url', $this->gen_help_url('edit_handling'));
         $this->view->batchAssign($this->data);
