@@ -3909,3 +3909,8 @@ input[type="number"] {
 #top_cart_product_list img.img-fluid{
     height: 90px;
 }
+
+.mega-menu ul.dropdown-menu.list-unstyled div.dropdown.me-3.me-sm-0.mb-3.mb-lg-0
+{
+    width: 100% !important;
+}

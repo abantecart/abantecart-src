@@ -53,7 +53,7 @@ class ControllerCommonFooter extends AController
             }
         }
 
-        $this->data['text_project_label'] = $this->language->get('text_powered_by').' '.project_base();
+        $this->data['text_project_label'] = $this->language->get('text_powered_by').'&nbsp;'.project_base();
 
         $this->view->batchAssign($this->data);
         $tpl = in_array( $this->request->get['rt'], ['checkout/fast_checkout','checkout/fast_checkout_success'])

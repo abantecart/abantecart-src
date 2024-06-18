@@ -129,14 +129,14 @@ function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
         }
         $item_title = '<span class="menu-img-caption">'.($item['text'] ?: $item['title'] ?: $item['name']).'</span>';
         $hasChild = (bool) $item['children'];
-        $output .= '<div class="dropdown me-3 me-sm-0 mb-3 mb-lg-0 w-100" >';
+        $output .= '<div class="dropdown me-3 me-sm-0 mb-3 mb-lg-0 '. ($hasChild ? 'with-children ' : '').'" >';
         //check icon rl type html, image or none.
         $rlId = $item['icon'] ? : $item['icon_rl_id'];
         $icon = renderMenuItemIconNv($item, $rlId);
 
         if ($hasChild) {
             $id = 'menu_'.$item[$idKey];
-            $css = 'dropdown-toggle text-nowrap mb-3 mb-md-0 nav-link'. ($level ? 'dropdown-item ' : '');
+            $css = 'dropdown-toggle text-nowrap mb-3 mb-md-0 nav-link '. ($level ? 'dropdown-item ' : '');
             $output .= '<a id="'.$id.'" href="'.$item['href'].'" class="'.$css.'" data-bs-toggle="dropdown" data-bs-target="dropdown" aria-expanded="false">'
                         . $icon.$item_title.'</a>';
             $chOptions = [ 'id_key_name' => $idKey ];

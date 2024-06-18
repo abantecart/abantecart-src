@@ -35,10 +35,8 @@
                             } ?>
                         </li>
                     </ul>
-                    <!-- TM Static content start -->
-                    <p class="text-white text-opacity-75 my-4"><?php echo $text_project_label ?></p>
-                    <p class="text-white text-opacity-75 mb-0"> <?php echo $text_copy; ?></p>
-                    <!-- TM Static content ends -->
+                    <div class="w-100 d-flex text-white text-opacity-75 my-4 flex-nowrap"><?php echo $text_project_label ?></div>
+                    <p class="left text-white text-opacity-75 mb-0"> <?php echo $text_copy; ?></p>
                 </div>
             </div>
         </div>
