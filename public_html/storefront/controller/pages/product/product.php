@@ -91,18 +91,16 @@ class ControllerPagesProductProduct extends AController
         }
 
         if (isset($request['keyword'])) {
-            $url = '';
+            $httpQuery = ['keyword' => $request['keyword']];
             if (isset($request['category_id'])) {
-                $url .= '&category_id='.$request['category_id'];
+                $httpQuery['category_id'] = $request['category_id'];
             }
             if (isset($request['description'])) {
-                $url .= '&description='.$request['description'];
+                $httpQuery['description'] = $request['description'];
             }
             $this->document->addBreadcrumb(
                 [
-                    'href'      => $this->html->getURL(
-                        'product/search', '&keyword='.$request['keyword'].$url, '&encode'
-                    ),
+                    'href'      => $this->html->getURL( 'product/search', '&'.http_build_query($httpQuery), '&encode'),
                     'text'      => $this->language->get('text_search'),
                     'separator' => $this->language->get('text_separator'),
                 ]
@@ -158,7 +156,7 @@ class ControllerPagesProductProduct extends AController
         $this->document->setKeywords($product_info['meta_keywords']);
         $this->document->setDescription($product_info['meta_description']);
 
-        $this->data['product_url'] = $this->html->getSEOURL('product/product', $url.'&product_id='.$product_id, '&encode');
+        $this->data['product_url'] = $this->html->getSEOURL('product/product', $url.'&product_id='.$product_id );
         $this->data['heading_title'] = $product_info['name'];
         $this->data['blurb'] = $product_info['blurb'];
         $this->data['minimum'] = $product_info['minimum'];
@@ -987,7 +985,7 @@ class ControllerPagesProductProduct extends AController
      */
     protected function _build_url_params($request)
     {
-        $url = '';
+        $httpQuery = [];
         $params = [
             'path',
             'manufacturer_id',
@@ -997,10 +995,10 @@ class ControllerPagesProductProduct extends AController
         ];
         foreach($params as $key){
             if (isset($request[$key])) {
-                $url .= '&'.$key.'='.$request[$key];
+                $httpQuery[$key] = $request[$key];
             }
         }
 
-        return $url;
+        return $httpQuery ? '&'.http_build_query($httpQuery) : '';
     }
 }
