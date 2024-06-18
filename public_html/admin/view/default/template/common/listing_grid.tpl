@@ -174,7 +174,6 @@ echo $this->html->buildElement(
             viewrecords: true,
             altRows: <?php echo $data['altRows'] ?>,
             height: '100%',
-            width: ($.browser.msie ? ($(window).width() - 100) : '100%'),// memory leak in damn msie
             shrinkToFit: false,
             autowidth: true,
             sortname: '<?php echo $data['sortname'] ?>',

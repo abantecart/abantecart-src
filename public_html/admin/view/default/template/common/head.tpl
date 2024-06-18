@@ -35,6 +35,17 @@
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-migrate.min.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery.cookies.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jqueryui.min.js"></script>
+<script type="text/javascript">
+    jQuery.browser = {};
+    (function () {
+        jQuery.browser.msie = false;
+        jQuery.browser.version = 0;
+        if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+            jQuery.browser.msie = true;
+            jQuery.browser.version = RegExp.$1;
+        }
+    })();
+</script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
 
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/bootstrap.min.js"></script>
