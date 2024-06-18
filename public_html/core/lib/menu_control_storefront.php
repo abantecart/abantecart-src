@@ -238,7 +238,7 @@ class AMenu_Storefront extends AMenu
             $leafItem['item_text'] = [$languageId => $cntnt['name']];
             $leafItem['sort_order'] = $cntnt['sort_order'];
             $this->item_ids[] = $leafItem['item_id'];
-            while(isset ($output[$leafItem['parent_content_id']][$leafItem['sort_order']])) {
+            while(isset ($output[$leafItem['parent_id']][$leafItem['sort_order']])) {
                 $leafItem['sort_order']++;
             }
             $output[$leafItem['parent_id']][$leafItem['sort_order']] = $leafItem;
