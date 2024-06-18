@@ -713,7 +713,7 @@ class ControllerResponsesProductProduct extends AController
             $error->toJSONResponse(
                 'VALIDATION_ERROR_406',
                 [
-                    'error_text' => implode('<br>', $errors),
+                    'error_title' => implode('<br>', $errors),
                 ]
             );
             return;
