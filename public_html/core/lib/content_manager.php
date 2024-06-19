@@ -195,6 +195,7 @@ class AContentManager
             }
         }
         $this->cache->remove('content');
+        $this->cache->remove('storefront_menu');
         return true;
     }
 
@@ -312,6 +313,7 @@ class AContentManager
         }
 
         $this->cache->remove('content');
+        $this->cache->remove('storefront_menu');
         return true;
     }
 
@@ -330,6 +332,7 @@ class AContentManager
         $this->db->query("DELETE FROM ".$this->db->table("url_aliases")." WHERE `query` = 'content_id=".( int )$content_id."'");
 
         $this->cache->remove('content');
+        $this->cache->remove('storefront_menu');
     }
 
     /**
