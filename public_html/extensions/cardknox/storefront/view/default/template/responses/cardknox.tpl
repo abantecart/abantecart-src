@@ -331,6 +331,9 @@
                 error: function (jqXHR, textStatus, errorThrown) {
                     $('#cardknox').before('<div class="alert alert-danger"><i class="fa fa-exclamation-triangle"></i> ' + textStatus + ' ' + errorThrown + '</div>');
                     submitSent = false;
+                },
+                complete: function(){
+                    $('.spinner-overlay').fadeOut(100);
                 }
             });
         }
