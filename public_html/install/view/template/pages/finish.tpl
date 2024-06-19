@@ -78,7 +78,7 @@
                     <img src="../extensions/default_local_delivery/image/icon.png" alt="Install Local Delivery"/>
                 </a>
                 <br />
-                <a href="<?php echo $url;?>" target="_new_admin">UPS</a>
+                <a href="<?php echo $url;?>" target="_new_admin">Local Delivery</a>
             </div>
             <div class="snapshots col-md-2">
                 <?php $url = '../'.$admin_path."&rt=extension/extensions/install&extension=default_fedex"; ?>
