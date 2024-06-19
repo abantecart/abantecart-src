@@ -538,4 +538,22 @@ class AMenu_Storefront extends AMenu
         );
         $this->cache->remove('storefront_menu');
     }
+
+
+    /**
+     * Method return list of all child menu items
+     *
+     * @return array
+     */
+    public function getChildren($parentId)
+    {
+        $children = [];
+        foreach ($this->dataset_rows as $item) {
+            if ($item ['parent_id'] == $parentId) {
+                $children[$item['item_id']] = $item;
+                $children = array_merge($children, $this->getChildren($item['item_id']));
+            }
+        }
+        return $children;
+    }
 }

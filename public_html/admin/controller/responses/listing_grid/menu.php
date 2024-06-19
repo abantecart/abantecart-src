@@ -172,11 +172,13 @@ class ControllerResponsesListingGridMenu extends AController
             case 'del':
                 $ids = explode(',', $this->request->post['id']);
                 if (!empty($ids)) {
-                    $all_menu_ids = $menu->getItemIds();
                     foreach ($ids as $item_id) {
-                        if (in_array($item_id, $all_menu_ids)) {
-                            $menu->deleteMenuItem($item_id);
+                        $children = $menu->getChildren($item_id);
+                        foreach ($children as $child) {
+                            $menu->deleteMenuItem($child['item_id']);
+
                         }
+                        $menu->deleteMenuItem($item_id);
                     }
                 }
                 break;
