@@ -142,7 +142,6 @@ if ($error){ ?>
 
                         if ((float)$average  && $display_reviews){ ?>
                             <div class="rounded-pill bg-light-warning badge fs-6"><i class="bi bi-star"></i> <?php echo $average;?></div>
-                            <!-- Hello Abentacart team you need to check here ends -->
                         <?php }?>
                     <?php if($tab_review && $display_reviews ){?>
                         <div class="rounded-pill bg-light-secondary badge fs-6">
@@ -800,7 +799,7 @@ if ($error){ ?>
                     + encodeURIComponent($('input[name=\'name\']').val())
                     + '&text='
                     + encodeURIComponent($('textarea[name=\'text\']').val())
-                    + '&rating=' + encodeURIComponent($('input[name=\'rating\']:checked').val() ? $('input[name=\'rating\']:checked').val() : '') + captcha,
+                    + '&rating=' + encodeURIComponent($('input[name=\'rating\']').val() ? $('input[name=\'rating\']').val() : '') + captcha,
                 beforeSend: function () {
                     $('.success, .warning').remove();
                     $('#review_button').attr('disabled', 'disabled');

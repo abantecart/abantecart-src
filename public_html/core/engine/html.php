@@ -1946,30 +1946,6 @@ class FormHtmlElement extends HtmlElement
  */
 class RatingHtmlElement extends HtmlElement
 {
-
-    function __construct($data)
-    {
-        parent::__construct($data);
-        if (!$this->registry->has('star-rating')) {
-            /**
-             * @var $doc ADocument
-             */
-            $doc = $this->registry->get('document');
-            $doc->addScript($this->view->templateResource('/javascript/jquery/star-rating/jquery.MetaData.js'));
-            $doc->addScript($this->view->templateResource('/javascript/jquery/star-rating/jquery.rating.pack.js'));
-
-            $doc->addStyle(
-                [
-                    'href'  => $this->view->templateResource('/javascript/jquery/star-rating/jquery.rating.css'),
-                    'rel'   => 'stylesheet',
-                    'media' => 'screen',
-                ]
-            );
-
-            $this->registry->set('star-rating', 1);
-        }
-    }
-
     public function getHtml()
     {
         $this->extendAndBatchAssign(

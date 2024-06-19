@@ -786,7 +786,7 @@ if( $hookVarArray ){
                     + encodeURIComponent($('input[name=\'name\']').val())
                     + '&text='
                     + encodeURIComponent($('textarea[name=\'text\']').val())
-                    + '&rating=' + encodeURIComponent($('input[name=\'rating\']:checked').val() ? $('input[name=\'rating\']:checked').val() : '') + captcha,
+                    + '&rating=' + encodeURIComponent($('input[name=\'rating\']').val() ? $('input[name=\'rating\']').val() : '') + captcha,
                 beforeSend: function () {
                     $('.success, .warning').remove();
                     $('#review_button').attr('disabled', 'disabled');
