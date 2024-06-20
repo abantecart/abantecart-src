@@ -33,11 +33,14 @@ class ControllerCommonTemplateDebug extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $block_details = $this->layout->getBlockDetails($details['block_id']);
+        $block_details = $this->layout->getBlockDetails($details['block_instance_id']);
         $parent_block = $this->layout->getBlockDetails($block_details['parent_instance_id']);
 
-        $this->data['id'] = $details['block_id'];
+        $this->data['id'] = $details['block_id'] ?: $details['block_instance_id'];
         $this->data['name'] = $block_details['block_txt_id'];
+        if($block_details['custom_block_id']){
+            $this->data['name'] = current($this->layout->getBlockDescriptions($block_details['custom_block_id']))['name'];
+        }
         $this->data['tpl_path'] = $details['block_tpl'];
         $this->data['controller'] = $block_details['controller'];
         $this->data['controller_path'] = str_replace(DIR_ROOT.'/', '', $details['block_controller']);

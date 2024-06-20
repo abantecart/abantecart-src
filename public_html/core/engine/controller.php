@@ -428,7 +428,7 @@ abstract class AController
                             $debug_output = $debug_wrapper->dispatchGetOutput();
                             $output = trim($this->view->getOutput());
                             if (!empty($output)) {
-                                $output = '<span class="block_tmpl_wrapper">'.$output.$debug_output.'</span>';
+                                $output = '<div class="block_tmpl_wrapper">'.$output.$debug_output.'</div>';
                             }
                             $this->view->setOutput($output);
                         }

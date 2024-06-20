@@ -1,33 +1,45 @@
 <?php 
 	$class_name = '';
-    if (empty ($parent['id'] )) {
+    if (!$parent['id']) {
 	  $class_name = "_parent";
 	}
-?>
-<div class="postit_notes_box<?php echo $class_name; ?>">
-  <span onClick="$('#postit<?php echo $id; ?>').toggleClass('show');" class="postit_icon" title="<?php echo $text_click; ?>"></span>
-  <div id="postit<?php echo $id; ?>" class="postit_notes">
-    <a class="postit_close" onClick="$('#postit<?php echo $id; ?>').removeClass('show');" title="<?php echo $text_close; ?>"><?php echo $text_close; ?>&nbsp;&nbsp;<i class="bi bi-remove-sign"></i></a>
-    <ul>
-      <li><?php echo $text_block_id . ' ' . $id; ?></li>
-      <li><?php echo $text_block_name; ?> <b><?php echo $name; ?></b></li>
-      <li><?php echo $text_block_controller . ' ' . $controller; ?></li>
-      <li><?php echo $text_block_path . ' ' . $controller_path; ?></li>
-      <li><?php echo $text_block_template . ' ' . $tpl_path; ?></li>
-      <li>
-        <?php echo $text_block_parent; ?>&nbsp;&nbsp;&nbsp;<i class="bi bi-arrow-right"></i>
-		  	<a class="xpand" onClick="$('#postit_parent<?php echo $id; ?>').toggleClass('expand'); $(this).toggleClass('expand');"><?php echo ($parent_block?$parent_block:'page'); ?></a>
-        <ul id="postit_parent<?php echo $id; ?>" class="collapse">
-			<?php if($parent['id']){ ?>
-          <li><?php echo $text_parent_id . ' ' . $parent['id']; ?></li>
-			<?php }
-			if($parent['controller']){ ?>
-          <li><?php echo $text_block_controller . ' ' . $parent['controller']; ?></li>
-		<?php } ?>
-          <li><?php echo $text_block_path . ' ' . $parent['controller_path']; ?></li>
-          <li><?php echo $text_block_template . ' ' . $parent['tpl_path']; ?></li>
-        </ul>
-      </li>
-    </ul>
-  </div>
+
+    $list = [
+      [
+              'title' => $text_block_id,
+              'value' => $id
+      ],
+      [
+              'title' => $text_block_controller,
+              'value' => $controller
+      ],
+      [
+              'title' => $text_block_path,
+              'value' => $controller_path
+      ],
+      [
+              'title' => $text_block_template,
+              'value' => $tpl_path
+      ],
+      [
+              'title' => $text_block_parent,
+              'value' => $parent_block?:'page'
+      ],
+    ];
+    $htmlContent  = '';
+    foreach($list as $item){
+        $htmlContent .= '<ul class="list-group list-group-horizontal">'
+            .'<li class="list-group-item p-1 w-100">'.$item['title'].'</li><li class="list-group-item p-1 fw-bold w-100">'.$item['value'].'</li>
+        </ul>';
+    }
+    ?>
+<div class="postit_notes_box<?php echo $class_name; ?>" title="<?php echo_html2view($name);?>" >
+    <a
+            class="btn btn-lg postit_icon"
+            title="<?php echo $text_click; ?>"
+            data-bs-toggle="popover"
+            data-bs-html="true"
+            data-bs-title="Block: <?php echo_html2view($name);?>"
+            data-bs-content="<?php echo_html2view($htmlContent);?>">
+    </a>
 </div>
