@@ -115,9 +115,7 @@ class ExtensionCardconnect extends Extension
 
         $view->assign('order_id', $order_id);
         $view->assign('test_mode', $this->r_data['cardconnect_test_mode']);
-        $api_endpoint = 'https://'
-                        .($that->config->get('cardconnect_test_mode') ? 'fts-uat.cardconnect.com' : 'fts.cardconnect.com')
-                        .'/ui/findauth.jsf';
+        $api_endpoint = getCardConnectEndPoint();
         $view->assign('external_url', $api_endpoint);
         $view->assign('void_url', $that->html->getSecureURL('r/extension/cardconnect/void'));
         $view->assign('capture_url', $that->html->getSecureURL('r/extension/cardconnect/capture'));

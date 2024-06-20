@@ -161,9 +161,7 @@ class ControllerResponsesExtensionCardConnect extends AController
         $this->data['text_credit_card'] = $this->language->get('text_credit_card');
         $this->data['text_wait'] = $this->language->get('text_wait');
 
-        $this->data['api_domain'] = $this->config->get('cardconnect_test_mode')
-                                    ? 'fts-uat.cardconnect.com'
-                                    : 'fts.cardconnect.com';
+        $this->data['api_domain'] = getCardConnectEndPoint(true);
 
         //load creditcard input validation
         $this->document->addScriptBottom($this->view->templateResource('/javascript/credit_card_validation.js'));

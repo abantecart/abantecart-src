@@ -39,3 +39,15 @@ $languages = [
         'english/cardconnect/cardconnect',
     ],
 ];
+
+if(!function_exists('getCardConnectEndPoint')) {
+    function getCardConnectEndPoint($domainOnly = false)
+    {
+        $testMode = Registry::getInstance()->get('config')->get('cardconnect_test_mode');
+        $output =  'https://' . ($testMode ? 'isv-uat.cardconnect.com/cardconnect/rest' : 'developer.cardconnect.com/cardconnect-api');
+        if($domainOnly){
+            $output = parse_url($output, PHP_URL_HOST);
+        }
+        return $output;
+    }
+}

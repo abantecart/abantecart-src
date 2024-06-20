@@ -16,10 +16,7 @@ class ControllerResponsesExtensionCardConnect extends AController
     {
         $this->loadLanguage('cardconnect/cardconnect');
         $test_mode = $this->config->get('cardconnect_test_mode') ? 'ON' : 'OFF';
-        $api_endpoint = 'https://'.($this->config->get('cardconnect_test_mode')
-                ? 'fts-uat.cardconnect.com'
-                : 'fts.cardconnect.com')
-            .'/cardconnect/rest/';
+        $api_endpoint = getCardConnectEndPoint();
         $merchid = $this->config->get('cardconnect_merchant_id');
         require_once DIR_EXT.'cardconnect/core/lib/pest/PestJSON.php';
         $pest = new PestJSON($api_endpoint);
