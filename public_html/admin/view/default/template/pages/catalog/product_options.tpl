@@ -386,7 +386,6 @@ jQuery(function ($) {
 		$.ajax({
 			url: that.closest('form').attr('action'),
 			type: 'POST',
-            dataType:  'json',
 			data: that.closest('form').serializeArray(),
 			success: function (html) {
 				$('#option_values').html(html);
