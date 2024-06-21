@@ -6,7 +6,7 @@
     <meta http-equiv="cache-control" content="max-age=0">
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="-1">
-    <meta http-equiv="expires" content="Tue, 01 Jan 1980 11:00:00 GMT">
+    <meta http-equiv="expires" content="Tue, 01 Jan 2000 11:00:00 GMT">
     <meta http-equiv="pragma" content="no-cache">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -46,8 +46,7 @@
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap-utilities.min.css" integrity="sha512-4ocAKAxnrkSm7MvkkF1D435kko3/HWWvoi/U9+7+ln94B/U01Mggca05Pm3W59BIv3abl0U3MPdygAPLo5aeqg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <?php } ?>
 
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" integrity="sha512-dPXYcDub/aeb08c63jRq/k6GaKccl256JQy/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67/bbV8XaCQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="<?php echo $this->templateResource('/css/style.css'); ?>" rel="stylesheet" type='text/css' />
     <?php foreach ($styles as $style) { ?>
         <link rel="<?php echo $style['rel']; ?>" type="text/css" href="<?php echo $style['href']; ?>" media="<?php echo $style['media']; ?>" />
