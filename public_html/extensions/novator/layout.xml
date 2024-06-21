@@ -262,7 +262,7 @@
               <block_framed><![CDATA[0]]></block_framed>
               <description><![CDATA[]]></description>
               <content><![CDATA[&lt;div class=&quot;contactus-block text-center text-md-start&quot;&gt;
-&lt;img src=&quot;extensions/novator/storefront/view/novator/image/presets/18/7b/5.svg&quot; alt=&quot;images&quot; class=&quot;img-fluid h-auto&quot; width=&quot;350&quot; height=&quot;79&quot;&gt;&lt;p class=&quot;text-white&quot;&gt;1487 Rocky Horse Carrefour&lt;br&gt;Arlington, TX 16819&lt;/p&gt;&lt;h4 class=&quot;text-white&quot;&gt;&lt;i class=&quot;bi bi-telephone&quot;&gt;&lt;/i&gt; (444) 019 120 0401&lt;/h4&gt;&lt;button class=&quot;btn btn-success&quot;&gt;Live Chat&lt;/button&gt; &lt;button class=&quot;btn btn-outline-light&quot;&gt;Help Desk&lt;/button&gt;
+&lt;img src=&quot;extensions/novator/storefront/view/novator/image/presets/18/7b/5.svg&quot; alt=&quot;images&quot; class=&quot;img-fluid h-auto&quot; width=&quot;350&quot; height=&quot;79&quot;&gt;&lt;p class=&quot;text-white&quot;&gt;1487 Rocky Horse Carrefour&lt;br&gt;Arlington, TX 16819&lt;/p&gt;&lt;h4 class=&quot;text-white&quot;&gt;&lt;i class=&quot;bi bi-telephone&quot;&gt;&lt;/i&gt; (444) 019 120 0401&lt;/h4&gt;&lt;a href=&quot;#&quot; class=&quot;btn btn-success d-inline-block&quot;&gt;Live Chat&lt;/a&gt; &lt;a href=&quot;#&quot; class=&quot;btn btn-outline-light d-inline-block&quot;&gt;Help Desk&lt;/a&gt;
 &lt;/div&gt;]]></content>
             </block_description>
           </block_descriptions>
@@ -424,8 +424,7 @@
                   &lt;p class=&quot;h5&quot;&gt;Feature rich with smart UI&lt;/p&gt;
                   &lt;h1 class=&quot;my-4 h2&quot;&gt;&lt;span class=&quot;text-primary&quot;&gt;Easy &amp; Fun&lt;/span&gt; To Manage&lt;/h1&gt;
                   &lt;p class=&quot;mb-4&quot;&gt;Feature reach shopping cart application right out of the box. Standard features allow
-                    to set up complete eCommerce site with all the tools needed to sell products online.&lt;/p&gt;&lt;button
-                    class=&quot;btn btn-outline-dark&quot;&gt;Install Now&lt;/button&gt;
+                    to set up complete eCommerce site with all the tools needed to sell products online.&lt;/p&gt;&lt;a href=&quot;#&quot; class=&quot;btn btn-outline-dark&quot;&gt;Install Now&lt;/a&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
             &lt;/div&gt;
@@ -440,8 +439,8 @@
                 &lt;div class=&quot;col-md-5 text-start&quot;&gt;
                   &lt;h1 class=&quot;mb-4&quot;&gt;All Screen Size&lt;/h1&gt;
                   &lt;p class=&quot;mb-4&quot;&gt;Natively responsive template implemented with bootstrap library and HTML5. Will look
-                    good on most mobile devices and tablets.&lt;/p&gt;&lt;button class=&quot;btn btn-outline-dark&quot;&gt;Try On Your
-                    Device&lt;/button&gt;
+                    good on most mobile devices and tablets.&lt;/p&gt;&lt;a href=&quot;#&quot; class=&quot;btn btn-outline-dark&quot;&gt;Try On Your
+                    Device&lt;/a&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
             &lt;/div&gt;
@@ -457,8 +456,8 @@
                   &lt;h1 class=&quot;mb-4 h2 slide-3-title&quot;&gt;SEO Friendly&lt;/h1&gt;
                   &lt;h1 class=&quot;mb-4 h2 slide-3-title&quot;&gt;Fast Loadnig&lt;/h1&gt;
                   &lt;p class=&quot;mb-4 text-white&quot;&gt;Natively responsive template implemented with bootstrap library and HTML5.
-                    Will look good on most mobile devices and tablets.&lt;/p&gt;&lt;button class=&quot;btn btn-outline-light&quot;&gt;Try On
-                    Your Device&lt;/button&gt;
+                    Will look good on most mobile devices and tablets.&lt;/p&gt;&lt;a href=&quot;#&quot; class=&quot;btn btn-outline-light&quot;&gt;Try On
+                    Your Device&lt;/a&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
             &lt;/div&gt;
@@ -717,8 +716,8 @@
           &lt;h2 class=&quot;banner-title text-white&quot;&gt;Hawaiian Shirts&lt;/h2&gt;&lt;span class=&quot;banner-text text-white&quot;&gt;Dress up in
             summer vibe&lt;/span&gt;
           &lt;h3 class=&quot;banner-sales text-white&quot;&gt;UPTO 50% OFF&lt;/h3&gt;
-          &lt;div class=&quot;banner-arrow text-white&quot;&gt;&lt;i class=&quot;bi bi-arrow-down&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;button
-            class=&quot;btn btn-outline-light&quot;&gt;SHOP NOW&lt;/button&gt;
+          &lt;div class=&quot;banner-arrow text-white&quot;&gt;&lt;i class=&quot;bi bi-arrow-down&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;a href=&quot;#&quot;
+            class=&quot;btn btn-outline-light&quot;&gt;SHOP NOW&lt;/a&gt;
         &lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
@@ -729,8 +728,8 @@
           &lt;h2 class=&quot;banner-title text-white&quot;&gt;Printed T-Shirt&lt;/h2&gt;&lt;span class=&quot;banner-text text-white&quot;&gt;New Designs
             Every Week&lt;/span&gt;
           &lt;h3 class=&quot;banner-sales text-white&quot;&gt;UPTO 40% OFF&lt;/h3&gt;
-          &lt;div class=&quot;banner-arrow text-white&quot;&gt;&lt;i class=&quot;bi bi-arrow-down&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;button
-            class=&quot;btn btn-outline-light&quot;&gt;SHOP NOW&lt;/button&gt;
+          &lt;div class=&quot;banner-arrow text-white&quot;&gt;&lt;i class=&quot;bi bi-arrow-down&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;a href=&quot;#&quot;
+            class=&quot;btn btn-outline-light&quot;&gt;SHOP NOW&lt;/a&gt;
         &lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
@@ -740,8 +739,8 @@
         &lt;div class=&quot;banner-overlay right&quot;&gt;
           &lt;h2 class=&quot;banner-title&quot;&gt;Cargo Joggers&lt;/h2&gt;&lt;span class=&quot;banner-text&quot;&gt;Move with style &amp; comfort&lt;/span&gt;
           &lt;h3 class=&quot;banner-sales&quot;&gt;UPTO 50% OFF&lt;/h3&gt;
-          &lt;div class=&quot;banner-arrow&quot;&gt;&lt;i class=&quot;bi bi-arrow-down&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;button class=&quot;btn btn-outline-dark&quot;&gt;SHOP
-            NOW&lt;/button&gt;
+          &lt;div class=&quot;banner-arrow&quot;&gt;&lt;i class=&quot;bi bi-arrow-down&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;a href=&quot;#&quot; class=&quot;btn btn-outline-dark&quot;&gt;SHOP
+            NOW&lt;/a&gt;
         &lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
@@ -751,8 +750,8 @@
         &lt;div class=&quot;banner-overlay right big&quot;&gt;
           &lt;h2 class=&quot;banner-title&quot;&gt;Urban Shirts&lt;/h2&gt;&lt;span class=&quot;banner-text&quot;&gt;Live In Confort&lt;/span&gt;
           &lt;h3 class=&quot;banner-sales&quot;&gt;FLAT 60% OFF&lt;/h3&gt;
-          &lt;div class=&quot;banner-arrow&quot;&gt;&lt;i class=&quot;bi bi-arrow-down&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;button class=&quot;btn btn-outline-dark&quot;&gt;SHOP
-            NOW&lt;/button&gt;
+          &lt;div class=&quot;banner-arrow&quot;&gt;&lt;i class=&quot;bi bi-arrow-down&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;a href=&quot;#&quot; class=&quot;btn btn-outline-dark&quot;&gt;SHOP
+            NOW&lt;/a&gt;
         &lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
@@ -762,8 +761,8 @@
         &lt;div class=&quot;banner-overlay right big&quot;&gt;
           &lt;h2 class=&quot;banner-title&quot;&gt;Oversized T-Shirts&lt;/h2&gt;&lt;span class=&quot;banner-text&quot;&gt;Street Style Icon&lt;/span&gt;
           &lt;h3 class=&quot;banner-sales&quot;&gt;FLAT 60% OFF&lt;/h3&gt;
-          &lt;div class=&quot;banner-arrow&quot;&gt;&lt;i class=&quot;bi bi-arrow-down&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;button class=&quot;btn btn-outline-dark&quot;&gt;SHOP
-            NOW&lt;/button&gt;
+          &lt;div class=&quot;banner-arrow&quot;&gt;&lt;i class=&quot;bi bi-arrow-down&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;a href=&quot;#&quot; class=&quot;btn btn-outline-dark&quot;&gt;SHOP
+            NOW&lt;/a&gt;
         &lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
@@ -821,8 +820,8 @@
         &lt;div class=&quot;col-lg-6&quot;&gt;
           &lt;div class=&quot;cta-content&quot;&gt;
           &lt;h2 class=&quot;text-white&quot;&gt;Making Commerce&lt;br&gt;Better for Everyone&lt;/h2&gt;
-          &lt;div class=&quot;cta-price text-white&quot;&gt;&lt;small class=&quot;me-2&quot;&gt;Start From&lt;/small&gt; $56&lt;/div&gt;&lt;br&gt;&lt;button
-            class=&quot;cta-btn btn btn-warning&quot;&gt;Try Now&lt;/button&gt;
+          &lt;div class=&quot;cta-price text-white&quot;&gt;&lt;small class=&quot;me-2&quot;&gt;Start From&lt;/small&gt; $56&lt;/div&gt;&lt;br&gt;&lt;a href=&quot;#&quot;
+            class=&quot;cta-btn btn btn-warning&quot;&gt;Try Now&lt;/a&gt;
           &lt;/div&gt;
         &lt;/div&gt;
       &lt;/div&gt;
@@ -857,7 +856,7 @@
         &lt;div class=&quot;col-12&quot;&gt;
           &lt;h2&gt;See Our Most Featured Product&lt;/h2&gt;
         &lt;/div&gt;
-        &lt;div class=&quot;col-12 text-center mt-4&quot;&gt;&lt;button class=&quot;btn btn-warning&quot;&gt;Get Started&lt;/button&gt;&lt;/div&gt;
+        &lt;div class=&quot;col-12 text-center mt-4&quot;&gt;&lt;a href=&quot;#&quot; class=&quot;btn btn-warning&quot;&gt;Get Started&lt;/a&gt;&lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
   &lt;/section&gt;]]></content>
@@ -1099,7 +1098,7 @@
               <block_framed><![CDATA[0]]></block_framed>
               <description><![CDATA[]]></description>
               <content><![CDATA[&lt;div class=&quot;contactus-block text-center text-md-start&quot;&gt;
-&lt;img src=&quot;extensions/novator/storefront/view/novator/image/presets/18/7b/5.svg&quot; alt=&quot;images&quot; class=&quot;img-fluid h-auto&quot; width=&quot;350&quot; height=&quot;79&quot;&gt;&lt;p class=&quot;text-white&quot;&gt;1487 Rocky Horse Carrefour&lt;br&gt;Arlington, TX 16819&lt;/p&gt;&lt;h4 class=&quot;text-white&quot;&gt;&lt;i class=&quot;bi bi-telephone&quot;&gt;&lt;/i&gt; (444) 019 120 0401&lt;/h4&gt;&lt;button class=&quot;btn btn-success&quot;&gt;Live Chat&lt;/button&gt; &lt;button class=&quot;btn btn-outline-light&quot;&gt;Help Desk&lt;/button&gt;
+&lt;img src=&quot;extensions/novator/storefront/view/novator/image/presets/18/7b/5.svg&quot; alt=&quot;images&quot; class=&quot;img-fluid h-auto&quot; width=&quot;350&quot; height=&quot;79&quot;&gt;&lt;p class=&quot;text-white&quot;&gt;1487 Rocky Horse Carrefour&lt;br&gt;Arlington, TX 16819&lt;/p&gt;&lt;h4 class=&quot;text-white&quot;&gt;&lt;i class=&quot;bi bi-telephone&quot;&gt;&lt;/i&gt; (444) 019 120 0401&lt;/h4&gt;&lt;a href=&quot;#&quot; class=&quot;btn btn-success d-inline-block&quot;&gt;Live Chat&lt;/a&gt; &lt;a href=&quot;#&quot; class=&quot;btn btn-outline-light d-inline-block&quot;&gt;Help Desk&lt;/a&gt;
 &lt;/div&gt;]]></content>
             </block_description>
           </block_descriptions>
@@ -1384,7 +1383,7 @@
               <block_framed><![CDATA[0]]></block_framed>
               <description><![CDATA[]]></description>
               <content><![CDATA[&lt;div class=&quot;contactus-block text-center text-md-start&quot;&gt;
-&lt;img src=&quot;extensions/novator/storefront/view/novator/image/presets/18/7b/5.svg&quot; alt=&quot;images&quot; class=&quot;img-fluid h-auto&quot; width=&quot;350&quot; height=&quot;79&quot;&gt;&lt;p class=&quot;text-white&quot;&gt;1487 Rocky Horse Carrefour&lt;br&gt;Arlington, TX 16819&lt;/p&gt;&lt;h4 class=&quot;text-white&quot;&gt;&lt;i class=&quot;bi bi-telephone&quot;&gt;&lt;/i&gt; (444) 019 120 0401&lt;/h4&gt;&lt;button class=&quot;btn btn-success&quot;&gt;Live Chat&lt;/button&gt; &lt;button class=&quot;btn btn-outline-light&quot;&gt;Help Desk&lt;/button&gt;
+&lt;img src=&quot;extensions/novator/storefront/view/novator/image/presets/18/7b/5.svg&quot; alt=&quot;images&quot; class=&quot;img-fluid h-auto&quot; width=&quot;350&quot; height=&quot;79&quot;&gt;&lt;p class=&quot;text-white&quot;&gt;1487 Rocky Horse Carrefour&lt;br&gt;Arlington, TX 16819&lt;/p&gt;&lt;h4 class=&quot;text-white&quot;&gt;&lt;i class=&quot;bi bi-telephone&quot;&gt;&lt;/i&gt; (444) 019 120 0401&lt;/h4&gt;&lt;a href=&quot;#&quot; class=&quot;btn btn-success d-inline-block&quot;&gt;Live Chat&lt;/a&gt; &lt;a href=&quot;#&quot; class=&quot;btn btn-outline-light d-inline-block&quot;&gt;Help Desk&lt;/a&gt;
 &lt;/div&gt;]]></content>
             </block_description>
           </block_descriptions>
@@ -1675,7 +1674,7 @@
               <block_framed><![CDATA[0]]></block_framed>
               <description><![CDATA[]]></description>
               <content><![CDATA[&lt;div class=&quot;contactus-block text-center text-md-start&quot;&gt;
-&lt;img src=&quot;extensions/novator/storefront/view/novator/image/presets/18/7b/5.svg&quot; alt=&quot;images&quot; class=&quot;img-fluid h-auto&quot; width=&quot;350&quot; height=&quot;79&quot;&gt;&lt;p class=&quot;text-white&quot;&gt;1487 Rocky Horse Carrefour&lt;br&gt;Arlington, TX 16819&lt;/p&gt;&lt;h4 class=&quot;text-white&quot;&gt;&lt;i class=&quot;bi bi-telephone&quot;&gt;&lt;/i&gt; (444) 019 120 0401&lt;/h4&gt;&lt;button class=&quot;btn btn-success&quot;&gt;Live Chat&lt;/button&gt; &lt;button class=&quot;btn btn-outline-light&quot;&gt;Help Desk&lt;/button&gt;
+&lt;img src=&quot;extensions/novator/storefront/view/novator/image/presets/18/7b/5.svg&quot; alt=&quot;images&quot; class=&quot;img-fluid h-auto&quot; width=&quot;350&quot; height=&quot;79&quot;&gt;&lt;p class=&quot;text-white&quot;&gt;1487 Rocky Horse Carrefour&lt;br&gt;Arlington, TX 16819&lt;/p&gt;&lt;h4 class=&quot;text-white&quot;&gt;&lt;i class=&quot;bi bi-telephone&quot;&gt;&lt;/i&gt; (444) 019 120 0401&lt;/h4&gt;&lt;a href=&quot;#&quot; class=&quot;btn btn-success d-inline-block&quot;&gt;Live Chat&lt;/a&gt; &lt;a href=&quot;#&quot; class=&quot;btn btn-outline-light d-inline-block&quot;&gt;Help Desk&lt;/a&gt;
 &lt;/div&gt;]]></content>
             </block_description>
           </block_descriptions>
@@ -2029,7 +2028,7 @@
               <block_framed><![CDATA[0]]></block_framed>
               <description><![CDATA[]]></description>
               <content><![CDATA[&lt;div class=&quot;contactus-block text-center text-md-start&quot;&gt;
-&lt;img src=&quot;extensions/novator/storefront/view/novator/image/presets/18/7b/5.svg&quot; alt=&quot;images&quot; class=&quot;img-fluid h-auto&quot; width=&quot;350&quot; height=&quot;79&quot;&gt;&lt;p class=&quot;text-white&quot;&gt;1487 Rocky Horse Carrefour&lt;br&gt;Arlington, TX 16819&lt;/p&gt;&lt;h4 class=&quot;text-white&quot;&gt;&lt;i class=&quot;bi bi-telephone&quot;&gt;&lt;/i&gt; (444) 019 120 0401&lt;/h4&gt;&lt;button class=&quot;btn btn-success&quot;&gt;Live Chat&lt;/button&gt; &lt;button class=&quot;btn btn-outline-light&quot;&gt;Help Desk&lt;/button&gt;
+&lt;img src=&quot;extensions/novator/storefront/view/novator/image/presets/18/7b/5.svg&quot; alt=&quot;images&quot; class=&quot;img-fluid h-auto&quot; width=&quot;350&quot; height=&quot;79&quot;&gt;&lt;p class=&quot;text-white&quot;&gt;1487 Rocky Horse Carrefour&lt;br&gt;Arlington, TX 16819&lt;/p&gt;&lt;h4 class=&quot;text-white&quot;&gt;&lt;i class=&quot;bi bi-telephone&quot;&gt;&lt;/i&gt; (444) 019 120 0401&lt;/h4&gt;&lt;a href=&quot;#&quot; class=&quot;btn btn-success&quot;&gt;Live Chat&lt;/a&gt; &lt;a href=&quot;#&quot; class=&quot;btn btn-outline-light d-inline-block&quot;&gt;Help Desk&lt;/a&gt;
 &lt;/div&gt;]]></content>
             </block_description>
           </block_descriptions>
@@ -2374,7 +2373,7 @@
               <block_framed><![CDATA[0]]></block_framed>
               <description><![CDATA[]]></description>
               <content><![CDATA[&lt;div class=&quot;contactus-block text-center text-md-start&quot;&gt;
-&lt;img src=&quot;extensions/novator/storefront/view/novator/image/presets/18/7b/5.svg&quot; alt=&quot;images&quot; class=&quot;img-fluid h-auto&quot; width=&quot;350&quot; height=&quot;79&quot;&gt;&lt;p class=&quot;text-white&quot;&gt;1487 Rocky Horse Carrefour&lt;br&gt;Arlington, TX 16819&lt;/p&gt;&lt;h4 class=&quot;text-white&quot;&gt;&lt;i class=&quot;bi bi-telephone&quot;&gt;&lt;/i&gt; (444) 019 120 0401&lt;/h4&gt;&lt;button class=&quot;btn btn-success&quot;&gt;Live Chat&lt;/button&gt; &lt;button class=&quot;btn btn-outline-light&quot;&gt;Help Desk&lt;/button&gt;
+&lt;img src=&quot;extensions/novator/storefront/view/novator/image/presets/18/7b/5.svg&quot; alt=&quot;images&quot; class=&quot;img-fluid h-auto&quot; width=&quot;350&quot; height=&quot;79&quot;&gt;&lt;p class=&quot;text-white&quot;&gt;1487 Rocky Horse Carrefour&lt;br&gt;Arlington, TX 16819&lt;/p&gt;&lt;h4 class=&quot;text-white&quot;&gt;&lt;i class=&quot;bi bi-telephone&quot;&gt;&lt;/i&gt; (444) 019 120 0401&lt;/h4&gt;&lt;a href=&quot;#&quot; class=&quot;btn btn-success d-inline-block&quot;&gt;Live Chat&lt;/a&gt; &lt;a href=&quot;#&quot; class=&quot;btn btn-outline-light d-inline-block&quot;&gt;Help Desk&lt;/a&gt;
 &lt;/div&gt;]]></content>
             </block_description>
           </block_descriptions>
@@ -2653,7 +2652,7 @@
               <block_framed><![CDATA[0]]></block_framed>
               <description><![CDATA[]]></description>
               <content><![CDATA[&lt;div class=&quot;contactus-block text-center text-md-start&quot;&gt;
-&lt;img src=&quot;extensions/novator/storefront/view/novator/image/presets/18/7b/5.svg&quot; alt=&quot;images&quot; class=&quot;img-fluid h-auto&quot; width=&quot;350&quot; height=&quot;79&quot;&gt;&lt;p class=&quot;text-white&quot;&gt;1487 Rocky Horse Carrefour&lt;br&gt;Arlington, TX 16819&lt;/p&gt;&lt;h4 class=&quot;text-white&quot;&gt;&lt;i class=&quot;bi bi-telephone&quot;&gt;&lt;/i&gt; (444) 019 120 0401&lt;/h4&gt;&lt;button class=&quot;btn btn-success&quot;&gt;Live Chat&lt;/button&gt; &lt;button class=&quot;btn btn-outline-light&quot;&gt;Help Desk&lt;/button&gt;
+&lt;img src=&quot;extensions/novator/storefront/view/novator/image/presets/18/7b/5.svg&quot; alt=&quot;images&quot; class=&quot;img-fluid h-auto&quot; width=&quot;350&quot; height=&quot;79&quot;&gt;&lt;p class=&quot;text-white&quot;&gt;1487 Rocky Horse Carrefour&lt;br&gt;Arlington, TX 16819&lt;/p&gt;&lt;h4 class=&quot;text-white&quot;&gt;&lt;i class=&quot;bi bi-telephone&quot;&gt;&lt;/i&gt; (444) 019 120 0401&lt;/h4&gt;&lt;a href=&quot;#&quot; class=&quot;btn btn-success d-inline-block&quot;&gt;Live Chat&lt;/a&gt; &lt;a href=&quot;#&quot; class=&quot;btn btn-outline-light d-inline-block&quot;&gt;Help Desk&lt;/a&gt;
 &lt;/div&gt;]]></content>
             </block_description>
           </block_descriptions>
