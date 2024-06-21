@@ -609,7 +609,7 @@ if ($error){ ?>
                             }
                         );
                     }
-                ).on('slid.bs.carousel', initZoom);
+                );
             }
         );
 
