@@ -59,12 +59,16 @@ $(document).ready(function(){
         filterKeywordInput.first().removeAttr('disabled');
         filterKeywordInput.last().attr('disabled', 'disabled');
     });
+
     if (filterKeywordInput.first().is(":visible")) {
         filterKeywordInput.first().removeAttr('disabled');
     }
 
-    $(window).on('beforeunload', function () {
-       $('#preloader').css('display', 'block');
+    $(window).on('beforeunload', function ( e ) {
+       let link = document.activeElement.href;
+       if(!link.search('download')) {
+           $('#preloader').css('display', 'block');
+       }
     });
 
     $(".category-links a.nav-link").hover(
