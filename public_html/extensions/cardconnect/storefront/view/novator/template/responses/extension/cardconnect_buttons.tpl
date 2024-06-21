@@ -221,8 +221,6 @@
                 dataType: 'json',
                 beforeSend: function () {
                     $('.alert').remove();
-                    $form.find('.action-buttons').hide();
-                    $form.find('.action-buttons').before('<div class="wait alert alert-info text-center"><i class="bi bi-refresh fa-spin fa-fw"></i> <?php echo $text_wait; ?></div>');
                 },
                 success: function (data) {
                     if (!data) {
@@ -234,6 +232,7 @@
                         cvv2.val('');
                         $form.find('input[name=csrftoken]').val(data.csrftoken);
                         $form.find('input[name=csrfinstance]').val(data.csrfinstance);
+                        $('.spinner-overlay').fadeOut(500);
                     } else {
                         if (data.error) {
                             $('.wait').remove();
@@ -244,6 +243,7 @@
                             cvv2.val('');
                             $form.find('input[name=csrftoken]').val(data.csrftoken);
                             $form.find('input[name=csrfinstance]').val(data.csrfinstance);
+                            $('.spinner-overlay').fadeOut(500);
                         }
                         if (data.success) {
                             location = data.success;
@@ -257,6 +257,7 @@
                     submitSent = false;
                     //clear cvv if something wrong(for next try)
                     cvv2.val('');
+                    $('.spinner-overlay').fadeOut(500);
                 }
             });
         }

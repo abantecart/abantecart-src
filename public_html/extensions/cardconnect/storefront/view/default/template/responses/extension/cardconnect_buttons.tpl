@@ -220,8 +220,6 @@
                 dataType: 'json',
                 beforeSend: function () {
                     $('.alert').remove();
-                    $form.find('.action-buttons').hide();
-                    $form.find('.action-buttons').before('<div class="wait alert alert-info text-center"><i class="fa fa-refresh fa-spin fa-fw"></i> <?php echo $text_wait; ?></div>');
                 },
                 success: function (data) {
                     if (!data) {
@@ -235,7 +233,6 @@
                         $form.find('input[name=csrfinstance]').val(data.csrfinstance);
                     } else {
                         if (data.error) {
-                            $('.wait').remove();
                             $form.find('.action-buttons').show();
                             $form.before('<div class="alert alert-warning"><i class="fa fa-exclamation fa-fw"></i> ' + data.error + '</div>');
                             submitSent = false;
@@ -243,6 +240,7 @@
                             cvv2.val('');
                             $form.find('input[name=csrftoken]').val(data.csrftoken);
                             $form.find('input[name=csrfinstance]').val(data.csrfinstance);
+                            $('.spinner-overlay').fadeOut(500);
                         }
                         if (data.success) {
                             location = data.success;
@@ -250,12 +248,12 @@
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    $('.wait').remove();
                     $form.find('.action-buttons').show();
                     $form.before('<div class="alert alert-danger"><i class="fa fa-exclamation fa-fw"></i> ' + textStatus + ' ' + errorThrown + '</div>');
                     submitSent = false;
                     //clear cvv if something wrong(for next try)
                     cvv2.val('');
+                    $('.spinner-overlay').fadeOut(500);
                 }
             });
         }
