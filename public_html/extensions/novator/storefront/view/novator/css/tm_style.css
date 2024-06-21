@@ -2142,6 +2142,7 @@ li#review-set::before {
     background-position: center;
     background-size: cover;
     height: 400px;
+    max-width: 252px;
 }
 
 .card-offcanvas {
