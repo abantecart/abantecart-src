@@ -1,25 +1,22 @@
 <?php
-/** @noinspection SqlResolve */
-/** @noinspection PhpMultipleClassDeclarationsInspection */
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2023 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 use ReCaptcha\ReCaptcha;
 
@@ -507,7 +504,12 @@ class AForm
         $fields_html = [];
         $view = new AView($this->registry, 0);
 
+        $containFiles = false;
         foreach ($this->fields as $field) {
+            if($field['element_type'] == 'U'){
+                $containFiles = true;
+            }
+
             //check for enabled recaptcha instead of default captcha
             if ($this->config->get('config_recaptcha_site_key') && $field['element_type'] == 'K') {
                 $field['element_type'] = 'J';
@@ -601,6 +603,10 @@ class AForm
                     true
                 ),
             ];
+            if($containFiles){
+                $data['enctype'] = 'multipart/form-data';
+            }
+
             $form_open = HtmlElementFactory::create($data);
             $form_close = $view->fetch('form/form_close.tpl');
 
