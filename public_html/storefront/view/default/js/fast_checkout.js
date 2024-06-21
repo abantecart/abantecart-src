@@ -50,7 +50,7 @@ function validateForm(formObj){
 function scrollOnTop() {
     $([document.documentElement, document.body]).animate(
         {
-            scrollTop: $("div.pay-form").offset().top
+            scrollTop: $("header").offset().top
         },
         1000
     );
