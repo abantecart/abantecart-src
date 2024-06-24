@@ -99,7 +99,9 @@ echo $$header; ?>
 <div id="footer">
 	<?php echo $$footer; ?>
 </div>
-
+    <div class="mx-auto my-3 text-center">
+        <?php echo $text_copy.'<span class="mx-4"></span>'.$text_project_label; ?>
+    </div>
 </div>
 <a id="gotop" class="fs-6" href="#" title="<?php echo_html2view($this->language->get('text_back_on_top'));?>"><i class="fa-solid fa-circle-chevron-up fa-3x"></i></a>
 <!--

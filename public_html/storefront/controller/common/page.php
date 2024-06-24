@@ -45,6 +45,9 @@ class ControllerCommonPage extends AController
             }
         }
 
+        $this->view->assign('text_copy', $this->config->get('store_name').' &copy; '.date('Y') );
+        $this->view->assign('text_project_label', $this->language->get('text_powered_by','common/footer').'&nbsp;'.project_base() );
+
         $tpl = $this->request->get['rt'] === 'checkout/fast_checkout'
             ? 'common/fast_checkout_page.tpl'
             : 'common/page.tpl';
