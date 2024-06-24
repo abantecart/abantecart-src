@@ -37,7 +37,7 @@ class ControllerPagesProductManufacturer extends AController
         extract($httpQuery);
 
         $brands = $get['manufacturer_id'];
-        if ($brands && is_array($brands)) {
+        if ($brands) {
             $httpQuery['manufacturer_id'] = $brands;
         }
         $ratings = $get['rating'];
