@@ -42,7 +42,9 @@
         }
         $inCart = in_array((int)$product['product_id'], $cartProductIds);
         ?>
-                <div class="card prod-list-card position-relative">
+                <div class="card prod-list-card position-relative"
+                     data-product-id="<?php echo $product['product_id']?>"
+                     data-raw-price="<?php echo round($product['raw_price'],2)?>">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
                             <div class="flex-shrink-0">
@@ -62,7 +64,7 @@
                                             </span>
                                         <?php } ?>
                                         <h2 class="h6 mb-3">
-                                            <a class="text-decoration-none text-secondary card-title" href="<?php echo $item['info_url'] ?>">
+                                            <a class="product-name text-decoration-none text-secondary card-title" href="<?php echo $item['info_url'] ?>">
                                                 <?php echo $item['title'].' '. ($product['model'] ? "(".$product['model'].")" :''); ?>
                                             </a>
                                         </h2>

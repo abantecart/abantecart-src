@@ -84,6 +84,8 @@ if($direction == 'rtl'){ ?>
     let call_to_order_url = '<?php echo $call_to_order_url;?>';
     let search_url = '<?php echo $search_url;?>';
     let text_add_cart_confirm = <?php js_echo($text_add_cart_confirm); ?>;
+    let wishlist_add_url = '<?php echo $this->html->getSecureURL('product/wishlist/add'); ?>';
+    let wishlist_remove_url = '<?php echo $this->html->getSecureURL('product/wishlist/remove'); ?>';
 <?php
 if($cart_ajax){ ?>
     let cart_ajax_url = '<?php echo $cart_ajax_url; ?>';

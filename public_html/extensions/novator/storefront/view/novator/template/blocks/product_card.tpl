@@ -112,7 +112,7 @@
 
     <h6 class="my-3">
         <a href="<?php echo $item['info_url'] ?>"
-           title="<?php echo $product['blurb'] ?: $item['title'] ?>" class="link-dark">
+           title="<?php echo $product['blurb'] ?: $item['title'] ?>" class="link-dark product-name">
             <?php echo $item['title']
                 . $this->getHookvar('product_listing_name_'.$product['product_id']);
             ?>

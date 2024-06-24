@@ -563,3 +563,58 @@ function scrollToTab(ID) {
         }, 100);
     }
 }
+
+//Google Analytics 4
+function wishlistGA_event_fire(evtName, card){
+    if(!ga4_enabled){
+        console.log('google analytics data collection is disabled')
+        return;
+    }
+
+    let prodName = card.find('.product-name').text().trim();
+    let price = card.find('.prod-price').first().text().trim();
+    gtag("event", evtName, {
+        currency: default_currency,
+        value: price,
+        items: [
+            {
+                item_id: card.attr('data-product-id'),
+                item_name: prodName,
+                affiliation: storeName,
+                price: price ,
+                quantity: 1
+            }
+        ]
+    });
+}
+
+$(document).on('click','.wish', function(e) {
+    e.preventDefault();
+    let that = $(this).find('i.bi');
+    let card = $(this).parents('.card');
+    let productId = card.attr('data-product-id');
+    let added = that.hasClass('bi-heart-fill');
+    let url = added ? wishlist_remove_url : wishlist_add_url;
+    url += '&product_id=' + productId;
+
+    $.ajax({
+        type: 'POST',
+        url: url,
+        dataType: 'json',
+        beforeSend: function () {
+            that.addClass('fa-spin');
+        },
+        complete: function () {
+            that.removeClass('fa-spin');
+        },
+        success: function (data) {
+            let icons = $('.card[data-product-id='+productId+']').find('a.wish').find('i');
+            if (added) {
+                icons.removeClass('bi-heart-fill').addClass('bi-heart');
+            } else {
+                icons.removeClass('bi-heart').addClass('bi-heart-fill');
+                wishlistGA_event_fire("add_to_wishlist", card);
+            }
+        }
+    });
+});
