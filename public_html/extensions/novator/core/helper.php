@@ -316,13 +316,22 @@ function renderFilterCategoryTreeNV($tree, $level = 0, int|array|null $currentId
     foreach($tree as $cat){
         $cat['name'] = ($level ? ' - ' : '') .$cat['name'];
         $checked = in_array($cat['category_id'], (array)$currentId);
+        $checkedChildren = 0;
+        foreach((array)$cat['children'] as $ch){
+            if(in_array($ch['category_id'], (array)$currentId)){
+                $checkedChildren++;
+            }
+        }
+        if( ($extra['lock_one_category'] || $checkedChildren > 1) && $checked) {
+            $readonly = 'onclick="return false"';
+        }
         $output .=
             '<div class="row g-3 align-items-center my-0">
                   <div class="d-flex flex-nowrap m-0">
                     <input id="filter_cat'.$cat['category_id'].'"
                            class="form-check-input product-filter me-2" 
                            type="checkbox" name="category_id[]" value="'.$cat['category_id'].'" '
-                        .($checked ? 'checked' : '').' '.($extra['lock_one_category'] && $checked ? 'onclick="return false"' : '').' >
+                        .($checked ? 'checked' : '') . ' ' . $readonly.'>
                     <label for="filter_cat'.$cat['category_id'].'" 
                         class="w-100 ms-'.$level.' link '.($checked ? 'fw-bolder link-primary' : 'link-secondary').' d-block ms-'.$level.'" >'. str_repeat('&nbsp;', $level ).$cat['name'].'
                         '. ( $cat['product_count'] ? '<span class="float-end">('. $cat['product_count'].')</span>' : '').'

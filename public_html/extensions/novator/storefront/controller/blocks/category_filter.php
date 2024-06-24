@@ -76,12 +76,11 @@ class ControllerBlocksCategoryFilter extends AController
 
         if (isset($get['path'])) {
             $parts = explode('_', $get['path']);
-            if (count($parts) == 1) {
-                //see if this is a category ID to sub category, need to build full path
-                $parts = explode('_', $categoryMdl->buildPath($get['path']));
-                $children = $categoryMdl->getChildrenIDs(end($parts));
-                $get['category_id'] = array_merge( [end($parts)],$children);
+            if (count($parts) > 1) {
+                $parts = [end($parts)];
             }
+            $children = $categoryMdl->getChildrenIDs(end($parts));
+            $get['category_id'] = array_merge( $parts,$children);
             if($children){
                 $categoryId = array_merge((array)$categoryId, $children);
             }
@@ -94,12 +93,15 @@ class ControllerBlocksCategoryFilter extends AController
             $categoryId = filterIntegerIdList($categoryId);
             if(count($categoryId) == 1) {
                 $children = $categoryMdl->getChildrenIDs(end($categoryId));
-                $get['category_id'] = array_merge([end($categoryId)], $children);
+                $get['category_id'] = array_merge($categoryId, $children);
                 $categoryId = array_merge($categoryId, $children);
+            }else {
+                $categoryId = array_unique(array_map('intval', $categoryId));
+                foreach($categoryId as $cId){
+                    $children = $categoryMdl->getChildrenIDs($cId);
+                    $categoryId = array_merge($categoryId, $children);
+                }
             }
-            $parts = explode('_',$categoryMdl->buildPath($categoryId[0]));
-            $categoryId[] = (int)$parts[0];
-            $categoryId = array_unique($categoryId);
         }
 
         if(str_starts_with($parentRoute, 'pages/product/manufacturer')){
@@ -132,7 +134,7 @@ class ControllerBlocksCategoryFilter extends AController
                     'manufacturer_id' => (array)$get['manufacturer_id']
                 ]
             ];
-            $get['category_id'] = $categoryId;
+
             $this->data['brands'] = $categoryMdl->getCategoriesBrands( $categoryId, $filter );
             $this->data['ratings'] = $this->model_catalog_review->getCategoriesAVGRatings( $categoryId, $filter );
             $extra['lock_one_category'] = count((array)$get['category_id']) == 1;
@@ -189,6 +191,7 @@ class ControllerBlocksCategoryFilter extends AController
                 array_multisort($catList, SORT_STRING, $sortIdx);
             }
         }
+        //if list not taken from main controller result like a search page
         if(!$catList) {
             $catList = $categoryMdl->getAllCategories(
                 [
@@ -200,24 +203,30 @@ class ControllerBlocksCategoryFilter extends AController
                 ]
             );
         }
-        $categoryMdl->buildCategoryTree( $catList , 0 );
 
-        if(!$dataSource) {
-            $all = $categoryMdl->data['all_categories'];
+        //call to build inner list in the model state ($data['all_categories'])
+        $categoryMdl->buildCategoryTree(
+            $catList ,
+            count($catList)==1 ? (int)(current($catList)['parent_id']) :  0
+        );
+
+        if($dataSource) {
+            //list from parent controller, like a search result
+            $categoryMdl->data['all_categories'] = $catList;
+        }else{
+            //table list for additional filtering
+            $all = (array)$categoryMdl->data['all_categories'];
             foreach($all as $i=>$c){
                 //exclude empty categories
-                if(!(int)$c['product_count']){
-                    unset($all[$i]);
-                }
+                if(!(int)$c['product_count']){ unset($all[$i]); }
                 //filter by tree leaf
                 elseif( !array_intersect(filterIntegerIdList(explode("_",$c['path'])),(array)$categoryId) ){
                     unset($all[$i]);
                 }
             }
             $categoryMdl->data['all_categories'] = $all;
-        }else{
-            $categoryMdl->data['all_categories'] = $catList;
         }
+
         $parentId = count($categoryMdl->data['all_categories'])==1 ? current($categoryMdl->data['all_categories'])['parent_id'] : 0;
         $categoryTree = $categoryMdl->buildNestedCategoryList(
             $parentId,

@@ -80,7 +80,10 @@ class ControllerPagesProductCategory extends AController
             if (count($parts) == 1) {
                 //see if this is a category ID to sub category, need to build full path
                 $parts = explode('_', $mdl->buildPath($request['path']));
+            }else{
+                $parts = [end($parts)];
             }
+            $category_id = [end($parts)];
             foreach ($parts as $path_id) {
                 $category_info = $mdl->getCategory($path_id);
                 if ($category_info) {
@@ -97,9 +100,10 @@ class ControllerPagesProductCategory extends AController
                         ]
                     );
                 }
+                $category_id = array_merge($category_id, $mdl->getChildrenIDs($path_id));
             }
-            $category_id = $parts;
-            $category_info = $mdl->getCategory(end($category_id));
+
+            $category_info = $mdl->getCategory(end($parts));
         } elseif (is_array($request['category_id'])) {
             $category_id = filterIntegerIdList($request['category_id']);
             if($category_id){

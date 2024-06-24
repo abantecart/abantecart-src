@@ -568,7 +568,8 @@ class ModelCatalogCategory extends Model
             }
             $output[] = $category;
             $output = array_merge(
-                $output, $this->buildCategoryTree($all_categories, $category['category_id'], $category['path'])
+                $this->buildCategoryTree($all_categories, $category['category_id'], $category['path']),
+                $output
             );
         }
         if ($parent_id == 0) {
@@ -585,6 +586,7 @@ class ModelCatalogCategory extends Model
             }
             return $cutted_tree;
         } else {
+            $this->data['all_categories'] = $output;
             return $output;
         }
     }
