@@ -64,7 +64,7 @@
                                             </span>
                                         <?php } ?>
                                         <h2 class="h6 mb-3">
-                                            <a class="product-name text-decoration-none text-secondary card-title" href="<?php echo $item['info_url'] ?>">
+                                            <a class="product-name text-decoration-none text-s  econdary card-title" href="<?php echo $item['info_url'] ?>">
                                                 <?php echo $item['title'].' '. ($product['model'] ? "(".$product['model'].")" :''); ?>
                                             </a>
                                         </h2>
@@ -85,18 +85,21 @@
                                                 <i class="bi bi-eye"></i>
                                             </a>
                                             </li>
-                                            <li class="list-inline-item"><a href="#"><i class="bi bi-shuffle"></i></a></li>
+                                            <li class="list-inline-item">
+                                                <a class="share"
+                                                   data-title="<?php echo_html2view($product['name']);?>"
+                                                   data-url="<?php echo $item['info_url'];?>">
+                                                    <i class="bi bi-shuffle"></i>
+                                                </a>
+                                            </li>
                                         </ul>
 
                                         <div class="d-flex justify-content-center p-1 mt-2 align-items-center">
-                                            
-                                            <?php if ($review_status) { ?>
-                                                <!-- <a class="btn btn-outline-secondary ms-2" href="<?php echo $item['info_url'] ?>#review">
-                                                    <?php echo $review ?>
-                                                </a> --> 
-                                            <?php }
-                                                echo $product['buttons']; 
-                                            ?>
+                                        <?php if ($review_status) { ?>
+                                                <?php echo $review ?>
+                                        <?php }
+                                            echo $product['buttons'];
+                                        ?>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 text-sm-end">

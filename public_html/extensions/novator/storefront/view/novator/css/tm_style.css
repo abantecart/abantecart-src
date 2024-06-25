@@ -3915,3 +3915,7 @@ input[type="number"] {
 {
     width: 100% !important;
 }
+
+a.share{
+    cursor: pointer;
+}
