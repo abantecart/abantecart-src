@@ -156,7 +156,6 @@ if ($error){ ?>
             </div>
             <hr class="my-4">
             <div class="col-md-12 d-flex flex-column">
-                    <div class="blurb"><?php echo $product_info['blurb'] ?></div>
                     <div class="quantitybox">
                         <?php if ($display_price) { echo $form['form_open']; ?>
                                 <fieldset>
