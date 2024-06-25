@@ -36,7 +36,7 @@
             $item['price'] = '';
         }
 
-        $review = $button_write;
+        $review = '<a href="'.$this->html->getSeoUrl('product/product','&product_id='.$product['product_id']).'#review">'.$button_write.'</a>';
         if ($item['rating']) {
             $review = $item['rating'];
         }

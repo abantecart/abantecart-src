@@ -594,8 +594,8 @@ if ($error){ ?>
         $(document).ready(
             function(){
                 let hash = location.hash;
-                if(hash && $(hash).length>0){
-                    scrollTo(hash.replace('#',''));
+                if(hash){
+                    scrollToTab(hash.replace('#','').toLowerCase());
                 }
 
                 //pause carousel of main image
