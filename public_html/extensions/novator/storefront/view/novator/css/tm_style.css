@@ -324,6 +324,11 @@ th {
     --bs-table-hover-bg: rgba(22, 146, 225, 0.02);
 }
 
+[data-bs-theme=dark] .table{
+    --bs-table-color: #aaaaaa;
+    --bs-table-hover-color: #cccccc;
+}
+
 .table > :not(caption) > * > * {
     padding: 13px 19px;
     border-bottom-width: 1px;
@@ -1107,6 +1112,12 @@ textarea.form-control.is-invalid {
     --bs-btn-active-border-color: #282828;
     --bs-btn-disabled-color: #282828;
     --bs-btn-disabled-border-color: #282828;
+}
+[data-bs-theme=dark] .btn-outline-secondary {
+    --bs-btn-color: #ffffff;
+    --bs-btn-border-color: #dddddd;
+    --bs-btn-hover-color: #dddddd;
+    --bs-btn-hover-border-color: #dddddd;
 }
 
 .btn-outline-success {
