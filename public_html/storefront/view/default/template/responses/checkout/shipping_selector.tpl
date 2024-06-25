@@ -4,7 +4,7 @@ if($this->cart->hasShipping()){
         <div class="alert alert-danger mb-3" role="alert">
             <?php echo $this->language->get('fast_checkout_no_shipments_available'); ?>
         </div>
-        <?php
+<?php
         $payment_available = false;
     }else {
         $readonly = '';
@@ -12,8 +12,7 @@ if($this->cart->hasShipping()){
             $readonly = ' readonly ';
         } ?>
         <div class="d-flex w-100 border flex-column mb-3 shipping-selectors">
-        <?php
-         foreach ($csession['shipping_methods'] as $shipping_method) { ?>
+<?php   foreach ($csession['shipping_methods'] as $shipping_method) { ?>
              <h6 class="fw-bold p-3 bg-gradient bg-secondary bg-opacity-10 text-dark">
                  <?php echo $shipping_method['title']; ?>
              </h6>
@@ -22,14 +21,13 @@ if($this->cart->hasShipping()){
                 if (!$shipping_method['error']) {
                     $k = 0;
                     foreach ($shipping_method['quote'] as $quote) {
-                        $quote['radio']->options = [ key($quote['radio']->options) => '' ];
-                        ?>
+                        $quote['radio']->options = [ key($quote['radio']->options) => '' ]; ?>
                     <div class="d-flex flex-nowrap col-12 align-items-center <?php echo $k%2 ? 'bg-light': ''; ?>">
                         <div class="flex-shrink p-2 fc-radio-noborder">
                             <?php  echo $quote['radio']; ?>
                         </div>
-                        <label class="p-2 flex-grow-1 d-flex flex-wrap align-items-center "
-                               id="<?php echo $quote['id'];?>_title"
+                        <label id="<?php echo $quote['id'];?>_title"
+                               class="p-2 flex-grow-1 d-flex flex-wrap align-items-center "
                                for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>"
                                title="<?php echo_html2view($quote['description']); ?>">
                             <?php $icon = (array)$quote['icon'] ?: (array)$shipping_method['icon'];
@@ -41,7 +39,7 @@ if($this->cart->hasShipping()){
                                              title="<?php echo_html2view($icon['title']); ?>" alt=""/>
                                     </span>
                                 <?php } else { ?>
-                                        <span class="shipping_icon mx-2"><?php echo $icon['resource_code']; ?></span>
+                                    <span class="shipping_icon mx-2"><?php echo $icon['resource_code']; ?></span>
                                 <?php }
                             } ?>
                             <?php echo $quote['title']; ?>
