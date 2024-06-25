@@ -9,7 +9,7 @@
 		<value><![CDATA[Moverse Ratón en la imagen para ampliar]]></value>
 	</definition>
 	<definition>
-		<key>text_discount</key>
+		<key>text_quantity_discount</key>
 		<value><![CDATA[Cantidad para descuento:]]></value>
 	</definition>
 	<definition>

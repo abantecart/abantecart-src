@@ -9,7 +9,7 @@
 		<value><![CDATA[Переместите указатель на изображение для увеличения]]></value>
 	</definition>
 	<definition>
-		<key>text_discount</key>
+		<key>text_quantity_discount</key>
 		<value><![CDATA[оптовая скидка:]]></value>
 	</definition>
 	<definition>

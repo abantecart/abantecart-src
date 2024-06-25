@@ -162,7 +162,7 @@ if ($error){ ?>
 
                                     <?php if ($discounts) { ?>
                                         <div class="form-group">
-                                            <label class="control-label fw-bold"><?php echo $text_discount; ?></label>
+                                            <label class="control-label fw-bold"><?php echo $text_quantity_discount; ?></label>
                                             <table class="table table-striped">
                                                 <thead>
                                                     <th class="fw-normal"><?php echo $text_order_quantity; ?></th>

@@ -187,7 +187,7 @@ if ($error){ ?>
 
                                     <?php if ($discounts) { ?>
                                         <div class="form-group">
-                                            <h5 class="text-muted"><?php echo $text_discount; ?></h5>
+                                            <h5 class="text-muted"><?php echo $text_quantity_discount; ?></h5>
                                             <div class="table-responsive">
                                                 <table class="table table-bordered">
                                                     <thead class="h6">

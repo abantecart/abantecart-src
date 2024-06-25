@@ -9,7 +9,7 @@
 		<value><![CDATA[Move pointer over the image to zoom in]]></value>
 	</definition>
 	<definition>
-		<key>text_discount</key>
+		<key>text_quantity_discount</key>
 		<value><![CDATA[Quantity Discount:]]></value>
 	</definition>
 	<definition>
