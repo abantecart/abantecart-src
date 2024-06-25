@@ -1638,7 +1638,6 @@ footer .dropdown-menu   {
 [data-bs-theme=dark] .product-carousel .owl-nav.disabled button.owl-next,
 [data-bs-theme=dark] .product-carousel .owl-nav.disabled button.owl-prev,
 [data-bs-theme=dark] .brand-section {
-    background: #2E2E2E;
     border-color: rgba(255, 255, 255, 0.1019607843);
 }
 
@@ -1696,6 +1695,7 @@ footer .dropdown-menu   {
     --bs-table-border-color: #2B2B2B;
 }
 
+[data-bs-theme=dark] .btn-secondary,
 [data-bs-theme=dark] .form-select,
 [data-bs-theme=dark] .form-control,
 [data-bs-theme=dark] .form-control:focus {
