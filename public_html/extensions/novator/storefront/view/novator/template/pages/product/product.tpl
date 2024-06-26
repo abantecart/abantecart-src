@@ -161,7 +161,8 @@ if ($error){ ?>
                                 <fieldset>
                                     <?php if ($options) {
                                             foreach ($options as $option) {
-                                                if ( $option['html']->type == 'hidden') {
+                                                $fldType = $option['html']->type;
+                                                if ( $fldType == 'hidden') {
                                                     echo $option['html'];
                                                     continue;
                                                 }?>
@@ -174,7 +175,7 @@ if ($error){ ?>
                                                 <?php
                                                     echo $this->getHookVar('product_option_'.$option['name'].'_additional_info');
                                                 ?>
-                                                <div class="flex-shrink-0">
+                                                <div class="prod-option flex-shrink-0 <?php echo $fldType .' '.(in_array($fldType, ['input', 'textarea']) ? 'w-100' : '')?>">
                                                     <?php echo $option['html'];	?>
                                                 </div>
                                             </div>
@@ -213,6 +214,7 @@ if ($error){ ?>
                                                         <?php if ($minimum > 1) { ?>
                                                             <div class="input-group-text me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="<?php echo_html2view($text_minimum);?>">&gt;= <?php echo $minimum; ?></div>
                                                         <?php }
+                                                        $form['minimum']->style .= " text-center fs-4 ";
                                                         echo $form['minimum'];
                                                         if ($maximum > 0) { ?>
                                                             <div class="input-group-text ms-1" data-bs-toggle="tooltip" data-bs-placement="top" title="<?php echo_html2view($text_maximum);?>">&lt;= <?php echo $maximum; ?></div>

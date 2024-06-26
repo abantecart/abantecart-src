@@ -207,6 +207,8 @@ h2,
     --bs-form-valid-border-color: #75b798;
     --bs-form-invalid-color: #ea868f;
     --bs-form-invalid-border-color: #ea868f;
+    --bs-lighter-background: #2b2b2b;
+    --bs-border-color-field: #515151;
 }
 
 *,
@@ -304,6 +306,10 @@ a {
 th {
     font-weight: 600;
 
+}
+
+.fs-6 {
+    font-size: .875rem !important;
 }
 
 
@@ -733,6 +739,18 @@ textarea.form-control-lg {
     background-color: #fff;
     border: 1px solid #E6E8ED;
     border-radius: 8px;
+}
+[data-bs-theme=dark] .input-group-text {
+    color: var(--bs-emphasis-color);
+    background-color: var(--bs-lighter-background);
+    border: 1px solid var(--bs-border-color-field);
+}
+.prod-option .radio .input-group-text {
+    padding: 0.6rem 0.75rem !important;
+    border-radius: 8px !important;
+}
+.prod-option .textarea {
+    width: 100%;
 }
 
 .input-group-lg > .form-control,
@@ -1549,6 +1567,10 @@ footer .dropdown-menu   {
     background: #eaeaea;
     color: #282828;
 }
+[data-bs-theme=dark] .bg-light-secondary {
+    background: var(--bs-lighter-background);;
+    color: #ffffff;
+}
 
 .bg-light-success {
     background: #e9f5ec;
@@ -1563,6 +1585,10 @@ footer .dropdown-menu   {
 .bg-light-warning {
     background: #fdf4e9;
     color: #E8901E;
+}
+
+[data-bs-theme=dark] .bg-light-warning {
+    background: var(--bs-lighter-background);
 }
 
 .bg-light-danger {
@@ -1624,13 +1650,13 @@ footer .dropdown-menu   {
 }
 
 [data-bs-theme=dark] .icon-block-card {
-    background: #2B2B2B;
-    border-color: #515151;
+    background: var(--bs-lighter-background);
+    border-color: var(--bs-border-color-field);
 }
 
 [data-bs-theme=dark] .list-group {
     --bs-list-group-bg: transparent;
-    --bs-list-group-border-color: #2B2B2B;
+    --bs-list-group-border-color: var(--bs-lighter-background);
 }
 
 [data-bs-theme=dark] .link-dark {
@@ -1653,7 +1679,7 @@ footer .dropdown-menu   {
 }
 
 [data-bs-theme=dark] .comment-section .comment-card {
-    background: #2B2B2B;
+    background: var(--bs-lighter-background);
     border-color: rgba(255, 255, 255, 0.1019607843);
 }
 
@@ -1688,40 +1714,40 @@ footer .dropdown-menu   {
 }
 
 [data-bs-theme=dark] .dropdown-menu {
-    --bs-dropdown-bg: #2B2B2B;
-    --bs-dropdown-border-color: #515151;
+    --bs-dropdown-bg: var(--bs-lighter-background);
+    --bs-dropdown-border-color: var(--bs-border-color-field);
     --bs-dropdown-link-color: #fff;
 }
 
 [data-bs-theme=dark] .form-check-input {
-    --bs-form-check-bg: #202020;
+    --bs-form-check-bg: var(--bs-border-color-field);
 }
 
 [data-bs-theme=dark] .navbar .mega-menu .dropdown-menu.dropdown-mega-menu {
-    background: #2B2B2B;
-    border-color: #515151;
+    background: var(--bs-lighter-background);
+    border-color: var(--bs-border-color-field);
 }
 
 [data-bs-theme=dark] .table {
-    --bs-table-border-color: #2B2B2B;
+    --bs-table-border-color: var(--bs-lighter-background);
 }
 
 [data-bs-theme=dark] .btn-secondary,
 [data-bs-theme=dark] .form-select,
 [data-bs-theme=dark] .form-control,
 [data-bs-theme=dark] .form-control:focus {
-    background-color: #2B2B2B;
-    border-color: #515151;
+    background-color: var(--bs-lighter-background);
+    border-color: var(--bs-border-color-field);
     color: #fff;
 }
 
 [data-bs-theme=dark] .prod-desc .list-icon {
-    background-color: #2B2B2B;
+    background-color: var(--bs-lighter-background);
     color: #fff;
 }
 
 [data-bs-theme=dark] .detail .badge {
-    background-color: #2B2B2B;
+    background-color: var(--bs-lighter-background);
 }
 
 [data-bs-theme=dark] .detail .badge.bg-light-secondary,
@@ -1736,7 +1762,7 @@ footer .dropdown-menu   {
 [data-bs-theme=dark] .offcanvas-sm,
 [data-bs-theme=dark] .offcanvas-xl,
 [data-bs-theme=dark] .offcanvas-xxl {
-    --bs-offcanvas-bg: #2B2B2B;
+    --bs-offcanvas-bg: var(--bs-lighter-background);
 }
 
 [data-bs-theme=dark] .offcanvas .accordion-item,
@@ -2967,6 +2993,11 @@ li#review-set::before {
     gap: 8px;
 }
 
+.prod-option.textarea>.input-group,
+.prod-option.textarea textarea{
+    width: 100% !important;
+}
+
 .prod-option .form-check {
     background: #EDF0F8;
     border-radius: 8px;
@@ -2974,6 +3005,11 @@ li#review-set::before {
     margin: 0;
     display: inline-flex;
     align-items: center;
+}
+
+[data-bs-theme=dark] .prod-option .form-check {
+    background: var(--bs-lighter-background);
+    border: 1px solid var(--bs-border-color-field);
 }
 
 .prod-option .form-check .form-check-input {
