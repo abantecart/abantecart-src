@@ -3991,4 +3991,7 @@ a.share{
 {
     filter: invert(1) grayscale(100) !important;
 }
-
+[data-bs-theme="dark"] .carousel .carousel-caption
+{
+    color: var(--bs-body-color);
+}
