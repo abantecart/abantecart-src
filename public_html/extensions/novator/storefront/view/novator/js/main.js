@@ -272,67 +272,46 @@ $(document).ready(function(){
         return false;
     });
 
-    $('button.plus-qnty').on(
-        'click',
-        function(e){
+    $(document).on(
+        'click keyup',
+        '.minus-qnty, .plus-qnty, input[name^="quantity"]',
+        function(e) {
+
+        let productId = $(this).data('product-id');
+        let qtyInput;
+        if(e.currentTarget.nodeName === 'INPUT'){
+            if(e.type=="click"){ return;}
+            qtyInput = $(this);
+        }else{
             e.preventDefault();
-            let input = $(this).siblings("input");
-            let qty = parseInt(input.val()) + 1;
-            let max = parseInt(input.attr('max'));
-            if(max > 0 && qty > max){
-                return false;
-            }
-            input.val(qty);
+            qtyInput =  $(this).siblings("input");
         }
-    );
-    $('button.minus-qnty').on(
-        'click',
-        function(e){
-            e.preventDefault();
-            let input = $(this).siblings("input");
-            let qty = parseInt(input.val()) - 1;
-            let min = parseInt(input.attr('min'));
+
+        let qty = parseInt(qtyInput.val());
+        let min = parseInt(qtyInput.attr('min'));
+        let max = parseInt(qtyInput.attr('max'));
+
+        if ($(this).hasClass('minus-qnty')) {
+            qty = Math.max(qty - 1, 1);
             if(qty < 1 || (min > 0 && qty < min) ){
                 return false;
             }
-            input.val(qty);
-        }
-    );
-    $(document).on('click','#delete_product', function() {
-        let product_key = $(this).data('product-key');
-        $.ajax({
-            url: cart_ajax_delete_product_url,
-            type: 'GET',
-            dataType: 'json',
-            data: {
-                product_key: product_key
-            },
-            success: function (data) {
-                //top cart
-                $('.cart_counter').html(data.item_count);
-                $('.nav.topcart span.cart_total').html(data.total);
-                $('#cartoffcanvas .offcanvas-body').html(data.cart_details);
-            }
-        });
-    });
-
-    $(document).on('click','.minus-qnty, .plus-qnty', function() {
-        let productId = $(this).data('product-id');
-        let quantityInput = $('.cart-quantity-input[data-product-id="' + productId + '"]');
-        let quantity = parseInt(quantityInput.val());
-
-        if ($(this).hasClass('minus-qnty')) {
-            quantity = Math.max(quantity - 1, 1);
         } else if ($(this).hasClass('plus-qnty')) {
-            quantity++;
+            qty++;
+            if(max > 0 && qty > max ){
+                return false;
+            }
         }
-        replaceCartDetailsNv(productId,quantity);
-    });
 
-    $(document).on('change','.cart-quantity-input', function() {
-        let productId = $(this).data('product-id');
-        let quantity = parseInt($(this).val());
-        replaceCartDetailsNv(productId,quantity);
+        if(isNaN(qty)){
+            return;
+        }
+
+        if($(this).parents('#cartoffcanvas').length>0) {
+            replaceCartDetailsNv(productId, qty);
+        }else{
+            qtyInput.val(qty).focus();
+        }
     });
 
     function replaceCartDetailsNv (productId,quantity){
@@ -352,6 +331,25 @@ $(document).ready(function(){
             }
         });
     }
+
+
+    $(document).on('click','#delete_product', function() {
+        let product_key = $(this).data('product-key');
+        $.ajax({
+            url: cart_ajax_delete_product_url,
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                product_key: product_key
+            },
+            success: function (data) {
+                //top cart
+                $('.cart_counter').html(data.item_count);
+                $('.nav.topcart span.cart_total').html(data.total);
+                $('#cartoffcanvas .offcanvas-body').html(data.cart_details);
+            }
+        });
+    });
 
     //process multi-item carousel. rebuild elements
     $('.product-multi-carousel').each( function(){
