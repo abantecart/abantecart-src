@@ -459,7 +459,7 @@ tr.jqgrow td[aria-describedby="extension_grid_icon"] img{
 	white-space: normal;
 }
 .ui-jqgrid .input-sm {
-	padding: 1px 5px;
+	padding: 2px 5px;
 }
 .ui-jqgrid .input-group-addon.quicksave {
 	padding: 1px 1px;
@@ -469,7 +469,8 @@ tr.jqgrow td[aria-describedby="extension_grid_icon"] img{
 }
 
 .ui-jqgrid select.input-sm {
-	height: auto;
+	height: 24px;
+	padding: 6px;
 }
 
 .ui-jqgrid .ui-pg-table td .form-group {

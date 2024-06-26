@@ -420,9 +420,11 @@
 					//for select data-orgvalue is present in each option regardless of multiselect or single
 					$changed = 0;
 					$field.find('option').each(function () {
-						if ( $(this).attr('data-orgvalue') === "true" && $(this).attr('selected') != 'selected') {
+
+
+						if ( $(this).attr('data-orgvalue') === "true" && $(this).attr('selected') !== 'selected' ) {
 							$changed++;
-						} else if ($(this).attr('data-orgvalue') === "false" && $(this).attr('selected') == 'selected') {
+						} else if ($(this).attr('data-orgvalue') === "false" && !$(this).attr('selected') ) {
 							$changed++;
 						} else if ( !$(this).attr('data-orgvalue') ) {
 							$changed++;
