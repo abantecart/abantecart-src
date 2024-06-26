@@ -68,7 +68,9 @@
                                                 <?php echo $item['title'].' '. ($product['model'] ? "(".$product['model'].")" :''); ?>
                                             </a>
                                         </h2>
-                                      
+                                        <?php if($product['blurb']){?>
+                                            <p class="text-muted"><?php echo $product['blurb']; ?></p>
+                                        <?php }?>
                                         <ul class="list-inline mb-0">
                                             <?php if($this->customer->isLogged()){ ?>
                                             <li class="list-inline-item ">
