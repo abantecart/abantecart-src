@@ -8,7 +8,7 @@
             <?php if ( $required ) { echo 'required'; }?>>
         <?php
         if(!current((array)$value) && $placeholder){ ?>
-            <option value=""><?php echo $placeholder; ?></option>
+            <option disabled="disabled" value="">-- <?php echo $placeholder; ?> -- </option>
         <?php
         }
         foreach ( (array)$options as $v => $text ) { ?>
