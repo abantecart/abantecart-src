@@ -745,7 +745,8 @@ textarea.form-control-lg {
     background-color: var(--bs-lighter-background);
     border: 1px solid var(--bs-border-color-field);
 }
-.prod-option .radio .input-group-text {
+.prod-option .radio .input-group-text
+{
     padding: 0.6rem 0.75rem !important;
     border-radius: 8px !important;
 }

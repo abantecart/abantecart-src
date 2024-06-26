@@ -6,9 +6,9 @@
 <div class="input-group h-100">
 <?php } ?>
     <input type="<?php echo $type ?>" name="<?php echo $name ?>" id="<?php echo $id ?>" value="<?php echo $value; ?>" <?php echo $attr; ?> class="form-control <?php echo $style; ?>" <?php if ( $required ) { echo 'required'; }?>/>
-    <?php if ( $required ) { ?>
-    <span class="input-group-text text-danger">*</span>
-    <?php } ?>
+    <span class="input-group-text ">
+    <?php echo $required ? '<i class="bi fa-birthday-cake "></i><span class="ms-3 text-danger">*</span>' : '<i class="bi fa-birthday-cake"></i>'; ?>
+    </span>
     <script type="text/javascript">
         $(document).ready(function() {
             $('#<?php echo $id ?>').datepicker({dateFormat: <?php js_echo($dateformat) ?> });

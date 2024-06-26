@@ -1,8 +1,6 @@
 <?php if(!$no_wrapper){?>
 <div class="input-group h-100">
-<?php } ?>
-<div class="prod-option radio">
-<?php
+<?php }
 	foreach ( (array)$options as $v => $text ) {
 	$radio_id = preg_replace('/[^a-zA-Z0-9\.-_]/', '', $id . $v);
 ?>
@@ -21,7 +19,6 @@
     if ( $required ) { ?>
         <span class="input-group-text text-danger">*</span>
     <?php } ?>
-</div>
 
 <?php if(!$no_wrapper){?>
 </div>
