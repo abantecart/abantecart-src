@@ -1680,6 +1680,7 @@ footer .dropdown-menu   {
 [data-bs-theme=dark] .product-carousel .owl-nav.disabled button.owl-prev,
 [data-bs-theme=dark] .brand-section {
     border-color: rgba(255, 255, 255, 0.1019607843);
+    background-color: var(--bs-lighter-background);
 }
 
 [data-bs-theme=dark] .comment-section .comment-card {
@@ -3983,3 +3984,11 @@ a.share{
 [data-bs-theme="dark"].carousel .carousel-control-next-icon, [data-bs-theme="dark"].carousel .carousel-control-prev-icon {
     filter: invert(0) grayscale(100) !important;
 }
+
+[data-bs-theme="dark"] #footer .bg-light,
+[data-bs-theme="dark"] .bg-light-primary,
+[data-bs-theme="dark"] .text-dark
+{
+    filter: invert(1) grayscale(100) !important;
+}
+
