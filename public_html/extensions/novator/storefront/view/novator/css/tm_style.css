@@ -213,6 +213,7 @@ h2,
     --nv-breadcrumb-divider: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='8' height='8'><path d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='rgb(173,181,183,100)'/></svg>");
 }
 
+
 *,
 *::before,
 *::after {
@@ -3976,4 +3977,9 @@ input[type="number"] {
 
 a.share{
     cursor: pointer;
+}
+
+[data-bs-theme="dark"] .carousel .carousel-control-next-icon, [data-bs-theme="dark"] .carousel .carousel-control-prev-icon,
+[data-bs-theme="dark"].carousel .carousel-control-next-icon, [data-bs-theme="dark"].carousel .carousel-control-prev-icon {
+    filter: invert(0) grayscale(100) !important;
 }
