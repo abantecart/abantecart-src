@@ -342,18 +342,19 @@ class APromotion
                 GROUP BY ps.product_id";
 
         $sort_data = [
-            'pd.name',
-            'p.sort_order',
-            'ps.price',
-            'rating',
-            'date_modified',
+            'pd.name' => 'pd.name',
+            'p.sort_order' => 'p.sort_order',
+            'ps.price' => "(CASE WHEN ps.price_prefix='%' THEN p.price - (ps.price * (p.price/100)) 
+                    ELSE ps.price END)",
+            'rating' => 'rating',
+            'date_modified' => 'date_modified'
         ];
 
-        if (in_array($sort, $sort_data)) {
+        if (isset($sort_data[$sort])) {
             if ($sort == 'pd.name') {
                 $sql .= " ORDER BY LCASE(".$sort.")";
             } else {
-                $sql .= " ORDER BY ".$this->db->escape($sort);
+                $sql .= " ORDER BY ".$sort_data[$sort];
             }
         } else {
             $sql .= " ORDER BY p.sort_order";
