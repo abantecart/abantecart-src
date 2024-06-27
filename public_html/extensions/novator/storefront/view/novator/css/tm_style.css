@@ -1683,6 +1683,11 @@ footer .dropdown-menu   {
     background-color: var(--bs-lighter-background);
 }
 
+[data-bs-theme=dark] .product-card
+{
+    background-color: var(--bs-body-bg) !important;
+}
+
 [data-bs-theme=dark] .comment-section .comment-card {
     background: var(--bs-lighter-background);
     border-color: rgba(255, 255, 255, 0.1019607843);
