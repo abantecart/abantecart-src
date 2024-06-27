@@ -16,7 +16,7 @@
 
 /* styles of radio buttons */
 .shipping-selectors input[type=radio] {
-    border: 0;
+    border: 1px solid var(--bs-gray-200);
     cursor: pointer;
     background-color: #fff;
     border-radius: 50%;
@@ -29,6 +29,12 @@
     -webkit-appearance: none;
     appearance: none;
 }
+
+.shipping-selectors input[type=radio] {
+    border: 1px solid var(--bs-gray-100);
+    background-color: var(--bs-lighter-background);
+}
+
 .shipping-selectors input[type="radio"]:before,
 .shipping-selectors input[type="radio"]:after {
     border-radius: 50%;
