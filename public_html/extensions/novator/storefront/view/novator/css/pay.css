@@ -85,3 +85,14 @@ body.checkout-fast_checkout .header-right-block.block_3.ms-2
 {
     margin-right: 0 !important;
 }
+
+[data-bs-theme="dark"] .shipping_address_details,
+[data-bs-theme="dark"] .payment_address_details
+{
+    background-color: var(--bs-lighter-background) !important;
+}
+[data-bs-theme="dark"] .shipping_address_details .card-body,
+[data-bs-theme="dark"] .payment_address_details .card-body
+{
+    background-color: var(--bs-lighter-background) !important;
+}
