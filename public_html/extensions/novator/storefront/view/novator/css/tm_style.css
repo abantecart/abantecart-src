@@ -1439,7 +1439,6 @@ footer .dropdown-menu   {
 .offcanvas-lg,
 .offcanvas-md,
 .offcanvas-sm {
-    --bs-offcanvas-width: 360px;
     --bs-offcanvas-height: 33vh;
     --bs-offcanvas-padding-x: 1.25rem;
     --bs-offcanvas-padding-y: 1.25rem;
@@ -1911,6 +1910,15 @@ section {
     color: #fff !important;
 }
 
+#menuoffcanvas .theme-change {
+    position: static;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    padding: 7px;
+    display: block !important;
+}
+
 .theme-change .icon-dark {
     display: none;
 }
@@ -2274,8 +2282,8 @@ li#review-set::before {
     overflow: visible;
 }
 
-.menu-offcanvas .btn-icon {
-    margin-left: -38px;
+.offcanvas [data-bs-dismiss="offcanvas"] {
+    margin-left: -25px;
     padding: 0;
 }
 

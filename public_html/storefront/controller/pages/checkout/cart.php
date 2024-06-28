@@ -366,6 +366,8 @@ class ControllerPagesCheckoutCart extends AController
                         '&product_id='.$result['product_id'].'&key='.$result['key'],
                         true
                     ),
+                    'minimum'       => $result['minimum']?:1,
+                    'maximum'       => $result['maximum']
                 ];
             }
             $this->data['products'] = $products;

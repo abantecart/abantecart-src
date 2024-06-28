@@ -375,6 +375,8 @@ class ControllerResponsesProductProduct extends AController
                 'raw_price_num' => $this->currency->convert($price, $this->currency->getCode(), $this->config->get('config_currency')),
                 'href'          => $result['product_id'] ? $this->html->getSEOURL('product/product', '&product_id=' . $result['product_id']) : null,
                 'thumb'         => $thumbnail,
+                'minimum'       => $result['minimum'],
+                'maximum'       => $result['maximum']
             ];
         }
 

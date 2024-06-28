@@ -23,7 +23,7 @@ echo $_COOKIE['data-bs-theme'] == 'dark' ? 'data-bs-theme="dark"' : '';
             <?php echo $$header; ?>
         <!-- Main header section Ends -->
 
-        <a href="javascript:void(0)" class="theme-change" id="theme-switcher"><i class="bi bi-sun-fill icon-dark"></i> <i class="bi bi-moon-stars-fill icon-light"></i> </a>
+        <a href="javascript:void(0)" class="theme-change d-none d-sm-flex" id="theme-switcher"><i class="bi bi-sun-fill icon-dark"></i> <i class="bi bi-moon-stars-fill icon-light"></i> </a>
 
         <!-- header-bottom-section Starts -->
             <div class="header-bottom-section">

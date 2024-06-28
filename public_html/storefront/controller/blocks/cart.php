@@ -135,6 +135,8 @@ class ControllerBlocksCart extends AController
                     true
                 ),
                 'thumb'    => $thumbnail,
+                'minimum'       => $result['minimum']?:1,
+                'maximum'       => $result['maximum']
             ];
         }
 

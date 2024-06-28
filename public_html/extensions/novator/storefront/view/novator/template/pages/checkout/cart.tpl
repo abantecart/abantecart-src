@@ -27,8 +27,6 @@ if (sizeof((array) $error_warning) > 0) {
     }
 } ?>
 
-
-
     <?php echo $form['form_open']; ?>
         <div class="py-3">
             <?php
@@ -81,7 +79,7 @@ if (sizeof((array) $error_warning) > 0) {
                         <?php } ?>
                         <div class="cart-qnty-wrapper text-nowrap p-1">
                             <div class="input-group">
-                                <button title="<?php echo $product['quantity']->min ? 'Min: '.$product['quantity']->min : ''; ?>"
+                                <button title=">= <?php echo $product['minimum']?:1; ?>"
                                     class="minus-qnty input-group-text btn btn-outline-danger">&minus;</button>
                                 <?php  $product['quantity']->no_wrapper = true; ?>
                                     <input type="text"
@@ -91,8 +89,10 @@ if (sizeof((array) $error_warning) > 0) {
                                            inputmode="numeric"
                                            placeholder="<?php echo $product['quantity']->placeholder ?>"
                                            class="form-control text-center fw-bold <?php echo $product['quantity']->style; ?>"
+                                           min="<?php echo $product['minimum']?:1; ?>"
+                                        <?php echo $product['maximum'] ? 'max="'.$product['maximum'].'"' : '' ?>
                                     <?php echo $product['quantity']->attr; ?>/>
-                                    <button title="<?php echo $product['quantity']->max ? 'Max: '.$product['quantity']->max : ''; ?>"
+                                    <button title="<?php echo $product['maximum'] ? '<='.$product['maximum'] : '&infin;'; ?>"
                                     class="plus-qnty input-group-text btn btn-outline-success">&plus;</button>
                             </div>
                         </div>

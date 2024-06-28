@@ -55,19 +55,24 @@
             </div>
         </div>
 </div>
-<div class="offcanvas menu-offcanvas offcanvas-end" tabindex="-1" id="menuoffcanvas"
-     aria-labelledby="cartoffcanvasLabel">
+<div id="menuoffcanvas" class="offcanvas menu-offcanvas offcanvas-end position-absolute" tabindex="-1" aria-labelledby="menuoffcanvasLabel">
+    <button type="button" class="btn btn-danger btn-icon position-absolute" data-bs-dismiss="offcanvas" aria-label="Close">
+        <i class="bi bi-x"></i>
+    </button>
     <div class="offcanvas-body">
-        <div class="menu-top-btn d-flex justify-content-between">
-            <button type="button" class="btn btn-danger btn-icon" data-bs-dismiss="offcanvas" aria-label="Close"><i
-                        class="bi bi-x"></i></button>
-
-            <a class="btn btn-primary image-link d-inline-flex me-2 position-relative align-items-center justify-content-center" data-bs-toggle="offcanvas"
+        <div class="menu-top-btn d-flex justify-content-between align-items-center">
+            <a class="btn btn-primary image-link ms-3 me-2 " data-bs-toggle="offcanvas"
                href="#cartoffcanvas" role="button" aria-controls="cartoffcanvas" aria-label="cart link">
-                <i class="bi bi-cart3 me-2"></i> <?php echo $text_cart;?>
+                <i class="bi bi-cart3 me-2"></i><?php echo $text_cart;?>
             </a>
-
-            <a href="<?php echo $this->html->getSecureUrl('account/account') ?>" class="btn btn-primary"><i class="bi bi-person me-2"></i> <?php echo $text_account;?></a>
+            <a href="<?php echo $this->html->getSecureUrl('account/account') ?>" class="btn btn-primary">
+                <i class="bi bi-person me-2"></i>
+                <?php echo $text_account;?>
+            </a>
+            <a href="javascript:void(0)"
+               class="theme-change "
+               id="theme-switcher"><i class="bi bi-sun-fill icon-dark"></i> <i class="bi bi-moon-stars-fill icon-light"></i>
+            </a>
         </div>
     </div>
     <div class="scroll-div">
@@ -127,5 +132,25 @@
                 <?php echo $mobile_menu_currency; ?>
             </div>
         </div>
+    </div>
+</div>
+
+<?php
+
+extract($cart_block_data);
+?>
+<div id="cartoffcanvas" class="offcanvas card-offcanvas offcanvas-end position-absolute" tabindex="-1"  aria-labelledby="cartoffcanvasLabel">
+    <button type="button" class="btn btn-danger btn-icon position-absolute" data-bs-dismiss="offcanvas" aria-label="Close">
+        <i class="bi bi-x"></i>
+    </button>
+    <div class="offcanvas-header border-bottom">
+        <div class="row w-100 align-items-center justify-content-between">
+            <div class="col-auto">
+                <h5 class="mb-0"><?php echo $heading_title;?> (<span class="cart_counter"><?php echo $total_qty;?></span>)</h5>
+            </div>
+        </div>
+    </div>
+    <div class="offcanvas-body">
+        <?php include( $this->templateResource('/template/responses/checkout/cart_details.tpl') ) ?>
     </div>
 </div>

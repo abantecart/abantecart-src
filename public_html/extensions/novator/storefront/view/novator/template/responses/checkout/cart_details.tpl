@@ -18,17 +18,23 @@ if ($total_items > 0) { ?>
                     <div class="flex-grow-1 ms-3">
                         <div class="d-flex align-items-center justify-content-between mb-2">
                             <p class="mb-0"><?php echo $product['name']; ?></p>
-                            <h5 class="mb-0"><?php echo $product['price']; ?></h5>
-                            <button type="button" id="delete_product" class="btn-close" data-bs-dismiss="alert" aria-label="Close" data-product-key="<?php echo $product['key']; ?>"></button>
+                            <h5 class="mb-auto "><?php echo $product['price']; ?></h5>
+                            <button type="button" id="delete_product"
+                                    class="mb-auto btn-close" data-bs-dismiss="alert" aria-label="Close" data-product-key="<?php echo $product['key']; ?>"></button>
                         </div>
                         <div class="input-group input-group-sm mx-auto" style="width: 150px;">
-                            <button title="Min: 1" class="minus-qnty input-group-text btn btn-outline-danger"
+                            <button title=">= <?php echo $product['minimum']?:1; ?>"
+                                    class="minus-qnty input-group-text btn btn-outline-danger"
                                     data-product-id="<?php echo $product['key']; ?>">−</button>
                             <input type="number" name="quantity[<?php echo $product['key']; ?>]"
                                    class="cart-quantity-input form-control text-center fw-bold short form-control-sm text-center"
-                                   value="<?php echo $product['quantity']; ?>" placeholder="" size="6" min="1"
+                                   value="<?php echo $product['quantity']; ?>" placeholder="" size="6"
+                                   min="<?php echo $product['minimum']?:1; ?>"
+                                   <?php echo $product['maximum'] ? 'max="'.$product['maximum'].'"' : '' ?>
                                    data-product-id="<?php echo $product['key']; ?>">
-                            <button title="" class="plus-qnty input-group-text btn btn-outline-success" data-product-id="<?php echo $product['key']; ?>">+</button>
+                            <button title="<?php echo $product['maximum'] ? '<='.$product['maximum'] : '&infin;'; ?>"
+                                    class="plus-qnty input-group-text btn btn-outline-success "
+                                    data-product-id="<?php echo $product['key']; ?>">+</button>
                         </div>
                     </div>
                 </div>
