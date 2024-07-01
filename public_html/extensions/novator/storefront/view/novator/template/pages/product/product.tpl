@@ -22,7 +22,7 @@ if ($error){ ?>
         <div class="col-md-12 col-lg-6 col-xxl-5 text-center">
             <div class="w-auto sticky-md-top product-sticky">
                 <div class="zoom-pane position-absolute col-12"></div>
-                <div id="carouselProductImages" class="carousel slide mx-auto" data-bs-ride="carousel" style="width: <?php echo $thmb_w;?>px !important;">
+                <div id="carouselProductImages" class="carousel slide mx-auto" data-bs-ride="carousel" style="max-width: <?php echo $thmb_w;?>px !important;">
                     <div class="carousel-inner bg-light rounded position-relative">
                         <!-- Main Image -->
                         <?php foreach ($images as $index => $image) {
@@ -54,7 +54,7 @@ if ($error){ ?>
                                         class="product-thumb w-auto h-auto <?php echo ($i === 0) ? 'active' : ''; ?> ">
                                             <img class="d-block wid-100 rounded "
                                                  src="<?php echo $image['thumb_url']; ?>"
-                                                 style="width: <?php echo $image['thumb_width'];?>px; height: <?php echo $image['thumb_height'];?>px;"
+                                                 style="max-width: <?php echo $image['thumb_width'];?>px; max-height: <?php echo $image['thumb_height'];?>px;"
                                                  alt="<?php echo_html2view($image['title']); ?>"
                                                  title="<?php echo_html2view($image['description']); ?>">
                                     </li>
