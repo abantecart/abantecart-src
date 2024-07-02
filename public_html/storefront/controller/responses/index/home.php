@@ -23,18 +23,15 @@ if (!defined('DIR_CORE')) {
 
 class ControllerResponsesIndexHome extends AController
 {
-    private $error = array();
-    public $data = array();
-
     public function main()
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        //temporаry solution for home page - top category list
-        if ($this->config->get('embed_mode') == true) {
+        //temporary solution for home page - top category list
+        if ($this->config->get('embed_mode')) {
             $continue_url = $this->html->getURL('product/category');
-            $this->redirect($continue_url);
+            redirect($continue_url);
         }
 
         $this->addChild('responses/embed/head', 'head');

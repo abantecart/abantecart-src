@@ -306,7 +306,7 @@ class ModelCatalogProduct extends Model
                     AND p2s.store_id = '" . $store_id . "' ";
             if (is_array($category_id)) {
                 $ids = filterIntegerIdList($category_id) ?: [0];
-                if($ids) {
+                if($ids && $ids != [0]) {
                     $sql .= " AND p2c.category_id IN (" . implode(',', $ids) . ")";
                 }
             } else {

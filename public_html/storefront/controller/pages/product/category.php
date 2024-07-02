@@ -136,7 +136,8 @@ class ControllerPagesProductCategory extends AController
                 $this->data['filter_url'] = $this->html->getSEOURL( 'product/category', '&' . http_build_query($httpQuery) );
             }
         } else {
-            $category_id = 0;
+            $category_id = [0];
+            $category_info['category_id'] = 0;
         }
 
         //if category not set but brands are selected
@@ -159,7 +160,7 @@ class ControllerPagesProductCategory extends AController
             $this->data['text_sort'] = $this->language->get('text_sort');
 
             $this->loadModel('catalog/product');
-            $category_total = $category_info['category_id']
+            $category_total = isset($category_info['category_id'])
                 ? $mdl->getTotalCategoriesByCategoryId($category_info['category_id'])
                 : 0;
 
