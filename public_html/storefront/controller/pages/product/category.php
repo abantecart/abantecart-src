@@ -153,7 +153,7 @@ class ControllerPagesProductCategory extends AController
             $this->document->setDescription($category_info['meta_description']);
 
             $this->data['heading_title'] = $category_info['name'];
-            if(!is_array($category_id)) {
+            if(!is_array($request['category_id']) || count($request['category_id']) == 1) {
                 $this->data['description'] = html_entity_decode($category_info['description'], ENT_QUOTES, 'UTF-8');
             }
             $this->data['text_sort'] = $this->language->get('text_sort');
