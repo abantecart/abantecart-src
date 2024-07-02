@@ -1,9 +1,9 @@
 <div class="container">
-	<div class="row">
+	<div class="row px-2 w-100">
 <?php
         foreach ($listItems as $si => $subitem) {
         $sActive = $subitem['current'] ? 'active' : ''; ?>
-		<div class="col-3">
+		<div class="col-3 px-4">
 			<ul class="list-unstyled category-sub-links">
                 <li>
                     <a id="menu_<?php echo $subitem['item_id'];?>" class="<?php echo $sActive; ?>" href="<?php echo $subitem['href']; ?>" target="<?php echo $subitem['settings']['target']; ?>">
