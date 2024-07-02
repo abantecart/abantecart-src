@@ -2342,6 +2342,7 @@ li#review-set::before {
 
 .header-right-block:first-child {
     margin-right: auto;
+    margin-left: auto;
     max-width: 425px;
     width: 100%;
 }
