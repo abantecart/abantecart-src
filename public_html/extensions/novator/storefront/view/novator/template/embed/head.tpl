@@ -2,37 +2,38 @@
 <html xmlns="http://www.w3.org/1999/xhtml" dir="<?php echo $direction; ?>" lang="<?php echo $lang; ?>" xml:lang="<?php echo $lang; ?>" >
 <head>
     <meta charset="UTF-8">
+    <!--[if IE]>
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <![endif]-->
     <title><?php echo $this->document->getTitle(); ?></title>
-    <meta http-equiv="cache-control" content="max-age=0">
-    <meta http-equiv="cache-control" content="no-cache">
-    <meta http-equiv="expires" content="-1">
-    <meta http-equiv="expires" content="Tue, 01 Jan 2000 11:00:00 GMT">
-    <meta http-equiv="pragma" content="no-cache">
+    <?php
+    foreach($meta as $item){
+        if(!$item['content']){ continue;} ?>
+        <meta <?php foreach($item as $n=>$v){ echo $n.'="'.$v.'" '; }?>/>
+    <?php } ?>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
     <base href="<?php echo $base; ?>"/>
-    <?php
-    if ($google_analytics_code) { ?>
-        <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $google_analytics_code; ?>"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
+<?php
+if ($google_analytics_code) { ?>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $google_analytics_code; ?>"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
 
-            function gtag() {
-                dataLayer.push(arguments);
-            }
+        function gtag() {
+            dataLayer.push(arguments);
+        }
 
-            gtag('js', new Date());
-            gtag('config', <?php js_echo($google_analytics_code); ?>);
-        </script>
-        <?php
-    } ?>
+        gtag('js', new Date());
+        gtag('config', <?php js_echo($google_analytics_code); ?>);
+    </script>
+<?php
+} ?>
 
     <?php foreach ($links as $link) { ?>
         <link href="<?php echo $link['href']; ?>" rel="<?php echo $link['rel']; ?>" />
     <?php }
-
 
     if($direction == 'rtl'){ ?>
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.rtl.min.css" integrity="sha512-VNBisELNHh6+nfDjsFXDA6WgXEZm8cfTEcMtfOZdx0XTRoRbr/6Eqb2BjqxF4sNFzdvGIt+WqxKgn0DSfh2kcA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -45,9 +46,10 @@
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap-reboot.min.css" integrity="sha512-HJaQ4y3YcUGCWikWDn8bFeGTy3Z/3IbxFYQ9G3UAWx16PyTL6Nu5P/BDDV9s0WhK3Sq27Wtbk/6IcwGmGSMXYg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap-utilities.min.css" integrity="sha512-4ocAKAxnrkSm7MvkkF1D435kko3/HWWvoi/U9+7+ln94B/U01Mggca05Pm3W59BIv3abl0U3MPdygAPLo5aeqg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <?php } ?>
-
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" integrity="sha512-dPXYcDub/aeb08c63jRq/k6GaKccl256JQy/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67/bbV8XaCQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="<?php echo $this->templateResource('/css/tm_style.css'); ?>" rel="stylesheet" type='text/css' />    <?php foreach ($styles as $style) { ?>
+    <link href="<?php echo $this->templateResource('/css/tm_style.css'); ?>" rel="stylesheet" type='text/css' />
+    <?php foreach ($styles as $style) { ?>
         <link rel="<?php echo $style['rel']; ?>" type="text/css" href="<?php echo $style['href']; ?>" media="<?php echo $style['media']; ?>" />
     <?php } ?>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -69,6 +71,8 @@
     let call_to_order_url = '<?php echo $call_to_order_url;?>';
     let search_url = '<?php echo $search_url;?>';
     let text_add_cart_confirm = <?php js_echo($text_add_cart_confirm); ?>;
+    let wishlist_add_url = '<?php echo $this->html->getSecureURL('product/wishlist/add'); ?>';
+    let wishlist_remove_url = '<?php echo $this->html->getSecureURL('product/wishlist/remove'); ?>';
     <?php
     if($cart_ajax){ ?>
     let cart_ajax_url = '<?php echo $cart_ajax_url; ?>';
@@ -83,4 +87,4 @@ foreach ($scripts as $script) { ?>
 <script type="text/javascript" src="<?php echo $script; ?>" defer></script>
 <?php } ?>
 </head>
-<body style="padding: 15px;">
+<body class="p-4">
