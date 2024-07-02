@@ -159,11 +159,12 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $data['intent'] = $this->config->get('paypal_commerce_transaction_type');
         //need an order details
         $data['order_info'] = $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
-        $orderTotal = $this->currency->convert(
-            (float)$order_info['total'],
-            $currencyCode,
-            $this->currency->getCode()
-        );
+        $orderTotal = "" . round($this->currency->convert(
+                (float)$order_info['total'],
+                $currencyCode,
+                $this->currency->getCode()
+            ),
+            2);
 
         $taxes = $discount = $handling_fee = 0.0;
         foreach ($this->cart->getFinalTotalData() as $total) {
