@@ -463,14 +463,14 @@ th {
     padding: 0.8rem 0.75rem;
     font-size: 0.875rem;
     color: #1B1C2D;
-    background-color: #ffffff;
+    background-color: var(--bs-white);;
     border: 1px solid #E6E8ED;
 }
 
 
 .form-control:focus {
     color: #1B1C2D;
-    background-color: #ffffff;
+    background-color: var(--bs-white);;
     border-color: var(--bs-primary);
     box-shadow: 0 0 0 2px rgba(var(--bs-primary-rgb), 0.2);
 }
@@ -575,7 +575,7 @@ textarea.form-control-lg {
     padding: 0.8rem 2rem 0.8rem 0.75rem;
     font-size: 0.875rem;
     color: #1B1C2D;
-    background-color: #ffffff;
+    background-color: var(--bs-white);;
     background-image: var(--bs-form-select-bg-img), var(--bs-form-select-bg-icon, none);
     border: 1px solid #E6E8ED;
     border-radius: 8px;
@@ -794,7 +794,7 @@ textarea.form-control-lg {
 }
 
 .valid-tooltip {
-    color: #ffffff;
+    color: var(--bs-white);;
     background-color: rgba(36, 155, 62, 0.9);
     border-radius: 8px;
 }
@@ -876,7 +876,7 @@ textarea.form-control.is-valid {
 
 .invalid-tooltip {
     line-height: 1.5;
-    color: #ffffff;
+    color: var(--bs-white);;
     background-color: rgba(255, 111, 97, 0.9);
     border-radius: 8px;
 }
@@ -1450,32 +1450,32 @@ footer .dropdown-menu   {
 }
 
 .text-bg-primary {
-    color: #ffffff !important;
+    color: var(--bs-white); !important;
     background-color: RGBA(22, 146, 225, var(--bs-bg-opacity, 1)) !important;
 }
 
 .text-bg-secondary {
-    color: #ffffff !important;
+    color: var(--bs-white); !important;
     background-color: RGBA(40, 40, 40, var(--bs-bg-opacity, 1)) !important;
 }
 
 .text-bg-success {
-    color: #ffffff !important;
+    color: var(--bs-white); !important;
     background-color: RGBA(36, 155, 62, var(--bs-bg-opacity, 1)) !important;
 }
 
 .text-bg-info {
-    color: #ffffff !important;
+    color: var(--bs-white); !important;
     background-color: RGBA(62, 191, 234, var(--bs-bg-opacity, 1)) !important;
 }
 
 .text-bg-warning {
-    color: #ffffff !important;
+    color: var(--bs-white); !important;
     background-color: RGBA(232, 144, 30, var(--bs-bg-opacity, 1)) !important;
 }
 
 .text-bg-danger {
-    color: #ffffff !important;
+    color: var(--bs-white); !important;
     background-color: RGBA(255, 111, 97, var(--bs-bg-opacity, 1)) !important;
 }
 
@@ -1485,7 +1485,7 @@ footer .dropdown-menu   {
 }
 
 .text-bg-dark {
-    color: #ffffff !important;
+    color: var(--bs-white); !important;
     background-color: RGBA(33, 37, 41, var(--bs-bg-opacity, 1)) !important;
 }
 
@@ -1784,11 +1784,9 @@ footer .dropdown-menu   {
     --bs-accordion-btn-bg: transparent;
 }
 
-/**  =====================
-      Custom css start
-==========================  **/
+/**  Custom css below **/
 body {
-    /* overflow-x: hidden; */
+     overflow-x: hidden;
 }
 
 *:focus {
