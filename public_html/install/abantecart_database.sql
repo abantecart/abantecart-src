@@ -10929,7 +10929,7 @@ VALUES  (3,'index/home',1),
         (3,'checkout/cart',5),
         (3,'checkout/fast_checkout',6),
         (3,'product/special',7),
-        (3,'account/history',8);
+        (3,'account/order_details',8);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (4,'',1),

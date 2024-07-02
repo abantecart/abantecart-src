@@ -62,8 +62,23 @@ class ControllerPagesAccountOrderDetails extends AController
                     return;
                 }
             } else {
-                redirect($this->html->getSecureURL('account/login'));
-                return;
+                if ($this->request->is_POST() && $this->_validate()) {
+                    $this->data['guest'] = true;
+                    $enc = new AEncryption($this->config->get('encryption_key'));
+
+                    $order_id = $this->request->post['order_id'];
+                    $email = $this->request->post['email'];
+                    $order_token = $enc->encrypt($order_id.'::'.$email);
+                    $order_info = $this->model_account_order->getOrder($order_id, '', 'view');
+
+                    //compare emails
+                    if ($order_info['email'] != $email) {
+                        redirect($this->html->getSecureURL('account/order_details'));
+                    }
+                }else {
+                    $this->getForm();
+                    return;
+                }
             }
         }
 
@@ -626,5 +641,113 @@ class ControllerPagesAccountOrderDetails extends AController
         $params = $guest ? '&ot=' . $this->request->get['ot'] : '&order_id=' . $order_id;
         $url = $this->html->getSecureURL($this->data['order_details_rt'], $params);
         redirect($url);
+    }
+
+    protected function getForm()
+    {
+        $this->document->resetBreadcrumbs();
+
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getHomeURL(),
+                'text'      => $this->language->get('text_home'),
+                'separator' => false,
+            ]
+        );
+
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('account/account'),
+                'text'      => $this->language->get('text_account'),
+                'separator' => $this->language->get('text_separator'),
+            ]
+        );
+
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('account/order_details'),
+                'text'      => $this->language->get('heading_title'),
+                'separator' => $this->language->get('text_separator'),
+            ]
+        );
+
+        $this->data['back'] = $this->html->getHomeURL();
+
+        $form = new AForm();
+        $form->setForm(['form_name' => 'CheckOrderFrm']);
+
+        $this->data['form']['form_open'] = $form->getFieldHtml(
+            [
+                'type'   => 'form',
+                'name'   => 'CheckOrderFrm',
+                'action' => $this->html->getSecureURL('account/order_details'),
+                'csrf'   => true,
+            ]
+        );
+
+        $order_id = (int) $this->request->post_or_get('order_id') ? (int) $this->request->post_or_get('order_id') : '';
+        $this->data['form']['order_id'] = $form->getFieldHtml(
+            [
+                'type'     => 'input',
+                'name'     => 'order_id',
+                'value'    => $order_id,
+                'required' => true,
+            ]
+        );
+
+        $this->data['entry_order_id'] = $this->language->get('text_order_id');
+
+        $this->data['form']['email'] = $form->getFieldHtml(
+            [
+                'type'     => 'input',
+                'name'     => 'email',
+                'value'    => $this->request->post['email'],
+                'required' => true,
+            ]
+        );
+
+        $this->data['entry_email'] = $this->language->get('text_email');
+
+        $this->data['form']['back'] = $form->getFieldHtml(
+            [
+                'type'  => 'button',
+                'name'  => 'back',
+                'text'  => $this->language->get('button_back'),
+                'icon'  => 'fa fa-arrow-left',
+                'style' => 'button',
+            ]
+        );
+
+        $this->data['form']['submit'] = $form->getFieldHtml(
+            [
+                'type' => 'submit',
+                'icon' => 'fa fa-check',
+                'name' => $this->language->get('button_continue'),
+            ]
+        );
+
+        $this->view->batchAssign($this->data);
+        $this->processTemplate('pages/account/order.tpl');
+    }
+    protected function _validate()
+    {
+        if (!$this->csrftoken->isTokenValid()) {
+            $this->error['warning'] = $this->language->get('error_unknown');
+        } else {
+            if (!(int) $this->request->post['order_id']) {
+                $this->error['order_id'] = $this->language->get('error_order_id');
+            }
+
+            if (mb_strlen($this->request->post['email']) > 96
+                || !preg_match(
+                    EMAIL_REGEX_PATTERN, $this->request->post['email']
+                )) {
+                $this->error['email'] = $this->language->get('error_email');
+            }
+
+            $this->extensions->hk_ValidateData($this);
+        }
+
+        return (!$this->error);
     }
 }
