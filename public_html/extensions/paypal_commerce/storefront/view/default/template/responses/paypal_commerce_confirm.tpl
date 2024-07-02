@@ -76,44 +76,37 @@ if ($error) { ?>
                         }
                     },
                     createOrder: function (data, actions) {
-                        // This function sets up the details of the transaction, including the amount and line item details
-                        return actions.order.create({
-                            intent: '<?php echo $intent; ?>',
-                            payer: {
-                                name: {
-                                    given_name: <?php js_echo($order_info['firstname'])?>,
-                                    surname: <?php js_echo($order_info['lastname']) ?>
-                                },
-                                email_address: <?php js_echo($order_info['email'])?>,
-                                address: <?php echo json_encode($address, JSON_PRETTY_PRINT);?>,
-
-                            },
-                            purchase_units: [{
-                                custom_id: '<?php echo $this->session->data['order_id'].'-'.UNIQUE_ID;?>',
-                                amount: {
-                                    value: '<?php echo $order_total; ?>',
-                                    breakdown: <?php echo json_encode($amountBreakdown, JSON_PRETTY_PRINT);?>
-                                },
-                                shipping: <?php echo json_encode($shipping, JSON_PRETTY_PRINT);?>,
-                                description: <?php js_echo($order_description);?>
-                            }]
-                        });
+                        return (
+                            // send your cart info to your server side to create a PayPal Order.
+                            fetch(<?php js_echo($create_order_url);?>+'&'+$('input[name=csrftoken], input[name=csrfinstance]').serialize()  , {
+                                method: "POST",
+                            })
+                            .then((response) => response.json())
+                            // return the PayPal Order ID that you received from the PayPal backend
+                            .then(function(order) {
+                                $('input[name=csrftoken]').val(order.csrftoken);
+                                $('input[name=csrfinstance]').val(order.csrfinstance);
+                                return order.id;
+                            })
+                        );
                     },
                     onCancel: function (data) {
                         // Show a cancel page, or return to cart
                         location = '<?php echo $cancel_url ?>';
                     },
                     onApprove: function (data, actions) {
-                        // This function captures the funds from the transaction
                         $('#paypalFrm').find('.action-buttons').hide();
                         $('#div-preloader').show();
-                        <?php //intent can be "capture" or "authorize" ?>
-                        return actions.order.<?php echo $intent;?>()
+                        return actions.order.capture()
                             .then(function (details) {
-                                // This function shows a transaction success message to your buyer
                                 $('#transaction_details').val(JSON.stringify(details));
-
                                 confirmSubmit($('#paypalFrm'), '<?php echo $action; ?>');
+                            })
+                            .catch(function (err) {
+                                // Failed capture
+                                $('#div-preloader').hide();
+                                $('#paypalFrm').find('.action-buttons').hide();
+                                $('#paypalFrm').before('<div class="alert alert-warning"><i class="fa fa-bug fa-fw"></i> ' + err + '</div>');
                             });
                     },
                     onError: function (err) {

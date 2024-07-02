@@ -1,8 +1,28 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
+
 /** @noinspection PhpUndefinedClassInspection */
 
 use PayPalCheckoutSdk\Core\ClientTokenRequest;
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
+use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
 use PayPalCheckoutSdk\Orders\OrdersGetRequest;
 use PayPalCheckoutSdk\Products\ProductCreateRequest;
 
@@ -367,5 +387,19 @@ class ModelExtensionPaypalCommerce extends Model
             WHERE c.iso_code_2 = '".$this->db->escape($code)."'"
         );
         return $query->row;
+    }
+
+    /**
+     * @param array $data
+     * @return stdClass
+     * @throws \PayPalHttp\HttpException
+     * @throws \PayPalHttp\IOException
+     */
+    public function createPPOrder($data)
+    {
+        $request = new OrdersCreateRequest();
+        $request->body = json_encode( $data, JSON_PRETTY_PRINT);
+        $response = $this->paypal->execute($request);
+        return $response->result;
     }
 }
