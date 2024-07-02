@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -28,12 +28,8 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
  */
 class ControllerPagesToolUpdater extends AController
 {
-
-    public $data;
-
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -70,7 +66,7 @@ class ControllerPagesToolUpdater extends AController
         $this->data['column_version'] = $this->language->get('column_version');
         $this->data['column_new_version'] = $this->language->get('column_new_version');
         $this->data['error_warning'] = null;
-        $this->data['text_nothing_todo'] = $this->data['success'] = '';
+        $this->data['text_nothing_todo'] = '';
 
         if (isset($this->session->data['success'])) {
             $this->data['success'] = $this->session->data['success'];
@@ -95,13 +91,6 @@ class ControllerPagesToolUpdater extends AController
             $this->data['text_marketplace_connect'] = $this->language->get('text_marketplace_connect');
             $this->data['text_connect'] = $this->language->get('text_connect');
             $this->data['text_please_connect'] = $this->language->get('text_marketplace_connect_your_store');
-
-            $return_url = base64_encode($this->html->getSecureURL('tool/extensions_store/connect'));
-            $mp_params = '?rt=account/authenticate&return_url='.$return_url;
-            $mp_params .= '&store_id='.UNIQUE_ID;
-            $mp_params .= '&store_url='.HTTP_SERVER;
-            $mp_params .= '&store_version='.VERSION;
-            $this->data['amp_connect_url'] = $this->model_tool_mp_api->getMPURL().$mp_params;
             $this->data['amp_disconnect_url'] = $this->html->getSecureURL('tool/extensions_store/disconnect');
         } else {
             $this->data['mp_connected'] = true;
@@ -109,9 +98,7 @@ class ControllerPagesToolUpdater extends AController
 
         if ($this->data['mp_connected']) {
             $updates = $this->session->data['extensions_updates'];
-
             $this->data['extensions'] = [];
-
             if (!empty($updates) && is_array($updates)) {
                 foreach ($updates as $key => $version_info) {
                     $ext_info = $this->extensions->getExtensionInfo($key);

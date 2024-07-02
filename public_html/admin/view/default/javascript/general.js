@@ -343,16 +343,22 @@ jQuery(document).ready(function() {
 		}
 	});
 
-	//check if ads blocking is enabled in user browser
-	// var div = $('<div>').attr('class', 'afs_ads').html('&nbsp;');
-	// $('body').prepend(div);
-	// setTimeout(function(){
-	// 	if(!$(".afs_ads").is(':visible')) {
-	// 		warning_alert('Ads block is enabled in your browser. Some AbanteCart administration features might not function as they will be blocked. Disable ads blocking in your browser.');
-	// 	} else {
-	// 		$(".afs_ads").remove();
-	// 	}
-	// }, 500);
+	/* Connect modal */
+	$('#amp_modal').on('shown.bs.modal', function () {
+		if(window.location.protocol !== 'https:'){
+			alert('Marketplace available only in secure mode. Please logout and login in HTTPS mode.');
+			$('#amp_modal').modal('hide');
+			return;
+		}
+		var d = new Date();
+		$('#amp_modal iframe').attr("src", amp_connect_url + "&time_stamp=" + d.getTime());
+		$('#iframe_loading').show();
+		$('#amp_modal').modal('show');
+	});
+
+	$('#amp_frame').on('load', function () {
+		$('#iframe_loading').hide();
+	});
 
 });
 

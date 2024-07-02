@@ -57,6 +57,7 @@
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/aform.js"></script>
 
 <script type="text/javascript">
+const amp_connect_url = '<?php echo $amp_connect_url;?>';
 //define tinymce config
 var mcei = {
     formats: {

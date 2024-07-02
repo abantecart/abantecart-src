@@ -339,23 +339,6 @@ echo $this->html->buildElement(
         }
     })
 
-    /* Connect modal */
-    $('#amp_modal').on('shown.bs.modal', function () {
-        if(window.location.protocol !== 'https:'){
-            alert('Marketplace available only in secure mode. Please logout and login in HTTPS mode.');
-            $('#amp_modal').modal('hide');
-            return;
-        }
-        var d = new Date();
-        $('#amp_modal iframe').attr("src", "<?php echo $amp_connect_url; ?>&time_stamp=" + d.getTime());
-        $('#iframe_loading').show();
-        $('#amp_modal').modal('show');
-    });
-
-    $('#amp_frame').on('load', function () {
-        $('#iframe_loading').hide();
-    });
-
     var disconnect = function () {
         $.ajax({
             url: '<?php echo $amp_disconnect_url; ?>',
