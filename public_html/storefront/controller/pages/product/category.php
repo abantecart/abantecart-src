@@ -186,7 +186,7 @@ class ControllerPagesProductCategory extends AController
                 ? ($products_result[0]['total_num_rows'] ?? $this->model_catalog_product->getTotalProductsByCategoryId($category_id))
                 : 0;
             //if requested page does not exist
-            if($product_total < $page*$limit && $page>1){
+            if($product_total < ($page-1)*$limit  && $page>1){
                 $httpQuery['page'] = 1;
                 redirect($this->html->getSEOURL('product/category', '&'.http_build_query($httpQuery)));
             }
