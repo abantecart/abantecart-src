@@ -159,7 +159,10 @@ class ControllerPagesProductCategory extends AController
             $this->data['text_sort'] = $this->language->get('text_sort');
 
             $this->loadModel('catalog/product');
-            $category_total = !is_array($category_id) ? $mdl->getTotalCategoriesByCategoryId($category_id) : 0;
+            $category_total = $category_info['category_id']
+                ? $mdl->getTotalCategoriesByCategoryId($category_info['category_id'])
+                : 0;
+
             $productFilter = [
                 'sort'  => $sort,
                 'order' => $order,
@@ -192,7 +195,7 @@ class ControllerPagesProductCategory extends AController
                 $categories = [];
                 $resource = new AResource('image');
 
-                if(!is_array($category_id)){
+                if($category_info['category_id']){
                     $results = $mdl->getCategories($category_id);
                     $category_ids = array_column($results, 'category_id');
                     //get thumbnails by one pass
