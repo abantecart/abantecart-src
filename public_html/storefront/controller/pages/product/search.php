@@ -36,6 +36,7 @@ class ControllerPagesProductSearch extends AController
     {
 
         $get = $this->request->get;
+        $get['category_id'] = is_string($get['category_id']) ? explode(',',$get['category_id']) : $get['category_id'];
         //is this an embed mode
         $this->data['cart_rt'] = $this->config->get('embed_mode')
             ? 'r/checkout/cart/embed'
