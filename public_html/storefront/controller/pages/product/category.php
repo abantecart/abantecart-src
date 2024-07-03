@@ -195,7 +195,7 @@ class ControllerPagesProductCategory extends AController
                 $resource = new AResource('image');
 
                 if($category_info['category_id']){
-                    $results = $mdl->getCategories($category_id);
+                    $results = $mdl->getCategories($category_info['category_id']);
                     $category_ids = array_column($results, 'category_id');
                     //get thumbnails by one pass
                     $thumbnails = $category_ids
