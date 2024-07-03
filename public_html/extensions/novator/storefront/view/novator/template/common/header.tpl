@@ -56,11 +56,12 @@
         </div>
 </div>
 <div id="menuoffcanvas" class="offcanvas menu-offcanvas offcanvas-end position-absolute" tabindex="-1" aria-labelledby="menuoffcanvasLabel">
-    <button type="button" class="btn btn-danger btn-icon position-absolute" data-bs-dismiss="offcanvas" aria-label="Close">
-        <i class="bi bi-x"></i>
-    </button>
     <div class="offcanvas-body">
         <div class="menu-top-btn d-flex justify-content-between align-items-center">
+            <button type="button" class="btn btn-danger btn-icon " data-bs-dismiss="offcanvas" aria-label="Close">
+                <i class="bi bi-x"></i>
+            </button>
+
             <a class="btn btn-primary image-link ms-3 me-2 " data-bs-toggle="offcanvas"
                href="#cartoffcanvas" role="button" aria-controls="cartoffcanvas" aria-label="cart link">
                 <i class="bi bi-cart3 me-2"></i><?php echo $text_cart;?>
@@ -136,17 +137,16 @@
 </div>
 
 <?php
-
 extract($cart_block_data);
 ?>
-<div id="cartoffcanvas" class="offcanvas card-offcanvas offcanvas-end position-absolute" tabindex="-1"  aria-labelledby="cartoffcanvasLabel">
-    <button type="button" class="btn btn-danger btn-icon position-absolute" data-bs-dismiss="offcanvas" aria-label="Close">
-        <i class="bi bi-x"></i>
-    </button>
+<div id="cartoffcanvas" class="offcanvas cart-offcanvas offcanvas-end position-absolute" tabindex="-1"  aria-labelledby="cartoffcanvasLabel">
     <div class="offcanvas-header border-bottom">
+        <button type="button" class="btn btn-danger btn-icon position-absolute" data-bs-dismiss="offcanvas" aria-label="Close">
+            <i class="bi bi-x"></i>
+        </button>
         <div class="row w-100 align-items-center justify-content-between">
             <div class="col-auto">
-                <h5 class="mb-0"><?php echo $heading_title;?> (<span class="cart_counter"><?php echo $total_qty;?></span>)</h5>
+                <h5 class="mb-0 ms-3"><?php echo $heading_title;?> (<span class="cart_counter"><?php echo $total_qty;?></span>)</h5>
             </div>
         </div>
     </div>

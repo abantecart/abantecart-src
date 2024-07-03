@@ -2204,15 +2204,15 @@ li#review-set::before {
     min-width: 150px;
 }
 
-.card-offcanvas {
+.cart-offcanvas {
     --bs-offcanvas-width: 521px;
 }
 
-.card-offcanvas .btn-group {
+.cart-offcanvas .btn-group {
     border: 1px solid var(--bs-border-color);
 }
 
-.card-offcanvas .btn-group input {
+.cart-offcanvas .btn-group input {
     width: 35px;
 }
 
@@ -2285,7 +2285,7 @@ li#review-set::before {
 }
 
 .offcanvas [data-bs-dismiss="offcanvas"] {
-    margin-left: -25px;
+    margin-left: -40px;
     padding: 0;
 }
 
