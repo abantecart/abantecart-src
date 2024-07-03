@@ -18,6 +18,6 @@
 </div>
 <script type="text/javascript">
 $('#sort').change(function () {
-    ResortProductGrid('<?php echo $url; ?>');
+    ResortProductGrid('<?php echo $resort_url; ?>');
 });
 </script>

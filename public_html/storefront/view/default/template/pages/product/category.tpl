@@ -33,9 +33,3 @@
         </div>
 <?php } ?>
 </div>
-
-<script type="text/javascript">
-    $('#sort').change(function () {
-        ResortProductGrid('<?php echo $url; ?>');
-    });
-</script>

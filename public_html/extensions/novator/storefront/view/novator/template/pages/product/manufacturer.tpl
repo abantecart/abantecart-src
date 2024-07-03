@@ -13,10 +13,3 @@
     <?php include( $this->templateResource('/template/pages/product/product_listing.tpl') ) ?>
 <?php } ?>
 </div>
-
-<script type="text/javascript">
-
-$('#sort').change(function () {
-	ResortProductGrid('<?php echo $url; ?>');
-});
-</script>

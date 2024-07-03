@@ -276,14 +276,19 @@ class ControllerPagesProductManufacturer extends AController
                 );
                 $this->view->assign('sorting', $sorting);
                 $pQuery = $httpQuery;
-                unset($pQuery['page']);
-                $pQuery['sort'] = $sorting_href;
+                $pQuery['sort'] = $pQuery['sort'].'-'.$pQuery['order'];
+                unset($pQuery['page'], $pQuery['order']);
                 $pagination_url = $this->html->getSEOURL(
                     'product/manufacturer',
                     '&page={page}&'.http_build_query($pQuery,'',null,PHP_QUERY_RFC3986)
                 );
 
-                $this->data['url'] = $this->html->getSEOURL('product/manufacturer', '&'.http_build_query($httpQuery));
+                $rQuery = $httpQuery;
+                unset($rQuery['sort']);
+                $this->data['resort_url'] = $this->html->getSEOURL(
+                    'product/manufacturer',
+                    '&'.http_build_query($rQuery)
+                );
 
                 $this->data['pagination_bootstrap'] = $this->html->buildElement(
                     [

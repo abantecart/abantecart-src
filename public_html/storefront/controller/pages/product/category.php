@@ -33,7 +33,6 @@ class ControllerPagesProductCategory extends AController
     public function main()
     {
         $request = $this->request->get;
-
         //is this an embed mode
         $this->data['cart_rt'] = $this->config->get('embed_mode')
             ? 'r/checkout/cart/embed'
@@ -68,7 +67,6 @@ class ControllerPagesProductCategory extends AController
         /** @var ModelCatalogCategory $mdl */
         $mdl = $this->loadModel('catalog/category');
         $this->loadModel('tool/seo_url');
-
         if (!isset($request['path']) && isset($request['category_id']) && is_numeric($request['category_id'])) {
             $request['path'] = $request['category_id'];
         }
@@ -357,14 +355,19 @@ class ControllerPagesProductCategory extends AController
                 );
                 $this->data['sorting'] = $sorting;
                 $pQuery = $httpQuery;
-                unset($pQuery['page']);
-                $pQuery['sort'] = $sorting_href;
+                $pQuery['sort'] = $pQuery['sort'].'-'.$pQuery['order'];
+                unset($pQuery['page'], $pQuery['order']);
                 $pagination_url = $this->html->getSEOURL(
                     'product/category',
                     '&page={page}&'.http_build_query($pQuery,'',null,PHP_QUERY_RFC3986)
                 );
 
-                $this->data['url'] = $this->html->getSEOURL('product/category', '&'.http_build_query($httpQuery));
+                $rQuery = $httpQuery;
+                unset($rQuery['sort']);
+                $this->data['resort_url'] = $this->html->getSEOURL(
+                    'product/category',
+                    '&'.http_build_query($rQuery)
+                );
 
                 $this->data['pagination_bootstrap'] = $this->html->buildElement(
                     [

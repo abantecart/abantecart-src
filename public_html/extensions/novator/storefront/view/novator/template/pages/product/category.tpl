@@ -23,15 +23,8 @@
     <?php } ?>
 </div>
 
-    <?php if ($products) { ?>
-        <?php
-        /** @see product_listing.tpl */
-        include( $this->templateResource('/template/pages/product/product_listing.tpl') ) ?>
-    <?php } ?>
-
-
-<script type="text/javascript">
-    $('#sort').change(function () {
-        ResortProductGrid('<?php echo $url; ?>');
-    });
-</script>
+<?php if ($products) { ?>
+    <?php
+    /** @see product_listing.tpl */
+    include( $this->templateResource('/template/pages/product/product_listing.tpl') ) ?>
+<?php } ?>
