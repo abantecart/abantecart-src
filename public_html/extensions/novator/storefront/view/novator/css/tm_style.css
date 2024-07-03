@@ -2207,6 +2207,11 @@ li#review-set::before {
 .cart-offcanvas {
     --bs-offcanvas-width: 521px;
 }
+@media (max-width: 490px) {
+    .cart-offcanvas {
+        --bs-offcanvas-width: 90%;
+    }
+}
 
 .cart-offcanvas .btn-group {
     border: 1px solid var(--bs-border-color);
