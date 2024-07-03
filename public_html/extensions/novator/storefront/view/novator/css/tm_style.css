@@ -2200,6 +2200,10 @@ li#review-set::before {
     max-width: 252px;
 }
 
+.mega-menu-category-column{
+    min-width: 150px;
+}
+
 .card-offcanvas {
     --bs-offcanvas-width: 521px;
 }
