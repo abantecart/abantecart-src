@@ -98,6 +98,7 @@ if ($error) { ?>
                                     billing_details: source_data.owner
                                 }
                             },
+                            redirect: 'if_required'
                         })
                         .then(function(result) {
                             if (result.error) {
@@ -105,6 +106,10 @@ if ($error) { ?>
                                 $form.find('.action-buttons').show();
                                 $form.before('<div class="alert alert-warning"><i class="bi bi-exclamation fa-fw"></i> ' + result.error.message + '</div>');
                                 submitSent = false;
+                            }else{ <?php //done to avoid parent page redirect for case with purchase from embed. also see option redirect: 'if_required' ?>
+                                window.location = <?php js_echo($action);?>
+                                    + '&payment_intent=' + result.paymentIntent.id
+                                    + '&payment_intent_client_secret=' + result.paymentIntent.client_secret;
                             }
                         });
                     return false;

@@ -169,7 +169,7 @@ var init = function () {
                     + '<button aria-hidden="true" data-dismiss="abcmodal" class="abcmodal_close" type="button">&times;</button>'
                     + '<h4 class="abcmodal-title"></h4>'
                     + '</div>'
-                    + '<div class="abcmodal-body"><iframe id="amp_product_frame" width="100%" height="650px" frameBorder="0"></iframe>'
+                    + '<div class="abcmodal-body"><iframe id="amp_product_frame" width="100%" height="650px" frameBorder="0" allowpaymentrequest="true"></iframe>'
                     + '<div id="iframe_loading" display="none"></div>'
                     + '</div></div></div></div>'
                     + '<div class="abantecart-widget-cart"></div>';
