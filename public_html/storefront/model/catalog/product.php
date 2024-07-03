@@ -320,7 +320,7 @@ class ModelCatalogProduct extends Model
             }
 
             if (isset($filter['rating'])) {
-                $sql .= " AND ( SELECT AVG(r.rating)
+                $sql .= " AND ( SELECT FLOOR(AVG(r.rating))
                          FROM " . $this->db->table("reviews") . " r
                          WHERE p.product_id = r.product_id AND status = 1
                          GROUP BY r.product_id 
@@ -470,7 +470,7 @@ class ModelCatalogProduct extends Model
             }
         }
         if (isset($filter['rating'])) {
-            $sql .= " AND ( SELECT AVG(r.rating)
+            $sql .= " AND ( SELECT FLOOR(AVG(r.rating))
                          FROM " . $this->db->table("reviews") . " r
                          WHERE p.product_id = r.product_id AND status = 1
                          GROUP BY r.product_id 
