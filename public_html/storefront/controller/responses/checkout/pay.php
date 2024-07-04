@@ -2059,7 +2059,7 @@ class ControllerResponsesCheckoutPay extends AController
         $promotion = new APromotion();
         $coupon = $promotion->getCouponData($coupon_code);
         if (!$coupon) {
-            $this->error['message'] = $this->language->get('fast_checkout_error_coupon');
+            $this->data['error'] = $this->error['message'] = $this->language->get('fast_checkout_error_coupon');
         }
 
         //validate post data
