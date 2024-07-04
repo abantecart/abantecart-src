@@ -79,10 +79,8 @@ class ModelCatalogCategory extends Model
 
     /**
      * @param int|array $parent_id
-     * @param int $limit
-     *
+     * @param array|null $data
      * @return array
-     * @throws AException
      * @throws AException
      */
     public function getCategories(int|array $parent_id = 0, ?array $data = [])
@@ -120,37 +118,37 @@ class ModelCatalogCategory extends Model
         $output = $query->rows;
         //optimized selection of product counts.
         $category_ids = array_column($output, 'category_id');
-        if (count($category_ids)) {
+        if ($category_ids) {
+            $pCount = [];
+            foreach($category_ids as $cId) {
+                $idList = array_merge([$cId], $this->getChildrenIDs($cId));
+                $sql = "SELECT count(DISTINCT p.product_id) as product_count
+                        FROM " . $this->db->table('products_to_categories') . " p2c
+                        INNER JOIN " . $this->db->table('products') . " p 
+                            ON p.product_id = p2c.product_id
+                        INNER JOIN " . $this->db->table('products_to_stores') . " s 
+                            ON p.product_id = s.product_id AND s.store_id=" . $store_id;
 
-            $sql = "SELECT p2c.category_id as category_id, count(*) as product_count
-                    FROM " . $this->db->table('products_to_categories') . " p2c
-                    INNER JOIN " . $this->db->table('products') . " p 
-                        ON p.product_id = p2c.product_id
-                    INNER JOIN " . $this->db->table('products_to_stores') . " s 
-                        ON p.product_id = s.product_id AND s.store_id=".$store_id;
-
-            if($data['filter']['rating']){
-                $sql .= " INNER JOIN ".$this->db->table('reviews')." r
-                ON (r.rating IN (".implode(',',(array)$data['filter']['rating']).") 
-                    AND p.product_id = r.product_id AND r.status = 1 ) ";
-            }
-            $data['filter']['manufacturer_id'] = filterIntegerIdList((array)$data['filter']['manufacturer_id']);
-            if($data['filter']['manufacturer_id']){
-                $sql .= " AND p.manufacturer_id IN (".implode(',',(array)$data['filter']['manufacturer_id']).") ";
-            }
-
-            $sql .= " WHERE p2c.category_id in (" . implode(",", $category_ids) . ") 
-                    AND p.status = '1' AND COALESCE(p.date_available,'1970-01-01')< NOW()
-                GROUP BY p2c.category_id ";
-            $query = $this->db->query( $sql );
-
-            foreach ($query->rows as $row) {
-                foreach ($output as $i => $category) {
-                    if ($row['category_id'] == $category['category_id']) {
-                        $output[$i]['product_count'] = $row['product_count'];
-                    }
+                if ($data['filter']['rating']) {
+                    $sql .= " INNER JOIN " . $this->db->table('reviews') . " r
+                    ON (r.rating IN (" . implode(',', (array)$data['filter']['rating']) . ") 
+                        AND p.product_id = r.product_id AND r.status = 1 ) ";
                 }
+                $data['filter']['manufacturer_id'] = filterIntegerIdList((array)$data['filter']['manufacturer_id']);
+                if ($data['filter']['manufacturer_id']) {
+                    $sql .= " AND p.manufacturer_id IN (" . implode(',', (array)$data['filter']['manufacturer_id']) . ") ";
+                }
+
+                $sql .= " WHERE p2c.category_id in (" . implode(",", $idList) . ") 
+                        AND p.status = '1' AND COALESCE(p.date_available,'1970-01-01')< NOW()";
+                $query = $this->db->query($sql);
+                $pCount[$cId] = (int)$query->row['product_count'];
             }
+
+            foreach ($output as &$category) {
+                $category['product_count'] = (int)$pCount[$category['category_id']];
+            }
+
         }
 
         $this->cache->push($cache_key, $output);
