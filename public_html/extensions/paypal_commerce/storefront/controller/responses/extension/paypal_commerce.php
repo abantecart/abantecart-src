@@ -161,8 +161,8 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $data['order_info'] = $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
         $orderTotal = "" . round($this->currency->convert(
                 (float)$order_info['total'],
-                $currencyCode,
-                $this->currency->getCode()
+                $this->config->get('config_currency'),
+                $currencyCode
             ),
             2);
 
@@ -184,23 +184,23 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         }
         $amountBreakdown = [
             'item_total' => [
-                'value' => $data['order_subtotal'],
+                'value' => "" . round($data['order_subtotal'],2),
                 'currency_code' => $currencyCode,
             ],
             'tax_total' => [
-                'value' => $taxes,
+                'value' => "" . round($taxes,2),
                 'currency_code' => $currencyCode,
             ],
             'shipping' => [
-                'value' => (float)$data['order_shipping'],
+                'value' => "" . round($data['order_shipping'],2),
                 'currency_code' => $currencyCode,
             ],
             'discount' => [
-                'value' => (float)$discount,
+                'value' => "" . round($discount,2),
                 'currency_code' => $currencyCode,
             ],
             'handling' => [
-                'value' => (float)$handling_fee,
+                'value' => "" . round($handling_fee,2),
                 'currency_code' => $currencyCode,
             ],
         ];
@@ -311,34 +311,16 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $items[$i] = [
                 'name' => $product['name'],
                 'unit_amount' => [
-                    'value' => round($product['price'], 2),
-                    'currency_code' => $this->currency->getCode(),
+                    'value' => "".round($this->currency->convert(
+                        $product['price'],
+                        $this->config->get('config_currency'),
+                        $currencyCode
+                    ),2),
+                    'currency_code' => $currencyCode,
                 ],
                 'quantity' => $product['quantity']
             ];
 
-            if ($taxLines) {
-                foreach ($taxLines as $extTextId => $lines) {
-                    foreach ($lines as $line) {
-                        if ($line['item_code'] == $product['key']) {
-                            $items[$i]['tax'] = [
-                                'value' => round(($line['tax_amount'] / $product['quantity']), 2) + (float)$items[$i]['tax']['value'],
-                                'currency_code' => $this->currency->getCode()
-                            ];
-                        }
-                    }
-                }
-            } else {
-                $items[$i]['tax'] = [
-                    'value' => round(
-                        $this->tax->calcTotalTaxAmount(
-                            $this->currency->format($product['price']),
-                            $product['tax_class_id']
-                        ),
-                        2),
-                    'currency_code' => $this->currency->getCode()
-                ];
-            }
 
             if ($description) {
                 $items[$i]['description'] = $description;
@@ -369,7 +351,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             'custom_id' =>  $this->session->data['order_id'].'-'.UNIQUE_ID,
             'amount' => [
                 'value' => $orderTotal,
-                'currency_code' => $this->currency->getCode(),
+                'currency_code' => $currencyCode,
                 'breakdown' => $amountBreakdown
             ],
             'items' => $items,
