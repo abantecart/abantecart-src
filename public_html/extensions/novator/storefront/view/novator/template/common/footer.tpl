@@ -36,7 +36,7 @@
                         </li>
                     </ul>
                     <div class="w-100 d-flex text-white text-opacity-75 my-4 flex-nowrap"><?php echo $text_project_label ?></div>
-                    <p class="left text-white text-opacity-75 mb-0"> <?php echo $text_copy; ?></p>
+                    <p class="left text-white text-opacity-75 mb-3"> <?php echo $text_copy; ?></p>
                 </div>
             </div>
         </div>

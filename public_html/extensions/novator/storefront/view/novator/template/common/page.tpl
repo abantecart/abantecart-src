@@ -110,28 +110,23 @@ echo $_COOKIE['data-bs-theme'] == 'dark' ? 'data-bs-theme="dark"' : '';
 
 </div>
 
-<!-- footer section Starts -->
-    <footer class="footer mt-5">    
-        <!-- footer top section Starts -->
-            <div class="footer-top">
-                <?php if ( !empty( $$footer_top ) ) { ?>
-                    <?php echo $$footer_top; ?>
-                <?php } ?>
-            </div>
-        <!-- footer top section Ends -->
+<?php if ( $$footer_top || $$footer) { ?>
+<footer class="footer p-0">
+    <!-- footer top section Starts -->
+    <?php if ( $$footer_top ) { ?>
+        <div class="footer-top mt-5">
+        <?php echo $$footer_top; ?>
+        </div>
+    <?php } ?>
+    <!-- footer top section Ends -->
 
-        <!-- footer bottom section Starts -->
-            <div class="footer-bottom">
-                <?php echo $$footer; ?>
-            </div>
-        <!-- footer bottom section Ends -->
-    </footer>
-<!-- footer section Ends -->
-
-<!--
-Commented by TM
-</div>
--->
+    <!-- footer bottom section Starts -->
+        <div class="footer-bottom">
+            <?php echo $$footer; ?>
+        </div>
+    <!-- footer bottom section Ends -->
+</footer>
+<?php } ?>
 
 
 <a id="gotop" class="fs-6 go-top" href="#" title="<?php echo_html2view($this->language->get('text_back_on_top'));?>"><i class="fa-solid fa-circle-chevron-up fa-3x"></i></a>

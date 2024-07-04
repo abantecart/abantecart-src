@@ -1,7 +1,7 @@
 <?php echo $head; ?>
 <div class="pay-form container">
     <div class="text-center order-success">
-        <div class="order-success d-flex flex-wrap flex-column p-5">
+        <div class="order-success d-flex flex-wrap flex-column p-5 m-5">
             <h3 class="text-success mt-4"><?php echo $fast_checkout_text_order_is_completed; ?></h3>
             <div class="text-success py-5">
                 <i class="fa fa-check fa-fw fa-5x"></i>
