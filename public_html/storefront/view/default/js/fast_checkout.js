@@ -50,7 +50,7 @@ function validateForm(formObj){
 function scrollOnTop() {
     $([document.documentElement, document.body]).animate(
         {
-            scrollTop: $("body.checkout-fast_checkout").offset().top
+            scrollTop: $("body").offset().top
         },
         1000
     );

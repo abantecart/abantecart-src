@@ -195,6 +195,11 @@ $(document).ready(function(){
             }
             return false;
         });
+
+        $(document).on('click touchstart', 'i.bi-bag-check-fill', function (e) {
+            location = cart_url;
+            }
+        );
         $('#cartoffcanvas').on('shown.bs.offcanvas',function (){
             $('#theme-switcher').removeClass('d-flex').addClass('d-none');
         }).on('hidden.bs.offcanvas',function (){
