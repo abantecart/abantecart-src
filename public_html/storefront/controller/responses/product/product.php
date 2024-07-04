@@ -84,7 +84,7 @@ class ControllerResponsesProductProduct extends AController
 
             // main product image
             $mSizes = [
-                'main_images'  =>
+                'main'  =>
                     [
                         'width'  => $this->config->get('config_image_popup_width'),
                         'height' => $this->config->get('config_image_popup_height'),
@@ -110,7 +110,7 @@ class ControllerResponsesProductProduct extends AController
 
             // additional images
             $oSizes = [
-                'main_images'   =>
+                'main'   =>
                     [
                         'width'  => $this->config->get('config_image_popup_width'),
                         'height' => $this->config->get('config_image_popup_height'),

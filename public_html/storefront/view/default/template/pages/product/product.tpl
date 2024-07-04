@@ -699,7 +699,7 @@ if( $hookVarArray ){
                     }
                     var mainPicHtml = '',
                         smallPicsHtml = '',
-                        main_image = data.main;
+                        main_image = data.main_images[0];
 
                     if (main_image) {
                         if (main_image.origin === 'external') {
