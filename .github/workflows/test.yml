@@ -18,7 +18,7 @@ jobs:
           - ver: mysql
             release: latest
           - ver: mariadb
-            release: 10.5
+            release: '10.5.25'
           - ver: mariadb
             release: latest
       fail-fast: false
