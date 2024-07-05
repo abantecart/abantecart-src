@@ -186,7 +186,7 @@ class ModelExtensionStripe extends Model
             $response['error'] = $this->language->get( 'error_system' );
 
             return $response;
-        } catch ( Exception $e ) {
+        } catch ( Exception|Error $e ) {
             $response = [];
             // Something else happened, completely unrelated to Stripe
             $msg = new AMessage();
@@ -309,7 +309,7 @@ class ModelExtensionStripe extends Model
         }
         try {
             return Stripe\Customer::retrieve( $customer_stripe_id );
-        } catch ( Exception $e ) {
+        } catch ( Exception|Error $e ) {
             //log in AException
             $ae = new AException( $e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine() );
             ac_exception_handler( $ae );
@@ -347,7 +347,7 @@ class ModelExtensionStripe extends Model
 
             return $stripe_customer;
 
-        } catch ( Exception $e ) {
+        } catch ( Exception|Error $e ) {
             //log in AException
             $ae = new AException( $e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine() );
             ac_exception_handler( $ae );
@@ -367,7 +367,7 @@ class ModelExtensionStripe extends Model
             $response = PaymentIntent::create( $data );
             $this->session->data['stripe']['pi']['id'] = $response['id'];
             return $response;
-        } catch (Exception $e) {
+        } catch (Exception|Error $e) {
             return [
                 'error' => $e->getMessage()
             ];
@@ -398,7 +398,7 @@ class ModelExtensionStripe extends Model
     {
         try {
             return PaymentIntent::retrieve($intentId);
-        }catch ( Exception $e ) {
+        }catch ( Exception|Error $e ) {
             return new stdClass();
         }
     }

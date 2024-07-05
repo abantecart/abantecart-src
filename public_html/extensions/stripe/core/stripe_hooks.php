@@ -1,4 +1,24 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
+
+use Stripe\Charge;
 
 class ExtensionStripe extends Extension
 {
@@ -88,7 +108,7 @@ class ExtensionStripe extends Extension
 
             if (!$ch_data) {
                 $view->assign('error_warning', "Some error happened!. Check the error log for more details.");
-            } elseif ($ch_data instanceof \Stripe\Charge) {
+            } elseif ($ch_data instanceof Charge) {
 
                 $ch_data['amount'] = round($ch_data['amount'] / 100, 2);
                 $ch_data['amount_refunded'] = round($ch_data['amount_refunded'] / 100, 2);
@@ -169,5 +189,4 @@ class ExtensionStripe extends Extension
             unset($that->session->data['guest']);
         }
     }
-
 }

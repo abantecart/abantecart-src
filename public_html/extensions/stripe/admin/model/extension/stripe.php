@@ -1,4 +1,22 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 use Stripe\Charge;
 use Stripe\Collection;
@@ -61,7 +79,7 @@ class ModelExtensionStripe extends Model
                 $lch = $pi->latest_charge;
                 return Stripe\Charge::retrieve($lch);
             }
-        } catch (Exception $e) {
+        } catch (Exception|Error $e) {
             //log in AException
             $ae = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
             ac_exception_handler($ae);
@@ -80,7 +98,7 @@ class ModelExtensionStripe extends Model
         }
         try {
             return Stripe\PaymentIntent::retrieve($intentId);
-        } catch (Exception $e) {
+        } catch (Exception|Error $e) {
             //log in AException
             $ae = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
             ac_exception_handler($ae);
@@ -100,7 +118,7 @@ class ModelExtensionStripe extends Model
         try {
             $ch = Stripe\PaymentIntent::retrieve($intentId);
             return $ch->cancel();
-        } catch (Exception $e) {
+        } catch (Exception|Error $e) {
             //log in AException
             $ae = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
             ac_exception_handler($ae);
@@ -125,7 +143,7 @@ class ModelExtensionStripe extends Model
                     'charge' => $chargeId,
                 ]
             );
-        } catch (Exception $e) {
+        } catch (Exception|Error $e) {
             //log in AException
             $ae = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
             ac_exception_handler($ae);
@@ -150,7 +168,7 @@ class ModelExtensionStripe extends Model
                 $params['amount'] = round($amount, 2) * 100;
             }
             return $ch->capture($params);
-        } catch (Exception $e) {
+        } catch (Exception|Error $e) {
             //log in AException
             $ae = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
             ac_exception_handler($ae);
@@ -175,7 +193,7 @@ class ModelExtensionStripe extends Model
                 $params['amount'] = round($amount, 2) * 100;
             }
             return $intent->capture($params);
-        } catch (Exception $e) {
+        } catch (Exception|Error $e) {
             //log in AException
             $ae = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
             ac_exception_handler($ae);
