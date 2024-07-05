@@ -4,9 +4,10 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitd1c4787e8ef4214c804bd4cb532d720b
+class ComposerStaticInitcc9126a7f7007729bfe95f5644010487
 {
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'net\\authorize\\api\\constants\\ANetEnvironment' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/constants/ANetEnvironment.php',
         'net\\authorize\\api\\contract\\v1\\ANetApiRequestType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/ANetApiRequestType.php',
         'net\\authorize\\api\\contract\\v1\\ANetApiResponseType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/ANetApiResponseType.php',
@@ -33,12 +34,14 @@ class ComposerStaticInitd1c4787e8ef4214c804bd4cb532d720b
         'net\\authorize\\api\\contract\\v1\\AuUpdateType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/AuUpdateType.php',
         'net\\authorize\\api\\contract\\v1\\AuthenticateTestRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/AuthenticateTestRequest.php',
         'net\\authorize\\api\\contract\\v1\\AuthenticateTestResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/AuthenticateTestResponse.php',
+        'net\\authorize\\api\\contract\\v1\\AuthorizationIndicatorType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/AuthorizationIndicatorType.php',
         'net\\authorize\\api\\contract\\v1\\BankAccountMaskedType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/BankAccountMaskedType.php',
         'net\\authorize\\api\\contract\\v1\\BankAccountType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/BankAccountType.php',
         'net\\authorize\\api\\contract\\v1\\BatchDetailsType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/BatchDetailsType.php',
         'net\\authorize\\api\\contract\\v1\\BatchStatisticType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/BatchStatisticType.php',
         'net\\authorize\\api\\contract\\v1\\CardArtType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CardArtType.php',
         'net\\authorize\\api\\contract\\v1\\CcAuthenticationType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CcAuthenticationType.php',
+        'net\\authorize\\api\\contract\\v1\\ContactDetailType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/ContactDetailType.php',
         'net\\authorize\\api\\contract\\v1\\CreateCustomerPaymentProfileRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CreateCustomerPaymentProfileRequest.php',
         'net\\authorize\\api\\contract\\v1\\CreateCustomerPaymentProfileResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CreateCustomerPaymentProfileResponse.php',
         'net\\authorize\\api\\contract\\v1\\CreateCustomerProfileFromTransactionRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CreateCustomerProfileFromTransactionRequest.php',
@@ -287,7 +290,7 @@ class ComposerStaticInitd1c4787e8ef4214c804bd4cb532d720b
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->classMap = ComposerStaticInitd1c4787e8ef4214c804bd4cb532d720b::$classMap;
+            $loader->classMap = ComposerStaticInitcc9126a7f7007729bfe95f5644010487::$classMap;
 
         }, null, ClassLoader::class);
     }

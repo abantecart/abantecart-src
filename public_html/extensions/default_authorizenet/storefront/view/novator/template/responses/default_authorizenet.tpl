@@ -1,8 +1,5 @@
-
 <div class="enter_card">
-
-<?php
-$form_open->attr .= ' novalidate ';
+<?php $form_open->attr .= ' novalidate ';
 echo $form_open;?>
     <h4 class="heading4"><?php echo $text_credit_card; ?></h4>
     <?php echo $this->getHookVar('payment_table_pre'); ?>
@@ -52,9 +49,7 @@ echo $form_open;?>
         </button>
     </div>
 </form>
-
 </div>
-
 <div id="ccModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ccModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">

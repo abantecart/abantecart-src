@@ -1,11 +1,30 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
+use net\authorize\api\constants\ANetEnvironment;
 use net\authorize\api\contract\v1 as AnetAPI;
 use net\authorize\api\controller as AnetController;
 
 class ModelExtensionDefaultAuthorizeNet extends Model
 {
-    public $error = array();
+    public $error = [];
 
     /**
      * @return AnetAPI\MerchantAuthenticationType
@@ -22,7 +41,7 @@ class ModelExtensionDefaultAuthorizeNet extends Model
     /**
      * @param int $order_id
      *
-     * @return bool
+     * @return array
      */
     public function getAuthorizeNetOrder($order_id)
     {
@@ -31,8 +50,7 @@ class ModelExtensionDefaultAuthorizeNet extends Model
                                 WHERE ao.order_id = '".(int)$order_id."' 
                                 LIMIT 1");
         if ($qry->num_rows) {
-            $order = $qry->row;
-            return $order;
+            return $qry->row;
         } else {
             return false;
         }
@@ -46,7 +64,7 @@ class ModelExtensionDefaultAuthorizeNet extends Model
     public function getAuthorizeNetTransaction($ch_id)
     {
         if (!has_value($ch_id)) {
-            return array();
+            return [];
         }
 
         try {
@@ -60,8 +78,9 @@ class ModelExtensionDefaultAuthorizeNet extends Model
             $controller = new AnetController\GetTransactionDetailsController($request);
 
             $endpoint_url = $this->config->get('default_authorizenet_test_mode')
-                ? \net\authorize\api\constants\ANetEnvironment::SANDBOX
-                : \net\authorize\api\constants\ANetEnvironment::PRODUCTION;
+                ? ANetEnvironment::SANDBOX
+                : ANetEnvironment::PRODUCTION;
+            /** @var Ane $response */
             $response = $controller->executeWithApiResponse($endpoint_url);
 
             if (($response != null) && ($response->getMessages()->getResultCode() == "Ok")) {
@@ -94,7 +113,7 @@ class ModelExtensionDefaultAuthorizeNet extends Model
      */
     private function processApiResponse($api_response, $mode = 'exception')
     {
-        $output = array();
+        $output = [];
         if (method_exists($api_response, 'getErrors') && $api_response->getErrors() != null) {
             $errors = $api_response->getErrors();
             $output['error'] = $errors[0]->getErrorText().' ('.$errors[0]->getErrorCode().')';
