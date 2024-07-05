@@ -151,6 +151,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         }
 
         $currencyCode = $this->currency->getCode();
+        $decPlace = (int)$this->currency->getCurrency()['decimal_place'];
         /** @var ModelExtensionPaypalCommerce $mdl */
         $mdl = $this->loadModel('extension/paypal_commerce');
 
@@ -162,7 +163,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 $this->config->get('config_currency'),
                 $currencyCode
             ),
-            2);
+            $decPlace);
 
         $taxes = $discount = $handling_fee = 0.0;
         foreach ($this->cart->getFinalTotalData() as $total) {
@@ -182,23 +183,23 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         }
         $amountBreakdown = [
             'item_total' => [
-                'value' => "" . round($data['order_subtotal'],2),
+                'value' => "" . round($data['order_subtotal'],$decPlace),
                 'currency_code' => $currencyCode,
             ],
             'tax_total' => [
-                'value' => "" . round($taxes,2),
+                'value' => "" . round($taxes,$decPlace),
                 'currency_code' => $currencyCode,
             ],
             'shipping' => [
-                'value' => "" . round($data['order_shipping'],2),
+                'value' => "" . round($data['order_shipping'],$decPlace),
                 'currency_code' => $currencyCode,
             ],
             'discount' => [
-                'value' => "" . round($discount,2),
+                'value' => "" . round($discount,$decPlace),
                 'currency_code' => $currencyCode,
             ],
             'handling' => [
-                'value' => "" . round($handling_fee,2),
+                'value' => "" . round($handling_fee,$decPlace),
                 'currency_code' => $currencyCode,
             ],
         ];
@@ -349,17 +350,21 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             'custom_id' =>  $this->session->data['order_id'].'-'.UNIQUE_ID,
             'amount' => [
                 'value' => $orderTotal,
-                'currency_code' => $currencyCode,
-                'breakdown' => $amountBreakdown
+                'currency_code' => $currencyCode
             ],
-            'items' => $items,
             'shipping' => $shipping,
             'description' => $order_description
         ];
+        //allow breakdown only for store currency to avoid conversion problems
+        if($this->config->get('config_currency') == $currencyCode){
+            $ppData['purchase_units'][0]['amount']['breakdown'] = $amountBreakdown;
+            $ppData['purchase_units'][0]['items'] =  $items;
+        }
 
         try {
             $output = (array)$mdl->createPPOrder($ppData);
-        }catch(Exception $e){
+        }catch(\PayPalHttp\HttpException|Error $e){
+            $this->log->write('PaypalCommerce order creation error: '.$e->getMessage()."\n Input Data: ".var_export($ppData, true));
             $output['error'] = $e->getMessage();
         }
 
