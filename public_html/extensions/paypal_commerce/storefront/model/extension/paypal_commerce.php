@@ -22,9 +22,12 @@
 
 use PayPalCheckoutSdk\Core\ClientTokenRequest;
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
+use PayPalCheckoutSdk\Orders\OrdersAuthorizeRequest;
+use PayPalCheckoutSdk\Orders\OrdersCaptureRequest;
 use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
 use PayPalCheckoutSdk\Orders\OrdersGetRequest;
 use PayPalCheckoutSdk\Products\ProductCreateRequest;
+use PayPalHttp\IOException;
 
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -393,12 +396,37 @@ class ModelExtensionPaypalCommerce extends Model
      * @param array $data
      * @return stdClass
      * @throws \PayPalHttp\HttpException
-     * @throws \PayPalHttp\IOException
+     * @throws IOException
      */
     public function createPPOrder($data)
     {
         $request = new OrdersCreateRequest();
         $request->body = json_encode( $data, JSON_PRETTY_PRINT);
+        $response = $this->paypal->execute($request);
+        return $response->result;
+    }
+
+    /**
+     * @param string $ppOrderId
+     * @return array|object|string
+     * @throws \PayPalHttp\HttpException
+     * @throws IOException
+     */
+    public function capturePPOrder($ppOrderId)
+    {
+        $request = new OrdersCaptureRequest($ppOrderId);
+        $response = $this->paypal->execute($request);
+        return $response->result;
+    }
+    /**
+     * @param string $ppOrderId
+     * @return array|object|string
+     * @throws \PayPalHttp\HttpException
+     * @throws IOException
+     */
+    public function authorizePPOrder($ppOrderId)
+    {
+        $request = new OrdersAuthorizeRequest($ppOrderId);
         $response = $this->paypal->execute($request);
         return $response->result;
     }

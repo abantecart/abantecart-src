@@ -66,13 +66,11 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         }
 
         $data['intent'] = $this->config->get('paypal_commerce_transaction_type');
-
         $template = 'responses/paypal_commerce_confirm.tpl';
 
         $data['action'] = $this->html->getSecureURL('r/extension/paypal_commerce/send');
         $data['create_order_url'] = $this->html->getSecureURL('r/extension/paypal_commerce/createOrder');
-
-
+        $data['capture_order_url'] = $this->html->getSecureURL('r/extension/paypal_commerce/captureOrder');
 
         //build submit form
         $form = new AForm();
@@ -362,6 +360,56 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         try {
             $output = (array)$mdl->createPPOrder($ppData);
         }catch(Exception $e){
+            $output['error'] = $e->getMessage();
+        }
+
+        if (isset($output['error'])) {
+            if ($output['error']) {
+                http_response_code(406);
+            }
+        }
+
+        $csrftoken = $this->registry->get('csrftoken');
+        $output['csrfinstance'] = $csrftoken->setInstance();
+        $output['csrftoken'] = $csrftoken->setToken();
+
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+        $this->load->library('json');
+        $this->response->addJSONHeader();
+        $this->response->setOutput(AJson::encode($output));
+    }
+    public function captureOrder()
+    {
+        if(!$this->request->is_POST()){
+            http_response_code(406);
+            return;
+        }
+
+        $json = file_get_contents('php://input');
+        $json = (array)json_decode($json, true);
+        $ppOrderId = $json['orderID'];
+
+        $output = [];
+        if (!$this->csrftoken->isTokenValid()) {
+            $output['error'] = $this->language->get('error_unknown');
+            $this->load->library('json');
+            $this->response->setOutput(AJson::encode($output));
+            return;
+        }
+
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+
+        /** @var ModelExtensionPaypalCommerce $mdl */
+        $mdl = $this->loadModel('extension/paypal_commerce');
+        try {
+            if($this->config->get('paypal_commerce_transaction_type')=='capture') {
+                $output = (array)$mdl->capturePPOrder($ppOrderId);
+                $output = ['id' => $output->id];
+            }else{
+                $output = $mdl->authorizePPOrder($ppOrderId);
+                $output = ['id' => $output->id];
+            }
+        }catch(Exception|Error $e){
             $output['error'] = $e->getMessage();
         }
 

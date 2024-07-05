@@ -95,25 +95,45 @@ if ($error) { ?>
                         location = '<?php echo $cancel_url ?>';
                     },
                     onApprove: function (data, actions) {
-                        $('#paypalFrm').find('.action-buttons').hide();
-                        $('#div-preloader').show();
-                        return actions.order.capture()
-                            .then(function (details) {
-                                $('#transaction_details').val(JSON.stringify(details));
+                        // Pass the PayPal order ID to your server side where you will capture it
+                        return fetch(<?php js_echo($capture_order_url);?>+'&'+$('input[name=csrftoken], input[name=csrfinstance]').serialize(), {
+                            method: "POST",
+                            body: JSON.stringify({
+                                orderID: data.orderID
+                            })
+                        })
+                        .then((response) => response.json())
+                        .then(function (orderData) {
+                                // Three cases to handle:
+                                //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
+                                //   (2) Other non-recoverable errors -> Show a failure message
+                                //   (3) Successful transaction -> Show confirmation or thank you
+
+                                // This example reads a v2/checkout/orders capture response, propagated from the server
+                                // You could use a different API or structure for your 'orderData'
+                                const errorDetail = Array.isArray(orderData.details) && orderData.details[0];
+
+                                // Recoverable state, per:
+                                // https://developer.paypal.com/docs/checkout/integration-features/funding-failure/
+                                if (errorDetail && errorDetail.issue === 'INSTRUMENT_DECLINED') {
+                                    console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                                    return actions.restart();
+                                }
+
+                                if (errorDetail) {
+                                    showPPError('Sorry, your transaction could not be processed.' + errorDetail);
+                                }
+
+                                // Successful capture! For demo purposes:
+                                console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                                $('input[name=csrftoken]').val(orderData.csrftoken);
+                                $('input[name=csrfinstance]').val(orderData.csrfinstance);
+                                $('#transaction_details').val(JSON.stringify(orderData));
                                 confirmSubmit($('#paypalFrm'), '<?php echo $action; ?>');
                             })
-                            .catch(function (err) {
-                                // Failed capture
-                                $('#div-preloader').hide();
-                                $('#paypalFrm').find('.action-buttons').hide();
-                                $('#paypalFrm').before('<div class="alert alert-warning"><i class="fa fa-bug fa-fw"></i> ' + err + '</div>');
-                            });
+                            .catch(showPPError);
                     },
-                    onError: function (err) {
-                        $('#div-preloader').hide();
-                        $('#paypalFrm').find('.action-buttons').hide();
-                        $('#paypalFrm').before('<div class="alert alert-warning"><i class="fa fa-bug fa-fw"></i> ' + err + '</div>');
-                    }
+                    onError: showPPError
                 }).render('#paypal-button-container');
             }catch(e){
                 console.log(e);
@@ -122,6 +142,11 @@ if ($error) { ?>
 
            $('#paypalFrm').find('.action-buttons').show();
            $('#div-preloader').hide();
+        }
+        function showPPError(text){
+            $('#div-preloader').hide();
+            $('#paypalFrm').find('.action-buttons').hide();
+            $('#paypalFrm').before('<div class="alert alert-warning"><i class="fa fa-bug fa-fw"></i> ' + text + '</div>');
         }
         function confirmSubmit($form, url) {
             $form.find('.action-buttons').hide();
