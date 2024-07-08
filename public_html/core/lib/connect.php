@@ -305,7 +305,16 @@ final class AConnect
 
         switch ($this->connect_method) {
             case 'curl' :
-                $retBuffer = $this->_processCurl($url, $port, $save_filename, $length_only, $headers_only);
+                try {
+                    $retBuffer = $this->_processCurl($url, $port, $save_filename, $length_only, $headers_only);
+                }catch(Exception|Error $e) {
+                    if ($this->silent_mode) {
+                        Registry::getInstance()->get('log')->write(__CLASS__.": ".$e->getMessage());
+                        return false;
+                    } else {
+                        throw $e;
+                    }
+                }
                 break;
             case 'socket' :
                 if ($this->connect_method == 'socket' && $protocol == 'https') {
@@ -313,7 +322,16 @@ final class AConnect
                     $port = $port == 80 ? 443 : $port;
                 }
 
+                try {
                 $retBuffer = $this->_processSocket($url, $port, $save_filename, $length_only, $headers_only);
+                }catch(Exception|Error $e) {
+                    if ($this->silent_mode) {
+                        Registry::getInstance()->get('log')->write(__CLASS__.": ".$e->getMessage());
+                        return false;
+                    } else {
+                        throw $e;
+                    }
+                }
                 break;
             default :
                 if ($this->silent_mode) {
