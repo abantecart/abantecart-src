@@ -704,7 +704,7 @@ class ACustomer
                 $this->session->data['cart'][$key] = $value;
             }
         }
-        if ($this->session->data['fc']) {
+        if (!$this->session->data['fc']['cart']) {
             $this->session->data['fc']['cart'] = $this->session->data['cart'];
         }
     }
