@@ -65,8 +65,8 @@ echo $form_open;?>
     </div>
 </div>
 
-<script type="text/javascript"><!--
-    var submitSent = false;
+<script type="text/javascript">
+    let submitSent = false;
     jQuery(document).ready(function () {
         <?php
         $acjs_url = $this->config->get('default_authorizenet_test_mode')
@@ -77,10 +77,8 @@ echo $form_open;?>
             function () {
                 //validate submit
                 $('#authorizenet').submit(function (event) {
-
                     event.preventDefault();
                     if (submitSent !== true) {
-
                         submitSent = true;
                         let $form = $(this);
                         if (!validateForm($form)) {
@@ -164,6 +162,7 @@ function confirmSubmit($form, url) {
                 $form.before('<div class="alert alert-danger"><i class="fa fa-bug me-2"></i> <?php echo $error_unknown; ?></div>');
                 $form.find('input[name=csrfinstance]').val(data.csrfinstance);
                 $form.find('input[name=csrftoken]').val(data.csrftoken);
+                submitSent = false;
             } else {
                 if (data.error) {
                     $('.wait').remove();
@@ -171,6 +170,7 @@ function confirmSubmit($form, url) {
                     $form.before('<div class="alert alert-warning"><i class="fa fa-exclamation me-2"></i> '+data.error+'</div>');
                     $form.find('input[name=csrfinstance]').val(data.csrfinstance);
                     $form.find('input[name=csrftoken]').val(data.csrftoken);
+                    submitSent = false;
                 }
                 if (data.success) {
                     location = data.success;
@@ -183,7 +183,8 @@ function confirmSubmit($form, url) {
             $form.before('<div class="alert alert-danger"><i class="fa fa-exclamation me-2"></i> '+textStatus+' '+errorThrown+'</div>');
             $form.find('input[name=csrfinstance]').val(data.csrfinstance);
             $form.find('input[name=csrftoken]').val(data.csrftoken);
+            submitSent = false;
         }
     });
 }
-//--></script>
+</script>
