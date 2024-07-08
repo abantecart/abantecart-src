@@ -84,7 +84,12 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             ]
         );
 
-        $data['cancel_url'] = $this->html->getSecureURL('checkout/fast_checkout');
+        $get = $this->request->get;
+        unset($get['rt']);
+        $data['cancel_url'] = $this->html->getSecureURL(
+            'checkout/fast_checkout',
+            $get ? '&'.http_build_query($get, '', '&') : ''
+        );
 
         $this->view->batchAssign($data);
         $this->processTemplate($template);
