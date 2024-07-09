@@ -417,14 +417,17 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $mdl = $this->loadModel('extension/paypal_commerce');
         try {
             if($this->config->get('paypal_commerce_transaction_type')=='capture') {
-                $output = (array)$mdl->capturePPOrder($ppOrderId);
-                $output = ['id' => $output->id];
+                $output = $mdl->capturePPOrder($ppOrderId);
             }else{
                 $output = $mdl->authorizePPOrder($ppOrderId);
-                $output = ['id' => $output->id];
             }
+            $output = ['id' => $output->id];
         }catch(Exception|Error $e){
             $output['error'] = $e->getMessage();
+        }
+
+        if(!$output['id']){
+            $output['error'] = 'Cannot to obtain transaction Id during capture processing';
         }
 
         if (isset($output['error'])) {
@@ -477,7 +480,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $response = $mdl->getOrder($transactionDetails['id']);
 
         if (!$response) {
-            $output['error'] = 'Cannot establish a connection to the server';
+            $output['error'] = 'Cannot establish a connection to the server OR transaction Id is unknown';
             $err = new AError(
                 'Paypal Commerce: Cannot Get Order Information from Paypal. '
                 . 'Paypal Transaction Id: ' . $transactionDetails['id']
