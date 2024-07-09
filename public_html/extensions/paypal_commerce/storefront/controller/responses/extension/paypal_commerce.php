@@ -86,6 +86,10 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         $get = $this->request->get;
         unset($get['rt']);
+        if(!isset($get['product_key']) && $this->session->data['fc']['single_checkout'] && $this->session->data['fc']['product_key']){
+            $get['product_key'] = $this->session->data['fc']['product_key'];
+            $get['fc'] = $get['single_checkout'] = 1;
+        }
         $data['cancel_url'] = $this->html->getSecureURL(
             'checkout/fast_checkout',
             $get ? '&'.http_build_query($get, '', '&') : ''
