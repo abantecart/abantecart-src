@@ -726,6 +726,7 @@ class ControllerPagesAccountOrderDetails extends AController
             ]
         );
 
+        $this->data['error'] = $this->error;
         $this->view->batchAssign($this->data);
         $this->processTemplate('pages/account/order.tpl');
     }
