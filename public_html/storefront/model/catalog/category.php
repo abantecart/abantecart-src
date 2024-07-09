@@ -667,18 +667,20 @@ class ModelCatalogCategory extends Model
 
             //if  category have no featured products
             if (count($output[$categoryId]) < $limit) {
-                $sql = "SELECT pd.*, p.*
+                $categoryIds = $this->getChildrenIDs($categoryId);
+                $categoryIds[] = (int)$categoryId;
+                $sql = "SELECT pd.*, p.*, (CASE WHEN pf.product_id IS NOT NULL THEN 1 ELSE 0 END) as `featured`
                         FROM " . $this->db->table("products") . " p                            
                         INNER JOIN " . $this->db->table("products_to_stores") . " p2s 
                             ON (p.product_id = p2s.product_id AND p2s.store_id = '" . $store_id . "')
                         INNER JOIN " . $this->db->table("products_to_categories") . " p2c 
-                            ON (p2c.product_id = p.product_id AND p2c.category_id = '" . $categoryId . "') 
+                            ON (p2c.product_id = p.product_id AND p2c.category_id IN (".(implode(',', $categoryIds)).")) 
                         LEFT JOIN " . $this->db->table("products_featured") . " pf
                             ON (pf.product_id = p.product_id )
                         LEFT JOIN " . $this->db->table("product_descriptions") . " pd
                             ON (p.product_id = pd.product_id AND pd.language_id = '" . $language_id . "')
                         WHERE pf.product_id IS NULL AND p.status='1' AND p.date_available <= NOW()
-                        ORDER BY p.sort_order, p.date_available DESC 
+                        ORDER BY (CASE WHEN pf.product_id IS NOT NULL THEN 1 ELSE 0 END), p.sort_order, p.date_available DESC 
                         LIMIT " . $limit;
                 $output[$categoryId] += $this->db->query($sql)->rows;
             }
