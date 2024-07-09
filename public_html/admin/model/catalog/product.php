@@ -2523,8 +2523,14 @@ class ModelCatalogProduct extends Model
                 $sql .= " AND p.price <= '".(float) $filter['pto']."'";
             }
             if ($filter['category']) {
-                $sql .= " AND p2c.category_id = '".(int) $filter['category']."'";
-            }if ($filter['sku']) {
+                /** @var ModelCatalogCategory $mdl */
+                $mdl = $this->load->model('catalog/category','storefront');
+                $childrenIds = $mdl->getChildrenIds($filter['category'], 'all');
+                $childrenIds[] = (int) $filter['category'];
+                $childrenIds = array_filter(array_unique($childrenIds));
+                $sql .= " AND p2c.category_id IN (".(implode(',', $childrenIds)).")";
+            }
+            if ($filter['sku']) {
                 $sql .= " AND p.sku LIKE '%". $this->db->escape($filter['sku'])."%'";
             }
             if (isset($filter['status'])) {
