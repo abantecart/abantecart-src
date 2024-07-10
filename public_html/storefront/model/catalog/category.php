@@ -87,7 +87,8 @@ class ModelCatalogCategory extends Model
     {
         $limit = (int)$data['limit'];
         $language_id = (int)$data['language_id'] ?: (int)$this->config->get('storefront_language_id');
-        $store_id = (int)$data['store_id'] ?: (int)$this->config->get('config_store_id');
+        $store_id = $data['store_id'] ?? (int)$this->config->get('config_store_id');
+        $store_id = (int)$store_id;
         $cache_key = 'category.list.'
             . md5(var_export(array_merge((array)$parent_id,$data),true))
             . '.store_' . $store_id . '_limit_' . $limit. '_lang_' . $language_id;
@@ -121,36 +122,55 @@ class ModelCatalogCategory extends Model
         if ($category_ids) {
             $pCount = [];
             foreach($category_ids as $cId) {
-                $idList = array_merge([$cId], $this->getChildrenIDs($cId));
-                $sql = "SELECT count(DISTINCT p.product_id) as product_count
-                        FROM " . $this->db->table('products_to_categories') . " p2c
-                        INNER JOIN " . $this->db->table('products') . " p 
-                            ON p.product_id = p2c.product_id
-                        INNER JOIN " . $this->db->table('products_to_stores') . " s 
-                            ON p.product_id = s.product_id AND s.store_id=" . $store_id;
-
-                if ($data['filter']['rating']) {
-                    $sql .= " INNER JOIN " . $this->db->table('reviews') . " r
-                    ON (r.rating IN (" . implode(',', (array)$data['filter']['rating']) . ") 
-                        AND p.product_id = r.product_id AND r.status = 1 ) ";
-                }
-                $data['filter']['manufacturer_id'] = filterIntegerIdList((array)$data['filter']['manufacturer_id']);
-                if ($data['filter']['manufacturer_id']) {
-                    $sql .= " AND p.manufacturer_id IN (" . implode(',', (array)$data['filter']['manufacturer_id']) . ") ";
-                }
-
-                $sql .= " WHERE p2c.category_id in (" . implode(",", $idList) . ") 
-                        AND p.status = '1' AND COALESCE(p.date_available,'1970-01-01')< NOW()";
-                $query = $this->db->query($sql);
-                $pCount[$cId] = (int)$query->row['product_count'];
+                 $pCount[$cId] = $this->getProductCount($cId, $data);
             }
 
             foreach ($output as &$category) {
                 $category['product_count'] = (int)$pCount[$category['category_id']];
             }
-
         }
 
+        $this->cache->push($cache_key, $output);
+        return $output;
+    }
+
+    /**
+     * @param int $parent_id
+     * @param array $data
+     * @return int
+     * @throws AException
+     */
+    function getProductCount($parent_id, $data = [])
+    {
+        $store_id = $data['store_id'] ?? (int)$this->config->get('config_store_id');
+        $store_id = (int)$store_id;
+        $cache_key = 'category.product.count.'.$parent_id.'.' . md5(var_export($data,true)).'.store_' . $store_id;
+        $output = $this->cache->pull($cache_key);
+        if ($output !== false) {
+            return $output;
+        }
+        $idList = array_merge([$parent_id], $this->getChildrenIDs($parent_id));
+        $sql = "SELECT count(DISTINCT p.product_id) as product_count
+                FROM " . $this->db->table('products_to_categories') . " p2c
+                INNER JOIN " . $this->db->table('products') . " p 
+                    ON p.product_id = p2c.product_id
+                INNER JOIN " . $this->db->table('products_to_stores') . " s 
+                    ON p.product_id = s.product_id AND s.store_id=" . $store_id;
+
+        if ($data['filter']['rating']) {
+            $sql .= " INNER JOIN " . $this->db->table('reviews') . " r
+                    ON (r.rating IN (" . implode(',', (array)$data['filter']['rating']) . ") 
+                        AND p.product_id = r.product_id AND r.status = 1 ) ";
+        }
+        $data['filter']['manufacturer_id'] = filterIntegerIdList((array)$data['filter']['manufacturer_id']);
+        if ($data['filter']['manufacturer_id']) {
+            $sql .= " AND p.manufacturer_id IN (" . implode(',', (array)$data['filter']['manufacturer_id']) . ") ";
+        }
+
+        $sql .= " WHERE p2c.category_id in (" . implode(",", $idList) . ") 
+                        AND p.status = '1' AND COALESCE(p.date_available,'1970-01-01')< NOW()";
+        $query = $this->db->query($sql);
+        $output = (int)$query->row['product_count'];
         $this->cache->push($cache_key, $output);
         return $output;
     }
@@ -189,17 +209,7 @@ class ModelCatalogCategory extends Model
         if ($mode == 'total_only') {
             $total_sql = 'count(*) as total';
         } else {
-            $total_sql = "*,
-                          c.category_id,
-                          (SELECT count(*) as cnt
-                            FROM " . $this->db->table('products_to_categories') . " p2c
-                            INNER JOIN " . $this->db->table('products') . " p 
-                                ON p.product_id = p2c.product_id
-                            INNER JOIN " . $this->db->table('products_to_stores')." s
-                                ON (p.product_id = s.product_id AND s.store_id = ".$store_id.")
-                            WHERE p2c.category_id = c.category_id 
-                                AND p.status = '1' 
-                                AND COALESCE(p.date_available,'1970-01-01')< NOW() ) as products_count ";
+            $total_sql = "*, c.category_id ";
         }
         $where = (isset($data['parent_id']) ? " c.parent_id = '" . (int)$data['parent_id'] . "'" : '');
         //filter result by given ids array
@@ -261,8 +271,12 @@ class ModelCatalogCategory extends Model
         }
 
         $query = $this->db->query($sql);
-        $this->cache->push($cache_key, $query->rows);
-        return $query->rows;
+        $output = $query->rows;
+        foreach($output as &$row){
+            $row['products_count'] = $this->getProductCount($row['category_id']);
+        }
+        $this->cache->push($cache_key, $output);
+        return $output;
 
     }
 

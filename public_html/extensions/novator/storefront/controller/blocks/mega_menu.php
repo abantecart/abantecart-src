@@ -150,6 +150,8 @@ class ControllerBlocksMegaMenu extends AController
      */
     protected function buildNestedCategoryList($categoryTree, $parent_id = 0)
     {
+        /** @var ModelCatalogCategory $mdl */
+        $mdl = $this->load->model('catalog/category');
         $output = [];
         foreach ($categoryTree as $category) {
             $category['current'] = false;
@@ -161,12 +163,7 @@ class ControllerBlocksMegaMenu extends AController
             $thumbnail = $this->thumbnails[$category['category_id']];
             $category['thumb'] = $thumbnail['thumb_url'];
             $category['icon'] = $thumbnail['resource_id'];
-            //get product counts from children levels.
-            if (count($category['children'])) {
-                foreach ($category['children'] as $child) {
-                    $category['product_count'] += $child['product_count'];
-                }
-            }
+            $category['product_count'] = $mdl->getProductCount($category['category_id']);
             $category['href'] = $this->html->getSEOURL('product/category', '&path=' . $category['path'], '&encode');
             //mark current category
             if ($category['category_id'] == $this->category_id) {
