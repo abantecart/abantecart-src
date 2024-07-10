@@ -36,7 +36,6 @@ class ControllerPagesSaleOrder extends AController
         'shipping_address_2',
         'shipping_city',
         'shipping_postcode',
-        'fax',
         'telephone',
         'shipping_zone',
         'shipping_zone_id',
@@ -1040,13 +1039,6 @@ class ControllerPagesSaleOrder extends AController
                 'type'  => 'input',
                 'name'  => 'telephone',
                 'value' => $this->data['telephone'],
-            ]
-        );
-        $this->data['form']['shipping_fields']['fax'] = $form->getFieldHtml(
-            [
-                'type'  => 'input',
-                'name'  => 'fax',
-                'value' => $this->data['fax'],
             ]
         );
 
