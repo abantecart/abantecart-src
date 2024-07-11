@@ -127,13 +127,14 @@
 <?php } //foreach ?>
 
 <script type="text/javascript">
-	jQuery(function ($) {
 
-		var elements_with_options = [];
+		let elements_with_options = [];
 		<?php
 		foreach ($elements_with_options as $el) {
 			echo "elements_with_options.push('$el');\r\n";
 		} ?>
+
+        let elmType = $('#editFrm_element_type');
 
 		$('#values .aform').show();
 		$(document).on('click', '#values a.remove', function () {
@@ -143,7 +144,7 @@
                 return;
             }
 			if ($('#values tr.value').length > 1) {
-				if (row.find('input[name^=attribute_value_ids]').val().substring(0,3) == 'new') {
+				if (row.find('input[name^=attribute_value_ids]').val().substring(0,3) === 'new') {
 					row.remove();
 				} else {
 					row.addClass('danger');
@@ -156,10 +157,11 @@
             const key = Date.now();
             let so = Number($('#values').find('input[name*=sort_order]').last().val());
             so++;
-			let row = $('#values tr.value').last().clone();
-			$('#values tr.value').last().after(row);
+            let tr = $('#values tr.value');
+			let row = tr.last().clone();
+			tr.last().after(row);
 
-			let last = $('#values tr.value').last();
+			let last = tr.last();
 			last.find('input[name^=attribute_value_ids').attr("name", "attribute_value_ids[new"+key+"]").removeAttr('id').val('new'+key);
 			last.find('input[name*="[value]"]').attr("name", "values[new"+key+"][value]").removeAttr('id');
 			last.find('input[name*=price_modifier]').attr("name", "values[new"+key+"][price_modifier]").removeAttr('id');
@@ -174,30 +176,23 @@
 			return false;
 		});
 
-		if ($.inArray($('#editFrm_element_type').val(), elements_with_options) > -1) {
+		if ($.inArray(elmType.val(), elements_with_options) > -1) {
 			$('#values').show();
 		}
 
-		if ($('#editFrm_element_type').val() == 'U') {
-			$('#file_settings').show();
-		} else {
-			$('#file_settings').hide();
-		}
+        let fileSettings = $('#file_settings');
+        elmType.val() === 'U' ? fileSettings.show() : fileSettings.hide();
 
-		$('#editFrm_element_type').change(function () {
-			var curr_value = $(this).val();
+        elmType.change(function () {
+			let curr_value = $(this).val();
 			if ($.inArray(curr_value, elements_with_options) > -1) {
 				$('#values').show();
 			} else {
 				$('#values').hide();
 			}
+			curr_value === 'U' ? fileSettings.show() : fileSettings.hide();
 
-			if (curr_value == 'U') {
-				$('#file_settings').show();
-			} else {
-				$('#file_settings').hide();
-			}
-			if(curr_value == 'I' || curr_value == 'T' ){
+			if(curr_value === 'I' || curr_value === 'T' ){
 				$('#editFrm_placeholder').removeAttr('disabled').parents('.form-group').show();
 			}else{
 				$('#editFrm_placeholder').attr('disabled','disabled').parents('.form-group').hide();
@@ -205,8 +200,8 @@
 		});
 
 		$('#editFrm_attribute_parent_id').change(function () {
-			var attribute_id = $(this).val();
-			if (attribute_id == '') {
+			let attribute_id = $(this).val();
+			if (attribute_id === '') {
 				$('#editFrm_attribute_type_id')
 						.val('')
 						.change()
@@ -224,12 +219,12 @@
 							.attr('disabled', 'disabled');
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
-					$('#content').prepend('<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>');
+					$('#content').prepend('<div class="alert alert-danger" ><b>' + textStatus + '</b>  ' + errorThrown + '</div>');
 				}
 			});
 
 		});
-		if ($('#editFrm_attribute_parent_id').val() != '') {
+		if ($('#editFrm_attribute_parent_id').val() !== '') {
 			$('#editFrm_attribute_parent_id').change();
 		}
 
@@ -241,8 +236,6 @@
 		$('#file_settings .aform').show();
 
 		$(document).ready(function(){
-			$('#editFrm_element_type').change();
+            elmType.change();
 		});
-
-	});
 </script>

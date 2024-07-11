@@ -276,7 +276,7 @@
 			var $field = $(elem);
 			var $wrapper = $field.closest('.afield');
 			var $selected = $field.find(":selected:first");
-			if ($selected.length == 0) {
+			if ($selected.length === 0) {
 				$selected = $field.find("option:first");
 			}
 			if ($field.prop("disabled")) {
@@ -292,7 +292,7 @@
 				"change.aform":function () {
 					$field.removeClass(o.activeClass);
 					var optionSelected = $("option:selected", this);
-					onChangedAction($field, $(optionSelected).val(), $(optionSelected).attr('data-orgvalue'));
+					onChangedAction($field, $(optionSelected).val(), $field.attr('data-orgvalue'));
 				},
 				"focus.aform":function () {
 					$field.addClass(o.focusClass);
@@ -311,12 +311,12 @@
 					$field.removeClass(o.activeClass);
 				},
 				"keyup.aform":function (e) {
-					if (e.keyCode == 13) {
+					if (e.keyCode === 13) {
 						$(o.btnGrpSelector, $wrapper).find('a:eq(0)').trigger('click');
 					} else {
 						$field.removeClass(o.activeClass);
 						var optionSelected = $("option:selected", this);
-						onChangedAction($field, $(optionSelected).val(), $(optionSelected).attr('data-orgvalue'));
+						onChangedAction($field, $field.val(), $(optionSelected).attr('data-orgvalue'));
 					}
 				}
 			});
@@ -327,14 +327,14 @@
 			//change input field state
 			var $field = $el.parent('.afield');
 			if (value) {
-				if ($el.val() == value) {
+				if ($el.val() === value) {
 					//no change
 					return false;
 				} else {
 					$el.val(value);
 				}
 			} else {
-				if ($el.val() == '1') {
+				if ($el.val() === '1') {
 					$el.val('0');
 				} else {
 					$el.val('1');
@@ -424,16 +424,18 @@
 
 						if ( $(this).attr('data-orgvalue') === "true" && $(this).attr('selected') !== 'selected' ) {
 							$changed++;
-						} else if ($(this).attr('data-orgvalue') === "false" && !$(this).attr('selected') ) {
+						} else if ($(this).attr('data-orgvalue') === "false" && $(this).attr('selected') ) {
 							$changed++;
 						} else if ( !$(this).attr('data-orgvalue') ) {
 							$changed++;
 						}
 					});
-					value = orgvalue;
 				}
 
-				if ((String(value) != String(orgvalue) || $changed > 0)) {
+				if ( (typeof value === 'string' && value !== orgvalue)
+					//|| (typeof value === 'object' && value !== $.parseJSON(orgvalue)
+						|| $changed > 0
+				) {
 					//mark field changed
 					$field.addClass(o.changedClass);
 					//build quick save button set
