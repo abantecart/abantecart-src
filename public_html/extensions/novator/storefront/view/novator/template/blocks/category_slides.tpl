@@ -13,12 +13,14 @@ if($resources){
                 <?php foreach($resources as $k => $res){?>
                     <div class="carousel-item <?php echo $k == 0 ? 'active' : ''?>">
                     <?php if($res['origin'] == 'internal'){ ?>
-                        <div class="carousel-caption h-50">
-                            <h2 class="my-auto"><?php echo html_entity_decode($res['title'])?></h2>
-                            <h5><?php echo html_entity_decode($res['description']);?></h5>
-                        </div>
-                        <div class="col-12">
-                            <img src="<?php echo $res['main_url']?>" class="d-block ms-auto" alt="<?php echo_html2view($res['title'])?>">
+                        <div class="row">
+                            <div class="col-6 h-50 m-auto p-auto">
+                                <h2 class="text-center"><?php echo html_entity_decode($res['title'])?></h2>
+                                <h5 class="text-center"><?php echo html_entity_decode($res['description']);?></h5>
+                            </div>
+                            <div class="col-6 ms-auto">
+                                <img src="<?php echo $res['main_url']?>" class="d-block ms-auto w-100 " alt="<?php echo_html2view($res['title'])?>">
+                            </div>
                         </div>
                         <?php
                     }else{
