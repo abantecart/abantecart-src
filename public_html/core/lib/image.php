@@ -1,12 +1,11 @@
 <?php
-
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2024 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -32,7 +31,7 @@ class AImage
      */
     protected $file;
     /**
-     * @var resource
+     * @var null|resource|GdImage
      */
     protected $image;
     /**
@@ -46,6 +45,7 @@ class AImage
     /**
      * @param string $filename
      *
+     * @throws AException
      */
     public function __construct($filename)
     {
@@ -91,7 +91,7 @@ class AImage
     /**
      * @param string $filename
      *
-     * @return resource|string
+     * @return GdImage|resource
      * @throws AException
      */
     private function get_gd_resource($filename)
@@ -123,19 +123,22 @@ class AImage
             }
         }
 
-        $res_img = '';
+        $result = false;
         if ($this->_is_memory_enough($this->info['width'], $this->info['height'])) {
             if ($mime == 'image/gif') {
-                $res_img = imagecreatefromgif($filename);
+                $result = imagecreatefromgif($filename);
             } elseif ($mime == 'image/png') {
-                $res_img = imagecreatefrompng($filename);
+                $result = imagecreatefrompng($filename);
             } elseif ($mime == 'image/jpeg') {
-                $res_img = imagecreatefromjpeg($filename);
+                $result = imagecreatefromjpeg($filename);
             } elseif ($mime == 'image/webp') {
-                $res_img = imagecreatefromwebp($filename);
+                $result = imagecreatefromwebp($filename);
+            } elseif ($mime == 'image/avif') {
+                $result = imagecreatefromavif($filename);
             }
-            return $res_img;
-        } else {
+        }
+
+        if(!$result){
             throw new AException(
                 AC_ERR_LOAD,
                 'Unable to create internal image from file '.$filename.'. Try to decrease original image size '
@@ -143,6 +146,7 @@ class AImage
                 .'px or reduce file size or increase memory limit for PHP.'
             );
         }
+        return $result;
     }
 
     /**
@@ -186,6 +190,7 @@ class AImage
      * @param int $quality - some number in range from 1 till 100
      *
      * @return bool
+     * @throws AException
      */
     public function save($filename, $quality = 90)
     {
@@ -202,6 +207,7 @@ class AImage
      * @param int $quality - some number in range from 1 till 100
      *
      * @return bool
+     * @throws AException
      */
     public function _save($filename, $quality = 90)
     {
@@ -210,8 +216,8 @@ class AImage
         }
 
         $quality = (int) $quality;
-        $quality = $quality > 100 ? 100 : $quality;
-        $quality = $quality < 1 ? 1 : $quality;
+        $quality = min($quality, 100);
+        $quality = max($quality, 1);
 
         $extension = pathinfo($filename, PATHINFO_EXTENSION);
         if ($this->_is_memory_enough($this->info['width'], $this->info['height'])) {
@@ -224,6 +230,8 @@ class AImage
                 imagegif($this->image, $filename);
             } elseif ($extension == 'webp') {
                 imagewebp($this->image, $filename);
+            } elseif ($extension == 'avif') {
+                imageavif($this->image, $filename);
             }
             if (is_file($filename)) {
                 $result = chmod($filename, 0777);
@@ -278,7 +286,7 @@ class AImage
             $fillColor = $this->registry->get('config')->get('config_image_resize_fill_color');
             $fillColor = !$fillColor ? '#ffffff' : $fillColor;
             list($r, $g, $b) = sscanf($fillColor, "#%02x%02x%02x");
-            if (isset($this->info['mime']) && in_array($this->info['mime'], ['image/png', 'image/webp',])) {
+            if (isset($this->info['mime']) && in_array($this->info['mime'], ['image/png', 'image/webp','image/avif'])) {
                 imagealphablending($this->image, false);
                 imagesavealpha($this->image, true);
                 $background = imagecolorallocatealpha($this->image, $r, $g, $b, 127);
@@ -311,10 +319,7 @@ class AImage
         } else {
             $message = 'Image file '.$this->file
                 .' cannot be resized. Try to decrease original image size '
-                .$this->info['width']
-                .'x'
-                .$this->info['height']
-                .'px or reduce file size.';
+                .$this->info['width'].'x'.$this->info['height'].'px or reduce file size.';
             $res = new AResource('image');
             $resource_id = $res->getIdFromHexPath(str_replace(DIR_RESOURCE.'image/', '', $this->file));
             if ($resource_id) {
@@ -386,6 +391,7 @@ class AImage
      * @param int $bottom_y
      *
      * @return bool
+     * @throws AException
      */
     public function crop($top_x, $top_y, $bottom_x, $bottom_y)
     {
@@ -414,6 +420,7 @@ class AImage
      * @param string $color
      *
      * @return bool
+     * @throws AException
      */
     public function rotate($degree, $color = 'FFFFFF')
     {
@@ -441,6 +448,7 @@ class AImage
      * @param int $filter
      *
      * @return bool
+     * @throws AException
      */
     public function filter($filter)
     {
@@ -465,6 +473,7 @@ class AImage
      * @param string $color
      *
      * @return bool
+     * @throws AException
      */
     public function text($text, $x = 0, $y = 0, $size = 5, $color = '000000')
     {
@@ -565,5 +574,4 @@ class AImage
             $this->image = null;
         }
     }
-
 }
