@@ -34,28 +34,29 @@ class ModelTotalSubTotal extends Model
             //currency based recalculation for all products to avoid fractional loss
             $subtotal = $taxAmount = $subTotalWithTax = $convertedSubTotal = $convertedTaxAmount = $convertedSubTotalWithTax = 0;
             $products = $this->cart->getProducts() + $this->cart->getVirtualProducts();
-            $decPlace = (int)$this->currency->getCurrency()['decimal_place'];
+            $currentDecimalPlace = (int)$this->currency->getCurrency()['decimal_place'];
+            $defaultDecimalPlace = (int)$this->currency->getCurrency($this->config->get('config_currency'))['decimal_place'];
 
             foreach ($products as $product) {
-                $price = $product['price'] ?: $product['amount'];
+                $price = round($product['price'] ?: $product['amount'], $defaultDecimalPlace);
                 $convertedPrice = round($this->currency->convert(
                     $price,
                     $this->config->get('config_currency'),
                     $this->currency->getCode()
-                ),$decPlace);
+                ),$currentDecimalPlace);
                 $subtotal += ($price * $product['quantity']);
                 $convertedSubTotalWithTax += $product['quantity']
                     *
                     round(
                         $this->tax->calculate( $convertedPrice, $product['tax_class_id'] )
-                        ,$decPlace
+                        ,$currentDecimalPlace
                     );
 
                 $subTotalWithTax += $product['quantity']
                     *
                     round(
                         $this->tax->calculate( $price, $product['tax_class_id']),
-                        $decPlace
+                        $defaultDecimalPlace
                     );
 
                 $taxAmount += $product['quantity'] * $this->tax->calcTotalTaxAmount($price, $product['tax_class_id']);
@@ -64,7 +65,7 @@ class ModelTotalSubTotal extends Model
                     *
                     round(
                         $this->tax->calcTotalTaxAmount($convertedPrice, $product['tax_class_id'] ),
-                        $decPlace
+                        $currentDecimalPlace
                     );
             }
 

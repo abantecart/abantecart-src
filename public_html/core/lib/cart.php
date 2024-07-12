@@ -34,6 +34,7 @@ if (!defined('DIR_CORE')) {
  * @property ALength $length
  * @property AWeight $weight
  * @property AConfig $config
+ * @property ACurrency $currency
  * @property ALoader $load
  * @property ModelCheckoutExtension $model_checkout_extension
  * @property ADownload $download
@@ -207,6 +208,7 @@ class ACart
      */
     public function buildProductDetails($product_id, $quantity = 0, $options = [])
     {
+        $decPlace = (int)$this->currency->getCurrency($this->config->get('config_currency'))['decimal_place'];
         if (!has_value($product_id) || !is_numeric($product_id) || $quantity == 0) {
             return [];
         }
@@ -355,6 +357,7 @@ class ACart
         if (!$price) {
             $price = $product_query['price'];
         }
+        $price = round($price, $decPlace);
 
         foreach ($option_data as $item) {
             if ($item['prefix'] == '%') {
@@ -363,6 +366,7 @@ class ACart
                 $option_price += $item['price'];
             }
         }
+        $option_price = round($option_price, $decPlace);
 
         // product downloads
         $download_data = $this->download->getProductOrderDownloads($product_id);
@@ -793,11 +797,11 @@ class ACart
         if (has_value($this->sub_total) && !$recalculate) {
             return $this->sub_total;
         }
-
+        $decPlace = (int)$this->currency->getCurrency($this->config->get('config_currency'))['decimal_place'];
         $this->sub_total = 0.0;
         $products = $this->getProducts() + $this->getVirtualProducts();
         foreach ($products as $product) {
-            $price = $product['price'] ?: $product['amount'];
+            $price = round(($product['price'] ?: $product['amount']),$decPlace);
             $this->sub_total += ($price * $product['quantity']);
         }
         return $this->sub_total;
