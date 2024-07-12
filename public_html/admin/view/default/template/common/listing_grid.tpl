@@ -50,7 +50,7 @@ echo $this->html->buildElement(
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jqgrid/plugins/jquery.tablednd.js"></script>
 <script type="text/javascript">
 
-    var initGrid_<?php echo $data['table_id'] ?> = function ($) {
+    let initGrid_<?php echo $data['table_id'] ?> = function ($) {
 
         let text_choose_action;
         let text_select_items;
@@ -132,17 +132,17 @@ echo $this->html->buildElement(
                     }
                     const children = $(table_id).getNodeChildren(parent);
                     const children_ids = [];
-                    for (var i = 0; i < children.length; i++) {
+                    for (let i = 0; i < children.length; i++) {
                         children_ids.push(children[i]._id_);
                     }
                     //presave the order and build ids list
-                    for (var i = 1; i < rows.length; i++) {
+                    for (let i = 1; i < rows.length; i++) {
                         if ($.inArray(rows[i].id, children_ids) >= 0) {
                             ids_order.push(rows[i].id);
                         }
                     }
                 } else {
-                    for (var i = 1; i < rows.length; i++) {
+                    for (let i = 1; i < rows.length; i++) {
                         ids_order.push(rows[i].id);
                     }
                 }
@@ -251,9 +251,9 @@ echo $this->html->buildElement(
                 });
 
                 //add grid filter fields for saved state
-                const gridInfo = $.parseJSON($.cookie("grid_params"));
+                const gridInfo = JSON.parse(localStorage.getItem('grid_params'));
                 if (gridInfo && gridInfo.postData && gridInfo.postData.filters) {
-                    const $filters = $.parseJSON(gridInfo.postData.filters);
+                    const $filters = JSON.parse(gridInfo.postData.filters);
                     $.each($filters.rules, function (index, value) {
                         $('#gs_' + value.field).val(value.data);
                     });
@@ -538,8 +538,8 @@ echo $this->html->buildElement(
                 //apply saved grid for initial grid load only
                 const grid = $(table_id);
                 if (gridFirstLoad === true) {
-                    if ($.cookie("grid_params") != null && $.cookie("grid_params") !== "") {
-                        const gridInfo = $.parseJSON($.cookie("grid_params"));
+                    const gridInfo = JSON.parse(localStorage.getItem('grid_params'));
+                    if (gridInfo) {
                         //TODO: merge this calls
                         grid.jqGrid('setGridParam', {sortname: gridInfo.sortname});
                         grid.jqGrid('setGridParam', {sortorder: gridInfo.sortorder});
@@ -552,7 +552,7 @@ echo $this->html->buildElement(
                         grid.jqGrid('setGridParam', {search: gridInfo.search});
 
                         //do we have external search form?
-                        const search_data = $.parseJSON($.cookie("grid_search_form"));
+                        const search_data = JSON.parse(localStorage.getItem('grid_search_form'));
                         if (search_data != null && search_data.table_id === _table_id) {
                             const $form = $(table_id + '_search');
                             const new_url = '<?php echo $data["url"] ?>&' + $form.serialize();
@@ -565,7 +565,7 @@ echo $this->html->buildElement(
                 <?php } else { ?>
                 //reset grid search for initial load only
                 if (gridFirstLoad === true) {
-                    $.cookie("grid_search_form", "", { secure: (location.protocol === 'https:')});
+                    localStorage.setItem('grid_search_form',null);
                 }
                 save_grid_parameters($(table_id));
                 <?php } ?>
@@ -618,8 +618,8 @@ echo $this->html->buildElement(
         //reset
         $(table_id + '_search button[type="reset"]').click(function () {
             //reset pre-saved cookies and search form fields
-            $.cookie("grid_search_form", "", { secure: (location.protocol === 'https:')});
-            $.cookie("grid_params", "", { secure: (location.protocol === 'https:')});
+            localStorage.setItem('grid_search_form', null);
+            localStorage.setItem('grid_params', null);
             $(table_id + '_search').find("input[type=text]").attr('value', '');
             $(table_id + '_search').find("select").each(function () {
                 $s = $(this);
@@ -763,7 +763,7 @@ echo $this->html->buildElement(
             gridInfo.rowNum = $grid.jqGrid('getGridParam', 'rowNum');
             gridInfo.postData = $grid.jqGrid('getGridParam', 'postData');
             gridInfo.search = $grid.jqGrid('getGridParam', 'search');
-            $.cookie("grid_params", JSON.stringify(gridInfo));
+            localStorage.setItem('grid_params',JSON.stringify(gridInfo));
         }
 
         function save_grid_search_form_parameters() {
@@ -771,7 +771,7 @@ echo $this->html->buildElement(
             const searchInfo = {};
             searchInfo.params = params;
             searchInfo.table_id = _table_id;
-            $.cookie("grid_search_form", JSON.stringify(searchInfo), { secure: (location.protocol === 'https:')});
+            localStorage.setItem('grid_search_form', JSON.stringify(searchInfo));
         }
 
         //resize jqgrid

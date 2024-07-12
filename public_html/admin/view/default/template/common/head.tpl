@@ -33,7 +33,7 @@
 <?php } ?>
 </script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-migrate.min.js"></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery.cookies.js"></script>
+<script src="//cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jqueryui.min.js"></script>
 <script type="text/javascript">
     jQuery.browser = {};

@@ -120,10 +120,10 @@ jQuery(document).ready(function() {
 	});
 
 	$('.menutoggle').click(function () {
-		if (jQuery.cookie('leftpanel-collapsed')) {
-			$.removeCookie("leftpanel-collapsed");
+		if (Cookies.get('leftpanel-collapsed')) {
+			Cookies.remove("leftpanel-collapsed");
 		} else {
-			$.cookie('leftpanel-collapsed', 1);
+			Cookies.set('leftpanel-collapsed', 1);
 		}
 		var body = $('body');
 		var bodypos = body.css('position');
@@ -240,22 +240,22 @@ jQuery(document).ready(function() {
 
 	//Set cookies for sticky panels
 	$('.sticky_header').click(function(){
-		if(jQuery.cookie('sticky-header')) {
-			$.removeCookie("sticky-header");
+		if(Cookies.get('sticky-header')) {
+			Cookies.remove("sticky-header");
 			$('body').removeClass('stickyheader');
 			$('.sticky_header').removeClass('panel_frozen')
 				.removeClass('fa-toggle-on')
 				.addClass('fa-toggle-off');
 		} else {
 			$('body').addClass('stickyheader');
-			$.cookie("sticky-header", 1);
+			Cookies.set("sticky-header", 1);
 			$('.sticky_header').addClass('panel_frozen')
 				.addClass('fa-toggle-on')
 				.removeClass('fa-toggle-off');
 		}
 	});
 
-	if(jQuery.cookie('sticky-header')) {
+	if(Cookies.get('sticky-header')) {
 		$('body').addClass('stickyheader');
 		$('.sticky_header').addClass('panel_frozen')
 			.addClass('fa-toggle-on')
@@ -263,28 +263,28 @@ jQuery(document).ready(function() {
 	}  
    
 	$('.sticky_left').click(function(){
-		if(jQuery.cookie('sticky-leftpanel')) {
-			$.removeCookie("sticky-leftpanel");
+		if(Cookies.get('sticky-leftpanel')) {
+			Cookies.remove("sticky-leftpanel");
 			$('.leftpanel').removeClass('sticky-leftpanel');
 			$('.sticky_left').removeClass('panel_frozen')
 				.removeClass('fa-toggle-on')
 				.addClass('fa-toggle-off');
 		} else {
 			$('.leftpanel').addClass('sticky-leftpanel');
-			$.cookie("sticky-leftpanel", 1);
+			Cookies.set("sticky-leftpanel", 1);
 			$('.sticky_left').addClass('panel_frozen')
 				.addClass('fa-toggle-on')
 				.removeClass('fa-toggle-off');
 		}
 	});
-	if(jQuery.cookie('sticky-leftpanel')) {
+	if(Cookies.get('sticky-leftpanel')) {
 		$('.leftpanel').addClass('sticky-leftpanel');
 		$('.sticky_left').addClass('panel_frozen')
 			.addClass('fa-toggle-on')
 			.removeClass('fa-toggle-off');
 	}
 
-	if(jQuery.cookie('leftpanel-collapsed')) {
+	if(Cookies.get('leftpanel-collapsed')) {
 		$('body').addClass('leftpanel-collapsed');
 		$('.menutoggle').addClass('menu-collapsed');
 	}
