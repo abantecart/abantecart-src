@@ -1,5 +1,5 @@
 <div class="footer_block">
-    <section id="newslettersignup">
+    <section id="newslettersignup pt-4">
         
         <h4><?php echo $heading_title; ?></h4>
         
