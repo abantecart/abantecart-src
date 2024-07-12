@@ -18,8 +18,8 @@ if($resources){
                                 <h2 class="text-center"><?php echo html_entity_decode($res['title'])?></h2>
                                 <h5 class="text-center"><?php echo html_entity_decode($res['description']);?></h5>
                             </div>
-                            <div class="col-6 ms-auto">
-                                <img src="<?php echo $res['main_url']?>" class="d-block ms-auto w-100 " alt="<?php echo_html2view($res['title'])?>">
+                            <div class="col-6">
+                                <img src="<?php echo $res['direct_url']?>" class="d-block h-100 ms-auto"  alt="<?php echo_html2view($res['title'])?>">
                             </div>
                         </div>
                         <?php
