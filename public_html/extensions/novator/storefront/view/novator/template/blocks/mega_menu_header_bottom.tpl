@@ -4,6 +4,7 @@ $categories = prepareNVCatItems($categories);
 <div id="category_top_tpl" class="d-none d-lg-block">
     <nav id="category_top_block" class="navbar navbar-expand-lg navbar-light default bg-body-alt">
         <div class="container position-relative">
+            <?php if( $categories){ ?>
             <div class="row align-items-center justify-content-center g-2">
                 <div class="col">
                     <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-start">
@@ -31,6 +32,7 @@ $categories = prepareNVCatItems($categories);
                     </ul>
                 </div>
             </div>
+            <?php } ?>
             <div class="collapse d-none d-lg-flex navbar-collapse ">
                 <ul class="mega-sf-menu navbar-nav mx-auto mb-2 mb-lg-0 align-items-start flex-wrap">
                     <?php
