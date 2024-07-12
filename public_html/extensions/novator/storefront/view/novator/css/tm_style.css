@@ -3752,7 +3752,7 @@ li#review-set::before {
 }
 
 .form-control#product_quantity {
-    width: 80px !important;
+    width: 115px !important;
 }
 
 /* auto-open for dropdowns */

@@ -211,14 +211,25 @@ if ($error){ ?>
                                                 <?php if(!$product_info['call_to_order']){ ?>
                                                     <div class="form-group d-inline-flex">
                                                         <h5 class="text-muted d-none"><?php echo $text_qty; ?></h5>
-                                                        <?php if ($minimum > 1) { ?>
-                                                            <div class="input-group-text me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="<?php echo_html2view($text_minimum);?>">&gt;= <?php echo $minimum; ?></div>
-                                                        <?php }
+                                                        <div class="input-group d-flex flex-nowrap">
+                                                        <button class="input-group-text minus-qnty btn btn-outline-danger fs-3" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                    title="<?php $minimum > 1 ? echo_html2view($text_minimum) : '';?>">&minus;</button>
+                                                        <?php
                                                         $form['minimum']->style .= " text-center fs-4 ";
-                                                        echo $form['minimum'];
-                                                        if ($maximum > 0) { ?>
-                                                            <div class="input-group-text ms-1" data-bs-toggle="tooltip" data-bs-placement="top" title="<?php echo_html2view($text_maximum);?>">&lt;= <?php echo $maximum; ?></div>
-                                                        <?php } ?>
+                                                         ?>
+                                                        <input type="text"
+                                                               name="<?php echo $form['minimum']->name ?>"
+                                                               id="<?php echo $form['minimum']->element_id ?>"
+                                                               value="<?php echo $form['minimum']->value ?>"
+                                                               inputmode="numeric"
+                                                               placeholder="<?php echo $form['minimum']->placeholder ?>"
+                                                               class="form-control text-center fw-bold <?php echo $form['minimum']->style; ?>"
+                                                               min="<?php echo $minimum?:1; ?>"
+                                                            <?php echo $maximum ? 'max="'.$maximum.'"' : '' ?>
+                                                            <?php echo $form['minimum']->attr; ?>/>
+                                                        <button class="input-group-text plus-qnty input-group-text btn btn-outline-success fs-3" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                title="<?php $maximum > 0 ? echo_html2view($text_maximum) : '';?>">&plus;</button>
+                                                        </div>
                                                     </div>
                                                 <?php }?>
                                             </div>

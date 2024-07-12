@@ -315,7 +315,7 @@ $(document).ready(function(){
         if($(this).parents('#cartoffcanvas').length>0) {
             replaceCartDetailsNv(productId, qty);
         }else{
-            qtyInput.val(qty).focus();
+            qtyInput.val(qty).focus().change();
         }
     });
 
