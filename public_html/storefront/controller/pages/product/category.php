@@ -122,6 +122,10 @@ class ControllerPagesProductCategory extends AController
                 }
                 unset($tmp);
 
+                if(count($category_id)==1){
+                    $request['path'] = $mdl->buildPath(current($category_id));
+                }
+
                 $this->document->addBreadcrumb(
                     [
                         'href'      => $this->html->getSEOURL(
