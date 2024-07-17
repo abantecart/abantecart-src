@@ -89,8 +89,7 @@ class ModelCatalogCategory extends Model
         $language_id = (int)$data['language_id'] ?: (int)$this->config->get('storefront_language_id');
         $store_id = $data['store_id'] ?? (int)$this->config->get('config_store_id');
         $store_id = (int)$store_id;
-        $cache_key = 'category.list.'
-            . md5(var_export(array_merge((array)$parent_id,$data),true))
+        $cache_key = 'category.list.'. md5(var_export(func_get_args(),true))
             . '.store_' . $store_id . '_limit_' . $limit. '_lang_' . $language_id;
         $output = $this->cache->pull($cache_key);
         if ($output !== false) {
@@ -494,6 +493,12 @@ class ModelCatalogCategory extends Model
      */
     public function buildPath($category_id)
     {
+        $cacheKey = 'category.path.'.$category_id;
+        $output = $this->cache->pull($cacheKey);
+        if($output !== false){
+            return $output;
+        }
+
         $query = $this->db->query(
             "SELECT c.category_id, c.parent_id
             FROM " . $this->db->table("categories") . " c
@@ -503,10 +508,12 @@ class ModelCatalogCategory extends Model
 
         $category_info = $query->row;
         if ($category_info['parent_id']) {
-            return $this->buildPath($category_info['parent_id']) . "_" . $category_info['category_id'];
+            $output = $this->buildPath($category_info['parent_id']) . "_" . $category_info['category_id'];
         } else {
-            return $category_info['category_id'];
+            $output = $category_info['category_id'];
         }
+        $this->cache->push($cacheKey, $output);
+        return $output;
     }
 
     /**
@@ -517,9 +524,9 @@ class ModelCatalogCategory extends Model
      * @return array
      * @throws AException
      */
-    public function getChildrenIDs(int|array $parentId, $mode = 'active_only')
+    public function getChildrenIDs(int|array $parentId, $mode = 'active_only', $dig = true)
     {
-        if (!$parentId) {
+        if (is_array($parentId) && !$parentId) {
             return [];
         }
         $cacheKey = 'category.children.' . md5(var_export($parentId,true)) . '.' . preformatTextID($mode);
@@ -546,9 +553,13 @@ class ModelCatalogCategory extends Model
         }
         $result = $this->db->query($sql);
         $output = [];
-        foreach ($result->rows as $category) {
-            $output[] = (int)$category['category_id'];
-            $output = array_merge($output, $this->getChildrenIDs((int)$category['category_id']));
+        if($dig) {
+            foreach ($result->rows as $category) {
+                $output[] = (int)$category['category_id'];
+                $output = array_merge($output, $this->getChildrenIDs((int)$category['category_id']));
+            }
+        }else{
+            $output = array_column($result->rows, 'category_id');
         }
         $this->cache->push($cacheKey, $output);
         return $output;
@@ -556,51 +567,51 @@ class ModelCatalogCategory extends Model
 
     /** Function builds one dimensional category tree based on given array
      *
-     * @param array $all_categories
-     * @param int $parent_id
-     * @param string $path
+     * @param array $categoryList
+     * @param array $data
      *
      * @return array
      * @throws AException
      */
-    public function buildCategoryTree($all_categories = [], $parent_id = 0, $path = '')
+    public function buildCategoryTree($categoryList = [], $data = [])
     {
-        $output = [];
-        foreach ($all_categories as $category) {
-            if ((int)$parent_id != (int)$category['parent_id']) {
-                continue;
-            }
-            $category['path'] = $path ? $path . '_' . $category['category_id'] : $category['category_id'];
-            $category['parents'] = explode("_", $category['path']);
-            //dig into level
-            $category['level'] = sizeof($category['parents']) - 1;
-            if ($category['category_id'] == $this->category_id) {
-                //mark root
-                $this->selected_root_id = $category['parents'][0];
-            }
-            $output[] = $category;
-            $output = array_merge(
-                $this->buildCategoryTree($all_categories, $category['category_id'], $category['path']),
-                $output
-            );
-        }
-        if ($parent_id == 0) {
-            //place result into memory for future usage (for menu. see below)
-            $this->data['all_categories'] = $output;
-            // cut list and expand only selected tree branch
-            $cutted_tree = [];
-            foreach ($output as $category) {
-                if ($category['parent_id'] != 0 && !in_array($this->selected_root_id, $category['parents'])) {
-                    continue;
-                }
-                $category['href'] = $this->html->getSEOURL('product/category', '&path=' . $category['path'], '&encode');
-                $cutted_tree[] = $category;
-            }
-            return $cutted_tree;
-        } else {
-            $this->data['all_categories'] = $output;
+        $cacheKey = 'category.build.tree.'.var_export(array_merge($categoryList,$data), true);
+        $output = $this->cache->pull($cacheKey);
+        if($output !== false){
             return $output;
         }
+        $categoryList =  array_combine(array_column($categoryList,'category_id'), $categoryList );
+        $output = [];
+        $this->data['id_list'] = $this->data['id_list'] ?: array_column($categoryList,'category_id','category_id');
+        foreach ($categoryList as $category) {
+            if(in_array($category['category_id'],(array)$this->data['processed_childrenIds'])){
+                continue;
+            }
+            if(!isset($category['product_count'])) {
+                $category['product_count'] = $this->getProductCount($category['category_id'], $data);
+            }
+            if(!$category['product_count']){
+                continue;
+            }
+
+            $path = $this->buildPath($category['category_id']);
+            $category['path'] = $path;
+            $path = explode("_", $path);
+            array_pop($path);
+            $category['parents'] = $path ?: [0];
+
+            $childrenIds = !$data['root_level'] ? $this->getChildrenIDs($category['category_id'], 'active_only',true) : [];
+            if($childrenIds) {
+                $cList = $this->getAllCategories([ 'filter' => [ 'category_id'     => $childrenIds ] ] );
+                $childrenList = $this->buildCategoryTree($cList, $data);
+                $category['children'] = $childrenList ?: [];
+                $this->data['processed_childrenIds'] = array_merge((array)$this->data['processed_childrenIds'],$childrenIds);
+                $this->data['processed_childrenIds'][] = $category['category_id'];
+            }
+            $output[] = $category;
+        }
+        $this->cache->push($cacheKey, $output);
+        return $output;
     }
 
     /** Function builds one multi-dimensional (nested) category tree for menu

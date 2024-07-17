@@ -145,19 +145,21 @@ class ModelCatalogManufacturer extends Model
     }
 
     /**
-     * @param array $manufacturerIds
+     * @param array $data
      * @return array
      * @throws AException
      */
-    public function getCategories(array $manufacturerIds = [])
+    public function getCategories(array $data = [])
     {
-        $manufacturerIds = filterIntegerIdList($manufacturerIds);
+        $manufacturerIds = filterIntegerIdList($data['filter']['manufacturer_id']);
         if(!$manufacturerIds){
             return [];
         }
 
+        $rates = filterIntegerIdList($data['filter']['rating']);
+
         $store_id = (int)$this->config->get('config_store_id');
-        $cache_key = 'manufacturer.category_ids.' . md5(implode('.',$manufacturerIds)). '.store_' . $store_id;
+        $cache_key = 'manufacturer.category_ids.' . md5(var_export($data, true)). '.store_' . $store_id;
         $categories = $this->cache->pull($cache_key);
         if ($categories !== false) {
             return $categories;
@@ -166,8 +168,13 @@ class ModelCatalogManufacturer extends Model
         $sql = "SELECT DISTINCT p2c.category_id
                 FROM " . $this->db->table('products') . " p
                 INNER JOIN " . $this->db->table('products_to_categories') . " p2c 
-                    ON p.product_id = p2c.product_id
-                WHERE p.status = '1'
+                    ON p.product_id = p2c.product_id ";
+        if($rates){
+            $sql .= " INNER JOIN ".$this->db->table('reviews')." r
+                    ON (r.product_id = p.product_id AND r.status = 1
+                        AND r.rating IN (".implode(',',(array)$data['filter']['rating'])."))" ;
+        }
+        $sql .= " WHERE p.status = '1'
                     AND COALESCE(p.date_available,'1970-01-01')< NOW() 
                     AND p.manufacturer_id IN (" . implode(', ', $manufacturerIds) . ")";
         $query = $this->db->query($sql);

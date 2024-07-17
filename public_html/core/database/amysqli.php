@@ -129,8 +129,8 @@ final class AMySQLi
             }
         } else {
             $this->error = 'SQL Error: '.mysqli_error($this->connection)
-                .'<br />Error No: '.mysqli_errno($this->connection)
-                .'<br />SQL: '.$sql."\n";
+                .'\nError No: '.mysqli_errno($this->connection)
+                .'\nSQL: '.$sql;
             if ($noexcept) {
                 return false;
             } else {

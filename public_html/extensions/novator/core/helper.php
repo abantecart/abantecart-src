@@ -325,12 +325,22 @@ function renderFilterCategoryTreeNV($tree, $level = 0, int|array|null $currentId
         if( ($extra['lock_one_category'] || $checkedChildren > 1) && $checked) {
             $readonly = 'onclick="return false"';
         }
+        // when show only parent categories need to pass path parameter by click.
+        // It will show preselected parent with children
+        if($extra['root_level']){
+            $fldName = 'path';
+            $fldValue = $cat['path'];
+        }else{
+            $fldName = 'category_id[]';
+            $fldValue = $cat['category_id'];
+        }
+
         $output .=
             '<div class="row g-3 align-items-center my-0">
                   <div class="d-flex flex-nowrap m-0">
                     <input id="filter_cat'.$cat['category_id'].'"
                            class="form-check-input product-filter me-2" 
-                           type="checkbox" name="category_id[]" value="'.$cat['category_id'].'" '
+                           type="checkbox" name="'.$fldName.'" value="'.$fldValue.'" '
                         .($checked ? 'checked' : '') . ' ' . $readonly.'>
                     <label for="filter_cat'.$cat['category_id'].'" 
                         class="w-100 ms-'.$level.' link '.($checked ? 'fw-bolder link-primary' : 'link-secondary').' d-block ms-'.$level.'" >'. str_repeat('&nbsp;', $level ).$cat['name'].'

@@ -5,12 +5,12 @@
 <div class="container-fluid mt-3">
      <form id="search_page_form" class="row g-3 ms-4 align-items-center" name="SearchFrm" method="get" action="<?php echo HTTPS_SERVER.INDEX_FILE; ?>">
         <h5 class="col-auto"><?php echo $text_critea; ?></h5>
-        <div class="col-auto"><?php echo $keyword; ?></div>
+        <div class="col-12"><?php echo $keyword; ?></div>
         <div class="col-auto"><?php echo $category; ?></div>
         <div class="col-auto d-flex flex-nowrap align-items-center"><?php echo $description; ?></div>
         <div class="col-auto d-flex flex-nowrap align-items-center"><?php echo $model; ?></div>
         <input type="hidden" name="rt" value="product/search"/>
-        <div class="col-auto"><?php echo $submit; ?></div>
+        <div class=" col-auto"><?php echo $submit; ?></div>
     </form>
 
     <div class="container-fluid">

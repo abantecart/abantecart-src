@@ -1,4 +1,53 @@
-<div class="offcanvas-xl offcanvas-start ecom-offcanvas" tabindex="-1" id="offcanvas_mail_filter">
+<?php
+function renderFilterCategoryTree($tree, $level = 0, int|array|null $currentId = 0, ?array $extra = [])
+{
+    if(!$tree || !is_array($tree)){
+        return false;
+    }
+    $output = '';
+    foreach($tree as $cat){
+        $cat['name'] = ($level ? ' - ' : '') .$cat['name'];
+        $checked = in_array($cat['category_id'], (array)$currentId);
+        $checkedChildren = 0;
+        foreach((array)$cat['children'] as $ch){
+            if(in_array($ch['category_id'], (array)$currentId)){
+                $checkedChildren++;
+            }
+        }
+        if( ($extra['lock_one_category'] || $checkedChildren > 1) && $checked) {
+            $readonly = 'onclick="return false"';
+        }
+        // when show only parent categories need to pass path parameter by click.
+        // It will show preselected parent with children
+        if($extra['root_level']){
+            $fldName = 'path';
+            $fldValue = $cat['path'];
+        }else{
+            $fldName = 'category_id[]';
+            $fldValue = $cat['category_id'];
+        }
+
+        $output .=
+            '<div class="row g-3 align-items-center my-0">
+                  <div class="d-flex flex-nowrap m-0">
+                    <input id="filter_cat'.$cat['category_id'].'"
+                           class="form-check-input product-filter me-2" 
+                           type="checkbox" name="'.$fldName.'" value="'.$fldValue.'" '
+            .($checked ? 'checked' : '') . ' ' . $readonly.'>
+                    <label for="filter_cat'.$cat['category_id'].'" 
+                        class="w-100 ms-'.$level.' link '.($checked ? 'fw-bolder link-primary' : 'link-secondary').' d-block ms-'.$level.'" >'. str_repeat('&nbsp;', $level ).$cat['name'].'
+                        '. ( $cat['product_count'] ? '<span class="float-end">('. $cat['product_count'].')</span>' : '').'
+                    </label>
+                </div>
+            </div>';
+
+        if(!$cat['children']){ continue; }
+        $output .= renderFilterCategoryTree($cat['children'], $level+1, $currentId, $extra);
+    }
+    return $output;
+}
+?>
+<div class="category-block mt-3">
     <div class="offcanvas-body p-0 sticky-xl-top">
         <div id="ecom-filter" class="w-100 show collapse collapse-horizontal">
             <div class="ecom-filter">
@@ -6,20 +55,20 @@
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
                             <?php
-                            $category_tree = renderFilterCategoryTreeNV(
-                                    $category_details['tree'],
-                                    0,
-                                    $category_details['selected'],
-                                    $category_details['extra']
+                            $category_tree = renderFilterCategoryTree(
+                                $category_details['tree'],
+                                0,
+                                $category_details['selected'],
+                                $category_details['extra']
                             );
                             if($category_tree){ ?>
                             <li class="category-tree list-group-item border-0 px-0 py-2">
-                                <a class="btn fw-bold border-0 px-0 text-start w-100 pb-0 mb-2" data-bs-toggle="collapse"
+                                <a class="btn fw-bold border-0 px-0 text-start w-100 pb-0 mb-2 ms-2" data-bs-toggle="collapse"
                                    href="#tree_collapse">
                                     <div class="float-end"><i class="bi bi-chevron-down"></i></div>
                                     <?php echo $this->language->get('text_categories')?>
                                 </a>
-                                <div class="collapse show" id="tree_collapse" >
+                                <div class="collapse show p-2" id="tree_collapse" >
                                     <?php echo $category_tree ?>
                                 </div>
                             </li>
@@ -27,12 +76,12 @@
                             }
                             if($brands){ ?>
                             <li class="brand-list list-group-item border-0 px-0 py-2">
-                                <a class="btn fw-bold border-0 px-0 text-start w-100 pb-2" data-bs-toggle="collapse"
+                                <a class="btn fw-bold border-0 px-0 text-start w-100 pb-2 ms-2" data-bs-toggle="collapse"
                                    href="#brand_list_collapse">
                                     <div class="float-end"><i class="bi bi-chevron-down"></i></div>
                                     <?php echo $this->language->get('text_brands')?>
                                 </a>
-                                <div class="collapse show" id="brand_list_collapse">
+                                <div class="collapse show p-2" id="brand_list_collapse">
                                     <?php foreach($brands as $brand){
                                         $checked = in_array($brand['manufacturer_id'], (array)$selected_brand); ?>
                                         <div class="w-100 mt-1 d-flex justify-content-between">
@@ -54,12 +103,12 @@
                             <?php }
                             if($ratings){?>
                                 <li class="ratings list-group-item border-0 px-0 py-2">
-                                    <a class="btn fw-bold border-0 px-0 text-start w-100 pb-0 mb-2" data-bs-toggle="collapse"
+                                    <a class="btn fw-bold border-0 px-0 text-start w-100 pb-0 mb-2 ms-2" data-bs-toggle="collapse"
                                        href="#category_rating-collapse">
                                         <div class="float-end"><i class="bi bi-chevron-down"></i></div>
                                         <?php echo $this->language->get('text_ratings')?>
                                     </a>
-                                    <div class="collapse show" id="category_rating-collapse">
+                                    <div class="collapse show p-2" id="category_rating-collapse">
                                         <?php foreach($ratings as $stars => $count){
                                             $checked = in_array($stars, (array)$selected_rating);
                                             ?>
@@ -71,7 +120,7 @@
                                                         <?php echo !$count ? 'disabled' : ''; ?>>
                                                     <label for="filter_rate<?php echo $stars?>"
                                                            class="w-100 link link-secondary d-flex flex-nowrap justify-content-between" >
-                                                        <?php echo renderRatingStarsNv($stars,$stars);
+                                                        <?php echo renderRatingStars($stars,$stars);
                                                         if($count){?>
                                                         <span class="float-end">(<?php echo $count; ?>)</span>
                                                         <?php } ?>

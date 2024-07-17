@@ -148,14 +148,7 @@ class ControllerPagesProductSearch extends AController
 
             $this->data['raw_data'] = $products_result = $this->model_catalog_product->getFilteredProducts(
                 [
-                    'filter' => [
-                        'keyword'         => $get['keyword'],
-                        'category_id'     => $get['category_id'],
-                        'description'     => $get['description'],
-                        'model'           => $get['model'],
-                        'manufacturer_id' => $get['manufacturer_id'],
-                        'rating'          => $get['rating']
-                    ],
+                    'filter' => $get,
                     'sort'  => $sort,
                     'order' => $order,
                     'start' => ($page - 1) * $limit,
