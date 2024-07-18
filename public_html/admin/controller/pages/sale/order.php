@@ -814,10 +814,7 @@ class ControllerPagesSaleOrder extends AController
             '&order_id='.$order_id
         );
 
-        $saved_list_data = json_decode(html_entity_decode($this->request->cookie['grid_params']));
-        if ($saved_list_data->table_id == 'order_grid') {
-            $this->data['list_url'] = $this->html->getSecureURL('sale/order', '&saved_list=order_grid');
-        }
+        $this->data['list_url'] = $this->html->getSecureURL('sale/order', '&saved_list=order_grid');
 
         $this->view->batchAssign($this->data);
         $this->view->assign('help_url', $this->gen_help_url('order_details'));

@@ -1223,10 +1223,7 @@ class ControllerPagesCatalogProduct extends AController
         $this->data['language_id'] = $content_language_id;
         $this->data['language_code'] = $this->session->data['language'];
         $this->data['help_url'] = $this->gen_help_url('product_edit');
-        $saved_list_data = json_decode(html_entity_decode($this->request->cookie['grid_params']));
-        if ($saved_list_data->table_id == 'product_grid') {
-            $this->data['list_url'] = $this->html->getSecureURL('catalog/product', '&saved_list=product_grid');
-        }
+        $this->data['list_url'] = $this->html->getSecureURL('catalog/product', '&saved_list=product_grid');
 
         if ($viewport_mode == 'modal') {
             $tpl = 'responses/viewport/modal/catalog/product_form.tpl';

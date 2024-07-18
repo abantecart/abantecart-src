@@ -360,6 +360,37 @@ jQuery(document).ready(function() {
 		$('#iframe_loading').hide();
 	});
 
+	//show back-to-grid button if present
+	if($('.back-to-grid')){
+		let jsn = JSON.parse(localStorage.getItem('grid_params'));
+		if(jsn.table_id === $('.back-to-grid').attr('data-table-id')){
+			$('.back-to-grid').removeClass('hidden');
+		}
+	}
+	//reload grid based on saved search parameters in the localStorage
+	const gridName = getUrlParameter('saved_list');
+	if(gridName){
+		let jsn = JSON.parse(localStorage.getItem('grid_search_form'));
+		if(jsn.table_id === gridName){
+			const searchParams = new URLSearchParams(jsn.params);
+			if(searchParams.size < 1){
+				return;
+			}
+			searchParams.forEach((value, key) => {
+				let field = $('[name='+key+']');
+				 	if(field){
+						if(field.hasClass('chosen')){
+							field.chosen().val(value);
+							field.chosen().trigger("chosen:updated")
+						}else {
+							field.val(value);
+							field.change();
+						}
+				 	}
+			});
+			$('form#'+gridName+'_search').submit();
+		}
+	}
 });
 
 //-----------------------------------------------

@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2022 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ * $Id$
+ *
+ * AbanteCart, Ideal OpenSource Ecommerce Solution
+ * http://www.AbanteCart.com
+ *
+ * Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ * This source file is subject to Open Software License (OSL 3.0)
+ * License details is bundled with this package in the file LICENSE.txt.
+ * It is also available at this URL:
+ * <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ * UPGRADE NOTE:
+ * Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ * versions in the future. If you wish to customize AbanteCart for your
+ * needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 class ControllerPagesCatalogAttribute extends AController
 {
@@ -393,12 +393,10 @@ class ControllerPagesCatalogAttribute extends AController
         $this->data['text_parent_note'] = $this->language->get('text_parent_note');
         $this->data['help_url'] = $this->gen_help_url('global_attributes_edit');
 
-        $saved_list_data = json_decode(html_entity_decode($this->request->cookie['grid_params']));
-        if ($saved_list_data->table_id == 'attribute_grid') {
-            $this->data['list_url'] = $this->html->getSecureURL('catalog/attribute', '&saved_list=attribute_grid');
-        }
+        $this->data['list_url'] = $this->html->getSecureURL('catalog/attribute', '&saved_list=attribute_grid');
 
         $this->view->batchAssign($this->data);
+        /** @see public_html/admin/view/default/template/pages/catalog/attribute_form.tpl */
         $this->processTemplate('pages/catalog/attribute_form.tpl');
     }
 

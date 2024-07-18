@@ -402,11 +402,8 @@ class ControllerPagesCatalogReview extends AController
                 'pack'     => false,
             ]
         );
+        $this->data['list_url'] = $this->html->getSecureURL('catalog/review', '&saved_list=review_grid');
 
-        $saved_list_data = json_decode(html_entity_decode($this->request->cookie['grid_params']));
-        if ($saved_list_data->table_id == 'review_grid') {
-            $this->data['list_url'] = $this->html->getSecureURL('catalog/review', '&saved_list=review_grid');
-        }
         $this->view->assign('help_url', $this->gen_help_url('review_edit'));
         $this->view->batchAssign($this->data);
         $this->processTemplate('pages/catalog/review_form.tpl');

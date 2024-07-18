@@ -158,6 +158,7 @@ class ControllerPagesCatalogCollections extends AController
         $this->view->batchAssign($this->data);
         $this->view->assign('help_url', $this->gen_help_url('data_collections'));
         $this->view->assign('list_url', $this->html->getSecureURL('catalog/collections'));
+        /** @see public_html/admin/view/default/template/pages/catalog/collection_form.tpl */
         $this->processTemplate('pages/catalog/collection_form.tpl');
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);

@@ -646,11 +646,7 @@ class ControllerPagesCatalogCategory extends AController
         );
 
         $this->view->assign('current_url', $this->html->currentURL());
-
-        $saved_list_data = json_decode(html_entity_decode($this->request->cookie['grid_params']));
-        if ($saved_list_data->table_id == 'category_grid') {
-            $this->view->assign('list_url', $this->html->getSecureURL('catalog/category', '&saved_list=category_grid'));
-        }
+        $this->view->assign('list_url', $this->html->getSecureURL('catalog/category', '&saved_list=category_grid'));
 
         if ($viewport_mode == 'modal') {
             $tpl = 'responses/viewport/modal/catalog/category_form.tpl';

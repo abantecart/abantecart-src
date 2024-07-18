@@ -7,15 +7,12 @@ echo $order_tabs;
 
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
-
-			<?php if (!empty ($list_url)) { ?>
 			<div class="btn-group">
-				<a class="btn btn-white tooltips" href="<?php echo $list_url; ?>" data-toggle="tooltip" data-original-title="<?php echo $text_back_to_list; ?>">
+				<a class="btn btn-white tooltips back-to-grid hidden" data-table-id="order_grid"
+                   href="<?php echo $list_url; ?>" data-toggle="tooltip" data-original-title="<?php echo $text_back_to_list; ?>">
 					<i class="fa fa-arrow-left fa-lg"></i>
 				</a>
 			</div>
-			<?php } ?>
-
 			<div class="btn-group mr10 toolbar">
 			<a class="btn btn-white tooltips" target="_invoice" href="<?php echo $invoice_url; ?>" data-toggle="tooltip"
 			   title="<?php echo $text_invoice; ?>" data-original-title="<?php echo $text_invoice; ?>">

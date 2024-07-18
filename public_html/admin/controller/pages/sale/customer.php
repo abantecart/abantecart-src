@@ -715,11 +715,7 @@ class ControllerPagesSaleCustomer extends AController
 
         $this->data['section'] = 'details';
         $this->data['tabs']['general']['active'] = true;
-
-        $saved_list_data = json_decode(html_entity_decode($this->request->cookie['grid_params']));
-        if ($saved_list_data->table_id == 'customer_grid') {
-            $this->data['list_url'] = $this->html->getSecureURL('sale/customer', '&saved_list=customer_grid');
-        }
+        $this->data['list_url'] = $this->html->getSecureURL('sale/customer', '&saved_list=customer_grid');
 
         $this->view->batchAssign($this->data);
 
