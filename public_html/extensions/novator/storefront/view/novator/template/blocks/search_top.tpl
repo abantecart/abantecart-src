@@ -1,6 +1,6 @@
 <form id="search_form" action="<?php echo HTTPS_SERVER.INDEX_FILE; ?>" class="form-search top-search d-flex w-100 justify-content-center">
     <input type="hidden" name="rt" value="product/search"/>
-    <input type="hidden" name="category_id" id="filter_category_id" value="<?php echo (int) $this->request->get['category_id']?>"/>
+    <input type="hidden" name="category_id" id="filter_category_id" value=""/>
 
     <div class="d-none d-lg-flex input-group rounded-1 d ms-auto">
         <?php
@@ -13,12 +13,11 @@
                     'parent_id'   => 0,
                 ]
             ); ?>
-            <button
-                    class="btn arrow-none border-end shadow-none d-inline-flex align-items-center justify-content-between m-0 p-2"
+            <button class="btn arrow-none border-end shadow-none d-inline-flex align-items-center justify-content-between m-0 p-2"
                     type="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
-                <div id="category_selected" class="d-md-none d-xl-flex"><?php echo $top_categories[0]['name'] ?></div>
-                <i class="ms-4 bi bi-chevron-down"></i>
+                <div id="category_selected" class="d-md-none d-xl-inline-block text-truncate"><?php echo $top_categories[0]['name'] ?></div>
+                <i class="ms-1 bi bi-chevron-down"></i>
             </button>
             <?php
             /** @see view/css/style.css for mobile view of dropdown belong */ ?>

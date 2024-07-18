@@ -18,7 +18,7 @@
                                     <div class="float-end"><i class="bi bi-chevron-down"></i></div>
                                     <?php echo $this->language->get('text_categories')?>
                                 </a>
-                                <div class="collapse show" id="tree_collapse" >
+                                <div class="collapse show pe-2" id="tree_collapse" >
                                     <?php echo $category_tree ?>
                                 </div>
                             </li>
@@ -31,7 +31,7 @@
                                     <div class="float-end"><i class="bi bi-chevron-down"></i></div>
                                     <?php echo $this->language->get('text_brands')?>
                                 </a>
-                                <div class="collapse show" id="brand_list_collapse">
+                                <div class="collapse show pe-2" id="brand_list_collapse">
                                     <?php foreach($brands as $brand){
                                         $checked = in_array($brand['manufacturer_id'], (array)$selected_brand); ?>
                                         <div class="w-100 mt-1 d-flex justify-content-between">
@@ -58,7 +58,7 @@
                                         <div class="float-end"><i class="bi bi-chevron-down"></i></div>
                                         <?php echo $this->language->get('text_ratings')?>
                                     </a>
-                                    <div class="collapse show" id="category_rating-collapse">
+                                    <div class="collapse show pe-2" id="category_rating-collapse">
                                         <?php foreach($ratings as $stars => $count){
                                             $checked = in_array($stars, (array)$selected_rating);
                                             ?>

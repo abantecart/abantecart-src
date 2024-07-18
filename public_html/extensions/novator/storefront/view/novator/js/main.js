@@ -249,7 +249,7 @@ $(document).ready(function(){
     $('#search_form .search-category').on(
         'click',
         function(){
-            $('#search_form .search-category').removeClass('selected');
+            $('#search_form .search-category>a').removeClass('selected');
             let ref = $(this).find('a');
             ref.addClass('selected');
             $('input#filter_category_id').val(ref.attr('data-id'))

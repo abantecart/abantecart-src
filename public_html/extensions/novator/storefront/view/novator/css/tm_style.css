@@ -3963,6 +3963,11 @@ input[type="number"] {
     opacity: 0.5 !important;
 }
 
+.ecom-filter .collapse{
+    max-height: 300px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
 #preloader{
     display: none;
     position: fixed;
@@ -4015,4 +4020,8 @@ a.share{
 [data-bs-theme="dark"] .carousel .carousel-caption
 {
     color: var(--bs-body-color);
+}
+
+#category_selected{
+    max-width: 150px;
 }
