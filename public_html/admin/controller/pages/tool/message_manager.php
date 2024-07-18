@@ -108,7 +108,7 @@ class ControllerPagesToolMessageManager extends AController
         $this->view->assign('listing_grid', $grid->dispatchGetOutput());
 
         $this->view->assign('notifier', $this->html->getSecureURL('listing_grid/message_grid/getNotify'));
-
+        $this->view->assign('delete_url', $this->html->getSecureURL('listing_grid/message_grid/update'));
         $this->view->batchAssign($this->language->getASet());
         $this->view->assign('help_url', $this->gen_help_url());
 

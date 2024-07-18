@@ -35,4 +35,15 @@
 		$('#message_grid').focus();
 	});
 
+   function delete_msg(id){
+        $.ajax({
+            url: '<?php echo $delete_url; ?>',
+            type: 'POST',
+            dataType: 'json',
+            data: 'oper=del&id='+id,
+            success: function(data) {
+                $('#message_info_modal').modal('hide');
+            }
+        });
+    }
 </script>
