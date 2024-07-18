@@ -48,7 +48,7 @@ class ControllerBlocksCategoryFilter extends AController
         $this->selectedBrands = filterIntegerIdList((array)$this->request->get_or_post('manufacturer_id'));
         $this->selectedRatings = filterIntegerIdList((array)$this->request->get_or_post('rating'));
         $cIDs = (array)$this->request->get_or_post('category_id');
-        $categoryPath = $this->request->get_or_post('path');
+        $categoryPath = $this->request->get_or_post('path')?: '0';
         if($cIDs) {
             $this->selectedCategories = filterIntegerIdList($cIDs);
         }elseif($categoryPath){
@@ -103,7 +103,7 @@ class ControllerBlocksCategoryFilter extends AController
 
         $this->data['page_url'] = $this->html->getSEOURL($this->request->get['rt'], '&'.http_build_query($httpQuery));
         $this->view->batchAssign($this->data);
-        if(!$this->data['category_tree'] && !$this->data['ratings'] && !$this->data['brands']){
+        if(!$this->data['category_details']['tree'] && !$this->data['ratings'] && !$this->data['brands']){
             return;
         }
 
@@ -125,7 +125,7 @@ class ControllerBlocksCategoryFilter extends AController
         if(str_starts_with($parentRoute, 'pages/product/manufacturer')){
             $this->buildTreesForBrandPage();
         }
-        elseif ($this->selectedCategories && str_starts_with($parentRoute, 'pages/product/category')){
+        elseif (str_starts_with($parentRoute, 'pages/product/category')){
             $this->buildTreesForCategoryPage();
         }elseif($this->data['data_sources'][$parentRoute]){
             $this->buildTreesForProductListingPage($parentRoute);
@@ -145,11 +145,6 @@ class ControllerBlocksCategoryFilter extends AController
                 'root_level' => !(bool)$this->selectedCategories
             ]
         );
-
-        if($dataSource) {
-            //list from parent controller, like a search result
-            $categoryMdl->data['all_categories'] = $this->categoryList;
-        }
 
         $this->data['category_details'] = [
             'tree' => $categoryTree,
@@ -190,9 +185,11 @@ class ControllerBlocksCategoryFilter extends AController
             ]
         ];
 
-        $this->data['brands'] = $categoryMdl->getCategoriesBrands( $this->selectedCategories, $filter );
+        $this->data['brands'] = $categoryMdl->getCategoriesBrands(
+            ($this->root_level ? [] : $this->selectedCategories),
+            $filter
+        );
         $this->data['ratings'] = $this->model_catalog_review->getCategoriesAVGRatings( $this->selectedCategories, $filter );
-        //$extra['lock_one_category'] = count($this->selectedCategories) == 1;
     }
     protected function buildTreesForProductListingPage($parentRoute)
     {

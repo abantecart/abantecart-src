@@ -1,5 +1,4 @@
-<div class="offcanvas-xl offcanvas-start ecom-offcanvas" tabindex="-1" id="offcanvas_mail_filter">
-    <div class="offcanvas-body p-0 sticky-xl-top">
+<div class="mt-2" >
         <div id="ecom-filter" class="w-100 show collapse collapse-horizontal">
             <div class="ecom-filter">
                 <div class="card">
@@ -87,7 +86,6 @@
                 </div>
             </div>
         </div>
-    </div>
 </div>
 <script type="application/javascript">
     $('input.product-filter').on(

@@ -1,13 +1,11 @@
 <?php
-/** @noinspection SqlDialectInspection */
-
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2024 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -87,6 +85,7 @@ class ModelCatalogReview extends Model
      * @param int $limit
      *
      * @return array
+     * @throws AException
      */
     public function getReviewsByProductId($product_id, $start = 0, $limit = 20)
     {
@@ -121,6 +120,7 @@ class ModelCatalogReview extends Model
      * @param int $product_id
      *
      * @return int
+     * @throws AException
      */
     public function getAverageRating($product_id)
     {
@@ -128,7 +128,7 @@ class ModelCatalogReview extends Model
         $cache = $this->cache->pull($cacheKey);
         if ($cache === false) {
             $query = $this->db->query(
-                "SELECT AVG(rating) AS total
+                "SELECT FLOOR(AVG(rating)) AS total
                 FROM ".$this->db->table("reviews")." 
                 WHERE status = '1' 
                     AND product_id = '".(int) $product_id."'
@@ -149,6 +149,7 @@ class ModelCatalogReview extends Model
      * @param int $product_id
      *
      * @return int
+     * @throws AException
      */
     public function getTotalReviewsByProductId($product_id)
     {
@@ -180,6 +181,7 @@ class ModelCatalogReview extends Model
      * Function get positive review in percent
      * @param int $product_id
      * @return int $percentage
+     * @throws AException
      */
     public function getPositiveReviewPercentage($product_id)
     {
@@ -214,35 +216,37 @@ class ModelCatalogReview extends Model
     public function getCategoriesAVGRatings(array $categoryIds, ?array $data = [])
     {
         $categoryIds = filterIntegerIdList($categoryIds);
-        if(!$categoryIds){
-            return [];
-        }
+        $data['filter']['manufacturer_id'] = filterIntegerIdList((array)$data['filter']['manufacturer_id']);
+        $data['filter']['rating'] = filterIntegerIdList((array)$data['filter']['rating']);
+
         $cacheKey = 'product.categories.avg.rating'.md5(var_export(func_get_args(),true));
         $output = $this->cache->pull($cacheKey);
         if ($output !== false) {
             return $output;
         }
 
-        $sql = "SELECT AVG(r.rating) as rating, p.product_id
+        $sql = "SELECT FLOOR(AVG(r.rating)) as rating, p.product_id
                 FROM " . $this->db->table("reviews") . " r
                 INNER JOIN " . $this->db->table("products") . " p
                     ON (r.product_id = p.product_id 
                         AND p.status = '1' AND COALESCE(p.date_available, NOW()) <= NOW() )
-                RIGHT JOIN  " . $this->db->table("products_to_categories") . " p2c
-                    ON ( p2c.category_id IN (" . implode(',', $categoryIds) . " )
-                        AND p2c.product_id = r.product_id)";
+                 ";
+        if($categoryIds) {
+            $sql .= " RIGHT JOIN  " . $this->db->table("products_to_categories") . " p2c
+                    ON ( p2c.product_id = r.product_id
+             AND p2c.category_id IN (" . implode(',', $categoryIds) . " ))";
+        }
 
         $sql .= " WHERE r.status = 1";
 
-        $data['filter']['rating'] = filterIntegerIdList((array)$data['filter']['rating']);
-        if($data['filter']['rating']){
-            $sql .= " AND r.rating IN (".implode(',',(array)$data['filter']['rating']).")";
-        }
-        $data['filter']['manufacturer_id'] = filterIntegerIdList((array)$data['filter']['manufacturer_id']);
         if($data['filter']['manufacturer_id']){
             $sql .= " AND p.manufacturer_id IN (".implode(',',(array)$data['filter']['manufacturer_id']).")";
         }
         $sql .= " GROUP BY p.product_id";
+
+        if($data['filter']['rating']){
+            $sql .= " HAVING FLOOR(AVG(r.rating)) IN (" . implode(',', array_map('intval', (array)$data['filter']['rating'])) . ") ";
+        }
 
         $query = $this->db->query( $sql );
         $output = [5 => 0, 4 => 0, 3 => 0, 2 => 0, 1 => 0];
@@ -280,21 +284,23 @@ class ModelCatalogReview extends Model
     public function getBrandsAVGRatings(?array $manufacturerIds = [], ?array $data = [])
     {
         $manufacturerIds = filterIntegerIdList($manufacturerIds);
-        if(!$manufacturerIds){
-            return [];
-        }
+        $data['filter']['rating'] = filterIntegerIdList((array)$data['filter']['rating']);
+
         $cacheKey = 'product.brands.avg.rating'.md5(var_export(func_get_args(),true));
         $output = $this->cache->pull($cacheKey);
         if ($output !== false) {
             return $output;
         }
 
-        $sql = "SELECT AVG(r.rating) as rating, p.product_id
+        $sql = "SELECT FLOOR(AVG(r.rating)) as rating, p.product_id
                 FROM " . $this->db->table("reviews") . " r 
                 INNER JOIN  " . $this->db->table("products") . " p
-                    ON ( p.manufacturer_id IN (" . implode(',', $manufacturerIds) . " )
-                        AND p.product_id = r.product_id
-                         AND p.status = '1' AND COALESCE(p.date_available, NOW()) <= NOW() ) ";
+                    ON ( p.product_id = r.product_id
+                         AND p.status = '1' AND COALESCE(p.date_available, NOW()) <= NOW() ";
+        if($manufacturerIds) {
+            $sql .= "p.manufacturer_id IN (" . implode(',', $manufacturerIds) . " ) ";
+        }
+        $sql .= ") ";
 
         if($data['filter']['category_id']){
             $sql .= " INNER JOIN ".$this->db->table('products_to_categories')." p2c
@@ -302,11 +308,10 @@ class ModelCatalogReview extends Model
                     AND p.product_id = p2c.product_id) ";
         }
         $sql .= "WHERE r.status = 1";
-        $data['filter']['rating'] = filterIntegerIdList((array)$data['filter']['rating']);
-        if($data['filter']['rating']){
-            $sql .= " AND r.rating IN (".implode(',',(array)$data['filter']['rating']).")";
-        }
         $sql .= " GROUP BY p.product_id";
+        if($data['filter']['rating']){
+            $sql .= " HAVING FLOOR(AVG(r.rating)) IN (" . implode(',', array_map('intval', (array)$data['filter']['rating'])) . ") ";
+        }
         $query = $this->db->query( $sql );
         $output = [5 => 0, 4 => 0, 3 => 0, 2 => 0, 1 => 0];
         foreach ($query->rows as $row) {

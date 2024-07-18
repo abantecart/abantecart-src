@@ -290,10 +290,9 @@ class ModelCatalogCategory extends Model
     }
 
     /**
-     * @param int $parent_id
+     * @param int|array $parent_id
      *
      * @return int
-     * @throws AException
      * @throws AException
      */
     public function getTotalCategoriesByCategoryId(int|array$parent_id = 0)
@@ -434,18 +433,17 @@ class ModelCatalogCategory extends Model
     /**
      * Get Manufactures for specified categories
      *
-     * @param array $categories
-     *
+     * @param array|null $categories
+     * @param array|null $data
      * @return array
-     * @throws AException
      * @throws AException
      */
     public function getCategoriesBrands(?array $categories = [], ?array $data = [])
     {
         $categories = filterIntegerIdList($categories);
-        if (!$categories) {
-            return [];
-        }
+        $data['filter']['rating'] = filterIntegerIdList((array)$data['filter']['rating']);
+        $data['filter']['manufacturer_id'] = filterIntegerIdList((array)$data['filter']['manufacturer_id']);
+
         $cacheKey = 'category.brands.' . md5(var_export(func_get_args(),true));
         $cache = $this->cache->pull($cacheKey);
         if ($cache !== false) {
@@ -453,8 +451,6 @@ class ModelCatalogCategory extends Model
         }
         $sql = "SELECT DISTINCT p.manufacturer_id, m.name, COUNT(p.product_id) as product_count
                 FROM " . $this->db->table('manufacturers') . " as  m ";
-        $data['filter']['rating'] = filterIntegerIdList((array)$data['filter']['rating']);
-
         $sql .= "INNER JOIN " . $this->db->table('products') . " p 
                     ON (p.manufacturer_id = m.manufacturer_id
                         AND p.product_id 
@@ -463,20 +459,26 @@ class ModelCatalogCategory extends Model
                                INNER JOIN " . $this->db->table('products') . " p 
                                     ON ( p.product_id = p2c.product_id 
                                         AND p.status = '1'
-                                        AND COALESCE(p.date_available,'1970-01-01')< NOW() )
-                               WHERE p2c.category_id IN (" . implode(', ', $categories) . ")) ) ";
-        if($data['filter']['rating']){
-            $sql .= " INNER JOIN ".$this->db->table('reviews')." r
-                ON (r.rating IN (".implode(',',(array)$data['filter']['rating']).") 
-                    AND p.product_id = r.product_id AND r.status = 1)";
+                                        AND COALESCE(p.date_available,'1970-01-01')< NOW() )";
+        if($categories) {
+            $sql .= "WHERE p2c.category_id IN (" . implode(', ', $categories) . ") ";
         }
+        $sql .= ") )";
+
         $sql .= " WHERE LENGTH(m.name)>0 ";
-        $data['filter']['manufacturer_id'] = filterIntegerIdList((array)$data['filter']['manufacturer_id']);
-        if($data['filter']['manufacturer_id']){
-            $sql .= " AND m.manufacturer_id IN (".implode(',',(array)$data['filter']['manufacturer_id']).")";
+        if($data['filter']['rating']) {
+            $sql .= " AND ( SELECT FLOOR(AVG(r.rating))
+                         FROM " . $this->db->table("reviews") . " r
+                         WHERE p.product_id = r.product_id AND status = 1
+                         GROUP BY r.product_id 
+                 ) IN (" . implode(',', array_map('intval', (array)$data['filter']['rating'])) . ") ";
         }
 
-        $sql .= "GROUP BY p.manufacturer_id, m.name
+        if($data['filter']['manufacturer_id']){
+            $sql .= " AND m.manufacturer_id IN (".implode(',',(array)$data['filter']['manufacturer_id']).") ";
+        }
+
+        $sql .= " GROUP BY p.manufacturer_id, m.name
                  ORDER BY m.name";
         $query = $this->db->query($sql);
         $output = $query->rows;
@@ -520,7 +522,7 @@ class ModelCatalogCategory extends Model
      * @param int|array $parentId
      *
      * @param string $mode - can be empty or "active_only"
-     *
+     * @param bool $dig
      * @return array
      * @throws AException
      */

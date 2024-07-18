@@ -7,7 +7,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2022 Belavier Commerce LLC
+  Copyright © 2011-2024 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -301,9 +301,12 @@ class ModelCatalogProduct extends Model
                         " . $this->_sql_review_count_string() . "
                         " . $this->_sql_join_string() . "
             LEFT JOIN " . $this->db->table("products_to_categories") . " p2c
-                ON (p.product_id = p2c.product_id)
-            WHERE p.status = '1' AND p.date_available <= NOW()
+                ON (p.product_id = p2c.product_id)";
+
+            $sql .= "WHERE p.status = '1' AND p.date_available <= NOW()
                     AND p2s.store_id = '" . $store_id . "' ";
+            $sql .= $this->_filter_by_rating($filter);
+
             if (is_array($category_id)) {
                 $ids = filterIntegerIdList($category_id) ?: [0];
                 if($ids && $ids != [0]) {
@@ -316,22 +319,6 @@ class ModelCatalogProduct extends Model
                 $ids = array_map('intval', array_filter((array)$filter['manufacturer_id']));
                 if ($ids) {
                     $sql .= " AND p.manufacturer_id IN (" . implode(',', $ids) . ")";
-                }
-            }
-
-            if (isset($filter['rating'])) {
-                $sql .= " AND ( SELECT FLOOR(AVG(r.rating))
-                         FROM " . $this->db->table("reviews") . " r
-                         WHERE p.product_id = r.product_id AND status = 1
-                         GROUP BY r.product_id 
-                 ) ";
-                if (is_array($filter['rating'])) {
-                    $ids = array_map('intval', array_filter($filter['rating']));
-                    if ($ids) {
-                        $sql .= " IN (" . implode(',', $ids) . ")";
-                    }
-                } else {
-                    $sql .= " = " . (int)$filter['rating'];
                 }
             }
 
@@ -375,7 +362,7 @@ class ModelCatalogProduct extends Model
     }
 
     /**
-     * @param int $category_id
+     * @param int|array $category_id
      *
      * @return int
      * @throws AException
@@ -1517,7 +1504,7 @@ class ModelCatalogProduct extends Model
 
     protected function _sql_avg_rating_string($only_subquery = false)
     {
-        $output = " ( SELECT AVG(r.rating)
+        $output = " ( SELECT FLOOR(AVG(r.rating))
                          FROM ".$this->db->table("reviews")." r
                          WHERE p.product_id = r.product_id AND status = 1
                          GROUP BY r.product_id 
@@ -1528,11 +1515,24 @@ class ModelCatalogProduct extends Model
         return $output;
     }
 
+    protected function _filter_by_rating($filter)
+    {
+        $output = '';
+        if (isset($filter['rating'])) {
+            $output =  " AND ( SELECT FLOOR(AVG(r.rating))
+                         FROM " . $this->db->table("reviews") . " r
+                         WHERE p.product_id = r.product_id AND status = 1
+                         GROUP BY r.product_id 
+                 ) IN (".implode(',',array_map('intval', (array)$filter['rating'])).")";
+        }
+        return $output;
+    }
+
     protected function _sql_review_count_string()
     {
         return " ( SELECT COUNT(rw.review_id)
                          FROM ".$this->db->table("reviews")." rw
-                         WHERE p.product_id = rw.product_id AND status = 1
+                         WHERE p.product_id = rw.product_id AND rw.status = 1
                          GROUP BY rw.product_id
                  ) AS review ";
     }
@@ -1620,7 +1620,7 @@ class ModelCatalogProduct extends Model
             }
             //avg-rating
             if ($this->config->get('display_reviews')) {
-                $sql = "SELECT product_id, AVG(rating) AS total
+                $sql = "SELECT product_id, FLOOR(AVG(rating)) AS total
                         FROM ".$this->db->table("reviews")."
                         WHERE status = '1' AND product_id IN (".implode(', ', $products).")
                         GROUP BY product_id";
@@ -1765,11 +1765,7 @@ class ModelCatalogProduct extends Model
                 $sql .= " AND ".$data['subsql_filter'];
             }
 
-            if (isset($filter['match'])) {
-                $match = $filter['match'];
-            } else {
-                $match = 'exact';
-            }
+            $match = $filter['match'] ?? 'exact';
 
             if (isset($filter['keyword'])) {
                 $keywords = explode(' ', $filter['keyword']);
@@ -1965,7 +1961,7 @@ class ModelCatalogProduct extends Model
 
         $sql = "SELECT ".$this->db->getSqlCalcTotalRows()." DISTINCT ps.product_id, p.*, pd.name, pd.description, pd.blurb, ss.name AS stock";
         if ($data['avg_rating']) {
-            $sql .= ", (SELECT AVG(rating)
+            $sql .= ", (SELECT FLOOR(AVG(rating))
                     FROM ".$this->db->table("reviews")." r1
                     WHERE r1.product_id = ps.product_id AND r1.status = '1'
                     GROUP BY r1.product_id) AS rating\n";

@@ -71,7 +71,7 @@ class ControllerPagesProductCategory extends AController
             $request['path'] = $request['category_id'];
         }
 
-        if (isset($request['path'])) {
+        if ($request['path']) {
             $httpQuery['path'] = $this->data['path'] = $request['path'];
             $path = '';
             $parts = explode('_', $request['path']);
@@ -98,7 +98,7 @@ class ControllerPagesProductCategory extends AController
                         ]
                     );
                 }
-                $category_id = array_merge($category_id, $mdl->getChildrenIDs($path_id));
+                $category_id = array_merge($category_id, $mdl->getChildrenIDs((int)$path_id));
             }
 
             $category_info = $mdl->getCategory(end($parts));
@@ -136,6 +136,9 @@ class ControllerPagesProductCategory extends AController
                     ]
                 );
                 $this->data['filter_url'] = $this->html->getSEOURL( 'product/category', '&' . http_build_query($httpQuery) );
+            }else{
+                $category_id = [0];
+                $category_info['category_id'] = 0;
             }
         } else {
             $category_id = [0];
@@ -184,10 +187,8 @@ class ControllerPagesProductCategory extends AController
                 $category_id,
                 $productFilter
             );
+            $product_total = $products_result[0]['total_num_rows'];
 
-            $product_total = $products_result
-                ? ($products_result[0]['total_num_rows'] ?? $this->model_catalog_product->getTotalProductsByCategoryId($category_id))
-                : 0;
             //if requested page does not exist
             if($product_total < ($page-1)*$limit  && $page>1){
                 $httpQuery['page'] = 1;

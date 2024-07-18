@@ -7,7 +7,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2021 Belavier Commerce LLC
+  Copyright © 2011-2024 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -54,7 +54,7 @@ class APromotion
     public $bonus_objects = [];
 
     /**
-     * @param null /int $customer_group_id
+     * @param null|int $customer_group_id
      */
     public function __construct($customer_group_id = null)
     {
@@ -321,7 +321,7 @@ class APromotion
         }
 
         $sql = "SELECT DISTINCT ps.product_id, p.*, pd.name, pd.description, pd.blurb, ss.name AS stock,
-                    (SELECT AVG(rating)
+                    (SELECT FLOOR(AVG(rating))
                     FROM ".$this->db->table("reviews")." r1
                     WHERE r1.product_id = ps.product_id
                         AND r1.status = '1'
