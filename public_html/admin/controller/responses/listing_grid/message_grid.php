@@ -128,6 +128,8 @@ class ControllerResponsesListingGridMessageGrid extends AController
                     $this->model_tool_message_manager->deleteMessage($msg_id);
                 }
             }
+            $this->response->addJSONHeader();
+            $this->response->setOutput(json_encode(['status' => 'ok']));
         } elseif ($this->request->get ['oper'] == 'show') {
             $msg_id = $this->request->get ['id'];
             if ($msg_id) {

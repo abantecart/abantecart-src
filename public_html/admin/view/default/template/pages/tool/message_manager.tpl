@@ -40,10 +40,12 @@
             url: '<?php echo $delete_url; ?>',
             type: 'POST',
             dataType: 'json',
-            data: 'oper=del&id='+id,
-            success: function(data) {
-                $('#message_info_modal').modal('hide');
-            }
+            data: 'oper=del&id=' + id,
+            async: false
+        }).done( function() {
+           $('#message_info_modal').modal('hide');
+       }).fail(function() {
+           alert("Oops, something went wrong");
         });
     }
 </script>
