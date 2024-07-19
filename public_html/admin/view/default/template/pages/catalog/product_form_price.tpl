@@ -52,7 +52,7 @@
             if($(event.target).attr('name')!=='tax_selector') {
                 priorElm = $(event.target).change();
             }
-            getTaxedPrice(priorElm);
+            getTaxedPrice($(event.target));
         }, waitTime);
     }
 
@@ -75,6 +75,7 @@
 
         let value = '&' + initiator.attr('name') + '=' + initiator.val();
         if (initiator.val() !== null && initiator.val() !== '') {
+
             $.get(
                 '<?php echo $price_calc_url?>' + value + '&tax_class_id=' + $('select[name="tax_selector"]').val(),
                 function (res) {
