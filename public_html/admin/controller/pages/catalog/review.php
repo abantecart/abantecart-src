@@ -365,12 +365,10 @@ class ControllerPagesCatalogReview extends AController
                 'required' => true,
             ]
         );
-
         $this->data['products'] =
-            array_merge(
-                [0 => $this->language->get('text_select_product')],
-                array_column($this->model_catalog_product->getProducts(), 'name', 'product_id')
-            );
+                ['' => $this->language->get('text_select_product')]
+            +
+                array_column($this->model_catalog_product->getProducts(), 'name', 'product_id');
 
         $this->data['form']['fields']['product'] = $form->getFieldHtml(
             [
