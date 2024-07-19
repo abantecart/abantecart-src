@@ -52,7 +52,7 @@ class ControllerPagesCatalogProductSummary extends AController
         $this->data['product']['image'] = $thumbnail;
         $currStoreId = (int)$this->session->data['current_store_id'];
 
-        if(in_array((string)$currStoreId, $stores)) {
+        if($this->config->get('store_id') == $currStoreId) {
             $this->data['product']['preview'] = $this->html->getCatalogURL('product/product', '&product_id='.$product_id);
         }else{
             /** @var ModelSettingSetting $mdl */
