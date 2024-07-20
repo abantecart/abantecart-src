@@ -1,7 +1,7 @@
 <?php
 if($resources){
 ?>
-<section class="category-banner-sec p-0">
+<section class="category-banner-sec p-0 pt-4 pt-md-0">
     <div class="container-fluid">
         <div id="categorySlides" class="carousel carousel-fade container">
             <div class="carousel-indicators">
@@ -13,13 +13,13 @@ if($resources){
                 <?php foreach($resources as $k => $res){?>
                     <div class="carousel-item <?php echo $k == 0 ? 'active' : ''?>">
                     <?php if($res['origin'] == 'internal'){ ?>
-                        <div class="row">
-                            <div class="col-6 h-50 m-auto p-auto">
+                        <div class="d-flex flex-wrap flex-md-nowrap">
+                            <div class="col-12 col-md-6 h-50 m-md-auto p-md-auto">
                                 <h2 class="text-center"><?php echo html_entity_decode($res['title'])?></h2>
                                 <h5 class="text-center"><?php echo html_entity_decode($res['description']);?></h5>
                             </div>
-                            <div class="col-6">
-                                <img src="<?php echo $res['direct_url']?>" class="d-block h-100 ms-auto"  alt="<?php echo_html2view($res['title'])?>">
+                            <div class="col-12 col-md-6">
+                                <img src="<?php echo $res['direct_url']?>" class="d-block w-100 w-md-auto h-auto h-md-100 ms-md-auto"  alt="<?php echo_html2view($res['title'])?>">
                             </div>
                         </div>
                         <?php
