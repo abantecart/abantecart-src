@@ -2280,19 +2280,12 @@ class ModelCatalogProduct extends Model
      */
     public function getProductCategories($product_id)
     {
-        $product_category_data = [];
-
         $query = $this->db->query(
             "SELECT *
             FROM ".$this->db->table("products_to_categories")." 
             WHERE product_id = '".(int) $product_id."'"
         );
-
-        foreach ($query->rows as $result) {
-            $product_category_data[] = $result['category_id'];
-        }
-
-        return $product_category_data;
+        return array_column($query->rows, 'category_id');
     }
 
     /**

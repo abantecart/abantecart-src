@@ -1484,22 +1484,29 @@ class ModelCatalogProduct extends Model
     }
 
     /**
-     * @param int $product_id
+     * @param int $productId
      *
      * @return array
      * @throws AException
      */
-    public function getCategories($product_id)
+    public function getProductCategories($productId)
     {
-        if (!(int) $product_id) {
-            return [];
+        $storeId = (int) $this->config->get('config_store_id');
+        $cacheKey = 'product.category_ids.'.$productId.'_'.$storeId;
+        $output = $this->cache->pull($cacheKey);
+        if ($output !== false) {
+            return $output;
         }
         $query = $this->db->query(
-            "SELECT *
-            FROM ".$this->db->table("products_to_categories")."
-            WHERE product_id = '".(int) $product_id."'"
+            "SELECT p2c.category_id
+            FROM ".$this->db->table("products_to_categories")." p2c
+            INNER JOIN ".$this->db->table("categories_to_stores")." c2s
+                ON (c2s.category_id = p2c.category_id AND c2s.store_id = '".$storeId."')
+            WHERE p2c.product_id = '".(int) $productId."'"
         );
-        return $query->rows;
+        $output = array_column($query->rows, 'category_id');
+        $this->cache->push($cacheKey,$output);
+        return $output;
     }
 
     protected function _sql_avg_rating_string($only_subquery = false)

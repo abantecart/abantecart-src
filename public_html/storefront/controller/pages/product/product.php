@@ -35,11 +35,31 @@ class ControllerPagesProductProduct extends AController
 
     public function main()
     {
+        $this->loadModel('catalog/product');
         $request = $this->request->get;
         $this->_init();
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
+
+        //key of product from cart
+        $key = [];
+        if (has_value($request['key'])) {
+            $key = explode(':', $request['key']);
+            $product_id = (int) $key[0];
+        } elseif (has_value($request['product_id'])) {
+            $product_id = (int) $request['product_id'];
+        } else {
+            $product_id = 0;
+        }
+
+        $product_info = $this->model_catalog_product->getProduct($product_id);
+        //can not locate product? get out
+        if (!$product_info) {
+            $this->_product_not_found($product_id);
+            return;
+        }
+
 
         $this->document->resetBreadcrumbs();
         $this->document->addBreadcrumb(
@@ -52,6 +72,13 @@ class ControllerPagesProductProduct extends AController
 
         $this->loadModel('tool/seo_url');
         $this->loadModel('catalog/category');
+        if(!isset($request['path'])){
+            $prodCategories = $this->model_catalog_product->getProductCategories($product_id);
+            if($prodCategories){
+                $request['path'] = $this->model_catalog_category->buildPath(current($prodCategories));
+            }
+
+        }
 
         if (isset($request['path'])) {
             $path = '';
@@ -81,7 +108,8 @@ class ControllerPagesProductProduct extends AController
                 $this->document->addBreadcrumb(
                     [
                         'href'      => $this->html->getSEOURL(
-                            'product/manufacturer', '&manufacturer_id='.$request['manufacturer_id'], '&encode'
+                            'product/manufacturer',
+                            '&manufacturer_id='.$request['manufacturer_id'], '&encode'
                         ),
                         'text'      => $manufacturer_info['name'],
                         'separator' => $this->language->get('text_separator'),
@@ -107,17 +135,6 @@ class ControllerPagesProductProduct extends AController
             );
         }
 
-        //key of product from cart
-        $key = [];
-        if (has_value($request['key'])) {
-            $key = explode(':', $request['key']);
-            $product_id = (int) $key[0];
-        } elseif (has_value($request['product_id'])) {
-            $product_id = (int) $request['product_id'];
-        } else {
-            $product_id = 0;
-        }
-
         $urls = [
             'is_group_option' => $this->html->getURL(
                 'r/product/product/is_group_option',
@@ -127,16 +144,7 @@ class ControllerPagesProductProduct extends AController
         ];
         $this->view->assign('urls', $urls);
 
-        $this->loadModel('catalog/product');
         $promotion = new APromotion();
-
-        $product_info = $this->model_catalog_product->getProduct($product_id);
-        //can not locate product? get out
-        if (!$product_info) {
-            $this->_product_not_found($product_id);
-            return;
-        }
-
         $url = $this->_build_url_params($this->request->get);
 
         $this->view->assign('error', '');

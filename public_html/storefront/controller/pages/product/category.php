@@ -307,6 +307,10 @@ class ControllerPagesProductCategory extends AController
                             $in_stock = true;
                         }
                     }
+                    $productHttpQuery = ['product_id' => $result['product_id']];
+                    if($request['path']) {
+                        $productHttpQuery['path'] = $request['path'];
+                    }
 
                     $products[] = array_merge(
                         $result,
@@ -325,7 +329,7 @@ class ControllerPagesProductCategory extends AController
                             'special'        => $special,
                             'href'           => $this->html->getSEOURL(
                                 'product/product',
-                                '&path=' . $request['path'] . '&product_id=' . $result['product_id'],
+                                '&'.http_build_query($productHttpQuery),
                                 '&encode'
                             ),
                             'add'            => $add,
