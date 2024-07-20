@@ -156,11 +156,6 @@ class ModelCatalogCategory extends Model
                 INNER JOIN " . $this->db->table('products_to_stores') . " s 
                     ON p.product_id = s.product_id AND s.store_id=" . $store_id;
 
-        if ($data['filter']['rating']) {
-            $sql .= " INNER JOIN " . $this->db->table('reviews') . " r
-                    ON (r.rating IN (" . implode(',', (array)$data['filter']['rating']) . ") 
-                        AND p.product_id = r.product_id AND r.status = 1 ) ";
-        }
         $data['filter']['manufacturer_id'] = filterIntegerIdList((array)$data['filter']['manufacturer_id']);
         if ($data['filter']['manufacturer_id']) {
             $sql .= " AND p.manufacturer_id IN (" . implode(',', (array)$data['filter']['manufacturer_id']) . ") ";
@@ -168,6 +163,14 @@ class ModelCatalogCategory extends Model
 
         $sql .= " WHERE p2c.category_id in (" . implode(",", $idList) . ") 
                         AND p.status = '1' AND COALESCE(p.date_available,'1970-01-01')< NOW()";
+        if($data['filter']['rating']) {
+            $sql .= " AND ( SELECT FLOOR(AVG(r.rating))
+                         FROM " . $this->db->table("reviews") . " r
+                         WHERE p.product_id = r.product_id AND status = 1
+                         GROUP BY r.product_id 
+                 ) IN (" . implode(',', array_map('intval', (array)$data['filter']['rating'])) . ") ";
+        }
+
         $query = $this->db->query($sql);
         $output = (int)$query->row['product_count'];
         $this->cache->push($cache_key, $output);
@@ -322,83 +325,6 @@ class ModelCatalogCategory extends Model
         $output = $query->row['total'];
         $this->cache->push($cacheKey,$output);
         return $output;
-    }
-
-    /**
-     * @param int $parent_id
-     * @param string $path
-     *
-     * @return array
-     * @throws AException
-     * @throws AException
-     * @deprecated since 1.1.7
-     *
-     */
-    public function getCategoriesDetails($parent_id = 0, $path = '')
-    {
-        $language_id = (int)$this->config->get('storefront_language_id');
-        $store_id = (int)$this->config->get('config_store_id');
-
-        $resource = new AResource('image');
-        $cache_key = 'category.details.' . $parent_id . '.store_' . $store_id . '_lang_' . $language_id;
-        $categories = $this->cache->pull($cache_key);
-        if ($categories !== false) {
-            return $categories;
-        }
-        $categories = [];
-
-        $this->load->model('catalog/product');
-        $this->load->model('catalog/manufacturer');
-
-        $results = $this->getCategories((int)$parent_id);
-        foreach ($results as $result) {
-            if (!$path) {
-                $new_path = $result['category_id'];
-            } else {
-                $new_path = $path . '_' . $result['category_id'];
-            }
-
-            $prods = $brands = [];
-
-            if ($parent_id == 0) {
-                $data['filter'] = [];
-                $data['filter']['category_id'] = $result['category_id'];
-                $data['filter']['status'] = 1;
-
-                $prods = $this->model_catalog_product->getProducts($data);
-
-                foreach ($prods as $prod) {
-                    if ($prod['manufacturer_id']) {
-                        $brand = $this->model_catalog_manufacturer->getManufacturer($prod['manufacturer_id']);
-                        $brands[$prod['manufacturer_id']] = [
-                            'name' => $brand['name'],
-                            'href' => $this->html->getSEOURL(
-                                'product/manufacturer', '&manufacturer_id=' . $brand['manufacturer_id'], '&encode'
-                            ),
-                        ];
-                    }
-                }
-            }
-
-            $thumbnail = $resource->getMainThumb(
-                'categories',
-                $result['category_id'],
-                $this->config->get('config_image_category_width'),
-                $this->config->get('config_image_category_height')
-            );
-
-            $categories[] = [
-                'category_id'   => $result['category_id'],
-                'name'          => $result['name'],
-                'children'      => $this->getCategoriesDetails($result['category_id'], $new_path),
-                'href'          => $this->html->getSEOURL('product/category', '&path=' . $new_path, '&encode'),
-                'brands'        => $brands,
-                'product_count' => count($prods),
-                'thumb'         => $thumbnail['thumb_url'],
-            ];
-        }
-        $this->cache->push($cache_key, $categories);
-        return $categories;
     }
 
     /**
@@ -606,7 +532,8 @@ class ModelCatalogCategory extends Model
 
             $childrenIds = !$data['root_level'] ? $this->getChildrenIDs($category['category_id'], 'active_only',true) : [];
             if($childrenIds) {
-                $cList = $this->getAllCategories([ 'filter' => [ 'category_id'     => $childrenIds ] ] );
+                $data['filter'] = array_merge((array)$data['filter'], [ 'category_id'     => $childrenIds ]);
+                $cList = $this->getAllCategories($data );
                 $childrenList = $this->buildCategoryTree($cList, $data);
                 $category['children'] = $childrenList ?: [];
                 $this->data['processed_childrenIds'] = array_merge((array)$this->data['processed_childrenIds'],$childrenIds);
