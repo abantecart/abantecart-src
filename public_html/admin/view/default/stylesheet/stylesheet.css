@@ -1971,6 +1971,7 @@ a.resource_edit .img-responsive {
 	border: 2px solid #999;
 	padding: 3px;
 	display: block;
+	width: 41px;
 }
 
 .latestuserlist .media {
@@ -1980,7 +1981,6 @@ a.resource_edit .img-responsive {
 
 .latestuserlist .approved .media-thumb {
 	border-color: #F19013;
-	width: 41px;
 }
 
 .latestuserlist .media-object {
