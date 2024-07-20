@@ -53,7 +53,7 @@ class ControllerBlocksCategoryFilter extends AController
             $this->selectedCategories = filterIntegerIdList($cIDs);
         }elseif($categoryPath){
             $categoryPath = explode('_', $categoryPath);
-            $this->selectedCategories = [end($categoryPath)];
+            $this->selectedCategories = [(int)end($categoryPath)];
             /** @var ModelCatalogCategory $categoryMdl */
             $categoryMdl = $this->loadModel('catalog/category');
             $children = $categoryMdl->getChildrenIDs($this->selectedCategories);

@@ -582,11 +582,13 @@ class ModelCatalogCategory extends Model
         if($output !== false){
             return $output;
         }
-        $categoryList =  array_combine(array_column($categoryList,'category_id'), $categoryList );
+        $categoryListIds = array_map('intval', array_column($categoryList,'category_id'));
+        $categoryList =  array_combine($categoryListIds, $categoryList );
         $output = [];
-        $this->data['id_list'] = $this->data['id_list'] ?: array_column($categoryList,'category_id','category_id');
         foreach ($categoryList as $category) {
-            if(in_array($category['category_id'],(array)$this->data['processed_childrenIds'])){
+            if(in_array((int)$category['category_id'],(array)$this->data['processed_childrenIds'])
+                || in_array((int)$category['parent_id'], $categoryListIds)
+            ){
                 continue;
             }
             if(!isset($category['product_count'])) {
