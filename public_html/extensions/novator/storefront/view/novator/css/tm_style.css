@@ -3965,7 +3965,7 @@ input[type="number"] {
 
 .ecom-filter .collapse{
     max-height: 300px;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
 }
 #preloader{
