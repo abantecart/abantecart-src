@@ -490,7 +490,7 @@ class ACustomer
                 . "\n" . '{country}';
         }
         //when some data missing - remove it from address format
-        preg_match_all('/\{(.*?)\}/', $format, $matches);
+        preg_match_all('/\{(.*?)}/', $format, $matches);
         if ($matches[1]) {
             $matches = $matches[1];
             foreach ($matches as $key) {
@@ -508,10 +508,7 @@ class ACustomer
                 $locate[] = "{" . $key . "}";
             }
         }
-
-        return str_replace(
-            ["\r\n", "\r", "\n"],
-            '<br />',
+        return nl2br(
             preg_replace(
                 ["/\s\s+/", "/\r\r+/", "/\n\n+/"], '<br />',
                 trim(str_replace($locate, $data_array, $format))

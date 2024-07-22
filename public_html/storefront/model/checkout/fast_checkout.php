@@ -253,7 +253,7 @@ class ModelCheckoutFastCheckout extends Model
                 md5(pathinfo($mailLogo, PATHINFO_FILENAME))
                 .'.'.pathinfo($mailLogo, PATHINFO_EXTENSION));
         }
-        $mail->send();
+        $mail->send(true);
         return true;
     }
 

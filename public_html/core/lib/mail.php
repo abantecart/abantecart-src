@@ -289,11 +289,11 @@ class AMail
      * @return bool
      * @throws TransportExceptionInterface
      */
-    public function send()
+    public function send(?bool $silent = false)
     {
 
         if (defined('IS_DEMO') && IS_DEMO) {
-            return null;
+            return true;
         }
 
         if (!$this->email->getTo()) {
@@ -301,7 +301,7 @@ class AMail
             $this->log->write($error);
             $this->error[] = $error;
             $this->messages->saveError('Mailer error!', 'Can\'t send emails. Please see log for details and check your mail settings.');
-            return false;
+            return $silent;
         }
 
         if (!$this->email->getFrom()) {
@@ -309,7 +309,7 @@ class AMail
             $this->log->write($error);
             $this->error[] = $error;
             $this->messages->saveError('Mailer error!', 'Can\'t send emails. Please see log for details and check your mail settings.');
-            return false;
+            return $silent;
         }
 
         if (!$this->email->getSubject()) {
@@ -317,7 +317,7 @@ class AMail
             $this->log->write($error);
             $this->error[] = $error;
             $this->messages->saveError('Mailer error!', 'Can\'t send emails. Please see log for details and check your mail settings.');
-            return false;
+            return $silent;
         }
 
         if (!$this->email->getTextBody() && !$this->email->getHtmlBody()) {
@@ -325,20 +325,20 @@ class AMail
             $this->log->write($error);
             $this->error[] = $error;
             $this->messages->saveError('Mailer error!', 'Can\'t send emails. Please see log for details and check your mail settings.');
-            return false;
+            return $silent;
         }
 
         try {
             $this->email->ensureValidity();
             $this->mailer->send($this->email);
-        }catch(Exception $e){
+        }catch(Exception|Error $e){
             $this->log->write(__CLASS__.'. transport: '.Registry::getInstance()->get('current_mail_transport').': '.$e->getMessage());
             $this->error[] = $e->getMessage();
         }
 
         if ($this->error) {
             $this->messages->saveError('Mailer error!', 'Can\'t send emails. Please see log for details and check your mail settings.');
-            return false;
+            return $silent;
         }
 
         return true;

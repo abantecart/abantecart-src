@@ -1,23 +1,25 @@
 <?php
+/*
+ * $Id$
+ *
+ * AbanteCart, Ideal OpenSource Ecommerce Solution
+ * http://www.AbanteCart.com
+ *
+ * Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ * This source file is subject to Open Software License (OSL 3.0)
+ * License details is bundled with this package in the file LICENSE.txt.
+ * It is also available at this URL:
+ * <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ * UPGRADE NOTE:
+ * Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ * versions in the future. If you wish to customize AbanteCart for your
+ * needs please refer to http://www.AbanteCart.com for more information.
+ */
 
-/*------------------------------------------------------------------------------
-  $Id$
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -36,7 +38,7 @@ if (!defined('DIR_CORE')) {
  * @property AConfig $config
  * @property ModelAccountCustomer $model_account_customer
  * @property AResponse $response
- * @property  array()             $admin_sendpoints
+ * @property  array $admin_sendpoints
  */
 class AIM
 {
@@ -47,7 +49,7 @@ class AIM
      * NOTE:
      * each key of array is text_id of sendpoint.
      * To get sendpoint title needs to request language definition in format im_sendpoint_name_{sendpoint_text_id}
-     * All sendpoint titles must to be saved in common/im language block for both sides! (admin + storefront)
+     * All sendpoint titles have to be saved in common/im language block for both sides! (admin + storefront)
      * Values of array is language definitions key that stores in the same block. This values can have %s that will be replaced by sendpoint text variables.
      * for ex. message have url to product page. Text will have #storefront#rt=product/product&product_id=%s and customer will receive full url to product.
      * Some sendpoints have few text variables, for ex. order status and order status name
@@ -171,6 +173,7 @@ class AIM
      * @param array $filter_arr
      *
      * @return array
+     * @throws AException
      */
     public function getIMDriverObjects($filter_arr = ['status' => 1])
     {
@@ -237,6 +240,7 @@ class AIM
      * @param array $data_array
      *
      * @return bool
+     * @throws AException
      */
     public function addSendPoint($name, $data_array)
     {
@@ -497,6 +501,7 @@ class AIM
      * @param bool $for_admin
      *
      * @return string
+     * @throws AException
      */
     protected function _process_message_text($message, $for_admin = false)
     {
@@ -506,8 +511,7 @@ class AIM
         }
 
         //process formatted url like #storefront#rt=...
-        $message = $this->html->convertLinks($message, '', $for_admin);
-        return $message;
+        return $this->html->convertLinks($message, '', $for_admin);
     }
 
     /**
@@ -521,7 +525,7 @@ class AIM
     public function getCustomerURI($protocol, $customer_id = 0, $order_id = 0)
     {
         $customer_id = (int) $customer_id;
-        $order_id = (int) $order_id ? (int) $order_id : (int) $this->session->data['order_id'];
+        $order_id = (int) $order_id ?: (int) $this->session->data['order_id'];
 
         //for registered customers - get address from database
         if ($customer_id && !$order_id) {
@@ -635,7 +639,7 @@ final class AMailIM
      * @param array $attachments - array with attachment arrays ['file' => {full_filename}, 'name' => {name of file} ]
      *
      * @return bool
-     * @throws AException
+     * @throws AException|TransportExceptionInterface
      */
     public function send($to, $text, $templateTextId = '', $templateData = [], $attachments = [])
     {
@@ -665,7 +669,7 @@ final class AMailIM
                 );
             }
         }
-        $mail->send();
+        $mail->send(true);
         unset($mail);
 
         return true;
@@ -678,7 +682,7 @@ final class AMailIM
      * @param array $templateData
      * @param array $attachments
      *
-     * @throws AException
+     * @throws AException|TransportExceptionInterface
      */
     public function sendFew($to, $text, $templateTextId = '', $templateData = [], $attachments = [])
     {
@@ -713,10 +717,10 @@ final class AMailIM
      * @param AForm $form
      * @param string $value
      *
-     * @return object
+     * @return stdClass
      */
     public function getURIField($form, $value = '')
     {
-        return '';
+        return new stdClass();
     }
 }

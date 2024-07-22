@@ -802,7 +802,7 @@ class ModelCheckoutOrder extends Model
                     $attachment['name']
                 );
         }
-        $mail->send();
+        $mail->send(true);
 
         //send alert email for merchant
         if ($this->config->get('config_alert_mail')) {
@@ -983,7 +983,7 @@ class ModelCheckoutOrder extends Model
                 $mail->setReplyTo($this->config->get('store_main_email'));
                 $mail->setSender($order_row['store_name']);
                 $mail->setTemplate('admin_order_status_notify', $data);
-                $mail->send();
+                $mail->send(true);
             }
         }
     }
