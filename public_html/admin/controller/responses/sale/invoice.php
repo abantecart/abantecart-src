@@ -74,111 +74,129 @@ class ControllerResponsesSaleInvoice extends AController
 
         foreach ($orders as $order_id) {
             $order_info = $this->model_sale_order->getOrder($order_id);
+            if (!$order_info) {
+                continue;
+            }
 
-            if ($order_info) {
-                if ($order_info['invoice_id']) {
-                    $invoice_id = $order_info['invoice_prefix'].$order_info['invoice_id'];
-                } else {
-                    $invoice_id = '';
-                }
+            $invoice_id = $order_info['invoice_id'] ? $order_info['invoice_prefix'].$order_info['invoice_id'] : '';
 
-                $customer = new ACustomer($this->registry);
-                $shipping_data = [
-                    'firstname' => $order_info['shipping_firstname'],
-                    'lastname'  => $order_info['shipping_lastname'],
-                    'company'   => $order_info['shipping_company'],
-                    'address_1' => $order_info['shipping_address_1'],
-                    'address_2' => $order_info['shipping_address_2'],
-                    'city'      => $order_info['shipping_city'],
-                    'postcode'  => $order_info['shipping_postcode'],
-                    'zone'      => $order_info['shipping_zone'],
-                    'zone_code' => $order_info['shipping_zone_code'],
-                    'country'   => $order_info['shipping_country'],
-                ];
+            $customer = new ACustomer($this->registry);
+            $shipping_data = [
+                'firstname' => $order_info['shipping_firstname'],
+                'lastname'  => $order_info['shipping_lastname'],
+                'company'   => $order_info['shipping_company'],
+                'address_1' => $order_info['shipping_address_1'],
+                'address_2' => $order_info['shipping_address_2'],
+                'city'      => $order_info['shipping_city'],
+                'postcode'  => $order_info['shipping_postcode'],
+                'zone'      => $order_info['shipping_zone'],
+                'zone_code' => $order_info['shipping_zone_code'],
+                'country'   => $order_info['shipping_country'],
+            ];
+            $shipping_address = $customer->getFormattedAddress(
+                $shipping_data,
+                $order_info['shipping_address_format']
+            );
 
-                $shipping_address = $customer->getFormattedAddress(
-                    $shipping_data,
-                    $order_info['shipping_address_format']
-                );
+            $payment_data = [
+                'firstname' => $order_info['payment_firstname'],
+                'lastname'  => $order_info['payment_lastname'],
+                'company'   => $order_info['payment_company'],
+                'address_1' => $order_info['payment_address_1'],
+                'address_2' => $order_info['payment_address_2'],
+                'city'      => $order_info['payment_city'],
+                'postcode'  => $order_info['payment_postcode'],
+                'zone'      => $order_info['payment_zone'],
+                'zone_code' => $order_info['payment_zone_code'],
+                'country'   => $order_info['payment_country'],
+            ];
+            $payment_address = $customer->getFormattedAddress(
+                $payment_data,
+                $order_info['payment_address_format']
+            );
 
-                $payment_data = [
-                    'firstname' => $order_info['payment_firstname'],
-                    'lastname'  => $order_info['payment_lastname'],
-                    'company'   => $order_info['payment_company'],
-                    'address_1' => $order_info['payment_address_1'],
-                    'address_2' => $order_info['payment_address_2'],
-                    'city'      => $order_info['payment_city'],
-                    'postcode'  => $order_info['payment_postcode'],
-                    'zone'      => $order_info['payment_zone'],
-                    'zone_code' => $order_info['payment_zone_code'],
-                    'country'   => $order_info['payment_country'],
-                ];
+            $product_data = [];
 
-                $payment_address = $customer->getFormattedAddress(
-                    $payment_data,
-                    $order_info['payment_address_format']
-                );
+            $products = $this->model_sale_order->getOrderProducts($order_id);
 
-                $product_data = [];
+            $this->loadModel('setting/setting');
+            $storeSettings = $this->model_setting_setting->getSetting('details', $order_info['store_id']);
 
-                $products = $this->model_sale_order->getOrderProducts($order_id);
-
-                foreach ($products as $product) {
-                    $option_data = [];
-                    $options = $this->model_sale_order->getOrderOptions($order_id, $product['order_product_id']);
-                    foreach ($options as $option) {
-                        $option_data[] = [
-                            'name'  => $option['name'],
-                            'value' => $option['value'],
-                        ];
-                    }
-
-                    $product_data[] = [
-                        'name'     => $product['name'],
-                        'model'    => $product['model'],
-                        'option'   => $option_data,
-                        'quantity' => $product['quantity'],
-                        'price'    => $this->currency->format(
-                            $product['price'],
-                            $order_info['currency'],
-                            $order_info['value']
-                        ),
-                        'total'    => $this->currency->format_total(
-                            $product['price'],
-                            $product['quantity'],
-                            $order_info['currency'],
-                            $order_info['value']
-                        ),
+            foreach ($products as $product) {
+                $option_data = [];
+                $options = $this->model_sale_order->getOrderOptions($order_id, $product['order_product_id']);
+                foreach ($options as $option) {
+                    $option_data[] = [
+                        'name'  => $option['name'],
+                        'value' => $option['value'],
                     ];
                 }
 
-                $total_data = $this->model_sale_order->getOrderTotals($order_id);
-
-                $this->data['orders'][] = array_merge(
-                    $order_info,
-                    [
-                    'order_id'           => $order_id,
-                    'invoice_id'         => $invoice_id,
-                    'date_added'         => dateISO2Display(
-                        $order_info['date_added'],
-                        $this->language->get('date_format_short')
+                $product_data[] = [
+                    'name'     => $product['name'],
+                    'model'    => $product['model'],
+                    'option'   => $option_data,
+                    'quantity' => $product['quantity'],
+                    'price'    => $this->currency->format(
+                        $product['price'],
+                        $order_info['currency'],
+                        $order_info['value']
                     ),
-                    'store_name'         => $order_info['store_name'],
-                    'store_url'          => rtrim($order_info['store_url'], '/'),
-                    'address'            => nl2br($this->config->get('config_address')),
-                    'telephone'          => $this->config->get('config_telephone'),
-                    'fax'                => $this->config->get('config_fax'),
-                    'email'              => $this->config->get('store_main_email'),
-                    'shipping_address'   => $shipping_address,
-                    'payment_address'    => $payment_address,
-                    'customer_email'     => $order_info['email'],
-                    'ip'                 => $order_info['ip'],
-                    'customer_telephone' => $order_info['telephone'],
-                    'comment'            => $order_info['comment'],
-                    'product'            => $product_data,
-                    'total'              => $total_data,
-                ]);
+                    'total'    => $this->currency->format_total(
+                        $product['price'],
+                        $product['quantity'],
+                        $order_info['currency'],
+                        $order_info['value']
+                    ),
+                ];
             }
+
+            $total_data = $this->model_sale_order->getOrderTotals($order_id);
+
+            if ($storeSettings['config_zone_id']) {
+                $this->loadModel('localisation/zone');
+                $zone = $this->model_localisation_zone->getZone( $storeSettings['config_zone_id'] );
+                if ($zone) {
+                    $zone_name = $zone['name'];
+                }
+            }
+            if ($storeSettings['config_country_id']) {
+                $this->loadModel('localisation/country');
+                $country = $this->model_localisation_country->getCountry( $storeSettings['config_country_id'] );
+                if ($country) {
+                    $country_name = $country['name'];
+                }
+            }
+
+            $this->data['orders'][] = array_merge(
+                $order_info,
+                [
+                'order_id'           => $order_id,
+                'invoice_id'         => $invoice_id,
+                'date_added'         => dateISO2Display(
+                    $order_info['date_added'],
+                    $this->language->get('date_format_short')
+                ),
+                'store_name'         => $order_info['store_name'],
+                'store_url'          => rtrim($order_info['store_url'], '/'),
+                'address'            => nl2br($storeSettings['config_address']),
+                'city'               => nl2br($storeSettings['config_city']),
+                'postcode'           => nl2br($storeSettings['config_postcode']),
+                'zone'               => $zone_name,
+                'country'            => $country_name,
+                'telephone'          => $storeSettings['config_telephone'],
+                'fax'                => $storeSettings['config_fax'],
+                'email'              => $storeSettings['store_main_email'],
+                'shipping_address'   => $shipping_address,
+                'payment_address'    => $payment_address,
+                'customer_email'     => $order_info['email'],
+                'ip'                 => $order_info['ip'],
+                'customer_telephone' => $order_info['telephone'],
+                'comment'            => $order_info['comment'],
+                'product'            => $product_data,
+                'total'              => $total_data,
+            ]);
+
         }
 
         $this->view->batchAssign($this->data);

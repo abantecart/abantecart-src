@@ -61,3 +61,20 @@ h1 {
 	border-bottom: 1px solid #CDDDDD;
 	padding: 5px;
 }
+.w-100{
+	width: 100%;
+}
+.w-50{
+	width: 50%;
+}
+
+.right{
+	text-align: end;
+}
+.top {
+	vertical-align: top;
+}
+.page-break {
+	page-break-after: always;
+
+}
