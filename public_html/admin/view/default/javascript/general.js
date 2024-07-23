@@ -363,10 +363,11 @@ jQuery(document).ready(function() {
 	//show back-to-grid button if present
 	if($('.back-to-grid')){
 		let jsn = JSON.parse(localStorage.getItem('grid_params'));
-		if(jsn.table_id === $('.back-to-grid').attr('data-table-id')){
+		if(jsn && jsn.table_id === $('.back-to-grid').attr('data-table-id')){
 			$('.back-to-grid').removeClass('hidden');
 		}
 	}
+
 	//reload grid based on saved search parameters in the localStorage
 	const gridName = getUrlParameter('saved_list');
 	if(gridName){
