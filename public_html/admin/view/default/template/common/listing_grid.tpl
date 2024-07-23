@@ -150,8 +150,8 @@ echo $this->html->buildElement(
                 save_new_sorting(ids_order, sort_direction);
             },
             onDragStart: function (table, row) {
-                const rowid = row.id;
-                $('#' + rowid).css('width', $(table).css('width'));
+                const rowId = row.id;
+                $('#' + rowId).css('width', $(table).css('width'));
                 $(table_id).find('tr.jqgfirstrow').addClass('nodrop');
                 startpos = $('#' + row.id).position();
             }
@@ -671,7 +671,7 @@ echo $this->html->buildElement(
                                 dlgDiv.css('left', Math.round((parentDiv.width() - dlgDiv.width()) / 2) + "px");
                             },
                             afterSubmit: function (response, postdata) {
-                                if (response.responseText !== '') {
+                                if (response.responseText !== '' && response.responseJSON.status !=='ok') {
                                     const dlgDiv = $("#delmod" + _table_id);
                                     $('#dData', dlgDiv).hide();
                                     return [false, response.responseText];
