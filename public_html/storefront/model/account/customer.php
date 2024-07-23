@@ -1166,6 +1166,6 @@ class ModelAccountCustomer extends Model
                 .'.'.pathinfo($data['config_mail_logo'], PATHINFO_EXTENSION)
             );
         }
-        $mail->send();
+        $mail->send(true);
     }
 }
