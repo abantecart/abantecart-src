@@ -10444,7 +10444,7 @@ CREATE TABLE `ac_block_descriptions` (
   `custom_block_id` int(10) NOT NULL,
   `language_id` int(10) NOT NULL,
   `block_wrapper` varchar(255) NOT NULL default '0',
-  `block_framed` tinyint(1) DEFAULT '1',
+  `block_framed` tinyint(1) DEFAULT '0',
   `name` varchar(255) NOT NULL COMMENT 'translatable',
   `title` varchar(255) NOT NULL COMMENT 'translatable',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',

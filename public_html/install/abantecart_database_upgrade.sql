@@ -47,3 +47,6 @@ alter table `ac_block_descriptions`
 UPDATE `ac_settings` SET `group` = 'checkout' WHERE `group`='fast_checkout';
 DELETE FROM `ac_settings` WHERE `key` IN ('fast_checkout_store_id', 'fast_checkout_status', 'fast_checkout_layout', 'fast_checkout_priority','fast_checkout_sort_order');
 DELETE FROM `ac_extensions` WHERE `key` = 'fast_checkout';
+
+ALTER TABLE `ac_block_descriptions`
+    modify `block_framed` tinyint(1) DEFAULT '0';
