@@ -73,9 +73,6 @@ class ModelCatalogReview extends Model
         $msg_text = sprintf($language->get('text_pending_review_approval'), $product_id, $review_id);
         $msg = new AMessage();
         $msg->saveNotice($language->get('text_new_review'), $msg_text);
-
-        $this->cache->remove('product');
-
         return $review_id;
     }
 
@@ -89,6 +86,12 @@ class ModelCatalogReview extends Model
      */
     public function getReviewsByProductId($product_id, $start = 0, $limit = 20)
     {
+        $language_id = (int)$this->config->get('storefront_language_id');
+        $cacheKey = 'product.reviews.by.product.'.md5(var_export(func_get_args(), true));
+        $output = $this->cache->pull($cacheKey);
+        if ($output !== false) {
+            return $output;
+        }
         $query = $this->db->query(
             "SELECT r.review_id,
                   r.author,
@@ -108,12 +111,13 @@ class ModelCatalogReview extends Model
                     AND COALESCE(p.date_available, NOW()) <= NOW()
                     AND p.status = '1'
                     AND r.status = '1'
-                    AND pd.language_id = '".(int) $this->config->get('storefront_language_id')."'
+                    AND pd.language_id = '".$language_id."'
             ORDER BY r.date_added DESC
             LIMIT ".(int) $start.",".(int) $limit
         );
-
-        return $query->rows;
+        $output = $query->rows;
+        $this->cache->push($cacheKey,$output);
+        return $output;
     }
 
     /**
@@ -259,7 +263,7 @@ class ModelCatalogReview extends Model
 
     public function getProductAVGRatings($productId)
     {
-        $cache_key = 'product.avg.ratings'.$productId;
+        $cache_key = 'product.avg.ratings.'.$productId;
         $cache = $this->cache->pull($cache_key);
         if ($cache === false) {
             $query = $this->db->query(

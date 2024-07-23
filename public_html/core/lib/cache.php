@@ -317,12 +317,21 @@ class ACache
      *
      * If the cache key does not exist in the group, then nothing will happen.
      *
-     * @param string $key
+     * @param string|array $key
      *
      * @return bool False if the contents weren't deleted and true on success.
      */
-    public function remove($key)
+    public function remove(string|array $key)
     {
+        if(!$key || (!is_string($key) && !is_array($key))) {
+            return true;
+        }
+        if(is_array($key)){
+            foreach ($key as $group){
+                $this->remove($group);
+            }
+            return true;
+        }
 
         $group = $this->_get_group($key);
         if (trim($key) == '*') {

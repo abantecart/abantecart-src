@@ -1,23 +1,21 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+<?php /*
+ * $Id$
+ *
+ * AbanteCart, Ideal OpenSource Ecommerce Solution
+ * http://www.AbanteCart.com
+ *
+ * Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ * This source file is subject to Open Software License (OSL 3.0)
+ * License details is bundled with this package in the file LICENSE.txt.
+ * It is also available at this URL:
+ * <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ * UPGRADE NOTE:
+ * Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ * versions in the future. If you wish to customize AbanteCart for your
+ * needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -105,8 +103,7 @@ class ModelCatalogManufacturer extends Model
             );
         }
 
-        $this->cache->remove('manufacturer');
-        $this->cache->remove('collection');
+        $this->cache->remove( ['manufacturer', 'collection'] );
 
         return $manufacturer_id;
     }
@@ -175,6 +172,8 @@ class ModelCatalogManufacturer extends Model
         }
 
         $this->cache->remove('manufacturer');
+        $this->cache->remove('product');
+        $this->cache->remove('category');
         $this->cache->remove('collection');
     }
 
@@ -218,6 +217,8 @@ class ModelCatalogManufacturer extends Model
         }
         $this->cache->remove('manufacturer');
         $this->cache->remove('collection');
+        $this->cache->remove('product');
+        $this->cache->remove('category');
     }
 
     /**

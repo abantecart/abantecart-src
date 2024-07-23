@@ -1,24 +1,22 @@
-<?php /** @noinspection SqlResolve */
-/** @noinspection PhpMultipleClassDeclarationsInspection */
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2023 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+<?php
+/*
+ * $Id$
+ *
+ * AbanteCart, Ideal OpenSource Ecommerce Solution
+ * http://www.AbanteCart.com
+ *
+ * Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ * This source file is subject to Open Software License (OSL 3.0)
+ * License details is bundled with this package in the file LICENSE.txt.
+ * It is also available at this URL:
+ * <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ * UPGRADE NOTE:
+ * Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ * versions in the future. If you wish to customize AbanteCart for your
+ * needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 /**
  * @property ModelCatalogDownload $model_catalog_download
@@ -38,36 +36,33 @@ class ModelCatalogProduct extends Model
 
         $this->db->query(
             "INSERT INTO ".$this->db->table("products")." 
-                            SET model = '".$this->db->escape($data['model'])."',
-                                sku = '".$this->db->escape($data['sku'])."',
-                                location = '".$this->db->escape($data['location'])."',
-                                quantity = '".preformatInteger($data['quantity'])."',
-                                minimum = '".preformatInteger($data['minimum'])."',
-                                maximum = '".preformatInteger($data['maximum'])."',
-                                subtract = '".(int) $data['subtract']."',
-                                stock_checkout = '".$this->db->escape($data['stock_checkout'])."',
-                                stock_status_id = '".(int) $data['stock_status_id']."',
-                                date_available = '".$this->db->escape($data['date_available'])."',
-                                manufacturer_id = '".(int) $data['manufacturer_id']."',
-                                shipping = '".(int) $data['shipping']."',
-                                ship_individually = '".(int) $data['ship_individually']."',
-                                free_shipping = '".(int) $data['free_shipping']."',
-                                shipping_price = '".preformatFloat(
-                $data['shipping_price'],
-                $this->language->get('decimal_point')
-            )."',
-                                price = '".preformatFloat($data['price'], $this->language->get('decimal_point'))."',
-                                cost = '".preformatFloat($data['cost'], $this->language->get('decimal_point'))."',
-                                weight = '".preformatFloat($data['weight'], $this->language->get('decimal_point'))."',
-                                weight_class_id = '".(int) $data['weight_class_id']."',
-                                length = '".preformatFloat($data['length'], $this->language->get('decimal_point'))."',
-                                width = '".preformatFloat($data['width'], $this->language->get('decimal_point'))."',
-                                height = '".preformatFloat($data['height'], $this->language->get('decimal_point'))."',
-                                length_class_id = '".(int) $data['length_class_id']."',
-                                status = '".(int) $data['status']."',
-                                tax_class_id = '".(int) $data['tax_class_id']."',
-                                sort_order = '".(int) $data['sort_order']."',
-                                date_added = NOW()"
+                SET model = '".$this->db->escape($data['model'])."',
+                    sku = '".$this->db->escape($data['sku'])."',
+                    location = '".$this->db->escape($data['location'])."',
+                    quantity = '".preformatInteger($data['quantity'])."',
+                    minimum = '".preformatInteger($data['minimum'])."',
+                    maximum = '".preformatInteger($data['maximum'])."',
+                    subtract = '".(int) $data['subtract']."',
+                    stock_checkout = '".$this->db->escape($data['stock_checkout'])."',
+                    stock_status_id = '".(int) $data['stock_status_id']."',
+                    date_available = '".$this->db->escape($data['date_available'])."',
+                    manufacturer_id = '".(int) $data['manufacturer_id']."',
+                    shipping = '".(int) $data['shipping']."',
+                    ship_individually = '".(int) $data['ship_individually']."',
+                    free_shipping = '".(int) $data['free_shipping']."',
+                    shipping_price = '".preformatFloat($data['shipping_price'],$this->language->get('decimal_point'))."',
+                    price = '".preformatFloat($data['price'], $this->language->get('decimal_point'))."',
+                    cost = '".preformatFloat($data['cost'], $this->language->get('decimal_point'))."',
+                    weight = '".preformatFloat($data['weight'], $this->language->get('decimal_point'))."',
+                    weight_class_id = '".(int) $data['weight_class_id']."',
+                    length = '".preformatFloat($data['length'], $this->language->get('decimal_point'))."',
+                    width = '".preformatFloat($data['width'], $this->language->get('decimal_point'))."',
+                    height = '".preformatFloat($data['height'], $this->language->get('decimal_point'))."',
+                    length_class_id = '".(int) $data['length_class_id']."',
+                    status = '".(int) $data['status']."',
+                    tax_class_id = '".(int) $data['tax_class_id']."',
+                    sort_order = '".(int) $data['sort_order']."',
+                    date_added = NOW()"
         );
 
         $product_id = $this->db->getLastId();
@@ -85,14 +80,14 @@ class ModelCatalogProduct extends Model
         } else { // if cloning
             foreach ($data['product_description'] as $language_id => $value) {
                 $this->db->query(
-                    "INSERT INTO ".$this->db->table("product_descriptions")." 
-                                SET product_id = '".(int) $product_id."',
-                                    language_id = '".(int) $language_id."',
-                                    name = '".$this->db->escape($value['name'])."',
-                                    meta_keywords = '".$this->db->escape($value['meta_keywords'])."',
-                                    meta_description = '".$this->db->escape($value['meta_description'])."',
-                                    description = '".$this->db->escape($value['description'])."',
-                                    blurb = '".$this->db->escape($value['blurb'])."'"
+                "INSERT INTO ".$this->db->table("product_descriptions")." 
+                    SET product_id = '".(int) $product_id."',
+                        language_id = '".(int) $language_id."',
+                        name = '".$this->db->escape($value['name'])."',
+                        meta_keywords = '".$this->db->escape($value['meta_keywords'])."',
+                        meta_description = '".$this->db->escape($value['meta_description'])."',
+                        description = '".$this->db->escape($value['description'])."',
+                        blurb = '".$this->db->escape($value['blurb'])."'"
                 );
             }
             reset($data['product_description']);
@@ -212,9 +207,7 @@ class ModelCatalogProduct extends Model
                 }
             }
         }
-        $this->cache->remove('product');
-        $this->cache->remove('collection');
-        $this->cache->remove('storefront_menu');
+        $this->cache->remove(['product','category','collection','storefront_menu']);
         return $product_id;
     }
 
@@ -482,8 +475,7 @@ class ModelCatalogProduct extends Model
                 WHERE product_discount_id = '".(int) $product_discount_id."'"
             );
         }
-        $this->cache->remove('product');
-        $this->cache->remove('collection');
+        $this->cache->remove(['product','category','collection']);
     }
 
     /**
@@ -518,8 +510,7 @@ class ModelCatalogProduct extends Model
                 ." WHERE product_special_id = '".(int) $product_special_id."'"
             );
         }
-        $this->cache->remove('product');
-        $this->cache->remove('collection');
+        $this->cache->remove(['product','category','collection']);
     }
 
     /**
@@ -633,6 +624,7 @@ class ModelCatalogProduct extends Model
                 }
             }
         }
+        $this->cache->remove(['product']);
         return true;
     }
 
@@ -923,7 +915,7 @@ class ModelCatalogProduct extends Model
                 ],
             ]
         );
-
+        $this->cache->remove('product');
         return $this->db->getLastId();
     }
 
@@ -960,7 +952,7 @@ class ModelCatalogProduct extends Model
                 ],
             ]
         );
-
+        $this->cache->remove('product');
         return $pd_opt_val_id;
     }
 
@@ -986,6 +978,7 @@ class ModelCatalogProduct extends Model
             WHERE product_id = '".(int) $product_id."'
                 AND product_option_value_id = '".(int) $pd_opt_val_id."'".$add_language
         );
+        $this->cache->remove('product');
         return true;
     }
 
@@ -1023,6 +1016,7 @@ class ModelCatalogProduct extends Model
                 sort_order = '".(int) $data['sort_order']."',
                 `default` = '".(int) $data['default']."'"
         );
+        $this->cache->remove(['product', 'collection', 'category']);
         return $this->db->getLastId();
     }
 
@@ -1316,8 +1310,8 @@ class ModelCatalogProduct extends Model
                 $r['resource_id']
             );
         }
-        $this->cache->remove('product');
-        $this->cache->remove('collection');
+
+        $this->cache->remove(['product','category','collection'] );
 
         //clone layout for the product if present
         $layout_clone_result = $this->_clone_product_layout($product_id, $new_product_id);
@@ -1463,8 +1457,8 @@ class ModelCatalogProduct extends Model
                 }
             }
         }
-        $this->cache->remove('product');
-        $this->cache->remove('collection');
+
+        $this->cache->remove(['product', 'collection', 'category']);
     }
 
     /**
@@ -1615,8 +1609,7 @@ class ModelCatalogProduct extends Model
         $lm = new ALayoutManager();
         $lm->deletePageLayout('pages/product/product', 'product_id', (int) $product_id);
 
-        $this->cache->remove('product');
-        $this->cache->remove('collection');
+        $this->cache->remove(['product', 'collection', 'category']);
         return true;
     }
 
@@ -1631,8 +1624,7 @@ class ModelCatalogProduct extends Model
             "DELETE FROM ".$this->db->table("product_discounts")." 
             WHERE product_discount_id = '".(int) $product_discount_id."'"
         );
-        $this->cache->remove('product');
-        $this->cache->remove('collection');
+        $this->cache->remove(['product', 'collection', 'category']);
     }
 
     /**
@@ -1646,8 +1638,7 @@ class ModelCatalogProduct extends Model
             "DELETE FROM ".$this->db->table("product_specials")." 
             WHERE product_special_id='".(int) $product_special_id."'"
         );
-        $this->cache->remove('product');
-        $this->cache->remove('collection');
+        $this->cache->remove(['product', 'collection', 'category']);
     }
 
     /**
@@ -1725,6 +1716,7 @@ class ModelCatalogProduct extends Model
                  SET product_id = '".(int) $product_id."'"
             );
         }
+        $this->cache->remove(['product', 'collection', 'category']);
     }
 
     /**
@@ -1743,6 +1735,7 @@ class ModelCatalogProduct extends Model
                 );
             }
         }
+        $this->cache->remove(['product', 'collection', 'category']);
     }
 
     /**
@@ -1975,8 +1968,7 @@ class ModelCatalogProduct extends Model
             );
         }
 
-        $this->cache->remove('product');
-        $this->cache->remove('collection');
+        $this->cache->remove(['product', 'collection', 'category']);
     }
 
     /**
@@ -2188,7 +2180,7 @@ class ModelCatalogProduct extends Model
     /**
      * @param int $product_id
      *
-     * @return int mixed
+     * @return array
      * @throws AException
      */
     public function getProductSpecials($product_id)
@@ -2897,9 +2889,7 @@ class ModelCatalogProduct extends Model
             SET date_modified = NOW() 
             WHERE product_id ='".$product_id."'"
         );
-        $this->cache->remove('product');
-        $this->cache->remove('collection');
-        $this->cache->remove('storefront_menu');
+        $this->cache->remove(['product','category','collection','storefront_menu']);
         return true;
     }
 
@@ -3053,6 +3043,7 @@ class ModelCatalogProduct extends Model
                 );
             }
         }
+        $this->cache->remove(['product', 'collection', 'category']);
         return true;
     }
 

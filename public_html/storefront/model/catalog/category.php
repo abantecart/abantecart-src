@@ -199,7 +199,7 @@ class ModelCatalogCategory extends Model
             $store_id = (int)$this->config->get('config_store_id');
         }
 
-        $cache_key = 'category.list.' . $mode
+        $cache_key = 'category.list.data.' . $mode
             . '.store_' . $store_id
             . '_lang_' . $language_id. md5(var_export($data, true));
         $cache = $this->cache->pull($cache_key);
@@ -338,6 +338,11 @@ class ModelCatalogCategory extends Model
      */
     public function getCategoriesProductsCount($categories = [])
     {
+        $cacheKey = 'category.product.count.'.md5(var_export($categories, true));
+        $output = $this->cache->pull($cacheKey);
+        if($output!==false){
+            return $output;
+        }
         $categories = filterIntegerIdList($categories);
         if ($categories) {
             $query = $this->db->query(
@@ -353,6 +358,7 @@ class ModelCatalogCategory extends Model
         } else {
             $output = 0;
         }
+        $this->cache->push($cacheKey,$output);
         return $output;
     }
 
@@ -701,6 +707,12 @@ class ModelCatalogCategory extends Model
         if (!$language_id) {
             $language_id = (int) $this->language->getLanguageID();
         }
+        $cacheKey = 'category.get.path.'.$category_id.'.'.$language_id;
+        $output = $this->cache->pull($cacheKey);
+        if($output !== false){
+            return $output;
+        }
+
         $query = $this->db->query(
             "SELECT name, parent_id
             FROM ".$this->db->table("categories")." c
@@ -712,14 +724,15 @@ class ModelCatalogCategory extends Model
         );
 
         $category_info = $query->row;
-
         if ($category_info['parent_id']) {
-            return $this->getPath(
+            $output = $this->getPath(
                     $category_info['parent_id'],
                     $language_id
                 ).$this->language->get('text_separator').$category_info['name'];
         } else {
-            return $category_info['name'];
+            $output = $category_info['name'];
         }
+        $this->cache->push($cacheKey, $output);
+        return $output;
     }
 }
