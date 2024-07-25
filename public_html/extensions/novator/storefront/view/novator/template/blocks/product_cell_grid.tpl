@@ -44,7 +44,7 @@
 					$product['thumb'] = $product['thumb'] ?? $product['image'];
 					$item = [];
 
-					$item['image'] = '<img alt="'.html2view($product['name']).'" class="img-fluid h-auto" src="'.$product['thumb']['thumb_url'].'" style="'.$productImgCss.'">';
+					$item['image'] = '<img alt="'.html2view($product['thumb']['title'] ?: $product['name']).'" class="img-fluid h-auto" src="'.$product['thumb']['thumb_url'].'" style="'.$productImgCss.'">';
 					$item['image1'] = '<img class="img-fluid h-auto img-overlay" src="'.$product['thumb']['thumb_url'].'" style="'.$productImgCss.'">';
 					$item['title'] = $product['name'];
 					$item['description'] = $product['model'];
