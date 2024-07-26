@@ -113,12 +113,13 @@ class ModelCatalogManufacturer extends Model
      */
     public function getManufacturersData($data = [])
     {
-        $cacheKey = 'manufacturer.data.'.md5(var_export($data, true));
+        $storeId = (int)($data['store_id'] ?? $this->config->get('config_store_id'));
+        $cacheKey = 'manufacturer.data.'.$storeId.md5(var_export($data, true));
         $output = $this->cache->pull($cacheKey);
         if ($output !== false) {
             return $output;
         }
-        $storeId = (int)$this->config->get('config_store_id');
+
         $sql = "SELECT *,
                     (SELECT count(*) as cnt
                     FROM ".$this->db->table('products')." p

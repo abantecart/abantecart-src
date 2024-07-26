@@ -222,8 +222,8 @@ class ModelCatalogReview extends Model
         $categoryIds = filterIntegerIdList($categoryIds);
         $data['filter']['manufacturer_id'] = filterIntegerIdList((array)$data['filter']['manufacturer_id']);
         $data['filter']['rating'] = filterIntegerIdList((array)$data['filter']['rating']);
-
-        $cacheKey = 'product.categories.avg.rating'.md5(var_export(func_get_args(),true));
+        $storeId = (int)($data['store_id'] ?? $this->config->get('config_store_id'));
+        $cacheKey = 'product.categories.avg.rating'.$storeId.md5(var_export(func_get_args(),true));
         $output = $this->cache->pull($cacheKey);
         if ($output !== false) {
             return $output;
@@ -289,8 +289,8 @@ class ModelCatalogReview extends Model
     {
         $manufacturerIds = filterIntegerIdList($manufacturerIds);
         $data['filter']['rating'] = filterIntegerIdList((array)$data['filter']['rating']);
-
-        $cacheKey = 'product.brands.avg.rating'.md5(var_export(func_get_args(),true));
+        $storeId = (int)($data['store_id'] ?? $this->config->get('config_store_id'));
+        $cacheKey = 'product.brands.avg.rating'.$storeId.md5(var_export(func_get_args(),true));
         $output = $this->cache->pull($cacheKey);
         if ($output !== false) {
             return $output;
@@ -335,5 +335,4 @@ class ModelCatalogReview extends Model
         }
         return $initials;
     }
-
 }

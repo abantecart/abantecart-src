@@ -87,8 +87,7 @@ class ModelCatalogCategory extends Model
     {
         $limit = (int)$data['limit'];
         $language_id = (int)$data['language_id'] ?: (int)$this->config->get('storefront_language_id');
-        $store_id = $data['store_id'] ?? (int)$this->config->get('config_store_id');
-        $store_id = (int)$store_id;
+        $store_id = (int)($data['store_id'] ?? $this->config->get('config_store_id'));
         $cache_key = 'category.list.'. md5(var_export(func_get_args(),true))
             . '.store_' . $store_id . '_limit_' . $limit. '_lang_' . $language_id;
         $output = $this->cache->pull($cache_key);
@@ -141,8 +140,7 @@ class ModelCatalogCategory extends Model
      */
     function getProductCount($parent_id, $data = [])
     {
-        $store_id = $data['store_id'] ?? (int)$this->config->get('config_store_id');
-        $store_id = (int)$store_id;
+        $store_id = (int)($data['store_id'] ?? $this->config->get('config_store_id'));
         $cache_key = 'category.product.count.'.$parent_id.'.' . md5(var_export($data,true)).'.store_' . $store_id;
         $output = $this->cache->pull($cache_key);
         if ($output !== false) {
@@ -187,17 +185,8 @@ class ModelCatalogCategory extends Model
      */
     public function getCategoriesData($data, $mode = 'default')
     {
-        if ($data['language_id']) {
-            $language_id = (int)$data['language_id'];
-        } else {
-            $language_id = (int)$this->config->get('storefront_language_id');
-        }
-
-        if ($data['store_id']) {
-            $store_id = (int)$data['store_id'];
-        } else {
-            $store_id = (int)$this->config->get('config_store_id');
-        }
+        $language_id = (int)$data['language_id'] ?: (int)$this->config->get('storefront_language_id');
+        $store_id = (int)($data['store_id'] ?? $this->config->get('config_store_id'));
 
         $cache_key = 'category.list.data.' . $mode
             . '.store_' . $store_id
@@ -300,7 +289,8 @@ class ModelCatalogCategory extends Model
      */
     public function getTotalCategoriesByCategoryId(int|array$parent_id = 0)
     {
-        $cacheKey = 'category.' . md5(var_export($parent_id, true)) . '.total';
+        $storeId = (int)$this->config->get('config_store_id');
+        $cacheKey = 'category.' . $storeId . md5(var_export($parent_id, true)) . '.total';
         $output = $this->cache->pull($cacheKey);
         if($output!==false){
             return $output;
@@ -338,7 +328,8 @@ class ModelCatalogCategory extends Model
      */
     public function getCategoriesProductsCount($categories = [])
     {
-        $cacheKey = 'category.product.count.'.md5(var_export($categories, true));
+        $storeId = (int)$this->config->get('config_store_id');
+        $cacheKey = 'category.product.count.'.$storeId.md5(var_export($categories, true));
         $output = $this->cache->pull($cacheKey);
         if($output!==false){
             return $output;
@@ -375,8 +366,8 @@ class ModelCatalogCategory extends Model
         $categories = filterIntegerIdList($categories);
         $data['filter']['rating'] = filterIntegerIdList((array)$data['filter']['rating']);
         $data['filter']['manufacturer_id'] = filterIntegerIdList((array)$data['filter']['manufacturer_id']);
-
-        $cacheKey = 'category.brands.' . md5(var_export(func_get_args(),true));
+        $storeId = (int)($data['store_id'] ?? $this->config->get('config_store_id'));
+        $cacheKey = 'category.brands.'. $storeId . md5(var_export(func_get_args(),true));
         $cache = $this->cache->pull($cacheKey);
         if ($cache !== false) {
             return $cache;
@@ -463,13 +454,12 @@ class ModelCatalogCategory extends Model
         if (is_array($parentId) && !$parentId) {
             return [];
         }
-        $cacheKey = 'category.children.' . md5(var_export($parentId,true)) . '.' . preformatTextID($mode);
+        $storeId = $this->config->get('config_store_id');
+        $cacheKey = 'category.children.' . $storeId . md5(var_export($parentId,true)) . '.' . preformatTextID($mode);
         $cache = $this->cache->pull($cacheKey);
         if ($cache !== false) {
             return $cache;
         }
-
-        $storeId = $this->config->get('config_store_id');
 
         $sql = "SELECT c.category_id
                 FROM " . $this->db->table('categories') . " c
@@ -509,7 +499,8 @@ class ModelCatalogCategory extends Model
      */
     public function buildCategoryTree($categoryList = [], $data = [])
     {
-        $cacheKey = 'category.build.tree.'.var_export(array_merge($categoryList,$data), true);
+        $storeId = (int)($data['store_id'] ?? $this->config->get('config_store_id'));
+        $cacheKey = 'category.build.tree.'.$storeId.var_export(array_merge($categoryList,$data), true);
         $output = $this->cache->pull($cacheKey);
         if($output !== false){
             return $output;
@@ -663,11 +654,11 @@ class ModelCatalogCategory extends Model
     public function getCategoriesOfProducts($productIds = [])
     {
         $productIds = filterIntegerIdList($productIds);
-
         if (!$productIds) {
             return [];
         }
-        $cacheKey = 'product.categories.' . implode(',', $productIds);
+        $storeId = (int)$this->config->get('config_store_id');
+        $cacheKey = 'product.categories.' . $storeId. implode(',', $productIds);
         $output = $this->cache->pull($cacheKey);
         if($output !== false){
             return $output;
@@ -707,7 +698,8 @@ class ModelCatalogCategory extends Model
         if (!$language_id) {
             $language_id = (int) $this->language->getLanguageID();
         }
-        $cacheKey = 'category.get.path.'.$category_id.'.'.$language_id;
+        $storeId = (int)$this->config->get('config_store_id');
+        $cacheKey = 'category.get.path.'.$storeId.$category_id.'.'.$language_id;
         $output = $this->cache->pull($cacheKey);
         if($output !== false){
             return $output;
