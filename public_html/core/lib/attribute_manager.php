@@ -115,13 +115,18 @@ class AAttribute_Manager extends AAttribute
              ]
         );
 
-        if (!empty($data['values'])) {
-            foreach ($data['values'] as $valueData) {
+        if ($data['values']) {
+            foreach ((array)$data['values'] as $valueData) {
                 $attribute_value_id = $this->addAttributeValue(
                     $attribute_id,
                     $valueData
                 );
-                $this->addAttributeValueDescription($attribute_id, $attribute_value_id, $language_id, $valueData['value']);
+                $this->addAttributeValueDescription(
+                    $attribute_id,
+                    $attribute_value_id,
+                    $language_id,
+                    $valueData['value']
+                );
             }
         }
 
