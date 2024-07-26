@@ -636,7 +636,7 @@ class AResource
                             'url'    => $thumb_url,
                             'width'  => $sizes['thumb']['width'],
                             'height' => $sizes['thumb']['height'],
-                            'attr'   => 'alt="'.addslashes($rsrc_info['title']).'"',
+                            'attr'   => 'alt="'.htmlspecialchars($rsrc_info['title'], ENT_QUOTES, 'UTF-8').'" ',
                         ]
                     ),
                 ];

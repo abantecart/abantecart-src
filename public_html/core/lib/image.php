@@ -284,7 +284,7 @@ class AImage
             $this->image = imagecreatetruecolor($width, $height);
 
             $fillColor = $this->registry->get('config')->get('config_image_resize_fill_color');
-            $fillColor = !$fillColor ? '#ffffff' : $fillColor;
+            $fillColor = $fillColor ?: '#ffffff';
             list($r, $g, $b) = sscanf($fillColor, "#%02x%02x%02x");
             if (isset($this->info['mime']) && in_array($this->info['mime'], ['image/png', 'image/webp','image/avif'])) {
                 imagealphablending($this->image, false);

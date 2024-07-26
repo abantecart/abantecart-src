@@ -2072,7 +2072,7 @@ VALUES
 (100110,1,'demo_product28_2.jpg','','','18/70/e.jpg','',NOW(),NOW()),
 (100111,1,'demo_product38.jpg','','','18/70/f.webp','',NOW(),NOW()),
 (100112,1,'demo_product12.jpg','','','18/71/0.png','',NOW(),NOW()),
-(100114,1,'mf_sephora_ba_logo_black.jpg','','','18/71/2.jpg','',NOW(),NOW()),
+(100114,1,'mf_sephora_ba_logo_black.jpg','','','18/71/2.webp','',NOW(),NOW()),
 (100115,1,'mf_Bvlgari.jpg','','','18/71/3.jpg','',NOW(),NOW()),
 (100116,1,'mf_calvin_klein.jpg','','','18/71/4.jpg','',NOW(),NOW()),
 (100117,1,'mf_benefit_logo_black.jpg','','','18/71/5.jpg','',NOW(),NOW()),

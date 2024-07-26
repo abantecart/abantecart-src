@@ -80,12 +80,11 @@ class ControllerPagesProductManufacturer extends AController
             $thumbnail = $resource->getMainThumb(
                 'manufacturers',
                 $manufacturer_id,
-                $this->config->get('config_image_grid_width'),
-                $this->config->get('config_image_grid_height')
+                $this->config->get('config_image_manufacturer_width'),
+                $this->config->get('config_image_manufacturer_height'),
+                false
             );
-            if (!str_contains($thumbnail['thumb_url'], 'no_image')) {
-                $this->view->assign('manufacturer_icon', $thumbnail['thumb_url']);
-            }
+            $this->data['manufacturer_icon'] = $thumbnail;
         } elseif(is_array($brands)) {
             $manufacturer_id = filterIntegerIdList($brands);
             $extractFields = ['name'];
