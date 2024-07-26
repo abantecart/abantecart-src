@@ -372,7 +372,7 @@ jQuery(document).ready(function() {
 	const gridName = getUrlParameter('saved_list');
 	if(gridName){
 		let jsn = JSON.parse(localStorage.getItem('grid_search_form'));
-		if(jsn.table_id === gridName){
+		if(jsn && jsn.table_id === gridName){
 			const searchParams = new URLSearchParams(jsn.params);
 			if(searchParams.size < 1){
 				return;
