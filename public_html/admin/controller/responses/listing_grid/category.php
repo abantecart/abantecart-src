@@ -41,7 +41,7 @@ class ControllerResponsesListingGridCategory extends AController
         //Add custom params
         //set parent to null to make search work by all category tree
 
-        $filter_data['parent_id'] = !isset($this->request->get['parent_id']) ? 0 : $this->request->get['parent_id'];
+        $filter_data['parent_id'] = $this->request->get['parent_id'] ?? 0;
         //NOTE: search by all categories when parent_id not set or zero (top level)
 
         if ($filter_data['subsql_filter']) {
@@ -65,7 +65,8 @@ class ControllerResponsesListingGridCategory extends AController
             $new_level = (integer) $this->request->post["n_level"] + 1;
         }
 
-        $total = $this->model_catalog_category->getTotalCategories($filter_data);
+        $results = $this->model_catalog_category->getCategoriesData($filter_data);
+        $total = $results[0]['total_num_rows'];
         $response = new stdClass();
         $response->page = $filter->getParam('page');
         $response->total = $filter->calcTotalPages($total);
