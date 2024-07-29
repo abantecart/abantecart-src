@@ -2375,17 +2375,8 @@ class ModelCatalogProduct extends Model
      */
     public function getProducts($data = [], $mode = 'default')
     {
-        if (!empty($data['content_language_id'])) {
-            $language_id = (int) $data['content_language_id'];
-        } else {
-            $language_id = (int) $this->config->get('storefront_language_id');
-        }
-
-        if ($data['store_id']) {
-            $store_id = (int) $data['store_id'];
-        } else {
-            $store_id = (int) $this->config->get('current_store_id');
-        }
+        $language_id = (int) $data['content_language_id'] ?: $this->config->get('storefront_language_id');
+        $store_id = (int)( $data['store_id'] ?? $this->config->get('current_store_id'));
 
         if ($data || $mode == 'total_only') {
             $match = '';
@@ -2394,7 +2385,7 @@ class ModelCatalogProduct extends Model
             if ($mode == 'total_only') {
                 $sql = "SELECT COUNT(*) as total ";
             } else {
-                $sql = "SELECT *, p.product_id ";
+                $sql = "SELECT ".$this->db->getSqlCalcTotalRows()." DISTINCT pd.*, p.* ";
                 $sql .= ", (SELECT 
                                 CASE WHEN SUM(COALESCE(ppov.subtract,0))>0
                                  THEN SUM( CASE WHEN ppov.quantity > 0 THEN ppov.quantity ELSE 0 END)
@@ -2408,14 +2399,14 @@ class ModelCatalogProduct extends Model
                             GROUP BY pp.product_id) as quantity ";
             }
             $sql .= " FROM ".$this->db->table("products")." p
-                        LEFT JOIN ".$this->db->table("product_descriptions")." pd
-                            ON (p.product_id = pd.product_id AND pd.language_id = '".$language_id."')
-                        INNER JOIN ".$this->db->table('products_to_stores')." ps
-                            ON (p.product_id = ps.product_id AND ps.store_id = '".$store_id."') ";
+                    LEFT JOIN ".$this->db->table("product_descriptions")." pd
+                        ON (p.product_id = pd.product_id AND pd.language_id = '".$language_id."')
+                    INNER JOIN ".$this->db->table('products_to_stores')." ps
+                        ON (p.product_id = ps.product_id AND ps.store_id = '".$store_id."') ";
 
-            if (isset($filter['category']) && $filter['category'] > 0) {
-                $sql .= " LEFT JOIN ".$this->db->table("products_to_categories")
-                    ." p2c ON (p.product_id = p2c.product_id) ";
+            if ($filter['category']) {
+                $sql .= " INNER JOIN ".$this->db->table("products_to_categories")." p2c 
+                            ON (p.product_id = p2c.product_id) ";
             }
 
             $sql .= ' WHERE 1=1 ';
@@ -2554,17 +2545,18 @@ class ModelCatalogProduct extends Model
             }
 
             if (isset($data['start']) || isset($data['limit'])) {
-                if ($data['start'] < 0) {
-                    $data['start'] = 0;
-                }
-
-                if ($data['limit'] < 1) {
-                    $data['limit'] = 20;
-                }
-                $sql .= " LIMIT ".(int) $data['start'].",".(int) $data['limit'];
+                $data['start'] = max(0,(int)$data['start']);
+                $data['limit'] = $data['limit'] < 1 ? 20 : (int)$data['limit'];
+                $sql .= " LIMIT ".$data['start'].",".$data['limit'];
             }
             $query = $this->db->query($sql);
-            return $query->rows;
+            $totalRows = $this->db->getTotalNumRows();
+            $output = [];
+            foreach($query->rows as $row) {
+                $row['total_num_rows'] = $totalRows;
+                $output[] = $row;
+            }
+            return $output;
         } else {
             $cache_key = 'product.lang_'.$language_id;
             $product_data = $this->cache->pull($cache_key);
