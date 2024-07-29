@@ -55,9 +55,6 @@ class ABackup
      */
     public function __construct($name, $create_subdirs = true)
     {
-        /**
-         * @var Registry
-         */
         $this->registry = Registry::getInstance();
         $this->slash = defined('IS_WINDOWS') && IS_WINDOWS === true ? '\\' : '/';
         //first check backup directory create or set writable permissions
@@ -130,7 +127,7 @@ class ABackup
     /**
      * @param string $name
      *
-     * @return mixed
+     * @return string
      */
     public function setBackupName($name)
     {
@@ -217,13 +214,13 @@ class ABackup
                         AND c.`DATA_TYPE`='int'
                     LIMIT 0,1;";
             $r = $db->query($sql);
-            $column_name = $r->row['COLUMN_NAME'] ?? '';
+            $pkColumnName = $r->row['COLUMN_NAME'] ?? '';
 
             $small_table = false;
 
-            if ($column_name) {
-                $sql = "SELECT MAX(`".$column_name."`) as max, 
-                               MIN(`".$column_name."`) as min
+            if ($pkColumnName) {
+                $sql = "SELECT MAX(`".$pkColumnName."`) as max, 
+                               MIN(`".$pkColumnName."`) as min
                         FROM `".$table_name."`";
                 $r = $db->query($sql);
                 $column_max = $r->row['max'];
@@ -240,7 +237,6 @@ class ABackup
                 $limit = 10000;
                 //break apart export to prevent memory overflow
                 $stop = $column_min + $limit;
-                $small_table = false;
             } else { // for small table get data by one pass
                 $column_max = $limit = $table_info['num_rows'];
                 $stop = $column_min = 0;
@@ -249,12 +245,20 @@ class ABackup
 
             $start = $column_min;
 
+            $sql = "SELECT COLUMN_NAME as `COLUMN_NAME`
+                    FROM information_schema.COLUMNS c
+                    WHERE c.`TABLE_SCHEMA` = '".DB_DATABASE."'
+                        AND c.`TABLE_NAME` = '".$table_name."'
+                        AND c.`IS_NULLABLE` = 'YES';";
+            $res = $db->query($sql);
+            $nullables = array_column($res->rows,'COLUMN_NAME');
+
             while ($start < $column_max) {
                 if (!$small_table) {
                     $sql = "SELECT *
                             FROM `".$table_name."`
-                            WHERE `".$column_name."` >= '".$start."' 
-                                AND `".$column_name."`< '".$stop."'";
+                            WHERE `".$pkColumnName."` >= '".$start."' 
+                                AND `".$pkColumnName."`< '".$stop."'";
                 } else {
                     $sql = "SELECT * FROM `".$table_name."`";
                 }
@@ -267,7 +271,7 @@ class ABackup
                         $fields .= '`'.$value.'`, ';
                     }
                     $values = '';
-                    foreach ($row as $value) {
+                    foreach ($row as $col=>$value) {
                         $value = str_replace(["\x00", "\x0a", "\x0d", "\x1a"], ['\0', '\n', '\r', '\Z'], $value);
                         $value = str_replace(["\n", "\r", "\t"], ['\n', '\r', '\t'], $value);
                         $value = str_replace('\\', '\\\\', $value);
@@ -275,7 +279,11 @@ class ABackup
                         $value = str_replace('\\\n', '\n', $value);
                         $value = str_replace('\\\r', '\r', $value);
                         $value = str_replace('\\\t', '\t', $value);
-                        $values .= '\''.$value.'\', ';
+                        if(in_array($col, $nullables) && $value == '') {
+                            $values .= 'NULL, ';
+                        }else {
+                            $values .= '\'' . $value . '\', ';
+                        }
                     }
                     fwrite(
                         $file,
@@ -412,7 +420,7 @@ class ABackup
                 "Error: Can't move directory \"".$dir_path." to backup folder \"".$this->backup_dir."files/".$path
                 ."\" during backup\n";
             if (!is_writable($dir_path)) {
-                $error_text .= "Check write permission for directory \"".$dir_path."";
+                $error_text .= "Check write permission for directory \"".$dir_path."\"";
             }
             $this->log->write($error_text);
             $this->error[] = $error_text;
@@ -544,7 +552,6 @@ class ABackup
                     }
                 }
             }
-            reset($objects);
             return rmdir($dir);
         } else {
             return $dir;
