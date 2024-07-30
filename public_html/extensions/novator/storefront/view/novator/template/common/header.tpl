@@ -55,7 +55,7 @@
             </div>
         </div>
 </div>
-<div id="menuoffcanvas" class="offcanvas menu-offcanvas offcanvas-end position-absolute" tabindex="-1" aria-labelledby="menuoffcanvasLabel">
+<div id="menuoffcanvas" class="offcanvas menu-offcanvas offcanvas-end" tabindex="-1" aria-labelledby="menuoffcanvasLabel" role="dialog" aria-modal="true">
     <div class="offcanvas-body">
         <div class="menu-top-btn d-flex justify-content-between align-items-center">
             <button type="button" class="btn btn-danger btn-icon " data-bs-dismiss="offcanvas" aria-label="Close">
@@ -139,7 +139,7 @@
 <?php
 extract($cart_block_data);
 ?>
-<div id="cartoffcanvas" class="offcanvas cart-offcanvas offcanvas-end position-absolute" tabindex="-1"  aria-labelledby="cartoffcanvasLabel">
+<div id="cartoffcanvas" class="offcanvas cart-offcanvas offcanvas-end" tabindex="-1"  aria-labelledby="cartoffcanvasLabel"  role="dialog" aria-modal="true">
     <div class="offcanvas-header border-bottom">
         <button type="button" class="btn btn-danger btn-icon position-absolute" data-bs-dismiss="offcanvas" aria-label="Close">
             <i class="bi bi-x"></i>

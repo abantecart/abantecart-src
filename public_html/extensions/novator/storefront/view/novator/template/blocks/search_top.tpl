@@ -71,7 +71,7 @@
                             class="btn dropdown-toggle arrow-none bg-transparent shadow-none border-0"
                             type="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                        <div id="category_selected" class="d-md-none d-xl-flex"><?php echo $top_categories[0]['name'] ?></div>
+                        <div id="category_selected" class="d-xl-flex"><?php echo $top_categories[0]['name'] ?></div>
                         <i class="ms-2 bi bi-chevron-down"></i>
                     </button>
                     <?php
