@@ -186,7 +186,7 @@ if ($mode != 'ajax' && !$step_id) {
                 -webkit-animation: ellipsis steps(4, end) 900ms infinite;
                 animation: ellipsis steps(4, end) 900ms infinite;
                 content: "\2026"; /* ascii code for the ellipsis character */
-                width: 0px;
+                width: 0;
             }
 
             @keyframes ellipsis {

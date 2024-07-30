@@ -81,7 +81,7 @@ form .help-block{
 	clear: both;
 }
 .warning {
-	padding: 5px 0px;
+	padding: 5px 0;
 	margin-bottom: 15px;
 	background: #FFDFE0;
 	border: 1px solid #FF9999;
@@ -177,7 +177,6 @@ footer a {
 	height: 90px;
 	display: block;
 	border: 3px solid #F19013;
-	webkit-border-radius: 45px;
 	border-radius: 45px;
 	color: #064770;
 }

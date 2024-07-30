@@ -2028,8 +2028,6 @@ a.resource_edit .img-responsive {
 	height: 98%;
 	background: transparent url(../image/icon-gears.png);
 	filter: alpha(opacity=5);
-	-moz-opacity: 0.05;
-	-khtml-opacity: 0.05;
 	opacity: 0.05;
 }
 
@@ -2045,8 +2043,6 @@ a.resource_edit .img-responsive {
 	height: 98%;
 	background: transparent url(../image/icon-ban.png);
 	filter: alpha(opacity=5);
-	-moz-opacity: 0.05;
-	-khtml-opacity: 0.05;
 	opacity: 0.05;
 }
 
@@ -2570,8 +2566,6 @@ body.stickyheader .sticky_left {
 }
 
 .transparent {
-	-moz-opacity: 0.2;
-	-khtml-opacity: 0.2;
 	opacity: 0.2;
 }
 
@@ -2708,7 +2702,6 @@ body.stickyheader .sticky_left {
 @media all and (min-device-pixel-ratio: 2) {
 	.logo_image {
 		display: block;
-		-moz-box-sizing: border-box;
 		box-sizing: border-box;
 		background: url(../image/logo@2x.png) no-repeat;
 	}
@@ -3444,7 +3437,6 @@ body.stickyheader .sticky_left {
 	border: 0;
 	border-radius: 3px;
 	box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	color: #333;
 	display: block;
 	font-size: 12px;

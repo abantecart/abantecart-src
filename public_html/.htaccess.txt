@@ -6,7 +6,7 @@
 # Example:  yourdomain.com/store   use RewriteBase /store/ 
 # Important to have / at the end of the line.
 
-# 4. if htaccess and mode_rewrite still does not works - check and set apache2 webserver directive AllowOverride All for your virtual hosts
+# 4. if htaccess and mode_rewrite still does not work - check and set apache2 webserver directive AllowOverride All for your virtual hosts
 
 # For any support issues please visit: http://forum.abantecart.com
 
