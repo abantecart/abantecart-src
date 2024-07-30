@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -26,7 +26,7 @@ if (!defined('DIR_CORE')) {
  */
 class AWeight
 {
-    protected $weights = array();
+    protected $weights = [];
     /**
      * @var ADB
      */
@@ -36,46 +36,47 @@ class AWeight
      */
     protected $config;
     // TODO: need to changes this in 2.0. Key must be iso-code instead unit name!
-    public $predefined_weights = array(
-        'kg' => array(
+    public $predefined_weights = [
+        'kg' => [
             'weight_class_id' => 1,
             'value'           => 0.02800000,
             'iso_code'        => 'KILO',
             'language_id'     => 1,
             'title'           => 'Kilogram',
             'unit'            => 'kg',
-        ),
-        'g'  => array(
+        ],
+        'g'  => [
             'weight_class_id' => 2,
             'value'           => 28.00000000,
             'iso_code'        => 'GRAM',
             'language_id'     => 1,
             'title'           => 'Gram',
             'unit'            => 'g',
-        ),
+        ],
 
-        'lb' => array(
+        'lb' => [
             'weight_class_id' => 5,
             'value'           => 0.06250000,
             'iso_code'        => 'PUND',
             'language_id'     => 1,
             'title'           => 'Pound',
             'unit'            => 'lb',
-        ),
-        'oz' => array(
+        ],
+        'oz' => [
             'weight_class_id' => 6,
             'value'           => 1.00000000,
             'iso_code'        => 'USOU',
             'language_id'     => 1,
             'title'           => 'Ounce',
             'unit'            => 'oz',
-        ),
-    );
-    public $predefined_weight_ids = array();
+        ],
+    ];
+    public $predefined_weight_ids = [];
     protected $language_id;
 
     /**
      * @param $registry Registry
+     * @throws AException
      */
     public function __construct($registry)
     {
@@ -106,7 +107,7 @@ class AWeight
             $cache->push($cache_key, $this->weights);
         }
 
-        foreach ($this->predefined_weights as $unit => $weight) {
+        foreach ($this->predefined_weights as $weight) {
             $this->predefined_weight_ids[] = $weight['weight_class_id'];
         }
 
@@ -199,7 +200,7 @@ class AWeight
     public function getUnit($weight_class_id)
     {
         $language_id = $this->language_id;
-        $output = array();
+        $output = [];
         foreach ($this->weights as $wth) {
             if ($wth['weight_class_id'] == $weight_class_id) {
                 $output[$wth['language_id']] = $wth['unit'];
@@ -214,6 +215,7 @@ class AWeight
      * @param string $weight_unit
      *
      * @return string|int
+     * @throws AException
      */
 
     public function getClassIDByUnit($weight_unit)
@@ -261,18 +263,6 @@ class AWeight
             }
         }
         return false;
-    }
-
-    /**
-     * @deprecated since 1.2.11
-     *
-     * @param string $weight_unit
-     *
-     * @return int|string
-     */
-    public function getClassID($weight_unit)
-    {
-        return $this->getClassIDByUnit($weight_unit);
     }
 
     /**

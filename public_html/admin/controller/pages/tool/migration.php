@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -63,7 +63,7 @@ class ControllerPagesToolMigration extends AController
 
         $this->_setCommonVars('heading_title_step_one');
         if (!$this->_validateAccess()) {
-            $this->redirect($this->html->getSecureURL('tool/migration'));
+            redirect($this->html->getSecureURL('tool/migration'));
         }
 
         $errors = array(
@@ -87,7 +87,7 @@ class ControllerPagesToolMigration extends AController
 
         if ($this->request->is_POST() && ($this->_validateStepOne())) {
             $this->model_tool_migration->saveStepData($formData);
-            $this->redirect($this->html->getSecureURL('tool/migration/step_two'));
+            redirect($this->html->getSecureURL('tool/migration/step_two'));
         }
 
         $this->data['cancel'] = $this->html->getSecureURL('tool/migration');
@@ -193,7 +193,7 @@ class ControllerPagesToolMigration extends AController
 
         $this->_setCommonVars('heading_title_step_two');
         if (!$this->_validateAccess() || !$this->model_tool_migration->isStepData()) {
-            $this->redirect($this->html->getSecureURL('tool/migration'));
+            redirect($this->html->getSecureURL('tool/migration'));
         }
 
         $errors = array(
@@ -210,7 +210,7 @@ class ControllerPagesToolMigration extends AController
 
         if ($this->request->is_POST() && ($this->_validateStepTwo())) {
             $this->model_tool_migration->saveStepData($formData);
-            $this->redirect($this->html->getSecureURL('tool/migration/step_three'));
+            redirect($this->html->getSecureURL('tool/migration/step_three'));
         }
         $this->data['counts'] = $this->model_tool_migration->getCounts();
 
@@ -286,7 +286,7 @@ class ControllerPagesToolMigration extends AController
 
         $this->_setCommonVars('heading_title_step_three');
         if (!$this->_validateAccess() || !$this->model_tool_migration->isStepData()) {
-            $this->redirect($this->html->getSecureURL('tool/migration'));
+            redirect($this->html->getSecureURL('tool/migration'));
         }
 
         $this->data['success'] = $this->language->get('text_finished');

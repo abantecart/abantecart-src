@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-  
- UPGRADE NOTE: 
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.  
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -110,7 +110,7 @@ class ControllerPagesUserUserPermission extends AController
         $this->loadLanguage('user/user_group');
         if (!$this->user->canModify('user/user_permission')) {
             $this->session->data['error'] = sprintf($this->language->get('error_permission_modify'), 'user/user_permission');
-            $this->redirect($this->html->getSecureURL('user/user_permission'));
+            redirect($this->html->getSecureURL('user/user_permission'));
         }
 
         $ids = explode(',', $this->request->get['user_group_id']);
@@ -130,7 +130,7 @@ class ControllerPagesUserUserPermission extends AController
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-        $this->redirect($this->html->getSecureURL('user/user_permission'));
+        redirect($this->html->getSecureURL('user/user_permission'));
     }
 
     public function insert()
@@ -145,7 +145,7 @@ class ControllerPagesUserUserPermission extends AController
         if ($this->request->is_POST() && $this->_validateForm()) {
             $id = $this->model_user_user_group->addUserGroup($this->request->post);
             $this->session->data['success'] = $this->language->get('text_success_group_added');
-            $this->redirect($this->html->getSecureURL('user/user_permission/update', '&user_group_id='.$id));
+            redirect($this->html->getSecureURL('user/user_permission/update', '&user_group_id='.$id));
         }
 
         $this->_getForm();
@@ -172,7 +172,7 @@ class ControllerPagesUserUserPermission extends AController
         if ($this->request->is_POST() && $this->_validateForm()) {
             $this->model_user_user_group->editUserGroup($this->request->get['user_group_id'], $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
-            $this->redirect($this->html->getSecureURL('user/user_permission/update', '&user_group_id='.$this->request->get['user_group_id']));
+            redirect($this->html->getSecureURL('user/user_permission/update', '&user_group_id='.$this->request->get['user_group_id']));
         }
         $this->_getForm();
 

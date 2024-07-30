@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -119,7 +119,7 @@ class ControllerPagesLocalisationTaxClass extends AController
         if ($this->request->is_POST() && $this->_validateForm()) {
             $tax_class_id = $this->model_localisation_tax_class->addTaxClass($this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
-            $this->redirect($this->html->getSecureURL('localisation/tax_class/insert_rates', '&tax_class_id='.$tax_class_id));
+            redirect($this->html->getSecureURL('localisation/tax_class/insert_rates', '&tax_class_id='.$tax_class_id));
         }
         $this->_getForm();
 
@@ -143,7 +143,7 @@ class ControllerPagesLocalisationTaxClass extends AController
         if ($this->request->is_POST() && $this->_validateForm()) {
             $this->model_localisation_tax_class->editTaxClass($this->request->get['tax_class_id'], $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
-            $this->redirect($this->html->getSecureURL('localisation/tax_class/update', '&tax_class_id='.$this->request->get['tax_class_id']));
+            redirect($this->html->getSecureURL('localisation/tax_class/update', '&tax_class_id='.$this->request->get['tax_class_id']));
         }
         $this->_getForm();
 
@@ -282,7 +282,7 @@ class ControllerPagesLocalisationTaxClass extends AController
         if ($this->request->is_POST() && $this->_validateRateForm()) {
             $tax_rate_id = $this->model_localisation_tax_class->addTaxRate($this->request->get['tax_class_id'], $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
-            $this->redirect($this->html->getSecureURL('localisation/tax_class/rates', '&tax_class_id='.$this->request->get['tax_class_id'].'&tax_rate_id='.$tax_rate_id));
+            redirect($this->html->getSecureURL('localisation/tax_class/rates', '&tax_class_id='.$this->request->get['tax_class_id'].'&tax_rate_id='.$tax_rate_id));
         }
         $this->_getRatesForm();
 
@@ -306,7 +306,7 @@ class ControllerPagesLocalisationTaxClass extends AController
         if ($this->request->is_POST() && $this->_validateRateForm()) {
             $this->model_localisation_tax_class->editTaxRate($this->request->get['tax_rate_id'], $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
-            $this->redirect($this->html->getSecureURL('localisation/tax_class/rates', '&tax_class_id='.$this->request->get['tax_class_id'].'&tax_rate_id='.$this->request->get['tax_rate_id']));
+            redirect($this->html->getSecureURL('localisation/tax_class/rates', '&tax_class_id='.$this->request->get['tax_class_id'].'&tax_rate_id='.$this->request->get['tax_rate_id']));
         }
         $this->_getRatesForm();
 
@@ -322,7 +322,7 @@ class ControllerPagesLocalisationTaxClass extends AController
 
         $this->model_localisation_tax_class->deleteTaxRate($this->request->get['tax_rate_id']);
         $this->session->data['success'] = $this->language->get('text_success');
-        $this->redirect($this->html->getSecureURL('localisation/tax_class/rates', '&tax_class_id='.$this->request->get['tax_class_id']));
+        redirect($this->html->getSecureURL('localisation/tax_class/rates', '&tax_class_id='.$this->request->get['tax_class_id']));
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -334,7 +334,7 @@ class ControllerPagesLocalisationTaxClass extends AController
         $tax_class_id = (int)$this->request->get['tax_class_id'];
 
         if (!$tax_class_id) {
-            $this->redirect($this->html->getSecureURL('localisation/tax_class'));
+            redirect($this->html->getSecureURL('localisation/tax_class'));
         }
 
         $tax_rate_id = (int)$this->request->get['tax_rate_id'];

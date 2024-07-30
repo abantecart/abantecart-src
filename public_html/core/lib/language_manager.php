@@ -1,28 +1,29 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
+
 /** @noinspection SqlDialectInspection */
 
 /** @noinspection PhpUndefinedClassInspection */
 
 /** @noinspection DuplicatedCode */
 
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -835,39 +836,6 @@ class ALanguageManager extends Alanguage
             }
         }
         return $result;
-    }
-
-    /**
-     * @param $block
-     * @param $language_id
-     * @param $source_language
-     *
-     * @return null|string
-     * @throws AException
-     * @throws AException
-     * @deprecated
-     * Clone language_definition text that is present in source language and missing in destination
-     * Possibly USELESS NOW ????
-     *
-     */
-    public function cloneMissingDefinitions($block, $language_id, $source_language)
-    {
-        $language_id = (int) $language_id;
-        $source_language = (int) $source_language;
-        $pkeys = [];
-        ADebug::checkpoint(
-            'ALanguage '.$this->language_details['name'].' '.$block.' clone missing text from '.$source_language
-        );
-        array_push($pkeys, 'language_definition_id', 'language_id', 'section', 'block', 'language_key');
-        $section = $this->is_admin ? 1 : 0;
-        $specific_sql = " AND block = '".$block."' AND section = '".$section."'";
-        return $this->cloneLanguageRows(
-            $this->db->table('language_definitions'),
-            $pkeys,
-            $language_id,
-            $source_language,
-            $specific_sql
-        );
     }
 
     /**
