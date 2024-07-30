@@ -495,7 +495,7 @@ class AResource
     public function getResourceAllObjects(
         $object_name,
         $object_id,
-        $sizes = ['main' => [], 'thumb' => [], 'thumb2' => []],
+        $sizes = ['orig' => [], 'main' => [], 'thumb' => [], 'thumb2' => []],
         $limit = 0,
         $noimage = true
     ) {
@@ -602,6 +602,11 @@ class AResource
                             $sizes['thumb2']['height']
                         );
                     }
+                    try {
+                        $origin_path = DIR_RESOURCE.$this->getTypeDir().$rsrc_info['resource_path'];
+                        $img = new AImage($origin_path);
+                        $sizes['orig'] = $img->getInfo();
+                    }catch(Exception|Error $e){}
                 } else {
                     $main_url = $direct_url;
                     $thumb_url = $this->getResizedImageURL(
@@ -611,10 +616,12 @@ class AResource
                     );
                 }
 
+
                 $resources[$k] = [
                     'resource_id'   => $rsrc_info['resource_id'],
                     'origin'        => $origin,
                     'direct_url'    => $direct_url,
+                    'info'          => $sizes['orig'],
                     //set full path to original file only for images (see above)
                     'resource_path' => $res_full_path,
                     'main_url'      => $main_url,
