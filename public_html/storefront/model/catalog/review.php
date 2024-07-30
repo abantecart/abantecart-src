@@ -234,7 +234,9 @@ class ModelCatalogReview extends Model
                 INNER JOIN " . $this->db->table("products") . " p
                     ON (r.product_id = p.product_id 
                         AND p.status = '1' AND COALESCE(p.date_available, NOW()) <= NOW() )
-                 ";
+                INNER JOIN " . $this->db->table('products_to_stores') . " p2s 
+                    ON (p2s.product_id = p.product_id AND p2s.store_id = ".$storeId.")";
+
         if($categoryIds) {
             $sql .= " RIGHT JOIN  " . $this->db->table("products_to_categories") . " p2c
                     ON ( p2c.product_id = r.product_id
@@ -300,11 +302,14 @@ class ModelCatalogReview extends Model
                 FROM " . $this->db->table("reviews") . " r 
                 INNER JOIN  " . $this->db->table("products") . " p
                     ON ( p.product_id = r.product_id
-                         AND p.status = '1' AND COALESCE(p.date_available, NOW()) <= NOW() ";
+                         AND p.status = '1' AND COALESCE(p.date_available, NOW()) <= NOW() 
+                ";
         if($manufacturerIds) {
-            $sql .= "p.manufacturer_id IN (" . implode(',', $manufacturerIds) . " ) ";
+            $sql .= "AND p.manufacturer_id IN (" . implode(',', $manufacturerIds) . " ) ";
         }
-        $sql .= ") ";
+        $sql .= ") 
+            INNER JOIN " . $this->db->table('products_to_stores') . " p2s 
+                ON (p2s.product_id = p.product_id AND p2s.store_id = ".$storeId.") ";
 
         if($data['filter']['category_id']){
             $sql .= " INNER JOIN ".$this->db->table('products_to_categories')." p2c

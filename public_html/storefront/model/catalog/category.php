@@ -386,7 +386,11 @@ class ModelCatalogCategory extends Model
         if($categories) {
             $sql .= "WHERE p2c.category_id IN (" . implode(', ', $categories) . ") ";
         }
-        $sql .= ") )";
+        $sql .= ") ) ";
+        $sql .= "INNER JOIN " . $this->db->table('manufacturers_to_stores') . " m2s 
+                    ON (m2s.manufacturer_id = m.manufacturer_id AND m2s.store_id = ".$storeId.")";
+        $sql .= "INNER JOIN " . $this->db->table('products_to_stores') . " p2s 
+                    ON (p2s.product_id = p.product_id AND p2s.store_id = ".$storeId.")";
 
         $sql .= " WHERE LENGTH(m.name)>0 ";
         if($data['filter']['rating']) {
@@ -670,6 +674,8 @@ class ModelCatalogCategory extends Model
                 ON p.product_id = p2c.product_id
             INNER JOIN " . $this->db->table('categories') . " c
                 ON c.category_id = p2c.category_id AND c.status = 1
+            INNER JOIN " . $this->db->table('categories_to_stores') . " c2s
+                ON c2s.category_id = p2c.category_id AND c2s.store_id = ".$storeId."
             LEFT JOIN " . $this->db->table("category_descriptions") . " cd
                 ON (cd.category_id = p2c.category_id 
                     AND cd.language_id = " . (int)$this->language->getLanguageID() .")                    
