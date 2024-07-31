@@ -54,7 +54,6 @@
                                 <?php } ?>
                                 <a href="<?php echo $item['info_url'] ?>"><?php echo $item['image'] ?></a>
                             </div>
-
                             <div class="flex-grow-1 ms-3">
                                 <div class="row align-items-center">
                                     <div class="col-sm-6">
@@ -63,6 +62,7 @@
                                                 <?php echo $text_sale; ?>
                                             </span>
                                         <?php } ?>
+                                        <?php echo $this->getHookvar('product_listing_badge_'.$product['product_id']);?>
                                         <h2 class="h6 mb-3">
                                             <a class="product-name text-decoration-none text-s  econdary card-title" href="<?php echo $item['info_url'] ?>">
                                                 <?php echo $item['title'].' '. ($product['model'] ? "(".$product['model'].")" :''); ?>

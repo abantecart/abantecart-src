@@ -48,8 +48,8 @@ foreach ($products as $product) {
                     <span class="new new_<?php echo $product['product_id']; ?>"></span>
                     <?php } ?>
                     <a href="<?php echo $item['info_url'] ?>"><?php echo $item['image'] ?></a>
+                    <?php echo $this->getHookvar('product_listing_badge_'.$product['product_id']);?>
                 </div>
-
                 <div class="col-12 col-sm-9 d-flex flex-column">
                     <a class="text-decoration-none text-secondary card-title" href="<?php echo $item['info_url'] ?>">
                         <h2><?php echo $item['title'].' '. ($product['model'] ? "(".$product['model'].")" :''); ?></h2>
