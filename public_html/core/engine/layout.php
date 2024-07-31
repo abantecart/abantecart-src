@@ -221,8 +221,8 @@ class ALayout
                     // so if we have key_param key_value pair we select pages with controller and with or without key_param
                     $where .= " AND ( COALESCE( key_param, '' ) = ''
                                         OR
-                                        ( key_param = '".$this->db->escape($key_param)."'
-                                            AND key_value = '".$this->db->escape($key_value)."' ) ) ";
+                                        ( key_param = '".$this->db->escape((string)$key_param)."'
+                                            AND key_value = '".$this->db->escape((string)$key_value)."' ) ) ";
                 } else { //write to log this stuff. it's abnormal situation
                     $message = "Error: Error in data of page with controller: '".$controller
                         ."'. Please check for key_value present where key_param was set.\n";
