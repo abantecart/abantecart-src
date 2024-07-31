@@ -88,12 +88,16 @@ final class ALoader
         }
 
         //mode to force load storefront model
-        $section = DIR_APP_SECTION;
+        $section = defined('INSTALL') && $model!='install'
+            ? dirname(DIR_ROOT).DS.'admin'.DS
+            : DIR_APP_SECTION;
         if ($mode == 'storefront') {
-            $section = DIR_ROOT.'/storefront/';
+            $section = defined('INSTALL')
+                ? dirname(DIR_ROOT).DS.'storefront'.DS
+                : DIR_ROOT.DS.'storefront'.DS;
         }
 
-        $file = $section.'model/'.$model.'.php';
+        $file = $section.'model'.DS.$model.'.php';
         if ($this->registry->has('extensions') && $result = $this->extensions->isExtensionResource('M', $model, $force, $mode)) {
             if (is_file($file)) {
                 $warning = new AWarning("Extension <b>{$result['extension']}</b> override model <b>$model</b>");

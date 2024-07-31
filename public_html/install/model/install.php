@@ -1,25 +1,22 @@
 <?php
-
 /*
-------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2022 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-  
- UPGRADE NOTE: 
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.  
-------------------------------------------------------------------------------  
-*/
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 class ModelInstall extends Model
 {
@@ -114,6 +111,12 @@ class ModelInstall extends Model
             if(!$sampleDataFile) {
                 $this->errors['with-sample-data'] = 'Sample data file not found!';
             }
+        }
+
+        $extDirs = $this->extensions->getExtensionsDir();
+        if($data['template']!='default' && !in_array($data['template'],$extDirs))
+        {
+            $this->errors['template'] = 'Invalid template!';
         }
 
         return (!$this->errors);
@@ -389,24 +392,25 @@ const MAILER = [
 
     public function getLanguages()
     {
-        $query = $this->db->query(
+        $result = $this->db?->query(
             "SELECT *
             FROM ".$this->db->table("languages")."
             ORDER BY `sort_order`, `name`"
         );
         $language_data = [];
-
-        foreach ($query->rows as $result) {
-            $language_data[$result['code']] = [
-                'language_id' => $result['language_id'],
-                'name'        => $result['name'],
-                'code'        => $result['code'],
-                'locale'      => $result['locale'],
-                'directory'   => $result['directory'],
-                'filename'    => $result['filename'],
-                'sort_order'  => $result['sort_order'],
-                'status'      => $result['status'],
-            ];
+        if($result) {
+            foreach ($result->rows as $row) {
+                $language_data[$row['code']] = [
+                    'language_id' => $row['language_id'],
+                    'name'        => $row['name'],
+                    'code'        => $row['code'],
+                    'locale'      => $row['locale'],
+                    'directory'   => $row['directory'],
+                    'filename'    => $row['filename'],
+                    'sort_order'  => $row['sort_order'],
+                    'status'      => $row['status'],
+                ];
+            }
         }
 
         return $language_data;

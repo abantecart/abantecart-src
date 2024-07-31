@@ -1,25 +1,21 @@
-<?php
-/** @noinspection PhpMultipleClassDeclarationsInspection */
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
-
+<?php /*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */ /** @noinspection PhpMultipleClassDeclarationsInspection */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -93,13 +89,14 @@ class AExtensionManager
      * @param array $data
      *
      * @return int extension_id
+     * @throws AException
      */
     public function add($data)
     {
         if (is_array($data)) {
             // check collision
             $data['type'] = $data['type'] == 'extension' ? 'extensions' : $data['type'];
-            $type = ($data['type'] ? $data['type'] : 'extensions');
+            $type = ($data['type'] ?: 'extensions');
             $key = $data['key'];
             $status = $data['status'];
             $priority = $data['priority'];
@@ -144,6 +141,7 @@ class AExtensionManager
      * @param string $extension_txt_id
      *
      * @return array
+     * @throws AException
      */
     public function getParentsExtensionTextId($extension_txt_id)
     {
@@ -167,6 +165,7 @@ class AExtensionManager
      * @param string $parent_extension_txt_id
      *
      * @return array
+     * @throws AException
      */
     public function getChildrenExtensions($parent_extension_txt_id)
     {
@@ -192,6 +191,7 @@ class AExtensionManager
      * @param string $extension_parent_txt_id
      *
      * @return bool
+     * @throws AException
      */
     public function addDependant($extension_txt_id, $extension_parent_txt_id)
     {
@@ -226,6 +226,7 @@ class AExtensionManager
      * @param string $extension_parent_txt_id
      *
      * @return bool
+     * @throws AException
      */
     public function deleteDependant($extension_txt_id = '', $extension_parent_txt_id = '')
     {
@@ -292,9 +293,7 @@ class AExtensionManager
                 } else {
                     $this->load->language($extension_txt_id.'/'.$extension_txt_id);
                     foreach ($validate['errors'] as $field_id => $error_text) {
-                        $this->errors[] = $error_text
-                            ? $error_text
-                            : $this->language->get($field_id.'_validation_error');
+                        $this->errors[] = $error_text ?: $this->language->get($field_id.'_validation_error');
                     }
                 }
                 return false;
@@ -342,8 +341,7 @@ class AExtensionManager
                         } else {
                             $this->load->language($extension_txt_id.'/'.$extension_txt_id);
                             foreach ($validate['errors'] as $field_id => $error_text) {
-                                $error =
-                                    $error_text ? $error_text : $this->language->get($field_id.'_validation_error');
+                                $error = $error_text ? : $this->language->get($field_id.'_validation_error');
                                 $this->messages->saveError('App Error: '.$field_id, $error);
                                 $this->errors[] = $error;
                                 $error = new AError ($error);
@@ -356,8 +354,7 @@ class AExtensionManager
                         $enabled = $this->extensions->getEnabledExtensions();
                         foreach ($parents as $parent) {
                             if (!in_array($parent['key'], $enabled)) {
-                                $error =
-                                    "Cannot enable extension \"".$extension_txt_id."\". It's depends on extension \""
+                                $error = "Cannot enable extension \"".$extension_txt_id."\". It's depends on extension \""
                                     .$parent['key']."\" which not enabled. ";
                                 $this->messages->saveError('Extension App Error', $error);
                                 $this->errors[] = $error;
@@ -434,6 +431,7 @@ class AExtensionManager
      * method deletes all settings of extension with language definitions
      *
      * @param string $group - extension text id
+     * @throws AException
      */
     public function deleteSetting($group)
     {
@@ -498,14 +496,14 @@ class AExtensionManager
                 'backup_file' => '',
                 'backup_date' => '',
                 'type'        => 'install',
-                'user'        => $this->user->getUsername(),
+                'user'        => $this->user?->getUsername() ?: 'install',
             ]
         );
 
         // add dependencies into database for required extensions only
         if (isset($config->dependencies->item)) {
             foreach ($config->dependencies->item as $item) {
-                if ((boolean) $item['required']) {
+                if ((bool) $item['required']) {
                     $this->addDependant($name, (string) $item);
                 }
             }
@@ -513,22 +511,22 @@ class AExtensionManager
 
         // running sql install script if it exists
         if (isset($config->install->sql)) {
-            $file = DIR_EXT.str_replace('../', '', $name).'/'.(string) $config->install->sql;
+            $file = DIR_EXT.str_replace('../', '', $name).'/'.$config->install->sql;
             if (is_file($file)) {
                 $this->db->performSql($file);
             }
         }
         // running php install script if it exists
         if (isset($config->install->trigger)) {
-            $file = DIR_EXT.str_replace('../', '', $name).'/'.(string) $config->install->trigger;
+            $file = DIR_EXT.str_replace('../', '', $name).'/'.$config->install->trigger;
             if (is_file($file)) {
                 include($file);
             }
         }
 
         // refresh data about updates
-        $this->load->model('tool/updater');
-        $this->model_tool_updater->check4updates(true);
+        $this->load->model('tool/updater','silent');
+        $this?->model_tool_updater?->check4updates(true);
 
         //save default settings for all stores
         $this->load->model('setting/store');
@@ -545,7 +543,7 @@ class AExtensionManager
      * @param SimpleXMLElement|stdClass $config
      *
      * @return bool|null
-     * @throws AException
+     * @throws AException|DOMException
      */
     public function uninstall($name, $config)
     {
@@ -579,14 +577,14 @@ class AExtensionManager
         );
 
         if (isset($config->uninstall->sql)) {
-            $file = DIR_EXT.str_replace('../', '', $name).'/'.(string) $config->uninstall->sql;
+            $file = DIR_EXT.str_replace('../', '', $name).'/'. $config->uninstall->sql;
             if (is_file($file)) {
                 $this->db->performSql($file);
             }
         }
         // running php uninstall script if it exists
         if (isset($config->uninstall->trigger)) {
-            $file = DIR_EXT.str_replace('../', '', $name).'/'.(string) $config->uninstall->trigger;
+            $file = DIR_EXT.str_replace('../', '', $name).'/'. $config->uninstall->trigger;
             if (is_file($file)) {
                 include($file);
             }
@@ -654,6 +652,8 @@ class AExtensionManager
      * @param string $extension_txt_id
      *
      * @return bool
+     * @throws AException
+     * @throws DOMException
      */
     public function validate($extension_txt_id)
     {
@@ -694,6 +694,7 @@ class AExtensionManager
      * @param SimpleXMLElement|stdClass $config
      *
      * @return bool
+     * @throws AException
      */
     public function validateDependencies($extension_txt_id, $config)
     {
@@ -745,6 +746,8 @@ class AExtensionManager
      * @param string $extension_txt_id
      *
      * @return bool
+     * @throws AException
+     * @throws DOMException
      */
     public function checkDependants($extension_txt_id)
     {
@@ -795,7 +798,7 @@ class AExtensionManager
     public function isExtensionInstalled($extension_txt_id)
     {
         $installed = $this->config->get($extension_txt_id.'_status');
-        return $installed === null ? false : true;
+        return !($installed === null);
     }
 
     /**
@@ -893,7 +896,7 @@ class AExtensionManager
             return true;
         }
         $phpMinVersion = (string)$config->phpminversion ?: MIN_PHP_VERSION;
-        if (version_compare(phpversion(), $phpMinVersion, '<') == true) {
+        if (version_compare(phpversion(), $phpMinVersion, '<')) {
             $this->errors[] = sprintf(
                                 '<b>%s</b> extension cannot be installed: <b>%s</b> php version required',
                                 $extension_txt_id,
