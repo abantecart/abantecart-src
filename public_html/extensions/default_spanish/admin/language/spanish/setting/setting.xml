@@ -1,4 +1,23 @@
 <?xml version="1.0"?>
+<!--
+  ~   $Id$
+  ~
+  ~   AbanteCart, Ideal OpenSource Ecommerce Solution
+  ~   http://www.AbanteCart.com
+  ~
+  ~   Copyright © 2011-2024 Belavier Commerce LLC
+  ~
+  ~   This source file is subject to Open Software License (OSL 3.0)
+  ~   License details is bundled with this package in the file LICENSE.txt.
+  ~   It is also available at this URL:
+  ~   <http://www.opensource.org/licenses/OSL-3.0>
+  ~
+  ~  UPGRADE NOTE:
+  ~    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+  ~    versions in the future. If you wish to customize AbanteCart for your
+  ~    needs please refer to http://www.AbanteCart.com for more information.
+  -->
+
 <definitions>
 	<definition>
 		<key>heading_title</key>
@@ -1038,5 +1057,46 @@ imagen</span>]]></value>
 		<key>text_native_mail_description</key>
 		<value><![CDATA[
  Mailer usa el binario sendmail y las opciones configuradas en la configuración sendmail_path de php.ini.]]></value>
+	</definition>
+	<definition>
+		<key>error_alert_emails</key>
+		<value><![CDATA[
+ Los correos electrónicos de alerta deben ser válidos y estar separados por comas!]]></value>
+	</definition>
+	<definition>
+		<key>entry_viewed_products_limit</key>
+		<value><![CDATA[Límite de productos vistos:]]></value>
+	</definition>
+	<definition>
+		<key>entry_viewed_products_image_width</key>
+		<value><![CDATA[Ancho de imagen de productos vistos:]]></value>
+	</definition>
+	<definition>
+		<key>entry_viewed_products_image_height</key>
+		<value><![CDATA[Altura de la imagen de los productos vistos:]]></value>
+	</definition>
+	<definition>
+		<key>entry_fast_checkout_allow_coupon</key>
+		<value><![CDATA[Permitir ingreso de cupón <br/><span class="help">Habilitar ingreso de cupón por parte de clientes e invitados</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_fast_checkout_payment_address_equal_shipping</key>
+		<value><![CDATA[Requerir que la dirección de pago sea la misma que la dirección de envío]]></value>
+	</definition>
+	<definition>
+		<key>entry_fast_checkout_require_phone_number</key>
+		<value><![CDATA[Requerir número de teléfono <br/><span class="help">Requerir el ingreso del número de teléfono por cliente o invitado específico para el pedido</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_fast_checkout_create_account</key>
+		<value><![CDATA[Pago de invitado Crear cuenta <br/><span class="help">Ofrezca al huésped crear una cuenta al final del proceso de pago. Esto es transparente para los huéspedes y se enviará un correo electrónico con los datos de inicio de sesión.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_fast_checkout_buy_now_status</key>
+		<value><![CDATA[ Mostrar el botón &quot;Comprar ahora&quot; ]]></value>
+	</definition>
+	<definition>
+		<key>entry_fast_checkout_show_order_comment_field</key>
+		<value><![CDATA[Mostrar campo de comentarios del pedido <br/><span class="help">El área de texto de comentarios se mostrará durante el proceso de pago</span>]]></value>
 	</definition>
 </definitions>

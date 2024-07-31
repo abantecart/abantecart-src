@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~   $Id$
+  ~
+  ~   AbanteCart, Ideal OpenSource Ecommerce Solution
+  ~   http://www.AbanteCart.com
+  ~
+  ~   Copyright © 2011-2024 Belavier Commerce LLC
+  ~
+  ~   This source file is subject to Open Software License (OSL 3.0)
+  ~   License details is bundled with this package in the file LICENSE.txt.
+  ~   It is also available at this URL:
+  ~   <http://www.opensource.org/licenses/OSL-3.0>
+  ~
+  ~  UPGRADE NOTE:
+  ~    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+  ~    versions in the future. If you wish to customize AbanteCart for your
+  ~    needs please refer to http://www.AbanteCart.com for more information.
+  -->
+
 <definitions>
 	<definition>
 		<key>code</key>
@@ -343,5 +362,29 @@
 	<definition>
 		<key>text_out_of_stock</key>
 		<value><![CDATA[Нет в наличии]]></value>
+	</definition>
+	<definition>
+		<key>text_badge_sale</key>
+		<value><![CDATA[РАСПРОДАЖА]]></value>
+	</definition>
+	<definition>
+		<key>text_pagination_pages_info</key>
+		<value><![CDATA[Показаны {start} по {end} из {total} (страниц: {pages})]]></value>
+	</definition>
+	<definition>
+		<key>text_first</key>
+		<value><![CDATA[Первый]]></value>
+	</definition>
+	<definition>
+		<key>text_last</key>
+		<value><![CDATA[Последний]]></value>
+	</definition>
+	<definition>
+		<key>text_next</key>
+		<value><![CDATA[Следующий]]></value>
+	</definition>
+	<definition>
+		<key>text_previous</key>
+		<value><![CDATA[Предыдущий]]></value>
 	</definition>
 </definitions>

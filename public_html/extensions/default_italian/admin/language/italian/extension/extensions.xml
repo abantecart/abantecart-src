@@ -1,4 +1,23 @@
 <?xml version="1.0"?>
+<!--
+  ~   $Id$
+  ~
+  ~   AbanteCart, Ideal OpenSource Ecommerce Solution
+  ~   http://www.AbanteCart.com
+  ~
+  ~   Copyright © 2011-2024 Belavier Commerce LLC
+  ~
+  ~   This source file is subject to Open Software License (OSL 3.0)
+  ~   License details is bundled with this package in the file LICENSE.txt.
+  ~   It is also available at this URL:
+  ~   <http://www.opensource.org/licenses/OSL-3.0>
+  ~
+  ~  UPGRADE NOTE:
+  ~    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+  ~    versions in the future. If you wish to customize AbanteCart for your
+  ~    needs please refer to http://www.AbanteCart.com for more information.
+  -->
+
 <definitions>
 	<definition>
 		<key>heading_title</key>
@@ -427,5 +446,15 @@
 	<definition>
 		<key>text_max_order_subtotal</key>
 		<value><![CDATA[Subtotale massimo dell&#39;ordine: <span class="help">immettere il valore massimo del subtotale dell&#39;ordine per l&#39;opzione di spedizione disponibile per il cliente. Questo campo è facoltativo.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_autoselect_payment</key>
+		<value><![CDATA[
+ Selezione automatica: <span class="help">semplifica il processo di pagamento scegliendo automaticamente un metodo di pagamento quando sono disponibili più opzioni.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_autoselect_shipping</key>
+		<value><![CDATA[
+ Selezione automatica: <span class="help">semplifica il processo di pagamento scegliendo automaticamente un metodo di consegna quando sono disponibili più opzioni.</span>]]></value>
 	</definition>
 </definitions>

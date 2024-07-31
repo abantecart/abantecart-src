@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~   $Id$
+  ~
+  ~   AbanteCart, Ideal OpenSource Ecommerce Solution
+  ~   http://www.AbanteCart.com
+  ~
+  ~   Copyright © 2011-2024 Belavier Commerce LLC
+  ~
+  ~   This source file is subject to Open Software License (OSL 3.0)
+  ~   License details is bundled with this package in the file LICENSE.txt.
+  ~   It is also available at this URL:
+  ~   <http://www.opensource.org/licenses/OSL-3.0>
+  ~
+  ~  UPGRADE NOTE:
+  ~    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+  ~    versions in the future. If you wish to customize AbanteCart for your
+  ~    needs please refer to http://www.AbanteCart.com for more information.
+  -->
+
 <definitions>
 	<definition>
 		<key>text_basket</key>
@@ -10,8 +29,7 @@
 	</definition>
 	<definition>
 		<key>text_accept_agree</key>
-		<value>
-			<![CDATA[By clicking Confirm Order, you accept and agree to all terms of]]></value>
+		<value><![CDATA[By clicking Confirm Order, you accept and agree to all terms of]]></value>
 	</definition>
 	<definition>
 		<key>text_cart_items</key>
@@ -436,5 +454,41 @@
 	<definition>
 		<key>fast_checkout_text_authenticating</key>
 		<value><![CDATA[Authenticating ... ]]></value>
+	</definition>
+	<definition>
+		<key>text_message_account</key>
+		<value><![CDATA[
+<p> ¡Tu pedido #%s ha sido creado!</p> 
+<p> Puede ver los detalles de su pedido yendo a la <a href="%s">página de factura</a> .</p> 
+<p> Dirija cualquier pregunta que tenga al <a href="%s">propietario de la tienda</a> .</p> 
+<p> gracias por comprar con nosotros!</p>]]></value>
+	</definition>
+	<definition>
+		<key>text_message_guest</key>
+		<value><![CDATA[
+<p> ¡Tu pedido ha sido procesado exitosamente!</p> 
+<p> Puede ver los detalles de su pedido yendo a la <a href="%s">página de factura</a> .</p> 
+<p> Por favor dirija cualquier pregunta que tenga al <a href="%s">dueño de la tienda</a> .</p> 
+<p> gracias por comprar con nosotros!</p>]]></value>
+	</definition>
+	<definition>
+		<key>text_guest</key>
+		<value><![CDATA[Pago de invitado]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Éxito]]></value>
+	</definition>
+	<definition>
+		<key>text_message_failed_order</key>
+		<value><![CDATA[¡Ups! Hemos experimentado algún problema con su transacción. Su pedido será verificado manualmente por el administrador.]]></value>
+	</definition>
+	<definition>
+		<key>text_title_failed_order_to_admin</key>
+		<value><![CDATA[Orden fallida #%s]]></value>
+	</definition>
+	<definition>
+		<key>text_message_failed_order_to_admin</key>
+		<value><![CDATA[Respuesta fallida o faltante en la verificación de pago. ¡Se requiere verificación manual!]]></value>
 	</definition>
 </definitions>
