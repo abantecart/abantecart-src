@@ -1,24 +1,24 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
+
 /** @noinspection PhpUndefinedClassInspection */
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2024 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
 
 class ModelCatalogProduct extends Model
 {
@@ -1965,7 +1965,9 @@ class ModelCatalogProduct extends Model
 
         $language_id = (int) $this->config->get('storefront_language_id');
         $store_id = (int) $this->config->get('config_store_id');
-        $customer_group_id = (int)$data['customer_group_id'] ?: $this->customer->getCustomerGroupId();
+        $customer_group_id = (int)$data['customer_group_id']
+                            ?: $this->customer->getCustomerGroupId()
+                            ?: $this->config->get('config_customer_group_id');
 
         $cache_key = 'product.specials.'.$customer_group_id;
         $cache_key .= $this->cache->paramsToString($data);
