@@ -105,7 +105,7 @@ switch ($command) {
             echo "\t"."Store link: ".$options['http_server']."\n\n";
             echo "\t"."Admin link: ".$options['http_server']."?s=".$options['admin_path']."\n\n";
         } catch (Exception|Error $e) {
-            echo 'FAILED!: '.$e->getMessage().". File: ".$e->getFile()." Line ".$e->getLine()."\n";
+            echo 'FAILED!: '.$e->getMessage().". File: ".$e->getFile()." Line ".$e->getLine()."\n".$e->getTraceAsString();
             exit(1);
         }
         break;
@@ -277,12 +277,10 @@ function install($options)
     $errors = checkRequirements($options);
     if (!$errors) {
         writeConfigFile($options);
-        if (file_exists(DIR_SYSTEM.'config.php')) {
-            require_once(DIR_SYSTEM.'config.php');
-        }
         setupDB($options);
         $ext = $options['template'];
         if($ext && $ext != 'default'){
+            $db = Registry::getInstance()->get('db');
             $template = new ExtensionUtils($ext);
             $em = new AExtensionManager();
             $em->install( $ext, $template->getConfig() );
@@ -290,7 +288,6 @@ function install($options)
                 throw new Exception(implode("\n", $em->errors));
             }
             $em->editSetting($ext,['novator_status' => 1]);
-            $db = Registry::getInstance()->get('db');
             $db->query(
                 "UPDATE ".$db->table("settings")." 
                         SET `value` = '".$db->escape($ext)."' 
@@ -342,6 +339,7 @@ function setupDB($data)
     );
     $registry->set('db', $db);
     define('DIR_LANGUAGE', DIR_ABANTECART.'admin/language/');
+
     // Cache
     $registry->set('cache', new ACache());
 
@@ -358,6 +356,10 @@ function setupDB($data)
     if ($load_data) {
         $mdl->loadDemoData($registry, $load_data);
     }
+
+    $extensions = new ExtensionsApi();
+    $extensions->loadEnabledExtensions();
+    $registry->set('extensions', $extensions);
 }
 
 /**

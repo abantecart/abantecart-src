@@ -227,6 +227,10 @@ try {
         $language = new ALanguageManager($registry);
         $registry->set('language', $language);
 
+        $extensions = new ExtensionsApi();
+        $extensions->loadEnabledExtensions();
+        $registry->set('extensions', $extensions);
+
         $r = $db->query("SELECT * FROM ".DB_PREFIX."settings");
         $data_exist = $r->num_rows;
         if ($data_exist && !isset($session->data['finish'])) {
