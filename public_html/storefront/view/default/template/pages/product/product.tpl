@@ -101,6 +101,7 @@ if ($error){ ?>
             <div class="col-md-12 d-flex flex-column">
                     <h1><?php echo $heading_title; ?></h1>
                     <div class="blurb"><?php echo $product_info['blurb'] ?></div>
+                    <?php echo $this->getHookVar('after_product_blurb');?>
                     <div class="d-flex flex-column product-price mb-4">
                         <?php
                         if ($display_price){ ?>

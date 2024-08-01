@@ -79,6 +79,7 @@ if ($error){ ?>
                     <p class="text-muted"><?php echo $blurb; ?></p>
                     <?php }?>
                 </div>
+                <?php echo $this->getHookVar('after_product_blurb');?>
                 <div class="col-sm-3">
                     <div class="d-flex justify-content-sm-end gap-2">
                         <?php
