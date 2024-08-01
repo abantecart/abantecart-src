@@ -56,7 +56,7 @@ jobs:
 
       - name: Initialize ${{ matrix.db.ver }} Database
         id: db-init
-        run: php ./public_html/install/cli_install.php install --db_host=127.0.0.1 --db_user=abantecart --db_password=cartsarecool --db_name=abantecart_test_build  --db_driver=amysqli  --db_prefix=abc_ --admin_path=admin  --username=admin  --password=admin  --email=dsuprunenko@abantecart.com  --http_server=https://abantecart.nowhere/public_html --with-sample-data=public_html/install/abantecart_sample_data.sql
+        run: php ./public_html/install/cli_install.php install --db_host=127.0.0.1 --db_user=abantecart --db_password=cartsarecool --db_name=abantecart_test_build  --db_driver=amysqli  --db_prefix=abc_ --admin_path=admin  --username=admin  --password=admin  --email=dsuprunenko@abantecart.com  --http_server=https://abantecart.nowhere/public_html --with-sample-data=public_html/install/abantecart_sample_data.sql --template=novator
 
       - name: Run phpunit for ${{ matrix.db.ver }}
         run: phpunit -c tests/phpunit/phpunit_mysql.xml
