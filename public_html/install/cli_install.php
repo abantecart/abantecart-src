@@ -162,6 +162,7 @@ function getOptionList()
         '--email'            => 'your_email@example.com',
         '--http_server'      => 'https://your-domain.com',
         '--with-sample-data' => '{ full-path-to-sql-file-or-leave-empty-to-load-default-data }',
+        '--template'         => '{novator-or-default-or-custom-name}',
     ];
 }
 
@@ -198,7 +199,7 @@ function help()
     foreach ($options as $opt => $ex) {
         $output .= $opt.($ex ? "=".$ex : '')."  ";
     }
-    $output .= " --template=default\n\n";
+    $output .= " --template=novator\n\n";
 
     return $output;
 }
@@ -213,7 +214,7 @@ function getOptionValues($opt_name = '')
 {
     global $args;
     $args = !$args ? $_SERVER['argv'] : $args;
-    $options = [];
+    $options = ['template' => 'novator' ];
     foreach ($args as $v) {
         $is_flag = preg_match('/^--(.*)$/', $v, $match);
         //skip commands
