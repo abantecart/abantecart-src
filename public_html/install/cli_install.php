@@ -333,17 +333,29 @@ function setupDB($data)
 
     $load_data = getOptionValues('with-sample-data');
 
-    if ($load_data) {
-        $db = new ADB(
-            $data['db_driver'],
-            htmlspecialchars_decode($data['db_host']),
-            htmlspecialchars_decode($data['db_user']),
-            htmlspecialchars_decode($data['db_password']),
-            htmlspecialchars_decode($data['db_name'])
-        );
-        $registry->set('db', $db);
-        define('DIR_LANGUAGE', DIR_ABANTECART.'admin/language/');
+    $db = new ADB(
+        $data['db_driver'],
+        htmlspecialchars_decode($data['db_host']),
+        htmlspecialchars_decode($data['db_user']),
+        htmlspecialchars_decode($data['db_password']),
+        htmlspecialchars_decode($data['db_name'])
+    );
+    $registry->set('db', $db);
+    define('DIR_LANGUAGE', DIR_ABANTECART.'admin/language/');
+    // Cache
+    $registry->set('cache', new ACache());
 
+    $config = new AConfig($registry);
+    $registry->set('config', $config);
+
+// Session
+    $registry->set('session', new ASession(SESSION_ID));
+    $config->set('current_store_id', 0);
+
+    // Load language
+    $language = new ALanguageManager($registry);
+    $registry->set('language', $language);
+    if ($load_data) {
         $mdl->loadDemoData($registry, $load_data);
     }
 }
