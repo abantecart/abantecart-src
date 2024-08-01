@@ -199,7 +199,7 @@ function help()
     foreach ($options as $opt => $ex) {
         $output .= $opt.($ex ? "=".$ex : '')."  ";
     }
-    $output .= " --template=novator\n\n";
+    $output .= " \n\n";
 
     return $output;
 }
