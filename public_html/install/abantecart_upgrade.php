@@ -1,18 +1,37 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
+
 /** @var AController $this */
 
 $langs = $this->language->getAvailableLanguages();
 
-$sqlSelect = "SELECT activate_order_status_id FROM `ac_downloads`";
+$sqlSelect = "SELECT activate_order_status_id FROM ".$this->db->table('downloads');
 $result = $this->db->query($sqlSelect);
 
 if ($result->num_rows > 0) {
 
-    $sqlAlter = "ALTER TABLE `ac_downloads` MODIFY COLUMN activate_order_status_id VARCHAR(255)";
+    $sqlAlter = "ALTER TABLE ".$this->db->table('downloads')." MODIFY COLUMN activate_order_status_id VARCHAR(255)";
     if ($this->db->query($sqlAlter) === TRUE) {
 
         foreach ($result as $value) {
-            $sqlUpdate = "UPDATE `ac_downloads` SET activate_order_status_id = '$value'";
+            $sqlUpdate = "UPDATE ".$this->db->table('downloads')." SET activate_order_status_id = '".$value."'";
             $this->db->query($sqlUpdate);
         }
     }
@@ -56,12 +75,12 @@ if($res) {
 }
 
 //check guest_token order data
-$sql = "SELECT * FROM `ac_order_data_types` WHERE `name` = 'guest_token'";
+$sql = "SELECT * FROM ".$this->db->table('order_data_types')." WHERE `name` = 'guest_token'";
 $result = $this->db->query($sql);
 if (!$result->num_rows) {
     foreach($langs as $language){
-        $sql = "INSERT INTO `ac_order_data_types` (`language_id`, `name`, `date_added`) 
-        VALUES (".(int)$language['language_id'].", 'guest_token', NOW())";
+        $sql = "INSERT INTO ".$this->db->table('order_data_types')." (`language_id`, `name`, `date_added`) 
+                VALUES (".(int)$language['language_id'].", 'guest_token', NOW())";
         $this->db->query($sql);
     }
 
@@ -74,4 +93,3 @@ if (!$result->num_rows) {
         ;";
     $this->db->query($sql);
 }
-
