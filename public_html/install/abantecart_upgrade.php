@@ -20,16 +20,12 @@
 
 /** @var AController $this */
 
-//try to rename prior sf-template based on bootstrap 3
-@rename(DIR_STOREFRONT.DS.'view'.DS.'default', DIR_STOREFRONT.DS.'view'.DS.'default_1.3.4' );
-
 $langs = $this->language->getAvailableLanguages();
 
 $sqlSelect = "SELECT activate_order_status_id FROM ".$this->db->table('downloads');
 $result = $this->db->query($sqlSelect);
 
 if ($result->num_rows > 0) {
-
     $sqlAlter = "ALTER TABLE ".$this->db->table('downloads')." MODIFY COLUMN activate_order_status_id VARCHAR(255)";
     if ($this->db->query($sqlAlter) === TRUE) {
 
