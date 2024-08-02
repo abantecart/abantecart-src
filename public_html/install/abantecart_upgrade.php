@@ -20,6 +20,9 @@
 
 /** @var AController $this */
 
+//try to rename prior sf-template based on bootstrap 3
+@rename(DIR_STOREFRONT.DS.'view'.DS.'default', DIR_STOREFRONT.DS.'view'.DS.'default_1.3.4' );
+
 $langs = $this->language->getAvailableLanguages();
 
 $sqlSelect = "SELECT activate_order_status_id FROM ".$this->db->table('downloads');
