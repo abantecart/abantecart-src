@@ -10,6 +10,7 @@
                 <?php echo $text_sale; ?>
             </span>
         <?php } ?>
+        <?php echo $this->getHookvar('product_listing_badge_'.$product['product_id']);?>
         <?php if ($product['track_stock'] && !$product['in_stock']) { ?>
             <span class="sale_<?php echo $product['product_id']; ?>
 									prod-badge badge rounded-0 position-absolute text-uppercase bg-white text-dark">
@@ -21,7 +22,6 @@
             if ($product['new_product']) { ?>
                 <span class="new new_<?php echo $product['product_id']; ?> prod-badge bg-warning badge rounded-0 position-absolute text-uppercase text-white"></span>
             <?php } ?>
-
             <div class="bottom-bar">
                 <div class="row g-2 align-items-center justify-content-between">
                     <div class="col-auto">

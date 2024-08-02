@@ -70,6 +70,7 @@
                                 if ($product['new_product']) { ?>
                                 <span class="new new_<?php echo $product['product_id']; ?>"></span>
                                 <?php } ?>
+                                <?php echo $this->getHookvar('product_listing_badge_'.$product['product_id']);?>
                                 <a href="<?php echo $item['info_url'] ?>"><?php echo $item['image'] ?></a>
                                 <div class="d-flex justify-content-center p-1 mt-2 align-items-center">
                                     <a class="shadow btn btn-light" href="<?php echo $item['info_url'] ?>">
