@@ -1,5 +1,4 @@
 <?php
-
 /*
  *   $Id$
  *
@@ -29,9 +28,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
  */
 class ControllerPagesExtensionExtensions extends AController
 {
-
     public $error;
-
     public function main()
     {
         $ext_type_to_category = [
@@ -54,8 +51,6 @@ class ControllerPagesExtensionExtensions extends AController
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-
-        //put extension_list for remote installation into session to prevent multiple requests for grid
 
         //connection to marketplace
         $this->loadModel('tool/mp_api');
@@ -99,7 +94,7 @@ class ControllerPagesExtensionExtensions extends AController
             $this->data['error_warning'] = '';
         }
 
-        if(versionCompare(VERSION,'1.4.0','<')){
+        if(versionCompare(VERSION,'1.4.0','>=')){
             if( $this->extensions->isExtensionAvailable('fast_checkout')) {
                 $this->data['error_warning'] .= '<br>Please uninstall and remove FastCheckout extension to avoid a conflicts. Fast Checkout now part of Abantecart core.';
             }
@@ -392,7 +387,7 @@ class ControllerPagesExtensionExtensions extends AController
             ]
         );
 
-        $result = ['resource_field_list' => []];
+        $result = [];
         foreach ($settings as $item) {
             $data = (array) $item;
             if ($item['name'] == $extension.'_status') {
@@ -925,7 +920,7 @@ class ControllerPagesExtensionExtensions extends AController
                                     'title'  => $this->language->get('text_edit'),
                                 ]
                             );
-                            if (!(boolean) $item['required']) {
+                            if (!(bool) $item['required']) {
                                 $actions['uninstall'] = $this->html->buildElement(
                                     [
                                         'type'   => 'button',
@@ -1127,15 +1122,13 @@ class ControllerPagesExtensionExtensions extends AController
 
         if (!$this->user->canModify('extension/extensions')) {
             $this->session->data['error'] = $this->language->get('error_permission');
-            redirect($this->html->getSecureURL('extension/extensions/'.$this->session->data['extension_filter']));
         } else {
             $ext = new ExtensionUtils($this->request->get['extension']);
             $this->extension_manager->uninstall($this->request->get['extension'], $ext->getConfig());
-            redirect($this->html->getSecureURL('extension/extensions/'.$this->session->data['extension_filter']));
         }
-
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
+        redirect($this->html->getSecureURL('extension/extensions/'. $this->session->data['extension_filter']));
     }
 
     public function delete()
@@ -1145,7 +1138,6 @@ class ControllerPagesExtensionExtensions extends AController
 
         if (!$this->user->canModify('extension/extensions')) {
             $this->session->data['error'] = $this->language->get('error_permission');
-            redirect($this->html->getSecureURL('extension/extensions/'.$this->session->data['extension_filter']));
         } else {
             //extensions that has record in DB but missing files
             $missing_extensions = $this->extensions->getMissingExtensions();
@@ -1162,10 +1154,10 @@ class ControllerPagesExtensionExtensions extends AController
             }
 
             $this->extension_manager->delete($this->request->get['extension']);
-            redirect($this->html->getSecureURL('extension/extensions/'.$this->session->data['extension_filter']));
         }
-
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+        redirect($this->html->getSecureURL('extension/extensions/'. $this->session->data['extension_filter']));
     }
 }
