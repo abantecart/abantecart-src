@@ -45,9 +45,11 @@ $menu = new AMenu_Storefront();
 $dataset = $menu->getDataset();
 $dataset->defineColumns(
     [
-        "dataset_column_name" => 'settings',
-        "dataset_column_type" => 'text',
-        "dataset_column_sort_order" => 8
+       'settings' => [
+            "name" => 'settings',
+            "type" => 'text',
+            "sort_order" => 8
+        ]
     ]
 );
 

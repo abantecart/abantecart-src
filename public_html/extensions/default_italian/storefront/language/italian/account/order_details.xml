@@ -1,0 +1,163 @@
+<?xml version="1.0"?>
+<!--
+  ~   $Id$
+  ~
+  ~   AbanteCart, Ideal OpenSource Ecommerce Solution
+  ~   http://www.AbanteCart.com
+  ~
+  ~   Copyright © 2011-2024 Belavier Commerce LLC
+  ~
+  ~   This source file is subject to Open Software License (OSL 3.0)
+  ~   License details is bundled with this package in the file LICENSE.txt.
+  ~   It is also available at this URL:
+  ~   <http://www.opensource.org/licenses/OSL-3.0>
+  ~
+  ~  UPGRADE NOTE:
+  ~    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+  ~    versions in the future. If you wish to customize AbanteCart for your
+  ~    needs please refer to http://www.AbanteCart.com for more information.
+  -->
+
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Dettagli dell&#39;ordine]]></value>
+	</definition>
+	<definition>
+		<key>text_account</key>
+		<value><![CDATA[Account]]></value>
+	</definition>
+	<definition>
+		<key>text_history</key>
+		<value><![CDATA[Cronologia ordini]]></value>
+	</definition>
+	<definition>
+		<key>text_invoice</key>
+		<value><![CDATA[Fattura]]></value>
+	</definition>
+	<definition>
+		<key>text_invoice_id</key>
+		<value><![CDATA[codice di identificazione della fattura]]></value>
+	</definition>
+	<definition>
+		<key>text_order_id</key>
+		<value><![CDATA[ID ordine]]></value>
+	</definition>
+	<definition>
+		<key>text_email</key>
+		<value><![CDATA[E-mail]]></value>
+	</definition>
+	<definition>
+		<key>text_telephone</key>
+		<value><![CDATA[Telefono]]></value>
+	</definition>
+	<definition>
+		<key>text_mobile_phone</key>
+		<value><![CDATA[Cellulare:]]></value>
+	</definition>
+	<definition>
+		<key>text_fax</key>
+		<value><![CDATA[Fax]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_address</key>
+		<value><![CDATA[Indirizzo di spedizione]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_method</key>
+		<value><![CDATA[metodo di spedizione]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_address</key>
+		<value><![CDATA[indirizzo di pagamento]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_method</key>
+		<value><![CDATA[Metodo di pagamento]]></value>
+	</definition>
+	<definition>
+		<key>text_order_history</key>
+		<value><![CDATA[Cronologia ordini]]></value>
+	</definition>
+	<definition>
+		<key>text_product</key>
+		<value><![CDATA[Prodotto]]></value>
+	</definition>
+	<definition>
+		<key>text_model</key>
+		<value><![CDATA[Modello]]></value>
+	</definition>
+	<definition>
+		<key>text_sku</key>
+		<value><![CDATA[SKU]]></value>
+	</definition>
+	<definition>
+		<key>text_quantity</key>
+		<value><![CDATA[Quantità]]></value>
+	</definition>
+	<definition>
+		<key>text_price</key>
+		<value><![CDATA[Prezzo unitario]]></value>
+	</definition>
+	<definition>
+		<key>text_total</key>
+		<value><![CDATA[Totale]]></value>
+	</definition>
+	<definition>
+		<key>text_comment</key>
+		<value><![CDATA[Commenti sugli ordini]]></value>
+	</definition>
+	<definition>
+		<key>text_image</key>
+		<value><![CDATA[Immagine]]></value>
+	</definition>
+	<definition>
+		<key>text_error</key>
+		<value><![CDATA[Impossibile trovare l&#39;ordine richiesto!]]></value>
+	</definition>
+	<definition>
+		<key>column_date_added</key>
+		<value><![CDATA[Data aggiunta]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Stato]]></value>
+	</definition>
+	<definition>
+		<key>column_comment</key>
+		<value><![CDATA[Commento all&#39;ordine del cliente]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation</key>
+		<value><![CDATA[Richiedere l&#39;annullamento dell&#39;ordine]]></value>
+	</definition>
+	<definition>
+		<key>text_request_cancellation_from_customer</key>
+		<value><![CDATA[Richiedere l&#39;annullamento dell&#39;ordine al Cliente ]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation_confirm</key>
+		<value><![CDATA[
+ In alcuni casi la richiesta di annullamento potrebbe non essere effettuata, ad esempio quando la merce è stata spedita. Continua?]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation_success</key>
+		<value><![CDATA[La richiesta di annullamento dell&#39;ordine è stata inviata]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation_message_title</key>
+		<value><![CDATA[Ordine #%s richiesta di annullamento]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation_message_body</key>
+		<value><![CDATA[Il cliente %s ha richiesto l&#39;annullamento dell&#39;ordine n.%s. Per rivedere vai a %s]]></value>
+	</definition>
+	<definition>
+		<key>error_email</key>
+		<value><![CDATA[L&#39;indirizzo e-mail non sembra essere valido!]]></value>
+	</definition>
+	<definition>
+		<key>error_order_id</key>
+		<value><![CDATA[Il campo ID ordine è obbligatorio!]]></value>
+	</definition>
+</definitions>

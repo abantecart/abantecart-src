@@ -6,6 +6,6 @@
 		    //NOTE:
 		    //To control look and style of the menu use CSS in styles.css
 		?>
-		<?php echo renderSFMenu( $storemenu ); ?>
+		<?php echo renderDefaultSFMenu( $storemenu ); ?>
 	</div>
 </div>

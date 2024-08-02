@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 function isFunctionAvailable($func_name)
 {
@@ -1494,7 +1494,7 @@ function saveOrCreateLayout( string $templateTextId, array $pageData, array $lay
  * @return string
  * @throws AException
  */
-function renderSFMenu($menuItems, $level = 0, $parentId = '', $options = [ ])
+function renderDefaultSFMenu($menuItems, $level = 0, $parentId = '', $options = [ ])
 {
     $logged = Registry::getInstance()->get('customer')->isLogged();
     $output = '';
@@ -1570,7 +1570,7 @@ function renderSFMenu($menuItems, $level = 0, $parentId = '', $options = [ ])
                 $params['options'] = array_merge($params['options'], $options['submenu_options']);
             }
 
-            $output .= "\r\n".call_user_func_array('renderSFMenu',$params);
+            $output .= "\r\n".call_user_func_array('renderDefaultSFMenu',$params);
         } else {
             $css = $level ? "dropdown-item" : "text-secondary " .' me-3 mb-3 text-nowrap ';
             $popoverAttr = $item['thumb']

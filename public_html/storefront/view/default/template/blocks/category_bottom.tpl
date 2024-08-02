@@ -16,7 +16,7 @@
                                 break;
                             }
                         }
-                        echo  renderSFMenu(
+                        echo  renderDefaultSFMenu(
                                 $storefront_menu,
                                 1, //start level for submenu
                                 '',
@@ -47,7 +47,7 @@
                     }
                 }
                 $categories = __prepareItems($categories);
-                echo renderSFMenu(
+                echo renderDefaultSFMenu(
                         $categories,
                         0,
                         '',
