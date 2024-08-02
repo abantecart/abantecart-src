@@ -37,7 +37,7 @@
                         $item['image'] = '<img alt="'.html2view($product['thumb']['title'] ?: $product['name']).'" class="m-3" src="'.$product['thumb']['thumb_url'].'" style="'.$productImgCss.'">';
                         $item['title'] = $product['name'];
                         $item['description'] = $product['model'];
-                        $item['rating'] = renderRatingStars($product['rating'], $product['stars']);
+                        $item['rating'] = renderDefaultRatingStars($product['rating'], $product['stars']);
 
                         $item['info_url'] = $product['href'];
                         $item['buy_url'] = $product['add'];

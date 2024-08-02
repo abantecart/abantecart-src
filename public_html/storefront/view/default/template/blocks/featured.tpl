@@ -20,7 +20,7 @@ if ($products) {
 
         $item['info_url'] = $product['href'];
         $item['buy_url'] = $product['add'];
-        $item['rating'] = renderRatingStars($product['rating'], $product['stars']);
+        $item['rating'] = renderDefaultRatingStars($product['rating'], $product['stars']);
         if(!$display_price){
             $item['price'] = '';
         }

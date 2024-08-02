@@ -128,7 +128,7 @@ if ($error){ ?>
                         </div>
                         <?php }
                         if ($average){ ?>
-                            <div class="text-warning fs-4 rating-stars"><?php echo renderRatingStars($average,''); ?></div>
+                            <div class="text-warning fs-4 rating-stars"><?php echo renderDefaultRatingStars($average,''); ?></div>
                         <?php } ?>
 
 

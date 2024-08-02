@@ -1587,7 +1587,7 @@ function renderDefaultSFMenu($menuItems, $level = 0, $parentId = '', $options = 
     return $output;
 }
 
-function renderRatingStars($value, $text){
+function renderDefaultRatingStars($value, $text){
     if(!$value){
         return '';
     }

@@ -36,7 +36,7 @@
                     >
                     <h6 class="my-auto text-decoration-none text-wrap"><?php echo $item['title']?></h6>
                     <?php if ($review_status) { ?>
-                        <?php echo renderRatingStars($item['rating'], $item['stars']); ?>
+                        <?php echo renderDefaultRatingStars($item['rating'], $item['stars']); ?>
                     <?php }
                     if ($display_price && $item['price']) { ?>
                         <div class="price text-muted d-flex flex-wrap align-items-center">

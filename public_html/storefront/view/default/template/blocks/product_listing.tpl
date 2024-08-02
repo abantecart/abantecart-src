@@ -23,7 +23,7 @@ foreach ($products as $product) {
     $item['image'] = '<img class="img-fluid" src="'.$product['thumb']['thumb_url'].'">';
     $item['title'] = $product['name'];
     $item['description'] = $product['model'];
-    $item['rating'] = renderRatingStars($product['rating'], $product['stars']);
+    $item['rating'] = renderDefaultRatingStars($product['rating'], $product['stars']);
 
     $item['info_url'] = $product['href'];
     $item['buy_url'] = $product['add'];

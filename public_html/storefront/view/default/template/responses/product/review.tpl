@@ -4,7 +4,7 @@
           <div class="card-body">
             <h5 class="card-subtitle d-flex flex-nowrap align-items-center mb-3">
                 <p class="fw-bold me-3 mb-0 pe-3 border-end" ><?php echo $review['author']; ?></p>
-                <div class="fs-6 text-warning"><?php echo renderRatingStars($review['stars'],'')?></div>
+                <div class="fs-6 text-warning"><?php echo renderDefaultRatingStars($review['stars'],'')?></div>
             </h5>
             <h6 class="card-subtitle d-flex flex-nowrap">
             <?php echo $review['date_added'];
