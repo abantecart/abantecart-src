@@ -1,4 +1,23 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
+
 if($this->cart->hasShipping()){
     if ( count($csession['shipping_methods']) === 0) { ?>
         <div class="alert alert-danger mb-3" role="alert">
@@ -22,8 +41,7 @@ if($this->cart->hasShipping()){
                 if (!$shipping_method['error']) {
                     $k = 0;
                     foreach ($shipping_method['quote'] as $quote) {
-                        $quote['radio']->options = [ key($quote['radio']->options) => '' ];
-                        ?>
+                        $quote['radio']->options = [ key($quote['radio']->options) => '' ]; ?>
                     <div class="d-flex flex-nowrap col-12 align-items-center <?php echo $k%2 ? 'bg-light': ''; ?>">
                         <div class="flex-shrink p-2 fc-radio-noborder">
                             <?php  echo $quote['radio']; ?>
