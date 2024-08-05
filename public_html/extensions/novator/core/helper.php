@@ -1,4 +1,22 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 function renderAllCategoriesSFMenuNv(array $menuItems, $options = [ ])
 {
@@ -9,10 +27,10 @@ function renderAllCategoriesSFMenuNv(array $menuItems, $options = [ ])
     }
 
     $output = '<div class="col-3">
-                <ul class="nav nav-tabs flex-column category-links mt-0" id="myTab" role="tablist">';
+                <ul class="nav nav-tabs flex-column category-links mt-0" role="tablist">';
 
     $children = '<div class="col-9">
-                    <div class="tab-content" id="myTabContent">';
+                    <div class="tab-content" id="megaMenuContent">';
 
     foreach ($menuItems as $i => $item) {
         if (!is_array($item)) {
@@ -27,8 +45,8 @@ function renderAllCategoriesSFMenuNv(array $menuItems, $options = [ ])
         $cards = renderFeaturedProductsCards( $item );
         $hasChild = (bool) $item['children'];
         if ($hasChild) {
-            $children .= '<div class="tab-pane fade" id="drp-'.$item['category_id'].'-tab-pane" role="tabpanel"
-                                aria-labelledby="drp-'.$item['category_id'].'-tab">
+            $children .= '<div class="tab-pane fade '.(!$i ? ' active show' : '').'" id="drp-'.$item['category_id'].'-tab-pane" role="tabpanel"
+                                aria-labelledby="drp-'.$item['category_id'].'-tab" data-category-id="'.$item['category_id'].'">
                                 <div class="container d-flex flex-nowrap align-items-stretch">
                                 <div class="col-4">
                                     <ul class="list-unstyled category-sub-links">';
