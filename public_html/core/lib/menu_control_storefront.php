@@ -174,13 +174,14 @@ class AMenu_Storefront extends AMenu
                 $leafItem['category_tree'] = true;
                 if ($cat['parent_id'] == $parentId) {
                     $leafItem['parent_id'] = $parentItem['item_id'];
-                    $leafItem['item_id'] = $parentItem['item_id'] . '.' . $leafItem['path'];
                 } else {
-                    $leafItem['item_id'] = $parentItem['item_id'] . '.' . $leafItem['path'];
                     $pth = explode('_', $leafItem['path']);
                     array_pop($pth);
                     $leafItem['parent_id'] = $parentItem['item_id'] . '.' . implode('_', $pth);
                 }
+                $leafItem['item_id'] = $parentItem['item_id']
+                    . ($leafItem['path'] ? '.' . $leafItem['path']:'');
+
                 $leafItem['item_url'] = 'product/category&path=' . $leafItem['path'];
                 $leafItem['settings']['target'] = $leafItem['settings']['target'] ?? $parentItem['settings']['target'];
 
