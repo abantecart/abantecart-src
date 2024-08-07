@@ -20,43 +20,5 @@
 
 class ExtensionUps extends Extension
 {
-    //disabled until shipping API will work
-//    public function beforeModelCheckoutOrder_confirm()
-//    {
-//
-//        $order_id = func_get_arg(0);
-//        $order_status_id = func_get_arg(1);
-//        /** @var ModelCheckoutOrder $that */
-//        $that = $this->baseObject;
-//        //if we do not create shipment at this point - skip
-////        if ($order_status_id != $that->config->get('dhl_intl_manifest_order_status_id')) {
-////            return null;
-////        }
-//
-//        $order_info = $that->getOrder($order_id);
-//        if (!$order_info
-//            || $order_info['order_status_id'] != 0
-//            || strpos($order_info['shipping_method_key'], 'ups.') === false) {
-//            return null;
-//        }
-//
-//        /**
-//         * @var ModelExtensionUps $mdl
-//         */
-//        $mdl = $that->load->model('extension/ups');
-//
-//        $result = $mdl->createShipment($order_info);
-//        if (!$result) {
-//            $that->messages->saveWarning('Order ID ' . $order_id . ' Shipment Creation Warning',
-//                implode("\n", $mdl->errors)
-//            );
-//            $that->log->write(
-//                'Order ID '
-//                . $order_id . ' Shipment Creation Warning: '
-//                . implode("\n", $mdl->errors)
-//            );
-//        }
-//
-//    }
 
 }

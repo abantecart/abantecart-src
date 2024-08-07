@@ -51,4 +51,3 @@ $languages = [
         'ups/ups'
     ]
 ];
-
