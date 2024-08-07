@@ -1,0 +1,53 @@
+{
+    "name": "abantecart/ups-php",
+    "description": "UPS PHP SDK based on OAuth",
+    "keywords": [
+        "ups",
+        "api",
+        "php",
+        "sdk",
+        "oauth",
+        "shipping processing",
+        "rest",
+        "web service"
+    ],
+    "homepage": "https://www.abantecart.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dmytro Suprunenko",
+            "email": "abolabo@gmail.com"
+        },
+        {
+            "name": "AbanteCart Team",
+            "email": "help@abantecart.com"
+        }
+    ],
+    "config": {
+        "allow-plugins": {
+            "wikimedia/composer-merge-plugin": true
+        }
+    },
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "wikimedia/composer-merge-plugin": "^2.1.0",
+        "guzzlehttp/guzzle": "^7.3",
+        "guzzlehttp/psr7": "^1.7 || ^2.0"
+    },
+    "extra": {
+        "merge-plugin": {
+            "include": [
+                "*/composer.json",
+                "OAuthClientCredentials/composer.json",
+                "Rating/composer.json",
+                "vendor/abantecart/ups-php/*/composer.json"
+            ],
+            "recurse": true,
+            "replace": false,
+            "merge-extra": false
+        }
+    }
+}

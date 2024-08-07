@@ -18,7 +18,7 @@
  *    needs please refer to http://www.AbanteCart.com for more information.
  */
 
-require_once (DIR_EXT.'ups'.DS.'core'.DS.'api'.DS.'vendor'.DS.'autoload.php');
+require_once (DIR_EXT.'ups'.DS.'core'.DS.'ups-api'.DS.'vendor'.DS.'autoload.php');
 require_once (DIR_EXT.'ups'.DS.'core'.DS.'ups_hooks.php');
 require_once (DIR_EXT.'ups'.DS.'core'.DS.'utils.php');
 

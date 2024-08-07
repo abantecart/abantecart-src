@@ -1,0 +1,38 @@
+{
+    "name": "abantecart/ups-paperless",
+    "version": "1.0.8",
+    "description": "",
+    "keywords": [
+        "swagger",
+        "php",
+        "sdk",
+        "rest",
+        "api"
+    ],
+    "homepage": "http://swagger.io",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Swagger and contributors",
+            "homepage": "https://github.com/swagger-api/swagger-codegen"
+        }
+    ],
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "guzzlehttp/guzzle": "^7.3",
+        "guzzlehttp/psr7": "^1.7 || ^2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0 || ^9.0",
+        "friendsofphp/php-cs-fixer": "^3.5"
+    },
+    "autoload": {
+        "psr-4": { "UPS\\Paperless\\" : "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "UPS\\Paperless\\" : "test/" }
+    }
+}
