@@ -89,7 +89,6 @@ function renderFeaturedProductsCards( $item )
     return $cards;
 }
 
-
 function prepareNVCatItems($items)
 {
     foreach ($items as &$cat){
@@ -100,8 +99,6 @@ function prepareNVCatItems($items)
     }
     return $items;
 }
-
-
 
 // recursive function!
 
@@ -323,7 +320,6 @@ function renderProductRatingStars( int $productId){
 
     return $output;
 }
-
 
 function renderFilterCategoryTreeNV($tree, $level = 0, int|array|null $currentId = 0, ?array $extra = [])
 {
