@@ -28,9 +28,9 @@ $result = $this->db->query($sqlSelect);
 if ($result->num_rows > 0) {
     $sqlAlter = "ALTER TABLE ".$this->db->table('downloads')." MODIFY COLUMN activate_order_status_id VARCHAR(255)";
     if ($this->db->query($sqlAlter) === TRUE) {
-        foreach ($result as $value) {
+        foreach ($result->rows as $value) {
             $sqlUpdate = "UPDATE ".$this->db->table('downloads')." 
-                SET activate_order_status_id = '".$this->db->escape(serialize([0 => (string)$value]))."'
+                SET activate_order_status_id = '".$this->db->escape(serialize([(string)$value]))."'
                 WHERE activate = 'order_status'";
             $this->db->query($sqlUpdate);
         }
@@ -41,9 +41,9 @@ $result = $this->db->query($sqlSelect);
 if ($result->num_rows > 0) {
     $sqlAlter = "ALTER TABLE ".$this->db->table('order_downloads')." MODIFY COLUMN activate_order_status_id VARCHAR(255)";
     if ($this->db->query($sqlAlter) === TRUE) {
-        foreach ($result as $value) {
+        foreach ($result->rows as $value) {
             $sqlUpdate = "UPDATE ".$this->db->table('order_downloads')." 
-                SET activate_order_status_id = '".$this->db->escape(serialize([0 => (string)$value]))."'
+                SET activate_order_status_id = '".$this->db->escape(serialize([(string)$value]))."'
                 WHERE activate = 'order_status'";
             $this->db->query($sqlUpdate);
         }
