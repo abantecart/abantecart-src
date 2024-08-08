@@ -3057,6 +3057,7 @@ li#review-set::before {
 .prod-desc .nav-tabs .nav-item.show .nav-link,
 .prod-desc .nav-tabs .nav-link.active {
     color: var(--bs-primary);
+    border-bottom: 3px solid var(--bs-primary);
 }
 
 .prod-desc .nav-tabs .nav-item.show .nav-link::after,

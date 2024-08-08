@@ -173,7 +173,7 @@ echo $form['form_open']; ?>
                    type="text"
                    <?php
                         echo $this->config->get('config_phone_validation_pattern')
-                            ? 'pattern="'.trim(trim(trim($this->config->get('config_phone_validation_pattern'),'/'),'^'),'$').'"'
+                            ? 'pattern="'.trim($this->config->get('config_phone_validation_pattern'),'/').'"'
                             : 'maxlength="32"'; ?>
                    <?php echo $require_telephone ? 'required' : ''; ?>
                    value="<?php echo $customer_telephone; ?>" <?php echo $loggedin ? 'readonly' : ''; ?>>
