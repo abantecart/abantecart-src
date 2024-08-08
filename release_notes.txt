@@ -21,7 +21,7 @@ Core:
 - Multiple order status support in downloads
 - URL encoded default form enctype.
 - Support configuration for phone regex pattern.
-- cashe related fix to product/category/collection/manufacturers
+- cache related fix to product/category/collection/manufacturers
 - changed default value of "block framed"
 - added silent mode for sending emails
 - removed fax field
@@ -29,15 +29,15 @@ Core:
 
 Admin:
 - Ability to create new page Layout
-- Out of stock minimum threshold notification
+- Out-of-stock minimum threshold notification
 - Updated jQuery version 3.71
-- Improvement of settings page for extensions
-- Template related setting moved to appearance settings.
+- Improvement of the settings page for extensions
+- Template related settings moved to appearance settings.
 - jqGrid history cookie fix
 
 
 Storefront:
-- Bootstrap 5 base template is now set as default
+- Bootstrap 5 base template is now set as the default
 - Improvement to fast checkout
 - Multi-page checkout is now deprecated and fast checkout is a default
 - Product listing filtering
