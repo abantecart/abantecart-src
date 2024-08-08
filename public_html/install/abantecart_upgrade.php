@@ -30,7 +30,8 @@ if ($result->num_rows > 0) {
     if ($this->db->query($sqlAlter) === TRUE) {
         foreach ($result as $value) {
             $sqlUpdate = "UPDATE ".$this->db->table('downloads')." 
-                SET activate_order_status_id = '".$this->db->escape(serialize([$value]))."'";
+                SET activate_order_status_id = '".$this->db->escape(serialize([0 => (string)$value]))."'
+                WHERE activate = 'order_status'";
             $this->db->query($sqlUpdate);
         }
     }
@@ -42,7 +43,8 @@ if ($result->num_rows > 0) {
     if ($this->db->query($sqlAlter) === TRUE) {
         foreach ($result as $value) {
             $sqlUpdate = "UPDATE ".$this->db->table('order_downloads')." 
-                SET activate_order_status_id = '".$this->db->escape(serialize([$value]))."'";
+                SET activate_order_status_id = '".$this->db->escape(serialize([0 => (string)$value]))."'
+                WHERE activate = 'order_status'";
             $this->db->query($sqlUpdate);
         }
     }
