@@ -43,25 +43,6 @@ alter table `ac_block_descriptions`
 alter table `ac_block_descriptions`
     modify date_modified timestamp default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP;
 
-/*
- *   $Id$
- *
- *   AbanteCart, Ideal OpenSource Ecommerce Solution
- *   http://www.AbanteCart.com
- *
- *   Copyright © 2011-2024 Belavier Commerce LLC
- *
- *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
- *   It is also available at this URL:
- *   <http://www.opensource.org/licenses/OSL-3.0>
- *
- *  UPGRADE NOTE:
- *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
- *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
- */
-
 #replace group with "checkout"
 UPDATE `ac_settings` SET `group` = 'checkout' WHERE `group`='fast_checkout';
 DELETE FROM `ac_settings` WHERE `key` IN ('fast_checkout_store_id', 'fast_checkout_status', 'fast_checkout_layout', 'fast_checkout_priority','fast_checkout_sort_order');
