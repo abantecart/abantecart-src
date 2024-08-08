@@ -113,7 +113,7 @@ class ControllerResponsesListingGridMenu extends AController
                     $this->html->buildCheckbox(
                         [
                             'name'  => 'status[' . $result['item_id'] . ']',
-                            'value' => $result['settings']['status'],
+                            'value' => $result['settings']['status'] ?? 1,
                             'style' => 'btn_switch',
                             'attr'  => 'readonly="true"',
                         ]
