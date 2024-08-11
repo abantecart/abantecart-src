@@ -22,6 +22,41 @@ class ControllerPagesSaleOrder extends AController
 {
     public $error = [];
 
+    public $detailsFields = [
+        'email',
+        'telephone',
+        'shipping_method',
+        'payment_method',
+    ];
+    public $shippingFields = [
+        'shipping_firstname',
+        'shipping_lastname',
+        'shipping_company',
+        'shipping_address_1',
+        'shipping_address_2',
+        'shipping_city',
+        'shipping_postcode',
+        'telephone',
+        'shipping_zone',
+        'shipping_zone_id',
+        'shipping_country',
+        'shipping_country_id',
+    ];
+
+    public $paymentFields = [
+        'payment_firstname',
+        'payment_lastname',
+        'payment_company',
+        'payment_address_1',
+        'payment_address_2',
+        'payment_city',
+        'payment_postcode',
+        'payment_zone',
+        'payment_zone_id',
+        'payment_country',
+        'payment_country_id',
+    ];
+
     public function main()
     {
         //init controller data
@@ -320,13 +355,7 @@ class ControllerPagesSaleOrder extends AController
         $viewport_mode = $args[0]['viewport_mode'] ?? '';
 
         $this->data = [];
-        $fields = [
-            'email',
-            'telephone',
-            'fax',
-            'shipping_method',
-            'payment_method',
-        ];
+        $fields = $this->detailsFields;
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
@@ -514,12 +543,6 @@ class ControllerPagesSaleOrder extends AController
             ]
         );
 
-        $this->data['fax'] = $this->html->buildInput(
-            [
-                'name'  => 'fax',
-                'value' => $order_info['fax'],
-            ]
-        );
 
         if (isset($order_info['im'])) {
             foreach ($order_info['im'] as $protocol => $setting) {
@@ -791,10 +814,7 @@ class ControllerPagesSaleOrder extends AController
             '&order_id='.$order_id
         );
 
-        $saved_list_data = json_decode(html_entity_decode($this->request->cookie['grid_params']));
-        if ($saved_list_data->table_id == 'order_grid') {
-            $this->data['list_url'] = $this->html->getSecureURL('sale/order', '&saved_list=order_grid');
-        }
+        $this->data['list_url'] = $this->html->getSecureURL('sale/order', '&saved_list=order_grid');
 
         $this->view->batchAssign($this->data);
         $this->view->assign('help_url', $this->gen_help_url('order_details'));
@@ -985,23 +1005,9 @@ class ControllerPagesSaleOrder extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    private function shippingFields($order_info, $form)
+    protected function shippingFields($order_info, $form)
     {
-        $fields = [
-            'shipping_firstname',
-            'shipping_lastname',
-            'shipping_company',
-            'shipping_address_1',
-            'shipping_address_2',
-            'shipping_city',
-            'shipping_postcode',
-            'fax',
-            'telephone',
-            'shipping_zone',
-            'shipping_zone_id',
-            'shipping_country',
-            'shipping_country_id',
-        ];
+        $fields = $this->shippingFields;
 
         foreach ($fields as $f) {
             if (isset ($this->request->post [$f])) {
@@ -1030,13 +1036,6 @@ class ControllerPagesSaleOrder extends AController
                 'type'  => 'input',
                 'name'  => 'telephone',
                 'value' => $this->data['telephone'],
-            ]
-        );
-        $this->data['form']['shipping_fields']['fax'] = $form->getFieldHtml(
-            [
-                'type'  => 'input',
-                'name'  => 'fax',
-                'value' => $this->data['fax'],
             ]
         );
 
@@ -1076,21 +1075,9 @@ class ControllerPagesSaleOrder extends AController
         );
     }
 
-    private function paymentFields($order_info, $form)
+    protected function paymentFields($order_info, $form)
     {
-        $fields = [
-            'payment_firstname',
-            'payment_lastname',
-            'payment_company',
-            'payment_address_1',
-            'payment_address_2',
-            'payment_city',
-            'payment_postcode',
-            'payment_zone',
-            'payment_zone_id',
-            'payment_country',
-            'payment_country_id',
-        ];
+        $fields = $this->paymentFields;
 
         foreach ($fields as $f) {
             if (isset ($this->request->post [$f])) {
@@ -1417,7 +1404,7 @@ class ControllerPagesSaleOrder extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    private function _validateForm()
+    protected function _validateForm()
     {
         if (!$this->user->canModify('sale/order')) {
             $this->error['warning'] = $this->language->get('error_permission');
@@ -1428,7 +1415,7 @@ class ControllerPagesSaleOrder extends AController
         return (!$this->error);
     }
 
-    private function _initTabs($active)
+    protected function _initTabs($active)
     {
         $this->data['active'] = $active;
         //load tabs controller

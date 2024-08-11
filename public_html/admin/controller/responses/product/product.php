@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection SqlResolve */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /** @noinspection PhpUndefinedClassInspection */
 
@@ -32,9 +33,9 @@ class ControllerResponsesProductProduct extends AController
         $products_data = [];
         $post =& $this->request->post;
         $get =& $this->request->get;
-        $exclude = (array) $post['exclude'];
+        $exclude = (array)$post['exclude'];
         if (isset($get['exclude'])) {
-            $get['exclude'] = (array) $get['exclude'];
+            $get['exclude'] = (array)$get['exclude'];
             $exclude = array_merge($get['exclude'], $exclude);
         }
         //init controller data
@@ -49,7 +50,7 @@ class ControllerResponsesProductProduct extends AController
                         'id'         => $product_info['product_id'],
                         'name'       => $product_info['name'],
                         'meta'       => $product_info['model'],
-                        'sort_order' => (int) $product_info['sort_order'],
+                        'sort_order' => (int)$product_info['sort_order'],
                     ];
                 }
             }
@@ -106,10 +107,10 @@ class ControllerResponsesProductProduct extends AController
                     $products_data[] = [
                         'image'      => $thumbnail['thumb_html'],
                         'id'         => $product_data['product_id'],
-                        'name'       => $product_data['name'].' - '.$formatted_price,
+                        'name'       => $product_data['name'] . ' - ' . $formatted_price,
                         'price'      => $price,
                         'meta'       => $product_data['model'],
-                        'sort_order' => (int) $product_data['sort_order'],
+                        'sort_order' => (int)$product_data['sort_order'],
                     ];
                 }
             }
@@ -186,12 +187,12 @@ class ControllerResponsesProductProduct extends AController
 
             if (!empty($this->request->get['currency']) && !empty($this->request->get['value'])) {
                 $price = $this->currency->format(
-                    (float) $price,
+                    (float)$price,
                     $this->request->get['currency'],
                     $this->request->get['value']
                 );
             } else {
-                $price = $this->currency->format((float) $price);
+                $price = $this->currency->format((float)$price);
             }
 
             $product_data[] = [
@@ -264,7 +265,7 @@ class ControllerResponsesProductProduct extends AController
                     'id'         => $product_info['product_id'],
                     'product_id' => $product_info['product_id'],
                     'name'       => $product_info['name'],
-                    'model'      => $product_info['model'],
+                    'sku'        => $product_info['sku'],
                     'sort_order' => 0,
                 ];
             }
@@ -289,7 +290,7 @@ class ControllerResponsesProductProduct extends AController
         $result = [];
         foreach ($product_options as $option) {
             $option_name = trim($option['language'][$this->language->getContentLanguageID()]['name']);
-            $result[$option['product_option_id']] = $option_name ? : 'n/a';
+            $result[$option['product_option_id']] = $option_name ?: 'n/a';
         }
 
         //update controller data
@@ -326,8 +327,6 @@ class ControllerResponsesProductProduct extends AController
         }
 
         if (has_value($this->request->get['regexp_pattern'])) {
-            //value encoded because of xss (see ARequest::clean() for details)
-            $this->request->get['regexp_pattern'] = base64_decode($this->request->get['regexp_pattern']);
             $this->request->get['regexp_pattern'] = trim($this->request->get['regexp_pattern']);
         }
         if (has_value($this->request->get['option_placeholder'])) {
@@ -379,23 +378,23 @@ class ControllerResponsesProductProduct extends AController
         $this->view->assign('success', $this->session->data['success']);
         unset($this->session->data['success']);
 
-        $product_id = (int) $this->request->get['product_id'];
-        $option_id = (int) $this->request->get['option_id'];
+        $product_id = (int)$this->request->get['product_id'];
+        $option_id = (int)$this->request->get['option_id'];
 
         $this->data['option_data'] = $this->model_catalog_product->getProductOption($product_id, $option_id);
 
         $this->data['fields'] = [
-            'entry_status'=>'status',
-            'entry_option_name'=>'option_name',
+            'entry_status'             => 'status',
+            'entry_option_name'        => 'option_name',
             'entry_option_placeholder' => 'option_placeholder',
-            'entry_sort_order' => 'option_sort_order',
-            'entry_required' => 'required',
+            'entry_sort_order'         => 'option_sort_order',
+            'entry_required'           => 'required',
             'entry_allowed_extensions' => 'extensions',
-            'entry_min_size'=>'min_size',
-            'entry_max_size'=>'max_size',
-            'entry_upload_dir'=>'directory',
-            'entry_regexp_pattern' => 'option_regexp_pattern',
-            'entry_error_text'=>'option_error_text'
+            'entry_min_size'           => 'min_size',
+            'entry_max_size'           => 'max_size',
+            'entry_upload_dir'         => 'directory',
+            'entry_regexp_pattern'     => 'option_regexp_pattern',
+            'entry_error_text'         => 'option_error_text'
         ];
 
         $this->data['option_values_title'] = [
@@ -413,9 +412,9 @@ class ControllerResponsesProductProduct extends AController
             $this->data['element_types'] = HtmlElementFactory::getAvailableElements();
             $this->data['elements_with_options'] = HtmlElementFactory::getElementsWithOptions();
             $this->data['selectable'] = in_array(
-                                                    $this->data['option_data']['element_type'],
-                                                    $this->data['elements_with_options']
-                                                ) ? 1 : 0;
+                $this->data['option_data']['element_type'],
+                $this->data['elements_with_options']
+            ) ? 1 : 0;
             $this->data['option_type'] =
                 $this->data['element_types'][$this->data['option_data']['element_type']]['type'];
 
@@ -423,11 +422,13 @@ class ControllerResponsesProductProduct extends AController
 
             $this->data['action'] = $this->html->getSecureURL(
                 'product/product/update_option_values',
-                '&product_id='.$product_id.'&option_id='.$option_id
+                '&product_id=' . $product_id . '&option_id=' . $option_id
             );
 
-            $this->data['option_values'] =
-                $this->model_catalog_product->getProductOptionValues($product_id, $option_id);
+            $this->data['option_values'] = $this->model_catalog_product->getProductOptionValues(
+                $product_id,
+                $option_id
+            );
 
             $this->data['option_name'] = $this->html->buildElement(
                 [
@@ -540,7 +541,7 @@ class ControllerResponsesProductProduct extends AController
 
             $this->data['remove_option'] = $this->html->getSecureURL(
                 'product/product/del_option',
-                '&product_id='.$product_id.'&option_id='.$option_id
+                '&product_id=' . $product_id . '&option_id=' . $option_id
             );
 
             $this->data['button_remove_option'] = $this->html->buildElement(
@@ -568,7 +569,7 @@ class ControllerResponsesProductProduct extends AController
 
             $this->data['update_option_values'] = $this->html->getSecureURL(
                 'product/product/update_option_values',
-                '&product_id='.$product_id.'&option_id='.$option_id
+                '&product_id=' . $product_id . '&option_id=' . $option_id
             );
 
             // form of option values list
@@ -689,19 +690,38 @@ class ControllerResponsesProductProduct extends AController
 
         //remove html-code from textarea product option
         if (in_array($option_info['element_type'], ['T', 'B'])) {
-            foreach ((array) $this->request->post['name'] as &$v) {
+            foreach ((array)$this->request->post['name'] as &$v) {
                 $v = strip_tags(html_entity_decode($v, ENT_QUOTES, 'UTF-8'));
                 $v = str_replace('\r\n', "\n", $v);
             }
         }
 
-        $this->model_catalog_product->updateProductOptionValues(
-            $this->request->get['product_id'],
-            $this->request->get['option_id'],
-            $this->request->post
+
+        $errors = $this->model_catalog_product->validateOptionValues(
+                    $this->request->get['option_id'],
+                    $this->request->post
         );
 
-        foreach ((array) $this->request->post['product_option_value_id'] as $product_option_value_id) {
+        if (!$errors) {
+            $this->model_catalog_product->updateProductOptionValues(
+                $this->request->get['product_id'],
+                $this->request->get['option_id'],
+                $this->request->post
+            );
+        } else {
+            $error = new AError(implode(',', $errors));
+            $error->toJSONResponse(
+                'VALIDATION_ERROR_406',
+                [
+                    'error_title' => implode('<br>', $errors),
+                ]
+            );
+            return;
+        }
+
+
+
+        foreach ((array)$this->request->post['product_option_value_id'] as $product_option_value_id) {
             $stock_locations = $this->request->post['stock_location'][$product_option_value_id];
             if (!is_int(strpos($product_option_value_id, 'new'))) {
                 $this->model_catalog_product->updateProductStockLocations(
@@ -720,7 +740,7 @@ class ControllerResponsesProductProduct extends AController
         redirect(
             $this->html->getSecureURL(
                 'product/product/load_option',
-                '&product_id='.$this->request->get['product_id'].'&option_id='.$this->request->get['option_id']
+                '&product_id=' . $this->request->get['product_id'] . '&option_id=' . $this->request->get['option_id']
             )
         );
     }
@@ -802,11 +822,11 @@ class ControllerResponsesProductProduct extends AController
 
         $this->data['cancel'] = $this->html->getSecureURL(
             'product/product/load_option',
-            '&product_id='.$this->request->get['product_id'].'&option_id='.$this->request->get['option_id']
+            '&product_id=' . $this->request->get['product_id'] . '&option_id=' . $this->request->get['option_id']
         );
 
         if (isset($this->request->get['product_option_value_id'])) {
-            $this->data['row_id'] = 'row'.$product_option_value_id;
+            $this->data['row_id'] = 'row' . $product_option_value_id;
             $this->data['attr_val_id'] = $product_option_value_id;
             $item_info = $this->model_catalog_product->getProductOptionValue(
                 $this->request->get['product_id'],
@@ -819,6 +839,7 @@ class ControllerResponsesProductProduct extends AController
         $fields = [
             'default',
             'name',
+            'txt_id',
             'sku',
             'quantity',
             'subtract',
@@ -851,23 +872,23 @@ class ControllerResponsesProductProduct extends AController
             //process grouped (parent/child) options
             $this->data['form']['fields']['option_value'] = '';
             foreach ($this->data['option_attribute']['group'] as $attribute_id => $data) {
-                $this->data['form']['fields']['option_value'] .= '<span style="white-space: nowrap;">'.$data['name'].''
-                    .$form->getFieldHtml(
+                $this->data['form']['fields']['option_value'] .= '<span style="white-space: nowrap;">' . $data['name'] . ' '
+                    . $form->getFieldHtml(
                         [
                             'type'    => $data['type'],
-                            'name'    => 'attribute_value_id['.$product_option_value_id.']['.$attribute_id.']',
+                            'name'    => 'attribute_value_id[' . $product_option_value_id . '][' . $attribute_id . ']',
                             'value'   => $this->data['children_options'][$attribute_id],
                             'options' => $data['values'],
                             'attr'    => '',
                         ]
-                    ).'<span><br class="clr_both">';
+                    ) . '<span><br class="clr_both">';
             }
         } else {
             if (in_array($this->data['option_attribute']['element_type'], $this->data['elements_with_options'])) {
                 $this->data['form']['fields']['option_value'] = $form->getFieldHtml(
                     [
                         'type'    => $this->data['option_attribute']['type'],
-                        'name'    => 'attribute_value_id['.$product_option_value_id.']',
+                        'name'    => 'attribute_value_id[' . $product_option_value_id . ']',
                         'value'   => $this->data['attribute_value_id'],
                         'options' => $this->data['option_attribute']['values'],
                     ]
@@ -881,7 +902,7 @@ class ControllerResponsesProductProduct extends AController
                         'type'  => in_array($this->data['option_data']['element_type'], ['T', 'B'])
                             ? 'textarea'
                             : ($this->data['option_data']['element_type'] == 'D' ? 'date' : 'input'),
-                        'name'  => 'name['.$product_option_value_id.']',
+                        'name'  => 'name[' . $product_option_value_id . ']',
                         'value' => $this->data['name'],
                     ];
                     // for checkbox show error when value is empty
@@ -897,7 +918,7 @@ class ControllerResponsesProductProduct extends AController
         $this->data['form']['fields']['product_option_value_id'] = $form->getFieldHtml(
             [
                 'type'  => 'hidden',
-                'name'  => 'product_option_value_id['.$product_option_value_id.']',
+                'name'  => 'product_option_value_id[' . $product_option_value_id . ']',
                 'value' => $product_option_value_id,
             ]
         );
@@ -907,7 +928,7 @@ class ControllerResponsesProductProduct extends AController
                 [
                     'type'    => 'radio',
                     'name'    => 'default_value',
-                    'id'      => 'default_'.$product_option_value_id,
+                    'id'      => 'default_' . $product_option_value_id,
                     'value'   => ($this->data['default'] ? $product_option_value_id : ''),
                     'options' => [$product_option_value_id => ''],
                 ]
@@ -918,21 +939,29 @@ class ControllerResponsesProductProduct extends AController
         $this->data['form']['fields']['sku'] = $form->getFieldHtml(
             [
                 'type'  => 'input',
-                'name'  => 'sku['.$product_option_value_id.']',
+                'name'  => 'sku[' . $product_option_value_id . ']',
                 'value' => $this->data['sku'],
+            ]
+        );
+
+        $this->data['form']['fields']['txt_id'] = $form->getFieldHtml(
+            [
+                'type'  => 'input',
+                'name'  => 'txt_id[' . $product_option_value_id . ']',
+                'value' => $this->data['txt_id'],
             ]
         );
         $stock_locations = null;
         if ($this->data['subtract']) {
             $stock_locations = $this->model_catalog_product->getProductStockLocations(
-                (int) $this->request->get['product_id'],
+                (int)$this->request->get['product_id'],
                 $product_option_value_id
             );
         }
         $this->data['form']['fields']['quantity'] = $form->getFieldHtml(
             [
                 'type'  => 'input',
-                'name'  => 'quantity['.$product_option_value_id.']',
+                'name'  => 'quantity[' . $product_option_value_id . ']',
                 'value' => $this->data['quantity'],
                 'style' => 'small-field',
                 'attr'  => ($stock_locations && $this->data['subtract'] ? 'disabled' : ''),
@@ -941,7 +970,7 @@ class ControllerResponsesProductProduct extends AController
         $this->data['form']['fields']['subtract'] = $form->getFieldHtml(
             [
                 'type'    => 'selectbox',
-                'name'    => 'subtract['.$product_option_value_id.']',
+                'name'    => 'subtract[' . $product_option_value_id . ']',
                 'value'   => $this->data['subtract'],
                 'options' => [
                     1 => $this->language->get('text_yes'),
@@ -952,7 +981,7 @@ class ControllerResponsesProductProduct extends AController
         $this->data['form']['fields']['price'] = $form->getFieldHtml(
             [
                 'type'  => 'input',
-                'name'  => 'price['.$product_option_value_id.']',
+                'name'  => 'price[' . $product_option_value_id . ']',
                 'value' => moneyDisplayFormat($this->data['price']),
                 'style' => 'medium-field',
             ]
@@ -960,7 +989,7 @@ class ControllerResponsesProductProduct extends AController
 
         $this->data['prefix'] = trim($this->data['prefix']);
         $currency_symbol = $this->currency->getCurrency($this->config->get('config_currency'));
-        $currency_symbol = $currency_symbol['symbol_left'].$currency_symbol['symbol_right'];
+        $currency_symbol = $currency_symbol['symbol_left'] . $currency_symbol['symbol_right'];
         if (!$this->data['prefix']) {
             $this->data['prefix'] = $currency_symbol;
         }
@@ -968,7 +997,7 @@ class ControllerResponsesProductProduct extends AController
         $this->data['form']['fields']['prefix'] = $form->getFieldHtml(
             [
                 'type'    => 'selectbox',
-                'name'    => 'prefix['.$product_option_value_id.']',
+                'name'    => 'prefix[' . $product_option_value_id . ']',
                 'value'   => $this->data['prefix'],
                 'options' => [
                     '$' => $currency_symbol,
@@ -980,7 +1009,7 @@ class ControllerResponsesProductProduct extends AController
         $this->data['form']['fields']['sort_order'] = $form->getFieldHtml(
             [
                 'type'  => 'input',
-                'name'  => 'sort_order['.$product_option_value_id.']',
+                'name'  => 'sort_order[' . $product_option_value_id . ']',
                 'value' => $this->data['sort_order'],
                 'style' => 'small-field',
             ]
@@ -989,7 +1018,7 @@ class ControllerResponsesProductProduct extends AController
         $this->data['form']['fields']['weight'] = $form->getFieldHtml(
             [
                 'type'  => 'input',
-                'name'  => 'weight['.$product_option_value_id.']',
+                'name'  => 'weight[' . $product_option_value_id . ']',
                 'value' => $this->data['weight'],
                 'style' => 'small-field',
             ]
@@ -1016,15 +1045,13 @@ class ControllerResponsesProductProduct extends AController
             if ($option_weight_class_id != trim($prd_info['weight_class_id']) && $selected_unit != '%') {
                 //main product type has changed. Show what weight unit we have in option
                 $weight_info = $this->model_localisation_weight_class->getWeightClassDescriptionByUnit($selected_unit);
-                $wht_options[$selected_unit] = $weight_info
-                        ? $weight_info['title']
-                        : ($selected_unit ?: 'n/a');
+                $wht_options[$selected_unit] = $weight_info ? $weight_info['title'] : $selected_unit;
             }
         }
         $this->data['form']['fields']['weight_type'] = $form->getFieldHtml(
             [
                 'type'    => 'selectbox',
-                'name'    => 'weight_type['.$product_option_value_id.']',
+                'name'    => 'weight_type[' . $product_option_value_id . ']',
                 'value'   => $selected_unit,
                 'options' => $wht_options,
             ]
@@ -1033,7 +1060,7 @@ class ControllerResponsesProductProduct extends AController
         $this->data['form']['fields']['cost'] = $form->getFieldHtml(
             [
                 'type'  => 'input',
-                'name'  => 'cost['.$product_option_value_id.']',
+                'name'  => 'cost[' . $product_option_value_id . ']',
                 'value' => $this->data['cost'],
             ]
         );
@@ -1043,7 +1070,7 @@ class ControllerResponsesProductProduct extends AController
         ) {
             $dd = new ADispatcher(
                 'responses/product/product/stockLocations',
-                [(int) $this->request->get['product_id'], $product_option_value_id]
+                [(int)$this->request->get['product_id'], $product_option_value_id]
             );
             $this->data['form']['fields']['stock_locations'] =
                 $dd->dispatchGetOutput('responses/product/product/stockLocations');
@@ -1071,12 +1098,12 @@ class ControllerResponsesProductProduct extends AController
         }
         $query = $this->db->query(
             "SELECT ga.*, gad.value, pov.product_option_value_id
-            FROM ".$this->db->table("global_attributes_values")." ga
-                LEFT JOIN ".$this->db->table("global_attributes_value_descriptions")." gad
-                ON ( ga.attribute_value_id = gad.attribute_value_id AND gad.language_id = '".(int) $language_id."' )
-            LEFT JOIN `".$this->db->table('product_option_values')."` pov 
+            FROM " . $this->db->table("global_attributes_values") . " ga
+                LEFT JOIN " . $this->db->table("global_attributes_value_descriptions") . " gad
+                ON ( ga.attribute_value_id = gad.attribute_value_id AND gad.language_id = '" . (int)$language_id . "' )
+            LEFT JOIN " . $this->db->table('product_option_values') . " pov 
                 ON pov.attribute_value_id = ga.attribute_value_id
-            WHERE ga.attribute_id = '".$this->db->escape($attribute_id)."'
+            WHERE ga.attribute_id = '" . $this->db->escape($attribute_id) . "'
             ORDER BY sort_order"
         );
         return $query->rows;
@@ -1120,11 +1147,11 @@ class ControllerResponsesProductProduct extends AController
                 $post_data['mask'] = str_replace(' ', '_', $post_data['mask']);
             }
 
-            if ((int) $this->request->get['download_id']) {
+            if ((int)$this->request->get['download_id']) {
                 $this->model_catalog_download->editDownload($this->request->get['download_id'], $post_data);
-                $download_id = (int) $this->request->get['download_id'];
+                $download_id = (int)$this->request->get['download_id'];
             } else {
-                $post_data['product_id'] = (int) $this->request->get['product_id'];
+                $post_data['product_id'] = (int)$this->request->get['product_id'];
                 $download_id = $this->model_catalog_download->addDownload($post_data);
                 $this->session->data['success'] = $this->language->get('text_success_download_save');
             }
@@ -1160,7 +1187,7 @@ class ControllerResponsesProductProduct extends AController
         $this->loadModel('catalog/download');
 
         $this->data['download_id'] = $download_id = $this->request->get['download_id'];
-        $this->data['product_id'] = $product_id = (int) $this->request->get['product_id'];
+        $this->data['product_id'] = $product_id = (int)$this->request->get['product_id'];
 
         // for new download - create form for mapping shared downloads to product
         if (!$download_id && $product_id) {
@@ -1172,18 +1199,18 @@ class ControllerResponsesProductProduct extends AController
             $form = new AForm('HS');
             $this->data['update'] = $this->html->getSecureURL(
                 'listing_grid/download/update_field',
-                '&id='.$download_id
+                '&id=' . $download_id
             );
 
             $this->data['action'] = $this->html->getSecureURL(
                 'r/product/product/processDownloadForm',
-                '&download_id='.$download_id
+                '&download_id=' . $download_id
             );
         } else {
             $form = new AForm('HT');
             $this->data['action'] = $this->html->getSecureURL(
                 'r/product/product/processDownloadForm',
-                '&product_id='.$product_id
+                '&product_id=' . $product_id
             );
         }
         $form->setForm(
@@ -1206,7 +1233,7 @@ class ControllerResponsesProductProduct extends AController
         if ($product_id) {
             $this->data['file_list_url'] = $this->html->getSecureURL(
                 'catalog/product_files',
-                '&product_id='.$product_id
+                '&product_id=' . $product_id
             );
         } else {
             $this->data['file_list_url'] = $this->html->getSecureURL('catalog/download');
@@ -1253,7 +1280,7 @@ class ControllerResponsesProductProduct extends AController
                     'type'   => 'form',
                     'name'   => 'SharedFrm',
                     'attr'   => 'data-confirm-exit="true" class="aform form-horizontal"',
-                    'action' => $this->html->getSecureURL('catalog/product_files', '&product_id='.$product_id),
+                    'action' => $this->html->getSecureURL('catalog/product_files', '&product_id=' . $product_id),
                 ]
             );
 
@@ -1309,7 +1336,7 @@ class ControllerResponsesProductProduct extends AController
             [
                 'type'  => 'button',
                 'name'  => 'submit',
-                'text'  => (int) $download_id
+                'text'  => (int)$download_id
                     ? $this->language->get('button_save')
                     : $this->language->get('text_add'),
                 'style' => 'button1',
@@ -1320,7 +1347,7 @@ class ControllerResponsesProductProduct extends AController
             [
                 'type'  => 'button',
                 'name'  => 'cancel',
-                'href'  => $this->html->getSecureURL('catalog/product_files', '&product_id='.$product_id),
+                'href'  => $this->html->getSecureURL('catalog/product_files', '&product_id=' . $product_id),
                 'text'  => $this->language->get('button_cancel'),
                 'style' => 'button2',
             ]
@@ -1330,16 +1357,16 @@ class ControllerResponsesProductProduct extends AController
 
         $this->data['date_added'] = dateISO2Display(
             $file_data['date_added'],
-            $this->language->get('date_format_short').' '.$this->language->get('time_format')
+            $this->language->get('date_format_short') . ' ' . $this->language->get('time_format')
         );
         $this->data['date_modified'] = dateISO2Display(
             $file_data['date_modified'],
-            $this->language->get('date_format_short').' '.$this->language->get('time_format')
+            $this->language->get('date_format_short') . ' ' . $this->language->get('time_format')
         );
 
         $this->data['action'] = $this->html->getSecureURL(
             'r/product/product/processDownloadForm',
-            '&product_id='.$product_id
+            '&product_id=' . $product_id
         );
 
         $resources_scripts = $this->dispatch(
@@ -1358,21 +1385,23 @@ class ControllerResponsesProductProduct extends AController
             ? $file_data['filename']
             : $rl->getIdFromHexPath(str_replace($rl_dir, '', $file_data['filename']));
 
-        $this->data['form']['fields']['general']['resource'] = $form->getFieldHtml( [
-                    'type'          => 'resource',
-                    'name'          => 'filename',
-                    'resource_id'   => $resource_id,
-                    'rl_type'       => 'download',
-                ] );
+        $this->data['form']['fields']['general']['resource'] = $form->getFieldHtml(
+            [
+                'type'        => 'resource',
+                'name'        => 'filename',
+                'resource_id' => $resource_id,
+                'rl_type'     => 'download',
+            ]
+        );
 
 
         if ($resource_id) {
             $this->data['preview']['href'] = $this->html->getSecureURL(
                 'common/resource_library/get_resource_preview',
-                '&resource_id='.$resource_id,
+                '&resource_id=' . $resource_id,
                 true
             );
-            $this->data['preview']['path'] = 'resources/'.$file_data['filename'];
+            $this->data['preview']['path'] = 'resources/' . $file_data['filename'];
         }
 
         $this->data['form']['fields']['general']['status'] = $form->getFieldHtml(
@@ -1380,7 +1409,7 @@ class ControllerResponsesProductProduct extends AController
                 'type'    => 'checkbox',
                 'name'    => 'status',
                 'value'   => 1,
-                'checked' => (bool) $file_data['status'],
+                'checked' => (bool)$file_data['status'],
                 'style'   => 'btn_switch',
             ]
         );
@@ -1388,7 +1417,7 @@ class ControllerResponsesProductProduct extends AController
         //check is download already shared
         if ($download_id) {
             $this->data['map_list'] = [];
-            $file_data['map_list'] = (array) $this->model_catalog_download->getDownloadMapList($download_id);
+            $file_data['map_list'] = (array)$this->model_catalog_download->getDownloadMapList($download_id);
             foreach ($file_data['map_list'] as $map_id => $map_name) {
                 if ($map_id == $product_id) {
                     continue;
@@ -1396,7 +1425,7 @@ class ControllerResponsesProductProduct extends AController
                 $this->data['map_list'][] = [
                     'href' => $this->html->getSecureURL(
                         'catalog/product_files',
-                        '&product_id='.$map_id.'&download_id='.$this->data['download_id'],
+                        '&product_id=' . $map_id . '&download_id=' . $this->data['download_id'],
                         true
                     ),
                     'text' => $map_name,
@@ -1410,8 +1439,8 @@ class ControllerResponsesProductProduct extends AController
         }
         $this->data['delete_unmap_href'] = $this->html->getSecureURL(
             'catalog/product_files',
-            '&act='.($file_data['shared'] ? 'unmap' : 'delete').'&product_id='.$product_id.'&download_id='
-            .$this->data['download_id'], true
+            '&act=' . ($file_data['shared'] ? 'unmap' : 'delete') . '&product_id=' . $product_id . '&download_id='
+            . $this->data['download_id'], true
         );
 
         if ($product_id) {
@@ -1420,8 +1449,8 @@ class ControllerResponsesProductProduct extends AController
                     'type'    => 'checkbox',
                     'name'    => 'shared',
                     'value'   => 1,
-                    'checked' => (bool) $file_data['shared'],
-                    'style'   => 'btn_switch '.($this->data['already_shared'] ? 'disabled' : ''),
+                    'checked' => (bool)$file_data['shared'],
+                    'style'   => 'btn_switch ' . ($this->data['already_shared'] ? 'disabled' : ''),
                 ]
             );
         }
@@ -1472,17 +1501,17 @@ class ControllerResponsesProductProduct extends AController
         );
 
         $options = ['' => $this->language->get('text_select')]
-            + array_column($order_statuses,'name','order_status_id');
+            + array_column($order_statuses, 'name', 'order_status_id');
         unset($options[0]);
 
-        $this->data['form']['fields']['general']['activate'] .= $form->getFieldHtml(
+        $this->data['form']['fields']['general']['activate_status'] = $form->getFieldHtml(
             [
-                'type'     => 'selectbox',
-                'name'     => 'activate_order_status_id',
-                'value'    => $file_data['activate_order_status_id'],
+                'type'     => 'checkboxgroup',
+                'name'     => 'activate_order_status_id[]',
+                'value'    => unserialize($file_data['activate_order_status_id']),
                 'options'  => $options,
                 'required' => true,
-                'style'    => ' no-save ',
+                'style'    => ' no-save chosen ',
             ]
         );
 
@@ -1524,7 +1553,7 @@ class ControllerResponsesProductProduct extends AController
         $attributes = $this->model_catalog_download->getDownloadAttributes($this->data['download_id']);
         $elements = HtmlElementFactory::getAvailableElements();
 
-        $html_multivalue_elements = HtmlElementFactory::getMultivalueElements();
+        $htmlMultiValueElements = HtmlElementFactory::getMultivalueElements();
         $html_elements_with_options = HtmlElementFactory::getElementsWithOptions();
         if (!$attributes) {
             $attr_mng = new AAttribute_Manager('download_attribute');
@@ -1533,7 +1562,7 @@ class ControllerResponsesProductProduct extends AController
                 $this->language->get('text_no_download_attributes_yet'),
                 $this->html->getSecureURL(
                     'catalog/attribute/insert',
-                    '&attribute_type_id='.$attr_type_id
+                    '&attribute_type_id=' . $attr_type_id
                 )
             );
         } else {
@@ -1582,10 +1611,10 @@ class ControllerResponsesProductProduct extends AController
                     $values[$val['attribute_value_id']] = $val['value'];
                 }
 
-                if (!in_array($attribute['element_type'], $html_multivalue_elements)) {
-                    $option_name = 'attributes['.(int) $this->data['download_id'].']['.$attribute['attribute_id'].']';
+                if (!in_array($attribute['element_type'], $htmlMultiValueElements)) {
+                    $option_name = 'attributes[' . (int)$this->data['download_id'] . '][' . $attribute['attribute_id'] . ']';
                 } else {
-                    $option_name = 'attributes['.(int) $this->data['download_id'].']['.$attribute['attribute_id'].']['.$attribute['attribute_value_id'].']';
+                    $option_name = 'attributes[' . (int)$this->data['download_id'] . '][' . $attribute['attribute_id'] . '][' . $attribute['attribute_value_id'] . ']';
                 }
 
                 $disabled = '';
@@ -1609,7 +1638,7 @@ class ControllerResponsesProductProduct extends AController
                     $option_data['style'] .= ' btn_switch';
                 }
 
-                $this->data['entry_'.$attribute['attribute_id']] = $attribute['name'];
+                $this->data['entry_' . $attribute['attribute_id']] = $attribute['name'];
                 $this->data['form']['fields']['attributes'][$attribute['attribute_id']] = $form->getFieldHtml($option_data);
             }
         }
@@ -1642,7 +1671,7 @@ class ControllerResponsesProductProduct extends AController
         if (!in_array($data['activate'], ['before_order', 'immediately', 'order_status', 'manually'])) {
             $this->error['activate'] = $this->language->get('error_activate');
         } else {
-            if ($data['activate'] == 'order_status' && !(int) $data['activate_order_status_id']) {
+            if ($data['activate'] == 'order_status' && !(array) $data['activate_order_status_id']) {
                 $this->error['order_status'] = $this->language->get('error_order_status');
             }
         }
@@ -1665,14 +1694,14 @@ class ControllerResponsesProductProduct extends AController
         $downloads = [];
         $this->loadModel('catalog/download');
         if ($this->request->post['id']) {
-            $post_ids = (array) $this->request->post['id'];
+            $post_ids = (array)$this->request->post['id'];
             $ids = [];
             foreach ($post_ids as $id) {
-                $ids[] = (int) $id;
+                $ids[] = (int)$id;
             }
             $downloads = $this->model_catalog_download->getDownloads(
                 [
-                    'subsql_filter' => ' shared = 1 AND d.download_id IN ('.implode(',', $ids).')',
+                    'subsql_filter' => ' shared = 1 AND d.download_id IN (' . implode(',', $ids) . ')',
                 ]
             );
         }
@@ -1682,7 +1711,7 @@ class ControllerResponsesProductProduct extends AController
             $download_data[] = [
                 'id'         => $download['download_id'],
                 'name'       => $download['name'],
-                'sort_order' => (int) $download['sort_order'],
+                'sort_order' => (int)$download['sort_order'],
             ];
         }
 
@@ -1710,14 +1739,14 @@ class ControllerResponsesProductProduct extends AController
         $this->load->library('json');
 
         $elements_with_options = HtmlElementFactory::getElementsWithOptions();
-        $order_product_id = (int) $this->request->get['order_product_id'];
-        $order_id = (int) $this->request->get['order_id'];
+        $order_product_id = (int)$this->request->get['order_product_id'];
+        $order_id = (int)$this->request->get['order_id'];
         $order_info = $this->model_sale_order->getOrder($order_id);
 
         $tax = new ATax($this->registry);
         $tax->setZone($order_info['country_id'], $order_info['zone_id']);
 
-        $product_id = (int) $this->request->get['product_id'];
+        $product_id = (int)$this->request->get['product_id'];
         $preset_values = [];
 
         if ($order_product_id) {
@@ -1757,12 +1786,12 @@ class ControllerResponsesProductProduct extends AController
             $this->data['text_title'] = $this->language->get('text_edit_order_product');
             $form_action = $this->html->getSecureURL(
                 'sale/order/update',
-                '&order_id='.$order_id.'&order_product_id='.$order_product_id
+                '&order_id=' . $order_id . '&order_product_id=' . $order_product_id
             );
         } else {
             $product_info = $this->model_catalog_product->getProduct($product_id);
             $this->data['text_title'] = sprintf($this->language->get('text_add_product_to_order'), $order_id);
-            $preset_values['quantity'] = $product_info['minimum'] ? : 1;
+            $preset_values['quantity'] = $product_info['minimum'] ?: 1;
             $preset_values['price'] = $this->currency->format(
                 $product_info['price'],
                 $order_info['currency'],
@@ -1778,13 +1807,13 @@ class ControllerResponsesProductProduct extends AController
 
             $form_action = $this->html->getSecureURL(
                 'sale/order/update',
-                '&order_id='.$order_id.'&product_id='.$product_id
+                '&order_id=' . $order_id . '&product_id=' . $product_id
             );
         }
 
         $this->data['product_href'] = $this->html->getSecureURL(
             'catalog/product/update',
-            '&product_id='.$product_id
+            '&product_id=' . $product_id
         );
 
         $form = new AForm('HT');
@@ -1804,13 +1833,13 @@ class ControllerResponsesProductProduct extends AController
             ]
         );
 
-        $this->data['text_title'] .= ' - '.$product_info['name'];
+        $this->data['text_title'] .= ' - ' . $product_info['name'];
 
         // Prepare options and values for display
         $product_options = $this->model_catalog_product->getOrderProductOptions($product_id);
         $options = [];
         foreach ($product_options as $option) {
-            if (in_array($option['element_type'], ['U'])) {
+            if ($option['element_type'] == 'U') {
                 continue;
             } //skip files for now. TODO: add edit file-option in the future
             $values = [];
@@ -1837,13 +1866,13 @@ class ControllerResponsesProductProduct extends AController
                     $price = $tax->calculate(
                         ($product_info['price'] * $option_value['price'] / 100),
                         $product_info['tax_class_id'],
-                        (bool) $this->config->get('config_tax')
+                        (bool)$this->config->get('config_tax')
                     );
                 } else {
                     $price = $tax->calculate(
                         $option_value['price'],
                         $product_info['tax_class_id'],
-                        (bool) $this->config->get('config_tax')
+                        (bool)$this->config->get('config_tax')
                     );
                 }
 
@@ -1858,29 +1887,29 @@ class ControllerResponsesProductProduct extends AController
                 if ($option_value['subtract']) {
                     if ($option_value['quantity'] <= 0) {
                         //show out of stock message
-                        $opt_stock_message = ' ('.$this->language->get('text_product_out_of_stock').')';
+                        $opt_stock_message = ' (' . $this->language->get('text_product_out_of_stock') . ')';
                     } else {
                         if ($this->config->get('config_stock_display')) {
-                            $opt_stock_message = ' ('.$option_value['quantity']
-                                ." "
-                                .$this->language->get('text_product_in_stock').')';
+                            $opt_stock_message = ' (' . $option_value['quantity']
+                                . " "
+                                . $this->language->get('text_product_in_stock') . ')';
                         }
                     }
                 }
                 $values[$option_value['product_option_value_id']] = $option_value['name']
-                    .' '
-                    .$price
-                    .' '
-                    .$opt_stock_message;
+                    . ' '
+                    . $price
+                    . ' '
+                    . $opt_stock_message;
             }
 
             //if not values are build, nothing to show
             if (count($values)) {
                 //add price to option name if it is not element with options
                 if (!in_array($option['element_type'], $elements_with_options)) {
-                    $option['name'] .= ' <small>'.$price.'</small>';
+                    $option['name'] .= ' <small>' . $price . '</small>';
                     if ($opt_stock_message) {
-                        $option['name'] .= '<br />'.$opt_stock_message;
+                        $option['name'] .= '<br />' . $opt_stock_message;
                     }
                 }
 
@@ -1907,21 +1936,21 @@ class ControllerResponsesProductProduct extends AController
                 $option_data = [
                     'type'           => $option['html_type'],
                     'name'           => !in_array($option['element_type'], HtmlElementFactory::getMultivalueElements())
-                        ? 'product[0][option]['.$option['product_option_id'].']'
-                        : 'product[0][option]['.$option['product_option_id'].'][]',
+                        ? 'product[0][option][' . $option['product_option_id'] . ']'
+                        : 'product[0][option][' . $option['product_option_id'] . '][]',
                     'value'          => $value,
                     'options'        => $values,
                     'placeholder'    => $option['option_placeholder'],
                     'regexp_pattern' => $option['regexp_pattern'],
                     'error_text'     => $option['error_text'],
-                    'attr'           => ' data-option-id ="'.$option['product_option_id'].'"',
+                    'attr'           => ' data-option-id ="' . $option['product_option_id'] . '"',
                 ];
                 if ($option['element_type'] == 'C') {
                     // note: 0 and 1 must be string to prevent collision with 'yes'. (in php 'yes'==1) ;-)
                     $option_data['label_text'] = !in_array($value, ['0', '1'])
                         ? $value
                         : '';
-                    $option_data['checked'] = (bool) $preset_value;
+                    $option_data['checked'] = (bool)$preset_value;
                 }
 
                 $options[] = [
@@ -1970,11 +1999,11 @@ class ControllerResponsesProductProduct extends AController
         if (!$options && $product_info['subtract']) {
             $this->data['column_quantity'] = $this->language->get('column_quantity');
             if ($product_info['quantity']) {
-                $this->data['column_quantity'] .= ' ('.$this->language->get('text_product_in_stock')
-                    .': '
-                    .$product_info['quantity'].')';
+                $this->data['column_quantity'] .= ' (' . $this->language->get('text_product_in_stock')
+                    . ': '
+                    . $product_info['quantity'] . ')';
             } else {
-                $this->data['column_quantity'] .= ' ('.$this->language->get('text_product_out_of_stock').')';
+                $this->data['column_quantity'] .= ' (' . $this->language->get('text_product_out_of_stock') . ')';
             }
         }
 
@@ -2006,7 +2035,7 @@ class ControllerResponsesProductProduct extends AController
             [
                 'type'  => 'hidden',
                 'name'  => 'order_product_id',
-                'value' => (int) $order_product_id,
+                'value' => (int)$order_product_id,
             ]
         );
 
@@ -2016,21 +2045,21 @@ class ControllerResponsesProductProduct extends AController
         $store_info = $this->model_setting_store->getStore($order_store_id);
         if (HTTPS === true && $store_info['config_ssl_url']) {
             $total_calc_url = $store_info['config_ssl_url']
-                .'index.php?rt=r/product/product/calculateTotal'
-                .'&currency='.$order_info['currency'].'&admin=1';
+                . 'index.php?rt=r/product/product/calculateTotal'
+                . '&currency=' . $order_info['currency'] . '&admin=1';
         } elseif (HTTPS === true && !$store_info['config_ssl_url']) {
             $total_calc_url = str_replace(
                     'http://',
                     'https://',
                     $store_info['config_url']
-                ).'index.php?rt=r/product/product/calculateTotal'
-                .'&currency='.$order_info['currency']
-                .'&admin=1';
+                ) . 'index.php?rt=r/product/product/calculateTotal'
+                . '&currency=' . $order_info['currency']
+                . '&admin=1';
         } else {
             $total_calc_url = $store_info['config_url']
-                .'index.php?rt=r/product/product/calculateTotal'
-                .'&currency='.$order_info['currency']
-                .'&admin=1';
+                . 'index.php?rt=r/product/product/calculateTotal'
+                . '&currency=' . $order_info['currency']
+                . '&admin=1';
         }
 
         $this->data['total_calc_url'] = $total_calc_url;
@@ -2048,11 +2077,11 @@ class ControllerResponsesProductProduct extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $product_id = $product_id
-            ? (int) $product_id
+            ? (int)$product_id
             : $this->request->get['product_id'];
 
         $product_option_value_id = $product_option_value_id
-            ? (int) $product_option_value_id
+            ? (int)$product_option_value_id
             : $this->request->get['product_option_value_id'];
 
         $this->data['product_option_value_id'] = $product_option_value_id;
@@ -2060,7 +2089,7 @@ class ControllerResponsesProductProduct extends AController
         if (!$product_option_value_id) {
             $this->data['save_url'] = $this->html->getSecureURL(
                 'listing_grid/product/update_field',
-                '&id='.$product_id
+                '&id=' . $product_id
             );
         }
 
@@ -2074,21 +2103,21 @@ class ControllerResponsesProductProduct extends AController
         $this->data['zero_location'] = $this->html->buildElement(
             [
                 'type' => 'hidden',
-                'name' => 'stock_location'.($product_option_value_id ? "[".$product_option_value_id."]" : "").'[0][]',
+                'name' => 'stock_location' . ($product_option_value_id ? "[" . $product_option_value_id . "]" : "") . '[0][]',
             ]
         );
         foreach ($locations as $row) {
             $location_id = $row['location_id'];
             $this->data['locations'][$location_id] =
                 [
-                    'name'       => $row['name'].' '.$row['description'],
+                    'name'       => $row['name'] . ' ' . $row['description'],
                     'quantity'   =>
                         $this->html->buildElement(
                             [
                                 'type' => 'input',
                                 'name' => 'stock_location'
-                                    .($product_option_value_id ? "[".$product_option_value_id."]" : "")
-                                    .'['.$location_id.'][quantity]',
+                                    . ($product_option_value_id ? "[" . $product_option_value_id . "]" : "")
+                                    . '[' . $location_id . '][quantity]',
 
                                 'value' => $row['quantity'],
                             ]
@@ -2098,8 +2127,8 @@ class ControllerResponsesProductProduct extends AController
                             [
                                 'type'  => 'input',
                                 'name'  => 'stock_location'
-                                    .($product_option_value_id ? "[".$product_option_value_id."]" : "")
-                                    .'['.$location_id.'][sort_order]',
+                                    . ($product_option_value_id ? "[" . $product_option_value_id . "]" : "")
+                                    . '[' . $location_id . '][sort_order]',
                                 'value' => $row['sort_order'],
                             ]
                         ),
@@ -2111,7 +2140,7 @@ class ControllerResponsesProductProduct extends AController
         $all_locations = $this->model_localisation_location->getLocations();
         $options = [$this->language->get('text_select')];
         foreach ($all_locations as $row) {
-            $options[$row['location_id']] = $row['name'].' '.$row['description'];
+            $options[$row['location_id']] = $row['name'] . ' ' . $row['description'];
         }
 
         $this->data['all_locations'] =
@@ -2120,21 +2149,21 @@ class ControllerResponsesProductProduct extends AController
                     [
                         'type'             => 'selectbox',
                         'id'               => 'location_list'
-                            .($product_option_value_id ? : ""),
+                            . ($product_option_value_id ?: ""),
                         'name'             => 'location_list',
                         'value'            => [],
                         'options'          => $options,
                         'style'            => 'chosen static_field',
                         'placeholder'      => $this->language->get('text_select'),
-                        'disabled_options' => array_keys((array) $this->data['locations']),
+                        'disabled_options' => array_keys((array)$this->data['locations']),
                     ]
                 ),
                 'quantity'      => $this->html->buildElement(
                     [
                         'type'  => 'input',
                         'name'  => 'stock_location'
-                            .($product_option_value_id ? "[".$product_option_value_id."]" : "")
-                            .'[0][quantity]',
+                            . ($product_option_value_id ? "[" . $product_option_value_id . "]" : "")
+                            . '[0][quantity]',
                         'value' => '',
                         'style' => 'stock_location_quantity static_field hidden',
                         'attr'  => 'disabled',
@@ -2144,8 +2173,8 @@ class ControllerResponsesProductProduct extends AController
                     [
                         'type'  => 'input',
                         'name'  => 'stock_location'
-                            .($product_option_value_id ? "[".$product_option_value_id."]" : "")
-                            .'[0][sort_order]',
+                            . ($product_option_value_id ? "[" . $product_option_value_id . "]" : "")
+                            . '[0][sort_order]',
                         'value' => '',
                         'style' => 'stock_location_sort_order static_field hidden',
                         'attr'  => 'disabled',
@@ -2159,4 +2188,30 @@ class ControllerResponsesProductProduct extends AController
         $this->processTemplate('responses/product/product_stock_locations.tpl');
     }
 
+    /**
+     * Return included or excluded tax price
+     * @return void
+     * @throws AException
+     */
+    public function getTaxPrice()
+    {
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+        $output = null;
+        $price = $this->request->get['price'];
+        $priceWithTax = $this->request->get['price_with_tax'];
+        $taxClassId = (int)$this->request->get['tax_class_id'];
+        if ($taxClassId) {
+            $cData = [];
+            $tax = new ATax($this->registry, $cData);
+            if (isset($price)) {
+                $output = $tax->calculate($price, $taxClassId);
+            } elseif (isset($priceWithTax)) {
+                $output = $tax->calculate($priceWithTax, $taxClassId, true, true);
+            }
+        }
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+        $this->response->setOutput($output);
+    }
 }

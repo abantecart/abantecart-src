@@ -1,31 +1,110 @@
 <?xml version="1.0"?>
+<!--
+  ~   $Id$
+  ~
+  ~   AbanteCart, Ideal OpenSource Ecommerce Solution
+  ~   http://www.AbanteCart.com
+  ~
+  ~   Copyright © 2011-2024 Belavier Commerce LLC
+  ~
+  ~   This source file is subject to Open Software License (OSL 3.0)
+  ~   License details is bundled with this package in the file LICENSE.txt.
+  ~   It is also available at this URL:
+  ~   <http://www.opensource.org/licenses/OSL-3.0>
+  ~
+  ~  UPGRADE NOTE:
+  ~    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+  ~    versions in the future. If you wish to customize AbanteCart for your
+  ~    needs please refer to http://www.AbanteCart.com for more information.
+  -->
+
 <definitions>
-    <definition>
-        <key>heading_title</key>
-        <value><![CDATA[Impaginazione &amp; Gestione blocchi]]></value>
-    </definition>
-    <definition>
-        <key>text_select_template</key>
-        <value><![CDATA[Seleziona template: ]]></value>
-    </definition>
-     <definition>
-        <key>text_delete_success</key>
-        <value><![CDATA[Successo: il Layout della pagina è stato rimosso!]]></value>
-    </definition>
-    <definition>
-        <key>text_delete_restricted</key>
-        <value><![CDATA[Errore: il Layout di pagina è limitato e non può essere rimosso!]]></value>
-    </definition>  
-    <definition>
-        <key>text_success</key>
-        <value><![CDATA[Hai modificato i blocchi di impaginazione &amp;!]]></value>
-    </definition>
-     <definition>
-        <key>text_preview_generated</key>
-        <value><![CDATA[Anteprima generata!]]></value>
-    </definition>
-    <definition>
-        <key>text_click_here</key>
-        <value><![CDATA[Clicca qua]]></value>
-    </definition>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Impaginazione &amp; Gestione blocchi]]></value>
+	</definition>
+	<definition>
+		<key>text_select_template</key>
+		<value><![CDATA[Seleziona template: ]]></value>
+	</definition>
+	<definition>
+		<key>text_delete_success</key>
+		<value><![CDATA[Successo: il Layout della pagina è stato rimosso!]]></value>
+	</definition>
+	<definition>
+		<key>text_delete_restricted</key>
+		<value><![CDATA[Errore: il Layout di pagina è limitato e non può essere rimosso!]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Hai modificato i blocchi di impaginazione &amp;!]]></value>
+	</definition>
+	<definition>
+		<key>text_preview_generated</key>
+		<value><![CDATA[Anteprima generata!]]></value>
+	</definition>
+	<definition>
+		<key>text_click_here</key>
+		<value><![CDATA[Clicca qua]]></value>
+	</definition>
+	<definition>
+		<key>text_create_new_layout</key>
+		<value><![CDATA[Crea un nuovo layout di pagina]]></value>
+	</definition>
+	<definition>
+		<key>entry_page_name</key>
+		<value><![CDATA[Nome della pagina:]]></value>
+	</definition>
+	<definition>
+		<key>entry_seo_keyword</key>
+		<value><![CDATA[Parola chiave SEO:]]></value>
+	</definition>
+	<definition>
+		<key>entry_page_title</key>
+		<value><![CDATA[Titolo della pagina:]]></value>
+	</definition>
+	<definition>
+		<key>entry_page_rt</key>
+		<value><![CDATA[Percorso della pagina:]]></value>
+	</definition>
+	<definition>
+		<key>entry_key_parameter_name</key>
+		<value><![CDATA[Nome del parametro chiave:]]></value>
+	</definition>
+	<definition>
+		<key>entry_key_parameter_value</key>
+		<value><![CDATA[Valore del parametro chiave:]]></value>
+	</definition>
+	<definition>
+		<key>error_template</key>
+		<value><![CDATA[Il nome del modello è obbligatorio!]]></value>
+	</definition>
+	<definition>
+		<key>error_page_name</key>
+		<value><![CDATA[Il nome della pagina è obbligatorio!]]></value>
+	</definition>
+	<definition>
+		<key>error_page_exists</key>
+		<value><![CDATA[Il nome della pagina &quot;%s&quot; esiste già.]]></value>
+	</definition>
+	<definition>
+		<key>error_page_rt</key>
+		<value><![CDATA[&#39;Il percorso della pagina è obbligatorio!&#39;]]></value>
+	</definition>
+	<definition>
+		<key>error_key_parameter_name</key>
+		<value><![CDATA[Il nome del parametro è obbligatorio quando esiste un valore.]]></value>
+	</definition>
+	<definition>
+		<key>error_key_parameter_value</key>
+		<value><![CDATA[Il valore del parametro è obbligatorio quando viene impostato il nome.]]></value>
+	</definition>
+	<definition>
+		<key>error_seo_keyword</key>
+		<value><![CDATA[La parola chiave SEO &quot;%s&quot; è già occupata.]]></value>
+	</definition>
+	<definition>
+		<key>error_page_parameters</key>
+		<value><![CDATA[La pagina con questi rt e parametri esiste già.]]></value>
+	</definition>
 </definitions>

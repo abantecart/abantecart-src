@@ -1,24 +1,44 @@
-<div class="info">
-		<ul class="nav info_links_header">
-			<li class="dropdown hover">
-				<a class="dropdown-toggle" data-toggle=""><span><?php echo $heading_title; ?></span></a>
-					<ul class="dropdown-menu dropup-menu">
-			<?php echo $this->getHookVar('pre_contents'); ?>
-			<?php foreach ($contents as $content) {	?>
-			    <li><a href="<?php echo $content['href']; ?>"><?php echo $content['title']; ?></a></li>
-			<?php } ?>
-			<li><a href="<?php echo $contact; ?>"><?php echo $text_contact; ?></a></li>
-			<li><a href="<?php echo $sitemap; ?>"><?php echo $text_sitemap; ?></a></li>
-			<?php if (!$logged) { ?>
-				<li><a href="<?php echo $login; ?>"><?php echo $text_login; ?></a></li>
-			<?php } else { ?>
-			<li><a href="<?php echo $logout; ?>"><?php echo $text_logout; ?></a></li>
-			<li><a href="<?php echo $account; ?>"><?php echo $text_account; ?></a></li>
-			<li><a href="<?php echo $cart; ?>"><?php echo $text_cart; ?></a></li>
-			<?php } ?>
-			<?php echo $this->getHookVar('post_contents'); ?>
-				</ul>
-			</li>
+<?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
-		</ul>
-</div>
+$contents[] = [
+            'text' => $text_contact,
+            'href' => $contact
+    ];
+    $contents[] = [
+            'text' => $text_sitemap,
+            'href' => $sitemap
+    ];
+    $contents[] = [
+            'text' => $logged ? $text_logout : $text_login,
+            'href' => $logged ? $logout : $login
+    ];
+    $contents[] = [
+            'text' => $text_account,
+            'href' => $account
+    ];
+    $contents[] = [
+            'text' => $text_cart,
+            'href' => $cart
+    ];
+
+    echo renderDefaultSFMenu($contents);
+?>
+

@@ -35,9 +35,7 @@ class ModelExtensionCardConnect extends Model
         if ($this->logging) {
             $this->log = new ALog(DIR_LOGS.'cardconnect.txt');
         }
-        $api_endpoint = 'https://'
-            .($this->config->get('cardconnect_test_mode') ? 'fts-uat.cardconnect.com' : 'fts.cardconnect.com')
-            .'/cardconnect/rest/';
+        $api_endpoint = getCardConnectEndPoint();
         require_once DIR_EXT.'cardconnect/core/lib/CardConnectRestClient.php';
         $this->client = new CardConnectRestClient(
             $api_endpoint,

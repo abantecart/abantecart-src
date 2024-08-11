@@ -24,7 +24,7 @@
 		<div class="row">
 			<div class="col-sm-12 center">
 				<?php if(!$readonly){?>
-				<a id="delete_message" data-confirmation="delete" class="btn btn-primary" onclick="delete_msg();">
+				<a id="delete_message" data-confirmation="delete" class="btn btn-primary" onclick="delete_msg(<?php echo $msg_id?>);">
 					<i class="fa fa-trash-o"></i> <?php echo $button_delete; ?>
 				</a>&nbsp;
 				<?php } ?>
@@ -34,18 +34,4 @@
 	</div>
 
 </div>
-<script type="application/javascript">
-	var delete_msg = function(){
-		$.ajax({
-				url: '<?php echo $delete_url; ?>',
-				type: 'POST',
-				dataType: 'json',
-				data: 'oper=del&id=<?php echo $msg_id?>',
-				success: function(data) {
-						$("#message_grid").trigger("reloadGrid");
-						//update_notify();
-						$('#message_info_modal').modal('hide');
-				}
-			});
-	}
-</script>
+

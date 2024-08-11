@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension>
+	<id>novator</id>
+	<version>1.0.2</version>
+	<type>template</type>
+	<category>template</category>
+	<cartversions>
+		<item>1.4.0</item>
+	</cartversions>
+	<priority>0</priority>
+	<settings>
+		<item id="novator_status">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+	</settings>
+	<additional_settings><![CDATA[setting/setting&active=appearance]]></additional_settings>
+	<install>
+		<trigger>install.php</trigger>
+	</install>
+	<uninstall>
+		<trigger>uninstall.php</trigger>
+	</uninstall>
+</extension>

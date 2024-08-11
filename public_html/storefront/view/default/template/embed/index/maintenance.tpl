@@ -1,3 +1,3 @@
-<?php echo $head; ?>
-<div ><?php echo $message; ?></div>
-<?php echo $footer; ?>
+<?php echo $head;
+include($this->templateResource('/template/pages/index/maintenance.tpl'));
+echo $footer; ?>

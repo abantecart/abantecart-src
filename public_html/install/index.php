@@ -1,24 +1,26 @@
 <?php
 /*
-------------------------------------------------------------------------------
-  $Id$
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
+// Error Reporting
+error_reporting(E_ALL);
 
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-  
- UPGRADE NOTE: 
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.  
-------------------------------------------------------------------------------  
-*/
+const DS = DIRECTORY_SEPARATOR;
 
 // Real path (operating system web root) to the directory where abantecart is installed
 $root_path = dirname(__FILE__);
@@ -53,34 +55,20 @@ define('DIR_SYSTEM', str_replace('\'', '/', realpath(dirname(__FILE__).'/../')).
 define('DIR_CACHE', str_replace('\'', '/', realpath(dirname(__FILE__).'/../')).'/system/cache/');
 define('DIR_LOGS', str_replace('\'', '/', realpath(dirname(__FILE__).'/../')).'/system/logs/');
 define('DIR_ABANTECART', str_replace('\'', '/', realpath(DIR_APP_SECTION.'../')).'/');
-define('DIR_STOREFRONT', DIR_ABANTECART.'/storefront/');
-define('DIR_DATABASE', DIR_CORE.'database/');
-define('DIR_TEMPLATE', DIR_APP_SECTION.'view/template/');
-define('INSTALL', 'true');
+const DIR_STOREFRONT = DIR_ABANTECART . DS . 'storefront' . DS;
+const DIR_DATABASE = DIR_CORE . 'database' . DS;
+const DIR_TEMPLATE = DIR_APP_SECTION . 'view' . DS . 'template' . DS;
+const INSTALL = true;
 // Relative paths and directories
-define('RDIR_TEMPLATE', 'view/');
-
-// Startup with local init
-require_once('init.php');
+const RDIR_TEMPLATE = 'view' . DS;
 
 //Check if cart is already installed
 if (file_exists(DIR_SYSTEM.'config.php')) {
     require_once(DIR_SYSTEM.'config.php');
 }
 
-$data_exist = false;
-if (defined('DB_HOSTNAME') && DB_HOSTNAME) {
-    $db = new ADB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
-    $r = $db->query("SELECT * FROM ".DB_PREFIX."settings");
-    $data_exist = $r->num_rows;
-} else {
-    unset($session->data['finish']);
-}
-
-if ($data_exist && !isset($session->data['finish'])) {
-    session_destroy();
-    header('Location: ../');
-}
+// Startup with local init
+require_once('init.php');
 
 if (isset($session->data['finish']) && $session->data['finish'] == 'true') {
     $request->get['rt'] = 'finish';

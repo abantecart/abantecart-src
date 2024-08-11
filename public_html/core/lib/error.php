@@ -204,6 +204,7 @@ class AError
             $response->addJSONHeader();
             $load->library('json');
             $response->setOutput(AJson::encode($err_data));
+            $response->output();
         } else {
             //for some reason we do not have registry. do direct output and exit
             if (!headers_sent()) {
@@ -212,8 +213,7 @@ class AError
             }
             include_once(DIR_CORE.'lib/json.php');
             echo AJson::encode($err_data);
-            exit;
         }
+        exit;
     }
-
 }

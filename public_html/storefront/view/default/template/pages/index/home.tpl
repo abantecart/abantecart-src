@@ -1,6 +1,5 @@
-<section class="contentpanel">
-<h4 class="hidden">&nbsp;</h4>
-	<div class="welcome_msg">
+<section class="mt-3 d-flex flex-wrap justify-content-center">
+	<div class="welcome-msg fs-4 fw-bold col-7 text-center">
 		<?php echo $welcome; ?>
 	</div>
 </section>

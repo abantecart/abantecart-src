@@ -773,4 +773,12 @@
 		<key>warning_extensions_with_layouts</key>
 		<value><![CDATA[ Following extensions <br> %s <br> includes pages or layouts that are not present in the selected template. To include features from these extensions you will need to reinstall extensions after you enable new template. If reinstallation does not help, contact original developers of the above extensions for help.  ]]></value>
 	</definition>
+	<definition>
+		<key>column_sku</key>
+		<value><![CDATA[SKU]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Status:]]></value>
+	</definition>
 </definitions>

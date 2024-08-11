@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2023 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -192,7 +192,6 @@ final class ARouter
                 //Load required controller for storefront
                 $page_controller->addPreDispatch('common/maintenance');
                 $page_controller->addPreDispatch('common/seo_url');
-                $page_controller->addPreDispatch('common/html_cache');
             } else {
                 //Load required controller for admin
                 $page_controller->addPreDispatch('common/home/login');
@@ -316,7 +315,9 @@ final class ARouter
                 //Set controller and method for future use
                 $this->controller = $type.'/'.$path_build;
                 //Last part is the method of function to call
-                $method_to_call = array_shift($path_nodes);
+                array_shift($path_nodes);
+                $lastKey = array_key_last($path_nodes);
+                $method_to_call = $path_nodes[$lastKey];
                 if ($method_to_call) {
                     $this->method = $method_to_call;
                 } else {
@@ -328,5 +329,4 @@ final class ARouter
         }
         return false;
     }
-
 }

@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection SqlResolve */
 /** @noinspection SqlDialectInspection */
 
 /*------------------------------------------------------------------------------
@@ -7,7 +7,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2022 Belavier Commerce LLC
+  Copyright © 2011-2023 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -190,6 +190,119 @@ class ALayoutManager
     }
 
     /**
+     * @param bool|null $enabled - if null - returns all, true - only enabled
+     * @return array
+     * @throws AException
+     */
+    public function getTemplateList(?bool $enabled = null){
+        $directories = glob(DIR_STOREFRONT.'view/*', GLOB_ONLYDIR) ?: [];
+        $layout_data['templates'] = array_map('basename',$directories);
+
+        $filter = [
+            'filter' => 'template',
+        ];
+        if(isset($enabled)){
+            $filter['status'] = $enabled ? 1 : 0;
+        }
+
+        $enabled_templates = $this->extensions->getExtensionsList( $filter );
+
+        if(!$enabled) {
+            $list = array_merge(
+                $layout_data['templates'],
+                array_column($enabled_templates->rows, 'key')
+            );
+        }else{
+            $list = array_merge(
+                array_column($enabled_templates->rows, 'key'),
+                $layout_data['templates']
+            );
+        }
+        return array_combine($list,$list);
+    }
+
+    public function getExtensionsPageRoutes()
+    {
+        $allControllers = $this->extensions->getExtensionControllers();
+        $pageControllers = [];
+        foreach($allControllers as $extensionId => $sections){
+            foreach($sections as $section=>$routes){
+                if($section != 'storefront') continue;
+                foreach($routes as $rt) {
+                    if(!str_starts_with($rt,'pages/')) continue;
+                    $controllerInfo = $this->detectSfController($rt, $extensionId);
+                    include_once($controllerInfo['path']);
+                    if(class_exists($controllerInfo['name'])) {
+                        if($controllerInfo['method'] != 'main'){
+                            $rt = $controllerInfo['rt'];
+                        }
+                        $pageControllers[$extensionId][] = $rt;
+
+                        $rfl = new ReflectionClass($controllerInfo['name']);
+                        $methods = $rfl->getMethods(ReflectionMethod::IS_PUBLIC);
+                        foreach($methods as $mtd){
+                            if(in_array($mtd->name, ['main','__construct','__destruct','__invoke'])
+                                || $mtd->class != $controllerInfo['name']
+                            ){ continue; }
+                            $pageControllers[$extensionId][] = $controllerInfo['rt'].'/'.$mtd->name;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $pageControllers;
+    }
+
+    protected function detectSfController($rt, $extension_id = '' )
+    {
+        if(!$extension_id) {
+           $dir_app = DIR_APP_SECTION . 'controller/';
+        }else{
+           $dir_app = DIR_EXT.$extension_id.DIR_EXT_STORE.'controller/';
+        }
+        $path_nodes = explode('/', $rt);
+        $path_build = '';
+
+        //process path and try to locate the controller
+        foreach ($path_nodes as $path_node) {
+            $path_node = trim($path_node);
+            $path_build .= $path_node;
+            if (is_dir($dir_app.$path_build)) {
+                $path_build .= '/';
+                array_shift($path_nodes);
+                continue;
+            }
+
+            if (is_file($dir_app.$path_build.'.php')) {
+                //Controller found. Save information and return TRUE
+                //Set controller and method for future use
+                $output['name'] = 'Controller'
+                    .str_replace(
+                        ' ',
+                        '',
+                        ucwords(preg_replace('/[^a-zA-Z0-9]/', ' ', $path_build)
+                        )
+                    );
+                $output['rt'] = $path_build;
+                $output['path'] = $dir_app.$path_build.'.php';
+
+                //Last part is the method of function to call
+                array_shift($path_nodes);
+                $method_to_call = $path_nodes;
+                if ($method_to_call) {
+                    $output['method'] = $method_to_call;
+                } else {
+                    //Set default method
+                    $output['method'] = 'main';
+                }
+                return $output;
+            }
+        }
+        return [];
+    }
+
+    /**
      * Select pages on specified parameters linked to layout and template.
      * Note: returns an array of matching pages.
      *
@@ -247,7 +360,9 @@ class ALayoutManager
         //process pages and tag restricted layout/pages
         //restricted layouts are the once without key_param and key_value
         foreach ($pages as $count => $page) {
-            if (!has_value($page['key_param']) && !has_value($page['key_value'])) {
+            if (!has_value($page['key_param']) && !has_value($page['key_value'])
+                && !$this->extensions->isExtensionController($page['controller'], false)
+            ) {
                 $pages[$count]['restricted'] = true;
             }
         }
@@ -265,8 +380,10 @@ class ALayoutManager
     public function getLayouts($layout_type = '')
     {
         $store_id = (int) $this->config->get('current_store_id');
-        $cache_key =
-            'layout.a.layouts.'.$this->tmpl_id.'.'.$this->page_id.(!empty ($layout_type) ? '.'.$layout_type : '');
+        $cache_key = 'layout.a.layouts.'.$this->tmpl_id
+            .'.'.$this->page_id
+            .(!empty ($layout_type) ? '.'.$layout_type : '');
+
         if (( string ) $layout_type == '0') {
             $cache_key = 'layout.a.default.'.$this->tmpl_id;
         }
@@ -380,7 +497,7 @@ class ALayoutManager
                 FROM ".$this->db->table("blocks")." as b
                 LEFT JOIN ".$this->db->table("block_layouts")." as bl ON (bl.block_id = b.block_id)
                 WHERE bl.layout_id = '".$layout_id."'
-                ORDER BY bl.parent_instance_id ASC, bl.position ASC";
+                ORDER BY bl.parent_instance_id, bl.position";
 
         $query = $this->db->query($sql);
         $blocks = $query->rows;
@@ -733,20 +850,20 @@ class ALayoutManager
     /**
      * Process post data and prepare for layout to save
      *
-     * @param array $post
+     * @param array $inData
      *
      * @return array
      */
-    public function prepareInput($post)
+    public function prepareInput($inData)
     {
-        if (empty($post)) {
-            return null;
+        if (empty($inData)) {
+            return [];
         }
         $data = [];
-        $section = $post['section'];
-        $block = $post['block'];
-        $parentBlock = $post['parentBlock'];
-        $blockStatus = $post['blockStatus'];
+        $section = $inData['section'];
+        $block = $inData['block'];
+        $parentBlock = $inData['parentBlock'];
+        $blockStatus = $inData['blockStatus'];
 
         foreach ($section as $k => $item) {
             $section[$k]['children'] = [];
@@ -762,7 +879,7 @@ class ALayoutManager
             ];
         }
 
-        $data['layout_name'] = $post['layout_name'];
+        $data['layout_name'] = $inData['layout_name'];
         $data['blocks'] = $section;
         return $data;
     }
@@ -950,12 +1067,17 @@ class ALayoutManager
         }
 
         $this->db->query("DELETE FROM ".$this->db->table("layouts")." WHERE layout_id = '".(int) $layout_id."'");
-        $this->db->query("DELETE FROM ".$this->db->table("pages")." WHERE page_id = '".(int) $page_id."'");
-        $this->db->query("DELETE FROM ".$this->db->table("page_descriptions")." WHERE page_id = '".(int) $page_id."'");
         $this->db->query(
             "DELETE FROM ".$this->db->table("pages_layouts")." WHERE layout_id = '".(int) $layout_id
             ."' AND page_id = '".(int) $page_id."'"
         );
+        $sql = "SELECT COUNT(*) as count FROM ".$this->db->table("pages_layouts")." WHERE page_id = ".(int)$page_id;
+        $result = $this->db->query($sql);
+        if($result->row['count'] < 1 ) {
+            $this->db->query("DELETE FROM " . $this->db->table("pages") . " WHERE page_id = '" . (int)$page_id . "'");
+            $this->db->query("DELETE FROM " . $this->db->table("page_descriptions") . " WHERE page_id = '" . (int)$page_id . "'");
+        }
+
         $this->deleteAllLayoutBlocks($layout_id);
 
         $this->cache->remove('layout');
@@ -1152,7 +1274,7 @@ class ALayoutManager
             LEFT JOIN ".$this->db->table("layouts")." l ON l.layout_id = bl.layout_id
             LEFT JOIN ".$this->db->table("pages_layouts")." pl ON pl.layout_id = l.layout_id
             WHERE b.block_id='".$block_id."' ".$where." 
-            ORDER BY bl.layout_id ASC";
+            ORDER BY bl.layout_id";
 
         $result = $this->db->query($sql);
         return $result->rows;

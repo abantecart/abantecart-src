@@ -1,24 +1,24 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
+
 /** @noinspection PhpUndefinedClassInspection */
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
 
 /**
  * Class ModelCheckoutOrder
@@ -29,8 +29,6 @@
  */
 class ModelCheckoutOrder extends Model
 {
-    public $data = [];
-
     /**
      * @param $order_id
      *
@@ -99,7 +97,7 @@ class ModelCheckoutOrder extends Model
      * @param array $data
      * @param int $set_order_id
      *
-     * @return mixed
+     * @return null|bool|int
      */
     public function create($data, $set_order_id = null)
     {
@@ -451,8 +449,9 @@ class ModelCheckoutOrder extends Model
                         WHERE product_option_value_id = '".(int) $option['product_option_value_id']."'
                             AND subtract = 1";
                 $res = $this->db->query($sql);
-                if ($res->num_rows && $res->row['quantity'] <= 0) {
-                    //notify admin with out of stock for option based product
+                $threshold = (int) $this->config->get('product_out_of_stock_threshold');
+                if ($res->num_rows && $res->row['quantity'] <= $threshold) {
+                    //notify admin about out of stock for option based product
                     $message_arr = [
                         1 => [
                             'message' => sprintf(
@@ -463,19 +462,21 @@ class ModelCheckoutOrder extends Model
                     ];
                     $this->load->model('catalog/product');
                     $stock = $this->model_catalog_product->hasAnyStock((int) $product['product_id']);
-                    if ($stock <= 0 && $this->config->get('config_nostock_autodisable')
-                        && (int) $product['product_id']) {
-                        $this->db->query(
-                            'UPDATE '.$this->db->table('products').' 
-                            SET status=0 WHERE product_id='.(int) $product['product_id']
+                    if ($stock <= $threshold && (int)$product['product_id']) {
+                        if ($stock <= 0 && $this->config->get('config_nostock_autodisable')) {
+                            $this->db->query(
+                                'UPDATE '.$this->db->table('products').' 
+                                SET status=0 
+                                WHERE product_id='.(int) $product['product_id']
+                            );
+                        }
+                        $this->im->send(
+                            'product_out_of_stock',
+                            $message_arr,
+                            'storefront_product_out_of_stock_admin_notify',
+                            $product
                         );
                     }
-                    $this->im->send(
-                        'product_out_of_stock',
-                        $message_arr,
-                        'storefront_product_out_of_stock_admin_notify',
-                        $product
-                    );
                 }
             }
 
@@ -498,8 +499,9 @@ class ModelCheckoutOrder extends Model
                         FROM ".$this->db->table("products")."
                         WHERE product_id = '".(int) $product['product_id']."' AND subtract = 1";
                 $res = $this->db->query($sql);
-                if ($res->num_rows && $res->row['quantity'] <= 0) {
-                    //notify admin with out of stock
+                $threshold = (int) $this->config->get('product_out_of_stock_threshold');
+                if ($res->num_rows && $res->row['quantity'] <= $threshold) {
+                    //notify admin about out of stock
                     $message_arr = [
                         1 => [
                             'message' => sprintf(
@@ -510,20 +512,20 @@ class ModelCheckoutOrder extends Model
                     ];
                     $this->load->model('catalog/product');
                     $stock = $this->model_catalog_product->hasAnyStock((int) $product['product_id']);
-                    if ($stock <= 0 && $this->config->get('config_nostock_autodisable')
-                        && (int) $product['product_id']) {
-                        $this->db->query(
-                            'UPDATE '.$this->db->table('products').' 
-                            SET status=0 
-                            WHERE product_id='.(int) $product['product_id']
+                    if ($stock <= $threshold && (int)$product['product_id']) {
+                        if ($stock <= 0 && $this->config->get('config_nostock_autodisable')) {
+                            $this->db->query(
+                                'UPDATE '.$this->db->table('products').' 
+                            SET status=0 WHERE product_id='.(int)$product['product_id']
+                            );
+                        }
+                        $this->im->send(
+                            'product_out_of_stock',
+                            $message_arr,
+                            'storefront_product_out_of_stock_admin_notify',
+                            $product
                         );
                     }
-                    $this->im->send(
-                        'product_out_of_stock',
-                        $message_arr,
-                        'storefront_product_out_of_stock_admin_notify',
-                        $product
-                    );
                 }
             }
         }
@@ -622,14 +624,13 @@ class ModelCheckoutOrder extends Model
 
         //give link on order page for quest
         if ($this->config->get('config_guest_checkout') && $order_row['email']) {
-            $enc = new AEncryption($this->config->get('encryption_key'));
-            $order_token = $enc->encrypt($order_id.'::'.$order_row['email']);
+            $order_token = generateOrderToken($order_id,$order_row['email']);
             $this->data['mail_template_data']['invoice'] = $order_row['store_url']
-                .'index.php?rt=account/invoice&ot='.$order_token."\n\n";
+                .'index.php?rt=account/order_details&ot='.$order_token."\n\n";
         }//give link on order for registered customers
         elseif ($order_row['customer_id']) {
             $this->data['mail_template_data']['invoice'] = $order_row['store_url']
-                .'index.php?rt=account/invoice&order_id='.$order_id;
+                .'index.php?rt=account/order_details&order_id='.$order_id;
         }
 
         $this->data['mail_template_data']['firstname'] = $order_row['firstname'];
@@ -640,14 +641,13 @@ class ModelCheckoutOrder extends Model
         $this->data['mail_template_data']['customer_telephone'] = $order_row['telephone'];
         $this->data['mail_template_data']['customer_mobile_phone'] = $this->im->getCustomerURI(
             'sms',
-            (int) $order_row['customer_id'], $order_id
+            (int) $order_row['customer_id'],
+            $order_id
         );
         $this->data['mail_template_data']['customer_fax'] = $order_row['fax'];
         $this->data['mail_template_data']['customer_ip'] = $order_row['ip'];
         $this->data['mail_template_data']['comment'] = trim(
-            nl2br(
-                html_entity_decode($order_row['comment'], ENT_QUOTES, 'UTF-8')
-            )
+            nl2br( html_entity_decode($order_row['comment'], ENT_QUOTES, 'UTF-8') )
         );
 
         //override with the data from the before hooks
@@ -743,6 +743,7 @@ class ModelCheckoutOrder extends Model
             $this->data['products'][] = [
                 'name'       => $product['name'],
                 'product_id' => $product['product_id'],
+                'order_product_id' => $product['order_product_id'],
                 'sku'        => $product['sku'],
                 'model'      => $product['model'],
                 'option'     => $option_data,
@@ -801,7 +802,7 @@ class ModelCheckoutOrder extends Model
                     $attachment['name']
                 );
         }
-        $mail->send();
+        $mail->send(true);
 
         //send alert email for merchant
         if ($this->config->get('config_alert_mail')) {
@@ -939,10 +940,9 @@ class ModelCheckoutOrder extends Model
 
             $invoiceUrl = '';
             if (!$order_row['customer_id'] && $this->config->get('config_guest_checkout') && $order_row['email']) {
-                $enc = new AEncryption($this->config->get('encryption_key'));
-                $order_token = $enc->encrypt($order_id.'::'.$order_row['email']);
+                $order_token = generateOrderToken($order_id,$order_row['email']);
                 if ($order_token) {
-                    $invoiceUrl = $order_row['store_url'].'index.php?rt=account/invoice&ot='.$order_token;
+                    $invoiceUrl = $order_row['store_url'].'index.php?rt=account/order_details&ot='.$order_token;
                 }
             }
 
@@ -952,7 +952,7 @@ class ModelCheckoutOrder extends Model
                 'order_date_added' => dateISO2Display($order_row['date_added'], $language->get('date_format_short')),
                 'order_status'     => $order_status_query->num_rows ? $order_status_query->row['name'] : '',
                 'invoice'          => $order_row['customer_id']
-                                    ? $order_row['store_url'].'index.php?rt=account/invoice&order_id='.$order_id
+                                    ? $order_row['store_url'].'index.php?rt=account/order_details&order_id='.$order_id
                                     : $invoiceUrl,
                 'comment'          => $comment ? : '',
             ];
@@ -983,7 +983,7 @@ class ModelCheckoutOrder extends Model
                 $mail->setReplyTo($this->config->get('store_main_email'));
                 $mail->setSender($order_row['store_name']);
                 $mail->setTemplate('admin_order_status_notify', $data);
-                $mail->send();
+                $mail->send(true);
             }
         }
     }
@@ -1106,9 +1106,7 @@ class ModelCheckoutOrder extends Model
                 VALUES( 
                     ".(int) $order_product_id.",
                     ".(int) $product_id.", 
-                    ".((int) $product_option_value_id
-                    ? (int) $product_option_value_id
-                    : 'NULL').", 
+                    ".((int) $product_option_value_id ?: 'NULL').", 
                     ".(int) $row['location_id'].", 
                     '".$this->db->escape($row['location_name'])."',
                     ".(int) $quantity.", 

@@ -7,21 +7,19 @@ echo $order_tabs;
 
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
-
-			<?php if (!empty ($list_url)) { ?>
 			<div class="btn-group">
-				<a class="btn btn-white tooltips" href="<?php echo $list_url; ?>" data-toggle="tooltip" data-original-title="<?php echo $text_back_to_list; ?>">
+				<a class="btn btn-white tooltips back-to-grid hidden" data-table-id="order_grid"
+                   href="<?php echo $list_url; ?>" data-toggle="tooltip" data-original-title="<?php echo $text_back_to_list; ?>">
 					<i class="fa fa-arrow-left fa-lg"></i>
 				</a>
 			</div>
-			<?php } ?>
-
 			<div class="btn-group mr10 toolbar">
 			<a class="btn btn-white tooltips" target="_invoice" href="<?php echo $invoice_url; ?>" data-toggle="tooltip"
 			   title="<?php echo $text_invoice; ?>" data-original-title="<?php echo $text_invoice; ?>">
 				<i class="fa fa-file-text"></i>
 			</a>
 			</div>
+			<?php echo $this->getHookVar('order_details_top_button'); ?>
 		</div>
 
 		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>
@@ -40,6 +38,7 @@ echo $order_tabs;
 			<p class="form-control-static"><?php echo $order_id; ?></p>
 			</div>
 		</div>
+		<?php echo $this->getHookVar('order_details_left_top_attributes'); ?>
 		<div class="form-group">
 			<label class="control-label col-sm-5"><?php echo $entry_invoice_id; ?></label>
 			<div class="input-group afield col-sm-7"><p class="form-control-static">
@@ -446,7 +445,7 @@ echo $order_tabs;
 <script type="text/javascript">
 
 	var decimal_point = '<?php echo $decimal_point; ?>';
-	var decimal_place = '<?php echo $currency['decimal_place']; ?>';
+	var decimal_place = '<?php echo (int)$currency['decimal_place']; ?>';
 	var thousand_point = '<?php echo $thousand_point; ?>';
 	<?php if ($currency['symbol_left']) { ?>
 	var currency_symbol = '<?php echo $currency['symbol_left']; ?>';

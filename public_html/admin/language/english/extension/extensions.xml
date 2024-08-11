@@ -325,12 +325,12 @@
 	<definition>
 		<key>text_autoselect_payment</key>
 		<value>
-			<![CDATA[Auto Select:<span class="help">You can set this payment to be selected by default. This payment method will be pre selected for multiple payments. If this is the only payment option available, payment option selection step will be skipped. </span>]]></value>
+			<![CDATA[Auto Select:<span class="help">Streamlines the checkout process by automatically choosing a payment method when multiple options are available.</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_autoselect_shipping</key>
 		<value>
-			<![CDATA[Auto Select:<span class="help">You can set to skip shipping selection page if there is only one shipping option. This shipping method will be selected automatically</span>]]></value>
+			<![CDATA[Auto Select:<span class="help">Streamlines the checkout process by automatically choosing a delivery method when multiple options are available.</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_accept_payments_shipping</key>

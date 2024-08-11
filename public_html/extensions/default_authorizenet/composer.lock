@@ -1,33 +1,29 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8cf1d470a25f973992ba90d6e6ee6ca3",
+    "content-hash": "cc9126a7f7007729bfe95f5644010487",
     "packages": [
         {
             "name": "authorizenet/authorizenet",
-            "version": "2.0.0",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/AuthorizeNet/sdk-php.git",
-                "reference": "7fa78e6397d363296e462c3b348573c17175b7a8"
+                "reference": "e1acf55c9cb22bef1852b1e494502973ade11cce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/AuthorizeNet/sdk-php/zipball/7fa78e6397d363296e462c3b348573c17175b7a8",
-                "reference": "7fa78e6397d363296e462c3b348573c17175b7a8",
+                "url": "https://api.github.com/repos/AuthorizeNet/sdk-php/zipball/e1acf55c9cb22bef1852b1e494502973ade11cce",
+                "reference": "e1acf55c9cb22bef1852b1e494502973ade11cce",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
                 "ext-json": "*",
                 "php": ">=5.6"
-            },
-            "require-dev": {
-                "phpmd/phpmd": "~2.0",
-                "phpunit/phpunit": "~4.0"
             },
             "type": "library",
             "autoload": {
@@ -47,7 +43,11 @@
                 "ecommerce",
                 "payment"
             ],
-            "time": "2019-01-14T13:32:41+00:00"
+            "support": {
+                "issues": "https://github.com/AuthorizeNet/sdk-php/issues",
+                "source": "https://github.com/AuthorizeNet/sdk-php/tree/2.0.3"
+            },
+            "time": "2024-05-29T17:33:13+00:00"
         }
     ],
     "packages-dev": [],
@@ -57,7 +57,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.6"
+        "php": ">=8.0"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.6.0"
 }

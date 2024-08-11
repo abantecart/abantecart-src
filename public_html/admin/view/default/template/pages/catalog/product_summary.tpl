@@ -21,6 +21,8 @@
                 <td class="summary_value"><?php echo $product['name']; ?></td>
                 <td class="summary_label"><?php echo $entry_product_id; ?></td>
                 <td class="summary_value"><?php echo $product['product_id']; ?></td>
+                <td class="summary_label"><?php echo $entry_sku; ?></td>
+                <td class="summary_value"><?php echo $product['sku']; ?></td>
             </tr>
             <tr>
                 <td class="summary_label"><?php echo $entry_model; ?></td>

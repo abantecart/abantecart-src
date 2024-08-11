@@ -1,5 +1,22 @@
 <?php
+/*------------------------------------------------------------------------------
+  $Id$
 
+  AbanteCart, Ideal OpenSource Ecommerce Solution
+  http://www.AbanteCart.com
+
+  Copyright © 2011-2024 Belavier Commerce LLC
+
+  This source file is subject to Open Software License (OSL 3.0)
+  License details is bundled with this package in the file LICENSE.txt.
+  It is also available at this URL:
+  <http://www.opensource.org/licenses/OSL-3.0>
+
+ UPGRADE NOTE:
+   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+   versions in the future. If you wish to customize AbanteCart for your
+   needs please refer to http://www.AbanteCart.com for more information.
+------------------------------------------------------------------------------*/
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -241,7 +258,7 @@ class ModelCatalogCollection extends Model
         $rw = $this->db->table('reviews');
         $p = $this->db->table('products');
 
-        return ' ( SELECT AVG('.$rw.'.rating)
+        return ' ( SELECT FLOOR(AVG('.$rw.'.rating))
                          FROM '.$this->db->table('reviews').' '.$rw.'
                          WHERE '.$p.'.product_id = '.$rw.'.product_id AND status = 1
                          GROUP BY '.$rw.'.product_id 

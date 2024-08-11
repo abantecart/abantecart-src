@@ -84,6 +84,13 @@
 			<?php } ?>
 		</div>
 
+		<div class="form-group ">
+			<label class="control-label col-sm-4 col-xs-12">Storefront Template:</label>
+			<div class="input-group col-sm-6 col-xs-12 afield">
+				<?php echo $form['template']; ?>
+			</div>
+		</div>
+
 
 		<label class="h5 heading">2. Please enter a name for administrator's section. It needs to be unique alphanumeric name. Only administrators needs to know this to access control panel of the shopping cart application. Example: admin_section_2010</label>
 		

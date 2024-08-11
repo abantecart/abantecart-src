@@ -341,4 +341,28 @@
 		<key>text_out_of_stock</key>
 		<value><![CDATA[Out of Stock]]></value>
 	</definition>
+	<definition>
+		<key>text_badge_sale</key>
+		<value><![CDATA[SALE]]></value>
+	</definition>
+	<definition>
+		<key>text_pagination_pages_info</key>
+		<value><![CDATA[Showing {start} to {end} of {total} ({pages} Pages)]]></value>
+	</definition>
+	<definition>
+		<key>text_first</key>
+		<value><![CDATA[First]]></value>
+	</definition>
+	<definition>
+		<key>text_last</key>
+		<value><![CDATA[Last]]></value>
+	</definition>
+	<definition>
+		<key>text_next</key>
+		<value><![CDATA[Next]]></value>
+	</definition>
+	<definition>
+		<key>text_previous</key>
+		<value><![CDATA[Previous]]></value>
+	</definition>
 </definitions>

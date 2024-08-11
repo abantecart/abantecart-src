@@ -13,7 +13,7 @@ h1 {
 	font-size: 24px;
 	font-weight: normal;
 	padding-bottom: 5px;
-	margin-top: 0px;
+	margin-top: 0;
 	margin-bottom: 15px;
 	border-bottom: 1px solid #CDDDDD;
 }
@@ -60,4 +60,21 @@ h1 {
 	border-left: 1px solid #CDDDDD;
 	border-bottom: 1px solid #CDDDDD;
 	padding: 5px;
+}
+.w-100{
+	width: 100%;
+}
+.w-50{
+	width: 50%;
+}
+
+.right{
+	text-align: end;
+}
+.top {
+	vertical-align: top;
+}
+.page-break {
+	page-break-after: always;
+
 }

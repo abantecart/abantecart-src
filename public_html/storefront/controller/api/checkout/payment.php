@@ -43,7 +43,7 @@ class ControllerApiCheckoutPayment extends AControllerAPI
         }
 
         //load language from main section
-        $this->loadLanguage('checkout/payment');
+        $this->loadLanguage('checkout/fast_checkout');
         //check coupon
         if (isset($request['coupon']) && $this->_validateCoupon($request['coupon'])) {
             //process data
@@ -206,7 +206,7 @@ class ControllerApiCheckoutPayment extends AControllerAPI
         }
 
         //validate post data
-        $this->extensions->hk_ValidateData($this);
+        $this->extensions->hk_ValidateData($this, ['method' => __FUNCTION__, 'input_data' => $request]);
 
         return (!$this->error);
     }
@@ -218,7 +218,7 @@ class ControllerApiCheckoutPayment extends AControllerAPI
         if (!$coupon) {
             $this->error['warning'] = $this->language->get('error_coupon');
         }
-
+        $this->extensions->hk_ValidateData($this, ['method' => __FUNCTION__, 'input_data' => $coupon]);
         return (!$this->error);
     }
 }

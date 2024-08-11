@@ -7,8 +7,8 @@
 		<h3 class=" col-sm-5 col-sm-offset-4"><i class="fa fa-spinner fa-pulse"></i> <?php echo $text_message; ?></h3>
 	</div>
 </div>
-	<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/bootstrap.min.js'); ?>" defer></script>
-	<script language="JavaScript" type="application/javascript">
+	<script type="text/javascript" src="<?php echo $this->templateResource('/js/bootstrap.bundle.min.js'); ?>" defer></script>
+	<script type="application/javascript">
 		var timeout = 30;
 		(function worker() {
 			if(timeout <=0){

@@ -1,4 +1,23 @@
 <?xml version="1.0"?>
+<!--
+  ~   $Id$
+  ~
+  ~   AbanteCart, Ideal OpenSource Ecommerce Solution
+  ~   http://www.AbanteCart.com
+  ~
+  ~   Copyright © 2011-2024 Belavier Commerce LLC
+  ~
+  ~   This source file is subject to Open Software License (OSL 3.0)
+  ~   License details is bundled with this package in the file LICENSE.txt.
+  ~   It is also available at this URL:
+  ~   <http://www.opensource.org/licenses/OSL-3.0>
+  ~
+  ~  UPGRADE NOTE:
+  ~    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+  ~    versions in the future. If you wish to customize AbanteCart for your
+  ~    needs please refer to http://www.AbanteCart.com for more information.
+  -->
+
 <definitions>
 	<definition>
 		<key>code</key>
@@ -775,5 +794,13 @@
 	<definition>
 		<key>warning_extensions_with_layouts</key>
 		<value><![CDATA[Las siguientes extensiones <br/> %s <br/> incluyen páginas o diseños que no están presentes en la plantilla seleccionada. Para incluir funciones de estas extensiones, deberá reinstalar las extensiones después de habilitar la nueva plantilla. Si la reinstalación no ayuda, comuníquese con los desarrolladores originales de las extensiones anteriores para obtener ayuda.]]></value>
+	</definition>
+	<definition>
+		<key>column_sku</key>
+		<value><![CDATA[SKU]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Estado:]]></value>
 	</definition>
 </definitions>

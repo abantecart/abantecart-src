@@ -87,21 +87,6 @@ class ControllerResponsesExtensionDefaultLiqPay extends AController
             );
         }
 
-        if ($this->request->get['rt'] == 'checkout/guest_step_3') {
-            $back_url = $this->html->getSecureURL('checkout/guest_step_2', '&mode=edit', true);
-        } else {
-            $back_url = $this->html->getSecureURL('checkout/payment', '&mode=edit', true);
-        }
-
-        $data['form']['back'] = $form->getFieldHtml(
-            [
-                'type'  => 'button',
-                'name'  => 'back',
-                'text'  => $this->language->get('button_back'),
-                'style' => 'button',
-                'href'  => $back_url,
-            ]
-        );
         $data['form']['submit'] = $form->getFieldHtml(
             [
                 'type' => 'submit',
@@ -126,12 +111,7 @@ class ControllerResponsesExtensionDefaultLiqPay extends AController
             $this->order_status->getStatusByTextId('pending')
         );
 
-        $this->session->data['processed_order_id'] = $order_id;
-        unset($this->session->data['order_id']);
-        $redirect = $this->request->get['fast_checkout']
-            ? 'checkout/fast_checkout_success'
-            : 'checkout/success';
-        redirect( $this->html->getSecureURL( $redirect, '&order_id='.$order_id ) );
+        redirect( $this->html->getSecureURL( 'checkout/finalize', '&order_id='.$order_id ) );
     }
 
     private function getOrderStatus($liqpay_status)

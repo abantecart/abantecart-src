@@ -1,69 +1,48 @@
 <?php /* Footer */ ?>
-	<footer>
-		<?php /* footer blocks placeholder */ ?>
-		<section class="footersocial">
-			<h4 class="hidden">&nbsp;</h4>
-
-			<div class="container-fluid">
-				<div class="col-md-3">
-					<?php echo ${$children_blocks[0]}; ?>
-				</div>
-				<div class="col-md-3">
-					<?php echo ${$children_blocks[1]}; ?>
-				</div>
-				<div class="col-md-3">
-					<?php echo ${$children_blocks[2]}; ?>
-				</div>
-				<div class="col-md-3">
-					<?php echo ${$children_blocks[3]}; ?>
-				</div>
-			</div>
-		</section>
-
-		<section class="footerlinks">
-			<h2 class="hidden">&nbsp;</h2>
-
-			<div class="container-fluid">
-				<div class="pull-left">
-					<?php echo ${$children_blocks[4]}; ?>
-				</div>
-				<div class="pull-right">
-					<?php echo ${$children_blocks[5]}; ?>
-				</div>
-			</div>
-		</section>
-
-		<section class="copyrightbottom align_center">
-			<h2 class="hidden">&nbsp;</h2>
-
-			<div class="container-fluid">
-				<div class="pull-left mt5">
-					<?php echo ${$children_blocks[6]}; ?>
-				</div>
-				<div class="pull-right align_center">
-					<?php echo $text_project_label ?>
-					<br/>
-					<?php echo $text_copy; ?>
-				</div>
-				<div class="pull-right mr20 mt5">
-					<?php echo ${$children_blocks[7]}; ?>
-				</div>
-			</div>
-		</section>
-		<a id="gotop" href="#">Back to top</a>
-	</footer>
+<footer class="bd-footer pt-1 bg-light">
+    <div class="container py-1">
+        <div class="row">
+        <?php
+            $shown = [];
+            $count = count($children_blocks);
+            $i = 1;
+            foreach($children_blocks as $k => $block){
+                if($i > ($count - 4)){ break; }
+                echo '<div class="col-lg-3 mb-3">'. $$block .'</div>';
+                $shown[] = $i;
+                $i++;
+            }
+        ?>
+        </div>
+    </div>
+    <nav class="navbar navbar-dark bg-secondary text-light" role="navigation">
+        <div class="w-100 d-flex flex-wrap justify-content-center mb-2 mb-md-0">
+            <?php
+            $i = 0;
+            foreach($children_blocks as $k => $instanceName){
+                $i++;
+                if(in_array($i, $shown)){ continue; }
+            ?>
+                <div class="align-self-center justify-content-center mx-sm-3 my-3 block_<?php echo $k; ?>">
+                    <?php echo $$instanceName; ?>
+                </div>
+            <?php
+        } ?>
+        </div>
+    </nav>
+</footer>
 
 
-	<div id="msgModal" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close callback-btn" data-dismiss="modal"
-					        aria-hidden="true">&times;</button>
-					<h3 class="hidden">&nbsp;</h3>
-				</div>
-				<div class="modal-body">
-				</div>
-			</div>
-		</div>
-	</div>
+<div id="msgModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close callback-btn" data-dismiss="modal"
+                        aria-hidden="true">&times;</button>
+                <h3 class="hidden">&nbsp;</h3>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>

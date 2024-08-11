@@ -23,16 +23,6 @@ if (!defined('DIR_CORE')) {
 
 class ControllerPagesContentSitemap extends AController
 {
-    /**
-     * Check if HTML Cache is enabled for the method
-     *
-     * @return array - array of data keys to be used for cache key building
-     */
-    public static function main_cache_keys()
-    {
-        return array();
-    }
-
     public function main()
     {
 
@@ -66,7 +56,7 @@ class ControllerPagesContentSitemap extends AController
         $this->view->assign('address', $this->html->getSecureURL('account/address'));
         $this->view->assign('history', $this->html->getSecureURL('account/history'));
         $this->view->assign('download', $this->html->getSecureURL('account/download'));
-        $this->view->assign('checkout', $this->html->getSecureURL('checkout/shipping'));
+        $this->view->assign('checkout', $this->html->getSecureURL('checkout/fast_checkout'));
 
         $this->view->assign('cart', $this->html->getSecureURL('checkout/cart'));
         $this->view->assign('search', $this->html->getNonSecureURL('product/search'));
@@ -86,7 +76,7 @@ class ControllerPagesContentSitemap extends AController
     {
         $output = '';
 
-        $results = $this->model_catalog_category->getCategories($parent_id);
+        $results = $this->model_catalog_category->getCategories((int)$parent_id);
 
         if ($results) {
             $output .= '<ul class="list-group">';

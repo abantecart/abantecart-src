@@ -47,14 +47,14 @@ class ControllerBlocksOrderSummary extends AController
         $this->view->assign('view', $this->html->getSecureURL('checkout/cart'));
 
         $rt = $this->request->get['rt'];
-        if($rt == 'checkout/success') {
+        if($rt == 'checkout/finalize') {
             //do now show any info on success page
             return;
         }elseif (strpos($rt, 'checkout') !== false && $rt != 'checkout/cart') {
             $this->view->assign('checkout', '');
         } else {
             if ($this->cart->hasMinRequirement() && $this->cart->hasMaxRequirement()) {
-                $this->view->assign('checkout', $this->html->getSecureURL('checkout/shipping'));
+                $this->view->assign('checkout', $this->html->getSecureURL('checkout/fast_checkout'));
             }
         }
 
@@ -122,7 +122,7 @@ class ControllerBlocksOrderSummary extends AController
                 'key'       => $result['key'],
                 'name'      => $result['name'],
                 'option'    => $option_data,
-                'thumbnail' => $thumbnail,
+                'thumbnail' => $thumbnail ?: $result['thumb'] ?: $result['thumbnail'],
                 'quantity'  => $result['quantity'],
                 'stock'     => $result['stock'],
                 'price'     => $this->currency->format(

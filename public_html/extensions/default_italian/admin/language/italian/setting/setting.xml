@@ -1,4 +1,23 @@
 <?xml version="1.0"?>
+<!--
+  ~   $Id$
+  ~
+  ~   AbanteCart, Ideal OpenSource Ecommerce Solution
+  ~   http://www.AbanteCart.com
+  ~
+  ~   Copyright © 2011-2024 Belavier Commerce LLC
+  ~
+  ~   This source file is subject to Open Software License (OSL 3.0)
+  ~   License details is bundled with this package in the file LICENSE.txt.
+  ~   It is also available at this URL:
+  ~   <http://www.opensource.org/licenses/OSL-3.0>
+  ~
+  ~  UPGRADE NOTE:
+  ~    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+  ~    versions in the future. If you wish to customize AbanteCart for your
+  ~    needs please refer to http://www.AbanteCart.com for more information.
+  -->
+
 <definitions>
 	<definition>
 		<key>heading_title</key>
@@ -898,10 +917,6 @@
 		<value><![CDATA[Marca Elenco Icona dimensioni formato richiesto!]]></value>
 	</definition>
 	<definition>
-		<key>entry_html_cache</key>
-		<value><![CDATA[Cache HTML: <br/><span class="help">pagine HTML attivato e blocca caching per ottenere una migliore velocità per le pagine. Questo si aggiunge la cache di regolare la cache dei dati abilitata nel system/config.php </span>]]></value>
-	</definition>
-	<definition>
 		<key>entry_task_api_key</key>
 		<value><![CDATA[Compiti API chiave: <br/><span class="help"> Si tratta di una chiave segreta per permettere AbanteCart per eseguire i processi in programma dal browser con file di /task.php. Se non è impostata, compiti non verrà eseguito tramite browser <br/> NOTA:.. Questo API Key non è richiesta per l'esecuzione di compiti di riga di comando </span>]]></value>
 	</definition>
@@ -1024,5 +1039,46 @@
 		<key>text_native_mail_description</key>
 		<value><![CDATA[
  Mailer utilizza il binario sendmail e le opzioni configurate nell&#39;impostazione sendmail_path di php.ini.]]></value>
+	</definition>
+	<definition>
+		<key>error_alert_emails</key>
+		<value><![CDATA[
+ Le e-mail di avviso devono essere valide e separate da virgole!]]></value>
+	</definition>
+	<definition>
+		<key>entry_viewed_products_limit</key>
+		<value><![CDATA[Limite prodotti visualizzati:]]></value>
+	</definition>
+	<definition>
+		<key>entry_viewed_products_image_width</key>
+		<value><![CDATA[Larghezza immagine prodotti visualizzati:]]></value>
+	</definition>
+	<definition>
+		<key>entry_viewed_products_image_height</key>
+		<value><![CDATA[Altezza immagine prodotti visualizzati:]]></value>
+	</definition>
+	<definition>
+		<key>entry_fast_checkout_allow_coupon</key>
+		<value><![CDATA[Consenti inserimento coupon <br/><span class="help">Abilita l&#39;inserimento di coupon da parte di clienti e ospiti</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_fast_checkout_payment_address_equal_shipping</key>
+		<value><![CDATA[Richiedi indirizzo di pagamento Essere uguale all&#39;indirizzo di spedizione]]></value>
+	</definition>
+	<definition>
+		<key>entry_fast_checkout_require_phone_number</key>
+		<value><![CDATA[Richiedi numero di telefono <br/><span class="help">Richiedi l&#39;immissione del numero di telefono da parte del cliente o dell&#39;ospite specifico per l&#39;ordine</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_fast_checkout_create_account</key>
+		<value><![CDATA[Checkout ospite Crea account <br/><span class="help">Offri all&#39;ospite di creare un account alla fine del checkout. Questo è trasparente per gli ospiti e verrà inviata un&#39;e-mail con i dettagli di accesso.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_fast_checkout_buy_now_status</key>
+		<value><![CDATA[ Mostra il pulsante &quot;Acquista ora&quot;. ]]></value>
+	</definition>
+	<definition>
+		<key>entry_fast_checkout_show_order_comment_field</key>
+		<value><![CDATA[Mostra il campo dei commenti dell&#39;ordine <br/><span class="help">L&#39;area di testo dei commenti verrà mostrata durante il processo di pagamento</span>]]></value>
 	</definition>
 </definitions>

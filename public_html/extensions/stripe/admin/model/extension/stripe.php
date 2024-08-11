@@ -1,4 +1,29 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
+
+use Stripe\Charge;
+use Stripe\Collection;
+use Stripe\Exception\ApiErrorException;
+use Stripe\PaymentIntent;
+use Stripe\Refund;
+
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -10,281 +35,169 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
  */
 class ModelExtensionStripe extends Model
 {
-    public $error = array();
+    public $error = [];
 
-    public function getStripeOrder($order_id)
+    /**
+     * @param Registry $registry
+     */
+    public function __construct($registry)
     {
-        $qry = $this->db->query("SELECT * 
-								FROM `".$this->db->table("stripe_orders")."` 
-								WHERE `order_id` = '".(int)$order_id."' 
-								LIMIT 1");
-        if ($qry->num_rows) {
-            $order = $qry->row;
-            return $order;
-        } else {
-            return false;
-        }
-    }
-
-    public function getStripeCharge($ch_id)
-    {
-        if (!has_value($ch_id)) {
-            return array();
-        }
-        try {
-            require_once(DIR_EXT.'stripe/core/stripe_modules.php');
-            grantStripeAccess($this->config);
-            if(is_int(strpos($ch_id, "ch_"))) {
-                return Stripe\Charge::retrieve($ch_id);
-            }elseif(is_int(strpos($ch_id, "pi_"))){
-                $pi =  Stripe\PaymentIntent::retrieve($ch_id);
-                return $pi->charges->data[0];
-            }
-        } catch (Exception $e) {
-            //log in AException
-            $ae = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
-            ac_exception_handler($ae);
-            return null;
-        }
-    }
-
-    public function getPaymentIntent($pi_id)
-    {
-        if (!has_value($pi_id)) {
-            return array();
-        }
-        try {
-            require_once(DIR_EXT.'stripe/core/stripe_modules.php');
-            grantStripeAccess($this->config);
-
-            $pi =  Stripe\PaymentIntent::retrieve($pi_id);
-            return $pi;
-
-        } catch (Exception $e) {
-            //log in AException
-            $ae = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
-            ac_exception_handler($ae);
-            return null;
-        }
-    }
-
-
-    public function cancelPaymentIntent($pi_id)
-    {
-        if (!has_value($pi_id)) {
-            return array();
-        }
-        try {
-            require_once(DIR_EXT.'stripe/core/stripe_modules.php');
-            grantStripeAccess($this->config);
-            $ch = Stripe\PaymentIntent::retrieve($pi_id);
-            $re = $ch->cancel();
-            return $re;
-        }catch(Exception $e){
-            //log in AException
-            $ae = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
-            ac_exception_handler($ae);
-            return null;
-        }
-    }
-
-    public function refund($ch_id, $amount)
-    {
-        if (!has_value($ch_id)) {
-            return array();
-        }
-
-            require_once(DIR_EXT.'stripe/core/stripe_modules.php');
-            grantStripeAccess($this->config);
-            $ch = Stripe\Charge::retrieve($ch_id);
-            $re = $ch->refunds->create(array(
-                'amount' => round($amount,2) * 100,
-            ));
-            return $re;
-    }
-
-    public function captureStripe($ch_id, $amount)
-    {
-        if (!has_value($ch_id)) {
-            return array();
-        }
-        try {
-            require_once(DIR_EXT.'stripe/core/stripe_modules.php');
-            grantStripeAccess($this->config);
-
-            $ch = Stripe\Charge::retrieve($ch_id);
-            $params = array();
-            if ($amount) {
-                $params['amount'] = round($amount,2) * 100;
-            }
-            $re = $ch->capture($params);
-            return $re;
-        } catch (Exception $e) {
-            //log in AException
-            $ae = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
-            ac_exception_handler($ae);
-            return null;
-        }
-    }
-
-    public function capturePaymentIntent($pi_id, $amount)
-    {
-        if (!has_value($pi_id)) {
-            return array();
-        }
-        try {
-            require_once(DIR_EXT.'stripe/core/stripe_modules.php');
-            grantStripeAccess($this->config);
-
-            $intent = \Stripe\PaymentIntent::retrieve($pi_id);
-            $params = array();
-            if ($amount) {
-                $params['amount'] = round($amount,2) * 100;
-            }
-            $re = $intent->capture($params);
-            return $re;
-        } catch (Exception $e) {
-            //log in AException
-            $ae = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
-            ac_exception_handler($ae);
-            return null;
-        }
+        parent::__construct($registry);
+        grantStripeAccess($this->config);
     }
 
     /**
-     * @param int $product_id
-     *
-     * @return bool
+     * @param int $orderId
+     * @return array
+     * @throws AException
      */
-
-    public function getProductSubscription($product_id)
+    public function getStripeOrder($orderId)
     {
-        $product_id = (int)$product_id;
-        if (!$product_id) {
-            return false;
-        }
-
         $result = $this->db->query(
-            "SELECT subscription_plan_id
-				FROM `".$this->db->table("products`")."
-				WHERE product_id = '".(int)$product_id."'");
-        return $result->row['subscription_plan_id'];
+            "SELECT * 
+            FROM `" . $this->db->table("stripe_orders") . "` 
+            WHERE `order_id` = '" . (int)$orderId . "' 
+            LIMIT 1"
+        );
+        return $result->row;
     }
 
     /**
-     * @param int $product_id
-     * @param string $stripe_plan
-     *
-     * @return array|bool
+     * @param string $chargeId
+     * @return false|Charge
      */
-    public function setProductAsSubscription($product_id, $stripe_plan)
+    public function getStripeCharge($chargeId)
     {
-        $product_id = (int)$product_id;
-        if (!$product_id && !$stripe_plan) {
-            return array('error' => "Missing required parameters");
+        if (!$chargeId) {
+            return false;
         }
+        try {
+            if (is_int(strpos($chargeId, "ch_"))) {
+                return Stripe\Charge::retrieve($chargeId);
+            } elseif (is_int(strpos($chargeId, "pi_"))) {
+                $pi = Stripe\PaymentIntent::retrieve($chargeId);
+                $lch = $pi->latest_charge;
+                return Stripe\Charge::retrieve($lch);
+            }
+        } catch (Exception|Error $e) {
+            //log in AException
+            $ae = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
+            ac_exception_handler($ae);
+        }
+        return false;
+    }
 
-        //load plan details.
-        $plan_det = $this->getStripePlan($stripe_plan);
-        if ($plan_det->id != $stripe_plan && !$plan_det->amount) {
-            return array(
-                'error' => "Subscription plan ".$stripe_plan
-                    ." cannot be located in Stripe. Try again or check Stripe for more details",
+    /**
+     * @param string $intentId
+     * @return false|PaymentIntent
+     */
+    public function getPaymentIntent($intentId)
+    {
+        if (!$intentId) {
+            return false;
+        }
+        try {
+            return Stripe\PaymentIntent::retrieve($intentId);
+        } catch (Exception|Error $e) {
+            //log in AException
+            $ae = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
+            ac_exception_handler($ae);
+        }
+        return false;
+    }
+
+    /**
+     * @param string $intentId
+     * @return false|PaymentIntent
+     */
+    public function cancelPaymentIntent($intentId)
+    {
+        if (!$intentId) {
+            return false;
+        }
+        try {
+            $ch = Stripe\PaymentIntent::retrieve($intentId);
+            return $ch->cancel();
+        } catch (Exception|Error $e) {
+            //log in AException
+            $ae = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
+            ac_exception_handler($ae);
+        }
+        return false;
+    }
+
+    /**
+     * @param string $chargeId
+     * @param float $amount
+     * @return false|Refund
+     */
+    public function refund($chargeId, $amount)
+    {
+        if (!$chargeId) {
+            return false;
+        }
+        try {
+            return Stripe\Refund::create(
+                [
+                    'amount' => round($amount, 2) * 100,
+                    'charge' => $chargeId,
+                ]
             );
-        }
-        //assume same currency as store
-        //$currency = $plan_det->currency;
-        $price = $plan_det->amount / 100;
-        //update product price with plan price
-        $this->db->query(
-            "UPDATE `".$this->db->table("products`")."
-				SET 
-					subscription_plan_id = '".$this->db->escape($stripe_plan)."',
-					price = ".(float)$price."
-				WHERE product_id = '".(int)$product_id."'");
-
-        $this->cache->remove('product');
-
-        $this->load->model('catalog/product');
-        $product_info = $this->model_catalog_product->getProduct($product_id);
-        if (!$product_info) {
-            return array('error' => "Product can not be located");
-        }
-
-        //update stripe metadata for subscription
-        $product_url = $this->html->getCatalogURL('product/product', '&product_id='.$product_id);
-        $plan_det->metadata = array('product_id' => $product_id, 'product_url' => $product_url);
-        $plan_det->save();
-        return true;
-    }
-
-    public function removeProductAsSubscription($product_id)
-    {
-        $product_id = (int)$product_id;
-        if (!$product_id) {
-            return array('error' => "Missing required parameters");
-        }
-
-        $stripe_plan = $this->getProductSubscription($product_id);
-
-        $this->db->query(
-            "UPDATE `".$this->db->table("products`")."
-				SET 
-					subscription_plan_id = '',
-					price = 0.0
-				WHERE product_id = '".(int)$product_id."'");
-
-        $this->cache->remove('product');
-
-        //load plan details.
-        $plan_det = $this->getStripePlan($stripe_plan);
-        if ($plan_det->id != $stripe_plan) {
-            return true;
-        }
-        //clear stripe metadata for subscription
-        $plan_det->metadata = array();
-        $plan_det->save();
-        return true;
-    }
-
-    /**
-     * @return null|\Stripe\Collection
-     */
-    public function getStripePlans()
-    {
-        try {
-            require_once(DIR_EXT.'stripe/core/stripe_modules.php');
-            grantStripeAccess($this->config);
-            return Stripe\Plan::all();
-        } catch (Exception $e) {
+        } catch (Exception|Error $e) {
             //log in AException
             $ae = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
             ac_exception_handler($ae);
-            return null;
         }
+        return false;
     }
 
     /**
-     * @param $stripe_plan
-     *
-     * @return null|Stripe\Plan
+     * @param string $chargeId
+     * @param float $amount
+     * @return false|Charge
      */
-    public function getStripePlan($stripe_plan)
+    public function captureStripe($chargeId, $amount)
     {
-        if (!$stripe_plan) {
-            return null;
+        if (!$chargeId) {
+            return false;
         }
-
         try {
-            require_once(DIR_EXT.'stripe/core/stripe_modules.php');
-            grantStripeAccess($this->config);
-            return Stripe\Plan::retrieve($stripe_plan);
-        } catch (Exception $e) {
+            $ch = Stripe\Charge::retrieve($chargeId);
+            $params = [];
+            if ($amount) {
+                $params['amount'] = round($amount, 2) * 100;
+            }
+            return $ch->capture($params);
+        } catch (Exception|Error $e) {
             //log in AException
             $ae = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
             ac_exception_handler($ae);
-            return null;
         }
+        return false;
     }
 
+    /**
+     * @param $intentId
+     * @param $amount
+     * @return false|PaymentIntent
+     */
+    public function capturePaymentIntent($intentId, $amount)
+    {
+        if (!$intentId) {
+            return false;
+        }
+        try {
+            $intent = PaymentIntent::retrieve($intentId);
+            $params = [];
+            if ($amount) {
+                $params['amount'] = round($amount, 2) * 100;
+            }
+            return $intent->capture($params);
+        } catch (Exception|Error $e) {
+            //log in AException
+            $ae = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
+            ac_exception_handler($ae);
+        }
+        return false;
+    }
 }

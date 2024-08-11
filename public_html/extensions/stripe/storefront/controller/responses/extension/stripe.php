@@ -1,4 +1,22 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 /**
  * Class ControllerResponsesExtensionStripe
@@ -76,22 +94,6 @@ class ControllerResponsesExtensionStripe extends AController
         $this->data['button_confirm'] = $this->language->get('button_confirm');
         $this->data['button_back'] = $this->language->get('button_back');
 
-        if ($this->request->get['rt'] == 'checkout/guest_step_3') {
-            $back_url = $this->html->getSecureURL('checkout/guest_step_2', '&mode=edit', true);
-        } else {
-            $back_url = $this->html->getSecureURL('checkout/payment', '&mode=edit', true);
-        }
-        $this->data['back'] = $this->html->buildElement(
-            [
-                'type'  => 'button',
-                'name'  => 'back',
-                'text'  => $this->language->get('button_back'),
-                'style' => 'button',
-                'href'  => $back_url,
-                'icon'  => 'icon-arrow-left',
-            ]
-        );
-
         $this->data['submit'] = $this->html->buildElement(
             [
                 'type'  => 'button',
@@ -161,8 +163,6 @@ class ControllerResponsesExtensionStripe extends AController
             "metadata"             => [
                 "order_id" => $order_info['order_id'],
             ],
-            //'statement_descriptor' => substr($this->config->get('store_name'),0,22),
-            //'statement_descriptor_suffix' => substr('Order #'.$order_info['order_id'],0,22)
         ];
 
         $paymentMethods = unserialize($this->config->get('stripe_payment_method_list'));
@@ -197,8 +197,10 @@ class ControllerResponsesExtensionStripe extends AController
 
         //validate input
         $order_id = $this->session->data['order_id'] ?: $this->request->get['order_id'];
-        $this->loadModel('checkout/order');
-        $this->loadModel('extension/stripe');
+        /** @var ModelCheckoutOrder $mdlOrder */
+        $mdlOrder = $this->loadModel('checkout/order');
+        /** @var ModelExtensionStripe $mdl */
+        $mdl = $this->loadModel('extension/stripe');
         $this->loadLanguage('stripe/stripe');
         $pi_id = $this->request->get['payment_intent'];
         //compare payment intents from session and request
@@ -212,28 +214,27 @@ class ControllerResponsesExtensionStripe extends AController
 
 
         try {
-            $paymentStatus = $this->model_extension_stripe->getPaymentIntentStatus($pi_id);
+            $paymentStatus = $mdl->getPaymentIntent($pi_id)->status;
             //TODO: add webhooks to complete payment via api request for processing status of intent
             if (in_array($paymentStatus, ['processing', 'succeeded', 'requires_capture'])) {
                 $p_result['paid'] = true;
-                $this->load->model('checkout/order');
-                $order_info = $this->model_checkout_order->getOrder($order_id);
-                $this->model_extension_stripe->recordOrder($order_info, ['id' => $pi_id]);
+                $order_info = $mdlOrder->getOrder($order_id);
+                $mdl->recordOrder($order_info, ['id' => $pi_id]);
                 $orderStatus = ($paymentStatus == 'processing'
                     ? $this->order_status->getStatusByTextId('processing')
                     : ($this->config->get('stripe_settlement') == 'automatic'
                         ? $this->config->get('stripe_status_success_settled')
                         : $this->config->get('stripe_status_success_unsettled') ));
-                $this->model_checkout_order->confirm( $order_id, $orderStatus );
+                $mdlOrder->confirm( $order_id, $orderStatus );
             } else {
                 // Some other error, assume payment declined
-                $this->model_checkout_order->addHistory(
+                $mdlOrder->addHistory(
                     $order_id,
                     $this->config->get('stripe_status_decline'),
                     'Unsuccessful payment Intent. ID '.$pi_id.'.'
                 );
             }
-        } catch (\Exception $e) {
+        } catch (Exception|Error $e) {
             $p_result['error'] = $e->getMessage();
         }
 
@@ -246,29 +247,25 @@ class ControllerResponsesExtensionStripe extends AController
             }
         } else {
             if ($p_result['paid']) {
-                $output['success'] = $this->html->getSecureURL('checkout/success');
+                $output['success'] = $this->html->getSecureURL('checkout/finalize');
             } else {
                 //Unexpected result
-                $output['error'] = $this->language->get('error_system')
-                    . '. Payment Intent Status: '
-                        .$this->model_extension_stripe->getPaymentIntentStatus($pi_id);
+                $pi = $mdl->getPaymentIntent($pi_id);
+                $output['error'] = $pi?->last_payment_error['message'].' ('.$pi?->last_payment_error['code'].') '
+                    .$this->language->get('error_payment_method');
+                $this->log->write("Payment attempt failed: \n".var_export($pi->toArray(), true));
+                $this->log->write("Response: \n".var_export($p_result, true));
             }
         }
 
         if ($output['error']) {
-            $this->session->data['error'] = $this->session->data['error_warning'] = $output['error'];
-            $rt = $this->session->data['fc'] ? 'checkout/fast_checkout' : 'checkout/confirm';
-            redirect($this->html->getSecureURL($rt));
+            $this->session->data['error_warning'] = $output['error'];
+            $pKey = $this->session->data['fc']['product_key'];
+            redirect($this->html->getSecureURL('checkout/fast_checkout', $pKey ? '&fc=1&product_key='.$pKey : ''));
         }
-
 
         //init controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-
-        $rt = $this->session->data['fc'] ? 'checkout/fast_checkout_success' : 'checkout/success';
-        $this->session->data['processed_order_id'] = $order_id;
-        $url = $this->html->getSecureURL( $rt, '&order_id='.$order_id );
-        unset($this->session->data['order_id']);
-        redirect($url);
+        redirect($this->html->getSecureURL( 'checkout/finalize', '&order_id='.$order_id ));
     }
 }

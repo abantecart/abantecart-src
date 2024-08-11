@@ -46,7 +46,8 @@ class ControllerPagesAccountLogout extends AController
                 $this->session->data['merchant'],
                 $this->session->data['used_balance'],
                 $this->session->data['used_balance_full'],
-                $this->session->data['csrftoken']
+                $this->session->data['csrftoken'],
+                $this->session->data['fc']
             );
 
             if ($this->config->get('config_tax_store')) {

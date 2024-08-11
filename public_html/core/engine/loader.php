@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -88,12 +88,16 @@ final class ALoader
         }
 
         //mode to force load storefront model
-        $section = DIR_APP_SECTION;
+        $section = defined('INSTALL') && $model!='install'
+            ? dirname(DIR_ROOT).DS.'admin'.DS
+            : DIR_APP_SECTION;
         if ($mode == 'storefront') {
-            $section = DIR_ROOT.'/storefront/';
+            $section = defined('INSTALL')
+                ? dirname(DIR_ROOT).DS.'storefront'.DS
+                : DIR_ROOT.DS.'storefront'.DS;
         }
 
-        $file = $section.'model/'.$model.'.php';
+        $file = $section.'model'.DS.$model.'.php';
         if ($this->registry->has('extensions') && $result = $this->extensions->isExtensionResource('M', $model, $force, $mode)) {
             if (is_file($file)) {
                 $warning = new AWarning("Extension <b>{$result['extension']}</b> override model <b>$model</b>");
@@ -123,32 +127,6 @@ final class ALoader
             } else {
                 return false;
             }
-        }
-    }
-
-    /**
-     * @deprecated since 1.3.0
-     * @param string        $driver
-     * @param string        $hostname
-     * @param string        $username
-     * @param string        $password
-     * @param string        $database
-     * @param string | null $prefix
-     * @param string        $charset
-     *
-     * @throws AException
-     */
-    public function database($driver, $hostname, $username, $password, $database, $prefix = null, $charset = 'UTF8')
-    {
-        $file = DIR_DATABASE.$driver.'.php';
-        $class = 'Database'.preg_replace('/[^a-zA-Z0-9]/', '', $driver);
-
-        if (file_exists($file)) {
-            include_once($file);
-
-            $this->registry->set(str_replace('/', '_', $driver), new $class());
-        } else {
-            throw new AException(AC_ERR_LOAD, 'Error: Could not load database '.$driver.'!');
         }
     }
 

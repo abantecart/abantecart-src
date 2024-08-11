@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2022 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ * $Id$
+ *
+ * AbanteCart, Ideal OpenSource Ecommerce Solution
+ * http://www.AbanteCart.com
+ *
+ * Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ * This source file is subject to Open Software License (OSL 3.0)
+ * License details is bundled with this package in the file LICENSE.txt.
+ * It is also available at this URL:
+ * <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ * UPGRADE NOTE:
+ * Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ * versions in the future. If you wish to customize AbanteCart for your
+ * needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 class ControllerPagesCatalogAttribute extends AController
 {
@@ -193,9 +193,9 @@ class ControllerPagesCatalogAttribute extends AController
 
     protected function _getForm()
     {
-
         $this->data = $attribute_type_info = [];
-        $this->data['error'] = $this->error;
+        $this->data['error_warning'] = implode("\n", $this->error);
+
         $this->data['cancel'] = $this->html->getSecureURL('catalog/attribute');
         $this->data['get_attribute_type'] = $this->html->getSecureURL('r/catalog/attribute/get_attribute_type');
 
@@ -297,13 +297,6 @@ class ControllerPagesCatalogAttribute extends AController
 
         $this->_initTabs($attribute_type_id);
 
-        //NOTE: Future implementation ???????????
-        /*$attribute_groups = array( '' => $this->language->get('text_select'));
-        $results = $this->attribute_manager->getAttributeGroups(array('language_id' => $this->session->data['content_language_id']));
-        foreach ($results as $type) {
-            $attribute_groups[$type['attribute_group_id']] = $type['name'];
-        }*/
-
         if (!$attribute_id) {
             $this->data['action'] = $this->html->getSecureURL('catalog/attribute/insert', '&attribute_type_id=' . $attribute_type_id);
             $this->data['heading_title'] = $this->language->get('text_insert') . $this->language->get('text_attribute');
@@ -380,13 +373,6 @@ class ControllerPagesCatalogAttribute extends AController
                 'options' => $parent_attributes,
             ]);
         }
-        //NOTE: Future implementation ????
-        /*$this->data['form']['fields']['attribute_group'] = $form->getFieldHtml(array(
-            'type' => 'selectbox',
-            'name' => 'attribute_group_id',
-            'value' => $this->data['attribute_group_id'],
-            'options' => $attribute_groups,
-        ));*/
 
         if ($this->data['attribute_types'][$attribute_type_id]['controller']) {
             $subform = $this->dispatch($this->data['attribute_types'][$attribute_type_id]['controller'],
@@ -407,12 +393,10 @@ class ControllerPagesCatalogAttribute extends AController
         $this->data['text_parent_note'] = $this->language->get('text_parent_note');
         $this->data['help_url'] = $this->gen_help_url('global_attributes_edit');
 
-        $saved_list_data = json_decode(html_entity_decode($this->request->cookie['grid_params']));
-        if ($saved_list_data->table_id == 'attribute_grid') {
-            $this->data['list_url'] = $this->html->getSecureURL('catalog/attribute', '&saved_list=attribute_grid');
-        }
+        $this->data['list_url'] = $this->html->getSecureURL('catalog/attribute', '&saved_list=attribute_grid');
 
         $this->view->batchAssign($this->data);
+        /** @see public_html/admin/view/default/template/pages/catalog/attribute_form.tpl */
         $this->processTemplate('pages/catalog/attribute_form.tpl');
     }
 
@@ -437,8 +421,6 @@ class ControllerPagesCatalogAttribute extends AController
         }
 
         if (has_value($this->request->post['regexp_pattern'])) {
-            //value encoded because of xss (see ARequest::clean() for details)
-            $this->request->post['regexp_pattern'] = base64_decode($this->request->post['regexp_pattern']);
             $this->request->post['regexp_pattern'] = trim($this->request->post['regexp_pattern']);
         }
         if (has_value($this->request->post['placeholder'])) {
@@ -447,7 +429,11 @@ class ControllerPagesCatalogAttribute extends AController
 
         $this->error = array_merge(
             $this->error,
-            $this->attribute_manager->validateAttributeCommonData($this->request->post)
+            $this->attribute_manager->validateAttributeCommonData($this->request->post),
+            $this->attribute_manager->validateAttributeValues(
+                (int)$this->request->get_or_post('attribute_id'),
+                (array)$this->request->post['values']
+            )
         );
 
         //update controller data

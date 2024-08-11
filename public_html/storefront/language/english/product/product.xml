@@ -9,7 +9,7 @@
 		<value><![CDATA[Move pointer over the image to zoom in]]></value>
 	</definition>
 	<definition>
-		<key>text_discount</key>
+		<key>text_quantity_discount</key>
 		<value><![CDATA[Quantity Discount:]]></value>
 	</definition>
 	<definition>
@@ -31,6 +31,10 @@
 	<definition>
 		<key>text_model</key>
 		<value><![CDATA[Model:]]></value>
+	</definition>
+	<definition>
+		<key>text_sku</key>
+		<value><![CDATA[SKU:]]></value>
 	</definition>
 	<definition>
 		<key>text_manufacturer</key>
@@ -195,5 +199,25 @@
 	<definition>
 		<key>text_verified_review</key>
 		<value><![CDATA[Verified purchase]]></value>
+	</definition>
+	<definition>
+		<key>percentage_review</key>
+		<value><![CDATA[of buyers have recommended this.]]></value>
+	</definition>
+	<definition>
+		<key>feedback_customer_title</key>
+		<value><![CDATA[Customers Feedback]]></value>
+	</definition>
+	<definition>
+		<key>review_title</key>
+		<value><![CDATA[Reviews]]></value>
+	</definition>
+	<definition>
+		<key>write_review_title</key>
+		<value><![CDATA[Write a Review]]></value>
+	</definition>
+	<definition>
+		<key>product_rate_title</key>
+		<value><![CDATA[Product Rating]]></value>
 	</definition>
 </definitions>

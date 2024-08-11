@@ -44,14 +44,7 @@ class ControllerResponsesExtensionDefaultCod extends AController
         );
         $this->view->assign('button_confirm', $item);
 
-        $this->view->assign('continue', $this->html->getSecureURL('checkout/success'));
-
-
-            $this->view->assign('back', $this->html->getSecureURL(
-                ($this->request->get['rt'] == 'checkout/guest_step_3'
-                    ? 'checkout/guest_step_2'
-                    : 'checkout/payment'),
-                '&mode=edit', true));
+        $this->view->assign('continue', $this->html->getSecureURL('checkout/finalize'));
         $this->processTemplate('responses/default_cod.tpl');
     }
 

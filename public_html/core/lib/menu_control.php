@@ -213,7 +213,7 @@ class AMenu
     }
 
     /**
-     * method return all children of submeni by parent id
+     * method return all children of submenu by parent id
      *
      * @param string $parent_id
      *
@@ -288,8 +288,7 @@ class AMenu
             $new_sort_order = 0;
             if ($brothers) {
                 foreach ($brothers as $brother) {
-                    $new_sort_order =
-                        $brother ['sort_order'] > $new_sort_order ? $brother ['sort_order'] : $new_sort_order;
+                    $new_sort_order = max($brother ['sort_order'], $new_sort_order);
                 }
             }
             $new_sort_order++;

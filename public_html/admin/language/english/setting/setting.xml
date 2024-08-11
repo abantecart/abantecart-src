@@ -103,6 +103,11 @@
 			<![CDATA[Additional Alert E-Mails:<br /><span class="help">Any additional emails you want to receive the alert email, in addition to the main store email. (comma separated)</span>]]></value>
 	</definition>
 	<definition>
+		<key>error_alert_emails</key>
+		<value>
+			<![CDATA[Alert E-Mails must be valid and comma-separated!]]></value>
+	</definition>
+	<definition>
 		<key>entry_telephone</key>
 		<value><![CDATA[Telephone:]]></value>
 	</definition>
@@ -876,6 +881,18 @@
 			<![CDATA[Google API Key (to enable google maps):<br /><span class="help">You can see address on the map. To enable google maps add your Google maps API key <a href="https://console.cloud.google.com/apis/credentials" target="_blank">Google Credentials Page</a>.</span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_viewed_products_limit</key>
+		<value><![CDATA[Viewed products limit:]]></value>
+	</definition>
+	<definition>
+		<key>entry_viewed_products_image_width</key>
+		<value><![CDATA[Viewed products image width:]]></value>
+	</definition>
+	<definition>
+		<key>entry_viewed_products_image_height</key>
+		<value><![CDATA[Viewed products image height:]]></value>
+	</definition>
+	<definition>
 		<key>entry_ssl_url</key>
 		<value>
 			<![CDATA[Secure Store URL:<br /><span class="help">Include the full SSL URL(HTTPS) to your store. Make sure to add '/' at the end. Example: https://www.yourdomain.com/path/</span>]]></value>
@@ -997,11 +1014,6 @@
 		<value><![CDATA[These settings are for instant messages sent automatically during AbanteCart events in storefront and admin. ]]></value>
 	</definition>
 	<definition>
-		<key>entry_html_cache</key>
-		<value>
-			<![CDATA[HTML Cache:<br /><span class="help">Enabled HTML pages and blocks caching to get better speed for your pages. This is additional caching to regular data caching enabled in system/config.php file</span>]]></value>
-	</definition>
-	<definition>
 		<key>entry_task_api_key</key>
 		<value>
 			<![CDATA[Tasks API Key:<br/><span class="help">This is a secret key to allow AbanteCart to run scheduled processes from the browser with /task.php file. If not set, tasks will not run via browser.<br/>NOTE: This API Key is not required for running tasks command line.</span>]]></value>
@@ -1089,5 +1101,29 @@
 	<definition>
 		<key>entry_cron_command</key>
 		<value><![CDATA[Crontab in Linux command <span class="help">Run command crontab -e with the same Linux user running a web server for the AbanteCart. In the editor add the command</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_fast_checkout_allow_coupon</key>
+		<value><![CDATA[Allow coupon entry <br /><span class="help">Enable coupon entry by customers and guests</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_fast_checkout_payment_address_equal_shipping</key>
+		<value><![CDATA[Require Payment Address Be the same as Shipping Address]]></value>
+	</definition>
+	<definition>
+		<key>entry_fast_checkout_require_phone_number</key>
+		<value><![CDATA[Require Phone Number <br /><span class="help">Require phone number entry by customer or guest specific to the order</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_fast_checkout_create_account</key>
+		<value><![CDATA[Guest Checkout Create Account <br /><span class="help">Offer the guest to create an account at the end of the checkout. This is transparent to guests and email will be sent with the login details.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_fast_checkout_buy_now_status</key>
+		<value><![CDATA[ Show "Buy Now" Button ]]></value>
+	</definition>
+	<definition>
+		<key>entry_fast_checkout_show_order_comment_field</key>
+		<value><![CDATA[Show order comment field<br/><span class="help">Comment textarea will be shown during checkout process</span>]]></value>
 	</definition>
 </definitions>

@@ -1,12 +1,11 @@
 <?php
-
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2023 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -37,6 +36,11 @@ class ControllerPagesToolPackageInstaller extends AController
     {
         //clean temporary directory
         $this->_clean_temp_dir();
+
+        /** @var ModelToolUpdater $mdl */
+        $mdl = $this->loadModel('tool/updater');
+        //force update. Needed for case of redirect from mp after purchase
+        $mdl->check4Updates(true);
 
         $package_info = &$this->session->data['package_info'];
         $extension_key = trim($this->request->get['extension_key']);
@@ -187,6 +191,7 @@ class ControllerPagesToolPackageInstaller extends AController
                 'name'   => 'uploadFrm',
                 'action' => $this->html->getSecureURL('tool/package_installer/upload'),
                 'attr'   => 'data-confirm-exit="true" class="aform form-horizontal"',
+                'enctype' => 'multipart/form-data'
             ]
         );
 
@@ -602,7 +607,7 @@ class ControllerPagesToolPackageInstaller extends AController
             redirect($this->_get_begin_href());
         }
 
-        // so.. we need to know about install mode of this package
+        // need to know about install mode of this package
         /**
          * @var SimpleXMLElement|stdClass $config
          */
@@ -813,8 +818,8 @@ class ControllerPagesToolPackageInstaller extends AController
         } // confirmation for ftp access to file system
         elseif ($ftp_mode) {
             $template = 'pages/tool/package_installer_ftp_form.tpl';
-            $ftp_user = $package_info['ftp_user'] ? $package_info['ftp_user'] : '';
-            $ftp_host = $package_info['ftp_host'] ? $package_info['ftp_host'] : '';
+            $ftp_user = $package_info['ftp_user'] ?: '';
+            $ftp_host = $package_info['ftp_host'] ?: '';
 
             $this->data['form']['fuser'] = $form->getFieldHtml(
                 [

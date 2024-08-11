@@ -98,7 +98,7 @@ class ControllerResponsesEmbedJS extends AController
         $this->data['login'] = $this->html->getSecureURL('r/account/login');
         $this->data['logout'] = $this->html->getURL('r/account/logout');
         $this->data['cart'] = $this->html->getURL('r/checkout/cart/embed');
-        $this->data['checkout'] = $this->html->getSecureURL('r/checkout/shipping');
+        $this->data['checkout'] = $this->html->getSecureURL('r/checkout/fast_checkout');
 
         $this->data['embed_click_action'] = $this->config->get('config_embed_click_action');
 

@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <extension>
 	<id>paypal_commerce</id>
-	<version>1.0.1</version>
+	<version>1.0.4</version>
 	<type>payment</type>
 	<category>payment</category>
 	<cartversions>
-		<item>1.3.1</item>
+		<item>1.4</item>
 	</cartversions>
 	<layout/>
 	<priority>100</priority>
@@ -123,6 +123,5 @@
 		<sql>uninstall.sql</sql>
 		<trigger>uninstall.php</trigger>
 	</uninstall>
-	<note>true</note>
 	<note_wrapper>responses/extension/paypal_commerce_note_wrapper.tpl</note_wrapper>
 </extension>

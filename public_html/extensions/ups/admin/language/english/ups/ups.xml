@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~   $Id$
+  ~
+  ~   AbanteCart, Ideal OpenSource Ecommerce Solution
+  ~   http://www.AbanteCart.com
+  ~
+  ~   Copyright © 2011-2024 Belavier Commerce LLC
+  ~
+  ~   This source file is subject to Open Software License (OSL 3.0)
+  ~   License details is bundled with this package in the file LICENSE.txt.
+  ~   It is also available at this URL:
+  ~   <http://www.opensource.org/licenses/OSL-3.0>
+  ~
+  ~  UPGRADE NOTE:
+  ~    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+  ~    versions in the future. If you wish to customize AbanteCart for your
+  ~    needs please refer to http://www.AbanteCart.com for more information.
+  -->
+
+<definitions>
+    <definition>
+        <key>ups_name</key>
+        <value><![CDATA[United Parcel Service]]></value>
+    </definition>
+    <definition>
+        <key>heading_title</key>
+        <value><![CDATA[UPS]]></value>
+    </definition>
+    <definition>
+        <key>ups_account_number</key>
+        <value><![CDATA[Account(Shipper) Number]]></value>
+    </definition>
+    <definition>
+        <key>ups_client_id</key>
+        <value><![CDATA[API Client ID<br/><span class="help">You can find it in your application section on https://developer.ups.com/apps </span>]]></value>
+    </definition>
+    <definition>
+        <key>ups_password</key>
+        <value><![CDATA[API Password<br/><span class="help">You can find it in your application section on https://developer.ups.com/apps </span>]]></value>
+    </definition>
+    <definition>
+        <key>ups_validate_address</key>
+        <value><![CDATA[Address Validation]]></value>
+    </definition>
+    <definition>
+        <key>ups_country</key>
+        <value><![CDATA[Shipper Country & Zone]]></value>
+    </definition>
+    <definition>
+        <key>ups_telephone</key>
+        <value><![CDATA[Shipper Phone Number (10 digits or more)]]></value>
+    </definition>
+    <definition>
+        <key>ups_address</key>
+        <value><![CDATA[Shipper Address]]></value>
+    </definition>
+    <definition>
+        <key>ups_city</key>
+        <value><![CDATA[Shipper City]]></value>
+    </definition>
+    <definition>
+        <key>ups_postcode</key>
+        <value><![CDATA[Shipper Postal Code]]></value>
+    </definition>
+    <definition>
+        <key>ups_weight_code</key>
+        <value><![CDATA[Weight Code:<br /><span class="help">Allowed kgs, lbs.</span>]]></value>
+    </definition>
+    <definition>
+        <key>ups_test_connection</key>
+        <value><![CDATA[Test Connection]]></value>
+    </definition>
+    <definition>
+        <key>ups_length_code</key>
+        <value><![CDATA[Length Code:<br /><span class="help">Allowed inches or centimeters.</span>]]></value>
+    </definition>
+    <definition>
+        <key>ups_tax_class_id</key>
+        <value><![CDATA[Tax Class:]]></value>
+    </definition>
+    <definition>
+        <key>ups_tax_class_id_0</key>
+        <value><![CDATA[-- None --]]></value>
+    </definition>
+    <definition>
+        <key>ups_location_id</key>
+        <value><![CDATA[Location:]]></value>
+    </definition>
+    <definition>
+        <key>ups_location_id_0</key>
+        <value><![CDATA[All Locations]]></value>
+    </definition>
+    <definition>
+        <key>ups_default_weight</key>
+        <value><![CDATA[Default Product Weight:<br /><span class="help">Weight of products if not set</span>]]></value>
+    </definition>
+    <definition>
+        <key>ups_default_length</key>
+        <value><![CDATA[Default Product Length:<br /><span class="help">Length of product if not set</span>]]></value>
+    </definition>
+    <definition>
+        <key>ups_default_width</key>
+        <value><![CDATA[Default  Product Width:<br /><span class="help">Width of product if not set</span>]]></value>
+    </definition>
+    <definition>
+        <key>ups_default_height</key>
+        <value><![CDATA[Default  Product Height:<br /><span class="help">Height of product if not set</span>]]></value>
+    </definition>
+    <definition>
+        <key>ups_packaging</key>
+        <value><![CDATA[Packaging]]></value>
+    </definition>
+    <definition>
+        <key>ups_packaging_02</key>
+        <value><![CDATA[Box]]></value>
+    </definition>
+</definitions>

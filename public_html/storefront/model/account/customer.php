@@ -704,7 +704,7 @@ class ModelAccountCustomer extends Model
             if ($this->config->get('config_recaptcha_secret_key')) {
                 $recaptcha = new ReCaptcha($this->config->get('config_recaptcha_secret_key'));
                 $resp = $recaptcha->verify(
-                    $data['g-recaptcha-response'],
+                    $data['g-recaptcha-response'] ?:$data['captcha'] ?:$data['recaptcha'],
                     $this->request->getRemoteIP()
                 );
                 if (!$resp->isSuccess() && $resp->getErrorCodes()) {
@@ -751,7 +751,7 @@ class ModelAccountCustomer extends Model
 
         $phone = $data['telephone'] ?? '';
         if ($phone) {
-            $pattern = $this->config->get('config_phone_validation_pattern') ? : '/^[0-9]{3,32}$/';
+            $pattern = $this->config->get('config_phone_validation_pattern') ? : DEFAULT_PHONE_REGEX_PATTERN;
             if (mb_strlen($phone) < 3
                 || mb_strlen($phone) > 32
                 || !preg_match($pattern, $phone)
@@ -771,12 +771,21 @@ class ModelAccountCustomer extends Model
             $this->error['postcode'] = $this->language->get('error_postcode');
         }
 
-        if ($data['country_id'] == 'FALSE') {
+        if ($data['country_id'] == 'FALSE' || !$data['country_id'] ) {
             $this->error['country'] = $this->language->get('error_country');
         }
 
-        if ($data['zone_id'] == 'FALSE') {
-            $this->error['zone'] = $this->language->get('error_zone');
+        if ($data['zone_id'] == 'FALSE' || !$data['zone_id']) {
+            if($this->error['country']) {
+                $this->error['zone'] = $this->language->get('error_zone');
+            }else{
+                //check if zones exists
+                /** @var ModelLocalisationZone $mdl */
+                $mdl = $this->load->model('localisation/zone');
+                if( count($mdl->getZonesByCountryId($data['country_id'])) > 0 ){
+                    $this->error['zone'] = $this->language->get('error_zone');
+                }
+            }
         }
 
         //check password length considering html entities (special case for characters " > < & )
@@ -930,8 +939,8 @@ class ModelAccountCustomer extends Model
             $this->error['warning'] = $this->language->get('error_exists');
         }
         $phone = $data['telephone'] ?? '';
-        if ($phone) {
-            $pattern = $this->config->get('config_phone_validation_pattern') ? : '/^[0-9]{3,32}$/';
+        if ($phone || $this->config->get('fast_checkout_require_phone_number')) {
+            $pattern = $this->config->get('config_phone_validation_pattern') ? : DEFAULT_PHONE_REGEX_PATTERN;
             if (mb_strlen($phone) < 3
                 || mb_strlen($phone) > 32
                 || !preg_match($pattern, $phone)
@@ -1157,38 +1166,6 @@ class ModelAccountCustomer extends Model
                 .'.'.pathinfo($data['config_mail_logo'], PATHINFO_EXTENSION)
             );
         }
-        $mail->send();
-    }
-
-    /**
-     * @param string $ot - order token
-     *
-     * @return array
-     * @throws AException
-     */
-    public function parseOrderToken($ot)
-    {
-        if (!$ot || !$this->config->get('config_guest_checkout')) {
-            return [];
-        }
-
-        //try to decrypt order token
-        $enc = new AEncryption($this->config->get('encryption_key'));
-        $decrypted = $enc->decrypt($ot);
-        list($order_id, $email) = explode('::', $decrypted);
-
-        $order_id = (int) $order_id;
-        if (!$decrypted || !$order_id || !$email) {
-            return [];
-        }
-        $this->load->model('account/order');
-        $order_info = $this->model_account_order->getOrder($order_id, '', 'view');
-
-        //compare emails
-        if ($order_info['email'] != $email) {
-            return [];
-        }
-
-        return [$order_id, $email];
+        $mail->send(true);
     }
 }

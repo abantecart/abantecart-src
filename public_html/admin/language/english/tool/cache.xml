@@ -97,14 +97,6 @@
 		<value><![CDATA[Description]]></value>
 	</definition>
 	<definition>
-		<key>text_html_cache</key>
-		<value><![CDATA[HTML-cache]]></value>
-	</definition>
-	<definition>
-		<key>desc_html_cache</key>
-		<value><![CDATA[Cached HTML pages and blocks]]></value>
-	</definition>
-	<definition>
 		<key>text_install_upgrade_history</key>
 		<value><![CDATA[Install/Upgrade History]]></value>
 	</definition>

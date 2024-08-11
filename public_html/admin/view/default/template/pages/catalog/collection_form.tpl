@@ -13,14 +13,11 @@
 <div id="content" class="panel panel-default">
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
-			<?php if (!empty ($list_url)) { ?>
 			<div class="btn-group">
-				<a class="btn btn-white tooltips" href="<?php echo $list_url; ?>" data-toggle="tooltip" data-original-title="<?php echo $text_back_to_list; ?>">
-					<i class="fa fa-arrow-left fa-lg"></i>
+				<a class="btn btn-white tooltips back-to-grid hidden" data-table-id="collections_grid" href="<?php echo $list_url; ?>"
+                   data-toggle="tooltip" data-original-title="<?php echo $text_back_to_list; ?>"><i class="fa fa-arrow-left fa-lg"></i>
 				</a>
 			</div>
-			<?php } ?>
-
 			<?php if ($insert){ ?>
 				<div class="btn-group mr10 toolbar">
 					<a class="actionitem btn btn-primary lock-on-click tooltips" href="<?php echo $insert; ?>"
@@ -55,15 +52,13 @@
 		} ?>">
 			<label class="control-label offset-sm-1 col-sm-3 col-xs-12"
 			       for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
-
 			<div id="field_<?php echo $name; ?>"
 			     class="input-group afield <?php echo $widthcasses; ?> <?php echo($name == 'content' ? 'ml_ckeditor' : '') ?>">
                 <?php if($name == 'keyword') { ?>
 					<span class="input-group-btn">
 					<?php echo $keyword_button; ?>
 				</span>
-                <?php }  ?>
-				<?php
+                <?php }
 				if ($name == 'sort_order'){ ?>
 					<ul class="list-unstyled">
 						<?php
@@ -97,14 +92,12 @@
 			<div class="col-sm-offset-3 col-sm-3 col-xs-12 form-inline">
 				<label class="control-label col-sm-2 col-xs-2"
 					   for="<?php echo $field['field']->element_id; ?>"><?php echo $field['text']; ?></label>
-
 				<div class="input-group afield col-sm-4 col-xs-6"><?php echo $field['field']; ?></div>
 			</div>
             <?php $field = $conditions_relation['fields']['value']; ?>
 			<div class="col-sm-3 col-xs-12 form-inline">
 				<label class="control-label col-sm-7 col-xs-12"
 					   for="<?php echo $field['field']->element_id; ?>"><?php echo $field['text']; ?></label>
-
 				<div class="input-group afield col-sm-5 col-xs-6"><?php echo $field['field']; ?></div>
 			</div>
 		</div>
@@ -123,7 +116,6 @@
 				</div>
 			</div>
             <?php } ?><!-- <div class="fieldset"> -->
-
 		</div>
 	</div>
 

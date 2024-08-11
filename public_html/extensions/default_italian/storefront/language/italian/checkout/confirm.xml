@@ -38,14 +38,6 @@
 		<value><![CDATA[Modifica pagamento]]></value>
 	</definition>
 	<definition>
-		<key>text_guest_step_1</key>
-		<value><![CDATA[Acquisto cliente - Step 1]]></value>
-	</definition>
-	<definition>
-		<key>text_guest_step_2</key>
-		<value><![CDATA[Acquisto cliente - Step 2]]></value>
-	</definition>
-	<definition>
 		<key>text_confirm</key>
 		<value><![CDATA[Conferma]]></value>
 	</definition>

@@ -89,25 +89,12 @@ if (!$mp_connected){
 			));
 } ?>
 	<script type="text/javascript">
-		/* Connect modal */
-		$('#amp_modal').on('shown.bs.modal', function () {
-			var d = new Date();
-			$('#amp_modal iframe').attr("src", "<?php echo $amp_connect_url; ?>&time_stamp=" + d.getTime());
-			$('#iframe_loading').show();
-			$('#amp_modal').modal('show');
-		});
-
-		$('#amp_frame').on('load', function () {
-			$('#iframe_loading').hide();
-		});
-
 		var reload_page = function () {
 			location.reload();
 			//important to clean up the modal
 			$('#amp_modal').modal('hide');
 			$("#amp_modal").find(".modal-body").empty();
 		}
-
 	</script>
 
 <?php

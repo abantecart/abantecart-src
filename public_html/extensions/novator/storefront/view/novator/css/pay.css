@@ -1,0 +1,104 @@
+.spinner-overlay {
+    opacity: 0.8;
+    background: #fff;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    z-index: 99999;
+    display: none;
+}
+.spinner-overlay .spinner-border{
+    width: 4rem;
+    height: 4rem;
+}
+
+/* styles of radio buttons */
+.shipping-selectors input[type=radio] {
+    border: 1px solid var(--bs-gray-200);
+    cursor: pointer;
+    background-color: #fff;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-inline-end: 1em;
+    outline: transparent;
+    position: relative;
+    width: 1.5em;
+    height: 1.5em;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.shipping-selectors input[type=radio] {
+    border: 1px solid var(--Black-1);
+    background-color: var(--bs-lighter-background);
+}
+
+.shipping-selectors input[type="radio"]:before,
+.shipping-selectors input[type="radio"]:after {
+    border-radius: 50%;
+    content: "";
+    display: block;
+    position: absolute;
+    transform: scale(0);
+}
+.shipping-selectors input[type="radio"]:before {
+    box-shadow:
+            0 0 0 0.5em #1692e1 inset,
+            0 0 0 0.0625em #1692e1;
+    top: -0.0625em;
+    left: -0.0625em;
+    width: calc(100% + 0.125em);
+    height: calc(100% + 0.125em);
+}
+.shipping-selectors input[type="radio"]:after {
+    background-color: #fff;
+    top: 25%;
+    left: 25%;
+    width: 50%;
+    height: 50%;
+}
+.shipping-selectors input[type="radio"]:checked:before,
+.shipping-selectors input[type="radio"]:checked:after {
+    transform: scale(1);
+}
+
+
+.card.payment_item, .shipping-selectors label{
+    cursor: pointer;
+}
+
+.project-label a {
+    color: #cca174;
+    text-decoration: none;
+}
+
+.fc-radio-noborder .form-check-inline{
+    border: 0 !important;
+    width: 50px;
+}
+
+.prod-option .form-check .form-check-input {
+    border: 1px solid #1692e1;
+}
+
+body.checkout-fast_checkout .top-bar.fixed-top.pt-4.pb-3[role="navigation"]{
+    position: static !important;
+}
+
+body.checkout-fast_checkout .header-right-block.block_3.ms-2
+{
+    margin-right: 0 !important;
+}
+
+[data-bs-theme="dark"] .shipping_address_details,
+[data-bs-theme="dark"] .payment_address_details
+{
+    background-color: var(--bs-lighter-background) !important;
+}
+[data-bs-theme="dark"] .shipping_address_details .card-body,
+[data-bs-theme="dark"] .payment_address_details .card-body
+{
+    background-color: var(--bs-lighter-background) !important;
+}

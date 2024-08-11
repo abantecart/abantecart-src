@@ -25,43 +25,41 @@ class ControllerPagesProductProduct extends AController
     protected function _init()
     {
         //is this an embed mode
-        if ($this->config->get('embed_mode') == true) {
+        if ($this->config->get('embed_mode')) {
             $this->routes['cart_rt'] = 'r/checkout/cart/embed';
         } else {
             $this->routes['cart_rt'] = 'checkout/cart';
         }
-    }
-
-    /**
-     * Check if HTML Cache is enabled for the method
-     *
-     * @return array - array of data keys to be used for cache key building
-     */
-    public static function main_cache_keys()
-    {
-        //disable cache when some error occurred and need to show it
-        $registry = Registry::getInstance();
-        if (!empty($registry->get('session')->data['error'])) {
-            return null;
-        }
-        return [
-            'product_id',
-            'path',
-            'key',
-            'manufacturer_id',
-            'category_id',
-            'description',
-            'keyword'
-        ];
+        $this->loadLanguage('checkout/fast_checkout');
     }
 
     public function main()
     {
+        $this->loadModel('catalog/product');
         $request = $this->request->get;
         $this->_init();
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
+
+        //key of product from cart
+        $key = [];
+        if (has_value($request['key'])) {
+            $key = explode(':', $request['key']);
+            $product_id = (int) $key[0];
+        } elseif (has_value($request['product_id'])) {
+            $product_id = (int) $request['product_id'];
+        } else {
+            $product_id = 0;
+        }
+
+        $product_info = $this->model_catalog_product->getProduct($product_id);
+        //can not locate product? get out
+        if (!$product_info) {
+            $this->_product_not_found($product_id);
+            return;
+        }
+
 
         $this->document->resetBreadcrumbs();
         $this->document->addBreadcrumb(
@@ -74,6 +72,13 @@ class ControllerPagesProductProduct extends AController
 
         $this->loadModel('tool/seo_url');
         $this->loadModel('catalog/category');
+        if(!isset($request['path'])){
+            $prodCategories = $this->model_catalog_product->getProductCategories($product_id);
+            if($prodCategories){
+                $request['path'] = $this->model_catalog_category->buildPath(current($prodCategories));
+            }
+
+        }
 
         if (isset($request['path'])) {
             $path = '';
@@ -103,7 +108,8 @@ class ControllerPagesProductProduct extends AController
                 $this->document->addBreadcrumb(
                     [
                         'href'      => $this->html->getSEOURL(
-                            'product/manufacturer', '&manufacturer_id='.$request['manufacturer_id'], '&encode'
+                            'product/manufacturer',
+                            '&manufacturer_id='.$request['manufacturer_id'], '&encode'
                         ),
                         'text'      => $manufacturer_info['name'],
                         'separator' => $this->language->get('text_separator'),
@@ -113,33 +119,20 @@ class ControllerPagesProductProduct extends AController
         }
 
         if (isset($request['keyword'])) {
-            $url = '';
+            $httpQuery = ['keyword' => $request['keyword']];
             if (isset($request['category_id'])) {
-                $url .= '&category_id='.$request['category_id'];
+                $httpQuery['category_id'] = $request['category_id'];
             }
             if (isset($request['description'])) {
-                $url .= '&description='.$request['description'];
+                $httpQuery['description'] = $request['description'];
             }
             $this->document->addBreadcrumb(
                 [
-                    'href'      => $this->html->getURL(
-                        'product/search', '&keyword='.$request['keyword'].$url, '&encode'
-                    ),
+                    'href'      => $this->html->getURL( 'product/search', '&'.http_build_query($httpQuery), '&encode'),
                     'text'      => $this->language->get('text_search'),
                     'separator' => $this->language->get('text_separator'),
                 ]
             );
-        }
-
-        //key of product from cart
-        $key = [];
-        if (has_value($request['key'])) {
-            $key = explode(':', $request['key']);
-            $product_id = (int) $key[0];
-        } elseif (has_value($request['product_id'])) {
-            $product_id = (int) $request['product_id'];
-        } else {
-            $product_id = 0;
         }
 
         $urls = [
@@ -151,16 +144,7 @@ class ControllerPagesProductProduct extends AController
         ];
         $this->view->assign('urls', $urls);
 
-        $this->loadModel('catalog/product');
         $promotion = new APromotion();
-
-        $product_info = $this->model_catalog_product->getProduct($product_id);
-        //can not locate product? get out
-        if (!$product_info) {
-            $this->_product_not_found($product_id);
-            return;
-        }
-
         $url = $this->_build_url_params($this->request->get);
 
         $this->view->assign('error', '');
@@ -176,12 +160,13 @@ class ControllerPagesProductProduct extends AController
                 'separator' => $this->language->get('text_separator'),
             ]
         );
-
         $this->document->setTitle($product_info['name']);
         $this->document->setKeywords($product_info['meta_keywords']);
         $this->document->setDescription($product_info['meta_description']);
 
+        $this->data['product_url'] = $this->html->getSEOURL('product/product', $url.'&product_id='.$product_id );
         $this->data['heading_title'] = $product_info['name'];
+        $this->data['blurb'] = $product_info['blurb'];
         $this->data['minimum'] = $product_info['minimum'];
         $this->data['text_minimum'] = sprintf($this->language->get('text_minimum'), $product_info['minimum']);
         $this->data['maximum'] = $product_info['maximum'];
@@ -217,12 +202,17 @@ class ControllerPagesProductProduct extends AController
         } else {
             $this->data['tab_review'] = $this->language->get('tab_review_empty');
         }
-
+        $this->data['total_reviews']= $this->model_catalog_review->getTotalReviewsByProductId($product_id);
+        $this->data['review_percentage_translate'] = $this->language->get('percentage_review');
+        $this->data['feedback_customer_title']=$this->language->get('feedback_customer_title');
+        $this->data['review_title']=$this->language->get('review_title');
+        $this->data['write_review_title']=$this->language->get('write_review_title');
+        $this->data['product_rate_title']=$this->language->get('product_rate_title');
         $this->data['review_form_status'] = $this->isReviewAllowed($product_id);
         $average = $this->data['display_reviews']
             ? $this->model_catalog_review->getAverageRating($product_id)
             : false;
-
+        $this->data['review_percentage'] = $this->model_catalog_review->getPositiveReviewPercentage($product_id);
         if ($this->data['review_form_status']) {
             $this->data['rating_element'] = HtmlElementFactory::create(
                 [
@@ -250,12 +240,18 @@ class ControllerPagesProductProduct extends AController
             ]
         );
 
+        //show page of approval reviews
+        if ($this->data['display_reviews'] || $this->data['review_form_status']) {
+            $this->addChild('responses/product/review/review', 'current_reviews');
+        }
+
+
         if ($this->config->get('config_recaptcha_site_key')) {
             $this->data['recaptcha_site_key'] = $this->config->get('config_recaptcha_site_key');
             $this->data['review_recaptcha'] = HtmlElementFactory::create(
                 [
                     'type'               => 'recaptcha',
-                    'name'               => 'recaptcha',
+                    'name'               => 'g-recaptcha-response',
                     'recaptcha_site_key' => $this->data['recaptcha_site_key'],
                     'language_code'      => $this->language->getLanguageCode(),
                 ]
@@ -410,6 +406,7 @@ class ControllerPagesProductProduct extends AController
         );
 
         $this->data['model'] = $product_info['model'];
+        $this->data['sku'] = $product_info['sku'];
         $this->data['manufacturer'] = $product_info['manufacturer'];
         $this->data['manufacturers'] = $this->html->getSEOURL(
             'product/manufacturer',
@@ -418,7 +415,7 @@ class ControllerPagesProductProduct extends AController
         );
         $this->data['description'] = html_entity_decode($product_info['description'], ENT_QUOTES, 'UTF-8');
         $this->data['product_id'] = $product_id;
-        $this->data['average'] = $average;
+        $this->data['average'] = number_format($product_info['rating'],1,'.');
 
         if (!has_value($product_info['stock_checkout'])) {
             $product_info['stock_checkout'] = $this->config->get('config_stock_checkout');
@@ -432,14 +429,14 @@ class ControllerPagesProductProduct extends AController
             (int) $this->config->get('config_image_grid_height')
         );
 
-        if (!preg_match('/no_image/', $thumbnail['thumb_url'])) {
+        if (!str_contains($thumbnail['thumb_url'], 'no_image')) {
             $this->data['manufacturer_icon'] = $thumbnail['thumb_url'];
         }
 
         // Prepare options and values for display
         $elements_with_options = HtmlElementFactory::getElementsWithOptions();
         $options = [];
-        $option_images = [];
+        $option_images = $txtIds = [];
         $product_options = $this->model_catalog_product->getProductOptions($product_id);
 
         //get info from cart if key presents
@@ -473,6 +470,10 @@ class ControllerPagesProductProduct extends AController
                     continue;
                 }
 
+                if($option_value['txt_id']) {
+                    $txtIds[$option_value['product_option_value_id']] = $option_value['txt_id'];
+                }
+
                 //Stock and status
                 $opt_stock_message = '';
                 //if options has stock tracking and not allowed to be purchased out of stock
@@ -481,13 +482,9 @@ class ControllerPagesProductProduct extends AController
                         //show out of stock message
                         $opt_stock_message = $this->language->get('text_out_of_stock');
                         $disabled_values[] = $option_value['product_option_value_id'];
-                    } else {
-                        if ($this->config->get('config_stock_display')) {
-                            if ($option_value['quantity'] > 0) {
-                                $opt_stock_message = $option_value['quantity']." ".$this->language->get('text_instock');
-                                $opt_stock_message = "(".$opt_stock_message.")";
-                            }
-                        }
+                    } elseif ($this->config->get('config_stock_display')) {
+                        $opt_stock_message = $option_value['quantity']." ".$this->language->get('text_instock');
+                        $opt_stock_message = "(".$opt_stock_message.")";
                     }
                 } else {
                     if ($option_value['subtract'] && $product_info['stock_checkout']) {
@@ -536,13 +533,17 @@ class ControllerPagesProductProduct extends AController
                     }
                     $option['required'] = false;
                 }
+                // if at least one option is file - change enctype for form
+                if ($option['element_type'] == 'U') {
+                    $this->data['form']['form_open']->enctype = "multipart/form-data";
+                }
             }
 
             $option_data = [];
 
             //if not values are build, nothing to show
             if (count($values)) {
-                $value = $attr = '';
+                $value = $data_attr = '';
                 //add price to option name if it is not element with options
                 if (!in_array($option['element_type'], $elements_with_options) && $option['element_type'] != 'B') {
                     $option['name'] .= ' <small>'.$price.'</small>';
@@ -565,10 +566,14 @@ class ControllerPagesProductProduct extends AController
 
                 //for checkbox with empty value
                 if ($option['element_type'] == 'C') {
-                    if ($value == '') {
-                        $value = 1;
-                    }
-                    $attr = key($option['option_value']);
+                    $value = $value ?: 1;
+                    $data_attr .= ' data-attribute-value-id="'.key($option['option_value']).'"';
+                }
+
+                if(in_array($option['element_type'], HtmlElementFactory::getElementsWithOptions())){
+                    $data_attr .= ' data-txt-ids="'.base64_encode(json_encode($txtIds)).'"';
+                }else{
+                    $data_attr .= ' data-txt-ids="'.html2view(current($txtIds)).'"';
                 }
 
                 $option_data = [
@@ -577,7 +582,8 @@ class ControllerPagesProductProduct extends AController
                         !in_array($option['element_type'], HtmlElementFactory::getMultivalueElements())
                             ? 'option['.$option['product_option_id'].']'
                             : 'option['.$option['product_option_id'].'][]',
-                    'attr'             => ' data-attribute-value-id="'.$attr.'"',
+                    'attr'             => $data_attr,
+                    'extra'            => count($txtIds)==1 ? ['txt_id' => current($txtIds)] : ['txt_id' => $txtIds],
                     'value'            => $value,
                     'options'          => $values,
                     'disabled_options' => $disabled_values,
@@ -916,8 +922,27 @@ class ControllerPagesProductProduct extends AController
             }
         }
 
+        if($this->config->get('fast_checkout_buy_now_status')) {
+
+            $data = [];
+            $data['button_add_to_cart'] = $this->language->get('button_add_to_cart');
+            $data['text_buynow'] = $this->language->get('fast_checkout_buy_now');
+            $data['buynow_url'] = $this->html->getSecureURL('checkout/fast_checkout', '&single_checkout=1');
+            $data['add_to_cart'] = $this->language->get('button_add_to_cart');
+
+            /** @var AView $view */
+            $viewClass = get_class($this->view);
+            $view = new $viewClass(Registry::getInstance(), 0);
+            $view->batchAssign($data);
+            $this->view->addHookVar(
+                'product_add_to_cart_html',
+                $view->fetch('pages/product/add_to_cart_buttons.tpl')
+            );
+        }
+
         $this->view->setTemplate('pages/product/product.tpl');
         $this->view->batchAssign($this->data);
+        $this->session->data['viewed_products'][] = $this->request->get['product_id'];
         $this->processTemplate();
 
         //init controller data
@@ -968,7 +993,7 @@ class ControllerPagesProductProduct extends AController
      */
     protected function _build_url_params($request)
     {
-        $url = '';
+        $httpQuery = [];
         $params = [
             'path',
             'manufacturer_id',
@@ -978,10 +1003,10 @@ class ControllerPagesProductProduct extends AController
         ];
         foreach($params as $key){
             if (isset($request[$key])) {
-                $url .= '&'.$key.'='.$request[$key];
+                $httpQuery[$key] = $request[$key];
             }
         }
 
-        return $url;
+        return $httpQuery ? '&'.http_build_query($httpQuery) : '';
     }
 }

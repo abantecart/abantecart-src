@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+    <definition>
+        <key>novator_name</key>
+        <value><![CDATA[Novator]]></value>
+    </definition>
+    <definition>
+        <key>text_categories</key>
+        <value><![CDATA[Categories]]></value>
+    </definition>
+    <definition>
+        <key>text_ratings</key>
+        <value><![CDATA[Ratings]]></value>
+    </definition>
+    <definition>
+        <key>text_brands</key>
+        <value><![CDATA[Brands]]></value>
+    </definition>
+    <definition>
+        <key>text_per_page</key>
+        <value><![CDATA[Per Page]]></value>
+    </definition>
+    <definition>
+        <key>percentage_review</key>
+        <value><![CDATA[of buyers have recommended this.]]></value>
+    </definition>
+</definitions>

@@ -25,6 +25,10 @@
 		<value><![CDATA[Link<br /><span class="help">For external links add http:// or https:// in the beginning. You can also use relative URL such as ../subfolder/index.php</span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_item_target</key>
+		<value><![CDATA[Target<br/><span class="help">_self - opens the linked document in the same frame as it was clicked.<br>_blank - opens the linked document in a new window or tab</span>]]></value>
+	</definition>
+	<definition>
 		<key>entry_parent_id</key>
 		<value><![CDATA[Parent]]></value>
 	</definition>
@@ -63,5 +67,9 @@
 	<definition>
 		<key>text_custom_link_type</key>
 		<value><![CDATA[Custom Link or URL]]></value>
+	</definition>
+	<definition>
+		<key>entry_include_children_items</key>
+		<value><![CDATA[Include children items]]></value>
 	</definition>
 </definitions>

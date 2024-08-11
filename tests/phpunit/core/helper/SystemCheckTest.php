@@ -9,7 +9,7 @@ class SystemCheckTest extends AbanteCartTest
 
     public function setUp(): void
     {
-        parent::__construct();
+        parent::bootstrap();
         $this->original_save_path = ini_get('session.save_path');
     }
 

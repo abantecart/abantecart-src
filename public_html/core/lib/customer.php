@@ -1,24 +1,25 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
+
 /** @noinspection PhpUndefinedClassInspection */
 
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -91,10 +92,10 @@ class ACustomer
         if (isset($this->session->data['customer_id'])) {
             $customer_data = $this->db->query(
                 "SELECT c.*, cg.* 
-                FROM ".$this->db->table("customers")." c
-                LEFT JOIN ".$this->db->table("customer_groups")." cg 
+                FROM " . $this->db->table("customers") . " c
+                LEFT JOIN " . $this->db->table("customer_groups") . " cg 
                     ON c.customer_group_id = cg.customer_group_id
-                WHERE customer_id = '".(int) $this->session->data['customer_id']."' 
+                WHERE customer_id = '" . (int)$this->session->data['customer_id'] . "' 
                     AND status = '1'"
             );
 
@@ -136,7 +137,7 @@ class ACustomer
         $ip = $this->request->getRemoteIP();
         $url = '';
         if (isset($this->request->server['HTTP_HOST']) && isset($this->request->server['REQUEST_URI'])) {
-            $url = 'http://'.$this->request->server['HTTP_HOST'].$this->request->server['REQUEST_URI'];
+            $url = 'http://' . $this->request->server['HTTP_HOST'] . $this->request->server['REQUEST_URI'];
         }
         $referer = '';
         if (isset($this->request->server['HTTP_REFERER'])) {
@@ -174,19 +175,19 @@ class ACustomer
         //Supports older passwords for upgraded/migrated stores prior to 1.2.8
         $add_pass_sql = '';
         if (defined('SALT')) {
-            $add_pass_sql = "OR password = '".$this->db->escape(md5($password.SALT))."'";
+            $add_pass_sql = "OR password = '" . $this->db->escape(md5($password . SALT)) . "'";
         }
         $customer_data = $this->db->query(
             "SELECT *
-            FROM ".$this->db->table("customers")."
-            WHERE LOWER(loginname)  = LOWER('".$this->db->escape($loginname)."')
+            FROM " . $this->db->table("customers") . "
+            WHERE LOWER(loginname)  = LOWER('" . $this->db->escape($loginname) . "')
                 AND (
                     password = 	SHA1(CONCAT(salt, 
-                                SHA1(CONCAT(salt, SHA1('".$this->db->escape($password)."')))
+                                SHA1(CONCAT(salt, SHA1('" . $this->db->escape($password) . "')))
                             ))
-                    ".$add_pass_sql."
+                    " . $add_pass_sql . "
                 )
-                AND status = '1' ".$approved_only
+                AND status = '1' " . $approved_only
         );
         if ($customer_data->num_rows) {
             $this->_customer_init($customer_data->row);
@@ -240,7 +241,7 @@ class ACustomer
      */
     private function _customer_init($data)
     {
-        $this->customer_id = (int) $data['customer_id'];
+        $this->customer_id = (int)$data['customer_id'];
         $this->loginname = $data['loginname'];
         $this->firstname = $data['firstname'];
         $this->lastname = $data['lastname'];
@@ -253,11 +254,11 @@ class ACustomer
             $this->telephone = $data['telephone'];
             $this->fax = $data['fax'];
         }
-        $this->newsletter = (int) $data['newsletter'];
+        $this->newsletter = (int)$data['newsletter'];
 
-        $this->customer_group_id = (int) $data['customer_group_id'];
+        $this->customer_group_id = (int)$data['customer_group_id'];
         //save it to use in APromotion class
-        $this->session->data['customer_group_id'] = (int) $data['customer_group_id'];
+        $this->session->data['customer_group_id'] = (int)$data['customer_group_id'];
 
         $this->customer_group_name = $data['name'];
 
@@ -265,23 +266,23 @@ class ACustomer
         //save this sign to use in ATax lib
         $this->session->data['customer_tax_exempt'] = $data['tax_exempt'];
 
-        $this->address_id = (int) $data['address_id'];
+        $this->address_id = (int)$data['address_id'];
 
-        $this->db->query("SET @CUSTOMER_ID = '".(int) $this->customer_id."'");
+        $this->db->query("SET @CUSTOMER_ID = '" . (int)$this->customer_id . "'");
     }
 
     public function setLastLogin($customer_id)
     {
-        $customer_id = (int) $customer_id;
+        $customer_id = (int)$customer_id;
         if (!$customer_id) {
             return false;
         }
 
         //insert new record
         $this->db->query(
-            "UPDATE `".$this->db->table("customers")."`
+            "UPDATE `" . $this->db->table("customers") . "`
             SET `last_login` = NOW()
-            WHERE customer_id = ".$customer_id
+            WHERE customer_id = " . $customer_id
         );
         return true;
     }
@@ -443,7 +444,7 @@ class ACustomer
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getNewsletter()
     {
@@ -477,24 +478,24 @@ class ACustomer
      */
     public function getFormattedAddress($data_array, $format = '', $locate = [])
     {
-        $data_array = (array) $data_array;
+        $data_array = (array)$data_array;
         // Set default format
         if ($format == '') {
             $format = '{firstname} {lastname}'
-                ."\n".'{company}'
-                ."\n".'{address_1}'
-                ."\n".'{address_2}'
-                ."\n".'{city} {postcode}'
-                ."\n".'{zone}'
-                ."\n".'{country}';
+                . "\n" . '{company}'
+                . "\n" . '{address_1}'
+                . "\n" . '{address_2}'
+                . "\n" . '{city} {postcode}'
+                . "\n" . '{zone}'
+                . "\n" . '{country}';
         }
         //when some data missing - remove it from address format
-        preg_match_all('/\{(.*?)\}/', $format, $matches);
+        preg_match_all('/\{(.*?)}/', $format, $matches);
         if ($matches[1]) {
             $matches = $matches[1];
             foreach ($matches as $key) {
                 if (!isset($data_array[$key])) {
-                    $format = str_replace('{'.$key.'}', '', $format);
+                    $format = str_replace('{' . $key . '}', '', $format);
                 }
             }
             $format = trim($format);
@@ -504,13 +505,10 @@ class ACustomer
         if (count($locate) <= 0) {
             $locate = [];
             foreach ($data_array as $key => $value) {
-                $locate[] = "{".$key."}";
+                $locate[] = "{" . $key . "}";
             }
         }
-
-        return str_replace(
-            ["\r\n", "\r", "\n"],
-            '<br />',
+        return nl2br(
             preg_replace(
                 ["/\s\s+/", "/\r\r+/", "/\n\n+/"], '<br />',
                 trim(str_replace($locate, $data_array, $format))
@@ -533,10 +531,10 @@ class ACustomer
 
         $query = $this->db->query(
             "SELECT sum(credit) - sum(debit) as balance
-            FROM ".$this->db->table("customer_transactions")."
-            WHERE customer_id = '".(int) $this->getId()."'"
+            FROM " . $this->db->table("customer_transactions") . "
+            WHERE customer_id = '" . (int)$this->getId() . "'"
         );
-        return (float) $query->row['balance'];
+        return (float)$query->row['balance'];
     }
 
     /**
@@ -571,7 +569,7 @@ class ACustomer
     public function saveCustomerCart()
     {
         $customer_id = $this->customer_id;
-        $store_id = (int) $this->config->get('config_store_id');
+        $store_id = (int)$this->config->get('config_store_id');
         if (!$customer_id) {
             $customer_id = $this->unauth_customer['customer_id'];
         }
@@ -582,24 +580,19 @@ class ACustomer
         //before write get cart-info from db to non-override cart for other stores of multistore
         $result = $this->db->query(
             "SELECT cart
-            FROM ".$this->db->table("customers")."
-            WHERE customer_id = '".(int) $customer_id."' 
+            FROM " . $this->db->table("customers") . "
+            WHERE customer_id = '" . (int)$customer_id . "' 
                 AND status = '1'"
         );
         $cart = unserialize($result->row['cart']);
-        //check is format of cart old or new
-        $new = $this->_is_new_cart_format($cart);
-
-        if (!$new) {
-            $cart = []; //clean cart from old format
-        }
-        $cart['store_'.$store_id] = $this->session->data['cart'];
+        $cart = $cart ?: [];
+        $cart['store_' . $store_id] = $this->session->data['cart'];
         $this->db->query(
-            "UPDATE ".$this->db->table("customers")."
+            "UPDATE " . $this->db->table("customers") . "
             SET
-                cart = '".$this->db->escape(serialize($cart))."',
-                ip = '".$this->db->escape($this->request->getRemoteIP())."'
-            WHERE customer_id = '".(int) $customer_id."'"
+                cart = '" . $this->db->escape(serialize($cart)) . "',
+                ip = '" . $this->db->escape($this->request->getRemoteIP()) . "'
+            WHERE customer_id = '" . (int)$customer_id . "'"
         );
     }
 
@@ -621,8 +614,8 @@ class ACustomer
         }
 
         $sql = "SELECT cart
-                FROM ".$this->db->table("customers")."
-                WHERE customer_id = '".(int) $customer_id."' 
+                FROM " . $this->db->table("customers") . "
+                WHERE customer_id = '" . (int)$customer_id . "' 
                     AND status = '1'";
         $result = $this->db->query($sql);
         if ($result->num_rows) {
@@ -640,7 +633,7 @@ class ACustomer
      */
     public function getCustomerCart()
     {
-        $store_id = (int) $this->config->get('config_store_id');
+        $store_id = (int)$this->config->get('config_store_id');
         $customer_id = $this->customer_id;
         if (!$customer_id) {
             $customer_id = $this->unauth_customer['customer_id'];
@@ -651,8 +644,8 @@ class ACustomer
 
         $cart = [];
         $sql = "SELECT cart
-                FROM ".$this->db->table("customers")."
-                WHERE customer_id = '".(int) $customer_id."' 
+                FROM " . $this->db->table("customers") . "
+                WHERE customer_id = '" . (int)$customer_id . "' 
                     AND status = '1'";
 
         $result = $this->db->query($sql);
@@ -660,24 +653,18 @@ class ACustomer
             //load customer saved cart
             if (($result->row['cart']) && (is_string($result->row['cart']))) {
                 $cart = unserialize($result->row['cart']);
-                //check is format of cart old or new
-                $new = $this->_is_new_cart_format($cart);
-                if (isset($cart['store_'.$store_id])) {
-                    $cart = $cart['store_'.$store_id];
-                } elseif ($new) {
-                    $cart = [];
-                }
+                $cart = $cart ? (array)$cart['store_' . $store_id] : [];
                 //clean products
                 if ($cart) {
                     $cart_products = [];
                     foreach ($cart as $key => $val) {
                         $k = explode(':', $key);
-                        $cart_products[] = (int) $k[0]; // <-product_id
+                        $cart_products[] = (int)$k[0]; // <-product_id
                     }
                     $sql = "SELECT product_id
-                            FROM ".$this->db->table('products_to_stores')." pts
-                            WHERE store_id = '".$store_id."' 
-                                AND product_id IN (".implode(', ', $cart_products).")";
+                            FROM " . $this->db->table('products_to_stores') . " pts
+                            WHERE store_id = '" . $store_id . "' 
+                                AND product_id IN (" . implode(', ', $cart_products) . ")";
 
                     $result = $this->db->query($sql);
                     $products = [];
@@ -698,23 +685,13 @@ class ACustomer
     /**
      * Merge cart from session and cart from database content
      *
-     * @param array - cart from database
+     * @param array $cart - data from database, table "customers"
      *
      * @void
-     * @throws AException
      */
     public function mergeCustomerCart($cart)
     {
-        $store_id = (int) $this->config->get('config_store_id');
         $cart = !is_array($cart) ? [] : $cart;
-        //check is format of cart old or new
-        $new = $this->_is_new_cart_format($cart);
-
-        if ($new) {
-            $cart = $cart['store_'.$store_id];
-        }
-        $cart =
-            !is_array($cart) ? [] : $cart; // for case when data format is new but cart for store does not yet created
 
         if ($cart && !is_array($this->session->data['cart'])) {
             $this->session->data['cart'] = [];
@@ -723,6 +700,9 @@ class ACustomer
             if (!array_key_exists($key, $this->session->data['cart'])) {
                 $this->session->data['cart'][$key] = $value;
             }
+        }
+        if (!$this->session->data['fc']['cart']) {
+            $this->session->data['fc']['cart'] = $this->session->data['cart'];
         }
     }
 
@@ -743,35 +723,12 @@ class ACustomer
             return false;
         }
         $this->db->query(
-            "UPDATE ".$this->db->table("customers")."
+            "UPDATE " . $this->db->table("customers") . "
             SET
-                cart = '".$this->db->escape(serialize($cart))."'
-            WHERE customer_id = '".(int) $customer_id."'"
+                cart = '" . $this->db->escape(serialize($cart)) . "'
+            WHERE customer_id = '" . (int)$customer_id . "'"
         );
         return true;
-    }
-
-    /**
-     * Recognize cart data format. New format is cart-per-store
-     *
-     * @param array $cart_data
-     *
-     * @return bool
-     */
-    protected function _is_new_cart_format($cart_data = [])
-    {
-        if (empty($cart_data)) {
-            return false;
-        }
-        $keys = array_keys($cart_data);
-        if (is_array($keys) && !empty($keys)) {
-            foreach ($keys as $k) {
-                if (is_int(strpos($k, 'store_'))) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     /**
@@ -779,18 +736,16 @@ class ACustomer
      *
      * @param int $product_id
      *
-     * @return null
      * @throws AException
      */
     public function addToWishList($product_id)
     {
         if (!has_value($product_id) || !is_numeric($product_id)) {
-            return null;
+            return;
         }
-        $whishlist = $this->getWishList();
-        $whishlist[$product_id] = time();
-        $this->saveWishList($whishlist);
-        return null;
+        $wishList = $this->getWishList();
+        $wishList[$product_id] = time();
+        $this->saveWishList($wishList);
     }
 
     /**
@@ -798,29 +753,27 @@ class ACustomer
      *
      * @param int $product_id
      *
-     * @return null
      * @throws AException
      */
     public function removeFromWishList($product_id)
     {
         if (!has_value($product_id) || !is_numeric($product_id)) {
-            return null;
+            return;
         }
-        $whishlist = $this->getWishList();
-        unset($whishlist[$product_id]);
-        $this->saveWishList($whishlist);
-        return null;
+        $wishList = $this->getWishList();
+        unset($wishList[$product_id]);
+        $this->saveWishList($wishList);
     }
 
     /**
      * Record wish list content
      *
-     * @param array $whishlist
+     * @param array $wishList
      *
      * @return null
      * @throws AException
      */
-    public function saveWishList($whishlist = [])
+    public function saveWishList($wishList = [])
     {
         $customer_id = $this->customer_id;
         if (!$customer_id) {
@@ -830,11 +783,11 @@ class ACustomer
             return false;
         }
         $this->db->query(
-            "UPDATE ".$this->db->table("customers")."
+            "UPDATE " . $this->db->table("customers") . "
             SET
-                wishlist = '".$this->db->escape(serialize($whishlist))."',
-                ip = '".$this->db->escape($this->request->getRemoteIP())."'
-            WHERE customer_id = '".(int) $customer_id."'"
+                wishlist = '" . $this->db->escape(serialize($wishList)) . "',
+                ip = '" . $this->db->escape($this->request->getRemoteIP()) . "'
+            WHERE customer_id = '" . (int)$customer_id . "'"
         );
         return true;
     }
@@ -847,17 +800,14 @@ class ACustomer
      */
     public function getWishList()
     {
-        $customer_id = $this->customer_id;
-        if (!$customer_id) {
-            $customer_id = $this->unauth_customer['customer_id'];
-        }
-        if (!$customer_id) {
+        $customerId = $this->customer_id ?: $this->unauth_customer['customer_id'];
+        if (!$customerId) {
             return [];
         }
         $customer_data = $this->db->query(
             "SELECT wishlist
-            FROM ".$this->db->table("customers")."
-            WHERE customer_id = '".(int) $customer_id."' 
+            FROM " . $this->db->table("customers") . "
+            WHERE customer_id = '" . (int)$customerId . "' 
                 AND status = '1'"
         );
         if ($customer_data->num_rows) {
@@ -886,25 +836,25 @@ class ACustomer
         }
 
         if ($type == 'debit') {
-            $amount = 'debit = '.(float) $tr_details['amount'];
+            $amount = 'debit = ' . (float)$tr_details['amount'];
         } else {
             if ($type == 'credit') {
-                $amount = 'credit = '.(float) $tr_details['amount'];
+                $amount = 'credit = ' . (float)$tr_details['amount'];
             } else {
                 return false;
             }
         }
 
         $this->db->query(
-            "INSERT INTO ".$this->db->table("customer_transactions")."
-            SET customer_id = '".(int) $this->getId()."',
-                order_id = '".(int) $tr_details['order_id']."',
-                transaction_type = '".$this->db->escape($tr_details['transaction_type'])."',
-                description = '".$this->db->escape($tr_details['description'])."',
-                comment = '".$this->db->escape($tr_details['comment'])."',
-                ".$amount.",
-                section = '".((int) $tr_details['section'] ? (int) $tr_details['section'] : 0)."',
-                created_by = '".(int) $tr_details['created_by']."',
+            "INSERT INTO " . $this->db->table("customer_transactions") . "
+            SET customer_id = '" . (int)$this->getId() . "',
+                order_id = '" . (int)$tr_details['order_id'] . "',
+                transaction_type = '" . $this->db->escape($tr_details['transaction_type']) . "',
+                description = '" . $this->db->escape($tr_details['description']) . "',
+                comment = '" . $this->db->escape($tr_details['comment']) . "',
+                " . $amount . ",
+                section = '" . ((int)$tr_details['section'] ?: 0) . "',
+                created_by = '" . (int)$tr_details['created_by'] . "',
                 date_added = NOW()"
         );
 

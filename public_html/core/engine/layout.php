@@ -1,23 +1,21 @@
-<?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2022 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-  
- UPGRADE NOTE: 
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.  
-------------------------------------------------------------------------------*/
+<?php /*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -74,8 +72,9 @@ class ALayout
      * @return int
      * @throws AException
      */
-    public function buildPageData($controller)
+    public function buildPageData($controller, $method = 'main')
     {
+        $pages = [];
         //for Maintenance mode
         if ($this->config->get('config_maintenance')) {
             /** @noinspection PhpIncludeInspection */
@@ -90,31 +89,44 @@ class ALayout
         $unique_page = [];
 
         // find page records for given controller
-        $key_param = $this->getKeyParamByController($controller);
-        $key_value = null;
-        if ($key_param) {
-            $key_value = $this->request->get[$key_param] ?? null;
-        }
+        $key_param = $this->getKeyParamByController($controller, $method);
+        $key_value = $key_param
+            ? (is_array($this->request->get[$key_param]) && count($this->request->get[$key_param]) == 1
+                ? current($this->request->get[$key_param])
+                : $this->request->get[$key_param])
+            : null;
 
         // for nested categories
-        if ($key_param == 'path' && $key_value) {
-            if (is_int(strpos($key_value, '_'))) {
-                $key_value = (int) substr($key_value, strrpos($key_value, '_') + 1);
+        if ($key_param == 'path') {
+            $key_value = !$key_value && count((array)$this->request->get['category_id'])
+                ? current((array)$this->request->get['category_id'])
+                : $key_value;
+            if(str_contains($key_value, '_')){
+                $parts = explode('_', $key_value);
+                $key_value = end($parts);
             }
         } elseif (!$key_value) {
             $key_value = $key_param = null;
         }
 
         $key_param = is_null($key_value) ? null : $key_param;
-        $pages = $this->getPages($controller, $key_param, $key_value);
-        if (empty($pages)) {
-            //if no specific page found try to get page for group
+        //seek route with method first
+        if($method != 'main'){
+            $pages = $this->getPages($controller.'/'.$method, $key_param, $key_value);
+        }
+        //then seek controller route
+        if(!$pages) {
+            $pages = $this->getPages($controller, $key_param, $key_value);
+        }
+
+        //if no specific page found try to get page for group
+        if (!$pages) {
             $new_path = preg_replace('/\/\w*$/', '', $controller);
             $pages = $this->getPages($new_path);
         }
 
-        if (empty($pages)) {
-            //if no specific page found load generic
+        //if no specific page found load generic
+        if (!$pages) {
             $pages = $this->getPages('generic');
         } else {
             /* if specific pages with key_param presents...
@@ -192,10 +204,7 @@ class ALayout
     public function getPages($controller = '', $key_param = '', $key_value = '')
     {
         $store_id = (int) $this->config->get('config_store_id');
-        $cache_key = 'layout.pages'
-            .(!empty($controller) ? '.'.$controller : '')
-            .(!empty($key_param) ? '.'.$key_param : '')
-            .(!empty($key_value) ? '.'.$key_value : '');
+        $cache_key = 'layout.pages'. md5(implode('-',func_get_args()));
         $cache_key = preg_replace('/[^a-zA-Z\d.]/', '', $cache_key).'.store_'.$store_id.'.template_'.$this->tmpl_id;
         $pages = $this->cache->pull($cache_key);
         if ($pages !== false) {
@@ -204,16 +213,16 @@ class ALayout
         }
 
         $where = '';
-        if (!empty ($controller)) {
-            $where .= "WHERE controller = '".$this->db->escape($controller)."' ";
+        if ($controller) {
+            $where .= "WHERE controller = '".$this->db->escape($controller)."' AND template_id = '".$this->tmpl_id."' ";
+
             if (!empty ($key_param)) {
                 if (!empty ($key_value)) {
                     // so if we have key_param key_value pair we select pages with controller and with or without key_param
                     $where .= " AND ( COALESCE( key_param, '' ) = ''
                                         OR
-                                        ( key_param = '".$this->db->escape($key_param)."'
-                                            AND key_value = '".$this->db->escape($key_value)."' ) )
-                                AND template_id = '".$this->tmpl_id."' ";
+                                        ( key_param = '".$this->db->escape((string)$key_param)."'
+                                            AND key_value = '".$this->db->escape((string)$key_value)."' ) ) ";
                 } else { //write to log this stuff. it's abnormal situation
                     $message = "Error: Error in data of page with controller: '".$controller
                         ."'. Please check for key_value present where key_param was set.\n";
@@ -223,6 +232,8 @@ class ALayout
                     $error = new AError ($message);
                     $error->toLog()->toDebug();
                 }
+            }else{
+                $where .= " AND ( COALESCE( key_param, '' ) = '' AND COALESCE( key_value, '' ) = '') ";
             }
         }
 
@@ -232,8 +243,12 @@ class ALayout
                     ON pl.page_id = p.page_id 
                 LEFT JOIN ".$this->db->table("layouts")." l 
                     ON l.layout_id = pl.layout_id ".
-            $where."
-                ORDER BY key_param DESC, key_value DESC, p.page_id ASC";
+                $where;
+        if($key_value){
+            $sql .= " ORDER BY key_param DESC, key_value DESC, p.page_id ASC";
+        }else{
+            $sql .= " ORDER BY key_param, key_value, p.page_id";
+        }
         $query = $this->db->query($sql);
         $pages = $query->rows;
         $this->cache->push($cache_key, $pages);
@@ -244,9 +259,11 @@ class ALayout
      * @param string $controller
      *
      * @return string
+     * @throws AException
      */
-    public function getKeyParamByController($controller = '')
+    public function getKeyParamByController($controller = '', $method = 'main')
     {
+        $this->data['key'] = '';
         switch ($controller) {
             case 'pages/product/product':
                 $this->data['key'] = 'product_id';
@@ -260,8 +277,28 @@ class ALayout
             case 'pages/content/content':
                 $this->data['key'] = 'content_id';
                 break;
+            case 'pages/product/collection':
+                $this->data['key'] = 'collection_id';
+                break;
             default:
-                $this->data['key'] = '';
+                $get = $this->request->get;
+                $cntrl = $method !='main' ? $controller.'/'.$method : $controller;
+                $cache_key = 'layout.pages-by-controller.'.$cntrl.'.'.$this->tmpl_id. md5(implode(',',$get));
+                $cache_key = preg_replace('/[^a-zA-Z\d.]/', '', $cache_key);
+                $pages = $this->cache->pull($cache_key);
+                if ($pages === false) {
+                    $sql = "SELECT * 
+                            FROM " . $this->db->table('pages') . " 
+                            WHERE controller='" . $cntrl . "' 
+                            ORDER BY key_value DESC";
+                    $pages = $this->db->query($sql)->rows;
+                }
+                foreach($pages as $p){
+                    if( isset($get[$p['key_param']]) && $get[$p['key_param']] == $p['key_value'] ){
+                        $this->data['key'] = $p['key_param'];
+                        break;
+                    }
+                }
                 break;
         }
         $this->extensions->hk_ProcessData($this, __FUNCTION__, func_get_args());
@@ -285,7 +322,7 @@ class ALayout
             $sql = "SELECT layout_id, layout_type, layout_name, date_added, date_modified
                     FROM ".$this->db->table("layouts")."
                     ".$where."
-                    ORDER BY layout_id ASC";
+                    ORDER BY layout_id";
 
             $result = $this->db->query($sql);
             $layouts = $result->rows;

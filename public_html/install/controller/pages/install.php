@@ -1,26 +1,24 @@
 <?php
 /*
-------------------------------------------------------------------------------
-  $Id$
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-  
- UPGRADE NOTE: 
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.  
-------------------------------------------------------------------------------  
-*/
-
-/**\
+/**
  * Class ControllerPagesInstall
  *
  * @property ModelInstall $model_install
@@ -57,6 +55,7 @@ class ControllerPagesInstall extends AController
         if ($this->request->is_POST()){
             //this data becomes escaped. We need to write it into file as constant. Revert back into as-is view
             $this->request->post['db_password'] = html_entity_decode($this->request->post['db_password']);
+            $this->request->post['template'] = $this->request->post['template'] ?: 'default';
             if($this->_validate()) {
                 $this->session->data['install_step_data'] = $this->request->post;
                 redirect(HTTP_SERVER.'index.php?rt=install&runlevel=1');
@@ -73,13 +72,14 @@ class ControllerPagesInstall extends AController
             'db_password',
             'db_name',
             'db_prefix',
+            'template',
             'username',
             'password',
             'password_confirm',
             'email',
             'admin_path',
         ];
-        $defaults = ['', 'localhost', '', '', '', 'abc_', 'admin', '', '', '', ''];
+        $defaults = ['', 'localhost', '', '', '', 'abc_', 'novator', 'admin', '', '', '', ''];
         $place_holder = [
             'Select Database Driver',
             'Enter Database Hostname',
@@ -87,6 +87,7 @@ class ControllerPagesInstall extends AController
             'Enter Password, if any',
             'Enter Database Name',
             'Add prefix to database tables',
+            'Choose storefront template',
             'Enter new admin username',
             'Enter Secret Admin Password',
             'Repeat the password',
@@ -142,10 +143,6 @@ class ControllerPagesInstall extends AController
                     $options['apdomysql'] = 'PDO MySQL';
                 }
 
-                //regular mysql is not supported on PHP 5.5.+
-                if (extension_loaded('mysql') && version_compare(phpversion(), '5.5.0', '<') == true) {
-                    $options['mysql'] = 'MySQL';
-                }
                 if ($options) {
                     $this->data['form'][$field] = $form->getFieldHtml(
                         [
@@ -163,6 +160,26 @@ class ControllerPagesInstall extends AController
 
             }
         }
+        $templates = [
+            'default' => 'Default'
+        ];
+        $extDirs = $this->extensions->getExtensionsDir();
+        foreach($extDirs as $ext){
+            $extUtils = new ExtensionUtils($ext);
+            if($extUtils->getConfig('type') == 'template'){
+                $templates[$ext] = ucfirst($ext);
+            }
+        }
+
+        $this->data['form']['template'] = $form->getFieldHtml(
+            [
+                'type'     => 'selectbox',
+                'name'     => 'template',
+                'value'    => $this->data['template'] ?: 'novator',
+                'options'  => $templates,
+                'required' => true,
+            ]
+        );
 
         $this->view->assign('back', HTTP_SERVER.'index.php?rt=settings');
 
@@ -206,8 +223,26 @@ class ControllerPagesInstall extends AController
             if (($this->session->data['install_step_data']['load_demo_data'] ?? '') == 'on') {
                 $this->_load_demo_data();
             }
-            //Clean session for configurations. We do not need them any more
+
+            $ext = trim($this->session->data['install_step_data']['template']);
+            if($ext && $ext != 'default'){
+                $template = new ExtensionUtils($ext);
+                $em = new AExtensionManager();
+                $em->install( $ext, $template->getConfig() );
+                if($em->errors){
+                    throw new Exception(implode("\n", $em->errors));
+                }
+                $em->editSetting($ext,['novator_status' => 1]);
+                $db = Registry::getInstance()->get('db');
+                $db->query(
+                    "UPDATE ".$db->table("settings")." 
+                    SET `value` = '".$db->escape($ext)."' 
+                    WHERE `key` = 'config_storefront_template'"
+                );
+            }
+            //Clean session for configurations. We do not need them anymore
             unset($this->session->data['install_step_data']);
+
             $this->session->data['finish'] = 'false';
             $this->response->addJSONHeader();
             return AJson::encode(['ret_code' => 150]);
@@ -247,7 +282,7 @@ class ControllerPagesInstall extends AController
     private function _prepare_registry()
     {
         $registry = Registry::getInstance();
-        //This is ran after config is saved and we have database connection now
+        //This is run after config is saved, and we have database connection now
         $db = new ADB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
         $registry->set('db', $db);
         define('DIR_LANGUAGE', DIR_ABANTECART.'admin/language/');

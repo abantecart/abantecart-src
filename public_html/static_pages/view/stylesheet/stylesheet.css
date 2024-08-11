@@ -44,7 +44,7 @@ form {
 	clear: both;
 }
 .warning {
-	padding: 5px 0px;
+	padding: 5px 0;
 	margin-bottom: 15px;
 	background: #FFDFE0;
 	border: 1px solid #FF9999;

@@ -136,15 +136,11 @@
         if(recalcHeightParam !== true){
             return;
         }
-        var outerHeight = 0;
-        $('#embed_container.embed_preview')
+        const outerHeight = $('#embed_container.embed_preview')
             .find('.abantecart-widget-container')
-            .children().each(
-            function () {
-                outerHeight += $(this).outerHeight();
-            }
-        );
-        $('#getEmbedFrm_url').val($('#getEmbedFrm_url').val() + '&height=' + (outerHeight + 20));
+            .prop('offsetHeight');
+
+        $('#getEmbedFrm_url').val($('#getEmbedFrm_url').val() + '&height=' + (outerHeight + 30));
         recalcHeightParam = false;
     };
 

@@ -71,7 +71,7 @@ final class ACurrency
                     'title'         => $result['title'],
                     'symbol_left'   => $result['symbol_left'],
                     'symbol_right'  => $result['symbol_right'],
-                    'decimal_place' => $result['decimal_place'],
+                    'decimal_place' => (int)$result['decimal_place'],
                     'value'         => $result['value'],
                     'status'        => $result['status'],
                 ];

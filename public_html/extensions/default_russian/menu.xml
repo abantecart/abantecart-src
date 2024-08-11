@@ -21,7 +21,7 @@
     <value><![CDATA[Аккаунт]]></value>
   </definition>
   <definition>
-    <key>text_account_invoice_menu</key>
+    <key>text_account_history_menu</key>
     <value><![CDATA[Посмотреть заказ]]></value>
   </definition>
   <definition>

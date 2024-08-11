@@ -1,4 +1,22 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 if (!IS_ADMIN || !defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -8,7 +26,7 @@ class ControllerResponsesExtensionCardKnox extends AController
 {
     public function capture()
     {
-        $json = array();
+        $json = [];
         if (has_value($this->request->get['order_id'])) {
 
             $this->loadModel('sale/order');
@@ -34,7 +52,7 @@ class ControllerResponsesExtensionCardKnox extends AController
                 curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data, '', '&'));
 
                 $result = curl_exec($curl);
-                $json = array();
+                $json = [];
 
                 $curl_error = curl_error($curl);
                 curl_close($curl);
@@ -48,7 +66,7 @@ class ControllerResponsesExtensionCardKnox extends AController
                     $payment_method_data['xBatch'] = $response_info['xBatch'];
 
                     $mdl->updatePaymentMethodData($this->request->get['order_id'], $payment_method_data);
-                    $mdl->addOrderHistory(array(
+                    $mdl->addOrderHistory([
                         'order_id'        => $this->request->get['order_id'],
                         'order_status_id' => $order_info['order_status_id'],
                         'notify'          => 0,
@@ -58,7 +76,7 @@ class ControllerResponsesExtensionCardKnox extends AController
                                 $order_info['value']
                             )
                             .' captured.',
-                    ));
+                    ]);
                     $this->session->data['success'] = $this->language->get('text_capture_success');
                 }
             } else {
@@ -84,7 +102,7 @@ class ControllerResponsesExtensionCardKnox extends AController
         $this->loadLanguage('cardknox/cardknox');
         $this->loadModel('sale/order');
         $order_info = $this->model_sale_order->getOrder($this->request->get['order_id']);
-        $json = array();
+        $json = [];
 
         if ($order_info) {
             $amount = (float)$this->request->get['amount'];
@@ -116,21 +134,21 @@ class ControllerResponsesExtensionCardKnox extends AController
                     } else {
                             // update order_totals
                             $this->loadModel('extension/cardknox');
-                            $mdl->processRefund(array(
+                            $mdl->processRefund([
                                 'order_id' => $this->request->get['order_id'],
                                 'amount'   => $amount,
                                 'currency' => $order_info['currency'],
-                            ));
+                            ]);
 
                             $payment_method_data['refunded_amount'] = $amount;
 
                             $mdl->updatePaymentMethodData($this->request->get['order_id'], $payment_method_data);
-                            $mdl->addOrderHistory(array(
+                            $mdl->addOrderHistory([
                                 'order_id'        => $this->request->get['order_id'],
                                 'order_status_id' => $order_info['order_status_id'],
                                 'notify'          => 0,
                                 'comment'         => $this->currency->format($amount, $order_info['currency'], $order_info['value']).' refunded.',
-                            ));
+                            ]);
                             $this->session->data['success'] = $this->language->get('cardknox_text_refund_success');
                         }
                 } else {

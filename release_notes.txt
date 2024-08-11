@@ -1,8 +1,70 @@
+AbanteCart version 1.4.0
+
+Key Highlights:
+
+1. Introducing the Novator Template:
+    - Sleek, modern design
+    - Features a mega menu, filtered navigation, and more
+    - Built on the latest Bootstrap 5 and cutting-edge JavaScript libraries
+    - Includes support for dark mode
+2. Payment Gateway and Merchant Services Updates:
+    - Essential updates to ensure seamless transactions and compatibility
+3. Code Restructuring and Optimization:
+    - Optimization for PHP v8.3
+    - Significant enhancements for better performance and maintainability
+
+Core:
+- Updates to support for php8.3
+- Global attributes text ID for values
+- Support for AVIF images
+- aResource minor improvement
+- Multiple order status support in downloads
+- URL encoded default form enctype.
+- Support configuration for phone regex pattern.
+- cache related fix to product/category/collection/manufacturers
+- changed default value of "block framed"
+- added silent mode for sending emails
+- removed fax field
+- Bug fixes
+
+Admin:
+- Ability to create new page Layout
+- Out-of-stock minimum threshold notification
+- Updated jQuery version 3.71
+- Improvement of the settings page for extensions
+- Template related settings moved to appearance settings.
+- jqGrid history cookie fix
+
+
+Storefront:
+- Bootstrap 5 base template is now set as the default
+- Improvement to fast checkout
+- Multi-page checkout is now deprecated and fast checkout is a default
+- Product listing filtering
+- Improvements to category tree.
+- Recently viewed products block
+- Update reCapture on create account page
+- embed features update
+- contact us page fix for attachments
+- Manage custom categories in the menu
+- New theme/template Novator.
+
+Extensions:
+- Paypal upgrade to latest requirements.
+- Update to UPS with new auth.
+- Stripe SDK update.
+- Authorize.net SDK update
+- Update CardConnect endpoints
+- CardKnox fix
+- Fedex multi-currency fix.
+
+
+
 AbanteCart version 1.3.4
 
 Release Highlights:
 
-In this latest release, we are excited to introduce several significant improvements and upgrades to enhance your user experience.
+In this release, we are excited to introduce several significant improvements and upgrades to enhance your user experience.
 
 1. Bootstrap v5 Storefront Template:
 We have set the Bootstrap v5 storefront template as the new default, providing you with a modern and streamlined interface. This update brings a fresh look and improved responsiveness to your storefront.

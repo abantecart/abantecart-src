@@ -21,7 +21,7 @@
 		<value><![CDATA[Il mio conto]]></value>
 	</definition>
 	<definition>
-		<key>text_account_invoice_menu</key>
+		<key>text_account_history_menu</key>
 		<value><![CDATA[Controllare il tuo Ordine]]></value>
 	</definition>
 	<definition>

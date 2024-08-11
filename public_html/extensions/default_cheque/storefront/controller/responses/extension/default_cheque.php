@@ -35,7 +35,7 @@ class ControllerResponsesExtensionDefaultCheque extends AController
             $this->view->assign('address', $this->config->get('config_address'));
         }
 
-        $this->view->assign('continue', $this->html->getSecureURL('checkout/success'));
+        $this->view->assign('continue', $this->html->getSecureURL('checkout/finalize'));
 
         $item = $this->html->buildElement(
             array(
@@ -54,12 +54,6 @@ class ControllerResponsesExtensionDefaultCheque extends AController
                 'text'  => $this->language->get('button_confirm'),
             ));
         $this->view->assign('button_confirm', $item);
-
-        if ($this->request->get['rt'] == 'checkout/guest_step_3') {
-            $this->view->assign('back', $this->html->getSecureURL('checkout/guest_step_2', '&mode=edit', true));
-        } else {
-            $this->view->assign('back', $this->html->getSecureURL('checkout/payment', '&mode=edit', true));
-        }
 
         $this->processTemplate('responses/default_cheque.tpl');
     }

@@ -1,4 +1,23 @@
 <?xml version="1.0"?>
+<!--
+  ~   $Id$
+  ~
+  ~   AbanteCart, Ideal OpenSource Ecommerce Solution
+  ~   http://www.AbanteCart.com
+  ~
+  ~   Copyright © 2011-2024 Belavier Commerce LLC
+  ~
+  ~   This source file is subject to Open Software License (OSL 3.0)
+  ~   License details is bundled with this package in the file LICENSE.txt.
+  ~   It is also available at this URL:
+  ~   <http://www.opensource.org/licenses/OSL-3.0>
+  ~
+  ~  UPGRADE NOTE:
+  ~    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+  ~    versions in the future. If you wish to customize AbanteCart for your
+  ~    needs please refer to http://www.AbanteCart.com for more information.
+  -->
+
 <definitions>
 	<definition>
 		<key>text_enlarge</key>
@@ -9,7 +28,7 @@
 		<value><![CDATA[Moverse Ratón en la imagen para ampliar]]></value>
 	</definition>
 	<definition>
-		<key>text_discount</key>
+		<key>text_quantity_discount</key>
 		<value><![CDATA[Cantidad para descuento:]]></value>
 	</definition>
 	<definition>
@@ -195,5 +214,29 @@
 	<definition>
 		<key>text_verified_review</key>
 		<value><![CDATA[Compra verificada]]></value>
+	</definition>
+	<definition>
+		<key>text_sku</key>
+		<value><![CDATA[Código:]]></value>
+	</definition>
+	<definition>
+		<key>percentage_review</key>
+		<value><![CDATA[de los compradores lo han recomendado.]]></value>
+	</definition>
+	<definition>
+		<key>feedback_customer_title</key>
+		<value><![CDATA[Comentarios de los clientes]]></value>
+	</definition>
+	<definition>
+		<key>review_title</key>
+		<value><![CDATA[Reseñas]]></value>
+	</definition>
+	<definition>
+		<key>write_review_title</key>
+		<value><![CDATA[Escribe una reseña]]></value>
+	</definition>
+	<definition>
+		<key>product_rate_title</key>
+		<value><![CDATA[Calificación del producto]]></value>
 	</definition>
 </definitions>

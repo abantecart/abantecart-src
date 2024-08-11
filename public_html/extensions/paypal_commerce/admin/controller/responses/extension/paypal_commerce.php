@@ -82,7 +82,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         curl_setopt_array(
             $curl,
             [
-                CURLOPT_URL => $endpointUrl .'?grant_type=authorization_code&code='.$authCode.'&code_verifier='.base64_encode(UNIQUE_ID),
+                CURLOPT_URL => $endpointUrl .'?grant_type=authorization_code&code='.$authCode.'&code_verifier='.getNonce(UNIQUE_ID),
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -230,8 +230,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         if (has_value($this->request->post['order_id'])) {
             $order_id = $this->request->post['order_id'];
-            $amount = (float)preg_replace('/[^0-9\.]/', '.', $this->request->post['amount']);
-            $this->loadModel('extension/paypal_commerce');
+            $amount = preformatFloat($this->request->post['amount']);
             $this->loadModel('sale/order');
             /** @var ModelExtensionPaypalCommerce $mdl */
             $mdl = $this->loadModel('extension/paypal_commerce');
@@ -256,7 +255,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
                 //validate if captured
                 if ($chargeData->intent == 'AUTHORIZE' && $data['amount'] >= $amount) {
-                    $capture = $mdl->capture($authId, $amount, $currencyCode);
+                    $capture = $mdl->capture($authId, number_format($amount,2), $currencyCode);
                     if ($capture->id) {
                         $json['msg'] = $this->language->get('text_captured_order');
                         // update main order status
@@ -313,13 +312,10 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $json = [];
 
         if (has_value($this->request->post['order_id'])) {
-
             $order_id = $this->request->post['order_id'];
-            $amount = (float)preg_replace('/[^0-9\.]/', '.', $this->request->post['amount']);
-
+            $amount = preformatFloat($this->request->post['amount']);
             /** @var ModelExtensionPaypalCommerce $mdl */
             $mdl = $this->loadModel('extension/paypal_commerce');
-
             $paypalOrder = $mdl->getPaypalOrder($order_id);
             $amt = 0;
             try {
@@ -349,7 +345,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 //validate if captured
                 if ($remainder >= $amount) {
 
-                    $refund = $mdl->refund($captureId, $amount, $currencyCode);
+                    $refund = $mdl->refund($captureId, number_format($amount,2), $currencyCode);
 
                     if ($refund->id) {
                         $json['msg'] = $this->language->get('text_refund_order');
@@ -415,7 +411,6 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             $mdl = $this->loadModel('extension/paypal_commerce');
 
             $paypalOrder = $mdl->getPaypalOrder($order_id);
-            $amt = 0;
             try {
                 //get current order
                 $chargeData = $mdl->getPaypalCharge($paypalOrder['charge_id']);
@@ -472,6 +467,4 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $this->load->library('json');
         $this->response->setOutput(AJson::encode($json));
     }
-
-
 }

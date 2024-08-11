@@ -1,70 +1,63 @@
-<h1 class="heading1">
-	<span class="maintext"><i class="fa fa-cloud-download"></i> <?php echo $heading_title; ?></span>
-	<span class="subtext"></span>
+<h1 class="ms-3 my-2 heading-title ">
+    <i class="fa fa-download me-2"></i>
+    <?php echo $heading_title; ?>
 </h1>
 
-<?php if ($error_warning) { ?>
-<div class="alert alert-error alert-danger">
-<button type="button" class="close" data-dismiss="alert">&times;</button>
-<?php echo $error_warning; ?>
-</div>
+
+<?php
+if ($error_warning) { ?>
+    <div class="alert alert-error alert-danger alert-dismissible" role="alert">
+        <?php echo $error_warning; ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 <?php } ?>
 
-<div class="contentpanel">
-
-	<?php foreach ($downloads as $download) { ?>
-		<div class="container-fluid mt20">
-			<div style="width: 45%; float: left; margin-bottom: 2px;">
-				<b><?php echo $text_order; ?></b> <?php echo $download['order_id']; ?></div>
-			<div style="width: 45%; float: right; margin-bottom: 2px; text-align: right;">
-				<b><?php echo $text_size; ?></b> <?php echo $download['size']; ?></div>
-			<div class="content" style="clear: both;">
-				<div style="padding: 5px;">
-					<table class="download-list">
-						<tr>
-							<td style="width: 40%"><div><?php echo $download['thumbnail']['thumb_html']; ?></div>
-								<div><?php echo $text_name.' '.$download['name'];
-									if($download['attributes']){
-									?>
-									<br><div class="download-list-attributes">
-										<?php foreach($download['attributes'] as $name=>$value){
-												echo '<small>- '.$name.': '. (is_array($value) ? implode(' ',$value) : $value) .'</small>';
-										}?>
-									</div>
-									<?php } ?>
-								<br><?php echo $text_date_added; ?> <?php echo $download['date_added']; ?></div>
-							</td>
-							<td style="width: 20%"><?php if($download['remaining']){ echo $text_remaining; ?> <?php echo $download['remaining']; }?></td>
-							<td style="width: 20%"><?php if($download['expire_date']) { echo $text_expire_date; ?> <?php echo $download['expire_date'];} ?></td>
-							<td rowspan="2" >
-							<?php if($download['text']) { ?>
-							<a class="btn btn-primary disabled">
-	    				    <i class="fa fa-download"></i>
-	    		    		<?php echo $download['text']; ?>
-							</a>
-							<?php } else { ?>
-							<a href="<?php echo $download['button']->href; ?>" class="btn btn-primary">
-	    				    <i class="fa fa-download"></i>
-	    		    		<?php echo $download['button']->text; ?>
-							</a>
-							<?php } ?>
-							</td>
-						</tr>
-					</table>
-				</div>
-			</div>
-		</div>
-	<?php } ?>
-
-	<div class="container-fluid"><?php echo $pagination_bootstrap; ?></div>
-
-	<div class="container-fluid">
-		<div class="col-md-12 mt20">
-			<a href="<?php echo $button_continue->href ?>" class="btn btn-default pull-right">
-	    		    <i class="fa fa-arrow-right"></i>
-	    		    <?php echo $button_continue->text ?>
-			</a>
-		</div>
-	</div>
-
+<div class="container-fluid">
+    <?php foreach ($downloads as $download) { ?>
+        <div class="col-12 p-3 d-flex flex-wrap align-content-stretch border mb-2">
+            <div class="text-nowrap fw-bold p-1"><?php echo $text_order; ?> &nbsp; <?php echo $download['order_id']; ?></div>
+            <div class="d-none d-sm-block text-center my-auto p-1">
+                <?php echo $download['thumbnail']['thumb_html']; ?>
+            </div>
+            <div class="col-12 col-sm-3 col-md-6 col-lg d-flex align-content-stretch p-1">
+                <h5 class="my-auto p-2">
+                    <?php echo $download['name'];
+                    foreach ($download['attributes'] as $name => $value) { ?>
+                      <p class="fs-6 mt-2 ms-0 ms-sm-3" title="<?php echo_html2view($name);?>"> - <?php echo $name.(is_array($value) ? implode(' ',$value) : $value) ?></p>
+                    <?php } ?>
+                </h5>
+            </div>
+            <div class="container-fluid col-xxl-8 d-flex flex-wrap align-content-stretch align-items-center justify-content-end">
+               <?php
+               foreach(['size', 'date_added','remaining', 'expire_date'] as $item){
+                   if ($download[$item]) { ?>
+                        <div class="flex-md-fill text-start my-auto text-nowrap">
+                           <p class="col-12 col-sm mt-0 mt-sm-2 card-text p-2">
+                               <?php echo ${'text_'.$item}; ?>
+                               <span class="ms-2 fw-bolder"><?php echo $download[$item]; ?></span>
+                           </p>
+                        </div>
+                   <?php }
+               } ?>
+                <div class="flex-md-fill flex-lg-fill text-start my-auto text-nowrap p-2 text-end">
+                   <?php if($download['text']){ ?>
+                       <a class="btn btn-primary disabled">
+                           <i class="fa fa-download"></i>
+                           <?php echo $download['text']; ?>
+                       </a>
+                   <?php }else{ ?>
+                       <a href="<?php echo $download['button']->href; ?>" class="btn btn-primary">
+                            <i class="fa fa-download"></i>
+                            <?php echo $download['button']->text; ?>
+                       </a>
+                   <?php } ?>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
+    <?php echo $pagination_bootstrap; ?>
+    <a href="<?php echo $button_continue->href; ?>" class="btn btn-secondary mt-3" title="<?php echo_html2view($button_continue->text); ?>">
+        <i class="<?php echo $button_continue->icon; ?>"></i>
+        <?php echo $button_continue->text ?>
+    </a>
 </div>

@@ -59,7 +59,7 @@
             $mpMdl = $this->load->model('tool/mp_api');
             echo $mpMdl->getMPURL().'?rt=index/paypal_onboarding'
                 . '&abc_onboard_url='.base64_encode(  $this->html->getSecureURL('extension/paypal_commerce/onboard'))
-                . '&nonce='.base64_encode(UNIQUE_ID)
+                . '&nonce='.getNonce(UNIQUE_ID)
                 . '&store_id='.(int)$this->session->data['current_store_id'];?>
             ">Get Started</a>
 

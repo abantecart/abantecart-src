@@ -12,13 +12,13 @@
                 </a>
             </div>
         <?php } ?>
-
+            <?php if($new_store_button->title && $new_store_button->href){ ?>
             <div class="btn-group">
                 <a class="btn btn-primary actionitem tooltips" title="<?php echo $new_store_button->title; ?>" href="<?php echo $new_store_button->href; ?>">
                 <i class="fa fa-plus"></i>
                 </a>
             </div>
-
+        <?php }?>
         <?php if($active=='appearance'){?>
             <div class="btn-group">
                 <a class="btn btn-primary actionitem tooltips" title="<?php echo $manage_extensions->title; ?>" href="<?php echo $manage_extensions->href; ?>">
@@ -59,7 +59,7 @@
                         foreach ($days as $day) {
                             $opening_hours .= '<div class="col-xs-9 row">
                                                 <div class="row col-xs-3 text-right padding5 mr5">'
-                                                    .strftime('%A', strtotime($day)).':</div>';
+                                                    .date('l', strtotime($day)).':</div>';
                             $tt = [];
                             foreach (['opens', 'closes'] as $state) {
                                 $f = $form['fields']['opening_'.$day.'_'.$state];
@@ -119,7 +119,7 @@
                                     <li><a href="javascript: void(0);" onclick="switch_protocol(\''.$name.'\',\'http\');"><i class="fa fa-globe"></i>&nbsp;&nbsp;HTTP</a></li>
                                     <li><a href="javascript: void(0);" onclick="switch_protocol(\''.$name.'\',\'https\');"><i class="fa fa-lock"></i>&nbsp;&nbsp;HTTPS</a></li>    
                                 </ul>
-                                <input name="protocol_'.$name.'" id="protocol_'.$name.'_hidden" value="'.$protocol.'">
+                                <input type="hidden" name="protocol_'.$name.'" id="protocol_'.$name.'_hidden" value="'.$protocol.'">
                             </div>';
                         echo $field;
                         break;
@@ -181,7 +181,7 @@
     </div>
     </form>
 
-</div><!-- <div class="tab-content"> -->
+</div>
 
 
 <?php echo $resources_scripts ?>

@@ -26,34 +26,7 @@ class ControllerPagesProductSpecial extends AController
     public function __construct(Registry $registry, $instance_id, $controller, $parent_controller = '')
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
-        $default_sorting = $this->config->get('config_product_default_sort_order');
-        $sort_prefix = '';
-        if (strpos($default_sorting, 'name-') === 0) {
-            $sort_prefix = 'pd.';
-        } elseif (strpos($default_sorting, 'price-') === 0) {
-            $sort_prefix = 'p.';
-        }
-        $this->data['sorts'] = [
-            $sort_prefix.$default_sorting => $this->language->get('text_default'),
-            'pd.name-ASC'                 => $this->language->get('text_sorting_name_asc'),
-            'pd.name-DESC'                => $this->language->get('text_sorting_name_desc'),
-            'p.price-ASC'                 => $this->language->get('text_sorting_price_asc'),
-            'p.price-DESC'                => $this->language->get('text_sorting_price_desc'),
-            'rating-DESC'                 => $this->language->get('text_sorting_rating_desc'),
-            'rating-ASC'                  => $this->language->get('text_sorting_rating_asc'),
-            'date_modified-DESC'          => $this->language->get('text_sorting_date_desc'),
-            'date_modified-ASC'           => $this->language->get('text_sorting_date_asc'),
-        ];
-    }
-
-    /**
-     * Check if HTML Cache is enabled for the method
-     *
-     * @return array - array of data keys to be used for cache key building
-     */
-    public static function main_cache_keys()
-    {
-        return ['page', 'limit', 'sort', 'order'];
+        $this->prepareProductListingParameters();
     }
 
     public function main()
@@ -92,17 +65,9 @@ class ControllerPagesProductSpecial extends AController
             ]
         );
 
-        if (isset($request['page'])) {
-            $page = $request['page'];
-        } else {
-            $page = 1;
-        }
 
-        if (isset($this->request->get['limit'])) {
-            $limit = (int) $this->request->get['limit'];
-        } else {  
-            $limit = $this->config->get('config_catalog_limit');
-        }
+        $page = $request['page'] ?? 1;
+        $limit = (int) $this->request->get['limit'] ?: $this->config->get('config_catalog_limit');
 
         $sorting_href = $request['sort'];
         if (!$sorting_href || !isset($this->data['sorts'][$request['sort']])) {
@@ -112,11 +77,11 @@ class ControllerPagesProductSpecial extends AController
         list($sort, $order) = explode("-", $sorting_href);
         if ($sort == 'name') {
             $sort = 'pd.'.$sort;
-        } elseif (in_array($sort, ['sort_order'])) {
+        } elseif ($sort == 'sort_order') {
             $sort = 'p.'.$sort;
-        } elseif (in_array($sort, ['price'])) {
+        } elseif ($sort == 'price') {
             $sort = 'ps.'.$sort;
-        } elseif (in_array($sort, ['p.price'])) {
+        } elseif ($sort == 'p.price') {
             $sort = 'ps.price';
         }
 
@@ -214,32 +179,35 @@ class ControllerPagesProductSpecial extends AController
                     }
                 }
 
-                $this->data['products'][] = [
-                    'product_id'     => $result['product_id'],
-                    'name'           => $result['name'],
-                    'model'          => $result['model'],
-                    'rating'         => $rating,
-                    'stars'          => sprintf($this->language->get('text_stars'), $rating),
-                    'price'          => $price,
-                    'raw_price'      => $result['price'],
-                    'call_to_order'  => $result['call_to_order'],
-                    'options'        => $options,
-                    'special'        => $special,
-                    'thumb'          => $thumbnail,
-                    'href'           => $this->html->getSEOURL(
-                        'product/product',
-                        '&product_id='.$result['product_id'],
-                        '&encode'
-                    ),
-                    'add'            => $add,
-                    'description'    => html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
-                    'blurb'          => $result['blurb'],
-                    'track_stock'    => $track_stock,
-                    'in_stock'       => $in_stock,
-                    'no_stock_text'  => $no_stock_text,
-                    'total_quantity' => $total_quantity,
-                    'tax_class_id'   => $result['tax_class_id'],
-                ];
+                $this->data['products'][] = array_merge(
+                    $result,
+                    [
+                        'product_id'     => $result['product_id'],
+                        'name'           => $result['name'],
+                        'model'          => $result['model'],
+                        'rating'         => $rating,
+                        'stars'          => sprintf($this->language->get('text_stars'), $rating),
+                        'price'          => $price,
+                        'raw_price'      => $result['price'],
+                        'call_to_order'  => $result['call_to_order'],
+                        'options'        => $options,
+                        'special'        => $special,
+                        'thumb'          => $thumbnail,
+                        'href'           => $this->html->getSEOURL(
+                            'product/product',
+                            '&product_id='.$result['product_id'],
+                            '&encode'
+                        ),
+                        'add'            => $add,
+                        'description'    => html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
+                        'blurb'          => $result['blurb'],
+                        'track_stock'    => $track_stock,
+                        'in_stock'       => $in_stock,
+                        'no_stock_text'  => $no_stock_text,
+                        'total_quantity' => $total_quantity,
+                        'tax_class_id'   => $result['tax_class_id'],
+                    ]
+                );
             }
 
             if ($this->config->get('config_customer_price')) {

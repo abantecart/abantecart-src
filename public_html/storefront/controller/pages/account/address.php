@@ -1,28 +1,28 @@
 <?php
 
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-  
- UPGRADE NOTE: 
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.  
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 class ControllerPagesAccountAddress extends AController
 {
-    public $error = array();
-    public $data = array();
+    public $error = [];
+    public $data = [];
 
     public function main()
     {
@@ -57,7 +57,7 @@ class ControllerPagesAccountAddress extends AController
 
             $this->extensions->hk_ProcessData($this);
 
-            $this->redirect($this->html->getSecureURL('account/address'));
+            redirect($this->html->getSecureURL('account/address'));
         }
 
         $this->getForm();
@@ -95,7 +95,7 @@ class ControllerPagesAccountAddress extends AController
 
             $this->extensions->hk_ProcessData($this);
 
-            $this->redirect($this->html->getSecureURL('account/address'));
+            redirect($this->html->getSecureURL('account/address'));
         }
 
         $this->getForm();
@@ -131,7 +131,7 @@ class ControllerPagesAccountAddress extends AController
 
             $this->session->data['success'] = $this->language->get('text_delete');
             $this->extensions->hk_ProcessData($this);
-            $this->redirect($this->html->getSecureURL('account/address'));
+            redirect($this->html->getSecureURL('account/address'));
         }
 
         $this->getList();
@@ -142,28 +142,28 @@ class ControllerPagesAccountAddress extends AController
 
     private function getList()
     {
-        $this->document->addBreadcrumb(array(
+        $this->document->addBreadcrumb([
             'href'      => $this->html->getHomeURL(),
             'text'      => $this->language->get('text_home'),
             'separator' => false,
-        ));
+        ]);
 
-        $this->document->addBreadcrumb(array(
+        $this->document->addBreadcrumb([
             'href'      => $this->html->getSecureURL('account/account'),
             'text'      => $this->language->get('text_account'),
             'separator' => $this->language->get('text_separator'),
-        ));
+        ]);
 
-        $this->document->addBreadcrumb(array(
+        $this->document->addBreadcrumb([
             'href'      => $this->html->getSecureURL('account/address'),
             'text'      => $this->language->get('heading_title'),
             'separator' => $this->language->get('text_separator'),
-        ));
+        ]);
 
         $this->view->assign('error_warning', $this->error['warning']);
         $this->view->assign('success', $this->session->data['success']);
 
-        $addresses = array();
+        $addresses = [];
 
         $results = $this->model_account_address->getAddresses();
 
@@ -171,51 +171,51 @@ class ControllerPagesAccountAddress extends AController
             $formated_address = $this->customer->getFormattedAddress($result, $result['address_format']);
 
             $edit = $this->html->buildElement(
-                array(
+                [
                     'type'  => 'button',
                     'text'  => $this->language->get('button_edit'),
                     'style' => 'button btn-primary',
                     'icon'  => 'fa-edit fa',
                     'attr'  => 'onclick="location = \''.$this->html->getSecureURL('account/address/update', '&address_id='.$result['address_id']).'\'" ',
-                ));
+                ]);
             $delete = $this->html->buildElement(
-                array(
+                [
                     'type'  => 'button',
                     'text'  => $this->language->get('button_delete'),
                     'style' => '',
                     'icon'  => 'fa fa-remove',
                     'attr'  => 'onclick="location = \''.$this->html->getSecureURL('account/address/delete', '&address_id='.$result['address_id']).'\'" ',
-                ));
-            $addresses[] = array(
+                ]);
+            $addresses[] = [
                 'address_id'    => $result['address_id'],
                 'address'       => $formated_address,
                 'button_edit'   => $edit,
                 'button_delete' => $delete,
                 'default'       => $this->customer->getAddressId() == $result['address_id'] ? true : false,
-            );
+            ];
         }
 
         $this->view->assign('addresses', $addresses);
         $this->view->assign('insert', $this->html->getSecureURL('account/address/insert'));
 
         $insert = $this->html->buildElement(
-            array(
+            [
                 'type'  => 'button',
                 'name'  => 'insert',
                 'text'  => $this->language->get('button_new_address'),
                 'icon'  => 'fa fa-plus',
                 'style' => 'button',
-            ));
+            ]);
         $this->view->assign('button_insert', $insert);
 
         $back = $this->html->buildElement(
-            array(
+            [
                 'type'  => 'button',
                 'name'  => 'back',
                 'text'  => $this->language->get('button_back'),
                 'icon'  => 'fa fa-arrow-left',
                 'style' => 'button',
-            ));
+            ]);
         $this->view->assign('button_back', $back);
         $this->view->assign('back', $this->html->getSecureURL('account/account'));
 
@@ -226,36 +226,36 @@ class ControllerPagesAccountAddress extends AController
     {
         $this->document->resetBreadcrumbs();
 
-        $this->document->addBreadcrumb(array(
+        $this->document->addBreadcrumb([
             'href'      => $this->html->getHomeURL(),
             'text'      => $this->language->get('text_home'),
             'separator' => false,
-        ));
+        ]);
 
-        $this->document->addBreadcrumb(array(
+        $this->document->addBreadcrumb([
             'href'      => $this->html->getSecureURL('account/account'),
             'text'      => $this->language->get('text_account'),
             'separator' => $this->language->get('text_separator'),
-        ));
+        ]);
 
-        $this->document->addBreadcrumb(array(
+        $this->document->addBreadcrumb([
             'href'      => $this->html->getSecureURL('account/address'),
             'text'      => $this->language->get('heading_title'),
             'separator' => $this->language->get('text_separator'),
-        ));
+        ]);
 
         if (!isset($this->request->get['address_id'])) {
-            $this->document->addBreadcrumb(array(
+            $this->document->addBreadcrumb([
                 'href'      => $this->html->getSecureURL('account/address/insert'),
                 'text'      => $this->language->get('text_edit_address'),
                 'separator' => $this->language->get('text_separator'),
-            ));
+            ]);
         } else {
-            $this->document->addBreadcrumb(array(
+            $this->document->addBreadcrumb([
                 'href'      => $this->html->getSecureURL('account/address/update', 'address_id='.$this->request->get['address_id']),
                 'text'      => $this->language->get('text_edit_address'),
                 'separator' => $this->language->get('text_separator'),
-            ));
+            ]);
         }
 
         $this->view->assign('error_warning', $this->error['warning']);
@@ -274,7 +274,7 @@ class ControllerPagesAccountAddress extends AController
         $this->data['back'] = $this->html->getSecureURL('account/address');
 
         $form = new AForm();
-        $form->setForm(array('form_name' => 'AddressFrm'));
+        $form->setForm(['form_name' => 'AddressFrm']);
 
         if (!isset($this->request->get['address_id'])) {
             $action = $this->html->getSecureURL('account/address/insert');
@@ -282,12 +282,12 @@ class ControllerPagesAccountAddress extends AController
             $action = $this->html->getSecureURL('account/address/update', '&address_id='.$this->request->get['address_id']);
         }
         $this->data['form']['form_open'] = $form->getFieldHtml(
-            array(
+            [
                 'type'   => 'form',
                 'name'   => 'AddressFrm',
                 'action' => $action,
                 'csrf'   => true,
-            )
+            ]
         );
 
         if (isset($this->request->post['firstname'])) {
@@ -297,12 +297,13 @@ class ControllerPagesAccountAddress extends AController
         } else {
             $firstname = '';
         }
-        $this->data['form']['fields']['firstname'] = $form->getFieldHtml(array(
+        $this->data['form']['fields']['firstname'] = $form->getFieldHtml([
             'type'     => 'input',
             'name'     => 'firstname',
             'value'    => $firstname,
+            'attr'     =>' minlength="1" maxlength="32" ',
             'required' => true,
-        ));
+        ]);
 
         if (isset($this->request->post['lastname'])) {
             $lastname = $this->request->post['lastname'];
@@ -311,12 +312,13 @@ class ControllerPagesAccountAddress extends AController
         } else {
             $lastname = '';
         }
-        $this->data['form']['fields']['lastname'] = $form->getFieldHtml(array(
+        $this->data['form']['fields']['lastname'] = $form->getFieldHtml([
             'type'     => 'input',
             'name'     => 'lastname',
             'value'    => $lastname,
+            'attr'     =>' minlength="1" maxlength="32" ',
             'required' => true,
-        ));
+        ]);
 
         if (isset($this->request->post['company'])) {
             $company = $this->request->post['company'];
@@ -325,12 +327,12 @@ class ControllerPagesAccountAddress extends AController
         } else {
             $company = '';
         }
-        $this->data['form']['fields']['company'] = $form->getFieldHtml(array(
+        $this->data['form']['fields']['company'] = $form->getFieldHtml([
             'type'     => 'input',
             'name'     => 'company',
             'value'    => $company,
-            'required' => false,
-        ));
+            'required' => false
+        ]);
 
         if (isset($this->request->post['address_1'])) {
             $address_1 = $this->request->post['address_1'];
@@ -339,12 +341,13 @@ class ControllerPagesAccountAddress extends AController
         } else {
             $address_1 = '';
         }
-        $this->data['form']['fields']['address_1'] = $form->getFieldHtml(array(
+        $this->data['form']['fields']['address_1'] = $form->getFieldHtml([
             'type'     => 'input',
             'name'     => 'address_1',
             'value'    => $address_1,
+            'attr'     =>' minlength="3" maxlength="128" ',
             'required' => true,
-        ));
+        ]);
 
         if (isset($this->request->post['address_2'])) {
             $address_2 = $this->request->post['address_2'];
@@ -353,12 +356,13 @@ class ControllerPagesAccountAddress extends AController
         } else {
             $address_2 = '';
         }
-        $this->data['form']['fields']['address_2'] = $form->getFieldHtml(array(
+        $this->data['form']['fields']['address_2'] = $form->getFieldHtml([
             'type'     => 'input',
             'name'     => 'address_2',
             'value'    => $address_2,
+            'attr'     =>' minlength="3" maxlength="128" ',
             'required' => false,
-        ));
+        ]);
 
         if (isset($this->request->post['city'])) {
             $city = $this->request->post['city'];
@@ -367,12 +371,13 @@ class ControllerPagesAccountAddress extends AController
         } else {
             $city = '';
         }
-        $this->data['form']['fields']['city'] = $form->getFieldHtml(array(
+        $this->data['form']['fields']['city'] = $form->getFieldHtml([
             'type'     => 'input',
             'name'     => 'city',
             'value'    => $city,
+            'attr'     =>' minlength="3" maxlength="128" ',
             'required' => true,
-        ));
+        ]);
 
         if (isset($this->request->post['zone_id'])) {
             $this->data['zone_id'] = $this->request->post['zone_id'];
@@ -382,12 +387,12 @@ class ControllerPagesAccountAddress extends AController
             $this->data['zone_id'] = 'FALSE';
         }
 
-        $this->data['form']['fields']['zone'] = $form->getFieldHtml(array(
+        $this->data['form']['fields']['zone'] = $form->getFieldHtml([
             'type'     => 'selectbox',
             'name'     => 'zone_id',
             'value'    => $this->data['zone_id'],
             'required' => true,
-        ));
+        ]);
         if (isset($this->request->post['default'])) {
             $default = $this->request->post['default'];
         } elseif (isset($this->request->get['address_id'])) {
@@ -403,12 +408,12 @@ class ControllerPagesAccountAddress extends AController
         } else {
             $postcode = '';
         }
-        $this->data['form']['fields']['postcode'] = $form->getFieldHtml(array(
+        $this->data['form']['fields']['postcode'] = $form->getFieldHtml([
             'type'     => 'input',
             'name'     => 'postcode',
             'value'    => $postcode,
             'required' => true,
-        ));
+        ]);
         if (isset($this->request->post['country_id'])) {
             $country_id = $this->request->post['country_id'];
         } elseif (isset($address_info)) {
@@ -419,51 +424,39 @@ class ControllerPagesAccountAddress extends AController
 
         $this->loadModel('localisation/country');
         $countries = $this->model_localisation_country->getCountries();
-        $options = array("FALSE" => $this->language->get('text_select'));
+        $options = ["FALSE" => $this->language->get('text_select')];
         foreach ($countries as $item) {
             $options[$item['country_id']] = $item['name'];
         }
-        $this->data['form']['fields']['country'] = $form->getFieldHtml(array(
+        $this->data['form']['fields']['country'] = $form->getFieldHtml([
             'type'     => 'selectbox',
             'name'     => 'country_id',
             'options'  => $options,
             'value'    => $country_id,
             'required' => true,
-        ));
+        ]);
 
-        $this->data['form']['default'] = $form->getFieldHtml(array(
+        $this->data['form']['default'] = $form->getFieldHtml([
             'type'    => 'radio',
             'name'    => 'default',
             'value'   => $default,
-            'options' => array(
+            'options' => [
                 '1' => $this->language->get('text_yes'),
                 '0' => $this->language->get('text_no'),
-            ),
-        ));
-        $this->data['form']['back'] = $form->getFieldHtml(array(
+            ],
+        ]);
+        $this->data['form']['back'] = $form->getFieldHtml([
             'type'  => 'button',
             'name'  => 'back',
             'text'  => $this->language->get('button_back'),
             'icon'  => 'fa fa-arrow-left',
             'style' => 'button',
-        ));
-        $this->data['form']['submit'] = $form->getFieldHtml(array(
+        ]);
+        $this->data['form']['submit'] = $form->getFieldHtml([
             'type' => 'submit',
             'icon' => 'fa fa-check',
             'name' => $this->language->get('button_continue'),
-        ));
-
-        //TODO: REMOVE THIS IN 1.3!!!
-        // backward compatibility code
-        $deprecated = array_keys($this->data['form']['fields']);
-        foreach ($deprecated as $name) {
-            $fld = $this->data['form']['fields'][$name];
-            if (in_array($name, array('country', 'zone'))) {
-                $name .= '_id';
-            }
-            $this->data['form'][$name] = $fld;
-        }
-        //end of trick
+        ]);
 
         $this->view->batchAssign($this->data);
         $this->processTemplate('pages/account/address.tpl');
@@ -510,7 +503,7 @@ class ControllerPagesAccountAddress extends AController
     {
         if (!$this->customer->isLogged()) {
             $this->session->data['redirect'] = $this->html->getSecureURL('account/address');
-            $this->redirect($this->html->getSecureURL('account/login'));
+            redirect($this->html->getSecureURL('account/login'));
         }
     }
 }

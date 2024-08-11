@@ -1,4 +1,23 @@
 <?xml version="1.0"?>
+<!--
+  ~   $Id$
+  ~
+  ~   AbanteCart, Ideal OpenSource Ecommerce Solution
+  ~   http://www.AbanteCart.com
+  ~
+  ~   Copyright © 2011-2024 Belavier Commerce LLC
+  ~
+  ~   This source file is subject to Open Software License (OSL 3.0)
+  ~   License details is bundled with this package in the file LICENSE.txt.
+  ~   It is also available at this URL:
+  ~   <http://www.opensource.org/licenses/OSL-3.0>
+  ~
+  ~  UPGRADE NOTE:
+  ~    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+  ~    versions in the future. If you wish to customize AbanteCart for your
+  ~    needs please refer to http://www.AbanteCart.com for more information.
+  -->
+
 <definitions>
 	<definition>
 		<key>heading_title</key>
@@ -317,14 +336,6 @@
 		<value><![CDATA[Storefront Icona:<span class="help">Icona del trasporto da visualizzare in selezione spedizione della cassa.</span>]]></value>
 	</definition>
 	<definition>
-		<key>text_autoselect_payment</key>
-		<value><![CDATA[Seleziona automaticamente:<span class="help">È possibile impostare il pagamento deve essere selezionata per impostazione predefinita. Questo metodo di pagamento sarà pre selezionati per pagamenti multipli. Se questa è l'unica opzione di pagamento disponibili, opzione di pagamento fase di selezione verrà saltata.</span>]]></value>
-	</definition>
-	<definition>
-		<key>text_autoselect_shipping</key>
-		<value><![CDATA[Seleziona automaticamente:<span class="help">È possibile impostare che puoi saltare la pagina di selezione trasporto, se c'è una sola opzione di trasporto. Questo metodo di trasporto viene selezionato automaticamente.</span>]]></value>
-	</definition>
-	<definition>
 		<key>text_accept_payments_shipping</key>
 		<value><![CDATA[Accetta questi pagamenti:<span class="help">Se sono necessari metodidi pagamento specifici perquesto metodo di trasporto, selezionarli qui. Se non selezionati verranno visualizzati tuttii metodi di pagamento disponibili.</span>]]></value>
 	</definition>
@@ -435,5 +446,15 @@
 	<definition>
 		<key>text_max_order_subtotal</key>
 		<value><![CDATA[Subtotale massimo dell&#39;ordine: <span class="help">immettere il valore massimo del subtotale dell&#39;ordine per l&#39;opzione di spedizione disponibile per il cliente. Questo campo è facoltativo.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_autoselect_payment</key>
+		<value><![CDATA[
+ Selezione automatica: <span class="help">semplifica il processo di pagamento scegliendo automaticamente un metodo di pagamento quando sono disponibili più opzioni.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_autoselect_shipping</key>
+		<value><![CDATA[
+ Selezione automatica: <span class="help">semplifica il processo di pagamento scegliendo automaticamente un metodo di consegna quando sono disponibili più opzioni.</span>]]></value>
 	</definition>
 </definitions>

@@ -100,12 +100,6 @@ class ControllerResponsesExtension2Checkout extends AController
 
         $this->data['lang'] = $this->session->data['language'];
 
-        if ($this->request->get['rt'] == 'checkout/guest_step_3') {
-            $this->data['back'] = $this->html->getSecureURL('checkout/guest_step_2', '&mode=edit', true);
-        } else {
-            $this->data['back'] = $this->html->getSecureURL('checkout/payment', '&mode=edit', true);
-        }
-
         $this->view->batchAssign($this->data);
         $this->processTemplate('responses/2checkout.tpl');
     }
@@ -161,7 +155,8 @@ class ControllerResponsesExtension2Checkout extends AController
                 'Status changed by 2Checkout INS'
             );
         } else {
-            redirect($this->html->getSecureURL('checkout/confirm'));
+            $pKey = $this->session->data['fc']['product_key'];
+            redirect($this->html->getSecureURL('checkout/fast_checkout', $pKey ? '&fc=1&product_key='.$pKey : ''));
         }
     }
 
@@ -173,7 +168,7 @@ class ControllerResponsesExtension2Checkout extends AController
         $this->view->assign('text_message', 'waiting for payment confirmation');
         $this->view->assign('text_redirecting', 'redirecting');
         $this->view->assign('test_url', $this->html->getSecureURL('r/extension/2checkout/is_confirmed'));
-        $this->view->assign('success_url', $this->html->getSecureURL('checkout/success'));
+        $this->view->assign('success_url', $this->html->getSecureURL('checkout/finalize'));
         $this->processTemplate('responses/pending_ipn.tpl');
     }
 
@@ -185,7 +180,7 @@ class ControllerResponsesExtension2Checkout extends AController
         } else {
             $this->loadModel('checkout/order');
             $order_info = $this->model_checkout_order->getOrder($order_id);
-            //do nothing if order confirmed or it's not created with 2checkout
+            //do nothing if order confirmed, or it's not created with 2checkout
             if ((int)$order_info['order_status_id'] != 0
                 || $order_info['payment_method_key'] != '2checkout'
             ) {

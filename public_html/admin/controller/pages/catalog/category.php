@@ -356,7 +356,7 @@ class ControllerPagesCatalogCategory extends AController
 
         $this->view->assign('error_warning', $this->error['warning']);
         $this->view->assign('error_name', $this->error['name']);
-        $this->data['categories'] = $this->model_catalog_category->getCategories(ROOT_CATEGORY_ID);
+        $this->data['categories'] = $this->model_catalog_category->getCategories((int)ROOT_CATEGORY_ID);
 
         $categories = [0 => $this->language->get('text_none')];
         foreach ($this->data['categories'] as $c) {
@@ -646,11 +646,7 @@ class ControllerPagesCatalogCategory extends AController
         );
 
         $this->view->assign('current_url', $this->html->currentURL());
-
-        $saved_list_data = json_decode(html_entity_decode($this->request->cookie['grid_params']));
-        if ($saved_list_data->table_id == 'category_grid') {
-            $this->view->assign('list_url', $this->html->getSecureURL('catalog/category', '&saved_list=category_grid'));
-        }
+        $this->view->assign('list_url', $this->html->getSecureURL('catalog/category', '&saved_list=category_grid'));
 
         if ($viewport_mode == 'modal') {
             $tpl = 'responses/viewport/modal/catalog/category_form.tpl';
@@ -775,16 +771,13 @@ class ControllerPagesCatalogCategory extends AController
         $this->data['category_tabs'] = $tabs_obj->dispatchGetOutput();
         unset($tabs_obj);
 
-        $layout = new ALayoutManager();
+        $tmpl_id = $this->request->get['tmpl_id'] ?: $this->config->get('config_storefront_template');
+        $layout = new ALayoutManager($tmpl_id);
         //get existing page layout or generic
         $page_layout = $layout->getPageLayoutIDs($page_controller, $page_key_param, $category_id);
         $page_id = $page_layout['page_id'];
         $layout_id = $page_layout['layout_id'];
-        if (isset($this->request->get['tmpl_id'])) {
-            $tmpl_id = $this->request->get['tmpl_id'];
-        } else {
-            $tmpl_id = $this->config->get('config_storefront_template');
-        }
+
         $params = [
             'category_id' => $category_id,
             'page_id'     => $page_id,
@@ -867,7 +860,7 @@ class ControllerPagesCatalogCategory extends AController
         $this->data['cp_layout_select'] = $form->getFieldHtml(
             [
                 'type'    => 'selectbox',
-                'name'    => 'layout_change',
+                'name'    => 'source_layout_id',
                 'value'   => '',
                 'options' => $av_layouts,
             ]
@@ -890,69 +883,44 @@ class ControllerPagesCatalogCategory extends AController
 
     public function save_layout()
     {
-        if ($this->request->is_GET()) {
+        if ($this->request->is_GET() || !$this->request->post) {
             redirect($this->html->getSecureURL('catalog/category'));
         }
 
-        $page_controller = 'pages/product/category';
-        $page_key_param = 'path';
-        $category_id = (int) $this->request->get_or_post('category_id');
+        $post = $this->request->post;
+        $pageData = [
+            'controller' => 'pages/product/category',
+            'key_param'  => 'path',
+            'key_value'  => (int) $this->request->get_or_post('category_id'),
+        ];
 
-        //init controller data
-        $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->loadLanguage('catalog/category');
 
-        if (!$category_id) {
+        if (!$pageData['key_value']) {
+            unset($this->session->data['success']);
             redirect($this->html->getSecureURL('catalog/category'));
         }
 
-        // need to know unique page existing
-        $post_data = $this->request->post;
-        $tmpl_id = $post_data['tmpl_id'];
-        $layout = new ALayoutManager();
-        $pages = $layout->getPages($page_controller, $page_key_param, $category_id);
-        if (count($pages)) {
-            $page_id = $pages[0]['page_id'];
-            $layout_id = $pages[0]['layout_id'];
-        } else {
-            $page_info = [
-                'controller' => $page_controller,
-                'key_param'  => $page_key_param,
-                'key_value'  => $category_id,
-            ];
-            $this->loadModel('catalog/category');
-            $category_info = $this->model_catalog_category->getCategoryDescriptions($category_id);
-            if ($category_info) {
-                foreach ($category_info as $language_id => $description) {
-                    if (!has_value($language_id)) {
-                        continue;
-                    }
-                    $page_info['page_descriptions'][$language_id] = $description;
-                }
-            }
-            $page_id = $layout->savePage($page_info);
-            $layout_id = '';
-            // need to generate layout name
-            $default_language_id = $this->language->getDefaultLanguageID();
-            $post_data['layout_name'] = 'Category: '.$category_info[$default_language_id]['name'];
+        /** @var ModelCatalogCategory $mdl */
+        $mdl = $this->loadModel('catalog/category');
+        $categoryInfo = $mdl->getCategoryDescriptions($pageData['key_value']);
+        if ($categoryInfo) {
+            $post['layout_name'] = $this->language->get('text_category')
+                . ': '
+                . $categoryInfo[$this->language->getContentLanguageID()]['name'];
+            $pageData['page_descriptions'] = $categoryInfo;
         }
 
-        //create new instance with specific template/page/layout data
-        $layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
-        if (has_value($post_data['layout_change'])) {
-            //update layout request. Clone source layout
-            $layout->clonePageLayout($post_data['layout_change'], $layout_id, $post_data['layout_name']);
+        if(saveOrCreateLayout($post['tmpl_id'], $pageData, $post)){
             $this->session->data['success'] = $this->language->get('text_success_layout');
-        } else {
-            //save new layout
-            $layout_data = $layout->prepareInput($post_data);
-            if ($layout_data) {
-                $layout->savePageLayout($layout_data);
-                $this->session->data['success'] = $this->language->get('text_success_layout');
-            }
         }
-        $this->extensions->hk_UpdateData($this, __FUNCTION__);
-        redirect($this->html->getSecureURL('catalog/category/edit_layout', '&category_id='.$category_id));
-    }
 
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+        redirect(
+            $this->html->getSecureURL(
+                'catalog/category/edit_layout',
+                '&category_id='.$pageData['key_value'].'&tmpl_id='.$post['tmpl_id']
+            )
+        );
+    }
 }

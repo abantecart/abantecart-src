@@ -1,23 +1,23 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -29,19 +29,6 @@ class ControllerCommonPage extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-
-        if ($this->config->get('config_html_cache')) {
-            //HTML cache is only for non-customer, as customer pages are dynamic
-            if (!$this->customer->isLogged() && !$this->customer->isUnauthCustomer()) {
-                //check if requested controller allows HTML caching
-                $rt_controller = $this->router->getController();
-                $cache_keys = $this->getCacheKeyValues($rt_controller);
-                if (is_array($cache_keys)) {
-                    //all good, now cache will be saved in a view class
-                    $this->buildHTMLCacheKey($cache_keys, $this->request->get, $rt_controller);
-                }
-            }
-        }
 
         if ($this->config->get('config_google_analytics_code')) {
             $this->view->assign('google_analytics_code', $this->config->get('config_google_analytics_code'));
@@ -58,7 +45,13 @@ class ControllerCommonPage extends AController
             }
         }
 
-        $this->processTemplate('common/page.tpl');
+        $this->view->assign('text_copy', $this->config->get('store_name').' &copy; '.date('Y') );
+        $this->view->assign('text_project_label', $this->language->get('text_powered_by','common/footer').'&nbsp;'.project_base() );
+
+        $tpl = $this->request->get['rt'] === 'checkout/fast_checkout'
+            ? 'common/fast_checkout_page.tpl'
+            : 'common/page.tpl';
+        $this->processTemplate($tpl);
 
         //init controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -103,21 +96,7 @@ class ControllerCommonPage extends AController
         $this->view->assign('rnk_link', base64_decode('aHR0cDovL3d3dy5hYmFudGVjYXJ0LmNvbQ=='));
         $this->view->assign('rnk_text', base64_decode('UG93ZXJlZCBieSBBYmFudGVjYXJ0IGVDb21tZXJjZSBTb2x1dGlvbg=='));
 
-        if ($this->config->get('config_maintenance') && isset($this->session->data['merchant'])) {
-            $this->view->assign('maintenance_warning', $this->language->get('text_maintenance_notice'));
-        }
-
-        if (isset($this->session->data['merchant'])) {
-            unset($this->session->data['guest']);
-            $this->view->assign(
-                'act_on_behalf_warning',
-                sprintf(
-                    $this->language->get('text_act_on_behalf'),
-                    $this->customer->getEmail() ?: 'guest',
-                    $this->session->data['merchant_username']
-                )
-            );
-        }
+        $this->storefrontServiceWarnings();
 
         $this->view->assign('scripts_bottom', $this->document->getScriptsBottom());
         if ($this->config->get('config_google_analytics_code')) {

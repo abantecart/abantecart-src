@@ -1,4 +1,24 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
+
+use Stripe\Charge;
 
 class ExtensionStripe extends Extension
 {
@@ -46,8 +66,10 @@ class ExtensionStripe extends Extension
                 return;
             }
             $that->data['groups'][] = 'payment_details';
-            $that->data['link_payment_details'] =
-                $that->html->getSecureURL('sale/order/payment_details', '&order_id='.$order_id.'&extension=stripe');
+            $that->data['link_payment_details'] = $that->html->getSecureURL(
+                'sale/order/payment_details',
+                '&order_id=' . $order_id . '&extension=stripe'
+            );
             //reload main view data with updated tab
             $that->view->batchAssign($that->data);
         }
@@ -57,39 +79,44 @@ class ExtensionStripe extends Extension
     public function onControllerPagesSaleOrder_UpdateData()
     {
         $that = $this->baseObject;
+        $refunds = [];
 
         $order_id = $that->request->get['order_id'];
         //are we logged to admin and correct method called?
         if (IS_ADMIN && $that->user->isLogged() && $this->baseObject_method == 'payment_details') {
 
-            if($that->request->get['extension'] != 'stripe'){
+            if ($that->request->get['extension'] != 'stripe') {
                 return null;
             }
 
             //build HTML to show
             $that->loadLanguage('stripe/stripe');
-            $that->loadModel('extension/stripe');
+            /** @var ModelExtensionStripe $mdl */
+            $mdl = $that->loadModel('extension/stripe');
             if (!$this->r_data) {
                 //no local stripe order data yet. load it.
                 $this->_load_stripe_order_data($order_id, $that);
             }
 
             if (!$this->r_data) {
-                return null;
+                return;
             }
 
             $view = new AView($this->registry, 0);
             //get remote charge data
-            $ch_data = $that->model_extension_stripe->getStripeCharge($this->r_data['charge_id']);
+            $ch_data = $mdl->getStripeCharge($this->r_data['charge_id']);
 
             if (!$ch_data) {
                 $view->assign('error_warning', "Some error happened!. Check the error log for more details.");
-            } elseif($ch_data instanceof \Stripe\Charge) {
+            } elseif ($ch_data instanceof Charge) {
 
                 $ch_data['amount'] = round($ch_data['amount'] / 100, 2);
                 $ch_data['amount_refunded'] = round($ch_data['amount_refunded'] / 100, 2);
-                $ch_data['amount_formatted'] =
-                    $that->currency->format($ch_data['amount'], strtoupper($ch_data['currency']), 1);
+                $ch_data['amount_formatted'] = $that->currency->format(
+                    $ch_data['amount'],
+                    strtoupper($ch_data['currency']),
+                    1
+                );
 
                 //check a void status.
                 //Not captured and refunded
@@ -99,10 +126,10 @@ class ExtensionStripe extends Extension
 
                 if ($ch_data['refunds']->total_count > 0) {
                     //get all refund transactions
-                    $refunds = array();
+
                     foreach ($ch_data['refunds']->data as $refund) {
                         $amount = round($refund['amount'] / 100, 2);
-                        $refunds[] = array(
+                        $refunds[] = [
                             'id'               => $refund['id'],
                             'amount'           => $amount,
                             'amount_formatted' => $that->currency->format($amount, strtoupper($refund['currency']), 1),
@@ -110,20 +137,25 @@ class ExtensionStripe extends Extension
                             'reason'           => $refund['reason'],
                             'date_added'       => (string)date('m/d/Y H:i:s', $refund['created']),
                             'receipt_number'   => $refund['receipt_number'],
-                        );
+                        ];
                     }
                 }
                 $ch_data['balance'] = $ch_data['amount'] - $ch_data['amount_refunded'];
                 $ch_data['balance_formatted'] = $that->currency->format(
-                                                    $ch_data['balance'],
-                                                    strtoupper($ch_data['currency']),
-                                                    1
-                                                );
+                    $ch_data['balance'],
+                    strtoupper($ch_data['currency']),
+                    1
+                );
             }
 
             $view->assign('order_id', $order_id);
             $view->assign('test_mode', $this->r_data['stripe_test_mode']);
-            $view->assign('external_url', 'https://dashboard.stripe.com/'.($that->config->get('stripe_test_mode')?'test/':'').'payments/'.$this->r_data['charge_id']);
+            $view->assign(
+                'external_url',
+                'https://dashboard.stripe.com/'
+                    . ($that->config->get('stripe_test_mode') ? 'test/' : '')
+                    . 'payments/' . $this->r_data['charge_id']
+            );
             $view->assign('void_url', $that->html->getSecureURL('r/extension/stripe/void'));
             $view->assign('capture_url', $that->html->getSecureURL('r/extension/stripe/capture'));
             $view->assign('refund_url', $that->html->getSecureURL('r/extension/stripe/refund'));
@@ -131,8 +163,10 @@ class ExtensionStripe extends Extension
             $view->assign('refund', $refunds);
 
             $view->batchAssign($that->language->getASet('stripe/stripe'));
-            $this->baseObject->view->addHookVar('extension_payment_details',
-                $view->fetch('pages/sale/stripe_payment_details.tpl'));
+            $this->baseObject->view->addHookVar(
+                'extension_payment_details',
+                $view->fetch('pages/sale/stripe_payment_details.tpl')
+            );
         }
 
     }
@@ -141,52 +175,10 @@ class ExtensionStripe extends Extension
     {
         //data already loaded, return
         if ($this->r_data) {
-            return null;
+            return;
         }
         //load local stripe data
         $this->r_data = $that->model_extension_stripe->getstripeOrder($order_id);
-    }
-
-    /*
-    * custom tpl for product edit page
-    */
-    public function onControllerPagesCatalogProduct_InitData()
-    {
-        $that = $this->baseObject;
-        if (!$this->_is_enabled($that)) {
-            return null;
-        }
-        if (IS_ADMIN !== true) {
-            return;
-        }
-
-        $product_id = (int)$that->request->get['product_id'];
-        $stripe_plan = $that->request->get['stripe_plan'];
-        $that->load->language('stripe/stripe');
-        $that->load->model('extension/stripe');
-        if ($product_id && has_value($stripe_plan)) {
-            if ($stripe_plan) {
-                //Set up product for subscription
-                //update product price with plan price
-                //update stripe metadata for description
-                $ret = $that->model_extension_stripe->setProductAsSubscription($product_id, $stripe_plan);
-                if (array($ret) && $ret['error']) {
-                    $that->session->data['warning'] = implode("\n", $ret['error']);
-                    header('Location: '.$that->html->getSecureURL('catalog/product/update',
-                            '&product_id='.$product_id));
-                    exit;
-                }
-            } else {
-                //reset to no plan
-                $ret = $that->model_extension_stripe->removeProductAsSubscription($product_id);
-                if (array($ret) && $ret['error']) {
-                    $that->session->data['warning'] = implode("\n", $ret['error']);
-                    header('Location: '.$that->html->getSecureURL('catalog/product/update',
-                            '&product_id='.$product_id));
-                    exit;
-                }
-            }
-        }
     }
 
     public function onControllerPagesAccountCreate_InitData()
@@ -197,31 +189,4 @@ class ExtensionStripe extends Extension
             unset($that->session->data['guest']);
         }
     }
-
-   /* public function onControllerPagesExtensionExtensions_InitData()
-    {
-        if($this->baseObject_method != 'edit' || $this->baseObject->request->get['extension'] !='stripe'  ){
-            return null;
-        }
-
-        $that =& $this->baseObject;
-        if ($that->request->is_POST() && $that->request->post['stripe_3d_secure']==1) {
-            $that->request->post['stripe_save_cards'] = 0;
-            $that->request->post['stripe_settlement'] = 'auto';
-        }
-    }
-
-    public function onControllerResponsesListingGridExtension_InitData()
-    {
-        if($this->baseObject_method != 'update' || $this->baseObject->request->get['id'] !='stripe'  ){
-            return null;
-        }
-
-        $that =& $this->baseObject;
-        if ($that->request->is_POST() && $that->request->post['stripe_3d_secure']==1) {
-            $that->request->post['stripe_save_cards'] = 0;
-            $that->request->post['stripe_settlement'] = 'auto';
-        }
-    }*/
-
 }

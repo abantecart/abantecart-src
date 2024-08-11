@@ -21,6 +21,7 @@
 // set default encoding for multibyte php mod
 mb_internal_encoding('UTF-8');
 ini_set('default_charset', 'utf-8');
+ini_set('serialize_precision', 16);
 
 //default error reporting level.
 // See another levels based on debug settings
@@ -80,6 +81,7 @@ const ROOT_CATEGORY_ID = 0;
 
 // EMAIL REGEXP PATTERN
 const EMAIL_REGEX_PATTERN = '/^[A-Z0-9._%-]+@[A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,16}$/i';
+const DEFAULT_PHONE_REGEX_PATTERN = '/^[0-9\+\(\)\.\s\-,]+$/';
 
 // Error Reporting
 require_once(DIR_CORE.'lib'.DS.'debug.php');
@@ -427,6 +429,7 @@ try {
         }
     }
 
+    $registry->get('response')->addHeader('Access-Control-Allow-Origin: '.$_SERVER['REQUEST_SCHEME'].'://'.REAL_HOST);
 //Messages
     $registry->set('messages', new AMessage());
 

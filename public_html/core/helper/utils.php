@@ -1,38 +1,39 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 function isFunctionAvailable($func_name)
 {
     return function_exists($func_name);
 }
 
-/*
- * prepare prices and other floats for database writing,, based on locale settings of number formatting
- * */
+/**
+ * prepare prices and other floats for database writing, based on locale settings of number formatting
+ * @see moneyDisplayFormat()
+ */
 function preformatFloat($value, $decimal_point = '.')
 {
     if ($decimal_point != '.' && strpos($value, $decimal_point)) {
         $value = str_replace('.', '~', $value);
         $value = str_replace($decimal_point, '.', $value);
     }
-    return (float) preg_replace('/[^0-9\-\.]/', '', $value);
+    return (float) preg_replace('/[^0-9\-.]/', '', $value);
 }
 
 /*
@@ -61,8 +62,9 @@ function preformatTextID($value)
  * @throws AException
  * @since 1.1.8
  *
+ * @see preformatFloat() - backward function
+ *
  */
-
 function moneyDisplayFormat($value, $mode = 'no_round')
 {
     $value = (float) $value;
@@ -195,7 +197,7 @@ function getUniqueSeoKeyword($seo_key, $object_key_name = '', $object_id = 0)
 
         $i = 0;
         while (in_array($seo_key, $keywords) && $i < 20) {
-            $seo_key = $seo_key.SEO_URL_SEPARATOR.($object_id ? $object_id : $i);
+            $seo_key = $seo_key.SEO_URL_SEPARATOR.($object_id ?: $i);
             $i++;
         }
     }
@@ -258,7 +260,7 @@ function versionCompare($version1, $version2, $operator)
         if (isset($version2[$i])) {
             $version2[$i] = (int) $version2[$i];
         } else {
-            $version2[$i] = ($i == 2 && isset($version1[$i])) ? (int) $version1[$i] : 99;
+            $version2[$i] = $i == 2 ? (int) $version1[$i] : 99;
         }
         $i++;
     }
@@ -327,8 +329,7 @@ function format4Datepicker($date_format)
     $new_format = preg_replace('/m/', 'mm', $new_format);
     $new_format = preg_replace('/n/', 'm', $new_format);
     $new_format = preg_replace('/F/', 'MM', $new_format);
-    $new_format = preg_replace('/Y/', 'yy', $new_format);
-    return $new_format;
+    return preg_replace('/Y/', 'yy', $new_format);
 }
 
 /*
@@ -468,7 +469,7 @@ if (!function_exists("strptime")) {
  * @param string $extension_txt_id
  *
  * @return SimpleXMLElement | false
- * @throws AException
+ * @throws AException|DOMException
  */
 function getExtensionConfigXml($extension_txt_id)
 {
@@ -695,8 +696,8 @@ function is_assoc($test_array)
  */
 function project_base()
 {
-    $base = 'PGEgaHJlZj0iaHR0cDovL3d3dy5hYmFudGVjYXJ0LmNvbSIgdGFyZ2V0PSJfYmxhbmsiIHRpdGxlPSJJZ';
-    $base .= 'GVhbCBPcGVuU291cmNlIEUtY29tbWVyY2UgU29sdXRpb24iPkFiYW50ZUNhcnQ8L2E+';
+    $base = 'PGEgaHJlZj0iaHR0cHM6Ly93d3cuYWJhbnRlY2FydC5jb20iIHRhcmdldD0iX2JsY';
+    $base .= 'W5rIiB0aXRsZT0iSWRlYWwgT3BlblNvdXJjZSBFLWNvbW1lcmNlIFNvbHV0aW9uIj5BYmFudGVDYXJ0PC9hPg==';
     return base64_decode($base);
 }
 
@@ -787,7 +788,7 @@ function gzip($src, $level = 5, $dst = false)
         return false;
     }
 
-    if ($dst == false) {
+    if (!$dst) {
         $dst = $src.".gz";
     }
     if (file_exists($src) && filesize($src)) {
@@ -944,8 +945,7 @@ function getMimeType($filename)
         $finfo = finfo_open(FILEINFO_MIME);
         $mimetype = finfo_file($finfo, $filename);
         finfo_close($finfo);
-        $mimetype = !$mimetype ? 'application/octet-stream' : $mimetype;
-        return $mimetype;
+        return !$mimetype ? 'application/octet-stream' : $mimetype;
     } else {
         return 'application/octet-stream';
     }
@@ -1076,22 +1076,18 @@ function make_writable_dir($dir)
         if (is_writable_dir($dir)) {
             return true;
         } else {
-            if (is_dir($dir)) {
-                //Try to make directory writable
-                chmod($dir, 0777);
-                return is_writable_dir($dir);
-            } else {
+            if (!is_dir($dir)) {
                 //Try to create directory
                 mkdir($dir, 0777);
-                chmod($dir, 0777);
-                return is_writable_dir($dir);
             }
+            chmod($dir, 0777);
+            return is_writable_dir($dir);
         }
     }
 }
 
 /**
- * Create (multiple level) dir if does not exists and/or make all missing writable
+ * Create (multiple level) dir if not exists and/or make all missing writable
  *
  * @param string $path
  *
@@ -1147,7 +1143,11 @@ function js_echo($text)
  */
 function echo_html2view($html)
 {
-    echo htmlspecialchars($html, ENT_QUOTES, 'UTF-8');
+    echo html2view($html);
+}
+function html2view($html)
+{
+    return htmlspecialchars($html, ENT_QUOTES, 'UTF-8');
 }
 
 /**
@@ -1170,7 +1170,7 @@ function human_filesize($bytes, $decimals = 2)
  *
  * @param $filename
  *
- * @return array|bool
+ * @return array
  * @throws AException
  */
 function get_image_size($filename)
@@ -1399,7 +1399,7 @@ function isExtensionSupportsCart($versions)
     foreach ($versions as $item) {
         $version = (string) $item;
         $versions[] = $version;
-        $subVersionArray = explode('.', preg_replace('/[^0-9\.]/', '', $version));
+        $subVersionArray = explode('.', preg_replace('/[^0-9.]/', '', $version));
         $full_check = versionCompare($version, VERSION, '<=');
         $minor_check = !$minor_check
             ? versionCompare(
@@ -1422,4 +1422,201 @@ function isExtensionSupportsCart($versions)
 function isAssocArray($array){
    $keys = array_keys($array);
    return $keys !== array_keys($keys);
+}
+
+function saveOrCreateLayout( string $templateTextId, array $pageData, array $layoutData )
+{
+    if(IS_ADMIN !== true){
+        throw new AException(0,'Forbidden.');
+    }
+    $db = Registry::getInstance()->get('db');
+    // need to know if unique page existing
+    $layoutId = null;
+
+    $where = [
+        "p.controller = '".$db->escape($pageData['controller'])."'"
+    ];
+    if ($pageData['key_value']) {
+        $where[] = "p.key_param = '".$db->escape($pageData['key_param'])."'";
+        $where[] = "p.key_value = '".$db->escape($pageData['key_value'])."'";
+    }
+
+    $sql = " SELECT *
+            FROM ".$db->table("pages")." p 
+            ".($where ? " WHERE ".implode(" AND ",$where) : '')."
+            ORDER BY p.page_id ASC";
+    $result = $db->query($sql);
+    if($result->row){
+        $pageId = (int)$result->row['page_id'];
+        $sql = " SELECT pl.layout_id
+                FROM ".$db->table("pages_layouts")." pl 
+                INNER JOIN ".$db->table("layouts")." l 
+                    ON (l.layout_id = pl.layout_id AND l.template_id = '".$db->escape($templateTextId)."') 
+                WHERE pl.page_id = ".$pageId;
+        $result = $db->query($sql);
+        if($result->row){
+            $layoutId = $result->row['layout_id'];
+        }
+    }else{
+        //create page if not exists
+        $layout = new ALayoutManager();
+        $pageId = $layout->savePage($pageData);
+    }
+    //create new instance with specific template/page/layout data
+    $layout = new ALayoutManager($templateTextId, $pageId, $layoutId);
+
+    if(!$layoutId){
+        //remove layoutId of base layout if current layout not found
+        //this layoutId is ID of default layout for page. Not needed when save.
+        unset($layoutData['layout_id']);
+    }
+
+    if (has_value($layoutData['source_layout_id'])) {
+        //update layout request. Clone source layout
+        return $layout->clonePageLayout($layoutData['source_layout_id'], $layoutId, $layoutData['layout_name']);
+    } else {
+        //save new layout
+        return $layout->savePageLayout($layout->prepareInput($layoutData));
+    }
+}
+
+//default template functions (bs5)
+
+/**
+ * @param array $menuItems - [ 'id', 'text or ']
+ * @param int $level
+ * @param string $parentId
+ * @param array $options - [
+ *                          'id_key_name' => {unique item text id}
+ *                          'submenu_options' => option array that will be used entire submenu
+ *                          ]
+ *
+ * @return string
+ * @throws AException
+ */
+function renderDefaultSFMenu($menuItems, $level = 0, $parentId = '', $options = [ ])
+{
+    $logged = Registry::getInstance()->get('customer')->isLogged();
+    $output = '';
+    $menuItems = (array) $menuItems;
+    if (!$menuItems) {
+        return '';
+    }
+    $idKey = $options['id_key_name'] ?: 'id';
+
+    if ($level == 0) {
+        $output .= '<div '.($options['top_level']['attr'] ?: 'class="d-flex flex-wrap flex-md-nowrap "').'>';
+    } else {
+        $output .= '<div class="dropdown-menu '.($level > 1 ? 'dropdown-submenu' : '').'" aria-labelledby="'.$parentId.'" '.$options['submenu_level']['attr'].'>';
+    }
+
+    $ar = new AResource('image');
+    foreach ($menuItems as $i => $item) {
+        if ($item[$idKey] == 'home' || !is_array($item)) {
+            unset($menuItems[$i]);
+            continue;
+        }
+
+        if (($logged && $item[$idKey] == 'login')
+            || (!$logged && $item[$idKey] == 'logout')
+        ) {
+            continue;
+        }
+        $item_title = '<span class="ms-1">'.($item['text'] ?: $item['title'] ?: $item['name']).'</span>';
+        $hasChild = (bool) $item['children'];
+        $output .= '<div class="dropdown me-3 me-sm-0 mb-3 mb-lg-0">';
+        //check icon rl type html, image or none.
+        $rl_id = $item['icon'] ? : $item['icon_rl_id'];
+        $icon = '';
+        if ($rl_id) {
+            $resource = $ar->getResource($rl_id);
+            if ($resource['resource_path'] && is_file(DIR_RESOURCE.'image/'.$resource['resource_path'])) {
+                //set relative path here because of cdn-extension
+                $icon = '<img class="menu_image" src="resources/image/'.$resource['resource_path'].'" />';
+            } elseif ($resource['resource_code']) {
+                $icon = $resource['resource_code'];
+            }
+        }elseif( $item['icon_html'] ){
+            $icon = $item['icon_html'];
+        }
+
+        if ($hasChild) {
+            $id = 'menu_'.$item[$idKey];
+            $css = 'dropdown-toggle text-nowrap mb-3 mb-md-0 me-3 '. ($level ? 'dropdown-item ' : '');
+            $output .= '<a id="'.$id.'" 
+                            href="'.$item['href'].'" 
+                            target="'.$item['settings']['target'].'"
+                            class="'.$css.'" 
+                            data-bs-toggle="dropdown" 
+                            data-bs-target="dropdown" 
+                            aria-expanded="false">';
+            $output .= $icon.$item_title;
+            if(!isset($options['without_caret'])) {
+                $output .= '&nbsp; <i class="fa fa-caret-down"></i>';
+            }
+            $output .= '</a>';
+
+            $params = [
+                'menuItems' => $item['children'],
+                'level' => $level + 1,
+                'parentId' => $id,
+                'options' => [
+                    'id_key_name' => $idKey
+                ]
+            ];
+
+            // for case when pass options into deep of menu
+            if($options['pass_options_recursively']){
+                $params['options'] = array_merge($params['options'], $options['submenu_options']);
+            }
+
+            $output .= "\r\n".call_user_func_array('renderDefaultSFMenu',$params);
+        } else {
+            $css = $level ? "dropdown-item" : "text-secondary " .' me-3 mb-3 text-nowrap ';
+            $popoverAttr = $item['thumb']
+                ? 'data-bs-toggle="popover" data-bs-content="<img src=&quot;'.$item['thumb'].'&quot;>" '
+                .'data-bs-html="true" data-bs-offset="5,5" data-bs-boundary="window" '
+                .'data-bs-placement="right" data-bs-trigger="hover"'
+                : '';
+            $output .= '<a href="'.$item['href'].'" target="'.$item['settings']['target'].'" class="'.$css.'" '.$popoverAttr.'>'.$icon.$item_title.'</a>';
+        }
+        $output .= '</div>';
+    }
+    $output .= "</div>\n";
+
+    return $output;
+}
+
+function renderDefaultRatingStars($value, $text){
+    if(!$value){
+        return '';
+    }
+    $i = 1;
+    $output = '<div title="'.htmlspecialchars($text, ENT_QUOTES, 'UTF-8').'">';
+    while($i < 6){
+        $output .= '<i class="fa-star '.($i<=$value ? 'fa-solid' : 'fa-regular').'"></i>';
+        $i++;
+    }
+    return $output.'</div>';
+}
+
+function generateOrderToken($orderId, $email, $secToken = '')
+{
+    $registry = Registry::getInstance();
+    $enc = new AEncryption($registry->get('config')->get('encryption_key'));
+    /** @var ModelCheckoutFastCheckout $mdl */
+    $mdl = $registry->get('load')->model('checkout/fast_checkout');
+    $secToken = $secToken ?: genToken(32);
+    $mdl->saveGuestToken($orderId, $secToken);
+    return $enc->encrypt($orderId.'::'.$email.'::'.$secToken);
+}
+
+function filterIntegerIdList(?array $list = [])
+{
+    return array_unique(
+        array_filter(
+            array_map('intval',
+                array_map('trim', (array)$list))
+        )
+    );
 }

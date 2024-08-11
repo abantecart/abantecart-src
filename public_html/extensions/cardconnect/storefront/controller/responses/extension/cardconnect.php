@@ -58,7 +58,7 @@ class ControllerResponsesExtensionCardConnect extends AController
                     '%02d - ',
                     $i
                 )
-                .strftime('%B', mktime(0, 0, 0, $i, 1, 2000));
+                .date('F', mktime(0, 0, 0, $i, 1, 2000));
         }
         $this->data['cc_expire_date_month'] = HtmlElementFactory::create(
             [
@@ -73,13 +73,13 @@ class ControllerResponsesExtensionCardConnect extends AController
         $today = getdate();
         $this->data['years'] = [];
         for ($i = $today['year']; $i < $today['year'] + 11; $i++) {
-            $this->data['years'][strftime('%Y', mktime(0, 0, 0, 1, 1, $i))] = strftime('%Y', mktime(0, 0, 0, 1, 1, $i));
+            $this->data['years'][date('Y', mktime(0, 0, 0, 1, 1, $i))] = date('Y', mktime(0, 0, 0, 1, 1, $i));
         }
         $this->data['cc_expire_date_year'] = HtmlElementFactory::create(
             [
                 'type'    => 'selectbox',
                 'name'    => 'cc_expire_date_year',
-                'value'   => sprintf('%02d', date('Y') + 1),
+                'value'   => sprintf('%02d', (date('Y') + 1)),
                 'options' => $this->data['years'],
                 'style'   => 'short',
             ]
@@ -141,20 +141,6 @@ class ControllerResponsesExtensionCardConnect extends AController
         $this->data['action'] = $this->html->getSecureURL('extension/cardconnect/send');
         $this->data['delete_card_url'] = $this->html->getSecureURL('extension/cardconnect/delete_card');
 
-        $back = $this->request->get['rt'] != 'checkout/guest_step_3'
-            ? $this->html->getSecureURL('checkout/payment')
-            : $this->html->getSecureURL('checkout/guest_step_2');
-        $this->data['back'] = HtmlElementFactory::create(
-            [
-                'type'  => 'button',
-                'name'  => 'back',
-                'text'  => $this->language->get('button_back'),
-                'style' => 'button',
-                'href'  => $back,
-                'icon'  => 'icon-arrow-left',
-            ]
-        );
-
         $this->data['submit'] = HtmlElementFactory::create(
             [
                 'type'  => 'button',
@@ -175,9 +161,7 @@ class ControllerResponsesExtensionCardConnect extends AController
         $this->data['text_credit_card'] = $this->language->get('text_credit_card');
         $this->data['text_wait'] = $this->language->get('text_wait');
 
-        $this->data['api_domain'] = $this->config->get('cardconnect_test_mode')
-                                    ? 'fts-uat.cardconnect.com'
-                                    : 'fts.cardconnect.com';
+        $this->data['api_domain'] = getCardConnectEndPoint(true);
 
         //load creditcard input validation
         $this->document->addScriptBottom($this->view->templateResource('/javascript/credit_card_validation.js'));
@@ -280,7 +264,7 @@ class ControllerResponsesExtensionCardConnect extends AController
             $json['csrftoken'] = $csrftoken->setToken();
         } else {
             if ($p_result['paid']) {
-                $json['success'] = $this->html->getSecureURL('checkout/success');
+                $json['success'] = $this->html->getSecureURL('checkout/finalize');
             } else {
                 //Unexpected result
                 $csrftoken = $this->registry->get('csrftoken');
@@ -342,7 +326,9 @@ class ControllerResponsesExtensionCardConnect extends AController
             $json['error'] = $this->language->get('error_system');
         } else {
             //basically reload the page
-            $json['success'] = $this->request->server['HTTP_REFERER'] ?: $this->html->getSecureURL('checkout/confirm');
+            $pKey = $this->session->data['fc']['product_key'];
+            $json['success'] = $this->request->server['HTTP_REFERER']
+                ?: $this->html->getSecureURL('checkout/fast_checkout', $pKey ? '&fc=1&product_key='.$pKey : '');
         }
 
         //init controller data

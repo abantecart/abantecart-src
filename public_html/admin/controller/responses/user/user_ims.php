@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-  
- UPGRADE NOTE: 
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.  
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -135,7 +135,14 @@ class ControllerResponsesUserUserIMs extends AController
             ));
             $this->data['entry_im_'.$protocol] = $this->language->get('entry_im_'.$protocol);
         }
-
+        if($sendpoint == 'product_out_of_stock'){
+            $this->data['form']['fields']['threshold'] = $form->getFieldHtml(array(
+                'type'  => 'number',
+                'name'  => 'product_out_of_stock_threshold',
+                'value' => $this->config->get('product_out_of_stock_threshold'),
+            ));
+            $this->data['entry_im_threshold'] = $this->language->get('im_threshold');
+        }
         $this->view->batchAssign($this->data);
         $this->processTemplate('/responses/user/user_im_settings.tpl');
         //update controller data
@@ -160,7 +167,7 @@ class ControllerResponsesUserUserIMs extends AController
             || !$this->request->get['user_id']
             || !$this->request->get['sendpoint']
         ) {
-            $this->redirect($this->html->getSecureURL('user/user'));
+            redirect($this->html->getSecureURL('user/user'));
         }
 
         //init controller data
@@ -177,6 +184,15 @@ class ControllerResponsesUserUserIMs extends AController
                 $this->session->data['current_store_id'],
                 $this->request->post['settings']
             );
+
+             if(isset($this->request->post['product_out_of_stock_threshold'])){
+                $this->load->model('setting/setting');
+                $this->model_setting_setting->editSetting('product_out_of_stock_threshold',
+                    array(
+                        'product_out_of_stock_threshold'=>
+                            $this->request->post['product_out_of_stock_threshold']));
+            }
+
             $output['result_text'] = $this->language->get('text_settings_success_saved');
 
         } else {

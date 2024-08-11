@@ -5,19 +5,18 @@
 
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
-		<?php if (!empty ($list_url)) { ?>
 			<div class="btn-group">
-				<a class="btn btn-white tooltips" href="<?php echo $list_url; ?>" data-toggle="tooltip" data-original-title="<?php echo $text_back_to_list; ?>">
+				<a class="btn btn-white tooltips back-to-grid hidden" data-table-id="category_grid" href="<?php echo $list_url; ?>" data-toggle="tooltip" data-original-title="<?php echo $text_back_to_list; ?>">
 					<i class="fa fa-arrow-left fa-lg"></i>
 				</a>
 		</div>
-		<?php } ?>
 
 		<?php if( $category_id ) { ?>
 			<div class="btn-group mr10 toolbar">
 				<a class="btn btn-primary tooltips" href="<?php echo $insert; ?>" title="<?php echo $button_add; ?>">
 				<i class="fa fa-plus"></i>
 				</a>
+                <?php echo $this->getHookVar('category_form_toolbar_buttons'); ?>
 			</div>
 		<?php } ?>
 		</div>
@@ -65,7 +64,9 @@
 	</div>
 	<div class="col-md-3 mb10">
 			<div id="image">
-			   <?php if ( !empty($update) ) {
+			   <?php
+               echo $this->getHookVar('category_form_hook_before_resources');
+               if ( !empty($update) ) {
 				echo $resources_html;
 			}
 			// add RL-scripts anyway for ckeditor usage

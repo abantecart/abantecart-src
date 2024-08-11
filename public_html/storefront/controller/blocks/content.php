@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -25,7 +25,6 @@ class ControllerBlocksContent extends AController
 {
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -52,7 +51,7 @@ class ControllerBlocksContent extends AController
         $this->data['login'] = $this->html->getSecureURL('account/login', '', true);
         $this->data['logout'] = $this->html->getSecureURL('account/logout');
         $this->data['cart'] = $this->html->getSecureURL('checkout/cart');
-        $this->data['checkout'] = $this->html->getSecureURL('checkout/shipping');
+        $this->data['checkout'] = $this->html->getSecureURL('checkout/fast_checkout');
 
         //build dynamic content (pages) links
         $this->loadModel('catalog/content');
@@ -103,7 +102,6 @@ class ControllerBlocksContent extends AController
                                     $level + 1
                                 )
                 ];
-                $output = array_merge($output, $output[$k]['children']);
                 $k++;
             }
         }

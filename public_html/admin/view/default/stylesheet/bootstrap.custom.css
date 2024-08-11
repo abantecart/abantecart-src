@@ -643,9 +643,9 @@ h4, .h4 {
 }
 
 .form-control {
-   -moz-border-radius: 0px;
-   -webkit-border-radius: 0px;
-   border-radius: 0px;
+   -moz-border-radius: 0;
+   -webkit-border-radius: 0;
+   border-radius: 0;
 }
 
 .input-group-addon {
@@ -672,9 +672,9 @@ h4, .h4 {
 }
 
 .input-group-btn button{
-   -moz-border-radius: 0px;
-   -webkit-border-radius: 0px;
-   border-radius: 0px;
+   -moz-border-radius: 0;
+   -webkit-border-radius: 0;
+   border-radius: 0;
    border: 1px solid #ccc;
    height: 34px;
    border-right: none;
@@ -849,19 +849,13 @@ h4, .h4 {
 }
 
 .progress {
-   -moz-box-shadow: none;
-   -webkit-box-shadow: none;
    box-shadow: none;
-   -moz-border-radius: 2px;
-   -webkit-border-radius: 2pxs;
    border-radius: 2px;
    height: 15px;
    margin-bottom: 15px;
 }
 
 .progress-bar {
-   -moz-box-shadow: none;
-   -webkit-box-shadow: none;
    box-shadow: none;
 }
 
@@ -1203,4 +1197,13 @@ dl {
 
 .modal-body div.alert-success, .modal-body div.alert-danger {
    overflow: auto;
+}
+
+.input-group input[type=text], .input-group select {
+   min-width: 92px;
+}
+
+.open > .dropdown-menu {
+   overflow: scroll;
+   max-height: 600px;
 }

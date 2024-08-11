@@ -493,7 +493,7 @@ class ControllerPagesDesignTemplate extends AController
         $config_mngr = new AConfigManager();
         $result = $config_mngr->validate($group, $this->request->post);
         $this->error = $result['error'];
-        $this->request->post = $result['validated']; // for changed data saving
+        $this->request->post = array_merge($this->request->post, $result['validated']); // for changed data saving
 
         $this->extensions->hk_ValidateData($this);
 

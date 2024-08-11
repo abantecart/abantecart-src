@@ -49,6 +49,7 @@ class ControllerCommonHeader extends AController
             }
         }
 
+        $this->storefrontServiceWarnings();
         $this->view->batchAssign($this->data);
         $this->processTemplate('common/header.tpl');
         //init controller data

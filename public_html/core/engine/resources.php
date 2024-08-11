@@ -495,7 +495,7 @@ class AResource
     public function getResourceAllObjects(
         $object_name,
         $object_id,
-        $sizes = ['main' => [], 'thumb' => [], 'thumb2' => []],
+        $sizes = ['orig' => [], 'main' => [], 'thumb' => [], 'thumb2' => []],
         $limit = 0,
         $noimage = true
     ) {
@@ -602,6 +602,11 @@ class AResource
                             $sizes['thumb2']['height']
                         );
                     }
+                    try {
+                        $origin_path = DIR_RESOURCE.$this->getTypeDir().$rsrc_info['resource_path'];
+                        $img = new AImage($origin_path);
+                        $sizes['orig'] = $img->getInfo();
+                    }catch(Exception|Error $e){}
                 } else {
                     $main_url = $direct_url;
                     $thumb_url = $this->getResizedImageURL(
@@ -611,10 +616,12 @@ class AResource
                     );
                 }
 
+
                 $resources[$k] = [
                     'resource_id'   => $rsrc_info['resource_id'],
                     'origin'        => $origin,
                     'direct_url'    => $direct_url,
+                    'info'          => $sizes['orig'],
                     //set full path to original file only for images (see above)
                     'resource_path' => $res_full_path,
                     'main_url'      => $main_url,
@@ -636,7 +643,7 @@ class AResource
                             'url'    => $thumb_url,
                             'width'  => $sizes['thumb']['width'],
                             'height' => $sizes['thumb']['height'],
-                            'attr'   => 'alt="'.addslashes($rsrc_info['title']).'"',
+                            'attr'   => 'alt="'.htmlspecialchars($rsrc_info['title'], ENT_QUOTES, 'UTF-8').'" ',
                         ]
                     ),
                 ];
@@ -768,6 +775,10 @@ class AResource
     {
         $width = (int) $width;
         $height = (int) $height;
+        if(is_array($object_ids) && !count($object_ids)) {
+            return [];
+        }
+
         if (!$object_name || !$object_ids || !is_array($object_ids) || !$width || !$height) {
             $this->registry->get('log')->write(
                 __METHOD__." Wrong input parameters.\n ".var_export(func_get_args(), true)

@@ -488,7 +488,6 @@ class ControllerPagesSaleCustomer extends AController
                 'lastname'          => 'required',
                 'email'             => 'required',
                 'telephone'         => 'required',
-                'fax'               => 'required',
                 'sms'               => null,
                 'newsletter'        => null,
                 'customer_group_id' => null,
@@ -663,7 +662,7 @@ class ControllerPagesSaleCustomer extends AController
                     'type'     => ($f == 'password' ? 'passwordset' : 'input'),
                     'name'     => $f,
                     'value'    => $this->data[$f],
-                    'required' => !in_array($f, ['password', 'fax', 'telephone']),
+                    'required' => !in_array($f, ['password', 'telephone']),
                     'style'    => ($f == 'password' ? 'small-field' : ''),
                 ]
             );
@@ -716,11 +715,7 @@ class ControllerPagesSaleCustomer extends AController
 
         $this->data['section'] = 'details';
         $this->data['tabs']['general']['active'] = true;
-
-        $saved_list_data = json_decode(html_entity_decode($this->request->cookie['grid_params']));
-        if ($saved_list_data->table_id == 'customer_grid') {
-            $this->data['list_url'] = $this->html->getSecureURL('sale/customer', '&saved_list=customer_grid');
-        }
+        $this->data['list_url'] = $this->html->getSecureURL('sale/customer', '&saved_list=customer_grid');
 
         $this->view->batchAssign($this->data);
 

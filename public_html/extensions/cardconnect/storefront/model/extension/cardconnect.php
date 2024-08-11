@@ -28,9 +28,7 @@ class ModelExtensionCardConnect extends Model
         if ($this->logging) {
             $this->log = new ALog(DIR_LOGS.'cardconnect.txt');
         }
-        $api_endpoint = 'https://'
-                        .($this->config->get('cardconnect_test_mode') ? 'fts-uat.cardconnect.com' : 'fts.cardconnect.com')
-                        .'/cardconnect/rest/';
+        $api_endpoint = getCardConnectEndPoint();
         try {
             require_once DIR_EXT.'cardconnect/core/lib/CardConnectRestClient.php';
             $this->client = new CardConnectRestClient($api_endpoint,
@@ -242,7 +240,7 @@ class ModelExtensionCardConnect extends Model
             $this->_log("Update order {$pd['order_id']} with Status ID: {$order_status_id}");
 
             $response['paid'] = true;
-            $response['success'] = $this->html->getSecureURL('checkout/success', '', true);
+            $response['success'] = $this->html->getSecureURL('checkout/finalize', '', true);
 
         } else {
             //stay in status incomplete, as order not yet paid
@@ -269,8 +267,8 @@ class ModelExtensionCardConnect extends Model
 
         for ($i = $today['year']; $i < $today['year'] + 11; $i++) {
             $years[] = [
-                'text'  => strftime('%Y', mktime(0, 0, 0, 1, 1, $i)),
-                'value' => strftime('%y', mktime(0, 0, 0, 1, 1, $i)),
+                'text'  => date('Y', mktime(0, 0, 0, 1, 1, $i)),
+                'value' => date('y', mktime(0, 0, 0, 1, 1, $i)),
             ];
         }
 

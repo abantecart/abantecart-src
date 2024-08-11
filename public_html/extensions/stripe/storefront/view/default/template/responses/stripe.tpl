@@ -7,24 +7,20 @@ if ($error) { ?>
         <input type="hidden" value="" id="pi_source" name="pi_source">
         <h4 class="heading4"><?php echo $text_credit_card; ?></h4>
         <?php echo $this->getHookVar('payment_table_pre'); ?>
-        <div class="form-group form-inline control-group">
+        <div class="form-group form-inline control-group m-2">
             <span class="col-sm-10 subtext"><?php echo $entry_billing_address; ?>: <?php echo implode(',',$payment_address); ?></span>
         </div>
-        <div style="align-items: center">
-            <div id="payment-element"
-                 style="padding: 20px; min-width: 250px;"></div>
+        <div class="form-group form-inline m-3">
+            <div id="payment-element" class="col-sm-12 col-xs-12 field"
+                 style="min-width:240px; border: 1px solid #ccc; padding: 2px"></div>
             <input type="hidden" name="cc_token" id="cc_token">
             <span class="help-block"></span>
         </div>
         <?php echo $this->getHookVar('payment_table_post'); ?>
 
         <div class="form-group action-buttons text-center mt-3">
-            <a id="<?php echo $back->name ?>" href="<?php echo $back->href; ?>" class="btn btn-default mr10">
-                <i class="fa fa-arrow-left"></i>
-                <?php echo $back->text ?>
-            </a>
-            <button id="<?php echo $submit->name ?>" class="btn btn-orange" title="<?php echo $submit->text ?>"
-                    type="submit">
+            <button id="<?php echo $submit->name ?>" class="btn btn-primary"
+                    title="<?php echo $submit->text ?>" type="submit">
                 <i class="fa fa-check"></i>
                 <?php echo $submit->text; ?>
             </button>
@@ -77,6 +73,7 @@ if ($error) { ?>
             }
         }
         jQuery(document).ready(function () {
+            let firstLoad = true;
             loadScript("https://js.stripe.com/v3/", initStripe);
             var submitSent = false;
 
@@ -101,6 +98,7 @@ if ($error) { ?>
                                     billing_details: source_data.owner
                                 }
                             },
+                            redirect: 'if_required'
                         })
                         .then(function(result) {
                             if (result.error) {
@@ -108,6 +106,10 @@ if ($error) { ?>
                                 $form.find('.action-buttons').show();
                                 $form.before('<div class="alert alert-warning"><i class="fa fa-exclamation fa-fw"></i> ' + result.error.message + '</div>');
                                 submitSent = false;
+                            }else{ <?php //done to avoid parent page redirect for case with purchase from embed. also see option redirect: 'if_required' ?>
+                                window.location = <?php js_echo($action);?>
+                                    + '&payment_intent=' + result.paymentIntent.id
+                                    + '&payment_intent_client_secret=' + result.paymentIntent.client_secret;
                             }
                         });
                     return false;
@@ -118,14 +120,16 @@ if ($error) { ?>
                 if (Stripe === undefined) { return; }
                 stripe = Stripe('<?php echo $public_key;?>');
                 elements = stripe.elements( { clientSecret: '<?php echo $client_secret;?>' } );
+                const defPm = jQuery.data(document,'data-payment-method') ? [jQuery.data(document,'data-payment-method')] : [];
                 paymentElement = elements.create(
                     'payment',
                     {
-                        defaultValues: source_data.owner
-                    });
+                        defaultValues: source_data.owner,
+                        paymentMethodOrder: defPm
+                    }
+                );
                 paymentElement.mount("#payment-element");
             }
         });
-
     </script>
 <?php } ?>

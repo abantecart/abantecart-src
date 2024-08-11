@@ -188,7 +188,7 @@ class ControllerPagesCatalogProduct extends AController
         $grid_settings['colNames'] = [
             '',
             $this->language->get('column_name'),
-            $this->language->get('column_model'),
+            $this->language->get('column_sku'),
             $this->language->get('column_price'),
             $this->language->get('column_quantity'),
             $this->language->get('column_status'),
@@ -209,8 +209,8 @@ class ControllerPagesCatalogProduct extends AController
                 'width' => 200,
             ],
             [
-                'name'  => 'model',
-                'index' => 'model',
+                'name'  => 'sku',
+                'index' => 'sku',
                 'align' => 'center',
                 'width' => 120,
             ],
@@ -890,14 +890,44 @@ class ControllerPagesCatalogProduct extends AController
             ]
         );
 
+        $this->data['currency'] = $this->currency->getCurrency($this->config->get('config_currency'));
         $this->data['form']['fields']['data']['price'] = $form->getFieldHtml(
             [
                 'type'  => 'input',
                 'name'  => 'price',
                 'value' => moneyDisplayFormat($this->data['price']),
-                'style' => 'small-field',
             ]
         );
+        $this->data['form']['tax_selector'] = $form->getFieldHtml(
+            [
+                'type'     => 'selectbox',
+                'name'     => 'tax_selector',
+                'value'    => $this->data['tax_class_id'] ?? $this->config->get('config_tax_class_id'),
+                'options'  => $this->data['tax_classes'],
+                'style' => 'no-save'
+            ]
+        );
+        $this->data['entry_tax_rule'] =
+            $this->html->buildElement(
+                [
+                    'type' => "button",
+                    'href' => $this->html->getSecureURL('localisation/tax_class'),
+                    'text' => $this->language->get('entry_tax_rule'),
+                    'target' => '_blank',
+                    'style' => ' '
+                ]
+            );
+
+        $this->data['entry_price_with_tax'] = $this->language->get('entry_price_with_tax');
+        $this->data['form']['price_with_tax'] = $form->getFieldHtml(
+            [
+                'type'  => 'input',
+                'name'  => 'price_with_tax',
+                'value' => '',
+                'style' => 'no-save',
+            ]
+        );
+        $this->data['price_calc_url'] = $this->html->getSecureURL('r/product/product/getTaxPrice');
         $this->data['form']['fields']['data']['cost'] = $form->getFieldHtml(
             [
                 'type'  => 'input',
@@ -1193,10 +1223,7 @@ class ControllerPagesCatalogProduct extends AController
         $this->data['language_id'] = $content_language_id;
         $this->data['language_code'] = $this->session->data['language'];
         $this->data['help_url'] = $this->gen_help_url('product_edit');
-        $saved_list_data = json_decode(html_entity_decode($this->request->cookie['grid_params']));
-        if ($saved_list_data->table_id == 'product_grid') {
-            $this->data['list_url'] = $this->html->getSecureURL('catalog/product', '&saved_list=product_grid');
-        }
+        $this->data['list_url'] = $this->html->getSecureURL('catalog/product', '&saved_list=product_grid');
 
         if ($viewport_mode == 'modal') {
             $tpl = 'responses/viewport/modal/catalog/product_form.tpl';
@@ -1238,10 +1265,12 @@ class ControllerPagesCatalogProduct extends AController
             $this->error['name'] = $this->language->get_error('error_name');
         }
 
+        if (mb_strlen($post['sku']) > 64) {
+            $this->error['sku'] = $this->language->get_error('error_sku');
+        }
         if (mb_strlen($post['model']) > 64) {
             $this->error['model'] = $this->language->get_error('error_model');
         }
-
         if (($error_text = $this->html->isSEOkeywordExists(
             'product_id='.$productId,
             $post['keyword']

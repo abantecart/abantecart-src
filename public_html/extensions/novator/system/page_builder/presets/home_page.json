@@ -1,0 +1,1734 @@
+{
+  "assets": [],
+  "styles": [
+    {
+      "selectors": [
+        {
+          "name": "row",
+          "private": 1
+        }
+      ],
+      "style": {
+        "display": "table",
+        "padding": "10px",
+        "width": "100%"
+      }
+    },
+    {
+      "selectors": [
+        {
+          "name": "cell",
+          "private": 1
+        }
+      ],
+      "style": {
+        "width": "100%",
+        "display": "block"
+      },
+      "mediaText": "(max-width: 768px)",
+      "atRuleType": "media"
+    },
+    {
+      "selectors": [
+        "cell30"
+      ],
+      "style": {
+        "width": "100%",
+        "display": "block"
+      },
+      "mediaText": "(max-width: 768px)",
+      "atRuleType": "media"
+    },
+    {
+      "selectors": [
+        "cell70"
+      ],
+      "style": {
+        "width": "100%",
+        "display": "block"
+      },
+      "mediaText": "(max-width: 768px)",
+      "atRuleType": "media"
+    },
+    {
+      "selectors": [
+        {
+          "name": "cell",
+          "private": 1
+        }
+      ],
+      "style": {
+        "width": "8%",
+        "display": "table-cell",
+        "height": "75px"
+      }
+    },
+    {
+      "selectors": [],
+      "selectorsAdd": "*",
+      "style": {
+        "box-sizing": "border-box"
+      }
+    },
+    {
+      "selectors": [],
+      "selectorsAdd": "body",
+      "style": {
+        "margin": "0"
+      }
+    },
+    {
+      "selectors": [
+        "block_8"
+      ],
+      "style": {
+        "height": "auto"
+      }
+    },
+    {
+      "selectors": [
+        "#ij0ya"
+      ],
+      "style": {
+        "max-width": "100%"
+      }
+    },
+    {
+      "selectors": [
+        "#igx41"
+      ],
+      "style": {
+        "min-width": "260px"
+      }
+    },
+    {
+      "selectors": [
+        "#iid347"
+      ],
+      "style": {
+        "display": "flex"
+      }
+    },
+    {
+      "selectors": [
+        "nav-item",
+        "w-auto",
+        "mx-2",
+        "mx-md-3",
+        "block_6"
+      ],
+      "style": {
+        "display": "flex"
+      }
+    }
+  ],
+  "pages": [
+    {
+      "frames": [
+        {
+          "component": {
+            "type": "wrapper",
+            "stylable": [
+              "background",
+              "background-color",
+              "background-image",
+              "background-repeat",
+              "background-attachment",
+              "background-position",
+              "background-size"
+            ],
+            "components": [
+              {
+                "tagName": "meta",
+                "void": true,
+                "attributes": {
+                  "charset": "UTF-8"
+                }
+              },
+              {
+                "tagName": "meta",
+                "void": true,
+                "attributes": {
+                  "name": "generator",
+                  "content": "AbanteCart v1.3.3 - Open Source eCommerce solution"
+                }
+              },
+              {
+                "tagName": "meta",
+                "void": true,
+                "attributes": {
+                  "name": "viewport",
+                  "content": "width=device-width, initial-scale=1.0"
+                }
+              },
+              {
+                "tagName": "link",
+                "void": true,
+                "attributes": {
+                  "href": "extensions\/novator\/image\/abc-logo-white.png",
+                  "type": "image\/png",
+                  "rel": "icon"
+                }
+              },
+              {
+                "tagName": "link",
+                "void": true,
+                "attributes": {
+                  "href": "extensions\/novator\/storefront\/view\/novator\/image\/apple-touch-icon.png",
+                  "rel": "apple-touch-icon"
+                }
+              },
+              {
+                "tagName": "link",
+                "void": true,
+                "attributes": {
+                  "href": "extensions\/novator\/storefront\/view\/novator\/image\/apple-touch-icon-76x76.png",
+                  "rel": "apple-touch-icon",
+                  "sizes": "76x76"
+                }
+              },
+              {
+                "tagName": "link",
+                "void": true,
+                "attributes": {
+                  "href": "extensions\/novator\/storefront\/view\/novator\/image\/apple-touch-icon-120x120.png",
+                  "rel": "apple-touch-icon",
+                  "sizes": "120x120"
+                }
+              },
+              {
+                "tagName": "link",
+                "void": true,
+                "attributes": {
+                  "href": "extensions\/novator\/storefront\/view\/novator\/image\/apple-touch-icon-152x152.png",
+                  "rel": "apple-touch-icon",
+                  "sizes": "152x152"
+                }
+              },
+              {
+                "tagName": "link",
+                "void": true,
+                "attributes": {
+                  "href": "extensions\/novator\/storefront\/view\/novator\/image\/icon-192x192.png",
+                  "rel": "apple-touch-icon",
+                  "sizes": "192x192"
+                }
+              },
+              {
+                "tagName": "link",
+                "void": true,
+                "attributes": {
+                  "href": "\/\/cdnjs.cloudflare.com\/ajax\/libs\/bootstrap\/5.1.3\/css\/bootstrap.min.css",
+                  "rel": "stylesheet",
+                  "type": "text\/css"
+                }
+              },
+              {
+                "tagName": "link",
+                "void": true,
+                "attributes": {
+                  "href": "\/\/cdnjs.cloudflare.com\/ajax\/libs\/bootstrap\/5.1.3\/css\/bootstrap-grid.min.css",
+                  "rel": "stylesheet",
+                  "type": "text\/css"
+                }
+              },
+              {
+                "tagName": "link",
+                "void": true,
+                "attributes": {
+                  "href": "\/\/cdnjs.cloudflare.com\/ajax\/libs\/bootstrap\/5.1.3\/css\/bootstrap-reboot.min.css",
+                  "rel": "stylesheet",
+                  "type": "text\/css"
+                }
+              },
+              {
+                "tagName": "link",
+                "void": true,
+                "attributes": {
+                  "href": "\/\/cdnjs.cloudflare.com\/ajax\/libs\/bootstrap\/5.1.3\/css\/bootstrap-utilities.min.css",
+                  "rel": "stylesheet",
+                  "type": "text\/css"
+                }
+              },
+              {
+                "tagName": "link",
+                "void": true,
+                "attributes": {
+                  "href": "\/\/cdnjs.cloudflare.com\/ajax\/libs\/font-awesome\/6.1.0\/css/all.min.css",
+                  "rel": "stylesheet",
+                  "type": "text\/css"
+                }
+              },
+              {
+                "tagName": "link",
+                "void": true,
+                "attributes": {
+                  "href": "extensions\/novator\/storefront\/view\/novator\/css\/style.css",
+                  "rel": "stylesheet",
+                  "type": "text\/css"
+                }
+              },
+              {
+                "tagName": "link",
+                "void": true,
+                "attributes": {
+                  "href": "extensions\/novator\/storefront\/view\/novator\/css\/template_debug.css",
+                  "rel": "stylesheet"
+                }
+              },
+              {
+                "classes": [
+                  "container-fixed"
+                ],
+                "attributes": {
+                  "id": "ij0ya"
+                },
+                "components": [
+                  {
+                    "tagName": "header",
+                    "components": [
+                      {
+                        "classes": [
+                          "navbar",
+                          "navbar-expand-md",
+                          "navbar-dark",
+                          "bg-dark"
+                        ],
+                        "attributes": {
+                          "role": "navigation"
+                        },
+                        "components": [
+                          {
+                            "classes": [
+                              "mb-auto",
+                              "col-12",
+                              "col-md-2",
+                              "d-flex",
+                              "flex-wrap",
+                              "flex-md-nowrap",
+                              "justify-content-between"
+                            ],
+                            "attributes": {
+                              "id": "igx41"
+                            },
+                            "components": [
+                              {
+                                "type": "link",
+                                "editable": 0,
+                                "classes": [
+                                  "navbar-brand",
+                                  "logo"
+                                ],
+                                "attributes": {
+                                  "href": ""
+                                },
+                                "components": [
+                                  {
+                                    "type": "image",
+                                    "attributes": {
+                                      "src": "extensions\/novator\/image\/abc-logo-white.png",
+                                      "title": "Web Store Name",
+                                      "alt": "Web Store Name",
+                                      "width": "260",
+                                      "height": "59"
+                                    }
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "button",
+                                "classes": [
+                                  "navbar-toggler",
+                                  "me-2"
+                                ],
+                                "attributes": {
+                                  "type": "button",
+                                  "data-bs-toggle": "collapse",
+                                  "data-bs-target": "#headerNavbarCollapse",
+                                  "aria-controls": "headerNavbarCollapse",
+                                  "aria-expanded": "false",
+                                  "aria-label": "Toggle navigation"
+                                },
+                                "components": [
+                                  {
+                                    "tagName": "span",
+                                    "classes": [
+                                      "navbar-toggler-icon"
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "classes": [
+                              "navbar-collapse",
+                              "collapse",
+                              "mx-0",
+                              "mx-3"
+                            ],
+                            "attributes": {
+                              "id": "headerNavbarCollapse"
+                            },
+                            "components": [
+                              {
+                                "tagName": "ul",
+                                "classes": [
+                                  "d-flex",
+                                  "flex-wrap",
+                                  "align-items-center",
+                                  "justify-content-between",
+                                  "justify-content-md-end",
+                                  "list-unstyled",
+                                  "ms-auto",
+                                  "mb-2",
+                                  "mb-md-0",
+                                  "list-group-horizontal"
+                                ],
+                                "components": [
+                                  {
+                                    "tagName": "li",
+                                    "classes": [
+                                      "nav-item",
+                                      "w-auto",
+                                      "mx-2",
+                                      "mx-md-3",
+                                      "block_0"
+                                    ],
+                                    "components": [
+                                      {
+                                        "type": "abantecart-generic-block",
+                                        "attributes": {
+                                          "data-gjs-custom-name": "ABC-CART",
+                                          "data-gjs-type": "abantecart-generic-block",
+                                          "data-gjs-route": "blocks\/cart",
+                                          "data-gjs-custom_block_id": "0",
+                                          "data-gjs-template": "blocks\/cart_top.tpl",
+                                          "id": "inflmk"
+                                        },
+                                        "custom-name": "ABC-CART",
+                                        "route": "blocks\/cart",
+                                        "custom_block_id": "0",
+                                        "admin_token": "mMEGfPAXFTmEjX6HMwOVdy64aDYwad2u",
+                                        "language_id": "1",
+                                        "args": null,
+                                        "templates": [
+                                          {
+                                            "id": "blocks\/cart_top.tpl",
+                                            "name": "blocks\/cart_top.tpl"
+                                          },
+                                          {
+                                            "id": "blocks\/cart.tpl",
+                                            "name": "blocks\/cart.tpl"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "tagName": "li",
+                                    "classes": [
+                                      "nav-item",
+                                      "w-auto",
+                                      "mx-2",
+                                      "mx-md-3",
+                                      "block_1"
+                                    ],
+                                    "components": [
+                                      {
+                                        "type": "abantecart-generic-block",
+                                        "attributes": {
+                                          "data-gjs-custom-name": "ABC-CUSTOMER",
+                                          "data-gjs-type": "abantecart-generic-block",
+                                          "data-gjs-route": "blocks\/customer",
+                                          "data-gjs-custom_block_id": "0",
+                                          "data-gjs-template": "blocks\/customer.tpl",
+                                          "id": "ijny92"
+                                        },
+                                        "custom-name": "ABC-CUSTOMER",
+                                        "route": "blocks\/customer",
+                                        "custom_block_id": "0",
+                                        "admin_token": "mMEGfPAXFTmEjX6HMwOVdy64aDYwad2u",
+                                        "language_id": "1",
+                                        "args": null,
+                                        "templates": [
+                                          {
+                                            "id": "blocks\/customer.tpl",
+                                            "name": "blocks\/customer.tpl"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "tagName": "li",
+                                    "classes": [
+                                      "nav-item",
+                                      "w-auto",
+                                      "mx-2",
+                                      "mx-md-3",
+                                      "block_2"
+                                    ],
+                                    "components": [
+                                      {
+                                        "type": "abantecart-generic-block",
+                                        "attributes": {
+                                          "data-gjs-custom-name": "ABC-MENU",
+                                          "data-gjs-type": "abantecart-generic-block",
+                                          "data-gjs-route": "blocks\/menu",
+                                          "data-gjs-custom_block_id": "0",
+                                          "data-gjs-template": "blocks\/menu_top.tpl",
+                                          "id": "ikho5m"
+                                        },
+                                        "custom-name": "ABC-MENU",
+                                        "route": "blocks\/menu",
+                                        "custom_block_id": "0",
+                                        "admin_token": "mMEGfPAXFTmEjX6HMwOVdy64aDYwad2u",
+                                        "language_id": "1",
+                                        "args": null,
+                                        "templates": [
+                                          {
+                                            "id": "blocks\/menu_top.tpl",
+                                            "name": "blocks\/menu_top.tpl"
+                                          },
+                                          {
+                                            "id": "blocks\/menu.tpl",
+                                            "name": "blocks\/menu.tpl"
+                                          },
+                                          {
+                                            "id": "blocks\/menu_bottom.tpl",
+                                            "name": "blocks\/menu_bottom.tpl"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "tagName": "li",
+                                    "classes": [
+                                      "nav-item",
+                                      "w-auto",
+                                      "mx-2",
+                                      "mx-md-3",
+                                      "block_5"
+                                    ],
+                                    "components": [
+                                      {
+                                        "type": "abantecart-generic-block",
+                                        "attributes": {
+                                          "data-gjs-custom-name": "ABC-SEARCH",
+                                          "data-gjs-type": "abantecart-generic-block",
+                                          "data-gjs-route": "blocks\/search",
+                                          "data-gjs-custom_block_id": "0",
+                                          "data-gjs-template": "blocks\/search_top.tpl",
+                                          "id": "i8ulwg"
+                                        },
+                                        "custom-name": "ABC-SEARCH",
+                                        "route": "blocks\/search",
+                                        "custom_block_id": "0",
+                                        "admin_token": "mMEGfPAXFTmEjX6HMwOVdy64aDYwad2u",
+                                        "language_id": "1",
+                                        "args": null,
+                                        "templates": [
+                                          {
+                                            "id": "blocks\/search_top.tpl",
+                                            "name": "blocks\/search_top.tpl"
+                                          },
+                                          {
+                                            "id": "blocks\/search.tpl",
+                                            "name": "blocks\/search.tpl"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "tagName": "li",
+                                    "classes": [
+                                      "nav-item",
+                                      "w-auto",
+                                      "mx-2",
+                                      "mx-md-3",
+                                      "block_5"
+                                    ],
+                                    "components": [
+                                      {
+                                        "type": "abantecart-generic-block",
+                                        "attributes": {
+                                          "data-gjs-custom-name": "ABC-LANGUAGE",
+                                          "data-gjs-type": "abantecart-generic-block",
+                                          "data-gjs-route": "blocks\/language",
+                                          "data-gjs-layout_id": "25",
+                                          "data-gjs-page_id": "4",
+                                          "data-gjs-custom_block_id": "0",
+                                          "data-gjs-template": "blocks\/language.tpl",
+                                          "id": "ih026y"
+                                        },
+                                        "custom-name": "ABC-LANGUAGE",
+                                        "route": "blocks\/language",
+                                        "custom_block_id": "0",
+                                        "admin_token": "4phiudDbTNXedKcmmzzshzjKZeFcJDf8",
+                                        "language_id": "1",
+                                        "args": null,
+                                        "templates": [
+                                          {
+                                            "id": "blocks\/language.tpl",
+                                            "name": "blocks\/language.tpl"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "tagName": "li",
+                                    "classes": [
+                                      "nav-item",
+                                      "w-auto",
+                                      "mx-2",
+                                      "mx-md-3",
+                                      "block_6"
+                                    ],
+                                    "components": [
+                                      {
+                                        "type": "abantecart-generic-block",
+                                        "attributes": {
+                                          "data-gjs-custom-name": "ABC-CURRENCY",
+                                          "data-gjs-type": "abantecart-generic-block",
+                                          "data-gjs-route": "blocks\/currency",
+                                          "data-gjs-custom_block_id": "0",
+                                          "data-gjs-template": "blocks\/currency.tpl",
+                                          "id": "i80xvq"
+                                        },
+                                        "custom-name": "ABC-CURRENCY",
+                                        "route": "blocks\/currency",
+                                        "custom_block_id": "0",
+                                        "admin_token": "mMEGfPAXFTmEjX6HMwOVdy64aDYwad2u",
+                                        "language_id": "1",
+                                        "args": null,
+                                        "templates": [
+                                          {
+                                            "id": "blocks\/currency.tpl",
+                                            "name": "blocks\/currency.tpl"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "tagName": "li",
+                                    "classes": [
+                                      "nav-item",
+                                      "w-auto",
+                                      "mx-2",
+                                      "mx-md-3",
+                                      "block_6"
+                                    ],
+                                    "components": [
+                                      {
+                                        "type": "abantecart-static-block",
+                                        "attributes": {
+                                          "data-gjs-custom-name": "ABC-BS5 SOCIAL ICONS",
+                                          "data-gjs-type": "abantecart-static-block",
+                                          "data-gjs-route": "blocks\/html_block",
+                                          "data-gjs-custom_block_id": "17",
+                                          "data-gjs-template": "blocks\/html_block_header.tpl",
+                                          "id": "ihbxhg"
+                                        },
+                                        "custom-name": "ABC-BS5 SOCIAL ICONS",
+                                        "route": "blocks\/html_block",
+                                        "custom_block_id": "17",
+                                        "admin_token": "mMEGfPAXFTmEjX6HMwOVdy64aDYwad2u",
+                                        "language_id": "1",
+                                        "args": null,
+                                        "templates": [
+                                          {
+                                            "id": "blocks\/html_block.tpl",
+                                            "name": "blocks\/html_block.tpl"
+                                          },
+                                          {
+                                            "id": "blocks\/html_block_content.tpl",
+                                            "name": "blocks\/html_block_content.tpl"
+                                          },
+                                          {
+                                            "id": "blocks\/html_block_footer.tpl",
+                                            "name": "blocks\/html_block_footer.tpl"
+                                          },
+                                          {
+                                            "id": "blocks\/html_block_header.tpl",
+                                            "name": "blocks\/html_block_header.tpl"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tagName": "NULL",
+                    "type": "comment",
+                    "content": " header_bottom blocks placeholder "
+                  },
+                  {
+                    "classes": [
+                      "container-fluid"
+                    ],
+                    "components": [
+                      {
+                        "classes": [
+                          "col-md-12"
+                        ],
+                        "components": [
+                          {
+                            "type": "abantecart-generic-block",
+                            "attributes": {
+                              "data-gjs-custom-name": "ABC-CATEGORY",
+                              "data-gjs-type": "abantecart-generic-block",
+                              "data-gjs-route": "blocks\/category",
+                              "data-gjs-custom_block_id": "0",
+                              "data-gjs-template": "blocks\/category_top.tpl",
+                              "id": "i0jiiz"
+                            },
+                            "custom-name": "ABC-CATEGORY",
+                            "route": "blocks\/category",
+                            "custom_block_id": "0",
+                            "admin_token": "mMEGfPAXFTmEjX6HMwOVdy64aDYwad2u",
+                            "language_id": "1",
+                            "args": null,
+                            "templates": [
+                              {
+                                "id": "blocks\/category.tpl",
+                                "name": "blocks\/category.tpl"
+                              },
+                              {
+                                "id": "blocks\/category_bottom.tpl",
+                                "name": "blocks\/category_bottom.tpl"
+                              },
+                              {
+                                "id": "blocks\/category_top.tpl",
+                                "name": "blocks\/category_top.tpl"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "abantecart-static-block",
+                        "attributes": {
+                          "data-gjs-custom-name": "ABC-BS5 MAIN PAGE CAROUSEL",
+                          "data-gjs-type": "abantecart-static-block",
+                          "data-gjs-route": "blocks\/html_block",
+                          "data-gjs-layout_id": "24",
+                          "data-gjs-page_id": "2",
+                          "data-gjs-custom_block_id": "21",
+                          "data-gjs-template": "blocks\/html_block.tpl",
+                          "id": "ilj429"
+                        },
+                        "custom-name": "ABC-BS5 MAIN PAGE CAROUSEL",
+                        "route": "blocks\/html_block",
+                        "custom_block_id": "21",
+                        "admin_token": "toPS9w9eWyy5AI7Y8VI0Fq5CFslO44BG",
+                        "language_id": "1",
+                        "args": null,
+                        "templates": [
+                          {
+                            "id": "blocks\/html_block.tpl",
+                            "name": "blocks\/html_block.tpl"
+                          },
+                          {
+                            "id": "blocks\/html_block_content.tpl",
+                            "name": "blocks\/html_block_content.tpl"
+                          },
+                          {
+                            "id": "blocks\/html_block_footer.tpl",
+                            "name": "blocks\/html_block_footer.tpl"
+                          },
+                          {
+                            "id": "blocks\/html_block_header.tpl",
+                            "name": "blocks\/html_block_header.tpl"
+                          }
+                        ]
+                      },
+                      {
+                        "classes": [
+                          "col-md-12"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tagName": "NULL",
+                    "type": "comment",
+                    "content": " header_bottom blocks placeholder "
+                  },
+                  {
+                    "type": "abantecart-static-block",
+                    "attributes": {
+                      "data-gjs-custom-name": "ABC-BS5 MAIN PAGE PROMO",
+                      "data-gjs-type": "abantecart-static-block",
+                      "data-gjs-route": "blocks\/html_block",
+                      "data-gjs-layout_id": "24",
+                      "data-gjs-page_id": "2",
+                      "data-gjs-custom_block_id": "22",
+                      "data-gjs-template": "blocks\/html_block_content.tpl",
+                      "id": "i9152y"
+                    },
+                    "custom-name": "ABC-BS5 MAIN PAGE PROMO",
+                    "route": "blocks\/html_block",
+                    "custom_block_id": "22",
+                    "admin_token": "toPS9w9eWyy5AI7Y8VI0Fq5CFslO44BG",
+                    "language_id": "1",
+                    "args": null,
+                    "templates": [
+                      {
+                        "id": "blocks\/html_block_content.tpl",
+                        "name": "blocks\/html_block_content.tpl"
+                      },
+                      {
+                        "id": "blocks\/html_block_header.tpl",
+                        "name": "blocks\/html_block_header.tpl"
+                      },
+                      {
+                        "id": "blocks\/html_block.tpl",
+                        "name": "blocks\/html_block.tpl"
+                      },
+                      {
+                        "id": "blocks\/html_block_footer.tpl",
+                        "name": "blocks\/html_block_footer.tpl"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "abantecart-main-content-area",
+                    "attributes": {
+                      "id": "ioeiek",
+                      "data-gjs-route": "pages\/index\/home",
+                      "data-gjs-type": "abantecart-main-content-area",
+                      "data-gjs-page_id": "2",
+                      "data-gjs-layout_id": "24"
+                    },
+                    "layout_id": "24",
+                    "page_id": "2",
+                    "template": "novator",
+                    "route": "pages\/index\/home"
+                  },
+                  {
+                    "type": "abantecart-generic-block",
+                    "attributes": {
+                      "data-gjs-custom-name": "ABC-FEATURED",
+                      "data-gjs-type": "abantecart-generic-block",
+                      "data-gjs-route": "blocks\/featured",
+                      "data-gjs-layout_id": "24",
+                      "data-gjs-page_id": "2",
+                      "data-gjs-custom_block_id": "0",
+                      "data-gjs-template": "blocks\/featured_home.tpl",
+                      "id": "iuef2g"
+                    },
+                    "custom-name": "ABC-FEATURED",
+                    "route": "blocks\/featured",
+                    "custom_block_id": "0",
+                    "admin_token": "toPS9w9eWyy5AI7Y8VI0Fq5CFslO44BG",
+                    "language_id": "1",
+                    "args": null,
+                    "templates": [
+                      {
+                        "id": "blocks\/featured_home.tpl",
+                        "name": "blocks\/featured_home.tpl"
+                      },
+                      {
+                        "id": "blocks\/featured.tpl",
+                        "name": "blocks\/featured.tpl"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "abantecart-generic-block",
+                    "attributes": {
+                      "data-gjs-custom-name": "ABC-LATEST",
+                      "data-gjs-type": "abantecart-generic-block",
+                      "data-gjs-route": "blocks\/latest",
+                      "data-gjs-layout_id": "24",
+                      "data-gjs-page_id": "2",
+                      "data-gjs-custom_block_id": "0",
+                      "data-gjs-template": "blocks\/latest_home.tpl",
+                      "id": "ifx8q8"
+                    },
+                    "custom-name": "ABC-LATEST",
+                    "route": "blocks\/latest",
+                    "custom_block_id": "0",
+                    "admin_token": "toPS9w9eWyy5AI7Y8VI0Fq5CFslO44BG",
+                    "language_id": "1",
+                    "args": null,
+                    "templates": [
+                      {
+                        "id": "blocks\/latest_home.tpl",
+                        "name": "blocks\/latest_home.tpl"
+                      },
+                      {
+                        "id": "blocks\/latest.tpl",
+                        "name": "blocks\/latest.tpl"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "abantecart-generic-block",
+                    "attributes": {
+                      "data-gjs-custom-name": "ABC-BESTSELLERS",
+                      "data-gjs-type": "abantecart-generic-block",
+                      "data-gjs-route": "blocks\/bestseller",
+                      "data-gjs-layout_id": "24",
+                      "data-gjs-page_id": "2",
+                      "data-gjs-custom_block_id": "0",
+                      "data-gjs-template": "blocks\/bestseller_home.tpl",
+                      "id": "i2tdcw"
+                    },
+                    "custom-name": "ABC-BESTSELLERS",
+                    "route": "blocks\/bestseller",
+                    "custom_block_id": "0",
+                    "admin_token": "toPS9w9eWyy5AI7Y8VI0Fq5CFslO44BG",
+                    "language_id": "1",
+                    "args": null,
+                    "templates": [
+                      {
+                        "id": "blocks\/bestseller.tpl",
+                        "name": "blocks\/bestseller.tpl"
+                      },
+                      {
+                        "id": "blocks\/bestseller_home.tpl",
+                        "name": "blocks\/bestseller_home.tpl"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "abantecart-generic-block",
+                    "attributes": {
+                      "data-gjs-custom-name": "ABC-SPECIAL",
+                      "data-gjs-type": "abantecart-generic-block",
+                      "data-gjs-route": "blocks\/special",
+                      "data-gjs-layout_id": "24",
+                      "data-gjs-page_id": "2",
+                      "data-gjs-custom_block_id": "0",
+                      "data-gjs-template": "blocks\/special_home.tpl",
+                      "id": "icgygn"
+                    },
+                    "custom-name": "ABC-SPECIAL",
+                    "route": "blocks\/special",
+                    "custom_block_id": "0",
+                    "admin_token": "toPS9w9eWyy5AI7Y8VI0Fq5CFslO44BG",
+                    "language_id": "1",
+                    "args": null,
+                    "templates": [
+                      {
+                        "id": "blocks\/special.tpl",
+                        "name": "blocks\/special.tpl"
+                      },
+                      {
+                        "id": "blocks\/special_home.tpl",
+                        "name": "blocks\/special_home.tpl"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Row",
+                    "droppable": ".cell",
+                    "resizable": {
+                      "tl": 0,
+                      "tc": 0,
+                      "tr": 0,
+                      "cl": 0,
+                      "cr": 0,
+                      "bl": 0,
+                      "br": 0,
+                      "minDim": 1
+                    },
+                    "classes": [
+                      {
+                        "name": "row",
+                        "private": 1
+                      }
+                    ],
+                    "attributes": {
+                      "id": "ifxgdu"
+                    },
+                    "components": [
+                      {
+                        "name": "Cell",
+                        "draggable": ".row",
+                        "resizable": {
+                          "tl": 0,
+                          "tc": 0,
+                          "tr": 0,
+                          "cl": 0,
+                          "cr": 1,
+                          "bl": 0,
+                          "br": 0,
+                          "minDim": 1,
+                          "bc": 0,
+                          "currentUnit": 1,
+                          "step": 0.2
+                        },
+                        "classes": [
+                          {
+                            "name": "cell",
+                            "private": 1
+                          }
+                        ],
+                        "attributes": {
+                          "id": "ilpvj1"
+                        },
+                        "components": [
+                          {
+                            "type": "abantecart-generic-block",
+                            "attributes": {
+                              "data-gjs-custom-name": "ABC-MAIN PAGE BANNER BOTTOM",
+                              "data-gjs-type": "abantecart-generic-block",
+                              "data-gjs-route": "blocks\/banner_block",
+                              "data-gjs-layout_id": "24",
+                              "data-gjs-page_id": "2",
+                              "data-gjs-custom_block_id": "11",
+                              "data-gjs-template": "blocks\/banner_block_content.tpl",
+                              "id": "iez8wl"
+                            },
+                            "custom-name": "ABC-MAIN PAGE BANNER BOTTOM",
+                            "route": "blocks\/banner_block",
+                            "custom_block_id": "11",
+                            "admin_token": "toPS9w9eWyy5AI7Y8VI0Fq5CFslO44BG",
+                            "language_id": "1",
+                            "args": null,
+                            "templates": [
+                              {
+                                "id": "blocks\/banner_block_content.tpl",
+                                "name": "blocks\/banner_block_content.tpl"
+                              },
+                              {
+                                "id": "blocks\/banner_block\/flex_slider_banner_block.tpl",
+                                "name": "blocks\/banner_block\/flex_slider_banner_block.tpl"
+                              },
+                              {
+                                "id": "blocks\/banner_block\/one_by_one_slider_banner_block.tpl",
+                                "name": "blocks\/banner_block\/one_by_one_slider_banner_block.tpl"
+                              },
+                              {
+                                "id": "blocks\/banner_block.tpl",
+                                "name": "blocks\/banner_block.tpl"
+                              },
+                              {
+                                "id": "blocks\/banner_block_header.tpl",
+                                "name": "blocks\/banner_block_header.tpl"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "classes": [
+                      "mb-3"
+                    ],
+                    "attributes": {
+                      "id": "maincontainer"
+                    },
+                    "components": [
+                      {
+                        "classes": [
+                          "d-flex",
+                          "flex-wrap",
+                          "align-items-stretch",
+                          "align-self-stretch",
+                          "justify-content-center"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tagName": "NULL",
+                    "type": "comment",
+                    "content": " footer blocks placeholder "
+                  },
+                  {
+                    "attributes": {
+                      "id": "footer"
+                    },
+                    "components": [
+                      {
+                        "tagName": "footer",
+                        "classes": [
+                          "bd-footer",
+                          "pt-1",
+                          "bg-light"
+                        ],
+                        "components": [
+                          {
+                            "classes": [
+                              "container",
+                              "py-1"
+                            ],
+                            "components": [
+                              {
+                                "classes": [
+                                  {
+                                    "name": "row",
+                                    "private": 1
+                                  }
+                                ],
+                                "attributes": {
+                                  "id": "iid347"
+                                },
+                                "components": [
+                                  {
+                                    "classes": [
+                                      "col-lg-3",
+                                      "mb-3"
+                                    ],
+                                    "components": [
+                                      {
+                                        "type": "abantecart-static-block",
+                                        "attributes": {
+                                          "data-gjs-custom-name": "ABC-BS5 ABOUT US",
+                                          "data-gjs-type": "abantecart-static-block",
+                                          "data-gjs-route": "blocks\/html_block",
+                                          "data-gjs-custom_block_id": "18",
+                                          "data-gjs-template": "blocks\/html_block_footer.tpl",
+                                          "id": "indofg"
+                                        },
+                                        "custom-name": "ABC-BS5 ABOUT US",
+                                        "route": "blocks\/html_block",
+                                        "custom_block_id": "18",
+                                        "admin_token": "mMEGfPAXFTmEjX6HMwOVdy64aDYwad2u",
+                                        "language_id": "1",
+                                        "args": null,
+                                        "templates": [
+                                          {
+                                            "id": "blocks\/html_block_content.tpl",
+                                            "name": "blocks\/html_block_content.tpl"
+                                          },
+                                          {
+                                            "id": "blocks\/html_block.tpl",
+                                            "name": "blocks\/html_block.tpl"
+                                          },
+                                          {
+                                            "id": "blocks\/html_block_footer.tpl",
+                                            "name": "blocks\/html_block_footer.tpl"
+                                          },
+                                          {
+                                            "id": "blocks\/html_block_header.tpl",
+                                            "name": "blocks\/html_block_header.tpl"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "classes": [
+                                      "col-lg-3",
+                                      "mb-3"
+                                    ],
+                                    "components": [
+                                      {
+                                        "type": "abantecart-static-block",
+                                        "attributes": {
+                                          "data-gjs-custom-name": "ABC-BS5 CONTACT US",
+                                          "data-gjs-type": "abantecart-static-block",
+                                          "data-gjs-route": "blocks\/html_block",
+                                          "data-gjs-custom_block_id": "19",
+                                          "data-gjs-template": "blocks\/html_block.tpl",
+                                          "id": "ivy6uw"
+                                        },
+                                        "custom-name": "ABC-BS5 CONTACT US",
+                                        "route": "blocks\/html_block",
+                                        "custom_block_id": "19",
+                                        "admin_token": "mMEGfPAXFTmEjX6HMwOVdy64aDYwad2u",
+                                        "language_id": "1",
+                                        "args": null,
+                                        "templates": [
+                                          {
+                                            "id": "blocks\/html_block_header.tpl",
+                                            "name": "blocks\/html_block_header.tpl"
+                                          },
+                                          {
+                                            "id": "blocks\/html_block_content.tpl",
+                                            "name": "blocks\/html_block_content.tpl"
+                                          },
+                                          {
+                                            "id": "blocks\/html_block.tpl",
+                                            "name": "blocks\/html_block.tpl"
+                                          },
+                                          {
+                                            "id": "blocks\/html_block_footer.tpl",
+                                            "name": "blocks\/html_block_footer.tpl"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "classes": [
+                                      "col-lg-3",
+                                      "mb-3"
+                                    ],
+                                    "components": [
+                                      {
+                                        "type": "abantecart-static-block",
+                                        "attributes": {
+                                          "data-gjs-custom-name": "ABC-BS5 TESTIMONIALS",
+                                          "data-gjs-type": "abantecart-static-block",
+                                          "data-gjs-route": "blocks\/html_block",
+                                          "data-gjs-custom_block_id": "20",
+                                          "data-gjs-template": "blocks\/html_block_header.tpl",
+                                          "id": "ihz65y"
+                                        },
+                                        "custom-name": "ABC-BS5 TESTIMONIALS",
+                                        "route": "blocks\/html_block",
+                                        "custom_block_id": "20",
+                                        "admin_token": "mMEGfPAXFTmEjX6HMwOVdy64aDYwad2u",
+                                        "language_id": "1",
+                                        "args": null,
+                                        "templates": [
+                                          {
+                                            "id": "blocks\/html_block_header.tpl",
+                                            "name": "blocks\/html_block_header.tpl"
+                                          },
+                                          {
+                                            "id": "blocks\/html_block_content.tpl",
+                                            "name": "blocks\/html_block_content.tpl"
+                                          },
+                                          {
+                                            "id": "blocks\/html_block.tpl",
+                                            "name": "blocks\/html_block.tpl"
+                                          },
+                                          {
+                                            "id": "blocks\/html_block_footer.tpl",
+                                            "name": "blocks\/html_block_footer.tpl"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "classes": [
+                                          "block_frame",
+                                          "block_frame_html_block"
+                                        ],
+                                        "attributes": {
+                                          "id": "block_frame_html_block_6604"
+                                        },
+                                        "components": [
+                                          {
+                                            "classes": [
+                                              "carousel",
+                                              "carousel-dark",
+                                              "slide"
+                                            ],
+                                            "attributes": {
+                                              "id": "testimonial_sidebar",
+                                              "data-bs-ride": "carousel"
+                                            },
+                                            "components": [
+                                              {
+                                                "classes": [
+                                                  "carousel-inner"
+                                                ],
+                                                "components": [
+                                                  {
+                                                    "classes": [
+                                                      "carousel-item",
+                                                      "active"
+                                                    ]
+                                                  },
+                                                  {
+                                                    "classes": [
+                                                      "carousel-item"
+                                                    ],
+                                                    "components": [
+                                                      {
+                                                        "type": "text",
+                                                        "classes": [
+                                                          "align-self-stretch",
+                                                          "small",
+                                                          "lh-lg"
+                                                        ],
+                                                        "components": [
+                                                          {
+                                                            "type": "textnode",
+                                                            "content": "\n                        \" Without a doubt the best cart I have used. The title says it all - AbanteCart is undoubtedly the best I have used. I'm not an expert in site setup, so something this great looking and easy to use is absolutely perfect ... \""
+                                                          },
+                                                          {
+                                                            "tagName": "br",
+                                                            "void": true
+                                                          },
+                                                          {
+                                                            "tagName": "span",
+                                                            "type": "text",
+                                                            "classes": [
+                                                              "pull-left",
+                                                              "orange"
+                                                            ],
+                                                            "components": [
+                                                              {
+                                                                "type": "textnode",
+                                                                "content": "By : johnstenson80 on venturebeat.com"
+                                                              }
+                                                            ]
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "classes": [
+                                                      "carousel-item"
+                                                    ],
+                                                    "components": [
+                                                      {
+                                                        "type": "text",
+                                                        "classes": [
+                                                          "align-self-stretch",
+                                                          "small",
+                                                          "lh-lg"
+                                                        ],
+                                                        "components": [
+                                                          {
+                                                            "type": "textnode",
+                                                            "content": "\n                        \" Will not regret using this cart. All good is already mentioned, I want to add my experience with support. My problems with some configuration were resolved quick. Faster than paid shopping cart we had before.\""
+                                                          },
+                                                          {
+                                                            "tagName": "br",
+                                                            "void": true
+                                                          },
+                                                          {
+                                                            "tagName": "span",
+                                                            "type": "text",
+                                                            "classes": [
+                                                              "pull-left",
+                                                              "orange"
+                                                            ],
+                                                            "components": [
+                                                              {
+                                                                "type": "textnode",
+                                                                "content": "By : shopper23 at bestshoppingcartreviews.com"
+                                                              }
+                                                            ]
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "classes": [
+                                                      "carousel-item"
+                                                    ],
+                                                    "components": [
+                                                      {
+                                                        "type": "text",
+                                                        "classes": [
+                                                          "align-self-stretch",
+                                                          "small",
+                                                          "lh-lg"
+                                                        ],
+                                                        "components": [
+                                                          {
+                                                            "type": "textnode",
+                                                            "content": "\n                        \" Love the cart. I installed it a while back and use it since when. Some features a hidden, but fun to discover them.\""
+                                                          },
+                                                          {
+                                                            "tagName": "br",
+                                                            "void": true
+                                                          },
+                                                          {
+                                                            "tagName": "span",
+                                                            "type": "text",
+                                                            "classes": [
+                                                              "pull-left",
+                                                              "orange"
+                                                            ],
+                                                            "components": [
+                                                              {
+                                                                "type": "textnode",
+                                                                "content": "By : Liz Wattkins at shopping-cart-reviews.com"
+                                                              }
+                                                            ]
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "classes": [
+                                      "col-lg-3",
+                                      "mb-3"
+                                    ],
+                                    "components": [
+                                      {
+                                        "type": "abantecart-generic-block",
+                                        "attributes": {
+                                          "data-gjs-custom-name": "ABC-NEWSLETTER SIGNUP",
+                                          "data-gjs-type": "abantecart-generic-block",
+                                          "data-gjs-route": "blocks\/newsletter_signup",
+                                          "data-gjs-custom_block_id": "0",
+                                          "data-gjs-template": "blocks\/newsletter_signup_footer.tpl",
+                                          "id": "ixvbdh"
+                                        },
+                                        "custom-name": "ABC-NEWSLETTER SIGNUP",
+                                        "route": "blocks\/newsletter_signup",
+                                        "custom_block_id": "0",
+                                        "admin_token": "mMEGfPAXFTmEjX6HMwOVdy64aDYwad2u",
+                                        "language_id": "1",
+                                        "args": null,
+                                        "templates": [
+                                          {
+                                            "id": "blocks\/newsletter_signup_header_bottom.tpl",
+                                            "name": "blocks\/newsletter_signup_header_bottom.tpl"
+                                          },
+                                          {
+                                            "id": "blocks\/newsletter_signup_column_left.tpl",
+                                            "name": "blocks\/newsletter_signup_column_left.tpl"
+                                          },
+                                          {
+                                            "id": "blocks\/newsletter_signup_content_top.tpl",
+                                            "name": "blocks\/newsletter_signup_content_top.tpl"
+                                          },
+                                          {
+                                            "id": "blocks\/newsletter_signup_content_bottom.tpl",
+                                            "name": "blocks\/newsletter_signup_content_bottom.tpl"
+                                          },
+                                          {
+                                            "id": "blocks\/newsletter_signup_column_right.tpl",
+                                            "name": "blocks\/newsletter_signup_column_right.tpl"
+                                          },
+                                          {
+                                            "id": "blocks\/newsletter_signup_footer_top.tpl",
+                                            "name": "blocks\/newsletter_signup_footer_top.tpl"
+                                          },
+                                          {
+                                            "id": "blocks\/newsletter_signup_footer.tpl",
+                                            "name": "blocks\/newsletter_signup_footer.tpl"
+                                          },
+                                          {
+                                            "id": "blocks\/newsletter_signup_header.tpl",
+                                            "name": "blocks\/newsletter_signup_header.tpl"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "tagName": "nav",
+                            "classes": [
+                              "navbar",
+                              "navbar-dark",
+                              "bg-secondary",
+                              "text-light"
+                            ],
+                            "attributes": {
+                              "role": "navigation"
+                            },
+                            "components": [
+                              {
+                                "classes": [
+                                  "w-100",
+                                  "d-flex",
+                                  "flex-wrap",
+                                  "justify-content-center",
+                                  "mb-2",
+                                  "mb-md-0"
+                                ],
+                                "components": [
+                                  {
+                                    "classes": [
+                                      "align-self-center",
+                                      "justify-content-center",
+                                      "mx-sm-3",
+                                      "my-3",
+                                      "block_4"
+                                    ],
+                                    "components": [
+                                      {
+                                        "type": "abantecart-generic-block",
+                                        "attributes": {
+                                          "data-gjs-custom-name": "ABC-CONTENT",
+                                          "data-gjs-type": "abantecart-generic-block",
+                                          "data-gjs-route": "blocks\/content",
+                                          "data-gjs-custom_block_id": "0",
+                                          "data-gjs-template": "blocks\/content_header.tpl",
+                                          "id": "iu6yki"
+                                        },
+                                        "custom-name": "ABC-CONTENT",
+                                        "route": "blocks\/content",
+                                        "custom_block_id": "0",
+                                        "admin_token": "mMEGfPAXFTmEjX6HMwOVdy64aDYwad2u",
+                                        "language_id": "1",
+                                        "args": null,
+                                        "templates": [
+                                          {
+                                            "id": "blocks\/content_header.tpl",
+                                            "name": "blocks\/content_header.tpl"
+                                          },
+                                          {
+                                            "id": "blocks\/content.tpl",
+                                            "name": "blocks\/content.tpl"
+                                          },
+                                          {
+                                            "id": "blocks\/content_footer.tpl",
+                                            "name": "blocks\/content_footer.tpl"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "classes": [
+                                      "align-self-center",
+                                      "justify-content-center",
+                                      "mx-sm-3",
+                                      "my-3",
+                                      "block_5"
+                                    ],
+                                    "components": [
+                                      {
+                                        "type": "abantecart-static-block",
+                                        "attributes": {
+                                          "data-gjs-custom-name": "ABC-BS5 SOCIAL ICONS",
+                                          "data-gjs-type": "abantecart-static-block",
+                                          "data-gjs-route": "blocks\/html_block",
+                                          "data-gjs-custom_block_id": "17",
+                                          "data-gjs-template": "blocks\/html_block_footer.tpl",
+                                          "id": "im11zz"
+                                        },
+                                        "custom-name": "ABC-BS5 SOCIAL ICONS",
+                                        "route": "blocks\/html_block",
+                                        "custom_block_id": "17",
+                                        "admin_token": "mMEGfPAXFTmEjX6HMwOVdy64aDYwad2u",
+                                        "language_id": "1",
+                                        "args": null,
+                                        "templates": [
+                                          {
+                                            "id": "blocks\/html_block.tpl",
+                                            "name": "blocks\/html_block.tpl"
+                                          },
+                                          {
+                                            "id": "blocks\/html_block_content.tpl",
+                                            "name": "blocks\/html_block_content.tpl"
+                                          },
+                                          {
+                                            "id": "blocks\/html_block_footer.tpl",
+                                            "name": "blocks\/html_block_footer.tpl"
+                                          },
+                                          {
+                                            "id": "blocks\/html_block_header.tpl",
+                                            "name": "blocks\/html_block_header.tpl"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "classes": [
+                                      "align-self-center",
+                                      "justify-content-center",
+                                      "mx-sm-3",
+                                      "my-3",
+                                      "block_6"
+                                    ],
+                                    "components": [
+                                      {
+                                        "type": "abantecart-generic-block",
+                                        "attributes": {
+                                          "data-gjs-custom-name": "ABC-CREDIT CARDS",
+                                          "data-gjs-type": "abantecart-generic-block",
+                                          "data-gjs-route": "blocks\/credit_cards",
+                                          "data-gjs-custom_block_id": "0",
+                                          "data-gjs-template": "blocks\/credit_cards.tpl",
+                                          "id": "iurvdb"
+                                        },
+                                        "custom-name": "ABC-CREDIT CARDS",
+                                        "route": "blocks\/credit_cards",
+                                        "custom_block_id": "0",
+                                        "admin_token": "mMEGfPAXFTmEjX6HMwOVdy64aDYwad2u",
+                                        "language_id": "1",
+                                        "args": null,
+                                        "templates": [
+                                          {
+                                            "id": "blocks\/credit_cards.tpl",
+                                            "name": "blocks\/credit_cards.tpl"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "classes": [
+                                      "align-self-center",
+                                      "justify-content-center",
+                                      "mx-sm-3",
+                                      "my-3",
+                                      "block_7"
+                                    ],
+                                    "components": [
+                                      {
+                                        "type": "abantecart-generic-block",
+                                        "attributes": {
+                                          "data-gjs-custom-name": "ABC-DONATE",
+                                          "data-gjs-type": "abantecart-generic-block",
+                                          "data-gjs-route": "blocks\/donate",
+                                          "data-gjs-custom_block_id": "0",
+                                          "data-gjs-template": "blocks\/donate.tpl",
+                                          "id": "ihcgsl"
+                                        },
+                                        "custom-name": "ABC-DONATE",
+                                        "route": "blocks\/donate",
+                                        "custom_block_id": "0",
+                                        "admin_token": "mMEGfPAXFTmEjX6HMwOVdy64aDYwad2u",
+                                        "language_id": "1",
+                                        "args": null,
+                                        "templates": [
+                                          {
+                                            "id": "blocks\/donate.tpl",
+                                            "name": "blocks\/donate.tpl"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "classes": [
+                          "modal",
+                          "fade"
+                        ],
+                        "attributes": {
+                          "id": "msgModal"
+                        },
+                        "components": [
+                          {
+                            "classes": [
+                              "modal-dialog"
+                            ],
+                            "components": [
+                              {
+                                "classes": [
+                                  "modal-content"
+                                ],
+                                "components": [
+                                  {
+                                    "classes": [
+                                      "modal-header"
+                                    ],
+                                    "components": [
+                                      {
+                                        "type": "button",
+                                        "classes": [
+                                          "close",
+                                          "callback-btn"
+                                        ],
+                                        "attributes": {
+                                          "type": "button",
+                                          "data-dismiss": "modal",
+                                          "aria-hidden": "true"
+                                        },
+                                        "components": [
+                                          {
+                                            "type": "textnode",
+                                            "content": "\u00d7"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "tagName": "h3",
+                                        "type": "text",
+                                        "classes": [
+                                          "hidden"
+                                        ],
+                                        "components": [
+                                          {
+                                            "type": "textnode",
+                                            "content": "\u00a0"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "text",
+                                    "classes": [
+                                      "modal-body"
+                                    ],
+                                    "components": [
+                                      {
+                                        "type": "textnode",
+                                        "content": "\n            "
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "link",
+                "editable": 0,
+                "classes": [
+                  "fs-6"
+                ],
+                "attributes": {
+                  "id": "gotop",
+                  "href": "#",
+                  "title": "Back to top"
+                },
+                "components": [
+                  {
+                    "tagName": "i",
+                    "classes": [
+                      "fa-solid",
+                      "fa-circle-chevron-up",
+                      "fa-3x"
+                    ]
+                  }
+                ]
+              },
+              {
+                "tagName": "NULL",
+                "type": "comment",
+                "content": "\nAbanteCart is open source software and you are free to remove the Powered By AbanteCart if you want, but its generally accepted practise to make a small donation.\nPlease donate http:\/\/www.abantecart.com\/donate\n\/\/"
+              }
+            ]
+          }
+        }
+      ],
+      "id": "flKXM1Uls5FKpU6p"
+    }
+  ],
+  "pageHtml": [
+    {
+      "html": "<body><meta charset=\"UTF-8\"\/><meta name=\"generator\" content=\"AbanteCart v1.3.3 - Open Source eCommerce solution\"\/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"\/><link href=\"extensions\/novator\/image\/abc-logo-white.png\" type=\"image\/png\" rel=\"icon\"\/><link href=\"extensions\/novator\/storefront\/view\/novator\/image\/apple-touch-icon.png\" rel=\"apple-touch-icon\"\/><link href=\"extensions\/novator\/storefront\/view\/novator\/image\/apple-touch-icon-76x76.png\" rel=\"apple-touch-icon\" sizes=\"76x76\"\/><link href=\"extensions\/novator\/storefront\/view\/novator\/image\/apple-touch-icon-120x120.png\" rel=\"apple-touch-icon\" sizes=\"120x120\"\/><link href=\"extensions\/novator\/storefront\/view\/novator\/image\/apple-touch-icon-152x152.png\" rel=\"apple-touch-icon\" sizes=\"152x152\"\/><link href=\"extensions\/novator\/storefront\/view\/novator\/image\/icon-192x192.png\" rel=\"apple-touch-icon\" sizes=\"192x192\"\/><link href=\"\/\/cdnjs.cloudflare.com\/ajax\/libs\/bootstrap\/5.1.3\/css\/bootstrap.min.css\" rel=\"stylesheet\" type=\"text\/css\"\/><link href=\"\/\/cdnjs.cloudflare.com\/ajax\/libs\/bootstrap\/5.1.3\/css\/bootstrap-grid.min.css\" rel=\"stylesheet\" type=\"text\/css\"\/><link href=\"\/\/cdnjs.cloudflare.com\/ajax\/libs\/bootstrap\/5.1.3\/css\/bootstrap-reboot.min.css\" rel=\"stylesheet\" type=\"text\/css\"\/><link href=\"\/\/cdnjs.cloudflare.com\/ajax\/libs\/bootstrap\/5.1.3\/css\/bootstrap-utilities.min.css\" rel=\"stylesheet\" type=\"text\/css\"\/><link href=\"\/\/cdnjs.cloudflare.com\/ajax\/libs\/font-awesome\/6.1.0\/css\/all.min.css\" rel=\"stylesheet\" type=\"text\/css\"\/><link href=\"extensions\/novator\/storefront\/view\/novator\/css\/style.css\" rel=\"stylesheet\" type=\"text\/css\"\/><link href=\"extensions\/novator\/storefront\/view\/novator\/css\/template_debug.css\" rel=\"stylesheet\"\/><div id=\"ij0ya\" class=\"container-fixed\"><header><div role=\"navigation\" class=\"navbar navbar-expand-md navbar-dark bg-dark\"><div id=\"igx41\" class=\"mb-auto col-12 col-md-2 d-flex flex-wrap flex-md-nowrap justify-content-between\"><a href=\"\" class=\"navbar-brand logo\"><img src=\"extensions\/novator\/image\/abc-logo-white.png\" title=\"Web Store Name\" alt=\"Web Store Name\" width=\"260\" height=\"59\"\/><\/a><button type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#headerNavbarCollapse\" aria-controls=\"headerNavbarCollapse\" aria-expanded=\"false\" aria-label=\"Toggle navigation\" class=\"navbar-toggler me-2\"><span class=\"navbar-toggler-icon\"><\/span><\/button><\/div><div id=\"headerNavbarCollapse\" class=\"navbar-collapse collapse mx-0 mx-3\"><ul class=\"d-flex flex-wrap align-items-center justify-content-between justify-content-md-end list-unstyled ms-auto mb-2 mb-md-0 list-group-horizontal\"><li class=\"nav-item w-auto mx-2 mx-md-3 block_0\"><div data-gjs-custom-name=\"ABC-CART\" data-gjs-type=\"abantecart-generic-block\" data-gjs-route=\"blocks\/cart\" data-gjs-custom_block_id=\"0\" data-gjs-template=\"blocks\/cart_top.tpl\" id=\"inflmk\"><\/div><\/li><li class=\"nav-item w-auto mx-2 mx-md-3 block_1\"><div data-gjs-custom-name=\"ABC-CUSTOMER\" data-gjs-type=\"abantecart-generic-block\" data-gjs-route=\"blocks\/customer\" data-gjs-custom_block_id=\"0\" data-gjs-template=\"blocks\/customer.tpl\" id=\"ijny92\"><\/div><\/li><li class=\"nav-item w-auto mx-2 mx-md-3 block_2\"><div data-gjs-custom-name=\"ABC-MENU\" data-gjs-type=\"abantecart-generic-block\" data-gjs-route=\"blocks\/menu\" data-gjs-custom_block_id=\"0\" data-gjs-template=\"blocks\/menu_top.tpl\" id=\"ikho5m\"><\/div><\/li><li class=\"nav-item w-auto mx-2 mx-md-3 block_5\"><div data-gjs-custom-name=\"ABC-SEARCH\" data-gjs-type=\"abantecart-generic-block\" data-gjs-route=\"blocks\/search\" data-gjs-custom_block_id=\"0\" data-gjs-template=\"blocks\/search_top.tpl\" id=\"i8ulwg\"><\/div><\/li><li class=\"nav-item w-auto mx-2 mx-md-3 block_5\"><div data-gjs-custom-name=\"ABC-LANGUAGE\" data-gjs-type=\"abantecart-generic-block\" data-gjs-route=\"blocks\/language\" data-gjs-layout_id=\"25\" data-gjs-page_id=\"4\" data-gjs-custom_block_id=\"0\" data-gjs-template=\"blocks\/language.tpl\" id=\"ih026y\"><\/div><\/li><li class=\"nav-item w-auto mx-2 mx-md-3 block_6\"><div data-gjs-custom-name=\"ABC-CURRENCY\" data-gjs-type=\"abantecart-generic-block\" data-gjs-route=\"blocks\/currency\" data-gjs-custom_block_id=\"0\" data-gjs-template=\"blocks\/currency.tpl\" id=\"i80xvq\"><\/div><\/li><li class=\"nav-item w-auto mx-2 mx-md-3 block_6\"><div data-gjs-custom-name=\"ABC-BS5 SOCIAL ICONS\" data-gjs-type=\"abantecart-static-block\" data-gjs-route=\"blocks\/html_block\" data-gjs-custom_block_id=\"17\" data-gjs-template=\"blocks\/html_block_header.tpl\" id=\"ihbxhg\"><\/div><\/li><\/ul><\/div><\/div><\/header><!-- header_bottom blocks placeholder --><div class=\"container-fluid\"><div class=\"col-md-12\"><div data-gjs-custom-name=\"ABC-CATEGORY\" data-gjs-type=\"abantecart-generic-block\" data-gjs-route=\"blocks\/category\" data-gjs-custom_block_id=\"0\" data-gjs-template=\"blocks\/category_top.tpl\" id=\"i0jiiz\"><\/div><\/div><div data-gjs-custom-name=\"ABC-BS5 MAIN PAGE CAROUSEL\" data-gjs-type=\"abantecart-static-block\" data-gjs-route=\"blocks\/html_block\" data-gjs-layout_id=\"24\" data-gjs-page_id=\"2\" data-gjs-custom_block_id=\"21\" data-gjs-template=\"blocks\/html_block.tpl\" id=\"ilj429\"><\/div><div class=\"col-md-12\"><\/div><\/div><!-- header_bottom blocks placeholder --><div data-gjs-custom-name=\"ABC-BS5 MAIN PAGE PROMO\" data-gjs-type=\"abantecart-static-block\" data-gjs-route=\"blocks\/html_block\" data-gjs-layout_id=\"24\" data-gjs-page_id=\"2\" data-gjs-custom_block_id=\"22\" data-gjs-template=\"blocks\/html_block_content.tpl\" id=\"i9152y\"><\/div><div id=\"ioeiek\" data-gjs-route=\"pages\/index\/home\" data-gjs-type=\"abantecart-main-content-area\" data-gjs-page_id=\"2\" data-gjs-layout_id=\"24\"><\/div><div data-gjs-custom-name=\"ABC-FEATURED\" data-gjs-type=\"abantecart-generic-block\" data-gjs-route=\"blocks\/featured\" data-gjs-layout_id=\"24\" data-gjs-page_id=\"2\" data-gjs-custom_block_id=\"0\" data-gjs-template=\"blocks\/featured_home.tpl\" id=\"iuef2g\"><\/div><div data-gjs-custom-name=\"ABC-LATEST\" data-gjs-type=\"abantecart-generic-block\" data-gjs-route=\"blocks\/latest\" data-gjs-layout_id=\"24\" data-gjs-page_id=\"2\" data-gjs-custom_block_id=\"0\" data-gjs-template=\"blocks\/latest_home.tpl\" id=\"ifx8q8\"><\/div><div data-gjs-custom-name=\"ABC-BESTSELLERS\" data-gjs-type=\"abantecart-generic-block\" data-gjs-route=\"blocks\/bestseller\" data-gjs-layout_id=\"24\" data-gjs-page_id=\"2\" data-gjs-custom_block_id=\"0\" data-gjs-template=\"blocks\/bestseller_home.tpl\" id=\"i2tdcw\"><\/div><div data-gjs-custom-name=\"ABC-SPECIAL\" data-gjs-type=\"abantecart-generic-block\" data-gjs-route=\"blocks\/special\" data-gjs-layout_id=\"24\" data-gjs-page_id=\"2\" data-gjs-custom_block_id=\"0\" data-gjs-template=\"blocks\/special_home.tpl\" id=\"icgygn\"><\/div><div id=\"ifxgdu\" class=\"row\"><div id=\"ilpvj1\" class=\"cell\"><div data-gjs-custom-name=\"ABC-MAIN PAGE BANNER BOTTOM\" data-gjs-type=\"abantecart-generic-block\" data-gjs-route=\"blocks\/banner_block\" data-gjs-layout_id=\"24\" data-gjs-page_id=\"2\" data-gjs-custom_block_id=\"11\" data-gjs-template=\"blocks\/banner_block_content.tpl\" id=\"iez8wl\"><\/div><\/div><\/div><div id=\"maincontainer\" class=\"mb-3\"><div class=\"d-flex flex-wrap align-items-stretch align-self-stretch justify-content-center\"><\/div><\/div><!-- footer blocks placeholder --><div id=\"footer\"><footer class=\"bd-footer pt-1 bg-light\"><div class=\"container py-1\"><div id=\"iid347\" class=\"row\"><div class=\"col-lg-3 mb-3\"><div data-gjs-custom-name=\"ABC-BS5 ABOUT US\" data-gjs-type=\"abantecart-static-block\" data-gjs-route=\"blocks\/html_block\" data-gjs-custom_block_id=\"18\" data-gjs-template=\"blocks\/html_block_footer.tpl\" id=\"indofg\"><\/div><\/div><div class=\"col-lg-3 mb-3\"><div data-gjs-custom-name=\"ABC-BS5 CONTACT US\" data-gjs-type=\"abantecart-static-block\" data-gjs-route=\"blocks\/html_block\" data-gjs-custom_block_id=\"19\" data-gjs-template=\"blocks\/html_block.tpl\" id=\"ivy6uw\"><\/div><\/div><div class=\"col-lg-3 mb-3\"><div data-gjs-custom-name=\"ABC-BS5 TESTIMONIALS\" data-gjs-type=\"abantecart-static-block\" data-gjs-route=\"blocks\/html_block\" data-gjs-custom_block_id=\"20\" data-gjs-template=\"blocks\/html_block_header.tpl\" id=\"ihz65y\"><\/div><div id=\"block_frame_html_block_6604\" class=\"block_frame block_frame_html_block\"><div id=\"testimonial_sidebar\" data-bs-ride=\"carousel\" class=\"carousel carousel-dark slide\"><div class=\"carousel-inner\"><div class=\"carousel-item active\"><\/div><div class=\"carousel-item\"><div class=\"align-self-stretch small lh-lg\">\n                        &quot; Without a doubt the best cart I have used. The title says it all - AbanteCart is undoubtedly the best I have used. I&#039;m not an expert in site setup, so something this great looking and easy to use is absolutely perfect ... &quot;<br\/><span class=\"pull-left orange\">By : johnstenson80 on venturebeat.com<\/span><\/div><\/div><div class=\"carousel-item\"><div class=\"align-self-stretch small lh-lg\">\n                        &quot; Will not regret using this cart. All good is already mentioned, I want to add my experience with support. My problems with some configuration were resolved quick. Faster than paid shopping cart we had before.&quot;<br\/><span class=\"pull-left orange\">By : shopper23 at bestshoppingcartreviews.com<\/span><\/div><\/div><div class=\"carousel-item\"><div class=\"align-self-stretch small lh-lg\">\n                        &quot; Love the cart. I installed it a while back and use it since when. Some features a hidden, but fun to discover them.&quot;<br\/><span class=\"pull-left orange\">By : Liz Wattkins at shopping-cart-reviews.com<\/span><\/div><\/div><\/div><\/div><\/div><\/div><div class=\"col-lg-3 mb-3\"><div data-gjs-custom-name=\"ABC-NEWSLETTER SIGNUP\" data-gjs-type=\"abantecart-generic-block\" data-gjs-route=\"blocks\/newsletter_signup\" data-gjs-custom_block_id=\"0\" data-gjs-template=\"blocks\/newsletter_signup_footer.tpl\" id=\"ixvbdh\"><\/div><\/div><\/div><\/div><nav role=\"navigation\" class=\"navbar navbar-dark bg-secondary text-light\"><div class=\"w-100 d-flex flex-wrap justify-content-center mb-2 mb-md-0\"><div class=\"align-self-center justify-content-center mx-sm-3 my-3 block_4\"><div data-gjs-custom-name=\"ABC-CONTENT\" data-gjs-type=\"abantecart-generic-block\" data-gjs-route=\"blocks\/content\" data-gjs-custom_block_id=\"0\" data-gjs-template=\"blocks\/content_header.tpl\" id=\"iu6yki\"><\/div><\/div><div class=\"align-self-center justify-content-center mx-sm-3 my-3 block_5\"><div data-gjs-custom-name=\"ABC-BS5 SOCIAL ICONS\" data-gjs-type=\"abantecart-static-block\" data-gjs-route=\"blocks\/html_block\" data-gjs-custom_block_id=\"17\" data-gjs-template=\"blocks\/html_block_footer.tpl\" id=\"im11zz\"><\/div><\/div><div class=\"align-self-center justify-content-center mx-sm-3 my-3 block_6\"><div data-gjs-custom-name=\"ABC-CREDIT CARDS\" data-gjs-type=\"abantecart-generic-block\" data-gjs-route=\"blocks\/credit_cards\" data-gjs-custom_block_id=\"0\" data-gjs-template=\"blocks\/credit_cards.tpl\" id=\"iurvdb\"><\/div><\/div><div class=\"align-self-center justify-content-center mx-sm-3 my-3 block_7\"><div data-gjs-custom-name=\"ABC-DONATE\" data-gjs-type=\"abantecart-generic-block\" data-gjs-route=\"blocks\/donate\" data-gjs-custom_block_id=\"0\" data-gjs-template=\"blocks\/donate.tpl\" id=\"ihcgsl\"><\/div><\/div><\/div><\/nav><\/footer><div id=\"msgModal\" class=\"modal fade\"><div class=\"modal-dialog\"><div class=\"modal-content\"><div class=\"modal-header\"><button type=\"button\" data-dismiss=\"modal\" aria-hidden=\"true\" class=\"close callback-btn\">\u00d7<\/button><h3 class=\"hidden\">\u00a0<\/h3><\/div><div class=\"modal-body\">\n            <\/div><\/div><\/div><\/div><\/div><\/div><a id=\"gotop\" href=\"#\" title=\"Back to top\" class=\"fs-6\"><i class=\"fa-solid fa-circle-chevron-up fa-3x\"><\/i><\/a><!--\nAbanteCart is open source software and you are free to remove the Powered By AbanteCart if you want, but its generally accepted practise to make a small donation.\nPlease donate http:\/\/www.abantecart.com\/donate\n\/\/--><\/body>",
+      "css": "* { box-sizing: border-box; } body {margin: 0;}.row{display:table;padding:10px;width:100%;}.cell{width:8%;display:table-cell;height:75px;}*{box-sizing:border-box;}body{margin:0;}#ij0ya{max-width:100%;}#igx41{min-width:260px;}#iid347{display:flex;}.nav-item.w-auto.mx-2.mx-md-3.block_6{display:flex;}@media (max-width: 768px){.cell{width:100%;display:block;}}"
+    }
+  ],
+  "gjs-components": "null"
+}

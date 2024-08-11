@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ * $Id$
+ *
+ * AbanteCart, Ideal OpenSource Ecommerce Solution
+ * http://www.AbanteCart.com
+ *
+ * Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ * This source file is subject to Open Software License (OSL 3.0)
+ * License details is bundled with this package in the file LICENSE.txt.
+ * It is also available at this URL:
+ * <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ * UPGRADE NOTE:
+ * Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ * versions in the future. If you wish to customize AbanteCart for your
+ * needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -120,6 +119,7 @@ class ControllerPagesCatalogManufacturer extends AController
         $grid_settings['colNames'] = [
             '',
             $this->language->get('column_name'),
+            $this->language->get('column_products'),
             $this->language->get('column_sort_order'),
         ];
         $grid_settings['colModel'] = [
@@ -136,6 +136,14 @@ class ControllerPagesCatalogManufacturer extends AController
                 'index' => 'name',
                 'width' => 600,
                 'align' => 'center',
+            ],
+            [
+                'name'     => 'products',
+                'index'    => 'products',
+                'width'    => 100,
+                'align'    => 'center',
+                'search'   => false,
+                'sortable' => false,
             ],
             [
                 'name'   => 'sort_order',
@@ -409,13 +417,10 @@ class ControllerPagesCatalogManufacturer extends AController
 
         $this->view->assign('help_url', $this->gen_help_url('manufacturer_edit'));
 
-        $saved_list_data = json_decode(html_entity_decode($this->request->cookie['grid_params']));
-        if ($saved_list_data->table_id == 'manufacturer_grid') {
-            $this->data['list_url'] = $this->html->getSecureURL(
+        $this->data['list_url'] = $this->html->getSecureURL(
                 'catalog/manufacturer',
                 '&saved_list=manufacturer_grid'
             );
-        }
 
         if ($viewport_mode != 'modal') {
             $this->addChild(

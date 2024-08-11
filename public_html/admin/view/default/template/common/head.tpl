@@ -18,10 +18,10 @@
       media="<?php echo $style['media']; ?>"/>
 <?php } ?>
 
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script type="text/javascript">
     if (typeof jQuery == 'undefined') {
-        var include = '<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-3.5.1.min.js"><\/script>';
+        var include = '<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-3.7.1.min.js"><\/script>';
         document.write(include);
     }
 <?php if($retina){
@@ -32,9 +32,22 @@
     }
 <?php } ?>
 </script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-migrate-1.4.1.min.js"></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery.cookies.js"></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-ui/jquery-ui-1.10.4.custom.min.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-migrate.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jqueryui.min.js"></script>
+<script type="text/javascript">
+    jQuery.browser = {};
+    (function () {
+        jQuery.browser.msie = false;
+        jQuery.browser.version = 0;
+        if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+            jQuery.browser.msie = true;
+            jQuery.browser.version = RegExp.$1;
+        }
+    })();
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
+
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/bootstrap.min.js"></script>
 <script defer type="text/javascript" src="<?php echo $template_dir; ?>javascript/tinymce/tinymce.js"></script>
 
@@ -44,6 +57,7 @@
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/aform.js"></script>
 
 <script type="text/javascript">
+const amp_connect_url = '<?php echo $amp_connect_url;?>';
 //define tinymce config
 var mcei = {
     formats: {

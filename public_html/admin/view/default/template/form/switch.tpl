@@ -1,12 +1,13 @@
+<?php $readonly = str_contains($attr, 'readonly') ? 'readonly=readonly' : ''?>
 <div id="<?php echo $id ?>_layer" class="btn-group btn-toggle <?php echo $style; ?>" <?php echo $attr ?>>
 <?php if ($checked) { ?>
-<button type="button" class="btn btn-primary btn-on"><?php echo $text_on?></button>
-<button type="button" class="btn btn-default"><i class="fa fa-circle-o"></i></button>
-<button type="button" class="btn btn-primary btn-off hidden"><?php echo $text_off?></button>
+<button type="button" class="btn btn-primary btn-on" <?php echo $readonly; ?>><?php echo $text_on?></button>
+<button type="button" class="btn btn-default" <?php echo $readonly; ?>><i class="fa fa-circle-o"></i></button>
+<button type="button" class="btn btn-primary btn-off hidden" <?php echo $readonly; ?>><?php echo $text_off?></button>
 <?php } else { ?>
-<button type="button" class="btn btn-primary btn-on hidden"><?php echo $text_on?></button>
-<button type="button" class="btn btn-default"><i class="fa fa-circle-o"></i></button>
-<button type="button" class="btn btn-primary btn-off"><?php echo $text_off?></button>
+<button type="button" class="btn btn-primary btn-on hidden" <?php echo $readonly; ?>><?php echo $text_on?></button>
+<button type="button" class="btn btn-default" <?php echo $readonly; ?>><i class="fa fa-circle-o"></i></button>
+<button type="button" class="btn btn-primary btn-off" <?php echo $readonly; ?>><?php echo $text_off?></button>
 <?php } ?>
 </div>
 <input type="hidden"

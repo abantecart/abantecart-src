@@ -12,13 +12,6 @@
 				</a>
 			</div>	
 		<?php } ?>
-
-			<div class="btn-group">
-				<a class="btn btn-primary actionitem tooltips" title="<?php echo $new_store_button->title; ?>" href="<?php echo $new_store_button->href; ?>">
-				<i class="fa fa-plus"></i>
-				</a>
-			</div>
-
 		<?php if($phpinfo_button){?>
 			<div class="btn-group">
 				<a class="btn btn-default actionitem tooltips"

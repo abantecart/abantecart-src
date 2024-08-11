@@ -52,7 +52,7 @@ class ModelExtensionDefaultWeight extends Model
                 }
 
                 if ($status) {
-                    $cost = '';
+                    $cost = 0.0;
                     $rates = explode(',', $this->config->get('default_weight_'.$result['location_id'].'_rate'));
                     //Process all products shipped together with not special shipping settings on a product level
                     $b_products = $this->cart->basicShippingProducts();
@@ -66,7 +66,7 @@ class ModelExtensionDefaultWeight extends Model
                             $data = explode(':', $rate);
                             if ($data[0] >= $weight) {
                                 if (isset($data[1])) {
-                                    $cost = $data[1];
+                                    $cost = (float)$data[1];
                                 }
                                 break;
                             }
@@ -102,7 +102,7 @@ class ModelExtensionDefaultWeight extends Model
                         }
                     }
 
-                    if ((string)$cost != '') {
+                    if ($cost) {
                         $taxCost = $this->tax->calculate(
                                     $cost,
                                     $this->config->get('default_weight_tax_class_id'),

@@ -1,45 +1,27 @@
 <?php
 /*
-------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------
-
- * Command line tool for installing AbanteCart
+ *   $Id$
  *
- * Usage:
- * cd install
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
  *
- *    php cli_install.php install 
- *                               --db_hostname=localhost
- *                                --db_username=root
- *                                --db_password=pass
- *                                --db_database=abantecart
- *                                --db_driver=mysqli
- *                                --db_port=3306
- *                                --username=admin
- *                                --password=admin
- *                                --email=youremail@example.com
- *                               --http_server=http://localhost/abantecart
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
  */
 
 ini_set('register_argc_argv', 1);
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
+const DS = DIRECTORY_SEPARATOR;
 
 //list of arguments
 $args = $argv;
@@ -52,32 +34,28 @@ if (defined('IS_WINDOWS')) {
 }
 define('DIR_ROOT', $root_path);
 
-// HTTP
-
-//define('HTTP_SERVER', 'http://' . $_SERVER['HTTP_HOST'] . rtrim(dirname($_SERVER['PHP_SELF']), '/.\\') . '/');
-//define('HTTP_ABANTECART', 'http://' . $_SERVER['HTTP_HOST'] . rtrim(rtrim(dirname($_SERVER['PHP_SELF']), 'install'), '/.\\'). '/');
-
-// DIR
 define('DIR_APP_SECTION', str_replace('\'', '/', realpath(dirname(__FILE__))).'/');
 define('DIR_CORE', str_replace('\'', '/', realpath(dirname(__FILE__).'/../')).'/core/');
 define('DIR_SYSTEM', str_replace('\'', '/', realpath(dirname(__FILE__).'/../')).'/system/');
 define('DIR_CACHE', str_replace('\'', '/', realpath(dirname(__FILE__).'/../')).'/system/cache/');
 define('DIR_LOGS', str_replace('\'', '/', realpath(dirname(__FILE__).'/../')).'/system/logs/');
 define('DIR_ABANTECART', str_replace('\'', '/', realpath(DIR_APP_SECTION.'../')).'/');
-define('DIR_STOREFRONT', DIR_ABANTECART.'/storefront/');
-define('DIR_DATABASE', DIR_CORE.'database/');
-define('DIR_TEMPLATE', DIR_APP_SECTION.'view/template/');
-define('INSTALL', 'true');
+const DIR_STOREFRONT = DIR_ABANTECART . DS . 'storefront' . DS;
+const DIR_DATABASE = DIR_CORE . 'database' . DS;
+const DIR_TEMPLATE = DIR_APP_SECTION . 'view' . DS . 'template' . DS;
+const INSTALL = true;
 // Relative paths and directories
-define('RDIR_TEMPLATE', 'view/');
+const RDIR_TEMPLATE = 'view' . DS;
 
-// Startup with local init
-require_once('init.php');
+
 
 //Check if cart is already installed
 if (file_exists(DIR_SYSTEM.'config.php')) {
     require_once(DIR_SYSTEM.'config.php');
 }
+
+// Startup with local init
+require_once('init.php');
 
 $installed = false;
 if (defined('DB_HOSTNAME') && DB_HOSTNAME) {
@@ -126,8 +104,8 @@ switch ($command) {
             echo "SUCCESS! AbanteCart successfully installed on your server\n\n";
             echo "\t"."Store link: ".$options['http_server']."\n\n";
             echo "\t"."Admin link: ".$options['http_server']."?s=".$options['admin_path']."\n\n";
-        } catch (ErrorException $e) {
-            echo 'FAILED!: '.$e->getMessage().". File: ".$e->getFile()." Line ".$e->getLine()."\n";
+        } catch (Exception|Error $e) {
+            echo 'FAILED!: '.$e->getMessage().". File: ".$e->getFile()." Line ".$e->getLine()."\n".$e->getTraceAsString();
             exit(1);
         }
         break;
@@ -147,7 +125,7 @@ switch ($command) {
 
 /**
  * @param int    $errno
- * @param string $errstr
+ * @param string $errStr
  * @param string $errFile
  * @param int    $errLine
  * @param array  $errContext
@@ -155,13 +133,13 @@ switch ($command) {
  * @return bool
  * @throws ErrorException
  */
-function handleError($errno, $errstr, $errFile, $errLine, array $errContext)
+function handleError($errno, $errStr, $errFile, $errLine, array $errContext)
 {
     // error was suppressed with the @-operator
     if (0 === error_reporting()) {
         return false;
     }
-    throw new ErrorException($errstr, 0, $errno, $errFile, $errLine);
+    throw new ErrorException($errStr, 0, $errno, $errFile, $errLine);
 }
 
 set_error_handler('handleError');
@@ -184,6 +162,7 @@ function getOptionList()
         '--email'            => 'your_email@example.com',
         '--http_server'      => 'https://your-domain.com',
         '--with-sample-data' => '{ full-path-to-sql-file-or-leave-empty-to-load-default-data }',
+        '--template'         => '{novator-or-default-or-custom-name}',
     ];
 }
 
@@ -220,7 +199,7 @@ function help()
     foreach ($options as $opt => $ex) {
         $output .= $opt.($ex ? "=".$ex : '')."  ";
     }
-    $output .= "\n\n";
+    $output .= " \n\n";
 
     return $output;
 }
@@ -235,7 +214,7 @@ function getOptionValues($opt_name = '')
 {
     global $args;
     $args = !$args ? $_SERVER['argv'] : $args;
-    $options = [];
+    $options = ['template' => 'novator' ];
     foreach ($args as $v) {
         $is_flag = preg_match('/^--(.*)$/', $v, $match);
         //skip commands
@@ -292,16 +271,31 @@ function validateOptions($options)
 
 /**
  * @param $options
+ * @throws AException
  */
 function install($options)
 {
     $errors = checkRequirements($options);
     if (!$errors) {
         writeConfigFile($options);
-        if (file_exists(DIR_SYSTEM.'config.php')) {
-            require_once(DIR_SYSTEM.'config.php');
-        }
         setupDB($options);
+        $ext = $options['template'];
+        if($ext && $ext != 'default'){
+            $db = Registry::getInstance()->get('db');
+            $template = new ExtensionUtils($ext);
+            $em = new AExtensionManager();
+            $em->install( $ext, $template->getConfig() );
+            if($em->errors){
+                throw new Exception(implode("\n", $em->errors));
+            }
+            $em->editSetting($ext,['novator_status' => 1]);
+            $db->query(
+                "UPDATE ".$db->table("settings")." 
+                        SET `value` = '".$db->escape($ext)."' 
+                        WHERE `key` = 'config_storefront_template'"
+            );
+        }
+
         $cache = new ACache();
         $cache->setCacheStorageDriver('file');
         $cache->enableCache();
@@ -337,20 +331,36 @@ function setupDB($data)
 
     $load_data = getOptionValues('with-sample-data');
 
-    if ($load_data) {
-        $db = new ADB(
-            $data['db_driver'],
-            htmlspecialchars_decode($data['db_host']),
-            htmlspecialchars_decode($data['db_user']),
-            htmlspecialchars_decode($data['db_password']),
-            htmlspecialchars_decode($data['db_name'])
-        );
-        $registry->set('db', $db);
-        define('DIR_LANGUAGE', DIR_ABANTECART.'admin/language/');
+    $db = new ADB(
+        $data['db_driver'],
+        htmlspecialchars_decode($data['db_host']),
+        htmlspecialchars_decode($data['db_user']),
+        htmlspecialchars_decode($data['db_password']),
+        htmlspecialchars_decode($data['db_name'])
+    );
+    $registry->set('db', $db);
+    define('DIR_LANGUAGE', DIR_ABANTECART.'admin/language/');
 
+    // Cache
+    $registry->set('cache', new ACache());
+
+    $config = new AConfig($registry);
+    $registry->set('config', $config);
+
+// Session
+    $registry->set('session', new ASession(SESSION_ID));
+    $config->set('current_store_id', 0);
+
+    // Load language
+    $language = new ALanguageManager($registry);
+    $registry->set('language', $language);
+    if ($load_data) {
         $mdl->loadDemoData($registry, $load_data);
     }
 
+    $extensions = new ExtensionsApi();
+    $extensions->loadEnabledExtensions();
+    $registry->set('extensions', $extensions);
 }
 
 /**

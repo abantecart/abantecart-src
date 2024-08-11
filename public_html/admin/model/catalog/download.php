@@ -44,7 +44,6 @@ class ModelCatalogDownload extends Model
             $data['expire_days'] = 0;
             $data['max_downloads'] = 0;
         }
-
         $this->db->query(
             "INSERT INTO ".$this->db->table('downloads')."
               SET filename  = '".$this->db->escape($data['filename'])."',
@@ -54,7 +53,7 @@ class ModelCatalogDownload extends Model
                   expire_days = ".((int) $data['expire_days'] ? "'".(int) $data['expire_days']."'" : 'NULL').",
                   sort_order = '".(int) $data['sort_order']."',
                   activate = '".$this->db->escape($data['activate'])."',
-                  activate_order_status_id = '".(int) $data['activate_order_status_id']."',
+                  activate_order_status_id = '".$this->db->escape(serialize($data['activate_order_status_id']))."',
                   status = '".(int) $data['status']."',
                   date_added = NOW()"
         );
@@ -93,7 +92,6 @@ class ModelCatalogDownload extends Model
         if (!(int) $download_id || !$data) {
             return false;
         }
-
         $fields = [
             'filename'                 => 'string',
             'mask'                     => 'string',
@@ -102,7 +100,7 @@ class ModelCatalogDownload extends Model
             'expire_days'              => 'int',
             'sort_order'               => 'int',
             'activate'                 => 'string',
-            'activate_order_status_id' => 'int',
+            'activate_order_status_id' => 'string',
             'status'                   => 'int',
         ];
 
@@ -119,7 +117,11 @@ class ModelCatalogDownload extends Model
         foreach ($fields as $field_name => $type) {
             if (isset($data[$field_name])) {
                 if ($type == 'string') {
-                    $update[] = "`".$field_name."` = '".$this->db->escape($data[$field_name])."'";
+                    if($field_name == 'activate_order_status_id'){
+                        $update[] = "`".$field_name."` = '".$this->db->escape(serialize($data[$field_name]))."'";
+                    }else {
+                        $update[] = "`".$field_name."` = '".$this->db->escape($data[$field_name])."'";
+                    }
                 } elseif ($type == 'int') {
                     if (in_array($field_name, ['max_downloads', 'expire_days'])) {
                         $update[] = "`".$field_name."` = ".((int) $data[$field_name]
@@ -154,7 +156,6 @@ class ModelCatalogDownload extends Model
         if (isset($data['product_id'])) {
             $this->mapDownload($download_id, $data['product_id']);
         }
-        $this->cache->remove('html_cache');
         return true;
     }
 
@@ -186,7 +187,6 @@ class ModelCatalogDownload extends Model
                 download_id = '".(int) $download_id."'"
         );
 
-        $this->cache->remove('html_cache');
         return $this->db->getLastId();
     }
 
@@ -210,7 +210,6 @@ class ModelCatalogDownload extends Model
              WHERE product_id = '".(int) $product_id."'
                AND download_id = '".(int) $download_id."'"
         );
-        $this->cache->remove('html_cache');
         return true;
     }
 
@@ -231,7 +230,6 @@ class ModelCatalogDownload extends Model
             "DELETE FROM ".$this->db->table('products_to_downloads')."
              WHERE product_id = '".(int) $product_id."'"
         );
-        $this->cache->remove('html_cache');
         return true;
     }
 
@@ -310,7 +308,6 @@ class ModelCatalogDownload extends Model
             "DELETE FROM ".$this->db->table("products_to_downloads")." 
             WHERE download_id = '".(int) $download_id."'"
         );
-        $this->cache->remove('html_cache');
     }
 
     /**
@@ -523,7 +520,6 @@ class ModelCatalogDownload extends Model
                 );
             }
         }
-        $this->cache->remove('html_cache');
     }
 
     /**
@@ -563,7 +559,6 @@ class ModelCatalogDownload extends Model
                 );
             }
         }
-        $this->cache->remove('html_cache');
     }
 
     /**
@@ -648,7 +643,6 @@ class ModelCatalogDownload extends Model
                 WHERE order_download_id='".(int) $order_download_id."'"
             );
         }
-        $this->cache->remove('html_cache');
         return true;
     }
 
@@ -712,16 +706,18 @@ class ModelCatalogDownload extends Model
         if ($download_info['remaining_count'] == '0') {
             $text_status[] = $this->language->get('text_download_remaining_count').': 0';
         }
-
-        if ((int) $download_info['activate_order_status_id'] > 0) {
-            if ((int) $download_info['activate_order_status_id'] != (int) $download_info['order_status_id']) {
+        //exclude "immediate" order status id (0)
+        $activateStatuses = array_filter((array) unserialize($download_info['activate_order_status_id']));
+        if ($activateStatuses) {
+            $names = [];
+            if (!in_array((int) $download_info['order_status_id'], $activateStatuses)) {
                 $this->load->model('localisation/order_status');
-                $order_status_info = $this->model_localisation_order_status->getOrderStatus(
-                    $download_info['activate_order_status_id']
-                );
+                foreach ($activateStatuses as $id){
+                    $names[] = $this->model_localisation_order_status->getOrderStatus($id)['name'];
+                }
                 $text_status[] = sprintf(
                     $this->language->get('text_order_status_required'),
-                    $order_status_info['name']
+                    implode(',',$names)
                 );
             }
         }

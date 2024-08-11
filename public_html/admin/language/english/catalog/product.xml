@@ -89,6 +89,10 @@
 		<value><![CDATA[Model]]></value>
 	</definition>
 	<definition>
+		<key>column_sku</key>
+		<value><![CDATA[SKU]]></value>
+	</definition>
+	<definition>
 		<key>column_image</key>
 		<value><![CDATA[Image]]></value>
 	</definition>
@@ -348,6 +352,10 @@
 	<definition>
 		<key>error_product_not_found</key>
 		<value><![CDATA[Error: Product not found!]]></value>
+	</definition>
+	<definition>
+		<key>error_sku</key>
+		<value><![CDATA[Error: SKU not found!]]></value>
 	</definition>
 	<definition>
 		<key>filter_product</key>
@@ -633,5 +641,17 @@
 	<definition>
 		<key>text_disable_selected</key>
 		<value><![CDATA[Disable Selected]]></value>
+	</definition>
+	<definition>
+		<key>entry_tax_rule</key>
+		<value><![CDATA[Tax Rule]]></value>
+	</definition>
+	<definition>
+		<key>entry_price_with_tax</key>
+		<value><![CDATA[Price With Taxes:]]></value>
+	</definition>
+	<definition>
+		<key>entry_txt_id</key>
+		<value><![CDATA[Unique Text ID:]]></value>
 	</definition>
 </definitions>

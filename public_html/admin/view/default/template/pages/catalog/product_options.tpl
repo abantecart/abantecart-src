@@ -197,14 +197,7 @@ jQuery(function ($) {
 	//save option form details. 
 	var editOption = function (id) {
 		$('#notify_error').remove();
-		var senddata = $('#option_edit_form').find('input,select,textarea').not(preEncodedFields.notIn).serialize()+'&option_id='+current_option_id;
-        //encode some field values
-        for(var k in preEncodedFields.names) {
-            var vvv = $('#option_edit_form').find('[name="' + preEncodedFields.names[k] + '"]');
-            if(vvv.val()) {
-                senddata += '&'+preEncodedFields.names[k] + '=' + btoa(vvv.val());
-            }
-        }
+		var senddata = $('#option_edit_form').find('input,select,textarea').serialize()+'&option_id='+current_option_id;
 
 		$.ajax({
 			url: opt_urls.update_option,
@@ -387,15 +380,13 @@ jQuery(function ($) {
 	$(document).on('click','#option_values button[type="submit"]', function () {
 		//Mark rows to be deleted
 		$('#option_values_tbl .toDelete input[name^=product_option_value_id]').val('delete');
-		$(this).attr('disabled', 'disabled');
-
 		editOption('#update_option');
-
-		var that = this;
+		var that = $(this);
+        that.button('loading');
 		$.ajax({
-			url: $(that).closest('form').attr('action'),
+			url: that.closest('form').attr('action'),
 			type: 'POST',
-			data: $(that).closest('form').serializeArray(),
+			data: that.closest('form').serializeArray(),
 			success: function (html) {
 				$('#option_values').html(html);
 			},
@@ -407,6 +398,7 @@ jQuery(function ($) {
 				bindAform($("input, textarea, select", '#option_edit_form'));
 				bindAform($("input, textarea, select", '#update_option_values'));
 				bindCustomEvents('#option_values');
+                that.button('reset');
 			}			
 		});
 		return false;

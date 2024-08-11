@@ -1,24 +1,22 @@
 <?php
-/** @noinspection PhpMultipleClassDeclarationsInspection */
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 use ReCaptcha\ReCaptcha;
 
@@ -77,22 +75,14 @@ class AForm
      * @var $groups - fields groups
      */
     protected $groups;
-    /**
-     * @var $page_id - current page id
-     */
+    /** @var $page_id - current page id */
     public $page_id;
-    /**
-     * @var $errors - field_name -=> error
-     */
+    /** @var $errors - field_name -=> error */
     protected $errors;
-    /**
-     * @var $form_edit_action - ( ST = standard,  HS = highlight save,  HT = highlight )
-     */
+    /** @var $form_edit_action - ( ST = standard,  HS = highlight save,  HT = highlight ) */
     protected $form_edit_action;
 
-    /**
-     * @param string $form_edit_action
-     */
+    /** @param string $form_edit_action */
     public function __construct($form_edit_action = '')
     {
         $this->registry = Registry::getInstance();
@@ -114,11 +104,11 @@ class AForm
     }
 
     /**
-     * @param array $errors - array of validation errors - field_name -=> error
+     * @param array|null $errors - array of validation errors - field_name -=> error
      *
      * @void
      */
-    public function setErrors($errors)
+    public function setErrors(?array $errors)
     {
         $this->errors = $errors;
     }
@@ -310,7 +300,7 @@ class AForm
     /**
      * set form data
      *
-     * @param array $form
+     * @param array $form - [ 'form_name' => 'YOUR-FORM-TEXT-ID', 'update'    => URL-FOR-INLINE-UPDATE ]
      *
      * @return void
      */
@@ -341,15 +331,15 @@ class AForm
     /**
      * Get given field, type, values and selected/default
      *
-     * @param string $fname
+     * @param string $fieldName
      *
      * @return array with field data
      * @throws AException
      */
-    public function getField($fname)
+    public function getField($fieldName)
     {
         foreach ($this->fields as $field) {
-            if ($field['field_name'] == $fname) {
+            if ($field['field_name'] == $fieldName) {
                 return [
                     'field_name'   => $field['field_name'],
                     'element_type' => $field['element_type'],
@@ -362,7 +352,7 @@ class AForm
             }
         }
 
-        $err = new AError('NOT EXIST Form field with name '.$fname);
+        $err = new AError('NOT EXIST Form field with name '.$fieldName);
         $err->toDebug()->toLog();
         return null;
     }
@@ -370,15 +360,15 @@ class AForm
     /**
      * assign value(s) to given field name
      *
-     * @param string $fname
+     * @param string $fieldName
      * @param string $value
      *
      * @return void
      */
-    public function assign($fname, $value = '')
+    public function assign($fieldName, $value = '')
     {
         foreach ($this->fields as $key => $field) {
-            if ($field['field_name'] == $fname) {
+            if ($field['field_name'] == $fieldName) {
                 $this->fields[$key]['value'] = $value;
                 break;
             }
@@ -390,7 +380,7 @@ class AForm
      *
      * @param array $values - array of field name -> value
      *
-     * @return void
+     * @void
      */
     public function batchAssign($values)
     {
@@ -402,15 +392,15 @@ class AForm
     /**
      * load values to select, multiselect, checkbox group etc
      *
-     * @param string $fname
+     * @param string $fieldName
      * @param array $values
      *
-     * @return void
+     * @void
      */
-    public function loadFieldOptions($fname, $values)
+    public function loadFieldOptions($fieldName, $values)
     {
         foreach ($this->fields as $key => $field) {
-            if ($field['field_name'] == $fname) {
+            if ($field['field_name'] == $fieldName) {
                 $this->fields[$key]['options'] = $values;
                 break;
             }
@@ -455,9 +445,7 @@ class AForm
      */
     protected function addFormJs()
     {
-        /**
-         * @var ALanguageManager
-         */
+        /** @var ALanguageManager $language */
         $language = $this->registry->get('language');
         $view = new AView($this->registry, 0);
 
@@ -465,7 +453,7 @@ class AForm
             case 'ST': //standards
                 $view->batchAssign(
                     [
-                        'id' => $this->form['form_name'] ?? '',
+                        'id' => $this->form['form_name'] ?: $this->form['id'],
                     ]
                 );
                 $output = $view->fetch('form/form_js_st.tpl');
@@ -473,7 +461,7 @@ class AForm
             case 'HS': //highlight on change and show save button
                 $view->batchAssign(
                     [
-                        'id'              => $this->form['form_name'] ?? '',
+                        'id'              => $this->form['form_name'] ?: $this->form['id'],
                         'button_save'     => $language->get('button_save'),
                         'button_reset'    => $language->get('button_reset'),
                         'update'          => $this->form['update'] ?? '',
@@ -516,7 +504,12 @@ class AForm
         $fields_html = [];
         $view = new AView($this->registry, 0);
 
+        $containFiles = false;
         foreach ($this->fields as $field) {
+            if($field['element_type'] == 'U'){
+                $containFiles = true;
+            }
+
             //check for enabled recaptcha instead of default captcha
             if ($this->config->get('config_recaptcha_site_key') && $field['element_type'] == 'K') {
                 $field['element_type'] = 'J';
@@ -610,6 +603,10 @@ class AForm
                     true
                 ),
             ];
+            if($containFiles){
+                $data['enctype'] = 'multipart/form-data';
+            }
+
             $form_open = HtmlElementFactory::create($data);
             $form_close = $view->fetch('form/form_close.tpl');
 
@@ -694,7 +691,7 @@ class AForm
             if ($field['element_type'] == 'K' || $field['element_type'] == 'J') {
                 if ($this->config->get('config_recaptcha_secret_key')) {
                     $recaptcha = new ReCaptcha($this->config->get('config_recaptcha_secret_key'));
-                    $resp = $recaptcha->verify($data['g-recaptcha-response'], $this->request->getRemoteIP());
+                    $resp = $recaptcha->verify($data['g-recaptcha-response']?:$data['captcha'], $this->request->getRemoteIP());
                     if (!$resp->isSuccess() && $resp->getErrorCodes()) {
                         $errors[$field['field_name']] = $this->language->get('error_captcha');
                     }
@@ -746,13 +743,16 @@ class AForm
      */
     public function processFileUploads($files = [])
     {
+        if(!$files){
+            return [];
+        }
         if ($this->fields) {
             $this->_loadFields();
         }
 
         $output = [];
         foreach ($this->fields as $field) {
-            if ($field['element_type'] != 'U') {
+            if ($field['element_type'] != 'U' || !$files[$field['field_name']]['tmp_name']) {
                 continue;
             }
 

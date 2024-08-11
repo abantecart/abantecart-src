@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~   $Id$
+  ~
+  ~   AbanteCart, Ideal OpenSource Ecommerce Solution
+  ~   http://www.AbanteCart.com
+  ~
+  ~   Copyright © 2011-2024 Belavier Commerce LLC
+  ~
+  ~   This source file is subject to Open Software License (OSL 3.0)
+  ~   License details is bundled with this package in the file LICENSE.txt.
+  ~   It is also available at this URL:
+  ~   <http://www.opensource.org/licenses/OSL-3.0>
+  ~
+  ~  UPGRADE NOTE:
+  ~    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+  ~    versions in the future. If you wish to customize AbanteCart for your
+  ~    needs please refer to http://www.AbanteCart.com for more information.
+  -->
+
 <definitions>
 	<definition>
 		<key>heading_title</key>
@@ -321,15 +340,6 @@
 		<value><![CDATA[Изображение на витрине:<span class="help">Изображение доставки для отображения в процессе заказа в разделе выбора доставки</span>]]></value>
 	</definition>
 	<definition>
-		<key>text_autoselect_payment</key>
-		<value><![CDATA[Автоматический выбор:<br /><span class="help">
-			Установить метод оплаты по умолчанию. Этот метод оплаты будет предварительно выбран при наличии других методов оплаты. Если доступен единственный вариант оплаты, шаг выбора оплаты будет пропущен.</span>]]></value>
-	</definition>
-	<definition>
-		<key>text_autoselect_shipping</key>
-		<value><![CDATA[Автоматический выбор:<br /><span class="help">Включить, чтобы пропустить страницу выбора доставки, если есть только один вариант доставки. Этот метод доставки будет выбран автоматически</span>]]></value>
-	</definition>
-	<definition>
 		<key>text_accept_payments_shipping</key>
 		<value><![CDATA[Разрешенные методы оплаты:<br /><span class="help">Выбрать конкретные способы оплаты необходимые для данного способа доставки. Если ничего не выбрано, все доступные способы оплаты будут показаны</span>]]></value>
 	</definition>
@@ -436,5 +446,15 @@
 	<definition>
 		<key>text_max_order_subtotal</key>
 		<value><![CDATA[Максимальная промежуточная сумма заказа: <span class="help">введите максимальную промежуточную сумму заказа для варианта доставки, доступного для клиента. Это поле является необязательным.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_autoselect_payment</key>
+		<value><![CDATA[
+ Автоматический выбор: <span class="help">оптимизирует процесс оформления заказа, автоматически выбирая способ оплаты, когда доступно несколько вариантов.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_autoselect_shipping</key>
+		<value><![CDATA[
+ Автоматический выбор: <span class="help">оптимизирует процесс оформления заказа, автоматически выбирая способ доставки, когда доступно несколько вариантов.</span>]]></value>
 	</definition>
 </definitions>

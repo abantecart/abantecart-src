@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~   $Id$
+  ~
+  ~   AbanteCart, Ideal OpenSource Ecommerce Solution
+  ~   http://www.AbanteCart.com
+  ~
+  ~   Copyright © 2011-2024 Belavier Commerce LLC
+  ~
+  ~   This source file is subject to Open Software License (OSL 3.0)
+  ~   License details is bundled with this package in the file LICENSE.txt.
+  ~   It is also available at this URL:
+  ~   <http://www.opensource.org/licenses/OSL-3.0>
+  ~
+  ~  UPGRADE NOTE:
+  ~    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+  ~    versions in the future. If you wish to customize AbanteCart for your
+  ~    needs please refer to http://www.AbanteCart.com for more information.
+  -->
+
 <definitions>
 	<definition>
 		<key>heading_title</key>
@@ -898,10 +917,6 @@
 		<value><![CDATA[Требуются размеры лого производителя в списках!]]></value>
 	</definition>
 	<definition>
-		<key>entry_html_cache</key>
-		<value><![CDATA[HTML кеш:<br/><span class="help">Включение кеширования HTML страниц и блоков увеличивает скорость загрузки.</span>]]></value>
-	</definition>
-	<definition>
 		<key>entry_task_api_key</key>
 		<value><![CDATA[Ключ API Заданий:<br/><span class="help">Этот секретный ключ позволяет запускать запланированные задания из браузера через /task.php файл. Если не указан то задания не запустятся через браузер.<br/>Примечание: Этот ключ не требуется для запуска заданий из коммандной строки.</span>]]></value>
 	</definition>
@@ -1024,5 +1039,46 @@
 		<key>text_native_mail_description</key>
 		<value><![CDATA[
  Mailer использует двоичный файл sendmail и параметры, настроенные в настройке sendmail_path файла php.ini.]]></value>
+	</definition>
+	<definition>
+		<key>error_alert_emails</key>
+		<value><![CDATA[
+ Электронные письма с оповещениями должны быть действительными и разделены запятыми!]]></value>
+	</definition>
+	<definition>
+		<key>entry_viewed_products_limit</key>
+		<value><![CDATA[Лимит просмотренных товаров:]]></value>
+	</definition>
+	<definition>
+		<key>entry_viewed_products_image_width</key>
+		<value><![CDATA[Ширина изображения просмотренных товаров:]]></value>
+	</definition>
+	<definition>
+		<key>entry_viewed_products_image_height</key>
+		<value><![CDATA[Высота изображения просмотренных товаров:]]></value>
+	</definition>
+	<definition>
+		<key>entry_fast_checkout_allow_coupon</key>
+		<value><![CDATA[Разрешить ввод купонов <br/><span class="help">Разрешить ввод купонов покупателями и гостями</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_fast_checkout_payment_address_equal_shipping</key>
+		<value><![CDATA[Требовать платежный адрес. Он должен совпадать с адресом доставки.]]></value>
+	</definition>
+	<definition>
+		<key>entry_fast_checkout_require_phone_number</key>
+		<value><![CDATA[Требовать номер телефона <br/><span class="help">Требовать ввода номера телефона клиентом или гостем для конкретного заказа</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_fast_checkout_create_account</key>
+		<value><![CDATA[Гостевой заказ Создать учетную запись <br/><span class="help">Предложите гостю создать учетную запись в конце оформления заказа. Это прозрачно для гостей, и им будет отправлено электронное письмо с данными для входа.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_fast_checkout_buy_now_status</key>
+		<value><![CDATA[ Показать кнопку «Купить сейчас» ]]></value>
+	</definition>
+	<definition>
+		<key>entry_fast_checkout_show_order_comment_field</key>
+		<value><![CDATA[Показать поле комментария к заказу <br/><span class="help">Текстовое поле комментария будет отображаться во время оформления заказа.</span>]]></value>
 	</definition>
 </definitions>

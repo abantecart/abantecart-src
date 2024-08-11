@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~   $Id$
+  ~
+  ~   AbanteCart, Ideal OpenSource Ecommerce Solution
+  ~   http://www.AbanteCart.com
+  ~
+  ~   Copyright © 2011-2024 Belavier Commerce LLC
+  ~
+  ~   This source file is subject to Open Software License (OSL 3.0)
+  ~   License details is bundled with this package in the file LICENSE.txt.
+  ~   It is also available at this URL:
+  ~   <http://www.opensource.org/licenses/OSL-3.0>
+  ~
+  ~  UPGRADE NOTE:
+  ~    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+  ~    versions in the future. If you wish to customize AbanteCart for your
+  ~    needs please refer to http://www.AbanteCart.com for more information.
+  -->
+
+<extension>
+    <id>ups</id>
+    <version>1.1.0</version>
+    <type>shipping</type>
+    <category>Payment &amp;amp; Shipping</category>
+    <cartversions>
+        <item>1.4.0</item>
+    </cartversions>
+    <priority>10</priority>
+    <settings>
+        <item id="ups_status">
+            <type>checkbox</type>
+            <default_value>0</default_value>
+        </item>
+        <item id="ups_account_number">
+            <type required="true">input</type>
+        </item>
+        <item id="ups_client_id">
+            <type required="true">input</type>
+        </item>
+        <item id="ups_password">
+            <type required="true">input</type>
+        </item>
+        <item id="ups_validate_address">
+            <type>checkbox</type>
+            <default_value>1</default_value>
+        </item>
+        <item id="ups_test_connection">
+            <type>html_template</type>
+            <template>responses/extension/ups_test.tpl</template>
+        </item>
+        <item id="ups_country">
+            <type required="true">zones</type>
+            <default_value config_key="config_country_id"/>
+        </item>
+        <item id="ups_address">
+            <type required="true">input</type>
+            <default_value config_key="config_address"/>
+        </item>
+        <item id="ups_city">
+            <type required="true">input</type>
+            <default_value config_key="config_city"/>
+        </item>
+        <item id="ups_postcode">
+            <type required="true">input</type>
+            <default_value config_key="config_postcode"/>
+        </item>
+        <item id="ups_telephone">
+            <type required="true">input</type>
+            <default_value config_key="config_telephone"/>
+        </item>
+        <item id="ups_weight_code">
+            <type required="true">selectbox</type>
+            <variants>
+                <data_source>
+                    <model_rt>localisation/weight_class</model_rt>
+                    <method>getWeightClasses</method>
+                </data_source>
+                <fields>
+                    <field>iso_code</field>
+                    <field>title</field>
+                </fields>
+                <allowed>
+                    <id>PUND</id>
+                    <id>USOU</id>
+                    <id>KILO</id>
+                </allowed>
+            </variants>
+            <default_value>PUND</default_value>
+        </item>
+        <item id="ups_length_code">
+            <type required="true">selectbox</type>
+            <variants>
+                <data_source>
+                    <model_rt>localisation/length_class</model_rt>
+                    <method>getLengthClasses</method>
+                </data_source>
+                <fields>
+                    <field>iso_code</field>
+                    <field>title</field>
+                </fields>
+                <allowed>
+                    <id>INCH</id>
+                    <id>CMET</id>
+                </allowed>
+            </variants>
+            <default_value>INCH</default_value>
+        </item>
+        <item id="ups_tax_class_id">
+            <type>selectbox</type>
+            <variants>
+                <item>0</item>
+                <data_source>
+                    <model_rt>localisation/tax_class</model_rt>
+                    <method>getTaxClasses</method>
+                </data_source>
+                <fields>
+                    <field>tax_class_id</field>
+                    <field>title</field>
+                </fields>
+            </variants>
+        </item>
+        <item id="ups_location_id">
+            <type>selectbox</type>
+            <variants>
+                <item>0</item>
+                <data_source>
+                    <model_rt>localisation/location</model_rt>
+                    <method>getLocations</method>
+                </data_source>
+                <fields>
+                    <field>location_id</field>
+                    <field>name</field>
+                </fields>
+            </variants>
+        </item>
+        <item id="ups_packaging">
+            <type required="true">selectbox</type>
+            <variants>
+                <item>02</item>
+            </variants>
+            <default_value>02</default_value>
+        </item>
+        <item id="ups_default_length">
+            <type>input</type>
+            <default_value>1</default_value>
+        </item>
+        <item id="ups_default_width">
+            <type>input</type>
+            <default_value>1</default_value>
+        </item>
+        <item id="ups_default_height">
+            <type>input</type>
+            <default_value>1</default_value>
+        </item>
+        <item id="ups_default_weight">
+            <type>input</type>
+            <default_value>1</default_value>
+        </item>
+    </settings>
+    <install>
+        <trigger>install.php</trigger>
+    </install>
+    <uninstall>
+        <trigger>uninstall.php</trigger>
+    </uninstall>
+    <help_file><![CDATA[help.txt]]></help_file>
+    <help_link><![CDATA[https://developer.ups.com]]></help_link>
+</extension>

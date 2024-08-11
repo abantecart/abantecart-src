@@ -120,10 +120,10 @@ jQuery(document).ready(function() {
 	});
 
 	$('.menutoggle').click(function () {
-		if (jQuery.cookie('leftpanel-collapsed')) {
-			$.removeCookie("leftpanel-collapsed");
+		if (Cookies.get('leftpanel-collapsed')) {
+			Cookies.remove("leftpanel-collapsed");
 		} else {
-			$.cookie('leftpanel-collapsed', 1);
+			Cookies.set('leftpanel-collapsed', 1);
 		}
 		var body = $('body');
 		var bodypos = body.css('position');
@@ -240,22 +240,22 @@ jQuery(document).ready(function() {
 
 	//Set cookies for sticky panels
 	$('.sticky_header').click(function(){
-		if(jQuery.cookie('sticky-header')) {
-			$.removeCookie("sticky-header");
+		if(Cookies.get('sticky-header')) {
+			Cookies.remove("sticky-header");
 			$('body').removeClass('stickyheader');
 			$('.sticky_header').removeClass('panel_frozen')
 				.removeClass('fa-toggle-on')
 				.addClass('fa-toggle-off');
 		} else {
 			$('body').addClass('stickyheader');
-			$.cookie("sticky-header", 1);
+			Cookies.set("sticky-header", 1);
 			$('.sticky_header').addClass('panel_frozen')
 				.addClass('fa-toggle-on')
 				.removeClass('fa-toggle-off');
 		}
 	});
 
-	if(jQuery.cookie('sticky-header')) {
+	if(Cookies.get('sticky-header')) {
 		$('body').addClass('stickyheader');
 		$('.sticky_header').addClass('panel_frozen')
 			.addClass('fa-toggle-on')
@@ -263,28 +263,28 @@ jQuery(document).ready(function() {
 	}  
    
 	$('.sticky_left').click(function(){
-		if(jQuery.cookie('sticky-leftpanel')) {
-			$.removeCookie("sticky-leftpanel");
+		if(Cookies.get('sticky-leftpanel')) {
+			Cookies.remove("sticky-leftpanel");
 			$('.leftpanel').removeClass('sticky-leftpanel');
 			$('.sticky_left').removeClass('panel_frozen')
 				.removeClass('fa-toggle-on')
 				.addClass('fa-toggle-off');
 		} else {
 			$('.leftpanel').addClass('sticky-leftpanel');
-			$.cookie("sticky-leftpanel", 1);
+			Cookies.set("sticky-leftpanel", 1);
 			$('.sticky_left').addClass('panel_frozen')
 				.addClass('fa-toggle-on')
 				.removeClass('fa-toggle-off');
 		}
 	});
-	if(jQuery.cookie('sticky-leftpanel')) {
+	if(Cookies.get('sticky-leftpanel')) {
 		$('.leftpanel').addClass('sticky-leftpanel');
 		$('.sticky_left').addClass('panel_frozen')
 			.addClass('fa-toggle-on')
 			.removeClass('fa-toggle-off');
 	}
 
-	if(jQuery.cookie('leftpanel-collapsed')) {
+	if(Cookies.get('leftpanel-collapsed')) {
 		$('body').addClass('leftpanel-collapsed');
 		$('.menutoggle').addClass('menu-collapsed');
 	}
@@ -343,17 +343,55 @@ jQuery(document).ready(function() {
 		}
 	});
 
-	//check if ads blocking is enabled in user browser
-	// var div = $('<div>').attr('class', 'afs_ads').html('&nbsp;');
-	// $('body').prepend(div);
-	// setTimeout(function(){
-	// 	if(!$(".afs_ads").is(':visible')) {
-	// 		warning_alert('Ads block is enabled in your browser. Some AbanteCart administration features might not function as they will be blocked. Disable ads blocking in your browser.');
-	// 	} else {
-	// 		$(".afs_ads").remove();
-	// 	}
-	// }, 500);
+	/* Connect modal */
+	$('#amp_modal').on('shown.bs.modal', function () {
+		if(window.location.protocol !== 'https:'){
+			alert('Marketplace available only in secure mode. Please logout and login in HTTPS mode.');
+			$('#amp_modal').modal('hide');
+			return;
+		}
+		var d = new Date();
+		$('#amp_modal iframe').attr("src", amp_connect_url + "&time_stamp=" + d.getTime());
+		$('#iframe_loading').show();
+		$('#amp_modal').modal('show');
+	});
 
+	$('#amp_frame').on('load', function () {
+		$('#iframe_loading').hide();
+	});
+
+	//show back-to-grid button if present
+	if($('.back-to-grid')){
+		let jsn = JSON.parse(localStorage.getItem('grid_params'));
+		if(jsn && jsn.table_id === $('.back-to-grid').attr('data-table-id')){
+			$('.back-to-grid').removeClass('hidden');
+		}
+	}
+
+	//reload grid based on saved search parameters in the localStorage
+	const gridName = getUrlParameter('saved_list');
+	if(gridName){
+		let jsn = JSON.parse(localStorage.getItem('grid_search_form'));
+		if(jsn && jsn.table_id === gridName){
+			const searchParams = new URLSearchParams(jsn.params);
+			if(searchParams.size < 1){
+				return;
+			}
+			searchParams.forEach((value, key) => {
+				let field = $('[name='+key+']');
+				 	if(field){
+						if(field.hasClass('chosen')){
+							field.chosen().val(value);
+							field.chosen().trigger("chosen:updated")
+						}else {
+							field.val(value);
+							field.change();
+						}
+				 	}
+			});
+			$('form#'+gridName+'_search').submit();
+		}
+	}
 });
 
 //-----------------------------------------------
@@ -618,22 +656,65 @@ function checkAll(fldName, checked) {
 }
 
 var numberSeparators = {};
-function formatPrice(field) {
-	numberSeparators = numberSeparators.length==0 ? {decimal:'.', thousand:','} : numberSeparators;
-	var pattern = new RegExp(/[^0-9\-\.]+/g);
-	var price = field.value.replace(pattern, '');
-	field.value = $().number_format(price, { numberOfDecimals:2,
-		decimalSeparator:numberSeparators.decimal,
-		thousandSeparator:numberSeparators.thousand});
+function formatPrice(field, precision) {
+	numberSeparators = numberSeparators.length === 0
+			? {precision: 2, dec_point:'.', thousands_point:null }
+			: numberSeparators;
+	let ns = numberSeparators;
+	if(precision){
+		ns.precision = precision;
+	}
+	let pattern = new RegExp(/[^0-9\-.]+/g);
+	let price = field.value.replace(pattern, '');
+	field.value = number_format(price, ns);
 }
 function formatQty(field) {
-	numberSeparators = numberSeparators.length==0 ? {decimal:'.', thousand:''} : numberSeparators;
-	var pattern = new RegExp(/[^0-9\.]+/g);
+	numberSeparators = numberSeparators.length === 0
+		? { precision:0, thousands_point:null}
+		: numberSeparators;
+	var pattern = new RegExp(/[^0-9.]+/g);
 	var price = field.value.replace(pattern, '');
-	field.value = $().number_format(price, { numberOfDecimals:0,
-		decimalSeparator:numberSeparators.decimal,
-		thousandSeparator:numberSeparators.thousand});
+	field.value = number_format(price, numberSeparators);
 }
+
+function number_format(number, options) {
+
+	let decimals = options.precision,
+		dec_point = options.dec_point,
+		thousands_point = options.thousands_point;
+
+	//when last char is decimal point think number is incomplete
+	if(number === '' || (number.at(-1) === dec_point && !decimals) ){
+		return number;
+	}
+
+	if (!isFinite(number)) {
+		throw new TypeError("number is not valid");
+	}
+
+	if (decimals === null) {
+		var len = number.toString().split('.').length;
+		decimals = len > 1 ? len : 0;
+	}
+
+	if (!dec_point) {
+		dec_point = '.';
+	}
+
+	if (thousands_point === null) {
+		thousands_point = '';
+	}
+
+	number = parseFloat(number).toFixed(decimals);
+	number = number.replace(".", dec_point);
+
+	var splitNum = number.split(dec_point);
+	splitNum[0] = splitNum[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousands_point);
+	number = splitNum.join(dec_point);
+
+	return number;
+}
+
 
 function textareaInsert(editor, text) {
 	caretPos = editor.getCursorPosition();

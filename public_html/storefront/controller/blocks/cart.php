@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-  
- UPGRADE NOTE: 
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.  
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 class ControllerBlocksCart extends AController
 {
@@ -38,24 +37,37 @@ class ControllerBlocksCart extends AController
         $this->data['text_items'] = $this->language->get('text_items');
         $this->data['text_total'] = $this->language->get('text_total');
         $this->data['view'] = $this->html->getSecureURL('checkout/cart');
-        $this->data['checkout'] = $this->html->getSecureURL('checkout/shipping');
+        $this->data['checkout'] = $this->html->getSecureURL('checkout/fast_checkout');
         $this->data['remove'] = $this->html->getURL('r/checkout/cart');
 
         $products = [];
 
         $qty = 0;
         $cart_products = $this->cart->getProducts() + $this->cart->getVirtualProducts();
+
         $product_ids = array_column($cart_products, 'product_id');
         $resource = new AResource('image');
         $thumbnails = $product_ids
             ? $resource->getMainThumbList(
                 'products',
                 $product_ids,
-                $this->config->get('config_image_additional_width'),
-                $this->config->get('config_image_additional_width')
+                $this->config->get('config_image_cart_width'),
+                $this->config->get('config_image_cart_height'),
             )
             : [];
 
+        // product image by option value
+        $mSizes = [
+            'main'  =>
+                [
+                    'width'  => $this->config->get('config_image_cart_width'),
+                    'height' => $this->config->get('config_image_cart_height'),
+                ],
+            'thumb' => [
+                'width'  => $this->config->get('config_image_cart_width'),
+                'height' => $this->config->get('config_image_cart_height'),
+            ],
+        ];
         foreach ($cart_products as $result) {
             $option_data = [];
             $thumbnail = $thumbnails[$result['product_id']] ?: $result['thumb'];
@@ -85,18 +97,7 @@ class ControllerBlocksCart extends AController
                     'value' => $value,
                     'title' => $title,
                 ];
-                // product image by option value
-                $mSizes = [
-                    'main'  =>
-                        [
-                            'width'  => $this->config->get('config_image_cart_width'),
-                            'height' => $this->config->get('config_image_cart_height'),
-                        ],
-                    'thumb' => [
-                        'width'  => $this->config->get('config_image_cart_width'),
-                        'height' => $this->config->get('config_image_cart_height'),
-                    ],
-                ];
+
                 $main_image = $resource->getResourceAllObjects(
                     'product_option_value',
                     $option['product_option_value_id'],
@@ -134,6 +135,8 @@ class ControllerBlocksCart extends AController
                     true
                 ),
                 'thumb'    => $thumbnail,
+                'minimum'       => $result['minimum']?:1,
+                'maximum'       => $result['maximum']
             ];
         }
 
@@ -153,5 +156,4 @@ class ControllerBlocksCart extends AController
         //init controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
-
 }

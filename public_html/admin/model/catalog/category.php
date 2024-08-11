@@ -1,24 +1,23 @@
 <?php
-/** @noinspection PhpUndefinedClassInspection */
+/*
+ * $Id$
+ *
+ * AbanteCart, Ideal OpenSource Ecommerce Solution
+ * http://www.AbanteCart.com
+ *
+ * Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ * This source file is subject to Open Software License (OSL 3.0)
+ * License details is bundled with this package in the file LICENSE.txt.
+ * It is also available at this URL:
+ * <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ * UPGRADE NOTE:
+ * Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ * versions in the future. If you wish to customize AbanteCart for your
+ * needs please refer to http://www.AbanteCart.com for more information.
+ */
 
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -184,9 +183,7 @@ class ModelCatalogCategory extends Model
             }
         }
 
-        $this->cache->remove('category');
-        $this->cache->remove('product');
-        $this->cache->remove('collection');
+        $this->cache->remove(['product', 'collection', 'category','storefront_menu']);
     }
 
     /**
@@ -246,10 +243,7 @@ class ModelCatalogCategory extends Model
         foreach ($query->rows as $result) {
             $this->deleteCategory($result['category_id']);
         }
-
-        $this->cache->remove('category');
-        $this->cache->remove('product');
-        $this->cache->remove('collection');
+        $this->cache->remove(['product', 'collection', 'category','storefront_menu']);
     }
 
     /**
@@ -353,26 +347,15 @@ class ModelCatalogCategory extends Model
      */
     public function getCategoriesData($data, $mode = 'default')
     {
-        if ($data['language_id']) {
-            $language_id = (int) $data['language_id'];
-        } else {
-            $language_id = (int) $this->language->getContentLanguageID();
-        }
+        $language_id = (int) $data['language_id'] ?: (int) $this->language->getContentLanguageID();
+        $store_id = (int)( $data['store_id'] ?: $this->config->get('current_store_id'));
 
-        if ($data['store_id']) {
-            $store_id = (int) $data['store_id'];
-        } else {
-            $store_id = (int) $this->config->get('current_store_id');
-        }
 
         if ($mode == 'total_only') {
             $total_sql = 'count(*) as total';
         } else {
-            $total_sql = "*,
-                          c.category_id,
-                          (SELECT count(*) as cnt
-                            FROM ".$this->db->table('products_to_categories')." p
-                            WHERE p.category_id = c.category_id) as products_count ";
+            $total_sql = $this->db->getSqlCalcTotalRows() ." *,
+                          c.category_id ";
         }
         $where = (isset($data['parent_id']) ? "WHERE c.parent_id = '".(int) $data['parent_id']."'" : '');
         $sql = "SELECT ".$total_sql."
@@ -387,7 +370,7 @@ class ModelCatalogCategory extends Model
             $sql .= ($where ? " AND " : 'WHERE ').$data['subsql_filter'];
         }
 
-        //If for total, we done building the query
+        //If for total, we're done building the query
         if ($mode == 'total_only') {
             $query = $this->db->query($sql);
             return $query->row['total'];
@@ -424,6 +407,7 @@ class ModelCatalogCategory extends Model
         }
 
         $query = $this->db->query($sql);
+        $total_num_rows = $this->db->getTotalNumRows();
         $category_data = [];
         foreach ($query->rows as $result) {
             $category_data[] = [
@@ -432,11 +416,39 @@ class ModelCatalogCategory extends Model
                 'basename'       => $result['name'],
                 'status'         => $result['status'],
                 'sort_order'     => $result['sort_order'],
-                'products_count' => $result['products_count'],
-
+                'products_count' => $this->getProductCount($result['category_id']),
+                'total_num_rows' => $total_num_rows
             ];
         }
         return $category_data;
+    }
+
+    /**
+     * @param int $parent_id
+     * @return int
+     * @throws AException
+     */
+    function getProductCount($parent_id)
+    {
+        $store_id = (int)$this->session->data['current_store_id'];
+        $cache_key = 'category.admin.product.count.'.$parent_id.'.' . '.store_' . $store_id;
+        $output = $this->cache->pull($cache_key);
+        if ($output !== false) {
+            return $output;
+        }
+        $idList = array_merge([$parent_id], $this->getChildrenIDs($parent_id));
+        $sql = "SELECT count(DISTINCT p.product_id) as product_count
+                FROM " . $this->db->table('products_to_categories') . " p2c
+                INNER JOIN " . $this->db->table('products') . " p 
+                    ON p.product_id = p2c.product_id
+                INNER JOIN " . $this->db->table('products_to_stores') . " s 
+                    ON (p.product_id = s.product_id AND s.store_id=" . $store_id.")
+                WHERE p2c.category_id in (" . implode(",", $idList) . ") ";
+
+        $query = $this->db->query($sql);
+        $output = (int)$query->row['product_count'];
+        $this->cache->push($cache_key, $output);
+        return $output;
     }
 
     /**
@@ -598,5 +610,48 @@ class ModelCatalogCategory extends Model
     public function getTotalCategories($data = [])
     {
         return $this->getCategoriesData($data, 'total_only');
+    }
+
+    /**
+     * @param int|array $parentId
+     * @param bool $active_only
+     * @return array
+     * @throws AException
+     */
+    public function getChildrenIDs(int|array $parentId, $active_only = false)
+    {
+        if (is_array($parentId) && !$parentId) {
+            return [];
+        }
+        $storeId = $this->config->get('config_store_id');
+        $cacheKey = 'category.admin.children.' . $storeId . md5(var_export($parentId,true)).'.'.(int)$active_only;
+        $cache = $this->cache->pull($cacheKey);
+        if ($cache !== false) {
+            return $cache;
+        }
+
+        $sql = "SELECT c.category_id
+                FROM " . $this->db->table('categories') . " c
+                LEFT JOIN " . $this->db->table('categories_to_stores') . " c2s
+                    ON c2s.category_id = c.category_id
+                WHERE c2s.store_id = " . $storeId;
+        if(is_int($parentId) && $parentId >= 0){
+            $sql .= " AND c.parent_id = '" . (int)$parentId . "'";
+        }elseif(is_array($parentId)){
+            $sql .= " AND c.parent_id IN (" . implode(',',$parentId) . ")";
+        }
+
+        if ($active_only) {
+            $sql .= " AND c.status=1";
+        }
+        $result = $this->db->query($sql);
+        $output = [];
+
+        foreach ($result->rows as $category) {
+            $output[] = (int)$category['category_id'];
+            $output = array_merge($output, $this->getChildrenIDs((int)$category['category_id'],$active_only));
+        }
+        $this->cache->push($cacheKey, $output);
+        return $output;
     }
 }

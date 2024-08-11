@@ -6,7 +6,7 @@ $cart_view_limit = 5;
 if ($total_items > 0) {
 ?>
 <div class="products">
-<table>
+<table class="table table-hover table-borderless">
 	<tbody>
 	<?php echo $this->getHookVar('cart_top_pre_list_hook'); ?>
 	<?php 
@@ -16,21 +16,24 @@ if ($total_items > 0) {
 		<tr>
 			<td class="image">
 				<?php if($product['href']){ ?>
-				<a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb']['thumb_url']; ?>"></a>
+				<a href="<?php echo $product['href']; ?>">
+					<img alt="" class="product-icon" src="<?php echo $product['thumb']['thumb_url']; ?>">
+				</a>
 				<?php }else{ ?>
-					<img src="<?php echo $product['thumb']['thumb_url']; ?>">
+					<img alt="" class="product-icon"  src="<?php echo $product['thumb']['thumb_url']; ?>">
 				<?php }?>
 			</td>
 			<td class="name">
 				<?php if($product['href']){ ?>
-					<a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a>
+					<a class="link-dark link-"  href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a>
 				<?php }else{
 					echo $product['name'];
 				}?>
-				<div>
+				<div class="d-flex flex-column">
 					<?php foreach ($product['option'] as $option) { ?>
-						-
-						<small title="<?php echo $option['title']?>"><?php echo $option['name']; ?> <?php echo $option['value']; ?></small><br/>
+						<small class="text-muted text-wrap" title="<?php echo $option['title']?>">
+							- <?php echo $option['name']; ?>: <?php echo substr($option['value'],0,100); ?>
+						</small>
 					<?php } ?>
 				</div>
 			</td>
@@ -44,20 +47,22 @@ if ($total_items > 0) {
 	<?php echo $this->getHookVar('cart_top_post_list_hook'); ?>
 	<?php if ($total_items > $cart_view_limit) {  ?>
 		<tr>
-			<td colspan="4" align="center"><a href="<?php echo $view; ?>">
-			<i class="fa fa-chevron-down"></i>
-			</a></td>
+			<td colspan="5">
+				<a class="d-flex justify-content-center" title="see more cart products" href="<?php echo $view; ?>">
+					<i class="fa fa-chevron-down fa-lg"></i>
+				</a>
+			</td>
 		</tr>
 	<?php } ?>
 	</tbody>
 </table>
 </div>
-<table class="totals">
+<table class="table">
 	<tbody>
 	<?php foreach ($totals as $total) { ?>
 		<tr>
-			<td><span class="cart_block_total"><b><?php echo $total['title']; ?></b></span></td>
-			<td><span class="cart_block_total"><?php echo $total['text']; ?></span></td>
+			<th><?php echo $total['title']; ?></th>
+			<td><span class="float-end"><?php echo $total['text']; ?></span></td>
 		</tr>
 	<?php } ?>
 	</tbody>

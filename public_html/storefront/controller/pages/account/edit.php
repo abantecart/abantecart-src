@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -24,7 +24,6 @@ if (!defined('DIR_CORE')) {
 class ControllerPagesAccountEdit extends AController
 {
     public $error = [];
-    public $data;
 
     public function main()
     {
@@ -39,12 +38,13 @@ class ControllerPagesAccountEdit extends AController
 
         $this->document->setTitle($this->language->get('heading_title'));
 
-        $this->loadModel('account/customer');
+        /** @var ModelAccountCustomer $mdl */
+        $mdl = $this->loadModel('account/customer');
 
         $request_data = $this->request->post;
         if ($this->request->is_POST()) {
             if ($this->csrftoken->isTokenValid()) {
-                $this->error = $this->model_account_customer->validateEditData($request_data);
+                $this->error = $mdl->validateEditData($request_data);
                 //if no update for loginname do not allow edit of username/loginname
                 if (!$this->customer->isLoginnameAsEmail()) {
                     $request_data['loginname'] = null;
@@ -59,8 +59,8 @@ class ControllerPagesAccountEdit extends AController
             }
 
             if (!$this->error) {
-                $this->model_account_customer->editCustomer($request_data);
-                $this->model_account_customer->editCustomerNotifications($request_data);
+                $mdl->editCustomer($request_data);
+                $mdl->editCustomerNotifications($request_data);
                 $this->session->data['success'] = $this->language->get('text_success');
                 $this->extensions->hk_ProcessData($this);
                 redirect($this->html->getSecureURL('account/account'));
@@ -111,7 +111,7 @@ class ControllerPagesAccountEdit extends AController
             $customer_info = $this->model_account_customer->getCustomer($this->customer->getId());
         }
 
-        $loginname = $firstname = $lastname = $email = $fax = $telephone = '';
+        $loginname = $firstname = $lastname = $email = $telephone = '';
         if (isset($request_data['loginname'])) {
             $loginname = $request_data['loginname'];
         } elseif (isset($customer_info)) {
@@ -142,11 +142,6 @@ class ControllerPagesAccountEdit extends AController
             $telephone = $customer_info['telephone'];
         }
 
-        if (isset($request_data['fax'])) {
-            $fax = $request_data['fax'];
-        } elseif (isset($customer_info)) {
-            $fax = $customer_info['fax'];
-        }
         $form = new AForm();
         $form->setForm(['form_name' => 'AccountFrm']);
         $this->data['form']['form_open'] = $form->getFieldHtml(
@@ -203,14 +198,6 @@ class ControllerPagesAccountEdit extends AController
                 'type'  => 'input',
                 'name'  => 'telephone',
                 'value' => $telephone,
-            ]
-        );
-        $this->data['form']['fields']['fax'] = $form->getFieldHtml(
-            [
-                'type'     => 'input',
-                'name'     => 'fax',
-                'value'    => $fax,
-                'required' => false,
             ]
         );
 

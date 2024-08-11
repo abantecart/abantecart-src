@@ -1,19 +1,36 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 class ControllerPagesExtensionCardConnectSettings extends AController
 {
-    private $error = array();
-    public $data = array();
-    private $errors = array('cardconnect_sk_live', 'cardconnect_sk_test');
+    private $error = [];
+    private $errors = ['cardconnect_sk_live', 'cardconnect_sk_test'];
 
-    private $fields = array(
+    private $fields = [
         'cardconnect_access_token',
         'cardconnect_test_mode',
         'cardconnect_sk_live',
         'cardconnect_sk_test',
         'cardconnect_settlement',
         'cardconnect_save_cards_limit',
-    );
+    ];
 
     public function main()
     {
@@ -24,37 +41,17 @@ class ControllerPagesExtensionCardConnectSettings extends AController
         $this->load->model('setting/setting');
 
         $this->document->addStyle(
-            array(
+            [
                 'href'  => $this->view->templateResource('/stylesheet/cardconnect.css'),
                 'rel'   => 'stylesheet',
                 'media' => 'screen',
-            )
+            ]
         );
-
-        //did we get code from cardconnect connect
-        /*	if( $this->request->get['access_token'] ) {
-                //need to save cardconnect access_token and set live mode
-                $settings = array(
-                    'cardconnect_access_token' => $this->request->get['access_token'],
-                    'cardconnect_test_mode' => 1
-                );
-                if( $this->request->get['livemode'] ) {
-                    $settings['cardconnect_test_mode'] = 0;
-                }
-                
-                $this->model_setting_setting->editSetting('cardconnect', $settings);
-                $this->session->data['success'] = $this->language->get('text_connect_success');
-                $this->redirect($this->html->getSecureURL('extension/cardconnect_settings'));
-            } else if($this->request->get['disconnect']) {
-                $this->model_setting_setting->editSetting('cardconnect', array('cardconnect_access_token' => '' ));
-                $this->session->data['success'] = $this->language->get('text_disconnect_success');
-                $this->redirect($this->html->getSecureURL('extension/cardconnect_settings'));
-            }*/
 
         if ($this->request->is_POST() && $this->_validate()) {
             $this->model_setting_setting->editSetting('cardconnect', $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
-            $this->redirect($this->html->getSecureURL('extension/cardconnect_settings'));
+            redirect($this->html->getSecureURL('extension/cardconnect_settings'));
         }
 
         if (isset($this->error['warning'])) {
@@ -67,7 +64,7 @@ class ControllerPagesExtensionCardConnectSettings extends AController
             unset($this->session->data['success']);
         }
 
-        $this->data['error'] = array();
+        $this->data['error'] = [];
         foreach ($this->errors as $f) {
             if (isset ($this->error[$f])) {
                 $this->data['error'][$f] = $this->error[$f];
@@ -78,22 +75,22 @@ class ControllerPagesExtensionCardConnectSettings extends AController
             $this->data['error'][$this->request->get['error']] = $this->request->get['error_dec'];
         }
 
-        $this->document->initBreadcrumb(array(
+        $this->document->initBreadcrumb([
             'href'      => $this->html->getSecureURL('index/home'),
             'text'      => $this->language->get('text_home'),
             'separator' => false,
-        ));
-        $this->document->addBreadcrumb(array(
+        ]);
+        $this->document->addBreadcrumb([
             'href'      => $this->html->getSecureURL('extension/extensions/payment'),
             'text'      => $this->language->get('text_payment'),
             'separator' => ' :: ',
-        ));
-        $this->document->addBreadcrumb(array(
+        ]);
+        $this->document->addBreadcrumb([
             'href'      => $this->html->getSecureURL('payment/cardconnect'),
             'text'      => $this->language->get('cardconnect_name'),
             'separator' => ' :: ',
             'current'   => true,
-        ));
+        ]);
 
         foreach ($this->fields as $f) {
             if (isset ($this->request->post [$f])) {
@@ -129,71 +126,71 @@ class ControllerPagesExtensionCardConnectSettings extends AController
             $this->data['skip_url'] = $this->html->getSecureURL('extension/cardconnect_settings', '&extension=cardconnect&skip_connect=true');
         }
         $form = new AForm('HT');
-        $form->setForm(array(
+        $form->setForm([
             'form_name' => 'editFrm',
             'update'    => $this->data ['update'],
-        ));
+        ]);
 
-        $this->data['form']['form_open'] = $form->getFieldHtml(array(
+        $this->data['form']['form_open'] = $form->getFieldHtml([
             'type'   => 'form',
             'name'   => 'editFrm',
             'action' => $this->data ['action'],
             'attr'   => 'data-confirm-exit="true" class="aform form-horizontal"',
-        ));
-        $this->data['form']['submit'] = $form->getFieldHtml(array(
+        ]);
+        $this->data['form']['submit'] = $form->getFieldHtml([
             'type' => 'button',
             'name' => 'submit',
             'text' => $this->language->get('button_save'),
-        ));
+        ]);
 
         //cardconnect related settings
         $this->data['test_mode'] = $this->data['cardconnect_test_mode'];
-        $this->data['form']['fields']['cardconnect_test_mode'] = $form->getFieldHtml(array(
+        $this->data['form']['fields']['cardconnect_test_mode'] = $form->getFieldHtml([
             'type'  => 'checkbox',
             'name'  => 'cardconnect_test_mode',
             'value' => $this->data['cardconnect_test_mode'],
             'style' => 'btn_switch',
-        ));
+        ]);
 
-        $this->data['form']['fields']['cardconnect_sk_test'] = $form->getFieldHtml(array(
+        $this->data['form']['fields']['cardconnect_sk_test'] = $form->getFieldHtml([
             'type'     => 'input',
             'name'     => 'cardconnect_sk_test',
             'value'    => $this->data['cardconnect_sk_test'],
             'required' => true,
-        ));
-        $this->data['form']['fields']['cardconnect_sk_live'] = $form->getFieldHtml(array(
+        ]);
+        $this->data['form']['fields']['cardconnect_sk_live'] = $form->getFieldHtml([
             'type'     => 'input',
             'name'     => 'cardconnect_sk_live',
             'value'    => $this->data['cardconnect_sk_live'],
             'required' => true,
-        ));
-        $this->data['form']['fields']['cardconnect_save_cards_limit'] = $form->getFieldHtml(array(
+        ]);
+        $this->data['form']['fields']['cardconnect_save_cards_limit'] = $form->getFieldHtml([
             'type'  => 'input',
             'name'  => 'cardconnect_save_cards_limit',
             'value' => $this->data['cardconnect_save_cards_limit'] ? $this->data['cardconnect_save_cards_limit'] : 5,
-        ));
+        ]);
 
-        $settlement = array(
+        $settlement = [
             'auto'    => $this->language->get('cardconnect_settlement_auto'),
             'delayed' => $this->language->get('cardconnect_settlement_delayed'),
-        );
-        $this->data['form']['fields']['cardconnect_settlement'] = $form->getFieldHtml(array(
+        ];
+        $this->data['form']['fields']['cardconnect_settlement'] = $form->getFieldHtml([
             'type'    => 'selectbox',
             'name'    => 'cardconnect_settlement',
             'options' => $settlement,
             'value'   => $this->data['cardconnect_settlement'],
-        ));
+        ]);
 
         //load tabs controller
         $this->data['groups'][] = 'additional_settings';
         $this->data['link_additional_settings'] = $this->data['action'];
         $this->data['active_group'] = 'additional_settings';
 
-        $tabs_obj = $this->dispatch('pages/extension/extension_tabs', array($this->data));
+        $tabs_obj = $this->dispatch('pages/extension/extension_tabs', [$this->data]);
         $this->data['tabs'] = $tabs_obj->dispatchGetOutput();
         unset($tabs_obj);
 
-        $obj = $this->dispatch('pages/extension/extension_summary', array($this->data));
+        $obj = $this->dispatch('pages/extension/extension_summary', [$this->data]);
         $this->data['extension_summary'] = $obj->dispatchGetOutput();
         unset($obj);
 

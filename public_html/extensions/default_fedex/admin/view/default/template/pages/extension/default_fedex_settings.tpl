@@ -117,7 +117,7 @@ echo $tabs;
 
 		<div class="product_images">
 			<div class="main_image center">
-				<a href="<?php echo $extension_info['preview'][0]; ?>" title="<?php echo $heading_title; ?>" data-gallery>
+				<a href="<?php echo $extension_info['preview'][0]; ?>" title="<?php echo $heading_title; ?>" data-lightbox="roadtrip">
 					<img class="tooltips img-thumbnail"
 						 title="<?php echo $text_enlarge; ?>"
 						 width="150" src="<?php echo $extension_info['preview'][0]; ?>" alt="<?php echo $heading_title; ?>"
@@ -128,7 +128,7 @@ echo $tabs;
 				<div class="additional_images row">
 					<?php for ($i = 1; $i < sizeof((array)$extension_info['preview']); $i++) { ?>
 						<div class="col-sm-2">
-							<a href="<?php echo $extension_info['preview'][$i]; ?>" data-gallery
+							<a href="<?php echo $extension_info['preview'][$i]; ?>" data-lightbox="roadtrip"
 							   title="<?php echo $heading_title; ?>">
 								<img class="tooltips img-thumbnail"
 									 width="50"

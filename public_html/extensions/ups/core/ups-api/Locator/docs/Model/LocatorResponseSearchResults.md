@@ -1,0 +1,13 @@
+# LocatorResponseSearchResults
+
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**geocode_candidate** | [**\UPS\Locator\Locator\SearchResultsGeocodeCandidate[]**](SearchResultsGeocodeCandidate.md) | If the origin address provided in the location request document does not have a match, a list of candidate addresses, geocodes and optionally a landmark will be returned.  **NOTE:** For versions &gt;&#x3D; v2, this element will always be returned as an array. For requests using version &#x3D; v1, this element will be returned as an array if there is more than one object and a single object if there is only 1. | [optional] 
+**disclaimer** | **string** | Disclaimer. In the event the user requested Ground and Air service types and the maximum UPS locations list size has not been met, the list of locations will continue with locations that provide either ground or air within the search radius.   The disclaimer will note this deviation from the requested search criteria. The disclaimer is also the location where the user will receive information regarding a one-time pickup option if the first location is greater than 20 miles from the origin. | [optional] 
+**drop_location** | [**\UPS\Locator\Locator\SearchResultsDropLocation[]**](SearchResultsDropLocation.md) | When a location request is submitted with a valid origin address, UPS locations will be returned.  **NOTE:** For versions &gt;&#x3D; v2, this element will always be returned as an array. For requests using version &#x3D; v1, this element will be returned as an array if there is more than one object and a single object if there is only 1. | [optional] 
+**available_location_attributes** | [**\UPS\Locator\Locator\SearchResultsAvailableLocationAttributes[]**](SearchResultsAvailableLocationAttributes.md) | This container contains the information about the currently existing Retail Locations or Additional Services or Program types.  **NOTE:** For versions &gt;&#x3D; v2, this element will always be returned as an array. For requests using version &#x3D; v1, this element will be returned as an array if there is more than one object and a single object if there is only 1. | [optional] 
+**active_available_access_point_indicator** | **string** | Indicates whether the country or territory has AccessPoints or not.   This tag is populated in the Response only if tag \&quot;ExistIndicator\&quot; was present in the Locator request. | [optional] 
+
+[[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
+

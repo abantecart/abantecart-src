@@ -1,50 +1,57 @@
-<div class="sidewidt">
-	<h2 class="heading2"><span><?php echo $heading_title; ?></span></h2>
-		<ul class="side_prd_list">
+<div class="latest-column">
+    <?php
+    	if ( $block_framed ) { ?>
+    <h2><?php echo $heading_title; ?></h2>
+    <?php } ?>
+        <div class="d-flex flex-column">
 <?php
 if ($products) {
-	$tax_exempt = $this->customer->isTaxExempt();
-	$config_tax = $this->config->get('config_tax');
+    $tax_exempt = $this->customer->isTaxExempt();
+    $config_tax = $this->config->get('config_tax');
     foreach ($products as $product) {
-		$tax_message = '';
-		if ($config_tax && !$tax_exempt && $product['tax_class_id']){
-			$tax_message = '&nbsp;&nbsp;'.$price_with_tax;
-		}
-        $item = array();
+        $tax_message = '';
+        if ($config_tax && !$tax_exempt && $product['tax_class_id']){
+            $tax_message = '&nbsp;&nbsp;'.$price_with_tax;
+        }
+        $item = [];
         $item['image'] = $product['thumb']['thumb_url'];
         $item['title'] = $product['name'];
         $item['description'] = $product['model'];
 
         $item['info_url'] = $product['href'];
         $item['buy_url'] = $product['add'];
-	    if(!$display_price){
-		    $item['price'] = '';
-	    }
-	    
-	    $review = $button_write;
+        $item['rating'] = renderDefaultRatingStars($product['rating'], $product['stars']);
+        if(!$display_price){
+            $item['price'] = '';
+        }
+
+        $review = $button_write;
 ?>
-		  <li class="col-xs-12">
-			<a href="<?php echo $item['info_url']?>">
-				<img alt="<?php echo $item['title']?>" class="thumbnail_small" src="<?php echo $item['image']?>"/>
-			</a>
-			<a class="productname" href="<?php echo $item['info_url']?>"><?php echo $item['title']?></a>
-			<?php if ($review_status) { ?>
-			<span class="procategory"><?php echo $item['rating']?></span>
-			<?php } ?>
-	<?php if ($display_price) { ?>
-				<div class="price">
-				<?php  if ($product['special']) { ?>
-					<span class="pricenew"><?php echo $product['special'] . $tax_message?></span>
-					<span class="priceold"><?php echo $product['price']?></span>
-				<?php } else { ?>
-					<span class="oneprice"><?php echo $product['price'] . $tax_message?></span>
-				<?php } ?>
-				</div>
-	<?php } ?>
-		  </li>
+        <div class=" d-flex align-items-start mt-5">
+            <a href="<?php echo $item['info_url']?>">
+                <img alt="<?php echo_html2view($item['title']); ?>"
+                     class="d-block" src="<?php echo $item['image']?>"/>
+            </a>
+            <a href="<?php echo $item['info_url']?>" class="d-block ms-2 text-decoration-none text-secondary">
+                <h6 class="text-decoration-none text-wrap"><?php echo $item['title']?></h6>
+                <?php if ($review_status) { ?>
+                    <?php echo $item['rating']?>
+                <?php }
+                if ($display_price) { ?>
+                    <div class="price text-muted d-flex flex-wrap align-items-center">
+                    <?php  if ($product['special']) { ?>
+                        <div class="fs-6 text-black me-2"><?php echo $product['special'] . $tax_message; ?></div>
+                        <div class="fs-6 text-decoration-line-through me-2"><?php echo $product['price']; ?></div>
+                    <?php } else { ?>
+                        <div class="text-black"><?php echo $product['price'] . $tax_message?></div>
+                    <?php } ?>
+                    </div>
+            <?php } ?>
+            </a>
+        </div>
 <?php
 	}
 }
 ?>
-		</ul>
+		</div>
 </div>

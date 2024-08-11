@@ -98,10 +98,10 @@ class ControllerApiProductCategory extends AControllerAPI
         //Process data for category
         $category_info['description'] = html_entity_decode($category_info['description'], ENT_QUOTES, 'UTF-8');
         $category_info['total_products'] = $this->model_catalog_product->getTotalProductsByCategoryId(
-            $category_id
+            (int)$category_id
         );
         $category_info['total_subcategories'] = $this->model_catalog_category->getTotalCategoriesByCategoryId(
-                $category_id
+            (int)$category_id
             );
         if ($category_info['total_products']) {
             $category_info['subcategories'] = $this->getCategories($category_id);
@@ -122,7 +122,7 @@ class ControllerApiProductCategory extends AControllerAPI
         $categories = [];
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->loadModel('catalog/category');
-        $results = $this->model_catalog_category->getCategories($parentCategoryId);
+        $results = $this->model_catalog_category->getCategories((int)$parentCategoryId);
 
         $category_ids = array_column($results, 'category_id');
 
@@ -146,7 +146,7 @@ class ControllerApiProductCategory extends AControllerAPI
                 'sort_order'          => $result['sort_order'],
                 'thumb'               => $thumbnail['thumb_url'],
                 'total_subcategories' => $this->model_catalog_category->getTotalCategoriesByCategoryId(
-                    $result['category_id']
+                    (int)$result['category_id']
                 ),
             ];
         }

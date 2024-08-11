@@ -8,7 +8,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2021 Belavier Commerce LLC
+  Copyright © 2011-2024 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -92,7 +92,6 @@ class ModelCatalogCollection extends Model
                 $seo_key = SEOEncode($keyword, 'collection_id', $lastId);
             } else {
                 //Default behavior to save SEO URL keyword from collection name in default language
-                /** @var ALanguageManager */
                 $seo_key = SEOEncode(
                     $descriptionData['title'] ? : $data['name'],
                     'collection_id',
@@ -622,7 +621,7 @@ class ModelCatalogCollection extends Model
         $rw = $this->db->table('reviews');
         $p = $this->db->table('products');
 
-        $sql = ' ( SELECT AVG('.$rw.'.rating)
+        $sql = ' ( SELECT FLOOR(AVG('.$rw.'.rating))
                          FROM '.$this->db->table('reviews').' '.$rw.'
                          WHERE '.$p.'.product_id = '.$rw.'.product_id AND status = 1
                          GROUP BY '.$rw.'.product_id 

@@ -28,4 +28,64 @@
         <key>text_click_here</key>
         <value><![CDATA[Click here]]></value>
     </definition>
+    <definition>
+        <key>text_create_new_layout</key>
+        <value><![CDATA[Create New Page Layout]]></value>
+    </definition>
+    <definition>
+        <key>entry_page_name</key>
+        <value><![CDATA[Page Name:]]></value>
+    </definition>
+    <definition>
+        <key>entry_seo_keyword</key>
+        <value><![CDATA[SEO Keyword:]]></value>
+    </definition>
+    <definition>
+        <key>entry_page_title</key>
+        <value><![CDATA[Page Title:]]></value>
+    </definition>
+    <definition>
+        <key>entry_page_rt</key>
+        <value><![CDATA[Page Route:]]></value>
+    </definition>
+    <definition>
+        <key>entry_key_parameter_name</key>
+        <value><![CDATA[Key Parameter Name:]]></value>
+    </definition>
+    <definition>
+        <key>entry_key_parameter_value</key>
+        <value><![CDATA[Key Parameter Value:]]></value>
+    </definition>
+    <definition>
+        <key>error_template</key>
+        <value><![CDATA[Template Name is Required!]]></value>
+    </definition>
+    <definition>
+        <key>error_page_name</key>
+        <value><![CDATA[Page Name is Required!]]></value>
+    </definition>
+    <definition>
+        <key>error_page_exists</key>
+        <value><![CDATA[Page Name "%s" is already exists.]]></value>
+    </definition>
+    <definition>
+        <key>error_page_rt</key>
+        <value><![CDATA['Page Route is Required!']]></value>
+    </definition>
+    <definition>
+        <key>error_key_parameter_name</key>
+        <value><![CDATA[Parameter Name is required when value exists.]]></value>
+    </definition>
+    <definition>
+        <key>error_key_parameter_value</key>
+        <value><![CDATA[Parameter Value is required when name is set.]]></value>
+    </definition>
+    <definition>
+        <key>error_seo_keyword</key>
+        <value><![CDATA[SEO-Keyword "%s" is already taken.]]></value>
+    </definition>
+    <definition>
+        <key>error_page_parameters</key>
+        <value><![CDATA[Page with these rt and parameters is already exists.]]></value>
+    </definition>
 </definitions>

@@ -1,23 +1,23 @@
 <?php
 
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -118,7 +118,6 @@ abstract class AController
     public $view;
     protected $config;
     protected $languages = [];
-    protected $html_cache_key;
 
     /**
      * @param                    $registry Registry
@@ -173,80 +172,9 @@ abstract class AController
         $this->clear();
     }
 
-    /**
-     * Function to enable caching for this page/block
-     *
-     * @return bool
-     */
-    public function html_cache()
-    {
-        //check is HTML cache is enabled and it is storefront
-        if (!$this->config->get('config_html_cache') || IS_ADMIN) {
-            return false;
-        }
-        //build HTML cache key if not yet built for this controller.
-        if (!$this->html_cache_key) {
-            $this->html_cache_key = $this->buildHTMLCacheKey();
-        }
-        //check if can load HTML files and stop
-        return $this->view->checkHTMLCache($this->html_cache_key);
-    }
-
-    //function to get html cache key
-    public function buildHTMLCacheKey($allowed_params = [], $values = [], $controller = '')
-    {
-        //build HTML cache key
-        //build cache string based on allowed params
-        $cache_params = [];
-        if (is_array($allowed_params) && $allowed_params) {
-            sort($allowed_params);
-            foreach ($allowed_params as $key) {
-                if (has_value($values[$key])) {
-                    $cache_params[$key] = $values[$key];
-                }
-            }
-        }
-        //build unique key based on params
-        $param_string = md5($this->cache->paramsToString($cache_params));
-        //build HTML cache path
-        $cache_state_vars = [
-            'template'      => $this->config->get('config_storefront_template'),
-            'store_id'      => $this->config->get('config_store_id'),
-            'language_id'   => $this->language->getLanguageID(),
-            'currency_code' => $this->currency->getCode(),
-            //in case with shared ssl-domain
-            'https'         => (HTTPS === true ? 1 : 0),
-        ];
-        if (is_object($this->customer)) {
-            $cache_state_vars['customer_group_id'] = $this->customer->getCustomerGroupId();
-        }
-
-        if (!$controller) {
-            $controller = $this->controller;
-        }
-        //NOTE: Blocks are cached based on unique instanced ID
-        $this->html_cache_key = 'html_cache.'.
-            str_replace('/', '.', $controller)
-            .".".implode('.', $cache_state_vars)."_".$this->instance_id;
-        //add specific params to the key
-        if ($param_string) {
-            $this->html_cache_key .= "_".$param_string;
-        }
-        //pass html_cache_key to view for future use
-        $this->view->setCacheKey($this->html_cache_key);
-        return $this->html_cache_key;
-    }
-
-    //function to get html cache key
-    public function getHTMLCacheKey()
-    {
-        return $this->html_cache_key;
-    }
-
     //Get cache key values for provided controller
     public function getCacheKeyValues($controller)
     {
-        //check if requested controller allows HTML caching
         //use dispatcher to get class and details
         $ds = new ADispatcher($controller, ["instance_id" => "0"]);
         $rt_class = $ds->getClass();
@@ -343,19 +271,6 @@ abstract class AController
     protected function dispatch($dispatch_rt, $args = [''])
     {
         return new ADispatcher($dispatch_rt, $args);
-    }
-
-    // Redirect to new page
-
-    /**
-     * @param $url
-     *
-     * @deprecated since v1.2.9
-     *
-     */
-    protected function redirect($url)
-    {
-        redirect($url);
     }
 
     /**
@@ -481,13 +396,14 @@ abstract class AController
                         if (!empty($this->parent_controller)) {
                             //build block template file path based on primary template used
                             //template path is based on parent block 'template_dir'
+                            $tpl = $this->view->getTemplate();
                             $tmp_dir = $this->parent_controller->view->data['template_dir']."template/";
                             $block_tpl_file = $tmp_dir.$this->view->getTemplate();
                             $prt_block_tpl_file = $tmp_dir.$this->parent_controller->view->getTemplate();
                             $args = [
-                                'block_id'          => $this->instance_id,
+                                'block_instance_id' => $this->instance_id,
                                 'block_controller'  => $this->dispatcher->getFile(),
-                                'block_tpl'         => $block_tpl_file,
+                                'block_tpl'         => $tpl ? $block_tpl_file : 'auto',
                                 'parent_id'         => $this->parent_controller->instance_id,
                                 'parent_controller' => $this->parent_controller->dispatcher->getFile(),
                                 'parent_tpl'        => $prt_block_tpl_file,
@@ -499,7 +415,7 @@ abstract class AController
                             $debug_output = $debug_wrapper->dispatchGetOutput();
                             $output = trim($this->view->getOutput());
                             if (!empty($output)) {
-                                $output = '<span class="block_tmpl_wrapper">'.$output.$debug_output.'</span>';
+                                $output = '<div class="block_tmpl_wrapper">'.$output.$debug_output.'</div>';
                             }
                             $this->view->setOutput($output);
                         }
@@ -626,5 +542,73 @@ abstract class AController
             default:
                 return false;
         }
+    }
+
+    protected function storefrontServiceWarnings()
+    {
+        if(IS_ADMIN === true){
+            return;
+        }
+        if ($this->config->get('config_maintenance') && isset($this->session->data['merchant'])) {
+            $this->view->assign('maintenance_warning', $this->language->get('text_maintenance_notice'));
+        }
+
+        if (isset($this->session->data['merchant'])) {
+            unset($this->session->data['guest']);
+            $this->view->assign(
+                'act_on_behalf_warning',
+                sprintf(
+                    $this->language->get('text_act_on_behalf'),
+                    $this->customer->getEmail() ?: 'guest',
+                    $this->session->data['merchant_username']
+                )
+            );
+        }
+        //add ability to create custom warnings
+        $this->extensions->hk_ProcessData($this,__FUNCTION__);
+    }
+
+    protected function prepareProductListingParameters()
+    {
+        $default_sorting = $this->config->get('config_product_default_sort_order');
+        $sort_prefix = '';
+        if (strpos($default_sorting, 'name-') === 0) {
+            $sort_prefix = 'pd.';
+        } elseif (strpos($default_sorting, 'price-') === 0) {
+            $sort_prefix = 'p.';
+        }
+        $this->data['sorts'] = [
+            $sort_prefix . $default_sorting => $this->language->get('text_default'),
+            'pd.name-ASC'                   => $this->language->get('text_sorting_name_asc'),
+            'pd.name-DESC'                  => $this->language->get('text_sorting_name_desc'),
+            'p.price-ASC'                   => $this->language->get('text_sorting_price_asc'),
+            'p.price-DESC'                  => $this->language->get('text_sorting_price_desc'),
+            'rating-DESC'                   => $this->language->get('text_sorting_rating_desc'),
+            'rating-ASC'                    => $this->language->get('text_sorting_rating_asc'),
+            'date_modified-DESC'            => $this->language->get('text_sorting_date_desc'),
+            'date_modified-ASC'             => $this->language->get('text_sorting_date_asc'),
+        ];
+    }
+    protected function prepareProductSortingParameters()
+    {
+        $request = $this->request->get;
+        $page = $request['page'] ?? 1;
+        $limit = (int)$request['limit'] ?: $this->config->get('config_catalog_limit');
+        $sorting_href = $request['sort'];
+        if (!$sorting_href || !isset($this->data['sorts'][$request['sort']])) {
+            $sorting_href = $this->config->get('config_product_default_sort_order');
+        }
+        list($sort, $order) = explode("-", $sorting_href);
+        if ($sort == 'name') {
+            $sort = 'pd.' . $sort;
+        } elseif (in_array($sort, ['sort_order', 'price'])) {
+            $sort = 'p.' . $sort;
+        }
+        return [
+            'sort' => $sort,
+            'order' => $order,
+            'page' => $page,
+            'limit' => $limit
+        ];
     }
 }

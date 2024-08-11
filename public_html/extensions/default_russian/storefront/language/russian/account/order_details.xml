@@ -1,0 +1,163 @@
+<?xml version="1.0"?>
+<!--
+  ~   $Id$
+  ~
+  ~   AbanteCart, Ideal OpenSource Ecommerce Solution
+  ~   http://www.AbanteCart.com
+  ~
+  ~   Copyright © 2011-2024 Belavier Commerce LLC
+  ~
+  ~   This source file is subject to Open Software License (OSL 3.0)
+  ~   License details is bundled with this package in the file LICENSE.txt.
+  ~   It is also available at this URL:
+  ~   <http://www.opensource.org/licenses/OSL-3.0>
+  ~
+  ~  UPGRADE NOTE:
+  ~    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+  ~    versions in the future. If you wish to customize AbanteCart for your
+  ~    needs please refer to http://www.AbanteCart.com for more information.
+  -->
+
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Информация для заказа]]></value>
+	</definition>
+	<definition>
+		<key>text_account</key>
+		<value><![CDATA[Счет]]></value>
+	</definition>
+	<definition>
+		<key>text_history</key>
+		<value><![CDATA[История заказов]]></value>
+	</definition>
+	<definition>
+		<key>text_invoice</key>
+		<value><![CDATA[Счет]]></value>
+	</definition>
+	<definition>
+		<key>text_invoice_id</key>
+		<value><![CDATA[Идентификатор счета]]></value>
+	</definition>
+	<definition>
+		<key>text_order_id</key>
+		<value><![CDATA[номер заказа]]></value>
+	</definition>
+	<definition>
+		<key>text_email</key>
+		<value><![CDATA[Электронная почта]]></value>
+	</definition>
+	<definition>
+		<key>text_telephone</key>
+		<value><![CDATA[телефон]]></value>
+	</definition>
+	<definition>
+		<key>text_mobile_phone</key>
+		<value><![CDATA[Мобильный телефон:]]></value>
+	</definition>
+	<definition>
+		<key>text_fax</key>
+		<value><![CDATA[Факс]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_address</key>
+		<value><![CDATA[Адрес доставки]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_method</key>
+		<value><![CDATA[способ доставки]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_address</key>
+		<value><![CDATA[Платежный адрес]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_method</key>
+		<value><![CDATA[Способ оплаты]]></value>
+	</definition>
+	<definition>
+		<key>text_order_history</key>
+		<value><![CDATA[История заказов]]></value>
+	</definition>
+	<definition>
+		<key>text_product</key>
+		<value><![CDATA[Продукт]]></value>
+	</definition>
+	<definition>
+		<key>text_model</key>
+		<value><![CDATA[Модель]]></value>
+	</definition>
+	<definition>
+		<key>text_sku</key>
+		<value><![CDATA[Артикул]]></value>
+	</definition>
+	<definition>
+		<key>text_quantity</key>
+		<value><![CDATA[Количество]]></value>
+	</definition>
+	<definition>
+		<key>text_price</key>
+		<value><![CDATA[Цена за единицу товара]]></value>
+	</definition>
+	<definition>
+		<key>text_total</key>
+		<value><![CDATA[Общий]]></value>
+	</definition>
+	<definition>
+		<key>text_comment</key>
+		<value><![CDATA[Комментарии к заказу]]></value>
+	</definition>
+	<definition>
+		<key>text_image</key>
+		<value><![CDATA[Изображение]]></value>
+	</definition>
+	<definition>
+		<key>text_error</key>
+		<value><![CDATA[Запрошенный вами заказ не найден!]]></value>
+	</definition>
+	<definition>
+		<key>column_date_added</key>
+		<value><![CDATA[Дата Добавлена]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Положение дел]]></value>
+	</definition>
+	<definition>
+		<key>column_comment</key>
+		<value><![CDATA[Комментарий к заказу клиента]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation</key>
+		<value><![CDATA[Запросить отмену заказа]]></value>
+	</definition>
+	<definition>
+		<key>text_request_cancellation_from_customer</key>
+		<value><![CDATA[Запросить отмену Заказа у Клиента ]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation_confirm</key>
+		<value><![CDATA[
+ Ваш запрос на отмену может быть не подан в некоторых случаях, например, когда товар уже отправлен. Продолжать?]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation_success</key>
+		<value><![CDATA[Запрос на отмену заказа отправлен.]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation_message_title</key>
+		<value><![CDATA[Заказ №%s запрос на отмену]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation_message_body</key>
+		<value><![CDATA[Клиент %s запросил отмену заказа №%s. Для просмотра перейдите по ссылке %s]]></value>
+	</definition>
+	<definition>
+		<key>error_email</key>
+		<value><![CDATA[Адрес электронной почты недействителен!]]></value>
+	</definition>
+	<definition>
+		<key>error_order_id</key>
+		<value><![CDATA[Номер заказа является обязательным полем!]]></value>
+	</definition>
+</definitions>

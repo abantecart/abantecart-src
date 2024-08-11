@@ -41,6 +41,10 @@
 		<value><![CDATA[Action]]></value>
 	</definition>
 	<definition>
+		<key>column_txt_id</key>
+		<value><![CDATA[Unique Text ID]]></value>
+	</definition>
+	<definition>
 		<key>entry_name</key>
 		<value><![CDATA[Name:]]></value>
 	</definition>
@@ -139,5 +143,17 @@
 	<definition>
 		<key>entry_show_to_customer</key>
 		<value><![CDATA[Show to Customer]]></value>
+	</definition>
+	<definition>
+		<key>entry_price_prefix</key>
+		<value><![CDATA[Modify Price By:]]></value>
+	</definition>
+	<definition>
+		<key>entry_price_modifier</key>
+		<value><![CDATA[Price Modifier:]]></value>
+	</definition>
+	<definition>
+		<key>error_not_unique</key>
+		<value><![CDATA[Value Text ID is not unique!]]></value>
 	</definition>
 </definitions>

@@ -36,39 +36,31 @@
 				}
 				$widthcasses .= " col-xs-12";	?>
 
-			<?php
-			if($name=='item_url'){ ?>
-			<div class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
-				<label class="control-label col-sm-3 col-xs-12" ></label>
-				<div class="input-group afield col-sm-9 col-xs-12">
-					<div class="pull-left col-sm-6 col-xs-12">
-						<label class="control-label col-sm-5 mt10" for="<?php echo $link_type->element_id; ?>">
-							<?php echo $entry_link_type; ?></label>
-						<div class="input-group afield col-sm-7 mt10">
-						<?php echo $link_type;  ?>
-						</div>
-					</div>
-				<?php foreach(array('link_category', 'link_content') as $subfld_name){?>
-						<div id="<?php echo $subfld_name.'_wrapper';?>" class="link_types pull-left col-sm-6 col-xs-12 <?php echo ($subfld_name == 'link_type' ? '' : 'hide');?>">
-							<div class="input-group afield col-sm-7 mt10">
-							<?php echo $$subfld_name;  ?>
-							</div>
-						</div>
-					<?php } ?>
-				</div>
-			</div>
-			<?php } ?>
 			<div class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
 				<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
 				<div class="input-group afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
 					<?php echo $field; ?>
+                    <?php
+                    if($name=='link_type'){ ?>
+                        <?php foreach( ['link_category', 'link_content'] as $subfld_name){?>
+                            <div id="<?php echo $subfld_name.'_wrapper';?>" class="input-group afield link_types form-inline col-12 <?php echo ($subfld_name == 'link_type' ? '' : 'hide');?>">
+                                <div class="form-group mt10 ">
+                                    <?php echo $$subfld_name;  ?>
+                                </div>
+                                <div class="form-group afield mt10">
+                                    <label class="ml20"><?php echo $entry_include_children_items; ?></label>
+                                    <?php echo ${$subfld_name.'_include_children'};  ?>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    <?php
+                    }  ?>
 				</div>
 				<?php if (!empty($error[$name])) { ?>
 				<span class="help-block field_err"><?php echo $error[$name]; ?></span>
 				<?php } ?>
 			</div>
-		<?php }  ?><!-- <div class="fieldset"> -->
-
+		<?php }  ?>
 
 	</div>
 	<div class="panel-footer col-xs-12">
@@ -96,13 +88,15 @@ jQuery(function($){
 	$('#link_type').change(function(){
         var type_name = $(this).val();
 		$('div.link_types').each(function(){
-		    if($(this).attr('id') == 'link_'+type_name+'_wrapper'){
-		        $(this).show().removeClass('hide');
+		    if($(this).attr('id') === 'link_'+type_name+'_wrapper'){
+		        $(this).show().removeClass('hide')
+                    .find('[name="settings[include_children]"]').removeAttr('disabled');
 			}else{
-				$(this).hide().addClass('hide');
+				$(this).hide().addClass('hide')
+                    .find('[name="settings[include_children]"]').attr('disabled','disabled');
 			}
 		});
-		if(type_name == 'custom'){
+		if(type_name === 'custom'){
 			$('input[name="item_url"]').removeAttr('readonly');
 		}else{
 			$('input[name="item_url"]').attr('readonly','readonly');
@@ -141,14 +135,20 @@ jQuery(function($){
 		if(val.search("product/category&path=")>-1){
 			id = val.replace('product/category&path=', '');
 			$('#menu_categories').val(id).change();
-			$('#link_category_wrapper').removeClass('hide');
+			$('#link_category_wrapper').removeClass('hide')
+                .find('[name="settings[include_children]"]').removeAttr('disabled');
+
+            $('#link_content_wrapper').find('[name="settings[include_children]"]')
+                .attr('disabled','disabled');
 			$('#link_type').val('category');
 			$('input[name="item_url"]').attr('readonly','readonly');
 
 		}else if(val.search("content/content&content_id=")>-1){
 			id = val.replace('content/content&content_id=', '');
 			$('#menu_information').val(id).change();
-			$('#link_content_wrapper').removeClass('hide');
+			$('#link_content_wrapper').removeClass('hide')
+                .find('[name="settings[include_children]"]').removeAttr('disabled');
+            $('#link_category_wrapper').find('[name="settings[include_children]"]').attr('disabled','disabled');
 			$('#link_type').val('content');
 			$('input[name="item_url"]').attr('readonly','readonly');
 		}else{

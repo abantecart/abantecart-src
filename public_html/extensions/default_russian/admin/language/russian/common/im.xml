@@ -1,4 +1,23 @@
 <?xml version="1.0"?>
+<!--
+  ~   $Id$
+  ~
+  ~   AbanteCart, Ideal OpenSource Ecommerce Solution
+  ~   http://www.AbanteCart.com
+  ~
+  ~   Copyright © 2011-2024 Belavier Commerce LLC
+  ~
+  ~   This source file is subject to Open Software License (OSL 3.0)
+  ~   License details is bundled with this package in the file LICENSE.txt.
+  ~   It is also available at this URL:
+  ~   <http://www.opensource.org/licenses/OSL-3.0>
+  ~
+  ~  UPGRADE NOTE:
+  ~    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+  ~    versions in the future. If you wish to customize AbanteCart for your
+  ~    needs please refer to http://www.AbanteCart.com for more information.
+  -->
+
 <definitions>
 	<definition>
 		<key>im_text_notification</key>
@@ -87,5 +106,9 @@
 	<definition>
 		<key>im_order_update_text_to_guest</key>
 		<value><![CDATA[Ваш заказ <a href="%s"># %s</a> обновлен. Для получения более подробной информации, пожалуйста, посетите страницу заказа %s.]]></value>
+	</definition>
+	<definition>
+		<key>im_threshold</key>
+		<value><![CDATA[Минимальный порог уровня запасов]]></value>
 	</definition>
 </definitions>

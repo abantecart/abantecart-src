@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -27,7 +26,7 @@ class ControllerBlocksCategory extends AController
     protected $category_id = 0;
     protected $path = [];
     protected $selected_root_id = [];
-    protected $thumbnails = [];
+    protected $thumbnails = [], $featured = [];
 
     public function __construct($registry, $instance_id, $controller, $parent_controller = '')
     {
@@ -43,16 +42,10 @@ class ControllerBlocksCategory extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        //HTML cache only for non-customer
-        if (!$this->customer->isLogged() && !$this->customer->isUnauthCustomer()) {
-            $allowed_cache_keys = ['path'];
-            $cache_val = ['path' => $request['path']];
-            $this->buildHTMLCacheKey($allowed_cache_keys, $cache_val);
-        }
-
         $this->view->assign('heading_title', $this->language->get('heading_title', 'blocks/category'));
 
-        $this->loadModel('catalog/category');
+        /** @var ModelCatalogCategory $mdl */
+        $mdl = $this->loadModel('catalog/category');
 
         if (isset($request['path'])) {
             $this->path = explode('_', $request['path']);
@@ -62,8 +55,14 @@ class ControllerBlocksCategory extends AController
         $this->view->assign('path', $request['path']);
 
         //load main level categories
-        $all_categories = $this->model_catalog_category->getAllCategories();
+        $all_categories = $mdl->getAllCategories();
         //build thumbnails list
+        foreach ($all_categories as $k => $cat) {
+            if (!$cat['product_count']) {
+                unset($all_categories[$k]);
+            }
+        }
+
         $category_ids = array_column($all_categories, 'category_id');
         $resource = new AResource('image');
         $this->thumbnails = $category_ids
@@ -74,10 +73,33 @@ class ControllerBlocksCategory extends AController
                 $this->config->get('config_image_category_height')
             )
             : [];
+        $this->featured = $mdl->getFeaturedCategoryProducts($category_ids);
+        $featuredProductsIds = [];
+        foreach ($this->featured as $items) {
+            $featuredProductsIds = array_merge($featuredProductsIds, array_column($items, 'product_id'));
+        }
+
+        $featuredProductsIds = array_unique($featuredProductsIds);
+
+        $productThumbnails = $featuredProductsIds
+            ? $resource->getMainThumbList(
+                'products',
+                $featuredProductsIds,
+                $this->config->get('config_image_thumb_width'),
+                $this->config->get('config_image_thumb_width')
+            )
+            : [];
+        foreach ($this->featured as &$items) {
+            foreach ($items as &$item)
+                if ($productThumbnails[$item['product_id']]) {
+                    $item['thumbnail'] = $productThumbnails[$item['product_id']];
+                }
+        }
 
         //Build category tree
         $this->_buildCategoryTree($all_categories);
         $categories = $this->_buildNestedCategoryList();
+
         $this->view->assign('categories', $categories);
 
         //Framed needs to show frames for generic block.
@@ -107,7 +129,7 @@ class ControllerBlocksCategory extends AController
             if ($parent_id != $category['parent_id']) {
                 continue;
             }
-            $category['path'] = $path ? $path.'_'.$category['category_id'] : $category['category_id'];
+            $category['path'] = $path ? $path . '_' . $category['category_id'] : $category['category_id'];
             $category['parents'] = explode("_", $category['path']);
             //dig into level
             $category['level'] = sizeof($category['parents']) - 1;
@@ -129,7 +151,7 @@ class ControllerBlocksCategory extends AController
                 if ($category['parent_id'] != 0 && !in_array($this->selected_root_id, $category['parents'])) {
                     continue;
                 }
-                $category['href'] = $this->html->getSEOURL('product/category', '&path='.$category['path'], '&encode');
+                $category['href'] = $this->html->getSEOURL('product/category', '&path=' . $category['path'], '&encode');
                 $cutted_tree[] = $category;
             }
             return $cutted_tree;
@@ -153,7 +175,8 @@ class ControllerBlocksCategory extends AController
             if ($category['parent_id'] != $parent_id) {
                 continue;
             }
-            $category['children'] = $this->_buildNestedCategoryList($category['category_id']);
+            $category['children'] = $this->_buildNestedCategoryList($category['category_id']) ?? [];
+            $category['featured_products'] = $this->featured[$category['category_id']] ?? [];
             $thumbnail = $this->thumbnails[$category['category_id']];
             $category['thumb'] = $thumbnail['thumb_url'];
             $category['icon'] = $thumbnail['resource_id'];
@@ -163,7 +186,7 @@ class ControllerBlocksCategory extends AController
                     $category['product_count'] += $child['product_count'];
                 }
             }
-            $category['href'] = $this->html->getSEOURL('product/category', '&path='.$category['path'], '&encode');
+            $category['href'] = $this->html->getSEOURL('product/category', '&path=' . $category['path'], '&encode');
             //mark current category
             if (in_array($category['category_id'], $this->path)) {
                 $category['current'] = true;
@@ -172,4 +195,6 @@ class ControllerBlocksCategory extends AController
         }
         return $output;
     }
+
+
 }

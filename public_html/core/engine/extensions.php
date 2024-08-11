@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2023 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -210,7 +210,6 @@ class ExtensionCollection
  *
  * long description.
  *
- * @property ACache $cache
  * @method hk_InitData(object $baseObject, string $baseObjectMethod)
  * @method hk_UpdateData(object $baseObject, string $baseObjectMethod)
  * @method hk_ProcessData(object $baseObject, string $point_name = '', mixed $array = null)
@@ -229,6 +228,8 @@ class ExtensionsApi
     protected $registry;
     /** @var ADB */
     protected $db;
+    /** @var ACache */
+    protected $cache;
     /** @var ExtensionCollection $extensions - array of extensions objects */
     protected $extensions;
     /** @var array $extensions_dir - list of all extensions in extension dir */
@@ -1005,22 +1006,23 @@ class ExtensionsApi
     }
 
     /**
-     * Function returns all tpl with pre or post prefixes for all enabled extensions
+     * Function returns all tpl with "pre" or "post" prefixes for all enabled extensions
      *
      * @param string $route - relative path of file.
      *
      * @return array|bool
      * @throws AException
      */
-    public function getAllPrePostTemplates($route)
+    public function getAllPrePostTemplates($route, ?bool $isAdmin = null)
     {
         if (!$this->registry->has('config')) {
             return false;
         }
+        $isAdmin = $isAdmin ?? IS_ADMIN;
 
-        $ext_section = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE);
+        $ext_section = ($isAdmin ? DIR_EXT_ADMIN : DIR_EXT_STORE);
 
-        $tmpl_id = IS_ADMIN
+        $tmpl_id = $isAdmin
             ? $this->registry->get('config')->get('admin_template')
             : $this->registry->get('config')->get('config_storefront_template');
         $file = $ext_section.DIR_EXT_TEMPLATE.$tmpl_id.'/template/'.$route;
@@ -1065,12 +1067,13 @@ class ExtensionsApi
      * check if route is an extension controller (only enabled extensions can be checked)
      *
      * @param  $route - controller route to check
-     *
+     * @param bool|null $isAdmin
      * @return array|bool - extension name, file, class name and method
      */
-    public function isExtensionController($route)
+    public function isExtensionController($route, ?bool $isAdmin = null)
     {
-        $section = trim((IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE), '/');
+        $isAdmin = $isAdmin ?? IS_ADMIN;
+        $section = trim(($isAdmin ? DIR_EXT_ADMIN : DIR_EXT_STORE), '/');
         $path_build = '';
         $path_nodes = explode('/', $route);
 
@@ -1078,7 +1081,7 @@ class ExtensionsApi
             $path_build .= $path_node;
 
             foreach ($this->enabled_extensions as $ext) {
-                $file = DIR_EXT.$ext.(IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE).'controller/'.$path_build.'.php';
+                $file = DIR_EXT.$ext.'/'.$section.'/controller/'.$path_build.'.php';
                 $ext_controllers = is_array($this->extension_controllers[$ext][$section])
                     ? $this->extension_controllers[$ext][$section]
                     : [];
@@ -1086,7 +1089,8 @@ class ExtensionsApi
                     //remove current node
                     array_shift($path_nodes);
                     //check for method
-                    $method_to_call = array_shift($path_nodes);
+                    $lastKey = array_key_last($path_nodes);
+                    $method_to_call = $path_nodes[$lastKey];
                     if ($method_to_call) {
                         $method = $method_to_call;
                     } else {
@@ -1373,6 +1377,11 @@ class ExtensionUtils
                 if (isset($item->variants->fields->field)) {
                     $result[$i]['field2'] = (string) $item->variants->fields->field[1];
                 }
+                if($item->variants->allowed){
+                    foreach($item->variants->allowed->id as $id){
+                        $result[$i]['allowed'][] = (string)$id;
+                    }
+                }
                 $result[$i]['template'] = (string) $item->template;
 
                 // if just static option values are used
@@ -1540,7 +1549,11 @@ class ExtensionUtils
                     continue;
                 }
 
-                if (in_array((string) $item->type, ['checkboxgroup', 'multiselectbox'])) {
+                $attr = $item->default_value->attributes();
+                $cfgKey = trim((string) $attr['config_key']);
+                if ($cfgKey) {
+                    $value = $this->registry->get('config')->get($cfgKey);
+                }elseif (in_array((string) $item->type, ['checkboxgroup', 'multiselectbox'])) {
                     $value = (string) $item->default_value;
                 } else {
                     $value = $this->registry->get('html')->convertLinks(

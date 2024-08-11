@@ -69,6 +69,10 @@
 		<value><![CDATA[Apologies, we have encounter system error. Please try again or contact site administrator!]]></value>
 	</definition>
 	<definition>
+		<key>error_payment_method</key>
+		<value><![CDATA[Please try again or choose another payment method]]></value>
+	</definition>
+	<definition>
 		<key>stripe_error_guest_subscription</key>
 		<value><![CDATA[You need to <a href="%s">create an account</a> to complete your subscription!]]></value>
 	</definition>

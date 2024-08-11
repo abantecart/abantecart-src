@@ -26,6 +26,11 @@ class ControllerCommonPageLayout extends AController
 
     private $installed_blocks = [];
 
+    /**
+     * @param ALayoutManager $layout
+     * @void
+     * @throws AException
+     */
     public function main($layout)
     {
 
@@ -141,7 +146,7 @@ class ControllerCommonPageLayout extends AController
                 'validate_url'          => $this->html->getSecureURL(
                     'design/blocks_manager/validate_block',
                     '&block_id='.$block['block_id']
-                ),
+                )
                 ]
             );
 

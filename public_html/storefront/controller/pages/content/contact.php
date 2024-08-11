@@ -1,42 +1,41 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
 class ControllerPagesContentContact extends AController
 {
-    public $data = [];
     public $error = [];
     /**
      * @var AForm
      */
-    private $form;
+    public $form;
 
     public function main()
     {
-        //init controller data
-        $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->document->setTitle($this->language->get('heading_title'));
         $this->form = new AForm('ContactUsFrm');
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->form->loadFromDb('ContactUsFrm');
         $form = $this->form->getForm();
         $languageId = $this->language->getContentLanguageID() ?? $this->language->getLanguageID();
@@ -185,6 +184,17 @@ class ControllerPagesContentContact extends AController
             foreach ($this->request->post as $name => $value) {
                 $this->form->assign($name, $value);
             }
+        }else{
+            if($this->customer->isLogged()){
+                $this->form->assign('first_name', $this->session->data['guest']['payment_firstname'] ?: $this->customer->getFirstName());
+                $this->form->assign('email', $this->session->data['guest']['email'] ?: $this->customer->getEmail());
+            }
+            if($this->request->get['product_name']) {
+                $this->form->assign(
+                    'enquiry',
+                    $this->request->get['product_name'] . ' (#' . $this->request->get['product_id'] . ')'."\n\n"
+                );
+            }
         }
 
         $this->document->resetBreadcrumbs();
@@ -271,7 +281,7 @@ class ControllerPagesContentContact extends AController
             ]
         );
 
-        if ($this->config->get('embed_mode') == true) {
+        if ($this->config->get('embed_mode')) {
             $continue_url = $this->html->getNonSecureURL('product/category');
         } else {
             $continue_url = $this->html->getHomeURL();
@@ -289,7 +299,7 @@ class ControllerPagesContentContact extends AController
         );
         $this->view->assign('continue_button', $continue);
 
-        if ($this->config->get('embed_mode') == true) {
+        if ($this->config->get('embed_mode')) {
             //load special headers
             $this->addChild('responses/embed/head', 'head');
             $this->addChild('responses/embed/footer', 'footer');

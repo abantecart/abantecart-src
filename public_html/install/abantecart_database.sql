@@ -31,7 +31,7 @@ CREATE TABLE `ac_categories` (
   `parent_id` int(11) NOT NULL DEFAULT '0',
   `sort_order` int(3) NOT NULL DEFAULT '0',
   `status` int(1) NOT NULL DEFAULT '1',
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`category_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
@@ -324,7 +324,8 @@ VALUES
 (239,'ZW','ZWE','',1,0),
 (240,'GB','NIR','',1,0),
 (241,'RS','SRB','',1,0),
-(242,'XK','XXK','',1,0);
+(242,'XK','XXK','',1,0),
+(243,'SS','RSS','',1,0);
 
 --
 -- DDL for table `ac_country_descriptions`
@@ -580,7 +581,8 @@ VALUES
 (239,1,'Zimbabwe'),
 (240,1,'Northern Ireland'),
 (241,1,'Serbia'),
-(242,1,'Kosovo');
+(242,1,'Kosovo'),
+(243,1,'South Sudan');
 
 
 --
@@ -595,13 +597,13 @@ CREATE TABLE `ac_coupons` (
   `logged` int(1) NOT NULL,
   `shipping` int(1) NOT NULL,
   `total` decimal(15,4) NOT NULL,
-  `date_start` date NOT NULL DEFAULT '0000-00-00',
-  `date_end` date NOT NULL DEFAULT '0000-00-00',
+  `date_start` date NULL,
+  `date_end` date NULL,
   `uses_total` int(11) NOT NULL,
   `uses_customer` varchar(11) COLLATE utf8_general_ci NOT NULL,
   `status` int(1) NOT NULL,
   `condition_rule` ENUM('OR', 'AND') NOT NULL DEFAULT 'OR',
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`coupon_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
@@ -700,9 +702,9 @@ CREATE TABLE `ac_customers` (
   `customer_group_id` int(11) NOT NULL,
   `ip` varchar(50) COLLATE utf8_general_ci NOT NULL DEFAULT '0',
   `data` text DEFAULT null,
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `last_login` timestamp DEFAULT '0000-00-00 00:00:00',
+  `last_login` timestamp NULL,
   PRIMARY KEY (`customer_id`),
   UNIQUE KEY `customers_loginname` (`loginname`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
@@ -744,7 +746,7 @@ CREATE TABLE `ac_customer_transactions` (
   `transaction_type` varchar(255) NOT NULL DEFAULT '' COMMENT 'text type of transaction',
   `comment` text COMMENT 'comment for internal use',
   `description` text COMMENT 'text for customer',
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`customer_transaction_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
@@ -760,7 +762,7 @@ CREATE TABLE `ac_online_customers` (
   `ip` varchar(50) NOT NULL,
   `url` text NOT NULL,
   `referer` text NOT NULL,
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ip`),
   KEY `ac_online_customers_idx` (`date_added`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -777,10 +779,10 @@ CREATE TABLE `ac_downloads` (
   `expire_days` int(11) DEFAULT NULL,  -- default to NULL -> No expiration
   `sort_order` int(11) NOT NULL,
   `activate` varchar(64) NOT NULL,
-  `activate_order_status_id` int(11) NOT NULL DEFAULT '0',
+  `activate_order_status_id` varchar(256) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `shared` int(1) NOT NULL DEFAULT '0', -- if used by other products set to 1
   `status` int(1) NOT NULL DEFAULT '0', -- in migration set to 1
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY (`download_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
@@ -822,10 +824,10 @@ CREATE TABLE `ac_extensions` (
   `priority` smallint(1) NOT NULL DEFAULT 0,
   `version` varchar(32),
   `license_key` varchar(32),
-  `date_installed` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `date_installed` timestamp NULL,
   `support_expiration` DATETIME NULL,
   `mp_product_url` VARCHAR(255) NULL DEFAULT '',
-  `date_added` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`extension_id`),
   UNIQUE KEY `extension_key` (`key`)
@@ -835,8 +837,10 @@ CREATE TABLE `ac_extensions` (
 -- Dumping data for table `extension`
 --
 
-INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `version`, `license_key`, `date_installed`, `date_modified`, `date_added`) VALUES
+INSERT INTO `ac_extensions`
+    (`type`, `key`, `category`, `status`, `priority`, `version`, `license_key`, `date_installed`, `date_modified`, `date_added`)
 
+VALUES
 ('total', 'coupon', '', 1, 1, '', null, now(), now(), now() ),
 ('total', 'shipping', 'shipping', 1, 1, '', null, now(), now(), now() ),
 ('total', 'low_order_fee', '', 0, 1, '', null, now(), now(), now() ),
@@ -856,8 +860,7 @@ INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `v
 
 ('extensions', 'banner_manager', 'extensions', 1, 1, '1.1.0', null, now(), now(), now() ),
 ('extensions', 'forms_manager', 'extensions', 1, 1, '1.1.0', null, now(), now(), now() ),
-('extensions', 'fast_checkout', 'Checkout', 1, 10, '1.3.4', null, now(), now() + INTERVAL 2 MINUTE , now() ),
-('template', 'bootstrap5', 'template', 1, 1, '1.0.0', null, now(), now() + INTERVAL 3 MINUTE , now() )
+('template', 'novator', 'template', 0, 1, '1.0.0', null, NOW(), now() + INTERVAL 4 MINUTE , now() )
 ;
 
 --
@@ -874,7 +877,7 @@ CREATE TABLE `ac_banners` (
 	`blank` tinyint(1) NOT NULL DEFAULT '0',
 	`target_url` text COLLATE utf8_general_ci DEFAULT '',
 	`sort_order` int(11) NOT NULL,
-	`date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+	`date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
 	`date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`banner_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -886,7 +889,7 @@ CREATE TABLE `ac_banner_descriptions` (
   `name` varchar(255) NOT NULL COMMENT 'translatable',
   `description` LONGTEXT COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   `meta` text(1500) DEFAULT '' COMMENT 'translatable',
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`banner_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -911,7 +914,7 @@ CREATE TABLE `ac_locations` (
   `location_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `description` varchar(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`location_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
@@ -961,7 +964,7 @@ CREATE TABLE `ac_language_definitions` (
   `block` varchar(160) NOT NULL,
   `language_key` varchar(170) NOT NULL,
   `language_value` text NOT NULL COMMENT 'translatable',
-  `date_added` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`language_definition_id`, `language_id`, `section`, `block`, `language_key`),
 	INDEX `ac_lang_definition_idx` (`language_value`(500) ASC)
@@ -975,7 +978,7 @@ CREATE TABLE `ac_length_classes` (
   `length_class_id` int(11) NOT NULL AUTO_INCREMENT,
   `value` decimal(15,8) NOT NULL,
   `iso_code` VARCHAR(5) NOT NULL,
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`length_class_id`,`iso_code`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
@@ -1088,7 +1091,7 @@ CREATE TABLE `ac_orders` (
   `currency` varchar(3) NOT NULL,
   `value` decimal(15,8) NOT NULL,
   `coupon_id` int(11) NOT NULL,
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `ip` varchar(50) NOT NULL DEFAULT '',
   `payment_method_data` text NOT NULL DEFAULT '',
@@ -1125,9 +1128,9 @@ CREATE TABLE `ac_order_downloads` (
   `expire_date` datetime NULL,
   `sort_order` int(11) NOT NULL,
   `activate` VARCHAR(64) NOT NULL,
-  `activate_order_status_id` int(11) NOT NULL DEFAULT '0',
+  `activate_order_status_id` VARCHAR(256) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `attributes_data` longtext COLLATE utf8_general_ci  DEFAULT NULL,  -- serialized values
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY (`order_download_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
@@ -1163,7 +1166,7 @@ CREATE TABLE `ac_order_data` (
   `order_id` int(11) NOT NULL,
   `type_id` int(11) NOT NULL,
   `data` text COLLATE utf8_general_ci DEFAULT NULL,  -- serialized values
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY (`order_id`, `type_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -1173,7 +1176,7 @@ CREATE TABLE `ac_order_data_types` (
   `type_id` int(11) NOT NULL AUTO_INCREMENT,
   `language_id` int(11) NOT NULL,
   `name` varchar(64) COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'translatable',
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY (`type_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
@@ -1196,7 +1199,7 @@ CREATE TABLE `ac_order_history` (
   `order_status_id` int(5) NOT NULL,
   `notify` int(1) NOT NULL DEFAULT '0',
   `comment` text COLLATE utf8_general_ci NOT NULL,
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`order_history_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
@@ -1365,7 +1368,7 @@ CREATE TABLE `ac_products` (
   `cost` DECIMAL(15,4) NOT NULL DEFAULT '0.0000',
   `call_to_order` smallint NOT NULL default '0',
   `settings` LONGTEXT COLLATE utf8_general_ci,
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`product_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
@@ -1404,9 +1407,9 @@ CREATE TABLE `ac_product_discounts` (
   `priority` int(5) NOT NULL DEFAULT '1',
   `price_prefix` CHAR(1) NOT NULL DEFAULT '',
   `price` decimal(15,4) NOT NULL DEFAULT '0.0000',
-  `date_start` date NOT NULL DEFAULT '0000-00-00',
-  `date_end` date NOT NULL DEFAULT '0000-00-00',
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_start` date NULL,
+  `date_end` date NULL,
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`product_discount_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
@@ -1467,6 +1470,7 @@ CREATE TABLE `ac_product_option_values` (
   `product_option_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL DEFAULT '0',
+  `txt_id` varchar(255) NULL,
   `sku` varchar(255) DEFAULT NULL,
   `quantity` int(4) NOT NULL DEFAULT '0',
   `subtract` int(1) NOT NULL DEFAULT '0',
@@ -1521,9 +1525,9 @@ CREATE TABLE `ac_product_specials` (
   `priority` int(5) NOT NULL DEFAULT '1',
   `price_prefix` CHAR(1) NOT NULL DEFAULT '',
   `price` decimal(15,4) NOT NULL DEFAULT '0.0000',
-  `date_start` date NOT NULL DEFAULT '0000-00-00',
-  `date_end` date NOT NULL DEFAULT '0000-00-00',
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_start` date NULL,
+  `date_end` date NULL,
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`product_special_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
@@ -1588,7 +1592,7 @@ CREATE TABLE `ac_reviews` (
   `rating` int(1) NOT NULL,
   `verified_purchase` TINYINT NOT NULL DEFAULT 0,
   `status` int(1) NOT NULL DEFAULT '0',
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`review_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
@@ -1606,7 +1610,7 @@ CREATE TABLE `ac_settings` (
   `group` varchar(32) COLLATE utf8_general_ci NOT NULL,
   `key` varchar(64) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `value` text COLLATE utf8_general_ci NOT NULL,
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
  PRIMARY KEY (`setting_id`, `store_id`, `group`, `key`),
  INDEX `ac_settings_idx` (`value`(500))
@@ -1670,11 +1674,6 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 
 -- general
 ('general','config_admin_limit',20),
-('general','config_catalog_limit',18),
-('general','config_bestseller_limit',3),
-('general','config_featured_limit',3),
-('general','config_latest_limit',3),
-('general','config_special_limit',3),
 ('general','config_stock_display',1),
 ('general','config_nostock_autodisable',0),
 ('general','config_stock_status_id',0),
@@ -1690,7 +1689,6 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('general','config_recaptcha_site_key',''),
 ('general','config_recaptcha_secret_key',''),
 ('general','config_google_analytics_code',''),
-
 
 -- Checkout
 ('checkout','starting_invoice_id',001),
@@ -1719,15 +1717,27 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout','config_expire_order_days',30),
 ('checkout','config_customer_cancelation_order_status_id',''),
 ('checkout','config_zero_customer_balance','0'),
-('checkout','config_phone_validation_pattern','/^[0-9+\\(\\)#\\.\\s\\/ext-]+$/'),
+('checkout','config_phone_validation_pattern','/^[0-9\\+\\(\\)\\.\\s\\-,]+$/'),
 ('checkout','config_start_order_id',''),
+('checkout','fast_checkout_allow_coupon',1),
+('checkout','fast_checkout_show_order_comment_field',1),
+('checkout','fast_checkout_buy_now_status',1),
+('checkout','fast_checkout_create_account',1),
 
 -- Appearance
 
 ('appearance','storefront_width','100%'),
-('appearance','config_logo','7'),
+('appearance','config_logo',281),
 ('appearance','config_mail_logo','7'),
 ('appearance','config_icon','8'),
+
+('appearance','config_catalog_limit',18),
+('appearance','config_bestseller_limit',3),
+('appearance','config_featured_limit',3),
+('appearance','config_latest_limit',3),
+('appearance','config_special_limit',3),
+('appearance','viewed_products_limit',3),
+
 ('appearance','config_image_thumb_width',380),
 ('appearance','config_image_thumb_height',380),
 ('appearance','config_image_popup_width',500),
@@ -1748,8 +1758,10 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('appearance','config_image_manufacturer_width',130),
 ('appearance','admin_template','default'),
 ('appearance','admin_width','100%'),
-('appearance','config_storefront_template','bootstrap5'),
+('appearance','config_storefront_template','default'),
 ('appearance','config_image_resize_fill_color', '#ffffff'),
+('appearance','viewed_products_image_height',250),
+('appearance','viewed_products_image_width',250),
 
 
 -- mail
@@ -1778,7 +1790,6 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('system','config_image_quality',95),
 ('system','config_compression',0),
 ('system','config_cache_enable',1),
-('system','config_html_cache',0),
 ('system','config_error_display',1),
 ('system','config_error_log',1),
 ('system','config_debug',0),
@@ -1815,20 +1826,24 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('coupon','coupon_calculation_order',4),
 ('coupon','coupon_total_type','discount'),
 
-('tax', 'tax_status', '1'),
-('tax', 'tax_sort_order', '5'),
-('tax', 'tax_calculation_order', '2'),
+('tax', 'tax_status', 1),
+('tax', 'tax_sort_order', 5),
+('tax', 'tax_calculation_order', 2),
 ('tax', 'tax_total_type', 'tax'),
 
-('balance', 'balance_status', '1'),
-('balance', 'balance_sort_order', '999'),
-('balance', 'balance_calculation_order', '999'),
+('balance', 'balance_status', 1),
+('balance', 'balance_sort_order', 999),
+('balance', 'balance_calculation_order', 999),
 ('balance', 'balance_total_type', 'balance'),
 
-('total', 'total_sort_order', '1000'),
-('total', 'total_calculation_order', '1000'),
-('total', 'total_status', '1'),
+('total', 'total_sort_order', 1000),
+('total', 'total_calculation_order', 1000),
+('total', 'total_status', 1),
 ('total', 'total_total_type', 'total'),
+
+('handling', 'handling_calculation_order', 2),
+('handling', 'handling_status', 0),
+('handling', 'handling_fee_total_type', 'fee'),
 
 ('banner_manager','banner_manager_layout',''),
 ('banner_manager','banner_manager_priority',10),
@@ -1842,26 +1857,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('forms_manager','forms_manager_status',1),
 ('forms_manager','forms_manager_default_sender_name', ''),
 ('forms_manager','forms_manager_default_sender_email', ''),
-('forms_manager','forms_manager_sort_order', ''),
-
-('fast_checkout','fast_checkout_store_id',0),
-('fast_checkout','fast_checkout_status',1),
-('fast_checkout','fast_checkout_layout',''),
-('fast_checkout','fast_checkout_priority',10),
-('fast_checkout','fast_checkout_payment_address_equal_shipping',0),
-('fast_checkout','fast_checkout_allow_coupon',1),
-('fast_checkout','fast_checkout_require_phone_number',1),
-('fast_checkout','fast_checkout_show_order_comment_field',1),
-('fast_checkout','fast_checkout_create_account',1),
-('fast_checkout','fast_checkout_sort_order',10),
-('fast_checkout','fast_checkout_buy_now_status',1),
-
-('bootstrap5', 'bootstrap5_priority',0),
-('bootstrap5', 'bootstrap5_date_installed',NOW()),
-('bootstrap5', 'bootstrap5_sort_order', 1),
-('bootstrap5', 'config_logo',281),
-('bootstrap5', 'bootstrap5_status', 1),
-('bootstrap5', 'store_id', 0);
+('forms_manager','forms_manager_sort_order', '');
 
 --
 -- DDL for table `stock_statuses`
@@ -1916,7 +1912,7 @@ CREATE TABLE `ac_store_descriptions` (
 DROP TABLE IF EXISTS `ac_tax_classes`;
 CREATE TABLE `ac_tax_classes` (
   `tax_class_id` int(11) NOT NULL AUTO_INCREMENT,
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`tax_class_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
@@ -1956,7 +1952,7 @@ CREATE TABLE `ac_tax_rates` (
   `threshold_condition` char(2) COLLATE utf8_general_ci NOT NULL, -- '<=', '>=', '==' or '<'
   `threshold` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `tax_exempt_groups` text DEFAULT NULL,
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`tax_rate_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
@@ -1965,7 +1961,7 @@ CREATE INDEX `ac_tax_rates_idx` ON `ac_tax_rates` ( `location_id`, `zone_id`, `t
 --
 -- Dumping data for table `tax_rate`
 --
-INSERT INTO `ac_tax_rates` VALUES (1,1,0,1,1,8.5000,'%','',0.0000,'a:1:{i:0;s:1:\"0\";}','0000-00-00 00:00:00','2022-06-28 08:53:21');
+INSERT INTO `ac_tax_rates` VALUES (1,1,0,1,1,8.5000,'%','',0.0000,'a:1:{i:0;s:1:\"0\";}',NOW(),NOW());
 
 --
 -- DDL for table `tax_rate_descriptions`
@@ -2017,8 +2013,8 @@ CREATE TABLE `ac_users` (
   `email` varchar(96) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `status` int(1) NOT NULL,
   `ip` varchar(50) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `last_login` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `last_login` datetime NULL,
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=2;
@@ -2033,7 +2029,7 @@ CREATE TABLE `ac_user_groups` (
   `user_group_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) COLLATE utf8_general_ci NOT NULL,
   `permission` longtext COLLATE utf8_general_ci NOT NULL,
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_group_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
@@ -2055,7 +2051,7 @@ CREATE TABLE `ac_user_notifications` (
   `sendpoint` varchar(255) NOT NULL,
   `protocol` varchar(30) NOT NULL,
   `uri` text NOT NULL,
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`,`store_id`,`section`,`sendpoint`,`protocol`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -2066,7 +2062,7 @@ CREATE TABLE `ac_customer_notifications` (
   `sendpoint` varchar(255) NOT NULL,
   `protocol` varchar(30) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '0',
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`customer_id`,`sendpoint`,`protocol`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -2079,7 +2075,7 @@ CREATE TABLE `ac_weight_classes` (
   `weight_class_id` int(11) NOT NULL AUTO_INCREMENT,
   `value` decimal(15,8) NOT NULL DEFAULT '0.00000000',
   `iso_code` VARCHAR(5) NOT NULL,
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`weight_class_id`,`iso_code`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
@@ -10134,7 +10130,7 @@ CREATE TABLE `ac_zones_to_locations` (
   `country_id` int(11) NOT NULL,
   `zone_id` int(11) NOT NULL DEFAULT '0',
   `location_id` int(11) NOT NULL,
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`zone_to_location_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
@@ -10235,9 +10231,9 @@ CREATE TABLE `ac_pages` (
   `page_id` int(10) NOT NULL auto_increment,
   `parent_page_id` int(10) NOT NULL DEFAULT '0',
   `controller` varchar(100) NOT NULL,
-  `key_param` varchar(40) NOT NULL default '', -- Example product_id=10 identifies uniqe product page
-  `key_value` varchar(40) NOT NULL default '', -- Example product_id=10 identifies uniqe product page
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `key_param` varchar(40) NOT NULL default '', -- Example product_id identifies unique product page
+  `key_value` varchar(40) NOT NULL default '', -- Example 10 identifies unique product ID
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`page_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -10252,7 +10248,6 @@ INSERT INTO `ac_pages` (`page_id`, `parent_page_id`, `controller`, `key_param`, 
 VALUES
 (1, 0, 'generic', '', '', now() ),
 (2, 0, 'pages/index/home', '', '', now() ),
-(3, 0, 'pages/checkout', '', '', now() ),
 (4, 0, 'pages/account/login', '', '', now() ),
 (5, 0, 'pages/product/product', '', '', now()),
 (10, 0, 'pages/index/maintenance', '', '', now() ),
@@ -10277,7 +10272,7 @@ CREATE TABLE `ac_page_descriptions` (
   `keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
   `content` text DEFAULT NULL COMMENT 'translatable', -- Contain the page details if custom content
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`page_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -10285,7 +10280,6 @@ CREATE TABLE `ac_page_descriptions` (
 INSERT INTO `ac_page_descriptions` (`page_id`, `language_id`, `name`, `title`, `seo_url`, `keywords`, `description`, `content`, `date_added`) VALUES
 (1, 1, 'All Other Pages', '', '', '', '', '', now() ),
 (2, 1, 'Home Page', '', '', '', '', '', now() ),
-(3, 1, 'Checkout Pages', '', '', '', '', '', now() ),
 (4, 1, 'Login Page', '', '', '', '', '', now() ),
 (5, 1, 'Default Product Page', '', '', '', '', '', now() ),
 (10, 1, 'Maintenance Page', '', '', '', '', '', now() ),
@@ -10331,7 +10325,7 @@ CREATE TABLE `ac_content_descriptions` (
   `meta_keywords` varchar(255) NOT NULL COMMENT 'translatable',
   `meta_description` varchar(255) NOT NULL COMMENT 'translatable',
   `content` longtext NOT NULL COMMENT 'translatable', -- Contain the page details if custom content
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`content_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -10367,7 +10361,7 @@ CREATE TABLE `ac_blocks` (
   `block_id` int(10) NOT NULL auto_increment,
   `block_txt_id` varchar(255) NOT NULL,
   `controller` varchar(255) NOT NULL,
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`block_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -10405,7 +10399,8 @@ INSERT INTO `ac_blocks` (`block_id`, `block_txt_id`, `controller`, `date_added`)
 (30, 'custom_form_block', 'blocks/custom_form_block', now() ),
 (31, 'customer', 'blocks/customer', now() ),
 (32, 'fast_checkout_cart_btn', 'blocks/fast_checkout_cart_btn', NOW()),
-(33, 'fast_checkout_summary', 'blocks/fast_checkout_summary', NOW())
+(33, 'fast_checkout_summary', 'blocks/fast_checkout_summary', NOW()),
+(34, 'viewed_products','blocks/viewed_products',NOW())
 ;
 
 --
@@ -10416,7 +10411,7 @@ DROP TABLE IF EXISTS `ac_custom_blocks`;
 CREATE TABLE `ac_custom_blocks` (
   `custom_block_id` int(10) NOT NULL auto_increment,
   `block_id` int(10) NOT NULL,
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`custom_block_id`, `block_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -10433,7 +10428,7 @@ CREATE TABLE `ac_custom_lists` (
   `id` int(10) NOT NULL,
   `store_id` int(10),
   `sort_order` int(10) NOT NULL DEFAULT 0,
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`rowid`),
 	INDEX `ac_custom_block_id_list_idx` (`custom_block_id`, `store_id` )
@@ -10449,12 +10444,12 @@ CREATE TABLE `ac_block_descriptions` (
   `custom_block_id` int(10) NOT NULL,
   `language_id` int(10) NOT NULL,
   `block_wrapper` varchar(255) NOT NULL default '0',
-  `block_framed` tinyint(1) DEFAULT '1',
+  `block_framed` tinyint(1) DEFAULT '0',
   `name` varchar(255) NOT NULL COMMENT 'translatable',
   `title` varchar(255) NOT NULL COMMENT 'translatable',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
   `content` longtext NOT NULL DEFAULT '', -- Contain the block details if custom content
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`block_description_id`, `custom_block_id`, `language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -10468,7 +10463,7 @@ CREATE TABLE `ac_block_templates` (
   `block_id` int(10) NOT NULL auto_increment,
   `parent_block_id` int(10) NOT NULL DEFAULT 0, -- Placeholder where this block can be placed. 0 - any location
   `template` varchar(255) NOT NULL,
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`block_id`, `parent_block_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -10560,7 +10555,15 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `da
 (30, 8, 'blocks/custom_form_block_header.tpl', NOW() ),
 (31, 1, 'blocks/customer.tpl', now() ),
 (32, 1, 'blocks/fast_checkout_cart_btn.tpl', NOW()),
-(33, 6, 'blocks/fast_checkout_summary.tpl', NOW())
+(33, 6, 'blocks/fast_checkout_summary.tpl', NOW()),
+(34, 1, 'blocks/viewed_block_column_header.tpl',NOW()),
+(34, 2, 'blocks/viewed_block_column_header_bottom.tpl',NOW()),
+(34, 4, 'blocks/viewed_block_column_content_top.tpl',NOW()),
+(34, 5, 'blocks/viewed_block_column_content_bottom.tpl',NOW()),
+(34, 7, 'blocks/viewed_block_column_footer_top.tpl',NOW()),
+(34, 8, 'blocks/viewed_block_column_footer.tpl',NOW()),
+(34, 6, 'blocks/viewed_block_column_right.tpl',NOW()),
+(34, 3, 'blocks/viewed_block_column_left.tpl',NOW())
 ;
 
 --
@@ -10573,35 +10576,22 @@ CREATE TABLE `ac_layouts` (
   `template_id` varchar(100) NOT NULL,
   `layout_name` varchar(255) NOT NULL default '',
   `layout_type` smallint(1) NOT NULL default '0', -- 0 Default, 1 Active layout, 2 draft layout, 3 template layout
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`layout_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `ac_layouts` (`layout_id`, `template_id`, `layout_type`, `layout_name`, `date_added`) VALUES
-(11, 'default', 0, 'Default Page Layout',  NOW()),
-(12, 'default', 1, 'Home Page',  NOW()),
-(13, 'default', 1, 'Login Page',  NOW()),
-(14, 'default', 1, 'Default Product Page',  NOW()),
-(15, 'default', 1, 'Checkout Pages', NOW()),
-(16, 'default', 1, 'Product Listing Page', NOW()),
-(17, 'default', 1, 'Maintenance Page', NOW()),
-(18, 'default', 1, 'Customer Account Pages', NOW()),
-(19, 'default', 1, 'Cart Page', NOW()),
-(20, 'default', 1, 'Product Listing Page', NOW()),
-(21, 'default', 1, 'Fast Checkout Page', NOW()),
-(22, 'default', 1, 'Fast Checkout Success Page', NOW()),
-
-(23, 'bootstrap5',0, 'Default Page Layout',NOW()),
-(24, 'bootstrap5',1, 'Home Page',NOW()),
-(25, 'bootstrap5',1, 'Login Page',NOW()),
-(26, 'bootstrap5',1, 'Default Product Page',NOW()),
-(27, 'bootstrap5',1, 'Product Listing Page',NOW()),
-(28, 'bootstrap5',1, 'Maintenance Page',NOW()),
-(29, 'bootstrap5',1, 'Customer Account Pages',NOW()),
-(30, 'bootstrap5',1, 'Cart Page',NOW()),
-(31, 'bootstrap5',1, 'Fast Checkout Page',NOW()),
-(32, 'bootstrap5',1, 'Fast Checkout Success Page',NOW());
+(23, 'default',0, 'Default Page Layout',NOW()),
+(24, 'default',1, 'Home Page',NOW()),
+(25, 'default',1, 'Login Page',NOW()),
+(26, 'default',1, 'Default Product Page',NOW()),
+(27, 'default',1, 'Product Listing Page',NOW()),
+(28, 'default',1, 'Maintenance Page',NOW()),
+(29, 'default',1, 'Customer Account Pages',NOW()),
+(30, 'default',1, 'Cart Page',NOW()),
+(31, 'default',1, 'Fast Checkout Page',NOW()),
+(32, 'default',1, 'Fast Checkout Success Page',NOW());
 
 --
 -- DDL for table `pages_layouts`
@@ -10614,18 +10604,6 @@ CREATE TABLE `ac_pages_layouts` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `ac_pages_layouts` (`layout_id`, `page_id`) VALUES
-(11, 1),
-(12, 2),
-(13, 4),
-(14, 5),
-(15, 3),
-(17, 10),
-(18, 11),
-(19, 12),
-(20, 13),
-(21, 14),
-(22, 15),
--- bs5
 ( 23,1),
 ( 24,2),
 ( 25,4),
@@ -10649,304 +10627,13 @@ CREATE TABLE `ac_block_layouts` (
   `parent_instance_id` int(10) NOT NULL default '0', -- 0 for main level block
   `position` smallint(5) NOT NULL default '0',
   `status` smallint(1) NOT NULL default '0',
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`instance_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 CREATE UNIQUE INDEX `ac_block_layouts_idx`
 ON `ac_block_layouts` ( `instance_id`, `layout_id`, `block_id`, `parent_instance_id`,`custom_block_id` );
 
--- DEFAULT template's layouts
-INSERT INTO `ac_block_layouts`
-(`instance_id`,`layout_id`,`block_id`,`custom_block_id`,`parent_instance_id`,`position`,`status`,`date_added`,`date_modified`)
-VALUES
-(330,	11,	1,	0,	0,		10,	1,	NOW(),	NOW()),
-(331,	11,	2,	0,	0,		20,	1,	NOW(),	NOW()),
-(332,	11,	3,	0,	0,		30,	1,	NOW(),	NOW()),
-(333,	11,	4,	0,	0,		40,	1,	NOW(),	NOW()),
-(334,	11,	5,	0,	0,		50,	1,	NOW(),	NOW()),
-(335,	11,	6,	0,	0,		60,	1,	NOW(),	NOW()),
-(336,	11,	7,	0,	0,		70,	1,	NOW(),	NOW()),
-(337,	11,	8,	0,	0,		80,	1,	NOW(),	NOW()),
-(1839,	11,	25,	0,	337,	40,	1,	NOW(),	NOW()),
-(1840,	11,	11,	0,	337,	50,	1,	NOW(),	NOW()),
-(1835,	11,	9,	0,	331,	10,	1,	NOW(),	NOW()),
-(1842,	11,	24,	0,	337,	70,	1,	NOW(),	NOW()),
-(1843,	11,	21,	0,	337,	80,	1,	NOW(),	NOW()),
-(1844,	11,	31,	0,	330,	20,	1,	NOW(),	NOW()),
-(1829,	11,	27,	0,	330,	30,	1,	NOW(),	NOW()),
-(1830,	11,	26,	0,	330,	40,	1,	NOW(),	NOW()),
-(1831,	11,	14,	0,	330,	60,	1,	NOW(),	NOW()),
-(1832,	11,	13,	0,	330,	50,	1,	NOW(),	NOW()),
-(1833,	11,	15,	0,	330,	70,	1,	NOW(),	NOW()),
-(1950,	11,	28,	0,	331,	20,	1,	NOW(),	NOW());
-
--- Home page
-INSERT INTO `ac_block_layouts`
-(`instance_id`,`layout_id`,`block_id`,`custom_block_id`,`parent_instance_id`,`position`,`status`,`date_added`,`date_modified`)
-VALUES
-(1782,	12,	21,	0,	356,	80,	1,	NOW(),	NOW()),
-(354,	12,	6,	0,	0,		60,	0,	NOW(),	NOW()),
-(352,	12,	4,	0,	0,		40,	1,	NOW(),	NOW()),
-(351,	12,	3,	0,	0,		30,	0,	NOW(),	NOW()),
-(350,	12,	2,	0,	0,		20,	1,	NOW(),	NOW()),
-(353,	12,	5,	0,	0,		50,	1,	NOW(),	NOW()),
-(1781,	12,	24,	0,	356,	70,	1,	NOW(),	NOW()),
-(355,	12,	7,	0,	0,		70,	1,	NOW(),	NOW()),
-(356,	12,	8,	0,	0,		80,	1,	NOW(),	NOW()),
-(349,	12,	1,	0,	0,		10,	1,	NOW(),	NOW()),
-(1763,	12,	14,	0,	349,	60,	1,	NOW(),	NOW()),
-(1764,	12,	15,	0,	349,	70,	1,	NOW(),	NOW()),
-(1761,	12,	26,	0,	349,	40,	1,	NOW(),	NOW()),
-(1762,	12,	13,	0,	349,	50,	1,	NOW(),	NOW()),
-(1770,	12,	12,	0,	353,	20,	1,	NOW(),	NOW()),
-(1771,	12,	18,	0,	353,	30,	1,	NOW(),	NOW()),
-(1772,	12,	22,	0,	353,	40,	1,	NOW(),	NOW()),
-(1766,	12,	9,	0,	350,	10,	1,	NOW(),	NOW()),
-(1779,	12,	11,	0,	356,	50,	1,	NOW(),	NOW()),
-(1769,	12,	19,	0,	353,	10,	1,	NOW(),	NOW()),
-(1778,	12,	25,	0,	356,	40,	1,	NOW(),	NOW()),
-(1845,	12,	31,	0,	349,	20,	1,	NOW(),	NOW()),
-(1760,	12,	27,	0,	349,	30,	1,	NOW(),	NOW());
-
--- Login page
-INSERT INTO `ac_block_layouts`
-(`instance_id`,`layout_id`,`block_id`,`custom_block_id`,`parent_instance_id`,`position`,`status`,`date_added`,`date_modified`)
-VALUES
-(1846,	13,	31,	0,	378,	20,	1,	NOW(),	NOW()),
-(1799,	13,	27,	0,	378,	30,	1,	NOW(),	NOW()),
-(1810,	13,	11,	0,	379,	50,	1,	NOW(),	NOW()),
-(1805,	13,	9,	0,	375,	10,	1,	NOW(),	NOW()),
-(1951,	13,	28,	0,	375,	20,	1,	NOW(),	NOW()),
-(1801,	13,	13,	0,	378,	50,	1,	NOW(),	NOW()),
-(1813,	13,	21,	0,	379,	80,	1,	NOW(),	NOW()),
-(1809,	13,	25,	0,	379,	40,	1,	NOW(),	NOW()),
-(1800,	13,	26,	0,	378,	40,	1,	NOW(),	NOW()),
-(1812,	13,	24,	0,	379,	70,	1,	NOW(),	NOW()),
-(1802,	13,	14,	0,	378,	60,	1,	NOW(),	NOW()),
-(1803,	13,	15,	0,	378,	70,	1,	NOW(),	NOW()),
-(379,	13,	8,	0,	0,		80,	1,	NOW(),	NOW()),
-(378,	13,	1,	0,	0,		10,	1,	NOW(),	NOW()),
-(370,	13,	7,	0,	0,		70,	1,	NOW(),	NOW()),
-(371,	13,	6,	0,	0,		60,	0,	NOW(),	NOW()),
-(372,	13,	5,	0,	0,		50,	1,	NOW(),	NOW()),
-(373,	13,	4,	0,	0,		40,	1,	NOW(),	NOW()),
-(374,	13,	3,	0,	0,		30,	0,	NOW(),	NOW()),
-(375,	13,	2,	0,	0,		20,	1,	NOW(),	NOW());
-
--- Default Product page
-INSERT INTO `ac_block_layouts`
-(`instance_id`,`layout_id`,`block_id`,`custom_block_id`,`parent_instance_id`,`position`,`status`,`date_added`,`date_modified`)
-VALUES
-(1795,	14,	11,	0,	392,	50,	1,	NOW(),	NOW()),
-(1794,	14,	25,	0,	392,	40,	1,	NOW(),	NOW()),
-(1790,	14,	12,	0,	387,	10,	1,	NOW(),	NOW()),
-(1847,	14,	31,	0,	391,	20,	1,	NOW(),	NOW()),
-(1783,	14,	27,	0,	391,	30,	1,	NOW(),	NOW()),
-(1784,	14,	26,	0,	391,	40,	1,	NOW(),	NOW()),
-(1785,	14,	13,	0,	391,	50,	1,	NOW(),	NOW()),
-(1786,	14,	14,	0,	391,	60,	1,	NOW(),	NOW()),
-(1789,	14,	9,	0,	388,	10,	1,	NOW(),	NOW()),
-(1952,	14,	28,	0,	388,	20,	1,	NOW(),	NOW()),
-(1787,	14,	15,	0,	391,	70,	1,	NOW(),	NOW()),
-(1797,	14,	24,	0,	392,	70,	1,	NOW(),	NOW()),
-(1798,	14,	21,	0,	392,	80,	1,	NOW(),	NOW()),
-(388,	14,	2,	0,	0,		20,	1,	NOW(),	NOW()),
-(386,	14,	4,	0,	0,		40,	1,	NOW(),	NOW()),
-(387,	14,	3,	0,	0,		30,	1,	NOW(),	NOW()),
-(384,	14,	6,	0,	0,		60,	0,	NOW(),	NOW()),
-(383,	14,	7,	0,	0,		70,	1,	NOW(),	NOW()),
-(391,	14,	1,	0,	0,		10,	1,	NOW(),	NOW()),
-(392,	14,	8,	0,	0,		80,	1,	NOW(),	NOW()),
-(385,	14,	5,	0,	0,		50,	1,	NOW(),	NOW());
-
--- Checkout pages
-INSERT INTO `ac_block_layouts`
-(`instance_id`,`layout_id`,`block_id`,`custom_block_id`,`parent_instance_id`,`position`,`status`,`date_added`,`date_modified`)
-VALUES
-(1827,	15,	24,	0,	403,	70,	1,	NOW(),	NOW()),
-(1818,	15,	15,	0,	395,	70,	1,	NOW(),	NOW()),
-(1817,	15,	14,	0,	395,	60,	1,	NOW(),	NOW()),
-(1816,	15,	13,	0,	395,	50,	1,	NOW(),	NOW()),
-(1828,	15,	21,	0,	403,	80,	1,	NOW(),	NOW()),
-(1815,	15,	26,	0,	395,	40,	1,	NOW(),	NOW()),
-(1848,	15,	31,	0,	395,	20,	1,	NOW(),	NOW()),
-(1814,	15,	27,	0,	395,	30,	1,	NOW(),	NOW()),
-(1820,	15,	9,	0,	399,	10,	1,	NOW(),	NOW()),
-(1953,	15,	28,	0,	399,	20,	1,	NOW(),	NOW()),
-(1825,	15,	11,	0,	403,	50,	1,	NOW(),	NOW()),
-(402,	15,	5,	0,	0,		50,	1,	NOW(),	NOW()),
-(401,	15,	4,	0,	0,		40,	1,	NOW(),	NOW()),
-(400,	15,	3,	0,	0,		30,	0,	NOW(),	NOW()),
-(399,	15,	2,	0,	0,		20,	1,	NOW(),	NOW()),
-(398,	15,	5,	0,	0,		50,	1,	NOW(),	NOW()),
-(397,	15,	6,	0,	0,		60,	1,	NOW(),	NOW()),
-(396,	15,	7,	0,	0,		70,	1,	NOW(),	NOW()),
-(395,	15,	1,	0,	0,		10,	1,	NOW(),	NOW()),
-(1824,	15,	25,	0,	403,	40,	1,	NOW(),	NOW()),
-(2021,	15,	16,	0,	397,	10,	1,	NOW(),	NOW()),
-(403,	15,	8,	0,	0,		80,	1,	NOW(),	NOW());
-
--- Maintenance Page
-INSERT INTO `ac_block_layouts`
-(`instance_id`,`layout_id`,`block_id`,`custom_block_id`,`parent_instance_id`,`position`,`status`,`date_added`,`date_modified`)
-VALUES
-(942,	17,	5,	0,	0,		50,	1,	NOW(),	NOW()),
-(943,	17,	6,	0,	0,		60,	1,	NOW(),	NOW()),
-(944,	17,	7,	0,	0,		70,	1,	NOW(),	NOW()),
-(945,	17,	8,	0,	0,		80,	1,	NOW(),	NOW()),
-(940,	17,	3,	0,	0,		30,	1,	NOW(),	NOW()),
-(939,	17,	2,	0,	0,		20,	1,	NOW(),	NOW()),
-(938,	17,	1,	0,	0,		10,	1,	NOW(),	NOW()),
-(941,	17,	4,	0,	0,		40,	1,	NOW(),	NOW()),
-(1954,	17,	28,	0,	939,	20,	1,	NOW(),	NOW());
-
--- Customer Account Pages
-INSERT INTO `ac_block_layouts` (`instance_id`,	 `layout_id`,	 `block_id`,	 `custom_block_id`,	 `parent_instance_id`,	 `position`,	 `status`,	 `date_added`,	`date_modified`) VALUES
-(1900,	18,	5,	0,	0,		50,	1,	NOW(),	NOW()),
-(1901,	18,	4,	0,	0,		40,	1,	NOW(),	NOW()),
-(1902,	18,	3,	0,	0,		30,	0,	NOW(),	NOW()),
-(1903,	18,	2,	0,	0,		20,	1,	NOW(),	NOW()),
-(1904,	18,	5,	0,	0,		50,	1,	NOW(),	NOW()),
-(1905,	18,	6,	0,	0,		60,	1,	NOW(),	NOW()),
-(1906,	18,	7,	0,	0,		70,	1,	NOW(),	NOW()),
-(1907,	18,	1,	0,	0,		10,	1,	NOW(),	NOW()),
-(1908,	18,	8,	0,	0,		80,	1,	NOW(),	NOW()),
-(1920,	18,	24,	0,	1908,	70,	1,	NOW(),	NOW()),
-(1921,	18,	15,	0,	1907,	70,	1,	NOW(),	NOW()),
-(1922,	18,	14,	0,	1907,	60,	1,	NOW(),	NOW()),
-(1923,	18,	13,	0,	1907,	50,	1,	NOW(),	NOW()),
-(1924,	18,	21,	0,	1908,	80,	1,	NOW(),	NOW()),
-(1925,	18,	26,	0,	1907,	40,	1,	NOW(),	NOW()),
-(1849,	18,	31,	0,	1907,	20,	1,	NOW(),	NOW()),
-(1926,	18,	27,	0,	1907,	30,	1,	NOW(),	NOW()),
-(1927,	18,	9,	0,	1903,	10,	1,	NOW(),	NOW()),
-(1955,	18,	28,	0,	1903,	20,	1,	NOW(),	NOW()),
-(1930,	18,	11,	0,	1908,	50,	1,	NOW(),	NOW()),
-(1932,	18,	25,	0,	1908,	40,	1,	NOW(),	NOW()),
-(1935,	18,	29,	0,	1905,	10,	1,	NOW(),	NOW());
-
--- Cart page
-INSERT INTO `ac_block_layouts`
-(`instance_id`,`layout_id`,`block_id`,`custom_block_id`,`parent_instance_id`,`position`,`status`,`date_added`,`date_modified`)
-VALUES
-(2000,	19,	24,	0,	2019,	70, 1, 	NOW(), 	NOW()),
-(2001,	19,	15,	0,	2017,	70, 1, 	NOW(), 	NOW()),
-(2002,	19,	14,	0,	2017,	60, 1, 	NOW(), 	NOW()),
-(2003,	19,	13,	0,	2017,	50, 1, 	NOW(), 	NOW()),
-(2004,	19,	21,	0,	2019,	80, 1, 	NOW(), 	NOW()),
-(2005,	19,	26,	0,	2017,	40, 1, 	NOW(), 	NOW()),
-(2006,	19,	31,	0,	2017,	20, 1, 	NOW(), 	NOW()),
-(2007,	19,	27,	0,	2017,	30, 1, 	NOW(), 	NOW()),
-(2008,	19,	9,	0,	2013,	10, 1, 	NOW(), 	NOW()),
-(2009,	19,	11,	0,	2019,	50, 1, 	NOW(), 	NOW()),
-(2010,	19,	5,	0,	0,		50, 1, 	NOW(), 	NOW()),
-(2011,	19,	4,	0,	0,		40, 1, 	NOW(), 	NOW()),
-(2012,	19,	3,	0,	0,		30, 0, 	NOW(), 	NOW()),
-(2013,	19,	2,	0,	0,		20, 1, 	NOW(), 	NOW()),
-(2014,	19,	5,	0,	0,		50, 1, 	NOW(), 	NOW()),
-(2015,	19,	6,	0,	0,		60, 1, 	NOW(), 	NOW()),
-(2016,	19,	7,	0,	0,		70, 1, 	NOW(), 	NOW()),
-(2017,	19,	1,	0,	0,		10, 1, 	NOW(), 	NOW()),
-(2018,	19,	25,	0,	2019,	40, 1, 	NOW(), 	NOW()),
-(2019,	19,	8, 	0,	0,		80, 1, 	NOW(), 	NOW()),
-(2020,	19,	28,	0,	2013,	20,	1,	NOW(),	NOW());
-
--- Product Listing Page template's layouts
-INSERT INTO `ac_block_layouts`
-(`instance_id`,`layout_id`,`block_id`,`custom_block_id`,`parent_instance_id`,`position`,`status`,`date_added`,`date_modified`)
-VALUES
-(2043,	20,	1,	0,	0,	10,	1,	NOW(),	NOW()),
-(2044,	20,	2,	0,	0,	20,	1,	NOW(),	NOW()),
-(2045,	20,	3,	0,	0,	30,	1,	NOW(),	NOW()),
-(2046,	20,	4,	0,	0,	40,	1,	NOW(),	NOW()),
-(2047,	20,	5,	0,	0,	50,	1,	NOW(),	NOW()),
-(2048,	20,	6,	0,	0,	60,	1,	NOW(),	NOW()),
-(2049,	20,	7,	0,	0,	70,	1,	NOW(),	NOW()),
-(2050,	20,	8,	0,	0,	80,	1,	NOW(),	NOW()),
-(2051,	20,	25,	0,	2050,	40,	1,	NOW(),	NOW()),
-(2052,	20,	11,	0,	2050,	50,	1,	NOW(),	NOW()),
-(2053,	20,	9,	0,	2044,	10,	1,	NOW(),	NOW()),
-(2054,	20,	24,	0,	2050,	70,	1,	NOW(),	NOW()),
-(2055,	20,	21,	0,	2050,	80,	1,	NOW(),	NOW()),
-(2056,	20,	31,	0,	2043,	20,	1,	NOW(),	NOW()),
-(2057,	20,	27,	0,	2043,	30,	1,	NOW(),	NOW()),
-(2058,	20,	26,	0,	2043,	40,	1,	NOW(),	NOW()),
-(2059,	20,	14,	0,	2043,	60,	1,	NOW(),	NOW()),
-(2060,	20,	13,	0,	2043,	50,	1,	NOW(),	NOW()),
-(2061,	20,	15,	0,	2043,	70,	1,	NOW(),	NOW()),
-(2062,	20,	17,	15,	2043,	80,	1,	NOW(),	NOW()),
-(2063,	20,	28,	0,	2044,	20,	1,	NOW(),	NOW()),
-
-(2064,	20,	17,	13,	2050,	10,	1,	NOW(),	NOW()),
-(2065,	20,	17,	14,	2050,	20,	1,	NOW(),	NOW()),
-(2066,	20,	17,	16,	2050,	30,	1,	NOW(),	NOW()),
-(2067,	20,	17,	15,	2050,	60,	1,	NOW(),	NOW());
-
--- FastCheckout page layout
-INSERT INTO `ac_block_layouts`
-(`instance_id`,`layout_id`,`block_id`,`custom_block_id`,`parent_instance_id`,`position`,`status`,`date_added`,`date_modified`)
-VALUES (2068, 21, 1, 0, 0, 10, 1, NOW(), NOW()),
-       (2069, 21, 32, 0, 2068, 40, 1, NOW(), NOW()),
-       (2070, 21, 2, 0, 0, 20, 0, NOW(), NOW()),
-       (2071, 21, 3, 0, 0, 30, 0, NOW(), NOW()),
-       (2072, 21, 4, 0, 0, 40, 0, NOW(), NOW()),
-       (2073, 21, 5, 0, 0, 50, 0, NOW(), NOW()),
-       (2074, 21, 6, 0, 0, 60, 1, NOW(), NOW()),
-       (2075, 21, 33, 0, 2074, 10, 1, NOW(), NOW()),
-       (2076, 21, 7, 0, 0, 70, 0, NOW(), NOW()),
-       (2077, 21, 8, 0, 0, 80, 1, NOW(), NOW()),
-       (2078, 22, 1, 0, 0, 10, 1, NOW(), NOW()),
-       (2079, 22, 2, 0, 0, 20, 0, NOW(), NOW()),
-       (2080, 22, 3, 0, 0, 30, 0, NOW(), NOW()),
-       (2081, 22, 4, 0, 0, 40, 0, NOW(), NOW()),
-       (2082, 22, 5, 0, 0, 50, 0, NOW(), NOW()),
-       (2083, 22, 6, 0, 0, 60, 1, NOW(), NOW()),
-       (2084, 22, 7, 0, 0, 70, 0, NOW(), NOW()),
-       (2085, 22, 8, 0, 0, 80, 1, NOW(), NOW()),
-
-       (2378, 30, 15, 0, 0, 10, 1, NOW(), NOW()),
-       (2379, 30, 31, 0, 0, 20, 1, NOW(), NOW()),
-       (2380, 30, 27, 0, 0, 30, 1, NOW(), NOW()),
-       (2381, 30, 26, 0, 0, 40, 1, NOW(), NOW()),
-       (2382, 30, 13, 0, 0, 50, 1, NOW(), NOW()),
-       (2383, 30, 14, 0, 0, 60, 1, NOW(), NOW()),
-       (2385, 30, 28, 0, 0, 20, 1, NOW(), NOW()),
-       (2386, 30, 3, 0, 0, 30, 0, NOW(), NOW()),
-       (2387, 30, 25, 0, 0, 40, 1, NOW(), NOW()),
-       (2388, 30, 4, 0, 0, 40, 1, NOW(), NOW()),
-       (2389, 30, 5, 0, 0, 50, 1, NOW(), NOW()),
-       (2390, 30, 11, 0, 0, 50, 1, NOW(), NOW()),
-       (2391, 30, 6, 0, 0, 60, 1, NOW(), NOW()),
-       (2392, 30, 7, 0, 0, 70, 1, NOW(), NOW()),
-       (2393, 30, 24, 0, 0, 70, 1, NOW(), NOW()),
-       (2394, 30, 8, 0, 0, 80, 1, NOW(), NOW()),
-       (2398, 30, 25, 0, 2394, 40, 1, NOW(), NOW()),
-       (2399, 30, 11, 0, 2394, 50, 1, NOW(), NOW()),
-       (2401, 30, 24, 0, 2394, 70, 1, NOW(), NOW()),
-       (2402, 30, 21, 0, 2394, 80, 1, NOW(), NOW()),
-       (2403, 30, 21, 0, 0, 80, 1, NOW(), NOW()),
-       (2404, 31, 1, 0, 0, 10, 1, NOW(), NOW()),
-       (2405, 31, 32, 0, 2404, 40, 1, NOW(), NOW()),
-       (2406, 31, 33, 0, 0, 10, 1, NOW(), NOW()),
-       (2407, 31, 2, 0, 0, 20, 0, NOW(), NOW()),
-       (2408, 31, 3, 0, 0, 30, 0, NOW(), NOW()),
-       (2409, 31, 4, 0, 0, 40, 0, NOW(), NOW()),
-       (2410, 31, 32, 0, 0, 40, 1, NOW(), NOW()),
-       (2411, 31, 5, 0, 0, 50, 0, NOW(), NOW()),
-       (2412, 31, 6, 0, 0, 60, 1, NOW(), NOW()),
-       (2413, 31, 33, 0, 2412, 10, 1, NOW(), NOW()),
-       (2414, 31, 7, 0, 0, 70, 0, NOW(), NOW()),
-       (2415, 31, 8, 0, 0, 80, 1, NOW(), NOW()),
-       (2416, 32, 1, 0, 0, 10, 1, NOW(), NOW()),
-       (2417, 32, 2, 0, 0, 20, 0, NOW(), NOW()),
-       (2418, 32, 3, 0, 0, 30, 0, NOW(), NOW()),
-       (2419, 32, 4, 0, 0, 40, 0, NOW(), NOW()),
-       (2420, 32, 5, 0, 0, 50, 0, NOW(), NOW()),
-       (2421, 32, 6, 0, 0, 60, 1, NOW(), NOW()),
-       (2422, 32, 7, 0, 0, 70, 0, NOW(), NOW()),
-       (2423, 32, 8, 0, 0, 80, 1, NOW(), NOW())
-;
 --
 -- DDL for table `forms_pages`
 --
@@ -11100,7 +10787,7 @@ CREATE TABLE `ac_messages` (
   `status` char(1) NOT NULL default '',
   `viewed` int(11) NOT NULL default '0',
   `repeated` int(11) NOT NULL default '0',
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`msg_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
@@ -11112,7 +10799,7 @@ DROP TABLE IF EXISTS `ac_ant_messages`;
 CREATE TABLE `ac_ant_messages` (
   `id` varchar(60) NOT NULL,
   `priority` int(11) NOT NULL DEFAULT 0,
-  `start_date` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `start_date` timestamp NULL,
   `end_date` timestamp,
   `viewed_date` timestamp,
   `viewed` int(11) NOT NULL default '0',
@@ -11210,7 +10897,8 @@ VALUES  (1,'item_id','varchar',1),
         (1,'parent_id','varchar',4),
         (1,'sort_order','integer',5),
         (1,'item_type','varchar',6),
-        (1,'item_icon_rl_id','integer',7);
+        (1,'item_icon_rl_id','integer',7),
+        (1,'settings','text',8);
 -- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (1,'home',1),
@@ -11239,9 +10927,9 @@ VALUES  (3,'index/home',1),
         (3,'account/logout',3),
         (3,'account/account',4),
         (3,'checkout/cart',5),
-        (3,'checkout/shipping',6),
+        (3,'checkout/fast_checkout',6),
         (3,'product/special',7),
-        (3,'account/invoice',8);
+        (3,'account/order_details',8);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (4,'',1),
@@ -11255,13 +10943,13 @@ VALUES  (4,'',1),
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
 VALUES  (5,10,1),
-        (5,20,2),
-        (5,30,3),
-        (5,40,4),
-        (5,50,5),
-        (5,60,6),
-        (5,11,7),
-        (5,20,8);
+        (5,11,2),
+        (5,12,3),
+        (5,20,4),
+        (5,30,5),
+        (5,50,6),
+        (5,60,7),
+        (5,13,8);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (6,'core',1),
@@ -11282,6 +10970,16 @@ VALUES  (7,'2',1),
        	(7,'260',6),
        	(7,'244',7),
        	(7,'266',8);
+-- settings
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_text`,`row_id`)
+VALUES  (8,'a:3:{s:6:"status";s:1:"1";s:16:"include_children";s:1:"0";s:6:"target";s:5:"_self";}',1),
+        (8,'a:3:{s:6:"status";s:1:"1";s:16:"include_children";s:1:"0";s:6:"target";s:5:"_self";}',2),
+        (8,'a:3:{s:6:"status";s:1:"1";s:16:"include_children";s:1:"0";s:6:"target";s:5:"_self";}',3),
+        (8,'a:3:{s:6:"status";s:1:"1";s:16:"include_children";s:1:"0";s:6:"target";s:5:"_self";}',4),
+        (8,'a:3:{s:6:"status";s:1:"1";s:16:"include_children";s:1:"0";s:6:"target";s:5:"_self";}',5),
+       	(8,'a:3:{s:6:"status";s:1:"1";s:16:"include_children";s:1:"0";s:6:"target";s:5:"_self";}',6),
+       	(8,'a:3:{s:6:"status";s:1:"1";s:16:"include_children";s:1:"0";s:6:"target";s:5:"_self";}',7),
+       	(8,'a:3:{s:6:"status";s:1:"1";s:16:"include_children";s:1:"0";s:6:"target";s:5:"_self";}',8);
 
 --
 -- ADMIN MENU SECTION
@@ -12350,7 +12048,7 @@ VALUES  (20, NOW(),'1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (21,'AbanteCart','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (22,'1.3.4','1');
+VALUES  (22,'1.4.0','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (23,'','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
@@ -12382,7 +12080,7 @@ DROP TABLE IF EXISTS `ac_resource_library`;
 CREATE TABLE `ac_resource_library` (
   `resource_id` int(11) NOT NULL auto_increment,
   `type_id` int(11) NOT NULL,
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`resource_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=100000;
@@ -12402,7 +12100,7 @@ CREATE TABLE `ac_resource_descriptions` (
   `description` text DEFAULT NULL NULL COMMENT 'translatable',
   `resource_path` varchar(255) DEFAULT NULL,
   `resource_code` text DEFAULT NULL,
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`resource_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ;
@@ -12639,7 +12337,7 @@ CREATE TABLE `ac_resource_map` (
   `object_id` int(11) NOT NULL,
   `default`tinyint(1) NOT NULL DEFAULT '0' COMMENT '0-no, 1-Yes',
   `sort_order` int(3) NOT NULL DEFAULT '0',
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY ( `resource_id`, `object_name`, `object_id` )
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -12692,10 +12390,14 @@ CREATE TABLE `ac_global_attributes_descriptions` (
 
 DROP TABLE IF EXISTS `ac_global_attributes_values`;
 CREATE TABLE `ac_global_attributes_values` (
-  `attribute_value_id` 	int(11) NOT NULL AUTO_INCREMENT,
-  `attribute_id` 		int(11) NOT NULL,
-  `sort_order` 			int(3) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`attribute_value_id`)
+    `attribute_value_id` int(11) NOT NULL AUTO_INCREMENT,
+    `attribute_id` 		 int(11) NOT NULL,
+    `price_modifier`     float default 0.0 null,
+    `price_prefix`       char(1) null,
+    `sort_order` 		 int(3) NOT NULL DEFAULT '0',
+    `txt_id` 		     varchar(255) NULL,
+  PRIMARY KEY (`attribute_value_id`),
+  UNIQUE KEY `ga_value_txt_id_idx` (`txt_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 CREATE INDEX `ac_global_attributes_values_idx` ON `ac_global_attributes_values` ( `attribute_id` );
 
@@ -12747,7 +12449,7 @@ CREATE TABLE `ac_global_attributes_type_descriptions` (
   `attribute_type_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `type_name` varchar(64) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`attribute_type_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='utf8_general_ci';
@@ -12830,12 +12532,12 @@ CREATE TABLE `ac_tasks` (
   `starter` int(11) DEFAULT NULL COMMENT '0 - storefront, 1 - admin side, 2 - any',
   `status` int(11) DEFAULT '0' COMMENT '0 - disabled, 1 - ready, 2 - running, 3 - failed, 4 - scheduled, 5 - completed',
   `start_time` datetime DEFAULT NULL,
-  `last_time_run` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `last_time_run` timestamp NULL,
   `progress` int(11) NOT NULL DEFAULT '0' COMMENT 'percentage of progress',
   `last_result` int(11) NOT NULL DEFAULT '0' COMMENT '1 - success, 0 - failed',
   `run_interval` INT(11) NOT NULL DEFAULT '0' COMMENT 'interval in seconds since last run, 0 - without interval',
   `max_execution_time` int(11) DEFAULT '0',
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`task_id`),
   UNIQUE KEY `task_name_idx` (`name`)
@@ -12846,7 +12548,7 @@ CREATE TABLE `ac_task_details` (
   `task_id` int(11) NOT NULL AUTO_INCREMENT,
   `created_by` varchar(255) DEFAULT '',
   `settings` LONGTEXT DEFAULT '',
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`task_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
@@ -12857,12 +12559,12 @@ CREATE TABLE `ac_task_steps` (
   `task_id` int(11) NOT NULL,
   `sort_order` int(11) DEFAULT '0',
   `status` int(11) DEFAULT '0' COMMENT '0 - disabled, 1 - ready, 2 - running, 3 - failed, 4 - scheduled, 5 - completed',
-  `last_time_run` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `last_time_run` timestamp NULL,
   `last_result` int(11) NOT NULL DEFAULT '0' COMMENT '1 - success, 0 - failed',
   `max_execution_time` int(11) DEFAULT '0',
   `controller` varchar(255) DEFAULT '',
   `settings` LONGTEXT DEFAULT '',
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`step_id`),
   KEY `task_steps_idx` (`task_id`)
@@ -12904,7 +12606,7 @@ CREATE TABLE `ac_email_templates` (
   `html_body` text COLLATE utf8_unicode_ci NOT NULL,
   `text_body` text COLLATE utf8_unicode_ci NOT NULL,
   `allowed_placeholders` text COLLATE utf8_unicode_ci NOT NULL,
-  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `date_deleted` timestamp NULL DEFAULT NULL,
   `store_id` int(11) NOT NULL DEFAULT 0,
@@ -12949,7 +12651,7 @@ CREATE TABLE `ac_collections` (
   `description` text COLLATE utf8_bin,
   `conditions` text COLLATE utf8_bin,
   `store_id` int(11) NOT NULL DEFAULT '0',
-  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -12967,3 +12669,351 @@ CREATE TABLE `ac_collection_descriptions` (
 
 
 INSERT INTO `ac_url_aliases` (`query`, `keyword`, `language_id`) VALUES ('check_seo=1', 'check_seo_url', 1);
+
+--
+-- Dumping data for table `block_layouts`
+--
+INSERT INTO `ac_block_layouts`
+(`instance_id`,`layout_id`,`block_id`,`custom_block_id`,`parent_instance_id`, `position`,`status`)
+VALUES
+(2122, 23, 21, 0, 0, 80, 1),
+(2101, 23, 27, 0, 0, 30, 1),
+(2100, 23, 3, 0, 0, 30, 0),
+(2099, 23, 31, 0, 0, 20, 1),
+(2098, 23, 28, 0, 0, 20, 1),
+(2097, 23, 28, 0, 2095, 20, 1),
+(2095, 23, 2, 0, 0, 20, 1),
+(2094, 23, 9, 0, 0, 10, 1),
+(2093, 23, 17, 17, 2086, 70, 1),
+(2092, 23, 14, 0, 2086, 60, 1),
+(2091, 23, 13, 0, 2086, 50, 1),
+(2090, 23, 26, 0, 2086, 40, 1),
+(2089, 23, 27, 0, 2086, 30, 1),
+(2088, 23, 31, 0, 2086, 20, 1),
+(2087, 23, 15, 0, 2086, 10, 1),
+(2102, 23, 25, 0, 0, 40, 1),
+(2103, 23, 26, 0, 0, 40, 1),
+(2104, 23, 4, 0, 0, 40, 1),
+(2121, 23, 21, 0, 2113, 80, 1),
+(2120, 23, 24, 0, 2113, 70, 1),
+(2118, 23, 11, 0, 2113, 50, 1),
+(2117, 23, 25, 0, 2113, 40, 1),
+(2115, 23, 17, 19, 2113, 20, 1),
+(2114, 23, 17, 18, 2113, 10, 1),
+(2113, 23, 8, 0, 0, 80, 1),
+(2112, 23, 24, 0, 0, 70, 1),
+(2111, 23, 15, 0, 0, 70, 1),
+(2110, 23, 7, 0, 0, 70, 1),
+(2109, 23, 14, 0, 0, 60, 1),
+(2108, 23, 6, 0, 0, 60, 1),
+(2107, 23, 11, 0, 0, 50, 1),
+(2106, 23, 5, 0, 0, 50, 1),
+(2086, 23, 1, 0, 0, 10, 1),
+(2116, 23, 17, 20, 2113, 30, 1),
+(2105, 23, 13, 0, 0, 50, 1),
+(2119, 23, 17, 17, 2113, 60, 1),
+(2096, 23, 9, 0, 2095, 10, 1),
+(2165, 24, 17, 20, 2162, 30, 1),
+(2164, 24, 17, 19, 2162, 20, 1),
+(2163, 24, 17, 18, 2162, 10, 1),
+(2127, 24, 26, 0, 2123, 40, 1),
+(2161, 24, 24, 0, 0, 70, 1),
+(2160, 24, 20, 24, 2158, 20, 1),
+(2159, 24, 23, 23, 2158, 10, 1),
+(2158, 24, 7, 0, 0, 70, 1),
+(2132, 24, 9, 0, 0, 10, 1),
+(2166, 24, 25, 0, 2162, 40, 1),
+(2167, 24, 11, 0, 2162, 50, 1),
+(2128, 24, 13, 0, 2123, 50, 1),
+(2129, 24, 14, 0, 2123, 60, 1),
+(2130, 24, 17, 17, 2123, 70, 1),
+(2171, 24, 21, 0, 0, 80, 1),
+(2170, 24, 21, 0, 2162, 80, 1),
+(2131, 24, 19, 0, 0, 10, 1),
+(2169, 24, 24, 0, 2162, 70, 1),
+(2168, 24, 17, 17, 2162, 60, 1),
+(2162, 24, 8, 0, 0, 80, 1),
+(2157, 24, 15, 0, 0, 70, 1),
+(2156, 24, 12, 0, 2155, 10, 1),
+(2155, 24, 6, 0, 0, 60, 0),
+(2143, 24, 4, 0, 0, 40, 0),
+(2141, 24, 3, 0, 0, 30, 0),
+(2133, 24, 31, 0, 0, 20, 1),
+(2134, 24, 2, 0, 0, 20, 1),
+(2135, 24, 9, 0, 2134, 10, 1),
+(2136, 24, 17, 21, 2134, 20, 1),
+(2137, 24, 17, 22, 2134, 30, 1),
+(2138, 24, 12, 0, 0, 20, 1),
+(2139, 24, 27, 0, 0, 30, 1),
+(2144, 24, 26, 0, 0, 40, 1),
+(2145, 24, 22, 0, 0, 40, 1),
+(2146, 24, 25, 0, 0, 40, 1),
+(2154, 24, 14, 0, 0, 60, 1),
+(2153, 24, 22, 0, 2149, 40, 1),
+(2152, 24, 18, 0, 2149, 30, 1),
+(2151, 24, 12, 0, 2149, 20, 1),
+(2150, 24, 19, 0, 2149, 10, 1),
+(2142, 24, 12, 0, 2141, 10, 1),
+(2149, 24, 5, 0, 0, 50, 1),
+(2148, 24, 13, 0, 0, 50, 1),
+(2147, 24, 11, 0, 0, 50, 1),
+(2140, 24, 18, 0, 0, 30, 1),
+(2126, 24, 27, 0, 2123, 30, 1),
+(2125, 24, 31, 0, 2123, 20, 1),
+(2124, 24, 15, 0, 2123, 10, 1),
+(2123, 24, 1, 0, 0, 10, 1),
+(2177, 25, 13, 0, 2172, 50, 1),
+(2178, 25, 14, 0, 2172, 60, 1),
+(2179, 25, 17, 17, 2172, 70, 1),
+(2180, 25, 9, 0, 0, 10, 1),
+(2181, 25, 2, 0, 0, 20, 1),
+(2182, 25, 9, 0, 2181, 10, 1),
+(2176, 25, 26, 0, 2172, 40, 1),
+(2175, 25, 27, 0, 2172, 30, 1),
+(2174, 25, 31, 0, 2172, 20, 1),
+(2172, 25, 1, 0, 0, 10, 1),
+(2199, 25, 8, 0, 0, 80, 1),
+(2204, 25, 11, 0, 2199, 50, 1),
+(2205, 25, 17, 17, 2199, 60, 1),
+(2206, 25, 24, 0, 2199, 70, 1),
+(2207, 25, 21, 0, 2199, 80, 1),
+(2183, 25, 28, 0, 2181, 20, 1),
+(2184, 25, 28, 0, 0, 20, 1),
+(2200, 25, 17, 18, 2199, 10, 1),
+(2201, 25, 17, 19, 2199, 20, 1),
+(2198, 25, 24, 0, 0, 70, 1),
+(2197, 25, 15, 0, 0, 70, 1),
+(2196, 25, 7, 0, 0, 70, 1),
+(2195, 25, 14, 0, 0, 60, 1),
+(2202, 25, 17, 20, 2199, 30, 1),
+(2193, 25, 11, 0, 0, 50, 1),
+(2192, 25, 5, 0, 0, 50, 1),
+(2190, 25, 4, 0, 0, 40, 1),
+(2189, 25, 26, 0, 0, 40, 1),
+(2188, 25, 25, 0, 0, 40, 1),
+(2187, 25, 27, 0, 0, 30, 1),
+(2186, 25, 3, 0, 0, 30, 0),
+(2203, 25, 25, 0, 2199, 40, 1),
+(2208, 25, 21, 0, 0, 80, 1),
+(2191, 25, 13, 0, 0, 50, 1),
+(2194, 25, 6, 0, 0, 60, 0),
+(2185, 25, 31, 0, 0, 20, 1),
+(2173, 25, 15, 0, 2172, 10, 1),
+(2243, 26, 11, 0, 2238, 50, 1),
+(2230, 26, 13, 0, 0, 50, 1),
+(2231, 26, 5, 0, 0, 50, 1),
+(2232, 26, 11, 0, 0, 50, 1),
+(2233, 26, 6, 0, 0, 60, 0),
+(2234, 26, 14, 0, 0, 60, 1),
+(2210, 26, 15, 0, 2209, 10, 1),
+(2235, 26, 15, 0, 0, 70, 1),
+(2236, 26, 7, 0, 0, 70, 0),
+(2237, 26, 24, 0, 0, 70, 1),
+(2238, 26, 8, 0, 0, 80, 1),
+(2239, 26, 17, 18, 2238, 10, 1),
+(2240, 26, 17, 19, 2238, 20, 1),
+(2241, 26, 17, 20, 2238, 30, 1),
+(2229, 26, 4, 0, 0, 40, 1),
+(2227, 26, 25, 0, 0, 40, 1),
+(2226, 26, 27, 0, 0, 30, 1),
+(2211, 26, 31, 0, 2209, 20, 1),
+(2212, 26, 27, 0, 2209, 30, 1),
+(2213, 26, 26, 0, 2209, 40, 1),
+(2214, 26, 13, 0, 2209, 50, 1),
+(2215, 26, 14, 0, 2209, 60, 1),
+(2216, 26, 17, 17, 2209, 70, 1),
+(2217, 26, 9, 0, 0, 10, 1),
+(2219, 26, 31, 0, 0, 20, 1),
+(2218, 26, 12, 0, 0, 10, 1),
+(2220, 26, 28, 0, 0, 20, 1),
+(2221, 26, 2, 0, 0, 20, 1),
+(2222, 26, 9, 0, 2221, 10, 1),
+(2223, 26, 28, 0, 2221, 20, 1),
+(2224, 26, 3, 0, 0, 30, 1),
+(2225, 26, 12, 0, 2224, 10, 1),
+(2242, 26, 25, 0, 2238, 40, 1),
+(2245, 26, 24, 0, 2238, 70, 1),
+(2244, 26, 17, 17, 2238, 60, 1),
+(2228, 26, 26, 0, 0, 40, 1),
+(2246, 26, 21, 0, 2238, 80, 1),
+(2247, 26, 21, 0, 0, 80, 1),
+(2209, 26, 1, 0, 0, 10, 1),
+(2273, 27, 15, 0, 0, 70, 1),
+(2272, 27, 7, 0, 0, 70, 1),
+(2271, 27, 14, 0, 0, 60, 1),
+(2269, 27, 11, 0, 0, 50, 1),
+(2275, 27, 8, 0, 0, 80, 1),
+(2259, 27, 28, 0, 2257, 20, 1),
+(2268, 27, 5, 0, 0, 50, 1),
+(2274, 27, 24, 0, 0, 70, 1),
+(2276, 27, 17, 18, 2275, 10, 1),
+(2284, 27, 21, 0, 0, 80, 1),
+(2283, 27, 21, 0, 2275, 80, 1),
+(2282, 27, 24, 0, 2275, 70, 1),
+(2281, 27, 17, 17, 2275, 60, 1),
+(2280, 27, 11, 0, 2275, 50, 1),
+(2279, 27, 25, 0, 2275, 40, 1),
+(2278, 27, 17, 20, 2275, 30, 1),
+(2277, 27, 17, 19, 2275, 20, 1),
+(2267, 27, 13, 0, 0, 50, 1),
+(2266, 27, 4, 0, 0, 40, 1),
+(2249, 27, 15, 0, 2248, 10, 1),
+(2250, 27, 31, 0, 2248, 20, 1),
+(2251, 27, 27, 0, 2248, 30, 1),
+(2252, 27, 26, 0, 2248, 40, 1),
+(2253, 27, 13, 0, 2248, 50, 1),
+(2254, 27, 14, 0, 2248, 60, 1),
+(2255, 27, 17, 17, 2248, 70, 1),
+(2256, 27, 9, 0, 0, 10, 1),
+(2257, 27, 2, 0, 0, 20, 1),
+(2258, 27, 9, 0, 2257, 10, 1),
+(2260, 27, 28, 0, 0, 20, 1),
+(2261, 27, 31, 0, 0, 20, 1),
+(2262, 27, 3, 0, 0, 30, 1),
+(2263, 27, 27, 0, 0, 30, 1),
+(2264, 27, 25, 0, 0, 40, 1),
+(2265, 27, 26, 0, 0, 40, 1),
+(2248, 27, 1, 0, 0, 10, 1),
+(2270, 27, 6, 0, 0, 60, 1),
+(2290, 28, 5, 0, 0, 50, 1),
+(2293, 28, 8, 0, 0, 80, 1),
+(2285, 28, 1, 0, 0, 10, 1),
+(2286, 28, 2, 0, 0, 20, 1),
+(2292, 28, 7, 0, 0, 70, 1),
+(2287, 28, 28, 0, 0, 20, 1),
+(2288, 28, 3, 0, 0, 30, 1),
+(2289, 28, 4, 0, 0, 40, 1),
+(2291, 28, 6, 0, 0, 60, 1),
+(2300, 29, 14, 0, 2294, 60, 1),
+(2301, 29, 17, 17, 2294, 70, 1),
+(2303, 29, 29, 0, 0, 10, 1),
+(2308, 29, 28, 0, 2306, 20, 1),
+(2304, 29, 31, 0, 0, 20, 1),
+(2305, 29, 28, 0, 0, 20, 1),
+(2299, 29, 13, 0, 2294, 50, 1),
+(2298, 29, 26, 0, 2294, 40, 1),
+(2296, 29, 31, 0, 2294, 20, 1),
+(2295, 29, 15, 0, 2294, 10, 1),
+(2294, 29, 1, 0, 0, 10, 1),
+(2302, 29, 9, 0, 0, 10, 1),
+(2328, 29, 11, 0, 2323, 50, 1),
+(2297, 29, 27, 0, 2294, 30, 1),
+(2307, 29, 9, 0, 2306, 10, 1),
+(2309, 29, 3, 0, 0, 30, 0),
+(2310, 29, 27, 0, 0, 30, 1),
+(2322, 29, 24, 0, 0, 70, 1),
+(2323, 29, 8, 0, 0, 80, 1),
+(2324, 29, 17, 18, 2323, 10, 1),
+(2325, 29, 17, 19, 2323, 20, 1),
+(2326, 29, 17, 20, 2323, 30, 1),
+(2327, 29, 25, 0, 2323, 40, 1),
+(2329, 29, 17, 17, 2323, 60, 1),
+(2330, 29, 24, 0, 2323, 70, 1),
+(2331, 29, 21, 0, 2323, 80, 1),
+(2321, 29, 7, 0, 0, 70, 1),
+(2320, 29, 15, 0, 0, 70, 1),
+(2311, 29, 25, 0, 0, 40, 1),
+(2312, 29, 26, 0, 0, 40, 1),
+(2313, 29, 4, 0, 0, 40, 1),
+(2314, 29, 13, 0, 0, 50, 1),
+(2315, 29, 5, 0, 0, 50, 1),
+(2316, 29, 11, 0, 0, 50, 1),
+(2317, 29, 6, 0, 0, 60, 1),
+(2318, 29, 29, 0, 2317, 10, 1),
+(2319, 29, 14, 0, 0, 60, 1),
+(2332, 29, 21, 0, 0, 80, 1),
+(2306, 29, 2, 0, 0, 20, 1),
+(2382, 30, 13, 0, 0, 50, 1),
+(2383, 30, 14, 0, 0, 60, 1),
+(2385, 30, 28, 0, 0, 20, 1),
+(2386, 30, 3, 0, 0, 30, 0),
+(2387, 30, 25, 0, 0, 40, 1),
+(2388, 30, 4, 0, 0, 40, 1),
+(2390, 30, 11, 0, 0, 50, 1),
+(2391, 30, 6, 0, 0, 60, 1),
+(2392, 30, 7, 0, 0, 70, 1),
+(2393, 30, 24, 0, 0, 70, 1),
+(2394, 30, 8, 0, 0, 80, 1),
+(2381, 30, 26, 0, 0, 40, 1),
+(2380, 30, 27, 0, 0, 30, 1),
+(2343, 30, 9, 0, 2342, 10, 1),
+(2342, 30, 2, 0, 0, 20, 1),
+(2341, 30, 9, 0, 0, 10, 1),
+(2340, 30, 17, 17, 2333, 70, 1),
+(2339, 30, 14, 0, 2333, 60, 1),
+(2338, 30, 13, 0, 2333, 50, 1),
+(2336, 30, 27, 0, 2333, 30, 1),
+(2335, 30, 31, 0, 2333, 20, 1),
+(2334, 30, 15, 0, 2333, 10, 1),
+(2333, 30, 1, 0, 0, 10, 1),
+(2379, 30, 31, 0, 0, 20, 1),
+(2398, 30, 25, 0, 2394, 40, 1),
+(2399, 30, 11, 0, 2394, 50, 1),
+(2378, 30, 15, 0, 0, 10, 1),
+(2389, 30, 5, 0, 0, 50, 1),
+(2337, 30, 26, 0, 2333, 40, 1),
+(2403, 30, 21, 0, 0, 80, 1),
+(2402, 30, 21, 0, 2394, 80, 1),
+(2401, 30, 24, 0, 2394, 70, 1),
+(2415, 31, 8, 0, 0, 80, 1),
+(2414, 31, 7, 0, 0, 70, 0),
+(2413, 31, 33, 0, 2412, 10, 1),
+(2411, 31, 5, 0, 0, 50, 0),
+(2412, 31, 6, 0, 0, 60, 1),
+(2410, 31, 32, 0, 0, 40, 1),
+(2409, 31, 4, 0, 0, 40, 0),
+(2404, 31, 1, 0, 0, 10, 1),
+(2405, 31, 32, 0, 2404, 40, 1),
+(2406, 31, 33, 0, 0, 10, 1),
+(2407, 31, 2, 0, 0, 20, 0),
+(2408, 31, 3, 0, 0, 30, 0),
+(2423, 32, 8, 0, 0, 80, 1),
+(2422, 32, 7, 0, 0, 70, 0),
+(2421, 32, 6, 0, 0, 60, 1),
+(2419, 32, 4, 0, 0, 40, 0),
+(2418, 32, 3, 0, 0, 30, 0),
+(2417, 32, 2, 0, 0, 20, 0),
+(2416, 32, 1, 0, 0, 10, 1),
+(2420, 32, 5, 0, 0, 50, 0);
+
+
+--
+-- Dumping data for table `custom_blocks`
+--
+INSERT INTO `ac_custom_blocks`
+(`custom_block_id`,
+`block_id`,
+`date_added`,
+`date_modified`)
+VALUES
+(17,17,NOW(),NOW()),
+(18,17,NOW(),NOW()),
+(19,17,NOW(),NOW()),
+(20,17,NOW(),NOW()),
+(21,17,NOW(),NOW()),
+(22,17,NOW(),NOW()),
+(23,23,NOW(),NOW()),
+(24,20,NOW(),NOW())
+;
+
+--
+-- Dumping data for table `block_descriptions`
+--
+INSERT INTO `ac_block_descriptions`
+(`block_description_id`, `custom_block_id`, `language_id`, `block_wrapper`, `block_framed`, `name`, `title`, `description`,
+`content`)
+VALUES
+(38, 24, 1, 'blocks/listing_block/popular_brands_content_bottom.tpl', 0, 'Brands Scrolling List', 'Brands Scrolling List', '', 'a:1:{s:18:""listing_datasource"";s:20:""custom_manufacturers"";}'),
+(32, 18, 1, 'blocks/html_block_footer.tpl', 1, 'About Us', 'About Us', '', '&lt;p class=&quot;small lh-lg&quot;&gt;AbanteCart is a free eCommerce solution for merchants to provide ability creating online business and sell products or services online. AbanteCart application is built and supported by experienced enthusiasts that are passionate about their work and contribution to rapidly evolving eCommerce industry. AbanteCart is more than just a shopping cart, it is rapidly growing eCommerce platform with many benefits.&lt;/p&gt;'),
+(33, 19, 1, 'blocks/html_block_footer.tpl', 1, 'Contact us', 'Contact Us', '', '&lt;ul class=&quot;list-unstyled contact small&quot;&gt;   &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-phone&quot;&gt;&lt;/i&gt;&lt;/i&gt; 123 456 7890,  123 456 7890&lt;/li&gt;    &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-mobile-screen&quot;&gt;&lt;/i&gt;&lt;a class=&quot;text-decoration-none&quot;  href=&quot;tel:123 456 7890&quot;&gt; 123 456 7890&lt;/a&gt;,  123 456 78900&lt;/li&gt;    &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-at&quot;&gt;&lt;/i&gt; help at abantecart.com&lt;/li&gt;&lt;/ul&gt;'),
+(35, 21, 1, '0', 0, 'Main Page Carousel', 'Main Page Carousel', '', '&lt;div id=&quot;mainPageSliderIndicators&quot; class=&quot;carousel carousel-dark slide bg-light&quot; data-bs-ride=&quot;carousel&quot;&gt;  &lt;div class=&quot;carousel-indicators&quot;&gt;  &lt;button type=&quot;button&quot; data-bs-target=&quot;#mainPageSliderIndicators&quot; data-bs-slide-to=&quot;0&quot; class=&quot;active&quot;  aria-current=&quot;true&quot; aria-label=&quot;Slide 1&quot;&gt;&lt;/button&gt;  &lt;button type=&quot;button&quot; data-bs-target=&quot;#mainPageSliderIndicators&quot; data-bs-slide-to=&quot;1&quot;  aria-label=&quot;Slide 2&quot;&gt;&lt;/button&gt;  &lt;button type=&quot;button&quot; data-bs-target=&quot;#mainPageSliderIndicators&quot; data-bs-slide-to=&quot;2&quot;  aria-label=&quot;Slide 3&quot;&gt;&lt;/button&gt;  &lt;button type=&quot;button&quot; data-bs-target=&quot;#mainPageSliderIndicators&quot; data-bs-slide-to=&quot;3&quot;  aria-label=&quot;Slide 4&quot;&gt;&lt;/button&gt;  &lt;/div&gt;  &lt;div class=&quot;carousel-inner&quot;&gt;  &lt;div class=&quot;carousel-item banner active&quot;&gt;  &lt;div class=&quot;d-flex flex-wrap flex-sm-nowrap justify-content-center align-items-center&quot;&gt;  &lt;div class=&quot;flex-item &quot;&gt;  &lt;img class=&quot;my-auto w-100&quot; src=&quot;image/Slide_600x300.jpeg&quot;&gt;  &lt;/div&gt;  &lt;div class=&quot;flex-item col-9 col-sm-3 m-5&quot;&gt;  &lt;h5&gt;HTML5 Responsive Storefront to look great on&lt;/h5&gt;  &lt;h5&gt;ALL Screen Sizes&lt;/h5&gt;  &lt;p&gt;Natively responsive template implemented with bootstrap library and HTML5. Will look good on most  mobile devices and tablets.&lt;/p&gt;  &lt;h3&gt;&lt;a href=&quot;#&quot; class=&quot;&quot;&gt; Try on your device!&lt;/a&gt;&lt;/h3&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;div class=&quot;carousel-item banner&quot;&gt;  &lt;div class=&quot;d-flex flex-wrap flex-sm-nowrap justify-content-center align-items-center&quot;&gt;  &lt;div class=&quot;flex-item &quot;&gt;  &lt;img class=&quot;my-auto w-100&quot; src=&quot;image/Slide_600x300.jpeg&quot;&gt;  &lt;/div&gt;  &lt;div class=&quot;flex-item col-9 col-sm-3  m-5&quot;&gt;  &lt;h5&gt;Highly flexible layout on any page&lt;/h5&gt;  &lt;h5&gt;SEO Friendly&lt;/h5&gt;  &lt;p&gt;Fast Loading&lt;/p&gt;  &lt;h3&gt;&lt;a href=&quot;#&quot; class=&quot;&quot;&gt; Try Now!&lt;/a&gt;&lt;/h3&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;div class=&quot;carousel-item banner&quot;&gt;  &lt;div class=&quot;d-flex flex-wrap flex-sm-nowrap justify-content-center align-items-center&quot;&gt;  &lt;div class=&quot;flex-item &quot;&gt;  &lt;img class=&quot;my-auto w-100&quot; src=&quot;image/Slide_600x300.jpeg&quot;&gt;  &lt;/div&gt;  &lt;div class=&quot;flex-item col-9 col-sm-3  m-5&quot;&gt;  &lt;h5&gt;Feature rich with smart UI&lt;/h5&gt;  &lt;h5&gt;Easy &amp;amp; fun to manage&lt;/h5&gt;  &lt;p&gt;Feature reach shopping cart application right out of the box. Standard features allow to set up  complete eCommerce site with all the tools needed to sell products online.&lt;/p&gt;  &lt;h3&gt;&lt;a href=&quot;#&quot; class=&quot;&quot;&gt;Install Now!&lt;/a&gt;&lt;/h3&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;div class=&quot;carousel-item banner&quot;&gt;  &lt;div class=&quot;d-flex flex-wrap flex-sm-nowrap justify-content-center align-items-center&quot;&gt;  &lt;div class=&quot;flex-item &quot;&gt;  &lt;img class=&quot;my-auto w-100&quot; src=&quot;image/Slide_600x300.jpeg&quot;&gt;  &lt;/div&gt;  &lt;div class=&quot;flex-item col-9 col-sm-3  m-5&quot;&gt;  &lt;h5&gt;Stay in control&lt;/h5&gt;  &lt;h5&gt;Easy updates&lt;/h5&gt;  &lt;p&gt;Upgrade right from admin. Backward supportability in upgrades and automatic backups. Easy  extension download with one step installation.&lt;/p&gt;  &lt;h3&gt;&lt;a href=&quot;#&quot; class=&quot;&quot;&gt;Get Yours!&lt;/a&gt;&lt;/h3&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;button class=&quot;carousel-control-prev&quot; type=&quot;button&quot; data-bs-target=&quot;#mainPageSliderIndicators&quot; data-bs-slide=&quot;prev&quot;&gt;  &lt;span class=&quot;carousel-control-prev-icon&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;  &lt;span class=&quot;visually-hidden&quot;&gt;Previous&lt;/span&gt;  &lt;/button&gt;  &lt;button class=&quot;carousel-control-next&quot; type=&quot;button&quot; data-bs-target=&quot;#mainPageSliderIndicators&quot; data-bs-slide=&quot;next&quot;&gt;  &lt;span class=&quot;carousel-control-next-icon&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;  &lt;span class=&quot;visually-hidden&quot;&gt;Next&lt;/span&gt; &lt;/button&gt; &lt;/div&gt;'),
+(36, 22, 1, '0', 0, 'Main Page Promo', 'Promo', '', '&lt;section class=&quot;d-flex flex-wrap justify-content-evenly border m-3&quot;&gt;	&lt;div class=&quot;d-flex flex-item align-items-center&quot;&gt;		&lt;div class=&quot;promo_icon fs-1 m-3&quot;&gt;&lt;i class=&quot;fa-solid fa-2xl fa-truck fs-1&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;div class=&quot;promo_text&quot;&gt;&lt;h2&gt;Free shipping&lt;/h2&gt;All over in world over $200&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;d-flex flex-item align-items-center&quot;&gt;&lt;div class=&quot;promo_icon fs-1 m-3&quot;&gt;&lt;i class=&quot;fa-solid fa-2xl fa-money-bill-1 fs-1&quot;&gt;&lt;/i&gt;&lt;/div&gt;		&lt;div class=&quot;promo_text&quot;&gt;&lt;h2&gt;Easy Payment&lt;/h2&gt;Payment Gateway support&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;d-flex flex-item align-items-center&quot;&gt;		&lt;div class=&quot;promo_icon fs-1 m-3&quot;&gt;&lt;i class=&quot;fa-solid fa-2xl fa-clock fs-1&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;div class=&quot;promo_text&quot;&gt;&lt;h2&gt;24hrs Shipping&lt;/h2&gt;For All US States&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;d-flex flex-item align-items-center&quot;&gt;&lt;div class=&quot;promo_icon fs-1 m-3&quot;&gt;&lt;i class=&quot;fa-solid fa-2xl fa-tags fs-1&quot;&gt;&lt;/i&gt;&lt;/div&gt;		&lt;div class=&quot;promo_text&quot;&gt;&lt;h2&gt;Large Variety&lt;/h2&gt;50,000  Products&lt;/div&gt;&lt;/div&gt;&lt;/section&gt;'),
+(31, 17, 1, '0', 0, 'Social Icons', 'social_icons', '', '&lt;div class=&quot;social_icons nav navbar&quot;&gt; &lt;a class=&quot;nav-link m-3&quot; href=&quot;http://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; &gt;&lt;i class=&quot; fa-brands fa-facebook fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;        &lt;a class=&quot;nav-link m-3&quot; href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot;&gt;&lt;i class=&quot; fa-brands fa-twitter fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;Linkedin&quot; &gt;&lt;i class=&quot;fa-brands fa-linkedin fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;rss&quot; &gt;&lt;i class=&quot;fa-solid fa-square-rss fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Skype&quot; &gt;&lt;i class=&quot;fa-brands fa-skype fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Flickr&quot;&gt;&lt;i class=&quot;fa-brands fa-flickr fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;      &lt;/div&gt;'),
+(34, 20, 1, '0', 1, 'Testimonials', 'Testimonials', '', '&lt;div id=&quot;testimonial_sidebar&quot; class=&quot;carousel carousel-dark slide&quot; data-bs-ride=&quot;carousel&quot;&gt; &lt;div class=&quot;carousel-inner&quot;&gt;                   &lt;div class=&quot;carousel-item active&quot;&gt;                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;                        &quot; I was working with many shopping carts, free and hosted for my clients. There is always something missing. In AbanteCart I find this gap to be much less. Interface is very easy to use and support is very responsive. This is considering its is free. Go AbanteCart go!&quot;&lt;br /&gt;                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : TopShop on reviewcentre.com&lt;/span&gt;                        &lt;/div&gt;                    &lt;/div&gt;                    &lt;div class=&quot;carousel-item&quot;&gt;                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;                        &quot; Without a doubt the best cart I have used. The title says it all - AbanteCart is undoubtedly the best I have used. I\'m not an expert in site setup, so something this great looking and easy to use is absolutely perfect ... &quot;&lt;br /&gt;                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : johnstenson80 on venturebeat.com&lt;/span&gt;                        &lt;/div&gt;                    &lt;/div&gt;                    &lt;div class=&quot;carousel-item&quot;&gt;                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;                        &quot; Will not regret using this cart. All good is already mentioned, I want to add my experience with support. My problems with some configuration were resolved quick. Faster than paid shopping cart we had before.&quot;&lt;br /&gt;                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : shopper23 at bestshoppingcartreviews.com&lt;/span&gt;                        &lt;/div&gt;                    &lt;/div&gt;                    &lt;div class=&quot;carousel-item&quot;&gt;                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;                        &quot; Love the cart. I installed it a while back and use it since when. Some features a hidden, but fun to discover them.&quot;&lt;br /&gt;                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : Liz Wattkins at shopping-cart-reviews.com&lt;/span&gt;                        &lt;/div&gt;                    &lt;/div&gt;                &lt;/div&gt;            &lt;/div&gt;'),
+(3, 3, 1, '0', 1, 'Custom Listing block', 'Popular', '', 'a:2:{s:18:"listing_datasource";s:34:"catalog_product_getPopularProducts";s:5:"limit";s:2:"12";}'),
+(1, 1, 1, '0', 0, 'home page static banner', 'home page banner', '', '&lt;div style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;index.php?rt=product/special&quot;&gt; &lt;img alt=&quot;banner&quot; src=&quot;storefront/view/default/image/banner1.jpg&quot; /&gt; &lt;/a&gt;&lt;/div&gt;'),
+(37, 23, 1, '0', 0, 'Main Page Banner Bottom', 'Bottom Banners', '', 'a:1:{s:17:""banner_group_name"";s:19:""Main bottom banners"";}'),
+(16, 9, 1, 'blocks/banner_block/one_by_one_slider_banner_block.tpl', 0, 'Main Page Banner Slider', 'Main Page Banner Slider', '', 'a:1:{s:17:"banner_group_name";s:17:"Main Page Banners";}'),
+(18, 10, 1, '0', 0, 'Main Page Promo', 'Promo', '', '	&lt;section class=&quot;row promo_section&quot;&gt;	&lt;div class=&quot;col-md-3 col-xs-6 promo_block&quot;&gt;		&lt;div class=&quot;promo_icon&quot;&gt;&lt;i class=&quot;fa fa-truck fa-fw&quot;&gt;&lt;/i&gt;&lt;/div&gt;		&lt;div class=&quot;promo_text&quot;&gt;			&lt;h2&gt;				Free shipping&lt;/h2&gt;			All over in world over $200		&lt;/div&gt;	&lt;/div&gt;	&lt;div class=&quot;col-md-3 col-xs-6 promo_block&quot;&gt;		&lt;div class=&quot;promo_icon&quot;&gt;&lt;i class=&quot;fa fa-money fa-fw&quot;&gt;&lt;/i&gt;&lt;/div&gt;		&lt;div class=&quot;promo_text&quot;&gt;			&lt;h2&gt;				Easy Payment&lt;/h2&gt;			Payment Gateway support&lt;/div&gt;	&lt;/div&gt;	&lt;div class=&quot;col-md-3 col-xs-6 promo_block&quot;&gt;		&lt;div class=&quot;promo_icon&quot;&gt;&lt;i class=&quot;fa fa-clock-o fa-fw&quot;&gt;&lt;/i&gt;&lt;/div&gt;		&lt;div class=&quot;promo_text&quot;&gt;			&lt;h2&gt;				24hrs Shipping&lt;/h2&gt;			For All US States&lt;/div&gt;	&lt;/div&gt;	&lt;div class=&quot;col-md-3 col-xs-6 promo_block&quot;&gt;		&lt;div class=&quot;promo_icon&quot;&gt;&lt;i class=&quot;fa fa-tags fa-fw&quot;&gt;&lt;/i&gt;&lt;/div&gt;		&lt;div class=&quot;promo_text&quot;&gt;			&lt;h2&gt;				Large Variety&lt;/h2&gt;			50,000+ Products&lt;/div&gt;	&lt;/div&gt;	&lt;/section&gt;'),
+(2, 2, 1, '0', 0, 'Video block', 'Video', '', 'a:3:{s:18:"listing_datasource";s:5:"media";s:13:"resource_type";s:5:"video";s:5:"limit";s:1:"1";}')
+;

@@ -60,19 +60,19 @@ class ControllerResponsesListingGridProduct extends AController
             'pto',
         ];
 
-        $grid_filter_params = ['name', 'sort_order', 'model'];
+        $grid_filter_params = ['name', 'sort_order', 'sku'];
 
         $filter_form = new AFilter(['method' => 'get', 'filter_params' => $filter_params]);
         $filter_grid = new AFilter(['method' => 'post', 'grid_filter_params' => $grid_filter_params]);
         $data = array_merge($filter_form->getFilterData(), $filter_grid->getFilterData());
-        $total = $this->model_catalog_product->getTotalProducts($data);
+        $results = $this->model_catalog_product->getProducts($data);
+        $total = (int)$results[0]['total_num_rows'];
         $response = new stdClass();
         $response->page = $filter_grid->getParam('page');
         $response->total = $filter_grid->calcTotalPages($total);
         $response->records = $total;
         $response->userdata = new stdClass();
         $response->userdata->classes = [];
-        $results = $this->model_catalog_product->getProducts($data);
 
         $product_ids = array_column($results, 'product_id');
 
@@ -115,8 +115,9 @@ class ControllerResponsesListingGridProduct extends AController
                 ),
                 $this->html->buildInput(
                     [
-                        'name'  => 'model['.$result['product_id'].']',
-                        'value' => $result['model'],
+
+                        'name'  => 'sku['.$result['product_id'].']',
+                        'value' => $result['sku'],
                     ]
                 ),
                 $price,
@@ -191,6 +192,7 @@ class ControllerResponsesListingGridProduct extends AController
                     [
                         'product_description',
                         'model',
+                        'sku',
                         'call_to_order',
                         'price',
                         'quantity',
@@ -309,6 +311,7 @@ class ControllerResponsesListingGridProduct extends AController
             [
                 'product_description',
                 'model',
+                'sku',
                 'price',
                 'call_to_order',
                 'quantity',
@@ -360,7 +363,7 @@ class ControllerResponsesListingGridProduct extends AController
         $this->loadLanguage('catalog/product');
         $this->loadModel('catalog/product');
         $product_discount_id = (int) $this->request->get['id'];
-        if (isset($product_discount_id)) {
+        if ($product_discount_id) {
             //request sent from edit form. ID in url
             foreach ($post as $key => $value) {
                 $data = [$key => $value];
@@ -400,7 +403,7 @@ class ControllerResponsesListingGridProduct extends AController
         $this->loadLanguage('catalog/product');
         $this->loadModel('catalog/product');
         $product_special_id = (int) $this->request->get['id'];
-        if (isset($product_special_id)) {
+        if ($product_special_id) {
             //request sent from edit form. ID in url
             foreach ($post as $key => $value) {
                 $data = [$key => $value];
@@ -439,7 +442,7 @@ class ControllerResponsesListingGridProduct extends AController
         $this->loadLanguage('catalog/product');
         $this->loadModel('catalog/product');
         $product_id = (int)$this->request->get['id'];
-        if (isset($product_id)) {
+        if ($product_id) {
             //request sent from edit form. ID in url
             foreach ($this->request->post as $key => $value) {
                 $data = [$key => $value];
@@ -472,6 +475,11 @@ class ControllerResponsesListingGridProduct extends AController
             case 'model' :
                 if (mb_strlen($value) > 64) {
                     $this->data['error'] = $this->language->get('error_model');
+                }
+                break;
+            case 'sku' :
+                if (mb_strlen($value) > 64) {
+                    $this->data['error'] = $this->language->get('error_sku');
                 }
                 break;
             case 'keyword' :

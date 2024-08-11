@@ -85,6 +85,30 @@
 		<value><![CDATA[Boleto]]></value>
 	</definition>
 	<definition>
+		<key>stripe_payment_method_list_interac_present</key>
+		<value><![CDATA[Interac]]></value>
+	</definition>
+	<definition>
+		<key>stripe_payment_method_list_pix</key>
+		<value><![CDATA[Pix]]></value>
+	</definition>
+	<definition>
+		<key>stripe_payment_method_list_revolut_pay</key>
+		<value><![CDATA[Revolut Pay]]></value>
+	</definition>
+	<definition>
+		<key>stripe_payment_method_list_swish</key>
+		<value><![CDATA[Swish]]></value>
+	</definition>
+	<definition>
+		<key>stripe_payment_method_list_mobilepay</key>
+		<value><![CDATA[MobilePay]]></value>
+	</definition>
+	<definition>
+		<key>stripe_payment_method_list_zip</key>
+		<value><![CDATA[Zip]]></value>
+	</definition>
+	<definition>
 		<key>stripe_payment_method_list_eps</key>
 		<value><![CDATA[EPS]]></value>
 	</definition>
@@ -111,10 +135,6 @@
 	<definition>
 		<key>stripe_payment_method_list_link</key>
 		<value><![CDATA[Link]]></value>
-	</definition>
-	<definition>
-		<key>stripe_payment_method_list_multibanco</key>
-		<value><![CDATA[Multibanco]]></value>
 	</definition>
 	<definition>
 		<key>stripe_payment_method_list_oxxo</key>

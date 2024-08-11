@@ -13,20 +13,6 @@
 		- data-orgvalue attribute provides original value of the field 
 */
 
-var preEncodedFields = {
-	"names": [
-		"config_phone_validation_pattern",
-		"regexp_pattern"
-	],
-	"notIn": ''
-};
-for(var k in preEncodedFields.names){
-	if(preEncodedFields.notIn){
-		preEncodedFields.notIn += ', ';
-	}
-	preEncodedFields.notIn += '[name="'+ preEncodedFields.names[k] +'"]';
-}
-
 (function ($) {
 	$.aform = {
 		defaults:{
@@ -266,11 +252,11 @@ for(var k in preEncodedFields.names){
 		function doSwitchButton(elem) {
 			var $field = $(elem);
 			var $wrapper = $field.parent('.afield');
-			$wrapper.find('button').on( "click" ,function () {
+			$wrapper.find('button').not('[readonly]').on( "click" ,function () {
 				if($field.hasClass('disabled')){
 					return false;
 				}
-				flip_aswitch($field);
+					flip_aswitch($field);
 				onChangedAction($field, $field.val(), $field.attr('data-orgvalue'));
 				return false;
 			});
@@ -290,7 +276,7 @@ for(var k in preEncodedFields.names){
 			var $field = $(elem);
 			var $wrapper = $field.closest('.afield');
 			var $selected = $field.find(":selected:first");
-			if ($selected.length == 0) {
+			if ($selected.length === 0) {
 				$selected = $field.find("option:first");
 			}
 			if ($field.prop("disabled")) {
@@ -306,7 +292,7 @@ for(var k in preEncodedFields.names){
 				"change.aform":function () {
 					$field.removeClass(o.activeClass);
 					var optionSelected = $("option:selected", this);
-					onChangedAction($field, $(optionSelected).val(), $(optionSelected).attr('data-orgvalue'));
+					onChangedAction($field, $(optionSelected).val(), $field.attr('data-orgvalue'));
 				},
 				"focus.aform":function () {
 					$field.addClass(o.focusClass);
@@ -325,12 +311,12 @@ for(var k in preEncodedFields.names){
 					$field.removeClass(o.activeClass);
 				},
 				"keyup.aform":function (e) {
-					if (e.keyCode == 13) {
+					if (e.keyCode === 13) {
 						$(o.btnGrpSelector, $wrapper).find('a:eq(0)').trigger('click');
 					} else {
 						$field.removeClass(o.activeClass);
 						var optionSelected = $("option:selected", this);
-						onChangedAction($field, $(optionSelected).val(), $(optionSelected).attr('data-orgvalue'));
+						onChangedAction($field, $field.val(), $(optionSelected).attr('data-orgvalue'));
 					}
 				}
 			});
@@ -341,14 +327,14 @@ for(var k in preEncodedFields.names){
 			//change input field state
 			var $field = $el.parent('.afield');
 			if (value) {
-				if ($el.val() == value) {
+				if ($el.val() === value) {
 					//no change
 					return false;
 				} else {
 					$el.val(value);
 				}
 			} else {
-				if ($el.val() == '1') {
+				if ($el.val() === '1') {
 					$el.val('0');
 				} else {
 					$el.val('1');
@@ -434,18 +420,22 @@ for(var k in preEncodedFields.names){
 					//for select data-orgvalue is present in each option regardless of multiselect or single
 					$changed = 0;
 					$field.find('option').each(function () {
-						if ( $(this).attr('data-orgvalue') === "true" && $(this).attr('selected') != 'selected') {
+
+
+						if ( $(this).attr('data-orgvalue') === "true" && $(this).attr('selected') !== 'selected' ) {
 							$changed++;
-						} else if ($(this).attr('data-orgvalue') === "false" && $(this).attr('selected') == 'selected') {
+						} else if ($(this).attr('data-orgvalue') === "false" && $(this).attr('selected') ) {
 							$changed++;
 						} else if ( !$(this).attr('data-orgvalue') ) {
 							$changed++;
 						}
 					});
-					value = orgvalue;
 				}
 
-				if ((String(value) != String(orgvalue) || $changed > 0)) {
+				if ( (typeof value === 'string' && value !== orgvalue)
+					//|| (typeof value === 'object' && value !== $.parseJSON(orgvalue)
+						|| $changed > 0
+				) {
 					//mark field changed
 					$field.addClass(o.changedClass);
 					//build quick save button set
@@ -545,7 +535,7 @@ for(var k in preEncodedFields.names){
 			var $field = $(elem);
 			var $wrapper = $(elem).closest('.afield');
 			//locate btn container if it is present
-			var $btncontainer = $wrapper.find(o.btnContainer);
+			var $btncontainer = $wrapper.find(o.btnContainer).last();
 
 			//show quicksave button set only if not yet shown or configured
 			if (!o.showButtons || $btncontainer.find(o.btnGrpSelector).length != 0) {
@@ -651,20 +641,13 @@ for(var k in preEncodedFields.names){
 				}
 			});
 
-			var $data = $wrapper.find('input, select, textarea').not(preEncodedFields.notIn).serialize();
+			var $data = $wrapper.find('input, select, textarea').serialize();
 
 			//if empty and we have select, need to pass blank value
 			if (!$data) {
 				$wrapper.find('select').each(function () {
 					$data += $(this).attr('name')+'=\'\'&';
 				});
-			}
-			//encode some field values
-			for(var k in preEncodedFields.names) {
-				var vvv = $wrapper.find('[name="' + preEncodedFields.names[k] + '"]');
-				if(vvv.val()) {
-					$data += preEncodedFields.names[k] + '=\'' + btoa(vvv.val()) + '\'&';
-				}
 			}
 
 			$wrapper.find('input.aswitcher').each(function () {
@@ -826,21 +809,6 @@ jQuery(document).ready(function() {
 		$(this).find('.option').slideUp('fast');
 	});
 
-	$(document).on(
-		"submit",
-		"form",
-		function(){
-			var vvv;
-			//encode some field values
-			for(var k in preEncodedFields.names) {
-				vvv = $(this).find('[name="' + preEncodedFields.names[k] + '"]');
-				if(vvv.val()) {
-					vvv.val(btoa(vvv.val()));
-				}
-			}
-		}
-	);
-
 	/* Handling forms exit */
 	$(window).bind('beforeunload', function () {
 		var message = '';
@@ -898,6 +866,10 @@ var formOnExit = function(){
 		}
 		$btn.attr('data-loading-text',spinner);
 		$btn.on('click', function (event) {
+			let form = $(this).parents('form');
+			if(form && !form.valid()){
+				return;
+			}
 			//chrome submit fix
 			//If we detect child was clicked, and not the actual button,
 			// stop the propagation and trigger the "click" event on the button.

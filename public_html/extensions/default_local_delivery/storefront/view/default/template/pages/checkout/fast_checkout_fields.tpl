@@ -29,7 +29,7 @@ jQuery(document).ready(function () {
             $.ajax({
                 type: "POST",
                 url: '<?php echo $this->html->getSecureUrl('r/checkout/pay/updateOrderData') ?>',
-                data: { cc_telephone: tel, telephone: tel },
+                data: { telephone: tel },
             });
         }else{
             $.aCCValidator.show_error($(this), '.form-group');

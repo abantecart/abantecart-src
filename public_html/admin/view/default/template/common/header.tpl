@@ -418,9 +418,9 @@ echo $this->html->buildElement(
 <script type="text/javascript">
        //remove cookies if logged out
        $(document).ready(function () {
-       $.removeCookie("sticky-header");
-       $.removeCookie("sticky-leftpanel");
-       $.removeCookie("leftpanel-collapsed");
+       Cookies.remove("sticky-header");
+       Cookies.remove("sticky-leftpanel");
+       Cookies.remove("leftpanel-collapsed");
     });
 </script>
 

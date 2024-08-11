@@ -214,7 +214,7 @@ final class ADispatcher
      */
     public function dispatch($parent_controller = '')
     {
-        ADebug::checkpoint(''.$this->class.'/'.$this->method.' dispatch START');
+        ADebug::checkpoint($this->class.'/'.$this->method.' dispatch START');
 
         //Process the controller, layout and children
 
@@ -234,7 +234,7 @@ final class ADispatcher
             $error = new AError(
                 'Error: URL: '.$url
                 .' Could not load controller '.$this->controller.'! Call stack: '
-                .$function_stack.'',
+                .$function_stack,
                 AC_ERR_CLASS_CLASS_NOT_EXIST
             );
             $error->toLog()->toDebug();

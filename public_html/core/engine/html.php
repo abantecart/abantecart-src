@@ -1,23 +1,23 @@
 <?php
 
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2022 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -448,22 +448,6 @@ class AHtml extends AController
     }
 
     /**
-     * remove get parameters from url.
-     *
-     * @param $url - url to process
-     * @param $remove_vars
-     *
-     * @return string - url without unwanted get parameters
-     * @internal   param array|string $vars - single var or array of vars
-     * @deprecated since 1.1.4! Use filterQueryParams() instead
-     *
-     */
-    public function removeQueryVar($url, $remove_vars)
-    {
-        return $this->filterQueryParams($url, $remove_vars);
-    }
-
-    /**
      * function returns text error or empty
      *
      * @param string $query
@@ -472,7 +456,7 @@ class AHtml extends AController
      * @return string
      * @throws AException
      */
-    public function isSEOKeywordExists($query, $keyword = '')
+    public function isSEOKeywordExists($query = '', $keyword = '')
     {
         if (!$keyword) {
             return '';
@@ -999,7 +983,7 @@ abstract class HtmlElement
      *
      * @return void
      */
-    public function set(string $name, $value)
+    public function __set(string $name, $value)
     {
         $this->data[$name] = $value;
     }
@@ -1267,6 +1251,7 @@ class SubmitHtmlElement extends HtmlElement
  * @property string $error_text
  * @property string $help_url
  * @property bool $multilingual
+ * @property array $list
  */
 class InputHtmlElement extends HtmlElement
 {
@@ -1297,9 +1282,9 @@ class InputHtmlElement extends HtmlElement
                 'error_text'     => $this->error_text,
                 'multilingual'   => $this->getMultiLingual(),
                 'help_url'       => $this->help_url,
+                'list'           => $this->list,
             ]
         );
-
         return $this->view->fetch('form/input.tpl');
     }
 }
@@ -1901,8 +1886,8 @@ class FormHtmlElement extends HtmlElement
 
     public function getHtml()
     {
-        $this->method = empty($this->method) ? 'post' : $this->method;
-        $this->enctype = empty($this->enctype) ? 'multipart/form-data' : $this->enctype;
+        $this->method = $this->method ?: 'post';
+        $this->enctype = $this->enctype ?: 'application/x-www-form-urlencoded';
         $data = [
             'id'      => $this->name,
             'name'    => $this->name,
@@ -1934,30 +1919,6 @@ class FormHtmlElement extends HtmlElement
  */
 class RatingHtmlElement extends HtmlElement
 {
-
-    function __construct($data)
-    {
-        parent::__construct($data);
-        if (!$this->registry->has('star-rating')) {
-            /**
-             * @var $doc ADocument
-             */
-            $doc = $this->registry->get('document');
-            $doc->addScript($this->view->templateResource('/javascript/jquery/star-rating/jquery.MetaData.js'));
-            $doc->addScript($this->view->templateResource('/javascript/jquery/star-rating/jquery.rating.pack.js'));
-
-            $doc->addStyle(
-                [
-                    'href'  => $this->view->templateResource('/javascript/jquery/star-rating/jquery.rating.css'),
-                    'rel'   => 'stylesheet',
-                    'media' => 'screen',
-                ]
-            );
-
-            $this->registry->set('star-rating', 1);
-        }
-    }
-
     public function getHtml()
     {
         $this->extendAndBatchAssign(
@@ -2022,7 +1983,7 @@ class ReCaptchaHtmlElement extends HtmlElement
     {
         $this->extendAndBatchAssign(
             [
-                'name'               => $this->name,
+                'name'               => $this->name ?: 'g-recaptcha-response',
                 'id'                 => $this->element_id,
                 'attr'               => $this->attr.' data-aform-field-type="captcha"',
                 'language_code'      => $this->language_code,
@@ -2457,10 +2418,11 @@ class CountriesHtmlElement extends HtmlElement
         parent::__construct($data);
         $this->registry->get('load')->model('localisation/country');
         $results = $this->registry->get('model_localisation_country')->getCountries();
-        $this->options = [];
+        $options = [];
         foreach ($results as $c) {
-            $this->options[$c['name']] = $c['name'];
+            $options[$c['name']] = $c['name'];
         }
+        $this->options = $options;
     }
 
     public function getHtml()
@@ -2510,27 +2472,27 @@ class CountriesHtmlElement extends HtmlElement
  */
 class ZonesHtmlElement extends HtmlElement
 {
-    //private $default_zone_value, $default_value;
     public function __construct($data)
     {
         parent::__construct($data);
         $this->registry->get('load')->model('localisation/country');
         $results = $this->registry->get('model_localisation_country')->getCountries();
-        $this->options = [];
         $this->zone_options = [];
         $this->default_zone_field_name = 'zone_id';
         $config_country_id = $this->registry->get('config')->get('config_country_id');
+        $options = [];
         foreach ($results as $c) {
             if ($c['country_id'] == $config_country_id) {
                 $this->default_value =
                     $this->submit_mode == 'id' ? [$config_country_id] : [$c['name'] => $c['name']];
             }
             if ($this->submit_mode == 'id') {
-                $this->options[$c['country_id']] = $c['name'];
+                $options[$c['country_id']] = $c['name'];
             } else {
-                $this->options[$c['name']] = $c['name'];
+                $options[$c['name']] = $c['name'];
             }
         }
+        $this->options = $options;
     }
 
     public function getHtml()
@@ -2581,19 +2543,22 @@ class ZonesHtmlElement extends HtmlElement
                 $this->zone_value ? [(string) $this->zone_value => (string) $this->zone_value] : [];
         }
         $config_zone_id = $this->registry->get('config')->get('config_zone_id');
+        $zone_options = [];
         foreach ($results as $result) {
             // default zone_id is zone of shop
             if ($result['zone_id'] == $config_zone_id) {
-                $this->default_zone_value =
-                    $this->submit_mode == 'id' ? [$config_zone_id] : [$result['name'] => $result['name']];
+                $this->default_zone_value = $this->submit_mode == 'id'
+                    ? [$config_zone_id]
+                    : [$result['name'] => $result['name']];
                 $this->default_zone_name = $result['name'];
             }
 
             if ($this->submit_mode == 'id') {
-                $this->zone_options[$result['zone_id']] = $result['name'];
+                $zone_options[$result['zone_id']] = $result['name'];
             } else {
-                $this->zone_options[$result['name']] = $result['name'];
+                $zone_options[$result['name']] = $result['name'];
             }
+            $this->zone_options = $zone_options;
         }
 
         $this->extendAndBatchAssign(
@@ -2622,7 +2587,7 @@ class ZonesHtmlElement extends HtmlElement
 
 /*
 * Build pagination HTML element based on the template.
-* Supported v 1.1.5+
+* @since 1.1.5
 */
 
 class PaginationHtmlElement extends HtmlElement
@@ -2641,17 +2606,31 @@ class PaginationHtmlElement extends HtmlElement
         $this->sts['total'] = 0;
         $this->sts['page'] = 1;
         $this->sts['limit'] = 20;
-        $this->sts['split'] = 10;
+        $this->sts['split'] = $data['split'] ?: 10;
         $this->sts['limits'] = [];
         //max pages to show in pagination
-        $this->sts['num_links'] = 10;
+        $this->sts['num_links'] = $data['num_links'] ?: 10;
         $this->sts['url'] = '';
-        $this->sts['text'] = 'Showing {start} to {end} of {total} ({pages} Pages)';
-        $this->sts['text_limit'] = 'Per Page';
-        $this->sts['text_first'] = '&lt;&lt;';
-        $this->sts['text_last'] = '&gt;&gt;';
-        $this->sts['text_next'] = '&gt;';
-        $this->sts['text_prev'] = '&lt;';
+        $this->sts['text'] = $this->language->get('text_pagination_pages_info');
+        $this->sts['text'] = $this->sts['text'] == 'text_pagination_pages_info'
+            ? 'Showing {start} to {end} of {total} ({pages} Pages)'
+            : $this->sts['text'];
+
+        $this->sts['text_limit'] = $this->language->get('text_per_page');
+        $this->sts['text_limit'] = $this->sts['text_limit'] == 'text_per_page' ? 'Per Page' : $this->sts['text_limit'];
+
+        $this->sts['text_first'] = $this->language->get('text_first');
+        $this->sts['text_first'] = $this->sts['text_first'] == 'text_first' ? '|<<' : $this->sts['text_first'];
+
+        $this->sts['text_last'] = $this->language->get('text_last');
+        $this->sts['text_last'] = $this->sts['text_last'] == 'text_last' ? '>>|' : $this->sts['text_last'];
+
+        $this->sts['text_next'] = $this->language->get('text_next');
+        $this->sts['text_next'] = $this->sts['text_next'] == 'text_next' ? '>' : $this->sts['text_next'];
+
+        $this->sts['text_prev'] = $this->language->get('text_previous');
+        $this->sts['text_prev'] = $this->sts['text_prev'] == 'text_previous' ? '<' : $this->sts['text_prev'];
+
         $this->sts['style_links'] = 'links';
         $this->sts['style_results'] = 'results';
         $this->sts['style_limits'] = 'limits';
@@ -2695,6 +2674,7 @@ class PaginationHtmlElement extends HtmlElement
         }
 
         $s['url'] = str_replace('{limit}', $s['limit'], $s['url']);
+        $s['direct_url'] = str_replace('{limit}', $s['limit'], $s['direct_url']);
         $s['total_pages'] = ceil($s['total'] / $s['limit']);
 
         if ($s['page'] > 1) {

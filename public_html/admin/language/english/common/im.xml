@@ -84,4 +84,8 @@
     	<key>im_error_mail_address</key>
     	<value><![CDATA[Email address %s looks like invalid!]]></value>
   	</definition>
+	<definition>
+		<key>im_threshold</key>
+		<value><![CDATA[Minimum stock level threshold]]></value>
+	</definition>
 </definitions>

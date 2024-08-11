@@ -1,0 +1,65 @@
+A UPS is a software extension that allows you to integrate UPS shipping services into your AbanteCart e-commerce
+platform. It can help you calculate shipping rates, offer domestic and international delivery options.
+
+<h4>Requirements</h4>
+<div>In order to use UPS as a carrier, you need to already have an account established with UPS.</div>
+
+<div>Once you install the extension, you need to connect it to your UPS account.</div>
+<div>You can do this by using OAuth (REST API), the UPS Access Key (XML API) are not supported. </div>
+
+<h4>Finding your UPS account number</h4>
+<div>If you're a new customer, you may have received your account number during the sign-up process. If not, you can contact UPS sales directly to obtain your account information.
+ Log in to your UPS account on the UPS website. Once logged in, navigate to the account information or billing section. Your account number should be displayed there.</div>
+
+<h4>Obtain UPS API credentials</h4>
+To obtain UPS API credentials, including the Client ID and Secret, you need to follow these general steps.
+<ol>
+    <li>
+        <p><strong>Create a UPS Developer Account:</strong></p>
+        <ul>
+            <li>Go to the <a href="https://www.ups.com/upsdeveloperkit" target="_blank">UPS Developer Kit</a> page.</li>
+            <li>Sign up for a UPS Developer account if you don't have one already.</li>
+        </ul>
+    </li>
+    <li>
+        <p><strong>Login to the Developer Portal:</strong></p>
+        <ul>
+            <li>Log in to the <a href="https://www.ups.com/upsdeveloperkit/myportal" target="_blank">UPS Developer Portal</a> using your developer account credentials.</li>
+        </ul>
+    </li>
+    <li>
+        <p><strong>Access UPS APIs:</strong></p>
+        <ul>
+            <li>Once logged in, navigate to the section where you can access the UPS APIs <a href="https://developer.ups.com/apps" target="_blank">https://developer.ups.com/apps</a></li>
+        </ul>
+    </li>
+    <li>
+        <p><strong>Create an Application:</strong></p>
+        <ul>
+            <li>Create a new application in the developer portal. This typically involves providing some basic information about your application.
+            </li>
+        </ul>
+    </li>
+    <li>
+        <p><strong>Get API Key (Client ID and Secret):</strong></p>
+        <ul>
+            <li>After creating the application, you should be able to generate API keys. The API key is often referred to as the Client ID. This key is what you will use to authenticate your requests to UPS APIs.</li>
+        </ul>
+    </li>
+</ol>
+
+<h4>Notes</h4>
+<ol>
+<li>
+    <p>Test connection</p>
+    <p>If you get <em>The state is not supported in the Customer Integration Environment</em> error make sure to change the Shipper Postal Code and Shipper Country & Zone in the extension setting to address supported by your UPS account </p>
+</li>
+<li>
+    <p>Set Weight Code and Length Code</p>
+    <p>Set the Weight and Length Code combination supported by shipper country. For USA set Pound and Inches</p>
+</li>
+<li>
+    <p>Products requires shipping</p>
+    <p>Ensure you specify the weight and length for all the products you intend to ship with UPS; otherwise, UPS may provide inaccurate rate calculations.</p>
+</li>
+</ol>

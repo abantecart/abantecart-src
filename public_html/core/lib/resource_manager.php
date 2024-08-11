@@ -121,7 +121,11 @@ class AResourceManager extends AResource
 
     public function buildResourcePath($resource_id, $file_path)
     {
-        if (!(int) $resource_id || empty($file_path)) {
+        if (!(int) $resource_id || !$file_path || !is_writable(DIR_RESOURCE.$this->type_dir)) {
+            $message = "Error: Cannot build resource path for resource id: ".$resource_id." and file path ".$file_path
+                ." Please check permissions of ".dirname(DIR_RESOURCE.$this->type_dir).' directory!';
+            $error = new AError ($message);
+            $error->toLog()->toDebug();
             return false;
         }
         $resource_path = $this->getHexPath($resource_id).strtolower(substr(strrchr($file_path, '.'), 0));
@@ -130,7 +134,8 @@ class AResourceManager extends AResource
             $path = '';
             $directories = explode('/', $resource_dir);
             foreach ($directories as $directory) {
-                $path = $path.'/'.$directory;
+
+                $path = ($path ? $path.'/' : '').$directory;
                 if (!is_dir(DIR_RESOURCE.$this->type_dir.$path)) {
                     if (!is_dir(DIR_RESOURCE.$this->type_dir)) {
                         @mkdir(DIR_RESOURCE.$this->type_dir, 0777);
@@ -186,7 +191,7 @@ class AResourceManager extends AResource
                 DIR_RESOURCE.$this->type_dir.$resource_path
             );
             if (!$result) {
-                $message = "Error: Cannot move resource to resources directory. Please check permissions of "
+                $message = "Error: Cannot move ".DIR_RESOURCE.$this->type_dir.$resource['resource_path']." resource to resources directory (".DIR_RESOURCE.$this->type_dir.$resource_path."). Please check permissions of "
                     .dirname(DIR_RESOURCE.$this->type_dir.$resource_path).' directory!';
                 $error = new AError ($message);
                 $error->toLog()->toDebug();

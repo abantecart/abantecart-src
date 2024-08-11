@@ -6,7 +6,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2021 Belavier Commerce LLC
+  Copyright © 2011-2023 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -25,7 +25,6 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ControllerPagesCatalogProductLayout extends AController
 {
     protected $error = [];
-    public $data = [];
 
     public function main()
     {
@@ -58,8 +57,6 @@ class ControllerPagesCatalogProductLayout extends AController
                 .$this->language->get('text_product')
                 .' - '
                 .$this->data['product_description'][$this->language->getContentLanguageID()]['name'];
-
-        $this->document->setTitle($this->data['heading_title']);
 
         // Alert messages
         if (isset($this->session->data['warning'])) {
@@ -109,16 +106,14 @@ class ControllerPagesCatalogProductLayout extends AController
 
         $this->addChild('pages/catalog/product_summary', 'summary_form', 'pages/catalog/product_summary.tpl');
 
-        $layout = new ALayoutManager();
+        $tmpl_id = $this->request->get['tmpl_id'] ?: $this->config->get('config_storefront_template');
+        $layout = new ALayoutManager($tmpl_id);
         //get existing page layout or generic
         $page_layout = $layout->getPageLayoutIDs($page_controller, $page_key_param, $product_id);
         $page_id = $page_layout['page_id'];
         $layout_id = $page_layout['layout_id'];
-        if (isset($this->request->get['tmpl_id'])) {
-            $tmpl_id = $this->request->get['tmpl_id'];
-        } else {
-            $tmpl_id = $this->config->get('config_storefront_template');
-        }
+
+
         $params = [
             'product_id' => $product_id,
             'page_id'    => $page_id,
@@ -179,8 +174,8 @@ class ControllerPagesCatalogProductLayout extends AController
         // insert external form of layout
         $layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
 
-        $layoutform = $this->dispatch('common/page_layout', [$layout]);
-        $this->data['layoutform'] = $layoutform->dispatchGetOutput();
+        $layoutForm = $this->dispatch('common/page_layout', [$layout]);
+        $this->data['layoutform'] = $layoutForm->dispatchGetOutput();
 
         //build pages and available layouts for cloning
         $this->data['pages'] = $layout->getAllPages();
@@ -230,72 +225,46 @@ class ControllerPagesCatalogProductLayout extends AController
 
     public function save()
     {
-        if ($this->request->is_GET()) {
+        if ($this->request->is_GET() || !$this->request->post) {
             redirect($this->html->getSecureURL('catalog/product_layout'));
         }
-
-        $page_controller = 'pages/product/product';
-        $page_key_param = 'product_id';
-        $product_id = $this->request->post['product_id'];
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $this->loadLanguage('catalog/product');
 
-        if (!has_value($product_id)) {
+        $post = $this->request->post;
+        $pageData = [
+          'controller' => 'pages/product/product',
+          'key_param'  => 'product_id',
+          'key_value'  => (int)$post['product_id'],
+        ];
+
+        $this->loadLanguage('catalog/product');
+        if (!$pageData['key_value']) {
             unset($this->session->data['success']);
             $this->session->data['warning'] = $this->language->get('error_product_not_found');
             redirect($this->html->getSecureURL('catalog/product/update'));
         }
 
-        // need to know if unique page existing
-        $post_data = $this->request->post;
-        $tmpl_id = $post_data['tmpl_id'];
-        $layout = new ALayoutManager();
-        $pages = $layout->getPages($page_controller, $page_key_param, $product_id);
-        if (count($pages)) {
-            $page_id = $pages[0]['page_id'];
-            $layout_id = $pages[0]['layout_id'];
-        } else {
-            $page_info = [
-                'controller' => $page_controller,
-                'key_param'  => $page_key_param,
-                'key_value'  => $product_id,
-            ];
-
-            $this->loadModel('catalog/product');
-            $product_info = $this->model_catalog_product->getProductDescriptions($product_id);
-            if ($product_info) {
-                foreach ($product_info as $language_id => $description) {
-                    if (!(int) $language_id) {
-                        continue;
-                    }
-                    $page_info['page_descriptions'][$language_id] = $description;
-                }
-            }
-            $page_id = $layout->savePage($page_info);
-            $layout_id = '';
-            // need to generate layout name
-            $default_language_id = $this->language->getDefaultLanguageID();
-            $post_data['layout_name'] = 'Product: '.$product_info[$default_language_id]['name'];
+        /** @var ModelCatalogProduct $mdl */
+        $mdl = $this->loadModel('catalog/product');
+        $productInfo = $mdl->getProductDescriptions($pageData['key_value']);
+        if ($productInfo) {
+            $post['layout_name'] = $this->language->get('text_product')
+                . ': '
+                . $productInfo[$this->language->getContentLanguageID()]['name'];
+            $pageData['page_descriptions'] = $productInfo;
         }
 
-        //create new instance with specific template/page/layout data
-        $layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
-        if (has_value($post_data['layout_change'])) {
-            //update layout request. Clone source layout
-            $layout->clonePageLayout($post_data['layout_change'], $layout_id, $post_data['layout_name']);
+        if(saveOrCreateLayout($post['tmpl_id'], $pageData, $post)){
             $this->session->data['success'] = $this->language->get('text_success_layout');
-        } else {
-            //save new layout
-            $layout_data = $layout->prepareInput($post_data);
-            if ($layout_data) {
-                $layout->savePageLayout($layout_data);
-                $this->session->data['success'] = $this->language->get('text_success_layout');
-            }
         }
 
-        redirect($this->html->getSecureURL('catalog/product_layout', '&product_id='.$product_id));
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+        redirect(
+            $this->html->getSecureURL(
+                'catalog/product_layout',
+                '&product_id='.$pageData['key_value'].'&tmpl_id='.$post['tmpl_id']
+            )
+        );
     }
-
 }

@@ -1,5 +1,13 @@
 {
     "require": {
+        "ext-simplexml": "*",
+        "ext-ftp": "*",
+        "ext-curl": "*",
+        "ext-zlib": "*",
+        "ext-dom": "*",
+        "ext-gd": "*",
+        "ext-fileinfo": "*",
+        "ext-libxml": "*",
         "symfony/mailer": "v5.4.10",
         "symfony/google-mailer": "v5.4.8",
         "symfony/amazon-mailer": "v5.4.8",
@@ -10,7 +18,7 @@
         "symfony/sendgrid-mailer": "v5.4.7",
         "symfony/sendinblue-mailer": "v5.4.8",
         "symfony/oh-my-smtp-mailer": "v5.4.10",
-        "google/recaptcha": "^1.2",
-        "mustache/mustache": "^2.14"
+        "google/recaptcha": "1.3.0",
+        "mustache/mustache": "v2.14.2"
     }
 }

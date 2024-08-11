@@ -66,23 +66,28 @@ class ControllerBlocksMenu extends AController
         $lang_id = (int) $this->config->get('storefront_language_id');
 
         foreach ($this->menu_items[$parent] as $item) {
+            // is status not set - set it as an active
+            if(!($item['settings']['status'] ?? 1)){
+                continue;
+            }
             if (preg_match("/^http/i", $item ['item_url'])) {
                 $href = $item ['item_url'];
             } //process relative url such as ../blog/index.php
             elseif (preg_match("/^\.\.\//i", $item ['item_url'])) {
                 $href = str_replace('../', '', $item ['item_url']);
             } else {
-                $href = $this->html->getSecureURL($item ['item_url']);
+                $href = $item ['item_url']=='#' ? '#' :$this->html->getSecureURL($item ['item_url']);
             }
-            $menu[] = [
-                'id'         => $item['item_id'],
-                'current'    => $item['current'] ?? false,
-                'icon'       => $item['item_icon'] ?? '',
-                'icon_rl_id' => $item['item_icon_rl_id'] ?? '',
-                'href'       => $href,
-                'text'       => $item['item_text'][$lang_id] ?? '',
-                'children'   => $this->_buildMenu($item['item_id']),
-            ];
+
+            $item['id'] = $item['item_id'];
+            $item['current'] = $item['current'] ?? false;
+            $item['icon'] = $item['item_icon'] ?? '';
+            $item['icon_rl_id'] = $item['item_icon_rl_id'] ?? '';
+            $item['href'] = $href;
+            $item['text'] = $item['item_text'][$lang_id] ?? '';
+            $item['children'] = $this->_buildMenu($item['item_id']);
+
+            $menu[] = $item;
         }
         return $menu;
     }

@@ -1971,6 +1971,7 @@ a.resource_edit .img-responsive {
 	border: 2px solid #999;
 	padding: 3px;
 	display: block;
+	width: 41px;
 }
 
 .latestuserlist .media {
@@ -1980,7 +1981,6 @@ a.resource_edit .img-responsive {
 
 .latestuserlist .approved .media-thumb {
 	border-color: #F19013;
-	width: 41px;
 }
 
 .latestuserlist .media-object {
@@ -2028,8 +2028,6 @@ a.resource_edit .img-responsive {
 	height: 98%;
 	background: transparent url(../image/icon-gears.png);
 	filter: alpha(opacity=5);
-	-moz-opacity: 0.05;
-	-khtml-opacity: 0.05;
 	opacity: 0.05;
 }
 
@@ -2045,8 +2043,6 @@ a.resource_edit .img-responsive {
 	height: 98%;
 	background: transparent url(../image/icon-ban.png);
 	filter: alpha(opacity=5);
-	-moz-opacity: 0.05;
-	-khtml-opacity: 0.05;
 	opacity: 0.05;
 }
 
@@ -2570,8 +2566,6 @@ body.stickyheader .sticky_left {
 }
 
 .transparent {
-	-moz-opacity: 0.2;
-	-khtml-opacity: 0.2;
 	opacity: 0.2;
 }
 
@@ -2621,7 +2615,7 @@ body.stickyheader .sticky_left {
 	color: #333333;
 }
 
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .open .dropdown-toggle.btn-primary {
+.btn-primary:not([readonly]):hover, .btn-primary:not([readonly]):focus, .btn-primary:not([readonly]):active, .open .dropdown-toggle.btn-primary {
 	background-color: #F19013;
 	border-color: #285E8E;
 	color: #FFFFFF;
@@ -2629,6 +2623,10 @@ body.stickyheader .sticky_left {
 
 .btn-toggle.btn_switch {
 	min-width: 100px;
+}
+.btn-toggle.btn_switch[readonly], .btn-toggle.btn_switch[readonly]>button {
+	opacity: 0.8;
+	cursor: not-allowed;
 }
 
 .btn-toggle.btn_switch.xs {
@@ -2704,7 +2702,6 @@ body.stickyheader .sticky_left {
 @media all and (min-device-pixel-ratio: 2) {
 	.logo_image {
 		display: block;
-		-moz-box-sizing: border-box;
 		box-sizing: border-box;
 		background: url(../image/logo@2x.png) no-repeat;
 	}
@@ -3440,7 +3437,6 @@ body.stickyheader .sticky_left {
 	border: 0;
 	border-radius: 3px;
 	box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	color: #333;
 	display: block;
 	font-size: 12px;
@@ -3621,10 +3617,6 @@ img.extension-summary-icon {
 	white-space: nowrap;
 }
 
-.primary_content_actions .btn-group {
-	margin-bottom: 3px;
-}
-
 td[aria-describedby="extension_grid_name"]{
 	white-space: normal !important;
 }
@@ -3684,4 +3676,8 @@ blockquote p::before {
 
 blockquote p::after {
 	content: '\201D';
+}
+
+.common_content_actions {
+	display: flex;
 }

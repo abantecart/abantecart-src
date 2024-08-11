@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -29,9 +28,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
  */
 class ControllerPagesExtensionExtensions extends AController
 {
-
     public $error;
-
     public function main()
     {
         $ext_type_to_category = [
@@ -54,8 +51,6 @@ class ControllerPagesExtensionExtensions extends AController
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-
-        //put extension_list for remote installation into session to prevent multiple requests for grid
 
         //connection to marketplace
         $this->loadModel('tool/mp_api');
@@ -97,6 +92,15 @@ class ControllerPagesExtensionExtensions extends AController
             unset($this->session->data['error']);
         } else {
             $this->data['error_warning'] = '';
+        }
+
+        if(versionCompare(VERSION,'1.4.0','>=')){
+            if( $this->extensions->isExtensionAvailable('fast_checkout')) {
+                $this->data['error_warning'] .= '<br>Please uninstall and remove FastCheckout extension to avoid a conflicts. Fast Checkout now part of Abantecart core.';
+            }
+            if( $this->extensions->isExtensionAvailable('bootstrap5')) {
+                $this->data['error_warning'] .= '<br>Template Extension Bootstrap5 now part of Abantecart core. You can remove it and use default template instead.';
+            }
         }
 
         //set store id based on param or session.
@@ -383,7 +387,7 @@ class ControllerPagesExtensionExtensions extends AController
             ]
         );
 
-        $result = ['resource_field_list' => []];
+        $result = [];
         foreach ($settings as $item) {
             $data = (array) $item;
             if ($item['name'] == $extension.'_status') {
@@ -477,6 +481,9 @@ class ControllerPagesExtensionExtensions extends AController
                                 $field1 = $item['field1'];
                                 $field2 = $item['field2'];
                                 foreach ($res as $opt) {
+                                    if($item['allowed']  && !in_array($opt[$field1], $item['allowed'])){
+                                        continue;
+                                    }
                                     $data['options'][$opt[$field1]] = $opt[$field2];
                                 }
                             }
@@ -523,6 +530,11 @@ class ControllerPagesExtensionExtensions extends AController
                     if ($item['name'] == $extension.'_status') {
                         $data['style'] .= " status_switch";
                     }
+                    break;
+                case 'zones':
+                    $data['submit_mode'] = 'id';
+                    $data['zone_field_name'] = $data['name'].'_zone';
+                    $data['zone_value'] = $this->config->get($data['name'].'_zone');
                     break;
                 case 'resource':
                     $item['resource_type'] = (string) $item['resource_type'];
@@ -810,18 +822,11 @@ class ControllerPagesExtensionExtensions extends AController
             //image gallery scripts and css for previews
             $this->document->addStyle(
                 [
-                    'href' => RDIR_TEMPLATE.'javascript/blueimp-gallery/css/bootstrap-image-gallery.css',
+                    'href' => RDIR_TEMPLATE.'javascript/lightbox/css/lightbox.css',
                     'rel'  => 'stylesheet',
                 ]
             );
-            $this->document->addStyle(
-                [
-                    'href' => RDIR_TEMPLATE.'javascript/blueimp-gallery/css/blueimp-gallery.min.css',
-                    'rel'  => 'stylesheet',
-                ]
-            );
-            $this->document->addScript(RDIR_TEMPLATE.'javascript/blueimp-gallery/jquery.blueimp-gallery.min.js');
-            $this->document->addScript(RDIR_TEMPLATE.'javascript/blueimp-gallery/bootstrap-image-gallery.js');
+            $this->document->addScript(RDIR_TEMPLATE.'javascript/lightbox/js/lightbox.js');
         }
 
         if ($ext->getConfig('help_link')) {
@@ -915,7 +920,7 @@ class ControllerPagesExtensionExtensions extends AController
                                     'title'  => $this->language->get('text_edit'),
                                 ]
                             );
-                            if (!(boolean) $item['required']) {
+                            if (!(bool) $item['required']) {
                                 $actions['uninstall'] = $this->html->buildElement(
                                     [
                                         'type'   => 'button',
@@ -1117,15 +1122,13 @@ class ControllerPagesExtensionExtensions extends AController
 
         if (!$this->user->canModify('extension/extensions')) {
             $this->session->data['error'] = $this->language->get('error_permission');
-            redirect($this->html->getSecureURL('extension/extensions/'.$this->session->data['extension_filter']));
         } else {
             $ext = new ExtensionUtils($this->request->get['extension']);
             $this->extension_manager->uninstall($this->request->get['extension'], $ext->getConfig());
-            redirect($this->html->getSecureURL('extension/extensions/'.$this->session->data['extension_filter']));
         }
-
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
+        redirect($this->html->getSecureURL('extension/extensions/'. $this->session->data['extension_filter']));
     }
 
     public function delete()
@@ -1135,7 +1138,6 @@ class ControllerPagesExtensionExtensions extends AController
 
         if (!$this->user->canModify('extension/extensions')) {
             $this->session->data['error'] = $this->language->get('error_permission');
-            redirect($this->html->getSecureURL('extension/extensions/'.$this->session->data['extension_filter']));
         } else {
             //extensions that has record in DB but missing files
             $missing_extensions = $this->extensions->getMissingExtensions();
@@ -1152,10 +1154,10 @@ class ControllerPagesExtensionExtensions extends AController
             }
 
             $this->extension_manager->delete($this->request->get['extension']);
-            redirect($this->html->getSecureURL('extension/extensions/'.$this->session->data['extension_filter']));
         }
-
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+        redirect($this->html->getSecureURL('extension/extensions/'. $this->session->data['extension_filter']));
     }
 }
