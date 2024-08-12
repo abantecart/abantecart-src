@@ -18,8 +18,8 @@
    needs please refer to http://www.AbanteCart.com for more information.  
 ------------------------------------------------------------------------------*/
 // Required PHP Version
-define('MIN_PHP_VERSION', '8.0.0');
-if (version_compare(phpversion(), MIN_PHP_VERSION, '<') == true) {
+const MIN_PHP_VERSION = '8.1.0';
+if (version_compare(phpversion(), MIN_PHP_VERSION, '<')) {
     die(MIN_PHP_VERSION.'+ Required for AbanteCart to work properly! Please contact your system administrator or host service provider.');
 }
 
@@ -38,8 +38,8 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 }
 
 define('DIR_ROOT', $root_path);
-define('DIR_CORE', DIR_ROOT.'/core/');
-define('RDIR_TEMPLATE', 'admin/view/default/');
+const DIR_CORE = DIR_ROOT . '/core/';
+const RDIR_TEMPLATE = 'admin/view/default/';
 
 require_once(DIR_ROOT.'/system/config.php');
 
@@ -63,6 +63,7 @@ unset($_GET['s']);
 
 $step_result = null;
 // add to settings API et task_api_key
+/** @var AConfig $config */
 $task_api_key = $config->get('task_api_key');
 if (!$task_api_key || $task_api_key != (string)$_GET['task_api_key']) {
     exit('Authorize to access.');
@@ -78,6 +79,7 @@ if (!$mode) {
 
 ADebug::checkpoint('init end');
 
+/** @var Registry $registry */
 // Currency
 $registry->set('currency', new ACurrency($registry));
 
@@ -113,21 +115,22 @@ if ($mode && !$task_id) {
     } else {
         if ($mode && $task_id && !$step_id) {
             //when start whole task
-            $tm->updateTask($task_id, array(
+            $tm->updateTask($task_id, [
                     'status'     => $tm::STATUS_READY,
                     'start_time' => date('Y-m-d H:i:s'),
-                )
+                ]
             );
 
+            $task_details = [];
             if ($run_mode != 'continue') {
                 $task_details = $tm->getTaskById($task_id);
                 foreach ($task_details['steps'] as $step) {
-                    $tm->updateStep($step['step_id'], array('status' => $tm::STATUS_READY));
+                    $tm->updateStep($step['step_id'], ['status' => $tm::STATUS_READY]);
                 }
             }
 
-            //run all steps of task and change it's status after
-            $data = array('task_details' => $task_details);
+            //run all steps of task and change its status after
+            $data = ['task_details' => $task_details];
             $tm->runTask($task_id);
         }
     }
@@ -152,7 +155,7 @@ if ($mode == 'ajax') {
         $err = new AError('task run error');
         $err->toJSONResponse(
             'APP_ERROR_402',
-            array('error_text' => nl2br(implode("\n", $run_log)))
+            ['error_text' => nl2br(implode("\n", $run_log))]
         );
         exit;
     }

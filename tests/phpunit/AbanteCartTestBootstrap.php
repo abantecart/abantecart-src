@@ -1,4 +1,24 @@
 <?php
+/*
+ * ------------------------------------------------------------------------------
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ * ------------------------------------------------------------------------------
+ */
 
 /**
  * Class AbanteCartTest
@@ -25,7 +45,7 @@ class AbanteCartTest extends PHPUnit\Framework\TestCase
         $_SERVER['PHP_SELF'] = ABC_TEST_PHP_SELF;
 
         // Required PHP Version
-        define('MIN_PHP_VERSION', '8.0.0');
+        define('MIN_PHP_VERSION', '8.1.0');
         if (version_compare(phpversion(), MIN_PHP_VERSION, '<') == true) {
             throw new Exception(
                 MIN_PHP_VERSION

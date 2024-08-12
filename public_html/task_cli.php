@@ -1,31 +1,33 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-  
- UPGRADE NOTE: 
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.  
-------------------------------------------------------------------------------*/
+/*
+ * ------------------------------------------------------------------------------
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ * ------------------------------------------------------------------------------
+ */
 // Required PHP Version
-define('MIN_PHP_VERSION', '8.0.0');
-if (version_compare(phpversion(), MIN_PHP_VERSION, '<') == true) {
+const MIN_PHP_VERSION = '8.1.0';
+if (version_compare(phpversion(), MIN_PHP_VERSION, '<')) {
     die(MIN_PHP_VERSION.'+ Required for AbanteCart to work properly! Please contact your system administrator or host service provider.');
 }
 
-if (substr(php_sapi_name(), 0, 3) != 'cli' && !empty($_SERVER['REMOTE_ADDR'])) {
+if (!str_starts_with(php_sapi_name(), 'cli') && !empty($_SERVER['REMOTE_ADDR'])) {
     //not command line!!
-    echo "Not implemented! <br> \n";
+    echo "Forbidden. <br> \n";
     exit;
 }
 
@@ -40,7 +42,7 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 }
 
 define('DIR_ROOT', $root_path);
-define('DIR_CORE', DIR_ROOT.'/core/');
+const DIR_CORE = DIR_ROOT . '/core/';
 
 require_once(DIR_ROOT.'/system/config.php');
 //set server name for correct email sending
@@ -53,7 +55,7 @@ $_GET['s'] = ADMIN_PATH;
 require_once(DIR_ROOT.'/core/init.php');
 // not needed anymore
 unset($_GET['s']);
-define('RDIR_TEMPLATE', 'admin/view/default/');
+const RDIR_TEMPLATE = 'admin/view/default/';
 // Currency for processes that require currency
 $registry = Registry::getInstance();
 $registry->set('currency', new ACurrency($registry));
@@ -94,6 +96,7 @@ switch ($command) {
  * @param array $options
  *
  * @void
+ * @throws AException
  */
 function queryTasks($options)
 {
@@ -123,6 +126,7 @@ function queryTasks($options)
  * @param array $options
  *
  * @void
+ * @throws AException
  */
 function processTasks($options)
 {
@@ -143,6 +147,7 @@ function processTasks($options)
  * @param array $options
  *
  * @void
+ * @throws AException
  */
 function processTask($options)
 {
@@ -185,6 +190,7 @@ function processTask($options)
  * @param array $options
  *
  * @void
+ * @throws AException
  */
 function processTaskStep($options)
 {
@@ -304,7 +310,7 @@ function getOptionValues($opt_name = '')
     }
 
     if ($opt_name) {
-        return isset($options[$opt_name]) ? $options[$opt_name] : null;
+        return $options[$opt_name] ?? null;
     }
 
     return $options;
