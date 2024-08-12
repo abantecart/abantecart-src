@@ -11407,10 +11407,10 @@ VALUES  (11,'text_abantecart',111),
         (11,'text_extensions_store',114);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (12,'window.open(\'http://www.abantecart.com\');',111),
-        (12,'window.open(\'http://docs.abantecart.com\');',112),
-        (12,'window.open(\'http://forum.abantecart.com\');',113),
-        (12,'window.open(\'http://marketplace.abantecart.com\');',114);
+VALUES  (12,'window.open(\'https://www.abantecart.com\');',111),
+        (12,'window.open(\'https://docs.abantecart.com\');',112),
+        (12,'window.open(\'https://forum.abantecart.com\');',113),
+        (12,'window.open(\'https://marketplace.abantecart.com\');',114);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (13,'help',111),
@@ -12048,7 +12048,7 @@ VALUES  (20, NOW(),'1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (21,'AbanteCart','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (22,'1.4.0','1');
+VALUES  (22,'1.4.1','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (23,'','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
