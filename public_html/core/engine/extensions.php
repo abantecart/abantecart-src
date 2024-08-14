@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2023 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 /**
  * ExtensionsApi
@@ -24,16 +24,9 @@
  *
  * @package ExtensionsApi
  */
-
-/**
- * short description.
- */
 abstract class Extension
 {
-
-    /**
-     * @var boolean Allow this extension to overload "hook" calls?
-     */
+    /** @var boolean Allow this extension to overload "hook" calls? */
     public $overloadHooks = false;
 
     /** @var bool extension class have abstract hooks via __call
@@ -270,7 +263,7 @@ class ExtensionsApi
         $this->db_extensions = [];
         $this->missing_extensions = [];
 
-        $dbVersions = $cfgVersions = [];
+        $cfgVersions = [];
 
         $extensions = glob(DIR_EXT.'*', GLOB_ONLYDIR);
         if ($extensions) {
@@ -868,12 +861,7 @@ class ExtensionsApi
      */
     public function isExtensionAvailable($extension)
     {
-        foreach ($this->extensions_dir as $ext) {
-            if ($ext == $extension) {
-                return true;
-            }
-        }
-        return false;
+        return in_array($extension, $this->extensions_dir);
     }
 
     /**
@@ -1139,9 +1127,7 @@ class ExtensionsApi
         $return = null;
 
         if ((sizeof($args) > 0) && is_object($args[0])) {
-            /**
-             * @var object Extension
-             */
+            /** @var AController|Model|object $baseObject */
             $baseObject = $args[0];
             $baseObject->ExtensionsApi = $this;
         } else {
@@ -1240,7 +1226,7 @@ class ExtensionUtils
      * @param string $ext
      * @param int $store_id
      *
-     * @throws AException
+     * @throws AException|DOMException
      */
     public function __construct($ext, $store_id = 0)
     {
