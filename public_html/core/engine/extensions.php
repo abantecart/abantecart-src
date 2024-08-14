@@ -270,8 +270,11 @@ class ExtensionsApi
         $this->db_extensions = [];
         $this->missing_extensions = [];
 
+        $dbVersions = $cfgVersions = [];
+
         $extensions = glob(DIR_EXT.'*', GLOB_ONLYDIR);
         if ($extensions) {
+
             foreach ($extensions as $ext) {
                 //skip other directory not containing extensions
                 if (is_file($ext.'/config.xml')) {
@@ -281,6 +284,7 @@ class ExtensionsApi
                     //be sure that extension dirname equal extension-text-id in config.xml
                     if ($xml !== false && (string) $xml->id == $ext_text_id) {
                         $this->extensions_dir[] = $ext_text_id;
+                        $cfgVersions[$ext_text_id] =  $xml->version;
                     }
                 }
             }
@@ -292,6 +296,15 @@ class ExtensionsApi
             foreach ($query->rows as $result) {
                 if (trim($result['key'])) {
                     $this->db_extensions[] = $result['key'];
+                    //case when somebody replaced the code od extension manually
+                    if(isset($cfgVersions[$result['key']]) && $cfgVersions[$result['key']] != $result['version'] )
+                    {
+                        $sql = "UPDATE ".$this->db->table("extensions")." 
+                                SET `version` = '".$this->db->escape($cfgVersions[$result['key']])."'
+                                WHERE  `key` = '".$this->db->escape($result['key'])."'";
+                        $this->db->query($sql);
+                    }
+
                 }
             }
 
