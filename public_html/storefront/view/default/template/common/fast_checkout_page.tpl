@@ -115,9 +115,6 @@ Check Dan Riti's blog for more fine tunning suggestion:
 https://www.appneta.com/blog/bootstrap-pagespeed/
 		*/
 ?>
-<script type="text/javascript" src="<?php echo $this->templateResource('/js/jquery-3.6.0.min.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/js/bootstrap.bundle.min.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/js/custom.js'); ?>"></script>
 <script src="<?php echo $this->templateResource('/js/fast_checkout.js'); ?>" defer></script>
 
 <?php
