@@ -1,11 +1,12 @@
-FROM php:7.4-fpm
-LABEL maintainer="Denis Vagner <help@abantecart.com>"
+FROM php:8.2-fpm
+LABEL maintainer="Pavel Rojkov <help@abantecart.com>"
 
 RUN apt-get update && apt-get install -y \
     curl \
     wget \
     git \
     libwebp-dev \
+    libavif-dev \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
     libmcrypt-dev \
