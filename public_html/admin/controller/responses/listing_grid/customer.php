@@ -129,11 +129,11 @@ class ControllerResponsesListingGridCustomer extends AController
                         'style' => 'btn_switch',
                     ]
                 ),
-                $this->html->buildSelectBox(
+                $this->html->buildCheckbox(
                     [
-                        'name'    => 'approved['.$result['customer_id'].']',
-                        'value'   => $result['approved'],
-                        'options' => $approved,
+                        'name'  => 'approved['.$result['customer_id'].']',
+                        'value' => $result['approved'],
+                        'style' => 'btn_switch',
                     ]
                 ),
                 ($order_cnt > 0 ?
