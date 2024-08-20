@@ -20,6 +20,8 @@
 
 // set default encoding for multibyte php mod
 mb_internal_encoding('UTF-8');
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
 ini_set('default_charset', 'utf-8');
 ini_set('serialize_precision', 16);
 
