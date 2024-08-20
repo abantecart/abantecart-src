@@ -739,7 +739,7 @@ textarea.form-control-lg {
     padding: 0.8rem 0.75rem;
     font-size: 0.875rem;
     color: #1B1C2D;
-    background-color: #fff;
+    background-color: inherit;
     border: 1px solid #E6E8ED;
     border-radius: 8px;
 }
