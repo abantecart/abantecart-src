@@ -2,7 +2,7 @@
 <div class="input-group">
     <?php } ?>
     <input type="<?php echo $type ?>" name="<?php echo $name ?>" id="<?php echo $id ?>" value="<?php echo $value ?>"
-           placeholder="<?php echo $placeholder ?>" class="form-control w-auto <?php echo $style; ?>"
+           placeholder="<?php echo $placeholder ?>" class="form-control <?php echo $style; ?>"
         <?php echo $attr;
         echo $regexp_pattern ? 'pattern="' . $regexp_pattern . '"' : '';
         echo $error_text ? 'title="' . $error_text . '"' : '';
