@@ -176,7 +176,7 @@ if ($error){ ?>
                                                 <?php
                                                     echo $this->getHookVar('product_option_'.$option['name'].'_additional_info');
                                                 ?>
-                                                <div class="prod-option flex-shrink-0 <?php echo $fldType .' '.(in_array($fldType, ['input', 'textarea']) ? 'w-100' : '')?>">
+                                                <div class="prod-option <?php echo $fldType .' '.(in_array($fldType, ['input', 'textarea']) ? 'w-100' : '')?>">
                                                     <?php echo $option['html'];	?>
                                                 </div>
                                             </div>

@@ -21,7 +21,7 @@
         </datalist>
     <?php }
     if ($required) { ?>
-        <span class="input-group-text text-danger">*</span>
+        <span class="input-group-text text-danger rounded-end">*</span>
     <?php } ?>
     <?php if (!$no_wrapper){ ?>
 </div>
