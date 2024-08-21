@@ -231,7 +231,7 @@ class AAttribute_Manager extends AAttribute
                                 $valueData['value']
                             );
                         }
-                    } else {
+                    } elseif($valueData) {
                         //Existing need to update
                         $this->updateAttributeValue( $attrValueId, $valueData );
                         $this->updateAttributeValueDescription($attribute_id, $attrValueId, $language_id, $valueData['value']);
