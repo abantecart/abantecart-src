@@ -93,7 +93,7 @@ class ControllerPagesAccountOrderDetails extends AController
 
         $this->view->assign('error', $this->error);
 
-        $this->document->setTitle($this->language->get('heading_title'));
+        $this->document->setTitle($this->language->get('heading_title','account/order_details'));
 
         $this->document->resetBreadcrumbs();
 
