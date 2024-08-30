@@ -2385,7 +2385,7 @@ class ModelCatalogProduct extends Model
             if ($mode == 'total_only') {
                 $sql = "SELECT COUNT(*) as total ";
             } else {
-                $sql = "SELECT ".$this->db->getSqlCalcTotalRows()." DISTINCT pd.*, p.* ";
+                $sql = "SELECT ".$this->db->getSqlCalcTotalRows()." DISTINCT pd.*, p.*, m.name as manufacturer_name ";
                 $sql .= ", (SELECT 
                                 CASE WHEN SUM(COALESCE(ppov.subtract,0))>0
                                  THEN SUM( CASE WHEN ppov.quantity > 0 THEN ppov.quantity ELSE 0 END)
@@ -2409,9 +2409,13 @@ class ModelCatalogProduct extends Model
                             ON (p.product_id = p2c.product_id) ";
             }
 
+            $sql .= " LEFT JOIN ".$this->db->table("manufacturers")
+                ." m ON (p.manufacturer_id = m.manufacturer_id) ";
+
             $sql .= ' WHERE 1=1 ';
 
             if (!empty($data['subsql_filter'])) {
+                $data['subsql_filter'] = str_replace('`name`','pd.name',$data['subsql_filter']);
                 $sql .= " AND ".$data['subsql_filter'];
             }
 
@@ -2506,6 +2510,9 @@ class ModelCatalogProduct extends Model
                 $childrenIds = array_filter(array_unique($childrenIds));
                 $sql .= " AND p2c.category_id IN (".(implode(',', $childrenIds)).")";
             }
+	    if ($filter['manufacturer']) {
+                $sql .= " AND p.manufacturer_id = '".(int) $filter['manufacturer']."'";
+            }
             if ($filter['sku']) {
                 $sql .= " AND p.sku LIKE '%". $this->db->escape($filter['sku'])."%'";
             }
@@ -2524,6 +2531,7 @@ class ModelCatalogProduct extends Model
                 'name'          => 'pd.name',
                 'model'         => 'p.model',
                 'sku'           => 'p.sku',
+                'manufacturer'  => 'm.name',
                 'quantity'      => 'quantity',
                 'price'         => 'p.price',
                 'status'        => 'p.status',

@@ -53,6 +53,7 @@ class ControllerResponsesListingGridProduct extends AController
         //Prepare filter config
         $filter_params = [
             'category',
+            'manufacturer',
             'status',
             'keyword',
             'match',
@@ -60,7 +61,7 @@ class ControllerResponsesListingGridProduct extends AController
             'pto',
         ];
 
-        $grid_filter_params = ['name', 'sort_order', 'sku'];
+        $grid_filter_params = ['name', 'sort_order', 'model', 'sku'];
 
         $filter_form = new AFilter(['method' => 'get', 'filter_params' => $filter_params]);
         $filter_grid = new AFilter(['method' => 'post', 'grid_filter_params' => $grid_filter_params]);
@@ -115,11 +116,18 @@ class ControllerResponsesListingGridProduct extends AController
                 ),
                 $this->html->buildInput(
                     [
+                        'name'  => 'model['.$result['product_id'].']',
+                        'value' => $result['model'],
+                    ]
+                ),
+                $this->html->buildInput(
+                    [
 
                         'name'  => 'sku['.$result['product_id'].']',
                         'value' => $result['sku'],
                     ]
                 ),
+                $result['manufacturer_name'],
                 $price,
                 (int) $result['quantity'],
                 $this->html->buildCheckbox(

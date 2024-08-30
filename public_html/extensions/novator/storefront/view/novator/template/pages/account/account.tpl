@@ -77,7 +77,9 @@
         foreach($array as $key => $item){
             if($key == 'download' && !$this->config->get('config_download')){ continue; }
             //hookvar before
-            if($key == 'wishlist'){
+            if($key == 'history'){
+                echo $this->getHookVar('account_links_dash_icons');
+            }elseif($key == 'wishlist'){
                 echo $this->getHookVar('account_dash_icons');
             }elseif($key == 'logout'){
                 echo $this->getHookVar('account_newsletter_dash_icons');

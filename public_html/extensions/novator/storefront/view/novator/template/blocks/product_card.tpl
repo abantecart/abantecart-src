@@ -49,6 +49,7 @@
                                     <i class="bi bi-shuffle"></i>
                                 </a>
                             </li>
+                            <?php echo $this->getHookvar('product_button_'.$product['product_id']); ?>
                         </ul>
                     </div>
                     <div class="col-auto">

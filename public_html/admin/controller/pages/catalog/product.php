@@ -68,6 +68,14 @@ class ControllerPagesCatalogProduct extends AController
             $this->data['categories'][$r['category_id']] = $r['name'];
         }
 
+        $this->loadModel('catalog/manufacturer');
+        $this->data['manufacturers'] = ['' => $this->language->get('text_select_manufacturer')];
+        $datas['store_id'] =  $this->session->data['current_store_id'];
+        $results = $this->model_catalog_manufacturer->getManufacturers($datas);
+        foreach ($results as $r) {
+            $this->data['manufacturers'][$r['manufacturer_id']] = $r['name'];
+        }
+
         $grid_settings = [
             'table_id'     => 'product_grid',
             'url'          => $this->html->getSecureURL(
@@ -188,7 +196,9 @@ class ControllerPagesCatalogProduct extends AController
         $grid_settings['colNames'] = [
             '',
             $this->language->get('column_name'),
+            $this->language->get('column_model'),
             $this->language->get('column_sku'),
+            $this->language->get('column_manufacturer'),
             $this->language->get('column_price'),
             $this->language->get('column_quantity'),
             $this->language->get('column_status'),
@@ -209,10 +219,23 @@ class ControllerPagesCatalogProduct extends AController
                 'width' => 200,
             ],
             [
+                'name'  => 'model',
+                'index' => 'model',
+                'align' => 'center',
+                'width' => 120,
+            ],
+            [
                 'name'  => 'sku',
                 'index' => 'sku',
                 'align' => 'center',
                 'width' => 120,
+            ],
+            [
+                'name'  => 'manufacturer',
+                'index' => 'manufacturer',
+                'align' => 'center',
+                'width' => 140,
+                'search' => false,
             ],
             [
                 'name'   => 'price',
@@ -332,6 +355,22 @@ class ControllerPagesCatalogProduct extends AController
                 'placeholder' => $this->language->get('text_select_category'),
             ]
         );
+
+        if ($this->request->get['manufacturer']) {
+            $search_params['manufacturer'] = $this->request->get['manufacturer'];
+        }
+
+        $grid_search_form['fields']['manufacturer'] = $form->getFieldHtml(
+            [
+                'type'        => 'selectbox',
+                'name'        => 'manufacturer',
+                'options'     => $this->data['manufacturers'],
+                'style'       => 'chosen',
+                'value'       => $search_params['manufacturer'],
+                'placeholder' => $this->language->get('text_select_manufacturer'),
+            ]
+        );
+
         $grid_search_form['fields']['status'] = $form->getFieldHtml(
             [
                 'type'        => 'selectbox',
