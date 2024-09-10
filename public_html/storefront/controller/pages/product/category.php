@@ -78,8 +78,6 @@ class ControllerPagesProductCategory extends AController
             if (count($parts) == 1) {
                 //see if this is a category ID to sub category, need to build full path
                 $parts = explode('_', $mdl->buildPath($request['path']));
-            }else{
-                $parts = [end($parts)];
             }
             $category_id = [end($parts)];
             foreach ($parts as $path_id) {
