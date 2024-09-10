@@ -30,7 +30,7 @@ class ControllerResponsesCheckoutPay extends AController
 {
     public $error = [];
     protected $action = '';
-    protected $allow_guest = false;
+    public $allow_guest = false;
     /** @var array short reference to fast checkout session data */
     protected $fc_session;
 
@@ -1528,10 +1528,9 @@ class ControllerResponsesCheckoutPay extends AController
 
         $this->loadModel('localisation/country');
         $countries = $this->model_localisation_country->getCountries();
-        $options = ['false' => $this->language->get('text_select')];
-        foreach ($countries as $item) {
-            $options[$item['country_id']] = $item['name'];
-        }
+        $options = ['false' => $this->language->get('text_select')]
+                    + array_column( (array)$countries, 'name', 'country_id' );
+
         $this->data['form']['country_id'] = $form->getFieldHtml(
             [
                 'type'     => 'selectbox',
