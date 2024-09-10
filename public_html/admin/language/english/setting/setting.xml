@@ -1104,7 +1104,7 @@
 	</definition>
 	<definition>
 		<key>entry_fast_checkout_allow_coupon</key>
-		<value><![CDATA[Allow coupon entry <br /><span class="help">Enable coupon entry by customers and guests</span>]]></value>
+		<value><![CDATA[Allow Coupon Entry at Checkout <br /><span class="help">Enable coupon entry by customers and guests</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_fast_checkout_payment_address_equal_shipping</key>
@@ -1112,7 +1112,7 @@
 	</definition>
 	<definition>
 		<key>entry_fast_checkout_require_phone_number</key>
-		<value><![CDATA[Require Phone Number <br /><span class="help">Require phone number entry by customer or guest specific to the order</span>]]></value>
+		<value><![CDATA[Require Phone Number at Checkout <br /><span class="help">When enabled, this setting requires customers or guests to provide a phone number during the checkout process.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_fast_checkout_create_account</key>
