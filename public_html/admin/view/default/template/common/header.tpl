@@ -17,7 +17,9 @@
 					echo $this->getHookVar('logoimage_hookvar');
 				} else{
 				    ?>
-					<img class="logo_image" src="<?php echo $template_dir; ?>image/logo.png" width="190"
+					<img class="logo_image"
+                         src="<?php echo $template_dir; ?>image/logo.png"
+                         style="max-width:190px; max-height: 40px;"
 						 title="<?php echo $heading_title; ?>"/>
 					<?php
 				}
