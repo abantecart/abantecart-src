@@ -79,7 +79,8 @@ class ControllerPagesProductCategory extends AController
                 //see if this is a category ID to sub category, need to build full path
                 $parts = explode('_', $mdl->buildPath($request['path']));
             }
-            $category_id = [end($parts)];
+            $currentId = end($parts);
+            $category_id = [$currentId];
             foreach ($parts as $path_id) {
                 $category_info = $mdl->getCategory($path_id);
                 if ($category_info) {
@@ -88,15 +89,18 @@ class ControllerPagesProductCategory extends AController
                     } else {
                         $path .= '_' . $path_id;
                     }
-                    $this->document->addBreadcrumb(
-                        [
-                            'href'      => $this->html->getSEOURL('product/category', '&path=' . $path, '&encode'),
-                            'text'      => $category_info['name'],
-                            'separator' => $this->language->get('text_separator'),
-                        ]
-                    );
                 }
-                $category_id = array_merge($category_id, $mdl->getChildrenIDs((int)$path_id));
+                // include subdirectories into result product list
+                if($path_id == $currentId) {
+                    $category_id = array_merge($category_id, $mdl->getChildrenIDs((int)$path_id));
+                }
+                $this->document->addBreadcrumb(
+                    [
+                        'href'      => $this->html->getSEOURL('product/category', '&path=' . $path, '&encode'),
+                        'text'      => $category_info['name'],
+                        'separator' => $this->language->get('text_separator'),
+                    ]
+                );
             }
 
             $category_info = $mdl->getCategory(end($parts));
