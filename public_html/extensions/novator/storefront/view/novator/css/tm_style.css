@@ -484,7 +484,8 @@ th {
 }
 
 .form-control:disabled {
-    background-color: #B5B5BC;
+    background-color: #F0F0F7;
+    color: darkgray;
 }
 
 .form-control::file-selector-button {

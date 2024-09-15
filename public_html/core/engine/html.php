@@ -911,6 +911,7 @@ class HtmlElementFactory
  * @property array $options
  * @property array $disabled_options
  * @property bool $required
+ * @property string $template
  */
 abstract class HtmlElement
 {
@@ -1057,7 +1058,7 @@ abstract class HtmlElement
                 $seo_prefix = $this->registry->get('config')->get('seo_prefix');
                 $url = HTTPS_SERVER.$seo_prefix;
                 $query_string = $this->registry->get('request')->server['QUERY_STRING'];
-                if (strpos($query_string, '_route_=') === false) {
+                if (!str_contains($query_string, '_route_=')) {
                     $url .= '?';
                 } else {
                     $query_string = str_replace('_route_=', '', $query_string);
@@ -1098,7 +1099,7 @@ class HiddenHtmlElement extends HtmlElement
             ]
         );
 
-        return $this->view->fetch('form/hidden.tpl');
+        return $this->view->fetch($this->template ?: 'form/hidden.tpl');
     }
 }
 
@@ -1144,7 +1145,7 @@ class MultiValueListHtmlElement extends HtmlElement
         $data['text']['column_sort_order'] = $this->language->get('text_sort_order');
         $this->extendAndBatchAssign($data);
 
-        return $this->view->fetch('form/multivalue_list.tpl');
+        return $this->view->fetch($this->template ?: 'form/multivalue_list.tpl');
     }
 }
 
@@ -1200,7 +1201,7 @@ class MultiValueHtmlElement extends HtmlElement
 
         $this->extendAndBatchAssign($data);
 
-        return $this->view->fetch('form/multivalue_hidden.tpl');
+        return $this->view->fetch($this->template ?: 'form/multivalue_hidden.tpl');
     }
 }
 
@@ -1232,7 +1233,7 @@ class SubmitHtmlElement extends HtmlElement
             ]
         );
 
-        return $this->view->fetch('form/submit.tpl');
+        return $this->view->fetch($this->template ?: 'form/submit.tpl');
     }
 }
 
@@ -1285,7 +1286,7 @@ class InputHtmlElement extends HtmlElement
                 'list'           => $this->list,
             ]
         );
-        return $this->view->fetch('form/input.tpl');
+        return $this->view->fetch($this->template ?: 'form/input.tpl');
     }
 }
 
@@ -1336,7 +1337,7 @@ class ColorHtmlElement extends HtmlElement
             ]
         );
 
-        return $this->view->fetch('form/input.tpl');
+        return $this->view->fetch($this->template ?: 'form/input.tpl');
     }
 }
 
@@ -1389,7 +1390,7 @@ class PasswordHtmlElement extends HtmlElement
             ]
         );
 
-        return $this->view->fetch('form/input.tpl');
+        return $this->view->fetch($this->template ?: 'form/input.tpl');
     }
 }
 
@@ -1430,7 +1431,7 @@ class TextareaHtmlElement extends HtmlElement
             ]
         );
 
-        return $this->view->fetch('form/textarea.tpl');
+        return $this->view->fetch($this->template ?: 'form/textarea.tpl');
     }
 }
 
@@ -1485,7 +1486,7 @@ class TextEditorHtmlElement extends HtmlElement
             $data['button_preview'] = $this->language->get('button_preview');
         }
         $this->extendAndBatchAssign($data);
-        return $this->view->fetch('form/text_editor.tpl');
+        return $this->view->fetch($this->template ?: 'form/text_editor.tpl');
     }
 }
 
@@ -1555,8 +1556,9 @@ class SelectboxHtmlElement extends HtmlElement
             'text_looking_for'     => $text_looking_for,
             'help_url'             => $this->help_url,
         ];
-
-        if (strpos($this->style, 'chosen') !== false) {
+        if($this->template){
+            $template = $this->template;
+        }elseif (str_contains($this->style, 'chosen')) {
             $data['ajax_url'] = $this->ajax_url; //if mode of data load is ajax based
             $data['text_continue_typing'] = $text_continue_typing;
             $data['text_looking_for'] = $text_looking_for;
@@ -1615,7 +1617,9 @@ class MultiSelectBoxHtmlElement extends HtmlElement
             'help_url'         => $this->help_url,
         ];
 
-        if (strpos($this->style, 'chosen') !== false) {
+        if($this->template){
+            $template = $this->template;
+        }elseif (str_contains($this->style, 'chosen')) {
             $option_attr = $this->option_attr && !is_array($this->option_attr)
                 ? [$this->option_attr]
                 : $this->option_attr;
@@ -1654,7 +1658,9 @@ class CheckboxHtmlElement extends HtmlElement
      */
     public function getHtml()
     {
-        if (strpos($this->style, 'btn_switch') !== false) { //for switch button NOTE: value is binary (1 or 0)!!!
+        if($this->template){
+            $tpl = $this->template;
+        }elseif (str_contains($this->style, 'chosen')) { //for switch button NOTE: value is binary (1 or 0)!!!
             $checked = is_null($this->checked) && $this->value ? true : (bool) $this->checked;
             if ($checked) {
                 $this->value = 1;
@@ -1744,7 +1750,9 @@ class CheckboxGroupHtmlElement extends HtmlElement
             ]
         );
 
-        if (strpos($this->style, 'chosen') !== false) {
+        if($this->template){
+            $template = $this->template;
+        }elseif (str_contains($this->style, 'chosen')) {
             $template = 'form/chosen_select.tpl';
         } else {
             $template = 'form/checkboxgroup.tpl';
@@ -1786,8 +1794,7 @@ class FileHtmlElement extends HtmlElement
                 'help_url'     => $this->help_url,
             ]
         );
-
-        return $this->view->fetch('form/file.tpl');
+        return $this->view->fetch($this->template ?: 'form/file.tpl');
     }
 }
 
@@ -1830,7 +1837,7 @@ class RadioHtmlElement extends HtmlElement
             ]
         );
 
-        return $this->view->fetch('form/radio.tpl');
+        return $this->view->fetch($this->template ?: 'form/radio.tpl');
     }
 }
 
@@ -1866,7 +1873,7 @@ class ButtonHtmlElement extends HtmlElement
             ]
         );
 
-        return $this->view->fetch('form/button.tpl');
+        return $this->view->fetch($this->template ?: 'form/button.tpl');
     }
 }
 
@@ -1904,7 +1911,7 @@ class FormHtmlElement extends HtmlElement
             $data['csrftoken'] = $csrftoken->setToken();
         }
         $this->extendAndBatchAssign($data);
-        return $this->view->fetch('form/form_open.tpl').$this->view->fetch('form/form_csrf.tpl');
+        return $this->view->fetch($this->template ?: 'form/form_open.tpl').$this->view->fetch('form/form_csrf.tpl');
     }
 }
 
@@ -1932,7 +1939,7 @@ class RatingHtmlElement extends HtmlElement
             ]
         );
 
-        return $this->view->fetch('form/rating.tpl');
+        return $this->view->fetch($this->template ?: 'form/rating.tpl');
     }
 }
 
@@ -1964,7 +1971,7 @@ class CaptchaHtmlElement extends HtmlElement
                 'placeholder' => $this->placeholder,
             ]
         );
-        return $this->view->fetch('form/captcha.tpl');
+        return $this->view->fetch($this->template ?: 'form/captcha.tpl');
     }
 }
 
@@ -1991,7 +1998,7 @@ class ReCaptchaHtmlElement extends HtmlElement
                 'recaptcha_v3'       => $this->registry->get('config')->get('account_recaptcha_v3') ? : 0,
             ]
         );
-        return $this->view->fetch('form/recaptcha.tpl');
+        return $this->view->fetch($this->template ?: 'form/recaptcha.tpl');
     }
 }
 
@@ -2023,7 +2030,7 @@ class PasswordsetHtmlElement extends HtmlElement
                 'placeholder'           => $this->placeholder,
             ]
         );
-        return $this->view->fetch('form/passwordset.tpl');
+        return $this->view->fetch($this->template ?: 'form/passwordset.tpl');
     }
 }
 
@@ -2084,7 +2091,7 @@ class ResourceHtmlElement extends HtmlElement
         }
 
         $this->extendAndBatchAssign($data);
-        return $this->view->fetch('form/resource.tpl');
+        return $this->view->fetch($this->template ?: 'form/resource.tpl');
     }
 }
 
@@ -2114,7 +2121,7 @@ class ResourceImageHtmlElement extends HtmlElement
                 'attr'   => $this->attr,
             ]
         );
-        return $this->view->fetch('common/resource_image.tpl');
+        return $this->view->fetch($this->template ?: 'common/resource_image.tpl');
     }
 
 }
@@ -2200,7 +2207,7 @@ class DateHtmlElement extends HtmlElement
             ]
         );
 
-        return $this->view->fetch('form/date.tpl');
+        return $this->view->fetch($this->template ?: 'form/date.tpl');
     }
 }
 
@@ -2250,7 +2257,7 @@ class EmailHtmlElement extends HtmlElement
             ]
         );
 
-        return $this->view->fetch('form/input.tpl');
+        return $this->view->fetch($this->template ?: 'form/input.tpl');
     }
 }
 
@@ -2305,7 +2312,7 @@ class NumberHtmlElement extends HtmlElement
             ]
         );
 
-        return $this->view->fetch('form/input.tpl');
+        return $this->view->fetch($this->template ?: 'form/input.tpl');
     }
 }
 
@@ -2367,7 +2374,7 @@ class PhoneHtmlElement extends HtmlElement
             ]
         );
 
-        return $this->view->fetch('form/phone.tpl');
+        return $this->view->fetch($this->template ?: 'form/phone.tpl');
     }
 }
 
@@ -2393,7 +2400,7 @@ class IPAddressHtmlElement extends HtmlElement
             ]
         );
 
-        return $this->view->fetch('form/hidden.tpl');
+        return $this->view->fetch($this->template ?: 'form/hidden.tpl');
     }
 }
 
@@ -2444,7 +2451,7 @@ class CountriesHtmlElement extends HtmlElement
                 'help_url'    => $this->help_url,
             ]
         );
-        return $this->view->fetch('form/selectbox.tpl');
+        return $this->view->fetch($this->template ?: 'form/selectbox.tpl');
     }
 }
 
@@ -2519,9 +2526,7 @@ class ZonesHtmlElement extends HtmlElement
         }
 
         $this->registry->get('load')->model('localisation/zone');
-        /**
-         * @var ModelLocalisationZone $model_zone
-         */
+        /** @var ModelLocalisationZone $model_zone */
         $model_zone = $this->registry->get('model_localisation_zone');
         $config_country_id = $this->registry->get('config')->get('config_country_id');
         if ($this->submit_mode == 'id') {
@@ -2580,7 +2585,7 @@ class ZonesHtmlElement extends HtmlElement
                 'help_url'        => $this->help_url,
             ]
         );
-        return $this->view->fetch('form/countries_zones.tpl');
+        return $this->view->fetch($this->template ?: 'form/countries_zones.tpl');
     }
 
 }
@@ -2754,7 +2759,7 @@ class PaginationHtmlElement extends HtmlElement
         $s['text'] = str_replace($find, $replace, $s['text']);
 
         $this->extendAndBatchAssign($s);
-        return $this->view->fetch('form/pagination.tpl');
+        return $this->view->fetch($this->template ?: 'form/pagination.tpl');
     }
 
 }
@@ -2807,8 +2812,7 @@ class ModalHtmlElement extends HtmlElement
             ]
         );
 
-        $tpl = 'form/modal.tpl';
-        return $this->view->fetch($tpl);
+        return $this->view->fetch($this->template ?: 'form/modal.tpl');
     }
 
 }
@@ -2847,6 +2851,33 @@ class LabelHtmlElement extends HtmlElement
                 'help_url' => $this->help_url,
             ]
         );
-        return $this->view->fetch('form/label.tpl');
+        return $this->view->fetch($this->template ?: 'form/label.tpl');
+    }
+}
+
+/**
+ * @property string $name
+ * @property float|int $min
+ * @property float|int $max
+ * @property float|int $from
+ * @property float|int $to
+ * @property boolean $disabled
+ */
+class RangeHtmlElement extends HtmlElement
+{
+    public function getHtml()
+    {
+        $data = [
+            'id'       => $this->element_id,
+            'name'     => $this->name,
+            'min'      => $this->min,
+            'max'      => $this->max,
+            'from'     => $this->from,
+            'to'       => $this->to,
+            'disabled' => $this->disabled,
+        ];
+
+        $this->view->batchAssign($data);
+        return $this->view->fetch($this->template ?: 'form/range.tpl');
     }
 }
