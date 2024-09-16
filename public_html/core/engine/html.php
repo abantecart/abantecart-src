@@ -1660,7 +1660,7 @@ class CheckboxHtmlElement extends HtmlElement
     {
         if($this->template){
             $tpl = $this->template;
-        }elseif (str_contains($this->style, 'chosen')) { //for switch button NOTE: value is binary (1 or 0)!!!
+        }elseif (str_contains($this->style, 'btn_switch')) { //for switch button NOTE: value is binary (1 or 0)!!!
             $checked = is_null($this->checked) && $this->value ? true : (bool) $this->checked;
             if ($checked) {
                 $this->value = 1;
