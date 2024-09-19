@@ -2859,6 +2859,7 @@ class LabelHtmlElement extends HtmlElement
  * @property string $name
  * @property float|int $min
  * @property float|int $max
+ * @property float|int $step
  * @property float|int $from
  * @property float|int $to
  * @property boolean $disabled
@@ -2872,6 +2873,7 @@ class RangeHtmlElement extends HtmlElement
             'name'     => $this->name,
             'min'      => $this->min,
             'max'      => $this->max,
+            'step'     => $this->step,
             'from'     => $this->from,
             'to'       => $this->to,
             'disabled' => $this->disabled,
