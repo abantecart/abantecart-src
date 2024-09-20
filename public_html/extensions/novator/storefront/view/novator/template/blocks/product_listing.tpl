@@ -94,6 +94,7 @@
                                                     <i class="bi bi-shuffle"></i>
                                                 </a>
                                             </li>
+                                            <?php echo $this->getHookvar('product_button_'.$product['product_id']); ?>
                                         </ul>
 
                                         <div class="d-flex justify-content-center p-1 mt-2 align-items-center">

@@ -160,7 +160,7 @@ class ControllerResponsesListingGridCategory extends AController
                     : ''),
                 'action',
                 $new_level,
-                ($filter_data['parent_id'] ? $filter_data['parent_id'] : null),
+                ($filter_data['parent_id'] ?: null),
                 ($result['category_id'] == $leaf_nodes[$result['category_id']]),
                 false,
             ];

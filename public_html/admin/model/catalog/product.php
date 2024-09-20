@@ -2408,8 +2408,11 @@ class ModelCatalogProduct extends Model
                 $sql .= " INNER JOIN ".$this->db->table("products_to_categories")." p2c 
                             ON (p.product_id = p2c.product_id) ";
             }
-
             $sql .= ' WHERE 1=1 ';
+
+            if ($filter['manufacturer']) {
+                $sql .= " AND  p.manufacturer_id = ".(int)$filter['manufacturer'];
+            }
 
             if (!empty($data['subsql_filter'])) {
                 $sql .= " AND ".$data['subsql_filter'];

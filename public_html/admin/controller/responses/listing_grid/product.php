@@ -1,24 +1,25 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -53,6 +54,7 @@ class ControllerResponsesListingGridProduct extends AController
         //Prepare filter config
         $filter_params = [
             'category',
+            'manufacturer',
             'status',
             'keyword',
             'match',
@@ -60,7 +62,7 @@ class ControllerResponsesListingGridProduct extends AController
             'pto',
         ];
 
-        $grid_filter_params = ['name', 'sort_order', 'sku'];
+        $grid_filter_params = ['name', 'sort_order', 'sku', 'model'];
 
         $filter_form = new AFilter(['method' => 'get', 'filter_params' => $filter_params]);
         $filter_grid = new AFilter(['method' => 'post', 'grid_filter_params' => $grid_filter_params]);
@@ -111,6 +113,13 @@ class ControllerResponsesListingGridProduct extends AController
                     [
                         'name'  => 'product_description['.$result['product_id'].'][name]',
                         'value' => $result['name'],
+                    ]
+                ),
+                $this->html->buildInput(
+                    [
+
+                        'name'  => 'model['.$result['product_id'].']',
+                        'value' => $result['model'],
                     ]
                 ),
                 $this->html->buildInput(

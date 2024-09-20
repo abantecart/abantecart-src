@@ -100,6 +100,7 @@
                     </div>
                 </div>
                 <?php }?>
+                <?php echo $this->getHookVar('categories_additional_info'); ?>
                 <div class="accordion-item">
                     <h2 class="accordion-header">
                         <a href="<?php echo $this->html->getSecureUrl('product/special') ?>" class="accordion-button collapsed no-icon"><?php echo $text_special;?>

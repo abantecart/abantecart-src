@@ -49,30 +49,17 @@ class ControllerPagesCatalogProduct extends AController
                 'separator' => false,
             ]
         );
-        $this->document->addBreadcrumb(
-            [
-                'href'      => $this->html->getSecureURL('catalog/product'),
-                'text'      => $this->language->get('heading_title'),
-                'separator' => ' :: ',
-                'current'   => true,
-            ]
-        );
-
-        $this->loadModel('catalog/category');
-        $this->data['categories'] = ['' => $this->language->get('text_select_category')];
-        $results = $this->model_catalog_category->getCategories(
-            0,
-            $this->session->data['current_store_id']
-        );
-        foreach ($results as $r) {
-            $this->data['categories'][$r['category_id']] = $r['name'];
-        }
 
         $grid_settings = [
             'table_id'     => 'product_grid',
             'url'          => $this->html->getSecureURL(
                 'listing_grid/product',
-                '&category='.(int) $this->request->get['category']
+                '&'.http_build_query(
+                    [
+                        'category' => (int) $this->request->get['category'],
+                        'manufacturer' => (int) $this->request->get['manufacturer']
+                    ]
+                )
             ),
             'editurl'      => $this->html->getSecureURL('listing_grid/product/update'),
             'update_field' => $this->html->getSecureURL('listing_grid/product/update_field'),
@@ -188,6 +175,7 @@ class ControllerPagesCatalogProduct extends AController
         $grid_settings['colNames'] = [
             '',
             $this->language->get('column_name'),
+            $this->language->get('column_model'),
             $this->language->get('column_sku'),
             $this->language->get('column_price'),
             $this->language->get('column_quantity'),
@@ -207,6 +195,12 @@ class ControllerPagesCatalogProduct extends AController
                 'index' => 'name',
                 'align' => 'center',
                 'width' => 200,
+            ],
+            [
+                'name'  => 'model',
+                'index' => 'model',
+                'align' => 'center',
+                'width' => 120,
             ],
             [
                 'name'  => 'sku',
@@ -322,6 +316,14 @@ class ControllerPagesCatalogProduct extends AController
             $search_params['category'] = $this->request->get['category'];
         }
 
+        $this->loadModel('catalog/category');
+        $results = $this->model_catalog_category->getCategories(
+            0,
+            $this->session->data['current_store_id']
+        );
+        $this->data['categories'] = ['' => $this->language->get('text_select_category')]
+            + array_column($results, 'name', 'category_id');
+
         $grid_search_form['fields']['category'] = $form->getFieldHtml(
             [
                 'type'        => 'selectbox',
@@ -332,6 +334,45 @@ class ControllerPagesCatalogProduct extends AController
                 'placeholder' => $this->language->get('text_select_category'),
             ]
         );
+        $title = '';
+        if($search_params['category']){
+            $title = $this->data['categories'][$search_params['category']];
+        }
+
+        $this->loadModel('catalog/manufacturer');
+        $results = $this->model_catalog_manufacturer->getManufacturers(
+            ['store_id' => $this->session->data['current_store_id']]
+        );
+        $this->data['brands'] = ['' => $this->language->get('text_select_manufacturer','catalog/collections')]
+            + array_column($results, 'name', 'manufacturer_id');
+
+        if ($this->request->get['manufacturer']) {
+            $search_params['manufacturer'] = $this->request->get['manufacturer'];
+        }
+
+        $grid_search_form['fields']['brand'] = $form->getFieldHtml(
+            [
+                'type'        => 'selectbox',
+                'name'        => 'manufacturer',
+                'options'     => $this->data['brands'],
+                'style'       => 'chosen',
+                'value'       => $search_params['manufacturer'],
+                'placeholder' => $this->language->get('text_select_brand'),
+            ]
+        );
+        if($search_params['manufacturer']){
+            $title .= ($title ? ', ' : '').$this->data['brands'][$search_params['manufacturer']];
+        }
+
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('catalog/product'),
+                'text'      => $this->language->get('heading_title','catalog/product').' '.($title ? '('.$title.')':'') ,
+                'separator' => ' :: ',
+                'current'   => true,
+            ]
+        );
+
         $grid_search_form['fields']['status'] = $form->getFieldHtml(
             [
                 'type'        => 'selectbox',
