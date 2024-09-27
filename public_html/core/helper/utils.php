@@ -1321,27 +1321,19 @@ function setCookieOrParams($name = null, $value = null, $options = [])
      */
     extract($options);
 
-    if (PHP_VERSION_ID < 70300) {
-        if (!$name) {
-            session_set_cookie_params($lifetime, $path.'; samesite='.$samesite, $domain, $secure, $httponly);
-        } else {
-            setcookie($name, $value, $lifetime, $path.'; samesite='.$samesite, $domain, $secure, $httponly);
-        }
+    $options = [
+        'path'     => $path,
+        'domain'   => $domain,
+        'secure'   => $secure,
+        'httponly' => $httponly,
+        'samesite' => $samesite,
+    ];
+    if (!$name) {
+        $options['lifetime'] = $lifetime;
+        session_set_cookie_params($options);
     } else {
-        $options = [
-            'path'     => $path,
-            'domain'   => $domain,
-            'secure'   => $secure,
-            'httponly' => $httponly,
-            'samesite' => $samesite,
-        ];
-        if (!$name) {
-            $options['lifetime'] = $lifetime;
-            session_set_cookie_params($options);
-        } else {
-            $options['expires'] = $lifetime;
-            setcookie($name, $value, $options);
-        }
+        $options['expires'] = $lifetime;
+        setcookie($name, $value, $options);
     }
 }
 
