@@ -897,7 +897,7 @@
             <block_description>
               <language>english</language>
               <name><![CDATA[Novator Testimonials]]></name>
-              <title><![CDATA[ ]]></title>
+              <title><![CDATA[Novator Testimonials ]]></title>
               <block_wrapper><![CDATA[0]]></block_wrapper>
               <block_framed><![CDATA[0]]></block_framed>
               <description><![CDATA[]]></description>
@@ -964,7 +964,7 @@
     &lt;/div&gt;
   &lt;/section&gt;
 &lt;script&gt;
-(function () {
+$(document).ready(function () {
       var owl = $('.comment-carousel');
       owl.owlCarousel({
         loop: true,
@@ -975,7 +975,7 @@
         autoWidth: true,
         items: 1.8
       });
-    })();;
+    });
 &lt;/script&gt;]]></content>
             </block_description>
           </block_descriptions>
