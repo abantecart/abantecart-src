@@ -42,7 +42,7 @@
         </div>
    </div>
    <script>
-   (function () {
+   $(document).ready(function () {
       var owl = $('.brand-carousel');
       owl.owlCarousel({
         loop: true,
@@ -63,6 +63,6 @@
           }
         }
       });
-    })();
+    });
    </script>
 </section>
