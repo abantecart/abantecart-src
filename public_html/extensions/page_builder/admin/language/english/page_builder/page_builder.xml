@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>page_builder_name</key>
+		<value><![CDATA[Page Builder]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_logging</key>
+		<value><![CDATA[Logging <span class="help">Enable to save javascript exceptions into AbanteCart error log</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_select_template</key>
+		<value><![CDATA[Select template: ]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_text_preset</key>
+		<value><![CDATA[Preset: ]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_button_load_preset</key>
+		<value><![CDATA[Load Preset]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_text_load_preset_confirm_text</key>
+		<value><![CDATA[Do you really wish to load preset? Already saved changes will be rewritten.]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_text_delete_preset_confirm_text</key>
+		<value><![CDATA[Do you really wish to delete preset?]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_text_select_preset</key>
+		<value><![CDATA[ -- please select -- ]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_text_prompt</key>
+		<value><![CDATA[Please enter preset name:]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_button_undo_title</key>
+		<value><![CDATA[ Rollback to Save Point]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_button_undo</key>
+		<value><![CDATA[ Undo]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_button_undo_confirm_text</key>
+		<value><![CDATA[ Do you really wish to rollback changes to save point state?]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_undo_success_text</key>
+		<value><![CDATA[ Success!]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_button_publish_title</key>
+		<value><![CDATA[ Publish Page on a Storefront]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_button_publish</key>
+		<value><![CDATA[ Publish]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_button_publish_success</key>
+		<value><![CDATA[ Published successfully.]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_button_remove_custom_page_title</key>
+		<value><![CDATA[ Remove Custom page to Default State]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_button_remove_custom_page</key>
+		<value><![CDATA[ Delete Design ]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_button_remove_custom_page_confirm_text</key>
+		<value><![CDATA[Do you really wish to remove your design? ]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_remove_custom_page_success_text</key>
+		<value><![CDATA[Page has been successfully removed]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_save_preset_confirm_text</key>
+		<value><![CDATA[Do you really wish to save preset? ]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_save_preset_success_text</key>
+		<value><![CDATA[Preset %s has been saved successfully!]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_remove_preset_success_text</key>
+		<value><![CDATA[Preset %s has been deleted successfully!]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_text_abantecart_blocks</key>
+		<value><![CDATA[Storefront Blocks]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_text_basic_blocks</key>
+		<value><![CDATA[Basic]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_text_extra</key>
+		<value><![CDATA[Extra]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_text_forms</key>
+		<value><![CDATA[Forms]]></value>
+	</definition>
+
+	<definition>
+		<key>page_builder_error_storage_permissions</key>
+		<value><![CDATA[PageBuilder Error: Directory %s cannot be created. Please check permissions!]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_error_preset_permissions</key>
+		<value><![CDATA[Cannot to delete preset! Please check permissions of file %s]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_error_empty_preset_name</key>
+		<value><![CDATA[Preset name is empty!]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_error_route_not_found</key>
+		<value><![CDATA[Current Route not Found! Cannot to save.]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_error_preset_not_found</key>
+		<value><![CDATA[Preset not Found!]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_error_remove_page</key>
+		<value><![CDATA[Cannot to delete custom page! Please check permissions of file %s]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_error_cannot_copy</key>
+		<value><![CDATA[Cannot to copy file %s.json to %s! Please check permissions or existing of target]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_error_nothing_to_publish</key>
+		<value><![CDATA[Nothing to publish. No any save points found.]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_error_cannot_undo</key>
+		<value><![CDATA[Rollback is unavailable. Save point not found]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_tab_title</key>
+		<value><![CDATA[To start build a page palest create layout first]]></value>
+	</definition>
+</definitions>
