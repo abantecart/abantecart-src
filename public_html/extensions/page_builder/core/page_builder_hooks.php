@@ -81,15 +81,13 @@ class ExtensionPageBuilder extends Extension
         //ok, now try to get custom template made with pageBuilder
         $pbTemplateData = $this->findPageTemplate();
         if (!$pbTemplateData) {
-            if(
-                $router->getController() == 'pages/product/product'
-                && $that->request->get['pb']
-                && !$that->request->get['product_id']
+            if( $router->getController() == 'pages/product/product'
+                && $that->request->get['pb'] && !$that->request->get['product_id']
             ){
                 //in case when layout is for default product page - take a random product id
                 $sql = "SELECT product_id 
                         FROM ". $that->db->table('products')." 
-                        WHERE date_available <= NOW() AND status=1
+                        WHERE COALESCE(date_available, NOW()) <= NOW() AND status=1
                         ORDER BY rand() 
                         LIMIT 1";
                 $res = $that->db->query($sql);
@@ -172,7 +170,11 @@ class ExtensionPageBuilder extends Extension
             : $that->layout->getPageId();
 
         while (strlen($r) > 0) {
-            $mask = strtolower(str_replace('/', '_', $r)).'-'.$pageId.'-'.$layoutId;
+            $mask = strtolower(str_replace('/', '_', $r));
+            if($mask != 'generic'){
+                $mask .= '-'.$pageId.'-'.$layoutId;
+            }
+
             $fullPath = DIR_PB_TEMPLATES.$currentTemplate.DIRECTORY_SEPARATOR;
             //if run preview
             if ($that->request->get['pb']) {
