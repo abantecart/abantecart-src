@@ -147,6 +147,6 @@
 	</definition>
 	<definition>
 		<key>page_builder_tab_title</key>
-		<value><![CDATA[To start build a page palest create layout first]]></value>
+		<value><![CDATA[To start building a page, please create the layout first.]]></value>
 	</definition>
 </definitions>
