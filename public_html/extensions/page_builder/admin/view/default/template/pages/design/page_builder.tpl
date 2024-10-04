@@ -55,7 +55,7 @@ foreach ($pages as $page) {
 			</div>
 
 			<div class="btn-group toolbar">
-				<button id="publish" class="actionitem btn btn-default tooltips"
+				<button id="publish" class="actionitem btn btn-default tooltips lock-on-click"
                         title="<?php echo_html2view($button_publish_title); ?>">
 					<i class="fa fa-feed fa-fw"></i><?php echo $button_publish; ?>
 				</button>
@@ -104,7 +104,7 @@ foreach ($pages as $page) {
                                <i class="fa fa-lg fa-check-square"></i></button>
                            <button id="savePreset" type="button" class="btn btn-file tooltips ml10" title="<?php echo_html2view($button_save);?>">
                                <i class="fa fa-lg fa-save"></i></button>
-                           <button id="deletePreset" type="button" class="btn btn-file tooltips ml10" title="<?php echo_html2view($button_delete);?>">
+                           <button id="deletePreset" type="button" class="btn btn-file tooltips  ml10" title="<?php echo_html2view($button_delete);?>">
                                <i class="fa fa-lg fa-trash-o"></i></button>
                     </div>
             </div>
