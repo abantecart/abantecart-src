@@ -140,7 +140,9 @@ class ModelInstall extends Model
         }
 
         $f = fopen(DIR_ABANTECART.'system/config.php','w');
-        fclose($f);
+        if($f) {
+            fclose($f);
+        }
         if (!is_writable(DIR_ABANTECART.'system/config.php')) {
             $this->errors['warning'] = 'Warning: config.php needs to be writable for AbanteCart to be installed!';
         }
