@@ -76,7 +76,7 @@ if ($error){ ?>
                         <h6 class="my-2 text-warning"><u><a class="my-2 text-warning" href="<?php echo $manufacturers;  ?>"><?php echo $manufacturer; ?></a></u></h6>
                     <?php }?>
                     <?php if($blurb){?>
-                    <p class="text-muted"><?php echo $blurb; ?></p>
+                    <p class="text-muted"><?php echo html_entity_decode($blurb); ?></p>
                     <?php }?>
                 </div>
                 <?php echo $this->getHookVar('after_product_blurb');?>
