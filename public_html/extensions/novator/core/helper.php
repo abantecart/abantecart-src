@@ -25,7 +25,6 @@ function renderAllCategoriesSFMenuNv(array $menuItems, $options = [ ])
     if (!$menuItems ) {
         return '';
     }
-
     $output = '<div class="col-3">
                 <ul class="nav nav-tabs flex-column category-links mt-0" role="tablist">';
 
