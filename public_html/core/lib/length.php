@@ -210,7 +210,7 @@ class ALength
     public function getUnit($length_class_id)
     {
         foreach ($this->lengths as $lth) {
-            if (isset($lth[$length_class_id])) {
+            if ($lth['length_class_id'] == $length_class_id) {
                 return $lth['unit'];
             }
         }
