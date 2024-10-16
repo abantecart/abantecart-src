@@ -34,7 +34,7 @@ $categories = prepareNVCatItems($categories);
             <div class="collapse d-none d-lg-flex navbar-collapse ">
                 <div class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-start">
                     <?php
-                    echo  renderCategoryNavbarSFMenuNv(
+                    echo  renderSFMenuNv(
                         $categories,
                         0,
                         '',
