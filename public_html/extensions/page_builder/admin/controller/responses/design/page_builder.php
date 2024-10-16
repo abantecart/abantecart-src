@@ -1,4 +1,22 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 class ControllerResponsesDesignPageBuilder extends AController
 {
@@ -8,7 +26,6 @@ class ControllerResponsesDesignPageBuilder extends AController
     public function __construct($registry, $instance_id, $controller, $parent_controller = '')
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
-
         $this->loadLanguage('page_builder/page_builder');
         $this->storageDir = DIR_PB_TEMPLATES;
         $this->tmpl_id = $this->request->get['tmpl_id'] ?: $this->config->get('config_storefront_template') ?: 'default';
@@ -20,13 +37,16 @@ class ControllerResponsesDesignPageBuilder extends AController
                 $this->storageDir.'public',
             ] as $dir
         ) {
-            if (!is_dir($dir)) {
-                if (mkdir($dir, 0755) === false) {
-                    throw new AException(
-                        AC_ERR_CLASS_PROPERTY_NOT_EXIST,
-                        sprintf($this->language->get('page_builder_error_storage_permissions'), $dir)
-                    );
+            if (!is_writable_dir($dir)) {
+                if (!is_dir($dir) && mkdir($dir, 0755) !== false) {
+                    if (is_writable_dir($dir)) {
+                        continue;
+                    }
                 }
+                throw new AException(
+                    AC_ERR_CLASS_PROPERTY_NOT_EXIST,
+                    sprintf($this->language->get('page_builder_error_storage_permissions'), $dir)
+                );
             }
         }
 
@@ -71,8 +91,7 @@ class ControllerResponsesDesignPageBuilder extends AController
 
         if ($this->request->get['preset']) {
             $get = $this->request->get;
-            unset($get['rt'],$get['token'],$get['s'],$get['preset']);
-            $presetFile = DIR_PB_PRESETS.$this->request->get['preset'].'.json';
+            $presetFile = DIR_PB_PRESETS.$get['preset'].'.json';
             if (is_file($presetFile)) {
                 $pageRoute = $this->getPageRoute($page_id, $layout_id);
                 if ($pageRoute) {
@@ -83,7 +102,7 @@ class ControllerResponsesDesignPageBuilder extends AController
                     );
                 }
             }
-
+            unset($get['rt'],$get['token'],$get['s'],$get['preset']);
             redirect($this->html->getSecureURL($this->request->get['rt'], '&'.http_build_query($get)));
         }
 
@@ -150,6 +169,7 @@ class ControllerResponsesDesignPageBuilder extends AController
 
     public function loadPage()
     {
+        $file = '';
         //use to init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -157,26 +177,23 @@ class ControllerResponsesDesignPageBuilder extends AController
         $layout_id = $this->request->get['layout_id'];
         $pageRoute = $this->getPageRoute($page_id, $layout_id);
         $this->session->data['PB']['current_route'] = $pageRoute;
-        //use to update controller data
-        $this->extensions->hk_UpdateData($this, __FUNCTION__);
-        $this->response->addJSONHeader();
 
-        $defaultPreset = false;
-        $file = $this->storageDir.'savepoints'.DS
-            .$pageRoute.'@'.$this->getMaxCounter($pageRoute).'.json';
+        $maxCounter = $this->getMaxCounter($pageRoute);
+        if($maxCounter !== false) {
+            $file = $this->storageDir . 'savepoints' . DS . $pageRoute . '@' . $maxCounter . '.json';
+        }
         if (!is_file($file)) {
-            //if unsaved page not found - seek published
+            //if unsaved page not found - looking for published
             $file = $this->storageDir.'public'.DS.$pageRoute.'.json';
         }
 
         if (!is_file($file)) {
-            $defaultPreset = true;
-            //if published page not found - seek default preset of core template
+            //if published page not found - see default preset of core template
             $file = DIR_STOREFRONT.'view'.DS.$this->tmpl_id.DS.self::DEFAULT_PRESET;
         }
         if (!is_file($file)) {
-            //if core default preset not found - seek default preset of extension template
-            $file = DIR_EXT.$this->tmpl_id.DIR_EXT_STORE.'view/'.$this->tmpl_id.'/'.self::DEFAULT_PRESET;
+            //if core default preset not found - see default preset of extension template
+            $file = DIR_EXT.$this->tmpl_id.DIR_EXT_STORE.'view'.DS.$this->tmpl_id.DS.self::DEFAULT_PRESET;
         }
         if (!is_file($file)) {
             //if no any default preset found - take default preset of pageBuilder
@@ -185,6 +202,31 @@ class ControllerResponsesDesignPageBuilder extends AController
         $this->data['file'] = $file;
         //use to update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+        if(!$this->data['file'] || !is_readable($this->data['file'])){
+            $errorText = 'Unable to load page.';
+            if(!$this->data['file']){
+                $errorText .= ' Nothing found.';
+            }else{
+                $errorText .= ' File '.$this->data['file'].' is not readable.';
+            }
+            $err = new AError($errorText);
+            $err->toJSONResponse(
+                AC_ERR_REQUIREMENTS,
+                [
+                    'error_text'  => $errorText,
+                    'reset_value' => true,
+                ]
+            );
+        }
+        //for empty page create savepoint on loading
+        if($maxCounter === false){
+            copy(
+                $this->data['file'],
+                $this->storageDir.'savepoints'.DS.$pageRoute.'@1.json'
+            );
+        }
+
         $this->response->addJSONHeader();
         $this->response->setOutput(file_get_contents($this->data['file']));
     }
@@ -200,10 +242,25 @@ class ControllerResponsesDesignPageBuilder extends AController
         $this->session->data['PB']['current_route'] = $pageRoute;
         $counter = $this->getMaxCounter($pageRoute)+1;
         if ($pageRoute) {
-            file_put_contents(
+            $res = file_put_contents(
                 $this->storageDir.'savepoints'.DS.$pageRoute.'@'.$counter.'.json',
                 $json
             );
+            if($res === false){
+                $errorText = sprintf(
+                    $this->language->get('page_builder_error_cannot_save'),
+                    $this->storageDir.'savepoints'.DS.$pageRoute
+                );
+
+                $err = new AError($errorText);
+                $err->toJSONResponse(
+                    AC_ERR_REQUIREMENTS,
+                    [
+                        'error_text'  => $errorText,
+                        'reset_value' => true,
+                    ]
+                );
+            }
         }
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
@@ -408,16 +465,38 @@ class ControllerResponsesDesignPageBuilder extends AController
 
     public function publish()
     {
+        $output = $this->language->get('page_builder_error_nothing_to_publish');
         //use to init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $pageRoute = $this->session->data['PB']['current_route'];
         if ($pageRoute) {
             $publishedFile = $this->storageDir.'public'.DS.$pageRoute.'.json';
             $counter = $this->getMaxCounter($pageRoute);
-            $savepointFile = $this->storageDir
-                .'savepoints'.DS
-                .$pageRoute.'@'.$counter.'.json';
-            if (!is_file($savepointFile)) {
+            if($counter !== false) {
+                $savepointFile = $this->storageDir
+                    . 'savepoints' . DS
+                    . $pageRoute . '@' . $counter . '.json';
+                if (!copy($savepointFile, $publishedFile)) {
+                    $errorText = sprintf(
+                        $this->language->get('page_builder_error_cannot_copy'),
+                        $savepointFile,
+                        $publishedFile
+                    );
+                    $err = new AError($errorText);
+                    $err->toJSONResponse(
+                        AC_ERR_REQUIREMENTS,
+                        [
+                            'error_text'  => $errorText,
+                            'reset_value' => true,
+                        ]
+                    );
+                } //if all fine - remove all save-points for route
+                else {
+                    $this->clearSavePoints($pageRoute);
+                }
+                $this->extensions->hk_UpdateData($this, __FUNCTION__);
+                $this->response->setOutput(json_encode($output));
+            }else{
                 $errorText = $this->language->get('page_builder_error_nothing_to_publish');
                 $err = new AError($errorText);
                 $err->toJSONResponse(
@@ -427,28 +506,8 @@ class ControllerResponsesDesignPageBuilder extends AController
                         'reset_value' => true,
                     ]
                 );
-                return;
-            }
 
-            if (!copy($savepointFile, $publishedFile)) {
-                $errorText = sprintf(
-                    $this->language->get('page_builder_error_cannot_copy'),
-                    $savepointFile,
-                    $publishedFile
-                );
-                $err = new AError($errorText);
-                $err->toJSONResponse(
-                    AC_ERR_REQUIREMENTS,
-                    [
-                        'error_text'  => $errorText,
-                        'reset_value' => true,
-                    ]
-                );
-            } //if all fine - remove all save-points for route
-            else {
-                $this->clearSavePoints($pageRoute);
             }
-            $this->extensions->hk_UpdateData($this, __FUNCTION__);
         } else {
             $errorText = $this->language->get('page_builder_error_route_not_found');
             $err = new AError($errorText);
@@ -467,7 +526,7 @@ class ControllerResponsesDesignPageBuilder extends AController
      * @throws AException
      */
     public function publishState()
-    {
+    { 
         $this->data['output'] = [];
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $pageRoute = $this->session->data['PB']['current_route'];
@@ -475,11 +534,13 @@ class ControllerResponsesDesignPageBuilder extends AController
         if ($pageRoute) {
             $publishedFile = $this->storageDir.'public'.DS.$pageRoute.'.json';
             $counter = $this->getMaxCounter($pageRoute);
-            if (!$counter && is_file($publishedFile)) {
+            if ($counter===false && is_file($publishedFile)) {
                 $this->data['output']['published'] = 'true';
             } elseif ($counter === false && !is_file($publishedFile)) {
                 $this->data['output']['published'] = 'nodata';
             } else {
+                $this->data['output']['counter'] = $counter;
+                $this->data['output']['file'] = $publishedFile;
                 $this->data['output']['published'] = 'false';
             }
         } else {
@@ -511,7 +572,7 @@ class ControllerResponsesDesignPageBuilder extends AController
     }
 
     /**
-     * Rollback last changes
+     * Rollback last changes. this function just delete last savepoint-file
      *
      * @throws AException
      */
@@ -522,11 +583,7 @@ class ControllerResponsesDesignPageBuilder extends AController
         $pageRoute = $this->session->data['PB']['current_route'];
         if ($pageRoute) {
             $counter = $this->getMaxCounter($pageRoute);
-            $savepointFile = $this->storageDir
-                .'savepoints'.DS
-                .$pageRoute.'@'.$counter.'.json';
-
-            if (!unlink($savepointFile)) {
+            if ( $counter===false || !unlink($this->storageDir.'savepoints'.DS.$pageRoute.'@'.$counter.'.json')) {
                 $errorText = $this->language->get('page_builder_error_cannot_undo');
                 $err = new AError($errorText);
                 $err->toJSONResponse(
@@ -537,7 +594,6 @@ class ControllerResponsesDesignPageBuilder extends AController
                     ]
                 );
             }
-            $this->extensions->hk_UpdateData($this, __FUNCTION__);
         } else {
             $errorText = $this->language->get('page_builder_error_route_not_found');
             $err = new AError($errorText);
@@ -559,6 +615,5 @@ class ControllerResponsesDesignPageBuilder extends AController
                 "PageBuilder JS-error: \n".var_export($json, true)
             );
         }
-
     }
 }

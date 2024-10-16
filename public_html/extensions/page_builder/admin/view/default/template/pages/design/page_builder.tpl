@@ -116,146 +116,166 @@ foreach ($pages as $page) {
     <iframe id="page-editor" style="width: 100%; border: none; height: 675px;" src="<?php echo $proto_page_url; ?>"></iframe>
 </div>
 <script type="text/javascript">
-$(document).ready(function () {
-    let pub = function() {
-            $.ajax({
+    function gpFrameReload(param){
+        const frame = $('#page-editor');
+        let frameUrl = frame.attr('src');
+        frameUrl += param;
+        frame.attr('src', frameUrl);
+    }
+
+    function publish()
+    {
+        $.ajax(
+            {
                 url: '<?php echo $publish_url;?>',
-                method: 'GET',
-                success: function () {
-                    resetLockBtn();
-                    success_alert(<?php js_echo($publish_success_text);?>, true);
-                    getStorageState('storage:start');
-                }
-            });
-        };
-    $('#publish').on('click', function(e) {
-        document.getElementById('page-editor').contentWindow.postMessage({messageType: 'publish'}, "*");
-        setTimeout(pub,2000);
-    });
-
-
-    $('#undo').on('click', function() {
-        if(confirm(<?php js_echo($undo_confirm_text);?>)) {
-            $.get('<?php echo $undo_url;?>', function () {
-                let gpjs = $('#page-editor');
-                let frameUrl = gpjs.attr('src');
-                //override preset name in case undo
-                frameUrl += '&load_preset=';
-                gpjs.attr('src', frameUrl);
-                resetLockBtn();
-                success_alert(<?php js_echo($undo_success_text);?>, true);
-            });
-        }else{
-            resetLockBtn();
-        }
-    });
-    $('#remove_custom_page').on('click', function() {
-        if(confirm(<?php js_echo($button_remove_custom_page_confirm_text);?>)) {
-            //Cookies.remove('loaded_pb_preset_<?php echo $page_id.'-'.$layout_id;?>',cookieOpts);
-            $.get('<?php echo $remove_custom_page_url;?>',
-                function () {
-                    let gpjs = $('#page-editor');
-                    let frameUrl = gpjs.attr('src');
-                    gpjs.attr('src', frameUrl);
-                    resetLockBtn();
-                    success_alert(<?php js_echo($remove_custom_page_success_text);?>, true);
-                    return true;
-                });
-        }else{
-            resetLockBtn();
-            return false;
-        }
-    });
-
-    $('#loadPreset').on('click', function(){
-        let val = $('#preset').val();
-        if(val === ''){
-            return false;
-        }
-        if(confirm('<?php js_echo($page_builder_text_load_preset_confirm_text);?>')){
-            let gpjs = $('#page-editor');
-            let frameUrl = gpjs.attr('src');
-            frameUrl += '&preset='+val;
-            gpjs.attr('src', frameUrl);
-        }
-    });
-
-    $('#savePreset').on(
-        'click',
-        function() {
-            let currentValue = $('#preset').chosen().val();
-            if(currentValue === ''){
-                preset = prompt(<?php js_echo($text_prompt);?>, 'your-new-preset');
-                ask = !!preset;
-            }else{
-                ask = confirm(<?php js_echo($text_ask_save);?>);
-                preset = currentValue;
+                method: 'GET'
             }
+        ).done(function () {
+                resetLockBtn();
+                success_alert(<?php js_echo($publish_success_text);?>, true);
+                getStorageState('storage:start');
+            }
+        );
+    }
 
-            if( ask ){
+    $(document).ready(function () {
+        $('#publish').on('click', function(e) {
+            document.getElementById('page-editor').contentWindow.postMessage({messageType: 'publish'}, "*");
+            setTimeout(publish,2000);
+        });
+
+
+        $('#undo').on('click', function() {
+            if(confirm(<?php js_echo($undo_confirm_text);?>)) {
                 $.ajax(
                     {
-                        type: 'POST',
-                        url: '<?php echo $save_preset_url; ?>',
-                        data : { preset_name: preset },
-                        success: function () {
+                        url: '<?php echo $undo_url;?>',
+                        method: 'GET'
+                    }
+                ).done(function() {
+                        gpFrameReload('&load_preset=');
+                        resetLockBtn();
+                        success_alert(<?php js_echo($undo_success_text);?>, true);
+                    }
+                ).fail(function(jqXHR, textStatus, errorThrown) {
+                        error_alert(errorThrown);
+                    }
+                );
+            }else{
+                resetLockBtn();
+            }
+        });
+        $('#remove_custom_page').on('click', function() {
+            if(confirm(<?php js_echo($button_remove_custom_page_confirm_text);?>)) {
+                $.ajax(
+                    {
+                        url: '<?php echo $remove_custom_page_url;?>',
+                        method: 'GET'
+                    }
+                ).done(function() {
+                        gpFrameReload('');
+                        resetLockBtn();
+                        success_alert(<?php js_echo($remove_custom_page_success_text);?>, true);
+                        return true;
+                    }
+                ).fail(function(jqXHR, textStatus, errorThrown) {
+                        error_alert(errorThrown);
+                    }
+                );
+            }else{
+                resetLockBtn();
+                return false;
+            }
+        });
+
+        $('#loadPreset').on('click', function(){
+            let val = $('#preset').val();
+            if(val === ''){
+                return false;
+            }
+            if(confirm('<?php js_echo($page_builder_text_load_preset_confirm_text);?>')){
+                gpFrameReload('&preset='+val);
+            }
+        });
+
+        $('#savePreset').on(
+            'click',
+            function() {
+                let presetName = '', agree = false;
+                let currentValue = $('#preset').chosen().val();
+                if(currentValue === ''){
+                    presetName = prompt(<?php js_echo($text_prompt);?>, 'your-new-preset');
+                    agree = !!presetName;
+                }else{
+                    agree = confirm(<?php js_echo($text_ask_save);?>);
+                    presetName = currentValue;
+                }
+
+                if( agree ){
+                    $.ajax(
+                        {
+                            method: 'POST',
+                            url: '<?php echo $save_preset_url; ?>',
+                            data : { preset_name: presetName }
+                        }
+                    ).done(
+                        function() {
                             let text = <?php js_echo($page_builder_save_preset_success_text);?>;
-                            success_alert(text.replace('%s',preset), true);
-                            //Cookies.set('loaded_pb_preset_<?php //echo $page_id.'-'.$layout_id;?>//',preset, cookieOpts);
-                            if($("#preset option[value='"+preset+"']").length===0) {
-                                let newOption = $('<option value="'+preset+'" selected>'+preset+'</option>');
+                            success_alert(text.replace('%s',presetName), true);
+                            if($("#preset option[value='"+presetName+"']").length===0) {
+                                let newOption = $('<option value="'+presetName+'" selected>'+presetName+'</option>');
                                 $('#preset').append(newOption).chosen().trigger("chosen:updated");
                             }
                         }
-                    }
-                );
+                    );
+                }
             }
-        }
-    );
-    $('#deletePreset').on(
-        'click',
-        function() {
-            let preset = $('#preset').chosen().val();
-            if(preset === ''){
-                return;
-            }
-            if(confirm(<?php js_echo($delete_preset_confirm_text);?>)){
-                $.ajax(
-                    {
-                        type: 'POST',
-                        url: '<?php echo $delete_preset_url; ?>',
-                        data : { 'preset_name': preset },
-                        success: function () {
+        );
+        $('#deletePreset').on(
+            'click',
+            function() {
+                let presetName = $('#preset').chosen().val();
+                if(presetName === ''){
+                    return;
+                }
+                if(confirm(<?php js_echo($delete_preset_confirm_text);?>)){
+                    $.ajax(
+                        {
+                            type: 'POST',
+                            url: '<?php echo $delete_preset_url; ?>',
+                            data: {'preset_name': presetName}
+                        }
+                    ).done (
+                        function() {
                             let text = <?php js_echo($page_builder_remove_preset_success_text);?>;
-                            //Cookies.remove('loaded_pb_preset_<?php echo $page_id.'-'.$layout_id;?>', cookieOpts);
-                            info_alert(text.replace('%s',preset), true);
-                            $("#preset option[value='"+preset+"']").remove();
+                            info_alert(text.replace('%s',presetName), true);
+                            $("#preset option[value='"+presetName+"']").remove();
                             $('#preset').chosen().trigger("chosen:updated");
                         }
-                    }
-                );
+                    );
+                }
             }
-        }
-    );
-});
+        );
+    });
 
-if (window.addEventListener) {
-    window.addEventListener("message", onMessage, false);
-} else if (window.attachEvent) {
-    window.attachEvent("onmessage", onMessage, false);
-}
+    if (window.addEventListener) {
+        window.addEventListener("message", onMessage, false);
+    } else if (window.attachEvent) {
+        window.attachEvent("onmessage", onMessage, false);
+    }
 
 
-// Function to be called from iframe
-function getStorageState(message) {
-    if(message === 'storage:end:store'){
-        $.ajax(
-            {
-                type: 'GET',
-                url: '<?php echo $publish_state_url?>',
-                dataType: 'json',
-                global: false,
-                success: function (data) {
+    // Function to be called from iframe
+    function getStorageState(message) {
+        if(message === 'storage:end:store'){
+            $.ajax(
+                {
+                    type: 'GET',
+                    url: '<?php echo $publish_state_url?>',
+                    dataType: 'json',
+                    global: false
+                }
+            ).done(function(data) {
                     if(data.published === 'true'){
                         $('#publish').removeClass('btn-info').addClass('btn-default').attr('disabled','disabled');
                         $('#undo').attr('disabled','disabled');
@@ -271,17 +291,16 @@ function getStorageState(message) {
                             .addClass('btn-default')
                             .attr('disabled','disabled');
                     }
-                },
-            }
-        );
+                }
+            );
+        }
     }
-}
 
 
-function onMessage(event) {
-    var data = event.data;
-    if (typeof(window[data.func]) == "function") {
-        window[data.func].call(null, data.message);
+    function onMessage(event) {
+        const data = event.data;
+        if (typeof(window[data.func]) == "function") {
+            window[data.func].call(null, data.message);
+        }
     }
-}
 </script>

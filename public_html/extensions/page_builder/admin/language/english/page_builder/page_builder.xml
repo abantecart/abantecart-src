@@ -108,10 +108,9 @@
 		<key>page_builder_text_forms</key>
 		<value><![CDATA[Forms]]></value>
 	</definition>
-
 	<definition>
 		<key>page_builder_error_storage_permissions</key>
-		<value><![CDATA[PageBuilder Error: Directory %s cannot be created. Please check permissions!]]></value>
+		<value><![CDATA[PageBuilder Error: Directory %s does not exist or not writable. Please check permissions!]]></value>
 	</definition>
 	<definition>
 		<key>page_builder_error_preset_permissions</key>
@@ -144,6 +143,10 @@
 	<definition>
 		<key>page_builder_error_cannot_undo</key>
 		<value><![CDATA[Rollback is unavailable. Save point not found]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_error_cannot_save</key>
+		<value><![CDATA[Cannot save changes. Please check permissions for directory %s]]></value>
 	</definition>
 	<definition>
 		<key>page_builder_tab_title</key>
