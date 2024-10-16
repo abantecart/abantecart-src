@@ -235,10 +235,17 @@ class ControllerBlocksMegaMenu extends AController
             parse_str($item['item_url'], $urlParams);
             if(!$level && $item['category']){
                 $item['current'] = in_array($urlParams['path'], $this->path);
-            }elseif(isset($item['path'])) {
+            } elseif(isset($item['path'])) {
                 $item['current'] = str_starts_with($this->request->get['path'], $item['path']);
-            }elseif( !isset($item['current']) ){
-                $item['current'] = array_key_first($urlParams) == $this->request->get['rt'];
+            } elseif( !isset($item['current']) ){
+                //check content pages, direct URL first
+                if (str_ends_with($item['item_url'],$this->request->server['REQUEST_URI'])) {
+                    $item['current'] = true;
+                } elseif(isset($urlParams['content_id'])) {
+                    $item['current'] = $urlParams['content_id'] == $this->request->get['content_id'];
+                } else {
+                    $item['current'] = array_key_first($urlParams) == $this->request->get['rt'];
+                }
             }
             $menu[] = $item;
         }
