@@ -23,8 +23,6 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerPagesToolErrorLog extends AController
 {
-    public $data;
-
     public function main()
     {
         //init controller data
@@ -41,31 +39,53 @@ class ControllerPagesToolErrorLog extends AController
             $this->data['success'] = '';
         }
 
-        $filename = $this->request->get['filename'] ?? '';
-        if ($filename && is_file(DIR_LOGS.$filename)) {
-            $file = DIR_LOGS.$filename;
-            $this->data['clear_url'] = '';
-            $heading_title = $this->request->clean($filename);
+        if (isset($this->session->data['error'])) {
+            $this->data['error'] = $this->session->data['error'];
+            unset($this->session->data['error']);
         } else {
-            $file = DIR_LOGS.$this->config->get('config_error_filename');
-            $this->data['clear_url'] = $this->html->getSecureURL('tool/error_log/clearlog');
-            $heading_title = $this->language->get('heading_title');
+            $this->data['error'] = '';
         }
 
+        $filename = $this->request->get['filename'] ?: $this->config->get('config_error_filename');
+        $file = DIR_LOGS.$filename;
+
+        $this->data['main_url'] = $this->html->getSecureURL( 'tool/error_log');
+        $this->data['clear_url'] = $this->html->getSecureURL( 'tool/error_log/clearlog', '&filename='.$filename );
+
+        $all_logs = glob(DIR_LOGS.'{*.log,*.txt}', GLOB_BRACE);
+        $options = [];
+        foreach($all_logs as $f){
+            $fileShortName = basename($f);
+            $options[$fileShortName] = $fileShortName .' '.human_filesize(filesize($f));
+        }
+        $this->data['log_list'] = $this->html->buildElement(
+            [
+                'type'    => 'selectbox',
+                'name'    => 'filename',
+                'options' => $options,
+                'value'   => $filename
+            ]
+        );
+
+        $heading_title = $this->language->get('heading_title');
         $this->document->setTitle($heading_title);
         $this->data['heading_title'] = $heading_title;
         $this->document->resetBreadcrumbs();
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('index/home'),
-            'text'      => $this->language->get('text_home'),
-            'separator' => false,
-        ));
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('tool/error_log', ($filename ? '&filename='.$filename : '')),
-            'text'      => $heading_title,
-            'separator' => ' :: ',
-            'current'   => true,
-        ));
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('index/home'),
+                'text'      => $this->language->get('text_home'),
+                'separator' => false,
+            ]
+        );
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('tool/error_log', ($filename ? '&filename='.$filename : '')),
+                'text'      => $heading_title,
+                'separator' => ' :: ',
+                'current'   => true,
+            ]
+        );
 
         if (file_exists($file)) {
             ini_set("auto_detect_line_endings", true);
@@ -92,12 +112,12 @@ class ControllerPagesToolErrorLog extends AController
             $log = '';
         }
 
-        $log = htmlentities(str_replace(array('<br/>', '<br />'), "\n", $log), ENT_QUOTES | ENT_IGNORE, 'UTF-8');
+        $log = htmlentities(str_replace(['<br/>', '<br />'], "\n", $log), ENT_QUOTES | ENT_IGNORE, 'UTF-8');
         //filter empty string
         $lines = array_filter(explode("\n", $log), 'strlen');
         unset($log);
         $k = 0;
-        $data = array();
+        $data = [];
         foreach ($lines as $line) {
             if (preg_match('(^\d{4}-\d{2}-\d{2} \d{1,2}:\d{2}:\d{2})', $line, $match)) {
                 $k++;
@@ -118,21 +138,21 @@ class ControllerPagesToolErrorLog extends AController
 
     public function clearLog()
     {
-
+        $this->loadLanguage('tool/error_log');
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $filename = $this->request->get['filename'];
-        if ($filename && is_file(DIR_LOGS.$filename)) {
-            $file = DIR_LOGS.$filename;
-        } else {
-            $file = DIR_LOGS.$this->config->get('config_error_filename');
-        }
+        $filename = $this->request->get['filename'] ?: $this->config->get('config_error_filename');
+        $file = DIR_LOGS.$filename;
 
-        $handle = fopen($file, 'w+');
-        fclose($handle);
-        $this->session->data['success'] = $this->language->get('text_success');
-        redirect($this->html->getSecureURL('tool/error_log'));
+        if(is_file($file) && is_writable($file)) {
+            $handle = fopen($file, 'w+');
+            fclose($handle);
+            $this->session->data['success'] = $this->language->get('text_success');
+        }else{
+            $this->session->data['error'] = $this->language->get('text_file_error');
+        }
+        redirect($this->html->getSecureURL('tool/error_log', '&'.http_build_query(['filename' => $filename])));
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
