@@ -1,4 +1,4 @@
-<?php /** @var Aview $this */ ?>
+<?php /** @var AView|AController $this */ ?>
 <meta charset="UTF-8">
 <!--[if IE]>
 	<meta http-equiv="x-ua-compatible" content="IE=Edge" />
@@ -65,7 +65,7 @@ if($direction == 'rtl'){ ?>
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    </script><script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js" integrity="sha512-VK2zcvntEufaimc+efOYi622VN5ZacdnufnmX7zIhCPmjhKnOi9ZDMtg1/ug5l183f19gG1/cBstPO4D8N/Img==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type="text/javascript">
-    let storeName = '<?php echo $this->config->get('config_title_'.$this->language->getLanguageID()); ?>';
+    let storeName = <?php js_echo($this->config->get('config_title_'.$this->language->getLanguageID())); ?>;
     let baseUrl = '<?php echo $base; ?>';
     let samesite = '<?php echo((defined('HTTPS') && HTTPS) ? 'None; secure=1;' : 'lax; secure=0;'); ?>';
     let is_retina = <?php echo $retina ? 'true' : 'false'; ?>;

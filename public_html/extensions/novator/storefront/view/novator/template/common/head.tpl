@@ -1,4 +1,4 @@
-<?php /** @var Aview $this */ ?>
+<?php /** @var AView|AController $this */ ?>
 <meta charset="UTF-8">
 <!--[if IE]>
 	<meta http-equiv="x-ua-compatible" content="IE=Edge" />
@@ -72,7 +72,7 @@ if($direction == 'rtl'){ ?>
 <script defer src="<?php echo $this->templateResource('/js/plugins/owl.carousel.js'); ?>" ></script>
 
 <script type="text/javascript">
-    let storeName = '<?php echo $this->config->get('config_title_'.$this->language->getLanguageID()); ?>';
+    let storeName = <?php js_echo($this->config->get('config_title_'.$this->language->getLanguageID())); ?>;
     let baseUrl = '<?php echo $base; ?>';
     let samesite = '<?php echo((defined('HTTPS') && HTTPS) ? 'None; secure=1;' : 'lax; secure=0;'); ?>';
     let is_retina = <?php echo $retina ? 'true' : 'false'; ?>;
