@@ -617,7 +617,7 @@ class ALanguageManager extends Alanguage
         $filename = $block;
         $parts = explode('_', $filename);
         $test_array = [];
-        array_push($test_array, $parts[0]);
+        $test_array[] = $parts[0];
         for ($i = 1; $i < count($parts); $i++) {
             $total_arr = count($test_array);
             for ($j = 0; $j < $total_arr; $j++) {
@@ -855,9 +855,13 @@ class ALanguageManager extends Alanguage
     {
         $this->registry->get('extensions')->hk_InitData($this, __FUNCTION__);
 
-        if (empty($source_lang_code) || empty($src_text) || empty($dest_lang_code)) {
-            return null;
+        if (!$source_lang_code || !$dest_lang_code) {
+            return false;
         }
+        if(!$src_text){
+            return $src_text;
+        }
+
         //check what method is selected for translation
         if (empty($translate_method)) {
             $translate_method = $this->registry->get('config')->get('translate_method');
@@ -990,177 +994,160 @@ class ALanguageManager extends Alanguage
      */
     public function getTranslationMethods()
     {
-        $this->registry->get('extensions')->hk_InitData($this, __FUNCTION__);
-        //default copy method
-        $methods = ['copy_source_text' => 'Copy Source Language Text'];
-        $translaters = $this->registry->get('extensions')->getExtensionsList(
+        $translators = $this->registry->get('extensions')->getExtensionsList(
             [
-                'category' => 'Translaters',
+                'category' => 'Translators',
                 'status'   => 1,
+                'sort_order' => ['name']
             ]
         );
 
-        foreach ($translaters->rows as $translater) {
-            $methods[$translater['key']] = $this->registry->get('extensions')->getExtensionName($translater['key']);
-        }
-
-        $this->registry->get('extensions')->hk_UpdateData($this, __FUNCTION__);
-
-        return $methods;
+        return [ 'copy_source_text' => $this->get('text_copy_source_text','localisation/language') ]
+            + array_column($translators->rows, 'name','key');
     }
 
     /**
      * PR: Duplicate row from default language to new and translate if needed
      *
-     * @param string $table
-     * @param array $pkeys
-     * @param int $new_language
-     * @param int $from_language
-     * @param string $specific_sql
-     * @param string $translate_method
+     * @param string $tableNameWithPrefix
+     * @param array $priKeys
+     * @param int $dstLanguageId
+     * @param int $srcLanguageId
+     * @param string|null $specificSql
+     * @param string|null $translateMethod
      *
      * @return null|string
      * @throws AException
      */
     public function cloneLanguageRows(
-        $table,
-        $pkeys,
-        $new_language,
-        $from_language = 1,
-        $specific_sql = '',
-        $translate_method = ''
+        string $tableNameWithPrefix,
+        array $priKeys,
+        int $dstLanguageId,
+        int $srcLanguageId = 1,
+        ?string $specificSql = '',
+        ?string $translateMethod = ''
     ) {
-        $new_language = (int) $new_language;
-        $from_language = (int) $from_language;
 
-        if (empty($table) || empty ($pkeys) || empty($new_language)) {
+        if (!$tableNameWithPrefix || !$priKeys || !$dstLanguageId  || !$srcLanguageId ) {
             return null;
         }
+        $priKeys = array_combine($priKeys, $priKeys);
+
         // Locate autoincrement column
-        $autoincrement_sql = "SHOW COLUMNS FROM ".$table." WHERE Extra = 'auto_increment'";
-        $autoincrement = $this->db->query($autoincrement_sql);
-        $auto_column = $autoincrement->row['Field'];
+        $result = $this->db->query("SHOW COLUMNS FROM ".$tableNameWithPrefix." WHERE Extra = 'auto_increment'");
+        $autoIncrementColumn = $result->row['Field'];
 
         //get all fields that are translatable
-        $translatable_fields = $this->getTranslatableFields($table);
-        //Build a keys string for select
-        $keys_str = '';
+        $translatableCols = $this->getTranslatableFields($tableNameWithPrefix);
         $tcount = 0;
-        foreach ($pkeys as $key) {
-            if (!empty($keys_str)) {
-                $keys_str .= ",";
-            }
-            $keys_str .= "$key ";
-        }
-        $sql = "SELECT ".$keys_str."
-                FROM ".$table."
-                WHERE language_id = ".$from_language.$specific_sql;
+        $sql = "SELECT ".implode(', ', $priKeys)."
+                FROM ".$tableNameWithPrefix."
+                WHERE language_id = ".$srcLanguageId.' '.$specificSql;
 
         $tables_query = $this->db->query($sql);
         if ($tables_query->num_rows) {
-            $langs = [];
-            foreach ($this->available_languages as $lang) {
-                $langs[$lang['language_id']] = $lang['filename'];
-            }
-
+            $langFiles = array_column($this->available_languages,'filename','language_id');
             foreach ($tables_query->rows as $row) {
                 #Check if to be saved data exists for new language
-                $sql1 = "SELECT * FROM ".$table." WHERE language_id = ".$new_language;
-                $sql2 = "SELECT * FROM ".$table." WHERE language_id = ".$from_language;
-                $where_sql_1 = $where_sql_2 = '';
-                foreach ($pkeys as $key) {
+                $sqlDst = "SELECT * FROM ".$tableNameWithPrefix." WHERE language_id = ".$dstLanguageId;
+                $sqlSrc = "SELECT * FROM ".$tableNameWithPrefix." WHERE language_id = ".$srcLanguageId;
+                $whereDst = $whereSrc = '';
+                foreach ($priKeys as $priColumn) {
                     //Skip language_id and autoincrement from the key. autoincrement is unique by itself.
-                    if ($key != 'language_id' && $key != $auto_column) {
-                        if (in_array($row[$key], $langs)) {
-                            $where_sql_1 .= " AND ".$key." = '".$this->db->escape($langs[$new_language])."'";
-                            $where_sql_2 .= " AND ".$key." = '".$this->db->escape($langs[$from_language])."'";
+                    if ($priColumn != 'language_id' && $priColumn != $autoIncrementColumn) {
+                        if (in_array($row[$priColumn], $langFiles)) {
+                            $whereDst .= " AND ".$priColumn." = '".$this->db->escape($langFiles[$dstLanguageId])."'";
+                            $whereSrc .= " AND ".$priColumn." = '".$this->db->escape($langFiles[$srcLanguageId])."'";
                         } else {
-                            $where_sql_1 .= " AND ".$key." = '".$this->db->escape($row[$key])."'";
-                            $where_sql_2 .= " AND ".$key." = '".$this->db->escape($row[$key])."'";
+                            $whereDst .= " AND ".$priColumn." = '".$this->db->escape($row[$priColumn])."'";
+                            $whereSrc .= " AND ".$priColumn." = '".$this->db->escape($row[$priColumn])."'";
                         }
                     }
                 }
 
-                $sql1 .= $where_sql_1;
-                $sql2 .= $where_sql_2;
+                $sqlDst .= $whereDst;
+                $sqlSrc .= $whereSrc;
 
-                $check_query = $this->db->query($sql1);
-                if ($check_query->num_rows <= 0) {
-                    ADebug::variable('class ALanguage missing language data: ', $sql1);
+                $res = $this->db->query($sqlDst);
+                $translatedRow = $res->row;
 
-                    $origin_query = $this->db->query($sql2);
-                    foreach ($origin_query->rows as $drow) {
-                        $insert_data = [];
-                        foreach ($drow as $fld_name => $value) {
-                            if ($fld_name == 'language_id') {
-                                $value = $new_language;
-                            } else {
-                                if ($fld_name == $auto_column) {
-                                    $value = '';
-                                } else {
-                                    if ($fld_name == 'block' && $value == $langs[$from_language]) {
-                                        //language specific field for main language block. use destination language
-                                        $value = $langs[$new_language];
-                                    } else {
-                                        if (count($translatable_fields) && in_array($fld_name, $translatable_fields)) {
-                                            //we need to translate
-                                            $value = $this->translate(
-                                                $this->_get_language_code($from_language),
-                                                $value,
-                                                $this->_get_language_code($new_language),
-                                                $translate_method
-                                            );
-                                            //if one of translation is null - means that translation failed
-                                            // interrupt translation
-                                            if ($value === null && $translate_method != 'copy_source_text') {
-                                                return "Translation skipped for table ".$table."<br>";
-                                            }
-                                        }
-                                    }
+                $res = $this->db->query($sqlSrc);
+                $sourceRows = $res->rows;
+                foreach ($sourceRows as $srcRow) {
+
+                    $insert_data = [];
+                    foreach ($srcRow as $columnName => $srcValue) {
+                        if ($columnName == 'language_id') {
+                            $translated = $dstLanguageId;
+                        } elseif ($columnName == $autoIncrementColumn) {
+                            $translated = null;
+                        } else {
+                            if ($columnName == 'block' && $srcValue == $langFiles[$srcLanguageId]) {
+                                //language specific field for main language block. use destination language
+                                $translated = $langFiles[$dstLanguageId];
+                            } elseif (
+                                ($srcValue || ($srcValue == $translatedRow[$columnName]))
+                                && count($translatableCols)
+                                && in_array($columnName, $translatableCols)
+                            ) {
+                                //we need to translate
+                                $translated = $this->translate(
+                                    $this->_get_language_code($srcLanguageId),
+                                    $srcValue,
+                                    $this->_get_language_code($dstLanguageId),
+                                    $translateMethod
+                                );
+                                //if one of translation is null - means that translation failed
+                                // interrupt translation
+                                if ($translated === false && $translateMethod != 'copy_source_text') {
+                                    return "Translation skipped for table ".$tableNameWithPrefix;
                                 }
+                            }else{
+                                $translated = $srcValue;
                             }
-
-                            $insert_data[$fld_name] = $this->db->escape($value);
                         }
 
-                        if (!empty($insert_data)) {
-                            $insert_sql = "REPLACE INTO ".$table."
-                                                (".implode(',', array_keys($insert_data)).")
-                                            VALUES ('".implode("','", $insert_data)."')";
-                            ADebug::variable('class ALanguage cloning data: ', $insert_sql);
-                            if ($table == $this->db->table('language_definitions')) {
-                                //#PR There are some key condition in definitions that can be
-                                // duplicate (CASE: block = 'english' main language ) skip
-                                //We assume that main language XML need to be present
-                                //TODO rename main language file to common.xml
-                                if (!$this->_is_definition_in_db($insert_data)) {
-                                    $this->db->query($insert_sql);
-                                } else {
+                        $insert_data[$columnName] = $this->db->escape($translated);
+                    }
+
+                    if (!empty($insert_data)) {
+                        $insert_sql = "REPLACE INTO ".$tableNameWithPrefix."
+                                            (".implode(',', array_keys($insert_data)).")
+                                        VALUES ('".implode("','", $insert_data)."')";
+                        ADebug::variable('class ALanguage cloning data: ', $insert_sql);
+                        if ($tableNameWithPrefix == $this->db->table('language_definitions')) {
+                            //#PR There are some key condition in definitions that can be
+                            // duplicate (CASE: block = 'english' main language ) skip
+                            //We assume that main language XML need to be present
+                            //TODO rename main language file to common.xml
+                            if (!$this->_is_definition_in_db($insert_data)) {
+                                $this->db->query($insert_sql);
+                            } else {
+                                continue;
+                            }
+                        } else {
+                            if ($tableNameWithPrefix == $this->db->table('product_tags')) {
+                                // TODO. ac_product_tags still an issue. Will be cloned as duplication on each translation.
+                                // Issue. Can not check if translation is present because of no IDs present in ac_product_tags
+                                // Offset duplicate error for now.
+                                if (!$this->db->query($insert_sql, true)) {
+                                    //skip count on error
                                     continue;
                                 }
                             } else {
-                                if ($table == $this->db->table('product_tags')) {
-                                    // TODO. ac_product_tags still an issue. Will be cloned as duplication on each translation.
-                                    // Issue. Can not check if translation is present because of no IDs present in ac_product_tags
-                                    // Offset duplicate error for now.
-                                    if (!$this->db->query($insert_sql, true)) {
-                                        //skip count on error
-                                        continue;
-                                    }
-                                } else {
-                                    $this->db->query($insert_sql);
-                                }
+                                $this->db->query($insert_sql);
                             }
-                            $tcount++;
                         }
+                        $tcount++;
                     }
                 }
+
             }
             if ($tcount > 0) {
                 $this->cache->remove('localization');
             }
         }
-        return "Total: ".$tcount." language entries cloned for table ".$table."<br>";
+        return "Total: ".$tcount." language entries cloned for table ".$tableNameWithPrefix;
     }
 
     /**
