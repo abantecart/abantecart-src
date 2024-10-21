@@ -1,5 +1,4 @@
-<div id="<?php echo $id;?>" class="modal fade <?php echo $style ?? ''; ?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-	 aria-hidden="true">
+<div id="<?php echo $id;?>" class="modal fade <?php echo $style ?? ''; ?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
 	<?php if (!$modal_type) { $modal_type = 'lg'; } ?> 
 	<div class="modal-dialog modal-<?php echo $modal_type; ?>">
 		<div class="modal-content">
