@@ -107,6 +107,126 @@ class ModelCatalogContent extends Model
     }
 
     /**
+     * @param array $data
+     * @param string $mode
+     *
+     * @return false|mixed
+     * @throws AException
+     */
+    public function filterContents($data = [])
+    {
+        $language_id = (int)$data['content_language_id'] ?: (int)$this->config->get('storefront_language_id');
+        $storeId = $this->config->get('config_store_id');
+        $cacheKey = 'content.get.list.'.md5(var_export($data, true)).$language_id.$storeId;
+        $output = $this->cache->pull($cacheKey);
+        if( $output !== false ){
+            return $output;
+        }
+
+        $filter = $data['filter'] ?? [];
+
+        $sql = "SELECT " . $this->db->getSqlCalcTotalRows() . " DISTINCT c.*, c2s.*, cd.*,
+                GROUP_CONCAT(`ct`.`tag` ORDER BY `ct`.`tag` ASC SEPARATOR ','  )  as `tags` 
+                FROM " . $this->db->table('contents') . " c
+                LEFT JOIN " . $this->db->table('contents_to_stores') . " c2s
+                    ON c2s.content_id = c.content_id
+                LEFT JOIN ".$this->db->table("content_descriptions")." cd
+                        ON (c.content_id = cd.content_id
+                                AND cd.language_id = '". $language_id ."')
+                LEFT JOIN ".$this->db->table("content_tags")." ct 
+                    ON (c.content_id = ct.content_id AND ct.language_id = '". $language_id ."')
+                WHERE c2s.store_id = " . $storeId . "
+                    AND COALESCE(c.publish_date, '1970-01-01') < now() AND COALESCE(c.expire_date, now()) >= now()
+                    AND c.status = '1'";
+
+        if ($filter['parent_id']) {
+            $sql .= " AND c.parent_content_id=" . (int)$filter['parent_id'] . " ";
+        }
+
+        if ($filter['tag']) {
+            $sql .= " AND LCASE(ct.tag) = '".$this->db->escape(trim($filter['tag']))."' ";
+        }
+
+        $match = $filter['match'] ?? 'exact';
+        if (isset($filter['keyword'])) {
+            $keywords = explode(' ', $filter['keyword']);
+            if ($match == 'any') {
+                $sql .= " AND (";
+                foreach ($keywords as $k => $keyword) {
+                    $kw = $this->db->escape(strtolower($keyword), true);
+                    $sql .= $k > 0 ? " OR" : "";
+                    $sql .= " (LCASE(cd.title) LIKE '%".$kw."%'";
+                    $sql .= " OR LCASE(cd.description) LIKE '%".$kw."%'";
+                    $sql .= " OR LCASE(cd.content) LIKE '%".$kw."%')";
+                }
+                $sql .= " )";
+            } else {
+                if ($match == 'all') {
+                    $sql .= " AND (";
+                    foreach ($keywords as $k => $keyword) {
+                        $kw = $this->db->escape(strtolower($keyword), true);
+                        $sql .= $k > 0 ? " AND" : "";
+                        $sql .= " (LCASE(cd.title) LIKE '%".$kw."%'";
+                        $sql .= " OR LCASE(cd.description) LIKE '%".$kw."%'";
+                        $sql .= " OR LCASE(cd.content) LIKE '%".$kw."%')";
+                    }
+                    $sql .= " )";
+                } else {
+                    if ($match == 'exact') {
+                        $kw = $this->db->escape(strtolower($filter['keyword']), true);
+                        $sql .= " AND (LCASE(cd.title) LIKE '%".$kw."%'";
+                        $sql .= " OR LCASE(cd.description) LIKE '%".$kw."%'";
+                        $sql .= " OR LCASE(cd.content) LIKE '%".$kw."%')";
+                    }
+                }
+            }
+        }
+
+        $sql .= ' GROUP BY c.content_id ';
+
+        $sort_data = [
+            'default'       => 'c.sort_order',
+            'name-ASC'      => 'cd.title',
+            'name-DESC'     => 'cd.title',
+            'date-DESC'     => 'c.publish_date',
+            'date-ASC'      => 'c.publish_date',
+        ];
+
+        if (isset($data['sort']) && in_array($data['sort'], array_keys($sort_data))) {
+            $sql .= " ORDER BY ".$sort_data[$data['sort']];
+        } else {
+            $sql .= " ORDER BY ".$sort_data['default'];
+        }
+
+        $parts = explode('-', $data['sort']);
+        $order = $parts[1] ?: 'ASC';
+        if (isset($data['order']) && ($data['order'] == 'DESC')) {
+            $sql .= " DESC";
+        } else if ($order) {
+            $sql .= " ".$order;
+        } else if ($order) {
+            $sql .= " ASC";
+        }
+
+        if (isset($data['start']) || isset($data['limit'])) {
+            $data['start'] = max($data['start'],0);
+
+            if ($data['limit'] < 1) {
+                $data['limit'] = 10;
+            }
+            $sql .= " LIMIT ".(int) $data['start'].",".(int) $data['limit'];
+        }
+        $query = $this->db->query($sql);
+        $output = $query->rows;
+        if (count($output)) {
+            $output[0]['total_num_rows'] = $this->db->getTotalNumRows();
+        }
+#echo $sql; echo_array($output); exit;
+        $this->cache->push($cacheKey, $output);
+        return $output;
+    }
+
+    /**
      * @param int $parentId
      *
      * @param string $mode - can be empty or "active_only"
@@ -150,73 +270,6 @@ class ModelCatalogContent extends Model
     }
 
     /**
-     * @param int $parentId
-     *
-     * @param array $params
-     *
-     * @return array
-     */
-    public function getChildren($parentId, $params = [])
-    {
-        $sort_data = [
-            'defailt'       => 'c.sort_order',
-            'name-ASC'      => 'cd.title',
-            'name-DESC'     => 'cd.title',
-            'date-DESC'     => 'c.publish_date',
-            'date-ASC'      => 'c.publish_date',
-        ];
-
-        $parentId = (int)$parentId;
-        if (!$parentId) {
-            return [];
-        }
-        $cacheKey = 'content.children.' . $parentId;
-        $cache = $this->cache->pull($cacheKey);
-        if (isset($cache) && $cache !== false) {
-            return $cache;
-        }
-        $sort = $sort_data[$params['sort']] ?: $sort_data['defailt'];
-        $parts = explode('-', $params['sort']);
-        $order = $parts[1] ?: 'ASC';
-        $limit = abs((int) $params['limit']?:10);
-        $page = abs((int)$params['page']?:1);
-        $tag = $params['tag']?:'';
-        $start = abs((int)($page - 1) * $limit);
-        $language_id = $params['language_id'] ?: (int)$this->config->get('storefront_language_id');
-        $store_id = $params['store_id'] ?? (int)$this->config->get('config_store_id');
-
-        $sql = "SELECT " . $this->db->getSqlCalcTotalRows() . " DISTINCT c.*, c.*, c2s.*, cd.*, ct.* 
-                FROM " . $this->db->table('contents') . " c
-                LEFT JOIN " . $this->db->table('contents_to_stores') . " c2s
-                    ON c2s.content_id = c.content_id
-                LEFT JOIN ".$this->db->table("content_descriptions")." cd
-                        ON (c.content_id = cd.content_id
-                                AND cd.language_id = '". $language_id ."')
-                LEFT JOIN ".$this->db->table("content_tags")." ct 
-                    ON (c.content_id = ct.content_id)
-                WHERE c2s.store_id = " . (int)$store_id . "
-                    AND COALESCE(c.publish_date, '1970-01-01') < now() AND COALESCE(c.expire_date, now()) >= now()
-                    AND c.parent_content_id=" . $parentId;
-
-        if ($tag) {
-            $sql .= " AND LCASE(ct.tag) = '".$this->db->escape(trim($tag))."' ";
-        }
-        $sql .= ' GROUP BY c.content_id ';
-
-        $sql .= " ORDER BY ".$sort." ".$order;
-
-
-        if ($start < 0) {
-            $start = 0;
-        }
-
-        $sql .= " LIMIT ".$start.",".$limit;
-        $result = $this->db->query($sql);
-        $result->rows[0]['total_num_rows'] = $this->db->getTotalNumRows();
-        return $result->rows;
-    }
-
-    /**
      * @param int $content_id
      * @param int $language_id
      *
@@ -226,7 +279,6 @@ class ModelCatalogContent extends Model
     {
         $language_id = (int) $language_id;
         $tag_data = [];
-        $tagStr = [];
 
         $query = $this->db->query(
             "SELECT *

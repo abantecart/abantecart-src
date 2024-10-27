@@ -27,14 +27,11 @@ class ControllerPagesContentContent extends AController
     {
         $request = $this->request->get;
         $this->data = [];
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadModel('catalog/content');
-
         $this->document->resetBreadcrumbs();
-
         $this->document->addBreadcrumb(array(
             'href'      => $this->html->getHomeURL(),
             'text'      => $this->language->get('text_home'),
@@ -42,60 +39,179 @@ class ControllerPagesContentContent extends AController
         ));
 
         $content_id = isset($request['content_id']) ? $request['content_id'] : 0;
-        $page = isset($request['page']) ? $request['page'] : 0;
-        $sort = isset($request['sort']) ? $request['sort'] : 0;
+        $page = isset($request['page']) ? $request['page'] : 1;
+        $sort = isset($request['sort']) ? $request['sort'] : 'default';
         $limit = isset($request['limit']) ? $request['limit'] : 10;
         $selTag = isset($request['tag']) ? $request['tag'] : '';
 
-        $content_info = $this->model_catalog_content->getContent($content_id);
-        if (!$content_info) {
+        $cntInfo = $this->model_catalog_content->getContent($content_id);
+        if (!$cntInfo) {
             redirect($this->html->getURL('error/not_found'));
         }
 
-        $this->document->setTitle($content_info['title']);
-        $this->document->setKeywords($content_info['meta_keywords']);
-        $this->document->setDescription($content_info['meta_description']);
+        $this->document->setTitle($cntInfo['title']);
+        $this->document->setKeywords($cntInfo['meta_keywords']);
+        $this->document->setDescription($cntInfo['meta_description']);
 
         $this->document->addBreadcrumb(array(
             'href'      => $this->html->getSEOURL('content/content', '&content_id='.$content_id, true),
-            'text'      => $content_info['title'],
+            'text'      => $cntInfo['title'],
             'separator' => $this->language->get('text_separator'),
         ));
 
-        $this->data['content_info'] = $content_info;
-        $this->data['heading_title'] = $content_info['title'];
+        $this->data['content_info'] = $cntInfo;
+        $this->data['heading_title'] = $cntInfo['title'];
         $this->data['button_continue'] = $this->language->get('button_continue');
-        $this->data['description'] = html_entity_decode($content_info['description']);
-        $this->data['content'] = html_entity_decode($content_info['content']);
+        $this->data['description'] = html_entity_decode($cntInfo['description']);
+        $this->data['content'] = html_entity_decode($cntInfo['content']);
+        if ($cntInfo['icon_rl_id']) {
+            $rl = new AResource('image');
+            $resource = $rl->getResource($cntInfo['icon_rl_id']);
+            if ($resource['resource_code']) {
+                $this->data['icon_code'] = $resource['resource_code'];
+            } else {
+                $this->data['icon_url'] = $rl->getResourceThumb(
+                    $cntInfo['icon_rl_id'],
+                    (int) $this->config->get('config_image_grid_width'),
+                    (int) $this->config->get('config_image_grid_height')
+                );
+            }
+        }
+        $tags = $this->model_catalog_content->getContentTags($content_id, $this->language->getLanguageID());
+        $this->data['content_info']['tags'] = $this->prepTags($tags, 'content/content/list');
 
-        $this->data['button_continue'] = HtmlElementFactory::create(array(
-            'type'  => 'button',
-            'name'  => 'continue_button',
-            'text'  => $this->language->get('button_continue'),
-            'style' => 'button',
+        $request['start'] = abs((int)($page - 1) * $limit);
+        $request['filter'] = [];
+        $request['filter']['parent_id'] = $content_id;
+        $request['filter']['tag'] = $selTag;
+        $this->data['contents'] = $this->prepContentData(
+            $this->model_catalog_content->filterContents($request),
+            'content/content',
+            $content_id
+        );
+
+        if ($this->data['contents'] ) {
+            $this->data['sorting'] = $this->getSortField($sort);
+            if ($selTag) {
+                $this->data['selected_tag'] =  $selTag;
+                $this->data['remove_tag'] = $this->html->getSEOURL(
+                    'content/content',
+                    '&content_id='.$content_id
+                );
+            }
+            $params = '&content_id='.$content_id.'&tag='.$selTag;
+            $this->data['resort_url'] = $this->html->getSEOURL(
+                'content/content',
+                $params
+            );
+            $pagination_url = $this->html->getSEOURL(
+                'content/content',
+                $params.'&sort='.$sort.'&page={page}'
+            );
+            $this->data['pagination_bootstrap'] = $this->html->buildElement(
+                [
+                    'type'       => 'Pagination',
+                    'name'       => 'pagination',
+                    'text'       => $this->language->get('text_pagination'),
+                    'text_limit' => $this->language->get('text_per_page'),
+                    'total'      => $this->data['contents'][0]['total_num_rows'],
+                    'page'       => $page,
+                    'limit'      => $limit,
+                    'url'        => $pagination_url,
+                    'style'      => 'pagination',
+                ]
+            );
+        }
+
+        $this->view->batchAssign($this->data);
+        $this->view->setTemplate('pages/content/content.tpl');
+        $this->processTemplate();
+
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
+
+    public function list()
+    {
+        $request = $this->request->get;
+        $this->data = [];
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+
+        $this->loadModel('catalog/content');
+        $this->document->resetBreadcrumbs();
+        $this->document->addBreadcrumb(array(
+            'href'      => $this->html->getHomeURL(),
+            'text'      => $this->language->get('text_home'),
+            'separator' => false,
         ));
-        $this->data['continue'] = $this->html->getHomeURL();
+        $this->document->setTitle($this->language->get('heading_title'));
 
-        //handle children pages
-        $sort_options = [
-            'defailt'       => $this->language->get('text_default'),
-            'name-ASC'      => $this->language->get('text_sorting_name_asc'),
-            'name-DESC'     => $this->language->get('text_sorting_name_desc'),
-            'date-DESC'     => $this->language->get('text_sorting_date_desc'),
-            'date-ASC'      => $this->language->get('text_sorting_date_asc'),
-        ];
+        $page = isset($request['page']) ? $request['page'] : 1;
+        $sort = isset($request['sort']) ? $request['sort'] : 'default';
+        $limit = isset($request['limit']) ? $request['limit'] : 10;
+        $keyword = isset($request['keyword']) ? $request['keyword'] : '';
+        $selTag = isset($request['tag']) ? $request['tag'] : '';
 
-        $this->data['sorting'] = $this->html->buildElement(
+        $this->data['sorting'] = $this->getSortField($sort);
+
+        $request['start'] = abs((int)($page - 1) * $limit);
+        $request['filter'] = [];
+        $request['filter']['keyword'] = $keyword;
+        $request['filter']['tag'] = $selTag;
+        $this->data['contents'] = $this->prepContentData(
+            $this->model_catalog_content->filterContents($request),
+            'content/content/list'
+        );
+
+        if ($selTag) {
+            $this->data['selected_tag'] =  $selTag;
+            $this->data['remove_tag'] = $this->html->getSEOURL(
+                'content/content/list',
+                '&keyword='.$keyword
+            );
+        }
+
+        $params = '&keyword='.$keyword.'&tag='.$selTag;
+        $this->data['resort_url'] = $this->html->getSEOURL(
+            'content/content/list',
+            $params
+        );
+
+        $pagination_url = $this->html->getSEOURL(
+            'content/content/list',
+            $params.'&sort='.$sort.'&page={page}'
+        );
+
+        $this->document->addBreadcrumb(array(
+            'href'      => $this->html->getSEOURL('content/content/list', $params, true),
+            'text'      => $this->language->get('heading_title'),
+            'separator' => $this->language->get('text_separator'),
+        ));
+
+        $this->data['pagination_bootstrap'] = $this->html->buildElement(
             [
-                'type'    => 'selectbox',
-                'name'    => 'sort',
-                'options' => $sort_options,
-                'value'   => $sort,
+                'type'       => 'Pagination',
+                'name'       => 'pagination',
+                'text'       => $this->language->get('text_pagination'),
+                'text_limit' => $this->language->get('text_per_page'),
+                'total'      => $this->data['contents'][0]['total_num_rows'],
+                'page'       => $page,
+                'limit'      => $limit,
+                'url'        => $pagination_url,
+                'style'      => 'pagination',
             ]
         );
 
-        $children = $this->model_catalog_content->getChildren($content_id, $request);
-        foreach ($children as &$child) {
+        $this->data['mode'] = 'list';
+        $this->view->batchAssign($this->data);
+        $this->view->setTemplate('pages/content/content.tpl');
+        $this->processTemplate();
+
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
+
+    private function prepContentData($contArr, $rt, $parent_id = null) {
+        foreach ($contArr as &$child) {
             $child['url']  = $this->html->getSEOURL('content/content', '&content_id='.$child['content_id'], true);
             if ($child['icon_rl_id']) {
                 $rl = new AResource('image');
@@ -114,60 +230,43 @@ class ControllerPagesContentContent extends AController
             if(time() - dateISO2Int($child['publish_date']) > 86400 * 3) {
                 $child['new'] = true;
             }
-            $tags = $this->model_catalog_content->getContentTags($child['content_id'], $this->language->getLanguageID());
-            foreach ($tags as $tag) {
-                $child['tags'][$tag] = $this->html->getSEOURL(
-                        'content/content',
-                        '&content_id='.$content_id . '&tag='.urlencode($tag),
-                        true);
-            }
+            $tagsArr = explode(',', $child['tags']);
+            $child['tags'] = $this->prepTags($tagsArr, $rt, $parent_id);
         }
-        $this->data['children'] = $children;
-        if ($selTag) {
-            $this->data['selected_tag'] =  $selTag;
-            $this->data['remove_tag'] = $this->html->getSEOURL(
-                'content/content',
-                '&content_id='.$content_id
-            );
-        }
-
-        $this->data['resort_url'] = $this->html->getSEOURL(
-            'content/content',
-            '&content_id='.$content_id.'&tag='.$selTag
-        );
-
-        $pagination_url = $this->html->getSEOURL(
-            'content/content',
-            '&content_id='.$content_id.'&tag='.$selTag.'&page={page}'
-        );
-        $this->data['pagination_bootstrap'] = $this->html->buildElement(
-            [
-                'type'       => 'Pagination',
-                'name'       => 'pagination',
-                'text'       => $this->language->get('text_pagination'),
-                'text_limit' => $this->language->get('text_per_page'),
-                'total'      => $children[0]['total_num_rows'],
-                'page'       => $page,
-                'limit'      => $limit,
-                'url'        => $pagination_url,
-                'style'      => 'pagination',
-            ]
-        );
-
-        $this->view->batchAssign($this->data);
-        $this->view->setTemplate('pages/content/content.tpl');
-
-        $this->processTemplate();
-
-        //init controller data
-        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+        return $contArr;
     }
 
-    public function search()
+    private function prepTags($tags, $rt, $parent_id = null)
     {
+        //prepare tags
+        $ret = [];
+        foreach ($tags as $tag) {
+            if ($tag) {
+                $params = $parent_id ? '&content_id='.$parent_id : '';
+                $params .= '&tag='.urlencode($tag);
+                $ret[$tag] = $this->html->getSEOURL($rt, $params, true);
+            }
+        }
+        return $ret;
+    }
 
+    private function getSortField($sort) {
+        //handle children pages
+        $sort_options = [
+            'default'       => $this->language->get('text_default'),
+            'name-ASC'      => $this->language->get('text_sorting_name_asc'),
+            'name-DESC'     => $this->language->get('text_sorting_name_desc'),
+            'date-DESC'     => $this->language->get('text_sorting_date_desc'),
+            'date-ASC'      => $this->language->get('text_sorting_date_asc'),
+        ];
 
-        $this->view->batchAssign($this->data);
-        $this->view->setTemplate('pages/content/content.tpl');
+        return $this->html->buildElement(
+            [
+                'type'    => 'selectbox',
+                'name'    => 'sort',
+                'options' => $sort_options,
+                'value'   => $sort,
+            ]
+        );
     }
 }

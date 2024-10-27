@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <definitions>
   <definition>
-    <key>text_error</key>
-    <value><![CDATA[Information Page Not Found!]]></value>
+    <key>heading_title</key>
+    <value><![CDATA[Content pages]]></value>
   </definition>
   <definition>
     <key>text_sort</key>
@@ -15,5 +15,13 @@
   <definition>
     <key>text_default</key>
     <value><![CDATA[Default]]></value>
+  </definition>
+  <definition>
+    <key>content_not_found</key>
+    <value><![CDATA[No content found. Try again.]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Information Page Not Found!]]></value>
   </definition>
 </definitions>

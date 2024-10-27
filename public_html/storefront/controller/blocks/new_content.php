@@ -28,7 +28,7 @@ class ControllerBlocksNewContent extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->data['heading_title'] = $this->language->get('heading_title', 'blocks/content');
+        $this->data['heading_title'] = $this->language->get('heading_title_new', 'blocks/content');
         $this->loadLanguage('common/header');
 
         //build dynamic content (pages) links

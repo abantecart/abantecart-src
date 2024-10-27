@@ -10358,6 +10358,12 @@ CREATE TABLE `ac_contents_to_stores` (
   PRIMARY KEY (`content_id`,`store_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+INSERT INTO `ac_contents_to_stores` (`content_id`, `store_id`)
+VALUES
+(1, 0 ),
+(2, 0 ),
+(3, 0 ),
+(4, 0 );
 
 --
 -- DDL for table `blocks`
@@ -10407,7 +10413,8 @@ INSERT INTO `ac_blocks` (`block_id`, `block_txt_id`, `controller`, `date_added`)
 (32, 'fast_checkout_cart_btn', 'blocks/fast_checkout_cart_btn', NOW()),
 (33, 'fast_checkout_summary', 'blocks/fast_checkout_summary', NOW()),
 (34, 'viewed_products','blocks/viewed_products',NOW()),
-(35, 'new_content','blocks/new_content',NOW())
+(35, 'new_content','blocks/new_content',NOW()),
+(36, 'content_search', 'blocks/content_search', now())
 ;
 
 --
@@ -10572,7 +10579,11 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `da
 (34, 6, 'blocks/viewed_block_column_right.tpl',NOW()),
 (34, 3, 'blocks/viewed_block_column_left.tpl',NOW()),
 (35, 3, 'blocks/new_content.tpl',NOW()),
-(35, 6, 'blocks/new_content.tpl',NOW())
+(35, 6, 'blocks/new_content.tpl',NOW()),
+(36, 1, 'blocks/content_search.tpl', now()),
+(36, 2, 'blocks/content_search.tpl', now()),
+(36, 3, 'blocks/content_search.tpl', now()),
+(36, 6, 'blocks/content_search.tpl', now())
 ;
 
 --

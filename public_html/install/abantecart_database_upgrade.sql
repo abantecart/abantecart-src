@@ -26,4 +26,11 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `da
     (LAST_INSERT_ID(), 3, 'blocks/new_content.tpl',NOW()),
     (LAST_INSERT_ID(), 6, 'blocks/new_content.tpl',NOW());
 
+INSERT INTO `ac_blocks` (`block_txt_id`, `controller`, `date_added`) VALUES
+    ('content_search', 'blocks/content_search', now());
 
+INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `date_added`) VALUES
+    (LAST_INSERT_ID(), 1, 'blocks/content_search.tpl', now()),
+    (LAST_INSERT_ID(), 2, 'blocks/content_search.tpl', now()),
+    (LAST_INSERT_ID(), 3, 'blocks/content_search.tpl', now()),
+    (LAST_INSERT_ID(), 6, 'blocks/content_search.tpl', now());
