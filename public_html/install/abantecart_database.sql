@@ -10295,10 +10295,16 @@ INSERT INTO `ac_page_descriptions` (`page_id`, `language_id`, `name`, `title`, `
 DROP TABLE IF EXISTS `ac_contents`;
 CREATE TABLE `ac_contents` (
     `content_id` int(11) NOT NULL AUTO_INCREMENT,
-	`parent_content_id` int(11) NOT NULL DEFAULT 0,
+    `parent_content_id` int(11) NOT NULL DEFAULT 0,
     `sort_order` int(3) NOT NULL DEFAULT '0',
     `status` int(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`content_id`,`parent_content_id`)
+    `author` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+    `icon_rl_id` int(11),
+    `publish_date` timestamp NULL,
+    `expire_date` timestamp NULL,
+    `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+    `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`content_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
@@ -10400,7 +10406,8 @@ INSERT INTO `ac_blocks` (`block_id`, `block_txt_id`, `controller`, `date_added`)
 (31, 'customer', 'blocks/customer', now() ),
 (32, 'fast_checkout_cart_btn', 'blocks/fast_checkout_cart_btn', NOW()),
 (33, 'fast_checkout_summary', 'blocks/fast_checkout_summary', NOW()),
-(34, 'viewed_products','blocks/viewed_products',NOW())
+(34, 'viewed_products','blocks/viewed_products',NOW()),
+(35, 'new_content','blocks/new_content',NOW())
 ;
 
 --
@@ -10563,7 +10570,9 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `da
 (34, 7, 'blocks/viewed_block_column_footer_top.tpl',NOW()),
 (34, 8, 'blocks/viewed_block_column_footer.tpl',NOW()),
 (34, 6, 'blocks/viewed_block_column_right.tpl',NOW()),
-(34, 3, 'blocks/viewed_block_column_left.tpl',NOW())
+(34, 3, 'blocks/viewed_block_column_left.tpl',NOW()),
+(35, 3, 'blocks/new_content.tpl',NOW()),
+(35, 6, 'blocks/new_content.tpl',NOW())
 ;
 
 --

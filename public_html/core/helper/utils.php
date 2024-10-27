@@ -1612,3 +1612,15 @@ function filterIntegerIdList(?array $list = [])
         )
     );
 }
+
+/**
+ * Function to get unique array of tags from comma seperated string
+ * @param $string
+ *
+ * @return array
+ */
+function getUniqueTags($string)
+{
+    $tags = array_map('trim', explode(',', $string));
+    return array_intersect_key($tags, array_unique(array_map('strtolower', $tags)));
+}

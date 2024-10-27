@@ -4,4 +4,16 @@
     <key>text_error</key>
     <value><![CDATA[Information Page Not Found!]]></value>
   </definition>
+  <definition>
+    <key>text_sort</key>
+    <value><![CDATA[Sort By:]]></value>
+  </definition>
+  <definition>
+    <key>text_new</key>
+    <value><![CDATA[NEW]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Default]]></value>
+  </definition>
 </definitions>

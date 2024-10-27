@@ -10,7 +10,7 @@
 	<?php } ?>	
 
 	<?php if ( $multilingual ) { ?>
-	<span class="multilingual"><i class="fa fa-flag"></i></span>	
+	<span class="multilingual"><i class="fa fa-language"></i></span>
 	<?php } ?>	
 
 	<?php if ( !empty ($help_url) ) { ?>

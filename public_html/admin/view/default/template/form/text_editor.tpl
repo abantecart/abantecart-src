@@ -38,7 +38,7 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
 
                     <?php
                     if ($multilingual) { ?>
-                        <span class="multilingual"><i class="fa fa-flag"></i></span>
+                        <span class="multilingual"><i class="fa fa-language"></i></span>
                     <?php
                     } ?>
 
