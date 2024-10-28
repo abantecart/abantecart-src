@@ -34,9 +34,4 @@
         <?php include( $this->templateResource('/template/pages/content/content_listing.tpl') ) ?>
     <?php } ?>
 
-    <div class="d-flex flex-wrap m-3 justify-content-between align-items-center">
-        <?php echo $this->getHookVar('pre_content_button'); ?>
-        <?php echo $this->getHookVar('post_content_button'); ?>
-    </div>
-
 </div>
