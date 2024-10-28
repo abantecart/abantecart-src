@@ -61,7 +61,6 @@ class ControllerPagesContentContent extends AController
 
         $this->data['content_info'] = $cntInfo;
         $this->data['heading_title'] = $cntInfo['title'];
-        $this->data['button_continue'] = $this->language->get('button_continue');
         $this->data['description'] = html_entity_decode($cntInfo['description']);
         $this->data['content'] = html_entity_decode($cntInfo['content']);
         if ($cntInfo['icon_rl_id']) {

@@ -218,10 +218,10 @@ class ModelCatalogContent extends Model
         }
         $query = $this->db->query($sql);
         $output = $query->rows;
-        if (count($output)) {
+        if ($output) {
             $output[0]['total_num_rows'] = $this->db->getTotalNumRows();
         }
-#echo $sql; echo_array($output); exit;
+
         $this->cache->push($cacheKey, $output);
         return $output;
     }
