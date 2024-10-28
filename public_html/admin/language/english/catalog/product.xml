@@ -46,7 +46,7 @@
 	</definition>
 	<definition>
 		<key>text_success_copy_layout</key>
-		<value><![CDATA[ Note: Custom product layout has been cloned too.]]></value>
+		<value><![CDATA[ Note: Custom product layout has been cloned as well.]]></value>
 	</definition>
 	<definition>
 		<key>text_error_copy</key>

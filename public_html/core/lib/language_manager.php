@@ -32,6 +32,7 @@ class ALanguageManager extends Alanguage
 {
 
     private $translatable_fields = [];
+    const TAG_REGEX_PATTERN = '/[^\\d\s\p{L}\-_]/u';
 
     //NOTE: This class is loaded in INIT for admin only
 
@@ -238,6 +239,39 @@ class ALanguageManager extends Alanguage
     }
 
     /**
+     * method to replace and save tags for objects
+     *
+     * @param string       $table  table name
+     * @param array        $IDHash Ex: ['product_id' => 10],
+     * @param int          $languageID
+     * @param string|array $tagsSrc
+     *
+     * @return void
+     * @throws AException
+     */
+
+    public function saveTags($table, $IDHash, $languageID, $tagsSrc)
+    {
+        if (is_string($tagsSrc)) {
+            $tags = getUniqueTags($tagsSrc);
+        } elseif (is_array($tagsSrc)) {
+            $tags = array_intersect_key($tagsSrc, array_unique(array_map('strtolower', $tagsSrc)));
+        } else {
+            return false;
+        }
+
+        foreach ($tags as &$tag) {
+            $tag = preg_replace(self::TAG_REGEX_PATTERN, '', $tag);
+        }
+
+        $this->replaceMultipleDescriptions(
+            $table,
+            $IDHash,
+            [$languageID => ['tag' => array_unique($tags)]]
+        );
+    }
+
+        /**
      * Insert or Update definitions and translate if configured based on array of values
      * This is the case when unique index represents multiple [key] => [value] combinations
      * Example: product_tags table

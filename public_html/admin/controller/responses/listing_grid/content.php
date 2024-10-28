@@ -111,6 +111,7 @@ class ControllerResponsesListingGridContent extends AController
                                                'value' => $result['status'],
                                                'style' => 'btn_switch',
                                            ]),
+                dateISO2Display($result['publish_date'], $this->language->get('date_format_short')),
                 $this->html->buildInput([
                                             'name'  => 'sort_order['.$parent_content_id.'_'.$result['content_id'].']',
                                             'value' => $result['sort_order'][$parent_content_id],
@@ -248,6 +249,10 @@ class ControllerResponsesListingGridContent extends AController
                 'sort_order',
                 'status',
                 'parent_content_id',
+                'tags',
+                'author',
+                'publish_date',
+                'expire_date'
             ], (array) $this->data['allowed_fields']
         );
 

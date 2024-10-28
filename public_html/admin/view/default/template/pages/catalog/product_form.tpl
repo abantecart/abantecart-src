@@ -17,7 +17,7 @@
 					<a class="btn btn-white lock-on-click tooltips" href="<?php echo $clone_url; ?>"
 					   data-toggle="tooltip" title="<?php echo $text_clone; ?>"
 					   data-original-title="<?php echo $text_clone; ?>">
-						<i class="fa fa-tags"></i>
+						<i class="fa fa-clone"></i>
 					</a>
 				</div>
             <?php } ?>

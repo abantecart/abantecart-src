@@ -49,6 +49,10 @@
 		<value><![CDATA[Status]]></value>
 	</definition>
 	<definition>
+		<key>column_publish_date</key>
+		<value><![CDATA[Publish Date]]></value>
+	</definition>
+	<definition>
 		<key>column_action</key>
 		<value><![CDATA[Action]]></value>
 	</definition>
@@ -83,6 +87,27 @@
 	<definition>
 		<key>entry_sort_order</key>
 		<value><![CDATA[Sort Order:]]></value>
+	</definition>
+	<definition>
+		<key>entry_publish_date</key>
+		<value><![CDATA[Publish Date:]]></value>
+	</definition>
+	<definition>
+		<key>entry_expire_date</key>
+		<value><![CDATA[Expiration Date:]]></value>
+	</definition>
+	<definition>
+		<key>entry_icon</key>
+		<value><![CDATA[Icon:]]></value>
+	</definition>
+	<definition>
+		<key>entry_tags</key>
+		<value><![CDATA[Content Tags:<br /><span class="help">comma separated</span>]]></value>
+	</definition>
+
+	<definition>
+		<key>entry_author</key>
+		<value><![CDATA[Author:]]></value>
 	</definition>
 	<definition>
 		<key>error_permission</key>
@@ -145,5 +170,21 @@
 	<definition>
 		<key>entry_meta_keywords</key>
 		<value><![CDATA[Meta Tag Keywords:]]></value>
+	</definition>
+	<definition>
+		<key>text_clone</key>
+		<value><![CDATA[Clone]]></value>
+	</definition>
+	<definition>
+		<key>text_success_copy</key>
+		<value><![CDATA[Success: You have successfully copied content page <b>%s</b>!]]></value>
+	</definition>
+	<definition>
+		<key>text_success_copy_layout</key>
+		<value><![CDATA[ Note: Content page layout has been cloned as well.]]></value>
+	</definition>
+	<definition>
+		<key>text_error_copy</key>
+		<value><![CDATA[Cloning has failed! Original content page is not available]]></value>
 	</definition>
 </definitions>
