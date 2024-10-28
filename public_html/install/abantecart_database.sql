@@ -10366,6 +10366,16 @@ VALUES
 (4, 0 );
 
 --
+-- DDL for table `content_tags`
+--
+CREATE TABLE `ac_content_tags` (
+   `content_id` int(11) NOT NULL,
+   `tag` varchar(32) COLLATE utf8_general_ci NOT NULL COMMENT ''translatable'',
+   `language_id` int(11) NOT NULL,
+   PRIMARY KEY  (`content_id`,`tag`,`language_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
 -- DDL for table `blocks`
 --
 DROP TABLE IF EXISTS `ac_blocks`;
