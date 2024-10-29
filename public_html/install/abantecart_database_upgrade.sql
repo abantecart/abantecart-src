@@ -10,7 +10,7 @@ update `ac_contents` c set `publish_date` = (
     select `date_added` from `ac_content_descriptions` cd where c.content_id = cd.content_id limit 1
 );
 
-???? Remove duplicate ac_contents entries. content_id is now unique
+#???? Remove duplicate ac_contents entries. content_id is now unique
 
 CREATE TABLE `ac_content_tags` (
    `content_id` int(11) NOT NULL,
@@ -34,3 +34,33 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `da
     (LAST_INSERT_ID(), 2, 'blocks/content_search.tpl', now()),
     (LAST_INSERT_ID(), 3, 'blocks/content_search.tpl', now()),
     (LAST_INSERT_ID(), 6, 'blocks/content_search.tpl', now());
+#suppliers
+create table `ac_suppliers`
+(
+    id            int auto_increment,
+    code          varchar(100)                        not null,
+    name          varchar(100)                        not null,
+    date_added    timestamp default CURRENT_TIMESTAMP not null,
+    date_modified timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
+    constraint `ac_suppliers_pk`
+        primary key (id, code)
+);
+
+alter table `ac_products`
+    add supplier_code varchar(100) null after settings,
+    add supplier_id varchar(100) null after supplier_code;
+create index `ac_products_supplier_idx`
+    on `ac_products` (supplier_code, supplier_id);
+
+alter table `ac_product_option_values`
+    add supplier_code varchar(100) null after `default`,
+    add supplier_id varchar(100) null after supplier_code;
+create index `ac_products_supplier_idx`
+    on `ac_product_option_values` (supplier_code, supplier_id);
+
+
+alter table `ac_categories`
+    add supplier_code varchar(100) null after `status`,
+    add supplier_id varchar(100) null after supplier_code;
+create index `ac_categories_supplier_idx`
+    on `ac_categories` (supplier_code, supplier_id);
