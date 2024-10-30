@@ -300,6 +300,7 @@ try {
     require_once(DIR_CORE.'lib'.DS.'task_manager.php');
     require_once(DIR_CORE.'lib'.DS.'im.php');
     require_once(DIR_CORE.'lib'.DS.'csrf_token.php');
+    require_once(DIR_CORE.'lib'.DS.'ASupplier.php');
 
 //Admin manager classes
     if (IS_ADMIN === true) {

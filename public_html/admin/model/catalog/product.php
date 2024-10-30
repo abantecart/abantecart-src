@@ -62,6 +62,8 @@ class ModelCatalogProduct extends Model
                     status = '".(int)$data['status']."',
                     tax_class_id = '".(int)$data['tax_class_id']."',
                     sort_order = '".(int)$data['sort_order']."',
+                    supplier_code = '".$this->db->escape($data['supplier_code'])."',
+                    supplier_id = '".$this->db->escape($data['supplier_id'])."',
                     date_added = NOW()"
         );
 
@@ -292,6 +294,8 @@ class ModelCatalogProduct extends Model
             "tax_class_id",
             "sort_order",
             "settings",
+            "supplier_code",
+            "supplier_id"
         ];
         $preformat_fields = [
             "shipping_price",
@@ -988,7 +992,9 @@ class ModelCatalogProduct extends Model
                 attribute_value_id = '".$this->db->escape($attribute_value_id)."',
                 grouped_attribute_data = '".$this->db->escape($data['grouped_attribute_data'])."',
                 sort_order = '".(int) $data['sort_order']."',
-                `default` = '".(int) $data['default']."'"
+                `default` = '".(int) $data['default']."',
+                supplier_code = '".$this->db->escape($data['supplier_code'])."',
+                supplier_id = '".$this->db->escape($data['supplier_id'])."'"
         );
         $this->cache->remove(['product', 'collection', 'category']);
         return $this->db->getLastId();
@@ -1028,7 +1034,9 @@ class ModelCatalogProduct extends Model
                 attribute_value_id = '".$this->db->escape($attribute_value_id)."',
                 grouped_attribute_data = '".$this->db->escape($data['grouped_attribute_data'])."',
                 sort_order = '".(int) $data['sort_order']."',
-                `default` = '".(int) $data['default']."'
+                `default` = '".(int) $data['default']."',
+                supplier_code = '".$this->db->escape($data['supplier_code'])."',
+                supplier_id = '".$this->db->escape($data['supplier_id'])."'
             WHERE product_option_value_id = '".(int) $pd_opt_val_id."'  "
         );
         return $pd_opt_val_id;

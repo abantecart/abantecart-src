@@ -45,6 +45,29 @@ create table `ac_suppliers`
     constraint `ac_suppliers_pk`
         primary key (id, code)
 );
+create table `ac_object_types`
+(
+    id         int auto_increment,
+    name       varchar(100) not null,
+    related_to varchar(100)  not null,
+    constraint `ac_object_types_pk`
+        primary key (id, name, related_to)
+)
+    comment 'list of types for mapping data';
+
+create table `ac_supplier_data`
+(
+    id             int auto_increment,
+    supplier_code  varchar(100)                        not null, # doba etc
+    object_type_id int                                 not null, #type if from object_types table (mean product, category, brand etc)
+    object_id      int                                 not null, # product_id, category_id, manufacturer_id etc
+    uid            varchar(255)                        not null comment 'unique id of object from supplier API',
+    data           json                                not null comment 'json encoded data',
+    date_added     timestamp default CURRENT_TIMESTAMP not null,
+    date_modified  timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
+    constraint `ac_supplier_data_pk`
+        primary key (id, supplier_code, object_type_id, object_id, uid)
+);
 
 alter table `ac_products`
     add supplier_code varchar(100) null after settings,

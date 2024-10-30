@@ -41,6 +41,8 @@ class ModelCatalogCategory extends Model
             SET parent_id = '".(int) $data['parent_id']."',
                 sort_order = '".(int) $data['sort_order']."',
                 status = '".(int) $data['status']."',
+                supplier_code = '".$this->db->escape($data['supplier_code'])."',
+                supplier_id = '".$this->db->escape($data['supplier_id'])."',
                 date_modified = NOW(),
                 date_added = NOW()"
         );
@@ -110,7 +112,7 @@ class ModelCatalogCategory extends Model
      */
     public function editCategory($category_id, $data)
     {
-        $fields = ['parent_id', 'sort_order', 'status'];
+        $fields = ['parent_id', 'sort_order', 'status', 'supplier_code', 'supplier_id' ];
         $update = ['date_modified = NOW()'];
         foreach ($fields as $f) {
             if (isset($data[$f])) {
