@@ -38,8 +38,7 @@ CREATE TABLE `ac_categories` (
   PRIMARY KEY (`category_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 CREATE INDEX `ac_categories_idx` ON `ac_categories` ( `category_id`, `parent_id`, `status`);
-create index `ac_categories_supplier_idx`
-    on `ac_categories` (supplier_code, supplier_id);
+CREATE INDEX `ac_categories_supplier_idx` ON `ac_categories` (`supplier_code`, `supplier_id`);
 
 --
 -- DDL for table `category_descriptions`
@@ -1381,7 +1380,7 @@ CREATE TABLE `ac_products` (
 
 CREATE INDEX `ac_products_idx` ON `ac_products` (`stock_status_id`,  `manufacturer_id`, `weight_class_id`, `length_class_id`);
 CREATE INDEX `ac_products_status_idx` ON `ac_products` (`product_id`, `status`, `date_available`);
-create index `ac_products_supplier_idx` on `ac_products` (supplier_code, supplier_id);
+create index `ac_products_supplier_idx` on `ac_products` (`supplier_code`, `supplier_id`);
 
 
 --
@@ -1500,7 +1499,7 @@ CREATE TABLE `ac_product_option_values` (
 CREATE INDEX `ac_product_option_values_idx`
     ON `ac_product_option_values` ( `product_option_id`, `product_id`, `group_id`, `attribute_value_id`);
 create index `ac_product_option_values_supplier_idx`
-    on `ac_product_option_values` (supplier_id, supplier_code);
+    on `ac_product_option_values` (`supplier_id`, `supplier_code`);
 
 
 --
@@ -10394,36 +10393,36 @@ CREATE TABLE `ac_content_tags` (
 --
 create table `ac_suppliers`
 (
-    id            int auto_increment,
-    code          varchar(100)                        not null,
-    name          varchar(100)                        not null,
-    date_added    timestamp default CURRENT_TIMESTAMP not null,
-    date_modified timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
+    `id`            int auto_increment,
+    `code`          varchar(100)                        not null,
+    `name`          varchar(100)                        not null,
+    `date_added`    timestamp default CURRENT_TIMESTAMP not null,
+    `date_modified` timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
     constraint `ac_suppliers_pk`
-        primary key (id, code)
+        primary key (`id`, `code`)
 );
 create table `ac_object_types`
 (
-    id         int auto_increment,
-    name       varchar(100) not null,
-    related_to varchar(100)  not null,
+    `id`         int auto_increment,
+    `name`       varchar(100) not null,
+    `related_to` varchar(100)  not null,
     constraint `ac_object_types_pk`
-        primary key (id, name, related_to)
+        primary key (`id`, `name`, `related_to`)
 )
 comment 'list of types for mapping data';
 
 create table `ac_supplier_data`
 (
-    id             int auto_increment,
-    supplier_code  varchar(100)                        not null, # doba etc
-    object_type_id int                                 not null, #type if from object_types table (mean product, category, brand etc)
-    object_id      int                                 not null, # product_id, category_id, manufacturer_id etc
-    uid            varchar(255)                        not null comment 'unique id of object from supplier API',
-    data           json                                not null comment 'json encoded data',
-    date_added     timestamp default CURRENT_TIMESTAMP not null,
-    date_modified  timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
+    `id`             int auto_increment,
+    `supplier_code`  varchar(100)                        not null, # doba etc
+    `object_type_id` int                                 not null, #type if from object_types table (mean product, category, brand etc)
+    `object_id`      int                                 not null, # product_id, category_id, manufacturer_id etc
+    `uid`            varchar(255)                        not null comment 'unique id of object from supplier API',
+    `data`           json                                not null comment 'json encoded data',
+    `date_added`     timestamp default CURRENT_TIMESTAMP not null,
+    `date_modified`  timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
     constraint `ac_supplier_data_pk`
-        primary key (id, supplier_code, object_type_id, object_id, uid)
+        primary key (`id`, `supplier_code`, `object_type_id`, `object_id`, `uid`)
 );
 
 --
