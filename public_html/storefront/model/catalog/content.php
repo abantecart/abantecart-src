@@ -42,12 +42,14 @@ class ModelCatalogContent extends Model
 
         $cache = [];
         $sql = "SELECT DISTINCT i.*, id.*
-				FROM ".$this->db->table("contents")." i
-				LEFT JOIN ".$this->db->table("content_descriptions")." id
-					ON (i.content_id = id.content_id AND id.language_id = '".$language_id."')
-				LEFT JOIN ".$this->db->table("contents_to_stores")." i2s
-					ON (i.content_id = i2s.content_id)
-				WHERE i.content_id = '".$content_id."' AND COALESCE(i2s.store_id,0) = '".$store_id."' AND i.status = '1'";
+                FROM ".$this->db->table("contents")." i
+                LEFT JOIN ".$this->db->table("content_descriptions")." id
+                    ON (i.content_id = id.content_id AND id.language_id = '".$language_id."')
+                LEFT JOIN ".$this->db->table("contents_to_stores")." i2s
+                    ON (i.content_id = i2s.content_id)
+                WHERE i.content_id = '".$content_id."' AND COALESCE(i2s.store_id,0) = '".$store_id."' 
+                AND COALESCE(i.publish_date, '1970-01-01') < now() AND COALESCE(i.expire_date, now()) >= now()
+                AND i.status = '1'";
         $query = $this->db->query($sql);
 
         if ($query->num_rows) {
