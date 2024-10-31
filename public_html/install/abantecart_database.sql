@@ -10368,6 +10368,7 @@ VALUES
 --
 -- DDL for table `content_tags`
 --
+DROP TABLE IF EXISTS `ac_content_tags`;
 CREATE TABLE `ac_content_tags` (
    `content_id` int(11) NOT NULL,
    `tag` varchar(32) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
