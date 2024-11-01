@@ -471,7 +471,7 @@ class ControllerPagesDesignContent extends AController
             [
                 'type'        => 'resource',
                 'name'        => 'icon_rl_id',
-                'resource_id' => $this->data['icon'] ? : $this->data['icon_rl_id'],
+                'resource_id' => $this->data['icon_rl_id'] ? : '',
                 'rl_type'     => 'image',
             ]
         );
