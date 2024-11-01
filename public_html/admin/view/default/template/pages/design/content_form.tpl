@@ -17,7 +17,7 @@
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
 			<?php if ($insert){ ?>
-				<div class="btn-group mr10 toolbar">
+				<div class="btn-group mr5 toolbar">
 					<a class="actionitem btn btn-primary lock-on-click tooltips" href="<?php echo $insert; ?>"
 					   title="<?php echo $button_add; ?>">
 						<i class="fa fa-plus fa-fw"></i>
@@ -26,10 +26,19 @@
 			<?php } ?>
             <?php if ($content_id) { ?>
                 <div class="btn-group">
-                    <a class="btn btn-white lock-on-click tooltips" href="<?php echo $clone_url; ?>"
+                    <a class="btn btn-white lock-on-click tooltips mr5" href="<?php echo $clone_url; ?>"
                        data-toggle="tooltip" title="<?php echo $text_clone; ?>"
                        data-original-title="<?php echo $text_clone; ?>">
-                        <i class="fa fa-clone"></i>
+                        <i class="fa fa-clone fa-fw"></i>
+                    </a>
+                </div>
+            <?php } ?>
+            <?php if ($preview) { ?>
+                <div class="btn-group">
+                    <a class="btn btn-white lock-on-click tooltips" target="_blank" href="<?php echo $preview; ?>"
+                       data-toggle="tooltip" title="<?php echo $text_view; ?>"
+                       data-original-title="<?php echo $text_view; ?>">
+                        <i class="fa fa-external-link"></i>
                     </a>
                 </div>
             <?php } ?>

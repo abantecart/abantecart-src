@@ -214,6 +214,12 @@ class ControllerPagesDesignContent extends AController
                 'design/content/clone',
                 '&content_id='.$content_id)
         );
+        /** @var ModelSettingSetting $mdl */
+        $mdl = $this->loadModel('setting/setting');
+        $settings = $mdl->getSetting('details',(int)$this->session->data['current_store_id']);
+        $preview = $settings['config_url'].INDEX_FILE.'?'.'rt=content/content&content_id='.$content_id;
+        $this->view->assign('preview', $preview);
+
         $this->_getForm($content_id);
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -465,7 +471,7 @@ class ControllerPagesDesignContent extends AController
             [
                 'type'        => 'resource',
                 'name'        => 'icon_rl_id',
-                'resource_id' => $this->data['icon'] ? : $this->data['icon_rl_id'],
+                'resource_id' => $this->data['icon_rl_id'] ? : '',
                 'rl_type'     => 'image',
             ]
         );
@@ -609,7 +615,7 @@ class ControllerPagesDesignContent extends AController
             $this->error['warning'] = $this->language->get('error_permission');
         }
 
-        if (mb_strlen($this->request->post['title']) < 2 || mb_strlen($this->request->post['title']) > 64) {
+        if (mb_strlen($this->request->post['title']) < 2 || mb_strlen($this->request->post['title']) > 255) {
             $this->error['title'] = $this->language->get('error_title');
         }
 

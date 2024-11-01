@@ -42,7 +42,7 @@ class ModelCatalogContent extends Model
             return $output;
         }
 
-        $sql = "SELECT DISTINCT i.*, id.*
+        $sql = "SELECT DISTINCT i.*, id.*, COALESCE(i.publish_date, i.date_added) as publish_date
                 FROM ".$this->db->table("contents")." i
                 LEFT JOIN ".$this->db->table("content_descriptions")." id
                     ON (i.content_id = id.content_id AND id.language_id = '".$language_id."')
@@ -183,9 +183,9 @@ class ModelCatalogContent extends Model
         $sort_data = [
             'default'       => 'c.sort_order',
             'name-ASC'      => 'cd.title',
-            'name-DESC'     => 'cd.title',
-            'date-DESC'     => 'c.publish_date',
-            'date-ASC'      => 'c.publish_date',
+            'name-DESC'     => 'c.title',
+            'date-DESC'     => 'COALESCE(c.publish_date, c.date_added)',
+            'date-ASC'      => 'COALESCE(c.publish_date, c.date_added)',
         ];
 
         if (isset($data['sort']) && in_array($data['sort'], array_keys($sort_data))) {
