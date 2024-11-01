@@ -24,9 +24,11 @@ if (!defined('DIR_CORE')) {
 class ModelCatalogContent extends Model
 {
     /**
-     * @param $content_id
-     *
+     * @param int $content_id
+     * @param int|null $store_id
+     * @param int $language_id
      * @return array
+     * @throws AException
      */
     public function getContent($content_id, $store_id = null, $language_id = 0)
     {
@@ -34,37 +36,34 @@ class ModelCatalogContent extends Model
         $store_id = $store_id ?? (int)$this->config->get('config_store_id');
         $language_id = $language_id ?: (int)$this->config->get('storefront_language_id');
         $cache_key = 'content.'.$content_id.'.store_'.$store_id.'_lang_'.$language_id;
-        $cache = $this->cache->pull($cache_key);
+        $output = $this->cache->pull($cache_key);
 
-        if ($cache !== false) {
-            return $cache;
+        if ($output !== false) {
+            return $output;
         }
 
-        $cache = [];
         $sql = "SELECT DISTINCT i.*, id.*
                 FROM ".$this->db->table("contents")." i
                 LEFT JOIN ".$this->db->table("content_descriptions")." id
                     ON (i.content_id = id.content_id AND id.language_id = '".$language_id."')
                 LEFT JOIN ".$this->db->table("contents_to_stores")." i2s
                     ON (i.content_id = i2s.content_id)
-                WHERE i.content_id = '".$content_id."' AND COALESCE(i2s.store_id,0) = '".$store_id."' 
-                AND COALESCE(i.publish_date, '1970-01-01') < now() AND COALESCE(i.expire_date, now()) >= now()
+                WHERE i.content_id = '".$content_id."' 
+                    AND COALESCE(i2s.store_id,0) = '".$store_id."' 
+                    AND COALESCE(i.publish_date, '1970-01-01') < now() 
+                    AND COALESCE(i.expire_date, now()) >= now()
                 AND i.status = '1'";
         $query = $this->db->query($sql);
-
-        if ($query->num_rows) {
-            $cache = $query->row;
-        }
-        $this->cache->push($cache_key, $cache);
-
-        return $cache;
+        $output = $query->row;
+        $this->cache->push($cache_key, $output);
+        return $output;
     }
 
     /**
      * @return array
      * @throws AException
      */
-    public function getContents($data = [])
+    public function getContents(?array $data = [])
     {
         $store_id = (int)$this->config->get('config_store_id');
         $language_id = (int)$this->config->get('storefront_language_id');
@@ -73,16 +72,16 @@ class ModelCatalogContent extends Model
             .md5(var_export($data,true));
         $output = $this->cache->pull($cache_key);
         if ($output === false) {
-            $output = [];
             $sql = "SELECT i.*, id.*
                 FROM ".$this->db->table("contents")." i
                 LEFT JOIN ".$this->db->table("content_descriptions")." id
-                        ON (i.content_id = id.content_id
-                                AND id.language_id = '".(int)$this->config->get('storefront_language_id')."')";
-            $sql .= "LEFT JOIN ".$this->db->table("contents_to_stores")." i2s ON (i.content_id = i2s.content_id)";
-            $sql .= "WHERE i.status = '1' ";
-            $sql .= " AND COALESCE(i2s.store_id,0) = '".(int)$this->config->get('config_store_id')."'";
-            $sql .= " AND COALESCE(i.publish_date, '1970-01-01') < now() AND COALESCE(i.expire_date, now()) >= now()";
+                    ON (i.content_id = id.content_id
+                            AND id.language_id = '".(int)$this->config->get('storefront_language_id')."')
+                LEFT JOIN ".$this->db->table("contents_to_stores")." i2s 
+                    ON (i.content_id = i2s.content_id)
+                WHERE i.status = '1' 
+                    AND COALESCE(i2s.store_id,0) = '".(int)$this->config->get('config_store_id')."'
+                    AND COALESCE(i.publish_date, '1970-01-01') < NOW() AND COALESCE(i.expire_date, NOW()) >= NOW()";
             //filter result by given ids array
             if ($data['filter_ids']) {
                 $ids = array_unique(array_map('intval', (array)$data['filter_ids']));
@@ -99,10 +98,7 @@ class ModelCatalogContent extends Model
             }
 
             $query = $this->db->query($sql);
-
-            if ($query->num_rows) {
-                $output = $query->rows;
-            }
+            $output = $query->rows;
             $this->cache->push($cache_key, $output);
         }
         return $output;
@@ -110,9 +106,7 @@ class ModelCatalogContent extends Model
 
     /**
      * @param array $data
-     * @param string $mode
-     *
-     * @return false|mixed
+     * @return false|array
      * @throws AException
      */
     public function filterContents($data = [])
@@ -133,12 +127,12 @@ class ModelCatalogContent extends Model
                 LEFT JOIN " . $this->db->table('contents_to_stores') . " c2s
                     ON c2s.content_id = c.content_id
                 LEFT JOIN ".$this->db->table("content_descriptions")." cd
-                        ON (c.content_id = cd.content_id
-                                AND cd.language_id = '". $language_id ."')
+                    ON (c.content_id = cd.content_id AND cd.language_id = '". $language_id ."')
                 LEFT JOIN ".$this->db->table("content_tags")." ct 
                     ON (c.content_id = ct.content_id AND ct.language_id = '". $language_id ."')
                 WHERE c2s.store_id = " . $storeId . "
-                    AND COALESCE(c.publish_date, '1970-01-01') < now() AND COALESCE(c.expire_date, now()) >= now()
+                    AND COALESCE(c.publish_date, '1970-01-01') < now() 
+                    AND COALESCE(c.expire_date, now()) >= now()
                     AND c.status = '1'";
 
         if ($filter['parent_id']) {
@@ -204,15 +198,12 @@ class ModelCatalogContent extends Model
         $order = $parts[1] ?: 'ASC';
         if (isset($data['order']) && ($data['order'] == 'DESC')) {
             $sql .= " DESC";
-        } else if ($order) {
+        } else {
             $sql .= " ".$order;
-        } else if ($order) {
-            $sql .= " ASC";
         }
 
         if (isset($data['start']) || isset($data['limit'])) {
             $data['start'] = max($data['start'],0);
-
             if ($data['limit'] < 1) {
                 $data['limit'] = 10;
             }
@@ -276,23 +267,27 @@ class ModelCatalogContent extends Model
      * @param int $language_id
      *
      * @return array
+     * @throws AException
      */
-    public function getContentTags($content_id, $language_id = 0)
+    public function getContentTags(int $content_id, int $language_id)
     {
-        $language_id = (int) $language_id;
-        $tag_data = [];
+        $cacheKey = 'content.tags.' . $content_id . '.' . $language_id;
+        $output = $this->cache->pull($cacheKey);
+        if($output !== false) {
+            return $output;
+        }
 
+        $tag_data = [];
         $query = $this->db->query(
-            "SELECT *
-            FROM ".$this->db->table("content_tags")." 
-            WHERE content_id = '".(int)$content_id."'"
+            "SELECT * FROM ".$this->db->table("content_tags")." WHERE content_id = '".(int)$content_id."'"
         );
 
         foreach ($query->rows as $result) {
             $tag_data[$result['language_id']][] = $result['tag'];
         }
-
-        return $tag_data[$language_id];
+        $output = $tag_data[$language_id];
+        $this->cache->push($cacheKey, $output);
+        return $output;
     }
 
 }

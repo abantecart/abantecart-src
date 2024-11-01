@@ -44,7 +44,7 @@ class ControllerBlocksMegaMenu extends AController
 
         //Show frames for generic block.
         $this->data['block_framed'] = true;
-        $this->data['home_href'] =  $this->html->getHomeURL();
+        $this->data['home_href'] = $this->html->getHomeURL();
 
         $this->data['storefront_menu'] = $this->buildMenu();
         $this->view->batchAssign($this->data);
@@ -54,7 +54,8 @@ class ControllerBlocksMegaMenu extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    protected function buildCategories($request){
+    protected function buildCategories($request)
+    {
         /** @var ModelCatalogCategory $mdl */
         $mdl = $this->loadModel('catalog/category');
 
@@ -67,7 +68,9 @@ class ControllerBlocksMegaMenu extends AController
         //load main level categories and filter categories without products
         $all_categories = array_filter(
             $mdl->getAllCategories(),
-            function ($cat) { return (bool)$cat['product_count']; }
+            function ($cat) {
+                return (bool)$cat['product_count'];
+            }
         );
 
         //build thumbnails list and featured products
@@ -176,9 +179,9 @@ class ControllerBlocksMegaMenu extends AController
 
     protected function buildMenu()
     {
-        $cache_key = 'storefront_menu'.
-            '.store_'.(int) $this->config->get('config_store_id')
-            .'_lang_'.$this->config->get('storefront_language_id');
+        $cache_key = 'storefront_menu' .
+            '.store_' . (int)$this->config->get('config_store_id')
+            . '_lang_' . $this->config->get('storefront_language_id');
         $menu_items = $this->cache->pull($cache_key);
         if ($menu_items === false) {
             $menu = new AMenu_Storefront();
@@ -186,7 +189,8 @@ class ControllerBlocksMegaMenu extends AController
             $this->cache->push($cache_key, $menu_items);
         }
         //build menu structure after caching. related to http/https urls
-        return $this->session->data['storefront_menu'] = $this->prepareMenu($menu_items, '');
+        $this->session->data['storefront_menu'] = $this->prepareMenu($menu_items, '');
+        return $this->session->data['storefront_menu'];
     }
 
     protected function prepareMenu($menu_items, $level = '')
@@ -196,11 +200,11 @@ class ControllerBlocksMegaMenu extends AController
         if ($level && empty($menu_items[$level])) {
             return $menu;
         }
-        $lang_id = (int) $this->config->get('storefront_language_id');
+        $lang_id = (int)$this->config->get('storefront_language_id');
         foreach ($menu_items[$level] as $item) {
 
             // is status not set - set it as an active
-            if(!($item['settings']['status'] ?? 1)){
+            if (!($item['settings']['status'] ?? 1)) {
                 continue;
             }
 
@@ -213,12 +217,11 @@ class ControllerBlocksMegaMenu extends AController
             if (preg_match("/^http/i", $item ['item_url'])) {
                 //process full URLs
                 $href = $item ['item_url'];
-            }
-            elseif (preg_match("/^\.\.\//i", $item ['item_url'])) {
+            } elseif (preg_match("/^\.\.\//i", $item ['item_url'])) {
                 //process relative url such as ../blog/index.php
                 $href = str_replace('../', '', $item ['item_url']);
             } else {
-                $href = $item ['item_url']=='#' ? '#' : $this->html->getSecureSEOURL($item ['item_url']);
+                $href = $item ['item_url'] == '#' ? '#' : $this->html->getSecureSEOURL($item ['item_url']);
             }
             $item['id'] = $item['item_id'];
             $item['icon'] = $item['item_icon'] ?? '';
@@ -228,21 +231,33 @@ class ControllerBlocksMegaMenu extends AController
             $item['children'] = $this->prepareMenu($menu_items, $item['item_id']);
 
             //if at least one child is current - mark parent as current too
-            if($item['children']) {
+            if ($item['children']) {
                 $item['current'] = in_array(true, array_column($item['children'], 'current'));
             }
 
             parse_str($item['item_url'], $urlParams);
-            if(!$level && $item['category']){
+            if (!$level && $item['category']) {
                 $item['current'] = in_array($urlParams['path'], $this->path);
-            } elseif(isset($item['path'])) {
+            } elseif (isset($item['path'])) {
                 $item['current'] = str_starts_with($this->request->get['path'], $item['path']);
-            } elseif( !isset($item['current']) ){
+            } elseif (!isset($item['current'])) {
                 //check content pages, direct URL first
-                if (str_ends_with($item['item_url'],$this->request->server['REQUEST_URI'])) {
+                if (str_ends_with($item['item_url'], $this->request->server['REQUEST_URI'])) {
                     $item['current'] = true;
-                } elseif(isset($urlParams['content_id'])) {
+                } elseif (isset($urlParams['content_id'])) {
                     $item['current'] = $urlParams['content_id'] == $this->request->get['content_id'];
+                    if (!$urlParams['parent_id']) {
+                        /** @var ModelCatalogContent $contentMdl */
+                        $contentMdl = $this->loadModel('catalog/content');
+                        $cntInfo = $contentMdl->getContent(
+                            $urlParams['content_id'],
+                            $this->config->get('config_store_id'),
+                            $this->language->getLanguageID()
+                        );
+                        if ($cntInfo['parent_content_id']) {
+                            $item['item_url'] .= '&parent_id=' . $cntInfo['parent_content_id'];
+                        }
+                    }
                 } else {
                     $item['current'] = array_key_first($urlParams) == $this->request->get['rt'];
                 }

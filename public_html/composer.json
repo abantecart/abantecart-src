@@ -1,5 +1,6 @@
 {
     "require": {
+        "ext-openssl": "*",
         "ext-simplexml": "*",
         "ext-ftp": "*",
         "ext-curl": "*",
