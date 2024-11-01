@@ -115,11 +115,7 @@
 	</definition>
 	<definition>
 		<key>error_title</key>
-		<value><![CDATA[Content Title must be between 2 and 64 characters!]]></value>
-	</definition>
-	<definition>
-		<key>error_name</key>
-		<value><![CDATA[Content Name must be between 2 and 64 characters!]]></value>
+		<value><![CDATA[Content Title must be between 2 and 255 characters!]]></value>
 	</definition>
 	<definition>
 		<key>error_description</key>

@@ -615,7 +615,7 @@ class ControllerPagesDesignContent extends AController
             $this->error['warning'] = $this->language->get('error_permission');
         }
 
-        if (mb_strlen($this->request->post['title']) < 2 || mb_strlen($this->request->post['title']) > 64) {
+        if (mb_strlen($this->request->post['title']) < 2 || mb_strlen($this->request->post['title']) > 255) {
             $this->error['title'] = $this->language->get('error_title');
         }
 

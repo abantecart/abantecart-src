@@ -90,11 +90,7 @@
 	</definition>
 	<definition>
 		<key>error_title</key>
-		<value><![CDATA[Название статьи должно быть от 2 до 64 символов!]]></value>
-	</definition>
-	<definition>
-		<key>error_name</key>
-		<value><![CDATA[Имя статьи должно быть от 2 до 64 символов!]]></value>
+		<value><![CDATA[Название статьи должно быть от 2 до 255 символов!]]></value>
 	</definition>
 	<definition>
 		<key>error_description</key>
