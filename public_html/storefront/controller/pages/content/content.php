@@ -60,6 +60,7 @@ class ControllerPagesContentContent extends AController
         ));
 
         $this->data['content_info'] = $cntInfo;
+        $this->data['publish_date'] = dateISO2Display($cntInfo['publish_date'], $this->language->get('date_format_long'));
         $this->data['heading_title'] = $cntInfo['title'];
         $this->data['description'] = html_entity_decode($cntInfo['description']);
         $this->data['content'] = html_entity_decode($cntInfo['content']);
@@ -71,8 +72,8 @@ class ControllerPagesContentContent extends AController
             } else {
                 $this->data['icon_url'] = $rl->getResourceThumb(
                     $cntInfo['icon_rl_id'],
-                    (int) $this->config->get('config_image_grid_width'),
-                    (int) $this->config->get('config_image_grid_height')
+                    (int) $this->config->get('config_image_cart_width'),
+                    (int) $this->config->get('config_image_cart_height')
                 );
             }
         }

@@ -41,7 +41,7 @@ class ModelCatalogContent extends Model
         }
 
         $cache = [];
-        $sql = "SELECT DISTINCT i.*, id.*
+        $sql = "SELECT DISTINCT i.*, id.*, COALESCE(i.publish_date, i.date_added) as publish_date
                 FROM ".$this->db->table("contents")." i
                 LEFT JOIN ".$this->db->table("content_descriptions")." id
                     ON (i.content_id = id.content_id AND id.language_id = '".$language_id."')
