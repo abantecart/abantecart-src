@@ -189,9 +189,9 @@ class ModelCatalogContent extends Model
         $sort_data = [
             'default'       => 'c.sort_order',
             'name-ASC'      => 'cd.title',
-            'name-DESC'     => 'cd.title',
-            'date-DESC'     => 'c.publish_date',
-            'date-ASC'      => 'c.publish_date',
+            'name-DESC'     => 'c.title',
+            'date-DESC'     => 'COALESCE(c.publish_date, c.date_added)',
+            'date-ASC'      => 'COALESCE(c.publish_date, c.date_added)',
         ];
 
         if (isset($data['sort']) && in_array($data['sort'], array_keys($sort_data))) {
