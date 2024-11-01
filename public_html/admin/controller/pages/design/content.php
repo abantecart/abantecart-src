@@ -214,6 +214,12 @@ class ControllerPagesDesignContent extends AController
                 'design/content/clone',
                 '&content_id='.$content_id)
         );
+        /** @var ModelSettingSetting $mdl */
+        $mdl = $this->loadModel('setting/setting');
+        $settings = $mdl->getSetting('details',(int)$this->session->data['current_store_id']);
+        $preview = $settings['config_url'].INDEX_FILE.'?'.'rt=content/content&content_id='.$content_id;
+        $this->view->assign('preview', $preview);
+
         $this->_getForm($content_id);
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
