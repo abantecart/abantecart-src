@@ -9,6 +9,8 @@ alter table `ac_contents`
 update `ac_contents` c set `publish_date` = (
     select `date_added` from `ac_content_descriptions` cd where c.content_id = cd.content_id limit 1
 );
+UPDATE `ac_content_descriptions` c SET `title` = `name` WHERE title = '';
+ALTER TABLE `ac_content_descriptions` DROP `name`;
 
 ???? Remove duplicate ac_contents entries. content_id is now unique
 

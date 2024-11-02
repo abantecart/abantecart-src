@@ -16,10 +16,17 @@
 <div id="content" class="panel panel-default">
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
+            <div class="btn-group">
+                <a class="btn btn-white back-to-grid tooltips" data-table-id="content_grid"
+                   href="<?php echo $list_url; ?>" data-toggle="tooltip"
+                   data-original-title="<?php echo_html2view($text_back_to_list); ?>">
+                    <i class="fa fa-arrow-left fa-lg"></i>
+                </a>
+            </div>
 			<?php if ($insert){ ?>
 				<div class="btn-group mr5 toolbar">
 					<a class="actionitem btn btn-primary lock-on-click tooltips" href="<?php echo $insert; ?>"
-					   title="<?php echo $button_add; ?>">
+					   title="<?php echo_html2view($button_add); ?>">
 						<i class="fa fa-plus fa-fw"></i>
 					</a>
 				</div>
@@ -27,17 +34,17 @@
             <?php if ($content_id) { ?>
                 <div class="btn-group">
                     <a class="btn btn-white lock-on-click tooltips mr5" href="<?php echo $clone_url; ?>"
-                       data-toggle="tooltip" title="<?php echo $text_clone; ?>"
-                       data-original-title="<?php echo $text_clone; ?>">
+                       data-toggle="tooltip"
+                       data-original-title="<?php echo_html2view($text_clone); ?>">
                         <i class="fa fa-clone fa-fw"></i>
                     </a>
                 </div>
-            <?php } ?>
-            <?php if ($preview) { ?>
+            <?php }
+            if ($preview) { ?>
                 <div class="btn-group">
-                    <a class="btn btn-white lock-on-click tooltips" target="_blank" href="<?php echo $preview; ?>"
-                       data-toggle="tooltip" title="<?php echo $text_view; ?>"
-                       data-original-title="<?php echo $text_view; ?>">
+                    <a class="btn btn-white lock-on-click tooltips" target="_blank"
+                       href="<?php echo $preview; ?>" data-toggle="tooltip"
+                       data-original-title="<?php echo_html2view($text_view); ?>">
                         <i class="fa fa-external-link"></i>
                     </a>
                 </div>
@@ -80,9 +87,8 @@
                         <span class="input-group-btn">
                         <?php echo $keyword_button; ?>
                     </span>
-                    <?php } ?>
-                    <?php
-                        echo $field;
+                    <?php }
+                    echo $field;
                     ?>
                 </div>
                 <?php if (!empty($error[$name])){ ?>
@@ -90,7 +96,7 @@
                 <?php } ?>
 			<?php } ?>
 		</div>
-		<?php } ?><!-- <div class="fieldset"> -->
+		<?php } ?>
 	</div>
 
 	<div class="panel-footer col-xs-12">
@@ -104,13 +110,10 @@
 		</div>
 	</div>
 	</form>
-
-</div><!-- <div class="tab-content"> -->
-
+</div>
 <?php echo $resources_scripts; ?>
 <script type="text/javascript">
 	$(document).ready(function () {
-
 		$('#contentFrm_generate_seo_keyword').click(function () {
 			var seo_name = $('#contentFrm_title').val().replace('%', '');
 			$.get('<?php echo $generate_seo_url;?>&seo_name=' + seo_name, function (data) {
@@ -118,6 +121,5 @@
 			});
 			return false;
 		});
-
 	});
 </script>

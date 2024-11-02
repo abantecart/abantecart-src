@@ -10325,7 +10325,6 @@ DROP TABLE IF EXISTS `ac_content_descriptions`;
 CREATE TABLE `ac_content_descriptions` (
   `content_id` int(10) NOT NULL DEFAULT '0',
   `language_id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL COMMENT 'translatable',
   `title` varchar(255) NOT NULL COMMENT 'translatable',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
   `meta_keywords` varchar(255) NOT NULL COMMENT 'translatable',
@@ -10336,17 +10335,12 @@ CREATE TABLE `ac_content_descriptions` (
   PRIMARY KEY (`content_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-INSERT INTO `ac_content_descriptions` (`content_id`, `language_id`, `name`, `title`, `description`, `content`, `date_added`)
+INSERT INTO `ac_content_descriptions` (`content_id`, `language_id`, `title`, `description`, `content`, `date_added`)
 VALUES
-(1, 1, 'About Us', 'About Us', 'some description', 'text about your store', now() ),
-(2, 1, 'Privacy Policy', 'Privacy Policy', 'some description', 'some text about privacy policy', now()),
-(3, 1, 'Return Policy', 'Return Policy', 'some description', 'some text about return policy', now()),
-(4, 1, 'Shipping', 'Shipping', 'some description', 'some text about shipping', now()),
-
-(1, 9, 'Acerca de Nosotros', 'Acerca de Nosotros', 'alguna descripción', 'texto acerca de su tienda', now() ),
-(2, 9, 'Política de Privacidad', 'Política de Privacidad', 'alguna descripción', 'un texto sobre la política', now()),
-(3, 9, 'Política de devoluciones', 'Política de devoluciones', 'alguna descripción', 'un texto sobre la política de retorno', now()),
-(4, 9, 'Entrega', 'Entrega', 'alguna descripción', 'un texto sobre el envío', now());
+(1, 1, 'About Us', 'some description', 'text about your store', now() ),
+(2, 1, 'Privacy Policy', 'some description', 'some text about privacy policy', now()),
+(3, 1, 'Return Policy', 'some description', 'some text about return policy', now()),
+(4, 1, 'Shipping', 'some description', 'some text about shipping', now());
 
 --
 -- DDL for table `content_to_store`
