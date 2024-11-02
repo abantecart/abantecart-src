@@ -194,6 +194,12 @@ class ControllerPagesProductCollection extends AController
                         }
                     }
 
+                    $productHttpQuery = [];
+                    if ($request['path']) {
+                        $productHttpQuery['path'] = $request['path'];
+                    }
+                    $productHttpQuery['product_id'] = $result['product_id'];
+
                     $products[] = [
                         'product_id'     => $result['product_id'],
                         'name'           => $result['name'],
@@ -209,8 +215,8 @@ class ControllerPagesProductCollection extends AController
                         'special'        => $special,
                         'href'           => $this->html->getSEOURL(
                             'product/product',
-                            '&path='.$request['path'].'&product_id='.$result['product_id'],
-                            '&encode'
+                            '&' . http_build_query($productHttpQuery),
+                            true
                         ),
                         'add'            => $add,
                         'description'    => html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),

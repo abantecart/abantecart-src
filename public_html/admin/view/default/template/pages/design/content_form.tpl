@@ -6,7 +6,7 @@
 		foreach ($tabs as $tab){
 			?>
 			<li <?php echo($tab['active'] ? 'class="active"' : '') ?>>
-				<a href="<?php echo $tab['href'] ? $tab['href'] : 'Javascript:void(0);'; ?>"><span><?php echo $tab['text']; ?></span></a>
+                <a href="<?php echo $tab['href'] ?: 'Javascript:void(0);'; ?>"><span><?php echo $tab['text']; ?></span></a>
 			</li>
 		<?php } ?>
 		<?php echo $this->getHookVar('extension_tabs'); ?>

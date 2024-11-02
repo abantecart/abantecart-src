@@ -2,7 +2,6 @@
 
 <?php echo $category_tabs ?>
 <div id="content" class="panel panel-default">
-
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
 			<div class="btn-group">
@@ -18,7 +17,16 @@
 				</a>
                 <?php echo $this->getHookVar('category_form_toolbar_buttons'); ?>
 			</div>
-		<?php } ?>
+        <?php }
+        if ($preview) { ?>
+            <div class="btn-group">
+                <a class="btn btn-white lock-on-click tooltips" target="_blank" href="<?php echo $preview; ?>"
+                   data-toggle="tooltip" title="<?php echo $text_view; ?>"
+                   data-original-title="<?php echo $text_view; ?>">
+                    <i class="fa fa-external-link"></i>
+                </a>
+            </div>
+        <?php } ?>
 		</div>
 
 		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
