@@ -40,7 +40,7 @@ class ControllerPagesContentContent extends AController
         );
 
         $content_id = (int)$request['content_id'];
-        $page = (int)$request['page'] ?? 1;
+        $page = (int)$request['page'] ?: 1;
         $sort = $request['sort'] ?? 'default';
         $limit = (int)$request['limit'] ?: 10;
         $selTag = (string)$request['tag'];
@@ -109,9 +109,11 @@ class ControllerPagesContentContent extends AController
         $this->data['content_info']['tags'] = $this->prepTags($tags, 'content/content/list');
 
         $request['start'] = abs((int)($page - 1) * $limit);
-        $request['filter'] = [];
-        $request['filter']['parent_id'] = $content_id;
-        $request['filter']['tag'] = $selTag;
+        $request['filter'] = [
+            'parent_id' => $content_id,
+            'tag' => $selTag
+        ];
+
         $this->data['contents'] = $this->prepContentData(
             $this->model_catalog_content->filterContents($request),
             'content/content',
