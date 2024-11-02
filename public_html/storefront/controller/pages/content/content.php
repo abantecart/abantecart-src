@@ -129,14 +129,20 @@ class ControllerPagesContentContent extends AController
                     '&content_id=' . $content_id
                 );
             }
-            $params = '&content_id=' . $content_id . '&tag=' . $selTag;
+            $params = [
+                'content_id' => $content_id,
+                'sort' => $sort
+            ];
+            if($selTag){
+                $params['tag'] = $selTag;
+            }
             $this->data['resort_url'] = $this->html->getSecureURL(
                 'content/content',
                 $params
             );
             $pagination_url = $this->html->getSecureURL(
                 'content/content',
-                $params . '&sort=' . $sort . '&page={page}'
+                '&'.http_build_query($params) . '&page={page}'
             );
             $this->data['pagination_bootstrap'] = $this->html->buildElement(
                 [
