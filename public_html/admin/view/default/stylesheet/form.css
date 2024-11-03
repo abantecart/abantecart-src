@@ -265,6 +265,13 @@ div.aselect select {
 div.aselect select .disabled {
 	color: grey;
 }
+option[disabled] {
+	color: #d8abab;
+	cursor: not-allowed;
+}
+option[selected] {
+	font-weight: bold;
+}
 
 .small-field, .ml_field input.small-field {width:40px}
 .medium-field, .ml_field input.medium-field {width:150px}

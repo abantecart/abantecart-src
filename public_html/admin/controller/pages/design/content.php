@@ -425,23 +425,24 @@ class ControllerPagesDesignContent extends AController
             );
         }
 
-
         // we need get contents list for multiselect
         $selected_parent = $disabled_parent = [];
-        $selectTree = $this->acm->getContentsForSelect(false);
-        foreach ($selectTree as $option_id => $option_value) {
-            if ($option_id == $content_info['parent_content_id']) {
-                $selected_parent[$option_id] = (string)$option_id;
+        $selectTree = $this->acm->getContentsForSelect();
+        foreach ($selectTree as $node) {
+            $id = $node['content_id'];
+            if ($id == $content_info['parent_content_id']) {
+                $selected_parent[$id] = (string)$id;
             }
-            if ($option_id == $contentId) {
-                $disabled_parent[$option_id] = $option_id;
+            if ($id == $contentId) {
+                $disabled_parent[$id] = $id;
+                $disabled_parent += array_combine($node['children'], $node['children']);
             }
         }
         $this->data['form']['fields']['parent'] = $form->getFieldHtml(
             [
                 'type'             => 'selectbox',
                 'name'             => 'parent_content_id',
-                'options'          => $selectTree,
+                'options'          => array_column($selectTree, 'title', 'content_id'),
                 'value'            => $selected_parent,
                 'disabled_options' => $disabled_parent,
                 'attr'             => 'size = "' . min(sizeof($selectTree), 10) . '"',
@@ -618,7 +619,7 @@ class ControllerPagesDesignContent extends AController
         }
 
         if (($error_text = $this->html->isSEOkeywordExists(
-            'content_id=' . $this->request->get['content_id'],
+            'content_id=' . (int)$this->request->get['content_id'],
             $this->request->post['keyword']
         ))
         ) {
@@ -649,7 +650,7 @@ class ControllerPagesDesignContent extends AController
         $this->acm = new AContentManager();
 
         $content_id = (int)$this->request->get['content_id'];
-        if (!has_value($content_id)) {
+        if (!$content_id) {
             redirect($this->html->getSecureURL('design/content'));
         }
 
@@ -712,33 +713,21 @@ class ControllerPagesDesignContent extends AController
             'layout_id'  => $layout_id,
             'tmpl_id'    => $tmpl_id,
         ];
-        $url = '&' . $this->html->buildURI($params);
+        $url = '&' . http_build_query($params);
 
         // get templates
         $this->data['templates'] = [];
         $directories = glob(DIR_STOREFRONT . 'view/*', GLOB_ONLYDIR);
-        foreach ($directories as $directory) {
-            $this->data['templates'][] = basename($directory);
+        if ($directories) {
+            $this->data['templates'] = array_map('basename', $directories);
         }
-        $enabled_templates = $this->extensions->getExtensionsList(
-            [
-                'filter' => 'template',
-                'status' => 1,
-            ]
-        );
-        foreach ($enabled_templates->rows as $template) {
-            $this->data['templates'][] = $template['key'];
-        }
+        $enabled_templates = $this->extensions->getExtensionsList(['filter' => 'template', 'status' => 1]);
+        $this->data['templates'] += array_column($enabled_templates->rows, 'key');
 
         $action = $this->html->getSecureURL('design/content/save_layout');
         // Layout form data
         $form = new AForm('HT');
-        $form->setForm(
-            [
-                'form_name' => 'layout_form',
-            ]
-        );
-
+        $form->setForm(['form_name' => 'layout_form']);
         $this->data['form_begin'] = $form->getFieldHtml(
             [
                 'type'   => 'form',

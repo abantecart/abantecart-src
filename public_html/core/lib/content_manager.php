@@ -545,48 +545,54 @@ class AContentManager
     }
 
     /**
-     * @param bool $parent_only
-     * @param bool $without_top
      * @param int $store_id
-     *
+     * @param bool $only_enabled
      * @return array
      * @throws AException
      */
-    public function getContentsForSelect($parent_only = false, $without_top = false, $store_id = 0, $only_enabled = false)
+    public function getContentsForSelect($store_id = 0, $only_enabled = false)
     {
-        $all = $parent_only
-            ? $this->getParentContents([], $store_id)
-            : $this->getContents([], '', $store_id, false);
-        if (!$without_top) {
-            return ['0' => $this->language->get('text_top_level')] + $this->buildContentTree($all, 0, 1, $only_enabled);
-        } else {
-            return $this->buildContentTree($all, 0, 0, $only_enabled);
-        }
+        $all = $this->getContents(['sort' => 'parent_content_id', 'order'=> 'ASC'], null, $store_id, false);
+        return  [
+            '0' => [
+                'content_id' => 0,
+                'title' => $this->language->get('text_top_level'),
+                'children' => []
+                ]
+            ]
+            + $this->buildContentTree($all, 0, 1, $only_enabled);
     }
 
     /**
      * Recursive function for building tree of content.
      * Note that same content can have two parents!
      *
-     * @param     $all_contents array with all contents. it contains element with key
-     *                          parent_content_id that is array  - all parent ids
-     * @param int $parent_id
-     * @param int $level
-     *
+     * @param  array $all
+     * @param int|null $parent_id
+     * @param int|null $level
+     * @param bool|null $only_enabled
      * @return array
      */
-    public function buildContentTree($all_contents, $parent_id = 0, $level = 0, $only_enabled = false)
+    public function buildContentTree(array $all, ?int $parent_id = 0, ?int $level = 0, ?bool $only_enabled = false)
     {
         $output = [];
-        foreach ($all_contents as $content) {
+        foreach ($all as $content) {
             //look for leave content (leave cannot be of 0 ID)
             if ($only_enabled && !$content['status']) {
                 continue;
             }
 
-            if ($content['parent_content_id'] == $parent_id && $content['content_id']) {
-                $output[(string)$content['content_id']] = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level) . $content['title'];
-                $output = $output + $this->buildContentTree($all_contents, $content['content_id'], $level + 1, $only_enabled);
+            if($content['parent_content_id'] == $parent_id) {
+                $output[$content['content_id']] = [
+                    'content_id' => $content['content_id'],
+                    'title' => str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level) . $content['title'],
+                    'children' => []
+                ];
+                $children = $this->buildContentTree($all, (int)$content['content_id'], $level + 1, $only_enabled);
+                if($children){
+                    $output[$content['content_id']]['children'] = array_column($children, 'content_id');
+                }
+                $output += $children;
             }
         }
         return $output;
