@@ -277,6 +277,13 @@ class ControllerResponsesListingGridContent extends AController
                         return;
                     }
                 }
+                if ($field == 'title') {
+                    if (isHtml(html_entity_decode($value))) {
+                        $error = new AError('');
+                        $error->toJSONResponse('VALIDATION_ERROR_406', ['error_text' => $this->language->get('error_title_html')]);
+                        return;
+                    }
+                }
                 $this->acm->editContentField($contentId, $field, $value);
             }
             return;

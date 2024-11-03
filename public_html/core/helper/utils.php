@@ -708,7 +708,7 @@ function project_base()
  *
  * @return bool
  */
-function is_html($test_string)
+function isHtml($test_string)
 {
     if ($test_string != strip_tags($test_string)) {
         return true;

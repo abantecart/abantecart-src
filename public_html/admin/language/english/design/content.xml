@@ -57,16 +57,12 @@
 		<value><![CDATA[Action]]></value>
 	</definition>
 	<definition>
-		<key>entry_name</key>
-		<value><![CDATA[Content Name:]]></value>
-	</definition>
-	<definition>
 		<key>entry_title</key>
 		<value><![CDATA[Content Title:]]></value>
 	</definition>
 	<definition>
 		<key>entry_description</key>
-		<value><![CDATA[Description:]]></value>
+		<value><![CDATA[Description:<br /><span class="help">HTML tags are not suggested for the content description! This depends on your storefront template</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_content</key>
@@ -118,8 +114,16 @@
 		<value><![CDATA[Content Title must be between 2 and 255 characters!]]></value>
 	</definition>
 	<definition>
+		<key>error_title_html</key>
+		<value><![CDATA[Content Title cannot contain HTML tags!]]></value>
+	</definition>
+	<definition>
 		<key>error_description</key>
 		<value><![CDATA[Description must be more than 1 characters!]]></value>
+	</definition>
+	<definition>
+		<key>error_description_html</key>
+		<value><![CDATA[Content description HTML tags are not supported!]]></value>
 	</definition>
 	<definition>
 		<key>error_content</key>

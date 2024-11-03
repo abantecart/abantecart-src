@@ -609,9 +609,14 @@ class ControllerPagesDesignContent extends AController
             $this->error['title'] = $this->language->get('error_title');
         }
 
+        if (isHtml(html_entity_decode($this->request->post['title']))) {
+            $this->error['title'] = $this->language->get('error_title_html');
+        }
+
         if (mb_strlen($this->request->post['content']) < 2) {
             $this->error['content'] = $this->language->get('error_content');
         }
+
         if (($error_text = $this->html->isSEOkeywordExists(
             'content_id=' . $this->request->get['content_id'],
             $this->request->post['keyword']
