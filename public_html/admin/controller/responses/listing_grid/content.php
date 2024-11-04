@@ -52,8 +52,8 @@ class ControllerResponsesListingGridContent extends AController
         if ($filterData['subsql_filter']) {
             $filterData['parent_id'] =
                 ($filterData['parent_id'] == 'null' || $filterData['parent_id'] < 1)
-                ? null
-                : $filterData['parent_id'];
+                    ? null
+                    : $filterData['parent_id'];
         }
         if ($filterData['parent_id'] === null || $filterData['parent_id'] === 'null') {
             unset($filterData['parent_id']);
@@ -175,18 +175,28 @@ class ControllerResponsesListingGridContent extends AController
             switch ($this->request->post['oper']) {
                 case 'del':
                     foreach ($ids as $content_id) {
+                        $errorText = '';
                         if ($this->config->get('config_account_id') == $content_id) {
-                            $this->response->setOutput($this->language->get('error_account'));
-                            return;
+                            $errorText = $this->language->get('error_account');
                         }
                         if ($this->config->get('config_checkout_id') == $content_id) {
-                            $this->response->setOutput($this->language->get('error_checkout'));
-                            return;
+                            $errorText = $this->language->get('error_checkout');
                         }
                         if ($this->acm->isParent($content_id)) {
-                            $this->response->setOutput($this->language->get('error_delete_parent'));
+                            $errorText = $this->language->get('error_delete_parent');
+                        }
+                        $this->extensions->hk_ProcessData($this, __FUNCTION__, ['content_id' => $content_id, 'error_text' => $errorText]);
+                        if ($errorText) {
+                            $error = new AError($errorText);
+                            $error->toJSONResponse(
+                                'VALIDATION_ERROR_406',
+                                [
+                                    'error_text' => $errorText,
+                                ]
+                            );
                             return;
                         }
+
                         $this->acm->deleteContent($content_id);
                     }
                     break;
@@ -274,19 +284,26 @@ class ControllerResponsesListingGridContent extends AController
                 if (!in_array($field, $allowedFields)) {
                     continue;
                 }
+                $errorText = '';
                 if ($field == 'keyword') {
-                    if ($err = $this->html->isSEOkeywordExists('content_id=' . $contentId, $value)) {
-                        $error = new AError('');
-                        $error->toJSONResponse('VALIDATION_ERROR_406', ['error_text' => $err]);
-                        return;
-                    }
+                    $errorText = $this->html->isSEOkeywordExists('content_id=' . $contentId, $value);
                 }
                 if ($field == 'title') {
                     if (isHtml(html_entity_decode($value))) {
-                        $error = new AError('');
-                        $error->toJSONResponse('VALIDATION_ERROR_406', ['error_text' => $this->language->get('error_title_html')]);
-                        return;
+                        $errorText .= $this->language->get('error_title_html');
                     }
+                }
+
+                $this->extensions->hk_ProcessData($this, __FUNCTION__, ['content_id' => $contentId, 'error_text' => $errorText]);
+                if ($errorText) {
+                    $error = new AError($errorText);
+                    $error->toJSONResponse(
+                        'VALIDATION_ERROR_406',
+                        [
+                            'error_text' => $errorText,
+                        ]
+                    );
+                    return;
                 }
                 $this->acm->editContentField($contentId, $field, $value);
             }

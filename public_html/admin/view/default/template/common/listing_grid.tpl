@@ -479,28 +479,34 @@ echo $this->html->buildElement(
                 //end of grid load complete
             },
             onSelectRow: function (id, status) {
+                const afield = $('#jqg_' + _table_id + '_' + id).parents('.afield');
                 if (status) {
-                    $('#jqg_' + _table_id + '_' + id).parents('.afield').addClass($.aform.defaults.checkedClass);
+                    afield.addClass($.aform.defaults.checkedClass);
                 } else {
-                    $('#jqg_' + _table_id + '_' + id).parents('.afield').removeClass($.aform.defaults.checkedClass);
+                    afield.removeClass($.aform.defaults.checkedClass);
                 }
             },
             onSelectAll: function (ids, status) {
                 checkAll('jqg_' + _table_id, status);
             },
             onSortCol: function (index, iCol, sortorder) {
-                $(table_id + '_wrapper tr th.ui-th-column').removeClass('ui-state-highlight');
-                $(table_id + '_wrapper tr.ui-jqgrid-labels th:eq(' + iCol + ')').addClass('ui-state-highlight');
-                $(table_id + '_wrapper tr.ui-search-toolbar th:eq(' + iCol + ')').addClass('ui-state-highlight');
+                const wrp = $(table_id + '_wrapper');
+                $(wrp).find('tr th.ui-th-column').removeClass('ui-state-highlight');
+                $(wrp)
+                    .find('tr.ui-jqgrid-labels,tr.ui-search-toolbar')
+                    .find('th:eq(' + iCol + ')')
+                    .addClass('ui-state-highlight');
+
                 <?php if( $data["drag_sort_column"] ) { ?>
                 //enable disable drag/drop rows
                 if (index === '<?php echo $data["drag_sort_column"]; ?>') {
                     $(table_id + " tr").removeClass("nodrag nodrop");
                     $(table_id).tableDnDUpdate();
                 } else {
-                    $(table_id + " tr").addClass("nodrag nodrop");
-                    $(table_id + " tr").unbind("mousedown");
-                    $(table_id + " tr").css('cursor', 'default');
+                    $(table_id + " tr")
+                        .addClass("nodrag nodrop")
+                        .unbind("mousedown")
+                        .css('cursor', 'default');
                 }
                 <?php } ?>
                 $(table_id).jqGrid('setGridParam').trigger("reloadGrid", [{current: true}]);
@@ -644,10 +650,13 @@ echo $this->html->buildElement(
         if ($data['multiselect'] == 'true') { ?>
         $(table_id + '_multiactions').appendTo($(table_id + '_pager_right'));
         $(table_id + "_go").click(function () {
+            let ids = [];
             //get all selected rows based on multi-select
-            const ids = $(table_id).jqGrid('getGridParam', 'selarrrow');
-            //get single selected row
-            ids.push($(table_id).jqGrid('getGridParam', 'selrow'));
+            if($(table_id).jqGrid('getGridParam','multiselect')) {
+                ids = $(table_id).jqGrid('getGridParam', 'selarrrow');
+            }else{
+                ids = $(table_id).jqGrid('getGridParam', 'selrow');
+            }
             if (!ids.length) {
                 alert(text_select_items);
                 return;
@@ -665,12 +674,12 @@ echo $this->html->buildElement(
                                 const dlgDiv = $("#delmod" + _table_id);
                                 const parentDiv = $(table_id + '_wrapper');
                                 $('#dData', dlgDiv).show();
-                                selRowId = $(table_id).jqGrid('getGridParam', 'selrow'),
-                                    selRowCoordinates = $('#' + selRowId).offset();
+                                const selRowId = $(table_id).jqGrid('getGridParam', 'selrow');
+                                const selRowCoordinates = $('#' + selRowId).offset();
                                 dlgDiv.css('top', selRowCoordinates.top);
                                 dlgDiv.css('left', Math.round((parentDiv.width() - dlgDiv.width()) / 2) + "px");
                             },
-                            afterSubmit: function (response, postdata) {
+                            afterSubmit: function (response) {
                                 if (response.responseText !== '' && response.responseJSON.status !=='ok') {
                                     const dlgDiv = $("#delmod" + _table_id);
                                     $('#dData', dlgDiv).hide();
@@ -679,11 +688,12 @@ echo $this->html->buildElement(
                                     return [true, ''];
                                 }
                             },
-                            errorTextFormat: function (response, postdata) {
+                            errorTextFormat: function (response) {
                                 if (response.responseText !== '') {
                                     const error_obj = eval('(' + response.responseText + ')');
                                     $("td.ui-state-error").html(error_obj.error_text);
                                 }
+                                $(table_id).jqGrid('resetSelection');
                             }
                         }
                     );
@@ -703,7 +713,7 @@ echo $this->html->buildElement(
                         data: form_data,
                         success: function (msg) {
                             if (msg === '') {
-                                jQuery(table_id).trigger("reloadGrid", [{current: true}]);
+                                $(table_id).trigger("reloadGrid", [{current: true}]);
                             } else {
                                 alert(msg);
                             }
