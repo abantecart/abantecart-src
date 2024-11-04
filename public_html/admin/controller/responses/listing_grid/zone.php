@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -33,12 +32,11 @@ class ControllerResponsesListingGridZone extends AController
         $this->loadModel('localisation/zone');
 
         $page = $this->request->post['page']; // get the requested page
-        $limit = (int) $this->request->post['rows']; // get how many rows we want to have into the grid
+        $limit = (int)$this->request->post['rows']; // get how many rows we want to have into the grid
         $sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
         $sord = $this->request->post['sord']; // get the direction
 
         $this->loadModel('localisation/country');
-        $template_data['countries'] = $this->model_localisation_country->getCountries();
 
         $search_str = '';
         //process custom search form
@@ -46,7 +44,7 @@ class ControllerResponsesListingGridZone extends AController
         $search_param = [];
         foreach ($allowedSearchFilter as $filter) {
             if (isset($this->request->get[$filter]) && $this->request->get[$filter] != '') {
-                $search_param[] = " z.`".$filter."` = '".$this->db->escape(trim($this->request->get[$filter]))."' ";
+                $search_param[] = " z.`" . $filter . "` = '" . $this->db->escape(trim($this->request->get[$filter])) . "' ";
             }
         }
         if (!empty($search_param)) {
@@ -78,6 +76,7 @@ class ControllerResponsesListingGridZone extends AController
         $response->total = $total_pages;
         $response->records = $total;
 
+        $languageId = $this->language->getContentLanguageID();
         $results = $this->model_localisation_zone->getZones($data);
         $i = 0;
         foreach ($results as $result) {
@@ -86,20 +85,19 @@ class ControllerResponsesListingGridZone extends AController
                 $result['country'],
                 $this->html->buildInput(
                     [
-                        'name'  => 'zone_name['.$result['zone_id'].']['.$this->session->data['content_language_id']
-                            .'][name]',
+                        'name'  => 'zone_name[' . $result['zone_id'] . '][' . $languageId . '][name]',
                         'value' => $result['name'],
                     ]
                 ),
                 $this->html->buildInput(
                     [
-                        'name'  => 'code['.$result['zone_id'].']',
+                        'name'  => 'code[' . $result['zone_id'] . ']',
                         'value' => $result['code'],
                     ]
                 ),
                 $this->html->buildCheckbox(
                     [
-                        'name'  => 'status['.$result['zone_id'].']',
+                        'name'  => 'status[' . $result['zone_id'] . ']',
                         'value' => $result['status'],
                         'style' => 'btn_switch',
                     ]
@@ -122,60 +120,86 @@ class ControllerResponsesListingGridZone extends AController
 
         if (!$this->user->canModify('listing_grid/zone')) {
             $error = new AError('');
-            return $error->toJSONResponse(
+            $error->toJSONResponse(
                 'NO_PERMISSIONS_402',
                 [
                     'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/zone'),
                     'reset_value' => true,
                 ]
             );
+            return;
         }
 
         $this->loadModel('localisation/zone');
         $this->loadLanguage('localisation/zone');
-        switch ($this->request->post['oper']) {
-            case 'del':
-                $this->loadModel('setting/store');
-                $this->loadModel('sale/customer');
-                $this->loadModel('localisation/location');
 
-                $ids = explode(',', $this->request->post['id']);
-                if (!empty($ids)) {
+        $ids = array_unique(
+            array_map(
+                'intval',
+                explode(',', $this->request->post['id'])
+            )
+        );
+        if ($ids) {
+            switch ($this->request->post['oper']) {
+                case 'del':
+                    $this->loadModel('setting/store');
+                    $this->loadModel('sale/customer');
+                    $this->loadModel('localisation/location');
                     foreach ($ids as $id) {
-                        $err = $this->_validateDelete($id);
-                        if (!empty($err)) {
-                            $error = new AError('');
-                            return $error->toJSONResponse('VALIDATION_ERROR_406', ['error_text' => $err]);
+                        $errorText = $this->_validateDelete($id);
+                        $this->extensions->hk_ProcessData(
+                            $this,
+                            __FUNCTION__,
+                            ['zone_id' => $id, 'error_text' => $errorText]
+                        );
+                        if ($errorText) {
+                            $error = new AError($errorText);
+                            $error->toJSONResponse(
+                                'VALIDATION_ERROR_406',
+                                [
+                                    'error_text' => $errorText,
+                                ]
+                            );
+                            return;
                         }
                         $this->model_localisation_zone->deleteZone($id);
                     }
-                }
-                break;
-            case 'save':
-                $allowedFields = array_merge(['status', 'code'], (array) $this->data['allowed_fields']);
-                $ids = explode(',', $this->request->post['id']);
-                if (!empty($ids)) {
+                    break;
+                case 'save':
+                    $allowedFields = array_merge(['status', 'code'], (array)$this->data['allowed_fields']);
                     foreach ($ids as $id) {
                         foreach ($allowedFields as $f) {
                             if ($f == 'status' && !isset($this->request->post['status'][$id])) {
                                 $this->request->post['status'][$id] = 0;
                             }
                             if (isset($this->request->post[$f][$id])) {
-                                $err = $this->_validateField($f, $this->request->post[$f][$id]);
-                                if (!empty($err)) {
-                                    $this->response->setOutput($err);
-                                    return null;
+                                $errorText = $this->_validateField($f, $this->request->post[$f][$id]);
+                                if ($errorText) {
+                                    $error = new AError($errorText);
+                                    $error->toJSONResponse(
+                                        'VALIDATION_ERROR_406',
+                                        [
+                                            'error_text' => $errorText,
+                                        ]
+                                    );
+                                    return;
                                 }
                                 $this->model_localisation_zone->editZone($id, [$f => $this->request->post[$f][$id]]);
                             }
                         }
 
                         if (isset($this->request->post['zone_name'][$id])) {
-                            foreach ($this->request->post['zone_name'][$id] as $lang => $value) {
-                                $err = $this->_validateField('name', $value['name']);
-                                if (!empty($err)) {
-                                    $this->response->setOutput($err);
-                                    return null;
+                            foreach ($this->request->post['zone_name'][$id] as $value) {
+                                $errorText = $this->_validateField('name', $value['name']);
+                                if ($errorText) {
+                                    $error = new AError($errorText);
+                                    $error->toJSONResponse(
+                                        'VALIDATION_ERROR_406',
+                                        [
+                                            'error_text' => $errorText,
+                                        ]
+                                    );
+                                    return;
                                 }
                             }
                             $this->model_localisation_zone->editZone(
@@ -186,9 +210,9 @@ class ControllerResponsesListingGridZone extends AController
                             );
                         }
                     }
-                }
-                break;
-            default:
+                    break;
+                default:
+            }
         }
 
         //update controller data
@@ -207,34 +231,44 @@ class ControllerResponsesListingGridZone extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
         if (!$this->user->canModify('listing_grid/zone')) {
             $error = new AError('');
-            return $error->toJSONResponse(
+            $error->toJSONResponse(
                 'NO_PERMISSIONS_402',
                 [
                     'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/zone'),
                     'reset_value' => true,
                 ]
             );
+            return;
         }
 
         $this->loadLanguage('localisation/zone');
         $this->loadModel('localisation/zone');
         if (isset($this->request->get['id'])) {
+            $upd = [];
             //request sent from edit form. ID in url
             foreach ($this->request->post as $key => $value) {
-                $err = '';
+                $errorText = '';
                 if ($key == 'zone_name') {
-                    foreach ($value as $lang => $val) {
-                        $err .= $this->_validateField('name', $val['name']);
+                    foreach ($value as $val) {
+                        $errorText .= $this->_validateField('name', $val['name']);
                     }
                 } else {
-                    $err = $this->_validateField($key, $value);
+                    $errorText = $this->_validateField($key, $value);
                 }
-                if (!empty($err)) {
-                    $error = new AError('');
-                    return $error->toJSONResponse('VALIDATION_ERROR_406', ['error_text' => $err]);
+                if ($errorText) {
+                    $error = new AError($errorText);
+                    $error->toJSONResponse(
+                        'VALIDATION_ERROR_406',
+                        [
+                            'error_text' => $errorText,
+                        ]
+                    );
+                    return;
                 }
-                $data = [$key => $value];
-                $this->model_localisation_zone->editZone($this->request->get['id'], $data);
+                $upd[$key] = $value;
+            }
+            if ($upd) {
+                $this->model_localisation_zone->editZone($this->request->get['id'], $upd);
             }
             return null;
         }
@@ -244,10 +278,16 @@ class ControllerResponsesListingGridZone extends AController
         foreach ($fields as $f) {
             if (isset($this->request->post[$f])) {
                 foreach ($this->request->post[$f] as $k => $v) {
-                    $err = $this->_validateField($f, $v);
-                    if (!empty($err)) {
-                        $error = new AError('');
-                        return $error->toJSONResponse('VALIDATION_ERROR_406', ['error_text' => $err]);
+                    $errorText = $this->_validateField($f, $v);
+                    if ($errorText) {
+                        $error = new AError($errorText);
+                        $error->toJSONResponse(
+                            'VALIDATION_ERROR_406',
+                            [
+                                'error_text' => $errorText,
+                            ]
+                        );
+                        return;
                     }
                     $this->model_localisation_zone->editZone($k, [$f => $v]);
                 }
@@ -256,11 +296,17 @@ class ControllerResponsesListingGridZone extends AController
 
         if (isset($this->request->post['zone_name'])) {
             foreach ($this->request->post['zone_name'] as $id => $v) {
-                foreach ($v as $lang => $value) {
-                    $err = $this->_validateField('name', $value['name']);
-                    if (!empty($err)) {
-                        $error = new AError('');
-                        return $error->toJSONResponse('VALIDATION_ERROR_406', ['error_text' => $err]);
+                foreach ($v as $value) {
+                    $errorText = $this->_validateField('name', $value['name']);
+                    if ($errorText) {
+                        $error = new AError($errorText);
+                        $error->toJSONResponse(
+                            'VALIDATION_ERROR_406',
+                            [
+                                'error_text' => $errorText,
+                            ]
+                        );
+                        return;
                     }
                 }
                 $this->model_localisation_zone->editZone($id, ['zone_name' => $this->request->post['zone_name'][$id]]);
@@ -274,12 +320,10 @@ class ControllerResponsesListingGridZone extends AController
     protected function _validateField($field, $value)
     {
         $this->data['error'] = '';
-        switch ($field) {
-            case 'name' :
-                if (mb_strlen($value) < 2 || mb_strlen($value) > 128) {
-                    $this->data['error'] = $this->language->get('error_name');
-                }
-                break;
+        if ($field == 'name') {
+            if (mb_strlen($value) < 2 || mb_strlen($value) > 128) {
+                $this->data['error'] = $this->language->get('error_name');
+            }
         }
         $this->extensions->hk_ValidateData($this, [__FUNCTION__, $field, $value]);
         return $this->data['error'];
@@ -310,5 +354,4 @@ class ControllerResponsesListingGridZone extends AController
         $this->extensions->hk_ValidateData($this, [__FUNCTION__, $zone_id]);
         return $this->data['error'];
     }
-
 }

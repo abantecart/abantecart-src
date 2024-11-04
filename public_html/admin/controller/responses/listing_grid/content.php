@@ -185,7 +185,11 @@ class ControllerResponsesListingGridContent extends AController
                         if ($this->acm->isParent($content_id)) {
                             $errorText = $this->language->get('error_delete_parent');
                         }
-                        $this->extensions->hk_ProcessData($this, __FUNCTION__, ['content_id' => $content_id, 'error_text' => $errorText]);
+                        $this->extensions->hk_ProcessData(
+                            $this,
+                            __FUNCTION__,
+                            ['content_id' => $content_id, 'error_text' => $errorText]
+                        );
                         if ($errorText) {
                             $error = new AError($errorText);
                             $error->toJSONResponse(
