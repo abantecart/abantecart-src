@@ -183,6 +183,10 @@ class ControllerResponsesListingGridContent extends AController
                             $this->response->setOutput($this->language->get('error_checkout'));
                             return;
                         }
+                        if ($this->acm->isParent($content_id)) {
+                            $this->response->setOutput($this->language->get('error_delete_parent'));
+                            return;
+                        }
                         $this->acm->deleteContent($content_id);
                     }
                     break;

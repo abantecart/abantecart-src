@@ -144,6 +144,11 @@
 			<![CDATA[Warning: This content cannot be deleted as it is currently assigned as the default store checkout terms!]]></value>
 	</definition>
 	<definition>
+		<key>error_delete_parent</key>
+		<value>
+			<![CDATA[Warning: Parent contents cannot be deleted! Move or delete child content pages first.]]></value>
+	</definition>
+	<definition>
 		<key>error_required_data</key>
 		<value><![CDATA[Required Data has not been entered. Check for field errors!]]></value>
 	</definition>

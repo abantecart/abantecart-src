@@ -512,13 +512,32 @@ class AContentManager
         $query = $this->db->query(
             "SELECT t1.content_id as content_id
                  FROM " . $this->db->table("contents") . " AS t1
-                 LEFT JOIN " . $this->db->table("contents") . " as t2	ON t1.content_id = t2.parent_content_id
+                 LEFT JOIN " . $this->db->table("contents") . " as t2
+                    ON t1.content_id = t2.parent_content_id
                  WHERE t2.content_id IS NULL");
         $result = [];
         foreach ($query->rows as $r) {
             $result[$r['content_id']] = $r['content_id'];
         }
         return $result;
+    }
+
+    /**
+     * @param $contentID
+     * @return bool
+     * @throws AException
+     */
+    public function isParent($contentID)
+    {
+        $query = $this->db->query(
+            "SELECT content_id as content_id
+                 FROM " . $this->db->table("contents") . "
+                 WHERE parent_content_id = '".(int)$contentID."'");
+        if (sizeof($query->rows) > 0) {
+            return true;
+        } else {
+            return  false;
+        }
     }
 
     /**
