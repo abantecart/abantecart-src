@@ -138,7 +138,7 @@ class ControllerPagesContentContent extends AController
             }
             $this->data['resort_url'] = $this->html->getSecureURL(
                 'content/content',
-                $params
+                '&'.http_build_query($params)
             );
             $pagination_url = $this->html->getSecureURL(
                 'content/content',
@@ -201,28 +201,34 @@ class ControllerPagesContentContent extends AController
             'content/content/list'
         );
 
+        $params = [];
+        if($keyword){
+            $params['keyword'] = $keyword;
+        }
         if ($selTag) {
             $this->data['selected_tag'] = $selTag;
             $this->data['remove_tag'] = $this->html->getSecureURL(
                 'content/content/list',
-                '&keyword=' . $keyword
+                '&'.http_build_query($params)
             );
+
+            $params['tag'] = $selTag;
         }
 
-        $params = '&keyword=' . $keyword . '&tag=' . $selTag;
         $this->data['resort_url'] = $this->html->getSecureURL(
             'content/content/list',
-            $params
+            '&'.http_build_query($params)
         );
 
+        $params['sort'] = $sort;
         $pagination_url = $this->html->getSecureURL(
             'content/content/list',
-            $params . '&sort=' . $sort . '&page={page}'
+            '&'.http_build_query($params) . '&page={page}'
         );
 
         $this->document->addBreadcrumb(
             [
-                'href'      => $this->html->getSecureURL('content/content/list', $params, true),
+                'href'      => $this->html->getSecureURL('content/content/list', '&'.http_build_query($params), true),
                 'text'      => $this->language->get('heading_title'),
                 'separator' => $this->language->get('text_separator'),
             ]
