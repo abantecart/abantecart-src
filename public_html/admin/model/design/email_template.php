@@ -155,7 +155,7 @@ class ModelDesignEmailTemplate extends Model
         }
         $etTableName = $this->db->table('email_templates');
 
-        $query = 'SELECT * FROM '.$etTableName.' WHERE id='.$id;
+        $query = 'SELECT * FROM '.$etTableName.' WHERE id='.(int)$id;
         $result = $this->db->query($query);
         if ($result) {
             return $result->row;
