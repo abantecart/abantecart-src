@@ -40,18 +40,19 @@ class ControllerCommonSeoUrl extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
         if (isset($this->request->get['_route_'])) {
             $parts = explode('/', $this->request->get['_route_']);
+            $result = $this->db->query(
+                "SELECT query, keyword
+                 FROM " . $this->db->table('url_aliases') . "
+                 WHERE keyword IN ('" . implode("','", array_map([$this->db, 'escape'], $parts)) . "')"
+            );
+            $seoQueries = array_column($result->rows, 'query', 'keyword');
+
+
             //Possible area for improvement. Only need to check last node in the path
             foreach ($parts as $part) {
-                $query = $this->db->query(
-                    "SELECT query
-                    FROM ".$this->db->table('url_aliases')."
-                    WHERE keyword = '".$this->db->escape($part)."'"
-                );
-
-                //Add caching of the result.
-                if ($query->num_rows) {
+                if ($seoQueries[$part]) {
                     //Note: query is a field containing area=id to identify location
-                    parse_str($query->row['query'], $httpQuery);
+                    parse_str($seoQueries[$part], $httpQuery);
                     $keys = $this->coreRoutes;
                     unset($keys['path']);
                     $keys = array_keys($keys);
@@ -102,7 +103,7 @@ class ControllerCommonSeoUrl extends AController
             if (isset($this->request->get['rt'])) {
                 //build canonical seo-url
                 if (sizeof($parts) > 1) {
-                    $this->_add_canonical_url('url', (HTTPS === true ? HTTPS_SERVER : HTTP_SERVER).end($parts));
+                    $this->_add_canonical_url('url', (HTTPS === true ? HTTPS_SERVER : HTTP_SERVER) . implode('/', array_slice($parts, -2)));
                 }
 
                 $rt = $this->request->get['rt'];
@@ -111,20 +112,20 @@ class ControllerCommonSeoUrl extends AController
                     $this->request->get['rt'] = substr($this->request->get['rt'], 6);
                 }
                 unset($this->request->get['_route_']);
-                $this->_add_canonical_url('seo');
+                $this->_add_canonical_url();
                 //Update router with new RT
                 $this->router->resetController($rt);
                 return $this->dispatch($rt, $this->request->get);
             }
         } else {
-            $this->_add_canonical_url('seo');
+            $this->_add_canonical_url();
         }
 
         //init controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    protected function _add_canonical_url($mode = 'seo', $url = '')
+    protected function _add_canonical_url(?string $mode = 'seo', ?string $url = '')
     {
         if ($this->is_set_canonical || !$this->config->get('enable_seo_url')) {
             return false;
@@ -135,21 +136,32 @@ class ControllerCommonSeoUrl extends AController
             foreach($this->coreRoutes as $key => $rt){
                 if (isset($get[$key])) {
                     $impactRt = str_replace("pages/","",$rt);
-                    $url = $this->html->{$method}($impactRt, '&'.$key.'='.$get[$key]);
+                    $httpQuery = [$key => $get[$key]];
+                    //double seo keyword for content pages
+                    if ($mode == 'seo' && $key == 'content_id') {
+                        $httpQuery['parent_id'] = $this->getContentParentId($get[$key]);
+                    }
+                    $url = $this->html->{$method}($impactRt, '&' . http_build_query($httpQuery));
                     break;
                 }
             }
         }
 
         if ($url) {
-            $this->document->addLink(
-                [
-                    'rel'  => 'canonical',
-                    'href' => $url,
-                ]
-            );
+            $this->document->addLink(['rel' => 'canonical', 'href' => $url]);
             $this->is_set_canonical = true;
             return true;
+        }
+        return false;
+    }
+
+    protected function getContentParentId(int $contentId)
+    {
+        /** @var ModelCatalogContent $mdl */
+        $mdl = $this->loadModel('catalog/content');
+        $cntInfo = $mdl->getContent($contentId);
+        if ($cntInfo['parent_content_id']) {
+            return (int)$cntInfo['parent_content_id'];
         }
         return false;
     }

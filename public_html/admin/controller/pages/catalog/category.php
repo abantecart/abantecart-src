@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -311,6 +310,8 @@ class ControllerPagesCatalogCategory extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
+        $cId = (int)$this->request->get['category_id'];
+
         $this->document->setTitle($this->language->get('heading_title'));
         $this->view->assign('help_url', $this->gen_help_url('category_edit'));
 
@@ -320,7 +321,7 @@ class ControllerPagesCatalogCategory extends AController
             'insert',
             $this->html->getSecureURL(
                 'catalog/category/insert',
-                '&parent_id='.$this->request->get['category_id']
+                '&parent_id=' . $cId
             )
         );
 
@@ -330,7 +331,7 @@ class ControllerPagesCatalogCategory extends AController
 
         if ($this->request->is_POST() && $this->_validateForm()) {
             $this->model_catalog_category->editCategory(
-                $this->request->get['category_id'],
+                $cId,
                 $this->request->post
             );
             $this->session->data['success'] = $this->language->get('text_success');
@@ -338,10 +339,16 @@ class ControllerPagesCatalogCategory extends AController
             redirect(
                 $this->html->getSecureURL(
                     'catalog/category/update',
-                    '&category_id='.$this->request->get['category_id']
+                    '&category_id=' . $cId
                 )
             );
         }
+
+        /** @var ModelSettingSetting $mdl */
+        $mdl = $this->loadModel('setting/setting');
+        $settings = $mdl->getSetting('details', (int)$this->session->data['current_store_id']);
+        $preview = $settings['config_url'] . INDEX_FILE . '?' . 'rt=product/category&category_id=' . $cId;
+        $this->view->assign('preview', $preview);
 
         $this->_getForm($args);
 

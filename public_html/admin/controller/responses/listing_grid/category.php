@@ -193,24 +193,26 @@ class ControllerResponsesListingGridCategory extends AController
             );
             return;
         }
-
-        switch ($this->request->post['oper']) {
-            case 'del':
-                $ids = explode(',', $this->request->post['id']);
-                if (!empty($ids)) {
+        $ids = array_unique(
+            array_map(
+                'intval',
+                explode(',', $this->request->post['id'])
+            )
+        );
+        if($ids) {
+            switch ($this->request->post['oper']) {
+                case 'del':
                     foreach ($ids as $id) {
                         $this->model_catalog_category->deleteCategory($id);
                     }
-                }
-                $this->extensions->hk_ProcessData($this, 'category_delete');
-                break;
-            case 'save':
-                $allowedFields = array_merge(
-                    ['category_description', 'sort_order', 'status'], (array) $this->data['allowed_fields']
-                );
+                    $this->extensions->hk_ProcessData($this, 'category_delete');
+                    break;
+                case 'save':
+                    $allowedFields = array_merge(
+                        ['category_description', 'sort_order', 'status'],
+                        (array)$this->data['allowed_fields']
+                    );
 
-                $ids = explode(',', $this->request->post['id']);
-                if (!empty($ids)) {
                     //resort required.
                     if ($this->request->post['resort'] == 'yes') {
                         //get only ids we need
@@ -218,23 +220,27 @@ class ControllerResponsesListingGridCategory extends AController
                         foreach ($ids as $id) {
                             $array[$id] = $this->request->post['sort_order'][$id];
                         }
-                        $new_sort =
-                            build_sort_order($ids, min($array), max($array), $this->request->post['sort_direction']);
+                        $new_sort = build_sort_order(
+                            $ids,
+                            min($array),
+                            max($array),
+                            $this->request->post['sort_direction']
+                        );
                         $this->request->post['sort_order'] = $new_sort;
                     }
                     foreach ($ids as $id) {
+                        $upd = [];
                         foreach ($allowedFields as $field) {
-                            $this->model_catalog_category->editCategory(
-                                $id, [$field => $this->request->post[$field][$id]]
-                            );
+                            $upd[$field] = $this->request->post[$field][$id];
                         }
+                        $this->model_catalog_category->editCategory($id, $upd);
                     }
-                }
-                $this->extensions->hk_ProcessData($this, 'category_update');
-                break;
-            default:
-        }
 
+                    $this->extensions->hk_ProcessData($this, 'category_update');
+                    break;
+                default:
+            }
+        }
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
@@ -362,9 +368,7 @@ class ControllerResponsesListingGridCategory extends AController
             foreach ($results as $item) {
                 $thumbnail = $thumbnails[$item['category_id']];
                 $output[] = [
-                    'image'      => $icon = $thumbnail['thumb_html']
-                        ? $thumbnail['thumb_html']
-                        : '<i class="fa fa-code fa-4x"></i>&nbsp;',
+                    'image'      => $thumbnail['thumb_html'] ?: '<i class="fa fa-code fa-4x"></i>&nbsp;',
                     'id'         => $item['category_id'],
                     'name'       => $item['name'],
                     'meta'       => '',

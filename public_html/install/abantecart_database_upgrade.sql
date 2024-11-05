@@ -9,8 +9,19 @@ alter table `ac_contents`
 update `ac_contents` c set `publish_date` = (
     select `date_added` from `ac_content_descriptions` cd where c.content_id = cd.content_id limit 1
 );
+UPDATE `ac_content_descriptions` c SET `title` = `name` WHERE title = '';
+ALTER TABLE `ac_content_descriptions` DROP `name`;
 
-???? Remove duplicate ac_contents entries. content_id is now unique
+--Remove duplicate ac_contents entries. content_id is now unique
+CREATE TEMPORARY TABLE temp_unique AS
+SELECT MIN(content_id) AS content_id, parent_content_id
+FROM `ac_contents`
+GROUP BY content_id;
+
+DELETE FROM `ac_contents`
+WHERE (content_id, parent_content_id) NOT IN (SELECT content_id, parent_content_id FROM temp_unique);
+
+DROP TEMPORARY TABLE temp_unique;
 
 CREATE TABLE `ac_content_tags` (
    `content_id` int(11) NOT NULL,

@@ -275,7 +275,7 @@ class ControllerPagesProductSearch extends AController
                                 'href'           =>
                                     $this->html->getSEOURL(
                                         'product/product',
-                                        '&keyword='.$get['keyword'].'&product_id='.$result['product_id'],
+                                        '&' . http_build_query(['keyword' => $get['keyword'], 'product_id' => $result['product_id']]),
                                         '&encode'
                                     ),
                                 'add'            => $add,

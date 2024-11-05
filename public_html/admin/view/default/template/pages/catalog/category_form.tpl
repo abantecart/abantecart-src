@@ -2,26 +2,33 @@
 
 <?php echo $category_tabs ?>
 <div id="content" class="panel panel-default">
-
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
 			<div class="btn-group">
-				<a class="btn btn-white tooltips back-to-grid hidden" data-table-id="category_grid" href="<?php echo $list_url; ?>" data-toggle="tooltip" data-original-title="<?php echo $text_back_to_list; ?>">
+				<a class="btn btn-white tooltips back-to-grid tooltips" data-table-id="category_grid" href="<?php echo $list_url; ?>" data-toggle="tooltip"
+                   data-original-title="<?php echo_html2view($text_back_to_list); ?>">
 					<i class="fa fa-arrow-left fa-lg"></i>
 				</a>
 		</div>
 
 		<?php if( $category_id ) { ?>
 			<div class="btn-group mr10 toolbar">
-				<a class="btn btn-primary tooltips" href="<?php echo $insert; ?>" title="<?php echo $button_add; ?>">
-				<i class="fa fa-plus"></i>
+				<a class="btn btn-primary tooltips" href="<?php echo $insert; ?>" title="<?php echo_html2view($button_add); ?>">
+				    <i class="fa fa-plus"></i>
 				</a>
                 <?php echo $this->getHookVar('category_form_toolbar_buttons'); ?>
 			</div>
-		<?php } ?>
+        <?php }
+        if ($preview) { ?>
+            <div class="btn-group">
+                <a class="btn btn-white lock-on-click tooltips" target="_blank" href="<?php echo $preview; ?>"
+                   data-toggle="tooltip" data-original-title="<?php echo_html2view($text_view); ?>">
+                    <i class="fa fa-external-link"></i>
+                </a>
+            </div>
+        <?php } ?>
 		</div>
-
-		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>
 	</div>
 
 	<?php echo $form['form_open']; ?>
@@ -87,19 +94,14 @@
 		</div>
 	</div>
 	</form>
-
-</div><!-- <div class="tab-content"> -->
-
+</div>
 <script type="text/javascript">
-
-$(document).ready(function(){
-	$('#editFrm_generate_seo_keyword').click(function(){
-		var seo_name = $('#editFrm_category_description<?php echo $language_id; ?>name').val().replace('%','');
-		$.get('<?php echo $generate_seo_url;?>&seo_name='+seo_name, function(data){
-			$('#editFrm_keyword').val(data).change();
-		});
-	});
-
-});
-
+    $(document).ready(function(){
+        $('#editFrm_generate_seo_keyword').click(function(){
+            var seo_name = $('#editFrm_category_description<?php echo $language_id; ?>name').val().replace('%','');
+            $.get('<?php echo $generate_seo_url;?>&seo_name='+seo_name, function(data){
+                $('#editFrm_keyword').val(data).change();
+            });
+        });
+    });
 </script>

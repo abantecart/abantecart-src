@@ -164,7 +164,7 @@ function renderAdminMenu($menu, $level = 0, $current_rt = '')
         $result .= '<a '.$class.$href.$onclick.'>';
 
         //check icon rl type html, image or none. 
-        if (is_html($item['icon'])) {
+        if (isHtml($item['icon'])) {
             $result .= $item['icon'];
         } else {
             if ($item['icon']) {

@@ -30,7 +30,7 @@ $lng_name = 'Русский';
 $lng_directory = 'russian';
 $lng_locale = 'ru_RU.UTF-8,ru_RU,russian';
 $lng_flag_path = 'extensions/default_russian/storefront/language/russian/flag.png';
-$lng_sort = 2; // sorting order with other langauges
+$lng_sort = 2; // sorting order with other languages
 $lng_status = 0; // Status on installation of extension
 
 $query = $this->db->query("SELECT language_id
@@ -45,7 +45,7 @@ if ($query->row['language_id']) {
 
 $this->db->query("INSERT INTO ".$this->db->table('languages')." (`name`,`code`,`locale`,`image`,`directory`,`filename`,`sort_order`, `status`)
 				  VALUES ('".$lng_name."', '".$lng_code."', '".$lng_locale."', '".$lng_flag_path."','".$lng_directory."','".$lng_directory."','".$lng_sort."',".$lng_status.");");
-$new_language_id = $this->db->getLastId();
+$new_language_id = (int)$this->db->getLastId();
 
 //Load language specific data
 $xml = simplexml_load_file(DIR_EXT.'default_russian/menu.xml');
@@ -61,6 +61,7 @@ $routes = [
 ];
 
 if ($xml) {
+    $translates = [];
     foreach ($xml->definition as $item) {
         $translates[$routes[(string)$item->key]] = (string)$item->value;
     }

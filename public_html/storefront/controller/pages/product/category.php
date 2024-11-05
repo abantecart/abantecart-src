@@ -309,10 +309,12 @@ class ControllerPagesProductCategory extends AController
                             $in_stock = true;
                         }
                     }
-                    $productHttpQuery = ['product_id' => $result['product_id']];
+
+                    $productHttpQuery = [];
                     if($request['path']) {
                         $productHttpQuery['path'] = $request['path'];
                     }
+                    $productHttpQuery['product_id'] = $result['product_id'];
 
                     $products[] = array_merge(
                         $result,
@@ -332,7 +334,7 @@ class ControllerPagesProductCategory extends AController
                             'href'           => $this->html->getSEOURL(
                                 'product/product',
                                 '&'.http_build_query($productHttpQuery),
-                                '&encode'
+                                true
                             ),
                             'add'            => $add,
                             'description'    => html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),

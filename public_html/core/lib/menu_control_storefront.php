@@ -43,8 +43,8 @@ class AMenu_Storefront extends AMenu
     {
         $languageId = $this->registry->get('language')->getContentLanguageID();
         $storeId = (int)$this->registry->get('session')->data['current_store_id'];
-        $this->dataset_rows = (array) $this->dataset->getRows();
-        $this->dataset_description_rows = (array) $this->dataset_description->getRows();
+        $this->dataset_rows = (array)$this->dataset->getRows();
+        $this->dataset_description_rows = (array)$this->dataset_description->getRows();
 
         /** @var ModelCatalogCategory $categoryMdl */
         $categoryMdl = $this->registry->get('load')->model('catalog/category');
@@ -98,27 +98,30 @@ class AMenu_Storefront extends AMenu
                 }
             }
             //tree of content menu
-            $isContent = str_starts_with($item['item_url'],'content/content&content_id=');
-            if( $isContent) {
+            $isContent = str_starts_with($item['item_url'], 'content/content&content_id=');
+            if ($isContent) {
                 parse_str($item['item_url'], $qry);
                 $contentId = (int)$qry['content_id'];
-                if(!$contentMdl->getContent($contentId, $storeId, $languageId)){
+                $cntInfo = $contentMdl->getContent($contentId, $storeId, $languageId);
+                if (!$cntInfo) {
                     continue;
                 }
+                if ($cntInfo['parent_content_id']) {
+                    $item['item_url'] .= '&parent_id=' . $cntInfo['parent_content_id'];
+                }
 
-                if ($item['settings']['include_children'] && !$item['content_tree'] ) {
+                if ($item['settings']['include_children'] && !$item['content_tree']) {
                     $leaf = $this->addNestedContentItems($item, $languageId);
                     $item['content'] = true;
                 }
             }
 
             $tmp[$item['parent_id']][$item['sort_order']] = $item;
-
-            if($leaf){
+            if ($leaf) {
                 //merge children with parent item
-                foreach($leaf as $parentId => $child){
-                    foreach($child as $sortOrder => $itm) {
-                        while(isset ($output[$parentId][$sortOrder])) {
+                foreach ($leaf as $parentId => $child) {
+                    foreach ($child as $sortOrder => $itm) {
+                        while (isset ($output[$parentId][$sortOrder])) {
                             $sortOrder++;
                         }
                         $tmp[$parentId][$sortOrder] = $itm;
@@ -148,24 +151,24 @@ class AMenu_Storefront extends AMenu
         $resource = new AResource('image');
 
         parse_str($parentItem['item_url'], $qry);
-        $path = explode("_",$qry['path']);
+        $path = explode("_", $qry['path']);
         $parentId = (int)end($path);
-        if(!$parentId) {
+        if (!$parentId) {
             return $output;
         }
         /** @var ModelCatalogCategory $mdl */
         $mdl = $this->registry->get('load')->model('catalog/category');
         $childrenIDs = $mdl->getChildrenIDs($parentId);
-        if(!$childrenIDs){
+        if (!$childrenIDs) {
             return $output;
         }
 
         $leaf = $mdl->getCategoriesData(['filter_ids' => $childrenIDs]);
-        if(!$leaf){
+        if (!$leaf) {
             return $output;
         }
 
-        foreach ( $leaf as $k => $cat) {
+        foreach ($leaf as $k => $cat) {
             if (!$cat['products_count']) {
                 unset($leaf[$k]);
             } else {
@@ -180,22 +183,22 @@ class AMenu_Storefront extends AMenu
                     $leafItem['parent_id'] = $parentItem['item_id'] . '.' . implode('_', $pth);
                 }
                 $leafItem['item_id'] = $parentItem['item_id']
-                    . ($leafItem['path'] ? '.' . $leafItem['path']:'');
+                    . ($leafItem['path'] ? '.' . $leafItem['path'] : '');
 
                 $leafItem['item_url'] = 'product/category&path=' . $leafItem['path'];
                 $leafItem['settings']['target'] = $leafItem['settings']['target'] ?? $parentItem['settings']['target'];
 
                 $leafItem['item_text'] = [$languageId => $cat['name']];
                 $leafItem['sort_order'] = $cat['sort_order'];
-                if ($cat['path'] == $requestId ) {
+                if ($cat['path'] == $requestId) {
                     $leafItem['current'] = true;
                 }
                 $this->item_ids[] = $leafItem['item_id'];
-                while(isset ($output[$leafItem['parent_id']][$leafItem['sort_order']])) {
+                while (isset ($output[$leafItem['parent_id']][$leafItem['sort_order']])) {
                     $leafItem['sort_order']++;
                 }
 
-                $resources = $resource->getResources( 'categories', $cat['category_id'], $languageId );
+                $resources = $resource->getResources('categories', $cat['category_id'], $languageId);
                 $leafItem['item_icon_rl_id'] = $resources[0]['resource_id'];
                 $leafItem['resources'] = $resources;
                 $output[$leafItem['parent_id']][$leafItem['sort_order']] = $leafItem;
@@ -211,35 +214,40 @@ class AMenu_Storefront extends AMenu
         $mdl = $this->registry->get('load')->model('catalog/content');
         parse_str($parentItem['item_url'], $qry);
         $parentId = $qry['content_id'];
-        if(!$parentId) {
+        if (!$parentId) {
             return $output;
         }
         //build dynamic content (pages) links
-
         $mdl->getContents();
         $childrenIDs = $mdl->getChildrenIDs($parentId);
 
-        if(!$childrenIDs){
+        if (!$childrenIDs) {
             return $output;
         }
         $leaf = $mdl->getContents(['filter_ids' => $childrenIDs]);
-        if(!$leaf){ return $output; }
+        if (!$leaf) {
+            return $output;
+        }
 
-        foreach ( $leaf as $cntnt) {
-            $leafItem = $cntnt;
+        foreach ($leaf as $child) {
+            $leafItem = $child;
             $leafItem['content_tree'] = true;
-            if ($cntnt['parent_content_id'] == $parentId) {
+            $leafItem['item_url'] = 'content/content&content_id=' . $leafItem['content_id'];
+            if ($child['parent_content_id']) {
+                $leafItem['item_url'] .= '&parent_id=' . $child['parent_content_id'];
+            }
+            if ($child['parent_content_id'] == $parentId) {
                 $leafItem['parent_id'] = $parentItem['item_id'];
                 $leafItem['item_id'] = $parentItem['item_id'] . '.' . $leafItem['content_id'];
             } else {
                 $leafItem['item_id'] = $parentItem['item_id'] . '.' . $leafItem['content_id'];
                 $leafItem['parent_id'] = $parentItem['item_id'] . '.' . $leafItem['parent_content_id'];
             }
-            $leafItem['item_url'] = 'content/content&content_id=' . $leafItem['content_id'];
-            $leafItem['item_text'] = [$languageId => $cntnt['name']];
-            $leafItem['sort_order'] = $cntnt['sort_order'];
+
+            $leafItem['item_text'] = [$languageId => $child['name']];
+            $leafItem['sort_order'] = $child['sort_order'];
             $this->item_ids[] = $leafItem['item_id'];
-            while(isset ($output[$leafItem['parent_id']][$leafItem['sort_order']])) {
+            while (isset ($output[$leafItem['parent_id']][$leafItem['sort_order']])) {
                 $leafItem['sort_order']++;
             }
             $output[$leafItem['parent_id']][$leafItem['sort_order']] = $leafItem;
@@ -257,7 +265,6 @@ class AMenu_Storefront extends AMenu
     public function getMenuItem($item_id)
     {
         $menu_item = false;
-
         foreach ($this->dataset_rows as $item) {
             if ($item_id == $item ['item_id']) {
                 $menu_item = $item;
@@ -270,7 +277,7 @@ class AMenu_Storefront extends AMenu
                 $menu_item['item_text'][$item['language_id']] = $item['item_text'];
             }
         }
-        if(isset($menu_item['settings'])){
+        if (isset($menu_item['settings'])) {
             $menu_item['settings'] = unserialize($menu_item['settings']);
         }
         return $menu_item;
@@ -334,7 +341,7 @@ class AMenu_Storefront extends AMenu
         }
 
         if ($item ['parent_id'] && !in_array($item ['parent_id'], $this->item_ids)) {
-            return 'Error: Cannot add menu item because parent "'.$item ['parent_id'].'" is not exists';
+            return 'Error: Cannot add menu item because parent "' . $item ['parent_id'] . '" is not exists';
         }
 
         if (!$item ["sort_order"]) {
@@ -356,7 +363,7 @@ class AMenu_Storefront extends AMenu
         // checks for unique item_id
         if (in_array($item ["item_id"], $this->item_ids)) {
             return 'Error: Cannot to add menu item because item with item_id "'
-                .$item ["item_id"].'" is already exists.';
+                . $item ["item_id"] . '" is already exists.';
         }
         $row = $item;
         unset($row['item_text']);
@@ -394,15 +401,15 @@ class AMenu_Storefront extends AMenu
         $this->dataset->deleteRows(
             [
                 "column_name" => "item_id",
-                "operator" => "=",
-                "value" => $item_id
+                "operator"    => "=",
+                "value"       => $item_id
             ]
         );
         $this->dataset_description->deleteRows(
             [
                 "column_name" => "item_id",
-                "operator" => "=",
-                "value" => $item_id
+                "operator"    => "=",
+                "value"       => $item_id
             ]
         );
         $this->_buildMenu();
@@ -422,26 +429,26 @@ class AMenu_Storefront extends AMenu
             throw new AException (AC_ERR_LOAD, 'Error: permission denied to change menu');
         }
 
-        if (empty ($new_values) || !$item_id) {
+        if (!$new_values || !$item_id) {
             return false;
         }
 
         //update row in storefront
         $row = $new_values;
         unset($row['item_text']);
-        if (!empty($row)) {
+        if ($row) {
             $this->dataset->updateRows(["column_name" => "item_id", "operator" => "=", "value" => $item_id], $row);
         }
 
-        if (!empty($new_values['item_text'])) {
+        if ($new_values['item_text']) {
             //insert language data in storefront_description
             // not possible to get data for certain item id and lang id
             // get all languages for item and update them
             $item_text = $this->dataset_description->searchRows(
                 [
                     "column_name" => "item_id",
-                    "operator" => "=",
-                    "value" => $item_id
+                    "operator"    => "=",
+                    "value"       => $item_id
                 ]
             );
 
@@ -456,8 +463,8 @@ class AMenu_Storefront extends AMenu
             $this->dataset_description->deleteRows(
                 [
                     "column_name" => "item_id",
-                    "operator" => "=",
-                    "value" => $item_id
+                    "operator"    => "=",
+                    "value"       => $item_id
                 ]
             );
             $this->dataset_description->addRows($item_text);
@@ -465,7 +472,6 @@ class AMenu_Storefront extends AMenu
 
         $this->_buildMenu();
         $this->cache->remove('storefront_menu');
-        //for case
         $this->cache->remove('category');
         $this->cache->remove('content');
         return true;
@@ -474,21 +480,16 @@ class AMenu_Storefront extends AMenu
     /**
      * update dataset_description - add new language menu names
      *
-     * @param       $language_id
-     * @param array $data
+     * @param int $language_id
+     * @param array|null $data
      *
      * @return void
      * @throws AException
      */
-    public function addLanguage($language_id, $data = [])
+    public function addLanguage(int $language_id, ?array $data = [])
     {
-        $data = !is_array($data) ? [] : $data;
-
         if (!IS_ADMIN) { // forbid for non admin calls
-            throw new AException(
-                AC_ERR_LOAD,
-                'Error: permission denied to change menu'
-            );
+            throw new AException( AC_ERR_LOAD, 'Error: permission denied to change menu' );
         }
 
         $config = $this->registry->get('config');
@@ -517,12 +518,12 @@ class AMenu_Storefront extends AMenu
     /**
      * update dataset_description - delete language menu names
      *
-     * @param $language_id
+     * @param int $language_id
      *
      * @return void
      * @throws AException
      */
-    public function deleteLanguage($language_id)
+    public function deleteLanguage(int $language_id)
     {
         if (!IS_ADMIN) { // forbid for non admin calls
             throw new AException(
@@ -533,8 +534,8 @@ class AMenu_Storefront extends AMenu
         $this->dataset_description->deleteRows(
             [
                 "column_name" => "language_id",
-                "operator" => "=",
-                "value" => $language_id
+                "operator"    => "=",
+                "value"       => $language_id
             ]
         );
         $this->cache->remove('storefront_menu');
