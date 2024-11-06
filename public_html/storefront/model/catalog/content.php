@@ -183,7 +183,7 @@ class ModelCatalogContent extends Model
         $sort_data = [
             'default'       => 'c.sort_order',
             'name-ASC'      => 'cd.title',
-            'name-DESC'     => 'c.title',
+            'name-DESC'     => 'cd.title',
             'date-DESC'     => 'COALESCE(c.publish_date, c.date_added)',
             'date-ASC'      => 'COALESCE(c.publish_date, c.date_added)',
         ];
