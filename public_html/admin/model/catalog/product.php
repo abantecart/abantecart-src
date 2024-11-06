@@ -198,12 +198,6 @@ class ModelCatalogProduct extends Model
     public function addProductDiscount($product_id, $data)
     {
         $data['price'] = str_replace(" ", "", $data['price']);
-        if (!empty($data['date_start']) && !$data['iso_date']) {
-            $data['date_start'] = dateDisplay2ISO($data['date_start'], $this->language->get('date_format_short'));
-        }
-        if (!empty($data['date_end']) && !$data['iso_date']) {
-            $data['date_end'] = dateDisplay2ISO($data['date_end'], $this->language->get('date_format_short'));
-        }
         $this->db->query(
             "INSERT INTO ".$this->db->table("product_discounts")."
             SET product_id = '".(int)$product_id."',
@@ -429,12 +423,6 @@ class ModelCatalogProduct extends Model
         if (isset($data['price'])) {
             $data['price'] = preformatFloat($data['price'], $this->language->get('decimal_point'));
         }
-        if (!empty($data['date_start'])) {
-            $data['date_start'] = dateDisplay2ISO($data['date_start'], $this->language->get('date_format_short'));
-        }
-        if (!empty($data['date_end'])) {
-            $data['date_end'] = dateDisplay2ISO($data['date_end'], $this->language->get('date_format_short'));
-        }
         $update = [];
         foreach ($fields as $f) {
             if (isset($data[$f])) {
@@ -463,12 +451,6 @@ class ModelCatalogProduct extends Model
         $fields = ["customer_group_id", "priority", "price_prefix", "price", "date_start", "date_end",];
         if (isset($data['price'])) {
             $data['price'] = preformatFloat($data['price'], $this->language->get('decimal_point'));
-        }
-        if (!empty($data['date_start'])) {
-            $data['date_start'] = dateDisplay2ISO($data['date_start'], $this->language->get('date_format_short'));
-        }
-        if (!empty($data['date_end'])) {
-            $data['date_end'] = dateDisplay2ISO($data['date_end'], $this->language->get('date_format_short'));
         }
 
         $update = [];
@@ -1265,12 +1247,9 @@ class ModelCatalogProduct extends Model
         $new_product_id = $this->addProduct($data);
 
         foreach ($data['product_discount'] as $item) {
-            //sign to prevent converting date from display format to iso
-            $item['iso_date'] = true;
             $this->addProductDiscount($new_product_id, $item);
         }
         foreach ($data['product_special'] as $item) {
-            $item['iso_date'] = true;
             $this->addProductSpecial($new_product_id, $item);
         }
 

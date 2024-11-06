@@ -698,13 +698,11 @@ class ControllerPagesCatalogProduct extends AController
         if (!isset($this->data['stock_status_id'])) {
             $this->data['stock_status_id'] = $this->config->get('config_stock_status_id');
         }
-        if (isset($this->request->post['date_available'])) {
-            $this->data['date_available'] = $this->request->post['date_available'];
-        } elseif (isset($product_info)) {
-            $this->data['date_available'] = $product_info['date_available'];
-        } else {
-            $this->data['date_available'] = dateInt2ISO(time() - 86400);
-        }
+
+        $this->data['date_available'] = $this->request->post['date_available']
+                ?? $product_info['date_available']
+                ?? dateInt2ISO(time() - 86400);
+
 
         $weight_info = $this->model_localisation_weight_class->getWeightClassDescriptionByUnit(
             $this->config->get('config_weight_class')
@@ -1112,11 +1110,9 @@ class ControllerPagesCatalogProduct extends AController
             [
                 'type'       => 'date',
                 'name'       => 'date_available',
-                'value'      => dateISO2Display($this->data['date_available']),
+                'value'      => dateISO2Display($this->data['date_available'], $this->language->get('date_format_short')),
                 'default'    => dateNowDisplay(),
                 'dateformat' => format4Datepicker($this->language->get('date_format_short')),
-                'highlight'  => 'future',
-                'style'      => 'small-field',
             ]
         );
 
@@ -1365,8 +1361,8 @@ class ControllerPagesCatalogProduct extends AController
 
     protected function _prepareData($data = [])
     {
-        if (isset($data['date_available'])) {
-            $data['date_available'] = dateDisplay2ISO($data['date_available']);
+        if ($data['date_available']) {
+            $data['date_available'] = dateDisplay2ISO($data['date_available'], $this->language->get('date_format_short'));
         }
         //set default store if not set
         $data['product_store'] = $data['product_store'] ?? [0];

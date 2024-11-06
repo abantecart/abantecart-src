@@ -151,7 +151,16 @@ class ControllerPagesDesignContent extends AController
         $this->acm = new AContentManager();
         $contentId = 0;
         if ($this->request->is_POST() && $this->validateForm()) {
-            $contentId = $this->acm->addContent($this->request->post);
+            $post = $this->request->post;
+            foreach(['publish_date', 'expire_date'] as $datetime) {
+                if ($post[$datetime]) {
+                    $post[$datetime] = dateDisplay2ISO(
+                        $post[$datetime],
+                        $this->language->get('date_format_short') . ' ' . $this->language->get('time_format_short')
+                    );
+                }
+            }
+            $contentId = $this->acm->addContent($post);
             $this->extensions->hk_ProcessData($this, __FUNCTION__, ['content_id' => $contentId]);
             $this->session->data['success'] = $this->language->get('text_success');
             redirect($this->html->getSecureURL('design/content/update', '&content_id=' . $contentId));
@@ -193,7 +202,16 @@ class ControllerPagesDesignContent extends AController
         $this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
         $contentId = (int)$this->request->get['content_id'];
         if ($this->request->is_POST() && $this->validateForm()) {
-            $this->acm->editContent($contentId, $this->request->post);
+            $post = $this->request->post;
+            foreach(['publish_date', 'expire_date'] as $datetime) {
+                if ($post[$datetime]) {
+                    $post[$datetime] = dateDisplay2ISO(
+                        $post[$datetime],
+                        $this->language->get('date_format_short') . ' ' . $this->language->get('time_format_short')
+                    );
+                }
+            }
+            $this->acm->editContent($contentId, $post);
             $this->extensions->hk_ProcessData($this, __FUNCTION__, ['content_id' => $contentId]);
             $this->session->data['success'] = $this->language->get('text_success');
             redirect($this->html->getSecureURL('design/content/update', '&content_id=' . $contentId));
@@ -497,9 +515,14 @@ class ControllerPagesDesignContent extends AController
             [
                 'type'       => 'date',
                 'name'       => 'publish_date',
-                'value'      => dateISO2Display($this->data['publish_date']),
+                'value'      => dateISO2Display(
+                    $this->data['publish_date'],
+                    $this->language->get('date_format_short').' '.$this->language->get('time_format_short')
+                ),
                 'default'    => '',
-                'dateformat' => format4Datepicker($this->language->get('date_format_short').' '.$this->language->get('time_format_short')),
+                'dateformat' => format4Datepicker(
+                    $this->language->get('date_format_short').' '.$this->language->get('time_format_short')
+                ),
             ]
         );
 

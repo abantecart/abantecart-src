@@ -240,21 +240,7 @@ class ControllerPagesSaleCoupon extends AController
         $this->load->library('json');
         if ($this->request->is_POST() && $this->_validateForm()) {
             $post = $this->request->post;
-            if (has_value($post['date_start'])) {
-                $post['date_start'] = dateDisplay2ISO(
-                    $post['date_start'],
-                    $this->language->get('date_format_short')
-                );
-            }
-            if (has_value($post['date_end'])) {
-                $post['date_end'] = dateDisplay2ISO(
-                    $post['date_end'],
-                    $this->language->get('date_format_short')
-                );
-                if (strtotime($post['date_end']) < time()) {
-                    $post['status'] = 0;
-                }
-            }
+            $this->prepareDates($post);
 
             $post['discount'] = preformatFloat($post['discount'], $this->language->get('decimal_point'));
             $post['total'] = preformatFloat($post['total'], $this->language->get('decimal_point'));
@@ -271,6 +257,20 @@ class ControllerPagesSaleCoupon extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
+    protected function prepareDates(&$post){
+        foreach(['date_start', 'date_end'] as $datetime) {
+            if ($post[$datetime]) {
+                $post[$datetime] = dateDisplay2ISO($post[$datetime],$this->language->get('date_format_short'));
+            }
+            if($datetime == 'date_end'
+                && $post[$datetime]
+                && strtotime($post['date_end']) < time()
+            ) {
+                $post['status'] = 0;
+            }
+        }
+    }
+
     public function update()
     {
         //init controller data
@@ -285,21 +285,7 @@ class ControllerPagesSaleCoupon extends AController
         $this->load->library('json');
         if ($this->request->is_POST() && $this->_validateForm()) {
             $post = $this->request->post;
-            if (isset($post['date_start'])) {
-                $post['date_start'] = dateDisplay2ISO(
-                    $post['date_start'],
-                    $this->language->get('date_format_short')
-                );
-            }
-            if (isset($post['date_end'])) {
-                $post['date_end'] = dateDisplay2ISO(
-                    $post['date_end'],
-                    $this->language->get('date_format_short')
-                );
-                if (strtotime($post['date_end']) < time()) {
-                    $post['status'] = 0;
-                }
-            }
+            $this->prepareDates($post);
 
             $post['discount'] = preformatFloat($post['discount'], $this->language->get('decimal_point'));
             $post['total'] = preformatFloat($post['total'], $this->language->get('decimal_point'));
@@ -760,11 +746,11 @@ class ControllerPagesSaleCoupon extends AController
             $this->error['code'] = $this->language->get('error_code');
         }
 
-        if (!isset($this->request->post['date_start']) || !$this->request->post['date_start']) {
+        if (!$this->request->post['date_start']) {
             $this->error['date_start'] = $this->language->get('error_date');
         }
 
-        if (!isset($this->request->post['date_end']) || !$this->request->post['date_end']) {
+        if (!$this->request->post['date_end']) {
             $this->error['date_end'] = $this->language->get('error_date');
         }
 

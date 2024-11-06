@@ -25,8 +25,6 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ControllerPagesCatalogProductPromotions extends AController
 {
     public $error = [];
-    public $data = [];
-
     public function main()
     {
         //init controller data
@@ -45,28 +43,38 @@ class ControllerPagesCatalogProductPromotions extends AController
         }
 
         if ($this->request->is_POST() && $this->_validateForm()) {
-            if ($this->request->post['promotion_type'] == 'discount') {
+            $post = $this->request->post;
+            foreach(['date_start', 'date_end'] as $datetime) {
+                if ($post[$datetime]) {
+                    $post[$datetime] = dateDisplay2ISO(
+                        $post[$datetime],
+                        $this->language->get('date_format_short')
+                    );
+                }
+            }
+
+            if ($post['promotion_type'] == 'discount') {
                 if (has_value($this->request->get['product_discount_id'])) { //update
                     $this->model_catalog_product->updateProductDiscount(
                         $this->request->get['product_discount_id'],
-                        $this->request->post
+                        $post
                     );
                 } else { //insert
                    $this->data['product_discount_id'] = $this->model_catalog_product->addProductDiscount(
                         $this->request->get['product_id'],
-                        $this->request->post
+                        $post
                     );
                 }
-            } elseif ($this->request->post['promotion_type'] == 'special') {
+            } elseif ($post['promotion_type'] == 'special') {
                 if (has_value($this->request->get['product_special_id'])) { //update
                     $this->model_catalog_product->updateProductSpecial(
                         $this->request->get['product_special_id'],
-                        $this->request->post
+                        $post
                     );
                 } else { //insert
                     $this->data['product_special_id'] = $this->model_catalog_product->addProductSpecial(
                         $this->request->get['product_id'],
-                        $this->request->post
+                        $post
                     );
                 }
             }

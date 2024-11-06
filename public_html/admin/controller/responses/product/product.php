@@ -909,6 +909,12 @@ class ControllerResponsesProductProduct extends AController
                     if ($this->data['option_data']['element_type'] == 'C' && $this->data['name'] == '') {
                         $arr['style'] = 'alert-danger';
                     }
+                    //add time to date product option
+                    if($arr['type'] == 'date') {
+                        $arr['dateformat'] = format4Datepicker(
+                            $this->language->get('date_format_short').' '.$this->language->get('time_format_short')
+                        );
+                    }
 
                     $this->data['form']['fields']['option_value'] = $form->getFieldHtml($arr);
                 }
