@@ -4,7 +4,11 @@
             <?php echo $heading_title; ?>
         </h1>
         <h6 class="m-2 p-2 text-secondary bg-body-alt d-flex justify-content-between">
-            <div><?php echo $text_author ?> <?php echo $content_info['author']; ?></div>
+            <div>
+                <?php if ($content_info['author']) { ?>
+                    <?php echo $text_author ?> <?php echo $content_info['author']; ?>
+                <?php } ?>
+            </div>
             <div><?php echo $text_published ?> <?php echo $publish_date; ?></div>
         </h6>
     </div>
