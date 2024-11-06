@@ -41,7 +41,7 @@ class ControllerPagesContentContent extends AController
 
         $content_id = (int)$request['content_id'];
         $page = (int)$request['page'] ?: 1;
-        $sort = $request['sort'] ?? 'default';
+        $sort = $request['sort'] = $request['sort'] ?? 'date-DESC';
         $limit = (int)$request['limit'] ?: 10;
         $selTag = (string)$request['tag'];
 
@@ -258,6 +258,7 @@ class ControllerPagesContentContent extends AController
 
     protected function prepContentData($contArr, $rt, $parent_id = null)
     {
+        $newThreshhold = 86400 * 3;  //New for first 3 days
         foreach ($contArr as &$child) {
             $httpQuery = [ 'content_id' =>$child['content_id'] ];
             //add parent_id for better SEO-URL
@@ -278,8 +279,9 @@ class ControllerPagesContentContent extends AController
                     );
                 }
             }
-            //Mark new for first 3 days
-            if (time() - dateISO2Int($child['publish_date']) > 86400 * 3) {
+            //Mark new content
+            $pubDate = $child['publish_date'] ?: $child['date_added'];
+            if (time() - dateISO2Int($pubDate) < $newThreshhold) {
                 $child['new'] = true;
             }
             $tagsArr = explode(',', $child['tags']);
@@ -311,7 +313,6 @@ class ControllerPagesContentContent extends AController
     {
         //handle children pages
         $sort_options = [
-            'default'   => $this->language->get('text_default'),
             'name-ASC'  => $this->language->get('text_sorting_name_asc'),
             'name-DESC' => $this->language->get('text_sorting_name_desc'),
             'date-DESC' => $this->language->get('text_sorting_date_desc'),
