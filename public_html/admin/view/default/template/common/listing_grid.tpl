@@ -10,9 +10,8 @@
         <div class="no_results"><?php echo $text_no_results; ?></div>
         <?php
         if ($data['multiselect'] == 'true' && !$data['multiselect_noselectbox']) { ?>
-            <div class="multiactions <?php echo $data['multiaction_class']; ?>"
-                 id="<?php echo $data['table_id'] ?>_multiactions"
-                 align="right">
+            <div class="multiactions pull-right <?php echo $data['multiaction_class']; ?>"
+                 id="<?php echo $data['table_id'] ?>_multiactions">
                 <select id="<?php echo $data['table_id'] ?>_selected_action"
                         name="<?php echo $data['table_id'] ?>_action">
                     <?php
@@ -52,8 +51,7 @@ echo $this->html->buildElement(
 
     let initGrid_<?php echo $data['table_id'] ?> = function ($) {
 
-        let text_choose_action;
-        let text_select_items;
+        let text_choose_action = <?php js_echo($text_choose_action);?>;
         const _table_id = '<?php echo $data['table_id'] ?>';
         const table_id = '#<?php echo $data['table_id'] ?>';
         const jq_names = [<?php
@@ -657,9 +655,10 @@ echo $this->html->buildElement(
             }else{
                 ids = $(table_id).jqGrid('getGridParam', 'selrow');
             }
-            if (!ids.length) {
-                alert(text_select_items);
-                return;
+
+            ids = ids.filter(Boolean);
+            if (ids.length<1) {
+                return false;
             }
             var bulkAction = $(table_id + '_selected_action').val();
             switch (bulkAction) {
@@ -717,9 +716,6 @@ echo $this->html->buildElement(
                             } else {
                                 alert(msg);
                             }
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            alert(textStatus + ": " + errorThrown);
                         }
                     });
                     break;
