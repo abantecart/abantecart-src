@@ -1689,14 +1689,12 @@ class ControllerPagesSaleOrder extends AController
                             [
                                 'type'       => 'date',
                                 'name'       => 'downloads['.(int) $download_info['order_download_id'].'][expire_date]',
-                                'value'      =>
-                                    ($download_info['expire_date']
-                                        ? dateISO2Display($download_info['expire_date'])
-                                        : ''),
+                                'value'      => dateISO2Display(
+                                                    $download_info['expire_date'],
+                                                    $this->language->get('date_format_short')
+                                                ),
                                 'default'    => '',
                                 'dateformat' => format4Datepicker($this->language->get('date_format_short')),
-                                'highlight'  => 'future',
-                                'style'      => 'medium-field',
                             ]
                         ),
                         'download_history' => $download_info['download_history'],

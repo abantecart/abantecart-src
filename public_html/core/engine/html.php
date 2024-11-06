@@ -2131,10 +2131,14 @@ class ResourceImageHtmlElement extends HtmlElement
  *
  * @property string $element_id
  * @property string $name
+ * @property string $end_date_name
+ * @property string $start_date_name
  * @property string $value
  * @property string $default
  * @property string $style
  * @property string $attr
+ * @property array $js_custom_config
+ * @property string $mode
  * @property bool $required
  * @property string $dateformat
  * @property string $highlight
@@ -2142,39 +2146,6 @@ class ResourceImageHtmlElement extends HtmlElement
  */
 class DateHtmlElement extends HtmlElement
 {
-
-    function __construct($data)
-    {
-        parent::__construct($data);
-        if (!$this->registry->has('date-field')) {
-            $doc = $this->registry->get('document');
-            $doc->addScript($this->view->templateResource('/javascript/jquery-ui/js/jquery-ui-1.10.4.custom.min.js'));
-            $doc->addScript($this->view->templateResource('/javascript/jquery-ui/js/jquery.ui.datepicker.js'));
-            if (IS_ADMIN === true) {
-                $doc->addStyle(
-                    [
-                        'href'  => $this->view->templateResource(
-                            '/javascript/jquery-ui/js/css/ui-lightness/ui.all.css'
-                        ),
-                        'rel'   => 'stylesheet',
-                        'media' => 'screen',
-                    ]
-                );
-            } else {
-                $doc->addStyle(
-                    [
-                        'href'  => $this->view->templateResource(
-                            '/javascript/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.min.css'
-                        ),
-                        'rel'   => 'stylesheet',
-                        'media' => 'screen',
-                    ]
-                );
-            }
-
-            $this->registry->set('date-field', 1);
-        }
-    }
 
     /**
      * @return string
@@ -2188,25 +2159,33 @@ class DateHtmlElement extends HtmlElement
         if ($this->value == '' && !empty($this->default)) {
             $this->value = $this->default;
         }
-        $this->element_id = preg_replace('/[\[+\]+]/', '_', $this->element_id);
+        $this->element_id = preg_replace('/[\[+\]]/', '_', $this->element_id);
+        if($this->end_date_name || $this->start_date_name){
+            $this->mode = 'range';
+        }
+
         $this->extendAndBatchAssign(
             [
                 'name'       => $this->name,
                 'id'         => $this->element_id,
                 'type'       => 'text',
-                'value'      => str_replace('"', '&quot;', $this->value),
+                'value'      => $this->value,
                 'default'    => $this->default,
-                //TODO: remove deprecated attribute aform_field_type
-                'attr'       => 'aform_field_type="date" '.$this->attr
-                    .' data-aform-field-type="captcha"',
                 'required'   => $this->required,
+                'attr'       => $this->attr,
+                //js config of initialization of date field
+                'js_custom_config' => (object)$this->js_custom_config,
+                'mode'       => in_array($this->mode,["single", "multiple", "range"]) ? $this->mode : "single",
                 'style'      => $this->style,
                 'dateformat' => $this->dateformat ? : format4Datepicker($this->language->get('date_format_short')),
-                'highlight'  => $this->highlight,
                 'help_url'   => $this->help_url,
+                'end_date_name'   => $this->end_date_name,
+                'start_date_name'   => $this->start_date_name,
+                'text_reset' => $this->language->get('button_reset'),
             ]
         );
 
+        /** @see public_html/admin/view/default/template/form/date.tpl */
         return $this->view->fetch($this->template ?: 'form/date.tpl');
     }
 }

@@ -240,35 +240,35 @@ class ControllerPagesSaleCoupon extends AController
         $this->load->library('json');
         if ($this->request->is_POST() && $this->_validateForm()) {
             $post = $this->request->post;
-            if (has_value($post['date_start'])) {
-                $post['date_start'] = dateDisplay2ISO(
-                    $post['date_start'],
-                    $this->language->get('date_format_short')
-                );
-            }
-            if (has_value($post['date_end'])) {
-                $post['date_end'] = dateDisplay2ISO(
-                    $post['date_end'],
-                    $this->language->get('date_format_short')
-                );
-                if (strtotime($post['date_end']) < time()) {
-                    $post['status'] = 0;
-                }
-            }
+            $this->prepareDates($post);
 
             $post['discount'] = preformatFloat($post['discount'], $this->language->get('decimal_point'));
             $post['total'] = preformatFloat($post['total'], $this->language->get('decimal_point'));
 
             $this->data['coupon_id'] = $coupon_id = $this->model_sale_coupon->addCoupon($post);
             $this->session->data['success'] = $this->language->get('text_success');
-            $this->extensions->hk_ProcessData($this,__FUNCTION__);
-            redirect($this->html->getSecureURL('sale/coupon/update', '&coupon_id='.$coupon_id));
+            $this->extensions->hk_ProcessData($this, __FUNCTION__);
+            redirect($this->html->getSecureURL('sale/coupon/update', '&coupon_id=' . $coupon_id));
         }
         $this->_getForm();
         $this->view->assign('form_language_switch', '');
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
+
+    protected function prepareDates(&$post){
+        foreach(['date_start', 'date_end'] as $datetime) {
+            if ($post[$datetime]) {
+                $post[$datetime] = dateDisplay2ISO($post[$datetime],$this->language->get('date_format_short'));
+            }
+            if($datetime == 'date_end'
+                && $post[$datetime]
+                && strtotime($post['date_end']) < time()
+            ) {
+                $post['status'] = 0;
+            }
+        }
     }
 
     public function update()
@@ -285,21 +285,7 @@ class ControllerPagesSaleCoupon extends AController
         $this->load->library('json');
         if ($this->request->is_POST() && $this->_validateForm()) {
             $post = $this->request->post;
-            if (isset($post['date_start'])) {
-                $post['date_start'] = dateDisplay2ISO(
-                    $post['date_start'],
-                    $this->language->get('date_format_short')
-                );
-            }
-            if (isset($post['date_end'])) {
-                $post['date_end'] = dateDisplay2ISO(
-                    $post['date_end'],
-                    $this->language->get('date_format_short')
-                );
-                if (strtotime($post['date_end']) < time()) {
-                    $post['status'] = 0;
-                }
-            }
+            $this->prepareDates($post);
 
             $post['discount'] = preformatFloat($post['discount'], $this->language->get('decimal_point'));
             $post['total'] = preformatFloat($post['total'], $this->language->get('decimal_point'));
@@ -308,8 +294,8 @@ class ControllerPagesSaleCoupon extends AController
             $this->model_sale_coupon->editCouponProducts($this->request->get['coupon_id'], $post);
             $this->model_sale_coupon->editCouponCategories($this->request->get['coupon_id'], $post);
             $this->session->data['success'] = $this->language->get('text_success');
-            $this->extensions->hk_ProcessData($this,__FUNCTION__);
-            redirect($this->html->getSecureURL('sale/coupon/update', '&coupon_id='.$this->request->get['coupon_id']));
+            $this->extensions->hk_ProcessData($this, __FUNCTION__);
+            redirect($this->html->getSecureURL('sale/coupon/update', '&coupon_id=' . $this->request->get['coupon_id']));
         }
         $this->_getForm();
         $this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
@@ -328,7 +314,7 @@ class ControllerPagesSaleCoupon extends AController
             'category_products_url',
             $this->html->getSecureURL(
                 'r/product/product/category',
-                '&language_id='.$cont_lang_id
+                '&language_id=' . $cont_lang_id
             )
         );
 
@@ -442,22 +428,22 @@ class ControllerPagesSaleCoupon extends AController
 
         if (!has_value($this->request->get['coupon_id'])) {
             $this->data['action'] = $this->html->getSecureURL('sale/coupon/insert');
-            $this->data['heading_title'] = $this->language->get('text_insert').' '.$this->language->get('text_coupon');
+            $this->data['heading_title'] = $this->language->get('text_insert') . ' ' . $this->language->get('text_coupon');
             $this->data['update'] = '';
             $form = new AForm('ST');
         } else {
             $this->data['action'] = $this->html->getSecureURL(
                 'sale/coupon/update',
-                '&coupon_id='.$this->request->get['coupon_id']
+                '&coupon_id=' . $this->request->get['coupon_id']
             );
             $this->data['heading_title'] = $this->language->get('text_edit')
-                .' '.
+                . ' ' .
                 $this->language->get('text_coupon')
-                .' - '.
+                . ' - ' .
                 $this->data['coupon_description'][$cont_lang_id]['name'];
             $this->data['update'] = $this->html->getSecureURL(
                 'listing_grid/coupon/update_field',
-                '&id='.$this->request->get['coupon_id']
+                '&id=' . $this->request->get['coupon_id']
             );
             $form = new AForm('HS');
         }
@@ -517,7 +503,7 @@ class ControllerPagesSaleCoupon extends AController
         $this->data['form']['fields']['name'] = $form->getFieldHtml(
             [
                 'type'         => 'input',
-                'name'         => 'coupon_description['.$cont_lang_id.'][name]',
+                'name'         => 'coupon_description[' . $cont_lang_id . '][name]',
                 'value'        => $this->data['coupon_description'][$cont_lang_id]['name'],
                 'required'     => true,
                 'style'        => 'large-field',
@@ -527,7 +513,7 @@ class ControllerPagesSaleCoupon extends AController
         $this->data['form']['fields']['description'] = $form->getFieldHtml(
             [
                 'type'         => 'textarea',
-                'name'         => 'coupon_description['.$cont_lang_id.'][description]',
+                'name'         => 'coupon_description[' . $cont_lang_id . '][description]',
                 'value'        => $this->data['coupon_description'][$cont_lang_id]['description'],
                 'required'     => true,
                 'style'        => 'large-field',
@@ -592,25 +578,25 @@ class ControllerPagesSaleCoupon extends AController
 
         $this->data['form']['fields']['date_start'] = $form->getFieldHtml(
             [
-                'type'       => 'date',
-                'name'       => 'date_start',
-                'value'      => $this->data['date_start'],
-                'default'    => dateNowDisplay(),
-                'dateformat' => format4Datepicker($this->language->get('date_format_short')),
-                'highlight'  => 'future',
-                'required'   => true,
+                'type'          => 'date',
+                'name'          => 'date_start',
+                'value'         => $this->data['date_start'],
+                'default'       => dateNowDisplay(),
+                'dateformat'    => format4Datepicker($this->language->get('date_format_short')),
+                'required'      => true,
+                'end_date_name' => 'date_end',
             ]
         );
 
         $this->data['form']['fields']['date_end'] = $form->getFieldHtml(
             [
-                'type'       => 'date',
-                'name'       => 'date_end',
-                'value'      => $this->data['date_end'],
-                'default'    => '',
-                'dateformat' => format4Datepicker($this->language->get('date_format_short')),
-                'highlight'  => 'past',
-                'required'   => true,
+                'type'            => 'date',
+                'name'            => 'date_end',
+                'value'           => $this->data['date_end'],
+                'default'         => '',
+                'dateformat'      => format4Datepicker($this->language->get('date_format_short')),
+                'required'        => true,
+                'start_date_name' => 'date_start',
             ]
         );
 
@@ -632,7 +618,7 @@ class ControllerPagesSaleCoupon extends AController
         $this->loadModel('setting/store');
         //Get store name
         $store_info = $this->model_setting_store->getStore($this->config->get('current_store_id'));
-        $store_name = 'For store '.$store_info['store_name'].': ';
+        $store_name = 'For store ' . $store_info['store_name'] . ': ';
 
         if ($this->request->get['coupon_id']) {
             $this->loadModel('sale/order');
@@ -646,7 +632,7 @@ class ControllerPagesSaleCoupon extends AController
                 [
                     'type'  => 'input',
                     'name'  => 'total_coupon_usage',
-                    'value' => $store_name.(int) $total,
+                    'value' => $store_name . (int)$total,
                     'attr'  => 'disabled',
                 ]
             );
@@ -658,7 +644,7 @@ class ControllerPagesSaleCoupon extends AController
         $results = $this->model_catalog_category->getCategories(ROOT_CATEGORY_ID);
         foreach ($results as $r) {
             $this->data['categories'][$r['category_id']] =
-                $r['name'].(count($allStores) > 1 ? "   (".$r['store_name'].")" : '');
+                $r['name'] . (count($allStores) > 1 ? "   (" . $r['store_name'] . ")" : '');
         }
 
         $this->data['form']['fields']['category'] = $form->getFieldHtml(
@@ -689,11 +675,11 @@ class ControllerPagesSaleCoupon extends AController
         if (count($this->data['coupon_products'])) {
             $this->loadModel('catalog/product');
             $ids = array_map('intval', array_values($this->data['coupon_products']));
-            $filter = ['subsql_filter' => 'p.product_id in ('.implode(',', $ids).')'];
+            $filter = ['subsql_filter' => 'p.product_id in (' . implode(',', $ids) . ')'];
             $results = $this->model_catalog_product->getProducts($filter);
 
-            $product_ids = array_column($results,'product_id');
-            $product_ids = array_map('intval',$product_ids);
+            $product_ids = array_column($results, 'product_id');
+            $product_ids = array_map('intval', $product_ids);
 
             //get thumbnails by one pass
             $resource = new AResource('image');
@@ -704,11 +690,11 @@ class ControllerPagesSaleCoupon extends AController
                     $this->config->get('config_image_grid_width'),
                     $this->config->get('config_image_grid_height')
                 )
-            : [];
+                : [];
 
             foreach ($results as $r) {
                 $thumbnail = $thumbnails[$r['product_id']];
-                $this->data['products'][$r['product_id']]['name'] = $r['name']." (".$r['model'].")";
+                $this->data['products'][$r['product_id']]['name'] = $r['name'] . " (" . $r['model'] . ")";
                 $this->data['products'][$r['product_id']]['image'] = $thumbnail['thumb_html'];
             }
         }
@@ -721,7 +707,7 @@ class ControllerPagesSaleCoupon extends AController
                 'options'     => $this->data['products'],
                 'style'       => 'chosen',
                 'ajax_url'    => $this->html->getSecureURL('r/product/product/products'),
-                'placeholder' => $store_name.$this->language->get('text_select_from_lookup'),
+                'placeholder' => $store_name . $this->language->get('text_select_from_lookup'),
             ]
         );
 
@@ -760,11 +746,11 @@ class ControllerPagesSaleCoupon extends AController
             $this->error['code'] = $this->language->get('error_code');
         }
 
-        if (!isset($this->request->post['date_start']) || !$this->request->post['date_start']) {
+        if (!$this->request->post['date_start']) {
             $this->error['date_start'] = $this->language->get('error_date');
         }
 
-        if (!isset($this->request->post['date_end']) || !$this->request->post['date_end']) {
+        if (!$this->request->post['date_end']) {
             $this->error['date_end'] = $this->language->get('error_date');
         }
 
