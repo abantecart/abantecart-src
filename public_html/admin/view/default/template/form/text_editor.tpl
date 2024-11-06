@@ -26,26 +26,6 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
 
     <div class="common_content_actions pull-right">
         <div class="btn-group">
-
-            <?php
-            if ($required == 'Y' || $multilingual) { ?>
-                <span class="btn afield-nav">
-            <?php
-            if ($required == 'Y') { ?>
-                <span class="required">*</span>
-            <?php
-            } ?>
-
-                    <?php
-                    if ($multilingual) { ?>
-                        <span class="multilingual"><i class="fa fa-language"></i></span>
-                    <?php
-                    } ?>
-
-            </span>
-            <?php
-            } ?>
-
             <a title="<?php echo_html2view($button_add_media); ?>"
                data-original-title="<?php echo_html2view($button_add_media); ?>"
                href="#"
@@ -80,6 +60,23 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
                 }
                 </script>
             <?php } ?>
+
+            <?php
+            if ($required == 'Y' || $multilingual) { ?>
+                <span class="afield-nav">
+            <?php
+            if ($required == 'Y') { ?>
+                <span class="required">*</span>
+                <?php
+            }
+            if ($multilingual) { ?>
+                <span class="multilingual"><i class="fa fa-language"></i></span>
+                <?php
+            } ?>
+                </span>
+                <?php
+            } ?>
+
         </div>
 
     </div>
