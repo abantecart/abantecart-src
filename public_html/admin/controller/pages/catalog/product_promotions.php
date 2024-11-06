@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2022 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -168,35 +167,26 @@ class ControllerPagesCatalogProductPromotions extends AController
             '&product_id='.$this->request->get['product_id'].'&product_special_id=%ID%'
         );
 
-        foreach ($this->data['product_discounts'] as $i => $item) {
-            if ($item['date_start'] == '0000-00-00') {
-                $this->data['product_discounts'][$i]['date_start'] = '';
-            }
-            if ($item['date_end'] == '0000-00-00') {
-                $this->data['product_discounts'][$i]['date_end'] = '';
-            }
-        }
-        foreach ($this->data['product_specials'] as $i => $item) {
-            if ($item['date_start'] == '0000-00-00') {
-                $this->data['product_specials'][$i]['date_start'] = '';
-            }
-            if ($item['date_end'] == '0000-00-00') {
-                $this->data['product_specials'][$i]['date_end'] = '';
+        foreach(['product_discounts', 'product_specials'] as $section) {
+            foreach ($this->data[$section] as $i => $item) {
+                foreach (['date_start', 'date_end'] as $dateField) {
+                    $date = $item[$dateField];
+                    $date = $date == '0000-00-00' ? null : $date;
+                    $this->data[$section][$i][$dateField] = $date ? dateISO2Display($date) : '';
+                }
             }
         }
 
         $this->data['button_remove'] = $this->html->buildElement(
             [
                 'type'  => 'button',
-                'text'  => $this->language->get('button_remove'),
-                'style' => 'button2',
+                'text'  => $this->language->get('button_remove')
             ]
         );
         $this->data['button_edit'] = $this->html->buildElement(
             [
                 'type'  => 'button',
-                'text'  => $this->language->get('button_edit'),
-                'style' => 'button2',
+                'text'  => $this->language->get('button_edit')
             ]
         );
         $this->data['button_add_discount'] = $this->html->buildElement(
@@ -206,8 +196,7 @@ class ControllerPagesCatalogProductPromotions extends AController
                 'href'  => $this->html->getSecureURL(
                     'catalog/product_discount_form/insert',
                     '&product_id='.$this->request->get['product_id']
-                ),
-                'style' => 'button1',
+                )
             ]
         );
         $this->data['button_add_special'] = $this->html->buildElement(
@@ -218,7 +207,6 @@ class ControllerPagesCatalogProductPromotions extends AController
                     'catalog/product_special_form/insert',
                     '&product_id='.$this->request->get['product_id']
                 ),
-                'style' => 'button1',
             ]
         );
 
@@ -275,12 +263,12 @@ class ControllerPagesCatalogProductPromotions extends AController
         }
 
         if (has_value($this->request->post['promotion_type'])) {
-            if ($this->request->post['date_start'] != '0000-00-00'
-                && $this->request->post['date_end'] != '0000-00-00'
-                && $this->request->post['date_start'] != ''
-                && $this->request->post['date_end'] != ''
-                && dateFromFormat($this->request->post['date_start'], $this->language->get('date_format_short'))
-                    > dateFromFormat($this->request->post['date_end'], $this->language->get('date_format_short'))
+            $start = $this->request->post['date_start'];
+            $end = $this->request->post['date_end'];
+
+            if ($start != '0000-00-00' && $end != '0000-00-00' && $start != '' && $end != ''
+                && dateFromFormat($start, $this->language->get('date_format_short'))
+                    > dateFromFormat($end, $this->language->get('date_format_short'))
             ) {
                 $this->error['date_end'] = $this->language->get('error_date');
             }
