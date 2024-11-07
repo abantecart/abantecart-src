@@ -534,9 +534,14 @@ class ControllerPagesDesignContent extends AController
             [
                 'type'       => 'date',
                 'name'       => 'expire_date',
-                'value'      => dateISO2Display($this->data['expire_date'].' '.$this->language->get('time_format_short')),
+                'value'      => dateISO2Display(
+                    $this->data['expire_date'],
+                    $this->language->get('date_format_short').' '.$this->language->get('time_format_short')
+                ),
                 'default'    => '',
-                'dateformat' => format4Datepicker($this->language->get('date_format_short').' '.$this->language->get('time_format_short')),
+                'dateformat' => format4Datepicker(
+                    $this->language->get('date_format_short').' '.$this->language->get('time_format_short')
+                ),
             ]
         );
 
