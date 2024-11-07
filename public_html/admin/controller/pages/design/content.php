@@ -158,6 +158,8 @@ class ControllerPagesDesignContent extends AController
                         $post[$datetime],
                         $this->language->get('date_format_short') . ' ' . $this->language->get('time_format_short')
                     );
+                }else{
+                    $post[$datetime] = '';
                 }
             }
             $contentId = $this->acm->addContent($post);
@@ -209,6 +211,8 @@ class ControllerPagesDesignContent extends AController
                         $post[$datetime],
                         $this->language->get('date_format_short') . ' ' . $this->language->get('time_format_short')
                     );
+                }else{
+                    $post[$datetime] = '';
                 }
             }
             $this->acm->editContent($contentId, $post);
