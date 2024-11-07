@@ -1,24 +1,22 @@
 <?php
-/** @noinspection PhpUnused */
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 class ControllerCommonMenu extends AController
 {
@@ -93,6 +91,7 @@ class ControllerCommonMenu extends AController
         $result = [];
         foreach ($menu_items as $item) {
             if ($item['parent_id'] == $item_id && isset($item['item_id'])) {
+                $isLink = preg_match("/(http|https):/", $item['item_url']);
                 if (isset($item ['language'])) {
                     $this->loadLanguage($item ['language'], 'silent');
                 }
@@ -100,7 +99,7 @@ class ControllerCommonMenu extends AController
                 $rt = '';
                 $http_rt = false;
                 $menu_link = '';
-                if (preg_match("/(http|https):/", $item['item_url'])) {
+                if ($isLink) {
                     $menu_link = $item['item_url'];
                     $rt = $item['item_url'];
                     $http_rt = true;
@@ -112,16 +111,26 @@ class ControllerCommonMenu extends AController
                     }
                 }
 
-                $link_key_name = strpos($item ['item_url'], "http") ? "onclick" : "href";
-
+                $link_key_name = $isLink ? "onclick" : "href";
                 $icon = $rm->getResource($item ['item_icon_rl_id']);
-                $icon = $icon['resource_code'] ? : '';
 
+                $iconHtml = $icon['resource_code']
+                    ?: (
+                        $icon['resource_path']
+                        ? $this->html->buildResourceImage(
+                            [
+                                'url'    => $rm->getResizedImageURL($icon,19,19),
+                                'width'  => 19,
+                                'height' => 19
+                            ]
+                        )
+                        : ''
+                    );
                 $temp = [
                     'id'           => $item ['item_id'],
                     $link_key_name => $menu_link,
                     'text'         => $this->language->get($item ['item_text']),
-                    'icon'         => $icon,
+                    'icon'         => $iconHtml,
                 ];
 
                 if ($rt) {
@@ -161,7 +170,6 @@ class ControllerCommonMenu extends AController
             return false;
         }
         $split = explode('/', $rt);
-
         return $split[0].'/'.$split[1];
     }
 }
