@@ -1,5 +1,4 @@
 <?php
-
 /*
  *   $Id$
  *
@@ -468,7 +467,11 @@ class AHtml extends AController
 				FROM ".$db->table('url_aliases')."
 				WHERE query<>'".$db->escape($query)."' AND keyword='".$db->escape($seo_key)."'";
         $result = $db->query($sql);
-        if ($result->num_rows) {
+        $kList = array_merge(
+            array_column($result->rows, 'keyword'),
+            array_map('basename',glob(DIR_ROOT.'/*', GLOB_ONLYDIR))
+        );
+        if (in_array($seo_key, $kList)) {
             $url = HTTP_CATALOG.$seo_key;
             return sprintf($this->language->get('error_seo_keyword'), $url, $seo_key);
         }

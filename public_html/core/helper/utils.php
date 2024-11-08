@@ -189,18 +189,17 @@ function getUniqueSeoKeyword($seo_key, $object_key_name = '', $object_id = 0)
     }
 
     $result = $db->query($sql);
-    if ($result->num_rows) {
-        $keywords = [];
-        foreach ($result->rows as $row) {
-            $keywords[] = $row['keyword'];
-        }
+    $kList = array_merge(
+        array_column($result->rows, 'keyword'),
+        array_map('basename',glob(DIR_ROOT.'/*', GLOB_ONLYDIR))
+    );
 
-        $i = 0;
-        while (in_array($seo_key, $keywords) && $i < 20) {
-            $seo_key = $seo_key . SEO_URL_SEPARATOR . ($object_id ?: $i);
-            $i++;
-        }
+    $i = 0;
+    while (in_array($seo_key, $kList) && $i < 20) {
+        $seo_key = $seo_key . SEO_URL_SEPARATOR . ($object_id ?: $i);
+        $i++;
     }
+
     return $seo_key;
 }
 
