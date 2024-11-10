@@ -226,7 +226,7 @@ hr {
     border-top: 1px solid;
 }
 
-h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1, th {
+h4, .h4, h3, .h3, h2, .h2, h1, .h1, th {
     font-weight: 600;
 }
 
@@ -1742,23 +1742,11 @@ p {
     font-size: 14px;
 }
 
-h6,
-.h6,
-h5,
-.h5,
-h4,
-.h4,
-h3,
-.h3,
-h2,
-.h2,
-h1,
-.h1 {
+h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
     color: var(--pc-heading-color);
 }
 
-b,
-strong {
+b, strong {
     font-weight: 600;
 }
 
