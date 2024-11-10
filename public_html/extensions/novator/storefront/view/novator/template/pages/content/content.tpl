@@ -1,6 +1,6 @@
 <div class="d-flex flex-nowrap title sec-heading-block">
     <div class="col-xl-12">
-        <h1 class="h2 heading-title mb-0 mt-lg-0 mt-3">
+        <h1 class="h1 heading-title mb-0 mt-lg-0 mt-3">
             <?php echo $heading_title; ?>
         </h1>
         <h6 class="m-2 p-2 text-secondary bg-body-alt d-flex justify-content-between">
