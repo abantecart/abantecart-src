@@ -3681,3 +3681,6 @@ blockquote p::after {
 .common_content_actions {
 	display: flex;
 }
+.common_content_actions .btn-group {
+	margin: 0 2px;
+}

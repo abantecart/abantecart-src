@@ -36,7 +36,7 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
             <a title="<?php echo_html2view($button_history); ?>"
                data-original-title="<?php echo_html2view($button_history); ?>"
                href="#"
-               class="btn tooltips mr10">
+               class="btn tooltips view_history mr10">
                 <i class="fa fa-history fa-fw"></i>
             </a>
 
@@ -293,6 +293,14 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
                 editor = tinyMCE.activeEditor;
                 cursorPosition = null;
             }
+            openTextEditRLModal(editor, cursorPosition, '<?php echo $base_url?>');
+            return false;
+        });
+
+        $('#<?php echo $wrapper_id; ?> a.view_history').on('click', function () {
+            //get data container
+            let id = $("#<?php echo $wrapper_id ?> ul.nav-tabs li.active>a").attr('aria-controls');
+            let editor, cursorPosition;
             openTextEditRLModal(editor, cursorPosition, '<?php echo $base_url?>');
             return false;
         });

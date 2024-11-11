@@ -594,19 +594,21 @@ class ALanguageManager extends Alanguage
     /**
      * save descriptions history
      *
-     * @param string $table_name - database table name with no prefix
-     * @param array $index - unique index to perform select (associative array with column name as key)
-     * @param array $txt_data - text data array. Format: [language id][key] => [value]
-     * @param array $serialized_roadmap
+     * @param string $tableName - database table name with no prefix
+     * @param array  $index     - unique index to perform select (associative array with column name as key)
+     * @param        $langId
+     * @param        $langData
+     * @param        $updateIndex
      *
+     * @return void
      * @throws AException
      */
-    private function save_history($table_name, $index, $lang_id, $lang_data, $update_index)
+    private function save_history($tableName, $index, $langId, $langData, $updateIndex): void
     {
         $exclude = ['url_aliases'];
         //exclude some tables
-        if (in_array($table_name, $exclude)) {
-            return false;
+        if (in_array($tableName, $exclude)) {
+            return;
         }
 
         $tableId = 0;
@@ -616,17 +618,17 @@ class ALanguageManager extends Alanguage
             }
         }
         //select current values for compare
-        $result = $this->db->query("select * FROM ".$this->db->table($table_name)." WHERE ".implode(" AND ", $update_index));
+        $result = $this->db->query("select * FROM ".$this->db->table($tableName)." WHERE ".implode(" AND ", $updateIndex));
         $currentData = $result->row;
-        foreach ($lang_data as $field => $value) {
+        foreach ($langData as $field => $value) {
             if ($currentData[$field] == $value) {
                 //nothing to update
                 continue;
             }
-            $load_data = ['table_name' => $table_name, 'table_id' => $tableId, 'language_id' => $lang_id, 'version' => 1 ];
+            $load_data = ['table_name' => $tableName, 'table_id' => $tableId, 'language_id' => $langId, 'version' => 1 ];
             //select latest version
             $sql = "SELECT version as version from ".$this->db->table('description_history')." ";
-            $sql .= "WHERE `table_name` = '$table_name' AND `table_id` = '$tableId' AND `field` = '$field' AND `language_id` = '$lang_id' ";
+            $sql .= "WHERE `table_name` = '$tableName' AND `table_id` = '$tableId' AND `field` = '$field' AND `language_id` = '$langId' ";
             $sql .= "ORDER BY `version` DESC LIMIT 1";
             $result = $this->db->query($sql);
             if ($result->row && $result->row) {
