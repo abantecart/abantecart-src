@@ -33,6 +33,13 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
                 <i class="fa fa-file-picture-o fa-fw"></i>
                 <?php echo $button_add_media; ?>
             </a>
+            <a title="<?php echo_html2view($button_history); ?>"
+               data-original-title="<?php echo_html2view($button_history); ?>"
+               href="#"
+               class="btn tooltips mr10">
+                <i class="fa fa-history fa-fw"></i>
+            </a>
+
             <?php if($preview_url){ ?>
                 <a target="_blank"
                    title="<?php echo_html2view($button_preview); ?>"
