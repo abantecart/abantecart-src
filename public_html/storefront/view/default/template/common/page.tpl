@@ -34,7 +34,7 @@ echo $$header; ?>
 <!-- header_bottom blocks placeholder -->
 <?php } ?>
 
-<div id="maincontainer" class="mb-3">
+<div id="maincontainer" class="mt-3 mb-3">
 
 <?php
     //check layout dynamically
