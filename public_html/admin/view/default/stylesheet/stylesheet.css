@@ -863,6 +863,8 @@ h1 a:hover, h2 a:hover, h3 a:hover {
 
 .pageheader .glyphicon,
 .pageheader .fa {
+	min-width: 36px;
+	text-align: center;
 	font-size: 20px;
 	margin-right: 5px;
 	padding: 6px 7px;
