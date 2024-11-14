@@ -73,6 +73,7 @@ class AContentManager
                     sort_order = '" . (int)$data ['sort_order'] . "',
                     status = '" . (int)$data['status'] . "',
                     icon_rl_id = '" . (int)$data['icon_rl_id'] . "',
+                    content_bar = '" . (int)$data['content_bar'] . "',
                     author = '" . $this->db->escape($data['author']) . "',
                     publish_date = " . ($data['publish_date'] ? "'" . $this->db->escape($data['publish_date']) . "'" : "NULL") . ",
                     expire_date = " . ($data['expire_date'] ? "'" . $this->db->escape($data['expire_date']) . "'" : "NULL") . ",
@@ -125,6 +126,7 @@ class AContentManager
             "status = " . (int)$data['status'],
             "sort_order = " . (int)$data['sort_order'],
             "icon_rl_id = " . (int)$data['icon_rl_id'],
+            "content_bar = " . (int)$data['content_bar'],
             "author = '" . $this->db->escape($data['author']) . "'",
             "publish_date = " . ($data['publish_date'] ? "'" . $this->db->escape($data['publish_date']) . "'" : "NULL"),
             "expire_date = " . ($data['expire_date'] ? "'" . $this->db->escape($data['expire_date']) . "'" : "NULL"),
@@ -182,8 +184,10 @@ class AContentManager
         if (!$language_id) {
             return false;
         }
+
         switch ($field) {
             case 'status' :
+            case 'content_bar' :
             case 'sort_order' :
             case 'parent_content_id':
                 $this->db->query(

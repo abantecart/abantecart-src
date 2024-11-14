@@ -10298,6 +10298,7 @@ CREATE TABLE `ac_contents` (
     `parent_content_id` int(11) NOT NULL DEFAULT 0,
     `sort_order` int(3) NOT NULL DEFAULT '0',
     `status` int(1) NOT NULL DEFAULT '0',
+    `content_bar` int(1) NOT NULL DEFAULT '0',
     `author` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
     `icon_rl_id` int(11),
     `publish_date` timestamp NULL,

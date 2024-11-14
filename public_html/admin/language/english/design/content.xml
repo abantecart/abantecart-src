@@ -93,12 +93,16 @@
 		<value><![CDATA[Expiration Date:]]></value>
 	</definition>
 	<definition>
+		<key>entry_content_bar</key>
+		<value><![CDATA[Content Details Bar:<br /><span class="help">Enable this setting to show the bar with the author and publish date on the content page</span>]]></value>
+	</definition>
+	<definition>
 		<key>entry_icon</key>
 		<value><![CDATA[Icon:]]></value>
 	</definition>
 	<definition>
 		<key>entry_tags</key>
-		<value><![CDATA[Content Tags:<br /><span class="help">comma separated</span>]]></value>
+		<value><![CDATA[Content Tags:<br /><span class="help">comma separated list</span>]]></value>
 	</definition>
 
 	<definition>

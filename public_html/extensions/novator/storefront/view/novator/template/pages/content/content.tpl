@@ -3,7 +3,7 @@
         <h1 class="h1 heading-title mb-0 mt-lg-0 mt-3">
             <?php echo $heading_title; ?>
         </h1>
-        <?php if ($content_info) { ?>
+        <?php if ($content_info && $content_info['content_bar']) { ?>
         <h6 class="m-2 p-2 text-secondary bg-body-alt d-flex justify-content-between">
             <div>
                 <?php if ($content_info['author']) { ?>
