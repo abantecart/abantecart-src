@@ -123,10 +123,6 @@ class AListing
             ],
             'media'                              => ['text' => 'text_media'],
             'custom_products'                    => [
-
-                'model'                => 'catalog/product',
-                'total_method'         => 'getTotalProducts',
-                'method'               => 'getProducts',
                 'language'             => 'catalog/product',
                 'data_type'            => 'product_id',
                 'view_path'            => 'catalog/product/update',
@@ -139,10 +135,6 @@ class AListing
                 'items_list_url'       => 'product/product/related',
             ],
             'custom_categories'                  => [
-                'model'                => 'catalog/category',
-                'total_method'         => 'getTotalCategories',
-                /** @see ModelCatalogCategory::getCategoriesData() */
-                'method'               => 'getCategoriesData',
                 'language'             => 'catalog/category',
                 'data_type'            => 'category_id',
                 'view_path'            => 'catalog/category/update',
@@ -154,10 +146,6 @@ class AListing
                 'items_list_url'       => 'product/product/product_categories',
             ],
             'custom_manufacturers'               => [
-                'model'                => 'catalog/manufacturer',
-                'total_method'         => 'getTotalManufacturers',
-                /** @see ModelCatalogManufacturer::getManufacturers() */
-                'method'               => 'getManufacturers',
                 'language'             => 'catalog/manufacturer',
                 'data_type'            => 'manufacturer_id',
                 'view_path'            => 'catalog/category/update',
@@ -179,6 +167,16 @@ class AListing
                 'data_type'         => 'product_id',
                 'storefront_model'  => 'catalog/collection',
                 'storefront_method' => 'getListingBlockProducts',
+            ],
+            'selected_content'                  => [
+                'language'             => 'design/content',
+                'data_type'            => 'content_id',
+                'view_path'            => 'design/content/update',
+                'text'                 => 'text_selected_content',
+                'storefront_model'     => 'catalog/content',
+                'storefront_method'    => 'getListingContent',
+                'storefront_view_path' => 'content/content',
+                'items_list_url'       => 'content/content',
             ],
         ];
     }
@@ -309,6 +307,10 @@ class AListing
             $output = [
                 'collectionId' => $args['collection_id'],
                 'limit'         => $args['limit'],
+            ];
+        } elseif ($model == 'catalog/content' && $method == 'getListingContent') {
+            $output = [
+                'content_ids' => $args['content_ids']
             ];
         }
 

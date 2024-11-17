@@ -448,7 +448,7 @@ class ControllerPagesDesignContent extends AController
             );
         }
 
-        // we need get contents list for multiselect
+        // we need get contents list for parent selector
         $selected_parent = $disabled_parent = [];
         $selectTree = $this->acm->getContentsForSelect();
         foreach ($selectTree as $node) {
