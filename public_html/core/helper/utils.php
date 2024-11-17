@@ -47,9 +47,9 @@ function preformatInteger($value)
 /*
  * prepare string for text id
  * */
-function preformatTextID($value)
+function preformatTextID($value, ?string $replaceChar = '')
 {
-    return strtolower(preg_replace("/[^A-Za-z0-9_]/", "", $value));
+    return strtolower(preg_replace("/[^A-Za-z0-9_]/", $replaceChar, $value));
 }
 
 /**
