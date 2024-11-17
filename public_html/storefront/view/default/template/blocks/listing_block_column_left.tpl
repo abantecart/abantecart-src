@@ -30,7 +30,7 @@
                     : $item['icon_code'];
             }
 ?>
-            <div class="ms-2 d-flex align-items-start mt-5">
+            <div class="ms-2 d-flex align-items-start mt-3">
                 <a href="<?php echo $item['info_url']?>">
                     <?php echo $item['image']?>
                 </a>

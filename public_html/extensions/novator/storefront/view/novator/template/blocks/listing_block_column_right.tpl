@@ -4,30 +4,33 @@
 <?php }?>
     <div class="d-flex flex-column">
 <?php
-    if ($content) {
-        $tax_exempt = $this->customer->isTaxExempt();
-        $config_tax = $this->config->get('config_tax');
-        foreach ($content as $item) {
+if ($content) {
+    $tax_exempt = $this->customer->isTaxExempt();
+    $config_tax = $this->config->get('config_tax');
+    foreach ($content as $item) {
+        if (!$item['content_id']) {
             $item['title'] = $item['name'] ? : $item['thumb']['title'];
-
             $item['image'] = $item['thumb']['origin'] == 'internal'
-                            ? '<img alt="'.htmlspecialchars($item['title'], ENT_QUOTES, 'UTF-8').'" class="d-block" src="'. $item['thumb']['thumb_url'].'"/>'
-                            : $item['thumb']['thumb_html'];
-
+                ? '<img alt="'.htmlspecialchars($item['title'], ENT_QUOTES, 'UTF-8').'" class="d-block" src="'. $item['thumb']['thumb_url'].'"/>'
+                : $item['thumb']['thumb_html'];
             $item['description'] = $item['model'];
             $item['info_url'] = $item['href'] ? : $item['thumb']['main_url'];
             $item['buy_url'] = $item['add'];
             if (!$display_price) {
                 $item['price'] = '';
             }
-
             $review = $button_write;
             if ($item['rating']) {
                 $review = $item['rating'];
             }
+        } else {
+            $item['info_url'] = $item['href'];
+            $item['image'] = $item['icon_url']
+                ? '<img alt="'.htmlspecialchars($item['title'], ENT_QUOTES, 'UTF-8').'" class="d-block" src="'. $item['icon_url'].'"/>'
+                : $item['icon_code'];
+        }
 ?>
-
-            <div class="ms-2 d-flex align-items-start mt-5">
+            <div class="ms-2 d-flex align-items-start mt-3">
                 <a href="<?php echo $item['info_url']?>">
                     <?php echo $item['image']?>
                 </a>
