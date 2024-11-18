@@ -275,6 +275,7 @@ class ControllerResponsesListingGridContent extends AController
                 'status',
                 'parent_content_id',
                 'tags',
+                'content_bar',
                 'author',
                 'publish_date',
                 'expire_date'

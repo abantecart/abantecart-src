@@ -1,5 +1,6 @@
 alter table `ac_contents`
     add `author` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+    add `content_bar` int(1) NOT NULL DEFAULT '0',
     add `icon_rl_id` int(11),
     add `publish_date` timestamp NULL,
     add `expire_date` timestamp NULL,

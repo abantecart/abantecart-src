@@ -233,7 +233,9 @@ class ControllerPagesDesignBlocks extends AController
                     if ($content['listing_datasource'] == 'media') {
                         $content['resource_type'] = $this->request->post['resource_type'];
                     }
-
+                    if ($content['listing_datasource'] == 'selected_content') {
+                        $content['content_ids'] = $this->request->post['content_ids'];
+                    }
                     if ($content['listing_datasource'] == 'collection') {
                         $content['collection_id'] = $this->request->post['collection_id'];
                     }
@@ -380,6 +382,8 @@ class ControllerPagesDesignBlocks extends AController
                                 $k++;
                             }
                         }
+                    } else if ($content['listing_datasource'] == 'selected_content') {
+                        $content['content_ids'] = $this->request->post['content_ids'];
                     } else {
                         if ($content['listing_datasource'] == 'media') {
                             $content['resource_type'] = $this->request->post['resource_type'];

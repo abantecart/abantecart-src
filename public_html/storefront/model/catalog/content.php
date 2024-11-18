@@ -230,10 +230,10 @@ class ModelCatalogContent extends Model
      */
     public function getChildrenIDs($parentId, $mode = 'active_only')
     {
-        $parentId = (int)$parentId;
-        if (!$parentId) {
+        if (!isset($parentId)) {
             return [];
         }
+        $parentId = (int)$parentId;
         $cacheKey = 'content.children.id.' . $parentId . '.' . preformatTextID($mode);
         $cache = $this->cache->pull($cacheKey);
         if (isset($cache) && $cache !== false) {
@@ -290,4 +290,25 @@ class ModelCatalogContent extends Model
         return $output;
     }
 
+    /**
+     * Returns content data for listing blocks
+     * @param array $content_ids
+     *
+     * @return array
+     * @throws AException
+     */
+    public function getListingContent($content_ids = []){
+        $includeIDs = [];
+        foreach ($content_ids as $content_id) {
+            if ($children = $this->getChildrenIDs($content_id)) {
+                //exclude current parent if include all children
+                $includeIDs = array_merge($includeIDs, $children);
+            } else {
+                //include only current content
+                $includeIDs[] = $content_id;
+            }
+        }
+        $contents = $this->getContents(['filter_ids' => $includeIDs]);
+        return  $contents;
+    }
 }

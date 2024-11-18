@@ -1,6 +1,7 @@
 <h1 class="ms-3 my-2 heading-title ">
     <?php echo $heading_title; ?>
 </h1>
+<?php if ($content_info && $content_info['content_bar']) { ?>
 <h6 class="m-2 p-2 text-secondary bg-light d-flex justify-content-between">
     <div>
         <?php if ($content_info['author']) { ?>
@@ -9,7 +10,7 @@
     </div>
     <div><?php echo $text_published ?> <?php echo $publish_date; ?></div>
 </h6>
-
+<?php } ?>
 <div class="container-fluid mt-4 ms-1">
     <?php if ($content_info['content_id']) { ?>
         <div class="d-flex flex-nowrap">

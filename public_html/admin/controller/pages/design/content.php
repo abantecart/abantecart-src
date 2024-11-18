@@ -336,6 +336,7 @@ class ControllerPagesDesignContent extends AController
         $allowedFields = [
             'status',
             'store_id',
+            'content_bar',
             'author',
             'publish_date',
             'expire_date',
@@ -447,7 +448,7 @@ class ControllerPagesDesignContent extends AController
             );
         }
 
-        // we need get contents list for multiselect
+        // we need get contents list for parent selector
         $selected_parent = $disabled_parent = [];
         $selectTree = $this->acm->getContentsForSelect();
         foreach ($selectTree as $node) {
@@ -542,6 +543,15 @@ class ControllerPagesDesignContent extends AController
                 'dateformat' => format4Datepicker(
                     $this->language->get('date_format_short').' '.$this->language->get('time_format_short')
                 ),
+            ]
+        );
+
+        $this->data['form']['fields']['content_bar'] = $form->getFieldHtml(
+            [
+                'type'  => 'checkbox',
+                'name'  => 'content_bar',
+                'value' => $this->data['content_bar'],
+                'style' => 'btn_switch',
             ]
         );
 

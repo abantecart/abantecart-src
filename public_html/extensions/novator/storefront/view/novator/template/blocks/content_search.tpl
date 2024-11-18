@@ -17,7 +17,7 @@
     </div>
 
     <?php // mobile view inside menuoffcanvas ?>
-    <a class="mob-nav-btn srch-icon d-flex d-lg-none"
+    <a class="mob-nav-btn srch-icon d-lg-none"
        data-bs-toggle="offcanvas" href="#searchoffcanvas"
        role="button" aria-controls="searchoffcanvas" aria-label="search"><i class="bi bi-search"></i>
     </a>

@@ -1210,53 +1210,52 @@ function imgError(image) {
 //function adds Resource Library Button into WYSIWYG editor
 function openTextEditRLModal(editor, cursorPosition, baseUrl){
 	modalscope.mode = 'single';
+	modalscope.field_id = '';
+	modalscope.wrapper_id = '';
 	mediaDialog('image', 'list_library');
 	sideDialog('image', 'add');
 
-	$('#rl_modal').on('shown.bs.modal', function () {
+	$('#rl_modal').unbind("hidden.bs.modal")
+		.on("hidden.bs.modal", function (e) {
+		var item = modalscope.selected_resource;
+		if(item.length<1){ return null;}
 
-		$('#rl_modal').unbind("hidden.bs.modal").on("hidden.bs.modal", function (e) {
-			var item = modalscope.selected_resource;
-			if(item.length<1){ return null;}
-
-			var insert_html='';
-			if( item.resource_path != undefined && item.resource_path.length>0 ){
-				var type_name = item.type_name;
-				insert_html = baseUrl + 'resources/'+type_name+'/'+item.resource_path;
-				if(type_name=='image'){
-					var alt='';
-					if(item['title'].length>0){
-						alt = ' alt="'+encodeURIComponent(item['title'])+'"';
-					}
-					insert_html = '<img src="'+insert_html+'"'+alt+'>';
-				}else{
-					//TODO : need to add other RL-types support
-					return null;
+		let insert_html='';
+		if( item.resource_path !== undefined && item.resource_path.length>0 ){
+			var type_name = item.type_name;
+			insert_html = baseUrl + 'resources/'+type_name+'/'+item.resource_path;
+			if(type_name==='image'){
+				let alt= '';
+				if(item['title'].length>0){
+					alt = encodeURIComponent(item['title']);
 				}
-			}else if(item.resource_code!=undefined && item.resource_code.length>0){
-				insert_html = item.resource_code;
+				insert_html = '<img src="'+insert_html+'" alt="'+alt+'">';
+			}else{
+				//TODO : need to add other RL-types support
+				return null;
+			}
+		}else if(item.resource_code!==undefined && item.resource_code.length>0){
+			insert_html = item.resource_code;
+		}
+
+		InsertHtml(editor, insert_html);
+		modalscope.selected_resource = {};
+
+		function InsertHtml(editor, value) {
+			if(!value || value.length<1){
+				return null;
 			}
 
-			InsertHtml(editor, insert_html);
-			modalscope.selected_resource = {};
-
-			function InsertHtml(editor, value) {
-				if(!value || value.length<1){
-					return null;
-				}
-
-				if (editor.hasOwnProperty('editorCommands')) {
-					 editor.execCommand('mceInsertContent',false, value );
-				} else { //for source mode
-					var caretPos = cursorPosition;
-					var textAreaTxt = editor.val();
-					editor.val(textAreaTxt.substring(0, caretPos) + value + textAreaTxt.substring(caretPos) );
-				}
+			if (editor.hasOwnProperty('editorCommands')) {
+				 editor.execCommand('mceInsertContent',false, value );
+			} else { //for source mode
+				var caretPos = cursorPosition;
+				var textAreaTxt = editor.val();
+				editor.val(textAreaTxt.substring(0, caretPos) + value + textAreaTxt.substring(caretPos) );
 			}
-
-		});
+		}
 	});
-};
+}
 
 //Jquery extension with textarea management
 jQuery.fn.extend({
