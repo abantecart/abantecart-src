@@ -268,4 +268,8 @@
 		<key>entry_collection_resource_type</key>
 		<value><![CDATA[Selected Collection:]]></value>
 	</definition>
+	<definition>
+		<key>text_top_level</key>
+		<value><![CDATA[Top Level]]></value>
+	</definition>
 </definitions>
