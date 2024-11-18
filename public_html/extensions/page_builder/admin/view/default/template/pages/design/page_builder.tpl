@@ -9,6 +9,8 @@ foreach ($templates as $template) {
   $template_list .= '<li' . $item_class . '><a href="' . $page_url . '&tmpl_id=' . $template . '">' . $template . '</a></li>';
 }
 
+if($template_list){
+
 $current_ok_delete = false;
 $page_list = '';
 foreach ($pages as $page) {
@@ -133,7 +135,7 @@ foreach ($pages as $page) {
         ).done(function () {
                 resetLockBtn();
                 success_alert(<?php js_echo($publish_success_text);?>, true);
-                getStorageState('storage:start');
+                getStorageState('storage:end:store');
             }
         );
     }
@@ -264,7 +266,6 @@ foreach ($pages as $page) {
         window.attachEvent("onmessage", onMessage, false);
     }
 
-
     // Function to be called from iframe
     function getStorageState(message) {
         if(message === 'storage:end:store'){
@@ -275,7 +276,8 @@ foreach ($pages as $page) {
                     dataType: 'json',
                     global: false
                 }
-            ).done(function(data) {
+            ).done(
+                function(data) {
                     if(data.published === 'true'){
                         $('#publish').removeClass('btn-info').addClass('btn-default').attr('disabled','disabled');
                         $('#undo').attr('disabled','disabled');
@@ -296,7 +298,6 @@ foreach ($pages as $page) {
         }
     }
 
-
     function onMessage(event) {
         const data = event.data;
         if (typeof(window[data.func]) == "function") {
@@ -304,3 +305,4 @@ foreach ($pages as $page) {
         }
     }
 </script>
+<?php } ?>

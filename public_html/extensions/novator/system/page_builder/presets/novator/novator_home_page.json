@@ -1,0 +1,2457 @@
+{
+  "assets": [],
+  "styles": [
+    {
+      "selectors": [],
+      "selectorsAdd": "*",
+      "style": {
+        "box-sizing": "border-box"
+      }
+    },
+    {
+      "selectors": [],
+      "selectorsAdd": "body",
+      "style": {
+        "margin": "0"
+      }
+    },
+    {
+      "selectors": [
+        "#i2l19"
+      ],
+      "style": {
+        "min-width": "260px"
+      }
+    },
+    {
+      "selectors": [
+        "#ir7vt"
+      ],
+      "style": {
+        "min-width": "260px",
+        "min-height": "59px"
+      }
+    },
+    {
+      "selectors": [
+        {
+          "name": "gjs-row",
+          "private": 1
+        }
+      ],
+      "style": {
+        "display": "table",
+        "padding": "10px",
+        "width": "100%"
+      }
+    },
+    {
+      "selectors": [
+        {
+          "name": "gjs-cell",
+          "private": 1
+        }
+      ],
+      "style": {
+        "width": "100%",
+        "display": "block"
+      },
+      "mediaText": "(max-width: 768px)",
+      "atRuleType": "media"
+    },
+    {
+      "selectors": [
+        "gjs-cell30"
+      ],
+      "style": {
+        "width": "100%",
+        "display": "block"
+      },
+      "mediaText": "(max-width: 768px)",
+      "atRuleType": "media"
+    },
+    {
+      "selectors": [
+        "gjs-cell70"
+      ],
+      "style": {
+        "width": "100%",
+        "display": "block"
+      },
+      "mediaText": "(max-width: 768px)",
+      "atRuleType": "media"
+    },
+    {
+      "selectors": [
+        {
+          "name": "gjs-cell",
+          "private": 1
+        }
+      ],
+      "style": {
+        "width": "8%",
+        "display": "table-cell",
+        "height": "75px"
+      }
+    }
+  ],
+  "pages": [
+    {
+      "frames": [
+        {
+          "component": {
+            "type": "wrapper",
+            "stylable": [
+              "background",
+              "background-color",
+              "background-image",
+              "background-repeat",
+              "background-attachment",
+              "background-position",
+              "background-size"
+            ],
+            "attributes": {
+              "id": "ix9k"
+            },
+            "components": [
+              {
+                "tagName": "meta",
+                "void": true,
+                "attributes": {
+                  "charset": "UTF-8"
+                }
+              },
+              {
+                "tagName": "title",
+                "type": "text",
+                "components": [
+                  {
+                    "type": "textnode",
+                    "content": "Your Store Test\n  "
+                  }
+                ]
+              },
+              {
+                "tagName": "meta",
+                "void": true,
+                "attributes": {
+                  "name": "keywords",
+                  "content": "keyword1,keyword2,keyword3"
+                }
+              },
+              {
+                "tagName": "meta",
+                "void": true,
+                "attributes": {
+                  "name": "description",
+                  "content": "Web Store Meta Description"
+                }
+              },
+              {
+                "tagName": "meta",
+                "void": true,
+                "attributes": {
+                  "name": "generator",
+                  "content": "AbanteCart v1.4.1 - Open Source eCommerce solution"
+                }
+              },
+              {
+                "tagName": "meta",
+                "void": true,
+                "attributes": {
+                  "name": "viewport",
+                  "content": "width=device-width, initial-scale=1.0"
+                }
+              },
+              {
+                "tagName": "base",
+                "void": true,
+                "attributes": {
+                  "href": ""
+                }
+              },
+              {
+                "tagName": "link",
+                "void": true,
+                "attributes": {
+                  "href": "resources\/image\/18\/73\/4.png",
+                  "type": "image\/png",
+                  "rel": "icon"
+                }
+              },
+              {
+                "tagName": "link",
+                "void": true,
+                "attributes": {
+                  "href": "extensions\/novator\/storefront\/view\/novator\/image\/apple-touch-icon.png",
+                  "rel": "apple-touch-icon"
+                }
+              },
+              {
+                "tagName": "link",
+                "void": true,
+                "attributes": {
+                  "href": "extensions\/novator\/storefront\/view\/novator\/image\/apple-touch-icon-76x76.png",
+                  "rel": "apple-touch-icon",
+                  "sizes": "76x76"
+                }
+              },
+              {
+                "tagName": "link",
+                "void": true,
+                "attributes": {
+                  "href": "extensions\/novator\/storefront\/view\/novator\/image\/apple-touch-icon-120x120.png",
+                  "rel": "apple-touch-icon",
+                  "sizes": "120x120"
+                }
+              },
+              {
+                "tagName": "link",
+                "void": true,
+                "attributes": {
+                  "href": "extensions\/novator\/storefront\/view\/novator\/image\/apple-touch-icon-152x152.png",
+                  "rel": "apple-touch-icon",
+                  "sizes": "152x152"
+                }
+              },
+              {
+                "tagName": "link",
+                "void": true,
+                "attributes": {
+                  "href": "extensions\/novator\/storefront\/view\/novator\/image\/icon-192x192.png",
+                  "rel": "apple-touch-icon",
+                  "sizes": "192x192"
+                }
+              },
+              {
+                "tagName": "link",
+                "void": true,
+                "attributes": {
+                  "rel": "stylesheet",
+                  "href": "\/\/cdnjs.cloudflare.com\/ajax\/libs\/bootstrap\/5.3.3\/css\/bootstrap.min.css",
+                  "integrity": "sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==",
+                  "crossorigin": "anonymous",
+                  "referrerpolicy": "no-referrer"
+                }
+              },
+              {
+                "tagName": "link",
+                "void": true,
+                "attributes": {
+                  "rel": "stylesheet",
+                  "href": "\/\/cdnjs.cloudflare.com\/ajax\/libs\/bootstrap\/5.3.3\/css\/bootstrap-grid.min.css",
+                  "integrity": "sha512-i1b\/nzkVo97VN5WbEtaPebBG8REvjWeqNclJ6AItj7msdVcaveKrlIIByDpvjk5nwHjXkIqGZscVxOrTb9tsMA==",
+                  "crossorigin": "anonymous",
+                  "referrerpolicy": "no-referrer"
+                }
+              },
+              {
+                "tagName": "link",
+                "void": true,
+                "attributes": {
+                  "rel": "stylesheet",
+                  "href": "\/\/cdnjs.cloudflare.com\/ajax\/libs\/bootstrap\/5.3.3\/css\/bootstrap-reboot.min.css",
+                  "integrity": "sha512-HJaQ4y3YcUGCWikWDn8bFeGTy3Z\/3IbxFYQ9G3UAWx16PyTL6Nu5P\/BDDV9s0WhK3Sq27Wtbk\/6IcwGmGSMXYg==",
+                  "crossorigin": "anonymous",
+                  "referrerpolicy": "no-referrer"
+                }
+              },
+              {
+                "tagName": "link",
+                "void": true,
+                "attributes": {
+                  "rel": "stylesheet",
+                  "href": "\/\/cdnjs.cloudflare.com\/ajax\/libs\/bootstrap\/5.3.3\/css\/bootstrap-utilities.min.css",
+                  "integrity": "sha512-4ocAKAxnrkSm7MvkkF1D435kko3\/HWWvoi\/U9+7+ln94B\/U01Mggca05Pm3W59BIv3abl0U3MPdygAPLo5aeqg==",
+                  "crossorigin": "anonymous",
+                  "referrerpolicy": "no-referrer"
+                }
+              },
+              {
+                "tagName": "link",
+                "void": true,
+                "attributes": {
+                  "rel": "stylesheet",
+                  "href": "\/\/cdnjs.cloudflare.com\/ajax\/libs\/font-awesome\/6.5.2\/css\/all.min.css",
+                  "integrity": "sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9\/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==",
+                  "crossorigin": "anonymous",
+                  "referrerpolicy": "no-referrer"
+                }
+              },
+              {
+                "tagName": "link",
+                "void": true,
+                "attributes": {
+                  "rel": "stylesheet",
+                  "href": "\/\/cdnjs.cloudflare.com\/ajax\/libs\/bootstrap-icons\/1.11.3\/font\/bootstrap-icons.min.css",
+                  "integrity": "sha512-dPXYcDub\/aeb08c63jRq\/k6GaKccl256JQy\/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67\/bbV8XaCQ==",
+                  "crossorigin": "anonymous",
+                  "referrerpolicy": "no-referrer"
+                }
+              },
+              {
+                "tagName": "link",
+                "void": true,
+                "attributes": {
+                  "href": "extensions\/novator\/storefront\/view\/novator\/css\/plugins\/owl.carousel.min.css",
+                  "rel": "stylesheet",
+                  "type": "text\/css"
+                }
+              },
+              {
+                "tagName": "link",
+                "void": true,
+                "attributes": {
+                  "href": "extensions\/novator\/storefront\/view\/novator\/css\/tm_style.css",
+                  "rel": "stylesheet",
+                  "type": "text\/css"
+                }
+              },
+              {
+                "attributes": {
+                  "id": "preloader"
+                },
+                "components": [
+                  {
+                    "attributes": {
+                      "id": "preloader_status"
+                    },
+                    "components": [
+                      {
+                        "classes": [
+                          "spinner-overlay",
+                          "my-auto"
+                        ],
+                        "components": [
+                          {
+                            "classes": [
+                              "text-center",
+                              "h-100",
+                              "d-flex",
+                              "align-items-center",
+                              "justify-content-center"
+                            ],
+                            "components": [
+                              {
+                                "classes": [
+                                  "spinner-border",
+                                  "text-primary"
+                                ],
+                                "attributes": {
+                                  "role": "status"
+                                },
+                                "components": [
+                                  {
+                                    "tagName": "span",
+                                    "type": "text",
+                                    "classes": [
+                                      "visually-hidden"
+                                    ],
+                                    "components": [
+                                      {
+                                        "type": "textnode",
+                                        "content": "Loading..."
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "comment",
+                "content": " header section Starts "
+              },
+              {
+                "tagName": "header",
+                "components": [
+                  {
+                    "classes": [
+                      "nav-wrapper"
+                    ],
+                    "components": [
+                      {
+                        "type": "comment",
+                        "content": " Main header section Starts "
+                      },
+                      {
+                        "classes": [
+                          "d-block"
+                        ],
+                        "components": [
+                          {
+                            "classes": [
+                              "top-bar",
+                              "fixed-top",
+                              "pt-4",
+                              "pb-3"
+                            ],
+                            "attributes": {
+                              "role": "navigation"
+                            },
+                            "components": [
+                              {
+                                "classes": [
+                                  "container-lg"
+                                ],
+                                "components": [
+                                  {
+                                    "classes": [
+                                      "d-flex",
+                                      "flex-nowrap",
+                                      "justify-content-between"
+                                    ],
+                                    "components": [
+                                      {
+                                        "classes": [
+                                          "w-auto"
+                                        ],
+                                        "attributes": {
+                                          "id": "i2l19"
+                                        },
+                                        "components": [
+                                          {
+                                            "type": "link",
+                                            "editable": false,
+                                            "classes": [
+                                              "navbar-brand",
+                                              "logo"
+                                            ],
+                                            "attributes": {
+                                              "href": ""
+                                            },
+                                            "components": [
+                                              {
+                                                "type": "image",
+                                                "resizable": {
+                                                  "ratioDefault": 1
+                                                },
+                                                "attributes": {
+                                                  "src": "resources\/image\/18\/7a\/6.png",
+                                                  "title": "Web Store Name",
+                                                  "alt": "Web Store Name",
+                                                  "id": "ir7vt"
+                                                }
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "classes": [
+                                          "header-right",
+                                          "w-75",
+                                          "d-flex",
+                                          "flex-nowrap",
+                                          "align-items-center",
+                                          "justify-content-end"
+                                        ],
+                                        "components": [
+                                          {
+                                            "type": "abantecart-generic-block",
+                                            "attributes": {
+                                              "id": "izstv3",
+                                              "data-gjs-template": "blocks\/language.tpl",
+                                              "data-gjs-custom-name": "LANGUAGE",
+                                              "data-gjs-route": "blocks\/language",
+                                              "data-gjs-type": "abantecart-generic-block",
+                                              "data-gjs-page_id": "2",
+                                              "data-gjs-layout_id": "34",
+                                              "data-gjs-custom_block_id": "0"
+                                            },
+                                            "template": "blocks\/language.tpl",
+                                            "custom-name": "LANGUAGE",
+                                            "route": "blocks\/language",
+                                            "page_id": "2",
+                                            "layout_id": "34",
+                                            "custom_block_id": "0",
+                                            "components": [
+                                              {
+                                                "type": "textnode",
+                                                "content": "\n                "
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "abantecart-generic-block",
+                                            "attributes": {
+                                              "id": "iq8p72",
+                                              "data-gjs-template": "blocks\/search_top.tpl",
+                                              "data-gjs-custom-name": "SEARCH",
+                                              "data-gjs-route": "blocks\/search",
+                                              "data-gjs-type": "abantecart-generic-block",
+                                              "data-gjs-page_id": "2",
+                                              "data-gjs-layout_id": "34",
+                                              "data-gjs-custom_block_id": "0"
+                                            },
+                                            "template": "blocks\/search_top.tpl",
+                                            "custom-name": "SEARCH",
+                                            "route": "blocks\/search",
+                                            "page_id": "2",
+                                            "layout_id": "34",
+                                            "custom_block_id": "0",
+                                            "components": [
+                                              {
+                                                "type": "textnode",
+                                                "content": "\n                "
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "abantecart-generic-block",
+                                            "attributes": {
+                                              "id": "if0s5b",
+                                              "data-gjs-template": "blocks\/currency.tpl",
+                                              "data-gjs-custom-name": "CURRENCY",
+                                              "data-gjs-route": "blocks\/currency",
+                                              "data-gjs-type": "abantecart-generic-block",
+                                              "data-gjs-page_id": "2",
+                                              "data-gjs-layout_id": "34",
+                                              "data-gjs-custom_block_id": "0"
+                                            },
+                                            "template": "blocks\/currency.tpl",
+                                            "custom-name": "CURRENCY",
+                                            "route": "blocks\/currency",
+                                            "page_id": "2",
+                                            "layout_id": "34",
+                                            "custom_block_id": "0",
+                                            "components": [
+                                              {
+                                                "type": "textnode",
+                                                "content": "\n                "
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "classes": [
+                                              "header-right-block",
+                                              "block_3",
+                                              "d-flex",
+                                              "justify-content-end"
+                                            ],
+                                            "components": [
+                                              {
+                                                "classes": [
+                                                  "cart-top-block"
+                                                ],
+                                                "components": [
+                                                  {
+                                                    "tagName": "ul",
+                                                    "classes": [
+                                                      "nav",
+                                                      "navbar-nav",
+                                                      "topcart"
+                                                    ],
+                                                    "components": [
+                                                      {
+                                                        "tagName": "li",
+                                                        "classes": [
+                                                          "nav-item",
+                                                          "d-none",
+                                                          "d-sm-block",
+                                                          "d-md-none"
+                                                        ],
+                                                        "components": [
+                                                          {
+                                                            "type": "abantecart-generic-block",
+                                                            "attributes": {
+                                                              "id": "iwkka3",
+                                                              "data-gjs-template": "blocks\/cart_top.tpl",
+                                                              "data-gjs-custom-name": "CART",
+                                                              "data-gjs-route": "blocks\/cart",
+                                                              "data-gjs-type": "abantecart-generic-block",
+                                                              "data-gjs-page_id": "2",
+                                                              "data-gjs-layout_id": "34",
+                                                              "data-gjs-custom_block_id": "0"
+                                                            },
+                                                            "template": "blocks\/cart_top.tpl",
+                                                            "custom-name": "CART",
+                                                            "route": "blocks\/cart",
+                                                            "page_id": "2",
+                                                            "layout_id": "34",
+                                                            "custom_block_id": "0",
+                                                            "components": [
+                                                              {
+                                                                "type": "textnode",
+                                                                "content": "\n                        "
+                                                              }
+                                                            ]
+                                                          }
+                                                        ]
+                                                      },
+                                                      {
+                                                        "tagName": "li",
+                                                        "type": "text",
+                                                        "classes": [
+                                                          "nav-item",
+                                                          "dropdown",
+                                                          "d-none",
+                                                          "d-md-block"
+                                                        ],
+                                                        "components": [
+                                                          {
+                                                            "type": "textnode",
+                                                            "content": "\n                      "
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "classes": [
+                                              "header-right-block",
+                                              "block_4",
+                                              "d-flex",
+                                              "justify-content-end"
+                                            ],
+                                            "components": [
+                                              {
+                                                "type": "abantecart-generic-block",
+                                                "attributes": {
+                                                  "id": "ij6m68",
+                                                  "data-gjs-template": "blocks\/cart_top.tpl",
+                                                  "data-gjs-custom-name": "CART",
+                                                  "data-gjs-route": "blocks\/cart",
+                                                  "data-gjs-type": "abantecart-generic-block",
+                                                  "data-gjs-page_id": "2",
+                                                  "data-gjs-layout_id": "34",
+                                                  "data-gjs-custom_block_id": "0"
+                                                },
+                                                "template": "blocks\/cart_top.tpl",
+                                                "custom-name": "CART",
+                                                "route": "blocks\/cart",
+                                                "page_id": "2",
+                                                "layout_id": "34",
+                                                "custom_block_id": "0",
+                                                "components": [
+                                                  {
+                                                    "type": "textnode",
+                                                    "content": "\n                  "
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "classes": [
+                                                  "dropdown",
+                                                  "dropstart",
+                                                  "d-none",
+                                                  "d-md-block"
+                                                ],
+                                                "attributes": {
+                                                  "id": "customer_menu_top"
+                                                },
+                                                "components": [
+                                                  {
+                                                    "type": "link",
+                                                    "classes": [
+                                                      "d-none",
+                                                      "image-link",
+                                                      "d-md-inline-flex",
+                                                      "position-relative",
+                                                      "align-items-center",
+                                                      "justify-content-center",
+                                                      "rounded-circle"
+                                                    ],
+                                                    "attributes": {
+                                                      "title": "Login",
+                                                      "href": "index.php?rt=account\/login",
+                                                      "aria-label": "user link"
+                                                    },
+                                                    "components": [
+                                                      {
+                                                        "tagName": "i",
+                                                        "type": "text",
+                                                        "classes": [
+                                                          "bi",
+                                                          "bi-person"
+                                                        ],
+                                                        "components": [
+                                                          {
+                                                            "type": "textnode",
+                                                            "content": "\n                      "
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "classes": [
+                                              "header-right-block",
+                                              "block_5",
+                                              "d-flex",
+                                              "justify-content-end"
+                                            ],
+                                            "components": [
+                                              {
+                                                "classes": [
+                                                  "d-block",
+                                                  "d-lg-none"
+                                                ],
+                                                "components": [
+                                                  {
+                                                    "type": "link",
+                                                    "classes": [
+                                                      "mob-nav-btn",
+                                                      "menu-icon",
+                                                      "bg-transparent",
+                                                      "text-primary"
+                                                    ],
+                                                    "attributes": {
+                                                      "data-bs-toggle": "offcanvas",
+                                                      "href": "#menuoffcanvas",
+                                                      "role": "button",
+                                                      "aria-controls": "menuoffcanvas"
+                                                    },
+                                                    "components": [
+                                                      {
+                                                        "tagName": "i",
+                                                        "type": "text",
+                                                        "classes": [
+                                                          "bi",
+                                                          "bi-justify"
+                                                        ],
+                                                        "components": [
+                                                          {
+                                                            "type": "textnode",
+                                                            "content": "\n                      "
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "classes": [
+                          "offcanvas",
+                          "menu-offcanvas",
+                          "offcanvas-end"
+                        ],
+                        "attributes": {
+                          "id": "menuoffcanvas",
+                          "tabindex": "-1",
+                          "aria-labelledby": "menuoffcanvasLabel",
+                          "role": "dialog",
+                          "aria-modal": "true"
+                        },
+                        "components": [
+                          {
+                            "classes": [
+                              "offcanvas-body"
+                            ],
+                            "components": [
+                              {
+                                "classes": [
+                                  "menu-top-btn",
+                                  "d-flex",
+                                  "justify-content-between",
+                                  "align-items-center"
+                                ],
+                                "components": [
+                                  {
+                                    "tagName": "button",
+                                    "classes": [
+                                      "btn",
+                                      "btn-danger",
+                                      "btn-icon"
+                                    ],
+                                    "attributes": {
+                                      "type": "button",
+                                      "data-bs-dismiss": "offcanvas",
+                                      "aria-label": "Close"
+                                    },
+                                    "components": [
+                                      {
+                                        "tagName": "i",
+                                        "type": "text",
+                                        "classes": [
+                                          "bi",
+                                          "bi-x"
+                                        ],
+                                        "components": [
+                                          {
+                                            "type": "textnode",
+                                            "content": "\n              "
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "link",
+                                    "classes": [
+                                      "btn",
+                                      "btn-primary",
+                                      "image-link",
+                                      "ms-3",
+                                      "me-2"
+                                    ],
+                                    "attributes": {
+                                      "data-bs-toggle": "offcanvas",
+                                      "href": "#cartoffcanvas",
+                                      "role": "button",
+                                      "aria-controls": "cartoffcanvas",
+                                      "aria-label": "cart link"
+                                    },
+                                    "components": [
+                                      {
+                                        "tagName": "i",
+                                        "type": "text",
+                                        "classes": [
+                                          "bi",
+                                          "bi-cart3",
+                                          "me-2"
+                                        ],
+                                        "components": [
+                                          {
+                                            "type": "textnode",
+                                            "content": "\n              "
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "textnode",
+                                        "content": "Cart            "
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "link",
+                                    "classes": [
+                                      "btn",
+                                      "btn-primary"
+                                    ],
+                                    "attributes": {
+                                      "href": "index.php?rt=account\/account"
+                                    },
+                                    "components": [
+                                      {
+                                        "tagName": "i",
+                                        "type": "text",
+                                        "classes": [
+                                          "bi",
+                                          "bi-person",
+                                          "me-2"
+                                        ],
+                                        "components": [
+                                          {
+                                            "type": "textnode",
+                                            "content": "\n              "
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "textnode",
+                                        "content": "\n              Account            "
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "link",
+                                    "classes": [
+                                      "theme-change"
+                                    ],
+                                    "attributes": {
+                                      "id": "theme-switcher"
+                                    },
+                                    "components": [
+                                      {
+                                        "tagName": "i",
+                                        "type": "text",
+                                        "classes": [
+                                          "bi",
+                                          "bi-sun-fill",
+                                          "icon-dark"
+                                        ],
+                                        "components": [
+                                          {
+                                            "type": "textnode",
+                                            "content": "\n              "
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "textnode",
+                                        "content": " "
+                                      },
+                                      {
+                                        "tagName": "i",
+                                        "type": "text",
+                                        "classes": [
+                                          "bi",
+                                          "bi-moon-stars-fill",
+                                          "icon-light"
+                                        ],
+                                        "components": [
+                                          {
+                                            "type": "textnode",
+                                            "content": "\n              "
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "classes": [
+                              "scroll-div"
+                            ],
+                            "components": [
+                              {
+                                "classes": [
+                                  "offcanvas-body"
+                                ],
+                                "components": [
+                                  {
+                                    "classes": [
+                                      "accordion",
+                                      "accordion-flush"
+                                    ],
+                                    "attributes": {
+                                      "id": "accordionFlushExample"
+                                    },
+                                    "components": [
+                                      {
+                                        "classes": [
+                                          "accordion-item"
+                                        ],
+                                        "components": [
+                                          {
+                                            "tagName": "h2",
+                                            "classes": [
+                                              "accordion-header"
+                                            ],
+                                            "components": [
+                                              {
+                                                "tagName": "button",
+                                                "type": "text",
+                                                "classes": [
+                                                  "accordion-button",
+                                                  "collapsed",
+                                                  "fw-bold"
+                                                ],
+                                                "attributes": {
+                                                  "type": "button",
+                                                  "data-bs-toggle": "collapse",
+                                                  "data-bs-target": "#mob-menu-collapseOne",
+                                                  "aria-expanded": "false",
+                                                  "aria-controls": "mob-menu-collapseOne"
+                                                },
+                                                "components": [
+                                                  {
+                                                    "type": "textnode",
+                                                    "content": "Home                        "
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "classes": [
+                                              "accordion-collapse",
+                                              "collapse"
+                                            ],
+                                            "attributes": {
+                                              "id": "mob-menu-collapseOne",
+                                              "data-bs-parent": "#accordionFlushExample"
+                                            },
+                                            "components": [
+                                              {
+                                                "classes": [
+                                                  "accordion-body",
+                                                  "px-0"
+                                                ],
+                                                "components": [
+                                                  {
+                                                    "classes": [
+                                                      "list-group",
+                                                      "list-group-flush"
+                                                    ],
+                                                    "components": [
+                                                      {
+                                                        "type": "link",
+                                                        "classes": [
+                                                          "list-group-item",
+                                                          "list-group-item-action",
+                                                          "border-0"
+                                                        ],
+                                                        "attributes": {
+                                                          "href": "index.php?rt=product\/category&path=68"
+                                                        },
+                                                        "components": [
+                                                          {
+                                                            "type": "textnode",
+                                                            "content": "Apparel & accessories"
+                                                          }
+                                                        ]
+                                                      },
+                                                      {
+                                                        "type": "link",
+                                                        "classes": [
+                                                          "list-group-item",
+                                                          "list-group-item-action",
+                                                          "border-0"
+                                                        ],
+                                                        "attributes": {
+                                                          "href": "index.php?rt=product\/category&path=36"
+                                                        },
+                                                        "components": [
+                                                          {
+                                                            "type": "textnode",
+                                                            "content": "Makeup"
+                                                          }
+                                                        ]
+                                                      },
+                                                      {
+                                                        "type": "link",
+                                                        "classes": [
+                                                          "list-group-item",
+                                                          "list-group-item-action",
+                                                          "border-0"
+                                                        ],
+                                                        "attributes": {
+                                                          "href": "index.php?rt=product\/category&path=43"
+                                                        },
+                                                        "components": [
+                                                          {
+                                                            "type": "textnode",
+                                                            "content": "Skincare"
+                                                          }
+                                                        ]
+                                                      },
+                                                      {
+                                                        "type": "link",
+                                                        "classes": [
+                                                          "list-group-item",
+                                                          "list-group-item-action",
+                                                          "border-0"
+                                                        ],
+                                                        "attributes": {
+                                                          "href": "index.php?rt=product\/category&path=49"
+                                                        },
+                                                        "components": [
+                                                          {
+                                                            "type": "textnode",
+                                                            "content": "Fragrance"
+                                                          }
+                                                        ]
+                                                      },
+                                                      {
+                                                        "type": "link",
+                                                        "classes": [
+                                                          "list-group-item",
+                                                          "list-group-item-action",
+                                                          "border-0"
+                                                        ],
+                                                        "attributes": {
+                                                          "href": "index.php?rt=product\/category&path=58"
+                                                        },
+                                                        "components": [
+                                                          {
+                                                            "type": "textnode",
+                                                            "content": "Men"
+                                                          }
+                                                        ]
+                                                      },
+                                                      {
+                                                        "type": "link",
+                                                        "classes": [
+                                                          "list-group-item",
+                                                          "list-group-item-action",
+                                                          "border-0"
+                                                        ],
+                                                        "attributes": {
+                                                          "href": "index.php?rt=product\/category&path=52"
+                                                        },
+                                                        "components": [
+                                                          {
+                                                            "type": "textnode",
+                                                            "content": "Hair Care"
+                                                          }
+                                                        ]
+                                                      },
+                                                      {
+                                                        "type": "link",
+                                                        "classes": [
+                                                          "list-group-item",
+                                                          "list-group-item-action",
+                                                          "border-0"
+                                                        ],
+                                                        "attributes": {
+                                                          "href": "index.php?rt=product\/category&path=65"
+                                                        },
+                                                        "components": [
+                                                          {
+                                                            "type": "textnode",
+                                                            "content": "Books"
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "classes": [
+                                          "accordion-item"
+                                        ],
+                                        "components": [
+                                          {
+                                            "tagName": "h2",
+                                            "classes": [
+                                              "accordion-header"
+                                            ],
+                                            "components": [
+                                              {
+                                                "type": "link",
+                                                "classes": [
+                                                  "accordion-button",
+                                                  "collapsed",
+                                                  "no-icon"
+                                                ],
+                                                "attributes": {
+                                                  "href": "index.php?rt=product\/special"
+                                                },
+                                                "components": [
+                                                  {
+                                                    "type": "textnode",
+                                                    "content": "Special Offers                        "
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "classes": [
+                                          "accordion-item"
+                                        ],
+                                        "components": [
+                                          {
+                                            "tagName": "h2",
+                                            "classes": [
+                                              "accordion-header"
+                                            ],
+                                            "components": [
+                                              {
+                                                "type": "link",
+                                                "classes": [
+                                                  "accordion-button",
+                                                  "collapsed",
+                                                  "no-icon"
+                                                ],
+                                                "attributes": {
+                                                  "href": "index.php?rt=account\/history"
+                                                },
+                                                "components": [
+                                                  {
+                                                    "type": "textnode",
+                                                    "content": "\n                    My Order History                        "
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "classes": [
+                                  "offcanvas-body",
+                                  "border-top",
+                                  "border-bottom"
+                                ],
+                                "components": [
+                                  {
+                                    "tagName": "h5",
+                                    "type": "text",
+                                    "classes": [
+                                      "ms-4"
+                                    ],
+                                    "components": [
+                                      {
+                                        "type": "textnode",
+                                        "content": "Information\n            "
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "classes": [
+                                      "list-group",
+                                      "list-group-flush",
+                                      "mt-4"
+                                    ],
+                                    "components": [
+                                      {
+                                        "type": "link",
+                                        "classes": [
+                                          "list-group-item",
+                                          "list-group-item-action",
+                                          "border-0"
+                                        ],
+                                        "attributes": {
+                                          "href": "index.php?rt=content\/content&content_id=1"
+                                        },
+                                        "components": [
+                                          {
+                                            "type": "textnode",
+                                            "content": "About Us"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "link",
+                                        "classes": [
+                                          "list-group-item",
+                                          "list-group-item-action",
+                                          "border-0"
+                                        ],
+                                        "attributes": {
+                                          "href": "index.php?rt=content\/content&content_id=2"
+                                        },
+                                        "components": [
+                                          {
+                                            "type": "textnode",
+                                            "content": "Privacy Policy"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "link",
+                                        "classes": [
+                                          "list-group-item",
+                                          "list-group-item-action",
+                                          "border-0"
+                                        ],
+                                        "attributes": {
+                                          "href": "index.php?rt=content\/content&content_id=3"
+                                        },
+                                        "components": [
+                                          {
+                                            "type": "textnode",
+                                            "content": "Return Policy"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "link",
+                                        "classes": [
+                                          "list-group-item",
+                                          "list-group-item-action",
+                                          "border-0"
+                                        ],
+                                        "attributes": {
+                                          "href": "index.php?rt=content\/content&content_id=4"
+                                        },
+                                        "components": [
+                                          {
+                                            "type": "textnode",
+                                            "content": "Shipping"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "classes": [
+                                  "offcanvas-body"
+                                ],
+                                "components": [
+                                  {
+                                    "type": "text",
+                                    "classes": [
+                                      "btn-group",
+                                      "me-2"
+                                    ],
+                                    "components": [
+                                      {
+                                        "type": "textnode",
+                                        "content": "\n            "
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "classes": [
+                                      "btn-group"
+                                    ],
+                                    "components": [
+                                      {
+                                        "classes": [
+                                          "btn-group",
+                                          "d-none",
+                                          "d-lg-block",
+                                          "me-2"
+                                        ],
+                                        "components": [
+                                          {
+                                            "tagName": "button",
+                                            "classes": [
+                                              "btn",
+                                              "dropdown-toggle",
+                                              "arrow-none",
+                                              "bg-transparent",
+                                              "shadow-none"
+                                            ],
+                                            "attributes": {
+                                              "type": "button",
+                                              "data-bs-toggle": "dropdown",
+                                              "aria-expanded": "false"
+                                            },
+                                            "components": [
+                                              {
+                                                "classes": [
+                                                  "d-flex",
+                                                  "flex-nowrap"
+                                                ],
+                                                "components": [
+                                                  {
+                                                    "tagName": "span",
+                                                    "type": "text",
+                                                    "classes": [
+                                                      "d-none",
+                                                      "d-md-block",
+                                                      "me-2"
+                                                    ],
+                                                    "components": [
+                                                      {
+                                                        "type": "textnode",
+                                                        "content": "$US Dollar"
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "tagName": "i",
+                                                "type": "text",
+                                                "classes": [
+                                                  "bi",
+                                                  "bi-chevron-down"
+                                                ],
+                                                "components": [
+                                                  {
+                                                    "type": "textnode",
+                                                    "content": "\n                  "
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "tagName": "ul",
+                                            "classes": [
+                                              "dropdown-menu"
+                                            ],
+                                            "components": [
+                                              {
+                                                "tagName": "li",
+                                                "components": [
+                                                  {
+                                                    "type": "link",
+                                                    "classes": [
+                                                      "dropdown-item"
+                                                    ],
+                                                    "attributes": {
+                                                      "href": "index.php?rt=index\/home&currency=EUR"
+                                                    },
+                                                    "components": [
+                                                      {
+                                                        "type": "textnode",
+                                                        "content": "Euro"
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "tagName": "li",
+                                                "components": [
+                                                  {
+                                                    "type": "link",
+                                                    "classes": [
+                                                      "dropdown-item"
+                                                    ],
+                                                    "attributes": {
+                                                      "href": "index.php?rt=index\/home&currency=GBP"
+                                                    },
+                                                    "components": [
+                                                      {
+                                                        "type": "textnode",
+                                                        "content": "Pound Sterling"
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "classes": [
+                          "offcanvas",
+                          "cart-offcanvas",
+                          "offcanvas-end"
+                        ],
+                        "attributes": {
+                          "id": "cartoffcanvas",
+                          "tabindex": "-1",
+                          "aria-labelledby": "cartoffcanvasLabel",
+                          "role": "dialog",
+                          "aria-modal": "true"
+                        },
+                        "components": [
+                          {
+                            "classes": [
+                              "offcanvas-header",
+                              "border-bottom"
+                            ],
+                            "components": [
+                              {
+                                "tagName": "button",
+                                "classes": [
+                                  "btn",
+                                  "btn-danger",
+                                  "btn-icon",
+                                  "position-absolute"
+                                ],
+                                "attributes": {
+                                  "type": "button",
+                                  "data-bs-dismiss": "offcanvas",
+                                  "aria-label": "Close"
+                                },
+                                "components": [
+                                  {
+                                    "tagName": "i",
+                                    "type": "text",
+                                    "classes": [
+                                      "bi",
+                                      "bi-x"
+                                    ],
+                                    "components": [
+                                      {
+                                        "type": "textnode",
+                                        "content": "\n            "
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "classes": [
+                                  {
+                                    "name": "row",
+                                    "private": 1
+                                  },
+                                  "w-100",
+                                  "align-items-center",
+                                  "justify-content-between"
+                                ],
+                                "components": [
+                                  {
+                                    "classes": [
+                                      "col-auto"
+                                    ],
+                                    "components": [
+                                      {
+                                        "tagName": "h5",
+                                        "type": "text",
+                                        "classes": [
+                                          "mb-0",
+                                          "ms-3"
+                                        ],
+                                        "components": [
+                                          {
+                                            "type": "textnode",
+                                            "content": "Shopping Cart (\n                "
+                                          },
+                                          {
+                                            "tagName": "span",
+                                            "type": "text",
+                                            "classes": [
+                                              "cart_counter"
+                                            ],
+                                            "components": [
+                                              {
+                                                "type": "textnode",
+                                                "content": "0"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "textnode",
+                                            "content": ")\n              "
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "classes": [
+                              "offcanvas-body"
+                            ],
+                            "components": [
+                              {
+                                "classes": [
+                                  "empty_cart",
+                                  "text-center"
+                                ],
+                                "components": [
+                                  {
+                                    "tagName": "i",
+                                    "type": "text",
+                                    "classes": [
+                                      "bi",
+                                      "bi-shopping-cart"
+                                    ],
+                                    "components": [
+                                      {
+                                        "type": "textnode",
+                                        "content": "0 items\n            "
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "comment",
+                        "content": " Main header section Ends "
+                      },
+                      {
+                        "type": "comment",
+                        "content": " header-bottom-section Starts "
+                      },
+                      {
+                        "classes": [
+                          "header-bottom-section"
+                        ],
+                        "components": [
+                          {
+                            "classes": [
+                              "d-none",
+                              "d-lg-block"
+                            ],
+                            "attributes": {
+                              "id": "category_top_tpl"
+                            },
+                            "components": [
+                              {
+                                "tagName": "nav",
+                                "classes": [
+                                  "navbar",
+                                  "navbar-expand-lg",
+                                  "navbar-light",
+                                  "default",
+                                  "bg-body-alt"
+                                ],
+                                "attributes": {
+                                  "id": "category_top_block"
+                                },
+                                "components": [
+                                  {
+                                    "classes": [
+                                      "container",
+                                      "position-relative"
+                                    ],
+                                    "components": [
+                                      {
+                                        "type": "abantecart-generic-block",
+                                        "classes": [
+                                          "w-100"
+                                        ],
+                                        "attributes": {
+                                          "id": "i4o06e",
+                                          "data-gjs-template": "blocks\/mega_menu_header_bottom.tpl",
+                                          "data-gjs-custom-name": "MEGA MENU HEADER",
+                                          "data-gjs-route": "blocks\/mega_menu",
+                                          "data-gjs-type": "abantecart-generic-block",
+                                          "data-gjs-page_id": "2",
+                                          "data-gjs-layout_id": "34",
+                                          "data-gjs-custom_block_id": "0"
+                                        },
+                                        "template": "blocks\/mega_menu_header_bottom.tpl",
+                                        "custom-name": "MEGA MENU HEADER",
+                                        "route": "blocks\/mega_menu",
+                                        "page_id": "2",
+                                        "layout_id": "34",
+                                        "custom_block_id": "0",
+                                        "components": [
+                                          {
+                                            "type": "textnode",
+                                            "content": "\n              "
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "abantecart-static-block",
+                            "attributes": {
+                              "id": "ixy95w",
+                              "data-gjs-template": "blocks\/html_block_header.tpl",
+                              "data-gjs-custom-name": "NOVATOR MAIN PAGE CAROUSEL",
+                              "data-gjs-route": "blocks\/html_block",
+                              "data-gjs-type": "abantecart-static-block",
+                              "data-gjs-page_id": "2",
+                              "data-gjs-layout_id": "34",
+                              "data-gjs-custom_block_id": "28"
+                            },
+                            "template": "blocks\/html_block_header.tpl",
+                            "custom-name": "NOVATOR MAIN PAGE CAROUSEL",
+                            "route": "blocks\/html_block",
+                            "page_id": "2",
+                            "layout_id": "34",
+                            "custom_block_id": "28",
+                            "components": [
+                              {
+                                "type": "textnode",
+                                "content": "\n        "
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "comment",
+                        "content": " header-bottom-section Ends "
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "comment",
+                "content": " header section Ends "
+              },
+              {
+                "classes": [
+                  "top-section",
+                  "mb-3"
+                ],
+                "attributes": {
+                  "id": "maincontainer"
+                },
+                "components": [
+                  {
+                    "classes": [
+                      "container"
+                    ],
+                    "components": [
+                      {
+                        "classes": [
+                          {
+                            "name": "row",
+                            "private": 1
+                          },
+                          "align-items-stretch",
+                          "align-self-stretch",
+                          "justify-content-center"
+                        ],
+                        "components": [
+                          {
+                            "classes": [
+                              "page-main-content",
+                              "flex-grow-1",
+                              "col-12",
+                              "col-lg-12"
+                            ],
+                            "components": [
+                              {
+                                "type": "comment",
+                                "content": " content-main-section Starts "
+                              },
+                              {
+                                "type": "abantecart-main-content-area",
+                                "attributes": {
+                                  "id": "ixlkma",
+                                  "data-gjs-route": "pages\/index\/home",
+                                  "data-gjs-type": "abantecart-main-content-area",
+                                  "data-gjs-page_id": "2",
+                                  "data-gjs-layout_id": "34"
+                                },
+                                "route": "pages\/index\/home",
+                                "page_id": "2",
+                                "layout_id": "34",
+                                "components": [
+                                  {
+                                    "type": "textnode",
+                                    "content": "\n          "
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "text",
+                                "classes": [
+                                  "content-main-section"
+                                ],
+                                "components": [
+                                  {
+                                    "type": "textnode",
+                                    "content": "\n          "
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "comment",
+                                "content": " content-main-section Ends (EOF) "
+                              },
+                              {
+                                "type": "comment",
+                                "content": " content-bottom-section Starts "
+                              },
+                              {
+                                "classes": [
+                                  "content-bottom-section"
+                                ],
+                                "components": [
+                                  {
+                                    "type": "abantecart-static-block",
+                                    "attributes": {
+                                      "id": "ilf6dk",
+                                      "data-gjs-template": "blocks\/html_block_content.tpl",
+                                      "data-gjs-custom-name": "NOVATOR ICON BLOCK",
+                                      "data-gjs-route": "blocks\/html_block",
+                                      "data-gjs-type": "abantecart-static-block",
+                                      "data-gjs-page_id": "2",
+                                      "data-gjs-layout_id": "34",
+                                      "data-gjs-custom_block_id": "29"
+                                    },
+                                    "template": "blocks\/html_block_content.tpl",
+                                    "custom-name": "NOVATOR ICON BLOCK",
+                                    "route": "blocks\/html_block",
+                                    "page_id": "2",
+                                    "layout_id": "34",
+                                    "custom_block_id": "29",
+                                    "components": [
+                                      {
+                                        "type": "textnode",
+                                        "content": "\n            "
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "abantecart-generic-block",
+                                    "attributes": {
+                                      "id": "iiha3rg",
+                                      "data-gjs-template": "blocks\/latest_home.tpl",
+                                      "data-gjs-custom-name": "LATEST",
+                                      "data-gjs-route": "blocks\/latest",
+                                      "data-gjs-type": "abantecart-generic-block",
+                                      "data-gjs-page_id": "1",
+                                      "data-gjs-layout_id": "33",
+                                      "data-gjs-custom_block_id": "0"
+                                    },
+                                    "template": "blocks\/latest_home.tpl",
+                                    "custom-name": "LATEST",
+                                    "route": "blocks\/latest",
+                                    "page_id": "1",
+                                    "layout_id": "33",
+                                    "custom_block_id": "0",
+                                    "components": [
+                                      {
+                                        "type": "textnode",
+                                        "content": "\n            "
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "abantecart-generic-block",
+                                    "attributes": {
+                                      "id": "iqvyu57",
+                                      "data-gjs-template": "blocks\/featured_home.tpl",
+                                      "data-gjs-custom-name": "FEATURED",
+                                      "data-gjs-route": "blocks\/featured",
+                                      "data-gjs-type": "abantecart-generic-block",
+                                      "data-gjs-page_id": "1",
+                                      "data-gjs-layout_id": "33",
+                                      "data-gjs-custom_block_id": "0"
+                                    },
+                                    "template": "blocks\/featured_home.tpl",
+                                    "custom-name": "FEATURED",
+                                    "route": "blocks\/featured",
+                                    "page_id": "1",
+                                    "layout_id": "33",
+                                    "custom_block_id": "0",
+                                    "components": [
+                                      {
+                                        "type": "textnode",
+                                        "content": "\n            "
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "abantecart-generic-block",
+                                    "attributes": {
+                                      "id": "i0nn25j",
+                                      "data-gjs-template": "blocks\/bestseller_home.tpl",
+                                      "data-gjs-custom-name": "BESTSELLERS",
+                                      "data-gjs-route": "blocks\/bestseller",
+                                      "data-gjs-type": "abantecart-generic-block",
+                                      "data-gjs-page_id": "1",
+                                      "data-gjs-layout_id": "33",
+                                      "data-gjs-custom_block_id": "0"
+                                    },
+                                    "template": "blocks\/bestseller_home.tpl",
+                                    "custom-name": "BESTSELLERS",
+                                    "route": "blocks\/bestseller",
+                                    "page_id": "1",
+                                    "layout_id": "33",
+                                    "custom_block_id": "0",
+                                    "components": [
+                                      {
+                                        "type": "textnode",
+                                        "content": "\n            "
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "abantecart-generic-block",
+                                    "attributes": {
+                                      "id": "iui5lqh",
+                                      "data-gjs-template": "blocks\/special_home.tpl",
+                                      "data-gjs-custom-name": "SPECIAL",
+                                      "data-gjs-route": "blocks\/special",
+                                      "data-gjs-type": "abantecart-generic-block",
+                                      "data-gjs-page_id": "1",
+                                      "data-gjs-layout_id": "33",
+                                      "data-gjs-custom_block_id": "0"
+                                    },
+                                    "template": "blocks\/special_home.tpl",
+                                    "custom-name": "SPECIAL",
+                                    "route": "blocks\/special",
+                                    "page_id": "1",
+                                    "layout_id": "33",
+                                    "custom_block_id": "0",
+                                    "components": [
+                                      {
+                                        "type": "textnode",
+                                        "content": "\n            "
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "comment",
+                                    "content": " style=\"width: px; height: px; \" "
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "comment",
+                                "content": " content-bottom-section Ends (EOF) "
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "abantecart-static-block",
+                "attributes": {
+                  "id": "ittt5j",
+                  "data-gjs-template": "blocks\/html_block_content.tpl",
+                  "data-gjs-custom-name": "NOVATOR MAKING COMMERCE",
+                  "data-gjs-route": "blocks\/html_block",
+                  "data-gjs-type": "abantecart-static-block",
+                  "data-gjs-page_id": "2",
+                  "data-gjs-layout_id": "34",
+                  "data-gjs-custom_block_id": "31"
+                },
+                "template": "blocks\/html_block_content.tpl",
+                "custom-name": "NOVATOR MAKING COMMERCE",
+                "route": "blocks\/html_block",
+                "page_id": "2",
+                "layout_id": "34",
+                "custom_block_id": "31",
+                "components": [
+                  {
+                    "type": "textnode",
+                    "content": "\n            "
+                  }
+                ]
+              },
+              {
+                "type": "abantecart-static-block",
+                "attributes": {
+                  "id": "ircn7l",
+                  "data-gjs-template": "blocks\/html_block_header.tpl",
+                  "data-gjs-custom-name": "NOVATOR SEE OUR MOST FEATURED PRODUCT",
+                  "data-gjs-route": "blocks\/html_block",
+                  "data-gjs-type": "abantecart-static-block",
+                  "data-gjs-page_id": "2",
+                  "data-gjs-layout_id": "34",
+                  "data-gjs-custom_block_id": "32"
+                },
+                "template": "blocks\/html_block_header.tpl",
+                "custom-name": "NOVATOR SEE OUR MOST FEATURED PRODUCT",
+                "route": "blocks\/html_block",
+                "page_id": "2",
+                "layout_id": "34",
+                "custom_block_id": "32",
+                "components": [
+                  {
+                    "type": "textnode",
+                    "content": "\n            "
+                  }
+                ]
+              },
+              {
+                "type": "abantecart-listing-block",
+                "attributes": {
+                  "id": "i86un73",
+                  "data-gjs-template": "blocks\/listing_block\/popular_brands_content_bottom.tpl",
+                  "data-gjs-custom-name": "NOVATOR BRANDS SCROLLING LIST",
+                  "data-gjs-route": "blocks\/listing_block",
+                  "data-gjs-type": "abantecart-listing-block",
+                  "data-gjs-page_id": "1",
+                  "data-gjs-layout_id": "33",
+                  "data-gjs-custom_block_id": "33"
+                },
+                "template": "blocks\/listing_block\/popular_brands_content_bottom.tpl",
+                "custom-name": "NOVATOR BRANDS SCROLLING LIST",
+                "route": "blocks\/listing_block",
+                "page_id": "1",
+                "layout_id": "33",
+                "custom_block_id": "33",
+                "components": [
+                  {
+                    "type": "textnode",
+                    "content": "\n  "
+                  }
+                ]
+              },
+              {
+                "type": "abantecart-static-block",
+                "attributes": {
+                  "id": "i9mpxn",
+                  "data-gjs-template": "blocks\/html_block_header.tpl",
+                  "data-gjs-custom-name": "NOVATOR TESTIMONIALS",
+                  "data-gjs-route": "blocks\/html_block",
+                  "data-gjs-type": "abantecart-static-block",
+                  "data-gjs-page_id": "2",
+                  "data-gjs-layout_id": "34",
+                  "data-gjs-custom_block_id": "34"
+                },
+                "custom-name": "NOVATOR TESTIMONIALS",
+                "route": "blocks\/html_block",
+                "layout_id": "34",
+                "page_id": "2",
+                "custom_block_id": "34",
+                "template": "blocks\/html_block_header.tpl",
+                "components": [
+                  {
+                    "type": "textnode",
+                    "content": "\n  "
+                  }
+                ]
+              },
+              {
+                "tagName": "footer",
+                "classes": [
+                  "footer",
+                  "p-0"
+                ],
+                "components": [
+                  {
+                    "type": "comment",
+                    "content": " footer top section Starts "
+                  },
+                  {
+                    "classes": [
+                      "footer-top",
+                      "mt-5"
+                    ],
+                    "components": [
+                      {
+                        "classes": [
+                          "newsletter-block",
+                          "pt-4"
+                        ],
+                        "attributes": {
+                          "id": "newslettersignup"
+                        },
+                        "components": [
+                          {
+                            "classes": [
+                              "container"
+                            ],
+                            "components": [
+                              {
+                                "classes": [
+                                  {
+                                    "name": "row",
+                                    "private": 1
+                                  },
+                                  "justify-content-center"
+                                ],
+                                "components": [
+                                  {
+                                    "type": "abantecart-generic-block",
+                                    "attributes": {
+                                      "id": "ihf1v2",
+                                      "data-gjs-template": "blocks\/newsletter_signup_footer_top.tpl",
+                                      "data-gjs-custom-name": "NEWSLETTER SIGNUP",
+                                      "data-gjs-route": "blocks\/newsletter_signup",
+                                      "data-gjs-type": "abantecart-generic-block",
+                                      "data-gjs-page_id": "2",
+                                      "data-gjs-layout_id": "34",
+                                      "data-gjs-custom_block_id": "0"
+                                    },
+                                    "custom-name": "NEWSLETTER SIGNUP",
+                                    "route": "blocks\/newsletter_signup",
+                                    "layout_id": "34",
+                                    "page_id": "2",
+                                    "custom_block_id": "0",
+                                    "template": "blocks\/newsletter_signup_footer_top.tpl",
+                                    "components": [
+                                      {
+                                        "type": "textnode",
+                                        "content": "\n            "
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "comment",
+                    "content": " footer top section Ends "
+                  },
+                  {
+                    "type": "comment",
+                    "content": " footer bottom section Starts "
+                  },
+                  {
+                    "classes": [
+                      "footer-bottom"
+                    ],
+                    "components": [
+                      {
+                        "type": "comment",
+                        "content": " footer bottom starts "
+                      },
+                      {
+                        "classes": [
+                          "container"
+                        ],
+                        "components": [
+                          {
+                            "classes": [
+                              {
+                                "name": "row",
+                                "private": 1
+                              }
+                            ],
+                            "components": [
+                              {
+                                "classes": [
+                                  "col-md-3"
+                                ],
+                                "components": [
+                                  {
+                                    "type": "abantecart-static-block",
+                                    "attributes": {
+                                      "id": "id887o",
+                                      "data-gjs-template": "blocks\/html_block_header.tpl",
+                                      "data-gjs-custom-name": "NOVATOR ABOUT US",
+                                      "data-gjs-route": "blocks\/html_block",
+                                      "data-gjs-type": "abantecart-static-block",
+                                      "data-gjs-page_id": "2",
+                                      "data-gjs-layout_id": "34",
+                                      "data-gjs-custom_block_id": "25"
+                                    },
+                                    "custom-name": "NOVATOR ABOUT US",
+                                    "route": "blocks\/html_block",
+                                    "layout_id": "34",
+                                    "page_id": "2",
+                                    "custom_block_id": "25",
+                                    "template": "blocks\/html_block_header.tpl",
+                                    "components": [
+                                      {
+                                        "type": "textnode",
+                                        "content": "\n            "
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "classes": [
+                                  "col-md-6"
+                                ],
+                                "components": [
+                                  {
+                                    "classes": [
+                                      "footer-main-links",
+                                      {
+                                        "name": "row",
+                                        "private": 1
+                                      }
+                                    ],
+                                    "components": [
+                                      {
+                                        "type": "abantecart-static-block",
+                                        "attributes": {
+                                          "id": "iyo7sq",
+                                          "data-gjs-template": "blocks\/html_block_content.tpl",
+                                          "data-gjs-custom-name": "NOVATOR FOOTER LINK BLOCK MAIN",
+                                          "data-gjs-route": "blocks\/html_block",
+                                          "data-gjs-type": "abantecart-static-block",
+                                          "data-gjs-page_id": "2",
+                                          "data-gjs-layout_id": "34",
+                                          "data-gjs-custom_block_id": "26"
+                                        },
+                                        "custom-name": "NOVATOR FOOTER LINK BLOCK MAIN",
+                                        "route": "blocks\/html_block",
+                                        "layout_id": "34",
+                                        "page_id": "2",
+                                        "custom_block_id": "26",
+                                        "template": "blocks\/html_block_content.tpl",
+                                        "components": [
+                                          {
+                                            "type": "textnode",
+                                            "content": "\n              "
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "classes": [
+                                  "col-md-3"
+                                ],
+                                "components": [
+                                  {
+                                    "type": "abantecart-static-block",
+                                    "attributes": {
+                                      "id": "ieuuzu",
+                                      "data-gjs-template": "blocks\/html_block_footer.tpl",
+                                      "data-gjs-custom-name": "NOVATOR CONTACT US",
+                                      "data-gjs-route": "blocks\/html_block",
+                                      "data-gjs-type": "abantecart-static-block",
+                                      "data-gjs-page_id": "2",
+                                      "data-gjs-layout_id": "34",
+                                      "data-gjs-custom_block_id": "27"
+                                    },
+                                    "custom-name": "NOVATOR CONTACT US",
+                                    "route": "blocks\/html_block",
+                                    "layout_id": "34",
+                                    "page_id": "2",
+                                    "custom_block_id": "27",
+                                    "template": "blocks\/html_block_footer.tpl",
+                                    "components": [
+                                      {
+                                        "type": "textnode",
+                                        "content": "\n            "
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "classes": [
+                              {
+                                "name": "row",
+                                "private": 1
+                              },
+                              "mt-4",
+                              "bottom-footer-block"
+                            ],
+                            "components": [
+                              {
+                                "type": "abantecart-generic-block",
+                                "attributes": {
+                                  "id": "ivk3r2",
+                                  "data-gjs-template": "blocks\/content_footer.tpl",
+                                  "data-gjs-custom-name": "CONTENT",
+                                  "data-gjs-route": "blocks\/content",
+                                  "data-gjs-type": "abantecart-generic-block",
+                                  "data-gjs-page_id": "2",
+                                  "data-gjs-layout_id": "34",
+                                  "data-gjs-custom_block_id": "0"
+                                },
+                                "custom-name": "CONTENT",
+                                "route": "blocks\/content",
+                                "layout_id": "34",
+                                "page_id": "2",
+                                "custom_block_id": "0",
+                                "template": "blocks\/content_footer.tpl",
+                                "components": [
+                                  {
+                                    "type": "textnode",
+                                    "content": "\n          "
+                                  }
+                                ]
+                              },
+                              {
+                                "classes": [
+                                  "col-lg-8"
+                                ],
+                                "components": [
+                                  {
+                                    "type": "text",
+                                    "classes": [
+                                      "w-100",
+                                      "d-flex",
+                                      "text-white",
+                                      "text-opacity-75",
+                                      "my-4",
+                                      "flex-nowrap"
+                                    ],
+                                    "components": [
+                                      {
+                                        "type": "textnode",
+                                        "content": "Powered By \u00a0\n              "
+                                      },
+                                      {
+                                        "type": "link",
+                                        "attributes": {
+                                          "href": "https:\/\/www.abantecart.com",
+                                          "target": "_blank",
+                                          "title": "Ideal OpenSource E-commerce Solution"
+                                        },
+                                        "components": [
+                                          {
+                                            "type": "textnode",
+                                            "content": "AbanteCart"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "tagName": "p",
+                                    "type": "text",
+                                    "classes": [
+                                      "left",
+                                      "text-white",
+                                      "text-opacity-75",
+                                      "mb-3"
+                                    ],
+                                    "components": [
+                                      {
+                                        "type": "textnode",
+                                        "content": " Web Store Name \u00a9 2024\n            "
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "comment",
+                        "content": " footer bottom ends "
+                      },
+                      {
+                        "classes": [
+                          "modal",
+                          "fade"
+                        ],
+                        "attributes": {
+                          "id": "msgModal"
+                        },
+                        "components": [
+                          {
+                            "classes": [
+                              "modal-dialog"
+                            ],
+                            "components": [
+                              {
+                                "classes": [
+                                  "modal-content"
+                                ],
+                                "components": [
+                                  {
+                                    "classes": [
+                                      "modal-header"
+                                    ],
+                                    "components": [
+                                      {
+                                        "tagName": "button",
+                                        "type": "text",
+                                        "classes": [
+                                          "close",
+                                          "callback-btn"
+                                        ],
+                                        "attributes": {
+                                          "type": "button",
+                                          "data-dismiss": "modal",
+                                          "aria-hidden": "true"
+                                        },
+                                        "components": [
+                                          {
+                                            "type": "textnode",
+                                            "content": "\u00d7"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "tagName": "h3",
+                                        "type": "text",
+                                        "classes": [
+                                          "hidden"
+                                        ],
+                                        "components": [
+                                          {
+                                            "type": "textnode",
+                                            "content": "\u00a0\n              "
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "text",
+                                    "classes": [
+                                      "modal-body"
+                                    ],
+                                    "components": [
+                                      {
+                                        "type": "textnode",
+                                        "content": "\n            "
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "comment",
+                    "content": " footer bottom section Ends "
+                  }
+                ]
+              },
+              {
+                "type": "link",
+                "classes": [
+                  "fs-6",
+                  "go-top"
+                ],
+                "attributes": {
+                  "id": "gotop",
+                  "href": "#",
+                  "title": "Back to top"
+                },
+                "components": [
+                  {
+                    "tagName": "i",
+                    "type": "text",
+                    "classes": [
+                      "fa-solid",
+                      "fa-circle-chevron-up",
+                      "fa-3x"
+                    ],
+                    "components": [
+                      {
+                        "type": "textnode",
+                        "content": "\n    "
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "comment",
+                "content": "\nAbanteCart is open source software and you are free to remove the Powered By AbanteCart if you want, but its generally accepted practise to make a small donation.\nPlease donate http:\/\/www.abantecart.com\/donate\n\/\/"
+              }
+            ],
+            "head": {
+              "type": "head"
+            },
+            "docEl": {
+              "tagName": "html"
+            }
+          },
+          "id": "MxGgI0rHmuOq3ZuG"
+        }
+      ],
+      "id": "flKXM1Uls5FKpU6p"
+    }
+  ],
+  "symbols": [],
+  "pageHtml": [
+    {
+      "html": "<body id=\"ix9k\"><meta charset=\"UTF-8\"\/><title>Your Store Test\n  <\/title><meta name=\"keywords\" content=\"keyword1,keyword2,keyword3\"\/><meta name=\"description\" content=\"Web Store Meta Description\"\/><meta name=\"generator\" content=\"AbanteCart v1.4.1 - Open Source eCommerce solution\"\/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"\/><base href=\"\"\/><link href=\"resources\/image\/18\/73\/4.png\" type=\"image\/png\" rel=\"icon\"\/><link href=\"extensions\/novator\/storefront\/view\/novator\/image\/apple-touch-icon.png\" rel=\"apple-touch-icon\"\/><link href=\"extensions\/novator\/storefront\/view\/novator\/image\/apple-touch-icon-76x76.png\" rel=\"apple-touch-icon\" sizes=\"76x76\"\/><link href=\"extensions\/novator\/storefront\/view\/novator\/image\/apple-touch-icon-120x120.png\" rel=\"apple-touch-icon\" sizes=\"120x120\"\/><link href=\"extensions\/novator\/storefront\/view\/novator\/image\/apple-touch-icon-152x152.png\" rel=\"apple-touch-icon\" sizes=\"152x152\"\/><link href=\"extensions\/novator\/storefront\/view\/novator\/image\/icon-192x192.png\" rel=\"apple-touch-icon\" sizes=\"192x192\"\/><link rel=\"stylesheet\" href=\"\/\/cdnjs.cloudflare.com\/ajax\/libs\/bootstrap\/5.3.3\/css\/bootstrap.min.css\" integrity=\"sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==\" crossorigin=\"anonymous\" referrerpolicy=\"no-referrer\"\/><link rel=\"stylesheet\" href=\"\/\/cdnjs.cloudflare.com\/ajax\/libs\/bootstrap\/5.3.3\/css\/bootstrap-grid.min.css\" integrity=\"sha512-i1b\/nzkVo97VN5WbEtaPebBG8REvjWeqNclJ6AItj7msdVcaveKrlIIByDpvjk5nwHjXkIqGZscVxOrTb9tsMA==\" crossorigin=\"anonymous\" referrerpolicy=\"no-referrer\"\/><link rel=\"stylesheet\" href=\"\/\/cdnjs.cloudflare.com\/ajax\/libs\/bootstrap\/5.3.3\/css\/bootstrap-reboot.min.css\" integrity=\"sha512-HJaQ4y3YcUGCWikWDn8bFeGTy3Z\/3IbxFYQ9G3UAWx16PyTL6Nu5P\/BDDV9s0WhK3Sq27Wtbk\/6IcwGmGSMXYg==\" crossorigin=\"anonymous\" referrerpolicy=\"no-referrer\"\/><link rel=\"stylesheet\" href=\"\/\/cdnjs.cloudflare.com\/ajax\/libs\/bootstrap\/5.3.3\/css\/bootstrap-utilities.min.css\" integrity=\"sha512-4ocAKAxnrkSm7MvkkF1D435kko3\/HWWvoi\/U9+7+ln94B\/U01Mggca05Pm3W59BIv3abl0U3MPdygAPLo5aeqg==\" crossorigin=\"anonymous\" referrerpolicy=\"no-referrer\"\/><link rel=\"stylesheet\" href=\"\/\/cdnjs.cloudflare.com\/ajax\/libs\/font-awesome\/6.5.2\/css\/all.min.css\" integrity=\"sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9\/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==\" crossorigin=\"anonymous\" referrerpolicy=\"no-referrer\"\/><link rel=\"stylesheet\" href=\"\/\/cdnjs.cloudflare.com\/ajax\/libs\/bootstrap-icons\/1.11.3\/font\/bootstrap-icons.min.css\" integrity=\"sha512-dPXYcDub\/aeb08c63jRq\/k6GaKccl256JQy\/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67\/bbV8XaCQ==\" crossorigin=\"anonymous\" referrerpolicy=\"no-referrer\"\/><link href=\"extensions\/novator\/storefront\/view\/novator\/css\/plugins\/owl.carousel.min.css\" rel=\"stylesheet\" type=\"text\/css\"\/><link href=\"extensions\/novator\/storefront\/view\/novator\/css\/tm_style.css\" rel=\"stylesheet\" type=\"text\/css\"\/><div id=\"preloader\"><div id=\"preloader_status\"><div class=\"spinner-overlay my-auto\"><div class=\"text-center h-100 d-flex align-items-center justify-content-center\"><div role=\"status\" class=\"spinner-border text-primary\"><span class=\"visually-hidden\">Loading...<\/span><\/div><\/div><\/div><\/div><\/div><!-- header section Starts --><header><div class=\"nav-wrapper\"><!-- Main header section Starts --><div class=\"d-block\"><div role=\"navigation\" class=\"top-bar fixed-top pt-4 pb-3\"><div class=\"container-lg\"><div class=\"d-flex flex-nowrap justify-content-between\"><div id=\"i2l19\" class=\"w-auto\"><a href=\"\" class=\"navbar-brand logo\"><img src=\"resources\/image\/18\/7a\/6.png\" title=\"Web Store Name\" alt=\"Web Store Name\" id=\"ir7vt\"\/><\/a><\/div><div class=\"header-right w-75 d-flex flex-nowrap align-items-center justify-content-end\"><div id=\"izstv3\" data-gjs-template=\"blocks\/language.tpl\" data-gjs-custom-name=\"LANGUAGE\" data-gjs-route=\"blocks\/language\" data-gjs-type=\"abantecart-generic-block\" data-gjs-page_id=\"2\" data-gjs-layout_id=\"34\" data-gjs-custom_block_id=\"0\">\n                <\/div><div id=\"iq8p72\" data-gjs-template=\"blocks\/search_top.tpl\" data-gjs-custom-name=\"SEARCH\" data-gjs-route=\"blocks\/search\" data-gjs-type=\"abantecart-generic-block\" data-gjs-page_id=\"2\" data-gjs-layout_id=\"34\" data-gjs-custom_block_id=\"0\">\n                <\/div><div id=\"if0s5b\" data-gjs-template=\"blocks\/currency.tpl\" data-gjs-custom-name=\"CURRENCY\" data-gjs-route=\"blocks\/currency\" data-gjs-type=\"abantecart-generic-block\" data-gjs-page_id=\"2\" data-gjs-layout_id=\"34\" data-gjs-custom_block_id=\"0\">\n                <\/div><div class=\"header-right-block block_3 d-flex justify-content-end\"><div class=\"cart-top-block\"><ul class=\"nav navbar-nav topcart\"><li class=\"nav-item d-none d-sm-block d-md-none\"><div id=\"iwkka3\" data-gjs-template=\"blocks\/cart_top.tpl\" data-gjs-custom-name=\"CART\" data-gjs-route=\"blocks\/cart\" data-gjs-type=\"abantecart-generic-block\" data-gjs-page_id=\"2\" data-gjs-layout_id=\"34\" data-gjs-custom_block_id=\"0\">\n                        <\/div><\/li><li class=\"nav-item dropdown d-none d-md-block\">\n                      <\/li><\/ul><\/div><\/div><div class=\"header-right-block block_4 d-flex justify-content-end\"><div id=\"ij6m68\" data-gjs-template=\"blocks\/cart_top.tpl\" data-gjs-custom-name=\"CART\" data-gjs-route=\"blocks\/cart\" data-gjs-type=\"abantecart-generic-block\" data-gjs-page_id=\"2\" data-gjs-layout_id=\"34\" data-gjs-custom_block_id=\"0\">\n                  <\/div><div id=\"customer_menu_top\" class=\"dropdown dropstart d-none d-md-block\"><a title=\"Login\" href=\"index.php?rt=account\/login\" aria-label=\"user link\" class=\"d-none image-link d-md-inline-flex position-relative align-items-center justify-content-center rounded-circle\"><i class=\"bi bi-person\">\n                      <\/i><\/a><\/div><\/div><div class=\"header-right-block block_5 d-flex justify-content-end\"><div class=\"d-block d-lg-none\"><a data-bs-toggle=\"offcanvas\" href=\"#menuoffcanvas\" role=\"button\" aria-controls=\"menuoffcanvas\" class=\"mob-nav-btn menu-icon bg-transparent text-primary\"><i class=\"bi bi-justify\">\n                      <\/i><\/a><\/div><\/div><\/div><\/div><\/div><\/div><\/div><div id=\"menuoffcanvas\" tabindex=\"-1\" aria-labelledby=\"menuoffcanvasLabel\" role=\"dialog\" aria-modal=\"true\" class=\"offcanvas menu-offcanvas offcanvas-end\"><div class=\"offcanvas-body\"><div class=\"menu-top-btn d-flex justify-content-between align-items-center\"><button type=\"button\" data-bs-dismiss=\"offcanvas\" aria-label=\"Close\" class=\"btn btn-danger btn-icon\"><i class=\"bi bi-x\">\n              <\/i><\/button><a data-bs-toggle=\"offcanvas\" href=\"#cartoffcanvas\" role=\"button\" aria-controls=\"cartoffcanvas\" aria-label=\"cart link\" class=\"btn btn-primary image-link ms-3 me-2\"><i class=\"bi bi-cart3 me-2\">\n              <\/i>Cart            <\/a><a href=\"index.php?rt=account\/account\" class=\"btn btn-primary\"><i class=\"bi bi-person me-2\">\n              <\/i>\n              Account            <\/a><a id=\"theme-switcher\" class=\"theme-change\"><i class=\"bi bi-sun-fill icon-dark\">\n              <\/i> <i class=\"bi bi-moon-stars-fill icon-light\">\n              <\/i><\/a><\/div><\/div><div class=\"scroll-div\"><div class=\"offcanvas-body\"><div id=\"accordionFlushExample\" class=\"accordion accordion-flush\"><div class=\"accordion-item\"><h2 class=\"accordion-header\"><button type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#mob-menu-collapseOne\" aria-expanded=\"false\" aria-controls=\"mob-menu-collapseOne\" class=\"accordion-button collapsed fw-bold\">Home                        <\/button><\/h2><div id=\"mob-menu-collapseOne\" data-bs-parent=\"#accordionFlushExample\" class=\"accordion-collapse collapse\"><div class=\"accordion-body px-0\"><div class=\"list-group list-group-flush\"><a href=\"index.php?rt=product\/category&path=68\" class=\"list-group-item list-group-item-action border-0\">Apparel &amp; accessories<\/a><a href=\"index.php?rt=product\/category&path=36\" class=\"list-group-item list-group-item-action border-0\">Makeup<\/a><a href=\"index.php?rt=product\/category&path=43\" class=\"list-group-item list-group-item-action border-0\">Skincare<\/a><a href=\"index.php?rt=product\/category&path=49\" class=\"list-group-item list-group-item-action border-0\">Fragrance<\/a><a href=\"index.php?rt=product\/category&path=58\" class=\"list-group-item list-group-item-action border-0\">Men<\/a><a href=\"index.php?rt=product\/category&path=52\" class=\"list-group-item list-group-item-action border-0\">Hair Care<\/a><a href=\"index.php?rt=product\/category&path=65\" class=\"list-group-item list-group-item-action border-0\">Books<\/a><\/div><\/div><\/div><\/div><div class=\"accordion-item\"><h2 class=\"accordion-header\"><a href=\"index.php?rt=product\/special\" class=\"accordion-button collapsed no-icon\">Special Offers                        <\/a><\/h2><\/div><div class=\"accordion-item\"><h2 class=\"accordion-header\"><a href=\"index.php?rt=account\/history\" class=\"accordion-button collapsed no-icon\">\n                    My Order History                        <\/a><\/h2><\/div><\/div><\/div><div class=\"offcanvas-body border-top border-bottom\"><h5 class=\"ms-4\">Information\n            <\/h5><div class=\"list-group list-group-flush mt-4\"><a href=\"index.php?rt=content\/content&content_id=1\" class=\"list-group-item list-group-item-action border-0\">About Us<\/a><a href=\"index.php?rt=content\/content&content_id=2\" class=\"list-group-item list-group-item-action border-0\">Privacy Policy<\/a><a href=\"index.php?rt=content\/content&content_id=3\" class=\"list-group-item list-group-item-action border-0\">Return Policy<\/a><a href=\"index.php?rt=content\/content&content_id=4\" class=\"list-group-item list-group-item-action border-0\">Shipping<\/a><\/div><\/div><div class=\"offcanvas-body\"><div class=\"btn-group me-2\">\n            <\/div><div class=\"btn-group\"><div class=\"btn-group d-none d-lg-block me-2\"><button type=\"button\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\" class=\"btn dropdown-toggle arrow-none bg-transparent shadow-none\"><div class=\"d-flex flex-nowrap\"><span class=\"d-none d-md-block me-2\">$US Dollar<\/span><\/div><i class=\"bi bi-chevron-down\">\n                  <\/i><\/button><ul class=\"dropdown-menu\"><li><a href=\"index.php?rt=index\/home&currency=EUR\" class=\"dropdown-item\">Euro<\/a><\/li><li><a href=\"index.php?rt=index\/home&currency=GBP\" class=\"dropdown-item\">Pound Sterling<\/a><\/li><\/ul><\/div><\/div><\/div><\/div><\/div><div id=\"cartoffcanvas\" tabindex=\"-1\" aria-labelledby=\"cartoffcanvasLabel\" role=\"dialog\" aria-modal=\"true\" class=\"offcanvas cart-offcanvas offcanvas-end\"><div class=\"offcanvas-header border-bottom\"><button type=\"button\" data-bs-dismiss=\"offcanvas\" aria-label=\"Close\" class=\"btn btn-danger btn-icon position-absolute\"><i class=\"bi bi-x\">\n            <\/i><\/button><div class=\"row w-100 align-items-center justify-content-between\"><div class=\"col-auto\"><h5 class=\"mb-0 ms-3\">Shopping Cart (\n                <span class=\"cart_counter\">0<\/span>)\n              <\/h5><\/div><\/div><\/div><div class=\"offcanvas-body\"><div class=\"empty_cart text-center\"><i class=\"bi bi-shopping-cart\">0 items\n            <\/i><\/div><\/div><\/div><!-- Main header section Ends --><!-- header-bottom-section Starts --><div class=\"header-bottom-section\"><div id=\"category_top_tpl\" class=\"d-none d-lg-block\"><nav id=\"category_top_block\" class=\"navbar navbar-expand-lg navbar-light default bg-body-alt\"><div class=\"container position-relative\"><div id=\"i4o06e\" data-gjs-template=\"blocks\/mega_menu_header_bottom.tpl\" data-gjs-custom-name=\"MEGA MENU HEADER\" data-gjs-route=\"blocks\/mega_menu\" data-gjs-type=\"abantecart-generic-block\" data-gjs-page_id=\"2\" data-gjs-layout_id=\"34\" data-gjs-custom_block_id=\"0\" class=\"w-100\">\n              <\/div><\/div><\/nav><\/div><div id=\"ixy95w\" data-gjs-template=\"blocks\/html_block_header.tpl\" data-gjs-custom-name=\"NOVATOR MAIN PAGE CAROUSEL\" data-gjs-route=\"blocks\/html_block\" data-gjs-type=\"abantecart-static-block\" data-gjs-page_id=\"2\" data-gjs-layout_id=\"34\" data-gjs-custom_block_id=\"28\">\n        <\/div><\/div><!-- header-bottom-section Ends --><\/div><\/header><!-- header section Ends --><div id=\"maincontainer\" class=\"top-section mb-3\"><div class=\"container\"><div class=\"row align-items-stretch align-self-stretch justify-content-center\"><div class=\"page-main-content flex-grow-1 col-12 col-lg-12\"><!-- content-main-section Starts --><div id=\"ixlkma\" data-gjs-route=\"pages\/index\/home\" data-gjs-type=\"abantecart-main-content-area\" data-gjs-page_id=\"2\" data-gjs-layout_id=\"34\">\n          <\/div><div class=\"content-main-section\">\n          <\/div><!-- content-main-section Ends (EOF) --><!-- content-bottom-section Starts --><div class=\"content-bottom-section\"><div id=\"ilf6dk\" data-gjs-template=\"blocks\/html_block_content.tpl\" data-gjs-custom-name=\"NOVATOR ICON BLOCK\" data-gjs-route=\"blocks\/html_block\" data-gjs-type=\"abantecart-static-block\" data-gjs-page_id=\"2\" data-gjs-layout_id=\"34\" data-gjs-custom_block_id=\"29\">\n            <\/div><div id=\"iiha3rg\" data-gjs-template=\"blocks\/latest_home.tpl\" data-gjs-custom-name=\"LATEST\" data-gjs-route=\"blocks\/latest\" data-gjs-type=\"abantecart-generic-block\" data-gjs-page_id=\"1\" data-gjs-layout_id=\"33\" data-gjs-custom_block_id=\"0\">\n            <\/div><div id=\"iqvyu57\" data-gjs-template=\"blocks\/featured_home.tpl\" data-gjs-custom-name=\"FEATURED\" data-gjs-route=\"blocks\/featured\" data-gjs-type=\"abantecart-generic-block\" data-gjs-page_id=\"1\" data-gjs-layout_id=\"33\" data-gjs-custom_block_id=\"0\">\n            <\/div><div id=\"i0nn25j\" data-gjs-template=\"blocks\/bestseller_home.tpl\" data-gjs-custom-name=\"BESTSELLERS\" data-gjs-route=\"blocks\/bestseller\" data-gjs-type=\"abantecart-generic-block\" data-gjs-page_id=\"1\" data-gjs-layout_id=\"33\" data-gjs-custom_block_id=\"0\">\n            <\/div><div id=\"iui5lqh\" data-gjs-template=\"blocks\/special_home.tpl\" data-gjs-custom-name=\"SPECIAL\" data-gjs-route=\"blocks\/special\" data-gjs-type=\"abantecart-generic-block\" data-gjs-page_id=\"1\" data-gjs-layout_id=\"33\" data-gjs-custom_block_id=\"0\">\n            <\/div><!-- style=\"width: px; height: px; \" --><\/div><!-- content-bottom-section Ends (EOF) --><\/div><\/div><\/div><\/div><div id=\"ittt5j\" data-gjs-template=\"blocks\/html_block_content.tpl\" data-gjs-custom-name=\"NOVATOR MAKING COMMERCE\" data-gjs-route=\"blocks\/html_block\" data-gjs-type=\"abantecart-static-block\" data-gjs-page_id=\"2\" data-gjs-layout_id=\"34\" data-gjs-custom_block_id=\"31\">\n            <\/div><div id=\"ircn7l\" data-gjs-template=\"blocks\/html_block_header.tpl\" data-gjs-custom-name=\"NOVATOR SEE OUR MOST FEATURED PRODUCT\" data-gjs-route=\"blocks\/html_block\" data-gjs-type=\"abantecart-static-block\" data-gjs-page_id=\"2\" data-gjs-layout_id=\"34\" data-gjs-custom_block_id=\"32\">\n            <\/div><div id=\"i86un73\" data-gjs-template=\"blocks\/listing_block\/popular_brands_content_bottom.tpl\" data-gjs-custom-name=\"NOVATOR BRANDS SCROLLING LIST\" data-gjs-route=\"blocks\/listing_block\" data-gjs-type=\"abantecart-listing-block\" data-gjs-page_id=\"1\" data-gjs-layout_id=\"33\" data-gjs-custom_block_id=\"33\">\n  <\/div><div id=\"i9mpxn\" data-gjs-template=\"blocks\/html_block_header.tpl\" data-gjs-custom-name=\"NOVATOR TESTIMONIALS\" data-gjs-route=\"blocks\/html_block\" data-gjs-type=\"abantecart-static-block\" data-gjs-page_id=\"2\" data-gjs-layout_id=\"34\" data-gjs-custom_block_id=\"34\">\n  <\/div><footer class=\"footer p-0\"><!-- footer top section Starts --><div class=\"footer-top mt-5\"><div id=\"newslettersignup\" class=\"newsletter-block pt-4\"><div class=\"container\"><div class=\"row justify-content-center\"><div id=\"ihf1v2\" data-gjs-template=\"blocks\/newsletter_signup_footer_top.tpl\" data-gjs-custom-name=\"NEWSLETTER SIGNUP\" data-gjs-route=\"blocks\/newsletter_signup\" data-gjs-type=\"abantecart-generic-block\" data-gjs-page_id=\"2\" data-gjs-layout_id=\"34\" data-gjs-custom_block_id=\"0\">\n            <\/div><\/div><\/div><\/div><\/div><!-- footer top section Ends --><!-- footer bottom section Starts --><div class=\"footer-bottom\"><!-- footer bottom starts --><div class=\"container\"><div class=\"row\"><div class=\"col-md-3\"><div id=\"id887o\" data-gjs-template=\"blocks\/html_block_header.tpl\" data-gjs-custom-name=\"NOVATOR ABOUT US\" data-gjs-route=\"blocks\/html_block\" data-gjs-type=\"abantecart-static-block\" data-gjs-page_id=\"2\" data-gjs-layout_id=\"34\" data-gjs-custom_block_id=\"25\">\n            <\/div><\/div><div class=\"col-md-6\"><div class=\"footer-main-links row\"><div id=\"iyo7sq\" data-gjs-template=\"blocks\/html_block_content.tpl\" data-gjs-custom-name=\"NOVATOR FOOTER LINK BLOCK MAIN\" data-gjs-route=\"blocks\/html_block\" data-gjs-type=\"abantecart-static-block\" data-gjs-page_id=\"2\" data-gjs-layout_id=\"34\" data-gjs-custom_block_id=\"26\">\n              <\/div><\/div><\/div><div class=\"col-md-3\"><div id=\"ieuuzu\" data-gjs-template=\"blocks\/html_block_footer.tpl\" data-gjs-custom-name=\"NOVATOR CONTACT US\" data-gjs-route=\"blocks\/html_block\" data-gjs-type=\"abantecart-static-block\" data-gjs-page_id=\"2\" data-gjs-layout_id=\"34\" data-gjs-custom_block_id=\"27\">\n            <\/div><\/div><\/div><div class=\"row mt-4 bottom-footer-block\"><div id=\"ivk3r2\" data-gjs-template=\"blocks\/content_footer.tpl\" data-gjs-custom-name=\"CONTENT\" data-gjs-route=\"blocks\/content\" data-gjs-type=\"abantecart-generic-block\" data-gjs-page_id=\"2\" data-gjs-layout_id=\"34\" data-gjs-custom_block_id=\"0\">\n          <\/div><div class=\"col-lg-8\"><div class=\"w-100 d-flex text-white text-opacity-75 my-4 flex-nowrap\">Powered By \u00a0\n              <a href=\"https:\/\/www.abantecart.com\" target=\"_blank\" title=\"Ideal OpenSource E-commerce Solution\">AbanteCart<\/a><\/div><p class=\"left text-white text-opacity-75 mb-3\"> Web Store Name \u00a9 2024\n            <\/p><\/div><\/div><\/div><!-- footer bottom ends --><div id=\"msgModal\" class=\"modal fade\"><div class=\"modal-dialog\"><div class=\"modal-content\"><div class=\"modal-header\"><button type=\"button\" data-dismiss=\"modal\" aria-hidden=\"true\" class=\"close callback-btn\">\u00d7<\/button><h3 class=\"hidden\">\u00a0\n              <\/h3><\/div><div class=\"modal-body\">\n            <\/div><\/div><\/div><\/div><\/div><!-- footer bottom section Ends --><\/footer><a id=\"gotop\" href=\"#\" title=\"Back to top\" class=\"fs-6 go-top\"><i class=\"fa-solid fa-circle-chevron-up fa-3x\">\n    <\/i><\/a><!--\nAbanteCart is open source software and you are free to remove the Powered By AbanteCart if you want, but its generally accepted practise to make a small donation.\nPlease donate http:\/\/www.abantecart.com\/donate\n\/\/--><\/body>",
+      "css": "* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin:0;}#i2l19{min-width:260px;}#ir7vt{min-width:260px;min-height:59px;}"
+    }
+  ],
+  "gjs-components": "null"
+}

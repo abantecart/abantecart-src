@@ -36,24 +36,22 @@ class ControllerPagesDesignPageBuilder extends AController
         //use to init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->loadLanguage('page_builder/page_builder');
+
         $this->data['page_url'] = $this->html->getSecureURL('p/design/page_builder');
-
         $this->session->data['content_language_id'] = $this->config->get('storefront_language_id');
-
-        $this->data['tmpl_id'] = $tmpl_id
+        $this->data['tmpl_id'] = $templateTxtId
             = $this->request->get['tmpl_id']
                 ?: $this->config->get('config_storefront_template')
                 ?: 'default';
 
-        $page_id = $this->request->get['page_id'];
-        $layout_id = $this->request->get['layout_id'];
-
-        $layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
+        $page_id = (int)$this->request->get['page_id'];
+        $layout_id = (int)$this->request->get['layout_id'];
+        $layout = new ALayoutManager($templateTxtId, $page_id, $layout_id);
         $this->data['pages'] = $layout->getAllPages();
         if(!$page_id){
             $page_id = $this->data['pages'][0]['page_id'];
             $layout_id = $this->data['pages'][0]['layout_id'];
-            $layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
+            $layout = new ALayoutManager($templateTxtId, $page_id, $layout_id);
         }
 
         $this->data['current_page'] = $layout->getPageData();
@@ -86,12 +84,18 @@ class ControllerPagesDesignPageBuilder extends AController
             ]
         );
 
-        // get templates
-        $this->data['templates'] = [];
-        $directories = glob(DIR_STOREFRONT.'view/*', GLOB_ONLYDIR);
-        foreach ($directories as $directory) {
-            $this->data['templates'][] = basename($directory);
+        try {
+            checkPBDirs($templateTxtId);
+        }catch(AException $e){
+            $this->view->assign('error_warning', $e->getMessage());
+            $this->processTemplate('pages/design/page_builder.tpl');
+            return;
         }
+
+        // get templates
+        $directories = glob(DIR_STOREFRONT.'view/*', GLOB_ONLYDIR);
+        $this->data['templates'] = array_map('basename', $directories);
+
         $enabled_templates = $this->extensions->getExtensionsList(
             [
                   'filter' => 'template',
@@ -99,9 +103,10 @@ class ControllerPagesDesignPageBuilder extends AController
             ]
         );
 
-        foreach ($enabled_templates->rows as $template) {
-            $this->data['templates'][] = $template['key'];
-        }
+        $this->data['templates'] = array_merge(
+            $this->data['templates'],
+            array_column($enabled_templates->rows,'key')
+        );
 
         $form = new AForm('ST');
         $form->setForm(
@@ -161,10 +166,18 @@ class ControllerPagesDesignPageBuilder extends AController
             true
         );
 
-        $this->data['button_remove_custom_page_title'] = $this->language->get('page_builder_button_remove_custom_page_title');
-        $this->data['button_remove_custom_page'] = $this->language->get('page_builder_button_remove_custom_page');
-        $this->data['button_remove_custom_page_confirm_text'] = $this->language->get('page_builder_button_remove_custom_page_confirm_text');
-        $this->data['remove_custom_page_success_text'] = $this->language->get('page_builder_remove_custom_page_success_text');
+        $this->data['button_remove_custom_page_title'] = $this->language->get(
+            'page_builder_button_remove_custom_page_title'
+        );
+        $this->data['button_remove_custom_page'] = $this->language->get(
+            'page_builder_button_remove_custom_page'
+        );
+        $this->data['button_remove_custom_page_confirm_text'] = $this->language->get(
+            'page_builder_button_remove_custom_page_confirm_text'
+        );
+        $this->data['remove_custom_page_success_text'] = $this->language->get(
+            'page_builder_remove_custom_page_success_text'
+        );
 
         $this->data['remove_custom_page_url'] = $this->html->getSecureURL(
             'r/design/page_builder/removeCustomPage',
@@ -181,20 +194,31 @@ class ControllerPagesDesignPageBuilder extends AController
 
     protected function preparePresets(){
         $this->data['preset_list'] = ['' => $this->language->get('page_builder_text_select_preset')];
-        foreach(glob(DIR_PB_PRESETS.'*.json') as $file){
+        foreach(glob(DIR_PB_TEMPLATES.'presets'.DS.$this->data['tmpl_id'].DS.'*.json') as $file){
             $file = pathinfo($file, PATHINFO_FILENAME);
             $this->data['preset_list'][$file] = $file;
         }
         if($this->data['preset_list']){
             $this->data['button_load_preset'] = $this->language->get('page_builder_button_load_preset');
-            $this->data['page_builder_text_load_preset_confirm_text'] = $this->language->get('page_builder_text_load_preset_confirm_text');
-            $this->data['page_builder_save_preset_success_text'] = $this->language->get('page_builder_save_preset_success_text');
-            $this->data['page_builder_remove_preset_success_text'] = $this->language->get('page_builder_remove_preset_success_text');
+            $this->data['page_builder_text_load_preset_confirm_text'] = $this->language->get(
+                'page_builder_text_load_preset_confirm_text'
+            );
+            $this->data['page_builder_save_preset_success_text'] = $this->language->get(
+                'page_builder_save_preset_success_text'
+            );
+            $this->data['page_builder_remove_preset_success_text'] = $this->language->get(
+                'page_builder_remove_preset_success_text'
+            );
         }
         $this->data['text_preset'] = $this->language->get('page_builder_text_preset');
         $this->data['text_prompt'] = $this->language->get('page_builder_text_prompt');
-        $this->data['text_ask_save'] = $this->language->get('page_builder_save_preset_confirm_text');
-        $this->data['save_preset_url'] = $this->html->getSecureURL('r/design/page_builder/savePreset');
+        $this->data['text_ask_save'] = $this->language->get(
+            'page_builder_save_preset_confirm_text'
+        );
+        $this->data['save_preset_url'] = $this->html->getSecureURL(
+            'r/design/page_builder/savePreset',
+            '&tmpl_id='.$this->data['tmpl_id']
+        );
 
         $this->data['delete_preset_confirm_text'] = $this->language->get('page_builder_text_delete_preset_confirm_text');
         $this->data['delete_preset_url'] = $this->html->getSecureURL('r/design/page_builder/deletePreset');
