@@ -451,7 +451,6 @@ class ControllerResponsesDesignPageBuilder extends AController
 
     public function publish()
     {
-        $output = $this->language->get('page_builder_error_nothing_to_publish');
         //use to init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         if ($this->route) {
@@ -478,8 +477,12 @@ class ControllerResponsesDesignPageBuilder extends AController
                 else {
                     $this->clearSavePoints($this->route);
                 }
+                $this->data['output'] = [
+                    'file' => $publishedFile,
+                    'published' => 'true'
+                ];
                 $this->extensions->hk_UpdateData($this, __FUNCTION__);
-                $this->response->setOutput(json_encode($output));
+                $this->response->setOutput(json_encode($this->data['output']));
             } else {
                 $errorText = $this->language->get('page_builder_error_nothing_to_publish');
                 $err = new AError($errorText);
