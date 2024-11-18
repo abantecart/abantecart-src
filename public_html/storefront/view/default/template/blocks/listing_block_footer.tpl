@@ -14,7 +14,7 @@ if ($content) {
         if (!$item['content_id']) {
             $item['title'] = $item['name'] ? : $item['thumb']['title'];
             $item['image'] = $item['thumb']['origin'] == 'internal'
-                ? '<img alt="'.htmlspecialchars($item['title'], ENT_QUOTES, 'UTF-8').'" class="d-block" src="'. $item['thumb']['thumb_url'].'"/>'
+                ? '<img alt="'.html2view($item['title']).'" class="d-block" src="'. $item['thumb']['thumb_url'].'"/>'
                 : $item['thumb']['thumb_html'];
             $item['description'] = $item['model'];
             $item['info_url'] = $item['href'] ? : $item['thumb']['main_url'];
@@ -29,7 +29,7 @@ if ($content) {
         } else {
             $item['info_url'] = $item['href'];
             $item['image'] = $item['icon_url']
-                ? '<img alt="'.htmlspecialchars($item['title'], ENT_QUOTES, 'UTF-8').'" class="d-block" src="'. $item['icon_url'].'"/>'
+                ? '<img alt="'.html2view($item['title']).'" class="d-block" src="'. $item['icon_url'].'"/>'
                 : $item['icon_code'];
         }
 ?>
