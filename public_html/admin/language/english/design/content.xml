@@ -98,7 +98,7 @@
 	</definition>
 	<definition>
 		<key>entry_icon</key>
-		<value><![CDATA[Icon:]]></value>
+		<value><![CDATA[Main Image or Icon:]]></value>
 	</definition>
 	<definition>
 		<key>entry_tags</key>
