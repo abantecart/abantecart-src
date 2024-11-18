@@ -726,6 +726,10 @@
 		<value><![CDATA[Add Media]]></value>
 	</definition>
 	<definition>
+		<key>button_field_history</key>
+		<value><![CDATA[View Field History]]></value>
+	</definition>
+	<definition>
 		<key>text_view_more</key>
 		<value><![CDATA[View More]]></value>
 	</definition>

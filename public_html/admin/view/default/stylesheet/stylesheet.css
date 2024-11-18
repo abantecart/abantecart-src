@@ -3686,3 +3686,6 @@ blockquote p::after {
 .common_content_actions .btn-group {
 	margin: 0 2px;
 }
+.common_content_actions .btn-group span {
+	line-height: 33px;
+}

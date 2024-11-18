@@ -1477,6 +1477,7 @@ class TextEditorHtmlElement extends HtmlElement
             'preview'     => $this->preview ?? true,
             'preview_url' => $this->preview_url ?? '',
             'js_onload'   => $this->js_onload ?? '',
+            'history_url'   => $this->history_url ?? '',
         ];
         if (is_object($this->language)) {
             if (sizeof($this->language->getActiveLanguages()) > 1) {

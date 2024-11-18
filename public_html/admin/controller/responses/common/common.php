@@ -139,4 +139,40 @@ class ControllerResponsesCommonCommon extends AController
         $this->response->addJSONHeader();
         $this->response->setOutput(AJson::encode($result));
     }
+
+    public function getDescriptionHistory()
+    {
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+
+        $output = array('error_text' => '', 'result_text' => '');
+        $request = $this->request->get;
+
+        if (isset($request['table_name']) && $request['table_name']) {
+            $langId =$this->language->getContentLanguageID();
+            $output['result'] = $this->language->get_description_history(
+                $request['table_name'],
+                $request['table_id'],
+                $request['field'],
+                $langId
+            );
+        } else {
+            $output['error'] = $this->language->get('error_required');
+        }
+
+        //render template
+        $this->processTemplate('responses/common/description_history.tpl', $output);
+
+
+
+
+
+
+
+
+        $this->load->library('json');
+        $this->response->addJSONHeader();
+        $this->response->setOutput(AJson::encode($output));
+
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
 }

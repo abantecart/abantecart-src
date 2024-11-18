@@ -33,12 +33,14 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
                 <i class="fa fa-file-picture-o fa-fw"></i>
                 <?php echo $button_add_media; ?>
             </a>
-            <a title="<?php echo_html2view($button_history); ?>"
-               data-original-title="<?php echo_html2view($button_history); ?>"
-               href="#"
+            <?php if($history_url){ ?>
+            <a title="<?php echo_html2view($button_field_history); ?>"
+               data-original-title="<?php echo_html2view($button_field_history); ?>"
+               href="<?php echo $history_url ?>" data-target="#hist_modal" data-toggle="modal"
                class="btn tooltips view_history mr10">
                 <i class="fa fa-history fa-fw"></i>
             </a>
+            <?php } ?>
 
             <?php if($preview_url){ ?>
                 <a target="_blank"
@@ -296,14 +298,17 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
             openTextEditRLModal(editor, cursorPosition, '<?php echo $base_url?>');
             return false;
         });
-
-        $('#<?php echo $wrapper_id; ?> a.view_history').on('click', function () {
-            //get data container
-            let id = $("#<?php echo $wrapper_id ?> ul.nav-tabs li.active>a").attr('aria-controls');
-            let editor, cursorPosition;
-            openTextEditRLModal(editor, cursorPosition, '<?php echo $base_url?>');
-            return false;
-        });
-
     });
 </script>
+
+<?php
+echo $this->html->buildElement(
+    [
+        'type'        => 'modal',
+        'id'          => 'hist_modal',
+        'modal_type'  => 'lg',
+        'data_source' => 'ajax',
+        'js_onclose'  => ''
+    ]
+);
+?>

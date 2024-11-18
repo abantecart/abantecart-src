@@ -642,6 +642,25 @@ class ALanguageManager extends Alanguage
         }
     }
 
+    /**
+     * @param $table_name
+     * @param $table_id
+     * @param $field
+     * @param $language_id
+     *
+     * @return array
+     * @throws AException
+     */
+    public function get_description_history($table_name, $table_id, $field, $language_id)
+    {
+        $language_id = (int)$language_id ?? $this->getContentLanguageID();
+        $sql = "SELECT * FROM ".$this->db->table('description_history')." ";
+        $sql .= "WHERE `table_name` = '$table_name' AND `table_id` = '$table_id' AND `language_id` = '$language_id' AND `field` = '$field' ";
+        $sql .= "ORDER BY `version` DESC";
+        $result = $this->db->query($sql);
+        return $result->rows;
+    }
+
     #### END Language Descriptions admin API Section #####
 
     /**
@@ -1086,7 +1105,7 @@ class ALanguageManager extends Alanguage
             [
                 'category' => 'Translators',
                 'status'   => 1,
-                'sort_order' => ['name']
+                'sort_order' => ['name'],
             ]
         );
 
