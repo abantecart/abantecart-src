@@ -9,6 +9,8 @@ foreach ($templates as $template) {
   $template_list .= '<li' . $item_class . '><a href="' . $page_url . '&tmpl_id=' . $template . '">' . $template . '</a></li>';
 }
 
+if($template_list){
+
 $current_ok_delete = false;
 $page_list = '';
 foreach ($pages as $page) {
@@ -276,6 +278,7 @@ foreach ($pages as $page) {
                     global: false
                 }
             ).done(function(data) {
+                console.log(data);
                     if(data.published === 'true'){
                         $('#publish').removeClass('btn-info').addClass('btn-default').attr('disabled','disabled');
                         $('#undo').attr('disabled','disabled');
@@ -304,3 +307,4 @@ foreach ($pages as $page) {
         }
     }
 </script>
+<?php } ?>
