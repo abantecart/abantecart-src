@@ -54,6 +54,7 @@ class ControllerPagesProductCategory extends AController
         $category_info = [];
         $httpQuery = $this->prepareProductSortingParameters();
         extract($httpQuery);
+        unset($httpQuery['raw_sort']);
 
         $brands = $request['manufacturer_id'];
         if ($brands && is_array($brands)) {

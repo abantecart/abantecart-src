@@ -57,6 +57,7 @@ class ControllerPagesProductSearch extends AController
 
         $httpQuery = $this->prepareProductSortingParameters();
         extract($httpQuery);
+        unset($httpQuery['raw_sort']);
         if (isset($get['keyword'])) {
             $httpQuery['keyword'] = (string)$get['keyword'];
         }

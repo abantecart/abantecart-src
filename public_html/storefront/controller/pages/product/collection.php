@@ -39,6 +39,7 @@ class ControllerPagesProductCollection extends AController
 
         $httpQuery = $this->prepareProductSortingParameters();
         extract($httpQuery);
+        unset($httpQuery['raw_sort']);
 
         $collectionId = (int)$request['collection_id'];
 

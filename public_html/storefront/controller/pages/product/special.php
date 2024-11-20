@@ -52,6 +52,7 @@ class ControllerPagesProductSpecial extends AController
 
         $httpQuery = $this->prepareProductSortingParameters(['special' => true]);
         extract($httpQuery);
+        unset($httpQuery['raw_sort']);
 
         $this->document->addBreadcrumb(
             [

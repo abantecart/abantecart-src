@@ -35,6 +35,7 @@ class ControllerPagesProductManufacturer extends AController
 
         $httpQuery = $this->prepareProductSortingParameters();
         extract($httpQuery);
+        unset($httpQuery['raw_sort']);
 
         $brands = $get['manufacturer_id'];
         if ($brands) {
