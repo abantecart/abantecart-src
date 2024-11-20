@@ -8,24 +8,7 @@ class ControllerPagesProductCollection extends AController
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
         $this->loadLanguage('product/search');
-        $default_sorting = $this->config->get('config_product_default_sort_order');
-        $sort_prefix = '';
-        if (strpos($default_sorting, 'name-') === 0) {
-            $sort_prefix = 'pd.';
-        } elseif (strpos($default_sorting, 'price-') === 0) {
-            $sort_prefix = 'p.';
-        }
-        $this->data['sorts'] = [
-            $sort_prefix.$default_sorting => $this->language->get('text_default'),
-            'pd.name-ASC'                 => $this->language->get('text_sorting_name_asc'),
-            'pd.name-DESC'                => $this->language->get('text_sorting_name_desc'),
-            'p.price-ASC'                 => $this->language->get('text_sorting_price_asc'),
-            'p.price-DESC'                => $this->language->get('text_sorting_price_desc'),
-            'rating-DESC'                 => $this->language->get('text_sorting_rating_desc'),
-            'rating-ASC'                  => $this->language->get('text_sorting_rating_asc'),
-            'date_modified-DESC'          => $this->language->get('text_sorting_date_desc'),
-            'date_modified-ASC'           => $this->language->get('text_sorting_date_asc'),
-        ];
+        $this->prepareProductListingParameters();
     }
 
     public function main()
@@ -54,7 +37,10 @@ class ControllerPagesProductCollection extends AController
         $this->loadModel('catalog/collection');
         $this->loadModel('tool/seo_url');
 
-        $collectionId = (int) $request['collection_id'];
+        $httpQuery = $this->prepareProductSortingParameters();
+        extract($httpQuery);
+
+        $collectionId = (int)$request['collection_id'];
 
         $collectionInfo = [];
         if ($collectionId) {
@@ -66,13 +52,10 @@ class ControllerPagesProductCollection extends AController
             $this->document->setKeywords($collectionInfo['meta_keywords']);
             $this->document->setDescription($collectionInfo['meta_description']);
 
+            $httpQuery['collection_id'] = $collectionId;
             $this->document->addBreadcrumb(
                 [
-                    'href'      => $this->html->getSEOURL(
-                        'product/collection',
-                        '&collection_id='.$request['collection_id'],
-                        '&encode'
-                    ),
+                    'href'      => $this->html->getSEOURL('product/collection', '&' . http_build_query($httpQuery)),
                     'text'      => $collectionInfo['title'],
                     'separator' => $this->language->get('text_separator'),
                 ]
@@ -80,25 +63,6 @@ class ControllerPagesProductCollection extends AController
 
             $this->view->assign('heading_title', $collectionInfo['title']);
             $this->view->assign('text_sort', $this->language->get('text_sort'));
-
-            $page = $request['page'] ?? 1;
-
-            if (isset($this->request->get['limit'])) {
-              $limit = (int) $this->request->get['limit'];
-            } else {
-              $limit = $this->config->get('config_catalog_limit');
-            }
-
-            $sorting_href = $request['sort'];
-            if (!$sorting_href || !isset($this->data['sorts'][$request['sort']])) {
-                $sorting_href = $this->config->get('config_product_default_sort_order');
-            }
-            list($sort, $order) = explode("-", $sorting_href);
-            if ($sort == 'name') {
-                $sort = 'pd.'.$sort;
-            } elseif (in_array($sort, ['sort_order', 'price'])) {
-                $sort = 'p.'.$sort;
-            }
 
             $this->loadModel('catalog/product');
 
@@ -119,7 +83,7 @@ class ControllerPagesProductCollection extends AController
             if (!empty($collectionProducts['items'])) {
                 $this->loadModel('catalog/review');
                 $this->view->assign('button_add_to_cart', $this->language->get('button_add_to_cart'));
-                $productIds = array_column((array) $collectionProducts['items'], 'product_id');
+                $productIds = array_column((array)$collectionProducts['items'], 'product_id');
                 $products = [];
                 $productsInfo = $this->model_catalog_product->getProductsAllInfo($productIds);
                 $thumbnails = $productIds
@@ -167,14 +131,14 @@ class ControllerPagesProductCollection extends AController
                     if ($productsInfo[$result['product_id']]['options']) {
                         $add = $this->html->getSEOURL(
                             'product/product',
-                            '&product_id='.$result['product_id'],
+                            '&product_id=' . $result['product_id'],
                             '&encode'
                         );
                     } else {
                         if ($this->config->get('config_cart_ajax')) {
                             $add = '#';
                         } else {
-                            $add = $this->html->getSecureURL($this->data['cart_rt'], '&product_id='.$result['product_id'], '&encode');
+                            $add = $this->html->getSecureURL($this->data['cart_rt'], '&product_id=' . $result['product_id'], '&encode');
                         }
                     }
                     //check for stock status, availability and config
@@ -238,31 +202,31 @@ class ControllerPagesProductCollection extends AController
                 }
                 $this->view->assign('display_price', $display_price);
 
-                $sort_options = [];
-                foreach ($this->data['sorts'] as $item => $text) {
-                    $sort_options[$item] = $text;
-                }
+                $sort_options = $this->data['sorts'];
                 $sorting = $this->html->buildElement(
                     [
                         'type'    => 'selectbox',
                         'name'    => 'sort',
                         'options' => $sort_options,
-                        'value'   => $sort.'-'.$order,
+                        'value'   => $raw_sort . '-' . $order,
                     ]
                 );
-                $this->view->assign('sorting', $sorting);
-                $this->view->assign(
-                    'url',
-                    $this->html->getSEOURL(
-                        'product/collection',
-                        '&collection_id='.$request['collection_id']
-                    )
-                );
+                $this->data['sorting'] = $sorting;
+                $this->data['url'] = $this->html->getURL('product/collection');
 
-                $pagination_url = $this->html->getSEOURL(
+                $pQuery = $httpQuery;
+                $pQuery['sort'] = $pQuery['sort'] . '-' . $pQuery['order'];
+                unset($pQuery['page'], $pQuery['order']);
+
+                $pagination_url = $this->html->getURL(
                     'product/collection',
-                    '&collection_id='.$request['collection_id'].'&sort='.$sorting_href.'&page={page}'.'&limit='.$limit,
-                    '&encode'
+                    '&page={page}&' . http_build_query($pQuery, '', null, PHP_QUERY_RFC3986)
+                );
+                $rQuery = $httpQuery;
+                unset($rQuery['sort']);
+                $this->data['resort_url'] = $this->html->getSEOURL(
+                    'product/collection',
+                    '&' . http_build_query($rQuery)
                 );
 
                 $this->view->assign(
@@ -303,18 +267,18 @@ class ControllerPagesProductCollection extends AController
         } else {
             $url = '';
             if (isset($request['sort'])) {
-                $url .= '&sort='.$request['sort'];
+                $url .= '&sort=' . $request['sort'];
             }
 
             if (isset($request['order'])) {
-                $url .= '&order='.$request['order'];
+                $url .= '&order=' . $request['order'];
             }
 
             $this->document->addBreadcrumb(
                 [
                     'href'      => $this->html->getSEOURL(
                         'product/collection',
-                        '&collection_id='.$collectionId.$url,
+                        '&collection_id=' . $collectionId . $url,
                         '&encode'
                     ),
                     'text'      => $this->language->get('text_error'),
