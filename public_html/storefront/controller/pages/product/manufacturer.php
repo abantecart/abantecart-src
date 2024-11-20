@@ -280,7 +280,7 @@ class ControllerPagesProductManufacturer extends AController
                 unset($pQuery['page'], $pQuery['order']);
                 $pagination_url = $this->html->getSEOURL(
                     'product/manufacturer',
-                    '&page={page}&' . http_build_query($pQuery, '', null, PHP_QUERY_RFC3986)
+                    '&page=--page--&' . http_build_query($pQuery, '', null, PHP_QUERY_RFC3986)
                 );
 
                 $rQuery = $httpQuery;

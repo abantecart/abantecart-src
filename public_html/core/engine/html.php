@@ -286,7 +286,7 @@ class AHtml extends AController
         $this->loadModel('tool/seo_url');
         //#PR Generate SEO URL based on standard URL
         //NOTE: SEO URL is non-secure url
-        return $this->url_encode($this->model_tool_seo_url->rewrite($this->getNonSecureURL($rt, $params)), $encode);
+        return $this->url_encode($this->model_tool_seo_url->rewrite($this->getNonSecureURL($rt, $params, $encode)), $encode);
     }
 
     /**
@@ -2660,14 +2660,14 @@ class PaginationHtmlElement extends HtmlElement
             }
         }
 
-        $s['url'] = str_replace('{limit}', $s['limit'], $s['url']);
-        $s['direct_url'] = str_replace('{limit}', $s['limit'], $s['direct_url']);
+        $s['url'] = str_replace('--limit--', $s['limit'], $s['url']);
+        $s['direct_url'] = str_replace('--limit--', $s['limit'], $s['direct_url']);
         $s['total_pages'] = ceil($s['total'] / $s['limit']);
 
         if ($s['page'] > 1) {
             //not first page
-            $this->view->assign('first_url', str_replace('{page}', 1, $s['url']));
-            $this->view->assign('prev_url', str_replace('{page}', $s['page'] - 1, $s['url']));
+            $this->view->assign('first_url', str_replace('--page--', 1, $s['url']));
+            $this->view->assign('prev_url', str_replace('--page--', $s['page'] - 1, $s['url']));
         }
 
         if ($s['total_pages'] > 1) {
@@ -2692,8 +2692,8 @@ class PaginationHtmlElement extends HtmlElement
         }
 
         if ($s['page'] < $s['total_pages']) {
-            $this->view->assign('next_url', str_replace('{page}', $s['page'] + 1, $s['url']));
-            $this->view->assign('last_url', str_replace('{page}', $s['total_pages'], $s['url']));
+            $this->view->assign('next_url', str_replace('--page--', $s['page'] + 1, $s['url']));
+            $this->view->assign('last_url', str_replace('--page--', $s['total_pages'], $s['url']));
         }
 
         $replace = [
@@ -2714,7 +2714,7 @@ class PaginationHtmlElement extends HtmlElement
                 $options[$item] = $item;
             }
 
-            $limit_url = str_replace('{page}', 1, $s['url']);
+            $limit_url = str_replace('--page--', 1, $s['url']);
             $limit_url = str_replace('&amp;limit='.$s['limit'], '', $limit_url);
 
             $limit_select = $html->buildSelectbox(
@@ -2736,7 +2736,7 @@ class PaginationHtmlElement extends HtmlElement
             '{end}',
             '{total}',
             '{pages}',
-            '{limit}',
+            '--limit--',
         ];
         $s['text'] = str_replace($find, $replace, $s['text']);
 

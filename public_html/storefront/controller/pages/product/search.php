@@ -305,7 +305,7 @@ class ControllerPagesProductSearch extends AController
                 $pQuery['sort'] = $sorting_href;
                 $pagination_url = $this->html->getSEOURL(
                     'product/search',
-                    '&page={page}&' . http_build_query($pQuery, '', null, PHP_QUERY_RFC3986)
+                    '&page=--page--&' . http_build_query($pQuery, '', null, PHP_QUERY_RFC3986)
                 );
 
                 $this->data['pagination_bootstrap'] = $this->html->buildElement(

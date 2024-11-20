@@ -210,7 +210,7 @@ class ControllerPagesExtensionExtensionsStore extends AController
                     'page'       => $result['products']['page'],
                     'limit'      => $result['products']['limit'],
                     'url'        => $this->html->getSecureURL(
-                        'extension/extensions_store', $uri.$sort_order.'&page={page}', '&encode'
+                        'extension/extensions_store', $uri.$sort_order.'&page=--page--', '&encode'
                     ),
                     'size_class' => 'sm',
                     'no_perpage' => true,

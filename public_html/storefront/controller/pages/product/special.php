@@ -214,7 +214,7 @@ class ControllerPagesProductSpecial extends AController
 
             $pagination_url = $this->html->getURL(
                 'product/special',
-                '&page={page}&' . http_build_query($pQuery, '', null, PHP_QUERY_RFC3986)
+                '&page=--page--&' . http_build_query($pQuery, '', null, PHP_QUERY_RFC3986)
             );
             $rQuery = $httpQuery;
             unset($rQuery['sort']);
