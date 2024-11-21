@@ -33,7 +33,7 @@ class ControllerPagesDesignLayout extends AController
 
         $this->document->setTitle($this->language->get('heading_title'));
 
-        $templateTxtId = $this->request->get['tmpl_id'] ?? null;
+        $templateTxtId = $this->request->get['tmpl_id'] ?? $this->config->get('config_storefront_template');
         $page_id = $this->request->get['page_id'] ?? null;
         $layout_id = $this->request->get['layout_id'] ?? null;
 
