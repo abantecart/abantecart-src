@@ -3683,3 +3683,54 @@ blockquote p::after {
 .common_content_actions {
 	display: flex;
 }
+
+#layout_selector .dropdown-submenu {
+	position: relative;
+}
+
+#layout_selector .dropdown-submenu>.dropdown-menu {
+	top: 0;
+	left: 100%;
+	margin-top: -6px;
+	margin-left: 0;
+}
+
+#layout_selector .dropdown-submenu:hover>.dropdown-menu {
+	display: block;
+}
+
+#layout_selector .dropdown-submenu a, #layout_selector button {
+	max-width: 300px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+#layout_selector .dropdown-submenu>a:after {
+	display: block;
+	content: " ";
+	float: right;
+	width: 0;
+	height: 0;
+	border-color: transparent;
+	border-style: solid;
+	border-width: 5px 0 5px 5px;
+	border-left-color: #ccc;
+	margin-top: 5px;
+	margin-right: -10px;
+}
+
+#layout_selector .dropdown-submenu:hover>a:after {
+	border-left-color: #fff;
+}
+
+#layout_selector .dropdown-submenu.pull-left {
+	float: none;
+}
+
+#layout_selector .dropdown-submenu.pull-left>.dropdown-menu {
+	left: -100%;
+	margin-left: 10px;
+}
+#layout_selector .disabled a {
+	background-color: #064770 !important;
+	color: #fff !important;
+}

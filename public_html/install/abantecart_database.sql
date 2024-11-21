@@ -10241,24 +10241,6 @@ CREATE UNIQUE INDEX `ac_pages_idx`
 ON `ac_pages` ( `page_id`, `controller`, `key_param`, `key_value` );
 
 --
--- Dumping data for table `pages`
---
-
-INSERT INTO `ac_pages` (`page_id`, `parent_page_id`, `controller`, `key_param`, `key_value`, `date_added`)
-VALUES
-(1, 0, 'generic', '', '', now() ),
-(2, 0, 'pages/index/home', '', '', now() ),
-(4, 0, 'pages/account/login', '', '', now() ),
-(5, 0, 'pages/product/product', '', '', now()),
-(10, 0, 'pages/index/maintenance', '', '', now() ),
-(11, 0, 'pages/account', '', '', now() ),
-(12, 0, 'pages/checkout/cart', '', '', now() ),
-(13, 0, 'pages/product/category', '', '', now() ),
-(14, 0, 'pages/checkout/fast_checkout', '', '', NOW()),
-(15, 0, 'pages/checkout/fast_checkout_success', '', '', NOW())
-;
-
---
 -- DDL for table `page_descriptions`
 --
 
@@ -10276,18 +10258,6 @@ CREATE TABLE `ac_page_descriptions` (
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`page_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
-INSERT INTO `ac_page_descriptions` (`page_id`, `language_id`, `name`, `title`, `seo_url`, `keywords`, `description`, `content`, `date_added`) VALUES
-(1, 1, 'All Other Pages', '', '', '', '', '', now() ),
-(2, 1, 'Home Page', '', '', '', '', '', now() ),
-(4, 1, 'Login Page', '', '', '', '', '', now() ),
-(5, 1, 'Default Product Page', '', '', '', '', '', now() ),
-(10, 1, 'Maintenance Page', '', '', '', '', '', now() ),
-(11, 1, 'Customer Account Pages', '', '', '', '', '', now() ),
-(12, 1, 'Cart Page', '', '', '', '', '', now() ),
-(14, 1, 'Fast Checkout Page', '', '', '', '', '', NOW()),
-(15, 1, 'Fast Checkout Success Page', '', '', '', '', '', NOW())
-;
 
 --
 -- DDL for table `contents`
@@ -10607,18 +10577,6 @@ CREATE TABLE `ac_layouts` (
   PRIMARY KEY  (`layout_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-INSERT INTO `ac_layouts` (`layout_id`, `template_id`, `layout_type`, `layout_name`, `date_added`) VALUES
-(23, 'default',0, 'Default Page Layout',NOW()),
-(24, 'default',1, 'Home Page',NOW()),
-(25, 'default',1, 'Login Page',NOW()),
-(26, 'default',1, 'Default Product Page',NOW()),
-(27, 'default',1, 'Product Listing Page',NOW()),
-(28, 'default',1, 'Maintenance Page',NOW()),
-(29, 'default',1, 'Customer Account Pages',NOW()),
-(30, 'default',1, 'Cart Page',NOW()),
-(31, 'default',1, 'Fast Checkout Page',NOW()),
-(32, 'default',1, 'Fast Checkout Success Page',NOW());
-
 --
 -- DDL for table `pages_layouts`
 --
@@ -10628,18 +10586,6 @@ CREATE TABLE `ac_pages_layouts` (
   `page_id` int(10) NOT NULL,
   PRIMARY KEY  (`layout_id`,`page_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
-INSERT INTO `ac_pages_layouts` (`layout_id`, `page_id`) VALUES
-( 23,1),
-( 24,2),
-( 25,4),
-( 26,5),
-( 27,13),
-( 28,10),
-( 29,11),
-( 30,12),
-( 31,14),
-( 32,15);
 
 --
 -- DDL for table `block_layouts`

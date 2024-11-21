@@ -1204,6 +1204,5 @@ dl {
 }
 
 .open > .dropdown-menu {
-   overflow: scroll;
    max-height: 600px;
 }

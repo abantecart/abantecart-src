@@ -79,6 +79,7 @@ class ControllerPagesInstall extends AController
             'email',
             'admin_path',
         ];
+        $required = ['db_host', 'db_user', 'db_name', 'username', 'password', 'password_confirm', 'email', 'admin_path'];
         $defaults = ['', 'localhost', '', '', '', 'abc_', 'novator', 'admin', '', '', '', ''];
         $place_holder = [
             'Select Database Driver',
@@ -96,11 +97,7 @@ class ControllerPagesInstall extends AController
         ];
 
         foreach ($fields as $k => $field) {
-            if (isset($this->request->post[$field])) {
-                $this->data[$field] = $this->request->post[$field];
-            } else {
-                $this->data[$field] = $defaults[$k];
-            }
+            $this->data[$field] = $this->request->post[$field] ?? $defaults[$k];
         }
 
         $form = new AForm('ST');
@@ -128,8 +125,7 @@ class ControllerPagesInstall extends AController
                         'name'        => $field,
                         'value'       => $this->data[$field],
                         'placeholder' => $place_holder[$k],
-                        'required'    => in_array($field, ['db_host', 'db_user', 'db_name', 'username', 'password', 'password_confirm', 'email', 'admin_path']
-                        ),
+                        'required'    => in_array($field, $required),
                     ]
                 );
             } else {
@@ -220,9 +216,19 @@ class ControllerPagesInstall extends AController
             return AJson::encode(['ret_code' => 100]);
         } elseif ($step == 4) {
             // Load demo data
-            if (($this->session->data['install_step_data']['load_demo_data'] ?? '') == 'on') {
+            if ($this->session->data['install_step_data']['load_demo_data'] == 'on') {
                 $this->_load_demo_data();
             }
+
+            //install default template anyway
+            $layout = new ALayoutManager('default');
+            $file = DIR_ABANTECART . DS . 'storefront' . DS . 'view' . DS . 'default' . DS . 'layout.xml';
+            $layout->loadXml(
+                [
+                    'file' => $file
+                ]
+            );
+            unset($layout);
 
             $ext = trim($this->session->data['install_step_data']['template']);
             if($ext && $ext != 'default'){
