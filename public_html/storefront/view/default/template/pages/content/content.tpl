@@ -16,14 +16,16 @@
         <div class="d-flex flex-nowrap">
             <div>
                 <?php if ($icon_url) { ?>
-                    <img src="<?php echo $icon_url ?>" alt="<?php echo_html2view($heading_title); ?>" class="img-fluid" style="max-width: 200px; max-height: 200px">
+                    <img src="<?php echo $icon_url ?>" alt="<?php echo_html2view($heading_title); ?>" class="img-fluid">
                 <?php } else if ($icon_code) {
                     echo $icon_code;
                 } ?>
             </div>
+            <?php if ($description) { ?>
             <div>
                 <h3 ><?php echo $description; ?></h3>
             </div>
+            <?php } ?>
         </div>
         <div class="row">
             <div class="col-md-12 py-3">
