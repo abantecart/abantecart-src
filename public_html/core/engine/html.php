@@ -286,7 +286,7 @@ class AHtml extends AController
         $this->loadModel('tool/seo_url');
         //#PR Generate SEO URL based on standard URL
         //NOTE: SEO URL is non-secure url
-        return $this->url_encode($this->model_tool_seo_url->rewrite($this->getNonSecureURL($rt, $params, $encode)), $encode);
+        return $this->url_encode($this->model_tool_seo_url->rewrite($this->getNonSecureURL($rt, $params)), $encode);
     }
 
     /**
