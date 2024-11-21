@@ -1,5 +1,4 @@
 <?php
-
 /*
  *   $Id$
  *
@@ -184,10 +183,10 @@ abstract class AController
             /** @noinspection PhpIncludeInspection */
             require_once($rt_file);
             if (class_exists($rt_class)) {
-                $static_method = $rt_method.'_cache_keys';
+                $static_method = $rt_method . '_cache_keys';
                 if (method_exists($rt_class, $static_method)) {
                     //finally get keys and build a cache key
-                    return call_user_func($rt_class.'::'.$static_method);
+                    return call_user_func($rt_class . '::' . $static_method);
                 }
             }
         }
@@ -315,11 +314,11 @@ abstract class AController
         foreach ($this->children as $block) {
             if (!empty($block['position'])) {
                 //assign count based on position (currently div. by 10)
-                if ((int) $block['position'] % 10 == 0) {
-                    $blocks[(int) ($block['position'] / 10 - 1)] =
-                        $block['block_txt_id'].'_'.(int) $block['instance_id'];
+                if ((int)$block['position'] % 10 == 0) {
+                    $blocks[(int)($block['position'] / 10 - 1)] =
+                        $block['block_txt_id'] . '_' . (int)$block['instance_id'];
                 } else {
-                    array_push($blocks, $block['block_txt_id'].'_'.$block['instance_id']);
+                    array_push($blocks, $block['block_txt_id'] . '_' . $block['instance_id']);
                 }
             }
         }
@@ -332,7 +331,7 @@ abstract class AController
         // append child to the controller children list
         $new_block = [];
         $new_block['parent_instance_id'] = $this->instance_id;
-        $new_block['instance_id'] = $block_text_id.$this->instance_id;
+        $new_block['instance_id'] = $block_text_id . $this->instance_id;
         $new_block['block_id'] = $block_text_id;
         $new_block['controller'] = $new_controller;
         $new_block['block_txt_id'] = $block_text_id;
@@ -347,13 +346,13 @@ abstract class AController
     public function processTemplate($template = '')
     {
         //is this an embed mode? Special templates needs to be loaded
-        if (is_object($this->registry->get('config')) && $this->registry->get('config')->get('embed_mode') == true) {
+        if (is_object($this->registry->get('config')) && $this->registry->get('config')->get('embed_mode')) {
             //get template if it was set earlier
             if (empty($template)) {
                 $template = $this->view->getTemplate();
             }
             //only substitute the template for page templates
-            if (substr($template, 0, 6) == 'pages/' && substr($template, 0, 6) != 'embed/') {
+            if (str_starts_with($template, 'pages/')) {
                 //load special headers for embed as no page/layout needed
                 $this->addChild('responses/embed/head', 'head');
                 $this->addChild('responses/embed/footer', 'footer');
@@ -390,16 +389,16 @@ abstract class AController
                     $block_details = $this->layout->getBlockDetails($this->instance_id);
                     $excluded_blocks = ['common/head'];
 
-                    if (!empty($this->instance_id) && (string) $this->instance_id != '0'
+                    if (!empty($this->instance_id) && (string)$this->instance_id != '0'
                         && !in_array($block_details['controller'], $excluded_blocks)
                     ) {
                         if (!empty($this->parent_controller)) {
                             //build block template file path based on primary template used
                             //template path is based on parent block 'template_dir'
                             $tpl = $this->view->getTemplate();
-                            $tmp_dir = $this->parent_controller->view->data['template_dir']."template/";
-                            $block_tpl_file = $tmp_dir.$this->view->getTemplate();
-                            $prt_block_tpl_file = $tmp_dir.$this->parent_controller->view->getTemplate();
+                            $tmp_dir = $this->parent_controller->view->data['template_dir'] . "template/";
+                            $block_tpl_file = $tmp_dir . $this->view->getTemplate();
+                            $prt_block_tpl_file = $tmp_dir . $this->parent_controller->view->getTemplate();
                             $args = [
                                 'block_instance_id' => $this->instance_id,
                                 'block_controller'  => $this->dispatcher->getFile(),
@@ -415,7 +414,7 @@ abstract class AController
                             $debug_output = $debug_wrapper->dispatchGetOutput();
                             $output = trim($this->view->getOutput());
                             if (!empty($output)) {
-                                $output = '<div class="block_tmpl_wrapper">'.$output.$debug_output.'</div>';
+                                $output = '<div class="block_tmpl_wrapper">' . $output . $debug_output . '</div>';
                             }
                             $this->view->setOutput($output);
                         }
@@ -444,7 +443,7 @@ abstract class AController
                 $this->parent_controller->AddToParentByName($parent_controller_name, $variable, $value);
             } else {
                 $wrn = new AWarning(
-                    'Call to unknown parent controller '.$parent_controller_name.' in '.get_class($this)
+                    'Call to unknown parent controller ' . $parent_controller_name . ' in ' . get_class($this)
                 );
                 $wrn->toDebug();
             }
@@ -462,7 +461,7 @@ abstract class AController
         if (!empty ($this->parent_controller)) {
             $this->parent_controller->view->append($variable, $value);
         } else {
-            $wrn = new AWarning('Parent controller called does not exist in '.get_class($this));
+            $wrn = new AWarning('Parent controller called does not exist in ' . get_class($this));
             $wrn->toDebug();
         }
     }
@@ -478,7 +477,7 @@ abstract class AController
 
         //Future stronger security permissions validation
         //validate session token and login
-        // Dispatch to login if failed
+        // Dispatch to log in if failed
         // validate access rights for current controller or parent with $parent_controller->can_access()
         // If both have no access rights dispatch to no rights page
 
@@ -493,6 +492,7 @@ abstract class AController
      * @param string $sub_key
      *
      * @return string|null
+     * @throws AException
      */
     public function gen_help_url($sub_key = '')
     {
@@ -506,7 +506,7 @@ abstract class AController
             $main_key = str_replace('/', '_', $this->controller);
         }
 
-        return "http://docs.abantecart.com/tag/".$main_key;
+        return "https://docs.abantecart.com/tag/" . $main_key;
     }
 
     public function isReviewAllowed($productId = 0)
@@ -534,7 +534,7 @@ abstract class AController
             { //allow who purchase
                 $this->loadModel('checkout/order');
                 if (!$this->customer || !$this->customer->isLogged() || !$this->customer->getId()
-                    || !(int) $productId) {
+                    || !(int)$productId) {
                     return false;
                 }
                 return $this->model_checkout_order->productIsPurchasedByCustomer($this->customer->getId(), $productId);
@@ -546,7 +546,7 @@ abstract class AController
 
     protected function storefrontServiceWarnings()
     {
-        if(IS_ADMIN === true){
+        if (IS_ADMIN === true) {
             return;
         }
         if ($this->config->get('config_maintenance') && isset($this->session->data['merchant'])) {
@@ -565,31 +565,26 @@ abstract class AController
             );
         }
         //add ability to create custom warnings
-        $this->extensions->hk_ProcessData($this,__FUNCTION__);
+        $this->extensions->hk_ProcessData($this, __FUNCTION__);
     }
 
     protected function prepareProductListingParameters()
     {
         $default_sorting = $this->config->get('config_product_default_sort_order');
-        $sort_prefix = '';
-        if (strpos($default_sorting, 'name-') === 0) {
-            $sort_prefix = 'pd.';
-        } elseif (strpos($default_sorting, 'price-') === 0) {
-            $sort_prefix = 'p.';
-        }
         $this->data['sorts'] = [
-            $sort_prefix . $default_sorting => $this->language->get('text_default'),
-            'pd.name-ASC'                   => $this->language->get('text_sorting_name_asc'),
-            'pd.name-DESC'                  => $this->language->get('text_sorting_name_desc'),
-            'p.price-ASC'                   => $this->language->get('text_sorting_price_asc'),
-            'p.price-DESC'                  => $this->language->get('text_sorting_price_desc'),
-            'rating-DESC'                   => $this->language->get('text_sorting_rating_desc'),
-            'rating-ASC'                    => $this->language->get('text_sorting_rating_asc'),
-            'date_modified-DESC'            => $this->language->get('text_sorting_date_desc'),
-            'date_modified-ASC'             => $this->language->get('text_sorting_date_asc'),
+            $default_sorting     => $this->language->get('text_default'),
+            'name-ASC'           => $this->language->get('text_sorting_name_asc'),
+            'name-DESC'          => $this->language->get('text_sorting_name_desc'),
+            'price-ASC'          => $this->language->get('text_sorting_price_asc'),
+            'price-DESC'         => $this->language->get('text_sorting_price_desc'),
+            'rating-DESC'        => $this->language->get('text_sorting_rating_desc'),
+            'rating-ASC'         => $this->language->get('text_sorting_rating_asc'),
+            'date_modified-DESC' => $this->language->get('text_sorting_date_desc'),
+            'date_modified-ASC'  => $this->language->get('text_sorting_date_asc'),
         ];
     }
-    protected function prepareProductSortingParameters()
+
+    protected function prepareProductSortingParameters(?array $options = [])
     {
         $request = $this->request->get;
         $page = $request['page'] ?? 1;
@@ -599,16 +594,24 @@ abstract class AController
             $sorting_href = $this->config->get('config_product_default_sort_order');
         }
         list($sort, $order) = explode("-", $sorting_href);
+        $rawSort = $sort;
         if ($sort == 'name') {
             $sort = 'pd.' . $sort;
-        } elseif (in_array($sort, ['sort_order', 'price'])) {
+        } elseif (!$options && in_array($sort, ['sort_order', 'price'])) {
             $sort = 'p.' . $sort;
+        } elseif ($options['special']) {
+            if ($sort == 'sort_order') {
+                $sort = 'p.' . $sort;
+            } elseif (in_array($sort, ['price', 'p.price'])) {
+                $sort = 'ps.' . $sort;
+            }
         }
         return [
-            'sort' => $sort,
-            'order' => $order,
-            'page' => $page,
-            'limit' => $limit
+            'sort'     => $sort,
+            'raw_sort' => $rawSort,
+            'order'    => $order,
+            'page'     => $page,
+            'limit'    => $limit
         ];
     }
 }

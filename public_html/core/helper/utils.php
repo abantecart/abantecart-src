@@ -1593,7 +1593,7 @@ function generateOrderToken($orderId, $email, $secToken = '')
     $registry = Registry::getInstance();
     $enc = new AEncryption($registry->get('config')->get('encryption_key'));
     /** @var ModelCheckoutFastCheckout $mdl */
-    $mdl = $registry->get('load')->model('checkout/fast_checkout');
+    $mdl = $registry->get('load')->model('checkout/fast_checkout','storefront');
     $secToken = $secToken ?: genToken(32);
     $mdl->saveGuestToken($orderId, $secToken);
     return $enc->encrypt($orderId . '::' . $email . '::' . $secToken);

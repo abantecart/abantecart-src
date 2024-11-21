@@ -29,7 +29,7 @@ if(!defined('DS')) {
 require_once (DIR_EXT . 'novator'.DS.'core'.DS.'helper.php');
 
 $file = DIR_EXT . 'novator'.DS.'layout.xml';
-$layout = new ALayoutManager('default');
+$layout = new ALayoutManager('novator');
 $layout->loadXml(
     [
         'file' => $file

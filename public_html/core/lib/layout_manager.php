@@ -1,6 +1,4 @@
-<?php /** @noinspection SqlResolve */
-/** @noinspection SqlDialectInspection */
-
+<?php
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -72,6 +70,15 @@ class ALayoutManager
     const FOOTER_TOP = 7;
     const FOOTER_MAIN = 8;
     const FIXED_POSITIONS = 8;
+
+    const PAGE_GROUPS = [
+        'pages/product/category'     => 'Category',
+        'pages/product/product'      => 'Product',
+        'pages/product/manufacturer' => 'Brand',
+        'pages/content/content'      => 'Content',
+        'pages/account'              => 'Customer',
+        'pages/checkout'             => 'Checkout',
+    ];
 
     /**
      *  Layout Manager Class to handle layout in the admin
@@ -146,7 +153,7 @@ class ALayoutManager
         }
 
         //if not layout set, use default (layout_type=0) layout
-        if (count($this->active_layout) == 0) {
+        if (count($this->active_layout) == 0 && !defined('INSTALL')) {
             $this->active_layout = $this->getLayouts(0);
             if (count($this->active_layout) == 0) {
                 $message_text = 'No template layout found for page_id/controller '
@@ -439,11 +446,12 @@ class ALayoutManager
      * @param string $controller
      * @param string $key_param
      * @param string $key_value
+     * @param bool $exact - see only page with given parameters, not generic
      *
      * @return array
      * @throws AException
      */
-    public function getPageLayoutIDs($controller = '', $key_param = '', $key_value = '')
+    public function getPageLayoutIDs($controller = '', $key_param = '', $key_value = '', $exact = false)
     {
         $ret_arr = [];
         if (!has_value($controller)) {
@@ -451,21 +459,21 @@ class ALayoutManager
         }
         $pages = $this->getPages($controller, $key_param, $key_value);
         //check if we got most specific page/layout
-        if (count($pages) && has_value($pages[0]['page_id'])) {
-            $ret_arr['page_id'] = $pages[0]['page_id'];
-            $ret_arr['layout_id'] = $pages[0]['layout_id'];
-        } else {
+        if ($pages && $pages[0]['page_id']) {
+            $ret_arr = [
+                'page_id'   => $pages[0]['page_id'],
+                'layout_id' => $pages[0]['layout_id']
+            ];
+        } elseif (!$exact) {
             $pages = $this->getPages($controller);
-            if (count($pages) && !$pages[0]['key_param']) {
-                $ret_arr['page_id'] = $pages[0]['page_id'];
-                $ret_arr['layout_id'] = $pages[0]['layout_id'];
-            } else {
+            if (!$pages || $pages[0]['key_param']) {
                 $pages = $this->getPages('generic');
-                $ret_arr['page_id'] = $pages[0]['page_id'];
-                $ret_arr['layout_id'] = $pages[0]['layout_id'];
             }
+            $ret_arr = [
+                'page_id'   => $pages[0]['page_id'],
+                'layout_id' => $pages[0]['layout_id']
+            ];
         }
-        unset($pages);
         return $ret_arr;
     }
 
@@ -2258,13 +2266,6 @@ class ALayoutManager
         if ((string)$block->type) {
             $this->_processCustomBlock($layout_id, $block, $parent_instance_id);
             return true;
-        } /**
-         * @deprecated
-         * TODO : need to delete processing of tags <kind> from layout manager in the future
-         */
-        elseif ((string)$block->kind == 'custom') {
-            $this->_processCustomBlock($layout_id, $block, $parent_instance_id);
-            return true;
         }
 
         $restricted = true;
@@ -2328,11 +2329,11 @@ class ALayoutManager
                     $position = !$position ? 10 : $position;
                     $sql = "INSERT INTO " . $this->db->table("block_layouts") . " 
                         (layout_id, block_id, parent_instance_id, position, status, date_added)
-                        VALUES ('" . ( int )$layout_id . "',
-                                '" . ( int )$block_id . "',
+                        VALUES ('" . $layout_id . "',
+                                '" . $block_id . "',
                                 '" . ( int )$parent_instance_id . "',
                                 '" . ( int )$position . "',
-                                '" . 1 . "',
+                                1,
                                 NOW())";
                     $this->db->query($sql);
                     $instance_id = $this->db->getLastId();

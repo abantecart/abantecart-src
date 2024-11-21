@@ -139,7 +139,7 @@ class ControllerPagesContentContent extends AController
             );
             $pagination_url = $this->html->getSecureURL(
                 'content/content',
-                '&'.http_build_query($params) . '&page={page}&limit={limit}'
+                '&'.http_build_query($params) . '&page=--page--&limit=--limit--'
             );
             $this->data['pagination_bootstrap'] = $this->html->buildElement(
                 [
@@ -220,7 +220,7 @@ class ControllerPagesContentContent extends AController
         $params['sort'] = $sort;
         $pagination_url = $this->html->getSecureURL(
             'content/content/list',
-            '&'.http_build_query($params) . '&page={page}&limit={limit}'
+            '&'.http_build_query($params) . '&page=--page--&limit=--limit--'
         );
 
         $this->document->addBreadcrumb(

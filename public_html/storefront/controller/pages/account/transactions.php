@@ -1,30 +1,28 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
 class ControllerPagesAccountTransactions extends AController
 {
-    public $data = [];
-
     /**
      * Main Controller function to show transaction history.
      * Note: Regular orders are considered in the transactions.
@@ -78,17 +76,8 @@ class ControllerPagesAccountTransactions extends AController
         if ($trans_total) {
             $this->data['action'] = $this->html->getSecureURL('account/transactions');
 
-            if (isset($this->request->get['page'])) {
-                $page = $this->request->get['page'];
-            } else {
-                $page = 1;
-            }
-
-            if (isset($this->request->get['limit'])) {
-               $limit = (int) $this->request->get['limit'];
-            } else {
-               $limit = $this->config->get('config_catalog_limit');
-            }
+            $page = (int)$this->request->get['page'] ?: 1;
+            $limit = (int) $this->request->get['limit'] ?: $this->config->get('config_catalog_limit');
 
             $trans = [];
 
@@ -120,7 +109,7 @@ class ControllerPagesAccountTransactions extends AController
                     'limit'      => $limit,
                     'url'        => $this->html->getSecureURL(
                         'account/transactions',
-                        '&limit='.$limit.'&page={page}'
+                        '&limit='.$limit.'&page=--page--'
                     ),
                     'style'      => 'pagination',
                 ]
@@ -146,6 +135,4 @@ class ControllerPagesAccountTransactions extends AController
         //init controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
-
 }
-

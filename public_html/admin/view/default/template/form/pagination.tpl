@@ -31,7 +31,7 @@
 		?> 
 	  	<li class="disabled"><a><?php echo $i ?></a></li>
 		<?php } else { ?>
-	  	<li><a href="<?php echo str_replace('{page}', $i, $url) ?>"><?php echo $i ?></a></li>
+	  	<li><a href="<?php echo str_replace('--page--', $i, $url) ?>"><?php echo $i ?></a></li>
 		<?php }
 			} ?> 
 		<?php if ($page < $total_pages) { ?>

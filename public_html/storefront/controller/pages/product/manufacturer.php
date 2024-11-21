@@ -35,6 +35,7 @@ class ControllerPagesProductManufacturer extends AController
 
         $httpQuery = $this->prepareProductSortingParameters();
         extract($httpQuery);
+        unset($httpQuery['raw_sort']);
 
         $brands = $get['manufacturer_id'];
         if ($brands) {
@@ -85,11 +86,11 @@ class ControllerPagesProductManufacturer extends AController
                 false
             );
             $this->data['manufacturer_icon'] = $thumbnail;
-        } elseif(is_array($brands)) {
+        } elseif (is_array($brands)) {
             $manufacturer_id = filterIntegerIdList($brands);
             $extractFields = ['name'];
             $tmp = [];
-            if($manufacturer_id) {
+            if ($manufacturer_id) {
                 foreach ($manufacturer_id as $brandId) {
                     $info = $mdl->getManufacturer($brandId);
                     foreach ($extractFields as $fName) {
@@ -154,8 +155,8 @@ class ControllerPagesProductManufacturer extends AController
                     ? $resource->getMainThumbList(
                         'products',
                         $product_ids,
-                        (int) $this->config->get('config_image_product_width'),
-                        (int) $this->config->get('config_image_product_height')
+                        (int)$this->config->get('config_image_product_width'),
+                        (int)$this->config->get('config_image_product_height')
                     )
                     : [];
                 $stock_info = $this->model_catalog_product->getProductsStockInfo($product_ids);
@@ -196,14 +197,14 @@ class ControllerPagesProductManufacturer extends AController
                     if ($products_info[$result['product_id']]['options']) {
                         $add = $this->html->getSEOURL(
                             'product/product',
-                            '&product_id='.$result['product_id'],
+                            '&product_id=' . $result['product_id'],
                             '&encode'
                         );
                     } else {
                         if ($this->config->get('config_cart_ajax')) {
                             $add = '#';
                         } else {
-                            $add = $this->html->getSecureURL($cart_rt, '&product_id='.$result['product_id'], '&encode');
+                            $add = $this->html->getSecureURL($cart_rt, '&product_id=' . $result['product_id'], '&encode');
                         }
                     }
 
@@ -241,7 +242,7 @@ class ControllerPagesProductManufacturer extends AController
                             'special'        => $special,
                             'href'           => $this->html->getSEOURL(
                                 'product/product',
-                                '&product_id='.$result['product_id'],'&encode'
+                                '&product_id=' . $result['product_id'], '&encode'
                             ),
                             'add'            => $add,
                             'description'    => html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
@@ -270,23 +271,23 @@ class ControllerPagesProductManufacturer extends AController
                         'type'    => 'selectbox',
                         'name'    => 'sort',
                         'options' => $sort_options,
-                        'value'   => $sort.'-'.$order,
+                        'value'   => $raw_sort . '-' . $order,
                     ]
                 );
                 $this->view->assign('sorting', $sorting);
                 $pQuery = $httpQuery;
-                $pQuery['sort'] = $pQuery['sort'].'-'.$pQuery['order'];
+                $pQuery['sort'] = $pQuery['sort'] . '-' . $pQuery['order'];
                 unset($pQuery['page'], $pQuery['order']);
                 $pagination_url = $this->html->getSEOURL(
                     'product/manufacturer',
-                    '&page={page}&'.http_build_query($pQuery,'',null,PHP_QUERY_RFC3986)
+                    '&page=--page--&' . http_build_query($pQuery, '', null, PHP_QUERY_RFC3986)
                 );
 
                 $rQuery = $httpQuery;
                 unset($rQuery['sort']);
                 $this->data['resort_url'] = $this->html->getSEOURL(
                     'product/manufacturer',
-                    '&'.http_build_query($rQuery)
+                    '&' . http_build_query($rQuery)
                 );
 
                 $this->data['pagination_bootstrap'] = $this->html->buildElement(
@@ -326,7 +327,7 @@ class ControllerPagesProductManufacturer extends AController
                 [
                     'href'      => $this->html->getSEOURL(
                         'product/manufacturer',
-                        '&'.http_build_query($httpQuery),
+                        '&' . http_build_query($httpQuery),
                         '&encode'
                     ),
                     'text'      => $this->language->get('text_error'),

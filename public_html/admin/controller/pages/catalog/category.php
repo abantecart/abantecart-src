@@ -718,11 +718,9 @@ class ControllerPagesCatalogCategory extends AController
         $this->loadLanguage('catalog/category');
         $this->loadLanguage('design/layout');
         $this->data['help_url'] = $this->gen_help_url('layout_edit');
-
-        if (has_value($category_id) && $this->request->is_GET()) {
-            $this->loadModel('catalog/category');
-            $this->data['category_description'] = $this->model_catalog_category->getCategoryDescriptions($category_id);
-        }
+        $this->loadModel('catalog/category');
+        $this->data['category_description'] = $this->model_catalog_category->getCategoryDescriptions($category_id);
+        $categoryName = $this->data['category_description'][$this->language->getContentLanguageID()]['name'];
 
         // Alert messages
         if (isset($this->session->data['warning'])) {
@@ -738,7 +736,7 @@ class ControllerPagesCatalogCategory extends AController
             .' '
             .$this->language->get('text_category')
             .' - '
-            .$this->data['category_description'][$this->language->getContentLanguageID()]['name'];
+            .$categoryName;
 
         $this->document->setTitle($this->data['heading_title']);
         $this->document->resetBreadcrumbs();
@@ -766,7 +764,7 @@ class ControllerPagesCatalogCategory extends AController
         $this->document->addBreadcrumb(
             [
                 'href'      => $page_url,
-                'text'      => $this->language->get('tab_layout'),
+                'text'      => $this->language->get('tab_layout').' - '.$categoryName,
                 'separator' => ' :: ',
                 'current'   => true,
             ]
@@ -794,20 +792,15 @@ class ControllerPagesCatalogCategory extends AController
         $url = '&'.$this->html->buildURI($params);
 
         // get templates
-        $this->data['templates'] = [];
         $directories = glob(DIR_STOREFRONT.'view/*', GLOB_ONLYDIR);
-        foreach ($directories as $directory) {
-            $this->data['templates'][] = basename($directory);
-        }
+        $this->data['templates'] = array_map('basename', $directories);
         $enabled_templates = $this->extensions->getExtensionsList(
             [
                 'filter' => 'template',
                 'status' => 1,
             ]
         );
-        foreach ($enabled_templates->rows as $template) {
-            $this->data['templates'][] = $template['key'];
-        }
+        $this->data['templates'] = array_merge($this->data['templates'], array_column($enabled_templates->rows,'key'));
 
         $action = $this->html->getSecureURL('catalog/category/save_layout');
         // Layout form data
