@@ -33,6 +33,7 @@ $page_list = '';
                         <a id="'.$page['id'].'" class="2d-dropdown">' . $page['layout_name'] . '</a>';
             $page_list .= '<ul class="dropdown-menu" aria-labelledby="'.$page['id'].'">';
             foreach($page['children'] as $child){
+                $item_class = '';
                 if($child['page_id'] == $current_page['page_id'] && $child['layout_id'] == $current_page['layout_id']){
                     $item_class = ' disabled';
                     if (!$child['restricted']) {
