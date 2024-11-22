@@ -57,7 +57,7 @@ class ControllerPagesDesignPageBuilder extends AController
         $layoutPages = [];
         foreach($allPages as $page){
             $page['url'] = $this->html->getSecureURL(
-                'design/layout',
+                'design/page_builder',
                 '&layout_id='.$page['layout_id'].'&page_id='.$page['page_id'].'&tmpl_id='.$templateTxtId
             );
             if(!$page['restricted']){

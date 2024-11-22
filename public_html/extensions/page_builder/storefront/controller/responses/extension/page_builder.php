@@ -103,7 +103,7 @@ class ControllerResponsesExtensionPageBuilder extends AController
                 //run controller and intercept data
                 /** @see ExtensionPageBuilder::__call() */
                 $dis->dispatchGetOutput();
-                $this->data = array_merge($this->data, $this->registry->get('PBRunData')['data']);
+                $this->data = array_merge($this->data, (array)$this->registry->get('PBRunData')['data']);
                 $this->registry->set('PBuilder_interception', false);
                 $this->registry->set('PBuilder_dryrun', false);
                 $this->registry->set('PBuilder_block_template', '');

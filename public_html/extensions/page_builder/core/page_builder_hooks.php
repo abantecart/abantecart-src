@@ -108,8 +108,10 @@ class ExtensionPageBuilder extends Extension
         }
 
         $pbTemplateData = $this->findPageTemplate($preview, $templateTxtId, $pageId, $layoutId);
+
+        $pageRoute = $router->getController();
         if (!$pbTemplateData) {
-            if ($router->getController() == 'pages/product/product'
+            if ($pageRoute == 'pages/product/product'
                 && $preview && !$that->request->get['product_id']
             ) {
                 //in case when layout is for default product page - take a random product id
@@ -134,14 +136,20 @@ class ExtensionPageBuilder extends Extension
             // pass real requested route. Render must know it for call routes
             // by mask (in case when mask cover all controller down to the directory tree.
             // For example route pages/account will cover pages/account/login )
-            $render = new PBRender($router->getController());
+            $render = new PBRender($pageRoute);
             $render->setTemplate($pbTemplateData);
-            //not implemented yet
-            //$render->batchAssign((array)$someViewData);
+            //redirect ot log in page for all account pages
+            if(str_starts_with($pageRoute,'pages/account')
+                && !str_contains($pageRoute,'account/login')
+                && !$that->customer->isLogged()){
+                $that->session->data['redirect'] = $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+                redirect($that->html->getSecureURL('account/login'));
+            }
+
             $output = $render->render();
             if (!$output) {
                 $that->log->write(
-                    'PageBuilder Render error: Empty output of renderer for route ' . $router->getController() . '!'
+                    'PageBuilder Render error: Empty output of renderer for route ' . $pageRoute . '!'
                 );
                 // if error - show base page built by dispatcher
                 return false;
