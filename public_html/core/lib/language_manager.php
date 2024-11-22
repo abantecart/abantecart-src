@@ -34,6 +34,8 @@ class ALanguageManager extends Alanguage
     private $translatable_fields = [];
     const TAG_REGEX_PATTERN = '/[^\\d\s\p{L}\-_]/u';
 
+    public $excludeTableList = ['url_aliases'];
+
     //NOTE: This class is loaded in INIT for admin only
 
     /**
@@ -257,7 +259,7 @@ class ALanguageManager extends Alanguage
         } elseif (is_array($tagsSrc)) {
             $tags = array_intersect_key($tagsSrc, array_unique(array_map('strtolower', $tagsSrc)));
         } else {
-            return false;
+            return;
         }
 
         foreach ($tags as &$tag) {
@@ -595,28 +597,24 @@ class ALanguageManager extends Alanguage
      * save descriptions history
      *
      * @param string $tableName - database table name with no prefix
-     * @param array  $index     - unique index to perform select (associative array with column name as key)
-     * @param        $langId
-     * @param        $langData
-     * @param        $updateIndex
+     * @param array $index - unique index to perform select (associative array with column name as key)
+     * @param int $langId
+     * @param array $langData
+     * @param array $updateIndex
      *
      * @return void
      * @throws AException
      */
-    protected function save_history($tableName, $index, $langId, $langData, $updateIndex): void
+    protected function save_history(string $tableName, array $index, int $langId, array $langData, array $updateIndex): void
     {
-        $exclude = ['url_aliases'];
         //exclude some tables
-        if (in_array($tableName, $exclude)) {
+        if (in_array($tableName, $this->excludeTableList)) {
             return;
         }
 
-        $tableId = 0;
-        foreach ($index as $v) {
-            if (has_value($v)) {
-                $tableId = (int)$v;
-            }
-        }
+        $index = array_filter($index);
+        $tableId = (int)current($index);
+
         //select current values for compare
         $result = $this->db->query(
             "SELECT * 
@@ -629,11 +627,17 @@ class ALanguageManager extends Alanguage
                 //nothing to update
                 continue;
             }
-            $load_data = ['table_name' => $tableName, 'table_id' => $tableId, 'language_id' => $langId, 'version' => 1 ];
+            $load_data = [
+                'table_name' => $tableName,
+                'table_id' => $tableId,
+                'language_id' => $langId,
+                'version' => 1
+            ];
             //select latest version
-            $sql = "SELECT version as version from ".$this->db->table('description_history')." 
-                    WHERE `table_name` = '$tableName' AND `table_id` = '$tableId' 
-                        AND `field` = '$field' AND `language_id` = '".$langId."' ";
+            $sql = "SELECT version as version 
+                    FROM ".$this->db->table('description_history')." 
+                    WHERE `table_name` = '".$this->db->escape($tableName)."' AND `table_id` = '".$tableId."' 
+                        AND `field` = '".$this->db->escape($field)."' AND `language_id` = '".$langId."' ";
             $sql .= "ORDER BY `version` DESC LIMIT 1";
             $result = $this->db->query($sql);
 
@@ -645,7 +649,6 @@ class ALanguageManager extends Alanguage
             $sql = "INSERT INTO " . $this->db->table('description_history') . " ";
             $sql .= "(`" . implode("`, `", array_keys($load_data)) . "`) VALUES ('" . implode("', '", $load_data) . "') ";
             $this->db->query($sql);
-
         }
     }
 
