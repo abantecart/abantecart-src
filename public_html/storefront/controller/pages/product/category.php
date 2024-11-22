@@ -54,6 +54,7 @@ class ControllerPagesProductCategory extends AController
         $category_info = [];
         $httpQuery = $this->prepareProductSortingParameters();
         extract($httpQuery);
+        unset($httpQuery['raw_sort']);
 
         $brands = $request['manufacturer_id'];
         if ($brands && is_array($brands)) {
@@ -91,7 +92,7 @@ class ControllerPagesProductCategory extends AController
                     }
                 }
                 // include subdirectories into result product list
-                if($path_id == $currentId) {
+                if ($path_id == $currentId) {
                     $category_id = array_merge($category_id, $mdl->getChildrenIDs((int)$path_id));
                 }
                 $this->document->addBreadcrumb(
@@ -106,7 +107,7 @@ class ControllerPagesProductCategory extends AController
             $category_info = $mdl->getCategory(end($parts));
         } elseif (is_array($request['category_id'])) {
             $category_id = filterIntegerIdList($request['category_id']);
-            if($category_id){
+            if ($category_id) {
                 $httpQuery['category_id'] = $category_id;
             }
             if ($category_id) {
@@ -119,12 +120,12 @@ class ControllerPagesProductCategory extends AController
                     }
                 }
                 foreach ($extractFields as $fName) {
-                    $tmp[$fName] = array_unique(array_filter(array_map('trim',$tmp[$fName])));
+                    $tmp[$fName] = array_unique(array_filter(array_map('trim', $tmp[$fName])));
                     $category_info[$fName] = implode(', ', $tmp[$fName]);
                 }
                 unset($tmp);
 
-                if(count($category_id)==1){
+                if (count($category_id) == 1) {
                     $request['path'] = $mdl->buildPath(current($category_id));
                 }
 
@@ -137,8 +138,8 @@ class ControllerPagesProductCategory extends AController
                         'separator' => $this->language->get('text_separator')
                     ]
                 );
-                $this->data['filter_url'] = $this->html->getSEOURL( 'product/category', '&' . http_build_query($httpQuery) );
-            }else{
+                $this->data['filter_url'] = $this->html->getSEOURL('product/category', '&' . http_build_query($httpQuery));
+            } else {
                 $category_id = [0];
                 $category_info['category_id'] = 0;
             }
@@ -148,8 +149,8 @@ class ControllerPagesProductCategory extends AController
         }
 
         //if category not set but brands are selected
-        if(!$category_id && $httpQuery['manufacturer_id']){
-          redirect($this->html->getSecureURL('product/manufacturer', '&' . http_build_query($httpQuery)));
+        if (!$category_id && $httpQuery['manufacturer_id']) {
+            redirect($this->html->getSecureURL('product/manufacturer', '&' . http_build_query($httpQuery)));
         }
 
         if ($category_info) {
@@ -161,7 +162,7 @@ class ControllerPagesProductCategory extends AController
             $this->document->setDescription($category_info['meta_description']);
 
             $this->data['heading_title'] = $category_info['name'];
-            if(!is_array($request['category_id']) || count($request['category_id']) == 1) {
+            if (!is_array($request['category_id']) || count($request['category_id']) == 1) {
                 $this->data['description'] = html_entity_decode($category_info['description'], ENT_QUOTES, 'UTF-8');
             }
             $this->data['text_sort'] = $this->language->get('text_sort');
@@ -192,16 +193,16 @@ class ControllerPagesProductCategory extends AController
             $product_total = $products_result[0]['total_num_rows'];
 
             //if requested page does not exist
-            if($product_total < ($page-1)*$limit  && $page>1){
+            if ($product_total < ($page - 1) * $limit && $page > 1) {
                 $httpQuery['page'] = 1;
-                redirect($this->html->getSEOURL('product/category', '&'.http_build_query($httpQuery)));
+                redirect($this->html->getSEOURL('product/category', '&' . http_build_query($httpQuery)));
             }
 
             if ($category_total || $product_total) {
                 $categories = [];
                 $resource = new AResource('image');
 
-                if($category_info['category_id']){
+                if ($category_info['category_id']) {
                     $results = $mdl->getCategories($category_info['category_id']);
                     $category_ids = array_column($results, 'category_id');
                     //get thumbnails by one pass
@@ -311,7 +312,7 @@ class ControllerPagesProductCategory extends AController
                     }
 
                     $productHttpQuery = [];
-                    if($request['path']) {
+                    if ($request['path']) {
                         $productHttpQuery['path'] = $request['path'];
                     }
                     $productHttpQuery['product_id'] = $result['product_id'];
@@ -333,7 +334,7 @@ class ControllerPagesProductCategory extends AController
                             'special'        => $special,
                             'href'           => $this->html->getSEOURL(
                                 'product/product',
-                                '&'.http_build_query($productHttpQuery),
+                                '&' . http_build_query($productHttpQuery),
                                 true
                             ),
                             'add'            => $add,
@@ -363,23 +364,23 @@ class ControllerPagesProductCategory extends AController
                         'type'    => 'selectbox',
                         'name'    => 'sort',
                         'options' => $sort_options,
-                        'value'   => $sort . '-' . $order,
+                        'value'   => $raw_sort . '-' . $order,
                     ]
                 );
                 $this->data['sorting'] = $sorting;
                 $pQuery = $httpQuery;
-                $pQuery['sort'] = $pQuery['sort'].'-'.$pQuery['order'];
+                $pQuery['sort'] = $pQuery['sort'] . '-' . $pQuery['order'];
                 unset($pQuery['page'], $pQuery['order']);
                 $pagination_url = $this->html->getSEOURL(
                     'product/category',
-                    '&page={page}&'.http_build_query($pQuery,'',null,PHP_QUERY_RFC3986)
+                    '&page=--page--&' . http_build_query($pQuery, '', null, PHP_QUERY_RFC3986),
                 );
 
                 $rQuery = $httpQuery;
                 unset($rQuery['sort']);
                 $this->data['resort_url'] = $this->html->getSEOURL(
                     'product/category',
-                    '&'.http_build_query($rQuery)
+                    '&' . http_build_query($rQuery)
                 );
 
                 $this->data['pagination_bootstrap'] = $this->html->buildElement(

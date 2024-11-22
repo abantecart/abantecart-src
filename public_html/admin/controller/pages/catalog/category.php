@@ -41,7 +41,6 @@ class ControllerPagesCatalogCategory extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->document->setTitle($this->language->get('heading_title'));
         $this->view->assign('help_url', $this->gen_help_url('category_listing'));
 
         $this->document->initBreadcrumb(
@@ -274,7 +273,6 @@ class ControllerPagesCatalogCategory extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $this->document->setTitle($this->language->get('heading_title'));
 
         $this->view->assign('error_warning', $this->error['warning']);
         $this->view->assign('success', $this->session->data['success']);
@@ -312,7 +310,6 @@ class ControllerPagesCatalogCategory extends AController
 
         $cId = (int)$this->request->get['category_id'];
 
-        $this->document->setTitle($this->language->get('heading_title'));
         $this->view->assign('help_url', $this->gen_help_url('category_edit'));
 
         $this->view->assign('error_warning', $this->error['warning']);
@@ -395,7 +392,7 @@ class ControllerPagesCatalogCategory extends AController
         );
 
         $this->view->assign('cancel', $this->html->getSecureURL('catalog/category'));
-
+        $category_info = [];
         if ($category_id && $this->request->is_GET()) {
             $category_info = $this->model_catalog_category->getCategory($category_id);
         }
@@ -403,7 +400,7 @@ class ControllerPagesCatalogCategory extends AController
         foreach ($this->fields as $f) {
             if (isset ($this->request->post [$f])) {
                 $this->data [$f] = $this->request->post [$f];
-            } elseif (isset($category_info) && isset($category_info[$f])) {
+            } elseif (isset($category_info[$f])) {
                 $this->data[$f] = $category_info[$f];
             } else {
                 $this->data[$f] = '';
@@ -472,6 +469,7 @@ class ControllerPagesCatalogCategory extends AController
                 'current'   => true,
             ]
         );
+        $this->document->setTitle($this->data['heading_title']);
 
         $form->setForm(
             [
@@ -669,7 +667,7 @@ class ControllerPagesCatalogCategory extends AController
             $this->error['warning'][] = $this->language->get('error_permission');
         }
 
-        foreach ($this->request->post['category_description'] as $language_id => $value) {
+        foreach ($this->request->post['category_description'] as $value) {
             $len = mb_strlen($value['name']);
             if (($len < 2) || ($len > 255)) {
                 $this->error['warning'][] = $this->language->get('error_name');
@@ -715,14 +713,12 @@ class ControllerPagesCatalogCategory extends AController
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $this->loadLanguage('catalog/category');
         $this->loadLanguage('design/layout');
+        $this->loadLanguage('catalog/category');
         $this->data['help_url'] = $this->gen_help_url('layout_edit');
-
-        if (has_value($category_id) && $this->request->is_GET()) {
-            $this->loadModel('catalog/category');
-            $this->data['category_description'] = $this->model_catalog_category->getCategoryDescriptions($category_id);
-        }
+        $this->loadModel('catalog/category');
+        $this->data['category_description'] = $this->model_catalog_category->getCategoryDescriptions($category_id);
+        $categoryName = $this->data['category_description'][$this->language->getContentLanguageID()]['name'];
 
         // Alert messages
         if (isset($this->session->data['warning'])) {
@@ -738,9 +734,9 @@ class ControllerPagesCatalogCategory extends AController
             .' '
             .$this->language->get('text_category')
             .' - '
-            .$this->data['category_description'][$this->language->getContentLanguageID()]['name'];
+            .$categoryName;
 
-        $this->document->setTitle($this->data['heading_title']);
+        $this->document->setTitle($this->language->get('tab_layout').' - '.$categoryName);
         $this->document->resetBreadcrumbs();
         $this->document->addBreadcrumb(
             [
@@ -752,21 +748,14 @@ class ControllerPagesCatalogCategory extends AController
         $this->document->addBreadcrumb(
             [
                 'href'      => $this->html->getSecureURL('catalog/category'),
-                'text'      => $this->language->get('heading_title'),
-                'separator' => ' :: ',
-            ]
-        );
-        $this->document->addBreadcrumb(
-            [
-                'href'      => $this->html->getSecureURL('catalog/category/update', '&category_id='.$category_id),
-                'text'      => $this->data['heading_title'],
+                'text'      => $this->language->get('heading_title','catalog/category'),
                 'separator' => ' :: ',
             ]
         );
         $this->document->addBreadcrumb(
             [
                 'href'      => $page_url,
-                'text'      => $this->language->get('tab_layout'),
+                'text'      => $this->language->get('tab_layout').' - '.$categoryName,
                 'separator' => ' :: ',
                 'current'   => true,
             ]
@@ -796,8 +785,8 @@ class ControllerPagesCatalogCategory extends AController
         // get templates
         $this->data['templates'] = [];
         $directories = glob(DIR_STOREFRONT.'view/*', GLOB_ONLYDIR);
-        foreach ($directories as $directory) {
-            $this->data['templates'][] = basename($directory);
+        if($directories) {
+            $this->data['templates'] = array_map('basename', $directories);
         }
         $enabled_templates = $this->extensions->getExtensionsList(
             [
@@ -805,9 +794,7 @@ class ControllerPagesCatalogCategory extends AController
                 'status' => 1,
             ]
         );
-        foreach ($enabled_templates->rows as $template) {
-            $this->data['templates'][] = $template['key'];
-        }
+        $this->data['templates'] = array_merge($this->data['templates'], array_column($enabled_templates->rows,'key'));
 
         $action = $this->html->getSecureURL('catalog/category/save_layout');
         // Layout form data

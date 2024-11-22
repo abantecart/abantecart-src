@@ -69,14 +69,11 @@ class PBRender
     {
         $registry = Registry::getInstance();
         $templateTxtId = $registry->get('config')->get('config_storefront_template');
-        $baseHtmlFile = DIR_PB_TEMPLATES.$templateTxtId.DS.'base.html';
+        $baseHtmlFile = $templateTxtId == 'default'
+            ? DIR_APP_SECTION.'view'.DS.$templateTxtId.DS.'base.html'
+            : DIR_EXT.$templateTxtId.DS.'storefront'.DS.'view'.DS.$templateTxtId.DS.'base.html';
         if (!is_file($baseHtmlFile)) {
-            $baseHtmlFile = $templateTxtId == 'default'
-                ? DIR_APP_SECTION.'view'.DS.$templateTxtId.DS.'base.html'
-                : DIR_EXT.$templateTxtId.DS.'storefront'.DS.'view'.DS.$templateTxtId.DS.'base.html';
-            if (!is_file($baseHtmlFile)) {
-                copy(DIR_EXT.'page_builder'.DS.'base.html', $baseHtmlFile);
-            }
+            copy(DIR_EXT.'page_builder'.DS.'base.html', $baseHtmlFile);
         }
         $this->output = file_get_contents($baseHtmlFile);
 

@@ -3054,10 +3054,6 @@ li#review-set::before {
     font-size: 14px;
 }
 
-.column_right-section h2 {
-    display: none;
-}
-
 .account-card .badge {
     right: 0;
 }

@@ -24,7 +24,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ControllerCommonPageLayout extends AController
 {
 
-    private $installed_blocks = [];
+    protected $installed_blocks = [];
 
     /**
      * @param ALayoutManager $layout
@@ -40,13 +40,13 @@ class ControllerCommonPageLayout extends AController
         if (!$this->registry->has('layouts_manager_script')) {
             $this->document->addStyle(
                 [
-                'href' => RDIR_TEMPLATE.'stylesheet/layouts-manager.css',
-                'rel'  => 'stylesheet',
+                    'href' => RDIR_TEMPLATE . 'stylesheet/layouts-manager.css',
+                    'rel'  => 'stylesheet',
                 ]
             );
 
-            $this->document->addScript(RDIR_TEMPLATE.'javascript/jquery/sortable.js');
-            $this->document->addScript(RDIR_TEMPLATE.'javascript/layouts-manager.js');
+            $this->document->addScript(RDIR_TEMPLATE . 'javascript/jquery/sortable.js');
+            $this->document->addScript(RDIR_TEMPLATE . 'javascript/layouts-manager.js');
 
             //set flag to not include scripts/css twice
             $this->registry->set('layouts_manager_script', true);
@@ -62,6 +62,7 @@ class ControllerCommonPageLayout extends AController
         $page_sections = $this->_buildPageSections($layout_main_blocks);
 
         $this->view->batchAssign($page_sections);
+        $this->view->assign('text_none', $this->language->get('text_none'));
         $this->processTemplate('common/page_layout.tpl');
 
         // update controller data
@@ -72,8 +73,9 @@ class ControllerCommonPageLayout extends AController
      * @param array $sections
      *
      * @return array
+     * @throws AException
      */
-    private function _buildPageSections($sections)
+    protected function _buildPageSections($sections)
     {
         $page_sections = [];
         $partialView = $this->view;
@@ -83,13 +85,13 @@ class ControllerCommonPageLayout extends AController
 
             $partialView->batchAssign(
                 [
-                'id'          => $section['instance_id'],
-                'blockId'     => $section['block_id'],
-                'name'        => $section['block_txt_id'],
-                'status'      => $section['status'],
-                'controller'  => $section['controller'],
-                'blocks'      => implode('', $blocks),
-                'addBlockUrl' => $this->html->getSecureURL('design/blocks_manager'),
+                    'id'          => $section['instance_id'],
+                    'blockId'     => $section['block_id'],
+                    'name'        => $section['block_txt_id'],
+                    'status'      => $section['status'],
+                    'controller'  => $section['controller'],
+                    'blocks'      => implode('', $blocks),
+                    'addBlockUrl' => $this->html->getSecureURL('design/blocks_manager'),
                 ]
             );
 
@@ -105,8 +107,9 @@ class ControllerCommonPageLayout extends AController
      * @param array $section_blocks
      *
      * @return array
+     * @throws AException
      */
-    private function _buildBlocks($section_id, $section_blocks)
+    protected function _buildBlocks($section_id, $section_blocks)
     {
         $blocks = [];
         $edit_url = '';
@@ -122,7 +125,7 @@ class ControllerCommonPageLayout extends AController
 
             if ($block['custom_block_id']) {
                 $customName = $this->_getCustomBlockName($block['custom_block_id']);
-                $edit_url = $this->html->getSecureURL('design/blocks/edit', '&custom_block_id='.$block['custom_block_id']);
+                $edit_url = $this->html->getSecureURL('design/blocks/edit', '&custom_block_id=' . $block['custom_block_id']);
             }
 
             //if template for section/block is not present, block is not allowed here.
@@ -133,20 +136,20 @@ class ControllerCommonPageLayout extends AController
 
             $partialView->batchAssign(
                 [
-                'id'                    => $block['instance_id'],
-                'blockId'               => $block['block_id'],
-                'customBlockId'         => $block['custom_block_id'],
-                'name'                  => $block['block_txt_id'],
-                'customName'            => $customName,
-                'editUrl'               => $edit_url,
-                'status'                => $block['status'],
-                'parentBlock'           => $section_id,
-                'block_info_url'        => $this->html->getSecureURL('design/blocks_manager/block_info'),
-                'template_availability' => $template_availability,
-                'validate_url'          => $this->html->getSecureURL(
-                    'design/blocks_manager/validate_block',
-                    '&block_id='.$block['block_id']
-                )
+                    'id'                    => $block['instance_id'],
+                    'blockId'               => $block['block_id'],
+                    'customBlockId'         => $block['custom_block_id'],
+                    'name'                  => $block['block_txt_id'],
+                    'customName'            => $customName,
+                    'editUrl'               => $edit_url,
+                    'status'                => $block['status'],
+                    'parentBlock'           => $section_id,
+                    'block_info_url'        => $this->html->getSecureURL('design/blocks_manager/block_info'),
+                    'template_availability' => $template_availability,
+                    'validate_url'          => $this->html->getSecureURL(
+                        'design/blocks_manager/validate_block',
+                        '&block_id=' . $block['block_id']
+                    )
                 ]
             );
 
@@ -162,12 +165,13 @@ class ControllerCommonPageLayout extends AController
      *
      * @return string
      */
-    private function _getCustomBlockName($custom_block_id)
+    protected function _getCustomBlockName($custom_block_id)
     {
         foreach ($this->installed_blocks as $block) {
             if ($block['custom_block_id'] == $custom_block_id) {
                 return $block['block_name'];
             }
         }
+        return '';
     }
 }

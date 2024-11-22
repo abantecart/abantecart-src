@@ -167,7 +167,7 @@ class ControllerBlocksMegaMenu extends AController
             $category['thumb'] = $thumbnail['thumb_url'];
             $category['icon'] = $thumbnail['resource_id'];
             $category['product_count'] = $mdl->getProductCount($category['category_id']);
-            $category['href'] = $this->html->getSEOURL('product/category', '&path=' . $category['path'], '&encode');
+            $category['href'] = $this->html->getSEOURL('product/category', '&path=' . $category['path']);
             //mark current category
             if ($category['category_id'] == $this->category_id) {
                 $category['current'] = true;

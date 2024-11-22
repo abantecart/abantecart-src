@@ -47,12 +47,45 @@ class ControllerPagesDesignPageBuilder extends AController
         $page_id = (int)$this->request->get['page_id'];
         $layout_id = (int)$this->request->get['layout_id'];
         $layout = new ALayoutManager($templateTxtId, $page_id, $layout_id);
-        $this->data['pages'] = $layout->getAllPages();
+        $allPages = $layout->getAllPages();
         if(!$page_id){
             $page_id = $this->data['pages'][0]['page_id'];
             $layout_id = $this->data['pages'][0]['layout_id'];
             $layout = new ALayoutManager($templateTxtId, $page_id, $layout_id);
         }
+        $pageGroups = array_merge( $layout::PAGE_GROUPS, (array)$this->data['page_groups'] );
+        $layoutPages = [];
+        foreach($allPages as $page){
+            $page['url'] = $this->html->getSecureURL(
+                'design/page_builder',
+                '&layout_id='.$page['layout_id'].'&page_id='.$page['page_id'].'&tmpl_id='.$templateTxtId
+            );
+            if(!$page['restricted']){
+                $page['delete_url'] = $this->html->getSecureURL(
+                    'design/layout/delete',
+                    '&layout_id='.$page['layout_id'].'&page_id='.$page['page_id'].'&tmpl_id='.$templateTxtId
+                );
+            }
+            $pageGroup = array_filter(array_keys($pageGroups), function($controller) use ($page){
+                return str_starts_with($page['controller'],$controller);
+            });
+            if($pageGroup){
+                $k = current($pageGroup);
+                if(!$layoutPages[$k]){
+                    $layoutPages[$k] = [
+                        'id' => 'dp'.preformatTextID($k),
+                        'name' => $pageGroups[$k],
+                        'layout_name' => $pageGroups[$k],
+                        'restricted' => true
+                    ];
+                }
+                $layoutPages[$k]['children'][] = $page;
+            }else{
+                $layoutPages[] = $page;
+            }
+        }
+        $this->data['pages'] = $layoutPages;
+
 
         $this->data['current_page'] = $layout->getPageData();
         $params = [

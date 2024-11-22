@@ -2,32 +2,51 @@
 
 $template_list = '';
 foreach ($templates as $template) {
-  $item_class = '';
-  if ($tmpl_id == $template) {
-    $item_class = ' class="disabled"';
-  }
-  $template_list .= '<li' . $item_class . '><a href="' . $page_url . '&tmpl_id=' . $template . '">' . $template . '</a></li>';
+    $item_class = '';
+    if ($tmpl_id == $template) {
+        $item_class = ' disabled';
+    }
+    $template_list .= '<li class="' . $item_class . '">
+  <a href="' . $page_url . '&tmpl_id=' . $template . '">' . $template . '</a>
+  </li>';
 }
 
 if($template_list){
 
 $current_ok_delete = false;
 $page_list = '';
-foreach ($pages as $page) {
-  $uri = '&tmpl_id=' . $tmpl_id . '&page_id=' . $page['page_id'] . '&layout_id=' . $page['layout_id'];
-
-  $item_class = '';
-  if ($page['page_id'] == $current_page['page_id'] && $page['layout_id'] == $current_page['layout_id']) {
-    $item_class = ' class="disabled"';
-    if (empty($page['restricted'])) {
-      $page_delete_url = $page_delete_url . $uri;
-      $current_ok_delete = true;
+    foreach ($pages as $page) {
+        $item_class = '';
+        if ($page['page_id'] == $current_page['page_id'] && $page['layout_id'] == $current_page['layout_id']) {
+            $item_class = ' disabled';
+            if (!$page['restricted']) {
+                $page_delete_url = $page['delete_url'];
+                $current_ok_delete = true;
+            }
+        }
+        $page_list .= '';
+        if(!$page['children']) {
+            $page_list .= '<li class="' . $item_class . '">
+                        <a href="' . $page['url'] . '" title="' . html2view($page['name']) . '">' . $page['layout_name'] . '</a>';
+        }else{
+            $page_list .= '<li class="' . $item_class . ' dropdown-submenu">
+                        <a id="'.$page['id'].'" class="2d-dropdown">' . $page['layout_name'] . '</a>';
+            $page_list .= '<ul class="dropdown-menu" aria-labelledby="'.$page['id'].'">';
+            foreach($page['children'] as $child){
+                $item_class = '';
+                if($child['page_id'] == $current_page['page_id'] && $child['layout_id'] == $current_page['layout_id']){
+                    $item_class = ' disabled';
+                    if (!$child['restricted']) {
+                        $page_delete_url = $child['delete_url'];
+                        $current_ok_delete = true;
+                    }
+                }
+                $page_list .= '<li class="' . $item_class . '"><a href="' . $child['url'] . '" title="' . html2view($child['name']) . '">' . $child['layout_name'] . '</a></li>';
+            }
+            $page_list .= '</ul>';
+        }
+        $page_list .= '</li>';
     }
-  }
-  $page_list .= '<li' . $item_class . '>';
-  $page_list .= '<a href="' . $page_url . $uri . '" title="' . $page['name'] . '">' . $page['layout_name'] . '</a>';
-  $page_list .= '</li>';
-}
 ?>
 
 <div id="content" class="panel panel-default">
@@ -43,7 +62,7 @@ foreach ($pages as $page) {
                 </ul>
 			</div>
 
-			<div class="btn-group mr10 toolbar">
+			<div id="layout_selector" class="btn-group mr10 toolbar">
 			  <button class="btn btn-default dropdown-toggle"
                       type="button" data-toggle="dropdown"
                       style="max-width: 300px; overflow:hidden; text-overflow: ellipsis;"

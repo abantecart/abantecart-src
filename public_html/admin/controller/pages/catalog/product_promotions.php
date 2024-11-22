@@ -24,13 +24,13 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ControllerPagesCatalogProductPromotions extends AController
 {
     public $error = [];
+
     public function main()
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadLanguage('catalog/product');
-        $this->document->setTitle($this->language->get('heading_title'));
         $this->loadModel('catalog/product');
 
         if (isset($this->request->get['product_id']) && $this->request->is_GET()) {
@@ -43,7 +43,7 @@ class ControllerPagesCatalogProductPromotions extends AController
 
         if ($this->request->is_POST() && $this->_validateForm()) {
             $post = $this->request->post;
-            foreach(['date_start', 'date_end'] as $datetime) {
+            foreach (['date_start', 'date_end'] as $datetime) {
                 if ($post[$datetime]) {
                     $post[$datetime] = dateDisplay2ISO(
                         $post[$datetime],
@@ -59,7 +59,7 @@ class ControllerPagesCatalogProductPromotions extends AController
                         $post
                     );
                 } else { //insert
-                   $this->data['product_discount_id'] = $this->model_catalog_product->addProductDiscount(
+                    $this->data['product_discount_id'] = $this->model_catalog_product->addProductDiscount(
                         $this->request->get['product_id'],
                         $post
                     );
@@ -82,7 +82,7 @@ class ControllerPagesCatalogProductPromotions extends AController
             redirect(
                 $this->html->getSecureURL(
                     'catalog/product_promotions',
-                    '&product_id='.$this->request->get['product_id']
+                    '&product_id=' . $this->request->get['product_id']
                 )
             );
         }
@@ -111,24 +111,25 @@ class ControllerPagesCatalogProductPromotions extends AController
                 'separator' => ' :: ',
             ]
         );
+        $title = $this->language->get('text_edit') . '&nbsp;'
+            . $this->language->get('text_product') . ' - '
+            . $this->data['product_description'][$this->language->getContentLanguageID()]['name'];
         $this->document->addBreadcrumb(
             [
                 'href'      => $this->html->getSecureURL(
                     'catalog/product/update',
-                    '&product_id='.$this->request->get['product_id']
+                    '&product_id=' . $this->request->get['product_id']
                 ),
-                'text'      => $this->language->get('text_edit')
-                    .'&nbsp;'
-                    .$this->language->get('text_product').' - '
-                    .$this->data['product_description'][$this->language->getContentLanguageID()]['name'],
+                'text'      => $title,
                 'separator' => ' :: ',
             ]
         );
+        $this->document->setTitle($title);
         $this->document->addBreadcrumb(
             [
                 'href'      => $this->html->getSecureURL(
                     'catalog/product_promotions',
-                    '&product_id='.$this->request->get['product_id']
+                    '&product_id=' . $this->request->get['product_id']
                 ),
                 'text'      => $this->language->get('tab_promotions'),
                 'separator' => ' :: ',
@@ -138,21 +139,21 @@ class ControllerPagesCatalogProductPromotions extends AController
 
         $this->loadModel('sale/customer_group');
         $results = $this->model_sale_customer_group->getCustomerGroups();
-        $this->data['customer_groups'] = array_column($results,'name', 'customer_group_id');
+        $this->data['customer_groups'] = array_column($results, 'name', 'customer_group_id');
 
         $this->data['form_title'] = $this->language->get('text_edit')
-            .'&nbsp;'
-            .$this->language->get('text_product');
+            . '&nbsp;'
+            . $this->language->get('text_product');
         $this->data['product_discounts'] = $this->model_catalog_product->getProductDiscounts(
-                $this->request->get['product_id']
-            );
+            $this->request->get['product_id']
+        );
         $this->data['delete_discount'] = $this->html->getSecureURL(
             'catalog/product_promotions/delete',
-            '&product_id='.$this->request->get['product_id'].'&product_discount_id=%ID%'
+            '&product_id=' . $this->request->get['product_id'] . '&product_discount_id=%ID%'
         );
         $this->data['update_discount'] = $this->html->getSecureURL(
             'catalog/product_discount_form/update',
-            '&product_id='.$this->request->get['product_id'].'&product_discount_id=%ID%'
+            '&product_id=' . $this->request->get['product_id'] . '&product_discount_id=%ID%'
         );
 
         $this->data['product_specials'] = $this->model_catalog_product->getProductSpecials(
@@ -160,14 +161,14 @@ class ControllerPagesCatalogProductPromotions extends AController
         );
         $this->data['delete_special'] = $this->html->getSecureURL(
             'catalog/product_promotions/delete',
-            '&product_id='.$this->request->get['product_id'].'&product_special_id=%ID%'
+            '&product_id=' . $this->request->get['product_id'] . '&product_special_id=%ID%'
         );
         $this->data['update_special'] = $this->html->getSecureURL(
             'catalog/product_special_form/update',
-            '&product_id='.$this->request->get['product_id'].'&product_special_id=%ID%'
+            '&product_id=' . $this->request->get['product_id'] . '&product_special_id=%ID%'
         );
 
-        foreach(['product_discounts', 'product_specials'] as $section) {
+        foreach (['product_discounts', 'product_specials'] as $section) {
             foreach ($this->data[$section] as $i => $item) {
                 foreach (['date_start', 'date_end'] as $dateField) {
                     $date = $item[$dateField];
@@ -179,33 +180,33 @@ class ControllerPagesCatalogProductPromotions extends AController
 
         $this->data['button_remove'] = $this->html->buildElement(
             [
-                'type'  => 'button',
-                'text'  => $this->language->get('button_remove')
+                'type' => 'button',
+                'text' => $this->language->get('button_remove')
             ]
         );
         $this->data['button_edit'] = $this->html->buildElement(
             [
-                'type'  => 'button',
-                'text'  => $this->language->get('button_edit')
+                'type' => 'button',
+                'text' => $this->language->get('button_edit')
             ]
         );
         $this->data['button_add_discount'] = $this->html->buildElement(
             [
-                'type'  => 'button',
-                'text'  => $this->language->get('button_add_discount'),
-                'href'  => $this->html->getSecureURL(
+                'type' => 'button',
+                'text' => $this->language->get('button_add_discount'),
+                'href' => $this->html->getSecureURL(
                     'catalog/product_discount_form/insert',
-                    '&product_id='.$this->request->get['product_id']
+                    '&product_id=' . $this->request->get['product_id']
                 )
             ]
         );
         $this->data['button_add_special'] = $this->html->buildElement(
             [
-                'type'  => 'button',
-                'text'  => $this->language->get('button_add_special'),
-                'href'  => $this->html->getSecureURL(
+                'type' => 'button',
+                'text' => $this->language->get('button_add_special'),
+                'href' => $this->html->getSecureURL(
                     'catalog/product_special_form/insert',
-                    '&product_id='.$this->request->get['product_id']
+                    '&product_id=' . $this->request->get['product_id']
                 ),
             ]
         );
@@ -222,7 +223,7 @@ class ControllerPagesCatalogProductPromotions extends AController
         if ($this->config->get('config_embed_status')) {
             $this->data['embed_url'] = $this->html->getSecureURL(
                 'common/do_embed/product',
-                '&product_id='.$this->request->get['product_id']
+                '&product_id=' . $this->request->get['product_id']
             );
         }
         $this->view->batchAssign($this->data);
@@ -248,7 +249,7 @@ class ControllerPagesCatalogProductPromotions extends AController
         redirect(
             $this->html->getSecureURL(
                 'catalog/product_promotions',
-                '&product_id='.$this->request->get['product_id']
+                '&product_id=' . $this->request->get['product_id']
             )
         );
 
@@ -268,7 +269,7 @@ class ControllerPagesCatalogProductPromotions extends AController
 
             if ($start != '0000-00-00' && $end != '0000-00-00' && $start != '' && $end != ''
                 && dateFromFormat($start, $this->language->get('date_format_short'))
-                    > dateFromFormat($end, $this->language->get('date_format_short'))
+                > dateFromFormat($end, $this->language->get('date_format_short'))
             ) {
                 $this->error['date_end'] = $this->language->get('error_date');
             }

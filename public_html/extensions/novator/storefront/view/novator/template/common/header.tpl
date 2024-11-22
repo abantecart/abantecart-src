@@ -60,5 +60,5 @@
 <?php
 include_once($this->templateResource('/template/common/menuoffcanvas.tpl','file'));
 extract($cart_block_data);
-include_once($this->templateResource('/template/common/cartoffcanvas.tpl', 'file')); ?>
+include_once($this->templateResource('/template/common/cartoffcanvas.tpl', 'file'));
 ?>

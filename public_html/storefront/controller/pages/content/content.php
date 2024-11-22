@@ -98,11 +98,8 @@ class ControllerPagesContentContent extends AController
             if ($resource['resource_code']) {
                 $this->data['icon_code'] = $resource['resource_code'];
             } else {
-                $this->data['icon_url'] = $rl->getResourceThumb(
-                    $cntInfo['icon_rl_id'],
-                    (int)$this->config->get('config_image_cart_width'),
-                    (int)$this->config->get('config_image_cart_height')
-                );
+                $this->data['icon'] = $rl->getResource($cntInfo['icon_rl_id']);
+                $this->data['icon_url'] = 'resources/'.$this->data['icon']['type_dir'].$this->data['icon']['resource_path'] ;
             }
         }
         $tags = $this->model_catalog_content->getContentTags($content_id, $this->language->getLanguageID());
@@ -142,7 +139,7 @@ class ControllerPagesContentContent extends AController
             );
             $pagination_url = $this->html->getSecureURL(
                 'content/content',
-                '&'.http_build_query($params) . '&page={page}&limit={limit}'
+                '&'.http_build_query($params) . '&page=--page--&limit=--limit--'
             );
             $this->data['pagination_bootstrap'] = $this->html->buildElement(
                 [
@@ -223,7 +220,7 @@ class ControllerPagesContentContent extends AController
         $params['sort'] = $sort;
         $pagination_url = $this->html->getSecureURL(
             'content/content/list',
-            '&'.http_build_query($params) . '&page={page}&limit={limit}'
+            '&'.http_build_query($params) . '&page=--page--&limit=--limit--'
         );
 
         $this->document->addBreadcrumb(

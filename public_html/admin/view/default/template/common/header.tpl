@@ -241,17 +241,14 @@ echo $this->html->buildElement(
 	<div class="pageheader">
 	<?php
 		$current = '';
-		$breadcrumbs_html = '';
-		foreach ($breadcrumbs as $breadcrumb){
+		$breadcrumbs_html = [];
+        $del = round(100/count((array)$breadcrumbs));
+		foreach ((array)$breadcrumbs as $breadcrumb){
+            $title = ' title="'.html2view(html_entity_decode($breadcrumb['text'])).'" ';
             $breadcrumb['icon'] = $breadcrumb['icon'] ?? '';
-			$breadcrumbs_html .= '<li>';
-			if ($breadcrumb['current'] ?? false){
-				$current = $breadcrumb;
-				$breadcrumbs_html .= $breadcrumb['icon'] . $breadcrumb['text'];
-			} else{
-				$breadcrumbs_html .= '<a href="' . $breadcrumb['href'] . '">' . $breadcrumb['icon'] . $breadcrumb['text'] . '</a>';
-			}
-			$breadcrumbs_html .= '</li>';
+            $cssClass = $breadcrumb['current'] ? ' active' : '';
+            $href = !$breadcrumb['current'] ? ' href="' . $breadcrumb['href'] . '" ' : '';
+			$breadcrumbs_html[] = '<a class="'.$cssClass.'" '.$href.$title.' >'.$breadcrumb['icon'] . $breadcrumb['text'].'</a>';
 		} ?>
 		<h2>
 			<?php if ($current_menu['icon'] ?? ''){ ?>
@@ -271,9 +268,7 @@ echo $this->html->buildElement(
 
 		<?php if ($breadcrumbs && sizeof($breadcrumbs) > 1){ ?>
 			<div class="breadcrumb-wrapper">
-				<ol class="breadcrumb">
-					<?php echo $breadcrumbs_html; ?>
-				</ol>
+				<?php echo implode("<a>/</>",$breadcrumbs_html); ?>
 			</div>
 		<?php } else if ($ant){ ?>
 			<div class="ant-wrapper">

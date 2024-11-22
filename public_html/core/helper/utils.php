@@ -44,9 +44,12 @@ function preformatInteger($value)
     return (int)preg_replace('/[^0-9\-]/', '', $value);
 }
 
-/*
+/**
  * prepare string for text id
- * */
+ * @param $value
+ * @param string|null $replaceChar
+ * @return string
+ */
 function preformatTextID($value, ?string $replaceChar = '')
 {
     return strtolower(preg_replace("/[^A-Za-z0-9_]/", $replaceChar, $value));
@@ -191,7 +194,7 @@ function getUniqueSeoKeyword($seo_key, $object_key_name = '', $object_id = 0)
     $result = $db->query($sql);
     $kList = array_merge(
         array_column($result->rows, 'keyword'),
-        array_map('basename',glob(DIR_ROOT.'/*', GLOB_ONLYDIR))
+        array_map('basename', glob(DIR_ROOT . '/*', GLOB_ONLYDIR))
     );
 
     $i = 0;
@@ -517,11 +520,11 @@ function getExtensionConfigXml($extension_txt_id)
     $xml_files = [
         'top'    => [
             DIR_CORE . 'extension/' . 'default/config_top.xml',
-            DIR_CORE . 'extension/' . (string)$ext_configs->type . '/config_top.xml',
+            DIR_CORE . 'extension/' . $ext_configs->type . '/config_top.xml',
         ],
         'bottom' => [
             DIR_CORE . 'extension/' . 'default/config_bottom.xml',
-            DIR_CORE . 'extension/' . (string)$ext_configs->type . '/config_bottom.xml',
+            DIR_CORE . 'extension/' . $ext_configs->type . '/config_bottom.xml',
         ],
     ];
 
@@ -597,7 +600,7 @@ function getExtensionConfigXml($extension_txt_id)
  */
 function startStorefrontSession($user_id, $data = [])
 {
-    //NOTE: do not allow create sf-session via POST-request.
+    //NOTE: do not allow to create sf-session via POST-request.
     // Related to language-switcher and enabled maintenance mode(see usages)
     if ($_SERVER['REQUEST_METHOD'] != 'GET') {
         return false;
@@ -1590,7 +1593,7 @@ function generateOrderToken($orderId, $email, $secToken = '')
     $registry = Registry::getInstance();
     $enc = new AEncryption($registry->get('config')->get('encryption_key'));
     /** @var ModelCheckoutFastCheckout $mdl */
-    $mdl = $registry->get('load')->model('checkout/fast_checkout');
+    $mdl = $registry->get('load')->model('checkout/fast_checkout','storefront');
     $secToken = $secToken ?: genToken(32);
     $mdl->saveGuestToken($orderId, $secToken);
     return $enc->encrypt($orderId . '::' . $email . '::' . $secToken);
