@@ -603,7 +603,7 @@ class ALanguageManager extends Alanguage
      * @return void
      * @throws AException
      */
-    private function save_history($tableName, $index, $langId, $langData, $updateIndex): void
+    protected function save_history($tableName, $index, $langId, $langData, $updateIndex): void
     {
         $exclude = ['url_aliases'];
         //exclude some tables
@@ -612,13 +612,17 @@ class ALanguageManager extends Alanguage
         }
 
         $tableId = 0;
-        foreach ($index as $i => $v) {
+        foreach ($index as $v) {
             if (has_value($v)) {
                 $tableId = (int)$v;
             }
         }
         //select current values for compare
-        $result = $this->db->query("select * FROM ".$this->db->table($tableName)." WHERE ".implode(" AND ", $updateIndex));
+        $result = $this->db->query(
+            "SELECT * 
+             FROM ".$this->db->table($tableName)." 
+             WHERE ".implode(" AND ", $updateIndex)
+        );
         $currentData = $result->row;
         foreach ($langData as $field => $value) {
             if ($currentData[$field] == $value) {
@@ -627,18 +631,21 @@ class ALanguageManager extends Alanguage
             }
             $load_data = ['table_name' => $tableName, 'table_id' => $tableId, 'language_id' => $langId, 'version' => 1 ];
             //select latest version
-            $sql = "SELECT version as version from ".$this->db->table('description_history')." ";
-            $sql .= "WHERE `table_name` = '$tableName' AND `table_id` = '$tableId' AND `field` = '$field' AND `language_id` = '$langId' ";
+            $sql = "SELECT version as version from ".$this->db->table('description_history')." 
+                    WHERE `table_name` = '$tableName' AND `table_id` = '$tableId' 
+                        AND `field` = '$field' AND `language_id` = '".$langId."' ";
             $sql .= "ORDER BY `version` DESC LIMIT 1";
             $result = $this->db->query($sql);
-            if ($result->row && $result->row) {
+
+            if ($result->row) {
                 $load_data['version'] = $result->row['version'] + 1;
             }
             $load_data['field'] = $this->db->escape($field);
             $load_data['text'] = $this->db->escape($currentData[$field]);
-            $sql = "INSERT INTO ".$this->db->table('description_history')." ";
-            $sql .= "(`".implode("`, `", array_keys($load_data))."`) VALUES ('".implode("', '", $load_data)."') ";
+            $sql = "INSERT INTO " . $this->db->table('description_history') . " ";
+            $sql .= "(`" . implode("`, `", array_keys($load_data)) . "`) VALUES ('" . implode("', '", $load_data) . "') ";
             $this->db->query($sql);
+
         }
     }
 

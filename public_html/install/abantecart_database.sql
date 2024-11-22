@@ -12686,14 +12686,17 @@ VALUES
 --
 -- DDL for table `description_history`
 --
-create table `ac_description_history`
+
+DROP TABLE IF EXISTS `ac_description_history`;
+
+CREATE TABLE `ac_description_history`
 (
-    `hist_id`       int(10)                                not null auto_increment,
+    `hist_id`       int(11)                                not null auto_increment,
     `table_name`    varchar(40)                            not null,
     `table_id`      int                                    not null,
     `field`         varchar(128)                           not null,
-    `version`       int(10)        default 1               not null,
-    `language_id`   int(10)                                not null,
+    `version`       int(11)        default 1               not null,
+    `language_id`   int(11)                                not null,
     `text`          longtext                               not null,
     `date_added`    timestamp  default current_timestamp() null,
     primary key (`hist_id`)
