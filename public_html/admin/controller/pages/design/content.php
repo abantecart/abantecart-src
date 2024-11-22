@@ -80,6 +80,28 @@ class ControllerPagesDesignContent extends AController
                     'text' => $this->language->get('text_clone'),
                     'href' => $this->html->getSecureURL('design/content/clone', '&content_id=%ID%'),
                 ],
+                'dropdown' => [
+                    'text'     => $this->language->get('text_choose_action'),
+                    'href'     => $this->html->getSecureURL('catalog/product/update', '&product_id=%ID%'),
+                    'children' => array_merge(
+                        [
+                            'general'    => [
+                                'text' => $this->language->get(
+                                    'tab_general'
+                                ),
+                                'href' => $this->html->getSecureURL('design/content/update', '&content_id=%ID%'),
+                            ],
+                            'layout'     => [
+                                'text' => $this->language->get(
+                                    'tab_layout'
+                                ),
+                                'href' => $this->html->getSecureURL('design/content/edit_layout', '&content_id=%ID%'),
+                            ],
+
+                        ],
+                        (array) $this->data['grid_edit_expand']
+                    ),
+                ],
             ],
         ];
 
@@ -152,13 +174,13 @@ class ControllerPagesDesignContent extends AController
         $contentId = 0;
         if ($this->request->is_POST() && $this->validateForm()) {
             $post = $this->request->post;
-            foreach(['publish_date', 'expire_date'] as $datetime) {
+            foreach (['publish_date', 'expire_date'] as $datetime) {
                 if ($post[$datetime]) {
                     $post[$datetime] = dateDisplay2ISO(
                         $post[$datetime],
                         $this->language->get('date_format_short') . ' ' . $this->language->get('time_format_short')
                     );
-                }else{
+                } else {
                     $post[$datetime] = '';
                 }
             }
@@ -205,13 +227,13 @@ class ControllerPagesDesignContent extends AController
         $contentId = (int)$this->request->get['content_id'];
         if ($this->request->is_POST() && $this->validateForm()) {
             $post = $this->request->post;
-            foreach(['publish_date', 'expire_date'] as $datetime) {
+            foreach (['publish_date', 'expire_date'] as $datetime) {
                 if ($post[$datetime]) {
                     $post[$datetime] = dateDisplay2ISO(
                         $post[$datetime],
                         $this->language->get('date_format_short') . ' ' . $this->language->get('time_format_short')
                     );
-                }else{
+                } else {
                     $post[$datetime] = '';
                 }
             }
@@ -522,11 +544,11 @@ class ControllerPagesDesignContent extends AController
                 'name'       => 'publish_date',
                 'value'      => dateISO2Display(
                     $this->data['publish_date'],
-                    $this->language->get('date_format_short').' '.$this->language->get('time_format_short')
+                    $this->language->get('date_format_short') . ' ' . $this->language->get('time_format_short')
                 ),
                 'default'    => '',
                 'dateformat' => format4Datepicker(
-                    $this->language->get('date_format_short').' '.$this->language->get('time_format_short')
+                    $this->language->get('date_format_short') . ' ' . $this->language->get('time_format_short')
                 ),
             ]
         );
@@ -537,11 +559,11 @@ class ControllerPagesDesignContent extends AController
                 'name'       => 'expire_date',
                 'value'      => dateISO2Display(
                     $this->data['expire_date'],
-                    $this->language->get('date_format_short').' '.$this->language->get('time_format_short')
+                    $this->language->get('date_format_short') . ' ' . $this->language->get('time_format_short')
                 ),
                 'default'    => '',
                 'dateformat' => format4Datepicker(
-                    $this->language->get('date_format_short').' '.$this->language->get('time_format_short')
+                    $this->language->get('date_format_short') . ' ' . $this->language->get('time_format_short')
                 ),
             ]
         );
@@ -855,7 +877,7 @@ class ControllerPagesDesignContent extends AController
             'key_value'  => $content_id,
         ];
 
-        $this->loadLanguage('catalog/product');
+        $this->loadLanguage('design/content');
         if (!$pageData['key_value']) {
             unset($this->session->data['success']);
             redirect($this->html->getSecureURL('design/content'));

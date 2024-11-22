@@ -792,8 +792,11 @@ class ControllerPagesCatalogCategory extends AController
         $url = '&'.$this->html->buildURI($params);
 
         // get templates
+        $this->data['templates'] = [];
         $directories = glob(DIR_STOREFRONT.'view/*', GLOB_ONLYDIR);
-        $this->data['templates'] = array_map('basename', $directories);
+        if($directories) {
+            $this->data['templates'] = array_map('basename', $directories);
+        }
         $enabled_templates = $this->extensions->getExtensionsList(
             [
                 'filter' => 'template',
