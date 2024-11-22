@@ -832,7 +832,6 @@ h1 a:hover, h2 a:hover, h3 a:hover {
 	font-size: 11px;
 	line-height: normal;
 	text-transform: uppercase;
-	font-size: 10px;
 	opacity: 0.6;
 }
 
@@ -969,31 +968,23 @@ h1 a:hover, h2 a:hover, h3 a:hover {
 	position: absolute;
 	top: 23px;
 	right: 25px;
-	max-width: 400px;
 	white-space: nowrap;
-	overflow: hidden;
-}
-
-.pageheader .breadcrumb-wrapper .label {
-	color: #999;
-	text-transform: uppercase;
-	font-size: 11px;
-	font-weight: normal;
-	display: inline-block;
-}
-
-.pageheader .breadcrumb {
-	background: none;
-	display: inline-block;
+	text-align: end;
 	padding: 0;
 }
 
-.pageheader .breadcrumb li {
+.pageheader .breadcrumb-wrapper a {
+	display: inline-block;
 	font-size: 12px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	margin: auto 3px;
+	max-width: 350px;
 }
 
-.pageheader .breadcrumb li.active {
+.pageheader .breadcrumb-wrapper .active {
 	color: #333;
+	font-weight: bold;
 }
 
 .contentpanel {

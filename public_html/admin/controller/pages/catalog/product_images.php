@@ -1,23 +1,23 @@
 <?php
 
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2022 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-  
- UPGRADE NOTE: 
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.  
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -32,7 +32,6 @@ class ControllerPagesCatalogProductImages extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadLanguage('catalog/product');
-        $this->document->setTitle($this->language->get('heading_title'));
         $this->loadModel('catalog/product');
         $this->loadModel('tool/image');
 
@@ -66,24 +65,24 @@ class ControllerPagesCatalogProductImages extends AController
                 'text' => $this->language->get('heading_title'),
             ]
         );
+        $title = $this->language->get('text_edit') . '&nbsp;'
+            . $this->language->get('text_product') . ' - '
+            . $this->data['product_description'][$this->language->getContentLanguageID()]['name'];
+        $this->document->setTitle($title);
         $this->document->addBreadcrumb(
             [
                 'href' => $this->html->getSecureURL(
                     'catalog/product/update',
-                    '&product_id='.$this->request->get['product_id']
+                    '&product_id=' . $this->request->get['product_id']
                 ),
-                'text' => $this->language->get('text_edit')
-                    .'&nbsp;'
-                    .$this->language->get('text_product')
-                    .' - '
-                    .$this->data['product_description'][$this->language->getContentLanguageID()]['name'],
+                'text' => $title,
             ]
         );
         $this->document->addBreadcrumb(
             [
                 'href'    => $this->html->getSecureURL(
                     'catalog/product_images',
-                    '&product_id='.$this->request->get['product_id']
+                    '&product_id=' . $this->request->get['product_id']
                 ),
                 'text'    => $this->language->get('tab_media'),
                 'current' => true,
@@ -107,9 +106,9 @@ class ControllerPagesCatalogProductImages extends AController
 
         $this->data['action'] = $this->html->getSecureURL(
             'catalog/product_images',
-            '&product_id='.$this->request->get['product_id']
+            '&product_id=' . $this->request->get['product_id']
         );
-        $this->data['form_title'] = $this->language->get('text_edit').'&nbsp;'.$this->language->get('text_product');
+        $this->data['form_title'] = $this->language->get('text_edit') . '&nbsp;' . $this->language->get('text_product');
         $this->data['update'] = '';
         $form = new AForm('HS');
 
@@ -147,7 +146,7 @@ class ControllerPagesCatalogProductImages extends AController
         if ($this->config->get('config_embed_status')) {
             $this->data['embed_url'] = $this->html->getSecureURL(
                 'common/do_embed/product',
-                '&product_id='.$this->request->get['product_id']
+                '&product_id=' . $this->request->get['product_id']
             );
         }
         $this->view->batchAssign($this->data);
@@ -162,7 +161,7 @@ class ControllerPagesCatalogProductImages extends AController
             'responses/common/resource_library/get_resources_scripts',
             [
                 'object_name' => 'products',
-                'object_id'   => (int) $this->request->get['product_id'],
+                'object_id'   => (int)$this->request->get['product_id'],
                 'types'       => ['image', 'audio', 'video', 'pdf', 'archive'],
             ]
         );

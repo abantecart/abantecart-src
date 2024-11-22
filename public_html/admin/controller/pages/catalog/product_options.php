@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -33,7 +32,6 @@ class ControllerPagesCatalogProductOptions extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadLanguage('catalog/product');
-        $this->document->setTitle($this->language->get('heading_title'));
         $this->loadModel('catalog/product');
         $this->attribute_manager = new AAttribute_Manager();
         $product_id = $this->request->get['product_id'] ?? 0;
@@ -47,7 +45,7 @@ class ControllerPagesCatalogProductOptions extends AController
             redirect(
                 $this->html->getSecureURL(
                     'catalog/product_options',
-                    '&product_id='.$product_id.'&product_option_id='.$product_option_id
+                    '&product_id=' . $product_id . '&product_option_id=' . $product_option_id
                 )
             );
         }
@@ -63,7 +61,7 @@ class ControllerPagesCatalogProductOptions extends AController
         ];
         $results = $this->attribute_manager->getAttributes(
             [
-                'search' => " ga.attribute_type_id = '".$this->attribute_manager->getAttributeTypeID('product_option')."'
+                'search' => " ga.attribute_type_id = '" . $this->attribute_manager->getAttributeTypeID('product_option') . "'
                             AND ga.status = 1
                             AND ga.attribute_parent_id = 0 ",
                 'sort'   => 'sort_order',
@@ -84,9 +82,9 @@ class ControllerPagesCatalogProductOptions extends AController
         $default_language_id = $this->language->getDefaultLanguageID();
         foreach ($product_options as &$option) {
             $option_name = trim($option['language'][$content_language_id]['name']);
-            $option['language'][$content_language_id]['name'] = $option_name ? : 'n/a';
+            $option['language'][$content_language_id]['name'] = $option_name ?: 'n/a';
             $option_name = trim($option['language'][$default_language_id]['name']);
-            $option['language'][$default_language_id]['name'] = $option_name ? : 'n/a';
+            $option['language'][$default_language_id]['name'] = $option_name ?: 'n/a';
         }
         unset($option);
 
@@ -94,15 +92,15 @@ class ControllerPagesCatalogProductOptions extends AController
         $this->data['language_id'] = $this->session->data['content_language_id'];
         $this->data['url']['load_option'] = $this->html->getSecureURL(
             'product/product/load_option',
-            '&product_id='.$product_id
+            '&product_id=' . $product_id
         );
         $this->data['url']['update_option'] = $this->html->getSecureURL(
             'product/product/update_option',
-            '&product_id='.$product_id
+            '&product_id=' . $product_id
         );
         $this->data['url']['get_options_list'] = $this->html->getSecureURL(
             'product/product/get_options_list',
-            '&product_id='.$product_id
+            '&product_id=' . $product_id
         );
 
         $this->view->assign('error', $this->error);
@@ -123,24 +121,24 @@ class ControllerPagesCatalogProductOptions extends AController
                 'text' => $this->language->get('heading_title'),
             ]
         );
+        $title = $this->language->get('text_edit') . '&nbsp;'
+            . $this->language->get('text_product') . ' - '
+            . $this->data['product_description'][$this->language->getContentLanguageID()]['name'];
+        $this->document->setTitle($title);
         $this->document->addBreadcrumb(
             [
                 'href' => $this->html->getSecureURL(
                     'catalog/product/update',
-                    '&product_id='.$product_id
+                    '&product_id=' . $product_id
                 ),
-                'text' => $this->language->get('text_edit')
-                    .'&nbsp;'
-                    .$this->language->get('text_product')
-                    .' - '
-                    .$this->data['product_description'][$content_language_id]['name'],
+                'text' => $title,
             ]
         );
         $this->document->addBreadcrumb(
             [
                 'href'    => $this->html->getSecureURL(
                     'catalog/product_options',
-                    '&product_id='.$this->request->get['product_id']
+                    '&product_id=' . $this->request->get['product_id']
                 ),
                 'text'    => $this->language->get('tab_option'),
                 'current' => true,
@@ -189,9 +187,9 @@ class ControllerPagesCatalogProductOptions extends AController
 
         $this->data['action'] = $this->html->getSecureURL(
             'catalog/product_options',
-            '&product_id='.$this->request->get['product_id']
+            '&product_id=' . $this->request->get['product_id']
         );
-        $this->data['form_title'] = $this->language->get('text_edit').'&nbsp;'.$this->language->get('text_product');
+        $this->data['form_title'] = $this->language->get('text_edit') . '&nbsp;' . $this->language->get('text_product');
         $this->data['update'] = '';
         $form = new AForm('HT');
 
@@ -199,7 +197,7 @@ class ControllerPagesCatalogProductOptions extends AController
         foreach ($product_options as $option) {
             $product_opt[$option['product_option_id']] = $option['language'][$content_language_id]['name'];
         }
-        $product_option_id = $this->request->get['product_option_id'] ? : $this->data['product_option_id'];
+        $product_option_id = $this->request->get['product_option_id'] ?: $this->data['product_option_id'];
         $this->data['options'] = $form->getFieldHtml(
             [
                 'type'    => 'selectbox',
@@ -295,8 +293,8 @@ class ControllerPagesCatalogProductOptions extends AController
         );
 
         $this->addChild('pages/catalog/product_summary', 'summary_form', 'pages/catalog/product_summary.tpl');
-        $object_title = $this->language->get('text_product').' '.$this->language->get('text_option_value');
-        $params = '&object_name=product_option_value&object_title='.urlencode($object_title);
+        $object_title = $this->language->get('text_product') . ' ' . $this->language->get('text_option_value');
+        $params = '&object_name=product_option_value&object_title=' . urlencode($object_title);
         $this->data['rl_resource_library'] = $this->html->getSecureURL('common/resource_library', $params);
         $this->data['rl_resources'] = $this->html->getSecureURL('common/resource_library/resources', $params);
 
@@ -323,7 +321,7 @@ class ControllerPagesCatalogProductOptions extends AController
         if ($this->config->get('config_embed_status')) {
             $this->data['embed_url'] = $this->html->getSecureURL(
                 'common/do_embed/product',
-                '&product_id='.$product_id
+                '&product_id=' . $product_id
             );
         }
         $this->view->assign('resources_scripts', $resources_scripts->dispatchGetOutput());
