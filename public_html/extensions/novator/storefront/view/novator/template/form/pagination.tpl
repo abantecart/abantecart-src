@@ -46,7 +46,7 @@
                 </div>
                 </ul>
             </div>
-            <div class="col-auto page-item disabled d-flex flex-wrap flex-sm-nowrap text-nowrap align-items-center p-3">
+            <div class="w-xs-100 w-auto col-auto page-item disabled d-flex flex-nowrap text-nowrap align-items-center p-3">
                 <?php echo $text_limit ?>&nbsp;&nbsp;
                 <?php echo $limit_select ?>&nbsp;&nbsp;
                 <?php echo $text ?>
