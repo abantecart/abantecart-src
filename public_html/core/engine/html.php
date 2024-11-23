@@ -1454,6 +1454,9 @@ class TextareaHtmlElement extends HtmlElement
  * @property string $preview_url - custom preview url
  * @property string $js_onload - custom js-code will be run on doc ready
  * @property bool $multilingual
+ * @property bool $history - sign to show history button for value rollback
+ * @property string $table - table name for history
+ * @property string $table_id - id of field value for history
  */
 class TextEditorHtmlElement extends HtmlElement
 {
@@ -1476,9 +1479,24 @@ class TextEditorHtmlElement extends HtmlElement
             'base_url'    => $this->base_url ?? '',
             'preview'     => $this->preview ?? true,
             'preview_url' => $this->preview_url ?? '',
-            'js_onload'   => $this->js_onload ?? '',
-            'history_url'   => $this->history_url ?? '',
+            'js_onload'   => $this->js_onload ?? ''
         ];
+
+        if($this->history && $this->table && $this->table_id){
+            $data['history_url'] = $this->registry->get('html')->getSecureURL(
+                'r/common/common/getDescriptionHistory',
+                '&'.http_build_query(
+                    [
+                        'field' => $data['name'],
+                        'table_name' => $this->table,
+                        'table_id' => $this->table_id,
+                        //element ID (need to paste selected value back to the form field)
+                        'elm_id' => $this->element_id
+                    ]
+                )
+            );
+        }
+
         if (is_object($this->language)) {
             if (sizeof($this->language->getActiveLanguages()) > 1) {
                 $data['multilingual'] = $this->multilingual;

@@ -785,4 +785,9 @@
 		<key>entry_status</key>
 		<value><![CDATA[Status:]]></value>
 	</definition>
+	<definition>
+		<key>text_data_history</key>
+		<value><![CDATA[Data Change History]]></value>
+	</definition>
+
 </definitions>

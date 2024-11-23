@@ -613,10 +613,6 @@ class ControllerPagesDesignContent extends AController
             ]
         );
 
-        $historyUrl = $this->html->getSecureURL(
-            'r/common/common/getDescriptionHistory',
-            '&field=content&table_name=content_descriptions&table_id=' . $contentId
-        );
         $this->data['form']['fields']['content'] = $form->getFieldHtml(
             [
                 'type'         => 'texteditor',
@@ -624,7 +620,9 @@ class ControllerPagesDesignContent extends AController
                 'value'        => $this->data['content'],
                 'required'     => true,
                 'multilingual' => true,
-                'history_url'  => $historyUrl,
+                'history'      => true,
+                'table'        => 'content_descriptions',
+                'table_id'     => $contentId,
             ]
         );
         $this->data['keyword_button'] = $form->getFieldHtml(
