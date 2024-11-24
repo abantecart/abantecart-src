@@ -1,30 +1,29 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
 
 class ControllerResponsesListingGridSetting extends AController
 {
-    public $groups = array();
-    public $data = array();
+    public $groups = [];
 
     public function __construct($registry, $instance_id, $controller, $parent_controller = '')
     {
@@ -43,8 +42,8 @@ class ControllerResponsesListingGridSetting extends AController
         $this->loadModel('setting/setting');
 
         //Prepare filter config
-        $grid_filter_params = array_merge(array('alias', 'group', 'key'), (array)$this->data['grid_filter_params']);
-        $filter_grid = new AFilter(array('method' => 'post', 'grid_filter_params' => $grid_filter_params));
+        $grid_filter_params = array_merge(['alias', 'group', 'key'], (array)$this->data['grid_filter_params']);
+        $filter_grid = new AFilter(['method' => 'post', 'grid_filter_params' => $grid_filter_params]);
 
         $total = $this->model_setting_setting->getTotalSettings($filter_grid->getFilterData());
         $response = new stdClass();
@@ -52,37 +51,36 @@ class ControllerResponsesListingGridSetting extends AController
         $response->total = $filter_grid->calcTotalPages($total);
         $response->records = $total;
         $response->userdata = new stdClass();
-        $response->userdata->href = array();
+        $response->userdata->href = [];
 
         $results = $this->model_setting_setting->getAllSettings($filter_grid->getFilterData());
 
         $i = 0;
         foreach ($results as $result) {
-
             if (($result['value'] == '1' || $result['value'] == '0')
                 && !is_int(strpos($result['key'], '_id'))
                 && !is_int(strpos($result['key'], 'level'))
             ) {
-                $value = $this->html->buildCheckbox(array(
+                $value = $this->html->buildCheckbox([
                     'name'  => '',
                     'value' => $result['value'],
                     'style' => 'btn_switch disabled',
                     'attr'  => 'readonly="true"',
-                ));
+                ]);
             } else {
                 $value = $result['value'];
             }
 
-            $response->rows[$i]['id'] = $result['group'].'-'.$result['key'].'-'.$result['store_id'];
-            if (in_array($result['group'], array('appearance', 'im'))) {
-                $response->userdata->href[$response->rows[$i]['id']] = $this->html->getSecureURL('setting/setting/'.$result['group']);
+            $response->rows[$i]['id'] = $result['group'] . '-' . $result['key'] . '-' . $result['store_id'];
+            if (in_array($result['group'], ['appearance', 'im'])) {
+                $response->userdata->href[$response->rows[$i]['id']] = $this->html->getSecureURL('setting/setting/' . $result['group']);
             }
-            $response->rows[$i]['cell'] = array(
+            $response->rows[$i]['cell'] = [
                 $result['alias'],
                 $result['group'],
                 $result['key'],
                 $value,
-            );
+            ];
             $i++;
         }
         $this->data['response'] = $response;
@@ -97,20 +95,22 @@ class ControllerResponsesListingGridSetting extends AController
      * update only one field
      *
      * @return void
+     * @throws AException
      */
     public function update_field()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         if (!$this->user->canModify('listing_grid/setting')) {
             $error = new AError('');
-            return $error->toJSONResponse('NO_PERMISSIONS_402',
-                array(
+            $error->toJSONResponse('NO_PERMISSIONS_402',
+                [
                     'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/setting'),
                     'reset_value' => true,
-                ));
+                ]
+            );
+            return;
         }
 
         $this->loadLanguage('setting/setting');
@@ -127,9 +127,10 @@ class ControllerResponsesListingGridSetting extends AController
                 $err = $this->_validateField($group, $key, $value);
                 if (!empty($err)) {
                     $error = new AError('');
-                    return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $err));
+                    $error->toJSONResponse('VALIDATION_ERROR_406', ['error_text' => $err]);
+                    return;
                 }
-                $data = array($key => $value);
+                $data = [$key => $value];
 
                 //html decode store name
                 if (has_value($data['store_name'])) {
@@ -146,24 +147,27 @@ class ControllerResponsesListingGridSetting extends AController
                 }
 
                 $this->model_setting_setting->editSetting($group, $data, $this->request->get['store_id']);
-                startStorefrontSession($this->user->getId());
+                startStorefrontSession(
+                    $this->user->getId(),
+                    ['merchant_username' => $this->user->getUserName()]
+                );
             }
-            return null;
+            return;
         }
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    private function _validateField($group, $field, $value)
+    protected function _validateField($group, $field, $value)
     {
         $this->data['error'] = '';
         $this->load->library('config_manager');
-        $config_mngr = new AConfigManager();
-        $result = $config_mngr->validate($group, array($field => $value));
+        $cManager = new AConfigManager();
+        $result = $cManager->validate($group, [$field => $value]);
         $this->data['error'] = is_array($result['error']) ? current($result['error']) : $result['error'];
 
-        $this->extensions->hk_ValidateData($this, array($group, $field, $value));
+        $this->extensions->hk_ValidateData($this, [$group, $field, $value]);
 
         return $this->data['error'];
     }
