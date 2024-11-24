@@ -99,7 +99,7 @@ class ControllerPagesContentContent extends AController
                 $this->data['icon_code'] = $resource['resource_code'];
             } else {
                 $this->data['icon'] = $rl->getResource($cntInfo['icon_rl_id']);
-                $this->data['icon_url'] = 'resources/' . $this->data['icon']['type_dir'] . $this->data['icon']['resource_path'];
+                $this->data['icon_url'] = $rl->getResizedImageURL($this->data['icon']);
             }
         }
         $tags = $this->model_catalog_content->getContentTags($content_id, $this->language->getLanguageID());
