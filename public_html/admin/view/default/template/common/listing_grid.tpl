@@ -103,6 +103,8 @@ echo $this->html->buildElement(
                 html += '<option ' + (records == limit ? ' selected="selected" ' : '') + 'value="' + records + '"><?php echo $text_all ?></option>';
             }
             $(table_id + '_pager_center .ui-pg-selbox').html(html);
+            $(table_id + '_pager_left').css({width: '10%'});
+            $(table_id + '_pager_center').css({width: '55%'});
         };
 
         <?php if( $data["drag_sort_column"] ) { ?>
