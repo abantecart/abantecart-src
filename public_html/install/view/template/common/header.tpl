@@ -5,10 +5,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>AbanteCart - Installation</title>
 <base href="<?php echo $base; ?>" />
+<link rel="stylesheet" type="text/css" href="view/stylesheet/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="view/stylesheet/stylesheet.css" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" />
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
-<script type="text/javascript"
-        src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script type="text/javascript">
 if (typeof jQuery == 'undefined') {
    var include = '<script type="text/javascript" src="view/javascript/jquery.min.js">';

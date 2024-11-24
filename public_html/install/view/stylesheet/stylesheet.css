@@ -1,6 +1,3 @@
-@import url('bootstrap.min.css');
-@import url('font-awesome.min.css');
-
 body {
 	margin: 0;
 	padding: 0;
@@ -160,14 +157,6 @@ footer a {
     margin:5px 4px;
 }
 
-.bad{
-	color: red;
-	background: url('../image/bad.png') no-repeat;	
-	padding:1px 0 1px 20px;
-}
-.good {
-	color: green;
-}
 .note{
 	color: maroon;
 }
@@ -178,7 +167,6 @@ footer a {
 	display: block;
 	border: 3px solid #F19013;
 	border-radius: 45px;
-	color: #064770;
 }
 .social_icon i {
 	line-height: 90px;
@@ -209,4 +197,3 @@ footer a {
 	border: none;
 	margin-bottom: 10px;
 }
-
