@@ -250,7 +250,7 @@
 	<definition>
 		<key>entry_customer_approval</key>
 		<value>
-			<![CDATA[Approve New Customers:<br /><span class="help">Don't allow new customer to login until their account has been approved.</span>]]></value>
+			<![CDATA[Review New Registrations:<br /><span class="help">If enabled, do not allow new customer to login until their account has been approved.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_prevent_email_as_login</key>
