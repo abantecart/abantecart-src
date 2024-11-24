@@ -2592,7 +2592,7 @@ class PaginationHtmlElement extends HtmlElement
         //default settings
         $this->sts['total'] = 0;
         $this->sts['page'] = 1;
-        $this->sts['limit'] = 20;
+        $this->sts['limit'] = (int)$this->registry?->get('config')->get('config_catalog_limit') ?: 20;
         $this->sts['split'] = $data['split'] ?: 10;
         $this->sts['limits'] = [];
         //max pages to show in pagination

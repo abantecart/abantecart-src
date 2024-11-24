@@ -42,7 +42,7 @@ class ControllerPagesContentContent extends AController
         $content_id = (int)$request['content_id'];
         $page = (int)$request['page'] ?: 1;
         $sort = $request['sort'] = $request['sort'] ?? 'date-DESC';
-        $limit = (int)$request['limit'] ?: 10;
+        $limit = (int)$request['limit'] ?: $this->config->get('config_catalog_limit');
         $selTag = (string)$request['tag'];
 
         $cntInfo = $this->model_catalog_content->getContent($content_id);
