@@ -1271,6 +1271,25 @@ class InputHtmlElement extends HtmlElement
             $this->value = $this->default;
         }
 
+        $history_url = '';
+        if($this->history){
+            $history_url = $this->registry->get('html')->getSecureURL(
+                'r/common/common/getDescriptionHistory',
+                '&'.http_build_query(
+                    [
+                        'field' => $this->name,
+                        'table_name' => $this->history['table'],
+                        'table_id' => $this->history['table_id'],
+                        //element ID (need to paste selected value back to the form field)
+                        'elm_id' => $this->element_id
+                    ]
+                )
+            );
+            if (is_object($this->language)) {
+                $button_field_history = $this->language->get('button_field_history');
+            }
+        }
+
         $this->extendAndBatchAssign(
             [
                 'name'           => $this->name,
@@ -1287,8 +1306,11 @@ class InputHtmlElement extends HtmlElement
                 'multilingual'   => $this->getMultiLingual(),
                 'help_url'       => $this->help_url,
                 'list'           => $this->list,
+                'history_url'    => $history_url,
+                'button_field_history' => $button_field_history ?? '',
             ]
         );
+
         return $this->view->fetch($this->template ?: 'form/input.tpl');
     }
 }
@@ -1418,6 +1440,25 @@ class TextareaHtmlElement extends HtmlElement
      */
     public function getHtml()
     {
+        $history_url = '';
+        if($this->history){
+            $history_url = $this->registry->get('html')->getSecureURL(
+                'r/common/common/getDescriptionHistory',
+                '&'.http_build_query(
+                    [
+                        'field' => $this->name,
+                        'table_name' => $this->history['table'],
+                        'table_id' => $this->history['table_id'],
+                        //element ID (need to paste selected value back to the form field)
+                        'elm_id' => $this->element_id
+                    ]
+                )
+            );
+            if (is_object($this->language)) {
+                $button_field_history = $this->language->get('button_field_history');
+            }
+        }
+
         $this->extendAndBatchAssign(
             [
                 'name'         => $this->name,
@@ -1431,6 +1472,8 @@ class TextareaHtmlElement extends HtmlElement
                 'label_text'   => $this->label_text,
                 'multilingual' => $this->getMultiLingual(),
                 'help_url'     => $this->help_url,
+                'history_url'  => $history_url,
+                'button_field_history' => $button_field_history ?? '',
             ]
         );
 
@@ -1454,9 +1497,7 @@ class TextareaHtmlElement extends HtmlElement
  * @property string $preview_url - custom preview url
  * @property string $js_onload - custom js-code will be run on doc ready
  * @property bool $multilingual
- * @property bool $history - sign to show history button for value rollback
- * @property string $table - table name for history
- * @property string $table_id - id of field value for history
+ * @property bool $history - array with table, table_id
  */
 class TextEditorHtmlElement extends HtmlElement
 {
@@ -1482,14 +1523,14 @@ class TextEditorHtmlElement extends HtmlElement
             'js_onload'   => $this->js_onload ?? ''
         ];
 
-        if($this->history && $this->table && $this->table_id){
+        if($this->history){
             $data['history_url'] = $this->registry->get('html')->getSecureURL(
                 'r/common/common/getDescriptionHistory',
                 '&'.http_build_query(
                     [
                         'field' => $data['name'],
-                        'table_name' => $this->table,
-                        'table_id' => $this->table_id,
+                        'table_name' => $this->history['table'],
+                        'table_id' => $this->history['table_id'],
                         //element ID (need to paste selected value back to the form field)
                         'elm_id' => $this->element_id
                     ]
@@ -1506,6 +1547,7 @@ class TextEditorHtmlElement extends HtmlElement
             $data['tab_visual'] = $this->language->get('tab_visual');
             $data['button_add_media'] = $this->language->get('button_add_media');
             $data['button_preview'] = $this->language->get('button_preview');
+            $data['button_field_history'] = $this->language->get('button_field_history');
         }
         $this->extendAndBatchAssign($data);
         return $this->view->fetch($this->template ?: 'form/text_editor.tpl');

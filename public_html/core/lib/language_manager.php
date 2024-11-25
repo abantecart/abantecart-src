@@ -661,7 +661,7 @@ class ALanguageManager extends Alanguage
      * @return array
      * @throws AException
      */
-    public function get_description_history($table_name, $table_id, $field, $language_id)
+    public function getDescriptionHistory($table_name, $table_id, $field, $language_id)
     {
         $language_id = (int)$language_id ?? $this->getContentLanguageID();
         $sql = "SELECT * FROM ".$this->db->table('description_history')." ";
@@ -669,6 +669,18 @@ class ALanguageManager extends Alanguage
         $sql .= "ORDER BY `version` DESC";
         $result = $this->db->query($sql);
         return $result->rows;
+    }
+
+    /**
+     * @param void
+     *
+     * @return void
+     */
+    public function clearDescriptionHistory()
+    {
+        $sql = "DELETE FROM ".$this->db->table('description_history')." ";
+        $this->db->query($sql);
+        return;
     }
 
     #### END Language Descriptions admin API Section #####

@@ -28,15 +28,6 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
                 <i class="fa fa-file-picture-o fa-fw"></i>
                 <?php echo $button_add_media; ?>
             </a>
-            <?php if($history_url){ ?>
-            <a title="<?php echo_html2view($button_field_history); ?>"
-               data-original-title="<?php echo_html2view($button_field_history); ?>"
-               href="<?php echo $history_url ?>" data-target="#hist_modal" data-toggle="modal"
-               class="btn tooltips view_history mr10">
-                <i class="fa fa-history fa-fw"></i>
-            </a>
-            <?php } ?>
-
             <?php if($preview_url){ ?>
                 <a target="_blank"
                    title="<?php echo_html2view($button_preview); ?>"
@@ -75,7 +66,16 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
             }
             if ($multilingual) { ?>
                 <span class="multilingual"><i class="fa fa-language"></i></span>
-    <?php   } ?>
+            <?php } ?>
+            <?php if($history_url){ ?>
+                <a title="<?php echo_html2view($button_field_history); ?>"
+                   data-original-title="<?php echo_html2view($button_field_history); ?>"
+                   href="<?php echo $history_url ?>" data-target="#hist_modal" data-toggle="modal"
+                   class="tooltips view_history ml10">
+                <i class="fa fa-history fa-fw"></i>
+            </a>
+            <?php } ?>
+
                 </span>
     <?php   } ?>
         </div>
@@ -292,15 +292,3 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
         });
     });
 </script>
-
-<?php
-echo $this->html->buildElement(
-    [
-        'type'        => 'modal',
-        'id'          => 'hist_modal',
-        'modal_type'  => 'lg',
-        'data_source' => 'ajax',
-        'js_onclose'  => ''
-    ]
-);
-?>

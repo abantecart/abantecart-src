@@ -147,7 +147,7 @@ class ControllerResponsesCommonCommon extends AController
         $get = $this->request->get;
 
         if (isset($get['table_name']) && $get['table_name']) {
-            $output['result'] = $this->language->get_description_history(
+            $output['result'] = $this->language->getDescriptionHistory(
                 $get['table_name'],
                 $get['table_id'],
                 $get['field'],

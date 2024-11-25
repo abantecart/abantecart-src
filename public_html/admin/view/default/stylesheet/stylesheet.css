@@ -2196,6 +2196,10 @@ a.resource_edit .img-responsive {
 }
 
 /***** Modals *****/
+#hist_modal .modal-body {
+	overflow: hidden;
+	overflow-y: auto;
+}
 
 .bs-example-modal-panel .modal-content {
 	background: none;
