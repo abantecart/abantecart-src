@@ -215,6 +215,9 @@ $(document).ready(function(){
     //dropdown menu fix of parent
     $('.dropdown>a').on('click', function (e) {
         e.preventDefault();
+        if($(this).hasClass('dropdown-toggle')) {
+            return false;
+        }
         let href = $(this).attr('href');
         let target = $(this).attr('target');
         if(href.substring(0,1) !== '#') {
@@ -625,5 +628,13 @@ $(document).on('click','.wish', function(e) {
                 wishlistGA_event_fire("add_to_wishlist", card);
             }
         }
+    });
+});
+// toggle dropdowns by mouseover
+$(document).ready(function() {
+    $('.dropdown').hover(function() {
+        $(this).dropdown('show');
+    }, function() {
+        $(this).dropdown('hide');
     });
 });
