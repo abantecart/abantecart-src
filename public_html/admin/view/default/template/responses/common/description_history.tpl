@@ -55,6 +55,7 @@
     </div>
 
     <script type="application/javascript">
+        $(document).off('click','#hist_modal .panel-body a.btn');
         $(document).on('click','#hist_modal .panel-body a.btn',function(){
             const values = <?php echo json_encode(array_column($result,'text','hist_id'))?>;
             let id = $(this).attr('id').replace('hist_','');
