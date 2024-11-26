@@ -28,14 +28,14 @@
 
 <?php if ($search_categories) {?>
 	<div class="panel-body-nopadding tab-content col-xs-12">
-
-        <ul class="nav nav-tabs nav-justified nav-profile" role="tablist">
+        <ul id="search_tabs" class="nav nav-tabs nav-justified nav-profile" role="tablist">
         <?php
         $i=0;
         foreach ($search_categories as $scat) {	?>
-        <!-- Nav tabs -->
-          <li <?php echo $i==0 ? 'class="active"' : ''; ?>>
-              <a id="tab_<?php echo $scat;?>_grid" href="#<?php echo $scat;?>" role="tab" data-toggle="tab"><?php echo $search_categories_names[$scat];?></a>
+          <li class="disabled <?php echo $i==0 ? 'active' : ''; ?>" >
+              <a id="tab_<?php echo $scat;?>_grid" href="#<?php echo $scat;?>" role="tab" data-toggle="tab">
+                  <?php echo $search_categories_names[$scat];?>
+              </a>
           </li>
         <?php
             $i++;
@@ -43,10 +43,9 @@
         </ul>
 
         <div class="tab-content">
-            <?php
-            $i=0;
+    <?php   $i=0;
             foreach ($search_categories as $scat) {	?>
-                <div class="tab-pane <?php echo $i==0 ? 'active' : ''; ?>" id="<?php echo $scat; ?>">
+                <div class="tab-pane" id="<?php echo $scat; ?>">
                     <div class="row">
                         <div class="col-sm-12 col-lg-12">
                             <div class="panel panel-default">
@@ -94,7 +93,7 @@ echo $this->html->buildElement(
 	// Javascript to enable link to tab
 	let hash = document.location.hash.replace('#','');
 	if (hash) {
-	    $('.nav-tabs a[href="#'+hash+'"]').tab('show') ;
+	    $('#search_tabs a[href="#'+hash+'"]').tab('show') ;
 	}
 
 	// Change hash for page-reload
@@ -113,8 +112,15 @@ echo $this->html->buildElement(
                         }
                     );
 		}
+        const li = $('#tab_'+grid_id).parent();
         if(data.records<1){
-            $('#tab_'+grid_id).parent().addClass('disabled');
+            li.remove();
+        }else{
+            li.removeClass('disabled');
+            hash = hash ? hash : grid_id.replace('_grid','');
+            if($('#search_tabs').find('li.active').length<1){
+                li.find('a').tab('show') ;
+            }
         }
 	}
 
@@ -126,13 +132,13 @@ echo $this->html->buildElement(
         if(gridInits[hash]) {
             setTimeout(gridInits[hash] + '($);', 100);
         }
-        let time = 500;
+        let time = 700;
         for(const i in gridInits){
             if(gridInits[i] === gridInits[hash]){
                 continue;
             }
             setTimeout(gridInits[i]+'($);',time);
-            time+=500;
+            time+=700;
         }
 	});
 </script>
