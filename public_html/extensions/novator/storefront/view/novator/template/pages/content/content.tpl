@@ -1,5 +1,5 @@
 <div class="d-flex flex-nowrap title sec-heading-block">
-    <div class="col-xl-12">
+    <div class="col-12">
         <h1 class="h1 heading-title mb-0 mt-lg-0 mt-3">
             <?php echo $heading_title; ?>
         </h1>

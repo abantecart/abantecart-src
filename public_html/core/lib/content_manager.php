@@ -97,10 +97,12 @@ class AContentManager
                     'meta_keywords'    => $data['meta_keywords'],
                     'content'          => $data['content'],
                     'tags'             => $data['tags'],
-                    'keyword'          => $data['keyword']
+                    # if keyword is not set it will be generated based on the title
+                    'keyword'          => $data['keyword'] ?: $data['title'],
                 ];
             }
         }
+
         $this->saveMLData($content_id, $mlData);
         $this->saveStores($content_id, $data['store_id']);
         $this->cache->remove('content');
@@ -130,7 +132,7 @@ class AContentManager
             "author = '" . $this->db->escape($data['author']) . "'",
             "publish_date = " . ($data['publish_date'] ? "'" . $this->db->escape($data['publish_date']) . "'" : "NULL"),
             "expire_date = " . ($data['expire_date'] ? "'" . $this->db->escape($data['expire_date']) . "'" : "NULL"),
-            "date_modified = NOW()"
+            "date_modified = NOW()",
         ];
 
         if (!empty($update)) {
@@ -153,7 +155,7 @@ class AContentManager
                 'meta_keywords'    => $data['meta_keywords'],
                 'content'          => $data['content'],
                 'tags'             => $data['tags'],
-                'keyword'          => $data['keyword']
+                'keyword'          => $data['keyword'],
             ];
         }
         $this->saveMLData($content_id, $mlData);
@@ -214,18 +216,7 @@ class AContentManager
 
                 break;
             case 'keyword' :
-                $value = SEOEncode($value, 'content_id', $content_id);
-                if ($value) {
-                    $this->language->replaceDescriptions('url_aliases',
-                        ['query' => "content_id=" . ( int )$content_id],
-                        [(int)$this->language->getContentLanguageID() => ['keyword' => $value]]);
-                } else {
-                    $this->db->query("DELETE
-                                    FROM " . $this->db->table("url_aliases") . " 
-                                    WHERE query = 'content_id=" . ( int )$content_id . "'
-                                        AND language_id = '" . (int)$this->language->getContentLanguageID() . "'");
-                }
-
+                $this->saveSEOURL($content_id, $value, $this->language->getContentLanguageID());
                 break;
             case 'store_id':
                 $this->saveStores($content_id, $value);
@@ -288,7 +279,7 @@ class AContentManager
                 'meta_keywords'    => $data['meta_keywords'],
                 'content'          => $data['content'],
                 'tags'             => $data['tags'],
-                'keyword'          => ''
+                'keyword'          => '',
             ];
 
         }
@@ -580,8 +571,8 @@ class AContentManager
             '0' => [
                 'content_id' => 0,
                 'title' => $this->language->get('text_top_level'),
-                'children' => []
-                ]
+                'children' => [],
+                ],
             ]
             + $this->buildContentTree($all, 0, 1, $only_enabled);
     }
@@ -609,7 +600,7 @@ class AContentManager
                 $output[$content['content_id']] = [
                     'content_id' => $content['content_id'],
                     'title' => str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level) . $content['title'],
-                    'children' => []
+                    'children' => [],
                 ];
                 $children = $this->buildContentTree($all, (int)$content['content_id'], $level + 1, $only_enabled);
                 if($children){
@@ -654,12 +645,12 @@ class AContentManager
      */
     protected function saveMLData($content_id, $mlData)
     {
-        foreach ($mlData as $language_id => $data) {
+        foreach ($mlData as $languageID => $data) {
             $this->language->replaceDescriptions(
                 'content_descriptions',
                 ['content_id' => $content_id],
                 [
-                    $language_id => [
+                    $languageID => [
                         'title'            => $data['title'],
                         'description'      => $data['description'],
                         'meta_description' => $data['meta_description'],
@@ -673,26 +664,12 @@ class AContentManager
                 $this->language->saveTags(
                     'content_tags',
                     ['content_id' => $content_id],
-                    $language_id,
+                    $languageID,
                     $data['tags']
                 );
             }
 
-            $data['keyword'] = SEOEncode($data['keyword'], 'content_id', $content_id);
-            if ($data['keyword']) {
-                $this->language->replaceDescriptions(
-                    'url_aliases',
-                    ['query' => "content_id=" . $content_id],
-                    [$language_id => ['keyword' => $data['keyword']]]
-                );
-            } else {
-                $this->db->query(
-                    "DELETE
-                    FROM " . $this->db->table("url_aliases") . " 
-                    WHERE query = 'content_id=" . $content_id . "'
-                        AND language_id = '" . $language_id . "'"
-                );
-            }
+            $this->saveSEOURL($content_id, $data['keyword'], $languageID);
         }
         return true;
     }
@@ -723,6 +700,29 @@ class AContentManager
             }
         }
         return true;
+    }
+
+    /**
+     * Method to save or generate SEO URL for content
+     *
+     * @param $content_id
+     * @param $keyword
+     *
+     * @return void
+     */
+    protected function saveSEOURL ($content_id, $keyword, $languageID)
+    {
+        $keyword = SEOEncode($keyword, 'content_id', $content_id);
+        if ($keyword) {
+            $this->language->replaceDescriptions('url_aliases',
+                ['query' => "content_id=" . $content_id],
+                [$languageID => ['keyword' => $keyword]]);
+        } else {
+            $this->db->query("DELETE
+                                    FROM " . $this->db->table("url_aliases") . " 
+                                    WHERE query = 'content_id=" . $content_id . "'
+                                        AND language_id = '" . $languageID . "'");
+        }
     }
 
     /**

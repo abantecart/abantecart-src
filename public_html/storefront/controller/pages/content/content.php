@@ -42,7 +42,7 @@ class ControllerPagesContentContent extends AController
         $content_id = (int)$request['content_id'];
         $page = (int)$request['page'] ?: 1;
         $sort = $request['sort'] = $request['sort'] ?? 'date-DESC';
-        $limit = (int)$request['limit'] ?: 10;
+        $limit = (int)$request['limit'] ?: $this->config->get('config_catalog_limit');
         $selTag = (string)$request['tag'];
 
         $cntInfo = $this->model_catalog_content->getContent($content_id);
@@ -54,20 +54,20 @@ class ControllerPagesContentContent extends AController
         $this->document->setKeywords($cntInfo['meta_keywords']);
         $this->document->setDescription($cntInfo['meta_description']);
 
-        $httpQuery = [ 'content_id' =>$content_id ];
+        $httpQuery = ['content_id' => $content_id];
         //add parent to breadcrumbs and content URL  for better SEO-URL
-        if($cntInfo['parent_content_id']){
+        if ($cntInfo['parent_content_id']) {
             $httpQuery['parent_id'] = $cntInfo['parent_content_id'];
             $parent = $this->model_catalog_content->getContent($cntInfo['parent_content_id']);
-            $httpParentQuery = [ 'content_id' => $parent['content_id'] ];
-            if($parent['parent_content_id']){
+            $httpParentQuery = ['content_id' => $parent['content_id']];
+            if ($parent['parent_content_id']) {
                 $httpParentQuery['parent_id'] = $parent['parent_content_id'];
             }
             $this->document->addBreadcrumb(
                 [
                     'href'      => $this->html->getSEOURL(
                         'content/content',
-                        '&'.http_build_query($httpParentQuery),
+                        '&' . http_build_query($httpParentQuery),
                         true
                     ),
                     'text'      => $parent['title'],
@@ -79,7 +79,7 @@ class ControllerPagesContentContent extends AController
             [
                 'href'      => $this->html->getSEOURL(
                     'content/content',
-                    '&'.http_build_query($httpQuery),
+                    '&' . http_build_query($httpQuery),
                     true
                 ),
                 'text'      => $cntInfo['title'],
@@ -99,7 +99,7 @@ class ControllerPagesContentContent extends AController
                 $this->data['icon_code'] = $resource['resource_code'];
             } else {
                 $this->data['icon'] = $rl->getResource($cntInfo['icon_rl_id']);
-                $this->data['icon_url'] = 'resources/'.$this->data['icon']['type_dir'].$this->data['icon']['resource_path'] ;
+                $this->data['icon_url'] = $rl->getResizedImageURL($this->data['icon']);
             }
         }
         $tags = $this->model_catalog_content->getContentTags($content_id, $this->language->getLanguageID());
@@ -108,7 +108,7 @@ class ControllerPagesContentContent extends AController
         $request['start'] = abs((int)($page - 1) * $limit);
         $request['filter'] = [
             'parent_id' => $content_id,
-            'tag' => $selTag
+            'tag'       => $selTag
         ];
 
         $this->data['contents'] = $this->prepContentData(
@@ -128,18 +128,18 @@ class ControllerPagesContentContent extends AController
             }
             $params = [
                 'content_id' => $content_id,
-                'sort' => $sort
+                'sort'       => $sort
             ];
-            if($selTag){
+            if ($selTag) {
                 $params['tag'] = $selTag;
             }
             $this->data['resort_url'] = $this->html->getSecureURL(
                 'content/content',
-                '&'.http_build_query($params)
+                '&' . http_build_query($params)
             );
-            $pagination_url = $this->html->getSecureURL(
+            $pagination_url = $this->html->getSecureSEOURL(
                 'content/content',
-                '&'.http_build_query($params) . '&page=--page--&limit=--limit--'
+                '&' . http_build_query($params) . '&page=--page--&limit=--limit--'
             );
             $this->data['pagination_bootstrap'] = $this->html->buildElement(
                 [
@@ -191,7 +191,7 @@ class ControllerPagesContentContent extends AController
         $request['start'] = abs((int)($page - 1) * $limit);
         $request['filter'] = [
             'keyword' => $keyword,
-            'tag' => $selTag
+            'tag'     => $selTag
         ];
         $this->data['contents'] = $this->prepContentData(
             $this->model_catalog_content->filterContents($request),
@@ -199,14 +199,14 @@ class ControllerPagesContentContent extends AController
         );
 
         $params = [];
-        if($keyword){
+        if ($keyword) {
             $params['keyword'] = $keyword;
         }
         if ($selTag) {
             $this->data['selected_tag'] = $selTag;
             $this->data['remove_tag'] = $this->html->getSecureURL(
                 'content/content/list',
-                '&'.http_build_query($params)
+                '&' . http_build_query($params)
             );
 
             $params['tag'] = $selTag;
@@ -214,18 +214,18 @@ class ControllerPagesContentContent extends AController
 
         $this->data['resort_url'] = $this->html->getSecureURL(
             'content/content/list',
-            '&'.http_build_query($params)
+            '&' . http_build_query($params)
         );
 
         $params['sort'] = $sort;
         $pagination_url = $this->html->getSecureURL(
             'content/content/list',
-            '&'.http_build_query($params) . '&page=--page--&limit=--limit--'
+            '&' . http_build_query($params) . '&page=--page--&limit=--limit--'
         );
 
         $this->document->addBreadcrumb(
             [
-                'href'      => $this->html->getSecureURL('content/content/list', '&'.http_build_query($params), true),
+                'href'      => $this->html->getSecureURL('content/content/list', '&' . http_build_query($params), true),
                 'text'      => $this->language->get('heading_title'),
                 'separator' => $this->language->get('text_separator'),
             ]
@@ -257,12 +257,12 @@ class ControllerPagesContentContent extends AController
     {
         $newThreshhold = 86400 * 3;  //New for first 3 days
         foreach ($contArr as &$child) {
-            $httpQuery = [ 'content_id' =>$child['content_id'] ];
+            $httpQuery = ['content_id' => $child['content_id']];
             //add parent_id for better SEO-URL
-            if($child['parent_content_id']){
+            if ($child['parent_content_id']) {
                 $httpQuery['parent_id'] = $child['parent_content_id'];
             }
-            $child['url'] = $this->html->getSeoUrl('content/content','&'.http_build_query($httpQuery),true);
+            $child['url'] = $this->html->getSeoUrl('content/content', '&' . http_build_query($httpQuery), true);
             if ($child['icon_rl_id']) {
                 $rl = new AResource('image');
                 $resource = $rl->getResource($child['icon_rl_id']);

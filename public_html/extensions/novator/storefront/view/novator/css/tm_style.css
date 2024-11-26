@@ -2336,12 +2336,16 @@ li#review-set::before {
     flex-direction: row;
 }
 
-.bottom-footer-block .navbar-nav .dropdown {
+.bottom-footer-block .navbar-nav .sub-menu  {
     margin-right: 15px !important;
 }
 
 .bottom-footer-block .navbar-nav .dropdown:last-child {
     margin-right: 0 !important;
+}
+
+.footer .footer-notes {
+    font-size: 12px;
 }
 
 

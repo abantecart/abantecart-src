@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -162,7 +161,7 @@ class ControllerPagesSaleCustomer extends AController
                                 'text' => $this->language->get('tab_transactions'),
                                 'href' => $this->html->getSecureURL('sale/customer_transaction', '&customer_id=%ID%'),
                             ],
-                        ], (array) $this->data['grid_edit_expand']
+                        ], (array)$this->data['grid_edit_expand']
                     ),
                 ],
             ],
@@ -172,10 +171,12 @@ class ControllerPagesSaleCustomer extends AController
         $this->load->model('setting/store');
         if (!$this->model_setting_store->isDefaultStore()) {
             $this->view->assign(
-                'warning_actonbehalf', htmlspecialchars(
-                                         $this->language->get('warning_actonbehalf_additional_store'), ENT_QUOTES,
-                                         'UTF-8'
-                                     )
+                'warning_actonbehalf',
+                htmlspecialchars(
+                    $this->language->get('warning_actonbehalf_additional_store'),
+                    ENT_QUOTES,
+                    'UTF-8'
+                )
             );
         }
 
@@ -247,10 +248,8 @@ class ControllerPagesSaleCustomer extends AController
 
         $this->loadModel('sale/customer_group');
         $results = $this->model_sale_customer_group->getCustomerGroups();
-        $groups = ['' => $this->language->get('text_select_group'),];
-        foreach ($results as $item) {
-            $groups[$item['customer_group_id']] = $item['name'];
-        }
+        $groups = ['' => $this->language->get('text_select_group')]
+            + array_column($results, 'name', 'customer_group_id');
 
         $statuses = [
             '' => $this->language->get('text_select_status'),
@@ -353,10 +352,10 @@ class ControllerPagesSaleCustomer extends AController
 
         if ($this->request->is_POST() && $this->_validateForm()) {
             $customerId = $this->model_sale_customer->addCustomer($this->request->post);
-            $redirect_url = $this->html->getSecureURL('sale/customer/insert_address', '&customer_id='.$customerId);
+            $this->data['redirect_url'] = $this->html->getSecureURL('sale/customer/insert_address', '&customer_id=' . $customerId);
             $this->session->data['success'] = $this->language->get('text_success');
             $this->extensions->hk_ProcessData($this, __FUNCTION__, ['customer_id' => $customerId]);
-            redirect($redirect_url);
+            redirect($this->data['redirect_url']);
         }
         $this->_getForm();
 
@@ -382,7 +381,7 @@ class ControllerPagesSaleCustomer extends AController
 
         $customer_id = $this->request->get['customer_id'];
         if ($this->request->is_POST() && $this->_validateForm($customer_id)) {
-            if ((int) $this->request->post['approved']) {
+            if ((int)$this->request->post['approved']) {
                 $customer_info = $this->model_sale_customer->getCustomer($customer_id);
                 if (!$customer_info['approved']
                     && !$this->model_sale_customer->isSubscriber($customer_id)
@@ -391,11 +390,11 @@ class ControllerPagesSaleCustomer extends AController
                 }
             }
             $this->model_sale_customer->editCustomer($this->request->get['customer_id'], $this->request->post);
-            $redirect_url = $this->html->getSecureURL('sale/customer/update', '&customer_id='.$customer_id);
+            $this->data['redirect_url'] = $this->html->getSecureURL('sale/customer/update', '&customer_id=' . $customer_id);
 
             $this->session->data['success'] = $this->language->get('text_success');
             $this->extensions->hk_ProcessData($this, __FUNCTION__);
-            redirect($redirect_url);
+            redirect($this->data['redirect_url']);
         }
 
         $this->_getForm($args);
@@ -435,41 +434,39 @@ class ControllerPagesSaleCustomer extends AController
                 [
                     'type'  => 'button',
                     'name'  => 'view orders',
-                    'text'  => $this->language->get('text_total_order').' '.$customer_info['orders_count'],
+                    'text'  => $this->language->get('text_total_order') . ' ' . $customer_info['orders_count'],
                     'style' => 'button2',
-                    'href'  => $this->html->getSecureURL('sale/order', '&customer_id='.$customer_id),
-                    'title' => $this->language->get('text_view').' '.$this->language->get('tab_history'),
+                    'href'  => $this->html->getSecureURL('sale/order', '&customer_id=' . $customer_id),
+                    'title' => $this->language->get('text_view') . ' ' . $this->language->get('tab_history'),
                 ]
             );
             $this->data['addresses'] = $this->model_sale_customer->getAddressesByCustomerId($customer_id);
-            if ($customer_info['last_login']
-                && !in_array($customer_info['last_login'], $this->zeroDates)
-            ) {
+            if ($customer_info['last_login'] && !in_array($customer_info['last_login'], $this->zeroDates)) {
                 $date = dateISO2Display(
                     $customer_info['last_login'],
-                    $this->language->get('date_format_short').' '.$this->language->get('time_format')
+                    $this->language->get('date_format_short') . ' ' . $this->language->get('time_format')
                 );
             } else {
                 $date = $this->language->get('text_never');
             }
-            $this->data['last_login'] = $this->language->get('text_last_login').' '.$date;
+            $this->data['last_login'] = $this->language->get('text_last_login') . ' ' . $date;
             if ($customer_info['date_added']
                 && !in_array($customer_info['date_added'], $this->zeroDates)
             ) {
                 $date = dateISO2Display(
                     $customer_info['date_added'],
-                    $this->language->get('date_format_short').' '.$this->language->get('time_format')
+                    $this->language->get('date_format_short') . ' ' . $this->language->get('time_format')
                 );
-                $this->data['register_date'] = $this->language->get('text_register_date').' '.$date;
+                $this->data['register_date'] = $this->language->get('text_register_date') . ' ' . $date;
             }
         }
 
         foreach ($this->data['addresses'] as &$a) {
             $a['href'] = $this->html->getSecureURL(
                 'sale/customer/update_address',
-                '&customer_id='.$customer_id.'&address_id='.$a['address_id']
+                '&customer_id=' . $customer_id . '&address_id=' . $a['address_id']
             );
-            $a['title'] = $a['address_1'].' '.$a['address_2'];
+            $a['title'] = $a['address_1'] . ' ' . $a['address_2'];
             //mark default address
             if ($customer_info['address_id'] == $a['address_id']) {
                 $a['default'] = 1;
@@ -477,7 +474,7 @@ class ControllerPagesSaleCustomer extends AController
         }
         $this->data['add_address_url'] = $this->html->getSecureURL(
             'sale/customer/update_address',
-            '&customer_id='.$customer_id
+            '&customer_id=' . $customer_id
         );
 
         //allow to change this list via hook
@@ -495,26 +492,18 @@ class ControllerPagesSaleCustomer extends AController
                 'approved'          => null,
                 'password'          => 'required',
             ],
-            (array) $this->data['fields']
+            (array)$this->data['fields']
         );
 
         $fields = array_keys($this->data['fields']);
         foreach ($fields as $f) {
-            if (isset ($this->request->post [$f])) {
-                $this->data [$f] = $this->request->post [$f];
-            } elseif (isset($customer_info)) {
-                $this->data[$f] = $customer_info[$f];
-            } else {
-                $this->data[$f] = '';
-            }
+            $this->data[$f] = $this->request->post [$f] ?? $customer_info[$f] ?? '';
         }
 
-        if (!isset($this->data['customer_group_id'])) {
-            $this->data['customer_group_id'] = $this->config->get('config_customer_group_id');
-        }
-        if (!isset($this->data['status'])) {
-            $this->data['status'] = 1;
-        }
+        $this->data['customer_group_id'] = $this->data['customer_group_id']
+            ?? $this->config->get('config_customer_group_id');
+        $this->data['status'] = $this->data['status'] ?? 1;
+
         if (!isset($this->data['password']) && isset($this->request->post['password'])) {
             $this->data['password'] = $this->request->post['password'];
         } else {
@@ -524,23 +513,23 @@ class ControllerPagesSaleCustomer extends AController
         //new customer or new address
         if (!isset($customer_id)) {
             $this->data['action'] = $this->html->getSecureURL('sale/customer/insert');
-            $this->data['heading_title'] = $this->language->get('text_insert').$this->language->get('text_customer');
+            $this->data['heading_title'] = $this->language->get('text_insert') . $this->language->get('text_customer');
             $this->data['update'] = '';
             $form = new AForm('ST');
         } else {
             $this->data['customer_id'] = $customer_id;
-            $this->data['action'] = $this->html->getSecureURL('sale/customer/update', '&customer_id='.$customer_id);
+            $this->data['action'] = $this->html->getSecureURL('sale/customer/update', '&customer_id=' . $customer_id);
 
             $this->data['heading_title'] = $this->language->get('text_edit')
-                .$this->language->get('text_customer')
-                .' - '
-                .$this->data['firstname']
-                .' '
-                .$this->data['lastname'];
+                . $this->language->get('text_customer')
+                . ' - '
+                . $this->data['firstname']
+                . ' '
+                . $this->data['lastname'];
 
             $this->data['update'] = $this->html->getSecureURL(
                 'listing_grid/customer/update_field',
-                '&id='.$customer_id
+                '&id=' . $customer_id
             );
             $form = new AForm('HS');
         }
@@ -555,13 +544,13 @@ class ControllerPagesSaleCustomer extends AController
         );
 
         $this->data['tabs']['general'] = [
-            'href'   => $this->html->getSecureURL('sale/customer/update', '&customer_id='.$customer_id),
+            'href'   => $this->html->getSecureURL('sale/customer/update', '&customer_id=' . $customer_id),
             'text'   => $this->language->get('tab_customer_details'),
             'active' => true,
         ];
-        if (has_value($customer_id)) {
+        if ($customer_id) {
             $this->data['tabs'][] = [
-                'href' => $this->html->getSecureURL('sale/customer_transaction', '&customer_id='.$customer_id),
+                'href' => $this->html->getSecureURL('sale/customer_transaction', '&customer_id=' . $customer_id),
                 'text' => $this->language->get('tab_transactions'),
             ];
         }
@@ -626,22 +615,22 @@ class ControllerPagesSaleCustomer extends AController
         );
 
         $stores = $this->model_setting_store->getStores();
-        if(count($stores) > 1) {
+        if (count($stores) > 1) {
             $this->data['entry_store_name'] = $this->language->get('entry_store_name', 'sale/order');
             $this->data['form']['fields']['details']['store_name'] = $form->getFieldHtml(
                 [
                     'type'    => 'selectbox',
                     'name'    => 'store_id',
                     'value'   => (int)$customer_info['store_id'],
-                    'options' => array_column($stores,'name','store_id'),
+                    'options' => array_column($stores, 'name', 'store_id'),
                 ]
             );
-        }else{
+        } else {
             $this->data['form']['fields']['details']['store_name'] = $form->getFieldHtml(
                 [
-                    'type'    => 'hidden',
-                    'name'    => 'store_id',
-                    'value'   => $this->session->data['current_store_id'],
+                    'type'  => 'hidden',
+                    'name'  => 'store_id',
+                    'value' => $this->session->data['current_store_id'],
                 ]
             );
         }
@@ -672,16 +661,14 @@ class ControllerPagesSaleCustomer extends AController
         $im_drivers = $this->im->getIMDriverObjects();
         if ($im_drivers) {
             foreach ($im_drivers as $protocol => $driver_obj) {
-                /**
-                 * @var AMailIM $driver_obj
-                 */
+                /** @var AMailIM $driver_obj */
                 if (!is_object($driver_obj) || $protocol == 'email') {
                     continue;
                 }
                 $fld = $driver_obj->getURIField($form, $this->data[$protocol]);
                 $this->data['form']['fields']['details'][$protocol] = $fld;
-                $this->data['entry_'.$protocol] = $fld->label_text;
-                $this->data['error_'.$protocol] = $this->error[$protocol];
+                $this->data['entry_' . $protocol] = $fld->label_text;
+                $this->data['error_' . $protocol] = $this->error[$protocol];
             }
         }
 
@@ -699,10 +686,8 @@ class ControllerPagesSaleCustomer extends AController
 
         $this->loadModel('sale/customer_group');
         $results = $this->model_sale_customer_group->getCustomerGroups();
-        $groups = ['' => $this->language->get('text_select_group'),];
-        foreach ($results as $item) {
-            $groups[$item['customer_group_id']] = $item['name'];
-        }
+        $groups = ['' => $this->language->get('text_select_group')]
+            + array_column($results, 'name', 'customer_group_id');
 
         $this->data['form']['fields']['details']['customer_group'] = $form->getFieldHtml(
             [
@@ -738,9 +723,9 @@ class ControllerPagesSaleCustomer extends AController
         $customer_id = $this->request->get['customer_id'];
         if ($this->request->is_POST() && $this->_validateAddressForm($this->request->post)) {
             $address_id = $this->model_sale_customer->addAddress($customer_id, $this->request->post);
-            $redirect_url = $this->html->getSecureURL(
+            $this->data['redirect_url'] = $this->html->getSecureURL(
                 'sale/customer/update',
-                '&customer_id='.$customer_id.'&address_id='.$address_id
+                '&customer_id=' . $customer_id . '&address_id=' . $address_id
             );
 
             //do we need to update default address?
@@ -750,7 +735,7 @@ class ControllerPagesSaleCustomer extends AController
 
             $this->session->data['success'] = $this->language->get('text_success');
             $this->extensions->hk_ProcessData($this, __FUNCTION__, ['address_id' => $address_id]);
-            redirect($redirect_url);
+            redirect($this->data['redirect_url']);
         }
 
         $this->_getAddressForm();
@@ -783,14 +768,14 @@ class ControllerPagesSaleCustomer extends AController
                 $this->model_sale_customer->setDefaultAddress($customer_id, $address_id);
             }
             $this->model_sale_customer->editAddress($customer_id, $address_id, $this->request->post);
-            $redirect_url = $this->html->getSecureURL(
+            $this->data['redirect_url'] = $this->html->getSecureURL(
                 'sale/customer/update_address',
-                '&customer_id='.$customer_id.'&address_id='.$address_id
+                '&customer_id=' . $customer_id . '&address_id=' . $address_id
             );
 
             $this->session->data['success'] = $this->language->get('text_success');
             $this->extensions->hk_ProcessData($this, __FUNCTION__);
-            redirect($redirect_url);
+            redirect($this->data['redirect_url']);
         }
 
         $this->_getAddressForm();
@@ -822,20 +807,17 @@ class ControllerPagesSaleCustomer extends AController
             ]
         );
 
-        $this->data['addresses'] = [];
-
-        $customer_info = [];
-
-        if (has_value($customer_id)) {
+        $this->data['addresses'] = $customer_info = [];
+        if ($customer_id) {
             $customer_info = $this->model_sale_customer->getCustomer($customer_id);
             $this->data['button_orders_count'] = $this->html->buildElement(
                 [
                     'type'  => 'button',
                     'name'  => 'view orders',
-                    'text'  => $this->language->get('text_total_order').' '.$customer_info['orders_count'],
+                    'text'  => $this->language->get('text_total_order') . ' ' . $customer_info['orders_count'],
                     'style' => 'button2',
-                    'href'  => $this->html->getSecureURL('sale/order', '&customer_id='.$customer_id),
-                    'title' => $this->language->get('text_view').' '.$this->language->get('tab_history'),
+                    'href'  => $this->html->getSecureURL('sale/order', '&customer_id=' . $customer_id),
+                    'title' => $this->language->get('text_view') . ' ' . $this->language->get('tab_history'),
                 ]
             );
             $this->data['addresses'] = $this->model_sale_customer->getAddressesByCustomerId($customer_id);
@@ -847,9 +829,9 @@ class ControllerPagesSaleCustomer extends AController
             foreach ($this->data['addresses'] as &$a) {
                 $a['href'] = $this->html->getSecureURL(
                     'sale/customer/update_address',
-                    '&customer_id='.$customer_id.'&address_id='.$a['address_id']
+                    '&customer_id=' . $customer_id . '&address_id=' . $a['address_id']
                 );
-                $a['title'] = $a['address_1'].' '.$a['address_2'];
+                $a['title'] = $a['address_1'] . ' ' . $a['address_2'];
                 //mark default address
                 if ($customer_info['address_id'] == $a['address_id']) {
                     $a['default'] = 1;
@@ -870,7 +852,7 @@ class ControllerPagesSaleCustomer extends AController
 
         $this->data['add_address_url'] = $this->html->getSecureURL(
             'sale/customer/update_address',
-            '&customer_id='.$customer_id
+            '&customer_id=' . $customer_id
         );
         $this->data['category_products'] = $this->html->getSecureURL('product/product/category');
         $this->data['common_zone'] = $this->html->getSecureURL('common/zone');
@@ -879,10 +861,10 @@ class ControllerPagesSaleCustomer extends AController
             //new address
             $this->data['action'] = $this->html->getSecureURL(
                 'sale/customer/insert_address',
-                '&customer_id='.$customer_id
+                '&customer_id=' . $customer_id
             );
             $this->data['tab_customer_address'] = $this->language->get('text_add_address');
-            $this->data['heading_title'] = $this->language->get('text_insert').$this->language->get('text_customer');
+            $this->data['heading_title'] = $this->language->get('text_insert') . $this->language->get('text_customer');
             $this->data['update'] = '';
             $form = new AForm('ST');
         } else {
@@ -890,11 +872,11 @@ class ControllerPagesSaleCustomer extends AController
             $this->data['heading_title'] = $this->language->get('text_edit_address');
             $this->data['action'] = $this->html->getSecureURL(
                 'sale/customer/update_address',
-                '&customer_id='.$customer_id.'&address_id='.$address_id
+                '&customer_id=' . $customer_id . '&address_id=' . $address_id
             );
             $this->data['update'] = $this->html->getSecureURL(
                 'listing_grid/customer/update_field',
-                '&id='.$customer_id.'&address_id='.$address_id
+                '&id=' . $customer_id . '&address_id=' . $address_id
             );
             $this->data['tab_customer_address'] = $this->language->get('text_edit_address');
             $form = new AForm('HS');
@@ -909,14 +891,14 @@ class ControllerPagesSaleCustomer extends AController
         );
 
         $this->data['tabs']['general'] = [
-            'href'   => $this->html->getSecureURL('sale/customer/update', '&customer_id='.$customer_id),
+            'href'   => $this->html->getSecureURL('sale/customer/update', '&customer_id=' . $customer_id),
             'text'   => $this->language->get('tab_customer_details'),
             'active' => true,
         ];
 
-        if (has_value($customer_id)) {
+        if ($customer_id) {
             $this->data['tabs'][] = [
-                'href' => $this->html->getSecureURL('sale/customer_transaction', '&customer_id='.$customer_id),
+                'href' => $this->html->getSecureURL('sale/customer_transaction', '&customer_id=' . $customer_id),
                 'text' => $this->language->get('tab_transactions'),
             ];
         }
@@ -962,14 +944,14 @@ class ControllerPagesSaleCustomer extends AController
 
         //note: Only allow to delete or change if not default
         if (!$current_address['default']) {
-            if (has_value($address_id)) {
+            if ($address_id) {
                 $this->data['form']['delete'] = $form->getFieldHtml(
                     [
                         'type' => 'button',
                         'name' => 'delete',
                         'href' => $this->html->getSecureURL(
                             'sale/customer/delete_address',
-                            '&customer_id='.$customer_id.'&address_id='.$address_id
+                            '&customer_id=' . $customer_id . '&address_id=' . $address_id
                         ),
                         'text' => $this->language->get('button_delete'),
                     ]
@@ -1016,8 +998,8 @@ class ControllerPagesSaleCustomer extends AController
         $this->loadModel('sale/customer_transaction');
         $balance = $this->model_sale_customer_transaction->getBalance($customer_id);
         $this->data['balance'] = $this->language->get('text_balance')
-            .' '
-            .$this->currency->format(
+            . ' '
+            . $this->currency->format(
                 $balance,
                 $this->config->get('config_currency')
             );
@@ -1026,7 +1008,7 @@ class ControllerPagesSaleCustomer extends AController
             [
                 'type'   => 'button',
                 'text'   => $this->language->get('button_actas'),
-                'href'   => $this->html->getSecureURL('sale/customer/actonbehalf', '&customer_id='.$customer_id),
+                'href'   => $this->html->getSecureURL('sale/customer/actonbehalf', '&customer_id=' . $customer_id),
                 'target' => 'new',
             ]
         );
@@ -1035,7 +1017,7 @@ class ControllerPagesSaleCustomer extends AController
             [
                 'type'   => 'button',
                 'text'   => $this->language->get('button_message'),
-                'href'   => $this->html->getSecureURL('sale/contact', '&to[]='.$customer_id),
+                'href'   => $this->html->getSecureURL('sale/contact', '&to[]=' . $customer_id),
                 'target' => 'new',
             ]
         );
@@ -1057,7 +1039,7 @@ class ControllerPagesSaleCustomer extends AController
             redirect($this->html->getSecureURL('sale/customer'));
         }
 
-        $customer_id = $this->request->get['customer_id'];
+        $customer_id = (int)$this->request->get['customer_id'];
 
         $this->model_sale_customer->editCustomerField($customer_id, 'approved', true);
         if (!$this->model_sale_customer->isSubscriber($customer_id)) {
@@ -1074,36 +1056,34 @@ class ControllerPagesSaleCustomer extends AController
     {
         $this->extensions->hk_InitData($this, __FUNCTION__);
         if (isset($this->request->get['customer_id'])) {
-            //NOTE: if need to act on additional store - redirect to it's admin side.
+            //NOTE: if we need to act on additional store - redirect to it's admin side.
             // and then to storefront because cross-domain restriction for session cookie
-            $this->loadModel('setting/store');
-            $store_settings = $this->model_setting_store->getStore($this->session->data['current_store_id']);
-            if ($this->config->get('config_url')
-                != $this->model_setting_store->getStoreURL($this->session->data['current_store_id'])
+            /** @var ModelSettingStore $mdl */
+            $mdl = $this->loadModel('setting/store');
+            $store_settings = $mdl->getStore($this->session->data['current_store_id']);
+            if ($this->config->get('config_url') != $mdl->getStoreURL($this->session->data['current_store_id'])
             ) {
                 if ($store_settings) {
                     if ($store_settings['config_ssl']) {
-                        $add_store_url = $store_settings['config_ssl_url'].'?s='.ADMIN_PATH
-                            .'&rt=sale/customer/actonbehalf&customer_id='.$this->request->get['customer_id'];
+                        $add_store_url = $store_settings['config_ssl_url']
+                            . '?s=' . ADMIN_PATH
+                            . '&rt=sale/customer/actonbehalf&customer_id=' . $this->request->get['customer_id'];
                     } else {
                         $add_store_url = $store_settings['config_url']
-                            .'?s='.ADMIN_PATH
-                            .'&rt=sale/customer/actonbehalf&customer_id='.$this->request->get['customer_id'];
+                            . '?s=' . ADMIN_PATH
+                            . '&rt=sale/customer/actonbehalf&customer_id=' . $this->request->get['customer_id'];
                     }
                     redirect($add_store_url);
                 }
             } else {
                 startStorefrontSession(
-                    $this->user->getId(), [
-                                            'customer_id'       => $this->request->get['customer_id'],
-                                            'merchant_username' => $this->user->getUserName(),
-                                        ]
+                    $this->user->getId(),
+                    [
+                        'customer_id'       => $this->request->get['customer_id'],
+                        'merchant_username' => $this->user->getUserName(),
+                    ]
                 );
-                if ($store_settings['config_ssl']) {
-                    redirect($this->html->getCatalogURL('account/account', '', '', true));
-                } else {
-                    redirect($this->html->getCatalogURL('account/account'));
-                }
+                redirect($this->html->getCatalogURL('account/account', '', '', (bool)$store_settings['config_ssl']));
             }
         }
 
@@ -1136,7 +1116,7 @@ class ControllerPagesSaleCustomer extends AController
                 $this->model_sale_customer->deleteAddress($customer_id, $address_id);
                 $this->session->data['success'] = $this->language->get('text_success');
                 $this->extensions->hk_ProcessData($this, __FUNCTION__);
-                redirect($this->html->getSecureURL('sale/customer/update', '&customer_id='.$customer_id));
+                redirect($this->html->getSecureURL('sale/customer/update', '&customer_id=' . $customer_id));
             }
         }
 
@@ -1261,14 +1241,14 @@ class ControllerPagesSaleCustomer extends AController
         }
         //check zone. If country have no zone - do not show error
         if (!$data['zone_id']) {
-            if($data['country_id']){
+            if ($data['country_id']) {
                 /** @var ModelLocalisationZone $mdl */
                 $mdl = $this->loadModel('localisation/zone');
                 $zones = $mdl->getZonesByCountryId($data['country_id']);
-                if($zones){
+                if ($zones) {
                     $this->error['zone_id'] = $this->language->get('error_zone');
                 }
-            }else {
+            } else {
                 $this->error['zone_id'] = $this->language->get('error_zone');
             }
         }

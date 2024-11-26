@@ -103,7 +103,10 @@ $registry->get('response')->output();
 
 if (IS_ADMIN === true && $registry->get('config')->get('config_maintenance') && $registry->get('user')->isLogged()) {
     $user_id = $registry->get('user')->getId();
-    startStorefrontSession($user_id);
+    startStorefrontSession(
+        $user_id,
+        ['merchant_username' => $registry->get('user')->getUserName()],
+    );
 }
 
 //Show cache stats if debugging

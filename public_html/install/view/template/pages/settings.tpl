@@ -1,6 +1,8 @@
 <?php
-$img_good = '<img src="' . $template_dir . 'image/good.png" alt="Good" />';
-$img_bad = '<img src="' . $template_dir . 'image/bad.png" alt="Bad" />';
+function ynIcon($val){
+    return $val ? '<i class="fa text-success fa-check-circle"></i>' : '<i class="fa text-danger fa-circle-minus"></i>';
+}
+
 echo $header; ?>
 	<div class="row">
 		<div class="col-md-9">
@@ -21,9 +23,7 @@ echo $header; ?>
 											class="fa fa-arrow-right"></i></a></small>
 						</h2>
 					</div>
-
 					<div class="panel-body">
-
 						<?php if ($error_warning){ ?>
 							<div class="warning alert alert-error alert-danger"><?php echo $error_warning; ?></div>
 						<?php } ?>
@@ -45,31 +45,31 @@ echo $header; ?>
 									<td>PHP Version:</td>
 									<td>><?php echo phpversion(); ?></td>
 									<td><?php echo MIN_PHP_VERSION; ?>+</td>
-									<td align="center"><?php echo !$errors['php_version'] ? $img_good : $img_bad; ?></td>
+									<td class="text-center"><?php echo ynIcon(!$errors['php_version']); ?></td>
 								</tr>
 								<tr>
 									<td>Magic Quotes GPC:</td>
 									<td><?php echo (ini_get('magic_quotes_gpc')) ? 'On' : 'Off'; ?></td>
 									<td>Off</td>
-									<td align="center"><?php echo (!ini_get('magic_quotes_gpc')) ? $img_good : $img_bad; ?></td>
+									<td class="text-center"><?php echo ynIcon(!ini_get('magic_quotes_gpc')); ?></td>
 								</tr>
 								<tr>
 									<td>File Uploads:</td>
 									<td><?php echo !$errors['file_uploads'] ? 'On' : 'Off'; ?></td>
 									<td>On</td>
-									<td align="center"><?php echo !$errors['file_uploads'] ? $img_good : $img_bad; ?></td>
+									<td class="text-center"><?php echo ynIcon(!$errors['file_uploads']); ?></td>
 								</tr>
 								<tr>
 									<td>Session Auto Start:</td>
 									<td><?php echo ini_get('session.auto_start') ? 'On' : 'Off'; ?></td>
 									<td>Off</td>
-									<td align="center"><?php echo ini_get('session.auto_start') ? $img_bad : $img_good; ?></td>
+									<td class="text-center"><?php echo ynIcon(!ini_get('session.auto_start')); ?></td>
 								</tr>
 								<tr>
 									<td>Output Buffering</td>
 									<td><?php echo (ini_get('output_buffering')) ? 'On' : 'Off'; ?></td>
 									<td>On</td>
-									<td align="center"><?php echo (ini_get('output_buffering')) ? $img_good : $img_bad; ?></td>
+									<td class="text-center"><?php echo ynIcon(ini_get('output_buffering')); ?></td>
 								</tr>
 								</tbody>
 							</table>
@@ -91,49 +91,49 @@ echo $header; ?>
 									<td>MySQL:</td>
 									<td><?php echo !$errors['mysql'] ? 'On' : 'Off'; ?></td>
 									<td>On</td>
-									<td align="center"><?php echo !$errors['mysql'] ? $img_good : $img_bad; ?></td>
+									<td class="text-center"><?php echo ynIcon(!$errors['mysql']); ?></td>
 								</tr>
 								<tr>
 									<td>GD:</td>
 									<td><?php echo !$errors['gd'] ? 'On' : 'Off'; ?></td>
 									<td>On</td>
-									<td align="center"><?php echo !$errors['gd'] ? $img_good : $img_bad; ?></td>
+									<td class="text-center"><?php echo ynIcon(!$errors['gd']); ?></td>
 								</tr>
 								<tr>
 									<td>CURL:</td>
 									<td><?php echo !$errors['curl'] ? 'On' : 'Off'; ?></td>
 									<td>On</td>
-									<td align="center"><?php echo !$errors['curl'] ? $img_good : $img_bad; ?></td>
+									<td class="text-center"><?php echo ynIcon(!$errors['curl']); ?></td>
 								</tr>
 								<tr>
 									<td>ZIP:</td>
 									<td><?php echo !$errors['zlib'] ? 'On' : 'Off'; ?></td>
 									<td>On</td>
-									<td align="center"><?php echo !$errors['zlib'] ? $img_good : $img_bad; ?></td>
+									<td class="text-center"><?php echo ynIcon(!$errors['zlib']); ?></td>
 								</tr>
 								<tr>
 									<td>FileInfo:</td>
 									<td><?php echo !$errors['fileinfo'] ? 'On' : 'Off'; ?></td>
 									<td>On</td>
-									<td align="center"><?php echo !$errors['fileinfo'] ? $img_good : $img_bad; ?></td>
+									<td class="text-center"><?php echo ynIcon(!$errors['fileinfo']); ?></td>
 								</tr>
 								<tr>
 									<td>MultiByte String:</td>
 									<td><?php echo !$errors['mbstring'] ? 'On' : 'Off'; ?></td>
 									<td>On</td>
-									<td align="center"><?php echo !$errors['mbstring'] ? $img_good : $img_bad; ?></td>
+									<td class="text-center"><?php echo ynIcon(!$errors['mbstring']); ?></td>
 								</tr>
 								<tr>
 									<td>OpenSSL:</td>
 									<td><?php echo !$errors['openssl'] ? 'On' : 'Off'; ?></td>
 									<td>On</td>
-									<td align="center"><?php echo !$errors['openssl'] ? $img_good : $img_bad; ?></td>
+									<td class="text-center"><?php echo ynIcon(!$errors['openssl']); ?></td>
 								</tr>
 								<tr>
 									<td>PHAR:</td>
 									<td><?php echo !$errors['phar'] ? 'On' : 'Off'; ?></td>
 									<td>On</td>
-									<td align="center"><?php echo !$errors['phar'] ? $img_good : $img_bad; ?></td>
+									<td class="text-center"><?php echo ynIcon(!$errors['phar']); ?></td>
 								</tr>
 								</tbody>
 							</table>
@@ -151,12 +151,12 @@ echo $header; ?>
 								<tbody>
 								<tr>
 									<td><?php echo $config_catalog; ?></td>
-									<td><?php echo is_writable($config_catalog) ? '<span class="good">Writable</span>' : '<span class="bad">Unwritable</span>'; ?></td>
+									<td><?php echo is_writable($config_catalog) ? '<span class="text-success">Writable</span>' : '<span class="text-danger">Unwritable</span>'; ?></td>
 								</tr>
 								<?php if (!is_writable($config_catalog)){ ?>
 									<tr>
 										<td colspan="2"><span
-													class="bad">Change file permission to 777 or rwx-rwx-rwx:<br/> chmod 777 <?php echo $config_catalog; ?></span>
+													class="text-danger">Change file permission to 777 or rwx-rwx-rwx:<br/> chmod 777 <?php echo $config_catalog; ?></span>
 										</td>
 									</tr>
 								<?php } ?>
@@ -177,23 +177,23 @@ echo $header; ?>
 								<tr>
 									<td><?php echo $system; ?></td>
 									<?php $_writable = is_writable($system) ?>
-									<td><?php echo $_writable ? '<span class="good">Writable</span>' : '<span class="bad">Unwritable</span>'; ?></td>
+									<td><?php echo $_writable ? '<span class="text-success">Writable</span>' : '<span class="text-danger">Unwritable</span>'; ?></td>
 								</tr>
 								<?php if (!$_writable){ ?>
 									<tr>
-										<td colspan="2"><span class="bad">Change directory and all directories children permissions to 777 or rwx-rwx-rwx:<br/> chmod -R 777 <?php echo $system; ?></span>
+										<td colspan="2"><span class="text-danger">Change directory and all directories children permissions to 777 or rwx-rwx-rwx:<br/> chmod -R 777 <?php echo $system; ?></span>
 										</td>
 									</tr>
 								<?php } else{ ?>
 									<?php if (!is_writable($cache)){ ?>
 										<tr>
-											<td colspan="2"><span class="bad">Change directory permission to 777 or rwx-rwx-rwx:<br/> chmod 777 <?php echo $cache . '/'; ?></span>
+											<td colspan="2"><span class="text-danger">Change directory permission to 777 or rwx-rwx-rwx:<br/> chmod 777 <?php echo $cache . '/'; ?></span>
 											</td>
 										</tr>
 									<?php } ?>
 									<?php if (!is_writable($logs)){ ?>
 										<tr>
-											<td colspan="2"><span class="bad">Change directory permission to 777 or rwx-rwx-rwx:<br/> chmod 777 <?php echo $logs . '/'; ?></span>
+											<td colspan="2"><span class="text-danger">Change directory permission to 777 or rwx-rwx-rwx:<br/> chmod 777 <?php echo $logs . '/'; ?></span>
 											</td>
 										</tr>
 									<?php }
@@ -201,64 +201,64 @@ echo $header; ?>
 								<tr>
 									<td><?php echo $image . '/'; ?></td>
 									<?php $_writable = is_writable($image) ?>
-									<td><?php echo $_writable ? '<span class="good">Writable</span>' : '<span class="bad">Unwritable</span>'; ?></td>
+									<td><?php echo $_writable ? '<span class="text-success">Writable</span>' : '<span class="text-danger">Unwritable</span>'; ?></td>
 								</tr>
 								<?php if (!$_writable){ ?>
 									<tr>
 										<td colspan="2">
-											<span class="bad">Change directory and all children directories permissions to 777 or rwx-rwx-rwx:<br/> chmod -R 777 <?php echo $image . '/'; ?></span>
+											<span class="text-danger">Change directory and all children directories permissions to 777 or rwx-rwx-rwx:<br/> chmod -R 777 <?php echo $image . '/'; ?></span>
 										</td>
 									</tr>
 								<?php } else{ ?>
 									<?php if (!is_writable($image_thumbnails)){ ?>
 										<tr>
 											<td colspan="2">
-												<span class="bad">Change directory permission to 777 or rwx-rwx-rwx:<br/> chmod -R 777 <?php echo $image_thumbnails . '/'; ?></span>
+												<span class="text-danger">Change directory permission to 777 or rwx-rwx-rwx:<br/> chmod -R 777 <?php echo $image_thumbnails . '/'; ?></span>
 											</td>
 										</tr>
 									<?php }
 								} ?>
 								<tr>
 									<td><?php echo $download . '/'; ?></td>
-									<td><?php echo is_writable($download) ? '<span class="good">Writable</span>' : '<span class="bad">Unwritable</span>'; ?></td>
+									<td><?php echo is_writable($download) ? '<span class="text-success">Writable</span>' : '<span class="text-danger">Unwritable</span>'; ?></td>
 								</tr>
 								<?php if (!is_writable($download)){ ?>
 									<tr>
 										<td colspan="2">
-											<span class="bad">Change directory permission to 777 or rwx-rwx-rwx:<br/> chmod 777 <?php echo $download . '/'; ?></span>
+											<span class="text-danger">Change directory permission to 777 or rwx-rwx-rwx:<br/> chmod 777 <?php echo $download . '/'; ?></span>
 										</td>
 									</tr>
 								<?php } ?>
 								<tr>
 									<td><?php echo $extensions . '/'; ?></td>
-									<td><?php echo is_writable($extensions) ? '<span class="good">Writable</span>' : '<span class="bad">Unwritable</span>'; ?></td>
+									<td><?php echo is_writable($extensions) ? '<span class="text-success">Writable</span>' : '<span class="text-danger">Unwritable</span>'; ?></td>
 								</tr>
 								<?php if (!is_writable($extensions)){ ?>
 									<tr>
 										<td colspan="2">
-											<span class="bad">Change directory and all children directories permission to 777 or rwx-rwx-rwx:<br/> chmod -R 777 <?php echo $extensions . '/'; ?></span>
+											<span class="text-danger">Change directory and all children directories permission to 777 or rwx-rwx-rwx:<br/> chmod -R 777 <?php echo $extensions . '/'; ?></span>
 										</td>
 									</tr>
 								<?php } ?>
 								<tr>
 									<td><?php echo $resources . '/'; ?></td>
-									<td><?php echo is_writable($resources) ? '<span class="good">Writable</span>' : '<span class="bad">Unwritable</span>'; ?></td>
+									<td><?php echo is_writable($resources) ? '<span class="text-success">Writable</span>' : '<span class="text-danger">Unwritable</span>'; ?></td>
 								</tr>
 								<?php if (!is_writable($resources)){ ?>
 									<tr>
 										<td colspan="2">
-											<span class="bad">Change directory and all children directories permission to 777 or rwx-rwx-rwx:<br/> chmod -R 777 <?php echo $resources . '/'; ?></span>
+											<span class="text-danger">Change directory and all children directories permission to 777 or rwx-rwx-rwx:<br/> chmod -R 777 <?php echo $resources . '/'; ?></span>
 										</td>
 									</tr>
 								<?php } ?>
 								<tr>
 									<td><?php echo $admin_system . '/'; ?></td>
-									<td><?php echo is_writable($admin_system) ? '<span class="good">Writable</span>' : '<span class="bad">Unwritable</span>'; ?></td>
+									<td><?php echo is_writable($admin_system) ? '<span class="text-success">Writable</span>' : '<span class="text-danger">Unwritable</span>'; ?></td>
 								</tr>
 								<?php if (!is_writable($admin_system)){ ?>
 									<tr>
 										<td colspan="2">
-											<span class="bad">Change directory and all children directories permission to 777 or rwx-rwx-rwx:<br/> chmod -R 777 <?php echo $admin_system . '/'; ?></span>
+											<span class="text-danger">Change directory and all children directories permission to 777 or rwx-rwx-rwx:<br/> chmod -R 777 <?php echo $admin_system . '/'; ?></span>
 										</td>
 									</tr>
 								<?php } ?>
