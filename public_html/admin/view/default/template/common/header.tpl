@@ -294,7 +294,7 @@ echo $this->html->buildElement(
 
             //global search section
             $("#global_search")
-                .chosen({'width': '260px', 'white-space': 'nowrap'})
+                .chosen({'width': '30%','white-space': 'nowrap'})
                 .ajaxChosen({
                 type: 'GET',
                 url: '<?php echo $search_suggest_url; ?>',

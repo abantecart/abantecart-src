@@ -35,7 +35,7 @@
         foreach ($search_categories as $scat) {	?>
         <!-- Nav tabs -->
           <li <?php echo $i==0 ? 'class="active"' : ''; ?>>
-              <a href="#<?php echo $scat;?>" role="tab" data-toggle="tab"><?php echo $search_categories_names[$scat];?></a>
+              <a id="tab_<?php echo $scat;?>_grid" href="#<?php echo $scat;?>" role="tab" data-toggle="tab"><?php echo $search_categories_names[$scat];?></a>
           </li>
         <?php
             $i++;
@@ -85,43 +85,54 @@ echo $this->html->buildElement(
 ); ?>
 
 <script type="text/javascript">
+    let gridInits = <?php echo json_encode($grid_inits)?>;
 	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-		var target = $(e.target).attr("href");
+		const target = $(e.target).attr("href");
 		$(target+'_grid').trigger( 'resize' );
 	});
 
 	// Javascript to enable link to tab
-	var url = document.location.toString();
-	if (url.match('#')) {
-	    $('.nav-tabs a[href="#'+url.split('#')[1]+'"]').tab('show') ;
+	let hash = document.location.hash.replace('#','');
+	if (hash) {
+	    $('.nav-tabs a[href="#'+hash+'"]').tab('show') ;
 	}
 
 	// Change hash for page-reload
-	$('.nav-tabs a').on('shown', function (e) {
+	$('.nav-tabs a').on('click', function (e) {
 	    window.location.hash = e.target.hash;
-	})
+        hash = window.location.hash;
+    });
 
-	var grid_ready = function (grid_id, data){
-
+	let grid_ready = function (grid_id, data){
 		if( grid_id === 'languages_grid' ){
-			$('#'+grid_id).find('td[aria-describedby$="_grid_search_result"]>a').each(
-					function () {
-						$(this).attr('data-toggle', 'modal').attr('data-target', '#gs_modal');
-					});
+			$('#'+grid_id)
+                .find('td[aria-describedby$="_grid_search_result"]>a')
+                    .each(
+                        function () {
+                            $(this).attr('data-toggle', 'modal').attr('data-target', '#gs_modal');
+                        }
+                    );
 		}
+        if(data.records<1){
+            $('#tab_'+grid_id).parent().addClass('disabled');
+        }
 	}
 
 	$('span.icon_search').click(function(){
 		$('#search_form').submit();
 	});
-
+<?php //call opened tab's grid and then call other grids with delay ?>
 	$(document).ready(function(){
-		<?php
-		$time = 0;
-		foreach($grid_inits as $func_name){
-			echo 'setTimeout("'.$func_name.'($)",'.$time.');'."\n";
-			$time+=500;
-		}
-	?>
+        if(gridInits[hash]) {
+            setTimeout(gridInits[hash] + '($);', 100);
+        }
+        let time = 500;
+        for(const i in gridInits){
+            if(gridInits[i] === gridInits[hash]){
+                continue;
+            }
+            setTimeout(gridInits[i]+'($);',time);
+            time+=500;
+        }
 	});
 </script>

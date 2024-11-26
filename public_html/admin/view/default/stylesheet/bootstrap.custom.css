@@ -543,6 +543,12 @@ h4, .h4 {
 .panel-heading .nav-tabs li a {
    color: #666;
 }
+.nav-tabs li.disabled a {
+   color: #eaeaea;
+}
+.nav-tabs li.disabled a:hover {
+   color: #e89c93;
+}
 
 .panel-heading .nav-tabs li a:hover,
 .panel-heading .nav-tabs li a:active,
