@@ -147,8 +147,10 @@ class ControllerPagesProductSearch extends AController
                 ]
             );
 
+            $product_total = current($products_result)['total_num_rows'];
+
             //if single result, redirect to the product
-            if (count($products_result) == 1) {
+            if (count($products_result) == 1 && $product_total == 1) {
                 redirect(
                     $this->html->getSEOURL(
                         'product/product',
@@ -157,8 +159,6 @@ class ControllerPagesProductSearch extends AController
                     )
                 );
             }
-
-            $product_total = current($products_result)['total_num_rows'];
 
             if ($product_total) {
                 $this->loadModel('catalog/review');
