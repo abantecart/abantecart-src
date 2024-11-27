@@ -140,4 +140,61 @@
 		<key>entry_meta_keywords</key>
 		<value><![CDATA[Мета ключевые слова:]]></value>
 	</definition>
+	<definition>
+		<key>column_publish_date</key>
+		<value><![CDATA[Дата публикации]]></value>
+	</definition>
+	<definition>
+		<key>entry_publish_date</key>
+		<value><![CDATA[Дата публикации:]]></value>
+	</definition>
+	<definition>
+		<key>entry_expire_date</key>
+		<value><![CDATA[Дата окончания срока:]]></value>
+	</definition>
+	<definition>
+		<key>entry_content_bar</key>
+		<value><![CDATA[Панель сведений о контенте: <br/><span class="help">Включите этот параметр, чтобы отобразить панель с автором и датой публикации на странице контента.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_icon</key>
+		<value><![CDATA[Основное изображение или значок:]]></value>
+	</definition>
+	<definition>
+		<key>entry_tags</key>
+		<value><![CDATA[Теги контента: список из <br/><span class="help">запятых</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_author</key>
+		<value><![CDATA[Автор:]]></value>
+	</definition>
+	<definition>
+		<key>error_title_html</key>
+		<value><![CDATA[Заголовок контента не может содержать HTML-теги!]]></value>
+	</definition>
+	<definition>
+		<key>error_description_html</key>
+		<value><![CDATA[HTML-теги описания контента не поддерживаются!]]></value>
+	</definition>
+	<definition>
+		<key>error_delete_parent</key>
+		<value><![CDATA[
+ Предупреждение: родительская публикация не может быть удалено! Сначала переместите или удалите страницы дочернего содержимого.]]></value>
+	</definition>
+	<definition>
+		<key>text_clone</key>
+		<value><![CDATA[Клон]]></value>
+	</definition>
+	<definition>
+		<key>text_success_copy</key>
+		<value><![CDATA[Успех: Вы успешно скопировали страницу публикации <b>%s</b> !]]></value>
+	</definition>
+	<definition>
+		<key>text_success_copy_layout</key>
+		<value><![CDATA[ Примечание: макет страницы публикации также был клонирован.]]></value>
+	</definition>
+	<definition>
+		<key>text_error_copy</key>
+		<value><![CDATA[Клонирование не удалось! Исходная страница контента недоступна]]></value>
+	</definition>
 </definitions>

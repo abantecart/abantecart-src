@@ -1,7 +1,35 @@
 <?xml version="1.0"?>
 <definitions>
-  <definition>
-    <key>text_error</key>
-    <value><![CDATA[No se ha encontrado la página solicitada!]]></value>
-  </definition>
+	<definition>
+		<key>text_error</key>
+		<value><![CDATA[No se ha encontrado la página solicitada!]]></value>
+	</definition>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Páginas de contenido]]></value>
+	</definition>
+	<definition>
+		<key>text_author</key>
+		<value><![CDATA[Autor:]]></value>
+	</definition>
+	<definition>
+		<key>text_published</key>
+		<value><![CDATA[Publicado:]]></value>
+	</definition>
+	<definition>
+		<key>text_sort</key>
+		<value><![CDATA[Ordenar por:]]></value>
+	</definition>
+	<definition>
+		<key>text_new</key>
+		<value><![CDATA[NUEVO]]></value>
+	</definition>
+	<definition>
+		<key>text_default</key>
+		<value><![CDATA[Por defecto]]></value>
+	</definition>
+	<definition>
+		<key>content_not_found</key>
+		<value><![CDATA[No se encontró contenido. Inténtalo de nuevo.]]></value>
+	</definition>
 </definitions>
