@@ -80,7 +80,7 @@ class ControllerResponsesDesignPageBuilder extends AController
 
         $layout = new ALayoutManager($this->templateTxtId, $this->pageId);
         $pageData = $layout->getPageData();
-        if ($this->pageId && $pageData) {
+        if ($pageData) {
             $mainContentArea = [
                 'type'      => 'abantecart-main-content-area',
                 'layout_id' => $this->layoutId,
