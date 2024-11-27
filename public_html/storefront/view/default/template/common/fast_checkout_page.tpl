@@ -9,7 +9,7 @@
 
     <?php if ($maintenance_warning) { ?>
         <div class="alert alert-warning alert-dismissible">
-           <i class="fa-solid fa-circle-exclamation me-2">
+            <i class="fa-solid fa-circle-exclamation me-2"></i>
            <strong><?php echo $maintenance_warning;?></strong>
            <?php if($act_on_behalf_warning){ ?>
               <br/><strong><?php echo $act_on_behalf_warning;?></strong>
