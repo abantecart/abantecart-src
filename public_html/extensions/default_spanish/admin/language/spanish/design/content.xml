@@ -140,4 +140,61 @@
 		<key>entry_meta_keywords</key>
 		<value><![CDATA[Palabras clave de meta etiqueta:]]></value>
 	</definition>
+	<definition>
+		<key>column_publish_date</key>
+		<value><![CDATA[Fecha de publicación]]></value>
+	</definition>
+	<definition>
+		<key>entry_publish_date</key>
+		<value><![CDATA[Fecha de publicación:]]></value>
+	</definition>
+	<definition>
+		<key>entry_expire_date</key>
+		<value><![CDATA[Fecha de expiración:]]></value>
+	</definition>
+	<definition>
+		<key>entry_content_bar</key>
+		<value><![CDATA[Barra de detalles de contenido: <br/><span class="help">Habilite esta configuración para mostrar la barra con el autor y la fecha de publicación en la página de contenido</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_icon</key>
+		<value><![CDATA[Imagen principal o icono:]]></value>
+	</definition>
+	<definition>
+		<key>entry_tags</key>
+		<value><![CDATA[Etiquetas de contenido: <br/><span class="help">listas separadas por comas</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_author</key>
+		<value><![CDATA[Autor:]]></value>
+	</definition>
+	<definition>
+		<key>error_title_html</key>
+		<value><![CDATA[¡El título del contenido no puede contener etiquetas HTML!]]></value>
+	</definition>
+	<definition>
+		<key>error_description_html</key>
+		<value><![CDATA[¡Las etiquetas HTML de descripción de contenido no son compatibles!]]></value>
+	</definition>
+	<definition>
+		<key>error_delete_parent</key>
+		<value><![CDATA[
+ Advertencia: ¡No se pueden eliminar los contenidos principales! Mueva o elimine primero las páginas de contenido secundario.]]></value>
+	</definition>
+	<definition>
+		<key>text_clone</key>
+		<value><![CDATA[Clon]]></value>
+	</definition>
+	<definition>
+		<key>text_success_copy</key>
+		<value><![CDATA[Éxito: ¡Has copiado exitosamente el contenido de la página <b>%s</b> !]]></value>
+	</definition>
+	<definition>
+		<key>text_success_copy_layout</key>
+		<value><![CDATA[ Nota: El diseño de la página de contenido también ha sido clonado.]]></value>
+	</definition>
+	<definition>
+		<key>text_error_copy</key>
+		<value><![CDATA[¡La clonación ha fallado! La página de contenido original no está disponible]]></value>
+	</definition>
 </definitions>

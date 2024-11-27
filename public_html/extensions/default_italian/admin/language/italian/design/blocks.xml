@@ -264,4 +264,12 @@
 		<key>text_products_related</key>
 		<value><![CDATA[prodotti correlati]]></value>
 	</definition>
+	<definition>
+		<key>text_selected_content</key>
+		<value><![CDATA[Contenuto selezionato]]></value>
+	</definition>
+	<definition>
+		<key>text_top_level</key>
+		<value><![CDATA[Livello superiore]]></value>
+	</definition>
 </definitions>

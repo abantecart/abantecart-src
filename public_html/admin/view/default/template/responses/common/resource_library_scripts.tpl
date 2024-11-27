@@ -219,7 +219,9 @@ echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload-ui.js"></sc
                         src = '<div class="html rl_large_icon"><i class="fa fa-code fa-lg"></i></div>';
                     } else {
                         <?php // variable t needs to prevent browser caching in case of replacement of file of resource?>
-                        src = '<img onerror="imgError(this);" class="img-responsive" src="' + item['thumbnail_url'] + '?t=' + t + '" title="' + item['name'] + '" />';
+                        src = '<img onerror="imgError(this);" class="img-responsive" ' +
+                            'style="width: 100px; height: 100px;"' +
+                            'src="' + item['thumbnail_url'] + '?t=' + t + '" title="' + item['name'] + '" />';
                     }
 
                     html += '<div class="col-md-1 col-sm-2 col-xs-6 reslibrary_block">';

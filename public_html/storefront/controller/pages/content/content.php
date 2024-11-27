@@ -133,7 +133,7 @@ class ControllerPagesContentContent extends AController
             if ($selTag) {
                 $params['tag'] = $selTag;
             }
-            $this->data['resort_url'] = $this->html->getSecureURL(
+            $this->data['resort_url'] = $this->html->getSecureSEOURL(
                 'content/content',
                 '&' . http_build_query($params)
             );
