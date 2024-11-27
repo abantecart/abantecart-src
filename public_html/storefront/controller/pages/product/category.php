@@ -378,7 +378,7 @@ class ControllerPagesProductCategory extends AController
 
                 $rQuery = $httpQuery;
                 unset($rQuery['sort']);
-                $this->data['resort_url'] = $this->html->getSEOURL(
+                $this->data['resort_url'] = $this->html->getSecureSEOURL(
                     'product/category',
                     '&' . http_build_query($rQuery)
                 );
