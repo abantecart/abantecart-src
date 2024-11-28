@@ -613,7 +613,7 @@ class ALanguageManager extends Alanguage
         }
 
         $index = array_filter($index);
-        $tableId = (int)current($index);
+        $recId = (int)current($index);
 
         //select current values for compare
         $result = $this->db->query(
@@ -629,14 +629,14 @@ class ALanguageManager extends Alanguage
             }
             $load_data = [
                 'table_name' => $tableName,
-                'table_id' => $tableId,
+                'record_id' => $recId,
                 'language_id' => $langId,
                 'version' => 1
             ];
             //select latest version
             $sql = "SELECT version as version 
-                    FROM ".$this->db->table('description_history')." 
-                    WHERE `table_name` = '".$this->db->escape($tableName)."' AND `table_id` = '".$tableId."' 
+                    FROM ".$this->db->table('fields_history')." 
+                    WHERE `table_name` = '".$this->db->escape($tableName)."' AND `record_id` = '".$tableId."' 
                         AND `field` = '".$this->db->escape($field)."' AND `language_id` = '".$langId."' ";
             $sql .= "ORDER BY `version` DESC LIMIT 1";
             $result = $this->db->query($sql);
@@ -646,7 +646,7 @@ class ALanguageManager extends Alanguage
             }
             $load_data['field'] = $this->db->escape($field);
             $load_data['text'] = $this->db->escape($currentData[$field]);
-            $sql = "INSERT INTO " . $this->db->table('description_history') . " ";
+            $sql = "INSERT INTO " . $this->db->table('fields_history') . " ";
             $sql .= "(`" . implode("`, `", array_keys($load_data)) . "`) VALUES ('" . implode("', '", $load_data) . "') ";
             $this->db->query($sql);
         }
@@ -654,18 +654,18 @@ class ALanguageManager extends Alanguage
 
     /**
      * @param $table_name
-     * @param $table_id
+     * @param $record_id
      * @param $field
      * @param $language_id
      *
      * @return array
      * @throws AException
      */
-    public function getDescriptionHistory($table_name, $table_id, $field, $language_id)
+    public function getDescriptionHistory($table_name, $record_id, $field, $language_id)
     {
         $language_id = (int)$language_id ?? $this->getContentLanguageID();
-        $sql = "SELECT * FROM ".$this->db->table('description_history')." ";
-        $sql .= "WHERE `table_name` = '$table_name' AND `table_id` = '$table_id' AND `language_id` = '$language_id' AND `field` = '$field' ";
+        $sql = "SELECT * FROM ".$this->db->table('fields_history')." ";
+        $sql .= "WHERE `table_name` = '$table_name' AND `record_id` = '$record_id' AND `language_id` = '$language_id' AND `field` = '$field' ";
         $sql .= "ORDER BY `version` DESC";
         $result = $this->db->query($sql);
         return $result->rows;
@@ -678,7 +678,7 @@ class ALanguageManager extends Alanguage
      */
     public function clearDescriptionHistory()
     {
-        $sql = "DELETE FROM ".$this->db->table('description_history')." ";
+        $sql = "DELETE FROM ".$this->db->table('fields_history')." ";
         $this->db->query($sql);
         return;
     }

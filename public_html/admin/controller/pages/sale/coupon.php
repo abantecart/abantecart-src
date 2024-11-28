@@ -333,8 +333,14 @@ class ControllerPagesSaleCoupon extends AController
             ]
         );
 
+        $history = [];
         if (isset($this->request->get['coupon_id']) && $this->request->is_GET()) {
-            $couponInfo = $this->model_sale_coupon->getCouponByID($this->request->get['coupon_id']);
+            $coupID = $this->request->get['coupon_id'];
+            $couponInfo = $this->model_sale_coupon->getCouponByID($coupID);
+            $history = [
+                'table'        => 'coupon_descriptions',
+                'record_id'     => $coupID,
+            ];
         }
 
         $this->data['languages'] = $this->language->getAvailableLanguages();
@@ -508,6 +514,7 @@ class ControllerPagesSaleCoupon extends AController
                 'required'     => true,
                 'style'        => 'large-field',
                 'multilingual' => true,
+                'history'      => $history
             ]
         );
         $this->data['form']['fields']['description'] = $form->getFieldHtml(
@@ -518,6 +525,7 @@ class ControllerPagesSaleCoupon extends AController
                 'required'     => true,
                 'style'        => 'large-field',
                 'multilingual' => true,
+                'history'      => $history
             ]
         );
         $this->data['form']['fields']['code'] = $form->getFieldHtml(

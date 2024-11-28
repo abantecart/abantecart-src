@@ -61,7 +61,6 @@
             let id = $(this).attr('id').replace('hist_','');
             let setValue = values[id];
             const dest = $('#<?php echo $elm_id?>');
-            alert('dest: <?php echo $elm_id?> :' + id);
             if(!dest){
                 alert('Cannot find destination form-element (#<?php echo $elm_id?>)!');
                 return false;

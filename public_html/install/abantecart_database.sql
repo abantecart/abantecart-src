@@ -12684,16 +12684,16 @@ VALUES
 ;
 
 --
--- DDL for table `description_history`
+-- DDL for table `fields_history`
 --
 
-DROP TABLE IF EXISTS `ac_description_history`;
+DROP TABLE IF EXISTS `ac_fields_history`;
 
-CREATE TABLE `ac_description_history`
+CREATE TABLE `ac_fields_history`
 (
     `hist_id`       int(11)                                not null auto_increment,
     `table_name`    varchar(40)                            not null,
-    `table_id`      int                                    not null,
+    `record_id`     int                                    not null,
     `field`         varchar(128)                           not null,
     `version`       int(11)        default 1               not null,
     `language_id`   int(11)                                not null,
@@ -12702,6 +12702,6 @@ CREATE TABLE `ac_description_history`
     primary key (`hist_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-create index `ac_description_history_idx`
-    on `ac_description_history` (`table_name`, `table_id`, `field`, `language_id`);
+create index `ac_fields_history_idx`
+    on `ac_fields_history` (`table_name`, `record_id`, `field`, `language_id`);
 

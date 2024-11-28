@@ -149,7 +149,7 @@ class ControllerResponsesCommonCommon extends AController
         if (isset($get['table_name']) && $get['table_name']) {
             $output['result'] = $this->language->getDescriptionHistory(
                 $get['table_name'],
-                $get['table_id'],
+                $get['record_id'],
                 $get['field'],
                 $this->language->getContentLanguageID()
             );
@@ -160,8 +160,7 @@ class ControllerResponsesCommonCommon extends AController
         $this->view->batchAssign($get);
         $this->view->batchAssign($output);
         $this->view->assign('title', $this->language->get('text_data_history').' - '.$get['field']);
-        //render template
-        $this->processTemplate('responses/common/description_history.tpl');
+        $this->processTemplate('responses/common/fields_history.tpl');
 
         $this->load->library('json');
         $this->response->addJSONHeader();

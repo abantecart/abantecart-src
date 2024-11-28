@@ -57,7 +57,7 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
             <?php } ?>
 
             <?php
-            if ($required || $multilingual) { ?>
+            if ($required || $multilingual || $history_url) { ?>
                 <span class="afield-nav">
             <?php
             if ($required) { ?>

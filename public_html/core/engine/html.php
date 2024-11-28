@@ -1273,13 +1273,22 @@ class InputHtmlElement extends HtmlElement
 
         $history_url = '';
         if($this->history){
+            // Check if a field name contains square brackets or block_ prefix
+            if (preg_match('/.*\[(.*?)\]$/', $this->name, $matches)) {
+                $fieldName = $matches[1];
+            } else if (preg_match('/block_(.*?)$/', $this->name, $matches)) {
+                $fieldName = $matches[1];
+            } else {
+                $fieldName = $this->name;
+            }
+
             $history_url = $this->registry->get('html')->getSecureURL(
                 'r/common/common/getDescriptionHistory',
                 '&'.http_build_query(
                     [
-                        'field' => $this->name,
+                        'field' => $fieldName,
                         'table_name' => $this->history['table'],
-                        'table_id' => $this->history['table_id'],
+                        'record_id' => $this->history['record_id'],
                         //element ID (need to paste selected value back to the form field)
                         'elm_id' => $this->element_id
                     ]
@@ -1442,13 +1451,21 @@ class TextareaHtmlElement extends HtmlElement
     {
         $history_url = '';
         if($this->history){
+            // Check if a field name contains square brackets or block_ prefix
+            if (preg_match('/.*\[(.*?)\]$/', $this->name, $matches)) {
+                $fieldName = $matches[1];
+            } else if (preg_match('/block_(.*?)$/', $this->name, $matches)) {
+                $fieldName = $matches[1];
+            } else {
+                $fieldName = $this->name;
+            }
             $history_url = $this->registry->get('html')->getSecureURL(
                 'r/common/common/getDescriptionHistory',
                 '&'.http_build_query(
                     [
-                        'field' => $this->name,
+                        'field' => $fieldName,
                         'table_name' => $this->history['table'],
-                        'table_id' => $this->history['table_id'],
+                        'record_id' => $this->history['record_id'],
                         //element ID (need to paste selected value back to the form field)
                         'elm_id' => $this->element_id
                     ]
@@ -1497,7 +1514,7 @@ class TextareaHtmlElement extends HtmlElement
  * @property string $preview_url - custom preview url
  * @property string $js_onload - custom js-code will be run on doc ready
  * @property bool $multilingual
- * @property bool $history - array with table, table_id
+ * @property bool $history - array with table, record_id
  */
 class TextEditorHtmlElement extends HtmlElement
 {
@@ -1524,13 +1541,21 @@ class TextEditorHtmlElement extends HtmlElement
         ];
 
         if($this->history){
+            // Check if a field name contains square brackets or
+            if (preg_match('/.*\[(.*?)\]$/', $this->name, $matches)) {
+                $fieldName = $matches[1];
+            } else if (preg_match('/block_(.*?)$/', $this->name, $matches)) {
+                $fieldName = $matches[1];
+            } else {
+                $fieldName = $this->name;
+            }
             $data['history_url'] = $this->registry->get('html')->getSecureURL(
                 'r/common/common/getDescriptionHistory',
                 '&'.http_build_query(
                     [
-                        'field' => $data['name'],
+                        'field' => $fieldName,
                         'table_name' => $this->history['table'],
-                        'table_id' => $this->history['table_id'],
+                        'record_id' => $this->history['record_id'],
                         //element ID (need to paste selected value back to the form field)
                         'elm_id' => $this->element_id
                     ]

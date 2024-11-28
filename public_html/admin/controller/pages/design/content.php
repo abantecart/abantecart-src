@@ -402,7 +402,7 @@ class ControllerPagesDesignContent extends AController
 
         $history = [
             'table'        => 'content_descriptions',
-            'table_id'     => $contentId,
+            'record_id'     => $contentId,
         ];
 
         $this->data['form']['id'] = 'contentFrm';
