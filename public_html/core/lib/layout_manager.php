@@ -1490,8 +1490,7 @@ class ALayoutManager
             }
         }
         // save block descriptions bypass
-        $data['block_descriptions'] = !isset($data['block_descriptions'])
-        && $data['block_description'] ? [$data['block_description']] : $data['block_descriptions'];
+        $data['block_descriptions'] = $data['block_descriptions'] ??  [$data['block_description']];
         if ($data['block_descriptions']) {
             foreach ($data['block_descriptions'] as $block_description) {
                 if (!isset($block_description ['language_id']) && $block_description ['language_name']) {
@@ -1573,9 +1572,8 @@ class ALayoutManager
         $custom_block_id = (int)$custom_block_id;
         if (!$description['language_id']) {
             $description['language_id'] = $this->language->getContentLanguageID();
-            $this->errors =
-                'Warning: block description does not provide language. Current language id ' . $description['language_id']
-                . ' is used!';
+            $this->errors = 'Warning: block description does not provide language. Current language id '
+                . $description['language_id'] . ' is used!';
             $this->log->write($this->errors);
         }
         // if id is set - update only given data
@@ -1585,19 +1583,19 @@ class ALayoutManager
                 $update["name"] = $description ['name'];
             }
             if (isset($description ['block_wrapper'])) {
-                $update["block_wrapper"] = $description ['block_wrapper'];
+                $update["block_wrapper"] = trim($description['block_wrapper']);
             }
             if (isset($description ['block_framed'])) {
-                $update["block_framed"] = (int)$description ['block_framed'];
+                $update["block_framed"] = (int)$description['block_framed'];
             }
             if (isset($description ['title'])) {
-                $update["title"] = $description ['title'];
+                $update["title"] = trim($description['title']);
             }
             if (isset($description ['description'])) {
-                $update["description"] = $description ['description'];
+                $update["description"] = trim($description['description']);
             }
             if (isset($description ['content'])) {
-                $update["content"] = $description ['content'];
+                $update["content"] = trim($description['content']);
             }
 
             if ($update) {
@@ -1624,12 +1622,12 @@ class ALayoutManager
                 ['custom_block_id' => (int)$custom_block_id],
                 [
                     (int)$description['language_id'] => [
-                        "block_wrapper" => $description ['block_wrapper'],
+                        "block_wrapper" => trim($description ['block_wrapper']),
                         'block_framed'  => (int)$description ['block_framed'],
-                        'name'          => $description ['name'],
-                        'title'         => $description ['title'],
-                        'description'   => $description ['description'],
-                        'content'       => $description ['content'],
+                        'name'          => trim($description ['name']),
+                        'title'         => trim($description ['title']),
+                        'description'   => trim($description ['description']),
+                        'content'       => trim($description ['content']),
                     ],
                 ]
             );
@@ -2113,8 +2111,8 @@ class ALayoutManager
                 // check layout type
                 $layout_type = $this->_getIntLayoutTypeByText((string)$layout->type);
                 $sql = "INSERT INTO " . $this->db->table("layouts") . " (template_id,layout_name,layout_type,date_added,date_modified)
-                        VALUES ('" . $this->db->escape($layout->template_id) . "',
-                                '" . $this->db->escape($layout->name) . "',
+                        VALUES ('" . $this->db->escape(trim($layout->template_id)) . "',
+                                '" . $this->db->escape(trim($layout->name)) . "',
                                 '" . $layout_type . "',NOW(),NOW())";
                 $this->db->query($sql);
                 $layout_id = $this->db->getLastId();
@@ -2140,8 +2138,8 @@ class ALayoutManager
 
                 $sql = "UPDATE " . $this->db->table("layouts") . " 
                         SET 
-                            template_id = '" . $this->db->escape($layout->template_id) . "',
-                            layout_name = '" . $this->db->escape($layout->name) . "',
+                            template_id = '" . $this->db->escape(trim($layout->template_id)) . "',
+                            layout_name = '" . $this->db->escape(trim($layout->name)) . "',
                             layout_type = '" . $layout_type . "',
                             date_added = NOW() 
                         WHERE layout_id='" . $layout_id . "'";
@@ -2208,9 +2206,9 @@ class ALayoutManager
         } else { // if page new
             $sql = "INSERT INTO " . $this->db->table("pages") . " (parent_page_id, controller, key_param, key_value, date_added)
                     VALUES ('0',
-                            '" . $this->db->escape($page->controller) . "',
-                            '" . $this->db->escape($page->key_param) . "',
-                            '" . $this->db->escape($page->key_value) . "',NOW())";
+                            '" . $this->db->escape(trim($page->controller)) . "',
+                            '" . $this->db->escape(trim($page->key_param)) . "',
+                            '" . $this->db->escape(trim($page->key_value)) . "',NOW())";
             $this->db->query($sql);
             $page_id = $this->db->getLastId();
             $sql = "INSERT INTO " . $this->db->table("pages_layouts") . " (layout_id,page_id)
@@ -2221,8 +2219,9 @@ class ALayoutManager
         if ($page->page_descriptions->page_description) {
             foreach ($page->page_descriptions->page_description as $page_description) {
                 $page_description->language = mb_strtolower($page_description->language, 'UTF-8');
-                $query = "SELECT language_id FROM " . $this->db->table("languages") . " 
-                                            WHERE LOWER(name) = '" . $this->db->escape($page_description->language) . "'";
+                $query = "SELECT language_id 
+                            FROM " . $this->db->table("languages") . " 
+                            WHERE LOWER(name) = '" . $this->db->escape(trim($page_description->language)) . "'";
                 $result = $this->db->query($query);
                 //if loading language does not exist or installed, skip
                 if ($result->row) {
@@ -2232,12 +2231,12 @@ class ALayoutManager
                         ['page_id' => (int)$page_id],
                         [
                             (int)$language_id => [
-                                'name'        => $page_description->name,
-                                'title'       => $page_description->title,
-                                'seo_url'     => $page_description->seo_url,
-                                'keywords'    => $page_description->keywords,
-                                'description' => $page_description->description,
-                                'content'     => $page_description->content,
+                                'name'        => trim($page_description->name),
+                                'title'       => trim($page_description->title),
+                                'seo_url'     => trim($page_description->seo_url),
+                                'keywords'    => trim($page_description->keywords),
+                                'description' => trim($page_description->description),
+                                'content'     => trim($page_description->content),
                             ],
                         ]
                     );
@@ -2379,10 +2378,11 @@ class ALayoutManager
                             $result = $this->db->query($query);
                             $parent_block_id = $result->row ['block_id'];
 
-                            $sql[] = "INSERT INTO " . $this->db->table("block_templates") . " (block_id,parent_block_id,template,date_added)
+                            $sql[] = "INSERT INTO " . $this->db->table("block_templates") . " 
+                                        (block_id,parent_block_id,template,date_added)
                                    VALUES ('" . ( int )$block_id . "',
                                             '" . ( int )$parent_block_id . "',
-                                            '" . $this->db->escape($block_template->template_name) . "',NOW())";
+                                            '" . $this->db->escape(trim($block_template->template_name)) . "',NOW())";
                         }
                     }
 
@@ -2472,10 +2472,11 @@ class ALayoutManager
                                                template = '" . $this->db->escape($block_template->template_name) . "'
                                            WHERE block_id='" . $block_id . "' AND parent_block_id='" . $parent_block_id . "'";
                                 } else {
-                                    $sql[] = "INSERT INTO " . $this->db->table("block_templates") . " (block_id,parent_block_id,template,date_added)
+                                    $sql[] = "INSERT INTO " . $this->db->table("block_templates") . " 
+                                                (block_id,parent_block_id,template,date_added)
                                             VALUES ('" . ( int )$block_id . "',
                                                     '" . ( int )$parent_block_id . "',
-                                                    '" . $this->db->escape($block_template->template_name) . "',NOW())";
+                                                    '" . $this->db->escape(trim($block_template->template_name)) . "',NOW())";
                                 }
                             }
                         }

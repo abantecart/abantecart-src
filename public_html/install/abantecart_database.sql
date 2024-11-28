@@ -12682,26 +12682,3 @@ VALUES
 (18, 10, 1, '0', 0, 'Main Page Promo', 'Promo', '', '	&lt;section class=&quot;row promo_section&quot;&gt;	&lt;div class=&quot;col-md-3 col-xs-6 promo_block&quot;&gt;		&lt;div class=&quot;promo_icon&quot;&gt;&lt;i class=&quot;fa fa-truck fa-fw&quot;&gt;&lt;/i&gt;&lt;/div&gt;		&lt;div class=&quot;promo_text&quot;&gt;			&lt;h2&gt;				Free shipping&lt;/h2&gt;			All over in world over $200		&lt;/div&gt;	&lt;/div&gt;	&lt;div class=&quot;col-md-3 col-xs-6 promo_block&quot;&gt;		&lt;div class=&quot;promo_icon&quot;&gt;&lt;i class=&quot;fa fa-money fa-fw&quot;&gt;&lt;/i&gt;&lt;/div&gt;		&lt;div class=&quot;promo_text&quot;&gt;			&lt;h2&gt;				Easy Payment&lt;/h2&gt;			Payment Gateway support&lt;/div&gt;	&lt;/div&gt;	&lt;div class=&quot;col-md-3 col-xs-6 promo_block&quot;&gt;		&lt;div class=&quot;promo_icon&quot;&gt;&lt;i class=&quot;fa fa-clock-o fa-fw&quot;&gt;&lt;/i&gt;&lt;/div&gt;		&lt;div class=&quot;promo_text&quot;&gt;			&lt;h2&gt;				24hrs Shipping&lt;/h2&gt;			For All US States&lt;/div&gt;	&lt;/div&gt;	&lt;div class=&quot;col-md-3 col-xs-6 promo_block&quot;&gt;		&lt;div class=&quot;promo_icon&quot;&gt;&lt;i class=&quot;fa fa-tags fa-fw&quot;&gt;&lt;/i&gt;&lt;/div&gt;		&lt;div class=&quot;promo_text&quot;&gt;			&lt;h2&gt;				Large Variety&lt;/h2&gt;			50,000+ Products&lt;/div&gt;	&lt;/div&gt;	&lt;/section&gt;'),
 (2, 2, 1, '0', 0, 'Video block', 'Video', '', 'a:3:{s:18:"listing_datasource";s:5:"media";s:13:"resource_type";s:5:"video";s:5:"limit";s:1:"1";}')
 ;
-
---
--- DDL for table `fields_history`
---
-
-DROP TABLE IF EXISTS `ac_fields_history`;
-
-CREATE TABLE `ac_fields_history`
-(
-    `hist_id`       int(11)                                not null auto_increment,
-    `table_name`    varchar(40)                            not null,
-    `record_id`     int                                    not null,
-    `field`         varchar(128)                           not null,
-    `version`       int(11)        default 1               not null,
-    `language_id`   int(11)                                not null,
-    `text`          longtext                               not null,
-    `date_added`    timestamp  default current_timestamp() null,
-    primary key (`hist_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
-create index `ac_fields_history_idx`
-    on `ac_fields_history` (`table_name`, `record_id`, `field`, `language_id`);
-

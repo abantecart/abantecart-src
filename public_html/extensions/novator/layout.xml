@@ -201,7 +201,7 @@
   &lt;div class=&quot;social_icons&quot;&gt;
     &lt;ul class=&quot;list-inline&quot;&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; class=&quot;facebook&quot;&gt;&lt;i class=&quot;fa-brands fa-facebook-f&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
-      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-x-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;#&quot; title=&quot;Linkedin&quot; class=&quot;linkedin&quot;&gt;&lt;i class=&quot;fa-brands fa-linkedin-in&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
      &lt;/ul&gt;
   &lt;/div&gt;
@@ -1037,7 +1037,7 @@ $(document).ready(function () {
   &lt;div class=&quot;social_icons&quot;&gt;
     &lt;ul class=&quot;list-inline&quot;&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; class=&quot;facebook&quot;&gt;&lt;i class=&quot;fa-brands fa-facebook-f&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
-      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-x-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;#&quot; title=&quot;Linkedin&quot; class=&quot;linkedin&quot;&gt;&lt;i class=&quot;fa-brands fa-linkedin-in&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
      &lt;/ul&gt;
   &lt;/div&gt;
@@ -1322,7 +1322,7 @@ $(document).ready(function () {
   &lt;div class=&quot;social_icons&quot;&gt;
     &lt;ul class=&quot;list-inline&quot;&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; class=&quot;facebook&quot;&gt;&lt;i class=&quot;fa-brands fa-facebook-f&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
-      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-x-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;#&quot; title=&quot;Linkedin&quot; class=&quot;linkedin&quot;&gt;&lt;i class=&quot;fa-brands fa-linkedin-in&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
      &lt;/ul&gt;
   &lt;/div&gt;
@@ -1613,7 +1613,7 @@ $(document).ready(function () {
   &lt;div class=&quot;social_icons&quot;&gt;
     &lt;ul class=&quot;list-inline&quot;&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; class=&quot;facebook&quot;&gt;&lt;i class=&quot;fa-brands fa-facebook-f&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
-      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-x-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;#&quot; title=&quot;Linkedin&quot; class=&quot;linkedin&quot;&gt;&lt;i class=&quot;fa-brands fa-linkedin-in&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
      &lt;/ul&gt;
   &lt;/div&gt;
@@ -1967,7 +1967,7 @@ $(document).ready(function () {
   &lt;div class=&quot;social_icons&quot;&gt;
     &lt;ul class=&quot;list-inline&quot;&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; class=&quot;facebook&quot;&gt;&lt;i class=&quot;fa-brands fa-facebook-f&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
-      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-x-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;#&quot; title=&quot;Linkedin&quot; class=&quot;linkedin&quot;&gt;&lt;i class=&quot;fa-brands fa-linkedin-in&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
      &lt;/ul&gt;
   &lt;/div&gt;
@@ -2312,7 +2312,7 @@ $(document).ready(function () {
   &lt;div class=&quot;social_icons&quot;&gt;
     &lt;ul class=&quot;list-inline&quot;&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; class=&quot;facebook&quot;&gt;&lt;i class=&quot;fa-brands fa-facebook-f&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
-      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-x-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;#&quot; title=&quot;Linkedin&quot; class=&quot;linkedin&quot;&gt;&lt;i class=&quot;fa-brands fa-linkedin-in&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
      &lt;/ul&gt;
   &lt;/div&gt;
@@ -2591,7 +2591,7 @@ $(document).ready(function () {
   &lt;div class=&quot;social_icons&quot;&gt;
     &lt;ul class=&quot;list-inline&quot;&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; class=&quot;facebook&quot;&gt;&lt;i class=&quot;fa-brands fa-facebook-f&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
-      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-x-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;#&quot; title=&quot;Linkedin&quot; class=&quot;linkedin&quot;&gt;&lt;i class=&quot;fa-brands fa-linkedin-in&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
      &lt;/ul&gt;
   &lt;/div&gt;
@@ -2870,7 +2870,7 @@ $(document).ready(function () {
   &lt;div class=&quot;social_icons&quot;&gt;
     &lt;ul class=&quot;list-inline&quot;&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; class=&quot;facebook&quot;&gt;&lt;i class=&quot;fa-brands fa-facebook-f&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
-      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-x-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;#&quot; title=&quot;Linkedin&quot; class=&quot;linkedin&quot;&gt;&lt;i class=&quot;fa-brands fa-linkedin-in&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
      &lt;/ul&gt;
   &lt;/div&gt;
@@ -3149,7 +3149,7 @@ $(document).ready(function () {
   &lt;div class=&quot;social_icons&quot;&gt;
     &lt;ul class=&quot;list-inline&quot;&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; class=&quot;facebook&quot;&gt;&lt;i class=&quot;fa-brands fa-facebook-f&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
-      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-x-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;#&quot; title=&quot;Linkedin&quot; class=&quot;linkedin&quot;&gt;&lt;i class=&quot;fa-brands fa-linkedin-in&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
      &lt;/ul&gt;
   &lt;/div&gt;
@@ -3428,7 +3428,7 @@ $(document).ready(function () {
   &lt;div class=&quot;social_icons&quot;&gt;
     &lt;ul class=&quot;list-inline&quot;&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; class=&quot;facebook&quot;&gt;&lt;i class=&quot;fa-brands fa-facebook-f&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
-      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-x-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;#&quot; title=&quot;Linkedin&quot; class=&quot;linkedin&quot;&gt;&lt;i class=&quot;fa-brands fa-linkedin-in&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
      &lt;/ul&gt;
   &lt;/div&gt;
@@ -3707,7 +3707,7 @@ $(document).ready(function () {
   &lt;div class=&quot;social_icons&quot;&gt;
     &lt;ul class=&quot;list-inline&quot;&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; class=&quot;facebook&quot;&gt;&lt;i class=&quot;fa-brands fa-facebook-f&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
-      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-x-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;#&quot; title=&quot;Linkedin&quot; class=&quot;linkedin&quot;&gt;&lt;i class=&quot;fa-brands fa-linkedin-in&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
      &lt;/ul&gt;
   &lt;/div&gt;
@@ -3986,7 +3986,7 @@ $(document).ready(function () {
   &lt;div class=&quot;social_icons&quot;&gt;
     &lt;ul class=&quot;list-inline&quot;&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; class=&quot;facebook&quot;&gt;&lt;i class=&quot;fa-brands fa-facebook-f&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
-      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-x-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;#&quot; title=&quot;Linkedin&quot; class=&quot;linkedin&quot;&gt;&lt;i class=&quot;fa-brands fa-linkedin-in&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
      &lt;/ul&gt;
   &lt;/div&gt;
@@ -4265,7 +4265,7 @@ $(document).ready(function () {
   &lt;div class=&quot;social_icons&quot;&gt;
     &lt;ul class=&quot;list-inline&quot;&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; class=&quot;facebook&quot;&gt;&lt;i class=&quot;fa-brands fa-facebook-f&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
-      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-x-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;#&quot; title=&quot;Linkedin&quot; class=&quot;linkedin&quot;&gt;&lt;i class=&quot;fa-brands fa-linkedin-in&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
      &lt;/ul&gt;
   &lt;/div&gt;
@@ -4544,7 +4544,7 @@ $(document).ready(function () {
   &lt;div class=&quot;social_icons&quot;&gt;
     &lt;ul class=&quot;list-inline&quot;&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; class=&quot;facebook&quot;&gt;&lt;i class=&quot;fa-brands fa-facebook-f&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
-      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-x-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;#&quot; title=&quot;Linkedin&quot; class=&quot;linkedin&quot;&gt;&lt;i class=&quot;fa-brands fa-linkedin-in&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
      &lt;/ul&gt;
   &lt;/div&gt;
@@ -4823,7 +4823,7 @@ $(document).ready(function () {
   &lt;div class=&quot;social_icons&quot;&gt;
     &lt;ul class=&quot;list-inline&quot;&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; class=&quot;facebook&quot;&gt;&lt;i class=&quot;fa-brands fa-facebook-f&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
-      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot; class=&quot;twitter&quot;&gt;&lt;i class=&quot;fa-brands fa-x-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
       &lt;li class=&quot;list-inline-item&quot;&gt;&lt;a href=&quot;#&quot; title=&quot;Linkedin&quot; class=&quot;linkedin&quot;&gt;&lt;i class=&quot;fa-brands fa-linkedin-in&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
      &lt;/ul&gt;
   &lt;/div&gt;
