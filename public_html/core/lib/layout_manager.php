@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2023 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -910,7 +910,7 @@ class ALayoutManager
         $new_layout = false;
 
         if ($layout ['layout_type'] == 0 && ($page ['controller'] != 'generic' || $data['controller'])) {
-            $layout ['layout_name'] = $data ['layout_name'];
+            $layout ['layout_name'] = $data['layout_name'];
             $layout ['layout_type'] = self::LAYOUT_TYPE_ACTIVE;
             $this->layout_id = $this->saveLayout($layout);
             $new_layout = true;
@@ -925,8 +925,8 @@ class ALayoutManager
             $block = $this->getLayoutBlockByTxtId($placeholder);
             if (!empty ($block)) {
                 list($block ['block_id'], $block ['custom_block_id']) = explode("_", $block ['block_id']);
-                if (!empty ($data ['blocks'] [$block ['block_id']])) {
-                    $block = array_merge($block, $data ['blocks'] [$block ['block_id']]);
+                if (!empty ($data['blocks'] [$block ['block_id']])) {
+                    $block = array_merge($block, $data['blocks'] [$block ['block_id']]);
                     if ($new_layout) {
                         $block ['layout_id'] = $this->layout_id;
                         $instance_id = $this->saveLayoutBlocks($block);
@@ -934,10 +934,10 @@ class ALayoutManager
                         $instance_id = $this->saveLayoutBlocks($block, $block ['instance_id']);
                     }
 
-                    if (isset ($data ['blocks'] [$block ['block_id']] ['children'])) {
+                    if (isset ($data['blocks'] [$block ['block_id']] ['children'])) {
                         $this->deleteLayoutBlocks($this->layout_id, $instance_id);
 
-                        foreach ($data ['blocks'] [$block ['block_id']] ['children'] as $key => $block_data) {
+                        foreach ($data['blocks'] [$block ['block_id']] ['children'] as $key => $block_data) {
                             $child = [];
                             if (!empty ($block_data)) {
                                 $child ['layout_id'] = $this->layout_id;
@@ -1134,12 +1134,12 @@ class ALayoutManager
                 "INSERT INTO " . $this->db->table("block_layouts") . " 
                   (layout_id,block_id,custom_block_id,parent_instance_id,position,status,date_added,date_modified)
                 VALUES (
-                        '" . ( int )$data ['layout_id'] . "',
-                        '" . ( int )$data ['block_id'] . "',
-                        '" . ( int )$data ['custom_block_id'] . "',
-                        '" . ( int )$data ['parent_instance_id'] . "',
-                        '" . ( int )$data ['position'] . "',
-                        '" . ( int )$data ['status'] . "',
+                        '" . ( int )$data['layout_id'] . "',
+                        '" . ( int )$data['block_id'] . "',
+                        '" . ( int )$data['custom_block_id'] . "',
+                        '" . ( int )$data['parent_instance_id'] . "',
+                        '" . ( int )$data['position'] . "',
+                        '" . ( int )$data['status'] . "',
                         NOW(),
                         NOW()
                 )"
@@ -1149,12 +1149,12 @@ class ALayoutManager
         } else {
             $this->db->query(
                 "UPDATE " . $this->db->table("block_layouts") . " 
-                 SET layout_id = '" . ( int )$data ['layout_id'] . "',
-                        block_id = '" . ( int )$data ['block_id'] . "',
-                        custom_block_id = '" . ( int )$data ['custom_block_id'] . "',
-                        parent_instance_id = '" . ( int )$data ['parent_instance_id'] . "',
-                        position = '" . ( int )$data ['position'] . "',
-                        status = '" . ( int )$data ['status'] . "',
+                 SET layout_id = '" . ( int )$data['layout_id'] . "',
+                        block_id = '" . ( int )$data['block_id'] . "',
+                        custom_block_id = '" . ( int )$data['custom_block_id'] . "',
+                        parent_instance_id = '" . ( int )$data['parent_instance_id'] . "',
+                        position = '" . ( int )$data['position'] . "',
+                        status = '" . ( int )$data['status'] . "',
                         date_modified = NOW()
                  WHERE instance_id = '" . ( int )$instance_id . "'"
             );
@@ -1229,9 +1229,9 @@ class ALayoutManager
             $this->db->query(
                 "INSERT INTO " . $this->db->table("layouts") . " 
                                 (template_id,layout_name,layout_type,date_added,date_modified)
-                                VALUES ('" . $this->db->escape($data ['template_id']) . "',
-                                        '" . $this->db->escape($data ['layout_name']) . "',
-                                        '" . ( int )$data ['layout_type'] . "',
+                                VALUES ('" . $this->db->escape($data['template_id']) . "',
+                                        '" . $this->db->escape($data['layout_name']) . "',
+                                        '" . ( int )$data['layout_type'] . "',
                                         NOW(),
                                         NOW())"
             );
@@ -1239,9 +1239,9 @@ class ALayoutManager
         } else {
             $this->db->query(
                 "UPDATE " . $this->db->table("layouts") . " 
-                                SET template_id = '" . ( int )$data ['template_id'] . "',
-                                    layout_name = '" . $this->db->escape($data ['layout_name']) . "',
-                                    layout_type = '" . ( int )$data ['layout_type'] . "',
+                                SET template_id = '" . ( int )$data['template_id'] . "',
+                                    layout_name = '" . $this->db->escape($data['layout_name']) . "',
+                                    layout_type = '" . ( int )$data['layout_type'] . "',
                                     date_modified = NOW()
                                 WHERE layout_id = '" . ( int )$layout_id . "'"
             );
@@ -1356,10 +1356,10 @@ class ALayoutManager
                         date_added,
                         date_modified
                     )
-                VALUES ('" . ( int )$data ['parent_page_id'] . "',
-                        '" . $this->db->escape($data ['controller']) . "',
-                        '" . $this->db->escape($data ['key_param']) . "',
-                        '" . $this->db->escape($data ['key_value']) . "',
+                VALUES ('" . ( int )$data['parent_page_id'] . "',
+                        '" . $this->db->escape(trim($data['controller'])) . "',
+                        '" . $this->db->escape(trim($data['key_param'])) . "',
+                        '" . $this->db->escape(trim($data['key_value'])) . "',
                         NOW(),
                         NOW())"
             );
@@ -1367,10 +1367,10 @@ class ALayoutManager
         } else {
             $this->db->query(
                 "UPDATE " . $this->db->table("pages") . " 
-                SET parent_page_id = '" . ( int )$data ['parent_page_id'] . "',
-                    controller = '" . $this->db->escape($data ['controller']) . "',
-                    key_param = '" . $this->db->escape($data ['key_param']) . "',
-                    key_value = '" . $this->db->escape($data ['key_value']) . "',
+                SET parent_page_id = '" . ( int )$data['parent_page_id'] . "',
+                    controller = '" . $this->db->escape(trim($data['controller'])) . "',
+                    key_param = '" . $this->db->escape(trim($data['key_param'])) . "',
+                    key_value = '" . $this->db->escape(trim($data['key_value'])) . "',
                     date_modified = NOW()
                 WHERE page_id = '" . ( int )$page_id . "'"
             );
@@ -1383,8 +1383,8 @@ class ALayoutManager
         }
 
         // page description
-        if ($data ['page_descriptions']) {
-            foreach ($data ['page_descriptions'] as $language_id => $description) {
+        if ($data['page_descriptions']) {
+            foreach ($data['page_descriptions'] as $language_id => $description) {
                 if (!has_value($language_id)) {
                     continue;
                 }
@@ -1393,12 +1393,12 @@ class ALayoutManager
                     ['page_id' => (int)$page_id],
                     [
                         (int)$language_id => [
-                            'name'        => $description['name'],
-                            'title'       => $description['title'],
-                            'seo_url'     => $description['seo_url'],
-                            'keywords'    => $description['keywords'],
-                            'description' => $description['description'],
-                            'content'     => $description['content'],
+                            'name'        => trim($description['name']),
+                            'title'       => trim($description['title']),
+                            'seo_url'     => trim($description['seo_url']),
+                            'keywords'    => trim($description['keywords']),
+                            'description' => trim($description['description']),
+                            'content'     => trim($description['content']),
                         ],
                     ]
                 );
@@ -1420,7 +1420,7 @@ class ALayoutManager
     {
         //
         if (!(int)$block_id) {
-            $block = $this->getBlockByTxtId($data ['block_txt_id']);
+            $block = $this->getBlockByTxtId($data['block_txt_id']);
             $block_id = $block['block_id'];
         }
 
@@ -1430,16 +1430,16 @@ class ALayoutManager
                                                                      controller,
                                                                      date_added,
                                                                      date_modified)
-                                VALUES ('" . $this->db->escape($data ['block_txt_id']) . "',
-                                        '" . $this->db->escape($data ['controller']) . "',
+                                VALUES ('" . $this->db->escape($data['block_txt_id']) . "',
+                                        '" . $this->db->escape($data['controller']) . "',
                                         NOW(),
                                         NOW())"
             );
 
             $block_id = $this->db->getLastId();
 
-            if (isset ($data ['templates'])) {
-                foreach ($data ['templates'] as $tmpl) {
+            if (isset ($data['templates'])) {
+                foreach ($data['templates'] as $tmpl) {
                     if (!isset($tmpl ['parent_block_id']) && $tmpl ['parent_block_txt_id']) {
                         $parent = $this->getBlockByTxtId($tmpl ['parent_block_txt_id']);
                         $tmpl['parent_block_id'] = $parent['block_id'];
@@ -1457,19 +1457,19 @@ class ALayoutManager
                 }
             }
         } else {
-            if ($data ['controller']) {
+            if ($data['controller']) {
                 $this->db->query(
                     "UPDATE " . $this->db->table("blocks") . " 
-                                        SET block_txt_id = '" . $this->db->escape($data ['block_txt_id']) . "',
-                                            controller = '" . $this->db->escape($data ['controller']) . "',
+                                        SET block_txt_id = '" . $this->db->escape($data['block_txt_id']) . "',
+                                            controller = '" . $this->db->escape($data['controller']) . "',
                                             date_modified = NOW()
                                         WHERE block_id = '" . ( int )$block_id . "'"
                 );
             }
 
-            if (isset ($data ['templates'])) {
+            if (isset ($data['templates'])) {
                 $this->deleteBlockTemplates($block_id);
-                foreach ($data ['templates'] as $tmpl) {
+                foreach ($data['templates'] as $tmpl) {
                     if (!isset($tmpl ['parent_block_id']) && $tmpl ['parent_block_txt_id']) {
                         $parent = $this->getBlockByTxtId($tmpl ['parent_block_txt_id']);
                         $tmpl['parent_block_id'] = $parent['block_id'];
@@ -1580,7 +1580,7 @@ class ALayoutManager
         if ($custom_block_id) {
             $update = [];
             if (isset($description ['name'])) {
-                $update["name"] = $description ['name'];
+                $update["name"] = trim($description ['name']);
             }
             if (isset($description ['block_wrapper'])) {
                 $update["block_wrapper"] = trim($description['block_wrapper']);
@@ -1944,8 +1944,8 @@ class ALayoutManager
     {
         // Input possible with XML string, File or both.
         // We process both one at a time. XML string processed first
-        if ($data ['xml']) {
-            $xml_obj = simplexml_load_string($data ['xml']);
+        if ($data['xml']) {
+            $xml_obj = simplexml_load_string($data['xml']);
             if (!$xml_obj) {
                 $err = "Failed loading XML data string";
                 foreach (libxml_get_errors() as $error) {
@@ -1958,10 +1958,10 @@ class ALayoutManager
             }
         }
 
-        if (isset ($data ['file']) && is_file($data ['file'])) {
-            $xml_obj = simplexml_load_file($data ['file']);
+        if (isset ($data['file']) && is_file($data['file'])) {
+            $xml_obj = simplexml_load_file($data['file']);
             if (!$xml_obj) {
-                $err = "Failed loading XML file " . $data ['file'];
+                $err = "Failed loading XML file " . $data['file'];
                 foreach (libxml_get_errors() as $error) {
                     $err .= "  " . $error->message;
                 }
@@ -2357,10 +2357,10 @@ class ALayoutManager
                                     ],
                                     [
                                         (int)$language_id => [
-                                            'name'        => (string)$block_description->name,
-                                            'title'       => (string)$block_description->title,
-                                            'description' => (string)$block_description->description,
-                                            'content'     => (string)$block_description->content,
+                                            'name'        => trim((string)$block_description->name),
+                                            'title'       => trim((string)$block_description->title),
+                                            'description' => trim((string)$block_description->description),
+                                            'content'     => trim((string)$block_description->content),
                                         ],
                                     ]
                                 );
@@ -2433,10 +2433,10 @@ class ALayoutManager
                                     ['block_id' => (int)$block_id],
                                     [
                                         (int)$language_id => [
-                                            'name'        => (string)$block_description->name,
-                                            'title'       => (string)$block_description->title,
-                                            'description' => (string)$block_description->description,
-                                            'content'     => (string)$block_description->content,
+                                            'name'        => trim((string)$block_description->name),
+                                            'title'       => trim((string)$block_description->title),
+                                            'description' => trim((string)$block_description->description),
+                                            'content'     => trim((string)$block_description->content),
                                         ],
                                     ]
                                 );
@@ -2650,13 +2650,13 @@ class ALayoutManager
                     }
                     $desc_array = ['language_id' => $language_id];
                     if ((string)$block_description->name) {
-                        $desc_array['name'] = (string)$block_description->name;
+                        $desc_array['name'] = trim((string)$block_description->name);
                     }
                     if ((string)$block_description->title) {
-                        $desc_array['title'] = (string)$block_description->title;
+                        $desc_array['title'] = trim((string)$block_description->title);
                     }
                     if (has_value((string)$block_description->block_wrapper)) {
-                        $desc_array['block_wrapper'] = (string)$block_description->block_wrapper;
+                        $desc_array['block_wrapper'] = trim((string)$block_description->block_wrapper);
                     }
 
                     if (has_value((string)$block_description->block_framed)) {
@@ -2664,10 +2664,10 @@ class ALayoutManager
                     }
 
                     if ((string)$block_description->description) {
-                        $desc_array['description'] = (string)$block_description->description;
+                        $desc_array['description'] = trim((string)$block_description->description);
                     }
                     if ((string)$block_description->content) {
-                        $desc_array['content'] = (string)$block_description->content;
+                        $desc_array['content'] = trim((string)$block_description->content);
                     }
 
                     $this->saveBlockDescription($block_id, $custom_block_id, $desc_array);

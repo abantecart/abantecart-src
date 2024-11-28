@@ -181,12 +181,12 @@ class ControllerResponsesDesignPageBuilder extends AController
         $maxCounter = $this->getMaxCounter($this->route);
         if ($maxCounter !== false) {
             $file = DIR_PB_TEMPLATES . 'savepoints' . DS
-                . $this->templateTxtId . DS. $this->route . '@' . $maxCounter . '.json';
+                . $this->templateTxtId . DS . $this->route . '@' . $maxCounter . '.json';
         }
         if (!is_file($file)) {
             //if unsaved page not found - looking for published
             $file = DIR_PB_TEMPLATES . 'public' . DS . $this->templateTxtId . DS . $this->route . '.json';
-            if(is_file($file)) {
+            if (is_file($file)) {
                 $published = true;
             }
         }
@@ -194,15 +194,30 @@ class ControllerResponsesDesignPageBuilder extends AController
         if (!is_file($file)) {
             //if published page not found - see default preset of core template
             $file = DIR_STOREFRONT . 'view' . DS . $this->templateTxtId . DS . self::DEFAULT_PRESET;
+            //before load need to replace custom_block_ids parameters for all custom blocks
+            // because of dynamic value after xml-import of layout.xml
+            if (is_file($file)) {
+                $file = $this->prepareDefaultPreset($file);
+            }
         }
         if (!is_file($file)) {
             //if core default preset not found - see default preset of extension template
             $file = DIR_EXT . $this->templateTxtId . DIR_EXT_STORE
                 . 'view' . DS . $this->templateTxtId . DS . self::DEFAULT_PRESET;
+            //before load need to replace custom_block_ids parameters for all custom blocks
+            // because of dynamic value after xml-import of layout.xml
+            if (is_file($file)) {
+                $file = $this->prepareDefaultPreset($file);
+            }
         }
         if (!is_file($file)) {
             //if no any default preset found - take default preset of pageBuilder
             $file = DIR_EXT . 'page_builder' . DS . self::DEFAULT_PRESET;
+            //before load need to replace custom_block_ids parameters for all custom blocks
+            // because of dynamic value after xml-import of layout.xml
+            if (is_file($file)) {
+                $file = $this->prepareDefaultPreset($file);
+            }
         }
         $this->data['file'] = $file;
         //use to update controller data
@@ -234,6 +249,52 @@ class ControllerResponsesDesignPageBuilder extends AController
 
         $this->response->addJSONHeader();
         $this->response->setOutput(file_get_contents($this->data['file']));
+    }
+
+    /**
+     * @param string $file
+     * @return string
+     */
+    protected function prepareDefaultPreset(string $file)
+    {
+        $newFile = str_replace('.json', '_prepared.json', $file);
+        if (is_file($newFile) && is_readable($newFile) && filesize($newFile) > 0) {
+            return $newFile;
+        }
+        $presetData = json_decode(file_get_contents($file), true);
+        $componentInfo = $presetData['pages'][0]['frames'][0]['component']['components'];
+        $componentInfo = $this->processComponents($componentInfo);
+        $presetData['pages'][0]['frames'][0]['component']['components'] = $componentInfo;
+        $newFile = str_replace('.json', '_prepared.json', $file);
+        file_put_contents($newFile, json_encode($presetData, JSON_PRETTY_PRINT));
+        return $newFile;
+    }
+
+    /**
+     * @param $renderComponents
+     * @return array
+     * @throws AException
+     */
+    protected function processComponents($renderComponents)
+    {
+        foreach ($renderComponents as &$cmp) {
+            if ($cmp['attributes']['data-gjs-custom_block_id']) {
+                $sql = "SELECT * 
+                        FROM " . $this->db->table('block_descriptions') . " 
+                        WHERE name='" . $this->db->escape(trim($cmp['attributes']['data-gjs-custom-name'])) . "'";
+                $result = $this->db->query($sql);
+                if ($result->row) {
+                    $cmp['custom_block_id']
+                        = $cmp['attributes']['data-gjs-custom_block_id']
+                        = $result->row['custom_block_id'];
+                }
+            }
+
+            if ($cmp['components']) {
+                $cmp['components'] = $this->processComponents($cmp['components']);
+            }
+        }
+        return $renderComponents;
     }
 
     public function savePage()
@@ -278,7 +339,7 @@ class ControllerResponsesDesignPageBuilder extends AController
         if (!$fileNameMask) {
             return false;
         }
-        $files = glob(DIR_PB_TEMPLATES . 'savepoints' . DS . $this->templateTxtId . DS. $fileNameMask . '*.json');
+        $files = glob(DIR_PB_TEMPLATES . 'savepoints' . DS . $this->templateTxtId . DS . $fileNameMask . '*.json');
         if (!$files) {
             return false;
         }
@@ -478,7 +539,7 @@ class ControllerResponsesDesignPageBuilder extends AController
                     $this->clearSavePoints($this->route);
                 }
                 $this->data['output'] = [
-                    'file' => $publishedFile,
+                    'file'      => $publishedFile,
                     'published' => 'true'
                 ];
                 $this->extensions->hk_UpdateData($this, __FUNCTION__);
