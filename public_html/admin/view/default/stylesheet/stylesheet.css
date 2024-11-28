@@ -832,6 +832,7 @@ h1 a:hover, h2 a:hover, h3 a:hover {
 	font-size: 11px;
 	line-height: normal;
 	text-transform: uppercase;
+	font-size: 10px;
 	opacity: 0.6;
 }
 
@@ -968,6 +969,7 @@ h1 a:hover, h2 a:hover, h3 a:hover {
 	position: absolute;
 	top: 23px;
 	right: 25px;
+	max-width: 400px;
 	white-space: nowrap;
 	text-align: end;
 	padding: 0;
@@ -2194,6 +2196,10 @@ a.resource_edit .img-responsive {
 }
 
 /***** Modals *****/
+#hist_modal .modal-body {
+	overflow: hidden;
+	overflow-y: auto;
+}
 
 .bs-example-modal-panel .modal-content {
 	background: none;
@@ -3673,6 +3679,13 @@ blockquote p::after {
 
 .common_content_actions {
 	display: flex;
+}
+
+.common_content_actions .btn-group {
+    margin: 0 2px;
+}
+.common_content_actions .btn-group span {
+    line-height: 33px;
 }
 
 #layout_selector .dropdown-submenu {

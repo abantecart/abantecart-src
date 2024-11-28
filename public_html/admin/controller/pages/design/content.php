@@ -400,6 +400,11 @@ class ControllerPagesDesignContent extends AController
             ]
         );
 
+        $history = [
+            'table'        => 'content_descriptions',
+            'record_id'     => $contentId,
+        ];
+
         $this->data['form']['id'] = 'contentFrm';
         $this->data['form']['form_open'] = $form->getFieldHtml(
             [
@@ -584,6 +589,7 @@ class ControllerPagesDesignContent extends AController
                 'value'        => $this->data['title'],
                 'required'     => true,
                 'multilingual' => true,
+                'history'      => $history
             ]
         );
         $this->data['form']['fields']['description'] = $form->getFieldHtml(
@@ -592,6 +598,7 @@ class ControllerPagesDesignContent extends AController
                 'name'         => 'description',
                 'value'        => $this->data['description'],
                 'multilingual' => true,
+                'history'      => $history
             ]
         );
 
@@ -601,6 +608,7 @@ class ControllerPagesDesignContent extends AController
                 'name'         => 'meta_keywords',
                 'value'        => $this->data['meta_keywords'],
                 'multilingual' => true,
+                'history'      => $history
             ]
         );
 
@@ -610,6 +618,7 @@ class ControllerPagesDesignContent extends AController
                 'name'         => 'meta_description',
                 'value'        => $this->data['meta_description'],
                 'multilingual' => true,
+                'history'      => $history
             ]
         );
 
@@ -620,6 +629,7 @@ class ControllerPagesDesignContent extends AController
                 'value'        => $this->data['content'],
                 'required'     => true,
                 'multilingual' => true,
+                'history'      => $history
             ]
         );
         $this->data['keyword_button'] = $form->getFieldHtml(

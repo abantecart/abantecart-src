@@ -26,7 +26,6 @@
 class ControllerPagesDesignEmailTemplates extends AController
 {
     public $error = [];
-
     public function main()
     {
         //init controller data
@@ -156,12 +155,11 @@ class ControllerPagesDesignEmailTemplates extends AController
         $this->loadModel('localisation/language');
 
         if ($this->request->is_POST()) {
-            $emailTemplate = $this->model_design_email_template->getById(
-                (int) $this->request->get['id']
-            );
+            $tmplID = (int)$this->request->get['id'];
+            $emailTemplate = $this->model_design_email_template->getById($tmplID);
             if ($emailTemplate && $this->validate($this->request->post)) {
                 try {
-                    $this->model_design_email_template->update((int) $this->request->get['id'], $this->request->post);
+                    $this->model_design_email_template->update($tmplID, $this->request->post);
                     $this->session->data['success'] = $this->language->get('save_complete');
                     redirect($this->html->getSecureURL('design/email_templates/update', '&id='.$emailTemplate['id']));
                 } catch (Exception $e) {
@@ -175,7 +173,7 @@ class ControllerPagesDesignEmailTemplates extends AController
             }
         }
 
-        if (!(int) $this->request->get['id']) {
+        if (!$tmplID) {
             redirect($this->html->getSecureURL('design/email_templates'));
         }
 
@@ -217,10 +215,11 @@ class ControllerPagesDesignEmailTemplates extends AController
             $this->data['languages'] += array_column($languages, 'name', 'language_id');
         }
 
-        if ((int) $this->request->get['id']) {
-            $emailTemplate = $this->model_design_email_template->getById((int) $this->request->get['id']);
-            if ((int)$emailTemplate['language_id'] != (int)$this->language->getContentLanguageID()
-                || (int) $emailTemplate['store_id'] != (int) $this->config->get('current_store_id')
+        $tmplID = (int)$this->request->get['id'];
+        if ($tmplID) {
+            $emailTemplate = $this->model_design_email_template->getById($tmplID);
+            if ($emailTemplate['language_id'] != $this->language->getContentLanguageID()
+                || (int) $emailTemplate['store_id'] != $this->config->get('current_store_id')
             ) {
                 $existTemplate = $this->model_design_email_template->getByTextIdAndLanguageId(
                     $emailTemplate['text_id'],
@@ -322,7 +321,7 @@ class ControllerPagesDesignEmailTemplates extends AController
                 'name'     => 'text_id',
                 'value'    => $this->data['text_id'],
                 'required' => true,
-                'attr'     => (int) $this->request->get['id'] ? 'disabled' : '',
+                'attr'     => $tmplID ? 'disabled' : '',
             ]
         );
 
@@ -333,7 +332,7 @@ class ControllerPagesDesignEmailTemplates extends AController
                 'options'  => $this->data['languages'],
                 'value'    => $this->data['language_id'] ?? $this->language->getContentLanguageID(),
                 'required' => true,
-                'attr'     => (int) $this->request->get['id'] ? 'disabled' : '',
+                'attr'     => $tmplID ? 'disabled' : '',
             ]
         );
 
@@ -395,7 +394,7 @@ class ControllerPagesDesignEmailTemplates extends AController
             ) {
                 $this->error['text_id'] = $this->language->get('save_error_text_id');
             } else {
-                if (!(int) $this->request->get['id']
+                if (!$tmplID
                     && $this->model_design_email_template->getByTextIdAndLanguageId(
                         $data['text_id'], $data['language_id']
                     )

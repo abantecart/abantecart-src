@@ -1271,6 +1271,34 @@ class InputHtmlElement extends HtmlElement
             $this->value = $this->default;
         }
 
+        $history_url = '';
+        if($this->history){
+            // Check if a field name contains square brackets or block_ prefix
+            if (preg_match('/.*\[(.*?)\]$/', $this->name, $matches)) {
+                $fieldName = $matches[1];
+            } else if (preg_match('/block_(.*?)$/', $this->name, $matches)) {
+                $fieldName = $matches[1];
+            } else {
+                $fieldName = $this->name;
+            }
+
+            $history_url = $this->registry->get('html')->getSecureURL(
+                'r/common/common/getDescriptionHistory',
+                '&'.http_build_query(
+                    [
+                        'field' => $fieldName,
+                        'table_name' => $this->history['table'],
+                        'record_id' => $this->history['record_id'],
+                        //element ID (need to paste selected value back to the form field)
+                        'elm_id' => $this->element_id
+                    ]
+                )
+            );
+            if (is_object($this->language)) {
+                $button_field_history = $this->language->get('button_field_history');
+            }
+        }
+
         $this->extendAndBatchAssign(
             [
                 'name'           => $this->name,
@@ -1287,8 +1315,11 @@ class InputHtmlElement extends HtmlElement
                 'multilingual'   => $this->getMultiLingual(),
                 'help_url'       => $this->help_url,
                 'list'           => $this->list,
+                'history_url'    => $history_url,
+                'button_field_history' => $button_field_history ?? '',
             ]
         );
+
         return $this->view->fetch($this->template ?: 'form/input.tpl');
     }
 }
@@ -1418,6 +1449,33 @@ class TextareaHtmlElement extends HtmlElement
      */
     public function getHtml()
     {
+        $history_url = '';
+        if($this->history){
+            // Check if a field name contains square brackets or block_ prefix
+            if (preg_match('/.*\[(.*?)\]$/', $this->name, $matches)) {
+                $fieldName = $matches[1];
+            } else if (preg_match('/block_(.*?)$/', $this->name, $matches)) {
+                $fieldName = $matches[1];
+            } else {
+                $fieldName = $this->name;
+            }
+            $history_url = $this->registry->get('html')->getSecureURL(
+                'r/common/common/getDescriptionHistory',
+                '&'.http_build_query(
+                    [
+                        'field' => $fieldName,
+                        'table_name' => $this->history['table'],
+                        'record_id' => $this->history['record_id'],
+                        //element ID (need to paste selected value back to the form field)
+                        'elm_id' => $this->element_id
+                    ]
+                )
+            );
+            if (is_object($this->language)) {
+                $button_field_history = $this->language->get('button_field_history');
+            }
+        }
+
         $this->extendAndBatchAssign(
             [
                 'name'         => $this->name,
@@ -1431,6 +1489,8 @@ class TextareaHtmlElement extends HtmlElement
                 'label_text'   => $this->label_text,
                 'multilingual' => $this->getMultiLingual(),
                 'help_url'     => $this->help_url,
+                'history_url'  => $history_url,
+                'button_field_history' => $button_field_history ?? '',
             ]
         );
 
@@ -1454,6 +1514,7 @@ class TextareaHtmlElement extends HtmlElement
  * @property string $preview_url - custom preview url
  * @property string $js_onload - custom js-code will be run on doc ready
  * @property bool $multilingual
+ * @property bool $history - array with table, record_id
  */
 class TextEditorHtmlElement extends HtmlElement
 {
@@ -1476,8 +1537,32 @@ class TextEditorHtmlElement extends HtmlElement
             'base_url'    => $this->base_url ?? '',
             'preview'     => $this->preview ?? true,
             'preview_url' => $this->preview_url ?? '',
-            'js_onload'   => $this->js_onload ?? '',
+            'js_onload'   => $this->js_onload ?? ''
         ];
+
+        if($this->history){
+            // Check if a field name contains square brackets or
+            if (preg_match('/.*\[(.*?)\]$/', $this->name, $matches)) {
+                $fieldName = $matches[1];
+            } else if (preg_match('/block_(.*?)$/', $this->name, $matches)) {
+                $fieldName = $matches[1];
+            } else {
+                $fieldName = $this->name;
+            }
+            $data['history_url'] = $this->registry->get('html')->getSecureURL(
+                'r/common/common/getDescriptionHistory',
+                '&'.http_build_query(
+                    [
+                        'field' => $fieldName,
+                        'table_name' => $this->history['table'],
+                        'record_id' => $this->history['record_id'],
+                        //element ID (need to paste selected value back to the form field)
+                        'elm_id' => $this->element_id
+                    ]
+                )
+            );
+        }
+
         if (is_object($this->language)) {
             if (sizeof($this->language->getActiveLanguages()) > 1) {
                 $data['multilingual'] = $this->multilingual;
@@ -1487,6 +1572,7 @@ class TextEditorHtmlElement extends HtmlElement
             $data['tab_visual'] = $this->language->get('tab_visual');
             $data['button_add_media'] = $this->language->get('button_add_media');
             $data['button_preview'] = $this->language->get('button_preview');
+            $data['button_field_history'] = $this->language->get('button_field_history');
         }
         $this->extendAndBatchAssign($data);
         return $this->view->fetch($this->template ?: 'form/text_editor.tpl');

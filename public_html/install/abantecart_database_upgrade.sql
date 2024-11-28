@@ -46,3 +46,23 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `da
     (LAST_INSERT_ID(), 2, 'blocks/content_search.tpl', now()),
     (LAST_INSERT_ID(), 3, 'blocks/content_search.tpl', now()),
     (LAST_INSERT_ID(), 6, 'blocks/content_search.tpl', now());
+
+--
+-- DDL for table `fields_history`
+--
+create table `ac_fields_history`
+(
+    `hist_id`       int(10)                                not null auto_increment,
+    `table_name`    varchar(40)                            not null,
+    `record_id`      int                                    not null,
+    `field`         varchar(128)                           not null,
+    `version`       int(10)        default 1               not null,
+    `language_id`   int(10)                                not null,
+    `text`          longtext                               not null,
+    `date_added`    timestamp  default current_timestamp() null,
+    primary key (`hist_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+create index `ac_fields_history_idx`
+    on `ac_fields_history` (`table_name`, `record_id`, `field`, `language_id`);
+

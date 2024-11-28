@@ -34,6 +34,8 @@ class ALanguageManager extends Alanguage
     private $translatable_fields = [];
     const TAG_REGEX_PATTERN = '/[^\\d\s\p{L}\-_]/u';
 
+    public $excludeTableList = ['url_aliases'];
+
     //NOTE: This class is loaded in INIT for admin only
 
     /**
@@ -257,7 +259,7 @@ class ALanguageManager extends Alanguage
         } elseif (is_array($tagsSrc)) {
             $tags = array_intersect_key($tagsSrc, array_unique(array_map('strtolower', $tagsSrc)));
         } else {
-            return false;
+            return;
         }
 
         foreach ($tags as &$tag) {
@@ -441,6 +443,7 @@ class ALanguageManager extends Alanguage
             if (!$lang_data) {
                 continue;
             }
+
             $update_index = [];
             foreach ($index as $i => $v) {
                 if (has_value($v)) {
@@ -448,6 +451,8 @@ class ALanguageManager extends Alanguage
                 }
             }
             $update_index[] = "language_id = '".$this->db->escape($lang_id)."'";
+
+            $this->save_history($table_name, $index, $lang_id, $lang_data, $update_index);
 
             $update_data = [];
             foreach ($lang_data as $i => $v) {
@@ -586,6 +591,96 @@ class ALanguageManager extends Alanguage
                 $this->_do_update_descriptions($table_name, $index, $update_txt_data);
             }
         }
+    }
+
+    /**
+     * save descriptions history
+     *
+     * @param string $tableName - database table name with no prefix
+     * @param array $index - unique index to perform select (associative array with column name as key)
+     * @param int $langId
+     * @param array $langData
+     * @param array $updateIndex
+     *
+     * @return void
+     * @throws AException
+     */
+    protected function save_history(string $tableName, array $index, int $langId, array $langData, array $updateIndex): void
+    {
+        //exclude some tables
+        if (in_array($tableName, $this->excludeTableList)) {
+            return;
+        }
+
+        $index = array_filter($index);
+        $recId = (int)current($index);
+
+        //select current values for compare
+        $result = $this->db->query(
+            "SELECT * 
+             FROM ".$this->db->table($tableName)." 
+             WHERE ".implode(" AND ", $updateIndex)
+        );
+        $currentData = $result->row;
+        foreach ($langData as $field => $value) {
+            if ($currentData[$field] == $value) {
+                //nothing to update
+                continue;
+            }
+            $load_data = [
+                'table_name' => $tableName,
+                'record_id' => $recId,
+                'language_id' => $langId,
+                'version' => 1
+            ];
+            //select latest version
+            $sql = "SELECT version as version 
+                    FROM ".$this->db->table('fields_history')." 
+                    WHERE `table_name` = '".$this->db->escape($tableName)."' AND `record_id` = '".$tableId."' 
+                        AND `field` = '".$this->db->escape($field)."' AND `language_id` = '".$langId."' ";
+            $sql .= "ORDER BY `version` DESC LIMIT 1";
+            $result = $this->db->query($sql);
+
+            if ($result->row) {
+                $load_data['version'] = $result->row['version'] + 1;
+            }
+            $load_data['field'] = $this->db->escape($field);
+            $load_data['text'] = $this->db->escape($currentData[$field]);
+            $sql = "INSERT INTO " . $this->db->table('fields_history') . " ";
+            $sql .= "(`" . implode("`, `", array_keys($load_data)) . "`) VALUES ('" . implode("', '", $load_data) . "') ";
+            $this->db->query($sql);
+        }
+    }
+
+    /**
+     * @param $table_name
+     * @param $record_id
+     * @param $field
+     * @param $language_id
+     *
+     * @return array
+     * @throws AException
+     */
+    public function getDescriptionHistory($table_name, $record_id, $field, $language_id)
+    {
+        $language_id = (int)$language_id ?? $this->getContentLanguageID();
+        $sql = "SELECT * FROM ".$this->db->table('fields_history')." ";
+        $sql .= "WHERE `table_name` = '$table_name' AND `record_id` = '$record_id' AND `language_id` = '$language_id' AND `field` = '$field' ";
+        $sql .= "ORDER BY `version` DESC";
+        $result = $this->db->query($sql);
+        return $result->rows;
+    }
+
+    /**
+     * @param void
+     *
+     * @return void
+     */
+    public function clearDescriptionHistory()
+    {
+        $sql = "DELETE FROM ".$this->db->table('fields_history')." ";
+        $this->db->query($sql);
+        return;
     }
 
     #### END Language Descriptions admin API Section #####
@@ -1032,7 +1127,7 @@ class ALanguageManager extends Alanguage
             [
                 'category' => 'Translators',
                 'status'   => 1,
-                'sort_order' => ['name']
+                'sort_order' => ['name'],
             ]
         );
 

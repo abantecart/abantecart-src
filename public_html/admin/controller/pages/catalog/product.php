@@ -503,8 +503,13 @@ class ControllerPagesCatalogProduct extends AController
         $product_info = [];
         $viewport_mode = $args[0]['viewport_mode'] ?? '';
         $content_language_id = $this->language->getContentLanguageID();
+        $history = [];
         if (isset($this->request->get['product_id'])) {
             $product_id = $this->request->get['product_id'];
+            $history = [
+                'table'        => 'product_descriptions',
+                'record_id'     => $product_id,
+            ];
             $product_info = $this->model_catalog_product->getProduct($product_id);
             $product_info['featured'] = $product_info['featured'] ? 1 : 0;
             $product_info['has_track_options'] = $this->model_catalog_product->hasTrackOptions($product_id);
@@ -825,6 +830,7 @@ class ControllerPagesCatalogProduct extends AController
                 'value'        => $this->data['product_description']['name'],
                 'required'     => true,
                 'multilingual' => true,
+                'history'      => $history
             ]
         );
 
@@ -834,6 +840,7 @@ class ControllerPagesCatalogProduct extends AController
                 'name'         => 'product_description[blurb]',
                 'value'        => $this->data['product_description']['blurb'],
                 'multilingual' => true,
+                'history'      => $history
             ]
         );
 
@@ -844,6 +851,7 @@ class ControllerPagesCatalogProduct extends AController
                     'name'         => 'product_description[description]',
                     'value'        => $this->data['product_description']['description'],
                     'multilingual' => true,
+                    'history'      => $history
                 ]
             );
         }
@@ -854,6 +862,7 @@ class ControllerPagesCatalogProduct extends AController
                 'name'         => 'product_description[meta_keywords]',
                 'value'        => $this->data['product_description']['meta_keywords'],
                 'multilingual' => true,
+                'history'      => $history
             ]
         );
 
@@ -863,6 +872,7 @@ class ControllerPagesCatalogProduct extends AController
                 'name'         => 'product_description[meta_description]',
                 'value'        => $this->data['product_description']['meta_description'],
                 'multilingual' => true,
+                'history'      => $history
             ]
         );
 

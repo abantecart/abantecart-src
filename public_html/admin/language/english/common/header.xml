@@ -282,7 +282,7 @@
 	</definition>
 	<definition>
 		<key>text_cache</key>
-		<value><![CDATA[Cache]]></value>
+		<value><![CDATA[Clear data]]></value>
 	</definition>
 	<definition>
 		<key>text_messages</key>

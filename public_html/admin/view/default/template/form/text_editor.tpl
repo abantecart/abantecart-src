@@ -6,19 +6,15 @@ $wrapper_id = randomWord(6);
 echo $wrapper_id ?>" class="text-editor panel panel-default">
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
-            <a href="#text_<?php
-            echo $wrapper_id; ?>" aria-controls="text_<?php
-            echo $wrapper_id; ?>" role="tab" data-toggle="tab">
+            <a href="#text_<?php echo $wrapper_id; ?>" aria-controls="text_<?php echo $wrapper_id; ?>" role="tab" data-toggle="tab">
                 &nbsp;&nbsp;&nbsp;<?php echo $tab_text; ?>&nbsp;&nbsp;&nbsp;
             </a>
         </li>
         <?php if($preview){ ?>
         <li role="presentation">
-            <a href="#visual_<?php echo $wrapper_id; ?>"
-               aria-controls="visual_<?php echo $wrapper_id; ?>"
-               role="tab"
-               data-toggle="tab">
-                &nbsp;&nbsp;&nbsp;<?php echo $tab_visual; ?>&nbsp;&nbsp;&nbsp;
+            <a href="#visual_<?php echo $wrapper_id; ?>" aria-controls="visual_<?php echo $wrapper_id; ?>"
+               role="tab" data-toggle="tab">
+                &nbsp;&nbsp;&nbsp;<?php echo $tab_visual; ?>
             </a>
         </li>
         <?php } ?>
@@ -28,8 +24,7 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
         <div class="btn-group">
             <a title="<?php echo_html2view($button_add_media); ?>"
                data-original-title="<?php echo_html2view($button_add_media); ?>"
-               href="#"
-               class="btn btn-primary tooltips add_media mr10">
+               href="#" class="btn btn-primary tooltips add_media mr10">
                 <i class="fa fa-file-picture-o fa-fw"></i>
                 <?php echo $button_add_media; ?>
             </a>
@@ -62,21 +57,27 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
             <?php } ?>
 
             <?php
-            if ($required == 'Y' || $multilingual) { ?>
+            if ($required || $multilingual || $history_url) { ?>
                 <span class="afield-nav">
             <?php
-            if ($required == 'Y') { ?>
+            if ($required) { ?>
                 <span class="required">*</span>
                 <?php
             }
             if ($multilingual) { ?>
                 <span class="multilingual"><i class="fa fa-language"></i></span>
-                <?php
-            } ?>
-                </span>
-                <?php
-            } ?>
+            <?php } ?>
+            <?php if($history_url){ ?>
+                <a title="<?php echo_html2view($button_field_history); ?>"
+                   data-original-title="<?php echo_html2view($button_field_history); ?>"
+                   href="<?php echo $history_url ?>" data-target="#hist_modal" data-toggle="modal"
+                   class="tooltips view_history ml10">
+                <i class="fa fa-history fa-fw"></i>
+            </a>
+            <?php } ?>
 
+                </span>
+    <?php   } ?>
         </div>
 
     </div>
@@ -270,7 +271,7 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
             textarea.attr('disabled', 'disabled');
         });
 
-        <?php if( is_int(strpos($value, '&lt;!--n--&gt;')) || is_int(strpos($value, '&lt;!--t--&gt;')) ){?>
+        <?php if( str_contains($value, '&lt;!--n--&gt;') || str_contains($value, '&lt;!--t--&gt;') ){?>
         $('#<?php echo $wrapper_id; ?> a[href="#visual_<?php echo $wrapper_id; ?>"]').tab('show');
         <?php } ?>
 
@@ -289,6 +290,5 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
             openTextEditRLModal(editor, cursorPosition, '<?php echo $base_url?>');
             return false;
         });
-
     });
 </script>

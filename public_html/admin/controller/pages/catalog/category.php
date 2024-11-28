@@ -367,10 +367,16 @@ class ControllerPagesCatalogCategory extends AController
             $categories[$c['category_id']] = $c['name'];
         }
 
+        $history = [];
         if (isset($this->request->get['category_id'])) {
             $category_id = $this->request->get['category_id'];
             $this->data['category_id'] = $category_id;
             unset($categories[$category_id]);
+            $history = [
+                'table'        => 'category_descriptions',
+                'record_id'     => $category_id,
+            ];
+
         } else {
             $category_id = 0;
         }
@@ -533,6 +539,7 @@ class ControllerPagesCatalogCategory extends AController
                 'style'        => 'large-field',
                 'attr'         => ' maxlength="255" ',
                 'multilingual' => true,
+                'history'      => $history
             ]
         );
         //no description edit for modal view
@@ -544,6 +551,7 @@ class ControllerPagesCatalogCategory extends AController
                     'value'        => $this->data['category_description'][$content_language_id]['description'],
                     'style'        => 'xl-field',
                     'multilingual' => true,
+                    'history'      => $history
                 ]
             );
         }
@@ -554,6 +562,7 @@ class ControllerPagesCatalogCategory extends AController
                 'value'        => $this->data['category_description'][$content_language_id]['meta_keywords'],
                 'style'        => 'xl-field',
                 'multilingual' => true,
+                'history'      => $history
             ]
         );
         $this->data['form']['fields']['data']['meta_description'] = $form->getFieldHtml(
@@ -563,6 +572,7 @@ class ControllerPagesCatalogCategory extends AController
                 'value'        => $this->data['category_description'][$content_language_id]['meta_description'],
                 'style'        => 'xl-field',
                 'multilingual' => true,
+                'history'      => $history
             ]
         );
 
