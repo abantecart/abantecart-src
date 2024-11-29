@@ -16,8 +16,8 @@
 /public_html/system/logs/*
 /public_html/system/config.php
 /public_html/image/thumbnails/*
-/public_html/system/page_builder/*
-/public_html/system/page_builder/default/*
-/public_html/system/page_builder/default/base.html
+/public_html/system/page_builder/public/*
+/public_html/system/page_builder/savepoints/*
 /public_html/extensions/novator/storefront/view/novator/default_preset_prepared.json
 /public_html/storefront/view/default/default_preset_prepared.json
+/public_html/system/page_builder/presets/novator/
