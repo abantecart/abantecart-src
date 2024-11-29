@@ -632,9 +632,14 @@ $(document).on('click','.wish', function(e) {
 });
 // toggle dropdowns by mouseover
 $(document).ready(function() {
+
     $('.dropdown').hover(function() {
-        $(this).dropdown('show');
+        if($(this).children('[data-bs-toggle=dropdown]').length>1) {
+            $(this).dropdown('show');
+        }
     }, function() {
-        $(this).dropdown('hide');
+        if($(this).children('[data-bs-toggle=dropdown]').length>1) {
+            $(this).dropdown('hide');
+        }
     });
 });
