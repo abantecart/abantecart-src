@@ -98,6 +98,7 @@ class ControllerResponsesDesignPageBuilder extends AController
             $get = $this->request->get;
             $presetFile = DIR_PB_TEMPLATES . 'presets' . DS . $this->templateTxtId . DS . $get['preset'] . '.json';
             if (is_file($presetFile)) {
+                $this->preparePreset($presetFile);
                 if ($this->route) {
                     //save loaded preset as new savepoint
                     $counter = $this->getMaxCounter($this->route) + 1;
@@ -197,7 +198,7 @@ class ControllerResponsesDesignPageBuilder extends AController
             //before load need to replace custom_block_ids parameters for all custom blocks
             // because of dynamic value after xml-import of layout.xml
             if (is_file($file)) {
-                $file = $this->prepareDefaultPreset($file);
+                $file = $this->preparePreset($file);
             }
         }
         if (!is_file($file)) {
@@ -207,7 +208,7 @@ class ControllerResponsesDesignPageBuilder extends AController
             //before load need to replace custom_block_ids parameters for all custom blocks
             // because of dynamic value after xml-import of layout.xml
             if (is_file($file)) {
-                $file = $this->prepareDefaultPreset($file);
+                $file = $this->preparePreset($file);
             }
         }
         if (!is_file($file)) {
@@ -216,7 +217,7 @@ class ControllerResponsesDesignPageBuilder extends AController
             //before load need to replace custom_block_ids parameters for all custom blocks
             // because of dynamic value after xml-import of layout.xml
             if (is_file($file)) {
-                $file = $this->prepareDefaultPreset($file);
+                $file = $this->preparePreset($file);
             }
         }
         $this->data['file'] = $file;
@@ -254,8 +255,9 @@ class ControllerResponsesDesignPageBuilder extends AController
     /**
      * @param string $file
      * @return string
+     * @throws AException
      */
-    protected function prepareDefaultPreset(string $file)
+    protected function preparePreset(string $file)
     {
         $newFile = str_replace('.json', '_prepared.json', $file);
         if (is_file($newFile) && is_readable($newFile) && filesize($newFile) > 0) {
@@ -265,7 +267,12 @@ class ControllerResponsesDesignPageBuilder extends AController
         $componentInfo = $presetData['pages'][0]['frames'][0]['component']['components'];
         $componentInfo = $this->processComponents($componentInfo);
         $presetData['pages'][0]['frames'][0]['component']['components'] = $componentInfo;
-        $newFile = str_replace('.json', '_prepared.json', $file);
+        if(str_ends_with($file, DS.self::DEFAULT_PRESET)) {
+            $newFile = str_replace('.json', '_prepared.json', $file);
+        }else{
+            //overwrite preset file if it's not default
+            $newFile = $file;
+        }
         file_put_contents($newFile, json_encode($presetData, JSON_PRETTY_PRINT));
         return $newFile;
     }
