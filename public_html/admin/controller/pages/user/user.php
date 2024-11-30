@@ -173,7 +173,6 @@ class ControllerPagesUserUser extends AController
 
     public function insert()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -193,7 +192,6 @@ class ControllerPagesUserUser extends AController
 
     public function update()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -211,15 +209,6 @@ class ControllerPagesUserUser extends AController
         if ($this->request->is_POST() && $this->validateForm($user_info)) {
             $this->model_user_user->editUser($this->request->get['user_id'], $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
-            //logout when password was changed
-            $salt_key = $user_info['salt'];
-            if($this->user->getId() == $userId
-                && $user_info['password']
-                && $user_info['password'] != sha1($salt_key.sha1($salt_key.sha1($this->request->post['password'])))
-            ){
-                $this->user->logout();
-            }
-
             redirect($this->html->getSecureURL('user/user/update', '&user_id='.$userId));
         }
         $this->getForm();

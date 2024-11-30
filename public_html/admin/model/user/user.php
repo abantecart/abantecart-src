@@ -27,15 +27,15 @@ class ModelUserUser extends Model
     {
         $salt_key = genToken(8);
         $this->db->query("INSERT INTO ".$this->db->table("users")." 
-						  SET username = '".$this->db->escape($data['username'])."',
-						      firstname = '".$this->db->escape($data['firstname'])."',
-						      lastname = '".$this->db->escape($data['lastname'])."',
-						      email = '".$this->db->escape($data['email'])."',
-						      user_group_id = '".(int)$data['user_group_id']."',
-						      status = '".(int)$data['status']."',
-							  salt = '".$this->db->escape($salt_key)."', 
-						      password = '".$this->db->escape(sha1($salt_key.sha1($salt_key.sha1($data['password']))))."',
-						      date_added = NOW()");
+                              SET username = '".$this->db->escape($data['username'])."',
+                                  firstname = '".$this->db->escape($data['firstname'])."',
+                                  lastname = '".$this->db->escape($data['lastname'])."',
+                                  email = '".$this->db->escape($data['email'])."',
+                                  user_group_id = '".(int)$data['user_group_id']."',
+                                  status = '".(int)$data['status']."',
+                                  salt = '".$this->db->escape($salt_key)."', 
+                                  password = '".$this->db->escape(sha1($salt_key.sha1($salt_key.sha1($data['password']))))."',
+                                  date_added = NOW()");
         return $this->db->getLastId();
     }
 
@@ -66,6 +66,11 @@ class ModelUserUser extends Model
             $salt_key = genToken(8);
             $update[] = "salt = '".$this->db->escape($salt_key)."'";
             $update[] = "password = '".$this->db->escape(sha1($salt_key.sha1($salt_key.sha1($data['password']))))."'";
+        }
+
+        //log out user
+        if ($data['password'] || $data['email'] || $data['username'] || $data['status'] == 0) {
+            $this->user->deleteActiveTokens($user_id);
         }
 
         if (!empty($update)) {
