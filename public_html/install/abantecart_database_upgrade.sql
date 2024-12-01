@@ -72,8 +72,8 @@ create index `ac_fields_history_idx`
 DROP TABLE IF EXISTS `ac_user_sessions`;
 CREATE TABLE `ac_user_sessions` (
     `user_id` int(11) NOT NULL,
-    `token` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-    `ip` varchar(50) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+    `token` varchar(128) NOT NULL DEFAULT '',
+    `ip` varchar(50) NOT NULL DEFAULT '',
     `last_active` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`user_id`, `token`)
@@ -85,8 +85,8 @@ CREATE TABLE `ac_user_sessions` (
 DROP TABLE IF EXISTS `ac_customer_sessions`;
 CREATE TABLE `ac_customer_sessions` (
     `customer_id` int(11) NOT NULL AUTO_INCREMENT,
-    `session_id` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-    `ip` varchar(50) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+    `session_id` varchar(128) NULL DEFAULT '',
+    `ip` varchar(50) NOT NULL DEFAULT '',
     `last_active` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`customer_id`, `session_id`)

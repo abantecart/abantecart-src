@@ -95,7 +95,7 @@ class ACustomer
                 FROM " . $this->db->table("customers") . " c
                 LEFT JOIN " . $this->db->table("customer_groups") . " cg 
                     ON c.customer_group_id = cg.customer_group_id
-                LEFT JOIN " . $this->db->table("customer_sessions") . " cs 
+                INNER JOIN " . $this->db->table("customer_sessions") . " cs 
                     ON c.customer_id = cs.customer_id
                 WHERE c.customer_id = '" . (int)$this->session->data['customer_id'] . "' 
                     AND cs.session_id = '".SESSION_ID."' AND status = '1'"
