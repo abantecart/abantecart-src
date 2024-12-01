@@ -737,11 +737,11 @@ INSERT INTO `ac_customer_groups` ( `name`, `tax_exempt`) VALUES
 DROP TABLE IF EXISTS `ac_customer_sessions`;
 CREATE TABLE `ac_customer_sessions` (
     `customer_id` int(11) NOT NULL AUTO_INCREMENT,
-    `token` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+    `session_id` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
     `ip` varchar(50) COLLATE utf8_general_ci NOT NULL DEFAULT '',
     `last_active` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`customer_id`, `token`)
+    PRIMARY KEY (`customer_id`, `session_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --

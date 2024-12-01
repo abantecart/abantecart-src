@@ -95,8 +95,10 @@ class ACustomer
                 FROM " . $this->db->table("customers") . " c
                 LEFT JOIN " . $this->db->table("customer_groups") . " cg 
                     ON c.customer_group_id = cg.customer_group_id
-                WHERE customer_id = '" . (int)$this->session->data['customer_id'] . "' 
-                    AND status = '1'"
+                LEFT JOIN " . $this->db->table("customer_sessions") . " cs 
+                    ON c.customer_id = cs.customer_id
+                WHERE c.customer_id = '" . (int)$this->session->data['customer_id'] . "' 
+                    AND cs.session_id = '".SESSION_ID."' AND status = '1'"
             );
 
             if ($customer_data->num_rows) {
@@ -221,6 +223,7 @@ class ACustomer
                     'samesite' => ((defined('HTTPS') && HTTPS) ? 'None' : 'lax'),
                 ]
             );
+            $this->setActiveSession(SESSION_ID);
             //set date of login
             $this->setLastLogin($this->customer_id);
             $this->extensions->hk_ProcessData($this, 'login_success', $customer_data);
@@ -288,12 +291,73 @@ class ACustomer
     }
 
     /**
+     * @param string $sessID
+     * @return string
+     */
+    protected function setActiveSession($sessID)
+    {
+        //first clear all expired tokens
+        $customerSesTbl = $this->db->table("customer_sessions");
+        $session_ttl = $this->config->get('config_session_ttl');
+        $this->db->query("DELETE FROM ".$customerSesTbl." 
+            WHERE customer_id = '".$this->customer_id."' 
+            AND last_active < DATE_SUB(NOW(), INTERVAL ".$session_ttl." MINUTE)");
+
+        //set or update token
+        $this->db->query("INSERT INTO ".$customerSesTbl." 
+             VALUES (
+                '".$this->customer_id."',
+                '".$this->db->escape($sessID)."',
+                '".$this->db->escape($this->request->getRemoteIP())."',
+                NOW(),
+                NOW()
+            )
+            ON DUPLICATE KEY UPDATE last_active = NOW()");
+    }
+
+    /**
+     * @param string $token
+     * @return bool
+     */
+    public function isActiveSession($sessID)
+    {
+        $customerSesTbl = $this->db->table("customer_sessions");
+        $user_query = $this->db->query("SELECT * 
+                FROM ".$customerSesTbl." 
+                WHERE customer_id = '".$this->customer_id."'  
+                AND session_id = '".$this->db->escape($sessID)."'"
+        );
+        if ($user_query->num_rows) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Delete all or specific active sessions for the customer
+     * @return $sessID
+     * @throws AException
+     */
+    public function deleteActiveSessions($sessID = '')
+    {
+        $customerSesTbl = $this->db->table("customer_sessions");
+        $where = " WHERE customer_id = '".$this->customer_id."'";
+        if ($sessID) {
+            $where .= " AND session_id = '".$this->db->escape($sessID)."'";
+        }
+        $this->db->query("DELETE FROM " . $customerSesTbl . $where);
+    }
+
+    /**
      * @void
      */
     public function logout()
     {
         unset($this->session->data['customer_id']);
         unset($this->session->data['customer_group_id']);
+
+        $this->deleteActiveSessions(SESSION_ID);
 
         $this->customer_id = '';
         $this->loginname = '';
