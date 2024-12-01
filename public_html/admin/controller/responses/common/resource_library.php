@@ -73,12 +73,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
         $this->data['rl_add'] = $this->html->getSecureURL('common/resource_library/add');
         $this->data['rl_resources'] = $this->html->getSecureURL('common/resource_library/resources');
         $this->data['rl_delete'] = $this->html->getSecureURL('common/resource_library/delete');
-        $this->data['rl_get_resource'] = $this->html->getSecureURL('common/resource_library/get_resource_details');
         $this->data['rl_get_preview'] = $this->html->getSecureURL('common/resource_library/get_resource_preview');
-
-        $this->data['rl_update_resource'] = $this->html->getSecureURL(
-            'common/resource_library/update_resource_details'
-        );
 
         $this->data['rl_update_sort_order'] = $this->html->getSecureURL('common/resource_library/update_sort_order');
         $this->data['rl_map'] = $this->html->getSecureURL(
@@ -267,7 +262,6 @@ class ControllerResponsesCommonResourceLibrary extends AController
             . '&object_name=' . $this->request->get['object_name']
             . '&object_id=' . $this->request->get['object_id'];
         $this->data['rl_add_code'] = $this->html->getSecureURL('common/resource_library/add_code', $params);
-        $this->data['rl_get_info'] = $this->html->getSecureURL('common/resource_library/get_resource_details');
         $this->data['rl_upload'] = $this->html->getSecureURL('common/resource_library/upload', $params);
 
         if ((int)ini_get('post_max_size') <= 2) { // because 2Mb is default value for php
@@ -1451,21 +1445,18 @@ class ControllerResponsesCommonResourceLibrary extends AController
 
         $this->session->data['rl_types'] = $this->data['types'];
         $this->data['default_type'] = reset($this->data['types']);
-        $this->data['object_name'] = $object_name;
-        $this->data['object_id'] = $object_id;
-        $this->data['mode'] = $mode;
-        $this->data['page'] = $page;
-        $this->data['limit'] = $limit;
-        $this->data['sort'] = $sort;
-        $this->data['order'] = $order;
+        $httpQuery = [
+            'mode' => $mode,
+            'object_name' => $object_name,
+            'object_id' => $object_id,
+            'page' => $page,
+            'limit' => $limit,
+            'sort' => $sort,
+            'order' => $order
+        ];
 
-        $params = '&mode=' . $mode
-            . '&object_name=' . $object_name
-            . '&object_id=' . $object_id
-            . '&page=' . $page
-            . '&limit=' . $limit
-            . '&sort=' . $sort
-            . '&order=' . $order;
+        $this->data = array_merge($this->data, $httpQuery);
+        $params = '&'.http_build_query($httpQuery);
         $this->data['rl_resource_library'] = $this->html->getSecureURL('common/resource_library', $params);
         $this->data['rl_resources'] = $this->html->getSecureURL('common/resource_library/resources', $params);
         $this->data['rl_resource_single'] = $this->html->getSecureURL(

@@ -10,10 +10,8 @@ echo $this->html->buildElement(
     ]
 ); ?>
 
-<script type="text/javascript" src="<?php
-echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload.js"></script>
-<script type="text/javascript" src="<?php
-echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload-ui.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload-ui.js"></script>
 
 <script type="text/javascript">
     $('#rl_modal').appendTo('body'); <?php // move modal at the end of html-body. It needed for exclusion html-form of modal from page html-form?>
@@ -301,7 +299,7 @@ echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload-ui.js"></sc
         });
     }
 
-    var loadSingle = function (type, wrapper_id, resource_id, field) {
+    let loadSingle = function (type, wrapper_id, resource_id, field) {
         if (!wrapper_id || wrapper_id === '') {
             wrapper_id = modalscope.wrapper_id;
         } else {

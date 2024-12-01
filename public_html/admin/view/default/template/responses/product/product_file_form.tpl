@@ -130,10 +130,10 @@
 				</form>
 		<?php
 		// close parent div for collapses when create
-		if(!$download_id){ ?>
-				<?php if($form0){?>
+		if(!$download_id){
+            if($form0){?>
 				</div>
-				<?php } ?>
+            <?php } ?>
 			</div>
 		</div>
 		<?php }?>

@@ -1,26 +1,22 @@
-<?php /** @noinspection SqlResolve */
-/** @noinspection PhpMultipleClassDeclarationsInspection */
-
-/** @noinspection PhpUndefinedClassInspection */
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+<?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 class ControllerResponsesProductProduct extends AController
 {
@@ -47,9 +43,9 @@ class ControllerResponsesProductProduct extends AController
                 $product_info = $this->model_catalog_product->getProduct($product_id);
                 if ($product_info) {
                     $products_data[] = [
-                        'id'         => $product_info['product_id'],
-                        'name'       => $product_info['name'],
-                        'meta'       => $product_info['model'],
+                        'id' => $product_info['product_id'],
+                        'name' => $product_info['name'],
+                        'meta' => $product_info['model'],
                         'sort_order' => (int)$product_info['sort_order'],
                     ];
                 }
@@ -57,11 +53,11 @@ class ControllerResponsesProductProduct extends AController
         } else {
             if (isset($post['term'])) {
                 $filter = [
-                    'limit'               => 20,
+                    'limit' => 20,
                     'content_language_id' => $this->language->getContentLanguageID(),
-                    'filter'              => [
+                    'filter' => [
                         'keyword' => $post['term'],
-                        'match'   => 'all',
+                        'match' => 'all',
                         'exclude' => ['product_id' => $exclude],
                     ],
                 ];
@@ -105,11 +101,11 @@ class ControllerResponsesProductProduct extends AController
                     );
 
                     $products_data[] = [
-                        'image'      => $thumbnail['thumb_html'],
-                        'id'         => $product_data['product_id'],
-                        'name'       => $product_data['name'] . ' - ' . $formatted_price,
-                        'price'      => $price,
-                        'meta'       => $product_data['model'],
+                        'image' => $thumbnail['thumb_html'],
+                        'id' => $product_data['product_id'],
+                        'name' => $product_data['name'] . ' - ' . $formatted_price,
+                        'price' => $price,
+                        'meta' => $product_data['model'],
                         'sort_order' => (int)$product_data['sort_order'],
                     ];
                 }
@@ -134,7 +130,7 @@ class ControllerResponsesProductProduct extends AController
             $error->toJSONResponse(
                 'NO_PERMISSIONS_402',
                 [
-                    'error_text'  => sprintf($this->language->get('error_permission_modify'), 'product/product'),
+                    'error_text' => sprintf($this->language->get('error_permission_modify'), 'product/product'),
                     'reset_value' => true,
                 ]
             );
@@ -197,9 +193,9 @@ class ControllerResponsesProductProduct extends AController
 
             $product_data[] = [
                 'product_id' => $result['product_id'],
-                'name'       => $result['name'],
-                'model'      => $result['model'],
-                'price'      => $price,
+                'name' => $result['name'],
+                'model' => $result['model'],
+                'price' => $price,
             ];
         }
 
@@ -227,8 +223,8 @@ class ControllerResponsesProductProduct extends AController
 
         foreach ($categories as $category_id) {
             $category_data[] = [
-                'id'         => $category_id,
-                'name'       => $this->model_catalog_category->getPath($category_id),
+                'id' => $category_id,
+                'name' => $this->model_catalog_category->getPath($category_id),
                 'sort_order' => 0,
             ];
         }
@@ -262,10 +258,10 @@ class ControllerResponsesProductProduct extends AController
 
             if ($product_info) {
                 $product_data[] = [
-                    'id'         => $product_info['product_id'],
+                    'id' => $product_info['product_id'],
                     'product_id' => $product_info['product_id'],
-                    'name'       => $product_info['name'],
-                    'sku'        => $product_info['sku'],
+                    'name' => $product_info['name'],
+                    'sku' => $product_info['sku'],
                     'sort_order' => 0,
                 ];
             }
@@ -311,7 +307,7 @@ class ControllerResponsesProductProduct extends AController
             $error->toJSONResponse(
                 'NO_PERMISSIONS_402',
                 [
-                    'error_text'  => sprintf(
+                    'error_text' => sprintf(
                         $this->language->get('error_permission_modify'),
                         'product/product'
                     ),
@@ -384,17 +380,17 @@ class ControllerResponsesProductProduct extends AController
         $this->data['option_data'] = $this->model_catalog_product->getProductOption($product_id, $option_id);
 
         $this->data['fields'] = [
-            'entry_status'             => 'status',
-            'entry_option_name'        => 'option_name',
+            'entry_status' => 'status',
+            'entry_option_name' => 'option_name',
             'entry_option_placeholder' => 'option_placeholder',
-            'entry_sort_order'         => 'option_sort_order',
-            'entry_required'           => 'required',
+            'entry_sort_order' => 'option_sort_order',
+            'entry_required' => 'required',
             'entry_allowed_extensions' => 'extensions',
-            'entry_min_size'           => 'min_size',
-            'entry_max_size'           => 'max_size',
-            'entry_upload_dir'         => 'directory',
-            'entry_regexp_pattern'     => 'option_regexp_pattern',
-            'entry_error_text'         => 'option_error_text'
+            'entry_min_size' => 'min_size',
+            'entry_max_size' => 'max_size',
+            'entry_upload_dir' => 'directory',
+            'entry_regexp_pattern' => 'option_regexp_pattern',
+            'entry_error_text' => 'option_error_text'
         ];
 
         $this->data['option_values_title'] = [
@@ -432,8 +428,8 @@ class ControllerResponsesProductProduct extends AController
 
             $this->data['option_name'] = $this->html->buildElement(
                 [
-                    'type'  => 'input',
-                    'name'  => 'name',
+                    'type' => 'input',
+                    'name' => 'name',
                     'value' => $this->data['option_data']['language'][$language_id]['name'],
                     'style' => 'medium-field',
                 ]
@@ -444,8 +440,8 @@ class ControllerResponsesProductProduct extends AController
             )) {
                 $this->data['option_placeholder'] = $this->html->buildElement(
                     [
-                        'type'  => 'input',
-                        'name'  => 'option_placeholder',
+                        'type' => 'input',
+                        'name' => 'option_placeholder',
                         'value' => $this->data['option_data']['language'][$language_id]['option_placeholder'],
                         'style' => 'medium-field',
                     ]
@@ -454,24 +450,24 @@ class ControllerResponsesProductProduct extends AController
 
             $this->data['status'] = $this->html->buildElement(
                 [
-                    'type'  => 'checkbox',
-                    'name'  => 'status',
+                    'type' => 'checkbox',
+                    'name' => 'status',
                     'value' => $this->data['option_data']['status'],
                     'style' => 'btn_switch btn-group-xs',
                 ]
             );
             $this->data['option_sort_order'] = $this->html->buildElement(
                 [
-                    'type'  => 'input',
-                    'name'  => 'sort_order',
+                    'type' => 'input',
+                    'name' => 'sort_order',
                     'value' => $this->data['option_data']['sort_order'],
                     'style' => 'tiny-field',
                 ]
             );
             $this->data['required'] = $this->html->buildElement(
                 [
-                    'type'  => 'checkbox',
-                    'name'  => 'required',
+                    'type' => 'checkbox',
+                    'name' => 'required',
                     'value' => $this->data['option_data']['required'],
                     'style' => 'btn_switch btn-group-xs',
                 ]
@@ -482,8 +478,8 @@ class ControllerResponsesProductProduct extends AController
 
                 $this->data['extensions'] = $this->html->buildElement(
                     [
-                        'type'  => 'input',
-                        'name'  => 'settings[extensions]',
+                        'type' => 'input',
+                        'name' => 'settings[extensions]',
                         'value' => $option_settings['extensions'],
                         'style' => 'no-save',
                     ]
@@ -491,24 +487,24 @@ class ControllerResponsesProductProduct extends AController
 
                 $this->data['min_size'] = $this->html->buildElement(
                     [
-                        'type'  => 'input',
-                        'name'  => 'settings[min_size]',
+                        'type' => 'input',
+                        'name' => 'settings[min_size]',
                         'value' => $option_settings['min_size'],
                         'style' => 'small-field no-save',
                     ]
                 );
                 $this->data['max_size'] = $this->html->buildElement(
                     [
-                        'type'  => 'input',
-                        'name'  => 'settings[max_size]',
+                        'type' => 'input',
+                        'name' => 'settings[max_size]',
                         'value' => $option_settings['max_size'],
                         'style' => 'small-field no-save',
                     ]
                 );
                 $this->data['directory'] = $this->html->buildElement(
                     [
-                        'type'  => 'input',
-                        'name'  => 'settings[directory]',
+                        'type' => 'input',
+                        'name' => 'settings[directory]',
                         'value' => $option_settings['directory'],
                         'style' => 'no-save',
                     ]
@@ -522,8 +518,8 @@ class ControllerResponsesProductProduct extends AController
             } else {
                 $this->data['option_regexp_pattern'] = $this->html->buildElement(
                     [
-                        'type'  => 'input',
-                        'name'  => 'regexp_pattern',
+                        'type' => 'input',
+                        'name' => 'regexp_pattern',
                         'value' => $this->data['option_data']['regexp_pattern'],
                         'style' => 'medium-field',
                     ]
@@ -531,8 +527,8 @@ class ControllerResponsesProductProduct extends AController
 
                 $this->data['option_error_text'] = $this->html->buildElement(
                     [
-                        'type'  => 'input',
-                        'name'  => 'error_text',
+                        'type' => 'input',
+                        'name' => 'error_text',
                         'value' => $this->data['option_data']['language'][$language_id]['error_text'],
                         'style' => 'medium-field',
                     ]
@@ -546,23 +542,23 @@ class ControllerResponsesProductProduct extends AController
 
             $this->data['button_remove_option'] = $this->html->buildElement(
                 [
-                    'type'  => 'button',
-                    'text'  => $this->language->get('button_remove_option'),
+                    'type' => 'button',
+                    'text' => $this->language->get('button_remove_option'),
                     'style' => 'button3',
-                    'href'  => $this->data['remove_option'],
+                    'href' => $this->data['remove_option'],
                 ]
             );
             $this->data['button_save'] = $this->html->buildElement(
                 [
-                    'type'  => 'button',
-                    'text'  => $this->language->get('button_save'),
+                    'type' => 'button',
+                    'text' => $this->language->get('button_save'),
                     'style' => 'button1',
                 ]
             );
             $this->data['button_reset'] = $this->html->buildElement(
                 [
-                    'type'  => 'button',
-                    'text'  => $this->language->get('button_reset'),
+                    'type' => 'button',
+                    'text' => $this->language->get('button_reset'),
                     'style' => 'button2',
                 ]
             );
@@ -582,9 +578,9 @@ class ControllerResponsesProductProduct extends AController
             $this->data['form']['id'] = 'update_option_values';
             $this->data['update_option_values_form']['open'] = $form->getFieldHtml(
                 [
-                    'type'   => 'form',
-                    'name'   => 'update_option_values',
-                    'attr'   => 'data-confirm-exit="true" class="form-horizontal"',
+                    'type' => 'form',
+                    'name' => 'update_option_values',
+                    'attr' => 'data-confirm-exit="true" class="form-horizontal"',
                     'action' => $this->data['update_option_values'],
                 ]
             );
@@ -600,9 +596,9 @@ class ControllerResponsesProductProduct extends AController
             $this->data['form']['id'] = 'option_value_form';
             $this->data['form']['form_open'] = $form->getFieldHtml(
                 [
-                    'type'   => 'form',
-                    'name'   => 'option_value_form',
-                    'attr'   => 'data-confirm-exit="true"',
+                    'type' => 'form',
+                    'name' => 'option_value_form',
+                    'attr' => 'data-confirm-exit="true"',
                     'action' => $this->data['update_option_values'],
                 ]
             );
@@ -640,7 +636,7 @@ class ControllerResponsesProductProduct extends AController
             $error->toJSONResponse(
                 'NO_PERMISSIONS_402',
                 [
-                    'error_text'  => sprintf(
+                    'error_text' => sprintf(
                         $this->language->get('error_permission_modify'),
                         'product/product'
                     ),
@@ -670,7 +666,7 @@ class ControllerResponsesProductProduct extends AController
             $error->toJSONResponse(
                 'NO_PERMISSIONS_402',
                 [
-                    'error_text'  => sprintf(
+                    'error_text' => sprintf(
                         $this->language->get('error_permission_modify'),
                         'product/product'
                     ),
@@ -698,8 +694,8 @@ class ControllerResponsesProductProduct extends AController
 
 
         $errors = $this->model_catalog_product->validateOptionValues(
-                    $this->request->get['option_id'],
-                    $this->request->post
+            $this->request->get['option_id'],
+            $this->request->post
         );
 
         if (!$errors) {
@@ -718,7 +714,6 @@ class ControllerResponsesProductProduct extends AController
             );
             return;
         }
-
 
 
         foreach ((array)$this->request->post['product_option_value_id'] as $product_option_value_id) {
@@ -875,11 +870,11 @@ class ControllerResponsesProductProduct extends AController
                 $this->data['form']['fields']['option_value'] .= '<span style="white-space: nowrap;">' . $data['name'] . ' '
                     . $form->getFieldHtml(
                         [
-                            'type'    => $data['type'],
-                            'name'    => 'attribute_value_id[' . $product_option_value_id . '][' . $attribute_id . ']',
-                            'value'   => $this->data['children_options'][$attribute_id],
+                            'type' => $data['type'],
+                            'name' => 'attribute_value_id[' . $product_option_value_id . '][' . $attribute_id . ']',
+                            'value' => $this->data['children_options'][$attribute_id],
                             'options' => $data['values'],
-                            'attr'    => '',
+                            'attr' => '',
                         ]
                     ) . '<span><br class="clr_both">';
             }
@@ -887,9 +882,9 @@ class ControllerResponsesProductProduct extends AController
             if (in_array($this->data['option_attribute']['element_type'], $this->data['elements_with_options'])) {
                 $this->data['form']['fields']['option_value'] = $form->getFieldHtml(
                     [
-                        'type'    => $this->data['option_attribute']['type'],
-                        'name'    => 'attribute_value_id[' . $product_option_value_id . ']',
-                        'value'   => $this->data['attribute_value_id'],
+                        'type' => $this->data['option_attribute']['type'],
+                        'name' => 'attribute_value_id[' . $product_option_value_id . ']',
+                        'value' => $this->data['attribute_value_id'],
                         'options' => $this->data['option_attribute']['values'],
                     ]
                 );
@@ -899,10 +894,10 @@ class ControllerResponsesProductProduct extends AController
                     $this->data['form']['fields']['option_value'] = '';
                 } else {
                     $arr = [
-                        'type'  => in_array($this->data['option_data']['element_type'], ['T', 'B'])
+                        'type' => in_array($this->data['option_data']['element_type'], ['T', 'B'])
                             ? 'textarea'
                             : ($this->data['option_data']['element_type'] == 'D' ? 'date' : 'input'),
-                        'name'  => 'name[' . $product_option_value_id . ']',
+                        'name' => 'name[' . $product_option_value_id . ']',
                         'value' => $this->data['name'],
                     ];
                     // for checkbox show error when value is empty
@@ -910,9 +905,9 @@ class ControllerResponsesProductProduct extends AController
                         $arr['style'] = 'alert-danger';
                     }
                     //add time to date product option
-                    if($arr['type'] == 'date') {
+                    if ($arr['type'] == 'date') {
                         $arr['dateformat'] = format4Datepicker(
-                            $this->language->get('date_format_short').' '.$this->language->get('time_format_short')
+                            $this->language->get('date_format_short') . ' ' . $this->language->get('time_format_short')
                         );
                     }
 
@@ -923,8 +918,8 @@ class ControllerResponsesProductProduct extends AController
 
         $this->data['form']['fields']['product_option_value_id'] = $form->getFieldHtml(
             [
-                'type'  => 'hidden',
-                'name'  => 'product_option_value_id[' . $product_option_value_id . ']',
+                'type' => 'hidden',
+                'name' => 'product_option_value_id[' . $product_option_value_id . ']',
                 'value' => $product_option_value_id,
             ]
         );
@@ -932,10 +927,10 @@ class ControllerResponsesProductProduct extends AController
         if (in_array($this->data['option_data']['element_type'], $this->data['elements_with_options'])) {
             $this->data['form']['fields']['default'] = $form->getFieldHtml(
                 [
-                    'type'    => 'radio',
-                    'name'    => 'default_value',
-                    'id'      => 'default_' . $product_option_value_id,
-                    'value'   => ($this->data['default'] ? $product_option_value_id : ''),
+                    'type' => 'radio',
+                    'name' => 'default_value',
+                    'id' => 'default_' . $product_option_value_id,
+                    'value' => ($this->data['default'] ? $product_option_value_id : ''),
                     'options' => [$product_option_value_id => ''],
                 ]
             );
@@ -944,16 +939,16 @@ class ControllerResponsesProductProduct extends AController
 
         $this->data['form']['fields']['sku'] = $form->getFieldHtml(
             [
-                'type'  => 'input',
-                'name'  => 'sku[' . $product_option_value_id . ']',
+                'type' => 'input',
+                'name' => 'sku[' . $product_option_value_id . ']',
                 'value' => $this->data['sku'],
             ]
         );
 
         $this->data['form']['fields']['txt_id'] = $form->getFieldHtml(
             [
-                'type'  => 'input',
-                'name'  => 'txt_id[' . $product_option_value_id . ']',
+                'type' => 'input',
+                'name' => 'txt_id[' . $product_option_value_id . ']',
                 'value' => $this->data['txt_id'],
             ]
         );
@@ -966,18 +961,18 @@ class ControllerResponsesProductProduct extends AController
         }
         $this->data['form']['fields']['quantity'] = $form->getFieldHtml(
             [
-                'type'  => 'input',
-                'name'  => 'quantity[' . $product_option_value_id . ']',
+                'type' => 'input',
+                'name' => 'quantity[' . $product_option_value_id . ']',
                 'value' => $this->data['quantity'],
                 'style' => 'small-field',
-                'attr'  => ($stock_locations && $this->data['subtract'] ? 'disabled' : ''),
+                'attr' => ($stock_locations && $this->data['subtract'] ? 'disabled' : ''),
             ]
         );
         $this->data['form']['fields']['subtract'] = $form->getFieldHtml(
             [
-                'type'    => 'selectbox',
-                'name'    => 'subtract[' . $product_option_value_id . ']',
-                'value'   => $this->data['subtract'],
+                'type' => 'selectbox',
+                'name' => 'subtract[' . $product_option_value_id . ']',
+                'value' => $this->data['subtract'],
                 'options' => [
                     1 => $this->language->get('text_yes'),
                     0 => $this->language->get('text_no'),
@@ -986,8 +981,8 @@ class ControllerResponsesProductProduct extends AController
         );
         $this->data['form']['fields']['price'] = $form->getFieldHtml(
             [
-                'type'  => 'input',
-                'name'  => 'price[' . $product_option_value_id . ']',
+                'type' => 'input',
+                'name' => 'price[' . $product_option_value_id . ']',
                 'value' => moneyDisplayFormat($this->data['price']),
                 'style' => 'medium-field',
             ]
@@ -1002,20 +997,20 @@ class ControllerResponsesProductProduct extends AController
 
         $this->data['form']['fields']['prefix'] = $form->getFieldHtml(
             [
-                'type'    => 'selectbox',
-                'name'    => 'prefix[' . $product_option_value_id . ']',
-                'value'   => $this->data['prefix'],
+                'type' => 'selectbox',
+                'name' => 'prefix[' . $product_option_value_id . ']',
+                'value' => $this->data['prefix'],
                 'options' => [
                     '$' => $currency_symbol,
                     '%' => '%',
                 ],
-                'style'   => 'small-field',
+                'style' => 'small-field',
             ]
         );
         $this->data['form']['fields']['sort_order'] = $form->getFieldHtml(
             [
-                'type'  => 'input',
-                'name'  => 'sort_order[' . $product_option_value_id . ']',
+                'type' => 'input',
+                'name' => 'sort_order[' . $product_option_value_id . ']',
                 'value' => $this->data['sort_order'],
                 'style' => 'small-field',
             ]
@@ -1023,8 +1018,8 @@ class ControllerResponsesProductProduct extends AController
         $this->data['entry_weight'] = $this->language->get('entry_weight_change');
         $this->data['form']['fields']['weight'] = $form->getFieldHtml(
             [
-                'type'  => 'input',
-                'name'  => 'weight[' . $product_option_value_id . ']',
+                'type' => 'input',
+                'name' => 'weight[' . $product_option_value_id . ']',
                 'value' => $this->data['weight'],
                 'style' => 'small-field',
             ]
@@ -1056,17 +1051,17 @@ class ControllerResponsesProductProduct extends AController
         }
         $this->data['form']['fields']['weight_type'] = $form->getFieldHtml(
             [
-                'type'    => 'selectbox',
-                'name'    => 'weight_type[' . $product_option_value_id . ']',
-                'value'   => $selected_unit,
+                'type' => 'selectbox',
+                'name' => 'weight_type[' . $product_option_value_id . ']',
+                'value' => $selected_unit,
                 'options' => $wht_options,
             ]
         );
 
         $this->data['form']['fields']['cost'] = $form->getFieldHtml(
             [
-                'type'  => 'input',
-                'name'  => 'cost[' . $product_option_value_id . ']',
+                'type' => 'input',
+                'name' => 'cost[' . $product_option_value_id . ']',
                 'value' => $this->data['cost'],
             ]
         );
@@ -1117,6 +1112,10 @@ class ControllerResponsesProductProduct extends AController
 
     public function processDownloadForm()
     {
+        if (!$this->request->is_POST()) {
+            http_response_code(406);
+            exit('Forbidden.');
+        }
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -1125,14 +1124,10 @@ class ControllerResponsesProductProduct extends AController
             $error->toJSONResponse(
                 'NO_PERMISSIONS_402',
                 [
-                    'error_text'  => sprintf($this->language->get('error_permission_modify'), 'product/product'),
+                    'error_text' => sprintf($this->language->get('error_permission_modify'), 'product/product'),
                     'reset_value' => true,
                 ]
             );
-            return;
-        }
-
-        if (!$this->request->is_POST()) {
             return;
         }
 
@@ -1164,7 +1159,7 @@ class ControllerResponsesProductProduct extends AController
 
             $this->data['output'] = [
                 'download_id' => $download_id,
-                'success'     => true,
+                'success' => true,
                 'result_text' => $this->language->get('text_success'),
             ];
         } else {
@@ -1192,7 +1187,7 @@ class ControllerResponsesProductProduct extends AController
         $this->loadModel('localisation/order_status');
         $this->loadModel('catalog/download');
 
-        $this->data['download_id'] = $download_id = $this->request->get['download_id'];
+        $this->data['download_id'] = $download_id = (int)$this->request->get['download_id'];
         $this->data['product_id'] = $product_id = (int)$this->request->get['product_id'];
 
         // for new download - create form for mapping shared downloads to product
@@ -1222,7 +1217,7 @@ class ControllerResponsesProductProduct extends AController
         $form->setForm(
             [
                 'form_name' => 'downloadFrm',
-                'update'    => $this->data['update'],
+                'update' => $this->data['update'],
             ]
         );
 
@@ -1278,25 +1273,25 @@ class ControllerResponsesProductProduct extends AController
             $form0->setForm(
                 [
                     'form_name' => 'SharedFrm',
-                    'update'    => $this->data['update'],
+                    'update' => $this->data['update'],
                 ]
             );
             $this->data['form0']['form_open'] = $form0->getFieldHtml(
                 [
-                    'type'   => 'form',
-                    'name'   => 'SharedFrm',
-                    'attr'   => 'data-confirm-exit="true" class="aform form-horizontal"',
+                    'type' => 'form',
+                    'name' => 'SharedFrm',
+                    'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
                     'action' => $this->html->getSecureURL('catalog/product_files', '&product_id=' . $product_id),
                 ]
             );
 
             $this->data['form0']['shared'] = $form0->getFieldHtml(
                 [
-                    'type'        => 'checkboxgroup',
-                    'name'        => 'selected[]',
-                    'value'       => $this->data['download_id'],
-                    'options'     => $options,
-                    'style'       => 'chosen',
+                    'type' => 'checkboxgroup',
+                    'name' => 'selected[]',
+                    'value' => $this->data['download_id'],
+                    'options' => $options,
+                    'style' => 'chosen',
                     'placeholder' => $this->language->get('text_select'),
                 ]
             );
@@ -1332,17 +1327,17 @@ class ControllerResponsesProductProduct extends AController
 
         $this->data['form']['form_open'] = $form->getFieldHtml(
             [
-                'type'   => 'form',
-                'name'   => 'downloadFrm',
-                'attr'   => 'data-confirm-exit="true" class="aform form-horizontal"',
+                'type' => 'form',
+                'name' => 'downloadFrm',
+                'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
                 'action' => $this->data['action'],
             ]
         );
         $this->data['form']['submit'] = $form->getFieldHtml(
             [
-                'type'  => 'button',
-                'name'  => 'submit',
-                'text'  => (int)$download_id
+                'type' => 'button',
+                'name' => 'submit',
+                'text' => (int)$download_id
                     ? $this->language->get('button_save')
                     : $this->language->get('text_add'),
                 'style' => 'button1',
@@ -1351,10 +1346,10 @@ class ControllerResponsesProductProduct extends AController
 
         $this->data['form']['cancel'] = $form->getFieldHtml(
             [
-                'type'  => 'button',
-                'name'  => 'cancel',
-                'href'  => $this->html->getSecureURL('catalog/product_files', '&product_id=' . $product_id),
-                'text'  => $this->language->get('button_cancel'),
+                'type' => 'button',
+                'name' => 'cancel',
+                'href' => $this->html->getSecureURL('catalog/product_files', '&product_id=' . $product_id),
+                'text' => $this->language->get('button_cancel'),
                 'style' => 'button2',
             ]
         );
@@ -1375,48 +1370,48 @@ class ControllerResponsesProductProduct extends AController
             '&product_id=' . $product_id
         );
 
-        $resources_scripts = $this->dispatch(
-            'responses/common/resource_library/get_resources_scripts',
-            [
-                'object_name' => 'downloads',
-                'object_id'   => '',
-                'types'       => ['download'],
-            ]
-        );
-        $this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
-
-        $rl = new AResource('download');
-        $rl_dir = $rl->getTypeDir();
-        $resource_id = is_numeric($file_data['filename'])
-            ? $file_data['filename']
-            : $rl->getIdFromHexPath(str_replace($rl_dir, '', $file_data['filename']));
-
-        $this->data['form']['fields']['general']['resource'] = $form->getFieldHtml(
-            [
-                'type'        => 'resource',
-                'name'        => 'filename',
-                'resource_id' => $resource_id,
-                'rl_type'     => 'download',
-            ]
-        );
-
-
-        if ($resource_id) {
-            $this->data['preview']['href'] = $this->html->getSecureURL(
-                'common/resource_library/get_resource_preview',
-                '&resource_id=' . $resource_id,
-                true
+        if ($download_id) {
+            $resources_scripts = $this->dispatch(
+                'responses/common/resource_library/get_resources_scripts',
+                [
+                    'object_name' => 'downloads',
+                    'object_id' => '',
+                    'types' => ['download'],
+                ]
             );
-            $this->data['preview']['path'] = 'resources/' . $file_data['filename'];
+            $this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
+
+            $rl = new AResource('download');
+            $rl_dir = $rl->getTypeDir();
+            $resource_id = is_numeric($file_data['filename'])
+                ? $file_data['filename']
+                : $rl->getIdFromHexPath(str_replace($rl_dir, '', $file_data['filename']));
+
+            $this->data['form']['fields']['general']['resource'] = $form->getFieldHtml(
+                [
+                    'type' => 'resource',
+                    'name' => 'filename',
+                    'resource_id' => $resource_id,
+                    'rl_type' => 'download',
+                ]
+            );
+            if ($resource_id) {
+                $this->data['preview']['href'] = $this->html->getSecureURL(
+                    'common/resource_library/get_resource_preview',
+                    '&resource_id=' . $resource_id
+                );
+                $this->data['preview']['path'] = 'resources/' . $file_data['filename'];
+            }
         }
+
 
         $this->data['form']['fields']['general']['status'] = $form->getFieldHtml(
             [
-                'type'    => 'checkbox',
-                'name'    => 'status',
-                'value'   => 1,
+                'type' => 'checkbox',
+                'name' => 'status',
+                'value' => 1,
                 'checked' => (bool)$file_data['status'],
-                'style'   => 'btn_switch',
+                'style' => 'btn_switch',
             ]
         );
 
@@ -1452,11 +1447,11 @@ class ControllerResponsesProductProduct extends AController
         if ($product_id) {
             $this->data['form']['fields']['general']['shared'] = $form->getFieldHtml(
                 [
-                    'type'    => 'checkbox',
-                    'name'    => 'shared',
-                    'value'   => 1,
+                    'type' => 'checkbox',
+                    'name' => 'shared',
+                    'value' => 1,
                     'checked' => (bool)$file_data['shared'],
-                    'style'   => 'btn_switch ' . ($this->data['already_shared'] ? 'disabled' : ''),
+                    'style' => 'btn_switch ' . ($this->data['already_shared'] ? 'disabled' : ''),
                 ]
             );
         }
@@ -1467,42 +1462,42 @@ class ControllerResponsesProductProduct extends AController
 
         $this->data['form']['fields']['general']['download_id'] = $form->getFieldHtml(
             [
-                'type'  => 'hidden',
-                'name'  => 'download_id',
+                'type' => 'hidden',
+                'name' => 'download_id',
                 'value' => $this->data['download_id'],
             ]
         );
         $this->data['form']['fields']['general']['name'] = $form->getFieldHtml(
             [
-                'type'     => 'input',
-                'name'     => 'name',
-                'value'    => $file_data['name'],
+                'type' => 'input',
+                'name' => 'name',
+                'value' => $file_data['name'],
                 'required' => true,
-                'attr'     => ' maxlength="64" ',
+                'attr' => ' maxlength="64" ',
             ]
         );
         $this->data['form']['fields']['general']['mask'] = $form->getFieldHtml(
             [
-                'type'  => 'input',
-                'name'  => 'mask',
+                'type' => 'input',
+                'name' => 'mask',
                 'value' => $file_data['mask'],
             ]
         );
 
         $this->data['form']['fields']['general']['activate'] = $form->getFieldHtml(
             [
-                'type'     => 'selectbox',
-                'name'     => 'activate',
-                'value'    => $file_data['activate'],
-                'options'  => [
-                    ''             => $this->language->get('text_select'),
+                'type' => 'selectbox',
+                'name' => 'activate',
+                'value' => $file_data['activate'],
+                'options' => [
+                    '' => $this->language->get('text_select'),
                     'before_order' => $this->language->get('text_before_order'),
-                    'immediately'  => $this->language->get('text_immediately'),
+                    'immediately' => $this->language->get('text_immediately'),
                     'order_status' => $this->language->get('text_on_order_status'),
-                    'manually'     => $this->language->get('text_manually'),
+                    'manually' => $this->language->get('text_manually'),
                 ],
                 'required' => true,
-                'style'    => 'download_activate no-save',
+                'style' => 'download_activate no-save',
             ]
         );
 
@@ -1512,19 +1507,19 @@ class ControllerResponsesProductProduct extends AController
 
         $this->data['form']['fields']['general']['activate_status'] = $form->getFieldHtml(
             [
-                'type'     => 'checkboxgroup',
-                'name'     => 'activate_order_status_id[]',
-                'value'    => unserialize($file_data['activate_order_status_id']),
-                'options'  => $options,
+                'type' => 'checkboxgroup',
+                'name' => 'activate_order_status_id[]',
+                'value' => unserialize($file_data['activate_order_status_id']),
+                'options' => $options,
                 'required' => true,
-                'style'    => ' no-save chosen ',
+                'style' => ' no-save chosen ',
             ]
         );
 
         $this->data['form']['fields']['general']['sort_order'] = $form->getFieldHtml(
             [
-                'type'  => 'input',
-                'name'  => 'sort_order',
+                'type' => 'input',
+                'name' => 'sort_order',
                 'style' => 'small-field',
                 'value' => $file_data['sort_order'],
             ]
@@ -1532,8 +1527,8 @@ class ControllerResponsesProductProduct extends AController
 
         $this->data['form']['fields']['general']['max_downloads'] = $form->getFieldHtml(
             [
-                'type'  => 'input',
-                'name'  => 'max_downloads',
+                'type' => 'input',
+                'name' => 'max_downloads',
                 'value' => $file_data['max_downloads'],
                 'style' => 'small-field',
             ]
@@ -1541,8 +1536,8 @@ class ControllerResponsesProductProduct extends AController
 
         $this->data['form']['fields']['general']['expire_days'] = $form->getFieldHtml(
             [
-                'type'  => 'input',
-                'name'  => 'expire_days',
+                'type' => 'input',
+                'name' => 'expire_days',
                 'style' => 'small-field',
                 'value' => $file_data['expire_days'],
             ]
@@ -1627,13 +1622,13 @@ class ControllerResponsesProductProduct extends AController
                 $required = $attribute['required'];
 
                 $option_data = [
-                    'type'     => $html_type,
-                    'name'     => $option_name,
-                    'value'    => $value,
-                    'options'  => $values,
+                    'type' => $html_type,
+                    'name' => $option_name,
+                    'value' => $value,
+                    'options' => $values,
                     'required' => $required,
-                    'attr'     => $disabled,
-                    'style'    => 'large-field',
+                    'attr' => $disabled,
+                    'style' => 'large-field',
                 ];
 
                 if ($html_type == 'checkboxgroup') {
@@ -1677,7 +1672,7 @@ class ControllerResponsesProductProduct extends AController
         if (!in_array($data['activate'], ['before_order', 'immediately', 'order_status', 'manually'])) {
             $this->error['activate'] = $this->language->get('error_activate');
         } else {
-            if ($data['activate'] == 'order_status' && !(array) $data['activate_order_status_id']) {
+            if ($data['activate'] == 'order_status' && !(array)$data['activate_order_status_id']) {
                 $this->error['order_status'] = $this->language->get('error_order_status');
             }
         }
@@ -1715,8 +1710,8 @@ class ControllerResponsesProductProduct extends AController
         $download_data = [];
         foreach ($downloads as $download) {
             $download_data[] = [
-                'id'         => $download['download_id'],
-                'name'       => $download['name'],
+                'id' => $download['download_id'],
+                'name' => $download['name'],
                 'sort_order' => (int)$download['sort_order'],
             ];
         }
@@ -1832,9 +1827,9 @@ class ControllerResponsesProductProduct extends AController
         $this->data['form']['id'] = 'orderProductFrm';
         $this->data['form']['form_open'] = $form->getFieldHtml(
             [
-                'type'   => 'form',
-                'name'   => 'orderProductFrm',
-                'attr'   => 'data-confirm-exit="true" class="aform form-horizontal"',
+                'type' => 'form',
+                'name' => 'orderProductFrm',
+                'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
                 'action' => $form_action,
             ]
         );
@@ -1940,16 +1935,16 @@ class ControllerResponsesProductProduct extends AController
                 }
 
                 $option_data = [
-                    'type'           => $option['html_type'],
-                    'name'           => !in_array($option['element_type'], HtmlElementFactory::getMultivalueElements())
+                    'type' => $option['html_type'],
+                    'name' => !in_array($option['element_type'], HtmlElementFactory::getMultivalueElements())
                         ? 'product[0][option][' . $option['product_option_id'] . ']'
                         : 'product[0][option][' . $option['product_option_id'] . '][]',
-                    'value'          => $value,
-                    'options'        => $values,
-                    'placeholder'    => $option['option_placeholder'],
+                    'value' => $value,
+                    'options' => $values,
+                    'placeholder' => $option['option_placeholder'],
                     'regexp_pattern' => $option['regexp_pattern'],
-                    'error_text'     => $option['error_text'],
-                    'attr'           => ' data-option-id ="' . $option['product_option_id'] . '"',
+                    'error_text' => $option['error_text'],
+                    'attr' => ' data-option-id ="' . $option['product_option_id'] . '"',
                 ];
                 if ($option['element_type'] == 'C') {
                     // note: 0 and 1 must be string to prevent collision with 'yes'. (in php 'yes'==1) ;-)
@@ -1995,10 +1990,10 @@ class ControllerResponsesProductProduct extends AController
         );
         $this->data['form']['fields']['price'] = $form->getFieldHtml(
             [
-                'type'  => 'input',
-                'name'  => 'product[0][price]',
+                'type' => 'input',
+                'name' => 'product[0][price]',
                 'value' => $preset_values['price'],
-                'attr'  => ' readonly',
+                'attr' => ' readonly',
             ]
         );
 
@@ -2015,32 +2010,32 @@ class ControllerResponsesProductProduct extends AController
 
         $this->data['form']['fields']['quantity'] = $form->getFieldHtml(
             [
-                'type'  => 'input',
-                'name'  => 'product[0][quantity]',
+                'type' => 'input',
+                'name' => 'product[0][quantity]',
                 'value' => $preset_values['quantity'],
-                'attr'  => ' size="4"',
+                'attr' => ' size="4"',
             ]
         );
         $this->data['form']['fields']['total'] = $form->getFieldHtml(
             [
-                'type'  => 'input',
-                'name'  => 'product[0][total]',
+                'type' => 'input',
+                'name' => 'product[0][total]',
                 'value' => $preset_values['total'],
-                'attr'  => 'readonly',
+                'attr' => 'readonly',
             ]
         );
 
         $this->data['form']['fields']['product_id'] = $form->getFieldHtml(
             [
-                'type'  => 'hidden',
-                'name'  => 'product_id',
+                'type' => 'hidden',
+                'name' => 'product_id',
                 'value' => $product_id,
             ]
         );
         $this->data['form']['fields']['order_product_id'] = $form->getFieldHtml(
             [
-                'type'  => 'hidden',
-                'name'  => 'order_product_id',
+                'type' => 'hidden',
+                'name' => 'order_product_id',
                 'value' => (int)$order_product_id,
             ]
         );
@@ -2050,25 +2045,16 @@ class ControllerResponsesProductProduct extends AController
         $this->loadModel('setting/store');
         $store_info = $this->model_setting_store->getStore($order_store_id);
         if (HTTPS === true && $store_info['config_ssl_url']) {
-            $total_calc_url = $store_info['config_ssl_url']
-                . 'index.php?rt=r/product/product/calculateTotal'
-                . '&currency=' . $order_info['currency'] . '&admin=1';
+            $total_calc_url = $store_info['config_ssl_url'] . 'index.php?rt=r/product/product/calculateTotal';
         } elseif (HTTPS === true && !$store_info['config_ssl_url']) {
-            $total_calc_url = str_replace(
-                    'http://',
-                    'https://',
-                    $store_info['config_url']
-                ) . 'index.php?rt=r/product/product/calculateTotal'
-                . '&currency=' . $order_info['currency']
-                . '&admin=1';
+            $total_calc_url = str_replace('http://', 'https://', $store_info['config_url'])
+                . 'index.php?rt=r/product/product/calculateTotal';
         } else {
-            $total_calc_url = $store_info['config_url']
-                . 'index.php?rt=r/product/product/calculateTotal'
-                . '&currency=' . $order_info['currency']
-                . '&admin=1';
+            $total_calc_url = $store_info['config_url'] . 'index.php?rt=r/product/product/calculateTotal';
         }
 
-        $this->data['total_calc_url'] = $total_calc_url;
+        $this->data['total_calc_url'] = $total_calc_url
+            . '&' . http_build_query(['currency' => $order_info['currency'], 'admin' => 1]);
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -2116,8 +2102,8 @@ class ControllerResponsesProductProduct extends AController
             $location_id = $row['location_id'];
             $this->data['locations'][$location_id] =
                 [
-                    'name'       => $row['name'] . ' ' . $row['description'],
-                    'quantity'   =>
+                    'name' => $row['name'] . ' ' . $row['description'],
+                    'quantity' =>
                         $this->html->buildElement(
                             [
                                 'type' => 'input',
@@ -2131,8 +2117,8 @@ class ControllerResponsesProductProduct extends AController
                     'sort_order' =>
                         $this->html->buildElement(
                             [
-                                'type'  => 'input',
-                                'name'  => 'stock_location'
+                                'type' => 'input',
+                                'name' => 'stock_location'
                                     . ($product_option_value_id ? "[" . $product_option_value_id . "]" : "")
                                     . '[' . $location_id . '][sort_order]',
                                 'value' => $row['sort_order'],
@@ -2153,37 +2139,37 @@ class ControllerResponsesProductProduct extends AController
             [
                 'location_list' => $this->html->buildElement(
                     [
-                        'type'             => 'selectbox',
-                        'id'               => 'location_list'
+                        'type' => 'selectbox',
+                        'id' => 'location_list'
                             . ($product_option_value_id ?: ""),
-                        'name'             => 'location_list',
-                        'value'            => [],
-                        'options'          => $options,
-                        'style'            => 'chosen static_field',
-                        'placeholder'      => $this->language->get('text_select'),
+                        'name' => 'location_list',
+                        'value' => [],
+                        'options' => $options,
+                        'style' => 'chosen static_field',
+                        'placeholder' => $this->language->get('text_select'),
                         'disabled_options' => array_keys((array)$this->data['locations']),
                     ]
                 ),
-                'quantity'      => $this->html->buildElement(
+                'quantity' => $this->html->buildElement(
                     [
-                        'type'  => 'input',
-                        'name'  => 'stock_location'
+                        'type' => 'input',
+                        'name' => 'stock_location'
                             . ($product_option_value_id ? "[" . $product_option_value_id . "]" : "")
                             . '[0][quantity]',
                         'value' => '',
                         'style' => 'stock_location_quantity static_field hidden',
-                        'attr'  => 'disabled',
+                        'attr' => 'disabled',
                     ]
                 ),
-                'sort_order'    => $this->html->buildElement(
+                'sort_order' => $this->html->buildElement(
                     [
-                        'type'  => 'input',
-                        'name'  => 'stock_location'
+                        'type' => 'input',
+                        'name' => 'stock_location'
                             . ($product_option_value_id ? "[" . $product_option_value_id . "]" : "")
                             . '[0][sort_order]',
                         'value' => '',
                         'style' => 'stock_location_sort_order static_field hidden',
-                        'attr'  => 'disabled',
+                        'attr' => 'disabled',
                     ]
                 ),
             ];
