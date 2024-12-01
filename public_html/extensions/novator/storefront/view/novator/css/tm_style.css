@@ -146,6 +146,13 @@ body {
     --bs-form-invalid-color: #dc3545;
     --bs-form-invalid-border-color: #dc3545;
     --nv-breadcrumb-divider: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='8' height='8'><path d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='rgb(100,100,100,100)'/></svg>");
+    --bs-footer-font-family: var(--bs-font-sans-serif);
+    --bs-footer-font-size: 0.8rem;
+    --bs-footer-font-weight: 400;
+    --bs-footer-line-height: 1.4;
+    --bs-footer-font-size-h3: 1.0rem;
+    --bs-footer-font-weight-h3: 600;
+    --bs-footer-color: #FFF;
 }
 
 [data-bs-theme=dark] {
@@ -2280,8 +2287,9 @@ li#review-set::before {
 
 .footer h3,
 .footer .h3 {
-    font-weight: 600;
     margin-bottom: 16px;
+    font-size: var(--bs-footer-font-size-h3);
+    font-weight: var(--bs-footer-font-weight-h3);
 }
 
 .footer .form-control {
@@ -2298,8 +2306,14 @@ li#review-set::before {
 
 .footer a {
     display: block;
-    color: rgba(255, 255, 255, 0.8);
+    color:  var(--bs-footer-color);
     margin-bottom: 5px;
+}
+
+.footer-bottom {
+    font-weight: var(--bs-footer-font-weight);
+    font-size: var(--bs-footer-font-size);
+    line-height: var(--bs-footer-line-height);
 }
 
 .bottom-footer-block a {
