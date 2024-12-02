@@ -132,16 +132,21 @@ class ModelCatalogCollection extends Model
                         ' (' . implode(',', $condition['value']) . ')';
                 }
                 //Category filter
-                if ($condition['object'] === 'categories'
-                    && is_array($condition['value'])
-                    && !empty($condition['value'])
-                ) {
-                    $arSelect[] = 'cat' . $k . '.category_id';
-                    $arJoins[] = 'LEFT JOIN ' . $p2cTable . ' cat' . $k
-                        . ' ON cat' . $k . '.product_id=' . $productsTable . '.product_id';
-                    $arWhere[] =
-                        ' cat' . $k . '.category_id ' . $this->gerInOperator($condition['operator'], $relation['value']) .
-                        ' (' . implode(',', $condition['value']) . ')';
+                if ($condition['object'] === 'categories' && is_array($condition['value']) && $condition['value'])
+                {
+                    $arSelect[] = "cat" . $k . ".category_id";
+                    $arJoins[] = "LEFT JOIN " . $p2cTable . " cat" . $k. " 
+                        ON cat" . $k . ".product_id=" . $productsTable . ".product_id";
+                    /** @var ModelCatalogCategory $mdl */
+                    $mdl = $this->load->model('catalog/category');
+                    $allCategoryChildren = [(int)$condition['value']];
+                    foreach($condition['value'] as $cId){
+                        $allCategoryChildren = array_merge($allCategoryChildren, $mdl->getChildrenIDs((int)$cId));
+                    }
+                    $allCategoryChildren = array_unique(array_map('intval',$allCategoryChildren));
+                    $arWhere[] = " cat" . $k . ".category_id "
+                        . $this->gerInOperator($condition['operator'], $relation['value'])
+                        . " (" . implode(',', $allCategoryChildren) . ")";
                 }
                 //Products filter
                 if ($condition['object'] === 'products'
