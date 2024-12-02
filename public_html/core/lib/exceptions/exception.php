@@ -28,6 +28,7 @@ class AException extends Exception
     protected $error;
     protected $extraData;
     static $criticalErrors = [
+        0,
         E_ERROR,
         E_PARSE,
         E_CORE_ERROR,
@@ -97,6 +98,7 @@ class AException extends Exception
     public function logError()
     {
         $criticalErrors = static::$criticalErrors;
+
         //error reporting levels based on settings.
         // see admin menu-> system->settings->system -> debugging
         if ($this->registry) {
