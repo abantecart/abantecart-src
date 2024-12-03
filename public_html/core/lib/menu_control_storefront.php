@@ -62,11 +62,6 @@ class AMenu_Storefront extends AMenu
                 }
             }
 
-            //Increment sort for child
-            while (isset ($tmp[$leaf['parent_id']][$item['sort_order']])) {
-                $item['sort_order']++;
-            }
-
             //mark current page
             $rt = $this->registry->get('request')->get_or_post('rt');
             if ($item['item_url'] == $rt) {
@@ -115,13 +110,16 @@ class AMenu_Storefront extends AMenu
                     $item['content'] = true;
                 }
             }
-
-            $tmp[$item['parent_id']][$item['sort_order']] = $item;
+            $sortOrder = $item['sort_order'];
+            while (isset($tmp[$item['parent_id']][$sortOrder])) {
+                $sortOrder++;
+            }
+            $tmp[$item['parent_id']][$sortOrder] = $item;
             if ($leaf) {
                 //merge children with parent item
                 foreach ($leaf as $parentId => $child) {
                     foreach ($child as $sortOrder => $itm) {
-                        while (isset ($output[$parentId][$sortOrder])) {
+                        while (isset($tmp[$parentId][$sortOrder])) {
                             $sortOrder++;
                         }
                         $tmp[$parentId][$sortOrder] = $itm;

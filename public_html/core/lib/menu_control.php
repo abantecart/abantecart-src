@@ -90,7 +90,7 @@ class AMenu
                     if (!$this->_find_itemId_in_extensions($item ['item_id'], $enabled_extension)) {
                         continue;
                     } else { // if all fine - loads language of extension for menu item text show
-                        if (strpos($item ['item_url'], 'http') === false) {
+                        if (!str_starts_with($item ['item_url'], 'http')) {
                             $this->registry->get('load')->language($item ['item_id'].'/'.$item ['item_id'], 'silent');
                             $item['language'] = $item ['item_id'].'/'.$item ['item_id'];
                         }
@@ -103,7 +103,7 @@ class AMenu
                 }
                 $output[$item['parent_id']][] = $item;
                 $indexes[$item['parent_id']][] = $item ['sort_order'];
-                $this->item_ids [] = $item ['item_id'];
+                $this->item_ids[] = $item ['item_id'];
             }
 
             foreach ($output as $parentId => &$rows) {
