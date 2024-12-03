@@ -50,8 +50,10 @@ if(is_file(DIR_ROOT.'/system/config.php')) {
 }
 // New Installation
 if (!defined('DB_DATABASE')) {
-    header('Location: install/index.php');
-    exit;
+    if(is_dir(DIR_ROOT.'/install')) {
+        header('Location: install/index.php');
+    }
+    exit('Fatal Error: configuration not found!');
 }
 
 // Load all initial set up

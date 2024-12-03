@@ -20,7 +20,10 @@
 // Required PHP Version
 const MIN_PHP_VERSION = '8.1.0';
 if (version_compare(phpversion(), MIN_PHP_VERSION, '<')) {
-    die(MIN_PHP_VERSION.'+ Required for AbanteCart to work properly! Please contact your system administrator or host service provider.');
+    exit(
+            MIN_PHP_VERSION.'+ Required for AbanteCart to work properly! '
+            .'Please contact your system administrator or host service provider.'
+    );
 }
 
 ob_start();
@@ -41,7 +44,7 @@ define('DIR_ROOT', $root_path);
 const DIR_CORE = DIR_ROOT . '/core/';
 const RDIR_TEMPLATE = 'admin/view/default/';
 
-require_once(DIR_ROOT.'/system/config.php');
+include_once(DIR_ROOT.'/system/config.php');
 
 //set server name for correct email sending
 if (defined('SERVER_NAME') && SERVER_NAME != '') {
@@ -50,8 +53,10 @@ if (defined('SERVER_NAME') && SERVER_NAME != '') {
 
 // New Installation
 if (!defined('DB_DATABASE')) {
-    header('Location: install/index.php');
-    exit;
+    if(is_dir(DIR_ROOT.'/install')) {
+        header('Location: install/index.php');
+    }
+    exit('Fatal Error: configuration not found!');
 }
 
 // sign of admin side for controllers run from dispatcher
