@@ -28,7 +28,7 @@ if ($error) { ?>
         </form>
     </div>
     <script type="text/javascript">
-        let firstLoad = true;
+        firstLoad = true;
         var stripe, elements,
             source_data = {
                     owner: {
