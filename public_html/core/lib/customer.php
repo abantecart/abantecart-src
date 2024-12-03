@@ -98,7 +98,7 @@ class ACustomer
                 INNER JOIN " . $this->db->table("customer_sessions") . " cs 
                     ON c.customer_id = cs.customer_id
                 WHERE c.customer_id = '" . (int)$this->session->data['customer_id'] . "' 
-                    AND cs.session_id = '".SESSION_ID."' AND status = '1'"
+                    AND cs.session_id = '".session_id()."' AND status = '1'"
             );
 
             if ($customer_data->num_rows) {
@@ -223,7 +223,7 @@ class ACustomer
                     'samesite' => ((defined('HTTPS') && HTTPS) ? 'None' : 'lax'),
                 ]
             );
-            $this->setActiveSession(SESSION_ID);
+            $this->setActiveSession(session_id());
             //set date of login
             $this->setLastLogin($this->customer_id);
             $this->extensions->hk_ProcessData($this, 'login_success', $customer_data);
@@ -357,7 +357,7 @@ class ACustomer
         unset($this->session->data['customer_id']);
         unset($this->session->data['customer_group_id']);
 
-        $this->deleteActiveSessions(SESSION_ID);
+        $this->deleteActiveSessions(session_id());
 
         $this->customer_id = '';
         $this->loginname = '';

@@ -1061,17 +1061,18 @@ class ControllerPagesSaleCustomer extends AController
             /** @var ModelSettingStore $mdl */
             $mdl = $this->loadModel('setting/store');
             $store_settings = $mdl->getStore($this->session->data['current_store_id']);
+            $customerID = (int)$this->request->get['customer_id'];
             if ($this->config->get('config_url') != $mdl->getStoreURL($this->session->data['current_store_id'])
             ) {
                 if ($store_settings) {
                     if ($store_settings['config_ssl']) {
                         $add_store_url = $store_settings['config_ssl_url']
                             . '?s=' . ADMIN_PATH
-                            . '&rt=sale/customer/actonbehalf&customer_id=' . $this->request->get['customer_id'];
+                            . '&rt=sale/customer/actonbehalf&customer_id=' . $customerID;
                     } else {
                         $add_store_url = $store_settings['config_url']
                             . '?s=' . ADMIN_PATH
-                            . '&rt=sale/customer/actonbehalf&customer_id=' . $this->request->get['customer_id'];
+                            . '&rt=sale/customer/actonbehalf&customer_id=' . $customerID;
                     }
                     redirect($add_store_url);
                 }
@@ -1079,10 +1080,21 @@ class ControllerPagesSaleCustomer extends AController
                 startStorefrontSession(
                     $this->user->getId(),
                     [
-                        'customer_id'       => $this->request->get['customer_id'],
+                        'customer_id'       => $customerID,
                         'merchant_username' => $this->user->getUserName(),
                     ]
                 );
+                //set or update token
+                $customerSesTbl = $this->db->table("customer_sessions");
+                $this->db->query("INSERT INTO ".$customerSesTbl." 
+                 VALUES (
+                    '".$customerID."',
+                    '".$this->db->escape(session_id())."',
+                    '".$this->db->escape($this->request->getRemoteIP())."',
+                    NOW(),
+                    NOW()
+                    )
+                    ON DUPLICATE KEY UPDATE last_active = NOW()");
                 redirect($this->html->getCatalogURL('account/account', '', '', (bool)$store_settings['config_ssl']));
             }
         }
