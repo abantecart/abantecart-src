@@ -629,13 +629,14 @@ $(document).on('click','.wish', function(e) {
 });
 // toggle dropdowns by mouseover
 $(document).ready(function() {
-
     $('.dropdown').hover(function() {
-        if($(this).children('[data-bs-toggle=dropdown]').length>1) {
+        const min = $(this).parents('footer').length>0 ? 0 : 1;
+        if($(this).children('[data-bs-toggle=dropdown]').length>min) {
             $(this).dropdown('show');
         }
     }, function() {
-        if($(this).children('[data-bs-toggle=dropdown]').length>1) {
+        const min = $(this).parents('footer').length>0 ? 0 : 1;
+        if($(this).children('[data-bs-toggle=dropdown]').length>min) {
             $(this).dropdown('hide');
         }
     });

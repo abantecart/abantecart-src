@@ -126,7 +126,7 @@ function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
     if ($level == 0) {
         $output .= '<div '.($options['top_level']['attr'] ?: 'class="navbar-nav align-items-start flex-wrap"').'>';
     } else {
-        $output .= '<div class="dropdown-menu position-absolute '.($level > 1 ? 'dropdown-submenu' : '')
+        $output .= '<div class="dropdown-menu '.($level > 1 ? 'dropdown-submenu' : '')
             .'" aria-labelledby="'.$parentId.'" '.$options['submenu_level']['attr'].'>';
     }
 

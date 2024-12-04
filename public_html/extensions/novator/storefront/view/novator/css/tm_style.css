@@ -1251,8 +1251,8 @@ footer .dropdown-menu   {
     padding: 5px;
 }
 
-.dropdown-menu .sub-menu a {
-    height: 45px;
+.dropdown-menu .sub-menu .dropdown-menu {
+    position: fixed;
 }
 
 .btn-group > :not(.btn-check:first-child) + .btn,
@@ -3684,10 +3684,6 @@ li#review-set::before {
 }
 
 /* auto-open for dropdowns */
-.dropdown:hover > .dropdown-menu {
-    display: block;
-}
-
 .dropdown .dropdown-menu {
     display: none;
 }
@@ -3696,12 +3692,6 @@ li#review-set::before {
 .dropend:hover > .dropdown-menu {
     display: block;
     margin-left: 0;
-}
-
-.dropstart:hover > .dropdown-menu {
-    position: absolute;
-    right: 0;
-    top: 2.4rem;
 }
 
 #category_rating-collapse .fa-star {
