@@ -2321,6 +2321,13 @@ li#review-set::before {
     line-height: var(--bs-footer-line-height);
 }
 
+.footer-bottom .nav-link:focus{
+    color: var(--bs-yellow) !important;
+}
+.footer-bottom .dropdown-menu .dropdown-item:hover>span{
+    font-weight: bolder;
+}
+
 .bottom-footer-block a {
     padding: 0;
     margin: 0;

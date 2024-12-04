@@ -215,9 +215,6 @@ $(document).ready(function(){
     //dropdown menu fix of parent
     $('.dropdown>a').on('click', function (e) {
         e.preventDefault();
-        if($(this).hasClass('dropdown-toggle')) {
-            return false;
-        }
         let href = $(this).attr('href');
         let target = $(this).attr('target');
         if(href.substring(0,1) !== '#') {
