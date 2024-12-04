@@ -1885,7 +1885,8 @@ li#review-set::before {
     z-index: 1023;
 }
 
-.top-bar .input-group {
+.top-bar .input-group,
+.form-search .input-group{
     background: var(--ac-gray-color);
 }
 
@@ -1918,7 +1919,7 @@ li#review-set::before {
     background: var(--bs-primary);
 }
 
-.top-bar .input-group .btn-search {
+.form-search .input-group .btn-search {
     position: absolute;
     top: 17px;
     right: 20px;
@@ -2182,6 +2183,10 @@ li#review-set::before {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.search-bar .btn-success{
+    height: 48px;
 }
 
 .menu-top-btn {
