@@ -688,11 +688,11 @@ class ControllerPagesDesignContent extends AController
             $this->error['content'] = $this->language->get('error_content');
         }
 
-        if (($error_text = $this->html->isSEOkeywordExists(
+        $error_text = $this->html->isSEOkeywordExists(
             'content_id=' . (int)$this->request->get['content_id'],
             $this->request->post['keyword']
-        ))
-        ) {
+        );
+        if ($error_text) {
             $this->error['keyword'] = $error_text;
         }
 

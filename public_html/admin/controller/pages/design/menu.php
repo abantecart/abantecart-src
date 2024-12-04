@@ -320,23 +320,13 @@ class ControllerPagesDesignMenu extends AController
         $item_id = $this->request->get['item_id'];
 
         $menu_item = null;
-        $this->menu_items = $this->menu->getItemIds();
-        $parentIds = ['' => $this->language->get('text_none')];
-
-        foreach ($this->menu_items as $item) {
-            if ($item != '') {
-                $parentIds[$item] = $item;
-            }
-        }
+        $this->menu_items = $this->menu->getMenuItems();
+        $this->_buildMenuTree();
+        $parentIds = ['' => $this->language->get('text_none')]
+                    + array_column($this->menu_tree,'text', 'item_id');
 
         foreach ($this->columns as $column) {
-            if (isset ($this->request->post[$column])) {
-                $this->data[$column] = $this->request->post[$column];
-            } elseif (!empty($menu_item)) {
-                $this->data[$column] = $menu_item[$column];
-            } else {
-                $this->data[$column] = '';
-            }
+            $this->data[$column] = $this->request->post[$column] ?? $menu_item[$column] ?? '';
         }
 
         if (!$item_id) {
@@ -523,13 +513,15 @@ class ControllerPagesDesignMenu extends AController
 
         $this->data['form']['fields']['parent_id'] = $form->getFieldHtml(
             [
-                'type' => 'selectbox',
-                'name' => 'parent_id',
-                'options' => $parentIds,
-                'value' => $this->data['parent_id'],
-                'style' => 'medium-field',
+                'type'             => 'selectbox',
+                'name'             => 'parent_id',
+                'options'          => $parentIds,
+                'value'            => $this->data['parent_id'],
+                'disabled_options' => $this->data['item_id'] ?: null,
+                'attr'             => 'size = "' . min(sizeof($parentIds), 10) . '"',
             ]
         );
+
         $this->data['form']['fields']['sort_order'] = $form->getFieldHtml(
             [
                 'type' => 'input',
@@ -571,9 +563,6 @@ class ControllerPagesDesignMenu extends AController
 
     protected function _buildMenuTree($parent = '', $level = 0)
     {
-        if (empty($this->menu_items[$parent])) {
-            return [];
-        }
         $lang_id = (int)$this->language->getContentLanguageID();
         foreach ($this->menu_items[$parent] as $item) {
             $this->menu_tree[$item['item_id']] = [
