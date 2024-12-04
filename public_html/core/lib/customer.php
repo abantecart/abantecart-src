@@ -336,19 +336,32 @@ class ACustomer
 
     /**
      * Delete all or specific active sessions for the customer
-     * @return $sessID
+     *
+     * @param string $sessID
+     * @return void
      * @throws AException
      */
     public function deleteActiveSessions($sessID = '')
     {
+        $this->deleteActiveSessionsByID($this->customer_id, $sessID);
+    }
+
+    /**
+     * Delete all or specific active sessions for the customer by customer ID
+     * @param int $customerID
+     * @param string $sessID
+     * @return void
+     * @throws AException
+     */
+    public function deleteActiveSessionsByID($customerID, $sessID = '')
+    {
         $customerSesTbl = $this->db->table("customer_sessions");
-        $where = " WHERE customer_id = '".$this->customer_id."'";
+        $where = " WHERE customer_id = '".$customerID."'";
         if ($sessID) {
             $where .= " AND session_id = '".$this->db->escape($sessID)."'";
         }
         $this->db->query("DELETE FROM " . $customerSesTbl . $where);
     }
-
     /**
      * @void
      */
