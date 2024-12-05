@@ -3059,7 +3059,7 @@ class ModelCatalogProduct extends Model
         $this->errors = [];
         $this->load->language('catalog/attribute');
 
-        $txtIds = array_filter(array_map('trim', $data['txt_id']));
+        $txtIds = array_filter(array_map('trim', (array)$data['txt_id']));
         if( count($txtIds) != count(array_unique($txtIds)) ){
             $this->errors['txt_id'] = $this->language->get('error_not_unique');
         }
