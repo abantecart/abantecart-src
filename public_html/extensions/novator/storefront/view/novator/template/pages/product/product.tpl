@@ -33,8 +33,15 @@ if ($error){ ?>
                                 if ($image['origin'] == 'external') {
                                     echo $image['main_html'];
                                 } else { ?>
-                                    <img class="zoom-trigger d-block w-auto mx-auto"
-                                         style="width: <?php echo $image['thumb2_width'];?>px; height: <?php echo $image['thumb2_height'];?>px;"
+                                        <style>
+                                            @media (min-width: 577px) {
+                                                .img<?php echo $index?> {
+                                                    width: <?php echo $image['thumb2_width'];?>px;
+                                                    height: <?php echo $image['thumb2_height'];?>px;
+                                                }
+                                            }
+                                        </style>
+                                    <img class="zoom-trigger d-block mx-auto w-auto product-main-img img<?php echo $index?>"
                                          src="<?php echo $image['thumb2_url']; ?>"
                                          data-zoom="<?php echo $image['main_url']; ?>"
                                          alt="<?php echo_html2view($image['title']); ?>"
@@ -745,8 +752,16 @@ if ($error){ ?>
                             mainPicHtml += '<div class="html_with_image">' + image.main_html + '</div>';
                             smallPicsHtml += '<div class="html_with_image">' + image.main_html + '</div>';
                         } else {
-                            mainPicHtml += '<img class="zoom-trigger d-block w-auto mx-auto" ' +
-                                'style="width: '+image.thumb2_width+'px; height: '+image.thumb2_height+'px;" ' +
+
+                            mainPicHtml += '<style>' +
+                            '@media (min-width: 577px) {'+
+                            '.imgc'+key+' {'+
+                                    'width: '+image.thumb2_width+'px;'+
+                                    'height: '+image.thumb2_height+'px;'+
+                                '}'+
+                            '}'+
+                            '</style>';
+                            mainPicHtml += '<img class="zoom-trigger d-block w-auto mx-auto product-main-img imgc'+key+'" ' +
                                 'data-zoom="'+image.main_url+'" ' +
                                 'alt="'+escapeHtml(image.title)+'" ' +
                                 'title="'+escapeHtml(image.description)+'" ' +
