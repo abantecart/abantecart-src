@@ -9,14 +9,13 @@
     $imgH = $imgH ?? $this->config->get('config_image_product_height');
 ?>
 <section id="<?php echo $homeBlockId;?>">
-    <div class="container-fluid product-flex">
+    <div class="container-fluid product-flex px-0">
         <?php if ( $block_framed ) { ?>
         <div id="block_frame_<?php echo $block_details['block_txt_id'] . '_' . $block_details['instance_id'] ?>"
              class="mt-5 block_frame block_frame_<?php echo $block_details['block_txt_id']; ?>">
             <h2 class="ps-3 pe-2"><?php echo $heading_title; ?></h2>
             <h6 class="ps-3 pe-2"><?php echo $heading_subtitle; ?></h6>
         <?php } ?>
-
             <div class="d-flex flex-wrap block-product-items justify-content-evenly">
             <?php
                     $text_sale = $this->language->get('text_badge_sale');
@@ -50,8 +49,8 @@
                         if ($item['rating']) {
                             $review = $item['rating'];
                         }
-                        ?>
-                        <div class="card m-3 col-4 shadow">
+            ?>
+                        <div class="card mx-md-3 my-3 col-4 shadow">
                             <a class="link-light card-link text-decoration-none"
                                     href="<?php echo $item['info_url'] ?>"
                                     title="<?php echo $item['title'] ?>">
