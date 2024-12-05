@@ -206,7 +206,7 @@ class ControllerPagesProductCollection extends AController
             $this->data['url'] = $this->html->getURL('product/collection');
 
             $pQuery = $httpQuery;
-            $pQuery['sort'] = $pQuery['sort'] . '-' . $pQuery['order'];
+            $pQuery['sort'] = $raw_sort . '-' . $pQuery['order'];
             unset($pQuery['page'], $pQuery['order']);
 
             $pagination_url = $this->html->getSEOURL(

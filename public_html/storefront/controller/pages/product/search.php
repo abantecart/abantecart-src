@@ -301,8 +301,8 @@ class ControllerPagesProductSearch extends AController
                 );
                 $this->view->assign('sorting', $sorting);
                 $pQuery = $httpQuery;
-                unset($pQuery['page']);
-                $pQuery['sort'] = $sorting_href;
+                $pQuery['sort'] = $raw_sort . '-' . $order;
+                unset($pQuery['page'], $pQuery['order']);
                 $pagination_url = $this->html->getSEOURL(
                     'product/search',
                     '&page=--page--&' . http_build_query($pQuery, '', null, PHP_QUERY_RFC3986)
