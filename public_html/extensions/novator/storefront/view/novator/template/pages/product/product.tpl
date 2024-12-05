@@ -21,8 +21,8 @@ if ($error){ ?>
         <!-- Left Image-->
         <div class="col-md-12 col-lg-6 col-xxl-5 text-center">
             <div class="w-auto sticky-md-top product-sticky">
-                <div class="zoom-pane position-absolute col-12"></div>
                 <div id="carouselProductImages" class="carousel slide mx-auto" data-bs-ride="carousel" style="max-width: <?php echo $thmb_w;?>px !important;">
+                    <div class="zoom-pane position-absolute col-12"></div>
                     <div class="carousel-inner bg-light rounded position-relative">
                         <!-- Main Image -->
                         <?php foreach ($images as $index => $image) {
@@ -687,13 +687,17 @@ if ($error){ ?>
         $select.first().change();
 
         function initZoom() {
+            //disable for small screens
+            if(window.innerWidth<1024){
+                return;
+            }
             try {
                 var paneContainer = document.querySelector('.zoom-pane');
                 var elem = document.querySelectorAll('.zoom-trigger');
                 for (var j = 0; j < elem.length; j++) {
                     new Drift(elem[j], {
                         paneContainer: paneContainer,
-                        inlinePane: false,
+                        inlinePane: false
                     });
                 }
             }catch(e){
