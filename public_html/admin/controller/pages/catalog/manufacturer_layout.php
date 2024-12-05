@@ -34,7 +34,7 @@ class ControllerPagesCatalogManufacturerLayout extends AController
         $this->loadLanguage('catalog/manufacturer');
         $this->loadLanguage('design/layout');
 
-        $this->document->setTitle($this->language->get('heading_title'));
+
         $this->loadModel('catalog/manufacturer');
         $manufacturer_info = $this->model_catalog_manufacturer->getManufacturer($manufacturer_id);
 
@@ -45,17 +45,17 @@ class ControllerPagesCatalogManufacturerLayout extends AController
             redirect($this->html->getSecureURL('catalog/manufacturer'));
         }
 
-        $this->data['heading_title'] = $this->language->get('text_edit')
-            . $this->language->get('text_manufacturer')
+        $this->data['heading_title'] = $this->language->get('text_design')
             . ' - '
             . $manufacturer_info['name'];
+        $this->document->setTitle($this->data['heading_title']);
         $this->data['manufacturer_edit'] = $this->html->getSecureURL(
             'catalog/manufacturer/update',
             '&manufacturer_id=' . $manufacturer_id
         );
 
         $this->data['tab_edit'] = $this->language->get('entry_edit');
-        $this->data['tab_layout'] = $this->language->get('entry_layout');
+        $this->data['tab_layout'] = $this->language->get('text_design');
         $this->data['manufacturer_layout'] = $page_url;
 
         // Alert messages
@@ -78,14 +78,14 @@ class ControllerPagesCatalogManufacturerLayout extends AController
         $this->document->addBreadcrumb(
             [
                 'href'      => $this->html->getSecureURL('catalog/manufacturer'),
-                'text'      => $this->language->get('heading_title'),
+                'text'      => $this->language->get('text_edit').' - '.$manufacturer_info['name'],
                 'separator' => ' :: ',
             ]
         );
         $this->document->addBreadcrumb(
             [
                 'href'      => $this->data['manufacturer_edit'],
-                'text'      => $this->language->get('entry_layout') . ' - ' . $manufacturer_info['name'],
+                'text'      => $this->language->get('text_design'),
                 'separator' => ' :: ',
                 'current'   => true,
             ]
@@ -163,12 +163,9 @@ class ControllerPagesCatalogManufacturerLayout extends AController
 
         //build pages and available layouts for cloning
         $this->data['pages'] = $layout->getAllPages();
-        $av_layouts = ["0" => $this->language->get('text_select_copy_layout')];
-        foreach ($this->data['pages'] as $page) {
-            if ($page['layout_id'] != $layout_id) {
-                $av_layouts[$page['layout_id']] = $page['layout_name'];
-            }
-        }
+        $avLayouts = ["0" => $this->language->get('text_select_copy_layout')]
+            + array_column($this->data['pages'], 'layout_name','layout_id');
+        unset($avLayouts[$layout_id]);
 
         $form = new AForm('HT');
         $form->setForm(
@@ -182,7 +179,7 @@ class ControllerPagesCatalogManufacturerLayout extends AController
                 'type'    => 'selectbox',
                 'name'    => 'source_layout_id',
                 'value'   => '',
-                'options' => $av_layouts,
+                'options' => $avLayouts,
             ]
         );
 

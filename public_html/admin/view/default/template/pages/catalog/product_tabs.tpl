@@ -9,16 +9,14 @@
                                  'promotions',
                                  'layout',
                              ], $additionalTabs);
-    foreach ($basicTabs as $name) { ?>
-        <li <?php
-        echo($active == $name ? 'class="active"' : (in_array($name, (array) $inactive) ? 'class="inactive"' : '')) ?>>
-            <a href="<?php
-            echo ${'link_'.$name}; ?>" title="<?php
-            echo_html2view(${'title_'.$name}); ?>">
-                <?php
+    foreach ($basicTabs as $name) {
+        $cssClass = $active == $name ? 'active' : (in_array($name, (array) $inactive) ? 'inactive' : '');
+        ?>
+        <li class="<?php echo $cssClass; ?>">
+            <a href="<?php echo ${'link_'.$name}; ?>" title="<?php echo_html2view(${'title_'.$name}); ?>">
+            <?php
                 $text = $name == 'images' ? $tab_media : ${'tab_'.$name};
                 $text = $name == 'options' ? $tab_option : $text;
-
                 echo ($name == 'general' ? '<strong>' : '').
                     $text.($name == 'general' ? '</strong>' : ''); ?>
             </a>

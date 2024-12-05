@@ -33,16 +33,12 @@
 		<value><![CDATA[Extensions]]></value>
 	</definition>
 	<definition>
-		<key>tab_layout</key>
-		<value><![CDATA[Page Layout]]></value>
-	</definition>
-	<definition>
 		<key>text_success</key>
 		<value><![CDATA[Success: You have modified products!]]></value>
 	</definition>
 	<definition>
 		<key>text_success_copy</key>
-		<value><![CDATA[Success: You have successfully clone product <b>%s</b>!]]></value>
+		<value><![CDATA[Success: You have successfully cloned product <b>%s</b>!]]></value>
 	</definition>
 	<definition>
 		<key>text_success_copy_layout</key>
@@ -235,7 +231,7 @@
 	<definition>
 		<key>entry_subtract</key>
 		<value>
-			<![CDATA[Track Stock:<br/><span class="help">Set YES if need to track stock quantity for this product. If options are used check subtract setting for each option value</span>]]></value>
+			<![CDATA[Track Stock:<br/><span class="help">Set YES if you need to track stock quantity for this product. If options are used check subtract setting for each option value</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_weight_class</key>

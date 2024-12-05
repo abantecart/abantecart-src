@@ -93,7 +93,7 @@ class ControllerPagesDesignContent extends AController
                             ],
                             'layout'     => [
                                 'text' => $this->language->get(
-                                    'tab_layout'
+                                    'text_design'
                                 ),
                                 'href' => $this->html->getSecureURL('design/content/edit_layout', '&content_id=%ID%'),
                             ],
@@ -287,7 +287,7 @@ class ControllerPagesDesignContent extends AController
 
         $this->data['tabs']['layout'] = [
             'href' => $this->html->getSecureURL('design/content/edit_layout', '&content_id=' . $content_id),
-            'text' => $this->language->get('tab_layout'),
+            'text' => $this->language->get('text_design'),
         ];
 
         if (in_array($active, array_keys($this->data['tabs']))) {
@@ -715,8 +715,8 @@ class ControllerPagesDesignContent extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->loadLanguage('design/layout');
-        $this->document->setTitle($this->language->get('update_title'));
+
+
         $this->acm = new AContentManager();
 
         $content_id = (int)$this->request->get['content_id'];
@@ -761,14 +761,16 @@ class ControllerPagesDesignContent extends AController
             ]
         );
         $content_info = $this->acm->getContent($content_id);
+        $this->data['heading_title'] = $this->language->get('text_design') . ' - ' . $content_info['title'];
         $this->document->addBreadcrumb(
             [
                 'href'    => $page_url,
-                'text'    => $this->language->get('tab_layout') . ' - ' . $content_info['title'],
+                'text'    => $this->data['heading_title'],
                 'current' => true,
             ]
         );
-
+        $this->document->setTitle($this->data['heading_title']);
+        $this->loadLanguage('design/layout');
         $this->_initTabs('layout');
 
         $tmpl_id = $this->request->get['tmpl_id'] ?: $this->config->get('config_storefront_template');
@@ -829,12 +831,9 @@ class ControllerPagesDesignContent extends AController
 
         //build pages and available layouts for cloning
         $this->data['pages'] = $layout->getAllPages();
-        $av_layouts = ["0" => $this->language->get('text_select_copy_layout')];
-        foreach ($this->data['pages'] as $page) {
-            if ($page['layout_id'] != $layout_id) {
-                $av_layouts[$page['layout_id']] = $page['layout_name'];
-            }
-        }
+        $avLayouts = ["0" => $this->language->get('text_select_copy_layout')]
+            + array_column($this->data['pages'], 'layout_name','layout_id');
+        unset($avLayouts[$layout_id]);
 
         $form = new AForm('HT');
         $form->setForm(
@@ -848,7 +847,7 @@ class ControllerPagesDesignContent extends AController
                 'type'    => 'selectbox',
                 'name'    => 'source_layout_id',
                 'value'   => '',
-                'options' => $av_layouts,
+                'options' => $avLayouts,
             ]
         );
 

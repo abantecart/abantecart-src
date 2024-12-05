@@ -261,10 +261,6 @@
 		<value><![CDATA[Updater]]></value>
 	</definition>
 	<definition>
-		<key>text_design</key>
-		<value><![CDATA[Design]]></value>
-	</definition>
-	<definition>
 		<key>text_templates</key>
 		<value><![CDATA[Templates]]></value>
 	</definition>

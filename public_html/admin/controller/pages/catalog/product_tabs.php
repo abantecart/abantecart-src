@@ -1,30 +1,28 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-  
- UPGRADE NOTE: 
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.  
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
 
 class ControllerPagesCatalogProductTabs extends AController
 {
-    public $data = [];
-
     public function main($data = [] )
     {
         //Load input arguments for gid settings
@@ -37,8 +35,7 @@ class ControllerPagesCatalogProductTabs extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadLanguage('catalog/product');
-        $product_id = $this->request->get['product_id'];
-        $product_id = !$product_id && $this->data['product_id'] ? $this->data['product_id'] : $product_id;
+        $product_id = (int)$this->request->get['product_id'] ?: $this->data['product_id'];
 
         $this->data['link_general'] = $this->html->getSecureURL('catalog/product/update', '&product_id='.$product_id);
         $this->data['link_images'] = $this->html->getSecureURL('catalog/product_images', '&product_id='.$product_id);
@@ -49,11 +46,11 @@ class ControllerPagesCatalogProductTabs extends AController
         $this->data['link_extensions'] = $this->html->getSecureURL('catalog/product_extensions', '&product_id='.$product_id);
         $this->data['link_layout'] = $this->html->getSecureURL('catalog/product_layout', '&product_id='.$product_id);
 
-        $this->view->batchAssign($this->data);
+        $this->data['tab_layout'] = $this->language->get('text_design');
 
+        $this->view->batchAssign($this->data);
         $this->processTemplate('pages/catalog/product_tabs.tpl');
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 }
-

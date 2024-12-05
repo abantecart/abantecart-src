@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -87,9 +86,7 @@ class ControllerPagesCatalogProduct extends AController
                     'children' => array_merge(
                         [
                             'quickview'  => [
-                                'text'  => $this->language->get(
-                                    'text_quick_view'
-                                ),
+                                'text'  => $this->language->get('text_quick_view'),
                                 'href'  => $this->html->getSecureURL(
                                     'catalog/product/update',
                                     '&product_id=%ID%'
@@ -101,63 +98,49 @@ class ControllerPagesCatalogProduct extends AController
                                 ),
                             ],
                             'general'    => [
-                                'text' => $this->language->get(
-                                    'tab_general'
-                                ),
+                                'text' => $this->language->get('tab_general'),
                                 'href' => $this->html->getSecureURL(
                                     'catalog/product/update',
                                     '&product_id=%ID%'
                                 ),
                             ],
                             'media'      => [
-                                'text' => $this->language->get(
-                                    'tab_media'
-                                ),
+                                'text' => $this->language->get('tab_media'),
                                 'href' => $this->html->getSecureURL(
                                     'catalog/product_images',
                                     '&product_id=%ID%'
                                 ),
                             ],
                             'options'    => [
-                                'text' => $this->language->get(
-                                    'tab_option'
-                                ),
+                                'text' => $this->language->get('tab_option'),
                                 'href' => $this->html->getSecureURL(
                                     'catalog/product_options',
                                     '&product_id=%ID%'
                                 ),
                             ],
                             'files'      => [
-                                'text' => $this->language->get(
-                                    'tab_files'
-                                ),
+                                'text' => $this->language->get('tab_files'),
                                 'href' => $this->html->getSecureURL(
                                     'catalog/product_files',
                                     '&product_id=%ID%'
                                 ),
                             ],
                             'relations'  => [
-                                'text' => $this->language->get(
-                                    'tab_relations'
-                                ),
+                                'text' => $this->language->get('tab_relations'),
                                 'href' => $this->html->getSecureURL(
                                     'catalog/product_relations',
                                     '&product_id=%ID%'
                                 ),
                             ],
                             'promotions' => [
-                                'text' => $this->language->get(
-                                    'tab_promotions'
-                                ),
+                                'text' => $this->language->get('tab_promotions'),
                                 'href' => $this->html->getSecureURL(
                                     'catalog/product_promotions',
                                     '&product_id=%ID%'
                                 ),
                             ],
                             'layout'     => [
-                                'text' => $this->language->get(
-                                    'tab_layout'
-                                ),
+                                'text' => $this->language->get('text_design'),
                                 'href' => $this->html->getSecureURL(
                                     'catalog/product_layout',
                                     '&product_id=%ID%'
@@ -1318,11 +1301,13 @@ class ControllerPagesCatalogProduct extends AController
         if (mb_strlen($post['model']) > 64) {
             $this->error['model'] = $this->language->get_error('error_model');
         }
-        if (($error_text = $this->html->isSEOkeywordExists(
+
+        $error_text = $this->html->isSEOkeywordExists(
             'product_id='.$productId,
             $post['keyword']
-        ))
-        ) {
+        );
+
+        if ($error_text) {
             $this->error['keyword'] = $error_text;
         }
 
@@ -1330,9 +1315,7 @@ class ControllerPagesCatalogProduct extends AController
             $v = abs(preformatFloat($post[$name], $this->language->get('decimal_point')));
             if ($v >= 1000) {
                 $this->error[$name] = $this->language->get('error_measure_value');
-            } elseif (
-                $post['shipping']
-                && !$v
+            } elseif ( $post['shipping'] && !$v
                 && ((float) $post['length'] + (float) $post['width'] + (float) $post['height'])
             ) {
                 $this->error[$name] = $this->language->get('error_dimension_value');
@@ -1365,14 +1348,16 @@ class ControllerPagesCatalogProduct extends AController
         }
 
         $this->extensions->hk_ValidateData($this, [__FUNCTION__]);
-
         return (!$this->error);
     }
 
     protected function _prepareData($data = [])
     {
         if ($data['date_available']) {
-            $data['date_available'] = dateDisplay2ISO($data['date_available'], $this->language->get('date_format_short'));
+            $data['date_available'] = dateDisplay2ISO(
+                $data['date_available'],
+                $this->language->get('date_format_short')
+            );
         }
         //set default store if not set
         $data['product_store'] = $data['product_store'] ?? [0];
