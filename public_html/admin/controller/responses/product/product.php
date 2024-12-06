@@ -1252,7 +1252,7 @@ class ControllerResponsesProductProduct extends AController
      *
      * @throws AException
      */
-    private function _buildSelectForm($product_id)
+    protected function _buildSelectForm($product_id)
     {
         $shared_downloads = $this->model_catalog_download->getSharedDownloads();
         $options = [];
@@ -1313,7 +1313,7 @@ class ControllerResponsesProductProduct extends AController
      *
      * @throws AException|ReflectionException
      */
-    private function _buildGeneralSubform($form, $download_id, $product_id)
+    protected function _buildGeneralSubform($form, $download_id, $product_id)
     {
         if ($download_id) {
             $file_data = $this->model_catalog_download->getDownload($download_id);
@@ -1370,38 +1370,36 @@ class ControllerResponsesProductProduct extends AController
             '&product_id=' . $product_id
         );
 
-        if ($download_id) {
-            $resources_scripts = $this->dispatch(
-                'responses/common/resource_library/get_resources_scripts',
-                [
-                    'object_name' => 'downloads',
-                    'object_id' => '',
-                    'types' => ['download'],
-                ]
-            );
-            $this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
+        $resources_scripts = $this->dispatch(
+            'responses/common/resource_library/get_resources_scripts',
+            [
+                'object_name' => 'downloads',
+                'object_id' => '',
+                'types' => ['download'],
+            ]
+        );
+        $this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
 
-            $rl = new AResource('download');
-            $rl_dir = $rl->getTypeDir();
-            $resource_id = is_numeric($file_data['filename'])
-                ? $file_data['filename']
-                : $rl->getIdFromHexPath(str_replace($rl_dir, '', $file_data['filename']));
+        $rl = new AResource('download');
+        $rl_dir = $rl->getTypeDir();
+        $resource_id = is_numeric($file_data['filename'])
+            ? $file_data['filename']
+            : $rl->getIdFromHexPath(str_replace($rl_dir, '', $file_data['filename']));
 
-            $this->data['form']['fields']['general']['resource'] = $form->getFieldHtml(
-                [
-                    'type' => 'resource',
-                    'name' => 'filename',
-                    'resource_id' => $resource_id,
-                    'rl_type' => 'download',
-                ]
+        $this->data['form']['fields']['general']['resource'] = $form->getFieldHtml(
+            [
+                'type' => 'resource',
+                'name' => 'filename',
+                'resource_id' => $resource_id,
+                'rl_type' => 'download',
+            ]
+        );
+        if ($resource_id) {
+            $this->data['preview']['href'] = $this->html->getSecureURL(
+                'common/resource_library/get_resource_preview',
+                '&resource_id=' . $resource_id
             );
-            if ($resource_id) {
-                $this->data['preview']['href'] = $this->html->getSecureURL(
-                    'common/resource_library/get_resource_preview',
-                    '&resource_id=' . $resource_id
-                );
-                $this->data['preview']['path'] = 'resources/' . $file_data['filename'];
-            }
+            $this->data['preview']['path'] = 'resources/' . $file_data['filename'];
         }
 
 
@@ -1549,7 +1547,7 @@ class ControllerResponsesProductProduct extends AController
      *
      * @throws AException
      */
-    private function _buildAttributesSubform($form)
+    protected function _buildAttributesSubform($form)
     {
         $attributes = $this->model_catalog_download->getDownloadAttributes($this->data['download_id']);
         $elements = HtmlElementFactory::getAvailableElements();

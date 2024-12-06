@@ -1215,7 +1215,7 @@ function openTextEditRLModal(editor, cursorPosition, baseUrl){
 	mediaDialog('image', 'list_library');
 	sideDialog('image', 'add');
 
-	$('#rl_modal').unbind("hidden.bs.modal")
+	$('#rl_modal').off("hidden.bs.modal")
 		.on("hidden.bs.modal", function (e) {
 		var item = modalscope.selected_resource;
 		if(item.length<1){ return null;}

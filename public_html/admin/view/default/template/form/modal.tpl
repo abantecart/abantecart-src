@@ -21,18 +21,21 @@
 	//clean up modal for remote data source
 	if($data_source == 'ajax'){ //js for loaded content of modal?>
 
-	$('#<?php echo $id;?>').on("hidden.bs.modal", function (e) { 
+	$('#<?php echo $id;?>').off("hidden.bs.modal")
+        .on("hidden.bs.modal", function (e) {
 		$(e.target).removeData("bs.modal");
 		<?php if(!$title) { ?>
-		$(e.target).find("#<?php echo $id;?> .modal-title").empty(); 
-		<?php } ?>
-		<?php if(!$content) { ?>
-		$(e.target).find("#<?php echo $id;?> .modal-body").empty(); 
+		$(e.target).find(".modal-title").empty();
+		<?php }
+        if(!$content) { ?>
+		$(e.target).find(".modal-body").empty();
 		<?php } ?>
 		<?php echo $js_onclose; ?>
+
 	});
 
-	$('#<?php echo $id;?>').on('loaded.bs.modal', function (e) {
+	$('#<?php echo $id;?>').off('loaded.bs.modal')
+        .on('loaded.bs.modal', function (e) {
 		formOnExit();
 		$('.modal-content div.afield').show();
 		$('.modal-content .chosen-select').chosen({'width':'100%','white-space':'nowrap'});
@@ -42,7 +45,9 @@
 
 <?php }else{ //js for static modal?>
 
-	$('#<?php echo $id;?>').on('shown.bs.modal', function (e) {
+	$('#<?php echo $id;?>')
+        .off('shown.bs.modal')
+        .on('shown.bs.modal', function (e) {
 		formOnExit();
 		$('.modal-content div.afield').show();
 		$('.modal-content .chosen-select').chosen({'width':'100%','white-space':'nowrap'});

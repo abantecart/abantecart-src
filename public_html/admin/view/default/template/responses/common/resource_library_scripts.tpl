@@ -299,7 +299,8 @@ echo $this->html->buildElement(
         });
     }
 
-    let loadSingle = function (type, wrapper_id, resource_id, field) {
+    var loadSingle = function (type, wrapper_id, resource_id, field) {
+
         if (!wrapper_id || wrapper_id === '') {
             wrapper_id = modalscope.wrapper_id;
         } else {
@@ -310,7 +311,6 @@ echo $this->html->buildElement(
         } else {
             modalscope.field_id = field;
         }
-
         $.ajax({
             url: urls.resource_single + '&resource_id=' + resource_id,
             type: 'GET',
@@ -1025,7 +1025,8 @@ echo $this->html->buildElement(
                 xhr: function () {
                     var xhrobj = $.ajaxSettings.xhr();
                     if (xhrobj.upload) {
-                        xhrobj.upload.addEventListener(
+                        $(xhrobj.upload).off('progress');
+                        $(xhrobj.upload).on(
                             'progress',
                             function (event) {
                                 var percent = 0;
@@ -1040,7 +1041,7 @@ echo $this->html->buildElement(
                             false
                         );
                     } else {
-                        console.log("Uploadress is not supported.");
+                        console.log("Upload is not supported.");
                     }
                     return xhrobj;
                 },
@@ -1118,7 +1119,7 @@ echo $this->html->buildElement(
                 rl_type = $(obj).children('[data-type="*"]').attr('data-type');
             }
 
-            if (rl_type) {
+            if (URL && rl_type) {
                 URL += '&type=' + rl_type;
             }
 
@@ -1128,7 +1129,6 @@ echo $this->html->buildElement(
 
                 var status = new createStatusbar($(obj).find('.fileupload-buttonbar')); //Using this we can set progress.
                 status.setFileNameSize(files[i].name, files[i].size);
-
                 var response = sendFileToServer(fd, status, URL);
                 if (response.hasOwnProperty('error_text')) {
                     rl_error_alert('File ' + files[i].name + ' (' + response.error_text + ')', false);
@@ -1214,6 +1214,7 @@ echo $this->html->buildElement(
             }
 
             //We need to send dropped files to Server
+
             handleFileUpload(files, o, o.find('form').attr('action'));
         });
 

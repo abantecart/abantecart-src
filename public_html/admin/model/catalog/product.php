@@ -1602,18 +1602,19 @@ class ModelCatalogProduct extends Model
      */
     public function getProduct($product_id)
     {
+        $languageId = (int) $this->language->getContentLanguageID();
         $query = $this->db->query(
             "SELECT DISTINCT *, p.product_id, COALESCE(pf.product_id, 0) as featured,
                 (SELECT keyword
                  FROM ".$this->db->table("url_aliases")." 
                  WHERE query = 'product_id=".(int) $product_id."'
-                    AND language_id='".(int) $this->language->getContentLanguageID()."' ) AS keyword
+                    AND language_id='".$languageId."' ) AS keyword
             FROM ".$this->db->table("products")." p
             LEFT JOIN ".$this->db->table("products_featured")." pf 
                 ON pf.product_id = p.product_id
             LEFT JOIN ".$this->db->table("product_descriptions")." pd
                     ON (p.product_id = pd.product_id
-                            AND pd.language_id = '" .(int) $this->config->get('storefront_language_id')."')
+                            AND pd.language_id = '" .$languageId."')
             WHERE p.product_id = '".(int) $product_id."'"
         );
         return $query->row;
