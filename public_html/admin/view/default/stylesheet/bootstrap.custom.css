@@ -894,6 +894,11 @@ a.btn>i.fa{
    color: #666;
 }
 
+.text-editor .nav-tabs > li > a {
+   padding-left: 10px;
+   padding-right: 10px;
+}
+
 .nav-tabs > li > a:hover {
    background: none;
    color: #333;

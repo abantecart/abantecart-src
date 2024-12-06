@@ -7,14 +7,14 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
             <a href="#text_<?php echo $wrapper_id; ?>" aria-controls="text_<?php echo $wrapper_id; ?>" role="tab" data-toggle="tab">
-                &nbsp;&nbsp;&nbsp;<?php echo $tab_text; ?>&nbsp;&nbsp;&nbsp;
+               <?php echo $tab_text; ?>
             </a>
         </li>
         <?php if($preview){ ?>
         <li role="presentation">
             <a href="#visual_<?php echo $wrapper_id; ?>" aria-controls="visual_<?php echo $wrapper_id; ?>"
                role="tab" data-toggle="tab">
-                &nbsp;&nbsp;&nbsp;<?php echo $tab_visual; ?>
+                <?php echo $tab_visual; ?>
             </a>
         </li>
         <?php } ?>

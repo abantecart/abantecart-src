@@ -11,6 +11,7 @@
             if ($result) {
                 $tmp = '';
                 foreach ($result as $k => &$row) {
+                    $row['text_formated'] = nl2br($row['text']);
                     $row['text'] = html_entity_decode($row['text']);
             ?>
                 <div class="row">
@@ -21,16 +22,11 @@
                         ); ?>
                     </div>
                     <div class="col-md-8" id="dd_<?php echo $row['hist_id']?>">
+                        <code class="code_view">
                         <?php
-                        echo $this->html->buildElement(
-                                [
-                                    'type' => 'textarea',
-                                    'name' => 'hist_area_'.$row['hist_id'],
-                                    'value' => $row['text'],
-                                    'attr'  => 'rows="2" readonly',
-                                ]
-                        );
+                            echo $row['text_formated'];
                         ?>
+                        </code>
                     </div>
                     <div class="col-md-1">
                         <a id="hist_<?php echo $row['hist_id']?>" class="btn btn-default pull-right">
@@ -57,7 +53,10 @@
     <script type="application/javascript">
         $(document).off('click','#hist_modal .panel-body a.btn');
         $(document).on('click','#hist_modal .panel-body a.btn',function(){
-            const values = <?php echo json_encode(array_column($result,'text','hist_id'))?>;
+            const values = <?php
+                echo json_encode(
+                    array_column($result,'text','hist_id')
+                )?>;
             let id = $(this).attr('id').replace('hist_','');
             let setValue = values[id];
             const dest = $('#<?php echo $elm_id?>');
