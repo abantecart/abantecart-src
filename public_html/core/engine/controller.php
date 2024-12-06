@@ -590,7 +590,10 @@ abstract class AController
         $page = $request['page'] ?? 1;
         $limit = (int)$request['limit'] ?: $this->config->get('config_catalog_limit');
         $sorting_href = $request['sort'];
-        if (!$sorting_href || !isset($this->data['sorts'][$request['sort']])) {
+        if(!$this->data['sorts']){
+            $this->prepareProductListingParameters();
+        }
+        if (!$sorting_href || !isset($this->data['sorts'][$sorting_href])) {
             $sorting_href = $this->config->get('config_product_default_sort_order');
         }
         list($sort, $order) = explode("-", $sorting_href);

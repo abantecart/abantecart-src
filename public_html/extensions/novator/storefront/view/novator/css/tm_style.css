@@ -3677,6 +3677,10 @@ li#review-set::before {
     .list-page-desc-block h4 {
         margin-bottom: 20px;
     }
+    .product-main-img{
+        max-width: 100%;
+        height: auto;
+    }
 }
 
 .form-control#product_quantity {

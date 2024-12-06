@@ -50,12 +50,10 @@ class ControllerPagesCatalogProductLayout extends AController
 
         $this->data['help_url'] = $this->gen_help_url('product_layout');
         $this->data['product_description'] = $this->model_catalog_product->getProductDescriptions($product_id);
-        $this->data['heading_title'] = $this->language->get('text_edit')
-            . ' '
-            . $this->language->get('text_product')
+        $this->data['heading_title'] = $this->language->get('text_design')
             . ' - '
             . $this->data['product_description'][$this->language->getContentLanguageID()]['name'];
-        $this->document->setTitle($this->language->get('tab_layout') . ' - ' . $this->data['product_description'][$this->language->getContentLanguageID()]['name']);
+        $this->document->setTitle($this->data['heading_title']);
 
         // Alert messages
         if (isset($this->session->data['warning'])) {
@@ -91,7 +89,7 @@ class ControllerPagesCatalogProductLayout extends AController
         $this->document->addBreadcrumb(
             [
                 'href'      => $page_url,
-                'text'      => $this->language->get('tab_layout'),
+                'text'      => $this->language->get('text_design'),
                 'separator' => ' :: ',
                 'current'   => true,
             ]
@@ -105,19 +103,19 @@ class ControllerPagesCatalogProductLayout extends AController
 
         $this->addChild('pages/catalog/product_summary', 'summary_form', 'pages/catalog/product_summary.tpl');
 
-        $tmpl_id = $this->request->get['tmpl_id'] ?: $this->config->get('config_storefront_template');
-        $layout = new ALayoutManager($tmpl_id);
+        $templateTxtId = $this->request->get['tmpl_id'] ?: $this->config->get('config_storefront_template');
+        $layout = new ALayoutManager($templateTxtId);
         //get existing page layout or generic
         $page_layout = $layout->getPageLayoutIDs($page_controller, $page_key_param, $product_id);
-        $page_id = $page_layout['page_id'];
-        $layout_id = $page_layout['layout_id'];
+        $pageId = $page_layout['page_id'];
+        $layoutId = $page_layout['layout_id'];
 
 
         $params = [
             'product_id' => $product_id,
-            'page_id'    => $page_id,
-            'layout_id'  => $layout_id,
-            'tmpl_id'    => $tmpl_id,
+            'page_id'    => $pageId,
+            'layout_id'  => $layoutId,
+            'tmpl_id'    => $templateTxtId,
         ];
         $url = '&' . $this->html->buildURI($params);
 
@@ -171,19 +169,16 @@ class ControllerPagesCatalogProductLayout extends AController
         $this->data['current_url'] = $this->html->getSecureURL('catalog/product_layout', $url);
 
         // insert external form of layout
-        $layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
+        $layout = new ALayoutManager($templateTxtId, $pageId, $layoutId);
 
         $layoutForm = $this->dispatch('common/page_layout', [$layout]);
         $this->data['layoutform'] = $layoutForm->dispatchGetOutput();
 
         //build pages and available layouts for cloning
         $this->data['pages'] = $layout->getAllPages();
-        $av_layouts = ["0" => $this->language->get('text_select_copy_layout')];
-        foreach ($this->data['pages'] as $page) {
-            if ($page['layout_id'] != $layout_id) {
-                $av_layouts[$page['layout_id']] = $page['layout_name'];
-            }
-        }
+        $avLayouts = ["0" => $this->language->get('text_select_copy_layout')]
+            + array_column($this->data['pages'], 'layout_name','layout_id');
+        unset($avLayouts[$layoutId]);
 
         $form = new AForm('HT');
         $form->setForm(
@@ -197,7 +192,7 @@ class ControllerPagesCatalogProductLayout extends AController
                 'type'    => 'selectbox',
                 'name'    => 'layout_change',
                 'value'   => '',
-                'options' => $av_layouts,
+                'options' => $avLayouts,
             ]
         );
 

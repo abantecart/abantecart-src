@@ -103,11 +103,12 @@ class ControllerPagesCatalogCategory extends AController
                             ],
                             'data'      => [
                                 'text' => $this->language->get('tab_data'),
-                                'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%')
-                                    .'#data',
+                                'href' => $this->html->getSecureURL(
+                                    'catalog/category/update',
+                                    '&category_id=%ID%').'#data',
                             ],
                             'layout'    => [
-                                'text' => $this->language->get('tab_layout'),
+                                'text' => $this->language->get('text_design'),
                                 'href' => $this->html->getSecureURL(
                                     'catalog/category/edit_layout', '&category_id=%ID%'
                                 ),
@@ -404,13 +405,7 @@ class ControllerPagesCatalogCategory extends AController
         }
 
         foreach ($this->fields as $f) {
-            if (isset ($this->request->post [$f])) {
-                $this->data [$f] = $this->request->post [$f];
-            } elseif (isset($category_info[$f])) {
-                $this->data[$f] = $category_info[$f];
-            } else {
-                $this->data[$f] = '';
-            }
+            $this->data[$f] = $this->request->post[$f] ?? $category_info[$f] ?? '';
         }
 
         if (isset($this->request->post['category_description'])) {
@@ -746,7 +741,7 @@ class ControllerPagesCatalogCategory extends AController
             .' - '
             .$categoryName;
 
-        $this->document->setTitle($this->language->get('tab_layout').' - '.$categoryName);
+        $this->document->setTitle($this->language->get('text_design').' - '.$categoryName);
         $this->document->resetBreadcrumbs();
         $this->document->addBreadcrumb(
             [
@@ -765,7 +760,7 @@ class ControllerPagesCatalogCategory extends AController
         $this->document->addBreadcrumb(
             [
                 'href'      => $page_url,
-                'text'      => $this->language->get('tab_layout').' - '.$categoryName,
+                'text'      => $this->language->get('text_design').' - '.$categoryName,
                 'separator' => ' :: ',
                 'current'   => true,
             ]
@@ -847,12 +842,9 @@ class ControllerPagesCatalogCategory extends AController
 
         //build pages and available layouts for cloning
         $this->data['pages'] = $layout->getAllPages();
-        $av_layouts = ["0" => $this->language->get('text_select_copy_layout')];
-        foreach ($this->data['pages'] as $page) {
-            if ($page['layout_id'] != $layout_id) {
-                $av_layouts[$page['layout_id']] = $page['layout_name'];
-            }
-        }
+        $avLayouts = ["0" => $this->language->get('text_select_copy_layout')]
+                    + array_column($this->data['pages'], 'layout_name','layout_id');
+        unset($avLayouts[$layout_id]);
 
         $form = new AForm('HT');
         $form->setForm(
@@ -866,7 +858,7 @@ class ControllerPagesCatalogCategory extends AController
                 'type'    => 'selectbox',
                 'name'    => 'source_layout_id',
                 'value'   => '',
-                'options' => $av_layouts,
+                'options' => $avLayouts,
             ]
         );
 

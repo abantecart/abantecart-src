@@ -53,10 +53,6 @@
     <value><![CDATA[Edit]]></value>
   </definition>
   <definition>
-    <key>entry_layout</key>
-    <value><![CDATA[ Layout ]]></value>
-  </definition>
-  <definition>
     <key>entry_image</key>
     <value><![CDATA[Image:]]></value>
   </definition>

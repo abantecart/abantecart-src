@@ -789,5 +789,8 @@
 		<key>text_data_history</key>
 		<value><![CDATA[Data Change History]]></value>
 	</definition>
-
+	<definition>
+		<key>text_design</key>
+		<value><![CDATA[Design]]></value>
+	</definition>
 </definitions>
