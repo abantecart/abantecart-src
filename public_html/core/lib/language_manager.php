@@ -636,11 +636,10 @@ class ALanguageManager extends Alanguage
             //select latest version
             $sql = "SELECT version as version 
                     FROM ".$this->db->table('fields_history')." 
-                    WHERE `table_name` = '".$this->db->escape($tableName)."' AND `record_id` = '".$tableId."' 
+                    WHERE `table_name` = '".$this->db->escape($tableName)."' AND `record_id` = '".$recId."' 
                         AND `field` = '".$this->db->escape($field)."' AND `language_id` = '".$langId."' ";
             $sql .= "ORDER BY `version` DESC LIMIT 1";
             $result = $this->db->query($sql);
-
             if ($result->row) {
                 $load_data['version'] = $result->row['version'] + 1;
             }
@@ -666,7 +665,7 @@ class ALanguageManager extends Alanguage
         $language_id = (int)$language_id ?? $this->getContentLanguageID();
         $sql = "SELECT * FROM ".$this->db->table('fields_history')." ";
         $sql .= "WHERE `table_name` = '$table_name' AND `record_id` = '$record_id' AND `language_id` = '$language_id' AND `field` = '$field' ";
-        $sql .= "ORDER BY `version` DESC";
+        $sql .= "ORDER BY `version` DESC, `date_added` DESC";
         $result = $this->db->query($sql);
         return $result->rows;
     }
