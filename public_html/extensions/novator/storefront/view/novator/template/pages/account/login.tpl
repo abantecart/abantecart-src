@@ -41,7 +41,7 @@
                 <?php } ?>
                     <div class="d-flex align-items-start">
                         <div class="mt-2">
-                            <p class="mt-2"><?php echo $text_create_account; ?></p>
+                            <p class="m-2"><?php echo $text_create_account; ?></p>
                         </div>
                         <button type="submit" class="float-end text-nowrap btn btn-primary mt-auto align-self-end"  title="<?php echo $form1['continue']->name ?>">
                             <i class="<?php echo $form1['continue']->icon; ?> fa"></i>
