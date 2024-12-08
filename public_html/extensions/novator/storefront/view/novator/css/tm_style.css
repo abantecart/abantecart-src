@@ -239,10 +239,10 @@ h4, .h4, h3, .h3, h2, .h2, h1, .h1, th {
 
 @media (min-width: 1200px) {
     h1, .h1 {
-        font-size: 2.5rem;
+        font-size: 2rem;
     }
     h2, .h2 {
-        font-size: 2rem;
+        font-size: 1.7rem;
     }
     .zoom-trigger:hover {
         cursor: zoom-in;
@@ -251,6 +251,10 @@ h4, .h4, h3, .h3, h2, .h2, h1, .h1, th {
         right: -150% !important;
         width: 150% !important;
     }
+}
+
+h4, .h4 {
+    font-size: 1.5rem;
 }
 
 h5, .h5 {
@@ -2743,15 +2747,34 @@ li#review-set::before {
     background-color: #EDEEF3;
 }
 
-.list-page-desc-block h4,
-.list-page-desc-block .h4 {
+h2 .heading-title,
+.h2.heading-title {
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
+h2 .heading-title:after,
+.h2.heading-title:after {
+    content: "";
+    position: absolute;
+    left: -20px;
+    border-radius: 5px;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background: var(--bs-primary);
+}
+h4 .heading-title,
+.h4.heading-title {
+    margin-top: 10px;
     position: relative;
     margin-bottom: 30px;
     margin-left: 20px;
 }
 
-.list-page-desc-block h4:after,
-.list-page-desc-block .h4:after {
+h4 .heading-title:after,
+.h4.heading-title:after {
     content: "";
     position: absolute;
     left: -20px;

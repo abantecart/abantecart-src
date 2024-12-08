@@ -1,7 +1,7 @@
-<h1 class="ms-3 my-2 heading-title ">
+<h2 class="h2 heading-title ">
     <i class="fa fa-file-invoice me-2"></i>
     <?php echo $heading_title; ?>
-</h1>
+</h2>
 <?php if ($success) { ?>
     <div class="alert alert-success alert-dismissible" role="alert">
         <?php echo $success; ?>

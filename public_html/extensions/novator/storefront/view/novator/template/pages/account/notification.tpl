@@ -1,8 +1,8 @@
-<div class="row title justify-content-center sec-heading-block text-center">
+<div class="row title">
     <div class="col-12">
-        <h1 class="h2 heading-title mb-0">
+        <h2 class="h2 heading-title">
             <?php echo $heading_title; ?>
-        </h1>
+        </h2>
     </div>
 </div>
 

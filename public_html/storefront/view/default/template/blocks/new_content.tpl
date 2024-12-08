@@ -1,6 +1,6 @@
 <?php if($contents){ ?>
-<div class="mt-3 px-3 container-fluid container-xl">
-    <h2><?php echo $heading_title; ?></h2>
+<div class="px-3 container-fluid container-xl">
+    <h4 class="h4 heading-title"><?php echo $heading_title; ?></h4>
     <?php echo $this->getHookVar('pre_contents'); ?>
 <?php
 foreach ($contents as $content) {

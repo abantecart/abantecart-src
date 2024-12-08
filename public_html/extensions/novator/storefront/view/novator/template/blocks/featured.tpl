@@ -1,9 +1,7 @@
-
-
 <div class="featured-column mt-3">
     <?php
     	if ( $block_framed ) { ?>
-    <h2><?php echo $heading_title; ?></h2>
+            <h2 class="h2 heading-title"><?php echo $heading_title; ?></h2>
     <?php } ?>
         <div class="d-flex flex-column">
 <?php
