@@ -5,7 +5,7 @@ if( isset(current((array)$products)['product_id']) ){
     <section id="<?php echo $homeBlockId;?>">
         <div class="container-fluid mt-3 ">
             <?php if ( $block_framed ) { ?>
-                <h2 class="ps-3 pe-2"><?php echo $heading_title; ?></h2>
+                <h2 class="h2 heading-title"><?php echo $heading_title; ?></h2>
             <?php } ?>
 <?php
 // categories and brands

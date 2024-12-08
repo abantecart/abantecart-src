@@ -1,8 +1,8 @@
-<div class="row title justify-content-center sec-heading-block text-center">
-    <div class="col-xl-8">
-        <h1 class="h2 heading-title mb-0 mt-lg-0 mt-3">
+<div class="row title">
+    <div class="col-xl-12">
+        <h2 class="h2 heading-title">
             <?php echo $heading_title; ?>
-        </h1>
+        </h2>
     </div>
 </div>
 
@@ -31,9 +31,9 @@
             foreach ($field_list as $field_name) {
                 $field = $$field_name;
                 ?>
-            <div class="mb-3 row">
-                <label for="<?php echo $field->element_id?>" class="col-md-2 col-form-label me-2"><?php echo ${'entry_'.$field_name}; ?></label>
-                <div class="col-md-9 h-100">
+            <div class="mb-3 row justify-content-md-center">
+                <label for="<?php echo $field->element_id?>" class="col-md-3 col-form-label me-2"><?php echo ${'entry_'.$field_name}; ?></label>
+                <div class="col-md-5">
                     <?php echo $field; ?>
                     <span class="help-block text-danger"><?php echo ${'error_'.$field_name}; ?></span>
                 </div>

@@ -1,7 +1,7 @@
-<h1 class="ms-3 my-2 heading-title ">
+<h2 class="h2 heading-title">
     <i class="bi bi-thumbs-up"></i>
     <?php echo $heading_title; ?>
-</h1>
+</h2>
 <div class="container">
     <section class="mb-3 py-5">
         <?php echo $text_message; ?>

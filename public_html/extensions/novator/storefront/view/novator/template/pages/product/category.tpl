@@ -1,7 +1,7 @@
 <div class="list-page-desc-block">
-<h2 class="h4">
+<h4 class="h4 heading-title">
   <?php echo $heading_title; ?>
-</h2>
+</h4>
     <?php if ($description) { ?>
        <div style="margin-bottom: 15px;">
            <?php echo $description; ?>

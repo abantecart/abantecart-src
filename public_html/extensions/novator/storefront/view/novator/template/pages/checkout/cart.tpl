@@ -1,12 +1,12 @@
-<div class="row title justify-content-center sec-heading-block text-center">
-    <div class="col-xl-8">
-        <h1 class="h2 heading-title mb-0 mt-lg-0 mt-3">
+<div class="row title">
+    <div class="col-xl-12">
+        <h2 class="h2 heading-title">
             <?php echo $heading_title; ?>
             <?php
                 if ($weight) { ?>
                 <span class="subtext">(<?php echo $weight; ?>)</span>
             <?php } ?>
-        </h1>
+        </h2>
     </div>
 </div>
 

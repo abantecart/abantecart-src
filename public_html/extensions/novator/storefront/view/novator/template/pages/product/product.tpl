@@ -21,7 +21,7 @@ if ($error){ ?>
         <!-- Left Image-->
         <div class="col-md-12 col-lg-6 col-xxl-5 text-center">
             <div class="w-auto sticky-md-top product-sticky">
-                <div id="carouselProductImages" class="carousel slide mx-auto" data-bs-ride="carousel" style="max-width: <?php echo $thmb_w;?>px !important;">
+                <div id="carouselProductImages" class="carousel slide" data-bs-ride="carousel" style="max-width: <?php echo $thmb_w;?>px !important;">
                     <div class="zoom-pane position-absolute col-12"></div>
                     <div class="carousel-inner bg-light rounded position-relative">
                         <!-- Main Image -->
@@ -175,7 +175,7 @@ if ($error){ ?>
                                                     continue;
                                                 }?>
                                             <div class="d-block">
-                                                <h5 class="text-muted control-label fw-bold mb-0">
+                                                <h5 class="text-muted control-label fw-bold mb-2">
                                                     <?php echo $option['name']; ?>
                                                 </h5>
                                             </div>
@@ -214,16 +214,16 @@ if ($error){ ?>
                                             </div>
                                         </div>
                                     <?php } ?>
-                                        <div class="row align-items-center g-2 my-3">
+                                        <div class="row align-items-center g-2 my-3 mb-4">
                                             <div class="col-auto">
                                                 <?php if(!$product_info['call_to_order']){ ?>
                                                     <div class="form-group d-inline-flex">
                                                         <h5 class="text-muted d-none"><?php echo $text_qty; ?></h5>
                                                         <div class="input-group d-flex flex-nowrap">
-                                                        <button class="input-group-text minus-qnty btn btn-outline-danger fs-3" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        <button class="input-group-text minus-qnty btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top"
                                                                     title="<?php $minimum > 1 ? echo_html2view($text_minimum) : '';?>">&minus;</button>
                                                         <?php
-                                                        $form['minimum']->style .= " text-center fs-4 ";
+                                                        $form['minimum']->style .= " text-center ";
                                                          ?>
                                                         <input type="text"
                                                                name="<?php echo $form['minimum']->name ?>"
@@ -235,13 +235,13 @@ if ($error){ ?>
                                                                min="<?php echo $minimum?:1; ?>"
                                                             <?php echo $maximum ? 'max="'.$maximum.'"' : '' ?>
                                                             <?php echo $form['minimum']->attr; ?>/>
-                                                        <button class="input-group-text plus-qnty input-group-text btn btn-outline-success fs-3" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        <button class="input-group-text plus-qnty input-group-text btn btn-outline-success " data-bs-toggle="tooltip" data-bs-placement="top"
                                                                 title="<?php $maximum > 0 ? echo_html2view($text_maximum) : '';?>">&plus;</button>
                                                         </div>
                                                     </div>
                                                 <?php }?>
                                             </div>
-                                            <div class="col-auto">
+                                            <div class="col-auto px-4 pt-1">
                                                 <?php if(!$product_info['call_to_order']){ ?>
                                                     <h3 class="text-primary">
                                                         <small class="text-muted fw-normal"><?php echo $text_total_price; ?></small>
