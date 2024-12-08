@@ -2,17 +2,17 @@
     "packages": [
         {
             "name": "stripe/stripe-php",
-            "version": "v14.1.0",
-            "version_normalized": "14.1.0.0",
+            "version": "v16.3.0",
+            "version_normalized": "16.3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "b9308aea15e5cdad3d906c3bba726ff95079554c"
+                "reference": "48af6bc64ca8157b3fdce100e856069963bac466"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/b9308aea15e5cdad3d906c3bba726ff95079554c",
-                "reference": "b9308aea15e5cdad3d906c3bba726ff95079554c",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/48af6bc64ca8157b3fdce100e856069963bac466",
+                "reference": "48af6bc64ca8157b3fdce100e856069963bac466",
                 "shasum": ""
             },
             "require": {
@@ -26,7 +26,7 @@
                 "phpstan/phpstan": "^1.2",
                 "phpunit/phpunit": "^5.7 || ^9.0"
             },
-            "time": "2024-04-11T23:07:41+00:00",
+            "time": "2024-11-20T23:30:16+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -58,7 +58,7 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v14.1.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v16.3.0"
             },
             "install-path": "../stripe/stripe-php"
         }

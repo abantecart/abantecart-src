@@ -29,7 +29,7 @@ function grantStripeAccess($config)
         return false;
     }
     Stripe\Stripe::setApiKey($apiKey);
-    \Stripe\Stripe::setApiVersion("2024-04-10");
+    \Stripe\Stripe::setApiVersion("2024-11-20.acacia");
     return new Stripe\StripeClient($apiKey);
 
 }
