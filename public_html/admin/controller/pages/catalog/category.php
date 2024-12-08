@@ -363,23 +363,27 @@ class ControllerPagesCatalogCategory extends AController
         $this->view->assign('error_name', $this->error['name']);
         $this->data['categories'] = $this->model_catalog_category->getCategories((int)ROOT_CATEGORY_ID);
 
-        $categories = [0 => $this->language->get('text_none')];
-        foreach ($this->data['categories'] as $c) {
-            $categories[$c['category_id']] = $c['name'];
+        $categories = [0 => $this->language->get('text_none')]
+            + array_column($this->data['categories'],'name','category_id');
+
+        $category_id = (int)$this->request->get['category_id'];
+        $category_info = [];
+        if ($category_id && $this->request->is_GET()) {
+            $category_info = $this->model_catalog_category->getCategory($category_id);
+        }
+
+        if(!$category_info && $category_id){
+            redirect($this->html->getSecureURL('catalog/category'));
         }
 
         $history = [];
-        if (isset($this->request->get['category_id'])) {
-            $category_id = $this->request->get['category_id'];
+        if ($category_id) {
             $this->data['category_id'] = $category_id;
             unset($categories[$category_id]);
             $history = [
                 'table'        => 'category_descriptions',
                 'record_id'     => $category_id,
             ];
-
-        } else {
-            $category_id = 0;
         }
 
         $this->document->initBreadcrumb(
@@ -399,10 +403,6 @@ class ControllerPagesCatalogCategory extends AController
         );
 
         $this->view->assign('cancel', $this->html->getSecureURL('catalog/category'));
-        $category_info = [];
-        if ($category_id && $this->request->is_GET()) {
-            $category_info = $this->model_catalog_category->getCategory($category_id);
-        }
 
         foreach ($this->fields as $f) {
             $this->data[$f] = $this->request->post[$f] ?? $category_info[$f] ?? '';
@@ -430,7 +430,7 @@ class ControllerPagesCatalogCategory extends AController
         $this->data['stores'] = $this->model_setting_store->getStores();
         if (isset($this->request->post['category_store'])) {
             $this->data['category_store'] = $this->request->post['category_store'];
-        } elseif (isset($category_info)) {
+        } elseif ($category_info) {
             $this->data['category_store'] = $this->model_catalog_category->getCategoryStores($category_id);
         } else {
             $this->data['category_store'] = [0];
@@ -438,7 +438,7 @@ class ControllerPagesCatalogCategory extends AController
 
         $stores = [0 => $this->language->get('text_default')];
         foreach ($this->data['stores'] as $s) {
-            $stores[$s['store_id']] = $s['name'];
+            $stores[(int)$s['store_id']] = $s['name'];
         }
 
         if (!$category_id) {

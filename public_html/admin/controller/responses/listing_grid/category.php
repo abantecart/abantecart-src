@@ -73,8 +73,6 @@ class ControllerResponsesListingGridCategory extends AController
         $response->records = $total;
         $response->userdata = new stdClass();
 
-        $results = $this->model_catalog_category->getCategoriesData($filter_data);
-
         //build thumbnails list
         $category_ids = array_column($results,'category_id');
         $resource = new AResource('image');

@@ -657,8 +657,10 @@ echo $this->html->buildElement(
             }else{
                 ids = $(table_id).jqGrid('getGridParam', 'selrow');
             }
-
-            ids = ids.filter(Boolean);
+            if(ids instanceof Array)
+            {
+                ids = ids.filter(Boolean);
+            }
             if (ids.length<1) {
                 return false;
             }
