@@ -48,6 +48,7 @@
 				<item>revolut_pay</item>
 				<item>sepa_debit</item>
 				<item>sofort</item>
+				<item>twint</item>
 				<item>swish</item>
 				<item>us_bank_account</item>
 				<item>wechat_pay</item>

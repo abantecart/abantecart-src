@@ -162,11 +162,15 @@
 	</definition>
 	<definition>
 		<key>stripe_payment_method_list_us_bank_account</key>
-		<value><![CDATA[ACH Direct Debit ]]></value>
+		<value><![CDATA[ACH Direct Debit]]></value>
 	</definition>
 	<definition>
 		<key>stripe_payment_method_list_wechat_pay</key>
-		<value><![CDATA[WeChat Pay ]]></value>
+		<value><![CDATA[WeChat Pay]]></value>
+	</definition>
+	<definition>
+		<key>stripe_payment_method_list_twint</key>
+		<value><![CDATA[TWINT]]></value>
 	</definition>
 	<definition>
 		<key>text_stripe_connect</key>
