@@ -10,7 +10,7 @@ if( $langCode != 'en'){ ?>
 <?php if(!$no_wrapper){?>
 <div class="input-group h-100">
 <?php } ?>
-    <span class="input-group-text"><i class="bi fa-birthday-cake "></i></span>
+    <span class="input-group-text"><i class="bi bi-calendar"></i></span>
     <input type="<?php echo $type ?>" name="<?php echo $name ?>" id="<?php echo $id ?>" value="<?php echo $value; ?>" <?php echo $attr; ?> class="form-control <?php echo $style; ?>" <?php if ( $required ) { echo 'required'; }?>/>
     <div class="input-group-text rounded-end">
     <?php 
