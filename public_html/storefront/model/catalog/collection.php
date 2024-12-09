@@ -139,7 +139,7 @@ class ModelCatalogCollection extends Model
                         ON cat" . $k . ".product_id=" . $productsTable . ".product_id";
                     /** @var ModelCatalogCategory $mdl */
                     $mdl = $this->load->model('catalog/category');
-                    $allCategoryChildren = [(int)$condition['value']];
+                    $allCategoryChildren = $condition['value'];
                     foreach($condition['value'] as $cId){
                         $allCategoryChildren = array_merge($allCategoryChildren, $mdl->getChildrenIDs((int)$cId));
                     }
