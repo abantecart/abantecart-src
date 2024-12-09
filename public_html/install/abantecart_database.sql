@@ -11015,7 +11015,7 @@ VALUES  (11,'text_catalog',1),
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (12,'catalog/category',1),
         (12,'sale/order',2),
-        (12,'extension/extensions/template',3),
+        (12,'design/template',3),
         (12,'extension/extensions/extensions',4),
         (12,'setting/setting',5),
         (12,'report/sale/orders',6),

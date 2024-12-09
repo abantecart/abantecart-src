@@ -91,3 +91,8 @@ CREATE TABLE `ac_customer_sessions` (
     `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`customer_id`, `session_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+#update menu design item
+UPDATE `ac_dataset_values`
+SET value_varchar = 'design/template'
+WHERE row_id=3 AND value_varchar='extension/extensions/template';
