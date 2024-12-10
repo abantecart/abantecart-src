@@ -1,7 +1,7 @@
 <div class="special-column mt-3">
     <?php
     	if ( $block_framed ) { ?>
-            <h2 class="h2 heading-title"><?php echo $heading_title; ?></h2>
+            <h1 class="h2 heading-title"><?php echo $heading_title; ?></h1>
     <?php } ?>
         <div class="d-flex flex-column">
 <?php

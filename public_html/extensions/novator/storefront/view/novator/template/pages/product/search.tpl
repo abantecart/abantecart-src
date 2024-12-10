@@ -1,6 +1,6 @@
-<h2 class="h2 heading-title">
+<h1 class="h2 heading-title">
     <i class="bi bi-search"></i> <?php echo $heading_title; ?>
-</h2>
+</h1>
 
 <div class="container-fluid mt-3">
      <form id="search_page_form" class="row g-3 ms-4 align-items-center" name="SearchFrm" method="get" action="<?php echo HTTPS_SERVER.INDEX_FILE; ?>">

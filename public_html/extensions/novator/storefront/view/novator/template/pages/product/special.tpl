@@ -1,6 +1,6 @@
-<h2 class="h2 heading-title ">
+<h1 class="h2 heading-title ">
   <?php echo $heading_title; ?>
-</h2>
+</h1>
 
 <div class="container-fluid">
     <?php if ($products) { ?>

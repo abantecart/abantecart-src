@@ -1,8 +1,8 @@
 <div class="row title">
     <div class="col-xl-12">
-        <h2 class="h2 heading-title">
+        <h1 class="h2 heading-title">
             <?php echo $heading_title; ?>
-        </h2>
+        </h1>
     </div>
 </div>
 <?php if ($success) { ?>
@@ -28,21 +28,21 @@ if ($error_warning) { ?>
         <div class="card-body">
             <?php
                 foreach ($form['fields'] as $field_name => $field) { ?>
-                <div class="mb-3 row">
-                    <label for="<?php echo $field->element_id?>" class="text-nowrap col-sm-2 col-form-label me-2">
+                <div class="mb-3 row justify-content-md-center">
+                    <label for="<?php echo $field->element_id?>" class="text-nowrap col-sm-3 col-form-label me-2">
                         <?php echo ${'entry_'.$field_name}; ?>
                     </label>
-                    <div class="col-sm-9 h-100">
+                    <div class="col-sm-5">
                         <?php echo $field; ?>
                         <span class="help-block text-danger"><?php echo ${'error_'.$field_name}; ?></span>
                     </div>
                 </div>
             <?php } ?>
-                <div class="mb-3 row">
-                    <label for="<?php echo $field->element_id?>" class="text-nowrap col-sm-2 col-form-label me-2">
+                <div class="mb-3 row justify-content-md-center">
+                    <label for="<?php echo $field->element_id?>" class="text-nowrap col-sm-3 col-form-label me-2">
                         <?php echo $entry_default; ?>
                     </label>
-                    <div class="col-sm-9 h-100">
+                    <div class="col-sm-5">
                         <?php echo $form['default']; ?>
                     </div>
                 </div>

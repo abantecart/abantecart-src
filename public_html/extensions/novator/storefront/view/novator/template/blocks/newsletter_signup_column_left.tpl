@@ -1,5 +1,5 @@
 <section id="newslettersignup" class="mt-3 d-flex flex-wrap">
-    <h2 class="h2 heading-title"><?php echo $heading_title; ?></h2>
+    <h1 class="h2 heading-title"><?php echo $heading_title; ?></h1>
 	<label class="newsletter mb-3"><?php echo $text_signup; ?></label>
 	<div class="pull-right">
 		<?php echo $form_open;?>

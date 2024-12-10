@@ -1,4 +1,4 @@
-<h2 class="h2 heading-title"><?php echo $heading_title; ?></h2>
+<h1 class="h2 heading-title"><?php echo $heading_title; ?></h1>
 <div class="card border-0">
         <div class="card-body p-0">
                 <ul class="list-group">

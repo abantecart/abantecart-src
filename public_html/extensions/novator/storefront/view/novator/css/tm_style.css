@@ -238,12 +238,6 @@ h4, .h4, h3, .h3, h2, .h2, h1, .h1, th {
 }
 
 @media (min-width: 1200px) {
-    h1, .h1 {
-        font-size: 2rem;
-    }
-    h2, .h2 {
-        font-size: 1.7rem;
-    }
     .zoom-trigger:hover {
         cursor: zoom-in;
     }
@@ -253,14 +247,21 @@ h4, .h4, h3, .h3, h2, .h2, h1, .h1, th {
     }
 }
 
+h1, .h1 {
+    font-size: 2rem;
+}
+h2, .h2 {
+    font-size: 1.7rem;
+}
+h3, .h3 {
+    font-size: 1.6rem;
+}
 h4, .h4 {
     font-size: 1.5rem;
 }
-
 h5, .h5 {
-    font-size: 1rem;
+    font-size: 1.25rem;
 }
-
 h6, .h6 {
     font-size: 0.875rem;
 }
@@ -2132,8 +2133,9 @@ li#review-set::before {
 
 .mega-sf-menu.navbar-nav {
     overflow-y: auto;
+    overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
-    height: 60px;
+    height: 65px;
 }
 
 .cart-offcanvas {
@@ -3124,10 +3126,6 @@ h4 .heading-title:after,
       responsive page
 ==========================  **/
 @media (max-width: 1199px) {
-    h2, .h2 {
-        font-size: calc(1.2rem + 2.1vw);
-    }
-
     section {
         padding-bottom: 65px;
     }

@@ -1,4 +1,4 @@
-<h2 class="h2 heading-title">
+<h1 class="h2 heading-title">
   <?php echo $heading_title;
   if($manufacturer_icon){ ?>
     <span class="subtext ms-4">
@@ -7,7 +7,7 @@
         ?>
     </span>
     <?php } ?>
-</h2>
+</h1>
 
 
 <?php echo $this->getHookVar('manufacturer_additional_info'); ?>

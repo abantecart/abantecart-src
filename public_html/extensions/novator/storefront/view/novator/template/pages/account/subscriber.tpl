@@ -1,9 +1,9 @@
 <?php if ($success) { ?>
     <div class="row title">
         <div class="col-xl-8">
-            <h2 class="h2 heading-title">
+            <h1 class="h2 heading-title">
                 <?php echo $text_subscribe_register; ?>
-            </h2>
+            </h1>
         </div>
     </div>
 
@@ -20,10 +20,10 @@
     </div>
 
 <?php }else{ ?>
-    <h2 class="h2 heading-title ">
+    <h1 class="h2 heading-title ">
         <i class="bi bi-group me-2"></i>
         <?php echo $text_subscribe_register; ?>
-    </h2>
+    </h1>
 
 <?php if ($error_warning) { ?>
     <div class="alert alert-error alert-danger alert-dismissible" role="alert">

@@ -1,8 +1,8 @@
 <div class="d-flex flex-nowrap title">
     <div class="col-xl-12">
-        <h4 class="h4 heading-title">
+        <h1 class="h4 heading-title">
             <?php echo $heading_title; ?>
-        </h4>
+        </h1>
         <?php if ($content_info && $content_info['content_bar']) { ?>
         <h6 class="m-2 p-2 text-secondary bg-body-alt d-flex justify-content-between">
             <div>
@@ -26,7 +26,7 @@
         </div>
         <?php if ($description) { ?>
         <div>
-            <h3 ><?php echo $description; ?></h3>
+            <h3 class="h5"><?php echo $description; ?></h3>
         </div>
         <?php } ?>
     </div>
