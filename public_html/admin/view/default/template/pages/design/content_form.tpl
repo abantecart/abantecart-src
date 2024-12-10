@@ -24,7 +24,7 @@
                 </a>
             </div>
 			<?php if ($insert){ ?>
-				<div class="btn-group mr5 toolbar">
+				<div class="btn-group">
 					<a class="actionitem btn btn-primary lock-on-click tooltips" href="<?php echo $insert; ?>"
 					   title="<?php echo_html2view($button_add); ?>">
 						<i class="fa fa-plus fa-fw"></i>
@@ -33,7 +33,7 @@
 			<?php } ?>
             <?php if ($content_id) { ?>
                 <div class="btn-group">
-                    <a class="btn btn-white lock-on-click tooltips mr5" href="<?php echo $clone_url; ?>"
+                    <a class="btn btn-white lock-on-click tooltips" href="<?php echo $clone_url; ?>"
                        data-toggle="tooltip"
                        data-original-title="<?php echo_html2view($text_clone); ?>">
                         <i class="fa fa-clone fa-fw"></i>
