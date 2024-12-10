@@ -285,7 +285,7 @@ class ModelCatalogContent extends Model
         foreach ($query->rows as $result) {
             $tag_data[$result['language_id']][] = $result['tag'];
         }
-        $output = $tag_data[$language_id];
+        $output = (array)$tag_data[$language_id];
         $this->cache->push($cacheKey, $output);
         return $output;
     }

@@ -7,8 +7,8 @@
                    name="keyword"
                    autocomplete="off"
                    class="form-control bg-transparent shadow-none border-0 m-0"
-                   placeholder="<?php echo_html2view($text_keyword); ?>"
-                   value=""
+                   placeholder="<?php echo_html2view($search->placeholder); ?>"
+                   value="<?php echo $search->value; ?>"
                    aria-expanded="false"/>
         </div>
         <button id="search-button" class="btn-search lh-1 ms-4" title="<?php echo_html2view($button_go); ?>">

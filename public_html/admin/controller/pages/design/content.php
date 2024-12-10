@@ -66,17 +66,17 @@ class ControllerPagesDesignContent extends AController
             'drag_sort_column' => 'sort_order',
             'columns_search'   => true,
             'actions'          => [
-                'edit'   => [
+                'edit'     => [
                     'text' => $this->language->get('text_edit'),
                     'href' => $this->html->getSecureURL('design/content/update', '&content_id=%ID%'),
                 ],
-                'delete' => [
+                'delete'   => [
                     'text' => $this->language->get('button_delete'),
                 ],
-                'save'   => [
+                'save'     => [
                     'text' => $this->language->get('button_save'),
                 ],
-                'clone'  => [
+                'clone'    => [
                     'text' => $this->language->get('text_clone'),
                     'href' => $this->html->getSecureURL('design/content/clone', '&content_id=%ID%'),
                 ],
@@ -85,13 +85,13 @@ class ControllerPagesDesignContent extends AController
                     'href'     => $this->html->getSecureURL('catalog/product/update', '&product_id=%ID%'),
                     'children' => array_merge(
                         [
-                            'general'    => [
+                            'general' => [
                                 'text' => $this->language->get(
                                     'tab_general'
                                 ),
                                 'href' => $this->html->getSecureURL('design/content/update', '&content_id=%ID%'),
                             ],
-                            'layout'     => [
+                            'layout'  => [
                                 'text' => $this->language->get(
                                     'text_design'
                                 ),
@@ -99,7 +99,7 @@ class ControllerPagesDesignContent extends AController
                             ],
 
                         ],
-                        (array) $this->data['grid_edit_expand']
+                        (array)$this->data['grid_edit_expand']
                     ),
                 ],
             ],
@@ -401,8 +401,8 @@ class ControllerPagesDesignContent extends AController
         );
 
         $history = [
-            'table'        => 'content_descriptions',
-            'record_id'     => $contentId,
+            'table'     => 'content_descriptions',
+            'record_id' => $contentId,
         ];
 
         $this->data['form']['id'] = 'contentFrm';
@@ -476,13 +476,10 @@ class ControllerPagesDesignContent extends AController
         }
 
         // we need get contents list for parent selector
-        $selected_parent = $disabled_parent = [];
+        $disabled_parent = [];
         $selectTree = $this->acm->getContentsForSelect();
         foreach ($selectTree as $node) {
             $id = $node['content_id'];
-            if ($id == $content_info['parent_content_id']) {
-                $selected_parent[$id] = (string)$id;
-            }
             if ($id == $contentId) {
                 $disabled_parent[$id] = $id;
                 $disabled_parent += array_combine($node['children'], $node['children']);
@@ -493,7 +490,7 @@ class ControllerPagesDesignContent extends AController
                 'type'             => 'selectbox',
                 'name'             => 'parent_content_id',
                 'options'          => array_column($selectTree, 'title', 'content_id'),
-                'value'            => $selected_parent,
+                'value'            => $this->data['parent_content_id'],
                 'disabled_options' => $disabled_parent,
                 'attr'             => 'size = "' . min(sizeof($selectTree), 10) . '"',
             ]
@@ -716,7 +713,6 @@ class ControllerPagesDesignContent extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
 
-
         $this->acm = new AContentManager();
 
         $content_id = (int)$this->request->get['content_id'];
@@ -832,7 +828,7 @@ class ControllerPagesDesignContent extends AController
         //build pages and available layouts for cloning
         $this->data['pages'] = $layout->getAllPages();
         $avLayouts = ["0" => $this->language->get('text_select_copy_layout')]
-            + array_column($this->data['pages'], 'layout_name','layout_id');
+            + array_column($this->data['pages'], 'layout_name', 'layout_id');
         unset($avLayouts[$layout_id]);
 
         $form = new AForm('HT');
