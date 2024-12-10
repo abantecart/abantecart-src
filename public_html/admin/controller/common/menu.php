@@ -103,13 +103,22 @@ class ControllerCommonMenu extends AController
                     $menu_link = $item['item_url'];
                     $rt = trim($item['item_url']);
                     $http_rt = true;
+                    $link_key_name = "href";
+                } elseif(str_starts_with($item['item_url'], 'window.open')) {
+                    preg_match('/(\'|")(.*?)(\'|")/', $item['item_url'], $matches);
+                    if(!str_ends_with(parse_url($matches[2])['host'],base64_decode('LmFiYW50ZWNhcnQuY29t'))){
+                        continue;
+                    }
+                    $menu_link = $item['item_url'];
+                    $rt = trim($item['item_url']);
+                    $link_key_name = "onclick";
                 } else if ($item['item_url']) {
                     //rt based link, need to save rt
                     $menu_link = $this->html->getSecureURL($item['item_url'], '', true);
                     $rt = trim($item['item_url']);
+                    $link_key_name = "href";
                 }
 
-                $link_key_name = $isLink ? "onclick" : "href";
                 $icon = $rm->getResource($item ['item_icon_rl_id']);
 
                 $iconHtml = $icon['resource_code']
