@@ -63,11 +63,10 @@ echo $_COOKIE['data-bs-theme'] == 'dark' ? 'data-bs-theme="dark"' : '';
                 </div>
             <!-- column_left-section Ends (EOF) -->
         <?php } ?> 
-        
 
-        <?php $span = 12 - 6 * $present_columns; ?>
+        <?php $span = 12 - 3 * $present_columns; ?>
 
-        <div class="page-main-content flex-grow-1 col-12 col-lg-<?php echo $span ?>">
+        <div class="page-main-content flex-grow-1 col-<?php echo $span ?> col-lg-<?php echo $span ?>">
             
             <?php if ( !empty( $$content_top ) ) { ?>  
                 <!-- content-top-section Starts -->

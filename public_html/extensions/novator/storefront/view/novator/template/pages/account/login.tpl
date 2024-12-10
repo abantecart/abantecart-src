@@ -20,43 +20,45 @@
     </div>
 <?php } ?>
 
-<div class="d-flex flex-wrap flex-md-nowrap justify-content-center align-self-stretch p-1">
-    <div class="loginbox card w-50 m-1 newcustomer">
-        <?php if(!$this->getHookVar('register_box_html')){ ?>
-        <div class="card-body d-flex flex-wrap">
-                <h4 class="mb-3 text-nowrap w-100"><?php echo $text_i_am_new_customer; ?></h4>
-                <h6 class="mb-3 w-100"><?php echo $text_checkout; ?></h6>
-                <?php
-                $formCss = "mt-auto mb-0 w-100";
-                $form1['form_open']->style .= $formCss;
-                echo $form1['form_open']; ?>
-                <fieldset class="w-100">
-                    <div class="form-group mb-3">
-                    <?php echo $form1[ 'register' ];?>
+<div class="row justify-content-center align-self-stretch">
+    <div class="col-xl-6">
+        <div class="loginbox card m-1 newcustomer h-100">
+            <?php if(!$this->getHookVar('register_box_html')){ ?>
+            <div class="card-body d-flex flex-wrap">
+                    <h4 class="mb-3 text-nowrap w-100"><?php echo $text_i_am_new_customer; ?></h4>
+                    <h6 class="mb-3 w-100"><?php echo $text_checkout; ?></h6>
+                    <?php
+                    $formCss = "mt-auto mb-0 w-100";
+                    $form1['form_open']->style .= $formCss;
+                    echo $form1['form_open']; ?>
+                    <fieldset class="w-100">
+                        <div class="form-group mb-3">
+                        <?php echo $form1[ 'register' ];?>
+                        </div>
+                    <?php if ($guest_checkout) { ?>
+                        <div class="form-group mb-3">
+                            <?php echo $form1[ 'guest' ];?>
+                        </div>
+                    <?php } ?>
+                    </fieldset>
+                    <div class="d-flex align-items-start">
+                        <div class="mt-2">
+                            <p class="m-2"><?php echo $text_create_account; ?></p>
+                        </div>
+                        <button type="submit" class="ms-auto text-nowrap btn btn-primary align-self-end"  title="<?php echo $form1['continue']->name ?>">
+                            <i class="<?php echo $form1['continue']->icon; ?> fa"></i>
+                            <?php echo $form1['continue']->name ?>
+                        </button>
                     </div>
-                <?php if ($guest_checkout) { ?>
-                    <div class="form-group mb-3">
-                        <?php echo $form1[ 'guest' ];?>
-                    </div>
-                <?php } ?>
-                </fieldset>
-                <div class="d-flex align-items-start">
-                    <div class="mt-2">
-                        <p class="m-2"><?php echo $text_create_account; ?></p>
-                    </div>
-                    <button type="submit" class="ms-auto text-nowrap btn btn-primary align-self-end"  title="<?php echo $form1['continue']->name ?>">
-                        <i class="<?php echo $form1['continue']->icon; ?> fa"></i>
-                        <?php echo $form1['continue']->name ?>
-                    </button>
+                    </form>
                 </div>
-                </form>
-            </div>
-        <?php }else{
-            echo $this->getHookVar('register_box_html');
-        }?>
+            <?php }else{
+                echo $this->getHookVar('register_box_html');
+            }?>
+        </div>
     </div>
-
-    <div class="loginbox card w-50 m-1 returncustomer">
+    <div class="col-xl-6">
+        <div class="loginbox card m-1 returncustomer h-100">
         <?php if(!$this->getHookVar('login_box_html')){ ?>
         <div class="card-body d-flex flex-wrap">
                 <h4 class="mb-3 text-nowrap w-100"><?php echo $text_returning_customer; ?></h4>
@@ -98,10 +100,11 @@
                         </button>
                     </div>
                 </form>
-            </div>    
+            </div>
         <?php }else{
             echo $this->getHookVar('login_box_html');
         }?>
-    <?php echo $this->getHookVar('login_extension'); ?>
+        <?php echo $this->getHookVar('login_extension'); ?>
+        </div>
     </div>
 </div>
