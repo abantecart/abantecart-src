@@ -436,7 +436,8 @@ class ModelCatalogProduct extends Model
                 WHERE product_discount_id = '".$product_discount_id."'"
             );
         }
-        $this->cache->remove(['product','category','collection']);
+
+        $this->cache->remove(['product','category','collection','storefront_menu']);
     }
 
     /**
@@ -466,7 +467,7 @@ class ModelCatalogProduct extends Model
                 ." WHERE product_special_id = '".$product_special_id."'"
             );
         }
-        $this->cache->remove(['product','category','collection']);
+        $this->cache->remove(['product','category','collection','storefront_menu']);
     }
 
     /**
@@ -972,7 +973,7 @@ class ModelCatalogProduct extends Model
                 sort_order = '".(int) $data['sort_order']."',
                 `default` = '".(int) $data['default']."'"
         );
-        $this->cache->remove(['product', 'collection', 'category']);
+        $this->cache->remove(['product','category','collection','storefront_menu']);
         return $this->db->getLastId();
     }
 
@@ -1264,7 +1265,7 @@ class ModelCatalogProduct extends Model
             );
         }
 
-        $this->cache->remove(['product','category','collection'] );
+        $this->cache->remove(['product','category','collection','storefront_menu']);
 
         //clone layout for the product if present
         $layout_clone_result = $this->_clone_product_layout($product_id, $new_product_id);
@@ -1411,7 +1412,7 @@ class ModelCatalogProduct extends Model
             }
         }
 
-        $this->cache->remove(['product', 'collection', 'category']);
+        $this->cache->remove(['product','category','collection','storefront_menu']);
     }
 
     /**
@@ -1562,7 +1563,7 @@ class ModelCatalogProduct extends Model
         $lm = new ALayoutManager();
         $lm->deletePageLayout('pages/product/product', 'product_id', (int) $product_id);
 
-        $this->cache->remove(['product', 'collection', 'category']);
+        $this->cache->remove(['product','category','collection','storefront_menu']);
         return true;
     }
 
@@ -1577,7 +1578,7 @@ class ModelCatalogProduct extends Model
             "DELETE FROM ".$this->db->table("product_discounts")." 
             WHERE product_discount_id = '".(int) $product_discount_id."'"
         );
-        $this->cache->remove(['product', 'collection', 'category']);
+        $this->cache->remove(['product','category','collection','storefront_menu']);
     }
 
     /**
@@ -1591,7 +1592,7 @@ class ModelCatalogProduct extends Model
             "DELETE FROM ".$this->db->table("product_specials")." 
             WHERE product_special_id='".(int) $product_special_id."'"
         );
-        $this->cache->remove(['product', 'collection', 'category']);
+        $this->cache->remove(['product','category','collection','storefront_menu']);
     }
 
     /**
@@ -1670,7 +1671,7 @@ class ModelCatalogProduct extends Model
                  SET product_id = '".(int) $product_id."'"
             );
         }
-        $this->cache->remove(['product', 'collection', 'category']);
+        $this->cache->remove(['product','category','collection','storefront_menu']);
     }
 
     /**
@@ -1689,7 +1690,7 @@ class ModelCatalogProduct extends Model
                 );
             }
         }
-        $this->cache->remove(['product', 'collection', 'category']);
+        $this->cache->remove(['product','category','collection','storefront_menu']);
     }
 
     /**
@@ -1922,7 +1923,7 @@ class ModelCatalogProduct extends Model
             );
         }
 
-        $this->cache->remove(['product', 'collection', 'category']);
+        $this->cache->remove(['product','category','collection','storefront_menu']);
     }
 
     /**
@@ -2845,7 +2846,7 @@ class ModelCatalogProduct extends Model
     /**
      * @param int $product_id
      *
-     * @return bool
+     * @return int
      * @throws AException
      */
     public function hasTrackOptions($product_id)
@@ -2856,7 +2857,7 @@ class ModelCatalogProduct extends Model
                     ON (pov.product_option_id = po.product_option_id AND po.status = 1) 
                 WHERE pov.product_id=".(int) $product_id." AND pov.subtract = 1";
         $result = $this->db->query($sql);
-        return ($result->num_rows);
+        return $result->num_rows;
     }
 
     /**
@@ -2992,7 +2993,7 @@ class ModelCatalogProduct extends Model
                 );
             }
         }
-        $this->cache->remove(['product', 'collection', 'category']);
+        $this->cache->remove(['product','category','collection','storefront_menu']);
         return true;
     }
 
