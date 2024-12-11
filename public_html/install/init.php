@@ -22,7 +22,7 @@
 require_once(DIR_CORE.'version.php');
 const VERSION = MASTER_VERSION.'.'.MINOR_VERSION.'.'.VERSION_BUILT;
 // Required PHP Version
-const MIN_PHP_VERSION = '8.1.0';
+const MIN_PHP_VERSION = '8.2.0';
 // EMAIL REGEXP PATTERN
 const EMAIL_REGEX_PATTERN = '/^[A-Z0-9._%-]+@[A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,16}$/i';
 
