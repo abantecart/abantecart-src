@@ -21,7 +21,7 @@
 <?php } ?>
 
 <div class="row justify-content-center align-self-stretch">
-    <div class="col-xl-6">
+    <div class="col-xl-6 mb-2">
         <div class="loginbox card m-1 newcustomer h-100">
             <?php if(!$this->getHookVar('register_box_html')){ ?>
             <div class="card-body d-flex flex-wrap">
@@ -57,7 +57,7 @@
             }?>
         </div>
     </div>
-    <div class="col-xl-6">
+    <div class="col-xl-6 mb-2">
         <div class="loginbox card m-1 returncustomer h-100">
         <?php if(!$this->getHookVar('login_box_html')){ ?>
         <div class="card-body d-flex flex-wrap">
