@@ -52,9 +52,9 @@
 	<div class="panel-footer">
 		<div class="row">
 		   <div class="center">
-			 <a class="btn btn-primary on_save_close lock-on-click">
+			 <button class="btn btn-primary on_save_close lock-on-click">
 			 <i class="fa fa-save"></i> <?php echo $button_save_and_close; ?>
-			 </a>&nbsp;
+			 </button>&nbsp;
 			 <button class="btn btn-primary lock-on-click">
 			 <i class="fa fa-save"></i> <?php echo $button_save; ?>
 			 </button>&nbsp;
@@ -69,12 +69,12 @@
 
 <script type="text/javascript">
     //regular submit
-    $('#quick_start').on('submit','#qsFrm',function () {
+    $(document).on('submit','#qsFrm',function () {
         save_changes();
         return false;
     });
     //save and close mode
-    $('#quick_start').on('click', '.on_save_close', function(){
+    $(document).on('click', '.on_save_close', function(){
         var $btn = $(this);
         save_changes();
         $btn.closest('.modal').modal('hide');
@@ -86,7 +86,7 @@
             $('#template_preview').load('<?php echo $template_image; ?>&template=' + $('#qsFrm_config_storefront_template').val())
     });
 
-    $('#quick_start').on('submit', '#store_switcher_form', function(){
+    $(document).on('submit', '#store_switcher_form', function(){
         var that  = $(this);
         $.ajax({
             url: that.attr('action'),

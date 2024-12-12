@@ -28,7 +28,7 @@
 		$(e.target).find(".modal-title").empty();
 		<?php }
         if(!$content) { ?>
-		$(e.target).find(".modal-body").empty();
+		$(e.target).find(".modal-content").empty();
 		<?php } ?>
 		<?php echo $js_onclose; ?>
 
