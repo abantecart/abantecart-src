@@ -1,6 +1,6 @@
 <script type="text/javascript">
 	//regular submit will load next step
-	$('#settingFrm').submit(function () {
+	$('#quick_start').on('submit','#settingFrm',function () {
 		save_and_next();
 		return false;
 	});
@@ -26,7 +26,7 @@
 	}
 
 	//regular submit will load next step
-	$('#setting_form').on('click', '.step_back', function () {
+	$('#quick_start').on('click', '.step_back', function () {
 		var $modal  = $('#quick_start');
 		var url = $(this).attr('href');
 		$.ajax({
@@ -45,7 +45,6 @@
 		return false;
 	});
 
-
 	mail_toggle();
 	$('#settingFrm_config_mail_protocol').change(mail_toggle);
 
@@ -60,14 +59,13 @@
 		field_list.smtp[4] = 'smtp_timeout';
 
 		var show = $('#settingFrm_config_mail_protocol').val();
-		var hide = show == 'mail' ? 'smtp' : 'mail';
+		var hide = show === 'mail' ? 'smtp' : 'mail';
 
-		for (f in field_list[hide]) {
+		for (var f in field_list[hide]) {
 			$('#settingFrm_config_' + field_list[hide][f]).closest('.form-group').fadeOut();
 		}
 		for (f in field_list[show]) {
 			$('#settingFrm_config_' + field_list[show][f]).closest('.form-group').fadeIn();
 		}
 	}
-
 </script>
