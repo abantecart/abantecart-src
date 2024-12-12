@@ -258,11 +258,11 @@ class AMenu_Storefront extends AMenu
      *
      * @param string $item_id
      *
-     * @return boolean|array
+     * @return array
      */
     public function getMenuItem($item_id)
     {
-        $menu_item = false;
+        $menu_item = [];
         foreach ($this->dataset_rows as $item) {
             if ($item_id == $item ['item_id']) {
                 $menu_item = $item;

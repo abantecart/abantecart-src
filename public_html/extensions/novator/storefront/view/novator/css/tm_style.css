@@ -3727,10 +3727,8 @@ h4 .heading-title:after,
     display: none;
 }
 
-.dropdown:hover > .dropdown-menu,
-.dropend:hover > .dropdown-menu {
-    display: block;
-    margin-left: 0;
+.navbar-nav .dropdown-menu{
+    position: absolute !important;
 }
 
 #category_rating-collapse .fa-star {

@@ -629,15 +629,10 @@ $(document).on('click','.wish', function(e) {
 });
 // toggle dropdowns by mouseover
 $(document).ready(function() {
-    $('.dropdown').hover(function() {
-        const min = $(this).parents('footer').length>0 ? 0 : 1;
-        if($(this).children('[data-bs-toggle=dropdown]').length>min) {
-            $(this).dropdown('show');
-        }
-    }, function() {
-        const min = $(this).parents('footer').length>0 ? 0 : 1;
-        if($(this).children('[data-bs-toggle=dropdown]').length>min) {
-            $(this).dropdown('hide');
-        }
+    $('.dropdown').on('mouseover', function () {
+        $(this).children('.dropdown-menu').show().attr('area-expanded', true);
+    }
+    ).on('mouseout', function () {
+        $(this).children('.dropdown-menu').hide().attr('area-expanded', false);
     });
 });
