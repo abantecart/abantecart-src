@@ -126,7 +126,9 @@
                             </label>
                             <div class="input-group afield <?php echo $widthcasses; ?>">
                                 <div class="control-label pull-left" >
-                                    <a href="<?php echo $preview['href']?>"><i class="fa fa-download m5"></i> <?php echo $preview['path']; ?></a>
+                                    <a href="<?php echo $preview['href']?>" target="_blank">
+                                        <i class="fa fa-download m5"></i> <?php echo $preview['path']; ?>
+                                    </a>
                                 </div>
                             </div>
                         </div>
