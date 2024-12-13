@@ -103,7 +103,11 @@ class ControllerCommonSeoUrl extends AController
             if (isset($this->request->get['rt'])) {
                 //build canonical seo-url
                 if (sizeof($parts) > 1) {
-                    $this->_add_canonical_url('url', (HTTPS === true ? HTTPS_SERVER : HTTP_SERVER) . implode('/', array_slice($parts, -2)));
+                    end($parts);
+                    $this->_add_canonical_url(
+                        'url',
+                        (HTTPS === true ? HTTPS_SERVER : HTTP_SERVER) . $parts[array_key_last($parts)]
+                    );
                 }
 
                 $rt = $this->request->get['rt'];
