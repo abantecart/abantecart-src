@@ -169,6 +169,7 @@ try {
     require_once(DIR_CORE.'lib'.DS.'extension_manager.php');
     require_once(DIR_CORE.'lib'.DS.'resource_manager.php');
     require_once(DIR_CORE.'lib'.DS.'language_manager.php');
+    require_once(DIR_CORE.'lib'.DS.'menu_control.php');
 
 //plugins api
 

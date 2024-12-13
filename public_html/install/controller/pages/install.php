@@ -220,6 +220,7 @@ class ControllerPagesInstall extends AController
                 $this->_load_demo_data();
             }
 
+            $db = Registry::getInstance()->get('db');
             //install default template anyway
             $layout = new ALayoutManager('default');
             $file = DIR_ABANTECART . DS . 'storefront' . DS . 'view' . DS . 'default' . DS . 'layout.xml';
@@ -239,13 +240,39 @@ class ControllerPagesInstall extends AController
                     throw new Exception(implode("\n", $em->errors));
                 }
                 $em->editSetting($ext,['novator_status' => 1]);
-                $db = Registry::getInstance()->get('db');
                 $db->query(
                     "UPDATE ".$db->table("settings")." 
                     SET `value` = '".$db->escape($ext)."' 
                     WHERE `key` = 'config_storefront_template'"
                 );
             }
+
+            //preinstall extensions for example PageBuilder
+            $preinstall = $this->session->data['install_step_data']['install_extensions'] ?: ['page_builder'];
+            foreach($preinstall as $pre) {
+                $installSql = DIR_ABANTECART . DS . 'extensions' . DS . $pre . DS . 'install.sql';
+                if (is_file($installSql) && is_readable($installSql)) {
+                    if ($sql = file($installSql)) {
+                        $query = '';
+                        foreach ($sql as $line) {
+                            $tsl = trim($line);
+                            if (!str_starts_with($tsl,"--") && !str_starts_with($tsl,'#')) {
+                                $query .= $line;
+                                if (preg_match('/;\s*$/', $line)) {
+                                    $query = str_replace("`ac_", "`" . DB_PREFIX, $query);
+                                    $db->query($query); //no silence mode! if error - will throw to exception
+                                    $query = '';
+                                }
+                            }
+                        }
+                    }
+                }
+                $installPhp = DIR_ABANTECART . DS . 'extensions' . DS . $pre . DS . 'install.php';
+                if (is_file($installPhp) && is_readable($installPhp)) {
+                    require_once $installPhp;
+                }
+            }
+
             //Clean session for configurations. We do not need them anymore
             unset($this->session->data['install_step_data']);
 
@@ -276,7 +303,6 @@ class ControllerPagesInstall extends AController
     {
         $this->load->model('install');
         $this->model_install->RunSQL($this->session->data['install_step_data']);
-
     }
 
     private function _configure()
