@@ -11,10 +11,19 @@ use AsyncAws\Core\Exception\LogicException;
  */
 class EndpointCache
 {
+    /**
+     * @var array<string, array<string, int>>
+     */
     private $endpoints = [];
 
+    /**
+     * @var array<string, array<string, int>>
+     */
     private $expired = [];
 
+    /**
+     * @param EndpointInterface[] $endpoints
+     */
     public function addEndpoints(?string $region, array $endpoints): void
     {
         $now = time();
@@ -26,7 +35,6 @@ class EndpointCache
             $this->endpoints[$region] = [];
         }
 
-        /** @var EndpointInterface $endpoint */
         foreach ($endpoints as $endpoint) {
             $this->endpoints[$region][$this->sanitizeEndpoint($endpoint->getAddress())] = $now + ($endpoint->getCachePeriodInMinutes() * 60);
         }
@@ -87,7 +95,7 @@ class EndpointCache
 
         // parse_url() will correctly parse full URIs with schemes
         if (isset($parsed['host'])) {
-            return rtrim(sprintf(
+            return rtrim(\sprintf(
                 '%s://%s/%s',
                 $parsed['scheme'] ?? 'https',
                 $parsed['host'],
@@ -105,7 +113,7 @@ class EndpointCache
                 $parsed['path'] = '';
             }
 
-            return rtrim(sprintf(
+            return rtrim(\sprintf(
                 '%s://%s/%s',
                 $parsed['scheme'] ?? 'https',
                 $parsed['host'],
@@ -113,6 +121,6 @@ class EndpointCache
             ), '/');
         }
 
-        throw new LogicException(sprintf('The supplied endpoint "%s" is invalid.', $address));
+        throw new LogicException(\sprintf('The supplied endpoint "%s" is invalid.', $address));
     }
 }

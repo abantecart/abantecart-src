@@ -29,4 +29,6 @@
 	</form>
 </div>
 
-<?php include('quick_start_js.tpl'); ?>
+<?php
+/** @see public_html/admin/view/default/template/responses/setting/quick_start_js.tpl */
+require_once(RDIR_TEMPLATE.'/template/responses/setting/quick_start_js.tpl'); ?>

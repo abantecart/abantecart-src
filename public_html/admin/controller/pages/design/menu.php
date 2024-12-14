@@ -567,7 +567,7 @@ class ControllerPagesDesignMenu extends AController
         foreach ($this->menu_items[$parent] as $item) {
             $this->menu_tree[$item['item_id']] = [
                 'item_id' => $item['item_id'],
-                'text' => str_repeat('&nbsp;&nbsp;&nbsp;', $level) . $item['item_text'][$lang_id],
+                'text' => str_repeat('&nbsp;&nbsp;&nbsp;', $level) . ($item['item_text'][$lang_id]?: $item['title']),
                 'level' => $level,
             ];
             $this->_buildMenuTree($item['item_id'], $level + 1);

@@ -3,7 +3,7 @@
 	<id>page_builder</id>
     <version>1.4.0</version>
 	<type>extension</type>
-	<category>Tools</category>
+	<category>tools</category>
 	<cartversions>
         <item>1.4</item>
 	</cartversions>
@@ -19,11 +19,9 @@
 		</item>
 	</settings>
 	<install>
-		<sql>install.sql</sql>
 		<trigger>install.php</trigger>
 	</install>
 	<uninstall>
-		<sql>uninstall.sql</sql>
 		<trigger>uninstall.php</trigger>
 	</uninstall>
 </extension>

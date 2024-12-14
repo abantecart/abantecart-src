@@ -175,8 +175,7 @@ function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
                    .' data-bs-html="true" data-bs-offset="5,5" data-bs-boundary="window"'
                    .' data-bs-placement="right" data-bs-trigger="hover"'
                 : '';
-
-
+            $popoverAttr .= ' target = "'.$item['settings']['target'].'"';
             $output .= '<a href="'.$item['href'].'" class="'.$css.'" '.$popoverAttr.'>'.$icon.$item_title.'</a>';
         }
         $output .= '</div>';

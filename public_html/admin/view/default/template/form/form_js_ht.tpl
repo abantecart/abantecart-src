@@ -1,5 +1,4 @@
 <script type="application/javascript">
-jQuery(function($){
 	$("input, textarea, select, .scrollbox", '#<?php echo $id ?>').not('.no-save').aform({
 		triggerChanged: true,
 		showButtons: false
@@ -9,5 +8,4 @@ jQuery(function($){
 	$("input, textarea, select, .scrollbox", '#<?php echo $id ?>').filter('.no-save').aform({
 		triggerChanged: false
 	});
-});
 </script>

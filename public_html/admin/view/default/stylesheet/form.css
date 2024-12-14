@@ -18,9 +18,8 @@ label span.help {
 span.required {
 	color: red;
 }
-/* Fiels changed highlite */
+/* Fields changed highlight */
 .chosen-choices .search-field {
-/*	background-color: #fff; */
 	width: 100%;
 }
 .afield .changed, 
@@ -396,4 +395,38 @@ div.acheckbox.checked span {
 	font-family: monospace;
 	font-size: 12px;
 	color: #333;
+}
+
+.primary_content_actions form{
+	margin-left: 30px !important;
+}
+
+
+.primary_content_actions form .btn-group{
+	margin-bottom: 5px !important;
+}
+
+
+.primary_content_actions .chosen-container{
+	min-width: 200px;
+}
+.primary_content_actions .chosen-single{
+	border-radius: 3px !important;
+	min-height: 34px;
+	vertical-align: middle;
+}
+
+.primary_content_actions .reset-date{
+	display: inline-table;
+	padding: 2px;
+	width: 34px;
+}
+.primary_content_actions .reset-date .btn-xs{
+	padding: 13px;
+	font-size: 18px;
+}
+.primary_content_actions .reset-date i.fa{
+	position: absolute;
+	top: 7px;
+	left: 10px;
 }

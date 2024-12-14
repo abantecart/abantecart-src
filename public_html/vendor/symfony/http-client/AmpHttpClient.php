@@ -12,16 +12,20 @@
 namespace Symfony\Component\HttpClient;
 
 use Amp\CancelledException;
+use Amp\DeferredFuture;
 use Amp\Http\Client\DelegateHttpClient;
 use Amp\Http\Client\InterceptedHttpClient;
 use Amp\Http\Client\PooledHttpClient;
 use Amp\Http\Client\Request;
+use Amp\Http\HttpMessage;
 use Amp\Http\Tunnel\Http1TunnelConnector;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Symfony\Component\HttpClient\Exception\TransportException;
-use Symfony\Component\HttpClient\Internal\AmpClientState;
-use Symfony\Component\HttpClient\Response\AmpResponse;
+use Symfony\Component\HttpClient\Internal\AmpClientStateV4;
+use Symfony\Component\HttpClient\Internal\AmpClientStateV5;
+use Symfony\Component\HttpClient\Response\AmpResponseV4;
+use Symfony\Component\HttpClient\Response\AmpResponseV5;
 use Symfony\Component\HttpClient\Response\ResponseStream;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -29,7 +33,11 @@ use Symfony\Contracts\HttpClient\ResponseStreamInterface;
 use Symfony\Contracts\Service\ResetInterface;
 
 if (!interface_exists(DelegateHttpClient::class)) {
-    throw new \LogicException('You cannot use "Symfony\Component\HttpClient\AmpHttpClient" as the "amphp/http-client" package is not installed. Try running "composer require amphp/http-client".');
+    throw new \LogicException('You cannot use "Symfony\Component\HttpClient\AmpHttpClient" as the "amphp/http-client" package is not installed. Try running "composer require amphp/http-client:^4.2.1".');
+}
+
+if (\PHP_VERSION_ID < 80400 && is_subclass_of(Request::class, HttpMessage::class)) {
+    throw new \LogicException('Using "Symfony\Component\HttpClient\AmpHttpClient" with amphp/http-client >= 5 requires PHP >= 8.4. Try running "composer require amphp/http-client:^4.2.1" or upgrade to PHP >= 8.4.');
 }
 
 /**
@@ -42,36 +50,40 @@ final class AmpHttpClient implements HttpClientInterface, LoggerAwareInterface, 
     use HttpClientTrait;
     use LoggerAwareTrait;
 
-    private $defaultOptions = self::OPTIONS_DEFAULTS;
-    private static $emptyDefaults = self::OPTIONS_DEFAULTS;
+    public const OPTIONS_DEFAULTS = HttpClientInterface::OPTIONS_DEFAULTS + [
+        'crypto_method' => \STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT,
+    ];
 
-    /** @var AmpClientState */
-    private $multi;
+    private array $defaultOptions = self::OPTIONS_DEFAULTS;
+    private static array $emptyDefaults = self::OPTIONS_DEFAULTS;
+    private AmpClientStateV4|AmpClientStateV5 $multi;
 
     /**
-     * @param array    $defaultOptions     Default requests' options
-     * @param callable $clientConfigurator A callable that builds a {@see DelegateHttpClient} from a {@see PooledHttpClient};
-     *                                     passing null builds an {@see InterceptedHttpClient} with 2 retries on failures
-     * @param int      $maxHostConnections The maximum number of connections to a single host
-     * @param int      $maxPendingPushes   The maximum number of pushed responses to accept in the queue
+     * @param array         $defaultOptions     Default requests' options
+     * @param callable|null $clientConfigurator A callable that builds a {@see DelegateHttpClient} from a {@see PooledHttpClient};
+     *                                          passing null builds an {@see InterceptedHttpClient} with 2 retries on failures
+     * @param int           $maxHostConnections The maximum number of connections to a single host
+     * @param int           $maxPendingPushes   The maximum number of pushed responses to accept in the queue
      *
      * @see HttpClientInterface::OPTIONS_DEFAULTS for available options
      */
-    public function __construct(array $defaultOptions = [], callable $clientConfigurator = null, int $maxHostConnections = 6, int $maxPendingPushes = 50)
+    public function __construct(array $defaultOptions = [], ?callable $clientConfigurator = null, int $maxHostConnections = 6, int $maxPendingPushes = 50)
     {
-        $this->defaultOptions['buffer'] = $this->defaultOptions['buffer'] ?? \Closure::fromCallable([__CLASS__, 'shouldBuffer']);
+        $this->defaultOptions['buffer'] ??= self::shouldBuffer(...);
 
         if ($defaultOptions) {
             [, $this->defaultOptions] = self::prepareRequest(null, null, $defaultOptions, $this->defaultOptions);
         }
 
-        $this->multi = new AmpClientState($clientConfigurator, $maxHostConnections, $maxPendingPushes, $this->logger);
+        if (is_subclass_of(Request::class, HttpMessage::class)) {
+            $this->multi = new AmpClientStateV5($clientConfigurator, $maxHostConnections, $maxPendingPushes, $this->logger);
+        } else {
+            $this->multi = new AmpClientStateV4($clientConfigurator, $maxHostConnections, $maxPendingPushes, $this->logger);
+        }
     }
 
     /**
      * @see HttpClientInterface::OPTIONS_DEFAULTS for available options
-     *
-     * {@inheritdoc}
      */
     public function request(string $method, string $url, array $options = []): ResponseInterface
     {
@@ -84,10 +96,10 @@ final class AmpHttpClient implements HttpClientInterface, LoggerAwareInterface, 
         }
 
         if ($options['bindto']) {
-            if (0 === strpos($options['bindto'], 'if!')) {
+            if (str_starts_with($options['bindto'], 'if!')) {
                 throw new TransportException(__CLASS__.' cannot bind to network interfaces, use e.g. CurlHttpClient instead.');
             }
-            if (0 === strpos($options['bindto'], 'host!')) {
+            if (str_starts_with($options['bindto'], 'host!')) {
                 $options['bindto'] = substr($options['bindto'], 5);
             }
         }
@@ -97,7 +109,7 @@ final class AmpHttpClient implements HttpClientInterface, LoggerAwareInterface, 
         }
 
         if (!isset($options['normalized_headers']['user-agent'])) {
-            $options['headers'][] = 'User-Agent: Symfony HttpClient/Amp';
+            $options['headers'][] = 'User-Agent: Symfony HttpClient (Amp)';
         }
 
         if (0 < $options['max_duration']) {
@@ -113,13 +125,14 @@ final class AmpHttpClient implements HttpClientInterface, LoggerAwareInterface, 
         }
 
         $request = new Request(implode('', $url), $method);
+        $request->setBodySizeLimit(0);
 
         if ($options['http_version']) {
-            switch ((float) $options['http_version']) {
-                case 1.0: $request->setProtocolVersions(['1.0']); break;
-                case 1.1: $request->setProtocolVersions(['1.1', '1.0']); break;
-                default: $request->setProtocolVersions(['2', '1.1', '1.0']); break;
-            }
+            $request->setProtocolVersions(match ((float) $options['http_version']) {
+                1.0 => ['1.0'],
+                1.1 => ['1.1', '1.0'],
+                default => ['2', '1.1', '1.0'],
+            });
         }
 
         foreach ($options['headers'] as $v) {
@@ -127,9 +140,10 @@ final class AmpHttpClient implements HttpClientInterface, LoggerAwareInterface, 
             $request->addHeader($h[0], $h[1]);
         }
 
-        $request->setTcpConnectTimeout(1000 * $options['timeout']);
-        $request->setTlsHandshakeTimeout(1000 * $options['timeout']);
-        $request->setTransferTimeout(1000 * $options['max_duration']);
+        $coef = $request instanceof HttpMessage ? 1 : 1000;
+        $request->setTcpConnectTimeout($coef * $options['timeout']);
+        $request->setTlsHandshakeTimeout($coef * $options['timeout']);
+        $request->setTransferTimeout($coef * $options['max_duration']);
         if (method_exists($request, 'setInactivityTimeout')) {
             $request->setInactivityTimeout(0);
         }
@@ -140,34 +154,39 @@ final class AmpHttpClient implements HttpClientInterface, LoggerAwareInterface, 
             $request->setHeader('Authorization', 'Basic '.base64_encode(implode(':', $auth)));
         }
 
-        return new AmpResponse($this->multi, $request, $options, $this->logger);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function stream($responses, float $timeout = null): ResponseStreamInterface
-    {
-        if ($responses instanceof AmpResponse) {
-            $responses = [$responses];
-        } elseif (!is_iterable($responses)) {
-            throw new \TypeError(sprintf('"%s()" expects parameter 1 to be an iterable of AmpResponse objects, "%s" given.', __METHOD__, get_debug_type($responses)));
+        if ($request instanceof HttpMessage) {
+            return new AmpResponseV5($this->multi, $request, $options, $this->logger);
         }
 
-        return new ResponseStream(AmpResponse::stream($responses, $timeout));
+        return new AmpResponseV4($this->multi, $request, $options, $this->logger);
     }
 
-    public function reset()
+    public function stream(ResponseInterface|iterable $responses, ?float $timeout = null): ResponseStreamInterface
+    {
+        if ($responses instanceof AmpResponseV4 || $responses instanceof AmpResponseV5) {
+            $responses = [$responses];
+        }
+
+        if ($this->multi instanceof AmpClientStateV5) {
+            return new ResponseStream(AmpResponseV5::stream($responses, $timeout));
+        }
+
+        return new ResponseStream(AmpResponseV4::stream($responses, $timeout));
+    }
+
+    public function reset(): void
     {
         $this->multi->dnsCache = [];
 
-        foreach ($this->multi->pushedResponses as $authority => $pushedResponses) {
+        foreach ($this->multi->pushedResponses as $pushedResponses) {
             foreach ($pushedResponses as [$pushedUrl, $pushDeferred]) {
-                $pushDeferred->fail(new CancelledException());
-
-                if ($this->logger) {
-                    $this->logger->debug(sprintf('Unused pushed response: "%s"', $pushedUrl));
+                if ($pushDeferred instanceof DeferredFuture) {
+                    $pushDeferred->error(new CancelledException());
+                } else {
+                    $pushDeferred->fail(new CancelledException());
                 }
+
+                $this->logger?->debug(\sprintf('Unused pushed response: "%s"', $pushedUrl));
             }
         }
 

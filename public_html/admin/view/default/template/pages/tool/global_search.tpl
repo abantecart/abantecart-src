@@ -1,48 +1,32 @@
-<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
+<?php
+/** @see public_html/admin/view/default/template/common/action_confirm.tpl */
+include($tpl_common_dir . 'action_confirm.tpl'); ?>
 <div id="content" class="panel panel-default">
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
-			<div class="btn-group mr10 toolbar">
-			<?php if ($search_form) { ?>
-			    <form id="<?php echo $search_form['form_open']->name; ?>"
-			    	  method="<?php echo $search_form['form_open']->method; ?>"
-			    	  name="<?php echo $search_form['form_open']->name; ?>" class="form-inline" role="form">
-	    	<?php 	foreach ($search_form['fields'] as $f) {?>
-			    		<div class="form-group">
-			    			<div class="input-group input-group-sm">
-			    				<?php echo $f; ?>
-			    			</div>
-			    		</div>
-            <?php   } ?>
-			    	<div class="form-group">
-			    		<button type="submit" class="btn btn-xs btn-primary tooltips" title="<?php echo $button_filter; ?>">
-			    			<?php echo $search_form['submit']->text ?>
-			    		</button>
-			    	</div>
-			    </form>
-			<?php } ?>
-			</div>
+            <?php
+            /** @see public_html/admin/view/default/template/common/grid_search_form.tpl */
+            include($tpl_common_dir . 'grid_search_form.tpl');?>
 		</div>
-		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
+        <?php
+        /** @see public_html/admin/view/default/template/common/content_buttons.tpl */
+        include($tpl_common_dir . 'content_buttons.tpl'); ?>
 	</div>
 
 <?php if ($search_categories) {?>
 	<div class="panel-body-nopadding tab-content col-xs-12">
         <ul id="search_tabs" class="nav nav-tabs nav-justified nav-profile" role="tablist">
-        <?php
-        $i=0;
+<?php   $i=0;
         foreach ($search_categories as $scat) {	?>
           <li class="disabled <?php echo $i==0 ? 'active' : ''; ?>" >
               <a id="tab_<?php echo $scat;?>_grid" href="#<?php echo $scat;?>" role="tab" data-toggle="tab">
                   <?php echo $search_categories_names[$scat];?>
               </a>
           </li>
-        <?php
-            $i++;
+    <?php  $i++;
         } ?>
         </ul>
-
-        <div class="tab-content">
+    <div class="tab-content">
     <?php   $i=0;
             foreach ($search_categories as $scat) {	?>
                 <div class="tab-pane" id="<?php echo $scat; ?>">

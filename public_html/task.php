@@ -18,7 +18,7 @@
    needs please refer to http://www.AbanteCart.com for more information.  
 ------------------------------------------------------------------------------*/
 // Required PHP Version
-const MIN_PHP_VERSION = '8.1.0';
+const MIN_PHP_VERSION = '8.2.0';
 if (version_compare(phpversion(), MIN_PHP_VERSION, '<')) {
     exit(
             MIN_PHP_VERSION.'+ Required for AbanteCart to work properly! '

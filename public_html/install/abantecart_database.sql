@@ -852,7 +852,6 @@ CREATE TABLE `ac_extensions` (
 
 INSERT INTO `ac_extensions`
     (`type`, `key`, `category`, `status`, `priority`, `version`, `license_key`, `date_installed`, `date_modified`, `date_added`)
-
 VALUES
 ('total', 'coupon', '', 1, 1, '', null, now(), now(), now() ),
 ('total', 'shipping', 'shipping', 1, 1, '', null, now(), now(), now() ),
@@ -873,7 +872,8 @@ VALUES
 
 ('extensions', 'banner_manager', 'extensions', 1, 1, '1.1.0', null, now(), now(), now() ),
 ('extensions', 'forms_manager', 'extensions', 1, 1, '1.1.0', null, now(), now(), now() ),
-('template', 'novator', 'template', 0, 1, '1.0.0', null, NOW(), now() + INTERVAL 4 MINUTE , now() )
+('template', 'novator', 'template', 0, 1, '1.0.0', null, NOW(), now() + INTERVAL 4 MINUTE , now() ),
+('extensions', 'page_builder', 'tools', 1, 10000, '1.4.0', null, NOW(), NOW(), NOW())
 ;
 
 --
@@ -1870,7 +1870,16 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('forms_manager','forms_manager_status',1),
 ('forms_manager','forms_manager_default_sender_name', ''),
 ('forms_manager','forms_manager_default_sender_email', ''),
-('forms_manager','forms_manager_sort_order', '');
+('forms_manager','forms_manager_sort_order', ''),
+
+('page_builder', 'page_builder_layout', ''),
+('page_builder', 'page_builder_priority', '10000'),
+('page_builder', 'page_builder_date_installed', '2024-12-13 18:30:53'),
+('page_builder', 'page_builder_status', 1),
+('page_builder', 'page_builder_logging', 1),
+('page_builder', 'page_builder_sort_order', 1),
+('page_builder', 'store_id', 0)
+;
 
 --
 -- DDL for table `stock_statuses`

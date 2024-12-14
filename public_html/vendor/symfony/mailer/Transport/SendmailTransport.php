@@ -23,9 +23,9 @@ use Symfony\Component\Mime\RawMessage;
 /**
  * SendmailTransport for sending mail through a Sendmail/Postfix (etc..) binary.
  *
- * Transport can be instanciated through SendmailTransportFactory or NativeTransportFactory:
+ * Transport can be instantiated through SendmailTransportFactory or NativeTransportFactory:
  *
- * - SendmailTransportFactory to use most common sendmail path and recommanded options
+ * - SendmailTransportFactory to use most common sendmail path and recommended options
  * - NativeTransportFactory when configuration is set via php.ini
  *
  * @author Fabien Potencier <fabien@symfony.com>
@@ -33,9 +33,9 @@ use Symfony\Component\Mime\RawMessage;
  */
 class SendmailTransport extends AbstractTransport
 {
-    private $command = '/usr/sbin/sendmail -bs';
-    private $stream;
-    private $transport;
+    private string $command = '/usr/sbin/sendmail -bs';
+    private ProcessStream $stream;
+    private ?SmtpTransport $transport = null;
 
     /**
      * Constructor.
@@ -49,13 +49,13 @@ class SendmailTransport extends AbstractTransport
      *
      * -f<sender> flag will be appended automatically if one is not present.
      */
-    public function __construct(string $command = null, EventDispatcherInterface $dispatcher = null, LoggerInterface $logger = null)
+    public function __construct(?string $command = null, ?EventDispatcherInterface $dispatcher = null, ?LoggerInterface $logger = null)
     {
         parent::__construct($dispatcher, $logger);
 
         if (null !== $command) {
             if (!str_contains($command, ' -bs') && !str_contains($command, ' -t')) {
-                throw new \InvalidArgumentException(sprintf('Unsupported sendmail command flags "%s"; must be one of "-bs" or "-t" but can include additional flags.', $command));
+                throw new \InvalidArgumentException(\sprintf('Unsupported sendmail command flags "%s"; must be one of "-bs" or "-t" but can include additional flags.', $command));
             }
 
             $this->command = $command;
@@ -64,11 +64,12 @@ class SendmailTransport extends AbstractTransport
         $this->stream = new ProcessStream();
         if (str_contains($this->command, ' -bs')) {
             $this->stream->setCommand($this->command);
+            $this->stream->setInteractive(true);
             $this->transport = new SmtpTransport($this->stream, $dispatcher, $logger);
         }
     }
 
-    public function send(RawMessage $message, Envelope $envelope = null): ?SentMessage
+    public function send(RawMessage $message, ?Envelope $envelope = null): ?SentMessage
     {
         if ($this->transport) {
             return $this->transport->send($message, $envelope);
@@ -88,7 +89,7 @@ class SendmailTransport extends AbstractTransport
 
     protected function doSend(SentMessage $message): void
     {
-        $this->getLogger()->debug(sprintf('Email transport "%s" starting', __CLASS__));
+        $this->getLogger()->debug(\sprintf('Email transport "%s" starting', __CLASS__));
 
         $command = $this->command;
 
@@ -118,6 +119,6 @@ class SendmailTransport extends AbstractTransport
         $this->stream->flush();
         $this->stream->terminate();
 
-        $this->getLogger()->debug(sprintf('Email transport "%s" stopped', __CLASS__));
+        $this->getLogger()->debug(\sprintf('Email transport "%s" stopped', __CLASS__));
     }
 }

@@ -1,50 +1,41 @@
 <script type="text/javascript">
 	//regular submit will load next step
-	$('#settingFrm').submit(function () {
-		save_and_next();
-		return false;
-	});
+	$('#quick_start').on('submit','#settingFrm',save_and_next);
 
-	function save_and_next(){
-		var $modal  = $('#quick_start');
-		var form_action = $('#settingFrm').attr('action');
+    var pasteContent = function(data){
+        $('#quick_start').find('.modal-content').html(data).trigger('loaded.bs.modal');
+        //enable help toggles
+        spanHelp2Toggles();
+        //deal with email settings
+        mail_toggle();
+        $('#settingFrm_config_mail_protocol').change(mail_toggle);
+    }
+
+	function save_and_next(e){
+        e.preventDefault();
+        e.stopPropagation();
+		var form_action = $('#settingFrm').attr('action')+'&t='+Date.now();
 		$.ajax({
 			url: form_action,
 			type: 'POST',
 			data: $('#settingFrm').serializeArray(),
 			dataType: 'html',
-			success: function (data) {
-				$modal.find('.modal-content').removeData().html(data);
-				//enable help toggles
-				spanHelp2Toggles();
-				//deal with email settings
-				mail_toggle();
-				$('#settingFrm_config_mail_protocol').change(mail_toggle);
-			}
+			success: pasteContent
 		});
 		return false;
 	}
 
 	//regular submit will load next step
-	$('#setting_form').on('click', '.step_back', function () {
-		var $modal  = $('#quick_start');
-		var url = $(this).attr('href');
+	$('#quick_start').on('click', '.step_back', function () {
+		var url = $(this).attr('href')+'&t='+Date.now();
 		$.ajax({
 			url: url,
 			type: 'GET',
 			dataType: 'html',
-			success: function (data) {
-				$modal.find('.modal-content').removeData().html(data);
-				//enable help toggles
-				spanHelp2Toggles();
-				//deal with email settings
-				mail_toggle();
-				$('#settingFrm_config_mail_protocol').change(mail_toggle);
-			}
+			success: pasteContent
 		});
 		return false;
 	});
-
 
 	mail_toggle();
 	$('#settingFrm_config_mail_protocol').change(mail_toggle);
@@ -60,14 +51,13 @@
 		field_list.smtp[4] = 'smtp_timeout';
 
 		var show = $('#settingFrm_config_mail_protocol').val();
-		var hide = show == 'mail' ? 'smtp' : 'mail';
+		var hide = show === 'mail' ? 'smtp' : 'mail';
 
-		for (f in field_list[hide]) {
+		for (var f in field_list[hide]) {
 			$('#settingFrm_config_' + field_list[hide][f]).closest('.form-group').fadeOut();
 		}
 		for (f in field_list[show]) {
 			$('#settingFrm_config_' + field_list[show][f]).closest('.form-group').fadeIn();
 		}
 	}
-
 </script>

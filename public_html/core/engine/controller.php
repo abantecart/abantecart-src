@@ -413,7 +413,8 @@ abstract class AController
                             );
                             $debug_output = $debug_wrapper->dispatchGetOutput();
                             $output = trim($this->view->getOutput());
-                            if (!empty($output)) {
+                            if ($output) {
+                                //TODO: think to move this part into js. Debug wrapper div breaks css cascade!
                                 $output = '<div class="block_tmpl_wrapper">' . $output . $debug_output . '</div>';
                             }
                             $this->view->setOutput($output);

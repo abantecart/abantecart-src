@@ -21,18 +21,15 @@ use Symfony\Component\Mime\RawMessage;
  */
 class MessagePart extends DataPart
 {
-    private $message;
-
-    public function __construct(RawMessage $message)
-    {
+    public function __construct(
+        private RawMessage $message,
+    ) {
         if ($message instanceof Message) {
             $name = $message->getHeaders()->getHeaderBody('Subject').'.eml';
         } else {
             $name = 'email.eml';
         }
         parent::__construct('', $name);
-
-        $this->message = $message;
     }
 
     public function getMediaType(): string
@@ -58,5 +55,15 @@ class MessagePart extends DataPart
     public function bodyToIterable(): iterable
     {
         return $this->message->toIterable();
+    }
+
+    public function __sleep(): array
+    {
+        return ['message'];
+    }
+
+    public function __wakeup(): void
+    {
+        $this->__construct($this->message);
     }
 }

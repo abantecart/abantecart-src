@@ -15,13 +15,13 @@
 			<div class="center">
 				<?php if (!empty ($help_url)) { ?>
 				<div class="btn-group">
-					<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="_ext_help" data-toggle="tooltip" data-original-title="<?php echo $text_external_help; ?>">
+					<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="_ext_help"
+                       data-toggle="tooltip" data-original-title="<?php echo_html2view($text_external_help); ?>">
 						<i class="fa fa-question-circle fa-lg"></i>
 					</a>
 				</div>
-				<?php } ?>
-
-				<?php if ($back) { ?>
+				<?php }
+                if ($back) { ?>
 				<div class="btn-group">
 					<a class="btn btn-white step_back" href="<?php echo $back; ?>">
 						<i class="fa fa-arrow-left"></i> <?php echo $button_back; ?>
@@ -37,4 +37,6 @@
 	</form>
 </div>
 
-<?php include('quick_start_js.tpl'); ?>
+<?php
+/** @see public_html/admin/view/default/template/responses/setting/quick_start_js.tpl */
+require_once(RDIR_TEMPLATE.'/template/responses/setting/quick_start_js.tpl'); ?>
