@@ -2685,24 +2685,24 @@ class PaginationHtmlElement extends HtmlElement
         //max pages to show in pagination
         $this->sts['num_links'] = $data['num_links'] ?: 10;
         $this->sts['url'] = '';
-        $this->sts['text'] = $this->language->get('text_pagination_pages_info');
+        $this->sts['text'] = $this->language->get('text_pagination_pages_info', '', true);
         $this->sts['text'] = $this->sts['text'] == 'text_pagination_pages_info'
             ? 'Showing {start} to {end} of {total} ({pages} Pages)'
             : $this->sts['text'];
 
-        $this->sts['text_limit'] = $this->language->get('text_per_page');
+        $this->sts['text_limit'] = $this->language->get('text_per_page', '', true);
         $this->sts['text_limit'] = $this->sts['text_limit'] == 'text_per_page' ? 'Per Page' : $this->sts['text_limit'];
 
-        $this->sts['text_first'] = $this->language->get('text_first');
+        $this->sts['text_first'] = $this->language->get('text_first', '', true);
         $this->sts['text_first'] = $this->sts['text_first'] == 'text_first' ? '|<<' : $this->sts['text_first'];
 
-        $this->sts['text_last'] = $this->language->get('text_last');
+        $this->sts['text_last'] = $this->language->get('text_last', '', true);
         $this->sts['text_last'] = $this->sts['text_last'] == 'text_last' ? '>>|' : $this->sts['text_last'];
 
-        $this->sts['text_next'] = $this->language->get('text_next');
+        $this->sts['text_next'] = $this->language->get('text_next', '', true);
         $this->sts['text_next'] = $this->sts['text_next'] == 'text_next' ? '>' : $this->sts['text_next'];
 
-        $this->sts['text_prev'] = $this->language->get('text_previous');
+        $this->sts['text_prev'] = $this->language->get('text_previous', '', true);
         $this->sts['text_prev'] = $this->sts['text_prev'] == 'text_previous' ? '<' : $this->sts['text_prev'];
 
         $this->sts['style_links'] = 'links';
