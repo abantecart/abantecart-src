@@ -359,7 +359,7 @@ class ControllerResponsesSettingSettingQuickForm extends AController
             'image_product_height',
         ];
         $this->data['qs_fields']['mail'] = [
-            'mail_protocol',
+            'mail_transporting',
             'smtp_host',
             'smtp_username',
             'smtp_password',
@@ -417,7 +417,6 @@ class ControllerResponsesSettingSettingQuickForm extends AController
                 $this->html->getSecureURL('setting/setting/all'));
             $this->data['competed'] = true;
         } else {
-            $data = [];
             if ($section == 'appearance') {
                 //get current template
                 $template_settings = $this->model_setting_setting->getSetting('appearance', $this->data['store_id']);
@@ -448,7 +447,8 @@ class ControllerResponsesSettingSettingQuickForm extends AController
 
         $back_step = $this->_prior_step($section);
         if ($back_step) {
-            $this->data['back'] = $this->html->getSecureURL('setting/setting_quick_form/quick_start_back',
+            $this->data['back'] = $this->html->getSecureURL(
+                'setting/setting_quick_form/quick_start_back',
                 '&store_id='.$this->data['store_id']);
         }
 
