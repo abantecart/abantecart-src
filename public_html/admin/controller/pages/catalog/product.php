@@ -326,7 +326,7 @@ class ControllerPagesCatalogProduct extends AController
         $results = $this->model_catalog_manufacturer->getManufacturers(
             ['store_id' => $this->session->data['current_store_id']]
         );
-        $this->data['brands'] = ['' => $this->language->get('text_select_manufacturer','catalog/collections')]
+        $this->data['brands'] = ['' => $this->language->get('text_select_brand')]
             + array_column($results, 'name', 'manufacturer_id');
 
         if ($this->request->get['manufacturer']) {

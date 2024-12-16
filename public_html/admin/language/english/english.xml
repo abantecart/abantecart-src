@@ -793,4 +793,8 @@
 		<key>text_design</key>
 		<value><![CDATA[Design]]></value>
 	</definition>
+	<definition>
+		<key>text_select_brand</key>
+		<value><![CDATA[-Select Brand-]]></value>
+	</definition>
 </definitions>

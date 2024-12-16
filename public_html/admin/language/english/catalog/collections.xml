@@ -141,10 +141,6 @@
 		<value><![CDATA[Brands:]]></value>
 	</definition>
 	<definition>
-		<key>text_select_manufacturer</key>
-		<value><![CDATA[-Select Brand-]]></value>
-	</definition>
-	<definition>
 		<key>entry_products</key>
 		<value><![CDATA[Products:]]></value>
 	</definition>
