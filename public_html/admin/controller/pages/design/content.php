@@ -443,6 +443,7 @@ class ControllerPagesDesignContent extends AController
         // get array with stores looks like array (store_id=>array(content_id=>store_name))
         $store_values = $store_selected = [];
         $store_values[0] = $this->language->get('text_default');
+        $currentStore = (int)$this->session->data['current_store_id'];
         $stores = $this->acm->getContentStores();
         if (count($stores) > 1) {
             foreach ($stores as $store_id => $store) {
@@ -452,7 +453,7 @@ class ControllerPagesDesignContent extends AController
                 }
             }
             if (!$store_selected) {
-                $store_selected[0] = 0;
+                $store_selected[$currentStore] = $currentStore;
             }
             $this->data['form']['fields']['store'] = $form->getFieldHtml(
                 [
@@ -477,7 +478,7 @@ class ControllerPagesDesignContent extends AController
 
         // we need get contents list for parent selector
         $disabled_parent = [];
-        $selectTree = $this->acm->getContentsForSelect();
+        $selectTree = $this->acm->getContentsForSelect($currentStore);
         foreach ($selectTree as $node) {
             $id = $node['content_id'];
             if ($id == $contentId) {
