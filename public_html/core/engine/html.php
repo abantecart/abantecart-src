@@ -525,7 +525,10 @@ class AHtml extends AController
             return '';
         }
         $result_stores = $model->getStores();
-        if (sizeof($result_stores) > 0) {
+        if (sizeof($result_stores) <= 1) {
+            //hide store switcher if only one store
+            return '';
+        } else {
             foreach ($result_stores as $rs) {
                 $stores[$rs['store_id']] = [
                     'name'     => $rs['alias'] ?: $rs['name'],
@@ -543,8 +546,6 @@ class AHtml extends AController
             $view->assign('hiddens', $hidden);
             $view->assign('text_select_store', $registry->get('language')->get('text_select_store'));
             return $view->fetch('form/store_switcher.tpl');
-        } else {
-            return '';
         }
     }
 
