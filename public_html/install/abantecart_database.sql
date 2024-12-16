@@ -10423,7 +10423,8 @@ INSERT INTO `ac_blocks` (`block_id`, `block_txt_id`, `controller`, `date_added`)
 (33, 'fast_checkout_summary', 'blocks/fast_checkout_summary', NOW()),
 (34, 'viewed_products','blocks/viewed_products',NOW()),
 (35, 'new_content','blocks/new_content',NOW()),
-(36, 'content_search', 'blocks/content_search', now())
+(36, 'content_search', 'blocks/content_search', now()),
+(37, 'store_hours', 'blocks/store_hours', now())
 ;
 
 --
@@ -10592,7 +10593,9 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `da
 (36, 1, 'blocks/content_search.tpl', now()),
 (36, 2, 'blocks/content_search.tpl', now()),
 (36, 3, 'blocks/content_search.tpl', now()),
-(36, 6, 'blocks/content_search.tpl', now())
+(36, 6, 'blocks/content_search.tpl', now()),
+(37, 6, 'blocks/store_hours.tpl',NOW()),
+(37, 3, 'blocks/store_hours.tpl',NOW())
 ;
 
 --

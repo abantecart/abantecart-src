@@ -75,7 +75,7 @@ class ALayoutManager
         'pages/product/category'     => 'Category',
         'pages/product/product'      => 'Product',
         'pages/product/manufacturer' => 'Brand',
-        'pages/content/content'      => 'Content',
+        'pages/content'              => 'Content',
         'pages/account'              => 'Customer',
         'pages/checkout'             => 'Checkout',
     ];
