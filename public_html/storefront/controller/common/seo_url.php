@@ -47,47 +47,45 @@ class ControllerCommonSeoUrl extends AController
             );
             $seoQueries = array_column($result->rows, 'query', 'keyword');
 
-
-            //Possible area for improvement. Only need to check last node in the path
-            foreach ($parts as $part) {
-                if ($seoQueries[$part]) {
-                    //Note: query is a field containing area=id to identify location
-                    parse_str($seoQueries[$part], $httpQuery);
-                    $keys = $this->coreRoutes;
-                    unset($keys['path']);
-                    $keys = array_keys($keys);
-                    foreach($keys as $paramName)
-                    {
-                        if ( isset($httpQuery[$paramName]) ) {
-                            $this->request->get[$paramName] = $httpQuery[$paramName];
-                            unset($httpQuery[$paramName]);
-                        }
+            end($parts);
+            $part = current($parts);
+            if ($seoQueries[$part]) {
+                //Note: query is a field containing area=id to identify location
+                parse_str($seoQueries[$part], $httpQuery);
+                $keys = $this->coreRoutes;
+                unset($keys['path']);
+                $keys = array_keys($keys);
+                foreach($keys as $paramName)
+                {
+                    if ( isset($httpQuery[$paramName]) ) {
+                        $this->request->get[$paramName] = $httpQuery[$paramName];
+                        unset($httpQuery[$paramName]);
                     }
+                }
 
-                    if ( isset($httpQuery['category_id']) ) {
-                        /** @var ModelCatalogCategory $mdl */
-                        $mdl = $this->loadModel('catalog/category');
-                        if (!isset($this->request->get['path'])) {
-                            $this->request->get['path'] = $mdl->buildPath($httpQuery['category_id']);
-                        } else {
-                            $this->request->get['path'] .= '_'.$httpQuery['category_id'];
-                        }
+                if ( isset($httpQuery['category_id']) ) {
+                    /** @var ModelCatalogCategory $mdl */
+                    $mdl = $this->loadModel('catalog/category');
+                    if (!isset($this->request->get['path'])) {
+                        $this->request->get['path'] = $mdl->buildPath($httpQuery['category_id']);
+                    } else {
+                        $this->request->get['path'] .= '_'.$httpQuery['category_id'];
                     }
-                    // case for manually added pages
-                    if (isset($httpQuery['rt'])) {
-                        $this->request->get['rt'] = $httpQuery['rt'];
-                        unset($httpQuery['rt']);
-                        if(count($httpQuery)>1){
-                            foreach($httpQuery as $n=>$v){
-                                if(!isset($this->request->get[$n])){
-                                    $this->request->get[$n] = $v;
-                                }
+                }
+                // case for manually added pages
+                if (isset($httpQuery['rt'])) {
+                    $this->request->get['rt'] = $httpQuery['rt'];
+                    unset($httpQuery['rt']);
+                    if(count($httpQuery)>1){
+                        foreach($httpQuery as $n=>$v){
+                            if(!isset($this->request->get[$n])){
+                                $this->request->get[$n] = $v;
                             }
                         }
                     }
-                } else {
-                    $this->request->get['rt'] = 'pages/error/not_found';
                 }
+            } else {
+                $this->request->get['rt'] = 'pages/error/not_found';
             }
 
             foreach($this->coreRoutes as $key => $rt){
@@ -106,13 +104,13 @@ class ControllerCommonSeoUrl extends AController
                     end($parts);
                     $this->_add_canonical_url(
                         'url',
-                        (HTTPS === true ? HTTPS_SERVER : HTTP_SERVER) . $parts[array_key_last($parts)]
+                        (HTTPS === true ? HTTPS_SERVER : HTTP_SERVER) . $part
                     );
                 }
 
                 $rt = $this->request->get['rt'];
                 //remove pages prefix from rt for use in new generated urls
-                if (substr($this->request->get['rt'], 0, 6) == 'pages/') {
+                if (str_starts_with($this->request->get['rt'],'pages/')) {
                     $this->request->get['rt'] = substr($this->request->get['rt'], 6);
                 }
                 unset($this->request->get['_route_']);
