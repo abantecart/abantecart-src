@@ -21,10 +21,9 @@
                     </div>
                 <?php } ?>
                 <div class="d-flex flex-nowrap justify-content-between">
-                    <div class="w-auto" style="min-width:<?php echo $logo_width; ?>px">
+                    <div class="w-auto" style="max-width: 260px">
                         <?php if (is_file(DIR_RESOURCE . $logo)) {
-                            $imgLogo = '<img src="resources/'.$logo.'"
-                                 style="min-width: '.$logo_width.'px; min-height: '.$logo_height.'px"
+                            $imgLogo = '<img src="resources/'.$logo.'" class="img-fluid"
                                  title="'.html2view($store).'" alt="'.html2view($store).'"/>';
                             ?>
                         <a class="navbar-brand logo" href="<?php echo $homepage; ?>">

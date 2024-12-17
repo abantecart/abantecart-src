@@ -243,6 +243,7 @@ class AConfigManager
                         'featured_limit',
                         'latest_limit',
                         'special_limit',
+                        'content_limit',
                     ];
                     foreach ($item_name as $name) {
                         if ($dataName == 'config_' . $name && !$dataValue) {
@@ -1266,6 +1267,7 @@ class AConfigManager
                 'config_featured_limit',
                 'config_latest_limit',
                 'config_special_limit',
+                'config_content_limit',
                 'config_image_thumb_width',
                 'config_image_thumb_height',
                 'config_image_popup_width',
@@ -1405,6 +1407,16 @@ class AConfigManager
                     'type'     => 'input',
                     'name'     => 'config_special_limit',
                     'value'    => $data['config_special_limit'],
+                    'required' => true,
+                    'style'    => 'small-field',
+                ]
+            );
+
+            $fields['content_limit'] = $form->getFieldHtml(
+                $props[] = [
+                    'type'     => 'input',
+                    'name'     => 'config_content_limit',
+                    'value'    => $data['config_content_limit'],
                     'required' => true,
                     'style'    => 'small-field',
                 ]

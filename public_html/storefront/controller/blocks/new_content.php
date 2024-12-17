@@ -37,7 +37,7 @@ class ControllerBlocksNewContent extends AController
         $this->data['contents'] = $this->model_catalog_content->filterContents(
            [
                'sort' => 'date-DESC',
-               'limit' => 10
+               'limit' => $this->config->get('config_content_limit') ?: 8
            ]
         );
         foreach ($this->data['contents'] as &$child) {

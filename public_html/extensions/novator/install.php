@@ -92,6 +92,7 @@ $settings['config_featured_limit'] = 4;
 $settings['config_latest_limit'] = 4;
 $settings['config_special_limit'] = 4;
 $settings['config_catalog_limit'] = 20;
+$settings['config_content_limit'] = 8;
 
 /* @var ModelSettingSetting $mdlSetting */
 $mdlSetting = $this->load->model('setting/setting');
