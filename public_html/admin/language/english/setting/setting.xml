@@ -653,6 +653,10 @@
 		<value><![CDATA[Number of Items In Special Block ]]></value>
 	</definition>
 	<definition>
+		<key>entry_content_limit</key>
+		<value><![CDATA[Number of Items In Content Blocks ]]></value>
+	</definition>
+	<definition>
 		<key>entry_cart_weight</key>
 		<value>
 			<![CDATA[Display Weight on Cart Page:<br /><span class="help">Show the cart weight on the cart page</span>]]></value>
