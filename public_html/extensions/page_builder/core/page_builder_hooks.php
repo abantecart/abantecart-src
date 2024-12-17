@@ -177,6 +177,30 @@ class ExtensionPageBuilder extends Extension
         }
     }
 
+
+    // disable preview of main content area of FastCheckout int the canvas of PageBuilder js-editor
+    public function overrideControllerPagesCheckoutFastCheckout_InitData()
+    {
+        /** @var ControllerPagesCheckoutFastCheckout $that */
+        $that = $this->baseObject;
+        if ($this->baseObject_method == '__construct') {
+            return false;
+        }
+        //for view inside editor canvas
+        if ($that->request->get['render_mode'] == 'editor') {
+            if (Registry::getInstance()->get('PBuilder_dryrun')) {
+                $output = '';
+            } else {
+                $output = '<div class="info-alert"> Main Content Area of FastCheckout page</div>';
+            }
+            $response = new AResponse();
+            $response->setOutput($output);
+            $response->output();
+            return true;
+        }
+        return false;
+    }
+
     /**
      * @return false|string
      * @throws AException
@@ -268,50 +292,122 @@ class ExtensionPageBuilder extends Extension
         return $fileNameMask . '@' . $max . '.json';
     }
 
-    public function onControllerPagesCatalogProductTabs_InitData()
+    protected function isPagePublished(string $templateTxtId, string $rt, int $pageId, int $layoutId)
     {
-        $inactive = false;
-        $that = $this->baseObject;
-        $product_id = $that->request->get['product_id'];
-        if (!$product_id) {
-            return;
-        }
-        $execController = 'pages/product/product';
-        $layout = new ALayout(Registry::getInstance(), $that->config->get('config_storefront_template'));
-        $pages = $layout->getPages(
-            $execController,
-            $that->layout->getKeyParamByController($execController),
-            $product_id
+        return is_file(
+            DIR_PB_TEMPLATES . 'public' . DS . $templateTxtId . DS
+            . preformatTextID(str_replace('/', '_', $rt)) . '-' . $pageId. '-' . $layoutId.'.json'
         );
-        if (!$pages) {
-            $inactive = true;
-        } else {
-            $page_id = $layout_id = null;
+    }
+
+    protected function getLayoutIdsByParameters(string $rt, int $paramValue):array
+    {
+        $that = $this->baseObject;
+        $pageId = $layoutId = null;
+
+        $templateTxtId = $that->request->get['tmpl_id'] ?: Registry::getInstance()->get('config')->get('config_storefront_template');
+        $layout = new ALayout(Registry::getInstance(), $templateTxtId);
+        $paramKey = $layout->getKeyParamByController($rt);
+        $pages = $layout->getPages(
+            $rt,
+            $paramKey,
+            $paramValue
+        );
+        if ($pages) {
             foreach ($pages as $page) {
                 if ($page['key_param'] && $page['key_value']) {
-                    $page_id = $page['page_id'];
-                    $layout_id = $page['layout_id'];
-                    $that->data['link_page_builder'] = $that->html->getSecureUrl(
-                        'design/page_builder',
-                        '&tmpl_id=' . $that->config->get('config_storefront_template') . '&page_id=' . $page_id . '&layout_id='
-                        . $layout_id
-                    );
+                    $pageId = (int)$page['page_id'];
+                    $layoutId = (int)$page['layout_id'];
                     break;
                 }
             }
-            if (!$page_id || !$layout_id) {
-                $inactive = true;
-            }
+        }
+        return [
+            'templateTxtId' => $templateTxtId,
+            'pageId' => $pageId,
+            'layoutId' => $layoutId
+        ];
+    }
+
+    public function onControllerPagesCatalogProductLayout_UpdateData()
+    {
+        $that = $this->baseObject;
+        $that->loadLanguage('page_builder/page_builder');
+
+        $paramValue = (int)$that->request->get['product_id'];
+        if (!$paramValue) {
+            return;
         }
 
-        $that->loadLanguage('page_builder/page_builder');
-        $that->data['additionalTabs'][] = 'page_builder';
-        $that->data['tab_page_builder'] = $that->language->get('page_builder_name');
-        if ($inactive) {
-            $that->data['link_page_builder'] = "Javascript:void(0);";
-            $that->data['inactive'][] = 'page_builder';
-            $that->data['title_page_builder'] = $that->language->get('page_builder_tab_title');
+        $execController = 'pages/product/product';
+        $res = $this->getLayoutIdsByParameters($execController, $paramValue);
+        extract($res);
+        $link_page_builder = $that->html->getSecureUrl(
+            'r/extension/page_builder/create_new_page',
+            '&' . http_build_query(
+                [
+                    'tmpl_id' => $templateTxtId,
+                    'controller' => $execController,
+                    'param_key' => 'product_id',
+                    'param_value' => $paramValue
+                ]
+            )
+        );
+        if($pageId && $layoutId) {
+            $isPublished = $this->isPagePublished($templateTxtId, $execController, $pageId, $layoutId);
+            if($isPublished) {
+                $link_page_builder = $that->html->getSecureUrl(
+                    'design/page_builder',
+                    '&' . http_build_query(
+                        [
+                            'tmpl_id' => $templateTxtId,
+                            'page_id' => $pageId,
+                            'layout_id' => $layoutId
+                        ]
+                    )
+                );
+                $that->view->assign('layoutform', false);
+
+                $that->view->addHookVar(
+                    'layout_form_post',
+                    '<div id="page-layout" class="panel-body panel-body-nopadding tab-content col-xs-12 text-center">'
+                        .'<div class="layout_form_post padding10 pt10">'
+                            .'This page is already published by Page Builder.'
+                            .$that->html->buildElement([
+                                'type' => 'button',
+                                'href' => $link_page_builder,
+                                'text' => 'Click to View page'
+                            ]).'</div></div>');
+
+            }else {
+
+                $that->view->addHookVar(
+                    'layout_form_action_post',
+                    '<div class="btn-group mr10"><div class="pull-right">'
+                    .'...or this page can be customized with Page Builder. '
+                    .$that->html->buildElement([
+                        'type' => 'button',
+                        'href' => $link_page_builder,
+                        'text' => 'Click to Try',
+                        'style' => 'btn btn-primary'
+                    ]).'</div></div>');
+            }
+        }else{
+
+            $that->view->addHookVar(
+                'layout_form_action_post',
+                '<div class="btn-group mr10"><div class="pull-right">'
+                .'...or this page can be customized with Page Builder. '
+                .$that->html->buildElement([
+                    'type' => 'button',
+                    'href' => $link_page_builder,
+                    'text' => 'Click to Try',
+                    'style' => 'btn btn-primary'
+                ]).'</div></div>'
+        );
         }
+
+
     }
 
     public function onControllerPagesCatalogCategoryTabs_InitData()
@@ -523,27 +619,5 @@ class ExtensionPageBuilder extends Extension
         );
     }
 
-    // disable preview of main content area of FastCheckout int the canvas of PageBuilder js-editor
-    public function overrideControllerPagesCheckoutFastCheckout_InitData()
-    {
-        /** @var ControllerPagesCheckoutFastCheckout $that */
-        $that = $this->baseObject;
-        if ($this->baseObject_method == '__construct') {
-            return false;
-        }
-        //for view inside editor canvas
-        if ($that->request->get['render_mode'] == 'editor') {
-            if (Registry::getInstance()->get('PBuilder_dryrun')) {
-                $output = '';
-            } else {
-                $output = '<div class="info-alert"> Main Content Area of FastCheckout page</div>';
-            }
-            $response = new AResponse();
-            $response->setOutput($output);
-            $response->output();
-            return true;
-        }
-        return false;
-    }
 
 }

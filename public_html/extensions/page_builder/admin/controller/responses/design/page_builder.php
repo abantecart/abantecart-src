@@ -674,4 +674,8 @@ class ControllerResponsesDesignPageBuilder extends AController
         }
     }
 
+    public function createNewPage(){
+        $templateTxtId = $this->request->get['template'];
+    }
+
 }
