@@ -297,7 +297,7 @@ class ModelCatalogContent extends Model
      * @return array
      * @throws AException
      */
-    public function getListingContent($content_ids = []){
+    public function getListingContent($content_ids, $limit){
         $includeIDs = [];
         foreach ($content_ids as $content_id) {
             if ($children = $this->getChildrenIDs($content_id)) {
@@ -308,7 +308,12 @@ class ModelCatalogContent extends Model
                 $includeIDs[] = $content_id;
             }
         }
-        $contents = $this->getContents(['filter_ids' => $includeIDs]);
+        $filter = [
+            'filter_ids' => $includeIDs,
+            'limit' => $limit ?: null
+        ];
+
+        $contents = $this->getContents($filter);
         return  $contents;
     }
 }

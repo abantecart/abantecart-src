@@ -8,8 +8,37 @@ if( isset(current((array)$products)['product_id']) ){
                 <h1 class="h2 heading-title"><?php echo $heading_title; ?></h1>
             <?php } ?>
 <?php
+    //content pages
+    if ($content && (isset(current((array)$content)['content_id'])) ){ ?>
+            <ul class="list-unstyled d-flex flex-wrap justify-content-evenly m-5">
+                <?php foreach ($content as $item){
+                    $item['image'] = $item['icon_url']
+                        ? '<img alt="'.html2view($item['title']).'" class="d-block" src="'. $item['icon_url'].'"/>'
+                        : $item['icon_code'];
+                    ?>
+                 <li class="card d-flex flex-wrap align-items-center shadow mb-4 me-4">
+                     <?php if($item['image']){ ?>
+                     <div class="align_center h-100 p-5">
+                         <a href="<?php echo $item['href']; ?>">
+                             <?php echo $item['image']; ?>
+                         </a>
+                         <a href="<?php echo $item['href']; ?>">
+                             <p class="w-"><?php echo $item['title']; ?></p>
+                         </a>
+                     </div>
+                    <?php } else { ?>
+                         <div class="d-flex align-items-center h-100 p-5">
+                         <a href="<?php echo $item['href']; ?>">
+                            <?php echo $item['title']; ?>
+                         </a>
+                         </div>
+                    <?php } ?>
+                </li>
+                <?php } ?>
+            </ul>
+<?php
 // categories and brands
-    if ($content && (isset(current((array)$content)['category_id']) || isset(current((array)$content)['manufacturer_id']))
+    } else if ($content && (isset(current((array)$content)['category_id']) || isset(current((array)$content)['manufacturer_id']))
     ){ ?>
 
             <ul class="list-unstyled d-flex flex-wrap justify-content-evenly m-5">

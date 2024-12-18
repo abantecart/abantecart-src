@@ -342,7 +342,8 @@ class AListing
         /** @see ModelCatalogContent::getListingContent() */
         elseif ($model == 'catalog/content' && $method == 'getListingContent') {
             $output = [
-                'content_ids' => (array)$args['content_ids']
+                'content_ids' => (array)$args['content_ids'],
+                'limit'         => $args['limit']
             ];
         }
 

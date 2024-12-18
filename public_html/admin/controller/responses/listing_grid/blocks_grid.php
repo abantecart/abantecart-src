@@ -386,8 +386,20 @@ class ControllerResponsesListingGridBlocksGrid extends AController
                 'style'            => 'no-save',
             ]
         );
-
         $this->view->assign('multivalue_html', $multivalue_html);
+
+        $this->view->assign('entry_limit', $this->language->get('entry_limit'));
+        $this->view->assign('field_limit', $form->getFieldHtml(
+            [
+                'type'     => 'input',
+                'name'     => 'limit',
+                'value'    => $content['limit'],
+                'style'    => 'no-save',
+                'multilingual' => true,
+                'help_url' => $this->gen_help_url('block_limit'),
+            ]
+        )
+        );
         $this->view->assign('form_name', $form_name);
 
         $this->processTemplate('responses/design/block_custom_listing_subform.tpl');
