@@ -72,9 +72,5 @@
             $('#hist_modal').modal('hide');
         });
 
-        function destroyHistoryModal(){
-			$('#hist_modal .history-modal-content').remove();
-			$('#hist_modal .panel-body').off();
-        }
     </script>
 </div>
