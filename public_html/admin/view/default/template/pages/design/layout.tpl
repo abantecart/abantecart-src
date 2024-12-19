@@ -1,9 +1,11 @@
 <?php
+/** @see public_html/admin/view/default/template/common/action_confirm.tpl */
 include($tpl_common_dir . 'action_confirm.tpl');
 /* preview development is not complete. future */
 if ($preview_id) { ?>
 <div class="alert alert-info">
-    <?php echo $text_preview_generated; ?> <a href="<?php echo $preview_url; ?>" target="_blank"><?php echo $text_click_here; ?></a>
+    <?php echo $text_preview_generated; ?>
+    <a href="<?php echo $preview_url; ?>" target="_blank"><?php echo $text_click_here; ?></a>
 </div>
 <?php }
 
@@ -46,14 +48,19 @@ foreach ($pages as $page) {
                   $current_ok_delete = true;
               }
           }
-        $page_list .= '<li class="' . $item_class . '"><a href="' . $child['url'] . '" title="' . html2view($child['name']) . '">' . $child['layout_name'] . '</a></li>';
+        $page_list .= '<li class="' . $item_class . '">
+            <a href="' . $child['url'] . '" title="' . html2view($child['name']) . '">' . $child['layout_name'] . '</a>
+        </li>';
       }
       $page_list .= '</ul>';
   }
   $page_list .= '</li>';
 }
-$page_list .= '<li><a id="create_new_layout" href="'. $new_layout_modal_url.'" data-target="#new_layout_modal" data-toggle="modal" 
-class="btn" title="'.htmlspecialchars($text_create_new_layout, ENT_QUOTES, 'UTF-8').'"><strong><i class="fa fa-plus-square-o"></i>&nbsp;'.$text_create_new_layout.'</strong></a></li>';
+$page_list .= '<li>
+    <a id="create_new_layout" href="'. $new_layout_modal_url.'" data-target="#new_layout_modal" data-toggle="modal" 
+            class="btn" title="'.html2view($text_create_new_layout).'">
+            <strong><i class="fa fa-plus-square-o"></i>&nbsp;'.$text_create_new_layout.'</strong>
+    </a></li>';
 
 echo $this->html->buildElement(
         [
@@ -68,8 +75,10 @@ echo $this->html->buildElement(
 <div id="content" class="panel panel-default">
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
+            <?php echo $this->getHookVar('layout_form_action_pre'); ?>
 			<div class="btn-group mr10 toolbar">
-			  <button class="btn btn-default dropdown-toggle tooltips" type="button" data-toggle="dropdown" title="<?php echo $text_select_template; ?>">
+			  <button class="btn btn-default dropdown-toggle tooltips" type="button" data-toggle="dropdown"
+                      title="<?php echo_html2view($text_select_template); ?>">
 			    <i class="fa fa-photo"></i>
 			    <?php echo $tmpl_id; ?> <span class="caret"></span>
 			  </button>
@@ -87,40 +96,47 @@ echo $this->html->buildElement(
 			    <?php echo $page_list; ?>
 			  </ul>
 			</div>
-
+            <?php if($layoutform){ ?>
 			<div class="btn-group toolbar">
-				<button class="actionitem btn btn-primary lock-on-click layout-form-save tooltips" title="<?php echo $button_save; ?>">
+				<button class="actionitem btn btn-primary lock-on-click layout-form-save tooltips"
+                        title="<?php echo_html2view($button_save); ?>">
 					<i class="fa fa-save fa-fw"></i>
 				</button>
 			</div>
-
 			<div class="btn-group toolbar">
-				<a class="actionitem btn btn-default lock-on-click tooltips" href="<?php echo $current_url; ?>" title="<?php echo $button_reset; ?>">
+				<a class="actionitem btn btn-default lock-on-click tooltips"
+                   href="<?php echo $current_url; ?>" title="<?php echo_html2view( $button_reset ); ?>">
 					<i class="fa fa-refresh fa-fw"></i>
 				</a>
 			</div>
-
-        <?php if ($current_ok_delete) { ?>
+        <?php
+            if ($current_ok_delete) { ?>
 			<div class="btn-group toolbar">
-				<a class="actionitem btn btn-default delete_page_layout tooltips" href="<?php echo $page_delete_url; ?>" title="<?php echo $button_delete; ?>">
+				<a class="actionitem btn btn-default delete_page_layout tooltips"
+                   href="<?php echo $page_delete_url; ?>" title="<?php echo_html2view($button_delete); ?>">
 					<i class="fa fa-trash-o fa-fw"></i>
 				</a>
 			</div>
-        <?php } ?>
+        <?php }
+            }
+            echo $this->getHookVar('layout_form_action_post');
+        ?>
         </div>
-<?php
-        include($tpl_common_dir.'content_buttons.tpl'); ?>
+<?php   include($tpl_common_dir.'content_buttons.tpl'); ?>
     </div>
-
 <?php
+    if($layoutform){
     echo $form_begin; ?>
     <div id="page-layout" class="panel-body panel-body-nopadding tab-content col-xs-12">
         <?php
-            echo $layout_form;
+            echo $layoutform;
             echo $hidden_fields;
         ?>
     </div>
     </form>
+    <?php
+    }
+    echo $this->getHookVar('layout_form_post'); ?>
 </div>
 
 <script type="text/javascript">

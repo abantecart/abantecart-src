@@ -909,9 +909,9 @@ class ALayoutManager
         $layout = $this->active_layout;
         $new_layout = false;
 
-        if ($layout ['layout_type'] == 0 && ($page ['controller'] != 'generic' || $data['controller'])) {
-            $layout ['layout_name'] = $data['layout_name'];
-            $layout ['layout_type'] = self::LAYOUT_TYPE_ACTIVE;
+        if ($layout['layout_type'] == 0 && ($page['controller'] != 'generic' || $data['controller'])) {
+            $layout['layout_name'] = $data['layout_name'];
+            $layout['layout_type'] = self::LAYOUT_TYPE_ACTIVE;
             $this->layout_id = $this->saveLayout($layout);
             $new_layout = true;
 
@@ -924,9 +924,9 @@ class ALayoutManager
         foreach ($this->main_placeholders as $placeholder) {
             $block = $this->getLayoutBlockByTxtId($placeholder);
             if (!empty ($block)) {
-                list($block ['block_id'], $block ['custom_block_id']) = explode("_", $block ['block_id']);
-                if (!empty ($data['blocks'] [$block ['block_id']])) {
-                    $block = array_merge($block, $data['blocks'] [$block ['block_id']]);
+                list($block['block_id'], $block['custom_block_id']) = explode("_", $block ['block_id']);
+                if ($data['blocks'][ $block['block_id'] ]) {
+                    $block = array_merge($block, $data['blocks'][ $block ['block_id'] ]);
                     if ($new_layout) {
                         $block ['layout_id'] = $this->layout_id;
                         $instance_id = $this->saveLayoutBlocks($block);
@@ -934,21 +934,22 @@ class ALayoutManager
                         $instance_id = $this->saveLayoutBlocks($block, $block ['instance_id']);
                     }
 
-                    if (isset ($data['blocks'] [$block ['block_id']] ['children'])) {
+                    if( isset($data['blocks'][ $block ['block_id'] ]['children'])) {
                         $this->deleteLayoutBlocks($this->layout_id, $instance_id);
 
-                        foreach ($data['blocks'] [$block ['block_id']] ['children'] as $key => $block_data) {
+                        foreach( $data['blocks'][ $block['block_id'] ]['children'] as $key => $block_data) {
                             $child = [];
-                            if (!empty ($block_data)) {
-                                $child ['layout_id'] = $this->layout_id;
+                            if($block_data) {
+                                $child['layout_id'] = $this->layout_id;
                                 list(
-                                    $child ['block_id'], $child ['custom_block_id']
-                                    ) =
-                                    explode("_", $block_data['block_id']);
-                                $child ['parent_instance_id'] = $instance_id;
+                                    $child['block_id'],
+                                    $child['custom_block_id']
+                                    ) = explode("_", $block_data['block_id']);
+
+                                $child['parent_instance_id'] = $instance_id;
                                 //NOTE: Block positions are saved in 10th increment starting from 10
-                                $child ['position'] = ($key + 1) * 10;
-                                $child ['status'] = $block_data['status'];
+                                $child['position'] = ($key + 1) * 10;
+                                $child['status'] = $block_data['status'];
                                 $this->saveLayoutBlocks($child);
                             }
                         }
@@ -958,7 +959,7 @@ class ALayoutManager
         }
 
         $this->cache->remove('layout');
-        return true;
+        return $this->layout_id;
     }
 
     /**
@@ -1021,30 +1022,31 @@ class ALayoutManager
     /**
      * Function to clone layout linked to the page
      *
-     * @param        $src_layout_id
-     * @param string $dest_layout_id
-     * @param string $layout_name
+     * @param        $srcLayoutId
+     * @param string $dstLayoutId
+     * @param string $layoutName
      *
      * @return bool
      * @throws AException
      */
-    public function clonePageLayout($src_layout_id, $dest_layout_id = '', $layout_name = '')
+    public function clonePageLayout($srcLayoutId, $dstLayoutId = 0, $layoutName = '')
     {
-        if (!has_value($src_layout_id)) {
+        $srcLayoutId = (int)$srcLayoutId;
+        $dstLayoutId = (int)$dstLayoutId;
+        if (!$srcLayoutId) {
             return false;
         }
 
         $layout = $this->active_layout;
 
         //this is a new layout
-        if (!$dest_layout_id) {
-            if ($layout_name) {
-                $layout ['layout_name'] = $layout_name;
+        if (!$dstLayoutId) {
+            if ($layoutName) {
+                $layout['layout_name'] = $layoutName;
             }
-            $layout ['layout_type'] = 1;
+            $layout['layout_type'] = 1;
             $this->layout_id = $this->saveLayout($layout);
-            $dest_layout_id = $this->layout_id;
-
+            $dstLayoutId = $this->layout_id;
             $this->db->query(
                 "INSERT INTO " . $this->db->table("pages_layouts") . " (layout_id,page_id)
                     VALUES ('" . ( int )$this->layout_id . "','" . ( int )$this->page_id . "')"
@@ -1052,14 +1054,13 @@ class ALayoutManager
         } else {
             //delete existing layout data if provided cannot delete based on $this->layout_id
             // (done on purpose for confirmation)
-            $this->deleteAllLayoutBlocks($dest_layout_id);
+            $this->deleteAllLayoutBlocks($dstLayoutId);
         }
 
         #clone blocks from source layout
-        $this->cloneLayoutBlocks($src_layout_id, $dest_layout_id);
-
+        $this->cloneLayoutBlocks($srcLayoutId, $dstLayoutId);
         $this->cache->remove('layout');
-        return true;
+        return $dstLayoutId ?: $this->layout_id;
     }
 
     /**
