@@ -27,6 +27,7 @@
     </div>
     <?php }
     if ($quick_start_url) { ?>
+    <script defer src="<?php echo RDIR_TEMPLATE.'javascript/quick_start.js'; ?>"></script>
     <div class="btn-group">
         <a class="btn btn-white tooltips" href="<?php echo $quick_start_url; ?>"
            data-target="#quick_start" data-toggle="modal"
@@ -53,7 +54,7 @@ if ($quick_start_url) {
             'type'        => 'modal',
             'id'          => 'quick_start',
             'modal_type'  => 'lg',
-            'data_source' => 'ajax'
+            'data_source' => 'ajax',
         ]
     );
 }
