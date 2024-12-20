@@ -1,4 +1,4 @@
-<div class="latest-column">
+<div class="latest-column mt-3">
     <?php
     	if ( $block_framed ) { ?>
     <h2><?php echo $heading_title; ?></h2>
