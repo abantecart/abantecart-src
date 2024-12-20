@@ -69,7 +69,7 @@ foreach ($templates as $template) {
 
 	<?php echo $form_begin; ?>
 	<div id="page-layout" class="panel-body panel-body-nopadding tab-content col-xs-12">
-		<?php echo $layoutform;
+		<?php echo $block_layout_form;
         if($hidden_fields) {
             foreach ($hidden_fields as $hidden) {
                 $hidden->element_id = 'layout_form_'.preformatTextID($hidden->name);

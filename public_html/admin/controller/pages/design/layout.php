@@ -162,7 +162,7 @@ class ControllerPagesDesignLayout extends AController
         $layout_data['help_url'] = $this->gen_help_url('layout');
         $layout_data['new_layout_modal_url'] = $this->html->getSecureURL(
             'r/design/page_layout',
-            '&tmpl_id=' . $params['tmpl_id']
+            '&'.http_build_query(['tmpl_id' => $params['tmpl_id']])
         );
 
         // Alert messages
@@ -176,7 +176,7 @@ class ControllerPagesDesignLayout extends AController
         }
 
         $layoutForm = $this->dispatch('common/page_layout', [$this->layout]);
-        $layout_data['layoutform'] = $layoutForm->dispatchGetOutput();
+        $layout_data['block_layout_form'] = $layoutForm->dispatchGetOutput();
 
         $this->view->batchAssign($layout_data);
         $this->processTemplate('pages/design/layout.tpl');
@@ -186,31 +186,35 @@ class ControllerPagesDesignLayout extends AController
 
     public function save()
     {
+        if(!$this->request->is_POST()) {
+            redirect( $this->html->getSecureURL( 'design/layout' ) );
+        }
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-        $url = '';
+        $templateTxtId = $this->request->post['tmpl_id'];
+        $pageId = (int)$this->request->post['page_id'];
+        $layoutId = (int)$this->request->post['layout_id'];
 
-        if ($this->request->is_POST()) {
-            $tmpl_id = $this->request->post['tmpl_id'];
-            $page_id = $this->request->post['page_id'];
-            $layout_id = $this->request->post['layout_id'];
-
-            $url = '&' . $this->html->buildURI([
-                    'tmpl_id'   => $tmpl_id,
-                    'page_id'   => $page_id,
-                    'layout_id' => $layout_id,
-                ]);
-
-            $layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
-            $layout_data = $layout->prepareInput($this->request->post);
-            if ($layout_data) {
-                $layout->savePageLayout($layout_data);
-                $this->session->data['success'] = $this->language->get('text_success');
-            }
+        $layout = new ALayoutManager($templateTxtId, $pageId, $layoutId);
+        $layout_data = $layout->prepareInput($this->request->post);
+        if ($layout_data) {
+            $layout->savePageLayout($layout_data);
+            $this->session->data['success'] = $this->language->get('text_success');
         }
 
-        redirect($this->html->getSecureURL('design/layout', $url));
+        redirect(
+            $this->html->getSecureURL(
+                'design/layout',
+                '&' . http_build_query(
+                    [
+                        'tmpl_id'   => $templateTxtId,
+                        'page_id'   => $pageId,
+                        'layout_id' => $layoutId,
+                    ]
+                )
+            )
+        );
     }
 
     public function delete()
@@ -218,19 +222,19 @@ class ControllerPagesDesignLayout extends AController
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-        $tmpl_id = $this->request->get['tmpl_id'];
-        $page_id = $this->request->get['page_id'];
-        $layout_id = $this->request->get['layout_id'];
+        $templateTxtId = $this->request->post['tmpl_id'];
+        $pageId = (int)$this->request->post['page_id'];
+        $layoutId = (int)$this->request->post['layout_id'];
 
         $success = false;
         if ($this->request->is_GET() && $this->request->get['confirmed_delete'] == 'yes') {
-            $layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
+            $layout = new ALayoutManager($templateTxtId, $pageId, $layoutId);
             //do delete this page/layout validate that it is allowed to delete
             $page = $layout->getPageData();
             if ($page['restricted']) {
                 $this->session->data['warning'] = $this->language->get('text_delete_restricted');
             } else {
-                if ($layout->deletePageLayoutByID($page_id, $layout_id)) {
+                if ($layout->deletePageLayoutByID($pageId, $layoutId)) {
                     $this->session->data['success'] = $this->language->get('text_delete_success');
                     $success = true;
                 } else {
@@ -239,18 +243,23 @@ class ControllerPagesDesignLayout extends AController
             }
         }
 
-        $url = '';
-        if ($tmpl_id) {
-            $url .= '&tmpl_id=' . $tmpl_id;
+        $httpQuery = [];
+        if ($templateTxtId) {
+            $httpQuery['tmpl_id'] = $templateTxtId;
         }
         if (!$success) {
-            if ($layout_id) {
-                $url .= '&layout_id=' . $layout_id;
+            if ($layoutId) {
+                $httpQuery['layout_id'] = $layoutId;
             }
-            if ($page_id) {
-                $url .= '&page_id=' . $page_id;
+            if ($pageId) {
+                $httpQuery['page_id'] = $pageId;
             }
         }
-        redirect($this->html->getSecureURL('design/layout', $url));
+        redirect(
+            $this->html->getSecureURL(
+                'design/layout',
+                '&' . http_build_query( $httpQuery )
+            )
+        );
     }
 }

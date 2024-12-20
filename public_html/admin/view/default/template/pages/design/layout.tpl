@@ -9,6 +9,10 @@ if ($preview_id) { ?>
 </div>
 <?php }
 
+function isCurrentPage($page, $currentPage) {
+    return $page['page_id'] == $currentPage['page_id'] && $page['layout_id'] == $currentPage['layout_id'];
+}
+
 $template_list = '';
 foreach ($templates as $template) {
   $item_class = '';
@@ -24,7 +28,7 @@ $current_ok_delete = false;
 $page_list = '';
 foreach ($pages as $page) {
   $item_class = '';
-  if ($page['page_id'] == $current_page['page_id'] && $page['layout_id'] == $current_page['layout_id']) {
+  if (isCurrentPage($page, $current_page)) {
     $item_class = ' disabled';
     if (!$page['restricted']) {
       $page_delete_url = $page['delete_url'];
@@ -36,23 +40,26 @@ foreach ($pages as $page) {
       $page_list .= '<li class="' . $item_class . '">
                         <a href="' . $page['url'] . '" title="' . html2view($page['name']) . '">' . $page['layout_name'] . '</a>';
   }else{
-      $page_list .= '<li class="' . $item_class . ' dropdown-submenu">
-                        <a id="'.$page['id'].'" class="2d-dropdown">' . $page['layout_name'] . '</a>';
-      $page_list .= '<ul class="dropdown-menu" aria-labelledby="'.$page['id'].'">';
+      $childrenList = '<ul class="dropdown-menu" aria-labelledby="'.$page['id'].'">';
+      $selectedChild = false;
       foreach($page['children'] as $child){
-          $item_class = '';
-          if($child['page_id'] == $current_page['page_id'] && $child['layout_id'] == $current_page['layout_id']){
-              $item_class = ' disabled';
+          $cssClass = '';
+          if(isCurrentPage($child, $current_page)){
+              $cssClass = ' disabled';
+              $selectedChild = true;
               if (!$child['restricted']) {
                   $page_delete_url = $child['delete_url'];
                   $current_ok_delete = true;
               }
           }
-        $page_list .= '<li class="' . $item_class . '">
+          $childrenList .= '<li class="' . $cssClass . '">
             <a href="' . $child['url'] . '" title="' . html2view($child['name']) . '">' . $child['layout_name'] . '</a>
         </li>';
       }
-      $page_list .= '</ul>';
+      $childrenList .= '</ul>';
+      $page_list .= '<li class="' . ($selectedChild ? ' selected-parent':''). ' dropdown-submenu">
+                        <a id="'.$page['id'].'" class="d2d-dropdown">' . $page['layout_name'] . '</a>';
+      $page_list .= $childrenList;
   }
   $page_list .= '</li>';
 }
@@ -96,7 +103,7 @@ echo $this->html->buildElement(
 			    <?php echo $page_list; ?>
 			  </ul>
 			</div>
-            <?php if($layoutform){ ?>
+            <?php if($block_layout_form){ ?>
 			<div class="btn-group toolbar">
 				<button class="actionitem btn btn-primary lock-on-click layout-form-save tooltips"
                         title="<?php echo_html2view($button_save); ?>">
@@ -125,11 +132,11 @@ echo $this->html->buildElement(
 <?php   include($tpl_common_dir.'content_buttons.tpl'); ?>
     </div>
 <?php
-    if($layoutform){
+    if($block_layout_form){
     echo $form_begin; ?>
     <div id="page-layout" class="panel-body panel-body-nopadding tab-content col-xs-12">
         <?php
-            echo $layoutform;
+            echo $block_layout_form;
             echo $hidden_fields;
         ?>
     </div>
@@ -148,6 +155,5 @@ echo $this->html->buildElement(
             let url = $(this).attr('href');
             window.location = url + '&confirmed_delete=yes';
         }
-    }
-);
+    });
 </script>

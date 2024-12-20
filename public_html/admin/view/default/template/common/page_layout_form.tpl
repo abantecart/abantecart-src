@@ -22,7 +22,7 @@
                 echo $template_list; ?>
 			  </ul>
 			</div>
-            <?php if($layoutform){ ?>
+            <?php if($block_layout_form){ ?>
 			<div class="btn-group toolbar">
 				<button class="actionitem btn btn-primary lock-on-click layout-form-save tooltips"
                         title="<?php echo_html2view($button_save); ?>">
@@ -65,10 +65,10 @@
 	</div>
 
 	<?php
-    if($layoutform){
+    if($block_layout_form){
     echo $form_begin; ?>
 	<div id="page-layout" class="panel-body panel-body-nopadding tab-content col-xs-12">
-       <?php echo $layoutform;
+       <?php echo $block_layout_form;
         if($hidden_fields) {
             foreach ($hidden_fields as $hidden) {
                 $hidden->element_id = 'layout_form_'.preformatTextID($hidden->name);

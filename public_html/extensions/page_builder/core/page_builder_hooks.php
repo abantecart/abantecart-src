@@ -292,43 +292,7 @@ class ExtensionPageBuilder extends Extension
         return $fileNameMask . '@' . $max . '.json';
     }
 
-    protected function isPagePublished(string $templateTxtId, string $rt, int $pageId, int $layoutId)
-    {
-        return is_file(
-            DIR_PB_TEMPLATES . 'public' . DS . $templateTxtId . DS
-            . preformatTextID(str_replace('/', '_', $rt)) . '-' . $pageId. '-' . $layoutId.'.json'
-        );
-    }
 
-    protected function getLayoutIdsByParameters(string $rt, int $keyValue):array
-    {
-        $that = $this->baseObject;
-        $pageId = $layoutId = null;
-
-        $templateTxtId = $that->request->get['tmpl_id']
-            ?: Registry::getInstance()->get('config')->get('config_storefront_template');
-        $layout = new ALayout(Registry::getInstance(), $templateTxtId);
-        $keyParam = $layout->getKeyParamByController($rt);
-        $pages = $layout->getPages(
-            $rt,
-            $keyParam,
-            $keyValue
-        );
-        if ($pages) {
-            foreach ($pages as $page) {
-                if ($page['key_param'] && $page['key_value']) {
-                    $pageId = (int)$page['page_id'];
-                    $layoutId = (int)$page['layout_id'];
-                    break;
-                }
-            }
-        }
-        return [
-            'templateTxtId' => $templateTxtId,
-            'pageId' => $pageId,
-            'layoutId' => $layoutId
-        ];
-    }
 
     public function onControllerPagesCatalogProductLayout_UpdateData()
     {
@@ -342,76 +306,20 @@ class ExtensionPageBuilder extends Extension
         $this->addButton2DesignPage($execController, $keyParam, $keyValue);
     }
 
-    protected function addButton2DesignPage($execController, $keyParam, $keyValue)
+    public function onControllerPagesCatalogCategory_UpdateData()
     {
-        $that = $this->baseObject;
-        $that->loadLanguage('page_builder/page_builder');
-
-        $res = $this->getLayoutIdsByParameters($execController, $keyValue);
-        extract($res);
-        $link_page_builder = $that->html->getSecureUrl(
-            'r/design/page_builder/createNewPage',
-            '&' . http_build_query(
-                [
-                    'tmpl_id' => $templateTxtId,
-                    'controller' => $execController,
-                    'key_param' => $keyParam,
-                    'key_value' => $keyValue
-                ]
-            )
-        );
-        if($pageId && $layoutId) {
-            $isPublished = $this->isPagePublished($templateTxtId, $execController, $pageId, $layoutId);
-            if($isPublished) {
-                $link_page_builder = $that->html->getSecureUrl(
-                    'design/page_builder',
-                    '&' . http_build_query(
-                        [
-                            'tmpl_id'   => $templateTxtId,
-                            'page_id'   => $pageId,
-                            'layout_id' => $layoutId
-                        ]
-                    )
-                );
-                $that->view->assign('layoutform', false);
-
-                $that->view->addHookVar(
-                    'layout_form_post',
-                    '<div id="page-layout" class="panel-body panel-body-nopadding tab-content col-xs-12 text-center">'
-                    .'<div class="layout_form_post padding10 pt10">'
-                    .$that->language->get('page_builder_text_already_published').'&nbsp;'
-                    .$that->html->buildElement([
-                        'type' => 'button',
-                        'href' => $link_page_builder,
-                        'text' => $that->language->get('page_builder_button_click_to_edit_page'),
-                        'style' => 'btn btn-default'
-                    ]).'</div></div>'
-                );
-            }else {
-                $that->view->addHookVar(
-                    'layout_form_action_post',
-                    '<div class="btn-group mr10"><div class="pull-right">'
-                    .$that->language->get('page_builder_text_can_try').'&nbsp;'
-                    .$that->html->buildElement([
-                        'type' => 'button',
-                        'href' => $link_page_builder,
-                        'text' => $that->language->get('page_builder_button_click_to_try'),
-                    ]).'</div></div>'
-                );
-            }
-        }else{
-            $that->view->addHookVar(
-                'layout_form_action_post',
-                '<div class="btn-group mr10"><div class="pull-right">'
-                .$that->language->get('page_builder_text_can_try').'&nbsp;'
-                .$that->html->buildElement([
-                    'type' => 'button',
-                    'href' => $link_page_builder,
-                    'text' => $that->language->get('page_builder_button_click_to_try'),
-                    'style' => 'btn btn-default'
-                ]).'</div></div>'
-            );
+        if ($this->baseObject_method != 'edit_layout') {
+            return;
         }
+
+        $that = $this->baseObject;
+        $keyParam = 'path';
+        $keyValue = (int)$that->request->get['category_id'];
+        if (!$keyValue) {
+            return;
+        }
+        $execController = 'pages/product/category';
+        $this->addButton2DesignPage($execController, $keyParam, $keyValue);
     }
 
     public function onControllerPagesCatalogManufacturerLayout_UpdateData()
@@ -454,5 +362,114 @@ class ExtensionPageBuilder extends Extension
 
         $execController = $pageData['controller'];
         $this->addButton2DesignPage($execController, $keyParam, $keyValue);
+    }
+
+    protected function isPagePublished(string $templateTxtId, string $rt, int $pageId, int $layoutId)
+    {
+        return is_file(
+            DIR_PB_TEMPLATES . 'public' . DS . $templateTxtId . DS
+            . preformatTextID(str_replace('/', '_', $rt)) . '-' . $pageId. '-' . $layoutId.'.json'
+        );
+    }
+
+    protected function getLayoutIdsByParameters(string $rt, int $keyValue):array
+    {
+        $that = $this->baseObject;
+        $pageId = $layoutId = null;
+
+        $templateTxtId = $that->request->get['tmpl_id']
+            ?: Registry::getInstance()->get('config')->get('config_storefront_template');
+        $layout = new ALayout(Registry::getInstance(), $templateTxtId);
+        $keyParam = $layout->getKeyParamByController($rt);
+        $pages = $layout->getPages(
+            $rt,
+            $keyParam,
+            $keyValue
+        );
+        if ($pages) {
+            foreach ($pages as $page) {
+                if ($page['key_param'] && $page['key_value']) {
+                    $pageId = (int)$page['page_id'];
+                    $layoutId = (int)$page['layout_id'];
+                    break;
+                }
+            }
+        }
+        return [
+            'templateTxtId' => $templateTxtId,
+            'pageId' => $pageId,
+            'layoutId' => $layoutId
+        ];
+    }
+    protected function addButton2DesignPage($execController, $keyParam, $keyValue)
+    {
+        $that = $this->baseObject;
+        $that->loadLanguage('page_builder/page_builder');
+
+        $res = $this->getLayoutIdsByParameters($execController, $keyValue);
+        extract($res);
+        $link_page_builder = $that->html->getSecureUrl(
+            'r/design/page_builder/createNewPage',
+            '&' . http_build_query(
+                [
+                    'tmpl_id' => $templateTxtId,
+                    'controller' => $execController,
+                    'key_param' => $keyParam,
+                    'key_value' => $keyValue
+                ]
+            )
+        );
+        if($pageId && $layoutId) {
+            $isPublished = $this->isPagePublished($templateTxtId, $execController, $pageId, $layoutId);
+            if($isPublished) {
+                $link_page_builder = $that->html->getSecureUrl(
+                    'design/page_builder',
+                    '&' . http_build_query(
+                        [
+                            'tmpl_id'   => $templateTxtId,
+                            'page_id'   => $pageId,
+                            'layout_id' => $layoutId
+                        ]
+                    )
+                );
+                $that->view->assign('block_layout_form', false);
+
+                $that->view->addHookVar(
+                    'layout_form_post',
+                    '<div id="page-layout" class="panel-body panel-body-nopadding tab-content col-xs-12 text-center">'
+                    .'<div class="layout_form_post padding10 pt10">'
+                    .$that->language->get('page_builder_text_already_published').'&nbsp;'
+                    .$that->html->buildElement([
+                        'type' => 'button',
+                        'href' => $link_page_builder,
+                        'text' => $that->language->get('page_builder_button_click_to_edit_page'),
+                        'style' => 'btn btn-default'
+                    ]).'</div></div>'
+                );
+            }else {
+                $that->view->addHookVar(
+                    'layout_form_action_post',
+                    '<div class="btn-group mr10"><div class="pull-right">'
+                    .$that->language->get('page_builder_text_can_try').'&nbsp;'
+                    .$that->html->buildElement([
+                        'type' => 'button',
+                        'href' => $link_page_builder,
+                        'text' => $that->language->get('page_builder_button_click_to_try'),
+                    ]).'</div></div>'
+                );
+            }
+        }else{
+            $that->view->addHookVar(
+                'layout_form_action_post',
+                '<div class="btn-group mr10"><div class="pull-right">'
+                .$that->language->get('page_builder_text_can_try').'&nbsp;'
+                .$that->html->buildElement([
+                    'type' => 'button',
+                    'href' => $link_page_builder,
+                    'text' => $that->language->get('page_builder_button_click_to_try'),
+                    'style' => 'btn btn-default'
+                ]).'</div></div>'
+            );
+        }
     }
 }
