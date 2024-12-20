@@ -241,15 +241,7 @@ echo $this->html->buildElement(
 	<div class="pageheader">
 	<?php
 		$current = '';
-		$breadcrumbs_html = [];
-        $del = round(100/count((array)$breadcrumbs));
-		foreach ((array)$breadcrumbs as $breadcrumb){
-            $title = ' title="'.html2view(html_entity_decode($breadcrumb['text'])).'" ';
-            $breadcrumb['icon'] = $breadcrumb['icon'] ?? '';
-            $cssClass = $breadcrumb['current'] ? ' active' : '';
-            $href = !$breadcrumb['current'] ? ' href="' . $breadcrumb['href'] . '" ' : '';
-			$breadcrumbs_html[] = '<a class="'.$cssClass.'" '.$href.$title.' >'.$breadcrumb['icon'] . $breadcrumb['text'].'</a>';
-		} ?>
+		 ?>
 		<h2>
 			<?php if ($current_menu['icon'] ?? ''){ ?>
 				<?php echo $current_menu['icon']; ?>
@@ -266,11 +258,23 @@ echo $this->html->buildElement(
 			<?php } ?>
 		</h2>
 
-		<?php if ($breadcrumbs && sizeof($breadcrumbs) > 1){ ?>
-			<div class="breadcrumb-wrapper">
-				<?php echo implode("<a>/</>",$breadcrumbs_html); ?>
-			</div>
-		<?php } else if ($ant){ ?>
+		<?php
+        if ($breadcrumbs){
+            $breadcrumbs_html = [];
+            $del = round(100/count((array)$breadcrumbs));
+            foreach ((array)$breadcrumbs as $breadcrumb){
+                $title = ' title="'.html2view(html_entity_decode($breadcrumb['text'])).'" ';
+                $breadcrumb['icon'] = $breadcrumb['icon'] ?? '';
+                $cssClass = $breadcrumb['current'] ? ' active' : '';
+                $href = !$breadcrumb['current'] ? ' href="' . $breadcrumb['href'] . '" ' : '';
+                $breadcrumbs_html[] = '<a class="'.$cssClass.'" '.$href.$title.' >'.$breadcrumb['icon'] . $breadcrumb['text'].'</a>';
+            }
+            if ( sizeof($breadcrumbs) > 1){ ?>
+                <div class="breadcrumb-wrapper">
+                    <?php echo implode("<a>/</a>",$breadcrumbs_html); ?>
+                </div>
+            <?php }
+        } else if ($ant){ ?>
 			<div class="ant-wrapper">
 				<?php echo $ant; ?>
 			</div>
