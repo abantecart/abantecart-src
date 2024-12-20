@@ -3713,6 +3713,7 @@ blockquote p::after {
 	text-overflow: ellipsis;
 	overflow: hidden;
 }
+
 #layout_selector .dropdown-submenu>a:after {
 	display: block;
 	content: " ";
@@ -3739,7 +3740,8 @@ blockquote p::after {
 	left: -100%;
 	margin-left: 10px;
 }
-#layout_selector .disabled a {
+#layout_selector .selected-parent a.d2d-dropdown,
+	#layout_selector .disabled a {
 	background-color: #064770 !important;
 	color: #fff !important;
 }

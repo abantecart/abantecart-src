@@ -267,9 +267,9 @@ class ControllerResponsesDesignPageBuilder extends AController
         $componentInfo = $presetData['pages'][0]['frames'][0]['component']['components'];
         $componentInfo = $this->processComponents($componentInfo);
         $presetData['pages'][0]['frames'][0]['component']['components'] = $componentInfo;
-        if(str_ends_with($file, DS.self::DEFAULT_PRESET)) {
+        if (str_ends_with($file, DS . self::DEFAULT_PRESET)) {
             $newFile = str_replace('.json', '_prepared.json', $file);
-        }else{
+        } else {
             //overwrite preset file if it's not default
             $newFile = $file;
         }
@@ -674,4 +674,106 @@ class ControllerResponsesDesignPageBuilder extends AController
         }
     }
 
+    public function createNewPage()
+    {
+        $templateTxtId = $this->request->get['tmpl_id'];
+        $pageData = [
+            'controller' => $this->request->get['controller'],
+            'key_param'  => $this->request->get['key_param'],
+            'key_value'  => (int)$this->request->get['key_value'],
+        ];
+
+        $this->loadLanguage('catalog/product');
+        if (!$pageData['key_value']) {
+            unset($this->session->data['success']);
+            $this->session->data['warning'] = $this->language->get('error_product_not_found');
+            redirect($this->html->getSecureURL('catalog/product/update'));
+        }
+
+        $result = $this->getPageDescriptionByParams(
+            $pageData['controller'],
+            $pageData['key_param'],
+            $pageData['key_value']
+        );
+        $layoutData = $result['layout_data'];
+        $pageData['page_descriptions'] = $result['page_descriptions'];
+
+        $result = saveOrCreateLayout($templateTxtId, $pageData, $layoutData);
+
+        if ($result) {
+            redirect(
+                $this->html->getSecureURL(
+                    'design/page_builder',
+                    '&' . http_build_query(
+                        [
+                            'page_id'   => $result['page_id'],
+                            'layout_id' => $result['layout_id'],
+                            'tmpl_id'   => $templateTxtId
+                        ]
+                    )
+
+                )
+            );
+        } else {
+            redirect($this->request->server['HTTP_REFERER']);
+        }
+    }
+
+    protected function getPageDescriptionByParams(string $controller, string $keyParam, int $keyValue)
+    {
+        $output = [];
+        $lm = new ALayoutManager();
+
+        if ($keyParam == 'product_id') {
+            /** @var ModelCatalogProduct $mdl */
+            $mdl = $this->loadModel('catalog/product');
+            $productInfo = $mdl->getProductDescriptions($keyValue);
+            if ($productInfo) {
+                $srcIds = $lm->getPageLayoutIDs($controller, '', '', true);
+                $output['layout_data']['source_layout_id'] = $srcIds['layout_id'];
+                $output['layout_data']['layout_name'] = $this->language->get('text_product', 'catalog/product')
+                    . ': ' . $productInfo[$this->language->getContentLanguageID()]['name'];
+                $output['page_descriptions'] = $productInfo;
+            }
+        } elseif ($keyParam == 'path') {
+            /** @var ModelCatalogCategory $mdl */
+            $mdl = $this->loadModel('catalog/category');
+            $categoryInfo = $mdl->getCategoryDescriptions($keyValue);
+            if ($categoryInfo) {
+                $srcIds = $lm->getPageLayoutIDs($controller, '', '', true);
+                $output['layout_data']['source_layout_id'] = $srcIds['layout_id'];
+                $output['layout_data']['layout_name'] = $this->language->get('text_category', 'catalog/category')
+                    . ': '
+                    . $categoryInfo[$this->language->getContentLanguageID()]['name'];
+                $output['page_descriptions'] = $categoryInfo;
+            }
+        } elseif ($keyParam == 'manufacturer_id') {
+            /** @var ModelCatalogManufacturer $mdl */
+            $mdl = $this->loadModel('catalog/manufacturer');
+            $manufacturerInfo = $mdl->getManufacturer($keyValue);
+            if ($manufacturerInfo) {
+                $srcIds = $lm->getPageLayoutIDs($controller, '', '', true);
+                $output['layout_data']['source_layout_id'] = $srcIds['layout_id'];
+                $output['layout_data']['layout_name'] = $this->language->get('text_manufacturer', 'catalog/manufacturer')
+                    . ': '
+                    . $manufacturerInfo['name'];
+                $output['page_descriptions'] = $manufacturerInfo;
+            }
+        } elseif ($keyParam == 'content_id') {
+            $acm = new AContentManager();
+            $languageId = $this->language->getDefaultLanguageID();
+            $content_info = $acm->getContent($keyValue, $languageId);
+            if ($content_info) {
+                $srcIds = $lm->getPageLayoutIDs($controller, '', '', true);
+                $output['layout_data']['source_layout_id'] = $srcIds['layout_id'];
+
+                $title = $content_info['title'] ?: 'Unnamed content page';
+                $output['layout_data']['layout_name'] = $this->language->get('text_content', 'common/header')
+                    . ': '
+                    . $title;
+                $output['page_descriptions'][$languageId]['name'] = $title;
+            }
+        }
+        return $output;
+    }
 }

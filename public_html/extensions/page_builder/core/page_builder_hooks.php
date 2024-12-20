@@ -177,6 +177,30 @@ class ExtensionPageBuilder extends Extension
         }
     }
 
+
+    // disable preview of main content area of FastCheckout int the canvas of PageBuilder js-editor
+    public function overrideControllerPagesCheckoutFastCheckout_InitData()
+    {
+        /** @var ControllerPagesCheckoutFastCheckout $that */
+        $that = $this->baseObject;
+        if ($this->baseObject_method == '__construct') {
+            return false;
+        }
+        //for view inside editor canvas
+        if ($that->request->get['render_mode'] == 'editor') {
+            if (Registry::getInstance()->get('PBuilder_dryrun')) {
+                $output = '';
+            } else {
+                $output = '<div class="info-alert"> Main Content Area of FastCheckout page</div>';
+            }
+            $response = new AResponse();
+            $response->setOutput($output);
+            $response->output();
+            return true;
+        }
+        return false;
+    }
+
     /**
      * @return false|string
      * @throws AException
@@ -268,282 +292,184 @@ class ExtensionPageBuilder extends Extension
         return $fileNameMask . '@' . $max . '.json';
     }
 
-    public function onControllerPagesCatalogProductTabs_InitData()
+
+
+    public function onControllerPagesCatalogProductLayout_UpdateData()
     {
-        $inactive = false;
         $that = $this->baseObject;
-        $product_id = $that->request->get['product_id'];
-        if (!$product_id) {
+        $keyParam = 'product_id';
+        $keyValue = (int)$that->request->get['product_id'];
+        if (!$keyValue) {
             return;
         }
         $execController = 'pages/product/product';
-        $layout = new ALayout(Registry::getInstance(), $that->config->get('config_storefront_template'));
-        $pages = $layout->getPages(
-            $execController,
-            $that->layout->getKeyParamByController($execController),
-            $product_id
-        );
-        if (!$pages) {
-            $inactive = true;
-        } else {
-            $page_id = $layout_id = null;
-            foreach ($pages as $page) {
-                if ($page['key_param'] && $page['key_value']) {
-                    $page_id = $page['page_id'];
-                    $layout_id = $page['layout_id'];
-                    $that->data['link_page_builder'] = $that->html->getSecureUrl(
-                        'design/page_builder',
-                        '&tmpl_id=' . $that->config->get('config_storefront_template') . '&page_id=' . $page_id . '&layout_id='
-                        . $layout_id
-                    );
-                    break;
-                }
-            }
-            if (!$page_id || !$layout_id) {
-                $inactive = true;
-            }
-        }
-
-        $that->loadLanguage('page_builder/page_builder');
-        $that->data['additionalTabs'][] = 'page_builder';
-        $that->data['tab_page_builder'] = $that->language->get('page_builder_name');
-        if ($inactive) {
-            $that->data['link_page_builder'] = "Javascript:void(0);";
-            $that->data['inactive'][] = 'page_builder';
-            $that->data['title_page_builder'] = $that->language->get('page_builder_tab_title');
-        }
+        $this->addButton2DesignPage($execController, $keyParam, $keyValue);
     }
 
-    public function onControllerPagesCatalogCategoryTabs_InitData()
+    public function onControllerPagesCatalogCategory_UpdateData()
     {
-        $inactive = false;
-        $that = $this->baseObject;
-        $category_id = $that->request->get['category_id'];
-        if (!$category_id) {
+        if ($this->baseObject_method != 'edit_layout') {
             return;
         }
-        $layout = new ALayout(Registry::getInstance(), $that->config->get('config_storefront_template'));
+
+        $that = $this->baseObject;
+        $keyParam = 'path';
+        $keyValue = (int)$that->request->get['category_id'];
+        if (!$keyValue) {
+            return;
+        }
         $execController = 'pages/product/category';
-        $pages = $layout->getPages(
-            $execController,
-            $that->layout->getKeyParamByController($execController),
-            $category_id
-        );
-        if (!$pages) {
-            $inactive = true;
-        } else {
-            $page_id = $layout_id = null;
-            foreach ($pages as $page) {
-                if ($page['key_param'] && $page['key_value']) {
-                    $page_id = $page['page_id'];
-                    $layout_id = $page['layout_id'];
-                    $that->data['link_page_builder'] = $that->html->getSecureUrl(
-                        'design/page_builder',
-                        '&tmpl_id=' . $that->config->get('config_storefront_template') . '&page_id=' . $page_id . '&layout_id='
-                        . $layout_id
-                    );
-                    break;
-                }
-            }
-            if (!$page_id || !$layout_id) {
-                $inactive = true;
-            }
-        }
-
-        $that->loadLanguage('page_builder/page_builder');
-        $that->data['additionalTabs'][] = 'page_builder';
-        $that->data['tab_page_builder'] = $that->language->get('page_builder_name');
-        if ($inactive) {
-            $that->data['link_page_builder'] = "Javascript:void(0);";
-            $that->data['inactive'][] = 'page_builder';
-            $that->data['title_page_builder'] = $that->language->get('page_builder_tab_title');
-        }
+        $this->addButton2DesignPage($execController, $keyParam, $keyValue);
     }
 
-    public function onControllerPagesCatalogManufacturer_InitData()
+    public function onControllerPagesCatalogManufacturerLayout_UpdateData()
     {
-        $inactive = false;
         $that = $this->baseObject;
-        $id = $that->request->get['manufacturer_id'];
-        if (!$id) {
+
+        $keyParam = 'manufacturer_id';
+        $keyValue = (int)$that->request->get['manufacturer_id'];
+        if (!$keyValue) {
             return;
         }
-        $layout = new ALayout(Registry::getInstance(), $that->config->get('config_storefront_template'));
         $execController = 'pages/product/manufacturer';
-        $pages = $layout->getPages(
-            $execController,
-            $that->layout->getKeyParamByController($execController),
-            $id
-        );
-        if (!$pages) {
-            $inactive = true;
-        } else {
-            $page_id = $layout_id = null;
-            foreach ($pages as $page) {
-                if ($page['key_param'] && $page['key_value']) {
-                    $page_id = $page['page_id'];
-                    $layout_id = $page['layout_id'];
-                    $that->data['link_page_builder'] = $that->html->getSecureUrl(
-                        'design/page_builder',
-                        '&tmpl_id=' . $that->config->get('config_storefront_template') . '&page_id=' . $page_id . '&layout_id='
-                        . $layout_id
-                    );
-                    break;
-                }
-            }
-            if (!$page_id || !$layout_id) {
-                $inactive = true;
-            }
-        }
-
-        $that->loadLanguage('page_builder/page_builder');
-        $that->data['additionalTabs'][] = 'page_builder';
-        $that->data['tab_page_builder'] = $that->language->get('page_builder_name');
-        if ($inactive) {
-            $that->data['link_page_builder'] = "Javascript:void(0);";
-            $that->data['inactive'][] = 'page_builder';
-            $that->data['title_page_builder'] = $that->language->get('page_builder_tab_title');
-        }
-
-        $that->view->addHookVar(
-            'extension_tabs',
-            '<li><a href="' . $that->data['link_page_builder'] . '" title="' . $that->data['title_page_builder'] . '"><span>'
-            . $that->data['tab_page_builder'] . '</span></a></li>'
-        );
+        $this->addButton2DesignPage($execController, $keyParam, $keyValue);
     }
 
-    public function onControllerPagesCatalogManufacturerLayout_InitData()
+    public function onControllerPagesDesignContent_UpdateData()
     {
-        $inactive = false;
-        $that = $this->baseObject;
-        $id = $that->request->get['manufacturer_id'];
-        if (!$id) {
-            return;
-        }
-        $layout = new ALayout(Registry::getInstance(), $that->config->get('config_storefront_template'));
-        $execController = 'pages/product/manufacturer';
-        $pages = $layout->getPages(
-            $execController,
-            $that->layout->getKeyParamByController($execController),
-            $id
-        );
-        if (!$pages) {
-            $inactive = true;
-        } else {
-            $page_id = $layout_id = null;
-            foreach ($pages as $page) {
-                if ($page['key_param'] && $page['key_value']) {
-                    $page_id = $page['page_id'];
-                    $layout_id = $page['layout_id'];
-                    $that->data['link_page_builder'] = $that->html->getSecureUrl(
-                        'design/page_builder',
-                        '&tmpl_id=' . $that->config->get('config_storefront_template') . '&page_id=' . $page_id . '&layout_id='
-                        . $layout_id
-                    );
-                    break;
-                }
-            }
-            if (!$page_id || !$layout_id) {
-                $inactive = true;
-            }
-        }
-
-        $that->loadLanguage('page_builder/page_builder');
-        $that->data['additionalTabs'][] = 'page_builder';
-        $that->data['tab_page_builder'] = $that->language->get('page_builder_name');
-        if ($inactive) {
-            $that->data['link_page_builder'] = "Javascript:void(0);";
-            $that->data['inactive'][] = 'page_builder';
-            $that->data['title_page_builder'] = $that->language->get('page_builder_tab_title');
-        }
-
-        $that->view->addHookVar(
-            'extension_tabs',
-            '<li class="' . ($inactive ? 'inactive' : '') . '"><a href="' . $that->data['link_page_builder'] . '" title="'
-            . $that->data['title_page_builder'] . '"><span>' . $that->data['tab_page_builder'] . '</span></a></li>'
-        );
-    }
-
-    public function onControllerPagesDesignContent_InitData()
-    {
-        $inactive = false;
-        if (!in_array($this->baseObject_method, ['edit_layout', 'update'])) {
+        if ($this->baseObject_method != 'edit_layout') {
             return;
         }
         $that = $this->baseObject;
-        if (is_int(strpos($that->request->get['content_id'], '_'))) {
-            list(, $id) = explode('_', $that->request->get['content_id']);
-        } else {
-            $id = $that->request->get['content_id'];
-        }
-        if (!$id) {
+
+        $keyParam = 'content_id';
+        $keyValue = (int)$that->request->get['content_id'];
+        if (!$keyValue) {
             return;
         }
-        $layout = new ALayout(Registry::getInstance(), $that->config->get('config_storefront_template'));
         $execController = 'pages/content/content';
-        $pages = $layout->getPages(
-            $execController,
-            $that->layout->getKeyParamByController($execController),
-            $id
+        $this->addButton2DesignPage($execController, $keyParam, $keyValue);
+    }
+    public function onControllerPagesDesignLayout_UpdateData()
+    {
+        /** @var ControllerPagesDesignLayout $that */
+        $that = $this->baseObject;
+
+        $pageData = $that->layout->getPageData();
+
+        $keyParam = $pageData['key_param'];
+        $keyValue = (int)$pageData['key_value'];
+
+        $execController = $pageData['controller'];
+        $this->addButton2DesignPage($execController, $keyParam, $keyValue);
+    }
+
+    protected function isPagePublished(string $templateTxtId, string $rt, int $pageId, int $layoutId)
+    {
+        return is_file(
+            DIR_PB_TEMPLATES . 'public' . DS . $templateTxtId . DS
+            . preformatTextID(str_replace('/', '_', $rt)) . '-' . $pageId. '-' . $layoutId.'.json'
         );
-        if (!$pages) {
-            $inactive = true;
-        } else {
-            $page_id = $layout_id = null;
+    }
+
+    protected function getLayoutIdsByParameters(string $rt, int $keyValue):array
+    {
+        $that = $this->baseObject;
+        $pageId = $layoutId = null;
+
+        $templateTxtId = $that->request->get['tmpl_id']
+            ?: Registry::getInstance()->get('config')->get('config_storefront_template');
+        $layout = new ALayout(Registry::getInstance(), $templateTxtId);
+        $keyParam = $layout->getKeyParamByController($rt);
+        $pages = $layout->getPages(
+            $rt,
+            $keyParam,
+            $keyValue
+        );
+        if ($pages) {
             foreach ($pages as $page) {
                 if ($page['key_param'] && $page['key_value']) {
-                    $page_id = $page['page_id'];
-                    $layout_id = $page['layout_id'];
-                    $that->data['link_page_builder'] = $that->html->getSecureUrl(
-                        'design/page_builder',
-                        '&tmpl_id=' . $that->config->get('config_storefront_template') . '&page_id=' . $page_id . '&layout_id='
-                        . $layout_id
-                    );
+                    $pageId = (int)$page['page_id'];
+                    $layoutId = (int)$page['layout_id'];
                     break;
                 }
             }
-            if (!$page_id || !$layout_id) {
-                $inactive = true;
-            }
         }
-
-        $that->loadLanguage('page_builder/page_builder');
-        $that->data['additionalTabs'][] = 'page_builder';
-        $that->data['tab_page_builder'] = $that->language->get('page_builder_name');
-        if ($inactive) {
-            $that->data['link_page_builder'] = "Javascript:void(0);";
-            $that->data['inactive'][] = 'page_builder';
-            $that->data['title_page_builder'] = $that->language->get('page_builder_tab_title');
-        }
-
-        $that->view->addHookVar(
-            'extension_tabs',
-            '<li class="' . ($inactive ? 'inactive' : '') . '"><a href="' . $that->data['link_page_builder'] . '" title="'
-            . $that->data['title_page_builder'] . '"><span>' . $that->data['tab_page_builder'] . '</span></a></li>'
-        );
+        return [
+            'templateTxtId' => $templateTxtId,
+            'pageId' => $pageId,
+            'layoutId' => $layoutId
+        ];
     }
-
-    // disable preview of main content area of FastCheckout int the canvas of PageBuilder js-editor
-    public function overrideControllerPagesCheckoutFastCheckout_InitData()
+    protected function addButton2DesignPage($execController, $keyParam, $keyValue)
     {
-        /** @var ControllerPagesCheckoutFastCheckout $that */
         $that = $this->baseObject;
-        if ($this->baseObject_method == '__construct') {
-            return false;
-        }
-        //for view inside editor canvas
-        if ($that->request->get['render_mode'] == 'editor') {
-            if (Registry::getInstance()->get('PBuilder_dryrun')) {
-                $output = '';
-            } else {
-                $output = '<div class="info-alert"> Main Content Area of FastCheckout page</div>';
-            }
-            $response = new AResponse();
-            $response->setOutput($output);
-            $response->output();
-            return true;
-        }
-        return false;
-    }
+        $that->loadLanguage('page_builder/page_builder');
 
+        $res = $this->getLayoutIdsByParameters($execController, $keyValue);
+        extract($res);
+        $link_page_builder = $that->html->getSecureUrl(
+            'r/design/page_builder/createNewPage',
+            '&' . http_build_query(
+                [
+                    'tmpl_id' => $templateTxtId,
+                    'controller' => $execController,
+                    'key_param' => $keyParam,
+                    'key_value' => $keyValue
+                ]
+            )
+        );
+        if($pageId && $layoutId) {
+            $isPublished = $this->isPagePublished($templateTxtId, $execController, $pageId, $layoutId);
+            if($isPublished) {
+                $link_page_builder = $that->html->getSecureUrl(
+                    'design/page_builder',
+                    '&' . http_build_query(
+                        [
+                            'tmpl_id'   => $templateTxtId,
+                            'page_id'   => $pageId,
+                            'layout_id' => $layoutId
+                        ]
+                    )
+                );
+                $that->view->assign('block_layout_form', false);
+
+                $that->view->addHookVar(
+                    'layout_form_post',
+                    '<div id="page-layout" class="panel-body panel-body-nopadding tab-content col-xs-12 text-center">'
+                    .'<div class="layout_form_post padding10 pt10">'
+                    .$that->language->get('page_builder_text_already_published').'&nbsp;'
+                    .$that->html->buildElement([
+                        'type' => 'button',
+                        'href' => $link_page_builder,
+                        'text' => $that->language->get('page_builder_button_click_to_edit_page'),
+                        'style' => 'btn btn-default'
+                    ]).'</div></div>'
+                );
+            }else {
+                $that->view->addHookVar(
+                    'layout_form_action_post',
+                    '<div class="btn-group mr10"><div class="pull-right">'
+                    .$that->language->get('page_builder_text_can_try').'&nbsp;'
+                    .$that->html->buildElement([
+                        'type' => 'button',
+                        'href' => $link_page_builder,
+                        'text' => $that->language->get('page_builder_button_click_to_try'),
+                    ]).'</div></div>'
+                );
+            }
+        }else{
+            $that->view->addHookVar(
+                'layout_form_action_post',
+                '<div class="btn-group mr10"><div class="pull-right">'
+                .$that->language->get('page_builder_text_can_try').'&nbsp;'
+                .$that->html->buildElement([
+                    'type' => 'button',
+                    'href' => $link_page_builder,
+                    'text' => $that->language->get('page_builder_button_click_to_try'),
+                    'style' => 'btn btn-default'
+                ]).'</div></div>'
+            );
+        }
+    }
 }

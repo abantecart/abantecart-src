@@ -159,7 +159,7 @@ class ControllerPagesCatalogManufacturerLayout extends AController
         $layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
 
         $layoutForm = $this->dispatch('common/page_layout', [$layout]);
-        $this->data['layoutform'] = $layoutForm->dispatchGetOutput();
+        $this->data['block_layout_form'] = $layoutForm->dispatchGetOutput();
 
         //build pages and available layouts for cloning
         $this->data['pages'] = $layout->getAllPages();
