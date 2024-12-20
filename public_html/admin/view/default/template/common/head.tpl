@@ -270,7 +270,7 @@ $(document).ready(function(){
 </script>
 
 <?php
-$loader = '<div style="min-height: 60px"><div id="iframe_loading" class="center_div_abs"><i class="fa fa-spinner fa-spin fa-2x"></i></div></div>';
+$loader = '<div style="min-height: 60px"><div id="hist_loading" class="center_div_abs"><i class="fa fa-spinner fa-spin fa-2x"></i></div></div>';
 echo $this->html->buildElement(
     [
         'type'        => 'modal',
