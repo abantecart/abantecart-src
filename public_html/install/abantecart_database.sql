@@ -1749,6 +1749,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('appearance','config_featured_limit',3),
 ('appearance','config_latest_limit',3),
 ('appearance','config_special_limit',3),
+('appearance','config_content_limit',8),
 ('appearance','viewed_products_limit',3),
 
 ('appearance','config_image_thumb_width',380),

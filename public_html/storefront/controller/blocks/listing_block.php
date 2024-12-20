@@ -313,7 +313,6 @@ class ControllerBlocksListingBlock extends AController
                 'block_wrapper' => $this->data['descriptions'][$key]['block_wrapper'],
             ];
         }
-
         return $output;
     }
 
@@ -491,6 +490,7 @@ class ControllerBlocksListingBlock extends AController
             // Skip if data source is vanished but still set in the listing.
             $result = array_filter($result);
         }
+
         if ($result && !current($result)['thumb']) {
             //add thumbnails to custom list of items. 1 thumbnail per item
             if ($data_source['data_type'] == 'content_id') {

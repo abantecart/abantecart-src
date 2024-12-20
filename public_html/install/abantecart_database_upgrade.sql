@@ -96,3 +96,12 @@ CREATE TABLE `ac_customer_sessions` (
 UPDATE `ac_dataset_values`
 SET value_varchar = 'design/template'
 WHERE row_id=3 AND value_varchar='extension/extensions/template';
+
+#fix or prior upgrade 1.3.4->1.4.0
+UPDATE `ac_blocks`
+SET controller='blocks/viewed_products'
+WHERE controller='viewed_products/viewed_products' AND block_txt_id = 'viewed_products';
+
+UPDATE `ac_block_templates`
+SET template = CONCAT('blocks/',template)
+WHERE SUBSTRING(template,1,13) = 'viewed_block_';

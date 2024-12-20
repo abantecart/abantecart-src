@@ -384,6 +384,7 @@ class ControllerPagesDesignBlocks extends AController
                         }
                     } else if ($content['listing_datasource'] == 'selected_content') {
                         $content['content_ids'] = $this->request->post['content_ids'];
+                        $content['limit'] = $this->request->post['limit'];
                     } else {
                         if ($content['listing_datasource'] == 'media') {
                             $content['resource_type'] = $this->request->post['resource_type'];

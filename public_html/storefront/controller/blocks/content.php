@@ -56,7 +56,10 @@ class ControllerBlocksContent extends AController
         //build dynamic content (pages) links
         $this->loadModel('catalog/content');
 
-        $this->data['contents'] = $this->_buildTree($this->model_catalog_content->getContents());
+        $filer = [
+            'limit' => $this->config->get('config_content_limit') ?: 8
+        ];
+        $this->data['contents'] = $this->_buildTree($this->model_catalog_content->getContents($filer));
         $this->data['contact'] = $this->html->getURL('content/contact');
         $this->data['sitemap'] = $this->html->getNonSecureURL('content/sitemap');
 
