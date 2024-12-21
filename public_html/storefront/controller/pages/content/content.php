@@ -68,7 +68,11 @@ class ControllerPagesContentContent extends AController
         //add parent to breadcrumbs and content URL  for better SEO-URL
         if ($cntInfo['parent_content_id']) {
             $httpQuery['parent_id'] = $cntInfo['parent_content_id'];
-            $parent = $this->model_catalog_content->getContent($cntInfo['parent_content_id']);
+            $parent = $this->model_catalog_content->getContent(
+                $cntInfo['parent_content_id'],
+                $this->config->get('config_store_id'),
+                $this->language->getLanguageID()
+            );
             $httpParentQuery = ['content_id' => $parent['content_id']];
             if ($parent['parent_content_id']) {
                 $httpParentQuery['parent_id'] = $parent['parent_content_id'];
