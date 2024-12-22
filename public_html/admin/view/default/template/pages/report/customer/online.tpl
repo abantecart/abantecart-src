@@ -5,7 +5,7 @@
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
 			<div class="btn-group mr10 toolbar">
-				<a href="<?php echo $reset; ?>" class="btn btn-xs btn-default tooltips" title="<?php echo $button_reset; ?>">
+				<a href="<?php echo $reset; ?>" class="btn btn-default tooltips" title="<?php echo $button_reset; ?>">
 				    <i class="fa fa-refresh"></i>
 				</a>
 			</div>
