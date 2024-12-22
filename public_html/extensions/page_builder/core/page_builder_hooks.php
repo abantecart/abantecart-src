@@ -321,6 +321,21 @@ class ExtensionPageBuilder extends Extension
         $execController = 'pages/product/category';
         $this->addButton2DesignPage($execController, $keyParam, $keyValue);
     }
+    public function onControllerPagesCatalogCollections_UpdateData()
+    {
+        if ($this->baseObject_method != 'edit_layout') {
+            return;
+        }
+
+        $that = $this->baseObject;
+        $keyParam = 'collection_id';
+        $keyValue = (int)$that->request->get['id'];
+        if (!$keyValue) {
+            return;
+        }
+        $execController = 'pages/product/collection';
+        $this->addButton2DesignPage($execController, $keyParam, $keyValue);
+    }
 
     public function onControllerPagesCatalogManufacturerLayout_UpdateData()
     {

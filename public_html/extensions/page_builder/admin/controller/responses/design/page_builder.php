@@ -773,6 +773,21 @@ class ControllerResponsesDesignPageBuilder extends AController
                     . $title;
                 $output['page_descriptions'][$languageId]['name'] = $title;
             }
+        } elseif ($keyParam == 'collection_id') {
+            /** @var ModelCatalogCollection $mdl */
+            $mdl = $this->loadModel('catalog/collection');
+            $collectionInfo = $mdl->getById($keyValue);
+            if ($collectionInfo) {
+                $srcIds = $lm->getPageLayoutIDs($controller, '', '', true);
+                if(!$srcIds){
+                    $srcIds = $lm->getPageLayoutIDs('generic', '', '', true);
+                }
+                $output['layout_data']['source_layout_id'] = $srcIds['layout_id'];
+                $output['layout_data']['layout_name'] = $this->language->get('text_collection', 'catalog/collections')
+                    . ': '
+                    . $collectionInfo['name'];
+                $output['page_descriptions'] = $collectionInfo;
+            }
         }
         return $output;
     }

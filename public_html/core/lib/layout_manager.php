@@ -78,6 +78,7 @@ class ALayoutManager
         'pages/content'              => 'Content',
         'pages/account'              => 'Customer',
         'pages/checkout'             => 'Checkout',
+        'pages/product/collection'   => 'Collection',
     ];
 
     /**

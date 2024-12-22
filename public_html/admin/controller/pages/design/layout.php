@@ -222,9 +222,9 @@ class ControllerPagesDesignLayout extends AController
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-        $templateTxtId = $this->request->post['tmpl_id'];
-        $pageId = (int)$this->request->post['page_id'];
-        $layoutId = (int)$this->request->post['layout_id'];
+        $templateTxtId = $this->request->post_or_get('tmpl_id');
+        $pageId = (int)$this->request->post_or_get('page_id');
+        $layoutId = (int)$this->request->post_or_get('layout_id');
 
         $success = false;
         if ($this->request->is_GET() && $this->request->get['confirmed_delete'] == 'yes') {
