@@ -438,7 +438,7 @@ class ControllerPagesToolFormsManager extends AController
                 'type'  => 'checkbox',
                 'name'  => 'status',
                 'value' => 1,
-                'style' => 'btn_switch btn-group-xs',
+                'style' => 'btn_switch',
             ]
         );
 
@@ -456,7 +456,7 @@ class ControllerPagesToolFormsManager extends AController
             [
                 'type'  => 'checkbox',
                 'name'  => 'required',
-                'style' => 'btn_switch btn-group-xs',
+                'style' => 'btn_switch',
             ]
         );
 

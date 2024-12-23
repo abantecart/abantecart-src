@@ -954,9 +954,6 @@ abstract class HtmlElement
         if (isset($data['required']) && $data['required'] == 1) {
             $data['required'] = 'Y';
         }
-        if (isset($data['attr'])) {
-            $data['attr'] = ' ' . htmlspecialchars_decode($data['attr']) . ' ';
-        }
 
         $this->registry = Registry::getInstance();
         $this->language = $this->registry->get('language');

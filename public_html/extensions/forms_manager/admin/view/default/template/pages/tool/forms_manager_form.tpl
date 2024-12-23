@@ -79,7 +79,7 @@
                 </div>
                 <div class="form-group">
                     <label><?php echo $entry_edit_fields; ?></label>
-                    <div class="input-group input-group-sm">
+                    <div class="input-group">
                         <?php echo $form['fields']; ?>
                     </div>
                 </div>
@@ -93,8 +93,6 @@
 </div>
 
 <?php
-
-
 $modal_content = '<div class="add-option-modal" >
 			<div class="panel panel-default">
 			    <div id="collapseTwo" >
@@ -169,7 +167,8 @@ echo $this->html->buildElement(
         'id'         => 'field_modal',
         'modal_type' => 'lg',
         'title'      => $text_add_field,
-        'content'    => $modal_content
+        'content'    => $modal_content,
+        'js_onshow'  => 'bindAform($("input, textarea, select", $(this)));'
     ]
 );
 ?>
@@ -217,11 +216,7 @@ echo $this->html->buildElement(
         var flds = ['status', 'field_name', 'field_description', 'field_note', 'sort_order', 'required', 'regexp_pattern', 'error_text'];
         var data = {field_id: current_field_id};
         for (var k in flds) {
-            if (flds[k] === 'regexp_pattern') {
-                data[flds[k]] = btoa($('#' + flds[k]).val());
-            } else {
-                data[flds[k]] = $('#' + flds[k]).val();
-            }
+            data[flds[k]] = $('#' + flds[k]).val();
         }
         var settings = $('input[name^=settings]');
         if (settings.length > 0) {
