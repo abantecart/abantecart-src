@@ -233,7 +233,6 @@ class ModelToolImportProcess extends Model
             $settings['products_fields'],
             $settings['split_col']
         );
-
         if (empty($data)) {
             return $this->toLog("Error: Unable to build products import data map.");
         }
@@ -1051,7 +1050,10 @@ class ModelToolImportProcess extends Model
                             $field_val = explode($split_col[$index], $field_val);
                             $field_val = array_map('trim', $field_val);
                         }
-                        $arr[$key][] = $field_val;
+                        //skip empty values
+                        if (has_value($field_val[0])) {
+                            $arr[$key][] = $field_val;
+                        }
                     } else {
                         $arr = [$key => $arr];
                     }
