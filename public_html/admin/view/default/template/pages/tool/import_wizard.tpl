@@ -195,7 +195,7 @@
             <a class='btn btn-default' data-dismiss='modal'>
                 <i class='fa fa-close fa-fw'></i>  ".$text_close."
             </a>
-            </div>
+            </div></div>
     </div>";
 
     if ($import_ready) {
