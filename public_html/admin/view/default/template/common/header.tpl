@@ -425,4 +425,20 @@ echo $this->html->buildElement(
     });
 </script>
 
-<?php } ?>
+<?php
+}
+$loader = '<div style="min-height: 60px"><div id="hist_loading" class="center_div_abs"><i class="fa fa-spinner fa-spin fa-2x"></i></div></div>';
+echo $this->html->buildElement(
+    [
+        'type'        => 'modal',
+        'id'          => 'hist_modal',
+        'modal_type'  => 'lg',
+        'data_source' => 'ajax',
+        'js_onclose'  => "
+        $('#hist_modal .modal-body').html('".$loader."');
+        $('#hist_modal .panel-body').off();
+    ",
+        'content' => $loader,
+    ]
+);
+?>
