@@ -39,10 +39,12 @@
             <a class="btn btn-default lock-on-click tooltips" href="<?php echo $reset_url; ?>" title="<?php echo $button_reset; ?>">
                 <i class="fa fa-refresh fa-fw"></i>
             </a>
-
+            <?php if ( !$import_ready ) { ?>
+            &nbsp;
             <a href="#" class="btn btn-default export_map tooltips" data-toggle="modal" data-target="#load_map_modal" title="<?php echo $text_load_map; ?>">
                 <i class="fa fa-code fa-fw"></i>
             </a>
+            <?php } ?>
         </div>
 
         <?php include($tpl_common_dir . 'content_buttons.tpl'); ?>
@@ -233,7 +235,6 @@
 
     $(document).ready(function () {
         $('.aform').show();
-
         load_table_fields( $('select[name^=\'table\']').val() );
     });
 
@@ -313,7 +314,6 @@
         if ($selected.data('multivalue') != '1') {
             checkSelected(table_name, $elm);
         }
-
     };
 
     var checkSelected = function (table_name, $elm) {

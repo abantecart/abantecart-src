@@ -236,6 +236,7 @@ class ModelToolImportProcess extends Model
         if (empty($data)) {
             return $this->toLog("Error: Unable to build products import data map.");
         }
+        $action = $data['action'][0] ?: 'update_or_insert';
         $product = $this->_filter_array($data['products']);
         $product_desc = $this->_filter_array($data['product_descriptions']);
         $manufacturers = $this->_filter_array($data['manufacturers']);
@@ -267,6 +268,20 @@ class ModelToolImportProcess extends Model
                 }
             }
         }
+        //validate actions
+        if ($action == 'update' && $new_product) {
+            return $this->toLog('Error: Update only action is set, but product not found. Skipping!');
+        } elseif ($action == 'insert' && !$new_product) {
+            return $this->toLog('Error: Insert only action is set, but product already exists. Skipping!');
+        } elseif ($action == 'delete' && ($new_product || !$product_id)) {
+            return $this->toLog('Error: Delete action is set, but product does not exists. Skipping!');
+        }
+
+        if ($action == 'delete' && $product_id) {
+            $this->model_catalog_product->deleteProduct($product_id);
+            $this->toLog("Deleted product '".$product_desc['name']."' with ID ".$product_id);
+            return true;
+        }
 
         // import category if needed
         $categories = [];
@@ -274,19 +289,12 @@ class ModelToolImportProcess extends Model
             $categories = $this->_process_categories($data['categories'], $language_id, $store_id);
         }
 
+        $product_data = $product;
         // import brand if needed
-        $manufacturer_id = 0;
         if ($manufacturers['manufacturer']) {
             $manufacturer_id = $this->_process_manufacturer($manufacturers['manufacturer'], 0, $store_id);
+            $product_data['manufacturer_id'] = $manufacturer_id;
         }
-
-        // import or update product
-        $product_data = array_merge(
-            $product,
-            [
-                'manufacturer_id' => $manufacturer_id,
-            ]
-        );
 
         $this->load->model('catalog/product');
         if ($new_product) {
@@ -373,6 +381,7 @@ class ModelToolImportProcess extends Model
             return $this->toLog("Error: Unable to build categories import data map.");
         }
 
+        $action = $data['action'][0] ?: 'update_or_insert';
         $category = $this->_filter_array($data['categories']);
         //check if we have split tree or an array
         $category_desc = $this->_filter_array($data['category_descriptions']);
@@ -390,6 +399,21 @@ class ModelToolImportProcess extends Model
         //we will have always one category
         $category_id = $categories[0]['category_id'];
         $parent_category_id = $categories[0]['parent_id'];
+
+        //validate actions
+        if ($action == 'update' && !$category_id) {
+            return $this->toLog('Error: Update only action is set, but category not found. Skipping!');
+        } elseif ($action == 'insert' && $category_id) {
+            return $this->toLog('Error: Insert only action is set, but category already exists. Skipping!');
+        } elseif ($action == 'delete' && !$category_id) {
+            return $this->toLog('Error: Delete action is set, but category does not exists. Skipping!');
+        }
+
+        if ($action == 'delete') {
+            $this->model_catalog_category->deleteCategory($category_id);
+            $this->toLog("Deleted category '".$category_desc['name']."' with ID ".$category_id);
+            return true;
+        }
 
         if ($category_id) {
             //update category
@@ -461,9 +485,25 @@ class ModelToolImportProcess extends Model
             return $this->toLog("Error: Unable to build manufacturers import data map.");
         }
 
+        $action = $data['action'][0] ?: 'update_or_insert';
         $manufacturer = $this->_filter_array($data['manufacturers']);
-
         $manufacturer_id = $this->_process_manufacturer($manufacturer['name'], $manufacturer['sort_order'], $store_id);
+
+        //validate actions
+        if ($action == 'update' && !$manufacturer_id) {
+            return $this->toLog('Error: Update only action is set, but brand/manufacturer not found. Skipping!');
+        } elseif ($action == 'insert' && $manufacturer_id) {
+            return $this->toLog('Error: Insert only action is set, but brand/manufacturer already exists. Skipping!');
+        } elseif ($action == 'delete' && !$manufacturer_id) {
+            return $this->toLog('Error: Delete action is set, but brand/manufacturer does not exists. Skipping!');
+        }
+
+        if ($action == 'delete') {
+            $this->model_catalog_manufacturer->deleteManufacturer($manufacturer_id);
+            $this->toLog("Deleted manufacturer '".$manufacturer['name']."' with ID ".$manufacturer_id);
+            return true;
+        }
+
         if ($manufacturer_id) {
             $status = true;
             //process images

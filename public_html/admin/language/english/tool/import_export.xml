@@ -42,7 +42,7 @@
 	</definition>
 	<definition>
 		<key>text_load_file_notes</key>
-		<value><![CDATA[You can upload CSV or Text file to import data. For data structure, you can follow proprietary format (see export) or free format. <br/> For data with the free format, you will need to map data elements manualy. Only product and categories supported for free format import. ]]></value>
+		<value><![CDATA[You can upload CSV or Text file to import data. For data structure, you can follow proprietary format (see export) or free format. <br/> For data with the free format, you will need to map data elements manually or use JSON map. <br/>Only product, categories and brands/manufacturers supported for free format import. <br/>Action column can be included to instruct import to 'insert', 'update' or 'delete'. Default action is update_or_insert. ]]></value>
 	</definition>
 	<definition>
 		<key>text_import_wizard_notes</key>

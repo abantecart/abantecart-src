@@ -46,6 +46,13 @@ class ControllerPagesToolImportExport extends AController
         $this->handler = new AData();
         $this->loadModel('tool/import_process');
         $this->tables = $this->model_tool_import_process->importTableCols();
+        //add action to each table
+        foreach ($this->tables as $table => $cols) {
+            $this->tables[$table]['columns']['action'] = [
+                'title' => 'Action',
+                'alias' => 'action',
+            ];
+        }
     }
 
     public function main()
@@ -365,7 +372,13 @@ class ControllerPagesToolImportExport extends AController
         if ($this->request->post['json_map']) {
             $json =  str_replace('&quot;', '"', $this->request->post['json_map']);
             $json = json_decode($json, true);
-            $this->data['map'] = $this->parseJSON($json);
+            if (!$json) {
+                $this->session->data['error'] = $this->language->get('error_data_corrupted');
+                $this->main();
+                return;
+            } else {
+                $this->data['map'] = $this->parseJSON($json);
+            }
         }
         if ($this->request->is_POST() && $this->validateWizardRequest($this->data['map'])) {
             $this->session->data['import_map'] = $this->data['map'];
@@ -490,7 +503,7 @@ class ControllerPagesToolImportExport extends AController
         }
 
         //if map is set, link colums to array index of colums for faster rendering
-        if (isset($this->data['map'])) {
+        if (isset($this->data['map']) && $this->data['map']) {
             $this->data['map'] = $this->reindexMap($this->data['map'], $this->data['cols']);
         }
 
@@ -779,7 +792,6 @@ class ControllerPagesToolImportExport extends AController
 
         $table = array_keys($json)[0];
         $data['table'] = $table;
-
         if (!isset($json[$table]) || !is_array($json[$table])) {
             return $data;
         }
