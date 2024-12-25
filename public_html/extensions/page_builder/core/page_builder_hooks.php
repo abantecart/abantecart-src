@@ -303,7 +303,7 @@ class ExtensionPageBuilder extends Extension
             return;
         }
         $execController = 'pages/product/product';
-        $this->addButton2DesignPage($execController, $keyParam, $keyValue);
+        $this->addButton2DesignPage($that, $execController, $keyParam, $keyValue);
     }
 
     public function onControllerPagesCatalogCategory_UpdateData()
@@ -319,7 +319,7 @@ class ExtensionPageBuilder extends Extension
             return;
         }
         $execController = 'pages/product/category';
-        $this->addButton2DesignPage($execController, $keyParam, $keyValue);
+        $this->addButton2DesignPage($that, $execController, $keyParam, $keyValue);
     }
     public function onControllerPagesCatalogCollections_UpdateData()
     {
@@ -334,7 +334,7 @@ class ExtensionPageBuilder extends Extension
             return;
         }
         $execController = 'pages/product/collection';
-        $this->addButton2DesignPage($execController, $keyParam, $keyValue);
+        $this->addButton2DesignPage($that, $execController, $keyParam, $keyValue);
     }
 
     public function onControllerPagesCatalogManufacturerLayout_UpdateData()
@@ -347,7 +347,7 @@ class ExtensionPageBuilder extends Extension
             return;
         }
         $execController = 'pages/product/manufacturer';
-        $this->addButton2DesignPage($execController, $keyParam, $keyValue);
+        $this->addButton2DesignPage($that, $execController, $keyParam, $keyValue);
     }
 
     public function onControllerPagesDesignContent_UpdateData()
@@ -363,7 +363,7 @@ class ExtensionPageBuilder extends Extension
             return;
         }
         $execController = 'pages/content/content';
-        $this->addButton2DesignPage($execController, $keyParam, $keyValue);
+        $this->addButton2DesignPage($that, $execController, $keyParam, $keyValue);
     }
     public function onControllerPagesDesignLayout_UpdateData()
     {
@@ -376,7 +376,13 @@ class ExtensionPageBuilder extends Extension
         $keyValue = (int)$pageData['key_value'];
 
         $execController = $pageData['controller'];
-        $this->addButton2DesignPage($execController, $keyParam, $keyValue);
+        if(!$keyParam) {
+            $templateTxtId = $that->request->get['tmpl_id']
+                ?: Registry::getInstance()->get('config')->get('config_storefront_template');
+            $l = new ALayout(Registry::getInstance(), $templateTxtId);
+            $keyParam = $l->getKeyParamByController($execController);
+        }
+        $this->addButton2DesignPage($that, $execController, $keyParam, $keyValue);
     }
 
     protected function isPagePublished(string $templateTxtId, string $rt, int $pageId, int $layoutId)
@@ -387,7 +393,7 @@ class ExtensionPageBuilder extends Extension
         );
     }
 
-    protected function getLayoutIdsByParameters(string $rt, int $keyValue):array
+    protected function getLayoutIdsByParameters(string $rt, string $keyParam, int $keyValue):array
     {
         $that = $this->baseObject;
         $pageId = $layoutId = null;
@@ -395,7 +401,9 @@ class ExtensionPageBuilder extends Extension
         $templateTxtId = $that->request->get['tmpl_id']
             ?: Registry::getInstance()->get('config')->get('config_storefront_template');
         $layout = new ALayout(Registry::getInstance(), $templateTxtId);
-        $keyParam = $layout->getKeyParamByController($rt);
+        if(!$keyParam) {
+            $keyParam = $layout->getKeyParamByController($rt);
+        }
         $pages = $layout->getPages(
             $rt,
             $keyParam,
@@ -403,11 +411,9 @@ class ExtensionPageBuilder extends Extension
         );
         if ($pages) {
             foreach ($pages as $page) {
-                if ($page['key_param'] && $page['key_value']) {
-                    $pageId = (int)$page['page_id'];
-                    $layoutId = (int)$page['layout_id'];
-                    break;
-                }
+                $pageId = (int)$page['page_id'];
+                $layoutId = (int)$page['layout_id'];
+                break;
             }
         }
         return [
@@ -416,12 +422,11 @@ class ExtensionPageBuilder extends Extension
             'layoutId' => $layoutId
         ];
     }
-    protected function addButton2DesignPage($execController, $keyParam, $keyValue)
+    protected function addButton2DesignPage($that, $execController, $keyParam, $keyValue)
     {
-        $that = $this->baseObject;
-        $that->loadLanguage('page_builder/page_builder');
+        $that->load->language('page_builder/page_builder');
 
-        $res = $this->getLayoutIdsByParameters($execController, $keyValue);
+        $res = $this->getLayoutIdsByParameters($execController, $keyParam,  $keyValue);
         extract($res);
         $link_page_builder = $that->html->getSecureUrl(
             'r/design/page_builder/createNewPage',

@@ -683,11 +683,23 @@ class ControllerResponsesDesignPageBuilder extends AController
             'key_value'  => (int)$this->request->get['key_value'],
         ];
 
-        $this->loadLanguage('catalog/product');
-        if (!$pageData['key_value']) {
-            unset($this->session->data['success']);
-            $this->session->data['warning'] = $this->language->get('error_product_not_found');
-            redirect($this->html->getSecureURL('catalog/product/update'));
+        //in case when page is default layout
+        if(!$pageData['key_value']){
+            $lm = new ALayoutManager($templateTxtId);
+            $page = $lm->getPages($pageData['controller'],'','','');
+            redirect(
+                $this->html->getSecureURL(
+                    'design/page_builder',
+                    '&' . http_build_query(
+                        [
+                            'page_id'   => $page[0]['page_id'],
+                            'layout_id' => $page[0]['layout_id'],
+                            'tmpl_id'   => $templateTxtId
+                        ]
+                    )
+
+                )
+            );
         }
 
         $result = $this->getPageDescriptionByParams(
