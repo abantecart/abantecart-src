@@ -826,14 +826,15 @@ class ControllerPagesToolImportExport extends AController
      */
     private function reindexMap($map, $cols) {
         $new_map['table'] = $map['table'];
+        $tblKey = $map['table']."_fields";
         foreach ($cols as $indx => $colName) {
             $mapIndx = array_search($colName, $map['import_col']);
             if ($mapIndx !== false) {
                 $new_map['import_col'][$indx] = $colName;
-                $new_map['products_fields'][$indx] = $map['products_fields'][$mapIndx];
+                $new_map[$tblKey][$indx] = $map[$tblKey][$mapIndx];
             } else {
                 $new_map['import_col'][$indx] = $colName;
-                $new_map['products_fields'][$indx] = null;
+                $new_map[$tblKey][$indx] = null;
             }
             if (isset($map['split_col'][$mapIndx])) {
                 $new_map['split_col'][$indx] = $map['split_col'][$mapIndx];
