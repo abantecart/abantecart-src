@@ -1,5 +1,4 @@
 <div id="content" class="panel panel-default">
-
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
             <?php echo $this->getHookVar('layout_form_action_pre'); ?>
@@ -22,8 +21,8 @@
                 echo $template_list; ?>
 			  </ul>
 			</div>
-            <?php if($block_layout_form){ ?>
-			<div class="btn-group toolbar">
+        <?php if($block_layout_form){ ?>
+			<div class="btn-group toolbar mr5">
 				<button class="actionitem btn btn-primary lock-on-click layout-form-save tooltips"
                         title="<?php echo_html2view($button_save); ?>">
 					<i class="fa fa-save fa-fw"></i>
@@ -35,7 +34,6 @@
 					<i class="fa fa-refresh fa-fw"></i>
 				</a>
 			</div>
-			<div class="btn-group mr10 toolbar">
             <?php echo $cp_layout_frm;
                 if($hidden_fields) {
                     foreach ($hidden_fields as $hidden) {
@@ -43,22 +41,16 @@
                         echo $hidden;
                     }
                 } ?>
-				<div class="form-group">
-					<div class="input-group input-group-sm">
-					<?php echo $cp_layout_select; ?>
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="input-group input-group-sm">
-					<button class="btn btn-default btn-xs lock-on-click tooltips" type="submit" title="<?php echo $text_apply_layout; ?>">
-						<i class="fa fa-copy fa-fw"></i>
-					</button>
-					</div>
-				</div>
+                <div class="input-group"><?php echo $cp_layout_select; ?></div>
+                <div class="input-group mr10">
+                    <button class="btn btn-default lock-on-click tooltips" type="submit"
+                            title="<?php echo_html2view($text_apply_layout); ?>">
+                        <i class="fa fa-copy fa-fw"></i>
+                    </button>
+                </div>
 			</form>
-			</div>
 			<?php
-            }
+        }
             echo $this->getHookVar('layout_form_action_post'); ?>
 		</div>
 		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>
@@ -79,15 +71,14 @@
 	<div class="panel-footer col-xs-12">
 		<div class="text-center">
 			<button class="btn btn-primary lock-on-click">
-			<i class="fa fa-save fa-fw"></i> <?php echo $button_save; ?>
+			    <i class="fa fa-save fa-fw"></i> <?php echo $button_save; ?>
 			</button>
 			<a class="btn btn-default" href="<?php echo $current_url; ?>">
-			<i class="fa fa-refresh fa-fw"></i> <?php echo $button_reset; ?>
+			    <i class="fa fa-refresh fa-fw"></i> <?php echo $button_reset; ?>
 			</a>
 		</div>
 	</div>
 	</form>
 <?php }
-   echo $this->getHookVar('layout_form_post');
-    ?>
+   echo $this->getHookVar('layout_form_post'); ?>
 </div>

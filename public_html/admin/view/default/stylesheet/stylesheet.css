@@ -3692,6 +3692,9 @@ blockquote p::after {
 .common_content_actions .btn-group span {
     line-height: 33px;
 }
+.primary_content_actions select{
+	max-width: 250px;
+}
 
 #layout_selector .dropdown-submenu {
 	position: relative;

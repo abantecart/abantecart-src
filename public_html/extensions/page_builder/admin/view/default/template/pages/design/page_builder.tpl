@@ -84,27 +84,25 @@ $page_list = '';
 			  </ul>
 			</div>
 
-			<div class="btn-group toolbar">
+			<div class="btn-group toolbar mr5">
 				<button id="publish" class="actionitem btn btn-default tooltips lock-on-click"
                         title="<?php echo_html2view($button_publish_title); ?>">
 					<i class="fa fa-feed fa-fw"></i><?php echo $button_publish; ?>
 				</button>
 			</div>
-
-			<div class="btn-group toolbar">
+			<div class="btn-group toolbar mr5">
 				<a id="undo" class="actionitem btn btn-default tooltips"
                    title="<?php echo_html2view($button_undo_title); ?>">
 					<i class="fa fa-undo fa-fw"></i>
 				</a>
 			</div>
-
-			<div class="btn-group toolbar">
+			<div class="btn-group toolbar mr10">
 				<a id="remove_custom_page" class="actionitem btn btn-danger tooltips"
                    title="<?php echo_html2view($button_remove_custom_page_title); ?>">
 					<i class="fa fa-trash fa-fw"></i>
 				</a>
 			</div>
-			<div class="btn-group toolbar">
+			<div class="btn-group toolbar ">
 				<a target="gpjspreview" id="preview"
                    href="<?php echo $previewUrl; ?>"
                    class="actionitem btn btn-default tooltips <?php echo !$this->config->get('page_builder_status') ? 'disabled' : ''?>"

@@ -729,7 +729,8 @@ class ControllerResponsesDesignPageBuilder extends AController
             $mdl = $this->loadModel('catalog/product');
             $productInfo = $mdl->getProductDescriptions($keyValue);
             if ($productInfo) {
-                $srcIds = $lm->getPageLayoutIDs($controller, '', '', true);
+                $srcIds = $lm->getPageLayoutIDs($controller, '', '', true)
+                    ?: $lm->getPageLayoutIDs('generic', '', '', true);
                 $output['layout_data']['source_layout_id'] = $srcIds['layout_id'];
                 $output['layout_data']['layout_name'] = $this->language->get('text_product', 'catalog/product')
                     . ': ' . $productInfo[$this->language->getContentLanguageID()]['name'];
@@ -740,7 +741,8 @@ class ControllerResponsesDesignPageBuilder extends AController
             $mdl = $this->loadModel('catalog/category');
             $categoryInfo = $mdl->getCategoryDescriptions($keyValue);
             if ($categoryInfo) {
-                $srcIds = $lm->getPageLayoutIDs($controller, '', '', true);
+                $srcIds = $lm->getPageLayoutIDs($controller, '', '', true)
+                    ?: $lm->getPageLayoutIDs('generic', '', '', true);
                 $output['layout_data']['source_layout_id'] = $srcIds['layout_id'];
                 $output['layout_data']['layout_name'] = $this->language->get('text_category', 'catalog/category')
                     . ': '
@@ -752,7 +754,8 @@ class ControllerResponsesDesignPageBuilder extends AController
             $mdl = $this->loadModel('catalog/manufacturer');
             $manufacturerInfo = $mdl->getManufacturer($keyValue);
             if ($manufacturerInfo) {
-                $srcIds = $lm->getPageLayoutIDs($controller, '', '', true);
+                $srcIds = $lm->getPageLayoutIDs($controller, '', '', true)
+                    ?: $lm->getPageLayoutIDs('generic', '', '', true);
                 $output['layout_data']['source_layout_id'] = $srcIds['layout_id'];
                 $output['layout_data']['layout_name'] = $this->language->get('text_manufacturer', 'catalog/manufacturer')
                     . ': '
@@ -764,7 +767,8 @@ class ControllerResponsesDesignPageBuilder extends AController
             $languageId = $this->language->getDefaultLanguageID();
             $content_info = $acm->getContent($keyValue, $languageId);
             if ($content_info) {
-                $srcIds = $lm->getPageLayoutIDs($controller, '', '', true);
+                $srcIds = $lm->getPageLayoutIDs($controller, '', '', true)
+                    ?: $lm->getPageLayoutIDs('generic', '', '', true);
                 $output['layout_data']['source_layout_id'] = $srcIds['layout_id'];
 
                 $title = $content_info['title'] ?: 'Unnamed content page';
@@ -778,10 +782,8 @@ class ControllerResponsesDesignPageBuilder extends AController
             $mdl = $this->loadModel('catalog/collection');
             $collectionInfo = $mdl->getById($keyValue);
             if ($collectionInfo) {
-                $srcIds = $lm->getPageLayoutIDs($controller, '', '', true);
-                if(!$srcIds){
-                    $srcIds = $lm->getPageLayoutIDs('generic', '', '', true);
-                }
+                $srcIds = $lm->getPageLayoutIDs($controller, '', '', true)
+                    ?: $lm->getPageLayoutIDs('generic', '', '', true);
                 $output['layout_data']['source_layout_id'] = $srcIds['layout_id'];
                 $output['layout_data']['layout_name'] = $this->language->get('text_collection', 'catalog/collections')
                     . ': '
