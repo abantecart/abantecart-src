@@ -3749,6 +3749,9 @@ blockquote p::after {
 	color: #fff !important;
 }
 
+.primary_content_actions .btn-group{
+	margin-right: 5px;
+}
 .primary_content_actions a.btn i.fa::before{
 	vertical-align: middle;
 }
