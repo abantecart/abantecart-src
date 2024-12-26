@@ -1028,7 +1028,7 @@ class ModelToolImportProcess extends Model
      *
      * @return array
      */
-    protected function buildDataMap($record, $import_col, $fields, $split_col)
+    protected function buildDataMap($record, $import_col, $fields, $split_col = [])
     {
         $ret = [];
         $op_index = -1;
