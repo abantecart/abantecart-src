@@ -2023,6 +2023,7 @@ li#review-set::before {
     align-items: center;
     gap: 5px;
     position: relative;
+    white-space: nowrap;
 }
 
 .navbar .sub-menu .nav-link {
@@ -2132,10 +2133,8 @@ li#review-set::before {
 }
 
 .mega-sf-menu.navbar-nav {
-    overflow-y: auto;
-    overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
-    height: 65px;
+    height: 60px;
 }
 
 .cart-offcanvas {
