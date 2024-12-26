@@ -239,29 +239,24 @@ class ModelToolFormsManager extends Model
 
             if (isset($data['controller_path'])) {
                 $cols[] = 'controller = "' . $this->db->escape($data['controller_path']) . '"';
-                $cols[] = 'success_page = "' . $this->db->escape($data['controller_path']) . '"';
+                if(!$data['success_page']) {
+                    $cols[] = 'success_page = "' . $this->db->escape($data['controller_path']) . '"';
+                }
             }
 
-            if (has_value($data['success_page'])) {
+            if (isset($data['success_page'])) {
                 $cols[] = 'success_page = "' . $this->db->escape($data['success_page']) . '"';
-            } else {
-                if (isset($data['controller_path'])) {
-                    $cols[] = 'success_page = "' . $this->db->escape($data['controller_path']) . '"';
-                } else {
-                    $cols[] = 'success_page = ""';
-                }
             }
 
             if (isset($data['form_status'])) {
                 $cols[] = 'status = "' . (int)$data['form_status'] . '"';
             }
 
-            if (!empty($cols)) {
-                $this->db->query(
-                    'UPDATE ' . $this->db->table("forms") . '
-					SET ' . implode(',', $cols) . '
-					WHERE form_id = "' . (int)$data['form_id'] . '"'
-                );
+            if ($cols) {
+                $sql = "UPDATE " . $this->db->table("forms") . "
+                        SET " . implode(',', $cols) . "
+                        WHERE form_id = " . (int)$data['form_id'];
+                $this->db->query( $sql );
             }
 
             if (isset($data['form_description'])) {

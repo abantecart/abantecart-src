@@ -286,7 +286,7 @@ class ControllerPagesToolFormsManager extends AController
             [
                 'type'     => 'checkbox',
                 'name'     => 'form_status',
-                'checked'  => (int)$this->data['form_data']['status'] ?: 1,
+                'checked'  => (int)$this->data['form_data']['status'],
                 'value'    => 1,
                 'required' => true,
                 'style'    => 'btn_switch status_switch'

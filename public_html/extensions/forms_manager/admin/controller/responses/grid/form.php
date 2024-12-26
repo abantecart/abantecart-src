@@ -157,7 +157,12 @@ class ControllerResponsesGridForm extends AController
                     }
                 } else {
                     if ((int)$this->request->get['form_id']) {
-                        $this->model_tool_forms_manager->updateForm(['form_id' => $this->request->get['form_id'], $field => $value]);
+                        $this->model_tool_forms_manager->updateForm(
+                            [
+                                'form_id' => $this->request->get['form_id'],
+                                $field => $value
+                            ]
+                        );
                     }
                 }
             }
