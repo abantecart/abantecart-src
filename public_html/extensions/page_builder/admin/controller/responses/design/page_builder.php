@@ -770,9 +770,8 @@ class ControllerResponsesDesignPageBuilder extends AController
                     ?: $lm->getPageLayoutIDs('generic', '', '', true);
                 $output['layout_data']['source_layout_id'] = $srcIds['layout_id'];
                 $output['layout_data']['layout_name'] = $this->language->get('text_manufacturer', 'catalog/manufacturer')
-                    . ': '
-                    . $manufacturerInfo['name'];
-                $output['page_descriptions'] = $manufacturerInfo;
+                    . ': ' . $manufacturerInfo['name'];
+                $output['page_descriptions'][$this->language->getDefaultLanguageID()] = $manufacturerInfo;
             }
         } elseif ($keyParam == 'content_id') {
             $acm = new AContentManager();
@@ -785,8 +784,7 @@ class ControllerResponsesDesignPageBuilder extends AController
 
                 $title = $content_info['title'] ?: 'Unnamed content page';
                 $output['layout_data']['layout_name'] = $this->language->get('text_content', 'common/header')
-                    . ': '
-                    . $title;
+                    . ': ' . $title;
                 $output['page_descriptions'][$languageId]['name'] = $title;
             }
         } elseif ($keyParam == 'collection_id') {
@@ -800,7 +798,7 @@ class ControllerResponsesDesignPageBuilder extends AController
                 $output['layout_data']['layout_name'] = $this->language->get('text_collection', 'catalog/collections')
                     . ': '
                     . $collectionInfo['name'];
-                $output['page_descriptions'] = $collectionInfo;
+                $output['page_descriptions'][$this->language->getDefaultLanguageID()] = $collectionInfo;
             }
         }
         return $output;

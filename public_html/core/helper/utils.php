@@ -1428,7 +1428,7 @@ function saveOrCreateLayout(string $templateTextId, array $pageData, array $layo
         $where[] = "p.key_value = '" . $db->escape($pageData['key_value']) . "'";
     }
 
-    $sql = " SELECT *
+    $sql = "SELECT *
             FROM " . $db->table("pages") . " p 
             " . ($where ? " WHERE " . implode(" AND ", $where) : '') . "
             ORDER BY p.page_id ASC";
