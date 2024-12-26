@@ -385,15 +385,17 @@ class ModelToolImportProcess extends Model
         $category = $this->_filter_array($data['categories']);
         //check if we have split tree or an array
         $category_desc = $this->_filter_array($data['category_descriptions']);
-        $category_tree = $category_desc['name'];
-        if (count($data['category_descriptions']['name']) > 1) {
-            $category_tree = $data['category_descriptions']['name'];
+        $category_tree = [];
+        if (is_array($category_desc['name'])) {
+            // we have category array tree
+            $category_tree = $category_desc['name'];
+            $category_desc['name'] = end($category_tree);
+            $s_tree = implode(' -> ', $category_tree);
+            $this->toLog("Processing record for category { $s_tree } .");
+        } else {
+            $category_tree[] = $category_desc['name'];
+            $this->toLog("Processing record for category { {$category_desc['name']} } .");
         }
-        //Get actual category name
-        $category_desc['name'] = end($category_tree);
-
-        $s_tree = implode(' -> ', $category_tree);
-        $this->toLog("Processing record for category { $s_tree } .");
         //process all categories
         $categories = $this->_process_categories(['category' => [$category_tree]], $language_id, $store_id);
         //we will have always one category
@@ -1038,7 +1040,9 @@ class ModelToolImportProcess extends Model
         }
 
         //decode html encoded symbols such as &gt;
-        $split_col = array_map('html_entity_decode', $split_col);
+        if (isset($split_col) && is_array($split_col)) {
+            $split_col = array_map('html_entity_decode', $split_col);
+        }
 
         foreach ($fields as $index => $field) {
             if (empty($field)) {
