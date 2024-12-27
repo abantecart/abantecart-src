@@ -644,7 +644,7 @@ class ControllerPagesCatalogProduct extends AController
         } elseif (isset($product_info)) {
             $this->data['product_store'] = $this->model_catalog_product->getProductStores($product_id);
         } else {
-            $this->data['product_store'] = [0];
+            $this->data['product_store'] = [(int)$this->session->data['current_store_id']];
         }
 
         if (isset($this->request->post['product_description'])) {

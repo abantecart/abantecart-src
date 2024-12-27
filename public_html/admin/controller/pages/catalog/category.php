@@ -433,13 +433,11 @@ class ControllerPagesCatalogCategory extends AController
         } elseif ($category_info) {
             $this->data['category_store'] = $this->model_catalog_category->getCategoryStores($category_id);
         } else {
-            $this->data['category_store'] = [0];
+            $this->data['category_store'] = [(int)$this->session->data['current_store_id']];
         }
 
-        $stores = [0 => $this->language->get('text_default')];
-        foreach ($this->data['stores'] as $s) {
-            $stores[(int)$s['store_id']] = $s['name'];
-        }
+        $stores = [0 => $this->language->get('text_default')]
+            + array_column((array)$this->data['stores'], 'name', 'store_id');
 
         if (!$category_id) {
             $this->data['action'] = $this->html->getSecureURL('catalog/category/insert');

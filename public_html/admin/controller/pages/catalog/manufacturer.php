@@ -275,7 +275,7 @@ class ControllerPagesCatalogManufacturer extends AController
                 $manufacturer_id
             );
         } else {
-            $this->data['manufacturer_store'] = [0];
+            $this->data['manufacturer_store'] = [(int)$this->session->data['current_store_id']];
         }
 
         $stores = [0 => $this->language->get('text_default')];
