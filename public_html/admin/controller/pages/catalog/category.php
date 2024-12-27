@@ -361,7 +361,10 @@ class ControllerPagesCatalogCategory extends AController
 
         $this->view->assign('error_warning', $this->error['warning']);
         $this->view->assign('error_name', $this->error['name']);
-        $this->data['categories'] = $this->model_catalog_category->getCategories((int)ROOT_CATEGORY_ID);
+        $this->data['categories'] = $this->model_catalog_category->getCategories(
+            (int)ROOT_CATEGORY_ID,
+            (int)$this->session->data['current_store_id']
+        );
 
         $categories = [0 => $this->language->get('text_none')]
             + array_column($this->data['categories'], 'name', 'category_id');
