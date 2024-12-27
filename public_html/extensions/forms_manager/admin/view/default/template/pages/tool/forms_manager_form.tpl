@@ -156,8 +156,7 @@ echo $this->html->buildElement(
         'id'         => 'field_modal',
         'modal_type' => 'lg',
         'title'      => $text_add_field,
-        'content'    => $modal_content,
-        'js_onshow'  => 'bindAform($("input, textarea, select", $(this)));'
+        'content'    => $modal_content
     ]
 );
 ?>
