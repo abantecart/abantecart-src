@@ -3980,3 +3980,7 @@ a.dropdown-toggle:after {
     inset: -5px;
     border: 0 !important;
 }
+
+.product-image-column-list{
+    max-width: 150px;
+}
