@@ -931,13 +931,19 @@ h1 a:hover, h2 a:hover, h3 a:hover {
 	top: 5px;
 	right: 25px;
 	max-width: 400px;
-	max-height: 55px;
+	height: 58px;
 	font-size: 12px !important;
 	line-height: 16px !important;
 	overflow-x: auto;
 	border: 1px solid #EEEEEE;
 	padding: 3px 10px 3px 10px;
 	text-align: justify;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.pageheader .ant-wrapper .content{
+	margin: auto;
 }
 
 /* custom ant view */

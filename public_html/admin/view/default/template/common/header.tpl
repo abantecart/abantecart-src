@@ -8,7 +8,6 @@
 		<div class="embed abantecart_container"></div>
 	</div>
 	<div class="leftpanel">
-
 		<div class="logopanel">
 			<i class="sticky_header fa fa-toggle-off fa-fw"></i>
 			<a href="<?php echo $home; ?>">
@@ -26,12 +25,8 @@
 				?>
 			</a>
 		</div>
-		<!-- logopanel -->
-
 		<div class="leftpanelinner">
 			<i class="sticky_left fa fa-toggle-off fa-fw"></i>
-
-			<!-- This is only visible to small devices -->
 			<div class="visible-xs hidden-sm hidden-md hidden-lg">
 				<div class="media userlogged">
 					<a href="<?php echo $account_edit; ?>">
@@ -39,28 +34,21 @@
 					</a>
 				</div>
 			</div>
-
 			<div id="menu_box">
 				<?php echo $menu; ?>
 			</div>
-
 			<div class="side_summary">
 				<?php include($tpl_common_dir . 'summary.tpl'); ?>
 			</div>
-			<!-- side_summary -->
-
 			<?php echo $this->getHookVar('leftpanel_bottom'); ?>
-
 		</div>
-		<!-- leftpanelinner -->
-
-	</div><!-- leftpanel -->
+	</div>
 
 	<div class="mainpanel">
 	<div class="headerbar">
 		<a class="menutoggle"><i class="fa fa-arrows-h"></i></a>
-		<select id="global_search" name="search" data-placeholder="<?php echo $search_everywhere; ?>"
-				class="chosen-select form-control aselect ">
+		<select id="global_search" name="search" class="chosen-select form-control aselect"
+                data-placeholder="<?php echo $search_everywhere; ?>">
 			<option></option>
 		</select>
 		<div id="suggest_popup_dialog"></div>
@@ -88,30 +76,31 @@
 				</li>
 				<li class="hidden-xs">
 					<div class="btn-group">
-						<a href="<?php echo $rl_manager_url; ?>" class="btn btn-default tp-icon"><i
-									class="fa fa-photo"></i></a>
+						<a href="<?php echo $rl_manager_url; ?>" class="btn btn-default tp-icon">
+                            <i class="fa fa-photo"></i>
+                        </a>
 					</div>
 				</li>
-				<?php if ($ant){ ?>
-					<li>
-						<div class="btn-group ant_window">
-							<button class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown">
-								<i class="fa fa-comments fa-lg"></i>
-								<?php if ($ant_viewed <= 0){ ?>
-									<span class="badge"><i class="fa fa-bell"></i></span>
-								<?php } ?>
-							</button>
-							<div id="ant_dropdown" class="dropdown-menu dropdown-menu-head ant-menu-head pull-right">
-								<h5 class="title"><?php echo $text_abc_notification; ?></h5>
-								<ul class="dropdown-list gen-list">
-									<li>
-										<?php echo $ant; ?>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</li>
-				<?php } ?>
+            <?php if ($ant){ ?>
+                <li>
+                    <div class="btn-group ant_window">
+                        <button class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown">
+                            <i class="fa fa-comments fa-lg"></i>
+                            <?php if ($ant_viewed <= 0){ ?>
+                                <span class="badge"><i class="fa fa-bell"></i></span>
+                            <?php } ?>
+                        </button>
+                        <div id="ant_dropdown" class="dropdown-menu dropdown-menu-head ant-menu-head pull-right">
+                            <h5 class="title"><?php echo $text_abc_notification; ?></h5>
+                            <ul class="dropdown-list gen-list">
+                                <li>
+                                    <?php echo $ant; ?>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            <?php } ?>
 				<li>
 					<div class="btn-group new_messages">
 						<a href="" class="btn btn-default dropdown-toggle tp-icon"
@@ -119,14 +108,13 @@
 							<i class="fa fa-envelope fa-lg"></i>
 							<span class="badge"></span>
 						</a>
-
 						<div class="dropdown-menu dropdown-menu-head pull-right">
 							<h5 class="title"></h5>
 							<ul class="dropdown-list gen-list"></ul>
 						</div>
 					</div>
 				</li>
-				<?php
+            <?php
 				if ($languages){
 					$cur_lang = [];
 					foreach ($languages as $language){
@@ -141,8 +129,8 @@
 						<button class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown">
 							<?php if ($cur_lang['image']){ ?>
 								<img src="<?php echo $cur_lang['image']; ?>"
-                                     alt="<?php echo $cur_lang['name']; ?>"
-									 title="<?php echo $cur_lang['name']; ?>"/>
+                                     alt="<?php echo_html2view($cur_lang['name']); ?>"
+									 title="<?php echo_html2view($cur_lang['name']); ?>"/>
 							<?php } else{ ?>
 								<i class="fa fa-language fa-lg"></i>
 							<?php } ?>
@@ -150,7 +138,9 @@
 						</button>
 						<div class="dropdown-menu dropdown-menu-head pull-right switcher">
 							<h5 class="title"><?php echo $cur_lang['name']; ?>
-								<a href="<?php echo $language_settings; ?>"><i class="fa fa-gears"></i></a>
+								<a href="<?php echo $language_settings; ?>">
+                                    <i class="fa fa-gears"></i>
+                                </a>
 							</h5>
 							<form action="<?php echo str_replace('&', '&amp;', $action); ?>"
                                   method="post"
@@ -161,9 +151,9 @@
 											<a onClick="$('input[name=\'language_code\']').attr('value', '<?php echo $language['code']; ?>'); $('#language_form').submit();">
                                         <?php
 												if ($language['image']){ ?>
-													<img src="<?php echo $language['image']; ?>"
-                                                         title="<?php echo $language['name']; ?>"
-                                                         alt="<?php echo $language['name']; ?>"/>
+													<img src="<?php echo_html2view($language['image']); ?>"
+                                                         title="<?php echo_html2view($language['name']); ?>"
+                                                         alt="<?php echo_html2view($language['name']); ?>"/>
                                         <?php } else{ ?>
 													<div class="pull-left" style="width: 19px;">&nbsp;</div>
 												<?php } ?>
@@ -193,13 +183,24 @@
 								<a href="<?php echo $account_edit; ?>"><i class="fa fa-gears"></i></a>
 							</h5>
 							<ul class="dropdown-list gen-list">
-								<li><a href="<?php echo $account_edit; ?>"><i
-												class="fa fa-edit"></i> <?php echo $text_edit_details; ?></a></li>
-								<li><a href="<?php echo $im_settings_edit; ?>"><i
-												class="fa fa-bullhorn"></i> <?php echo $text_edit_notifications; ?></a>
+								<li>
+                                    <a href="<?php echo $account_edit; ?>">
+                                        <i class="fa fa-edit"></i>
+                                        <?php echo $text_edit_details; ?>
+                                    </a>
+                                </li>
+								<li>
+                                    <a href="<?php echo $im_settings_edit; ?>">
+                                        <i class="fa fa-bullhorn"></i>
+                                        <?php echo $text_edit_notifications; ?>
+                                    </a>
 								</li>
-								<li><a href="<?php echo $logout; ?>"><i
-												class="fa fa-unlock"></i><?php echo $text_logout; ?></a></li>
+								<li>
+                                    <a href="<?php echo $logout; ?>">
+                                        <i class="fa fa-unlock"></i>
+                                        <?php echo $text_logout; ?>
+                                    </a>
+                                </li>
 							</ul>
 						</div>
 					</div>
@@ -207,7 +208,7 @@
 				<li class="hidden-xs">
 					<div class="btn-group">
 						<a onClick="window.open('<?php echo $store; ?>');" class="btn btn-default tp-icon"
-						   data-toggle="dropdown" title="<?php echo $text_front; ?>">
+						   data-toggle="dropdown" title="<?php echo_html2view($text_front); ?>">
 							<i class="fa fa-external-link fa-lg"></i>
 						</a>
 					</div>
@@ -220,8 +221,7 @@
 				</li>
 			</ul>
 		</div>
-		<!-- header-right -->
-	</div><!-- headerbar -->
+	</div>
 
 	<!-- modals location outside of headerbar -->
 <?php if ($config_voicecontrol){ ?>
@@ -240,20 +240,12 @@ echo $this->html->buildElement(
 
 	<div class="pageheader">
 	<?php
-		$current = '';
-		 ?>
+		$current = []; ?>
 		<h2>
-			<?php if ($current_menu['icon'] ?? ''){ ?>
-				<?php echo $current_menu['icon']; ?>
-			<?php } else{ ?>
-				<i class="fa fa-th-list"></i>
-			<?php } ?>
-			<?php if ($current && isset($current['text']) && $current['text']){
-				echo $current['text'];
-			} else{
-				echo $heading_title;
-			} ?>
-			<?php if ($current && isset($current['sub_text']) && $current['sub_text']){ ?>
+			<?php
+            echo $current_menu['icon'] ?: '<i class="fa fa-th-list"></i>';
+            echo $current['text'] ?: $heading_title;
+            if ($current['sub_text']){ ?>
 				<span><?php echo $current['sub_text']; ?></span>
 			<?php } ?>
 		</h2>
@@ -276,7 +268,9 @@ echo $this->html->buildElement(
             <?php }
         } else if ($ant){ ?>
 			<div class="ant-wrapper">
-				<?php echo $ant; ?>
+			    <div class="content">
+				    <?php echo $ant; ?>
+			    </div>
 			</div>
 		<?php } ?>
 	</div>
@@ -304,12 +298,12 @@ echo $this->html->buildElement(
                 url: '<?php echo $search_suggest_url; ?>',
                 dataType: 'json',
                 jsonTermKey: "term",
-                keepTypingMsg: "<?php echo $text_continue_typing; ?>",
-                lookingForMsg: "<?php echo $text_looking_for; ?>",
+                keepTypingMsg: <?php js_echo($text_continue_typing); ?>,
+                lookingForMsg: <?php js_echo($text_looking_for); ?>,
                 minTermLength: 2
             }, function (data) {
                 if (data.response.length < 1) {
-                    $("#searchform").chosen({no_results_text: "<?php echo $text_no_results; ?>"});
+                    $("#searchform").chosen({no_results_text: <?php js_echo($text_no_results); ?>});
                     return '';
                 }
                 //build result array
@@ -334,7 +328,7 @@ echo $this->html->buildElement(
                 var onclick = 'onClick="window.open(&apos;' + search_action + '&apos;);"';
                 results.push({
                     value: 0,
-                    text: '<div class="text-center"><a ' + onclick + ' class="btn btn-deafult"><?php echo $search_everywhere; ?></a></div>'
+                    text: '<div class="text-center"><a ' + onclick + ' class="btn btn-default">' + <?php js_echo($search_everywhere); ?> + '</a></div>'
                 });
                 $.each(dataobj, function (category, datacat) {
                     var url = search_action + '#' + category;
@@ -342,7 +336,9 @@ echo $this->html->buildElement(
                     var header = '<span class="h5">' + searchSectionIcon(category) + datacat.name + '</span>';
                     //show more result only if there are more records
                     if (datacat.items.length === 3) {
-                        header += '<span class="pull-right"><a class="more-in-category" ' + onclick + '><?php echo $text_all_matches;?></a></span>';
+                        header += '<span class="pull-right"><a class="more-in-category" '
+                            + onclick
+                            + '>' + <?php js_echo($text_all_matches); ?> + '</a></span>';
                     }
                     results.push({
                         group: true,

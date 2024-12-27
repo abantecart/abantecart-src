@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -62,6 +62,7 @@ class AMessage
      * @param bool $repetition_group - sign to group repetitions of message based on same title of message
      *
      * @void
+     * @throws AException
      */
     public function saveNotice($title, $message, $repetition_group = true)
     {
@@ -76,6 +77,7 @@ class AMessage
      * @param bool $repetition_group - sign to group repetitions of message based on same title of message
      *
      * @void
+     * @throws AException
      */
     public function saveWarning($title, $message, $repetition_group = true)
     {
@@ -90,6 +92,7 @@ class AMessage
      * @param bool $repetition_group - sign to group repetitions of message based on same title of message
      *
      * @void
+     * @throws AException
      */
     public function saveError($title, $message, $repetition_group = true)
     {
@@ -106,6 +109,7 @@ class AMessage
      *
      * @void
      * @return int
+     * @throws AException
      */
     protected function _saveMessage($title, $message, $status, $repetition_group = true)
     {
@@ -136,6 +140,7 @@ class AMessage
 
     /**
      * @param int $msg_id
+     * @throws AException
      */
     public function deleteMessage($msg_id)
     {
@@ -149,6 +154,7 @@ class AMessage
      * @param int $msg_id
      *
      * @return array
+     * @throws AException
      */
     public function getMessage($msg_id)
     {
@@ -173,6 +179,7 @@ class AMessage
      * @param string $order
      *
      * @return array
+     * @throws AException
      */
     public function getMessages($start = 0, $limit = 0, $sort = '', $order = 'DESC')
     {
@@ -193,6 +200,7 @@ class AMessage
      * @param string $title
      *
      * @return array
+     * @throws AException
      */
     public function getLikeMessage($title)
     {
@@ -206,6 +214,7 @@ class AMessage
 
     /**
      * @return int
+     * @throws AException
      */
     public function getTotalMessages()
     {
@@ -220,6 +229,7 @@ class AMessage
      * @param int $msg_id
      *
      * @return bool
+     * @throws AException
      */
     public function markAsRead($msg_id)
     {
@@ -235,6 +245,7 @@ class AMessage
      * @param int $msg_id
      *
      * @return bool
+     * @throws AException
      */
     public function markAsUnRead($msg_id)
     {
@@ -278,6 +289,7 @@ class AMessage
      * @param array $no_delete
      *
      * @return bool
+     * @throws AException
      */
     public function purgeANTMessages($no_delete = [])
     {
@@ -298,6 +310,7 @@ class AMessage
      * @param array $data
      *
      * @return null
+     * @throws AException
      */
     public function saveANTMessage($data = [])
     {
@@ -372,7 +385,7 @@ class AMessage
         $sql = "SELECT *
                  FROM ".$this->db->table("ant_messages")." 
                  WHERE viewed < 1 
-                    AND start_date< CURRENT_TIMESTAMP and end_date > CURRENT_TIMESTAMP
+                    AND start_date < NOW() and end_date > NOW()
                     AND ( language_code = '".$this->registry->get('config')->get('admin_language')."' 
                         OR COALESCE(language_code,'*') = '*')
                  ORDER BY viewed ASC, priority DESC, COALESCE(language_code,'') DESC, COALESCE(url,'') DESC
@@ -393,6 +406,7 @@ class AMessage
      * @param string $language_code
      *
      * @return string
+     * @throws AException
      */
     public function markViewedANT($message_id, $language_code)
     {
@@ -409,6 +423,7 @@ class AMessage
 
     /**
      * @return array
+     * @throws AException
      */
     public function getShortList()
     {
