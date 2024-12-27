@@ -53,6 +53,7 @@ if( isset(current((array)$products)['product_id']) ){
                     <div class="mb-2">
                         <a class="fs-4 nav-link text-decoration-none text-dark "
                            href="<?php echo $item['href']; ?>"><?php echo $item['name']; ?></a>
+                     <?php echo $this->getHookvar('product_listing_details1_'.$item['product_id']);?>
                     </div>
                      <?php } ?>
                 </li>
