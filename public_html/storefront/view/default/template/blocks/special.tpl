@@ -34,6 +34,7 @@ if ($products) {
             </a>
             <a href="<?php echo $item['info_url']?>" class="d-block ms-2 text-decoration-none text-secondary">
                 <h6 class="text-decoration-none text-wrap"><?php echo $item['title']?></h6>
+                <?php echo $this->getHookvar('product_listing_details1_'.$product['product_id']);?>
                 <?php if ($review_status) { ?>
                     <?php echo $item['rating']?>
                 <?php }
