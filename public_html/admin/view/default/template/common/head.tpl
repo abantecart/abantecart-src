@@ -132,7 +132,7 @@ $(document).ready(function () {
         info_alert(<?php js_echo($system_notice); ?>, false);
     <?php } ?>
   
-    numberSeparators = {decimal:'<?php echo $decimal_point; ?>', thousand:'<?php echo $thousand_point; ?>'};
+    numberSeparators = {decimal: <?php js_echo($decimal_point); ?>, thousand: <?php js_echo($thousand_point); ?> };
 });
 
 //periodical updater of new message notifier

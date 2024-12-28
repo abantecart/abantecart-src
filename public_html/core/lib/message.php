@@ -377,28 +377,32 @@ class AMessage
      * @return array
      * @throws AException
      */
-    public function getANTMessage()
+    public function getANTMessage(?bool $notViewed = true)
     {
-        $output = '';
-        // delete expired banners first
-        $this->db->query("DELETE FROM ".$this->db->table("ant_messages")." WHERE end_date < CURRENT_TIMESTAMP");
+        // delete expired first
+        $this->db->query("DELETE FROM ".$this->db->table("ant_messages")." WHERE end_date < NOW()");
         $sql = "SELECT *
                  FROM ".$this->db->table("ant_messages")." 
-                 WHERE viewed < 1 
-                    AND start_date < NOW() and end_date > NOW()
+                 WHERE start_date < NOW() and end_date > NOW()
+                 ".($notViewed ? ' AND viewed < 1' : '')." 
                     AND ( language_code = '".$this->registry->get('config')->get('admin_language')."' 
-                        OR COALESCE(language_code,'*') = '*')
-                 ORDER BY viewed ASC, priority DESC, COALESCE(language_code,'') DESC, COALESCE(url,'') DESC
-                 LIMIT 1";
+                        OR COALESCE(language_code,'*') = '*') ";
+        if( $notViewed ){
+            $sql .= "ORDER BY viewed ASC, priority DESC, COALESCE(language_code,'') DESC, COALESCE(url,'') DESC ";
+        }else{
+            $sql .= "ORDER BY RAND() ";
+        }
+        $sql .= " LIMIT 1";
         $result = $this->db->query($sql);
         if ($result->num_rows) {
             $output = $result->row['html'] ?: $result->row['description'];
+            return [
+                'id' => $result->row['id'] ?? null,
+                'viewed' => $result->row['viewed'] ?? 0,
+                'html' => $output ?? '',
+            ];
         }
-        return [
-            'id' => $result->row['id'] ?? null,
-            'viewed' => $result->row['viewed'] ?? 0,
-            'html' => $output ?? '',
-        ];
+        return [];
     }
 
     /**

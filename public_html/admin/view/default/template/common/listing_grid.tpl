@@ -1,10 +1,6 @@
-<div class="ui-jqgrid-wrapper"
-     id="<?php echo $data['table_id'] ?>_wrapper">
-    <form class="form-inline"
-          id="<?php echo $data['table_id'] ?>_form"
-          action="<?php echo $data["editurl"] ?>"
-          method="POST"
-          role="form">
+<div class="ui-jqgrid-wrapper" id="<?php echo $data['table_id'] ?>_wrapper">
+    <form class="form-inline" id="<?php echo $data['table_id'] ?>_form"
+          action="<?php echo $data["editurl"] ?>" method="POST" role="form">
         <table id="<?php echo $data['table_id'] ?>"></table>
         <div id="<?php echo $data['table_id'] ?>_pager"></div>
         <div class="no_results"><?php echo $text_no_results; ?></div>
@@ -787,7 +783,7 @@ echo $this->html->buildElement(
         //resize jqgrid
         const resize_the_grid = function () {
             // Get width of parent contentpanel
-            $targetContainer = $(table_id).closest('.contentpanel');
+            var $targetContainer = $(table_id).closest('.contentpanel');
             let width = $targetContainer.width() - 20;
             if (width < 750) {
                 //min grid width is 750px;

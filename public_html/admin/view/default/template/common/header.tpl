@@ -81,7 +81,7 @@
                         </a>
 					</div>
 				</li>
-            <?php if ($ant){ ?>
+            <?php if ($last_ant){ ?>
                 <li>
                     <div class="btn-group ant_window">
                         <button class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown">
@@ -94,7 +94,7 @@
                             <h5 class="title"><?php echo $text_abc_notification; ?></h5>
                             <ul class="dropdown-list gen-list">
                                 <li>
-                                    <?php echo $ant; ?>
+                                    <?php echo $last_ant; ?>
                                 </li>
                             </ul>
                         </div>
@@ -266,10 +266,10 @@ echo $this->html->buildElement(
                     <?php echo implode("<a>/</a>",$breadcrumbs_html); ?>
                 </div>
             <?php }
-        } else if ($ant){ ?>
+        } else if ($ant_banner){ ?>
 			<div class="ant-wrapper">
 			    <div class="content">
-				    <?php echo $ant; ?>
+				    <?php echo $ant_banner; ?>
 			    </div>
 			</div>
 		<?php } ?>
@@ -282,7 +282,7 @@ echo $this->html->buildElement(
                 $('div#voice_start').hide();
             }
 <?php }
-      if (sizeof((array)$breadcrumbs) <= 1 && $ant) { ?>
+      if (sizeof((array)$breadcrumbs) <= 1 && $last_ant) { ?>
             $('#ant_dropdown').on('shown.bs.dropdown', function(){
                 //register ant shown in dashboard
                 updateANT('<?php echo $mark_read_url; ?>');
