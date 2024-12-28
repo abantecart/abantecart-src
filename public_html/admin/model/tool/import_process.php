@@ -222,6 +222,10 @@ class ModelToolImportProcess extends Model
         $status = false;
         $record = array_map('trim', (array)$record);
 
+        //process columns that needs to be concatenated
+        if (isset($settings['concat']) && is_array($settings['concat'])) {
+            $this->updateConcatinatedColumns($record, $settings);
+        }
         //data mapping
         $data = $this->buildDataMap(
             $record,
@@ -360,8 +364,13 @@ class ModelToolImportProcess extends Model
     protected function addUpdateCategory($record, $settings, $language_id, $store_id)
     {
         $this->load->model('catalog/category');
-
         $record = array_map('trim', (array)$record);
+
+        //process columns that needs to be concatenated
+        if (isset($settings['concat']) && is_array($settings['concat'])) {
+            $this->updateConcatinatedColumns($record, $settings);
+        }
+
         //data mapping
         $data = $this->buildDataMap(
             $record,
@@ -468,6 +477,12 @@ class ModelToolImportProcess extends Model
         $this->load->model('catalog/category');
         $status = false;
         $record = array_map('trim', (array)$record);
+
+        //process columns that needs to be concatenated
+        if (isset($settings['concat']) && is_array($settings['concat'])) {
+            $this->updateConcatinatedColumns($record, $settings);
+        }
+
         //data mapping
         $data = $this->buildDataMap(
             $record,
@@ -1103,6 +1118,36 @@ class ModelToolImportProcess extends Model
             $ret = array_merge_recursive($ret, ['product_options' => $op_array]);
         }
         return $ret;
+    }
+
+    /**
+     * @param $vals
+     * @param $map
+     *
+     * @return void
+     */
+    protected function updateConcatinatedColumns (&$vals, &$map) {
+        $concatMap = [];
+        foreach ($map['concat'] as $index => $col) {
+            $concatMap[$col['new_name']][$col['position']]['index'] = $index;
+            $concatMap[$col['new_name']][$col['position']]['concat_by'] = $col['concat_by'];
+        }
+        //process each concatenated column
+        foreach ($concatMap as $newName => $index) {
+            $vals[$newName] = '';
+            //add new column to import list
+            $map['import_col'][] = $newName;
+            $map[$map['table'] . '_fields'][] = $map[$map['table'] . '_fields'][$index[1]['index']];
+            foreach ($index as $pos => $colDetails) {
+                $colIndex = $colDetails['index'];
+                $vals[$newName] .= $colDetails['concat_by'] . $vals[$map['import_col'][$colIndex]];
+                //remove concatenated column from values and map
+                unset($vals[$map['import_col'][$colIndex]]);
+                unset($map['import_col'][$colIndex]);
+                unset($map['products_fields'][$colIndex]);
+            }
+        }
+        unset($map['concat']);
     }
 
     /**
