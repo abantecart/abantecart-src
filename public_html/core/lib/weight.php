@@ -39,7 +39,7 @@ class AWeight
     public $predefined_weights = [
         'kg' => [
             'weight_class_id' => 1,
-            'value'           => 0.02800000,
+            'value'           => 0.02834952,
             'iso_code'        => 'KILO',
             'language_id'     => 1,
             'title'           => 'Kilogram',
@@ -47,7 +47,7 @@ class AWeight
         ],
         'g'  => [
             'weight_class_id' => 2,
-            'value'           => 28.00000000,
+            'value'           => 28.34952,
             'iso_code'        => 'GRAM',
             'language_id'     => 1,
             'title'           => 'Gram',
@@ -56,7 +56,7 @@ class AWeight
 
         'lb' => [
             'weight_class_id' => 5,
-            'value'           => 0.06250000,
+            'value'           => 0.0625,
             'iso_code'        => 'PUND',
             'language_id'     => 1,
             'title'           => 'Pound',
@@ -64,7 +64,7 @@ class AWeight
         ],
         'oz' => [
             'weight_class_id' => 6,
-            'value'           => 1.00000000,
+            'value'           => 1.0,
             'iso_code'        => 'USOU',
             'language_id'     => 1,
             'title'           => 'Ounce',
@@ -135,7 +135,6 @@ class AWeight
         } else {
             $from = $this->weights[strtolower($unit_from)]['value'];
             $to = $this->weights[strtolower($unit_to)]['value'];
-
             return $value * ($to / $from);
         }
     }
