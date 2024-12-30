@@ -71,7 +71,7 @@
                                         <?php if($product['blurb']){?>
                                             <p class="text-muted"><?php echo $product['blurb']; ?></p>
                                         <?php }?>
-                                        <?php echo $this->getHookvar('product_listing_details1_'.$product['product_id']);?>
+                                        <?php echo $this->getHookvar('product_listing_details_after_blurb_'.$product['product_id']);?>
                                         <ul class="list-inline mb-0">
                                             <?php if($this->customer->isLogged()){ ?>
                                             <li class="list-inline-item ">

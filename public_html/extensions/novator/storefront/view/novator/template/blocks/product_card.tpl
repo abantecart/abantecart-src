@@ -117,7 +117,7 @@
                 . $this->getHookvar('product_listing_name_'.$product['product_id']);
             ?>
         </a>
-        <?php echo $this->getHookvar('product_listing_details1_'.$product['product_id']);?>
+        <?php echo $this->getHookvar('product_listing_details_after_blurb_'.$product['product_id']);?>
     </h6>
 
     <div class="card-body p-0">
