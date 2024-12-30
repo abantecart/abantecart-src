@@ -168,7 +168,7 @@ class ModelToolImportProcess extends Model
     public function process_products_record($task_id, $data, $settings)
     {
         $language_id = $settings['language_id'] ?: $this->language->getContentLanguageID();
-        $store_id = $settings['store_id'] ?: $this->session->data['current_store_id'];
+        $store_id = $settings['store_id'] ?: $this->config->get('current_store_id');
         $this->load->model('catalog/product');
         $this->imp_log = new ALog(DIR_LOGS . "products_import_" . $task_id . ".txt");
         return $this->addUpdateProduct($data, $settings, $language_id, $store_id);
@@ -222,6 +222,10 @@ class ModelToolImportProcess extends Model
         $status = false;
         $record = array_map('trim', (array)$record);
 
+        //process columns that needs to be concatenated
+        if (isset($settings['concat']) && is_array($settings['concat'])) {
+            $this->updateConcatinatedColumns($record, $settings);
+        }
         //data mapping
         $data = $this->buildDataMap(
             $record,
@@ -232,17 +236,15 @@ class ModelToolImportProcess extends Model
         if (!$data) {
             return $this->toLog("Error: Unable to build products import data map.");
         }
-        $action = $data['action'][0] ?: 'update_or_insert';
+        $action = $data['action'][0] ?? 'update_or_insert';
         $product = $this->_filter_array($data['products']);
         $product_desc = $this->_filter_array($data['product_descriptions']);
         $manufacturers = $this->_filter_array($data['manufacturers']);
-
         //check if row is complete and uniform
         if (!$product_desc['name'] && !$product['sku'] && !$product['model']) {
             return $this->toLog('Error: Record is not complete or missing required data. Skipping!');
         }
-
-        $this->toLog("Processing record for product {$product_desc['name']} {$product['sku']} {$product['model']}.");
+        $this->toLog("Processing record for product ".$product_desc['name'].".");
 
         //detect if we update or create new product based on update settings
         $new_product = true;
@@ -275,7 +277,7 @@ class ModelToolImportProcess extends Model
 
         if ($action == 'delete' && $product_id) {
             $this->model_catalog_product->deleteProduct($product_id);
-            $this->toLog("Deleted product '" . $product_desc['name'] . "' with ID " . $product_id);
+            $this->toLog("Deleted product '".$product_desc['name']."' with ID ".$product_id);
             return true;
         }
 
@@ -314,16 +316,16 @@ class ModelToolImportProcess extends Model
             }
             try {
                 $product_id = $this->model_catalog_product->addProduct($product_data);
-                $this->toLog("Created product '" . $product_desc['name'] . "' with ID " . $product_id);
+                $this->toLog("Created product '".$product_desc['name']."' with ID ".$product_id);
                 $status = true;
             } catch (Exception $e) {
-                $this->toLog("Error: Failed to create product ".$product_desc['name']. ". ".$e->getTraceAsString());
+                $this->toLog("Error: Failed to create product ".$product_desc['name'].". ".$e->getTraceAsString());
             }
         } else {
             //flat array for description (specific for update)
             $product_data['product_description'] = $product_desc;
             $this->model_catalog_product->updateProduct($product_id, $product_data);
-            $this->toLog("Updated product " . $product_desc['name'] . " with ID " . $product_id);
+            $this->toLog("Updated product ".$product_desc['name']." with ID ".$product_id);
             $status = true;
         }
 
@@ -335,15 +337,19 @@ class ModelToolImportProcess extends Model
         }
         $this->model_catalog_product->updateProductLinks($product_id, $product_links);
 
-        //process images
-        $this->_migrateImages($data['images'], 'products', $product_id, $product_desc['name'], $language_id);
+        if (isset($data['images'])) {
+            //process images
+            $this->_migrateImages($data['images'], 'products', $product_id, $product_desc['name'], $language_id);
+        }
 
-        //process options
-        $this->_addUpdateOptions(
-            $product_id,
-            $data['product_options'],
-            $product_data['weight_class_id']
-        );
+        if (isset($data['product_options'])) {
+            //process options
+            $this->_addUpdateOptions(
+                $product_id,
+                $data['product_options'],
+                $product_data['weight_class_id']
+            );
+        }
 
         return $status;
     }
@@ -360,8 +366,13 @@ class ModelToolImportProcess extends Model
     protected function addUpdateCategory($record, $settings, $language_id, $store_id)
     {
         $this->load->model('catalog/category');
-
         $record = array_map('trim', (array)$record);
+
+        //process columns that needs to be concatenated
+        if (isset($settings['concat']) && is_array($settings['concat'])) {
+            $this->updateConcatinatedColumns($record, $settings);
+        }
+
         //data mapping
         $data = $this->buildDataMap(
             $record,
@@ -468,6 +479,12 @@ class ModelToolImportProcess extends Model
         $this->load->model('catalog/category');
         $status = false;
         $record = array_map('trim', (array)$record);
+
+        //process columns that needs to be concatenated
+        if (isset($settings['concat']) && is_array($settings['concat'])) {
+            $this->updateConcatinatedColumns($record, $settings);
+        }
+
         //data mapping
         $data = $this->buildDataMap(
             $record,
@@ -1041,7 +1058,7 @@ class ModelToolImportProcess extends Model
                 continue;
             }
             $arr = [];
-            $field_val = $record[$import_col[$index]];
+            $field_val = $record[$import_col[$index]] ?? '';
             $keys = array_reverse(explode('.', $field));
             if (end($keys) == 'product_options' && !empty($field_val)) {
                 //map options special way
@@ -1087,7 +1104,7 @@ class ModelToolImportProcess extends Model
                             $field_val = array_map('trim', (array)$field_val);
                         }
                         //skip empty values
-                        if (has_value($field_val[0])) {
+                        if (isset($field_val[0])) {
                             $arr[$key][] = $field_val;
                         }
                     } else {
@@ -1103,6 +1120,36 @@ class ModelToolImportProcess extends Model
             $ret = array_merge_recursive($ret, ['product_options' => $op_array]);
         }
         return $ret;
+    }
+
+    /**
+     * @param $vals
+     * @param $map
+     *
+     * @return void
+     */
+    protected function updateConcatinatedColumns (&$vals, &$map) {
+        $concatMap = [];
+        foreach ($map['concat'] as $index => $col) {
+            $concatMap[$col['new_name']][$col['position']]['index'] = $index;
+            $concatMap[$col['new_name']][$col['position']]['concat_by'] = $col['concat_by'];
+        }
+        //process each concatenated column
+        foreach ($concatMap as $newName => $index) {
+            $vals[$newName] = '';
+            //add new column to import list
+            $map['import_col'][] = $newName;
+            $map[$map['table'] . '_fields'][] = $map[$map['table'] . '_fields'][$index[1]['index']];
+            foreach ($index as $pos => $colDetails) {
+                $colIndex = $colDetails['index'];
+                $vals[$newName] .= $colDetails['concat_by'] . $vals[$map['import_col'][$colIndex]];
+                //remove concatenated column from values and map
+                unset($vals[$map['import_col'][$colIndex]]);
+                unset($map['import_col'][$colIndex]);
+                unset($map['products_fields'][$colIndex]);
+            }
+        }
+        unset($map['concat']);
     }
 
     /**

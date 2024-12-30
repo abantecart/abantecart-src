@@ -306,6 +306,7 @@ class ModelCatalogProduct extends Model
                 $update[] = $f." = '".$this->db->escape($data[$f])."'";
             }
         }
+
         if (!empty($update)) {
             $this->db->query(
                 "UPDATE `".$this->db->table("products`")
@@ -339,6 +340,7 @@ class ModelCatalogProduct extends Model
                 }
             }
         }
+
         if (isset($data['featured'])) {
             $this->setFeatured($product_id, (bool) $data['featured']);
         }
@@ -380,11 +382,11 @@ class ModelCatalogProduct extends Model
             );
         }
 
-        if ($data['stock_location']) {
+        if(isset($data['stock_location'])) {
             $this->updateProductStockLocations($data['stock_location'], $product_id, 0);
         }
 
-        if($data['weight_class_id']){
+        if(isset($data['weight_class_id'])){
             $aW = new AWeight($this->registry);
             $unit = $aW->getUnit($data['weight_class_id']);
             if($unit) {

@@ -15,7 +15,7 @@
                             <a href="'.$item['image']['main_url'].'">'.$item['name'].'</a>
                           </div>';
                 }
-                echo $this->getHookvar('product_listing_details1_'.$item['product_id']);
+                echo $this->getHookvar('product_listing_details_after_blurb_'.$item['product_id']);
                 if ( $item['price'] ) {
                     echo '<div class="price-add">
                          <span class="price">' . $item['price'] . '</span>

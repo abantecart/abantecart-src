@@ -38,7 +38,7 @@ if ($content) {
                    class="ms-4 text-decoration-none text-secondary d-flex flex-wrap flex-column justify-content-between align-items-start align-self-stretch p-1"
                     >
                     <h6 class="my-auto text-decoration-none text-wrap"><?php echo $item['title']?></h6>
-                    <?php echo $this->getHookvar('product_listing_details1_'.$item['product_id']);?>
+                    <?php echo $this->getHookvar('product_listing_details_after_blurb_'.$item['product_id']);?>
                     <?php if ($review_status) { ?>
                         <?php echo renderDefaultRatingStars($item['rating'], $item['stars']); ?>
                     <?php }
