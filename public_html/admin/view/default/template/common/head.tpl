@@ -132,7 +132,7 @@ $(document).ready(function () {
         info_alert(<?php js_echo($system_notice); ?>, false);
     <?php } ?>
   
-    numberSeparators = {decimal:'<?php echo $decimal_point; ?>', thousand:'<?php echo $thousand_point; ?>'};
+    numberSeparators = {decimal: <?php js_echo($decimal_point); ?>, thousand: <?php js_echo($thousand_point); ?> };
 });
 
 //periodical updater of new message notifier
@@ -268,24 +268,6 @@ $(document).ready(function(){
 });
 <?php } ?>
 </script>
-
-<?php
-$loader = '<div style="min-height: 60px"><div id="iframe_loading" class="center_div_abs"><i class="fa fa-spinner fa-spin fa-2x"></i></div></div>';
-echo $this->html->buildElement(
-    [
-        'type'        => 'modal',
-        'id'          => 'hist_modal',
-        'modal_type'  => 'lg',
-        'data_source' => 'ajax',
-        'js_onclose'  => "
-            $('#hist_modal .modal-body').html('".$loader."');
-            $('#hist_modal .panel-body').off();
-        ",
-        'content' => $loader,
-    ]
-);
-?>
-
 <?php 
     //NOTE: More JS loaded in page.tpl. This is to improve performance. Do not move above to page.tpl
 ?>

@@ -67,9 +67,9 @@
                 <?php }
                 if ($back) { ?>
                 <div class="btn-group">
-                    <a class="btn btn-white step_back" href="<?php echo $back; ?>">
+                    <button class="btn btn-white step_back" data-href="<?php echo $back; ?>">
                         <i class="fa fa-arrow-left"></i> <?php echo $button_back; ?>
-                    </a>
+                    </button>
                 </div>
                 <?php }
                 if ($competed) { ?>
@@ -89,6 +89,3 @@
         </div>
 	</form>
 </div>
-<?php
-/** @see public_html/admin/view/default/template/responses/setting/quick_start_js.tpl */
-require_once(RDIR_TEMPLATE.'/template/responses/setting/quick_start_js.tpl'); ?>

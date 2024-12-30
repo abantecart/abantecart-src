@@ -397,15 +397,12 @@ div.acheckbox.checked span {
 	color: #333;
 }
 
-.primary_content_actions form{
-	margin-left: 30px !important;
+.primary_content_actions{
+	display: inline-flex;
 }
-
-
 .primary_content_actions form .btn-group{
 	margin-bottom: 5px !important;
 }
-
 
 .primary_content_actions .chosen-container{
 	min-width: 200px;

@@ -1,6 +1,6 @@
 <div class="special-column mt-3">
     <?php
-    	if ( $block_framed ) { ?>
+        if ( $block_framed ) { ?>
     <h2><?php echo $heading_title; ?></h2>
     <?php } ?>
         <div class="d-flex flex-column">
@@ -51,8 +51,8 @@ if ($products) {
             </a>
         </div>
 <?php
-	}
+    }
 }
 ?>
-		</div>
+        </div>
 </div>

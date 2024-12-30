@@ -35,7 +35,7 @@ $categories = prepareNVCatItems($categories);
             <?php } ?>
             <?php echo $this->getHookVar('categories_additional_info'); ?>
             <div class="collapse d-none d-lg-flex navbar-collapse">
-                <ul class="mega-sf-menu navbar-nav mx-auto mb-2 mb-lg-0 align-items-start flex-wrap">
+                <ul class="mega-sf-menu navbar-nav mx-auto mb-2 mb-lg-0 align-items-start flex-nowrap">
                 <?php
                 //get last menu item
                 $last = array_pop($storefront_menu);

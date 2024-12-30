@@ -1,8 +1,6 @@
 <?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
-
 <div id="content" class="tab-content">
-
     <div class="panel-heading">
         <div class="pull-right">
             <div class="btn-group mr10 toolbar">
@@ -17,10 +15,7 @@
                 <?php endif; ?>
             </div>
         </div>
-
     </div>
-
-
     <?php echo $head_form['form_open']; ?>
     <div class="panel-body panel-body-nopadding tab-content col-xs-12">
         <?php foreach ($head_form['fields'] as $name => $field) {
@@ -38,28 +33,23 @@
         }
         $widthcasses .= " col-xs-12";
         ?>
-        <div class="form-group <?php if (!empty($error[$name])) {
-            echo "has-error";
-        } ?>">
+        <div class="form-group <?php echo $error[$name] ? "has-error" : ""; ?>">
             <label class="control-label col-sm-3 col-xs-12"
                    for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
-
-            <div class="input-group afield <?php echo $widthcasses; ?> <?php echo($name == 'description' ? 'ml_ckeditor' : '') ?>">
+            <div class="input-group afield <?php echo $widthcasses; ?> <?php echo $name == 'description' ? 'ml_ckeditor' : ''; ?>">
                 <?php echo $field; ?>
             </div>
-            <?php if (!empty($error[$name])) { ?>
+            <?php if($error[$name]) { ?>
                 <span class="help-block field_err"><?php echo $error[$name]; ?></span>
             <?php } ?>
         </div>
-        <?php } ?><!-- <div class="fieldset"> -->
-
+        <?php } ?>
     </div>
     <div class="panel-footer col-xs-12">
         <div class="text-center">
-            <button type="submit" class="btn btn-primary lock-on-click">
+            <button type="submit" class="btn btn-primary lock-on-click mr10">
                 <i class="fa fa-save"></i> <?php echo $head_form['button_save']->text; ?>
             </button>
-            &nbsp;
             <a id="reset_field" class="btn btn-default" href="<?php echo $head_form['button_reset']->href; ?>">
                 <i class="fa fa-refresh"></i> <?php echo $head_form['button_reset']->text; ?>
             </a>
@@ -79,22 +69,19 @@
                 </div>
                 <div class="form-group">
                     <label><?php echo $entry_edit_fields; ?></label>
-                    <div class="input-group input-group-sm">
+                    <div class="input-group">
                         <?php echo $form['fields']; ?>
                     </div>
                 </div>
             </div>
         </div>
-
         <div class="panel-body panel-body-nopadding" id="field_values">
-            <?php //# Options HTML loaded from responce controller rt=product/product/load_option ?>
+            <?php //# Options HTML loaded from response controller rt=product/product/load_option ?>
         </div>
     <?php } ?>
 </div>
 
 <?php
-
-
 $modal_content = '<div class="add-option-modal" >
 			<div class="panel panel-default">
 			    <div id="collapseTwo" >
@@ -175,7 +162,6 @@ echo $this->html->buildElement(
 ?>
 
 <script type="text/javascript">
-
     var text = {
         error_attribute_not_selected: <?php js_echo($error_attribute_not_selected); ?>,
         text_expand: <?php js_echo($text_expand); ?>,
@@ -188,8 +174,6 @@ echo $this->html->buildElement(
     };
     var current_field_id = null;
     var row_id = 1;
-
-
     var updateFieldsList = function () {
         $.ajax({
             url: opt_urls.get_options_list,
@@ -217,11 +201,7 @@ echo $this->html->buildElement(
         var flds = ['status', 'field_name', 'field_description', 'field_note', 'sort_order', 'required', 'regexp_pattern', 'error_text'];
         var data = {field_id: current_field_id};
         for (var k in flds) {
-            if (flds[k] === 'regexp_pattern') {
-                data[flds[k]] = btoa($('#' + flds[k]).val());
-            } else {
-                data[flds[k]] = $('#' + flds[k]).val();
-            }
+            data[flds[k]] = $('#' + flds[k]).val();
         }
         var settings = $('input[name^=settings]');
         if (settings.length > 0) {
@@ -260,7 +240,6 @@ echo $this->html->buildElement(
 
 
     $(document).on('click', "#add_field_value", function () {
-
         var new_row = $('#new_row').clone();
         $(new_row).attr('id', 'new' + row_id);
 
@@ -271,7 +250,6 @@ echo $this->html->buildElement(
             so.each(function () {
                 highest = Math.max(highest, parseInt(this.value));
             });
-
             $(new_row).find("input[name^='sort_order']").val(highest + 1);
         } else {
             $(new_row).find("input[name^='sort_order']").val(0);
@@ -314,9 +292,7 @@ echo $this->html->buildElement(
                 bindCustomEvents('#field_values');
             }
         });
-
     });
-
 
     //select option and load data for it
     $('#option option:first-child').attr("selected", "selected").change();
@@ -334,9 +310,7 @@ echo $this->html->buildElement(
         //Mark rows to be deleted
         $('#field_values_tbl .toDelete input[name^=field_value_id]').val('delete');
         $(this).attr('disabled', 'disabled');
-
         editFieldDetails();
-
         var that = this;
         $.ajax({
             url: $(that).closest('form').attr('action'),
@@ -393,7 +367,6 @@ echo $this->html->buildElement(
             '<?php echo $this->config->get('config_recaptcha_site_key') ? 'g-recaptcha-response' : 'captcha'?>'
         ).attr('readonly', 'readonly' );
     });
-
 
     $(document).ready(function () {
         <?php if($field_id){    ?>

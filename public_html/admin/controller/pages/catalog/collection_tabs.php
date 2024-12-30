@@ -50,8 +50,8 @@ class ControllerPagesCatalogCollectionTabs extends AController
         }
 
         if ($this->data['id']) {
-            $this->data['groups'][] = 'layout';
-            $this->data['link_layout'] = $this->html->getSecureURL(
+            $this->data['groups'][] = 'design';
+            $this->data['link_design'] = $this->html->getSecureURL(
                 'catalog/collections/edit_layout',
                 '&id='.$this->data['id']
             );

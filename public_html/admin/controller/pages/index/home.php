@@ -38,14 +38,6 @@ class ControllerPagesIndexHome extends AController
 
         $this->document->setTitle($this->language->get('heading_title', 'common/home'));
         $this->document->resetBreadcrumbs();
-        $this->document->addBreadcrumb(
-            [
-                'href'      => $this->html->getSecureURL('index/home'),
-                'text'      => $this->language->get('text_home'),
-                'separator' => false,
-                'current'   => true,
-            ]
-        );
 
         $this->loadModel('user/user_group');
         $this->groupID = (int) $this->user->getUserGroupId();

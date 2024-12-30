@@ -373,7 +373,6 @@ class ControllerPagesSettingSetting extends AController
         //activate quick start guide button
         $this->loadLanguage('common/quick_start');
         $this->data['quick_start_url'] = $this->html->getSecureURL('setting/setting_quick_form/quick_start');
-
         $this->view->batchAssign($this->data);
         $this->view->assign('help_url', $this->gen_help_url('setting_listing'));
         $this->processTemplate('pages/setting/setting_list.tpl');

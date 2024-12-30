@@ -29,7 +29,8 @@ if ($products) {
 ?>
         <div class="d-flex align-items-start mt-5">
             <a href="<?php echo $item['info_url']?>" class="flex-shrink-0">
-                <img alt="<?php echo_html2view($item['title']); ?>" class="d-block img-fluid" src="<?php echo $item['image']?>" style="max-width: 150px; height: auto;"/>
+                <img alt="<?php echo_html2view($item['title']); ?>" class="d-block product-image-column-list"
+                     src="<?php echo $item['image']?>"/>
             </a>
             <a href="<?php echo $item['info_url']?>" class="d-block ms-2 text-decoration-none text-secondary flex-grow-1">
                 <h6 class="text-decoration-none text-wrap"><?php echo $item['title']?></h6>
@@ -49,7 +50,6 @@ if ($products) {
                 <?php } ?>
             </a>
         </div>
-
         <?php
 	}
 }

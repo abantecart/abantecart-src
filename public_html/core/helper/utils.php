@@ -1428,7 +1428,7 @@ function saveOrCreateLayout(string $templateTextId, array $pageData, array $layo
         $where[] = "p.key_value = '" . $db->escape($pageData['key_value']) . "'";
     }
 
-    $sql = " SELECT *
+    $sql = "SELECT *
             FROM " . $db->table("pages") . " p 
             " . ($where ? " WHERE " . implode(" AND ", $where) : '') . "
             ORDER BY p.page_id ASC";
@@ -1458,13 +1458,20 @@ function saveOrCreateLayout(string $templateTextId, array $pageData, array $layo
         unset($layoutData['layout_id']);
     }
 
-    if (has_value($layoutData['source_layout_id'])) {
+    if ((int)$layoutData['source_layout_id']) {
         //update layout request. Clone source layout
-        return $layout->clonePageLayout($layoutData['source_layout_id'], $layoutId, $layoutData['layout_name']);
+        $layoutId = $layout->clonePageLayout(
+            (int)$layoutData['source_layout_id'],
+            $layoutId,
+            $layoutData['layout_name']
+        );
     } else {
         //save new layout
-        return $layout->savePageLayout($layout->prepareInput($layoutData));
+        $layoutId = $layout->savePageLayout(
+            $layout->prepareInput($layoutData)
+        );
     }
+    return $layoutId ? ['layout_id' => $layoutId, 'page_id' => $pageId] : false;
 }
 
 //default template functions (bs5)

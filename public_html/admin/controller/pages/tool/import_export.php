@@ -46,6 +46,13 @@ class ControllerPagesToolImportExport extends AController
         $this->handler = new AData();
         $this->loadModel('tool/import_process');
         $this->tables = $this->model_tool_import_process->importTableCols();
+        //add action to each table
+        foreach ($this->tables as $table => $cols) {
+            $this->tables[$table]['columns']['action'] = [
+                'title' => 'Action',
+                'alias' => 'action',
+            ];
+        }
     }
 
     public function main()
@@ -166,7 +173,7 @@ class ControllerPagesToolImportExport extends AController
                         'name'    => 'file_import_form',
                         'action'  => $this->data['action'],
                         'attr'    => 'class="aform form-horizontal"',
-                        'enctype' => 'multipart/form-data'
+                        'enctype' => 'multipart/form-data',
                     ]
                 );
 
@@ -362,18 +369,27 @@ class ControllerPagesToolImportExport extends AController
         $this->handler = new AData();
 
         $this->data['map'] = $this->request->post ?: $this->session->data['import_map'];
-        if ($this->request->post['serialized_map']) {
-            $this->data['map'] = unserialize(base64_decode($this->request->post['serialized_map']));
+        if ($this->request->post['json_map']) {
+            $json =  str_replace('&quot;', '"', $this->request->post['json_map']);
+            $json = json_decode($json, true);
+            if (!$json) {
+                $this->session->data['error'] = $this->language->get('error_data_corrupted');
+                $this->main();
+                return;
+            } else {
+                $this->data['map'] = $this->parseJSON($json);
+            }
         }
         if ($this->request->is_POST() && $this->validateWizardRequest($this->data['map'])) {
-            //all good get count and confirm the import
             $this->session->data['import_map'] = $this->data['map'];
+            //all good get count and confirm the import
             //present mapping for export
-            $this->data['serialized_map'] = $this->html->buildElement(
+            $this->data['json_map'] = $this->html->buildElement(
                 [
                     'type'  => 'textarea',
-                    'name'  => 'serialized_map',
-                    'value' => base64_encode(serialize($this->data['map'])),
+                    'name'  => 'json_map',
+                    //generate JSON map
+                    'value' => json_encode($this->buildJSON($this->data['map']),JSON_PRETTY_PRINT),
                     'attr'  => 'rows="20" cols="300" readonly',
                 ]
             );
@@ -438,7 +454,7 @@ class ControllerPagesToolImportExport extends AController
                 'name'   => 'importWizardFrmFrm',
                 'action' => $this->html->getSecureURL('tool/import_export/import_wizard'),
                 'attr'   => 'class="aform form-horizontal"',
-                'enctype' => 'multipart/form-data'
+                'enctype' => 'multipart/form-data',
             ]
         );
         $this->data['form']['submit'] = $form->getFieldHtml(
@@ -457,10 +473,10 @@ class ControllerPagesToolImportExport extends AController
                 'style' => 'button2',
             ]
         );
-        $this->data['form']['serialized_map'] = $form->getFieldHtml(
+        $this->data['form']['json_map'] = $form->getFieldHtml(
             [
                 'type'  => 'textarea',
-                'name'  => 'serialized_map',
+                'name'  => 'json_map',
                 'value' => '',
                 'attr'  => 'rows="20" cols="300"',
             ]
@@ -484,6 +500,11 @@ class ControllerPagesToolImportExport extends AController
                 $this->data['cols'] = fgetcsv($fh, 0, $import_data['delimiter']);
                 $this->data['data'] = fgetcsv($fh, 0, $import_data['delimiter']);
             }
+        }
+
+        //if map is set, link colums to array index of colums for faster rendering
+        if (isset($this->data['map']) && $this->data['map']) {
+            $this->data['map'] = $this->reindexMap($this->data['map'], $this->data['cols']);
         }
 
         $this->data['tables'] = $this->tables;
@@ -727,5 +748,101 @@ class ControllerPagesToolImportExport extends AController
             }
         }
         return true;
+    }
+
+    /**
+     * Create JSON data from the import map array
+     *
+     * @param $data
+     *
+     * @return array
+     */
+    private function buildJSON ($data) {
+        $json = [];
+        if (!isset($data['table']) || !isset($data['import_col']) || !isset($data[$data['table'] . '_fields'])) {
+            return $json;
+        }
+        $json[$data['table']] = [];
+        foreach ($data['import_col'] as $indx => $col){
+            if ($data[$data['table'] . '_fields'][$indx]) {
+                $json[$data['table']][$col]['field'] = $data[$data['table'] . '_fields'][$indx];
+            }
+            if (has_value($data['split_col'][$indx])) {
+                $json[$data['table']][$col]['split'] = $data['split_col'][$indx];
+            }
+            if (has_value($data['update_col'][$indx])) {
+                $json[$data['table']][$col]['update_col'] = $data['update_col'][$indx];
+            }
+        }
+        return $json;
+    }
+
+    /**
+     * Parce JSON data and return array specific for import
+     *
+     * @param $json
+     *
+     * @return array
+     */
+    private function parseJSON($json) {
+        $data = [];
+        if (empty($json) || !is_array($json) || count($json) !== 1) {
+            return $data;
+        }
+
+        $table = array_keys($json)[0];
+        $data['table'] = $table;
+        if (!isset($json[$table]) || !is_array($json[$table])) {
+            return $data;
+        }
+
+        $data['import_col'] = [];
+        $data[$table . '_fields'] = [];
+        $data['split_col'] = [];
+        $data['update_col'] = [];
+
+        $index = 0;
+        foreach ($json[$table] as $col => $details) {
+            $data['import_col'][$index] = $col;
+            $data[$table . '_fields'][$index] = $details['field'] ?? null;
+            if (has_value($details['split'])) {
+                $data['split_col'][$index] = $details['split'];
+            }
+            if (has_value($details['update_col'])) {
+                $data['update_col'][$index] = $details['update_col'];
+            }
+            $index++;
+        }
+
+        return $data;
+    }
+
+    /**
+     * Match index of the map to the index of the columns
+     * @param $map
+     * @param $cols
+     *
+     * @return array
+     */
+    private function reindexMap($map, $cols) {
+        $new_map['table'] = $map['table'];
+        $tblKey = $map['table']."_fields";
+        foreach ($cols as $indx => $colName) {
+            $mapIndx = array_search($colName, $map['import_col']);
+            if ($mapIndx !== false) {
+                $new_map['import_col'][$indx] = $colName;
+                $new_map[$tblKey][$indx] = $map[$tblKey][$mapIndx];
+            } else {
+                $new_map['import_col'][$indx] = $colName;
+                $new_map[$tblKey][$indx] = null;
+            }
+            if (isset($map['split_col'][$mapIndx])) {
+                $new_map['split_col'][$indx] = $map['split_col'][$mapIndx];
+            }
+            if (isset($map['update_col'][$mapIndx])) {
+                $new_map['update_col'][$indx] = $map['update_col'][$mapIndx];
+            }
+        }
+        return $new_map;
     }
 }

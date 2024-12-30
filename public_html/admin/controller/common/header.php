@@ -160,13 +160,16 @@ class ControllerCommonHeader extends AController
             $this->data['current_menu'] = $current_menu;
         }
         if ($this->user->isLogged()) {
-            $ant_message = $this->messages->getANTMessage();
-            $this->data['ant'] = $ant_message['html'];
+            $ANTMessage = $this->messages->getANTMessage();
+            $this->data['last_ant'] = $ANTMessage['html'];
             $this->data['mark_read_url'] = $this->html->getSecureURL(
                 'common/common/antMessageRead',
-                '&message_id=' . $ant_message['id']
+                '&message_id=' . $ANTMessage['id']
             );
-            $this->data['ant_viewed'] = $ant_message['viewed'];
+            $this->data['ant_viewed'] = $ANTMessage['viewed'];
+
+            $ANTMessage = $this->messages->getANTMessage(false);
+            $this->data['ant_banner'] = $ANTMessage['html'];
         }
         $this->data['config_voicecontrol'] = $this->config->get('config_voicecontrol');
         $this->data['voicecontrol_setting_url'] = $this->html->getSecureURL('setting/setting/system');
