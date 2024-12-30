@@ -340,9 +340,8 @@ class ModelToolImportProcess extends Model
         if (isset($data['images'])) {
             //process images
             $this->_migrateImages($data['images'], 'products', $product_id, $product_desc['name'], $language_id);
-        } else {
-            $this->toLog("Warning: No images provided for product id " . $product_id . ".");
         }
+
         if (isset($data['product_options'])) {
             //process options
             $this->_addUpdateOptions(
