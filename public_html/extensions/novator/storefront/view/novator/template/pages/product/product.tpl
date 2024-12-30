@@ -111,7 +111,7 @@ if ($error){ ?>
             </div>
             <hr class="my-4">
             <div class="row g-1">
-                <div class="col-sm-6">
+                <div class="col-9 col-md-6">
                     <div class="d-flex flex-column product-price mb-0">
                         <?php
                         if ($display_price){ ?>
@@ -123,7 +123,7 @@ if ($error){ ?>
                                 $tax_message = '&nbsp;&nbsp;<span class="productpricesmall">'.$price_with_tax.'</span>';
                             }?>
 
-                            <div class="col-sm-6">
+                            <div class="col-12">
                                 <?php if ($special) { ?>
                                     <h2 class="mb-0 text-danger"><?php echo $special . $tax_message; ?></h2>
                                     <h5 class="my-2 text-muted fw-normal">
@@ -137,7 +137,7 @@ if ($error){ ?>
                         <?php } ?>
                     </div>
                 </div>
-                <div class="col-sm-6 d-flex justify-content-end align-items-center">
+                <div class="col-3 col-md-6 d-flex justify-content-end align-items-center">
                    <?php if ($display_price){ ?>
                             
                         <?php
