@@ -39,7 +39,7 @@
                     } else {?>
                     <a href="<?php echo $item['info_url'] ?>"><?php echo $item['image'] ?></a>
                     <a class="productname" href="<?php echo $item['info_url'] ?>"><?php echo $item['title']?></a>
-				    <?php echo $this->getHookvar('product_listing_details1_'.$item['product_id']);?>
+				    <?php echo $this->getHookvar('product_listing_details_after_blurb_'.$item['product_id']);?>
                     <?php if ($review_status) { ?>
                     <span class="procategory"><?php echo $item['rating']?></span>
                     <?php } ?>
