@@ -479,6 +479,12 @@
         </block>
       </block>
       <block>
+        <block_txt_id>column_left</block_txt_id>
+        <controller>common/column_left</controller>
+        <status>0</status>
+        <position>30</position>
+      </block>
+      <block>
         <block_txt_id>content_top</block_txt_id>
         <controller>common/content_top</controller>
         <status>0</status>

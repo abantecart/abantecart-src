@@ -117,12 +117,6 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>category</block_txt_id>
-                <controller>blocks/category</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
-            <block>
                 <block_txt_id>header_bottom</block_txt_id>
                 <controller>common/header_bottom</controller>
                 <status>1</status>
@@ -153,42 +147,12 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>breadcrumbs</block_txt_id>
-                <controller>blocks/breadcrumbs</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
-                <block_txt_id>customer</block_txt_id>
-                <controller>blocks/customer</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
-                <block_txt_id>menu</block_txt_id>
-                <controller>blocks/menu</controller>
-                <status>1</status>
-                <position>30</position>
-            </block>
-            <block>
                 <block_txt_id>column_left</block_txt_id>
                 <controller>common/column_left</controller>
                 <status>0</status>
                 <position>30</position>
             </block>
-            <block>
-                <block_txt_id>newsletter_signup</block_txt_id>
-                <controller>blocks/newsletter_signup</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
-                <block_txt_id>search</block_txt_id>
-                <controller>blocks/search</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
+             <block>
                 <block_txt_id>content_top</block_txt_id>
                 <controller>common/content_top</controller>
                 <status>1</status>
@@ -201,40 +165,10 @@
                 <position>50</position>
             </block>
             <block>
-                <block_txt_id>language</block_txt_id>
-                <controller>blocks/language</controller>
-                <status>1</status>
-                <position>50</position>
-            </block>
-            <block>
-                <block_txt_id>content</block_txt_id>
-                <controller>blocks/content</controller>
-                <status>1</status>
-                <position>50</position>
-            </block>
-            <block>
-                <block_txt_id>currency</block_txt_id>
-                <controller>blocks/currency</controller>
-                <status>1</status>
-                <position>60</position>
-            </block>
-            <block>
                 <block_txt_id>column_right</block_txt_id>
                 <controller>common/column_right</controller>
                 <status>1</status>
                 <position>60</position>
-            </block>
-            <block>
-                <block_txt_id>credit_cards</block_txt_id>
-                <controller>blocks/credit_cards</controller>
-                <status>1</status>
-                <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>cart</block_txt_id>
-                <controller>blocks/cart</controller>
-                <status>1</status>
-                <position>70</position>
             </block>
             <block>
                 <block_txt_id>footer_top</block_txt_id>
@@ -384,12 +318,6 @@
                     <position>80</position>
                 </block>
             </block>
-            <block>
-                <block_txt_id>donate</block_txt_id>
-                <controller>blocks/donate</controller>
-                <status>1</status>
-                <position>80</position>
-            </block>
         </blocks>
     </layout>
     <layout>
@@ -509,24 +437,6 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>category</block_txt_id>
-                <controller>blocks/category</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
-            <block>
-                <block_txt_id>featured</block_txt_id>
-                <controller>blocks/featured</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
-            <block>
-                <block_txt_id>customer</block_txt_id>
-                <controller>blocks/customer</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
                 <block_txt_id>header_bottom</block_txt_id>
                 <controller>common/header_bottom</controller>
                 <status>1</status>
@@ -589,12 +499,6 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>latest</block_txt_id>
-                <controller>blocks/latest</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
                 <block_txt_id>column_left</block_txt_id>
                 <controller>common/column_left</controller>
                 <status>0</status>
@@ -613,39 +517,9 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>bestsellers</block_txt_id>
-                <controller>blocks/bestseller</controller>
-                <status>1</status>
-                <position>30</position>
-            </block>
-            <block>
-                <block_txt_id>menu</block_txt_id>
-                <controller>blocks/menu</controller>
-                <status>1</status>
-                <position>30</position>
-            </block>
-            <block>
-                <block_txt_id>special</block_txt_id>
-                <controller>blocks/special</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
                 <block_txt_id>content_top</block_txt_id>
                 <controller>common/content_top</controller>
                 <status>0</status>
-                <position>40</position>
-            </block>
-            <block>
-                <block_txt_id>newsletter_signup</block_txt_id>
-                <controller>blocks/newsletter_signup</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
-                <block_txt_id>search</block_txt_id>
-                <controller>blocks/search</controller>
-                <status>1</status>
                 <position>40</position>
             </block>
             <block>
@@ -703,24 +577,6 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>language</block_txt_id>
-                <controller>blocks/language</controller>
-                <status>1</status>
-                <position>50</position>
-            </block>
-            <block>
-                <block_txt_id>content</block_txt_id>
-                <controller>blocks/content</controller>
-                <status>1</status>
-                <position>50</position>
-            </block>
-            <block>
-                <block_txt_id>currency</block_txt_id>
-                <controller>blocks/currency</controller>
-                <status>1</status>
-                <position>60</position>
-            </block>
-            <block>
                 <block_txt_id>column_right</block_txt_id>
                 <controller>common/column_right</controller>
                 <status>0</status>
@@ -737,12 +593,6 @@
                     <status>1</status>
                     <position>10</position>
                 </block>
-            </block>
-            <block>
-                <block_txt_id>cart</block_txt_id>
-                <controller>blocks/cart</controller>
-                <status>1</status>
-                <position>70</position>
             </block>
             <block>
                 <block_txt_id>footer_top</block_txt_id>
@@ -794,18 +644,6 @@
                     <status>1</status>
                     <position>20</position>
                 </block>
-            </block>
-            <block>
-                <block_txt_id>credit_cards</block_txt_id>
-                <controller>blocks/credit_cards</controller>
-                <status>1</status>
-                <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>donate</block_txt_id>
-                <controller>blocks/donate</controller>
-                <status>1</status>
-                <position>80</position>
             </block>
             <block>
                 <block_txt_id>footer</block_txt_id>
@@ -968,12 +806,6 @@
         </pages>
         <blocks>
             <block>
-                <block_txt_id>category</block_txt_id>
-                <controller>blocks/category</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
-            <block>
                 <block_txt_id>header</block_txt_id>
                 <controller>common/header</controller>
                 <status>1</status>
@@ -1074,18 +906,6 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>customer</block_txt_id>
-                <controller>blocks/customer</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
-                <block_txt_id>breadcrumbs</block_txt_id>
-                <controller>blocks/breadcrumbs</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
                 <block_txt_id>header_bottom</block_txt_id>
                 <controller>common/header_bottom</controller>
                 <status>1</status>
@@ -1116,28 +936,10 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>menu</block_txt_id>
-                <controller>blocks/menu</controller>
-                <status>1</status>
-                <position>30</position>
-            </block>
-            <block>
                 <block_txt_id>column_left</block_txt_id>
                 <controller>common/column_left</controller>
                 <status>0</status>
                 <position>30</position>
-            </block>
-            <block>
-                <block_txt_id>search</block_txt_id>
-                <controller>blocks/search</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
-                <block_txt_id>newsletter_signup</block_txt_id>
-                <controller>blocks/newsletter_signup</controller>
-                <status>1</status>
-                <position>40</position>
             </block>
             <block>
                 <block_txt_id>content_top</block_txt_id>
@@ -1146,28 +948,10 @@
                 <position>40</position>
             </block>
             <block>
-                <block_txt_id>content</block_txt_id>
-                <controller>blocks/content</controller>
-                <status>1</status>
-                <position>50</position>
-            </block>
-            <block>
                 <block_txt_id>content_bottom</block_txt_id>
                 <controller>common/content_bottom</controller>
                 <status>1</status>
                 <position>50</position>
-            </block>
-            <block>
-                <block_txt_id>language</block_txt_id>
-                <controller>blocks/language</controller>
-                <status>1</status>
-                <position>50</position>
-            </block>
-            <block>
-                <block_txt_id>currency</block_txt_id>
-                <controller>blocks/currency</controller>
-                <status>1</status>
-                <position>60</position>
             </block>
             <block>
                 <block_txt_id>column_right</block_txt_id>
@@ -1180,24 +964,6 @@
                 <controller>common/footer_top</controller>
                 <status>1</status>
                 <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>cart</block_txt_id>
-                <controller>blocks/cart</controller>
-                <status>1</status>
-                <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>credit_cards</block_txt_id>
-                <controller>blocks/credit_cards</controller>
-                <status>1</status>
-                <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>donate</block_txt_id>
-                <controller>blocks/donate</controller>
-                <status>1</status>
-                <position>80</position>
             </block>
             <block>
                 <block_txt_id>footer</block_txt_id>
@@ -1360,12 +1126,6 @@
         </pages>
         <blocks>
             <block>
-                <block_txt_id>category</block_txt_id>
-                <controller>blocks/category</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
-            <block>
                 <block_txt_id>header</block_txt_id>
                 <controller>common/header</controller>
                 <status>1</status>
@@ -1466,18 +1226,6 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>customer</block_txt_id>
-                <controller>blocks/customer</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
-                <block_txt_id>breadcrumbs</block_txt_id>
-                <controller>blocks/breadcrumbs</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
                 <block_txt_id>header_bottom</block_txt_id>
                 <controller>common/header_bottom</controller>
                 <status>1</status>
@@ -1508,28 +1256,10 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>menu</block_txt_id>
-                <controller>blocks/menu</controller>
-                <status>1</status>
-                <position>30</position>
-            </block>
-            <block>
                 <block_txt_id>column_left</block_txt_id>
                 <controller>common/column_left</controller>
                 <status>0</status>
                 <position>30</position>
-            </block>
-            <block>
-                <block_txt_id>search</block_txt_id>
-                <controller>blocks/search</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
-                <block_txt_id>newsletter_signup</block_txt_id>
-                <controller>blocks/newsletter_signup</controller>
-                <status>1</status>
-                <position>40</position>
             </block>
             <block>
                 <block_txt_id>content_top</block_txt_id>
@@ -1538,28 +1268,10 @@
                 <position>40</position>
             </block>
             <block>
-                <block_txt_id>content</block_txt_id>
-                <controller>blocks/content</controller>
-                <status>1</status>
-                <position>50</position>
-            </block>
-            <block>
                 <block_txt_id>content_bottom</block_txt_id>
                 <controller>common/content_bottom</controller>
                 <status>1</status>
                 <position>50</position>
-            </block>
-            <block>
-                <block_txt_id>language</block_txt_id>
-                <controller>blocks/language</controller>
-                <status>1</status>
-                <position>50</position>
-            </block>
-            <block>
-                <block_txt_id>currency</block_txt_id>
-                <controller>blocks/currency</controller>
-                <status>1</status>
-                <position>60</position>
             </block>
             <block>
                 <block_txt_id>column_right</block_txt_id>
@@ -1584,24 +1296,6 @@
                 <controller>common/footer_top</controller>
                 <status>1</status>
                 <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>cart</block_txt_id>
-                <controller>blocks/cart</controller>
-                <status>1</status>
-                <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>credit_cards</block_txt_id>
-                <controller>blocks/credit_cards</controller>
-                <status>1</status>
-                <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>donate</block_txt_id>
-                <controller>blocks/donate</controller>
-                <status>1</status>
-                <position>80</position>
             </block>
             <block>
                 <block_txt_id>footer</block_txt_id>
@@ -1864,18 +1558,6 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>category</block_txt_id>
-                <controller>blocks/category</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
-            <block>
-                <block_txt_id>latest</block_txt_id>
-                <controller>blocks/latest</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
-            <block>
                 <block_txt_id>header_bottom</block_txt_id>
                 <controller>common/header_bottom</controller>
                 <status>1</status>
@@ -1906,18 +1588,6 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>breadcrumbs</block_txt_id>
-                <controller>blocks/breadcrumbs</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
-                <block_txt_id>customer</block_txt_id>
-                <controller>blocks/customer</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
                 <block_txt_id>column_left</block_txt_id>
                 <controller>common/column_left</controller>
                 <status>1</status>
@@ -1936,26 +1606,8 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>menu</block_txt_id>
-                <controller>blocks/menu</controller>
-                <status>1</status>
-                <position>30</position>
-            </block>
-            <block>
                 <block_txt_id>content_top</block_txt_id>
                 <controller>common/content_top</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
-                <block_txt_id>newsletter_signup</block_txt_id>
-                <controller>blocks/newsletter_signup</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
-                <block_txt_id>search</block_txt_id>
-                <controller>blocks/search</controller>
                 <status>1</status>
                 <position>40</position>
             </block>
@@ -1966,45 +1618,15 @@
                 <position>50</position>
             </block>
             <block>
-                <block_txt_id>content</block_txt_id>
-                <controller>blocks/content</controller>
-                <status>1</status>
-                <position>50</position>
-            </block>
-            <block>
-                <block_txt_id>language</block_txt_id>
-                <controller>blocks/language</controller>
-                <status>1</status>
-                <position>50</position>
-            </block>
-            <block>
-                <block_txt_id>currency</block_txt_id>
-                <controller>blocks/currency</controller>
-                <status>1</status>
-                <position>60</position>
-            </block>
-            <block>
                 <block_txt_id>column_right</block_txt_id>
                 <controller>common/column_right</controller>
                 <status>0</status>
                 <position>60</position>
             </block>
             <block>
-                <block_txt_id>cart</block_txt_id>
-                <controller>blocks/cart</controller>
-                <status>1</status>
-                <position>70</position>
-            </block>
-            <block>
                 <block_txt_id>footer_top</block_txt_id>
                 <controller>common/footer_top</controller>
                 <status>0</status>
-                <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>credit_cards</block_txt_id>
-                <controller>blocks/credit_cards</controller>
-                <status>1</status>
                 <position>70</position>
             </block>
             <block>
@@ -2149,12 +1771,6 @@
                     <position>80</position>
                 </block>
             </block>
-            <block>
-                <block_txt_id>donate</block_txt_id>
-                <controller>blocks/donate</controller>
-                <status>1</status>
-                <position>80</position>
-            </block>
         </blocks>
     </layout>
     <layout>
@@ -2167,12 +1783,6 @@
             </page>
         </pages>
         <blocks>
-            <block>
-                <block_txt_id>category</block_txt_id>
-                <controller>blocks/category</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
             <block>
                 <block_txt_id>header</block_txt_id>
                 <controller>common/header</controller>
@@ -2304,58 +1914,16 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>customer</block_txt_id>
-                <controller>blocks/customer</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
-                <block_txt_id>breadcrumbs</block_txt_id>
-                <controller>blocks/breadcrumbs</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
-                <block_txt_id>menu</block_txt_id>
-                <controller>blocks/menu</controller>
-                <status>1</status>
-                <position>30</position>
-            </block>
-            <block>
                 <block_txt_id>column_left</block_txt_id>
                 <controller>common/column_left</controller>
                 <status>1</status>
                 <position>30</position>
             </block>
             <block>
-                <block_txt_id>newsletter_signup</block_txt_id>
-                <controller>blocks/newsletter_signup</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
                 <block_txt_id>content_top</block_txt_id>
                 <controller>common/content_top</controller>
                 <status>1</status>
                 <position>40</position>
-            </block>
-            <block>
-                <block_txt_id>search</block_txt_id>
-                <controller>blocks/search</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
-                <block_txt_id>content</block_txt_id>
-                <controller>blocks/content</controller>
-                <status>1</status>
-                <position>50</position>
-            </block>
-            <block>
-                <block_txt_id>language</block_txt_id>
-                <controller>blocks/language</controller>
-                <status>1</status>
-                <position>50</position>
             </block>
             <block>
                 <block_txt_id>content_bottom</block_txt_id>
@@ -2370,34 +1938,10 @@
                 <position>60</position>
             </block>
             <block>
-                <block_txt_id>currency</block_txt_id>
-                <controller>blocks/currency</controller>
-                <status>1</status>
-                <position>60</position>
-            </block>
-            <block>
-                <block_txt_id>credit_cards</block_txt_id>
-                <controller>blocks/credit_cards</controller>
-                <status>1</status>
-                <position>70</position>
-            </block>
-            <block>
                 <block_txt_id>footer_top</block_txt_id>
                 <controller>common/footer_top</controller>
                 <status>1</status>
                 <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>cart</block_txt_id>
-                <controller>blocks/cart</controller>
-                <status>1</status>
-                <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>donate</block_txt_id>
-                <controller>blocks/donate</controller>
-                <status>1</status>
-                <position>80</position>
             </block>
             <block>
                 <block_txt_id>footer</block_txt_id>
@@ -2572,12 +2116,6 @@
                 <position>20</position>
             </block>
             <block>
-                <block_txt_id>breadcrumbs</block_txt_id>
-                <controller>blocks/breadcrumbs</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
                 <block_txt_id>column_left</block_txt_id>
                 <controller>common/column_left</controller>
                 <status>1</status>
@@ -2632,18 +2170,6 @@
         </pages>
         <blocks>
             <block>
-                <block_txt_id>account</block_txt_id>
-                <controller>blocks/account</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
-            <block>
-                <block_txt_id>category</block_txt_id>
-                <controller>blocks/category</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
-            <block>
                 <block_txt_id>header</block_txt_id>
                 <controller>common/header</controller>
                 <status>1</status>
@@ -2774,58 +2300,16 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>breadcrumbs</block_txt_id>
-                <controller>blocks/breadcrumbs</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
-                <block_txt_id>customer</block_txt_id>
-                <controller>blocks/customer</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
                 <block_txt_id>column_left</block_txt_id>
                 <controller>common/column_left</controller>
                 <status>0</status>
                 <position>30</position>
             </block>
             <block>
-                <block_txt_id>menu</block_txt_id>
-                <controller>blocks/menu</controller>
-                <status>1</status>
-                <position>30</position>
-            </block>
-            <block>
-                <block_txt_id>newsletter_signup</block_txt_id>
-                <controller>blocks/newsletter_signup</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
-                <block_txt_id>search</block_txt_id>
-                <controller>blocks/search</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
                 <block_txt_id>content_top</block_txt_id>
                 <controller>common/content_top</controller>
                 <status>1</status>
                 <position>40</position>
-            </block>
-            <block>
-                <block_txt_id>content</block_txt_id>
-                <controller>blocks/content</controller>
-                <status>1</status>
-                <position>50</position>
-            </block>
-            <block>
-                <block_txt_id>language</block_txt_id>
-                <controller>blocks/language</controller>
-                <status>1</status>
-                <position>50</position>
             </block>
             <block>
                 <block_txt_id>content_bottom</block_txt_id>
@@ -2852,26 +2336,8 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>currency</block_txt_id>
-                <controller>blocks/currency</controller>
-                <status>1</status>
-                <position>60</position>
-            </block>
-            <block>
                 <block_txt_id>footer_top</block_txt_id>
                 <controller>common/footer_top</controller>
-                <status>1</status>
-                <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>credit_cards</block_txt_id>
-                <controller>blocks/credit_cards</controller>
-                <status>1</status>
-                <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>cart</block_txt_id>
-                <controller>blocks/cart</controller>
                 <status>1</status>
                 <position>70</position>
             </block>
@@ -3016,12 +2482,6 @@
                     <status>1</status>
                     <position>80</position>
                 </block>
-            </block>
-            <block>
-                <block_txt_id>donate</block_txt_id>
-                <controller>blocks/donate</controller>
-                <status>1</status>
-                <position>80</position>
             </block>
         </blocks>
     </layout>
@@ -3042,18 +2502,6 @@
         </pages>
         <blocks>
             <block>
-                <block_txt_id>account</block_txt_id>
-                <controller>blocks/account</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
-            <block>
-                <block_txt_id>category</block_txt_id>
-                <controller>blocks/category</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
-            <block>
                 <block_txt_id>header</block_txt_id>
                 <controller>common/header</controller>
                 <status>1</status>
@@ -3184,58 +2632,16 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>breadcrumbs</block_txt_id>
-                <controller>blocks/breadcrumbs</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
-                <block_txt_id>customer</block_txt_id>
-                <controller>blocks/customer</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
                 <block_txt_id>column_left</block_txt_id>
                 <controller>common/column_left</controller>
                 <status>0</status>
                 <position>30</position>
             </block>
             <block>
-                <block_txt_id>menu</block_txt_id>
-                <controller>blocks/menu</controller>
-                <status>1</status>
-                <position>30</position>
-            </block>
-            <block>
-                <block_txt_id>newsletter_signup</block_txt_id>
-                <controller>blocks/newsletter_signup</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
-                <block_txt_id>search</block_txt_id>
-                <controller>blocks/search</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
                 <block_txt_id>content_top</block_txt_id>
                 <controller>common/content_top</controller>
                 <status>1</status>
                 <position>40</position>
-            </block>
-            <block>
-                <block_txt_id>content</block_txt_id>
-                <controller>blocks/content</controller>
-                <status>1</status>
-                <position>50</position>
-            </block>
-            <block>
-                <block_txt_id>language</block_txt_id>
-                <controller>blocks/language</controller>
-                <status>1</status>
-                <position>50</position>
             </block>
             <block>
                 <block_txt_id>content_bottom</block_txt_id>
@@ -3262,26 +2668,8 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>currency</block_txt_id>
-                <controller>blocks/currency</controller>
-                <status>1</status>
-                <position>60</position>
-            </block>
-            <block>
                 <block_txt_id>footer_top</block_txt_id>
                 <controller>common/footer_top</controller>
-                <status>1</status>
-                <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>credit_cards</block_txt_id>
-                <controller>blocks/credit_cards</controller>
-                <status>1</status>
-                <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>cart</block_txt_id>
-                <controller>blocks/cart</controller>
                 <status>1</status>
                 <position>70</position>
             </block>
@@ -3426,12 +2814,6 @@
                     <status>1</status>
                     <position>80</position>
                 </block>
-            </block>
-            <block>
-                <block_txt_id>donate</block_txt_id>
-                <controller>blocks/donate</controller>
-                <status>1</status>
-                <position>80</position>
             </block>
         </blocks>
     </layout>
@@ -3452,18 +2834,6 @@
         </pages>
         <blocks>
             <block>
-                <block_txt_id>account</block_txt_id>
-                <controller>blocks/account</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
-            <block>
-                <block_txt_id>category</block_txt_id>
-                <controller>blocks/category</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
-            <block>
                 <block_txt_id>header</block_txt_id>
                 <controller>common/header</controller>
                 <status>1</status>
@@ -3594,58 +2964,16 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>breadcrumbs</block_txt_id>
-                <controller>blocks/breadcrumbs</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
-                <block_txt_id>customer</block_txt_id>
-                <controller>blocks/customer</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
                 <block_txt_id>column_left</block_txt_id>
                 <controller>common/column_left</controller>
                 <status>0</status>
                 <position>30</position>
             </block>
             <block>
-                <block_txt_id>menu</block_txt_id>
-                <controller>blocks/menu</controller>
-                <status>1</status>
-                <position>30</position>
-            </block>
-            <block>
-                <block_txt_id>newsletter_signup</block_txt_id>
-                <controller>blocks/newsletter_signup</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
-                <block_txt_id>search</block_txt_id>
-                <controller>blocks/search</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
                 <block_txt_id>content_top</block_txt_id>
                 <controller>common/content_top</controller>
                 <status>1</status>
                 <position>40</position>
-            </block>
-            <block>
-                <block_txt_id>content</block_txt_id>
-                <controller>blocks/content</controller>
-                <status>1</status>
-                <position>50</position>
-            </block>
-            <block>
-                <block_txt_id>language</block_txt_id>
-                <controller>blocks/language</controller>
-                <status>1</status>
-                <position>50</position>
             </block>
             <block>
                 <block_txt_id>content_bottom</block_txt_id>
@@ -3672,26 +3000,8 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>currency</block_txt_id>
-                <controller>blocks/currency</controller>
-                <status>1</status>
-                <position>60</position>
-            </block>
-            <block>
                 <block_txt_id>footer_top</block_txt_id>
                 <controller>common/footer_top</controller>
-                <status>1</status>
-                <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>credit_cards</block_txt_id>
-                <controller>blocks/credit_cards</controller>
-                <status>1</status>
-                <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>cart</block_txt_id>
-                <controller>blocks/cart</controller>
                 <status>1</status>
                 <position>70</position>
             </block>
@@ -3836,12 +3146,6 @@
                     <status>1</status>
                     <position>80</position>
                 </block>
-            </block>
-            <block>
-                <block_txt_id>donate</block_txt_id>
-                <controller>blocks/donate</controller>
-                <status>1</status>
-                <position>80</position>
             </block>
         </blocks>
     </layout>
@@ -3862,18 +3166,6 @@
         </pages>
         <blocks>
             <block>
-                <block_txt_id>account</block_txt_id>
-                <controller>blocks/account</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
-            <block>
-                <block_txt_id>category</block_txt_id>
-                <controller>blocks/category</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
-            <block>
                 <block_txt_id>header</block_txt_id>
                 <controller>common/header</controller>
                 <status>1</status>
@@ -4004,58 +3296,16 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>breadcrumbs</block_txt_id>
-                <controller>blocks/breadcrumbs</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
-                <block_txt_id>customer</block_txt_id>
-                <controller>blocks/customer</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
                 <block_txt_id>column_left</block_txt_id>
                 <controller>common/column_left</controller>
                 <status>0</status>
                 <position>30</position>
             </block>
             <block>
-                <block_txt_id>menu</block_txt_id>
-                <controller>blocks/menu</controller>
-                <status>1</status>
-                <position>30</position>
-            </block>
-            <block>
-                <block_txt_id>newsletter_signup</block_txt_id>
-                <controller>blocks/newsletter_signup</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
-                <block_txt_id>search</block_txt_id>
-                <controller>blocks/search</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
                 <block_txt_id>content_top</block_txt_id>
                 <controller>common/content_top</controller>
                 <status>1</status>
                 <position>40</position>
-            </block>
-            <block>
-                <block_txt_id>content</block_txt_id>
-                <controller>blocks/content</controller>
-                <status>1</status>
-                <position>50</position>
-            </block>
-            <block>
-                <block_txt_id>language</block_txt_id>
-                <controller>blocks/language</controller>
-                <status>1</status>
-                <position>50</position>
             </block>
             <block>
                 <block_txt_id>content_bottom</block_txt_id>
@@ -4082,26 +3332,8 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>currency</block_txt_id>
-                <controller>blocks/currency</controller>
-                <status>1</status>
-                <position>60</position>
-            </block>
-            <block>
                 <block_txt_id>footer_top</block_txt_id>
                 <controller>common/footer_top</controller>
-                <status>1</status>
-                <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>credit_cards</block_txt_id>
-                <controller>blocks/credit_cards</controller>
-                <status>1</status>
-                <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>cart</block_txt_id>
-                <controller>blocks/cart</controller>
                 <status>1</status>
                 <position>70</position>
             </block>
@@ -4246,12 +3478,6 @@
                     <status>1</status>
                     <position>80</position>
                 </block>
-            </block>
-            <block>
-                <block_txt_id>donate</block_txt_id>
-                <controller>blocks/donate</controller>
-                <status>1</status>
-                <position>80</position>
             </block>
         </blocks>
     </layout>
@@ -4272,18 +3498,6 @@
         </pages>
         <blocks>
             <block>
-                <block_txt_id>account</block_txt_id>
-                <controller>blocks/account</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
-            <block>
-                <block_txt_id>category</block_txt_id>
-                <controller>blocks/category</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
-            <block>
                 <block_txt_id>header</block_txt_id>
                 <controller>common/header</controller>
                 <status>1</status>
@@ -4414,58 +3628,16 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>breadcrumbs</block_txt_id>
-                <controller>blocks/breadcrumbs</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
-                <block_txt_id>customer</block_txt_id>
-                <controller>blocks/customer</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
                 <block_txt_id>column_left</block_txt_id>
                 <controller>common/column_left</controller>
                 <status>0</status>
                 <position>30</position>
             </block>
             <block>
-                <block_txt_id>menu</block_txt_id>
-                <controller>blocks/menu</controller>
-                <status>1</status>
-                <position>30</position>
-            </block>
-            <block>
-                <block_txt_id>newsletter_signup</block_txt_id>
-                <controller>blocks/newsletter_signup</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
-                <block_txt_id>search</block_txt_id>
-                <controller>blocks/search</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
                 <block_txt_id>content_top</block_txt_id>
                 <controller>common/content_top</controller>
                 <status>1</status>
                 <position>40</position>
-            </block>
-            <block>
-                <block_txt_id>content</block_txt_id>
-                <controller>blocks/content</controller>
-                <status>1</status>
-                <position>50</position>
-            </block>
-            <block>
-                <block_txt_id>language</block_txt_id>
-                <controller>blocks/language</controller>
-                <status>1</status>
-                <position>50</position>
             </block>
             <block>
                 <block_txt_id>content_bottom</block_txt_id>
@@ -4492,26 +3664,8 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>currency</block_txt_id>
-                <controller>blocks/currency</controller>
-                <status>1</status>
-                <position>60</position>
-            </block>
-            <block>
                 <block_txt_id>footer_top</block_txt_id>
                 <controller>common/footer_top</controller>
-                <status>1</status>
-                <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>credit_cards</block_txt_id>
-                <controller>blocks/credit_cards</controller>
-                <status>1</status>
-                <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>cart</block_txt_id>
-                <controller>blocks/cart</controller>
                 <status>1</status>
                 <position>70</position>
             </block>
@@ -4656,12 +3810,6 @@
                     <status>1</status>
                     <position>80</position>
                 </block>
-            </block>
-            <block>
-                <block_txt_id>donate</block_txt_id>
-                <controller>blocks/donate</controller>
-                <status>1</status>
-                <position>80</position>
             </block>
         </blocks>
     </layout>
@@ -4682,18 +3830,6 @@
         </pages>
         <blocks>
             <block>
-                <block_txt_id>account</block_txt_id>
-                <controller>blocks/account</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
-            <block>
-                <block_txt_id>category</block_txt_id>
-                <controller>blocks/category</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
-            <block>
                 <block_txt_id>header</block_txt_id>
                 <controller>common/header</controller>
                 <status>1</status>
@@ -4824,58 +3960,16 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>breadcrumbs</block_txt_id>
-                <controller>blocks/breadcrumbs</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
-                <block_txt_id>customer</block_txt_id>
-                <controller>blocks/customer</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
                 <block_txt_id>column_left</block_txt_id>
                 <controller>common/column_left</controller>
                 <status>0</status>
                 <position>30</position>
             </block>
             <block>
-                <block_txt_id>menu</block_txt_id>
-                <controller>blocks/menu</controller>
-                <status>1</status>
-                <position>30</position>
-            </block>
-            <block>
-                <block_txt_id>newsletter_signup</block_txt_id>
-                <controller>blocks/newsletter_signup</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
-                <block_txt_id>search</block_txt_id>
-                <controller>blocks/search</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
                 <block_txt_id>content_top</block_txt_id>
                 <controller>common/content_top</controller>
                 <status>1</status>
                 <position>40</position>
-            </block>
-            <block>
-                <block_txt_id>content</block_txt_id>
-                <controller>blocks/content</controller>
-                <status>1</status>
-                <position>50</position>
-            </block>
-            <block>
-                <block_txt_id>language</block_txt_id>
-                <controller>blocks/language</controller>
-                <status>1</status>
-                <position>50</position>
             </block>
             <block>
                 <block_txt_id>content_bottom</block_txt_id>
@@ -4902,26 +3996,8 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>currency</block_txt_id>
-                <controller>blocks/currency</controller>
-                <status>1</status>
-                <position>60</position>
-            </block>
-            <block>
                 <block_txt_id>footer_top</block_txt_id>
                 <controller>common/footer_top</controller>
-                <status>1</status>
-                <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>credit_cards</block_txt_id>
-                <controller>blocks/credit_cards</controller>
-                <status>1</status>
-                <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>cart</block_txt_id>
-                <controller>blocks/cart</controller>
                 <status>1</status>
                 <position>70</position>
             </block>
@@ -5066,12 +4142,6 @@
                     <status>1</status>
                     <position>80</position>
                 </block>
-            </block>
-            <block>
-                <block_txt_id>donate</block_txt_id>
-                <controller>blocks/donate</controller>
-                <status>1</status>
-                <position>80</position>
             </block>
         </blocks>
     </layout>
@@ -5092,18 +4162,6 @@
         </pages>
         <blocks>
             <block>
-                <block_txt_id>account</block_txt_id>
-                <controller>blocks/account</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
-            <block>
-                <block_txt_id>category</block_txt_id>
-                <controller>blocks/category</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
-            <block>
                 <block_txt_id>header</block_txt_id>
                 <controller>common/header</controller>
                 <status>1</status>
@@ -5234,58 +4292,16 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>breadcrumbs</block_txt_id>
-                <controller>blocks/breadcrumbs</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
-                <block_txt_id>customer</block_txt_id>
-                <controller>blocks/customer</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
                 <block_txt_id>column_left</block_txt_id>
                 <controller>common/column_left</controller>
                 <status>0</status>
                 <position>30</position>
             </block>
             <block>
-                <block_txt_id>menu</block_txt_id>
-                <controller>blocks/menu</controller>
-                <status>1</status>
-                <position>30</position>
-            </block>
-            <block>
-                <block_txt_id>newsletter_signup</block_txt_id>
-                <controller>blocks/newsletter_signup</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
-                <block_txt_id>search</block_txt_id>
-                <controller>blocks/search</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
                 <block_txt_id>content_top</block_txt_id>
                 <controller>common/content_top</controller>
                 <status>1</status>
                 <position>40</position>
-            </block>
-            <block>
-                <block_txt_id>content</block_txt_id>
-                <controller>blocks/content</controller>
-                <status>1</status>
-                <position>50</position>
-            </block>
-            <block>
-                <block_txt_id>language</block_txt_id>
-                <controller>blocks/language</controller>
-                <status>1</status>
-                <position>50</position>
             </block>
             <block>
                 <block_txt_id>content_bottom</block_txt_id>
@@ -5312,26 +4328,8 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>currency</block_txt_id>
-                <controller>blocks/currency</controller>
-                <status>1</status>
-                <position>60</position>
-            </block>
-            <block>
                 <block_txt_id>footer_top</block_txt_id>
                 <controller>common/footer_top</controller>
-                <status>1</status>
-                <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>credit_cards</block_txt_id>
-                <controller>blocks/credit_cards</controller>
-                <status>1</status>
-                <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>cart</block_txt_id>
-                <controller>blocks/cart</controller>
                 <status>1</status>
                 <position>70</position>
             </block>
@@ -5476,12 +4474,6 @@
                     <status>1</status>
                     <position>80</position>
                 </block>
-            </block>
-            <block>
-                <block_txt_id>donate</block_txt_id>
-                <controller>blocks/donate</controller>
-                <status>1</status>
-                <position>80</position>
             </block>
         </blocks>
     </layout>
@@ -5502,18 +4494,6 @@
         </pages>
         <blocks>
             <block>
-                <block_txt_id>account</block_txt_id>
-                <controller>blocks/account</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
-            <block>
-                <block_txt_id>category</block_txt_id>
-                <controller>blocks/category</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
-            <block>
                 <block_txt_id>header</block_txt_id>
                 <controller>common/header</controller>
                 <status>1</status>
@@ -5644,58 +4624,16 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>breadcrumbs</block_txt_id>
-                <controller>blocks/breadcrumbs</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
-                <block_txt_id>customer</block_txt_id>
-                <controller>blocks/customer</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
                 <block_txt_id>column_left</block_txt_id>
                 <controller>common/column_left</controller>
                 <status>0</status>
                 <position>30</position>
             </block>
             <block>
-                <block_txt_id>menu</block_txt_id>
-                <controller>blocks/menu</controller>
-                <status>1</status>
-                <position>30</position>
-            </block>
-            <block>
-                <block_txt_id>newsletter_signup</block_txt_id>
-                <controller>blocks/newsletter_signup</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
-                <block_txt_id>search</block_txt_id>
-                <controller>blocks/search</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
                 <block_txt_id>content_top</block_txt_id>
                 <controller>common/content_top</controller>
                 <status>1</status>
                 <position>40</position>
-            </block>
-            <block>
-                <block_txt_id>content</block_txt_id>
-                <controller>blocks/content</controller>
-                <status>1</status>
-                <position>50</position>
-            </block>
-            <block>
-                <block_txt_id>language</block_txt_id>
-                <controller>blocks/language</controller>
-                <status>1</status>
-                <position>50</position>
             </block>
             <block>
                 <block_txt_id>content_bottom</block_txt_id>
@@ -5722,26 +4660,8 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>currency</block_txt_id>
-                <controller>blocks/currency</controller>
-                <status>1</status>
-                <position>60</position>
-            </block>
-            <block>
                 <block_txt_id>footer_top</block_txt_id>
                 <controller>common/footer_top</controller>
-                <status>1</status>
-                <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>credit_cards</block_txt_id>
-                <controller>blocks/credit_cards</controller>
-                <status>1</status>
-                <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>cart</block_txt_id>
-                <controller>blocks/cart</controller>
                 <status>1</status>
                 <position>70</position>
             </block>
@@ -5886,12 +4806,6 @@
                     <status>1</status>
                     <position>80</position>
                 </block>
-            </block>
-            <block>
-                <block_txt_id>donate</block_txt_id>
-                <controller>blocks/donate</controller>
-                <status>1</status>
-                <position>80</position>
             </block>
         </blocks>
     </layout>
@@ -5912,18 +4826,6 @@
         </pages>
         <blocks>
             <block>
-                <block_txt_id>account</block_txt_id>
-                <controller>blocks/account</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
-            <block>
-                <block_txt_id>category</block_txt_id>
-                <controller>blocks/category</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
-            <block>
                 <block_txt_id>header</block_txt_id>
                 <controller>common/header</controller>
                 <status>1</status>
@@ -6054,58 +4956,16 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>breadcrumbs</block_txt_id>
-                <controller>blocks/breadcrumbs</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
-                <block_txt_id>customer</block_txt_id>
-                <controller>blocks/customer</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
                 <block_txt_id>column_left</block_txt_id>
                 <controller>common/column_left</controller>
                 <status>0</status>
                 <position>30</position>
             </block>
             <block>
-                <block_txt_id>menu</block_txt_id>
-                <controller>blocks/menu</controller>
-                <status>1</status>
-                <position>30</position>
-            </block>
-            <block>
-                <block_txt_id>newsletter_signup</block_txt_id>
-                <controller>blocks/newsletter_signup</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
-                <block_txt_id>search</block_txt_id>
-                <controller>blocks/search</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
                 <block_txt_id>content_top</block_txt_id>
                 <controller>common/content_top</controller>
                 <status>1</status>
                 <position>40</position>
-            </block>
-            <block>
-                <block_txt_id>content</block_txt_id>
-                <controller>blocks/content</controller>
-                <status>1</status>
-                <position>50</position>
-            </block>
-            <block>
-                <block_txt_id>language</block_txt_id>
-                <controller>blocks/language</controller>
-                <status>1</status>
-                <position>50</position>
             </block>
             <block>
                 <block_txt_id>content_bottom</block_txt_id>
@@ -6132,26 +4992,8 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>currency</block_txt_id>
-                <controller>blocks/currency</controller>
-                <status>1</status>
-                <position>60</position>
-            </block>
-            <block>
                 <block_txt_id>footer_top</block_txt_id>
                 <controller>common/footer_top</controller>
-                <status>1</status>
-                <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>credit_cards</block_txt_id>
-                <controller>blocks/credit_cards</controller>
-                <status>1</status>
-                <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>cart</block_txt_id>
-                <controller>blocks/cart</controller>
                 <status>1</status>
                 <position>70</position>
             </block>
@@ -6297,12 +5139,6 @@
                     <position>80</position>
                 </block>
             </block>
-            <block>
-                <block_txt_id>donate</block_txt_id>
-                <controller>blocks/donate</controller>
-                <status>1</status>
-                <position>80</position>
-            </block>
         </blocks>
     </layout>
     <layout>
@@ -6321,12 +5157,6 @@
             </page>
         </pages>
         <blocks>
-            <block>
-                <block_txt_id>cart</block_txt_id>
-                <controller>blocks/cart</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
             <block>
                 <block_txt_id>header</block_txt_id>
                 <controller>common/header</controller>
@@ -6428,24 +5258,6 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>category</block_txt_id>
-                <controller>blocks/category</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
-            <block>
-                <block_txt_id>customer</block_txt_id>
-                <controller>blocks/customer</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
-                <block_txt_id>breadcrumbs</block_txt_id>
-                <controller>blocks/breadcrumbs</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
                 <block_txt_id>header_bottom</block_txt_id>
                 <controller>common/header_bottom</controller>
                 <status>1</status>
@@ -6470,24 +5282,6 @@
                 <position>30</position>
             </block>
             <block>
-                <block_txt_id>menu</block_txt_id>
-                <controller>blocks/menu</controller>
-                <status>1</status>
-                <position>30</position>
-            </block>
-            <block>
-                <block_txt_id>search</block_txt_id>
-                <controller>blocks/search</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
-                <block_txt_id>newsletter_signup</block_txt_id>
-                <controller>blocks/newsletter_signup</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
                 <block_txt_id>content_top</block_txt_id>
                 <controller>common/content_top</controller>
                 <status>1</status>
@@ -6500,24 +5294,6 @@
                 <position>50</position>
             </block>
             <block>
-                <block_txt_id>language</block_txt_id>
-                <controller>blocks/language</controller>
-                <status>1</status>
-                <position>50</position>
-            </block>
-            <block>
-                <block_txt_id>content</block_txt_id>
-                <controller>blocks/content</controller>
-                <status>1</status>
-                <position>50</position>
-            </block>
-            <block>
-                <block_txt_id>currency</block_txt_id>
-                <controller>blocks/currency</controller>
-                <status>1</status>
-                <position>60</position>
-            </block>
-            <block>
                 <block_txt_id>column_right</block_txt_id>
                 <controller>common/column_right</controller>
                 <status>1</status>
@@ -6526,12 +5302,6 @@
             <block>
                 <block_txt_id>footer_top</block_txt_id>
                 <controller>common/footer_top</controller>
-                <status>1</status>
-                <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>credit_cards</block_txt_id>
-                <controller>blocks/credit_cards</controller>
                 <status>1</status>
                 <position>70</position>
             </block>
@@ -6589,12 +5359,6 @@
                     <position>80</position>
                 </block>
             </block>
-            <block>
-                <block_txt_id>donate</block_txt_id>
-                <controller>blocks/donate</controller>
-                <status>1</status>
-                <position>80</position>
-            </block>
         </blocks>
     </layout>
     <layout>
@@ -6613,12 +5377,6 @@
             </page>
         </pages>
         <blocks>
-            <block>
-                <block_txt_id>fast_checkout_summary</block_txt_id>
-                <controller>blocks/fast_checkout_summary</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
             <block>
                 <block_txt_id>header</block_txt_id>
                 <controller>common/header</controller>
@@ -6648,12 +5406,6 @@
                 <controller>common/column_left</controller>
                 <status>0</status>
                 <position>30</position>
-            </block>
-            <block>
-                <block_txt_id>fast_checkout_cart_btn</block_txt_id>
-                <controller>blocks/fast_checkout_cart_btn</controller>
-                <status>1</status>
-                <position>40</position>
             </block>
             <block>
                 <block_txt_id>content_top</block_txt_id>
@@ -6882,12 +5634,6 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>category</block_txt_id>
-                <controller>blocks/category</controller>
-                <status>1</status>
-                <position>10</position>
-            </block>
-            <block>
                 <block_txt_id>header_bottom</block_txt_id>
                 <controller>common/header_bottom</controller>
                 <status>1</status>
@@ -6918,40 +5664,10 @@
                 </block>
             </block>
             <block>
-                <block_txt_id>breadcrumbs</block_txt_id>
-                <controller>blocks/breadcrumbs</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
-                <block_txt_id>customer</block_txt_id>
-                <controller>blocks/customer</controller>
-                <status>1</status>
-                <position>20</position>
-            </block>
-            <block>
-                <block_txt_id>menu</block_txt_id>
-                <controller>blocks/menu</controller>
-                <status>1</status>
-                <position>30</position>
-            </block>
-            <block>
                 <block_txt_id>column_left</block_txt_id>
                 <controller>common/column_left</controller>
                 <status>0</status>
                 <position>30</position>
-            </block>
-            <block>
-                <block_txt_id>newsletter_signup</block_txt_id>
-                <controller>blocks/newsletter_signup</controller>
-                <status>1</status>
-                <position>40</position>
-            </block>
-            <block>
-                <block_txt_id>search</block_txt_id>
-                <controller>blocks/search</controller>
-                <status>1</status>
-                <position>40</position>
             </block>
             <block>
                 <block_txt_id>content_top</block_txt_id>
@@ -6966,40 +5682,10 @@
                 <position>50</position>
             </block>
             <block>
-                <block_txt_id>language</block_txt_id>
-                <controller>blocks/language</controller>
-                <status>1</status>
-                <position>50</position>
-            </block>
-            <block>
-                <block_txt_id>content</block_txt_id>
-                <controller>blocks/content</controller>
-                <status>1</status>
-                <position>50</position>
-            </block>
-            <block>
-                <block_txt_id>currency</block_txt_id>
-                <controller>blocks/currency</controller>
-                <status>1</status>
-                <position>60</position>
-            </block>
-            <block>
                 <block_txt_id>column_right</block_txt_id>
                 <controller>common/column_right</controller>
                 <status>1</status>
                 <position>60</position>
-            </block>
-            <block>
-                <block_txt_id>credit_cards</block_txt_id>
-                <controller>blocks/credit_cards</controller>
-                <status>1</status>
-                <position>70</position>
-            </block>
-            <block>
-                <block_txt_id>cart</block_txt_id>
-                <controller>blocks/cart</controller>
-                <status>1</status>
-                <position>70</position>
             </block>
             <block>
                 <block_txt_id>footer_top</block_txt_id>
@@ -7148,12 +5834,6 @@
                     <status>1</status>
                     <position>80</position>
                 </block>
-            </block>
-            <block>
-                <block_txt_id>donate</block_txt_id>
-                <controller>blocks/donate</controller>
-                <status>1</status>
-                <position>80</position>
             </block>
         </blocks>
     </layout>
