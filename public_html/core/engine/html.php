@@ -1014,6 +1014,15 @@ abstract class HtmlElement
         return $javascript . $this->getHtml();
     }
 
+    public function addHookVars(array $vars)
+    {
+        if(!$vars){ return; }
+        //add hook variables into tpl. can be used in *.post.tpl or *.pre.tpl
+        foreach($vars as $hkvName => $hkvValue){
+            $this->view->addHookVar($hkvName, $hkvValue);
+        }
+    }
+
     protected function extendAndBatchAssign(array $array)
     {
         $this->view->batchAssign(

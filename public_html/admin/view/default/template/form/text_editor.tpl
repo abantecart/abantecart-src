@@ -54,9 +54,8 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
                     return false;
                 }
                 </script>
-            <?php } ?>
-
-            <?php
+            <?php }
+            echo $this->getHookVar('action_buttons_pre');
             if ($required || $multilingual || $history_url) { ?>
                 <span class="afield-nav">
             <?php
@@ -77,7 +76,8 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
             <?php } ?>
 
                 </span>
-    <?php   } ?>
+    <?php   }
+            echo $this->getHookVar('action_buttons_post');?>
         </div>
 
     </div>
