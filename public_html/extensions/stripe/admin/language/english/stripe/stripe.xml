@@ -388,4 +388,19 @@
 		<key>error_permission</key>
 		<value><![CDATA[Warning: You do not have permission to modify Stripe Payment!]]></value>
 	</definition>
+	<definition>
+		<key>stripe_webhook_howto_text</key>
+		<value><![CDATA[Note: To complete setup you should to create webhooks on Stripe Account Side.
+<br> Go to Your <a href="https://dashboard.stripe.com/webhooks" target="_new">Stripe Dashboard Developer Section</a>
+and Add Endpoints receiving events from your account. After Endpoint has been created copy Signing Secret and save into Stripe Subscription Extension settings belong.
+]]></value>
+	</definition>
+	<definition>
+		<key>stripe_entry_endpoint_url</key>
+		<value><![CDATA[Endpoint URL:]]></value>
+	</definition>
+	<definition>
+		<key>stripe_entry_endpoint_signing_secret</key>
+		<value><![CDATA[Endpoint Signing Secret:]]></value>
+	</definition>
 </definitions>
