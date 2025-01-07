@@ -190,7 +190,7 @@ class ControllerPagesCatalogProductLayout extends AController
         $this->data['cp_layout_select'] = $form->getFieldHtml(
             [
                 'type'    => 'selectbox',
-                'name'    => 'layout_change',
+                'name'    => 'source_layout_id',
                 'value'   => '',
                 'options' => $avLayouts,
             ]
