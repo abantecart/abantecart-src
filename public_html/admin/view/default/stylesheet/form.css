@@ -371,6 +371,11 @@ div.acheckbox.checked span {
 .adate{
 	max-width: 300px !important;
 }
+
+.table-adate .adate{
+	width: 150px; /* rule for order files table*/
+}
+
 .reset-date{
 	float: left;
 	display: inherit;
