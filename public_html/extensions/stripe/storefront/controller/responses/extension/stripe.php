@@ -206,37 +206,36 @@ class ControllerResponsesExtensionStripe extends AController
         $this->loadLanguage('stripe/stripe');
 
         //validate input
-        $order_id = $this->session->data['order_id'] ?: $this->request->get['order_id'];
+        $orderId = $this->session->data['order_id'] ?: $this->request->get['order_id'];
         /** @var ModelExtensionStripe $mdl */
         $mdl = $this->loadModel('extension/stripe');
         $this->loadLanguage('stripe/stripe');
-        $pi_id = $this->request->get['payment_intent'];
+        $piId = $this->request->get['payment_intent'];
         //compare payment intents from session and request
-        if ($pi_id != $this->session->data['stripe']['pi_id']
+        if ($piId != $this->session->data['stripe']['pi_id']
             || $this->session->data['stripe']['pi_id_secret'] != $this->request->get['payment_intent_client_secret']
         ) {
             redirect($this->html->getSecureURL('index/home'));
         }
 
-        $p_result = $this->finalizeOrder($pi_id, (int)$order_id);
+        $result = $this->finalizeOrder($piId, (int)$orderId);
 
-        ADebug::variable('Processing payment result: ', $p_result);
-        if ($p_result['error']) {
+        ADebug::variable('Processing payment result: ', $result);
+        if ($result['error']) {
             // transaction failed
-            $output['error'] = (string)$p_result['error'];
-            if ($p_result['code']) {
-                $output['error'] .= ' (' . $p_result['code'] . ')';
+            $output['error'] = (string)$result['error'];
+            if ($result['code']) {
+                $output['error'] .= ' (' . $result['code'] . ')';
             }
         } else {
-            if ($p_result['paid']) {
+            if ($result['paid']) {
                 $output['success'] = $this->html->getSecureURL('checkout/finalize');
             } else {
                 //Unexpected result
-                $pi = $mdl->getPaymentIntent($pi_id);
+                $pi = $mdl->getPaymentIntent($piId);
                 $output['error'] = $pi?->last_payment_error['message'] . ' (' . $pi?->last_payment_error['code'] . ') '
                     . $this->language->get('error_payment_method');
                 $this->log->write("Payment attempt failed: \n" . var_export($pi->toArray(), true));
-                $this->log->write("Response: \n" . var_export($p_result, true));
             }
         }
 
@@ -248,7 +247,7 @@ class ControllerResponsesExtensionStripe extends AController
 
         //init controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-        redirect($this->html->getSecureURL('checkout/finalize', '&order_id=' . $order_id));
+        redirect($this->html->getSecureURL('checkout/finalize', '&order_id=' . $orderId));
     }
 
     protected function finalizeOrder(string $piId, int $orderId)
