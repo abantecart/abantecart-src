@@ -694,6 +694,11 @@ textarea.form-control-lg {
     border-radius: 8px;
 }
 
+.input-group.has-validation .input-group-text {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
 [data-bs-theme=dark] .input-group-text {
     color: var(--bs-emphasis-color);
     background-color: var(--bs-lighter-background);
