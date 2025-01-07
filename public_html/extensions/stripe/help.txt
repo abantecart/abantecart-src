@@ -1,32 +1,54 @@
-<b>Stripe Payment Configuration</b>
-<br/><br/>
+<h3>Stripe Payment Configuration</h3>
+1. To use this extension, you need to connect to a new or existing Stripe account using the Connect button.<br/>
+If you do not have a Stripe account, please click the Connect button on the Additional Settings tab.<br/><br/>
 
-1. To use this extension, you need to connect to new or existing Stripe account using the Connect button<br/>
-If you do not have Stripe account, please click connect button on additional settings tab <br/><br/>
-2. Fill in required fields with information provided in Stripe dashboard.<br/>
-	
-When you connect you can use Test or live mode connect button. 
-<b>Important to know!</b>: Test and live mode do not share customers, cards or transaction information. If you switch connection between modes, existing customers and order payment details from prior mode will not be available in new mode.
+2. Fill in the required fields with information provided in the Stripe dashboard.<br/>
+
+When you connect, you can choose between Test or Live mode using the respective Connect button. 
+<b>Important:</b> Test and Live modes do not share customer, card, or transaction information. If you switch between modes, existing customer and order payment details from the previous mode will not be available in the new mode.
 
 <br/><br/>
-3. Set up Order Status that will be applied when customer successfully payed with Stripe payment option.<br/><br/>
-4. By default only Cards Payment is enabled. You can enable more payments supported by Stripe in the Allowed payment methods. <br />
-You can view a list of available alternative payment methods that you can accept in your&nbsp;<a rel="" target="_blank" href="https://dashboard.stripe.com/account/payments/settings">Payments settings dashboard</a> (Test and Live configurations are different).  Before accepting payments, click Request Access next to the payment method you want to allow. You may be asked to provide additional information required by the scheme, or agree with a specific addendum<br />
-<br /> Please be aware some payments require minimum order for example Affirm minimum is $50 or specific currency and merchant country like OXXO require MXN currency. Ideal and Sofort require order currency EUR.
-<br /><br />
-5. Stripe payment options will appear at customer's checkout at storefront. You can add custom icon or image in the setting to be displayed to customers.<br/><br/>
-6. Once orders with stripe are created, you can perform capture, void or refund in order section of AbanteCart admin.<br/><br/>
-7. To test how Stripe works go to storefront, add products to cart and follow checkout process. Stripe payment options will be available at payment's details page. For testing you, can enable test mode and provide test secret/public keys.
+3. Set up the Order Status that will be applied when a customer successfully pays using the Stripe payment option.<br/><br/>
+
+4. By default, only Card Payments are enabled. You can enable additional payment methods supported by Stripe in the Allowed Payment Methods section.<br />
+To view a list of available alternative payment methods you can accept, visit your&nbsp;<a rel="" target="_blank" href="https://dashboard.stripe.com/account/payments/settings">Payments Settings Dashboard</a> (Test and Live configurations are separate). 
+Before accepting payments, click "Request Access" next to the payment method you want to enable. You may need to provide additional information or agree to specific terms required by the scheme.<br />
 <br />
-Please refer to the Stripe official docs on how to enable additional payments and test them.<br />
+Please note that some payment methods have additional requirements, such as a minimum order amount (e.g., Affirm requires a $50 minimum) or specific currencies and merchant locations (e.g., OXXO requires MXN currency, and Ideal/Sofort require EUR currency).<br /><br/>
+
+
+5. Stripe payment options will appear at customer's checkout at storefront. <br/><br/>
+
+6. Once orders are created using Stripe, you can perform capture, void, or refund actions in the Order section of the AbanteCart admin panel.<br/><br/>
+
+
+7. To test Stripe functionality, go to the storefront, add products to the cart, and follow the checkout process. Stripe payment options will appear on the payment details page. For testing, please connect in Test mode<br/><br/>
+
+
+Refer to the official Stripe documentation for enabling additional payment methods and testing them.<br />
 AFFIRM: <a href="https://stripe.com/docs/payments/affirm#payment-options" target="_blank">https://stripe.com/docs/payments/affirm#payment-options</a> <br />
 KLARNA use this card 4687388888888881 with Expiration date: 12/28 and CVC: 123: <a href="https://stripe.com/docs/payments/klarna/accept-a-payment?platform=web&ui=API#testmode-guide" target="_blank">https://stripe.com/docs/payments/klarna/accept-a-payment?platform=web&ui=API#testmode-guide</a> <br />
 OXXO: <a href="https://stripe.com/docs/payments/oxxo" target="_blank">https://stripe.com/docs/payments/oxxo</a>
 <br/>
 <br/><br/>
-8. Note: some payment methods are delayed and return processing status. Such orders should be manually set to another AbanteCart orders status if needed after payment review in the Stripe Dashboard.<br/><br/>
 
-For more details about Stripe service and details about transactions you need to access Stripe dashboard.  
+
+8. Note: Some payment methods involve delayed processing and may return a pending status. Such orders may need manual status updates in the AbanteCart Order section after reviewing payment details in the Stripe Dashboard.<br/><br/>
+
+For more information about Stripe services and transaction details, access your Stripe Dashboard.<br/><a target="_new" href="https://www.stripe.com/?id=abantecart">Access Stripe</a>
+<br/>
+<br/>
+
+9. <i class="fa fa-warning"></i> <b>Important:</b> Some Stripe payment methods require setting up webhooks in your Stripe account.<br/>
+Follow these steps to complete the webhook setup:
+<ul>
+    <li>Go to your <a href="https://dashboard.stripe.com/webhooks" target="_new">Stripe Dashboard Developer Section</a>.</li>
+    <li>Click <b>Add Endpoint</b>.</li>
+    <li>Enter your webhook endpoint’s HTTPS URL in the Endpoint URL field.</li>
+    <li>Select <b>Select events to listen to</b>.</li>
+    <li>Choose the event type <em>payment_intent.succeeded</em>.</li>
+    <li>Click <b>Add endpoint</b>.</li>
+</ul>
+Once the endpoint is created, click "Reveal Signing Secret," copy it, and save it in the Stripe Extension Additional Settings page.<br/><br/>
+
 <br/><br/>
-
-<a target="_new" href="https://www.stripe.com/?id=abantecart">Access Stripe</a>
