@@ -429,7 +429,7 @@ class ControllerPagesToolPackageInstaller extends AController
                 }
                 $url = $this->model_tool_mp_api->getMPURL() . '?rt=r/account/download_mp/getdownloadbykey';
             } else {
-                $url = 'get_upgrade/';
+                $url = '/get_upgrade/';
             }
             $httpQuery = [
                 'mp_token'      => $mp_token,
