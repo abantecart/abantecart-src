@@ -3731,10 +3731,6 @@ h4 .heading-title:after,
     display: none;
 }
 
-.navbar-nav .dropdown-menu{
-    position: absolute !important;
-}
-
 #category_rating-collapse .fa-star {
     color: #e8901e;
     margin-right: 5px;
