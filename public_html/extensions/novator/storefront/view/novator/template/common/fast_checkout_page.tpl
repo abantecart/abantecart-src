@@ -71,7 +71,7 @@ echo $_COOKIE['data-bs-theme'] == 'dark' ? 'data-bs-theme="dark"' : ''; ?>>
 	</div>
 </div>
 <?php if ( $$footer_top || $$footer) { ?>
-<div class="container-fluid">
+<div class="container-fluid p-0">
 	<!-- footer top section Starts -->
 	<?php if ( $$footer_top ) { ?>
 		<div class="footer-top mt-5">
