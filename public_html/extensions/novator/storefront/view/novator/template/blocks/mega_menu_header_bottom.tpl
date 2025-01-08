@@ -32,8 +32,8 @@ $categories = prepareNVCatItems($categories);
                     </ul>
                 </div>
             </div>
-            <?php } ?>
-            <?php echo $this->getHookVar('categories_additional_info'); ?>
+            <?php }
+            echo $this->getHookVar('categories_additional_info'); ?>
             <div class="collapse d-none d-lg-flex navbar-collapse">
                 <ul class="mega-sf-menu navbar-nav mx-auto mb-2 mb-lg-0 align-items-start flex-nowrap">
                 <?php
@@ -57,7 +57,7 @@ $categories = prepareNVCatItems($categories);
                         if (!$item['category']) { ?>
                         <li class="nav-item dropdown mega-menu">
                             <a id="menu_<?php echo $item['item_id'];?>"
-                               class="nav-link <?php echo $active; ?> dropdown-toggle"
+                               class="nav-link <?php echo $active; ?>"
                                href="<?php echo $item['href']; ?>"
                                target="<?php echo $item['settings']['target']; ?>"
                                role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
@@ -65,7 +65,7 @@ $categories = prepareNVCatItems($categories);
                             </a>
                             <ul class="dropdown-menu list-unstyled">
                             <?php
-                            //render and dysplay recursive item tree
+                            //render and display recursive item tree
                             $opt = [];
                             $opt['top_level']['attr'] =  'dropdown-menu';
                             echo renderSFMenuNv($item['children'], 0,$item['item_id'], $opt); ?>
@@ -76,7 +76,7 @@ $categories = prepareNVCatItems($categories);
                         else { ?>
                             <li class="nav-item dropdown mega-menu">
                                 <a id="menu_<?php echo $item['item_id'];?>"
-                                   class="nav-link <?php echo $active; ?> dropdown-toggle"
+                                   class="nav-link <?php echo $active; ?>"
                                    href="<?php echo $item['href']; ?>"
                                    target="<?php echo $item['settings']['target']; ?>"
                                    role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
