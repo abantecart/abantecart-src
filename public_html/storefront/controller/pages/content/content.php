@@ -128,6 +128,7 @@ class ControllerPagesContentContent extends AController
             'parent_id' => $content_id,
             'tag'       => $selTag
         ];
+        $request['sort'] = $request['sort'] ?: $httpQuery['sort'];
 
         $this->data['contents'] = $this->prepContentData(
             $this->model_catalog_content->filterContents($request),
