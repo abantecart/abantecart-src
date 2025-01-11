@@ -157,6 +157,10 @@ class ControllerPagesSaleCustomer extends AController
                                 'text' => $this->language->get('tab_customer_details'),
                                 'href' => $this->html->getSecureURL('sale/customer/update', '&customer_id=%ID%'),
                             ],
+                            'addresses'     => [
+                                'text' => $this->language->get('text_customer_addresses'),
+                                'href' => $this->html->getSecureURL('sale/customer/update_address', '&customer_id=%ID%'),
+                            ],
                             'transaction' => [
                                 'text' => $this->language->get('tab_transactions'),
                                 'href' => $this->html->getSecureURL('sale/customer_transaction', '&customer_id=%ID%'),
@@ -760,8 +764,8 @@ class ControllerPagesSaleCustomer extends AController
             unset($this->session->data['success']);
         }
 
-        $customer_id = $this->request->get['customer_id'];
-        $address_id = $this->request->get['address_id'];
+        $customer_id = (int)$this->request->get['customer_id'];
+        $address_id = (int)$this->request->get['address_id'];
         if ($this->request->is_POST() && $this->_validateAddressForm($this->request->post)) {
             //do we need to update default address?
             if ($this->request->post['default']) {
@@ -778,6 +782,23 @@ class ControllerPagesSaleCustomer extends AController
             redirect($this->data['redirect_url']);
         }
 
+        if($this->request->is_GET() && !$address_id){
+            $customerInfo = $this->model_sale_customer->getCustomer($customer_id);
+            if($customerInfo['address_id']) {
+                $address_id = (int)$customerInfo['address_id'];
+            }else{
+                $allAddresses = $this->model_sale_customer->getAddresses($customer_id);
+                if($allAddresses){
+                    $address_id = (int)$allAddresses[0]['address_id'];
+                }else {
+                    redirect(
+                        $this->html->getSecureURL('sale/customer/insert_address', '&customer_id=' . $customer_id)
+                    );
+                }
+            }
+            $this->request->get['address_id'] = $address_id;
+        }
+
         $this->_getAddressForm();
 
         //update controller data
@@ -788,6 +809,9 @@ class ControllerPagesSaleCustomer extends AController
     {
         $address_id = $this->request->get['address_id'];
         $customer_id = $this->request->get['customer_id'];
+
+        $this->data['list_url'] = $this->html->getSecureURL('sale/customer/update', '&customer_id=' . $customer_id);
+        $this->data['text_back_to_list'] = $this->language->get('tab_customer_details');
 
         $this->data['token'] = $this->session->data['token'];
         $this->data['error'] = $this->error;
