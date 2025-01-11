@@ -210,343 +210,335 @@
 			<default_value>a:1:{i:0;s:2:"US";}</default_value>
 		</item>
 
-		<item id="default_royal_mail_intl_standard_economy_eu_1">
+		<item id="default_royal_mail_intl_standard_economy_europe_zone_1">
 			<type>checkbox</type>
 			<default_value>0</default_value>
 		</item>
-		<item id="default_royal_mail_intl_standard_economy_eu_1_rates">
+		<item id="default_royal_mail_intl_standard_economy_europe_zone_1_rates">
 			<type>textarea</type>
 			<default_value></default_value>
 		</item>
-		<item id="default_royal_mail_intl_standard_economy_eu_2">
+		<item id="default_royal_mail_intl_standard_economy_europe_zone_2">
 			<type>checkbox</type>
 			<default_value>0</default_value>
 		</item>
-		<item id="default_royal_mail_intl_standard_economy_eu_2_rates">
+		<item id="default_royal_mail_intl_standard_economy_europe_zone_2_rates">
 			<type>textarea</type>
 			<default_value></default_value>
 		</item>
-		<item id="default_royal_mail_intl_standard_economy_eu_3">
+		<item id="default_royal_mail_intl_standard_economy_europe_zone_3">
 			<type>checkbox</type>
 			<default_value>0</default_value>
 		</item>
-		<item id="default_royal_mail_intl_standard_economy_eu_3_rates">
+		<item id="default_royal_mail_intl_standard_economy_europe_zone_3_rates">
 			<type>textarea</type>
 			<default_value></default_value>
 		</item>
-		<item id="default_royal_mail_intl_standard_economy_world_1">
+		<item id="default_royal_mail_intl_standard_economy_world_zone_1">
 			<type>checkbox</type>
 			<default_value>0</default_value>
 		</item>
-		<item id="default_royal_mail_intl_standard_economy_world_1_rates">
+		<item id="default_royal_mail_intl_standard_economy_world_zone_1_rates">
 			<type>textarea</type>
 			<default_value></default_value>
 		</item>
-		<item id="default_royal_mail_intl_standard_economy_world_2">
+		<item id="default_royal_mail_intl_standard_economy_world_zone_2">
 			<type>checkbox</type>
 			<default_value>0</default_value>
 		</item>
-		<item id="default_royal_mail_intl_standard_economy_world_2_rates">
+		<item id="default_royal_mail_intl_standard_economy_world_zone_2_rates">
 			<type>textarea</type>
 			<default_value></default_value>
 		</item>
-		<item id="default_royal_mail_intl_standard_economy_world_3">
+		<item id="default_royal_mail_intl_standard_economy_world_zone_3">
 			<type>checkbox</type>
 			<default_value>0</default_value>
 		</item>
-		<item id="default_royal_mail_intl_standard_economy_world_3_rates">
+		<item id="default_royal_mail_intl_standard_economy_world_zone_3_rates">
 			<type>textarea</type>
 			<default_value></default_value>
 		</item>
-		<item id="default_royal_mail_intl_standard_priority_eu_1">
+		<item id="default_royal_mail_intl_standard_priority_europe_zone_1">
 			<type>checkbox</type>
 			<default_value>0</default_value>
 		</item>
-		<item id="default_royal_mail_intl_standard_priority_eu_1_rates">
+		<item id="default_royal_mail_intl_standard_priority_europe_zone_1_rates">
 			<type>textarea</type>
 			<default_value></default_value>
 		</item>
-		<item id="default_royal_mail_intl_standard_priority_eu_2">
+		<item id="default_royal_mail_intl_standard_priority_europe_zone_2">
 			<type>checkbox</type>
 			<default_value>0</default_value>
 		</item>
-		<item id="default_royal_mail_intl_standard_priority_eu_2_rates">
+		<item id="default_royal_mail_intl_standard_priority_europe_zone_2_rates">
 			<type>textarea</type>
 			<default_value></default_value>
 		</item>
-		<item id="default_royal_mail_intl_standard_priority_eu_3">
+		<item id="default_royal_mail_intl_standard_priority_europe_zone_3">
 			<type>checkbox</type>
 			<default_value>0</default_value>
 		</item>
-		<item id="default_royal_mail_intl_standard_priority_eu_3_rates">
+		<item id="default_royal_mail_intl_standard_priority_europe_zone_3_rates">
 			<type>textarea</type>
 			<default_value></default_value>
 		</item>
-		<item id="default_royal_mail_intl_standard_priority_world_1">
+		<item id="default_royal_mail_intl_standard_priority_world_zone_1">
 			<type>checkbox</type>
 			<default_value>0</default_value>
 		</item>
-		<item id="default_royal_mail_intl_standard_priority_world_1_rates">
+		<item id="default_royal_mail_intl_standard_priority_world_zone_1_rates">
 			<type>textarea</type>
 			<default_value></default_value>
 		</item>
-		<item id="default_royal_mail_intl_standard_priority_world_2">
+		<item id="default_royal_mail_intl_standard_priority_world_zone_2">
 			<type>checkbox</type>
 			<default_value>0</default_value>
 		</item>
-		<item id="default_royal_mail_intl_standard_priority_world_2_rates">
+		<item id="default_royal_mail_intl_standard_priority_world_zone_2_rates">
 			<type>textarea</type>
 			<default_value></default_value>
 		</item>
-		<item id="default_royal_mail_intl_standard_priority_world_3">
+		<item id="default_royal_mail_intl_standard_priority_world_zone_3">
 			<type>checkbox</type>
 			<default_value>0</default_value>
 		</item>
-		<item id="default_royal_mail_intl_standard_priority_world_3_rates">
-			<type>textarea</type>
-			<default_value></default_value>
-		</item>
-
-		<item id="default_royal_mail_intl_signed_eu_1">
-			<type>checkbox</type>
-			<default_value>0</default_value>
-		</item>
-		<item id="default_royal_mail_intl_signed_eu_1_rates">
-			<type>textarea</type>
-			<default_value></default_value>
-		</item>
-		<item id="default_royal_mail_intl_signed_eu_2">
-			<type>checkbox</type>
-			<default_value>0</default_value>
-		</item>
-		<item id="default_royal_mail_intl_signed_eu_2_rates">
-			<type>textarea</type>
-			<default_value></default_value>
-		</item>
-		<item id="default_royal_mail_intl_signed_eu_3">
-			<type>checkbox</type>
-			<default_value>0</default_value>
-		</item>
-		<item id="default_royal_mail_intl_signed_eu_3_rates">
-			<type>textarea</type>
-			<default_value></default_value>
-		</item>
-		<item id="default_royal_mail_intl_signed_world_1">
-			<type>checkbox</type>
-			<default_value>0</default_value>
-		</item>
-		<item id="default_royal_mail_intl_signed_world_1_rates">
-			<type>textarea</type>
-			<default_value></default_value>
-		</item>
-		<item id="default_royal_mail_intl_signed_world_2">
-			<type>checkbox</type>
-			<default_value>0</default_value>
-		</item>
-		<item id="default_royal_mail_intl_signed_world_2_rates">
-			<type>textarea</type>
-			<default_value></default_value>
-		</item>
-		<item id="default_royal_mail_intl_signed_world_3">
-			<type>checkbox</type>
-			<default_value>0</default_value>
-		</item>
-		<item id="default_royal_mail_intl_signed_world_3_rates">
-			<type>textarea</type>
-			<default_value></default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_signed_eu_1">
-			<type>checkbox</type>
-			<default_value>0</default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_signed_eu_1_rates">
-			<type>textarea</type>
-			<default_value></default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_signed_eu_2">
-			<type>checkbox</type>
-			<default_value>0</default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_signed_eu_2_rates">
-			<type>textarea</type>
-			<default_value></default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_signed_eu_3">
-			<type>checkbox</type>
-			<default_value>0</default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_signed_eu_3_rates">
-			<type>textarea</type>
-			<default_value></default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_signed_world_1">
-			<type>checkbox</type>
-			<default_value>0</default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_signed_world_1_rates">
-			<type>textarea</type>
-			<default_value></default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_signed_world_2">
-			<type>checkbox</type>
-			<default_value>0</default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_signed_world_2_rates">
-			<type>textarea</type>
-			<default_value></default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_signed_world_3">
-			<type>checkbox</type>
-			<default_value>0</default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_signed_world_3_rates">
-			<type>textarea</type>
-			<default_value></default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_eu_1">
-			<type>checkbox</type>
-			<default_value>0</default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_eu_1_rates">
-			<type>textarea</type>
-			<default_value></default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_eu_2">
-			<type>checkbox</type>
-			<default_value>0</default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_eu_2_rates">
-			<type>textarea</type>
-			<default_value></default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_eu_3">
-			<type>checkbox</type>
-			<default_value>0</default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_eu_3_rates">
-			<type>textarea</type>
-			<default_value></default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_world_1">
-			<type>checkbox</type>
-			<default_value>0</default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_world_1_rates">
-			<type>textarea</type>
-			<default_value></default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_world_2">
-			<type>checkbox</type>
-			<default_value>0</default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_world_2_rates">
-			<type>textarea</type>
-			<default_value></default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_world_3">
-			<type>checkbox</type>
-			<default_value>0</default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_world_3_rates">
-			<type>textarea</type>
-			<default_value></default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_heavier_eu_1">
-			<type>checkbox</type>
-			<default_value>0</default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_heavier_eu_1_rates">
-			<type>textarea</type>
-			<default_value></default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_heavier_eu_2">
-			<type>checkbox</type>
-			<default_value>0</default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_heavier_eu_2_rates">
-			<type>textarea</type>
-			<default_value></default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_heavier_eu_3">
-			<type>checkbox</type>
-			<default_value>0</default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_heavier_eu_3_rates">
-			<type>textarea</type>
-			<default_value></default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_heavier_world_1">
-			<type>checkbox</type>
-			<default_value>0</default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_heavier_world_1_rates">
-			<type>textarea</type>
-			<default_value></default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_heavier_world_2">
-			<type>checkbox</type>
-			<default_value>0</default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_heavier_world_2_rates">
-			<type>textarea</type>
-			<default_value></default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_heavier_world_3">
-			<type>checkbox</type>
-			<default_value>0</default_value>
-		</item>
-		<item id="default_royal_mail_intl_tracked_heavier_world_3_rates">
+		<item id="default_royal_mail_intl_standard_priority_world_zone_3_rates">
 			<type>textarea</type>
 			<default_value></default_value>
 		</item>
 
-
-
-
-
-
-
-
+		<item id="default_royal_mail_intl_signed_europe_zone_1">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_intl_signed_europe_zone_1_rates">
+			<type>textarea</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_royal_mail_intl_signed_europe_zone_2">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_intl_signed_europe_zone_2_rates">
+			<type>textarea</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_royal_mail_intl_signed_europe_zone_3">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_intl_signed_europe_zone_3_rates">
+			<type>textarea</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_royal_mail_intl_signed_world_zone_1">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_intl_signed_world_zone_1_rates">
+			<type>textarea</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_royal_mail_intl_signed_world_zone_2">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_intl_signed_world_zone_2_rates">
+			<type>textarea</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_royal_mail_intl_signed_world_zone_3">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_intl_signed_world_zone_3_rates">
+			<type>textarea</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_signed_europe_zone_1">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_signed_europe_zone_1_rates">
+			<type>textarea</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_signed_europe_zone_2">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_signed_europe_zone_2_rates">
+			<type>textarea</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_signed_europe_zone_3">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_signed_europe_zone_3_rates">
+			<type>textarea</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_signed_world_zone_1">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_signed_world_zone_1_rates">
+			<type>textarea</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_signed_world_zone_2">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_signed_world_zone_2_rates">
+			<type>textarea</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_signed_world_zone_3">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_signed_world_zone_3_rates">
+			<type>textarea</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_europe_zone_1">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_europe_zone_1_rates">
+			<type>textarea</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_europe_zone_2">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_europe_zone_2_rates">
+			<type>textarea</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_europe_zone_3">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_europe_zone_3_rates">
+			<type>textarea</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_world_zone_1">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_world_zone_1_rates">
+			<type>textarea</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_world_zone_2">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_world_zone_2_rates">
+			<type>textarea</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_world_zone_3">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_world_zone_3_rates">
+			<type>textarea</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_heavier_europe_zone_1">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_heavier_europe_zone_1_rates">
+			<type>textarea</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_heavier_europe_zone_2">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_heavier_europe_zone_2_rates">
+			<type>textarea</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_heavier_europe_zone_3">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_heavier_europe_zone_3_rates">
+			<type>textarea</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_heavier_world_zone_1">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_heavier_world_zone_1_rates">
+			<type>textarea</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_heavier_world_zone_2">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_heavier_world_zone_2_rates">
+			<type>textarea</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_heavier_world_zone_3">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_intl_tracked_heavier_world_zone_3_rates">
+			<type>textarea</type>
+			<default_value></default_value>
+		</item>
 
 		<item id="default_royal_mail_intl_free">
 			<type>selectbox</type>
 			<variants>
-				<item>standard_economy_eu_1</item>
-				<item>standard_economy_eu_2</item>
-				<item>standard_economy_eu_3</item>
-				<item>standard_economy_world_1</item>
-				<item>standard_economy_world_2</item>
-				<item>standard_economy_world_3</item>
-				<item>standard_priority_eu_1</item>
-				<item>standard_priority_eu_2</item>
-				<item>standard_priority_eu_3</item>
-				<item>standard_priority_world_1</item>
-				<item>standard_priority_world_2</item>
-				<item>standard_priority_world_3</item>
-				<item>signed_eu_1</item>
-				<item>signed_eu_2</item>
-				<item>signed_eu_3</item>
-				<item>signed_world_1</item>
-				<item>signed_world_2</item>
-				<item>signed_world_3</item>
-				<item>tracked_signed_eu_1</item>
-				<item>tracked_signed_eu_2</item>
-				<item>tracked_signed_eu_3</item>
-				<item>tracked_signed_world_1</item>
-				<item>tracked_signed_world_2</item>
-				<item>tracked_signed_world_3</item>
-				<item>tracked_eu_1</item>
-				<item>tracked_eu_2</item>
-				<item>tracked_eu_3</item>
-				<item>tracked_world_1</item>
-				<item>tracked_world_2</item>
-				<item>tracked_world_3</item>
-				<item>tracked_heavier_eu_1</item>
-				<item>tracked_heavier_eu_2</item>
-				<item>tracked_heavier_eu_3</item>
-				<item>tracked_heavier_world_1</item>
-				<item>tracked_heavier_world_2</item>
-				<item>tracked_heavier_world_3</item>
+				<item>standard_economy_europe_zone_1</item>
+				<item>standard_economy_europe_zone_2</item>
+				<item>standard_economy_europe_zone_3</item>
+				<item>standard_economy_world_zone_1</item>
+				<item>standard_economy_world_zone_2</item>
+				<item>standard_economy_world_zone_3</item>
+				<item>standard_priority_europe_zone_1</item>
+				<item>standard_priority_europe_zone_2</item>
+				<item>standard_priority_europe_zone_3</item>
+				<item>standard_priority_world_zone_1</item>
+				<item>standard_priority_world_zone_2</item>
+				<item>standard_priority_world_zone_3</item>
+				<item>signed_europe_zone_1</item>
+				<item>signed_europe_zone_2</item>
+				<item>signed_europe_zone_3</item>
+				<item>signed_world_zone_1</item>
+				<item>signed_world_zone_2</item>
+				<item>signed_world_zone_3</item>
+				<item>tracked_signed_europe_zone_1</item>
+				<item>tracked_signed_europe_zone_2</item>
+				<item>tracked_signed_europe_zone_3</item>
+				<item>tracked_signed_world_zone_1</item>
+				<item>tracked_signed_world_zone_2</item>
+				<item>tracked_signed_world_zone_3</item>
+				<item>tracked_europe_zone_1</item>
+				<item>tracked_europe_zone_2</item>
+				<item>tracked_europe_zone_3</item>
+				<item>tracked_world_zone_1</item>
+				<item>tracked_world_zone_2</item>
+				<item>tracked_world_zone_3</item>
+				<item>tracked_heavier_europe_zone_1</item>
+				<item>tracked_heavier_europe_zone_2</item>
+				<item>tracked_heavier_europe_zone_3</item>
+				<item>tracked_heavier_world_zone_1</item>
+				<item>tracked_heavier_world_zone_2</item>
+				<item>tracked_heavier_world_zone_3</item>
 			</variants>
 		</item>
 
@@ -555,10 +547,6 @@
 			<default_value>0</default_value>
 		</item>
 		<item id="default_royal_mail_display_insurance">
-			<type>checkbox</type>
-			<default_value>0</default_value>
-		</item>
-		<item id="default_royal_mail_display_time">
 			<type>checkbox</type>
 			<default_value>0</default_value>
 		</item>
@@ -604,4 +592,7 @@
 			</variants>
 		</item>
 	</settings>
+	<install>
+		<trigger>install.php</trigger>
+	</install>
 </extension>

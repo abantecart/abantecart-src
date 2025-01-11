@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  Licence details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -28,39 +28,45 @@ if (!defined('DIR_CORE')) {
  */
 class ModelExtensionDefaultRoyalMail extends Model
 {
+    public $lang;
+    public function __construct($registry)
+    {
+        parent::__construct($registry);
+        //create new instance of language for case when model called from admin-side
+        $this->lang = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
+        $this->lang->load($this->lang->language_details['directory']);
+        $this->lang->load('default_royal_mail/default_royal_mail');
+    }
+
     function getQuote($address)
     {
-        //create new instance of language for case when model called from admin-side
-        $language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
-        $language->load($language->language_details['directory']);
-        $language->load('default_royal_mail/default_royal_mail');
+        $language = $this->lang;
         $weight = 0;
         if ($this->config->get('default_royal_mail_status')) {
             if (!$this->config->get('default_royal_mail_location_id')) {
                 $status = true;
             } else {
-                $query = $this->db->query("SELECT *
-                                            FROM ".$this->db->table('zones_to_locations')."
-                                            WHERE location_id = '".(int)$this->config->get('default_royal_mail_location_id')."'
-                                                AND country_id = '".(int)$address['country_id']."'
-                                                AND (zone_id = '".(int)$address['zone_id']."' OR zone_id = '0')");
-                if ($query->num_rows) {
-                    $status = true;
-                } else {
-                    $status = false;
-                }
+                $query = $this->db->query(
+                    "SELECT *
+                    FROM ".$this->db->table('zones_to_locations')."
+                    WHERE location_id = '".(int)$this->config->get('default_royal_mail_location_id')."'
+                        AND country_id = '".(int)$address['country_id']."'
+                        AND (zone_id = '".(int)$address['zone_id']."' OR zone_id = '0')"
+                );
+                $status = (bool)$query->num_rows;
             }
         } else {
             $status = false;
         }
 
-        $method_data = array();
+        $method_data = [];
         if (!$status) {
             return $method_data;
         }
-        $quote_data = array();
+        $quote_data = [];
         //build array with cost for shipping
-        $generic_product_ids = $free_shipping_ids = $shipping_price_ids = array(); // ids of products without special shipping cost
+        // ids of products without special shipping cost
+        $generic_product_ids = $free_shipping_ids = $shipping_price_ids = [];
         $shipping_price_cost = 0; // total shipping cost of product with fixed shipping price
         $cart_products = $this->cart->getProducts();
         foreach ($cart_products as $product) {
@@ -81,641 +87,216 @@ class ModelExtensionDefaultRoyalMail extends Model
             //WHEN ONLY PRODUCTS WITH FIXED SHIPPING PRICES ARE IN BASKET
             if (!$api_weight_product_ids) {
                 $cost = $shipping_price_cost;
-                $quote_data['default_royal_mail'] = array(
+                $quote_data['default_royal_mail'] = [
                     'id'           => 'default_royal_mail.default_royal_mail',
                     'title'        => $language->get('text_title'),
                     'cost'         => $cost,
                     'tax_class_id' => $this->config->get('default_royal_mail_tax_class_id'),
                     'text'         => $this->currency->format(
-                        $this->tax->calculate($this->currency->convert($cost,
-                            $this->config->get('config_currency'),
-                            $this->currency->getCode()),
+                        $this->tax->calculate(
+                            $this->currency->convert(
+                                $cost,
+                                $this->config->get('config_currency'),
+                                $this->currency->getCode()
+                            ),
                             $this->config->get('default_royal_mail_tax_class_id'),
                             $this->config->get('config_tax')),
                         $this->currency->getCode(),
                         1.0000000),
-                );
+                ];
 
-                $method_data = array(
+                return [
                     'id'         => 'default_royal_mail',
                     'title'      => $language->get('text_title'),
                     'quote'      => $quote_data,
                     'sort_order' => $this->config->get('default_royal_mail_sort_order'),
                     'error'      => '',
-                );
-                return $method_data;
+                ];
             }
         } else {
             $api_weight_product_ids = $shipping_price_ids;
         }
 
         if ($api_weight_product_ids) {
+            //get weight non-free shipping products only
             $weight = $this->weight->convert(
-                $this->cart->getWeight($api_weight_product_ids), //get weight non-free shipping products only
+                $this->cart->getWeight($api_weight_product_ids),
                 $this->config->get('config_weight_class'),
                 $this->config->get('default_royal_mail_weight_class')
             );
-            $weight = ($weight < 0.1 ? 0.1 : $weight);
+            $weight = max($weight, 0.1);
         }
 
-        $weight = ($weight < 0.1 ? 0.1 : $weight);
+        $weight = max($weight, 0.1);
 
         // FOR CASE WHEN ONLY FREE SHIPPING PRODUCTS IN BASKET
-
         if (!$api_weight_product_ids && $free_shipping_ids) {
             if ($address['iso_code_2'] == 'GB') {
                 $method_name = 'default_royal_mail_'.$this->config->get('default_royal_mail_free_gb');
-                $text = $language->get($method_name);
             } else {
-                $method_name = 'default_royal_mail_'.$this->config->get('default_royal_mail_free');
-                $text = $language->get($method_name);
+                $method_name = 'default_royal_mail_intl_'.$this->config->get('default_royal_mail_free');
             }
+            $text = $language->get($method_name);
 
-            $quote_data[$method_name] = array(
+            $quote_data[$method_name] = [
                 'id'           => 'default_royal_mail.'.$method_name,
                 'title'        => $text,
                 'cost'         => 0.0,
                 'tax_class_id' => $this->config->get('default_royal_mail_tax_class_id'),
                 'text'         => $language->get('text_free'),
-            );
+            ];
 
-            $method_data = array(
+            return [
                 'id'         => 'default_royal_mail',
                 'title'      => $language->get('text_title'),
                 'quote'      => $quote_data,
                 'sort_order' => $this->config->get('default_royal_mail_sort_order'),
                 'error'      => '',
-            );
-
-            return $method_data;
+            ];
         }
 
         $sub_total = $this->cart->getSubTotal();
-
-        if ($this->config->get('default_royal_mail_1st_class_standard') && $address['iso_code_2'] == 'GB') {
-            $cost = 0;
-            $compensation = 0;
-
-            $rates = explode(',', $this->config->get('default_royal_mail_1st_class_standard_rates'));
-            foreach ($rates as $rate) {
-                $data = explode(':', $rate);
-
-                if ($data[0] >= $weight) {
-                    if (isset($data[1])) {
-                        $cost = $data[1];
-                    }
-                    break;
-                }
+        /** UK */
+        $methods = ['1st_class', '2nd_class', 'tracked24','tracked48', 'mail24','mail48', 'sameday','special_delivery_guaranteed'];
+        foreach($methods as $method) {
+            if (!$this->config->get('default_royal_mail_'.$method) || $address['iso_code_2'] != 'GB'){
+                continue;
             }
-
-            $rates = explode(',', $this->config->get('default_royal_mail_1st_class_standard_compensation_rates'));
-
-            foreach ($rates as $rate) {
-                $data = explode(':', $rate);
-
-                if ($data[0] >= $sub_total) {
-                    if (isset($data[1])) {
-                        $compensation = $data[1];
-                    }
-
-                    break;
-                }
-            }
-
-            if ((float)$cost) {
-                $title = $language->get('default_royal_mail_1st_class_standard');
-
-                if ($this->config->get('default_royal_mail_display_weight')) {
-                    $title .= ' ('.$language->get('default_royal_mail_weight').' '.$this->weight->format($weight,
-                            $this->config->get('default_royal_mail_weight_class')).')';
-                }
-
-                if ($this->config->get('default_royal_mail_display_insurance') && (float)$compensation) {
-                    $title .= ' ('.$language->get('default_royal_mail_insurance').' '.$this->currency->format($compensation).')';
-                }
-
-                if ($this->config->get('default_royal_mail_display_time')) {
-                    $title .= ' ('.$language->get('default_royal_mail_eta').')';
-                }
-
-                if ($generic_product_ids) {
-                    $cost += $shipping_price_cost;
-                }
-
-                $quote_data['default_royal_mail_1st_class_standard'] = array(
-                    'id'           => 'default_royal_mail.default_royal_mail_1st_class_standard',
-                    'title'        => $title,
-                    'cost'         => $cost,
-                    'tax_class_id' => $this->config->get('default_royal_mail_tax'),
-                    'text'         => $this->currency->format($this->tax->calculate($cost,
-                        $this->config->get('default_royal_mail_tax'), $this->config->get('config_tax'))),
-                );
-            }
+            $this->processMethod(
+                [
+                    'international' => false,
+                    'method'        => $method,
+                    'price_zone'    => null,
+                    'weight'        => $weight,
+                    'sub_total'     => $sub_total,
+                    'shipping_cost' => $shipping_price_cost,
+                    'generic_product_ids' => $generic_product_ids
+                ],
+                $quote_data
+            );
         }
 
-        if ($this->config->get('default_royal_mail_1st_class_recorded') && $address['iso_code_2'] == 'GB') {
-            $cost = 0;
-            $compensation = 0;
-
-            $rates = explode(',', $this->config->get('default_royal_mail_1st_class_recorded_rates_gb'));
-            foreach ($rates as $rate) {
-                $data = explode(':', $rate);
-
-                if ($data[0] >= $weight) {
-                    if (isset($data[1])) {
-                        $cost = $data[1];
-                    }
-
-                    break;
-                }
-            }
-
-            $rates = explode(',', $this->config->get('default_royal_mail_1st_class_recorded_compensation_rates_gb'));
-
-            foreach ($rates as $rate) {
-                $data = explode(':', $rate);
-
-                if ($data[0] >= $sub_total) {
-                    if (isset($data[1])) {
-                        $compensation = $data[1];
-                    }
-                    break;
-                }
-            }
-
-            if ((float)$cost) {
-                $title = $language->get('default_royal_mail_1st_class_recorded');
-
-                if ($this->config->get('default_royal_mail_display_weight')) {
-                    $title .= ' ('.$language->get('default_royal_mail_weight').' '.$this->weight->format($weight,
-                            $this->config->get('default_royal_mail_weight_class')).')';
-                }
-
-                if ($this->config->get('default_royal_mail_display_insurance') && (float)$compensation) {
-                    $title .= ' ('.$language->get('default_royal_mail_insurance').' '.$this->currency->format($compensation).')';
-                }
-
-                if ($this->config->get('default_royal_mail_display_time')) {
-                    $title .= ' ('.$language->get('default_royal_mail_eta').')';
-                }
-
-                if ($generic_product_ids) {
-                    $cost += $shipping_price_cost;
-                }
-
-                $quote_data['default_royal_mail_1st_class_recorded'] = array(
-                    'id'           => 'default_royal_mail.default_royal_mail_1st_class_recorded',
-                    'title'        => $title,
-                    'cost'         => $cost,
-                    'tax_class_id' => $this->config->get('default_royal_mail_tax'),
-                    'text'         => $this->currency->format($this->tax->calculate($cost,
-                        $this->config->get('default_royal_mail_tax'), $this->config->get('config_tax'))),
-                );
-            }
-        }
-
-        if ($this->config->get('default_royal_mail_2nd_class_standard') && $address['iso_code_2'] == 'GB') {
-            $cost = 0;
-
-            $rates = explode(',', $this->config->get('default_royal_mail_2nd_class_standard_rates'));
-            foreach ($rates as $rate) {
-                $data = explode(':', $rate);
-
-                if ($data[0] >= $weight) {
-                    if (isset($data[1])) {
-                        $cost = $data[1];
-                    }
-
-                    break;
-                }
-            }
-
-            if ((float)$cost) {
-                $title = $language->get('default_royal_mail_2nd_class_standard');
-
-                if ($this->config->get('default_royal_mail_display_weight')) {
-                    $title .= ' ('.$language->get('default_royal_mail_weight').' '.$this->weight->format($weight,
-                            $this->config->get('default_royal_mail_weight_class')).')';
-                }
-
-                if ($this->config->get('default_royal_mail_display_time')) {
-                    $title .= ' ('.$language->get('default_royal_mail_eta').')';
-                }
-
-                if ($generic_product_ids) {
-                    $cost += $shipping_price_cost;
-                }
-
-                $quote_data['default_royal_mail_2nd_class_standard'] = array(
-                    'id'           => 'default_royal_mail.default_royal_mail_2nd_class_standard',
-                    'title'        => $title,
-                    'cost'         => $cost,
-                    'tax_class_id' => $this->config->get('default_royal_mail_tax'),
-                    'text'         => $this->currency->format($this->tax->calculate($cost,
-                        $this->config->get('default_royal_mail_tax'), $this->config->get('config_tax'))),
-                );
-            }
-        }
-
-        if ($this->config->get('default_royal_mail_2nd_class_recorded') && $address['iso_code_2'] == 'GB') {
-            $cost = 0;
-            $compensation = 0;
-
-            $rates = explode(',', $this->config->get('default_royal_mail_2nd_class_recorded_rates_gb'));
-            foreach ($rates as $rate) {
-                $data = explode(':', $rate);
-
-                if ($data[0] >= $weight) {
-                    if (isset($data[1])) {
-                        $cost = $data[1];
-                    }
-
-                    break;
-                }
-            }
-
-            $rates = explode(',', $this->config->get('default_royal_mail_2nd_class_recorded_compensation_rates_gb'));
-
-            foreach ($rates as $rate) {
-                $data = explode(':', $rate);
-
-                if ($data[0] >= $sub_total) {
-                    if (isset($data[1])) {
-                        $compensation = $data[1];
-                    }
-
-                    break;
-                }
-            }
-
-            if ((float)$cost) {
-                $title = $language->get('default_royal_mail_2nd_class_recorded');
-
-                if ($this->config->get('default_royal_mail_display_weight')) {
-                    $title .= ' ('.$language->get('default_royal_mail_weight').' '.$this->weight->format($weight,
-                            $this->config->get('default_royal_mail_weight_class')).')';
-                }
-
-                if ($this->config->get('default_royal_mail_display_insurance') && (float)$compensation) {
-                    $title .= ' ('.$language->get('default_royal_mail_insurance').' '.$this->currency->format($compensation).')';
-                }
-
-                if ($this->config->get('default_royal_mail_display_time')) {
-                    $title .= ' ('.$language->get('default_royal_mail_eta').')';
-                }
-
-                if ($generic_product_ids) {
-                    $cost += $shipping_price_cost;
-                }
-
-                $quote_data['default_royal_mail_2nd_class_recorded'] = array(
-                    'id'           => 'default_royal_mail.default_royal_mail_2nd_class_recorded',
-                    'title'        => $title,
-                    'cost'         => $cost,
-                    'tax_class_id' => $this->config->get('default_royal_mail_tax'),
-                    'text'         => $this->currency->format($this->tax->calculate($cost,
-                        $this->config->get('default_royal_mail_tax'), $this->config->get('config_tax'))),
-                );
-            }
-        }
-
-        if ($this->config->get('default_royal_mail_standard_parcels') && $address['iso_code_2'] == 'GB') {
-            $cost = 0;
-            $compensation = 0;
-
-            $rates = explode(',', $this->config->get('default_royal_mail_standard_parcels_rates_gb'));
-
-            foreach ($rates as $rate) {
-                $data = explode(':', $rate);
-
-                if ($data[0] >= $weight) {
-                    if (isset($data[1])) {
-                        $cost = $data[1];
-                    }
-
-                    break;
-                }
-            }
-
-            $rates = explode(',', $this->config->get('default_royal_mail_standard_parcels_compensation_rates_gb'));
-
-            foreach ($rates as $rate) {
-                $data = explode(':', $rate);
-
-                if ($data[0] >= $sub_total) {
-                    if (isset($data[1])) {
-                        $compensation = $data[1];
-                    }
-
-                    break;
-                }
-            }
-
-            if ((float)$cost) {
-                $title = $language->get('default_royal_mail_standard_parcels');
-
-                if ($this->config->get('default_royal_mail_display_weight')) {
-                    $title .= ' ('.$language->get('default_royal_mail_weight').' '.$this->weight->format($weight,
-                            $this->config->get('default_royal_mail_weight_class')).')';
-                }
-
-                if ($this->config->get('default_royal_mail_display_insurance') && (float)$compensation) {
-                    $title .= ' ('.$language->get('default_royal_mail_insurance').' '.$this->currency->format($compensation).')';
-                }
-
-                if ($this->config->get('default_royal_mail_display_time')) {
-                    $title .= ' ('.$language->get('default_royal_mail_eta').')';
-                }
-
-                if ($generic_product_ids) {
-                    $cost += $shipping_price_cost;
-                }
-
-                $quote_data['default_royal_mail_standard_parcels'] = array(
-                    'id'           => 'default_royal_mail.default_royal_mail_standard_parcels',
-                    'title'        => $title,
-                    'cost'         => $cost,
-                    'tax_class_id' => $this->config->get('default_royal_mail_tax'),
-                    'text'         => $this->currency->format($this->tax->calculate($cost,
-                        $this->config->get('default_royal_mail_tax'), $this->config->get('config_tax'))),
-                );
-            }
-        }
+        //international delivery
         if ($address['iso_code_2'] != 'GB') {
-            if ($this->config->get('default_royal_mail_airmail')) {
-                $cost = 0;
-
-                $countries = unserialize($this->config->get('default_royal_mail_airmail_countries'));
-
-                if (in_array($address['iso_code_2'], $countries)) {
-                    $rates = explode(',', $this->config->get('default_royal_mail_airmail_in_countries_rates'));
-                } else {
-                    $rates = explode(',', $this->config->get('default_royal_mail_airmail_not_in_countries_rates'));
+            $customerPriceZone = [];
+            $rmZones = ['europe_zone_1','europe_zone_2','europe_zone_3','world_zone_1','world_zone_2','world_zone_3'];
+            foreach($rmZones as $rmZone) {
+                $cList = unserialize($this->config->get('default_royal_mail_intl_'.$rmZone));
+                if(!$cList || !in_array($address['iso_code_2'], $cList)){
+                    continue;
                 }
-
-                foreach ($rates as $rate) {
-                    $data = explode(':', $rate);
-
-                    if ($data[0] >= $weight) {
-                        if (isset($data[1])) {
-                            $cost = $data[1];
-                        }
-
-                        break;
-                    }
-                }
-
-                if ((float)$cost) {
-                    $title = $language->get('default_royal_mail_airmail');
-
-                    if ($this->config->get('default_royal_mail_display_weight')) {
-                        $title .= ' ('.$language->get('default_royal_mail_weight').' '.$this->weight->format($weight,
-                                $this->config->get('default_royal_mail_weight_class')).')';
-                    }
-
-                    if ($this->config->get('default_royal_mail_display_time')) {
-                        $title .= ' ('.$language->get('default_royal_mail_eta').')';
-                    }
-
-                    if ($generic_product_ids) {
-                        $cost += $shipping_price_cost;
-                    }
-
-                    $quote_data['default_royal_mail_airmail'] = array(
-                        'id'           => 'default_royal_mail.default_royal_mail_airmail',
-                        'title'        => $title,
-                        'cost'         => $cost,
-                        'tax_class_id' => $this->config->get('default_royal_mail_tax'),
-                        'text'         => $this->currency->format($this->tax->calculate($cost,
-                            $this->config->get('default_royal_mail_tax'), $this->config->get('config_tax'))),
-                    );
-                }
+                $customerPriceZone[] = $rmZone;
             }
-
-            if ($this->config->get('default_royal_mail_international_signed')) {
-                $cost = 0;
-                $compensation = 0;
-
-                $countries = unserialize($this->config->get('default_royal_mail_international_signed_countries'));
-
-                if (in_array($address['iso_code_2'], $countries)) {
-                    $rates = explode(',',
-                        $this->config->get('default_royal_mail_international_signed_in_countries_rates'));
-                } else {
-                    $rates = explode(',',
-                        $this->config->get('default_royal_mail_international_signed_not_in_countries_rates'));
-                }
-
-                foreach ($rates as $rate) {
-                    $data = explode(':', $rate);
-
-                    if ($data[0] >= $weight) {
-                        if (isset($data[1])) {
-                            $cost = $data[1];
-                        }
-
-                        break;
-                    }
-                }
-
-                if (in_array($address['iso_code_2'], $countries)) {
-                    $rates = explode(',',
-                        $this->config->get('default_royal_mail_international_signed_in_countries_c_rates'));
-                } else {
-                    $rates = explode(',',
-                        $this->config->get('default_royal_mail_international_signed_not_in_countries_c_rates'));
-                }
-
-                foreach ($rates as $rate) {
-                    $data = explode(':', $rate);
-
-                    if ($data[0] >= $sub_total) {
-                        if (isset($data[1])) {
-                            $compensation = $data[1];
-                        }
-
-                        break;
-                    }
-                }
-
-                if ((float)$cost) {
-                    $title = $language->get('default_royal_mail_international_signed');
-
-                    if ($this->config->get('default_royal_mail_display_weight')) {
-                        $title .= ' ('.$language->get('default_royal_mail_weight').' '.$this->weight->format($weight,
-                                $this->config->get('default_royal_mail_weight_class')).')';
-                    }
-
-                    if ($this->config->get('default_royal_mail_display_insurance') && (float)$compensation) {
-                        $title .= ' ('.$language->get('default_royal_mail_insurance').' '.$this->currency->format($compensation).')';
-                    }
-
-                    if ($this->config->get('default_royal_mail_display_time')) {
-                        $title .= ' ('.$language->get('default_royal_mail_eta').')';
-                    }
-
-                    if ($generic_product_ids) {
-                        $cost += $shipping_price_cost;
-                    }
-
-                    $quote_data['default_royal_mail_international_signed'] = array(
-                        'id'           => 'default_royal_mail.default_royal_mail_international_signed',
-                        'title'        => $title,
-                        'cost'         => $cost,
-                        'tax_class_id' => $this->config->get('default_royal_mail_tax'),
-                        'text'         => $this->currency->format($this->tax->calculate($cost,
-                            $this->config->get('default_royal_mail_tax'), $this->config->get('config_tax'))),
-                    );
-                }
+            // if country not found - escape
+            if(!$customerPriceZone){
+                return [];
             }
-
-            if ($this->config->get('default_royal_mail_airsure')) {
-                $cost = 0;
-                $compensation = 0;
-
-                $rates = array();
-
-                $countries = (array)unserialize($this->config->get('default_royal_mail_airsure_countries'));
-
-                if (in_array($address['iso_code_2'], $countries)) {
-                    $rates = explode(',', $this->config->get('default_royal_mail_airsure_in_countries_rates'));
-                }
-
-                $countries = (array)unserialize($this->config->get('default_royal_mail_airsure_countries_2'));
-
-                if (in_array($address['iso_code_2'], $countries)) {
-                    $rates = explode(',', $this->config->get('default_royal_mail_airsure_in_countries_2_rates'));
-                }
-
-                foreach ($rates as $rate) {
-                    $data = explode(':', $rate);
-
-                    if ($data[0] >= $weight) {
-                        if (isset($data[1])) {
-                            $cost = $data[1];
-                        }
-
-                        break;
-                    }
-                }
-
-                $rates = array();
-
-                $countries = (array)unserialize($this->config->get('default_royal_mail_airsure_countries_3'));
-
-                if (in_array($address['iso_code_2'], $countries)) {
-                    $rates = explode(',', $this->config->get('default_royal_mail_airsure_in_countries_3_rates'));
-                }
-
-                $countries = (array)unserialize($this->config->get('default_royal_mail_airsure_countries_4'));
-
-                if (in_array($address['iso_code_2'], $countries)) {
-                    $rates = explode(',', $this->config->get('default_royal_mail_airsure_in_countries_4_rates'));
-                }
-
-                foreach ($rates as $rate) {
-                    $data = explode(':', $rate);
-
-                    if ($data[0] >= $sub_total) {
-                        if (isset($data[1])) {
-                            $compensation = $data[1];
-                        }
-
-                        break;
-                    }
-                }
-
-                if ((float)$cost) {
-                    $title = $language->get('default_royal_mail_airsure');
-
-                    if ($this->config->get('default_royal_mail_display_weight')) {
-                        $title .= ' ('.$language->get('default_royal_mail_weight').' '.$this->weight->format($weight,
-                                $this->config->get('default_royal_mail_weight_class')).')';
+            $methods = ['standard_economy','standard_priority','signed','tracked_signed','tracked', 'tracked_heavier'];
+            foreach($methods as $method) {
+                foreach ($customerPriceZone as $priceZone) {
+                    if (!$this->config->get('default_royal_mail_intl_'.$method.'_'.$priceZone)){
+                        continue;
                     }
 
-                    if ($this->config->get('default_royal_mail_display_insurance') && (float)$compensation) {
-                        $title .= ' ('.$language->get('default_royal_mail_insurance').' '.$this->currency->format($compensation).')';
-                    }
-
-                    if ($this->config->get('default_royal_mail_display_time')) {
-                        $title .= ' ('.$language->get('default_royal_mail_eta').')';
-                    }
-
-                    if ($generic_product_ids) {
-                        $cost += $shipping_price_cost;
-                    }
-
-                    $quote_data['default_royal_mail_airsure'] = array(
-                        'id'           => 'default_royal_mail.default_royal_mail_airsure',
-                        'title'        => $title,
-                        'cost'         => $cost,
-                        'tax_class_id' => $this->config->get('default_royal_mail_tax'),
-                        'text'         => $this->currency->format($this->tax->calculate($cost,
-                            $this->config->get('default_royal_mail_tax'), $this->config->get('config_tax'))),
-                    );
-                }
-            }
-
-            if ($this->config->get('default_royal_mail_surface')) {
-                $cost = 0;
-                $compensation = 0;
-
-                $rates = explode(',', $this->config->get('default_royal_mail_surface_rates'));
-
-                foreach ($rates as $rate) {
-                    $data = explode(':', $rate);
-
-                    if ($data[0] >= $weight) {
-                        if (isset($data[1])) {
-                            $cost = $data[1];
-                        }
-
-                        break;
-                    }
-                }
-
-                if ((float)$cost) {
-                    $title = $language->get('default_royal_mail_surface');
-
-                    if ($this->config->get('default_royal_mail_display_weight')) {
-                        $title .= ' ('.$language->get('default_royal_mail_weight').' '.$this->weight->format($weight,
-                                $this->config->get('default_royal_mail_weight_class')).')';
-                    }
-
-                    if ($this->config->get('default_royal_mail_display_insurance') && (float)$compensation) {
-                        $title .= ' ('.$language->get('default_royal_mail_insurance').' '.$this->currency->format($compensation).')';
-                    }
-
-                    if ($this->config->get('default_royal_mail_display_time')) {
-                        $title .= ' ('.$language->get('default_royal_mail_eta').')';
-                    }
-
-                    if ($generic_product_ids) {
-                        $cost += $shipping_price_cost;
-                    }
-
-                    $quote_data['default_royal_mail_surface'] = array(
-                        'id'           => 'default_royal_mail.default_royal_mail_surface',
-                        'title'        => $title,
-                        'cost'         => $cost,
-                        'tax_class_id' => $this->config->get('default_royal_mail_tax'),
-                        'text'         => $this->currency->format($this->tax->calculate($cost,
-                            $this->config->get('default_royal_mail_tax'), $this->config->get('config_tax'))),
+                    $this->processMethod(
+                        [
+                            'international' => true,
+                            'method'        => $method,
+                            'price_zone'    => $priceZone,
+                            'weight'        => $weight,
+                            'sub_total'     => $sub_total,
+                            'shipping_cost' => $shipping_price_cost,
+                            'generic_product_ids' => $generic_product_ids
+                        ],
+                        $quote_data
                     );
                 }
             }
         }
 
         if ($quote_data) {
-            $method_data = array(
+            $shippingTitle = $language->get('text_title');
+            if ($this->config->get('default_royal_mail_display_weight')) {
+                $shippingTitle .= ' ('.$language->get('default_royal_mail_weight').' '.$this->weight->format($weight,
+                        $this->config->get('default_royal_mail_weight_class')).')';
+            }
+            $method_data = [
                 'id'         => 'default_royal_mail.default_royal_mail',
-                'title'      => $language->get('text_title'),
+                'title'      => $shippingTitle,
                 'quote'      => $quote_data,
                 'sort_order' => $this->config->get('default_royal_mail_sort_order'),
                 'error'      => false,
-            );
+            ];
         }
 
         return $method_data;
+    }
+
+    /**
+     * @param array $data
+     * @param array $quote_data
+     * @return void
+     * @throws AException
+     */
+    protected function processMethod(array $data, array &$quote_data)
+    {
+        extract($data);
+        $language = $this->lang;
+        $cost = 0.0;
+        $compensation = 0.0;
+
+        $methodTxtId = $method;
+        if($international) {
+            $method = 'intl_'.$method;
+            $methodTxtId = $method.'_'.$price_zone;
+        }
+
+        $rates = explode(',', $this->config->get('default_royal_mail_'.$methodTxtId.'_rates'));
+        foreach ($rates as $rate) {
+            list($rateWeight,$ratePrice) = explode(':', $rate);
+            if ($rateWeight >= $weight) {
+                if (isset($ratePrice)) {
+                    $cost = (float)$ratePrice;
+                }
+                break;
+            }
+        }
+
+        $rates = explode(',', $this->config->get('default_royal_mail_'.$methodTxtId.'_compensation_rates'));
+        foreach ($rates as $rate) {
+            list($rateSubtotal,$ratePrice) = explode(':', $rate);
+            if ($rateSubtotal >= $sub_total) {
+                if (isset($ratePrice)) {
+                    $compensation = $ratePrice;
+                }
+                break;
+            }
+        }
+
+        if ($cost) {
+            $title = $language->get('default_royal_mail_'.$method);
+
+            if ($this->config->get('default_royal_mail_display_insurance') && (float)$compensation) {
+                $title .= ' ('.$language->get('default_royal_mail_insurance').' '.$this->currency->format($compensation).')';
+            }
+
+            if ($generic_product_ids) {
+                $cost += $shipping_price_cost;
+            }
+
+            $quote_data['default_royal_mail_'.$methodTxtId] = [
+                'id'           => 'default_royal_mail.default_royal_mail_'.$methodTxtId,
+                'title'        => $title,
+                'cost'         => $cost,
+                'tax_class_id' => $this->config->get('default_royal_mail_tax'),
+                'text'         => $this->currency->format(
+                    $this->tax->calculate(
+                        $cost,
+                        $this->config->get('default_royal_mail_tax'),
+                        $this->config->get('config_tax')
+                    )
+                ),
+            ];
+        }
     }
 }

@@ -179,296 +179,296 @@
 	</definition>
 
 	<definition>
-		<key>default_royal_mail_intl_standard_economy_eu_1</key>
+		<key>default_royal_mail_intl_standard_economy_europe_zone_1</key>
 		<value><![CDATA[International Standard Economy (Europe Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_standard_economy_eu_1_rates</key>
+		<key>default_royal_mail_intl_standard_economy_europe_zone_1_rates</key>
 		<value><![CDATA[Standard Economy Rates (Europe Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_standard_economy_eu_2</key>
+		<key>default_royal_mail_intl_standard_economy_europe_zone_2</key>
 		<value><![CDATA[International Standard Economy (Europe Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_standard_economy_eu_2_rates</key>
+		<key>default_royal_mail_intl_standard_economy_europe_zone_2_rates</key>
 		<value><![CDATA[Standard Economy Rates (Europe Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_standard_economy_eu_3</key>
+		<key>default_royal_mail_intl_standard_economy_europe_zone_3</key>
 		<value><![CDATA[International Standard Economy (Europe Zone 3)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_standard_economy_eu_3_rates</key>
+		<key>default_royal_mail_intl_standard_economy_europe_zone_3_rates</key>
 		<value><![CDATA[Standard Economy Rates (Europe Zone 3)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_standard_economy_world_1</key>
+		<key>default_royal_mail_intl_standard_economy_world_zone_1</key>
 		<value><![CDATA[International Standard Economy (World Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_standard_economy_world_1_rates</key>
+		<key>default_royal_mail_intl_standard_economy_world_zone_1_rates</key>
 		<value><![CDATA[Standard Economy Rates (World Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_standard_economy_world_2</key>
+		<key>default_royal_mail_intl_standard_economy_world_zone_2</key>
 		<value><![CDATA[International Standard Economy (World Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_standard_economy_world_2_rates</key>
+		<key>default_royal_mail_intl_standard_economy_world_zone_2_rates</key>
 		<value><![CDATA[Standard Economy Rates (World Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_standard_economy_world_3</key>
+		<key>default_royal_mail_intl_standard_economy_world_zone_3</key>
 		<value><![CDATA[International Standard Economy (World Zone 3)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_standard_economy_world_3_rates</key>
+		<key>default_royal_mail_intl_standard_economy_world_zone_3_rates</key>
 		<value><![CDATA[Standard Economy Rates (World Zone 3)]]></value>
 	</definition>
 
 	<definition>
-		<key>default_royal_mail_intl_standard_priority_eu_1</key>
+		<key>default_royal_mail_intl_standard_priority_europe_zone_1</key>
 		<value><![CDATA[International Standard Priority (Europe Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_standard_priority_eu_1_rates</key>
+		<key>default_royal_mail_intl_standard_priority_europe_zone_1_rates</key>
 		<value><![CDATA[Standard Priority Rates (Europe Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_standard_priority_eu_2</key>
+		<key>default_royal_mail_intl_standard_priority_europe_zone_2</key>
 		<value><![CDATA[International Standard Priority (Europe Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_standard_priority_eu_2_rates</key>
+		<key>default_royal_mail_intl_standard_priority_europe_zone_2_rates</key>
 		<value><![CDATA[Standard Priority Rates (Europe Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_standard_priority_eu_3</key>
+		<key>default_royal_mail_intl_standard_priority_europe_zone_3</key>
 		<value><![CDATA[International Standard Priority (Europe Zone 3)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_standard_priority_eu_3_rates</key>
+		<key>default_royal_mail_intl_standard_priority_europe_zone_3_rates</key>
 		<value><![CDATA[Standard Priority Rates (Europe Zone 3)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_standard_priority_world_1</key>
+		<key>default_royal_mail_intl_standard_priority_world_zone_1</key>
 		<value><![CDATA[International Standard Priority (World Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_standard_priority_world_1_rates</key>
+		<key>default_royal_mail_intl_standard_priority_world_zone_1_rates</key>
 		<value><![CDATA[Standard Priority Rates (World Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_standard_priority_world_2</key>
+		<key>default_royal_mail_intl_standard_priority_world_zone_2</key>
 		<value><![CDATA[International Standard Priority (World Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_standard_priority_world_2_rates</key>
+		<key>default_royal_mail_intl_standard_priority_world_zone_2_rates</key>
 		<value><![CDATA[Standard Priority Rates (World Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_standard_priority_world_3</key>
+		<key>default_royal_mail_intl_standard_priority_world_zone_3</key>
 		<value><![CDATA[International Standard Priority (World Zone 3)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_standard_priority_world_3_rates</key>
+		<key>default_royal_mail_intl_standard_priority_world_zone_3_rates</key>
 		<value><![CDATA[Standard Priority Rates (World Zone 3)]]></value>
 	</definition>
 
 	<definition>
-		<key>default_royal_mail_intl_signed_eu_1</key>
+		<key>default_royal_mail_intl_signed_europe_zone_1</key>
 		<value><![CDATA[International Signed (Europe Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_signed_eu_1_rates</key>
+		<key>default_royal_mail_intl_signed_europe_zone_1_rates</key>
 		<value><![CDATA[Signed Rates (Europe Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_signed_eu_2</key>
+		<key>default_royal_mail_intl_signed_europe_zone_2</key>
 		<value><![CDATA[International Signed (Europe Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_signed_eu_2_rates</key>
+		<key>default_royal_mail_intl_signed_europe_zone_2_rates</key>
 		<value><![CDATA[Signed Rates (Europe Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_signed_eu_3</key>
+		<key>default_royal_mail_intl_signed_europe_zone_3</key>
 		<value><![CDATA[International Signed (Europe Zone 3)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_signed_eu_3_rates</key>
+		<key>default_royal_mail_intl_signed_europe_zone_3_rates</key>
 		<value><![CDATA[Signed Rates (Europe Zone 3)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_signed_world_1</key>
+		<key>default_royal_mail_intl_signed_world_zone_1</key>
 		<value><![CDATA[International Signed (World Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_signed_world_1_rates</key>
+		<key>default_royal_mail_intl_signed_world_zone_1_rates</key>
 		<value><![CDATA[Signed Rates (World Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_signed_world_2</key>
+		<key>default_royal_mail_intl_signed_world_zone_2</key>
 		<value><![CDATA[International Signed (World Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_signed_world_2_rates</key>
+		<key>default_royal_mail_intl_signed_world_zone_2_rates</key>
 		<value><![CDATA[Signed Rates (World Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_signed_world_3</key>
+		<key>default_royal_mail_intl_signed_world_zone_3</key>
 		<value><![CDATA[International Signed (World Zone 3)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_signed_world_3_rates</key>
+		<key>default_royal_mail_intl_signed_world_zone_3_rates</key>
 		<value><![CDATA[Signed Rates (World Zone 3)]]></value>
 	</definition>
 
 	<definition>
-		<key>default_royal_mail_intl_tracked_signed_eu_1</key>
+		<key>default_royal_mail_intl_tracked_signed_europe_zone_1</key>
 		<value><![CDATA[International Tracked Signed (Europe Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_signed_eu_1_rates</key>
+		<key>default_royal_mail_intl_tracked_signed_europe_zone_1_rates</key>
 		<value><![CDATA[Tracked Signed Rates (Europe Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_signed_eu_2</key>
+		<key>default_royal_mail_intl_tracked_signed_europe_zone_2</key>
 		<value><![CDATA[International Tracked Signed (Europe Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_signed_eu_2_rates</key>
+		<key>default_royal_mail_intl_tracked_signed_europe_zone_2_rates</key>
 		<value><![CDATA[Tracked Signed Rates (Europe Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_signed_eu_3</key>
+		<key>default_royal_mail_intl_tracked_signed_europe_zone_3</key>
 		<value><![CDATA[International Tracked Signed (Europe Zone 3)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_signed_eu_3_rates</key>
+		<key>default_royal_mail_intl_tracked_signed_europe_zone_3_rates</key>
 		<value><![CDATA[Tracked Signed Rates (Europe Zone 3)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_signed_world_1</key>
+		<key>default_royal_mail_intl_tracked_signed_world_zone_1</key>
 		<value><![CDATA[International Tracked Signed (World Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_signed_world_1_rates</key>
+		<key>default_royal_mail_intl_tracked_signed_world_zone_1_rates</key>
 		<value><![CDATA[Tracked Signed Rates (World Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_signed_world_2</key>
+		<key>default_royal_mail_intl_tracked_signed_world_zone_2</key>
 		<value><![CDATA[International Tracked Signed (World Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_signed_world_2_rates</key>
+		<key>default_royal_mail_intl_tracked_signed_world_zone_2_rates</key>
 		<value><![CDATA[Tracked Signed Rates (World Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_signed_world_3</key>
+		<key>default_royal_mail_intl_tracked_signed_world_zone_3</key>
 		<value><![CDATA[International Tracked Signed (World Zone 3)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_signed_world_3_rates</key>
+		<key>default_royal_mail_intl_tracked_signed_world_zone_3_rates</key>
 		<value><![CDATA[Tracked Signed Rates (World Zone 3)]]></value>
 	</definition>
 
 	<definition>
-		<key>default_royal_mail_intl_tracked_eu_1</key>
+		<key>default_royal_mail_intl_tracked_europe_zone_1</key>
 		<value><![CDATA[International Tracked (Europe Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_eu_1_rates</key>
+		<key>default_royal_mail_intl_tracked_europe_zone_1_rates</key>
 		<value><![CDATA[Tracked Rates (Europe Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_eu_2</key>
+		<key>default_royal_mail_intl_tracked_europe_zone_2</key>
 		<value><![CDATA[International Tracked (Europe Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_eu_2_rates</key>
+		<key>default_royal_mail_intl_tracked_europe_zone_2_rates</key>
 		<value><![CDATA[Tracked Rates (Europe Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_eu_3</key>
+		<key>default_royal_mail_intl_tracked_europe_zone_3</key>
 		<value><![CDATA[International Tracked (Europe Zone 3)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_eu_3_rates</key>
+		<key>default_royal_mail_intl_tracked_europe_zone_3_rates</key>
 		<value><![CDATA[Tracked Rates (Europe Zone 3)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_world_1</key>
+		<key>default_royal_mail_intl_tracked_world_zone_1</key>
 		<value><![CDATA[International Tracked (World Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_world_1_rates</key>
+		<key>default_royal_mail_intl_tracked_world_zone_1_rates</key>
 		<value><![CDATA[Tracked Rates (World Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_world_2</key>
+		<key>default_royal_mail_intl_tracked_world_zone_2</key>
 		<value><![CDATA[International Tracked (World Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_world_2_rates</key>
+		<key>default_royal_mail_intl_tracked_world_zone_2_rates</key>
 		<value><![CDATA[Tracked Rates (World Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_world_3</key>
+		<key>default_royal_mail_intl_tracked_world_zone_3</key>
 		<value><![CDATA[International Tracked (World Zone 3)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_world_3_rates</key>
+		<key>default_royal_mail_intl_tracked_world_zone_3_rates</key>
 		<value><![CDATA[Tracked Rates (World Zone 3)]]></value>
 	</definition>
 
 	<definition>
-		<key>default_royal_mail_intl_tracked_heavier_eu_1</key>
+		<key>default_royal_mail_intl_tracked_heavier_europe_zone_1</key>
 		<value><![CDATA[International Tracked Heavier (Europe Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_heavier_eu_1_rates</key>
+		<key>default_royal_mail_intl_tracked_heavier_europe_zone_1_rates</key>
 		<value><![CDATA[Tracked Heavier Rates (Europe Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_heavier_eu_2</key>
+		<key>default_royal_mail_intl_tracked_heavier_europe_zone_2</key>
 		<value><![CDATA[International Tracked Heavier (Europe Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_heavier_eu_2_rates</key>
+		<key>default_royal_mail_intl_tracked_heavier_europe_zone_2_rates</key>
 		<value><![CDATA[Tracked Heavier Rates (Europe Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_heavier_eu_3</key>
+		<key>default_royal_mail_intl_tracked_heavier_europe_zone_3</key>
 		<value><![CDATA[International Tracked Heavier (Europe Zone 3)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_heavier_eu_3_rates</key>
+		<key>default_royal_mail_intl_tracked_heavier_europe_zone_3_rates</key>
 		<value><![CDATA[Tracked Heavier Rates (Europe Zone 3)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_heavier_world_1</key>
+		<key>default_royal_mail_intl_tracked_heavier_world_zone_1</key>
 		<value><![CDATA[International Tracked Heavier (World Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_heavier_world_1_rates</key>
+		<key>default_royal_mail_intl_tracked_heavier_world_zone_1_rates</key>
 		<value><![CDATA[Tracked Heavier Rates (World Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_heavier_world_2</key>
+		<key>default_royal_mail_intl_tracked_heavier_world_zone_2</key>
 		<value><![CDATA[International Tracked Heavier (World Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_heavier_world_2_rates</key>
+		<key>default_royal_mail_intl_tracked_heavier_world_zone_2_rates</key>
 		<value><![CDATA[Tracked Heavier Rates (World Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_heavier_world_3</key>
+		<key>default_royal_mail_intl_tracked_heavier_world_zone_3</key>
 		<value><![CDATA[International Tracked Heavier (World Zone 3)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_tracked_heavier_world_3_rates</key>
+		<key>default_royal_mail_intl_tracked_heavier_world_zone_3_rates</key>
 		<value><![CDATA[Tracked Heavier Rates (World Zone 3)]]></value>
 	</definition>
 
@@ -479,176 +479,176 @@
 	</definition>
 
 	<definition>
-		<key>default_royal_mail_intl_free_standard_economy_eu_1</key>
+		<key>default_royal_mail_intl_free_standard_economy_europe_zone_1</key>
 		<value><![CDATA[Standard Economy (Europe Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_standard_economy_eu_1</key>
+		<key>default_royal_mail_intl_free_standard_economy_europe_zone_1</key>
 		<value><![CDATA[Standard Economy (Europe Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_standard_economy_eu_2</key>
+		<key>default_royal_mail_intl_free_standard_economy_europe_zone_2</key>
 		<value><![CDATA[Standard Economy (Europe Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_standard_economy_eu_3</key>
+		<key>default_royal_mail_intl_free_standard_economy_europe_zone_3</key>
 		<value><![CDATA[Standard Economy (Europe Zone 3)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_standard_economy_world_1</key>
+		<key>default_royal_mail_intl_free_standard_economy_world_zone_1</key>
 		<value><![CDATA[Standard Economy (World Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_standard_economy_world_2</key>
+		<key>default_royal_mail_intl_free_standard_economy_world_zone_2</key>
 		<value><![CDATA[Standard Economy (World Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_standard_economy_world_3</key>
+		<key>default_royal_mail_intl_free_standard_economy_world_zone_3</key>
 		<value><![CDATA[Standard Economy (World Zone 3)]]></value>
 	</definition>
 
 	<definition>
-		<key>default_royal_mail_intl_free_standard_priority_eu_1</key>
+		<key>default_royal_mail_intl_free_standard_priority_europe_zone_1</key>
 		<value><![CDATA[Standard Priority (Europe Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_standard_priority_eu_1</key>
+		<key>default_royal_mail_intl_free_standard_priority_europe_zone_1</key>
 		<value><![CDATA[Standard Priority (Europe Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_standard_priority_eu_2</key>
+		<key>default_royal_mail_intl_free_standard_priority_europe_zone_2</key>
 		<value><![CDATA[Standard Priority (Europe Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_standard_priority_eu_3</key>
+		<key>default_royal_mail_intl_free_standard_priority_europe_zone_3</key>
 		<value><![CDATA[Standard Priority (Europe Zone 3)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_standard_priority_world_1</key>
+		<key>default_royal_mail_intl_free_standard_priority_world_zone_1</key>
 		<value><![CDATA[Standard Priority (World Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_standard_priority_world_2</key>
+		<key>default_royal_mail_intl_free_standard_priority_world_zone_2</key>
 		<value><![CDATA[Standard Priority (World Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_standard_priority_world_3</key>
+		<key>default_royal_mail_intl_free_standard_priority_world_zone_3</key>
 		<value><![CDATA[Standard Priority (World Zone 3)]]></value>
 	</definition>
 
 	<definition>
-		<key>default_royal_mail_intl_free_signed_eu_1</key>
+		<key>default_royal_mail_intl_free_signed_europe_zone_1</key>
 		<value><![CDATA[Signed (Europe Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_signed_eu_1</key>
+		<key>default_royal_mail_intl_free_signed_europe_zone_1</key>
 		<value><![CDATA[Signed (Europe Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_signed_eu_2</key>
+		<key>default_royal_mail_intl_free_signed_europe_zone_2</key>
 		<value><![CDATA[Signed (Europe Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_signed_eu_3</key>
+		<key>default_royal_mail_intl_free_signed_europe_zone_3</key>
 		<value><![CDATA[Signed (Europe Zone 3)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_signed_world_1</key>
+		<key>default_royal_mail_intl_free_signed_world_zone_1</key>
 		<value><![CDATA[Signed (World Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_signed_world_2</key>
+		<key>default_royal_mail_intl_free_signed_world_zone_2</key>
 		<value><![CDATA[Signed (World Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_signed_world_3</key>
+		<key>default_royal_mail_intl_free_signed_world_zone_3</key>
 		<value><![CDATA[Signed (World Zone 3)]]></value>
 	</definition>
 
 	<definition>
-		<key>default_royal_mail_intl_free_tracked_signed_eu_1</key>
+		<key>default_royal_mail_intl_free_tracked_signed_europe_zone_1</key>
 		<value><![CDATA[Tracked Signed (Europe Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_tracked_signed_eu_1</key>
+		<key>default_royal_mail_intl_free_tracked_signed_europe_zone_1</key>
 		<value><![CDATA[Tracked Signed (Europe Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_tracked_signed_eu_2</key>
+		<key>default_royal_mail_intl_free_tracked_signed_europe_zone_2</key>
 		<value><![CDATA[Tracked Signed (Europe Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_tracked_signed_eu_3</key>
+		<key>default_royal_mail_intl_free_tracked_signed_europe_zone_3</key>
 		<value><![CDATA[Tracked Signed (Europe Zone 3)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_tracked_signed_world_1</key>
+		<key>default_royal_mail_intl_free_tracked_signed_world_zone_1</key>
 		<value><![CDATA[Tracked Signed (World Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_tracked_signed_world_2</key>
+		<key>default_royal_mail_intl_free_tracked_signed_world_zone_2</key>
 		<value><![CDATA[Tracked Signed (World Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_tracked_signed_world_3</key>
+		<key>default_royal_mail_intl_free_tracked_signed_world_zone_3</key>
 		<value><![CDATA[Tracked Signed (World Zone 3)]]></value>
 	</definition>
 
 	<definition>
-		<key>default_royal_mail_intl_free_tracked_eu_1</key>
+		<key>default_royal_mail_intl_free_tracked_europe_zone_1</key>
 		<value><![CDATA[Tracked (Europe Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_tracked_eu_1</key>
+		<key>default_royal_mail_intl_free_tracked_europe_zone_1</key>
 		<value><![CDATA[Tracked (Europe Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_tracked_eu_2</key>
+		<key>default_royal_mail_intl_free_tracked_europe_zone_2</key>
 		<value><![CDATA[Tracked (Europe Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_tracked_eu_3</key>
+		<key>default_royal_mail_intl_free_tracked_europe_zone_3</key>
 		<value><![CDATA[Tracked (Europe Zone 3)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_tracked_world_1</key>
+		<key>default_royal_mail_intl_free_tracked_world_zone_1</key>
 		<value><![CDATA[Tracked (World Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_tracked_world_2</key>
+		<key>default_royal_mail_intl_free_tracked_world_zone_2</key>
 		<value><![CDATA[Tracked (World Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_tracked_world_3</key>
+		<key>default_royal_mail_intl_free_tracked_world_zone_3</key>
 		<value><![CDATA[Tracked (World Zone 3)]]></value>
 	</definition>
 
 	<definition>
-		<key>default_royal_mail_intl_free_tracked_heavier_eu_1</key>
+		<key>default_royal_mail_intl_free_tracked_heavier_europe_zone_1</key>
 		<value><![CDATA[Tracked Heavier (Europe Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_tracked_heavier_eu_1</key>
+		<key>default_royal_mail_intl_free_tracked_heavier_europe_zone_1</key>
 		<value><![CDATA[Tracked Heavier (Europe Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_tracked_heavier_eu_2</key>
+		<key>default_royal_mail_intl_free_tracked_heavier_europe_zone_2</key>
 		<value><![CDATA[Tracked Heavier (Europe Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_tracked_heavier_eu_3</key>
+		<key>default_royal_mail_intl_free_tracked_heavier_europe_zone_3</key>
 		<value><![CDATA[Tracked Heavier (Europe Zone 3)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_tracked_heavier_world_1</key>
+		<key>default_royal_mail_intl_free_tracked_heavier_world_zone_1</key>
 		<value><![CDATA[Tracked Heavier (World Zone 1)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_tracked_heavier_world_2</key>
+		<key>default_royal_mail_intl_free_tracked_heavier_world_zone_2</key>
 		<value><![CDATA[Tracked Heavier (World Zone 2)]]></value>
 	</definition>
 	<definition>
-		<key>default_royal_mail_intl_free_tracked_heavier_world_3</key>
+		<key>default_royal_mail_intl_free_tracked_heavier_world_zone_3</key>
 		<value><![CDATA[Tracked Heavier (World Zone 3)]]></value>
 	</definition>
 

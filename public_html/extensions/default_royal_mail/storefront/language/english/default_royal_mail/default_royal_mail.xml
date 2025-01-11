@@ -17,39 +17,62 @@
     <value><![CDATA[Estimated Time:]]></value>
   </definition>
   <definition>
-    <key>default_royal_mail_1st_class_standard</key>
-    <value><![CDATA[First Class Standard Post]]></value>
+    <key>default_royal_mail_1st_class</key>
+    <value><![CDATA[1st Class®]]></value>
   </definition>
   <definition>
-    <key>default_royal_mail_1st_class_recorded</key>
-    <value><![CDATA[First Class Recorded Post]]></value>
+    <key>default_royal_mail_2nd_class</key>
+    <value><![CDATA[2nd Class®]]></value>
   </definition>
   <definition>
-    <key>default_royal_mail_2nd_class_standard</key>
-    <value><![CDATA[Second Class Standard Post]]></value>
+    <key>default_royal_mail_tracked24</key>
+    <value><![CDATA[Tracked 24®]]></value>
   </definition>
   <definition>
-    <key>default_royal_mail_2nd_class_recorded</key>
-    <value><![CDATA[Second Class Recorded Post]]></value>
+    <key>default_royal_mail_tracked48</key>
+    <value><![CDATA[Tracked 48®]]></value>
   </definition>
   <definition>
-    <key>default_royal_mail_standard_parcels</key>
-    <value><![CDATA[Standard Parcels]]></value>
+    <key>default_royal_mail_mail24</key>
+    <value><![CDATA[Mail 24®]]></value>
   </definition>
   <definition>
-    <key>default_royal_mail_airmail</key>
-    <value><![CDATA[Airmail]]></value>
+    <key>default_royal_mail_mail48</key>
+    <value><![CDATA[Mail 48®]]></value>
   </definition>
   <definition>
-    <key>default_royal_mail_international_signed</key>
-    <value><![CDATA[International Signed]]></value>
+    <key>default_royal_mail_sameday</key>
+    <value><![CDATA[Sameday®]]></value>
   </definition>
   <definition>
-    <key>default_royal_mail_airsure</key>
-    <value><![CDATA[Airsure]]></value>
+    <key>default_royal_mail_special_delivery_guaranteed</key>
+    <value><![CDATA[Special Delivery Guaranteed®]]></value>
   </definition>
   <definition>
-    <key>default_royal_mail_surface</key>
-    <value><![CDATA[Surface]]></value>
+    <key>default_royal_mail_intl_standard_economy</key>
+    <value><![CDATA[Standard Economy]]></value>
   </definition>
+  <definition>
+    <key>default_royal_mail_intl_standard_priority</key>
+    <value><![CDATA[Standard Priority]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_intl_signed</key>
+    <value><![CDATA[Signed]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_intl_tracked_signed</key>
+    <value><![CDATA[Tracked Signed]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_intl_tracked</key>
+    <value><![CDATA[Tracked]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_intl_tracked_heavier</key>
+    <value><![CDATA[Tracked Heavier]]></value>
+  </definition>
+
+
+
 </definitions>
