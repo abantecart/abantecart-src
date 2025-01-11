@@ -799,19 +799,42 @@ class ControllerPagesToolImportExport extends AController
         $data['import_col'] = [];
         $data[$table . '_fields'] = [];
         $data['split_col'] = [];
+        $data['concat'] = [];
         $data['update_col'] = [];
 
         $index = 0;
         foreach ($json[$table] as $col => $details) {
-            $data['import_col'][$index] = $col;
-            $data[$table . '_fields'][$index] = $details['field'] ?? null;
-            if (has_value($details['split'])) {
-                $data['split_col'][$index] = $details['split'];
+            if (empty($details['field'])) {
+                continue;
+            } else if (is_array($details['field'])) {
+                foreach ($details['field'] as $field) {
+                    $data['import_col'][$index] = $col;
+                    $data[$table . '_fields'][$index] = $field ?? null;
+                    if (has_value($details['split'])) {
+                        $data['split_col'][$index] = $details['split'];
+                    }
+                    if (has_value($details['update_col'])) {
+                        $data['update_col'][$index] = $details['update_col'];
+                    }
+                    if (has_value($details['concat'])) {
+                        $data['concat'][$index] = $details['concat'];
+                    }
+                    $index++;
+                }
+            } else {
+                $data['import_col'][$index] = $col;
+                $data[$table . '_fields'][$index] = $details['field'] ?? null;
+                if (has_value($details['split'])) {
+                    $data['split_col'][$index] = $details['split'];
+                }
+                if (has_value($details['update_col'])) {
+                    $data['update_col'][$index] = $details['update_col'];
+                }
+                if (has_value($details['concat'])) {
+                    $data['concat'][$index] = $details['concat'];
+                }
+                $index++;
             }
-            if (has_value($details['update_col'])) {
-                $data['update_col'][$index] = $details['update_col'];
-            }
-            $index++;
         }
 
         return $data;
