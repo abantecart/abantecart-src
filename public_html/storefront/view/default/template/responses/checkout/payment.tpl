@@ -229,8 +229,14 @@ if ($show_payment == true) {
                     type: "POST",
                     url: '<?php echo $this->html->getSecureUrl('r/checkout/pay/updateOrderData') ?>',
                     data: { telephone: elm.val() },
+                }).done(function () {
+                    elm.removeClass('is-invalid').addClass('is-valid');
+                    <?php
+                    //reload if phone required to show payment selector
+                    if (!$show_payment) { ?>
+                    loadPage();
+                    <?php } ?>
                 });
-                elm.removeClass('is-invalid').addClass('is-valid');
             }else{
                 elm.removeClass('is-valid').addClass('is-invalid');
             }

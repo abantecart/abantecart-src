@@ -662,6 +662,13 @@ class ControllerResponsesCheckoutPay extends AController
                 }
             }
 
+            if (!$this->fc_session['telephone'] && $this->config->get('fast_checkout_require_phone_number')) {
+                //hide payment form when phone number required and incorrect
+                $this->data['show_payment'] = false;
+                $this->data['payment_form'] = false;
+                return;
+            }
+
             //balance handling
             $balance_def_currency = $this->customer->getBalance();
             $balance = $this->currency->convert(
