@@ -1,8 +1,8 @@
-<div class="dropdown dropstart d-none d-md-block" id="customer_menu_top">
+<div class="dropdown d-none d-md-block" id="customer_menu_top">
 <?php if ($active) { ?>
             <a id="customerMenuDropdown"
                href="<?php echo $account; ?>" title="<?php echo_html2view($text_welcome.' '.$name);?>"
-               class="active image-link d-md-inline-flex position-relative align-items-center justify-content-center rounded-circle" aria-label="user link">
+               class="active dropdown-toggle image-link d-md-inline-flex position-relative align-items-center justify-content-center rounded-circle" aria-label="user link">
                 <i class="bi bi-person-lines-fill"></i>
             </a>
             <ul class="dropdown-menu" aria-labelledby="customerMenuDropdown">

@@ -122,13 +122,13 @@ function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
         return '';
     }
     $idKey = $options['id_key_name'] ?: 'id';
-
+    $output .= '<div data-dd="www"';
     if ($level == 0) {
-        $output .= '<div '.($options['top_level']['attr'] ?: 'class="navbar-nav align-items-start flex-wrap"').'>';
+        $output .= 'class="align-items-start flex-wrap"';
     } else {
-        $output .= '<div class="dropdown-menu '.($level > 1 ? 'dropdown-submenu' : '')
-            .'" aria-labelledby="'.$parentId.'" '.$options['submenu_level']['attr'].'>';
+        $output .= $options['submenu_level']['attr'].' class="dropdown-menu '.($level > 1 ? 'dropdown-submenu' : '').'" ';
     }
+    $output .= '>';
 
     foreach ($menuItems as $i => $item) {
         if ($item[$idKey] == 'home' || !is_array($item)) {
@@ -143,7 +143,7 @@ function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
         }
         $item_title = '<span class="menu-img-caption">'.($item['text'] ?: $item['title'] ?: $item['name']).'</span>';
         $hasChild = (bool) $item['children'];
-        $output .= '<div class="sub-menu '. ($hasChild ? 'dropdown with-children ' : '').'">';
+        $output .= '<div class="sub-menu '. ($hasChild ? 'dropend with-children ' : '').'">';
         //check icon rl type html, image or none.
         $rlId = $item['icon'] ? : $item['icon_rl_id'];
         $icon = renderMenuItemIconNv($item, $rlId);
@@ -153,7 +153,7 @@ function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
             $id = 'menu_'.$item[$idKey];
             $css = 'dropdown-toggle text-nowrap mb-3 mb-md-0 nav-link '. ($level ? 'dropdown-item ' : '');
             $css .= " " .$active;
-            $output .= '<a id="'.$id.'" href="'.$item['href'].'" class="'.$css.'" data-bs-toggle="dropdown" data-bs-target="dropdown" aria-expanded="false">'
+            $output .= '<a id="'.$id.'" href="'.$item['href'].'" class="'.$css.'">'
                         . $icon.$item_title.'</a>';
             $chOptions = [ 'id_key_name' => $idKey ];
 

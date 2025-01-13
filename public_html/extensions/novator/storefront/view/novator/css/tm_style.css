@@ -1260,9 +1260,12 @@ footer .dropdown-menu   {
 .dropdown-menu .list-unstyled {
     padding: 5px;
 }
-
+.dropdown-menu.show {
+    display: inline-table;
+}
 .dropdown-menu .sub-menu .dropdown-menu {
-    position: fixed;
+    position: absolute;
+    left: 100% !important;
 }
 
 .btn-group > :not(.btn-check:first-child) + .btn,
@@ -1286,6 +1289,10 @@ footer .dropdown-menu   {
 .nav-link:hover,
 .nav-link:focus {
     text-decoration: none;
+}
+
+.nav-link:focus-visible{
+    box-shadow: none;
 }
 
 .nav-tabs {
@@ -1866,7 +1873,7 @@ section {
 .prod-desc .tab-content ul li::before {
     content: "\f272";
     display: inline-block;
-    font-family: bootstrap-icons !important;
+    font-family: bootstrap-icons, serif !important;
     font-style: normal;
     position: absolute;
     top: 10px;
@@ -2063,7 +2070,7 @@ li#review-set::before {
 .navbar .mega-menu .dropdown-menu.dropdown-mega-menu {
     top: 100%;
     left: 0;
-    right: 0;
+    right: 0; /*??????*/
     padding: 20px 5px;
     border: none;
     border-radius: 0 0 12px 12px;
@@ -2534,8 +2541,6 @@ li#review-set::before {
     left: 0;
     right: 0;
     bottom: 0;
-    /* display: flex;
-    align-items: center; */
 }
 
 .cta .cta-price {
@@ -2543,7 +2548,6 @@ li#review-set::before {
     margin-bottom: 25px;
     padding: 22px 24px;
     border-radius: 8px;
-    border: 2px;
     border: 2px solid #fff;
     font-size: 38px;
     font-weight: 600;
@@ -3724,11 +3728,6 @@ h4 .heading-title:after,
 
 .form-control#product_quantity {
     width: 115px !important;
-}
-
-/* auto-open for dropdowns */
-.dropdown .dropdown-menu {
-    display: none;
 }
 
 #category_rating-collapse .fa-star {

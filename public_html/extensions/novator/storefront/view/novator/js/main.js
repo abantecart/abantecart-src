@@ -47,6 +47,26 @@ $(document).on('submit','form.needs-validation', function(e){
 });
 
 $(document).ready(function(){
+
+    // toggle dropdowns by mouseover
+    $('.dropdown, .dropdown.with-children, .dropstart, .dropend').on('mouseover', function () {
+        const tgl = $(this).find('.dropdown-toggle, [data-bs-toggle="dropdown"]').first();
+        if(tgl.length>0) {
+            const dpn = new bootstrap.Dropdown(tgl[0]);
+            dpn.show();
+        }else{
+            console.log('empty')
+        }
+        }
+    )
+    .on('mouseout', function () {
+        const tgl = $(this).find('.dropdown-toggle, [data-bs-toggle="dropdown"]').first();
+        if(tgl.length>0) {
+            const dpn = new bootstrap.Dropdown(tgl[0]);
+            dpn.hide();
+        }
+    });
+
     var searchOffcanvas = $('#searchoffcanvas');
     var filterKeywordInput = $('input[name=keyword]');
 
@@ -213,18 +233,18 @@ $(document).ready(function(){
     }
 
     //dropdown menu fix of parent
-    $('.dropdown>a').on('click', function (e) {
-        e.preventDefault();
-        let href = $(this).attr('href');
-        let target = $(this).attr('target');
-        if(href.substring(0,1) !== '#') {
-            if( !target || target === '_self') {
-                location = href;
-            }else{
-                window.open(href, target);
-            }
-        }
-    });
+    // $('.dropdown>a').on('click', function (e) {
+    //     e.preventDefault();
+    //     let href = $(this).attr('href');
+    //     let target = $(this).attr('target');
+    //     if(href.substring(0,1) !== '#') {
+    //         if( !target || target === '_self') {
+    //             location = href;
+    //         }else{
+    //             window.open(href, target);
+    //         }
+    //     }
+    // });
 
     $('[data-bs-toggle="popover"]').popover({});
 
@@ -625,14 +645,5 @@ $(document).on('click','.wish', function(e) {
                 wishlistGA_event_fire("add_to_wishlist", card);
             }
         }
-    });
-});
-// toggle dropdowns by mouseover
-$(document).ready(function() {
-    $('.dropdown').on('mouseover', function () {
-        $(this).children('.dropdown-menu').show().attr('area-expanded', true);
-    }
-    ).on('mouseout', function () {
-        $(this).children('.dropdown-menu').hide().attr('area-expanded', false);
     });
 });
