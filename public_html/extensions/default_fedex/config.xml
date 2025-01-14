@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <extension>
     <id>default_fedex</id>
-    <version>1.1.2</version>
+    <version>1.1.3</version>
 	<type>shipping</type>
 	<category>shipping</category>
     <cartversions>
@@ -10,25 +10,20 @@
 	<phpmodules>
 		<item>soap</item>
 	</phpmodules>
-    <layout></layout>
     <priority>10</priority>
 	<note>true</note>
     <settings>
 	    <item id="default_fedex_key">
             <type required="true">input</type>
-            <default_value></default_value>
         </item>
 	    <item id="default_fedex_password">
             <type required="true">password</type>
-            <default_value></default_value>
         </item>
 	    <item id="default_fedex_account">
             <type required="true">input</type>
-            <default_value></default_value>
         </item>
 	    <item id="default_fedex_meter">
             <type required="true">input</type>
-            <default_value></default_value>
         </item>
 	    <item id="default_fedex_test">
             <type>selectbox</type>
@@ -39,23 +34,18 @@
         </item>
 	    <item id="default_fedex_address">
             <type required="true">input</type>
-            <default_value></default_value>
         </item>
 	    <item id="default_fedex_city">
             <type required="true">input</type>
-            <default_value></default_value>
         </item>
 	    <item id="default_fedex_state">
             <type required="true">input</type>
-            <default_value></default_value>
         </item>
 	    <item id="default_fedex_zip">
             <type required="true">input</type>
-            <default_value></default_value>
         </item>
 	    <item id="default_fedex_country">
             <type required="true">input</type>
-            <default_value></default_value>
         </item>
         <item id="default_fedex_quote_type">
             <type>selectbox</type>
@@ -94,12 +84,4 @@
         </item>
     </settings>
 	<custom_settings_template>pages/extension/default_fedex_settings.tpl</custom_settings_template>
-    <install>
-	    <sql></sql>
-	    <trigger></trigger>
-	</install>
-	<uninstall>
-	    <sql></sql>
-	    <trigger></trigger>
-	</uninstall>
 </extension>
