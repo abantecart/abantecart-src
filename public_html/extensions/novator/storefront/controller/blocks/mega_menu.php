@@ -230,12 +230,14 @@ class ControllerBlocksMegaMenu extends AController
             $item['text'] = $item['item_text'][$lang_id] ?? '';
             $item['children'] = $this->prepareMenu($menu_items, $item['item_id']);
 
+            parse_str($item['item_url'], $urlParams);
             //if at least one child is current - mark parent as current too
-            if ($item['children']) {
-                $item['current'] = in_array(true, array_column($item['children'], 'current'));
+            if (!$item['current'] && $item['children']) {
+                $chCurrents = array_column($item['children'], 'current');
+                $chCurrents[] = (array_key_first($urlParams) == $this->request->get['rt']);
+                $item['current'] = in_array( true, $chCurrents );
             }
 
-            parse_str($item['item_url'], $urlParams);
             if (!$level && $item['category']) {
                 $item['current'] = in_array($urlParams['path'], $this->path);
             } elseif (isset($item['path'])) {
