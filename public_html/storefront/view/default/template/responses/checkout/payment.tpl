@@ -51,15 +51,21 @@ $guest_data = $this->session->data['fc']['guest'];
             </button>
         </div>
     </div>
-
+    <?php
+    $patternPhone = trim($this->config->get('config_phone_validation_pattern'),"/");
+    $requiredPhone = $this->config->get('fast_checkout_require_phone_number') ? 'required' : '';
+    $isInvalid = !preg_match($patternPhone, $customer_telephone);
+    if($isInvalid && !$customer_telephone && !$requiredPhone) {
+        $isInvalid = false;
+    } ?>
     <div class="order_phone input-group input-group-lg mb-3">
         <div class="input-group-text"><i class="fa fa-phone"></i></div>
         <input id="telephone" aria-label="telephone" name="telephone" inputmode="tel"
-               class="form-control <?php echo !preg_match($this->config->get('config_phone_validation_pattern'), $customer_telephone) ? 'is-invalid' : ''; ?>"
+               class="form-control <?php echo $isInvalid ? 'is-invalid' : ''; ?>"
                placeholder="<?php echo_html2view($fast_checkout_text_telephone_placeholder); ?>"
-               pattern="<?php echo trim($this->config->get('config_phone_validation_pattern'), "/")?>"
+               pattern="<?php echo $patternPhone; ?>"
                type="text" value="<?php echo $customer_telephone; ?>"
-        <?php echo $this->config->get('fast_checkout_require_phone_number') ? 'required' : ''?> >
+        <?php echo $requiredPhone; ?> >
         <span class="input-group-text">
             <button class="btn btn-outline-secondary btn-lg btn-telephone" type="button"
                     title="<?php echo_html2view($this->language->get('fast_checkout_text_apply'))?>">
