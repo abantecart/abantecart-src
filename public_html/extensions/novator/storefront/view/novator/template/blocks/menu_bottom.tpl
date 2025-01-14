@@ -1,5 +1,5 @@
 <div class="navbar" id="footernav">
-    <div class="">
+    <div class="navbar-nav">
         <?php echo renderSFMenuNv($storemenu); ?>
     </div>
 </div>

@@ -49,22 +49,20 @@ $(document).on('submit','form.needs-validation', function(e){
 $(document).ready(function(){
 
     // toggle dropdowns by mouseover
-    $('.dropdown, .dropdown.with-children, .dropstart, .dropend').on('mouseover', function () {
-        const tgl = $(this).find('.dropdown-toggle, [data-bs-toggle="dropdown"]').first();
-        if(tgl.length>0) {
-            const dpn = new bootstrap.Dropdown(tgl[0]);
+    $('.dropdown>.dropdown-toggle, .dropup>.dropdown-toggle, .dropstart>.dropdown-toggle, .dropend>.dropdown-toggle')
+        .on('mouseover', function (e) {
+            const dpn = new bootstrap.Dropdown($(this));
             dpn.show();
-        }else{
-            console.log('empty')
+    }).on('mouseout', function (e) {
+        //when dropdown menu under cursor - do nothing
+        if($(this).parents('.dropdown, .sub-menu').find('.dropdown-menu[aria-labelledby="'+$(this).attr('id')+'"]:hover').length > 0 ){
+            return;
         }
-        }
-    )
-    .on('mouseout', function () {
-        const tgl = $(this).find('.dropdown-toggle, [data-bs-toggle="dropdown"]').first();
-        if(tgl.length>0) {
-            const dpn = new bootstrap.Dropdown(tgl[0]);
-            dpn.hide();
-        }
+        const visible = $(this).parents('.dropdown, .sub-menu').find('.dropdown-menu:visible');
+        console.log(visible.first().attr('aria-labelledby'));
+
+        const dpn = new bootstrap.Dropdown($(this));
+        dpn.hide();
     });
 
     var searchOffcanvas = $('#searchoffcanvas');

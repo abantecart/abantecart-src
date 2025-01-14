@@ -1260,13 +1260,33 @@ footer .dropdown-menu   {
 .dropdown-menu .list-unstyled {
     padding: 5px;
 }
+
 .dropdown-menu.show {
     display: inline-table;
 }
+
 .dropdown-menu .sub-menu .dropdown-menu {
     position: absolute;
     left: 100% !important;
 }
+
+.content-footer-menu{
+    margin-top: 20px;
+}
+.content-footer-menu .nav-link{
+    margin-right: 15px;
+}
+.content-footer-menu .sub-menu{
+    margin-right: 15px;
+    display: contents;
+}
+
+.content-footer-menu .dropdown-menu .sub-menu .dropdown-menu {
+    position: absolute;
+    left: 100% !important;
+    top: 0;
+}
+
 
 .btn-group > :not(.btn-check:first-child) + .btn,
 .btn-group > .btn-group:not(:first-child) {
@@ -2022,7 +2042,6 @@ li#review-set::before {
     font-weight: 500;
     position: relative;
     padding: 0;
-    margin-top: 100px;
 }
 
 .navbar .btn {
@@ -2370,10 +2389,6 @@ li#review-set::before {
 
 .bottom-footer-block .navbar-nav {
     flex-direction: row;
-}
-
-.bottom-footer-block .navbar-nav .sub-menu  {
-    margin-right: 15px !important;
 }
 
 .bottom-footer-block .navbar-nav .dropdown:last-child {
@@ -3906,7 +3921,7 @@ input[type="number"] {
 .dropdown-menu[data-bs-popper]
 {
     left: auto !important;
-    margin-top: auto !important;
+    margin: -5px auto !important ;
 }
 
 #ecom-filter input[type=checkbox]:checked + label {
@@ -3973,6 +3988,10 @@ a.share{
 
 #category_selected{
     max-width: 150px;
+}
+
+.mega-menu .sub-menu .dropdown-toggle {
+    width: 100%;
 }
 
 a.dropdown-toggle:after {

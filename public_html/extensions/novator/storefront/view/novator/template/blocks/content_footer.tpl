@@ -1,3 +1,4 @@
+<div class="content-footer-menu navbar ">
 <?php
     $contents[] = [
             'text' => $text_contact,
@@ -19,5 +20,7 @@
             'text' => $text_cart,
             'href' => $cart
     ];
-    echo renderSFMenuNv($contents);
+    $opt['submenu_class'] = 'dropup';
+    echo renderSFMenuNv($contents,0,'',$opt);
 ?>
+</div>

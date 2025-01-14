@@ -115,6 +115,7 @@ function prepareNVCatItems($items)
  */
 function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
 {
+    $options['submenu_class'] = !$level ? ($options['submenu_class'] ?: 'dropend') : 'dropend';
     $logged = Registry::getInstance()->get('customer')->isLogged();
     $output = '';
     $menuItems = (array) $menuItems;
@@ -122,11 +123,11 @@ function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
         return '';
     }
     $idKey = $options['id_key_name'] ?: 'id';
-    $output .= '<div data-dd="www"';
+    $output .= '<div ';
     if ($level == 0) {
         $output .= 'class="align-items-start flex-wrap"';
     } else {
-        $output .= $options['submenu_level']['attr'].' class="dropdown-menu '.($level > 1 ? 'dropdown-submenu' : '').'" ';
+        $output .= $options['submenu_level']['attr'].' class="dropdown-menu '.$options['submenu_class'].'" '.($parentId ? 'aria-labelledby="'.$parentId.'"' : '');
     }
     $output .= '>';
 
@@ -143,19 +144,21 @@ function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
         }
         $item_title = '<span class="menu-img-caption">'.($item['text'] ?: $item['title'] ?: $item['name']).'</span>';
         $hasChild = (bool) $item['children'];
-        $output .= '<div class="sub-menu '. ($hasChild ? 'dropend with-children ' : '').'">';
         //check icon rl type html, image or none.
         $rlId = $item['icon'] ? : $item['icon_rl_id'];
         $icon = renderMenuItemIconNv($item, $rlId);
         $active = $item['current'] ? 'active' : '';
 
         if ($hasChild) {
+            $output .= '<div class="sub-menu '.$options['submenu_class'].' with-children">';
             $id = 'menu_'.$item[$idKey];
-            $css = 'dropdown-toggle text-nowrap mb-3 mb-md-0 nav-link '. ($level ? 'dropdown-item ' : '');
-            $css .= " " .$active;
-            $output .= '<a id="'.$id.'" href="'.$item['href'].'" class="'.$css.'">'
-                        . $icon.$item_title.'</a>';
-            $chOptions = [ 'id_key_name' => $idKey ];
+            $css = 'dropdown-toggle text-nowrap mb-3 mb-md-0 nav-link '
+                . ($level ? 'dropdown-item ' : ' ') . $active;
+            $output .= '<a id="'.$id.'" href="'.$item['href'].'" class="'.$css.'">' . $icon.$item_title.'</a>';
+            $chOptions = [
+                'id_key_name' => $idKey,
+                'submenu_class' => $level > 0 ? 'dropend' : $options['submenu_class']
+            ];
 
             // for case when pass options into deep of menu
             if($options['pass_options_recursively']){
@@ -166,7 +169,7 @@ function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
             } else {
                 $output .= "\r\n".renderSFMenuNv( $item['children'], $level + 1, $id, $chOptions );
             }
-
+            $output .= '</div>';
         } else {
             $css = $level ? "dropdown-item" : " " .'text-nowrap nav-link';
             $css .= " " .$active;
@@ -178,7 +181,7 @@ function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
             $popoverAttr .= ' target = "'.$item['settings']['target'].'"';
             $output .= '<a href="'.$item['href'].'" class="'.$css.'" '.$popoverAttr.'>'.$icon.$item_title.'</a>';
         }
-        $output .= '</div>';
+
     }
     $output .= "</div>\n";
 
