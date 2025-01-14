@@ -1,3 +1,74 @@
+AbanteCart version 1.4.1
+
+We’re thrilled to introduce AbanteCart v1.4.1 – packed with exciting new features, enhancements, and important fixes to make your experience even better!
+
+Highlights of this Release:
+- New Content Page Management System
+- Intuitive page builder
+- Content version vault, allowing to track text changes and revert to previous versions effortlessly.
+- Enhanced Import Wizard: Now supports JSON data column mapping with advanced features like splitting, concatenating, and merging data columns for seamless data integration.
+- Stripe Payment Upgrade: Added support for TWINT, a popular payment method in Switzerland, enhancing payment flexibility.
+And that’s not all – this release includes numerous other improvements and bug fixes to ensure better performance and reliability.
+
+Admin Features;
+- New Data listing block: with content pages support
+- Improved customer grid with links to default address forms.
+- Updated Import Wizard to support JSON mapping for multiple fields and concatenated columns.
+- Integrated a history modal for enhanced admin actions with text updates.
+- Improved header settings for streamlined management of messages and logos.
+- Improvement to layout manager with deafult page layouts for better control of layout blocks.
+- Added a new date picker for admin forms.
+
+Storefront Enhancements:
+- Improved SEO URL processing and canonical URLs.
+- Enhanced pagination for smoother navigation.
+- Standardized content sorting and listing across multi-store setups.
+- Various CSS and template updates for Novator and default templates.
+- New content template blocks
+- Fixes for Novator Megamenu and category tree display.
+
+Content Management Improvements:
+- Enhanced tools for managing content descriptions, history, and previews.
+- Added default configurations for page layouts and template designs.
+- Resolved pagination and sorting issues in content listings.
+
+Extensions Updates:
+- Stripe extension enhancements and support for TWINT payment method.
+- Added webhook support for payment_intent.succeeded events.
+- Fixed compatibility issues and updated the SDK.
+- RoyalMail extension upgrade and improvements for smoother operation.
+- PageBuilder and include of new default presets for Novator and default templates.
+
+Security Updates:
+- Customer and Admin users Authentification improvement
+- Resolved XSS vulnerabilities.
+- Strengthened session management for updated customer passwords.
+- Improved SQL injection prevention across admin functionalities.
+
+Performance and Compatibility:
+- Optimized for PHP 8.2.
+- Admin and storefront performance enhancements through code refinements.
+
+Bug Fixes
+
+- Fixed checkout functionality, including payment and shipping workflows.
+- Addressed CSS bugs for improved cross-browser compatibility.
+- Resolved errors in product grid filtration and category management.
+- Fixed minor bugs across admin forms and grids.
+
+Developer Enhancements
+
+- Added the ability to include hooks in template files.
+- Improved logging capabilities for enhanced debugging.
+- Updated support for custom templates in form elements.
+
+How to Update
+
+To update to v1.4.1, follow the instructions provided in the AbanteCart Documentation (https://docs.abantecart.com).
+Ensure your server meets the minimum requirement of PHP 8.2 before proceeding.
+
+
+
 AbanteCart version 1.4.0
 
 Key Highlights:
