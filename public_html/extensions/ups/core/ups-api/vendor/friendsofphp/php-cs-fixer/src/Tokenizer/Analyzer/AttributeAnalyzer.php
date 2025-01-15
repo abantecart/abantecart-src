@@ -16,6 +16,7 @@ namespace PhpCsFixer\Tokenizer\Analyzer;
 
 use PhpCsFixer\Preg;
 use PhpCsFixer\Tokenizer\Analyzer\Analysis\AttributeAnalysis;
+use PhpCsFixer\Tokenizer\Analyzer\Analysis\NamespaceUseAnalysis;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Tokens;
 
@@ -110,7 +111,9 @@ final class AttributeAnalyzer
         }
 
         $startIndex = $index;
-        if ($tokens[$prevIndex = $tokens->getPrevMeaningfulToken($index)]->isGivenKind(CT::T_ATTRIBUTE_CLOSE)) {
+        $prevIndex = $tokens->getPrevMeaningfulToken($index);
+
+        if ($tokens[$tokens->getPrevMeaningfulToken($index)]->isGivenKind(CT::T_ATTRIBUTE_CLOSE)) {
             // Include comments/PHPDoc if they are present
             $startIndex = $tokens->getNextNonWhitespace($prevIndex);
         }
@@ -127,12 +130,39 @@ final class AttributeAnalyzer
         );
     }
 
+    public static function determineAttributeFullyQualifiedName(Tokens $tokens, string $name, int $index): string
+    {
+        if ('\\' === $name[0]) {
+            return $name;
+        }
+
+        if (!$tokens[$index]->isGivenKind([T_STRING, T_NS_SEPARATOR])) {
+            $index = $tokens->getNextTokenOfKind($index, [[T_STRING], [T_NS_SEPARATOR]]);
+        }
+
+        [$namespaceAnalysis, $namespaceUseAnalyses] = NamespacesAnalyzer::collectNamespaceAnalysis($tokens, $index);
+        $namespace = $namespaceAnalysis->getFullName();
+        $firstTokenOfName = $tokens[$index]->getContent();
+        $namespaceUseAnalysis = $namespaceUseAnalyses[$firstTokenOfName] ?? false;
+
+        if ($namespaceUseAnalysis instanceof NamespaceUseAnalysis) {
+            $namespace = $namespaceUseAnalysis->getFullName();
+
+            if ($name === $firstTokenOfName) {
+                return $namespace;
+            }
+
+            $name = substr((string) strstr($name, '\\'), 1);
+        }
+
+        return $namespace.'\\'.$name;
+    }
+
     /**
      * @return _AttributeItems
      */
     private static function collectAttributes(Tokens $tokens, int $index, int $closingIndex): array
     {
-        /** @var _AttributeItems $elements */
         $elements = [];
 
         do {
@@ -173,6 +203,8 @@ final class AttributeAnalyzer
             }
             --$index;
         }
+
+        \assert(array_is_list($elements));
 
         return $elements;
     }
