@@ -1,17 +1,17 @@
-<div class="dropdown dropstart d-none d-md-block" id="customer_menu_top">
+<div class="dropdown d-none d-md-block" id="customer_menu_top">
 <?php if ($active) { ?>
             <a id="customerMenuDropdown"
                href="<?php echo $account; ?>" title="<?php echo_html2view($text_welcome.' '.$name);?>"
                class="active image-link d-md-inline-flex position-relative align-items-center justify-content-center rounded-circle" aria-label="user link">
                 <i class="bi bi-person-lines-fill"></i>
             </a>
-            <ul class="dropdown-menu" aria-labelledby="customerMenuDropdown">
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="customerMenuDropdown" data-bs-popper="static">
                 <?php
                 $list = [
                         'account' =>[
-                                'href' => $account,
-                                'icon_class' => 'bi-grid-3x3-gap-fill',
-                                'text' => $text_account_dashboard
+                            'href' => $account,
+                            'icon_class' => 'bi-grid-3x3-gap-fill',
+                            'text' => $text_account_dashboard
                         ],
                         'wishlist' =>[
                             'href' => $wishlist,
@@ -59,8 +59,9 @@
                         'text' => $text_my_notifications
                     ];
                 foreach($list as $key=>$item){ ?>
-                    <li class="dropdown <?php if ( $$key == $current) echo 'current'; ?>">
-                        <a class="dropdown-item" href="<?php echo $item['href']; ?>">
+                    <li class="dropdown ">
+                        <a class="dropdown-item <?php echo $item['href'] == $current ? 'text-primary' : ''; ?>"
+                           href="<?php echo $item['href']; ?>">
                             <i class="bi <?php echo $item['icon_class']; ?> me-2"></i><?php echo $item['text']; ?>
                         </a>
                     </li>
