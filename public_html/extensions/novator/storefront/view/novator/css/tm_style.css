@@ -3904,12 +3904,6 @@ input[type="number"] {
     margin-top: 20px;
 }
 
-.dropdown-menu[data-bs-popper]
-{
-    left: auto !important;
-    margin-top: auto !important;
-}
-
 #ecom-filter input[type=checkbox]:checked + label {
     color: #1692e1 !important;
     font-weight: bold;
