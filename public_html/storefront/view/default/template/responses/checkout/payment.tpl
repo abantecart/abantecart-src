@@ -52,12 +52,15 @@ $guest_data = $this->session->data['fc']['guest'];
         </div>
     </div>
     <?php
-    $patternPhone = trim($this->config->get('config_phone_validation_pattern'),"/");
+    $patternPhone = $this->config->get('config_phone_validation_pattern');
     $requiredPhone = $this->config->get('fast_checkout_require_phone_number') ? 'required' : '';
     $isInvalid = !preg_match($patternPhone, $customer_telephone);
     if($isInvalid && !$customer_telephone && !$requiredPhone) {
         $isInvalid = false;
-    } ?>
+    }
+    //prepare for js-validation
+    $patternPhone = trim($patternPhone,"/");
+    ?>
     <div class="order_phone input-group input-group-lg mb-3">
         <div class="input-group-text"><i class="fa fa-phone"></i></div>
         <input id="telephone" aria-label="telephone" name="telephone" inputmode="tel"
