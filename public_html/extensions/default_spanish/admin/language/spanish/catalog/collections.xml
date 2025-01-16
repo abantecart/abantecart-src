@@ -204,4 +204,8 @@
 		<key>save_error_unique_keyword</key>
 		<value><![CDATA[¡La palabra clave debe ser única!]]></value>
 	</definition>
+	<definition>
+		<key>tab_design</key>
+		<value><![CDATA[Diseño]]></value>
+	</definition>
 </definitions>

@@ -104,4 +104,12 @@
 		<key>desc_install_upgrade_history</key>
 		<value><![CDATA[Cancella tutto Installa/Aggiorna Storia]]></value>
 	</definition>
+	<definition>
+		<key>text_edits_history</key>
+		<value><![CDATA[Cronologia delle modifiche del testo]]></value>
+	</definition>
+	<definition>
+		<key>desc_edits_history</key>
+		<value><![CDATA[Cancella tutta la cronologia delle modifiche del testo]]></value>
+	</definition>
 </definitions>

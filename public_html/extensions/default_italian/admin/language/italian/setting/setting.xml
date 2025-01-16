@@ -1062,4 +1062,8 @@
 		<key>entry_fast_checkout_show_order_comment_field</key>
 		<value><![CDATA[Mostra il campo dei commenti dell&#39;ordine <br/><span class="help">L&#39;area di testo dei commenti verrà mostrata durante il processo di pagamento</span>]]></value>
 	</definition>
+	<definition>
+		<key>entry_content_limit</key>
+		<value><![CDATA[Numero di elementi nei blocchi di contenuto ]]></value>
+	</definition>
 </definitions>

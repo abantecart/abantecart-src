@@ -204,4 +204,8 @@
 		<key>save_error_unique_keyword</key>
 		<value><![CDATA[Ключевое слово должно быть уникальным!]]></value>
 	</definition>
+	<definition>
+		<key>tab_design</key>
+		<value><![CDATA[Дизайн]]></value>
+	</definition>
 </definitions>

@@ -788,4 +788,20 @@
 		<key>entry_status</key>
 		<value><![CDATA[Stato:]]></value>
 	</definition>
+	<definition>
+		<key>button_field_history</key>
+		<value><![CDATA[Visualizza la cronologia del campo]]></value>
+	</definition>
+	<definition>
+		<key>text_data_history</key>
+		<value><![CDATA[Cronologia delle modifiche dei dati]]></value>
+	</definition>
+	<definition>
+		<key>text_design</key>
+		<value><![CDATA[Progetto]]></value>
+	</definition>
+	<definition>
+		<key>text_select_brand</key>
+		<value><![CDATA[-Seleziona Marca-]]></value>
+	</definition>
 </definitions>

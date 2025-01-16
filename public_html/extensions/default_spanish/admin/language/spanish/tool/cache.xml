@@ -112,4 +112,12 @@
 		<key>desc_install_upgrade_history</key>
 		<value><![CDATA[Borrar todo Instalar / Actualizar Historia]]></value>
 	</definition>
+	<definition>
+		<key>text_edits_history</key>
+		<value><![CDATA[Historial de ediciones]]></value>
+	</definition>
+	<definition>
+		<key>desc_edits_history</key>
+		<value><![CDATA[Borrar todo el historial de edición]]></value>
+	</definition>
 </definitions>

@@ -1062,4 +1062,8 @@
 		<key>entry_fast_checkout_show_order_comment_field</key>
 		<value><![CDATA[Показать поле комментария к заказу <br/><span class="help">Текстовое поле комментария будет отображаться во время оформления заказа.</span>]]></value>
 	</definition>
+	<definition>
+		<key>entry_content_limit</key>
+		<value><![CDATA[Количество элементов в блоках контента ]]></value>
+	</definition>
 </definitions>

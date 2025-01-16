@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Часы работы магазина]]></value>
+	</definition>
+	<definition>
+		<key>closed</key>
+		<value><![CDATA[Закрыто]]></value>
+	</definition>
+	<definition>
+		<key>open</key>
+		<value><![CDATA[Открыть]]></value>
+	</definition>
+	<definition>
+		<key>sunday</key>
+		<value><![CDATA[Воскресенье]]></value>
+	</definition>
+	<definition>
+		<key>monday</key>
+		<value><![CDATA[Понедельник]]></value>
+	</definition>
+	<definition>
+		<key>tuesday</key>
+		<value><![CDATA[Вторник]]></value>
+	</definition>
+	<definition>
+		<key>wednesday</key>
+		<value><![CDATA[Среда]]></value>
+	</definition>
+	<definition>
+		<key>thursday</key>
+		<value><![CDATA[Четверг]]></value>
+	</definition>
+	<definition>
+		<key>friday</key>
+		<value><![CDATA[Пятница]]></value>
+	</definition>
+	<definition>
+		<key>saturday</key>
+		<value><![CDATA[Суббота]]></value>
+	</definition>
+</definitions>
