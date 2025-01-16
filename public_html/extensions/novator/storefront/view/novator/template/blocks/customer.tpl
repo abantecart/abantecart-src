@@ -5,7 +5,7 @@
                class="active image-link d-md-inline-flex position-relative align-items-center justify-content-center rounded-circle" aria-label="user link">
                 <i class="bi bi-person-lines-fill"></i>
             </a>
-            <ul class="dropdown-menu" aria-labelledby="customerMenuDropdown">
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="customerMenuDropdown">
                 <?php
                 $list = [
                         'account' =>[
@@ -73,7 +73,7 @@
                   <i class="bi bi-box-arrow-right me-2"></i>
                 <?php echo $text_not.' '.$name.'? '.$text_logout; ?></a>
             </li>
-        </ul>
+        </div>
 <?php } else { ?>
     <a title="<?php echo_html2view($text_login); ?>"
        href="<?php echo $login; ?>"

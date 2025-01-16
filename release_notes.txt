@@ -18,6 +18,7 @@ Admin Features;
 - Improved header settings for streamlined management of messages and logos.
 - Improvement to layout manager with deafult page layouts for better control of layout blocks.
 - Added a new date picker for admin forms.
+- SQL Injection vulnerability fixes for email templates (CVE-2024-50802, CVE-2024-50801).
 
 Storefront Enhancements:
 - Improved SEO URL processing and canonical URLs.
