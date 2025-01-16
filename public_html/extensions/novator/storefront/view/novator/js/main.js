@@ -627,12 +627,3 @@ $(document).on('click','.wish', function(e) {
         }
     });
 });
-// toggle dropdowns by mouseover
-$(document).ready(function() {
-    $('.dropdown').on('mouseover', function () {
-        $(this).children('.dropdown-menu').show().attr('area-expanded', true);
-    }
-    ).on('mouseout', function () {
-        $(this).children('.dropdown-menu').hide().attr('area-expanded', false);
-    });
-});

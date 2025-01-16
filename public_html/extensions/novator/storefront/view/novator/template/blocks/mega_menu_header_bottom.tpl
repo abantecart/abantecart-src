@@ -57,7 +57,7 @@ $categories = prepareNVCatItems($categories);
                         if (!$item['category']) { ?>
                         <li class="nav-item dropdown mega-menu">
                             <a id="menu_<?php echo $item['item_id'];?>"
-                               class="nav-link <?php echo $active; ?>"
+                               class="dropdown-toggle nav-link <?php echo $active; ?>"
                                href="<?php echo $item['href']; ?>"
                                target="<?php echo $item['settings']['target']; ?>"
                                role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
