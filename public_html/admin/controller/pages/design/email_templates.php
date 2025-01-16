@@ -161,7 +161,7 @@ class ControllerPagesDesignEmailTemplates extends AController
             $emailTemplate = $this->model_design_email_template->getById($tmplID);
             if ($emailTemplate && $this->validate($this->request->post)) {
                 try {
-                    $this->model_design_email_template->update($tmplID, $this->request->post);
+                    $this->model_design_email_template->update((int)$tmplID, (array)$this->request->post);
                     $this->session->data['success'] = $this->language->get('save_complete');
                     redirect($this->html->getSecureURL('design/email_templates/update', '&id=' . $emailTemplate['id']));
                 } catch (Exception $e) {
@@ -224,8 +224,8 @@ class ControllerPagesDesignEmailTemplates extends AController
                 || (int)$emailTemplate['store_id'] != $this->config->get('current_store_id')
             ) {
                 $existTemplate = $this->model_design_email_template->getByTextIdAndLanguageId(
-                    $emailTemplate['text_id'],
-                    $this->language->getContentLanguageID()
+                    (string)$emailTemplate['text_id'],
+                    (int)$this->language->getContentLanguageID()
                 );
 
                 if (!$existTemplate) {
@@ -246,8 +246,8 @@ class ControllerPagesDesignEmailTemplates extends AController
         } elseif ($this->request->get['text_id']) {
             $this->data['text_id'] = $this->request->get['text_id'];
             $existTemplate = $this->model_design_email_template->getByTextIdAndLanguageId(
-                $this->request->get['text_id'],
-                $this->language->getContentLanguageID()
+                (string)$this->request->get['text_id'],
+                (int)$this->language->getContentLanguageID()
             );
             if ($existTemplate) {
                 redirect(
@@ -258,8 +258,8 @@ class ControllerPagesDesignEmailTemplates extends AController
                 );
             }
             $templateDefaultLanguage = $this->model_design_email_template->getByTextIdAndLanguageId(
-                $this->request->get['text_id'],
-                $this->language->getDefaultLanguageID()
+                (string)$this->request->get['text_id'],
+                (int)$this->language->getDefaultLanguageID()
             );
             if ($templateDefaultLanguage) {
                 foreach ($templateDefaultLanguage as $key => $value) {
