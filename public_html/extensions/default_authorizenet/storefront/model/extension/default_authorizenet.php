@@ -269,7 +269,7 @@ class ModelExtensionDefaultAuthorizeNet extends Model
         $customerAddress = new CustomerAddressType();
         $customerAddress->setFirstName($payment_data['first_name']);
         $customerAddress->setLastName($payment_data['last_name']);
-        $customerAddress->setAddress($payment_data['address_line1'].' '.$payment_data['address_line2']);
+        $customerAddress->setAddress(mb_substr($payment_data['address_line1'].' '.$payment_data['address_line2'],0,60));
         $customerAddress->setCity($payment_data['payment_city']);
         $customerAddress->setState($payment_data['payment_zone']);
         $customerAddress->setZip($payment_data['payment_postcode']);
@@ -280,7 +280,7 @@ class ModelExtensionDefaultAuthorizeNet extends Model
         $ship_address_obj = new AnetAPI\CustomerAddressType();
         $ship_address_obj->setFirstName($payment_data['first_name']);
         $ship_address_obj->setLastName($payment_data['last_name']);
-        $ship_address_obj->setAddress($payment_data['shipping_address_1'].' '.$payment_data['shipping_address_2']);
+        $ship_address_obj->setAddress(mb_substr($payment_data['shipping_address_1'].' '.$payment_data['shipping_address_2'],0,60));
         $ship_address_obj->setCity($payment_data['shipping_city']);
         $ship_address_obj->setState($payment_data['shipping_zone']);
         $ship_address_obj->setZip($payment_data['shipping_postcode']);
@@ -399,7 +399,7 @@ class ModelExtensionDefaultAuthorizeNet extends Model
         $ship_address_obj = new CustomerAddressType();
         $ship_address_obj->setFirstName($payment_data['first_name']);
         $ship_address_obj->setLastName($payment_data['last_name']);
-        $ship_address_obj->setAddress($payment_data['shipping_address_1'].' '.$payment_data['shipping_address_2']);
+        $ship_address_obj->setAddress(mb_substr($payment_data['shipping_address_1'].' '.$payment_data['shipping_address_2'],0,60));
         $ship_address_obj->setCity($payment_data['shipping_city']);
         $ship_address_obj->setState($payment_data['shipping_zone']);
         $ship_address_obj->setZip($payment_data['shipping_postcode']);
@@ -457,24 +457,24 @@ class ModelExtensionDefaultAuthorizeNet extends Model
      * @return array
      * @throws AException
      */
-    private function processApiResponse($api_response, $mode = 'exception')
+    protected function processApiResponse($api_response, $mode = 'exception')
     {
         $output = [];
 
-            if (method_exists($api_response, 'getErrors') && $api_response->getErrors() != null) {
-                $errors = $api_response->getErrors();
-                $output['error'] = $errors[0]->getErrorText();
-                $output['code'] = $errors[0]->getErrorCode();
-            } else {
-                $messages = $api_response->getMessages();
-                if ( ! is_array($messages)) {
-                    $messages = $messages->getMessage();
-                }
-                if ($messages) {
-                    $output['error'] = $messages[0]->getText();
-                    $output['code'] = $messages[0]->getCode();
-                }
+        if (method_exists($api_response, 'getErrors') && $api_response->getErrors() != null) {
+            $errors = $api_response->getErrors();
+            $output['error'] = $errors[0]->getErrorText();
+            $output['code'] = $errors[0]->getErrorCode();
+        } else {
+            $messages = $api_response->getMessages();
+            if ( ! is_array($messages)) {
+                $messages = $messages->getMessage();
             }
+            if ($messages) {
+                $output['error'] = $messages[0]->getText();
+                $output['code'] = $messages[0]->getCode();
+            }
+        }
 
 
         if ($output) {

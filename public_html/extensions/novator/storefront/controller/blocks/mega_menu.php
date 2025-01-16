@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details is bundled with this package in the file LICENSE.txt.
@@ -231,10 +231,12 @@ class ControllerBlocksMegaMenu extends AController
             $item['children'] = $this->prepareMenu($menu_items, $item['item_id']);
 
             parse_str($item['item_url'], $urlParams);
+            $urlParams['rt'] = array_key_first($urlParams);
+            unset($urlParams[$urlParams['rt']]);
             //if at least one child is current - mark parent as current too
             if (!$item['current'] && $item['children']) {
                 $chCurrents = array_column($item['children'], 'current');
-                $chCurrents[] = (array_key_first($urlParams) == $this->request->get['rt']);
+                $chCurrents[] = count(array_intersect($urlParams,$this->request->get)) == count($urlParams);
                 $item['current'] = in_array( true, $chCurrents );
             }
 
@@ -261,7 +263,7 @@ class ControllerBlocksMegaMenu extends AController
                         }
                     }
                 } else {
-                    $item['current'] = array_key_first($urlParams) == $this->request->get['rt'];
+                    $item['current'] = count(array_intersect($urlParams,$this->request->get)) == count($urlParams);
                 }
             }
             $menu[] = $item;

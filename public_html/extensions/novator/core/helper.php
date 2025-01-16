@@ -127,7 +127,7 @@ function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
         $output .= '<div '.($options['top_level']['attr'] ?: 'class="navbar-nav align-items-start flex-wrap"').'>';
     } else {
         $output .= '<div class="dropdown-menu '.($level > 1 ? 'dropdown-submenu' : '')
-            .'" aria-labelledby="'.$parentId.'" '.$options['submenu_level']['attr'].'>';
+            .'" aria-labelledby="'.$parentId.'" '.$options['submenu_level']['attr'].' data-bs-popper>';
     }
 
     foreach ($menuItems as $i => $item) {
@@ -218,7 +218,7 @@ function renderCategorySubMenuNV($menuItems, $level = 0, $parentId = '', $option
     }
     $idKey = $options['id_key_name'] ?: 'id';
 
-    $output .= '<div class="dropdown-menu " aria-labelledby="'.$parentId.'" '.$options['submenu_level']['attr'].'>';
+    $output .= '<div class="dropdown-menu " aria-labelledby="'.$parentId.'" '.$options['submenu_level']['attr'].' data-bs-popper>';
     $ar = new AResource('image');
     foreach ($menuItems as $i => $item) {
 

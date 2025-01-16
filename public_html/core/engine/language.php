@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details is bundled with this package in the file LICENSE.txt.
@@ -461,7 +461,7 @@ class ALanguage
     public function getDefaultLanguageID()
     {
         $info = $this->getDefaultLanguage();
-        return $info['language_id'];
+        return (int)$info['language_id'];
     }
 
     /**
@@ -487,7 +487,7 @@ class ALanguage
      */
     public function getLanguageCode()
     {
-        return $this->current_language['code'];
+        return (string)$this->current_language['code'];
     }
 
     /**
@@ -518,7 +518,7 @@ class ALanguage
     public function getContentLanguageID()
     {
         $session = $this->registry->get('session');
-        return $session->data['content_language_id'];
+        return (int)$session->data['content_language_id'];
     }
 
     /**
@@ -529,7 +529,7 @@ class ALanguage
     public function getContentLanguageCode()
     {
         $session = $this->registry->get('session');
-        return $session->data['content_language'];
+        return (string)$session->data['content_language'];
     }
 
     /**

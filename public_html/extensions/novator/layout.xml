@@ -2492,6 +2492,18 @@ $(document).ready(function () {
           <position>40</position>
         </block>
         <block>
+          <block_txt_id>customer</block_txt_id>
+          <controller>blocks/customer</controller>
+          <templates>
+            <template>
+              <parent_block>header</parent_block>
+              <template_name>blocks/customer.tpl</template_name>
+            </template>
+          </templates>
+          <status>1</status>
+          <position>50</position>
+        </block>
+        <block>
           <block_txt_id>mega_menu_header</block_txt_id>
           <controller>blocks/mega_menu</controller>
           <templates>
@@ -2501,7 +2513,7 @@ $(document).ready(function () {
             </template>
           </templates>
           <status>1</status>
-          <position>50</position>
+          <position>60</position>
         </block>
       </block>
       <block>
@@ -2771,6 +2783,18 @@ $(document).ready(function () {
           <position>40</position>
         </block>
         <block>
+          <block_txt_id>customer</block_txt_id>
+          <controller>blocks/customer</controller>
+          <templates>
+            <template>
+              <parent_block>header</parent_block>
+              <template_name>blocks/customer.tpl</template_name>
+            </template>
+          </templates>
+          <status>1</status>
+          <position>50</position>
+        </block>
+        <block>
           <block_txt_id>mega_menu_header</block_txt_id>
           <controller>blocks/mega_menu</controller>
           <templates>
@@ -2780,7 +2804,7 @@ $(document).ready(function () {
             </template>
           </templates>
           <status>1</status>
-          <position>50</position>
+          <position>60</position>
         </block>
       </block>
       <block>
@@ -3050,6 +3074,18 @@ $(document).ready(function () {
           <position>40</position>
         </block>
         <block>
+          <block_txt_id>customer</block_txt_id>
+          <controller>blocks/customer</controller>
+          <templates>
+            <template>
+              <parent_block>header</parent_block>
+              <template_name>blocks/customer.tpl</template_name>
+            </template>
+          </templates>
+          <status>1</status>
+          <position>50</position>
+        </block>
+        <block>
           <block_txt_id>mega_menu_header</block_txt_id>
           <controller>blocks/mega_menu</controller>
           <templates>
@@ -3059,7 +3095,7 @@ $(document).ready(function () {
             </template>
           </templates>
           <status>1</status>
-          <position>50</position>
+          <position>60</position>
         </block>
       </block>
       <block>
@@ -3329,6 +3365,18 @@ $(document).ready(function () {
           <position>40</position>
         </block>
         <block>
+          <block_txt_id>customer</block_txt_id>
+          <controller>blocks/customer</controller>
+          <templates>
+            <template>
+              <parent_block>header</parent_block>
+              <template_name>blocks/customer.tpl</template_name>
+            </template>
+          </templates>
+          <status>1</status>
+          <position>50</position>
+        </block>
+        <block>
           <block_txt_id>mega_menu_header</block_txt_id>
           <controller>blocks/mega_menu</controller>
           <templates>
@@ -3338,7 +3386,7 @@ $(document).ready(function () {
             </template>
           </templates>
           <status>1</status>
-          <position>50</position>
+          <position>60</position>
         </block>
       </block>
       <block>
@@ -3608,6 +3656,18 @@ $(document).ready(function () {
           <position>40</position>
         </block>
         <block>
+          <block_txt_id>customer</block_txt_id>
+          <controller>blocks/customer</controller>
+          <templates>
+            <template>
+              <parent_block>header</parent_block>
+              <template_name>blocks/customer.tpl</template_name>
+            </template>
+          </templates>
+          <status>1</status>
+          <position>50</position>
+        </block>
+        <block>
           <block_txt_id>mega_menu_header</block_txt_id>
           <controller>blocks/mega_menu</controller>
           <templates>
@@ -3617,7 +3677,7 @@ $(document).ready(function () {
             </template>
           </templates>
           <status>1</status>
-          <position>50</position>
+          <position>60</position>
         </block>
       </block>
       <block>
@@ -3887,6 +3947,18 @@ $(document).ready(function () {
           <position>40</position>
         </block>
         <block>
+          <block_txt_id>customer</block_txt_id>
+          <controller>blocks/customer</controller>
+          <templates>
+            <template>
+              <parent_block>header</parent_block>
+              <template_name>blocks/customer.tpl</template_name>
+            </template>
+          </templates>
+          <status>1</status>
+          <position>50</position>
+        </block>
+        <block>
           <block_txt_id>mega_menu_header</block_txt_id>
           <controller>blocks/mega_menu</controller>
           <templates>
@@ -3896,7 +3968,7 @@ $(document).ready(function () {
             </template>
           </templates>
           <status>1</status>
-          <position>50</position>
+          <position>60</position>
         </block>
       </block>
       <block>
@@ -4166,6 +4238,18 @@ $(document).ready(function () {
           <position>40</position>
         </block>
         <block>
+          <block_txt_id>customer</block_txt_id>
+          <controller>blocks/customer</controller>
+          <templates>
+            <template>
+              <parent_block>header</parent_block>
+              <template_name>blocks/customer.tpl</template_name>
+            </template>
+          </templates>
+          <status>1</status>
+          <position>50</position>
+        </block>
+        <block>
           <block_txt_id>mega_menu_header</block_txt_id>
           <controller>blocks/mega_menu</controller>
           <templates>
@@ -4175,7 +4259,7 @@ $(document).ready(function () {
             </template>
           </templates>
           <status>1</status>
-          <position>50</position>
+          <position>60</position>
         </block>
       </block>
       <block>
@@ -4445,6 +4529,18 @@ $(document).ready(function () {
           <position>40</position>
         </block>
         <block>
+          <block_txt_id>customer</block_txt_id>
+          <controller>blocks/customer</controller>
+          <templates>
+            <template>
+              <parent_block>header</parent_block>
+              <template_name>blocks/customer.tpl</template_name>
+            </template>
+          </templates>
+          <status>1</status>
+          <position>50</position>
+        </block>
+        <block>
           <block_txt_id>mega_menu_header</block_txt_id>
           <controller>blocks/mega_menu</controller>
           <templates>
@@ -4454,7 +4550,7 @@ $(document).ready(function () {
             </template>
           </templates>
           <status>1</status>
-          <position>50</position>
+          <position>60</position>
         </block>
       </block>
       <block>
@@ -4724,6 +4820,18 @@ $(document).ready(function () {
           <position>40</position>
         </block>
         <block>
+          <block_txt_id>customer</block_txt_id>
+          <controller>blocks/customer</controller>
+          <templates>
+            <template>
+              <parent_block>header</parent_block>
+              <template_name>blocks/customer.tpl</template_name>
+            </template>
+          </templates>
+          <status>1</status>
+          <position>50</position>
+        </block>
+        <block>
           <block_txt_id>mega_menu_header</block_txt_id>
           <controller>blocks/mega_menu</controller>
           <templates>
@@ -4733,7 +4841,7 @@ $(document).ready(function () {
             </template>
           </templates>
           <status>1</status>
-          <position>50</position>
+          <position>60</position>
         </block>
       </block>
       <block>

@@ -29,13 +29,15 @@
         }
     },
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^8.2",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
         "wikimedia/composer-merge-plugin": "^2.1.0",
-        "guzzlehttp/guzzle": "^7.3",
-        "guzzlehttp/psr7": "^1.7 || ^2.0"
+        "guzzlehttp/guzzle": "7.9.2",
+        "guzzlehttp/psr7": "2.7.0",
+        "symfony/process": "7.2.0",
+        "symfony/http-client": "7.2.2"
     },
     "extra": {
         "merge-plugin": {
