@@ -101,7 +101,7 @@ final class AMySQLi
                     $result = $this->query($sql, $noexcept);
                     $message = "Reconnected to database {$this->database} after Mysql connection has dropped";
                     $error = new AError($message);
-                    $error->toLog()->toDebug()->toMessages();
+                    $error->toDebug();
                 } catch (Exception $exc) {
                     $this->reconnect_cnt++;
                     if (!$noexcept) {

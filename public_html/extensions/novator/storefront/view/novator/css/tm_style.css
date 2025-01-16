@@ -1265,6 +1265,10 @@ footer .dropdown-menu   {
     position: fixed;
 }
 
+#customer_menu_top .dropdown-menu {
+    margin-top: -5px !important;
+}
+
 .btn-group > :not(.btn-check:first-child) + .btn,
 .btn-group > .btn-group:not(:first-child) {
     margin-left: calc(1px * -1);
@@ -1808,6 +1812,12 @@ section {
 
 .dropdown-toggle.arrow-none::after {
     display: none;
+}
+
+a.dropdown-toggle:after {
+    position: absolute;
+    inset: -5px;
+    border: 0 !important;
 }
 
 /**  =====================
@@ -3968,12 +3978,6 @@ a.share{
 
 #category_selected{
     max-width: 150px;
-}
-
-a.dropdown-toggle:after {
-    position: absolute;
-    inset: -5px;
-    border: 0 !important;
 }
 
 .product-image-column-list{
