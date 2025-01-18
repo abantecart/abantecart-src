@@ -1,19 +1,20 @@
 alter table `ac_contents`
-    add `author` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-    add `content_bar` int(1) NOT NULL DEFAULT '0',
-    add `icon_rl_id` int(11),
-    add `publish_date` timestamp NULL,
-    add `expire_date` timestamp NULL,
-    add `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-    add `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+    add column `content_bar` int(1) NOT NULL DEFAULT '0' after `status`,
+    add column `author` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+    add column `icon_rl_id` int(11),
+    add column `publish_date` timestamp NULL,
+    add column `expire_date` timestamp NULL,
+    add column `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+    add column `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
 
 update `ac_contents` c set `publish_date` = (
     select `date_added` from `ac_content_descriptions` cd where c.content_id = cd.content_id limit 1
 );
-UPDATE `ac_content_descriptions` c SET `title` = `name` WHERE title = '';
-ALTER TABLE `ac_content_descriptions` DROP `name`;
 
---Remove duplicate ac_contents entries. content_id is now unique
+UPDATE `ac_content_descriptions` c SET `title` = `name` WHERE title = '';
+ALTER TABLE `ac_content_descriptions` DROP COLUMN `name`;
+
+#Remove duplicate ac_contents entries. content_id is now unique
 CREATE TEMPORARY TABLE temp_unique AS
 SELECT MIN(content_id) AS content_id, parent_content_id
 FROM `ac_contents`
@@ -23,6 +24,12 @@ DELETE FROM `ac_contents`
 WHERE (content_id, parent_content_id) NOT IN (SELECT content_id, parent_content_id FROM temp_unique);
 
 DROP TEMPORARY TABLE temp_unique;
+
+alter table `ac_contents`
+    drop primary key;
+
+alter table `ac_contents`
+    add primary key (content_id);
 
 CREATE TABLE `ac_content_tags` (
    `content_id` int(11) NOT NULL,
