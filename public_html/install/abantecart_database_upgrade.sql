@@ -25,12 +25,6 @@ WHERE (content_id, parent_content_id) NOT IN (SELECT content_id, parent_content_
 
 DROP TEMPORARY TABLE temp_unique;
 
-alter table `ac_contents`
-    drop primary key;
-
-alter table `ac_contents`
-    add primary key (content_id);
-
 CREATE TABLE `ac_content_tags` (
    `content_id` int(11) NOT NULL,
    `tag` varchar(32) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
