@@ -1810,11 +1810,6 @@ section {
     display: none;
 }
 
-a.dropdown-toggle:after {
-    position: absolute;
-    right: 0;
-}
-
 /**  =====================
       navbar
 ==========================  **/
@@ -2036,7 +2031,7 @@ li#review-set::before {
     white-space: nowrap;
 }
 
-.navbar .sub-menu .nav-link {
+.navbar .menu-sub-item .nav-link {
     height: 46px;
 }
 
@@ -2085,6 +2080,10 @@ li#review-set::before {
     overflow: hidden;
     overflow-y: auto;
     max-height: calc(100vh - 150px);
+}
+
+.dropdown-menu .menu-sub-item .dropdown-menu {
+    position: absolute;
 }
 
 .navbar .mega-menu .category-title {
@@ -2370,12 +2369,16 @@ li#review-set::before {
     flex-direction: row;
 }
 
-.bottom-footer-block .navbar-nav .sub-menu  {
+.bottom-footer-block .navbar-nav .menu-sub-item {
     margin-right: 15px !important;
 }
 
 .bottom-footer-block .navbar-nav .dropdown:last-child {
     margin-right: 0 !important;
+}
+
+.bottom-footer-block .navbar .nav-link {
+    margin-right: 15px;
 }
 
 .footer .footer-notes {
@@ -3744,8 +3747,16 @@ h4 .heading-title:after,
 .dropstart:hover > .dropdown-menu,
 .dropup:hover > .dropdown-menu,
 .dropend:hover > .dropdown-menu {
-    display: inline-table;
+    display: block;
     margin-left: 0;
+    overflow: inherit;
+}
+
+#menu_all_categories.dropdown-toggle:after,
+.mega-sf-menu >.nav-item > a.dropdown-toggle:after {
+    position: absolute;
+    inset: -5px;
+    border: 0 !important;
 }
 
 .dropstart:hover > .dropdown-menu {

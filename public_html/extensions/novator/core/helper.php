@@ -139,7 +139,7 @@ function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
         }
         $item_title = '<span class="menu-img-caption">'.($item['text'] ?: $item['title'] ?: $item['name']).'</span>';
         $hasChild = (bool) $item['children'];
-        $output .= '<div class="'. ($hasChild ? 'dropend with-children ' : '').' ">';
+        $output .= '<div class="menu-sub-item '. ($hasChild ? 'dropend with-children ' : '').' ">';
         //check icon rl type html, image or none.
         $rlId = $item['icon'] ? : $item['icon_rl_id'];
         $icon = renderMenuItemIconNv($item, $rlId);
