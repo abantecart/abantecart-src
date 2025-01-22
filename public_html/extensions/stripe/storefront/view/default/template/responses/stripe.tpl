@@ -27,8 +27,8 @@ if ($error) { ?>
         </div>
         </form>
     </div>
-    <script src="https://js.stripe.com/v3/"></script>
     <script type="text/javascript">
+        firstLoad = true;
         var stripe, elements,
             source_data = {
                     owner: {
@@ -51,6 +51,9 @@ if ($error) { ?>
         if (typeof window['loadScript'] !== "function") {
             //when try to load script from ajax-response
             function loadScript(url, callback) {
+                if(!firstLoad){
+                    return;
+                }
                 var script = document.createElement("script")
                 script.type = "text/javascript";
 
@@ -70,6 +73,7 @@ if ($error) { ?>
 
                 script.src = url;
                 document.getElementsByTagName("head")[0].appendChild(script);
+                firstLoad = false;
             }
         }
         jQuery(document).ready(function () {

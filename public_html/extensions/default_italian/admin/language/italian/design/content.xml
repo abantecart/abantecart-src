@@ -144,4 +144,61 @@
 		<key>entry_meta_keywords</key>
 		<value><![CDATA[Parole chiave meta tag:]]></value>
 	</definition>
+	<definition>
+		<key>column_publish_date</key>
+		<value><![CDATA[Data di pubblicazione]]></value>
+	</definition>
+	<definition>
+		<key>entry_publish_date</key>
+		<value><![CDATA[Data di pubblicazione:]]></value>
+	</definition>
+	<definition>
+		<key>entry_expire_date</key>
+		<value><![CDATA[Data di scadenza:]]></value>
+	</definition>
+	<definition>
+		<key>entry_content_bar</key>
+		<value><![CDATA[Barra dei dettagli del contenuto: <br/><span class="help">Abilita questa impostazione per mostrare la barra con l&#39;autore e la data di pubblicazione sulla pagina del contenuto</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_icon</key>
+		<value><![CDATA[Immagine o icona principale:]]></value>
+	</definition>
+	<definition>
+		<key>entry_tags</key>
+		<value><![CDATA[Tag di contenuto: <br/><span class="help">elenco separato da virgole</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_author</key>
+		<value><![CDATA[Autore:]]></value>
+	</definition>
+	<definition>
+		<key>error_title_html</key>
+		<value><![CDATA[Il titolo del contenuto non può contenere tag HTML!]]></value>
+	</definition>
+	<definition>
+		<key>error_description_html</key>
+		<value><![CDATA[Descrizione del contenuto I tag HTML non sono supportati!]]></value>
+	</definition>
+	<definition>
+		<key>error_delete_parent</key>
+		<value><![CDATA[
+ Attenzione: i contenuti padre non possono essere eliminati! Sposta o elimina prima le pagine dei contenuti figlio.]]></value>
+	</definition>
+	<definition>
+		<key>text_clone</key>
+		<value><![CDATA[Clone]]></value>
+	</definition>
+	<definition>
+		<key>text_success_copy</key>
+		<value><![CDATA[Successo: hai copiato correttamente il contenuto della pagina <b>%s</b> !]]></value>
+	</definition>
+	<definition>
+		<key>text_success_copy_layout</key>
+		<value><![CDATA[ Nota: anche il layout della pagina dei contenuti è stato clonato.]]></value>
+	</definition>
+	<definition>
+		<key>text_error_copy</key>
+		<value><![CDATA[Clonazione fallita! La pagina del contenuto originale non è disponibile]]></value>
+	</definition>
 </definitions>

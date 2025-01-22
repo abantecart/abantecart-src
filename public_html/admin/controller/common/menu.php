@@ -1,24 +1,22 @@
 <?php
-/** @noinspection PhpUnused */
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 class ControllerCommonMenu extends AController
 {
@@ -37,7 +35,7 @@ class ControllerCommonMenu extends AController
         }
 
         $this->loadModel('user/user_group');
-        $this->groupID = (int) $this->user->getUserGroupId();
+        $this->groupID = (int)$this->user->getUserGroupId();
         if ($this->groupID !== self::TOP_ADMIN_GROUP) {
             $user_group = $this->model_user_user_group->getUserGroup($this->groupID);
             $this->permissions = $user_group['permission'];
@@ -92,36 +90,54 @@ class ControllerCommonMenu extends AController
         $rm->setType('image');
         $result = [];
         foreach ($menu_items as $item) {
-            if ($item['parent_id'] == $item_id && isset($item['item_id'])) {
-                if (isset($item ['language'])) {
+            if ($item['parent_id'] == $item_id && $item['item_id']) {
+                $rt = $menu_link = '';
+                $http_rt = false;
+                $isLink = str_starts_with($item['item_url'], 'http');
+                if ($item['language']) {
                     $this->loadLanguage($item ['language'], 'silent');
                 }
                 $children = $this->_getChildItems($item['item_id'], $menu_items);
-                $rt = '';
-                $http_rt = false;
-                $menu_link = '';
-                if (preg_match("/(http|https):/", $item['item_url'])) {
+
+                if ($isLink) {
                     $menu_link = $item['item_url'];
-                    $rt = $item['item_url'];
+                    $rt = trim($item['item_url']);
                     $http_rt = true;
-                } else {
-                    if ($item['item_url']) {
-                        //rt based link, need to save rt 
-                        $menu_link = $this->html->getSecureURL($item['item_url'], '', true);
-                        $rt = $item['item_url'];
+                    $link_key_name = "href";
+                } elseif(str_starts_with($item['item_url'], 'window.open')) {
+                    preg_match('/(\'|")(.*?)(\'|")/', $item['item_url'], $matches);
+                    if(!str_ends_with(parse_url($matches[2])['host'],base64_decode('LmFiYW50ZWNhcnQuY29t'))){
+                        continue;
                     }
+                    $menu_link = $item['item_url'];
+                    $rt = trim($item['item_url']);
+                    $link_key_name = "onclick";
+                } else if ($item['item_url']) {
+                    //rt based link, need to save rt
+                    $menu_link = $this->html->getSecureURL($item['item_url'], '', true);
+                    $rt = trim($item['item_url']);
+                    $link_key_name = "href";
                 }
 
-                $link_key_name = strpos($item ['item_url'], "http") ? "onclick" : "href";
-
                 $icon = $rm->getResource($item ['item_icon_rl_id']);
-                $icon = $icon['resource_code'] ? : '';
 
+                $iconHtml = $icon['resource_code']
+                    ?: (
+                    $icon['resource_path']
+                        ? $this->html->buildResourceImage(
+                        [
+                            'url'    => $rm->getResizedImageURL($icon, 19, 19),
+                            'width'  => 19,
+                            'height' => 19
+                        ]
+                    )
+                        : ''
+                    );
                 $temp = [
-                    'id'           => $item ['item_id'],
+                    'id'           => $item['item_id'],
                     $link_key_name => $menu_link,
                     'text'         => $this->language->get($item ['item_text']),
-                    'icon'         => $icon,
+                    'icon'         => $iconHtml,
                 ];
 
                 if ($rt) {
@@ -143,7 +159,7 @@ class ControllerCommonMenu extends AController
                     continue;
                 }
 
-                $result[$item['item_id']] = $temp;
+                $result[$item['parent_id'] . '~' . $item['item_id']] = $temp;
             }
         }
 
@@ -157,11 +173,10 @@ class ControllerCommonMenu extends AController
      */
     protected function getControllerRt($rt)
     {
-        if (!$rt || preg_match("/(http|https):/", $rt)) {
+        if (!$rt || str_starts_with($rt, 'http')) {
             return false;
         }
         $split = explode('/', $rt);
-
-        return $split[0].'/'.$split[1];
+        return $split[0] . '/' . $split[1];
     }
 }

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Horario de atención al público]]></value>
+	</definition>
+	<definition>
+		<key>closed</key>
+		<value><![CDATA[Cerrado]]></value>
+	</definition>
+	<definition>
+		<key>open</key>
+		<value><![CDATA[Abierto]]></value>
+	</definition>
+	<definition>
+		<key>sunday</key>
+		<value><![CDATA[Domingo]]></value>
+	</definition>
+	<definition>
+		<key>monday</key>
+		<value><![CDATA[Lunes]]></value>
+	</definition>
+	<definition>
+		<key>tuesday</key>
+		<value><![CDATA[Martes]]></value>
+	</definition>
+	<definition>
+		<key>wednesday</key>
+		<value><![CDATA[Miércoles]]></value>
+	</definition>
+	<definition>
+		<key>thursday</key>
+		<value><![CDATA[Jueves]]></value>
+	</definition>
+	<definition>
+		<key>friday</key>
+		<value><![CDATA[Viernes]]></value>
+	</definition>
+	<definition>
+		<key>saturday</key>
+		<value><![CDATA[Sábado]]></value>
+	</definition>
+</definitions>

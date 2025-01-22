@@ -2,7 +2,7 @@
 <div class="input-group h-100">
 <?php }
 	foreach ( (array)$options as $v => $text ) {
-	$radio_id = preg_replace('/[^a-zA-Z0-9\.-_]/', '', $id . $v);
+	$radio_id = preg_replace('/[^a-zA-Z0-9.-_]/', '', $id . $v);
 ?>
     <div class="form-check form-check-inline">
 		<input class="form-check-input" id="<?php echo $radio_id ?>"
@@ -17,7 +17,7 @@
 <?php } ?>
     <?php
     if ( $required ) { ?>
-        <span class="input-group-text text-danger">*</span>
+        <span class="input-group-text rounded-end text-danger">*</span>
     <?php } ?>
 
 <?php if(!$no_wrapper){?>

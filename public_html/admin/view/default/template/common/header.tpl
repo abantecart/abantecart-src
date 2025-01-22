@@ -8,7 +8,6 @@
 		<div class="embed abantecart_container"></div>
 	</div>
 	<div class="leftpanel">
-
 		<div class="logopanel">
 			<i class="sticky_header fa fa-toggle-off fa-fw"></i>
 			<a href="<?php echo $home; ?>">
@@ -17,19 +16,17 @@
 					echo $this->getHookVar('logoimage_hookvar');
 				} else{
 				    ?>
-					<img class="logo_image" src="<?php echo $template_dir; ?>image/logo.png" width="190"
+					<img class="logo_image"
+                         src="<?php echo $template_dir; ?>image/logo.png"
+                         style="max-width:190px; max-height: 40px;"
 						 title="<?php echo $heading_title; ?>"/>
 					<?php
 				}
 				?>
 			</a>
 		</div>
-		<!-- logopanel -->
-
 		<div class="leftpanelinner">
 			<i class="sticky_left fa fa-toggle-off fa-fw"></i>
-
-			<!-- This is only visible to small devices -->
 			<div class="visible-xs hidden-sm hidden-md hidden-lg">
 				<div class="media userlogged">
 					<a href="<?php echo $account_edit; ?>">
@@ -37,28 +34,21 @@
 					</a>
 				</div>
 			</div>
-
 			<div id="menu_box">
 				<?php echo $menu; ?>
 			</div>
-
 			<div class="side_summary">
 				<?php include($tpl_common_dir . 'summary.tpl'); ?>
 			</div>
-			<!-- side_summary -->
-
 			<?php echo $this->getHookVar('leftpanel_bottom'); ?>
-
 		</div>
-		<!-- leftpanelinner -->
-
-	</div><!-- leftpanel -->
+	</div>
 
 	<div class="mainpanel">
 	<div class="headerbar">
 		<a class="menutoggle"><i class="fa fa-arrows-h"></i></a>
-		<select id="global_search" name="search" data-placeholder="<?php echo $search_everywhere; ?>"
-				class="chosen-select form-control aselect ">
+		<select id="global_search" name="search" class="chosen-select form-control aselect"
+                data-placeholder="<?php echo $search_everywhere; ?>">
 			<option></option>
 		</select>
 		<div id="suggest_popup_dialog"></div>
@@ -86,30 +76,31 @@
 				</li>
 				<li class="hidden-xs">
 					<div class="btn-group">
-						<a href="<?php echo $rl_manager_url; ?>" class="btn btn-default tp-icon"><i
-									class="fa fa-photo"></i></a>
+						<a href="<?php echo $rl_manager_url; ?>" class="btn btn-default tp-icon">
+                            <i class="fa fa-photo"></i>
+                        </a>
 					</div>
 				</li>
-				<?php if ($ant){ ?>
-					<li>
-						<div class="btn-group ant_window">
-							<button class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown">
-								<i class="fa fa-comments fa-lg"></i>
-								<?php if ($ant_viewed <= 0){ ?>
-									<span class="badge"><i class="fa fa-bell"></i></span>
-								<?php } ?>
-							</button>
-							<div id="ant_dropdown" class="dropdown-menu dropdown-menu-head ant-menu-head pull-right">
-								<h5 class="title"><?php echo $text_abc_notification; ?></h5>
-								<ul class="dropdown-list gen-list">
-									<li>
-										<?php echo $ant; ?>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</li>
-				<?php } ?>
+            <?php if ($last_ant){ ?>
+                <li>
+                    <div class="btn-group ant_window">
+                        <button class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown">
+                            <i class="fa fa-comments fa-lg"></i>
+                            <?php if ($ant_viewed <= 0){ ?>
+                                <span class="badge"><i class="fa fa-bell"></i></span>
+                            <?php } ?>
+                        </button>
+                        <div id="ant_dropdown" class="dropdown-menu dropdown-menu-head ant-menu-head pull-right">
+                            <h5 class="title"><?php echo $text_abc_notification; ?></h5>
+                            <ul class="dropdown-list gen-list">
+                                <li>
+                                    <?php echo $last_ant; ?>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            <?php } ?>
 				<li>
 					<div class="btn-group new_messages">
 						<a href="" class="btn btn-default dropdown-toggle tp-icon"
@@ -117,14 +108,13 @@
 							<i class="fa fa-envelope fa-lg"></i>
 							<span class="badge"></span>
 						</a>
-
 						<div class="dropdown-menu dropdown-menu-head pull-right">
 							<h5 class="title"></h5>
 							<ul class="dropdown-list gen-list"></ul>
 						</div>
 					</div>
 				</li>
-				<?php
+            <?php
 				if ($languages){
 					$cur_lang = [];
 					foreach ($languages as $language){
@@ -139,8 +129,8 @@
 						<button class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown">
 							<?php if ($cur_lang['image']){ ?>
 								<img src="<?php echo $cur_lang['image']; ?>"
-                                     alt="<?php echo $cur_lang['name']; ?>"
-									 title="<?php echo $cur_lang['name']; ?>"/>
+                                     alt="<?php echo_html2view($cur_lang['name']); ?>"
+									 title="<?php echo_html2view($cur_lang['name']); ?>"/>
 							<?php } else{ ?>
 								<i class="fa fa-language fa-lg"></i>
 							<?php } ?>
@@ -148,7 +138,9 @@
 						</button>
 						<div class="dropdown-menu dropdown-menu-head pull-right switcher">
 							<h5 class="title"><?php echo $cur_lang['name']; ?>
-								<a href="<?php echo $language_settings; ?>"><i class="fa fa-gears"></i></a>
+								<a href="<?php echo $language_settings; ?>">
+                                    <i class="fa fa-gears"></i>
+                                </a>
 							</h5>
 							<form action="<?php echo str_replace('&', '&amp;', $action); ?>"
                                   method="post"
@@ -159,9 +151,9 @@
 											<a onClick="$('input[name=\'language_code\']').attr('value', '<?php echo $language['code']; ?>'); $('#language_form').submit();">
                                         <?php
 												if ($language['image']){ ?>
-													<img src="<?php echo $language['image']; ?>"
-                                                         title="<?php echo $language['name']; ?>"
-                                                         alt="<?php echo $language['name']; ?>"/>
+													<img src="<?php echo_html2view($language['image']); ?>"
+                                                         title="<?php echo_html2view($language['name']); ?>"
+                                                         alt="<?php echo_html2view($language['name']); ?>"/>
                                         <?php } else{ ?>
 													<div class="pull-left" style="width: 19px;">&nbsp;</div>
 												<?php } ?>
@@ -191,13 +183,24 @@
 								<a href="<?php echo $account_edit; ?>"><i class="fa fa-gears"></i></a>
 							</h5>
 							<ul class="dropdown-list gen-list">
-								<li><a href="<?php echo $account_edit; ?>"><i
-												class="fa fa-edit"></i> <?php echo $text_edit_details; ?></a></li>
-								<li><a href="<?php echo $im_settings_edit; ?>"><i
-												class="fa fa-bullhorn"></i> <?php echo $text_edit_notifications; ?></a>
+								<li>
+                                    <a href="<?php echo $account_edit; ?>">
+                                        <i class="fa fa-edit"></i>
+                                        <?php echo $text_edit_details; ?>
+                                    </a>
+                                </li>
+								<li>
+                                    <a href="<?php echo $im_settings_edit; ?>">
+                                        <i class="fa fa-bullhorn"></i>
+                                        <?php echo $text_edit_notifications; ?>
+                                    </a>
 								</li>
-								<li><a href="<?php echo $logout; ?>"><i
-												class="fa fa-unlock"></i><?php echo $text_logout; ?></a></li>
+								<li>
+                                    <a href="<?php echo $logout; ?>">
+                                        <i class="fa fa-unlock"></i>
+                                        <?php echo $text_logout; ?>
+                                    </a>
+                                </li>
 							</ul>
 						</div>
 					</div>
@@ -205,7 +208,7 @@
 				<li class="hidden-xs">
 					<div class="btn-group">
 						<a onClick="window.open('<?php echo $store; ?>');" class="btn btn-default tp-icon"
-						   data-toggle="dropdown" title="<?php echo $text_front; ?>">
+						   data-toggle="dropdown" title="<?php echo_html2view($text_front); ?>">
 							<i class="fa fa-external-link fa-lg"></i>
 						</a>
 					</div>
@@ -218,8 +221,7 @@
 				</li>
 			</ul>
 		</div>
-		<!-- header-right -->
-	</div><!-- headerbar -->
+	</div>
 
 	<!-- modals location outside of headerbar -->
 <?php if ($config_voicecontrol){ ?>
@@ -238,44 +240,37 @@ echo $this->html->buildElement(
 
 	<div class="pageheader">
 	<?php
-		$current = '';
-		$breadcrumbs_html = '';
-		foreach ($breadcrumbs as $breadcrumb){
-            $breadcrumb['icon'] = $breadcrumb['icon'] ?? '';
-			$breadcrumbs_html .= '<li>';
-			if ($breadcrumb['current'] ?? false){
-				$current = $breadcrumb;
-				$breadcrumbs_html .= $breadcrumb['icon'] . $breadcrumb['text'];
-			} else{
-				$breadcrumbs_html .= '<a href="' . $breadcrumb['href'] . '">' . $breadcrumb['icon'] . $breadcrumb['text'] . '</a>';
-			}
-			$breadcrumbs_html .= '</li>';
-		} ?>
+		$current = []; ?>
 		<h2>
-			<?php if ($current_menu['icon'] ?? ''){ ?>
-				<?php echo $current_menu['icon']; ?>
-			<?php } else{ ?>
-				<i class="fa fa-th-list"></i>
-			<?php } ?>
-			<?php if ($current && isset($current['text']) && $current['text']){
-				echo $current['text'];
-			} else{
-				echo $heading_title;
-			} ?>
-			<?php if ($current && isset($current['sub_text']) && $current['sub_text']){ ?>
+			<?php
+            echo $current_menu['icon'] ?: '<i class="fa fa-th-list"></i>';
+            echo $current['text'] ?: $heading_title;
+            if ($current['sub_text']){ ?>
 				<span><?php echo $current['sub_text']; ?></span>
 			<?php } ?>
 		</h2>
 
-		<?php if ($breadcrumbs && sizeof($breadcrumbs) > 1){ ?>
-			<div class="breadcrumb-wrapper">
-				<ol class="breadcrumb">
-					<?php echo $breadcrumbs_html; ?>
-				</ol>
-			</div>
-		<?php } else if ($ant){ ?>
+		<?php
+        if ($breadcrumbs){
+            $breadcrumbs_html = [];
+            $del = round(100/count((array)$breadcrumbs));
+            foreach ((array)$breadcrumbs as $breadcrumb){
+                $title = ' title="'.html2view(html_entity_decode($breadcrumb['text'])).'" ';
+                $breadcrumb['icon'] = $breadcrumb['icon'] ?? '';
+                $cssClass = $breadcrumb['current'] ? ' active' : '';
+                $href = !$breadcrumb['current'] ? ' href="' . $breadcrumb['href'] . '" ' : '';
+                $breadcrumbs_html[] = '<a class="'.$cssClass.'" '.$href.$title.' >'.$breadcrumb['icon'] . $breadcrumb['text'].'</a>';
+            }
+            if ( sizeof($breadcrumbs) > 1){ ?>
+                <div class="breadcrumb-wrapper">
+                    <?php echo implode("<a>/</a>",$breadcrumbs_html); ?>
+                </div>
+            <?php }
+        } else if ($ant_banner){ ?>
 			<div class="ant-wrapper">
-				<?php echo $ant; ?>
+			    <div class="content">
+				    <?php echo $ant_banner; ?>
+			    </div>
 			</div>
 		<?php } ?>
 	</div>
@@ -287,7 +282,7 @@ echo $this->html->buildElement(
                 $('div#voice_start').hide();
             }
 <?php }
-      if (sizeof((array)$breadcrumbs) <= 1 && $ant) { ?>
+      if (sizeof((array)$breadcrumbs) <= 1 && $last_ant) { ?>
             $('#ant_dropdown').on('shown.bs.dropdown', function(){
                 //register ant shown in dashboard
                 updateANT('<?php echo $mark_read_url; ?>');
@@ -297,18 +292,18 @@ echo $this->html->buildElement(
 
             //global search section
             $("#global_search")
-                .chosen({'width': '260px', 'white-space': 'nowrap'})
+                .chosen({'width': '30%','white-space': 'nowrap'})
                 .ajaxChosen({
                 type: 'GET',
                 url: '<?php echo $search_suggest_url; ?>',
                 dataType: 'json',
                 jsonTermKey: "term",
-                keepTypingMsg: "<?php echo $text_continue_typing; ?>",
-                lookingForMsg: "<?php echo $text_looking_for; ?>",
+                keepTypingMsg: <?php js_echo($text_continue_typing); ?>,
+                lookingForMsg: <?php js_echo($text_looking_for); ?>,
                 minTermLength: 2
             }, function (data) {
                 if (data.response.length < 1) {
-                    $("#searchform").chosen({no_results_text: "<?php echo $text_no_results; ?>"});
+                    $("#searchform").chosen({no_results_text: <?php js_echo($text_no_results); ?>});
                     return '';
                 }
                 //build result array
@@ -333,7 +328,7 @@ echo $this->html->buildElement(
                 var onclick = 'onClick="window.open(&apos;' + search_action + '&apos;);"';
                 results.push({
                     value: 0,
-                    text: '<div class="text-center"><a ' + onclick + ' class="btn btn-deafult"><?php echo $search_everywhere; ?></a></div>'
+                    text: '<div class="text-center"><a ' + onclick + ' class="btn btn-default">' + <?php js_echo($search_everywhere); ?> + '</a></div>'
                 });
                 $.each(dataobj, function (category, datacat) {
                     var url = search_action + '#' + category;
@@ -341,7 +336,9 @@ echo $this->html->buildElement(
                     var header = '<span class="h5">' + searchSectionIcon(category) + datacat.name + '</span>';
                     //show more result only if there are more records
                     if (datacat.items.length === 3) {
-                        header += '<span class="pull-right"><a class="more-in-category" ' + onclick + '><?php echo $text_all_matches;?></a></span>';
+                        header += '<span class="pull-right"><a class="more-in-category" '
+                            + onclick
+                            + '>' + <?php js_echo($text_all_matches); ?> + '</a></span>';
                     }
                     results.push({
                         group: true,
@@ -424,4 +421,20 @@ echo $this->html->buildElement(
     });
 </script>
 
-<?php } ?>
+<?php
+}
+$loader = '<div style="min-height: 60px"><div id="hist_loading" class="center_div_abs"><i class="fa fa-spinner fa-spin fa-2x"></i></div></div>';
+echo $this->html->buildElement(
+    [
+        'type'        => 'modal',
+        'id'          => 'hist_modal',
+        'modal_type'  => 'lg',
+        'data_source' => 'ajax',
+        'js_onclose'  => "
+        $('#hist_modal .modal-body').html('".$loader."');
+        $('#hist_modal .panel-body').off();
+    ",
+        'content' => $loader,
+    ]
+);
+?>

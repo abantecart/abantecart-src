@@ -19,7 +19,7 @@
                 ?>
                 </div> 
             <div class="row mt-4 bottom-footer-block">
-                <div class="col-lg-8">
+                <div class="col-lg-12">
                     <ul class="list-inline">
                         <li class="list-inline-item">
                             <?php
@@ -35,20 +35,20 @@
                             } ?>
                         </li>
                     </ul>
-                    <div class="w-100 d-flex text-white text-opacity-75 my-4 flex-nowrap"><?php echo $text_project_label ?></div>
-                    <p class="left text-white text-opacity-75 mb-3"> <?php echo $text_copy; ?></p>
+                    <div class="w-100 d-flex text-white text-opacity-50 my-4 justify-content-between footer-notes">
+                        <div class="d-flex flex-nowrap"><?php echo $text_copy; ?></div>
+                        <div class="d-flex flex-nowrap"><?php echo $text_project_label ?></div>
+                    </div>
                 </div>
             </div>
         </div>
 <!-- footer bottom ends -->
 
-
 <div id="msgModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close callback-btn" data-dismiss="modal"
-                        aria-hidden="true">&times;</button>
+                <button type="button" class="close callback-btn" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h3 class="hidden">&nbsp;</h3>
             </div>
             <div class="modal-body">

@@ -867,7 +867,7 @@ var formOnExit = function(){
 		$btn.attr('data-loading-text',spinner);
 		$btn.on('click', function (event) {
 			let form = $(this).parents('form');
-			if(form && !form.valid()){
+			if(form.length>0 && !form.valid()){
 				return;
 			}
 			//chrome submit fix

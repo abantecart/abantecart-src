@@ -1,23 +1,4 @@
 <?xml version="1.0"?>
-<!--
-  ~   $Id$
-  ~
-  ~   AbanteCart, Ideal OpenSource Ecommerce Solution
-  ~   http://www.AbanteCart.com
-  ~
-  ~   Copyright © 2011-2024 Belavier Commerce LLC
-  ~
-  ~   This source file is subject to Open Software License (OSL 3.0)
-  ~   License details is bundled with this package in the file LICENSE.txt.
-  ~   It is also available at this URL:
-  ~   <http://www.opensource.org/licenses/OSL-3.0>
-  ~
-  ~  UPGRADE NOTE:
-  ~    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-  ~    versions in the future. If you wish to customize AbanteCart for your
-  ~    needs please refer to http://www.AbanteCart.com for more information.
-  -->
-
 <definitions>
 	<definition>
 		<key>heading_title</key>
@@ -1098,5 +1079,9 @@ imagen</span>]]></value>
 	<definition>
 		<key>entry_fast_checkout_show_order_comment_field</key>
 		<value><![CDATA[Mostrar campo de comentarios del pedido <br/><span class="help">El área de texto de comentarios se mostrará durante el proceso de pago</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_content_limit</key>
+		<value><![CDATA[Número de elementos en bloques de contenido ]]></value>
 	</definition>
 </definitions>

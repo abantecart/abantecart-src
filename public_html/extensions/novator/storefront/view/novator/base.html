@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="{{lang}}">
+  <head>
+    <meta charset="UTF-8">
+    <title></title>
+    <base href="{{baseUrl}}">
+    <!--  {{keywords}}-->
+    <!--  {{description}}-->
+    <meta name="generator" content="AbanteCart v{{version}} - Open Source eCommerce solution">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--  {{favicon}}-->
+    <link href="extensions/novator/storefront/view/novator/image/apple-touch-icon.png" rel="apple-touch-icon" />
+    <link href="extensions/novator/storefront/view/novator/image/apple-touch-icon-76x76.png" rel="apple-touch-icon" sizes="76x76" />
+    <link href="extensions/novator/storefront/view/novator/image/apple-touch-icon-120x120.png" rel="apple-touch-icon" sizes="120x120" />
+    <link href="extensions/novator/storefront/view/novator/image/apple-touch-icon-152x152.png" rel="apple-touch-icon" sizes="152x152" />
+    <link href="extensions/novator/storefront/view/novator/image/icon-192x192.png" rel="apple-touch-icon" sizes="192x192" />
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap-grid.min.css" integrity="sha512-i1b/nzkVo97VN5WbEtaPebBG8REvjWeqNclJ6AItj7msdVcaveKrlIIByDpvjk5nwHjXkIqGZscVxOrTb9tsMA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap-reboot.min.css" integrity="sha512-HJaQ4y3YcUGCWikWDn8bFeGTy3Z/3IbxFYQ9G3UAWx16PyTL6Nu5P/BDDV9s0WhK3Sq27Wtbk/6IcwGmGSMXYg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap-utilities.min.css" integrity="sha512-4ocAKAxnrkSm7MvkkF1D435kko3/HWWvoi/U9+7+ln94B/U01Mggca05Pm3W59BIv3abl0U3MPdygAPLo5aeqg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" integrity="sha512-dPXYcDub/aeb08c63jRq/k6GaKccl256JQy/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67/bbV8XaCQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="extensions/novator/storefront/view/novator/css/plugins/owl.carousel.min.css" rel="stylesheet" type='text/css' />
+    <link href="extensions/novator/storefront/view/novator/css/tm_style.css" rel="stylesheet" type='text/css' />
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js" integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="extensions/novator/storefront/view/novator/js/plugins/owl.carousel.js" ></script>
+
+    <style></style>
+<!--  {{blocks_css}}-->
+
+    <script type="text/javascript">
+      let storeName = '{{storeName}}';
+      let currency = '{{currency}}';
+      let default_currency = '{{default_currency}}';
+      let language = '{{lang}}';
+      let baseUrl = '{{baseUrl}}';
+      let samesite = 'None; secure=1;';
+      let is_retina = true;
+      let cart_url = baseUrl + 'index.php?rt=checkout/cart';
+      let call_to_order_url = baseUrl + 'index.php?rt=content/contact';
+      let search_url = baseUrl + 'index.php?rt=product/search';
+      let text_add_cart_confirm = '{{text_add_cart_confirm}}';
+      let cart_ajax_url = baseUrl + 'index.php?rt=r/product/product/addToCart&fc=1';
+      let wishlist_add_url = baseUrl + 'index.php?rt=product/wishlist/add';
+      let wishlist_remove_url = baseUrl + 'index.php?rt=product/wishlist/remove';
+      let ga4_enabled = false;
+    </script>
+    <script type="text/javascript" src="extensions/novator/storefront/view/novator/js/main.js"></script>
+<!--  {{blocks_js}}-->
+  </head>
+  <body></body>
+</html>

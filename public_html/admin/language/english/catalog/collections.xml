@@ -141,10 +141,6 @@
 		<value><![CDATA[Brands:]]></value>
 	</definition>
 	<definition>
-		<key>text_select_manufacturer</key>
-		<value><![CDATA[-Select Brand-]]></value>
-	</definition>
-	<definition>
 		<key>entry_products</key>
 		<value><![CDATA[Products:]]></value>
 	</definition>
@@ -177,8 +173,8 @@
 		<value><![CDATA[SEO Keyword:]]></value>
 	</definition>
 	<definition>
-		<key>tab_layout</key>
-		<value><![CDATA[Layout]]></value>
+		<key>tab_design</key>
+		<value><![CDATA[Design]]></value>
 	</definition>
 	<definition>
 		<key>text_collection</key>

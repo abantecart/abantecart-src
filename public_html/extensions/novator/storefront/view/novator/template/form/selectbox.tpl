@@ -1,8 +1,10 @@
-<?php if(!$no_wrapper){?>
-    <div class="input-group h-100 w-auto">
+<?php
+$no_wrapper  = false;
+if(!$no_wrapper){?>
+    <div class="input-group">
 <?php } ?>
 
-    <select name="<?php echo $name ?>" id="<?php echo $id ?>" class="form-select <?php echo $style; ?>"
+    <select name="<?php echo $name ?>" id="<?php echo $id ?>" class="form-control form-select <?php echo $style; ?>"
             data-placeholder="<?php echo $placeholder ?>" <?php echo $attr ?>
             <?php echo $disabled ? ' disabled="disabled" ' : ''; ?>
             <?php if ( $required ) { echo 'required'; }?>>
@@ -19,7 +21,7 @@
     </select>
     <?php
     if ( $required ) { ?>
-    <span class="input-group-text text-danger">*</span>
+    <span class="input-group-text text-danger py-auto">*</span>
     <?php } ?>
     <?php if(!$no_wrapper){?>
 </div>

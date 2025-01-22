@@ -231,8 +231,9 @@
 
 <?php
 // Quick start guide
-if ($quick_start_url){
-	echo $this->html->buildElement(
+if ($quick_start_url){ ?>
+
+<?php	echo $this->html->buildElement(
 			array ('type'        => 'modal',
 			       'id'          => 'quick_start',
 			       'modal_type'  => 'lg',
@@ -250,12 +251,15 @@ if ($quick_start_url){
 <script type="text/javascript" src="<?php echo RDIR_TEMPLATE; ?>javascript/jquery/flot/excanvas.js"></script>
 <![endif]-->
 <script type="text/javascript" src="<?php echo RDIR_TEMPLATE; ?>javascript/jquery/flot/jquery.flot.js"></script>
+<?php
+// Quick start guide
+if($quick_start_url){ ?>
+    <script defer src="<?php echo RDIR_TEMPLATE.'javascript/quick_start.js'; ?>"></script>
+<?php } ?>
 <script type="text/javascript">
+<?php
+	if($quick_start_url){ ?>
 
-	<?php
-	// Quick start guide
-	if($quick_start_url){
-	?>
 	$(window).load(function () {
 		if ($('#quick_start').length > 0) {
 			$('#quick_start').removeData('bs.modal');

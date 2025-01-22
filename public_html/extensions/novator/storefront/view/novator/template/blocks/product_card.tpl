@@ -49,6 +49,7 @@
                                     <i class="bi bi-shuffle"></i>
                                 </a>
                             </li>
+                            <?php echo $this->getHookvar('product_button_'.$product['product_id']); ?>
                         </ul>
                     </div>
                     <div class="col-auto">
@@ -116,6 +117,7 @@
                 . $this->getHookvar('product_listing_name_'.$product['product_id']);
             ?>
         </a>
+        <?php echo $this->getHookvar('product_listing_details_after_blurb_'.$product['product_id']);?>
     </h6>
 
     <div class="card-body p-0">

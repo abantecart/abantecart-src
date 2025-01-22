@@ -1,11 +1,10 @@
-<div class="row title justify-content-center sec-heading-block text-center">
-    <div class="col-xl-8">
-        <h1 class="h2 heading-title mb-0 mt-lg-0 mt-3">
+<div class="row title">
+    <div class="col-xl-12">
+        <h1 class="h2 heading-title">
             <?php echo $heading_title; ?>
         </h1>
     </div>
 </div>
-
 
 <h4>
     <span><?php echo $customer_name; ?></span>
@@ -77,7 +76,9 @@
         foreach($array as $key => $item){
             if($key == 'download' && !$this->config->get('config_download')){ continue; }
             //hookvar before
-            if($key == 'wishlist'){
+            if($key == 'history'){
+                echo $this->getHookVar('account_links_dash_icons');
+            }elseif($key == 'wishlist'){
                 echo $this->getHookVar('account_dash_icons');
             }elseif($key == 'logout'){
                 echo $this->getHookVar('account_newsletter_dash_icons');

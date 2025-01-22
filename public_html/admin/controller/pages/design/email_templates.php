@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 /**
  * Class ControllerPagesDesignEmailTemplates
@@ -34,15 +34,15 @@ class ControllerPagesDesignEmailTemplates extends AController
         $this->buildHeader();
 
         $grid_settings = [
-            'table_id'       => 'email_templates_grid',
-            'url'            => $this->html->getSecureURL('listing_grid/email_templates'),
-            'editurl'        => $this->html->getSecureURL('listing_grid/email_templates/update'),
-            'update_field'   => $this->html->getSecureURL('listing_grid/email_templates/update_field'),
-            'sortname'       => 'text_id',
-            'sortorder'      => 'asc',
+            'table_id' => 'email_templates_grid',
+            'url' => $this->html->getSecureURL('listing_grid/email_templates'),
+            'editurl' => $this->html->getSecureURL('listing_grid/email_templates/update'),
+            'update_field' => $this->html->getSecureURL('listing_grid/email_templates/update_field'),
+            'sortname' => 'text_id',
+            'sortorder' => 'asc',
             'columns_search' => true,
-            'actions'        => [
-                'edit'   => [
+            'actions' => [
+                'edit' => [
                     'text' => $this->language->get('text_edit'),
                     'href' => $this->html->getSecureURL('design/email_templates/update', '&id=%ID%'),
                 ],
@@ -61,26 +61,26 @@ class ControllerPagesDesignEmailTemplates extends AController
 
         $grid_settings['colModel'] = [
             [
-                'name'  => 'text_id',
+                'name' => 'text_id',
                 'index' => 'text_id',
                 'width' => 150,
                 'align' => 'left',
             ],
             [
-                'name'  => 'language',
+                'name' => 'language',
                 'index' => 'language',
                 'width' => 100,
                 'align' => 'left',
             ],
             [
-                'name'   => 'status',
-                'index'  => 'status',
-                'width'  => 100,
-                'align'  => 'center',
+                'name' => 'status',
+                'index' => 'status',
+                'width' => 100,
+                'align' => 'center',
                 'search' => false,
             ],
             [
-                'name'  => 'subject',
+                'name' => 'subject',
                 'index' => 'subject',
                 'width' => 250,
                 'align' => 'left',
@@ -110,7 +110,7 @@ class ControllerPagesDesignEmailTemplates extends AController
 
         if ($this->request->is_POST() && $this->validate($this->request->post)) {
             $data = $this->request->post;
-            $data['store_id'] = (int) $this->config->get('current_store_id');
+            $data['store_id'] = (int)$this->config->get('current_store_id');
             $emailTemplate = $this->model_design_email_template->insert($data);
         }
 
@@ -131,7 +131,7 @@ class ControllerPagesDesignEmailTemplates extends AController
             redirect(
                 $this->html->getSecureURL(
                     'design/email_templates/update',
-                    '&id='.$emailTemplate['id']
+                    '&id=' . $emailTemplate['id']
                 )
             );
         }
@@ -155,15 +155,15 @@ class ControllerPagesDesignEmailTemplates extends AController
         $this->loadModel('design/email_template');
         $this->loadModel('localisation/language');
 
+        $tmplID = (int)$this->request->get['id'];
+
         if ($this->request->is_POST()) {
-            $emailTemplate = $this->model_design_email_template->getById(
-                (int) $this->request->get['id']
-            );
+            $emailTemplate = $this->model_design_email_template->getById($tmplID);
             if ($emailTemplate && $this->validate($this->request->post)) {
                 try {
-                    $this->model_design_email_template->update((int) $this->request->get['id'], $this->request->post);
+                    $this->model_design_email_template->update((int)$tmplID, (array)$this->request->post);
                     $this->session->data['success'] = $this->language->get('save_complete');
-                    redirect($this->html->getSecureURL('design/email_templates/update', '&id='.$emailTemplate['id']));
+                    redirect($this->html->getSecureURL('design/email_templates/update', '&id=' . $emailTemplate['id']));
                 } catch (Exception $e) {
                     $this->log->write($e->getMessage());
                     $this->session->data['warning'] = $this->language->get('save_error');
@@ -175,7 +175,7 @@ class ControllerPagesDesignEmailTemplates extends AController
             }
         }
 
-        if (!(int) $this->request->get['id']) {
+        if (!$tmplID) {
             redirect($this->html->getSecureURL('design/email_templates'));
         }
 
@@ -217,25 +217,26 @@ class ControllerPagesDesignEmailTemplates extends AController
             $this->data['languages'] += array_column($languages, 'name', 'language_id');
         }
 
-        if ((int) $this->request->get['id']) {
-            $emailTemplate = $this->model_design_email_template->getById((int) $this->request->get['id']);
-            if ((int)$emailTemplate['language_id'] != (int)$this->language->getContentLanguageID()
-                || (int) $emailTemplate['store_id'] != (int) $this->config->get('current_store_id')
+        $tmplID = (int)$this->request->get['id'];
+        if ($tmplID) {
+            $emailTemplate = $this->model_design_email_template->getById($tmplID);
+            if ($emailTemplate['language_id'] != $this->language->getContentLanguageID()
+                || (int)$emailTemplate['store_id'] != $this->config->get('current_store_id')
             ) {
                 $existTemplate = $this->model_design_email_template->getByTextIdAndLanguageId(
-                    $emailTemplate['text_id'],
-                    $this->language->getContentLanguageID()
+                    (string)$emailTemplate['text_id'],
+                    (int)$this->language->getContentLanguageID()
                 );
 
                 if (!$existTemplate) {
                     redirect(
                         $this->html->getSecureURL(
                             'design/email_templates/insert',
-                            '&text_id='.$emailTemplate['text_id']
+                            '&text_id=' . $emailTemplate['text_id']
                         )
                     );
                 }
-                redirect($this->html->getSecureURL('design/email_templates/update', '&id='.$existTemplate['id']));
+                redirect($this->html->getSecureURL('design/email_templates/update', '&id=' . $existTemplate['id']));
             }
             if ($emailTemplate) {
                 foreach ($emailTemplate as $key => $value) {
@@ -245,20 +246,20 @@ class ControllerPagesDesignEmailTemplates extends AController
         } elseif ($this->request->get['text_id']) {
             $this->data['text_id'] = $this->request->get['text_id'];
             $existTemplate = $this->model_design_email_template->getByTextIdAndLanguageId(
-                $this->request->get['text_id'],
-                $this->language->getContentLanguageID()
+                (string)$this->request->get['text_id'],
+                (int)$this->language->getContentLanguageID()
             );
             if ($existTemplate) {
                 redirect(
                     $this->html->getSecureURL(
                         'design/email_templates/update',
-                        '&id='.$existTemplate['id']
+                        '&id=' . $existTemplate['id']
                     )
                 );
             }
             $templateDefaultLanguage = $this->model_design_email_template->getByTextIdAndLanguageId(
-                $this->request->get['text_id'],
-                $this->language->getDefaultLanguageID()
+                (string)$this->request->get['text_id'],
+                (int)$this->language->getDefaultLanguageID()
             );
             if ($templateDefaultLanguage) {
                 foreach ($templateDefaultLanguage as $key => $value) {
@@ -282,35 +283,35 @@ class ControllerPagesDesignEmailTemplates extends AController
         $this->data['form']['id'] = 'emailTemplateFrm';
         $this->data['form']['form_open'] = $form->getFieldHtml(
             [
-                'type'   => 'form',
-                'name'   => 'emailTemplateFrm',
-                'attr'   => 'data-confirm-exit="true" class="aform form-horizontal"',
+                'type' => 'form',
+                'name' => 'emailTemplateFrm',
+                'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
                 'action' => $this->data['action'],
             ]
         );
 
         $this->data['form']['submit'] = $form->getFieldHtml(
             [
-                'type'  => 'button',
-                'name'  => 'submit',
-                'text'  => $this->language->get('button_save'),
+                'type' => 'button',
+                'name' => 'submit',
+                'text' => $this->language->get('button_save'),
                 'style' => 'button1',
             ]
         );
 
         $this->data['form']['cancel'] = $form->getFieldHtml(
             [
-                'type'  => 'button',
-                'name'  => 'cancel',
-                'text'  => $this->language->get('button_cancel'),
+                'type' => 'button',
+                'name' => 'cancel',
+                'text' => $this->language->get('button_cancel'),
                 'style' => 'button2',
             ]
         );
 
         $this->data['form']['fields']['status'] = $form->getFieldHtml(
             [
-                'type'  => 'checkbox',
-                'name'  => 'status',
+                'type' => 'checkbox',
+                'name' => 'status',
                 'value' => $this->data['status'] ?? 1,
                 'style' => 'btn_switch',
             ]
@@ -318,48 +319,48 @@ class ControllerPagesDesignEmailTemplates extends AController
 
         $this->data['form']['fields']['text_id'] = $form->getFieldHtml(
             [
-                'type'     => 'input',
-                'name'     => 'text_id',
-                'value'    => $this->data['text_id'],
+                'type' => 'input',
+                'name' => 'text_id',
+                'value' => $this->data['text_id'],
                 'required' => true,
-                'attr'     => (int) $this->request->get['id'] ? 'disabled' : '',
+                'attr' => $tmplID ? 'disabled' : '',
             ]
         );
 
         $this->data['form']['fields']['language_id'] = $form->getFieldHtml(
             [
-                'type'     => 'selectbox',
-                'name'     => 'language_id',
-                'options'  => $this->data['languages'],
-                'value'    => $this->data['language_id'] ?? $this->language->getContentLanguageID(),
+                'type' => 'selectbox',
+                'name' => 'language_id',
+                'options' => $this->data['languages'],
+                'value' => $this->data['language_id'] ?? $this->language->getContentLanguageID(),
                 'required' => true,
-                'attr'     => (int) $this->request->get['id'] ? 'disabled' : '',
+                'attr' => $tmplID ? 'disabled' : '',
             ]
         );
 
         $this->data['form']['fields']['headers'] = $form->getFieldHtml(
             [
-                'type'  => 'input',
-                'name'  => 'headers',
+                'type' => 'input',
+                'name' => 'headers',
                 'value' => $this->data['headers'],
             ]
         );
 
         $this->data['form']['fields']['subject'] = $form->getFieldHtml(
             [
-                'type'     => 'input',
-                'name'     => 'subject',
-                'value'    => $this->data['subject'],
+                'type' => 'input',
+                'name' => 'subject',
+                'value' => $this->data['subject'],
                 'required' => true,
             ]
         );
 
         $this->data['form']['fields']['html_body'] = $form->getFieldHtml(
             [
-                'type'     => 'textarea',
-                'name'     => 'html_body',
-                'value'    => $this->data['html_body'],
-                'attr'     => 'rows="16"',
+                'type' => 'textarea',
+                'name' => 'html_body',
+                'value' => $this->data['html_body'],
+                'attr' => 'rows="16"',
                 'required' => true,
             ]
         );
@@ -367,27 +368,31 @@ class ControllerPagesDesignEmailTemplates extends AController
 
         $this->data['form']['fields']['text_body'] = $form->getFieldHtml(
             [
-                'type'     => 'textarea',
-                'name'     => 'text_body',
-                'value'    => $this->data['text_body'],
-                'attr'     => 'rows="16"',
+                'type' => 'textarea',
+                'name' => 'text_body',
+                'value' => $this->data['text_body'],
+                'attr' => 'rows="16"',
                 'required' => true,
             ]
         );
         $this->data['form']['fields']['allowed_placeholders'] = $form->getFieldHtml(
             [
-                'type'  => 'textarea',
-                'name'  => 'allowed_placeholders',
+                'type' => 'textarea',
+                'name' => 'allowed_placeholders',
                 'value' => $this->data['allowed_placeholders'],
             ]
         );
     }
 
+    /**
+     * @param array $data
+     * @return bool
+     * @throws AException
+     */
     protected function validate(array $data)
     {
         $this->loadModel('design/email_template');
         $this->loadLanguage('design/email_templates');
-
         if (isset($data['text_id'])) {
             if (strlen(trim($data['text_id'])) === 0
                 || strlen(trim($data['text_id'])) > 254
@@ -395,7 +400,7 @@ class ControllerPagesDesignEmailTemplates extends AController
             ) {
                 $this->error['text_id'] = $this->language->get('save_error_text_id');
             } else {
-                if (!(int) $this->request->get['id']
+                if (!(int)$this->request->get['id']
                     && $this->model_design_email_template->getByTextIdAndLanguageId(
                         $data['text_id'], $data['language_id']
                     )
@@ -426,7 +431,7 @@ class ControllerPagesDesignEmailTemplates extends AController
             $this->error['text_body'] = $this->language->get('save_error_text_body');
         }
 
-        if (isset($data['language_id']) && (int) $data['language_id'] === 0) {
+        if (isset($data['language_id']) && (int)$data['language_id'] === 0) {
             $this->error['language_id'] = $this->language->get('save_error_language_id');
         }
 
@@ -441,17 +446,17 @@ class ControllerPagesDesignEmailTemplates extends AController
 
         $this->document->initBreadcrumb(
             [
-                'href'      => $this->html->getSecureURL('index/home'),
-                'text'      => $this->language->get('text_home'),
+                'href' => $this->html->getSecureURL('index/home'),
+                'text' => $this->language->get('text_home'),
                 'separator' => false,
             ]
         );
         $this->document->addBreadcrumb(
             [
-                'href'      => $this->html->getSecureURL('design/email_templates'),
-                'text'      => $this->language->get('heading_title'),
+                'href' => $this->html->getSecureURL('design/email_templates'),
+                'text' => $this->language->get('heading_title'),
                 'separator' => ' :: ',
-                'current'   => true,
+                'current' => true,
             ]
         );
 

@@ -216,8 +216,9 @@ class ControllerPagesAccountForgotten extends AController
                     $customer_details['loginname'],
                     $this->request->post['password']
                 );
-                $subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
+                $this->customer->deleteActiveSessionsByID($customer_id);
 
+                $subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
                 $mail = new AMail($this->config);
                 $mail->setTo($customer_details['email']);
                 $mail->setFrom($this->config->get('store_main_email'));

@@ -18,9 +18,8 @@ label span.help {
 span.required {
 	color: red;
 }
-/* Fiels changed highlite */
+/* Fields changed highlight */
 .chosen-choices .search-field {
-/*	background-color: #fff; */
 	width: 100%;
 }
 .afield .changed, 
@@ -265,6 +264,13 @@ div.aselect select {
 div.aselect select .disabled {
 	color: grey;
 }
+option[disabled] {
+	color: #d8abab;
+	cursor: not-allowed;
+}
+option[selected] {
+	font-weight: bold;
+}
 
 .small-field, .ml_field input.small-field {width:40px}
 .medium-field, .ml_field input.medium-field {width:150px}
@@ -354,11 +360,75 @@ div.acheckbox.checked span {
     top: 0;
     right: 0; /* not left, because only the right part of the input seems to
                  be clickable in some browser I can't remember */
-    cursor: pointer;
     opacity: 0.0;
     filter: alpha(opacity=0); /* and all the other old opacity stuff you
                                  want to support */
     font-size: 300px; /* wtf, but apparently the most reliable way to make
                          a large part of the input clickable in most browsers */
     height: 25px;
+}
+
+.adate{
+	max-width: 300px !important;
+}
+
+.table-adate .adate{
+	width: 150px; /* rule for order files table*/
+}
+
+.reset-date{
+	float: left;
+	display: inherit;
+	height: 34px;
+}
+
+.reset-date .btn{
+	height: 20px!important;
+	color: #cd7171 !important;
+	border-color: #cd7171 !important;
+	font-size: 8px;
+}
+
+.code_view {
+	width: 100%;
+	max-height: 200px;
+	display: inline-block;
+	overflow: auto;
+	border: 1px solid #ccc;
+	padding: 5px;
+	background: #f9f9f9;
+	font-family: monospace;
+	font-size: 12px;
+	color: #333;
+}
+
+.primary_content_actions{
+	display: inline-flex;
+}
+.primary_content_actions form .btn-group{
+	margin-bottom: 5px !important;
+}
+
+.primary_content_actions .chosen-container{
+	min-width: 200px;
+}
+.primary_content_actions .chosen-single{
+	border-radius: 3px !important;
+	min-height: 34px;
+	vertical-align: middle;
+}
+
+.primary_content_actions .reset-date{
+	display: inline-table;
+	padding: 2px;
+	width: 34px;
+}
+.primary_content_actions .reset-date .btn-xs{
+	padding: 13px;
+	font-size: 18px;
+}
+.primary_content_actions .reset-date i.fa{
+	position: absolute;
+	top: 7px;
+	left: 10px;
 }

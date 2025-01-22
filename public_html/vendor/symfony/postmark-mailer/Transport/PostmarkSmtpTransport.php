@@ -27,9 +27,9 @@ use Symfony\Component\Mime\RawMessage;
  */
 class PostmarkSmtpTransport extends EsmtpTransport
 {
-    private $messageStream;
+    private ?string $messageStream = null;
 
-    public function __construct(string $id, EventDispatcherInterface $dispatcher = null, LoggerInterface $logger = null)
+    public function __construct(#[\SensitiveParameter] string $id, ?EventDispatcherInterface $dispatcher = null, ?LoggerInterface $logger = null)
     {
         parent::__construct('smtp.postmarkapp.com', 587, false, $dispatcher, $logger);
 
@@ -37,7 +37,7 @@ class PostmarkSmtpTransport extends EsmtpTransport
         $this->setPassword($id);
     }
 
-    public function send(RawMessage $message, Envelope $envelope = null): ?SentMessage
+    public function send(RawMessage $message, ?Envelope $envelope = null): ?SentMessage
     {
         if ($message instanceof Message) {
             $this->addPostmarkHeaders($message);
@@ -76,7 +76,7 @@ class PostmarkSmtpTransport extends EsmtpTransport
     /**
      * @return $this
      */
-    public function setMessageStream(string $messageStream): self
+    public function setMessageStream(string $messageStream): static
     {
         $this->messageStream = $messageStream;
 

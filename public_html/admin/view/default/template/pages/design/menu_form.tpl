@@ -10,9 +10,15 @@
 <?php } ?>
 
 <div id="content" class="panel panel-default">
-
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
+            <div class="btn-group">
+                <a class="btn btn-white back-to-grid tooltips" data-table-id="content_grid"
+                   href="<?php echo $list_url; ?>" data-toggle="tooltip"
+                   data-original-title="<?php echo_html2view($text_back_to_list); ?>">
+                    <i class="fa fa-arrow-left fa-lg"></i>
+                </a>
+            </div>
 		</div>
 		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>
 	</div>

@@ -288,3 +288,7 @@ blockquote p::after {
     background-size: cover;
     height: 400px;
 }
+
+li.nav-item .dropdown a.dropdown-toggle {
+    padding: 10px 0;
+}

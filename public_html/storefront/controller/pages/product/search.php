@@ -30,13 +30,13 @@ class ControllerPagesProductSearch extends AController
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
         $this->prepareProductListingParameters();
-     }
+    }
 
     public function main()
     {
 
         $get = $this->request->get;
-        $get['category_id'] = is_string($get['category_id']) ? explode(',',$get['category_id']) : $get['category_id'];
+        $get['category_id'] = is_string($get['category_id']) ? explode(',', $get['category_id']) : $get['category_id'];
         //is this an embed mode
         $this->data['cart_rt'] = $this->config->get('embed_mode')
             ? 'r/checkout/cart/embed'
@@ -57,6 +57,7 @@ class ControllerPagesProductSearch extends AController
 
         $httpQuery = $this->prepareProductSortingParameters();
         extract($httpQuery);
+        unset($httpQuery['raw_sort']);
         if (isset($get['keyword'])) {
             $httpQuery['keyword'] = (string)$get['keyword'];
         }
@@ -69,19 +70,10 @@ class ControllerPagesProductSearch extends AController
         if (isset($get['category_id'])) {
             $httpQuery['category_id'] = (array)$get['category_id'];
         }
-        if (isset($get['sort'])) {
-            $httpQuery['sort'] = (string)$get['sort'];
-        }
-        if (isset($get['page'])) {
-            $httpQuery['page'] = (int)$get['page'];
-        }
-        if (isset($get['limit'])) {
-            $httpQuery['limit'] = (int)$get['limit'];
-        }
 
         $this->document->addBreadcrumb(
             [
-                'href'      => $this->html->getSecureURL('product/search', '&'.http_build_query($httpQuery)),
+                'href'      => $this->html->getSecureURL('product/search', '&' . http_build_query($httpQuery)),
                 'text'      => $this->language->get('heading_title'),
                 'separator' => $this->language->get('text_separator'),
             ]
@@ -98,8 +90,7 @@ class ControllerPagesProductSearch extends AController
         $this->loadModel('catalog/category');
         $categories = $this->getCategories(ROOT_CATEGORY_ID);
         $options = ['0' => $this->language->get('text_category')]
-            + array_column($categories,'name', 'category_id')
-        ;
+            + array_column($categories, 'name', 'category_id');
 
         $this->data['category'] = $this->html->buildElement(
             [
@@ -115,7 +106,7 @@ class ControllerPagesProductSearch extends AController
                 'type'       => 'checkbox',
                 'id'         => 'description',
                 'name'       => 'description',
-                'checked'    => (bool) $get['description'],
+                'checked'    => (bool)$get['description'],
                 'value'      => 1,
                 'label_text' => $this->language->get('entry_description'),
             ]
@@ -126,7 +117,7 @@ class ControllerPagesProductSearch extends AController
                 'type'       => 'checkbox',
                 'id'         => 'model',
                 'name'       => 'model',
-                'checked'    => (bool) $get['model'],
+                'checked'    => (bool)$get['model'],
                 'value'      => 1,
                 'label_text' => $this->language->get('entry_model'),
             ]
@@ -149,25 +140,25 @@ class ControllerPagesProductSearch extends AController
             $this->data['raw_data'] = $products_result = $this->model_catalog_product->getFilteredProducts(
                 [
                     'filter' => $get,
-                    'sort'  => $sort,
-                    'order' => $order,
-                    'start' => ($page - 1) * $limit,
-                    'limit' => $limit
+                    'sort'   => $sort,
+                    'order'  => $order,
+                    'start'  => ($page - 1) * $limit,
+                    'limit'  => $limit
                 ]
             );
 
+            $product_total = current($products_result)['total_num_rows'];
+
             //if single result, redirect to the product
-            if (count($products_result) == 1) {
+            if (count($products_result) == 1 && $product_total == 1) {
                 redirect(
                     $this->html->getSEOURL(
                         'product/product',
-                        '&product_id='.key($products_result),
+                        '&product_id=' . key($products_result),
                         '&encode'
                     )
                 );
             }
-
-            $product_total = current($products_result)['total_num_rows'];
 
             if ($product_total) {
                 $this->loadModel('catalog/review');
@@ -192,8 +183,8 @@ class ControllerPagesProductSearch extends AController
                         $thumbnail = $thumbnails[$result['product_id']];
 
                         $rating = $this->config->get('display_reviews')
-                                ? $this->model_catalog_review->getAverageRating($result['product_id'])
-                                : false;
+                            ? $this->model_catalog_review->getAverageRating($result['product_id'])
+                            : false;
                         $special = false;
                         $discount = $promotion->getProductDiscount($result['product_id']);
 
@@ -225,7 +216,7 @@ class ControllerPagesProductSearch extends AController
                         if ($options) {
                             $add = $this->html->getSEOURL(
                                 'product/product',
-                                '&product_id='.$result['product_id'],
+                                '&product_id=' . $result['product_id'],
                                 '&encode'
                             );
                         } else {
@@ -234,7 +225,7 @@ class ControllerPagesProductSearch extends AController
                             } else {
                                 $add = $this->html->getSecureURL(
                                     $this->data['cart_rt'],
-                                    '&product_id='.$result['product_id'],
+                                    '&product_id=' . $result['product_id'],
                                     '&encode'
                                 );
                             }
@@ -275,7 +266,7 @@ class ControllerPagesProductSearch extends AController
                                 'href'           =>
                                     $this->html->getSEOURL(
                                         'product/product',
-                                        '&keyword='.$get['keyword'].'&product_id='.$result['product_id'],
+                                        '&' . http_build_query(['keyword' => $get['keyword'], 'product_id' => $result['product_id']]),
                                         '&encode'
                                     ),
                                 'add'            => $add,
@@ -292,8 +283,7 @@ class ControllerPagesProductSearch extends AController
 
                 $this->data['products'] = $products;
 
-                if ($this->config->get('config_customer_price') || $this->customer->isLogged())
-                {
+                if ($this->config->get('config_customer_price') || $this->customer->isLogged()) {
                     $display_price = true;
                 } else {
                     $display_price = false;
@@ -306,16 +296,16 @@ class ControllerPagesProductSearch extends AController
                         'type'    => 'selectbox',
                         'name'    => 'sort',
                         'options' => $sort_options,
-                        'value'   => $sort.'-'.$order,
+                        'value'   => $raw_sort . '-' . $order,
                     ]
                 );
                 $this->view->assign('sorting', $sorting);
                 $pQuery = $httpQuery;
-                unset($pQuery['page']);
-                $pQuery['sort'] = $sorting_href;
+                $pQuery['sort'] = $raw_sort . '-' . $order;
+                unset($pQuery['page'], $pQuery['order']);
                 $pagination_url = $this->html->getSEOURL(
                     'product/search',
-                    '&page={page}&'.http_build_query($pQuery,'',null,PHP_QUERY_RFC3986)
+                    '&page=--page--&' . http_build_query($pQuery, '', null, PHP_QUERY_RFC3986)
                 );
 
                 $this->data['pagination_bootstrap'] = $this->html->buildElement(
@@ -362,11 +352,11 @@ class ControllerPagesProductSearch extends AController
 
             $data[] = [
                 'category_id' => $result['category_id'],
-                'name'        => str_repeat('&nbsp;&nbsp;&nbsp;', $level).$result['name'],
+                'name'        => str_repeat('&nbsp;&nbsp;&nbsp;', $level) . $result['name'],
             ];
             $children = [];
             if ($this->category) {
-                $children = $this->getCategories($parent_id.','.$result['category_id'], $level);
+                $children = $this->getCategories($parent_id . ',' . $result['category_id'], $level);
             }
 
             if ($children) {

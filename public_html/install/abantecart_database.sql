@@ -732,6 +732,19 @@ INSERT INTO `ac_customer_groups` ( `name`, `tax_exempt`) VALUES
 ('Newsletter Subscribers', '0');
 
 --
+-- DDL for table `customer_sessions`
+--
+DROP TABLE IF EXISTS `ac_customer_sessions`;
+CREATE TABLE `ac_customer_sessions` (
+    `customer_id` int(11) NOT NULL AUTO_INCREMENT,
+    `session_id` varchar(128) NOT NULL DEFAULT '',
+    `ip` varchar(50) NOT NULL DEFAULT '',
+    `last_active` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`customer_id`, `session_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
 -- DDL for table table `ac_customer_transactions`
 --
 DROP TABLE IF EXISTS `ac_customer_transactions`;
@@ -839,7 +852,6 @@ CREATE TABLE `ac_extensions` (
 
 INSERT INTO `ac_extensions`
     (`type`, `key`, `category`, `status`, `priority`, `version`, `license_key`, `date_installed`, `date_modified`, `date_added`)
-
 VALUES
 ('total', 'coupon', '', 1, 1, '', null, now(), now(), now() ),
 ('total', 'shipping', 'shipping', 1, 1, '', null, now(), now(), now() ),
@@ -860,7 +872,8 @@ VALUES
 
 ('extensions', 'banner_manager', 'extensions', 1, 1, '1.1.0', null, now(), now(), now() ),
 ('extensions', 'forms_manager', 'extensions', 1, 1, '1.1.0', null, now(), now(), now() ),
-('template', 'novator', 'template', 0, 1, '1.0.0', null, NOW(), now() + INTERVAL 4 MINUTE , now() )
+('template', 'novator', 'template', 0, 1, '1.0.0', null, NOW(), now() + INTERVAL 4 MINUTE , now() ),
+('extensions', 'page_builder', 'tools', 1, 10000, '1.4.0', null, NOW(), NOW(), NOW())
 ;
 
 --
@@ -1736,6 +1749,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('appearance','config_featured_limit',3),
 ('appearance','config_latest_limit',3),
 ('appearance','config_special_limit',3),
+('appearance','config_content_limit',8),
 ('appearance','viewed_products_limit',3),
 
 ('appearance','config_image_thumb_width',380),
@@ -1857,7 +1871,16 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('forms_manager','forms_manager_status',1),
 ('forms_manager','forms_manager_default_sender_name', ''),
 ('forms_manager','forms_manager_default_sender_email', ''),
-('forms_manager','forms_manager_sort_order', '');
+('forms_manager','forms_manager_sort_order', ''),
+
+('page_builder', 'page_builder_layout', ''),
+('page_builder', 'page_builder_priority', '10000'),
+('page_builder', 'page_builder_date_installed', '2024-12-13 18:30:53'),
+('page_builder', 'page_builder_status', 1),
+('page_builder', 'page_builder_logging', 1),
+('page_builder', 'page_builder_sort_order', 1),
+('page_builder', 'store_id', 0)
+;
 
 --
 -- DDL for table `stock_statuses`
@@ -2019,8 +2042,6 @@ CREATE TABLE `ac_users` (
   PRIMARY KEY (`user_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=2;
 
-
-
 --
 -- DDL for table `user_group`
 --
@@ -2041,6 +2062,19 @@ CREATE TABLE `ac_user_groups` (
 INSERT INTO `ac_user_groups` (`user_group_id`, `name`, `permission`) VALUES
 (1, 'Top Administrator', ''),
 (10, 'Demonstration', '');
+
+--
+-- DDL for table `user_sessions`
+--
+DROP TABLE IF EXISTS `ac_user_sessions`;
+CREATE TABLE `ac_user_sessions` (
+    `user_id` int(11) NOT NULL,
+    `token` varchar(128) NOT NULL DEFAULT '',
+    `ip` varchar(50) NOT NULL DEFAULT '',
+    `last_active` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`user_id`, `token`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 DROP TABLE IF EXISTS `ac_user_notifications`;
@@ -10241,24 +10275,6 @@ CREATE UNIQUE INDEX `ac_pages_idx`
 ON `ac_pages` ( `page_id`, `controller`, `key_param`, `key_value` );
 
 --
--- Dumping data for table `pages`
---
-
-INSERT INTO `ac_pages` (`page_id`, `parent_page_id`, `controller`, `key_param`, `key_value`, `date_added`)
-VALUES
-(1, 0, 'generic', '', '', now() ),
-(2, 0, 'pages/index/home', '', '', now() ),
-(4, 0, 'pages/account/login', '', '', now() ),
-(5, 0, 'pages/product/product', '', '', now()),
-(10, 0, 'pages/index/maintenance', '', '', now() ),
-(11, 0, 'pages/account', '', '', now() ),
-(12, 0, 'pages/checkout/cart', '', '', now() ),
-(13, 0, 'pages/product/category', '', '', now() ),
-(14, 0, 'pages/checkout/fast_checkout', '', '', NOW()),
-(15, 0, 'pages/checkout/fast_checkout_success', '', '', NOW())
-;
-
---
 -- DDL for table `page_descriptions`
 --
 
@@ -10277,28 +10293,23 @@ CREATE TABLE `ac_page_descriptions` (
   PRIMARY KEY (`page_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-INSERT INTO `ac_page_descriptions` (`page_id`, `language_id`, `name`, `title`, `seo_url`, `keywords`, `description`, `content`, `date_added`) VALUES
-(1, 1, 'All Other Pages', '', '', '', '', '', now() ),
-(2, 1, 'Home Page', '', '', '', '', '', now() ),
-(4, 1, 'Login Page', '', '', '', '', '', now() ),
-(5, 1, 'Default Product Page', '', '', '', '', '', now() ),
-(10, 1, 'Maintenance Page', '', '', '', '', '', now() ),
-(11, 1, 'Customer Account Pages', '', '', '', '', '', now() ),
-(12, 1, 'Cart Page', '', '', '', '', '', now() ),
-(14, 1, 'Fast Checkout Page', '', '', '', '', '', NOW()),
-(15, 1, 'Fast Checkout Success Page', '', '', '', '', '', NOW())
-;
-
 --
 -- DDL for table `contents`
 --
 DROP TABLE IF EXISTS `ac_contents`;
 CREATE TABLE `ac_contents` (
     `content_id` int(11) NOT NULL AUTO_INCREMENT,
-	`parent_content_id` int(11) NOT NULL DEFAULT 0,
+    `parent_content_id` int(11) NOT NULL DEFAULT 0,
     `sort_order` int(3) NOT NULL DEFAULT '0',
     `status` int(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`content_id`,`parent_content_id`)
+    `content_bar` int(1) NOT NULL DEFAULT '0',
+    `author` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+    `icon_rl_id` int(11),
+    `publish_date` timestamp NULL,
+    `expire_date` timestamp NULL,
+    `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+    `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`content_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
@@ -10319,7 +10330,6 @@ DROP TABLE IF EXISTS `ac_content_descriptions`;
 CREATE TABLE `ac_content_descriptions` (
   `content_id` int(10) NOT NULL DEFAULT '0',
   `language_id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL COMMENT 'translatable',
   `title` varchar(255) NOT NULL COMMENT 'translatable',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
   `meta_keywords` varchar(255) NOT NULL COMMENT 'translatable',
@@ -10330,17 +10340,12 @@ CREATE TABLE `ac_content_descriptions` (
   PRIMARY KEY (`content_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-INSERT INTO `ac_content_descriptions` (`content_id`, `language_id`, `name`, `title`, `description`, `content`, `date_added`)
+INSERT INTO `ac_content_descriptions` (`content_id`, `language_id`, `title`, `description`, `content`, `date_added`)
 VALUES
-(1, 1, 'About Us', 'About Us', 'some description', 'text about your store', now() ),
-(2, 1, 'Privacy Policy', 'Privacy Policy', 'some description', 'some text about privacy policy', now()),
-(3, 1, 'Return Policy', 'Return Policy', 'some description', 'some text about return policy', now()),
-(4, 1, 'Shipping', 'Shipping', 'some description', 'some text about shipping', now()),
-
-(1, 9, 'Acerca de Nosotros', 'Acerca de Nosotros', 'alguna descripción', 'texto acerca de su tienda', now() ),
-(2, 9, 'Política de Privacidad', 'Política de Privacidad', 'alguna descripción', 'un texto sobre la política', now()),
-(3, 9, 'Política de devoluciones', 'Política de devoluciones', 'alguna descripción', 'un texto sobre la política de retorno', now()),
-(4, 9, 'Entrega', 'Entrega', 'alguna descripción', 'un texto sobre el envío', now());
+(1, 1, 'About Us', 'some description', 'text about your store', now() ),
+(2, 1, 'Privacy Policy', 'some description', 'some text about privacy policy', now()),
+(3, 1, 'Return Policy', 'some description', 'some text about return policy', now()),
+(4, 1, 'Shipping', 'some description', 'some text about shipping', now());
 
 --
 -- DDL for table `content_to_store`
@@ -10352,6 +10357,23 @@ CREATE TABLE `ac_contents_to_stores` (
   PRIMARY KEY (`content_id`,`store_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+INSERT INTO `ac_contents_to_stores` (`content_id`, `store_id`)
+VALUES
+(1, 0 ),
+(2, 0 ),
+(3, 0 ),
+(4, 0 );
+
+--
+-- DDL for table `content_tags`
+--
+DROP TABLE IF EXISTS `ac_content_tags`;
+CREATE TABLE `ac_content_tags` (
+   `content_id` int(11) NOT NULL,
+   `tag` varchar(32) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+   `language_id` int(11) NOT NULL,
+   PRIMARY KEY  (`content_id`,`tag`,`language_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- DDL for table `blocks`
@@ -10400,7 +10422,10 @@ INSERT INTO `ac_blocks` (`block_id`, `block_txt_id`, `controller`, `date_added`)
 (31, 'customer', 'blocks/customer', now() ),
 (32, 'fast_checkout_cart_btn', 'blocks/fast_checkout_cart_btn', NOW()),
 (33, 'fast_checkout_summary', 'blocks/fast_checkout_summary', NOW()),
-(34, 'viewed_products','blocks/viewed_products',NOW())
+(34, 'viewed_products','blocks/viewed_products',NOW()),
+(35, 'new_content','blocks/new_content',NOW()),
+(36, 'content_search', 'blocks/content_search', now()),
+(37, 'store_hours', 'blocks/store_hours', now())
 ;
 
 --
@@ -10563,7 +10588,15 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `da
 (34, 7, 'blocks/viewed_block_column_footer_top.tpl',NOW()),
 (34, 8, 'blocks/viewed_block_column_footer.tpl',NOW()),
 (34, 6, 'blocks/viewed_block_column_right.tpl',NOW()),
-(34, 3, 'blocks/viewed_block_column_left.tpl',NOW())
+(34, 3, 'blocks/viewed_block_column_left.tpl',NOW()),
+(35, 3, 'blocks/new_content.tpl',NOW()),
+(35, 6, 'blocks/new_content.tpl',NOW()),
+(36, 1, 'blocks/content_search.tpl', now()),
+(36, 2, 'blocks/content_search.tpl', now()),
+(36, 3, 'blocks/content_search.tpl', now()),
+(36, 6, 'blocks/content_search.tpl', now()),
+(37, 6, 'blocks/store_hours.tpl',NOW()),
+(37, 3, 'blocks/store_hours.tpl',NOW())
 ;
 
 --
@@ -10581,18 +10614,6 @@ CREATE TABLE `ac_layouts` (
   PRIMARY KEY  (`layout_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-INSERT INTO `ac_layouts` (`layout_id`, `template_id`, `layout_type`, `layout_name`, `date_added`) VALUES
-(23, 'default',0, 'Default Page Layout',NOW()),
-(24, 'default',1, 'Home Page',NOW()),
-(25, 'default',1, 'Login Page',NOW()),
-(26, 'default',1, 'Default Product Page',NOW()),
-(27, 'default',1, 'Product Listing Page',NOW()),
-(28, 'default',1, 'Maintenance Page',NOW()),
-(29, 'default',1, 'Customer Account Pages',NOW()),
-(30, 'default',1, 'Cart Page',NOW()),
-(31, 'default',1, 'Fast Checkout Page',NOW()),
-(32, 'default',1, 'Fast Checkout Success Page',NOW());
-
 --
 -- DDL for table `pages_layouts`
 --
@@ -10602,18 +10623,6 @@ CREATE TABLE `ac_pages_layouts` (
   `page_id` int(10) NOT NULL,
   PRIMARY KEY  (`layout_id`,`page_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
-INSERT INTO `ac_pages_layouts` (`layout_id`, `page_id`) VALUES
-( 23,1),
-( 24,2),
-( 25,4),
-( 26,5),
-( 27,13),
-( 28,10),
-( 29,11),
-( 30,12),
-( 31,14),
-( 32,15);
 
 --
 -- DDL for table `block_layouts`
@@ -11019,7 +11028,7 @@ VALUES  (11,'text_catalog',1),
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (12,'catalog/category',1),
         (12,'sale/order',2),
-        (12,'extension/extensions/template',3),
+        (12,'design/template',3),
         (12,'extension/extensions/extensions',4),
         (12,'setting/setting',5),
         (12,'report/sale/orders',6),
@@ -11407,10 +11416,10 @@ VALUES  (11,'text_abantecart',111),
         (11,'text_extensions_store',114);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (12,'window.open(\'http://www.abantecart.com\');',111),
-        (12,'window.open(\'http://docs.abantecart.com\');',112),
-        (12,'window.open(\'http://forum.abantecart.com\');',113),
-        (12,'window.open(\'http://marketplace.abantecart.com\');',114);
+VALUES  (12,'window.open(\'https://www.abantecart.com\');',111),
+        (12,'window.open(\'https://docs.abantecart.com\');',112),
+        (12,'window.open(\'https://forum.abantecart.com\');',113),
+        (12,'window.open(\'https://marketplace.abantecart.com\');',114);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (13,'help',111),
@@ -12048,7 +12057,7 @@ VALUES  (20, NOW(),'1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (21,'AbanteCart','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (22,'1.4.0','1');
+VALUES  (22,'1.4.1','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (23,'','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
@@ -12671,349 +12680,21 @@ CREATE TABLE `ac_collection_descriptions` (
 INSERT INTO `ac_url_aliases` (`query`, `keyword`, `language_id`) VALUES ('check_seo=1', 'check_seo_url', 1);
 
 --
--- Dumping data for table `block_layouts`
+-- DDL for table `fields_history`
 --
-INSERT INTO `ac_block_layouts`
-(`instance_id`,`layout_id`,`block_id`,`custom_block_id`,`parent_instance_id`, `position`,`status`)
-VALUES
-(2122, 23, 21, 0, 0, 80, 1),
-(2101, 23, 27, 0, 0, 30, 1),
-(2100, 23, 3, 0, 0, 30, 0),
-(2099, 23, 31, 0, 0, 20, 1),
-(2098, 23, 28, 0, 0, 20, 1),
-(2097, 23, 28, 0, 2095, 20, 1),
-(2095, 23, 2, 0, 0, 20, 1),
-(2094, 23, 9, 0, 0, 10, 1),
-(2093, 23, 17, 17, 2086, 70, 1),
-(2092, 23, 14, 0, 2086, 60, 1),
-(2091, 23, 13, 0, 2086, 50, 1),
-(2090, 23, 26, 0, 2086, 40, 1),
-(2089, 23, 27, 0, 2086, 30, 1),
-(2088, 23, 31, 0, 2086, 20, 1),
-(2087, 23, 15, 0, 2086, 10, 1),
-(2102, 23, 25, 0, 0, 40, 1),
-(2103, 23, 26, 0, 0, 40, 1),
-(2104, 23, 4, 0, 0, 40, 1),
-(2121, 23, 21, 0, 2113, 80, 1),
-(2120, 23, 24, 0, 2113, 70, 1),
-(2118, 23, 11, 0, 2113, 50, 1),
-(2117, 23, 25, 0, 2113, 40, 1),
-(2115, 23, 17, 19, 2113, 20, 1),
-(2114, 23, 17, 18, 2113, 10, 1),
-(2113, 23, 8, 0, 0, 80, 1),
-(2112, 23, 24, 0, 0, 70, 1),
-(2111, 23, 15, 0, 0, 70, 1),
-(2110, 23, 7, 0, 0, 70, 1),
-(2109, 23, 14, 0, 0, 60, 1),
-(2108, 23, 6, 0, 0, 60, 1),
-(2107, 23, 11, 0, 0, 50, 1),
-(2106, 23, 5, 0, 0, 50, 1),
-(2086, 23, 1, 0, 0, 10, 1),
-(2116, 23, 17, 20, 2113, 30, 1),
-(2105, 23, 13, 0, 0, 50, 1),
-(2119, 23, 17, 17, 2113, 60, 1),
-(2096, 23, 9, 0, 2095, 10, 1),
-(2165, 24, 17, 20, 2162, 30, 1),
-(2164, 24, 17, 19, 2162, 20, 1),
-(2163, 24, 17, 18, 2162, 10, 1),
-(2127, 24, 26, 0, 2123, 40, 1),
-(2161, 24, 24, 0, 0, 70, 1),
-(2160, 24, 20, 24, 2158, 20, 1),
-(2159, 24, 23, 23, 2158, 10, 1),
-(2158, 24, 7, 0, 0, 70, 1),
-(2132, 24, 9, 0, 0, 10, 1),
-(2166, 24, 25, 0, 2162, 40, 1),
-(2167, 24, 11, 0, 2162, 50, 1),
-(2128, 24, 13, 0, 2123, 50, 1),
-(2129, 24, 14, 0, 2123, 60, 1),
-(2130, 24, 17, 17, 2123, 70, 1),
-(2171, 24, 21, 0, 0, 80, 1),
-(2170, 24, 21, 0, 2162, 80, 1),
-(2131, 24, 19, 0, 0, 10, 1),
-(2169, 24, 24, 0, 2162, 70, 1),
-(2168, 24, 17, 17, 2162, 60, 1),
-(2162, 24, 8, 0, 0, 80, 1),
-(2157, 24, 15, 0, 0, 70, 1),
-(2156, 24, 12, 0, 2155, 10, 1),
-(2155, 24, 6, 0, 0, 60, 0),
-(2143, 24, 4, 0, 0, 40, 0),
-(2141, 24, 3, 0, 0, 30, 0),
-(2133, 24, 31, 0, 0, 20, 1),
-(2134, 24, 2, 0, 0, 20, 1),
-(2135, 24, 9, 0, 2134, 10, 1),
-(2136, 24, 17, 21, 2134, 20, 1),
-(2137, 24, 17, 22, 2134, 30, 1),
-(2138, 24, 12, 0, 0, 20, 1),
-(2139, 24, 27, 0, 0, 30, 1),
-(2144, 24, 26, 0, 0, 40, 1),
-(2145, 24, 22, 0, 0, 40, 1),
-(2146, 24, 25, 0, 0, 40, 1),
-(2154, 24, 14, 0, 0, 60, 1),
-(2153, 24, 22, 0, 2149, 40, 1),
-(2152, 24, 18, 0, 2149, 30, 1),
-(2151, 24, 12, 0, 2149, 20, 1),
-(2150, 24, 19, 0, 2149, 10, 1),
-(2142, 24, 12, 0, 2141, 10, 1),
-(2149, 24, 5, 0, 0, 50, 1),
-(2148, 24, 13, 0, 0, 50, 1),
-(2147, 24, 11, 0, 0, 50, 1),
-(2140, 24, 18, 0, 0, 30, 1),
-(2126, 24, 27, 0, 2123, 30, 1),
-(2125, 24, 31, 0, 2123, 20, 1),
-(2124, 24, 15, 0, 2123, 10, 1),
-(2123, 24, 1, 0, 0, 10, 1),
-(2177, 25, 13, 0, 2172, 50, 1),
-(2178, 25, 14, 0, 2172, 60, 1),
-(2179, 25, 17, 17, 2172, 70, 1),
-(2180, 25, 9, 0, 0, 10, 1),
-(2181, 25, 2, 0, 0, 20, 1),
-(2182, 25, 9, 0, 2181, 10, 1),
-(2176, 25, 26, 0, 2172, 40, 1),
-(2175, 25, 27, 0, 2172, 30, 1),
-(2174, 25, 31, 0, 2172, 20, 1),
-(2172, 25, 1, 0, 0, 10, 1),
-(2199, 25, 8, 0, 0, 80, 1),
-(2204, 25, 11, 0, 2199, 50, 1),
-(2205, 25, 17, 17, 2199, 60, 1),
-(2206, 25, 24, 0, 2199, 70, 1),
-(2207, 25, 21, 0, 2199, 80, 1),
-(2183, 25, 28, 0, 2181, 20, 1),
-(2184, 25, 28, 0, 0, 20, 1),
-(2200, 25, 17, 18, 2199, 10, 1),
-(2201, 25, 17, 19, 2199, 20, 1),
-(2198, 25, 24, 0, 0, 70, 1),
-(2197, 25, 15, 0, 0, 70, 1),
-(2196, 25, 7, 0, 0, 70, 1),
-(2195, 25, 14, 0, 0, 60, 1),
-(2202, 25, 17, 20, 2199, 30, 1),
-(2193, 25, 11, 0, 0, 50, 1),
-(2192, 25, 5, 0, 0, 50, 1),
-(2190, 25, 4, 0, 0, 40, 1),
-(2189, 25, 26, 0, 0, 40, 1),
-(2188, 25, 25, 0, 0, 40, 1),
-(2187, 25, 27, 0, 0, 30, 1),
-(2186, 25, 3, 0, 0, 30, 0),
-(2203, 25, 25, 0, 2199, 40, 1),
-(2208, 25, 21, 0, 0, 80, 1),
-(2191, 25, 13, 0, 0, 50, 1),
-(2194, 25, 6, 0, 0, 60, 0),
-(2185, 25, 31, 0, 0, 20, 1),
-(2173, 25, 15, 0, 2172, 10, 1),
-(2243, 26, 11, 0, 2238, 50, 1),
-(2230, 26, 13, 0, 0, 50, 1),
-(2231, 26, 5, 0, 0, 50, 1),
-(2232, 26, 11, 0, 0, 50, 1),
-(2233, 26, 6, 0, 0, 60, 0),
-(2234, 26, 14, 0, 0, 60, 1),
-(2210, 26, 15, 0, 2209, 10, 1),
-(2235, 26, 15, 0, 0, 70, 1),
-(2236, 26, 7, 0, 0, 70, 0),
-(2237, 26, 24, 0, 0, 70, 1),
-(2238, 26, 8, 0, 0, 80, 1),
-(2239, 26, 17, 18, 2238, 10, 1),
-(2240, 26, 17, 19, 2238, 20, 1),
-(2241, 26, 17, 20, 2238, 30, 1),
-(2229, 26, 4, 0, 0, 40, 1),
-(2227, 26, 25, 0, 0, 40, 1),
-(2226, 26, 27, 0, 0, 30, 1),
-(2211, 26, 31, 0, 2209, 20, 1),
-(2212, 26, 27, 0, 2209, 30, 1),
-(2213, 26, 26, 0, 2209, 40, 1),
-(2214, 26, 13, 0, 2209, 50, 1),
-(2215, 26, 14, 0, 2209, 60, 1),
-(2216, 26, 17, 17, 2209, 70, 1),
-(2217, 26, 9, 0, 0, 10, 1),
-(2219, 26, 31, 0, 0, 20, 1),
-(2218, 26, 12, 0, 0, 10, 1),
-(2220, 26, 28, 0, 0, 20, 1),
-(2221, 26, 2, 0, 0, 20, 1),
-(2222, 26, 9, 0, 2221, 10, 1),
-(2223, 26, 28, 0, 2221, 20, 1),
-(2224, 26, 3, 0, 0, 30, 1),
-(2225, 26, 12, 0, 2224, 10, 1),
-(2242, 26, 25, 0, 2238, 40, 1),
-(2245, 26, 24, 0, 2238, 70, 1),
-(2244, 26, 17, 17, 2238, 60, 1),
-(2228, 26, 26, 0, 0, 40, 1),
-(2246, 26, 21, 0, 2238, 80, 1),
-(2247, 26, 21, 0, 0, 80, 1),
-(2209, 26, 1, 0, 0, 10, 1),
-(2273, 27, 15, 0, 0, 70, 1),
-(2272, 27, 7, 0, 0, 70, 1),
-(2271, 27, 14, 0, 0, 60, 1),
-(2269, 27, 11, 0, 0, 50, 1),
-(2275, 27, 8, 0, 0, 80, 1),
-(2259, 27, 28, 0, 2257, 20, 1),
-(2268, 27, 5, 0, 0, 50, 1),
-(2274, 27, 24, 0, 0, 70, 1),
-(2276, 27, 17, 18, 2275, 10, 1),
-(2284, 27, 21, 0, 0, 80, 1),
-(2283, 27, 21, 0, 2275, 80, 1),
-(2282, 27, 24, 0, 2275, 70, 1),
-(2281, 27, 17, 17, 2275, 60, 1),
-(2280, 27, 11, 0, 2275, 50, 1),
-(2279, 27, 25, 0, 2275, 40, 1),
-(2278, 27, 17, 20, 2275, 30, 1),
-(2277, 27, 17, 19, 2275, 20, 1),
-(2267, 27, 13, 0, 0, 50, 1),
-(2266, 27, 4, 0, 0, 40, 1),
-(2249, 27, 15, 0, 2248, 10, 1),
-(2250, 27, 31, 0, 2248, 20, 1),
-(2251, 27, 27, 0, 2248, 30, 1),
-(2252, 27, 26, 0, 2248, 40, 1),
-(2253, 27, 13, 0, 2248, 50, 1),
-(2254, 27, 14, 0, 2248, 60, 1),
-(2255, 27, 17, 17, 2248, 70, 1),
-(2256, 27, 9, 0, 0, 10, 1),
-(2257, 27, 2, 0, 0, 20, 1),
-(2258, 27, 9, 0, 2257, 10, 1),
-(2260, 27, 28, 0, 0, 20, 1),
-(2261, 27, 31, 0, 0, 20, 1),
-(2262, 27, 3, 0, 0, 30, 1),
-(2263, 27, 27, 0, 0, 30, 1),
-(2264, 27, 25, 0, 0, 40, 1),
-(2265, 27, 26, 0, 0, 40, 1),
-(2248, 27, 1, 0, 0, 10, 1),
-(2270, 27, 6, 0, 0, 60, 1),
-(2290, 28, 5, 0, 0, 50, 1),
-(2293, 28, 8, 0, 0, 80, 1),
-(2285, 28, 1, 0, 0, 10, 1),
-(2286, 28, 2, 0, 0, 20, 1),
-(2292, 28, 7, 0, 0, 70, 1),
-(2287, 28, 28, 0, 0, 20, 1),
-(2288, 28, 3, 0, 0, 30, 1),
-(2289, 28, 4, 0, 0, 40, 1),
-(2291, 28, 6, 0, 0, 60, 1),
-(2300, 29, 14, 0, 2294, 60, 1),
-(2301, 29, 17, 17, 2294, 70, 1),
-(2303, 29, 29, 0, 0, 10, 1),
-(2308, 29, 28, 0, 2306, 20, 1),
-(2304, 29, 31, 0, 0, 20, 1),
-(2305, 29, 28, 0, 0, 20, 1),
-(2299, 29, 13, 0, 2294, 50, 1),
-(2298, 29, 26, 0, 2294, 40, 1),
-(2296, 29, 31, 0, 2294, 20, 1),
-(2295, 29, 15, 0, 2294, 10, 1),
-(2294, 29, 1, 0, 0, 10, 1),
-(2302, 29, 9, 0, 0, 10, 1),
-(2328, 29, 11, 0, 2323, 50, 1),
-(2297, 29, 27, 0, 2294, 30, 1),
-(2307, 29, 9, 0, 2306, 10, 1),
-(2309, 29, 3, 0, 0, 30, 0),
-(2310, 29, 27, 0, 0, 30, 1),
-(2322, 29, 24, 0, 0, 70, 1),
-(2323, 29, 8, 0, 0, 80, 1),
-(2324, 29, 17, 18, 2323, 10, 1),
-(2325, 29, 17, 19, 2323, 20, 1),
-(2326, 29, 17, 20, 2323, 30, 1),
-(2327, 29, 25, 0, 2323, 40, 1),
-(2329, 29, 17, 17, 2323, 60, 1),
-(2330, 29, 24, 0, 2323, 70, 1),
-(2331, 29, 21, 0, 2323, 80, 1),
-(2321, 29, 7, 0, 0, 70, 1),
-(2320, 29, 15, 0, 0, 70, 1),
-(2311, 29, 25, 0, 0, 40, 1),
-(2312, 29, 26, 0, 0, 40, 1),
-(2313, 29, 4, 0, 0, 40, 1),
-(2314, 29, 13, 0, 0, 50, 1),
-(2315, 29, 5, 0, 0, 50, 1),
-(2316, 29, 11, 0, 0, 50, 1),
-(2317, 29, 6, 0, 0, 60, 1),
-(2318, 29, 29, 0, 2317, 10, 1),
-(2319, 29, 14, 0, 0, 60, 1),
-(2332, 29, 21, 0, 0, 80, 1),
-(2306, 29, 2, 0, 0, 20, 1),
-(2382, 30, 13, 0, 0, 50, 1),
-(2383, 30, 14, 0, 0, 60, 1),
-(2385, 30, 28, 0, 0, 20, 1),
-(2386, 30, 3, 0, 0, 30, 0),
-(2387, 30, 25, 0, 0, 40, 1),
-(2388, 30, 4, 0, 0, 40, 1),
-(2390, 30, 11, 0, 0, 50, 1),
-(2391, 30, 6, 0, 0, 60, 1),
-(2392, 30, 7, 0, 0, 70, 1),
-(2393, 30, 24, 0, 0, 70, 1),
-(2394, 30, 8, 0, 0, 80, 1),
-(2381, 30, 26, 0, 0, 40, 1),
-(2380, 30, 27, 0, 0, 30, 1),
-(2343, 30, 9, 0, 2342, 10, 1),
-(2342, 30, 2, 0, 0, 20, 1),
-(2341, 30, 9, 0, 0, 10, 1),
-(2340, 30, 17, 17, 2333, 70, 1),
-(2339, 30, 14, 0, 2333, 60, 1),
-(2338, 30, 13, 0, 2333, 50, 1),
-(2336, 30, 27, 0, 2333, 30, 1),
-(2335, 30, 31, 0, 2333, 20, 1),
-(2334, 30, 15, 0, 2333, 10, 1),
-(2333, 30, 1, 0, 0, 10, 1),
-(2379, 30, 31, 0, 0, 20, 1),
-(2398, 30, 25, 0, 2394, 40, 1),
-(2399, 30, 11, 0, 2394, 50, 1),
-(2378, 30, 15, 0, 0, 10, 1),
-(2389, 30, 5, 0, 0, 50, 1),
-(2337, 30, 26, 0, 2333, 40, 1),
-(2403, 30, 21, 0, 0, 80, 1),
-(2402, 30, 21, 0, 2394, 80, 1),
-(2401, 30, 24, 0, 2394, 70, 1),
-(2415, 31, 8, 0, 0, 80, 1),
-(2414, 31, 7, 0, 0, 70, 0),
-(2413, 31, 33, 0, 2412, 10, 1),
-(2411, 31, 5, 0, 0, 50, 0),
-(2412, 31, 6, 0, 0, 60, 1),
-(2410, 31, 32, 0, 0, 40, 1),
-(2409, 31, 4, 0, 0, 40, 0),
-(2404, 31, 1, 0, 0, 10, 1),
-(2405, 31, 32, 0, 2404, 40, 1),
-(2406, 31, 33, 0, 0, 10, 1),
-(2407, 31, 2, 0, 0, 20, 0),
-(2408, 31, 3, 0, 0, 30, 0),
-(2423, 32, 8, 0, 0, 80, 1),
-(2422, 32, 7, 0, 0, 70, 0),
-(2421, 32, 6, 0, 0, 60, 1),
-(2419, 32, 4, 0, 0, 40, 0),
-(2418, 32, 3, 0, 0, 30, 0),
-(2417, 32, 2, 0, 0, 20, 0),
-(2416, 32, 1, 0, 0, 10, 1),
-(2420, 32, 5, 0, 0, 50, 0);
+DROP TABLE IF EXISTS `ac_fields_history`;
+CREATE TABLE `ac_fields_history`
+(
+    `hist_id`       int(10)                                not null auto_increment,
+    `table_name`    varchar(40)                            not null,
+    `record_id`      int                                    not null,
+    `field`         varchar(128)                           not null,
+    `version`       int(10)        default 1               not null,
+    `language_id`   int(10)                                not null,
+    `text`          longtext                               not null,
+    `date_added`    timestamp  default current_timestamp() null,
+    PRIMARY KEY (`hist_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-
---
--- Dumping data for table `custom_blocks`
---
-INSERT INTO `ac_custom_blocks`
-(`custom_block_id`,
-`block_id`,
-`date_added`,
-`date_modified`)
-VALUES
-(17,17,NOW(),NOW()),
-(18,17,NOW(),NOW()),
-(19,17,NOW(),NOW()),
-(20,17,NOW(),NOW()),
-(21,17,NOW(),NOW()),
-(22,17,NOW(),NOW()),
-(23,23,NOW(),NOW()),
-(24,20,NOW(),NOW())
-;
-
---
--- Dumping data for table `block_descriptions`
---
-INSERT INTO `ac_block_descriptions`
-(`block_description_id`, `custom_block_id`, `language_id`, `block_wrapper`, `block_framed`, `name`, `title`, `description`,
-`content`)
-VALUES
-(38, 24, 1, 'blocks/listing_block/popular_brands_content_bottom.tpl', 0, 'Brands Scrolling List', 'Brands Scrolling List', '', 'a:1:{s:18:""listing_datasource"";s:20:""custom_manufacturers"";}'),
-(32, 18, 1, 'blocks/html_block_footer.tpl', 1, 'About Us', 'About Us', '', '&lt;p class=&quot;small lh-lg&quot;&gt;AbanteCart is a free eCommerce solution for merchants to provide ability creating online business and sell products or services online. AbanteCart application is built and supported by experienced enthusiasts that are passionate about their work and contribution to rapidly evolving eCommerce industry. AbanteCart is more than just a shopping cart, it is rapidly growing eCommerce platform with many benefits.&lt;/p&gt;'),
-(33, 19, 1, 'blocks/html_block_footer.tpl', 1, 'Contact us', 'Contact Us', '', '&lt;ul class=&quot;list-unstyled contact small&quot;&gt;   &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-phone&quot;&gt;&lt;/i&gt;&lt;/i&gt; 123 456 7890,  123 456 7890&lt;/li&gt;    &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-mobile-screen&quot;&gt;&lt;/i&gt;&lt;a class=&quot;text-decoration-none&quot;  href=&quot;tel:123 456 7890&quot;&gt; 123 456 7890&lt;/a&gt;,  123 456 78900&lt;/li&gt;    &lt;li class=&quot;mb-2&quot;&gt;&lt;i class=&quot;fa-solid fa-at&quot;&gt;&lt;/i&gt; help at abantecart.com&lt;/li&gt;&lt;/ul&gt;'),
-(35, 21, 1, '0', 0, 'Main Page Carousel', 'Main Page Carousel', '', '&lt;div id=&quot;mainPageSliderIndicators&quot; class=&quot;carousel carousel-dark slide bg-light&quot; data-bs-ride=&quot;carousel&quot;&gt;  &lt;div class=&quot;carousel-indicators&quot;&gt;  &lt;button type=&quot;button&quot; data-bs-target=&quot;#mainPageSliderIndicators&quot; data-bs-slide-to=&quot;0&quot; class=&quot;active&quot;  aria-current=&quot;true&quot; aria-label=&quot;Slide 1&quot;&gt;&lt;/button&gt;  &lt;button type=&quot;button&quot; data-bs-target=&quot;#mainPageSliderIndicators&quot; data-bs-slide-to=&quot;1&quot;  aria-label=&quot;Slide 2&quot;&gt;&lt;/button&gt;  &lt;button type=&quot;button&quot; data-bs-target=&quot;#mainPageSliderIndicators&quot; data-bs-slide-to=&quot;2&quot;  aria-label=&quot;Slide 3&quot;&gt;&lt;/button&gt;  &lt;button type=&quot;button&quot; data-bs-target=&quot;#mainPageSliderIndicators&quot; data-bs-slide-to=&quot;3&quot;  aria-label=&quot;Slide 4&quot;&gt;&lt;/button&gt;  &lt;/div&gt;  &lt;div class=&quot;carousel-inner&quot;&gt;  &lt;div class=&quot;carousel-item banner active&quot;&gt;  &lt;div class=&quot;d-flex flex-wrap flex-sm-nowrap justify-content-center align-items-center&quot;&gt;  &lt;div class=&quot;flex-item &quot;&gt;  &lt;img class=&quot;my-auto w-100&quot; src=&quot;image/Slide_600x300.jpeg&quot;&gt;  &lt;/div&gt;  &lt;div class=&quot;flex-item col-9 col-sm-3 m-5&quot;&gt;  &lt;h5&gt;HTML5 Responsive Storefront to look great on&lt;/h5&gt;  &lt;h5&gt;ALL Screen Sizes&lt;/h5&gt;  &lt;p&gt;Natively responsive template implemented with bootstrap library and HTML5. Will look good on most  mobile devices and tablets.&lt;/p&gt;  &lt;h3&gt;&lt;a href=&quot;#&quot; class=&quot;&quot;&gt; Try on your device!&lt;/a&gt;&lt;/h3&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;div class=&quot;carousel-item banner&quot;&gt;  &lt;div class=&quot;d-flex flex-wrap flex-sm-nowrap justify-content-center align-items-center&quot;&gt;  &lt;div class=&quot;flex-item &quot;&gt;  &lt;img class=&quot;my-auto w-100&quot; src=&quot;image/Slide_600x300.jpeg&quot;&gt;  &lt;/div&gt;  &lt;div class=&quot;flex-item col-9 col-sm-3  m-5&quot;&gt;  &lt;h5&gt;Highly flexible layout on any page&lt;/h5&gt;  &lt;h5&gt;SEO Friendly&lt;/h5&gt;  &lt;p&gt;Fast Loading&lt;/p&gt;  &lt;h3&gt;&lt;a href=&quot;#&quot; class=&quot;&quot;&gt; Try Now!&lt;/a&gt;&lt;/h3&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;div class=&quot;carousel-item banner&quot;&gt;  &lt;div class=&quot;d-flex flex-wrap flex-sm-nowrap justify-content-center align-items-center&quot;&gt;  &lt;div class=&quot;flex-item &quot;&gt;  &lt;img class=&quot;my-auto w-100&quot; src=&quot;image/Slide_600x300.jpeg&quot;&gt;  &lt;/div&gt;  &lt;div class=&quot;flex-item col-9 col-sm-3  m-5&quot;&gt;  &lt;h5&gt;Feature rich with smart UI&lt;/h5&gt;  &lt;h5&gt;Easy &amp;amp; fun to manage&lt;/h5&gt;  &lt;p&gt;Feature reach shopping cart application right out of the box. Standard features allow to set up  complete eCommerce site with all the tools needed to sell products online.&lt;/p&gt;  &lt;h3&gt;&lt;a href=&quot;#&quot; class=&quot;&quot;&gt;Install Now!&lt;/a&gt;&lt;/h3&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;div class=&quot;carousel-item banner&quot;&gt;  &lt;div class=&quot;d-flex flex-wrap flex-sm-nowrap justify-content-center align-items-center&quot;&gt;  &lt;div class=&quot;flex-item &quot;&gt;  &lt;img class=&quot;my-auto w-100&quot; src=&quot;image/Slide_600x300.jpeg&quot;&gt;  &lt;/div&gt;  &lt;div class=&quot;flex-item col-9 col-sm-3  m-5&quot;&gt;  &lt;h5&gt;Stay in control&lt;/h5&gt;  &lt;h5&gt;Easy updates&lt;/h5&gt;  &lt;p&gt;Upgrade right from admin. Backward supportability in upgrades and automatic backups. Easy  extension download with one step installation.&lt;/p&gt;  &lt;h3&gt;&lt;a href=&quot;#&quot; class=&quot;&quot;&gt;Get Yours!&lt;/a&gt;&lt;/h3&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;button class=&quot;carousel-control-prev&quot; type=&quot;button&quot; data-bs-target=&quot;#mainPageSliderIndicators&quot; data-bs-slide=&quot;prev&quot;&gt;  &lt;span class=&quot;carousel-control-prev-icon&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;  &lt;span class=&quot;visually-hidden&quot;&gt;Previous&lt;/span&gt;  &lt;/button&gt;  &lt;button class=&quot;carousel-control-next&quot; type=&quot;button&quot; data-bs-target=&quot;#mainPageSliderIndicators&quot; data-bs-slide=&quot;next&quot;&gt;  &lt;span class=&quot;carousel-control-next-icon&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;  &lt;span class=&quot;visually-hidden&quot;&gt;Next&lt;/span&gt; &lt;/button&gt; &lt;/div&gt;'),
-(36, 22, 1, '0', 0, 'Main Page Promo', 'Promo', '', '&lt;section class=&quot;d-flex flex-wrap justify-content-evenly border m-3&quot;&gt;	&lt;div class=&quot;d-flex flex-item align-items-center&quot;&gt;		&lt;div class=&quot;promo_icon fs-1 m-3&quot;&gt;&lt;i class=&quot;fa-solid fa-2xl fa-truck fs-1&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;div class=&quot;promo_text&quot;&gt;&lt;h2&gt;Free shipping&lt;/h2&gt;All over in world over $200&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;d-flex flex-item align-items-center&quot;&gt;&lt;div class=&quot;promo_icon fs-1 m-3&quot;&gt;&lt;i class=&quot;fa-solid fa-2xl fa-money-bill-1 fs-1&quot;&gt;&lt;/i&gt;&lt;/div&gt;		&lt;div class=&quot;promo_text&quot;&gt;&lt;h2&gt;Easy Payment&lt;/h2&gt;Payment Gateway support&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;d-flex flex-item align-items-center&quot;&gt;		&lt;div class=&quot;promo_icon fs-1 m-3&quot;&gt;&lt;i class=&quot;fa-solid fa-2xl fa-clock fs-1&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;div class=&quot;promo_text&quot;&gt;&lt;h2&gt;24hrs Shipping&lt;/h2&gt;For All US States&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;d-flex flex-item align-items-center&quot;&gt;&lt;div class=&quot;promo_icon fs-1 m-3&quot;&gt;&lt;i class=&quot;fa-solid fa-2xl fa-tags fs-1&quot;&gt;&lt;/i&gt;&lt;/div&gt;		&lt;div class=&quot;promo_text&quot;&gt;&lt;h2&gt;Large Variety&lt;/h2&gt;50,000  Products&lt;/div&gt;&lt;/div&gt;&lt;/section&gt;'),
-(31, 17, 1, '0', 0, 'Social Icons', 'social_icons', '', '&lt;div class=&quot;social_icons nav navbar&quot;&gt; &lt;a class=&quot;nav-link m-3&quot; href=&quot;http://www.facebook.com/AbanteCart&quot; target=&quot;_blank&quot; title=&quot;Facebook&quot; &gt;&lt;i class=&quot; fa-brands fa-facebook fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;        &lt;a class=&quot;nav-link m-3&quot; href=&quot;https://twitter.com/abantecart&quot; target=&quot;_blank&quot; title=&quot;Twitter&quot;&gt;&lt;i class=&quot; fa-brands fa-twitter fa-xl&quot; &gt;&lt;/i&gt;&lt;/a&gt;        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;Linkedin&quot; &gt;&lt;i class=&quot;fa-brands fa-linkedin fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; title=&quot;rss&quot; &gt;&lt;i class=&quot;fa-solid fa-square-rss fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Skype&quot; &gt;&lt;i class=&quot;fa-brands fa-skype fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;        &lt;a class=&quot;nav-link m-3&quot;  href=&quot;#&quot; target=&quot;_blank&quot; title=&quot;Flickr&quot;&gt;&lt;i class=&quot;fa-brands fa-flickr fa-xl&quot;&gt;&lt;/i&gt;&lt;/a&gt;      &lt;/div&gt;'),
-(34, 20, 1, '0', 1, 'Testimonials', 'Testimonials', '', '&lt;div id=&quot;testimonial_sidebar&quot; class=&quot;carousel carousel-dark slide&quot; data-bs-ride=&quot;carousel&quot;&gt; &lt;div class=&quot;carousel-inner&quot;&gt;                   &lt;div class=&quot;carousel-item active&quot;&gt;                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;                        &quot; I was working with many shopping carts, free and hosted for my clients. There is always something missing. In AbanteCart I find this gap to be much less. Interface is very easy to use and support is very responsive. This is considering its is free. Go AbanteCart go!&quot;&lt;br /&gt;                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : TopShop on reviewcentre.com&lt;/span&gt;                        &lt;/div&gt;                    &lt;/div&gt;                    &lt;div class=&quot;carousel-item&quot;&gt;                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;                        &quot; Without a doubt the best cart I have used. The title says it all - AbanteCart is undoubtedly the best I have used. I\'m not an expert in site setup, so something this great looking and easy to use is absolutely perfect ... &quot;&lt;br /&gt;                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : johnstenson80 on venturebeat.com&lt;/span&gt;                        &lt;/div&gt;                    &lt;/div&gt;                    &lt;div class=&quot;carousel-item&quot;&gt;                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;                        &quot; Will not regret using this cart. All good is already mentioned, I want to add my experience with support. My problems with some configuration were resolved quick. Faster than paid shopping cart we had before.&quot;&lt;br /&gt;                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : shopper23 at bestshoppingcartreviews.com&lt;/span&gt;                        &lt;/div&gt;                    &lt;/div&gt;                    &lt;div class=&quot;carousel-item&quot;&gt;                        &lt;div class=&quot;align-self-stretch small lh-lg&quot;&gt;                        &quot; Love the cart. I installed it a while back and use it since when. Some features a hidden, but fun to discover them.&quot;&lt;br /&gt;                                    &lt;span class=&quot;pull-left orange&quot;&gt;By : Liz Wattkins at shopping-cart-reviews.com&lt;/span&gt;                        &lt;/div&gt;                    &lt;/div&gt;                &lt;/div&gt;            &lt;/div&gt;'),
-(3, 3, 1, '0', 1, 'Custom Listing block', 'Popular', '', 'a:2:{s:18:"listing_datasource";s:34:"catalog_product_getPopularProducts";s:5:"limit";s:2:"12";}'),
-(1, 1, 1, '0', 0, 'home page static banner', 'home page banner', '', '&lt;div style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;index.php?rt=product/special&quot;&gt; &lt;img alt=&quot;banner&quot; src=&quot;storefront/view/default/image/banner1.jpg&quot; /&gt; &lt;/a&gt;&lt;/div&gt;'),
-(37, 23, 1, '0', 0, 'Main Page Banner Bottom', 'Bottom Banners', '', 'a:1:{s:17:""banner_group_name"";s:19:""Main bottom banners"";}'),
-(16, 9, 1, 'blocks/banner_block/one_by_one_slider_banner_block.tpl', 0, 'Main Page Banner Slider', 'Main Page Banner Slider', '', 'a:1:{s:17:"banner_group_name";s:17:"Main Page Banners";}'),
-(18, 10, 1, '0', 0, 'Main Page Promo', 'Promo', '', '	&lt;section class=&quot;row promo_section&quot;&gt;	&lt;div class=&quot;col-md-3 col-xs-6 promo_block&quot;&gt;		&lt;div class=&quot;promo_icon&quot;&gt;&lt;i class=&quot;fa fa-truck fa-fw&quot;&gt;&lt;/i&gt;&lt;/div&gt;		&lt;div class=&quot;promo_text&quot;&gt;			&lt;h2&gt;				Free shipping&lt;/h2&gt;			All over in world over $200		&lt;/div&gt;	&lt;/div&gt;	&lt;div class=&quot;col-md-3 col-xs-6 promo_block&quot;&gt;		&lt;div class=&quot;promo_icon&quot;&gt;&lt;i class=&quot;fa fa-money fa-fw&quot;&gt;&lt;/i&gt;&lt;/div&gt;		&lt;div class=&quot;promo_text&quot;&gt;			&lt;h2&gt;				Easy Payment&lt;/h2&gt;			Payment Gateway support&lt;/div&gt;	&lt;/div&gt;	&lt;div class=&quot;col-md-3 col-xs-6 promo_block&quot;&gt;		&lt;div class=&quot;promo_icon&quot;&gt;&lt;i class=&quot;fa fa-clock-o fa-fw&quot;&gt;&lt;/i&gt;&lt;/div&gt;		&lt;div class=&quot;promo_text&quot;&gt;			&lt;h2&gt;				24hrs Shipping&lt;/h2&gt;			For All US States&lt;/div&gt;	&lt;/div&gt;	&lt;div class=&quot;col-md-3 col-xs-6 promo_block&quot;&gt;		&lt;div class=&quot;promo_icon&quot;&gt;&lt;i class=&quot;fa fa-tags fa-fw&quot;&gt;&lt;/i&gt;&lt;/div&gt;		&lt;div class=&quot;promo_text&quot;&gt;			&lt;h2&gt;				Large Variety&lt;/h2&gt;			50,000+ Products&lt;/div&gt;	&lt;/div&gt;	&lt;/section&gt;'),
-(2, 2, 1, '0', 0, 'Video block', 'Video', '', 'a:3:{s:18:"listing_datasource";s:5:"media";s:13:"resource_type";s:5:"video";s:5:"limit";s:1:"1";}')
-;
+CREATE INDEX `ac_fields_history_idx`
+    ON `ac_fields_history` (`table_name`, `record_id`, `field`, `language_id`);

@@ -5,7 +5,7 @@
             <div class="col-12">
                 <?php if ( $block_framed ) { ?>
                 <div class="block_frame block_frame_<?php echo $block_details['block_txt_id']; ?>" id="block_frame_<?php echo $block_details['block_txt_id'] . '_' . $block_details['instance_id'] ?>">
-                    <h2 class="h4 text-center text-warning"><?php echo $heading_title; ?></h2>
+                    <h4 class="h4 text-center text-warning"><?php echo $heading_title; ?></h4>
                     <h6 class="mb-4"><?php echo $heading_subtitle; ?></h6>
                 </div>
                 <?php } ?>
@@ -42,13 +42,15 @@
         </div>
    </div>
    <script>
-   (function () {
+   $(document).ready(function () {
       var owl = $('.brand-carousel');
       owl.owlCarousel({
         loop: true,
         margin: 24,
         nav: false,
         responsiveClass: true,
+        autoplay: true,
+        autoplayTimeout: 3000,
         responsive: {
           0: {
             items: 2
@@ -61,6 +63,6 @@
           }
         }
       });
-    })();
+    });
    </script>
 </section>

@@ -1,4 +1,4 @@
-<?php /** @var Aview $this */ ?>
+<?php /** @var AView|AController $this */ ?>
 <meta charset="UTF-8">
 <!--[if IE]>
 	<meta http-equiv="x-ua-compatible" content="IE=Edge" />
@@ -54,7 +54,7 @@ if($direction == 'rtl'){ ?>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap-utilities.min.css" integrity="sha512-4ocAKAxnrkSm7MvkkF1D435kko3/HWWvoi/U9+7+ln94B/U01Mggca05Pm3W59BIv3abl0U3MPdygAPLo5aeqg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <?php } ?>
 
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" integrity="sha512-dPXYcDub/aeb08c63jRq/k6GaKccl256JQy/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67/bbV8XaCQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link href="<?php echo $this->templateResource('/css/plugins/owl.carousel.min.css'); ?>" rel="stylesheet" type='text/css' />
 <link href="<?php echo $this->templateResource('/css/tm_style.css'); ?>" rel="stylesheet" type='text/css' />
@@ -72,7 +72,7 @@ if($direction == 'rtl'){ ?>
 <script src="<?php echo $this->templateResource('/js/plugins/owl.carousel.js'); ?>" ></script>
 
 <script type="text/javascript">
-    let storeName = '<?php echo $this->config->get('config_title_'.$this->language->getLanguageID()); ?>';
+    let storeName = <?php js_echo($this->config->get('config_title_'.$this->language->getLanguageID())); ?>;
     let baseUrl = '<?php echo $base; ?>';
     let samesite = '<?php echo((defined('HTTPS') && HTTPS) ? 'None; secure=1;' : 'lax; secure=0;'); ?>';
     let is_retina = <?php echo $retina ? 'true' : 'false'; ?>;

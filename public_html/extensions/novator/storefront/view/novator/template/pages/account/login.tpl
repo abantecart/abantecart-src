@@ -1,8 +1,6 @@
-
-
-<div class="row title justify-content-center sec-heading-block text-center">
-    <div class="col-xl-8">
-        <h1 class="h2 heading-title mb-0">
+<div class="row title">
+    <div class="col-xl-12">
+        <h1 class="h2 heading-title">
             <?php echo $heading_title; ?>
         </h1>
     </div>
@@ -22,54 +20,58 @@
     </div>
 <?php } ?>
 
-<div class="row">
-    <div class="d-flex col-md-6 p-3 newcustomer">
-        <?php if(!$this->getHookVar('register_box_html')){ ?>
-        <div class="loginbox card m-2">
-            <div class="card-body">
-                <h4 class="mb-3 text-nowrap w-100"><?php echo $text_i_am_new_customer; ?></h4>
-                <h6 class="mb-3"><?php echo $text_checkout; ?></h6>
-                <?php echo $form1[ 'form_open' ]; ?>
-                <fieldset>
-                    <div class="form-group mb-3">
-                    <?php echo $form1[ 'register' ];?>
-                    </div>
-                <?php if ($guest_checkout) { ?>
-                    <div class="form-group mb-3">
-                        <?php echo $form1[ 'guest' ];?>
-                    </div>
-                <?php } ?>
+<div class="row justify-content-center align-self-stretch">
+    <div class="col-xl-6 mb-2">
+        <div class="loginbox card m-1 newcustomer h-100">
+            <?php if(!$this->getHookVar('register_box_html')){ ?>
+            <div class="card-body d-flex flex-wrap">
+                    <h4 class="mb-3 text-nowrap w-100"><?php echo $text_i_am_new_customer; ?></h4>
+                    <h6 class="mb-3 w-100"><?php echo $text_checkout; ?></h6>
+                    <?php
+                    $formCss = "mt-auto mb-0 w-100";
+                    $form1['form_open']->style .= $formCss;
+                    echo $form1['form_open']; ?>
+                    <fieldset class="w-100">
+                        <div class="form-group mb-3">
+                        <?php echo $form1[ 'register' ];?>
+                        </div>
+                    <?php if ($guest_checkout) { ?>
+                        <div class="form-group mb-3">
+                            <?php echo $form1[ 'guest' ];?>
+                        </div>
+                    <?php } ?>
+                    </fieldset>
                     <div class="d-flex align-items-start">
                         <div class="mt-2">
-                            <p class="mt-2"><?php echo $text_create_account; ?></p>
+                            <p class="m-2"><?php echo $text_create_account; ?></p>
                         </div>
-                        <button type="submit" class="float-end text-nowrap btn btn-primary mt-auto align-self-end"  title="<?php echo $form1['continue']->name ?>">
+                        <button type="submit" class="ms-auto text-nowrap btn btn-primary align-self-end"  title="<?php echo $form1['continue']->name ?>">
                             <i class="<?php echo $form1['continue']->icon; ?> fa"></i>
                             <?php echo $form1['continue']->name ?>
                         </button>
                     </div>
-                </fieldset>
-                </form>
-            </div>
+                    </form>
+                </div>
+            <?php }else{
+                echo $this->getHookVar('register_box_html');
+            }?>
         </div>
-        <?php }else{
-            echo $this->getHookVar('register_box_html');
-        }?>
     </div>
-
-    <div class="col-md-6 p-3 returncustomer">
+    <div class="col-xl-6 mb-2">
+        <div class="loginbox card m-1 returncustomer h-100">
         <?php if(!$this->getHookVar('login_box_html')){ ?>
-        <div class="loginbox card m-2">
-            <div class="card-body">
+        <div class="card-body d-flex flex-wrap">
                 <h4 class="mb-3 text-nowrap w-100"><?php echo $text_returning_customer; ?></h4>
-                <h6><?php echo $text_i_am_returning_customer; ?></h6>
-                <?php echo str_replace('novalidate','',$form2['form_open']); ?>
-                    <fieldset >
+                <h6 class="mb-3 w-100"><?php echo $text_i_am_returning_customer; ?></h6>
+                <?php
+                $form2['form_open']->style .= $formCss;
+                echo str_replace('novalidate','',$form2['form_open']); ?>
+                    <fieldset class="w-100">
                         <div class="form-floating mb-3">
                             <?php
-                                $form2['loginname']->no_wrapper = true;
-                                $form2['loginname']->attr .= ' autocomplete="username email" required  aria-required="true"';
-                                echo $form2['loginname'];
+                            $form2['loginname']->no_wrapper = true;
+                            $form2['loginname']->attr .= ' autocomplete="username email" required  aria-required="true"';
+                            echo $form2['loginname'];
                             ?>
                             <label for="<?php echo $form2['loginname']->element_id; ?>">
                             <?php
@@ -81,29 +83,28 @@
                             <?php
                             $form2['password']->no_wrapper = true;
                             $form2['password']->attr .= ' autocomplete="current-password" aria-required="true" required';
-
                             echo $form2['password']?>
                             <label for="<?php echo $form2['password']->element_id; ?>"><?php echo $entry_password; ?></label>
                         </div>
-                        <div class="d-flex align-items-center">
-                            <div id="rescue_links me-2 d-flex align-items-start">
-                                <a class="text-nowrap me-2" href="<?php echo $forgotten_pass; ?>"><?php echo $text_forgotten_password; ?></a>
-                                <?php if($noemaillogin) { ?>
-                                    <a class="text-nowrap me-auto" href="<?php echo $forgotten_login; ?>"><?php echo $text_forgotten_login; ?></a>
-                                <?php } ?>
-                            </div>
-                            <button type="submit" class="ms-auto float-end text-nowrap btn btn-primary"  title="<?php echo $form2['login_submit']->name ?>">
-                                <i class="<?php echo $form2['login_submit']->{'icon'}; ?>"></i>
-                                <?php echo $form2['login_submit']->name ?>
-                            </button>
-                        </div>
                     </fieldset>
+                    <div class="d-flex w-100 align-items-center">
+                        <div id="rescue_links me-2 d-flex align-items-start">
+                            <a class="text-nowrap me-2" href="<?php echo $forgotten_pass; ?>"><?php echo $text_forgotten_password; ?></a>
+                            <?php if($noemaillogin) { ?>
+                                <a class="text-nowrap me-auto" href="<?php echo $forgotten_login; ?>"><?php echo $text_forgotten_login; ?></a>
+                            <?php } ?>
+                        </div>
+                        <button type="submit" class="ms-auto text-nowrap btn btn-primary"  title="<?php echo $form2['login_submit']->name ?>">
+                            <i class="<?php echo $form2['login_submit']->{'icon'}; ?>"></i>
+                            <?php echo $form2['login_submit']->name ?>
+                        </button>
+                    </div>
                 </form>
-            </div>    
-        </div>
+            </div>
         <?php }else{
             echo $this->getHookVar('login_box_html');
         }?>
-    <?php echo $this->getHookVar('login_extension'); ?>
+        <?php echo $this->getHookVar('login_extension'); ?>
+        </div>
     </div>
 </div>

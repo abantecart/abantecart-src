@@ -19,11 +19,13 @@
                     </div>
                     <?php
                     }
-                    for ($i = $start; $i <= $end; $i++) { ?>
+                    for ($i = $start; $i <= $end; $i++) {
+                        $href = str_replace('--page--', $i, ($direct_url ?: $url));
+                        ?>
                     <div id="paginate-before" class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
                             <a class="page-link <?php echo $page == $i ? 'active' : ''; ?>"
-                            href="<?php echo str_replace('{page}', $i, $direct_url?:$url) ?>"
-                            <?php echo $direct_url ? 'data-url="'.str_replace('{page}', $i, $url).'"' : ''; ?>
+                            href="<?php echo $href ?>"
+                            <?php echo $direct_url ? 'data-url="'.$href.'"' : ''; ?>
                             title="<?php echo $i; ?>" ><?php echo $i; ?></a>
                     </div>
                     <?php }
@@ -44,7 +46,7 @@
                 </div>
                 </ul>
             </div>
-            <div class="col-auto page-item disabled d-flex flex-wrap flex-sm-nowrap text-nowrap align-items-center p-3">
+            <div class="w-xs-100 w-auto col-auto page-item disabled d-flex flex-nowrap text-nowrap align-items-center p-3">
                 <?php echo $text_limit ?>&nbsp;&nbsp;
                 <?php echo $limit_select ?>&nbsp;&nbsp;
                 <?php echo $text ?>

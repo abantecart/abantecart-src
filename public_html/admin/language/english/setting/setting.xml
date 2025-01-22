@@ -250,7 +250,7 @@
 	<definition>
 		<key>entry_customer_approval</key>
 		<value>
-			<![CDATA[Approve New Customers:<br /><span class="help">Don't allow new customer to login until their account has been approved.</span>]]></value>
+			<![CDATA[Review New Registrations:<br /><span class="help">If enabled, do not allow new customer to login until their account has been approved.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_prevent_email_as_login</key>
@@ -651,6 +651,10 @@
 	<definition>
 		<key>entry_special_limit</key>
 		<value><![CDATA[Number of Items In Special Block ]]></value>
+	</definition>
+	<definition>
+		<key>entry_content_limit</key>
+		<value><![CDATA[Number of Items In Content Blocks ]]></value>
 	</definition>
 	<definition>
 		<key>entry_cart_weight</key>
@@ -1104,7 +1108,7 @@
 	</definition>
 	<definition>
 		<key>entry_fast_checkout_allow_coupon</key>
-		<value><![CDATA[Allow coupon entry <br /><span class="help">Enable coupon entry by customers and guests</span>]]></value>
+		<value><![CDATA[Allow Coupon Entry at Checkout <br /><span class="help">Enable coupon entry by customers and guests</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_fast_checkout_payment_address_equal_shipping</key>
@@ -1112,7 +1116,7 @@
 	</definition>
 	<definition>
 		<key>entry_fast_checkout_require_phone_number</key>
-		<value><![CDATA[Require Phone Number <br /><span class="help">Require phone number entry by customer or guest specific to the order</span>]]></value>
+		<value><![CDATA[Require Phone Number at Checkout <br /><span class="help">When enabled, this setting requires customers or guests to provide a phone number during the checkout process.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_fast_checkout_create_account</key>

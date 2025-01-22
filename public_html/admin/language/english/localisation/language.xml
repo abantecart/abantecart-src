@@ -180,4 +180,8 @@
 		<key>text_translate_override_existing</key>
 		<value><![CDATA[Note: All existing descriptions in target language will be replaced with new translation. You can disable overriding in <a href="%s">System->Settings->Store Details</a>.]]></value>
 	</definition>
+	<definition>
+		<key>text_copy_source_text</key>
+		<value><![CDATA[Copy Source Language Text]]></value>
+	</definition>
 </definitions>

@@ -1,34 +1,29 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-  
- UPGRADE NOTE: 
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.  
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
 class AMenu
 {
-    /**
-     * registry to provide access to cart objects
-     *
-     * @var object Registry
-     */
+    /** @var object Registry */
     protected $registry;
     /** @var ADB */
     protected $db;
@@ -38,17 +33,9 @@ class AMenu
     protected $dataset_id = 0;
     /** @var array */
     protected $menu_items = [];
-    /**
-     * array form quick search menu item without dig in menu levels
-     *
-     * @var array
-     */
+    // array form quick search menu item without dig in menu levels
     protected $dataset_rows = [];
-    /**
-     * array for checking for unique menu item id
-     *
-     * @var array
-     */
+    // array for checking for unique menu item id
     protected $item_ids = [];
 
     /**
@@ -103,7 +90,7 @@ class AMenu
                     if (!$this->_find_itemId_in_extensions($item ['item_id'], $enabled_extension)) {
                         continue;
                     } else { // if all fine - loads language of extension for menu item text show
-                        if (strpos($item ['item_url'], 'http') === false) {
+                        if (!str_starts_with($item ['item_url'], 'http')) {
                             $this->registry->get('load')->language($item ['item_id'].'/'.$item ['item_id'], 'silent');
                             $item['language'] = $item ['item_id'].'/'.$item ['item_id'];
                         }
@@ -114,9 +101,9 @@ class AMenu
                     $r = $rm->getResource($item['item_icon_rl_id'], $language_id);
                     $item['item_icon_code'] = $r['resource_code'];
                 }
-                $output [$item ['parent_id']] [] = $item;
-                $indexes[$item ['parent_id']][] = $item ['sort_order'];
-                $this->item_ids [] = $item ['item_id'];
+                $output[$item['parent_id']][] = $item;
+                $indexes[$item['parent_id']][] = $item ['sort_order'];
+                $this->item_ids[] = $item ['item_id'];
             }
 
             foreach ($output as $parentId => &$rows) {
@@ -255,7 +242,7 @@ class AMenu
     /**
      * method inserts new item to the end of menu level
      *
-     * @param array $item ("item_id"=>"","parent_id"=>"","item_text"=>,"rt"=>"","sort_order"=>"", "item_type" => "")
+     * @param array $item ["item_id"=>"","parent_id"=>"","item_text"=>,"rt"=>"","sort_order"=>"", "item_type" => ""]
      *
      * @return boolean
      * @throws AException
@@ -273,11 +260,17 @@ class AMenu
 
         if (!$item ["item_id"] || !$item ["item_text"]
             || sizeof(array_intersect($check_array, array_keys($item))) < 6) {
-            return 'Error: Cannot to add menu item because item array is wrong.';
+            throw new AException(
+                AC_ERR_USER_ERROR,
+                'Error: Cannot to add menu item because item array is wrong.'
+            );
         }
 
         if ($item ['parent_id'] && !in_array($item ['parent_id'], $this->item_ids)) {
-            return 'Error: Cannot to add menu item because parent "'.$item ['parent_id'].'" is not exists';
+            throw new AException(
+                AC_ERR_USER_ERROR,
+                'Error: Cannot to add menu item because parent "'.$item ['parent_id'].'" is not exists'
+            );
         }
 
         // then insert
@@ -297,12 +290,13 @@ class AMenu
 
         // checks for unique item_id
         if (in_array($item ["item_id"], $this->item_ids)) {
-            return 'Error: Cannot to add menu item because item with item_id "'
-                .$item ["item_id"].'" is already exists.';
+            throw new AException(
+                AC_ERR_USER_ERROR,
+                'Error: Cannot to add menu item because item with item_id "'.$item ["item_id"].'" is already exists.'
+            );
         }
         $result = $this->dataset->addRows([$item]);
-        // rebuild menu var after changing
-        $this->_build_menu($this->dataset->getRows());
+        $this->item_ids[] = $item ['item_id'];
         $this->registry->get('cache')->remove('admin_menu');
         return $result;
     }
@@ -323,18 +317,21 @@ class AMenu
     }
 
     /*
-     * Мethod update menu item by condition (see ADataset->updateRow) 
+     * Method update menu item by condition (see ADataset->updateRow)
      *
      * @param string $item_name
      * @return boolean
      */
     public function updateMenuItem($item_id, $new_values)
     {
-        if (empty ($new_values) || !$item_id) {
+        if (!$new_values || !$item_id) {
             return false;
         }
 
-        $this->dataset->updateRows(["column_name" => "item_id", "operator" => "=", "value" => $item_id], $new_values);
+        $this->dataset->updateRows(
+            ["column_name" => "item_id", "operator" => "=", "value" => $item_id],
+            $new_values
+        );
         $this->_build_menu($this->dataset->getRows());
         $this->registry->get('cache')->remove('admin_menu');
         return true;

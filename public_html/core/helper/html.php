@@ -1,27 +1,26 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-  
- UPGRADE NOTE: 
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.  
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
-//Possibly legacy and only for old template. Remove in 1.2
 function renderStoreMenu($menu, $level = 0)
 {
     $menu = (array)$menu;
@@ -33,28 +32,28 @@ function renderStoreMenu($menu, $level = 0)
     $logged = $registry->get('customer')->isLogged();
 
     foreach ($menu as $item) {
-        if (($logged && $item['id'] == 'login')
-            || (!$logged && $item['id'] == 'logout')
-        ) {
+        if ( ($logged && $item['id'] == 'login') || (!$logged && $item['id'] == 'logout') ) {
             continue;
         }
 
-        $id = (empty($item['id']) ? '' : ' id="menu_'.$item['id'].'" '); // li ID
-
+        $id = $item['id'] ? ' id="menu_'.$item['id'].'" ' : '';
         if ($level != 0) {
-            if (empty($item['children'])) {
-                $class = '';
+            if (!$item['children']) {
+                $style = '';
             } else {
-                $class = $item['icon'] ? ' class="parent" style="background-image:none;" ' : ' class="parent menu_'.$item['id'].'" ';
+                $style = $item['icon']
+                    ? ' class="parent" style="background-image:none;" '
+                    : ' class="parent menu_'.$item['id'].'" ';
             }
         } else {
-            $class = $item['icon'] ? ' class="top" style="background-image:none;" ' : ' class="top menu_'.$item['id'].'" ';
+            $style = $item['icon']
+                ? ' class="top" style="background-image:none;" '
+                : ' class="top menu_'.$item['id'].'" ';
         }
 
-        $href = empty($item['href']) ? '' : ' href="'.$item['href'].'" '; //a href
-
+        $href = $item['href'] ? ' href="'.$item['href'].'" ' : '';
         $result .= '<li'.$id.' class="dropdown">';
-        $result .= '<a'.$class.$href.'>';
+        $result .= '<a'.$style.$href.'>';
         $result .= $item['icon'] ? '<img src="'.HTTPS_DIR_RESOURCE.$item['icon'].'" alt="" />' : '';
         $result .= '<span>'.$item['text'].'</span></a>';
 
@@ -69,7 +68,6 @@ function renderStoreMenu($menu, $level = 0)
     return $result;
 }
 
-//New menu tree builder (1.2+) 
 function buildStoreFrontMenuTree($menu_array, $level = 0)
 {
     $menu_array = (array)$menu_array;
@@ -86,8 +84,7 @@ function buildStoreFrontMenuTree($menu_array, $level = 0)
 
     $ar = new AResource('image');
     foreach ($menu_array as $item) {
-        if (($logged && $item['id'] == 'login')
-            || (!$logged && $item['id'] == 'logout')
+        if (($logged && $item['id'] == 'login') || (!$logged && $item['id'] == 'logout')
         ) {
             continue;
         }
@@ -96,12 +93,12 @@ function buildStoreFrontMenuTree($menu_array, $level = 0)
         $id = (empty($item['id']) ? '' : ' data-id="menu_'.$item['id'].'" '); // li ID
         if ($level != 0) {
             if (empty($item['children'])) {
-                $class = $item['icon'] ? ' class="top nobackground"' : ' class="sub menu_'.$item['id'].'" ';
+                $style = $item['icon'] ? ' class="top nobackground"' : ' class="sub menu_'.$item['id'].'" ';
             } else {
-                $class = $item['icon'] ? ' class="parent nobackground" ' : ' class="parent menu_'.$item['id'].'" ';
+                $style = $item['icon'] ? ' class="parent nobackground" ' : ' class="parent menu_'.$item['id'].'" ';
             }
         } else {
-            $class = $item['icon'] ? ' class="top nobackground"' : ' class="top menu_'.$item['id'].'" ';
+            $style = $item['icon'] ? ' class="top nobackground"' : ' class="top menu_'.$item['id'].'" ';
         }
         $href = empty($item['href']) ? '' : ' href="'.$item['href'].'" ';
         //construct HTML
@@ -110,7 +107,7 @@ function buildStoreFrontMenuTree($menu_array, $level = 0)
             $current = 'current';
         }
         $result .= '<li '.$id.' class="dropdown '.$current.'">';
-        $result .= '<a '.$class.$href.'>';
+        $result .= '<a '.$style.$href.'>';
 
         //check icon rl type html, image or none.
         $rl_id = $item['icon'] ?: $item['icon_rl_id'];
@@ -137,34 +134,41 @@ function buildStoreFrontMenuTree($menu_array, $level = 0)
     return $result;
 }
 
-function renderAdminMenu($menu, $level = 0, $current_rt = '')
+/**
+ *
+ * @param array $menu
+ * @param int|null $level
+ * @param string|null $currentRt
+ * @return string
+ */
+function renderAdminMenu(array $menu, ?int $level = 0, ?string $currentRt = '')
 {
     $result = '';
     if ($level) {
-        $result .= "<ul class=\"children child$level\">\r\n";
+        $result .= '<ul class="children child'.$level.'">'."\r\n";
     }
     foreach ($menu as $item) {
-        $id = (empty($item['id']) ? '' : ' id="menu_'.$item['id'].'" '); // li ID
-        $class = $level != 0 ? empty($item['children']) ? '' : ' class="parent" ' : ' class="top" '; //a class
-        $href = empty($item['href']) ? '' : ' href="'.$item['href'].'" '; //a href
-        $onclick = empty($item['onclick']) ? '' : ' onclick="'.$item['onclick'].'" '; //a href
+        $id = $item['id'] ? ' id="menu_'.$item['id'].'" ' : '';
+        $class = $level != 0 ? !$item['children'] ? '' : ' class="parent" ' : ' class="top" ';
+        $href = $item['href'] ? ' href="'.$item['href'].'" ' : '';
+        $onclick = $item['onclick'] ? ' onclick="'.$item['onclick'].'" ' : '';
 
-        $child_class = "level$level ";
+        $childCssClass = "level".$level;
         if (!empty($item['children'])) {
-            $child_class .= 'nav-parent ';
+            $childCssClass .= ' nav-parent ';
         }
-        if (isset($item['rt']) && $item['rt'] && $current_rt == $item['rt']) {
-            $child_class .= 'active ';
+        if ($item['rt'] && $currentRt == $item['rt']) {
+            $childCssClass .= ' active ';
         }
-        if ($child_class) {
-            $child_class = ' class="'.$child_class.'"';
+        if ($childCssClass) {
+            $childCssClass = ' class="'.$childCssClass.'" ';
         }
 
-        $result .= '<li'.$id.$child_class.'>';
+        $result .= '<li'.$id.$childCssClass.'>';
         $result .= '<a '.$class.$href.$onclick.'>';
 
         //check icon rl type html, image or none. 
-        if (is_html($item['icon'])) {
+        if (isHtml($item['icon'])) {
             $result .= $item['icon'];
         } else {
             if ($item['icon']) {
@@ -174,9 +178,9 @@ function renderAdminMenu($menu, $level = 0, $current_rt = '')
             }
         }
         $result .= '<span class="menu_text">'.$item['text'].'</span></a>';
-        //if children build inner clild trees
-        if (!empty($item['children'])) {
-            $result .= "\r\n".renderAdminMenu($item['children'], $level + 1, $current_rt);
+        //if children build inner child trees
+        if ($item['children']) {
+            $result .= "\r\n".renderAdminMenu((array)$item['children'], $level + 1, $currentRt);
         }
         $result .= "</li>\r\n";
     }

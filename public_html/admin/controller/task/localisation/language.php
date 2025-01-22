@@ -1,35 +1,33 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
 
 class ControllerTaskLocalisationLanguage extends AController
 {
-    public $data = [];
-
     public function main(){ }
 
     public function translate(...$args)
     {
-        $translate_result = false;
+        $isTranslated = false;
         list($task_id, $step_id,) = $args;
         $this->load->library('json');
 
@@ -63,38 +61,38 @@ class ControllerTaskLocalisationLanguage extends AController
         }
 
         //send emails in loop and update task's step info for restarting if step or task failed
-        $step_settings = $step_info['settings'];
-        $table_name = $step_settings['table']['table_name'];
-        $dst_language_id = $step_settings['language_id'];
-        $src_language_id = $step_settings['src_language_id'];
+        $stepSettings = $step_info['settings'];
+        $table_name = $stepSettings['table']['table_name'];
+        $dstLanguageId = $stepSettings['language_id'];
+        $srcLanguageId = $stepSettings['src_language_id'];
 
-        $pkeys = $this->language->getPrimaryKeys($table_name);
-        $pkeys = array_merge($pkeys, array_keys($step_settings['table']['indexes']));
-        $pkeys = array_unique($pkeys);
+        $pKeys = $this->language->getPrimaryKeys($table_name);
+        $pKeys = array_merge($pKeys, array_keys($stepSettings['table']['indexes']));
+        $pKeys = array_unique($pKeys);
 
-        $specific_sql = '';
-        foreach ($pkeys as $pk) {
+        $specificSql = '';
+        foreach ($pKeys as $pk) {
             if ($pk == 'language_id') {
                 continue;
             }
-            foreach ($step_settings['table']['indexes'] as $k => $v) {
-                $specific_sql .= " AND `".$k."` IN ('".implode("', '", $v)."')";
+            foreach ($stepSettings['table']['indexes'] as $k => $v) {
+                $specificSql .= " AND `".$k."` IN ('".implode("', '", $v)."')";
             }
         }
 
         //do translate only when items presents
-        if ($specific_sql) {
-            $translate_result = $this->language->cloneLanguageRows(
+        if ($specificSql) {
+            $isTranslated = $this->language->cloneLanguageRows(
                 $table_name,
-                $pkeys,
-                $dst_language_id,
-                $src_language_id,
-                $specific_sql,
-                $step_settings['translate_method']
+                $pKeys,
+                $dstLanguageId,
+                $srcLanguageId,
+                $specificSql,
+                $stepSettings['translate_method']
             );
         }
 
-        if ($translate_result) {
+        if ($isTranslated) {
             //update task details to show them at the end
             $tm->updateTaskDetails(
                 $task_id,
@@ -115,10 +113,10 @@ class ControllerTaskLocalisationLanguage extends AController
             $this->_return_error('Some errors during step run. See log for details.');
         }
 
-        $this->response->setOutput(AJson::encode(['result' => true, 'message' => $translate_result]));
+        $this->response->setOutput(AJson::encode(['result' => true, 'message' => $isTranslated]));
     }
 
-    private function _return_error($error_text)
+    protected function _return_error($error_text)
     {
         $this->response->setOutput(AJson::encode(['result' => false, 'error_text' => $error_text]));
     }

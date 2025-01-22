@@ -71,6 +71,7 @@
                                         <?php if($product['blurb']){?>
                                             <p class="text-muted"><?php echo $product['blurb']; ?></p>
                                         <?php }?>
+                                        <?php echo $this->getHookvar('product_listing_details_after_blurb_'.$product['product_id']);?>
                                         <ul class="list-inline mb-0">
                                             <?php if($this->customer->isLogged()){ ?>
                                             <li class="list-inline-item ">
@@ -94,6 +95,7 @@
                                                     <i class="bi bi-shuffle"></i>
                                                 </a>
                                             </li>
+                                            <?php echo $this->getHookvar('product_button_'.$product['product_id']); ?>
                                         </ul>
 
                                         <div class="d-flex justify-content-center p-1 mt-2 align-items-center">

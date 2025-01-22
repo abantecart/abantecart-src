@@ -35,7 +35,7 @@ class ControllerPagesCheckoutFinalize extends AController
         $mdl = $this->loadModel('account/order');
         $orderInfo = $mdl->getOrder($orderId);
         $order_totals = $mdl->getOrderTotals($orderId);
-        if($orderInfo) {
+        if ($orderInfo) {
             $orderInfo['order_products'] = $mdl->getOrderProducts($orderId);
         }
 
@@ -43,10 +43,10 @@ class ControllerPagesCheckoutFinalize extends AController
             //debit transaction
             $this->_debit_transaction($orderId);
             $orderInfo['totals'] = $order_totals;
-            $this->view->assign('gaOrderData',AOrder::getGoogleAnalyticsOrderData( $orderInfo ) );
+            $this->view->assign('gaOrderData', AOrder::getGoogleAnalyticsOrderData($orderInfo));
 
             //clear session before redirect
-            $this->_clear_order_session();
+            $this->clearOrderSession();
 
             //save order_id into session as processed order to allow one redirect
             $this->session->data['processed_order_id'] = $orderId;
@@ -63,7 +63,7 @@ class ControllerPagesCheckoutFinalize extends AController
         //check if payment was processed
         if (!(int)$this->session->data['processed_order_id']) {
             redirect($this->html->getURL('index/home'));
-        } else{
+        } else {
             redirect($this->html->getSecureURL('checkout/fast_checkout_success'));
         }
     }
@@ -89,7 +89,7 @@ class ControllerPagesCheckoutFinalize extends AController
             $this->messages->saveWarning(
                 sprintf($this->language->get('text_title_failed_order_to_admin'), $orderId),
                 $this->language->get('text_message_failed_order_to_admin')
-                    .' '.'#admin#rt=sale/order/details&order_id='.$orderId
+                . ' ' . '#admin#rt=sale/order/details&order_id=' . $orderId
             );
             $text_message = $this->language->get('text_message_failed_order');
             $this->errors[] = $text_message;
@@ -131,9 +131,9 @@ class ControllerPagesCheckoutFinalize extends AController
         } catch (AException $e) {
             $error = new AError(
                 'Error: Debit transaction cannot be applied.'
-                .var_export($transaction_data,true)."\n"
-                .$e->getMessage()."\n"
-                .$e->getFile());
+                . var_export($transaction_data, true) . "\n"
+                . $e->getMessage() . "\n"
+                . $e->getFile());
             $error->toLog()->toMessages();
             return false;
         }
@@ -143,11 +143,15 @@ class ControllerPagesCheckoutFinalize extends AController
     /**
      * Method for purging session data related to order
      */
-    protected function _clear_order_session()
+    protected function clearOrderSession()
     {
+        //allow to clear custom data for extensions
+        $this->extensions->hk_ProcessData($this, __FUNCTION__);
+
         $this->cart->clear();
         $this->customer->clearCustomerCart();
         unset(
+            $this->session->data['shipping_method'],
             $this->session->data['shipping_method'],
             $this->session->data['shipping_methods'],
             $this->session->data['payment_method'],
@@ -157,7 +161,7 @@ class ControllerPagesCheckoutFinalize extends AController
             $this->session->data['order_id'],
             $this->session->data['coupon'],
             $this->session->data['used_balance'],
-            $this->session->data['used_balance_full']
+            $this->session->data['used_balance_full'],
         );
     }
 }

@@ -1,52 +1,108 @@
-alter table `ac_global_attributes_values`
-    add price_modifier float default 0.0 null after attribute_id;
+alter table `ac_contents`
+    add column `content_bar` int(1) NOT NULL DEFAULT '0' after `status`,
+    add column `author` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+    add column `icon_rl_id` int(11),
+    add column `publish_date` timestamp NULL,
+    add column `expire_date` timestamp NULL,
+    add column `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+    add column `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
 
-alter table `ac_global_attributes_values`
-    add txt_id varchar(255) null;
+update `ac_contents` c set `publish_date` = (
+    select `date_added` from `ac_content_descriptions` cd where c.content_id = cd.content_id limit 1
+);
 
-alter table `ac_global_attributes_values`
-    add constraint ga_value_txt_id_idx
-        unique (txt_id);
-alter table `ac_product_option_values`
-    add txt_id varchar(255) null after group_id;
+UPDATE `ac_content_descriptions` c SET `title` = `name` WHERE title = '';
+ALTER TABLE `ac_content_descriptions` DROP COLUMN `name`;
 
-alter table `ac_global_attributes_values`
-    add price_prefix char(1) null after price_modifier;
+#Remove duplicate ac_contents entries. content_id is now unique
+CREATE TEMPORARY TABLE temp_unique AS
+SELECT MIN(content_id) AS content_id, parent_content_id
+FROM `ac_contents`
+GROUP BY content_id;
 
-alter table `ac_page_descriptions`
-    alter column `date_added` set default (CURRENT_TIMESTAMP);
+DELETE FROM `ac_contents`
+WHERE (content_id, parent_content_id) NOT IN (SELECT content_id, parent_content_id FROM temp_unique);
 
-alter table `ac_order_data`
-    alter column `date_added` set default (CURRENT_TIMESTAMP);
+DROP TEMPORARY TABLE temp_unique;
 
-update `ac_settings`
-SET `group` = 'appearance'
-WHERE `group` = 'general'
-    AND `key` IN (
-                   'config_catalog_limit',
-                   'config_bestseller_limit',
-                   'config_featured_limit',
-                   'config_latest_limit',
-                   'config_special_limit'
-                  );
-INSERT INTO `ac_settings` (`group`, `key`, `value` )
-VALUES ('appearance', 'viewed_products_limit', 3);
+CREATE TABLE `ac_content_tags` (
+   `content_id` int(11) NOT NULL,
+   `tag` varchar(32) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+   `language_id` int(11) NOT NULL,
+   PRIMARY KEY  (`content_id`,`tag`,`language_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-alter table `ac_block_layouts`
-    modify date_added timestamp default CURRENT_TIMESTAMP null;
+INSERT INTO `ac_blocks` (`block_txt_id`, `controller`, `date_added`) VALUES
+    ('new_content','blocks/new_content',NOW());
 
-alter table `ac_block_layouts`
-    modify date_modified timestamp default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP;
-alter table `ac_block_descriptions`
-    modify date_added timestamp default CURRENT_TIMESTAMP null;
+INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `date_added`) VALUES
+    (LAST_INSERT_ID(), 3, 'blocks/new_content.tpl',NOW()),
+    (LAST_INSERT_ID(), 6, 'blocks/new_content.tpl',NOW());
 
-alter table `ac_block_descriptions`
-    modify date_modified timestamp default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP;
+INSERT INTO `ac_blocks` (`block_txt_id`, `controller`, `date_added`) VALUES
+    ('content_search', 'blocks/content_search', now());
 
-#replace group with "checkout"
-UPDATE `ac_settings` SET `group` = 'checkout' WHERE `group`='fast_checkout';
-DELETE FROM `ac_settings` WHERE `key` IN ('fast_checkout_store_id', 'fast_checkout_status', 'fast_checkout_layout', 'fast_checkout_priority','fast_checkout_sort_order');
-DELETE FROM `ac_extensions` WHERE `key` = 'fast_checkout';
+INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `date_added`) VALUES
+    (LAST_INSERT_ID(), 1, 'blocks/content_search.tpl', now()),
+    (LAST_INSERT_ID(), 2, 'blocks/content_search.tpl', now()),
+    (LAST_INSERT_ID(), 3, 'blocks/content_search.tpl', now()),
+    (LAST_INSERT_ID(), 6, 'blocks/content_search.tpl', now());
 
-ALTER TABLE `ac_block_descriptions`
-    modify `block_framed` tinyint(1) DEFAULT '0';
+--
+-- DDL for table `fields_history`
+--
+create table `ac_fields_history`
+(
+    `hist_id`       int(10)                                not null auto_increment,
+    `table_name`    varchar(40)                            not null,
+    `record_id`      int                                    not null,
+    `field`         varchar(128)                           not null,
+    `version`       int(10)        default 1               not null,
+    `language_id`   int(10)                                not null,
+    `text`          longtext                               not null,
+    `date_added`    timestamp  default current_timestamp() null,
+    primary key (`hist_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+create index `ac_fields_history_idx`
+    on `ac_fields_history` (`table_name`, `record_id`, `field`, `language_id`);
+
+--
+-- DDL for table `user_sessions`
+--
+DROP TABLE IF EXISTS `ac_user_sessions`;
+CREATE TABLE `ac_user_sessions` (
+    `user_id` int(11) NOT NULL,
+    `token` varchar(128) NOT NULL DEFAULT '',
+    `ip` varchar(50) NOT NULL DEFAULT '',
+    `last_active` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`user_id`, `token`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- DDL for table `customer_sessions`
+--
+DROP TABLE IF EXISTS `ac_customer_sessions`;
+CREATE TABLE `ac_customer_sessions` (
+    `customer_id` int(11) NOT NULL AUTO_INCREMENT,
+    `session_id` varchar(128) NULL DEFAULT '',
+    `ip` varchar(50) NOT NULL DEFAULT '',
+    `last_active` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`customer_id`, `session_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+#update menu design item
+UPDATE `ac_dataset_values`
+SET value_varchar = 'design/template'
+WHERE row_id=3 AND value_varchar='extension/extensions/template';
+
+#fix or prior upgrade 1.3.4->1.4.0
+UPDATE `ac_blocks`
+SET controller='blocks/viewed_products'
+WHERE controller='viewed_products/viewed_products' AND block_txt_id = 'viewed_products';
+
+UPDATE `ac_block_templates`
+SET template = CONCAT('blocks/',template)
+WHERE SUBSTRING(template,1,13) = 'viewed_block_';

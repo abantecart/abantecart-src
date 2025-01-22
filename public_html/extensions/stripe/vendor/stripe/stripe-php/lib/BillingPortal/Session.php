@@ -18,7 +18,7 @@ namespace Stripe\BillingPortal;
  * Create sessions on-demand when customers intend to manage their subscriptions
  * and billing details.
  *
- * Learn more in the <a href="https://stripe.com/docs/billing/subscriptions/integrating-customer-portal">integration guide</a>.
+ * Related guide: <a href="/customer-management">Customer management</a>
  *
  * @property string $id Unique identifier for the object.
  * @property string $object String representing the object's type. Objects of the same type share the same value.
@@ -36,5 +36,25 @@ class Session extends \Stripe\ApiResource
 {
     const OBJECT_NAME = 'billing_portal.session';
 
-    use \Stripe\ApiOperations\Create;
+    /**
+     * Creates a session of the customer portal.
+     *
+     * @param null|array $params
+     * @param null|array|string $options
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\BillingPortal\Session the created resource
+     */
+    public static function create($params = null, $options = null)
+    {
+        self::_validateParams($params);
+        $url = static::classUrl();
+
+        list($response, $opts) = static::_staticRequest('post', $url, $params, $options);
+        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
+        $obj->setLastResponse($response);
+
+        return $obj;
+    }
 }

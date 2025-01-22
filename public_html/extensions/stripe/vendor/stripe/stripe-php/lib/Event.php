@@ -26,10 +26,10 @@ namespace Stripe;
  * <code>Event</code> objects directly to an endpoint on your server. You can manage
  * webhooks in your
  * <a href="https://dashboard.stripe.com/account/webhooks">account settings</a>. Learn how
- * to <a href="https://stripe.com/docs/webhooks">listen for events</a>
+ * to <a href="https://docs.stripe.com/webhooks">listen for events</a>
  * so that your integration can automatically trigger reactions.
  *
- * When using <a href="https://stripe.com/docs/connect">Connect</a>, you can also receive event notifications
+ * When using <a href="https://docs.stripe.com/connect">Connect</a>, you can also receive event notifications
  * that occur in connected accounts. For these events, there's an
  * additional <code>account</code> attribute in the received <code>Event</code> object.
  *
@@ -54,9 +54,6 @@ class Event extends ApiResource
 {
     const OBJECT_NAME = 'event';
 
-    use ApiOperations\All;
-    use ApiOperations\Retrieve;
-
     const ACCOUNT_APPLICATION_AUTHORIZED = 'account.application.authorized';
     const ACCOUNT_APPLICATION_DEAUTHORIZED = 'account.application.deauthorized';
     const ACCOUNT_EXTERNAL_ACCOUNT_CREATED = 'account.external_account.created';
@@ -67,6 +64,7 @@ class Event extends ApiResource
     const APPLICATION_FEE_REFUNDED = 'application_fee.refunded';
     const APPLICATION_FEE_REFUND_UPDATED = 'application_fee.refund.updated';
     const BALANCE_AVAILABLE = 'balance.available';
+    const BILLING_ALERT_TRIGGERED = 'billing.alert.triggered';
     const BILLING_PORTAL_CONFIGURATION_CREATED = 'billing_portal.configuration.created';
     const BILLING_PORTAL_CONFIGURATION_UPDATED = 'billing_portal.configuration.updated';
     const BILLING_PORTAL_SESSION_CREATED = 'billing_portal.session.created';
@@ -124,6 +122,7 @@ class Event extends ApiResource
     const CUSTOMER_TAX_ID_DELETED = 'customer.tax_id.deleted';
     const CUSTOMER_TAX_ID_UPDATED = 'customer.tax_id.updated';
     const CUSTOMER_UPDATED = 'customer.updated';
+    const ENTITLEMENTS_ACTIVE_ENTITLEMENT_SUMMARY_UPDATED = 'entitlements.active_entitlement_summary.updated';
     const FILE_CREATED = 'file.created';
     const FINANCIAL_CONNECTIONS_ACCOUNT_CREATED = 'financial_connections.account.created';
     const FINANCIAL_CONNECTIONS_ACCOUNT_DEACTIVATED = 'financial_connections.account.deactivated';
@@ -145,6 +144,7 @@ class Event extends ApiResource
     const INVOICE_FINALIZATION_FAILED = 'invoice.finalization_failed';
     const INVOICE_FINALIZED = 'invoice.finalized';
     const INVOICE_MARKED_UNCOLLECTIBLE = 'invoice.marked_uncollectible';
+    const INVOICE_OVERDUE = 'invoice.overdue';
     const INVOICE_PAID = 'invoice.paid';
     const INVOICE_PAYMENT_ACTION_REQUIRED = 'invoice.payment_action_required';
     const INVOICE_PAYMENT_FAILED = 'invoice.payment_failed';
@@ -153,6 +153,7 @@ class Event extends ApiResource
     const INVOICE_UPCOMING = 'invoice.upcoming';
     const INVOICE_UPDATED = 'invoice.updated';
     const INVOICE_VOIDED = 'invoice.voided';
+    const INVOICE_WILL_BE_DUE = 'invoice.will_be_due';
     const ISSUING_AUTHORIZATION_CREATED = 'issuing_authorization.created';
     const ISSUING_AUTHORIZATION_REQUEST = 'issuing_authorization.request';
     const ISSUING_AUTHORIZATION_UPDATED = 'issuing_authorization.updated';
@@ -163,11 +164,17 @@ class Event extends ApiResource
     const ISSUING_DISPUTE_CLOSED = 'issuing_dispute.closed';
     const ISSUING_DISPUTE_CREATED = 'issuing_dispute.created';
     const ISSUING_DISPUTE_FUNDS_REINSTATED = 'issuing_dispute.funds_reinstated';
+    const ISSUING_DISPUTE_FUNDS_RESCINDED = 'issuing_dispute.funds_rescinded';
     const ISSUING_DISPUTE_SUBMITTED = 'issuing_dispute.submitted';
     const ISSUING_DISPUTE_UPDATED = 'issuing_dispute.updated';
+    const ISSUING_PERSONALIZATION_DESIGN_ACTIVATED = 'issuing_personalization_design.activated';
+    const ISSUING_PERSONALIZATION_DESIGN_DEACTIVATED = 'issuing_personalization_design.deactivated';
+    const ISSUING_PERSONALIZATION_DESIGN_REJECTED = 'issuing_personalization_design.rejected';
+    const ISSUING_PERSONALIZATION_DESIGN_UPDATED = 'issuing_personalization_design.updated';
     const ISSUING_TOKEN_CREATED = 'issuing_token.created';
     const ISSUING_TOKEN_UPDATED = 'issuing_token.updated';
     const ISSUING_TRANSACTION_CREATED = 'issuing_transaction.created';
+    const ISSUING_TRANSACTION_PURCHASE_DETAILS_RECEIPT_UPDATED = 'issuing_transaction.purchase_details_receipt_updated';
     const ISSUING_TRANSACTION_UPDATED = 'issuing_transaction.updated';
     const MANDATE_UPDATED = 'mandate.updated';
     const PAYMENT_INTENT_AMOUNT_CAPTURABLE_UPDATED = 'payment_intent.amount_capturable_updated';
@@ -211,6 +218,7 @@ class Event extends ApiResource
     const RADAR_EARLY_FRAUD_WARNING_CREATED = 'radar.early_fraud_warning.created';
     const RADAR_EARLY_FRAUD_WARNING_UPDATED = 'radar.early_fraud_warning.updated';
     const REFUND_CREATED = 'refund.created';
+    const REFUND_FAILED = 'refund.failed';
     const REFUND_UPDATED = 'refund.updated';
     const REPORTING_REPORT_RUN_FAILED = 'reporting.report_run.failed';
     const REPORTING_REPORT_RUN_SUCCEEDED = 'reporting.report_run.succeeded';
@@ -273,12 +281,14 @@ class Event extends ApiResource
     const TREASURY_OUTBOUND_PAYMENT_FAILED = 'treasury.outbound_payment.failed';
     const TREASURY_OUTBOUND_PAYMENT_POSTED = 'treasury.outbound_payment.posted';
     const TREASURY_OUTBOUND_PAYMENT_RETURNED = 'treasury.outbound_payment.returned';
+    const TREASURY_OUTBOUND_PAYMENT_TRACKING_DETAILS_UPDATED = 'treasury.outbound_payment.tracking_details_updated';
     const TREASURY_OUTBOUND_TRANSFER_CANCELED = 'treasury.outbound_transfer.canceled';
     const TREASURY_OUTBOUND_TRANSFER_CREATED = 'treasury.outbound_transfer.created';
     const TREASURY_OUTBOUND_TRANSFER_EXPECTED_ARRIVAL_DATE_UPDATED = 'treasury.outbound_transfer.expected_arrival_date_updated';
     const TREASURY_OUTBOUND_TRANSFER_FAILED = 'treasury.outbound_transfer.failed';
     const TREASURY_OUTBOUND_TRANSFER_POSTED = 'treasury.outbound_transfer.posted';
     const TREASURY_OUTBOUND_TRANSFER_RETURNED = 'treasury.outbound_transfer.returned';
+    const TREASURY_OUTBOUND_TRANSFER_TRACKING_DETAILS_UPDATED = 'treasury.outbound_transfer.tracking_details_updated';
     const TREASURY_RECEIVED_CREDIT_CREATED = 'treasury.received_credit.created';
     const TREASURY_RECEIVED_CREDIT_FAILED = 'treasury.received_credit.failed';
     const TREASURY_RECEIVED_CREDIT_SUCCEEDED = 'treasury.received_credit.succeeded';
@@ -294,6 +304,7 @@ class Event extends ApiResource
     const TYPE_APPLICATION_FEE_REFUNDED = 'application_fee.refunded';
     const TYPE_APPLICATION_FEE_REFUND_UPDATED = 'application_fee.refund.updated';
     const TYPE_BALANCE_AVAILABLE = 'balance.available';
+    const TYPE_BILLING_ALERT_TRIGGERED = 'billing.alert.triggered';
     const TYPE_BILLING_PORTAL_CONFIGURATION_CREATED = 'billing_portal.configuration.created';
     const TYPE_BILLING_PORTAL_CONFIGURATION_UPDATED = 'billing_portal.configuration.updated';
     const TYPE_BILLING_PORTAL_SESSION_CREATED = 'billing_portal.session.created';
@@ -351,6 +362,7 @@ class Event extends ApiResource
     const TYPE_CUSTOMER_TAX_ID_DELETED = 'customer.tax_id.deleted';
     const TYPE_CUSTOMER_TAX_ID_UPDATED = 'customer.tax_id.updated';
     const TYPE_CUSTOMER_UPDATED = 'customer.updated';
+    const TYPE_ENTITLEMENTS_ACTIVE_ENTITLEMENT_SUMMARY_UPDATED = 'entitlements.active_entitlement_summary.updated';
     const TYPE_FILE_CREATED = 'file.created';
     const TYPE_FINANCIAL_CONNECTIONS_ACCOUNT_CREATED = 'financial_connections.account.created';
     const TYPE_FINANCIAL_CONNECTIONS_ACCOUNT_DEACTIVATED = 'financial_connections.account.deactivated';
@@ -372,6 +384,7 @@ class Event extends ApiResource
     const TYPE_INVOICE_FINALIZATION_FAILED = 'invoice.finalization_failed';
     const TYPE_INVOICE_FINALIZED = 'invoice.finalized';
     const TYPE_INVOICE_MARKED_UNCOLLECTIBLE = 'invoice.marked_uncollectible';
+    const TYPE_INVOICE_OVERDUE = 'invoice.overdue';
     const TYPE_INVOICE_PAID = 'invoice.paid';
     const TYPE_INVOICE_PAYMENT_ACTION_REQUIRED = 'invoice.payment_action_required';
     const TYPE_INVOICE_PAYMENT_FAILED = 'invoice.payment_failed';
@@ -380,6 +393,7 @@ class Event extends ApiResource
     const TYPE_INVOICE_UPCOMING = 'invoice.upcoming';
     const TYPE_INVOICE_UPDATED = 'invoice.updated';
     const TYPE_INVOICE_VOIDED = 'invoice.voided';
+    const TYPE_INVOICE_WILL_BE_DUE = 'invoice.will_be_due';
     const TYPE_ISSUING_AUTHORIZATION_CREATED = 'issuing_authorization.created';
     const TYPE_ISSUING_AUTHORIZATION_REQUEST = 'issuing_authorization.request';
     const TYPE_ISSUING_AUTHORIZATION_UPDATED = 'issuing_authorization.updated';
@@ -390,11 +404,17 @@ class Event extends ApiResource
     const TYPE_ISSUING_DISPUTE_CLOSED = 'issuing_dispute.closed';
     const TYPE_ISSUING_DISPUTE_CREATED = 'issuing_dispute.created';
     const TYPE_ISSUING_DISPUTE_FUNDS_REINSTATED = 'issuing_dispute.funds_reinstated';
+    const TYPE_ISSUING_DISPUTE_FUNDS_RESCINDED = 'issuing_dispute.funds_rescinded';
     const TYPE_ISSUING_DISPUTE_SUBMITTED = 'issuing_dispute.submitted';
     const TYPE_ISSUING_DISPUTE_UPDATED = 'issuing_dispute.updated';
+    const TYPE_ISSUING_PERSONALIZATION_DESIGN_ACTIVATED = 'issuing_personalization_design.activated';
+    const TYPE_ISSUING_PERSONALIZATION_DESIGN_DEACTIVATED = 'issuing_personalization_design.deactivated';
+    const TYPE_ISSUING_PERSONALIZATION_DESIGN_REJECTED = 'issuing_personalization_design.rejected';
+    const TYPE_ISSUING_PERSONALIZATION_DESIGN_UPDATED = 'issuing_personalization_design.updated';
     const TYPE_ISSUING_TOKEN_CREATED = 'issuing_token.created';
     const TYPE_ISSUING_TOKEN_UPDATED = 'issuing_token.updated';
     const TYPE_ISSUING_TRANSACTION_CREATED = 'issuing_transaction.created';
+    const TYPE_ISSUING_TRANSACTION_PURCHASE_DETAILS_RECEIPT_UPDATED = 'issuing_transaction.purchase_details_receipt_updated';
     const TYPE_ISSUING_TRANSACTION_UPDATED = 'issuing_transaction.updated';
     const TYPE_MANDATE_UPDATED = 'mandate.updated';
     const TYPE_PAYMENT_INTENT_AMOUNT_CAPTURABLE_UPDATED = 'payment_intent.amount_capturable_updated';
@@ -438,6 +458,7 @@ class Event extends ApiResource
     const TYPE_RADAR_EARLY_FRAUD_WARNING_CREATED = 'radar.early_fraud_warning.created';
     const TYPE_RADAR_EARLY_FRAUD_WARNING_UPDATED = 'radar.early_fraud_warning.updated';
     const TYPE_REFUND_CREATED = 'refund.created';
+    const TYPE_REFUND_FAILED = 'refund.failed';
     const TYPE_REFUND_UPDATED = 'refund.updated';
     const TYPE_REPORTING_REPORT_RUN_FAILED = 'reporting.report_run.failed';
     const TYPE_REPORTING_REPORT_RUN_SUCCEEDED = 'reporting.report_run.succeeded';
@@ -500,14 +521,57 @@ class Event extends ApiResource
     const TYPE_TREASURY_OUTBOUND_PAYMENT_FAILED = 'treasury.outbound_payment.failed';
     const TYPE_TREASURY_OUTBOUND_PAYMENT_POSTED = 'treasury.outbound_payment.posted';
     const TYPE_TREASURY_OUTBOUND_PAYMENT_RETURNED = 'treasury.outbound_payment.returned';
+    const TYPE_TREASURY_OUTBOUND_PAYMENT_TRACKING_DETAILS_UPDATED = 'treasury.outbound_payment.tracking_details_updated';
     const TYPE_TREASURY_OUTBOUND_TRANSFER_CANCELED = 'treasury.outbound_transfer.canceled';
     const TYPE_TREASURY_OUTBOUND_TRANSFER_CREATED = 'treasury.outbound_transfer.created';
     const TYPE_TREASURY_OUTBOUND_TRANSFER_EXPECTED_ARRIVAL_DATE_UPDATED = 'treasury.outbound_transfer.expected_arrival_date_updated';
     const TYPE_TREASURY_OUTBOUND_TRANSFER_FAILED = 'treasury.outbound_transfer.failed';
     const TYPE_TREASURY_OUTBOUND_TRANSFER_POSTED = 'treasury.outbound_transfer.posted';
     const TYPE_TREASURY_OUTBOUND_TRANSFER_RETURNED = 'treasury.outbound_transfer.returned';
+    const TYPE_TREASURY_OUTBOUND_TRANSFER_TRACKING_DETAILS_UPDATED = 'treasury.outbound_transfer.tracking_details_updated';
     const TYPE_TREASURY_RECEIVED_CREDIT_CREATED = 'treasury.received_credit.created';
     const TYPE_TREASURY_RECEIVED_CREDIT_FAILED = 'treasury.received_credit.failed';
     const TYPE_TREASURY_RECEIVED_CREDIT_SUCCEEDED = 'treasury.received_credit.succeeded';
     const TYPE_TREASURY_RECEIVED_DEBIT_CREATED = 'treasury.received_debit.created';
+
+    /**
+     * List events, going back up to 30 days. Each event data is rendered according to
+     * Stripe API version at its creation time, specified in <a
+     * href="https://docs.stripe.com/api/events/object">event object</a>
+     * <code>api_version</code> attribute (not according to your current Stripe API
+     * version or <code>Stripe-Version</code> header).
+     *
+     * @param null|array $params
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Collection<\Stripe\Event> of ApiResources
+     */
+    public static function all($params = null, $opts = null)
+    {
+        $url = static::classUrl();
+
+        return static::_requestPage($url, \Stripe\Collection::class, $params, $opts);
+    }
+
+    /**
+     * Retrieves the details of an event if it was created in the last 30 days. Supply
+     * the unique identifier of the event, which you might have received in a webhook.
+     *
+     * @param array|string $id the ID of the API resource to retrieve, or an options array containing an `id` key
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Event
+     */
+    public static function retrieve($id, $opts = null)
+    {
+        $opts = \Stripe\Util\RequestOptions::parse($opts);
+        $instance = new static($id, $opts);
+        $instance->refresh();
+
+        return $instance;
+    }
 }

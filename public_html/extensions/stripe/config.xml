@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <extension>
 	<id>stripe</id>
-	<version>1.3.5</version>
+	<version>1.3.6</version>
 	<type>payment</type>
 	<category>payment</category>
 	<cartversions>
@@ -48,6 +48,7 @@
 				<item>revolut_pay</item>
 				<item>sepa_debit</item>
 				<item>sofort</item>
+				<item>twint</item>
 				<item>swish</item>
 				<item>us_bank_account</item>
 				<item>wechat_pay</item>

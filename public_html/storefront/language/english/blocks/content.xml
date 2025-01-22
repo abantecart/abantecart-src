@@ -12,4 +12,8 @@
 		<key>text_sitemap</key>
 		<value><![CDATA[Site Map]]></value>
 	</definition>
+	<definition>
+		<key>heading_title_new</key>
+		<value><![CDATA[New publications]]></value>
+	</definition>
 </definitions>

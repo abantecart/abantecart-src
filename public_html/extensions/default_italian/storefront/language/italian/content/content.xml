@@ -4,4 +4,32 @@
 		<key>text_error</key>
 		<value><![CDATA[Informazione: pagina non trovata!]]></value>
 	</definition>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Pagine di contenuto]]></value>
+	</definition>
+	<definition>
+		<key>text_author</key>
+		<value><![CDATA[Autore:]]></value>
+	</definition>
+	<definition>
+		<key>text_published</key>
+		<value><![CDATA[Pubblicato:]]></value>
+	</definition>
+	<definition>
+		<key>text_sort</key>
+		<value><![CDATA[Ordina per:]]></value>
+	</definition>
+	<definition>
+		<key>text_new</key>
+		<value><![CDATA[NUOVO]]></value>
+	</definition>
+	<definition>
+		<key>text_default</key>
+		<value><![CDATA[Predefinito]]></value>
+	</definition>
+	<definition>
+		<key>content_not_found</key>
+		<value><![CDATA[Nessun contenuto trovato. Riprova.]]></value>
+	</definition>
 </definitions>

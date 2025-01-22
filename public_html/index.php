@@ -1,26 +1,28 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-  
- UPGRADE NOTE: 
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.  
-------------------------------------------------------------------------------*/
+/*
+ * ------------------------------------------------------------------------------
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ * ------------------------------------------------------------------------------
+ */
 
 // Required PHP Version
-define('MIN_PHP_VERSION', '8.0.0');
-if (version_compare(phpversion(), MIN_PHP_VERSION, '<') == true) {
+const MIN_PHP_VERSION = '8.2.0';
+if (version_compare(phpversion(), MIN_PHP_VERSION, '<')) {
     die(MIN_PHP_VERSION.'+ Required for AbanteCart to work properly! Please contact your system administrator or host service provider.');
 }
 
@@ -41,15 +43,17 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 }
 
 define('DIR_ROOT', $root_path);
-define('DIR_CORE', DIR_ROOT.'/core/');
+const DIR_CORE = DIR_ROOT . '/core/';
 
 if(is_file(DIR_ROOT.'/system/config.php')) {
     require_once(DIR_ROOT.'/system/config.php');
 }
 // New Installation
 if (!defined('DB_DATABASE')) {
-    header('Location: install/index.php');
-    exit;
+    if(is_dir(DIR_ROOT.'/install')) {
+        header('Location: install/index.php');
+    }
+    exit('Fatal Error: configuration not found!');
 }
 
 // Load all initial set up
@@ -101,7 +105,10 @@ $registry->get('response')->output();
 
 if (IS_ADMIN === true && $registry->get('config')->get('config_maintenance') && $registry->get('user')->isLogged()) {
     $user_id = $registry->get('user')->getId();
-    startStorefrontSession($user_id);
+    startStorefrontSession(
+        $user_id,
+        ['merchant_username' => $registry->get('user')->getUserName()],
+    );
 }
 
 //Show cache stats if debugging

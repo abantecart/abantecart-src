@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -28,6 +27,7 @@ class AException extends Exception
     protected $error;
     protected $extraData;
     static $criticalErrors = [
+        0, // unknown fatal errors from php-core or errors without error code will be fatal
         E_ERROR,
         E_PARSE,
         E_CORE_ERROR,
@@ -44,23 +44,34 @@ class AException extends Exception
         AC_ERR_LOAD_LAYOUT,
     ];
 
-    public function __construct($errno = 0, $errstr = '', $file = '', $line = '', $extra = null)
+    /**
+     * @param int $errno
+     * @param string|null $errstr
+     * @param string|null $file
+     * @param string|null $line
+     * @param array|null $extra
+     * @param Exception|null $initiator
+     */
+    public function __construct($errno = 0, $errstr = '', $file = '', $line = '', $extra = null, $initiator = null)
     {
         parent::__construct();
-        $this->code = $errno ? : $this->code;
-        $this->message = $errstr ? : $this->message;
-        $this->file = $file ? : $this->file;
-        $this->line = $line ? : $this->line;
+        $this->code = $errno ?: $this->code;
+        $this->message = $errstr ?: $this->message;
+        $this->file = $file ?: $this->file;
+        $this->line = $line ?: $this->line;
         $this->extraData = $extra;
         if (class_exists('Registry')) {
             $this->registry = Registry::getInstance();
         }
 
+        //pass trace from initiator
+        if ($initiator && method_exists($initiator, 'getTraceAsString') && !str_contains($this->message, 'Trace')) {
+            $this->message .= "\nTrace: \n" . $initiator->getTraceAsString();
+        }
+
         $this->error = new AError($this->message, $this->code);
-        //update message
         ob_start();
-        echo $this->message.' in <b>'.$this->file.'</b> on line <b>'.$this->line.'</b>';
-        //echo "\r\n".'<pre>'.$this->getTraceAsString().'</pre>';
+        echo $this->message . ' in ' . $this->file . ' on line ' . $this->line;
         $this->error->msg = ob_get_clean();
     }
 
@@ -97,6 +108,7 @@ class AException extends Exception
     public function logError()
     {
         $criticalErrors = static::$criticalErrors;
+
         //error reporting levels based on settings.
         // see admin menu-> system->settings->system -> debugging
         if ($this->registry) {
@@ -114,7 +126,7 @@ class AException extends Exception
                     case 1:
                         if (in_array(
                             $this->getCode(),
-                                ($criticalErrors + [
+                            ($criticalErrors + [
                                     //warnings
                                     E_WARNING,
                                     E_CORE_WARNING,
@@ -122,7 +134,7 @@ class AException extends Exception
                                     E_USER_WARNING,
                                     AC_ERR_USER_WARNING,
                                 ])
-                            )
+                        )
                         ) {
                             $this->error->toLog();
                             return;

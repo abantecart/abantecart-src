@@ -201,7 +201,9 @@ class ControllerPagesCheckoutCart extends AController
                         redirect($this->html->getSecureURL($post['next_step']));
                     }
 
-                    if (isset($post['redirect'])) {
+                    if (isset($post['redirect'])
+                        && parse_url($post['redirect'], PHP_URL_HOST) == parse_url($this->config->get('config_url'), PHP_URL_HOST)
+                    ) {
                         $this->session->data['redirect'] = $post['redirect'];
                     }
 

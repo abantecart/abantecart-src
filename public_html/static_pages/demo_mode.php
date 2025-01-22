@@ -38,11 +38,13 @@ define('DIR_CORE', str_replace('\'', '/', realpath(dirname(__FILE__).'/../')).'/
 define('DIR_ABANTECART', str_replace('\'', '/', realpath(DIR_APP_SECTION.'../')).'/');
 
 // Startup
-require_once(DIR_ABANTECART.'system/config.php');
+include_once(DIR_ABANTECART.'system/config.php');
 // New Installation
 if (!defined('DB_DATABASE')) {
-    header('Location: ../install/index.php');
-    exit;
+    if(is_dir(DIR_ABANTECART.'install')) {
+        header('Location: ../install/index.php');
+    }
+    exit('Fatal Error: configuration not found!');
 }
 session_start();
 $message = 'This feature or page is not available in the demo mode. We apologize for this inconvenience. <br> You can install full version of AbanteCart and get it fully functional.';

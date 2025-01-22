@@ -33,7 +33,7 @@ function preformatFloat($value, $decimal_point = '.')
         $value = str_replace('.', '~', $value);
         $value = str_replace($decimal_point, '.', $value);
     }
-    return (float) preg_replace('/[^0-9\-.]/', '', $value);
+    return (float)preg_replace('/[^0-9\-.]/', '', $value);
 }
 
 /*
@@ -41,15 +41,18 @@ function preformatFloat($value, $decimal_point = '.')
  * */
 function preformatInteger($value)
 {
-    return (int) preg_replace('/[^0-9\-]/', '', $value);
+    return (int)preg_replace('/[^0-9\-]/', '', $value);
 }
 
-/*
+/**
  * prepare string for text id
- * */
-function preformatTextID($value)
+ * @param $value
+ * @param string|null $replaceChar
+ * @return string
+ */
+function preformatTextID($value, ?string $replaceChar = '')
 {
-    return strtolower(preg_replace("/[^A-Za-z0-9_]/", "", $value));
+    return strtolower(preg_replace("/[^A-Za-z0-9_]/", $replaceChar, $value));
 }
 
 /**
@@ -67,7 +70,7 @@ function preformatTextID($value)
  */
 function moneyDisplayFormat($value, $mode = 'no_round')
 {
-    $value = (float) $value;
+    $value = (float)$value;
     $registry = Registry::getInstance();
 
     $decimal_point = $registry->get('language')->get('decimal_point');
@@ -77,7 +80,7 @@ function moneyDisplayFormat($value, $mode = 'no_round')
     $thousand_point = !$thousand_point ? '' : $thousand_point;
 
     $currency = $registry->get('currency')->getCurrency();
-    $decimal_place = (int) $currency['decimal_place'];
+    $decimal_place = (int)$currency['decimal_place'];
     $decimal_place = !$decimal_place ? 2 : $decimal_place;
 
     // detect if need to show raw number for decimal points
@@ -95,7 +98,7 @@ function moneyDisplayFormat($value, $mode = 'no_round')
         $decimal_place = 0;
     }
 
-    return number_format((float) $value, $decimal_place, $decimal_point, $thousand_point);
+    return number_format((float)$value, $decimal_place, $decimal_point, $thousand_point);
 }
 
 /*
@@ -103,10 +106,10 @@ function moneyDisplayFormat($value, $mode = 'no_round')
  * */
 function has_value($value)
 {
-    if ($value !== (array) $value && $value !== '' && $value !== null) {
+    if ($value !== (array)$value && $value !== '' && $value !== null) {
         return true;
     } else {
-        if ($value === (array) $value && count($value) > 0) {
+        if ($value === (array)$value && count($value) > 0) {
             return true;
         } else {
             return false;
@@ -135,7 +138,7 @@ function is_serialized($value)
  * */
 function is_multi($array)
 {
-    if ($array === (array) $array && count($array) != count($array, COUNT_RECURSIVE)) {
+    if ($array === (array)$array && count($array) != count($array, COUNT_RECURSIVE)) {
         return true;
     } else {
         return false;
@@ -177,30 +180,29 @@ function SEOEncode($string_value, $object_key_name = '', $object_id = 0)
  */
 function getUniqueSeoKeyword($seo_key, $object_key_name = '', $object_id = 0)
 {
-    $object_id = (int) $object_id;
+    $object_id = (int)$object_id;
     $registry = Registry::getInstance();
     $db = $registry->get('db');
     $sql = "SELECT `keyword`
-            FROM ".$db->table('url_aliases')."
-            WHERE `keyword` like '".$db->escape($seo_key)."%'";
+            FROM " . $db->table('url_aliases') . "
+            WHERE `keyword` like '" . $db->escape($seo_key) . "%'";
     if ($object_id) {
         // exclude keyword of given object (product, category, content etc)
-        $sql .= " AND query<>'".$db->escape($object_key_name)."=".$object_id."'";
+        $sql .= " AND query<>'" . $db->escape($object_key_name) . "=" . $object_id . "'";
     }
 
     $result = $db->query($sql);
-    if ($result->num_rows) {
-        $keywords = [];
-        foreach ($result->rows as $row) {
-            $keywords[] = $row['keyword'];
-        }
+    $kList = array_merge(
+        array_column($result->rows, 'keyword'),
+        array_map('basename', glob(DIR_ROOT . '/*', GLOB_ONLYDIR))
+    );
 
-        $i = 0;
-        while (in_array($seo_key, $keywords) && $i < 20) {
-            $seo_key = $seo_key.SEO_URL_SEPARATOR.($object_id ?: $i);
-            $i++;
-        }
+    $i = 0;
+    while (in_array($seo_key, $kList) && $i < 20) {
+        $seo_key = $seo_key . SEO_URL_SEPARATOR . ($object_id ?: $i);
+        $i++;
     }
+
     return $seo_key;
 }
 
@@ -210,8 +212,8 @@ function getUniqueSeoKeyword($seo_key, $object_key_name = '', $object_id = 0)
 function echo_array($array_data)
 {
     $wrapper = '<div class="debug_alert alert alert-info alert-dismissible" role="alert">'
-        .'<button type="button" class="close" data-dismiss="alert">'
-        .'<span aria-hidden="true">&times;</span></button>';
+        . '<button type="button" class="close" data-dismiss="alert">'
+        . '<span aria-hidden="true">&times;</span></button>';
     echo $wrapper;
     echo "<pre>";
     print_r($array_data);
@@ -253,14 +255,14 @@ function versionCompare($version1, $version2, $operator)
     $i = 0;
     while ($i < 3) {
         if (isset($version1[$i])) {
-            $version1[$i] = (int) $version1[$i];
+            $version1[$i] = (int)$version1[$i];
         } else {
-            $version1[$i] = ($i == 2 && isset($version2[$i])) ? (int) $version2[$i] : 99;
+            $version1[$i] = ($i == 2 && isset($version2[$i])) ? (int)$version2[$i] : 99;
         }
         if (isset($version2[$i])) {
-            $version2[$i] = (int) $version2[$i];
+            $version2[$i] = (int)$version2[$i];
         } else {
-            $version2[$i] = $i == 2 ? (int) $version1[$i] : 99;
+            $version2[$i] = $i == 2 ? (int)$version1[$i] : 99;
         }
         $i++;
     }
@@ -281,7 +283,7 @@ function getTextUploadError($error)
     switch ($error) {
         case UPLOAD_ERR_INI_SIZE:
             $error_txt = 'The uploaded file exceeds the upload_max_filesize directive in php.ini (now '
-                .ini_get('upload_max_filesize').')';
+                . ini_get('upload_max_filesize') . ')';
             break;
         case UPLOAD_ERR_FORM_SIZE:
             $error_txt = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';
@@ -316,20 +318,11 @@ function getTextUploadError($error)
 *  AbanteCart base date format on language setting date_format_short that is PHP date function format
 *  Convert to datepicker format
 *  References:
-*  http://docs.jquery.com/UI/Datepicker/formatDate
 *  http://php.net/manual/en/function.date.php
 */
-function format4Datepicker($date_format)
+function format4Datepicker($dateFormat)
 {
-    $new_format = $date_format;
-    $new_format = preg_replace('/d/', 'dd', $new_format);
-    $new_format = preg_replace('/j/', 'd', $new_format);
-    $new_format = preg_replace('/l/', 'DD', $new_format);
-    $new_format = preg_replace('/z/', 'o', $new_format);
-    $new_format = preg_replace('/m/', 'mm', $new_format);
-    $new_format = preg_replace('/n/', 'm', $new_format);
-    $new_format = preg_replace('/F/', 'MM', $new_format);
-    return preg_replace('/Y/', 'yy', $new_format);
+    return $dateFormat;
 }
 
 /*
@@ -449,16 +442,16 @@ if (!function_exists("strptime")) {
             '%S' => '(?P<S>[0-9]{2})',
         ];
 
-        $regexp = "#".strtr(preg_quote($format), $masks)."#";
+        $regexp = "#" . strtr(preg_quote($format), $masks) . "#";
         if (!preg_match($regexp, $date, $out)) {
             return false;
         }
 
         return [
-            "tm_sec"  => (int) $out['S'],
-            "tm_min"  => (int) $out['M'],
-            "tm_hour" => (int) $out['H'],
-            "tm_mday" => (int) $out['d'],
+            "tm_sec"  => (int)$out['S'],
+            "tm_min"  => (int)$out['M'],
+            "tm_hour" => (int)$out['H'],
+            "tm_mday" => (int)$out['d'],
             "tm_mon"  => $out['m'] ? $out['m'] - 1 : 0,
             "tm_year" => $out['Y'] > 1900 ? $out['Y'] - 1900 : 0,
         ];
@@ -475,21 +468,21 @@ function getExtensionConfigXml($extension_txt_id)
 {
     $registry = Registry::getInstance();
     /** @var SimpleXMLElement|null $result */
-    $result = $registry->get($extension_txt_id.'_configXML');
+    $result = $registry->get($extension_txt_id . '_configXML');
 
     if (!is_null($result)) {
         return $result;
     }
 
     $extension_txt_id = str_replace('../', '', $extension_txt_id);
-    $filename = DIR_EXT.$extension_txt_id.'/config.xml';
+    $filename = DIR_EXT . $extension_txt_id . '/config.xml';
     /**
      * @var $ext_configs SimpleXMLElement|false
      */
     $ext_configs = @simplexml_load_file($filename);
 
     if ($ext_configs === false) {
-        $err_text = 'Error: cannot to load config.xml of extension '.$extension_txt_id.'.';
+        $err_text = 'Error: cannot to load config.xml of extension ' . $extension_txt_id . '.';
         $error = new AError($err_text);
         $error->toLog()->toDebug();
         foreach (libxml_get_errors() as $error) {
@@ -526,12 +519,12 @@ function getExtensionConfigXml($extension_txt_id)
 
     $xml_files = [
         'top'    => [
-            DIR_CORE.'extension/'.'default/config_top.xml',
-            DIR_CORE.'extension/'.(string) $ext_configs->type.'/config_top.xml',
+            DIR_CORE . 'extension/' . 'default/config_top.xml',
+            DIR_CORE . 'extension/' . $ext_configs->type . '/config_top.xml',
         ],
         'bottom' => [
-            DIR_CORE.'extension/'.'default/config_bottom.xml',
-            DIR_CORE.'extension/'.(string) $ext_configs->type.'/config_bottom.xml',
+            DIR_CORE . 'extension/' . 'default/config_bottom.xml',
+            DIR_CORE . 'extension/' . $ext_configs->type . '/config_bottom.xml',
         ],
     ];
 
@@ -553,11 +546,11 @@ function getExtensionConfigXml($extension_txt_id)
                      * @var $setting_item simpleXmlElement
                      */
                     $attr = $setting_item->attributes();
-                    $item_id = $extension_txt_id.'_'.$attr['id'];
-                    $is_exists = $ext_configs->xpath('/extension/settings/item[@id=\''.$item_id.'\']');
+                    $item_id = $extension_txt_id . '_' . $attr['id'];
+                    $is_exists = $ext_configs->xpath('/extension/settings/item[@id=\'' . $item_id . '\']');
                     if (!$is_exists) {
                         // remove item that was appended on previous cycle from additional xml (override)
-                        $qry = "/extension/settings/item[@id='".$item_id."']";
+                        $qry = "/extension/settings/item[@id='" . $item_id . "']";
                         $existed = $xpath->query($qry);
                         if (!is_null($existed)) {
                             foreach ($existed as $node) {
@@ -591,7 +584,7 @@ function getExtensionConfigXml($extension_txt_id)
     }
 
     $result = simplexml_import_dom($base_dom);
-    $registry->set($extension_txt_id.'_configXML', $result);
+    $registry->set($extension_txt_id . '_configXML', $result);
     return $result;
 }
 
@@ -607,18 +600,18 @@ function getExtensionConfigXml($extension_txt_id)
  */
 function startStorefrontSession($user_id, $data = [])
 {
-    //NOTE: do not allow create sf-session via POST-request.
+    //NOTE: do not allow to create sf-session via POST-request.
     // Related to language-switcher and enabled maintenance mode(see usages)
     if ($_SERVER['REQUEST_METHOD'] != 'GET') {
         return false;
     }
-    $data = (array) $data;
-    $data['merchant'] = (int) $user_id;
+    $data = (array)$data;
+    $data['merchant'] = (int)$user_id;
     if (!$data['merchant']) {
         return false;
     }
     session_write_close();
-    $session = new ASession(defined('UNIQUE_ID') ? 'AC_SF_'.strtoupper(substr(UNIQUE_ID, 0, 10)) : 'AC_SF_PHPSESSID');
+    $session = new ASession(defined('UNIQUE_ID') ? 'AC_SF_' . strtoupper(substr(UNIQUE_ID, 0, 10)) : 'AC_SF_PHPSESSID');
     foreach ($data as $k => $v) {
         $session->data[$k] = $v;
     }
@@ -708,7 +701,7 @@ function project_base()
  *
  * @return bool
  */
-function is_html($test_string)
+function isHtml($test_string)
 {
     if ($test_string != strip_tags($test_string)) {
         return true;
@@ -726,7 +719,7 @@ function compressTarGZ($tar_filename, $tar_dir, $compress_level = 5)
     if (pathinfo($tar_filename, PATHINFO_EXTENSION) == 'gz') {
         $filename = rtrim($tar_filename, '.gz');
     } else {
-        $filename = $tar_filename.'.tar.gz';
+        $filename = $tar_filename . '.tar.gz';
     }
     $tar = rtrim($tar_filename, '.gz');
     //remove archive if exists
@@ -769,7 +762,7 @@ function compressTarGZ($tar_filename, $tar_dir, $compress_level = 5)
         $registry = Registry::getInstance();
         $registry->get('load')->library('targz');
         $targz = new Atargz();
-        return $targz->makeTar($tar_dir.$tar_filename, $filename, $compress_level);
+        return $targz->makeTar($tar_dir . $tar_filename, $filename, $compress_level);
     } else {
         return true;
     }
@@ -789,7 +782,7 @@ function gzip($src, $level = 5, $dst = false)
     }
 
     if (!$dst) {
-        $dst = $src.".gz";
+        $dst = $src . ".gz";
     }
     if (file_exists($src) && filesize($src)) {
         $src_handle = fopen($src, "r");
@@ -803,10 +796,10 @@ function gzip($src, $level = 5, $dst = false)
             gzclose($dst_handle);
             return true;
         } else {
-            error_log($dst." already exists");
+            error_log($dst . " already exists");
         }
     } else {
-        error_log($src." doesn't exist or empty");
+        error_log($src . " doesn't exist or empty");
     }
     return false;
 }
@@ -841,7 +834,7 @@ function randomWord($length = 4)
         }
         $code_part = chr(rand($a, $b));
         $new_code_length = $new_code_length + 1;
-        $new_code = $new_code.$code_part;
+        $new_code = $new_code . $code_part;
     }
     return $new_code;
 }
@@ -879,7 +872,7 @@ function compressZIP($zip_filename, $zip_dir)
 
 function getMimeType($filename)
 {
-    $filename = (string) $filename;
+    $filename = (string)$filename;
     $mime_types = [
         'txt'  => 'text/plain',
         'htm'  => 'text/html',
@@ -955,13 +948,13 @@ function getMimeType($filename)
 function canChangeExecTime()
 {
     $old_set = ini_get('max_execution_time');
-    if(function_exists('set_time_limit')) {
+    if (function_exists('set_time_limit')) {
         set_time_limit('1234');
     }
     if (ini_get('max_execution_time') == 1234) {
         return false;
     } else {
-        if(function_exists('set_time_limit')) {
+        if (function_exists('set_time_limit')) {
             set_time_limit($old_set);
         }
         return true;
@@ -974,13 +967,13 @@ function getMemoryLimitInBytes()
     switch (substr($size_str, -1)) {
         case 'M':
         case 'm':
-            return (int) $size_str * 1048576;
+            return (int)$size_str * 1048576;
         case 'K':
         case 'k':
-            return (int) $size_str * 1024;
+            return (int)$size_str * 1024;
         case 'G':
         case 'g':
-            return (int) $size_str * 1073741824;
+            return (int)$size_str * 1073741824;
         default:
             return $size_str;
     }
@@ -1011,9 +1004,9 @@ function get_url_path($url)
     if ($pos) {
         //we have .php files specified.
         $filtered_url = substr($url_path1, 0, $pos + 4);
-        return rtrim(dirname($filtered_url), '/.\\').'/';
+        return rtrim(dirname($filtered_url), '/.\\') . '/';
     } else {
-        return rtrim($url_path1, '/.\\').'/';
+        return rtrim($url_path1, '/.\\') . '/';
     }
 }
 
@@ -1035,10 +1028,10 @@ function genExecTrace($depth = 5)
     }
     $result = [];
     for ($i = 0; $i < $length; $i++) {
-        $result[] = ' - '.substr($trace[$i], strpos($trace[$i], ' '));
+        $result[] = ' - ' . substr($trace[$i], strpos($trace[$i], ' '));
     }
 
-    return "Execution stack: \t".implode("\n\t", $result);
+    return "Execution stack: \t" . implode("\n\t", $result);
 }
 
 /**
@@ -1145,6 +1138,7 @@ function echo_html2view($html)
 {
     echo html2view($html);
 }
+
 function html2view($html)
 {
     return htmlspecialchars($html, ENT_QUOTES, 'UTF-8');
@@ -1162,7 +1156,7 @@ function human_filesize($bytes, $decimals = 2)
 {
     $sz = ['B', 'K', 'M', 'G', 'T', 'P'];
     $factor = floor((strlen($bytes) - 1) / 3);
-    return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)).@$sz[$factor];
+    return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
 }
 
 /**
@@ -1184,7 +1178,7 @@ function get_image_size($filename)
     }
     if ($filename) {
         $error =
-            new  AError('Error: Cannot get image size of file '.$filename.'. File not found or it\'s not an image!');
+            new  AError('Error: Cannot get image size of file ' . $filename . '. File not found or it\'s not an image!');
         $error->toLog()->toDebug();
     }
     return [];
@@ -1210,22 +1204,22 @@ function check_resize_image($orig_image, $new_image, $width, $height, $quality)
     }
 
     //if new file not yet present, check directory
-    if (!file_exists(DIR_IMAGE.$new_image)) {
+    if (!file_exists(DIR_IMAGE . $new_image)) {
         $path = '';
         $directories = explode('/', dirname(str_replace('../', '', $new_image)));
         foreach ($directories as $directory) {
-            $path = $path.'/'.$directory;
+            $path = $path . '/' . $directory;
             //do we have directory?
-            if (!file_exists(DIR_IMAGE.$path)) {
+            if (!file_exists(DIR_IMAGE . $path)) {
                 // Make sure the index file is there
-                $indexFile = DIR_IMAGE.$path.'/index.php';
-                $result = mkdir(DIR_IMAGE.$path, 0775)
+                $indexFile = DIR_IMAGE . $path . '/index.php';
+                $result = mkdir(DIR_IMAGE . $path, 0775)
                     && file_put_contents($indexFile, "<?php die('Restricted Access!'); ?>");
                 if (!$result) {
                     $error =
                         new AWarning(
-                            'Cannot to create directory '.DIR_IMAGE.$path.'. Please check permissions for '
-                            .DIR_IMAGE
+                            'Cannot to create directory ' . DIR_IMAGE . $path . '. Please check permissions for '
+                            . DIR_IMAGE
                         );
                     $error->toLog();
                 }
@@ -1233,10 +1227,10 @@ function check_resize_image($orig_image, $new_image, $width, $height, $quality)
         }
     }
 
-    if (!file_exists(DIR_IMAGE.$new_image) || (filemtime($orig_image) > filemtime(DIR_IMAGE.$new_image))) {
+    if (!file_exists(DIR_IMAGE . $new_image) || (filemtime($orig_image) > filemtime(DIR_IMAGE . $new_image))) {
         $image = new AImage($orig_image);
         $result = $image->resizeAndSave(
-            DIR_IMAGE.$new_image,
+            DIR_IMAGE . $new_image,
             $width,
             $height,
             [
@@ -1255,13 +1249,13 @@ function check_resize_image($orig_image, $new_image, $width, $height, $quality)
 function redirect($url)
 {
     if (Registry::getInstance()->get('forbid_redirects')) {
-        exit('Redirected to  '.$url);
+        exit('Redirected to  ' . $url);
     }
 
     if (!$url) {
         return false;
     }
-    header('Location: '.str_replace('&amp;', '&', $url));
+    header('Location: ' . str_replace('&amp;', '&', $url));
     exit;
 }
 
@@ -1273,7 +1267,7 @@ function df($var, $filename = 'debug.txt')
         if ($k > 1) {
             break;
         }
-        $backtracePath[] = substr($bt['file'], strlen($_SERVER['DOCUMENT_ROOT'])).':'.$bt['line'];
+        $backtracePath[] = substr($bt['file'], strlen($_SERVER['DOCUMENT_ROOT'])) . ':' . $bt['line'];
     }
 
     $data = func_get_args();
@@ -1293,9 +1287,9 @@ function df($var, $filename = 'debug.txt')
 
     file_put_contents(
         $filename,
-        "\n--------------------------".date('Y-m-d H:i:s ').microtime()
-        ."-----------------------\n Backtrace: ".implode(' → ', $backtracePath)."\n"
-        .$data, FILE_APPEND
+        "\n--------------------------" . date('Y-m-d H:i:s ') . microtime()
+        . "-----------------------\n Backtrace: " . implode(' → ', $backtracePath) . "\n"
+        . $data, FILE_APPEND
     );
 }
 
@@ -1321,27 +1315,19 @@ function setCookieOrParams($name = null, $value = null, $options = [])
      */
     extract($options);
 
-    if (PHP_VERSION_ID < 70300) {
-        if (!$name) {
-            session_set_cookie_params($lifetime, $path.'; samesite='.$samesite, $domain, $secure, $httponly);
-        } else {
-            setcookie($name, $value, $lifetime, $path.'; samesite='.$samesite, $domain, $secure, $httponly);
-        }
+    $options = [
+        'path'     => $path,
+        'domain'   => $domain,
+        'secure'   => $secure,
+        'httponly' => $httponly,
+        'samesite' => $samesite,
+    ];
+    if (!$name) {
+        $options['lifetime'] = $lifetime;
+        session_set_cookie_params($options);
     } else {
-        $options = [
-            'path'     => $path,
-            'domain'   => $domain,
-            'secure'   => $secure,
-            'httponly' => $httponly,
-            'samesite' => $samesite,
-        ];
-        if (!$name) {
-            $options['lifetime'] = $lifetime;
-            session_set_cookie_params($options);
-        } else {
-            $options['expires'] = $lifetime;
-            setcookie($name, $value, $options);
-        }
+        $options['expires'] = $lifetime;
+        setcookie($name, $value, $options);
     }
 }
 
@@ -1368,19 +1354,19 @@ function getMailLogoDetails(&$source)
                     ENT_QUOTES, 'UTF-8'
                 );
             } else {
-                $source = $r->getTypeDir().$resource_info['resource_path'];
+                $source = $r->getTypeDir() . $resource_info['resource_path'];
                 $output['uri'] = 'cid:'
-                    .md5(pathinfo($resource_info['resource_path'], PATHINFO_FILENAME))
-                    .'.'
-                    .pathinfo($resource_info['resource_path'], PATHINFO_EXTENSION);
+                    . md5(pathinfo($resource_info['resource_path'], PATHINFO_FILENAME))
+                    . '.'
+                    . pathinfo($resource_info['resource_path'], PATHINFO_EXTENSION);
             }
         }
     } // if resource path was given
     else {
         $output['uri'] = 'cid:'
-            .md5(pathinfo($source, PATHINFO_FILENAME))
-            .'.'
-            .pathinfo($source, PATHINFO_EXTENSION);
+            . md5(pathinfo($source, PATHINFO_FILENAME))
+            . '.'
+            . pathinfo($source, PATHINFO_EXTENSION);
     }
     return $output;
 }
@@ -1397,14 +1383,14 @@ function isExtensionSupportsCart($versions)
     $minor_check = false;
 
     foreach ($versions as $item) {
-        $version = (string) $item;
+        $version = (string)$item;
         $versions[] = $version;
         $subVersionArray = explode('.', preg_replace('/[^0-9.]/', '', $version));
         $full_check = versionCompare($version, VERSION, '<=');
         $minor_check = !$minor_check
             ? versionCompare(
-                $subVersionArray[0].'.'.$subVersionArray[1],
-                MASTER_VERSION.'.'.MINOR_VERSION,
+                $subVersionArray[0] . '.' . $subVersionArray[1],
+                MASTER_VERSION . '.' . MINOR_VERSION,
                 '=='
             )
             : $minor_check;
@@ -1419,45 +1405,46 @@ function isExtensionSupportsCart($versions)
     ];
 }
 
-function isAssocArray($array){
-   $keys = array_keys($array);
-   return $keys !== array_keys($keys);
+function isAssocArray($array)
+{
+    $keys = array_keys($array);
+    return $keys !== array_keys($keys);
 }
 
-function saveOrCreateLayout( string $templateTextId, array $pageData, array $layoutData )
+function saveOrCreateLayout(string $templateTextId, array $pageData, array $layoutData)
 {
-    if(IS_ADMIN !== true){
-        throw new AException(0,'Forbidden.');
+    if (IS_ADMIN !== true) {
+        throw new AException(0, 'Forbidden.');
     }
     $db = Registry::getInstance()->get('db');
     // need to know if unique page existing
     $layoutId = null;
 
     $where = [
-        "p.controller = '".$db->escape($pageData['controller'])."'"
+        "p.controller = '" . $db->escape($pageData['controller']) . "'"
     ];
     if ($pageData['key_value']) {
-        $where[] = "p.key_param = '".$db->escape($pageData['key_param'])."'";
-        $where[] = "p.key_value = '".$db->escape($pageData['key_value'])."'";
+        $where[] = "p.key_param = '" . $db->escape($pageData['key_param']) . "'";
+        $where[] = "p.key_value = '" . $db->escape($pageData['key_value']) . "'";
     }
 
-    $sql = " SELECT *
-            FROM ".$db->table("pages")." p 
-            ".($where ? " WHERE ".implode(" AND ",$where) : '')."
+    $sql = "SELECT *
+            FROM " . $db->table("pages") . " p 
+            " . ($where ? " WHERE " . implode(" AND ", $where) : '') . "
             ORDER BY p.page_id ASC";
     $result = $db->query($sql);
-    if($result->row){
+    if ($result->row) {
         $pageId = (int)$result->row['page_id'];
         $sql = " SELECT pl.layout_id
-                FROM ".$db->table("pages_layouts")." pl 
-                INNER JOIN ".$db->table("layouts")." l 
-                    ON (l.layout_id = pl.layout_id AND l.template_id = '".$db->escape($templateTextId)."') 
-                WHERE pl.page_id = ".$pageId;
+                FROM " . $db->table("pages_layouts") . " pl 
+                INNER JOIN " . $db->table("layouts") . " l 
+                    ON (l.layout_id = pl.layout_id AND l.template_id = '" . $db->escape($templateTextId) . "') 
+                WHERE pl.page_id = " . $pageId;
         $result = $db->query($sql);
-        if($result->row){
+        if ($result->row) {
             $layoutId = $result->row['layout_id'];
         }
-    }else{
+    } else {
         //create page if not exists
         $layout = new ALayoutManager();
         $pageId = $layout->savePage($pageData);
@@ -1465,19 +1452,26 @@ function saveOrCreateLayout( string $templateTextId, array $pageData, array $lay
     //create new instance with specific template/page/layout data
     $layout = new ALayoutManager($templateTextId, $pageId, $layoutId);
 
-    if(!$layoutId){
+    if (!$layoutId) {
         //remove layoutId of base layout if current layout not found
         //this layoutId is ID of default layout for page. Not needed when save.
         unset($layoutData['layout_id']);
     }
 
-    if (has_value($layoutData['source_layout_id'])) {
+    if ((int)$layoutData['source_layout_id']) {
         //update layout request. Clone source layout
-        return $layout->clonePageLayout($layoutData['source_layout_id'], $layoutId, $layoutData['layout_name']);
+        $layoutId = $layout->clonePageLayout(
+            (int)$layoutData['source_layout_id'],
+            $layoutId,
+            $layoutData['layout_name']
+        );
     } else {
         //save new layout
-        return $layout->savePageLayout($layout->prepareInput($layoutData));
+        $layoutId = $layout->savePageLayout(
+            $layout->prepareInput($layoutData)
+        );
     }
+    return $layoutId ? ['layout_id' => $layoutId, 'page_id' => $pageId] : false;
 }
 
 //default template functions (bs5)
@@ -1494,20 +1488,20 @@ function saveOrCreateLayout( string $templateTextId, array $pageData, array $lay
  * @return string
  * @throws AException
  */
-function renderDefaultSFMenu($menuItems, $level = 0, $parentId = '', $options = [ ])
+function renderDefaultSFMenu($menuItems, $level = 0, $parentId = '', $options = [])
 {
     $logged = Registry::getInstance()->get('customer')->isLogged();
     $output = '';
-    $menuItems = (array) $menuItems;
+    $menuItems = (array)$menuItems;
     if (!$menuItems) {
         return '';
     }
     $idKey = $options['id_key_name'] ?: 'id';
 
     if ($level == 0) {
-        $output .= '<div '.($options['top_level']['attr'] ?: 'class="d-flex flex-wrap flex-md-nowrap "').'>';
+        $output .= '<div ' . ($options['top_level']['attr'] ?: 'class="d-flex flex-wrap flex-md-nowrap "') . '>';
     } else {
-        $output .= '<div class="dropdown-menu '.($level > 1 ? 'dropdown-submenu' : '').'" aria-labelledby="'.$parentId.'" '.$options['submenu_level']['attr'].'>';
+        $output .= '<div class="dropdown-menu ' . ($level > 1 ? 'dropdown-submenu' : '') . '" aria-labelledby="' . $parentId . '" ' . $options['submenu_level']['attr'] . '>';
     }
 
     $ar = new AResource('image');
@@ -1522,63 +1516,63 @@ function renderDefaultSFMenu($menuItems, $level = 0, $parentId = '', $options = 
         ) {
             continue;
         }
-        $item_title = '<span class="ms-1">'.($item['text'] ?: $item['title'] ?: $item['name']).'</span>';
-        $hasChild = (bool) $item['children'];
+        $item_title = '<span class="ms-1">' . ($item['text'] ?: $item['title'] ?: $item['name']) . '</span>';
+        $hasChild = (bool)$item['children'];
         $output .= '<div class="dropdown me-3 me-sm-0 mb-3 mb-lg-0">';
         //check icon rl type html, image or none.
-        $rl_id = $item['icon'] ? : $item['icon_rl_id'];
+        $rl_id = $item['icon'] ?: $item['icon_rl_id'];
         $icon = '';
         if ($rl_id) {
             $resource = $ar->getResource($rl_id);
-            if ($resource['resource_path'] && is_file(DIR_RESOURCE.'image/'.$resource['resource_path'])) {
+            if ($resource['resource_path'] && is_file(DIR_RESOURCE . 'image/' . $resource['resource_path'])) {
                 //set relative path here because of cdn-extension
-                $icon = '<img class="menu_image" src="resources/image/'.$resource['resource_path'].'" />';
+                $icon = '<img class="menu_image" src="resources/image/' . $resource['resource_path'] . '" />';
             } elseif ($resource['resource_code']) {
                 $icon = $resource['resource_code'];
             }
-        }elseif( $item['icon_html'] ){
+        } elseif ($item['icon_html']) {
             $icon = $item['icon_html'];
         }
 
         if ($hasChild) {
-            $id = 'menu_'.$item[$idKey];
-            $css = 'dropdown-toggle text-nowrap mb-3 mb-md-0 me-3 '. ($level ? 'dropdown-item ' : '');
-            $output .= '<a id="'.$id.'" 
-                            href="'.$item['href'].'" 
-                            target="'.$item['settings']['target'].'"
-                            class="'.$css.'" 
+            $id = 'menu_' . $item[$idKey];
+            $css = 'dropdown-toggle text-nowrap mb-3 mb-md-0 me-3 ' . ($level ? 'dropdown-item ' : '');
+            $output .= '<a id="' . $id . '" 
+                            href="' . $item['href'] . '" 
+                            target="' . $item['settings']['target'] . '"
+                            class="' . $css . '" 
                             data-bs-toggle="dropdown" 
                             data-bs-target="dropdown" 
                             aria-expanded="false">';
-            $output .= $icon.$item_title;
-            if(!isset($options['without_caret'])) {
+            $output .= $icon . $item_title;
+            if (!isset($options['without_caret'])) {
                 $output .= '&nbsp; <i class="fa fa-caret-down"></i>';
             }
             $output .= '</a>';
 
             $params = [
                 'menuItems' => $item['children'],
-                'level' => $level + 1,
-                'parentId' => $id,
-                'options' => [
+                'level'     => $level + 1,
+                'parentId'  => $id,
+                'options'   => [
                     'id_key_name' => $idKey
                 ]
             ];
 
             // for case when pass options into deep of menu
-            if($options['pass_options_recursively']){
+            if ($options['pass_options_recursively']) {
                 $params['options'] = array_merge($params['options'], $options['submenu_options']);
             }
 
-            $output .= "\r\n".call_user_func_array('renderDefaultSFMenu',$params);
+            $output .= "\r\n" . call_user_func_array('renderDefaultSFMenu', $params);
         } else {
-            $css = $level ? "dropdown-item" : "text-secondary " .' me-3 mb-3 text-nowrap ';
+            $css = $level ? "dropdown-item" : "text-secondary " . ' me-3 mb-3 text-nowrap ';
             $popoverAttr = $item['thumb']
-                ? 'data-bs-toggle="popover" data-bs-content="<img src=&quot;'.$item['thumb'].'&quot;>" '
-                .'data-bs-html="true" data-bs-offset="5,5" data-bs-boundary="window" '
-                .'data-bs-placement="right" data-bs-trigger="hover"'
+                ? 'data-bs-toggle="popover" data-bs-content="<img src=&quot;' . $item['thumb'] . '&quot;>" '
+                . 'data-bs-html="true" data-bs-offset="5,5" data-bs-boundary="window" '
+                . 'data-bs-placement="right" data-bs-trigger="hover"'
                 : '';
-            $output .= '<a href="'.$item['href'].'" target="'.$item['settings']['target'].'" class="'.$css.'" '.$popoverAttr.'>'.$icon.$item_title.'</a>';
+            $output .= '<a href="' . $item['href'] . '" target="' . $item['settings']['target'] . '" class="' . $css . '" ' . $popoverAttr . '>' . $icon . $item_title . '</a>';
         }
         $output .= '</div>';
     }
@@ -1587,17 +1581,18 @@ function renderDefaultSFMenu($menuItems, $level = 0, $parentId = '', $options = 
     return $output;
 }
 
-function renderDefaultRatingStars($value, $text){
-    if(!$value){
+function renderDefaultRatingStars($value, $text)
+{
+    if (!$value) {
         return '';
     }
     $i = 1;
-    $output = '<div title="'.htmlspecialchars($text, ENT_QUOTES, 'UTF-8').'">';
-    while($i < 6){
-        $output .= '<i class="fa-star '.($i<=$value ? 'fa-solid' : 'fa-regular').'"></i>';
+    $output = '<div title="' . htmlspecialchars($text, ENT_QUOTES, 'UTF-8') . '">';
+    while ($i < 6) {
+        $output .= '<i class="fa-star ' . ($i <= $value ? 'fa-solid' : 'fa-regular') . '"></i>';
         $i++;
     }
-    return $output.'</div>';
+    return $output . '</div>';
 }
 
 function generateOrderToken($orderId, $email, $secToken = '')
@@ -1605,10 +1600,10 @@ function generateOrderToken($orderId, $email, $secToken = '')
     $registry = Registry::getInstance();
     $enc = new AEncryption($registry->get('config')->get('encryption_key'));
     /** @var ModelCheckoutFastCheckout $mdl */
-    $mdl = $registry->get('load')->model('checkout/fast_checkout');
+    $mdl = $registry->get('load')->model('checkout/fast_checkout','storefront');
     $secToken = $secToken ?: genToken(32);
     $mdl->saveGuestToken($orderId, $secToken);
-    return $enc->encrypt($orderId.'::'.$email.'::'.$secToken);
+    return $enc->encrypt($orderId . '::' . $email . '::' . $secToken);
 }
 
 function filterIntegerIdList(?array $list = [])
@@ -1619,4 +1614,16 @@ function filterIntegerIdList(?array $list = [])
                 array_map('trim', (array)$list))
         )
     );
+}
+
+/**
+ * Function to get unique array of tags from comma seperated string
+ * @param $string
+ *
+ * @return array
+ */
+function getUniqueTags($string)
+{
+    $tags = array_map('trim', explode(',', $string));
+    return array_intersect_key($tags, array_unique(array_map('strtolower', $tags)));
 }

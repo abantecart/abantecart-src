@@ -1,8 +1,7 @@
 <form id="search_form" action="<?php echo HTTPS_SERVER.INDEX_FILE; ?>" class="form-search top-search d-flex w-100 justify-content-center">
     <input type="hidden" name="rt" value="product/search"/>
     <input type="hidden" name="category_id" id="filter_category_id" value=""/>
-
-    <div class="d-none d-lg-flex input-group rounded-1 d ms-auto">
+    <div class="d-none d-lg-flex input-group rounded-1 ms-auto">
         <?php
         if ($top_categories) {
             array_unshift(
@@ -16,7 +15,7 @@
             <button class="btn arrow-none border-end shadow-none d-inline-flex align-items-center justify-content-between m-0 p-2"
                     type="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
-                <div id="category_selected" class="d-md-none d-xl-inline-block text-truncate"><?php echo $top_categories[0]['name'] ?></div>
+                <span id="category_selected" class="d-md-none d-xl-inline-block text-truncate"><?php echo $top_categories[0]['name'] ?></span>
                 <i class="ms-1 bi bi-chevron-down"></i>
             </button>
             <?php
@@ -40,7 +39,7 @@
         <div>
         <input type="text"
                id="filter-keyword"
-               name="keyword" data-dd = '1'
+               name="keyword"
                autocomplete="off"
                class="form-control bg-transparent shadow-none border-0 m-0"
                placeholder="<?php echo_html2view($text_keyword); ?>"
@@ -51,8 +50,7 @@
         </button>
     </div>
 
-    <?php // mobile view inside menuoffcanvas ?>
-
+<?php // mobile view inside menuoffcanvas ?>
     <a class="mob-nav-btn srch-icon d-flex d-lg-none"
        data-bs-toggle="offcanvas" href="#searchoffcanvas"
        role="button" aria-controls="searchoffcanvas" aria-label="search"><i class="bi bi-search"></i>
@@ -65,7 +63,7 @@
         </div>
         <div class="offcanvas-body">
             <div class="btn-group">
-                <?php
+            <?php
                 if ($top_categories) {  ?>
                     <button
                             class="btn dropdown-toggle arrow-none bg-transparent shadow-none border-0"
@@ -90,8 +88,7 @@
                             <?php
                         } ?>
                     </ul>
-                    <?php
-                } ?>
+           <?php } ?>
             </div>
             <div class="input-group">
                 <input type="text" id="filter-keyword" name="keyword"
@@ -103,8 +100,6 @@
                     <i class="bi bi-search"></i>
                 </button>
             </div>
-
-
         </div>
     </div>
 </form>

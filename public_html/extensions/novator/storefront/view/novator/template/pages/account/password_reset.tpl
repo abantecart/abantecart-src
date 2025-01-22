@@ -1,6 +1,6 @@
-<div class="row title justify-content-center sec-heading-block text-center">
-    <div class="col-xl-8">
-        <h1 class="h2 heading-title mb-0">
+<div class="row title">
+    <div class="col-xl-12">
+        <h1 class="h2 heading-title">
             <?php echo $heading_title; ?>
         </h1>
     </div>
@@ -24,7 +24,7 @@ if ($error_warning) { ?>
     $form_open->style .= ' needs-validation';
     $form_open->attr .= ' novalidate';
     echo $form_open; ?>
-    <h4 class="mb-3"><?php echo $text_new_password; ?></h4>
+    <h5 class="mb-3"><?php echo $text_new_password; ?></h5>
     <div class="card mb-4">
             <div class="card-body">
         <?php
@@ -32,9 +32,9 @@ if ($error_warning) { ?>
             array_push($field_list, 'password', 'confirm');
             foreach ($field_list as $field_name) {
         ?>
-            <div class="mb-3 row">
-                <label for="<?php echo $$field_name->element_id?>" class="text-nowrap col-sm-2 col-form-label me-2"><?php echo ${'entry_'.$field_name}; ?></label>
-                <div class="col-sm-6 h-100">
+            <div class="mb-3 row justify-content-md-center">
+                <label for="<?php echo $$field_name->element_id?>" class="text-nowrap col-sm-3 col-form-label me-2"><?php echo ${'entry_'.$field_name}; ?></label>
+                <div class="col-sm-5 h-100">
                     <?php echo $$field_name; ?>
                     <span class="help-block text-danger"><?php echo ${'error_'.$field_name}; ?></span>
                 </div>

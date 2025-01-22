@@ -12,4 +12,8 @@
 	  <key>text_advanced</key>
 	  <value><![CDATA[Advanced Search]]></value>
 	</definition>
+	<definition>
+		<key>text_category</key>
+		<value><![CDATA[All Categories]]></value>
+	</definition>
 </definitions>

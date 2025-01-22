@@ -343,7 +343,7 @@ class ControllerResponsesListingGridCollections extends AController
                 'value'       => !$value ? '' : $value['value'],
                 'options'     => $manufacturers,
                 'style'       => 'chosen',
-                'placeholder' => $this->language->get('text_select_manufacturer'),
+                'placeholder' => $this->language->get('text_select_brand'),
             ]
         );
         return $response;

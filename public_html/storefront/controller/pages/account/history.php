@@ -117,7 +117,7 @@ class ControllerPagesAccountHistory extends AController
                     'total'      => $order_total,
                     'page'       => $page,
                     'limit'      => $limit,
-                    'url'        => $this->html->getSecureURL('account/history', '&limit='.$limit.'&page={page}'),
+                    'url'        => $this->html->getSecureURL('account/history', '&limit='.$limit.'&page=--page--'),
                     'style'      => 'pagination',
                 ]
             );

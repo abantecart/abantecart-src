@@ -15,7 +15,7 @@ namespace Stripe\Identity;
  * API. To configure and create VerificationReports, use the
  * <a href="https://stripe.com/docs/api/identity/verification_sessions">VerificationSession</a> API.
  *
- * Related guides: <a href="https://stripe.com/docs/identity/verification-sessions#results">Accessing verification results</a>.
+ * Related guide: <a href="https://stripe.com/docs/identity/verification-sessions#results">Accessing verification results</a>.
  *
  * @property string $id Unique identifier for the object.
  * @property string $object String representing the object's type. Objects of the same type share the same value.
@@ -29,17 +29,50 @@ namespace Stripe\Identity;
  * @property null|\Stripe\StripeObject $phone Result from a phone check
  * @property null|\Stripe\StripeObject $selfie Result from a selfie check
  * @property string $type Type of report.
- * @property null|string $verification_flow The configuration token of a Verification Flow from the dashboard.
+ * @property null|string $verification_flow The configuration token of a verification flow from the dashboard.
  * @property null|string $verification_session ID of the VerificationSession that created this report.
  */
 class VerificationReport extends \Stripe\ApiResource
 {
     const OBJECT_NAME = 'identity.verification_report';
 
-    use \Stripe\ApiOperations\All;
-    use \Stripe\ApiOperations\Retrieve;
-
     const TYPE_DOCUMENT = 'document';
     const TYPE_ID_NUMBER = 'id_number';
     const TYPE_VERIFICATION_FLOW = 'verification_flow';
+
+    /**
+     * List all verification reports.
+     *
+     * @param null|array $params
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Collection<\Stripe\Identity\VerificationReport> of ApiResources
+     */
+    public static function all($params = null, $opts = null)
+    {
+        $url = static::classUrl();
+
+        return static::_requestPage($url, \Stripe\Collection::class, $params, $opts);
+    }
+
+    /**
+     * Retrieves an existing VerificationReport.
+     *
+     * @param array|string $id the ID of the API resource to retrieve, or an options array containing an `id` key
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Identity\VerificationReport
+     */
+    public static function retrieve($id, $opts = null)
+    {
+        $opts = \Stripe\Util\RequestOptions::parse($opts);
+        $instance = new static($id, $opts);
+        $instance->refresh();
+
+        return $instance;
+    }
 }

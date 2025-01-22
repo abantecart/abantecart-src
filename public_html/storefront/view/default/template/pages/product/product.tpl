@@ -100,7 +100,7 @@ if ($error){ ?>
         <div class="product-page-preset-box mt-lg-3 mt-md-4 mt-4 mt-sm-4 me-4 col-md-6 ms-lg-2">
             <div class="col-md-12 d-flex flex-column">
                     <h1><?php echo $heading_title; ?></h1>
-                    <div class="blurb"><?php echo $product_info['blurb'] ?></div>
+                    <div class="blurb"><?php echo html_entity_decode($product_info['blurb']); ?></div>
                     <?php echo $this->getHookVar('after_product_blurb');?>
                     <div class="d-flex flex-column product-price mb-4">
                         <?php

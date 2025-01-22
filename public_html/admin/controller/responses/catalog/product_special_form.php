@@ -242,9 +242,7 @@ class ControllerResponsesCatalogProductSpecialForm extends AController
                 'default'    => '',
                 'dateformat' => format4Datepicker(
                     $this->language->get('date_format_short')
-                ),
-                'highlight'  => 'future',
-                'style'      => 'small-field',
+                )
             ]
         );
         $this->data['form']['fields']['date_end'] = $form->getFieldHtml(
@@ -258,9 +256,7 @@ class ControllerResponsesCatalogProductSpecialForm extends AController
                 'default'    => '',
                 'dateformat' => format4Datepicker(
                     $this->language->get('date_format_short')
-                ),
-                'highlight'  => 'future',
-                'style'      => 'small-field',
+                )
             ]
         );
 

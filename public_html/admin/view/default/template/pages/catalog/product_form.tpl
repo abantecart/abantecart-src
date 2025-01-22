@@ -7,17 +7,17 @@
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
             <div class="btn-group">
-                <a class="btn btn-white  back-to-grid hidden" data-table-id="product_grid"  href="<?php echo $list_url; ?>" data-toggle="tooltip"
-                   data-original-title="<?php echo $text_back_to_list; ?>">
+                <a class="btn btn-white back-to-grid tooltips" data-table-id="product_grid"
+                   href="<?php echo $list_url; ?>" data-toggle="tooltip"
+                   data-original-title="<?php echo_html2view($text_back_to_list); ?>">
                     <i class="fa fa-arrow-left fa-lg"></i>
                 </a>
             </div>
             <?php if ($product_id) { ?>
 				<div class="btn-group">
 					<a class="btn btn-white lock-on-click tooltips" href="<?php echo $clone_url; ?>"
-					   data-toggle="tooltip" title="<?php echo $text_clone; ?>"
-					   data-original-title="<?php echo $text_clone; ?>">
-						<i class="fa fa-tags"></i>
+					   data-toggle="tooltip" data-original-title="<?php echo_html2view($text_clone); ?>">
+						<i class="fa fa-clone"></i>
 					</a>
 				</div>
             <?php } ?>
@@ -96,13 +96,9 @@
 		</div>
 	</div>
 	</form>
-
 </div>
-
 <?php echo $resources_scripts; ?>
-
 <script type="text/javascript">
-
 	$(document).ready(function () {
 		$('#productFrm_generate_seo_keyword').click(function () {
 			var seo_name = $('#productFrm_product_descriptionname').val().replace('%', '');
@@ -111,5 +107,4 @@
 			});
 		});
 	});
-
 </script>

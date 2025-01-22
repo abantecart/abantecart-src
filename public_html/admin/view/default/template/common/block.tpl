@@ -1,5 +1,8 @@
 <?php
-$statusClass = ( $status && $template_availability ) ? '' : 'off';
+$statusClass = !$status || !$template_availability  ? 'off' : '';
+if($blockId){
+    $statusClass .= !$template_availability ? ' alert-danger' : '';
+}
 $blockValue = $blockId . '_' . $customBlockId;
 $blockName = $customBlockId ? $customName . ' <span>(' . $name . ')</span>' : $name;
 ?>

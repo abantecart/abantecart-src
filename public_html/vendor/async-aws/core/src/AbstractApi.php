@@ -10,6 +10,7 @@ use AsyncAws\Core\Credentials\CacheProvider;
 use AsyncAws\Core\Credentials\ChainProvider;
 use AsyncAws\Core\Credentials\CredentialProvider;
 use AsyncAws\Core\EndpointDiscovery\EndpointCache;
+use AsyncAws\Core\EndpointDiscovery\EndpointInterface;
 use AsyncAws\Core\Exception\InvalidArgument;
 use AsyncAws\Core\Exception\LogicException;
 use AsyncAws\Core\Exception\RuntimeException;
@@ -47,7 +48,7 @@ abstract class AbstractApi
     private $credentialProvider;
 
     /**
-     * @var Signer[]
+     * @var array<string, Signer>
      */
     private $signers;
 
@@ -67,14 +68,14 @@ abstract class AbstractApi
     private $endpointCache;
 
     /**
-     * @param Configuration|array $configuration
+     * @param Configuration|array<Configuration::OPTION_*, string|null> $configuration
      */
     public function __construct($configuration = [], ?CredentialProvider $credentialProvider = null, ?HttpClientInterface $httpClient = null, ?LoggerInterface $logger = null)
     {
         if (\is_array($configuration)) {
             $configuration = Configuration::create($configuration);
         } elseif (!$configuration instanceof Configuration) {
-            throw new InvalidArgument(sprintf('First argument to "%s::__construct()" must be an array or an instance of "%s"', static::class, Configuration::class));
+            throw new InvalidArgument(\sprintf('First argument to "%s::__construct()" must be an array or an instance of "%s"', static::class, Configuration::class));
         }
 
         $this->logger = $logger ?? new NullLogger();
@@ -119,7 +120,7 @@ abstract class AbstractApi
      */
     protected function getServiceCode(): string
     {
-        throw new LogicException(sprintf('The method "%s" should not be called. The Client "%s" must implement the "%s" method.', __FUNCTION__, \get_class($this), 'getEndpointMetadata'));
+        throw new LogicException(\sprintf('The method "%s" should not be called. The Client "%s" must implement the "%s" method.', __FUNCTION__, \get_class($this), 'getEndpointMetadata'));
     }
 
     /**
@@ -127,7 +128,7 @@ abstract class AbstractApi
      */
     protected function getSignatureVersion(): string
     {
-        throw new LogicException(sprintf('The method "%s" should not be called. The Client "%s" must implement the "%s" method.', __FUNCTION__, \get_class($this), 'getEndpointMetadata'));
+        throw new LogicException(\sprintf('The method "%s" should not be called. The Client "%s" must implement the "%s" method.', __FUNCTION__, \get_class($this), 'getEndpointMetadata'));
     }
 
     /**
@@ -135,7 +136,7 @@ abstract class AbstractApi
      */
     protected function getSignatureScopeName(): string
     {
-        throw new LogicException(sprintf('The method "%s" should not be called. The Client "%s" must implement the "%s" method.', __FUNCTION__, \get_class($this), 'getEndpointMetadata'));
+        throw new LogicException(\sprintf('The method "%s" should not be called. The Client "%s" must implement the "%s" method.', __FUNCTION__, \get_class($this), 'getEndpointMetadata'));
     }
 
     final protected function getResponse(Request $request, ?RequestContext $context = null): Response
@@ -151,7 +152,7 @@ abstract class AbstractApi
             $request->setHeader('content-length', (string) $length);
         }
 
-        // Some servers (like testing Docker Images) does not supports `Transfer-Encoding: chunked` requests.
+        // Some servers (like testing Docker Images) does not support `Transfer-Encoding: chunked` requests.
         // The body is converted into string to prevent curl using `Transfer-Encoding: chunked` unless it really has to.
         if (($requestBody = $request->getBody()) instanceof StringStream) {
             $requestBody = $requestBody->stringify();
@@ -178,7 +179,7 @@ abstract class AbstractApi
     }
 
     /**
-     * @return callable[]
+     * @return array<string, callable(string, string): Signer>
      */
     protected function getSignerFactories(): array
     {
@@ -229,13 +230,12 @@ abstract class AbstractApi
     /**
      * Build the endpoint full uri.
      *
-     * @param string  $uri    or path
-     * @param array   $query  parameters that should go in the query string
-     * @param ?string $region region provided by the user in the `@region` parameter of the Input
+     * @param string                $uri    or path
+     * @param array<string, string> $query  parameters that should go in the query string
+     * @param ?string               $region region provided by the user in the `@region` parameter of the Input
      */
     protected function getEndpoint(string $uri, array $query, ?string $region): string
     {
-        /** @var string $region */
         $region = $region ?? ($this->configuration->isDefault('region') ? null : $this->configuration->get('region'));
         if (!$this->configuration->isDefault('endpoint')) {
             /** @var string $endpoint */
@@ -256,18 +256,26 @@ abstract class AbstractApi
         }
 
         $endpoint .= $uri;
-        if (empty($query)) {
+        if ([] === $query) {
             return $endpoint;
         }
 
-        return $endpoint . (false === strpos($endpoint, '?') ? '?' : '&') . http_build_query($query);
+        return $endpoint . (false === strpos($endpoint, '?') ? '?' : '&') . http_build_query($query, '', '&', \PHP_QUERY_RFC3986);
     }
 
+    /**
+     * @return EndpointInterface[]
+     */
     protected function discoverEndpoints(?string $region): array
     {
-        throw new LogicException(sprintf('The Client "%s" must implement the "%s" method.', \get_class($this), 'discoverEndpoints'));
+        throw new LogicException(\sprintf('The Client "%s" must implement the "%s" method.', \get_class($this), 'discoverEndpoints'));
     }
 
+    /**
+     * @param array<string, string> $query
+     *
+     * @return string
+     */
     private function getDiscoveredEndpoint(string $uri, array $query, ?string $region, bool $usesEndpointDiscovery, bool $requiresEndpointDiscovery)
     {
         if (!$this->configuration->isDefault('endpoint')) {
@@ -296,20 +304,25 @@ abstract class AbstractApi
             // 4. if endpoint is still null, fallback to expired endpoint
             if (null === $endpoint && null === $endpoint = $this->endpointCache->getExpiredEndpoint($region)) {
                 if ($requiresEndpointDiscovery) {
-                    throw new RuntimeException(sprintf('The Client "%s" failed to fetch the endpoint.', \get_class($this)), 0, $previous);
+                    throw new RuntimeException(\sprintf('The Client "%s" failed to fetch the endpoint.', \get_class($this)), 0, $previous);
                 }
 
                 return $this->getEndpoint($uri, $query, $region);
             }
         }
 
-        return $endpoint;
+        $endpoint .= $uri;
+        if (empty($query)) {
+            return $endpoint;
+        }
+
+        return $endpoint . (false === strpos($endpoint, '?') ? '?' : '&') . http_build_query($query);
     }
 
     /**
      * @param ?string $region region provided by the user in the `@region` parameter of the Input
      */
-    private function getSigner(?string $region)
+    private function getSigner(?string $region): Signer
     {
         /** @var string $region */
         $region = $region ?? ($this->configuration->isDefault('region') ? null : $this->configuration->get('region'));
@@ -333,7 +346,7 @@ abstract class AbstractApi
             }
 
             if (null === $factory) {
-                throw new InvalidArgument(sprintf('None of the signatures "%s" is implemented.', implode(', ', $metadata['signVersions'])));
+                throw new InvalidArgument(\sprintf('None of the signatures "%s" is implemented.', implode(', ', $metadata['signVersions'])));
             }
 
             $this->signers[$region] = $factory($metadata['signService'], $metadata['signRegion']);

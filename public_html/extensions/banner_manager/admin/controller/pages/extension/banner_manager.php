@@ -249,7 +249,7 @@ class ControllerPagesExtensionBannerManager extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $banner_id = (int) $this->request->get['banner_id'];
+        $banner_id = (int)$this->request->get['banner_id'];
         $this->loadModel('extension/banner_manager');
         $this->model_extension_banner_manager->deleteBanner($banner_id);
         //update controller data
@@ -289,6 +289,7 @@ class ControllerPagesExtensionBannerManager extends AController
         $this->data ['cancel'] = $this->html->getSecureURL('extension/banner_manager');
 
         $banner_type = 1;
+        $history = [];
         if (!isset($this->request->get['banner_id'])) {
             if ($this->request->get['banner_type']) {
                 $banner_type = $this->request->get['banner_type'];
@@ -301,14 +302,20 @@ class ControllerPagesExtensionBannerManager extends AController
             $this->data ['update'] = '';
             $form = new AForm ('ST');
         } else {
+            $bannerID = (int)$this->request->get['banner_id'];
+            $history = [
+                'table'        => 'banner_descriptions',
+                'record_id'     => $bannerID,
+            ];
+
             $this->data ['action'] = $this->html->getSecureURL(
                 'extension/banner_manager/edit',
-                '&banner_id='.$this->request->get ['banner_id']
+                '&banner_id='.$bannerID
             );
             $this->data ['form_title'] = $this->language->get('text_edit').' '.$this->data['name'];
             $this->data ['update'] = $this->html->getSecureURL(
                 'listing_grid/banner_manager/update_field',
-                '&banner_id='.$this->request->get ['banner_id']
+                '&banner_id='.$bannerID
             );
 
             $form = new AForm ('HS');
@@ -318,7 +325,7 @@ class ControllerPagesExtensionBannerManager extends AController
                     'name' => 'btn_details',
                     'href' => $this->html->getSecureUrl(
                         'extension/banner_manager_stat/details',
-                        '&banner_id='.$this->request->get ['banner_id']
+                        '&banner_id='.$bannerID
                     ),
                     'text' => $this->language->get('text_view_stat'),
                 ]
@@ -410,6 +417,7 @@ class ControllerPagesExtensionBannerManager extends AController
                 'value'        => $this->data['name'],
                 'multilingual' => true,
                 'required'     => true,
+                'history'      => $history
             ]
         );
         $this->data['form']['text']['name'] = $this->language->get('entry_banner_name');
@@ -490,8 +498,6 @@ class ControllerPagesExtensionBannerManager extends AController
                 'value'      => dateISO2Display($this->data['start_date']),
                 'default'    => dateNowDisplay(),
                 'dateformat' => format4Datepicker($this->language->get('date_format_short')),
-                'highlight'  => 'future',
-                'style'      => 'small-field',
             ]
         );
         $this->data['form']['text']['date_start'] = $this->language->get('entry_banner_date_start');
@@ -503,13 +509,11 @@ class ControllerPagesExtensionBannerManager extends AController
                 'value'      => dateISO2Display($this->data['end_date']),
                 'default'    => '',
                 'dateformat' => format4Datepicker($this->language->get('date_format_short')),
-                'highlight'  => 'past',
-                'style'      => 'small-field',
             ]
         );
 
         $this->data['form']['text']['date_end'] = $this->language->get('entry_banner_date_end');
-        $this->data['banner_id'] = $this->request->get['banner_id'] ? $this->request->get['banner_id'] : '-1';
+        $this->data['banner_id'] = $bannerID ?: '-1';
 
         if ($banner_type == 1) {
             $this->data['form']['fields']['meta'] = $form->getFieldHtml(
@@ -518,6 +522,7 @@ class ControllerPagesExtensionBannerManager extends AController
                     'name'  => 'meta',
                     'value' => $this->data ['meta'],
                     'attr'  => ' style="height: 50px;"',
+                    'history' => $history
                 ]
             );
             $this->data['form']['text']['meta'] = $this->language->get('entry_banner_meta');
@@ -546,8 +551,9 @@ class ControllerPagesExtensionBannerManager extends AController
                 [
                     'type'  => 'texteditor',
                     'name'  => 'description',
-                    'value' => $this->data ['description'],
+                    'value' => $this->data['description'],
                     'attr'  => '',
+                    'history' => $history
                 ]
             );
             $this->data['form']['text']['description'] = $this->language->get('entry_banner_html');

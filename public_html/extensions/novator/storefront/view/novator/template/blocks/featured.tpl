@@ -1,9 +1,7 @@
-
-
 <div class="featured-column mt-3">
     <?php
     	if ( $block_framed ) { ?>
-    <h2><?php echo $heading_title; ?></h2>
+            <h1 class="h2 heading-title"><?php echo $heading_title; ?></h1>
     <?php } ?>
         <div class="d-flex flex-column">
 <?php
@@ -32,10 +30,11 @@ if ($products) {
         <div class=" d-flex align-items-start mt-5">
             <a href="<?php echo $item['info_url']?>">
                 <img alt="<?php echo_html2view($item['title']); ?>"
-                     class="d-block" src="<?php echo $item['image']?>"/>
+                     class="d-block product-image-column-list" src="<?php echo $item['image']?>"/>
             </a>
             <a href="<?php echo $item['info_url']?>" class="d-block ms-2 text-decoration-none text-secondary">
                 <h6 class="text-decoration-none text-wrap"><?php echo $item['title']?></h6>
+                <?php echo $this->getHookvar('product_listing_details_after_blurb_'.$product['product_id']);?>
                 <?php if ($review_status) { ?>
                     <?php echo $item['rating']?>
                 <?php }

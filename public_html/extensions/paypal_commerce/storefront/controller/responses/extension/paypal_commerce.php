@@ -361,9 +361,12 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 'value' => $orderTotal,
                 'currency_code' => $currencyCode
             ],
-            'shipping' => $shipping,
             'description' => $order_description
         ];
+        if($shipping){
+            $ppData['purchase_units'][0]['shipping'] = $shipping;
+        }
+
         //allow breakdown only for store currency to avoid conversion problems
         if($this->config->get('config_currency') == $currencyCode){
             $ppData['purchase_units'][0]['amount']['breakdown'] = $amountBreakdown;

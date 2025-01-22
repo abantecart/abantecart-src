@@ -46,7 +46,6 @@ function run_system_check($registry, $mode = 'log')
         || //run on storefront side
         (IS_ADMIN !== true && (!$registry->get('config')->get('config_system_check') || $registry->get('config')->get('config_system_check') == 2))
     ) {
-
         $mlog = array_merge($mlog, check_file_permissions($registry));
         $mlog = array_merge($mlog, checkPhpConfiguration());
         $mlog = array_merge($mlog, check_server_configuration($registry));
@@ -120,6 +119,14 @@ function check_file_permissions($registry)
         $ret_array[] = [
             'title' => 'Incorrect config.php file permissions',
             'body'  => DIR_SYSTEM.'config.php'.' file needs to be set to read and execute modes to keep it secured from editing!',
+            'type'  => 'W',
+        ];
+    }
+
+    if (is_writable(DIR_ROOT.'/vendor')) {
+        $ret_array[] = [
+            'title' => 'Not secure vendor directory',
+            'body'  => DIR_ROOT.'/vendor'.' directory and its content needs to be set to read and execute only!',
             'type'  => 'W',
         ];
     }

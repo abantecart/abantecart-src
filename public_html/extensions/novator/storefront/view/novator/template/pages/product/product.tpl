@@ -21,8 +21,8 @@ if ($error){ ?>
         <!-- Left Image-->
         <div class="col-md-12 col-lg-6 col-xxl-5 text-center">
             <div class="w-auto sticky-md-top product-sticky">
-                <div class="zoom-pane position-absolute col-12"></div>
-                <div id="carouselProductImages" class="carousel slide mx-auto" data-bs-ride="carousel" style="max-width: <?php echo $thmb_w;?>px !important;">
+                <div id="carouselProductImages" class="carousel slide" data-bs-ride="carousel" style="max-width: <?php echo $thmb_w;?>px !important;">
+                    <div class="zoom-pane position-absolute col-12"></div>
                     <div class="carousel-inner bg-light rounded position-relative">
                         <!-- Main Image -->
                         <?php foreach ($images as $index => $image) {
@@ -33,8 +33,15 @@ if ($error){ ?>
                                 if ($image['origin'] == 'external') {
                                     echo $image['main_html'];
                                 } else { ?>
-                                    <img class="zoom-trigger d-block w-auto mx-auto"
-                                         style="width: <?php echo $image['thumb2_width'];?>px; height: <?php echo $image['thumb2_height'];?>px;"
+                                        <style>
+                                            @media (min-width: 577px) {
+                                                .img<?php echo $index?> {
+                                                    width: <?php echo $image['thumb2_width'];?>px;
+                                                    height: <?php echo $image['thumb2_height'];?>px;
+                                                }
+                                            }
+                                        </style>
+                                    <img class="zoom-trigger d-block mx-auto w-auto product-main-img img<?php echo $index?>"
                                          src="<?php echo $image['thumb2_url']; ?>"
                                          data-zoom="<?php echo $image['main_url']; ?>"
                                          alt="<?php echo_html2view($image['title']); ?>"
@@ -71,12 +78,12 @@ if ($error){ ?>
         <div class="col-md-12 col-lg-6  col-xxl-7 position-relative product-page-preset-box mt-4 mt-md-0">
             <div class="row g-1">
                 <div class="col-sm-9" >
-                    <h1 class="h3" style="width: 100%;"><?php echo $heading_title; ?></h1>
+                    <h1 class="h4 heading-title" style="width: 100%;"><?php echo $heading_title; ?></h1>
                     <?php if($manufacturer){?>
                         <h6 class="my-2 text-warning"><u><a class="my-2 text-warning" href="<?php echo $manufacturers;  ?>"><?php echo $manufacturer; ?></a></u></h6>
                     <?php }?>
                     <?php if($blurb){?>
-                    <p class="text-muted"><?php echo $blurb; ?></p>
+                    <p class="text-muted"><?php echo html_entity_decode($blurb); ?></p>
                     <?php }?>
                 </div>
                 <?php echo $this->getHookVar('after_product_blurb');?>
@@ -104,7 +111,7 @@ if ($error){ ?>
             </div>
             <hr class="my-4">
             <div class="row g-1">
-                <div class="col-sm-6">
+                <div class="col-9 col-md-6">
                     <div class="d-flex flex-column product-price mb-0">
                         <?php
                         if ($display_price){ ?>
@@ -116,7 +123,7 @@ if ($error){ ?>
                                 $tax_message = '&nbsp;&nbsp;<span class="productpricesmall">'.$price_with_tax.'</span>';
                             }?>
 
-                            <div class="col-sm-6">
+                            <div class="col-12">
                                 <?php if ($special) { ?>
                                     <h2 class="mb-0 text-danger"><?php echo $special . $tax_message; ?></h2>
                                     <h5 class="my-2 text-muted fw-normal">
@@ -130,7 +137,7 @@ if ($error){ ?>
                         <?php } ?>
                     </div>
                 </div>
-                <div class="col-sm-6 d-flex justify-content-end align-items-center">
+                <div class="col-3 col-md-6 d-flex justify-content-end align-items-center">
                    <?php if ($display_price){ ?>
                             
                         <?php
@@ -168,7 +175,7 @@ if ($error){ ?>
                                                     continue;
                                                 }?>
                                             <div class="d-block">
-                                                <h5 class="text-muted control-label fw-bold mb-0">
+                                                <h5 class="text-muted control-label fw-bold mb-2">
                                                     <?php echo $option['name']; ?>
                                                 </h5>
                                             </div>
@@ -176,7 +183,7 @@ if ($error){ ?>
                                                 <?php
                                                     echo $this->getHookVar('product_option_'.$option['name'].'_additional_info');
                                                 ?>
-                                                <div class="prod-option flex-shrink-0 <?php echo $fldType .' '.(in_array($fldType, ['input', 'textarea']) ? 'w-100' : '')?>">
+                                                <div class="prod-option <?php echo $fldType .' '.(in_array($fldType, ['input', 'textarea']) ? 'w-100' : '')?>">
                                                     <?php echo $option['html'];	?>
                                                 </div>
                                             </div>
@@ -207,16 +214,16 @@ if ($error){ ?>
                                             </div>
                                         </div>
                                     <?php } ?>
-                                        <div class="row align-items-center g-2 my-3">
+                                        <div class="row align-items-center g-2 my-3 mb-4">
                                             <div class="col-auto">
                                                 <?php if(!$product_info['call_to_order']){ ?>
                                                     <div class="form-group d-inline-flex">
                                                         <h5 class="text-muted d-none"><?php echo $text_qty; ?></h5>
                                                         <div class="input-group d-flex flex-nowrap">
-                                                        <button class="input-group-text minus-qnty btn btn-outline-danger fs-3" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        <button class="input-group-text minus-qnty btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top"
                                                                     title="<?php $minimum > 1 ? echo_html2view($text_minimum) : '';?>">&minus;</button>
                                                         <?php
-                                                        $form['minimum']->style .= " text-center fs-4 ";
+                                                        $form['minimum']->style .= " text-center ";
                                                          ?>
                                                         <input type="text"
                                                                name="<?php echo $form['minimum']->name ?>"
@@ -228,13 +235,13 @@ if ($error){ ?>
                                                                min="<?php echo $minimum?:1; ?>"
                                                             <?php echo $maximum ? 'max="'.$maximum.'"' : '' ?>
                                                             <?php echo $form['minimum']->attr; ?>/>
-                                                        <button class="input-group-text plus-qnty input-group-text btn btn-outline-success fs-3" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        <button class="input-group-text plus-qnty input-group-text btn btn-outline-success " data-bs-toggle="tooltip" data-bs-placement="top"
                                                                 title="<?php $maximum > 0 ? echo_html2view($text_maximum) : '';?>">&plus;</button>
                                                         </div>
                                                     </div>
                                                 <?php }?>
                                             </div>
-                                            <div class="col-auto">
+                                            <div class="col-auto px-4 pt-1">
                                                 <?php if(!$product_info['call_to_order']){ ?>
                                                     <h3 class="text-primary">
                                                         <small class="text-muted fw-normal"><?php echo $text_total_price; ?></small>
@@ -680,13 +687,17 @@ if ($error){ ?>
         $select.first().change();
 
         function initZoom() {
+            //disable for small screens
+            if(window.innerWidth<1024){
+                return;
+            }
             try {
                 var paneContainer = document.querySelector('.zoom-pane');
                 var elem = document.querySelectorAll('.zoom-trigger');
                 for (var j = 0; j < elem.length; j++) {
                     new Drift(elem[j], {
                         paneContainer: paneContainer,
-                        inlinePane: false,
+                        inlinePane: false
                     });
                 }
             }catch(e){
@@ -745,8 +756,16 @@ if ($error){ ?>
                             mainPicHtml += '<div class="html_with_image">' + image.main_html + '</div>';
                             smallPicsHtml += '<div class="html_with_image">' + image.main_html + '</div>';
                         } else {
-                            mainPicHtml += '<img class="zoom-trigger d-block w-auto mx-auto" ' +
-                                'style="width: '+image.thumb2_width+'px; height: '+image.thumb2_height+'px;" ' +
+
+                            mainPicHtml += '<style>' +
+                            '@media (min-width: 577px) {'+
+                            '.imgc'+key+' {'+
+                                    'width: '+image.thumb2_width+'px;'+
+                                    'height: '+image.thumb2_height+'px;'+
+                                '}'+
+                            '}'+
+                            '</style>';
+                            mainPicHtml += '<img class="zoom-trigger d-block w-auto mx-auto product-main-img imgc'+key+'" ' +
                                 'data-zoom="'+image.main_url+'" ' +
                                 'alt="'+escapeHtml(image.title)+'" ' +
                                 'title="'+escapeHtml(image.description)+'" ' +

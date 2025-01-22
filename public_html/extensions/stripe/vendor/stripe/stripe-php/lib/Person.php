@@ -7,10 +7,9 @@ namespace Stripe;
 /**
  * This is an object representing a person associated with a Stripe account.
  *
- * A platform cannot access a Standard or Express account's persons after the account starts onboarding, such as after generating an account link for the account.
- * See the <a href="https://stripe.com/docs/connect/standard-accounts">Standard onboarding</a> or <a href="https://stripe.com/docs/connect/express-accounts">Express onboarding documentation</a> for information about platform prefilling and account onboarding steps.
+ * A platform cannot access a person for an account where <a href="/api/accounts/object#account_object-controller-requirement_collection">account.controller.requirement_collection</a> is <code>stripe</code>, which includes Standard and Express accounts, after creating an Account Link or Account Session to start Connect onboarding.
  *
- * Related guide: <a href="https://stripe.com/docs/connect/handling-api-verification#person-information">Handling identity verification with the API</a>
+ * See the <a href="/connect/standard-accounts">Standard onboarding</a> or <a href="/connect/express-accounts">Express onboarding</a> documentation for information about prefilling information and account onboarding steps. Learn more about <a href="/connect/handling-api-verification#person-information">handling identity verification with the API</a>.
  *
  * @property string $id Unique identifier for the object.
  * @property string $object String representing the object's type. Objects of the same type share the same value.
@@ -27,7 +26,7 @@ namespace Stripe;
  * @property null|string $first_name_kanji The Kanji variation of the person's first name (Japan only).
  * @property null|string[] $full_name_aliases A list of alternate names or aliases that the person is known by.
  * @property null|\Stripe\StripeObject $future_requirements Information about the <a href="https://stripe.com/docs/connect/custom-accounts/future-requirements">upcoming new requirements for this person</a>, including what information needs to be collected, and by when.
- * @property null|string $gender The person's gender (International regulations require either &quot;male&quot; or &quot;female&quot;).
+ * @property null|string $gender The person's gender.
  * @property null|bool $id_number_provided Whether the person's <code>id_number</code> was provided. True if either the full ID number was provided or if only the required part of the ID number was provided (ex. last four of an individual's SSN for the US indicated by <code>ssn_last_4_provided</code>).
  * @property null|bool $id_number_secondary_provided Whether the person's <code>id_number_secondary</code> was provided.
  * @property null|string $last_name The person's last name.
@@ -59,7 +58,6 @@ class Person extends ApiResource
     const VERIFICATION_STATUS_VERIFIED = 'verified';
 
     use ApiOperations\Delete;
-    use ApiOperations\Update;
 
     /**
      * @return string the API URL for this Stripe account reversal
@@ -110,9 +108,32 @@ class Person extends ApiResource
     public static function update($_id, $_params = null, $_options = null)
     {
         $msg = 'Persons cannot be updated without an account ID. Update ' .
-               "a person using `Account::updatePerson('account_id', " .
-               "'person_id', \$updateParams)`.";
+                "a person using `Account::updatePerson('account_id', " .
+                "'person_id', \$updateParams)`.";
 
         throw new Exception\BadMethodCallException($msg);
+    }
+
+    /**
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return static the saved resource
+     *
+     * @deprecated The `save` method is deprecated and will be removed in a
+     *     future major version of the library. Use the static method `update`
+     *     on the resource instead.
+     */
+    public function save($opts = null)
+    {
+        $params = $this->serializeParameters();
+        if (\count($params) > 0) {
+            $url = $this->instanceUrl();
+            list($response, $opts) = $this->_request('post', $url, $params, $opts, ['save']);
+            $this->refreshFrom($response, $opts);
+        }
+
+        return $this;
     }
 }

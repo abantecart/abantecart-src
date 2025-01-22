@@ -233,7 +233,9 @@ class ControllerPagesDesignBlocks extends AController
                     if ($content['listing_datasource'] == 'media') {
                         $content['resource_type'] = $this->request->post['resource_type'];
                     }
-
+                    if ($content['listing_datasource'] == 'selected_content') {
+                        $content['content_ids'] = $this->request->post['content_ids'];
+                    }
                     if ($content['listing_datasource'] == 'collection') {
                         $content['collection_id'] = $this->request->post['collection_id'];
                     }
@@ -380,6 +382,9 @@ class ControllerPagesDesignBlocks extends AController
                                 $k++;
                             }
                         }
+                    } else if ($content['listing_datasource'] == 'selected_content') {
+                        $content['content_ids'] = $this->request->post['content_ids'];
+                        $content['limit'] = $this->request->post['limit'];
                     } else {
                         if ($content['listing_datasource'] == 'media') {
                             $content['resource_type'] = $this->request->post['resource_type'];
@@ -512,7 +517,7 @@ class ControllerPagesDesignBlocks extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $custom_block_id = (int) $this->request->get['custom_block_id'];
+        $custom_block_id = (int)$this->request->get['custom_block_id'];
         $layout = new ALayoutManager();
         if (!$layout->deleteCustomBlock($custom_block_id)) {
             $this->session->data['warning'] = $this->language->get('error_delete');
@@ -555,7 +560,8 @@ class ControllerPagesDesignBlocks extends AController
 
         $this->data ['cancel'] = $this->html->getSecureURL('design/blocks');
 
-        if (!isset ($this->request->get ['custom_block_id'])) {
+        $cBlockID = (int)$this->request->get['custom_block_id'];
+        if (!isset($this->request->get['custom_block_id'])) {
             $this->data ['action'] = $this->html->getSecureURL('design/blocks/insert');
             $this->data ['heading_title'] = $this->language->get('text_create', 'design/blocks');
             $this->data ['update'] = '';
@@ -563,14 +569,18 @@ class ControllerPagesDesignBlocks extends AController
         } else {
             $this->data ['action'] = $this->html->getSecureURL(
                 'design/blocks/edit',
-                '&custom_block_id='.$this->request->get ['custom_block_id']
+                '&custom_block_id='.$cBlockID
             );
             $this->data ['heading_title'] = $this->language->get('text_edit').' '.$this->data['name'];
             $this->data ['update'] = $this->html->getSecureURL(
                 'listing_grid/blocks_grid/update_field',
-                '&custom_block_id='.$this->request->get ['custom_block_id']
+                '&custom_block_id='.$cBlockID
             );
             $form = new AForm ('HS');
+            $history = [
+                'table'        => 'block_descriptions',
+                'record_id'     => $cBlockID,
+            ];
         }
 
         $this->document->addBreadcrumb(
@@ -651,6 +661,7 @@ class ControllerPagesDesignBlocks extends AController
                 'value'        => $this->data['name'],
                 'required'     => true,
                 'multilingual' => true,
+                'history'      => $history
             ]
         );
         $this->data['form']['text']['block_name'] = $this->language->get('entry_block_name');
@@ -662,6 +673,7 @@ class ControllerPagesDesignBlocks extends AController
                 'required'     => true,
                 'value'        => $this->data ['title'],
                 'multilingual' => true,
+                'history'      => $history
             ]
         );
         $this->data['form']['text']['block_title'] = $this->language->get('entry_block_title');
@@ -742,6 +754,7 @@ class ControllerPagesDesignBlocks extends AController
                 'value'        => $this->data ['description'],
                 'attr'         => ' style="height: 50px;"',
                 'multilingual' => true,
+                'history'      => $history
             ]
         );
         $this->data['form']['text']['block_description'] = $this->language->get('entry_block_description');
@@ -753,6 +766,7 @@ class ControllerPagesDesignBlocks extends AController
                 'value'        => $this->data ['content'],
                 'multilingual' => true,
                 'style'        => 'no-save',
+                'history'      => $history
             ]
         );
         $this->data['form']['text']['block_content'] = $this->language->get('entry_block_content');

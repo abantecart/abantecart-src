@@ -30,7 +30,7 @@ class ControllerResponsesCheckoutPay extends AController
 {
     public $error = [];
     protected $action = '';
-    protected $allow_guest = false;
+    public $allow_guest = false;
     /** @var array short reference to fast checkout session data */
     protected $fc_session;
 
@@ -660,6 +660,13 @@ class ControllerResponsesCheckoutPay extends AController
                 if ($order_info['telephone']) {
                     $this->fc_session['telephone'] = $this->data['customer_telephone'] = $order_info['telephone'];
                 }
+            }
+
+            if (!$this->fc_session['telephone'] && $this->config->get('fast_checkout_require_phone_number')) {
+                //hide payment form when phone number required and incorrect
+                $this->data['show_payment'] = false;
+                $this->data['payment_form'] = false;
+                return;
             }
 
             //balance handling
@@ -1528,10 +1535,9 @@ class ControllerResponsesCheckoutPay extends AController
 
         $this->loadModel('localisation/country');
         $countries = $this->model_localisation_country->getCountries();
-        $options = ['false' => $this->language->get('text_select')];
-        foreach ($countries as $item) {
-            $options[$item['country_id']] = $item['name'];
-        }
+        $options = ['false' => $this->language->get('text_select')]
+                    + array_column( (array)$countries, 'name', 'country_id' );
+
         $this->data['form']['country_id'] = $form->getFieldHtml(
             [
                 'type'     => 'selectbox',

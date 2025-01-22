@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details is bundled with this package in the file LICENSE.txt.
@@ -30,17 +30,28 @@ final class AMySQLi
     /** @var string */
     public $error;
 
+    private $hostname = '', $username = '', $password = '', $database = '';
+    private $reconnect_cnt = 0;
+    const MAX_RECONNECT_CNT = 3;
+
     /**
      * @param string $hostname
      * @param string $username
      * @param string $password
      * @param string $database
-     * @param bool $new_link
+     * @param bool   $new_link
      *
      * @throws AException
      */
     public function __construct($hostname, $username, $password, $database, $new_link = false)
     {
+        if (!$this->reconnect_cnt) {
+            $this->hostname = $hostname;
+            $this->username = $username;
+            $this->password = $password;
+            $this->database = $database;
+        }
+
         $connection = new mysqli($hostname, $username, $password, $database);
         if ($connection->connect_error) {
             $err = new AError('Cannot establish database connection to '.$database.' using '.$username.'@'.$hostname);
@@ -59,8 +70,8 @@ final class AMySQLi
         $connection->query("SET SESSION SQL_BIG_SELECTS=1;");
         try {
             $timezone = date_default_timezone_get();
-            if($timezone) {
-                $connection->query("SET time_zone='" . $timezone . "';");
+            if ($timezone) {
+                $connection->query("SET time_zone='".$timezone."';");
             }
         } catch (\Exception $e) {
             error_log($e->getMessage());
@@ -72,32 +83,41 @@ final class AMySQLi
 
     /**
      * @param string $sql
-     * @param bool $noexcept
+     * @param bool   $noexcept
      *
      * @return bool|db_result_meta
      * @throws AException
      */
     public function query($sql, $noexcept = false)
     {
-        //echo $this->database_name;
         $time_start = microtime(true);
         try {
             $result = $this->connection->query($sql);
-        } /** @since php8.1 */
-        catch (Exception|mysqli_sql_exception $e) {
-            $result = false;
-            if (!$noexcept) {
-                $log = Registry::getInstance()->get('log');
-                if (!$log) {
-                    $log = new ALog(DIR_LOGS.'error.txt');
-                    Registry::getInstance()->set('log', $log);
+        } catch (Exception|mysqli_sql_exception $e) {
+            // reconnect if connection lost and not exceeded max reconnect count "Mysql Gone Away issue"
+            if ($e->getCode() == 2006 && $this->reconnect_cnt < self::MAX_RECONNECT_CNT) {
+                try {
+                    $this->__construct($this->hostname, $this->username, $this->password, $this->database);
+                    $result = $this->query($sql, $noexcept);
+                    $message = "Reconnected to database {$this->database} after Mysql connection has dropped";
+                    $error = new AError($message);
+                    $error->toDebug();
+                } catch (Exception $exc) {
+                    $this->reconnect_cnt++;
+                    if (!$noexcept) {
+                        $this->processException($exc, $sql);
+                    }
                 }
-                $errorText = $e->getCode().': '.$e->getMessage()."\n\n".$sql;
-                $log->write($errorText);
-                if (php_sapi_name() == 'cli') {
-                    echo $errorText.' - sql: '.$sql."\n";
+            } else {
+                $result = false;
+                if (!$noexcept) {
+                    $this->processException($e, $sql);
                 }
             }
+        }
+
+        if ($result) {
+            $this->reconnect_cnt = 0;
         }
 
         $time_exec = microtime(true) - $time_start;
@@ -114,14 +134,14 @@ final class AMySQLi
                 $i = 0;
                 $data = [];
                 while ($row = $result->fetch_object()) {
-                    $data[$i] = (array) $row;
+                    $data[$i] = (array)$row;
                     $i++;
                 }
 
                 $query = new db_result_meta();
                 $query->row = $data[0] ?? [];
                 $query->rows = $data;
-                $query->num_rows = (int) $result->num_rows;
+                $query->num_rows = (int)$result->num_rows;
                 unset($data);
                 return $query;
             } else {
@@ -144,9 +164,23 @@ final class AMySQLi
         }
     }
 
+    protected function processException($e, $sql)
+    {
+        $log = Registry::getInstance()->get('log');
+        if (!$log) {
+            $log = new ALog(DIR_LOGS.'error.txt');
+            Registry::getInstance()->set('log', $log);
+        }
+        $errorText = $e->getCode().': '.$e->getMessage()."\n\n".$sql;
+        $log->write($errorText);
+        if (php_sapi_name() == 'cli') {
+            echo $errorText.' - sql: '.$sql."\n";
+        }
+    }
+
     /**
      * @param string $value
-     * @param bool $with_special_chars
+     * @param bool   $with_special_chars
      *
      * @return string
      * @throws AException
@@ -162,7 +196,7 @@ final class AMySQLi
             $error->toLog()->toDebug()->toMessages();
             return false;
         }
-        $output = $this->connection->real_escape_string((string) $value);
+        $output = $this->connection->real_escape_string((string)$value);
         if ($with_special_chars) {
             $output = str_replace('%', '\%', $output);
         }
@@ -174,7 +208,7 @@ final class AMySQLi
      */
     public function countAffected()
     {
-        if($this->connection) {
+        if ($this->connection) {
             return $this->connection->affected_rows;
         }
     }
@@ -201,7 +235,7 @@ final class AMySQLi
     public function getTotalNumRows()
     {
         $result = $this->connection->query('select found_rows() as total;');
-        if( $result !== false ){
+        if ($result !== false) {
             $row = (array)$result->fetch_object();
             return (int)$row['total'];
         }

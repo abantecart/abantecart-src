@@ -103,7 +103,7 @@ class ControllerPagesCatalogManufacturer extends AController
                                 ),
                             ],
                             'layout'    => [
-                                'text' => $this->language->get('entry_layout'),
+                                'text' => $this->language->get('text_design'),
                                 'href' => $this->html->getSecureURL(
                                     'catalog/manufacturer_layout',
                                     '&manufacturer_id=%ID%'
@@ -233,7 +233,7 @@ class ControllerPagesCatalogManufacturer extends AController
 
     protected function _getForm($args = [])
     {
-        $viewport_mode = isset($args[0]['viewport_mode']) ? $args[0]['viewport_mode'] : '';
+        $viewport_mode = $args[0]['viewport_mode'] ?? '';
 
         $this->view->assign('token', $this->session->data['token']);
         $this->view->assign('error_warning', $this->error['warning']);
@@ -263,13 +263,7 @@ class ControllerPagesCatalogManufacturer extends AController
         }
 
         foreach ($this->fields as $f) {
-            if (isset ($this->request->post [$f])) {
-                $this->data [$f] = $this->request->post [$f];
-            } elseif (isset($manufacturer_info) && isset($manufacturer_info[$f])) {
-                $this->data[$f] = $manufacturer_info[$f];
-            } else {
-                $this->data[$f] = '';
-            }
+           $this->data[$f] = $this->request->post[$f] ?? $manufacturer_info[$f] ?? '';
         }
 
         $this->loadModel('setting/store');
@@ -281,7 +275,7 @@ class ControllerPagesCatalogManufacturer extends AController
                 $manufacturer_id
             );
         } else {
-            $this->data['manufacturer_store'] = [0];
+            $this->data['manufacturer_store'] = [(int)$this->session->data['current_store_id']];
         }
 
         $stores = [0 => $this->language->get('text_default')];
@@ -315,7 +309,7 @@ class ControllerPagesCatalogManufacturer extends AController
                 '&manufacturer_id='.$manufacturer_id
             );
             $this->data['tab_edit'] = $this->language->get('entry_edit');
-            $this->data['tab_layout'] = $this->language->get('entry_layout');
+            $this->data['tab_layout'] = $this->language->get('text_design');
             $this->data['manufacturer_layout'] = $this->html->getSecureURL(
                 'catalog/manufacturer_layout',
                 '&manufacturer_id='.$manufacturer_id

@@ -22,6 +22,7 @@ namespace Stripe;
  * @property null|\Stripe\StripeObject $ach_debit
  * @property null|\Stripe\StripeObject $acss_debit
  * @property null|\Stripe\StripeObject $alipay
+ * @property null|string $allow_redisplay This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to “unspecified”.
  * @property null|int $amount A positive integer in the smallest currency unit (that is, 100 cents for $1.00, or 1 for ¥1, Japanese Yen being a zero-decimal currency) representing the total amount associated with the source. This is the amount for which the source will be chargeable once ready. Required for <code>single_use</code> sources.
  * @property null|\Stripe\StripeObject $au_becs_debit
  * @property null|\Stripe\StripeObject $bancontact
@@ -59,9 +60,11 @@ class Source extends ApiResource
 {
     const OBJECT_NAME = 'source';
 
-    use ApiOperations\Create;
-    use ApiOperations\Retrieve;
     use ApiOperations\Update;
+
+    const ALLOW_REDISPLAY_ALWAYS = 'always';
+    const ALLOW_REDISPLAY_LIMITED = 'limited';
+    const ALLOW_REDISPLAY_UNSPECIFIED = 'unspecified';
 
     const FLOW_CODE_VERIFICATION = 'code_verification';
     const FLOW_NONE = 'none';
@@ -96,6 +99,78 @@ class Source extends ApiResource
 
     const USAGE_REUSABLE = 'reusable';
     const USAGE_SINGLE_USE = 'single_use';
+
+    /**
+     * Creates a new source object.
+     *
+     * @param null|array $params
+     * @param null|array|string $options
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Source the created resource
+     */
+    public static function create($params = null, $options = null)
+    {
+        self::_validateParams($params);
+        $url = static::classUrl();
+
+        list($response, $opts) = static::_staticRequest('post', $url, $params, $options);
+        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
+        $obj->setLastResponse($response);
+
+        return $obj;
+    }
+
+    /**
+     * Retrieves an existing source object. Supply the unique source ID from a source
+     * creation request and Stripe will return the corresponding up-to-date source
+     * object information.
+     *
+     * @param array|string $id the ID of the API resource to retrieve, or an options array containing an `id` key
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Source
+     */
+    public static function retrieve($id, $opts = null)
+    {
+        $opts = \Stripe\Util\RequestOptions::parse($opts);
+        $instance = new static($id, $opts);
+        $instance->refresh();
+
+        return $instance;
+    }
+
+    /**
+     * Updates the specified source by setting the values of the parameters passed. Any
+     * parameters not provided will be left unchanged.
+     *
+     * This request accepts the <code>metadata</code> and <code>owner</code> as
+     * arguments. It is also possible to update type specific information for selected
+     * payment methods. Please refer to our <a href="/docs/sources">payment method
+     * guides</a> for more detail.
+     *
+     * @param string $id the ID of the resource to update
+     * @param null|array $params
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Source the updated resource
+     */
+    public static function update($id, $params = null, $opts = null)
+    {
+        self::_validateParams($params);
+        $url = static::resourceUrl($id);
+
+        list($response, $opts) = static::_staticRequest('post', $url, $params, $opts);
+        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
+        $obj->setLastResponse($response);
+
+        return $obj;
+    }
 
     use ApiOperations\NestedResource;
 

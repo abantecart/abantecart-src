@@ -1,6 +1,34 @@
 <?xml version="1.0"?>
 <definitions>
   <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Content pages]]></value>
+  </definition>
+  <definition>
+    <key>text_author</key>
+    <value><![CDATA[Author:]]></value>
+  </definition>
+  <definition>
+    <key>text_published</key>
+    <value><![CDATA[Published:]]></value>
+  </definition>
+  <definition>
+    <key>text_sort</key>
+    <value><![CDATA[Sort By:]]></value>
+  </definition>
+  <definition>
+    <key>text_new</key>
+    <value><![CDATA[NEW]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Default]]></value>
+  </definition>
+  <definition>
+    <key>content_not_found</key>
+    <value><![CDATA[No content found. Try again.]]></value>
+  </definition>
+  <definition>
     <key>text_error</key>
     <value><![CDATA[Information Page Not Found!]]></value>
   </definition>

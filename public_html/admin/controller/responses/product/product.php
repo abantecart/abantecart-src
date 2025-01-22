@@ -1,26 +1,22 @@
-<?php /** @noinspection SqlResolve */
-/** @noinspection PhpMultipleClassDeclarationsInspection */
-
-/** @noinspection PhpUndefinedClassInspection */
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+<?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 class ControllerResponsesProductProduct extends AController
 {
@@ -698,8 +694,8 @@ class ControllerResponsesProductProduct extends AController
 
 
         $errors = $this->model_catalog_product->validateOptionValues(
-                    $this->request->get['option_id'],
-                    $this->request->post
+            $this->request->get['option_id'],
+            $this->request->post
         );
 
         if (!$errors) {
@@ -718,7 +714,6 @@ class ControllerResponsesProductProduct extends AController
             );
             return;
         }
-
 
 
         foreach ((array)$this->request->post['product_option_value_id'] as $product_option_value_id) {
@@ -908,6 +903,12 @@ class ControllerResponsesProductProduct extends AController
                     // for checkbox show error when value is empty
                     if ($this->data['option_data']['element_type'] == 'C' && $this->data['name'] == '') {
                         $arr['style'] = 'alert-danger';
+                    }
+                    //add time to date product option
+                    if ($arr['type'] == 'date') {
+                        $arr['dateformat'] = format4Datepicker(
+                            $this->language->get('date_format_short') . ' ' . $this->language->get('time_format_short')
+                        );
                     }
 
                     $this->data['form']['fields']['option_value'] = $form->getFieldHtml($arr);
@@ -1111,6 +1112,10 @@ class ControllerResponsesProductProduct extends AController
 
     public function processDownloadForm()
     {
+        if (!$this->request->is_POST()) {
+            http_response_code(406);
+            exit('Forbidden.');
+        }
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -1123,10 +1128,6 @@ class ControllerResponsesProductProduct extends AController
                     'reset_value' => true,
                 ]
             );
-            return;
-        }
-
-        if (!$this->request->is_POST()) {
             return;
         }
 
@@ -1186,7 +1187,7 @@ class ControllerResponsesProductProduct extends AController
         $this->loadModel('localisation/order_status');
         $this->loadModel('catalog/download');
 
-        $this->data['download_id'] = $download_id = $this->request->get['download_id'];
+        $this->data['download_id'] = $download_id = (int)$this->request->get['download_id'];
         $this->data['product_id'] = $product_id = (int)$this->request->get['product_id'];
 
         // for new download - create form for mapping shared downloads to product
@@ -1251,7 +1252,7 @@ class ControllerResponsesProductProduct extends AController
      *
      * @throws AException
      */
-    private function _buildSelectForm($product_id)
+    protected function _buildSelectForm($product_id)
     {
         $shared_downloads = $this->model_catalog_download->getSharedDownloads();
         $options = [];
@@ -1312,12 +1313,12 @@ class ControllerResponsesProductProduct extends AController
      *
      * @throws AException|ReflectionException
      */
-    private function _buildGeneralSubform($form, $download_id, $product_id)
+    protected function _buildGeneralSubform($form, $download_id, $product_id)
     {
         if ($download_id) {
             $file_data = $this->model_catalog_download->getDownload($download_id);
-
             $this->_validateDownloadForm($file_data);
+
             $this->data['error'] = $this->error;
         } else {
             $file_data = [];
@@ -1381,9 +1382,13 @@ class ControllerResponsesProductProduct extends AController
 
         $rl = new AResource('download');
         $rl_dir = $rl->getTypeDir();
-        $resource_id = is_numeric($file_data['filename'])
-            ? $file_data['filename']
-            : $rl->getIdFromHexPath(str_replace($rl_dir, '', $file_data['filename']));
+        if (is_numeric($file_data['filename'])) {
+            $resource_id = $file_data['filename'];
+            $resourceInfo = $rl->getResource($resource_id);
+            $file_data['filename'] = $resourceInfo['type_dir'] . $resourceInfo['resource_path'];
+        } else {
+            $resource_id = $rl->getIdFromHexPath(str_replace($rl_dir, '', $file_data['filename']));
+        }
 
         $this->data['form']['fields']['general']['resource'] = $form->getFieldHtml(
             [
@@ -1393,16 +1398,14 @@ class ControllerResponsesProductProduct extends AController
                 'rl_type'     => 'download',
             ]
         );
-
-
         if ($resource_id) {
             $this->data['preview']['href'] = $this->html->getSecureURL(
                 'common/resource_library/get_resource_preview',
-                '&resource_id=' . $resource_id,
-                true
+                '&resource_id=' . $resource_id
             );
             $this->data['preview']['path'] = 'resources/' . $file_data['filename'];
         }
+
 
         $this->data['form']['fields']['general']['status'] = $form->getFieldHtml(
             [
@@ -1548,7 +1551,7 @@ class ControllerResponsesProductProduct extends AController
      *
      * @throws AException
      */
-    private function _buildAttributesSubform($form)
+    protected function _buildAttributesSubform($form)
     {
         $attributes = $this->model_catalog_download->getDownloadAttributes($this->data['download_id']);
         $elements = HtmlElementFactory::getAvailableElements();
@@ -1671,7 +1674,7 @@ class ControllerResponsesProductProduct extends AController
         if (!in_array($data['activate'], ['before_order', 'immediately', 'order_status', 'manually'])) {
             $this->error['activate'] = $this->language->get('error_activate');
         } else {
-            if ($data['activate'] == 'order_status' && !(array) $data['activate_order_status_id']) {
+            if ($data['activate'] == 'order_status' && !(array)$data['activate_order_status_id']) {
                 $this->error['order_status'] = $this->language->get('error_order_status');
             }
         }
@@ -2044,25 +2047,16 @@ class ControllerResponsesProductProduct extends AController
         $this->loadModel('setting/store');
         $store_info = $this->model_setting_store->getStore($order_store_id);
         if (HTTPS === true && $store_info['config_ssl_url']) {
-            $total_calc_url = $store_info['config_ssl_url']
-                . 'index.php?rt=r/product/product/calculateTotal'
-                . '&currency=' . $order_info['currency'] . '&admin=1';
+            $total_calc_url = $store_info['config_ssl_url'] . 'index.php?rt=r/product/product/calculateTotal';
         } elseif (HTTPS === true && !$store_info['config_ssl_url']) {
-            $total_calc_url = str_replace(
-                    'http://',
-                    'https://',
-                    $store_info['config_url']
-                ) . 'index.php?rt=r/product/product/calculateTotal'
-                . '&currency=' . $order_info['currency']
-                . '&admin=1';
+            $total_calc_url = str_replace('http://', 'https://', $store_info['config_url'])
+                . 'index.php?rt=r/product/product/calculateTotal';
         } else {
-            $total_calc_url = $store_info['config_url']
-                . 'index.php?rt=r/product/product/calculateTotal'
-                . '&currency=' . $order_info['currency']
-                . '&admin=1';
+            $total_calc_url = $store_info['config_url'] . 'index.php?rt=r/product/product/calculateTotal';
         }
 
-        $this->data['total_calc_url'] = $total_calc_url;
+        $this->data['total_calc_url'] = $total_calc_url
+            . '&' . http_build_query(['currency' => $order_info['currency'], 'admin' => 1]);
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);

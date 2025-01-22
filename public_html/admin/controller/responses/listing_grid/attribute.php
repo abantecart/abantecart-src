@@ -129,13 +129,18 @@ class ControllerResponsesListingGridAttribute extends AController
             return;
         }
 
-        switch ($this->request->post['oper']) {
-            case 'del':
-                $ids = explode(',', $this->request->post['id']);
-                if (!empty($ids)) {
+        $ids = array_unique(
+            array_map(
+                'intval',
+                explode(',', $this->request->post['id'])
+            )
+        );
+        if($ids) {
+            switch ($this->request->post['oper']) {
+                case 'del':
                     foreach ($ids as $id) {
                         $err = $this->validateDelete($id);
-                        if (!empty($err)) {
+                        if ($err) {
                             $error = new AError('');
                             $error->toJSONResponse(
                                 'VALIDATION_ERROR_406',
@@ -147,17 +152,13 @@ class ControllerResponsesListingGridAttribute extends AController
                         }
                         $this->attribute_manager->deleteAttribute($id);
                     }
-                }
-                break;
-            case 'save':
-                $allowedFields = array_merge(
-                    ['name', 'attribute_type_id', 'sort_order', 'status'],
-                    (array) $this->data['allowed_fields']
-                );
+                    break;
+                case 'save':
+                    $allowedFields = array_merge(
+                        ['name', 'attribute_type_id', 'sort_order', 'status'],
+                        (array)$this->data['allowed_fields']
+                    );
 
-                $ids = explode(',', $this->request->post['id']);
-                if (!empty($ids)) //resort required. 
-                {
                     if ($this->request->post['resort'] == 'yes') {
                         //get only ids we need
                         $array = [];
@@ -172,27 +173,28 @@ class ControllerResponsesListingGridAttribute extends AController
                         );
                         $this->request->post['sort_order'] = $new_sort;
                     }
-                }
-                foreach ($ids as $id) {
-                    foreach ($allowedFields as $f) {
-                        if (isset($this->request->post[$f][$id])) {
-                            $err = $this->_validateField($f, $this->request->post[$f][$id]);
-                            if (!empty($err)) {
-                                $error = new AError('');
-                                $error->toJSONResponse(
-                                    'VALIDATION_ERROR_406',
-                                    [
-                                        'error_text' => $err,
-                                    ]
-                                );
-                                return;
+
+                    foreach ($ids as $id) {
+                        foreach ($allowedFields as $f) {
+                            if (isset($this->request->post[$f][$id])) {
+                                $err = $this->_validateField($f, $this->request->post[$f][$id]);
+                                if ($err) {
+                                    $error = new AError('');
+                                    $error->toJSONResponse(
+                                        'VALIDATION_ERROR_406',
+                                        [
+                                            'error_text' => $err,
+                                        ]
+                                    );
+                                    return;
+                                }
+                                $this->attribute_manager->updateAttribute($id, [$f => $this->request->post[$f][$id]]);
                             }
-                            $this->attribute_manager->updateAttribute($id, [$f => $this->request->post[$f][$id]]);
                         }
                     }
-                }
-                break;
-            default:
+                    break;
+                default:
+            }
         }
 
         //update controller data
@@ -292,7 +294,7 @@ class ControllerResponsesListingGridAttribute extends AController
     public function validateDelete($id)
     {
         $this->data['error'] = '';
-        $this->extensions->hk_ValidateData($this, [__FUNCTION__]);
+        $this->extensions->hk_ValidateData($this, [__FUNCTION__, $id]);
         return $this->data['error'];
     }
 

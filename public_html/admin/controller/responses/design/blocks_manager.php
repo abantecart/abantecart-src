@@ -113,7 +113,6 @@ class ControllerResponsesDesignBlocksManager extends AController
 
     public function block_info()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 

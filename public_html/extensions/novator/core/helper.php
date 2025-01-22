@@ -25,7 +25,6 @@ function renderAllCategoriesSFMenuNv(array $menuItems, $options = [ ])
     if (!$menuItems ) {
         return '';
     }
-
     $output = '<div class="col-3">
                 <ul class="nav nav-tabs flex-column category-links mt-0" role="tablist">';
 
@@ -117,18 +116,16 @@ function prepareNVCatItems($items)
 function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
 {
     $logged = Registry::getInstance()->get('customer')->isLogged();
-    $output = '';
     $menuItems = (array) $menuItems;
     if (!$menuItems) {
         return '';
     }
     $idKey = $options['id_key_name'] ?: 'id';
-
+    $output = '<div aria-labelledby="'.$parentId.'" data-bs-popper="static" ';
     if ($level == 0) {
-        $output .= '<div '.($options['top_level']['attr'] ?: 'class="navbar-nav ms-auto me-auto mb-2 mb-lg-0 align-items-start flex-wrap"').'>';
+        $output .= ($options['top_level']['attr'] ?: 'class="navbar"').'>';
     } else {
-        $output .= '<div class="dropdown-menu position-absolute '.($level > 1 ? 'dropdown-submenu' : '')
-            .'" aria-labelledby="'.$parentId.'" '.$options['submenu_level']['attr'].'>';
+        $output .= $options['submenu_level']['attr'] .' class="dropdown-menu '.($level > 1 ? 'dropdown-submenu' : '').'">';
     }
 
     foreach ($menuItems as $i => $item) {
@@ -137,21 +134,21 @@ function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
             continue;
         }
 
-        if (($logged && $item[$idKey] == 'login')
-            || (!$logged && $item[$idKey] == 'logout')
-        ) {
+        if (($logged && $item[$idKey] == 'login') || (!$logged && $item[$idKey] == 'logout')) {
             continue;
         }
         $item_title = '<span class="menu-img-caption">'.($item['text'] ?: $item['title'] ?: $item['name']).'</span>';
         $hasChild = (bool) $item['children'];
-        $output .= '<div class="dropdown me-3 me-sm-0 mb-3 mb-lg-0 '. ($hasChild ? 'with-children ' : '').'" >';
+        $output .= '<div class="menu-sub-item '. ($hasChild ? 'dropend with-children ' : '').' ">';
         //check icon rl type html, image or none.
         $rlId = $item['icon'] ? : $item['icon_rl_id'];
         $icon = renderMenuItemIconNv($item, $rlId);
+        $active = $item['current'] ? 'active' : '';
 
         if ($hasChild) {
             $id = 'menu_'.$item[$idKey];
-            $css = 'dropdown-toggle text-nowrap mb-3 mb-md-0 nav-link '. ($level ? 'dropdown-item ' : '');
+            $css = 'w-100 dropdown-toggle text-nowrap mb-3 mb-md-0 nav-link '. ($level ? 'dropdown-item ' : '');
+            $css .= " " .$active;
             $output .= '<a id="'.$id.'" href="'.$item['href'].'" class="'.$css.'" data-bs-toggle="dropdown" data-bs-target="dropdown" aria-expanded="false">'
                         . $icon.$item_title.'</a>';
             $chOptions = [ 'id_key_name' => $idKey ];
@@ -167,12 +164,14 @@ function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
             }
 
         } else {
-            $css = $level ? "dropdown-item" : " " .'text-nowrap nav-link';
+            $css = $level ? "dropdown-item" : 'text-nowrap nav-link';
+            $css .= " " .$active;
             $popoverAttr = $item['thumb']
                 ? 'data-bs-toggle="popover" data-bs-content="<img src=&quot;'.$item['thumb'].'&quot;>" '
                    .' data-bs-html="true" data-bs-offset="5,5" data-bs-boundary="window"'
                    .' data-bs-placement="right" data-bs-trigger="hover"'
                 : '';
+            $popoverAttr .= ' target = "'.$item['settings']['target'].'"';
             $output .= '<a href="'.$item['href'].'" class="'.$css.'" '.$popoverAttr.'>'.$icon.$item_title.'</a>';
         }
         $output .= '</div>';
@@ -215,7 +214,7 @@ function renderCategorySubMenuNV($menuItems, $level = 0, $parentId = '', $option
     }
     $idKey = $options['id_key_name'] ?: 'id';
 
-    $output .= '<div class="dropdown-menu " aria-labelledby="'.$parentId.'" '.$options['submenu_level']['attr'].'>';
+    $output .= '<div class="dropdown-menu " aria-labelledby="'.$parentId.'" '.$options['submenu_level']['attr'].' data-bs-popper>';
     $ar = new AResource('image');
     foreach ($menuItems as $i => $item) {
 

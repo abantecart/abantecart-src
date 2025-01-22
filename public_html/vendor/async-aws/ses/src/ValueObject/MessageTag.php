@@ -11,12 +11,22 @@ use AsyncAws\Core\Exception\InvalidArgument;
 final class MessageTag
 {
     /**
-     * The name of the message tag. The message tag name has to meet the following criteria:.
+     * The name of the message tag. The message tag name has to meet the following criteria:
+     *
+     * - It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-).
+     * - It can contain no more than 256 characters.
+     *
+     * @var string
      */
     private $name;
 
     /**
-     * The value of the message tag. The message tag value has to meet the following criteria:.
+     * The value of the message tag. The message tag value has to meet the following criteria:
+     *
+     * - It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-).
+     * - It can contain no more than 256 characters.
+     *
+     * @var string
      */
     private $value;
 
@@ -28,10 +38,16 @@ final class MessageTag
      */
     public function __construct(array $input)
     {
-        $this->name = $input['Name'] ?? null;
-        $this->value = $input['Value'] ?? null;
+        $this->name = $input['Name'] ?? $this->throwException(new InvalidArgument('Missing required field "Name".'));
+        $this->value = $input['Value'] ?? $this->throwException(new InvalidArgument('Missing required field "Value".'));
     }
 
+    /**
+     * @param array{
+     *   Name: string,
+     *   Value: string,
+     * }|MessageTag $input
+     */
     public static function create($input): self
     {
         return $input instanceof self ? $input : new self($input);
@@ -53,15 +69,19 @@ final class MessageTag
     public function requestBody(): array
     {
         $payload = [];
-        if (null === $v = $this->name) {
-            throw new InvalidArgument(sprintf('Missing parameter "Name" for "%s". The value cannot be null.', __CLASS__));
-        }
+        $v = $this->name;
         $payload['Name'] = $v;
-        if (null === $v = $this->value) {
-            throw new InvalidArgument(sprintf('Missing parameter "Value" for "%s". The value cannot be null.', __CLASS__));
-        }
+        $v = $this->value;
         $payload['Value'] = $v;
 
         return $payload;
+    }
+
+    /**
+     * @return never
+     */
+    private function throwException(\Throwable $exception)
+    {
+        throw $exception;
     }
 }
