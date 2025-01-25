@@ -166,8 +166,10 @@ if ($error){ ?>
                                             <label class="control-label fw-bold"><?php echo $text_quantity_discount; ?></label>
                                             <table class="table table-striped">
                                                 <thead>
-                                                    <th class="fw-normal"><?php echo $text_order_quantity; ?></th>
-                                                    <th class="fw-normal"><?php echo $text_price_per_item; ?></th>
+                                                    <tr>
+                                                        <th class="fw-normal"><?php echo $text_order_quantity; ?></th>
+                                                        <th class="fw-normal"><?php echo $text_price_per_item; ?></th>
+                                                    </tr>
                                                 </thead>
                                             <?php foreach ($discounts as $discount) { ?>
                                                 <tr>
@@ -268,7 +270,6 @@ if ($error){ ?>
                                         <?php echo $text_login_view_price; ?>
                                 </div>
                             <?php } ?>
-
                     </div>
                 </div>
         </div>

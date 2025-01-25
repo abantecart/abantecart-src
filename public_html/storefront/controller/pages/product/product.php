@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 class ControllerPagesProductProduct extends AController
 {
@@ -445,22 +445,23 @@ class ControllerPagesProductProduct extends AController
             $cart_product_info = $this->cart->getProduct($request['key']);
         }
         foreach ($product_options as $option) {
-            $values = [];
-            $disabled_values = [];
+            $optionId = $option['product_option_id'];
+            $values = $extra = $disabled_values = [];
             $name = $price = '';
-            $default_value = $cart_product_info['options'][$option['product_option_id']];
+            $default_value = $cart_product_info['options'][$optionId];
             if ($option['element_type'] == 'R') {
                 $default_value = is_array($default_value) ? current($default_value) : (string) $default_value;
             }
             $preset_value = $default_value;
             $opt_stock_message = '';
             foreach ($option['option_value'] as $option_value) {
+                $optionValueId = (int) $option_value['product_option_value_id'];
                 $default_value = $option_value['default'] && !$default_value
-                    ? $option_value['product_option_value_id']
+                    ? $optionValueId
                     : $default_value;
                 // for case when trying to add to cart without required options. we get option-array back inside _GET
-                if (has_value($request['option'][$option['product_option_id']])) {
-                    $default_value = $request['option'][$option['product_option_id']];
+                if (has_value($request['option'][$optionId])) {
+                    $default_value = $request['option'][$optionId];
                 }
 
                 $name = $option_value['name'];
@@ -471,7 +472,7 @@ class ControllerPagesProductProduct extends AController
                 }
 
                 if($option_value['txt_id']) {
-                    $txtIds[$option_value['product_option_value_id']] = $option_value['txt_id'];
+                    $txtIds[$optionValueId] = $option_value['txt_id'];
                 }
 
                 //Stock and status
@@ -481,7 +482,7 @@ class ControllerPagesProductProduct extends AController
                     if ($option_value['quantity'] <= 0) {
                         //show out of stock message
                         $opt_stock_message = $this->language->get('text_out_of_stock');
-                        $disabled_values[] = $option_value['product_option_value_id'];
+                        $disabled_values[] = $optionValueId;
                     } elseif ($this->config->get('config_stock_display')) {
                         $opt_stock_message = $option_value['quantity']." ".$this->language->get('text_instock');
                         $opt_stock_message = "(".$opt_stock_message.")";
@@ -511,7 +512,7 @@ class ControllerPagesProductProduct extends AController
                 }
                 $price = $price != 0 ? $this->currency->format($price) : '';
 
-                $values[$option_value['product_option_value_id']] = $option_value['name']
+                $values[$optionValueId] = $option_value['name']
                     .' '
                     .$price
                     .' '
@@ -536,6 +537,12 @@ class ControllerPagesProductProduct extends AController
                 // if at least one option is file - change enctype for form
                 if ($option['element_type'] == 'U') {
                     $this->data['form']['form_open']->enctype = "multipart/form-data";
+                }
+                $extra['product_option_id'] = $optionId;
+                $option_value['grouped_attribute_data'] = (array) unserialize($option_value['grouped_attribute_data']);
+                $extra['grouped'] = ( count($option_value['grouped_attribute_data'])>1 );
+                if($extra['grouped']){
+                    $extra['grouped_data'][$optionValueId] = $option_value['grouped_attribute_data'];
                 }
             }
 
@@ -570,20 +577,23 @@ class ControllerPagesProductProduct extends AController
                     $data_attr .= ' data-attribute-value-id="'.key($option['option_value']).'"';
                 }
 
-                if(in_array($option['element_type'], HtmlElementFactory::getElementsWithOptions())){
-                    $data_attr .= ' data-txt-ids="'.base64_encode(json_encode($txtIds)).'"';
-                }else{
-                    $data_attr .= ' data-txt-ids="'.html2view(current($txtIds)).'"';
+                if($txtIds) {
+                    if (in_array($option['element_type'], HtmlElementFactory::getElementsWithOptions())) {
+                        $data_attr .= ' data-txt-ids="' . base64_encode(json_encode($txtIds)) . '"';
+                    } else {
+                        $data_attr .= ' data-txt-ids="' . html2view(current($txtIds)) . '"';
+                    }
+                    $extra = count($txtIds)==1 ? ['txt_id' => current($txtIds)] : ['txt_id' => $txtIds];
                 }
 
                 $option_data = [
                     'type'             => $option['html_type'],
                     'name'             =>
                         !in_array($option['element_type'], HtmlElementFactory::getMultivalueElements())
-                            ? 'option['.$option['product_option_id'].']'
-                            : 'option['.$option['product_option_id'].'][]',
+                            ? 'option['.$optionId.']'
+                            : 'option['.$optionId.'][]',
                     'attr'             => $data_attr,
-                    'extra'            => count($txtIds)==1 ? ['txt_id' => current($txtIds)] : ['txt_id' => $txtIds],
+                    'extra'            => $extra,
                     'value'            => $value,
                     'options'          => $values,
                     'disabled_options' => $disabled_values,
@@ -671,7 +681,6 @@ class ControllerPagesProductProduct extends AController
             //NOTE: total quantity can be integer and true(in case stock-track is off)
             $total_quantity = $this->model_catalog_product->hasAnyStock($product_id);
             $this->data['track_stock'] = true;
-            $this->data['can_buy'] = true;
             //out of stock if no quantity and no stock checkout is disabled
             if ($total_quantity <= 0 && !$product_info['stock_checkout']) {
                 $this->data['can_buy'] = false;
