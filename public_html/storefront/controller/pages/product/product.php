@@ -490,8 +490,9 @@ class ControllerPagesProductProduct extends AController
                 } else {
                     if ($option_value['subtract'] && $product_info['stock_checkout']) {
                         if ($option_value['quantity'] <= 0) {
-                            $opt_stock_message =
-                                $product_info['stock_status'] ? "({$product_info['stock_status']})" : '';
+                            $opt_stock_message = $product_info['stock_status']
+                                ? "({$product_info['stock_status']})"
+                                : '';
                         }
                     }
                 }
@@ -517,6 +518,11 @@ class ControllerPagesProductProduct extends AController
                     .$price
                     .' '
                     .$opt_stock_message;
+
+                $extra['value_info'][$optionId][$optionValueId] = [
+                    'price_modifier' => $price,
+                    'stock_message' => $opt_stock_message
+                ];
                 //disable stock tracking for product if one of option have "subtract"
                 if ($option_value['subtract']) {
                     $product_info['subtract'] = false;
