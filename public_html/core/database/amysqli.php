@@ -104,6 +104,7 @@ final class AMySQLi
                     $error->toDebug();
                 } catch (Exception $exc) {
                     $this->reconnect_cnt++;
+                    $result = false;
                     if (!$noexcept) {
                         $this->processException($exc, $sql);
                     }
