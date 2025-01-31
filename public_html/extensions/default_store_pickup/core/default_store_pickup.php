@@ -112,7 +112,7 @@ class ExtensionDefaultStorePickup extends Extension
             $sGuest['shipping']['city'] = $that->config->get('config_city');
             $sGuest['shipping']['country_id'] = $that->config->get('config_country_id');
             $sGuest['shipping']['zone_id'] = $that->config->get('config_zone_id');
-            $that->session->data['fc']['guest'] = array_merge($that->session->data['fc']['guest'], $sGuest);
+            $that->session->data['fc']['guest'] = array_merge((array)$that->session->data['fc']['guest'], $sGuest);
         }
 
         $that->tax->setZone(
