@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <extension>
 	<id>default_authorizenet</id>
-	<version>1.2.3</version>
+	<version>1.2.4</version>
 	<type>payment</type>
 	<category>payment</category>
 	<cartversions>
@@ -11,15 +11,12 @@
 	<settings>
 		<item id="default_authorizenet_api_login_id">
 			<type required="true">input</type>
-			<default_value></default_value>
 		</item>
 		<item id="default_authorizenet_api_transaction_key">
 			<type required="true">input</type>
-			<default_value></default_value>
 		</item>
 		<item id="default_authorizenet_api_public_key">
 			<type required="true">input</type>
-			<default_value></default_value>
 		</item>
 		<item id="default_authorizenet_test_mode">
 			<type>checkbox</type>

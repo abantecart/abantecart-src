@@ -1,3 +1,4 @@
+<div class="content-footer">
 <?php
     $contents[] = [
             'text' => $text_contact,
@@ -21,3 +22,4 @@
     ];
     echo renderSFMenuNv($contents);
 ?>
+</div>

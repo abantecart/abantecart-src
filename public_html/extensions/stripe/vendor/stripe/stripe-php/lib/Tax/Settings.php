@@ -13,17 +13,33 @@ namespace Stripe\Tax;
  * @property \Stripe\StripeObject $defaults
  * @property null|\Stripe\StripeObject $head_office The place where your business is located.
  * @property bool $livemode Has the value <code>true</code> if the object exists in live mode or the value <code>false</code> if the object exists in test mode.
- * @property string $status The <code>active</code> status indicates you have all required settings to calculate tax. A status can transition out of <code>active</code> when new required settings are introduced.
+ * @property string $status The status of the Tax <code>Settings</code>.
  * @property \Stripe\StripeObject $status_details
  */
 class Settings extends \Stripe\SingletonApiResource
 {
     const OBJECT_NAME = 'tax.settings';
 
-    use \Stripe\ApiOperations\SingletonRetrieve;
-
     const STATUS_ACTIVE = 'active';
     const STATUS_PENDING = 'pending';
+
+    /**
+     * Retrieves Tax <code>Settings</code> for a merchant.
+     *
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Tax\Settings
+     */
+    public static function retrieve($opts = null)
+    {
+        $opts = \Stripe\Util\RequestOptions::parse($opts);
+        $instance = new static(null, $opts);
+        $instance->refresh();
+
+        return $instance;
+    }
 
     /**
      * @param null|array $params
@@ -43,5 +59,28 @@ class Settings extends \Stripe\SingletonApiResource
         $obj->setLastResponse($response);
 
         return $obj;
+    }
+
+    /**
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return static the saved resource
+     *
+     * @deprecated The `save` method is deprecated and will be removed in a
+     *     future major version of the library. Use the static method `update`
+     *     on the resource instead.
+     */
+    public function save($opts = null)
+    {
+        $params = $this->serializeParameters();
+        if (\count($params) > 0) {
+            $url = $this->instanceUrl();
+            list($response, $opts) = $this->_request('post', $url, $params, $opts, ['save']);
+            $this->refreshFrom($response, $opts);
+        }
+
+        return $this;
     }
 }

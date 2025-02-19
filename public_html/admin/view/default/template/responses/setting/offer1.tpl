@@ -15,9 +15,9 @@
 		   <div class="center">
 		    <?php if ($back) { ?>
 			<div class="btn-group">
-			    <a class="btn btn-white step_back" href="<?php echo $back; ?>">
+			    <button class="btn btn-white step_back" data-href="<?php echo $back; ?>">
 			        <i class="fa fa-arrow-left"></i> <?php echo $button_back; ?>
-			    </a>
+			    </button>
 			</div>		    
 		    <?php } ?>
 			<button id="offer1_next" class="btn btn-primary">
@@ -28,5 +28,3 @@
 	</div>
 	</form>
 </div>
-
-<?php include('quick_start_js.tpl'); ?>

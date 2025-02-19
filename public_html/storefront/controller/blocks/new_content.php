@@ -34,10 +34,10 @@ class ControllerBlocksNewContent extends AController
         //build dynamic content (pages) links
         $this->loadModel('catalog/content');
 
-        $this->data['contents'] = $this->model_catalog_content->getContents(
+        $this->data['contents'] = $this->model_catalog_content->filterContents(
            [
-               'new' => true,
-               'limit' => 10
+               'sort' => 'date-DESC',
+               'limit' => $this->config->get('config_content_limit') ?: 8
            ]
         );
         foreach ($this->data['contents'] as &$child) {

@@ -152,4 +152,20 @@
 		<key>page_builder_tab_title</key>
 		<value><![CDATA[To start building a page, please create the layout first.]]></value>
 	</definition>
+	<definition>
+		<key>page_builder_text_already_published</key>
+		<value><![CDATA[This page is already published by Page Builder.]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_text_can_try</key>
+		<value><![CDATA[...or this page can be customized with Page Builder.]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_button_click_to_edit_page</key>
+		<value><![CDATA[Click to Edit page]]></value>
+	</definition>
+	<definition>
+		<key>page_builder_button_click_to_try</key>
+		<value><![CDATA[Click to Try]]></value>
+	</definition>
 </definitions>

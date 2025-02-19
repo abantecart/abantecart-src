@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details is bundled with this package in the file LICENSE.txt.
@@ -35,11 +35,14 @@ class ControllerPagesExtensionStripeSettings extends AController
         'stripe_sk_live',
         'stripe_pk_test',
         'stripe_sk_test',
-        'stripe_settlement'
+        'stripe_settlement',
+        'stripe_webhook_secret_payment_intent_succeeded',
+        'stripe_webhook_url_payment_intent_succeeded'
     ];
 
     public function main()
     {
+
         $this->request->get['extension'] = 'stripe';
         $this->loadLanguage('stripe/stripe');
         $this->document->setTitle($this->language->get('stripe_name'));
@@ -83,7 +86,8 @@ class ControllerPagesExtensionStripeSettings extends AController
                         'stripe_pk_live' => '',
                         'stripe_sk_live' => '',
                         'stripe_sk_test' => '',
-                        'stripe_pk_test' => ''
+                        'stripe_pk_test' => '',
+                        'stripe_webhook_secret_payment_intent_succeeded' => '',
                     ]
                 );
                 $this->session->data['success'] = $this->language->get('text_disconnect_success');
@@ -142,11 +146,7 @@ class ControllerPagesExtensionStripeSettings extends AController
         );
 
         foreach ($this->fields as $f) {
-            if (isset ($this->request->post [$f])) {
-                $this->data[$f] = $this->request->post[$f];
-            } else {
-                $this->data[$f] = $this->config->get($f);
-            }
+           $this->data[$f] = $this->request->post[$f] ?? $this->config->get($f);
         }
 
         $this->data['disconnect'] = $this->html->getSecureURL(
@@ -223,6 +223,39 @@ class ControllerPagesExtensionStripeSettings extends AController
             ]
         );
 
+        $this->data['webhook_howto_text'] = $this->language->get('stripe_webhook_howto_text');
+
+        $this->data['stripe_entry_endpoint_url'] = $this->language->get('stripe_entry_endpoint_url');
+        $this->data['stripe_entry_endpoint_signing_secret'] = $this->language->get('stripe_entry_endpoint_signing_secret');
+        $this->data['webhook_howto_text'] = $this->language->get('stripe_webhook_howto_text');
+        $supportedEvents = [
+            'payment_intent_succeeded' => 'webhookPaymentIntentSucceeded',
+        ];
+        foreach ($supportedEvents as $event => $method) {
+            $fName = 'stripe_webhook_url_'.$event;
+
+            $this->data['form']['fields'][$fName] = $form->getFieldHtml(
+                [
+                    'type' => 'input',
+                    'name' => $fName,
+                    'value' => $this->html->getCatalogURL('r/extension/stripe/'.$method, '', '', true),
+                    'attr' => 'readonly disabled',
+                ]
+            );
+            $this->data[$fName] = $this->language->get('stripe_entry_endpoint_url');
+
+            $fName = 'stripe_webhook_secret_'.$event;
+            $this->data['form']['fields'][$fName] = $form->getFieldHtml(
+                [
+                    'type' => 'input',
+                    'name' => $fName,
+                    'value' => $this->data[$fName],
+                    'placeholder' => 'whsec_*************',
+                ]
+            );
+            $this->data[$fName] = $this->language->get('stripe_entry_endpoint_signing_secret');
+        }
+
         //load tabs controller
         $this->data['groups'][] = 'additional_settings';
         $this->data['link_additional_settings'] = $this->data['action'];
@@ -241,7 +274,7 @@ class ControllerPagesExtensionStripeSettings extends AController
         $this->processTemplate('pages/extension/stripe_settings.tpl');
     }
 
-    private function _validate()
+    protected function _validate()
     {
         if (!$this->user->canModify('stripe/stripe')) {
             $this->error['warning'] = $this->language->get('error_permission');

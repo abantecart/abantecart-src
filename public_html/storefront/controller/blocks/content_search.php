@@ -36,7 +36,7 @@ class ControllerBlocksContentSearch extends AController
             [
                 'type'        => 'input',
                 'name'        => 'filter_keyword',
-                'value'       => $this->request->get['keyword'] ?? $this->language->get('text_keyword'),
+                'value'       => $this->request->get['keyword'],
                 'placeholder' => $this->language->get('text_keyword'),
 
             ]

@@ -14,12 +14,12 @@
 		<section>
 			<?php echo $header; ?>
 			<div class="contentpanel">
-			<?php echo $content; ?>
-			</div><!-- / contentpanel -->
+			    <?php echo $content; ?>
+			</div>
 			<?php echo $footer; ?>
 		</section>
-	</div><!-- / Container wrapper -->
-</div><!-- /Page wrapper -->
+	</div>
+</div>
 
 <?php echo $this->getHookVar('hk_page_footer'); ?>
 

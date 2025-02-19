@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -64,7 +64,7 @@ class ControllerResponsesCommonCommon extends AController
 
         $message_id = $this->request->get['message_id'];
 
-        $result = array();
+        $result = [];
         if (has_value($message_id) && $this->messages->markViewedANT($message_id, '*')) {
             $result['success'] = true;
         }
@@ -106,11 +106,11 @@ class ControllerResponsesCommonCommon extends AController
         //skip first time check
         if (!$last_time_check) {
             $this->session->data['system_check_last_time'] = time();
-            return null;
+            return;
         }
 
         if (time() - $last_time_check < $this->system_check_period) {
-            return null;
+            return;
         }
 
         $message_link = $this->html->getSecureURL('tool/message_manager');
@@ -121,13 +121,13 @@ class ControllerResponsesCommonCommon extends AController
         list($system_messages, $counts) = run_system_check($this->registry, 'log');
         if (count($system_messages) > 0) {
             if ($counts['error_count']) {
-                $result ['error'] = sprintf($this->language->get('text_system_error'), $message_link, $logs_link);
+                $this->data['result']['error'] = sprintf($this->language->get('text_system_error'), $message_link, $logs_link);
             }
             if ($counts['warning_count']) {
-                $result ['warning'] = sprintf($this->language->get('text_system_warning'), $message_link);
+                $this->data['result']['warning'] = sprintf($this->language->get('text_system_warning'), $message_link);
             }
             if ($counts['notice_count']) {
-                $result ['notice'] = sprintf($this->language->get('text_system_notice'), $message_link);
+                $this->data['result']['notice'] = sprintf($this->language->get('text_system_notice'), $message_link);
             }
         }
         $this->session->data['system_check_last_time'] = time();
@@ -137,6 +137,35 @@ class ControllerResponsesCommonCommon extends AController
 
         $this->load->library('json');
         $this->response->addJSONHeader();
-        $this->response->setOutput(AJson::encode($result));
+        $this->response->setOutput(AJson::encode($this->data['result']));
+    }
+
+    public function getDescriptionHistory()
+    {
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+
+        $get = $this->request->get;
+
+        if (isset($get['table_name']) && $get['table_name']) {
+            $output['result'] = $this->language->getDescriptionHistory(
+                $get['table_name'],
+                $get['record_id'],
+                $get['field'],
+                $this->language->getContentLanguageID()
+            );
+        } else {
+            $output['error'] = $this->language->get('error_required');
+        }
+
+        $this->view->batchAssign($get);
+        $this->view->batchAssign($output);
+        $this->view->assign('title', $this->language->get('text_data_history').' - '.$get['field']);
+        $this->processTemplate('responses/common/fields_history.tpl');
+
+        $this->load->library('json');
+        $this->response->addJSONHeader();
+        $this->response->setOutput(AJson::encode($output));
+
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 }

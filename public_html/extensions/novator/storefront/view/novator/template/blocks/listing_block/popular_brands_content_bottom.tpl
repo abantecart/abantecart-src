@@ -5,7 +5,7 @@
             <div class="col-12">
                 <?php if ( $block_framed ) { ?>
                 <div class="block_frame block_frame_<?php echo $block_details['block_txt_id']; ?>" id="block_frame_<?php echo $block_details['block_txt_id'] . '_' . $block_details['instance_id'] ?>">
-                    <h2 class="h4 text-center text-warning"><?php echo $heading_title; ?></h2>
+                    <h4 class="h4 text-center text-warning"><?php echo $heading_title; ?></h4>
                     <h6 class="mb-4"><?php echo $heading_subtitle; ?></h6>
                 </div>
                 <?php } ?>

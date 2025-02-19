@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Store Hours]]></value>
+	</definition>
+	<definition>
+		<key>closed</key>
+		<value><![CDATA[Closed]]></value>
+	</definition>
+	<definition>
+		<key>open</key>
+		<value><![CDATA[Open]]></value>
+	</definition>
+	<definition>
+		<key>sunday</key>
+		<value><![CDATA[Sunday]]></value>
+	</definition>
+	<definition>
+		<key>monday</key>
+		<value><![CDATA[Monday]]></value>
+	</definition>
+	<definition>
+		<key>tuesday</key>
+		<value><![CDATA[Tuesday]]></value>
+	</definition>
+	<definition>
+		<key>wednesday</key>
+		<value><![CDATA[Wednesday]]></value>
+	</definition>
+	<definition>
+		<key>thursday</key>
+		<value><![CDATA[Thursday]]></value>
+	</definition>
+	<definition>
+		<key>friday</key>
+		<value><![CDATA[Friday]]></value>
+	</definition>
+	<definition>
+		<key>saturday</key>
+		<value><![CDATA[Saturday]]></value>
+	</definition>
+</definitions>

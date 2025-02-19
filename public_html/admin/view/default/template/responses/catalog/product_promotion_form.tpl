@@ -17,24 +17,10 @@
                 if($name == 'price_prefix'){
                     continue;
                 }
-                //Logic to calculate fields width
-                $widthclasses = "col-sm-7";
-                if($name == 'price'){
-                    $widthclasses = "col-sm-3";
-                }elseif ( is_int(stripos($field->style, 'large-field')) ) {
-                    $widthclasses = "col-sm-7";
-                } else if ( is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date')) ) {
-                    $widthclasses = "col-sm-5";
-                } else if ( is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch')) ) {
-                    $widthclasses = "col-sm-3";
-                } else if ( is_int(stripos($field->style, 'tiny-field')) ) {
-                    $widthclasses = "col-sm-2";
-                }
-                $widthclasses .= " col-xs-12";
-?>
+                ?>
 			<div class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
 				<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
-				<div class="input-group afield <?php echo $widthclasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
+				<div class="input-group afield col-sm-5 <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
 					<?php
                     if($name == 'price'){
                         echo '<span class="input-group-btn" style="width: 55px;">';
@@ -45,9 +31,7 @@
                     echo $field;
                 ?>
 				</div>
-				<?php if (is_array($error[$name]) && !empty($error[$name])) { ?>
-				<span class="help-block field_err"><?php echo $error[$name]; ?></span>
-				<?php } else if (!empty($error[$name])) { ?>
+				<?php if($error[$name]) { ?>
 				<span class="help-block field_err"><?php echo $error[$name]; ?></span>
 				<?php } ?>
 			</div>

@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2023 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -30,15 +29,14 @@ class ControllerPagesCatalogProductLayout extends AController
     {
         $page_controller = 'pages/product/product';
         $page_key_param = 'product_id';
-        $product_id = (int) $this->request->get['product_id'];
-        $page_url = $this->html->getSecureURL('catalog/product_layout', '&product_id='.$product_id);
+        $product_id = (int)$this->request->get['product_id'];
+        $page_url = $this->html->getSecureURL('catalog/product_layout', '&product_id=' . $product_id);
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadLanguage('catalog/product');
         $this->loadLanguage('design/layout');
-        $this->document->setTitle($this->language->get('heading_title'));
         $this->loadModel('catalog/product');
 
         if (has_value($product_id) && $this->request->is_GET()) {
@@ -52,11 +50,10 @@ class ControllerPagesCatalogProductLayout extends AController
 
         $this->data['help_url'] = $this->gen_help_url('product_layout');
         $this->data['product_description'] = $this->model_catalog_product->getProductDescriptions($product_id);
-        $this->data['heading_title'] = $this->language->get('text_edit')
-                .' '
-                .$this->language->get('text_product')
-                .' - '
-                .$this->data['product_description'][$this->language->getContentLanguageID()]['name'];
+        $this->data['heading_title'] = $this->language->get('text_design')
+            . ' - '
+            . $this->data['product_description'][$this->language->getContentLanguageID()]['name'];
+        $this->document->setTitle($this->data['heading_title']);
 
         // Alert messages
         if (isset($this->session->data['warning'])) {
@@ -78,13 +75,13 @@ class ControllerPagesCatalogProductLayout extends AController
         $this->document->addBreadcrumb(
             [
                 'href'      => $this->html->getSecureURL('catalog/product'),
-                'text'      => $this->language->get('heading_title'),
+                'text'      => $this->language->get('heading_title', 'catalog/product'),
                 'separator' => ' :: ',
             ]
         );
         $this->document->addBreadcrumb(
             [
-                'href'      => $this->html->getSecureURL('catalog/product/update', '&product_id='.$product_id),
+                'href'      => $this->html->getSecureURL('catalog/product/update', '&product_id=' . $product_id),
                 'text'      => $this->data['heading_title'],
                 'separator' => ' :: ',
             ]
@@ -92,7 +89,7 @@ class ControllerPagesCatalogProductLayout extends AController
         $this->document->addBreadcrumb(
             [
                 'href'      => $page_url,
-                'text'      => $this->language->get('tab_layout'),
+                'text'      => $this->language->get('text_design'),
                 'separator' => ' :: ',
                 'current'   => true,
             ]
@@ -106,25 +103,25 @@ class ControllerPagesCatalogProductLayout extends AController
 
         $this->addChild('pages/catalog/product_summary', 'summary_form', 'pages/catalog/product_summary.tpl');
 
-        $tmpl_id = $this->request->get['tmpl_id'] ?: $this->config->get('config_storefront_template');
-        $layout = new ALayoutManager($tmpl_id);
+        $templateTxtId = $this->request->get['tmpl_id'] ?: $this->config->get('config_storefront_template');
+        $layout = new ALayoutManager($templateTxtId);
         //get existing page layout or generic
         $page_layout = $layout->getPageLayoutIDs($page_controller, $page_key_param, $product_id);
-        $page_id = $page_layout['page_id'];
-        $layout_id = $page_layout['layout_id'];
+        $pageId = $page_layout['page_id'];
+        $layoutId = $page_layout['layout_id'];
 
 
         $params = [
             'product_id' => $product_id,
-            'page_id'    => $page_id,
-            'layout_id'  => $layout_id,
-            'tmpl_id'    => $tmpl_id,
+            'page_id'    => $pageId,
+            'layout_id'  => $layoutId,
+            'tmpl_id'    => $templateTxtId,
         ];
-        $url = '&'.$this->html->buildURI($params);
+        $url = '&' . $this->html->buildURI($params);
 
         // get templates
         $this->data['templates'] = [];
-        $directories = glob(DIR_STOREFRONT.'view/*', GLOB_ONLYDIR);
+        $directories = glob(DIR_STOREFRONT . 'view/*', GLOB_ONLYDIR);
         foreach ($directories as $directory) {
             $this->data['templates'][] = basename($directory);
         }
@@ -172,19 +169,16 @@ class ControllerPagesCatalogProductLayout extends AController
         $this->data['current_url'] = $this->html->getSecureURL('catalog/product_layout', $url);
 
         // insert external form of layout
-        $layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
+        $layout = new ALayoutManager($templateTxtId, $pageId, $layoutId);
 
         $layoutForm = $this->dispatch('common/page_layout', [$layout]);
-        $this->data['layoutform'] = $layoutForm->dispatchGetOutput();
+        $this->data['block_layout_form'] = $layoutForm->dispatchGetOutput();
 
         //build pages and available layouts for cloning
         $this->data['pages'] = $layout->getAllPages();
-        $av_layouts = ["0" => $this->language->get('text_select_copy_layout')];
-        foreach ($this->data['pages'] as $page) {
-            if ($page['layout_id'] != $layout_id) {
-                $av_layouts[$page['layout_id']] = $page['layout_name'];
-            }
-        }
+        $avLayouts = ["0" => $this->language->get('text_select_copy_layout')]
+            + array_column($this->data['pages'], 'layout_name','layout_id');
+        unset($avLayouts[$layoutId]);
 
         $form = new AForm('HT');
         $form->setForm(
@@ -196,9 +190,9 @@ class ControllerPagesCatalogProductLayout extends AController
         $this->data['cp_layout_select'] = $form->getFieldHtml(
             [
                 'type'    => 'selectbox',
-                'name'    => 'layout_change',
+                'name'    => 'source_layout_id',
                 'value'   => '',
-                'options' => $av_layouts,
+                'options' => $avLayouts,
             ]
         );
 
@@ -213,7 +207,7 @@ class ControllerPagesCatalogProductLayout extends AController
         if ($this->config->get('config_embed_status')) {
             $this->data['embed_url'] = $this->html->getSecureURL(
                 'common/do_embed/product',
-                '&product_id='.$this->request->get['product_id']
+                '&product_id=' . $this->request->get['product_id']
             );
         }
 
@@ -233,9 +227,9 @@ class ControllerPagesCatalogProductLayout extends AController
 
         $post = $this->request->post;
         $pageData = [
-          'controller' => 'pages/product/product',
-          'key_param'  => 'product_id',
-          'key_value'  => (int)$post['product_id'],
+            'controller' => 'pages/product/product',
+            'key_param'  => 'product_id',
+            'key_value'  => (int)$post['product_id'],
         ];
 
         $this->loadLanguage('catalog/product');
@@ -255,7 +249,7 @@ class ControllerPagesCatalogProductLayout extends AController
             $pageData['page_descriptions'] = $productInfo;
         }
 
-        if(saveOrCreateLayout($post['tmpl_id'], $pageData, $post)){
+        if (saveOrCreateLayout($post['tmpl_id'], $pageData, $post)) {
             $this->session->data['success'] = $this->language->get('text_success_layout');
         }
 
@@ -263,7 +257,7 @@ class ControllerPagesCatalogProductLayout extends AController
         redirect(
             $this->html->getSecureURL(
                 'catalog/product_layout',
-                '&product_id='.$pageData['key_value'].'&tmpl_id='.$post['tmpl_id']
+                '&product_id=' . $pageData['key_value'] . '&tmpl_id=' . $post['tmpl_id']
             )
         );
     }

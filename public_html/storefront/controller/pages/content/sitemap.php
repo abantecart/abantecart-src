@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -25,25 +25,25 @@ class ControllerPagesContentSitemap extends AController
 {
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->document->setTitle($this->language->get('heading_title'));
-
         $this->document->resetBreadcrumbs();
-
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getHomeURL(),
-            'text'      => $this->language->get('text_home'),
-            'separator' => false,
-        ));
-
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getNonSecureURL('content/sitemap'),
-            'text'      => $this->language->get('heading_title'),
-            'separator' => $this->language->get('text_separator'),
-        ));
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getHomeURL(),
+                'text'      => $this->language->get('text_home'),
+                'separator' => false,
+            ]
+        );
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getNonSecureURL('content/sitemap'),
+                'text'      => $this->language->get('heading_title'),
+                'separator' => $this->language->get('text_separator'),
+            ]
+        );
 
         $this->loadModel('catalog/category');
         $this->loadModel('tool/seo_url');
@@ -75,22 +75,21 @@ class ControllerPagesContentSitemap extends AController
     protected function _buildCategoriesTree($parent_id, $current_path = '')
     {
         $output = '';
-
         $results = $this->model_catalog_category->getCategories((int)$parent_id);
-
         if ($results) {
             $output .= '<ul class="list-group">';
         }
-
         foreach ($results as $result) {
             if (!$current_path) {
                 $new_path = $result['category_id'];
             } else {
-                $new_path = $current_path.'_'.$result['category_id'];
+                $new_path = $current_path . '_' . $result['category_id'];
             }
 
-            $output .= '<li class="list-group-item"><a href="'.$this->html->getSEOURL('product/category', '&path='.$new_path, true).'">'.$result['name'].'</a>';
-            $output .= $this->_buildCategoriesTree($result['category_id'], $new_path);
+            $output .= '<li class="list-group-item"><a href="'
+                . $this->html->getSEOURL('product/category', '&path=' . $new_path, true) . '">' . $result['name']
+                . '</a>'
+                . $this->_buildCategoriesTree($result['category_id'], $new_path);
             $output .= '</li>';
         }
         if ($results) {
@@ -101,7 +100,7 @@ class ControllerPagesContentSitemap extends AController
 
     protected function _buildContentTree($contents, $parent_id = 0, $deep = 0)
     {
-        $output = array();
+        $output = [];
         if (!is_array($contents)) {
             return $output;
         }
@@ -110,14 +109,17 @@ class ControllerPagesContentSitemap extends AController
             if ($content['parent_content_id'] != $parent_id) {
                 continue;
             }
-
-            $output[] = array(
-                'title' => str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $deep).$content['title'],
-                'href'  => $this->html->getSEOURL('content/content', '&content_id='.$content['content_id'], true),
-            );
+            $httpQuery = ['content_id' => $content['content_id']];
+            //add parent_id for better SEO-URL
+            if ($content['parent_content_id']) {
+                $httpQuery['parent_id'] = $content['parent_content_id'];
+            }
+            $output[] = [
+                'title' => str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $deep) . $content['title'],
+                'href'  => $this->html->getSeoUrl('content/content', '&' . http_build_query($httpQuery), true)
+            ];
             $output = array_merge($output, $this->_buildContentTree($contents, $content['content_id'], ($deep + 1)));
         }
         return $output;
     }
-
 }

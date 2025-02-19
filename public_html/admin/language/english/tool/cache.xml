@@ -50,7 +50,7 @@
 	</definition>
 	<definition>
 		<key>text_clear_all_cache</key>
-		<value><![CDATA[Clear All Cache]]></value>
+		<value><![CDATA[Clear all data]]></value>
 	</definition>
 	<definition>
 		<key>desc_configuration</key>
@@ -103,5 +103,13 @@
 	<definition>
 		<key>desc_install_upgrade_history</key>
 		<value><![CDATA[Clear All Install/Upgrade History]]></value>
+	</definition>
+	<definition>
+		<key>text_edits_history</key>
+		<value><![CDATA[Text Edits History]]></value>
+	</definition>
+	<definition>
+		<key>desc_edits_history</key>
+		<value><![CDATA[Clear All Text Edits History]]></value>
 	</definition>
 </definitions>

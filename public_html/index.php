@@ -21,7 +21,7 @@
  */
 
 // Required PHP Version
-const MIN_PHP_VERSION = '8.1.0';
+const MIN_PHP_VERSION = '8.2.0';
 if (version_compare(phpversion(), MIN_PHP_VERSION, '<')) {
     die(MIN_PHP_VERSION.'+ Required for AbanteCart to work properly! Please contact your system administrator or host service provider.');
 }
@@ -50,8 +50,10 @@ if(is_file(DIR_ROOT.'/system/config.php')) {
 }
 // New Installation
 if (!defined('DB_DATABASE')) {
-    header('Location: install/index.php');
-    exit;
+    if(is_dir(DIR_ROOT.'/install')) {
+        header('Location: install/index.php');
+    }
+    exit('Fatal Error: configuration not found!');
 }
 
 // Load all initial set up
@@ -103,7 +105,10 @@ $registry->get('response')->output();
 
 if (IS_ADMIN === true && $registry->get('config')->get('config_maintenance') && $registry->get('user')->isLogged()) {
     $user_id = $registry->get('user')->getId();
-    startStorefrontSession($user_id);
+    startStorefrontSession(
+        $user_id,
+        ['merchant_username' => $registry->get('user')->getUserName()],
+    );
 }
 
 //Show cache stats if debugging

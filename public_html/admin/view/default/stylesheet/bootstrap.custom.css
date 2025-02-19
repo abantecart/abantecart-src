@@ -345,7 +345,7 @@ h4, .h4 {
    box-shadow: none;
 }
 .btn-xs {
-    padding: 1px 8px;
+    padding: 3px 8px;
 }
 .content_language .btn-xs {
 	padding: 6px 8px;
@@ -542,6 +542,12 @@ h4, .h4 {
 
 .panel-heading .nav-tabs li a {
    color: #666;
+}
+.nav-tabs li.disabled a {
+   color: #eaeaea;
+}
+.nav-tabs li.disabled a:hover {
+   color: #e89c93;
 }
 
 .panel-heading .nav-tabs li a:hover,
@@ -884,6 +890,11 @@ h4, .h4 {
    color: #666;
 }
 
+.text-editor .nav-tabs > li > a {
+   padding-left: 10px;
+   padding-right: 10px;
+}
+
 .nav-tabs > li > a:hover {
    background: none;
    color: #333;
@@ -1204,6 +1215,5 @@ dl {
 }
 
 .open > .dropdown-menu {
-   overflow: scroll;
    max-height: 600px;
 }

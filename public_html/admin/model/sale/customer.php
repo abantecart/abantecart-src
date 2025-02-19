@@ -125,7 +125,7 @@ class ModelSaleCustomer extends Model
         $this->editCustomerNotifications($customer_id, $data);
         if ($this->dcrypt->active) {
             $data = $this->dcrypt->encrypt_data($data, 'customers');
-            $key_sql = ", key_id = '".(int) $data['key_id']."'";
+            $key_sql = ", key_id = '".(int)$data['key_id']."'";
         }
         $this->db->query(
             "UPDATE ".$this->db->table("customers")."
@@ -141,7 +141,7 @@ class ModelSaleCustomer extends Model
                 status = '".(int) $data['status']."'"
             .$key_sql.", 
                 approved = '".(int) $data['approved']."'
-            WHERE customer_id = '".(int) $customer_id."'"
+            WHERE customer_id = '".$customer_id."'"
         );
 
         if ($data['password']) {
@@ -151,8 +151,11 @@ class ModelSaleCustomer extends Model
                 SET
                     salt = '".$this->db->escape($salt_key)."', 
                     password = '".$this->db->escape(sha1($salt_key.sha1($salt_key.sha1($data['password']))))."'
-                WHERE customer_id = '".(int) $customer_id."'"
+                WHERE customer_id = '".$customer_id."'"
             );
+            //destroy all active sessions
+            $customer = new ACustomer($this->registry);
+            $customer->deleteActiveSessionsByID($customer_id);
         }
 
         if (isset($data['newsletter'])) {

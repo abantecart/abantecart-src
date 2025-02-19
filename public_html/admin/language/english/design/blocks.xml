@@ -154,11 +154,11 @@
 	</definition>
 	<definition>
 		<key>text_categories</key>
-		<value><![CDATA[Categories]]></value>
+		<value><![CDATA[All Categories]]></value>
 	</definition>
 	<definition>
 		<key>text_manufacturers</key>
-		<value><![CDATA[Brands]]></value>
+		<value><![CDATA[All Brands]]></value>
 	</definition>
 	<definition>
 		<key>text_featured</key>
@@ -182,15 +182,19 @@
 	</definition>
 	<definition>
 		<key>text_custom_products</key>
-		<value><![CDATA[Custom Products]]></value>
+		<value><![CDATA[Selected Products]]></value>
 	</definition>
 	<definition>
 		<key>text_custom_categories</key>
-		<value><![CDATA[Custom Categories]]></value>
+		<value><![CDATA[Selected Categories]]></value>
 	</definition>
 	<definition>
 		<key>text_custom_manufacturers</key>
-		<value><![CDATA[Custom Brands]]></value>
+		<value><![CDATA[Selected Brands]]></value>
+	</definition>
+	<definition>
+		<key>text_selected_content</key>
+		<value><![CDATA[Selected Content]]></value>
 	</definition>
 	<definition>
 		<key>text_html_block</key>
@@ -263,5 +267,9 @@
 	<definition>
 		<key>entry_collection_resource_type</key>
 		<value><![CDATA[Selected Collection:]]></value>
+	</definition>
+	<definition>
+		<key>text_top_level</key>
+		<value><![CDATA[Top Level]]></value>
 	</definition>
 </definitions>

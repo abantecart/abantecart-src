@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details is bundled with this package in the file LICENSE.txt.
@@ -98,7 +98,6 @@ class ModelExtensionDefaultFedex extends Model
                     if ($product['ship_individually']) {
                         $fixed_cost = $fixed_cost * $product['quantity'];
                     }
-                    $fixed_cost = $fixed_cost;
                     $total_fixed_cost += $fixed_cost;
                 } else {
                     //case of shipping individually with no fixed price
@@ -202,11 +201,7 @@ class ModelExtensionDefaultFedex extends Model
         //Quote Type Residential or commercial
         $fedex_quote = $this->config->get('default_fedex_quote_type');
 
-        if ($fedex_quote == 'residential') {
-            $fedex_residential = true;
-        } else {
-            $fedex_residential = false;
-        }
+        $fedex_residential = $fedex_quote == 'residential';
 
         $fedex_addr = $this->config->get('default_fedex_address');
         $fedex_city = $this->config->get('default_fedex_city');
@@ -216,12 +211,18 @@ class ModelExtensionDefaultFedex extends Model
         $fedex_add_chrg = $this->config->get('default_fedex_add_chrg');
 
         if (strlen($fedex_state) > 2) {
-            $this->messages->saveError('Fedex US error!',
-                'Fedex US Shipping Extension won\'t work because state code length must be 2 letters. Please check settings form on #admin#rt=extension/extensions/edit&extension=default_fedex');
+            $this->messages->saveError(
+                'Fedex US error!',
+                'Fedex US Shipping Extension won\'t work because state code length must be 2 letters. '
+                .'Please check settings form on #admin#rt=extension/extensions/edit&extension=default_fedex'
+            );
         }
         if (strlen($fedex_country) != 2) {
-            $this->messages->saveError('Fedex US error!',
-                'Fedex US Shipping Extension won\'t work because country code length must be 2 letters. Please check settings form on #admin#rt=extension/extensions/edit&extension=default_fedex');
+            $this->messages->saveError(
+                'Fedex US error!',
+                'Fedex US Shipping Extension won\'t work because country code length must be 2 letters. '
+                .'Please check settings form on #admin#rt=extension/extensions/edit&extension=default_fedex'
+            );
         }
 
         //Recipient Info
@@ -234,7 +235,6 @@ class ModelExtensionDefaultFedex extends Model
         $express_saver_quote = 0;
         $total_volume = $total_weight = $total_price = 0;
 
-        $length_class_id = $this->length->getClassID('in');
         if ($products) {
             //build accumulative package volume based on all products we have
             foreach ($products as $product) {
@@ -246,20 +246,20 @@ class ModelExtensionDefaultFedex extends Model
                 $product_weight = max($product_weight, 0.1);
                 $total_weight += $product_weight * $product['quantity'];
 
-                $product_width = $this->length->convertByID(
+                $product_width = $this->length->convert(
                     $product['length'],
                     $product['length_class'],
-                    $length_class_id
+                    'in'
                 );
-                $product_length = $this->length->convertByID(
+                $product_length = $this->length->convert(
                     $product['width'],
                     $product['length_class'],
-                    $length_class_id
+                    'in'
                 );
-                $product_height = $this->length->convertByID(
+                $product_height = $this->length->convert(
                     $product['height'],
                     $product['length_class'],
-                    $length_class_id
+                    'in'
                 );
 
                 $total_volume += $product_length * $product_width * $product_height * $product['quantity'] * 0.00057870;
@@ -275,7 +275,9 @@ class ModelExtensionDefaultFedex extends Model
                 ],
             ];
             $request['ClientDetail'] = ['AccountNumber' => $fedex_account, 'MeterNumber' => $fedex_meter_id];
-            $request['TransactionDetail'] = ['CustomerTransactionId' => ' *** Rate Request v9 using PHP ***'];
+            $request['TransactionDetail'] = [
+                'CustomerTransactionId' => ' *** Rate Request v9 using AbanteCart v'.VERSION.' ***'
+            ];
             $request['Version'] = [
                 'ServiceId'    => 'crs',
                 'Major'        => '9',
@@ -338,10 +340,6 @@ class ModelExtensionDefaultFedex extends Model
             ];
 
             try {
-                if (setEndpoint('changeEndpoint')) {
-                    $newLocation = $client->__setLocation(setEndpoint('endpoint'));
-                }
-
                 $response = $client->getRates($request);
                 if ($response->HighestSeverity != 'FAILURE' && $response->HighestSeverity != 'ERROR') {
                     if ($response->RateReplyDetails && count((array)$response->RateReplyDetails) > 1) {
@@ -354,13 +352,12 @@ class ModelExtensionDefaultFedex extends Model
                                     ","
                                 );
                             } else {
-                                $rate =
-                                    number_format(
-                                        $rateReply->RatedShipmentDetails[0]->ShipmentRateDetail->TotalNetCharge->Amount,
-                                        2,
-                                        ".",
-                                        ","
-                                    );
+                                $rate = number_format(
+                                    $rateReply->RatedShipmentDetails[0]->ShipmentRateDetail->TotalNetCharge->Amount,
+                                    2,
+                                    ".",
+                                    ","
+                                );
                             }
 
                             if ($rateReply->ServiceType == 'FEDEX_GROUND'
@@ -392,21 +389,19 @@ class ModelExtensionDefaultFedex extends Model
                     } else {
                         $rateReply = $response->RateReplyDetails;
                         if (is_object($rateReply->RatedShipmentDetails)) {
-                            $rate =
-                                number_format(
-                                    $rateReply->RatedShipmentDetails->ShipmentRateDetail->TotalNetCharge->Amount,
-                                    2,
-                                    ".",
-                                    ","
-                                );
+                            $rate = number_format(
+                                $rateReply->RatedShipmentDetails->ShipmentRateDetail->TotalNetCharge->Amount,
+                                2,
+                                ".",
+                                ","
+                            );
                         } else {
-                            $rate =
-                                number_format(
-                                    $rateReply->RatedShipmentDetails[0]->ShipmentRateDetail->TotalNetCharge->Amount,
-                                    2,
-                                    ".",
-                                    ","
-                                );
+                            $rate = number_format(
+                                $rateReply->RatedShipmentDetails[0]->ShipmentRateDetail->TotalNetCharge->Amount,
+                                2,
+                                ".",
+                                ","
+                            );
                         }
 
                         if ($rateReply->ServiceType == 'FEDEX_GROUND'
@@ -461,8 +456,11 @@ class ModelExtensionDefaultFedex extends Model
                 'title'        => 'Fedex First Overnight',
                 'cost'         => $this->currency->convert($first_overnight_quote, 'USD', $this->currency->getCode()),
                 'tax_class_id' => 0,
-                'text'         => $this->currency->format($this->currency->convert($first_overnight_quote, 'USD',
-                    $this->currency->getCode()),'',1),
+                'text'         => $this->currency->format(
+                    $this->currency->convert($first_overnight_quote, 'USD',$this->currency->getCode()),
+                    '',
+                    1
+                ),
             ];
         }
 
@@ -476,8 +474,11 @@ class ModelExtensionDefaultFedex extends Model
                                     $this->currency->getCode()
                                 ),
                 'tax_class_id' => 0,
-                'text'         => $this->currency->format($this->currency->convert($priority_overnight_quote, 'USD',
-                    $this->currency->getCode()),'',1),
+                'text'         => $this->currency->format(
+                    $this->currency->convert($priority_overnight_quote, 'USD',$this->currency->getCode()),
+                    '',
+                    1
+                ),
             ];
         }
 
@@ -486,11 +487,17 @@ class ModelExtensionDefaultFedex extends Model
             $quote_data['FEDEX_STANDARD_OVERNIGHT'] = [
                 'id'           => 'default_fedex.'.'FEDEX_STANDARD_OVERNIGHT',
                 'title'        => 'Fedex Standard Overnight',
-                'cost'         => $this->currency->convert($standard_overnight_quote, 'USD',
-                    $this->config->get('config_currency')),
+                'cost'         => $this->currency->convert(
+                    $standard_overnight_quote,
+                    'USD',
+                    $this->config->get('config_currency')
+                ),
                 'tax_class_id' => 0,
-                'text'         => $this->currency->format($this->currency->convert($standard_overnight_quote, 'USD',
-                    $this->currency->getCode()),'',1),
+                'text'         => $this->currency->format(
+                    $this->currency->convert($standard_overnight_quote, 'USD',$this->currency->getCode()),
+                    '',
+                    1
+                ),
             ];
         }
 
@@ -501,8 +508,11 @@ class ModelExtensionDefaultFedex extends Model
                 'title'        => 'Fedex 2 Day',
                 'cost'         => $this->currency->convert($two_day_quote, 'USD', $this->config->get('config_currency')),
                 'tax_class_id' => 0,
-                'text'         => $this->currency->format($this->currency->convert($two_day_quote, 'USD',
-                    $this->currency->getCode()),'',1),
+                'text'         => $this->currency->format(
+                    $this->currency->convert($two_day_quote, 'USD',$this->currency->getCode()),
+                    '',
+                    1
+                ),
             ];
         }
 
@@ -511,7 +521,11 @@ class ModelExtensionDefaultFedex extends Model
             $quote_data['FEDEX_EXPRESS_SAVER'] = [
                 'id'           => 'default_fedex.'.'FEDEX_EXPRESS_SAVER',
                 'title'        => 'Fedex Express Saver',
-                'cost'         => $this->currency->convert($express_saver_quote, 'USD', $this->config->get('config_currency')),
+                'cost'         => $this->currency->convert(
+                    $express_saver_quote,
+                    'USD',
+                    $this->config->get('config_currency')
+                ),
                 'tax_class_id' => 0,
                 'text'         => $this->currency->format(
                     $this->currency->convert($express_saver_quote, 'USD', $this->currency->getCode()),
@@ -535,7 +549,6 @@ class ModelExtensionDefaultFedex extends Model
                 ),
             ];
         }
-
         return ['quote_data' => $quote_data, 'error_msg' => $error_msg];
     }
 

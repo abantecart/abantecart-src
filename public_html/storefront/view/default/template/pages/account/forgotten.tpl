@@ -26,7 +26,7 @@ if ($error) { ?>
         <?php
         foreach ( $form['fields'] as $field_name => $field) { ?>
             <div class="mb-3 row">
-                <label for="<?php echo $field->element_id?>" class="text-nowrap col-sm-2 col-form-label me-2"><?php echo ${'entry_'.$field_name}; ?></label>
+                <label for="<?php echo $field->element_id?>" class="text-wrap col-sm-2 col-form-label me-2"><?php echo ${'entry_'.$field_name}; ?></label>
                 <div class="col-sm-6 h-100">
                     <?php echo $field; ?>
                 </div>

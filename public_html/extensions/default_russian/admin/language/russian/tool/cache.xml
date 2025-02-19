@@ -104,4 +104,12 @@
 		<key>desc_install_upgrade_history</key>
 		<value><![CDATA[Почистить историю обновлений]]></value>
 	</definition>
+	<definition>
+		<key>text_edits_history</key>
+		<value><![CDATA[История редактирования]]></value>
+	</definition>
+	<definition>
+		<key>desc_edits_history</key>
+		<value><![CDATA[Очистить историю редактирования]]></value>
+	</definition>
 </definitions>

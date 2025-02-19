@@ -5,11 +5,15 @@
 		<value><![CDATA[Buscar]]></value>
 	</definition>
 	<definition>
-	  <key>text_keyword</key>
-	  <value><![CDATA[Buscar]]></value>
+		<key>text_keyword</key>
+		<value><![CDATA[Buscar]]></value>
 	</definition>
 	<definition>
-	  <key>text_advanced</key>
-	  <value><![CDATA[Búsqueda Avanzada]]></value>
+		<key>text_advanced</key>
+		<value><![CDATA[Búsqueda Avanzada]]></value>
+	</definition>
+	<definition>
+		<key>text_category</key>
+		<value><![CDATA[Todas las categorías]]></value>
 	</definition>
 </definitions>

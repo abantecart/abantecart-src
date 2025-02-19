@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -64,20 +63,32 @@ class ControllerPagesReportSaleTaxes extends AController
                 'style' => 'button1',
             ]
         );
-        $this->view->assign('js_date_format', format4Datepicker($this->language->get('date_format_short')));
         $this->data['grid_search_form']['fields']['date_start'] = $form->getFieldHtml(
             [
-                'type'    => 'input',
-                'name'    => 'date_start',
-                'default' => dateInt2Display(strtotime('-7 day')),
+                'type'       => 'date',
+                'name'       => 'date_start',
+                'value'      => dateISO2Display(
+                    $this->data['date_start'],
+                    $this->language->get('date_format_short')
+                ),
+                'default'    => dateInt2Display(strtotime('-7 day')),
+                'dateformat' => format4Datepicker(
+                    $this->language->get('date_format_short')
+                ),
             ]
         );
-
         $this->data['grid_search_form']['fields']['date_end'] = $form->getFieldHtml(
             [
-                'type'    => 'input',
-                'name'    => 'date_end',
-                'default' => dateInt2Display(time()),
+                'type'       => 'date',
+                'name'       => 'date_end',
+                'value'      => dateISO2Display(
+                    $this->data['date_end'],
+                    $this->language->get('date_format_short')
+                ),
+                'default'    => dateInt2Display(time()),
+                'dateformat' => format4Datepicker(
+                    $this->language->get('date_format_short')
+                ),
             ]
         );
 

@@ -31,23 +31,24 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
  * The response provides a facade to manipulate HttpResponses.
  *
  * @author Jérémy Derussé <jeremy@derusse.com>
- *
- * @internal
  */
-class Response
+final class Response
 {
     /**
      * @var ResponseInterface
      */
     private $httpResponse;
 
+    /**
+     * @var HttpClientInterface
+     */
     private $httpClient;
 
     /**
      * A Result can be resolved many times. This variable contains the last resolve result.
      * Null means that the result has never been resolved. Array contains material to create an exception.
      *
-     * @var bool|HttpException|NetworkException|callable|null
+     * @var bool|HttpException|NetworkException|(callable(): (HttpException|NetworkException))|null
      */
     private $resolveResult;
 
@@ -67,6 +68,8 @@ class Response
 
     /**
      * A flag that indicated that an exception has been thrown to the user.
+     *
+     * @var bool
      */
     private $didThrow = false;
 
@@ -96,11 +99,14 @@ class Response
     private $debug;
 
     /**
-     * @var array<string, string>
+     * @var array<string, class-string<HttpException>>
      */
     private $exceptionMapping;
 
-    public function __construct(ResponseInterface $response, HttpClientInterface $httpClient, LoggerInterface $logger, AwsErrorFactoryInterface $awsErrorFactory = null, EndpointCache $endpointCache = null, Request $request = null, bool $debug = false, array $exceptionMapping = [])
+    /**
+     * @param array<string, class-string<HttpException>> $exceptionMapping
+     */
+    public function __construct(ResponseInterface $response, HttpClientInterface $httpClient, LoggerInterface $logger, ?AwsErrorFactoryInterface $awsErrorFactory = null, ?EndpointCache $endpointCache = null, ?Request $request = null, bool $debug = false, array $exceptionMapping = [])
     {
         $this->httpResponse = $response;
         $this->httpClient = $httpClient;
@@ -186,7 +192,7 @@ class Response
      * @throws NetworkException
      * @throws HttpException
      */
-    final public static function wait(iterable $responses, float $timeout = null, bool $downloadBody = false): iterable
+    final public static function wait(iterable $responses, ?float $timeout = null, bool $downloadBody = false): iterable
     {
         /** @var self[] $responseMap */
         $responseMap = [];
@@ -303,6 +309,8 @@ class Response
     }
 
     /**
+     * @return array<string, list<string>>
+     *
      * @throws NetworkException
      * @throws HttpException
      */
@@ -329,6 +337,8 @@ class Response
     }
 
     /**
+     * @return array<string, mixed>
+     *
      * @throws NetworkException
      * @throws UnparsableResponse
      * @throws HttpException
@@ -407,6 +417,8 @@ class Response
 
             if ((null !== $awsCode = ($awsError ? $awsError->getCode() : null)) && isset($this->exceptionMapping[$awsCode])) {
                 $exceptionClass = $this->exceptionMapping[$awsCode];
+            } elseif (isset($this->exceptionMapping['http_status_code_' . $statusCode])) {
+                $exceptionClass = $this->exceptionMapping['http_status_code_' . $statusCode];
             } elseif (500 <= $statusCode) {
                 $exceptionClass = ServerException::class;
             } elseif (400 <= $statusCode) {
@@ -416,9 +428,7 @@ class Response
             }
 
             $httpResponse = $this->httpResponse;
-            /** @psalm-suppress MoreSpecificReturnType */
             $this->resolveResult = static function () use ($exceptionClass, $httpResponse, $awsError): HttpException {
-                /** @psalm-suppress LessSpecificReturnStatement */
                 return new $exceptionClass($httpResponse, $awsError);
             };
 
@@ -435,7 +445,6 @@ class Response
         }
 
         if (\is_callable($this->resolveResult)) {
-            /** @psalm-suppress PropertyTypeCoercion */
             $this->resolveResult = ($this->resolveResult)();
         }
 
@@ -451,7 +460,7 @@ class Response
             $context['aws_message'] = $this->resolveResult->getAwsMessage();
             $context['aws_type'] = $this->resolveResult->getAwsType();
             $context['aws_detail'] = $this->resolveResult->getAwsDetail();
-            $message = sprintf('HTTP %d returned for "%s".', $code, $url);
+            $message = \sprintf('HTTP %d returned for "%s".', $code, $url);
         }
 
         if ($this->resolveResult instanceof Exception) {

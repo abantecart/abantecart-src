@@ -1,6 +1,6 @@
-<div class="row title justify-content-center sec-heading-block text-center">
-    <div class="col-xl-8">
-        <h1 class="h2 heading-title mb-0 mt-lg-0 mt-3">
+<div class="row title">
+    <div class="col-xl-12">
+        <h1 class="h2 heading-title">
             <?php echo $heading_title; ?>
         </h1>
     </div>
@@ -34,7 +34,7 @@
 	</div>
 
 	<?php if ( sizeof((array)$transactions) <=0 ) { ?>
-		<div><?php echo $text_error; ?></div>
+		<div class="p-4"><?php echo $text_error; ?></div>
 	<?php } ?>
 	<div class="pagination"><?php echo $pagination_bootstrap; ?></div>
 </div>

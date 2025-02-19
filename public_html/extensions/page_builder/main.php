@@ -18,22 +18,44 @@
  *    needs please refer to http://www.AbanteCart.com for more information.
  */
 
-if (! defined ( 'DIR_CORE' )) {
- header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')) {
+    header('Location: static_pages/');
 }
+$coreDir = DIR_EXT . 'page_builder' . DS . 'core' . DS;
+require_once($coreDir . 'helper.php');
+require_once($coreDir . 'page_builder_hooks.php');
+require_once($coreDir . 'lib' . DS . 'PBRender.php');
 
-require_once(DIR_EXT.'page_builder'.DS.'core'.DS.'helper.php');
-require_once(DIR_EXT.'page_builder'.DS.'core'.DS.'page_builder_hooks.php');
-require_once(DIR_EXT.'page_builder'.DS.'core'.DS.'lib'.DS.'PBRender.php');
+if (!defined('DIR_PB_TEMPLATES')) {
 
-if(!defined('DIR_PB_TEMPLATES')) {
-    define('DIR_PB_TEMPLATES', DIR_SYSTEM.'page_builder'.DIRECTORY_SEPARATOR);
-    if(!is_dir(DIR_PB_TEMPLATES)) {
-        @mkdir(DIR_PB_TEMPLATES,0775);
+    $pbDirs = [
+        DIR_SYSTEM . 'page_builder' . DS,
+        DIR_SYSTEM . 'page_builder' . DS.'public' . DS,
+        DIR_SYSTEM . 'page_builder' . DS.'presets' . DS,
+        DIR_SYSTEM . 'page_builder' . DS.'savepoints' . DS
+    ];
+    $result = false;
+    foreach($pbDirs as $subDir) {
+        if (!is_dir($subDir)) {
+            if (!mkdir($subDir, 0775)) {
+                Registry::getInstance()?->get('log')->write(
+                    'Page Builder Error: Cannot to create directory ' . $subDir . ' . Please check permissions!'
+                );
+                break;
+            }
+        } elseif (!is_readable($subDir) || !is_writable($subDir)) {
+            if (!chmod($subDir, 0775)) {
+                Registry::getInstance()?->get('log')->write(
+                    'Page Builder Error: Have no access to directory ' . $subDir . ' . Please check permissions!'
+                );
+                break;
+            }
+        }
+        $result = true;
     }
-    define('DIR_PB_PRESETS', DIR_SYSTEM.'page_builder'.DIRECTORY_SEPARATOR.'presets'.DIRECTORY_SEPARATOR);
-    if(!is_dir(DIR_PB_PRESETS)) {
-        @mkdir(DIR_PB_PRESETS,0775);
+
+    if($result){
+        define('DIR_PB_TEMPLATES', DIR_SYSTEM . 'page_builder' . DS );
     }
 }
 
@@ -42,7 +64,7 @@ $controllers = [
         'responses/extension/page_builder',
         'pages/extension/generic'
     ],
-    'admin' => [
+    'admin'      => [
         'pages/design/page_builder',
         'responses/design/page_builder',
         'responses/design/edit_block',
@@ -51,12 +73,12 @@ $controllers = [
 
 $models = [
     'storefront' => [],
-    'admin' => []
+    'admin'      => []
 ];
 
 $templates = [
     'storefront' => [],
-    'admin' => [
+    'admin'      => [
         'pages/design/page_builder.tpl',
         'responses/design/proto_page.tpl',
         'responses/design/gjs_blocks_plugin.php.js'
@@ -65,7 +87,7 @@ $templates = [
 
 $languages = [
     'storefront' => [],
-    'admin' => [
+    'admin'      => [
         'english/page_builder/page_builder'
     ]
 ];

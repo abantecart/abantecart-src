@@ -25,8 +25,8 @@
             for ($i = $start; $i <= $end; $i++) { ?>
                 <div class="page-item <?php echo $page == $i ? 'disabled' : ''; ?>">
                     <a class="page-link"
-                       href="<?php echo str_replace('{page}', $i, $direct_url?:$url) ?>"
-                       <?php echo $direct_url ? 'data-url="'.str_replace('{page}', $i, $url).'"' : ''; ?>
+                       href="<?php echo str_replace('--page--', $i, $direct_url?:$url) ?>"
+                       <?php echo $direct_url ? 'data-url="'.str_replace('--page--', $i, $url).'"' : ''; ?>
                        title="<?php echo $i; ?>" ><?php echo $i; ?></a>
                 </div>
             <?php }

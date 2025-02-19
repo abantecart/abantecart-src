@@ -4,13 +4,13 @@
     <input type="<?php echo $type ?>" name="<?php echo $name ?>" id="<?php echo $id ?>" value="<?php echo $value ?>"
            placeholder="<?php echo $placeholder ?>" class="form-control <?php echo $style; ?>"
         <?php echo $attr;
-        echo $regexp_pattern ? 'pattern="' . $regexp_pattern . '"' : '';
-        echo $error_text ? 'title="' . $error_text . '"' : '';
+        echo $regexp_pattern ? ' pattern="' . $regexp_pattern . '"' : '';
+        echo $error_text ? ' title="' . $error_text . '"' : '';
         if ($list) {
             echo ' list="' . $id . '_list"';
         }
         if ($required) {
-            echo 'required';
+            echo ' required';
         } ?>/>
     <?php
     if ($list) { ?>

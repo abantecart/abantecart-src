@@ -261,10 +261,6 @@
 		<value><![CDATA[Updater]]></value>
 	</definition>
 	<definition>
-		<key>text_design</key>
-		<value><![CDATA[Design]]></value>
-	</definition>
-	<definition>
 		<key>text_templates</key>
 		<value><![CDATA[Templates]]></value>
 	</definition>
@@ -282,7 +278,7 @@
 	</definition>
 	<definition>
 		<key>text_cache</key>
-		<value><![CDATA[Cache]]></value>
+		<value><![CDATA[Clear data]]></value>
 	</definition>
 	<definition>
 		<key>text_messages</key>

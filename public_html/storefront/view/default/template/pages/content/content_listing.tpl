@@ -10,7 +10,7 @@
     </div>
     <?php } ?>
     <div class="btn-group ms-auto">
-        <button class="btn btn-light border-dark" disabled><i class="fa fa-th-list"></i></button>
+        <div class="m-3"><i class="fa fa-th-list"></i></div>
     </div>
 </div>
 

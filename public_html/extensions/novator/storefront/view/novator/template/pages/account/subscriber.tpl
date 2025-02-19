@@ -1,7 +1,7 @@
 <?php if ($success) { ?>
-    <div class="row title justify-content-center sec-heading-block text-center">
+    <div class="row title">
         <div class="col-xl-8">
-            <h1 class="h2 heading-title mb-0">
+            <h1 class="h2 heading-title">
                 <?php echo $text_subscribe_register; ?>
             </h1>
         </div>
@@ -20,7 +20,7 @@
     </div>
 
 <?php }else{ ?>
-    <h1 class="ms-3 my-2 heading-title ">
+    <h1 class="h2 heading-title ">
         <i class="bi bi-group me-2"></i>
         <?php echo $text_subscribe_register; ?>
     </h1>

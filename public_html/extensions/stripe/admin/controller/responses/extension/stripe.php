@@ -1,11 +1,12 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 /*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details is bundled with this package in the file LICENSE.txt.
@@ -50,9 +51,9 @@ class ControllerResponsesExtensionStripe extends AController
 
                 if (!$ch_data['captured'] && $ch_data['amount'] >= $amount) {
                     //get current order
-                    if(is_int(strpos($stripe_order['charge_id'],'pi_'))){
+                    if (is_int(strpos($stripe_order['charge_id'], 'pi_'))) {
                         $method = 'capturePaymentIntent';
-                    }else{
+                    } else {
                         $method = 'captureStripe';
                     }
 
@@ -65,7 +66,7 @@ class ControllerResponsesExtensionStripe extends AController
                             'order_status_id' => $this->config->get('stripe_status_success_settled'),
                             'notify'          => 0,
                             'append'          => 1,
-                            'comment'         => $amount.' '.$this->language->get('text_captured_ok'),
+                            'comment'         => $amount . ' ' . $this->language->get('text_captured_ok'),
                         ]);
                     }
                 } else {
@@ -124,7 +125,7 @@ class ControllerResponsesExtensionStripe extends AController
                             'order_status_id' => $this->config->get('stripe_status_refund'),
                             'notify'          => 0,
                             'append'          => 1,
-                            'comment'         => $amount.' '.$this->language->get('text_refunded_ok'),
+                            'comment'         => $amount . ' ' . $this->language->get('text_refunded_ok'),
                         ]);
                     }
                 } else {
@@ -163,10 +164,10 @@ class ControllerResponsesExtensionStripe extends AController
             $stripe_order = $mdl->getStripeOrder($order_id);
             try {
                 //get current order
-                if(is_int(strpos($stripe_order['charge_id'],'pi_'))){
+                if (is_int(strpos($stripe_order['charge_id'], 'pi_'))) {
                     $paymentIntent = true;
                     $method = 'getPaymentIntent';
-                }else{
+                } else {
                     $paymentIntent = false;
                     $method = 'getStripeCharge';
                 }
@@ -176,9 +177,9 @@ class ControllerResponsesExtensionStripe extends AController
                 if (!$ch_data['captured']) {
                     //refund with full amount
                     $ch_data['amount'] = round($ch_data['amount'] / 100, 2);
-                    if($paymentIntent){
-                        $refund = $mdl->cancelPaymentIntent( $stripe_order['charge_id'] );
-                    }else {
+                    if ($paymentIntent) {
+                        $refund = $mdl->cancelPaymentIntent($stripe_order['charge_id']);
+                    } else {
                         $refund = $mdl->refund(
                             $ch_data['charge_id'],
                             $ch_data['amount']
@@ -217,4 +218,5 @@ class ControllerResponsesExtensionStripe extends AController
         $this->load->library('json');
         $this->response->setOutput(AJson::encode($json));
     }
+
 }

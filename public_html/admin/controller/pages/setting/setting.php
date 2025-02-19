@@ -1,23 +1,25 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
-/*------------------------------------------------------------------------------
-  $Id$
+use JetBrains\PhpStorm\NoReturn;
 
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -59,9 +61,7 @@ class ControllerPagesSettingSetting extends AController
 
         if ($this->request->is_POST() && $this->_validate($get['active'], $get['store_id'])) {
             //do not touch password when it ten stars
-            if (isset($post['config_smtp_password'])
-                && $post['config_smtp_password'] == str_repeat('*', 10)
-            ) {
+            if (isset($post['config_smtp_password']) && $post['config_smtp_password'] == str_repeat('*', 10)) {
                 unset($post['config_smtp_password']);
             }
 
@@ -71,7 +71,7 @@ class ControllerPagesSettingSetting extends AController
             }
 
             //when change base currency for default store also change values for all currencies in database before saving
-            if (!(int) $get['store_id']
+            if (!(int)$get['store_id']
                 && has_value($post['config_currency'])
                 && $post['config_currency'] != $this->config->get('config_currency')
             ) {
@@ -88,20 +88,22 @@ class ControllerPagesSettingSetting extends AController
             $this->session->data['success'] = $this->language->get('text_success');
             if (has_value($post['config_maintenance']) && $post['config_maintenance']) {
                 //mark storefront session as merchant session
-                startStorefrontSession($this->user->getId());
+                startStorefrontSession(
+                    $this->user->getId(),
+                    ['merchant_username' => $this->user->getUserName()],
+                );
             }
             $redirect_url = $this->html->getSecureURL(
                 'setting/setting',
-                '&active='.$get['active'].'&store_id='.(int) $get['store_id']
+                '&active=' . $get['active'] . '&store_id=' . (int)$get['store_id']
             );
             redirect($redirect_url);
         }
 
-        $this->data['store_id'] = 0;
         if ($get['store_id']) {
-            $this->data['store_id'] = $get['store_id'];
+            $this->data['store_id'] = (int)$get['store_id'];
         } else {
-            $this->data['store_id'] = $this->session->data['current_store_id'];
+            $this->data['store_id'] = (int)$this->session->data['current_store_id'];
         }
 
         $this->data['groups'] = $this->groups;
@@ -143,10 +145,10 @@ class ControllerPagesSettingSetting extends AController
         if ($this->data['active'] == 'details') {
             $this->data['new_store_button'] = $this->html->buildElement(
                 [
-                    'type' => 'button',
+                    'type'  => 'button',
                     'title' => $this->language->get('button_add_store'),
-                    'text' => '&nbsp;',
-                    'href' => $this->html->getSecureURL('setting/store/insert'),
+                    'text'  => '&nbsp;',
+                    'href'  => $this->html->getSecureURL('setting/store/insert'),
                 ]
             );
         }
@@ -166,7 +168,7 @@ class ControllerPagesSettingSetting extends AController
                     'type'  => 'button',
                     'title' => $this->language->get('text_edit_store'),
                     'text'  => $this->language->get('text_edit_store'),
-                    'href'  => $this->html->getSecureURL('setting/store/update', '&store_id='.$this->data['store_id']),
+                    'href'  => $this->html->getSecureURL('setting/store/update', '&store_id=' . $this->data['store_id']),
                     'style' => 'button2',
                 ]
             );
@@ -239,15 +241,14 @@ class ControllerPagesSettingSetting extends AController
 
     protected function validateHttpsUrl()
     {
-        if(strpos($this->data['settings']['config_url'],'https') === false){
-            if( !$this->data['settings']['config_ssl_url']
-                || strpos($this->data['settings']['config_ssl_url'],'https') === false
+        if (strpos($this->data['settings']['config_url'], 'https') === false) {
+            if (!$this->data['settings']['config_ssl_url']
+                || strpos($this->data['settings']['config_ssl_url'], 'https') === false
                 || (
-                    strpos($this->data['settings']['config_url'],'https') === false
-                    && strpos($this->data['settings']['config_ssl_url'],'https') !== false
+                    strpos($this->data['settings']['config_url'], 'https') === false
+                    && strpos($this->data['settings']['config_ssl_url'], 'https') !== false
                 )
-            )
-            {
+            ) {
                 $this->data['error_https'] = $this->language->get('warning_https_store_url');
             }
         }
@@ -360,7 +361,7 @@ class ControllerPagesSettingSetting extends AController
             'responses/common/resource_library/get_resources_scripts',
             [
                 'object_name' => 'store',
-                'object_id'   => (int) $this->request->get['store_id'],
+                'object_id'   => (int)$this->request->get['store_id'],
                 'types'       => ['image'],
                 'onload'      => true,
                 'mode'        => 'single',
@@ -372,7 +373,6 @@ class ControllerPagesSettingSetting extends AController
         //activate quick start guide button
         $this->loadLanguage('common/quick_start');
         $this->data['quick_start_url'] = $this->html->getSecureURL('setting/setting_quick_form/quick_start');
-
         $this->view->batchAssign($this->data);
         $this->view->assign('help_url', $this->gen_help_url('setting_listing'));
         $this->processTemplate('pages/setting/setting_list.tpl');
@@ -440,14 +440,12 @@ class ControllerPagesSettingSetting extends AController
     {
         $this->data['action'] = $this->html->getSecureURL(
             'setting/setting',
-            '&active='.$this->data['active']
-            .'&store_id='.$this->data['store_id']
+            '&active=' . $this->data['active'] . '&store_id=' . $this->data['store_id']
         );
-        $this->data['form_title'] = $this->language->get('text_edit').' '.$this->language->get('heading_title');
+        $this->data['form_title'] = $this->language->get('text_edit') . ' ' . $this->language->get('heading_title');
         $this->data['update'] = $this->html->getSecureURL(
             'listing_grid/setting/update_field',
-            '&group='.$this->data['active']
-            .'&store_id='.$this->data['store_id']
+            '&group=' . $this->data['active'] . '&store_id=' . $this->data['store_id']
         );
         $this->view->assign('language_code', $this->session->data['language']);
         $form = new AForm('HS');
@@ -490,7 +488,7 @@ class ControllerPagesSettingSetting extends AController
             'responses/common/resource_library/get_resources_scripts',
             [
                 'object_name' => 'store',
-                'object_id'   => (int) $this->data['store_id'],
+                'object_id'   => (int)$this->data['store_id'],
                 'types'       => ['image'],
                 'onload'      => true,
                 'mode'        => 'single',
@@ -537,13 +535,13 @@ class ControllerPagesSettingSetting extends AController
                         if (!$tmpl_id) {
                             $extManager = new AExtensionManager();
                             $extInfo = $extManager->getExtensionInfo($this->request->get['extension']);
-                            if($extInfo['type'] == 'template'){
+                            if ($extInfo['type'] == 'template') {
                                 $tmpl_id = $extInfo['key'];
-                            }else {
+                            } else {
                                 $tmpl_id = $this->config->get('config_storefront_template');
                             }
                         }
-                        redirect($this->html->getSecureURL('design/template/edit', '&tmpl_id='.$tmpl_id));
+                        redirect($this->html->getSecureURL('design/template/edit', '&tmpl_id=' . $tmpl_id));
                     }
                 }
 
@@ -687,11 +685,11 @@ class ControllerPagesSettingSetting extends AController
             $this->session->data['tmpl_debug'] = genToken(16);
             $ret_data['storefront_debug_url'] = $this->html->getCatalogURL(
                 'index/home',
-                '&tmpl_debug='.$this->session->data['tmpl_debug']
+                '&tmpl_debug=' . $this->session->data['tmpl_debug']
             );
             $ret_data['admin_debug_url'] = $this->html->getSecureURL(
                 'index/home',
-                '&tmpl_debug='.$this->session->data['tmpl_debug']
+                '&tmpl_debug=' . $this->session->data['tmpl_debug']
             );
         } else {
             unset($this->session->data['tmpl_debug']);
@@ -708,13 +706,13 @@ class ControllerPagesSettingSetting extends AController
 
         $ret_data['tokens'] = [];
 
-        $files_pages = glob(DIR_APP_SECTION.'controller/pages/*/*.php');
-        $files_response = glob(DIR_APP_SECTION.'controller/responses/*/*.php');
+        $files_pages = glob(DIR_APP_SECTION . 'controller/pages/*/*.php');
+        $files_response = glob(DIR_APP_SECTION . 'controller/responses/*/*.php');
         $files = array_merge($files_pages, $files_response);
 
         foreach ($files as $file) {
             $tmp_data = explode('/', dirname($file));
-            $token = end($tmp_data).'/'.basename($file, '.php');
+            $token = end($tmp_data) . '/' . basename($file, '.php');
             if (!in_array($token, $ignore)) {
                 $ret_data['tokens'][$token] = $token;
             }
@@ -741,8 +739,8 @@ class ControllerPagesSettingSetting extends AController
         }
 
         $this->load->library('config_manager');
-        $config_mngr = new AConfigManager();
-        $result = $config_mngr->validate($group, $this->request->post, $store_id);
+        $cManager = new AConfigManager();
+        $result = $cManager->validate($group, $this->request->post, $store_id);
         $this->error = $result['error'];
         $this->request->post = $result['validated']; // for changed data saving
 
@@ -758,8 +756,7 @@ class ControllerPagesSettingSetting extends AController
         }
     }
 
-
-    public function phpinfo()
+    #[NoReturn] public function phpinfo()
     {
         if (defined('IS_DEMO') && IS_DEMO) {
             echo "Not supported in the demo mode";
@@ -768,5 +765,4 @@ class ControllerPagesSettingSetting extends AController
         }
         exit;
     }
-
 }

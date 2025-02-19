@@ -38,12 +38,14 @@ define('DIR_CORE', str_replace('\'', '/', realpath(dirname(__FILE__).'/../')).'/
 define('DIR_ABANTECART', str_replace('\'', '/', realpath(DIR_APP_SECTION.'../')).'/');
 
 // Startup
-require_once(DIR_ABANTECART.'system/config.php');
+include_once(DIR_ABANTECART.'system/config.php');
 require_once(DIR_CORE.'helper/utils.php');
 // New Installation? Redirect to install
 if (!defined('DB_DATABASE')) {
-    header('Location: ../install/index.php');
-    exit;
+    if(is_dir(DIR_ABANTECART.'install')) {
+        header('Location: ../install/index.php');
+    }
+    exit('Fatal Error: configuration not found!');
 }
 
 //check if this is admin and show option to report this issue 

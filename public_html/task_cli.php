@@ -20,7 +20,7 @@
  * ------------------------------------------------------------------------------
  */
 // Required PHP Version
-const MIN_PHP_VERSION = '8.1.0';
+const MIN_PHP_VERSION = '8.2.0';
 if (version_compare(phpversion(), MIN_PHP_VERSION, '<')) {
     die(MIN_PHP_VERSION.'+ Required for AbanteCart to work properly! Please contact your system administrator or host service provider.');
 }
@@ -44,7 +44,11 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 define('DIR_ROOT', $root_path);
 const DIR_CORE = DIR_ROOT . '/core/';
 
-require_once(DIR_ROOT.'/system/config.php');
+if(is_file(DIR_ROOT.'/system/config.php')) {
+    require_once(DIR_ROOT.'/system/config.php');
+}else{
+    exit('Fatal Error: configuration not found!');
+}
 //set server name for correct email sending
 if (defined('SERVER_NAME') && SERVER_NAME != '') {
     putenv("SERVER_NAME=".SERVER_NAME);

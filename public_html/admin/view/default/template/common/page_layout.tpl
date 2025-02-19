@@ -44,7 +44,7 @@
 <div class="empty_block hide">
 	<div data-instance-id="" class="block off">
 	  <div class="block-content">
-	    <div class="block-title"> --- None --- </div>
+	    <div class="block-title"><?php echo $text_none;?></div>
 	    <div class="block-options">
 	    </div>
 	  </div>

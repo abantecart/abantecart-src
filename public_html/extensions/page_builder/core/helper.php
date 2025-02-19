@@ -22,6 +22,34 @@ if(!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
 
+function checkPBDirs($templateTxtId)
+{
+    if( !defined('DIR_PB_TEMPLATES')
+        || !is_writable_dir(DIR_PB_TEMPLATES.'savepoints')
+        || !is_writable_dir(DIR_PB_TEMPLATES.'public')
+        || !is_writable_dir(DIR_PB_TEMPLATES.'presets')
+    ){
+        throw new AException(
+            AC_ERR_USER_ERROR,
+            'Error! Please check permissions of directory '
+            . DIR_SYSTEM . 'page_builder and it\'s subdirectories'
+        );
+    }
+
+    foreach(['savepoints','presets','public'] as $subDir){
+        $dir = DIR_PB_TEMPLATES.$subDir.DS.$templateTxtId;
+        if(!is_dir($dir)){
+            mkdir($dir,0775);
+        }
+        if(!is_writable_dir($dir) || !is_readable($dir)){
+            throw new AException(
+                AC_ERR_USER_ERROR,
+                'Error! Please check permissions of directory '. $dir . ' .'
+            );
+        }
+    }
+}
+
 /**
  * @param string $data
  * @param string $mode

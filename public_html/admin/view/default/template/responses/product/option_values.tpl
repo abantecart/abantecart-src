@@ -17,40 +17,49 @@
 		</div>
 
 		<?php
-		foreach ($fields as $e=>$name) { ?>
-				<?php
-					$entry = $$e;
-					$field = $$name;
-					if(!is_object($field)){
-						continue;
-					}
+	    foreach ($fields['common'] as $name=>$field) { ?>
+        <?php
+            $entry = ${'entry_'.$name};
+            if(!is_object($field)){ continue; }
 
-					if($name == 'option_placeholder' && !(string)$option_placeholder){
-						continue;
-					}
-					//Logic to calculate fields width
-					$widthcasses = "col-sm-7";
-					if ( is_int(stripos($field->style, 'large-field')) ) {
-						$widthcasses = "col-sm-7";
-					} else if ( is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date')) ) {
-						$widthcasses = "col-sm-6";
-					} else if ( is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch')) ) {
-						$widthcasses = "col-sm-3";
-					} else if ( is_int(stripos($field->style, 'tiny-field')) ) {
-						$widthcasses = "col-sm-2";
-					}
-					$widthcasses .= " col-xs-12";
-				?>
-			<div class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
+            $widthCssClasses = getBSCssClass($field->style); ?>
+			<div class="form-group <?php if($error[$name]) { echo "has-error"; } ?>">
 				<label class="control-label col-md-6" for="<?php echo $field->element_id; ?>"><?php echo $entry; ?></label>
-				<div class="input-group input-group-sm afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
+				<div class="input-group input-group-sm afield <?php echo $widthCssClasses; ?>">
 					<?php echo $field;?>
 				</div>
-			    <?php if (!empty($error[$name])) { ?>
+			    <?php if ($error[$name]) { ?>
 			    <span class="help-block field_err"><?php echo $error[$name]; ?></span>
 			    <?php } ?>
 			</div>
 		<?php } ?>
+        <div class="clearfix">
+            <a class="btn pull-right" data-toggle="collapse" data-target="#collapseAdvanced" aria-expanded="false" aria-controls="collapseAdvanced">
+                <?php echo $text_advanced_settings; ?>&nbsp;<span class="caret"></span>
+            </a>
+        </div>
+        <div class="collapse" id="collapseAdvanced">
+            <div class="">
+                <?php
+                foreach ($fields['advanced'] as $name=>$field) { ?>
+                    <?php
+                    $entry = ${'entry_'.$name};
+                    if(!is_object($field)){ continue; }
+                    $widthCssClasses = getBSCssClass($field->style); ?>
+                    <div class="form-group <?php if($error[$name]) { echo "has-error"; } ?>">
+                        <label class="control-label col-md-6" for="<?php echo $field->element_id; ?>"><?php echo $entry; ?></label>
+                        <div class="input-group input-group-sm afield <?php echo $widthCssClasses; ?>">
+                            <?php echo $field;?>
+                        </div>
+                        <?php if ($error[$name]) { ?>
+                            <span class="help-block field_err"><?php echo $error[$name]; ?></span>
+                        <?php } ?>
+                    </div>
+                <?php } ?>
+            </div>
+        </div>
+
+
 	</div>
 	<div class="panel-footer">
 		<div class="center">

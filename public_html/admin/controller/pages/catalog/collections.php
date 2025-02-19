@@ -693,7 +693,7 @@ class ControllerPagesCatalogCollections extends AController
         $layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
 
         $layout_form = $this->dispatch('common/page_layout', [$layout]);
-        $this->data['layoutform'] = $layout_form->dispatchGetOutput();
+        $this->data['block_layout_form'] = $layout_form->dispatchGetOutput();
 
         //build pages and available layouts for cloning
         $this->data['pages'] = $layout->getAllPages();

@@ -295,6 +295,9 @@ class ControllerResponsesListingGridCustomer extends AController
                 }
                 //passwords do match, save
                 $this->model_sale_customer->editCustomerField($customer_id, 'password', $post_data['password']);
+                //destroy all active sessions
+                $customer = new ACustomer($this->registry);
+                $customer->deleteActiveSessionsByID($customer_id);
             } else {
                 foreach ($post_data as $field => $value) {
                     $err = $this->_validateForm($field, $value, $customer_id);

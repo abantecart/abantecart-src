@@ -42,6 +42,7 @@ class ControllerPagesAccountPassword extends AController
             $this->loadModel('account/customer');
             $this->model_account_customer->editPassword($this->customer->getLoginName(), $this->request->post['password']);
             $this->session->data['success'] = $this->language->get('text_success');
+            $this->customer->deleteActiveSessions();
             $this->customer->logout();
             redirect($this->html->getSecureURL('account/account'));
         }

@@ -56,7 +56,10 @@ class ControllerBlocksContent extends AController
         //build dynamic content (pages) links
         $this->loadModel('catalog/content');
 
-        $this->data['contents'] = $this->_buildTree($this->model_catalog_content->getContents());
+        $filer = [
+            'limit' => $this->config->get('config_content_limit') ?: 8
+        ];
+        $this->data['contents'] = $this->_buildTree($this->model_catalog_content->getContents($filer));
         $this->data['contact'] = $this->html->getURL('content/contact');
         $this->data['sitemap'] = $this->html->getNonSecureURL('content/sitemap');
 
@@ -86,21 +89,22 @@ class ControllerBlocksContent extends AController
         $k = 0;
         foreach ($all_contents as $content) {
             if ($content['parent_content_id'] == $parent_id) {
+                $httpQuery = ['content_id' => $content['content_id']];
+                //add parent_id for better SEO-URL
+                if ($content['parent_content_id']) {
+                    $httpQuery['parent_id'] = $content['parent_content_id'];
+                }
                 $output[$k] = [
-                    'id' => $content['parent_content_id'].'_'.$content['content_id'],
-                    'title' => str_repeat('&nbsp;&nbsp;', $level).$content['title'],
-                    'text'  => $content['title'],
-                    'href' => $this->html->getSEOURL(
+                    'id'       => $content['content_id'],
+                    'title'    => str_repeat('&nbsp;&nbsp;', $level) . $content['title'],
+                    'text'     => $content['title'],
+                    'href'     => $this->html->getSEOURL(
                         'content/content',
-                        '&content_id='.$content['content_id'],
-                        '&encode'
+                        '&' . http_build_query($httpQuery),
+                        'true'
                     ),
-                    'level' => $level,
-                    'children' => $this->_buildTree(
-                                    $all_contents,
-                                    $content['content_id'],
-                                    $level + 1
-                                )
+                    'level'    => $level,
+                    'children' => $this->_buildTree($all_contents, $content['content_id'], $level + 1)
                 ];
                 $k++;
             }

@@ -1,6 +1,6 @@
 <div class="mt-3">
-	<h2 class="heading2"><span><?php echo $heading_title; ?></span></h2>
-    <form id="search_form" action="<?php echo HTTPS_SERVER.INDEX_FILE; ?>" class="d-flex form-search top-search">
+    <h1 class="h2 heading-title"><?php echo $heading_title; ?></h1>
+    <form id="search_form" action="<?php echo HTTPS_SERVER.INDEX_FILE; ?>" class="d-flex form-search top-search mb-2">
         <input type="hidden" name="rt" value="product/search"/>
         <input type="hidden" name="category_id" id="filter_category_id" value="0"/>
         <div class="dropdown">

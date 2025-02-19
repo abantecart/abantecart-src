@@ -2,37 +2,67 @@
 
 $template_list = '';
 foreach ($templates as $template) {
-  $item_class = '';
-  if ($tmpl_id == $template) {
-    $item_class = ' class="disabled"';
-  }
-  $template_list .= '<li' . $item_class . '><a href="' . $page_url . '&tmpl_id=' . $template . '">' . $template . '</a></li>';
+    $item_class = '';
+    if ($tmpl_id == $template) {
+        $item_class = ' disabled';
+    }
+    $template_list .= '<li class="' . $item_class . '">
+  <a href="' . $page_url . '&tmpl_id=' . $template . '">' . $template . '</a>
+  </li>';
 }
+function isCurrentPage($page, $currentPage) {
+    return $page['page_id'] == $currentPage['page_id'] && $page['layout_id'] == $currentPage['layout_id'];
+}
+
+if($template_list){
 
 $current_ok_delete = false;
 $page_list = '';
-foreach ($pages as $page) {
-  $uri = '&tmpl_id=' . $tmpl_id . '&page_id=' . $page['page_id'] . '&layout_id=' . $page['layout_id'];
-
-  $item_class = '';
-  if ($page['page_id'] == $current_page['page_id'] && $page['layout_id'] == $current_page['layout_id']) {
-    $item_class = ' class="disabled"';
-    if (empty($page['restricted'])) {
-      $page_delete_url = $page_delete_url . $uri;
-      $current_ok_delete = true;
+    foreach ($pages as $page) {
+        $item_class = '';
+        if (isCurrentPage($page, $current_page)) {
+            $item_class = ' disabled';
+            if (!$page['restricted']) {
+                $page_delete_url = $page['delete_url'];
+                $current_ok_delete = true;
+            }
+        }
+        $page_list .= '';
+        if(!$page['children']) {
+            $page_list .= '<li class="' . $item_class . '">
+                        <a href="' . $page['url'] . '" title="' . html2view($page['name']) . '">' . $page['layout_name'] . '</a>';
+        }else{
+            $childrenList = '<ul class="dropdown-menu" aria-labelledby="'.$page['id'].'">';
+            $selectedChild = false;
+            foreach($page['children'] as $child){
+                $cssClass = '';
+                if(isCurrentPage($child, $current_page)){
+                    $cssClass = ' disabled';
+                    $selectedChild = true;
+                    if (!$child['restricted']) {
+                        $page_delete_url = $child['delete_url'];
+                        $current_ok_delete = true;
+                    }
+                }
+                $childrenList .= '<li class="' . $cssClass . '">
+                    <a href="' . $child['url'] . '" title="' . html2view($child['name']) . '">' . $child['layout_name'] . '</a>
+                </li>';
+            }
+            $childrenList .= '</ul>';
+            $page_list .= '<li class="' . ($selectedChild ? ' selected-parent':''). ' dropdown-submenu">
+                        <a id="'.$page['id'].'" class="d2d-dropdown">' . $page['layout_name'] . '</a>';
+            $page_list .= $childrenList;
+        }
+        $page_list .= '</li>';
     }
-  }
-  $page_list .= '<li' . $item_class . '>';
-  $page_list .= '<a href="' . $page_url . $uri . '" title="' . $page['name'] . '">' . $page['layout_name'] . '</a>';
-  $page_list .= '</li>';
-}
 ?>
 
 <div id="content" class="panel panel-default">
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
 			<div class="btn-group mr10 toolbar">
-                <button class="btn btn-default dropdown-toggle tooltips" type="button" data-toggle="dropdown" title="<?php echo_html2view($text_select_template); ?>">
+                <button class="btn btn-default dropdown-toggle tooltips" type="button" data-toggle="dropdown"
+                        title="<?php echo_html2view($text_select_template); ?>">
                 <i class="fa fa-photo"></i>
                 <?php echo $tmpl_id; ?> <span class="caret"></span>
                 </button>
@@ -41,7 +71,7 @@ foreach ($pages as $page) {
                 </ul>
 			</div>
 
-			<div class="btn-group mr10 toolbar">
+			<div id="layout_selector" class="btn-group mr10 toolbar">
 			  <button class="btn btn-default dropdown-toggle"
                       type="button" data-toggle="dropdown"
                       style="max-width: 300px; overflow:hidden; text-overflow: ellipsis;"
@@ -54,28 +84,28 @@ foreach ($pages as $page) {
 			  </ul>
 			</div>
 
-			<div class="btn-group toolbar">
+			<div class="btn-group toolbar mr5">
 				<button id="publish" class="actionitem btn btn-default tooltips lock-on-click"
                         title="<?php echo_html2view($button_publish_title); ?>">
 					<i class="fa fa-feed fa-fw"></i><?php echo $button_publish; ?>
 				</button>
 			</div>
-
-			<div class="btn-group toolbar">
-				<a id="undo" class="actionitem btn btn-default tooltips" title="<?php echo_html2view($button_undo_title); ?>">
+			<div class="btn-group toolbar mr5">
+				<a id="undo" class="actionitem btn btn-default tooltips"
+                   title="<?php echo_html2view($button_undo_title); ?>">
 					<i class="fa fa-undo fa-fw"></i>
 				</a>
 			</div>
-
-			<div class="btn-group toolbar">
-				<a id="remove_custom_page" class="actionitem btn btn-danger tooltips" title="<?php echo_html2view($button_remove_custom_page_title); ?>">
+			<div class="btn-group toolbar mr10">
+				<a id="remove_custom_page" class="actionitem btn btn-danger tooltips"
+                   title="<?php echo_html2view($button_remove_custom_page_title); ?>">
 					<i class="fa fa-trash fa-fw"></i>
 				</a>
 			</div>
-			<div class="btn-group toolbar">
+			<div class="btn-group toolbar ">
 				<a target="gpjspreview" id="preview"
                    href="<?php echo $previewUrl; ?>"
-                   class="actionitem btn btn-default tooltips <?php echo  !$this->config->get('page_builder_status') ? 'disabled' : ''?>"
+                   class="actionitem btn btn-default tooltips <?php echo !$this->config->get('page_builder_status') ? 'disabled' : ''?>"
                    title="<?php echo_html2view($button_preview); ?>">
 					<i class="fa fa-eye fa-fw"></i>
 				</a>
@@ -133,7 +163,7 @@ foreach ($pages as $page) {
         ).done(function () {
                 resetLockBtn();
                 success_alert(<?php js_echo($publish_success_text);?>, true);
-                getStorageState('storage:start');
+                getStorageState('storage:end:store');
             }
         );
     }
@@ -264,7 +294,6 @@ foreach ($pages as $page) {
         window.attachEvent("onmessage", onMessage, false);
     }
 
-
     // Function to be called from iframe
     function getStorageState(message) {
         if(message === 'storage:end:store'){
@@ -275,7 +304,8 @@ foreach ($pages as $page) {
                     dataType: 'json',
                     global: false
                 }
-            ).done(function(data) {
+            ).done(
+                function(data) {
                     if(data.published === 'true'){
                         $('#publish').removeClass('btn-info').addClass('btn-default').attr('disabled','disabled');
                         $('#undo').attr('disabled','disabled');
@@ -296,7 +326,6 @@ foreach ($pages as $page) {
         }
     }
 
-
     function onMessage(event) {
         const data = event.data;
         if (typeof(window[data.func]) == "function") {
@@ -304,3 +333,4 @@ foreach ($pages as $page) {
         }
     }
 </script>
+<?php } ?>

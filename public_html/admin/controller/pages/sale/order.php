@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 class ControllerPagesSaleOrder extends AController
 {
@@ -331,7 +331,7 @@ class ControllerPagesSaleOrder extends AController
                 $this->model_sale_order->editOrder($this->request->get['order_id'], $this->request->post);
             }
 
-            $this->extensions->hk_ProcessData($this, 'update');
+            $this->extensions->hk_ProcessData($this, __FUNCTION__);
 
             //recalc totals and update
             $this->session->data['success'] = $this->language->get('text_success');
@@ -1154,6 +1154,7 @@ class ControllerPagesSaleOrder extends AController
 
         if ($this->request->is_POST() && $this->_validateForm()) {
             $this->model_sale_order->addOrderHistory($this->request->get['order_id'], $this->request->post);
+            $this->extensions->hk_ProcessData($this, __FUNCTION__);
             $this->session->data['success'] = $this->language->get('text_success');
             redirect(
                 $this->html->getSecureURL(
@@ -1163,11 +1164,7 @@ class ControllerPagesSaleOrder extends AController
             );
         }
 
-        if (isset($this->request->get['order_id'])) {
-            $order_id = (int) $this->request->get['order_id'];
-        } else {
-            $order_id = 0;
-        }
+        $order_id = (int) $this->request->get['order_id'];
 
         $order_info = $this->model_sale_order->getOrder($order_id);
 
@@ -1218,6 +1215,11 @@ class ControllerPagesSaleOrder extends AController
             unset($this->session->data['success']);
         } else {
             $this->data['success'] = '';
+        }
+
+        if ($this->session->data['error']) {
+            $this->data['error_warning'] = $this->session->data['error'];
+            unset($this->session->data['error']);
         }
 
         $this->loadModel('localisation/order_status');
@@ -1345,7 +1347,7 @@ class ControllerPagesSaleOrder extends AController
 
         $this->document->setTitle($this->language->get('title_payment_details'));
 
-        $order_id = (int) $this->request->get['order_id'];
+        $order_id = (int)$this->request->get['order_id'];
         $this->data['order_id'] = $order_id;
 
         $order_info = $this->model_sale_order->getOrder($order_id);
@@ -1409,9 +1411,7 @@ class ControllerPagesSaleOrder extends AController
         if (!$this->user->canModify('sale/order')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
-
         $this->extensions->hk_ValidateData($this);
-
         return (!$this->error);
     }
 
@@ -1469,7 +1469,7 @@ class ControllerPagesSaleOrder extends AController
                     }
                 }
             }
-
+            $this->extensions->hk_ProcessData($this, __FUNCTION__);
             $this->session->data['success'] = $this->language->get('text_success');
             redirect(
                 $this->html->getSecureURL(
@@ -1525,6 +1525,11 @@ class ControllerPagesSaleOrder extends AController
             unset($this->session->data['success']);
         } else {
             $this->data['success'] = '';
+        }
+
+        if ($this->session->data['error']) {
+            $this->data['error_warning'] = $this->session->data['error'];
+            unset($this->session->data['error']);
         }
 
         $this->data['heading_title'] = $this->language->get('heading_title').' #'.$order_info['order_id'];
@@ -1689,14 +1694,12 @@ class ControllerPagesSaleOrder extends AController
                             [
                                 'type'       => 'date',
                                 'name'       => 'downloads['.(int) $download_info['order_download_id'].'][expire_date]',
-                                'value'      =>
-                                    ($download_info['expire_date']
-                                        ? dateISO2Display($download_info['expire_date'])
-                                        : ''),
+                                'value'      => dateISO2Display(
+                                                    $download_info['expire_date'],
+                                                    $this->language->get('date_format_short')
+                                                ),
                                 'default'    => '',
                                 'dateformat' => format4Datepicker($this->language->get('date_format_short')),
-                                'highlight'  => 'future',
-                                'style'      => 'medium-field',
                             ]
                         ),
                         'download_history' => $download_info['download_history'],
@@ -1739,21 +1742,17 @@ class ControllerPagesSaleOrder extends AController
      */
     public function recalc()
     {
-        $this->extensions->hk_InitData($this, __FUNCTION__);
-
         $order_id = $this->request->get['order_id'];
-        $skip_recalc = [];
-        $new_totals = [];
-
+        $skip_recalc = $new_totals = [];
         if (!$this->user->canModify('sale/order')) {
             $this->session->data['error'] = $this->language->get('error_permission');
             return;
-        } else {
-            if (!has_value($order_id)) {
-                $this->session->data['error'] = "Missing required details";
-                return;
-            }
+        } elseif (!has_value($order_id)) {
+            $this->session->data['error'] = "Missing required details";
+            return;
         }
+
+        $this->extensions->hk_InitData($this, __FUNCTION__);
 
         //do we have to skip recalc for some totals?
         if ($this->request->get['skip_recalc']) {
@@ -1821,6 +1820,7 @@ class ControllerPagesSaleOrder extends AController
                 if (!$t_ret || $t_ret['error']) {
                     $this->session->data['error'] = "Error recalculating totals! ".$t_ret['error'];
                 } else {
+                    $this->extensions->hk_ProcessData($this, __FUNCTION__);
                     $this->session->data['success'] = $this->language->get('text_success');
                     $this->session->data['attention'] = $this->language->get('attention_check_total');
                 }

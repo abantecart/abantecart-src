@@ -99,7 +99,7 @@ class ModelCatalogCategory extends Model
             );
         }
 
-        $this->cache->remove('category');
+        $this->cache->remove(['category','storefront_menu']);
 
         return $category_id;
     }

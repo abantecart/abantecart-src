@@ -1,33 +1,33 @@
 <?php
-/*----suppresses--------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
-require_once(DIR_CORE.'/lib/exceptions/exception_codes.php');
-require_once(DIR_CORE.'/lib/exceptions/exception.php');
+require_once(DIR_CORE . '/lib/exceptions/exception_codes.php');
+require_once(DIR_CORE . '/lib/exceptions/exception.php');
 
 /**
  * called for php errors
  *
- * @param int    $errno
+ * @param int $errno
  * @param string $errstr
  * @param string $errfile
  * @param string $errline
@@ -63,7 +63,7 @@ function ac_error_handler($errno, $errstr, $errfile, $errline)
 /**
  * called for caught exceptions
  *
- * @param  AException $e
+ * @param AException $e
  *
  * @return null
  */
@@ -78,7 +78,7 @@ function ac_exception_handler($e)
 
     //fix for default PHP handler call in third party PHP libraries
     if (!method_exists($e, 'logError')) {
-        $e = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
+        $e = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine(), null, $e);
     }
 
     if (class_exists('Registry')) {
@@ -98,7 +98,7 @@ function ac_exception_handler($e)
             }
         }
         //do we have fatal error and need to end?
-        if (in_array($e->getCode(),AException::$criticalErrors)
+        if (in_array($e->getCode(), AException::$criticalErrors)
             && !defined('INSTALL')
         ) {
             $e->showErrorPage();
@@ -111,7 +111,7 @@ function ac_exception_handler($e)
     //no registry, something totally wrong
     $e->logError();
     $e->displayError();
-    if (in_array($e->getCode(),AException::$criticalErrors)){
+    if (in_array($e->getCode(), AException::$criticalErrors)) {
         $e->showErrorPage();
     }
 }

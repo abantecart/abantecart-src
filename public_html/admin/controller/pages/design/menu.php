@@ -45,17 +45,17 @@ class ControllerPagesDesignMenu extends AController
         $this->document->setTitle($this->language->get('heading_title'));
         $this->document->initBreadcrumb(
             [
-                'href'      => $this->html->getSecureURL('index/home'),
-                'text'      => $this->language->get('text_home'),
+                'href' => $this->html->getSecureURL('index/home'),
+                'text' => $this->language->get('text_home'),
                 'separator' => false,
             ]
         );
         $this->document->addBreadcrumb(
             [
-                'href'      => $this->html->getSecureURL('design/menu'),
-                'text'      => $this->language->get('heading_title'),
+                'href' => $this->html->getSecureURL('design/menu'),
+                'text' => $this->language->get('heading_title'),
                 'separator' => ' :: ',
-                'current'   => true,
+                'current' => true,
             ]
         );
 
@@ -70,24 +70,24 @@ class ControllerPagesDesignMenu extends AController
         }
 
         $grid_settings = [
-            'table_id'         => 'menu_grid',
-            'url'              => $this->html->getSecureURL(
+            'table_id' => 'menu_grid',
+            'url' => $this->html->getSecureURL(
                 'listing_grid/menu',
-                '&parent_id='.$this->request->get['parent_id']
+                '&parent_id=' . $this->request->get['parent_id']
             ),
-            'editurl'          => $this->html->getSecureURL('listing_grid/menu/update'),
-            'update_field'     => $this->html->getSecureURL('listing_grid/menu/update_field'),
-            'sortname'         => 'sort_order',
-            'sortorder'        => 'asc',
+            'editurl' => $this->html->getSecureURL('listing_grid/menu/update'),
+            'update_field' => $this->html->getSecureURL('listing_grid/menu/update_field'),
+            'sortname' => 'sort_order',
+            'sortorder' => 'asc',
             'drag_sort_column' => 'sort_order',
-            'columns_search'   => false,
-            'actions'          => [
-                'edit'   => [
+            'columns_search' => false,
+            'actions' => [
+                'edit' => [
                     'text' => $this->language->get('text_edit'),
                     'href' => $this->html->getSecureURL('design/menu/update', '&item_id=%ID%'),
                 ],
                 'delete' => ['text' => $this->language->get('button_delete')],
-                'save'   => ['text' => $this->language->get('button_save')],
+                'save' => ['text' => $this->language->get('button_save')],
             ],
         ];
 
@@ -98,8 +98,8 @@ class ControllerPagesDesignMenu extends AController
         $grid_search_form['id'] = 'menu_grid_search';
         $grid_search_form['form_open'] = $form->getFieldHtml(
             [
-                'type'   => 'form',
-                'name'   => 'menu_grid_search',
+                'type' => 'form',
+                'name' => 'menu_grid_search',
                 'action' => '',
             ]
         );
@@ -120,10 +120,10 @@ class ControllerPagesDesignMenu extends AController
         );
         $grid_search_form['fields']['parent_id'] = $form->getFieldHtml(
             [
-                'type'    => 'selectbox',
-                'name'    => 'parent_id',
+                'type' => 'selectbox',
+                'name' => 'parent_id',
                 'options' => $parentIds,
-                'value'   => $this->request->get['parent_id'],
+                'value' => $this->request->get['parent_id'],
             ]
         );
 
@@ -138,37 +138,37 @@ class ControllerPagesDesignMenu extends AController
         ];
         $grid_settings['colModel'] = [
             [
-                'name'     => 'item_icon',
-                'index'    => 'item_icon',
-                'width'    => 80,
-                'align'    => 'center',
+                'name' => 'item_icon',
+                'index' => 'item_icon',
+                'width' => 80,
+                'align' => 'center',
                 'sortable' => false,
-                'search'   => false,
-            ],
-            [
-                'name'   => 'item_id',
-                'index'  => 'item_id',
-                'width'  => 120,
-                'align'  => 'left',
                 'search' => false,
             ],
             [
-                'name'   => 'item_text',
-                'index'  => 'item_text',
-                'width'  => 360,
-                'align'  => 'center',
+                'name' => 'item_id',
+                'index' => 'item_id',
+                'width' => 120,
+                'align' => 'left',
                 'search' => false,
             ],
             [
-                'name'   => 'status',
-                'index'  => 'settings[status]',
-                'align'  => 'center',
+                'name' => 'item_text',
+                'index' => 'item_text',
+                'width' => 360,
+                'align' => 'center',
                 'search' => false,
             ],
             [
-                'name'   => 'sort_order',
-                'index'  => 'sort_order',
-                'align'  => 'center',
+                'name' => 'status',
+                'index' => 'settings[status]',
+                'align' => 'center',
+                'search' => false,
+            ],
+            [
+                'name' => 'sort_order',
+                'index' => 'sort_order',
+                'align' => 'center',
                 'search' => false,
             ],
         ];
@@ -196,7 +196,6 @@ class ControllerPagesDesignMenu extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $this->document->setTitle($this->language->get('heading_title'));
 
         $this->menu = new AMenu_Storefront();
         $language_id = $this->language->getContentLanguageID();
@@ -215,14 +214,14 @@ class ControllerPagesDesignMenu extends AController
             $text_id = preformatTextID($post['item_id']);
             $result = $this->menu->insertMenuItem(
                 [
-                    'item_id'         => $text_id,
-                    'item_icon'       => $post['item_icon'],
-                    'item_text'       => $post['item_text'],
-                    'parent_id'       => $post['parent_id'],
-                    'item_url'        => $post['item_url'],
-                    'sort_order'      => $post['sort_order'],
-                    'item_type'       => 'core',
-                    'settings'        => serialize($post['settings'])
+                    'item_id' => $text_id,
+                    'item_icon' => $post['item_icon'],
+                    'item_text' => $post['item_text'],
+                    'parent_id' => $post['parent_id'],
+                    'item_url' => $post['item_url'],
+                    'sort_order' => $post['sort_order'],
+                    'item_type' => 'core',
+                    'settings' => serialize($post['settings'])
                 ]
             );
 
@@ -230,7 +229,7 @@ class ControllerPagesDesignMenu extends AController
                 $this->error['warning'] = $result;
             } else {
                 $this->session->data['success'] = $this->language->get('text_success');
-                redirect($this->html->getSecureURL('design/menu/update', '&item_id='.$text_id));
+                redirect($this->html->getSecureURL('design/menu/update', '&item_id=' . $text_id));
             }
         }
 
@@ -245,7 +244,6 @@ class ControllerPagesDesignMenu extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $item_id = $this->request->get['item_id'];
-        $this->document->setTitle($this->language->get('heading_title'));
 
         $this->menu = new AMenu_Storefront();
 
@@ -259,7 +257,7 @@ class ControllerPagesDesignMenu extends AController
             if (isset ($post['item_icon'])) {
                 $post['item_icon'] = (int)$post['item_icon'];
             }
-            $post['settings'] = serialize( $post['settings'] );
+            $post['settings'] = serialize($post['settings']);
 
             $item_keys = [
                 'item_icon',
@@ -282,7 +280,7 @@ class ControllerPagesDesignMenu extends AController
             }
 
             $this->session->data['success'] = $this->language->get('text_success');
-            redirect($this->html->getSecureURL('design/menu/update', '&item_id='.$item_id));
+            redirect($this->html->getSecureURL('design/menu/update', '&item_id=' . $item_id));
         }
 
         $this->_getForm();
@@ -303,15 +301,15 @@ class ControllerPagesDesignMenu extends AController
 
         $this->document->initBreadcrumb(
             [
-                'href'      => $this->html->getSecureURL('index/home'),
-                'text'      => $this->language->get('text_home'),
+                'href' => $this->html->getSecureURL('index/home'),
+                'text' => $this->language->get('text_home'),
                 'separator' => false,
             ]
         );
         $this->document->addBreadcrumb(
             [
-                'href'      => $this->html->getSecureURL('design/menu'),
-                'text'      => $this->language->get('heading_title'),
+                'href' => $this->html->getSecureURL('design/menu'),
+                'text' => $this->language->get('heading_title'),
                 'separator' => ' :: ',
             ]
         );
@@ -322,58 +320,49 @@ class ControllerPagesDesignMenu extends AController
         $item_id = $this->request->get['item_id'];
 
         $menu_item = null;
-        $this->menu_items = $this->menu->getItemIds();
-        $parentIds = ['' => $this->language->get('text_none')];
-
-        foreach ($this->menu_items as $item) {
-            if ($item != '') {
-                $parentIds[$item] = $item;
-            }
-        }
+        $this->menu_items = $this->menu->getMenuItems();
+        $this->_buildMenuTree();
+        $parentIds = ['' => $this->language->get('text_none')]
+                    + array_column($this->menu_tree,'text', 'item_id');
 
         foreach ($this->columns as $column) {
-            if (isset ($this->request->post[$column])) {
-                $this->data[$column] = $this->request->post[$column];
-            } elseif (!empty($menu_item)) {
-                $this->data[$column] = $menu_item[$column];
-            } else {
-                $this->data[$column] = '';
-            }
+            $this->data[$column] = $this->request->post[$column] ?? $menu_item[$column] ?? '';
         }
 
         if (!$item_id) {
             $this->data['action'] = $this->html->getSecureURL('design/menu/insert');
             $this->data['heading_title'] = $this->language->get('text_insert')
-                .'&nbsp;'
-                .$this->language->get('heading_title');
+                . '&nbsp;'
+                . $this->language->get('heading_title');
             $this->data['update'] = '';
             $form = new AForm ('HT');
         } else {
             //get menu item details
             $this->data = array_merge($this->data, $this->menu->getMenuItem($item_id));
 
-            $this->data['action'] = $this->html->getSecureURL('design/menu/update', '&item_id='.$item_id);
-            $this->data['heading_title'] = $this->language->get('text_edit').$this->language->get('heading_title');
-            $this->data['update'] = $this->html->getSecureURL('listing_grid/menu/update_field', '&id='.$item_id);
+            $this->data['action'] = $this->html->getSecureURL('design/menu/update', '&item_id=' . $item_id);
+            $this->data['heading_title'] = $this->language->get('text_edit') . $this->language->get('heading_title');
+            $this->data['update'] = $this->html->getSecureURL('listing_grid/menu/update_field', '&id=' . $item_id);
             $form = new AForm ('HS');
         }
 
         $this->document->addBreadcrumb(
             [
-                'href'      => $this->data['action'],
-                'text'      => $this->data['heading_title'],
+                'href' => $this->data['action'],
+                'text' => $this->data['heading_title'],
                 'separator' => ' :: ',
-                'current'   => true,
+                'current' => true,
             ]
         );
+        $this->document->setTitle($this->data['heading_title']);
 
         $form->setForm(['form_name' => 'menuFrm', 'update' => $this->data['update']]);
 
         $this->data['form']['form_open'] = $form->getFieldHtml(
             [
-                'type'   => 'form',
-                'name'   => 'menuFrm',
-                'attr'   => 'data-confirm-exit="true" class="aform form-horizontal"',
+                'type' => 'form',
+                'name' => 'menuFrm',
+                'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
                 'action' => $this->data['action'],
             ]
         );
@@ -396,30 +385,30 @@ class ControllerPagesDesignMenu extends AController
 
         $this->data['form']['fields']['status'] = $form->getFieldHtml(
             [
-                'type'     => 'checkbox',
-                'name'     => 'settings[status]',
-                'value'    => $this->data['settings']['status'] ?? 1,
+                'type' => 'checkbox',
+                'name' => 'settings[status]',
+                'value' => $this->data['settings']['status'] ?? 1,
                 'required' => true,
-                'style'    => 'btn_switch',
+                'style' => 'btn_switch',
             ]
         );
         $this->data['form']['fields']['item_id'] = $form->getFieldHtml(
             [
-                'type'     => 'input',
-                'name'     => 'item_id',
-                'value'    => $this->data['item_id'],
+                'type' => 'input',
+                'name' => 'item_id',
+                'value' => $this->data['item_id'],
                 'required' => true,
-                'attr'     => $item_id ? 'disabled' : '',
+                'attr' => $item_id ? 'disabled' : '',
             ]
         );
 
         $this->data['form']['fields']['item_text'] = $form->getFieldHtml(
             [
-                'type'         => 'input',
-                'name'         => 'item_text['.$language_id.']',
-                'value'        => $this->data['item_text'][$language_id],
-                'required'     => true,
-                'style'        => 'large-field',
+                'type' => 'input',
+                'name' => 'item_text[' . $language_id . ']',
+                'value' => $this->data['item_text'][$language_id],
+                'required' => true,
+                'style' => 'large-field',
                 'multilingual' => true,
             ]
         );
@@ -427,42 +416,42 @@ class ControllerPagesDesignMenu extends AController
         $this->data['link_types'] = array_merge(
             [
                 'category' => $this->language->get('text_category_link_type'),
-                'content'  => $this->language->get('text_content_link_type'),
-                'custom'   => $this->language->get('text_custom_link_type'),
+                'content' => $this->language->get('text_content_link_type'),
+                'custom' => $this->language->get('text_custom_link_type'),
             ],
             (array)$this->data['link_types']
         );
 
         $this->data['form']['fields']['link_type'] = $this->html->buildElement(
             [
-                'type'    => 'selectbox',
-                'name'    => 'link_type',
+                'type' => 'selectbox',
+                'name' => 'link_type',
                 'options' => $this->data['link_types'],
-                'value'   => '',
-                'style'   => 'no-save short-field',
+                'value' => '',
+                'style' => 'no-save short-field',
             ]
         );
 
         $this->data['form']['fields']['item_url'] = $form->getFieldHtml(
             [
-                'type'     => 'input',
-                'name'     => 'item_url',
-                'value'    => $this->data['item_url'],
-                'style'    => 'large-field',
+                'type' => 'input',
+                'name' => 'item_url',
+                'value' => $this->data['item_url'],
+                'style' => 'large-field',
                 'required' => true,
                 'help_url' => $this->gen_help_url('item_url'),
             ]
         );
         $this->data['form']['fields']['item_target'] = $form->getFieldHtml(
             [
-                'type'     => 'selectbox',
-                'name'     => 'settings[target]',
-                'value'    => $this->data['settings']['target'],
-                'options'  => [
+                'type' => 'selectbox',
+                'name' => 'settings[target]',
+                'value' => $this->data['settings']['target'],
+                'options' => [
                     '_self' => '_self',
                     '_blank' => '_blank'
                 ],
-                'style'    => 'small-field',
+                'style' => 'small-field',
                 'required' => true
             ]
         );
@@ -478,67 +467,65 @@ class ControllerPagesDesignMenu extends AController
         }
         $this->data['link_category'] = $this->html->buildElement(
             [
-                'type'    => 'selectbox',
-                'name'    => 'menu_categories',
+                'type' => 'selectbox',
+                'name' => 'menu_categories',
                 'options' => $options,
-                'style'   => 'no-save short-field',
+                'style' => 'no-save short-field',
             ]
         );
 
         $this->data['link_category_include_children'] = $this->html->buildElement(
             [
-                'type'    => 'checkbox',
-                'id'      => 'category_children',
-                'name'    => 'settings[include_children]',
-                'value'   => 1,
-                'checked'   => $this->request->post['settings']['include_children'] ?? (bool)$this->data['settings']['include_children'],
-                'style'   => 'no-save btn_switch',
+                'type' => 'checkbox',
+                'id' => 'category_children',
+                'name' => 'settings[include_children]',
+                'value' => 1,
+                'checked' => $this->request->post['settings']['include_children'] ?? (bool)$this->data['settings']['include_children'],
+                'style' => 'no-save btn_switch',
             ]
         );
 
         $acm = new AContentManager();
-        $results = $acm->getContentsForSelect(false,false,0,true);
+        $results = $acm->getContentsForSelect($this->session->data['current_store_id'], true);
+        unset($results['0']);
 
-        $options = ['' => $this->language->get('text_select')];
-        foreach ($results as $k=>$c) {
-            if ($k == '0_0') {
-                continue;
-            }
-            $options[explode('_',$k)[1]] = $c;
-        }
+        $options = ['' => $this->language->get('text_select')]
+            + array_column($results, 'title', 'content_id');
 
         $this->data['link_content'] = $this->html->buildElement(
             [
-                'type'    => 'selectbox',
-                'name'    => 'menu_information',
+                'type' => 'selectbox',
+                'name' => 'menu_information',
                 'options' => $options,
-                'style'   => 'no-save short-field',
+                'style' => 'no-save short-field',
             ]
         );
         $this->data['link_content_include_children'] = $this->html->buildElement(
             [
-                'type'    => 'checkbox',
-                'id'      => 'content_children',
-                'name'    => 'settings[include_children]',
-                'value'   => 1,
+                'type' => 'checkbox',
+                'id' => 'content_children',
+                'name' => 'settings[include_children]',
+                'value' => 1,
                 'checked' => $this->request->post['settings']['include_children'] ?? (bool)$this->data['settings']['include_children'],
-                'style'   => 'no-save short-field btn_switch',
+                'style' => 'no-save short-field btn_switch',
             ]
         );
 
         $this->data['form']['fields']['parent_id'] = $form->getFieldHtml(
             [
-                'type'    => 'selectbox',
-                'name'    => 'parent_id',
-                'options' => $parentIds,
-                'value'   => $this->data['parent_id'],
-                'style'   => 'medium-field',
+                'type'             => 'selectbox',
+                'name'             => 'parent_id',
+                'options'          => $parentIds,
+                'value'            => $this->data['parent_id'],
+                'disabled_options' => $this->data['item_id'] ?: null,
+                'attr'             => 'size = "' . min(sizeof($parentIds), 10) . '"',
             ]
         );
+
         $this->data['form']['fields']['sort_order'] = $form->getFieldHtml(
             [
-                'type'  => 'input',
-                'name'  => 'sort_order',
+                'type' => 'input',
+                'name' => 'sort_order',
                 'value' => $this->data['sort_order'],
                 'style' => 'small-field',
             ]
@@ -546,10 +533,10 @@ class ControllerPagesDesignMenu extends AController
 
         $this->data['form']['fields']['item_icon'] = $form->getFieldHtml(
             [
-                'type'        => 'resource',
-                'name'        => 'item_icon',
-                'resource_id' => $this->data['item_icon'] ? : $this->data['item_icon_rl_id'],
-                'rl_type'     => 'image',
+                'type' => 'resource',
+                'name' => 'item_icon',
+                'resource_id' => $this->data['item_icon'] ?: $this->data['item_icon_rl_id'],
+                'rl_type' => 'image',
             ]
         );
         //adds scripts for RL work
@@ -557,32 +544,31 @@ class ControllerPagesDesignMenu extends AController
             'responses/common/resource_library/get_resources_scripts',
             [
                 'object_name' => 'storefront_menu_item',
-                'object_id'   => (int) $this->request->get['item_id'],
-                'types'       => ['image'],
-                'onload'      => true,
-                'mode'        => 'single',
+                'object_id' => (int)$this->request->get['item_id'],
+                'types' => ['image'],
+                'onload' => true,
+                'mode' => 'single',
             ]
         );
         $this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
 
         $this->view->batchAssign($this->language->getASet());
+        $this->data['list_url'] = $this->html->getSecureURL('design/menu', '&saved_list=menu_grid');
         $this->view->batchAssign($this->data);
         $this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
         $this->view->assign('help_url', $this->gen_help_url('menu_edit'));
+
         $this->processTemplate('pages/design/menu_form.tpl');
     }
 
     protected function _buildMenuTree($parent = '', $level = 0)
     {
-        if (empty($this->menu_items[$parent])) {
-            return [];
-        }
-        $lang_id = (int) $this->language->getContentLanguageID();
+        $lang_id = (int)$this->language->getContentLanguageID();
         foreach ($this->menu_items[$parent] as $item) {
             $this->menu_tree[$item['item_id']] = [
                 'item_id' => $item['item_id'],
-                'text'    => str_repeat('&nbsp;&nbsp;&nbsp;', $level).$item['item_text'][$lang_id],
-                'level'   => $level,
+                'text' => str_repeat('&nbsp;&nbsp;&nbsp;', $level) . ($item['item_text'][$lang_id]?: $item['title']),
+                'level' => $level,
             ];
             $this->_buildMenuTree($item['item_id'], $level + 1);
         }
@@ -597,7 +583,7 @@ class ControllerPagesDesignMenu extends AController
 
         if (!empty($post['item_id'])) {
             $ids = $this->menu->getItemIds();
-            if (!preg_match("/^[A-Za-z0-9]*$/",$post['item_id'])) {
+            if (!preg_match("/^[A-Za-z0-9]*$/", $post['item_id'])) {
                 $this->error['item_id'] = $this->language->get('error_non_ascii');
             } else if (in_array($post['item_id'], $ids)) {
                 $this->error['item_id'] = $this->language->get('error_non_unique');

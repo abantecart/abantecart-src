@@ -50,8 +50,6 @@ class ControllerCommonANT extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $httpQuery['option'] = 'com_antresponses';
-        $httpQuery['format'] = 'raw';
         $httpQuery['software_name'] = 'AbanteCart';
         $httpQuery['store_id'] = UNIQUE_ID;
         $httpQuery['store_ip'] = $_SERVER ['SERVER_ADDR'];
@@ -74,7 +72,7 @@ class ControllerCommonANT extends AController
 
         //do connect without any http-redirects
         $connect = new AConnect (true);
-        $result = $connect->getResponseSecure("/index.php?".http_build_query($httpQuery));
+        $result = $connect->getResponseSecure("/get_ant_messages/?".http_build_query($httpQuery));
         $this->session->data ['ant_messages'] = []; // prevent requests in future at this session
         // insert new messages in database
         if ($result && is_array($result)) {

@@ -1,7 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions>
-  <definition>
-    <key>text_error</key>
-    <value><![CDATA[Страница не найдена!]]></value>
-  </definition>
+	<definition>
+		<key>text_error</key>
+		<value><![CDATA[Страница не найдена!]]></value>
+	</definition>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Страницы контента]]></value>
+	</definition>
+	<definition>
+		<key>text_author</key>
+		<value><![CDATA[Автор:]]></value>
+	</definition>
+	<definition>
+		<key>text_published</key>
+		<value><![CDATA[Опубликовано:]]></value>
+	</definition>
+	<definition>
+		<key>text_sort</key>
+		<value><![CDATA[Сортировать по:]]></value>
+	</definition>
+	<definition>
+		<key>text_new</key>
+		<value><![CDATA[НОВЫЙ]]></value>
+	</definition>
+	<definition>
+		<key>text_default</key>
+		<value><![CDATA[По умолчанию]]></value>
+	</definition>
+	<definition>
+		<key>content_not_found</key>
+		<value><![CDATA[Контент не найден. Попробуйте еще раз.]]></value>
+	</definition>
 </definitions>

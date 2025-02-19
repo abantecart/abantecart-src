@@ -1,28 +1,28 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 /**
  * Class ControllerCommonHeader
  *
  * @property ModelToolOnlineNow $model_tool_online_now
- * @property ModelToolMPAPI     $model_tool_mp_api
+ * @property ModelToolMPAPI $model_tool_mp_api
  *
  */
 class ControllerCommonHeader extends AController
@@ -60,15 +60,15 @@ class ControllerCommonHeader extends AController
         $this->data['action'] = $this->html->getSecureURL('index/home');
         $this->data['search_action'] = $this->html->getSecureURL('tool/global_search');
 
-        $this->data['logo'] = $this->config->get('config_logo_'.$this->language->getLanguageID())
-                                ?: $this->config->get('config_logo');
+        $this->data['logo'] = $this->config->get('config_logo_' . $this->language->getLanguageID())
+            ?: $this->config->get('config_logo');
         if (is_numeric($this->data['logo'])) {
             $resource = new AResource('image');
             $image_data = $resource->getResource($this->data['logo']);
-            $img_sub_path = $image_data['type_name'].'/'.$image_data['resource_path'];
-            if (is_file(DIR_RESOURCE.$img_sub_path)) {
+            $img_sub_path = $image_data['type_name'] . '/' . $image_data['resource_path'];
+            if (is_file(DIR_RESOURCE . $img_sub_path)) {
                 $this->data['logo'] = $img_sub_path;
-                $logo_path = DIR_RESOURCE.$img_sub_path;
+                $logo_path = DIR_RESOURCE . $img_sub_path;
                 //get logo image dimensions
                 $info = get_image_size($logo_path);
                 $this->data['logo_width'] = $info['width'];
@@ -84,7 +84,7 @@ class ControllerCommonHeader extends AController
             $this->data['home_page'] = true;
         } else {
             $this->data['home_page'] = false;
-            $this->data['redirect'] = HTTPS_SERVER.'?'.$_SERVER['QUERY_STRING'];
+            $this->data['redirect'] = HTTPS_SERVER . '?' . $_SERVER['QUERY_STRING'];
         }
 
         if (!$this->user->isLogged()
@@ -111,8 +111,8 @@ class ControllerCommonHeader extends AController
             }
             $this->data['account_edit'] = $this->html->getSecureURL('index/edit_details', '', true);
             $this->data['im_settings_edit'] = $this->html->getSecureURL(
-                                                    'user/user/im',
-                                                    '&user_id='.$this->user->getId(), true);
+                'user/user/im',
+                '&user_id=' . $this->user->getId(), true);
             $this->data['text_edit_notifications'] = $this->language->get('text_edit_notifications');
 
             $stores = [];
@@ -160,13 +160,16 @@ class ControllerCommonHeader extends AController
             $this->data['current_menu'] = $current_menu;
         }
         if ($this->user->isLogged()) {
-            $ant_message = $this->messages->getANTMessage();
-            $this->data['ant'] = $ant_message['html'];
+            $ANTMessage = $this->messages->getANTMessage();
+            $this->data['last_ant'] = $ANTMessage['html'];
             $this->data['mark_read_url'] = $this->html->getSecureURL(
-                                                'common/common/antMessageRead',
-                                                '&message_id='.$ant_message['id']
+                'common/common/antMessageRead',
+                '&message_id=' . $ANTMessage['id']
             );
-            $this->data['ant_viewed'] = $ant_message['viewed'];
+            $this->data['ant_viewed'] = $ANTMessage['viewed'];
+
+            $ANTMessage = $this->messages->getANTMessage(false);
+            $this->data['ant_banner'] = $ANTMessage['html'];
         }
         $this->data['config_voicecontrol'] = $this->config->get('config_voicecontrol');
         $this->data['voicecontrol_setting_url'] = $this->html->getSecureURL('setting/setting/system');
@@ -183,21 +186,12 @@ class ControllerCommonHeader extends AController
         $this->data['text_all_matches'] = $this->language->get('text_all_matches');
         $this->data['dialog_title'] = $this->language->get('text_quick_edit_form');
         $this->data['button_go'] = $this->html->buildButton(
-                                                        [
-                                                            'name'  => 'searchform_go',
-                                                            'text'  => $this->language->get('button_go'),
-                                                            'style' => 'button5',
-                                                        ]
+            [
+                'name'  => 'searchform_go',
+                'text'  => $this->language->get('button_go'),
+                'style' => 'button5',
+            ]
         );
-
-        //backwards compatibility from 1.2.1. Can remove this check in the future.
-        if (!defined('ENCRYPTION_KEY')) {
-            $cm_body = "To be compatible with v".VERSION
-                ." add below line to configuration file: <br>\n"
-                .DIR_ROOT.'/system/config.php';
-            $cm_body .= "<br>\n"."define('ENCRYPTION_KEY', '".$this->config->get('encryption_key')."');\n";
-            $this->messages->saveWarning('Compatibility warning for v'.VERSION, $cm_body);
-        }
 
         $permissions = [];
         $this->loadModel('user/user_group');
@@ -236,8 +230,8 @@ class ControllerCommonHeader extends AController
             $today_orders = $this->model_report_sale->getSaleReportSummary($data);
             $this->data['today_order_count'] = $today_orders['orders'];
             $this->data['today_sales_amount'] = $this->currency->format(
-                            $today_orders['total_amount'],
-                            $this->config->get('config_currency')
+                $today_orders['total_amount'],
+                $this->config->get('config_currency')
             );
         } else {
             $this->data['vieworder'] = false;
@@ -250,6 +244,8 @@ class ControllerCommonHeader extends AController
         } else {
             $this->data['viewreview'] = false;
         }
+
+        $this->data['heading_title'] = $this->document->getTitle() ?: $this->language->get('heading_title');
 
         $this->view->batchAssign($this->data);
         $this->processTemplate('common/header.tpl');

@@ -7,15 +7,11 @@
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left form-inline">
 		<?php if(sizeof((array)$options->options)){?>
-			<div class="form-group">
-				<div class="input-group input-group-sm">
-					<label><?php echo $tab_option; ?></label>
-				</div>
-			</div>			
-			<div class="form-group">
-				<div class="input-group input-group-sm">
+			<div class="btn-group">
+    			<label><?php echo $tab_option; ?></label>
+			</div>
+			<div class="btn-group">
 				<?php echo $options; ?>
-				</div>
 			</div>
 		<?php } ?>
 			<div class="btn-group ml10 toolbar">

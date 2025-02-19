@@ -7,8 +7,8 @@
                    name="keyword"
                    autocomplete="off"
                    class="form-control me-2 input-medium search-query"
-                   placeholder="<?php echo_html2view($text_keyword); ?>"
-                   value=""
+                   placeholder="<?php echo_html2view($search->placeholder); ?>"
+                   value="<?php echo_html2view($search->value); ?>"
                    aria-expanded="false"/>
         </div>
         <div class="btn-group search-bar">

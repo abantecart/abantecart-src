@@ -18,40 +18,36 @@
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 
-/**
- * Class ControllerPagesToolFormsManager
- *
- * @property ModelToolFormsManager $model_tool_forms_manager
- */
 class ControllerPagesToolFormsManager extends AController
 {
-
     public $controllers = [];
     public $error = [];
+    /** @var ModelToolFormsManager */
+    public $mdl;
+
+    public function __construct($registry, $instance_id, $controller, $parent_controller = '')
+    {
+        parent::__construct($registry, $instance_id, $controller, $parent_controller);
+        $this->loadLanguage('forms_manager/forms_manager');
+        $this->mdl = $this->loadModel('tool/forms_manager');
+    }
 
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->loadLanguage('forms_manager/forms_manager');
-        $this->loadModel('tool/forms_manager');
-
         if ($this->request->is_POST() && $this->_validateForm($this->request->post)) {
-
             if (!$this->request->get['form_id']) {
-                if ($this->model_tool_forms_manager->getFormIdByName($this->request->post['form_name'])) {
-
+                if ($this->mdl->getFormIdByName($this->request->post['form_name'])) {
                     $this->session->data['warning'] = $this->language->get('error_duplicate_form_name');
                     redirect($this->html->getSecureURL('tool/forms_manager'));
                 }
-                $this->request->get['form_id'] = $this->model_tool_forms_manager->addForm($this->request->post);
-            } elseif (!$this->model_tool_forms_manager->addField($this->request->get['form_id'], $this->request->post)) {
+                $this->request->get['form_id'] = $this->mdl->addForm($this->request->post);
+            } elseif (!$this->mdl->addField($this->request->get['form_id'], $this->request->post)) {
                 $this->session->data['warning'] = $this->language->get('error_duplicate_field_name');
             }
             redirect($this->html->getSecureURL('tool/forms_manager/update', '&form_id=' . $this->request->get['form_id']));
-            exit;
         }
 
         $this->document->setTitle($this->language->get('forms_manager_name'));
@@ -143,12 +139,8 @@ class ControllerPagesToolFormsManager extends AController
 
     public function update()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-
-        $this->loadLanguage('forms_manager/forms_manager');
-        $this->loadModel('tool/forms_manager');
 
         $this->document->setTitle($this->language->get('forms_manager_name'));
 
@@ -164,10 +156,10 @@ class ControllerPagesToolFormsManager extends AController
                 $post['form_id'] = $this->request->get['form_id'];
 
                 $this->session->data['success'] = $this->language->get('text_success_form');
-                $this->model_tool_forms_manager->updateForm($post);
-                $this->model_tool_forms_manager->updateFormFieldData($post);
+                $this->mdl->updateForm($post);
+                $this->mdl->updateFormFieldData($post);
             } else {
-                $form_id = $this->model_tool_forms_manager->addForm($this->request->post);
+                $form_id = $this->mdl->addForm($this->request->post);
                 $this->session->data['success'] = $this->language->get('text_success_added_form');
             }
             redirect($this->html->getSecureURL('tool/forms_manager/update', '&form_id=' . $form_id));
@@ -194,35 +186,42 @@ class ControllerPagesToolFormsManager extends AController
 
     public function removeField()
     {
-        $this->loadLanguage('forms_manager/forms_manager');
-        $this->loadModel('tool/forms_manager');
-        $this->model_tool_forms_manager->removeField($this->request->get['form_id'], $this->request->get['field_id']);
+        $this->mdl->removeField($this->request->get['form_id'], $this->request->get['field_id']);
         $this->session->data['success'] = $this->language->get('text_field_removed');
         redirect($this->html->getSecureURL('tool/forms_manager/update', '&form_id=' . $this->request->get['form_id']));
     }
 
-    private function _getForm()
+    protected function _getForm()
     {
-
         //check is set sender name and email for settings
-        if (!$this->config->get('forms_manager_default_sender_name') || !$this->config->get('forms_manager_default_sender_email')) {
-            $this->data['error_warning'] = $this->html->convertLinks($this->language->get('forms_manager_error_empty_sender'));
+        if (!$this->config->get('forms_manager_default_sender_name')
+            || !$this->config->get('forms_manager_default_sender_email')
+        ){
+            $this->data['error_warning'] = $this->html->convertLinks(
+                $this->language->get('forms_manager_error_empty_sender')
+            );
         }
-        $this->data['form_data'] = $this->model_tool_forms_manager->getFormById($this->request->get['form_id']);
+        $this->data['form_data'] = $this->mdl->getFormById($this->request->get['form_id']);
         $this->data['form_edit_title'] = $this->data['form_data']['description'] ?? $this->language->get('entry_add_new_form');
         $this->data['cancel'] = $this->html->getSecureURL('tool/forms_manager');
         $this->data['heading_title'] = $this->language->get('forms_manager_name');
-        $this->data['update'] = $this->html->getSecureURL('grid/form/update_field', '&form_id=' . $this->data['form_data']['form_id']);
+        $this->data['update'] = $this->html->getSecureURL(
+            'grid/form/update_field',
+            '&form_id=' . $this->data['form_data']['form_id']
+        );
         $this->data['field_id'] = (int)$this->request->get['field_id'];
 
         if ($this->request->get['form_id']) {
-            $head_form = new AForm('HS');
-            $this->data['entry_edit_form'] = $this->language->get('text_edit') . '&nbsp;' . $this->language->get('text_form');
+            $headForm = new AForm('HS');
+            $this->data['entry_edit_form'] = $this->language->get('text_edit')
+                . ' - ' . $this->language->get('text_form');
             $this->data['form_id'] = $this->request->get['form_id'];
-            $this->data['action'] = $this->html->getSecureURL('tool/forms_manager/update', '&form_id=' . $this->data['form_data']['form_id']);
-
+            $this->data['action'] = $this->html->getSecureURL(
+                'tool/forms_manager/update',
+                '&form_id=' . $this->data['form_data']['form_id']
+            );
         } else {
-            $head_form = new AForm('HT');
+            $headForm = new AForm('HT');
             $this->data['action'] = $this->html->getSecureURL('tool/forms_manager/update');
         }
 
@@ -249,21 +248,22 @@ class ControllerPagesToolFormsManager extends AController
             ]
         );
 
-        $head_form->setForm(
+        $headForm->setForm(
             [
-                'form_name' => 'extFrm',
+                'form_name' => 'frmFrm',
                 'update'    => $this->data['update'],
             ]
         );
-        $this->data['head_form']['id'] = 'extFrm';
-        $this->data['head_form']['form_open'] = $head_form->getFieldHtml(
+
+        $this->data['head_form']['form_open'] = $headForm->getFieldHtml(
             [
                 'type'   => 'form',
-                'name'   => 'extFrm',
+                'name'   => 'frmFrm',
                 'action' => $this->data['action'],
             ]
         );
-        $this->data['head_form']['button_save'] = $head_form->getFieldHtml(
+
+        $this->data['head_form']['button_save'] = $headForm->getFieldHtml(
             [
                 'type'  => 'button',
                 'name'  => 'submit',
@@ -271,7 +271,8 @@ class ControllerPagesToolFormsManager extends AController
                 'style' => 'button1',
             ]
         );
-        $this->data['head_form']['button_reset'] = $head_form->getFieldHtml(
+
+        $this->data['head_form']['button_reset'] = $headForm->getFieldHtml(
             [
                 'type'  => 'button',
                 'name'  => 'reset',
@@ -281,40 +282,41 @@ class ControllerPagesToolFormsManager extends AController
             ]
         );
 
-        $this->data['head_form']['fields']['form_status'] = $head_form->getFieldHtml(
+        $this->data['head_form']['fields']['form_status'] = $headForm->getFieldHtml(
             [
                 'type'     => 'checkbox',
                 'name'     => 'form_status',
-                'value'    => $this->data['form_data']['status'] ?? '',
+                'checked'  => (int)$this->data['form_data']['status'],
+                'value'    => 1,
                 'required' => true,
-                'style'    => 'btn_switch status_switch',
+                'style'    => 'btn_switch status_switch'
             ]
         );
-        $this->data['entry_form_status'] = $this->language->get('forms_manager_status');
 
-        $this->data['head_form']['fields']['form_name'] = $head_form->getFieldHtml(
+        $this->data['entry_form_status'] = $this->language->get('forms_manager_status');
+        $this->data['head_form']['fields']['form_name'] = $headForm->getFieldHtml(
             [
                 'type'     => 'input',
                 'name'     => 'form_name',
                 'value'    => $this->data['form_data']['form_name'] ?? '',
                 'required' => true,
                 'attr'     => ($this->request->get['form_id'] ? 'readonly' : ''),
-                'style'    => 'large-field',
+                'style'    => 'large-field'
             ]
         );
 
-        $this->data['head_form']['fields']['form_description'] = $head_form->getFieldHtml(
+        $this->data['head_form']['fields']['form_description'] = $headForm->getFieldHtml(
             [
                 'type'         => 'input',
                 'name'         => 'form_description',
-                'value'        => $this->data['form_data']['description'] ?? '',
+                'value'        => $this->data['form_data']['description'],
                 'required'     => true,
                 'style'        => 'large-field',
-                'multilingual' => true,
+                'multilingual' => true
             ]
         );
 
-        $this->data['head_form']['fields']['controller_path'] = $head_form->getFieldHtml(
+        $this->data['head_form']['fields']['controller_path'] = $headForm->getFieldHtml(
             [
                 'type'     => 'selectbox',
                 'name'     => 'controller_path',
@@ -325,7 +327,7 @@ class ControllerPagesToolFormsManager extends AController
             ]
         );
 
-        $this->data['head_form']['fields']['success_page'] = $head_form->getFieldHtml(
+        $this->data['head_form']['fields']['success_page'] = $headForm->getFieldHtml(
             [
                 'type'  => 'input',
                 'name'  => 'success_page',
@@ -337,14 +339,11 @@ class ControllerPagesToolFormsManager extends AController
         $this->data['error_required'] = $this->language->get('error_required');
 
         $this->data['forms_fields'] = [];
-
-        $fields_data = $this->model_tool_forms_manager->getFields($this->data['form_data']['form_id']);
-
         $this->data['fields'] = [];
 
+        $fields_data = $this->mdl->getFields($this->data['form_data']['form_id']);
         if ($fields_data) {
-            $this->data['fields'] =
-            $fields = array_column($fields_data, 'field_name', 'field_id');
+            $this->data['fields'] = $fields = array_column($fields_data, 'field_name', 'field_id');
             $this->data['field_id'] = $this->data['field_id'] ?: array_key_first($fields);
         } else {
             $fields = [
@@ -353,7 +352,6 @@ class ControllerPagesToolFormsManager extends AController
         }
 
         $form = new AForm('HT');
-
         $form->setForm(
             [
                 'form_name' => 'new_fieldFrm',
@@ -438,7 +436,7 @@ class ControllerPagesToolFormsManager extends AController
                 'type'  => 'checkbox',
                 'name'  => 'status',
                 'value' => 1,
-                'style' => 'btn_switch btn-group-xs',
+                'style' => 'btn_switch',
             ]
         );
 
@@ -456,7 +454,7 @@ class ControllerPagesToolFormsManager extends AController
             [
                 'type'  => 'checkbox',
                 'name'  => 'required',
-                'style' => 'btn_switch btn-group-xs',
+                'style' => 'btn_switch',
             ]
         );
 
@@ -508,7 +506,6 @@ class ControllerPagesToolFormsManager extends AController
         if (!$this->user->hasPermission('modify', 'tool/forms_manager')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
-
         if (mb_strlen($data['form_name']) == 0) {
             $this->error['form_name'] = $this->language->get('error_form_name');
         }
@@ -527,7 +524,6 @@ class ControllerPagesToolFormsManager extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadLanguage('design/blocks');
-        $this->loadLanguage('forms_manager/forms_manager');
         $this->document->setTitle($this->language->get('forms_manager_name'));
         $this->data['heading_title'] = $this->language->get('custom_forms_block');
 
@@ -615,11 +611,12 @@ class ControllerPagesToolFormsManager extends AController
                         );
                     }
                 }
-
             }
 
             $this->session->data ['success'] = $this->language->get('text_success');
-            redirect($this->html->getSecureURL('tool/forms_manager/edit_block', '&custom_block_id=' . $custom_block_id));
+            redirect(
+                $this->html->getSecureURL('tool/forms_manager/edit_block', '&custom_block_id=' . $custom_block_id)
+            );
         }
 
         $this->data = array_merge($this->data, $this->request->post);
@@ -635,7 +632,6 @@ class ControllerPagesToolFormsManager extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $this->loadLanguage('forms_manager/forms_manager');
         $this->loadLanguage('design/blocks');
         $this->document->setTitle($this->language->get('forms_manager_name'));
         $this->data['heading_title'] = $this->language->get('custom_forms_block');
@@ -926,7 +922,7 @@ class ControllerPagesToolFormsManager extends AController
         );
         $this->data['form']['text']['block_description'] = $this->language->get('entry_block_description');
 
-        $result = $this->model_tool_forms_manager->getForms(
+        $result = $this->mdl->getForms(
             [
                 'filter' => [
                     'status' => 1
@@ -964,7 +960,7 @@ class ControllerPagesToolFormsManager extends AController
         $this->processTemplate('pages/tool/forms_manager_block_form.tpl');
     }
 
-    private function _validateBlockForm()
+    protected function _validateBlockForm()
     {
         if (!$this->user->canModify('tool/forms_manager')) {
             $this->session->data['warning'] = $this->error ['warning'] = $this->language->get('error_permission');

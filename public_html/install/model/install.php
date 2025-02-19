@@ -262,17 +262,11 @@ const MAILER = [
             foreach ($sql as $line) {
                 $tsl = trim($line);
 
-                if (($sql != '') && (substr($tsl, 0, 2) != "--") && (substr($tsl, 0, 1) != '#')) {
+                if (!str_starts_with($tsl,"--") && !str_starts_with($tsl,'#')) {
                     $query .= $line;
 
                     if (preg_match('/;\s*$/', $line)) {
-                        $query = str_replace(
-                            "DROP TABLE IF EXISTS `ac_", "DROP TABLE IF EXISTS `".$data['db_prefix'], $query
-                        );
-                        $query = str_replace("CREATE TABLE `ac_", "CREATE TABLE `".$data['db_prefix'], $query);
-                        $query = str_replace("INSERT INTO `ac_", "INSERT INTO `".$data['db_prefix'], $query);
-                        $query = str_replace("ON `ac_", "ON `".$data['db_prefix'], $query);
-
+                        $query = str_replace("`ac_", "`".$data['db_prefix'], $query);
                         $db->query($query); //no silence mode! if error - will throw to exception
                         $query = '';
                     }

@@ -131,7 +131,7 @@ final class ADispatcher
 
         // Already found the path, so return.
         // This will optimize performance, and will not allow override core controllers.
-        if ($pathfound == true) {
+        if ($pathfound) {
             return $pathfound;
         }
 
@@ -167,6 +167,8 @@ final class ADispatcher
      * @param string $route
      *
      * @return string
+     * @throws AException
+     * @throws ReflectionException
      */
     protected function dispatchPrePost($route)
     {
@@ -358,14 +360,14 @@ final class ADispatcher
 
                 //check for controller.pre
                 $output_post = $this->dispatchPrePost($this->controller.POSTFIX_POST);
-                //add pre and post controllers output
+                //add "pre" and "post" controllers output
                 $this->response->setOutput($output_pre.$this->response->getOutput().$output_post);
 
                 //clean up and destroy the object
                 unset($controller, $dispatch);
             } else {
                 $err = new AError(
-                    'Error: controller method not exist '.$this->class.'::'.$this->method.'!',
+                    'Error: controller method not exist '.$this->class.'::'.$this->method.'!'.PHP_EOL.'GET: '.var_export($_GET, true),
                     AC_ERR_CLASS_METHOD_NOT_EXIST
                 );
                 $err->toLog()->toDebug();
@@ -380,7 +382,7 @@ final class ADispatcher
                 throw $e;
             }
         }
-        ADebug::checkpoint(''.$this->class.'/'.$this->method.' dispatch END');
+        ADebug::checkpoint($this->class.'/'.$this->method.' dispatch END');
         return null;
     }
 

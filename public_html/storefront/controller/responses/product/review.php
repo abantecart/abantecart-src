@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2022 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -37,21 +37,14 @@ class ControllerResponsesProductReview extends AController
 
         $request = $this->request->get;
         $product_id = (int)$request['product_id'];
-
-        if (isset($request['page'])) {
-            $page = $request['page'];
-        } else {
-            $page = 1;
-        }
+        $page = (int)$request['page'] ?: 1;
 
         $reviews = [];
         if ($this->config->get('display_reviews')) {
             //todo: add this setting in the appearance section of admin
             $perPage = $this->config->get('reviews_per_page') ?: 5;
             $results = $this->model_catalog_review->getReviewsByProductId($product_id, ($page - 1) * $perPage, $perPage);
-
             foreach ($results as $result) {
-
                 $reviews[] = [
                     'author'            => $result['author'],
                     'rating'            => $result['rating'],
@@ -77,8 +70,8 @@ class ControllerResponsesProductReview extends AController
                 'page'       => $page,
                 'limit'      => $perPage,
                 'no_perpage' => true,
-                'url'        => $this->html->getURL('product/review/review', '&product_id='.$product_id.'&page={page}'),
-                'direct_url' => $this->html->getURL('product/product', '&product_id='.$product_id.'&page={page}#review'),
+                'url'        => $this->html->getURL('product/review/review', '&product_id='.$product_id.'&page=--page--'),
+                'direct_url' => $this->html->getURL('product/product', '&product_id='.$product_id.'&page=--page--#review'),
                 'style'      => 'pagination',
             ]);
         }
@@ -158,7 +151,6 @@ class ControllerResponsesProductReview extends AController
         }
 
         $this->extensions->hk_ValidateData($this);
-
         return (!$this->error);
     }
 }

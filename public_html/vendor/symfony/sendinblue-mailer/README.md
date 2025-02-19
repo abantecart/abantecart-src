@@ -6,18 +6,21 @@ Provides Sendinblue integration for Symfony Mailer.
 Configuration example:
 
 ```env
-# API
-MAILER_DSN=sendinblue+api://$SENDINBLUE_API_KEY@default
-
 # SMTP
-MAILER_DSN=sendinblue+smtp://$SENDINBLUE_USERNAME:$SENDINBLUE_PASSWORD@default
+MAILER_DSN=sendinblue+smtp://USERNAME:PASSWORD@default
+
+# API
+MAILER_DSN=sendinblue+api://KEY@default
 ```
+
+where:
+ - `KEY` is your Sendinblue API Key
 
 With API, you can use custom headers.
 
 ```php
 $params = ['param1' => 'foo', 'param2' => 'bar'];
-$json = json_encode(['"custom_header_1' => 'custom_value_1']);
+$json = json_encode(['custom_header_1' => 'custom_value_1']);
 
 $email = new Email();
 $email
@@ -32,7 +35,7 @@ $email
 ;
 ```
 
-This example allow you to set :
+This example allow you to set:
 
  * templateId
  * params
@@ -41,7 +44,7 @@ This example allow you to set :
     * sender.ip
     * X-Mailin-Custom
 
-For more informations, you can refer to [Sendinblue API documentation](https://developers.sendinblue.com/reference#sendtransacemail).
+For more information, you can refer to [Sendinblue API documentation](https://developers.sendinblue.com/reference#sendtransacemail).
 
 Resources
 ---------

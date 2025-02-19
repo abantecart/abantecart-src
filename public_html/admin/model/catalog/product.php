@@ -200,12 +200,6 @@ class ModelCatalogProduct extends Model
     public function addProductDiscount($product_id, $data)
     {
         $data['price'] = str_replace(" ", "", $data['price']);
-        if (!empty($data['date_start']) && !$data['iso_date']) {
-            $data['date_start'] = dateDisplay2ISO($data['date_start'], $this->language->get('date_format_short'));
-        }
-        if (!empty($data['date_end']) && !$data['iso_date']) {
-            $data['date_end'] = dateDisplay2ISO($data['date_end'], $this->language->get('date_format_short'));
-        }
         $this->db->query(
             "INSERT INTO ".$this->db->table("product_discounts")."
             SET product_id = '".(int)$product_id."',
@@ -316,6 +310,7 @@ class ModelCatalogProduct extends Model
                 $update[] = $f." = '".$this->db->escape($data[$f])."'";
             }
         }
+
         if (!empty($update)) {
             $this->db->query(
                 "UPDATE `".$this->db->table("products`")
@@ -349,6 +344,7 @@ class ModelCatalogProduct extends Model
                 }
             }
         }
+
         if (isset($data['featured'])) {
             $this->setFeatured($product_id, (bool) $data['featured']);
         }
@@ -390,11 +386,11 @@ class ModelCatalogProduct extends Model
             );
         }
 
-        if ($data['stock_location']) {
+        if(isset($data['stock_location'])) {
             $this->updateProductStockLocations($data['stock_location'], $product_id, 0);
         }
 
-        if($data['weight_class_id']){
+        if(isset($data['weight_class_id'])){
             $aW = new AWeight($this->registry);
             $unit = $aW->getUnit($data['weight_class_id']);
             if($unit) {
@@ -433,12 +429,6 @@ class ModelCatalogProduct extends Model
         if (isset($data['price'])) {
             $data['price'] = preformatFloat($data['price'], $this->language->get('decimal_point'));
         }
-        if (!empty($data['date_start'])) {
-            $data['date_start'] = dateDisplay2ISO($data['date_start'], $this->language->get('date_format_short'));
-        }
-        if (!empty($data['date_end'])) {
-            $data['date_end'] = dateDisplay2ISO($data['date_end'], $this->language->get('date_format_short'));
-        }
         $update = [];
         foreach ($fields as $f) {
             if (isset($data[$f])) {
@@ -452,7 +442,8 @@ class ModelCatalogProduct extends Model
                 WHERE product_discount_id = '".$product_discount_id."'"
             );
         }
-        $this->cache->remove(['product','category','collection']);
+
+        $this->cache->remove(['product','category','collection','storefront_menu']);
     }
 
     /**
@@ -468,12 +459,6 @@ class ModelCatalogProduct extends Model
         if (isset($data['price'])) {
             $data['price'] = preformatFloat($data['price'], $this->language->get('decimal_point'));
         }
-        if (!empty($data['date_start'])) {
-            $data['date_start'] = dateDisplay2ISO($data['date_start'], $this->language->get('date_format_short'));
-        }
-        if (!empty($data['date_end'])) {
-            $data['date_end'] = dateDisplay2ISO($data['date_end'], $this->language->get('date_format_short'));
-        }
 
         $update = [];
         foreach ($fields as $f) {
@@ -488,7 +473,7 @@ class ModelCatalogProduct extends Model
                 ." WHERE product_special_id = '".$product_special_id."'"
             );
         }
-        $this->cache->remove(['product','category','collection']);
+        $this->cache->remove(['product','category','collection','storefront_menu']);
     }
 
     /**
@@ -996,7 +981,7 @@ class ModelCatalogProduct extends Model
                 supplier_code = '".$this->db->escape($data['supplier_code'])."',
                 supplier_id = '".$this->db->escape($data['supplier_id'])."'"
         );
-        $this->cache->remove(['product', 'collection', 'category']);
+        $this->cache->remove(['product','category','collection','storefront_menu']);
         return $this->db->getLastId();
     }
 
@@ -1273,12 +1258,9 @@ class ModelCatalogProduct extends Model
         $new_product_id = $this->addProduct($data);
 
         foreach ($data['product_discount'] as $item) {
-            //sign to prevent converting date from display format to iso
-            $item['iso_date'] = true;
             $this->addProductDiscount($new_product_id, $item);
         }
         foreach ($data['product_special'] as $item) {
-            $item['iso_date'] = true;
             $this->addProductSpecial($new_product_id, $item);
         }
 
@@ -1293,7 +1275,7 @@ class ModelCatalogProduct extends Model
             );
         }
 
-        $this->cache->remove(['product','category','collection'] );
+        $this->cache->remove(['product','category','collection','storefront_menu']);
 
         //clone layout for the product if present
         $layout_clone_result = $this->_clone_product_layout($product_id, $new_product_id);
@@ -1440,7 +1422,7 @@ class ModelCatalogProduct extends Model
             }
         }
 
-        $this->cache->remove(['product', 'collection', 'category']);
+        $this->cache->remove(['product','category','collection','storefront_menu']);
     }
 
     /**
@@ -1591,7 +1573,7 @@ class ModelCatalogProduct extends Model
         $lm = new ALayoutManager();
         $lm->deletePageLayout('pages/product/product', 'product_id', (int) $product_id);
 
-        $this->cache->remove(['product', 'collection', 'category']);
+        $this->cache->remove(['product','category','collection','storefront_menu']);
         return true;
     }
 
@@ -1606,7 +1588,7 @@ class ModelCatalogProduct extends Model
             "DELETE FROM ".$this->db->table("product_discounts")." 
             WHERE product_discount_id = '".(int) $product_discount_id."'"
         );
-        $this->cache->remove(['product', 'collection', 'category']);
+        $this->cache->remove(['product','category','collection','storefront_menu']);
     }
 
     /**
@@ -1620,7 +1602,7 @@ class ModelCatalogProduct extends Model
             "DELETE FROM ".$this->db->table("product_specials")." 
             WHERE product_special_id='".(int) $product_special_id."'"
         );
-        $this->cache->remove(['product', 'collection', 'category']);
+        $this->cache->remove(['product','category','collection','storefront_menu']);
     }
 
     /**
@@ -1631,18 +1613,19 @@ class ModelCatalogProduct extends Model
      */
     public function getProduct($product_id)
     {
+        $languageId = (int) $this->language->getContentLanguageID();
         $query = $this->db->query(
             "SELECT DISTINCT *, p.product_id, COALESCE(pf.product_id, 0) as featured,
                 (SELECT keyword
                  FROM ".$this->db->table("url_aliases")." 
                  WHERE query = 'product_id=".(int) $product_id."'
-                    AND language_id='".(int) $this->language->getContentLanguageID()."' ) AS keyword
+                    AND language_id='".$languageId."' ) AS keyword
             FROM ".$this->db->table("products")." p
             LEFT JOIN ".$this->db->table("products_featured")." pf 
                 ON pf.product_id = p.product_id
             LEFT JOIN ".$this->db->table("product_descriptions")." pd
                     ON (p.product_id = pd.product_id
-                            AND pd.language_id = '" .(int) $this->config->get('storefront_language_id')."')
+                            AND pd.language_id = '" .$languageId."')
             WHERE p.product_id = '".(int) $product_id."'"
         );
         return $query->row;
@@ -1698,7 +1681,7 @@ class ModelCatalogProduct extends Model
                  SET product_id = '".(int) $product_id."'"
             );
         }
-        $this->cache->remove(['product', 'collection', 'category']);
+        $this->cache->remove(['product','category','collection','storefront_menu']);
     }
 
     /**
@@ -1717,7 +1700,7 @@ class ModelCatalogProduct extends Model
                 );
             }
         }
-        $this->cache->remove(['product', 'collection', 'category']);
+        $this->cache->remove(['product','category','collection','storefront_menu']);
     }
 
     /**
@@ -1950,7 +1933,7 @@ class ModelCatalogProduct extends Model
             );
         }
 
-        $this->cache->remove(['product', 'collection', 'category']);
+        $this->cache->remove(['product','category','collection','storefront_menu']);
     }
 
     /**
@@ -2873,7 +2856,7 @@ class ModelCatalogProduct extends Model
     /**
      * @param int $product_id
      *
-     * @return bool
+     * @return int
      * @throws AException
      */
     public function hasTrackOptions($product_id)
@@ -2884,7 +2867,7 @@ class ModelCatalogProduct extends Model
                     ON (pov.product_option_id = po.product_option_id AND po.status = 1) 
                 WHERE pov.product_id=".(int) $product_id." AND pov.subtract = 1";
         $result = $this->db->query($sql);
-        return ($result->num_rows);
+        return $result->num_rows;
     }
 
     /**
@@ -3020,7 +3003,7 @@ class ModelCatalogProduct extends Model
                 );
             }
         }
-        $this->cache->remove(['product', 'collection', 'category']);
+        $this->cache->remove(['product','category','collection','storefront_menu']);
         return true;
     }
 
@@ -3088,7 +3071,7 @@ class ModelCatalogProduct extends Model
         $this->errors = [];
         $this->load->language('catalog/attribute');
 
-        $txtIds = array_filter(array_map('trim', $data['txt_id']));
+        $txtIds = array_filter(array_map('trim', (array)$data['txt_id']));
         if( count($txtIds) != count(array_unique($txtIds)) ){
             $this->errors['txt_id'] = $this->language->get('error_not_unique');
         }

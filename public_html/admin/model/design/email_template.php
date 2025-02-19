@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -35,81 +34,61 @@ class ModelDesignEmailTemplate extends Model
      */
     public function getEmailTemplates(array $data)
     {
-        $etTableName = $this->db->table('email_templates');
-        $langTableName = $this->db->table('languages');
-
-        $query = 'SELECT SQL_CALC_FOUND_ROWS '.$etTableName.'.id, 
-         '.$etTableName.'.status, 
-         '.$etTableName.'.language_id,
-         '.$etTableName.'.text_id,
-         '.$etTableName.'.headers,
-         '.$etTableName.'.subject,
-         '.$langTableName.'.name ';
-
-        $query .= ' FROM '.$etTableName;
-
-        $query .= ' LEFT JOIN '.$langTableName.' ON ('.$langTableName.'.language_id = '.$etTableName.'.language_id)';
+        $sql = "SELECT " . $this->db->getSqlCalcTotalRows() . " et.id, et.status, 
+                            et.language_id, et.text_id, et.headers, et.subject, l.name
+                 FROM " . $this->db->table('email_templates') . " as et
+                 LEFT JOIN " . $this->db->table('languages') . " as l 
+                    ON (l.language_id = et.language_id)";
 
         $allowedSearchFields = [
-            'text_id'  => $etTableName.'.text_id',
-            'language' => $langTableName.'.name',
-            'subject'  => $etTableName.'.subject',
-            'store_id' => $etTableName.'.store_id',
+            'text_id'  => 'et.text_id',
+            'language' => 'l.name',
+            'subject'  => 'et.subject',
+            'store_id' => 'et.store_id',
         ];
 
         $arWhere = [];
-        if (isset($data['_search']) && $data['_search'] == 'true') {
+        if ($data['_search'] === 'true') {
             $filters = json_decode(htmlspecialchars_decode($data['filters']), true);
-            foreach ((array) $filters['rules'] as $filter) {
+            foreach ((array)$filters['rules'] as $filter) {
                 if (!$allowedSearchFields[$filter['field']]) {
                     continue;
                 }
-                $arWhere[] = $allowedSearchFields[$filter['field']]
-                    .' LIKE \'%'.$this->db->escape($filter['data']).'%\'';
+                $arWhere[] = $allowedSearchFields[$filter['field']] . " LIKE '%" . $this->db->escape($filter['data']) . "%'";
             }
         }
 
-        $arWhere[] = $allowedSearchFields['store_id'].'='.($data['store_id'] ? : '0');
-        $arWhere[] = $etTableName.'.language_id'.'='.$this->language->getContentLanguageID();
+        $arWhere[] = $allowedSearchFields['store_id'] . '=' . (int)$data['store_id'];
+        $arWhere[] = 'et.language_id' . '=' . $this->language->getContentLanguageID();
 
-        if (!empty($arWhere)) {
-            $query .= ' WHERE '.implode(' AND ', $arWhere);
-        }
+        $sql .= ' WHERE ' . implode(' AND ', $arWhere);
 
         $allowedSortFields = [
-            'text_id'  => $etTableName.'.text_id',
-            'language' => $langTableName.'.name',
-            'subject'  => $etTableName.'.subject',
-            'status'   => $etTableName.'.status',
+            'text_id'  => "et.text_id",
+            'language' => "l.name",
+            'subject'  => "et.subject",
+            'status'   => "et.status",
         ];
-
+        $data['sord'] = in_array(strtolower($data['sord']), ['asc', 'desc']) ? $data['sord'] : 'asc';
         if (isset($data['sidx']) && isset($data['sord']) && $allowedSortFields[$data['sidx']]) {
-            $query .= ' ORDER BY '.$allowedSortFields[$data['sidx']].' '.$data['sord'];
+            $sql .= ' ORDER BY ' . $allowedSortFields[$data['sidx']] . ' ' . $data['sord'];
         }
 
         $limit = 20;
-        if (isset($data['rows']) && (int) $data['rows'] <= 50) {
-            $limit = (int) $data['rows'];
+        if (isset($data['rows']) && (int)$data['rows'] <= 50) {
+            $limit = (int)$data['rows'];
         }
 
-        $page = isset($data['page']) ? (int) $data['page'] : 1;
+        $page = (int)$data['page'] ?? 1;
         $start = $page * $limit - $limit;
 
-        $query .= " LIMIT ".$start.",".$limit;
-        $result = $this->db->query($query);
-        $total = $this->db->query('select found_rows() as total')->row['total'];
+        $sql .= " LIMIT " . $start . "," . $limit;
+        $result = $this->db->query($sql);
+        $total = (int)$this->db->getTotalNumRows();
 
-        if ($result) {
-            return [
-                'items' => $result->rows,
-                'total' => $total,
-                'page'  => $page,
-                'limit' => $limit,
-            ];
-        }
         return [
-            'items' => [],
-            'total' => 0,
+            'items' => $result->rows,
+            'total' => $total,
             'page'  => $page,
             'limit' => $limit,
         ];
@@ -122,23 +101,19 @@ class ModelDesignEmailTemplate extends Model
      * @return bool
      * @throws AException
      */
-    public function update($id, $data)
+    public function update(int $id, array $data)
     {
-        if (!(int) $id) {
+        if (!$id || !$data) {
             return false;
         }
-        $etTableName = $this->db->table('email_templates');
 
         $arUpdate = [];
         foreach ($data as $key => $val) {
-            $arUpdate[] = $key.'=\''.$this->db->escape($val).'\'';
-        }
-        if (empty($arUpdate)) {
-            return false;
+            $arUpdate[] = $this->db->escape($key) . " = '" . $this->db->escape($val) . "'";
         }
 
-        $query = 'UPDATE '.$etTableName.' SET '.implode(',', $arUpdate).' WHERE id='.$id;
-        $this->db->query($query);
+        $sql = "UPDATE " . $this->db->table('email_templates') . " SET " . implode(',', $arUpdate) . " WHERE id=" . $id;
+        $this->db->query($sql);
         return true;
     }
 
@@ -148,19 +123,17 @@ class ModelDesignEmailTemplate extends Model
      * @return false|array
      * @throws AException
      */
-    public function getById($id)
+    public function getById(int $id)
     {
-        if (!(int) $id) {
+        if (!$id) {
             return false;
         }
-        $etTableName = $this->db->table('email_templates');
 
-        $query = 'SELECT * FROM '.$etTableName.' WHERE id='.$id;
-        $result = $this->db->query($query);
-        if ($result) {
-            return $result->row;
-        }
-        return false;
+        $sql = "SELECT * 
+                FROM " . $this->db->table('email_templates') . " 
+                WHERE id=" . $id;
+        $result = $this->db->query($sql);
+        return $result->row ?: false;
     }
 
     /**
@@ -170,24 +143,19 @@ class ModelDesignEmailTemplate extends Model
      * @return false|array
      * @throws AException
      */
-    public function getByTextIdAndLanguageId($textId, $languageId)
+    public function getByTextIdAndLanguageId(string $textId, int $languageId)
     {
-        if (!$textId || !(int) $languageId) {
+        if (!$textId || !(int)$languageId) {
             return false;
         }
-        $storeId = $this->config->get('current_store_id');
-
-        $etTableName = $this->db->table('email_templates');
-        $query = 'SELECT * 
-                    FROM '.$etTableName.' 
-                    WHERE text_id=\''.$textId.'\' 
-                        AND language_id='.(int) $languageId.' 
-                        AND store_id='.(int) $storeId;
-        $result = $this->db->query($query);
-        if ($result->num_rows) {
-            return $result->row;
-        }
-        return false;
+        $storeId = (int)$this->config->get('current_store_id');
+        $sql = "SELECT * 
+                  FROM " . $this->db->table('email_templates') . " 
+                  WHERE text_id = '" . $this->db->escape($textId) . "' 
+                        AND language_id=" . $languageId . " 
+                        AND store_id=" . $storeId;
+        $result = $this->db->query($sql);
+        return $result->row ?: false;
     }
 
     /**
@@ -196,60 +164,43 @@ class ModelDesignEmailTemplate extends Model
      * @return false|array
      * @throws AException
      */
-    public function insert($data)
+    public function insert(array $data)
     {
-        $etTableName = $this->db->table('email_templates');
-        $keys = array_keys($data);
-        $values = array_values($data);
-
-        foreach ($values as &$value) {
-            $value = $this->db->escape($value);
+        if (!$data) {
+            return false;
         }
+        $keys = array_map([$this->db, 'escape'], array_keys($data));
+        $values = array_map([$this->db, 'escape'], array_values($data));
 
-        $query = 'INSERT INTO '.$etTableName.' ('.implode(',', $keys).') 
-                  VALUES (\''.implode('\',\'', $values).'\')';
-        if ($this->db->query($query)) {
+        $sql = "INSERT INTO " . $this->db->table('email_templates') . " (" . implode(',', $keys) . ") 
+                  VALUES ('" . implode("','", $values) . "')";
+        if ($this->db->query($sql)) {
             return $this->getByTextIdAndLanguageId($data['text_id'], $data['language_id']);
         }
         return false;
     }
 
     /**
-     * @param int $oldStoreId
-     * @param int $newStoreId
+     * @param int $srcStoreId
+     * @param int $dstStoreId
      *
      * @return bool
      * @throws AException
      */
-    public function copyToNewStore($oldStoreId, $newStoreId)
+    public function copyToNewStore(int $srcStoreId, int $dstStoreId)
     {
-        if (!(int) $newStoreId) {
+        if (!$dstStoreId) {
             return false;
         }
-        $etTableName = $this->db->table('email_templates');
-        $sql = 'SELECT * 
-                FROM '.$etTableName.' 
-                WHERE store_id='.$oldStoreId;
-        $result = $this->db->query($sql);
-        if ($result && $result->num_rows > 0) {
-            foreach ($result->rows as $row) {
-                $row['store_id'] = $newStoreId;
-                $this->db->query(
-                    "INSERT INTO ".$etTableName." 
-                        (`status`, `text_id`, `language_id`, `headers`, `subject`, `html_body`, `text_body`, `allowed_placeholders`, `store_id`) 
-                        VALUES (
-                        ".(int) $row['status'].", 
-                        '".$row['text_id']."', 
-                        ".(int) $row['language_id'].", 
-                        '".$row['headers']."', 
-                        '".$row['subject']."', 
-                        '".$row['html_body']."', 
-                        '".$row['text_body']."', 
-                        '".$row['allowed_placeholders']."', 
-                        ".$row['store_id'].")"
-                );
-            }
-        }
+
+        $sql = "INSERT INTO " . $this->db->table('email_templates') . " 
+                (`status`, `text_id`,`language_id`,`headers`,`subject`,`html_body`, 
+                `text_body`, `allowed_placeholders`,`store_id`)    
+            SELECT `status`, `text_id`,`language_id`,`headers`,`subject`,`html_body`,`text_body`,`allowed_placeholders`,
+                            " . $dstStoreId . " as store_id            
+             FROM " . $this->db->table('email_templates') . "
+             WHERE store_id=" . $srcStoreId;
+        $this->db->query($sql);
         return true;
     }
 
@@ -259,14 +210,12 @@ class ModelDesignEmailTemplate extends Model
      * @return boolean
      * @throws AException
      */
-    public function delete($id)
+    public function delete(int $id)
     {
-        if (!(int) $id) {
+        if (!$id) {
             return false;
         }
-        $etTableName = $this->db->table('email_templates');
-        $query = 'DELETE FROM '.$etTableName.' WHERE id='.$id;
-        $this->db->query($query);
+        $this->db->query("DELETE FROM " . $this->db->table('email_templates') . " WHERE id=" . $id);
         return true;
     }
 }

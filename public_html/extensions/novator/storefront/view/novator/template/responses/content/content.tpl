@@ -2,7 +2,7 @@
 	<div class="top d-flex justify-content-center">
         <h1><?php echo $title;?></h1>
 	</div>
-	<div class="middle d-flex justify-content-center">
+	<div class="middle d-flex flex-wrap justify-content-center">
 		<p><?php echo $description; ?></p>
 		<p><?php echo $content; ?></p>
 	</div>

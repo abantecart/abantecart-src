@@ -1,4 +1,22 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 namespace AbanteCart;
 
@@ -12,9 +30,6 @@ use DOMXPath;
 use Exception;
 use Registry;
 
-/**
- *
- */
 class PBRender
 {
     /** @var Registry|null */
@@ -69,14 +84,11 @@ class PBRender
     {
         $registry = Registry::getInstance();
         $templateTxtId = $registry->get('config')->get('config_storefront_template');
-        $baseHtmlFile = DIR_PB_TEMPLATES.$templateTxtId.DS.'base.html';
+        $baseHtmlFile = $templateTxtId == 'default'
+            ? DIR_APP_SECTION.'view'.DS.$templateTxtId.DS.'base.html'
+            : DIR_EXT.$templateTxtId.DS.'storefront'.DS.'view'.DS.$templateTxtId.DS.'base.html';
         if (!is_file($baseHtmlFile)) {
-            $baseHtmlFile = $templateTxtId == 'default'
-                ? DIR_APP_SECTION.'view'.DS.$templateTxtId.DS.'base.html'
-                : DIR_EXT.$templateTxtId.DS.'storefront'.DS.'view'.DS.$templateTxtId.DS.'base.html';
-            if (!is_file($baseHtmlFile)) {
-                copy(DIR_EXT.'page_builder'.DS.'base.html', $baseHtmlFile);
-            }
+            copy(DIR_EXT.'page_builder'.DS.'base.html', $baseHtmlFile);
         }
         $this->output = file_get_contents($baseHtmlFile);
 

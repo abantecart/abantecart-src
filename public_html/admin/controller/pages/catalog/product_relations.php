@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -30,11 +29,10 @@ class ControllerPagesCatalogProductRelations extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $product_id = (int) $this->request->get['product_id'];
+        $product_id = (int)$this->request->get['product_id'];
         $language_id = $this->language->getContentLanguageID();
 
         $this->loadLanguage('catalog/product');
-        $this->document->setTitle($this->language->get('heading_title'));
         $this->loadModel('catalog/product');
 
         if ($product_id && ($this->request->is_GET())) {
@@ -48,7 +46,7 @@ class ControllerPagesCatalogProductRelations extends AController
         if ($this->request->is_POST()) {
             $this->model_catalog_product->updateProductLinks($product_id, $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
-            redirect($this->html->getSecureURL('catalog/product_relations', '&product_id='.$product_id));
+            redirect($this->html->getSecureURL('catalog/product_relations', '&product_id=' . $product_id));
         }
 
         $this->data['product_description'] = $this->model_catalog_product->getProductDescriptions($product_id);
@@ -73,20 +71,20 @@ class ControllerPagesCatalogProductRelations extends AController
                 'separator' => ' :: ',
             ]
         );
+        $title = $this->language->get('text_edit') . '&nbsp;'
+            . $this->language->get('text_product') . ' - '
+            . $this->data['product_description'][$language_id]['name'];
         $this->document->addBreadcrumb(
             [
-                'href'      => $this->html->getSecureURL('catalog/product/update', '&product_id='.$product_id),
-                'text'      => $this->language->get('text_edit')
-                    .'&nbsp;'
-                    .$this->language->get('text_product')
-                    .' - '
-                    .$this->data['product_description'][$language_id]['name'],
+                'href'      => $this->html->getSecureURL('catalog/product/update', '&product_id=' . $product_id),
+                'text'      => $title,
                 'separator' => ' :: ',
             ]
         );
+        $this->document->setTitle($title);
         $this->document->addBreadcrumb(
             [
-                'href'      => $this->html->getSecureURL('catalog/product_relations', '&product_id='.$product_id),
+                'href'      => $this->html->getSecureURL('catalog/product_relations', '&product_id=' . $product_id),
                 'text'      => $this->language->get('tab_relations'),
                 'separator' => ' :: ',
                 'current'   => true,
@@ -103,8 +101,8 @@ class ControllerPagesCatalogProductRelations extends AController
 
         foreach ($results as $r) {
             $this->data['categories'][$r['category_id']] = $r['name']
-                .(count($products_stores) > 1
-                    ? "   (".$r['store_name'].")"
+                . (count($products_stores) > 1
+                    ? "   (" . $r['store_name'] . ")"
                     : '');
         }
 
@@ -127,11 +125,11 @@ class ControllerPagesCatalogProductRelations extends AController
 
         $this->data['category_products'] = $this->html->getSecureURL('product/product/category');
         $this->data['related_products'] = $this->html->getSecureURL('product/product/related');
-        $this->data['action'] = $this->html->getSecureURL('catalog/product_relations', '&product_id='.$product_id);
-        $this->data['form_title'] = $this->language->get('text_edit').'&nbsp;'.$this->language->get('text_product');
+        $this->data['action'] = $this->html->getSecureURL('catalog/product_relations', '&product_id=' . $product_id);
+        $this->data['form_title'] = $this->language->get('text_edit') . '&nbsp;' . $this->language->get('text_product');
         $this->data['update'] = $this->html->getSecureURL(
             'listing_grid/product/update_relations_field',
-            '&id='.$product_id
+            '&id=' . $product_id
         );
         $form = new AForm('HS');
 
@@ -162,7 +160,7 @@ class ControllerPagesCatalogProductRelations extends AController
         $this->data['form']['cancel'] = $form->getFieldHtml(
             [
                 'type'  => 'button',
-                'href'  => $this->html->getSecureURL('catalog/product/update', '&product_id='.$product_id),
+                'href'  => $this->html->getSecureURL('catalog/product/update', '&product_id=' . $product_id),
                 'name'  => 'cancel',
                 'text'  => $this->language->get('button_cancel'),
                 'style' => 'button2',
@@ -183,32 +181,32 @@ class ControllerPagesCatalogProductRelations extends AController
         //load only prior saved products
         $this->data['products'] = [];
         if (count($this->data['product_related'])) {
-            $ids = array_map('intval',$this->data['product_related']);
+            $ids = array_map('intval', $this->data['product_related']);
 
             $this->loadModel('catalog/product');
-            if($ids) {
-                $filter = ['subsql_filter' => 'p.product_id in ('.implode(',', $ids).')'];
+            if ($ids) {
+                $filter = ['subsql_filter' => 'p.product_id in (' . implode(',', $ids) . ')'];
                 $results = $this->model_catalog_product->getProducts($filter);
-            }else{
+            } else {
                 $results = [];
             }
 
-            $product_ids = array_column($results,'product_id');
+            $product_ids = array_column($results, 'product_id');
 
             //get thumbnails by one pass
             $resource = new AResource('image');
             $thumbnails = $product_ids
                 ? $resource->getMainThumbList(
-                                            'products',
-                                            $product_ids,
-                                            $this->config->get('config_image_grid_width'),
-                                            $this->config->get('config_image_grid_height')
-                                        )
+                    'products',
+                    $product_ids,
+                    $this->config->get('config_image_grid_width'),
+                    $this->config->get('config_image_grid_height')
+                )
                 : [];
 
             foreach ($results as $r) {
                 $thumbnail = $thumbnails[$r['product_id']];
-                $this->data['products'][$r['product_id']]['name'] = $r['name']." (".$r['model'].")";
+                $this->data['products'][$r['product_id']]['name'] = $r['name'] . " (" . $r['model'] . ")";
                 $this->data['products'][$r['product_id']]['image'] = $thumbnail['thumb_html'];
             }
         }
@@ -220,7 +218,7 @@ class ControllerPagesCatalogProductRelations extends AController
                 'value'       => $this->data['product_related'],
                 'options'     => $this->data['products'],
                 'style'       => 'chosen',
-                'ajax_url'    => $this->html->getSecureURL('r/product/product/products', '&exclude[]='.$product_id),
+                'ajax_url'    => $this->html->getSecureURL('r/product/product/products', '&exclude[]=' . $product_id),
                 'placeholder' => $this->language->get('text_select_from_lookup'),
             ]
         );
@@ -237,7 +235,7 @@ class ControllerPagesCatalogProductRelations extends AController
         if ($this->config->get('config_embed_status')) {
             $this->data['embed_url'] = $this->html->getSecureURL(
                 'common/do_embed/product',
-                '&product_id='.$product_id
+                '&product_id=' . $product_id
             );
         }
         $this->addChild(

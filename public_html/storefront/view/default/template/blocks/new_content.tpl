@@ -1,15 +1,15 @@
 <?php if($contents){ ?>
-<div class="mt-3 px-3 container-fluid container-xl">
-    <h2><?php echo $heading_title; ?></h2>
+<div class="px-3 container-fluid container-xl">
+    <h4 class="h4 heading-title"><?php echo $heading_title; ?></h4>
     <?php echo $this->getHookVar('pre_contents'); ?>
 <?php
 foreach ($contents as $content) {
     ?>
-    <div class="d-flex flex-wrap flex-md-nowrap align-items-center p-2 border-bottom border-1">
+    <div class="d-flex flex-wrap p-2 border-bottom border-1">
         <?php if ($content['icon_url']) { ?>
-        <div class="w-auto p-2">
+        <div class="w-100 p-2">
             <a href="<?php echo $content['url'] ?>">
-                <img src="<?php echo $content['icon_url'] ?>">
+                <img class="mx-auto d-block" src="<?php echo $content['icon_url'] ?>">
             </a>
             <?php echo $this->getHookvar('content_listing_icon_'.$content['content_id']);?>
         </div>

@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2023 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -25,7 +25,6 @@ class ControllerResponsesListingGridUser extends AController
 {
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -66,7 +65,7 @@ class ControllerResponsesListingGridUser extends AController
                 $result['username'],
                 $user_groups[$result['user_group_id']],
                 $this->html->buildCheckbox([
-                    'name'  => 'status['.$result['user_id'].']',
+                    'name'  => 'status[' . $result['user_id'] . ']',
                     'value' => $result['status'],
                     'style' => 'btn_switch',
                 ]),
@@ -83,7 +82,6 @@ class ControllerResponsesListingGridUser extends AController
 
     public function update()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -101,36 +99,52 @@ class ControllerResponsesListingGridUser extends AController
         $this->loadModel('user/user');
         $this->loadLanguage('user/user');
 
-        switch ($this->request->post['oper']) {
-            case 'del':
-                $ids = explode(',', $this->request->post['id']);
-                if (!empty($ids)) {
+        $ids = array_unique(
+            array_map(
+                'intval',
+                explode(',', $this->request->post['id'])
+            )
+        );
+        if ($ids) {
+            switch ($this->request->post['oper']) {
+                case 'del':
                     foreach ($ids as $id) {
+                        $errorText = '';
                         if ($this->user->getId() == $id) {
-                            $this->response->setOutput($this->language->get('error_account'));
-                            return null;
+                            $errorText = $this->language->get('error_account');
+                        }
+
+                        $this->extensions->hk_ProcessData(
+                            $this,
+                            __FUNCTION__,
+                            ['user_id' => $id, 'error_text' => $errorText]
+                        );
+
+                        if ($errorText) {
+                            $error = new AError($errorText);
+                            $error->toJSONResponse(
+                                'VALIDATION_ERROR_406',
+                                [
+                                    'error_text' => $errorText,
+                                ]
+                            );
+                            return;
                         }
                         $this->model_user_user->deleteUser($id);
                     }
-                }
-                break;
-            case 'save':
-                $ids = explode(',', $this->request->post['id']);
-                if (!empty($ids)) {
+                    break;
+                case 'save':
                     foreach ($ids as $id) {
                         $this->model_user_user->editUser(
                             $id,
                             [
-                                'status' => $this->request->post['status'][$id] ?? 0
+                                'status' => (int)$this->request->post['status'][$id]
                             ]
                         );
                     }
-                }
-
-                break;
-
-            default:
-
+                    break;
+                default:
+            }
         }
 
         //update controller data
@@ -141,6 +155,7 @@ class ControllerResponsesListingGridUser extends AController
      * update only one field
      *
      * @return void
+     * @throws AException
      */
     public function update_field()
     {
@@ -161,20 +176,20 @@ class ControllerResponsesListingGridUser extends AController
         $this->loadLanguage('user/user');
         $this->loadModel('user/user');
         $user_id = (int)$this->request->get['id'];
-        if ( $user_id ) {
+        if ($user_id) {
             $user_info = $this->model_user_user->getUser($user_id);
             //request sent from edit form. ID in url
             foreach ($this->request->post as $key => $value) {
                 if ($key == 'password_confirm') {
                     continue;
-                }elseif($key == 'username'){
+                } elseif ($key == 'username') {
                     $exists = $this->model_user_user->getUsers(
                         [
-                            'subsql_filter' => " `username` = '".$this->db->escape($value)."' AND user_id <> ".$user_id
+                            'subsql_filter' => " `username` = '" . $this->db->escape($value) . "' AND user_id <> " . $user_id
                         ],
                         'total_only'
                     );
-                    if($exists){
+                    if ($exists) {
                         $error = new AError('');
                         $error->toJSONResponse(
                             'VALIDATION_ERROR_406',
@@ -185,7 +200,7 @@ class ControllerResponsesListingGridUser extends AController
                         );
                         return;
                     }
-                }elseif ($key == 'user_group_id') {
+                } elseif ($key == 'user_group_id') {
                     if ($user_info['user_group_id'] != $value) {
                         if ( //cannot to change group for yourself
                             $user_id == $this->user->getId()
@@ -209,13 +224,13 @@ class ControllerResponsesListingGridUser extends AController
                 $this->model_user_user->editUser($this->request->get['id'], $data);
             }
 
-            if($this->request->post['password'] && $this->request->post['password_confirm'] ){
+            if ($this->request->post['password'] && $this->request->post['password_confirm']) {
                 //logout when password was changed
                 $salt_key = $user_info['salt'];
-                if($this->user->getId() == $user_id
+                if ($this->user->getId() == $user_id
                     && $user_info['password']
-                    && $user_info['password'] != sha1($salt_key.sha1($salt_key.sha1($this->request->post['password'])))
-                ){
+                    && $user_info['password'] != sha1($salt_key . sha1($salt_key . sha1($this->request->post['password'])))
+                ) {
                     $this->user->logout();
                 }
             }
@@ -232,5 +247,4 @@ class ControllerResponsesListingGridUser extends AController
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
-
 }

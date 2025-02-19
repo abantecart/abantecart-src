@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -32,7 +32,7 @@ class ControllerApiProductProduct extends AControllerAPI
         $product_id = $request['product_id'];
 
         if (empty($product_id) || !is_numeric($product_id)) {
-            $this->rest->setResponseData(array('Error' => 'Missing or incorrect format product ID'));
+            $this->rest->setResponseData(['Error' => 'Missing or incorrect format product ID']);
             $this->rest->sendResponse(200);
             return null;
         }
@@ -41,7 +41,7 @@ class ControllerApiProductProduct extends AControllerAPI
         $this->loadModel('catalog/product');
         $product_info = $this->model_catalog_product->getProduct($product_id);
         if (count($product_info) <= 0) {
-            $this->rest->setResponseData(array('Error' => 'No product found'));
+            $this->rest->setResponseData(['Error' => 'No product found']);
             $this->rest->sendResponse(200);
             return null;
         }
@@ -50,12 +50,12 @@ class ControllerApiProductProduct extends AControllerAPI
         $keyword = $this->model_tool_seo_url->getSEOKeyword(
             'product',
             'product_id',
-            $product_id,
-            $this->config->get('storefront_language_id')
+            (int)$product_id,
+            (int)$this->config->get('storefront_language_id')
         );
         if ($keyword) {
-            $url = defined('HTTP_SERVER') ? HTTP_SERVER : 'http://'.REAL_HOST.get_url_path($_SERVER['PHP_SELF']);
-            $product_info['seo_url'] = $url.'/'.$keyword;
+            $url = defined('HTTP_SERVER') ? HTTP_SERVER : 'http://' . REAL_HOST . get_url_path($_SERVER['PHP_SELF']);
+            $product_info['seo_url'] = $url . '/' . $keyword;
         }
 
         //load resource library
@@ -93,10 +93,10 @@ class ControllerApiProductProduct extends AControllerAPI
                 }
             }
             $product_discounts = $promotion->getProductDiscounts($product_id);
-            $discounts = array();
+            $discounts = [];
             if ($product_discounts) {
                 foreach ($product_discounts as $discount) {
-                    $discounts[] = array(
+                    $discounts[] = [
                         'quantity' => $discount['quantity'],
                         'price'    => $this->currency->format(
                             $this->tax->calculate(
@@ -105,7 +105,7 @@ class ControllerApiProductProduct extends AControllerAPI
                                 $this->config->get('config_tax')
                             )
                         ),
-                    );
+                    ];
                 }
             }
             $product_info['discounts'] = $discounts;
@@ -131,9 +131,7 @@ class ControllerApiProductProduct extends AControllerAPI
         if (!$product_info['minimum']) {
             $product_info['minimum'] = 1;
         }
-
         $product_info['description'] = html_entity_decode($product_info['description'], ENT_QUOTES, 'UTF-8');
-
         $product_info['options'] = $this->model_catalog_product->getProductOptions($product_id);
 
         $this->loadModel('catalog/review');
@@ -145,22 +143,18 @@ class ControllerApiProductProduct extends AControllerAPI
         }
 
         $this->model_catalog_product->updateViewed($product_id);
-
-        $tags = array();
+        $tags = [];
         $results = $this->model_catalog_product->getProductTags($product_id);
         if ($results) {
             foreach ($results as $result) {
                 if ($result['tag']) {
-                    $tags[] = array('tag' => $result['tag']);
+                    $tags[] = ['tag' => $result['tag']];
                 }
             }
         }
         $product_info['tags'] = $tags;
-
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-
         $this->rest->setResponseData($product_info);
         $this->rest->sendResponse(200);
     }
-
 }

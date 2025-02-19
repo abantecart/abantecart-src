@@ -138,6 +138,7 @@ class ControllerPagesAccountOrderDetails extends AController
 
         if ($order_info) {
             $this->data['order_id'] = $order_id;
+            $this->data['order_info'] = $order_info;
             $this->data['invoice_id'] = $order_info['invoice_id']
                 ? $order_info['invoice_prefix'] . $order_info['invoice_id']
                 : '';

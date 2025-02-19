@@ -30,9 +30,21 @@ $lng_flag_path = 'extensions/default_italian/storefront/language/italian/flag.pn
 $lng_sort = 3; // sorting order with other languages
 $lng_status = 0; // Status on installation of extension
 
-$this->db->query("INSERT INTO " . DB_PREFIX . "languages (`name`,`code`,`locale`,`image`,`directory`,`filename`,`sort_order`, `status`)
-				  VALUES ('Italiano', 'it', 'it_IT.UTF-8,it_IT,italian', 'extensions/default_italian/storefront/language/italian/flag.png','italian','italian','3',0);");
-$new_language_id = $this->db->getLastId();
+$this->db->query(
+    "INSERT INTO " . $this->db->table('languages')." 
+        (`name`,`code`,`locale`,`image`,`directory`,`filename`,`sort_order`, `status`)
+    VALUES (
+        'Italiano', 
+        'it', 
+        'it_IT.UTF-8,it_IT,italian', 
+        'extensions/default_italian/storefront/language/italian/flag.png',
+        'italian',
+        'italian',
+        3,
+        0
+    );"
+);
+$new_language_id = (int)$this->db->getLastId();
 
 $xml = simplexml_load_file(DIR_EXT . 'default_italian/menu.xml');
 
@@ -48,6 +60,7 @@ $routes = [
 ];
 
 if ($xml) {
+    $translates = [];
     foreach ($xml->definition as $item) {
         $translates[$routes[(string)$item->key]] = (string)$item->value;
     }

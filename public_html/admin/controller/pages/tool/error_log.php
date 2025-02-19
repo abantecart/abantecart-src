@@ -27,11 +27,8 @@ class ControllerPagesToolErrorLog extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-
         $this->loadLanguage('tool/error_log');
-
         $this->data['button_clear'] = $this->language->get('button_clear');
-
         if (isset($this->session->data['success'])) {
             $this->data['success'] = $this->session->data['success'];
             unset($this->session->data['success']);
@@ -48,6 +45,12 @@ class ControllerPagesToolErrorLog extends AController
 
         $filename = $this->request->get['filename'] ?: $this->config->get('config_error_filename');
         $file = DIR_LOGS.$filename;
+        if(!is_file($file)) {
+            redirect($this->html->getSecureURL(
+                'tool/error_log',
+                '&'.http_build_query(['filename' => $this->config->get('config_error_filename')]))
+            );
+        }
 
         $this->data['main_url'] = $this->html->getSecureURL( 'tool/error_log');
         $this->data['clear_url'] = $this->html->getSecureURL( 'tool/error_log/clearlog', '&filename='.$filename );
@@ -89,13 +92,10 @@ class ControllerPagesToolErrorLog extends AController
 
         if (file_exists($file)) {
             ini_set("auto_detect_line_endings", true);
-
             $fp = fopen($file, 'r');
-
             // check filesize
             $filesize = filesize($file);
             if ($filesize > 500000) {
-
                 $this->data['log'] = "\n\n\n\n###############################################################################################\n\n".
                     strtoupper($this->language->get('text_file_tail')).DIR_LOGS."
 
@@ -148,6 +148,7 @@ class ControllerPagesToolErrorLog extends AController
         if(is_file($file) && is_writable($file)) {
             $handle = fopen($file, 'w+');
             fclose($handle);
+            unlink($file);
             $this->session->data['success'] = $this->language->get('text_success');
         }else{
             $this->session->data['error'] = $this->language->get('text_file_error');

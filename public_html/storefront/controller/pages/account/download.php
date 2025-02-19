@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -76,12 +75,12 @@ class ControllerPagesAccountDownload extends AController
             ]
         );
 
-        if ((int)$this->request->get['limit'] ) {
-           $limit = min((int) $this->request->get['limit'], 50);
-        } else {  
-           $limit = $this->config->get('config_catalog_limit');
+        if ((int)$this->request->get['limit']) {
+            $limit = min((int)$this->request->get['limit'], 50);
+        } else {
+            $limit = $this->config->get('config_catalog_limit');
         }
-        
+
         if ($this->config->get('config_download')) {
             $page = $this->request->get['page'] ?? 1;
             $downloads = [];
@@ -124,10 +123,10 @@ class ControllerPagesAccountDownload extends AController
                     $rl = new AResource('download');
                     $resource = $rl->getResource($download_info['filename']);
                     if ($resource && $resource['resource_path']) {
-                        $size = filesize(DIR_RESOURCE.$rl->getTypeDir().$resource['resource_path']);
+                        $size = filesize(DIR_RESOURCE . $rl->getTypeDir() . $resource['resource_path']);
                     }
-                }else{
-                    $size = filesize(DIR_RESOURCE.$download_info['filename']);
+                } else {
+                    $size = filesize(DIR_RESOURCE . $download_info['filename']);
                 }
                 $i = 0;
                 while (($size / 1024) > 1) {
@@ -140,14 +139,14 @@ class ControllerPagesAccountDownload extends AController
                     $download_button = $this->html->buildElement(
                         [
                             'type'  => 'button',
-                            'name'  => 'download_button_'.$download_info['order_download_id'],
+                            'name'  => 'download_button_' . $download_info['order_download_id'],
                             'title' => $this->language->get('text_download'),
                             'text'  => $this->language->get('text_download'),
                             'style' => 'button',
                             'href'  => $this->html->getSecureURL(
                                 'account/download/startdownload',
-                                '&order_download_id='.$download_info['order_download_id']
-                                    .($guest ? '&ot='.$order_token : '')
+                                '&order_download_id=' . $download_info['order_download_id']
+                                . ($guest ? '&ot=' . $order_token : '')
                             ),
                             'icon'  => 'fa fa-download-alt',
                         ]
@@ -170,12 +169,12 @@ class ControllerPagesAccountDownload extends AController
                     ),
                     'name'              => $download_info['name'],
                     'remaining'         => $download_info['remaining_count'],
-                    'size'              => round((float)substr($size, 0, strpos($size, '.') + 4), 2).$suffix[$i],
+                    'size'              => round((float)substr($size, 0, strpos($size, '.') + 4), 2) . $suffix[$i],
                     'button'            => $download_button,
                     'text'              => $download_text,
                     'expire_date'       => dateISO2Display(
                         $download_info['expire_date'],
-                        $this->language->get('date_format_short').' '.$this->language->get('time_format_short')
+                        $this->language->get('date_format_short') . ' ' . $this->language->get('time_format_short')
                     ),
                 ];
             }
@@ -191,7 +190,7 @@ class ControllerPagesAccountDownload extends AController
                     'total'      => $this->download->getTotalDownloads(),
                     'page'       => $page,
                     'limit'      => $limit,
-                    'url'        => $this->html->getURL('account/download&limit='.$limit.'&page={page}', '&encode'),
+                    'url'        => $this->html->getURL('account/download&limit=' . $limit . '&page=--page--', '&encode'),
                     'style'      => 'pagination',
                 ]
             );
@@ -228,8 +227,8 @@ class ControllerPagesAccountDownload extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $download_id = (int) $this->request->get['download_id'];
-        $order_download_id = (int) $this->request->get['order_download_id'];
+        $download_id = (int)$this->request->get['download_id'];
+        $order_download_id = (int)$this->request->get['order_download_id'];
 
         if (!$this->config->get('config_download')) {
             redirect($this->html->getSecureURL('account/account'));
@@ -258,8 +257,8 @@ class ControllerPagesAccountDownload extends AController
                 }
             } //allow download for guest customer
             elseif (!$this->customer->isLogged()
-                        && isset($this->request->get['ot'])
-                        && $this->config->get('config_guest_checkout')
+                && isset($this->request->get['ot'])
+                && $this->config->get('config_guest_checkout')
             ) {
                 //try to decrypt order token
                 $order_token = $this->request->get['ot'];
@@ -281,7 +280,7 @@ class ControllerPagesAccountDownload extends AController
             }
         }
 
-        //if can access and info presents - retrieve file and output 
+        //if we can access and info presents - retrieve file and output
         if ($can_access && $download_info && is_array($download_info)) {
             //if it's ok - send file and exit, otherwise do nothing
             $this->download->sendDownload($download_info);

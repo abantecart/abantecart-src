@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details is bundled with this package in the file LICENSE.txt.
@@ -35,11 +35,11 @@ class AWeight
      * @var AConfig
      */
     protected $config;
-    // TODO: need to changes this in 2.0. Key must be iso-code instead unit name!
+
     public $predefined_weights = [
         'kg' => [
             'weight_class_id' => 1,
-            'value'           => 0.02800000,
+            'value'           => 1.0,
             'iso_code'        => 'KILO',
             'language_id'     => 1,
             'title'           => 'Kilogram',
@@ -47,7 +47,7 @@ class AWeight
         ],
         'g'  => [
             'weight_class_id' => 2,
-            'value'           => 28.00000000,
+            'value'           => 1000,
             'iso_code'        => 'GRAM',
             'language_id'     => 1,
             'title'           => 'Gram',
@@ -56,7 +56,7 @@ class AWeight
 
         'lb' => [
             'weight_class_id' => 5,
-            'value'           => 0.06250000,
+            'value'           => 2.2046,
             'iso_code'        => 'PUND',
             'language_id'     => 1,
             'title'           => 'Pound',
@@ -64,7 +64,7 @@ class AWeight
         ],
         'oz' => [
             'weight_class_id' => 6,
-            'value'           => 1.00000000,
+            'value'           => 35.274,
             'iso_code'        => 'USOU',
             'language_id'     => 1,
             'title'           => 'Ounce',
@@ -135,7 +135,6 @@ class AWeight
         } else {
             $from = $this->weights[strtolower($unit_from)]['value'];
             $to = $this->weights[strtolower($unit_to)]['value'];
-
             return $value * ($to / $from);
         }
     }

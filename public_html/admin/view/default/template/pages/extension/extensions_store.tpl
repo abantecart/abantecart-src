@@ -283,7 +283,7 @@ if (!$mp_connected) {
             'id'         => 'amp_modal',
             'modal_type' => 'lg',
             'title'      => $text_marketplace_connect,
-            'content'    => '<iframe id="amp_frame" width="100%" height="400px" frameBorder="0"></iframe>'
+            'content'    => '<iframe id="amp_frame" style="width:100%; height:400px; border: 0;"></iframe>'
                             .'<div id="iframe_loading" class="center_div"><i class="fa fa-spinner fa-spin fa-2x"></i></div>',
             'footer'     => '',
         ]
@@ -295,7 +295,7 @@ echo $this->html->buildElement(
         'id'         => 'amp_product_modal',
         'modal_type' => 'lg',
         'title'      => $text_marketplace_extension,
-        'content'    => '<iframe id="amp_product_frame" width="100%" height="650px" frameBorder="0"></iframe>'
+        'content'    => '<iframe id="amp_product_frame" style="width:100%; height:650px; border: 0;"></iframe>'
                         .'<div id="iframe_product_loading" class="center_div"><i class="fa fa-spinner fa-spin fa-2x"></i></div>',
         'footer'     => '',
     ]
@@ -385,7 +385,8 @@ echo $this->html->buildElement(
     });
 
     /* Order modal */
-    $('#amp_order_modal').on('shown.bs.modal', function (e) {
+    $('#amp_order_modal')
+        .on('shown.bs.modal', function (e) {
         var $invoker = $(e.relatedTarget);
         var d = new Date();
         var product_id = $invoker.attr('data-id');

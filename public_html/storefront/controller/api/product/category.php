@@ -1,30 +1,29 @@
 <?php
 
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
 class ControllerApiProductCategory extends AControllerAPI
 {
-
     public function get()
     {
         $this->extensions->hk_InitData($this, __FUNCTION__);
@@ -46,11 +45,14 @@ class ControllerApiProductCategory extends AControllerAPI
 
             $this->loadModel('tool/seo_url');
             $keyword = $this->model_tool_seo_url->getSEOKeyword(
-                'category', 'category_id', $category_id, $this->config->get('storefront_language_id')
+                'category',
+                'category_id',
+                (int)$category_id,
+                (int)$this->config->get('storefront_language_id')
             );
             if ($keyword) {
-                $url = defined('HTTP_SERVER') ? HTTP_SERVER : 'http://'.REAL_HOST.get_url_path($_SERVER['PHP_SELF']);
-                $category_info['seo_url'] = $url.'/'.$keyword;
+                $url = defined('HTTP_SERVER') ? HTTP_SERVER : 'http://' . REAL_HOST . get_url_path($_SERVER['PHP_SELF']);
+                $category_info['seo_url'] = $url . '/' . $keyword;
             }
 
             if (isset($category_info['total_subcategories']) && $category_info['total_subcategories'] > 0) {
@@ -90,10 +92,7 @@ class ControllerApiProductCategory extends AControllerAPI
             $this->config->get('config_image_category_width'),
             $this->config->get('config_image_category_height')
         );
-
-        //typo fix with backwards compatibility
-        //TODO: remove this in the future
-        $category_info['thumbnail'] = $category_info['tumbnail'] = $thumbnail['thumb_url'];
+        $category_info['thumbnail'] = $thumbnail['thumb_url'];
 
         //Process data for category
         $category_info['description'] = html_entity_decode($category_info['description'], ENT_QUOTES, 'UTF-8');
@@ -102,7 +101,7 @@ class ControllerApiProductCategory extends AControllerAPI
         );
         $category_info['total_subcategories'] = $this->model_catalog_category->getTotalCategoriesByCategoryId(
             (int)$category_id
-            );
+        );
         if ($category_info['total_products']) {
             $category_info['subcategories'] = $this->getCategories($category_id);
         }
@@ -114,7 +113,7 @@ class ControllerApiProductCategory extends AControllerAPI
     /**
      * @param int $parentCategoryId
      *
-     * @return mixed
+     * @return array
      * @throws AException
      */
     public function getCategories($parentCategoryId = 0)

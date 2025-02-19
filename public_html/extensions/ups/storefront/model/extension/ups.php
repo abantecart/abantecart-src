@@ -1,10 +1,11 @@
-<?php /*
+<?php
+/*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details is bundled with this package in the file LICENSE.txt.
@@ -15,41 +16,7 @@
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
  *    needs please refer to http://www.AbanteCart.com for more information.
- */ /*
- *   $Id$
- *
- *   AbanteCart, Ideal OpenSource Ecommerce Solution
- *   http://www.AbanteCart.com
- *
- *   Copyright © 2011-2024 Belavier Commerce LLC
- *
- *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
- *   It is also available at this URL:
- *   <http://www.opensource.org/licenses/OSL-3.0>
- *
- *  UPGRADE NOTE:
- *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
- *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
- */ /*
- *   $Id$
- *
- *   AbanteCart, Ideal OpenSource Ecommerce Solution
- *   http://www.AbanteCart.com
- *
- *   Copyright © 2011-2024 Belavier Commerce LLC
- *
- *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
- *   It is also available at this URL:
- *   <http://www.opensource.org/licenses/OSL-3.0>
- *
- *  UPGRADE NOTE:
- *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
- *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
- */ /** @noinspection SqlResolve */
+ */
 
 use GuzzleHttp\Client;
 use UPS\Rating\ApiException;
@@ -90,28 +57,27 @@ class ModelExtensionUps extends Model
     public function __construct($registry)
     {
         parent::__construct($registry);
-
         /** @var ModelLocalisationCountry $countryModel */
         $countryModel = $this->load->model('localisation/country');
         $country = $countryModel->getCountry($this->config->get('ups_country'));
         /** @var ModelLocalisationZone $zoneModel */
         $zoneModel = $this->load->model('localisation/zone');
         $zone = $zoneModel->getZone($this->config->get('ups_country_zone'));
-        $this->fromAddress =
-            [
-                'address_line'        => $this->config->get('ups_address'),
-                'city'                => $this->config->get('ups_city'),
-                'state_province_code' => $zone['code'],
-                'postal_code'         => $this->config->get('ups_postcode'),
-                'country_code'        => $country['iso_code_2'],
-                'phone'               => $this->config->get('ups_telephone')
-            ];
+        $this->fromAddress = [
+            'address_line'        => $this->config->get('ups_address'),
+            'city'                => $this->config->get('ups_city'),
+            'state_province_code' => $zone['code'],
+            'postal_code'         => $this->config->get('ups_postcode'),
+            'country_code'        => $country['iso_code_2'],
+            'phone'               => $this->config->get('ups_telephone')
+        ];
     }
 
     public function getQuote($address)
     {
         $this->session->data['ups_data'] = [];
-
+        $quoteData = [];
+        $error_msg = '';
         //create new instance of language for case when model called from admin-side
         $language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
         $language->load($language->language_details['directory']);
@@ -193,9 +159,7 @@ class ModelExtensionUps extends Model
                 return [];
             }
 
-
             $quoteData = $this->processRequest($address, $weight, $length, $width, $height);
-
             //skip shipping by some reason - for example zero weight
             if ($quoteData === false) {
                 return [];
@@ -207,12 +171,11 @@ class ModelExtensionUps extends Model
         $specialShipProducts = $this->cart->specialShippingProducts();
         $totalFixedCost = 0;
         foreach ($specialShipProducts as $product) {
-            $lengthClassId = $this->length->getClassID($this->lengthUnit);
-            $specialLength = $this->length->convertByID($product['length'], $product['length_class'], $lengthClassId)
+            $specialLength = $this->length->convert($product['length'], $product['length_class'], $this->lengthUnit)
                 ?: $this->config->get('ups_default_width');
-            $specialWidth = $this->length->convertByID($product['width'], $product['length_class'], $lengthClassId)
+            $specialWidth = $this->length->convert($product['width'], $product['length_class'], $this->lengthUnit)
                 ?: $this->config->get('ups_default_length');
-            $specialHeight = $this->length->convertByID($product['height'], $product['length_class'], $lengthClassId)
+            $specialHeight = $this->length->convert($product['height'], $product['length_class'], $this->lengthUnit)
                 ?: $this->config->get('ups_default_height');
 
             $wht = $this->weight->convert(
@@ -477,8 +440,13 @@ class ModelExtensionUps extends Model
                 }
                 $quote_data[$code] = [
                     'id'           => 'ups.' . $code,
-                    'title'        => $language->get('ups_text_us_origin_' . $code, 'ups/ups') ?: $ratedShipment['service']['description'],
-                    'cost'         => $this->currency->convert($cost, $ratedShipment['total_charges']['currency_code'], $this->currency->getCode()),
+                    'title'        => $language->get('ups_text_us_origin_' . $code, 'ups/ups')
+                        ?: $ratedShipment['service']['description'],
+                    'cost'         => $this->currency->convert(
+                        $cost,
+                        $ratedShipment['total_charges']['currency_code'],
+                        $this->currency->getCode()
+                    ),
                     'tax_class_id' => $this->config->get('ups_tax_class_id'),
                     'text'         => $this->currency->format(
                         $this->tax->calculate(
@@ -593,7 +561,6 @@ class ModelExtensionUps extends Model
     public function createShipment($order_info)
     {
         if (!$order_info || !$order_info['order_id']) {
-            //$this->errors[] = __CLASS__.'::'.__FUNCTION__.' - Empty order info given';
             return false;
         }
         $order_id = (int)$order_info['order_id'];
@@ -601,7 +568,6 @@ class ModelExtensionUps extends Model
 
         $order_shipping_data = $this->getOrderShippingData($order_id);
         if (!$order_shipping_data['data']['ups_data']['packages']) {
-            //$this->errors[] = __CLASS__.'::'.__FUNCTION__.' - Unknown parcel data of order #'.$order_id;
             return false;
         }
         $shipmentData = $order_shipping_data['data']['ups_data'];
@@ -749,7 +715,7 @@ class ModelExtensionUps extends Model
 
             $response = $apiInstance->shipment($body, $version, $trans_id, $transaction_src, $additionaladdressvalidation = null);
 
-$this->log->write(var_export($response, true));
+//$this->log->write(var_export($response, true));
 
 
 //            $shipmentData['label'] = [

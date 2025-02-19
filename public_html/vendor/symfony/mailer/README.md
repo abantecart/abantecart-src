@@ -6,8 +6,8 @@ The Mailer component helps sending emails.
 Getting Started
 ---------------
 
-```
-$ composer require symfony/mailer
+```bash
+composer require symfony/mailer
 ```
 
 ```php
@@ -57,12 +57,21 @@ $email = (new TemplatedEmail())
     // ...
     ->htmlTemplate('emails/signup.html.twig')
     ->context([
-        'expiration_date' => new \DateTime('+7 days'),
+        'expiration_date' => new \DateTimeImmutable('+7 days'),
         'username' => 'foo',
     ])
 ;
 $mailer->send($email);
 ```
+
+Sponsor
+-------
+
+The Mailer component for Symfony 7.2 is [backed][1] by:
+
+ * [Sweego][2], a European email and SMS sending platform for developers and product builders. Easily create, deliver, and monitor your emails and notifications.
+
+Help Symfony by [sponsoring][3] its development!
 
 Resources
 ---------
@@ -72,3 +81,7 @@ Resources
  * [Report issues](https://github.com/symfony/symfony/issues) and
    [send Pull Requests](https://github.com/symfony/symfony/pulls)
    in the [main Symfony repository](https://github.com/symfony/symfony)
+
+[1]: https://symfony.com/backers
+[2]: https://www.sweego.io/
+[3]: https://symfony.com/sponsor

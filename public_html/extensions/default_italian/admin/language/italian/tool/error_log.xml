@@ -10,8 +10,12 @@
 	</definition>
 	<definition>
 		<key>text_file_tail</key>
-		<value><![CDATA[                                        A causa delle grandi dimensioni del file di registro, possono essere visualizzati solo gli ultimi 500Kb.
+		<value><![CDATA[																				A causa delle grandi dimensioni del file di registro, possono essere visualizzati solo gli ultimi 500Kb.
 					Per visualizzare il registro completo, bisogna richiederlo direttamente al server.
-					Path:       ]]></value>
+					Path:			 ]]></value>
+	</definition>
+	<definition>
+		<key>text_file_error</key>
+		<value><![CDATA[ Il file non esiste o non è leggibile! ]]></value>
 	</definition>
 </definitions>

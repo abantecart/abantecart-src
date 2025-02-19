@@ -1,4 +1,4 @@
-<h1 class="ms-3 mt-2 heading-title ">
+<h1 class="h2 heading-title">
   <?php echo $heading_title; ?>
 </h1>
 

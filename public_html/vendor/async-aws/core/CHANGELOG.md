@@ -2,12 +2,102 @@
 
 ## NOT RELEASED
 
+## 1.23.0
+
+### Added
+
+- Added support for EKS Pod Identity
+
+### Changed
+
+- use strict comparison `null !==` instead of `!`
+- Fix CS
+- AWS enhancement: Documentation updates.
+
+## 1.22.1
+
+### Changed
+
+- Enable compiler optimization for the `sprintf` function.
+- Avoid calls to spl_object_ methods when computing cache key.
+- Added SimpleMockedResponse to response of ResultMockFactory.
+
+## 1.22.0
+
+### Added
+
+- Added support for exception based on response http status code only.
+
+## 1.21.0
+
+### Added
+
+- Support for AWS_ENDPOINT_URL environment variable
+
+## 1.20.1
+
+### Changed
+
+- Allow passing explicit null values for optional fields of input objects
+- AWS enhancement: Documentation updates.
+
+### Fixed
+
+- Treat empty env variable as undefined
+
+## 1.20.0
+
+### Added
+
+- Support for LocationService
+- Support for hostPrefix in requests
+- AWS api-change: API updates for the AWS Security Token Service
+- Support for SSO credentials
+- Avoid overriding the exception message with the raw message
+
+### Changed
+
+- Improve parameter type and return type in phpdoc
+
+## 1.19.0
+
+### Added
+
+- Support for Symfony 7
+- Support for Athena
+- Support for MediaConvert
+- Support for IMDS v2 authentication
+- Support for using endpoint discovery with parameters passed in the query string or the path
+
+### Fixed
+
+- Fix potential malformed URI in discovered endpoints
+
+## 1.18.1
+
+### Changed
+
+- AWS enhancement: Documentation updates.
+- Fix deprecation by adding return type on reset methods
+
+## 1.18.0
+
+### Added
+
+- Support for Scheduler
+
+## 1.17.0
+
+### Added
+
+- Support for Iot Data
+
 ## 1.16.0
 
 ### Added
 
-- Added support for endpoint discovery
-- Added support for Iot Core
+- Support for endpoint discovery
+- Support for Iot Core
 
 ## 1.15.0
 
@@ -114,6 +204,8 @@
 
 ## 1.7.2
 
+### Changed
+
 - Make sure we can get credentials even if the cache storage fails
 - Clear `realpath` cache to make sure we get the latest credentials token
 
@@ -185,14 +277,14 @@
 - Support for CloudFront in `AwsClientFactory`
 - Support for RdsDataService in `AwsClientFactory`
 
-### Fixed
-
-- Allows non-AWS regions when using custom endpoints
-
 ### Changed
 
 - Add more context to error logs
 - Log level for 404 responses changed to "info".
+
+### Fixed
+
+- Allows non-AWS regions when using custom endpoints
 
 ## 1.2.0
 
@@ -205,7 +297,7 @@
 - Support for global and regional endpoints
 - Add a `Configuration::optionExists` to allow third parties to check if an option is available (needed by libraries supporting several versions of core)
 
-### Deprecation
+### Deprecated
 
 - Clients extending `AbstractApi` should override `getEndpointMetata`. The method will be abstract in 2.0
 - Custom endpoints should not contain `%region%` and `%service` placeholder. They won't be replaced anymore in 2.0
@@ -270,6 +362,13 @@
 
 ## 0.5.0
 
+### Removed
+
+- The input's `validate()` function was merged with the `request()` function.
+- `Configuration::isDefault()`.
+- Protected property `AbstractApi::$logger`.
+- `AsyncAws\Core\StreamableBody` in favor of `AsyncAws\Core\Stream\ResponseBodyStream`.
+
 ### Added
 
 - Add support for multiregion via `@region` input parameter.
@@ -282,13 +381,6 @@
 - Internal `AsyncAws\Core\Response` to encapsulate the HTTP client.
 - Internal `AsyncAws\Core\RequestContext`.
 - Internal `AsyncAws\Core\Stream\RewindableStream`.
-
-### Removed
-
-- The input's `validate()` function was merged with the `request()` function.
-- `Configuration::isDefault()`.
-- Protected property `AbstractApi::$logger`.
-- `AsyncAws\Core\StreamableBody` in favor of `AsyncAws\Core\Stream\ResponseBodyStream`.
 
 ### Changed
 
@@ -309,6 +401,11 @@
 
 ## 0.4.0
 
+### Removed
+
+- Public `AbstractApi::request()` was removed.
+- Protected function `AbstractApi::getEndpoint()` was made private.
+
 ### Added
 
 - Test class `AsyncAws\Core\Test\SimpleStreamableBody`
@@ -320,11 +417,6 @@
 - Renamed `AsyncAws\Core\Request::getUrl()` to `AsyncAws\Core\Request::getEndpoint()`
 - Class `AsyncAws\Core\Stream\StreamFactory` is not internal anymore.
 - Removed `requestBody()`, `requestHeaders()`, `requestQuery()` and `requestUri()` input classes. They are replaced with `request()`.
-
-### Removed
-
-- Public `AbstractApi::request()` was removed.
-- Protected function `AbstractApi::getEndpoint()` was made private.
 
 ### Fixed
 

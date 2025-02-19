@@ -1,35 +1,32 @@
 <?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
-
 <ul class="nav nav-tabs nav-justified nav-profile">
 	<?php
 	foreach ($tabs as $tab) {
-		if ($tab['active']) {
-			$classname = 'active';
-		} else {
-			$classname = '';
-		}
-		?>
+    	$classname = $tab['active'] ? 'active' : ''; ?>
 		<li class="<?php echo $classname; ?>">
-			<a <?php echo($tab['href'] ? 'href="' . $tab['href'] . '" ' : ''); ?>><strong><?php echo $tab['text']; ?></strong></a>
+			<a <?php echo($tab['href'] ? 'href="' . $tab['href'] . '" ' : ''); ?>>
+                <strong><?php echo $tab['text']; ?></strong>
+            </a>
 		</li>
-	<?php } ?>
-
-	<?php echo $this->getHookVar('extension_tabs'); ?>
+	<?php }
+    echo $this->getHookVar('extension_tabs'); ?>
 </ul>
 
 <div id="content" class="panel panel-default">
 	<?php if ($customer_id) { ?>
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
-			<div class="btn-group">
+			<div class="btn-group pull-left mr10">
 				<a class="btn btn-white tooltips back-to-grid hidden" data-table-id="customer_grid"
-                   href="<?php echo $list_url; ?>" data-toggle="tooltip" data-original-title="<?php echo $text_back_to_list; ?>">
+                   href="<?php echo $list_url; ?>" data-toggle="tooltip"
+                   data-original-title="<?php echo_html2view($text_back_to_list); ?>">
 					<i class="fa fa-arrow-left fa-lg"></i>
 				</a>
 			</div>
-
-			<div class="btn-group">
-				<button class="btn btn-default dropdown-toggle tooltips" data-original-title="<?php echo $text_edit_address; ?>" title="<?php echo $text_edit_address; ?>" type="button" data-toggle="dropdown">
+			<div class="btn-group pull-left mr5">
+				<button class="btn btn-default dropdown-toggle tooltips"
+                        data-original-title="<?php echo_html2view($text_edit_address); ?>"
+                        title="<?php echo_html2view($text_edit_address); ?>" type="button" data-toggle="dropdown">
 					<i class="fa fa-book"></i>
 					<?php echo $current_address; ?><span class="caret"></span>
 				</button>
@@ -47,8 +44,9 @@
 				</ul>
 			</div>
 			<div class="btn-group mr20 toolbar">
-				<a class="actionitem btn btn-primary tooltips" href="<?php echo $add_address_url; ?>" title="<?php echo $text_add_address; ?>">
-				<i class="fa fa-plus fa-fw"></i>
+				<a class="actionitem btn btn-primary tooltips" href="<?php echo $add_address_url; ?>"
+                   title="<?php echo_html2view($text_add_address); ?>">
+				    <i class="fa fa-plus fa-fw"></i>
 				</a>
 			</div>			
 			<div class="btn-group mr10 toolbar">
@@ -63,45 +61,41 @@
 				   class="btn btn-white tooltips"
 				   href="<?php echo $button_orders_count->href; ?>"
 				   data-toggle="tooltip"
-				   title="<?php echo $button_orders_count->title; ?>"
-				   data-original-title="<?php echo $button_orders_count->title; ?>"><?php echo $button_orders_count->text; ?>
+				   title="<?php echo_html2view($button_orders_count->title); ?>"
+				   data-original-title="<?php echo_html2view($button_orders_count->title); ?>"><?php echo $button_orders_count->text; ?>
 				</a>
 				<a target="_blank"
 				   class="btn btn-white tooltips"
 				   href="<?php echo $message->href; ?>"
 				   data-toggle="tooltip"
-				   title="<?php echo $message->text; ?>"
-				   data-original-title="<?php echo $message->text; ?>"><i class="fa fa-envelope "></i>
+				   title="<?php echo_html2view($message->text); ?>"
+				   data-original-title="<?php echo_html2view($message->text); ?>"><i class="fa fa-envelope "></i>
 				</a>
 				<a target="_blank"
 				   class="btn btn-white tooltips"
 				   href="<?php echo $actas->href; ?>"
 				   data-toggle="tooltip"
-				   title="<?php echo $actas->text; ?>"
+				   title="<?php echo_html2view($actas->text); ?>"
 					<?php
 					//for additional store show warning about login in that store's admin (because of crossdomain restriction)
 					if($warning_actonbehalf){ ?>
 						data-confirmation="delete"
-						data-confirmation-text="<?php echo $warning_actonbehalf;?>"
+						data-confirmation-text="<?php echo_html2view($warning_actonbehalf);?>"
 					<?php } ?>
-				   data-original-title="<?php echo $actas->text; ?>"><i class="fa fa-male"></i>
+				   data-original-title="<?php echo_html2view($actas->text); ?>"><i class="fa fa-male"></i>
 				</a>
 			</div>
 		</div>
 		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
 	</div>
+</div>
+<?php }	?>
 
-	</div>
-	<?php }	?>
-
-	<?php echo $form['form_open'];
-	foreach($form['fields'] as $section=>$fields){
-	?>
-
+<?php echo $form['form_open'];
+	foreach($form['fields'] as $section=>$fields){ ?>
         <div class="panel-body panel-body-nopadding tab-content col-xs-12">
             <label class="h4 heading"><?php echo ${'tab_customer_' . $section}; ?></label>
-			<?php foreach ($fields as $name => $field) { ?>
-			<?php
+			<?php foreach ($fields as $name => $field) {
 			//Logic to calculate fields width
 			$widthcasses = "col-sm-7";
 			if (is_int(stripos($field->style, 'large-field'))) {

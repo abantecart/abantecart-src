@@ -1,33 +1,30 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2024 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
 
 class ControllerResponsesListingGridStockStatus extends AController
 {
-    public $data = array();
-
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -36,22 +33,21 @@ class ControllerResponsesListingGridStockStatus extends AController
 
         $page = $this->request->post['page']; // get the requested page
         $limit = $this->request->post['rows']; // get how many rows we want to have into the grid
-        $sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
         $sord = $this->request->post['sord']; // get the direction
 
         // process jGrid search parameter
-        $allowedDirection = array('asc', 'desc');
+        $allowedDirection = ['asc', 'desc'];
 
         if (!in_array($sord, $allowedDirection)) {
             $sord = $allowedDirection[0];
         }
 
-        $data = array(
+        $data = [
             'order'               => strtoupper($sord),
             'start'               => ($page - 1) * $limit,
             'limit'               => $limit,
             'content_language_id' => $this->session->data['content_language_id'],
-        );
+        ];
 
         $total = $this->model_localisation_stock_status->getTotalStockStatuses();
         if ($total > 0) {
@@ -72,14 +68,18 @@ class ControllerResponsesListingGridStockStatus extends AController
 
         $results = $this->model_localisation_stock_status->getStockStatuses($data);
         $i = 0;
+        $languageId = $this->language->getContentLanguageID();
         foreach ($results as $result) {
-            $response->rows[$i]['id'] = $result['stock_status_id'];
-            $response->rows[$i]['cell'] = array(
-                $this->html->buildInput(array(
-                    'name'  => 'stock_status['.$result['stock_status_id'].']['.$this->session->data['content_language_id'].'][name]',
-                    'value' => $result['name'],
-                )),
-            );
+            $id = $result['stock_status_id'];
+            $response->rows[$i]['id'] = $id;
+            $response->rows[$i]['cell'] = [
+                $this->html->buildInput(
+                    [
+                        'name'  => 'stock_status[' . $id . '][' . $languageId . '][name]',
+                        'value' => $result['name'],
+                    ]
+                ),
+            ];
             $i++;
         }
         $this->data['response'] = $response;
@@ -102,46 +102,72 @@ class ControllerResponsesListingGridStockStatus extends AController
         $this->loadLanguage('localisation/stock_status');
         if (!$this->user->canModify('listing_grid/stock_status')) {
             $error = new AError('');
-            return $error->toJSONResponse('NO_PERMISSIONS_402',
-                array(
-                    'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/stock_status'),
+            $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
+                    'error_text'  => sprintf(
+                        $this->language->get('error_permission_modify'),
+                        'listing_grid/stock_status'
+                    ),
                     'reset_value' => true,
-                ));
+                ]
+            );
+            return;
         }
-
-        switch ($this->request->post['oper']) {
-            case 'del':
-                $ids = explode(',', $this->request->post['id']);
-                if (!empty($ids)) {
+        $ids = array_unique(
+            array_map(
+                'intval',
+                explode(',', $this->request->post['id'])
+            )
+        );
+        if ($ids) {
+            switch ($this->request->post['oper']) {
+                case 'del':
                     foreach ($ids as $id) {
-                        $err = $this->_validateDelete($id);
-                        if (!empty($err)) {
-                            $error = new AError('');
-                            return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $err));
+                        $errorText = $this->_validateDelete($id);
+                        $this->extensions->hk_ProcessData(
+                            $this,
+                            __FUNCTION__,
+                            ['stock_status_id' => $id, 'error_text' => $errorText]
+                        );
+                        if ($errorText) {
+                            $error = new AError($errorText);
+                            $error->toJSONResponse(
+                                'VALIDATION_ERROR_406',
+                                [
+                                    'error_text' => $errorText,
+                                ]
+                            );
+                            return;
                         }
                         $this->model_localisation_stock_status->deleteStockStatus($id);
                     }
-                }
-                break;
-            case 'save':
-                $ids = explode(',', $this->request->post['id']);
-                if (!empty($ids)) {
+                    break;
+                case 'save':
                     foreach ($ids as $id) {
                         if (isset($this->request->post['stock_status'][$id])) {
                             foreach ($this->request->post['stock_status'][$id] as $value) {
                                 if (mb_strlen($value['name']) < 2 || mb_strlen($value['name']) > 32) {
-                                    $this->response->setOutput($this->language->get('error_name'));
-                                    return null;
+                                    $errorText = $this->language->get('error_name');
+                                    $error = new AError($errorText);
+                                    $error->toJSONResponse(
+                                        'VALIDATION_ERROR_406',
+                                        [
+                                            'error_text' => $errorText,
+                                        ]
+                                    );
+                                    return;
                                 }
                             }
-                            $this->model_localisation_stock_status->editStockStatus($id, array('stock_status' => $this->request->post['stock_status'][$id]));
+                            $this->model_localisation_stock_status->editStockStatus(
+                                $id,
+                                ['stock_status' => $this->request->post['stock_status'][$id]]
+                            );
                         }
                     }
-                }
-
-                break;
-
-            default:
+                    break;
+                default:
+            }
         }
 
         //update controller data
@@ -155,33 +181,42 @@ class ControllerResponsesListingGridStockStatus extends AController
      */
     public function update_field()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadLanguage('localisation/stock_status');
         if (!$this->user->canModify('listing_grid/stock_status')) {
             $error = new AError('');
-            return $error->toJSONResponse('NO_PERMISSIONS_402',
-                array(
+            $error->toJSONResponse('NO_PERMISSIONS_402',
+                [
                     'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/stock_status'),
                     'reset_value' => true,
-                ));
+                ]
+            );
+            return;
         }
 
         $this->loadModel('localisation/stock_status');
         if (isset($this->request->get['id']) && !empty($this->request->post['stock_status'])) {
             //request sent from edit form. ID in url
-
             foreach ($this->request->post['stock_status'] as $value) {
                 if (mb_strlen($value['name']) < 2 || mb_strlen($value['name']) > 32) {
-                    $this->response->setOutput($this->language->get('error_name'));
-                    return null;
+                    $errorText = $this->language->get('error_name');
+                    $error = new AError($errorText);
+                    $error->toJSONResponse(
+                        'VALIDATION_ERROR_406',
+                        [
+                            'error_text' => $errorText,
+                        ]
+                    );
+                    return;
                 }
             }
-
-            $this->model_localisation_stock_status->editStockStatus($this->request->get['id'], $this->request->post);
-            return null;
+            $this->model_localisation_stock_status->editStockStatus(
+                $this->request->get['id'],
+                $this->request->post
+            );
+            return;
         }
 
         //request sent from jGrid. ID is key of array
@@ -189,11 +224,18 @@ class ControllerResponsesListingGridStockStatus extends AController
             foreach ($this->request->post['stock_status'] as $id => $v) {
                 foreach ($v as $value) {
                     if (mb_strlen($value['name']) < 2 || mb_strlen($value['name']) > 32) {
-                        $this->response->setOutput($this->language->get('error_name'));
-                        return null;
+                        $errorText = $this->language->get('error_name');
+                        $error = new AError($errorText);
+                        $error->toJSONResponse(
+                            'VALIDATION_ERROR_406',
+                            [
+                                'error_text' => $errorText,
+                            ]
+                        );
+                        return;
                     }
                 }
-                $this->model_localisation_stock_status->editStockStatus($id, array('stock_status' => $v));
+                $this->model_localisation_stock_status->editStockStatus($id, ['stock_status' => $v]);
             }
         }
 
@@ -201,7 +243,7 @@ class ControllerResponsesListingGridStockStatus extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    private function _validateDelete($stock_status_id)
+    protected function _validateDelete($stock_status_id)
     {
         if ($this->config->get('config_stock_status_id') == $stock_status_id) {
             return $this->language->get('error_default');

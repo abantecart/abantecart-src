@@ -1,6 +1,6 @@
 {
   "require": {
-    "php": ">=8.0",
-    "authorizenet/authorizenet": "2.0.3"
+    "php": ">=8.2",
+    "authorizenet/authorizenet": "2.0.4"
   }
 }

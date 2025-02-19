@@ -26,7 +26,6 @@ class ControllerCommonHome extends AController
 
     public function login($instance_id)
     {
-
         if (isset($this->request->get['rt']) && !isset($this->request->get['token'])) {
             $route = '';
 
@@ -54,14 +53,14 @@ class ControllerCommonHome extends AController
         } else {
             if (!isset($this->request->get['token'])
                 || !isset($this->session->data['token'])
-                || ($this->request->get['token'] != $this->session->data['token'])
+                || $this->request->get['token'] != $this->session->data['token']
+                || !$this->user->isActiveToken($this->request->get['token'])
             ) {
                 //clear session data
                 $this->session->clear();
                 return $this->dispatch('pages/index/login');
             }
         }
-
     }
 
     public function permission()

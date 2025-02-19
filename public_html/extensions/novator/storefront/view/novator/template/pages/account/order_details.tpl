@@ -1,4 +1,4 @@
-<h1 class="ms-3 my-2 heading-title ">
+<h1 class="h2 heading-title ">
     <i class="fa fa-file-invoice me-2"></i>
     <?php echo $heading_title; ?>
 </h1>

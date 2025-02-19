@@ -1,21 +1,37 @@
-<div class="d-flex flex-nowrap title sec-heading-block">
-    <div class="col-xl-1">
-        <?php if ($icon_url) { ?>
-            <img src="<?php echo $icon_url ?>" alt="<?php echo_html2view($heading_title); ?>" class="img-fluid" style="max-width: 200px; max-height: 200px">
-        <?php } else if ($icon_code) {
-            echo $icon_code;
-        } ?>
-    </div>
-    <div class="col-xl-11">
-        <h1 class="h2 heading-title mb-0 mt-lg-0 mt-3">
+<div class="d-flex flex-nowrap title">
+    <div class="col-xl-12">
+        <h1 class="h4 heading-title">
             <?php echo $heading_title; ?>
         </h1>
+        <?php if ($content_info && $content_info['content_bar']) { ?>
+        <h6 class="m-2 p-2 text-secondary bg-body-alt d-flex justify-content-between">
+            <div>
+                <?php if ($content_info['author']) { ?>
+                    <?php echo $text_author ?> <?php echo $content_info['author']; ?>
+                <?php } ?>
+            </div>
+            <div><?php echo $text_published ?> <?php echo $publish_date; ?></div>
+        </h6>
+        <?php } ?>
     </div>
 </div>
 <?php if ($content_info['content_id']) { ?>
-    <h3 ><?php echo $description; ?></h3>
+    <div class="d-flex flex-nowrap">
+        <div class="justify-content-center">
+            <?php if ($icon_url) { ?>
+                <img src="<?php echo $icon_url ?>" alt="<?php echo_html2view($heading_title); ?>" class="img-fluid">
+            <?php } else if ($icon_code) {
+                echo $icon_code;
+            } ?>
+        </div>
+        <?php if ($description) { ?>
+        <div>
+            <h3 class="h5"><?php echo $description; ?></h3>
+        </div>
+        <?php } ?>
+    </div>
     <div class="row">
-        <div class="col-md-12 pull-left">
+        <div class="col-md-12 py-3">
             <?php echo $this->getHookVar('pre_content'); ?>
             <?php echo $content; ?>
             <?php echo $this->getHookVar('post_content'); ?>

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2024 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -46,6 +46,7 @@ final class AUser
     private $session;
     private $request;
     private $db;
+    private $config;
 
     /**
      * @var array
@@ -60,11 +61,12 @@ final class AUser
         $this->db = $registry->get('db');
         $this->request = $registry->get('request');
         $this->session = $registry->get('session');
+        $this->config = $registry->get('config');
 
         if (isset($this->session->data['user_id'])) {
             $user_query = $this->db->query("SELECT * 
-											FROM ".$this->db->table("users")." 
-											WHERE status = 1 AND user_id = '".(int)$this->session->data['user_id']."'");
+                FROM ".$this->db->table("users")." 
+                WHERE status = 1 AND user_id = '".(int)$this->session->data['user_id']."'");
             if ($user_query->num_rows) {
                 $this->user_id = (int)$user_query->row['user_id'];
                 $this->user_group_id = (int)$user_query->row['user_group_id'];
@@ -97,16 +99,16 @@ final class AUser
         }
 
         $user_query = $this->db->query("SELECT *
-			FROM ".$this->db->table("users")."
-			WHERE username = '".$this->db->escape($username)."'
-			AND (
-				password = 	SHA1(CONCAT(salt,
-							SHA1(CONCAT(salt, SHA1('".$this->db->escape($password)."')))
-						))
-				".$add_pass_sql."
-			)
-			AND status = 1
-		");
+            FROM ".$this->db->table("users")."
+            WHERE username = '".$this->db->escape($username)."'
+            AND (
+                password = 	SHA1(CONCAT(salt,
+                            SHA1(CONCAT(salt, SHA1('".$this->db->escape($password)."')))
+                        ))
+                ".$add_pass_sql."
+            )
+            AND status = 1
+        ");
 
         if ($user_query->num_rows) {
             $this->user_id = $this->session->data['user_id'] = (int)$user_query->row['user_id'];
@@ -138,12 +140,12 @@ final class AUser
 
         $this->db->query("SET @USER_ID = '".$this->user_id."';");
         $this->db->query("UPDATE ".$this->db->table("users")." 
-							SET ip = '".$this->db->escape($this->request->getRemoteIP())."'
-							WHERE user_id = '".$this->user_id."';");
+            SET ip = '".$this->db->escape($this->request->getRemoteIP())."'
+            WHERE user_id = '".$this->user_id."';");
 
         $user_group_query = $this->db->query("SELECT permission
-											  FROM ".$this->db->table("user_groups")."
-											  WHERE user_group_id = '".$this->user_group_id."'");
+              FROM ".$this->db->table("user_groups")."
+              WHERE user_group_id = '".$this->user_group_id."'");
         if (unserialize($user_group_query->row['permission'])) {
             foreach (unserialize($user_group_query->row['permission']) as $key => $value) {
                 $this->permission[$key] = $value;
@@ -154,8 +156,8 @@ final class AUser
     private function _update_last_login()
     {
         $this->db->query("UPDATE ".$this->db->table("users")." 
-						SET last_login = NOW()
-						WHERE user_id = '".$this->user_id."';");
+            SET last_login = NOW()
+            WHERE user_id = '".$this->user_id."';");
     }
 
     public function logout()
@@ -163,6 +165,7 @@ final class AUser
         unset($this->session->data['user_id']);
         $this->user_id = '';
         $this->username = '';
+        $this->deleteActiveTokens();
     }
 
     /**
@@ -265,6 +268,64 @@ final class AUser
     }
 
     /**
+     * @param string $token
+     * @return bool
+     */
+    public function isActiveToken($token)
+    {
+        $user_query = $this->db->query("SELECT * 
+                FROM ".$this->db->table("user_sessions")." 
+                WHERE user_id = '".$this->user_id."'  
+                AND token = '".$this->db->escape($token)."'"
+        );
+        if ($user_query->num_rows) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @param string $token
+     * @return string
+     */
+    public function setActiveToken($token)
+    {
+        //first clear all expired tokens
+        $userSesTbl = $this->db->table("user_sessions");
+        $session_ttl = $this->config->get('config_session_ttl');
+        $this->db->query("DELETE FROM ".$userSesTbl." 
+            WHERE user_id = '".$this->user_id."' 
+            AND last_active < DATE_SUB(NOW(), INTERVAL ".$session_ttl." MINUTE)");
+
+        //set or update token
+        $this->db->query("INSERT INTO ".$userSesTbl." 
+             VALUES (
+                '".$this->user_id."',
+                '".$this->db->escape($token)."',
+                '".$this->db->escape($this->request->getRemoteIP())."',
+                NOW(),
+                NOW()
+            )
+            ON DUPLICATE KEY UPDATE last_active = NOW()");
+    }
+
+    /**
+     * Delete all active sessions for the user
+     * @return $userID
+     * @throws AException
+     */
+    public function deleteActiveTokens($userID = null)
+    {
+        if (!$userID) {
+            $userID = $this->user_id;
+        }
+        $userSesTbl = $this->db->table("user_sessions");
+        $this->db->query("DELETE FROM ".$userSesTbl." 
+            WHERE user_id = '".$userID."'");
+    }
+
+    /**
      * @param string $username
      * @param string $email
      *
@@ -274,8 +335,8 @@ final class AUser
     {
         $user_query = $this->db->query(
             "SELECT * FROM ".$this->db->table("users")."
-				WHERE username = '".$this->db->escape($username)."'
-						AND email = '".$this->db->escape($email)."'");
+                    WHERE username = '".$this->db->escape($username)."'
+                            AND email = '".$this->db->escape($email)."'");
         if ($user_query->num_rows) {
             return true;
         } else {

@@ -36,9 +36,7 @@ class ExtensionPageBuilder extends Extension
     protected function isEnabled()
     {
         $registry = Registry::getInstance();
-        if ($registry->get('config')) {
-            return ($registry->get('config')->get('page_builder_status'));
-        }
+        return ($registry?->get('config')->get('page_builder_status'));
     }
 
     //method for interception of calls of block controllers (including page-controllers)
@@ -51,27 +49,28 @@ class ExtensionPageBuilder extends Extension
 
         $that = $this->baseObject;
         $registry = Registry::getInstance();
-        if (!$registry->get('PBuilder_interception')) {
+        if (!$registry?->get('PBuilder_interception')) {
             return;
         }
 
-        if (is_int(strpos($method, 'InitData'))
-            && substr($method, 0, 2) == 'on'
-            && $this->baseObject_method == 'main') {
+        if (str_contains($method, 'InitData') && str_starts_with($method, 'on') && $this->baseObject_method == 'main') {
             //this resetting of children list needed to prevent loop of calls of blocks.
             /* @see AController constructor for details (there is check if controller is Page. Then asks all his children) */
             $this->baseObject->resetChildren();
         }
 
-        if (is_int(strpos($method, 'UpdateData')) && substr($method, 0, 2) == 'on') {
-            $template = (string) $registry->get('PBuilder_block_template');
-
+        if (str_contains($method, 'UpdateData') && str_starts_with($method, 'on')) {
+            $template = (string)$registry->get('PBuilder_block_template');
             if ($template && $that->view->isTemplateExists($template)) {
                 $that->view->setTemplate($template);
             }
             //use session as storage yet. It saves data into the filesystem
             $registry->set(
-                'PBRunData', ['document' => $that->document, 'data' => array_merge($that->view->getData(), $that->data)]
+                'PBRunData',
+                [
+                    'document' => $that->document,
+                    'data'     => array_merge($that->view->getData(), $that->data)
+                ]
             );
         }
     }
@@ -97,26 +96,38 @@ class ExtensionPageBuilder extends Extension
         }
 
         //ok, now try to get custom template made with pageBuilder
-        $pbTemplateData = $this->findPageTemplate();
+        $preview = (bool)$that->request->get['pb'];
+        if ($preview) {
+            $templateTxtId = preformatTextID($that->request->get['tmpl_id']);
+            $pageId = (int)$that->request->get['page_id'];
+            $layoutId = (int)$that->request->get['layout_id'];
+        } else {
+            $templateTxtId = (string)$that->config->get('config_storefront_template');
+            $pageId = $that->layout->getPageId();
+            $layoutId = $that->layout->getLayoutId();
+        }
+
+        $pbTemplateData = $this->findPageTemplate($preview, $templateTxtId, $pageId, $layoutId);
+
+        $pageRoute = $router->getController();
         if (!$pbTemplateData) {
-            if( $router->getController() == 'pages/product/product'
-                && $that->request->get['pb'] && !$that->request->get['product_id']
-            ){
+            if ($pageRoute == 'pages/product/product'
+                && $preview && !$that->request->get['product_id']
+            ) {
                 //in case when layout is for default product page - take a random product id
                 $sql = "SELECT product_id 
-                        FROM ". $that->db->table('products')." 
+                        FROM " . $that->db->table('products') . " 
                         WHERE COALESCE(date_available, NOW()) <= NOW() AND status=1
                         ORDER BY rand() 
                         LIMIT 1";
                 $res = $that->db->query($sql);
                 $that->request->get['product_id'] = $res->row['product_id'];
-                return false;
-            }else {
+            } else {
                 $this->baseObject->data['already_called'] = true;
                 // if custom pageBuilder's template not found
                 // do not interrupt base method "main" of ControllerCommonPage
-                return false;
             }
+            return false;
         }
 
         $pbTemplateData = json_decode($pbTemplateData, true, JSON_PRETTY_PRINT);
@@ -125,26 +136,31 @@ class ExtensionPageBuilder extends Extension
             // pass real requested route. Render must know it for call routes
             // by mask (in case when mask cover all controller down to the directory tree.
             // For example route pages/account will cover pages/account/login )
-            $render = new PBRender($router->getController());
+            $render = new PBRender($pageRoute);
             $render->setTemplate($pbTemplateData);
-            //not implemented yet
-            //$render->batchAssign((array)$someViewData);
+            //redirect ot log in page for all account pages
+            if(str_starts_with($pageRoute,'pages/account')
+                && !str_contains($pageRoute,'account/login')
+                && !$that->customer->isLogged()){
+                $that->session->data['redirect'] = $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+                redirect($that->html->getSecureURL('account/login'));
+            }
+
             $output = $render->render();
             if (!$output) {
                 $that->log->write(
-                    'PageBuilder Render error: Empty output of renderer for route '
-                    .$router->getController().'!'
+                    'PageBuilder Render error: Empty output of renderer for route ' . $pageRoute . '!'
                 );
                 // if error - show base page built by dispatcher
                 return false;
             }
             $response = new AResponse();
+            $response->addHeader('Render: PageBuilder');
             $response->setOutput($output);
             $response->output();
         } catch (Exception $e) {
             $that->log->write(
-                'PageBuilder Render error: '.$e->getMessage()
-                ."\n Route: ".$router->getController()
+                'PageBuilder Render error: ' . $e->getMessage() . "\n Route: " . $router->getController()
             );
             // if error - show base page built by dispatcher
             return false;
@@ -152,377 +168,15 @@ class ExtensionPageBuilder extends Extension
         return true;
     }
 
-    public function onAHook_InitEnd(){
+    public function onAHook_InitEnd()
+    {
         $registry = Registry::getInstance();
-        if($registry->get('request')->get['tmpl_id']){
-            $registry->get('config')->set('config_storefront_template', $registry->get('request')->get['tmpl_id']);
-            $registry->set('layout', new ALayout($registry, $registry->get('request')->get['tmpl_id']));
+        if ($registry?->get('request')->get['tmpl_id']) {
+            $registry?->get('config')->set('config_storefront_template', $registry->get('request')->get['tmpl_id']);
+            $registry?->set('layout', new ALayout($registry, $registry->get('request')->get['tmpl_id']));
         }
     }
 
-    /**
-     * @return false|string
-     * @throws AException
-     */
-    protected function findPageTemplate()
-    {
-        $that = $this->baseObject;
-        $route = Registry::getInstance()->get('router')->getController();
-
-        if (!$route) {
-            return false;
-        }
-
-        $config = $that->config;
-        $currentTemplate = $config->get('config_storefront_template');
-        $defaultLayout = $that->layout->getDefaultLayout();
-
-        $r = ($route == 'pages/extension/generic') ? 'generic' : $route;
-        $filename = '';
-        $layoutId = $that->request->get['pb'] && $that->request->get['layout_id']
-            ? $that->request->get['layout_id']
-            : $that->layout->getLayoutId();
-
-        $pageId = $that->request->get['pb'] && $that->request->get['page_id']
-            ? $that->request->get['page_id']
-            : $that->layout->getPageId();
-
-        while (strlen($r) > 0) {
-            $mask = strtolower(str_replace('/', '_', $r));
-            if($mask != 'generic'){
-                $mask .= '-'.$pageId.'-'.$layoutId;
-            }
-
-            $fullPath = DIR_PB_TEMPLATES.$currentTemplate.DIRECTORY_SEPARATOR;
-            //if run preview
-            if ($that->request->get['pb']) {
-                $filename = $this->getLastSavePoint($mask);
-                if ($filename) {
-                    $fullPath .= 'savepoints'.DIRECTORY_SEPARATOR.$filename;
-                }
-            }
-
-            if (!$filename && is_file($fullPath.'public'.DIRECTORY_SEPARATOR.$mask.'.json')) {
-                $filename = $mask.'.json';
-                $fullPath .= 'public'.DIRECTORY_SEPARATOR.$filename;
-            }
-            //seek default page layout
-            if ($defaultLayout['layout_id'] == $layoutId
-                && !$filename
-                && is_file($fullPath.'public'.DIRECTORY_SEPARATOR.'generic.json')
-            ) {
-                $filename = 'generic.json';
-                $fullPath .= 'public'.DIRECTORY_SEPARATOR.$filename;
-            }
-
-            if (is_file($fullPath)) {
-                if (is_readable($fullPath)) {
-                    return file_get_contents($fullPath);
-                } else {
-                    $err = new AError('PageBuilder Render error: Template file '.$fullPath.' is NOT readable!');
-                    $err->toLog()->toMessages();
-                    break;
-                }
-            }
-            $pos = strrpos($r, "/");
-            $r = substr($r, 0, $pos);
-        }
-
-        if ($currentTemplate != 'default') {
-            $filename = strtolower(str_replace('/', '_', $route)).'.json';
-            $fullPath = DIR_PB_TEMPLATES.'default'.DIRECTORY_SEPARATOR.$filename;
-            if (is_file($fullPath)) {
-                if (is_readable($fullPath)) {
-                    return file_get_contents($fullPath);
-                } else {
-                    $err = new AError('PageBuilder Render error: Template file '.$fullPath.' is NOT readable!');
-                    $err->toLog()->toMessages();
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
-     * method returns current counter for saving snapshot of page for "undo"
-     *
-     * @param string $fileNameMask
-     *
-     * @return false|string
-     * @throws AException
-     */
-    protected function getLastSavePoint($fileNameMask)
-    {
-        if (!$fileNameMask) {
-            return false;
-        }
-        $currentTemplate = Registry::getInstance()->get('config')->get('config_storefront_template');
-        $files = glob(
-            DIR_PB_TEMPLATES.$currentTemplate.DIRECTORY_SEPARATOR.'savepoints'.DIRECTORY_SEPARATOR.$fileNameMask.'*'
-        );
-
-        if (!$files) {
-            return false;
-        }
-        $max = 0;
-        array_map(function ($path) use (&$max) {
-            $name = basename($path, '.json');
-            $array = explode('@', $name);
-            $max = max((int) $array[1], $max);
-            return (int) $array[1];
-        }, $files);
-        return $fileNameMask.'@'.$max.'.json';
-    }
-
-    public function onControllerPagesCatalogProductTabs_InitData()
-    {
-        $that = $this->baseObject;
-        $product_id = $that->request->get['product_id'];
-        if (!$product_id) {
-            return;
-        }
-        $execController = 'pages/product/product';
-        $layout = new ALayout(Registry::getInstance(), $that->config->get('config_storefront_template') );
-        $pages = $layout->getPages(
-            $execController,
-            $that->layout->getKeyParamByController($execController),
-            $product_id
-        );
-        if (!$pages) {
-            $inactive = true;
-        } else {
-            $page_id = $layout_id = null;
-            foreach ($pages as $page) {
-                if ($page['key_param'] && $page['key_value']) {
-                    $page_id = $page['page_id'];
-                    $layout_id = $page['layout_id'];
-                    $that->data['link_page_builder'] = $that->html->getSecureUrl(
-                        'design/page_builder',
-                        '&tmpl_id='.$that->config->get('config_storefront_template').'&page_id='.$page_id.'&layout_id='
-                        .$layout_id
-                    );
-                    break;
-                }
-            }
-            if (!$page_id || !$layout_id) {
-                $inactive = true;
-            }
-        }
-
-        $that->loadLanguage('page_builder/page_builder');
-        $that->data['additionalTabs'][] = 'page_builder';
-        $that->data['tab_page_builder'] = $that->language->get('page_builder_name');
-        if ($inactive) {
-            $that->data['link_page_builder'] = "Javascript:void(0);";
-            $that->data['inactive'][] = 'page_builder';
-            $that->data['title_page_builder'] = $that->language->get('page_builder_tab_title');
-        }
-    }
-
-    public function onControllerPagesCatalogCategoryTabs_InitData()
-    {
-        $that = $this->baseObject;
-        $category_id = $that->request->get['category_id'];
-        if (!$category_id) {
-            return;
-        }
-        $layout = new ALayout(Registry::getInstance(), $that->config->get('config_storefront_template') );
-        $execController = 'pages/product/category';
-        $pages = $layout->getPages(
-            $execController,
-            $that->layout->getKeyParamByController($execController),
-            $category_id
-        );
-        if (!$pages) {
-            $inactive = true;
-        } else {
-            $page_id = $layout_id = null;
-            foreach ($pages as $page) {
-                if ($page['key_param'] && $page['key_value']) {
-                    $page_id = $page['page_id'];
-                    $layout_id = $page['layout_id'];
-                    $that->data['link_page_builder'] = $that->html->getSecureUrl(
-                        'design/page_builder',
-                        '&tmpl_id='.$that->config->get('config_storefront_template').'&page_id='.$page_id.'&layout_id='
-                        .$layout_id
-                    );
-                    break;
-                }
-            }
-            if (!$page_id || !$layout_id) {
-                $inactive = true;
-            }
-        }
-
-        $that->loadLanguage('page_builder/page_builder');
-        $that->data['additionalTabs'][] = 'page_builder';
-        $that->data['tab_page_builder'] = $that->language->get('page_builder_name');
-        if ($inactive) {
-            $that->data['link_page_builder'] = "Javascript:void(0);";
-            $that->data['inactive'][] = 'page_builder';
-            $that->data['title_page_builder'] = $that->language->get('page_builder_tab_title');
-        }
-    }
-
-    public function onControllerPagesCatalogManufacturer_InitData()
-    {
-        $that = $this->baseObject;
-        $id = $that->request->get['manufacturer_id'];
-        if (!$id) {
-            return;
-        }
-        $layout = new ALayout(Registry::getInstance(), $that->config->get('config_storefront_template') );
-        $execController = 'pages/product/manufacturer';
-        $pages = $layout->getPages(
-            $execController,
-            $that->layout->getKeyParamByController($execController),
-            $id
-        );
-        if (!$pages) {
-            $inactive = true;
-        } else {
-            $page_id = $layout_id = null;
-            foreach ($pages as $page) {
-                if ($page['key_param'] && $page['key_value']) {
-                    $page_id = $page['page_id'];
-                    $layout_id = $page['layout_id'];
-                    $that->data['link_page_builder'] = $that->html->getSecureUrl(
-                        'design/page_builder',
-                        '&tmpl_id='.$that->config->get('config_storefront_template').'&page_id='.$page_id.'&layout_id='
-                        .$layout_id
-                    );
-                    break;
-                }
-            }
-            if (!$page_id || !$layout_id) {
-                $inactive = true;
-            }
-        }
-
-        $that->loadLanguage('page_builder/page_builder');
-        $that->data['additionalTabs'][] = 'page_builder';
-        $that->data['tab_page_builder'] = $that->language->get('page_builder_name');
-        if ($inactive) {
-            $that->data['link_page_builder'] = "Javascript:void(0);";
-            $that->data['inactive'][] = 'page_builder';
-            $that->data['title_page_builder'] = $that->language->get('page_builder_tab_title');
-        }
-
-        $that->view->addHookVar(
-            'extension_tabs',
-            '<li><a href="'.$that->data['link_page_builder'].'" title="'.$that->data['title_page_builder'].'"><span>'
-            .$that->data['tab_page_builder'].'</span></a></li>'
-        );
-    }
-
-    public function onControllerPagesCatalogManufacturerLayout_InitData()
-    {
-        $that = $this->baseObject;
-        $id = $that->request->get['manufacturer_id'];
-        if (!$id) {
-            return;
-        }
-        $layout = new ALayout(Registry::getInstance(), $that->config->get('config_storefront_template') );
-        $execController = 'pages/product/manufacturer';
-        $pages = $layout->getPages(
-            $execController,
-            $that->layout->getKeyParamByController($execController),
-            $id
-        );
-        if (!$pages) {
-            $inactive = true;
-        } else {
-            $page_id = $layout_id = null;
-            foreach ($pages as $page) {
-                if ($page['key_param'] && $page['key_value']) {
-                    $page_id = $page['page_id'];
-                    $layout_id = $page['layout_id'];
-                    $that->data['link_page_builder'] = $that->html->getSecureUrl(
-                        'design/page_builder',
-                        '&tmpl_id='.$that->config->get('config_storefront_template').'&page_id='.$page_id.'&layout_id='
-                        .$layout_id
-                    );
-                    break;
-                }
-            }
-            if (!$page_id || !$layout_id) {
-                $inactive = true;
-            }
-        }
-
-        $that->loadLanguage('page_builder/page_builder');
-        $that->data['additionalTabs'][] = 'page_builder';
-        $that->data['tab_page_builder'] = $that->language->get('page_builder_name');
-        if ($inactive) {
-            $that->data['link_page_builder'] = "Javascript:void(0);";
-            $that->data['inactive'][] = 'page_builder';
-            $that->data['title_page_builder'] = $that->language->get('page_builder_tab_title');
-        }
-
-        $that->view->addHookVar(
-            'extension_tabs',
-            '<li class="'.($inactive ? 'inactive' : '').'"><a href="'.$that->data['link_page_builder'].'" title="'
-            .$that->data['title_page_builder'].'"><span>'.$that->data['tab_page_builder'].'</span></a></li>'
-        );
-    }
-
-    public function onControllerPagesDesignContent_InitData()
-    {
-        if (!in_array($this->baseObject_method, ['edit_layout', 'update'])) {
-            return;
-        }
-        $that = $this->baseObject;
-        if (is_int(strpos($that->request->get['content_id'], '_'))) {
-            list(, $id) = explode('_', $that->request->get['content_id']);
-        } else {
-            $id = $that->request->get['content_id'];
-        }
-        if (!$id) {
-            return;
-        }
-        $layout = new ALayout(Registry::getInstance(), $that->config->get('config_storefront_template') );
-        $execController = 'pages/content/content';
-        $pages = $layout->getPages(
-            $execController,
-            $that->layout->getKeyParamByController($execController),
-            $id
-        );
-        if (!$pages) {
-            $inactive = true;
-        } else {
-            $page_id = $layout_id = null;
-            foreach ($pages as $page) {
-                if ($page['key_param'] && $page['key_value']) {
-                    $page_id = $page['page_id'];
-                    $layout_id = $page['layout_id'];
-                    $that->data['link_page_builder'] = $that->html->getSecureUrl(
-                        'design/page_builder',
-                        '&tmpl_id='.$that->config->get('config_storefront_template').'&page_id='.$page_id.'&layout_id='
-                        .$layout_id
-                    );
-                    break;
-                }
-            }
-            if (!$page_id || !$layout_id) {
-                $inactive = true;
-            }
-        }
-
-        $that->loadLanguage('page_builder/page_builder');
-        $that->data['additionalTabs'][] = 'page_builder';
-        $that->data['tab_page_builder'] = $that->language->get('page_builder_name');
-        if ($inactive) {
-            $that->data['link_page_builder'] = "Javascript:void(0);";
-            $that->data['inactive'][] = 'page_builder';
-            $that->data['title_page_builder'] = $that->language->get('page_builder_tab_title');
-        }
-
-        $that->view->addHookVar(
-            'extension_tabs',
-            '<li class="'.($inactive ? 'inactive' : '').'"><a href="'.$that->data['link_page_builder'].'" title="'
-            .$that->data['title_page_builder'].'"><span>'.$that->data['tab_page_builder'].'</span></a></li>'
-        );
-    }
 
     // disable preview of main content area of FastCheckout int the canvas of PageBuilder js-editor
     public function overrideControllerPagesCheckoutFastCheckout_InitData()
@@ -547,4 +201,295 @@ class ExtensionPageBuilder extends Extension
         return false;
     }
 
+    /**
+     * @return false|string
+     * @throws AException
+     */
+    protected function findPageTemplate(bool $preview, string $templateTxtId, $pageId, $layoutId)
+    {
+        $that = $this->baseObject;
+        $route = Registry::getInstance()->get('router')->getController();
+
+        if (!$route) {
+            return false;
+        }
+
+        $defaultLayout = $that->layout->getDefaultLayout();
+
+        $r = $route == 'pages/extension/generic' ? 'generic' : $route;
+        $filename = '';
+        while (strlen($r) > 0) {
+            $mask = strtolower(str_replace('/', '_', $r));
+            if ($mask != 'generic') {
+                $mask .= '-' . $pageId . '-' . $layoutId;
+            }
+
+            $fullPath = DIR_PB_TEMPLATES;
+            //if run preview
+            if ($preview) {
+                $filename = $this->getLastSavePoint($templateTxtId, $mask);
+                if ($filename) {
+                    $fullPath .= 'savepoints' . DS . $templateTxtId . DS . $filename;
+                }
+            }
+
+            if (!$filename && is_file($fullPath . 'public' . DS . $templateTxtId . DS . $mask . '.json')) {
+                $filename = $mask . '.json';
+                $fullPath .= 'public' . DS . $templateTxtId . DS . $filename;
+            }
+            //seek default page layout
+            if ($defaultLayout['layout_id'] == $layoutId
+                && !$filename
+                && is_file($fullPath . 'public' . DS . $templateTxtId . DS . 'generic.json')
+            ) {
+                $filename = 'generic.json';
+                $fullPath .= 'public' . DS . $templateTxtId . DS . $filename;
+            }
+
+            if (is_file($fullPath)) {
+                if (is_readable($fullPath)) {
+                    return file_get_contents($fullPath);
+                } else {
+                    $err = new AError('PageBuilder Render error: Template file ' . $fullPath . ' is NOT readable!');
+                    $err->toLog()->toMessages();
+                    break;
+                }
+            }
+            $pos = strrpos($r, "/");
+            $r = substr($r, 0, $pos);
+        }
+
+        return false;
+    }
+
+    /**
+     * method returns current counter for saving snapshot of page for "undo"
+     *
+     * @param string $templateTxtId
+     * @param string $fileNameMask
+     *
+     * @return false|string
+     */
+    protected function getLastSavePoint(string $templateTxtId, string $fileNameMask)
+    {
+        if (!$fileNameMask || !$templateTxtId) {
+            return false;
+        }
+        $files = glob(
+            DIR_PB_TEMPLATES . 'savepoints' . DS . $templateTxtId . DS . $fileNameMask . '*'
+        );
+
+        if (!$files) {
+            return false;
+        }
+        $max = 0;
+        array_map(function ($path) use (&$max) {
+            $name = basename($path, '.json');
+            $array = explode('@', $name);
+            $max = max((int)$array[1], $max);
+            return (int)$array[1];
+        }, $files);
+        return $fileNameMask . '@' . $max . '.json';
+    }
+
+
+
+    public function onControllerPagesCatalogProductLayout_UpdateData()
+    {
+        $that = $this->baseObject;
+        $keyParam = 'product_id';
+        $keyValue = (int)$that->request->get['product_id'];
+        if (!$keyValue) {
+            return;
+        }
+        $execController = 'pages/product/product';
+        $this->addButton2DesignPage($that, $execController, $keyParam, $keyValue);
+    }
+
+    public function onControllerPagesCatalogCategory_UpdateData()
+    {
+        if ($this->baseObject_method != 'edit_layout') {
+            return;
+        }
+
+        $that = $this->baseObject;
+        $keyParam = 'path';
+        $keyValue = (int)$that->request->get['category_id'];
+        if (!$keyValue) {
+            return;
+        }
+        $execController = 'pages/product/category';
+        $this->addButton2DesignPage($that, $execController, $keyParam, $keyValue);
+    }
+    public function onControllerPagesCatalogCollections_UpdateData()
+    {
+        if ($this->baseObject_method != 'edit_layout') {
+            return;
+        }
+
+        $that = $this->baseObject;
+        $keyParam = 'collection_id';
+        $keyValue = (int)$that->request->get['id'];
+        if (!$keyValue) {
+            return;
+        }
+        $execController = 'pages/product/collection';
+        $this->addButton2DesignPage($that, $execController, $keyParam, $keyValue);
+    }
+
+    public function onControllerPagesCatalogManufacturerLayout_UpdateData()
+    {
+        $that = $this->baseObject;
+
+        $keyParam = 'manufacturer_id';
+        $keyValue = (int)$that->request->get['manufacturer_id'];
+        if (!$keyValue) {
+            return;
+        }
+        $execController = 'pages/product/manufacturer';
+        $this->addButton2DesignPage($that, $execController, $keyParam, $keyValue);
+    }
+
+    public function onControllerPagesDesignContent_UpdateData()
+    {
+        if ($this->baseObject_method != 'edit_layout') {
+            return;
+        }
+        $that = $this->baseObject;
+
+        $keyParam = 'content_id';
+        $keyValue = (int)$that->request->get['content_id'];
+        if (!$keyValue) {
+            return;
+        }
+        $execController = 'pages/content/content';
+        $this->addButton2DesignPage($that, $execController, $keyParam, $keyValue);
+    }
+    public function onControllerPagesDesignLayout_UpdateData()
+    {
+        /** @var ControllerPagesDesignLayout $that */
+        $that = $this->baseObject;
+
+        $pageData = $that->layout->getPageData();
+
+        $keyParam = $pageData['key_param'];
+        $keyValue = (int)$pageData['key_value'];
+
+        $execController = $pageData['controller'];
+        if(!$keyParam) {
+            $templateTxtId = $that->request->get['tmpl_id']
+                ?: Registry::getInstance()->get('config')->get('config_storefront_template');
+            $l = new ALayout(Registry::getInstance(), $templateTxtId);
+            $keyParam = $l->getKeyParamByController($execController);
+        }
+        $this->addButton2DesignPage($that, $execController, $keyParam, $keyValue);
+    }
+
+    protected function isPagePublished(string $templateTxtId, string $rt, int $pageId, int $layoutId)
+    {
+        return is_file(
+            DIR_PB_TEMPLATES . 'public' . DS . $templateTxtId . DS
+            . preformatTextID(str_replace('/', '_', $rt)) . '-' . $pageId. '-' . $layoutId.'.json'
+        );
+    }
+
+    protected function getLayoutIdsByParameters(string $rt, string $keyParam, int $keyValue):array
+    {
+        $that = $this->baseObject;
+        $pageId = $layoutId = null;
+
+        $templateTxtId = $that->request->get['tmpl_id']
+            ?: Registry::getInstance()->get('config')->get('config_storefront_template');
+        $layout = new ALayout(Registry::getInstance(), $templateTxtId);
+        if(!$keyParam) {
+            $keyParam = $layout->getKeyParamByController($rt);
+        }
+        $pages = $layout->getPages(
+            $rt,
+            $keyParam,
+            $keyValue
+        );
+        if ($pages) {
+            foreach ($pages as $page) {
+                $pageId = (int)$page['page_id'];
+                $layoutId = (int)$page['layout_id'];
+                break;
+            }
+        }
+        return [
+            'templateTxtId' => $templateTxtId,
+            'pageId' => $pageId,
+            'layoutId' => $layoutId
+        ];
+    }
+    protected function addButton2DesignPage($that, $execController, $keyParam, $keyValue)
+    {
+        $that->load->language('page_builder/page_builder');
+
+        $res = $this->getLayoutIdsByParameters($execController, $keyParam,  $keyValue);
+        extract($res);
+        $link_page_builder = $that->html->getSecureUrl(
+            'r/design/page_builder/createNewPage',
+            '&' . http_build_query(
+                [
+                    'tmpl_id' => $templateTxtId,
+                    'controller' => $execController,
+                    'key_param' => $keyParam,
+                    'key_value' => $keyValue
+                ]
+            )
+        );
+        if($pageId && $layoutId) {
+            $isPublished = $this->isPagePublished($templateTxtId, $execController, $pageId, $layoutId);
+            if($isPublished) {
+                $link_page_builder = $that->html->getSecureUrl(
+                    'design/page_builder',
+                    '&' . http_build_query(
+                        [
+                            'tmpl_id'   => $templateTxtId,
+                            'page_id'   => $pageId,
+                            'layout_id' => $layoutId
+                        ]
+                    )
+                );
+                $that->view->assign('block_layout_form', false);
+
+                $that->view->addHookVar(
+                    'layout_form_post',
+                    '<div id="page-layout" class="panel-body panel-body-nopadding tab-content col-xs-12 text-center">'
+                    .'<div class="layout_form_post padding10 pt10">'
+                    .$that->language->get('page_builder_text_already_published').'&nbsp;'
+                    .$that->html->buildElement([
+                        'type' => 'button',
+                        'href' => $link_page_builder,
+                        'text' => $that->language->get('page_builder_button_click_to_edit_page'),
+                        'style' => 'btn btn-default'
+                    ]).'</div></div>'
+                );
+            }else {
+                $that->view->addHookVar(
+                    'layout_form_action_post',
+                    '<div class="btn-group mr10"><div class="pull-right">'
+                    .$that->language->get('page_builder_text_can_try').'&nbsp;'
+                    .$that->html->buildElement([
+                        'type' => 'button',
+                        'href' => $link_page_builder,
+                        'text' => $that->language->get('page_builder_button_click_to_try'),
+                    ]).'</div></div>'
+                );
+            }
+        }else{
+            $that->view->addHookVar(
+                'layout_form_action_post',
+                '<div class="btn-group mr10"><div class="pull-right">'
+                .$that->language->get('page_builder_text_can_try').'&nbsp;'
+                .$that->html->buildElement([
+                    'type' => 'button',
+                    'href' => $link_page_builder,
+                    'text' => $that->language->get('page_builder_button_click_to_try'),
+                    'style' => 'btn btn-default'
+                ]).'</div></div>'
+            );
+        }
+    }
 }

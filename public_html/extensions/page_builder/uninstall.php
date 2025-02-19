@@ -24,3 +24,4 @@ if (! defined ( 'DIR_CORE' )) {
 //delete menu item
 $menu = new AMenu ("admin");
 $menu->deleteMenuItem("page_builder");
+$this->db->query("DELETE FROM ".$this->db->table('settings')." WHERE `group`= 'page_builder'");

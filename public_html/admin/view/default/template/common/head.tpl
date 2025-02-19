@@ -51,6 +51,14 @@
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/bootstrap.min.js"></script>
 <script defer type="text/javascript" src="<?php echo $template_dir; ?>javascript/tinymce/tinymce.js"></script>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css"/>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/plugins/rangePlugin.min.js"></script>
+<?php if($code != 'en'){ ?>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/l10n/<?php echo $code; ?>.min.js"></script>
+<?php } ?>
+
+
 <?php foreach ($scripts as $script) { ?>
 <script type="text/javascript" src="<?php echo $script; ?>"></script>
 <?php } ?>
@@ -124,7 +132,7 @@ $(document).ready(function () {
         info_alert(<?php js_echo($system_notice); ?>, false);
     <?php } ?>
   
-    numberSeparators = {decimal:'<?php echo $decimal_point; ?>', thousand:'<?php echo $thousand_point; ?>'};
+    numberSeparators = {decimal: <?php js_echo($decimal_point); ?>, thousand: <?php js_echo($thousand_point); ?> };
 });
 
 //periodical updater of new message notifier

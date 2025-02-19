@@ -225,6 +225,8 @@ class ControllerResponsesListingGridBlocksGrid extends AController
             $this->getMediaListingSubForm();
         } elseif ($listing_datasource == 'collection') {
             $this->getCollectionListingSubForm();
+        } elseif ($listing_datasource == 'selected_content') {
+            $this->getSelectedContentForm();
         } elseif ($listing_datasource == '') {
             return null;
         } else {
@@ -337,6 +339,70 @@ class ControllerResponsesListingGridBlocksGrid extends AController
             ]
         );
         $this->data['response'] = $view->fetch('responses/design/block_collection_listing_subform.tpl');
+
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+        $this->response->setOutput($this->data['response']);
+    }
+
+    public function getSelectedContentForm()
+    {
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+        $this->loadLanguage('design/blocks');
+        $custom_block_id = (int) $this->request->get['custom_block_id'];
+        $form_name = $this->request->get['form_name'] ?? 'BlockFrm';
+        $content = [];
+
+        $lm = new ALayoutManager();
+        if (!$custom_block_id) {
+            $form = new AForm ('ST');
+        } else {
+            $form = new AForm ('HS');
+            $blk = $lm->getBlockDescriptions($custom_block_id);
+            $content = $blk[$this->language->getContentLanguageID()]['content'];
+            $content = unserialize($content);
+        }
+        $form->setForm(['form_name' => $form_name]);
+        // we need get contents list for multiselect
+        $selected_parent = $disabled_parent = [];
+        $acm = new AContentManager();
+        $selectTree = $acm->getContentsForSelect();
+        foreach ($selectTree as $node) {
+            $id = $node['content_id'];
+            if ($content['content_ids'] && in_array($id, $content['content_ids'])) {
+                $selected_parent[$id] = (string)$id;
+            }
+        }
+
+        $multivalue_html = $form->getFieldHtml(
+            [
+                'type'             => 'multiSelectbox',
+                'name'             => 'content_ids[]',
+                'options'          => array_column($selectTree, 'title', 'content_id'),
+                'value'            => $selected_parent,
+                'disabled_options' => $disabled_parent,
+                'attr'             => 'size = "' . min(sizeof($selectTree), 20) . '"',
+                'style'            => 'no-save',
+            ]
+        );
+        $this->view->assign('multivalue_html', $multivalue_html);
+
+        $this->view->assign('entry_limit', $this->language->get('entry_limit'));
+        $this->view->assign('field_limit', $form->getFieldHtml(
+            [
+                'type'     => 'input',
+                'name'     => 'limit',
+                'value'    => $content['limit'],
+                'style'    => 'no-save',
+                'multilingual' => true,
+                'help_url' => $this->gen_help_url('block_limit'),
+            ]
+        )
+        );
+        $this->view->assign('form_name', $form_name);
+
+        $this->processTemplate('responses/design/block_custom_listing_subform.tpl');
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);

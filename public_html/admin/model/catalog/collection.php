@@ -217,7 +217,7 @@ class ModelCatalogCollection extends Model
         }
         $db = Registry::getInstance()->get('db');
         $colTableName = $db->table('collections');
-        $query = 'DELETE FROM '.$colTableName.' WHERE id='.$id;
+        $query = 'DELETE FROM '.$colTableName.' WHERE id='.(int)$id;
         $db->query($query);
         return true;
     }

@@ -116,10 +116,6 @@
 		<key>text_success_layout</key>
 		<value><![CDATA[Success: You have modified category page layout.]]></value>
 	</definition>
-	<definition>
-		<key>tab_layout</key>
-		<value><![CDATA[ Layout ]]></value>
-	</definition>
     <definition>
         <key>tab_image</key>
         <value><![CDATA[Images]]></value>

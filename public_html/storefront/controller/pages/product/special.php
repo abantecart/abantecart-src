@@ -31,8 +31,6 @@ class ControllerPagesProductSpecial extends AController
 
     public function main()
     {
-        $request = $this->request->get;
-
         //is this an embed mode
         $this->data['cart_rt'] = $this->config->get('embed_mode')
             ? 'r/checkout/cart/embed'
@@ -52,38 +50,17 @@ class ControllerPagesProductSpecial extends AController
             ]
         );
 
-        $url = '';
-        if (isset($request['page'])) {
-            $url .= '&page='.$request['page'];
-        }
+        $httpQuery = $this->prepareProductSortingParameters(['special' => true]);
+        extract($httpQuery);
+        unset($httpQuery['raw_sort']);
 
         $this->document->addBreadcrumb(
             [
-                'href'      => $this->html->getNonSecureURL('product/special', $url),
+                'href'      => $this->html->getNonSecureURL('product/special', '&' . http_build_query($httpQuery)),
                 'text'      => $this->language->get('heading_title'),
                 'separator' => $this->language->get('text_separator'),
             ]
         );
-
-
-        $page = $request['page'] ?? 1;
-        $limit = (int) $this->request->get['limit'] ?: $this->config->get('config_catalog_limit');
-
-        $sorting_href = $request['sort'];
-        if (!$sorting_href || !isset($this->data['sorts'][$request['sort']])) {
-            $sorting_href = $this->config->get('config_product_default_sort_order');
-        }
-
-        list($sort, $order) = explode("-", $sorting_href);
-        if ($sort == 'name') {
-            $sort = 'pd.'.$sort;
-        } elseif ($sort == 'sort_order') {
-            $sort = 'p.'.$sort;
-        } elseif ($sort == 'price') {
-            $sort = 'ps.'.$sort;
-        } elseif ($sort == 'p.price') {
-            $sort = 'ps.price';
-        }
 
         $this->loadModel('catalog/product');
         $promotion = new APromotion();
@@ -149,14 +126,14 @@ class ControllerPagesProductSpecial extends AController
 
                 $options = $this->model_catalog_product->getProductOptions($result['product_id']);
                 if ($options) {
-                    $add = $this->html->getSEOURL('product/product', '&product_id='.$result['product_id'], '&encode');
+                    $add = $this->html->getSEOURL('product/product', '&product_id=' . $result['product_id'], '&encode');
                 } else {
                     if ($this->config->get('config_cart_ajax')) {
                         $add = '#';
                     } else {
                         $add = $this->html->getSecureURL(
                             'checkout/cart',
-                            '&product_id='.$result['product_id'],
+                            '&product_id=' . $result['product_id'],
                             '&encode'
                         );
                     }
@@ -195,7 +172,7 @@ class ControllerPagesProductSpecial extends AController
                         'thumb'          => $thumbnail,
                         'href'           => $this->html->getSEOURL(
                             'product/product',
-                            '&product_id='.$result['product_id'],
+                            '&product_id=' . $result['product_id'],
                             '&encode'
                         ),
                         'add'            => $add,
@@ -219,26 +196,31 @@ class ControllerPagesProductSpecial extends AController
             }
             $this->data['display_price'] = $display_price;
 
-            $sort_options = [];
-            foreach ($this->data['sorts'] as $item => $text) {
-                $sort_options[$item] = $text;
-            }
+            $sort_options = $this->data['sorts'];
             $sorting = $this->html->buildElement(
                 [
                     'type'    => 'selectbox',
                     'name'    => 'sort',
                     'options' => $sort_options,
-                    'value'   => $sorting_href,
+                    'value'   => $raw_sort . '-' . $order,
                 ]
             );
+            $this->data['sorting'] = $sorting;
+            $this->data['url'] = $this->html->getURL('product/special');
 
-            $this->view->assign('sorting', $sorting);
-            $this->view->assign('url', $this->html->getURL('product/special'));
+            $pQuery = $httpQuery;
+            $pQuery['sort'] = $raw_sort . '-' . $order;
+            unset($pQuery['page'], $pQuery['order']);
 
             $pagination_url = $this->html->getURL(
                 'product/special',
-                '&sort='.$sorting_href.'&page={page}'.'&limit='.$limit,
-                '&encode'
+                '&page=--page--&' . http_build_query($pQuery, '', null, PHP_QUERY_RFC3986)
+            );
+            $rQuery = $httpQuery;
+            unset($rQuery['sort']);
+            $this->data['resort_url'] = $this->html->getSecureSEOURL(
+                'product/special',
+                '&' . http_build_query($rQuery)
             );
 
             $this->data['pagination_bootstrap'] = $this->html->buildElement(

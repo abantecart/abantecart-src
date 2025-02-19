@@ -10,10 +10,8 @@ echo $this->html->buildElement(
     ]
 ); ?>
 
-<script type="text/javascript" src="<?php
-echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload.js"></script>
-<script type="text/javascript" src="<?php
-echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload-ui.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload-ui.js"></script>
 
 <script type="text/javascript">
     $('#rl_modal').appendTo('body'); <?php // move modal at the end of html-body. It needed for exclusion html-form of modal from page html-form?>
@@ -219,7 +217,9 @@ echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload-ui.js"></sc
                         src = '<div class="html rl_large_icon"><i class="fa fa-code fa-lg"></i></div>';
                     } else {
                         <?php // variable t needs to prevent browser caching in case of replacement of file of resource?>
-                        src = '<img onerror="imgError(this);" class="img-responsive" src="' + item['thumbnail_url'] + '?t=' + t + '" title="' + item['name'] + '" />';
+                        src = '<img onerror="imgError(this);" class="img-responsive" ' +
+                            'style="width: 100px; height: 100px;"' +
+                            'src="' + item['thumbnail_url'] + '?t=' + t + '" title="' + item['name'] + '" />';
                     }
 
                     html += '<div class="col-md-1 col-sm-2 col-xs-6 reslibrary_block">';
@@ -300,6 +300,7 @@ echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload-ui.js"></sc
     }
 
     var loadSingle = function (type, wrapper_id, resource_id, field) {
+
         if (!wrapper_id || wrapper_id === '') {
             wrapper_id = modalscope.wrapper_id;
         } else {
@@ -310,7 +311,6 @@ echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload-ui.js"></sc
         } else {
             modalscope.field_id = field;
         }
-
         $.ajax({
             url: urls.resource_single + '&resource_id=' + resource_id,
             type: 'GET',
@@ -1025,7 +1025,8 @@ echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload-ui.js"></sc
                 xhr: function () {
                     var xhrobj = $.ajaxSettings.xhr();
                     if (xhrobj.upload) {
-                        xhrobj.upload.addEventListener(
+                        $(xhrobj.upload).off('progress');
+                        $(xhrobj.upload).on(
                             'progress',
                             function (event) {
                                 var percent = 0;
@@ -1040,7 +1041,7 @@ echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload-ui.js"></sc
                             false
                         );
                     } else {
-                        console.log("Uploadress is not supported.");
+                        console.log("Upload is not supported.");
                     }
                     return xhrobj;
                 },
@@ -1118,7 +1119,7 @@ echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload-ui.js"></sc
                 rl_type = $(obj).children('[data-type="*"]').attr('data-type');
             }
 
-            if (rl_type) {
+            if (URL && rl_type) {
                 URL += '&type=' + rl_type;
             }
 
@@ -1128,7 +1129,6 @@ echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload-ui.js"></sc
 
                 var status = new createStatusbar($(obj).find('.fileupload-buttonbar')); //Using this we can set progress.
                 status.setFileNameSize(files[i].name, files[i].size);
-
                 var response = sendFileToServer(fd, status, URL);
                 if (response.hasOwnProperty('error_text')) {
                     rl_error_alert('File ' + files[i].name + ' (' + response.error_text + ')', false);
@@ -1214,6 +1214,7 @@ echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload-ui.js"></sc
             }
 
             //We need to send dropped files to Server
+
             handleFileUpload(files, o, o.find('form').attr('action'));
         });
 

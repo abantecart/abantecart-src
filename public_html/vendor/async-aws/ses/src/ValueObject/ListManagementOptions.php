@@ -12,11 +12,15 @@ final class ListManagementOptions
 {
     /**
      * The name of the contact list.
+     *
+     * @var string
      */
     private $contactListName;
 
     /**
      * The name of the topic.
+     *
+     * @var string|null
      */
     private $topicName;
 
@@ -28,10 +32,16 @@ final class ListManagementOptions
      */
     public function __construct(array $input)
     {
-        $this->contactListName = $input['ContactListName'] ?? null;
+        $this->contactListName = $input['ContactListName'] ?? $this->throwException(new InvalidArgument('Missing required field "ContactListName".'));
         $this->topicName = $input['TopicName'] ?? null;
     }
 
+    /**
+     * @param array{
+     *   ContactListName: string,
+     *   TopicName?: null|string,
+     * }|ListManagementOptions $input
+     */
     public static function create($input): self
     {
         return $input instanceof self ? $input : new self($input);
@@ -53,14 +63,20 @@ final class ListManagementOptions
     public function requestBody(): array
     {
         $payload = [];
-        if (null === $v = $this->contactListName) {
-            throw new InvalidArgument(sprintf('Missing parameter "ContactListName" for "%s". The value cannot be null.', __CLASS__));
-        }
+        $v = $this->contactListName;
         $payload['ContactListName'] = $v;
         if (null !== $v = $this->topicName) {
             $payload['TopicName'] = $v;
         }
 
         return $payload;
+    }
+
+    /**
+     * @return never
+     */
+    private function throwException(\Throwable $exception)
+    {
+        throw $exception;
     }
 }

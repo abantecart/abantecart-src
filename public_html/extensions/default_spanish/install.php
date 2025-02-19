@@ -28,12 +28,13 @@ $lng_name = 'Español';
 $lng_directory = 'spanish';
 $lng_locale = 'es_ES.UTF-8,es_ES,spanish';
 $lng_flag_path = 'extensions/default_spanish/storefront/language/spanish/flag.png';
-$lng_sort = 2; // sorting order with other langauges
+$lng_sort = 2; // sorting order with other languages
 $lng_status = 0; // Status on installation of extension
 
 $query = $this->db->query("SELECT language_id FROM " . $this->db->table('languages') . " WHERE code='" . $lng_code . "'");
 if ($query->row['language_id']) {
-    $this->session->data['error'] = "Error: Language with " . $lng_code . " code is already installed! Can not install duplicate languages! Uninstall this extension before attempting again.";
+    $this->session->data['error'] = "Error: Language with " . $lng_code . " code is already installed! "
+        ."Can not install duplicate languages! Uninstall this extension before attempting again.";
     $error = new AError ($this->session->data['error']);
     $error->toLog()->toDebug();
     return false;
@@ -42,7 +43,7 @@ if ($query->row['language_id']) {
 $this->db->query("INSERT INTO " . $this->db->table('languages') . " (`name`,`code`,`locale`,`image`,`directory`,`filename`,`sort_order`, `status`)
 				  VALUES ('" . $lng_name . "', '" . $lng_code . "', '" . $lng_locale . "', '" . $lng_flag_path . "','" . $lng_directory . "','" . $lng_directory . "','" . $lng_sort . "'," . $lng_status . ");");
 
-$new_language_id = $this->db->getLastId();
+$new_language_id = (int)$this->db->getLastId();
 $xml = simplexml_load_file(DIR_EXT . 'default_spanish/menu.xml');
 
 $routes = [

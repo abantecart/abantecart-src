@@ -185,4 +185,8 @@
 		<key>text_translate_override_existing</key>
 		<value><![CDATA[Nota: tutte le descrizioni esistenti nella lingua di destinazione verranno sostituite con una nuova traduzione. Puoi disabilitare l&#39;override in <a href="%s">Sistema-&gt; Impostazioni-&gt; Dettagli negozio</a> .]]></value>
 	</definition>
+	<definition>
+		<key>text_copy_source_text</key>
+		<value><![CDATA[Copia il testo della lingua di origine]]></value>
+	</definition>
 </definitions>

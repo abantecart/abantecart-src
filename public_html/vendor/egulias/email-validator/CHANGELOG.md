@@ -1,11 +1,11 @@
-# EmailValidator v3 Changelog
+# EmailValidator Changelog
 
 ## New Features
 
 * Access to local part and domain part from EmailParser
 * Validations outside of the scope of the RFC will be considered "extra" validations, thus opening the door for adding new; will live in their own folder "extra" (as requested in #248, #195, #183). 
 
-## Breacking changes
+## Breaking changes
 
 * PHP version upgraded to match Symfony's (as of 12/2020).
 * DNSCheckValidation now fails for missing MX records. While the RFC argues that the existence of only A records to be valid, starting in v3 they will be considered invalid.
@@ -30,4 +30,3 @@ PHP version upgrade requirement will happen via MINOR (3.x) version upgrades of 
 
 ## Thanks
 To contributors, be it with PRs, reporting issues or supporting otherwise.
-

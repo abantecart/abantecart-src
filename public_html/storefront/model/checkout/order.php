@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details is bundled with this package in the file LICENSE.txt.
@@ -17,8 +17,6 @@
  *    versions in the future. If you wish to customize AbanteCart for your
  *    needs please refer to http://www.AbanteCart.com for more information.
  */
-
-/** @noinspection PhpUndefinedClassInspection */
 
 /**
  * Class ModelCheckoutOrder
@@ -783,7 +781,10 @@ class ModelCheckoutOrder extends Model
         $mail->setFrom($this->config->get('store_main_email'));
         $mail->setReplyTo($this->config->get('store_main_email'));
         $mail->setSender($order_row['store_name']);
-        $mail->setTemplate('storefront_order_confirm', $this->data['mail_template_data']);
+        $mail->setTemplate(
+            $this->data['email_template_text_id'] ?: 'storefront_order_confirm',
+            $this->data['mail_template_data']
+        );
 
         $attachments = [];
         if (is_file(DIR_RESOURCE.$mailLogo)) {
@@ -827,7 +828,10 @@ class ModelCheckoutOrder extends Model
             $this->extensions->hk_ProcessData($this, 'sf_order_confirm_alert_mail_text');
 
             $mail->setTo($this->config->get('store_main_email'));
-            $mail->setTemplate('storefront_order_confirm_admin_notify', $this->data['mail_template_data']);
+            $mail->setTemplate(
+                $this->data['email_template_text_id'] ?: 'storefront_order_confirm_admin_notify',
+                $this->data['mail_template_data']
+            );
             $mail->send();
 
             // Send to additional alert emails
@@ -1042,7 +1046,6 @@ class ModelCheckoutOrder extends Model
             return false;
         }
 
-        $this->db->query("DELETE FROM `".$this->db->table("order_history")."` WHERE order_id = '".$order_id."'");
         $this->db->query("DELETE FROM `".$this->db->table("order_products")."` WHERE order_id = '".$order_id."'");
         $this->db->query("DELETE FROM `".$this->db->table("order_options")."` WHERE order_id = '".$order_id."'");
         $this->db->query("DELETE FROM `".$this->db->table("order_downloads")."` WHERE order_id = '".$order_id."'");

@@ -1,10 +1,9 @@
 <header>
     <div class="navbar navbar-expand-md navbar-dark bg-dark" role="navigation">
-        <div class="mb-auto col-12 col-md-2 d-flex flex-wrap flex-md-nowrap justify-content-between"
-            style="min-width:<?php echo $logo_width; ?>px">
+        <div class="mb-auto col-12 col-md-3 d-flex flex-wrap flex-md-nowrap justify-content-between">
             <?php if (is_file(DIR_RESOURCE . $logo)) { ?>
-            <a class="navbar-brand logo" href="<?php echo $homepage; ?>">
-                <img src="resources/<?php echo $logo; ?>" width="<?php echo $logo_width; ?>" height="<?php echo $logo_height; ?>" title="<?php echo $store; ?>" alt="<?php echo $store; ?>"/>
+            <a class="navbar-brand logo mx-3" href="<?php echo $homepage; ?>" style="max-width: 260px">
+                <img class="img-fluid" src="resources/<?php echo $logo; ?>" title="<?php echo $store; ?>" alt="<?php echo $store; ?>"/>
             </a>
             <?php } else if (!empty($logo)) { ?>
                 <a class="navbar-brand logo" href="<?php echo $homepage; ?>"><?php echo $logo; ?></a>

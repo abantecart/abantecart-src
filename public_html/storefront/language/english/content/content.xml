@@ -5,6 +5,14 @@
     <value><![CDATA[Content pages]]></value>
   </definition>
   <definition>
+    <key>text_author</key>
+    <value><![CDATA[Author:]]></value>
+  </definition>
+  <definition>
+    <key>text_published</key>
+    <value><![CDATA[Published:]]></value>
+  </definition>
+  <definition>
     <key>text_sort</key>
     <value><![CDATA[Sort By:]]></value>
   </definition>
