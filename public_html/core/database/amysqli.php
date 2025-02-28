@@ -98,8 +98,8 @@ final class AMySQLi
             if ($e->getCode() == 2006 && $this->reconnect_cnt < self::MAX_RECONNECT_CNT) {
                 try {
                     $this->__construct($this->hostname, $this->username, $this->password, $this->database);
-                    $result = $this->query($sql, $noexcept);
-                    $message = "Reconnected to database {$this->database} after Mysql connection has dropped";
+                    $result = $this->connection->query($sql);
+                    $message = "Reconnected to database ".$this->database." after Mysql connection has dropped";
                     $error = new AError($message);
                     $error->toDebug();
                 } catch (Exception $exc) {
