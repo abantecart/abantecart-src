@@ -10391,6 +10391,7 @@ CREATE TABLE `ac_content_tags` (
 --
 -- DDL for table `suppliers`
 --
+DROP TABLE IF EXISTS `ac_suppliers`;
 create table `ac_suppliers`
 (
     `id`            int auto_increment,
@@ -10401,6 +10402,7 @@ create table `ac_suppliers`
     constraint `ac_suppliers_pk`
         primary key (`id`, `code`)
 );
+DROP TABLE IF EXISTS `ac_object_types`;
 create table `ac_object_types`
 (
     `id`         int auto_increment,
@@ -10411,6 +10413,7 @@ create table `ac_object_types`
 )
 comment 'list of types for mapping data';
 
+DROP TABLE IF EXISTS `ac_supplier_data`;
 create table `ac_supplier_data`
 (
     `id`             int auto_increment,
