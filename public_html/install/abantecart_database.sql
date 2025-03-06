@@ -12644,7 +12644,7 @@ CREATE TABLE `ac_product_stock_locations` (
   UNIQUE KEY `ac_product_stock_locations_idx` (`product_id`,`product_option_value_id`,`location_id`),
   KEY `ac_product_stock_locations_idx2` (`product_option_value_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-create UNIQUE index `ac_products_supplier_idx` on `ac_products` (`supplier_code`, `supplier_id`);
+create UNIQUE index `ac_product_stock_locations_supplier_idx` on `ac_products` (`supplier_code`, `supplier_id`);
 
 DROP TABLE IF EXISTS `ac_order_product_stock_locations`;
 CREATE TABLE `ac_order_product_stock_locations` (
