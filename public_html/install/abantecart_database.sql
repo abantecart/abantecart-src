@@ -38,7 +38,7 @@ CREATE TABLE `ac_categories` (
   PRIMARY KEY (`category_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 CREATE INDEX `ac_categories_idx` ON `ac_categories` ( `category_id`, `parent_id`, `status`);
-CREATE INDEX `ac_categories_supplier_idx` ON `ac_categories` (`supplier_code`, `supplier_id`);
+CREATE UNIQUE INDEX `ac_categories_supplier_idx` ON `ac_categories` (`supplier_code`, `supplier_id`);
 
 --
 -- DDL for table `category_descriptions`
@@ -1393,7 +1393,7 @@ CREATE TABLE `ac_products` (
 
 CREATE INDEX `ac_products_idx` ON `ac_products` (`stock_status_id`,  `manufacturer_id`, `weight_class_id`, `length_class_id`);
 CREATE INDEX `ac_products_status_idx` ON `ac_products` (`product_id`, `status`, `date_available`);
-create index `ac_products_supplier_idx` on `ac_products` (`supplier_code`, `supplier_id`);
+create UNIQUE index `ac_products_supplier_idx` on `ac_products` (`supplier_code`, `supplier_id`);
 
 
 --
@@ -1511,7 +1511,7 @@ CREATE TABLE `ac_product_option_values` (
 
 CREATE INDEX `ac_product_option_values_idx`
     ON `ac_product_option_values` ( `product_option_id`, `product_id`, `group_id`, `attribute_value_id`);
-create index `ac_product_option_values_supplier_idx`
+create UNIQUE index `ac_product_option_values_supplier_idx`
     on `ac_product_option_values` (`supplier_id`, `supplier_code`);
 
 
@@ -12636,9 +12636,12 @@ CREATE TABLE `ac_product_stock_locations` (
   `location_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL DEFAULT '0',
   `sort_order` int(11) NOT NULL DEFAULT '0',
+  `supplier_code` varchar(100) null,
+  `supplier_id` varchar(100) null,
   UNIQUE KEY `ac_product_stock_locations_idx` (`product_id`,`product_option_value_id`,`location_id`),
   KEY `ac_product_stock_locations_idx2` (`product_option_value_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+create UNIQUE index `ac_products_supplier_idx` on `ac_products` (`supplier_code`, `supplier_id`);
 
 DROP TABLE IF EXISTS `ac_order_product_stock_locations`;
 CREATE TABLE `ac_order_product_stock_locations` (

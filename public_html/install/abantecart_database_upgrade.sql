@@ -36,17 +36,23 @@ create table `ac_supplier_data`
 alter table `ac_products`
     add `supplier_code` varchar(100) null after `settings`,
     add `supplier_id` varchar(100) null after `supplier_code`;
-create index `ac_products_supplier_idx`
+create UNIQUE index `ac_products_supplier_idx`
     on `ac_products` (`supplier_code`, `supplier_id`);
+
+ALTER TABLE `ac_product_stock_locations`
+    add `supplier_code` varchar(100) null,
+    add `supplier_id` varchar(100) null;
+CREATE UNIQUE INDEX `ac_product_stock_locations_supplier_idx`
+    on `ac_product_stock_locations` (`supplier_code`, `supplier_id`);
 
 alter table `ac_product_option_values`
     add `supplier_code` varchar(100) null after `default`,
     add `supplier_id` varchar(100) null after `supplier_code`;
-create index `ac_products_supplier_idx`
+create unique index `ac_products_supplier_idx`
     on `ac_product_option_values` (`supplier_code`, `supplier_id`);
 
 alter table `ac_categories`
     add `supplier_code` varchar(100) null after `status`,
     add `supplier_id` varchar(100) null after `supplier_code`;
-create index `ac_categories_supplier_idx`
+create unique index `ac_categories_supplier_idx`
     on `ac_categories` (`supplier_code`, `supplier_id`);

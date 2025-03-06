@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details is bundled with this package in the file LICENSE.txt.
@@ -58,20 +58,20 @@ class AAttribute_Manager extends AAttribute
     public function deleteAttribute($attribute_id)
     {
         $this->db->query(
-            "DELETE FROM ".$this->db->table("global_attributes")."
-            WHERE attribute_id = '".$this->db->escape($attribute_id)."' "
+            "DELETE FROM " . $this->db->table("global_attributes") . "
+            WHERE attribute_id = '" . $this->db->escape($attribute_id) . "' "
         );
         $this->db->query(
-            "DELETE FROM ".$this->db->table("global_attributes_descriptions")."
-            WHERE attribute_id = '".$this->db->escape($attribute_id)."' "
+            "DELETE FROM " . $this->db->table("global_attributes_descriptions") . "
+            WHERE attribute_id = '" . $this->db->escape($attribute_id) . "' "
         );
         $this->db->query(
-            "DELETE FROM ".$this->db->table("global_attributes_values")." 
-            WHERE attribute_id = '".$this->db->escape($attribute_id)."' "
+            "DELETE FROM " . $this->db->table("global_attributes_values") . " 
+            WHERE attribute_id = '" . $this->db->escape($attribute_id) . "' "
         );
         $this->db->query(
-            "DELETE FROM ".$this->db->table("global_attributes_value_descriptions")." 
-            WHERE attribute_id = '".$this->db->escape($attribute_id)."' "
+            "DELETE FROM " . $this->db->table("global_attributes_value_descriptions") . " 
+            WHERE attribute_id = '" . $this->db->escape($attribute_id) . "' "
         );
 
         $this->clearCache();
@@ -88,32 +88,32 @@ class AAttribute_Manager extends AAttribute
         if (!$data['name']) {
             return false;
         }
-        $language_id = $this->session->data['content_language_id'];
+        $language_id = $data['language_id'] ?: $this->language->getContentLanguageID();
 
         $this->db->query(
-            "INSERT INTO ".$this->db->table("global_attributes")."
-                SET attribute_type_id = '".$this->db->escape($data['attribute_type_id'])."',
-                    attribute_group_id = '".$this->db->escape($data['attribute_group_id'])."',
-                    attribute_parent_id = '".$this->db->escape($data['attribute_parent_id'])."',
-                    element_type = '".$this->db->escape($data['element_type'])."',
-                    sort_order = '".$this->db->escape($data['sort_order'])."',
-                    required = '".$this->db->escape($data['required'])."',
-                    settings = '".$this->db->escape(serialize($data['settings']))."',
-                    status = '".$this->db->escape($data['status'])."',
-                    regexp_pattern = '".$this->db->escape($data['regexp_pattern'])."'");
+            "INSERT INTO " . $this->db->table("global_attributes") . "
+                SET attribute_type_id = '" . $this->db->escape($data['attribute_type_id']) . "',
+                    attribute_group_id = '" . $this->db->escape($data['attribute_group_id']) . "',
+                    attribute_parent_id = '" . $this->db->escape($data['attribute_parent_id']) . "',
+                    element_type = '" . $this->db->escape($data['element_type']) . "',
+                    sort_order = '" . $this->db->escape($data['sort_order']) . "',
+                    required = '" . $this->db->escape($data['required']) . "',
+                    settings = '" . $this->db->escape(serialize($data['settings'])) . "',
+                    status = '" . $this->db->escape($data['status']) . "',
+                    regexp_pattern = '" . $this->db->escape($data['regexp_pattern']) . "'");
 
         $attribute_id = $this->db->getLastId();
         // insert descriptions for used content language and translate
         $this->language->replaceDescriptions(
             'global_attributes_descriptions',
-             ['attribute_id' => (int)$attribute_id],
-             [
-                 $language_id => [
+            ['attribute_id' => (int)$attribute_id],
+            [
+                $language_id => [
                     'name'        => $data['name'],
                     'error_text'  => $data['error_text'],
                     'placeholder' => $data['placeholder'],
-                 ],
-             ]
+                ],
+            ]
         );
 
         if ($data['values']) {
@@ -162,11 +162,11 @@ class AAttribute_Manager extends AAttribute
         //check if we change element type and clean options if it does not require it
         if (isset($data['element_type']) && $data['element_type'] != $attribute['element_type']) {
             if (!in_array($data['element_type'], $elements_with_options)) {
-                $sql = "DELETE FROM ".$this->db->table("global_attributes_values")."
-                        WHERE attribute_id = '".(int)$attribute_id."'";
+                $sql = "DELETE FROM " . $this->db->table("global_attributes_values") . "
+                        WHERE attribute_id = '" . (int)$attribute_id . "'";
                 $this->db->query($sql);
-                $sql = "DELETE FROM ".$this->db->table("global_attributes_value_descriptions")."
-                        WHERE attribute_id = '".(int)$attribute_id."'";
+                $sql = "DELETE FROM " . $this->db->table("global_attributes_value_descriptions") . "
+                        WHERE attribute_id = '" . (int)$attribute_id . "'";
                 $this->db->query($sql);
             }
         }
@@ -178,13 +178,13 @@ class AAttribute_Manager extends AAttribute
         $update = [];
         foreach ($fields as $f) {
             if (isset($data[$f])) {
-                $update[] = $f." = '".$this->db->escape($data[$f])."'";
+                $update[] = $f . " = '" . $this->db->escape($data[$f]) . "'";
             }
         }
         if (!empty($update)) {
-            $sql = "UPDATE ".$this->db->table("global_attributes")."
-                    SET ".implode(',', $update)."
-                    WHERE attribute_id = '".(int)$attribute_id."'";
+            $sql = "UPDATE " . $this->db->table("global_attributes") . "
+                    SET " . implode(',', $update) . "
+                    WHERE attribute_id = '" . (int)$attribute_id . "'";
             $this->db->query($sql);
         }
 
@@ -200,8 +200,8 @@ class AAttribute_Manager extends AAttribute
         }
 
         $this->language->replaceDescriptions('global_attributes_descriptions',
-                                             ['attribute_id' => (int)$attribute_id],
-                                             [$language_id => $update]
+            ['attribute_id' => (int)$attribute_id],
+            [$language_id => $update]
         );
 
         $insertedValues = [];
@@ -215,9 +215,9 @@ class AAttribute_Manager extends AAttribute
                     //delete value if no other language
                     $this->deleteAttributeValues($attrValueId);
                 } else {
-                    if (str_starts_with($attrValueId,'new')) {
+                    if (str_starts_with($attrValueId, 'new')) {
                         // New need to create
-                        $attribute_value_id = $this->addAttributeValue( $attribute_id,$valueData );
+                        $attribute_value_id = $this->addAttributeValue($attribute_id, $valueData);
                         $insertedValues[$attribute_value_id] = [
                             'id'         => $attribute_value_id,
                             'value'      => $valueData,
@@ -231,9 +231,9 @@ class AAttribute_Manager extends AAttribute
                                 $valueData['value']
                             );
                         }
-                    } elseif($valueData) {
+                    } elseif ($valueData) {
                         //Existing need to update
-                        $this->updateAttributeValue( $attrValueId, $valueData );
+                        $this->updateAttributeValue($attrValueId, $valueData);
                         $this->updateAttributeValueDescription($attribute_id, $attrValueId, $language_id, $valueData['value']);
                     }
                 }
@@ -258,24 +258,25 @@ class AAttribute_Manager extends AAttribute
         }
         $upd = [];
         $allowed = ['txt_id', 'price_modifier', 'price_prefix', 'sort_order'];
-        foreach($data as $key => $value) {
-            if(!in_array($key, $allowed)) {
+        foreach ($data as $key => $value) {
+            if (!in_array($key, $allowed)) {
                 continue;
             }
-            if($key == 'sort_order'){
+            if ($key == 'sort_order') {
                 $value = (int)$value;
-            }if($key == 'price_modifier'){
+            }
+            if ($key == 'price_modifier') {
                 $value = (float)$value;
             }
-            if($key == 'txt_id'){
-                $upd[] = $key . " = ".($value ? "'" . $this->db->escape($value) . "'" : " NULL ");
-            }else {
+            if ($key == 'txt_id') {
+                $upd[] = $key . " = " . ($value ? "'" . $this->db->escape($value) . "'" : " NULL ");
+            } else {
                 $upd[] = $key . " = '" . $this->db->escape($value) . "'";
             }
         }
 
-        $sql = "INSERT INTO ".$this->db->table("global_attributes_values")." 
-                SET attribute_id = '".(int)$attribute_id."',
+        $sql = "INSERT INTO " . $this->db->table("global_attributes_values") . " 
+                SET attribute_id = '" . (int)$attribute_id . "',
                 " . implode(', ', $upd);
         $this->db->query($sql);
         return $this->db->getLastId();
@@ -294,11 +295,11 @@ class AAttribute_Manager extends AAttribute
             return false;
         }
         //Delete global_attributes_values that have no values left
-        $sql = "DELETE FROM ".$this->db->table("global_attributes_values")."
-                WHERE attribute_value_id = '".(int)$attribute_value_id."'
+        $sql = "DELETE FROM " . $this->db->table("global_attributes_values") . "
+                WHERE attribute_value_id = '" . (int)$attribute_value_id . "'
                     AND attribute_value_id NOT IN
-                        (SELECT attribute_value_id FROM ".$this->db->table("global_attributes_value_descriptions")."
-                         WHERE attribute_value_id = '".$attribute_value_id."')";
+                        (SELECT attribute_value_id FROM " . $this->db->table("global_attributes_value_descriptions") . "
+                         WHERE attribute_value_id = '" . $attribute_value_id . "')";
         $this->db->query($sql);
         $this->clearCache();
         return true;
@@ -311,31 +312,31 @@ class AAttribute_Manager extends AAttribute
      * @return bool
      * @throws AException
      */
-    public function updateAttributeValue( $attribute_value_id, $data = [] )
+    public function updateAttributeValue($attribute_value_id, $data = [])
     {
         if (empty($attribute_value_id)) {
             return false;
         }
 
         $allowed = ['txt_id', 'price_modifier', 'price_prefix', 'sort_order'];
-        $sql = "UPDATE ".$this->db->table("global_attributes_values")." 
+        $sql = "UPDATE " . $this->db->table("global_attributes_values") . " 
                 SET ";
         $upd = [];
-        foreach($data as $key => $value) {
-            if(!in_array($key, $allowed)) {
+        foreach ($data as $key => $value) {
+            if (!in_array($key, $allowed)) {
                 continue;
             }
-            if($key == 'sort_order'){
+            if ($key == 'sort_order') {
                 $value = (int)$value;
             }
-            if($key == 'txt_id'){
-                $upd[] = $key . " = ".($value ? "'" . $this->db->escape($value) . "'" : " NULL ");
-            }else {
+            if ($key == 'txt_id') {
+                $upd[] = $key . " = " . ($value ? "'" . $this->db->escape($value) . "'" : " NULL ");
+            } else {
                 $upd[] = $key . " = '" . $this->db->escape($value) . "'";
             }
         }
         $sql .= implode(', ', $upd)
-                ." WHERE attribute_value_id = '".(int)$attribute_value_id."'";
+            . " WHERE attribute_value_id = '" . (int)$attribute_value_id . "'";
         $this->db->query($sql);
         $this->clearCache();
         return true;
@@ -357,8 +358,8 @@ class AAttribute_Manager extends AAttribute
         }
 
         $this->language->replaceDescriptions('global_attributes_value_descriptions',
-                                             ['attribute_id' => (int)$attribute_id, 'attribute_value_id' => (int)$attribute_value_id],
-                                             [$language_id => ['value' => $value]]
+            ['attribute_id' => (int)$attribute_id, 'attribute_value_id' => (int)$attribute_value_id],
+            [$language_id => ['value' => $value]]
         );
 
         $this->clearCache();
@@ -440,14 +441,14 @@ class AAttribute_Manager extends AAttribute
     public function deleteAttributeGroup($group_id)
     {
 
-        $this->db->query("DELETE FROM ".$this->db->table("global_attributes_groups")."
-                          WHERE attribute_group_id = '".(int)$group_id."' ");
-        $this->db->query("DELETE FROM ".$this->db->table("global_attributes_groups_descriptions")."
-                           WHERE attribute_group_id = '".(int)$group_id."' ");
+        $this->db->query("DELETE FROM " . $this->db->table("global_attributes_groups") . "
+                          WHERE attribute_group_id = '" . (int)$group_id . "' ");
+        $this->db->query("DELETE FROM " . $this->db->table("global_attributes_groups_descriptions") . "
+                           WHERE attribute_group_id = '" . (int)$group_id . "' ");
         $this->db->query(
-            "UPDATE ".$this->db->table("global_attributes")."
+            "UPDATE " . $this->db->table("global_attributes") . "
                 SET attribute_group_id = ''
-                 WHERE attribute_group_id = '".(int)$group_id."' ");
+                 WHERE attribute_group_id = '" . (int)$group_id . "' ");
         $this->clearCache();
     }
 
@@ -460,9 +461,9 @@ class AAttribute_Manager extends AAttribute
     public function addAttributeGroup($data)
     {
         $this->db->query(
-            "INSERT INTO ".$this->db->table("global_attributes_groups")."
-             SET sort_order = '".(int)$data['sort_order']."',
-                 status = '".(int)$data['status']."' "
+            "INSERT INTO " . $this->db->table("global_attributes_groups") . "
+             SET sort_order = '" . (int)$data['sort_order'] . "',
+                 status = '" . (int)$data['status'] . "' "
         );
 
         $group_id = $this->db->getLastId();
@@ -490,14 +491,14 @@ class AAttribute_Manager extends AAttribute
         $update = [];
         foreach ($fields as $f) {
             if (isset($data[$f])) {
-                $update[] = $f." = '".(int)$data[$f]."'";
+                $update[] = $f . " = '" . (int)$data[$f] . "'";
             }
         }
         if (!empty($update)) {
             $this->db->query(
-                "UPDATE ".$this->db->table("global_attributes_groups")."
-                    SET ".implode(',', $update)."
-                    WHERE attribute_group_id = '".(int)$group_id."'");
+                "UPDATE " . $this->db->table("global_attributes_groups") . "
+                    SET " . implode(',', $update) . "
+                    WHERE attribute_group_id = '" . (int)$group_id . "'");
         }
 
         if (!empty($data['name'])) {
@@ -530,11 +531,11 @@ class AAttribute_Manager extends AAttribute
 
         $query = $this->db->query("
             SELECT gag.*, gagd.name
-            FROM ".$this->db->table("global_attributes_groups")." gag
-            LEFT JOIN ".$this->db->table("global_attributes_groups_descriptions")." gagd
+            FROM " . $this->db->table("global_attributes_groups") . " gag
+            LEFT JOIN " . $this->db->table("global_attributes_groups_descriptions") . " gagd
                 ON ( gag.attribute_group_id = gagd.attribute_group_id 
-                    AND gagd.language_id = '".(int)$language_id."' )
-            WHERE gag.attribute_group_id = '".(int)$group_id."'"
+                    AND gagd.language_id = '" . (int)$language_id . "' )
+            WHERE gag.attribute_group_id = '" . (int)$group_id . "'"
         );
 
         if ($query->num_rows) {
@@ -558,10 +559,10 @@ class AAttribute_Manager extends AAttribute
         }
 
         $sql = "SELECT gag.*, gagd.name
-                FROM ".$this->db->table("global_attributes_groups")." gag
-                LEFT JOIN ".$this->db->table("global_attributes_groups_descriptions")." gagd
+                FROM " . $this->db->table("global_attributes_groups") . " gag
+                LEFT JOIN " . $this->db->table("global_attributes_groups_descriptions") . " gagd
                     ON ( gag.attribute_group_id = gagd.attribute_group_id 
-                        AND gagd.language_id = '".(int)$data['language_id']."' )";
+                        AND gagd.language_id = '" . (int)$data['language_id'] . "' )";
 
         $sort_data = [
             'gagd.name',
@@ -570,7 +571,7 @@ class AAttribute_Manager extends AAttribute
         ];
 
         if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
-            $sql .= " ORDER BY ".$data['sort'];
+            $sql .= " ORDER BY " . $data['sort'];
         } else {
             $sql .= " ORDER BY gag.sort_order, gagd.name ";
         }
@@ -590,7 +591,7 @@ class AAttribute_Manager extends AAttribute
                 $data['limit'] = 20;
             }
 
-            $sql .= " LIMIT ".(int)$data['start'].",".(int)$data['limit'];
+            $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
         }
 
         $query = $this->db->query($sql);
@@ -612,10 +613,10 @@ class AAttribute_Manager extends AAttribute
         }
 
         $sql = "SELECT gag.*, gagd.name
-                FROM ".$this->db->table("global_attributes_groups")." gag
-                LEFT JOIN ".$this->db->table("global_attributes_groups_descriptions")." gagd
+                FROM " . $this->db->table("global_attributes_groups") . " gag
+                LEFT JOIN " . $this->db->table("global_attributes_groups_descriptions") . " gagd
                     ON ( gag.attribute_group_id = gagd.attribute_group_id 
-                        AND gagd.language_id = '".(int)$data['language_id']."' )";
+                        AND gagd.language_id = '" . (int)$data['language_id'] . "' )";
 
         $query = $this->db->query($sql);
         return $query->num_rows;
@@ -637,10 +638,10 @@ class AAttribute_Manager extends AAttribute
 
         $query = $this->db->query(
             "SELECT ga.*, gad.name, gad.error_text, gad.placeholder
-             FROM ".$this->db->table("global_attributes")." ga
-                LEFT JOIN ".$this->db->table("global_attributes_descriptions")." gad
-                    ON ( ga.attribute_id = gad.attribute_id AND gad.language_id = '".(int)$language_id."' )
-             WHERE ga.attribute_id = '".(int)$attribute_id."'");
+             FROM " . $this->db->table("global_attributes") . " ga
+                LEFT JOIN " . $this->db->table("global_attributes_descriptions") . " gad
+                    ON ( ga.attribute_id = gad.attribute_id AND gad.language_id = '" . (int)$language_id . "' )
+             WHERE ga.attribute_id = '" . (int)$attribute_id . "'");
         if ($query->num_rows) {
             return $query->row;
         } else {
@@ -657,8 +658,8 @@ class AAttribute_Manager extends AAttribute
     public function getAttributeDescriptions($attribute_id)
     {
         $query = $this->db->query("SELECT *
-                                    FROM ".$this->db->table("global_attributes_descriptions")."
-                                    WHERE attribute_id = '".$this->db->escape($attribute_id)."'");
+                                    FROM " . $this->db->table("global_attributes_descriptions") . "
+                                    WHERE attribute_id = '" . $this->db->escape($attribute_id) . "'");
         $result = [];
         foreach ($query->rows as $row) {
             $result[$row['language_id']] = [
@@ -684,10 +685,10 @@ class AAttribute_Manager extends AAttribute
         }
         $query = $this->db->query(
             "SELECT ga.*, gad.value
-            FROM ".$this->db->table("global_attributes_values")." ga
-            LEFT JOIN ".$this->db->table("global_attributes_value_descriptions")." gad
-               ON ( ga.attribute_value_id = gad.attribute_value_id AND gad.language_id = '".(int)$language_id."' )
-            WHERE ga.attribute_id = '".$this->db->escape($attribute_id)."'
+            FROM " . $this->db->table("global_attributes_values") . " ga
+            LEFT JOIN " . $this->db->table("global_attributes_value_descriptions") . " gad
+               ON ( ga.attribute_value_id = gad.attribute_value_id AND gad.language_id = '" . (int)$language_id . "' )
+            WHERE ga.attribute_id = '" . $this->db->escape($attribute_id) . "'
             ORDER BY sort_order"
         );
         return $query->rows;
@@ -703,8 +704,8 @@ class AAttribute_Manager extends AAttribute
     {
         $query = $this->db->query("
             SELECT *
-            FROM ".$this->db->table("global_attributes_value_descriptions")."
-            WHERE attribute_value_id = '".$this->db->escape($attribute_value_id)."'"
+            FROM " . $this->db->table("global_attributes_value_descriptions") . "
+            WHERE attribute_value_id = '" . $this->db->escape($attribute_value_id) . "'"
         );
         $result = [];
         foreach ($query->rows as $row) {
@@ -740,9 +741,9 @@ class AAttribute_Manager extends AAttribute
         $grid_filter_params = ['name' => 'gad.name', 'type_name' => 'gatd.type_name'];
         $filter_grid = new AFilter(
             [
-            'method'                   => 'post',
-            'grid_filter_params'       => $grid_filter_params,
-            'additional_filter_string' => $filter_form->getFilterString(),
+                'method'                   => 'post',
+                'grid_filter_params'       => $grid_filter_params,
+                'additional_filter_string' => $filter_form->getFilterString(),
             ]
         );
         $filter_data = $filter_grid->getFilterData();
@@ -754,25 +755,25 @@ class AAttribute_Manager extends AAttribute
             $total_sql = "ga.*, gad.name, gad.error_text, gad.placeholder, gatd.type_name ";
         }
 
-        $sql = "SELECT ".$total_sql."
-                FROM ".$this->db->table("global_attributes")." ga
-                LEFT JOIN ".$this->db->table("global_attributes_descriptions")." gad
-                    ON ( ga.attribute_id = gad.attribute_id AND gad.language_id = '".(int)$language_id."' )
-                LEFT JOIN ".$this->db->table("global_attributes_type_descriptions")." gatd
-                    ON ( gatd.attribute_type_id = ga.attribute_type_id AND gatd.language_id = '".(int)$language_id."' )
+        $sql = "SELECT " . $total_sql . "
+                FROM " . $this->db->table("global_attributes") . " ga
+                LEFT JOIN " . $this->db->table("global_attributes_descriptions") . " gad
+                    ON ( ga.attribute_id = gad.attribute_id AND gad.language_id = '" . (int)$language_id . "' )
+                LEFT JOIN " . $this->db->table("global_attributes_type_descriptions") . " gatd
+                    ON ( gatd.attribute_type_id = ga.attribute_type_id AND gatd.language_id = '" . (int)$language_id . "' )
                 WHERE 1=1 ";
         if (!empty($data['search'])) {
-            $sql .= " AND ".$data['search'];
+            $sql .= " AND " . $data['search'];
         }
         if (!empty($data['subsql_filter'])) {
-            $sql .= " AND ".$data['subsql_filter'];
+            $sql .= " AND " . $data['subsql_filter'];
         }
         if (empty($data['search']) && !is_null($attribute_parent_id)) {
-            $sql .= " AND ga.attribute_parent_id = '".(int)$attribute_parent_id."' ";
+            $sql .= " AND ga.attribute_parent_id = '" . (int)$attribute_parent_id . "' ";
         }
 
         if (!empty($data['attribute_type_id'])) {
-            $sql .= " AND ga.attribute_type_id = ".(int)$data['attribute_type_id'];
+            $sql .= " AND ga.attribute_type_id = " . (int)$data['attribute_type_id'];
         }
 
         if ($mode == 'total_only') {
@@ -788,7 +789,7 @@ class AAttribute_Manager extends AAttribute
         ];
 
         if (isset($data['sort']) && array_key_exists($data['sort'], $sort_data)) {
-            $sql .= " ORDER BY ".$sort_data[$data['sort']];
+            $sql .= " ORDER BY " . $sort_data[$data['sort']];
         } else {
             $sql .= " ORDER BY ga.sort_order, gad.name ";
         }
@@ -808,7 +809,7 @@ class AAttribute_Manager extends AAttribute
                 $data['limit'] = 20;
             }
 
-            $sql .= " LIMIT ".(int)$data['start'].",".(int)$data['limit'];
+            $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
         }
 
         $query = $this->db->query($sql);
@@ -836,8 +837,8 @@ class AAttribute_Manager extends AAttribute
     {
         $query = $this->db->query(
             "SELECT t1.attribute_id as attribute_id
-                FROM ".$this->db->table("global_attributes")." AS t1
-                LEFT JOIN ".$this->db->table("global_attributes")." as t2
+                FROM " . $this->db->table("global_attributes") . " AS t1
+                LEFT JOIN " . $this->db->table("global_attributes") . " as t2
                     ON t1.attribute_id = t2.attribute_parent_id
                 WHERE t2.attribute_id IS NULL");
         $result = [];
@@ -862,7 +863,7 @@ class AAttribute_Manager extends AAttribute
         $this->load->language('catalog/attribute');
         // required
         if (empty($data['attribute_type_id'])) {
-            $this->error['attribute_type'] = $this->language->get('error_required').': "attribute_type_id"';
+            $this->error['attribute_type'] = $this->language->get('error_required') . ': "attribute_type_id"';
         }
         // required
         if ((mb_strlen($data['name']) < 2) || (mb_strlen($data['name']) > 64)) {
@@ -874,7 +875,7 @@ class AAttribute_Manager extends AAttribute
         }
         // required
         if (empty($data['element_type'])) {
-            $this->error['element_type'] = $this->language->get('error_required').': "element_type"';
+            $this->error['element_type'] = $this->language->get('error_required') . ': "element_type"';
         }
         if (has_value($data['regexp_pattern'])) {
             if (@preg_match($data['regexp_pattern'], "AbanteCart") === false) {
@@ -899,28 +900,28 @@ class AAttribute_Manager extends AAttribute
         $this->load->language('catalog/attribute');
 
         $txtIds = array_filter(array_map('trim', array_column($data, 'txt_id')));
-        if( count($txtIds) != count(array_unique($txtIds)) ){
+        if (count($txtIds) != count(array_unique($txtIds))) {
             $this->error['txt_id'] = $this->language->get('error_not_unique');
         }
 
-        if(!$this->error && $txtIds) {
+        if (!$this->error && $txtIds) {
             $sql = "SELECT gv.*, gad.name 
                     FROM `" . $this->db->table("global_attributes_values") . "` gv
                     LEFT JOIN  `" . $this->db->table("global_attributes_descriptions") . "` gad
                         ON (gad.attribute_id = gv.attribute_id 
-                            AND gad.language_id = '".(int)$this->language->getContentLanguageID()."')
+                            AND gad.language_id = '" . (int)$this->language->getContentLanguageID() . "')
                     WHERE `txt_id` IN ('" . implode("','", $txtIds) . "')";
             if ($attrId) {
                 $sql .= " AND gv.attribute_id <> " . (int)$attrId;
             }
             $exists = $this->db->query($sql);
-            if($exists->num_rows){
-                $this->error['txt_id'] = $this->language->get('error_not_unique')." (";
+            if ($exists->num_rows) {
+                $this->error['txt_id'] = $this->language->get('error_not_unique') . " (";
                 $dd = [];
-                foreach($exists->rows as $row) {
-                    $dd[] = '<a target="_blank" href="'.$this->html->getSecureUrl('catalog/attribute/update', '&attribute_id='.$row['attribute_id']).'">'.$row['name'].'</a>';
+                foreach ($exists->rows as $row) {
+                    $dd[] = '<a target="_blank" href="' . $this->html->getSecureUrl('catalog/attribute/update', '&attribute_id=' . $row['attribute_id']) . '">' . $row['name'] . '</a>';
                 }
-                $this->error['txt_id'] .= implode(', ', $dd)." )";
+                $this->error['txt_id'] .= implode(', ', $dd) . " )";
             }
         }
 

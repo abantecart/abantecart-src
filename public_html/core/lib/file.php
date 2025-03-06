@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -39,10 +38,16 @@ class AFile
      * @var registry - access to application registry
      */
     protected $registry;
+    protected $errors = [];
 
     public function __construct()
     {
         $this->registry = Registry::getInstance();
+    }
+
+    public function getErrors()
+    {
+        return $this->errors;
     }
 
     /**
@@ -76,43 +81,43 @@ class AFile
     {
         $errors = [];
 
-        if (empty($data['name'])) {
+        if (!$data['name']) {
             $errors[] = $this->language->get('error_empty_file_name');
         }
 
-        if (!empty($settings['extensions'])) {
+        if ($settings['extensions']) {
             $allowed_extensions = explode(',', $settings['extensions']);
             $allowed_extensions = array_map('trim', $allowed_extensions);
             $allowed_extensions = array_map('strtolower', $allowed_extensions);
             $extension = strtolower(pathinfo($data['name'], PATHINFO_EXTENSION));
             if (!in_array($extension, $allowed_extensions)) {
                 $errors[] = sprintf(
-                    $this->language->get('error_file_extension'),
-                    $settings['extensions']
-                )
-                    .' ('.$data['name'].')';
+                        $this->language->get('error_file_extension'),
+                        $settings['extensions']
+                    )
+                    . ' (' . $data['name'] . ')';
             }
         }
 
-        if ((int) $settings['min_size'] > 0) {
+        if ((int)$settings['min_size'] > 0) {
             $min_size_kb = $settings['min_size'];
-            if ((int) $data['size'] / 1024 < $min_size_kb) {
-                $errors[] = sprintf($this->language->get('error_min_file_size'), $min_size_kb).' ('.$data['name'].')';
+            if ((int)$data['size'] / 1024 < $min_size_kb) {
+                $errors[] = sprintf($this->language->get('error_min_file_size'), $min_size_kb) . ' (' . $data['name'] . ')';
             }
         }
 
         //convert all to Kb and check the limits on abantecart and php side
-        $abc_upload_limit = (int) $this->config->get('config_upload_max_size'); //comes in Kb
-        $php_upload_limit = (int) ini_get('upload_max_filesize') * 1024; //comes in Mb
-        $max_size_kb = $abc_upload_limit < $php_upload_limit ? $abc_upload_limit : $php_upload_limit;
+        $abc_upload_limit = (int)$this->config->get('config_upload_max_size'); //comes in Kb
+        $php_upload_limit = (int)ini_get('upload_max_filesize') * 1024; //comes in Mb
+        $max_size_kb = min($abc_upload_limit, $php_upload_limit);
 
         //check limit for attribute if set
-        if ((int) $settings['max_size'] > 0) {
-            $max_size_kb = (int) $settings['max_size'] < $max_size_kb ? (int) $settings['max_size'] : $max_size_kb;
+        if ((int)$settings['max_size'] > 0) {
+            $max_size_kb = min((int)$settings['max_size'], $max_size_kb);
         }
 
-        if ($max_size_kb < (int) $data['size'] / 1024) {
-            $errors[] = sprintf($this->language->get('error_max_file_size'), $max_size_kb).' ('.$data['name'].')';
+        if ($max_size_kb < (int)$data['size'] / 1024) {
+            $errors[] = sprintf($this->language->get('error_max_file_size'), $max_size_kb) . ' (' . $data['name'] . ')';
         }
 
         return $errors;
@@ -126,12 +131,12 @@ class AFile
      */
     public function getUploadFilePath($upload_sub_dir, $file_name)
     {
-        if (empty($file_name)) {
+        if (!$file_name) {
             return [];
         }
-        $uploadsDir = DIR_ROOT.'/admin/system/uploads';
+        $uploadsDir = DIR_ROOT . '/admin/system/uploads';
         make_writable_dir($uploadsDir);
-        $file_path = $uploadsDir.'/'.$upload_sub_dir.'/';
+        $file_path = $uploadsDir . '/' . $upload_sub_dir . '/';
         make_writable_dir($file_path);
 
         $ext = strrchr($file_name, '.');
@@ -140,13 +145,13 @@ class AFile
         $i = '';
         do {
             if ($i) {
-                $new_name = $file_name.'_'.$i.$ext;
+                $new_name = $file_name . '_' . $i . $ext;
             } else {
-                $new_name = $file_name.$ext;
+                $new_name = $file_name . $ext;
                 $i = 0;
             }
 
-            $real_path = $file_path.$new_name;
+            $real_path = $file_path . $new_name;
             $i++;
         } while (file_exists($real_path));
 
@@ -165,6 +170,8 @@ class AFile
         $file = $this->_download($url);
         if ($file->http_code == 200) {
             return $file;
+        } else {
+            $this->errors[] = "HTTP status code: " . $file->http_code . " on " . $url;
         }
         return false;
     }
@@ -188,22 +195,35 @@ class AFile
         }
 
         $handle = @fopen($target, 'w+');
+        if ($handle === false) {
+            $this->errors[] = "Could not open file: " . $target;
+        }
         $bytes = fwrite($handle, $download->body);
+        if ($bytes === false) {
+            $this->errors[] = "Could not write file: " . $target;
+        }
         @fclose($handle);
         return $bytes == $download->content_length;
     }
 
-    private function _download($uri)
+    protected function _download($uri)
     {
         $ch = curl_init();
-
         curl_setopt($ch, CURLOPT_URL, $uri);
+        curl_setopt(
+            $ch,
+            CURLOPT_HTTPHEADER,
+            [
+                "User-Agent: AbanteCart/" . VERSION,
+                "Accept-Language: en-US,en;q=0.9",
+                "Accept-Encoding: gzip, deflate, br"
+            ]
+        );
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 
         $response = new stdClass();
-
         $response->body = curl_exec($ch);
         $response->http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $response->content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
@@ -213,8 +233,6 @@ class AFile
             $response->content_length = strlen($response->body);
         }
         curl_close($ch);
-
         return $response;
     }
-
 }
