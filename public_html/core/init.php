@@ -18,6 +18,26 @@
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 
+//check minimal system requirements
+$composerJson = file_get_contents(DIR_ROOT.'/composer.json');
+if($composerJson){
+    $composer = json_decode($composerJson, true);
+    // Required PHP Version
+    define("MIN_PHP_VERSION", preg_replace('/[^0-9.]/', '', $composer['require']['php']));
+
+    define(
+        'MIN_DB_VERSIONS',
+        [
+            'mysql' => preg_replace('/[^0-9.]/', '', $composer['suggest']['mysql']),
+            'mariadb' => preg_replace('/[^0-9.]/', '', $composer['suggest']['mariadb']),
+        ]
+    );
+
+    if (version_compare(phpversion(), MIN_PHP_VERSION, '<')) {
+        exit(MIN_PHP_VERSION.'+ Required for AbanteCart to work properly! Please contact your system administrator or host service provider.');
+    }
+}
+
 // set default encoding for multibyte php mod
 mb_internal_encoding('UTF-8');
 ini_set('display_errors', 0);
@@ -352,7 +372,7 @@ try {
     $hook = new AHook($registry);
 
 // Database
-    $registry->set('db', new ADB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE));
+    $registry->set('db', new ADB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE, (defined('DB_PORT') ? DB_PORT : NULL)));
 
 // Cache
     $registry->set('cache', new ACache());

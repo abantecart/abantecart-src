@@ -68,6 +68,7 @@ class ControllerPagesInstall extends AController
         $fields = [
             'db_driver',
             'db_host',
+            'db_port',
             'db_user',
             'db_password',
             'db_name',
@@ -80,10 +81,11 @@ class ControllerPagesInstall extends AController
             'admin_path',
         ];
         $required = ['db_host', 'db_user', 'db_name', 'username', 'password', 'password_confirm', 'email', 'admin_path'];
-        $defaults = ['', 'localhost', '', '', '', 'abc_', 'novator', 'admin', '', '', '', ''];
-        $place_holder = [
+        $defaults = ['', 'localhost', 3306, '', '', '', 'abc_', 'novator', 'admin', '', '', '', ''];
+        $placeholder = [
             'Select Database Driver',
             'Enter Database Hostname',
+            'Enter Port Number',
             'Enter Database Username',
             'Enter Password, if any',
             'Enter Database Name',
@@ -124,7 +126,7 @@ class ControllerPagesInstall extends AController
                         'type'        => (in_array($field, ['password', 'password_confirm']) ? 'password' : 'input'),
                         'name'        => $field,
                         'value'       => $this->data[$field],
-                        'placeholder' => $place_holder[$k],
+                        'placeholder' => $placeholder[$k],
                         'required'    => in_array($field, $required),
                     ]
                 );
@@ -315,7 +317,7 @@ class ControllerPagesInstall extends AController
     {
         $registry = Registry::getInstance();
         //This is run after config is saved, and we have database connection now
-        $db = new ADB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
+        $db = new ADB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE, (defined('DB_PORT') ? DB_PORT : NULL));
         $registry->set('db', $db);
         define('DIR_LANGUAGE', DIR_ABANTECART.'admin/language/');
 

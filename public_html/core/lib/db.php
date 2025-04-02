@@ -48,7 +48,7 @@ final class ADB
      *
      * @throws AException
      */
-    public function __construct($driver, $hostname, $username, $password, $database)
+    public function __construct($driver, $hostname, $username, $password, $database, $port=3306)
     {
         $filename = DIR_DATABASE.$driver.'.php';
         if (file_exists($filename)) {
@@ -59,14 +59,14 @@ final class ADB
         }
 
         try {
-            $this->driver = new $driver($hostname, $username, $password, $database);
+            $this->driver = new $driver($hostname, $username, $password, $database, $port);
         }catch(Exception|Error $e){
             $err = new AError(
                 'Cannot establish database connection to '.$database.' using '.$username.'@'.$hostname
                 ."\n".$e->getMessage()
             );
             $err->toLog();
-            exit('Cannot establish connection to database');
+            throw $e;
         }
         $this->registry = Registry::getInstance();
     }

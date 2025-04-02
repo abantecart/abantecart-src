@@ -331,13 +331,19 @@ function setupDB($data)
 
     $load_data = getOptionValues('with-sample-data');
 
-    $db = new ADB(
-        $data['db_driver'],
-        htmlspecialchars_decode($data['db_host']),
-        htmlspecialchars_decode($data['db_user']),
-        htmlspecialchars_decode($data['db_password']),
-        htmlspecialchars_decode($data['db_name'])
-    );
+    try {
+        $db = new ADB(
+            $data['db_driver'],
+            htmlspecialchars_decode($data['db_host']),
+            htmlspecialchars_decode($data['db_user']),
+            htmlspecialchars_decode($data['db_password']),
+            htmlspecialchars_decode($data['db_name']),
+            (int)$data['db_port']
+        );
+    }catch(Exception|Error $e){
+        echo $e->getMessage();
+        exit;
+    }
     $registry->set('db', $db);
     define('DIR_LANGUAGE', DIR_ABANTECART.'admin/language/');
 

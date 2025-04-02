@@ -25,13 +25,18 @@
 		<label class="h5 heading">1 . Please enter your database connection details.</label>
 
 		<div class="form-group <?php if (!empty($error['db_driver'])) { echo "has-error"; } ?>">
-			<label class="control-label col-sm-4 col-xs-12">Database Driver:</label>
+			<label class="control-label col-sm-4 col-xs-12">
+                Database Driver:
+            </label>
 			<div class="input-group col-sm-6 col-xs-12 afield">
 				<?php echo $form['db_driver']; ?>
 			</div>
 			<?php if (!empty($error['db_driver'])) { ?>
 				<span class="help-block field_err"><?php echo $error['db_driver']; ?></span>
 			<?php } ?>
+            <span id="helpBlock" class="help-block ">
+                MySql-server >=<?php echo MIN_DB_VERSIONS['mysql']?> or MariDB-server >=<?php echo MIN_DB_VERSIONS['mariadb']; ?>
+            </span>
 		</div>
 
 		<div class="form-group <?php if (!empty($error['db_host'])) { echo "has-error"; } ?>">
@@ -41,6 +46,15 @@
 			</div>
 			<?php if (!empty($error['db_host'])) { ?>
 				<span class="help-block field_err"><?php echo $error['db_host']; ?></span>
+			<?php } ?>
+		</div>
+		<div class="form-group <?php if (!empty($error['db_port'])) { echo "has-error"; } ?>">
+			<label class="control-label col-sm-4 col-xs-12">Database Port Number:</label>
+			<div class="input-group col-sm-6 col-xs-12 afield">
+				<?php echo $form['db_port']; ?>
+			</div>
+			<?php if (!empty($error['db_port'])) { ?>
+				<span class="help-block field_err"><?php echo $error['db_port']; ?></span>
 			<?php } ?>
 		</div>
 

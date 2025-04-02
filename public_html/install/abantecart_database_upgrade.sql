@@ -1,3 +1,11 @@
+#
+#
+#
+#TODO: UPDATE COLLATION AND CHARSET TO utf8mb4 !!! ALSO MIGRATE ALL TABLES TO InnoDB
+#
+#
+#
+#
 #suppliers
 create table `ac_suppliers`
 (

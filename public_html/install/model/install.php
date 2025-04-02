@@ -87,9 +87,10 @@ class ModelInstall extends Model
                     $data['db_host'],
                     $data['db_user'],
                     $data['db_password'],
-                    $data['db_name']
+                    $data['db_name'],
+                    $data['db_port']
                 );
-            } catch (Exception $exception) {
+            } catch (Exception|Error $exception) {
                 $this->errors['warning'] = $exception->getMessage();
             }
         }
@@ -221,6 +222,9 @@ class ModelInstall extends Model
         $content .= "// Database Configuration\n";
         $content .= "const DB_DRIVER = '".$data['db_driver']."';\n";
         $content .= "const DB_HOSTNAME = '".$data['db_host']."';\n";
+        if($data['db_port']) {
+            $content .= "const DB_PORT = '" . (int)$data['db_port'] . "';\n";
+        }
         $content .= "const DB_USERNAME = '".$data['db_user']."';\n";
         $content .= "const DB_PASSWORD = '".$data['db_password']."';\n";
         $content .= "const DB_DATABASE = '".$data['db_name']."';\n";
@@ -253,7 +257,14 @@ const MAILER = [
 
     public function RunSQL($data)
     {
-        $db = new ADB($data['db_driver'], $data['db_host'], $data['db_user'], $data['db_password'], $data['db_name']);
+        $db = new ADB(
+            $data['db_driver'],
+            $data['db_host'],
+            $data['db_user'],
+            $data['db_password'],
+            $data['db_name'],
+            $data['db_port']
+        );
 
         $file = DIR_APP_SECTION.'abantecart_database.sql';
         if ($sql = file($file)) {

@@ -17,15 +17,6 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.  
 ------------------------------------------------------------------------------*/
-// Required PHP Version
-const MIN_PHP_VERSION = '8.2.0';
-if (version_compare(phpversion(), MIN_PHP_VERSION, '<')) {
-    exit(
-            MIN_PHP_VERSION.'+ Required for AbanteCart to work properly! '
-            .'Please contact your system administrator or host service provider.'
-    );
-}
-
 ob_start();
 
 // Load Configuration

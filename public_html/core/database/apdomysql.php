@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details is bundled with this package in the file LICENSE.txt.
@@ -36,11 +36,16 @@ final class APDOMySQL
      */
     public $error;
 
-    public function __construct($hostname, $username, $password, $database, $new_link = false, $port = "3306")
+    public function __construct($hostname, $username, $password, $database, $port = 3306)
     {
+        $port = (int)$port ?: 3306;
         try {
-            $this->connection = new PDO("mysql:host=".$hostname.";port=".$port.";dbname=".$database,
-                $username, $password, [PDO::ATTR_PERSISTENT => true]);
+            $this->connection = new PDO(
+                "mysql:host=".$hostname.";port=".$port.";dbname=".$database,
+                $username,
+                $password,
+                [PDO::ATTR_PERSISTENT => true]
+            );
             $this->connection->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
         } catch (Exception $e) {
             $err = new AError('Cannot establish database connection to '.$database.' using '.$username.'@'.$hostname);
@@ -49,9 +54,26 @@ final class APDOMySQL
         }
         $this->registry = Registry::getInstance();
 
-        $this->connection->exec("SET NAMES 'utf8'");
-        $this->connection->exec("SET CHARACTER SET utf8");
-        $this->connection->exec("SET CHARACTER_SET_CONNECTION=utf8");
+        //check minimal requirements
+        $serverVersion = array_map(
+            'strtolower',
+            explode("-",$this->connection->getAttribute(PDO::ATTR_SERVER_VERSION))
+        );
+
+        if(!$serverVersion[1]){
+            $serverVersion[1] = 'mysql';
+        }
+
+        if(version_compare(MIN_DB_VERSIONS[$serverVersion[1]],$serverVersion[0],'>')){
+            throw new Exception(
+                MIN_DB_VERSIONS[$serverVersion[1]].'+ of '.$serverVersion[1].'-server required for '
+                .'AbanteCart to work properly! Please contact your system administrator or host service provider.'
+            );
+        }
+
+        $this->connection->exec("SET NAMES 'utf8mb4'");
+        $this->connection->exec("SET CHARACTER SET utf8mb4");
+        $this->connection->exec("SET CHARACTER_SET_CONNECTION=utf8mb4");
         $this->connection->exec("SET SQL_MODE = ''");
         $this->connection->exec("SET session wait_timeout=60;");
         $this->connection->exec("SET SESSION SQL_BIG_SELECTS=1;");

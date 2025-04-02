@@ -30,7 +30,7 @@ final class AMySQLi
     /** @var string */
     public $error;
 
-    private $hostname = '', $username = '', $password = '', $database = '';
+    private $hostname = '', $username = '', $password = '', $database = '', $port = 3306;
     private $reconnect_cnt = 0;
     const MAX_RECONNECT_CNT = 3;
 
@@ -39,22 +39,25 @@ final class AMySQLi
      * @param string $username
      * @param string $password
      * @param string $database
-     * @param bool   $new_link
-     *
+     * @param int $port
      * @throws AException
      */
-    public function __construct($hostname, $username, $password, $database, $new_link = false)
+    public function __construct($hostname, $username, $password, $database, $port = 3306)
     {
+        $port = (int)$port ?: 3306;
         if (!$this->reconnect_cnt) {
             $this->hostname = $hostname;
+            $this->port     = $port;
             $this->username = $username;
             $this->password = $password;
             $this->database = $database;
         }
 
-        $connection = new mysqli($hostname, $username, $password, $database);
+        $connection = new mysqli($hostname, $username, $password, $database, $port);
         if ($connection->connect_error) {
-            $err = new AError('Cannot establish database connection to '.$database.' using '.$username.'@'.$hostname);
+            $err = new AError(
+                'Cannot establish database connection to '.$database.' using '.$username.'@'.$hostname.":".$port
+            );
             $err->toLog();
             throw new AException(
                 AC_ERR_MYSQL,
@@ -62,9 +65,22 @@ final class AMySQLi
             );
         }
 
-        $connection->query("SET NAMES 'utf8'");
-        $connection->query("SET CHARACTER SET utf8");
-        $connection->query("SET CHARACTER_SET_CONNECTION=utf8");
+        //check minimal requirements
+        $serverVersion = array_map('strtolower',explode("-",$connection->server_info));
+        if(!$serverVersion[1]){
+            $serverVersion[1] = 'mysql';
+        }
+
+        if(version_compare(MIN_DB_VERSIONS[$serverVersion[1]],$serverVersion[0],'>')){
+            throw new Exception(
+                'Version '.MIN_DB_VERSIONS[$serverVersion[1]].'+ of '.$serverVersion[1].'-server required for '
+                .'AbanteCart to work properly! Please contact your system administrator or host service provider.'
+            );
+        }
+
+        $connection->query("SET NAMES 'utf8mb4'");
+        $connection->query("SET CHARACTER SET utf8mb4");
+        $connection->query("SET CHARACTER_SET_CONNECTION=utf8mb4");
         $connection->query("SET SQL_MODE = ''");
         $connection->query("SET session wait_timeout=60;");
         $connection->query("SET SESSION SQL_BIG_SELECTS=1;");
@@ -97,7 +113,7 @@ final class AMySQLi
             // reconnect if connection lost and not exceeded max reconnect count "Mysql Gone Away issue"
             if ($e->getCode() == 2006 && $this->reconnect_cnt < self::MAX_RECONNECT_CNT) {
                 try {
-                    $this->__construct($this->hostname, $this->username, $this->password, $this->database);
+                    $this->__construct($this->hostname, $this->username, $this->password, $this->database, $this->port);
                     $result = $this->connection->query($sql);
                     $message = "Reconnected to database ".$this->database." after Mysql connection has dropped";
                     $error = new AError($message);

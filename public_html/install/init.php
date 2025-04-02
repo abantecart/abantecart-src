@@ -21,8 +21,23 @@
 // AbanteCart Version
 require_once(DIR_CORE.'version.php');
 const VERSION = MASTER_VERSION.'.'.MINOR_VERSION.'.'.VERSION_BUILT;
-// Required PHP Version
-const MIN_PHP_VERSION = '8.2.0';
+
+//define minimal system requirements
+$composerJson = file_get_contents(DIR_ABANTECART.'/composer.json');
+if($composerJson){
+    $composer = json_decode($composerJson, true);
+    // Required PHP Version
+    define("MIN_PHP_VERSION", preg_replace('/[^0-9.]/', '', $composer['require']['php']));
+
+    define(
+        'MIN_DB_VERSIONS',
+        [
+            'mysql' => preg_replace('/[^0-9.]/', '', $composer['suggest']['mysql']),
+            'mariadb' => preg_replace('/[^0-9.]/', '', $composer['suggest']['mariadb']),
+        ]
+    );
+}
+
 // EMAIL REGEXP PATTERN
 const EMAIL_REGEX_PATTERN = '/^[A-Z0-9._%-]+@[A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,16}$/i';
 
@@ -212,7 +227,7 @@ try {
 
     if (defined('DB_HOSTNAME') && DB_HOSTNAME) {
         $registry = Registry::getInstance();
-        $db = new ADB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
+        $db = new ADB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE, (defined('DB_PORT') ? DB_PORT : NULL));
         $registry->set('db', $db);
         // Cache
         $registry->set('cache', new ACache());

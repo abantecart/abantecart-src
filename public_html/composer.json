@@ -1,5 +1,6 @@
 {
     "require": {
+        "php": ">=8.2.0",
         "ext-openssl": "*",
         "ext-simplexml": "*",
         "ext-ftp": "*",
@@ -22,5 +23,9 @@
         "symfony/mail-pace-mailer": "v7.2.0",
         "google/recaptcha": "1.3.0",
         "mustache/mustache": "v2.14.2"
+    },
+    "suggest": {
+        "mysql": ">=8.0",
+        "mariadb": ">=10.5"
     }
 }

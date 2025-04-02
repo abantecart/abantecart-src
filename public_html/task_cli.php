@@ -19,17 +19,6 @@
  *    needs please refer to http://www.AbanteCart.com for more information.
  * ------------------------------------------------------------------------------
  */
-// Required PHP Version
-const MIN_PHP_VERSION = '8.2.0';
-if (version_compare(phpversion(), MIN_PHP_VERSION, '<')) {
-    die(MIN_PHP_VERSION.'+ Required for AbanteCart to work properly! Please contact your system administrator or host service provider.');
-}
-
-if (!str_starts_with(php_sapi_name(), 'cli') && !empty($_SERVER['REMOTE_ADDR'])) {
-    //not command line!!
-    echo "Forbidden. <br> \n";
-    exit;
-}
 
 // Load Configuration
 // Real path (operating system web root) to the directory where abantecart is installed
