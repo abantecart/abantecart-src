@@ -1,6 +1,6 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET CHARSET "utf8mb4";
-
+START TRANSACTION;
 --
 -- DDL for table `address`
 --
@@ -12757,3 +12757,5 @@ CREATE TABLE `ac_fields_history`
 
 CREATE INDEX `ac_fields_history_idx`
     ON `ac_fields_history` (`table_name`, `record_id`, `field`, `language_id`);
+
+COMMIT;

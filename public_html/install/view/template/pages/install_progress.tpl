@@ -90,13 +90,15 @@
                     //run next step
                     install(next_step);
                 } else if (response.ret_code == 200) {
-                	//all done need to wait for splited background process to finish
+                	//all done need to wait for split background process to finish
                 	start_asynchronous_work();
                 } else {
                     showError(response);
                 }
             },
             error:function (jqXHR, exception) {
+                console.log(jqXHR);
+                console.log(exception);
                 showError(jqXHR.statusText + ": " + jqXHR.responseText);
             }
         });

@@ -1,8 +1,10 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET CHARSET "utf8mb4";
 
-INSERT INTO `ac_extensions`
-(`type`, `key`, `category`, `status`, `priority`,
- `version`, `license_key`, `date_installed`, `support_expiration`,
+START TRANSACTION;
+
+REPLACE INTO `ac_extensions`
+(`type`, `key`, `category`, `status`, `priority`,`version`, `license_key`, `date_installed`, `support_expiration`,
  `mp_product_url`,`date_modified`, `date_added`)
 VALUES
 ('payment','default_cod','payment',1,1,'1.0.1',NULL,NOW(),NULL,'',NOW(),NOW()),
@@ -10,13 +12,7 @@ VALUES
 ('shipping','default_local_delivery','shipping',1,10,'1.0.0','',NOW(),NULL,'',NOW(),NOW());
 
 INSERT INTO `ac_settings`
-(
-`store_id`,
-`group`,
-`key`,
-`value`,
-`date_added`,
-`date_modified`)
+( `store_id`, `group`,`key`,`value`,`date_added`,`date_modified`)
 VALUES
 (0,'default_cod','default_cod_sort_order','1',NOW(),NOW()),
 (0,'default_cod','default_cod_order_status_id','1',NOW(),NOW()),
@@ -50,17 +46,7 @@ VALUES
 -- Dumping data for table `addresses`
 --
 INSERT INTO `ac_addresses`
-(`address_id`,
-`customer_id`,
-`company`,
-`firstname`,
-`lastname`,
-`address_1`,
-`address_2`,
-`postcode`,
-`city`,
-`country_id`,
-`zone_id`)
+(`address_id`, `customer_id`, `company`,`firstname`,`lastname`,`address_1`,`address_2`,`postcode`,`city`,`country_id`,`zone_id`)
 VALUES
 (1,2,'','Juliana','Davis','9778 Golden Crescent','Apt 10','85804-7365','Humansville',223,3616),
 (2,3,'','Keely','Mccoy','5071 Misty Pond Farm','Suite #101','63406-9081','Bumble Bee',223,3648),
@@ -87,12 +73,7 @@ VALUES
 -- Dumping data for table `categories`
 --
 INSERT INTO `ac_categories`
-(`category_id`,
-`parent_id`,
-`sort_order`,
-`status`,
-`date_added`,
-`date_modified`)
+(`category_id`,`parent_id`,`sort_order`,`status`,`date_added`,`date_modified`)
 VALUES 
 (46,43,0,1,NOW(),NOW()),
 (47,43,0,1,NOW(),NOW()),
@@ -169,9 +150,7 @@ VALUES
 -- Dumping data for table `category_descriptions`
 --
 INSERT INTO `ac_category_descriptions`
-    (`category_id`,
-    `language_id`,
-    `name`,
+    (`category_id`,    `language_id`,    `name`,
     `meta_keywords`,
     `meta_description`,
     `description`)
@@ -2850,3 +2829,5 @@ VALUES
 (10,1,'Main Banner 3','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 slide2_bot&quot; src=&quot;storefront/view/default/image/banner_image_3.png&quot; width=&quot;600&quot; height=&quot;300&quot; /&gt; &lt;span class=&quot;txt1&quot;&gt;Feature rich with smart UI&lt;/span&gt; &lt;span class=&quot;txt2&quot;&gt;Easy &amp;amp; fun to manage&lt;/span&gt; &lt;span class=&quot;txt3&quot;&gt;Feature reach shopping cart application right out of the box. Standard features allow to set up complete eCommerce site with all the tools needed to sell products online.&lt;/span&gt; &lt;span class=&quot;txt4&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;#&quot;&gt;Install Now!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',NOW(),NOW()),
 (9,1,'Main Banner 2','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 wp1_left slide2_bot&quot; src=&quot;storefront/view/default/image/banner_image_2.png&quot; width=&quot;600&quot; height=&quot;300&quot; /&gt; &lt;span class=&quot;txt1 blue txt_right2&quot;&gt;Highly flexible layout on any page&lt;/span&gt; &lt;span class=&quot;txt2 blue txt_right2&quot;&gt;SEO Friendly&lt;/span&gt; &lt;span class=&quot;txt2 blue txt_right2&quot;&gt;Fast Loading&lt;/span&gt; &lt;span class=&quot;txt4 txt_right2 txt4up&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;#&quot;&gt;Try Now!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',NOW(),NOW()),
 (8,1,'Main Banner 1','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 slide1_bot&quot; src=&quot;storefront/view/default/image/banner_image_1.png&quot; width=&quot;600&quot; height=&quot;300&quot; /&gt; &lt;span class=&quot;txt1&quot;&gt;HTML5 Responsive Storefront to look great on&lt;/span&gt; &lt;span class=&quot;txt2&quot;&gt;ALL Screen Sizes&lt;/span&gt; &lt;span class=&quot;txt3 short&quot;&gt;Natively responsive template implemented with bootstrap library and HTML5. Will look good on most mobile devices and tablets.&lt;/span&gt; &lt;span class=&quot;txt4 txt4up&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;&quot;&gt;Try on your device!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',NOW(),NOW());
+
+COMMIT;
