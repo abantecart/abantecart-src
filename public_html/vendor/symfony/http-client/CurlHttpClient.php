@@ -197,13 +197,12 @@ final class CurlHttpClient implements HttpClientInterface, LoggerAwareInterface,
             $curlopts[\CURLOPT_RESOLVE] = $resolve;
         }
 
+        $curlopts[\CURLOPT_CUSTOMREQUEST] = $method;
         if ('POST' === $method) {
             // Use CURLOPT_POST to have browser-like POST-to-GET redirects for 301, 302 and 303
             $curlopts[\CURLOPT_POST] = true;
         } elseif ('HEAD' === $method) {
             $curlopts[\CURLOPT_NOBODY] = true;
-        } else {
-            $curlopts[\CURLOPT_CUSTOMREQUEST] = $method;
         }
 
         if ('\\' !== \DIRECTORY_SEPARATOR && $options['timeout'] < 1) {
@@ -237,8 +236,12 @@ final class CurlHttpClient implements HttpClientInterface, LoggerAwareInterface,
         }
 
         if (!\is_string($body)) {
+            if (isset($options['auth_ntlm'])) {
+                $curlopts[\CURLOPT_FORBID_REUSE] = true; // Reusing NTLM connections requires seeking capability, which only string bodies support
+            }
+
             if (\is_resource($body)) {
-                $curlopts[\CURLOPT_INFILE] = $body;
+                $curlopts[\CURLOPT_READDATA] = $body;
             } else {
                 $curlopts[\CURLOPT_READFUNCTION] = static function ($ch, $fd, $length) use ($body) {
                     static $eof = false;
@@ -317,6 +320,9 @@ final class CurlHttpClient implements HttpClientInterface, LoggerAwareInterface,
         }
 
         foreach ($curlopts as $opt => $value) {
+            if (\PHP_INT_SIZE === 8 && \defined('CURLOPT_INFILESIZE_LARGE') && \CURLOPT_INFILESIZE === $opt && $value >= 1 << 31) {
+                $opt = \CURLOPT_INFILESIZE_LARGE;
+            }
             if (null !== $value && !curl_setopt($ch, $opt, $value) && \CURLOPT_CERTINFO !== $opt && (!\defined('CURLOPT_HEADEROPT') || \CURLOPT_HEADEROPT !== $opt)) {
                 $constantName = $this->findConstantName($opt);
                 throw new TransportException(\sprintf('Curl option "%s" is not supported.', $constantName ?? $opt));
@@ -473,7 +479,7 @@ final class CurlHttpClient implements HttpClientInterface, LoggerAwareInterface,
             \CURLOPT_RESOLVE => 'resolve',
             \CURLOPT_NOSIGNAL => 'timeout',
             \CURLOPT_HTTPHEADER => 'headers',
-            \CURLOPT_INFILE => 'body',
+            \CURLOPT_READDATA => 'body',
             \CURLOPT_READFUNCTION => 'body',
             \CURLOPT_INFILESIZE => 'body',
             \CURLOPT_POSTFIELDS => 'body',

@@ -2,6 +2,18 @@
 
 ## NOT RELEASED
 
+## 1.11.0
+
+### Added
+
+- Added support for `getSuppressedDestination` and `deleteSuppressedDestination` to manage SESv2 suppression list entries.
+
+## 1.10.0
+
+### Added
+
+- AWS api-change: Introduces support for multi-region endpoint.
+
 ## 1.9.0
 
 ### Added

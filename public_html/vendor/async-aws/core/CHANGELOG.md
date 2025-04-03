@@ -2,6 +2,30 @@
 
 ## NOT RELEASED
 
+## 1.25.0
+
+### Added
+
+- AWS api-change: Added `us-isof-east-1` and `us-isof-south-1` regions
+- Support for BedrockRuntime
+
+## 1.24.1
+
+### Fixed
+
+- Better detection and error messages for when SSO is used but required packages are not installed.
+
+## 1.24.0
+
+### Added
+
+- Support for SsoOidc
+- Support for SSO authentication
+
+### Changed
+
+- AWS enhancement: Documentation updates.
+
 ## 1.23.0
 
 ### Added

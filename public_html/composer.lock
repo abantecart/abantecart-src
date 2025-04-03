@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f01911183ff715cabf8d4d36b5698eff",
+    "content-hash": "517303141d1a96efd0aa00fc90995989",
     "packages": [
         {
             "name": "async-aws/core",
-            "version": "1.23.0",
+            "version": "1.25.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/async-aws/core.git",
-                "reference": "f2f40b895f1b2834a793c78d6c1ff8e1a1c39a12"
+                "reference": "19e1ac6978730a59bf71ad3fa584bc588df11ae2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/async-aws/core/zipball/f2f40b895f1b2834a793c78d6c1ff8e1a1c39a12",
-                "reference": "f2f40b895f1b2834a793c78d6c1ff8e1a1c39a12",
+                "url": "https://api.github.com/repos/async-aws/core/zipball/19e1ac6978730a59bf71ad3fa584bc588df11ae2",
+                "reference": "19e1ac6978730a59bf71ad3fa584bc588df11ae2",
                 "shasum": ""
             },
             "require": {
@@ -39,7 +39,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.23-dev"
+                    "dev-master": "1.25-dev"
                 }
             },
             "autoload": {
@@ -60,7 +60,7 @@
                 "sts"
             ],
             "support": {
-                "source": "https://github.com/async-aws/core/tree/1.23.0"
+                "source": "https://github.com/async-aws/core/tree/1.25.0"
             },
             "funding": [
                 {
@@ -72,20 +72,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-11-24T11:42:17+00:00"
+            "time": "2025-03-05T20:41:02+00:00"
         },
         {
             "name": "async-aws/ses",
-            "version": "1.9.0",
+            "version": "1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/async-aws/ses.git",
-                "reference": "55227c6d0c6485410c0e5bc9b6a42d44b2e10d80"
+                "reference": "d3518fc1180b05bc257a3e2581c50307272a978c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/async-aws/ses/zipball/55227c6d0c6485410c0e5bc9b6a42d44b2e10d80",
-                "reference": "55227c6d0c6485410c0e5bc9b6a42d44b2e10d80",
+                "url": "https://api.github.com/repos/async-aws/ses/zipball/d3518fc1180b05bc257a3e2581c50307272a978c",
+                "reference": "d3518fc1180b05bc257a3e2581c50307272a978c",
                 "shasum": ""
             },
             "require": {
@@ -96,7 +96,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.9-dev"
+                    "dev-master": "1.11-dev"
                 }
             },
             "autoload": {
@@ -117,7 +117,7 @@
                 "ses"
             ],
             "support": {
-                "source": "https://github.com/async-aws/ses/tree/1.9.0"
+                "source": "https://github.com/async-aws/ses/tree/1.11.0"
             },
             "funding": [
                 {
@@ -129,7 +129,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-11-24T11:42:17+00:00"
+            "time": "2025-03-05T20:41:02+00:00"
         },
         {
             "name": "doctrine/lexer",
@@ -210,16 +210,16 @@
         },
         {
             "name": "egulias/email-validator",
-            "version": "4.0.2",
+            "version": "4.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egulias/EmailValidator.git",
-                "reference": "ebaaf5be6c0286928352e054f2d5125608e5405e"
+                "reference": "d42c8731f0624ad6bdc8d3e5e9a4524f68801cfa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/ebaaf5be6c0286928352e054f2d5125608e5405e",
-                "reference": "ebaaf5be6c0286928352e054f2d5125608e5405e",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/d42c8731f0624ad6bdc8d3e5e9a4524f68801cfa",
+                "reference": "d42c8731f0624ad6bdc8d3e5e9a4524f68801cfa",
                 "shasum": ""
             },
             "require": {
@@ -265,7 +265,7 @@
             ],
             "support": {
                 "issues": "https://github.com/egulias/EmailValidator/issues",
-                "source": "https://github.com/egulias/EmailValidator/tree/4.0.2"
+                "source": "https://github.com/egulias/EmailValidator/tree/4.0.4"
             },
             "funding": [
                 {
@@ -273,7 +273,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-06T06:47:41+00:00"
+            "time": "2025-03-06T22:45:56+00:00"
         },
         {
             "name": "google/recaptcha",
@@ -664,12 +664,12 @@
             },
             "type": "library",
             "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/contracts",
+                    "name": "symfony/contracts"
+                },
                 "branch-alias": {
                     "dev-main": "3.5-dev"
-                },
-                "thanks": {
-                    "name": "symfony/contracts",
-                    "url": "https://github.com/symfony/contracts"
                 }
             },
             "autoload": {
@@ -812,12 +812,12 @@
             },
             "type": "library",
             "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/contracts",
+                    "name": "symfony/contracts"
+                },
                 "branch-alias": {
                     "dev-main": "3.5-dev"
-                },
-                "thanks": {
-                    "name": "symfony/contracts",
-                    "url": "https://github.com/symfony/contracts"
                 }
             },
             "autoload": {
@@ -870,21 +870,21 @@
         },
         {
             "name": "symfony/google-mailer",
-            "version": "v7.1.6",
+            "version": "v7.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/google-mailer.git",
-                "reference": "15c7493d34ce270ab8fe32c8020d4796e432ab45"
+                "reference": "cefe8c960c117397cc5649106a842068efcc5cc0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/google-mailer/zipball/15c7493d34ce270ab8fe32c8020d4796e432ab45",
-                "reference": "15c7493d34ce270ab8fe32c8020d4796e432ab45",
+                "url": "https://api.github.com/repos/symfony/google-mailer/zipball/cefe8c960c117397cc5649106a842068efcc5cc0",
+                "reference": "cefe8c960c117397cc5649106a842068efcc5cc0",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.2",
-                "symfony/mailer": "^6.4|^7.0"
+                "symfony/mailer": "^7.2"
             },
             "require-dev": {
                 "symfony/http-client": "^6.4|^7.0"
@@ -915,7 +915,7 @@
             "description": "Symfony Google Mailer Bridge",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/google-mailer/tree/v7.1.6"
+                "source": "https://github.com/symfony/google-mailer/tree/v7.2.0"
             },
             "funding": [
                 {
@@ -931,27 +931,27 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-25T14:20:29+00:00"
+            "time": "2024-09-28T08:24:38+00:00"
         },
         {
             "name": "symfony/http-client",
-            "version": "v7.2.0",
+            "version": "v7.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client.git",
-                "reference": "955e43336aff03df1e8a8e17daefabb0127a313b"
+                "reference": "78981a2ffef6437ed92d4d7e2a86a82f256c6dc6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client/zipball/955e43336aff03df1e8a8e17daefabb0127a313b",
-                "reference": "955e43336aff03df1e8a8e17daefabb0127a313b",
+                "url": "https://api.github.com/repos/symfony/http-client/zipball/78981a2ffef6437ed92d4d7e2a86a82f256c6dc6",
+                "reference": "78981a2ffef6437ed92d4d7e2a86a82f256c6dc6",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.2",
                 "psr/log": "^1|^2|^3",
                 "symfony/deprecation-contracts": "^2.5|^3",
-                "symfony/http-client-contracts": "~3.4.3|^3.5.1",
+                "symfony/http-client-contracts": "~3.4.4|^3.5.2",
                 "symfony/service-contracts": "^2.5|^3"
             },
             "conflict": {
@@ -1010,7 +1010,7 @@
                 "http"
             ],
             "support": {
-                "source": "https://github.com/symfony/http-client/tree/v7.2.0"
+                "source": "https://github.com/symfony/http-client/tree/v7.2.4"
             },
             "funding": [
                 {
@@ -1026,20 +1026,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-11-29T08:22:02+00:00"
+            "time": "2025-02-13T10:27:23+00:00"
         },
         {
             "name": "symfony/http-client-contracts",
-            "version": "v3.5.1",
+            "version": "v3.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client-contracts.git",
-                "reference": "c2f3ad828596624ca39ea40f83617ef51ca8bbf9"
+                "reference": "ee8d807ab20fcb51267fdace50fbe3494c31e645"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client-contracts/zipball/c2f3ad828596624ca39ea40f83617ef51ca8bbf9",
-                "reference": "c2f3ad828596624ca39ea40f83617ef51ca8bbf9",
+                "url": "https://api.github.com/repos/symfony/http-client-contracts/zipball/ee8d807ab20fcb51267fdace50fbe3494c31e645",
+                "reference": "ee8d807ab20fcb51267fdace50fbe3494c31e645",
                 "shasum": ""
             },
             "require": {
@@ -1088,7 +1088,7 @@
                 "standards"
             ],
             "support": {
-                "source": "https://github.com/symfony/http-client-contracts/tree/v3.5.1"
+                "source": "https://github.com/symfony/http-client-contracts/tree/v3.5.2"
             },
             "funding": [
                 {
@@ -1104,7 +1104,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-11-25T12:02:18+00:00"
+            "time": "2024-12-07T08:49:48+00:00"
         },
         {
             "name": "symfony/mail-pace-mailer",
@@ -1247,16 +1247,16 @@
         },
         {
             "name": "symfony/mailer",
-            "version": "v7.2.0",
+            "version": "v7.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/mailer.git",
-                "reference": "e4d358702fb66e4c8a2af08e90e7271a62de39cc"
+                "reference": "f3871b182c44997cf039f3b462af4a48fb85f9d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/mailer/zipball/e4d358702fb66e4c8a2af08e90e7271a62de39cc",
-                "reference": "e4d358702fb66e4c8a2af08e90e7271a62de39cc",
+                "url": "https://api.github.com/repos/symfony/mailer/zipball/f3871b182c44997cf039f3b462af4a48fb85f9d3",
+                "reference": "f3871b182c44997cf039f3b462af4a48fb85f9d3",
                 "shasum": ""
             },
             "require": {
@@ -1307,7 +1307,7 @@
             "description": "Helps sending emails",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/mailer/tree/v7.2.0"
+                "source": "https://github.com/symfony/mailer/tree/v7.2.3"
             },
             "funding": [
                 {
@@ -1323,7 +1323,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-11-25T15:21:05+00:00"
+            "time": "2025-01-27T11:08:17+00:00"
         },
         {
             "name": "symfony/mailgun-mailer",
@@ -1462,16 +1462,16 @@
         },
         {
             "name": "symfony/mime",
-            "version": "v7.2.0",
+            "version": "v7.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/mime.git",
-                "reference": "cc84a4b81f62158c3846ac7ff10f696aae2b524d"
+                "reference": "87ca22046b78c3feaff04b337f33b38510fd686b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/mime/zipball/cc84a4b81f62158c3846ac7ff10f696aae2b524d",
-                "reference": "cc84a4b81f62158c3846ac7ff10f696aae2b524d",
+                "url": "https://api.github.com/repos/symfony/mime/zipball/87ca22046b78c3feaff04b337f33b38510fd686b",
+                "reference": "87ca22046b78c3feaff04b337f33b38510fd686b",
                 "shasum": ""
             },
             "require": {
@@ -1526,7 +1526,7 @@
                 "mime-type"
             ],
             "support": {
-                "source": "https://github.com/symfony/mime/tree/v7.2.0"
+                "source": "https://github.com/symfony/mime/tree/v7.2.4"
             },
             "funding": [
                 {
@@ -1542,7 +1542,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-11-23T09:19:39+00:00"
+            "time": "2025-02-19T08:51:20+00:00"
         },
         {
             "name": "symfony/polyfill-intl-idn",
@@ -1790,16 +1790,16 @@
         },
         {
             "name": "symfony/postmark-mailer",
-            "version": "v7.2.0",
+            "version": "v7.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/postmark-mailer.git",
-                "reference": "3a43a9dee2f474ebf7c0328d3cd55d8c17b5df6f"
+                "reference": "d11c8ce0ff5974a2ee4a9a3297ba89ecdf6d1952"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/postmark-mailer/zipball/3a43a9dee2f474ebf7c0328d3cd55d8c17b5df6f",
-                "reference": "3a43a9dee2f474ebf7c0328d3cd55d8c17b5df6f",
+                "url": "https://api.github.com/repos/symfony/postmark-mailer/zipball/d11c8ce0ff5974a2ee4a9a3297ba89ecdf6d1952",
+                "reference": "d11c8ce0ff5974a2ee4a9a3297ba89ecdf6d1952",
                 "shasum": ""
             },
             "require": {
@@ -1840,7 +1840,7 @@
             "description": "Symfony Postmark Mailer Bridge",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/postmark-mailer/tree/v7.2.0"
+                "source": "https://github.com/symfony/postmark-mailer/tree/v7.2.4"
             },
             "funding": [
                 {
@@ -1856,20 +1856,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-28T08:24:38+00:00"
+            "time": "2025-02-26T08:19:39+00:00"
         },
         {
             "name": "symfony/sendgrid-mailer",
-            "version": "v7.2.0",
+            "version": "v7.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/sendgrid-mailer.git",
-                "reference": "a862001b8b97114e0fcf3f5fd404ad35c9659ce3"
+                "reference": "d05b8ac91a16c2857a05b5add417aa95ac4ac42f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/sendgrid-mailer/zipball/a862001b8b97114e0fcf3f5fd404ad35c9659ce3",
-                "reference": "a862001b8b97114e0fcf3f5fd404ad35c9659ce3",
+                "url": "https://api.github.com/repos/symfony/sendgrid-mailer/zipball/d05b8ac91a16c2857a05b5add417aa95ac4ac42f",
+                "reference": "d05b8ac91a16c2857a05b5add417aa95ac4ac42f",
                 "shasum": ""
             },
             "require": {
@@ -1911,7 +1911,7 @@
             "description": "Symfony Sendgrid Mailer Bridge",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/sendgrid-mailer/tree/v7.2.0"
+                "source": "https://github.com/symfony/sendgrid-mailer/tree/v7.2.3"
             },
             "funding": [
                 {
@@ -1927,7 +1927,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-11-25T11:08:51+00:00"
+            "time": "2025-01-07T12:55:42+00:00"
         },
         {
             "name": "symfony/sendinblue-mailer",
@@ -2022,12 +2022,12 @@
             },
             "type": "library",
             "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/contracts",
+                    "name": "symfony/contracts"
+                },
                 "branch-alias": {
                     "dev-main": "3.5-dev"
-                },
-                "thanks": {
-                    "name": "symfony/contracts",
-                    "url": "https://github.com/symfony/contracts"
                 }
             },
             "autoload": {
@@ -2089,6 +2089,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
+        "php": ">=8.2.0",
         "ext-openssl": "*",
         "ext-simplexml": "*",
         "ext-ftp": "*",

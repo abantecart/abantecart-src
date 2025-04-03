@@ -6,6 +6,7 @@ namespace AsyncAws\Core;
 
 use AsyncAws\AppSync\AppSyncClient;
 use AsyncAws\Athena\AthenaClient;
+use AsyncAws\BedrockRuntime\BedrockRuntimeClient;
 use AsyncAws\CloudFormation\CloudFormationClient;
 use AsyncAws\CloudFront\CloudFrontClient;
 use AsyncAws\CloudWatch\CloudWatchClient;
@@ -45,6 +46,7 @@ use AsyncAws\Sns\SnsClient;
 use AsyncAws\Sqs\SqsClient;
 use AsyncAws\Ssm\SsmClient;
 use AsyncAws\Sso\SsoClient;
+use AsyncAws\SsoOidc\SsoOidcClient;
 use AsyncAws\StepFunctions\StepFunctionsClient;
 use AsyncAws\TimestreamQuery\TimestreamQueryClient;
 use AsyncAws\TimestreamWrite\TimestreamWriteClient;
@@ -112,6 +114,19 @@ class AwsClientFactory
 
         if (!isset($this->serviceCache[__METHOD__])) {
             $this->serviceCache[__METHOD__] = new AppSyncClient($this->configuration, $this->credentialProvider, $this->httpClient, $this->logger);
+        }
+
+        return $this->serviceCache[__METHOD__];
+    }
+
+    public function bedrockRuntime(): BedrockRuntimeClient
+    {
+        if (!class_exists(BedrockRuntimeClient::class)) {
+            throw MissingDependency::create('async-aws/bedrock-runtime', 'BedrockRuntime');
+        }
+
+        if (!isset($this->serviceCache[__METHOD__])) {
+            $this->serviceCache[__METHOD__] = new BedrockRuntimeClient($this->configuration, $this->credentialProvider, $this->httpClient, $this->logger);
         }
 
         return $this->serviceCache[__METHOD__];
@@ -528,6 +543,19 @@ class AwsClientFactory
 
         if (!isset($this->serviceCache[__METHOD__])) {
             $this->serviceCache[__METHOD__] = new SsoClient($this->configuration, $this->credentialProvider, $this->httpClient, $this->logger);
+        }
+
+        return $this->serviceCache[__METHOD__];
+    }
+
+    public function ssoOidc(): SsoOidcClient
+    {
+        if (!class_exists(SsoOidcClient::class)) {
+            throw MissingDependency::create('async-aws/sso-oidc', 'SsoOidc');
+        }
+
+        if (!isset($this->serviceCache[__METHOD__])) {
+            $this->serviceCache[__METHOD__] = new SsoOidcClient($this->configuration, $this->credentialProvider, $this->httpClient, $this->logger);
         }
 
         return $this->serviceCache[__METHOD__];
