@@ -331,7 +331,7 @@ class ALayoutManager
             $template_id = $this->tmpl_id;
         }
 
-        $language_id = $this->language->getContentLanguageID();
+        $language_id = $this->language?->getContentLanguageID()?:1;
         $where = "WHERE l.template_id = '" . $this->db->escape($template_id) . "' ";
         if (!empty($controller)) {
             $where .= " AND p.controller = '" . $this->db->escape($controller) . "' ";
