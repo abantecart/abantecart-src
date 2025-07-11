@@ -1,4 +1,4 @@
-<div class="dropdown d-none d-md-block" id="customer_menu_top">
+<div class="<?php echo $active ? 'dropdown' : ''?> d-none d-md-block" id="customer_menu_top">
 <?php if ($active) { ?>
             <a id="customerMenuDropdown"
                href="<?php echo $account; ?>" title="<?php echo_html2view($text_welcome.' '.$name);?>"
