@@ -66,8 +66,7 @@
 	</definition>
 	<definition>
 		<key>text_notice_text</key>
-		<value><![CDATA['New version of extension "%EXTENSION%" is available. Please, go to %LINK% and upgrade it.'
-		]]></value>
+		<value><![CDATA[New version of extension "%EXTENSION%" is available. Please, go to %LINK% and upgrade it.]]></value>
 	</definition>
 	<definition>
 		<key>warning_updates</key>

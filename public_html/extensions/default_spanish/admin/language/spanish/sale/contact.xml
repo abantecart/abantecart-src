@@ -78,7 +78,7 @@
 	</definition>
 	<definition>
 		<key>error_not_sent</key>
-		<value><![CDATA['Error: mensajes de correo electrónico no enviado! Por favor, vea el registro de error para obtener más detalles.']]></value>
+		<value><![CDATA[Error: mensajes de correo electrónico no enviado! Por favor, vea el registro de error para obtener más detalles.]]></value>
 	</definition>
 	<definition>
 		<key>text_unsubscribe</key>
