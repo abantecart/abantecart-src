@@ -109,7 +109,7 @@ class ControllerPagesDesignContent extends AController
             $this->language->get('column_title'),
             $this->language->get('column_parent'),
             $this->language->get('column_status'),
-            $this->language->get('column_publish_date'),
+            $this->language->get('column_update_date'),
             $this->language->get('column_sort_order'),
         ];
         $grid_settings['colModel'] = [
@@ -134,8 +134,8 @@ class ControllerPagesDesignContent extends AController
                 'search' => false,
             ],
             [
-                'name'   => 'publish_date',
-                'index'  => 'publish_date',
+                'name'   => 'update_date',
+                'index'  => 'date_modified',
                 'width'  => 100,
                 'align'  => 'center',
                 'search' => false,
