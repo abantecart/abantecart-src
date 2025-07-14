@@ -185,15 +185,8 @@ class ControllerBlocksMegaMenu extends AController
 
     protected function buildMenu()
     {
-        $cache_key = 'storefront_menu' .
-            '.store_' . (int)$this->config->get('config_store_id')
-            . '_lang_' . $this->config->get('storefront_language_id');
-        $menu_items = $this->cache->pull($cache_key);
-        if ($menu_items === false) {
-            $menu = new AMenu_Storefront();
-            $menu_items = $menu->getMenuItems();
-            $this->cache->push($cache_key, $menu_items);
-        }
+        $menu = new AMenu_Storefront();
+        $menu_items = $menu->getMenuItems();
         //build menu structure after caching. related to http/https urls
         $this->session->data['storefront_menu'] = $this->prepareMenu($menu_items, '');
         return $this->session->data['storefront_menu'];

@@ -47,6 +47,82 @@ $(document).on('submit','form.needs-validation', function(e){
 });
 
 $(document).ready(function(){
+
+    //dropdown hovers
+    document.querySelectorAll('.dropdown').forEach(function (dropdown) {
+        const toggle = dropdown.querySelector('[data-bs-toggle="dropdown"]');
+        if(!toggle){
+            console.log('invalid html. Dropdown toggle not found in:', dropdown);
+            return;
+        }
+
+        let defaultPlacement,fallbackPlacements;
+        //mega-menu all categories
+        if( toggle.closest('li').classList.contains('category-dropdown')){
+                defaultPlacement = 'bottom-start';
+                fallbackPlacements = [];
+        }
+        //main sf menu
+        else if(toggle.closest('ul').classList.contains('mega-sf-menu')
+            || toggle.closest('li').classList.contains('category-dropdown')){
+            if(toggle.getAttribute('data-dpd-type') === 'category'){
+                defaultPlacement = 'bottom';
+                fallbackPlacements = [];
+            }else {
+                defaultPlacement = 'bottom-start';
+                fallbackPlacements = ['top-end', 'right-start', 'left-start'];
+            }
+        }
+        //content footer menu
+        else if(toggle.closest('ul').classList.contains('parent-ul')){
+            defaultPlacement = 'top-start';
+            fallbackPlacements = ['top-end', 'right-start', 'left-start'];
+        }else{
+            defaultPlacement = 'right-start';
+            fallbackPlacements = ['left-start'];
+        }
+
+        const dropdownInstance = new bootstrap.Dropdown(
+            toggle,
+            {
+                popperConfig: function (defaultConfig) {
+                return {
+                        ...defaultConfig,
+                        placement: defaultPlacement,
+                        modifiers: [
+                            {
+                                name: 'flip',
+                                options: {
+                                    fallbackPlacements: fallbackPlacements,
+                                },
+                            },
+                            {
+                                name: 'preventOverflow',
+                                options: {
+                                    boundary: 'viewport',
+                                },
+                            }
+                        ]
+                    };
+                }
+            }
+        );
+
+        let timeout;
+
+        dropdown.addEventListener('mouseenter', function () {
+            clearTimeout(timeout);
+            dropdownInstance.show();
+        });
+
+        dropdown.addEventListener('mouseleave', function () {
+            timeout = setTimeout(() => {
+                dropdownInstance.hide();
+            }, 300);
+        });
+    });
+
+
     var searchOffcanvas = $('#searchoffcanvas');
     var filterKeywordInput = $('input[name=keyword]');
 

@@ -123,7 +123,7 @@ function renderSFMenuNv($menuItems, $level = 0, $parentId = '', $options = [ ])
         return '';
     }
     $idKey = $options['id_key_name'] ?: 'id';
-    $output = '<div aria-labelledby="'.$parentId.'" data-bs-popper="static" ';
+    $output = '<div aria-labelledby="'.$parentId.'" ';
     if ($level == 0) {
         $output .= ($options['top_level']['attr'] ?: 'class="navbar"').'>';
     } else {
@@ -216,7 +216,7 @@ function renderCategorySubMenuNV($menuItems, $level = 0, $parentId = '', $option
     }
     $idKey = $options['id_key_name'] ?: 'id';
 
-    $output .= '<div class="dropdown-menu " aria-labelledby="'.$parentId.'" '.$options['submenu_level']['attr'].' data-bs-popper>';
+    $output .= '<div class="dropdown-menu " aria-labelledby="'.$parentId.'" '.$options['submenu_level']['attr'].' >';
     $ar = new AResource('image');
     foreach ($menuItems as $i => $item) {
 
@@ -368,4 +368,44 @@ function renderFilterCategoryTreeNV($tree, $level = 0, int|array|null $currentId
         $output .= renderFilterCategoryTreeNV($cat['children'], $level+1, $currentId, $extra);
     }
     return $output;
+}
+
+
+function renderNVNestedMenu(array $menu, $options = []): string
+{
+    $html = '<ul class="dropdown-menu '. $options['parent_css'] .'">';
+
+    foreach ($menu as $item) {
+        $hasChildren = !empty($item['children']);
+        $liClass = $hasChildren ? 'dropdown' : '';
+        $aClass = $hasChildren ? 'dropdown-toggle d-flex dropdown-item nav-link' : 'dropdown-item px-0';
+        $aClass .= $item['current'] ? ' active' : '';
+
+        $aAttrs = $hasChildren ? ' data-bs-toggle="dropdown" role="button" aria-expanded="false"' : '';
+        $aAttrs .= $hasChildren && $item['category'] ? ' data-dpd-type="category" ' : '';
+
+        $html .= '<li class="' . $liClass . '">';
+        //check icon rl type html, image or none.
+        $rlId = $item['icon'] ? : $item['icon_rl_id'];
+        $icon = renderMenuItemIconNv($item, $rlId);
+
+        $html .= '<a href="' . htmlspecialchars($item['href']) . '" class="' . $aClass . '"' . $aAttrs . '>';
+        $itemTitle = htmlspecialchars(($item['text'] ?: $item['title'] ?: $item['name']));
+        $html .= '<span class="text-truncate">'.$icon.$itemTitle.'</span>';
+        if ($hasChildren) {
+            $html .= '<span class="ms-1 dropdown-caret">&#9662;</span>';
+        }
+        $html .= '</a>';
+        if ($hasChildren) {
+            if($item['category']){
+                $html .= renderCategorySubMenuNV( $item['children'] );
+            } else {
+                $html .= renderNVNestedMenu($item['children']);
+            }
+
+        }
+        $html .= '</li>';
+    }
+    $html .= '</ul>';
+    return $html;
 }
