@@ -2,7 +2,7 @@
 <?php
         foreach ($listItems as $si => $subitem) {
         $sActive = $subitem['current'] ? 'active' : ''; ?>
-		<div class="d-flex">
+		<div class="d-flex category-card">
             <div class="card border-0" >
                 <div class="card-body">
                     <a id="menu_<?php echo $subitem['item_id'];?>" class=" text-nowrap category-title mb-2 text-body-secondary <?php echo $sActive; ?>"
@@ -10,6 +10,7 @@
                        target="<?php echo $subitem['settings']['target']; ?>">
                         <?php echo $subitem['text'] ?: $subitem['title'] ?: $subitem['name']; ?>
                     </a>
+                    <?php if($subitem['children']){ ?>
                     <ul class="list-unstyled category-sub-links">
                         <?php
                         foreach ($subitem['children'] as $sci => $subChildItem) {
@@ -23,6 +24,7 @@
                             <?php
                         } ?>
                     </ul>
+                    <?php } ?>
                 </div>
             </div>
 

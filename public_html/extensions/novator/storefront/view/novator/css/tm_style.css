@@ -2050,11 +2050,18 @@ li#review-set::before {
 {
     color: var(--Black-1) !important;
 }
+
+.mega-menu-category-columns .category-card{
+    width: max-content;
+    margin:20px;
+}
+
 /* bugfix after mouseover on category list*/
 #menu_all_categories_dropdown{
     width: -moz-available;
     width: -webkit-fill-available;
 }
+
 
 .footer-content-menu>ul>li a>span.text-truncate,
 .mega-sf-menu ul>li>a>span.text-truncate
@@ -2063,12 +2070,6 @@ li#review-set::before {
     max-width: 400px;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-.mega-menu-category-columns .card-body .category-sub-links li{
-    margin-bottom: 15px;
-}
-.mega-menu-category-columns .card-body .category-sub-links a:hover{
-    color: var(--bs-primary) !important;
 }
 
 /*.footer-content-menu .dropdown-caret{*/
@@ -2097,7 +2098,7 @@ li#review-set::before {
 }
 
 .navbar .mega-menu .category-title {
-    color: var(--Black-1);
+    color: var(--Black-1) !important;
     font-size: 18px;
     font-weight: 700;
     line-height: 25px;
@@ -2105,12 +2106,21 @@ li#review-set::before {
 .navbar .mega-menu .category-sub-links a {
     display: flex;
     transition: all 0.2s ease-in-out;
-    color: var(--Black-1);
+    color: var(--Black-1) !important;
     margin-top: 5px;
     font-size: 16px;
     font-weight: 400;
-    height: 40px;
+    height: 30px;
 }
+.mega-menu-category-columns .card-body .category-sub-links a:hover{
+    color: var(--bs-primary) !important;
+}
+
+.mega-menu-category-columns .card-body .category-sub-links{
+    margin-top: 10px;
+}
+
+
 
 
 .navbar .dropdown-toggle svg.icon-chevron {
