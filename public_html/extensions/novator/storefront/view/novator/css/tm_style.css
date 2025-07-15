@@ -2409,9 +2409,6 @@ li#review-set::before {
 .footer-bottom .nav-link:focus{
     color: var(--bs-yellow) !important;
 }
-.footer-bottom .dropdown-menu .dropdown-item:hover>span{
-    font-weight: bolder;
-}
 
 .bottom-footer-block a {
     padding: 0;
