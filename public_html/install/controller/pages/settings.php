@@ -39,20 +39,6 @@ class ControllerPagesSettings extends AController
         $template_data['error_warning'] = $this->errors['warning'] ?: '';
         $template_data['errors'] = $this->errors;
 
-        //show warning about opcache and apc but do not block installation
-        if (ini_get('opcache.enable')) {
-            if ($template_data['error_warning']) {
-                $template_data['error_warning'] .= '<br>';
-            }
-            $template_data['error_warning'] .= 'Warning: Your server have opcache php module enabled. Please disable it before installation!';
-        }
-        if (ini_get('apc.enabled')) {
-            if ($template_data['error_warning']) {
-                $template_data['error_warning'] .= '<br>';
-            }
-            $template_data['error_warning'] .= 'Warning: Your server have APC (Alternative PHP Cache) php module enabled. Please disable it before installation!';
-        }
-
         $template_data['action'] = HTTP_SERVER.'index.php?rt=settings';
         $template_data['config_catalog'] = DIR_ABANTECART.'system/config.php';
         //try to open config file or create it
