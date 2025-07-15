@@ -38,7 +38,7 @@ function renderAllCategoriesSFMenuNv(array $menuItems, $options = [ ])
         }
         $item_title = $item['text'] ?: $item['title'] ?: $item['name'];
         $output .= '<li class="nav-item" role="presentation">
-                        <a href="'.$item['href'].'" class="m-0 nav-link" id="drp-'.$item['category_id'].'-tab"
+                        <a href="'.$item['href'].'" class="m-0 px-2 nav-link" id="drp-'.$item['category_id'].'-tab"
                         data-bs-toggle="tab" data-bs-target="#drp-'.$item['category_id'].'-tab-pane" type="button" role="tab"
                         aria-controls="drp-'.$item['category_id'].'-tab-pane" aria-selected="true">'.$item_title.'</a></li>';
         $cards = renderFeaturedProductsCards( $item );
