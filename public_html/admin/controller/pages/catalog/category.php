@@ -680,7 +680,7 @@ class ControllerPagesCatalogCategory extends AController
             }
         }
 
-        if ($this->request->post['parent_id']) {
+        if ($this->request->post['parent_id'] && (int)$this->request->get['category_id']) {
             //check for deadlock
             if (!$this->model_catalog_category->validateParentId(
                 (int)$this->request->get['category_id'],
