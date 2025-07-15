@@ -1,138 +1,125 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
 /**
  * @property ALanguageManager $language
- * @property ADB              $db
+ * @property ADB $db
  */
 class AFormManager
 {
-    protected $registry;
     public $errors = 0; // errors during process
-    private $form_id;
-    private $form_fields = array();
-    private $form_field_groups = array();
-    private $field_types = array('I', 'T', 'C', 'H', 'S', 'M', 'R', 'G'); // array for check field element type
+    protected $registry;
+    protected $db;
+    protected $form_id;
 
-    public function __construct($form_name = '')
+    // array for check field element type
+    public static $fieldTypes = ['I', 'T', 'C', 'H', 'S', 'M', 'R', 'G'];
+
+    public function __construct(string $formName = '')
     {
         if (!IS_ADMIN) { // forbid for non admin calls
             throw new AException (AC_ERR_LOAD, 'Error: permission denied to change forms');
         }
 
         $this->registry = Registry::getInstance();
+        $this->db = $this->registry->get('db');
 
         //check if form with same name exists
-        $sql = "SELECT form_id FROM ".$this->db->table("forms")." WHERE form_name='".$this->db->escape($form_name)."'";
+        $sql = "SELECT form_id 
+                FROM " . $this->db->table("forms") . " 
+                WHERE form_name='" . $this->db->escape($formName) . "'
+                LIMIT 1";
         $result = $this->db->query($sql);
-        $this->form_id = ( int )$result->row ['form_id'];
-
-        if ($this->form_id) {
-            // field groups of form
-            $sql = "SELECT group_id FROM ".$this->db->table("form_groups")." WHERE form_id='".$this->form_id."'";
-            $result = $this->db->query($sql);
-            if ($result->num_rows) {
-                $this->form_field_groups [] = ( int )$result->row ['group_id'];
-            }
-
-            // fields of form
-            $sql = "SELECT field_id FROM ".$this->db->table("fields")." WHERE form_id='".$this->form_id."'";
-            $result = $this->db->query($sql);
-            if ($result->num_rows) {
-                $this->form_fields [] = ( int )$result->row ['field_id'];
-            }
-
-        }
-
-    }
-
-    public function __get($key)
-    {
-        return $this->registry->get($key);
-    }
-
-    public function __set($key, $value)
-    {
-        $this->registry->set($key, $value);
-    }
-
-    private function _getFieldGroupIdByName($group_name = '')
-    {
-        if (!$group_name || !$this->form_id) {
-            return null;
-        }
-        $sql = "SELECT group_id FROM ".$this->db->table("form_groups")." WHERE group_name = '".$this->db->escape($group_name)."' AND form_id = '".$this->form_id."'";
-        $result = $this->db->query($sql);
-        return ( int )$result->row ['group_id'];
+        $this->form_id = (int)$result->row ['form_id'];
     }
 
     /**
-     * @param string $field_group_id
-     * @param int    $language_id
-     *
-     * @return null|array
+     * @param string $groupName
+     * @return int|void
+     * @throws AException
      */
-    private function _getFieldGroupDescription($field_group_id = '', $language_id = 0)
+    protected function _getFieldGroupIdByName(string $groupName = '')
     {
-        $language_id = ( int )$language_id;
-        $field_group_id = ( int )$field_group_id;
-        if (!$field_group_id || !$language_id) {
-            return null;
+        if (!$groupName || !$this->form_id) {
+            return;
         }
-        $sql = "SELECT * FROM ".$this->db->table("fields_group_descriptions")." WHERE group_id = '".$field_group_id."' AND language_id = '".$language_id."'";
+        $sql = "SELECT group_id 
+                FROM " . $this->db->table("form_groups") . " 
+                WHERE group_name = '" . $this->db->escape($groupName) . "' 
+                    AND form_id = '" . $this->form_id . "'";
         $result = $this->db->query($sql);
-        return $result->row;
+        return (int)$result->row ['group_id'];
     }
 
-    private function _getFieldIdByName($field_name = '')
+    /**
+     * @param string $fieldName
+     * @return false|int
+     * @throws AException
+     */
+    protected function getFieldIdByName(string $fieldName = '')
     {
-        if (!$field_name || !$this->form_id) {
-            return null;
+        if (!$fieldName || !$this->form_id) {
+            return false;
         }
-        $sql = "SELECT field_id FROM ".$this->db->table("fields")." WHERE field_name = '".$this->db->escape($field_name)."' AND form_id= '".$this->form_id."'";
+        $sql = "SELECT field_id 
+                FROM " . $this->db->table("fields") . " 
+                WHERE field_name = '" . $this->db->escape($fieldName) . "' 
+                    AND form_id= '" . $this->form_id . "'";
         $result = $this->db->query($sql);
-        return ( int )$result->row ['field_id'];
+        return (int)$result->row['field_id'];
     }
 
-    private function _getFieldDescription($field_id = '', $language_id = 0)
+    /**
+     * @param int $field_id
+     * @param int $language_id
+     * @return array|false
+     * @throws AException
+     */
+    protected function getFieldDescription(int $field_id, int $language_id)
     {
-        $language_id = ( int )$language_id;
-        $field_id = ( int )$field_id;
         if (!$field_id || !$this->form_id || !$language_id) {
-            return null;
+            return false;
         }
-        $sql = "SELECT * FROM ".$this->db->table("field_descriptions")." WHERE field_id = '".$field_id."' AND language_id = '".$language_id."'";
+        $sql = "SELECT * 
+                FROM " . $this->db->table("field_descriptions") . " 
+                WHERE field_id = '" . $field_id . "' AND language_id = '" . $language_id . "'";
         $result = $this->db->query($sql);
         return $result->row;
     }
 
-    private function _getFormDescription($language_id = 0)
+    /**
+     * @param int $language_id
+     * @return array|false
+     * @throws AException
+     */
+    protected function getFormDescription(int $language_id)
     {
-        $language_id = ( int )$language_id;
         if (!$this->form_id || !$language_id) {
-            return null;
+            return false;
         }
-        $sql = "SELECT * FROM ".$this->db->table("form_descriptions")." WHERE form_id = '".$this->form_id."' AND language_id = '".$language_id."'";
+        $sql = "SELECT * 
+                FROM " . $this->db->table("form_descriptions") . " 
+                WHERE form_id = '" . $this->form_id . "' AND language_id = '" . $language_id . "'";
         $result = $this->db->query($sql);
         return $result->row;
     }
@@ -141,65 +128,70 @@ class AFormManager
      * @param int $field_id
      * @param int $language_id
      *
-     * @return array
+     * @return array|false
+     * @throws AException
      */
-    private function _getFieldValues($field_id = 0, $language_id = 0)
+    protected function getFieldValues(int $field_id, int $language_id)
     {
-        $field_id = (int)$field_id;
-        $language_id = (int)$language_id;
-        if (!$field_id) {
-            return array();
+        if (!$field_id || !$this->form_id || !$language_id) {
+            return false;
         }
 
         $sql = "SELECT *
-				FROM ".$this->db->table("field_values")."
-				WHERE field_id = '".( int )$field_id."' AND language_id = '".$language_id."'";
+				FROM " . $this->db->table("field_values") . "
+				WHERE field_id = '" . ( int )$field_id . "' AND language_id = '" . $language_id . "'";
         $result = $this->db->query($sql);
         return $result->row;
     }
 
-    private function _getLanguageIdByName($language_name = '')
+    /**
+     * @param string $languageName
+     * @return false|int
+     * @throws AException
+     */
+    protected function getLanguageIdByName(string $languageName = '')
     {
-        $language_name = mb_strtolower($language_name, 'UTF-8');
+        $languageName = mb_strtolower($languageName);
+        if (!$languageName) {
+            return false;
+        }
         $query = "SELECT language_id
-				FROM ".$this->db->table("languages")."
-				WHERE LOWER(name) = '".$this->db->escape($language_name)."'";
+				  FROM " . $this->db->table("languages") . "
+				  WHERE LOWER(name) = '" . $this->db->escape($languageName) . "'";
         $result = $this->db->query($query);
-        return $result->row ? $result->row ['language_id'] : 0;
+        return (int)$result->row['language_id'] ?: false;
     }
 
-    public function loadXML($data)
+    public function loadXML(array $data)
     {
         // Input possible with XML string, File or both.
         // We process both one at a time. XML string processed first		
-        if ($data ['xml']) {
-            /**
-             * @var $xml_obj SimpleXmlElement
-             */
-            $xml_obj = simplexml_load_string($data ['xml']);
+        if ($data['xml']) {
+            /** @var $xml_obj SimpleXmlElement */
+            $xml_obj = simplexml_load_string($data['xml']);
             if (!$xml_obj) {
                 $err = "Failed loading XML data string";
                 foreach (libxml_get_errors() as $error) {
-                    $err .= "  ".$error->message;
+                    $err .= "  " . $error->message;
                 }
                 $error = new AError ($err);
                 $error->toLog()->toDebug();
             } else {
-                $this->_processXML($xml_obj);
+                $this->processXML($xml_obj);
             }
         }
 
-        if (isset ($data ['file']) && is_file($data ['file'])) {
-            $xml_obj = simplexml_load_file($data ['file']);
+        if (isset($data['file']) && is_file($data['file'])) {
+            $xml_obj = simplexml_load_file($data['file']);
             if (!$xml_obj) {
-                $err = "Failed loading XML file ".$data ['file'];
+                $err = "Failed loading XML file " . $data ['file'];
                 foreach (libxml_get_errors() as $error) {
-                    $err .= "  ".$error->message;
+                    $err .= "  " . $error->message;
                 }
                 $error = new AError ($err);
                 $error->toLog()->toDebug();
             } else {
-                $this->_processXML($xml_obj);
+                $this->processXML($xml_obj);
             }
         }
     }
@@ -207,15 +199,15 @@ class AFormManager
     /**
      * @param SimpleXmlElement $xml_obj
      *
-     * @return null
+     * @throws AException
      */
-    private function _processXML($xml_obj)
+    protected function processXML($xml_obj)
     {
         $forms = $xml_obj->xpath('/forms');
         //process each layout 
         foreach ($forms as $form) {
             /**
-             * @var DOMNode $form
+             * @var SimpleXMLElement|DOMNode|stdClass $form
              */
             $form = $form->form;
             /* Determine an action tag in all patent elements. Action can be insert, update and delete
@@ -237,7 +229,7 @@ class AFormManager
             //check if form with same name exists
             $this->__construct($form->form_name);
 
-            if (!$this->form_id && in_array($form->action, array("", null, "update"))) {
+            if (!$this->form_id && in_array($form->action, ["", null, "update"])) {
                 $form->action = 'insert';
             }
 
@@ -245,61 +237,83 @@ class AFormManager
 
             if ($form->action == "delete") {
                 if ($this->form_id) {
-                    $sql = array();
-                    $sql [] = "DELETE FROM ".$this->db->table("field_values")." WHERE field_id IN ( SELECT field_id FROM ".$this->db->table("fields")." WHERE form_id = '".$this->form_id."')";
-                    $sql [] = "DELETE FROM ".$this->db->table("field_descriptions")." WHERE field_id IN ( SELECT field_id FROM ".$this->db->table("fields")." WHERE form_id = '".$this->form_id."')";
-                    $sql [] = "DELETE FROM ".$this->db->table("fields_group_descriptions")." WHERE group_id IN ( SELECT group_id FROM ".$this->db->table("form_groups")." WHERE form_id = '".$this->form_id."')";
-                    $sql [] = "DELETE FROM ".$this->db->table("fields_groups")." WHERE group_id IN ( SELECT group_id FROM ".$this->db->table("form_groups")." WHERE form_id = '".$this->form_id."')";
-                    $sql [] = "DELETE FROM ".$this->db->table("form_groups")." WHERE form_id  = '".$this->form_id."'";
-                    $sql [] = "DELETE FROM ".$this->db->table("fields")." WHERE form_id = '".$this->form_id."'";
-                    $sql [] = "DELETE FROM ".$this->db->table("pages_forms")." WHERE form_id = '".$this->form_id."'";
-                    $sql [] = "DELETE FROM ".$this->db->table("form_descriptions")." WHERE form_id = '".$this->form_id."'";
-                    $sql [] = "DELETE FROM ".$this->db->table("forms")." WHERE form_id = '".$this->form_id."'";
+                    $sql = [
+                        "DELETE FROM " . $this->db->table("field_values") . " 
+                        WHERE field_id IN 
+                            ( SELECT field_id 
+                                FROM " . $this->db->table("fields") . " 
+                                WHERE form_id = '" . $this->form_id . "')"
+                    ];
+                    $sql[] = "DELETE FROM " . $this->db->table("field_descriptions") . " 
+                                WHERE field_id IN 
+                                    ( SELECT field_id 
+                                      FROM " . $this->db->table("fields") . " 
+                                      WHERE form_id = '" . $this->form_id . "')";
+                    $sql[] = "DELETE FROM " . $this->db->table("fields_group_descriptions") . " 
+                                WHERE group_id IN 
+                                    ( SELECT group_id 
+                                        FROM " . $this->db->table("form_groups") . " 
+                                        WHERE form_id = '" . $this->form_id . "')";
+                    $sql[] = "DELETE FROM " . $this->db->table("fields_groups") . " 
+                                WHERE group_id IN 
+                                    ( SELECT group_id 
+                                        FROM " . $this->db->table("form_groups") . " 
+                                        WHERE form_id = '" . $this->form_id . "')";
+                    $sql[] = "DELETE FROM " . $this->db->table("form_groups") . " WHERE form_id  = '" . $this->form_id . "'";
+                    $sql[] = "DELETE FROM " . $this->db->table("fields") . " WHERE form_id = '" . $this->form_id . "'";
+                    $sql[] = "DELETE FROM " . $this->db->table("pages_forms") . " WHERE form_id = '" . $this->form_id . "'";
+                    $sql[] = "DELETE FROM " . $this->db->table("form_descriptions") . " WHERE form_id = '" . $this->form_id . "'";
+                    $sql[] = "DELETE FROM " . $this->db->table("forms") . " WHERE form_id = '" . $this->form_id . "'";
 
                     foreach ($sql as $query) {
                         $this->db->query($query);
                     }
                 }
-                continue; // well done
-
             } elseif ($form->action == 'insert') {
                 // if form exists
                 if ($this->form_id) {
-                    $error_text = 'Error: cannot insert form (name: "'.$form->form_name.'") because it already exists in database.';
+                    $error_text = 'Error: cannot insert form (name: "' . $form->form_name . '") because it already exists in database.';
                     $error = new AError ($error_text);
                     $error->toLog()->toDebug();
                     $this->errors = 1;
                     continue;
                 }
 
-                $query = "INSERT INTO ".$this->db->table("forms")." (`form_name`, `controller`, `success_page`, `status`) 
-							VALUES ('".$this->db->escape($form->form_name)."','".$this->db->escape($form->controller)."','".$this->db->escape($form->success_page)."','".$this->db->escape($form->status)."')";
+                $query = "INSERT INTO " . $this->db->table("forms") . " (`form_name`, `controller`, `success_page`, `status`) 
+							VALUES (
+							'" . $this->db->escape($form->form_name) . "',
+							'" . $this->db->escape($form->controller) . "',
+							'" . $this->db->escape($form->success_page) . "',
+							'" . $this->db->escape($form->status) . "')";
                 $this->db->query($query);
-                $this->form_id = $this->db->getLastId();
+                $this->form_id = (int)$this->db->getLastId();
 
                 if ($form->form_descriptions->form_description) {
                     foreach ($form->form_descriptions->form_description as $form_description) {
-                        $language_id = $this->_getLanguageIdByName($form_description->language);
-                        if (!$language_id) {
-                            $error_text = 'Error: cannot insert form description because it language: "'.$form_description->language.'" is not exists in database.';
+                        $languageId = $this->getLanguageIdByName((string)$form_description->language);
+                        if (!$languageId) {
+                            $error_text = 'Error: cannot insert form description because it language: "'
+                                . $form_description->language . '" is not exists in database.';
                             $error = new AError ($error_text);
                             $error->toLog()->toDebug();
                             $this->errors = 1;
                             continue 2;
                         }
-                        $this->language->replaceDescriptions('form_descriptions',
-                            array('form_id' => (int)$this->form_id),
-                            array(
-                                $language_id => array(
+                        $this->language->replaceDescriptions(
+                            'form_descriptions',
+                            ['form_id' => (int)$this->form_id],
+                            [
+                                $languageId => [
                                     'description' => (string)$form_description->description,
-                                ),
-                            ));
+                                ],
+                            ]
+                        );
                     }
                 }
 
                 if ($form->fields->field) {
                     foreach ($form->fields->field as $field) {
-                        $this->_processFieldXML($field);
+                        $this->processFieldXML($field);
                     }
                 }
 
@@ -308,40 +322,43 @@ class AFormManager
                         $this->_processFieldGroupXML($field_group);
                     }
                 }
-            } else { // update form info
-
-                $query = "UPDATE ".$this->db->table("forms")."
-							SET `form_name` = '".$this->db->escape($form->form_name)."',
-								 `controller`='".$this->db->escape($form->controller)."',
-								 `success_page` = '".$this->db->escape($form->success_page)."',
-								 `status` = '".$this->db->escape($form->status)."'
-						WHERE form_id = '".$this->form_id."'";
+            } // update form info
+            else {
+                $query = "UPDATE " . $this->db->table("forms") . "
+							SET `form_name` = '" . $this->db->escape($form->form_name) . "',
+								 `controller`='" . $this->db->escape($form->controller) . "',
+								 `success_page` = '" . $this->db->escape($form->success_page) . "',
+								 `status` = '" . $this->db->escape($form->status) . "'
+						WHERE form_id = '" . $this->form_id . "'";
                 $this->db->query($query);
 
                 if ($form->form_descriptions->form_description) {
                     foreach ($form->form_descriptions->form_description as $form_description) {
-                        $language_id = $this->_getLanguageIdByName($form_description->language);
-                        if (!$language_id) {
-                            $error_text = 'Error: cannot update form description because it language: "'.$form_description->language.'" is not exists in database.';
+                        $languageId = $this->getLanguageIdByName((string)$form_description->language);
+                        if (!$languageId) {
+                            $error_text = 'Error: cannot update form description because it language: "'
+                                . $form_description->language . '" is not exists in database.';
                             $error = new AError ($error_text);
                             $error->toLog()->toDebug();
                             $this->errors = 1;
                             continue 2;
                         }
 
-                        $this->language->replaceDescriptions('form_descriptions',
-                            array('form_id' => (int)$this->form_id),
-                            array(
-                                $language_id => array(
+                        $this->language->replaceDescriptions(
+                            'form_descriptions',
+                            ['form_id' => (int)$this->form_id],
+                            [
+                                $languageId => [
                                     'description' => (string)$form_description->description,
-                                ),
-                            ));
+                                ],
+                            ]
+                        );
                     }
                 }
 
                 if ($form->fields->field) {
                     foreach ($form->fields->field as $field) {
-                        $this->_processFieldXML($field);
+                        $this->processFieldXML($field);
                     }
                 }
 
@@ -356,205 +373,216 @@ class AFormManager
         return null;
     }
 
-    private function _processFieldXML($field, $field_group_id = '', $field_group_sort_order = 0)
+    /**
+     * @param stdClass $field
+     * @param int $fieldGroupId
+     * @param int $fieldGroupSortOrder
+     * @return bool
+     * @throws AException
+     */
+    protected function processFieldXML($field, $fieldGroupId = 0, $fieldGroupSortOrder = 0)
     {
         if (!$this->form_id) {
-            return null;
+            return false;
         }
-        $field_group_id = ( int )$field_group_id;
+        $fieldGroupId = ( int )$fieldGroupId;
 
-        $field_id = $this->_getFieldIdByName($field->field_name);
+        $field_id = $this->getFieldIdByName((string)$field->field_name);
         if ($field->action == "insert" && $field_id) {
-            $error_text = 'Error: cannot insert form field (name: "'.$field->field_name.'") because it exists.';
+            $error_text = 'Error: cannot insert form field (name: "' . $field->field_name . '") because it exists.';
             $error = new AError ($error_text);
             $error->toLog()->toDebug();
             $this->errors = 1;
-            return null;
+            return false;
         }
 
         if ($field->action == "delete") {
             if (!$field_id) {
-                return null;
+                return false;
             }
 
-            $sql = array();
-            $sql [] = "DELETE FROM ".$this->db->table("field_values")." WHERE field_id = '".$field_id."'";
-            $sql [] = "DELETE FROM ".$this->db->table("field_descriptions")." WHERE field_id = '".$field_id."'";
-            $sql [] = "DELETE FROM ".$this->db->table("fields_groups")." WHERE field_id = '".$field_id."'";
-            $sql [] = "DELETE FROM ".$this->db->table("fields")." WHERE field_id = '".$field_id."'";
+            $sql = [];
+            $sql[] = "DELETE FROM " . $this->db->table("field_values") . " WHERE field_id = '" . $field_id . "'";
+            $sql[] = "DELETE FROM " . $this->db->table("field_descriptions") . " WHERE field_id = '" . $field_id . "'";
+            $sql[] = "DELETE FROM " . $this->db->table("fields_groups") . " WHERE field_id = '" . $field_id . "'";
+            $sql[] = "DELETE FROM " . $this->db->table("fields") . " WHERE field_id = '" . $field_id . "'";
             foreach ($sql as $query) {
                 $this->db->query($query);
             }
-            return null;
+            return false;
         }
         // checks
-        if (!in_array($field->element_type, $this->field_types)) {
-            $error_text = 'Error: cannot insert(update) form field because it element type: "'.$field->element_type.'" is unknown.';
+        if (!in_array($field->element_type, static::$fieldTypes)) {
+            $error_text = 'Error: cannot insert(update) form field because it element type: "' . $field->element_type . '" is unknown.';
             $error = new AError ($error_text);
             $error->toLog()->toDebug();
             $this->errors = 1;
-            return null;
+            return false;
         }
 
-        if (!$field_id) { // if new field
-            $sql = array();
-            $query = "INSERT INTO ".$this->db->table("fields")." (form_id, field_name, element_type, sort_order, attributes, required, status) 
-						VALUES ('".$this->form_id."', 
-								'".$this->db->escape($field->field_name)."',
-								'".$this->db->escape($field->element_type)."',
-								'".( int )$field->sort_order."',
-								'".$this->db->escape($field->attributes)."',
-								'".$this->db->escape($field->required)."',
-								'".$this->db->escape($field->status)."')";
+        $sql = [];
+        // if new field
+        if (!$field_id) {
+            $query = "INSERT INTO " . $this->db->table("fields") . " (form_id, field_name, element_type, sort_order, attributes, required, status) 
+						VALUES ('" . $this->form_id . "', 
+								'" . $this->db->escape($field->field_name) . "',
+								'" . $this->db->escape($field->element_type) . "',
+								'" . ( int )$field->sort_order . "',
+								'" . $this->db->escape($field->attributes) . "',
+								'" . $this->db->escape($field->required) . "',
+								'" . $this->db->escape($field->status) . "')";
             $this->db->query($query);
             $field_id = $this->db->getLastId();
 
-            if ($field_group_id) {
-                $sql [] = "INSERT INTO ".$this->db->table("fields_groups")." (field_id, group_id, sort_order) 
-						VALUES ('".$field_id."', '".$field_group_id."',	'".$field_group_sort_order."')";
-
+            if ($fieldGroupId) {
+                $sql[] = "INSERT INTO " . $this->db->table("fields_groups") . " (field_id, group_id, sort_order) 
+						   VALUES ('" . $field_id . "', '" . $fieldGroupId . "',	'" . $fieldGroupSortOrder . "')";
             }
-
             if ($field->field_descriptions->field_description) {
                 foreach ($field->field_descriptions->field_description as $field_description) {
-                    $language_id = $this->_getLanguageIdByName($field_description->language);
+                    $language_id = $this->getLanguageIdByName((string)$field_description->language);
                     if (!$language_id) {
-                        $error_text = 'Error: cannot insert field description because it language: "'.$field_description->language.'" is not exists in database.';
+                        $error_text = 'Error: cannot insert field description because it language: "' . $field_description->language . '" is not exists in database.';
                         $error = new AError ($error_text);
                         $error->toLog()->toDebug();
                         $this->errors = 1;
                         continue;
                     }
-                    $sql [] = "INSERT INTO ".$this->db->table("field_descriptions")." (field_id,language_id,name,description) 
-								VALUES ('".$field_id."',
-										'".$language_id."',
-										'".$this->db->escape($field_description->name)."',
-										'".$this->db->escape($field_description->description)."')";
+                    $sql[] = "INSERT INTO " . $this->db->table("field_descriptions") . " (field_id,language_id,name,description) 
+								VALUES ('" . $field_id . "',
+										'" . $language_id . "',
+										'" . $this->db->escape($field_description->name) . "',
+										'" . $this->db->escape($field_description->description) . "')";
                 }
             }
 
             if ($field->field_values->field_value) {
                 foreach ($field->field_values->field_value as $field_value) {
-                    $language_id = $this->_getLanguageIdByName($field_value->language);
+                    $language_id = $this->getLanguageIdByName((string)$field_value->language);
                     if (!$language_id) {
-                        $error_text = 'Error: cannot insert field values because it language: "'.$field_value->language.'" is not exists in database.';
+                        $error_text = 'Error: cannot insert field values because it language: "' . $field_value->language . '" is not exists in database.';
                         $error = new AError ($error_text);
                         $error->toLog()->toDebug();
                         $this->errors = 1;
                         continue;
                     }
-                    $sql [] = "INSERT INTO ".$this->db->table("field_values")." (`field_id`, `opt_value`, `value`, `default`, `sort_order`, `language_id`) 
-								VALUES ('".$field_id."',
-										'".$this->db->escape($field_value->opt_value)."',
-										'".$this->db->escape($field_value->value)."',
-										'".$this->db->escape($field_value->default)."',
-										'".( int )$field_value->sort_order."',
-										'".$language_id."')";
+                    $sql[] = "INSERT INTO " . $this->db->table("field_values") . " (`field_id`, `opt_value`, `value`, `default`, `sort_order`, `language_id`) 
+								VALUES ('" . $field_id . "',
+										'" . $this->db->escape($field_value->opt_value) . "',
+										'" . $this->db->escape($field_value->value) . "',
+										'" . $this->db->escape($field_value->default) . "',
+										'" . ( int )$field_value->sort_order . "',
+										'" . $language_id . "')";
                 }
-
             }
+        } //update field
+        else {
+            $sql[] = "UPDATE " . $this->db->table("fields") . " SET    
+						 		element_type = '" . $this->db->escape($field->element_type) . "',
+								sort_order = '" . ( int )$field->sort_order . "',
+								attributes = '" . $this->db->escape($field->attributes) . "',
+								required = '" . $this->db->escape($field->required) . "',
+								status = '" . $this->db->escape($field->status) . "'
+						WHERE form_id = '" . $this->form_id . "' and field_id = '" . $field_id . "'";
 
-            foreach ($sql as $query) {
-                $this->db->query($query);
-            }
-
-        } else { //if need to update field
-            $sql = array();
-            $sql [] = "UPDATE ".$this->db->table("fields")." SET    
-						 		element_type = '".$this->db->escape($field->element_type)."',
-								sort_order = '".( int )$field->sort_order."',
-								attributes = '".$this->db->escape($field->attributes)."',
-								required = '".$this->db->escape($field->required)."',
-								status = '".$this->db->escape($field->status)."'
-						WHERE form_id = '".$this->form_id."' and field_id = '".$field_id."'";
-
-            if ($field_group_id) {
+            if ($fieldGroupId) {
                 // check is field in group
-                $query = "SELECT field_id FROM ".$this->db->table("fields_groups")." WHERE field_id = '".$field_id."'";
+                $query = "SELECT field_id FROM " . $this->db->table("fields_groups") . " WHERE field_id = '" . $field_id . "'";
                 $result = $this->db->query($query);
                 $exists = $result->num_rows;
-
                 if ($exists) {
-                    $sql [] = "UPDATE ".$this->db->table("fields_groups")." SET group_id = '".$field_group_id."', sort_order = '".$field_group_sort_order."'
-								WHERE field_id = '".$field_id."'";
+                    $sql[] = "UPDATE " . $this->db->table("fields_groups") . " 
+                                SET group_id = '" . $fieldGroupId . "', sort_order = '" . $fieldGroupSortOrder . "'
+								WHERE field_id = '" . $field_id . "'";
                 } else {
-                    $sql [] = "INSERT INTO ".$this->db->table("fields_groups")." (field_id, group_id, sort_order) 
-								VALUES ('".$field_id."', '".$field_group_id."',	'".$field_group_sort_order."')";
+                    $sql[] = "INSERT INTO " . $this->db->table("fields_groups") . " (field_id, group_id, sort_order) 
+								VALUES ('" . $field_id . "', '" . $fieldGroupId . "',	'" . $fieldGroupSortOrder . "')";
                 }
             }
 
             if ($field->field_descriptions->field_description) {
                 foreach ($field->field_descriptions->field_description as $field_description) {
-                    $language_id = $this->_getLanguageIdByName($field_description->language);
+                    $language_id = $this->getLanguageIdByName((string)$field_description->language);
                     if (!$language_id) {
-                        $error_text = 'Error: cannot update field description because it language: "'.$field_description->language.'" is not exists in database.';
+                        $error_text = 'Error: cannot update field description because it language: "'
+                            . $field_description->language . '" is not exists in database.';
                         $error = new AError ($error_text);
                         $error->toLog()->toDebug();
                         $this->errors = 1;
                         continue;
                     }
 
-                    $exists = $this->_getFieldDescription($field_id, $language_id);
+                    $exists = $this->getFieldDescription((int)$field_id, (int)$language_id);
                     if (!$exists) {
-                        $sql [] = "INSERT INTO ".$this->db->table("field_descriptions")." (field_id, language_id, name, description) 
-									VALUES ('".$field_id."',
-											'".$language_id."',
-											'".$this->db->escape($field_description->name)."',
-											'".$this->db->escape($field_description->description)."')";
+                        $sql[] = "INSERT INTO " . $this->db->table("field_descriptions") . " 
+                                    (field_id, language_id, name, description) 
+									VALUES ('" . $field_id . "',
+											'" . $language_id . "',
+											'" . $this->db->escape($field_description->name) . "',
+											'" . $this->db->escape($field_description->description) . "')";
                     } else {
-                        $sql [] = "UPDATE ".$this->db->table("field_descriptions")." 
-										SET name = '".$this->db->escape($field_description->name)."',
-											description = '".$this->db->escape($field_description->description)."'
-										WHERE language_id = '".$language_id."'AND field_id = '".$field_id."'";
+                        $sql[] = "UPDATE " . $this->db->table("field_descriptions") . " 
+                                    SET name = '" . $this->db->escape($field_description->name) . "',
+                                        description = '" . $this->db->escape($field_description->description) . "'
+                                    WHERE language_id = '" . $language_id . "'AND field_id = '" . $field_id . "'";
                     }
                 }
             }
 
             if ($field->field_values->field_value) {
-                $sql [] = "DELETE FROM ".$this->db->table("field_values")." WHERE field_id = '".$field_id."'";
+                $sql[] = "DELETE FROM " . $this->db->table("field_values") . " WHERE field_id = '" . $field_id . "'";
                 foreach ($field->field_values->field_value as $field_value) {
-                    $language_id = $this->_getLanguageIdByName($field_value->language);
+                    $language_id = $this->getLanguageIdByName((string)$field_value->language);
                     if (!$language_id) {
-                        $error_text = 'Error: cannot update field values because it language: "'.$field_value->language.'" is not exists in database.';
+                        $error_text = 'Error: cannot update field values because it language: "' .
+                            $field_value->language . '" is not exists in database.';
                         $error = new AError ($error_text);
                         $error->toLog()->toDebug();
                         $this->errors = 1;
                         continue;
                     }
-                    $sql [] = "INSERT INTO ".$this->db->table("field_values")." (`field_id`, `opt_value`, `value`, `default`, `sort_order`, `language_id`) 
-								VALUES ('".$field_id."',
-										'".$this->db->escape($field_value->opt_value)."',
-										'".$this->db->escape($field_value->value)."',
-										'".$this->db->escape($field_value->default)."',
-										'".( int )$field_value->sort_order."',
-										'".$language_id."')";
+                    $sql[] = "INSERT INTO " . $this->db->table("field_values") . " 
+                                (`field_id`, `opt_value`, `value`, `default`, `sort_order`, `language_id`) 
+								VALUES ('" . $field_id . "',
+										'" . $this->db->escape($field_value->opt_value) . "',
+										'" . $this->db->escape($field_value->value) . "',
+										'" . $this->db->escape($field_value->default) . "',
+										'" . ( int )$field_value->sort_order . "',
+										'" . $language_id . "')";
                 }
-
-            }
-
-            foreach ($sql as $query) {
-                $this->db->query($query);
             }
         }
-
+        foreach ($sql as $query) {
+            $this->db->query($query);
+        }
+        return true;
     }
 
-    private function _processFieldGroupXML($field_group)
+    /**
+     * @param stdClass $fieldGroup
+     * @return bool
+     * @throws AException
+     */
+    protected function _processFieldGroupXML($fieldGroup)
     {
-
         // get group_id
-        $field_group_id = $this->_getFieldGroupIdByName($field_group->name);
-        if (!$field_group_id && in_array($field_group->action, array("", null, "update"))) {
-            $field_group->action = 'insert';
+        $fieldGroupId = $this->_getFieldGroupIdByName($fieldGroup->name);
+        if (!$fieldGroupId && in_array($fieldGroup->action, ["", null, "update"])) {
+            $fieldGroup->action = 'insert';
         }
 
-        if ($field_group->action == 'delete') {
-            if ($field_group_id) {
-                $sql = array();
-                $sql [] = "DELETE FROM ".$this->db->table("fields_group_descriptions")." WHERE group_id  = '".$field_group_id."'";
-                $sql [] = "DELETE FROM ".$this->db->table("fields")." WHERE field_id IN ( SELECT field_id FROM ".$this->db->table("fields_groups")." WHERE group_id = '".$field_group_id."')";
-                $sql [] = "DELETE FROM ".$this->db->table("fields_groups")." WHERE group_id = '".$field_group_id."'";
-                $sql [] = "DELETE FROM ".$this->db->table("form_groups")." WHERE form_id  = '".$this->form_id."'";
+        if ($fieldGroup->action == 'delete') {
+            if ($fieldGroupId) {
+                $sql = [];
+                $sql[] = "DELETE FROM " . $this->db->table("fields_group_descriptions") . " 
+                            WHERE group_id  = '" . $fieldGroupId . "'";
+                $sql[] = "DELETE FROM " . $this->db->table("fields") . " 
+                            WHERE field_id IN 
+                                ( SELECT field_id 
+                                    FROM " . $this->db->table("fields_groups") . " 
+                                    WHERE group_id = '" . $fieldGroupId . "')";
+                $sql[] = "DELETE FROM " . $this->db->table("fields_groups") . " WHERE group_id = '" . $fieldGroupId . "'";
+                $sql[] = "DELETE FROM " . $this->db->table("form_groups") . " WHERE form_id  = '" . $this->form_id . "'";
                 foreach ($sql as $query) {
                     $this->db->query($query);
                 }
@@ -564,70 +592,63 @@ class AFormManager
                 $error->toLog()->toDebug();
                 $this->errors = 1;
             }
-            return null;
+            return false;
         }
 
-        if ($field_group->action == 'insert' && $field_group_id) {
+        if ($fieldGroup->action == 'insert' && $fieldGroupId) {
             $error_text = 'Error: cannot insert field group because it is already exists.';
             $error = new AError ($error_text);
             $error->toLog()->toDebug();
             $this->errors = 1;
-            return null;
+            return false;
         }
 
-        if ($field_group->action == 'insert') {
-            $query = "INSERT INTO ".$this->db->table("form_groups")." (`form_id`, `group_name`, `sort_order`, `status`)
-					    VALUES ('".$this->form_id."',
-					  			'".$this->db->escape($field_group->name)."',
-					  			'".( int )$field_group->sort_order."',
-					  			'".( int )$field_group->status."')";
+        if ($fieldGroup->action == 'insert') {
+            $query = "INSERT INTO " . $this->db->table("form_groups") . " (`form_id`, `group_name`, `sort_order`, `status`)
+					    VALUES ('" . $this->form_id . "',
+					  			'" . $this->db->escape($fieldGroup->name) . "',
+					  			'" . ( int )$fieldGroup->sort_order . "',
+					  			'" . ( int )$fieldGroup->status . "')";
             $this->db->query($query);
-            $field_group_id = $this->db->getLastId();
+            $fieldGroupId = $this->db->getLastId();
         } else {
-            $query = "UPDATE ".$this->db->table("form_groups")." 
-						SET `sort_order`='".( int )$field_group->sort_order."',
-							`status`='".( int )$field_group->status."'
-							WHERE group_id = '".( int )$field_group_id."'";
+            $query = "UPDATE " . $this->db->table("form_groups") . " 
+						SET `sort_order`='" . ( int )$fieldGroup->sort_order . "',
+							`status`='" . ( int )$fieldGroup->status . "'
+							WHERE group_id = '" . ( int )$fieldGroupId . "'";
             $this->db->query($query);
         }
 
         // process group description
-        if ($field_group->field_group_descriptions->field_group_description) {
-            $sql = array();
-            foreach ($field_group->field_group_descriptions->field_group_description as $field_group_description) {
-                $language_id = $this->_getLanguageIdByName($field_group_description->language);
+        if ($fieldGroup->field_group_descriptions->field_group_description) {
+            foreach ($fieldGroup->field_group_descriptions->field_group_description as $field_group_description) {
+                $language_id = $this->getLanguageIdByName((string)$field_group_description->language);
                 if (!$language_id) {
-                    $error_text = 'Error: cannot update field group description because it language: "'.$field_group_description->language.'" is not exists in database.';
+                    $error_text = 'Error: cannot update field group description because it language: "' . $field_group_description->language . '" is not exists in database.';
                     $error = new AError ($error_text);
                     $error->toLog()->toDebug();
                     $this->errors = 1;
                     continue;
                 }
-                // TODO need to check in the future what way is correct: with replaceDescription or direct insert
-                //$exists = $this->_getFieldGroupDescription ( $field_group_id, $language_id );
+
                 $this->language->replaceDescriptions('fields_group_descriptions',
-                    array('group_id' => (int)$field_group_id),
-                    array(
-                        $language_id => array(
+                    ['group_id' => (int)$fieldGroupId],
+                    [
+                        $language_id => [
                             'name'        => $field_group_description->name,
                             'description' => $field_group_description->description,
-                        ),
-                    )
+                        ],
+                    ]
                 );
-            }
-            foreach ($sql as $query) {
-                $this->db->query($query);
             }
         }
 
         //then process fields in that group
-
-        if ($field_group->fields->field) {
-            foreach ($field_group->fields->field as $field) {
-                $this->_processFieldXML($field, $field_group_id, $field_group->sort_order);
+        if ($fieldGroup->fields->field) {
+            foreach ($fieldGroup->fields->field as $field) {
+                $this->processFieldXML($field, $fieldGroupId, $fieldGroup->sort_order);
             }
         }
-
+        return true;
     }
-
 }
