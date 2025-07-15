@@ -252,13 +252,25 @@ class ControllerPagesInstall extends AController
     private function _install_SQL()
     {
         $this->load->model('install');
-        $this->model_install->RunSQL($this->session->data['install_step_data']);
+        $data = $this->session->data['install_step_data'];
+        if(!$data) {
+            throw new Exception(
+                'Empty session data! Looks like session data cannot be saved.'
+            );
+        }
+        $this->model_install->RunSQL($data);
     }
 
     private function _configure()
     {
         $this->load->model('install');
-        $this->model_install->configure($this->session->data['install_step_data']);
+        $data = $this->session->data['install_step_data'];
+        if(!$data) {
+            throw new Exception(
+                'Empty session data! Looks like session data cannot be saved.'
+            );
+        }
+        $this->model_install->configure($data);
     }
 
     private function _prepare_registry()
