@@ -2208,7 +2208,11 @@ li#review-set::before {
     height: 400px;
     max-width: 252px;
 }
-
+@media (max-width: 1180px) {
+    .mega-menu .featured-products .card-body {
+        max-width: 188px;
+    }
+}
 .mega-menu-category-columns{
     overflow-y: auto;
 }

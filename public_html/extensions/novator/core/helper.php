@@ -45,7 +45,7 @@ function renderAllCategoriesSFMenuNv(array $menuItems, $options = [ ])
 
         $children .= '<div class="tab-pane fade '.(!$i ? ' active show' : '').'" id="drp-'.$item['category_id'].'-tab-pane" role="tabpanel"
                             aria-labelledby="drp-'.$item['category_id'].'-tab" data-category-id="'.$item['category_id'].'">
-                            <div class="container d-flex flex-nowrap align-items-stretch">
+                            <div class="d-flex flex-nowrap align-items-stretch">
                             <div class="col-4">
                                 <ul class="list-unstyled category-sub-links">';
         if($item['children']) {
@@ -67,14 +67,15 @@ function renderAllCategoriesSFMenuNv(array $menuItems, $options = [ ])
 function renderFeaturedProductsCards( $item, ?int $limit =2, ?int $offset = 0 )
 {
     $html = Registry::getInstance()->get('html');
-    $cards = '<div id="card-'.$item['category_id'].'-tab-pane" class="container featured-products col-8 tab-pane fade" role="tabpanel" >
-                    <div class="row g-4">';
+    $cards = '<div id="card-'.$item['category_id'].'-tab-pane" class="featured-products col-auto col-xl-8 tab-pane fade" role="tabpanel" >
+                    <div class="row">';
     $k = (int)$offset;
     while( $k < $limit ){
         $product = $item['featured_products'][$k];
+        if(!$product) { break;}
         $name = mb_substr($product['name'], 0,150).(mb_strlen($product['name']) > 150 ? '...' : '');
         $blurb = mb_strlen($name) > 149 ? '' : ($product['blurb'] ? mb_substr($product['blurb'], 0, 150).'...' : '');
-        $cards .= '<div class="col-6 ">
+        $cards .= '<div class="d-flex '.(count($item['featured_products'])>1 ? 'w-50' : 'w-100' ).'">
                         <a href="'.$html->getSEOURL('product/product','&product_id='.$product['product_id']).'">
                             <div class="card-body d-flex rounded" style="background-image: url('.$product['thumbnail']['thumb_url'].');">
                                 <div class="d-flex flex-wrap w-100 rounded align-items-end justify-content-center bg-secondary bg-opacity-50 text-white p-3">
