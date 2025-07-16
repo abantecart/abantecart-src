@@ -20,14 +20,15 @@
 
 class ControllerResponsesExtensionPageBuilder extends AController
 {
-    public function __construct()
+    public function __construct($registry, $instance_id, $controller, $parent_controller = '')
     {
+        parent::__construct($registry, $instance_id, $controller, $parent_controller);
         // prevalidate $_GET
-        $this->request->get['route'] = strtolower(preg_replace("/[^\/A-Za-z0-9_]/", '', $this->request->get['route']));
-        $this->request->get['template'] = preformatTextID($this->request->get['template']);
-        $this->request->get['pageTemplate'] = preformatTextID($this->request->get['pageTemplate']);
-        $this->request->get['product_id'] = (int)$this->request->get['product_id'];
-        $this->request->get['format'] = preformatTextID($this->request->get['format']);
+        $_GET['route'] = strtolower(preg_replace("/[^\/A-Za-z0-9_]/", '', (string)$_GET['route']));
+        $_GET['template'] = preformatTextID($_GET['template']);
+        $_GET['pageTemplate'] = preformatTextID($_GET['pageTemplate']);
+        $_GET['product_id'] = (int)$_GET['product_id'];
+        $_GET['format'] = preformatTextID($_GET['format']);
     }
 
     public function getControllerOutput()
