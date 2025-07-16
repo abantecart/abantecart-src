@@ -82,7 +82,7 @@
 	</definition>
 	<definition>
 		<key>error_not_sent</key>
-		<value><![CDATA['Error: No emails were sent! Please see error log for details.']]></value>
+		<value><![CDATA[Error: No emails were sent! Please see error log for details.]]></value>
 	</definition>
 	<definition>
 		<key>text_unsubscribe</key>

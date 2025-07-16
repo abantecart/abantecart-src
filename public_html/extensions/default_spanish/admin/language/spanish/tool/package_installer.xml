@@ -175,19 +175,19 @@ Solución ideal para comercio electrónico OpenSource ]]></value>
 	</definition>
 	<definition>
 		<key>error_install</key>
-		<value><![CDATA[ Error: No se puede instalar el paquete. Por favor, consulte Sistema -> Registro de errores para obtener más detalles. ]]></value>
+		<value><![CDATA[Error: No se puede instalar el paquete. Por favor, consulte Sistema -> Registro de errores para obtener más detalles. ]]></value>
 	</definition>
 	<definition>
 		<key>error_core_version</key>
-		<value><![CDATA[ 'Error: Usted tiene la versión AbanteCart %VERSION% instalado <br> Este paquete de actualización sólo para las versiones inferiores.	]]></value>
+		<value><![CDATA[Error: Usted tiene la versión AbanteCart %VERSION% instalado <br> Este paquete de actualización sólo para las versiones inferiores.	]]></value>
 	</definition>
 	<definition>
 		<key>text_interrupt</key>
-		<value><![CDATA[ Interrumpir ]]></value>
+		<value><![CDATA[Interrumpir ]]></value>
 	</definition>
 	<definition>
 		<key>text_continue</key>
-		<value><![CDATA[ Continuar ]]></value>
+		<value><![CDATA[Continuar ]]></value>
 	</definition>
 	<definition>
 		<key>confirm_version_incompatibility</key>

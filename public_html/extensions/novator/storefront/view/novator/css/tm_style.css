@@ -1234,13 +1234,16 @@ textarea.form-control.is-invalid {
 footer .dropdown, footer .dropdown-menu   {
     background-color: #091e2c;
 }
-footer .dropdown-menu   {
-    border: 1px solid var(--bs-dropdown-border-color);
-}
+/*footer .dropdown-menu   {*/
+/*    border: 1px solid var(--bs-dropdown-border-color);*/
+/*}*/
 
 .dropdown-item:hover,
 .dropdown-item:focus {
     text-decoration: none;
+}
+.nav-link:focus-visible{
+    box-shadow: none;
 }
 
 .dropdown-menu-dark {
@@ -2022,8 +2025,11 @@ li#review-set::before {
     gap: 5px;
 }
 
-.navbar .nav-link {
+#menu_all_categories, ul.mega-sf-menu, ul.mega-sf-menu>li>a {
     height: 60px;
+}
+
+.navbar .nav-link {
     display: inline-flex;
     align-items: center;
     gap: 5px;
@@ -2035,11 +2041,51 @@ li#review-set::before {
     height: 46px;
 }
 
-.nav-link.active, .category-sub-links a.active {
+.nav-link.active,
+.mega-menu-category-columns a.active
+{
     font-weight: bold !important;
 }
+.mega-menu-category-columns a.active
+{
+    color: var(--Black-1) !important;
+}
 
-.mega-sf-menu > li.nav-item > a.active:after {
+.mega-menu-category-columns .category-card{
+    width: max-content;
+    margin:20px;
+}
+
+/* bugfix after mouseover on category list*/
+#menu_all_categories_dropdown{
+    width: -moz-available;
+    width: -webkit-fill-available;
+}
+
+
+.footer-content-menu>ul>li a>span.text-truncate,
+.mega-sf-menu ul>li>a>span.text-truncate
+{
+    display: block;
+    max-width: 400px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/*.footer-content-menu .dropdown-caret{*/
+/*    display: inline-block;*/
+/*}*/
+
+.mega-sf-menu .dropdown-toggle::after,
+.footer-content-menu .dropdown-toggle::after {
+    display: none !important;
+}
+
+.mega-sf-menu .active{
+    color: var(--bs-primary);
+    font-weight: bold !important;
+}
+.mega-sf-menu>li>.nav-link.active:after {
     content: "";
     position: absolute;
     bottom: 0;
@@ -2051,16 +2097,42 @@ li#review-set::before {
     border-radius: 2px 2px 0 0;
 }
 
+.navbar .mega-menu .category-title {
+    color: var(--Black-1) !important;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 25px;
+}
+.navbar .mega-menu .category-sub-links a {
+    display: flex;
+    transition: all 0.2s ease-in-out;
+    color: var(--Black-1) !important;
+    margin-top: 5px;
+    font-size: 16px;
+    font-weight: 400;
+    height: 30px;
+}
+.mega-menu-category-columns .card-body .category-sub-links a:hover{
+    color: var(--bs-primary) !important;
+}
+
+.mega-menu-category-columns .card-body .category-sub-links{
+    margin-top: 10px;
+}
+
+
+
+
 .navbar .dropdown-toggle svg.icon-chevron {
     width: 12px;
     height: 12px;
 }
 
-.navbar .mega-menu {
+.category-dropdown {
     position: static;
 }
 
-.navbar .mega-menu .dropdown-menu.dropdown-mega-menu {
+.category-dropdown .dropdown-menu.dropdown-mega-menu {
     top: 100%;
     left: 0;
     right: 0;
@@ -2072,11 +2144,11 @@ li#review-set::before {
     width: fit-content;
 }
 
-.navbar .mega-menu .dropdown-menu.dropdown-mega-menu .tab-content {
+.category-dropdown .dropdown-menu.dropdown-mega-menu .tab-content {
     min-width: 850px;
 }
 
-.navbar .mega-menu .dropdown-menu {
+.category-dropdown .dropdown-menu {
     overflow: hidden;
     overflow-y: auto;
     max-height: calc(100vh - 150px);
@@ -2086,19 +2158,19 @@ li#review-set::before {
     position: absolute;
 }
 
-.navbar .mega-menu .category-title {
+.category-dropdown .category-title {
     color: var(--Black-1);
     font-size: 18px;
     font-weight: 700;
     line-height: 25px;
 }
 
-.navbar .mega-menu .category-title.menu-img-caption {
+.category-dropdown .category-title.menu-img-caption {
     margin-top: 15px;
     margin-bottom: 0;
 }
 
-.navbar .mega-menu .category-links a {
+.category-dropdown .category-links a {
     display: flex;
     padding: 10px 18px;
     border-radius: 4px;
@@ -2109,12 +2181,12 @@ li#review-set::before {
     font-weight: 700;
 }
 
-.navbar .mega-menu .category-links a.active,
-.navbar .mega-menu .category-links a:hover {
+.category-dropdown .category-links a.active,
+.category-dropdown .category-links a:hover {
     background: var(--Grey-6);
 }
 
-.navbar .mega-menu .category-sub-links a {
+.category-dropdown .category-sub-links a {
   display: flex;
   transition: all 0.2s ease-in-out;
   color: var(--Black-1);
@@ -2124,8 +2196,8 @@ li#review-set::before {
   height: 40px;
 }
 
-.navbar .mega-menu .category-sub-links a.active,
-.navbar .mega-menu .category-sub-links a:hover {
+.category-dropdown .category-sub-links a.active,
+.category-dropdown .category-sub-links a:hover {
     color: var(--bs-primary);
 }
 
@@ -2136,14 +2208,17 @@ li#review-set::before {
     height: 400px;
     max-width: 252px;
 }
+@media (max-width: 1180px) {
+    .mega-menu .featured-products .card-body {
+        max-width: 188px;
+    }
+}
+.mega-menu-category-columns{
+    overflow-y: auto;
+}
 
 .mega-menu-category-column{
     min-width: 150px;
-}
-
-.mega-sf-menu.navbar-nav {
-    -webkit-overflow-scrolling: touch;
-    height: 60px;
 }
 
 .cart-offcanvas {
@@ -2347,9 +2422,6 @@ li#review-set::before {
 
 .footer-bottom .nav-link:focus{
     color: var(--bs-yellow) !important;
-}
-.footer-bottom .dropdown-menu .dropdown-item:hover>span{
-    font-weight: bolder;
 }
 
 .bottom-footer-block a {
@@ -3734,26 +3806,7 @@ h4 .heading-title:after,
     width: 115px !important;
 }
 
-/* auto-open for dropdowns */
-.dropdown:hover > .dropdown-menu {
-    display: block;
-}
 
-.dropdown .dropdown-menu {
-    display: none;
-}
-
-.dropdown:hover > .dropdown-menu,
-.dropstart:hover > .dropdown-menu,
-.dropup:hover > .dropdown-menu,
-.dropend:hover > .dropdown-menu {
-    display: block;
-    margin-left: 0;
-}
-
-.dropdown:hover > .dropdown-menu .with-children .dropdown-menu {
-    position: initial;
-}
 
 #menu_all_categories.dropdown-toggle:after,
 .mega-sf-menu >.nav-item > a.dropdown-toggle:after {
@@ -4011,15 +4064,16 @@ a.share{
     max-width: 150px;
 }
 
-.content-footer .navbar{
-    margin-top: 0;
-}
-.content-footer .nav-link{
-    margin-right: 15px;
-}
+
+
 
 #loginFrm input::placeholder {
     font-size: var(--bs-body-font-size);
     font-weight: var(--bs-body-font-weight);
     color: var(--bs-body-color);
+}
+
+.footer-content-menu>ul>li + li{
+    /* gap */
+    margin-left: 15px;
 }

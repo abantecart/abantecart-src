@@ -119,9 +119,14 @@ class ControllerResponsesListingGridContent extends AController
                         'name'  => 'status[' . $result['content_id'] . ']',
                         'value' => $result['status'],
                         'style' => 'btn_switch',
+                        'attr' => 'title="'
+                            .html2view(
+                                $this->language->get('column_publish_date').': '
+                                .dateISO2Display($result['publish_date'], $this->language->get('date_format_short'))
+                            ).'"',
                     ]
                 ),
-                dateISO2Display($result['publish_date'], $this->language->get('date_format_short')),
+                dateISO2Display($result['date_modified'], $this->language->get('date_format_short')),
                 $this->html->buildInput(
                     [
                         'name'  => 'sort_order[' . $result['content_id'] . ']',
