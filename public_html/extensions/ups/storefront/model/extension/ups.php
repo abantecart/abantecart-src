@@ -38,6 +38,21 @@ use UPS\Rating\Rating\ShipmentShipper;
 use UPS\Rating\Rating\ShipmentShipTo;
 use UPS\Rating\Rating\ShipperAddress;
 use UPS\Rating\Rating\ShipToAddress;
+use UPS\Rating\Request\RatingApi;
+use UPS\Shipping\Shipping\LabelSpecificationLabelImageFormat;
+use UPS\Shipping\Shipping\PackagePackaging;
+use UPS\Shipping\Shipping\PaymentInformationShipmentCharge;
+use UPS\Shipping\Shipping\ShipFromAddress;
+use UPS\Shipping\Shipping\ShipFromPhone;
+use UPS\Shipping\Shipping\ShipmentPaymentInformation;
+use UPS\Shipping\Shipping\ShipmentRequest;
+use UPS\Shipping\Shipping\ShipmentRequestLabelSpecification;
+use UPS\Shipping\Shipping\ShipmentRequestShipment;
+use UPS\Shipping\Shipping\ShipmentService;
+use UPS\Shipping\Shipping\ShipmentShipFrom;
+use UPS\Shipping\Shipping\ShipperPhone;
+use UPS\Shipping\Shipping\SHIPRequestWrapper;
+use UPS\Shipping\Shipping\ShipToPhone;
 use function ups\core\getUPSAccessToken;
 
 /**
@@ -49,11 +64,15 @@ use function ups\core\getUPSAccessToken;
 class ModelExtensionUps extends Model
 {
     protected $lang, $lengthUnit, $weightUnit;
-    protected $errors = [];
+    public $errors = [];
 
     protected $fromAddress = [];
     protected $toAddress = [];
 
+    /**
+     * @param Registry $registry
+     * @throws AException
+     */
     public function __construct($registry)
     {
         parent::__construct($registry);
@@ -73,6 +92,12 @@ class ModelExtensionUps extends Model
         ];
     }
 
+    /**
+     * @param array $address
+     * @return array
+     * @throws AException
+     * @throws \UPS\OAuthClientCredentials\ApiException
+     */
     public function getQuote($address)
     {
         $this->session->data['ups_data'] = [];
@@ -296,6 +321,18 @@ class ModelExtensionUps extends Model
                 . $this->weight->format($weight, $this->config->get('config_weight_class'))
                 . ')';
         }
+
+        $this->storeParcelData(
+            [
+                'height'         => $height,
+                'width'          => $width,
+                'depth'          => $length,
+                'dimension_unit' => $this->lengthUnit,
+                'weight'         => $weight,
+                'weight_unit'    => $this->weightUnit
+            ]
+        );
+
         return [
             'id'         => 'ups',
             'title'      => $title,
@@ -306,11 +343,11 @@ class ModelExtensionUps extends Model
     }
 
     /**
-     * @param $address
-     * @param $weight
-     * @param $length
-     * @param $width
-     * @param $height
+     * @param array $address
+     * @param float $weight
+     * @param float $length
+     * @param float $width
+     * @param float $height
      * @return array|false
      * @throws AException
      * @throws \UPS\OAuthClientCredentials\ApiException
@@ -328,7 +365,7 @@ class ModelExtensionUps extends Model
 
         $accessToken = getUPSAccessToken(Registry::getInstance());
         $config = Configuration::getDefaultConfiguration()->setAccessToken($accessToken);
-        $apiInstance = new UPS\Rating\Request\DefaultApi(new Client(), $config);
+        $apiInstance = new RatingApi(new Client(), $config);
 
         $this->session->data['ups_data']['toAddress'] = [
             'name'                => $address['firstname'] . ' ' . $address['firstname'] . ' ' . $address['company'],
@@ -518,7 +555,9 @@ class ModelExtensionUps extends Model
         if ($shipping_data) {
             $shipping_data = unserialize($shipping_data);
         }
-        $shipping_data = $shipping_data !== false ? array_merge((array)$shipping_data, $data) : $data;
+        $shipping_data['ups_data'] = $shipping_data !== false
+            ? array_merge((array)$shipping_data['ups_data'], $data['ups_data'])
+            : $data['ups_data'];
 
         if (!$exists) {
             $sql = "INSERT INTO " . $this->db->table('order_data') . "
@@ -533,6 +572,11 @@ class ModelExtensionUps extends Model
         return $this->db->query($sql);
     }
 
+    /**
+     * @param int $order_id
+     * @return array
+     * @throws AException
+     */
     public function getOrderShippingData($order_id)
     {
         $sql = "SELECT * 
@@ -558,6 +602,20 @@ class ModelExtensionUps extends Model
         ];
     }
 
+    /**
+     * @param array $data
+     * @return void
+     */
+    protected function storeParcelData(array $data)
+    {
+        $this->session->data['ups_parcel_data'] = array_merge((array)$this->session->data['ups_parcel_data'], $data);
+    }
+
+    /**
+     * @param array $order_info
+     * @return bool
+     * @throws AException
+     */
     public function createShipment($order_info)
     {
         if (!$order_info || !$order_info['order_id']) {
@@ -567,7 +625,7 @@ class ModelExtensionUps extends Model
         list(, $serviceCode) = explode('.', $order_info['shipping_method_key']);
 
         $order_shipping_data = $this->getOrderShippingData($order_id);
-        if (!$order_shipping_data['data']['ups_data']['packages']) {
+        if (!$order_shipping_data['data']['ups_data']) {
             return false;
         }
         $shipmentData = $order_shipping_data['data']['ups_data'];
@@ -577,7 +635,7 @@ class ModelExtensionUps extends Model
             $accessToken = getUPSAccessToken(Registry::getInstance());
             $config = \UPS\Shipping\Configuration::getDefaultConfiguration()->setAccessToken($accessToken);
 
-            $apiInstance = new UPS\Shipping\Request\DefaultApi(
+            $apiInstance = new UPS\Shipping\Request\ShippingApi(
             // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
             // This is optional, `GuzzleHttp\Client` will be used as default.
                 new GuzzleHttp\Client(),
@@ -590,7 +648,7 @@ class ModelExtensionUps extends Model
             );
 
             $shipper->setPhone(
-                new \UPS\Shipping\Shipping\ShipperPhone(
+                new ShipperPhone(
                     [
                         'number' => $this->config->get('ups_telephone')
                     ]
@@ -600,9 +658,9 @@ class ModelExtensionUps extends Model
             $shipper->setName($this->config->get('store_name'));
             $shipper->setAttentionName($this->config->get('store_name'));
 
-            $shipmentObj = new \UPS\Shipping\Shipping\ShipmentRequestShipment();
+            $shipmentObj = new ShipmentRequestShipment();
             $shipmentObj->setService(
-                new \UPS\Shipping\Shipping\ShipmentService(
+                new ShipmentService(
                     [
                         'code'        => $serviceCode,
                         'description' => $this->language->get('ups_text_us_origin_' . $serviceCode, 'ups/ups')
@@ -611,10 +669,10 @@ class ModelExtensionUps extends Model
             );
 
             $shipmentObj->setShipper($shipper);
-            $paymentDetails = new \UPS\Shipping\Shipping\ShipmentPaymentInformation();
+            $paymentDetails = new ShipmentPaymentInformation();
             $paymentDetails->setShipmentCharge(
                 [
-                    new \UPS\Shipping\Shipping\PaymentInformationShipmentCharge(
+                    new PaymentInformationShipmentCharge(
                         [
                             'type'         => '01', //01 = Transportation
                             'bill_shipper' => [
@@ -633,7 +691,7 @@ class ModelExtensionUps extends Model
             $shipTo->setAddress($toAddress);
             if ($order_info['telephone']) {
                 $shipTo->setPhone(
-                    new \UPS\Shipping\Shipping\ShipToPhone(
+                    new ShipToPhone(
                         [
                             'number' => $order_info['telephone']
                         ]
@@ -642,13 +700,13 @@ class ModelExtensionUps extends Model
             }
             $shipmentObj->setShipTo($shipTo);
 
-            $shipFrom = new \UPS\Shipping\Shipping\ShipmentShipFrom();
+            $shipFrom = new ShipmentShipFrom();
             $shipFrom->setName($shipmentData['toAddress']['name']);
             $shipFrom->setAttentionName($this->config->get('store_name'));
-            $fromAddress = new \UPS\Shipping\Shipping\ShipFromAddress($shipmentData['fromAddress']);
+            $fromAddress = new ShipFromAddress($shipmentData['fromAddress']);
             $shipFrom->setAddress($fromAddress);
             $shipFrom->setPhone(
-                new \UPS\Shipping\Shipping\ShipFromPhone(
+                new ShipFromPhone(
                     [
                         'number' => $this->config->get('ups_telephone')
                     ]
@@ -684,7 +742,7 @@ class ModelExtensionUps extends Model
                     )
                 );
                 $package->setPackageWeight($pw);
-                $packaging = new \UPS\Shipping\Shipping\PackagePackaging();
+                $packaging = new PackagePackaging();
                 $packaging->setCode($this->config->get('ups_packaging'));
                 $package->setPackaging($packaging);
 
@@ -693,50 +751,58 @@ class ModelExtensionUps extends Model
 
             $shipmentObj->setPackage($packageList);
             $shipmentObj->setDescription('Order #' . $order_id);
-            $shipmentRequest = new \UPS\Shipping\Shipping\ShipmentRequest();
+            $shipmentRequest = new ShipmentRequest();
             $shipmentRequest->setShipment($shipmentObj);
-            $labelSpec = new \UPS\Shipping\Shipping\ShipmentRequestLabelSpecification();
-
-//???? ERROR HERE. WRONG PARAMETERS
-            $labelSpec->setLabelImageFormat(
+            $labelSpec = new ShipmentRequestLabelSpecification();
+            $labelFormat = new LabelSpecificationLabelImageFormat(
                 [
-                    'label_image_format' => 'GIF',
-                    'code'               => 'GIF'
+                    'code'        => 'GIF',
+                    'description' => 'gif'
                 ]
             );
+            $labelSpec->setLabelImageFormat($labelFormat);
             $labelSpec->setHttpUserAgent("Mozilla/4.5");
             $shipmentRequest->setLabelSpecification($labelSpec);
-            $body = new \UPS\Shipping\Shipping\SHIPRequestWrapper();
+            $body = new SHIPRequestWrapper();
             $body->setShipmentRequest($shipmentRequest);
 
-            $version = "2205";
+            $version = "2409";
             $trans_id = 'abantecart';
             $transaction_src = $this->config->get('config_url');
 
-            $response = $apiInstance->shipment($body, $version, $trans_id, $transaction_src, $additionaladdressvalidation = null);
+            $response = $apiInstance->shipment($body, $version, $trans_id, $transaction_src);
 
-//$this->log->write(var_export($response, true));
-
-
-//            $shipmentData['label'] = [
-//
-//                    $shipmentId => [
-//                        'mime' => $mime,
-//                        'content' => (string)$response->LabelImage->OutputImage
-//                    ]
-//                ];
-//
-//                $this->saveOrderShippingData($order_id, $data);
-            return true;
+            $data['shipmentId'] = $response->getShipmentResponse()->getShipmentResults()->getShipmentIdentificationNumber();
+            foreach ($response->getShipmentResponse()->getShipmentResults()->getPackageResults() as $packageResult) {
+                $tn = $packageResult->getTrackingNumber();
+                $data['packages'][] =
+                    [
+                        'tracking_number' => $packageResult->getTrackingNumber(),
+                        'label'           => $packageResult->getShippingLabel()->getHtmlImage()
+                    ];
+                $labelDir = DIR_ROOT . DS . 'admin' . DS . 'system' . DS . 'data' . DS . 'ups_labels';
+                if (!is_dir($labelDir)) {
+                    mkdir($labelDir, 0775, true);
+                }
+                $filename = $labelDir . DS . 'order_label_' . $order_id . '.' . $tn . '.gif';
+                $gif = $packageResult->getShippingLabel()->getGraphicImage();
+                file_put_contents($filename, base64_decode($gif));
+            }
+            $this->saveOrderShippingData($order_id, $data);
         } catch (\UPS\Shipping\ApiException $e) {
             $this->log->write(
                 "UPS API Create Shipment Request Exception (Order ID '.$order_id.'): \n"
                 . $e->getResponseBody()
             );
             return false;
+        } catch (Exception|Error $e) {
+            $this->log->write(
+                "UPS API Create Shipment Request Exception (Order ID '.$order_id.'): \n"
+                . $e->getMessage() . PHP_EOL . $e->getTraceAsString()
+            );
+            return false;
         }
 
         return true;
     }
-
 }

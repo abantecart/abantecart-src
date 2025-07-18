@@ -96,4 +96,12 @@
         <key>ups_packaging_02</key>
         <value><![CDATA[Box]]></value>
     </definition>
+    <definition>
+        <key>ups_manifest_order_status_id</key>
+        <value><![CDATA[Create Shipment when Order Status becomes]]></value>
+    </definition>
+    <definition>
+        <key>ups_text_print_label</key>
+        <value><![CDATA[Print Label]]></value>
+    </definition>
 </definitions>

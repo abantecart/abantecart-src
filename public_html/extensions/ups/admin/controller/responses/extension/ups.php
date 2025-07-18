@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details is bundled with this package in the file LICENSE.txt.
@@ -103,5 +103,58 @@ class ControllerResponsesExtensionUps extends AController
         $this->load->library('json');
         $this->response->addJSONHeader();
         $this->response->setOutput(AJson::encode(['message' => 'Success! ']));
+    }
+
+    public function label()
+    {
+        $order_id = $this->request->get['order_id'];
+        if (!$order_id) {
+            exit('Error: Unknown order!');
+        }
+        $this->loadModel('sale/order');
+        $order_info = $this->model_sale_order->getOrder($order_id);
+
+        if (!$order_info) {
+            exit('Error: Order #'.$order_id.' not found!');
+        }
+
+        $tn = $this->request->get['tn'];
+        if (!$tn) {
+            exit('Error: Unknown tracking number!');
+        }
+
+        /** @var ModelExtensionUps $order_data */
+        $mdl = $this->loadModel('extension/ups','storefront');
+        $order_data = $mdl->getOrderShippingData($order_id);
+        $data = $order_data['data'];
+
+        if ($data['ups_data']['packages']) {
+            foreach ($data['ups_data']['packages'] as $package) {
+                if( $package['tracking_number'] != $tn ) {
+                    continue;
+                }
+
+                $filename = DIR_ROOT.DS.'admin'.DS.'system'.DS.'data'.DS.'ups_labels'.DS.'order_label_' . $order_id . '.'.$tn.'.gif';
+                if(!is_file($filename) || !is_readable($filename)) {
+                    echo 'File '.$filename.' is not readable or does not exist!';
+                }else {
+                    if (ob_get_level()) {
+                        ob_end_clean();
+                    }
+                    header('Pragma: public');
+                    header('Expires: 0');
+                    header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+                    header('Content-Description: File Transfer');
+                    header('Content-Type: image/gif');
+                    header('Content-Disposition: attachment; filename="order_label_' . $order_id . '.' . $tn . '.gif"');
+                    header('Content-Transfer-Encoding: binary');
+                    header('Content-Length: ' . filesize($filename));
+                    readfile($filename);
+                }
+                exit;
+            }
+        }
+
+        exit('Label not found or cannot be shown.');
     }
 }
