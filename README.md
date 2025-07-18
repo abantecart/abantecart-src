@@ -1,71 +1,141 @@
+<p align="center">
+  <a href="https://www.abantecart.com">
+    <img src="https://www.abantecart.com/resources/image/18/7c/8.png" alt="AbanteCart Logo" width="300">
+  </a>
+</p>
 
-# AbanteCart eCommerce Platform [![Build Status](https://travis-ci.org/abantecart/abantecart-src.svg?branch=master)](https://travis-ci.org/abantecart/abantecart-src)
+<p align="center">
+  <a href="https://github.com/abantecart/abantecart-src/blob/master/LICENSE.txt"><img src="https://img.shields.io/badge/license-OSL%203.0-blue.svg" alt="License"></a>
+  <a href="https://github.com/abantecart/abantecart-src/releases"><img src="https://img.shields.io/github/v/release/abantecart/abantecart-src" alt="Release Version"></a>
+  <a href="https://github.com/abantecart/abantecart-src/issues"><img src="https://img.shields.io/github/issues/abantecart/abantecart-src.svg" alt="Issues"></a>
+</p>
 
+---
 
-## Overview
+## 🚀 Overview
 
-AbanteCart is a free open source ecommerce platform to power online retail. AbanteCart is a ready to run web application as well as reliable foundation to build custom eCommerce solutions. 
-AbanteCart ecommerce platform is designed to fit a wide variety of online businesses and applications, as well as can be configured or customized to perform very specific business requirements. Chosen by many shop owners launching their business online for the first time, AbanteCart is also picked by developers looking for a user-friendly interface and powerful features set. 
+**AbanteCart** is a free and open-source eCommerce platform designed to power modern online retail and digital commerce. Whether you're launching your first store or developing a complex eCommerce solution, AbanteCart offers a robust and extensible foundation.
 
-## Reporting issues
+- 🧩 Modular, extensible architecture  
+- ⚡ Lightweight, fast, and secure  
+- 📦 Rich feature set with a user-friendly admin interface  
+- 🎯 Built for developers and business owners  
 
-Read the instructions below before you report an issue or a bug.
+👉 Explore the [Live Demo](https://www.abantecart.com/shopping-cart-demo)  
+👉 Learn more at [abantecart.com](https://www.abantecart.com)
 
- 1. Search the [AbanteCart forum](http://forum.abantecart.com), ask the community if they know about the issue or can suggest how to resolve it.
- 2. Check open and closed issues on the [GitHub bug tracker](https://github.com/abantecart/abantecart-src/issues).
- 3. READ the [changelog for the master branch](https://github.com/abantecart/abantecart-src/blob/master/release_notes.txt)
- 4. Try [Google](http://www.google.com) to search for your issue.
- 5. As many issues occur due to hosting environment related settings and problems, please make sure that your issue is not related only  to your hosting set up. 
+---
 
-If issue you report is not yet reported and related to the AbanteCart core code, please report it on GitHub. Provide as much details as needed and include screenshots.
+## 📦 Getting Started
 
-**Important!**
-- Issues that are not related to the core code (such as a third party extension or your server configuration) might be closed without explanation. You need to contact extension developer, use the forum or find a third partner to resolve a custom code issue.
-- If you need to report a security bug, please PM an AbanteCart moderator/administrator on the forum first. All security reports are taken seriously but you must include detailed steps to reproduce them. Please do not report theoretical security flaws and donot post security flaws in a public location.
+### ✅ Requirements
 
-## Making a suggestion
+- PHP 8.2.x  
+- MySQL 8.0+ or MariaDB 10.5+  
+- Apache or Nginx  
+- `mod_rewrite` enabled  
 
-We like improvements, but improvements are not bugs or issue. Please do not create an issue report if you think something needs improving (such as features or change to code standards etc).
-We welcome public suggestions on our [AbanteCart forum](http://forum.abantecart.com).
+### 🛠️ Installation
 
-## How to contribute
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/abantecart/abantecart-src.git
+   ```
 
-Fork the repository, edit and submit a pull request to branch that has latest version in development.
+2. Web installation
+   ```
+   Place contents of `/public_html` in your web root directory.
+   Open your browser and navigate to:
+       http://localhost/abantecart-src/public_html/
+   Follow the web installer instructions.
+   ```
+3. or CLI installation:
+   ```
+   cd /path/server/htdocs/
+   php ./install/cli_install.php install --db_host=127.0.0.1 --db_user=**** --db_password=**** --db_name=****  --db_driver=amysqli  --db_prefix=abc_ --admin_path=admin  --username=admin  --password=admin  --email=admin@admin.com  --http_server=https://your_domain/ --with-sample-data=abantecart_sample_data.sql
+   ``` 
 
-Please be very clear on your commit messages and pull request, empty pull request messages are not accepted.
+📚 Detailed instructions: [Installation Guide](https://abantecart.atlassian.net/wiki/spaces/AD/pages/4292610/Installation)
 
-Your code standards should match the AbanteCart coding standards. 
+---
 
-## Versioning
+## 🧠 Documentation
 
-The version is broken down into 4 parts e.g 1.2.3.1 (MAJOR.MINOR.BULD.REVISION) to describe the version numbers.
+- 📖 [Developer Docs](https://docs.abantecart.com)  
+- 💡 [Community Forum](https://forum.abantecart.com)  
+- 🧩 [Extension Marketplace](https://marketplace.abantecart.com)
 
-A MAJOR is very rare, it would only be considered if the source was effectively re-written or a clean break was desired for other reasons. This increment would likely effect and break third party extensions
+---
 
-A MINOR is when there are significant changes that affect core structures. This increment would likely effect some third party extensions.
+## 🐞 Reporting Issues
 
-A BULD version is when new features are added. Updating a feature version is at a low risk of effecting third party extensions.
+Before submitting an issue, please:
 
-A REVISION version is when a fix is added, it should be considered safe to update revision versions e.g 1.2.3.1 to 1.2.3.2
+1. Search the [AbanteCart forum](https://forum.abantecart.com)  
+2. Check [existing GitHub issues](https://github.com/abantecart/abantecart-src/issues)  
+3. Review the [changelog](https://github.com/abantecart/abantecart-src/blob/master/release_notes.txt)  
+4. Confirm it’s not an issue with your hosting/server environment  
 
-## Releases
+> ❗ **Security Issues**  
+> Please do **not** post security issues publicly. Contact a moderator privately via the [AbanteCart site](https://www.abantecart.com/index.php?rt=content/contact).
 
-AbanteCart will announce to developers 1-2 week prior to public release of BULD versions, this is to allow for testing of their own extensions for compatibility. For bigger releases an extended period will be considered following an announced release candidate. Revision versions may have a significantly reduced developer release period.
-Prerelease will be also announced on a forum.
+---
 
-To receive developer notifications about release information, sign up to the newsletter on the [AbanteCart website](http://www.AbanteCart.com) - located in the footer. 
+## 💡 Suggest Features
 
-## How to install
+Have an idea or enhancement in mind?  
+Share your suggestions on our [Community Forum](https://forum.abantecart.com/index.php/board,25.0.html).
 
-Please read the installation options and instructions on [AbanteCart website](http://www.abantecart.com/ecommerce-getting-started).
+---
 
-## License
+## 🤝 Contributing
 
-[Open Software License (OSL 3.0)](https://github.com/abantecart/abantecart-src/blob/master/LICENSE.txt)
+We welcome contributions! Follow these steps:
 
-## Links
+1. Fork the repo  
+2. Create a feature branch  
+3. Submit a pull request to the appropriate development branch  
 
-- [AbanteCart homepage](http://www.abantecart.com/)
-- [AbanteCart forums](http://forum.abantecart.com/)
-- [AbanteCart Marketplace](http://marketplace.abantecart.com/)
-- [How to documents](http://docs.abantecart.com/)
+📌 Please follow PHP [coding standards](https://www.php-fig.org/psr/psr-12/) and include meaningful commit messages.
+
+---
+
+## 🔢 Versioning
+
+AbanteCart uses **four-part versioning**: `MAJOR.MINOR.BUILD.REVISION`
+
+- `MAJOR` – Breaking changes or complete rewrites  
+- `MINOR` – Significant changes to core  
+- `BUILD` – New features (safe upgrade path)  
+- `REVISION` – Bug fixes (safe for all)
+
+---
+
+## 📢 Releases
+
+- Stay updated by subscribing to our newsletter on [abantecart.com](https://www.abantecart.com) (footer).
+
+---
+
+## 📜 License
+
+Distributed under the [Open Software License (OSL 3.0)](https://opensource.org/licenses/OSL-3.0).
+
+---
+
+## 🔗 Useful Links
+
+- 🌐 [Official Website](https://www.abantecart.com)  
+- 📘 [Documentation](https://docs.abantecart.com)  
+- 🧩 [Extension Marketplace](https://marketplace.abantecart.com)  
+- 🗣️ [Community Forum](https://forum.abantecart.com)  
+- 🎥 [YouTube Tutorials](https://www.youtube.com/@abantecart/videos)
+
+---
+
+## ❤️ Made With Passion
+
+AbanteCart is maintained by a passionate team of developers and contributors.  
+Help us build the future of open-source commerce! 
+
+---
