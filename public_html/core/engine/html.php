@@ -2939,16 +2939,12 @@ class LabelHtmlElement extends HtmlElement
      */
     public function getHtml()
     {
-        if (IS_ADMIN === true) {
-            ADebug::error('labelHtmlElement', E_USER_ERROR, 'You cannot to build Label-field from Admin-side!');
-            return null;
-        }
 
         $this->extendAndBatchAssign(
             [
                 'name'     => $this->name,
                 'id'       => $this->element_id,
-                'text'     => str_replace('"', '&quot;', ($this->text ?: $this->value)),
+                'text'     => html_entity_decode(($this->text ?: $this->value)),
                 'attr'     => $this->attr,
                 'style'    => $this->style,
                 'help_url' => $this->help_url,
