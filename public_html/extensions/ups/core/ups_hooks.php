@@ -203,14 +203,14 @@ class ExtensionUps extends Extension
 
     /**
      * @param AController $that
-     * @param $order_id
+     * @param $orderId
      * @return void
      * @throws AException
      */
-    protected function orderShippingHook($that, $order_id)
+    protected function orderShippingHook($that, $orderId)
     {
         $form = $that->view->getData('form');
-        $order_data = $this->getOrderShippingData($that, $order_id);
+        $order_data = $this->getOrderShippingData($that, $orderId);
         $data = $order_data['data'];
 
         if (!$data) {
@@ -219,32 +219,41 @@ class ExtensionUps extends Extension
 
         $pData = $data['ups_data']['ups_parcel_data'];
         if ($pData) {
-            $that->view->assign('entry_parcel_info', 'Parcel Info:');
+            $that->view->assign('entry_parcel_info', $that->language->get('ups_entry_parcel_info'));
             $form['shipping_fields']['parcel_info'] = $that->html->buildElement(
                 [
                     'type' => 'label',
                     'name' => 'parcel_info',
                     'text' => '<div class="list-group">
-                        <ul style="padding:0; margin: 0;">
-                        <li class="list-group-item">Height: ' . $pData['height'] . ' ' . $pData['dimension_unit'] . '</li>
-                        <li class="list-group-item">Width: ' . $pData['width'] . ' ' . $pData['dimension_unit'] . '</li>
-                        <li class="list-group-item">Depth: ' . $pData['depth'] . ' ' . $pData['dimension_unit'] . '</li>
-                        <li class="list-group-item">Weight: ' . round($pData['weight'], 4) . ' ' . $pData['weight_unit'] . '</li></ul>
-                        </div>',
+                            <ul style="padding:0; margin: 0;">
+                                <li class="list-group-item">'. $that->language->get('ups_entry_height'). ' ' . $pData['height'] . ' ' . $pData['dimension_unit'] . '</li>
+                                <li class="list-group-item">'. $that->language->get('ups_entry_width'). ' ' . $pData['width'] . ' ' . $pData['dimension_unit'] . '</li>
+                                <li class="list-group-item">'. $that->language->get('ups_entry_depth'). ' ' . $pData['depth'] . ' ' . $pData['dimension_unit'] . '</li>
+                                <li class="list-group-item">'. $that->language->get('ups_entry_weight'). ' ' . round($pData['weight'], 4) . ' ' . $pData['weight_unit'] . '</li>
+                            </ul>
+                        </div>'.
+                        (!$data['ups_data']['shipmentId']
+                        ? '<a href="'.$that->html->getSecureURL('sale/order/history','&order_id='.$orderId).'" class="padding10 ">'
+                            . $that->language->getAndReplace(
+                                'ups_text_print_label_suggestion',
+                                replaces: $that->order_status->getStatusById($that->config->get('ups_manifest_order_status_id'))
+                            ).'</a>'
+                            : ''),
                 ]
             );
         }
 
-        if ($data['ups_data']['packages']) {
+        if ($data['ups_data']['shipmentId']){
             foreach ($data['ups_data']['packages'] as $k => $package) {
                 $form['shipping_fields']['label' . $k] = $that->html->buildElement(
                     [
                         'type'   => 'button',
                         'href'   => $that->html->getSecureUrl(
                             'extension/ups/label',
-                            '&' . http_build_query(['order_id' => $order_id, 'tn' => $package['tracking_number']])
+                            '&' . http_build_query(['order_id' => $orderId, 'tn' => $package['tracking_number']])
                         ),
                         'text'   => $that->language->get('ups_text_print_label') . ' ' . $package['tracking_number'],
+                        'title'  => $that->language->get('ups_text_print_label_title'),
                         'style'  => 'btn btn-info fa fa-print',
                         'target' => '_new',
                     ]

@@ -64,10 +64,14 @@ class ControllerResponsesExtensionUps extends AController
                 'PoliticalDivision1' => $zone['code'],
                 'PoliticalDivision2' => $this->request->post['ups_city'],
                 'AddressLine'        => $this->request->post['ups_address'],
+                'Telephone'          => $this->request->post['ups_telephone'],
             ];
             if($this->request->post['ups_validate_address']) {
                 //if all fine - check shipper address
                 validateAddress($address);
+            }
+            if(strlen(trim($this->request->post['ups_telephone'])) < 10) {
+                throw new AException(0,'Shipper phone number must be at least 10 characters');
             }
 
         } catch (\UPS\AddressValidation\ApiException $e) {
