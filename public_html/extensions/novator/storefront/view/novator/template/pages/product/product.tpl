@@ -171,7 +171,7 @@ if ($error){ ?>
                                                     echo $option['html'];
                                                     continue;
                                                 }?>
-                                            <div class="d-block">
+                                            <div class="d-block" data-label-for="<?php echo $option['html']->element_id?>">
                                                 <h5 class="text-muted control-label fw-bold mb-2">
                                                     <?php echo $option['name']; ?>
                                                 </h5>
@@ -184,7 +184,7 @@ if ($error){ ?>
                                                     <?php echo $option['html'];	?>
                                                 </div>
                                             </div>
-                                            <hr class="my-4">
+                                            <hr class="my-4" data-label-for="<?php echo $option['html']->element_id?>">
                                         <?php } ?>
                                     <?php } ?>
 
@@ -670,7 +670,7 @@ if ($error){ ?>
 
         function initZoom() {
             //disable for small screens
-            if(window.innerWidth<1024){
+            if(window.innerWidth < <?php echo (int)$this->getHookVar('drift_min_screen_width')?: 1024; ?>){
                 return;
             }
             try {
