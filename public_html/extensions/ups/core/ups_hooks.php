@@ -109,8 +109,10 @@ class ExtensionUps extends Extension
                     $that->session->data['error_warning'] = implode("\n", $that->error);
                 } else {
                     $that->session->data['ups_success'] =
-                        sprintf($that->language->get('ups_shipment_created_success_message'),
-                            $that->html->getSecureURL('sale/order/address', '&order_id=' . $orderId));
+                        $that->language->getAndReplace(
+                            'ups_shipment_created_success_message',
+                            replaces: $that->html->getSecureURL('sale/order/address', '&order_id=' . $orderId)
+                        );
                 }
             }
         }
