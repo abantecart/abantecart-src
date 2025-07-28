@@ -441,4 +441,8 @@
 		<key>text_customer_groups</key>
 		<value><![CDATA[Allowed only for customer group(s):]]></value>
 	</definition>
+	<definition>
+		<key>button_load_more_languages</key>
+		<value><![CDATA[Load More Languages]]></value>
+	</definition>
 </definitions>

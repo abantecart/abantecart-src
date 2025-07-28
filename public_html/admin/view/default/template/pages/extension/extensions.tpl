@@ -48,7 +48,9 @@ include($tpl_common_dir.'action_confirm.tpl'); ?>
             } ?>
         </div>
         <?php
-        include($tpl_common_dir.'content_buttons.tpl'); ?>
+        include($tpl_common_dir.'content_buttons.tpl');
+        echo $add_language_button;
+        ?>
     </div>
 
     <div class="panel-body panel-body-nopadding tab-content col-xs-12">

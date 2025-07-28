@@ -623,6 +623,66 @@ class AHtml extends AController
     }
 
     /**
+     * @return string
+     * @throws AException
+     */
+    public function installLanguageModal()
+    {
+        $packCartVersion = '';
+        $registry = $this->registry;
+        $view = new AView($this->registry, 0);
+        $languages = $registry->get('extensions')->getExtensionsList(['filter' => 'language']);
+        $loaded = array_column((array)$languages->rows, 'key');
+        $remote = [];
+        $fp = @fopen('https://github.com/abantecart/abantecart-languages/raw/refs/heads/master/list.txt', 'r');
+        if ($fp) {
+            while (($line = fgets($fp)) !== false) {
+                $remote[] = trim($line);
+            }
+            fclose($fp);
+        }
+
+        //detect last cart version
+        $url = 'https://github.com/abantecart/abantecart-languages/releases/tag/v' . VERSION;
+        if (isUrlAlive($url)) {
+            $packCartVersion = VERSION;
+        } elseif (VERSION_BUILT != 0) {
+            $versionBuilt = (int)VERSION_BUILT - 1;
+            while ($versionBuilt != 0) {
+                $url = 'https://github.com/abantecart/abantecart-languages/releases/tag/v' . MASTER_VERSION . '.' . MINOR_VERSION . '.' . $versionBuilt;
+                if (isUrlAlive($url)) {
+                    $packCartVersion = MASTER_VERSION . '.' . MINOR_VERSION . '.' . $versionBuilt;
+                    break;
+                }
+                $versionBuilt--;
+            }
+        }
+
+
+        //show only at least one language can be loaded
+        $uninstalled = array_diff($remote, $loaded);
+
+        if ($uninstalled && $packCartVersion) {
+            $template = [];
+            foreach ($uninstalled as $name) {
+                $langName = str_replace('default_', '', $name);
+                $template['packages'][$name] =
+                    [
+                        'name'        => $langName,
+                        'image_url' => 'https://github.com/abantecart/abantecart-languages/raw/refs/heads/master/' . $name . '/image/icon%402x.png',
+                        'install_url'   => 'https://github.com/abantecart/abantecart-languages/releases/download/v' . $packCartVersion . '/' . $name . '.tar.gz'
+                    ];
+            }
+            $template['text_load_languages'] = $this->language->get('button_load_more_languages','extension/extensions');
+            $view->batchAssign($template);
+            /** @see form/language_install.tpl */
+            return $view->fetch('form/language_install.tpl');
+        }
+        return '';
+    }
+
+
+    /**
      * @param string $html - text that might contain internal links #admin# or #storefront#
      *                          $mode  - 'href' create complete a tag or default just replace URL
      * @param string $type - can be 'message' to convert url into <a> tag or empty

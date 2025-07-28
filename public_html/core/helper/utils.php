@@ -1670,3 +1670,14 @@ function buildPageLayoutTree(ALayoutManager $lm, string $templateTxtId, array $e
     }
     return $layoutPages;
 }
+function isUrlAlive(string $url): bool
+{
+    $headers = @get_headers($url);
+    if ($headers && preg_match('#HTTP/\d+\.\d+ (\d+)#', $headers[0], $matches)) {
+        $httpCode = (int)$matches[1];
+        if($httpCode >= 200 && $httpCode < 300) {
+            return true;
+        }
+    }
+    return false;
+}
