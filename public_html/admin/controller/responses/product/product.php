@@ -1827,6 +1827,9 @@ class ControllerResponsesProductProduct extends AController
         $product_options = $this->model_catalog_product->getOrderProductOptions($product_id);
         $options = [];
         foreach ($product_options as $option) {
+            if ($option['element_type'] == 'U') {
+                continue;
+            } //skip files for now. TODO: add edit file-option in the future
             $values = [];
             $price = $preset_value = $default_value = '';
             foreach ($option['option_value'] as $option_value) {
