@@ -51,7 +51,9 @@
 		<div class="form-group <?php if (!empty($error['db_port'])) { echo "has-error"; } ?>">
 			<label class="control-label col-sm-4 col-xs-12">Database Port Number:</label>
 			<div class="input-group col-sm-6 col-xs-12 afield">
-				<?php echo $form['db_port']; ?>
+				<?php
+                $form['db_port']->attr = 'onkeyup="this.value = this.value.replace(/[^0-9]/g, \'\')"';
+                echo $form['db_port']; ?>
 			</div>
 			<?php if (!empty($error['db_port'])) { ?>
 				<span class="help-block field_err"><?php echo $error['db_port']; ?></span>
