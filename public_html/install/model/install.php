@@ -88,7 +88,7 @@ class ModelInstall extends Model
                     $data['db_user'],
                     $data['db_password'],
                     $data['db_name'],
-                    $data['db_port']?:NULL,
+                    (int)$data['db_port'] ?: NULL,
                     ['table_prefix' => $data['db_prefix']]
                 );
             } catch (Exception|Error $exception) {
