@@ -519,14 +519,14 @@ class ModelToolImportProcess extends Model
     }
 
     /**
-     * @param int $task_id
+     * @param int|string $task_id
      * @param array $data
      * @param array $settings
      *
      * @return bool|null
      * @throws AException
      */
-    public function process_products_record(int $task_id, array $data, array $settings)
+    public function process_products_record(int|string $task_id, array $data, array $settings)
     {
         $language_id = (int)$settings['language_id'] ?: $this->language->getContentLanguageID();
         $store_id = $settings['store_id'] ?? (int)$this->config->get('current_store_id');
@@ -536,14 +536,14 @@ class ModelToolImportProcess extends Model
     }
 
     /**
-     * @param int $task_id
+     * @param int|string $task_id
      * @param array $data
      * @param array $settings
      *
      * @return bool|null
      * @throws AException
      */
-    public function process_categories_record(int $task_id, array $data, array $settings)
+    public function process_categories_record(int|string $task_id, array $data, array $settings)
     {
         $language_id = (int)$settings['language_id'] ?: $this->language->getContentLanguageID();
         $store_id = $settings['store_id'] ?: $this->session->data['current_store_id'];
@@ -553,14 +553,14 @@ class ModelToolImportProcess extends Model
     }
 
     /**
-     * @param int $task_id
+     * @param int|string $task_id
      * @param array $data
      * @param array $settings
      *
      * @return bool|null
      * @throws AException
      */
-    public function process_manufacturers_record($task_id, $data, $settings)
+    public function process_manufacturers_record(int|string $task_id, $data, $settings)
     {
         $language_id = $settings['language_id'] ?: $this->language->getContentLanguageID();
         $store_id = $settings['store_id'] ?: $this->session->data['current_store_id'];
@@ -616,6 +616,7 @@ class ModelToolImportProcess extends Model
         //detect if we update or create new product based on update settings
         $new_product = true;
         $product_id = 0;
+        $lookup_value = $unique_field = null;
         if ($settings['update_col']) {
             $unique_field_index = key($settings['update_col']);
             if (is_numeric($unique_field_index)) {
