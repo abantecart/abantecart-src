@@ -1500,9 +1500,14 @@ class ModelToolImportProcess extends Model
                 continue;
             }
             $arr = [];
-            $field_val = $record[$import_col[$index]] ?? '';
+            $field_val = $record[$import_col[$index]] ?? null;
+            //if no data present - skip
+            if(!isset($field_val)){
+                continue;
+            }
+
             $keys = array_reverse(explode('.', $field));
-            if (end($keys) == 'product_options' && isset($field_val)) {
+            if (end($keys) == 'product_options') {
                 //map options special way
                 //check if this is still same option or it is new name
                 if (count($keys) == 2) {
