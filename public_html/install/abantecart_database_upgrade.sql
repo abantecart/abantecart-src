@@ -5,7 +5,3 @@ alter table `ac_coupons`
     modify code varchar(255) not null;
 
 INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('checkout','config_unauth_customer',1);
-
-#TODO: admin/setting/setting.xml
-# admin/catalog/category.xml
-#sf: account/login.xml
