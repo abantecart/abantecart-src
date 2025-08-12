@@ -5,7 +5,7 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
  *   License details is bundled with this package in the file LICENSE.txt.
@@ -21,19 +21,21 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
 
-/**
- * Class ControllerResponsesFormsManagerFields
- *
- * @property ModelToolFormsManager $model_tool_forms_manager
- */
 class ControllerResponsesFormsManagerFields extends AController
 {
     public $error = [];
+    /** @var ModelToolFormsManager */
+    public $mdl;
+    public function __construct($registry, $instance_id, $controller, $parent_controller = '')
+    {
+        parent::__construct($registry, $instance_id, $controller, $parent_controller);
+        $this->loadLanguage('forms_manager/forms_manager');
+        $this->mdl = $this->loadModel('tool/forms_manager');
+    }
 
     public function get_fields_list()
     {
-        $this->loadModel('tool/forms_manager');
-        $fields = $this->model_tool_forms_manager->getFields($this->request->get['form_id']);
+        $fields = $this->mdl->getFields((int)$this->request->get['form_id']);
         $this->load->library('json');
         $this->response->addJSONHeader();
         $this->response->setOutput(AJson::encode($fields));
@@ -41,10 +43,7 @@ class ControllerResponsesFormsManagerFields extends AController
 
     public function addField()
     {
-        $this->loadLanguage('forms_manager/forms_manager');
-        $this->loadModel('tool/forms_manager');
-
-        if (!$this->_validateFieldForm($this->request->post) || !$this->request->get['form_id']) {
+        if (!$this->_validateFieldForm($this->request->post) || !(int)$this->request->get['form_id']) {
             $error = new AError('');
             $error->toJSONResponse(
                 'VALIDATION_ERROR_406',
@@ -52,16 +51,14 @@ class ControllerResponsesFormsManagerFields extends AController
             return;
         }
 
-        $this->model_tool_forms_manager->addField($this->request->get['form_id'], $this->request->post);
+        $this->mdl->addField((int)$this->request->get['form_id'], $this->request->post);
         $this->response->setOutput('');
     }
 
     public function updateField()
     {
-        $this->loadLanguage('forms_manager/forms_manager');
-        $this->loadModel('tool/forms_manager');
-
-        if (!$this->_validateFieldForm($this->request->post) || !$this->request->get['form_id']) {
+        $formId = (int)$this->request->get['form_id'];
+        if (!$this->_validateFieldForm($this->request->post) || !$formId) {
             $error = new AError('');
             $error->toJSONResponse(
                 'VALIDATION_ERROR_406',
@@ -74,9 +71,8 @@ class ControllerResponsesFormsManagerFields extends AController
         }
 
         $data = $this->request->post;
-        $data['form_id'] = $this->request->get['form_id'];
-
-        $this->model_tool_forms_manager->updateFormFieldData($data);
+        $data['form_id'] = $formId;
+        $this->mdl->updateFormFieldData($data);
         $this->response->setOutput('');
     }
 
@@ -92,10 +88,10 @@ class ControllerResponsesFormsManagerFields extends AController
             $this->error['error_required'] = $this->language->get('error_fill_required');
         }
 
-        if (!$this->model_tool_forms_manager->isFieldNameUnique(
-            $this->request->get['form_id'],
-            $data['field_name'],
-            $data['field_id'])
+        if (!$this->mdl->isFieldNameUnique(
+            (int)$this->request->get['form_id'],
+            (string)$data['field_name'],
+            (int)$data['field_id'])
         ) {
             $this->error['field_name'] = sprintf($this->language->get('error_field_name_exists'), $data['field_name']);
         }
@@ -106,32 +102,25 @@ class ControllerResponsesFormsManagerFields extends AController
 
     public function remove_field()
     {
-        $this->loadLanguage('forms_manager/forms_manager');
-        $this->loadModel('tool/forms_manager');
-        $this->model_tool_forms_manager->removeField($this->request->get['form_id'], $this->request->get['field_id']);
+        $this->mdl->removeField((int)$this->request->get['form_id'], (int)$this->request->get['field_id']);
         $this->response->setOutput($this->language->get('text_field_removed'));
     }
 
     public function update_form()
     {
-
-        $this->loadLanguage('forms_manager/forms_manager');
-        $this->loadModel('tool/forms_manager');
         $post = $this->request->post;
         if ($post['controller_path'] == 'forms_manager/default_email' && trim($post['success_page']) == '') {
             $post['success_page'] = 'forms_manager/default_email/success';
         }
-        $this->model_tool_forms_manager->updateForm($post);
-        $this->model_tool_forms_manager->updateFormFieldData($post);
+        $this->mdl->updateForm($post);
+        $this->mdl->updateFormFieldData($post);
         $this->response->setOutput($this->language->get('text_success_form'));
 
     }
 
     public function update_field_values()
     {
-        $this->loadLanguage('forms_manager/forms_manager');
-        $this->loadModel('tool/forms_manager');
-        $this->model_tool_forms_manager->updateFieldValues(
+        $this->mdl->updateFieldValues(
             $this->request->get,
             (int)$this->language->getContentLanguageID()
         );
@@ -140,8 +129,6 @@ class ControllerResponsesFormsManagerFields extends AController
 
     public function load_field()
     {
-        $this->loadLanguage('forms_manager/forms_manager');
-        $this->loadModel('tool/forms_manager');
         $this->data['error_warning'] = $this->session->data['warning'];
         if (isset($this->session->data['warning'])) {
             unset($this->session->data['warning']);
@@ -150,8 +137,11 @@ class ControllerResponsesFormsManagerFields extends AController
         $this->view->assign('success', $this->session->data['success']);
         unset($this->session->data['success']);
 
-        $this->data['language_id'] = $this->session->data['content_language_id'];
-        $this->data['field_data'] = $this->model_tool_forms_manager->getField($this->request->get['field_id']);
+        $formId = (int)$this->request->get['form_id'];
+        $fieldId = (int)$this->request->get['field_id'];
+
+        $this->data['language_id'] = $this->language->getContentLanguageID();
+        $this->data['field_data'] = $this->mdl->getField($fieldId);
         $this->data['element_types'] = HtmlElementFactory::getAvailableElements();
         $this->data['elements_with_options'] = HtmlElementFactory::getElementsWithOptions();
         $this->data['no_set_values_elements'] = [
@@ -162,12 +152,13 @@ class ControllerResponsesFormsManagerFields extends AController
             'Z' => 'zones',
         ];
 
+        $elmType = $this->data['field_data']['element_type'];
         $this->data['selectable'] = in_array(
-            $this->data['field_data']['element_type'],
+            $elmType,
             $this->data['elements_with_options'])
             ? 1
             : 0;
-        $this->data['field_type'] = $this->data['element_types'][$this->data['field_data']['element_type']]['type'];
+        $this->data['field_type'] = $this->data['element_types'][$elmType]['type'];
 
         if ($this->data['field_type'] == 'captcha') {
             $fieldName = $this->config->get('config_recaptcha_site_key') ? 'g-recaptcha-response' : 'captcha';
@@ -222,18 +213,17 @@ class ControllerResponsesFormsManagerFields extends AController
             [
                 'type'  => 'checkbox',
                 'name'  => 'required',
-                'value' => ($this->data['field_data']['required'] == 'Y') ? 1 : 0,
+                'value' => $this->data['field_data']['required'] ? 1 : 0,
                 'style' => 'btn_switch btn-group-xs',
             ]
         );
 
-        if (!in_array($this->data['field_data']['element_type'], ['U', 'K'])) {
+        if (!in_array($elmType, ['U', 'K'])) {
             $this->data['field_regexp_pattern'] = $this->html->buildElement(
                 [
                     'type'  => 'input',
                     'name'  => 'regexp_pattern',
                     'value' => $this->data['field_data']['regexp_pattern'],
-                    'style' => 'large-field',
                 ]
             );
 
@@ -242,11 +232,10 @@ class ControllerResponsesFormsManagerFields extends AController
                     'type'  => 'input',
                     'name'  => 'error_text',
                     'value' => $this->data['field_data']['error_text'],
-                    'style' => 'large-field',
                 ]
             );
         }
-        if ($this->data['field_data']['element_type'] == 'U') {
+        if ($elmType == 'U') {
             $this->data['field_settings'] = $this->_file_upload_settings_form();
         }
 
@@ -254,7 +243,7 @@ class ControllerResponsesFormsManagerFields extends AController
             [
                 'type'  => 'hidden',
                 'name'  => 'element_type',
-                'value' => $this->data['field_data']['element_type'],
+                'value' => $elmType,
             ]
         );
 
@@ -263,8 +252,8 @@ class ControllerResponsesFormsManagerFields extends AController
                 'type' => 'button',
                 'href' => $this->html->getSecureURL(
                     'tool/forms_manager/removeField',
-                    '&form_id=' . $this->request->get['form_id']
-                    . '&field_id=' . $this->request->get['field_id']),
+                    '&form_id=' . $formId . '&field_id=' . $fieldId
+                ),
                 'text' => $this->language->get('button_remove_field'),
             ]
         );
@@ -282,14 +271,12 @@ class ControllerResponsesFormsManagerFields extends AController
 
         $this->data['update_field_values'] = $this->html->getSecureURL(
             'forms_manager/fields/update_field_values',
-            '&form_id=' . $this->request->get['form_id'] .
-            '&field_id=' . $this->request->get['field_id']
+            '&form_id=' . $formId . '&field_id=' . $fieldId
         );
 
         $this->data['remove_field_link'] = $this->html->getSecureURL(
             'forms_manager/fields/remove_field',
-            '&form_id=' . $this->request->get['form_id'] .
-            '&field_id=' . $this->request->get['field_id']
+            '&form_id=' . $formId . '&field_id=' . $fieldId
         );
 
         // form of option values list
@@ -324,9 +311,9 @@ class ControllerResponsesFormsManagerFields extends AController
         //Load option values rows
         $this->data['field_values'] = [];
 
-        if (!in_array($this->data['field_data']['element_type'], ['U', 'K'])) {
+        if (!in_array($elmType, ['U', 'K'])) {
             if (!empty($this->data['field_data']['values'])) {
-                usort($this->data['field_data']['values'], ['self', '_sort_by_sort_order']);
+                usort($this->data['field_data']['values'], self::_sort_by_sort_order(...));
 
                 foreach ($this->data['field_data']['values'] as $key => $item) {
                     $item['id'] = $key;
@@ -338,7 +325,7 @@ class ControllerResponsesFormsManagerFields extends AController
         }
 
         $this->data['new_field_row'] = '';
-        if (in_array($this->data['field_data']['element_type'], $this->data['elements_with_options'])
+        if (in_array($elmType, $this->data['elements_with_options'])
             || $this->data['empty_values']
             && !in_array($this->data['field_type'], $this->data['no_set_values_elements'])
         ) {
@@ -370,8 +357,9 @@ class ControllerResponsesFormsManagerFields extends AController
      */
     protected function _field_value_form($item, $form)
     {
+        $elmType = $this->data['field_data']['element_type'];
 
-        if (in_array($this->data['field_data']['element_type'], ['U', 'K'])) {
+        if (in_array($elmType, ['U', 'K'])) {
             return '';
         }
 
@@ -394,14 +382,14 @@ class ControllerResponsesFormsManagerFields extends AController
 
         $this->data['form']['fields']['field_value'] = $form->getFieldHtml(
             [
-                'type'  => ($this->data['field_data']['element_type'] == 'T') ? 'textarea' : 'input',
+                'type'  => ($elmType == 'T') ? 'textarea' : 'input',
                 'name'  => 'name[' . $field_value_id . ']',
                 'value' => $item['name'],
                 'style' => 'large-field',
             ]
         );
 
-        if (in_array($this->data['field_data']['element_type'], $this->data['elements_with_options'])) {
+        if (in_array($elmType, $this->data['elements_with_options'])) {
             $this->data['form']['fields']['sort_order'] = $form->getFieldHtml(
                 [
                     'type'  => 'input',

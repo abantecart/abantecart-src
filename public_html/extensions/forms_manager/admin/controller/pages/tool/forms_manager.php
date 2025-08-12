@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2024 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 class ControllerPagesToolFormsManager extends AController
 {
@@ -36,18 +36,18 @@ class ControllerPagesToolFormsManager extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-
+        $formId = (int)$this->request->get['form_id'];
         if ($this->request->is_POST() && $this->_validateForm($this->request->post)) {
-            if (!$this->request->get['form_id']) {
-                if ($this->mdl->getFormIdByName($this->request->post['form_name'])) {
+            if (!$formId) {
+                if ($this->mdl->getFormIdByName((string)$this->request->post['form_name'])) {
                     $this->session->data['warning'] = $this->language->get('error_duplicate_form_name');
                     redirect($this->html->getSecureURL('tool/forms_manager'));
                 }
-                $this->request->get['form_id'] = $this->mdl->addForm($this->request->post);
-            } elseif (!$this->mdl->addField($this->request->get['form_id'], $this->request->post)) {
+                $formId = $this->mdl->addForm($this->request->post);
+            } elseif (!$this->mdl->addField($formId, $this->request->post)) {
                 $this->session->data['warning'] = $this->language->get('error_duplicate_field_name');
             }
-            redirect($this->html->getSecureURL('tool/forms_manager/update', '&form_id=' . $this->request->get['form_id']));
+            redirect($this->html->getSecureURL('tool/forms_manager/update', '&form_id=' . $formId));
         }
 
         $this->document->setTitle($this->language->get('forms_manager_name'));
@@ -141,6 +141,7 @@ class ControllerPagesToolFormsManager extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
+        $formId = (int)$this->request->get['form_id'];
 
         $this->document->setTitle($this->language->get('forms_manager_name'));
 
@@ -151,18 +152,17 @@ class ControllerPagesToolFormsManager extends AController
                 $post['success_page'] = 'forms_manager/default_email/success';
             }
 
-            $form_id = $this->request->get['form_id'];
-            if ($form_id) {
-                $post['form_id'] = $this->request->get['form_id'];
-
+            if ($formId) {
+                $post['form_id'] = $formId;
                 $this->session->data['success'] = $this->language->get('text_success_form');
                 $this->mdl->updateForm($post);
                 $this->mdl->updateFormFieldData($post);
             } else {
-                $form_id = $this->mdl->addForm($this->request->post);
+                $formId = $this->mdl->addForm($this->request->post);
                 $this->session->data['success'] = $this->language->get('text_success_added_form');
             }
-            redirect($this->html->getSecureURL('tool/forms_manager/update', '&form_id=' . $form_id));
+            $this->extensions->hk_ProcessData($this, __FUNCTION__, ['form_id' => $formId]);
+            redirect($this->html->getSecureURL('tool/forms_manager/update', '&form_id=' . $formId));
         }
 
         $this->view->assign('error', $this->error);
@@ -186,9 +186,10 @@ class ControllerPagesToolFormsManager extends AController
 
     public function removeField()
     {
-        $this->mdl->removeField($this->request->get['form_id'], $this->request->get['field_id']);
+        $formId = (int)$this->request->get['form_id'];
+        $this->mdl->removeField($formId, (int)$this->request->get['field_id']);
         $this->session->data['success'] = $this->language->get('text_field_removed');
-        redirect($this->html->getSecureURL('tool/forms_manager/update', '&form_id=' . $this->request->get['form_id']));
+        redirect($this->html->getSecureURL('tool/forms_manager/update', '&form_id=' . $formId));
     }
 
     protected function _getForm()
@@ -196,30 +197,29 @@ class ControllerPagesToolFormsManager extends AController
         //check is set sender name and email for settings
         if (!$this->config->get('forms_manager_default_sender_name')
             || !$this->config->get('forms_manager_default_sender_email')
-        ){
+        ) {
             $this->data['error_warning'] = $this->html->convertLinks(
                 $this->language->get('forms_manager_error_empty_sender')
             );
         }
-        $this->data['form_data'] = $this->mdl->getFormById($this->request->get['form_id']);
+        $formId = (int)$this->request->get['form_id'];
+        $fieldId = (int)$this->request->get['field_id'];
+        $this->data['form_data'] = $this->mdl->getFormById($formId);
         $this->data['form_edit_title'] = $this->data['form_data']['description'] ?? $this->language->get('entry_add_new_form');
         $this->data['cancel'] = $this->html->getSecureURL('tool/forms_manager');
         $this->data['heading_title'] = $this->language->get('forms_manager_name');
         $this->data['update'] = $this->html->getSecureURL(
             'grid/form/update_field',
-            '&form_id=' . $this->data['form_data']['form_id']
+            '&form_id=' . $formId
         );
-        $this->data['field_id'] = (int)$this->request->get['field_id'];
+        $this->data['field_id'] = $fieldId;
 
-        if ($this->request->get['form_id']) {
+        if ($formId) {
             $headForm = new AForm('HS');
             $this->data['entry_edit_form'] = $this->language->get('text_edit')
                 . ' - ' . $this->language->get('text_form');
-            $this->data['form_id'] = $this->request->get['form_id'];
-            $this->data['action'] = $this->html->getSecureURL(
-                'tool/forms_manager/update',
-                '&form_id=' . $this->data['form_data']['form_id']
-            );
+            $this->data['form_id'] = $formId;
+            $this->data['action'] = $this->html->getSecureURL('tool/forms_manager/update', '&form_id=' . $formId);
         } else {
             $headForm = new AForm('HT');
             $this->data['action'] = $this->html->getSecureURL('tool/forms_manager/update');
@@ -298,10 +298,9 @@ class ControllerPagesToolFormsManager extends AController
             [
                 'type'     => 'input',
                 'name'     => 'form_name',
-                'value'    => $this->data['form_data']['form_name'] ?? '',
+                'value'    => $this->data['form_data']['form_name'],
                 'required' => true,
-                'attr'     => ($this->request->get['form_id'] ? 'readonly' : ''),
-                'style'    => 'large-field'
+                'attr'     => ($formId ? 'readonly' : ''),
             ]
         );
 
@@ -311,19 +310,16 @@ class ControllerPagesToolFormsManager extends AController
                 'name'         => 'form_description',
                 'value'        => $this->data['form_data']['description'],
                 'required'     => true,
-                'style'        => 'large-field',
                 'multilingual' => true
             ]
         );
 
         $this->data['head_form']['fields']['controller_path'] = $headForm->getFieldHtml(
             [
-                'type'     => 'selectbox',
-                'name'     => 'controller_path',
-                'options'  => $this->controllers,
-                'value'    => $this->data['form_data']['controller'] ?? 'forms_manager/default_email',
-                'required' => true,
-                'style'    => 'large-field',
+                'type'    => 'selectbox',
+                'name'    => 'controller_path',
+                'options' => array_merge(['' => $this->language->get('text_none')], $this->controllers),
+                'value'   => $this->data['form_data']['controller'] ?? '',
             ]
         );
 
@@ -331,8 +327,7 @@ class ControllerPagesToolFormsManager extends AController
             [
                 'type'  => 'input',
                 'name'  => 'success_page',
-                'value' => $this->data['form_data']['success_page'] ?? 'forms_manager/default_email/success',
-                'style' => 'large-field',
+                'value' => $this->data['form_data']['success_page'],
             ]
         );
 
@@ -341,14 +336,12 @@ class ControllerPagesToolFormsManager extends AController
         $this->data['forms_fields'] = [];
         $this->data['fields'] = [];
 
-        $fields_data = $this->mdl->getFields($this->data['form_data']['form_id']);
+        $fields_data = $this->mdl->getFields($formId);
         if ($fields_data) {
             $this->data['fields'] = $fields = array_column($fields_data, 'field_name', 'field_id');
             $this->data['field_id'] = $this->data['field_id'] ?: array_key_first($fields);
         } else {
-            $fields = [
-                'new' => $this->language->get('text_add_new_field'),
-            ];
+            $fields = [];
         }
 
         $form = new AForm('HT');
@@ -365,18 +358,20 @@ class ControllerPagesToolFormsManager extends AController
                 'name'   => 'new_fieldFrm',
                 'action' => $this->html->getSecureURL(
                     'forms_manager/fields/addField',
-                    '&form_id=' . $this->data['form_data']['form_id']
+                    '&form_id=' . (int)$formId
                 ),
             ]
         );
 
-        $this->data['form']['fields'] = $form->getFieldHtml(
-            [
-                'type'    => 'selectbox',
-                'name'    => 'field_id',
-                'options' => $fields,
-            ]
-        );
+        if ($fields) {
+            $this->data['form']['fields'] = $form->getFieldHtml(
+                [
+                    'type'    => 'selectbox',
+                    'name'    => 'field_id',
+                    'options' => $fields,
+                ]
+            );
+        }
 
         $this->data['form']['submit'] = $form->getFieldHtml(
             [
@@ -469,32 +464,22 @@ class ControllerPagesToolFormsManager extends AController
         );
 
         $this->data['urls'] = [
-            'get_fields_list' => $this->html->getSecureURL(
-                'forms_manager/fields/get_fields_list',
-                '&form_id=' . $this->request->get['form_id']
-            ),
-            'load_field'      => $this->html->getSecureURL(
-                'forms_manager/fields/load_field',
-                '&form_id=' . $this->request->get['form_id']
-            ),
-            'update_field'    => $this->html->getSecureURL(
-                'forms_manager/fields/updateField',
-                '&form_id=' . $this->request->get['form_id']
-            ),
-            'update_form'     => $this->html->getSecureURL(
-                'forms_manager/fields/update_form',
-                '&form_id=' . $this->request->get['form_id']
-            )
+            'get_fields_list' => $this->html->getSecureURL('forms_manager/fields/get_fields_list', '&form_id=' . $formId),
+            'load_field'      => $this->html->getSecureURL('forms_manager/fields/load_field', '&form_id=' . $formId),
+            'update_field'    => $this->html->getSecureURL('forms_manager/fields/updateField', '&form_id=' . $formId),
+            'update_form'     => $this->html->getSecureURL('forms_manager/fields/update_form', '&form_id=' . $formId)
         ];
 
         $this->data['text_success_field'] = $this->language->get('text_success_field');
         $this->data['help_url'] = $this->gen_help_url('forms_manager');
         $this->data['form_language_switch'] = $this->html->getContentLanguageSwitcher();
 
-        $this->data['note'] = sprintf(
-            $this->language->get('note_create_form_block'),
-            $this->html->getSecureURL('design/blocks'),
-            $this->html->getSecureURL('design/layout')
+        $this->data['note'] = $this->language->getAndReplace(
+            'note_create_form_block',
+            replaces: [
+                $this->html->getSecureURL('design/blocks'),
+                $this->html->getSecureURL('design/layout')
+            ]
         );
 
         $this->view->batchAssign($this->data);
@@ -535,7 +520,8 @@ class ControllerPagesToolFormsManager extends AController
 
         if ($this->request->is_POST() && $this->_validateBlockForm()) {
             if (isset($this->session->data['layout_params'])) {
-                $layout = new ALayoutManager($this->session->data['layout_params']['tmpl_id'],
+                $layout = new ALayoutManager(
+                    $this->session->data['layout_params']['tmpl_id'],
                     $this->session->data['layout_params']['page_id'],
                     $this->session->data['layout_params']['layout_id']);
                 $blocks = $layout->getLayoutBlocks();
@@ -561,8 +547,8 @@ class ControllerPagesToolFormsManager extends AController
                 $layout = new ALayoutManager();
             }
 
-            $content = isset($this->request->post['form_id'])
-                ? serialize(['form_id' => $this->request->post['form_id']])
+            $content = $this->request->post['form_id']
+                ? ['form_id' => (int)$this->request->post['form_id']]
                 : [];
 
             $custom_block_id = $layout->saveBlockDescription(
@@ -572,7 +558,7 @@ class ControllerPagesToolFormsManager extends AController
                     'name'          => $this->request->post['block_name'],
                     'title'         => $this->request->post['block_title'],
                     'description'   => $this->request->post['block_description'],
-                    'content'       => $content,
+                    'content'       => serialize($content),
                     'block_wrapper' => $this->request->post['block_wrapper'],
                     'block_framed'  => ((int)$this->request->post['block_framed'] > 0) ? 1 : 0,
                     'language_id'   => $this->language->getContentLanguageID(),
@@ -666,20 +652,17 @@ class ControllerPagesToolFormsManager extends AController
         if ($this->request->is_POST() && $this->_validateBlockForm()) {
 
             // get form html
-            $content = [];
-            if (isset($this->request->post['form_id'])) {
-                $content['form_id'] = $this->request->post['form_id'];
-            }
-            $content = serialize($content);
+            $content = $this->request->post['form_id']
+                ? ['form_id' => (int)$this->request->post['form_id']]
+                : [];
 
-            // saving
             $lm->saveBlockDescription($this->data['block_id'],
                 $custom_block_id,
                 [
                     'name'          => $this->request->post['block_name'],
                     'title'         => $this->request->post['block_title'],
                     'description'   => $this->request->post['block_description'],
-                    'content'       => $content,
+                    'content'       => serialize($content),
                     'block_wrapper' => $this->request->post['block_wrapper'],
                     'block_framed'  => $this->request->post['block_framed'],
                     'language_id'   => $this->language->getContentLanguageID(),

@@ -30,7 +30,7 @@
 
 
 			foreach ($fields as $e=>$name) { ?>
-			<?php
+<?php
 			$entry = $$e;
 			$field = $$name;
 			if(!$field){ continue;}
@@ -39,34 +39,29 @@
 				continue;
 			}
 			//Logic to calculate fields width
-			$widthcasses = "col-sm-6";
-			if (is_int(stripos($field->style, 'large-field'))) {
-				$widthcasses = "col-sm-6";
-			} else if (is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date'))) {
-				$widthcasses = "col-sm-6";
-			} else if (is_int(stripos($field->style, 'small-field')) ) {
-				$widthcasses = "col-sm-3";
-			} else if (is_int(stripos($field->style, 'tiny-field'))) {
-				$widthcasses = "col-sm-2";
+			$widthCssClasses = "col-sm-6";
+            if ( str_contains($field->style, 'small-field') ) {
+				$widthCssClasses = "col-sm-3";
+			} else if ( str_contains($field->style, 'tiny-field') ) {
+				$widthCssClasses = "col-sm-2";
 			}
-			$widthcasses .= " col-xs-12";
-			?>
+			$widthCssClasses .= " col-xs-12";
+?>
 			<div class="form-group <?php if (!empty($error[$name])) {
 				echo "has-error";
 			} ?>">
-				<label class="control-label col-md-6"
-					   for="<?php echo $field->element_id; ?>"><?php echo $entry; ?></label>
-
-				<div class="input-group input-group-sm afield <?php echo $widthcasses; ?> <?php echo($name == 'description' ? 'ml_ckeditor' : '')?>">
+				<label class="control-label col-md-6" for="<?php echo $field->element_id; ?>">
+                    <?php echo $entry; ?>
+                </label>
+				<div class="input-group input-group-sm afield <?php echo $widthCssClasses; ?> <?php echo($name == 'description' ? 'ml_ckeditor' : '')?>">
 					<?php echo $field;?>
 				</div>
-				<?php if (!empty($error[$name])) { ?>
-				<span class="help-block field_err"><?php echo $error[$name]; ?></span>
+				<?php if ($error[$name]) { ?>
+				    <span class="help-block field_err"><?php echo $error[$name]; ?></span>
 				<?php } ?>
 			</div>
-			<?php } ?>
-			<?php echo $field_settings; ?>
-
+			<?php }
+            echo $field_settings; ?>
 		</div>
 		<div class="panel-footer">
 			<div class="center">

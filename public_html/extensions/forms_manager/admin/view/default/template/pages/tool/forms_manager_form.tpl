@@ -75,9 +75,7 @@
                 </div>
             </div>
         </div>
-        <div class="panel-body panel-body-nopadding" id="field_values">
-            <?php //# Options HTML loaded from response controller rt=product/product/load_option ?>
-        </div>
+        <div class="panel-body panel-body-nopadding" id="field_values"></div>
     <?php } ?>
 </div>
 
@@ -372,7 +370,7 @@ echo $this->html->buildElement(
         <?php if($field_id){    ?>
         $('#new_fieldFrm_field_id').val('<?php echo $field_id;?>');
         <?php } ?>
-        <?php if(key($form['fields']->options) != 'new' ){?>
+        <?php if($form['fields'] && key($form['fields']->options) != 'new' ){?>
         $('#new_fieldFrm_field_id').change();
         <?php } ?>
     });
