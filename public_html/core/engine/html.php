@@ -2581,6 +2581,7 @@ class IPAddressHtmlElement extends HtmlElement
  * @property bool $required
  * @property string $placeholder
  * @property string $help_url
+ * @property string $submit_mode
  */
 class CountriesHtmlElement extends HtmlElement
 {
@@ -2591,7 +2592,11 @@ class CountriesHtmlElement extends HtmlElement
         /** @var ModelLocalisationCountry $mdl */
         $mdl = $this->load->model('localisation/country');
         $results = $mdl->getCountries();
-        $this->options = array_column($results, 'name', 'name');
+        if($this->submit_mode == 'id'){
+            $this->options = array_column($results, 'name', 'country_id');
+        }else {
+            $this->options = array_column($results, 'name', 'name');
+        }
     }
 
     public function getHtml()
@@ -2638,32 +2643,36 @@ class CountriesHtmlElement extends HtmlElement
  * @property bool $required
  * @property string $placeholder
  * @property string $help_url
+ * @property string $zone_only
  */
 class ZonesHtmlElement extends HtmlElement
 {
     public function __construct($data)
     {
         parent::__construct($data);
-        /** @var ModelLocalisationCountry $mdl */
-        $mdl = $this->load?->model('localisation/country');
-        $results = $mdl->getCountries();
-        $this->zone_options = [];
-        $this->default_zone_field_name = 'zone_id';
-        $config_country_id = $this->config->get('config_country_id');
-        $options = [];
-        foreach ($results as $c) {
-            if ($c['country_id'] == $config_country_id) {
-                $this->default_value = $this->submit_mode == 'id'
-                    ? [$config_country_id]
-                    : [$c['name'] => $c['name']];
-            }
-            if ($this->submit_mode == 'id') {
-                $options[$c['country_id']] = $c['name'];
-            } else {
-                $options[$c['name']] = $c['name'];
-            }
+        if($this->zone_only) {
+            return;
         }
-        $this->options = $options;
+            /** @var ModelLocalisationCountry $mdl */
+            $mdl = $this->load?->model('localisation/country');
+            $results = $mdl->getCountries();
+            $this->zone_options = [];
+            $this->default_zone_field_name = 'zone_id';
+            $config_country_id = $this->config->get('config_country_id');
+            $options = [];
+            foreach ($results as $c) {
+                if ($c['country_id'] == $config_country_id) {
+                    $this->default_value = $this->submit_mode == 'id'
+                        ? [$config_country_id]
+                        : [$c['name'] => $c['name']];
+                }
+                if ($this->submit_mode == 'id') {
+                    $options[$c['country_id']] = $c['name'];
+                } else {
+                    $options[$c['name']] = $c['name'];
+                }
+            }
+            $this->options = $options;
     }
 
     public function getHtml()
@@ -2747,6 +2756,8 @@ class ZonesHtmlElement extends HtmlElement
                 'submit_mode'     => $this->submit_mode,
                 'placeholder'     => $this->placeholder,
                 'help_url'        => $this->help_url,
+                //sign to show only zone selector, without countries
+                'zone_only'       => $this->zone_only,
             ]
         );
         return $this->view->fetch($this->template ?: 'form/countries_zones.tpl');

@@ -508,71 +508,37 @@ class AForm
         $view = new AView($this->registry, 0);
 
         $containFiles = false;
-        foreach ($this->fields as $field) {
-            if ($field['element_type'] == 'U') {
+
+        $formElements = $this->getFormElements();
+
+
+        foreach ($formElements as $fName=>$elm) {
+            if ($elm['type'] == 'file') {
                 $containFiles = true;
             }
 
-            //check for enabled recaptcha instead of default captcha
-            if ($this->config->get('config_recaptcha_site_key') && $field['element_type'] == 'K') {
-                $field['element_type'] = 'J';
-            }
-            //build data array for each field HTML template
-            $data = [
-                'type'     => HtmlElementFactory::getElementType($field['element_type']),
-                'name'     => $field['field_name'],
-                'form'     => $this->form['form_name'],
-                'attr'     => $field['attributes'],
-                'required' => $field['required'] == 'Y',
-                'value'    => $field['value'],
-                'options'  => $field['options'],
-            ];
-
-            //populate customer entered values from session (if present)
-            if (is_array($this->session->data['custom_form_' . $this->form['form_id']])) {
-                $data['value'] = $this->session->data['custom_form_' . $this->form['form_id']][$field['field_name']];
-            }
-
-            //custom data based on the HTML element type
-            switch ($data['type']) {
-                case 'multiselectbox' :
-                case 'checkboxgroup' :
-                    $data['name'] .= '[]';
-                    break;
-                case 'captcha' :
-                    $data['captcha_url'] = $this->html->getURL('common/captcha');
-                    break;
-                case 'recaptcha' :
-                    $data['recaptcha_site_key'] = $this->config->get('config_recaptcha_site_key');
-                    $data['language_code'] = $this->language->getLanguageCode();
-                    break;
-            }
-            $item = HtmlElementFactory::create($data);
-
-            switch ($data['type']) {
+            switch ($elm['type']) {
                 case 'IPaddress' :
                 case 'hidden' :
-                    $fields_html[$field['field_id']] = $item->getHtml();
+                    $fields_html[$elm['field_id']] = $elm->getHtml();
                     break;
                 default:
                     $view->batchAssign(
                         [
-                            'element_id'  => $item->element_id,
-                            'type'        => $data['type'],
-                            'title'       => $field['name'],
-                            'description' => (!empty($field['description']) ? $field['description'] : ''),
-                            'error'       => (!empty($this->errors[$field['field_name']])
-                                ? $this->errors[$field['field_name']]
-                                : ''),
-                            'item_html'   => $item->getHtml(),
+                            'element_id'  => $elm->element_id,
+                            'type'        => $elm->type,
+                            'title'       => $elm->title,
+                            'description' => (string)$elm->description,
+                            'error'       => (string)$this->errors[$elm->name],
+                            'item_html'   => $elm->getHtml(),
                         ]
                     );
-                    $fields_html[$field['field_id']] = $view->fetch('form/form_field.tpl');
+                    $fields_html[$fName] = $view->fetch('form/form_field.tpl');
             }
         }
 
         $output = '';
-        if (!empty($this->groups)) {
+        if ($this->groups) {
             foreach ($this->groups as $group) {
                 $view->batchAssign(
                     [
@@ -628,6 +594,75 @@ class AForm
             $output = $view->fetch('form/form.tpl');
         }
 
+        return $output;
+    }
+
+    public function getFormElements(string $formAlias = '')
+    {
+        // if no form was loaded return empty string
+        if (!$this->form) {
+            return [];
+        }
+
+        $formAlias = $formAlias ?: $this->form['form_name'];
+        $output = [];
+        foreach ($this->fields as $field) {
+            //check for enabled recaptcha instead of default captcha
+            if ($this->config->get('config_recaptcha_site_key') && $field['element_type'] == 'K') {
+                $field['element_type'] = 'J';
+            }
+            //build data array for each field HTML template
+            $data = [
+                'type'     => HtmlElementFactory::getElementType($field['element_type']),
+                'name'     => $field['field_name'],
+                'form'     => $formAlias,
+                'attr'     => $field['attributes'] . ($field['regexp_pattern'] ? ' pattern="' . $field['regexp_pattern'] . '"' : ''),
+                'required' => $field['required'],
+                'value'    => $field['value'],
+                'options'  => $field['options'],
+            ];
+
+            //settings for country
+            if($field['element_type'] == 'O'){
+                if (preg_match('/data-submit-mode="([^"]+)"/', html_entity_decode($field['attributes']), $matches)) {
+                    $submitMode = $matches[1] ?: 'id';
+                }else{
+                    $submitMode = 'id';
+                }
+                $data['submit_mode'] = $submitMode;
+            }
+            //zones
+            if($field['element_type'] == 'Z'){
+                if (preg_match('/data-submit-mode="([^"]+)"/', html_entity_decode($field['attributes']), $matches)) {
+                    $submitMode = $matches[1] ?: 'id';
+                }else{
+                    $submitMode = 'id';
+                }
+                $data['submit_mode'] = $submitMode;
+                $data['zone_only'] = true;
+            }
+
+            //populate customer entered values from session (if present)
+            if (is_array($this->session->data['custom_form_' . $formAlias])) {
+                $data['value'] = $this->session->data['custom_form_' . $formAlias][$field['field_name']];
+            }
+
+            //custom data based on the HTML element type
+            switch ($data['type']) {
+                case 'multiselectbox' :
+                case 'checkboxgroup' :
+                    $data['name'] .= '[]';
+                    break;
+                case 'captcha' :
+                    $data['captcha_url'] = $this->html->getURL('common/captcha');
+                    break;
+                case 'recaptcha' :
+                    $data['recaptcha_site_key'] = $this->config->get('config_recaptcha_site_key');
+                    $data['language_code'] = $this->language->getLanguageCode();
+                    break;
+            }
+            $output[$field['field_name']] = HtmlElementFactory::create($data);
+        }
         return $output;
     }
 
