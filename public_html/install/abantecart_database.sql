@@ -709,6 +709,7 @@ CREATE TABLE `ac_customers` (
   `customer_group_id` int(11) NOT NULL,
   `ip` varchar(50) NOT NULL DEFAULT '0',
   `data` text DEFAULT null,
+  `ext_fields` json null,
   `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `last_login` timestamp NULL,
@@ -10726,6 +10727,9 @@ CREATE TABLE `ac_forms` (
   `controller` varchar(100) NOT NULL default '',
   `success_page` varchar(100) NOT NULL default '',
   `status` smallint(1) NOT NULL default '0',
+  `locked` int(1) NOT NULL DEFAULT '0',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`form_id`),
   UNIQUE KEY `form_name` (`form_name`)
 ) ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;
@@ -10763,6 +10767,9 @@ CREATE TABLE `ac_fields` (
   -- N - Not required, Y - required
   `status` smallint(1) NOT NULL default '0',
   `regexp_pattern` varchar(255) NOT NULL DEFAULT '',
+  `locked` int(1) NOT NULL DEFAULT '0',
+  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`field_id`),
   KEY `field_id` (`field_id`, `form_id`, `status`)
 ) ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
