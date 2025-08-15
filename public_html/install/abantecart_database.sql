@@ -11044,7 +11044,7 @@ VALUES  (7,'2',1),
         (7,'3',3),
         (7,'4',4),
         (7,'250',5),
-       	(7,'260',6),
+       	(7,'282',6),
        	(7,'244',7),
        	(7,'266',8);
 -- settings
@@ -12379,7 +12379,9 @@ VALUES
   ( 278,1,'Icon Analytics & Insights', '', '', '', '<i class="fa fa-signal"></i>&nbsp;', NOW() ),
   ( 279,1,'Icon Collections', '', '', '', '<i class="fa fa-paste"></i>&nbsp;', NOW() ),
   ( 280,1,'Icon Email Templates', '', '', '', '<i class="fa fa-envelope-open-o"></i>&nbsp;', NOW() ),
-  ( 281,1,'abc-logo-white','abc-logo-white','abc-logo-white.png','18/7a/logo.png','', NOW() );
+  ( 281,1,'abc-logo-white','abc-logo-white','abc-logo-white.png','18/7a/logo.png','', NOW() ),
+  ( 282,1,'Icon Menu Checkout', '', '', '', '<i class="fa fa-money-bill"></i>&nbsp;', NOW() )
+  ;
 
 --
 -- DDL for table `ac_resource_types`

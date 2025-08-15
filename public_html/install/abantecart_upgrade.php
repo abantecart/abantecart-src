@@ -32,4 +32,5 @@ if (!$result->num_rows) {
     VALUES (1,'settings','text',8)";
     $this->db->query($sqlAlter, true);
 }
-
+//upgrade icon with class fa-money to fa-money-bill inside RL !!!!!
+// update menu item icon rl_id if template is novator/default and current icon contains fa-money class
