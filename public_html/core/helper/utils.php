@@ -1681,3 +1681,16 @@ function isUrlAlive(string $url): bool
     }
     return false;
 }
+
+function regexForHtmlPattern($regex) {
+    // remove separators /.../
+    $regex = trim($regex);
+    if (preg_match('#^/(.*?)/[a-zA-Z]*$#', $regex, $m)) {
+        $regex = $m[1];
+    }
+
+    // remove ^ and $
+    $regex = preg_replace('/^\^/', '', $regex);
+    $regex = preg_replace('/\$$/', '', $regex);
+    return $regex;
+}

@@ -607,6 +607,8 @@ class AForm
         $formAlias = $formAlias ?: $this->form['form_name'];
         $output = [];
         foreach ($this->fields as $field) {
+            $field['attributes'] = html_entity_decode($field['attributes']);
+            $field['regexp_pattern'] = html_entity_decode($field['regexp_pattern']);
             //check for enabled recaptcha instead of default captcha
             if ($this->config->get('config_recaptcha_site_key') && $field['element_type'] == 'K') {
                 $field['element_type'] = 'J';
@@ -616,15 +618,37 @@ class AForm
                 'type'     => HtmlElementFactory::getElementType($field['element_type']),
                 'name'     => $field['field_name'],
                 'form'     => $formAlias,
-                'attr'     => $field['attributes'] . ($field['regexp_pattern'] ? ' pattern="' . $field['regexp_pattern'] . '"' : ''),
+                'attr'     => $field['attributes']
+                    . ($field['regexp_pattern'] ? ' pattern="' . regexForHtmlPattern($field['regexp_pattern']) . '"' : ''),
                 'required' => $field['required'],
                 'value'    => $field['value'],
                 'options'  => $field['options'],
+                'display_name' => $field['name'],
             ];
+
+            if($field['resource_id']){
+                $resource = new AResource('image');
+                $iconData = $resource->getResource($field['resource_id']);
+                $img_sub_path = $iconData['type_name'].'/'.$iconData['resource_path'];
+                if (is_file(DIR_RESOURCE.$img_sub_path)) {
+                    $logo_path = DIR_RESOURCE.$img_sub_path;
+                    $info = get_image_size($logo_path);
+                    $data['icon'] = HtmlElementFactory::create(
+                        [
+                            'type'  => 'resourceImage',
+                            'url'   => HTTPS_DIR_RESOURCE.$img_sub_path,
+                            'width' => $info['width'],
+                            'height' => $info['height'],
+                        ]
+                    )->getHtml();
+                } else {
+                    $data['icon'] = $iconData['resource_code'];
+                }
+            }
 
             //settings for country
             if($field['element_type'] == 'O'){
-                if (preg_match('/data-submit-mode="([^"]+)"/', html_entity_decode($field['attributes']), $matches)) {
+                if (preg_match('/data-submit-mode="([^"]+)"/', $field['attributes'], $matches)) {
                     $submitMode = $matches[1] ?: 'id';
                 }else{
                     $submitMode = 'id';
@@ -633,7 +657,7 @@ class AForm
             }
             //zones
             if($field['element_type'] == 'Z'){
-                if (preg_match('/data-submit-mode="([^"]+)"/', html_entity_decode($field['attributes']), $matches)) {
+                if (preg_match('/data-submit-mode="([^"]+)"/', $field['attributes'], $matches)) {
                     $submitMode = $matches[1] ?: 'id';
                 }else{
                     $submitMode = 'id';
@@ -685,7 +709,7 @@ class AForm
         foreach ($this->fields as $field) {
             $fieldName = $field['field_name'];
             $fieldTitle = $field['name'];
-            $isRequired = $field['required'] == 'Y';
+            $isRequired = in_array($field['required'],[1,'Y']);
             // for multi-value required fields
             if (in_array($field['element_type'], HtmlElementFactory::getMultivalueElements())
                 && !$data[$fieldName] && $isRequired
@@ -700,27 +724,27 @@ class AForm
                     if ($data[$fieldName] == '') {
                         $errors[$fieldName] = $fieldTitle . ' ' . $errorRequiredText;
                     }
-                } else {
-                    // if empty array
-                    if (!$data[$fieldName]) {
-                        $errors[$fieldName] = $fieldTitle . ' ' . $errorRequiredText;
-                    }
+                }
+                // if empty array
+                else if (!$data[$fieldName]) {
+                    $errors[$fieldName] = $fieldTitle . ' ' . $errorRequiredText;
                 }
             }
             // check by regexp
             if ($field['regexp_pattern']) {
-                if (!is_array($data[$fieldName])) { //for string value
+                //for string value
+                if (!is_array($data[$fieldName])) {
                     if (!preg_match($field['regexp_pattern'], $data[$fieldName])) {
                         // show error only for field with value or required
-                        if (($data[$fieldName] && !$isRequired) || $isRequired) {
+                        if( $isRequired || $data[$fieldName] ) {
                             $errors[$fieldName] .= ' ' . $field['error_text'];
                         }
                     }
                 } else {
                     // for array's values
-                    foreach ($data[$fieldName] as $dd) {
-                        if (!preg_match($field['regexp_pattern'], $dd)) {
-                            if (($dd && !$isRequired) || $isRequired) {
+                    foreach ($data[$fieldName] as $value) {
+                        if (!preg_match($field['regexp_pattern'], $value)) {
+                            if ( $isRequired || $value ) {
                                 $errors[$fieldName] .= ' ' . $field['error_text'];
                             }
                             break;
