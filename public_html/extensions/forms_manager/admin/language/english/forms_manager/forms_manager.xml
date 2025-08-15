@@ -208,6 +208,10 @@
         <key>entry_regexp_pattern</key>
         <value><![CDATA[Regular Expression Pattern:]]></value>
     </definition>
+    <definition>
+        <key>entry_html_attributes</key>
+        <value><![CDATA[html-attributes:<br /><span class="help">You can add your custom html-attributes for option element. Example: data-some-attribute="some value"</span>]]></value>
+    </definition>
 	<definition>
         <key>entry_error_text</key>
         <value><![CDATA[Error Message about invalid Value:]]></value>
@@ -231,6 +235,10 @@
 	<definition>
 		<key>error_field_name_exists</key>
 		<value><![CDATA[Field With Name %s already present in the Form!]]></value>
+	</definition>
+	<definition>
+		<key>error_regexp_pattern</key>
+		<value><![CDATA[Regex pattern is invalid!]]></value>
 	</definition>
 	<definition>
 		<key>forms_manager_error_empty_sender</key>

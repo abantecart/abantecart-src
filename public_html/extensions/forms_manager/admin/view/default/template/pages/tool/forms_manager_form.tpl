@@ -158,7 +158,6 @@ echo $this->html->buildElement(
     ]
 );
 ?>
-
 <script type="text/javascript">
     var text = {
         error_attribute_not_selected: <?php js_echo($error_attribute_not_selected); ?>,
@@ -185,7 +184,7 @@ echo $this->html->buildElement(
                     if (key == current_field_id) {
                         selected = ' selected ';
                     }
-                    $("#new_fieldFrm_field_id").append('<option value="' + key + '"' + selected + '>' + json[key]['field_name'] + '</option>');
+                    $("#new_fieldFrm_field_id").append('<option value="' + key + '"' + selected + '>' + json[key]['name'] + '</option>');
                 }
             },
             complete: function () {
@@ -194,19 +193,10 @@ echo $this->html->buildElement(
         });
     }
 
-    var editFieldDetails = function (id) {
+    var editFieldDetails = function () {
         $('#notify_error').remove();
-        var flds = ['status', 'field_name', 'field_description', 'field_note', 'sort_order', 'required', 'regexp_pattern', 'error_text'];
-        var data = {field_id: current_field_id};
-        for (var k in flds) {
-            data[flds[k]] = $('#' + flds[k]).val();
-        }
-        var settings = $('input[name^=settings]');
-        if (settings.length > 0) {
-            settings.each(function () {
-                data[$(this).attr('name')] = $(this).val();
-            });
-        }
+        const data = $('#field_edit_form').find(':input').serialize()
+            + '&field_id='+ current_field_id;
 
         $.ajax({
             url: opt_urls.update_field,
@@ -345,6 +335,7 @@ echo $this->html->buildElement(
                 //reset form in modal
                 $("#new_fieldFrm").trigger('reset');
                 $("#new_fieldFrm .changed").removeClass('changed');
+                // location = location.href;
             },
             complete: function () {
                 bindAform($("input, checkbox, select", '#field_edit_form'));

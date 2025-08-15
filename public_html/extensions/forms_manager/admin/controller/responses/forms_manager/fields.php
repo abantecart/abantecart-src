@@ -43,7 +43,9 @@ class ControllerResponsesFormsManagerFields extends AController
 
     public function addField()
     {
-        if (!$this->_validateFieldForm($this->request->post) || !(int)$this->request->get['form_id']) {
+        $post = $this->request->post;
+        $post['form_id'] = (int)$this->request->get['form_id'];
+        if(!$post['form_id'] || !$this->validateFieldForm($post) ) {
             $error = new AError('');
             $error->toJSONResponse(
                 'VALIDATION_ERROR_406',
@@ -51,14 +53,16 @@ class ControllerResponsesFormsManagerFields extends AController
             return;
         }
 
-        $this->mdl->addField((int)$this->request->get['form_id'], $this->request->post);
+        $this->mdl->addField($post['form_id'], $post);
         $this->response->setOutput('');
     }
 
     public function updateField()
     {
         $formId = (int)$this->request->get['form_id'];
-        if (!$this->_validateFieldForm($this->request->post) || !$formId) {
+        $post = $this->request->post;
+        $post['form_id'] = $formId;
+        if (!$this->validateFieldForm($post) || !$formId) {
             $error = new AError('');
             $error->toJSONResponse(
                 'VALIDATION_ERROR_406',
@@ -66,17 +70,11 @@ class ControllerResponsesFormsManagerFields extends AController
             return;
         }
 
-        if (has_value($this->request->post['regexp_pattern'])) {
-            $this->request->post['regexp_pattern'] = trim($this->request->post['regexp_pattern']);
-        }
-
-        $data = $this->request->post;
-        $data['form_id'] = $formId;
-        $this->mdl->updateFormFieldData($data);
+        $this->mdl->updateFormFieldData($post);
         $this->response->setOutput('');
     }
 
-    protected function _validateFieldForm($data)
+    protected function validateFieldForm($data)
     {
         if (!$this->user->hasPermission('modify', 'forms_manager/fields')) {
             $this->error['warning'] = $this->language->get('error_permission');
@@ -88,12 +86,12 @@ class ControllerResponsesFormsManagerFields extends AController
             $this->error['error_required'] = $this->language->get('error_fill_required');
         }
 
-        if (!$this->mdl->isFieldNameUnique(
-            (int)$this->request->get['form_id'],
-            (string)$data['field_name'],
-            (int)$data['field_id'])
-        ) {
+        if (!$this->mdl->isFieldNameUnique((int)$data['form_id'],(string)$data['field_name'],(int)$data['field_id'])) {
             $this->error['field_name'] = sprintf($this->language->get('error_field_name_exists'), $data['field_name']);
+        }
+
+        if($data['regexp_pattern'] && @preg_match($data['regexp_pattern'], '') === false) {
+            $this->error['regexp_pattern'] = $this->language->get('error_regexp_pattern');
         }
 
         $this->extensions->hk_ValidateData($this);
@@ -218,6 +216,14 @@ class ControllerResponsesFormsManagerFields extends AController
             ]
         );
 
+        $this->data['field_attributes'] = $this->html->buildElement(
+            [
+                'type'  => 'input',
+                'name'  => 'attributes',
+                'value' => $this->data['field_data']['attributes'],
+            ]
+        );
+
         if (!in_array($elmType, ['U', 'K'])) {
             $this->data['field_regexp_pattern'] = $this->html->buildElement(
                 [
@@ -235,6 +241,8 @@ class ControllerResponsesFormsManagerFields extends AController
                 ]
             );
         }
+
+
         if ($elmType == 'U') {
             $this->data['field_settings'] = $this->_file_upload_settings_form();
         }
@@ -246,6 +254,28 @@ class ControllerResponsesFormsManagerFields extends AController
                 'value' => $elmType,
             ]
         );
+        $this->data['entry_icon'] = $this->language->get('column_icon','extension/extensions');
+        $this->data['icon'] = $this->html->buildElement(
+            [
+                'type' => 'resource',
+                'name' => 'resource_id',
+                'resource_id' => $this->data['field_data']['resource_id'],
+                'rl_type' => 'image',
+            ]
+        );
+
+        //adds scripts for RL work
+        $resources_scripts = $this->dispatch(
+            'responses/common/resource_library/get_resources_scripts',
+            [
+                'object_name' => 'field',
+                'object_id' => (int)$formId,
+                'types' => ['image'],
+                'onload' => true,
+                'mode' => 'single',
+            ]
+        );
+        $this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
 
         $this->data['button_remove_field'] = $this->html->buildElement(
             [

@@ -20,42 +20,42 @@ if ($error_warning) { ?>
 <?php } ?>
 
 
-    <h4 class="mb-4 mt-3 pb-3 border-bottom"><?php echo $text_address_book; ?></h4>
-    <?php echo $this->getHookvar('pre_address');?>
-    <?php foreach ($addresses as $result) { ?>
+<h4 class="mb-4 mt-3 pb-3 border-bottom"><?php echo $text_address_book; ?></h4>
+<?php echo $this->getHookvar('pre_address');
+foreach ((array)$addresses as $address) { ?>
     <div class="genericbox card p-3 mb-3">
         <div class="card-body">
-        <div class="table-responsive">
-        <table class="w-100">
-            <tr>
-                <td><address><?php echo $result['address']; ?></address></td>
-                <td class="text-end">
-                <?php
-                    $result['button_edit']->style = ' btn btn-outline-primary mb-2 mb-md-0';
-                    echo $result['button_edit'];
-                    if ( !$result['default'] ) {
-                        $result['button_delete']->style .= ' btn btn-outline-danger ';
-                        echo $result['button_delete'];
-                    } ?>
-                </td>
-            </tr>
-        </table>
-        </div>
+            <div class="table-responsive">
+                <table class="w-100">
+                    <tr>
+                        <td>
+                            <address><?php echo $address['address']; ?></address>
+                        </td>
+                        <td class="text-end">
+                        <?php
+                            $address['button_edit']->style = ' btn btn-outline-primary mb-2 mb-md-0';
+                            echo $address['button_edit'];
+                            if ( !$address['default'] ) {
+                                $address['button_delete']->style .= ' btn btn-outline-danger ';
+                                echo $address['button_delete'];
+                            } ?>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
-    <?php } ?>
-    <?php echo $this->getHookvar('post_address');?>
+<?php }
+echo $this->getHookvar('post_address');?>
 
-    <div class="py-3 col-12 d-flex flex-wrap justify-content-between">
-        <a href="<?php echo $back; ?>" class="btn btn-secondary" title="<?php echo_html2view($button_back->text); ?>">
-            <i class="<?php echo $button_back->{'icon'}; ?>"></i>
-            <?php echo $button_back->text; ?>
-        </a>
-        <?php echo $this->getHookvar('address_buttons');?>
-        <a href="<?php echo $insert; ?>" class="btn btn-primary" title="<?php echo $button_insert->text ?>">
-            <i class="<?php echo $button_insert->icon; ?>"></i>
-            <?php echo $button_insert->text ?>
-        </a>
-    </div>
-
-
+<div class="py-3 col-12 d-flex flex-wrap justify-content-between">
+    <a href="<?php echo $back; ?>" class="btn btn-secondary" title="<?php echo_html2view($button_back->text); ?>">
+        <i class="<?php echo $button_back->{'icon'}; ?>"></i>
+        <?php echo $button_back->text; ?>
+    </a>
+    <?php echo $this->getHookvar('address_buttons');?>
+    <a href="<?php echo $insert; ?>" class="btn btn-primary" title="<?php echo $button_insert->text ?>">
+        <i class="<?php echo $button_insert->icon; ?>"></i>
+        <?php echo $button_insert->text ?>
+    </a>
+</div>

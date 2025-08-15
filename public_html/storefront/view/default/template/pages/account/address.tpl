@@ -34,14 +34,6 @@ if ($error_warning) { ?>
                 </div>
             </div>
         <?php } ?>
-            <div class="mb-3 row">
-                <label for="<?php echo $field->element_id?>" class="text-nowrap col-sm-2 col-form-label me-2">
-                    <?php echo $entry_default; ?>
-                </label>
-                <div class="col-sm-9 h-100">
-                    <?php echo $form['default']; ?>
-                </div>
-            </div>
             <?php echo $this->getHookVar('address_edit_sections'); ?>
         </div>
         <div class="ps-4 p-3 col-12 d-flex flex-wrap">

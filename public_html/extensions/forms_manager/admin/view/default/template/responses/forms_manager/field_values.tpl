@@ -17,16 +17,18 @@
 			</div>
 
 			<?php
-			$fields = array(
+			$fields = [
 					'entry_status' => 'status',
 					'entry_field_name' => 'field_name',
 					'entry_field_description' => 'field_description',
 					'entry_field_note' => 'field_note',
 					'entry_sort_order' => 'field_sort_order',
 					'entry_required' => 'required',
+					'entry_icon' => 'icon',
+					'entry_html_attributes' => 'field_attributes',
 					'entry_regexp_pattern' => 'field_regexp_pattern',
 					'entry_error_text' => 'field_error_text'
-			);
+            ];
 
 
 			foreach ($fields as $e=>$name) { ?>
@@ -63,6 +65,7 @@
 			<?php }
             echo $field_settings; ?>
 		</div>
+        <?php echo $resources_scripts; ?>
 		<div class="panel-footer">
 			<div class="center">
 				<button id="update_field" class="btn btn-primary">

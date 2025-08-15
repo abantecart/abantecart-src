@@ -103,19 +103,45 @@ class ModelAccountAddress extends Model
             $key_sql = ", key_id = '".(int) $data['key_id']."'";
         }
 
-        $this->db->query(
-            "UPDATE ".$this->db->table("addresses")."
-                SET company = '".$this->db->escape($data['company'])."',
-                    firstname = '".$this->db->escape($data['firstname'])."',
-                    lastname = '".$this->db->escape($data['lastname'])."',
-                    address_1 = '".$this->db->escape($data['address_1'])."',
-                    address_2 = '".$this->db->escape($data['address_2'])."',
-                    postcode = '".$this->db->escape($data['postcode'])."',
-                    city = '".$this->db->escape($data['city'])."',
-                    zone_id = '".(int) $data['zone_id']."',
-                    country_id = '".(int) $data['country_id']."'".$key_sql."
-                WHERE address_id  = '".(int) $address_id."' AND customer_id = '".(int) $this->customer->getId()."'"
+        $columns = [
+            'company' => 'string',
+            'firstname' => 'string',
+            'lastname' => 'string',
+            'address_1' => 'string',
+            'address_2' => 'string',
+            'postcode' => 'string',
+            'city' => 'string',
+            'zone_id' => 'integer',
+            'country_id' => 'integer'
+        ];
+
+        $updArray = [];
+        foreach($columns as $column => $type)
+        {
+            if(isset($data[$column])) {
+                $updArray[] = $column . " = '" . ($type == 'string' ? $this->db->escape($data[$column]) : intval($data[$column])). "'";
+            }
+        }
+
+        $extFields = array_diff(
+            array_keys($data),
+            array_merge(array_keys($columns), ['customer_id','address_id','csrftoken','csrfinstance','default'] )
         );
+        if($extFields) {
+            foreach($extFields as $extFieldName) {
+                $extArray[$extFieldName] = $data[$extFieldName];
+            }
+            $updArray[] = "ext_fields = '".$this->db->escape(json_encode($extArray))."'";
+        }
+
+        if($updArray) {
+            $this->db->query(
+                "UPDATE " . $this->db->table("addresses") . "
+                SET ". implode(', ', $updArray) ." " . $key_sql . "
+                WHERE address_id  = '" . (int)$address_id . "' 
+                    AND customer_id = '" . (int)$this->customer->getId() . "'"
+            );
+        }
 
         if (isset($data['default'])) {
             $this->db->query(
@@ -289,24 +315,14 @@ class ModelAccountAddress extends Model
             $zone = '';
             $code = '';
         }
-
-        return [
-            'address_id'     => $addr_row['address_id'],
-            'firstname'      => $addr_row['firstname'],
-            'lastname'       => $addr_row['lastname'],
-            'company'        => $addr_row['company'],
-            'address_1'      => $addr_row['address_1'],
-            'address_2'      => $addr_row['address_2'],
-            'postcode'       => $addr_row['postcode'],
-            'city'           => $addr_row['city'],
-            'zone_id'        => $addr_row['zone_id'],
-            'zone'           => $zone,
-            'zone_code'      => $code,
-            'country_id'     => $addr_row['country_id'],
-            'country'        => $country,
-            'iso_code_2'     => $iso_code_2,
-            'iso_code_3'     => $iso_code_3,
-            'address_format' => $address_format,
-        ];
+        $output = $addr_row;
+        $output['ext_fields'] = json_decode($output['ext_fields'], JSON_PRETTY_PRINT);
+        $output['country'] = $country;
+        $output['zone'] = $zone;
+        $output['code'] = $code;
+        $output['format'] = $address_format;
+        $output['iso_code_2'] = $iso_code_2;
+        $output['iso_code_3'] = $iso_code_3;
+        return $output;
     }
 }

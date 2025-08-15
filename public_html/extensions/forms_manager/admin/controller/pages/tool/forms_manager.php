@@ -338,7 +338,7 @@ class ControllerPagesToolFormsManager extends AController
 
         $fields_data = $this->mdl->getFields($formId);
         if ($fields_data) {
-            $this->data['fields'] = $fields = array_column($fields_data, 'field_name', 'field_id');
+            $this->data['fields'] = $fields = array_column($fields_data, 'name', 'field_id');
             $this->data['field_id'] = $this->data['field_id'] ?: array_key_first($fields);
         } else {
             $fields = [];

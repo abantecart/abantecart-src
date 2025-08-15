@@ -318,37 +318,45 @@ class ModelToolFormsManager extends Model
             'status',
             'settings',
             'regexp_pattern',
+            'attributes',
+            'resource_id'
         ];
 
-        if (has_value($data['field_name'])) {
+        if (isset($data['field_name'])) {
             $data['field_name'] = str_replace(' ', '_', $this->db->escape($data['field_name']));
             if (!$data['field_name']) {
                 return false;
             }
         }
 
-        if (has_value($data['sort_order'])) {
+        if (isset($data['sort_order'])) {
             $data['sort_order'] = (int)$data['sort_order'];
         }
 
-        if (has_value($data['required'])) {
-            $data['required'] = ((int)$data['required']) ? 'Y' : 'N';
+        if (isset($data['required'])) {
+            $data['required'] = (int)$data['required'];
         }
 
-        if (has_value($data['status'])) {
+        if (isset($data['status'])) {
             $data['status'] = ((int)$data['status']) ? 1 : 0;
         }
 
-        if ($data['regexp_pattern']) {
+        if (isset($data['regexp_pattern'])) {
             $data['regexp_pattern'] = $this->db->escape($data['regexp_pattern']);
         }
+        if (isset($data['attributes'])) {
+            $data['attributes'] = $this->db->escape($data['attributes']);
+        }
 
-        if (has_value($data['settings'])) {
+        if (isset($data['resource_id'])) {
+            $data['resource_id'] = (int)$data['resource_id'];
+        }
+        if (isset($data['settings'])) {
             $data['settings'] = $this->db->escape(serialize($data['settings']));
         }
         $update = [];
         foreach ($columns as $colName) {
-            if (has_value($data[$colName])) {
+            if (isset($data[$colName])) {
                 $update[] = $colName . " = '" . $data[$colName] . "'";
             }
         }
@@ -606,8 +614,8 @@ class ModelToolFormsManager extends Model
             return [];
         }
 
-        $query = $this->db->query("
-            SELECT f.*, fd.name, fd.description
+        $query = $this->db->query(
+            "SELECT f.*, fd.name, fd.description
             FROM " . $this->db->table("fields") . " f
             LEFT JOIN " . $this->db->table("field_descriptions") . " fd
                 ON ( f.field_id = fd.field_id 
@@ -626,7 +634,7 @@ class ModelToolFormsManager extends Model
 					AND language_id = '" . $this->language->getContentLanguageID() . "'"
                 );
                 if ($query->num_rows) {
-                    $fields[$row['field_id']]['values'] = unserialize($query->row['value']);
+                    $fields[(int)$row['field_id']]['values'] = unserialize($query->row['value']);
                 }
             }
         }
