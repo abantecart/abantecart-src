@@ -1,5 +1,8 @@
 <?php if(!$no_wrapper){?>
     <div class="input-group h-100">
+<?php }
+if($icon){?>
+    <div class="input-group-text"><?php echo $icon; ?></div>
 <?php } ?>
     <select name="<?php echo $name ?>" id="<?php echo $id ?>" class="form-select <?php echo $style; ?>"
             data-placeholder="<?php echo $placeholder ?>" <?php echo $attr ?>

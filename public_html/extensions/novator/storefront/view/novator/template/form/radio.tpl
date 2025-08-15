@@ -1,6 +1,9 @@
 <?php if(!$no_wrapper){?>
 <div class="input-group h-100">
 <?php }
+if($icon){?>
+    <div class="input-group-text"><?php echo $icon; ?></div>
+<?php }
 	foreach ( (array)$options as $v => $text ) {
 	$radio_id = preg_replace('/[^a-zA-Z0-9.-_]/', '', $id . $v);
 ?>
@@ -14,12 +17,10 @@
 				<?php echo (in_array($v, (array)$disabled_options) ? ' disabled="disabled" ':'');?>>
         <label class="form-check-label" for="<?php echo $radio_id ?>"><?php echo $text ?></label>
     </div>
-<?php } ?>
-    <?php
+<?php }
     if ( $required ) { ?>
         <span class="input-group-text rounded-end text-danger">*</span>
-    <?php } ?>
-
-<?php if(!$no_wrapper){?>
+    <?php }
+if(!$no_wrapper){?>
 </div>
 <?php } ?>

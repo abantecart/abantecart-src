@@ -1,8 +1,10 @@
 <?php
 if(!$no_wrapper){?>
     <div class="input-group">
-<?php } ?>
-
+<?php }
+    if($icon){?>
+        <div class="input-group-text"><?php echo $icon; ?></div>
+    <?php } ?>
     <select name="<?php echo $name ?>" id="<?php echo $id ?>" class="form-control form-select <?php echo $style; ?>"
             data-placeholder="<?php echo $placeholder ?>" <?php echo $attr ?>
             <?php echo $disabled ? ' disabled="disabled" ' : ''; ?>

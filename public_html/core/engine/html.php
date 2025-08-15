@@ -987,6 +987,7 @@ class HtmlElementFactory
  * @property AHtml $html
  * @property ADocument $document
  * @property CSRFToken $csrftoken
+ * @property string $icon
  */
 abstract class HtmlElement
 {
@@ -1303,7 +1304,6 @@ class MultiValueHtmlElement extends HtmlElement
  * @property string $value
  * @property string $attr
  * @property string $style
- * @property string $icon
  */
 class SubmitHtmlElement extends HtmlElement
 {
@@ -2035,7 +2035,6 @@ class RadioHtmlElement extends HtmlElement
  * @property string $href
  * @property string $style
  * @property string $href_class
- * @property string $icon
  * @property string $target
  */
 class ButtonHtmlElement extends HtmlElement
@@ -2616,6 +2615,7 @@ class CountriesHtmlElement extends HtmlElement
                 'style'       => $this->style,
                 'placeholder' => $this->placeholder,
                 'help_url'    => $this->help_url,
+                'icon'        => $this->icon
             ]
         );
         return $this->view->fetch($this->template ?: 'form/selectbox.tpl');

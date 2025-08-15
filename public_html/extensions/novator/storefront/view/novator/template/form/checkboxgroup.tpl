@@ -1,6 +1,9 @@
 <?php if(!$no_wrapper){?>
 <div class="input-group h-100">
-    <?php } ?>
+    <?php }
+if($icon){?>
+    <div class="input-group-text"><?php echo $icon; ?></div>
+<?php }?>
     <div class="d-flex flex-wrap" >
         <?php
         foreach ( $options as $v => $text ) {
@@ -12,17 +15,17 @@
                            type="checkbox"
                            value="<?php echo $v ?>"
                            name="<?php echo $name ?>"
-                        <?php echo (in_array($v, $value) ? ' checked="checked" ':'') ?>
-                        <?php echo $attr; ?>
-                        <?php echo (in_array($v, (array)$disabled_options) ? ' disabled="disabled" ':''); ?>>
+                        <?php echo (in_array($v, $value) ? ' checked="checked" ':'');
+                        echo $attr;
+                        echo (in_array($v, (array)$disabled_options) ? ' disabled="disabled" ':''); ?>>
                     <label class="form-check-label"
                            for="<?php echo $check_id ?>">
                         <?php echo $text ?>
                     </label>
                 </div>
             </div>
-        <?php } ?>
-        <?php if ( $required) { ?>
+        <?php }
+        if ( $required) { ?>
             <span class="input-group-text border-0 text-danger">*</span>
         <?php } ?>
     </div>

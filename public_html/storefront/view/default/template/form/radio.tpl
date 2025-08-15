@@ -1,6 +1,9 @@
 <?php if(!$no_wrapper){?>
 <div class="input-group h-100">
-<?php } ?>
+<?php }
+if($icon){?>
+    <div class="input-group-text"><?php echo $icon; ?></div>
+<?php }?>
 <div class="form-check-inline d-flex flex-wrap form-control me-0">
 <?php
 	foreach ( (array)$options as $v => $text ) {

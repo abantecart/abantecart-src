@@ -1,5 +1,8 @@
 <?php if(!$no_wrapper){?>
 <div class="input-group h-100 form-check form-check-inline">
+<?php }
+if($icon){?>
+    <div class="input-group-text"><?php echo $icon; ?></div>
 <?php } ?>
 <div class="d-flex align-items-center">
     <input type="checkbox" class="form-check-input <?php echo $style; ?>"
