@@ -104,11 +104,11 @@ class ControllerPagesAccountAddress extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->document->setTitle($this->language->get('heading_title'));
         $address_id = (int)$this->request->get['address_id'];
-        if($address_id && $this->validateDelete($address_id)) {
+        if ($address_id && $this->validateDelete($address_id)) {
             $this->model_account_address->deleteAddress($address_id);
 
             if (isset($this->session->data['shipping_address_id'])
-                    && ($address_id == $this->session->data['shipping_address_id'])
+                && ($address_id == $this->session->data['shipping_address_id'])
             ) {
                 unset(
                     $this->session->data['shipping_address_id'],
@@ -170,43 +170,39 @@ class ControllerPagesAccountAddress extends AController
         $results = $this->model_account_address->getAddresses();
         $addresses = [];
         foreach ($results as $result) {
+            $addressId = (int)$result['address_id'];
             $formated_address = $this->customer->getFormattedAddress((array)$result, $result['format']);
             $edit = $this->html->buildElement(
                 [
                     'type'  => 'button',
                     'text'  => $this->language->get('button_edit'),
-                    'style' => 'button btn-primary',
-                    'icon'  => 'fa-edit fa',
-                    'href'  => $this->html->getSecureURL('account/address/update', '&address_id=' . $result['address_id'])
+                    'href'  => $this->html->getSecureURL('account/address/update', '&address_id=' . $addressId)
                 ]
             );
             $delete = $this->html->buildElement(
                 [
-                    'type'  => 'button',
-                    'text'  => $this->language->get('button_delete'),
-                    'icon'  => 'fa fa-remove',
-                    'href'  => $this->html->getSecureURL('account/address/delete', '&address_id=' . $result['address_id'])
+                    'type' => 'button',
+                    'text' => $this->language->get('button_delete'),
+                    'href' => $this->html->getSecureURL('account/address/delete', '&address_id=' . $addressId)
                 ]
             );
             $addresses[] = [
-                'address_id'    => $result['address_id'],
+                'address_id'    => $addressId,
                 'address'       => $formated_address,
                 'button_edit'   => $edit,
                 'button_delete' => $delete,
-                'default'       => ($this->customer->getAddressId() == $result['address_id']),
+                'default'       => ($this->customer->getAddressId() == $addressId),
             ];
         }
 
         $this->view->assign('addresses', $addresses);
-        $this->view->assign('insert', $this->html->getSecureURL('account/address/insert'));
 
         $insert = $this->html->buildElement(
             [
                 'type'  => 'button',
                 'name'  => 'insert',
                 'text'  => $this->language->get('button_new_address'),
-                'icon'  => 'fa fa-plus',
-                'style' => 'button',
+                'href'  => $this->html->getSecureURL('account/address/insert'),
             ]
         );
         $this->view->assign('button_insert', $insert);
@@ -216,18 +212,17 @@ class ControllerPagesAccountAddress extends AController
                 'type'  => 'button',
                 'name'  => 'back',
                 'text'  => $this->language->get('button_back'),
-                'icon'  => 'fa fa-arrow-left',
-                'style' => 'button',
+                'href'  => $this->html->getSecureURL('account/account'),
             ]
         );
         $this->view->assign('button_back', $back);
-        $this->view->assign('back', $this->html->getSecureURL('account/account'));
 
         $this->processTemplate('pages/account/addresses.tpl');
     }
 
-    private function getForm()
+    protected function getForm()
     {
+        $addressId = (int)$this->request->get['address_id'];
         $this->document->resetBreadcrumbs();
 
         $this->document->addBreadcrumb(
@@ -254,7 +249,7 @@ class ControllerPagesAccountAddress extends AController
             ]
         );
 
-        if (!isset($this->request->get['address_id'])) {
+        if (!$addressId) {
             $this->document->addBreadcrumb(
                 [
                     'href'      => $this->html->getSecureURL('account/address/insert'),
@@ -265,29 +260,27 @@ class ControllerPagesAccountAddress extends AController
         } else {
             $this->document->addBreadcrumb(
                 [
-                    'href'      => $this->html->getSecureURL('account/address/update', 'address_id=' . $this->request->get['address_id']),
+                    'href'      => $this->html->getSecureURL('account/address/update', 'address_id=' . $addressId),
                     'text'      => $this->language->get('text_edit_address'),
                     'separator' => $this->language->get('text_separator'),
                 ]
             );
         }
 
-        if (isset($this->request->get['address_id']) && $this->request->is_GET()) {
-            $address_info = $this->model_account_address->getAddress($this->request->get['address_id']);
+        if ($addressId && $this->request->is_GET()) {
+            $address_info = $this->model_account_address->getAddress($addressId);
         } else {
             $address_info = [];
         }
-
-        $this->data['back'] = $this->html->getSecureURL('account/address');
 
         $formTxtId = 'AddressFrm';
         $form = new AForm();
         $form->setForm(['form_name' => $formTxtId]);
 
-        if (!isset($this->request->get['address_id'])) {
+        if (!$addressId) {
             $action = $this->html->getSecureURL('account/address/insert');
         } else {
-            $action = $this->html->getSecureURL('account/address/update', '&address_id=' . $this->request->get['address_id']);
+            $action = $this->html->getSecureURL('account/address/update', '&address_id=' . $addressId);
         }
         $this->data['form']['form_open'] = $form->getFieldHtml(
             [
@@ -306,32 +299,22 @@ class ControllerPagesAccountAddress extends AController
 
         $this->data['error_warning'] = $this->error['warning'];
         foreach ($formElements as $name => $element) {
-            if (in_array($name, ['country_id', 'zone_id'])) {
-                $name = rtrim($name, '_id');
-            }
             //error messages
             $this->data['error_' . $name] = $this->error[$name];
             $this->data['entry_' . $name] = $element->display_name ?: $this->language->get('entry_' . $name);
 
-            if ($name == 'country') {
+            if ($name == 'country_id') {
                 $element->value = $this->request->post['country_id']
                     ?? $address_info['country_id']
                     ?? $this->config->get('config_country_id');
-            } elseif ($name == 'zone') {
-                $element->value = $this->request->post['country_id']
-                    ?? $address_info['country_id']
-                    ?? $this->config->get('config_country_id');
+            } elseif ($name == 'zone_id') {
                 $element->zone_value = $this->data['zone_id'];
+                //set zone_id as value for select[option]
                 $element->submit_mode = 'id';
+                //show only zone selector
                 $element->zone_only = true;
             } elseif ($name == 'default') {
-                if (isset($this->request->post['default'])) {
-                    $checked = $this->request->post['default'];
-                } elseif (isset($this->request->get['address_id'])) {
-                    $checked = $this->customer->getAddressId() == $this->request->get['address_id'];
-                } else {
-                    $checked = false;
-                }
+                $checked = $this->request->post['default'] ?? ($this->customer->getAddressId() == $addressId);
                 $element->checked = $checked ? 1 : 0;
             } else {
                 $element->value = $this->request->post[$name]
@@ -343,18 +326,21 @@ class ControllerPagesAccountAddress extends AController
             $this->data['form']['fields'][$name] = $element;
         }
 
-        $this->data['form']['back'] = $form->getFieldHtml([
-            'type'  => 'button',
-            'name'  => 'back',
-            'text'  => $this->language->get('button_back'),
-            'icon'  => 'fa fa-arrow-left',
-            'style' => 'button',
-        ]);
-        $this->data['form']['submit'] = $form->getFieldHtml([
-            'type' => 'submit',
-            'icon' => 'fa fa-check',
-            'name' => $this->language->get('button_continue'),
-        ]);
+        $this->data['form']['back'] = $form->getFieldHtml(
+            [
+                'type' => 'button',
+                'name' => 'back',
+                'text' => $this->language->get('button_back'),
+                'href' => $this->html->getSecureURL('account/address'),
+            ]
+        );
+        $this->data['form']['submit'] = $form->getFieldHtml(
+            [
+                'id'   => 'submit_button',
+                'type' => 'submit',
+                'name' => $this->language->get('button_continue'),
+            ]
+        );
 
         $this->view->batchAssign($this->data);
         $this->processTemplate('pages/account/address.tpl');
@@ -384,12 +370,7 @@ class ControllerPagesAccountAddress extends AController
         if ($this->customer->getAddressId() == $addressId) {
             $this->error['warning'] = $this->language->get('error_default');
         }
-        $this->extensions->hk_ValidateData($this,['address_id' => $addressId]);
+        $this->extensions->hk_ValidateData($this, ['address_id' => $addressId]);
         return (!$this->error);
-    }
-
-    private function _check_access()
-    {
-
     }
 }

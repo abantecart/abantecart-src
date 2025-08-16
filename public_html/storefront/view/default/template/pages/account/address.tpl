@@ -14,7 +14,6 @@ if ($error_warning) { ?>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 <?php } ?>
-
 <div class="container">
 	<?php
     $form['form_open']->style .= ' needs-validation';
@@ -37,27 +36,20 @@ if ($error_warning) { ?>
             <?php echo $this->getHookVar('address_edit_sections'); ?>
         </div>
         <div class="ps-4 p-3 col-12 d-flex flex-wrap">
-            <a href="<?php echo $back; ?>" class="btn btn-secondary" title="<?php echo $form['back']->text ?>">
-                <i class="<?php echo $form['back']->{'icon'}; ?>"></i>
-                <?php echo $form['back']->text ?>
-            </a>
-            <button id="submit_button" type="submit"
-                    role="button"
-                    class="btn btn-primary ms-auto lock-on-click"
-                    title="<?php echo_html2view($form['submit']->name); ?>">
-                <i class="fa <?php echo $form['submit']->icon; ?>"></i>
-                <?php echo $form['submit']->name ?>
-            </button>
+            <?php
+            $form['back']->style .= 'btn-secondary';
+            $form['back']->icon = 'fa fa-arrow-left';
+            echo $form['back'];
+
+            $form['submit']->style .= ' btn-primary ms-auto lock-on-click';
+            $form['submit']->icon = 'fa fa-check';
+            echo $form['submit'];
+            ?>
         </div>
     </form>
 </div>
 
 <script type="text/javascript">
-
-<?php $cz_url = $this->html->getURL('common/zone', '&zone_id='. $zone_id); ?>
-$('#AddressFrm_country_id').change(function() {
-    $('select[name=\'zone_id\']').load('<?php echo $cz_url;?>&country_id=' + $(this).val());
-});
-$('select[name=\'zone_id\']').load('<?php echo $cz_url;?>&country_id=' + $('#AddressFrm_country_id').val());
-
+    <?php $cz_url = $this->html->getSecureURL('common/zone', '&zone_id='. $zone_id); ?>
+    $('select[name="zone_id"]').load('<?php echo $cz_url;?>&country_id=' + $('#AddressFrm_country_id').val());
 </script>

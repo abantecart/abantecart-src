@@ -5,7 +5,6 @@
         </h1>
     </div>
 </div>
-
 <?php if ($success) { ?>
     <div class="alert alert-success alert-dismissible" role="alert">
         <?php echo $success; ?>
@@ -18,7 +17,6 @@ if ($error_warning) { ?>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 <?php } ?>
-
 
 <h4 class="mb-4 mt-3 pb-3 border-bottom"><?php echo $text_address_book; ?></h4>
 <?php echo $this->getHookvar('pre_address');
@@ -34,9 +32,11 @@ foreach ((array)$addresses as $address) { ?>
                         <td class="text-end">
                         <?php
                             $address['button_edit']->style = ' btn btn-outline-primary mb-2 mb-md-0';
+                            $address['button_edit']->icon = ' bi bi-pencil';
                             echo $address['button_edit'];
                             if ( !$address['default'] ) {
                                 $address['button_delete']->style .= ' btn btn-outline-danger ';
+                                $address['button_delete']->icon = ' bi bi-trash';
                                 echo $address['button_delete'];
                             } ?>
                         </td>
@@ -46,16 +46,16 @@ foreach ((array)$addresses as $address) { ?>
         </div>
     </div>
 <?php }
-echo $this->getHookvar('post_address');?>
-
+echo $this->getHookvar('post_address');
+?>
 <div class="py-3 col-12 d-flex flex-wrap justify-content-between">
-    <a href="<?php echo $back; ?>" class="btn btn-secondary" title="<?php echo_html2view($button_back->text); ?>">
-        <i class="<?php echo $button_back->{'icon'}; ?>"></i>
-        <?php echo $button_back->text; ?>
-    </a>
-    <?php echo $this->getHookvar('address_buttons');?>
-    <a href="<?php echo $insert; ?>" class="btn btn-primary" title="<?php echo $button_insert->text ?>">
-        <i class="<?php echo $button_insert->icon; ?>"></i>
-        <?php echo $button_insert->text ?>
-    </a>
+    <?php
+    $button_back->style .= 'btn-secondary';
+    $button_back->icon = 'bi bi-arrow-left';
+    echo $button_back;
+    echo $this->getHookvar('address_buttons');
+    $button_insert->style .= ' btn-primary ';
+    $button_insert->icon = 'bi bi-plus';
+    echo $button_insert;
+    ?>
 </div>
