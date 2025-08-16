@@ -89,7 +89,7 @@
            title="<?php echo_html2view($item['text']); ?>"
            href="<?php echo $item['url']; ?>">
             <div class="position-relative p-3">
-                <i class="fs-1 fa <?php echo $item['icon']; ?> fa-xxl"></i>
+                <i class="fs-1 fa <?php echo $item['icon']; ?> fa-2xl"></i>
                 <?php if($item['badge']){?>
                     <span class="fs-5 shadow badge position-absolute top-0 start-100 translate-middle rounded-pill bg-success ">
                         <?php echo $item['badge']; ?>
