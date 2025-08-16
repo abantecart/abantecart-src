@@ -10,7 +10,7 @@ echo $form['form_open']; ?>
 </div>
 <fieldset>
     <?php echo $this->getHookVar('address_form_top'); ?>
-    <label class="visible-xs text-center text-uppercase"><?php echo $type.' '.$fast_checkout_text_address; ?></label>
+    <label class="visible-xs text-center text-uppercase"><?php echo $this->language->get('text_'.$type.'_address'); ?></label>
     <div class="row mb-3">
         <div class="form-group col-12 col-sm-6 mb-3 mb-sm-0">
             <div class="input-group">
@@ -117,8 +117,11 @@ echo $form['form_open']; ?>
                 <div class="input-group-text">
                     <i class="fa fa-bars"></i>
                 </div>
-                <select aria-label="zone" required class="form-select form-select-lg <?php if (isset($errors['zone'])) { echo 'is-invalid'; } ?>"
-                        id="zone_id" name="zone_id"></select>
+                <?php
+                $form['zone_id']->no_wrapper = true;
+                $form['zone_id']->style .= "form-select form-select-lg ". (isset($errors['zone']) ? 'is-invalid' : '');
+                $form['zone_id']->attr .= ' aria-label="zone"';
+                echo $form['zone_id'];?>
             </div>
         </div>
         <div class="form-group col-12 col-sm-6">
@@ -126,8 +129,10 @@ echo $form['form_open']; ?>
                 <div class="input-group-text">
                     <i class="fa fa-map"></i>
                 </div>
-                <select required aria-label="country" class="form-select form-select-lg  <?php if (isset($errors['country'])) { echo 'is-invalid';} ?>"
-                        id="country_id" name="country_id">
+                <select required aria-label="country"
+                        class="form-select form-select-lg  <?php if (isset($errors['country'])) { echo 'is-invalid';} ?>"
+                        id="country_id"
+                        name="country_id">
                 <?php
                     if ($form['country_id']->options) {
                         foreach ($form['country_id']->options as $id => $name) {

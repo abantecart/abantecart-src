@@ -10,7 +10,7 @@ echo $form['form_open']; ?>
 </div>
 <fieldset>
     <?php echo $this->getHookVar('address_form_top'); ?>
-    <label class="visible-xs text-center text-uppercase"><?php echo $type.' '.$fast_checkout_text_address; ?></label>
+    <label class="visible-xs text-center text-uppercase"><?php echo $this->language->get('text_'.$type.'_address'); ?></label>
     <div class="row mb-3">
         <div class="form-group col-12 col-sm-6 mb-3 mb-sm-0">
             <div class="input-group">
