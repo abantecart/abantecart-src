@@ -2,21 +2,21 @@
 <div class="input-group">
 <?php }
 if($icon){?>
-    <div class="input-group-text"><?php echo $icon; ?></div>
+    <div class="input-group-text" title="<?php echo_html2view($display_name);?>"><?php echo $icon; ?></div>
 <?php }
 ?>
     <input type="<?php echo $type ?>" name="<?php echo $name ?>" id="<?php echo $id ?>" value="<?php echo $value ?>"
            placeholder="<?php echo $placeholder ?>" class="form-control <?php echo $style; ?>"
         <?php echo $attr;
-        echo $regexp_pattern ? ' pattern="' . $regexp_pattern . '"' : '';
-        echo $error_text ? ' title="' . $error_text . '"' : '';
+        echo $regexp_pattern ? ' pattern="' . html2view($regexp_pattern) . '"' : '';
+        echo $error_text ? ' title="' . html2view($error_text) . '"' : '';
         echo $list ? ' list="' . $id . '_list"' : '';
         echo $required ? ' required="required"' : ''; ?>/>
     <?php
     if ($list) { ?>
         <datalist id="<?php echo $id . '_list' ?>">
             <?php foreach ((array)$list as $l) {
-                echo '<option value="' . htmlspecialchars($l, ENT_QUOTES, 'UTF-8') . '">';
+                echo '<option value="' . html2view($l) . '">';
             } ?>
         </datalist>
     <?php }

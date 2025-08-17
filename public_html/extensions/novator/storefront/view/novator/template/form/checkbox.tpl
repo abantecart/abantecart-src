@@ -2,7 +2,7 @@
 <div class="input-group h-100 form-check form-check-inline">
 <?php }
 if($icon){?>
-    <div class="input-group-text"><?php echo $icon; ?></div>
+    <div class="input-group-text" title="<?php echo_html2view($display_name);?>"><?php echo $icon; ?></div>
 <?php } ?>
 <div class="d-flex align-items-center">
     <input type="checkbox" class="form-check-input <?php echo $style; ?>"

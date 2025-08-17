@@ -11,7 +11,7 @@ if( $langCode != 'en'){ ?>
 <div class="input-group h-100">
 <?php }
 if($icon){?>
-    <div class="input-group-text"><?php echo $icon; ?></div>
+    <div class="input-group-text" title="<?php echo_html2view($display_name);?>"><?php echo $icon; ?></div>
 <?php }?>
     <input type="<?php echo $type ?>"
            name="<?php echo $name ?>"

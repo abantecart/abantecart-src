@@ -29,7 +29,7 @@ if(!$no_wrapper){
 <?php
 }
 if($icon){?>
-    <div class="input-group-text"><?php echo $icon; ?></div>
+    <div class="input-group-text" title="<?php echo_html2view($display_name);?>"><?php echo $icon; ?></div>
 <?php }
     if(!$zone_only){
         $name .= '_zones[]';
@@ -58,17 +58,19 @@ if(!$no_wrapper){?>
 <?php
 	$qry = $submit_mode == 'id' ? "&country_id=" : "&country_name=";
 ?>
-    const countryElm = <?php
-            if($zone_only){
-                echo '$("#'.$zoneElmId.'").parents("form").find("[name*=country]");'.PHP_EOL;
-            }else{
-                echo '$("#' . $zoneElmId .'");'.PHP_EOL;
-            }?>
-    countryElm.change( function(){
-		$('#<?php echo $id ?>').load(
-            '<?php echo $url. $qry ?>'
-            + encodeURIComponent($(this).val())
-            + '&'+encodeURIComponent('zone_name=<?php echo $zone_name; ?>')
-        );
-	});
+    $(document).ready(function(){
+        var countryElm = <?php
+                if($zone_only){
+                    echo '$("#'.$zoneElmId.'").parents("form").find("[name*=country]");'.PHP_EOL;
+                }else{
+                    echo '$("#' . $zoneElmId .'");'.PHP_EOL;
+                }?>
+        countryElm.off('change').on('change', function(){
+            $('#<?php echo $id ?>').load(
+                '<?php echo $url. $qry ?>'
+                + encodeURIComponent($(this).val())
+                + '&'+encodeURIComponent('zone_name=<?php echo $zone_name; ?>')
+            );
+        });
+    });
 </script>
