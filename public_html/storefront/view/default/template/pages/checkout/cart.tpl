@@ -1,5 +1,5 @@
 <h1 class="ms-3 my-2 heading-title ">
-    <i class="fa fa-shopping-cart me-2"></i>
+    <i class="fa-solid fa-cart-shopping me-2"></i>
     <?php echo $heading_title; ?>
     <?php
     if ($weight) { ?>
