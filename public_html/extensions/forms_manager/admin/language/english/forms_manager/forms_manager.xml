@@ -190,7 +190,7 @@
 	</definition>
 	<definition>
 		<key>entry_field_note</key>
-		<value><![CDATA[Field note]]></value>
+		<value><![CDATA[Field internal note]]></value>
 	</definition>
 	<definition>
 		<key>forms_manager_default_sender_name</key>

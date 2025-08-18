@@ -693,12 +693,18 @@ class ModelToolFormsManager extends Model
         if (!$formId || !$fieldId) {
             return false;
         }
+
+        $this->removeFieldValues($fieldId);
+        $this->db->query(
+            'DELETE FROM ' . $this->db->table("field_descriptions") . '
+			WHERE field_id = "' . $fieldId . '"'
+        );
+
         $this->db->query(
             'DELETE FROM ' . $this->db->table("fields") . '
 			WHERE form_id = "' . $formId . '"
 			AND field_id = "' . $fieldId . '"'
         );
-        $this->removeFieldValues($fieldId);
         return true;
     }
 

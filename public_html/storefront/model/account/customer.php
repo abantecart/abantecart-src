@@ -1,24 +1,22 @@
 <?php
-/** @noinspection PhpUndefinedClassInspection */
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2022 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details is bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs please refer to http://www.AbanteCart.com for more information.
+ */
 
 use ReCaptcha\ReCaptcha;
 
@@ -33,6 +31,29 @@ use ReCaptcha\ReCaptcha;
 class ModelAccountCustomer extends Model
 {
     public $error = [];
+
+    public function __construct($registry)
+    {
+        parent::__construct($registry);
+        //this list can be changed from hook beforeModelModelCheckoutOrder
+        $this->data['customer_column_list'] = [
+                'store_id'           => 'int',
+                'loginname'          => 'string',
+                'firstname'          => 'string',
+                'lastname'           => 'string',
+                'email'              => 'string',
+                'telephone'          => 'string',
+                'fax'                => 'string',
+                'salt'               => 'string',
+                'password'           => 'string',
+                'newsletter'         => 'int',
+                'customer_group_id'  => 'int',
+                'approved'           => 'int',
+                'status'             => 'int',
+                'ip'                 => 'string',
+                'data'               => 'serialize',
+        ];
+    }
 
     /**
      * @param array $data
@@ -102,8 +123,7 @@ class ModelAccountCustomer extends Model
                     approved = '".(int) $data['approved']."',
                     status = '".(int) $data['status']."'".$key_sql.",
                     ip = '".$this->db->escape($data['ip'])."',
-                    data = '".$this->db->escape(serialize($data['data']))."',
-                    date_added = NOW()";
+                    data = '".$this->db->escape(serialize($data['data']))."'";
         $this->db->query($sql);
         $customer_id = $this->db->getLastId();
 
@@ -199,15 +219,12 @@ class ModelAccountCustomer extends Model
      */
     public function editCustomer($data)
     {
+        $data = (array)$data;
         if (!$data) {
             return false;
         }
 
-        $key_sql = '';
-        if ($this->dcrypt->active) {
-            $data = $this->dcrypt->encrypt_data($data, 'customers');
-            $key_sql = ", key_id = '".(int) $data['key_id']."'";
-        }
+        $updateArr = [];
 
         $data['store_name'] = $this->config->get('store_name');
 
@@ -216,13 +233,12 @@ class ModelAccountCustomer extends Model
         $language->load('common/im');
 
         //update login only if needed
-        $loginname = '';
-        if (!empty($data['loginname']) && trim($data['loginname']) != $this->customer->getLoginName()) {
-            $loginname = " loginname = '".$this->db->escape($data['loginname'])."', ";
+        if ($data['loginname'] && trim($data['loginname']) != $this->customer->getLoginName()) {
             $message_arr = [
                 0 => [
-                    'message' => sprintf(
-                        $language->get('im_customer_account_update_login_to_customer'), $data['loginname']
+                    'message' => $language->getAndReplace(
+                        'im_customer_account_update_login_to_customer',
+                        replaces: $data['loginname']
                     ),
                 ],
             ];
@@ -236,19 +252,15 @@ class ModelAccountCustomer extends Model
             if ($rec == 'email' && $val != $data['email']) {
                 $message_arr = [
                     0 => [
-                        'message' => sprintf(
-                            $language->get('im_customer_account_update_email_to_customer'), $data['email']
+                        'message' => $language->getAndReplace(
+                            'im_customer_account_update_email_to_customer',
+                            replaces: $data['email']
                         ),
                     ],
                 ];
                 $data['old_email'] = $val;
                 $this->im->send('customer_account_update', $message_arr, 'storefront_customer_account_update', $data);
             }
-        }
-
-        //trim and remove double whitespaces
-        foreach (['firstname', 'lastname'] as $f) {
-            $data[$f] = str_replace('  ', ' ', trim($data[$f]));
         }
 
         if (
@@ -265,14 +277,59 @@ class ModelAccountCustomer extends Model
             $this->im->send('customer_account_update', $message_arr, 'storefront_customer_account_update', $data);
         }
 
+        foreach ($this->data['customer_column_list'] as $key => $dataType) {
+            if(!isset($data[$key])){
+                continue;
+            }
+            if ($dataType == 'int') {
+                $value = (int)$data[$key];
+            } elseif ($dataType == 'float') {
+                $value = (float)$data[$key];
+            } elseif ($dataType == 'string') {
+                $value = $this->db->escape($data[$key]);
+            } else {
+                $value = $this->db->escape(serialize($data[$key]));
+            }
+            $updateArr[] = "`" . $key . "` = '" . $value . "'";
+        }
+
+        //prepare extended fields values
+        $extFields = [];
+        $colNames = array_keys($this->data['customer_column_list']);
+
+        foreach ($data as $key => $value) {
+            if (in_array($key, ['csrftoken', 'csrfinstance', 'store_name'])) {
+                continue;
+            }
+            $kSet = [$key];
+            if (array_intersect($kSet, $colNames)) {
+                continue;
+            }
+            if (is_array($value)) {
+                foreach ($value as $subKey => $subValue) {
+                    $kSet = [$subKey];
+                    if (array_intersect($kSet, $colNames)) {
+                        continue;
+                    }
+                    $extFields[$key][$subKey] = $subValue;
+                }
+            } else {
+                $extFields[$key] = $value;
+            }
+        }
+
+        if ($extFields) {
+            $updateArr[] = "`ext_fields` = '" . json_encode($extFields) . "'";
+        }
+
+        if ($this->dcrypt->active) {
+            $data = $this->dcrypt->encrypt_data($data, 'customers');
+            $updateArr[] = "`key_id` = '" . (int)$data['key_id'] . "'";
+        }
+
         $sql = "UPDATE ".$this->db->table("customers")."
-                SET   firstname = '".$this->db->escape($data['firstname'])."',
-                      lastname = '".$this->db->escape($data['lastname'])."', ".$loginname."
-                      email = '".$this->db->escape($data['email'])."',
-                      telephone = '".$this->db->escape($data['telephone'])."',
-                      fax = '".$this->db->escape($data['fax'])."'"
-            .$key_sql.
-            " WHERE customer_id = '".(int) $this->customer->getId()."'";
+                SET " . implode(', ', $updateArr)."
+                WHERE customer_id = '".(int) $this->customer->getId()."'";
         $this->db->query($sql);
         return true;
     }
@@ -534,6 +591,7 @@ class ModelAccountCustomer extends Model
         );
         $result_row = $this->dcrypt->decrypt_data($query->row, 'customers');
         $result_row['data'] = unserialize($result_row['data']);
+        $result_row['ext_fields'] = json_decode($result_row['ext_fields'], true);
         return $result_row;
     }
 
@@ -909,44 +967,17 @@ class ModelAccountCustomer extends Model
 
         //validate loginname only if cannot match email and if it is set. Edit of loginname not allowed
         if ($this->config->get('prevent_email_as_login') && isset($data['loginname'])) {
-            //validate only if email login is not allowed
-            $login_name_pattern = '/^[\w._-]+$/i';
-            if ((mb_strlen($data['loginname']) < 5) || (mb_strlen($data['loginname']) > 64)
-                || (!preg_match($login_name_pattern, $data['loginname']))
-            ) {
-                $this->error['loginname'] = $this->language->get('error_loginname');
-                //validate uniqueness of login name
-            } else {
-                if (!$this->is_unique_loginname($data['loginname'])) {
-                    $this->error['loginname'] = $this->language->get('error_loginname_notunique');
-                }
+            if (!$this->is_unique_loginname($data['loginname'])) {
+                $this->error['loginname'] = $this->language->get('error_loginname_notunique');
             }
-        }
-        $data['firstname'] = $data['firstname'] ?? '';
-        if ((mb_strlen($data['firstname']) < 1) || (mb_strlen($data['firstname']) > 32)) {
-            $this->error['firstname'] = $this->language->get('error_firstname');
-        }
-        $data['lastname'] = $data['lastname'] ?? '';
-        if ((mb_strlen($data['lastname']) < 1) || (mb_strlen($data['lastname']) > 32)) {
-            $this->error['lastname'] = $this->language->get('error_lastname');
-        }
-        $data['email'] = $data['email'] ?? '';
-        if ((mb_strlen($data['email']) > 96) || (!preg_match(EMAIL_REGEX_PATTERN, $data['email']))) {
-            $this->error['email'] = $this->language->get('error_email');
         }
 
         if (($this->customer->getEmail() != $data['email']) && $this->getTotalCustomersByEmail($data['email'])) {
             $this->error['warning'] = $this->language->get('error_exists');
         }
-        $phone = $data['telephone'] ?? '';
-        if ($phone || $this->config->get('fast_checkout_require_phone_number')) {
-            $pattern = $this->config->get('config_phone_validation_pattern') ? : DEFAULT_PHONE_REGEX_PATTERN;
-            if (mb_strlen($phone) < 3
-                || mb_strlen($phone) > 32
-                || !preg_match($pattern, $phone)
-            ) {
-                $this->error['telephone'] = $this->language->get('error_telephone');
-            }
+
+        if ($this->config->get('fast_checkout_require_phone_number') && !$data['telephone']) {
+            $this->error['telephone'] = $this->language->get('error_telephone');
         }
 
         if (count($this->error) && empty($this->error['warning'])) {
