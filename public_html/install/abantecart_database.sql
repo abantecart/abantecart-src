@@ -1104,6 +1104,7 @@ CREATE TABLE `ac_orders` (
   `payment_address_format` text NOT NULL,
   `payment_method` varchar(128) NOT NULL DEFAULT '',
   `payment_method_key` varchar(128) NOT NULL DEFAULT '',
+  `payment_method_data` text NOT NULL DEFAULT '',
   `comment` text NOT NULL,
   `total` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `order_status_id` int(11) NOT NULL DEFAULT '0',
@@ -1115,22 +1116,23 @@ CREATE TABLE `ac_orders` (
   `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `ip` varchar(50) NOT NULL DEFAULT '',
-  `payment_method_data` text NOT NULL DEFAULT '',
+  `ext_fields` json null,
   PRIMARY KEY (`order_id`, `customer_id`, `order_status_id`)
 
 ) ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;
 
 CREATE INDEX `ac_orders_idx`
-ON `ac_orders` (`invoice_id`,
-								`store_id`,
-								`customer_group_id`,
-								`shipping_zone_id`,
-								`shipping_country_id`,
-								`payment_zone_id`,
-								`payment_country_id`,
-								`language_id`,
-								`currency_id`,
-								`coupon_id`);
+ON `ac_orders` (
+    `invoice_id`,
+    `store_id`,
+    `customer_group_id`,
+    `shipping_zone_id`,
+    `shipping_country_id`,
+    `payment_zone_id`,
+    `payment_country_id`,
+    `language_id`,
+    `currency_id`,
+    `coupon_id`);
 --
 -- DDL for table `order_downloads`
 --

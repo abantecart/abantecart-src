@@ -32,6 +32,9 @@ class ModelLocalisationCountry extends Model
      */
     public function getCountry($country_id)
     {
+        if(!$country_id){
+            return [];
+        }
         $language_id = $this->language->getLanguageID();
         $default_language_id = $this->language->getDefaultLanguageID();
 

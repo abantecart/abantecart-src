@@ -6,6 +6,8 @@ alter table `ac_coupons`
 
 INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('checkout','config_unauth_customer',1);
 
+alter table `ac_orders` add `ext_fields` json null;
+
 alter table `ac_addresses`
     add `ext_fields` json null,
     add `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,

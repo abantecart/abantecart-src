@@ -22,6 +22,60 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 class ModelCheckoutOrder extends Model
 {
+    public function __construct($registry)
+    {
+        parent::__construct($registry);
+        //this list can be changed from hook beforeModelModelCheckoutOrder
+        $this->data['order_column_list'] = [
+            'store_id'                => 'int',
+            'store_name'              => 'string',
+            'store_url'               => 'string',
+            'customer_id'             => 'int',
+            'customer_group_id'       => 'int',
+            'firstname'               => 'string',
+            'lastname'                => 'string',
+            'email'                   => 'string',
+            'telephone'               => 'string',
+            'fax'                     => 'string',
+            'total'                   => 'float',
+            'language_id'             => 'int',
+            'currency'                => 'string',
+            'currency_id'             => 'int',
+            'value'                   => 'float',
+            'coupon_id'               => 'int',
+            'ip'                      => 'string',
+            'shipping_firstname'      => 'string',
+            'shipping_lastname'       => 'string',
+            'shipping_company'        => 'string',
+            'shipping_address_1'      => 'string',
+            'shipping_address_2'      => 'string',
+            'shipping_city'           => 'string',
+            'shipping_postcode'       => 'string',
+            'shipping_zone'           => 'string',
+            'shipping_zone_id'        => 'int',
+            'shipping_country'        => 'string',
+            'shipping_country_id'     => 'int',
+            'shipping_address_format' => 'string',
+            'shipping_method'         => 'string',
+            'shipping_method_key'     => 'string',
+            'payment_firstname'       => 'string',
+            'payment_lastname'        => 'string',
+            'payment_company'         => 'string',
+            'payment_address_1'       => 'string',
+            'payment_address_2'       => 'string',
+            'payment_city'            => 'string',
+            'payment_postcode'        => 'string',
+            'payment_zone'            => 'string',
+            'payment_zone_id'         => 'int',
+            'payment_country'         => 'string',
+            'payment_country_id'      => 'int',
+            'payment_address_format'  => 'string',
+            'payment_method'          => 'string',
+            'payment_method_key'      => 'string',
+            'comment'                 => 'string',
+        ];
+    }
+
     /**
      * @param $orderId
      *
@@ -100,24 +154,25 @@ class ModelCheckoutOrder extends Model
         if ($result !== null) {
             return $result;
         }
+        return null;
     }
 
     /**
      * @param array $data
-     * @param int|string $set_order_id
+     * @param int|string $setOrderId
      *
      * @return bool|int
      * @throws AException
      */
-    public function _create($data, $set_order_id = '')
+    public function _create($data, $setOrderId = 0)
     {
-        $set_order_id = (int)$set_order_id;
+        $setOrderId = (int)$setOrderId;
         //reuse same order_id or unused one order_status_id = 0
-        if ($set_order_id) {
+        if ($setOrderId) {
             $query = $this->db->query(
                 "SELECT order_id
                 FROM `" . $this->db->table("orders") . "`
-                WHERE order_id = " . $set_order_id . " 
+                WHERE order_id = " . $setOrderId . " 
                     AND order_status_id = '0'"
             );
 
@@ -125,8 +180,8 @@ class ModelCheckoutOrder extends Model
                 $query = $this->db->query(
                     "SELECT order_id
                     FROM `" . $this->db->table("orders") . "`
-                    WHERE order_id = " . $set_order_id . " 
-                        AND order_status_id > '0'"
+                    WHERE order_id = " . $setOrderId . " 
+                        AND order_status_id > 0"
                 );
                 if ($query->num_rows) {
                     return false;
@@ -146,91 +201,83 @@ class ModelCheckoutOrder extends Model
                 . date(
                     'Y-m-d',
                     strtotime('-' . (int)$this->config->get('config_expire_order_days') . ' days')
-                ) . "' AND order_status_id = '0'"
+                ) . "' AND order_status_id = 0"
             );
             foreach ($query->rows as $result) {
                 $this->_remove_order($result['order_id']);
             }
         }
 
-        if (!$set_order_id && (int)$this->config->get('config_start_order_id')) {
+        if (!$setOrderId && (int)$this->config->get('config_start_order_id')) {
             $query = $this->db->query(
                 "SELECT MAX(order_id) AS order_id
                 FROM `" . $this->db->table("orders") . "`"
             );
             if ($query->row['order_id'] && $query->row['order_id'] >= $this->config->get('config_start_order_id')) {
-                $set_order_id = (int)$query->row['order_id'] + 1;
+                $setOrderId = (int)$query->row['order_id'] + 1;
             } elseif ($this->config->get('config_start_order_id')) {
-                $set_order_id = (int)$this->config->get('config_start_order_id');
+                $setOrderId = (int)$this->config->get('config_start_order_id');
             } else {
-                $set_order_id = 0;
+                $setOrderId = 0;
             }
         }
 
-        if ($set_order_id) {
-            $set_order_id = "order_id = '" . (int)$set_order_id . "', ";
-        } else {
-            $set_order_id = '';
+        $insertArr = [];
+        if ($setOrderId) {
+            $insertArr[] = "`order_id` = '" . (int)$setOrderId . "'";
         }
 
-        $key_sql = '';
+        foreach ($this->data['order_column_list'] as $key => $dataType) {
+            if(!isset($data[$key])){
+                continue;
+            }
+            if ($dataType == 'int') {
+                $value = (int)$data[$key];
+            } elseif ($dataType == 'float') {
+                $value = (float)$data[$key];
+            } elseif ($dataType == 'string') {
+                $value = $this->db->escape($data[$key]);
+            } else {
+                $value = $this->db->escape(serialize($data[$key]));
+            }
+            $insertArr[] = "`" . $key . "` = '" . $value . "'";
+        }
+
+        //prepare extended fields values
+        $extFields = [];
+        $colNames = array_keys($this->data['order_column_list']);
+
+        foreach ($data as $key => $value) {
+            if (in_array($key, ['shipping', 'products', 'totals'])) {
+                continue;
+            }
+            $kSet = $this->getOrderColumnNameVariants($key);
+            if (array_intersect($kSet, $colNames)) {
+                continue;
+            }
+            if (is_array($value)) {
+                foreach ($value as $subKey => $subValue) {
+                    $kSet = $this->getOrderColumnNameVariants($subKey);
+                    if (array_intersect($kSet, $colNames)) {
+                        continue;
+                    }
+                    $extFields[$key][$subKey] = $subValue;
+                }
+            } else {
+                $extFields[$key] = $value;
+            }
+        }
+
+        if ($extFields) {
+            $insertArr[] = "`ext_fields` = '" . json_encode($extFields) . "'";
+        }
+
         if ($this->dcrypt->active) {
             $data = $this->dcrypt->encrypt_data($data, 'orders');
-            $key_sql = ", key_id = '" . (int)$data['key_id'] . "'";
+            $insertArr[] = "`key_id` = '" . (int)$data['key_id'] . "'";
         }
 
-        $this->db->query(
-            "INSERT INTO `" . $this->db->table("orders") . "`
-            SET " . $set_order_id . " store_id = '" . (int)$data['store_id'] . "',
-                store_name = '" . $this->db->escape($data['store_name']) . "',
-                store_url = '" . $this->db->escape($data['store_url']) . "',
-                customer_id = '" . (int)$data['customer_id'] . "',
-                customer_group_id = '" . (int)$data['customer_group_id'] . "',
-                firstname = '" . $this->db->escape($data['firstname']) . "',
-                lastname = '" . $this->db->escape($data['lastname']) . "',
-                email = '" . $this->db->escape($data['email']) . "',
-                telephone = '" . $this->db->escape($data['telephone']) . "',
-                fax = '" . $this->db->escape($data['fax']) . "',
-                total = '" . (float)$data['total'] . "',
-                language_id = '" . (int)$data['language_id'] . "',
-                currency = '" . $this->db->escape($data['currency']) . "',
-                currency_id = '" . (int)$data['currency_id'] . "',
-                value = '" . (float)$data['value'] . "',
-                coupon_id = '" . (int)$data['coupon_id'] . "',
-                ip = '" . $this->db->escape($data['ip']) . "',
-                shipping_firstname = '" . $this->db->escape($data['shipping_firstname']) . "',
-                shipping_lastname = '" . $this->db->escape($data['shipping_lastname']) . "',
-                shipping_company = '" . $this->db->escape($data['shipping_company']) . "',
-                shipping_address_1 = '" . $this->db->escape($data['shipping_address_1']) . "',
-                shipping_address_2 = '" . $this->db->escape($data['shipping_address_2']) . "',
-                shipping_city = '" . $this->db->escape($data['shipping_city']) . "',
-                shipping_postcode = '" . $this->db->escape($data['shipping_postcode']) . "',
-                shipping_zone = '" . $this->db->escape($data['shipping_zone']) . "',
-                shipping_zone_id = '" . (int)$data['shipping_zone_id'] . "',
-                shipping_country = '" . $this->db->escape($data['shipping_country']) . "',
-                shipping_country_id = '" . (int)$data['shipping_country_id'] . "',
-                shipping_address_format = '" . $this->db->escape($data['shipping_address_format']) . "',
-                shipping_method = '" . $this->db->escape($data['shipping_method']) . "',
-                shipping_method_key = '" . $this->db->escape($data['shipping_method_key']) . "',
-                payment_firstname = '" . $this->db->escape($data['payment_firstname']) . "',
-                payment_lastname = '" . $this->db->escape($data['payment_lastname']) . "',
-                payment_company = '" . $this->db->escape($data['payment_company']) . "',
-                payment_address_1 = '" . $this->db->escape($data['payment_address_1']) . "',
-                payment_address_2 = '" . $this->db->escape($data['payment_address_2']) . "',
-                payment_city = '" . $this->db->escape($data['payment_city']) . "',
-                payment_postcode = '" . $this->db->escape($data['payment_postcode']) . "',
-                payment_zone = '" . $this->db->escape($data['payment_zone']) . "',
-                payment_zone_id = '" . (int)$data['payment_zone_id'] . "',
-                payment_country = '" . $this->db->escape($data['payment_country']) . "',
-                payment_country_id = '" . (int)$data['payment_country_id'] . "',
-                payment_address_format = '" . $this->db->escape($data['payment_address_format']) . "',
-                payment_method = '" . $this->db->escape($data['payment_method']) . "',
-                payment_method_key = '" . $this->db->escape($data['payment_method_key']) . "',
-                comment = '" . $this->db->escape($data['comment']) . "'"
-            . $key_sql . ",
-                date_modified = NOW(),
-                date_added = NOW()"
-        );
+        $this->db->query("INSERT INTO `" . $this->db->table("orders") . "` SET " . implode(', ', $insertArr));
 
         $order_id = $this->db->getLastId();
 
@@ -362,7 +409,7 @@ class ModelCheckoutOrder extends Model
      * @param string $comment
      *
      * @return bool
-     * @throws AException
+     * @throws AException|TransportExceptionInterface
      */
     public function _confirm($orderId, $order_status_id, $comment = '')
     {
@@ -904,7 +951,7 @@ class ModelCheckoutOrder extends Model
      * @param string $comment
      * @param bool $notify
      *
-     * @throws AException
+     * @throws AException|TransportExceptionInterface
      */
     public function _update($order_id, $order_status_id, $comment = '', $notify = false)
     {
@@ -1241,5 +1288,22 @@ class ModelCheckoutOrder extends Model
             return $arProducts;
         }
         return [];
+    }
+
+    /**
+     * @param string $key
+     * @return array
+     */
+    protected function getOrderColumnNameVariants(string $key)
+    {
+        $pPrefix = 'payment_';
+        $sPrefix = 'shipping_';
+        return [
+            $key,
+            $sPrefix . $key,
+            ltrim($key, $sPrefix),
+            $pPrefix . $key,
+            ltrim($key, $pPrefix)
+        ];
     }
 }

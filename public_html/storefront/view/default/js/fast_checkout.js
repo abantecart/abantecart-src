@@ -255,7 +255,7 @@ $(document).on(
 
     $(document).on(
         'submit',
-        '.pay-form #PayFrm, .pay-form #AddressFrm, .pay-form #Address2Frm, form#LoginFrm',
+        '.pay-form #PayFrm, .pay-form #AddressFrm, form#GuestCheckoutFrm, form#LoginFrm',
         function () {
             let form = $(this);
             if (!validateForm(form)) {
