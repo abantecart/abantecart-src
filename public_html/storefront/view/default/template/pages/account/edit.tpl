@@ -17,7 +17,10 @@ if ($error_warning) { ?>
 <?php } ?>
 
 <div class="container">
-    <?php echo $form['form_open'];?>
+    <?php
+    $form['form_open']->style .= ' needs-validation';
+    $form['form_open']->attr .= ' novalidate';
+    echo $form['form_open'];?>
     <h4><?php echo $text_your_details; ?></h4>
     <div class="ps-4 border p-3 mb-4">
     <?php
@@ -35,17 +38,15 @@ if ($error_warning) { ?>
     </div>
 
     <div class="ps-4 p-3 col-12 d-flex flex-wrap">
-        <a href="<?php echo $back; ?>" class="btn btn-secondary" title="<?php echo_html2view($form['back']->text); ?>">
-            <i class="<?php echo $form['back']->icon; ?>"></i>
-            <?php echo $form['back']->text ?>
-        </a>
-        <button id="submit_button" type="submit"
-                role="button"
-                class="btn btn-primary ms-auto lock-on-click"
-                title="<?php echo_html2view($form['continue']->name); ?>">
-            <i class="fa fa-check"></i>
-            <?php echo $form['continue']->name ?>
-        </button>
+        <?php
+        $form['back']->style .= 'btn-secondary';
+        $form['back']->icon = 'fa fa-arrow-left';
+        echo $form['back'];
+
+        $form['submit']->style .= ' btn-primary ms-auto lock-on-click';
+        $form['submit']->icon = 'fa fa-check';
+        echo $form['submit'];
+        ?>
     </div>
 </form>
 </div>

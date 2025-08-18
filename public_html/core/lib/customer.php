@@ -361,7 +361,7 @@ class ACustomer
      */
     public function deleteActiveSessions(string $sessionId = '')
     {
-        $this->deleteActiveSessionsByID($this->customer_id, $sessionId);
+        $this->deleteActiveSessionsByID((int)$this->customer_id, (string) $sessionId);
     }
 
     /**
