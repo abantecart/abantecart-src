@@ -23,6 +23,7 @@ if (!defined('DIR_CORE')) {
 
 class ControllerPagesAccountCreate extends AController
 {
+    const formTxtId = 'RegisterCustomerFrm';
     public $errors = [];
 
     public function main()
@@ -37,21 +38,23 @@ class ControllerPagesAccountCreate extends AController
         $this->document->setTitle($this->language->get('heading_title'));
         /** @var ModelAccountCustomer $mdl */
         $mdl = $this->loadModel('account/customer');
-        $request_data = $this->request->post;
+        $post = $this->request->post;
         if ($this->request->is_POST()) {
             if ($this->csrftoken->isTokenValid()) {
-                $this->errors = array_merge( $this->errors, $mdl->validateRegistrationData($request_data) );
+                // validation based on field settings
+                $this->validateForm($post);
+                $this->errors = array_merge( $this->errors, $mdl->validateRegistrationData($post) );
             } else {
                 $this->errors['warning'] = $this->language->get('error_unknown');
             }
             if (!$this->errors) {
                 //if allow login as email, need to set loginname = email
                 if (!$this->config->get('prevent_email_as_login')) {
-                    $request_data['loginname'] = $request_data['email'];
+                    $post['loginname'] = $post['email'];
                 }
 
-                $this->data['customer_id'] = $mdl->addCustomer($request_data);
-                $mdl->editCustomerNotifications($request_data, $this->data['customer_id']);
+                $this->data['customer_id'] = $mdl->addCustomer($post);
+                $mdl->editCustomerNotifications($post, $this->data['customer_id']);
                 unset($this->session->data['guest']);
 
                 try {
@@ -59,17 +62,17 @@ class ControllerPagesAccountCreate extends AController
                         //add and send account activation link if required
                         if (!$this->config->get('config_customer_email_activation')) {
                             //send welcome email
-                            $mdl->sendWelcomeEmail($this->request->post['email'], true);
+                            $mdl->sendWelcomeEmail($post['email'], true);
                             //login customer after create account is approving and
                             // email activation are disabled in settings
-                            $this->customer->login($request_data['loginname'], $request_data['password']);
+                            $this->customer->login($post['loginname'], $post['password']);
                         } else {
                             //send activation email request and wait for confirmation
                             $mdl->emailActivateLink($this->data['customer_id']);
                         }
                     } else {
                         //send welcome email, but need manual approval
-                        $mdl->sendWelcomeEmail($this->request->post['email'], false);
+                        $mdl->sendWelcomeEmail($post['email'], false);
                     }
                 }catch (Exception $e) {
                     $this->log->write(__CLASS__ . '::' . __FUNCTION__ . '() error: ' . $e->getMessage());
@@ -81,10 +84,13 @@ class ControllerPagesAccountCreate extends AController
                 //set success text for non-approved customers on login page after redirect
                 if ($this->config->get('config_customer_approval')) {
                     $this->loadLanguage('account/success');
-                    $this->session->data['success'] = sprintf(
-                        $this->language->get('text_approval', 'account/success'),
-                        $this->config->get('store_name'),
-                        $this->html->getSecureURL('content/contact')
+                    $this->session->data['success'] = $this->language->getAndReplace(
+                        'text_approval',
+                        'account/success',
+                        [
+                            $this->config->get('store_name'),
+                            $this->html->getSecureURL('content/contact')
+                        ]
                     );
                 }
 
@@ -130,61 +136,45 @@ class ControllerPagesAccountCreate extends AController
         }
 
         $form = new AForm();
-        $form->setForm(['form_name' => 'AccountFrm']);
+        $form->setForm(['form_name' => self::formTxtId]);
         $this->data['form']['form_open'] = $form->getFieldHtml(
             [
                 'type'   => 'form',
-                'name'   => 'AccountFrm',
+                'name'   => self::formTxtId,
                 'action' => $this->html->getSecureURL('account/create'),
                 'csrf'   => true,
             ]
         );
 
-        if ($this->config->get('prevent_email_as_login')) { // require login name
-            $this->data['form']['fields']['general']['loginname'] = $form->getFieldHtml(
-                [
-                    'type'     => 'input',
-                    'name'     => 'loginname',
-                    'value'    => $this->request->post['loginname'],
-                    'required' => true,
-                ]
-            );
+        //default country
+        $post['country_id'] = $post['country_id'] ?? $this->config->get('config_country_id');
+
+        //address Form part based on database data
+        $registerForm = new AForm();
+        $registerForm->loadFromDb(self::formTxtId);
+        $formFields = $registerForm->getFormElements(self::formTxtId);
+        foreach ($formFields as $groupTxtId => $fields) {
+            foreach ($fields as $name => $element) {
+                //error messages
+                $this->data['error_' . $name] = $this->errors[$name];
+                $this->data['entry_' . $name] = $element->display_name ?: $this->language->get('entry_' . $name);
+                if(isset($post[$name])){
+                    $element->value = $post[$name];
+                }
+                if ($name == 'zone_id') {
+                    $element->value = $post['country_id'] ?? $this->config->get('config_country_id');
+                    $element->zone_value = $post['zone_id']?: $this->config->get('config_zone_id');
+                    //set zone_id as value for select[option]
+                    $element->submit_mode = 'id';
+                    //show only zone selector
+                    $element->zone_only = true;
+                }
+                $this->data['form']['fields'][$groupTxtId][$name] = $element;
+            }
         }
-        $this->data['form']['fields']['general']['firstname'] = $form->getFieldHtml(
-            [
-                'type'     => 'input',
-                'name'     => 'firstname',
-                'value'    => $this->request->post['firstname'],
-                'required' => true,
-            ]
-        );
-        $this->data['form']['fields']['general']['lastname'] = $form->getFieldHtml(
-            [
-                'type'     => 'input',
-                'name'     => 'lastname',
-                'value'    => $this->request->post['lastname'],
-                'required' => true,
-            ]
-        );
-        $this->data['form']['fields']['general']['email'] = $form->getFieldHtml(
-            [
-                'type'     => 'input',
-                'name'     => 'email',
-                'value'    => $this->request->get_or_post('email'),
-                'required' => true,
-            ]
-        );
-        $this->data['form']['fields']['general']['telephone'] = $form->getFieldHtml(
-            [
-                'type'  => 'input',
-                'name'  => 'telephone',
-                'value' => $this->request->post['telephone'],
-            ]
-        );
 
         //get only active IM drivers
         $im_drivers = $this->im->getIMDriverObjects();
-
         if ($im_drivers) {
             foreach ($im_drivers as $protocol => $driver_obj) {
                 /** @var AMailIM $driver_obj */
@@ -192,140 +182,64 @@ class ControllerPagesAccountCreate extends AController
                     continue;
                 }
                 $fld = $driver_obj->getURIField($form, $this->request->post[$protocol]);
-                $this->data['form']['fields']['general'][$protocol] = $fld;
-                $this->data['entry_'.$protocol] = $fld->label_text;
+                $fld->display_name = $fld->label_text;
+                $this->data['form']['fields']['details'][$protocol] = $fld;
             }
         }
 
-        $this->data['form']['fields']['address']['company'] = $form->getFieldHtml(
-            [
-                'type'     => 'input',
-                'name'     => 'company',
-                'value'    => $this->request->post['company'],
-                'required' => false,
-            ]
-        );
-        $this->data['form']['fields']['address']['address_1'] = $form->getFieldHtml(
-            [
-                'type'     => 'input',
-                'name'     => 'address_1',
-                'value'    => $this->request->post['address_1'],
-                'required' => true,
-            ]
-        );
-        $this->data['form']['fields']['address']['address_2'] = $form->getFieldHtml(
-            [
-                'type'     => 'input',
-                'name'     => 'address_2',
-                'value'    => $this->request->post['address_2'],
-                'required' => false,
-            ]
-        );
-        $this->data['form']['fields']['address']['city'] = $form->getFieldHtml(
-            [
-                'type'     => 'input',
-                'name'     => 'city',
-                'value'    => $this->request->post['city'],
-                'required' => true,
-            ]
-        );
-
-        $this->view->assign('zone_id', $this->request->post['zone_id'] ?: $this->config->get('config_zone_id'));
-        $this->data['form']['fields']['address']['zone'] = $form->getFieldHtml(
-            [
-                'type'     => 'selectbox',
-                'name'     => 'zone_id',
-                'required' => true,
-            ]
-        );
-
-        $this->data['form']['fields']['address']['postcode'] = $form->getFieldHtml(
-            [
-                'type'     => 'input',
-                'name'     => 'postcode',
-                'value'    => $this->request->post['postcode'],
-                'required' => true,
-            ]
-        );
-
-        $this->loadModel('localisation/country');
-        $countries = $this->model_localisation_country->getCountries();
-        $options = [];
-        if (count($countries) > 1) {
-            $options = ["FALSE" => $this->language->get('text_select')];
+        if (!$this->config->get('prevent_email_as_login')) { // require login name
+            unset($this->data['form']['fields']['login']['loginname']);
         }
-        $options = $options + array_column($countries, 'name','country_id');
 
-        $this->data['form']['fields']['address']['country'] = $form->getFieldHtml(
-            [
-                'type'     => 'selectbox',
-                'name'     => 'country_id',
-                'options'  => $options,
-                'value'    => $this->request->post['country_id'] ?? $this->config->get('config_country_id'),
-                'required' => true,
-            ]
-        );
-
-        $this->data['form']['fields']['password']['password'] = $form->getFieldHtml(
+        $this->data['form']['fields']['login']['password'] = $form->getFieldHtml(
             [
                 'type'     => 'password',
                 'name'     => 'password',
                 'value'    => $this->request->post['password'],
                 'required' => true,
+                'display_name' => $this->language->get('entry_password'),
             ]
         );
-        $this->data['form']['fields']['password']['confirm'] = $form->getFieldHtml(
+        $this->data['form']['fields']['login']['confirm'] = $form->getFieldHtml(
             [
                 'type'     => 'password',
                 'name'     => 'confirm',
                 'value'    => $this->request->post['confirm'],
                 'required' => true,
+                'display_name' => $this->language->get('entry_confirm'),
             ]
         );
 
-        $this->data['form']['fields']['newsletter']['newsletter'] = $form->getFieldHtml(
-            [
-                'type'    => 'radio',
-                'name'    => 'newsletter',
-                'value'   => (!is_null($this->request->get_or_post('newsletter'))
-                    ? $this->request->get_or_post('newsletter')
-                    : -1),
-                'options' => [
-                    '1' => $this->language->get('text_yes'),
-                    '0' => $this->language->get('text_no'),
-                ],
-            ]
-        );
+        if($this->request->get_or_post('newsletter')){
+            $this->data['form']['fields']['newsletter']['newsletter']->checked = (bool)$this->request->get_or_post('newsletter');
+        }
 
         //If captcha enabled, validate
         if ($this->config->get('config_account_create_captcha')) {
             if ($this->config->get('config_recaptcha_site_key')) {
-                $this->data['form']['fields']['newsletter']['captcha'] = $form->getFieldHtml(
-                    [
-                        'type'               => 'recaptcha',
-                        'name'               => 'g-recaptcha-response',
-                        'recaptcha_site_key' => $this->config->get('config_recaptcha_site_key'),
-                        'language_code'      => $this->language->getLanguageCode(),
-                    ]
-                );
+                $captchaData = [
+                    'type'               => 'recaptcha',
+                    'name'               => 'g-recaptcha-response',
+                    'recaptcha_site_key' => $this->config->get('config_recaptcha_site_key'),
+                    'language_code'      => $this->language->getLanguageCode(),
+                    'display_name'       => $this->language->get('entry_captcha','account/newsletter'),
+                ];
             } else {
-                $this->data['form']['fields']['newsletter']['captcha'] = $form->getFieldHtml(
-                    [
-                        'type' => 'captcha',
-                        'name' => 'captcha',
-                        'attr' => '',
-                    ]
-                );
+                $captchaData = [
+                    'type' => 'captcha',
+                    'name' => 'captcha',
+                    'display_name'       => $this->language->get('entry_captcha','account/newsletter'),
+                ];
             }
+            $this->data['form']['fields']['newsletter']['captcha'] = $form->getFieldHtml( $captchaData);
         }
 
-        $agree = $this->request->post['agree'] ?? false;
         $this->data['form']['agree'] = $form->getFieldHtml(
             [
                 'type'    => 'checkbox',
                 'name'    => 'agree',
                 'value'   => 1,
-                'checked' => $agree,
+                'checked' => $this->request->post['agree'] ?? false,
             ]
         );
 
@@ -336,46 +250,35 @@ class ControllerPagesAccountCreate extends AController
             ]
         );
 
-        $this->data['error_warning'] = $this->errors['warning'];
-        $this->data['error_loginname'] = $this->errors['loginname'];
-        $this->data['error_firstname'] = $this->errors['firstname'];
-        $this->data['error_lastname'] = $this->errors['lastname'];
-        $this->data['error_email'] = $this->errors['email'];
-        $this->data['error_telephone'] = $this->errors['telephone'];
         $this->data['error_password'] = $this->errors['password'];
         $this->data['error_confirm'] = $this->errors['confirm'];
-        $this->data['error_address_1'] = $this->errors['address_1'];
-        $this->data['error_city'] = $this->errors['city'];
-        $this->data['error_postcode'] = $this->errors['postcode'];
-        $this->data['error_country'] = $this->errors['country'];
-        $this->data['error_zone'] = $this->errors['zone'];
         $this->data['error_captcha'] = $this->errors['captcha'];
 
         $this->data['action'] = $this->html->getSecureURL('account/create');
         $this->data['newsletter'] = $this->request->post['newsletter'];
 
-        if ($this->config->get('config_account_id')) {
-            $this->loadModel('catalog/content');
-            $content_info = $this->model_catalog_content->getContent($this->config->get('config_account_id'));
-            if ($content_info) {
-                $text_agree = $this->language->get('text_agree');
-                $this->data['text_agree_href'] = $this->html->getURL(
-                    'r/content/content/loadInfo', '&content_id='.$this->config->get('config_account_id')
+        $contentId = (int)$this->config->get('config_account_id');
+        $this->data['text_agree'] = '';
+        if ($contentId) {
+            /** @var ModelCatalogContent $mdl */
+            $mdlC = $this->loadModel('catalog/content');
+            $contentInfo = $mdlC->getContent($contentId);
+            if ($contentInfo) {
+                $this->data['text_agree'] = $this->language->get('text_agree');
+                $this->data['text_agree_href'] = $this->html->getSecureURL(
+                    'r/content/content/loadInfo',
+                    '&content_id='.$contentId
                 );
-                $this->data['text_agree_href_text'] = $content_info['title'];
-            } else {
-                $text_agree = '';
+                $this->data['text_agree_href_text'] = $contentInfo['title'];
             }
-        } else {
-            $text_agree = '';
         }
-        $this->data['text_agree'] = $text_agree;
-        $text_account_already = sprintf(
-            $this->language->get('text_account_already'),
-            $this->html->getSecureURL('account/login')
+
+        $this->data['text_account_already'] = $this->language->getAndReplace(
+            'text_account_already',
+            replaces: $this->html->getSecureURL('account/login')
         );
 
-        $this->data['text_account_already'] = $text_account_already;
+        $this->data['error_warning'] = $this->errors['warning'];
         $this->view->batchAssign($this->data);
         $this->processTemplate('pages/account/create.tpl');
         unset($this->session->data['fc']);
@@ -402,5 +305,23 @@ class ControllerPagesAccountCreate extends AController
         }
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
         redirect($this->html->getSecureURL('account/success'));
+    }
+
+    protected function validateForm(array $data)
+    {
+        if (!$this->csrftoken->isTokenValid()) {
+            $this->errors['warning'] = $this->language->get('error_unknown');
+        }
+
+        $form = new AForm();
+        $form->loadFromDb(self::formTxtId);
+        $this->errors = $form->validateFormData($data);
+        if (!$this->config->get('prevent_email_as_login')) {
+            unset($this->errors['loginname']);
+        }
+
+        $this->extensions->hk_ValidateData($this, ['indata' => $data]);
+
+        return (!$this->errors);
     }
 }

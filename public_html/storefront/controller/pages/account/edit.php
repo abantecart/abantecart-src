@@ -123,7 +123,7 @@ class ControllerPagesAccountEdit extends AController
         $this->data['reset_loginname'] = $reset_loginname;
 
         $form->loadFromDb(static::$formTxtId);
-        $formElements = $form->getFormElements();
+        $formElements = $form->getFormElements()['general'];
         $this->data['error_warning'] = $this->error['warning'];
         foreach ($formElements as $name => $element) {
             //error messages

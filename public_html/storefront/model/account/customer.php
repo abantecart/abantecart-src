@@ -791,59 +791,12 @@ class ModelAccountCustomer extends Model
             }
         }
 
-        if ((mb_strlen($data['firstname']) < 1) || (mb_strlen($data['firstname']) > 32)) {
-            $this->error['firstname'] = $this->language->get('error_firstname');
-        }
-
-        if ((mb_strlen($data['lastname']) < 1) || (mb_strlen($data['lastname']) > 32)) {
-            $this->error['lastname'] = $this->language->get('error_lastname');
-        }
-
-        if ((mb_strlen($data['email']) > 96) || (!preg_match(EMAIL_REGEX_PATTERN, $data['email']))) {
-            $this->error['email'] = $this->language->get('error_email');
-        }
-
         if ($this->getTotalCustomersByEmail($data['email'])) {
-            $this->error['warning'] = $this->language->get('error_exists');
+            $this->error['email'] = $this->language->get('error_exists');
         }
 
-        $phone = $data['telephone'] ?? '';
-        if ($phone) {
-            $pattern = $this->config->get('config_phone_validation_pattern') ? : DEFAULT_PHONE_REGEX_PATTERN;
-            if (mb_strlen($phone) < 3
-                || mb_strlen($phone) > 32
-                || !preg_match($pattern, $phone)
-            ) {
-                $this->error['telephone'] = $this->language->get('error_telephone');
-            }
-        }
-
-        if ((mb_strlen($data['address_1']) < 3) || (mb_strlen($data['address_1']) > 128)) {
-            $this->error['address_1'] = $this->language->get('error_address_1');
-        }
-
-        if ((mb_strlen($data['city']) < 3) || (mb_strlen($data['city']) > 128)) {
-            $this->error['city'] = $this->language->get('error_city');
-        }
-        if ((mb_strlen($data['postcode']) < 3) || (mb_strlen($data['postcode']) > 128)) {
-            $this->error['postcode'] = $this->language->get('error_postcode');
-        }
-
-        if ($data['country_id'] == 'FALSE' || !$data['country_id'] ) {
-            $this->error['country'] = $this->language->get('error_country');
-        }
-
-        if ($data['zone_id'] == 'FALSE' || !$data['zone_id']) {
-            if($this->error['country']) {
-                $this->error['zone'] = $this->language->get('error_zone');
-            }else{
-                //check if zones exists
-                /** @var ModelLocalisationZone $mdl */
-                $mdl = $this->load->model('localisation/zone');
-                if( count($mdl->getZonesByCountryId($data['country_id'])) > 0 ){
-                    $this->error['zone'] = $this->language->get('error_zone');
-                }
-            }
+        if ($this->config->get('fast_checkout_require_phone_number') && !$data['telephone']) {
+            $this->error['telephone'] = $this->language->get('error_telephone');
         }
 
         //check password length considering html entities (special case for characters " > < & )
@@ -856,14 +809,15 @@ class ModelAccountCustomer extends Model
             $this->error['confirm'] = $this->language->get('error_confirm');
         }
 
-        if ($this->config->get('config_account_id')) {
-            $this->load->model('catalog/content');
-
-            $content_info = $this->model_catalog_content->getContent($this->config->get('config_account_id'));
-
-            if ($content_info) {
+        $contentId = (int)$this->config->get('config_account_id');
+        $this->data['text_agree'] = '';
+        if ($contentId) {
+            /** @var ModelCatalogContent $mdl */
+            $mdlC = $this->load->model('catalog/content');
+            $contentInfo = $mdlC->getContent($contentId);
+            if ($contentInfo) {
                 if (!isset($data['agree'])) {
-                    $this->error['warning'] = sprintf($this->language->get('error_agree'), $content_info['title']);
+                    $this->error['warning'] = sprintf($this->language->get('error_agree'), $contentInfo['title']);
                 }
             }
         }

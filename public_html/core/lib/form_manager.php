@@ -249,12 +249,12 @@ class AFormManager
                                     ( SELECT field_id 
                                       FROM " . $this->db->table("fields") . " 
                                       WHERE form_id = '" . $this->form_id . "')";
-                    $sql[] = "DELETE FROM " . $this->db->table("fields_group_descriptions") . " 
+                    $sql[] = "DELETE FROM " . $this->db->table("field_group_descriptions") . " 
                                 WHERE group_id IN 
                                     ( SELECT group_id 
                                         FROM " . $this->db->table("form_groups") . " 
                                         WHERE form_id = '" . $this->form_id . "')";
-                    $sql[] = "DELETE FROM " . $this->db->table("fields_groups") . " 
+                    $sql[] = "DELETE FROM " . $this->db->table("field_groups") . " 
                                 WHERE group_id IN 
                                     ( SELECT group_id 
                                         FROM " . $this->db->table("form_groups") . " 
@@ -404,7 +404,7 @@ class AFormManager
             $sql = [];
             $sql[] = "DELETE FROM " . $this->db->table("field_values") . " WHERE field_id = '" . $field_id . "'";
             $sql[] = "DELETE FROM " . $this->db->table("field_descriptions") . " WHERE field_id = '" . $field_id . "'";
-            $sql[] = "DELETE FROM " . $this->db->table("fields_groups") . " WHERE field_id = '" . $field_id . "'";
+            $sql[] = "DELETE FROM " . $this->db->table("field_groups") . " WHERE field_id = '" . $field_id . "'";
             $sql[] = "DELETE FROM " . $this->db->table("fields") . " WHERE field_id = '" . $field_id . "'";
             foreach ($sql as $query) {
                 $this->db->query($query);
@@ -435,7 +435,7 @@ class AFormManager
             $field_id = $this->db->getLastId();
 
             if ($fieldGroupId) {
-                $sql[] = "INSERT INTO " . $this->db->table("fields_groups") . " (field_id, group_id, sort_order) 
+                $sql[] = "INSERT INTO " . $this->db->table("field_groups") . " (field_id, group_id, sort_order) 
 						   VALUES ('" . $field_id . "', '" . $fieldGroupId . "',	'" . $fieldGroupSortOrder . "')";
             }
             if ($field->field_descriptions->field_description) {
@@ -487,15 +487,15 @@ class AFormManager
 
             if ($fieldGroupId) {
                 // check is field in group
-                $query = "SELECT field_id FROM " . $this->db->table("fields_groups") . " WHERE field_id = '" . $field_id . "'";
+                $query = "SELECT field_id FROM " . $this->db->table("field_groups") . " WHERE field_id = '" . $field_id . "'";
                 $result = $this->db->query($query);
                 $exists = $result->num_rows;
                 if ($exists) {
-                    $sql[] = "UPDATE " . $this->db->table("fields_groups") . " 
+                    $sql[] = "UPDATE " . $this->db->table("field_groups") . " 
                                 SET group_id = '" . $fieldGroupId . "', sort_order = '" . $fieldGroupSortOrder . "'
 								WHERE field_id = '" . $field_id . "'";
                 } else {
-                    $sql[] = "INSERT INTO " . $this->db->table("fields_groups") . " (field_id, group_id, sort_order) 
+                    $sql[] = "INSERT INTO " . $this->db->table("field_groups") . " (field_id, group_id, sort_order) 
 								VALUES ('" . $field_id . "', '" . $fieldGroupId . "',	'" . $fieldGroupSortOrder . "')";
                 }
             }
@@ -574,14 +574,14 @@ class AFormManager
         if ($fieldGroup->action == 'delete') {
             if ($fieldGroupId) {
                 $sql = [];
-                $sql[] = "DELETE FROM " . $this->db->table("fields_group_descriptions") . " 
+                $sql[] = "DELETE FROM " . $this->db->table("field_group_descriptions") . " 
                             WHERE group_id  = '" . $fieldGroupId . "'";
                 $sql[] = "DELETE FROM " . $this->db->table("fields") . " 
                             WHERE field_id IN 
                                 ( SELECT field_id 
-                                    FROM " . $this->db->table("fields_groups") . " 
+                                    FROM " . $this->db->table("field_groups") . " 
                                     WHERE group_id = '" . $fieldGroupId . "')";
-                $sql[] = "DELETE FROM " . $this->db->table("fields_groups") . " WHERE group_id = '" . $fieldGroupId . "'";
+                $sql[] = "DELETE FROM " . $this->db->table("field_groups") . " WHERE group_id = '" . $fieldGroupId . "'";
                 $sql[] = "DELETE FROM " . $this->db->table("form_groups") . " WHERE form_id  = '" . $this->form_id . "'";
                 foreach ($sql as $query) {
                     $this->db->query($query);
@@ -631,7 +631,7 @@ class AFormManager
                     continue;
                 }
 
-                $this->language->replaceDescriptions('fields_group_descriptions',
+                $this->language->replaceDescriptions('field_group_descriptions',
                     ['group_id' => (int)$fieldGroupId],
                     [
                         $language_id => [

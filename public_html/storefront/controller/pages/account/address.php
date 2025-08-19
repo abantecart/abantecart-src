@@ -292,7 +292,7 @@ class ControllerPagesAccountAddress extends AController
         );
 
         $form->loadFromDb($formTxtId);
-        $formElements = $form->getFormElements();
+        $formElements = $form->getFormElements()['general'];
         $this->data['zone_id'] = $this->request->post['zone_id']
             ?? $address_info['zone_id']
             ?? $this->config->get('config_zone_id');

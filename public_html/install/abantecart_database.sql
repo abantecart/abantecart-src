@@ -10817,24 +10817,10 @@ CREATE TABLE `ac_field_values` (
 ) ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- DDL for table `fields_groups`
+-- DDL for table `field_groups`
 --
-DROP TABLE IF EXISTS `ac_form_groups`;
-CREATE TABLE `ac_form_groups` (
-  `group_id` int(11) NOT NULL AUTO_INCREMENT,
-  `group_name` varchar(40) NOT NULL default '',
-  `form_id` int(11) NOT NULL DEFAULT '0',
-  `sort_order` int(3) NOT NULL,
-  `status` smallint(1) NOT NULL default '0',
-  PRIMARY KEY (`group_id`),
-  KEY `group_id` (`group_id`, `form_id`)
-) ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- DDL for table `fields_groups`
---
-DROP TABLE IF EXISTS `ac_fields_groups`;
-CREATE TABLE `ac_fields_groups` (
+DROP TABLE IF EXISTS `ac_field_groups`;
+CREATE TABLE `ac_field_groups` (
   `field_id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL,
   `sort_order` int(3) NOT NULL,
@@ -10843,10 +10829,10 @@ CREATE TABLE `ac_fields_groups` (
 ) ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- DDL for table `fields_group_descriptions`
+-- DDL for table `field_group_descriptions`
 --
-DROP TABLE IF EXISTS `ac_fields_group_descriptions`;
-CREATE TABLE `ac_fields_group_descriptions` (
+DROP TABLE IF EXISTS `ac_field_group_descriptions`;
+CREATE TABLE `ac_field_group_descriptions` (
   `group_id` int(11) NOT NULL DEFAULT '0',
   `name` varchar(255) NOT NULL COMMENT 'translatable',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',

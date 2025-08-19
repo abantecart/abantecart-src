@@ -1459,7 +1459,7 @@ class ControllerResponsesCheckoutPay extends AController
         $addressForm = new AForm();
         $addressForm->loadFromDb($formTxtId);
 
-        $formElements = $addressForm->getFormElements($formTxtId);
+        $formElements = $addressForm->getFormElements($formTxtId)['general'];
         foreach ($formElements as $name => $element) {
             //error messages
             $this->data['errors'][$name] = $this->error[$name];

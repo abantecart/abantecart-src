@@ -411,3 +411,5 @@ foreach ($forms as $formData) {
         $fieldId = $mdl->addField($formId, $fieldData);
     }
 }
+
+//todo: move error messages from other languages into field's error_text!!!

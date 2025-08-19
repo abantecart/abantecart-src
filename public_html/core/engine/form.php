@@ -181,47 +181,63 @@ class AForm
      * @return void
      * @throws AException
      */
-    protected function _loadFields()
+    protected function _loadFields(array $data = [])
     {
-        $language_id = (int)$this->config->get('storefront_language_id');
-        $store_id = (int)$this->config->get('config_store_id');
+        $languageId = (int)$data['language_id'] ?: (int)$this->config->get('storefront_language_id');
+        $storeId = (int)($data['store_id'] ?? (int)$this->config->get('config_store_id'));
         $cache_key = 'forms.' . $this->form['form_name'] . '.fields';
         $cache_key = preg_replace('/[^a-zA-Z0-9.]/', '', $cache_key)
-            . '.store_' . $store_id
-            . '_lang_' . $language_id;
+            . '.store_' . $storeId
+            . '_lang_' . $languageId;
         $fields = $this->cache->pull($cache_key);
         if ($fields !== false) {
             $this->fields = $fields;
             return;
         }
 
-        $query = $this->db->query(
-            "SELECT f.*, fd.name, fd.description, fd.error_text
+        $fieldsResult = $this->db->query(
+            "SELECT f.*, 
+                fd.name, 
+                fd.description, 
+                fd.error_text, 
+                fg.group_id, 
+                fg2f.sort_order as group_sort_order, 
+                fg.group_txt_id, 
+                fgd.name as group_name,  
+                fgd.description as group_description  
             FROM " . $this->db->table("fields") . " f
             LEFT JOIN " . $this->db->table("field_descriptions") . " fd
-                ON ( f.field_id = fd.field_id AND fd.language_id = '" . $language_id . "' )
-            WHERE f.form_id = '" . $this->form['form_id'] . "'
+                ON ( f.field_id = fd.field_id AND fd.language_id = '" . $languageId . "' )
+            LEFT JOIN " . $this->db->table("field_groups") . " fg
+                ON f.group_id = fg.group_id
+            LEFT JOIN " . $this->db->table("field_group_descriptions") . " fgd
+                ON (fg.group_id = fgd.group_id AND fgd.language_id = '" . $languageId . "' )
+            LEFT JOIN " . $this->db->table("field_group_to_form") . " fg2f
+                ON fg2f.group_id = fg.group_id AND fg2f.form_id = '" . (int)$this->form['form_id'] . "'    
+            WHERE f.form_id = '" . (int)$this->form['form_id'] . "'
                 AND f.status = 1
             ORDER BY f.sort_order"
         );
         $this->fields = [];
-        if ($query->num_rows) {
-            foreach ($query->rows as $row) {
-                $row['settings'] = $row['settings'] ? unserialize($row['settings']) : [];
-                $this->fields[$row['field_id']] = $row;
-                $query = $this->db->query(
-                    "SELECT *
-                    FROM " . $this->db->table("field_values") . " 
-                    WHERE field_id = '" . $row['field_id'] . "'
-                    AND language_id = '" . $language_id . "'"
-                );
-                if ($query->num_rows) {
-                    $values = unserialize($query->row['value']);
+        foreach ($fieldsResult->rows as $row) {
+            $row['group_txt_id'] = $row['group_txt_id'] ?: 'general';
+            $fieldId = (int)$row['field_id'];
+            $row['settings'] = $row['settings'] ? unserialize($row['settings']) : [];
+            $this->fields[$fieldId] = $row;
+            $valuesResult = $this->db->query(
+                "SELECT *
+                FROM " . $this->db->table("field_values") . " 
+                WHERE field_id = '" . $fieldId . "'
+                AND language_id = '" . $languageId . "'"
+            );
+            if ($valuesResult->num_rows) {
+                $values = unserialize($valuesResult->row['value']);
+                if(is_array($values)) {
                     usort($values, self::_sort_by_sort_order(...));
                     foreach ($values as $value) {
-                        $this->fields[$row['field_id']]['options'][$value['name']] = $value['name'];
+                        $this->fields[$fieldId]['options'][$value['name']] = $value['name'];
                     }
-                    $this->fields[$row['field_id']]['value'] = $values[0]['name'];
+                    $this->fields[$fieldId]['value'] = $values[0]['name'];
                 }
             }
         }
@@ -250,6 +266,7 @@ class AForm
      */
     protected function _loadGroups()
     {
+        return;
         $language_id = (int)$this->config->get('storefront_language_id');
         $store_id = (int)$this->config->get('config_store_id');
         $cache_key = 'forms.' . $this->form['form_name'] . '.groups';
@@ -265,9 +282,9 @@ class AForm
         $query = $this->db->query(
             "SELECT fg.*, fgd.name, fgd.description
             FROM " . $this->db->table("form_groups") . " g
-                LEFT JOIN " . $this->db->table("fields_groups") . " fg 
+                LEFT JOIN " . $this->db->table("field_groups") . " fg 
                     ON ( g.group_id = fg.group_id)
-                LEFT JOIN " . $this->db->table("fields_group_descriptions") . " fgd
+                LEFT JOIN " . $this->db->table("field_group_descriptions") . " fgd
                     ON ( fg.group_id = fgd.group_id AND fgd.language_id = '" . $language_id . "' )
             WHERE g.form_id = '" . $this->form['form_id'] . "'
                 AND g.status = 1
@@ -624,6 +641,11 @@ class AForm
                 'value'    => $field['value'],
                 'options'  => $field['options'],
                 'display_name' => $field['name'],
+                'group_id' => $field['group_id'],
+                'group_txt_id' => $field['group_txt_id'],
+                'field_group_name' => $field['group_name'],
+                'field_group_description' => $field['group_description'],
+                'field_group_sort_order' => $field['group_sort_order'],
             ];
 
             if($field['resource_id']){
@@ -685,8 +707,14 @@ class AForm
                     $data['language_code'] = $this->language->getLanguageCode();
                     break;
             }
-            $output[$field['field_name']] = HtmlElementFactory::create($data);
+            $sidx[$field['group_txt_id']] = (int)$field['group_sort_order'];
+            $output[$field['group_txt_id']][$field['field_name']] = HtmlElementFactory::create($data);
         }
+
+        if(count($output)>1) {
+            array_multisort($sidx, SORT_ASC,$output);
+        }
+
         return $output;
     }
 
