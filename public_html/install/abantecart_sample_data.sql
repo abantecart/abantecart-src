@@ -260,24 +260,27 @@ VALUES
 -- Dumping data for table `customers`
 --
 INSERT INTO `ac_customers`
+(`customer_id`, `store_id`, `firstname`, `lastname`, `loginname`, `email`, `telephone`, `fax`, `sms`,
+ `salt`, `password`, `cart`, `wishlist`, `newsletter`, `address_id`, `status`, `approved`,
+ `customer_group_id`, `ip`, `data`)
 VALUES
-(2,0,'Juliana','Davis','julidavis@abantecart.com','julidavis@abantecart.com','(602) 141-7191','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,1,1,1,1,'109.104.166.98',NULL,'2013-08-31 14:25:37','2015-06-12 09:56:24','0000-00-00 00:00:00'),
-(3,0,'Keely','Mccoy','keelymccoy@abantecart.com','keelymccoy@abantecart.com','(602) 916-1822','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,2,1,1,1,'109.104.166.98',NULL,'2013-08-31 14:39:08','2015-06-12 09:56:24','0000-00-00 00:00:00'),
-(4,0,'Zelda','Weiss','zeldaweiss@abantecart.com','zeldaweiss@abantecart.com','(539) 838-9210','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,3,1,1,1,'109.104.166.138',NULL,'2013-08-31 14:42:58','2015-06-12 09:56:24','0000-00-00 00:00:00'),
-(5,0,'Gloria','Macias','gloriamacias@abantecart.com','gloriamacias@abantecart.com','(573) 500-2105','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,4,1,1,1,'109.104.166.98',NULL,'2013-08-31 14:46:58','2015-06-12 09:56:24','0000-00-00 00:00:00'),
-(6,0,'Bernard','Horne','bernardhorne@abantecart.com','bernardhorne@abantecart.com','(573) 500-2105','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,5,1,1,1,'109.104.166.138',NULL,'2013-08-31 14:50:27','2015-06-12 09:56:24','0000-00-00 00:00:00'),
-(7,0,'James','Curtis','jamescurtis@abantecart.com','jamescurtis@abantecart.com','(602) 916-1822','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,6,1,1,1,'109.104.166.138',NULL,'2013-08-31 15:00:03','2015-06-12 09:56:24','0000-00-00 00:00:00'),
-(8,0,'Bruce','Rosarini','brucerosarini@abantecart.com','brucerosarini@abantecart.com','(539) 838-9210','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,7,1,1,1,'109.104.166.98',NULL,'2013-08-31 15:08:23','2015-06-12 09:56:24','0000-00-00 00:00:00'),
-(9,0,'Carlos','Compton','carloscmpton@abantecart.com','carloscmpton@abantecart.com','(928) 205-0511','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,8,1,1,1,'109.104.166.98',NULL,'2013-08-31 15:13:14','2015-06-12 09:56:24','0000-00-00 00:00:00'),
-(10,0,'Garrison','Baxter','garrisonbaxter@abantecart.com','garrisonbaxter@abantecart.com','(803) 189-5001','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,9,1,1,1,'109.104.166.138',NULL,'2013-09-01 12:51:47','2015-06-12 09:56:24','0000-00-00 00:00:00'),
-(11,0,'Anthony','Blair','anthonyblair@abantecart.com','anthonyblair@abantecart.com','(402) 456-6398','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,10,1,1,1,'171.98.12.12',NULL,'2013-09-01 12:54:26','2015-06-12 09:56:24','0000-00-00 00:00:00'),
-(12,0,'Allen','Waters','allenwaters','allenwaters@abantecart.com','(417) 280-7406','','','vkmQqxNw','e9aa1fed0f5c85e84ef9c9e8860c2732326e790b','a:0:{}',NULL,0,11,1,1,1,'77.111.246.147',NULL,'2013-09-01 13:12:56','2019-05-06 06:20:01','2019-03-18 12:19:54'),
-(13,0,'Brock','Wheeler','michael','cotan@abantecart.com','12893654499','','','QqHpW6DV','189212083ca9de5f584e624b7a7c256af90fdcfb','a:0:{}','a:2:{i:108;i:1552911485;i:111;i:1552911579;}',1,12,1,1,1,'77.111.246.167',NULL,'2013-09-08 15:28:20','2022-06-28 08:38:05','2019-03-18 12:12:59'),
-(14,0,'Yuri','Howard','howard566','howardinc@abantecart.com','16943733146','','','1IVINJ6A','9980a6c101c48ba14277e5fcc7277fed31a8eb34','a:0:{}',NULL,1,13,1,1,1,'77.111.247.7','N;','2019-03-18 13:37:18','2022-06-28 08:44:14','2019-03-18 13:37:18'),
-(15,0,'Regan','Shields','RiaGardner','ricuvif@abantecart.com','+1 (267) 125-5153','','','QaPiKdCR','30a96d6489cc8089d2f66f1b3407334cfd5a5490','a:0:{}',NULL,1,14,1,1,1,'23.129.64.106','N;','2019-03-19 08:32:50','2019-03-19 08:33:16','2019-03-19 08:32:50'),
-(16,0,'Randall','Richards','randallri','randallri@abantecart.com','17887737896','','','KGtkpKGm','0664a4c600337892f120b53b81de10646e68ee91','a:1:{s:7:\"store_0\";a:1:{i:96;a:2:{s:3:\"qty\";i:2;s:7:\"options\";a:0:{}}}}',NULL,0,15,1,1,1,'77.111.247.7','N;','2019-03-21 12:08:29','2022-06-28 08:48:15','2022-06-28 08:48:15'),
-(17,0,'Michelle','Barnett','mbarnett','mbarnett@abantecart.com','1 469 537-8505','','','XlUAn9uJ','f47de9ec3628658a74e781634caf9a76b1153ee6',NULL,NULL,0,17,1,1,1,'','N;','2022-06-28 08:05:34','2022-06-28 08:06:15','0000-00-00 00:00:00'),
-(18,0,'Elmer','West','X6QDsfu','elmer@abantecart.com',' 1 (128) 392-8036','','','qkN3jME3','c05a1acf9a9c189533b8ce63db274a61e91e622b','a:1:{s:7:\"store_0\";a:0:{}}',NULL,0,18,1,1,1,'77.111.246.40','N;','2022-06-28 08:11:49','2022-07-13 06:51:46','0000-00-00 00:00:00');
+    (2,0,'Juliana','Davis','julidavis@abantecart.com','julidavis@abantecart.com','(602) 141-7191','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,1,1,1,1,'109.104.166.98',NULL),
+    (3,0,'Keely','Mccoy','keelymccoy@abantecart.com','keelymccoy@abantecart.com','(602) 916-1822','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,2,1,1,1,'109.104.166.98',NULL),
+    (4,0,'Zelda','Weiss','zeldaweiss@abantecart.com','zeldaweiss@abantecart.com','(539) 838-9210','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,3,1,1,1,'109.104.166.138',NULL),
+    (5,0,'Gloria','Macias','gloriamacias@abantecart.com','gloriamacias@abantecart.com','(573) 500-2105','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,4,1,1,1,'109.104.166.98',NULL),
+    (6,0,'Bernard','Horne','bernardhorne@abantecart.com','bernardhorne@abantecart.com','(573) 500-2105','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,5,1,1,1,'109.104.166.138',NULL),
+    (7,0,'James','Curtis','jamescurtis@abantecart.com','jamescurtis@abantecart.com','(602) 916-1822','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,6,1,1,1,'109.104.166.138',NULL),
+    (8,0,'Bruce','Rosarini','brucerosarini@abantecart.com','brucerosarini@abantecart.com','(539) 838-9210','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,7,1,1,1,'109.104.166.98',NULL),
+    (9,0,'Carlos','Compton','carloscmpton@abantecart.com','carloscmpton@abantecart.com','(928) 205-0511','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,8,1,1,1,'109.104.166.98',NULL),
+    (10,0,'Garrison','Baxter','garrisonbaxter@abantecart.com','garrisonbaxter@abantecart.com','(803) 189-5001','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,9,1,1,1,'109.104.166.138',NULL),
+    (11,0,'Anthony','Blair','anthonyblair@abantecart.com','anthonyblair@abantecart.com','(402) 456-6398','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,10,1,1,1,'171.98.12.12',NULL),
+    (12,0,'Allen','Waters','allenwaters','allenwaters@abantecart.com','(417) 280-7406','','','vkmQqxNw','e9aa1fed0f5c85e84ef9c9e8860c2732326e790b','a:0:{}',NULL,0,11,1,1,1,'77.111.246.147',NULL),
+    (13,0,'Brock','Wheeler','michael','cotan@abantecart.com','12893654499','','','QqHpW6DV','189212083ca9de5f584e624b7a7c256af90fdcfb','a:0:{}','a:2:{i:108;i:1552911485;i:111;i:1552911579;}',1,12,1,1,1,'77.111.246.167',NULL),
+    (14,0,'Yuri','Howard','howard566','howardinc@abantecart.com','16943733146','','','1IVINJ6A','9980a6c101c48ba14277e5fcc7277fed31a8eb34','a:0:{}',NULL,1,13,1,1,1,'77.111.247.7','N;'),
+    (15,0,'Regan','Shields','RiaGardner','ricuvif@abantecart.com','+1 (267) 125-5153','','','QaPiKdCR','30a96d6489cc8089d2f66f1b3407334cfd5a5490','a:0:{}',NULL,1,14,1,1,1,'23.129.64.106','N;'),
+    (16,0,'Randall','Richards','randallri','randallri@abantecart.com','17887737896','','','KGtkpKGm','0664a4c600337892f120b53b81de10646e68ee91','a:1:{s:7:\"store_0\";a:1:{i:96;a:2:{s:3:\"qty\";i:2;s:7:\"options\";a:0:{}}}}',NULL,0,15,1,1,1,'77.111.247.7','N;'),
+    (17,0,'Michelle','Barnett','mbarnett','mbarnett@abantecart.com','1 469 537-8505','','','XlUAn9uJ','f47de9ec3628658a74e781634caf9a76b1153ee6',NULL,NULL,0,17,1,1,1,'','N;'),
+    (18,0,'Elmer','West','X6QDsfu','elmer@abantecart.com',' 1 (128) 392-8036','','','qkN3jME3','c05a1acf9a9c189533b8ce63db274a61e91e622b','a:1:{s:7:\"store_0\";a:0:{}}',NULL,0,18,1,1,1,'77.111.246.40','N;');
     
 
 --
