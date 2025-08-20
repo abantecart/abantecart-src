@@ -45,7 +45,7 @@ class ControllerPagesAccountEdit extends AController
             if ($this->csrftoken->isTokenValid()) {
                 // validation based on field settings
                 $this->validateForm($post);
-                if(!isset($post['loginname'])){
+                if (!isset($post['loginname'])) {
                     unset($this->error['loginname']);
                 }
 
@@ -65,6 +65,12 @@ class ControllerPagesAccountEdit extends AController
             }
 
             if (!$this->error) {
+                unset(
+                    $post['confirm'],
+                    $post['agree'],
+                    $post['csrftoken'],
+                    $post['csrfinstance']
+                );
                 $mdl->editCustomer($post);
                 $mdl->editCustomerNotifications($post);
                 $this->session->data['success'] = $this->language->get('text_success');
@@ -84,25 +90,25 @@ class ControllerPagesAccountEdit extends AController
 
         $this->document->addBreadcrumb(
             [
-            'href'      => $this->html->getHomeURL(),
-            'text'      => $this->language->get('text_home'),
-            'separator' => false,
+                'href'      => $this->html->getHomeURL(),
+                'text'      => $this->language->get('text_home'),
+                'separator' => false,
             ]
         );
 
         $this->document->addBreadcrumb(
             [
-            'href'      => $this->html->getSecureURL('account/account'),
-            'text'      => $this->language->get('text_account'),
-            'separator' => $this->language->get('text_separator'),
+                'href'      => $this->html->getSecureURL('account/account'),
+                'text'      => $this->language->get('text_account'),
+                'separator' => $this->language->get('text_separator'),
             ]
         );
 
         $this->document->addBreadcrumb(
             [
-            'href'      => $this->html->getSecureURL('account/edit'),
-            'text'      => $this->language->get('text_edit'),
-            'separator' => $this->language->get('text_separator'),
+                'href'      => $this->html->getSecureURL('account/edit'),
+                'text'      => $this->language->get('text_edit'),
+                'separator' => $this->language->get('text_separator'),
             ]
         );
 
@@ -164,8 +170,8 @@ class ControllerPagesAccountEdit extends AController
                 $value = $post[$protocol] ?? $customerInfo[$protocol];
                 $fld = $driver_obj->getURIField($form, $value);
                 $this->data['form']['fields'][$protocol] = $fld;
-                $this->data['entry_'.$protocol] = $fld->label_text;
-                $this->data['error_'.$protocol] = $this->error[$protocol];
+                $this->data['entry_' . $protocol] = $fld->label_text;
+                $this->data['error_' . $protocol] = $this->error[$protocol];
             }
         }
 
@@ -179,10 +185,10 @@ class ControllerPagesAccountEdit extends AController
         );
         $this->data['form']['back'] = $form->getFieldHtml(
             [
-                'type'  => 'button',
-                'name'  => 'back',
-                'text'  => $this->language->get('button_back'),
-                'href'  => $this->html->getSecureURL('account/account')
+                'type' => 'button',
+                'name' => 'back',
+                'text' => $this->language->get('button_back'),
+                'href' => $this->html->getSecureURL('account/account')
             ]
         );
 
@@ -192,6 +198,7 @@ class ControllerPagesAccountEdit extends AController
         //init controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
+
     protected function validateForm(array $data)
     {
         if (!$this->csrftoken->isTokenValid()) {

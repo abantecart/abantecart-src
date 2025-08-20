@@ -53,6 +53,13 @@ class ControllerPagesAccountCreate extends AController
                     $post['loginname'] = $post['email'];
                 }
 
+                unset(
+                    $post['csrftoken'],
+                    $post['csrfinstance'],
+                    $post['confirm'],
+                    $post['agree'],
+                    $post['captcha']
+                );
                 $this->data['customer_id'] = $mdl->addCustomer($post);
                 $mdl->editCustomerNotifications($post, $this->data['customer_id']);
                 unset($this->session->data['guest']);
@@ -307,6 +314,11 @@ class ControllerPagesAccountCreate extends AController
         redirect($this->html->getSecureURL('account/success'));
     }
 
+    /**
+     * @param array $data
+     * @return bool
+     * @throws AException
+     */
     protected function validateForm(array $data)
     {
         if (!$this->csrftoken->isTokenValid()) {
