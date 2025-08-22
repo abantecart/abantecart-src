@@ -53,12 +53,12 @@ class ControllerPagesToolFormsManager extends AController
         $this->document->setTitle($this->language->get('forms_manager_name'));
         $this->view->assign('heading_title', $this->language->get('forms_manager_name'));
 
-        $this->view->assign('error_warning', $this->session->data['warning']);
         if (isset($this->session->data['warning'])) {
+            $this->view->assign('error_warning', $this->session->data['warning']);
             unset($this->session->data['warning']);
         }
-        $this->view->assign('success', $this->session->data['success']);
         if (isset($this->session->data['success'])) {
+            $this->view->assign('success', $this->session->data['success']);
             unset($this->session->data['success']);
         }
 
@@ -210,9 +210,9 @@ class ControllerPagesToolFormsManager extends AController
         $this->document->setTitle($this->language->get('forms_manager_name'));
 
         $this->view->assign('error', $this->error);
-        $this->view->assign('success', $this->session->data['success']);
         $this->view->assign('help_url', $this->gen_help_url('forms_manager'));
         if (isset($this->session->data['success'])) {
+            $this->view->assign('success', $this->session->data['success']);
             unset($this->session->data['success']);
         }
 
@@ -483,6 +483,35 @@ class ControllerPagesToolFormsManager extends AController
         redirect($this->html->getSecureURL('tool/forms_manager/fields', '&form_id=' . $formId));
     }
 
+    public function assignFieldsToGroups()
+    {
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+        
+        $formId = (int)$this->request->get['form_id'];
+        
+        if (!$formId) {
+            redirect($this->html->getSecureURL('tool/forms_manager'));
+        }
+
+        if ($this->request->is_POST()) {
+            $fieldGroups = $this->request->post['field_groups'] ?? [];
+            
+            foreach ($fieldGroups as $fieldId => $groupId) {
+                $fieldId = (int)$fieldId;
+                $groupId = !empty($groupId) ? (int)$groupId : null;
+                
+                if ($fieldId) {
+                    $this->mdl->assignFieldToGroup($fieldId, $groupId);
+                }
+            }
+            
+            $this->session->data['success'] = $this->language->get('text_success_fields_assigned');
+        }
+        
+        redirect($this->html->getSecureURL('tool/forms_manager/groups', '&form_id=' . $formId));
+    }
+
     protected function _init_tabs($active_tab = 'form')
     {
         $formId = (int)$this->request->get['form_id'];
@@ -503,7 +532,7 @@ class ControllerPagesToolFormsManager extends AController
                 'text'       => 'Groups',
                 'href'       => $this->html->getSecureURL('tool/forms_manager/groups', '&form_id=' . $formId),
                 'active'     => ($active_tab == 'groups'),
-                'sort_order' => 1,
+                'sort_order' => 2,
             ];
 
             $tabs[] = [
@@ -511,7 +540,7 @@ class ControllerPagesToolFormsManager extends AController
                 'text'       => 'Fields',
                 'href'       => $this->html->getSecureURL('tool/forms_manager/fields', '&form_id=' . $formId),
                 'active'     => ($active_tab == 'fields'),
-                'sort_order' => 2,
+                'sort_order' => 1,
             ];
         }
 
@@ -609,9 +638,19 @@ class ControllerPagesToolFormsManager extends AController
             'current'   => true,
         ]);
 
-        // Load field groups data here when implemented
-        $this->data['field_groups'] = []; // Placeholder for field groups data
+        // Load field groups for this form
+        $this->data['field_groups'] = $this->mdl->getFormFieldGroups($formId);
+        
+        // Load all available field groups for assignment
+        $this->data['available_groups'] = $this->mdl->getAllFieldGroups();
+        
+        // Load fields for this form (for assignment to groups)
+        $this->data['form_fields'] = $this->mdl->getFieldsWithGroups($formId);
+        
         $this->data['list_url'] = $this->html->getSecureURL('tool/forms_manager');
+        $this->data['groups_response_url'] = $this->html->getSecureURL('forms_manager/groups/addGroup', '&form_id=' . $formId);
+        $this->data['assign_fields_action'] = $this->html->getSecureURL('tool/forms_manager/assignFieldsToGroups', '&form_id=' . $formId);
+        $this->data['groups_reset_url'] = $this->html->getSecureURL('tool/forms_manager/groups', '&form_id=' . $formId);
 
         $this->view->batchAssign($this->data);
         $this->processTemplate('pages/tool/forms_manager_groups.tpl');
