@@ -406,13 +406,26 @@ class ModelCheckoutFastCheckout extends Model
 
         $sql = "SELECT DISTINCT `type_id`
                 FROM ".$this->db->table('order_data_types')."
-                WHERE `name`='guest_token'";
+                WHERE `name`='guest_token' 
+                LIMIT 1";
+
         $result = $this->db->query($sql);
         $type_id = $result->rows[0]['type_id'];
         if ($type_id) {
-            $sql = "REPLACE INTO ".$this->db->table('order_data')."
-                    (`order_id`, `type_id`, `data`, `date_added`)
-                    VALUES (".(int)$order_id.", ".(int)$type_id.", '".$this->db->escape($token)."', NOW() )";
+            $sql = "SELECT * 
+                        FROM " . $this->db->table('order_data') . "
+                        WHERE order_id = " . (int)$order_id . " 
+                            AND type_id = " . $type_id;
+            $r = $this->db->query($sql);
+            if (!$r->num_rows) {
+                $sql = "INSERT INTO " . $this->db->table('order_data') . "
+                        (`order_id`, `type_id`, `data`, `date_added`)
+                        VALUES (" . (int)$order_id . ", " . (int)$type_id . ", '" . $this->db->escape($token) . "', NOW() )";
+            }else{
+                $sql = "UPDATE " . $this->db->table('order_data') . "
+                            SET `data` = '" . $this->db->escape($token) . "'
+                            WHERE order_id = " . (int)$order_id . " AND type_id = " . (int)$type_id;
+            }
             $this->db->query($sql);
         }
     }

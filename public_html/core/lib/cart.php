@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 /** @noinspection PhpMultipleClassDeclarationsInspection
@@ -513,7 +513,7 @@ class ACart
      *
      * @throws AException
      */
-    public function update($key, $qty)
+    public function update($key, $qty, bool $recalculate = true)
     {
         if ((int)$qty && ((int)$qty > 0)) {
             $this->cust_data['cart'][$key]['qty'] = (int)$qty;
@@ -527,7 +527,9 @@ class ACart
         }
 
         //reload data for the cart
-        $this->getProducts(true);
+        if ($recalculate) {
+            $this->getProducts($recalculate);
+        }
     }
 
     /**
@@ -673,9 +675,8 @@ class ACart
         $basic_ship_products = [];
         $products = $this->getProducts();
         foreach ($products as $product) {
-            if ( $this->productRequireShipping($product)
-                && !$product['ship_individually'] && !$product['free_shipping'] && $product['shipping_price'] == 0)
-            {
+            if ($this->productRequireShipping($product)
+                && !$product['ship_individually'] && !$product['free_shipping'] && $product['shipping_price'] == 0) {
                 $basic_ship_products[] = $product;
             }
         }
@@ -694,7 +695,7 @@ class ACart
         $special_ship_products = [];
         $products = $this->getProducts();
         foreach ($products as $product) {
-            if ( $this->productRequireShipping($product)
+            if ($this->productRequireShipping($product)
                 && ($product['ship_individually'] || $product['free_shipping'] || $product['shipping_price'] > 0)
             ) {
                 $special_ship_products[] = $product;

@@ -365,30 +365,46 @@ class ModelCheckoutOrder extends Model
                 FROM " . $this->db->table('order_data_types') . "
                 WHERE `name` IN ('" . implode("', '", $p) . "')";
         $result = $this->db->query($sql);
-        if (!$result->num_rows) {
-            return null;
-        }
+        $protocols = array_column($result->rows, 'protocol','type_id');
 
-        foreach ($result->rows as $row) {
-            $type_id = (int)$row['type_id'];
+        $savedProtocols = [];
+        foreach ($protocols as $type_id => $protocol) {
+            //prevent duplicates
+            if(in_array($protocol, $savedProtocols)) {
+                continue;
+            }
+
+            $type_id = (int)$type_id;
             if ($data['customer_id']) {
-                $uri = $this->im->getCustomerURI($row['protocol'], $data['customer_id']);
+                $uri = $this->im->getCustomerURI($protocol, $data['customer_id']);
             } else {
-                $uri = $data[$row['protocol']];
+                $uri = $data[$protocol];
             }
             if ($uri) {
                 $im_data = serialize(
                     [
                         'uri'    => $uri,
-                        'status' => $this->config->get('config_im_guest_' . $row['protocol'] . '_status'),
+                        'status' => $this->config->get('config_im_guest_' . $protocol . '_status'),
                     ]
                 );
 
-                $sql = "REPLACE INTO " . $this->db->table('order_data') . "
+                $sql = "SELECT * 
+                        FROM " . $this->db->table('order_data') . "
+                        WHERE order_id = " . (int)$order_id . " 
+                            AND type_id = " . $type_id;
+                $r = $this->db->query($sql);
+                if (!$r->num_rows) {
+                    $sql = "INSERT INTO " . $this->db->table('order_data') . "
                         (`order_id`, `type_id`, `data`, `date_added`)
-                        VALUES (" . (int)$order_id . ", " . (int)$type_id . ", '" . $this->db->escape($im_data) . "', NOW() )";
-
+                        VALUES 
+                        (" . (int)$order_id . ", " . (int)$type_id . ", '" . $this->db->escape($im_data) . "', NOW() )";
+                }else{
+                    $sql = "UPDATE " . $this->db->table('order_data') . "
+                            SET `data` = '" . $this->db->escape($im_data) . "'
+                            WHERE order_id = " . (int)$order_id . " AND type_id = " . (int)$type_id;
+                }
                 $this->db->query($sql);
+                $savedProtocols[] = $protocol;
             }
         }
     }
