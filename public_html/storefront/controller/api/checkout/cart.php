@@ -1,59 +1,63 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
+/**
+ * @property AWeight $weight
+ */
 class ControllerApiCheckoutCart extends AControllerAPI
 {
-    public $data = array();
-    public $error = array();
+    public $data = [];
+    public $error = [];
 
     public function post()
     {
         $request = $this->rest->getRequestParams();
         if (!$this->customer->isLoggedWithToken($request['token'])) {
-            $this->rest->setResponseData(array('error' => 'Not logged in or Login attempt failed!'));
+            $this->rest->setResponseData(['error' => 'Not logged in or Login attempt failed!']);
             $this->rest->sendResponse(401);
             return null;
         }
 
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->loadModel('catalog/product');
-        $product_id = $request['product_id'];
 
         //check if we add single or multiple products to cart
         if (isset($request['quantity']) || is_array($request['products'])) {
             if (isset($request['product_id']) && !is_array($request['quantity'])) {
-                //add single product
+                //add a single product
                 $this->_add_to_cart($request);
             } else {
                 if (isset($request['product_id']) && is_array($request['quantity'])) {
                     //update quantities for products
                     foreach ($request['quantity'] as $key => $value) {
-                        $this->cart->update($key, $value);
+                        $this->cart->update($key, $value, false);
                     }
+                    //recalculate
+                    $this->cart->getProducts(true);
                 } else {
                     if (is_array($request['products'])) {
                         //add bulk products
-                        foreach ($request['products'] as $i => $product) {
+                        foreach ($request['products'] as $product) {
                             $this->_add_to_cart($product);
                         }
                     }
@@ -103,7 +107,7 @@ class ControllerApiCheckoutCart extends AControllerAPI
                 $this->cart->clear();
             }
         }
-        $this->rest->setResponseData(array('success' => "$count removed"));
+        $this->rest->setResponseData(['success' => $count." removed"]);
         $this->rest->sendResponse(200);
         return null;
     }
@@ -115,13 +119,9 @@ class ControllerApiCheckoutCart extends AControllerAPI
 
     private function _add_to_cart($product)
     {
-        if (isset($product['option'])) {
-            $options = $product['option'];
-        } else {
-            $options = array();
-        }
+        $options = $product['option'] ?? [];
         if ($errors = $this->model_catalog_product->validateProductOptions($product['product_id'], $options)) {
-            $this->rest->setResponseData(array('error' => implode(' ', $errors)));
+            $this->rest->setResponseData(['error' => implode(' ', $errors)]);
             $this->rest->sendResponse(206);
         }
         $this->cart->add($product['product_id'], $product['quantity'], $options);
@@ -131,7 +131,7 @@ class ControllerApiCheckoutCart extends AControllerAPI
     {
         if ($this->cart->hasProducts()) {
             $this->loadModel('tool/image');
-            $products = array();
+            $products = [];
             $cart_products = $this->cart->getProducts();
 
             $product_ids = array_column($cart_products,'product_id');
@@ -151,25 +151,25 @@ class ControllerApiCheckoutCart extends AControllerAPI
             }
 
             foreach ($cart_products as $result) {
-                $option_data = array();
+                $option_data = [];
                 $thumbnail = $thumbnails[$result['product_id']];
                 foreach ($result['option'] as $option) {
-                    $option_data[] = array(
+                    $option_data[] = [
                         'name'  => $option['name'],
                         'value' => $option['value'],
-                    );
+                    ];
                     // product image by option value
-                    $mSizes = array(
+                    $mSizes = [
                         'main'  =>
-                            array(
+                            [
                                 'width' => $this->config->get('config_image_cart_width'),
                                 'height' => $this->config->get('config_image_cart_height')
-                            ),
-                        'thumb' => array(
+                            ],
+                        'thumb' => [
                             'width' =>  $this->config->get('config_image_cart_width'),
                             'height' => $this->config->get('config_image_cart_height')
-                        ),
-                    );
+                        ],
+                    ];
                     $main_image =
                         $resource->getResourceAllObjects('product_option_value', $option['product_option_value_id'], $mSizes, 1, false);
                     if (!empty($main_image)) {
@@ -193,7 +193,7 @@ class ControllerApiCheckoutCart extends AControllerAPI
                     $this->config->get('config_tax')
                 );
 
-                $products[] = array(
+                $products[] = [
                     'key'      => $result['key'],
                     'name'     => $result['name'],
                     'model'    => $result['model'],
@@ -203,7 +203,7 @@ class ControllerApiCheckoutCart extends AControllerAPI
                     'stock'    => $result['stock'],
                     'price'    => $this->currency->format($price_with_tax),
                     'total'    => $this->currency->format_total($price_with_tax, $result['quantity']),
-                );
+                ];
             }
             $this->data['products'] = $products;
             if ($this->config->get('config_cart_weight')) {
@@ -215,7 +215,7 @@ class ControllerApiCheckoutCart extends AControllerAPI
             $this->data['totals'] = $display_totals['total_data'];
         } else {
             //empty cart content
-            $this->data['products'] = array();
+            $this->data['products'] = [];
             $this->data['totals'] = 0;
         }
     }
