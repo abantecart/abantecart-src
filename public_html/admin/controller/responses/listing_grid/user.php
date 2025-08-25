@@ -5,17 +5,17 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
@@ -30,13 +30,11 @@ class ControllerResponsesListingGridUser extends AController
 
         $this->loadLanguage('user/user');
         $this->loadModel('user/user');
-
         $this->loadModel('user/user_group');
+
         $user_groups = ['' => $this->language->get('text_select_group'),];
         $results = $this->model_user_user_group->getUserGroups();
-        foreach ($results as $r) {
-            $user_groups[$r['user_group_id']] = $r['name'];
-        }
+        $user_groups = array_merge($user_groups, array_column($results,'name','user_group_id'));
 
         //Prepare filter config
         $filter_params = array_merge(['status', 'user_group_id'], (array)$this->data['filter_params']);
@@ -59,7 +57,6 @@ class ControllerResponsesListingGridUser extends AController
 
         $i = 0;
         foreach ($results as $result) {
-
             $response->rows[$i]['id'] = $result['user_id'];
             $response->rows[$i]['cell'] = [
                 $result['username'],
@@ -99,12 +96,7 @@ class ControllerResponsesListingGridUser extends AController
         $this->loadModel('user/user');
         $this->loadLanguage('user/user');
 
-        $ids = array_unique(
-            array_map(
-                'intval',
-                explode(',', $this->request->post['id'])
-            )
-        );
+        $ids = filterIntegerIdList( explode(',', $this->request->post['id']) );
         if ($ids) {
             switch ($this->request->post['oper']) {
                 case 'del':
@@ -226,10 +218,10 @@ class ControllerResponsesListingGridUser extends AController
 
             if ($this->request->post['password'] && $this->request->post['password_confirm']) {
                 //logout when password was changed
-                $salt_key = $user_info['salt'];
+                $salt = $user_info['salt'];
                 if ($this->user->getId() == $user_id
                     && $user_info['password']
-                    && $user_info['password'] != sha1($salt_key . sha1($salt_key . sha1($this->request->post['password'])))
+                    && $user_info['password'] != passwordHash($this->request->post['password'], $salt)
                 ) {
                     $this->user->logout();
                 }

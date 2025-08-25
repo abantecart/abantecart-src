@@ -5,24 +5,23 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 class ModelCheckoutFastCheckout extends Model
 {
-    public $data = [];
 
     /**
      * @param int $order_id
@@ -35,14 +34,14 @@ class ModelCheckoutFastCheckout extends Model
         $order_id = (int)$order_id;
         $customer_id = (int)$customer_id;
 
-        $sql = "UPDATE ".$this->db->table('orders')."
-                SET customer_id=".(int)$customer_id."
-                WHERE order_id =".(int)$order_id;
+        $sql = "UPDATE " . $this->db->table('orders') . "
+                SET customer_id=" . (int)$customer_id . "
+                WHERE order_id =" . (int)$order_id;
         $this->db->query($sql);
     }
 
     /**
-     * Method adds customer into database with or without address
+     * Method adds a customer into a database with or without an address
      *
      * @param $data
      *
@@ -61,7 +60,7 @@ class ModelCheckoutFastCheckout extends Model
         $key_sql = '';
         if ($this->dcrypt->active) {
             $data = $this->dcrypt->encrypt_data($data, 'customers');
-            $key_sql = ", key_id = '".(int)$data['key_id']."'";
+            $key_sql = ", key_id = '" . (int)$data['key_id'] . "'";
         }
         if (!(int)$data['customer_group_id']) {
             $data['customer_group_id'] = (int)$this->config->get('config_customer_group_id');
@@ -85,43 +84,43 @@ class ModelCheckoutFastCheckout extends Model
         // delete subscription accounts for given email
         $subscriber = $this->db->query(
             "SELECT customer_id
-            FROM ".$this->db->table("customers")."
-            WHERE LOWER(`email`) = LOWER('".$this->db->escape($data['email'])."')
+            FROM " . $this->db->table("customers") . "
+            WHERE LOWER(`email`) = LOWER('" . $this->db->escape($data['email']) . "')
                 AND customer_group_id 
                     IN (SELECT customer_group_id
-                        FROM ".$this->db->table('customer_groups')."
+                        FROM " . $this->db->table('customer_groups') . "
                         WHERE `name` = 'Newsletter Subscribers')"
         );
         foreach ($subscriber->rows as $row) {
             $this->db->query(
                 "DELETE 
-                FROM ".$this->db->table("customers")." 
-                WHERE customer_id = '".(int)$row['customer_id']."'"
+                FROM " . $this->db->table("customers") . " 
+                WHERE customer_id = '" . (int)$row['customer_id'] . "'"
             );
             $this->db->query(
                 "DELETE 
-                FROM ".$this->db->table("addresses")." 
-                WHERE customer_id = '".(int)$row['customer_id']."'"
+                FROM " . $this->db->table("addresses") . " 
+                WHERE customer_id = '" . (int)$row['customer_id'] . "'"
             );
         }
 
         $salt_key = genToken(8);
-        $sql = "INSERT INTO ".$this->db->table("customers")."
-                SET store_id = '".(int)$this->config->get('config_store_id')."',
-                    loginname = '".$this->db->escape($data['loginname'])."',
-                    firstname = '".$this->db->escape($data['firstname'])."',
-                    lastname = '".$this->db->escape($data['lastname'])."',
-                    email = '".$this->db->escape($data['email'])."',
-                    telephone = '".$this->db->escape($data['telephone'])."',
-                    fax = '".$this->db->escape($data['fax'])."',
-                    salt = '".$this->db->escape($salt_key)."',
-                    password = '".$this->db->escape(sha1($salt_key.sha1($salt_key.sha1($data['password']))))."',
-                    newsletter = '".(int)$data['newsletter']."',
-                    customer_group_id = '".(int)$data['customer_group_id']."',
-                    approved = '".(int)$data['approved']."',
-                    status = '".(int)$data['status']."'".$key_sql.",
-                    ip = '".$this->db->escape($data['ip'])."',
-                    `data` = '".$this->db->escape(serialize($data['data']))."',
+        $sql = "INSERT INTO " . $this->db->table("customers") . "
+                SET store_id = '" . (int)$this->config->get('config_store_id') . "',
+                    loginname = '" . $this->db->escape($data['loginname']) . "',
+                    firstname = '" . $this->db->escape($data['firstname']) . "',
+                    lastname = '" . $this->db->escape($data['lastname']) . "',
+                    email = '" . $this->db->escape($data['email']) . "',
+                    telephone = '" . $this->db->escape($data['telephone']) . "',
+                    fax = '" . $this->db->escape($data['fax']) . "',
+                    salt = '" . $this->db->escape($salt_key) . "',
+                    password = '" . $this->db->escape(passwordHash($data['password'], $salt_key)) . "',
+                    newsletter = '" . (int)$data['newsletter'] . "',
+                    customer_group_id = '" . (int)$data['customer_group_id'] . "',
+                    approved = '" . (int)$data['approved'] . "',
+                    status = '" . (int)$data['status'] . "'" . $key_sql . ",
+                    ip = '" . $this->db->escape($data['ip']) . "',
+                    `data` = '" . $this->db->escape(serialize($data['data'])) . "',
                     date_added = NOW()";
         $this->db->query($sql);
         $customer_id = $this->db->getLastId();
@@ -133,7 +132,7 @@ class ModelCheckoutFastCheckout extends Model
             //notify administrator of pending customer approval
             $msg_text = sprintf(
                 $language->get('text_pending_customer_approval'),
-                $data['firstname'].' '.$data['lastname'],
+                $data['firstname'] . ' ' . $data['lastname'],
                 $customer_id
             );
             $msg = new AMessage();
@@ -142,10 +141,10 @@ class ModelCheckoutFastCheckout extends Model
 
         //enable notification setting for newsletter via email
         if ($data['newsletter']) {
-            $sql = "INSERT INTO ".$this->db->table('customer_notifications')."
+            $sql = "INSERT INTO " . $this->db->table('customer_notifications') . "
                         (customer_id, sendpoint, protocol, status, date_added)
                     VALUES
-                    ('".$customer_id."',
+                    ('" . $customer_id . "',
                     'newsletter',
                     'email',
                     '1',
@@ -187,13 +186,13 @@ class ModelCheckoutFastCheckout extends Model
         $upd = [];
         foreach ($allowed as $field_name) {
             if (isset($data[$field_name])) {
-                $upd[] = "`".$field_name."` = '".$this->db->escape($data[$field_name])."' ";
+                $upd[] = "`" . $field_name . "` = '" . $this->db->escape($data[$field_name]) . "' ";
             }
         }
 
-        $sql = "UPDATE ".$this->db->table('orders')."
-                SET ".implode(', ', $upd)."
-                WHERE order_id = ".$order_id." AND order_status_id = 0";
+        $sql = "UPDATE " . $this->db->table('orders') . "
+                SET " . implode(', ', $upd) . "
+                WHERE order_id = " . $order_id . " AND order_status_id = 0";
         $this->db->query($sql);
         return true;
 
@@ -227,9 +226,9 @@ class ModelCheckoutFastCheckout extends Model
             'password'   => $data['password'],
         ];
 
-        $mailLogo = $this->config->get('config_mail_logo_'.$languageId)
-                    ?: $this->config->get('config_mail_logo');
-        $mailLogo = $mailLogo ?: $this->config->get('config_logo_'.$languageId);
+        $mailLogo = $this->config->get('config_mail_logo_' . $languageId)
+            ?: $this->config->get('config_mail_logo');
+        $mailLogo = $mailLogo ?: $this->config->get('config_logo_' . $languageId);
         $mailLogo = $mailLogo ?: $this->config->get('config_logo');
 
         if ($mailLogo) {
@@ -248,10 +247,10 @@ class ModelCheckoutFastCheckout extends Model
         $mail->setFrom($this->config->get('store_main_email'));
         $mail->setSender($this->config->get('store_name'));
         $mail->setTemplate($template, $this->data['mail_template_data']);
-        if (is_file(DIR_RESOURCE.$mailLogo)) {
-            $mail->addAttachment(DIR_RESOURCE.$mailLogo,
+        if (is_file(DIR_RESOURCE . $mailLogo)) {
+            $mail->addAttachment(DIR_RESOURCE . $mailLogo,
                 md5(pathinfo($mailLogo, PATHINFO_FILENAME))
-                .'.'.pathinfo($mailLogo, PATHINFO_EXTENSION));
+                . '.' . pathinfo($mailLogo, PATHINFO_EXTENSION));
         }
         $mail->send(true);
         return true;
@@ -272,7 +271,7 @@ class ModelCheckoutFastCheckout extends Model
 
         //build confirmation email
         $this->language->load('checkout/fast_checkout');
-        $languageId = $this->language->getContentLanguageID() ? : $this->language->getLanguageID();
+        $languageId = $this->language->getContentLanguageID() ?: $this->language->getLanguageID();
 
         $subject = sprintf($this->language->get('fast_checkout_download_subject'), $this->config->get('store_name'));
 
@@ -285,15 +284,15 @@ class ModelCheckoutFastCheckout extends Model
         }
         $email_download_link = $downloadInfo['download_url'];
 
-        $this->data['mail_plain_text'] = $text_email_download."\n\n";
-        $this->data['mail_plain_text'] .= $email_download_link."\n\n";
-        $this->data['mail_plain_text'] .= $this->language->get('fast_checkout_text_thank_you')."\n";
+        $this->data['mail_plain_text'] = $text_email_download . "\n\n";
+        $this->data['mail_plain_text'] .= $email_download_link . "\n\n";
+        $this->data['mail_plain_text'] .= $this->language->get('fast_checkout_text_thank_you') . "\n";
         $this->data['mail_plain_text'] .= $this->config->get('store_name');
 
         //build HTML message with the template
         $this->data['mail_template_data']['text_thanks'] = $this->language->get('fast_checkout_text_thank_you');
         $this->data['mail_template_data']['store_name'] = $this->config->get('store_name');
-        $this->data['mail_template_data']['store_url'] = $this->config->get('config_url').$this->config->get('seo_prefix');
+        $this->data['mail_template_data']['store_url'] = $this->config->get('config_url') . $this->config->get('seo_prefix');
         $this->data['mail_template_data']['text_email_download'] = $text_email_download;
         $this->data['mail_template_data']['text_email_download_link'] = $text_email_download_link;
         $this->data['mail_template_data']['email_download_link'] = $email_download_link;
@@ -301,9 +300,9 @@ class ModelCheckoutFastCheckout extends Model
 
         $this->data['mail_template'] = 'mail/order_download.tpl';
 
-        $mailLogo = $this->config->get('config_mail_logo_'.$languageId)
-                    ?: $this->config->get('config_mail_logo');
-        $mailLogo = $mailLogo ?: $this->config->get('config_logo_'.$languageId);
+        $mailLogo = $this->config->get('config_mail_logo_' . $languageId)
+            ?: $this->config->get('config_mail_logo');
+        $mailLogo = $mailLogo ?: $this->config->get('config_logo_' . $languageId);
         $mailLogo = $mailLogo ?: $this->config->get('config_logo');
 
         if ($mailLogo) {
@@ -325,10 +324,10 @@ class ModelCheckoutFastCheckout extends Model
         $mail->setSender($this->config->get('store_name'));
         $mail->setSubject($subject);
         $mail->setText(html_entity_decode($this->data['mail_plain_text'], ENT_QUOTES, 'UTF-8'));
-        if (is_file(DIR_RESOURCE.$mailLogo)) {
-            $mail->addAttachment(DIR_RESOURCE.$mailLogo,
+        if (is_file(DIR_RESOURCE . $mailLogo)) {
+            $mail->addAttachment(DIR_RESOURCE . $mailLogo,
                 md5(pathinfo($mailLogo, PATHINFO_FILENAME))
-                .'.'.pathinfo($mailLogo, PATHINFO_EXTENSION));
+                . '.' . pathinfo($mailLogo, PATHINFO_EXTENSION));
         }
         $mail->setHtml($html_body);
         $mail->send();
@@ -383,11 +382,11 @@ class ModelCheckoutFastCheckout extends Model
         $order_id = (int)$order_id;
 
         $sql = "SELECT *
-                FROM ".$this->db->table('order_data')." od
+                FROM " . $this->db->table('order_data') . " od
                 WHERE `type_id` in ( SELECT DISTINCT type_id
-                                     FROM ".$this->db->table('order_data_types')."
+                                     FROM " . $this->db->table('order_data_types') . "
                                      WHERE `name`='guest_token' )
-                    AND order_id = '".$order_id."'";
+                    AND order_id = '" . $order_id . "'";
         $query = $this->db->query($sql);
         return $query->rows[0]['data'];
     }
@@ -405,7 +404,7 @@ class ModelCheckoutFastCheckout extends Model
         $order_id = (int)$order_id;
 
         $sql = "SELECT DISTINCT `type_id`
-                FROM ".$this->db->table('order_data_types')."
+                FROM " . $this->db->table('order_data_types') . "
                 WHERE `name`='guest_token' 
                 LIMIT 1";
 
@@ -421,7 +420,7 @@ class ModelCheckoutFastCheckout extends Model
                 $sql = "INSERT INTO " . $this->db->table('order_data') . "
                         (`order_id`, `type_id`, `data`, `date_added`)
                         VALUES (" . (int)$order_id . ", " . (int)$type_id . ", '" . $this->db->escape($token) . "', NOW() )";
-            }else{
+            } else {
                 $sql = "UPDATE " . $this->db->table('order_data') . "
                             SET `data` = '" . $this->db->escape($token) . "'
                             WHERE order_id = " . (int)$order_id . " AND type_id = " . (int)$type_id;
@@ -442,7 +441,7 @@ class ModelCheckoutFastCheckout extends Model
         if (method_exists($this->download, 'getTotalOrderDownloads')) {
             return $this->download->getTotalOrderDownloads($order_id, $customer_id);
         } else {
-            return sizeof($this->getCustomerOrderDownloads($order_id, $customer_id));
+            return sizeof($this->download->getCustomerOrderDownloads($order_id, $customer_id));
         }
     }
 }

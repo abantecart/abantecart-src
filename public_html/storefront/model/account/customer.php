@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 use ReCaptcha\ReCaptcha;
@@ -24,9 +24,7 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 /**
  * Class ModelAccountCustomer
  *
- * @property ModelCatalogContent $model_catalog_content
  * @property AIM $im
- * @property ModelAccountOrder $model_account_order
  * @property ACustomer $customer
  */
 class ModelAccountCustomer extends Model
@@ -96,7 +94,7 @@ class ModelAccountCustomer extends Model
         }
 
         $data['salt'] = $salt_key = genToken(8);
-        $data['password'] = sha1($salt_key . sha1($salt_key . sha1($data['password'])));
+        $data['password'] = passwordHash($data['password'], $salt_key);
         $data['store_id'] = (int)$this->config->get('config_store_id');
 
         // delete subscription accounts for given email
@@ -521,7 +519,7 @@ class ModelAccountCustomer extends Model
             "UPDATE " . $this->db->table("customers") . "
             SET
                 salt = '" . $this->db->escape($salt_key) . "', 
-                password = '" . $this->db->escape(sha1($salt_key . sha1($salt_key . sha1($password)))) . "'
+                password = '" . $this->db->escape(passwordHash($password, $salt_key)) . "'
             WHERE loginname = '" . $this->db->escape($loginname) . "'"
         );
         //send IM

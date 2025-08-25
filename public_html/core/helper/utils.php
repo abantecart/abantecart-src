@@ -1570,6 +1570,10 @@ function generateOrderToken($orderId, $email, $secToken = '')
     return $enc->encrypt($orderId . '::' . $email . '::' . $secToken);
 }
 
+/**
+ * @param array|null $list
+ * @return array
+ */
 function filterIntegerIdList(?array $list = [])
 {
     return array_unique(
@@ -1682,7 +1686,13 @@ function isUrlAlive(string $url): bool
     return false;
 }
 
-function regexForHtmlPattern($regex) {
+/**
+ * Processes a given regular expression to extract and clean the core HTML pattern.
+ *
+ * @param string $regex The input regular expression, typically enclosed in delimiters and may include anchors (^ and $).
+ * @return string The cleaned regular expression pattern without delimiters and anchors.
+ */
+function regexForHtmlPattern(string $regex) {
     // remove separators /.../
     $regex = trim($regex);
     if (preg_match('#^/(.*?)/[a-zA-Z]*$#', $regex, $m)) {
@@ -1691,6 +1701,15 @@ function regexForHtmlPattern($regex) {
 
     // remove ^ and $
     $regex = preg_replace('/^\^/', '', $regex);
-    $regex = preg_replace('/\$$/', '', $regex);
-    return $regex;
+    return preg_replace('/\$$/', '', $regex);
+}
+
+/**
+ * @param string $password The plain text password to be hashed.
+ * @param string $salt A unique salt value to enhance hash security.
+ * @return string The resulting hashed password.
+ */
+function passwordHash(string $password, string $salt): string
+{
+    return sha1($salt . sha1($salt . sha1($password)));
 }
