@@ -35,6 +35,7 @@ $controllers = [
         'pages/tool/forms_manager',
         'responses/grid/form',
         'responses/forms_manager/fields',
+        'responses/forms_manager/groups',
     ],
 ];
 

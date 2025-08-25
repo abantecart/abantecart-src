@@ -770,4 +770,140 @@ class ModelToolFormsManager extends Model
     {
         $this->cache->remove('forms');
     }
+
+    /**
+     * Get field groups for a specific form
+     * @param int $formId
+     * @return array
+     * @throws AException
+     */
+    public function getFormFieldGroups(int $formId)
+    {
+        if (!$formId) {
+            return [];
+        }
+        
+        $sql = "SELECT fg.group_id, fg.group_txt_id, fgd.name, fgd.description, fgtf.sort_order
+                FROM " . $this->db->table('field_groups') . " fg
+                LEFT JOIN " . $this->db->table('field_group_descriptions') . " fgd 
+                    ON fg.group_id = fgd.group_id 
+                    AND fgd.language_id = " . (int)$this->language->getContentLanguageID() . "
+                LEFT JOIN " . $this->db->table('field_group_to_form') . " fgtf 
+                    ON fg.group_id = fgtf.group_id 
+                    AND fgtf.form_id = " . (int)$formId . "
+                WHERE fgtf.form_id = " . (int)$formId . "
+                ORDER BY fgtf.sort_order ASC";
+        
+        $results = $this->db->query($sql);
+        return $results->rows;
+    }
+
+    /**
+     * Get all available field groups
+     * @return array
+     * @throws AException
+     */
+    public function getAllFieldGroups()
+    {
+        $sql = "SELECT fg.group_id, fg.group_txt_id, fgd.name, fgd.description
+                FROM " . $this->db->table('field_groups') . " fg
+                LEFT JOIN " . $this->db->table('field_group_descriptions') . " fgd 
+                    ON fg.group_id = fgd.group_id 
+                    AND fgd.language_id = " . (int)$this->language->getContentLanguageID() . "
+                ORDER BY fgd.name ASC";
+        
+        $results = $this->db->query($sql);
+        return $results->rows;
+    }
+
+    /**
+     * Add a new field group to a form
+     * @param int $formId
+     * @param array $data
+     * @return bool
+     * @throws AException
+     */
+    public function addFieldGroup(int $formId, array $data)
+    {
+        if (!$formId || empty($data['group_name'])) {
+            return false;
+        }
+
+        // Generate unique group_txt_id
+        $group_txt_id = 'group_' . time() . '_' . rand(1000, 9999);
+        
+        // Insert into field_groups
+        $this->db->query("INSERT INTO " . $this->db->table('field_groups') . " 
+            (group_txt_id) VALUES ('" . $this->db->escape($group_txt_id) . "')");
+        
+        $groupId = $this->db->getLastId();
+        
+        // Insert description
+        $this->db->query("INSERT INTO " . $this->db->table('field_group_descriptions') . " 
+            (group_id, name, description, language_id) VALUES 
+            (" . (int)$groupId . ", '" . $this->db->escape($data['group_name']) . "', 
+            '" . $this->db->escape($data['group_description'] ?? '') . "', 
+            " . (int)$this->language->getContentLanguageID() . ")");
+        
+        // Link to form
+        $sortOrder = (int)($data['sort_order'] ?? 0);
+        $this->db->query("INSERT INTO " . $this->db->table('field_group_to_form') . " 
+            (group_id, form_id, sort_order) VALUES 
+            (" . (int)$groupId . ", " . (int)$formId . ", " . $sortOrder . ")");
+        
+        return true;
+    }
+
+    /**
+     * Assign a field to a group
+     * @param int $fieldId
+     * @param int $groupId
+     * @return bool
+     * @throws AException
+     */
+    public function assignFieldToGroup(int $fieldId, int $groupId = null)
+    {
+        if (!$fieldId) {
+            return false;
+        }
+        
+        $sql = "UPDATE " . $this->db->table('fields') . " SET group_id = ";
+        if ($groupId) {
+            $sql .= (int)$groupId;
+        } else {
+            $sql .= "NULL";
+        }
+        $sql .= " WHERE field_id = " . (int)$fieldId;
+        
+        $this->db->query($sql);
+        return true;
+    }
+
+    /**
+     * Get fields with their group assignments for a form
+     * @param int $formId
+     * @return array
+     * @throws AException
+     */
+    public function getFieldsWithGroups(int $formId)
+    {
+        if (!$formId) {
+            return [];
+        }
+        
+        $sql = "SELECT f.field_id, f.field_name, f.group_id, fd.name as field_name_display,
+                       fgd.name as group_name
+                FROM " . $this->db->table('fields') . " f
+                LEFT JOIN " . $this->db->table('field_descriptions') . " fd 
+                    ON f.field_id = fd.field_id 
+                    AND fd.language_id = " . (int)$this->language->getContentLanguageID() . "
+                LEFT JOIN " . $this->db->table('field_group_descriptions') . " fgd 
+                    ON f.group_id = fgd.group_id 
+                    AND fgd.language_id = " . (int)$this->language->getContentLanguageID() . "
+                WHERE f.form_id = " . (int)$formId . "
+                ORDER BY f.sort_order ASC";
+        
+        $results = $this->db->query($sql);
+        return $results->rows;
+    }
 }

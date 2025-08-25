@@ -49,6 +49,10 @@
 		<value><![CDATA[Name]]></value>
 	</definition>
 	<definition>
+		<key>column_field_name</key>
+		<value><![CDATA[Field Name]]></value>
+	</definition>
+	<definition>
 		<key>column_description</key>
 		<value><![CDATA[Description]]></value>
 	</definition>
@@ -243,5 +247,61 @@
 	<definition>
 		<key>forms_manager_error_empty_sender</key>
 		<value><![CDATA[Warning! Please set default sender name and default sender email in <a href="#admin#rt=extension/extensions/edit&extension=forms_manager" target="_blank">forms manager settings</a>]]></value>
+	</definition>
+	<definition>
+		<key>text_assign_fields_to_groups</key>
+		<value><![CDATA[Assign Fields to Groups]]></value>
+	</definition>
+	<definition>
+		<key>text_add_new_group</key>
+		<value><![CDATA[Add New Field Group]]></value>
+	</definition>
+	<definition>
+		<key>text_no_group</key>
+		<value><![CDATA[No Group]]></value>
+	</definition>
+	<definition>
+		<key>text_no_fields</key>
+		<value><![CDATA[No fields available]]></value>
+	</definition>
+	<definition>
+		<key>text_action</key>
+		<value><![CDATA[Action]]></value>
+	</definition>
+	<definition>
+		<key>entry_group_name</key>
+		<value><![CDATA[Group Name]]></value>
+	</definition>
+	<definition>
+		<key>entry_group_description</key>
+		<value><![CDATA[Group Description]]></value>
+	</definition>
+	<definition>
+		<key>entry_field_name</key>
+		<value><![CDATA[Field Name]]></value>
+	</definition>
+	<definition>
+		<key>button_save</key>
+		<value><![CDATA[Save]]></value>
+	</definition>
+	<definition>
+		<key>button_cancel</key>
+		<value><![CDATA[Cancel]]></value>
+	</definition>
+	<definition>
+		<key>error_group_name_required</key>
+		<value><![CDATA[Group name is required!]]></value>
+	</definition>
+	<definition>
+		<key>error_unknown</key>
+		<value><![CDATA[An unknown error occurred]]></value>
+	</definition>
+	<definition>
+		<key>text_success_fields_assigned</key>
+		<value><![CDATA[The fields have been successfully assigned to groups.]]></value>
+	</definition>
+	<definition>
+		<key>button_reset</key>
+		<value><![CDATA[Reset]]></value>
 	</definition>
 </definitions>
