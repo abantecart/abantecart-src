@@ -19,6 +19,8 @@ apply: always
 - In case of extension, use the extension's text ID (key) as prefix for all it's language definition keys. 
 - Route parameter is not necessary when the route of a language file is equal route of controller
 - All html-attributes inside tpl files should be wrapped function echo_html2view() or html2view(). For javascript code inside tpl-file use js_echo() function for php-variables.
+- do not use Javascript code in the tpl files under storefront directory, except in common/*.tpl. Use common/head.tpl for defining of js variables based on php-variables values and use them inside main.js or common.js files.
+
     
 
 # Error Handling & Logging
