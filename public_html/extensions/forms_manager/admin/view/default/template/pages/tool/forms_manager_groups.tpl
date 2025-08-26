@@ -27,47 +27,56 @@
         
         <div class="panel-body panel-body-nopadding tab-content col-xs-12">
             <div class="row">
-                <div class="col-xs-12 col-md-6">
+                <div class="col-xs-12 col-md-5">
                     <h3 class="control-label"><?php echo $text_groups; ?></h3>
-                    <div id="group_list">
+                    <?php echo $form['form_open'];?>
+                    <input type="hidden" name="remove_groups" value=""/>
                         <table class="table table-narrow">
-                                <thead>
-                                <tr>
-                                    <th><?php echo $column_text_id; ?></th>
-                                    <th><?php echo $entry_group_name; ?></th>
-                                    <th><?php echo $entry_group_description; ?></th>
-                                    <th><?php echo $text_sort_order; ?></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php foreach ($form_groups as $group) { ?>
-                                    <tr id="<?php echo $group['group_id'];?>" class="value">
-                                        <td><?php
-                                            $group['group_txt_id']->style = 'col-sm-2';
-                                            echo $group['group_txt_id']; ?></td>
-                                        <td class="center">
-                                            <?php echo $group['name']; ?>
-                                        </td>
-                                        <td class="center">
-                                            <?php echo $group['description']; ?>
-                                        </td>
-                                        <td><?php $group['sort_order']->style = 'col-2';
-                                            echo $group['sort_order']; ?>
-                                        </td>
-                                        <td>
-                                            <a class="remove btn btn-danger-alt" title="<?php echo $button_remove; ?>">
-                                                <i class="fa fa-minus-circle"></i>
-                                            </a>
-                                        </td>
+                                    <thead>
+                                    <tr>
+                                        <th><?php echo $column_text_id; ?></th>
+                                        <th><?php echo $entry_group_name; ?></th>
+                                        <th><?php echo $entry_group_description; ?></th>
+                                        <th><?php echo $text_sort_order; ?></th>
                                     </tr>
-                                <?php } ?>
-                                </tbody>
-                            </table>
-                    </div>
+                                    </thead>
+                                    <tbody>
+                                    <?php foreach ($form['form_groups'] as $group) { ?>
+                                        <tr id="group_<?php echo $group['group_id'];?>" class="value">
+                                            <td><?php
+                                                $group['group_txt_id']->style = 'col-sm-2';
+                                                echo $group['group_txt_id']; ?></td>
+                                            <td class="center"><?php echo $group['name']; ?></td>
+                                            <td class="center"><?php echo $group['description']; ?></td>
+                                            <td><?php
+                                                $group['sort_order']->style = 'col-2';
+                                                echo $group['sort_order'];
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <a class="remove btn btn-danger-alt" title="<?php echo $button_remove; ?>">
+                                                    <i class="fa fa-minus-circle"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                    </tbody>
+                                </table>
+                        <div class="panel-footer col-xs-12">
+                            <div class="text-center">
+                                <?php
+                                $form['submit']->style = 'btn btn-primary lock-on-click';
+                                $form['submit']->icon .= 'fa fa-save fa-fw';
+                                echo  $form['submit'];
+                                $form['reset']->icon .= 'fa fa-refresh fa-fw';
+                                echo  $form['reset'];
+                                ?>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="col-xs-12 col-md-6">
-                    <form id="assign_fields_form" method="post" action="<?php echo $assign_fields_action; ?>">
-                        <input type="hidden" name="form_id" value="<?php echo $form_id; ?>">
+                <div class="col-xs-12 col-md-5">
+                    <?php echo $form2['form_open'];?>
                         <h3 class="control-label"><?php echo $text_assign_fields_to_groups; ?></h3>
                         <div class="form-group">
                             <div class="table-responsive">
@@ -79,21 +88,14 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <?php if (!empty($form_fields)) { ?>
-                                        <?php foreach ($form_fields as $field) { ?>
+                                    <?php if ($form2['fields']) { ?>
+                                        <?php foreach ($form2['fields'] as $field) { ?>
                                             <tr>
-                                                <td><?php echo $field['field_name_display']; ?></td>
+                                                <td><?php echo $field->display_name; ?></td>
                                                 <td>
-                                                    <select class="form-control field-group-select"
-                                                            name="field_groups[<?php echo $field['field_id']; ?>]">
-                                                        <option value=""><?php echo $text_no_group; ?></option>
-                                                        <?php foreach ($available_groups as $group) { ?>
-                                                            <option value="<?php echo $group['group_id']; ?>"
-                                                                    <?php echo ($field['group_id'] == $group['group_id']) ? 'selected' : ''; ?>>
-                                                                <?php echo $group['name']; ?>
-                                                            </option>
-                                                        <?php } ?>
-                                                    </select>
+                                                    <?php
+                                                       echo $field;
+                                                    ?>
                                                 </td>
                                             </tr>
                                         <?php } ?>
@@ -108,12 +110,13 @@
                         </div>
                         <div class="panel-footer col-xs-12">
                             <div class="text-center">
-                                <button class="btn btn-primary lock-on-click" type="submit">
-                                    <i class="fa fa-save fa-fw"></i> <?php echo $button_save; ?>
-                                </button>
-                                <a class="btn btn-default" href="<?php echo $groups_reset_url; ?>">
-                                    <i class="fa fa-refresh fa-fw"></i> <?php echo $button_reset; ?>
-                                </a>
+                                <?php
+                                $form2['submit']->style = 'btn btn-primary lock-on-click';
+                                $form2['submit']->icon .= 'fa fa-save fa-fw';
+                                echo  $form2['submit'];
+                                $form2['reset']->icon .= 'fa fa-refresh fa-fw';
+                                echo  $form2['reset'];
+                                ?>
                             </div>
                         </div>
                     </form>
@@ -159,7 +162,21 @@
 </div>
 
 <script type="text/javascript">
-$(document).ready(function() {
+    let removeGroups = [];
+    $('#formGroupFrm').on('click', 'a.remove', function () {
+        let row = $(this).closest('tr');
+        let groupId = row.attr('id').replace('group_', '');
+
+        if (row.hasClass('danger')) {
+            row.removeClass('danger');
+            removeGroups = removeGroups.filter(id => id !== groupId);
+        } else {
+            row.addClass('danger');
+            removeGroups.push(groupId);
+        }
+        $('[name=remove_groups]').val(removeGroups.join(','));
+    });
+    $(document).ready(function() {
     // Handle add group modal
     $('#save_group_btn').on('click', function() {
         var formData = $('#add_group_form').serialize();
@@ -185,20 +202,5 @@ $(document).ready(function() {
         $('#add_group_form')[0].reset();
     });
 
-    $(document).on('click', '#group_list a.remove', function () {
-        let row = $(this).parents('tr');
-        if(row.hasClass('danger')){
-            row.removeClass('danger');
-            return;
-        }
-        if ($('#group_list tr.value').length > 1) {
-            if (row.find('input[name^=attribute_value_ids]').val().substring(0,3) === 'new') {
-                row.remove();
-            } else {
-                row.addClass('danger');
-            }
-        }
-        return false;
-    });
 });
 </script>

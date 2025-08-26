@@ -316,4 +316,8 @@
 		<key>column_text_id</key>
 		<value><![CDATA[Text ID]]></value>
 	</definition>
+	<definition>
+		<key>error_group_has_fields</key>
+		<value><![CDATA[Cannot remove group. One or more fields are assigned to this group.]]></value>
+	</definition>
 </definitions>

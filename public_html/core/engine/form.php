@@ -81,8 +81,8 @@ class AForm
     /** @var $form_edit_action - ( ST = standard,  HS = highlight save,  HT = highlight ) */
     protected $form_edit_action;
 
-    /** @param string $form_edit_action */
-    public function __construct($form_edit_action = '')
+    /** @param string $form_edit_action ( ST = standard,  HS = highlight save,  HT = highlight ) */
+    public function __construct(string $form_edit_action = '')
     {
         $this->registry = Registry::getInstance();
         if ($this->layout) {

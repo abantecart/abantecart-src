@@ -772,33 +772,6 @@ class ModelToolFormsManager extends Model
     }
 
     /**
-     * Get field groups for a specific form
-     * @param int $formId
-     * @return array
-     * @throws AException
-     */
-    public function getFormFieldGroups(int $formId)
-    {
-        if (!$formId) {
-            return [];
-        }
-        
-        $sql = "SELECT fg.group_id, fg.group_txt_id, fgd.name, fgd.description, fgtf.sort_order
-                FROM " . $this->db->table('field_groups') . " fg
-                LEFT JOIN " . $this->db->table('field_group_descriptions') . " fgd 
-                    ON fg.group_id = fgd.group_id 
-                    AND fgd.language_id = " . (int)$this->language->getContentLanguageID() . "
-                LEFT JOIN " . $this->db->table('field_group_to_form') . " fgtf 
-                    ON fg.group_id = fgtf.group_id 
-                    AND fgtf.form_id = " . (int)$formId . "
-                WHERE fgtf.form_id = " . (int)$formId . "
-                ORDER BY fgtf.sort_order ASC";
-        
-        $results = $this->db->query($sql);
-        return $results->rows;
-    }
-
-    /**
      * Get all available field groups
      * @return array
      * @throws AException
@@ -871,20 +844,15 @@ class ModelToolFormsManager extends Model
      * @return bool
      * @throws AException
      */
-    public function assignFieldToGroup(int $fieldId, int $groupId = null)
+    public function assignFieldToGroup(int $fieldId, int $groupId = 0)
     {
         if (!$fieldId) {
             return false;
         }
         
-        $sql = "UPDATE " . $this->db->table('fields') . " SET group_id = ";
-        if ($groupId) {
-            $sql .= (int)$groupId;
-        } else {
-            $sql .= "NULL";
-        }
-        $sql .= " WHERE field_id = " . (int)$fieldId;
-        
+        $sql = "UPDATE " . $this->db->table('fields') . " 
+                SET group_id = ".$this->db->intOrNull($groupId)."
+                WHERE field_id = " . $fieldId;
         $this->db->query($sql);
         return true;
     }
@@ -916,4 +884,105 @@ class ModelToolFormsManager extends Model
         $results = $this->db->query($sql);
         return $results->rows;
     }
+
+    /**
+     * Get count of fields in a group
+     * @param int $groupId
+     * @return int
+     * @throws AException
+     */
+    public function groupHasFields(int $groupId)
+    {
+        if (!$groupId) {
+            return 0;
+        }
+        $sql = "SELECT COUNT(field_id) as total 
+                FROM " . $this->db->table('fields') . "
+                WHERE group_id = " . (int)$groupId;
+        $result = $this->db->query($sql);
+        return (int)$result->row['total'];
+    }
+
+    /**
+     * Delete field groups by ID(s)
+     * @param int|array $groupIds Single group ID or array of group IDs
+     * @return bool
+     * @throws AException
+     */
+    public function deleteGroups(int|array $groupIds)
+    {
+        $groupIds = is_int($groupIds) ? [$groupIds] : $groupIds;
+        $groupIds = filterIntegerIdList($groupIds);
+        if (!$groupIds) {
+            return false;
+        }
+
+        $this->db->query(
+            "DELETE FROM " . $this->db->table('field_groups') . " 
+            WHERE group_id IN (" . implode(',', $groupIds) . ")"
+        );
+        $this->db->query(
+            "DELETE FROM " . $this->db->table('field_group_descriptions') . " 
+            WHERE group_id IN (" . implode(',', $groupIds) . ")"
+        );
+        $this->db->query(
+            "DELETE FROM " . $this->db->table('field_group_to_form') . " 
+            WHERE group_id IN (" . implode(',', $groupIds) . ")"
+        );
+
+        return true;
+    }
+
+    /**
+     * Update field group
+     * @param array $data
+     * @return bool
+     * @throws AException
+     */
+    public function updateGroup(int $groupId, array $data)
+    {
+        if (!$groupId) {
+            return false;
+        }
+
+        if (isset($data['group_txt_id'])) {
+            $this->db->query(
+                "UPDATE " . $this->db->table('field_groups') . "
+                SET group_txt_id = '" . $this->db->escape($data['group_txt_id']) . "'
+                WHERE group_id = " . $groupId
+            );
+        }
+
+        if (isset($data['name']) || isset($data['description'])) {
+            $update = [];
+            if (isset($data['name'])) {
+                $update[] = "name = '" . $this->db->escape($data['name']) . "'";
+            }
+            if (isset($data['description'])) {
+                $update[] = "description = '" . $this->db->escape($data['description']) . "'";
+            }
+
+            if ($update) {
+                $this->db->query(
+                    "UPDATE " . $this->db->table('field_group_descriptions') . "
+                    SET " . implode(', ', $update) . "
+                    WHERE group_id = " . $groupId . "
+                    AND language_id = " . (int)$this->language->getContentLanguageID()
+                );
+            }
+        }
+
+        if (isset($data['form_id']) && isset($data['sort_order'])) {
+            $this->db->query(
+                "UPDATE " . $this->db->table('field_group_to_form') . "
+                SET sort_order = " . (int)$data['sort_order'] . "
+                WHERE group_id = " . $groupId . "
+                AND form_id = " . (int)$data['form_id']
+            );
+        }
+
+        return true;
+    }
+
+
 }

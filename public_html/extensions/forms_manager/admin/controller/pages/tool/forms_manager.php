@@ -239,22 +239,28 @@ class ControllerPagesToolFormsManager extends AController
         $this->data['heading_title'] = $this->language->get('forms_manager_name') . ' - Fields';
         $this->data['cancel'] = $this->html->getSecureURL('tool/forms_manager');
 
-        $this->document->initBreadcrumb([
-            'href'      => $this->html->getSecureURL('index/home'),
-            'text'      => $this->language->get('text_home'),
-            'separator' => false,
-        ]);
-        $this->document->addBreadcrumb([
-            'href'      => $this->html->getSecureURL('tool/forms_manager'),
-            'text'      => $this->language->get('forms_manager_name'),
-            'separator' => ' :: ',
-        ]);
-        $this->document->addBreadcrumb([
-            'href'      => $this->html->getSecureURL('tool/forms_manager/fields', '&form_id=' . $formId),
-            'text'      => 'Fields - ' . $this->data['form_data']['form_name'],
-            'separator' => ' :: ',
-            'current'   => true,
-        ]);
+        $this->document->initBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('index/home'),
+                'text'      => $this->language->get('text_home'),
+                'separator' => false,
+            ]
+        );
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('tool/forms_manager'),
+                'text'      => $this->language->get('forms_manager_name'),
+                'separator' => ' :: ',
+            ]
+        );
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('tool/forms_manager/fields', '&form_id=' . $formId),
+                'text'      => 'Fields - ' . $this->data['form_data']['form_name'],
+                'separator' => ' :: ',
+                'current'   => true,
+            ]
+        );
 
         // Load fields data
         $this->data['update'] = $this->html->getSecureURL(
@@ -485,35 +491,6 @@ class ControllerPagesToolFormsManager extends AController
         redirect($this->html->getSecureURL('tool/forms_manager/fields', '&form_id=' . $formId));
     }
 
-    public function assignFieldsToGroups()
-    {
-        //init controller data
-        $this->extensions->hk_InitData($this, __FUNCTION__);
-
-        $formId = (int)$this->request->get['form_id'];
-
-        if (!$formId) {
-            redirect($this->html->getSecureURL('tool/forms_manager'));
-        }
-
-        if ($this->request->is_POST()) {
-            $fieldGroups = $this->request->post['field_groups'] ?? [];
-
-            foreach ($fieldGroups as $fieldId => $groupId) {
-                $fieldId = (int)$fieldId;
-                $groupId = !empty($groupId) ? (int)$groupId : null;
-
-                if ($fieldId) {
-                    $this->mdl->assignFieldToGroup($fieldId, $groupId);
-                }
-            }
-
-            $this->session->data['success'] = $this->language->get('text_success_fields_assigned');
-        }
-
-        redirect($this->html->getSecureURL('tool/forms_manager/groups', '&form_id=' . $formId));
-    }
-
     protected function _init_tabs($active_tab = 'form')
     {
         $formId = (int)$this->request->get['form_id'];
@@ -588,12 +565,44 @@ class ControllerPagesToolFormsManager extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $formId = (int)$this->request->get['form_id'];
-
         if (!$formId) {
             redirect($this->html->getSecureURL('tool/forms_manager'));
         }
+        $this->data['form_data'] = $this->mdl->getFormById($formId);
 
-        $this->document->setTitle($this->language->get('forms_manager_name'));
+        if (!$this->data['form_data']) {
+            redirect($this->html->getSecureURL('tool/forms_manager'));
+        }
+
+        if ($this->request->is_POST() && $this->validateFormGroups($formId, $this->request->post)) {
+            //remove groups
+            $groups = explode(',',$this->request->post['remove_groups']);
+            if($groups) {
+                $this->mdl->deleteGroups($groups);
+            }
+            //update groups
+            $groups = (array)$this->request->post['groups'];
+            if($groups) {
+                foreach ($groups as $groupId => $group) {
+                    $data = $group;
+                    $data['form_id'] = $formId;
+                    $this->mdl->updateGroup((int)$groupId, $data);
+                }
+            }
+            //update assignment "field-to-group"
+            $fieldGroups = (array)$this->request->post['fields'] ?: [];
+            if($fieldGroups) {
+                foreach ($fieldGroups as $fieldId => $group) {
+                    $this->mdl->assignFieldToGroup((int)$fieldId, (int)$group['group_id']);
+                }
+                $this->session->data['success'] = $this->language->get('text_success_fields_assigned');
+            }
+            redirect($this->html->getSecureURL('tool/forms_manager/groups', '&form_id=' . $formId));
+        }
+
+        $this->data['form_id'] = $formId;
+        $this->data['heading_title'] = $this->language->get('forms_manager_name'). ' - ' . $this->language->get('text_groups');
+        $this->document->setTitle($this->language->get('forms_manager_name'). ' - ' . $this->data['form_data']['form_name']);
 
         $this->view->assign('error', $this->error);
         $this->view->assign('success', $this->session->data['success']);
@@ -604,26 +613,14 @@ class ControllerPagesToolFormsManager extends AController
         }
 
         $this->_init_tabs('groups');
-        $this->getGroupsForm();
+        $this->getGroupsForm($formId);
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    protected function getGroupsForm()
+    protected function getGroupsForm( int $formId)
     {
-        $formId = (int)$this->request->get['form_id'];
-        $this->data['form_data'] = $this->mdl->getFormById($formId);
-
-        if (!$this->data['form_data']) {
-            redirect($this->html->getSecureURL('tool/forms_manager'));
-        }
-
-        $this->data['form_id'] = $formId;
-        $this->data['heading_title'] = $this->language->get('forms_manager_name')
-            . ' - ' . $this->language->get('text_groups');
-        $this->data['cancel'] = $this->html->getSecureURL('tool/forms_manager');
-
         $this->document->initBreadcrumb(
             [
                 'href'      => $this->html->getSecureURL('index/home'),
@@ -631,52 +628,134 @@ class ControllerPagesToolFormsManager extends AController
                 'separator' => false,
             ]
         );
-        $this->document->addBreadcrumb([
-            'href'      => $this->html->getSecureURL('tool/forms_manager'),
-            'text'      => $this->language->get('forms_manager_name'),
-            'separator' => ' :: ',
-        ]);
-        $this->document->addBreadcrumb([
-            'href'      => $this->html->getSecureURL('tool/forms_manager/groups', '&form_id=' . $formId),
-            'text'      => $this->language->get('text_groups') . ' - ' . $this->data['form_data']['form_name'],
-            'separator' => ' :: ',
-            'current'   => true,
-        ]);
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('tool/forms_manager'),
+                'text'      => $this->language->get('forms_manager_name'),
+                'separator' => ' :: ',
+            ]
+        );
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('tool/forms_manager/groups', '&form_id=' . $formId),
+                'text'      => $this->language->get('text_groups') . ' - ' . $this->data['form_data']['form_name'],
+                'separator' => ' :: ',
+                'current'   => true,
+            ]
+        );
 
-        $this->data['form_groups'] = $this->mdl->getGroups((int)$formId);
-        foreach($this->data['form_groups'] as &$group) {
+        $this->buildGroupListForm($formId);
+        $this->buildField2GroupForm($formId);
+
+        $this->data['list_url'] = $this->html->getSecureURL('tool/forms_manager');
+        $this->data['groups_response_url'] = $this->html->getSecureURL('forms_manager/groups/addGroup', '&form_id=' . $formId);
+        $this->data['groups_reset_url'] = $this->html->getSecureURL('tool/forms_manager/groups', '&form_id=' . $formId);
+
+        $this->view->batchAssign($this->data);
+        /** @see public_html/extensions/forms_manager/admin/view/default/template/pages/tool/forms_manager_groups.tpl */
+        $this->processTemplate('pages/tool/forms_manager_groups.tpl');
+    }
+
+    protected function buildGroupListForm(int $formId)
+    {
+        $form = new AForm('HT');
+        $form->setForm(
+            [
+                'form_name' => 'formGroupFrm'
+            ]
+        );
+
+        $this->data['form']['form_open'] = $form->getFieldHtml(
+            [
+                'type'   => 'form',
+                'name'   => 'formGroupFrm',
+                'action' => $this->html->getSecureURL('tool/forms_manager/groups', '&form_id=' . $formId),
+            ]
+        );
+        $this->data['form']['submit'] = $form->getFieldHtml(
+            [
+                'type' => 'button',
+                'name' => 'submit',
+                'text' => $this->language->get('button_save'),
+            ]
+        );
+        $this->data['form']['reset'] = $form->getFieldHtml(
+            [
+                'type' => 'button',
+                'name' => 'reset',
+                'href' => $this->html->getSecureURL('tool/forms_manager/groups', '&form_id=' . $formId),
+                'text' => $this->language->get('button_reset'),
+            ]
+        );
+
+        $this->data['form']['form_groups'] = $this->mdl->getGroups($formId);
+        foreach ($this->data['form']['form_groups'] as &$group) {
             $groupId = $group['group_id'];
-            foreach($group as $key => &$value){
-                if($key == 'group_id') { continue; }
+            foreach ($group as $key => &$value) {
+                if ($key == 'group_id') {
+                    continue;
+                }
                 $value = $this->html->buildElement(
                     [
-                        'type' => 'input',
-                        'name'  => 'group['.$groupId.']['.$key.']',
+                        'type'  => 'input',
+                        'name'  => 'groups[' . $groupId . '][' . $key . ']',
                         'value' => $value,
                     ]
                 );
             }
         }
+    }
+
+    protected function buildField2GroupForm(int $formId)
+    {
+        $form = new AForm('HT');
+        $form->setForm(
+            [
+                'form_name' => 'formField2GroupFrm',
+            ]
+        );
+
+        $this->data['form2']['form_open'] = $form->getFieldHtml(
+            [
+                'type'   => 'form',
+                'name'   => 'formField2GroupFrm',
+                'action' => $this->html->getSecureURL('tool/forms_manager/groups', '&form_id=' . $formId),
+            ]
+        );
+        $this->data['form2']['submit'] = $form->getFieldHtml(
+            [
+                'type' => 'button',
+                'name' => 'submit',
+                'text' => $this->language->get('button_save'),
+            ]
+        );
+        $this->data['form2']['reset'] = $form->getFieldHtml(
+            [
+                'type' => 'button',
+                'name' => 'reset',
+                'href' => $this->html->getSecureURL('tool/forms_manager/groups', '&form_id=' . $formId),
+                'text' => $this->language->get('button_reset'),
+            ]
+        );
+
         // Load field groups for this form
-        $this->data['field_groups'] = $this->mdl->getFormFieldGroups($formId);
+        $fields = $this->mdl->getFields($formId);
 
         // Load all available field groups for assignment
-        $this->data['available_groups'] = $this->mdl->getGroups();
+        $groups = $this->mdl->getGroups();
+        $options = array_column($groups, 'name', 'group_id');
 
-        // Load fields for this form (for assignment to groups)
-        $this->data['form_fields'] = $this->mdl->getFieldsWithGroups($formId);
-
-        $this->data['list_url'] = $this->html->getSecureURL('tool/forms_manager');
-        $this->data['groups_response_url'] = $this->html->getSecureURL('forms_manager/groups/addGroup', '&form_id=' . $formId);
-        $this->data['assign_fields_action'] = $this->html->getSecureURL('tool/forms_manager/assignFieldsToGroups', '&form_id=' . $formId);
-        $this->data['groups_reset_url'] = $this->html->getSecureURL('tool/forms_manager/groups', '&form_id=' . $formId);
-
-        // Add page variables used in attributes
-        $this->data['text_add_new_field_group'] = $this->language->get('text_add_new_field_group');
-
-        $this->view->batchAssign($this->data);
-        /** @see public_html/extensions/forms_manager/admin/view/default/template/pages/tool/forms_manager_groups.tpl */
-        $this->processTemplate('pages/tool/forms_manager_groups.tpl');
+        foreach ($fields as $field) {
+            $this->data['form2']['fields'][$field['field_name']] = $form->getFieldHtml(
+                [
+                    'type'   => 'selectbox',
+                    'name'   => 'fields[' . $field['field_id'] . '][group_id]',
+                    'value'  => $field['group_id'],
+                    'options' => $options,
+                    'display_name' => $field['name']
+                ]
+            );
+        }
     }
 
     protected function _getForm()
@@ -1318,6 +1397,30 @@ class ControllerPagesToolFormsManager extends AController
         $this->extensions->hk_ValidateData($this);
 
         return (!$this->error);
+    }
+
+    /**
+     * Validate form groups actions based on whether a group contains any fields.
+     * Returns false if the target group has fields assigned to it.
+     *
+     * @param int $formId
+     * @param array $post
+     * @return bool
+     * @throws AException
+     */
+    protected function validateFormGroups(int $formId, array $post): bool
+    {
+        //check before delete
+        $post['remove_groups'] = filterIntegerIdList(explode(',', $post['remove_groups']));
+        foreach ($post['remove_groups'] as $groupId) {
+            $hasFields = $this->mdl->groupHasFields($groupId) > 0;
+            if ($hasFields) {
+                $this->error['warning'] = $this->language->get('error_group_has_fields');
+                return false;
+            }
+        }
+
+        return true;
     }
 
 }
