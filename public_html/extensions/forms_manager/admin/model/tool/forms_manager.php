@@ -803,14 +803,24 @@ class ModelToolFormsManager extends Model
      * @return array
      * @throws AException
      */
-    public function getAllFieldGroups()
+    public function getGroups(int $formId = 0)
     {
-        $sql = "SELECT fg.group_id, fg.group_txt_id, fgd.name, fgd.description
-                FROM " . $this->db->table('field_groups') . " fg
-                LEFT JOIN " . $this->db->table('field_group_descriptions') . " fgd 
-                    ON fg.group_id = fgd.group_id 
-                    AND fgd.language_id = " . (int)$this->language->getContentLanguageID() . "
-                ORDER BY fgd.name ASC";
+        $sql = "SELECT fg.group_id, fg.group_txt_id, fgd.name, fgd.description";
+
+        if($formId){ $sql .= ", fg2.sort_order "; }
+
+        $sql .= " FROM " . $this->db->table('field_groups') . " fg ";
+        if($formId){
+            $sql .= "INNER JOIN ". $this->db->table('field_group_to_form')." fg2 
+                        ON (fg.group_id = fg2.group_id AND fg2.form_id = " . $formId . ") ".PHP_EOL;
+        }
+        $sql .= " LEFT JOIN " . $this->db->table('field_group_descriptions') . " fgd ".PHP_EOL."
+                    ON fg.group_id = fgd.group_id AND fgd.language_id = " . (int)$this->language->getContentLanguageID() . PHP_EOL;
+        if($formId){
+            $sql .= "ORDER BY fg2.sort_order, fgd.name";
+        }else{
+            $sql .= "ORDER BY fgd.name";
+        }
         
         $results = $this->db->query($sql);
         return $results->rows;

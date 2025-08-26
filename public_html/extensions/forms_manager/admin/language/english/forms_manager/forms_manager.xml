@@ -10,7 +10,7 @@
 	</definition>
 	<definition>
 		<key>forms_manager_note</key>
-		<value><![CDATA[To manage forms please enable extension and follow Design-><a href="#admin#rt=tool/forms_manager">Forms Manager</a>]]></value>
+		<value><![CDATA[To manage forms, please enable extension and follow Design-><a href="#admin#rt=tool/forms_manager">Forms Manager</a>]]></value>
 	</definition>
 	<definition>
 		<key>custom_forms_block</key>
@@ -130,11 +130,11 @@
 	</definition>
 	<definition>
 		<key>error_duplicate_form_name</key>
-		<value><![CDATA[There is already Form with such Name attribute.]]></value>
+		<value><![CDATA[There is already Form with such a Name attribute.]]></value>
 	</definition>
 	<definition>
 		<key>error_duplicate_field_name</key>
-		<value><![CDATA[There is already Field with such Name in the current Form.]]></value>
+		<value><![CDATA[There is already Field with such a Name in the current Form.]]></value>
 	</definition>
 	<definition>
 		<key>text_field_removed</key>
@@ -158,7 +158,7 @@
 	</definition>
 	<definition>
 		<key>text_add_field</key>
-		<value><![CDATA[Add new field]]></value>
+		<value><![CDATA[Add a new field]]></value>
 	</definition>
 	<definition>
 		<key>entry_field_description</key>
@@ -246,7 +246,15 @@
 	</definition>
 	<definition>
 		<key>forms_manager_error_empty_sender</key>
-		<value><![CDATA[Warning! Please set default sender name and default sender email in <a href="#admin#rt=extension/extensions/edit&extension=forms_manager" target="_blank">forms manager settings</a>]]></value>
+		<value><![CDATA[Warning! Please set the default sender name and default sender email in <a href="#admin#rt=extension/extensions/edit&extension=forms_manager" target="_blank">forms manager settings</a>]]></value>
+	</definition>
+	<definition>
+		<key>text_groups</key>
+		<value><![CDATA[Groups]]></value>
+	</definition>
+	<definition>
+		<key>text_fields</key>
+		<value><![CDATA[Fields]]></value>
 	</definition>
 	<definition>
 		<key>text_assign_fields_to_groups</key>
@@ -303,5 +311,9 @@
 	<definition>
 		<key>button_reset</key>
 		<value><![CDATA[Reset]]></value>
+	</definition>
+	<definition>
+		<key>column_text_id</key>
+		<value><![CDATA[Text ID]]></value>
 	</definition>
 </definitions>

@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 class ControllerPagesToolFormsManager extends AController
@@ -130,6 +130,7 @@ class ControllerPagesToolFormsManager extends AController
         $this->view->assign('help_url', $this->gen_help_url('forms_manager'));
 
         $this->view->batchAssign($this->data);
+        /** @see public_html/extensions/forms_manager/admin/view/default/template/pages/tool/forms_manager_list.tpl */
         $this->processTemplate('pages/tool/forms_manager_list.tpl');
 
         //update controller data
@@ -413,16 +414,16 @@ class ControllerPagesToolFormsManager extends AController
         ]);
 
         $this->data['field_validation'] = $form->getFieldHtml([
-            'type' => 'selectbox',
-            'name' => 'field_validation',
+            'type'    => 'selectbox',
+            'name'    => 'field_validation',
             'options' => [
-                '' => $this->language->get('text_none'),
+                ''             => $this->language->get('text_none'),
                 'alphanumeric' => 'Alphanumeric',
-                'numeric' => 'Numeric',
-                'email' => 'Email',
-                'phone' => 'Phone',
-                'url' => 'URL',
-                'regexp' => 'Regular Expression'
+                'numeric'      => 'Numeric',
+                'email'        => 'Email',
+                'phone'        => 'Phone',
+                'url'          => 'URL',
+                'regexp'       => 'Regular Expression'
             ],
         ]);
 
@@ -446,6 +447,7 @@ class ControllerPagesToolFormsManager extends AController
         $this->data['list_url'] = $this->html->getSecureURL('tool/forms_manager');
 
         $this->view->batchAssign($this->data);
+        /** @see public_html/extensions/forms_manager/admin/view/default/template/pages/tool/forms_manager_fields.tpl */
         $this->processTemplate('pages/tool/forms_manager_fields.tpl');
     }
 
@@ -487,28 +489,28 @@ class ControllerPagesToolFormsManager extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        
+
         $formId = (int)$this->request->get['form_id'];
-        
+
         if (!$formId) {
             redirect($this->html->getSecureURL('tool/forms_manager'));
         }
 
         if ($this->request->is_POST()) {
             $fieldGroups = $this->request->post['field_groups'] ?? [];
-            
+
             foreach ($fieldGroups as $fieldId => $groupId) {
                 $fieldId = (int)$fieldId;
                 $groupId = !empty($groupId) ? (int)$groupId : null;
-                
+
                 if ($fieldId) {
                     $this->mdl->assignFieldToGroup($fieldId, $groupId);
                 }
             }
-            
+
             $this->session->data['success'] = $this->language->get('text_success_fields_assigned');
         }
-        
+
         redirect($this->html->getSecureURL('tool/forms_manager/groups', '&form_id=' . $formId));
     }
 
@@ -519,7 +521,7 @@ class ControllerPagesToolFormsManager extends AController
         $tabs = [
             [
                 'name'       => 'form',
-                'text'       => 'Form',
+                'text'       => $this->language->get('text_form'),
                 'href'       => $this->html->getSecureURL('tool/forms_manager/update', '&form_id=' . $formId),
                 'active'     => ($active_tab == 'form'),
                 'sort_order' => 0,
@@ -529,7 +531,7 @@ class ControllerPagesToolFormsManager extends AController
         if ($formId) {
             $tabs[] = [
                 'name'       => 'groups',
-                'text'       => 'Groups',
+                'text'       => $this->language->get('text_groups'),
                 'href'       => $this->html->getSecureURL('tool/forms_manager/groups', '&form_id=' . $formId),
                 'active'     => ($active_tab == 'groups'),
                 'sort_order' => 2,
@@ -537,7 +539,7 @@ class ControllerPagesToolFormsManager extends AController
 
             $tabs[] = [
                 'name'       => 'fields',
-                'text'       => 'Fields',
+                'text'       => $this->language->get('text_fields'),
                 'href'       => $this->html->getSecureURL('tool/forms_manager/fields', '&form_id=' . $formId),
                 'active'     => ($active_tab == 'fields'),
                 'sort_order' => 1,
@@ -568,11 +570,11 @@ class ControllerPagesToolFormsManager extends AController
             $this->error['error_required'] = $this->language->get('error_fill_required');
         }
 
-        if (!$this->mdl->isFieldNameUnique((int)$data['form_id'],(string)$data['field_name'],(int)$data['field_id'])) {
+        if (!$this->mdl->isFieldNameUnique((int)$data['form_id'], (string)$data['field_name'], (int)$data['field_id'])) {
             $this->error['field_name'] = sprintf($this->language->get('error_field_name_exists'), $data['field_name']);
         }
 
-        if($data['regexp_pattern'] && @preg_match($data['regexp_pattern'], '') === false) {
+        if ($data['regexp_pattern'] && @preg_match($data['regexp_pattern'], '') === false) {
             $this->error['regexp_pattern'] = $this->language->get('error_regexp_pattern');
         }
 
@@ -602,13 +604,13 @@ class ControllerPagesToolFormsManager extends AController
         }
 
         $this->_init_tabs('groups');
-        $this->_getGroupsForm();
+        $this->getGroupsForm();
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    protected function _getGroupsForm()
+    protected function getGroupsForm()
     {
         $formId = (int)$this->request->get['form_id'];
         $this->data['form_data'] = $this->mdl->getFormById($formId);
@@ -618,14 +620,17 @@ class ControllerPagesToolFormsManager extends AController
         }
 
         $this->data['form_id'] = $formId;
-        $this->data['heading_title'] = $this->language->get('forms_manager_name') . ' - Groups';
+        $this->data['heading_title'] = $this->language->get('forms_manager_name')
+            . ' - ' . $this->language->get('text_groups');
         $this->data['cancel'] = $this->html->getSecureURL('tool/forms_manager');
 
-        $this->document->initBreadcrumb([
-            'href'      => $this->html->getSecureURL('index/home'),
-            'text'      => $this->language->get('text_home'),
-            'separator' => false,
-        ]);
+        $this->document->initBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('index/home'),
+                'text'      => $this->language->get('text_home'),
+                'separator' => false,
+            ]
+        );
         $this->document->addBreadcrumb([
             'href'      => $this->html->getSecureURL('tool/forms_manager'),
             'text'      => $this->language->get('forms_manager_name'),
@@ -633,26 +638,44 @@ class ControllerPagesToolFormsManager extends AController
         ]);
         $this->document->addBreadcrumb([
             'href'      => $this->html->getSecureURL('tool/forms_manager/groups', '&form_id=' . $formId),
-            'text'      => 'Groups - ' . $this->data['form_data']['form_name'],
+            'text'      => $this->language->get('text_groups') . ' - ' . $this->data['form_data']['form_name'],
             'separator' => ' :: ',
             'current'   => true,
         ]);
 
+        $this->data['form_groups'] = $this->mdl->getGroups((int)$formId);
+        foreach($this->data['form_groups'] as &$group) {
+            $groupId = $group['group_id'];
+            foreach($group as $key => &$value){
+                if($key == 'group_id') { continue; }
+                $value = $this->html->buildElement(
+                    [
+                        'type' => 'input',
+                        'name'  => 'group['.$groupId.']['.$key.']',
+                        'value' => $value,
+                    ]
+                );
+            }
+        }
         // Load field groups for this form
         $this->data['field_groups'] = $this->mdl->getFormFieldGroups($formId);
-        
+
         // Load all available field groups for assignment
-        $this->data['available_groups'] = $this->mdl->getAllFieldGroups();
-        
+        $this->data['available_groups'] = $this->mdl->getGroups();
+
         // Load fields for this form (for assignment to groups)
         $this->data['form_fields'] = $this->mdl->getFieldsWithGroups($formId);
-        
+
         $this->data['list_url'] = $this->html->getSecureURL('tool/forms_manager');
         $this->data['groups_response_url'] = $this->html->getSecureURL('forms_manager/groups/addGroup', '&form_id=' . $formId);
         $this->data['assign_fields_action'] = $this->html->getSecureURL('tool/forms_manager/assignFieldsToGroups', '&form_id=' . $formId);
         $this->data['groups_reset_url'] = $this->html->getSecureURL('tool/forms_manager/groups', '&form_id=' . $formId);
 
+        // Add page variables used in attributes
+        $this->data['text_add_new_field_group'] = $this->language->get('text_add_new_field_group');
+
         $this->view->batchAssign($this->data);
+        /** @see public_html/extensions/forms_manager/admin/view/default/template/pages/tool/forms_manager_groups.tpl */
         $this->processTemplate('pages/tool/forms_manager_groups.tpl');
     }
 
@@ -801,6 +824,7 @@ class ControllerPagesToolFormsManager extends AController
         );
 
         $this->view->batchAssign($this->data);
+        /** @see public_html/extensions/forms_manager/admin/view/default/template/pages/tool/forms_manager_form.tpl */
         $this->processTemplate('pages/tool/forms_manager_form.tpl');
     }
 

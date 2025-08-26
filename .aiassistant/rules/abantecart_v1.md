@@ -37,7 +37,7 @@ apply: always
 - Assets: */view/<theme>/css|js|image/* or extension assets folder
 
 # Security
-- For hashing passwords, use `password_hash()` and `password_verify()`.
+- For hashing passwords, use `passwordHash()`.
 - Never invent your own crypto.
 
 # Architecture
