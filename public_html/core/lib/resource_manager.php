@@ -25,10 +25,6 @@ if (!defined('DIR_CORE')) {
 /**
  * Class AResourceManager
  *
- * @property ADB $db
- * @property AHtml $html
- * @property ACache $cache
- * @property AConfig $config
  * @property ALanguageManager $language
  */
 class AResourceManager extends AResource
@@ -38,26 +34,18 @@ class AResourceManager extends AResource
 
     public function __construct()
     {
+        parent::__construct();
         if (!IS_ADMIN) { // forbid for non admin calls
             throw new AException (AC_ERR_LOAD, 'Error: permission denied to change resources');
         }
         $this->registry = Registry::getInstance();
     }
 
-    public function __get($key)
-    {
-        return $this->registry->get($key);
-    }
-
-    public function __set($key, $value)
-    {
-        $this->registry->set($key, $value);
-    }
-
     /**
      * @param string $type
+     * @throws AException
      */
-    public function setType($type)
+    public function setType(string $type)
     {
         if ($type) {
             $this->type = $type;
@@ -367,7 +355,7 @@ class AResourceManager extends AResource
             return null;
         }
         if ($type) {
-            $this->setType($type);
+            $this->setType((string)$type);
         }
         $resources = $this->getResources($object_name, $object_id);
         foreach ($resources as $resource) {

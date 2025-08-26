@@ -59,7 +59,7 @@ class AResource
     protected $cache;
     /** @var ADB */
     protected $db;
-    /** @var ALanguage */
+    /** @var ALanguage|ALanguageManager */
     protected $language;
 
     /**
