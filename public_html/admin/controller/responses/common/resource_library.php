@@ -5,17 +5,17 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 class ControllerResponsesCommonResourceLibrary extends AController
@@ -133,7 +133,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
             ]
         );
 
-        $rm->setType($resource['type_name']);
+        $rm->setType((string)$resource['type_name']);
         $resource['thumbnail_url'] = $rm->getResourceThumb(
             $resource['resource_id'],
             $this->thumb_sizes['width'],
@@ -361,7 +361,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
         $this->data['order'] = $this->request->get['order'];
 
         $rm = new AResourceManager();
-        $rm->setType($this->data['type']);
+        $rm->setType((string)$this->data['type']);
 
         //Build request URI and filter params
         $uri = '&object_name=' . $this->data['object_name']
@@ -829,7 +829,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
         );
 
         $rm = new AResourceManager();
-        $rm->setType($this->request->get['type']);
+        $rm->setType((string)$this->request->get['type']);
         $data = $this->request->post;
 
         $language_id = (int)$this->request->post['language_id'];
@@ -1386,7 +1386,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
         if (!$info) {
             $info = null;
         } else {
-            $rm->setType($info['type_name']);
+            $rm->setType((string)$info['type_name']);
             $info['thumbnail_url'] = $rm->getResourceThumb(
                 $resource_id,
                 $this->thumb_sizes['width'],

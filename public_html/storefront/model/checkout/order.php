@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /*
  *   $Id$
  *
@@ -8,14 +9,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -154,7 +155,6 @@ class ModelCheckoutOrder extends Model
         if ($result !== null) {
             return $result;
         }
-        return null;
     }
 
     /**
@@ -365,12 +365,12 @@ class ModelCheckoutOrder extends Model
                 FROM " . $this->db->table('order_data_types') . "
                 WHERE `name` IN ('" . implode("', '", $p) . "')";
         $result = $this->db->query($sql);
-        $protocols = array_column($result->rows, 'protocol','type_id');
+        $protocols = array_column($result->rows, 'protocol', 'type_id');
 
         $savedProtocols = [];
         foreach ($protocols as $type_id => $protocol) {
             //prevent duplicates
-            if(in_array($protocol, $savedProtocols)) {
+            if (in_array($protocol, $savedProtocols)) {
                 continue;
             }
 
@@ -398,7 +398,7 @@ class ModelCheckoutOrder extends Model
                         (`order_id`, `type_id`, `data`, `date_added`)
                         VALUES 
                         (" . (int)$order_id . ", " . (int)$type_id . ", '" . $this->db->escape($im_data) . "', NOW() )";
-                }else{
+                } else {
                     $sql = "UPDATE " . $this->db->table('order_data') . "
                             SET `data` = '" . $this->db->escape($im_data) . "'
                             WHERE order_id = " . (int)$order_id . " AND type_id = " . (int)$type_id;
@@ -476,9 +476,9 @@ class ModelCheckoutOrder extends Model
         $language->load($language->language_details['directory']);
         $language->load('common/im');
 
-        //update products inventory
+        //update the product's inventory
         foreach ($order_product_query->rows as $product) {
-            $order_option_query = $this->db->query(
+            $orderOptionResult = $this->db->query(
                 "SELECT op.*, pov.subtract
                 FROM " . $this->db->table("order_options") . " op
                 LEFT JOIN " . $this->db->table("product_option_values") . " pov
@@ -488,7 +488,7 @@ class ModelCheckoutOrder extends Model
             );
             //update options stock
             $stock_updated = false;
-            foreach ($order_option_query->rows as $option) {
+            foreach ($orderOptionResult->rows as $option) {
                 $this->db->query(
                     "UPDATE " . $this->db->table("product_option_values") . "
                     SET quantity = (quantity - " . (int)$product['quantity'] . ")
@@ -512,7 +512,7 @@ class ModelCheckoutOrder extends Model
                 $res = $this->db->query($sql);
                 $threshold = (int)$this->config->get('product_out_of_stock_threshold');
                 if ($res->num_rows && $res->row['quantity'] <= $threshold) {
-                    //notify admin about out of stock for option based product
+                    //notify admin about out of stock for option-based product
                     $message_arr = [
                         1 => [
                             'message' => sprintf(
@@ -622,48 +622,73 @@ class ModelCheckoutOrder extends Model
         }
 
         // HTML Mail
-        $this->data['mail_template_data']['title'] = sprintf(
-            $language->get('text_subject'),
-            html_entity_decode($orderInfo['store_name'], ENT_QUOTES, 'UTF-8'),
-            $orderId
+        $mailTplData = &$this->data['mail_template_data'];
+
+        $mailTplData['title'] = $language->getAndReplace(
+            key: 'text_subject',
+            replaces: [
+                html_entity_decode($orderInfo['store_name']),
+                $orderId,
+            ]
         );
-        $this->data['mail_template_data']['text_greeting'] = sprintf(
-            $language->get('text_greeting'),
-            html_entity_decode($orderInfo['store_name'], ENT_QUOTES, 'UTF-8')
+        $mailTplData['text_greeting'] = $language->getAndReplace(
+            key: 'text_greeting',
+            replaces: html_entity_decode($orderInfo['store_name'])
         );
-        $this->data['mail_template_data']['text_order_detail'] = $language->get('text_order_detail');
-        $this->data['mail_template_data']['text_order_id'] = $language->get('text_order_id');
-        $this->data['mail_template_data']['text_invoice'] = $language->get('text_invoice');
-        $this->data['mail_template_data']['text_date_added'] = $language->get('text_date_added');
-        $this->data['mail_template_data']['text_telephone'] = $language->get('text_telephone');
-        $this->data['mail_template_data']['text_mobile_phone'] = $language->get('text_mobile_phone');
 
-        $this->data['mail_template_data']['text_email'] = $language->get('text_email');
-        $this->data['mail_template_data']['text_ip'] = $language->get('text_ip');
-        $this->data['mail_template_data']['text_fax'] = $language->get('text_fax');
-        $this->data['mail_template_data']['text_shipping_address'] = $language->get('text_shipping_address');
-        $this->data['mail_template_data']['text_payment_address'] = $language->get('text_payment_address');
-        $this->data['mail_template_data']['text_shipping_method'] = $language->get('text_shipping_method');
-        $this->data['mail_template_data']['text_payment_method'] = $language->get('text_payment_method');
-        $this->data['mail_template_data']['text_comment'] = $language->get('text_comment');
-        $this->data['mail_template_data']['text_powered_by'] = $language->get('text_powered_by');
-        $this->data['mail_template_data']['text_project_label'] = $language->get('text_powered_by') . ' ' . project_base();
+        $langKeys = [
+            'text_order_detail',
+            'text_order_id',
+            'text_invoice',
+            'text_date_added',
+            'text_telephone',
+            'text_mobile_phone',
+            'text_email',
+            'text_ip',
+            'text_fax',
+            'text_shipping_address',
+            'text_payment_address',
+            'text_shipping_method',
+            'text_payment_method',
+            'text_comment',
+            'text_powered_by',
+            'text_total',
+            'text_footer',
+            'column_product',
+            'column_model',
+            'column_quantity',
+            'column_price',
+            'column_total',
+        ];
+        foreach ($langKeys as $k) {
+            $mailTplData[$k] = $language->get($k);
+        }
 
-        $this->data['mail_template_data']['text_total'] = $language->get('text_total');
-        $this->data['mail_template_data']['text_footer'] = $language->get('text_footer');
+        $mailTplData['text_project_label'] = $language->get('text_powered_by') . ' ' . project_base();
 
-        $this->data['mail_template_data']['column_product'] = $language->get('column_product');
-        $this->data['mail_template_data']['column_model'] = $language->get('column_model');
-        $this->data['mail_template_data']['column_quantity'] = $language->get('column_quantity');
-        $this->data['mail_template_data']['column_price'] = $language->get('column_price');
-        $this->data['mail_template_data']['column_total'] = $language->get('column_total');
+        // add data from order
+        $mailTplData += [
+            'order_id'           => $orderId,
+            'customer_id'        => $orderInfo['customer_id'],
+            'date_added'         => dateISO2Display($orderInfo['date_added'], $language->get('date_format_short')),
+            'store_name'         => $orderInfo['store_name'],
+            'address'            => nl2br($this->config->get('config_address')),
+            'telephone'          => $this->config->get('config_telephone'),
+            'fax'                => $this->config->get('config_fax'),
+            'email'              => $this->config->get('store_main_email'),
+            'store_url'          => $orderInfo['store_url'],
+            'firstname'          => $orderInfo['firstname'],
+            'lastname'           => $orderInfo['lastname'],
+            'shipping_method'    => $orderInfo['shipping_method'],
+            'payment_method'     => $orderInfo['payment_method'],
+            'customer_email'     => $orderInfo['email'],
+            'customer_telephone' => $orderInfo['telephone'],
+            'customer_fax'       => $orderInfo['fax'],
+            'customer_ip'        => $orderInfo['ip'],
+            'comment'            => trim(nl2br(html_entity_decode($orderInfo['comment'], ENT_QUOTES, 'UTF-8'))),
+        ];
 
-        $this->data['mail_template_data']['order_id'] = $orderId;
-        $this->data['mail_template_data']['customer_id'] = $orderInfo['customer_id'];
-        $this->data['mail_template_data']['date_added'] = dateISO2Display(
-            $orderInfo['date_added'],
-            $language->get('date_format_short')
-        );
+        $mailTplData['customer_mobile_phone'] = $this->im->getCustomerURI('sms', (int)$orderInfo['customer_id'], $orderId);
 
         $mailLogo = $this->config->get('config_mail_logo_' . $languageId)
             ?: $this->config->get('config_mail_logo');
@@ -672,58 +697,28 @@ class ModelCheckoutOrder extends Model
 
         if ($mailLogo) {
             $result = getMailLogoDetails($mailLogo);
-            $this->data['mail_template_data']['logo_uri'] = $result['uri'];
-            $this->data['mail_template_data']['logo_html'] = $result['html'];
+            $mailTplData['logo_uri'] = $result['uri'];
+            $mailTplData['logo_html'] = $result['html'];
         }
 
-        $this->data['mail_template_data']['store_name'] = $orderInfo['store_name'];
-        $this->data['mail_template_data']['address'] = nl2br($this->config->get('config_address'));
-        $this->data['mail_template_data']['telephone'] = $this->config->get('config_telephone');
-        $this->data['mail_template_data']['fax'] = $this->config->get('config_fax');
-        $this->data['mail_template_data']['email'] = $this->config->get('store_main_email');
-        $this->data['mail_template_data']['store_url'] = $orderInfo['store_url'];
-
-        //give link on order page for quest
         if ($this->config->get('config_guest_checkout') && $orderInfo['email']) {
             $order_token = generateOrderToken($orderId, $orderInfo['email']);
-            $this->data['mail_template_data']['invoice'] = $orderInfo['store_url']
+            $mailTplData['invoice'] = $orderInfo['store_url']
                 . 'index.php?rt=account/order_details&ot=' . $order_token . "\n\n";
-        }//give link on order for registered customers
-        elseif ($orderInfo['customer_id']) {
-            $this->data['mail_template_data']['invoice'] = $orderInfo['store_url']
+        } elseif ($orderInfo['customer_id']) {
+            $mailTplData['invoice'] = $orderInfo['store_url']
                 . 'index.php?rt=account/order_details&order_id=' . $orderId;
         }
 
-        $this->data['mail_template_data']['firstname'] = $orderInfo['firstname'];
-        $this->data['mail_template_data']['lastname'] = $orderInfo['lastname'];
-        $this->data['mail_template_data']['shipping_method'] = $orderInfo['shipping_method'];
-        $this->data['mail_template_data']['payment_method'] = $orderInfo['payment_method'];
-        $this->data['mail_template_data']['customer_email'] = $orderInfo['email'];
-        $this->data['mail_template_data']['customer_telephone'] = $orderInfo['telephone'];
-        $this->data['mail_template_data']['customer_mobile_phone'] = $this->im->getCustomerURI(
-            'sms',
-            (int)$orderInfo['customer_id'],
-            $orderId
-        );
-        $this->data['mail_template_data']['customer_fax'] = $orderInfo['fax'];
-        $this->data['mail_template_data']['customer_ip'] = $orderInfo['ip'];
-        $this->data['mail_template_data']['comment'] = trim(
-            nl2br(html_entity_decode($orderInfo['comment'], ENT_QUOTES, 'UTF-8'))
-        );
-
         //override with the data from the before hooks
         if ($this->data) {
-            $this->data['mail_template_data'] = array_merge($this->data['mail_template_data'], $this->data);
+            $mailTplData = array_merge($mailTplData, $this->data);
         }
 
         /** @var ModelLocalisationZone $zMdl */
         $zMdl = $this->load->model('localisation/zone');
         $zoneInfo = $zMdl->getZone($orderInfo['shipping_zone_id']);
-        if ($zoneInfo) {
-            $zoneCode = $zoneInfo['code'];
-        } else {
-            $zoneCode = '';
-        }
+        $zoneCode = (string)$zoneInfo['code'];
 
         $shipping_data = [
             'firstname' => $orderInfo['shipping_firstname'],
@@ -738,17 +733,13 @@ class ModelCheckoutOrder extends Model
             'country'   => $orderInfo['shipping_country'],
         ];
 
-        $this->data['mail_template_data']['shipping_data'] = $shipping_data;
-        $this->data['mail_template_data']['shipping_address'] = $this->customer->getFormattedAddress(
+        $mailTplData['shipping_data'] = $shipping_data;
+        $mailTplData['shipping_address'] = $this->customer->getFormattedAddress(
             $shipping_data,
             $orderInfo['shipping_address_format']
         );
         $zoneInfo = $zMdl->getZone($orderInfo['payment_zone_id']);
-        if ($zoneInfo) {
-            $zoneCode = $zoneInfo['code'];
-        } else {
-            $zoneCode = '';
-        }
+        $zoneCode = (string)$zoneInfo['code'];
 
         $payment_data = [
             'firstname' => $orderInfo['payment_firstname'],
@@ -763,8 +754,8 @@ class ModelCheckoutOrder extends Model
             'country'   => $orderInfo['payment_country'],
         ];
 
-        $this->data['mail_template_data']['payment_data'] = $payment_data;
-        $this->data['mail_template_data']['payment_address'] = $this->customer->getFormattedAddress(
+        $mailTplData['payment_data'] = $payment_data;
+        $mailTplData['payment_address'] = $this->customer->getFormattedAddress(
             $payment_data,
             $orderInfo['payment_address_format']
         );
@@ -773,10 +764,19 @@ class ModelCheckoutOrder extends Model
             $this->data['products'] = [];
         }
 
+        $orderProductIds = array_column($order_product_query->rows, 'product_id');
+        $resource = new AResource('image');
+        $thumbnails = $resource->getMainThumbList(
+            'products',
+            $orderProductIds,
+            $this->config->get('config_image_cart_width'),
+            $this->config->get('config_image_cart_height')
+        );
+
         foreach ($order_product_query->rows as $product) {
             $option_data = [];
 
-            $order_option_query = $this->db->query(
+            $orderOptionResult = $this->db->query(
                 "SELECT oo.*, po.element_type, p.sku, p.product_id
                 FROM " . $this->db->table("order_options") . " oo
                 LEFT JOIN " . $this->db->table("product_option_values") . " pov
@@ -789,7 +789,7 @@ class ModelCheckoutOrder extends Model
                     AND oo.order_product_id = '" . (int)$product['order_product_id'] . "'"
             );
 
-            foreach ($order_option_query->rows as $option) {
+            foreach ($orderOptionResult->rows as $option) {
                 if ($option['element_type'] == 'H') {
                     continue;
                 } //skip hidden options
@@ -802,42 +802,45 @@ class ModelCheckoutOrder extends Model
                 ];
             }
 
-            $this->data['products'][] = [
-                'name'             => $product['name'],
-                'product_id'       => $product['product_id'],
-                'order_product_id' => $product['order_product_id'],
-                'sku'              => $product['sku'],
-                'model'            => $product['model'],
-                'option'           => $option_data,
-                'quantity'         => $product['quantity'],
-                'price'            => $this->currency->format(
-                    $product['price'],
-                    $orderInfo['currency'],
-                    $orderInfo['value']
-                ),
-                'total'            => $this->currency->format_total(
-                    $product['price'],
-                    $product['quantity'],
-                    $orderInfo['currency'],
-                    $orderInfo['value']
-                ),
-            ];
+            $imgFile = str_replace(AUTO_SERVER, DIR_ROOT . DS, $thumbnails[(int)$product['product_id']]['thumb_url']);
+            $thumbnailUrl = is_file($imgFile)
+                ? 'data:' . mime_content_type($imgFile) . ';base64,' . base64_encode(file_get_contents($imgFile))
+                : '';
+
+            $this->data['products'][] = array_merge(
+                $product,
+                [
+                    'thumbnail_url' => $thumbnailUrl,
+                    'option'        => $option_data,
+                    'price'         => $this->currency->format(
+                        $product['price'],
+                        $orderInfo['currency'],
+                        $orderInfo['value']
+                    ),
+                    'total'         => $this->currency->format_total(
+                        $product['price'],
+                        $product['quantity'],
+                        $orderInfo['currency'],
+                        $orderInfo['value']
+                    ),
+                ]
+            );
         }
-        $this->data['mail_template_data']['products'] = $this->data['products'];
-        $this->data['mail_template_data']['totals'] = $order_total_query->rows;
+        $mailTplData['products'] = $this->data['products'];
+        $mailTplData['totals'] = $order_total_query->rows;
 
         $this->data['mail_template'] = 'mail/order_confirm.tpl';
 
-        //allow to change email data from extensions
+        //allow changing email data from extensions
         $this->extensions->hk_ProcessData($this, 'sf_order_confirm_mail');
 
         $view = new AView($this->registry, 0);
-        $view->batchAssign($this->data['mail_template_data']);
+        $view->batchAssign($mailTplData);
 
         //text email
         $this->data['mail_template'] = 'mail/order_confirm_text.tpl';
 
-        //allow to change email data from extensions
+        //allow changing email data from extensions
         $this->extensions->hk_ProcessData($this, 'sf_order_confirm_mail_text');
 
         $this->data['sender'] = $this->config->get('store_main_email');
@@ -857,27 +860,27 @@ class ModelCheckoutOrder extends Model
         //send alert email for merchant
         if ($this->config->get('config_alert_mail')) {
             // HTML
-            $this->data['mail_template_data']['text_greeting'] = $language->get('text_received') . "\n\n";
-            $this->data['mail_template_data']['invoice'] = '';
-            $this->data['mail_template_data']['text_invoice'] = '';
-            $this->data['mail_template_data']['text_footer'] = '';
-            $this->data['mail_template_data']['order_url'] = $this->html->getSecureURL(
+            $mailTplData['text_greeting'] = $language->get('text_received') . "\n\n";
+            $mailTplData['invoice'] = '';
+            $mailTplData['text_invoice'] = '';
+            $mailTplData['text_footer'] = '';
+            $mailTplData['order_url'] = $this->html->getSecureURL(
                 'sale/order/details',
                 '&order_id=' . $orderId
             );
             $this->data['mail_template'] = 'mail/order_confirm.tpl';
 
-            //allow to change email data from extensions
+            //allow changing email data from extensions
             $this->extensions->hk_ProcessData($this, 'sf_order_confirm_alert_mail');
 
-            //text email
-            //allow to change email data from extensions
+            //textual e-mail
+            //allow changing email data from extensions
             $this->data['mail_template'] = 'mail/order_confirm_text.tpl';
             $this->extensions->hk_ProcessData($this, 'sf_order_confirm_alert_mail_text');
 
             $this->sendEmail($this->config->get('store_main_email'), true);
 
-            // Send to additional alert emails
+            // Send additional alert emails
             $emails = array_unique(
                 array_map(
                     'trim',
@@ -894,7 +897,7 @@ class ModelCheckoutOrder extends Model
 
         $msg_text = sprintf($language->get('text_new_order_text'), $orderInfo['firstname'] . ' ' . $orderInfo['lastname']);
         $msg_text .= "<br/><br/>";
-        foreach ($this->data['mail_template_data']['totals'] as $total) {
+        foreach ($mailTplData['totals'] as $total) {
             $msg_text .= $total['title'] . ' - ' . $total['text'] . "<br/>";
         }
         $msg = new AMessage();
@@ -913,7 +916,7 @@ class ModelCheckoutOrder extends Model
             'new_order',
             $message_arr,
             'storefront_order_confirm_admin_notify',
-            $this->data['mail_template_data'],
+            $mailTplData,
             $this->data['attachments']
         );
 
@@ -1146,7 +1149,7 @@ class ModelCheckoutOrder extends Model
         $remains = $order_quantity;
         $available_quantity = array_sum(array_column($stock_locations, 'quantity'));
 
-        //do not save when zero stock on all locations
+        //do not save when zero stocks on all locations
         if (!$available_quantity) {
             return false;
         }
@@ -1304,22 +1307,5 @@ class ModelCheckoutOrder extends Model
             return $arProducts;
         }
         return [];
-    }
-
-    /**
-     * @param string $key
-     * @return array
-     */
-    protected function getOrderColumnNameVariants(string $key)
-    {
-        $pPrefix = 'payment_';
-        $sPrefix = 'shipping_';
-        return [
-            $key,
-            $sPrefix . $key,
-            ltrim($key, $sPrefix),
-            $pPrefix . $key,
-            ltrim($key, $pPrefix)
-        ];
     }
 }

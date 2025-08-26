@@ -274,15 +274,14 @@ class ACache
         }
 
         $group = $this->_get_group($key);
-        if ($this->_exists($key, $group)) {
-            if(!isset($this->cache_hits[$group][$key])){
-                $this->cache_hits[$group][$key] = 0;
-            }
-            $this->cache_hits[$group][$key] += 1;
-            return $this->cache[$group][$key];
-        }
-
         if ($this->enabled && $this->cache_driver && $this->cache_driver->isSupported()) {
+            if ($this->_exists($key, $group)) {
+                if(!isset($this->cache_hits[$group][$key])){
+                    $this->cache_hits[$group][$key] = 0;
+                }
+                $this->cache_hits[$group][$key] += 1;
+                return $this->cache[$group][$key];
+            }
             //load cache from storage
             $data = $this->cache_driver->get($key, $group);
             if ($data === false) {

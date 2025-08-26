@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -25,11 +25,11 @@ if (!defined('DIR_CORE')) {
  * Class AData
  *
  * @property ModelToolTableRelationships $model_tool_table_relationships
- * @property ALanguageManager            $language
- * @property ALoader                     $load
- * @property AConfig                     $config
- * @property ADataEncryption             $dcrypt
- * @property ADB                         $db
+ * @property ALanguageManager $language
+ * @property ALoader $load
+ * @property AConfig $config
+ * @property ADataEncryption $dcrypt
+ * @property ADB $db
  */
 class AData
 {
@@ -90,9 +90,7 @@ class AData
 
     protected function _toLog($text)
     {
-        if ($this->imp_log) {
-            $this->imp_log->write($text);
-        }
+        $this->imp_log?->write($text);
     }
 
     /**
@@ -115,6 +113,7 @@ class AData
      * @param string $table_name
      *
      * @return mixed
+     * @throws AException
      */
     public function getTableColumns($table_name)
     {
@@ -141,7 +140,7 @@ class AData
                 $idx = array_push($result_arr['tables'], $this->_process_section($table_name, $sub_request, $table_cfg, $skip_inner_ids));
             } else {
                 $result_arr['tables'][$idx]['table'] = $table_name;
-                $result_arr['tables'][$idx]['error'] = "Incorrectly configured input array. ".$table_name." cannot be found";
+                $result_arr['tables'][$idx]['error'] = "Incorrectly configured input array. " . $table_name . " cannot be found";
             }
         }
         return $result_arr;
@@ -160,14 +159,14 @@ class AData
     {
         $this->run_mode = $mode;
         //validate the array.
-        $this->_toLog('Starting import data from array. Mode: '.$mode);
+        $this->_toLog('Starting import data from array. Mode: ' . $mode);
         foreach ($data_array['tables'] as $t_node) {
             if (isset($t_node['name'])) {
                 $table_cfg = $this->model_tool_table_relationships->find_table_cfg($t_node['name']);
                 if ($table_cfg) {
                     $this->_process_import_table($t_node['name'], $table_cfg, $t_node);
                 } else {
-                    $this->_status2array('error', 'Unknown table '.$t_node['name'].' requested. Exit this node');
+                    $this->_status2array('error', 'Unknown table ' . $t_node['name'] . ' requested. Exit this node');
                     continue;
                 }
             } else {
@@ -180,7 +179,7 @@ class AData
     /**
      * Specific Data Array conversion to XML format
      *
-     * @param array  $data_array
+     * @param array $data_array
      * @param string $file_output
      *
      * @return int|string
@@ -207,8 +206,8 @@ class AData
      *
      * @param string $file
      * @param        $delimIndex
-     * @param int    $start_row
-     * @param int    $offset
+     * @param int $start_row
+     * @param int $offset
      *
      * @return array
      */
@@ -224,7 +223,7 @@ class AData
         } else {
             $delimiter = ',';
         }
-        $this->_status2array('preparing', 'Converting file '.$file.' to array. Start row number: '.$start_row.'. Rows count: '.$offset);
+        $this->_status2array('preparing', 'Converting file ' . $file . ' to array. Start row number: ' . $start_row . '. Rows count: ' . $offset);
         $results['tables'][] = $this->_csv_file2array($file, $delimiter, '"', '"', $start_row, $offset);
         return $results;
     }
@@ -232,15 +231,16 @@ class AData
     /**
      * Specific Data Array conversion to CSV format
      *
-     * @param array  $in_array
+     * @param array $in_array
      * @param string $fileName
-     * @param int    $delimIndex
+     * @param int $delimIndex
      * @param string $format
      * @param string $enclose
      * @param string $escape
-     * @param bool   $asFile
+     * @param bool $asFile
      *
      * @return bool|string
+     * @throws AException
      */
     public function array2CSV($in_array, $fileName, $delimIndex = 0, $format = '.csv', $enclose = '"', $escape = '"', $asFile = false)
     {
@@ -250,7 +250,7 @@ class AData
         }
 
         if (!is_dir(DIR_DATA) || !is_writable(DIR_DATA)) {
-            $this->processError('CSV/TXT Export Error', "Error: Data directory in ".DIR_DATA." is not writable or can not be created!", 'error');
+            $this->processError('CSV/TXT Export Error', "Error: Data directory in " . DIR_DATA . " is not writable or can not be created!", 'error');
             return false;
         }
 
@@ -268,7 +268,7 @@ class AData
         if (count($in_array)) {
 
             $d_name = str_replace('.tar.gz', '', $fileName);
-            $dirName = DIR_DATA.$d_name;
+            $dirName = DIR_DATA . $d_name;
 
             if (!file_exists($dirName)) {
                 $res = mkdir($dirName);
@@ -290,26 +290,26 @@ class AData
                         //for each column add value or set empty.
                         for ($i = 0; $i < count($col_names); $i++) {
                             if (isset($row[$col_names[$i]])) {
-                                $column_val .= $enclose.str_replace($enclose, $escape.$enclose, $row[$col_names[$i]]).$enclose.$delimiter;
+                                $column_val .= $enclose . str_replace($enclose, $escape . $enclose, $row[$col_names[$i]]) . $enclose . $delimiter;
                             } else {
-                                $column_val .= $enclose.$enclose.$delimiter;
+                                $column_val .= $enclose . $enclose . $delimiter;
                             }
                         }
                         $str .= $column_val;
-                        $str = trim($str.$delimiter, $delimiter);
+                        $str = trim($str . $delimiter, $delimiter);
                         $str .= "\r\n";
                     }
 
-                    $str = $enclose.implode($enclose.$delimiter.$enclose, $col_names).$enclose."\r\n".$str;
-                    file_put_contents($dirName.'/'.$table['name'].$format, $str);
-                    @chmod($dirName.'/'.$table['name'].$format, 0777);
+                    $str = $enclose . implode($enclose . $delimiter . $enclose, $col_names) . $enclose . "\r\n" . $str;
+                    file_put_contents($dirName . '/' . $table['name'] . $format, $str);
+                    @chmod($dirName . '/' . $table['name'] . $format, 0777);
                 }
             } else {
-                $this->processError('CSV/TXT Export Error', "Error: Can't create directory: ".$dirName, 'error');
+                $this->processError('CSV/TXT Export Error', "Error: Can't create directory: " . $dirName, 'error');
                 return false;
             }
 
-            $archive = $dirName.'.tar.gz';
+            $archive = $dirName . '.tar.gz';
             $this->_archive($archive, DIR_DATA, $d_name);
 
             if ($asFile) {
@@ -329,6 +329,7 @@ class AData
      * @param string $filename
      *
      * @return bool
+     * @throws AException
      */
     protected function _archive($tar_filename, $tar_dir, $filename)
     {
@@ -336,15 +337,15 @@ class AData
         //generate errors: No space on device (log to message as error too), No permissions, Others
         //return Success or failed.
 
-        compressTarGZ($tar_filename, $tar_dir.$filename);
+        compressTarGZ($tar_filename, $tar_dir . $filename);
 
         if (!file_exists($tar_filename)) {
-            $this->processError('Archive error', 'Error: cannot to pack '.$tar_filename);
+            $this->processError('Archive error', 'Error: cannot to pack ' . $tar_filename);
             return false;
         }
         @chmod($tar_filename, 0777);
 
-        $this->_removeDir($tar_dir.$filename);
+        $this->_removeDir($tar_dir . $filename);
         return true;
     }
 
@@ -354,6 +355,8 @@ class AData
      * @param string $dir
      *
      * @return boolean
+     * @throws AException
+     * @throws AException
      */
     protected function _removeDir($dir = '')
     {
@@ -361,10 +364,10 @@ class AData
             $objects = scandir($dir);
             foreach ($objects as $obj) {
                 if ($obj != "." && $obj != "..") {
-                    chmod($dir."/".$obj, 0777);
-                    $err = is_dir($dir."/".$obj) ? $this->_removeDir($dir."/".$obj) : unlink($dir."/".$obj);
+                    chmod($dir . "/" . $obj, 0777);
+                    $err = is_dir($dir . "/" . $obj) ? $this->_removeDir($dir . "/" . $obj) : unlink($dir . "/" . $obj);
                     if (!$err) {
-                        $this->processError('Archive error', "Error: Can't to delete file or directory: '".$dir."/".$obj."'.");
+                        $this->processError('Archive error', "Error: Can't to delete file or directory: '" . $dir . "/" . $obj . "'.");
                         return false;
                     }
                 }
@@ -380,9 +383,9 @@ class AData
     /**
      * generate 1 dimension array per row of the main table
      *
-     * @param array  $data_array
+     * @param array $data_array
      * @param string $append
-     * @param bool   $root
+     * @param bool $root
      *
      * @return array
      */
@@ -400,15 +403,15 @@ class AData
                 $sub_level = "[$level]";
             }
 
-            $sub_name = "$t_name".$append.$sub_level;
+            $sub_name = "$t_name" . $append . $sub_level;
             foreach ($arow as $col_name => $col_val) {
                 if ($col_name != 'tables') {
-                    $row_flat[$sub_name.".".$col_name] = $col_val;
+                    $row_flat[$sub_name . "." . $col_name] = $col_val;
                 }
             }
             if (isset($arow['tables'])) {
                 foreach ($arow['tables'] as $a_table) {
-                    $array_rec = $this->_flatten_array($a_table, $append.$sub_level, false);
+                    $array_rec = $this->_flatten_array($a_table, $append . $sub_level, false);
                     $row_flat = array_merge($row_flat, $array_rec);
                 }
             }
@@ -434,10 +437,12 @@ class AData
      * @param string $delimiter
      * @param string $enclose
      * @param string $escape
-     * @param int    $start
-     * @param int    $offset
+     * @param int $start
+     * @param int $offset
      *
      * @return array|bool
+     * @throws AException
+     * @throws AException
      */
     protected function _csv_file2array($file, $delimiter = ',', $enclose = '"', $escape = '"', $start = 0, $offset = 0)
     {
@@ -449,7 +454,7 @@ class AData
             $first_row = fgetcsv($handle, 0, $delimiter);
             $cols = count($first_row);
             for ($i = 0; $i < $cols; $i++) {
-                $titles[$i] = str_replace($escape.$enclose, $enclose, $first_row[$i]);
+                $titles[$i] = str_replace($escape . $enclose, $enclose, $first_row[$i]);
             }
             $row = 0;
             $processed_rows = 0;
@@ -470,7 +475,7 @@ class AData
 
                 $vals = [];
                 for ($i = 0; $i < $cols; $i++) {
-                    $rowData[$i] = str_replace($escape.$enclose, $enclose, $rowData[$i]);
+                    $rowData[$i] = str_replace($escape . $enclose, $enclose, $rowData[$i]);
                     $vals[$titles[$i]] = $rowData[$i];
                 }
 
@@ -537,7 +542,7 @@ class AData
                             //do we have more scopes?
                             preg_match('/^(\[\d+\])(.*)/', $ending, $more_matches);
                             if (count($more_matches)) {
-                                $sub_array[$scope_nbr][$table_name.$ending] = $value;
+                                $sub_array[$scope_nbr][$table_name . $ending] = $value;
                             } else {
                                 //last array node, check if need to process
 
@@ -546,7 +551,7 @@ class AData
                                 }
 
                                 if ($scope_nbr == $scope_cnt || $scope_cnt + 1 == $scope_nbr) {
-                                    $sub_array[$scope_nbr][$table_name.$ending] = $value;
+                                    $sub_array[$scope_nbr][$table_name . $ending] = $value;
                                 }
                             }
                         } else {
@@ -554,12 +559,12 @@ class AData
                             //do we have more scopes?
                             preg_match('/^(\[\d+\])(.*)/', $ending, $more_matches);
                             if (count($more_matches)) {
-                                $sub_array[$scope_nbr][$table_name.$ending] = $value;
+                                $sub_array[$scope_nbr][$table_name . $ending] = $value;
                             } else {
                                 // new scope, push old scope to main array
                                 $row_array['tables'][] = $this->_build_nested($sub_array);
                                 $sub_array = [];
-                                $sub_array[$scope_nbr][$table_name.$ending] = $value;
+                                $sub_array[$scope_nbr][$table_name . $ending] = $value;
                             }
                         }
                     }
@@ -583,12 +588,12 @@ class AData
      *
      * @void
      *
-     * @param array      $data
+     * @param array $data
      * @param array|null $parent
-     * @param mixed      $parent_key
-     * @param int        $i
+     * @param mixed $parent_key
+     * @param int $i
      */
-    protected function _filter_empty(& $data, & $parent = null, $parent_key = null, & $i = 0)
+    protected function _filter_empty(&$data, &$parent = null, $parent_key = null, &$i = 0)
     {
         ini_set('max_execution_time', 300);
         if (!empty($data)) {
@@ -641,7 +646,7 @@ class AData
     public function XML2ArrayFromFile($xml_file)
     {
         if (!file_exists($xml_file)) {
-            $this->_status2array('error', "XML file ".$xml_file." does not exists or can not be open.");
+            $this->_status2array('error', "XML file " . $xml_file . " does not exists or can not be open.");
             return $this->status_arr;
         }
         return $this->XML2Array(simplexml_load_file($xml_file));
@@ -650,7 +655,7 @@ class AData
     /**
      * Specific XML string conversion to Data Array
      *
-     * @param string $xml_str
+     * @param SimpleXMLElement $xml_str
      *
      * @return array
      */
@@ -684,7 +689,7 @@ class AData
         $result_arr = [];
         $result_arr['name'] = $table_name;
         $result_arr['rows'] = [];
-        ADebug::checkpoint('AData::exportData processing '.$table_name.' section STARTED');
+        ADebug::checkpoint('AData::exportData processing ' . $table_name . ' section STARTED');
         //get data for main level 
         $node_data = $this->_get_table_data($table_name, $table_cfg, $request);
 
@@ -706,7 +711,7 @@ class AData
             //for each key in the data set process all related tables.
             $id_name = $table_cfg['id'];
             if (empty($id_name)) {
-                $result_arr['error'] = "Incorrectly configured table. ".$table_name." missing table ID key name";
+                $result_arr['error'] = "Incorrectly configured table. " . $table_name . " missing table ID key name";
             } else {
                 if ($id_name == null) {
                     //ID null can not have any children tables
@@ -750,7 +755,7 @@ class AData
                         //recurse
                         $idx = array_push($row_arr['tables'], $this->_process_section($sub_table_name, $sub_request, $sub_table_cfg, $skip_inner_ids));
                     } else {
-                        $row_arr['error'] = "Incorrectly configured input array. ".$sub_table_name." cannot be found";
+                        $row_arr['error'] = "Incorrectly configured input array. " . $sub_table_name . " cannot be found";
                     }
                 }
                 array_push($result_arr['rows'], $row_arr);
@@ -762,7 +767,7 @@ class AData
                 array_push($result_arr['rows'], $row);
             }
         }
-        ADebug::checkpoint('AData::exportData processing '.$table_name.' section COMPLETED');
+        ADebug::checkpoint('AData::exportData processing ' . $table_name . ' section COMPLETED');
         return $result_arr;
     }
 
@@ -773,21 +778,21 @@ class AData
      * @param array $table_cfg
      * @param array $request
      *
-     * @return null
+     * @return array
      * @throws AException
      */
     protected function _get_table_data($table_name, $table_cfg, $request)
     {
         //Future expansion. Provide date_create and date_updated range within $request to build incremental backup. 
         if (empty($table_name) || empty ($table_cfg)) {
-            return null;
+            return [];
         }
 
-        $sql = "SELECT * FROM ".$this->db->table($table_name);
+        $sql = "SELECT * FROM " . $this->db->table($table_name);
 
         $sub_sql = '';
 
-        // Special case for Resource library. We have to know exact resource ID that we want to export.
+        // Special case for resource library. We have to know exact resource ID that we want to export.
         if ($table_name == 'resource_library') {
             $table_cfg['relation_ids'][] = 'resource_id';
         }
@@ -798,7 +803,7 @@ class AData
                     if ($sub_sql) {
                         $sub_sql .= " AND ";
                     }
-                    $sub_sql .= '`'.$relation_id."` = ".(int)$request[$relation_id];
+                    $sub_sql .= '`' . $relation_id . "` = " . (int)$request[$relation_id];
                 }
             }
         }
@@ -809,10 +814,10 @@ class AData
                 //check if this is relation id to be used for special relation
                 if (in_array($sp_field, $table_cfg['relation_ids'])) {
                     if ($request[$sp_value]) {
-                        $sql_add = '`'.$sp_field."` = '".$this->db->escape($request[$sp_value])."'";
+                        $sql_add = '`' . $sp_field . "` = '" . $this->db->escape($request[$sp_value]) . "'";
                     }
                 } else {
-                    $sql_add = '`'.$sp_field."` = '".$this->db->escape($sp_value)."'";
+                    $sql_add = '`' . $sp_field . "` = '" . $this->db->escape($sp_value) . "'";
                 }
                 if ($sub_sql) {
                     $sub_sql .= " AND ";
@@ -829,9 +834,9 @@ class AData
             if ($sub_sql) {
                 $sub_sql .= " AND ";
             }
-            $sub_sql .= '`'.$id.'` >= '.(int)$request['start_id'];
+            $sub_sql .= '`' . $id . '` >= ' . (int)$request['start_id'];
             if (isset($request['end_id']) && !empty($request['end_id'])) {
-                $sub_sql .= ' AND `'.$id.'` <= '.(int)$request['end_id'];
+                $sub_sql .= ' AND `' . $id . '` <= ' . (int)$request['end_id'];
             }
         }
         //check if special filter provided
@@ -839,12 +844,12 @@ class AData
             if ($sub_sql) {
                 $sub_sql .= " ORDER BY ";
             }
-            $sub_sql .= $request['filter']['columns']." ASC";
+            $sub_sql .= $request['filter']['columns'] . " ASC";
 
         }
 
         if ($sub_sql) {
-            $sql = $sql." WHERE ".$sub_sql;
+            $sql = $sql . " WHERE " . $sub_sql;
         }
 
         return $this->db->query($sql)->rows;
@@ -867,9 +872,9 @@ class AData
     protected function _process_import_table($table_name, $table_cfg, $data_arr, $parent_vals = [], $action_delete = false)
     {
 
-        ADebug::checkpoint('AData::importData processing table '.$table_name);
+        ADebug::checkpoint('AData::importData processing table ' . $table_name);
         if (!isset($data_arr['rows'])) {
-            $this->_status2array('error', 'Incorrect structure of '.$table_name.' node. Row node is expected');
+            $this->_status2array('error', 'Incorrect structure of ' . $table_name . ' node. Row node is expected');
         }
 
         $new_vals = [];
@@ -933,7 +938,7 @@ class AData
                     //Now do the action for the row if any data provided besides keys
                     $new_vals = array_merge($new_vals, $this->_do_fromArray($action, $table_name, $table_cfg, $rnode, $new_vals));
                 } else {
-                    $this->_status2array('error', 'Unknown table: "'.$new_table['name'].'" requested in relation to table '.$table_name.'. Exit this node');
+                    $this->_status2array('error', 'Unknown table: "' . $new_table['name'] . '" requested in relation to table ' . $table_name . '. Exit this node');
                 }
             } else {
                 // all other tables
@@ -953,7 +958,7 @@ class AData
                         if ($sub_table_cfg) {
                             $this->_process_import_table($new_table['name'], $sub_table_cfg, $new_table, $new_vals, $set_action_delete);
                         } else {
-                            $this->_status2array('error', 'Unknown table: "'.$new_table['name'].'" requested in relation to table '.$table_name.'. Exit this node');
+                            $this->_status2array('error', 'Unknown table: "' . $new_table['name'] . '" requested in relation to table ' . $table_name . '. Exit this node');
                             continue;
                         }
                     }
@@ -971,8 +976,8 @@ class AData
      * Note update_or_insert is best guess action
      *
      * @param string $table_name
-     * @param array  $table_cfg
-     * @param array  $data_arr
+     * @param array $table_cfg
+     * @param array $data_arr
      *
      * @return string
      */
@@ -1002,8 +1007,8 @@ class AData
      *
      * @param string $action
      * @param string $table_name
-     * @param array  $table_cfg
-     * @param array  $new_vals
+     * @param array $table_cfg
+     * @param array $new_vals
      *
      * @return bool
      */
@@ -1011,7 +1016,7 @@ class AData
     {
         if ($action == 'delete' || $action == 'update') {
             if ($table_cfg['id'] && (!isset($new_vals[$table_cfg['id']]) || $new_vals[$table_cfg['id']] == '')) {
-                $this->_status2array('error', 'Missing ID for '.$action.' action in table '.$table_name.'. Skipping.');
+                $this->_status2array('error', 'Missing ID for ' . $action . ' action in table ' . $table_name . '. Skipping.');
                 return false;
             }
         }
@@ -1024,7 +1029,7 @@ class AData
                     //check if this is relation id to be used for special relation
                     if (in_array($sp_field, $table_cfg['relation_ids'])) {
                         if ((!isset($new_vals[$sp_value]) || $new_vals[$sp_value] == '')) {
-                            $this->_status2array('error', 'Missing special relation ID '.$sp_value.' for '.$action.' action in table '.$table_name.'. Skipping.');
+                            $this->_status2array('error', 'Missing special relation ID ' . $sp_value . ' for ' . $action . ' action in table ' . $table_name . '. Skipping.');
                             return false;
                         }
                     }
@@ -1036,7 +1041,7 @@ class AData
                         //check if we have required ids in array or from parent nodes
 
                         if (!isset($new_vals[$relation_id]) || $new_vals[$relation_id] == '') {
-                            $this->_status2array('error', 'Missing relation ID '.$relation_id.' for '.$action.' action in table '.$table_name.'. Skipping.');
+                            $this->_status2array('error', 'Missing relation ID ' . $relation_id . ' for ' . $action . ' action in table ' . $table_name . '. Skipping.');
                             return false;
                         }
                     }
@@ -1130,7 +1135,7 @@ class AData
 
         foreach ($records as $type => $sources) {
             $rm = new AResourceManager();
-            $rm->setType($type);
+            $rm->setType((string)$type);
             //delete all resource of the type from library
             $object_name = $table_cfg['special_relation']['object_name'];
             $object_id = $parent_vals[$table_cfg['special_relation']['object_id']];
@@ -1140,16 +1145,16 @@ class AData
                 $fl = new AFile();
                 foreach ($sources['source_url'] as $source) {
                     $image_basename = basename($source);
-                    $target = DIR_RESOURCE.$rm->getTypeDir().'/'.$image_basename;
-                    if (!is_dir(DIR_RESOURCE.$rm->getTypeDir())) {
-                        @mkdir(DIR_RESOURCE.$rm->getTypeDir(), 0777);
+                    $target = DIR_RESOURCE . $rm->getTypeDir() . '/' . $image_basename;
+                    if (!is_dir(DIR_RESOURCE . $rm->getTypeDir())) {
+                        @mkdir(DIR_RESOURCE . $rm->getTypeDir(), 0777);
                     }
                     if (($file = $fl->downloadFile($source)) === false) {
-                        $this->_status2array('error', "Unable to download file from ".$source);
+                        $this->_status2array('error', "Unable to download file from " . $source);
                         continue;
                     }
                     if (!$fl->writeDownloadToFile($file, $target)) {
-                        $this->_status2array('error', "Unable to save download to ".$target);
+                        $this->_status2array('error', "Unable to save download to " . $target);
                         continue;
                     }
                     if (!$this->_create_resource($rm, $object_name, $object_id, $image_basename)) {
@@ -1161,16 +1166,16 @@ class AData
             if ($sources['source_path']) {
                 foreach ($sources['source_path'] as $source) {
                     $image_basename = basename($source);
-                    $target = DIR_RESOURCE.$rm->getTypeDir().'/'.$image_basename;
-                    if (!is_dir(DIR_RESOURCE.$rm->getTypeDir())) {
-                        @mkdir(DIR_RESOURCE.$rm->getTypeDir(), 0777);
+                    $target = DIR_RESOURCE . $rm->getTypeDir() . '/' . $image_basename;
+                    if (!is_dir(DIR_RESOURCE . $rm->getTypeDir())) {
+                        @mkdir(DIR_RESOURCE . $rm->getTypeDir(), 0777);
                     }
                     if (!copy($source, $target)) {
-                        $this->_status2array('error', "Unable to copy ".$source." to ".$target);
+                        $this->_status2array('error', "Unable to copy " . $source . " to " . $target);
                         continue;
                     }
                     if (!$this->_create_resource($rm, $object_name, $object_id, $image_basename)) {
-                        $this->_status2array('error', "Unable to create new media resource for ".$image_basename);
+                        $this->_status2array('error', "Unable to create new media resource for " . $image_basename);
                         continue;
                     }
                 }
@@ -1178,7 +1183,7 @@ class AData
             if ($sources['html_code']) {
                 foreach ($sources['html_code'] as $code) {
                     if (!$this->_create_resource($rm, $object_name, $object_id, '', $code)) {
-                        $this->_status2array('error', "Unable to create new HTML code media resource type ".$type);
+                        $this->_status2array('error', "Unable to create new HTML code media resource type " . $type);
                         continue;
                     }
                 }
@@ -1261,24 +1266,24 @@ class AData
             if ($col_name == $table_cfg['id']
                 || (isset($table_cfg['relation_ids']) && in_array($col_name, $table_cfg['relation_ids']))
             ) {
-                $where[] = "`".$col_name."` = '".$this->db->escape($col_value)."'";
+                $where[] = "`" . $col_name . "` = '" . $this->db->escape($col_value) . "'";
                 continue;
             }
-            $cols[] = "`".$col_name."` = '".$this->db->escape($col_value)."'";
+            $cols[] = "`" . $col_name . "` = '" . $this->db->escape($col_value) . "'";
         }
 
         if (empty($cols) || empty ($where)) {
             if (empty($where)) {
-                $this->_status2array('error', "Update data error in ".$table_name.". Data missing");
+                $this->_status2array('error', "Update data error in " . $table_name . ". Data missing");
             } else {
-                $this->_status2array('error', "Warning: Update ".$table_name.". All columns are keys, update action is not allowed. Please use insert.");
+                $this->_status2array('error', "Warning: Update " . $table_name . ". All columns are keys, update action is not allowed. Please use insert.");
             }
             return [];
         }
 
-        $sql = "UPDATE `".$this->db->table($table_name)."`";
-        $sql .= " SET ".implode(', ', $cols);
-        $sql .= " WHERE ".implode(' AND ', $where);
+        $sql = "UPDATE `" . $this->db->table($table_name) . "`";
+        $sql .= " SET " . implode(', ', $cols);
+        $sql .= " WHERE " . implode(' AND ', $where);
 
         if ($this->run_mode == 'commit') {
             $this->db->query($sql, true);
@@ -1287,9 +1292,9 @@ class AData
         }
 
         if (!empty($this->db->error)) {
-            $this->_status2array('error', "Update data error for ".$table_name.".".$this->db->error);
+            $this->_status2array('error', "Update data error for " . $table_name . "." . $this->db->error);
         } else {
-            $this->_status2array('update', "Update for table ".$table_name." done successfully");
+            $this->_status2array('update', "Update for table " . $table_name . " done successfully");
         }
         return [];
     }
@@ -1330,17 +1335,17 @@ class AData
                 $col_value = $encrypted[$col_name];
             }
 
-            $cols[$col_name] = "`".$col_name."` = '".$this->db->escape($col_value)."'";
+            $cols[$col_name] = "`" . $col_name . "` = '" . $this->db->escape($col_value) . "'";
 
         }
 
         if (empty($cols)) {
-            $this->_status2array('error', "Insert data error in ".$table_name.". Data missing");
+            $this->_status2array('error', "Insert data error in " . $table_name . ". Data missing");
             return [];
         }
 
-        $sql = "INSERT INTO `".$this->db->table($table_name)."`";
-        $sql .= " SET ".implode(', ', $cols);
+        $sql = "INSERT INTO `" . $this->db->table($table_name) . "`";
+        $sql .= " SET " . implode(', ', $cols);
 
         if ($this->run_mode == 'commit') {
             $this->db->query($sql, true);
@@ -1360,9 +1365,9 @@ class AData
         }
 
         if (!empty($this->db->error)) {
-            $this->_status2array('error', "Insert data error for ".$table_name." ".$this->db->error);
+            $this->_status2array('error', "Insert data error for " . $table_name . " " . $this->db->error);
         } else {
-            $this->_status2array('insert', "Insert into table ".$table_name." done successfully");
+            $this->_status2array('insert', "Insert into table " . $table_name . " done successfully");
         }
         return $return;
     }
@@ -1399,17 +1404,17 @@ class AData
             if ($col_name == $table_cfg['id']
                 || (isset($table_cfg['relation_ids']) && in_array($col_name, $table_cfg['relation_ids']))
             ) {
-                $where[] = "`".$col_name."` = '".$this->db->escape($col_value)."'";
+                $where[] = "`" . $col_name . "` = '" . $this->db->escape($col_value) . "'";
                 continue;
             }
         }
         if (count($where) <= 0) {
-            $this->_status2array('error', "Delete data error in ".$table_name.". Some key data missing");
+            $this->_status2array('error', "Delete data error in " . $table_name . ". Some key data missing");
             return [];
         }
 
-        $sql = "DELETE FROM `".$this->db->table($table_name)."`";
-        $sql .= " WHERE ".implode(' AND ', $where);
+        $sql = "DELETE FROM `" . $this->db->table($table_name) . "`";
+        $sql .= " WHERE " . implode(' AND ', $where);
 
         if ($this->run_mode == 'commit') {
             $this->db->query($sql, true);
@@ -1418,9 +1423,9 @@ class AData
         }
 
         if (!empty($this->db->error)) {
-            $this->_status2array('error', "Delete data error in ".$table_name." .".$this->db->error);
+            $this->_status2array('error', "Delete data error in " . $table_name . " ." . $this->db->error);
         } else {
-            $this->_status2array('delete', "Data deleted from table ".$table_name." successfully");
+            $this->_status2array('delete', "Data deleted from table " . $table_name . " successfully");
         }
         return [];
     }
@@ -1464,7 +1469,7 @@ class AData
             if ($col_name == $table_cfg['id']
                 || (isset($table_cfg['relation_ids']) && in_array($col_name, $table_cfg['relation_ids']))
             ) {
-                $where[] = "`".$col_name."` = '".$this->db->escape($col_value)."'";
+                $where[] = "`" . $col_name . "` = '" . $this->db->escape($col_value) . "'";
                 continue;
             }
 
@@ -1472,19 +1477,19 @@ class AData
             // TODO Add field type to table configuration
             if ($col_name == 'date_added' || $col_name == 'date_modified') {
                 if ((string)$col_value == '0000-00-00 00:00:00') {
-                    $cols[] = "`".$col_name."` = '".$this->db->escape($col_value)."'";
+                    $cols[] = "`" . $col_name . "` = '" . $this->db->escape($col_value) . "'";
                 } else {
-                    $cols[] = "`".$col_name."` = '".date('Y-m-d H:i:s', strtotime($col_value))."'";
+                    $cols[] = "`" . $col_name . "` = '" . date('Y-m-d H:i:s', strtotime($col_value)) . "'";
                 }
             } else {
                 if ($col_name == 'date_available') {
                     if ((string)$col_value == '0000-00-00') {
-                        $cols[] = "`".$col_name."` = '".$this->db->escape($col_value)."'";
+                        $cols[] = "`" . $col_name . "` = '" . $this->db->escape($col_value) . "'";
                     } else {
-                        $cols[] = "`".$col_name."` = '".date('Y-m-d', strtotime($col_value))."'";
+                        $cols[] = "`" . $col_name . "` = '" . date('Y-m-d', strtotime($col_value)) . "'";
                     }
                 } else {
-                    $cols[] = "`".$col_name."` = '".$this->db->escape($col_value)."'";
+                    $cols[] = "`" . $col_name . "` = '" . $this->db->escape($col_value) . "'";
                 }
             }
         }
@@ -1492,13 +1497,13 @@ class AData
         $status = 'insert';
 
         if (empty($cols) && empty ($where)) {
-            $this->_status2array('error', "Update or Insert ".$table_name.". No Data to update.");
+            $this->_status2array('error', "Update or Insert " . $table_name . ". No Data to update.");
             return [];
         }
         if (!empty ($where)) {
             $check_sql = "SELECT count(*) AS total 
-						FROM `".$this->db->table($table_name)."` 
-						WHERE ".implode(' AND ', $where);
+						FROM `" . $this->db->table($table_name) . "` 
+						WHERE " . implode(' AND ', $where);
             if ($this->db->query($check_sql)->row['total'] == 1) {
                 // We are trying to update table where all columns are keys. We have to skip it.
                 if (empty($cols)) {
@@ -1510,14 +1515,14 @@ class AData
 
         if ($status == 'update') {
             if (empty($cols)) {
-                $this->_status2array('error', "Update ".$table_name.". No Data to update.");
+                $this->_status2array('error', "Update " . $table_name . ". No Data to update.");
                 return [];
             }
-            $sql = "UPDATE `".$this->db->table($table_name)."`";
-            $sql .= " SET ".implode(', ', $cols);
-            $sql .= " WHERE ".implode(' AND ', $where);
+            $sql = "UPDATE `" . $this->db->table($table_name) . "`";
+            $sql .= " SET " . implode(', ', $cols);
+            $sql .= " WHERE " . implode(' AND ', $where);
         } else {
-            $sql = "INSERT INTO `".$this->db->table($table_name)."`";
+            $sql = "INSERT INTO `" . $this->db->table($table_name) . "`";
             $sql .= " SET ";
             $set_cols = array_unique(array_merge($where, $cols));
             $sql .= implode(', ', $set_cols);
@@ -1546,9 +1551,9 @@ class AData
         }
 
         if (!empty($this->db->error)) {
-            $this->_status2array('error', $status." data error in ".$table_name.". ".$this->db->error);
+            $this->_status2array('error', $status . " data error in " . $table_name . ". " . $this->db->error);
         } else {
-            $this->_status2array($status, $status." for table ".$table_name." done successfully");
+            $this->_status2array($status, $status . " for table " . $table_name . " done successfully");
         }
         return $return;
     }
@@ -1558,30 +1563,32 @@ class AData
      * @param array $parent_vals
      *
      * @return array
+     * @throws AException
+     * @throws AException
      */
     protected function _build_id_columns($table_cfg, $parent_vals)
     {
         $list = [];
         //set ids from parent they might not be in there 
         if (isset($parent_vals[$table_cfg['id']]) && $parent_vals[$table_cfg['id']] != '') {
-            $list[$table_cfg['id']] = "`".$table_cfg['id']."` = '".$this->db->escape($parent_vals[$table_cfg['id']])."'";
+            $list[$table_cfg['id']] = "`" . $table_cfg['id'] . "` = '" . $this->db->escape($parent_vals[$table_cfg['id']]) . "'";
         }
         if (isset($table_cfg['special_relation'])) {
             foreach ($table_cfg['special_relation'] as $sp_field => $sp_value) {
                 //check if this is relation id to be used for special relation
                 if (in_array($sp_field, $table_cfg['relation_ids'])) {
                     if (isset($parent_vals[$sp_value]) && $parent_vals[$sp_value] != '') {
-                        $list[$sp_field] = "`".$sp_field."` = '".$this->db->escape($parent_vals[$sp_value])."'";
+                        $list[$sp_field] = "`" . $sp_field . "` = '" . $this->db->escape($parent_vals[$sp_value]) . "'";
                     }
                 } else {
-                    $list[$sp_field] = "`".$sp_field."` = '".$sp_value."'";
+                    $list[$sp_field] = "`" . $sp_field . "` = '" . $sp_value . "'";
                 }
             }
         } else {
             if (isset($table_cfg['relation_ids'])) {
                 foreach ($table_cfg['relation_ids'] as $relation_id) {
                     if ($relation_id != $table_cfg['id'] && isset($parent_vals[$relation_id]) && $parent_vals[$relation_id] != '') {
-                        $list[$relation_id] = "`".$relation_id."` = '".$this->db->escape($parent_vals[$relation_id])."'";
+                        $list[$relation_id] = "`" . $relation_id . "` = '" . $this->db->escape($parent_vals[$relation_id]) . "'";
                     }
                 }
             }
@@ -1633,12 +1640,9 @@ class AData
     {
         $results = [];
         foreach ($xml->children() as $column) {
-            /**
-             * @var $column SimpleXMLElement
-             */
+            /** @var $column SimpleXMLElement */
             $col_name = $column->getName();
             if ($col_name == "tables" || $col_name == "rows") {
-                $results[$col_name] = [];
                 $results[$col_name] = $this->_XML_part2array($column);
             } else {
                 if ($col_name == "table" || $col_name == "row") {
@@ -1656,7 +1660,7 @@ class AData
      *
      * @param SimpleXMLElement $node
      * @param                  $err_message
-     * @param string           $type
+     * @param string $type
      *
      * @return null
      */
@@ -1731,10 +1735,11 @@ class AData
      * @param string $level
      *
      * @return string
+     * @throws AException
      */
     protected function processError($title, $error, $level = 'warning')
     {
-        $this->message->{'save'.ucfirst($level)}($title, $error);
+        $this->message->{'save' . ucfirst($level)}($title, $error);
         $wrn = new AError($error);
         $wrn->toDebug()->toLog();
         return $error;
@@ -1797,11 +1802,11 @@ class AData
     {
         $result = $this->db->query(
             "SELECT p.page_id, pl.layout_id 
-            FROM ".$this->db->table("pages")." p
-            INNER JOIN ".$this->db->table("pages_layouts")." pl 
+            FROM " . $this->db->table("pages") . " p
+            INNER JOIN " . $this->db->table("pages_layouts") . " pl 
                 ON p.page_id = pl.page_id
-            WHERE p.key_param = '".$this->db->escape($key_param)."'
-                    AND p.key_value = '".(int)$key_value."'"
+            WHERE p.key_param = '" . $this->db->escape($key_param) . "'
+                    AND p.key_value = '" . (int)$key_value . "'"
         );
 
         if ($result->num_rows) {
@@ -1818,12 +1823,12 @@ class AData
     protected function _clear_pages($page_id)
     {
         $this->db->query(
-            "DELETE FROM ".$this->db->table("pages")."
-            WHERE page_id = '".(int)$page_id."'"
+            "DELETE FROM " . $this->db->table("pages") . "
+            WHERE page_id = '" . (int)$page_id . "'"
         );
         $this->db->query(
-            "DELETE FROM ".$this->db->table("page_descriptions")."
-            WHERE page_id = '".(int)$page_id."'"
+            "DELETE FROM " . $this->db->table("page_descriptions") . "
+            WHERE page_id = '" . (int)$page_id . "'"
         );
     }
 
@@ -1836,8 +1841,8 @@ class AData
     protected function _clear_pages_layouts($page_id)
     {
         $this->db->query(
-            "DELETE FROM ".$this->db->table("pages_layouts")."
-            WHERE page_id = '".(int)$page_id."'"
+            "DELETE FROM " . $this->db->table("pages_layouts") . "
+            WHERE page_id = '" . (int)$page_id . "'"
         );
         return true;
     }
@@ -1851,8 +1856,8 @@ class AData
     protected function _clear_layouts($layout_id)
     {
         $this->db->query(
-            "DELETE FROM ".$this->db->table("layouts")."
-            WHERE layout_id = '".(int)$layout_id."'"
+            "DELETE FROM " . $this->db->table("layouts") . "
+            WHERE layout_id = '" . (int)$layout_id . "'"
         );
         return true;
     }
