@@ -576,13 +576,13 @@ class ControllerPagesToolFormsManager extends AController
 
         if ($this->request->is_POST() && $this->validateFormGroups($formId, $this->request->post)) {
             //remove groups
-            $groups = explode(',',$this->request->post['remove_groups']);
-            if($groups) {
-                $this->mdl->deleteGroups($groups);
+            $groups = explode(',', $this->request->post['remove_groups']);
+            if ($groups) {
+                $this->mdl->deleteGroups($groups, $formId);
             }
             //update groups
             $groups = (array)$this->request->post['groups'];
-            if($groups) {
+            if ($groups) {
                 foreach ($groups as $groupId => $group) {
                     $data = $group;
                     $data['form_id'] = $formId;
@@ -591,7 +591,7 @@ class ControllerPagesToolFormsManager extends AController
             }
             //update assignment "field-to-group"
             $fieldGroups = (array)$this->request->post['fields'] ?: [];
-            if($fieldGroups) {
+            if ($fieldGroups) {
                 foreach ($fieldGroups as $fieldId => $group) {
                     $this->mdl->assignFieldToGroup((int)$fieldId, (int)$group['group_id']);
                 }
@@ -601,8 +601,8 @@ class ControllerPagesToolFormsManager extends AController
         }
 
         $this->data['form_id'] = $formId;
-        $this->data['heading_title'] = $this->language->get('forms_manager_name'). ' - ' . $this->language->get('text_groups');
-        $this->document->setTitle($this->language->get('forms_manager_name'). ' - ' . $this->data['form_data']['form_name']);
+        $this->data['heading_title'] = $this->language->get('forms_manager_name') . ' - ' . $this->language->get('text_groups');
+        $this->document->setTitle($this->language->get('forms_manager_name') . ' - ' . $this->data['form_data']['form_name']);
 
         $this->view->assign('error', $this->error);
         $this->view->assign('success', $this->session->data['success']);
@@ -619,7 +619,7 @@ class ControllerPagesToolFormsManager extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    protected function getGroupsForm( int $formId)
+    protected function getGroupsForm(int $formId)
     {
         $this->document->initBreadcrumb(
             [
@@ -646,6 +646,7 @@ class ControllerPagesToolFormsManager extends AController
 
         $this->buildGroupListForm($formId);
         $this->buildField2GroupForm($formId);
+        $this->buildModalGroupForm($formId);
 
         $this->data['list_url'] = $this->html->getSecureURL('tool/forms_manager');
         $this->data['groups_response_url'] = $this->html->getSecureURL('forms_manager/groups/addGroup', '&form_id=' . $formId);
@@ -742,20 +743,91 @@ class ControllerPagesToolFormsManager extends AController
         $fields = $this->mdl->getFields($formId);
 
         // Load all available field groups for assignment
-        $groups = $this->mdl->getGroups();
-        $options = array_column($groups, 'name', 'group_id');
+        $groups = $this->data['group_list'] = $this->mdl->getGroups($formId);
+        $options =
+            array_merge(
+                ['' => $this->language->get('text_select')],
+                array_column($groups, 'name', 'group_id')
+            );
 
         foreach ($fields as $field) {
             $this->data['form2']['fields'][$field['field_name']] = $form->getFieldHtml(
                 [
-                    'type'   => 'selectbox',
-                    'name'   => 'fields[' . $field['field_id'] . '][group_id]',
-                    'value'  => $field['group_id'],
-                    'options' => $options,
+                    'type'         => 'selectbox',
+                    'name'         => 'fields[' . $field['field_id'] . '][group_id]',
+                    'value'        => $field['group_id'],
+                    'options'      => $options,
                     'display_name' => $field['name']
                 ]
             );
         }
+    }
+
+    protected function buildModalGroupForm(int $formId)
+    {
+        $form = new AForm('ST');
+        $form->setForm(
+            [
+                'form_name' => 'modalGroupFrm',
+            ]
+        );
+        $this->data['new_group_form']['form_open'] = $form->getFieldHtml(
+            [
+                'type'   => 'form',
+                'name'   => 'modalGroupFrm',
+                'action' => $this->html->getSecureURL('tool/forms_manager/groups', '&form_id=' . $formId),
+            ]
+        );
+        //not assigned groups
+        $allGroups = $this->mdl->getGroups(0);
+        $assignedGroupIds = array_column($this->data['group_list'], 'group_id');
+        $options = ['new' => $this->language->get('text_add_new_group')];
+        foreach ($allGroups as $group) {
+            if (in_array($group['group_id'], $assignedGroupIds)) {
+                continue;
+            }
+            $options[$group['group_id']] = $group['name'];
+        }
+
+        $this->data['new_group_form']['groups'] = $form->getFieldHtml(
+            [
+                'type'         => 'selectbox',
+                'name'         => 'group_id',
+                'value'        => array_key_last($options),
+                'options'      => $options,
+                'display_name' => 'Select existing group: '
+            ]
+        );
+
+        $this->data['new_group_form']['fields']['group_name'] = $form->getFieldHtml(
+            [
+                'type'         => 'input',
+                'name'         => 'group_name',
+                'required'     => true,
+                'attr'         => 'maxlength=255',
+                'display_name' => $this->language->get('entry_group_name'),
+            ]
+        );
+        $this->data['new_group_form']['fields']['group_description'] = $form->getFieldHtml(
+            [
+                'type'         => 'textarea',
+                'name'         => 'group_description',
+                'attr'         => 'row="3"',
+                'display_name' => $this->language->get('entry_group_description'),
+            ]
+        );
+        $this->data['new_group_form']['fields']['sort_order'] = $form->getFieldHtml(
+            [
+                'type'         => 'number',
+                'name'         => 'sort_order',
+                'value'        => ($this->data['group_list']
+                        ? max(array_column($this->data['group_list'], 'sort_order'))
+                        : 0) + 1,
+                'display_name' => $this->language->get('entry_sort_order'),
+            ]
+        );
+
+
     }
 
     protected function _getForm()
@@ -1413,7 +1485,7 @@ class ControllerPagesToolFormsManager extends AController
         //check before delete
         $post['remove_groups'] = filterIntegerIdList(explode(',', $post['remove_groups']));
         foreach ($post['remove_groups'] as $groupId) {
-            $hasFields = $this->mdl->groupHasFields($groupId) > 0;
+            $hasFields = $this->mdl->groupHasFields($groupId, $formId) > 0;
             if ($hasFields) {
                 $this->error['warning'] = $this->language->get('error_group_has_fields');
                 return false;

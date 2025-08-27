@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -780,21 +780,23 @@ class ModelToolFormsManager extends Model
     {
         $sql = "SELECT fg.group_id, fg.group_txt_id, fgd.name, fgd.description";
 
-        if($formId){ $sql .= ", fg2.sort_order "; }
+        if ($formId) {
+            $sql .= ", fg2.sort_order ";
+        }
 
         $sql .= " FROM " . $this->db->table('field_groups') . " fg ";
-        if($formId){
-            $sql .= "INNER JOIN ". $this->db->table('field_group_to_form')." fg2 
-                        ON (fg.group_id = fg2.group_id AND fg2.form_id = " . $formId . ") ".PHP_EOL;
+        if ($formId) {
+            $sql .= "INNER JOIN " . $this->db->table('field_group_to_form') . " fg2 
+                        ON (fg.group_id = fg2.group_id AND fg2.form_id = " . $formId . ") " . PHP_EOL;
         }
-        $sql .= " LEFT JOIN " . $this->db->table('field_group_descriptions') . " fgd ".PHP_EOL."
+        $sql .= " LEFT JOIN " . $this->db->table('field_group_descriptions') . " fgd " . PHP_EOL . "
                     ON fg.group_id = fgd.group_id AND fgd.language_id = " . (int)$this->language->getContentLanguageID() . PHP_EOL;
-        if($formId){
+        if ($formId) {
             $sql .= "ORDER BY fg2.sort_order, fgd.name";
-        }else{
+        } else {
             $sql .= "ORDER BY fgd.name";
         }
-        
+
         $results = $this->db->query($sql);
         return $results->rows;
     }
@@ -813,27 +815,27 @@ class ModelToolFormsManager extends Model
         }
 
         // Generate unique group_txt_id
-        $group_txt_id = 'group_' . time() . '_' . rand(1000, 9999);
-        
+        $group_txt_id = preformatTextID($data['group_name']) . '_' . rand(1, 9);
+
         // Insert into field_groups
         $this->db->query("INSERT INTO " . $this->db->table('field_groups') . " 
             (group_txt_id) VALUES ('" . $this->db->escape($group_txt_id) . "')");
-        
+
         $groupId = $this->db->getLastId();
-        
+
         // Insert description
         $this->db->query("INSERT INTO " . $this->db->table('field_group_descriptions') . " 
             (group_id, name, description, language_id) VALUES 
             (" . (int)$groupId . ", '" . $this->db->escape($data['group_name']) . "', 
             '" . $this->db->escape($data['group_description'] ?? '') . "', 
             " . (int)$this->language->getContentLanguageID() . ")");
-        
+
         // Link to form
         $sortOrder = (int)($data['sort_order'] ?? 0);
         $this->db->query("INSERT INTO " . $this->db->table('field_group_to_form') . " 
             (group_id, form_id, sort_order) VALUES 
             (" . (int)$groupId . ", " . (int)$formId . ", " . $sortOrder . ")");
-        
+
         return true;
     }
 
@@ -849,9 +851,9 @@ class ModelToolFormsManager extends Model
         if (!$fieldId) {
             return false;
         }
-        
+
         $sql = "UPDATE " . $this->db->table('fields') . " 
-                SET group_id = ".$this->db->intOrNull($groupId)."
+                SET group_id = " . $this->db->intOrNull($groupId) . "
                 WHERE field_id = " . $fieldId;
         $this->db->query($sql);
         return true;
@@ -868,7 +870,7 @@ class ModelToolFormsManager extends Model
         if (!$formId) {
             return [];
         }
-        
+
         $sql = "SELECT f.field_id, f.field_name, f.group_id, fd.name as field_name_display,
                        fgd.name as group_name
                 FROM " . $this->db->table('fields') . " f
@@ -880,7 +882,7 @@ class ModelToolFormsManager extends Model
                     AND fgd.language_id = " . (int)$this->language->getContentLanguageID() . "
                 WHERE f.form_id = " . (int)$formId . "
                 ORDER BY f.sort_order ASC";
-        
+
         $results = $this->db->query($sql);
         return $results->rows;
     }
@@ -888,10 +890,11 @@ class ModelToolFormsManager extends Model
     /**
      * Get count of fields in a group
      * @param int $groupId
+     * @param int $formId
      * @return int
      * @throws AException
      */
-    public function groupHasFields(int $groupId)
+    public function groupHasFields(int $groupId, int $formId = 0)
     {
         if (!$groupId) {
             return 0;
@@ -899,35 +902,82 @@ class ModelToolFormsManager extends Model
         $sql = "SELECT COUNT(field_id) as total 
                 FROM " . $this->db->table('fields') . "
                 WHERE group_id = " . (int)$groupId;
+        if ($formId) {
+            $sql .= " AND form_id = " . $formId;
+        }
         $result = $this->db->query($sql);
         return (int)$result->row['total'];
     }
 
     /**
-     * Delete field groups by ID(s)
-     * @param int|array $groupIds Single group ID or array of group IDs
+     *
+     * @param array $groupIds
+     * @param int|null $formId
      * @return bool
      * @throws AException
      */
-    public function deleteGroups(int|array $groupIds)
+    public function deleteGroups(array $groupIds, ?int $formId = null): bool
     {
-        $groupIds = is_int($groupIds) ? [$groupIds] : $groupIds;
         $groupIds = filterIntegerIdList($groupIds);
         if (!$groupIds) {
             return false;
         }
 
+        foreach ($groupIds as $groupId) {
+            if ($formId) {
+                $this->detachGroupFromForm((int)$groupId, $formId);
+            }
+            if (!$this->groupHasFields($groupId)) {
+                $this->deleteGroup((int)$groupId);
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     *
+     * @param int $groupId
+     * @param int|null $formId
+     * @return bool
+     * @throws AException
+     */
+    public function detachGroupFromForm(int $groupId, ?int $formId = null): bool
+    {
+        if ($groupId <= 0) {
+            return false;
+        }
+
+        $sql = "DELETE FROM " . $this->db->table('field_group_to_form') . "
+            WHERE group_id = " . (int)$groupId;
+        if ($formId !== null) {
+            $sql .= " AND form_id = " . (int)$formId;
+        }
+        $this->db->query($sql);
+
+        return true;
+    }
+
+    /**
+     *
+     * @param int $groupId
+     * @return bool
+     * @throws AException
+     */
+    public function deleteGroup(int $groupId): bool
+    {
+        if ($groupId <= 0) {
+            return false;
+        }
+
         $this->db->query(
-            "DELETE FROM " . $this->db->table('field_groups') . " 
-            WHERE group_id IN (" . implode(',', $groupIds) . ")"
+            "DELETE FROM " . $this->db->table('field_groups') . "
+            WHERE group_id = " . (int)$groupId
         );
+
         $this->db->query(
-            "DELETE FROM " . $this->db->table('field_group_descriptions') . " 
-            WHERE group_id IN (" . implode(',', $groupIds) . ")"
-        );
-        $this->db->query(
-            "DELETE FROM " . $this->db->table('field_group_to_form') . " 
-            WHERE group_id IN (" . implode(',', $groupIds) . ")"
+            "DELETE FROM " . $this->db->table('field_group_descriptions') . "
+            WHERE group_id = " . (int)$groupId
         );
 
         return true;
@@ -935,6 +985,7 @@ class ModelToolFormsManager extends Model
 
     /**
      * Update field group
+     * @param int $groupId
      * @param array $data
      * @return bool
      * @throws AException
@@ -984,5 +1035,26 @@ class ModelToolFormsManager extends Model
         return true;
     }
 
+    /**
+     * Assign a group to a form
+     * @param int $formId
+     * @param int $groupId
+     * @param int $sortOrder
+     * @return bool
+     * @throws AException
+     */
+    public function assignGroupToForm(int $formId, int $groupId, int $sortOrder = 0)
+    {
+        if (!$formId || !$groupId) {
+            return false;
+        }
 
+        $this->db->query(
+            "INSERT INTO " . $this->db->table('field_group_to_form') . "
+            (group_id, form_id, sort_order)
+            VALUES (" . (int)$groupId . ", " . (int)$formId . ", " . (int)$sortOrder . ")"
+        );
+
+        return true;
+    }
 }
