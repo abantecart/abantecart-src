@@ -1,5 +1,4 @@
 <div class="row">
-
 	<div class="col-md-6 panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title"><?php echo $field_data['field_name']; ?></h3>
@@ -8,11 +7,13 @@
 			<div class="form-group">
 				<label class="heading col-sm-10"><?php echo $text_field_type; ?>: <?php echo $field_type; ?></label>
 				<div class="input-group col-sm-2">
-				<a class=" pull-right btn btn-default tooltips"
-				   href="<?php echo $button_remove_field->href; ?>"
-				   data-original-title="<?php echo $button_remove_field->text; ?>" data-confirmation="delete">
-				    <i class="fa fa-trash-o"></i>
-				</a>
+                    <?php if(!$field_data['locked']){ ?>
+                    <a class=" pull-right btn btn-default tooltips"
+                       href="<?php echo $button_remove_field->href; ?>"
+                       data-original-title="<?php echo $button_remove_field->text; ?>" data-confirmation="delete">
+                        <i class="fa fa-trash-o"></i>
+                    </a>
+                <?php } ?>
 				</div>
 			</div>
 

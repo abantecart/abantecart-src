@@ -53,19 +53,23 @@ class ControllerResponsesGridForm extends AController
         $response->page = $filter_grid->getParam('page');
         $response->total = $filter_grid->calcTotalPages($total);
         $response->records = $total;
+        $response->userdata = new stdClass();
 
         $i = 0;
         foreach ($results as $result) {
-
-            $response->rows[$i]['id'] = $result['form_id'];
+            $id = $result['form_id'];
+            if($result['locked']) {
+                $response->userdata->classes[$id] = 'disable-delete';
+            }
+            $response->rows[$i]['id'] = $id;
             $response->rows[$i]['cell'] = [
                 $result['form_name'],
                 $this->html->buildInput([
-                    'name'  => 'form_description[' . $result['form_id'] . ']',
+                    'name'  => 'form_description[' . $id . ']',
                     'value' => $result['description'],
                 ]),
                 $this->html->buildCheckbox([
-                    'name'  => 'form_status[' . $result['form_id'] . ']',
+                    'name'  => 'form_status[' . $id . ']',
                     'value' => $result['status'],
                     'style' => 'btn_switch',
                 ]),
