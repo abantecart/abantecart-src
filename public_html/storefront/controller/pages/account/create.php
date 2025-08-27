@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -43,7 +43,7 @@ class ControllerPagesAccountCreate extends AController
             if ($this->csrftoken->isTokenValid()) {
                 // validation based on field settings
                 $this->validateForm($post);
-                $this->errors = array_merge( $this->errors, $mdl->validateRegistrationData($post) );
+                $this->errors = array_merge($this->errors, $mdl->validateRegistrationData($post));
             } else {
                 $this->errors['warning'] = $this->language->get('error_unknown');
             }
@@ -81,7 +81,7 @@ class ControllerPagesAccountCreate extends AController
                         //send welcome email, but need manual approval
                         $mdl->sendWelcomeEmail($post['email'], false);
                     }
-                }catch (Exception $e) {
+                } catch (Exception $e) {
                     $this->log->write(__CLASS__ . '::' . __FUNCTION__ . '() error: ' . $e->getMessage());
                     $this->messages->saveError("Mailer Critical Error!", $e->getMessage());
                 }
@@ -165,12 +165,12 @@ class ControllerPagesAccountCreate extends AController
                 //error messages
                 $this->data['error_' . $name] = $this->errors[$name];
                 $this->data['entry_' . $name] = $element->display_name ?: $this->language->get('entry_' . $name);
-                if(isset($post[$name])){
+                if (isset($post[$name])) {
                     $element->value = $post[$name];
                 }
                 if ($name == 'zone_id') {
                     $element->value = $post['country_id'] ?? $this->config->get('config_country_id');
-                    $element->zone_value = $post['zone_id']?: $this->config->get('config_zone_id');
+                    $element->zone_value = $post['zone_id'] ?: $this->config->get('config_zone_id');
                     //set zone_id as value for select[option]
                     $element->submit_mode = 'id';
                     //show only zone selector
@@ -200,24 +200,26 @@ class ControllerPagesAccountCreate extends AController
 
         $this->data['form']['fields']['login']['password'] = $form->getFieldHtml(
             [
-                'type'     => 'password',
-                'name'     => 'password',
-                'value'    => $this->request->post['password'],
-                'required' => true,
+                'type'         => 'password',
+                'name'         => 'password',
+                'value'        => $this->request->post['password'],
+                'required'     => true,
+                'attr'         => ' autocomplete="new-password" ',
                 'display_name' => $this->language->get('entry_password'),
             ]
         );
         $this->data['form']['fields']['login']['confirm'] = $form->getFieldHtml(
             [
-                'type'     => 'password',
-                'name'     => 'confirm',
-                'value'    => $this->request->post['confirm'],
-                'required' => true,
+                'type'         => 'password',
+                'name'         => 'confirm',
+                'value'        => $this->request->post['confirm'],
+                'required'     => true,
+                'attr'         => ' autocomplete="new-password" ',
                 'display_name' => $this->language->get('entry_confirm'),
             ]
         );
 
-        if($this->request->get_or_post('newsletter')){
+        if ($this->request->get_or_post('newsletter')) {
             $this->data['form']['fields']['newsletter']['newsletter']->checked = (bool)$this->request->get_or_post('newsletter');
         }
 
@@ -229,16 +231,16 @@ class ControllerPagesAccountCreate extends AController
                     'name'               => 'g-recaptcha-response',
                     'recaptcha_site_key' => $this->config->get('config_recaptcha_site_key'),
                     'language_code'      => $this->language->getLanguageCode(),
-                    'display_name'       => $this->language->get('entry_captcha','account/newsletter'),
+                    'display_name'       => $this->language->get('entry_captcha', 'account/newsletter'),
                 ];
             } else {
                 $captchaData = [
-                    'type' => 'captcha',
-                    'name' => 'captcha',
-                    'display_name'       => $this->language->get('entry_captcha','account/newsletter'),
+                    'type'         => 'captcha',
+                    'name'         => 'captcha',
+                    'display_name' => $this->language->get('entry_captcha', 'account/newsletter'),
                 ];
             }
-            $this->data['form']['fields']['newsletter']['captcha'] = $form->getFieldHtml( $captchaData);
+            $this->data['form']['fields']['newsletter']['captcha'] = $form->getFieldHtml($captchaData);
         }
 
         $this->data['form']['agree'] = $form->getFieldHtml(
@@ -274,7 +276,7 @@ class ControllerPagesAccountCreate extends AController
                 $this->data['text_agree'] = $this->language->get('text_agree');
                 $this->data['text_agree_href'] = $this->html->getSecureURL(
                     'r/content/content/loadInfo',
-                    '&content_id='.$contentId
+                    '&content_id=' . $contentId
                 );
                 $this->data['text_agree_href_text'] = $contentInfo['title'];
             }
@@ -305,7 +307,7 @@ class ControllerPagesAccountCreate extends AController
         if ($customer_id && $activation_code) {
             try {
                 $mdl->emailActivateLink($customer_id);
-            }catch (Exception $e) {
+            } catch (Exception $e) {
                 $this->log->write(__CLASS__ . '::' . __FUNCTION__ . '() error: ' . $e->getMessage());
                 $this->messages->saveError("Mailer Critical Error!", $e->getMessage());
             }

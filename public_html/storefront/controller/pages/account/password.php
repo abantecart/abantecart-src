@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2023 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -93,6 +93,7 @@ class ControllerPagesAccountPassword extends AController
                 'type'     => 'password',
                 'name'     => 'current_password',
                 'value'    => '',
+                'attr'     => ' autocomplete="current-password" ',
                 'required' => true,
             ]);
         $password = $form->getFieldHtml(
@@ -100,6 +101,7 @@ class ControllerPagesAccountPassword extends AController
                 'type'     => 'password',
                 'name'     => 'password',
                 'value'    => '',
+                'attr'     => ' autocomplete="new-password" ',
                 'required' => true,
             ]);
         $confirm = $form->getFieldHtml(
@@ -107,6 +109,7 @@ class ControllerPagesAccountPassword extends AController
                 'type'     => 'password',
                 'name'     => 'confirm',
                 'value'    => '',
+                'attr'     => ' autocomplete="new-password" ',
                 'required' => true,
             ]);
         $submit = $form->getFieldHtml(
@@ -152,7 +155,7 @@ class ControllerPagesAccountPassword extends AController
             $this->error['current_password'] = $this->language->get('error_current_password');
         }
 
-        //check passwrod length considering html entities (sepcial case for characters " > < & )
+        //check password length considering html-entities (special case for characters " > < & )
         $pass_len = mb_strlen(htmlspecialchars_decode($post['password']));
         if ($pass_len < 4 || $pass_len > 20) {
             $this->error['password'] = $this->language->get('error_password');
