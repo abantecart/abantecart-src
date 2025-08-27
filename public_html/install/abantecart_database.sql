@@ -12736,9 +12736,6 @@ VALUES
     (6,1,'Customer Details Form'),
     (7,1,'Customer Registration Form');
 
-
-
-
 -- resources
 INSERT INTO `ac_resource_map`
 (`resource_id`, `object_name`, `object_id`, `default`, `sort_order`)
@@ -12776,7 +12773,7 @@ INSERT INTO `ac_resource_descriptions`
 (`resource_id`, `language_id`, `name`, `title`, `description`, `resource_path`, `resource_code`)
 VALUES
     (10, 1, 'Field Icon Country', '', '', '', '<i class="fa fa-globe"></i>'),
-    (11, 1, 'Filed Icon Zone', '', '', '', '<i class="fa fa-map"></i>'),
+    (11, 1, 'Field Icon Zone', '', '', '', '<i class="fa fa-map"></i>'),
     (12, 1, 'Field Icon Postcode', '', '', '', '<i class="fa fa-signs-post"></i>'),
     (13, 1, 'Field Icon Company', '', '', '', '<i class="fa-solid fa-handshake"></i>'),
     (14, 1, 'Field Icon Address Line 1', '', '', '', '<i class="fa-solid fa-location-pin"></i>'),
@@ -12963,13 +12960,13 @@ VALUES
 --
 DROP TABLE IF EXISTS `ac_field_group_to_form`;
 CREATE TABLE `ac_field_group_to_form` (
-                                          `group_id` int(11) DEFAULT NULL,
-                                          `form_id` int(11) DEFAULT NULL,
-                                          `sort_order` int(3) DEFAULT NULL,
-                                          KEY `ac_field_group_to_form_fk` (`form_id`),
-                                          KEY `ac_field_group_to_group_fk` (`group_id`),
-                                          CONSTRAINT `ac_field_group_to_form_fk` FOREIGN KEY (`form_id`) REFERENCES `ac_forms` (`form_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-                                          CONSTRAINT `ac_field_group_to_group_fk` FOREIGN KEY (`group_id`) REFERENCES `ac_field_groups` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE
+          `group_id` int(11) DEFAULT NULL,
+          `form_id` int(11) DEFAULT NULL,
+          `sort_order` int(3) DEFAULT NULL,
+          KEY `ac_field_group_to_form_fk` (`form_id`),
+          KEY `ac_field_group_to_group_fk` (`group_id`),
+          CONSTRAINT `ac_field_group_to_form_fk` FOREIGN KEY (`form_id`) REFERENCES `ac_forms` (`form_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+          CONSTRAINT `ac_field_group_to_group_fk` FOREIGN KEY (`group_id`) REFERENCES `ac_field_groups` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

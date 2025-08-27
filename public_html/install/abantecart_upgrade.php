@@ -32,384 +32,85 @@ if (!$result->num_rows) {
     VALUES (1,'settings','text',8)";
     $this->db->query($sqlAlter, true);
 }
-//upgrade icon with class fa-money to fa-money-bill inside RL !!!!!
-// update menu item icon rl_id if template is novator/default and current icon contains fa-money class
+//todo:upgrade icon with class fa-money to fa-money-bill inside RL !!!!!
+//todo: update menu item icon rl_id if template is novator/default and current icon contains fa-money class
 
-/** @var ModelToolFormsManager $mdl */
-$mdl = $this->load->model('tool/forms_manager');
-$forms = [
-    [
-        'form_name'        => 'AddressFrm',
-        'controller'       => '',
-        'success_page'     => '',
-        'status'           => 1,
-        'locked'           => 1,
-        'form_description' => 'Customer Address Form',
-        'fields'           => [
-            [
-                'field_name'        => 'country_id',
-                'element_type'      => 'O',
-                'sort_order'        => 1,
-                'attributes'        => '',
-                'settings'          => '',
-                'required'          => '1',
-                'status'            => 1,
-                'regexp_pattern'    => '/^[1-9]\d*$/',
-                'resource_id'       => $fieldResources['country_id'],
-                'locked'            => 0,
-                'field_description' => 'Country',
-                'field_note'        => '',
-                'error_text'        => 'Please select a country!',
-            ],
-            [
-                'field_name'        => 'zone_id',
-                'element_type'      => 'Z',
-                'sort_order'        => 2,
-                'attributes'        => '',
-                'settings'          => '',
-                'required'          => '1',
-                'status'            => 1,
-                'regexp_pattern'    => '/^[1-9]\d*$/',
-                'resource_id'       => $fieldResources['zone_id'],
-                'locked'            => 0,
-                'field_description' => 'Zone',
-                'field_note'        => '',
-                'error_text'        => 'Please select a region/state!',
-            ],
-            [
-                'field_name'        => 'company',
-                'element_type'      => 'I',
-                'sort_order'        => 3,
-                'attributes'        => '',
-                'settings'          => '',
-                'required'          => '0',
-                'status'            => 1,
-                'regexp_pattern'    => '/^.{0,32}$/u',
-                'resource_id'       => $fieldResources['company'],
-                'locked'            => 0,
-                'field_description' => 'Company',
-                'field_note'        => '',
-                'error_text'        => 'Company Name must be less than 32 characters!',
-            ],
-            [
-                'field_name'        => 'address_1',
-                'element_type'      => 'I',
-                'sort_order'        => 4,
-                'attributes'        => 'minlength="3" maxlength="128"',
-                'settings'          => '',
-                'required'          => '1',
-                'status'            => 1,
-                'regexp_pattern'    => '/^.{3,128}$/u',
-                'resource_id'       => $fieldResources['address_1'],
-                'locked'            => 0,
-                'field_description' => 'Address Line 1',
-                'field_note'        => '',
-                'error_text'        => 'Address Line 1 must be between 3 and 128 characters!',
-            ],
-            [
-                'field_name'        => 'address_2',
-                'element_type'      => 'I',
-                'sort_order'        => 5,
-                'attributes'        => 'minlength="0" maxlength="128"',
-                'settings'          => '',
-                'required'          => '0',
-                'status'            => 1,
-                'regexp_pattern'    => '/^.{0,128}$/u',
-                'resource_id'       => $fieldResources['address_2'],
-                'locked'            => 0,
-                'field_description' => 'Address Line 2',
-                'field_note'        => '',
-                'error_text'        => 'Address Line 2 must be less than 128 characters!',
-            ],
-            [
-                'field_name'        => 'city',
-                'element_type'      => 'I',
-                'sort_order'        => 6,
-                'attributes'        => 'maxlength="128"',
-                'settings'          => '',
-                'required'          => '1',
-                'status'            => 1,
-                'regexp_pattern'    => '/^.{1,128}$/u',
-                'resource_id'       => 100271,
-                'locked'            => 0,
-                'field_description' => 'City',
-                'field_note'        => '',
-                'error_text'        => 'City must be between 3 and 128 characters!',
-            ],
-            [
-                'field_name'        => 'postcode',
-                'element_type'      => 'I',
-                'sort_order'        => 7,
-                'attributes'        => '',
-                'settings'          => '',
-                'required'          => '1',
-                'status'            => 1,
-                'regexp_pattern'    => '/^[A-Za-z0-9\- ]+$/',
-                'resource_id'       => 100266,
-                'locked'            => 0,
-                'field_description' => 'Zip/Post Code',
-                'field_note'        => '',
-                'error_text'        => 'Zip/Post Code must be less than 11 characters!',
-            ],
-            [
-                'field_name'        => 'firstname',
-                'element_type'      => 'I',
-                'sort_order'        => 8,
-                'attributes'        => 'minlength="1" maxlength="32"',
-                'settings'          => '',
-                'required'          => '1',
-                'status'            => 1,
-                'regexp_pattern'    => '/^.{1,32}$/u',
-                'resource_id'       => 100272,
-                'locked'            => 0,
-                'field_description' => 'First Name',
-                'field_note'        => '',
-                'error_text'        => 'First Name must be between 1 and 32 characters!',
-            ],
-            [
-                'field_name'        => 'lastname',
-                'element_type'      => 'I',
-                'sort_order'        => 9,
-                'attributes'        => 'minlength="1" maxlength="32"',
-                'settings'          => '',
-                'required'          => '1',
-                'status'            => 1,
-                'regexp_pattern'    => '/^.{1,32}$/u',
-                'resource_id'       => 100273,
-                'locked'            => 0,
-                'field_description' => 'Last Name',
-                'field_note'        => '',
-                'error_text'        => 'Last Name must be between 1 and 32 characters!',
-            ],
-            [
-                'field_name'        => 'default',
-                'element_type'      => 'C',
-                'sort_order'        => 11,
-                'attributes'        => '',
-                'settings'          => '',
-                'required'          => '0',
-                'status'            => 1,
-                'regexp_pattern'    => '',
-                'resource_id'       => 0,
-                'locked'            => 0,
-                'field_description' => 'Default Address',
-                'field_note'        => 'Vat Id',
-                'error_text'        => '',
-            ],
-            [
-                'field_name'        => 'vat_id',
-                'element_type'      => 'I',
-                'sort_order'        => 10,
-                'attributes'        => '',
-                'settings'          => '',
-                'required'          => '0',
-                'status'            => 1,
-                'regexp_pattern'    => '/^.{8,14}$/u',
-                'resource_id'       => 0,
-                'locked'            => 0,
-                'field_description' => 'VAT ID',
-                'field_note'        => '',
-                'error_text'        => 'VAT ID Code must be between 8 and 14 characters!',
-            ],
-        ],
-    ],
-    [
-        'form_name'        => 'GuestCheckoutFrm',
-        'controller'       => '',
-        'success_page'     => '',
-        'status'           => 1,
-        'locked'           => 1,
-        'form_description' => 'guest address and details form',
-        'fields'           => [
-            [
-                'field_name'        => 'country_id',
-                'element_type'      => 'O',
-                'sort_order'        => 1,
-                'attributes'        => 'data-pair-with="zone_id"',
-                'settings'          => '',
-                'required'          => '1',
-                'status'            => 1,
-                'regexp_pattern'    => '/^[1-9]\d*$/',
-                'resource_id'       => $fieldResources['country_id'],
-                'locked'            => 1,
-                'field_description' => 'Country',
-                'field_note'        => '',
-                'error_text'        => 'Please select a country!',
-            ],
-            [
-                'field_name'        => 'zone_id',
-                'element_type'      => 'Z',
-                'sort_order'        => 2,
-                'attributes'        => 'data-pair-with="country_id"',
-                'settings'          => '',
-                'required'          => '1',
-                'status'            => 1,
-                'regexp_pattern'    => '/^[1-9]\d*$/',
-                'resource_id'       => $fieldResources['zone_id'],
-                'locked'            => 1,
-                'field_description' => 'Region/State',
-                'field_note'        => '',
-                'error_text'        => 'Please select a region/state!',
-            ],
-            [
-                'field_name'        => 'company',
-                'element_type'      => 'I',
-                'sort_order'        => 3,
-                'attributes'        => '',
-                'settings'          => '',
-                'required'          => '0',
-                'status'            => 1,
-                'regexp_pattern'    => '/^.{0,32}$/u',
-                'resource_id'       => $fieldResources['company'],
-                'locked'            => 0,
-                'field_description' => 'Company',
-                'field_note'        => '',
-                'error_text'        => 'Company Name must be less than 32 characters!',
-            ],
-            [
-                'field_name'        => 'address_1',
-                'element_type'      => 'I',
-                'sort_order'        => 4,
-                'attributes'        => 'minlength="3" maxlength="128"',
-                'settings'          => '',
-                'required'          => '1',
-                'status'            => 1,
-                'regexp_pattern'    => '/^.{3,128}$/u',
-                'resource_id'       => $fieldResources['address_1'],
-                'locked'            => 1,
-                'field_description' => 'Address Line 1',
-                'field_note'        => '',
-                'error_text'        => 'Address Line 1 must be between 3 and 128 characters!',
-            ],
-            [
-                'field_name'        => 'address_2',
-                'element_type'      => 'I',
-                'sort_order'        => 5,
-                'attributes'        => 'minlength="0" maxlength="128"',
-                'settings'          => '',
-                'required'          => '0',
-                'status'            => 1,
-                'regexp_pattern'    => '/^.{0,128}$/u',
-                'resource_id'       => $fieldResources['address_2'],
-                'locked'            => 0,
-                'field_description' => 'Address Line 2',
-                'field_note'        => '',
-                'error_text'        => 'Address Line 2 must be less than 128 characters!',
-            ],
-            [
-                'field_name'        => 'city',
-                'element_type'      => 'I',
-                'sort_order'        => 6,
-                'attributes'        => 'maxlength="128" data-pair-with="postcode"',
-                'settings'          => '',
-                'required'          => '1',
-                'status'            => 1,
-                'regexp_pattern'    => '/^.{1,128}$/u',
-                'resource_id'       => $fieldResources,
-                'locked'            => 1,
-                'field_description' => 'City',
-                'field_note'        => '',
-                'error_text'        => 'City must be between 3 and 128 characters!',
-            ],
-            [
-                'field_name'        => 'postcode',
-                'element_type'      => 'I',
-                'sort_order'        => 7,
-                'attributes'        => 'data-pair-with="city"',
-                'settings'          => '',
-                'required'          => '1',
-                'status'            => 1,
-                'regexp_pattern'    => '/^[A-Za-z0-9\- ]+$/',
-                'resource_id'       => $fieldResources['address_1'],
-                'locked'            => 1,
-                'field_description' => 'Zip/Post Code',
-                'field_note'        => '',
-                'error_text'        => 'Zip/Post Code must be less than 11 characters!',
-            ],
-            [
-                'field_name'        => 'firstname',
-                'element_type'      => 'I',
-                'sort_order'        => 8,
-                'attributes'        => 'minlength="1" maxlength="32" data-pair-with="lastname"',
-                'settings'          => '',
-                'required'          => '1',
-                'status'            => 1,
-                'regexp_pattern'    => '/^.{1,32}$/u',
-                'resource_id'       => 100272,
-                'locked'            => 1,
-                'field_description' => 'First Name',
-                'field_note'        => '',
-                'error_text'        => 'First Name must be between 1 and 32 characters!',
-            ],
-            [
-                'field_name'        => 'lastname',
-                'element_type'      => 'I',
-                'sort_order'        => 9,
-                'attributes'        => 'minlength="1" maxlength="32" data-pair-with="firstname"',
-                'settings'          => '',
-                'required'          => '1',
-                'status'            => 1,
-                'regexp_pattern'    => '/^.{1,32}$/u',
-                'resource_id'       => 100273,
-                'locked'            => 1,
-                'field_description' => 'Last Name',
-                'field_note'        => '',
-                'error_text'        => 'Last Name must be between 1 and 32 characters!',
-            ],
-            [
-                'field_name'        => 'vat_id',
-                'element_type'      => 'I',
-                'sort_order'        => 10,
-                'attributes'        => '',
-                'settings'          => '',
-                'required'          => '0',
-                'status'            => 1,
-                'regexp_pattern'    => '/^.{8,14}$/u',
-                'resource_id'       => 0,
-                'locked'            => 0,
-                'field_description' => 'VAT ID',
-                'field_note'        => '',
-                'error_text'        => 'VAT ID Code must be between 8 and 14 characters!',
-            ],
-            [
-                'field_name'        => 'email',
-                'element_type'      => 'E',
-                'sort_order'        => 15,
-                'attributes'        => 'minlength="1" maxlength="96"',
-                'settings'          => '',
-                'required'          => '1',
-                'status'            => 1,
-                'regexp_pattern'    => '',
-                'resource_id'       => 100274,
-                'locked'            => 1,
-                'field_description' => 'Email',
-                'field_note'        => '',
-                'error_text'        => 'Your email is not provided or invalid!',
-            ],
-            [
-                'field_name'        => 'telephone',
-                'element_type'      => 'F',
-                'sort_order'        => 16,
-                'attributes'        => 'maxlength="32"',
-                'settings'          => '',
-                'required'          => '0',
-                'status'            => 1,
-                'regexp_pattern'    => '/^[0-9\+\(\)\.\s\-,]+$/',
-                'resource_id'       => 100275,
-                'locked'            => 0,
-                'field_description' => 'Phone Number',
-                'field_note'        => '',
-                'error_text'        => 'Your contact phone number is not provided or invalid.',
-            ],
-        ],
-    ]
+//todo: move error messages from other languages into field's error_text!!!
+
+$resourceManager = new AResourceManager();
+$resourceManager->setType('image');
+$icons = [
+    'country_id' => ['name' => 'Field Icon Country', 'code' => '<i class="fa fa-globe"></i>'],
+    'zone_id'    => ['name' => 'Field Icon Zone', 'code' => '<i class="fa fa-map"></i>'],
+    'postcode'   => ['name' => 'Field Icon Postcode', 'code' => '<i class="fa fa-signs-post"></i>'],
+    'company'    => ['name' => 'Field Icon Company', 'code' => '<i class="fa-solid fa-handshake"></i>'],
+    'address_1'  => ['name' => 'Field Icon Address Line 1', 'code' => '<i class="fa-solid fa-location-pin"></i>'],
+    'address_2'  => ['name' => 'Field Icon Address Line 2', 'code' => '<i class="fa-solid fa-location-dot"></i>'],
+    'city'       => ['name' => 'Field Icon City', 'code' => '<i class="fa-solid fa-city"></i>'],
+    'firstname'  => ['name' => 'Field Icon First Name', 'code' => '<i class="fa fa-solid fa-user"></i>'],
+    'lastname'   => ['name' => 'Field Icon Last Name', 'code' => '<i class="fa fa-solid fa-user-tag"></i>'],
+    'email'      => ['name' => 'Field Icon Email', 'code' => '<i class="fa-solid fa-at"></i>'],
+    'telephone'  => ['name' => 'Field Icon Phone', 'code' => '<i class="fa-solid fa-phone"></i>'],
+    'loginname'  => ['name' => 'Field Icon Login Name', 'code' => '<i class="fa-solid fa-fingerprint"></i>'],
 ];
 
-foreach ($forms as $formData) {
-    $formId = $mdl->addForm($formData);
-    foreach ($formData['fields'] as $fieldData) {
-        $fieldId = $mdl->addField($formId, $fieldData);
+$languages = $this->language->getAvailableLanguages();
+$iconMap = [];
+foreach ($icons as $fieldKey => $icon) {
+    $names = $titles = $descriptions = [];
+    foreach ($languages as $lang) {
+        $langId = (int) $lang['language_id'];
+        $names[$langId] = $icon['name'];
+        $titles[$langId] = '';
+        $descriptions[$langId] = '';
+    }
+    $iconMap[$fieldKey] = $resourceManager->addResource(
+        [
+            'name'          => $names,
+            'title'         => $titles,
+            'description'   => $descriptions,
+            'resource_path' => '',
+            'resource_code' => $icon['code'],
+        ]
+    );
+}
+
+$grp = [
+    'details' => 'Your Personal Details',
+    'address' => 'Your Address',
+    'login' => 'Login Details',
+    'newsletter' => 'Newsletter'
+];
+
+foreach($grp as $grpKey => $grpName) {
+    $sql = "INSERT INTO " . $this->db->table('field_groups') . " (`group_txt_id`) VALUES ('".$grpKey."')";
+    $this->db->query($sql);
+    $groups[$grpKey] = (int)$this->db->getLastId();
+    foreach ($languages as $lang) {
+        $langId = (int)$lang['language_id'];
+        $sql = "INSERT INTO ".$this->db->table('field_group_descriptions')."
+                (`group_id`, `name`, `description`, `language_id`)
+                VALUES (".$groups[$grpKey].", '".$this->db->escape($grpName)."','',".$langId.")";
+        $this->db->query($sql);
+    }
+}
+$frms=[
+    'AddressFrm' => 'Customer Address Form',
+    'GuestCheckoutFrm' => 'Guest Address and Details Form',
+    'CustomerFrm' => 'Customer Details Form',
+    'RegisterCustomerFrm' => 'Customer Registration Form'
+];
+foreach($frms as $frmKey => $frmName) {
+    $sql = "INSERT INTO `ac_forms` (`form_name`, `controller`, `success_page`, `status`, `locked`)
+            VALUES ('".$frmKey."','','',1,1)";
+    $this->db->query($sql);
+    $forms[$frmKey] = (int)$this->db->getLastId();
+    foreach ($languages as $lang) {
+        $langId = (int)$lang['language_id'];
+        $sql = "INSERT INTO ".$this->db->table('field_group_descriptions')." (`form_id`, `language_id`, `description`)
+                VALUES ('".$forms[$frmKey]."','".$langId."',".$this->db->escape($frmName).")";
+        $this->db->query($sql);
     }
 }
 
-//todo: move error messages from other languages into field's error_text!!!
+

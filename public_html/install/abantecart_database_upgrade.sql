@@ -15,51 +15,58 @@ alter table `ac_addresses`
 
 alter table `ac_customers`
     add `ext_fields` json null after data;
+#forms
+create table `ac_field_groups`
+(
+    `group_id`     int,
+    `group_txt_id` varchar(40) null
+)
+    collate = utf8mb4_unicode_ci;
 
-alter table `ac_forms`
-    add `locked` int(1) NOT NULL DEFAULT '0',
-    add `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-    add `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
-
-alter table `ac_fields`
-    add `resource_id` int(11) NULL,
-    add `locked` int(1) NOT NULL DEFAULT '0',
-    add `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-    add `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
-
-DROP TABLE IF EXISTS `ac_form_groups`;
-rename table `ac_fields_groups` to `ac_field_groups`;
+create index `field_id`
+    on `ac_field_groups` (`group_id`);
 
 alter table `ac_field_groups`
-    drop column field_id,
-    drop column sort_order,
-    modify group_id int auto_increment,
-    add group_txt_id varchar(40) null after `group_id`;
-alter table `ac_field_groups`
-    auto_increment = 1;
+    modify `group_id` int auto_increment;
+
+create table ac_field_group_descriptions
+(
+    group_id    int          default 0  not null,
+    name        varchar(255)            not null comment 'translatable',
+    description varchar(255) default '' not null comment 'translatable',
+    language_id int                     not null,
+    primary key (group_id, language_id)
+)
+    collate = utf8mb4_unicode_ci;
+
+create table `ac_field_group_to_form`
+(
+    `group_id`   int    null,
+    `form_id`    int    null,
+    `sort_order` int(3) null,
+    constraint `ac_field_group_to_form_fk`
+        foreign key (`form_id`) references `ac_forms` (`form_id`)
+            on update cascade on delete cascade,
+    constraint `ac_field_group_to_group_fk`
+        foreign key (`group_id`) references `ac_field_groups` (`group_id`)
+            on update cascade on delete cascade
+);
 
 alter table `ac_fields`
-    add `group_id` int null after `form_id`;
-
-alter table `ac_fields`
+    add `group_id` int null after `form_id`,
+    add `resource_id` int null,
+    add `locked` int(1) default 0 not null,
+    add `date_added` timestamp default current_timestamp() null,
+    add `date_modified` timestamp default current_timestamp() not null on update current_timestamp(),
     add constraint `ac_field_group_fk`
         foreign key (`group_id`) references `ac_field_groups` (`group_id`)
             on delete set null;
 
+drop table `ac_fields_group_descriptions`;
+drop table `ac_fields_groups`;
+drop table `ac_form_groups`;
 
-rename table `ac_fields_group_descriptions` to `ac_field_group_descriptions`;
-
-create table `ac_field_group_to_form`
-(
-    group_id   int    null,
-    form_id    int    null,
-    sort_order int(3) null,
-    constraint `ac_field_group_to_form_fk`
-        foreign key (form_id) references `ac_forms` (form_id)
-            on update cascade on delete cascade,
-    constraint `ac_field_group_to_group_fk`
-        foreign key (group_id) references `ac_field_groups` (group_id)
-            on update cascade on delete cascade
-)engine = INNODB;
-
-
+alter table `ac_forms`
+    add `locked` int(1) default 0 not null,
+    add `date_added` timestamp default current_timestamp() null,
+    add `date_modified` timestamp default current_timestamp() not null on update current_timestamp();
