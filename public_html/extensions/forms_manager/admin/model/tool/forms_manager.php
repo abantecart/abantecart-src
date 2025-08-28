@@ -168,6 +168,7 @@ class ModelToolFormsManager extends Model
             foreach ($langs as $lang) {
                 $this->addFormDescription($form_id, (string)$data['form_description'], $lang['language_id']);
             }
+            $this->_deleteCache();
             return $form_id;
         }
         return false;
@@ -226,6 +227,7 @@ class ModelToolFormsManager extends Model
         $this->db->query(
             "DELETE FROM " . $this->db->table("form_descriptions") . " WHERE form_id = " . $formId
         );
+        $this->_deleteCache();
     }
 
     /**
@@ -579,6 +581,7 @@ class ModelToolFormsManager extends Model
                 ],
             ]
         );
+        $this->_deleteCache();
         return true;
     }
 
@@ -705,6 +708,7 @@ class ModelToolFormsManager extends Model
 			WHERE form_id = "' . $formId . '"
 			AND field_id = "' . $fieldId . '"'
         );
+        $this->_deleteCache();
         return true;
     }
 
@@ -750,6 +754,7 @@ class ModelToolFormsManager extends Model
                 $this->removeFieldValues((int)$row['field_id']);
             }
         }
+        $this->_deleteCache();
         return true;
     }
 
@@ -835,7 +840,7 @@ class ModelToolFormsManager extends Model
         $this->db->query("INSERT INTO " . $this->db->table('field_group_to_form') . " 
             (group_id, form_id, sort_order) VALUES 
             (" . (int)$groupId . ", " . (int)$formId . ", " . $sortOrder . ")");
-
+        $this->_deleteCache();
         return true;
     }
 
@@ -856,6 +861,7 @@ class ModelToolFormsManager extends Model
                 SET group_id = " . $this->db->intOrNull($groupId) . "
                 WHERE field_id = " . $fieldId;
         $this->db->query($sql);
+        $this->_deleteCache();
         return true;
     }
 
@@ -931,7 +937,7 @@ class ModelToolFormsManager extends Model
                 $this->deleteGroup((int)$groupId);
             }
         }
-
+        $this->_deleteCache();
         return true;
     }
 
@@ -954,7 +960,7 @@ class ModelToolFormsManager extends Model
             $sql .= " AND form_id = " . (int)$formId;
         }
         $this->db->query($sql);
-
+        $this->_deleteCache();
         return true;
     }
 
@@ -979,7 +985,7 @@ class ModelToolFormsManager extends Model
             "DELETE FROM " . $this->db->table('field_group_descriptions') . "
             WHERE group_id = " . (int)$groupId
         );
-
+        $this->_deleteCache();
         return true;
     }
 
@@ -1031,7 +1037,7 @@ class ModelToolFormsManager extends Model
                 AND form_id = " . (int)$data['form_id']
             );
         }
-
+        $this->_deleteCache();
         return true;
     }
 
@@ -1054,7 +1060,7 @@ class ModelToolFormsManager extends Model
             (group_id, form_id, sort_order)
             VALUES (" . (int)$groupId . ", " . (int)$formId . ", " . (int)$sortOrder . ")"
         );
-
+        $this->_deleteCache();
         return true;
     }
 }
