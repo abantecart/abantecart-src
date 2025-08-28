@@ -826,8 +826,6 @@ class ControllerPagesToolFormsManager extends AController
                 'display_name' => $this->language->get('entry_sort_order'),
             ]
         );
-
-
     }
 
     protected function _getForm()
@@ -852,6 +850,7 @@ class ControllerPagesToolFormsManager extends AController
                 . ' - ' . $this->language->get('text_form');
             $this->data['form_id'] = $formId;
             $this->data['action'] = $this->html->getSecureURL('tool/forms_manager/update', '&form_id=' . $formId);
+            $this->data['update'] = $this->html->getSecureURL('grid/form/update_field', '&form_id=' . $formId);
         } else {
             $headForm = new AForm('HT');
             $this->data['action'] = $this->html->getSecureURL('tool/forms_manager/update');

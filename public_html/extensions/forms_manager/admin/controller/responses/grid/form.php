@@ -8,20 +8,21 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 class ControllerResponsesGridForm extends AController
 {
     /** @var ModelToolFormsManager */
     public $mdl;
+
     public function __construct($registry, $instance_id, $controller, $parent_controller = '')
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
@@ -58,7 +59,7 @@ class ControllerResponsesGridForm extends AController
         $i = 0;
         foreach ($results as $result) {
             $id = $result['form_id'];
-            if($result['locked']) {
+            if ($result['locked']) {
                 $response->userdata->classes[$id] = 'disable-delete';
             }
             $response->rows[$i]['id'] = $id;
@@ -128,7 +129,7 @@ class ControllerResponsesGridForm extends AController
                                 $this->mdl->updateForm(
                                     [
                                         'form_id' => $id,
-                                        $f => $this->request->post[$f][$id]
+                                        $f        => $this->request->post[$f][$id]
                                     ]
                                 );
                             }
@@ -148,6 +149,7 @@ class ControllerResponsesGridForm extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
+        $formId = (int)$this->request->get['form_id'];
         if ($this->request->is_POST()) {
             foreach ($this->request->post as $field => $value) {
                 if (is_array($value)) {
@@ -157,11 +159,11 @@ class ControllerResponsesGridForm extends AController
                         $data[$field] = $val;
                         $this->mdl->updateForm($data);
                     }
-                } else if ((int)$this->request->get['form_id']) {
+                } elseif ($formId) {
                     $this->mdl->updateForm(
                         [
-                            'form_id' => (int)$this->request->get['form_id'],
-                            $field => $value
+                            'form_id' => $formId,
+                            $field    => $value
                         ]
                     );
                 }
