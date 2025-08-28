@@ -808,19 +808,9 @@ class ModelAccountCustomer extends Model
             }
         }
 
-        if ($this->config->get('prevent_email_as_login')) {
-            //validate only if email login is not allowed
-            $login_name_pattern = '/^[\w._-]+$/i';
-            if (mb_strlen($data['loginname']) < 5
-                || mb_strlen($data['loginname']) > 64
-                || !preg_match($login_name_pattern, $data['loginname'])
-            ) {
-                $this->error['loginname'] = $this->language->get('error_loginname');
-                //validate uniqueness of login name
-            } else {
-                if (!$this->is_unique_loginname($data['loginname'])) {
-                    $this->error['loginname'] = $this->language->get('error_loginname_notunique');
-                }
+        if ($this->config->get('prevent_email_as_login') ) {
+            if (!$this->is_unique_loginname($data['loginname'])) {
+                $this->error['loginname'] = $this->language->get('error_loginname_notunique');
             }
         }
 

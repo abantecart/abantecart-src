@@ -737,7 +737,7 @@ class AForm
         foreach ($this->fields as $field) {
             $fieldName = $field['field_name'];
             $fieldTitle = $field['name'];
-            $isRequired = in_array($field['required'],[1,'Y']);
+            $isRequired = in_array($field['required'],[1,'Y','1']);
             // for multi-value required fields
             if (in_array($field['element_type'], HtmlElementFactory::getMultivalueElements())
                 && !$data[$fieldName] && $isRequired

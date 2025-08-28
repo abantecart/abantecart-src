@@ -43,7 +43,7 @@ class ControllerPagesAccountCreate extends AController
             if ($this->csrftoken->isTokenValid()) {
                 // validation based on field settings
                 $this->validateForm($post);
-                $this->errors = array_merge($this->errors, $mdl->validateRegistrationData($post));
+                $this->errors = array_merge($mdl->validateRegistrationData($post), $this->errors );
             } else {
                 $this->errors['warning'] = $this->language->get('error_unknown');
             }
