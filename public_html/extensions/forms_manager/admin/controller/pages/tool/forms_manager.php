@@ -744,11 +744,8 @@ class ControllerPagesToolFormsManager extends AController
 
         // Load all available field groups for assignment
         $groups = $this->data['group_list'] = $this->mdl->getGroups($formId);
-        $options =
-            array_merge(
-                ['' => $this->language->get('text_select')],
-                array_column($groups, 'name', 'group_id')
-            );
+        $options = ['' => $this->language->get('text_select')]
+            + array_column($groups, 'name', 'group_id');
 
         foreach ($fields as $field) {
             $this->data['form2']['fields'][$field['field_name']] = $form->getFieldHtml(
