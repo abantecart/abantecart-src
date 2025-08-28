@@ -227,7 +227,15 @@ class ModelCheckoutOrder extends Model
             $insertArr[] = "`order_id` = '" . (int)$setOrderId . "'";
         }
 
+        $data['shipping_address_format'] = $data['shipping_format'];
+        $data['payment_address_format'] = $data['payment_format'];
+        unset(
+            $data['shipping_format'],
+            $data['payment_format'],
+        );
+
         foreach ($this->data['order_column_list'] as $key => $dataType) {
+
             if(!isset($data[$key])){
                 continue;
             }
@@ -1307,5 +1315,22 @@ class ModelCheckoutOrder extends Model
             return $arProducts;
         }
         return [];
+    }
+
+    /**
+     * @param string $key
+     * @return array
+     */
+    protected function getOrderColumnNameVariants(string $key)
+    {
+        $pPrefix = 'payment_';
+        $sPrefix = 'shipping_';
+        return [
+            $key,
+            $sPrefix . $key,
+            ltrim($key, $sPrefix),
+            $pPrefix . $key,
+            ltrim($key, $pPrefix)
+        ];
     }
 }
