@@ -112,7 +112,7 @@
     </definition>
     <definition>
         <key>entry_sort_order</key>
-        <value><![CDATA[Sort order]]></value>
+        <value><![CDATA[Sort order within a group]]></value>
     </definition>
     <definition>
         <key>entry_required</key>
