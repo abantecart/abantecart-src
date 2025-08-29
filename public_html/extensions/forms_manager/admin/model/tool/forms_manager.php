@@ -620,16 +620,18 @@ class ModelToolFormsManager extends Model
         $query = $this->db->query(
             "SELECT f.*, fd.name, fd.description
             FROM " . $this->db->table("fields") . " f
+            LEFT JOIN " . $this->db->table("field_group_to_form") . " fg2f
+                ON fg2f.group_id = f.group_id
             LEFT JOIN " . $this->db->table("field_descriptions") . " fd
                 ON ( f.field_id = fd.field_id 
                     AND fd.language_id = '" . (int)$this->language->getContentLanguageID() . "' )
             WHERE f.form_id = '" . $formId . "'
-            ORDER BY f.sort_order"
+            ORDER BY fg2f.sort_order, f.sort_order"
         );
 
         if ($query->num_rows) {
             foreach ($query->rows as $row) {
-                $fields[(int)$row['field_id']] = $row;
+                $fields[$row['field_id']] = $row;
                 $query = $this->db->query("
 					SELECT *
 					FROM " . $this->db->table("field_values") . "
@@ -637,7 +639,7 @@ class ModelToolFormsManager extends Model
 					AND language_id = '" . $this->language->getContentLanguageID() . "'"
                 );
                 if ($query->num_rows) {
-                    $fields[(int)$row['field_id']]['values'] = unserialize($query->row['value']);
+                    $fields[$row['field_id']]['values'] = unserialize($query->row['value']);
                 }
             }
         }

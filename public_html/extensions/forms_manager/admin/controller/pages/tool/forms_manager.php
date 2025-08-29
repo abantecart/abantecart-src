@@ -142,12 +142,7 @@ class ControllerPagesToolFormsManager extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $formId = (int)$this->request->get['form_id'];
-        if (!$formId) {
-            redirect($this->html->getSecureURL('tool/forms_manager'));
-        }
-
-        $this->data['form_data'] = $this->mdl->getFormById($formId);
+        $formId = $this->isFormExists();
         $this->document->setTitle($this->language->get('forms_manager_name') . ' - ' . $this->data['form_data']['form_name']);
 
         if ($this->request->is_POST() && $this->_validateForm($this->request->post)) {
@@ -206,12 +201,7 @@ class ControllerPagesToolFormsManager extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-
-        $formId = (int)$this->request->get['form_id'];
-        if (!$formId) {
-            redirect($this->html->getSecureURL('tool/forms_manager'));
-        }
-        $this->data['form_data'] = $this->mdl->getFormById($formId);
+        $this->isFormExists();
         $this->document->setTitle($this->language->get('forms_manager_name') . ' - ' . $this->data['form_data']['form_name']);
 
         $this->view->assign('error', $this->error);
@@ -228,6 +218,26 @@ class ControllerPagesToolFormsManager extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
+    /**
+     * Checks if a form exists based on the provided form ID.
+     * Redirects to the forms manager page if the form ID is invalid or the form does not exist.
+     * Returns the validated form ID.
+     *
+     * @return int
+     * @throws AException
+     */
+    protected function isFormExists()
+    {
+        $formId = (int)$this->request->get['form_id'];
+        if (!$formId) {
+            redirect($this->html->getSecureURL('tool/forms_manager'));
+        }
+        $this->data['form_data'] = $this->mdl->getFormById($formId);
+        if (!$this->data['form_data']) {
+            redirect($this->html->getSecureURL('tool/forms_manager'));
+        }
+        return $formId;
+    }
     protected function _getFieldsForm()
     {
         $formId = (int)$this->request->get['form_id'];
@@ -568,15 +578,7 @@ class ControllerPagesToolFormsManager extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $formId = (int)$this->request->get['form_id'];
-        if (!$formId) {
-            redirect($this->html->getSecureURL('tool/forms_manager'));
-        }
-        $this->data['form_data'] = $this->mdl->getFormById($formId);
-
-        if (!$this->data['form_data']) {
-            redirect($this->html->getSecureURL('tool/forms_manager'));
-        }
+        $formId = $this->isFormExists();
 
         if ($this->request->is_POST() && $this->validateFormGroups($formId, $this->request->post)) {
             //remove groups
