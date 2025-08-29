@@ -315,6 +315,7 @@ class ModelToolFormsManager extends Model
         $columns = [
             'field_name',
             'element_type',
+            'group_id',
             'sort_order',
             'required',
             'status',
@@ -325,7 +326,7 @@ class ModelToolFormsManager extends Model
         ];
 
         if (isset($data['field_name'])) {
-            $data['field_name'] = str_replace(' ', '_', $this->db->escape($data['field_name']));
+            $data['field_name'] = "'" . str_replace(' ', '_', $this->db->escape($data['field_name'])) . "'";
             if (!$data['field_name']) {
                 return false;
             }
@@ -333,6 +334,9 @@ class ModelToolFormsManager extends Model
 
         if (isset($data['sort_order'])) {
             $data['sort_order'] = (int)$data['sort_order'];
+        }
+        if (isset($data['group_id'])) {
+            $data['group_id'] = $this->db->intOrNull($data['group_id']);
         }
 
         if (isset($data['required'])) {
@@ -344,22 +348,22 @@ class ModelToolFormsManager extends Model
         }
 
         if (isset($data['regexp_pattern'])) {
-            $data['regexp_pattern'] = $this->db->escape($data['regexp_pattern']);
+            $data['regexp_pattern'] = "'" . $this->db->escape($data['regexp_pattern']) . "'";
         }
         if (isset($data['attributes'])) {
-            $data['attributes'] = $this->db->escape($data['attributes']);
+            $data['attributes'] = "'" . $this->db->escape($data['attributes']) . "'";
         }
 
         if (isset($data['resource_id'])) {
             $data['resource_id'] = (int)$data['resource_id'];
         }
         if (isset($data['settings'])) {
-            $data['settings'] = $this->db->escape(serialize($data['settings']));
+            $data['settings'] = "'" . $this->db->escape(serialize($data['settings'])) . "'";
         }
         $update = [];
         foreach ($columns as $colName) {
             if (isset($data[$colName])) {
-                $update[] = $colName . " = '" . $data[$colName] . "'";
+                $update[] = $colName . " = " . $data[$colName];
             }
         }
 
@@ -805,7 +809,7 @@ class ModelToolFormsManager extends Model
         }
 
         $results = $this->db->query($sql);
-        return array_combine( array_column($results->rows,'group_id'),$results->rows);
+        return array_combine(array_column($results->rows, 'group_id'), $results->rows);
     }
 
     /**

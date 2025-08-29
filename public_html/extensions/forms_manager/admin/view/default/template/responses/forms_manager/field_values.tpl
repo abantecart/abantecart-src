@@ -23,6 +23,7 @@
 					'entry_field_name' => 'field_name',
 					'entry_field_description' => 'field_description',
 					'entry_field_note' => 'field_note',
+                    'entry_field_group' => 'field_group',
 					'entry_sort_order' => 'field_sort_order',
 					'entry_required' => 'required',
 					'entry_icon' => 'icon',
@@ -30,10 +31,7 @@
 					'entry_regexp_pattern' => 'field_regexp_pattern',
 					'entry_error_text' => 'field_error_text'
             ];
-
-
-			foreach ($fields as $e=>$name) { ?>
-<?php
+        foreach ($fields as $e=>$name) {
 			$entry = $$e;
 			$field = $$name;
 			if(!$field){ continue;}

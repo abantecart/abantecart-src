@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
@@ -26,6 +26,7 @@ class ControllerResponsesFormsManagerFields extends AController
     public $error = [];
     /** @var ModelToolFormsManager */
     public $mdl;
+
     public function __construct($registry, $instance_id, $controller, $parent_controller = '')
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
@@ -45,7 +46,7 @@ class ControllerResponsesFormsManagerFields extends AController
     {
         $post = $this->request->post;
         $post['form_id'] = (int)$this->request->get['form_id'];
-        if(!$post['form_id'] || !$this->validateFieldForm($post) ) {
+        if (!$post['form_id'] || !$this->validateFieldForm($post)) {
             $error = new AError('');
             $error->toJSONResponse(
                 'VALIDATION_ERROR_406',
@@ -86,11 +87,11 @@ class ControllerResponsesFormsManagerFields extends AController
             $this->error['error_required'] = $this->language->get('error_fill_required');
         }
 
-        if (!$this->mdl->isFieldNameUnique((int)$data['form_id'],(string)$data['field_name'],(int)$data['field_id'])) {
+        if (!$this->mdl->isFieldNameUnique((int)$data['form_id'], (string)$data['field_name'], (int)$data['field_id'])) {
             $this->error['field_name'] = sprintf($this->language->get('error_field_name_exists'), $data['field_name']);
         }
 
-        if($data['regexp_pattern'] && @preg_match($data['regexp_pattern'], '') === false) {
+        if ($data['regexp_pattern'] && @preg_match($data['regexp_pattern'], '') === false) {
             $this->error['regexp_pattern'] = $this->language->get('error_regexp_pattern');
         }
 
@@ -197,8 +198,26 @@ class ControllerResponsesFormsManagerFields extends AController
                 'name'  => 'status',
                 'value' => $this->data['field_data']['status'],
                 'style' => 'btn_switch btn-group-xs',
+                'attr'  => $this->data['field_data']['locked'] ? 'readonly' : ''
             ]
         );
+
+        // Load all available field groups for assignment
+        $groups = $this->mdl->getGroups($formId);
+        if ($groups) {
+            $options = array_column($groups, 'name', 'group_id');
+            $this->data['field_group'] = $this->html->buildElement(
+                [
+                    'type'    => 'selectbox',
+                    'name'    => 'group_id',
+                    'value'   => $this->data['field_data']['group_id'],
+                    'options' => $options
+                ]
+            );
+            $this->data['entry_field_group'] = $this->language->get('entry_group');
+        }
+
+
         $this->data['field_sort_order'] = $this->html->buildElement(
             [
                 'type'  => 'input',
@@ -254,13 +273,13 @@ class ControllerResponsesFormsManagerFields extends AController
                 'value' => $elmType,
             ]
         );
-        $this->data['entry_icon'] = $this->language->get('column_icon','extension/extensions');
+        $this->data['entry_icon'] = $this->language->get('column_icon', 'extension/extensions');
         $this->data['icon'] = $this->html->buildElement(
             [
-                'type' => 'resource',
-                'name' => 'resource_id',
+                'type'        => 'resource',
+                'name'        => 'resource_id',
                 'resource_id' => $this->data['field_data']['resource_id'],
-                'rl_type' => 'image',
+                'rl_type'     => 'image',
             ]
         );
 
@@ -269,10 +288,10 @@ class ControllerResponsesFormsManagerFields extends AController
             'responses/common/resource_library/get_resources_scripts',
             [
                 'object_name' => 'field',
-                'object_id' => (int)$formId,
-                'types' => ['image'],
-                'onload' => true,
-                'mode' => 'single',
+                'object_id'   => (int)$formId,
+                'types'       => ['image'],
+                'onload'      => true,
+                'mode'        => 'single',
             ]
         );
         $this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
