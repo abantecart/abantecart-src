@@ -41,7 +41,18 @@
 		<key>text_agree</key>
 		<value><![CDATA[I have read and agree to the]]></value>
 	</definition>
-
+    <definition>
+        <key>entry_firstname</key>
+        <value><![CDATA[First Name:]]></value>
+    </definition>
+    <definition>
+        <key>entry_lastname</key>
+        <value><![CDATA[Last Name:]]></value>
+    </definition>
+    <definition>
+        <key>entry_email</key>
+        <value><![CDATA[E-Mail:]]></value>
+    </definition>
 	<definition>
 		<key>entry_newsletter</key>
 		<value><![CDATA[Subscribe:]]></value>
