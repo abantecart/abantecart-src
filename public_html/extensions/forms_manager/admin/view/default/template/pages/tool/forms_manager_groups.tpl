@@ -33,7 +33,7 @@
                         </div>
                     </div>
                 <?php } else { ?>
-                    <div class="col-xs-12 col-md-5">
+                    <div class="col-xs-12 col-md-6">
                         <h3 class="control-label"><?php echo $text_groups; ?></h3>
                         <?php echo $form['form_open']; ?>
                         <input type="hidden" name="remove_groups" value=""/>
@@ -81,7 +81,7 @@
                         </div>
                         </form>
                     </div>
-                    <div class="col-xs-12 col-md-5">
+                    <div class="col-xs-12 col-md-6">
                         <?php echo $form2['form_open']; ?>
                         <h3 class="control-label"><?php echo $text_assign_fields_to_groups; ?></h3>
                         <div class="form-group">
@@ -94,8 +94,16 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <?php if ($form2['fields']) { ?>
-                                        <?php foreach ($form2['fields'] as $field) { ?>
+                                    <?php if ($form2['fields']) {
+                                        foreach ($form2['fields'] as $field) {
+                                            if($priorValue != $field->value){ ?>
+                                                <tr>
+                                                    <td colspan="2" class="center">
+                                                        <b><?php echo ucfirst($group_list[$field->value]['group_txt_id'])?></b>
+                                                    </td>
+                                                </tr>
+                                            <?php }
+                                            $priorValue = $field->value;?>
                                             <tr>
                                                 <td><?php echo $field->display_name; ?></td>
                                                 <td>
@@ -104,7 +112,8 @@
                                                     ?>
                                                 </td>
                                             </tr>
-                                        <?php } ?>
+                                        <?php
+                                        } ?>
                                     <?php } else { ?>
                                         <tr>
                                             <td colspan="2" class="text-center"><?php echo $text_no_fields; ?></td>

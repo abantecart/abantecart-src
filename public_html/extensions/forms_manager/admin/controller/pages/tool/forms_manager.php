@@ -760,7 +760,7 @@ class ControllerPagesToolFormsManager extends AController
                     'name'         => 'fields[' . $field['field_id'] . '][group_id]',
                     'value'        => $field['group_id'],
                     'options'      => $options,
-                    'display_name' => $field['name']
+                    'display_name' => $field['name'],
                 ]
             );
         }

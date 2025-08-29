@@ -805,7 +805,7 @@ class ModelToolFormsManager extends Model
         }
 
         $results = $this->db->query($sql);
-        return $results->rows;
+        return array_combine( array_column($results->rows,'group_id'),$results->rows);
     }
 
     /**
