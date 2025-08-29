@@ -143,8 +143,12 @@ class ControllerPagesToolFormsManager extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $formId = (int)$this->request->get['form_id'];
+        if (!$formId) {
+            redirect($this->html->getSecureURL('tool/forms_manager'));
+        }
 
-        $this->document->setTitle($this->language->get('forms_manager_name'));
+        $this->data['form_data'] = $this->mdl->getFormById($formId);
+        $this->document->setTitle($this->language->get('forms_manager_name') . ' - ' . $this->data['form_data']['form_name']);
 
         if ($this->request->is_POST() && $this->_validateForm($this->request->post)) {
             $post = $this->request->post;
@@ -207,8 +211,8 @@ class ControllerPagesToolFormsManager extends AController
         if (!$formId) {
             redirect($this->html->getSecureURL('tool/forms_manager'));
         }
-
-        $this->document->setTitle($this->language->get('forms_manager_name'));
+        $this->data['form_data'] = $this->mdl->getFormById($formId);
+        $this->document->setTitle($this->language->get('forms_manager_name') . ' - ' . $this->data['form_data']['form_name']);
 
         $this->view->assign('error', $this->error);
         $this->view->assign('help_url', $this->gen_help_url('forms_manager'));
