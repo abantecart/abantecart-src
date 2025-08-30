@@ -12888,8 +12888,6 @@ VALUES
     (12,'Email:','',1,'E-Mail Address does not appear to be valid!'),
     (13,'Enquiry:','',1,'Enquiry must be between 10 and 3000 characters!'),
     (14,'Enter the code in the box below:','',1,'Human verification has failed! Please try agan.'),
-    (16,'countries','',1,''),
-    (18,'VAT ID','',1,''),
     (19,'Country','',1,'Please select a country!'),
     (20,'Zone','',1,'Please select a region/state!'),
     (21,'Company','',1,'Company Name must be less than 32 characters!'),
