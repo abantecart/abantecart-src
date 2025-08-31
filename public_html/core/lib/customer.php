@@ -575,6 +575,7 @@ class ACustomer
     public function getFormattedAddress($inData, $format = '', $locate = [])
     {
         $inData = (array)$inData;
+        $inData = $inData['ext_fields'] + $inData;
         foreach ($inData as &$value) {
             if (!is_string($value)) {
                 unset($value);
@@ -583,13 +584,7 @@ class ACustomer
 
         // Set default format
         if ($format == '') {
-            $format = '{firstname} {lastname}'
-                . "\n" . '{company}'
-                . "\n" . '{address_1}'
-                . "\n" . '{address_2}'
-                . "\n" . '{city} {postcode}'
-                . "\n" . '{zone}'
-                . "\n" . '{country}';
+            $format = DEFAULT_ADDRESS_FORMAT;
         }
         //when some data missing - remove it from the address format
         preg_match_all('/\{(.*?)}/', $format, $matches);

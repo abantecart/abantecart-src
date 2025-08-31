@@ -104,6 +104,14 @@ const ROOT_CATEGORY_ID = 0;
 // EMAIL REGEXP PATTERN
 const EMAIL_REGEX_PATTERN = '/^[A-Z0-9._%-]+@[A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,16}$/i';
 const DEFAULT_PHONE_REGEX_PATTERN = '/^[0-9\+\(\)\.\s\-,]+$/';
+const DEFAULT_ADDRESS_FORMAT =
+    '{firstname} {lastname}' . PHP_EOL
+    . '{company}' . PHP_EOL
+    . '{address_1}' . PHP_EOL
+    . '{address_2}' . PHP_EOL
+    . '{city} {postcode}' . PHP_EOL
+    . '{zone}' . PHP_EOL
+    . '{country}';
 
 // Error Reporting
 require_once(DIR_CORE.'lib'.DS.'debug.php');
