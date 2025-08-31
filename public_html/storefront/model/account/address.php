@@ -107,7 +107,7 @@ class ModelAccountAddress extends Model
             }
         }
         if ($extFields) {
-            $insertArr[] = "`ext_fields` = '" . json_encode($extFields) . "'";
+            $insertArr[] = "`ext_fields` = '" . json_encode($extFields, JSON_UNESCAPED_UNICODE) . "'";
         }
         $this->db->query(
             "INSERT INTO `" . $this->db->table("addresses") . "`
@@ -346,7 +346,7 @@ class ModelAccountAddress extends Model
         $zoneInfo = $zMdl->getZone($addressArr['zone_id']);
 
         $output = $addressArr;
-        $output['ext_fields'] = json_decode($output['ext_fields'], JSON_PRETTY_PRINT);
+        $output['ext_fields'] = json_decode($output['ext_fields'], true);
         $output['country'] = $countryInfo['name'] ?? '';
         $output['zone'] = $zoneInfo['name'] ?? '';
         $output['code'] = $zoneInfo['code'] ?? '';

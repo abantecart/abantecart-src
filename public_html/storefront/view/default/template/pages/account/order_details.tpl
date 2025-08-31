@@ -55,6 +55,12 @@
                     <li class="list-group-item list-group-item-secondary">
                         <b class="me-3"><?php echo $text_payment_method; ?></b><?php echo $payment_method; ?>
                     </li>
+                <?php
+                foreach($ext_fields as $entry => $value){ ?>
+                    <li class="list-group-item list-group-item-secondary">
+                        <b class="me-3"><?php echo $entry; ?></b><?php echo $value; ?>
+                    </li>
+                <?php } ?>
             </ul>
         </div>
         <?php if($shipping_address || $this->getHookVar('pre_shipping_address') || $this->getHookVar('post_shipping_address')){ ?>
