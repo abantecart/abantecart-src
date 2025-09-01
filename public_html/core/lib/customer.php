@@ -575,7 +575,7 @@ class ACustomer
     public function getFormattedAddress($inData, $format = '', $locate = [])
     {
         $inData = (array)$inData;
-        $inData = $inData['ext_fields'] + $inData;
+        $inData = (array)$inData['ext_fields'] + (array)$inData;
         foreach ($inData as &$value) {
             if (!is_string($value)) {
                 unset($value);
