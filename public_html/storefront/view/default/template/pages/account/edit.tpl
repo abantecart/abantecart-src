@@ -26,8 +26,8 @@ if ($error_warning) { ?>
     <?php
        foreach ($form['fields'] as $field_name=>$field) { ?>
             <div class="mb-3 row">
-                <label for="<?php echo $field->element_id?>" class="text-nowrap col-sm-2 col-form-label me-2"><?php echo ${'entry_'.$field_name}; ?></label>
-                <div class="col-sm-9 h-100">
+                <label for="<?php echo $field->element_id?>" class="col-sm-12 col-md-5 col-form-label me-2 text-md-end"><?php echo ${'entry_'.$field_name}; ?></label>
+                <div class="col-sm-12 col-md-6 h-100">
                     <?php echo $field; ?>
                     <span class="help-block text-danger"><?php echo ${'error_'.$field_name}; ?></span>
                 </div>

@@ -27,10 +27,10 @@ echo $form['form_open']; ?>
             <?php
                 foreach ($form['fields'] as $fieldKey => $field) { ?>
                 <div class="mb-3 row justify-content-md-center">
-                    <label for="<?php echo $field->element_id?>" class="text-nowrap col-sm-3 col-form-label me-2">
+                    <label for="<?php echo $field->element_id?>" class="col-sm-12 col-md-5 col-form-label me-2">
                         <?php echo ${'entry_'.$fieldKey}; ?>
                     </label>
-                    <div class="col-sm-5">
+                    <div class="col-sm-12 col-md-6">
                         <?php echo $field; ?>
                         <span class="help-block text-danger"><?php echo ${'error_'.$fieldKey}; ?></span>
                     </div>
