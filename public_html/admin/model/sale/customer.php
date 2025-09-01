@@ -501,6 +501,7 @@ class ModelSaleCustomer extends Model
                 'iso_code_2'     => $iso_code_2,
                 'iso_code_3'     => $iso_code_3,
                 'address_format' => $address_format,
+                'ext_fields'     => $result['ext_fields'] ? json_decode($result['ext_fields'], true) : [],
             ];
         }
         return $address_data;
@@ -545,7 +546,9 @@ class ModelSaleCustomer extends Model
            WHERE customer_id = '" . (int)$customer_id . "'"
         );
 
-        return $this->dcrypt->decrypt_data($query->row, 'customers');
+        $output = $this->dcrypt->decrypt_data($query->row, 'customers');
+        $output['ext_fields'] = $output['ext_fields'] ? json_decode($output['ext_fields'], true) : [];
+        return $output;
     }
 
     /**

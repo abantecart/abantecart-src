@@ -90,9 +90,18 @@ echo $order_tabs;
 				<label class="control-label col-sm-5"><?php echo $entry_fax; ?></label>
 				<div class="input-group afield col-sm-7"><?php echo $fax; ?></div>
 			</div>
-		<?php } ?>
-		<?php echo $this->getHookVar('order_details_left_attributes'); ?>
-		<?php if ($im) { ?>
+		<?php }
+        if ($ext_fields){
+            foreach ($ext_fields as $item) { ?>
+                <div class="form-group">
+                    <label class="control-label col-sm-5"><?php echo $item['name']; ?></label>
+                    <div class="input-group afield col-sm-7"><p style="text-align:left !important;" class="input-group-addon "><?php echo $item['value']; ?></p></div>
+                </div>
+            <?php }
+        }
+
+        echo $this->getHookVar('order_details_left_attributes');
+        if ($im) { ?>
 			<div class="form-group">
 				<label class="control-label col-sm-5"><?php echo $entry_im; ?></label>
 				<div class="input-group afield col-sm-7">

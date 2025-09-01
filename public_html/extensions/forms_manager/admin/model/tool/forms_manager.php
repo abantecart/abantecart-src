@@ -996,6 +996,25 @@ class ModelToolFormsManager extends Model
     }
 
     /**
+     * Get field descriptions by field name
+     * @param string $fieldName
+     * @param int $languageId
+     * @return array
+     * @throws AException
+     */
+    public function getFieldDescriptionsByName(string $fieldName, int $languageId)
+    {
+        $sql = "SELECT fd.*
+                FROM " . $this->db->table('fields') . " f
+                LEFT JOIN " . $this->db->table('field_descriptions') . " fd
+                    ON (f.field_id = fd.field_id AND fd.language_id = '" . (int)$languageId . "')
+                WHERE f.field_name = '" . $this->db->escape($fieldName) . "'
+                LIMIT 1";
+        $result = $this->db->query($sql);
+        return $result->row;
+    }
+
+    /**
      * Update field group
      * @param int $groupId
      * @param array $data
@@ -1069,4 +1088,6 @@ class ModelToolFormsManager extends Model
         $this->_deleteCache();
         return true;
     }
+    
+    
 }
