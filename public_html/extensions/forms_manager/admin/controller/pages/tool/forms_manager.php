@@ -194,7 +194,7 @@ class ControllerPagesToolFormsManager extends AController
         $formId = (int)$this->request->get['form_id'];
         $this->mdl->removeField($formId, (int)$this->request->get['field_id']);
         $this->session->data['success'] = $this->language->get('text_field_removed');
-        redirect($this->html->getSecureURL('tool/forms_manager/update', '&form_id=' . $formId));
+        redirect($this->html->getSecureURL('tool/forms_manager/fields', '&form_id=' . $formId));
     }
 
     public function fields()
