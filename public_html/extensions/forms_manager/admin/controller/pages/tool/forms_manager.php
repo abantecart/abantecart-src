@@ -238,6 +238,7 @@ class ControllerPagesToolFormsManager extends AController
         }
         return $formId;
     }
+
     protected function _getFieldsForm()
     {
         $formId = (int)$this->request->get['form_id'];
@@ -401,66 +402,6 @@ class ControllerPagesToolFormsManager extends AController
         $this->data['text_success_added_field'] = $this->language->get('text_success_added_field');
         $this->data['button_save'] = $this->language->get('button_save');
         $this->data['button_cancel'] = $this->language->get('button_cancel');
-
-        // Field validation entries
-        $this->data['entry_field_help_text'] = $this->language->get('entry_field_help_text');
-        $this->data['entry_field_error_text'] = $this->language->get('entry_field_error_text');
-        $this->data['entry_field_placeholder'] = $this->language->get('entry_field_placeholder');
-        $this->data['entry_field_default'] = $this->language->get('entry_field_default');
-        $this->data['entry_field_validation'] = $this->language->get('entry_field_validation');
-        $this->data['entry_field_regexp_pattern'] = $this->language->get('entry_field_regexp_pattern');
-        $this->data['entry_field_regexp_error_text'] = $this->language->get('entry_field_regexp_error_text');
-        $this->data['entry_field_settings'] = $this->language->get('entry_field_settings');
-
-        // Field form elements
-        $this->data['field_help_text'] = $form->getFieldHtml([
-            'type' => 'input',
-            'name' => 'field_help_text',
-        ]);
-
-        $this->data['field_error_text'] = $form->getFieldHtml([
-            'type' => 'input',
-            'name' => 'field_error_text',
-        ]);
-
-        $this->data['field_placeholder'] = $form->getFieldHtml([
-            'type' => 'input',
-            'name' => 'field_placeholder',
-        ]);
-
-        $this->data['field_default'] = $form->getFieldHtml([
-            'type' => 'input',
-            'name' => 'field_default',
-        ]);
-
-        $this->data['field_validation'] = $form->getFieldHtml([
-            'type'    => 'selectbox',
-            'name'    => 'field_validation',
-            'options' => [
-                ''             => $this->language->get('text_none'),
-                'alphanumeric' => 'Alphanumeric',
-                'numeric'      => 'Numeric',
-                'email'        => 'Email',
-                'phone'        => 'Phone',
-                'url'          => 'URL',
-                'regexp'       => 'Regular Expression'
-            ],
-        ]);
-
-        $this->data['field_regexp_pattern'] = $form->getFieldHtml([
-            'type' => 'input',
-            'name' => 'field_regexp_pattern',
-        ]);
-
-        $this->data['field_regexp_error_text'] = $form->getFieldHtml([
-            'type' => 'input',
-            'name' => 'field_regexp_error_text',
-        ]);
-
-        $this->data['field_settings'] = $form->getFieldHtml([
-            'type' => 'textarea',
-            'name' => 'field_settings',
-        ]);
 
         $this->data['help_url'] = $this->gen_help_url('forms_manager');
         $this->data['form_language_switch'] = $this->html->getContentLanguageSwitcher();

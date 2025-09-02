@@ -73,30 +73,6 @@ $modal_content = '<div class="add-option-modal" >
 			    				</div>
 			    			</div>
 			    			<div class="form-group">
-			    				<label class="control-label col-sm-3 col-xs-12">' . $entry_field_help_text . '</label>
-			    				<div class="input-group afield ">
-			    					' . $field_help_text . '
-			    				</div>
-			    			</div>
-			    			<div class="form-group">
-			    				<label class="control-label col-sm-3 col-xs-12">' . $entry_field_error_text . '</label>
-			    				<div class="input-group afield ">
-			    					' . $field_error_text . '
-			    				</div>
-			    			</div>
-			    			<div class="form-group">
-			    				<label class="control-label col-sm-3 col-xs-12">' . $entry_field_placeholder . '</label>
-			    				<div class="input-group afield ">
-			    					' . $field_placeholder . '
-			    				</div>
-			    			</div>
-			    			<div class="form-group">
-			    				<label class="control-label col-sm-3 col-xs-12">' . $entry_field_default . '</label>
-			    				<div class="input-group afield ">
-			    					' . $field_default . '
-			    				</div>
-			    			</div>
-			    			<div class="form-group">
 			    				<label class="control-label col-sm-3 col-xs-12">' . $entry_sort_order . '</label>
 			    				<div class="input-group afield ">
 			    					' . $sort_order . '
@@ -106,30 +82,6 @@ $modal_content = '<div class="add-option-modal" >
 			    				<label class="control-label col-sm-3 col-xs-12">' . $entry_required . '</label>
 			    				<div class="input-group afield ">
 			    					' . $required . '
-			    				</div>
-			    			</div>
-			    			<div class="form-group">
-			    				<label class="control-label col-sm-3 col-xs-12">' . $entry_field_validation . '</label>
-			    				<div class="input-group afield ">
-			    					' . $field_validation . '
-			    				</div>
-			    			</div>
-			    			<div class="form-group">
-			    				<label class="control-label col-sm-3 col-xs-12">' . $entry_field_regexp_pattern . '</label>
-			    				<div class="input-group afield ">
-			    					' . $field_regexp_pattern . '
-			    				</div>
-			    			</div>
-			    			<div class="form-group">
-			    				<label class="control-label col-sm-3 col-xs-12">' . $entry_field_regexp_error_text . '</label>
-			    				<div class="input-group afield ">
-			    					' . $field_regexp_error_text . '
-			    				</div>
-			    			</div>
-			    			<div class="form-group">
-			    				<label class="control-label col-sm-3 col-xs-12">' . $entry_field_settings . '</label>
-			    				<div class="input-group afield ">
-			    					' . $field_settings . '
 			    				</div>
 			    			</div>
 			    		</div>
