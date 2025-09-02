@@ -61,17 +61,15 @@ class ModelAccountAddress extends Model
         }
 
         //encrypt customer data
-        $insertArr = [
-            '`customer_id` = '.$customerId
-        ];
+        $insertArr = [ 'customer_id' => '`customer_id` = '.$customerId ];
         if ($this->dcrypt->active) {
             $data = $this->dcrypt->encrypt_data($data, 'addresses');
-            $insertArr[] = "`key_id` = " . (int)$data['key_id'];
+            $insertArr['key_id'] = "`key_id` = " . (int)$data['key_id'];
         }
 
         //prepare data to insert into customer table
         foreach ($this->data['address_column_list'] as $key => $dataType) {
-            if (!isset($data[$key])) {
+            if (!isset($data[$key]) || isset($insertArr[$key])) {
                 continue;
             }
             if ($dataType == 'int') {
@@ -83,7 +81,7 @@ class ModelAccountAddress extends Model
             } else {
                 $value = $this->db->escape(serialize($data[$key]));
             }
-            $insertArr[] = "`" . $key . "` = '" . $value . "'";
+            $insertArr[$key] = "`" . $key . "` = '" . $value . "'";
         }
         //prepare extended fields values
         $extFields = [];
@@ -109,7 +107,7 @@ class ModelAccountAddress extends Model
             }
         }
         if ($extFields) {
-            $insertArr[] = "`ext_fields` = '" . json_encode($extFields, JSON_UNESCAPED_UNICODE) . "'";
+            $insertArr['ext_fields'] = "`ext_fields` = '" . json_encode($extFields, JSON_UNESCAPED_UNICODE) . "'";
         }
         $this->db->query(
             "INSERT INTO `" . $this->db->table("addresses") . "`
