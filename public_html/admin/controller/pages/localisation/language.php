@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
@@ -148,6 +148,7 @@ class ControllerPagesLocalisationLanguage extends AController
                 'width'    => 70,
                 'align'    => 'center',
                 'sorttype' => 'string',
+                'search'   => false,
             ],
             [
                 'name'     => 'sort_order',
@@ -202,6 +203,7 @@ class ControllerPagesLocalisationLanguage extends AController
         $this->document->setTitle($this->language->get('heading_title'));
         if ($this->request->is_POST() && $this->_validateForm()) {
             $language_id = $this->model_localisation_language->addLanguage($this->request->post);
+            $this->extensions->hk_ProcessData($this, __FUNCTION__, ['language_id' => $language_id]);
             $this->session->data['success'] = $this->language->get('text_success');
             redirect($this->html->getSecureURL('localisation/language/update', '&language_id=' . $language_id));
         }
@@ -228,6 +230,7 @@ class ControllerPagesLocalisationLanguage extends AController
         $this->document->setTitle($this->language->get('heading_title'));
         if ($this->request->is_POST() && $this->_validateForm()) {
             $this->model_localisation_language->editLanguage($languageId, $this->request->post);
+            $this->extensions->hk_ProcessData($this, __FUNCTION__, ['language_id' => $languageId]);
             $this->session->data['success'] = $this->language->get('text_success');
             redirect($this->html->getSecureURL('localisation/language/update', '&language_id=' . $languageId));
         }
@@ -271,7 +274,8 @@ class ControllerPagesLocalisationLanguage extends AController
         if (!$languageId) {
             $this->data['action'] = $this->html->getSecureURL('localisation/language/insert');
             $this->data['heading_title'] = $this->language->get('text_insert')
-                . '&nbsp;' . $this->language->get('text_language');
+                . '&nbsp;'
+                . $this->language->get('text_language');
             $this->data['update'] = '';
             $form = new AForm('ST');
         } else {
@@ -334,8 +338,7 @@ class ControllerPagesLocalisationLanguage extends AController
                 'type'     => 'checkbox',
                 'name'     => 'status',
                 'style'    => 'btn_switch',
-                'value'    => $this->data['status'],
-                'help_url' => $this->gen_help_url('status'),
+                'value'    => $this->data['status']
             ]
         );
         $this->data['form']['fields']['name'] = $form->getFieldHtml([
@@ -352,6 +355,7 @@ class ControllerPagesLocalisationLanguage extends AController
                 'name'     => 'code',
                 'value'    => $this->data['code'],
                 'required' => true,
+                'attr'     => $this->data['code']=='en' ? ' readonly="readonly"' : '',
                 'help_url' => $this->gen_help_url('code'),
             ]
         );
@@ -362,6 +366,7 @@ class ControllerPagesLocalisationLanguage extends AController
                 'name'     => 'locale',
                 'value'    => $this->data['locale'],
                 'required' => true,
+                'attr'     => $this->data['code']=='en' ? ' readonly="readonly"' : '',
                 'help_url' => $this->gen_help_url('locale'),
             ]
         );
@@ -372,6 +377,7 @@ class ControllerPagesLocalisationLanguage extends AController
                 'name'     => 'directory',
                 'value'    => $this->data['directory'],
                 'required' => true,
+                'attr'     => $this->data['code']=='en' ? ' readonly="readonly"' : '',
                 'help_url' => $this->gen_help_url('directory'),
             ]
         );
@@ -387,9 +393,9 @@ class ControllerPagesLocalisationLanguage extends AController
 
         if ($languageId && sizeof($this->language->getAvailableLanguages()) > 1) {
             if ($this->config->get('translate_override_existing')) {
-                $this->data['override_text_note'] = sprintf(
-                    $this->language->get('text_translate_override_existing'),
-                    $this->html->getSecureURL('setting/setting/details')
+                $this->data['override_text_note'] = $this->language->getAndReplace(
+                    'text_translate_override_existing',
+                    replaces: $this->html->getSecureURL('setting/setting/details')
                 );
             }
 
@@ -502,6 +508,7 @@ class ControllerPagesLocalisationLanguage extends AController
             $this->data['entry_create_language_note'] = $this->language->get('create_language_note');
         }
 
+        $this->view->assign('list_url', $this->html->getSecureURL('localisation/language', '&saved_list=language_grid'));
         $this->view->assign('help_url', $this->gen_help_url('language_edit'));
         $this->view->batchAssign($this->data);
         $this->processTemplate('pages/localisation/language_form.tpl');
