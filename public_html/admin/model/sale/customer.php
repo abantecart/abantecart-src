@@ -288,7 +288,7 @@ class ModelSaleCustomer extends Model
                 "UPDATE " . $this->db->table("customers") . "
                 SET 
                     salt = '" . $this->db->escape($salt_key) . "', 
-                    password = '" . $this->db->escape(passwordHash($data['password'], $salt_key)) . "'
+                    password = '" . $this->db->escape(passwordHash($value, $salt_key)) . "'
                 WHERE customer_id = '" . (int)$customer_id . "'"
             );
         }
