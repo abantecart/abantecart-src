@@ -65,9 +65,13 @@ class ControllerResponsesListingGridLanguage extends AController
         $response->page = $filter_grid->getParam('page');
         $response->total = $filter_grid->calcTotalPages($total);
         $response->records = $total;
+        $response->userdata = new stdClass();
 
         $i = 0;
         foreach ($results as $result) {
+            if($result['code'] == 'en'){
+               $response->userdata->classes[$result['language_id']] = 'disable-delete';
+            }
             $response->rows[$i]['id'] = $result['language_id'];
             $response->rows[$i]['cell'] = [
                 $this->html->buildInput(
