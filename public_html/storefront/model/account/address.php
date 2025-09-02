@@ -350,7 +350,7 @@ class ModelAccountAddress extends Model
         $output['country'] = $countryInfo['name'] ?? '';
         $output['zone'] = $zoneInfo['name'] ?? '';
         $output['code'] = $zoneInfo['code'] ?? '';
-        $output['format'] = $countryInfo['address_format'] ?? '';
+        $output['format'] = $countryInfo['address_format'] ?? DEFAULT_ADDRESS_FORMAT;
         $output['iso_code_2'] = $countryInfo['iso_code_2'] ?? '';
         $output['iso_code_3'] = $countryInfo['iso_code_3'] ?? '';
         return $output;

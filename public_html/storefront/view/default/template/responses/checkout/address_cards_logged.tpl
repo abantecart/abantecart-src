@@ -1,4 +1,5 @@
 <?php
+/** @var AView|AController $this */
 $readonly = count($all_addresses) == 1 ? ' readonly ' : '';
 $addAddress = '
 <div class="input-group-text">
@@ -23,7 +24,7 @@ if ($this->cart->hasShipping()) {  ?>
                     if ($all_addresses) {
                         foreach ($all_addresses as $addr) {
                             $current = ($addr['address_id'] == $csession['shipping_address_id']) ? ' selected ' : '';
-                            $address = $this->customer->getFormattedAddress($addr, $addr['address_format']);
+                            $address = $this->customer->getFormattedAddress($addr, $addr['format']);
                             if(!$formattedShippingAddress){
                                 $formattedShippingAddress = $address;
                             }
@@ -71,7 +72,7 @@ if ($show_payment == true) {
                 if ($all_addresses) {
                     foreach ($all_addresses as $addr) {
                         $current = ($addr['address_id'] == $csession['payment_address_id']) ? ' selected ' : '';
-                        $address = $this->customer->getFormattedAddress($addr, $addr['address_format']);
+                        $address = $this->customer->getFormattedAddress($addr, $addr['format']);
                         if(!$formattedPaymentAddress){
                             $formattedPaymentAddress = $address;
                         }

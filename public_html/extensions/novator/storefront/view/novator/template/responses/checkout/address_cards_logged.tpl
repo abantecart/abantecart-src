@@ -70,7 +70,7 @@ if ($show_payment) {
                 if ($all_addresses) {
                     foreach ($all_addresses as $addr) {
                         $current = ($addr['address_id'] == $csession['payment_address_id']) ? ' selected ' : '';
-                        $address = $this->customer->getFormattedAddress($addr, $addr['address_format']);
+                        $address = $this->customer->getFormattedAddress($addr, $addr['format']);
                         if(!$formattedPaymentAddress){
                             $formattedPaymentAddress = $address;
                         }
