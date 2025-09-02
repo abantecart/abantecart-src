@@ -346,11 +346,16 @@ class ControllerPagesToolFormsManager extends AController
         ]);
 
         $this->data['entry_new_field_name'] = $this->language->get('entry_field_name');
-        $this->data['new_field_name'] = $form->getFieldHtml([
-            'type'     => 'input',
-            'name'     => 'field_name',
-            'required' => true,
-        ]);
+        $this->data['new_field_name'] = $form->getFieldHtml(
+            [
+                'type'     => 'input',
+                'name'     => 'field_name',
+                'required' => true,
+                'attr'     => $this->data['field_type'] == 'captcha'
+                    ? ' readonly '
+                    : ' onkeyup="this.value = this.value.replace(/[^a-zA-Z0-9_]/g, \'\')" '
+            ]
+        );
 
         $this->data['entry_new_field_note'] = $this->language->get('entry_field_note');
         $this->data['new_field_note'] = $form->getFieldHtml([
@@ -725,12 +730,12 @@ class ControllerPagesToolFormsManager extends AController
         //not assigned groups
         $allGroups = $this->mdl->getGroups(0);
         $assignedGroupIds = array_column($this->data['group_list'], 'group_id');
-        $options = ['new' => '--- '.mb_strtoupper($this->language->get('text_add_new_group')).' ---'];
+        $options = ['new' => '--- ' . mb_strtoupper($this->language->get('text_add_new_group')) . ' ---'];
         foreach ($allGroups as $group) {
             if (in_array($group['group_id'], $assignedGroupIds)) {
                 continue;
             }
-            $options[$group['group_id']] = $group['name'].' ('.$group['group_txt_id'].')';
+            $options[$group['group_id']] = $group['name'] . ' (' . $group['group_txt_id'] . ')';
         }
 
         $this->data['new_group_form']['groups'] = $form->getFieldHtml(

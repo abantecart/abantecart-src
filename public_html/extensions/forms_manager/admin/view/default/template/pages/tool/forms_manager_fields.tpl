@@ -214,7 +214,7 @@ echo $this->html->buildElement([
 		return false;
 	});
 
-	$('#new_fieldFrm_field_id').change(function () {
+    $(document).on('change','#new_fieldFrm_field_id',function () {
 		current_field_id = $(this).val();
 		$.ajax({
 			url: opt_urls.load_field,
@@ -246,7 +246,8 @@ echo $this->html->buildElement([
 		return false;
 	});
 
-	$(document).on('click', '#field_values button[type="submit"]', function () {
+	$(document).on('click', '#field_values button[type="submit"]', function (ev) {
+        ev.preventDefault();
 		//Mark rows to be deleted
 		$('#field_values_tbl .toDelete input[name^=field_value_id]').val('delete');
 		$(this).attr('disabled', 'disabled');
@@ -271,7 +272,8 @@ echo $this->html->buildElement([
 		return false;
 	});
 
-	$(document).on('click', '#new_fieldFrm button[type="submit"]', function () {
+	$(document).on('click', '#new_fieldFrm button[type="submit"]', function (ev) {
+        ev.preventDefault();
 		var that = this;
 		$.ajax({
 			url: $(that).closest('form').attr('action'),
@@ -288,11 +290,6 @@ echo $this->html->buildElement([
 				$("#new_fieldFrm").trigger('reset');
 				$("#new_fieldFrm .changed").removeClass('changed');
 				location = location.href;
-			},
-			complete: function () {
-				bindAform($("input, checkbox, select", '#field_edit_form'));
-				bindAform($("input, checkbox, select", '#update_field_values'));
-				bindCustomEvents('#field_values');
 			}
 		});
 		return false;

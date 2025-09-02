@@ -83,7 +83,7 @@ class ControllerResponsesFormsManagerFields extends AController
 
         $data['field_name'] = preg_replace('/[^a-zA-Z0-9._]/', '', $data['field_name']);
 
-        if ((!$data['element_type'] && !$data['field_id']) || !$data['field_description'] || !$data['field_name']) {
+        if ((!$data['element_type'] && !$data['field_id']) || !$data['field_name']) {
             $this->error['error_required'] = $this->language->get('error_fill_required');
         }
 
@@ -165,12 +165,13 @@ class ControllerResponsesFormsManagerFields extends AController
             $fieldName = $this->data['field_data']['field_name'];
         }
 
-        $this->data['field_name'] = $this->html->buildInput(
+        $this->data['field_name'] = $this->html->buildElement(
             [
+                'type'     => 'input',
                 'name'     => 'field_name',
                 'value'    => $fieldName,
                 'required' => true,
-                'attr'     => $this->data['field_type'] == 'captcha' ? 'readonly' : ''
+                'attr'     => $this->data['field_type'] == 'captcha' ? ' readonly ' : ''
             ]
         );
 
@@ -206,7 +207,7 @@ class ControllerResponsesFormsManagerFields extends AController
         $groups = $this->mdl->getGroups($formId);
         if ($groups) {
             $options =
-                [''=> $this->language->get('text_none')]
+                ['' => $this->language->get('text_none')]
                 +
                 array_column($groups, 'name', 'group_id');
 
