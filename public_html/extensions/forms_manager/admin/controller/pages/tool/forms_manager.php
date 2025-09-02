@@ -725,12 +725,12 @@ class ControllerPagesToolFormsManager extends AController
         //not assigned groups
         $allGroups = $this->mdl->getGroups(0);
         $assignedGroupIds = array_column($this->data['group_list'], 'group_id');
-        $options = ['new' => $this->language->get('text_add_new_group')];
+        $options = ['new' => '--- '.mb_strtoupper($this->language->get('text_add_new_group')).' ---'];
         foreach ($allGroups as $group) {
             if (in_array($group['group_id'], $assignedGroupIds)) {
                 continue;
             }
-            $options[$group['group_id']] = $group['name'];
+            $options[$group['group_id']] = $group['name'].' ('.$group['group_txt_id'].')';
         }
 
         $this->data['new_group_form']['groups'] = $form->getFieldHtml(

@@ -205,7 +205,11 @@ class ControllerResponsesFormsManagerFields extends AController
         // Load all available field groups for assignment
         $groups = $this->mdl->getGroups($formId);
         if ($groups) {
-            $options = array_column($groups, 'name', 'group_id');
+            $options =
+                [''=> $this->language->get('text_none')]
+                +
+                array_column($groups, 'name', 'group_id');
+
             $this->data['field_group'] = $this->html->buildElement(
                 [
                     'type'    => 'selectbox',
@@ -217,7 +221,6 @@ class ControllerResponsesFormsManagerFields extends AController
             $this->data['entry_field_group'] = $this->language->get('entry_group');
         }
 
-
         $this->data['field_sort_order'] = $this->html->buildElement(
             [
                 'type'  => 'input',
@@ -226,6 +229,7 @@ class ControllerResponsesFormsManagerFields extends AController
                 'style' => 'small-field',
             ]
         );
+
         $this->data['required'] = $this->html->buildElement(
             [
                 'type'  => 'checkbox',
@@ -261,7 +265,6 @@ class ControllerResponsesFormsManagerFields extends AController
             );
         }
 
-
         if ($elmType == 'U') {
             $this->data['field_settings'] = $this->_file_upload_settings_form();
         }
@@ -273,6 +276,7 @@ class ControllerResponsesFormsManagerFields extends AController
                 'value' => $elmType,
             ]
         );
+
         $this->data['entry_icon'] = $this->language->get('column_icon', 'extension/extensions');
         $this->data['icon'] = $this->html->buildElement(
             [
@@ -310,7 +314,9 @@ class ControllerResponsesFormsManagerFields extends AController
             [
                 'type' => 'button',
                 'text' => $this->language->get('button_save'),
-            ]);
+            ]
+        );
+
         $this->data['button_reset'] = $this->html->buildElement(
             [
                 'type' => 'button',
