@@ -61,7 +61,9 @@ class ModelAccountAddress extends Model
         }
 
         //encrypt customer data
-        $insertArr = [];
+        $insertArr = [
+            '`customer_id` = '.$customerId
+        ];
         if ($this->dcrypt->active) {
             $data = $this->dcrypt->encrypt_data($data, 'addresses');
             $insertArr[] = "`key_id` = " . (int)$data['key_id'];
