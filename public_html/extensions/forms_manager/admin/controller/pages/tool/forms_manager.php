@@ -126,7 +126,7 @@ class ControllerPagesToolFormsManager extends AController
         $this->view->assign('listing_grid', $grid->dispatchGetOutput());
         $this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 
-        $this->view->assign('insert', $this->html->getSecureURL('tool/forms_manager/update'));
+        $this->view->assign('insert', $this->html->getSecureURL('tool/forms_manager/insert'));
         $this->view->assign('help_url', $this->gen_help_url('forms_manager'));
 
         $this->view->batchAssign($this->data);
@@ -136,6 +136,48 @@ class ControllerPagesToolFormsManager extends AController
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
+    }
+
+    public function insert()
+    {
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+        $this->document->setTitle($this->language->get('forms_manager_name') . ' - ' . $this->data['form_data']['form_name']);
+
+        if ($this->request->is_POST() && $this->_validateForm($this->request->post)) {
+            $post = $this->request->post;
+
+            if ($post['controller_path'] == 'forms_manager/default_email' && trim($post['success_page']) == '') {
+                $post['success_page'] = 'forms_manager/default_email/success';
+            }
+
+            $formId = $this->mdl->addForm($this->request->post);
+            $this->session->data['success'] = $this->language->get('text_success_added_form');
+            $this->extensions->hk_ProcessData($this, __FUNCTION__, ['form_id' => $formId]);
+            redirect($this->html->getSecureURL('tool/forms_manager/update', '&form_id=' . $formId));
+        }
+
+        $this->view->assign('error', $this->error);
+        $this->view->assign('success', $this->session->data['success']);
+        if (isset($this->session->data['success'])) {
+            unset($this->session->data['success']);
+        }
+
+        $this->controllers = array_merge(
+            $this->controllers,
+            [
+                'forms_manager/default_email' => $this->language->get('text_default_email'),
+                'content/contact'             => $this->language->get('text_contactus_page'),
+            ]
+        );
+        // Build tabs for Forms Manager: Form / Groups / Fields
+        $this->data['list_url'] = $this->html->getSecureURL('tool/forms_manager');
+
+        $this->_init_tabs('form');
+        $this->_getForm();
+
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
     public function update()
@@ -152,15 +194,11 @@ class ControllerPagesToolFormsManager extends AController
                 $post['success_page'] = 'forms_manager/default_email/success';
             }
 
-            if ($formId) {
-                $post['form_id'] = $formId;
-                $this->session->data['success'] = $this->language->get('text_success_form');
-                $this->mdl->updateForm($post);
-                $this->mdl->updateFormFieldData($post);
-            } else {
-                $formId = $this->mdl->addForm($this->request->post);
-                $this->session->data['success'] = $this->language->get('text_success_added_form');
-            }
+            $post['form_id'] = $formId;
+            $this->session->data['success'] = $this->language->get('text_success_form');
+            $this->mdl->updateForm($post);
+            $this->mdl->updateFormFieldData($post);
+
             $this->extensions->hk_ProcessData($this, __FUNCTION__, ['form_id' => $formId]);
             redirect($this->html->getSecureURL('tool/forms_manager/update', '&form_id=' . $formId));
         }
@@ -802,7 +840,7 @@ class ControllerPagesToolFormsManager extends AController
             $this->data['update'] = $this->html->getSecureURL('grid/form/update_field', '&form_id=' . $formId);
         } else {
             $headForm = new AForm('HT');
-            $this->data['action'] = $this->html->getSecureURL('tool/forms_manager/update');
+            $this->data['action'] = $this->html->getSecureURL('tool/forms_manager/insert');
         }
 
         $this->document->initBreadcrumb(
