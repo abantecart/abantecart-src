@@ -557,12 +557,12 @@ class ControllerPagesSaleOrder extends AController
         $languageId = $this->language->getContentLanguageID();
         foreach ($orderInfo['ext_fields'] as $fName => $fValue) {
             $fData = $mdl?->getFieldDescriptionsByName($fName, $languageId);
-            if (!$fData) {
+            if (!$fData || !$fValue) {
                 continue;
             }
             $fData['value'] = $fValue;
             $this->data['ext_fields'][$fName] = $fData;
-        }
+         }
 
         $this->loadModel('catalog/product');
         $this->loadModel('catalog/category');

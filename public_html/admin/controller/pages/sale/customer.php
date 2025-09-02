@@ -704,6 +704,9 @@ class ControllerPagesSaleCustomer extends AController
         $languageId = $this->language->getContentLanguageID();
         foreach($customerInfo['ext_fields'] as $fName => $fValue) {
             $fData = $mdl?->getFieldDescriptionsByName($fName, $languageId ) ?: ['name' => $fName];
+            if(!$fValue){
+                continue;
+            }
             $fData['value'] = $fValue;
             $this->data['form']['fields']['details']['ext_fields'][$fName] = $fData;
         }
@@ -1018,6 +1021,9 @@ class ControllerPagesSaleCustomer extends AController
         $languageId = $this->language->getContentLanguageID();
         foreach($this->data['address']['ext_fields'] as $fName => $fValue) {
             $fData = $mdl?->getFieldDescriptionsByName($fName, $languageId ) ?: ['name' => $fName];
+            if(!$fValue){
+                continue;
+            }
             $fData['value'] = $fValue;
             $this->data['form']['fields']['address']['ext_fields'][$fName] = $fData;
         }
