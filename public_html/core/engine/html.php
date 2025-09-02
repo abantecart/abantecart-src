@@ -2251,7 +2251,7 @@ class ResourceHtmlElement extends HtmlElement
             'wrapper_id'    => $this->element_id . '_wrapper',
             'name'          => $this->name,
             'resource_path' => $this->resource_path,
-            'resource_id'   => $this->resource_id,
+            'resource_id'   => $this->resource_id ?: null,
             'object_name'   => $this->object_name,
             'object_id'     => $this->object_id,
             'rl_type'       => $this->rl_type,
