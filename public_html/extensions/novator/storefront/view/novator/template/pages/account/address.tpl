@@ -18,7 +18,7 @@ if ($error_warning) { ?>
     </div>
 <?php }
 
-$form['form_open']->style .= ' needs-validation';
+//$form['form_open']->style .= ' needs-validation';
 $form['form_open']->attr .= ' novalidate';
 echo $form['form_open']; ?>
 	<h4 class="mb-4 mt-3 pb-3 border-bottom"><?php echo $text_edit_address; ?></h4>
@@ -31,7 +31,11 @@ echo $form['form_open']; ?>
                         <?php echo ${'entry_'.$fieldKey}; ?>
                     </label>
                     <div class="col-sm-12 col-md-6">
-                        <?php echo $field; ?>
+                        <?php
+                        if(${'error_' . $fieldKey}){
+                            $field->style .= 'is-invalid';
+                        }
+                        echo $field; ?>
                         <span class="help-block text-danger"><?php echo ${'error_'.$fieldKey}; ?></span>
                     </div>
                 </div>
