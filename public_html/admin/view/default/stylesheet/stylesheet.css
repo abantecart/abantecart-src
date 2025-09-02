@@ -3769,3 +3769,7 @@ blockquote p::after {
 .menu_text:first-letter {
 	text-transform: uppercase;
 }
+ .new_messages .dropdown-list.gen-list{
+     max-height: 500px;
+     overflow-y: auto;
+ }
