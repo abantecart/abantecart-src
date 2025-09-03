@@ -107,7 +107,7 @@ class ModelAccountAddress extends Model
             }
         }
         if ($extFields) {
-            $insertArr['ext_fields'] = "`ext_fields` = '" . json_encode($extFields, JSON_UNESCAPED_UNICODE) . "'";
+            $insertArr['ext_fields'] = "`ext_fields` = '" . $this->db->escape(js_encode($extFields)) . "'";
         }
         $this->db->query(
             "INSERT INTO `" . $this->db->table("addresses") . "`
@@ -178,7 +178,7 @@ class ModelAccountAddress extends Model
             foreach ($extFields as $extFieldName) {
                 $extArray[$extFieldName] = $data[$extFieldName];
             }
-            $updateArr[] = "ext_fields = '" . $this->db->escape(json_encode($extArray)) . "'";
+            $updateArr[] = "ext_fields = '" . $this->db->escape(js_encode($extArray)) . "'";
         }
 
         if ($updateArr) {

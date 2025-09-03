@@ -164,7 +164,7 @@ class ModelAccountCustomer extends Model
         }
 
         if ($extFields) {
-            $insertArr[] = "`ext_fields` = '" . json_encode($extFields, JSON_UNESCAPED_UNICODE) . "'";
+            $insertArr[] = "`ext_fields` = '" . $this->db->escape(js_encode($extFields)) . "'";
         }
 
 
@@ -359,7 +359,7 @@ class ModelAccountCustomer extends Model
         }
 
         if ($extFields) {
-            $updateArr[] = "`ext_fields` = '" . json_encode($extFields, JSON_UNESCAPED_UNICODE) . "'";
+            $updateArr[] = "`ext_fields` = '" . $this->db->escape(js_encode($extFields)) . "'";
         }
 
         $sql = "UPDATE " . $this->db->table("customers") . "

@@ -1073,13 +1073,15 @@ function make_writable_path($path)
 /**
  * Quotes encode a string for javascript using json_encode();
  *
- * @param string $text
+ * @param mixed $text
  *
  * @return string
  */
 function js_encode($text)
 {
-    return json_encode($text, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
+    return json_encode(
+        $text,
+        JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE );
 }
 
 /**

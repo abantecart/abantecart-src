@@ -288,7 +288,7 @@ class ModelCheckoutOrder extends Model
         }
 
         if ($extFields) {
-            $insertArr[] = "`ext_fields` = '" . json_encode($extFields, JSON_UNESCAPED_UNICODE) . "'";
+            $insertArr[] = "`ext_fields` = '" . $this->db->escape(js_encode($extFields)) . "'";
         }
 
         if ($this->dcrypt->active) {
