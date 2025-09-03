@@ -232,7 +232,7 @@ class AForm
             );
             if ($valuesResult->num_rows) {
                 $values = unserialize($valuesResult->row['value']);
-                if(is_array($values)) {
+                if (is_array($values)) {
                     usort($values, self::_sort_by_sort_order(...));
                     foreach ($values as $value) {
                         $this->fields[$fieldId]['options'][$value['name']] = $value['name'];
@@ -266,7 +266,6 @@ class AForm
      */
     protected function _loadGroups()
     {
-        return;
         $language_id = (int)$this->config->get('storefront_language_id');
         $store_id = (int)$this->config->get('config_store_id');
         $cache_key = 'forms.' . $this->form['form_name'] . '.groups';
@@ -280,23 +279,30 @@ class AForm
         }
 
         $query = $this->db->query(
-            "SELECT fg.*, fgd.name, fgd.description
-            FROM " . $this->db->table("form_groups") . " g
-                LEFT JOIN " . $this->db->table("field_groups") . " fg 
-                    ON ( g.group_id = fg.group_id)
-                LEFT JOIN " . $this->db->table("field_group_descriptions") . " fgd
-                    ON ( fg.group_id = fgd.group_id AND fgd.language_id = '" . $language_id . "' )
-            WHERE g.form_id = '" . $this->form['form_id'] . "'
-                AND g.status = 1
-            ORDER BY g.sort_order, fg.sort_order"
+            "SELECT f.field_id,
+                    f.field_name,
+                    f.group_id, 
+                    COALESCE(fg.group_txt_id,'general') as group_txt_id, 
+                    fgd.name, 
+                    fgd.description
+            FROM " . $this->db->table("fields") . " f
+            LEFT JOIN " . $this->db->table("field_groups") . " fg 
+                ON ( f.group_id = fg.group_id)
+            LEFT JOIN " . $this->db->table("field_group_to_form") . " fg2f 
+                ON ( fg2f.group_id = fg.group_id AND fg2f.form_id = " . (int)$this->form['form_id'] . ")
+            LEFT JOIN " . $this->db->table("field_group_descriptions") . " fgd
+                ON ( fg.group_id = fgd.group_id AND fgd.language_id = '" . $language_id . "' )
+            WHERE f.form_id = " . (int)$this->form['form_id'] . "
+                AND f.status = 1
+            ORDER BY fg2f.sort_order, f.sort_order"
         );
         $this->groups = [];
         if ($query->num_rows) {
             foreach ($query->rows as $row) {
-                if (empty($this->groups[$row['group_id']])) {
-                    $this->groups[$row['group_id']] = $row;
+                if (empty($this->groups[(int)$row['group_id']])) {
+                    $this->groups[(int)$row['group_id']] = $row;
                 }
-                $this->groups[$row['group_id']]['fields'][] = $row['field_id'];
+                $this->groups[(int)$row['group_id']]['fields'][] = $row['field_name'];
             }
         }
 
@@ -525,32 +531,31 @@ class AForm
         $view = new AView($this->registry, 0);
 
         $containFiles = false;
-
         $formElements = $this->getFormElements();
+        foreach ($formElements as $group => $elements) {
+            foreach ($elements as $fName => $elm) {
+                if ($elm->type == 'file') {
+                    $containFiles = true;
+                }
 
-
-        foreach ($formElements as $fName=>$elm) {
-            if ($elm['type'] == 'file') {
-                $containFiles = true;
-            }
-
-            switch ($elm['type']) {
-                case 'IPaddress' :
-                case 'hidden' :
-                    $fields_html[$elm['field_id']] = $elm->getHtml();
-                    break;
-                default:
-                    $view->batchAssign(
-                        [
-                            'element_id'  => $elm->element_id,
-                            'type'        => $elm->type,
-                            'title'       => $elm->title,
-                            'description' => (string)$elm->description,
-                            'error'       => (string)$this->errors[$elm->name],
-                            'item_html'   => $elm->getHtml(),
-                        ]
-                    );
-                    $fields_html[$fName] = $view->fetch('form/form_field.tpl');
+                switch ($elm->type) {
+                    case 'IPaddress' :
+                    case 'hidden' :
+                        $fields_html[$group][$fName] = $elm->getHtml();
+                        break;
+                    default:
+                        $view->batchAssign(
+                            [
+                                'element_id'  => $elm->element_id,
+                                'type'        => $elm->type,
+                                'title'       => $elm->title,
+                                'description' => (string)$elm->description,
+                                'error'       => (string)$this->errors[$elm->name],
+                                'item_html'   => $elm->getHtml(),
+                            ]
+                        );
+                        $fields_html[$group][$fName] = $view->fetch('form/form_field.tpl');
+                }
             }
         }
 
@@ -560,7 +565,7 @@ class AForm
                 $view->batchAssign(
                     [
                         'group'       => $group,
-                        'fields_html' => $fields_html,
+                        'fields_html' => $fields_html[$group['group_txt_id']],
                     ]
                 );
                 $output .= $view->fetch('form/form_group.tpl');
@@ -632,36 +637,36 @@ class AForm
             }
             //build data array for each field HTML template
             $data = [
-                'type'     => HtmlElementFactory::getElementType($field['element_type']),
-                'name'     => $field['field_name'],
-                'form'     => $formAlias,
-                'attr'     => $field['attributes']
+                'type'                    => HtmlElementFactory::getElementType($field['element_type']),
+                'name'                    => $field['field_name'],
+                'form'                    => $formAlias,
+                'attr'                    => $field['attributes']
                     . ($field['regexp_pattern'] ? ' pattern="' . regexForHtmlPattern($field['regexp_pattern']) . '"' : ''),
-                'required' => $field['required'],
-                'value'    => $field['value'],
-                'options'  => $field['options'],
-                'display_name' => $field['name'],
-                'group_id' => $field['group_id'],
-                'group_txt_id' => $field['group_txt_id'],
-                'field_group_name' => $field['group_name'],
+                'required'                => $field['required'],
+                'value'                   => $field['value'],
+                'options'                 => $field['options'],
+                'display_name'            => $field['name'],
+                'group_id'                => $field['group_id'],
+                'group_txt_id'            => $field['group_txt_id'],
+                'field_group_name'        => $field['group_name'],
                 'field_group_description' => $field['group_description'],
-                'field_group_sort_order' => $field['group_sort_order'],
+                'field_group_sort_order'  => $field['group_sort_order'],
             ];
             $data['value'] = $data['type'] == 'checkbox' && !$data['value'] ? 1 : $data['value'];
             $data['text'] = $data['type'] == 'label' && !$data['text'] ? $data['value'] : $data['text'];
 
-            if($field['resource_id']){
+            if ($field['resource_id']) {
                 $resource = new AResource('image');
                 $iconData = $resource->getResource($field['resource_id']);
-                $img_sub_path = $iconData['type_name'].'/'.$iconData['resource_path'];
-                if (is_file(DIR_RESOURCE.$img_sub_path)) {
-                    $logo_path = DIR_RESOURCE.$img_sub_path;
+                $img_sub_path = $iconData['type_name'] . '/' . $iconData['resource_path'];
+                if (is_file(DIR_RESOURCE . $img_sub_path)) {
+                    $logo_path = DIR_RESOURCE . $img_sub_path;
                     $info = get_image_size($logo_path);
                     $data['icon'] = HtmlElementFactory::create(
                         [
-                            'type'  => 'resourceImage',
-                            'url'   => HTTPS_DIR_RESOURCE.$img_sub_path,
-                            'width' => $info['width'],
+                            'type'   => 'resourceImage',
+                            'url'    => HTTPS_DIR_RESOURCE . $img_sub_path,
+                            'width'  => $info['width'],
                             'height' => $info['height'],
                         ]
                     )->getHtml();
@@ -671,19 +676,19 @@ class AForm
             }
 
             //settings for country
-            if($field['element_type'] == 'O'){
+            if ($field['element_type'] == 'O') {
                 if (preg_match('/data-submit-mode="([^"]+)"/', $field['attributes'], $matches)) {
                     $submitMode = $matches[1] ?: 'id';
-                }else{
+                } else {
                     $submitMode = 'id';
                 }
                 $data['submit_mode'] = $submitMode;
             }
             //zones
-            if($field['element_type'] == 'Z'){
+            if ($field['element_type'] == 'Z') {
                 if (preg_match('/data-submit-mode="([^"]+)"/', $field['attributes'], $matches)) {
                     $submitMode = $matches[1] ?: 'id';
-                }else{
+                } else {
                     $submitMode = 'id';
                 }
                 $data['submit_mode'] = $submitMode;
@@ -713,8 +718,8 @@ class AForm
             $output[$field['group_txt_id']][$field['field_name']] = HtmlElementFactory::create($data);
         }
 
-        if(count($output)>1) {
-            array_multisort($sidx, SORT_ASC,$output);
+        if (count($output) > 1) {
+            array_multisort($sidx, SORT_ASC, $output);
         }
 
         return $output;
@@ -739,7 +744,7 @@ class AForm
         foreach ($this->fields as $field) {
             $fieldName = $field['field_name'];
             $fieldTitle = $field['name'];
-            $isRequired = in_array($field['required'],[1,'Y','1']);
+            $isRequired = in_array($field['required'], [1, 'Y', '1']);
             // for multi-value required fields
             if (in_array($field['element_type'], HtmlElementFactory::getMultivalueElements())
                 && !$data[$fieldName] && $isRequired
@@ -754,8 +759,7 @@ class AForm
                     if ($data[$fieldName] == '') {
                         $errors[$fieldName] = $fieldTitle . ' ' . $errorRequiredText;
                     }
-                }
-                // if empty array
+                } // if empty array
                 else if (!$data[$fieldName]) {
                     $errors[$fieldName] = $fieldTitle . ' ' . $errorRequiredText;
                 }
@@ -766,7 +770,7 @@ class AForm
                 if (!is_array($data[$fieldName])) {
                     if (!preg_match($field['regexp_pattern'], $data[$fieldName])) {
                         // show error only for field with value or required
-                        if( $isRequired || $data[$fieldName] ) {
+                        if ($isRequired || $data[$fieldName]) {
                             $errors[$fieldName] .= ' ' . $field['error_text'];
                         }
                     }
@@ -774,7 +778,7 @@ class AForm
                     // for array's values
                     foreach ($data[$fieldName] as $value) {
                         if (!preg_match($field['regexp_pattern'], $value)) {
-                            if ( $isRequired || $value ) {
+                            if ($isRequired || $value) {
                                 $errors[$fieldName] .= ' ' . $field['error_text'];
                             }
                             break;

@@ -12821,7 +12821,7 @@ INSERT INTO `ac_fields`
 (`field_id`, `form_id`, `group_id`, `field_name`, `element_type`, `sort_order`, `attributes`, `settings`, `required`, `status`, `regexp_pattern`, `resource_id`, `locked`)
 VALUES
     (11,2,NULL,'first_name','I',1,'autocomplete="given-name"','',1,1,'/^.{3,100}$/u',17,1),
-    (12,2,NULL,'email','I',2,'autocomplete="email"','',1,1,'/^[A-Z0-9._%-]+@[A-Z0-9.-]{0,61}[A-Z0-9].[A-Z]{2,16}$/i',19,1),
+    (12,2,NULL,'email','E',2,'minlength="1" maxlength="96" autocomplete="email"','',1,1,'',19,1),
     (13,2,NULL,'enquiry','T',3,'cols="50" rows="8" autocomplete="off"','',1,1,'/^.{3,1000}$/su',NULL,1),
     (14,2,NULL,'captcha','K',4,'autocomplete="off"','',1,1,'',NULL,0),
     (19,4,NULL,'country_id','O',1,'autocomplete="country"','','1',1,'/^[1-9]\\d*$/',10,1),
