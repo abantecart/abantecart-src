@@ -289,8 +289,10 @@ class AMessage
             return false;
         }
         $ids = filterIntegerIdList($no_delete);
-        $sql = "DELETE FROM " . $this->db->table("ant_messages") . " 
-                WHERE id NOT IN (" . implode(", ", $ids) . ")";
+        $sql = "DELETE FROM " . $this->db->table("ant_messages");
+        if($ids){
+            $sql .= " WHERE id NOT IN (" . implode(", ", $ids) . ")";
+        }
         $this->db->query($sql);
         return true;
     }
