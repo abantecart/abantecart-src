@@ -648,6 +648,7 @@ class AForm
                 'field_group_sort_order' => $field['group_sort_order'],
             ];
             $data['value'] = $data['type'] == 'checkbox' && !$data['value'] ? 1 : $data['value'];
+            $data['text'] = $data['type'] == 'label' && !$data['text'] ? $data['value'] : $data['text'];
 
             if($field['resource_id']){
                 $resource = new AResource('image');
