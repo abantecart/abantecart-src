@@ -18,13 +18,18 @@ if ($error_warning) { ?>
 
 <div class="container">
     <?php
-    $form['form_open']->style .= ' needs-validation';
+    //$form['form_open']->style .= ' needs-validation';
     $form['form_open']->attr .= ' novalidate';
     echo $form['form_open'];?>
-    <h4><?php echo $text_your_details; ?></h4>
-    <div class="ps-4 border p-3 mb-4">
     <?php
-       foreach ($form['fields'] as $field_name=>$field) { ?>
+    foreach($form['fields'] as $group => $fields){ ?>
+        <div class="ps-4 border p-3 mb-4">
+            <?php $groupName = current($fields)->field_group_name;
+            if($groupName){ ?>
+                <h4><?php echo $groupName; ?></h4>
+                <?php
+            }
+            foreach ($fields as $field_name=>$field) { ?>
             <div class="mb-3 row">
                 <label for="<?php echo $field->element_id?>" class="col-sm-12 col-md-5 col-form-label me-2 text-md-end"><?php echo ${'entry_'.$field_name}; ?></label>
                 <div class="col-sm-12 col-md-6 h-100">
@@ -32,10 +37,11 @@ if ($error_warning) { ?>
                     <span class="help-block text-danger"><?php echo ${'error_'.$field_name}; ?></span>
                 </div>
             </div>
+                <?php } ?>
+        </div>
     <?php
-        }
-        echo $this->getHookVar('customer_attributes'); ?>
-    </div>
+    }
+    echo $this->getHookVar('customer_attributes'); ?>
 
     <div class="ps-4 p-3 col-12 d-flex flex-wrap">
         <?php

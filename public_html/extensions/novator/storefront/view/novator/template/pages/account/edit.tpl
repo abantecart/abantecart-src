@@ -17,15 +17,20 @@ if ($error_warning) { ?>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 <?php }
-$form['form_open']->style .= ' needs-validation';
+//$form['form_open']->style .= ' needs-validation';
 $form['form_open']->attr .= ' novalidate';
 echo $form['form_open'];
-?>
-    <h4 class="mb-3"><?php echo $text_your_details; ?></h4>
+
+         foreach($form['fields'] as $group => $fields){ ?>
+        <?php $groupName = current($fields)->field_group_name;
+        if($groupName){ ?>
+            <h4><?php echo $groupName; ?></h4>
+            <?php
+        } ?>
     <div class="card mb-4">
         <div class="card-body">
         <?php
-            foreach ($form['fields'] as $field_name=>$field) { ?>
+            foreach ($fields as $field_name=>$field) { ?>
                     <div class="mb-3 row justify-content-md-center align-items-center">
                         <label for="<?php echo $field->element_id?>" class="col-sm-12 col-md-5 col-form-label me-2">
                             <?php echo ${'entry_'.$field_name}; ?>
@@ -35,11 +40,14 @@ echo $form['form_open'];
                             <span class="help-block text-danger"><?php echo ${'error_'.$field_name}; ?></span>
                         </div>
                     </div>
-            <?php }
-            echo $this->getHookVar('customer_attributes');
-        ?>
+            <?php } ?>
         </div>
     </div>
+<?php
+    }
+    echo $this->getHookVar('customer_attributes');
+?>
+
 
     <div class="py-3 col-12 d-flex flex-wrap">
         <?php

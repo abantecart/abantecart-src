@@ -129,36 +129,37 @@ class ControllerPagesAccountEdit extends AController
         $this->data['reset_loginname'] = $reset_loginname;
 
         $form->loadFromDb(static::$formTxtId);
-        $formElements = $form->getFormElements()['general'];
+        $formElements = $form->getFormElements();
         $this->data['error_warning'] = $this->error['warning'];
-        foreach ($formElements as $name => $element) {
-            //error messages
-            $this->data['error_' . $name] = $this->error[$name];
-            $this->data['entry_' . $name] = $element->display_name ?: $this->language->get('entry_' . $name);
+        foreach ($formElements as $group => $elements) {
+            foreach ($elements as $name => $element) {
+                //error messages
+                $this->data['error_' . $name] = $this->error[$name];
+                $this->data['entry_' . $name] = $element->display_name ?: $this->language->get('entry_' . $name);
 
-            if ($name == 'country_id') {
-                $element->value = $this->request->post['country_id']
-                    ?? $customerInfo['country_id']
-                    ?? $this->config->get('config_country_id');
-            } elseif ($name == 'zone_id') {
-                $element->zone_value = $this->data['zone_id'];
-                //set zone_id as value for select[option]
-                $element->submit_mode = 'id';
-                //show only zone selector
-                $element->zone_only = true;
-            } else {
-                $element->value = $this->request->post[$name]
-                    ?: $customerInfo[$name]
-                        //take extended fields value
-                        ?: $customerInfo['ext_fields'][$name];
+                if ($name == 'country_id') {
+                    $element->value = $this->request->post['country_id']
+                        ?? $customerInfo['country_id']
+                        ?? $this->config->get('config_country_id');
+                } elseif ($name == 'zone_id') {
+                    $element->zone_value = $this->data['zone_id'];
+                    //set zone_id as value for select[option]
+                    $element->submit_mode = 'id';
+                    //show only zone selector
+                    $element->zone_only = true;
+                } else {
+                    $element->value = $this->request->post[$name]
+                        ?: $customerInfo[$name]
+                            //take extended fields value
+                            ?: $customerInfo['ext_fields'][$name];
+                }
+                $this->data['form']['fields'][$group][$name] = $element;
+                if ($name=='loginname' && !$reset_loginname) {
+                    $this->data['form']['fields'][$group]['loginname'] = $element->value;
+                }
             }
-
-            $this->data['form']['fields'][$name] = $element;
         }
 
-        if (!$reset_loginname) {
-            $this->data['form']['fields']['loginname'] = $this->data['form']['fields']['loginname']->value;
-        }
 
         //get only active IM drivers
         $im_drivers = $this->im->getIMDriverObjects();
@@ -169,7 +170,7 @@ class ControllerPagesAccountEdit extends AController
                 }
                 $value = $post[$protocol] ?? $customerInfo[$protocol];
                 $fld = $driver_obj->getURIField($form, $value);
-                $this->data['form']['fields'][$protocol] = $fld;
+                $this->data['form']['fields']['general'][$protocol] = $fld;
                 $this->data['entry_' . $protocol] = $fld->label_text;
                 $this->data['error_' . $protocol] = $this->error[$protocol];
             }
