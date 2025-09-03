@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 
 /**
  * Class AOrder
@@ -359,9 +359,9 @@ class AOrder
         return $this->customer_id;
     }
 
-    public static function getGoogleAnalyticsOrderData(array $order_data)
+    public static function getGoogleAnalyticsOrderData(array $orderData)
     {
-        if(!$order_data){
+        if(!$orderData){
             return [];
         }
 
@@ -372,7 +372,7 @@ class AOrder
         //This will be shown in the footer of the page
         $order_tax = $order_total = $order_shipping = 0.0;
 
-        foreach ($order_data['totals'] as $total) {
+        foreach ($orderData['totals'] as $total) {
             $total['value'] = (float)$total['value'];
             $total['type'] = $total['type'] ?: $total['total_type'];
             if ($total['type'] == 'total') {
@@ -384,25 +384,25 @@ class AOrder
             }
         }
 
-        if (!$order_data['shipping_city']) {
+        if (!$orderData['shipping_city']) {
             $addr = [
-                'city'    => $order_data['payment_city'],
-                'state'   => $order_data['payment_zone'],
-                'country' => $order_data['payment_country'],
+                'city'    => $orderData['payment_city'],
+                'state'   => $orderData['payment_zone'],
+                'country' => $orderData['payment_country'],
             ];
         } else {
             $addr = [
-                'city'    => $order_data['shipping_city'],
-                'state'   => $order_data['shipping_zone'],
-                'country' => $order_data['shipping_country'],
+                'city'    => $orderData['shipping_city'],
+                'state'   => $orderData['shipping_zone'],
+                'country' => $orderData['shipping_country'],
             ];
         }
 
         $gaOrderData = array_merge(
             [
-                'transaction_id' => (int)$order_data['order_id'],
+                'transaction_id' => (int)$orderData['order_id'],
                 'store_name'     => $registry->get('config')->get('store_name'),
-                'currency_code'  => $order_data['currency']?: $registry->get('currency')->getCode(),
+                'currency_code'  => $orderData['currency']?: $registry->get('currency')->getCode(),
                 'total'          => (float)$currency->format_number($order_total),
                 'tax'            => (float)$currency->format_number($order_tax),
                 'shipping'       => (float)$currency->format_number($order_shipping),
@@ -411,13 +411,13 @@ class AOrder
             $addr
         );
 
-        if ($order_data['order_products']) {
+        if ($orderData['order_products']) {
             /** @var ModelAccountOrder $mdl */
             $mdl = $registry->get('load')->model('account/order');
             $gaOrderData['items'] = [];
-            foreach ($order_data['order_products'] as $product) {
+            foreach ($orderData['order_products'] as $product) {
                 //try to get option sku for product. If not presents - take main sku from product details
-                $options = $mdl->getOrderOptions((int)$order_data['order_id'], $product['order_product_id']);
+                $options = $mdl->getOrderOptions((int)$orderData['order_id'], $product['order_product_id']);
                 $sku = '';
                 foreach ($options as $opt) {
                     if ($opt['sku']) {
@@ -438,8 +438,6 @@ class AOrder
                 ];
             }
         }
-
         return $gaOrderData;
     }
-
 }

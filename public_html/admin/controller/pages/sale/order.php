@@ -1019,16 +1019,12 @@ class ControllerPagesSaleOrder extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    protected function shippingFields($order_info, $form)
+    protected function shippingFields($orderInfo, $form)
     {
         $fields = $this->shippingFields;
 
         foreach ($fields as $f) {
-            if (isset ($this->request->post [$f])) {
-                $this->data [$f] = $this->request->post [$f];
-            } elseif (isset($order_info[$f])) {
-                $this->data[$f] = $order_info[$f];
-            }
+            $this->data[$f] = $this->request->post[$f] ?? $orderInfo[$f];
         }
 
         foreach ($fields as $f) {
@@ -1053,10 +1049,7 @@ class ControllerPagesSaleOrder extends AController
             ]
         );
 
-        $countries = [];
-        foreach ($this->data['countries'] as $country) {
-            $countries[$country['country_id']] = $country['name'];
-        }
+        $countries = array_column($this->data['countries'], 'name','country_id');
         if (!$this->data['shipping_country_id']) {
             $this->data['shipping_country_id'] = $this->config->get('config_country_id');
         }
@@ -1078,7 +1071,7 @@ class ControllerPagesSaleOrder extends AController
                 'options' => [],
             ]
         );
-
+        //need for geo-location by js
         $this->data['full_shipping_address'] = addslashes(
             $this->data['shipping_address_1']
             . ' ' . $this->data['shipping_address_2']
@@ -1087,18 +1080,40 @@ class ControllerPagesSaleOrder extends AController
             . ', ' . $this->data['shipping_postcode']
             . ', ' . $this->data['shipping_country']
         );
+        $this->addressExtendedFields($orderInfo, 'shipping');
     }
 
-    protected function paymentFields($order_info, $form)
+    /**
+     * @param array $orderInfo
+     * @param string $type
+     * @return void
+     * @throws AException
+     */
+    protected function addressExtendedFields($orderInfo, string $type = 'shipping')
+    {
+        //extended fields summary
+        /** @var ModelToolFormsManager $mdl */
+        $mdl = $this->loadModel('tool/forms_manager', 'silent');
+        $languageId = $this->language->getContentLanguageID();
+        foreach ($orderInfo['ext_fields'] as $fName => $fValue) {
+            if(!str_starts_with($fName, $type.'_')) {
+                continue;
+            }
+            $fName = str_replace($type.'_', '', $fName);
+            $fData = $mdl?->getFieldDescriptionsByName($fName, $languageId);
+            if (!$fData || !$fValue) {
+                continue;
+            }
+            $fData['value'] = $fValue;
+            $this->data['form'][$type.'_fields']['ext_fields'][$fName] = $fData;
+        }
+    }
+
+    protected function paymentFields($orderInfo, $form)
     {
         $fields = $this->paymentFields;
-
         foreach ($fields as $f) {
-            if (isset ($this->request->post [$f])) {
-                $this->data [$f] = $this->request->post [$f];
-            } elseif (isset($order_info[$f])) {
-                $this->data[$f] = $order_info[$f];
-            }
+            $this->data[$f] = $this->request->post[$f] ?? $orderInfo[$f];
         }
 
         foreach ($fields as $f) {
@@ -1115,10 +1130,7 @@ class ControllerPagesSaleOrder extends AController
             );
         }
 
-        $countries = [];
-        foreach ($this->data['countries'] as $country) {
-            $countries[$country['country_id']] = $country['name'];
-        }
+        $countries = array_column($this->data['countries'], 'name','country_id');
         if (!$this->data['payment_country_id']) {
             $this->data['payment_country_id'] = $this->config->get('config_country_id');
         }
@@ -1142,7 +1154,7 @@ class ControllerPagesSaleOrder extends AController
                 'style'   => 'no-save',
             ]
         );
-
+        //need for geo-location by js
         $this->data['full_payment_address'] = addslashes(
             $this->data['payment_address_1']
             . ' ' .
@@ -1156,6 +1168,7 @@ class ControllerPagesSaleOrder extends AController
             . ', ' .
             $this->data['payment_country']
         );
+        $this->addressExtendedFields($orderInfo, 'payment');
     }
 
     public function history()

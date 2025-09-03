@@ -355,16 +355,21 @@ class ControllerPagesAccountOrderDetails extends AController
 
     /**
      * @param array $orderInfo
-     * @param string $type - can be "payment" or "shipping"
+     * @param string $prefix - can be "payment" or "shipping"
      * @return array
      */
-    protected function extractAddressData(array $orderInfo, string $type = 'shipping')
+    protected function extractAddressData(array $orderInfo, string $prefix = 'shipping')
     {
         //add extended fields array into address data
         $output = (array)$orderInfo['ext_fields'];
         foreach ($orderInfo as $key => $value) {
-            if (str_starts_with($key, $type . '_')) {
-                $output[str_replace($type . '_', '', $key)] = $value;
+            if (str_starts_with($key, $prefix . '_')) {
+                $output[str_replace($prefix . '_', '', $key)] = $value;
+            }
+        }
+        foreach ($output as $key => $value) {
+            if (str_starts_with($key, $prefix . '_')) {
+                $output[str_replace($prefix . '_', '', $key)] = $value;
             }
         }
         return $output;

@@ -227,8 +227,7 @@ class ModelCheckoutOrder extends Model
             $insertArr[] = "`order_id` = '" . (int)$setOrderId . "'";
         }
 
-        $data['shipping_address_format'] = $data['shipping_format'];
-        $data['payment_address_format'] = $data['payment_format'];
+        //remove to exclude these fields from "ext_fields" data
         unset(
             $data['shipping_format'],
             $data['payment_format'],
@@ -272,6 +271,18 @@ class ModelCheckoutOrder extends Model
                     $extFields[$key][$subKey] = $subValue;
                 }
             } else {
+                //prevent duplicates in the ext_fields data
+                foreach(['payment_','shipping_'] as $t) {
+                    $testKey = str_replace($t, '', $key);
+                    if (//if data goes to the orders table
+                        isset($this->data['order_column_list'][$testKey])
+                        && isset($data[$testKey])
+                        //and values are equal
+                        && $data[$testKey] == $value
+                    ) {
+                        continue 2;
+                    }
+                }
                 $extFields[$key] = $value;
             }
         }
@@ -469,8 +480,7 @@ class ModelCheckoutOrder extends Model
             SET order_id = '" . (int)$orderId . "',
                 order_status_id = '" . (int)$order_status_id . "',
                 notify = '1',
-                comment = '" . $this->db->escape($comment) . "',
-                date_added = NOW()"
+                comment = '" . $this->db->escape($comment) . "'"
         );
         $orderInfo['comment'] = $orderInfo['comment'] . ' ' . $comment;
 
@@ -744,7 +754,7 @@ class ModelCheckoutOrder extends Model
         $mailTplData['shipping_data'] = $shipping_data;
         $mailTplData['shipping_address'] = $this->customer->getFormattedAddress(
             $shipping_data,
-            $orderInfo['shipping_address_format']
+            $orderInfo['shipping_format']
         );
         $zoneInfo = $zMdl->getZone($orderInfo['payment_zone_id']);
         $zoneCode = (string)$zoneInfo['code'];
@@ -765,7 +775,7 @@ class ModelCheckoutOrder extends Model
         $mailTplData['payment_data'] = $payment_data;
         $mailTplData['payment_address'] = $this->customer->getFormattedAddress(
             $payment_data,
-            $orderInfo['payment_address_format']
+            $orderInfo['payment_format']
         );
 
         if (!has_value($this->data['products'])) {

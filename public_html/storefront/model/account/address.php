@@ -351,6 +351,9 @@ class ModelAccountAddress extends Model
         $output['zone'] = $zoneInfo['name'] ?? '';
         $output['code'] = $zoneInfo['code'] ?? '';
         $output['format'] = $countryInfo['address_format'] ?? DEFAULT_ADDRESS_FORMAT;
+        //backward compatibility. Todo: remove in 1.5.*
+        $output['address_format'] = $output['format'];
+
         $output['iso_code_2'] = $countryInfo['iso_code_2'] ?? '';
         $output['iso_code_3'] = $countryInfo['iso_code_3'] ?? '';
         return $output;
