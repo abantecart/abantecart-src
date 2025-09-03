@@ -22,7 +22,12 @@ if ($error_warning) { ?>
 	<h4><?php echo $text_edit_address; ?></h4>
 	<div class="ps-4 border p-3 mb-4">
     <?php
-        foreach ($form['fields'] as $field_name => $field) { ?>
+        foreach ($form['fields'] as $field_name => $field) {
+            if($field->type == 'hidden') {
+                echo $field;
+                continue;
+            }
+            ?>
             <div class="mb-3 row">
                 <label for="<?php echo $field->element_id?>" class="col-sm-12 col-md-5 col-form-label me-2 text-md-end">
                     <?php echo ${'entry_'.$field_name}; ?>

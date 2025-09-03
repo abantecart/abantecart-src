@@ -21,6 +21,10 @@ if ($error_warning) { ?>
     <p><?php echo $text_account_already; ?></p>
     <?php
     foreach($form['fields'] as $group => $fields){
+        if($field->type == 'hidden') {
+            echo $field;
+            continue;
+        }
         if($group == 'newsletter'){
             echo $this->getHookVar('customer_attributes');
         } ?>

@@ -25,7 +25,11 @@ echo $form['form_open']; ?>
 	<div class="card mb-4">
         <div class="card-body">
             <?php
-                foreach ($form['fields'] as $fieldKey => $field) { ?>
+                foreach ($form['fields'] as $fieldKey => $field) {
+                    if($field->type == 'hidden') {
+                        echo $field;
+                        continue;
+                    }?>
                 <div class="mb-3 row justify-content-md-center">
                     <label for="<?php echo $field->element_id?>" class="col-sm-12 col-md-5 col-form-label me-2">
                         <?php echo ${'entry_'.$fieldKey}; ?>

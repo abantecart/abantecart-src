@@ -30,7 +30,11 @@ echo $form['form_open'];
     <div class="card mb-4">
         <div class="card-body">
         <?php
-            foreach ($fields as $field_name=>$field) { ?>
+            foreach ($fields as $field_name=>$field) {
+                if($field->type == 'hidden') {
+                    echo $field;
+                    continue;
+                }?>
                     <div class="mb-3 row justify-content-md-center align-items-center">
                         <label for="<?php echo $field->element_id?>" class="col-sm-12 col-md-5 col-form-label me-2">
                             <?php echo ${'entry_'.$field_name}; ?>
@@ -47,8 +51,6 @@ echo $form['form_open'];
     }
     echo $this->getHookVar('customer_attributes');
 ?>
-
-
     <div class="py-3 col-12 d-flex flex-wrap">
         <?php
         $form['back']->style .= 'btn-secondary';

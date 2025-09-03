@@ -29,7 +29,12 @@ if ($error_warning) { ?>
                 <h4><?php echo $groupName; ?></h4>
                 <?php
             }
-            foreach ($fields as $field_name=>$field) { ?>
+            foreach ($fields as $field_name=>$field) {
+                if($field->type == 'hidden') {
+                    echo $field;
+                    continue;
+                }
+                ?>
             <div class="mb-3 row">
                 <label for="<?php echo $field->element_id?>" class="col-sm-12 col-md-5 col-form-label me-2 text-md-end"><?php echo ${'entry_'.$field_name}; ?></label>
                 <div class="col-sm-12 col-md-6 h-100">
