@@ -1,4 +1,8 @@
 <?php
+/** @var AController|AView $this */
+if($icon){ ?>
+     <div class="text-center"><?php echo $icon; ?></div>
+<?php }
 if ($error) { ?>
     <div class="alert alert-danger"><i class="fa fa-bug fa-fw"></i> <?php echo $error; ?></div>
     <?php
@@ -13,7 +17,8 @@ if ($error) { ?>
         <div class="form-group text-center action-buttons" style="display: none;">
             <div class="center-block">
                 <div id="paypal-button-container">
-                    <!--                    <div id="owner-name"></div>-->
+                    <?php //uncomment for testing of api-errors ?>
+                    <!-- <div id="owner-name"></div>-->
                     <div id="card-number"></div>
                     <div class="row">
                         <div class="col-6">
