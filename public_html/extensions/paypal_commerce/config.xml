@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <extension>
 	<id>paypal_commerce</id>
-	<version>1.0.7</version>
+	<version>1.4.3</version>
 	<type>payment</type>
 	<category>payment</category>
 	<cartversions>
@@ -23,6 +23,14 @@
 			<variants>
 				<item>capture</item>
 				<item>authorize</item>
+			</variants>
+			<default_value>capture</default_value>
+		</item>
+		<item id="paypal_commerce_payment_form_type">
+            <type>selectbox</type>
+			<variants>
+				<item>buttons</item>
+				<item>card_form</item>
 			</variants>
 			<default_value>capture</default_value>
 		</item>

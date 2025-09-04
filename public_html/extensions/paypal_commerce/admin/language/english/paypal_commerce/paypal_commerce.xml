@@ -37,6 +37,18 @@
 		<value><![CDATA[Authorize Only]]></value>
 	</definition>
 	<definition>
+		<key>paypal_commerce_payment_form_type</key>
+		<value><![CDATA[Payment Form Type:]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_payment_form_type_buttons</key>
+		<value><![CDATA[Buttons]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_payment_form_type_card_form</key>
+		<value><![CDATA[Credit Card]]></value>
+	</definition>
+	<definition>
 		<key>paypal_commerce_test_connection</key>
 		<value><![CDATA[Test Connection]]></value>
 	</definition>

@@ -66,7 +66,10 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         }
 
         $data['intent'] = $this->config->get('paypal_commerce_transaction_type');
-        $template = 'responses/paypal_commerce_confirm.tpl';
+
+        $template = $this->config->get('paypal_commerce_payment_form_type') == 'card_form'
+                ? 'responses/paypal_commerce_card_confirm.tpl'
+                : 'responses/paypal_commerce_confirm.tpl';
 
         $data['action'] = $this->html->getSecureURL('r/extension/paypal_commerce/send');
         $data['create_order_url'] = $this->html->getSecureURL('r/extension/paypal_commerce/createOrder');
@@ -93,6 +96,15 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $data['cancel_url'] = $this->html->getSecureURL(
             'checkout/fast_checkout',
             $get ? '&'.http_build_query($get, '', '&') : ''
+        );
+
+        $data['button_confirm'] = $this->html->buildElement(
+            [
+                'type'  => 'button',
+                'name'  => 'checkout',
+                'style' => 'button btn-primary',
+                'text'  => $this->language->get('button_confirm'),
+            ]
         );
 
         $this->view->batchAssign($data);
