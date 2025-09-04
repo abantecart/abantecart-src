@@ -375,6 +375,9 @@ final class ADispatcher
                     $dd = new ADispatcher('responses/error/ajaxerror/not_found');
                     $dd->dispatch();
                 }
+                if($this->controller_type == 'pages') {
+                    redirect( $this?->registry->get('html')?->getSecureURL('index/home') );
+                }
             }
         } //catching output of around hook (it can be only one)
         catch (AException $e) {
