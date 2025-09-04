@@ -67,9 +67,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         $data['intent'] = $this->config->get('paypal_commerce_transaction_type');
 
-        $template = $this->config->get('paypal_commerce_payment_form_type') == 'card_form'
-                ? 'responses/paypal_commerce_card_confirm.tpl'
-                : 'responses/paypal_commerce_confirm.tpl';
+        $template = 'responses/paypal_commerce_confirm.tpl';
 
         $data['action'] = $this->html->getSecureURL('r/extension/paypal_commerce/send');
         $data['create_order_url'] = $this->html->getSecureURL('r/extension/paypal_commerce/createOrder');

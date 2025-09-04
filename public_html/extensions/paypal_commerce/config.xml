@@ -26,14 +26,6 @@
 			</variants>
 			<default_value>capture</default_value>
 		</item>
-		<item id="paypal_commerce_payment_form_type">
-            <type>selectbox</type>
-			<variants>
-				<item>buttons</item>
-				<item>card_form</item>
-			</variants>
-			<default_value>capture</default_value>
-		</item>
 		<item id="paypal_commerce_autoselect">
 			<type>checkbox</type>
 			<default_value>0</default_value>
