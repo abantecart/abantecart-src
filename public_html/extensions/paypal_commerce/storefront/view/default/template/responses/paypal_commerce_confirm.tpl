@@ -19,7 +19,7 @@ if ($error) { ?>
                 <div id="paypal-button-container">
                     <?php if(in_array('card-fields',$enabled_components)) {
                      //uncomment for testing of api-errors ?>
-                    <div id="owner-name"></div>
+<!--                    <div id="owner-name"></div>-->
                     <div id="card-number"></div>
                     <div class="row">
                         <div class="col-6">
@@ -79,9 +79,9 @@ if ($error) { ?>
                     console.log(e);
                 }
             }
-
+            <?php $cmpList = implode(",",$enabled_components) ?: 'buttons'; ?>
             loadPaypalScript(
-                "https://www.paypal.com/sdk/js?client-id=<?php echo $this->config->get('paypal_commerce_client_id') ?>&components=card-fields,buttons&intent=<?php echo $intent; ?>&currency=<?php echo $this->currency->getCode(); ?>",
+                "https://www.paypal.com/sdk/js?client-id=<?php echo $this->config->get('paypal_commerce_client_id') ?>&components=<?php echo $cmpList; ?>&intent=<?php echo $intent; ?>&currency=<?php echo $this->currency->getCode(); ?>",
                 () => {
                     <?php if(in_array('card-fields',$enabled_components)) { ?>
                     initCardFields();

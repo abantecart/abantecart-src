@@ -30,7 +30,7 @@
             <type required="true">checkboxgroup</type>
 			<variants>
 				<item>buttons</item>
-				<item>card_fields</item>
+				<item>card-fields</item>
 			</variants>
 			<default_value>buttons</default_value>
 		</item>
