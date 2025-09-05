@@ -78,24 +78,23 @@
     <div class="row">
 	    <div class="col-sm-3 h5 center">
 	        <a href="#admin#rt=extension/extensions/install&extension=stripe" target="_extension">
-	        <img style="width: 94px; width: height: 94px;" src="extensions/stripe/image/icon.png"><br>Stripe</a>
+	        <img style="width: 94px; height: 94px;" src="extensions/stripe/image/icon.png"><br><p class="mt10">Stripe</p></a>
 	    </div>
 	    <div class="col-sm-3 h5 center">
-	        <a href="#admin#rt=extension/extensions/install&extension=cardknox" target="_extension">
-	        <img style="width: 94px; width: height: 94px;" src="extensions/cardknox/image/icon.png"><br>CardKnox</a>
+	        <a href="#admin#rt=extension/extensions/install&extension=sola" target="_extension">
+	        <img style="height: 94px;" src="extensions/sola/image/icon.webp"><br><p class="mt10">Sola</p></a>
 	    </div>
 	    <div class="col-sm-3 h5 center">
 	        <a href="#admin#rt=extension/extensions/install&extension=paypal_commerce" target="_extension">
-	        <img style="width: 94px; width: height: 94px;" src="extensions/paypal_commerce/image/icon.png"><br>Paypal Commerce</a>
+	        <img style="width: 94px; height: 94px;" src="extensions/paypal_commerce/image/icon.png"><br><p class="mt10">Paypal Commerce</p></a>
 	    </div>
 	    <div class="col-sm-3 h5 center">
-	        <a href="#admin#rt=extension/extensions/payment" target="_extension">
-	        <img src="admin/view/default/image/default_extension.png"><br>More Payments</a>
+	        <a style="margin-top: 36px; display: block;" href="#admin#rt=extension/extensions/payment" target="_extension">
+	        <img src="admin/view/default/image/default_extension.png"><br><p class="mt10">More Payments</p></a>
 	    </div>
     </div>
     ]]></value>
   </definition>
-
   <definition>
     <key>shipping_selection</key>
     <value><![CDATA[
@@ -105,24 +104,23 @@
     <div class="row">
 	    <div class="col-sm-3 h5 center">
 	        <a href="#admin#rt=extension/extensions/install&extension=default_free_shipping" target="_extension">
-	        <img src="extensions/default_free_shipping/image/icon.png"><br>Free shipping</a>
+	        <img style="height: 94px;" src="extensions/default_free_shipping/image/icon.png"><br><p class="mt10">Free shipping</p></a>
 	    </div>
 	    <div class="col-sm-3 h5 center">
 	        <a href="#admin#rt=extension/extensions/install&extension=default_fedex" target="_extension">
-	        <img src="extensions/default_fedex/image/icon.png"><br>Fedex</a>
+	        <img style="height: 94px;" src="extensions/default_fedex/image/icon.png"><br><p class="mt10">Fedex</p></a>
 	    </div>
 	    <div class="col-sm-3 h5 center">
 	        <a href="#admin#rt=extension/extensions/install&extension=default_local_delivery" target="_extension">
-	        <img src="extensions/default_local_delivery/image/icon.png"><br>Local Delivery</a>
+	        <img style="height: 94px;" src="extensions/default_local_delivery/image/icon.png"><br><p class="mt10">Local Delivery</p></a>
 	    </div>
 	    <div class="col-sm-3 h5 center">
-	        <a href="#admin#rt=extension/extensions/shipping" target="_extension">
-	        <img src="admin/view/default/image/default_extension.png"><br>More Shippings</a>
+	        <a style="margin-top: 36px; display: block;" href="#admin#rt=extension/extensions/shipping" target="_extension">
+	        <img src="admin/view/default/image/default_extension.png"><br><p class="mt10">More Shippings</p></a>
 	    </div>
     </div>
     ]]></value>
   </definition>
-
   <definition>
     <key>language_selection</key>
     <value><![CDATA[
@@ -130,21 +128,8 @@
     <i class="fa fa-language fa-fw"></i> Select additional languages.
     </div>
     <div class="row">
-	    <div class="col-sm-3 h5 center">
-	        <a href="#admin#rt=extension/extensions/install&extension=default_italian" target="_extension">
-	        <img src="extensions/default_italian/image/icon.png"><br>Italian</a>
-	    </div>
-	    <div class="col-sm-3 h5 center">
-	        <a href="#admin#rt=extension/extensions/install&extension=default_spanish" target="_extension">
-	        <img src="extensions/default_spanish/image/icon.png"><br>Spanish</a>
-	    </div>
-	    <div class="col-sm-3 h5 center">
-	        <a href="#admin#rt=extension/extensions/install&extension=default_russian" target="_extension">
-	        <img src="extensions/default_russian/image/icon.png"><br>Russian</a>
-	    </div>
-	    <div class="col-sm-3 h5 center">
-	        <a href="#admin#rt=extension/extensions_store&category_id=67&sidx=date_modified" target="_extension">
-	        <img src="admin/view/default/image/default_extension.png"><br>More Languages</a>
+	    <div class="col-sm-12 h5 center">
+	        %s
 	    </div>
     </div>
     ]]></value>

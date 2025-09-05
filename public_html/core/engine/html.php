@@ -15,7 +15,8 @@
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
  *    needs, please refer to http://www.AbanteCart.com for more information.
- */ /** @noinspection PhpMultipleClassDeclarationsInspection */
+ */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -625,7 +626,7 @@ class AHtml extends AController
      * @return string
      * @throws AException
      */
-    public function installLanguageModal()
+    public function installLanguageModal(string $mode = 'render')
     {
         $packCartVersion = '';
         $registry = $this->registry;
@@ -668,14 +669,18 @@ class AHtml extends AController
                 $template['packages'][$name] =
                     [
                         'name'        => $langName,
-                        'image_url' => 'https://github.com/abantecart/abantecart-languages/raw/refs/heads/master/' . $name . '/image/icon%402x.png',
-                        'install_url'   => 'https://github.com/abantecart/abantecart-languages/releases/download/v' . $packCartVersion . '/' . $name . '.tar.gz'
+                        'image_url'   => 'https://github.com/abantecart/abantecart-languages/raw/refs/heads/master/' . $name . '/image/icon%402x.png',
+                        'install_url' => 'https://github.com/abantecart/abantecart-languages/releases/download/v' . $packCartVersion . '/' . $name . '.tar.gz'
                     ];
             }
-            $template['text_load_languages'] = $this->language->get('button_load_more_languages','extension/extensions');
-            $view->batchAssign($template);
-            /** @see form/language_install.tpl */
-            return $view->fetch('form/language_install.tpl');
+            $template['text_load_languages'] = $this->language->get('button_load_more_languages', 'extension/extensions');
+            if ($mode == 'render') {
+                $view->batchAssign($template);
+                /** @see form/language_install.tpl */
+                return $view->fetch('form/language_install.tpl');
+            } else {
+                return $template['packages'];
+            }
         }
         return '';
     }
@@ -2591,9 +2596,9 @@ class CountriesHtmlElement extends HtmlElement
         /** @var ModelLocalisationCountry $mdl */
         $mdl = $this->load->model('localisation/country');
         $results = $mdl->getCountries();
-        if($this->submit_mode == 'id'){
+        if ($this->submit_mode == 'id') {
             $this->options = array_column($results, 'name', 'country_id');
-        }else {
+        } else {
             $this->options = array_column($results, 'name', 'name');
         }
     }
@@ -2650,29 +2655,29 @@ class ZonesHtmlElement extends HtmlElement
     public function __construct($data)
     {
         parent::__construct($data);
-        if($this->zone_only) {
+        if ($this->zone_only) {
             return;
         }
-            /** @var ModelLocalisationCountry $mdl */
-            $mdl = $this->load?->model('localisation/country');
-            $results = $mdl->getCountries();
-            $this->zone_options = [];
-            $this->default_zone_field_name = 'zone_id';
-            $config_country_id = $this->config->get('config_country_id');
-            $options = [];
-            foreach ($results as $c) {
-                if ($c['country_id'] == $config_country_id) {
-                    $this->default_value = $this->submit_mode == 'id'
-                        ? [$config_country_id]
-                        : [$c['name'] => $c['name']];
-                }
-                if ($this->submit_mode == 'id') {
-                    $options[$c['country_id']] = $c['name'];
-                } else {
-                    $options[$c['name']] = $c['name'];
-                }
+        /** @var ModelLocalisationCountry $mdl */
+        $mdl = $this->load?->model('localisation/country');
+        $results = $mdl->getCountries();
+        $this->zone_options = [];
+        $this->default_zone_field_name = 'zone_id';
+        $config_country_id = $this->config->get('config_country_id');
+        $options = [];
+        foreach ($results as $c) {
+            if ($c['country_id'] == $config_country_id) {
+                $this->default_value = $this->submit_mode == 'id'
+                    ? [$config_country_id]
+                    : [$c['name'] => $c['name']];
             }
-            $this->options = $options;
+            if ($this->submit_mode == 'id') {
+                $options[$c['country_id']] = $c['name'];
+            } else {
+                $options[$c['name']] = $c['name'];
+            }
+        }
+        $this->options = $options;
     }
 
     public function getHtml()
