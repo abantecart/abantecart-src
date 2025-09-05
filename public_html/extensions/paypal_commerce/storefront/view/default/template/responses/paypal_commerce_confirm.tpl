@@ -17,8 +17,9 @@ if ($error) { ?>
         <div class="form-group text-center action-buttons" style="display: none;">
             <div class="center-block">
                 <div id="paypal-button-container">
-                    <?php //uncomment for testing of api-errors ?>
-                    <!-- <div id="owner-name"></div>-->
+                    <?php if(in_array('card-fields',$enabled_components)) {
+                     //uncomment for testing of api-errors ?>
+                    <div id="owner-name"></div>
                     <div id="card-number"></div>
                     <div class="row">
                         <div class="col-6">
@@ -33,6 +34,7 @@ if ($error) { ?>
                         <i class="bi bi-check-lg"></i>
                         <?php echo $button_confirm->text; ?>
                     </button>
+                    <?php } ?>
                 </div>
             </div>
         </div>
@@ -81,8 +83,12 @@ if ($error) { ?>
             loadPaypalScript(
                 "https://www.paypal.com/sdk/js?client-id=<?php echo $this->config->get('paypal_commerce_client_id') ?>&components=card-fields,buttons&intent=<?php echo $intent; ?>&currency=<?php echo $this->currency->getCode(); ?>",
                 () => {
+                    <?php if(in_array('card-fields',$enabled_components)) { ?>
                     initCardFields();
+                    <?php }
+                    if( !$enabled_components || in_array('buttons',$enabled_components) ){  ?>
                     initButtons();
+                    <?php } ?>
                 }
             );
 

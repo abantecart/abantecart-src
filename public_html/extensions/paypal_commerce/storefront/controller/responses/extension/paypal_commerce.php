@@ -83,6 +83,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         $template = 'responses/paypal_commerce_confirm.tpl';
 
+        $data['enabled_components'] = unserialize($this->config->get('paypal_commerce_enabled_components')) ?: [];
         $data['action'] = $this->html->getSecureURL('r/extension/paypal_commerce/send');
         $data['create_order_url'] = $this->html->getSecureURL('r/extension/paypal_commerce/createOrder');
         $data['capture_order_url'] = $this->html->getSecureURL('r/extension/paypal_commerce/captureOrder');
