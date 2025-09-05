@@ -211,7 +211,6 @@ class ModelToolFormsManager extends Model
             "DELETE FROM " . $this->db->table("forms") . "
 			WHERE form_id = " . $formId." AND locked < 1"
         );
-        $this->deleteFormDescription($formId);
         $this->removeFields($formId);
         $this->_deleteCache();
     }

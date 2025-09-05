@@ -12722,7 +12722,8 @@ CREATE TABLE `ac_form_descriptions`
     `form_id` int(11) NOT NULL DEFAULT 0,
     `language_id` int(11) NOT NULL,
     `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
-    PRIMARY KEY (`form_id`,`language_id`)
+    PRIMARY KEY (`form_id`,`language_id`),
+    CONSTRAINT `ac_form_descriptions_fk` FOREIGN KEY (`form_id`) REFERENCES `ac_forms` (`form_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --

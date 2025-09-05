@@ -76,3 +76,9 @@ alter table `ac_forms`
     add `locked` int(1) default 0 not null,
     add `date_added` timestamp default current_timestamp() null,
     add `date_modified` timestamp default current_timestamp() not null on update current_timestamp();
+
+delete from `ac_form_descriptions` where `form_id` not in (select `form_id` from `ac_forms`);
+alter table `ac_form_descriptions`
+    add constraint `ac_form_descriptions_fk`
+        foreign key (`form_id`) references `ac_forms` (`form_id`)
+            on update cascade on delete cascade;
