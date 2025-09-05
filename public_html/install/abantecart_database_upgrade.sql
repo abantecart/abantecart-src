@@ -62,6 +62,12 @@ alter table `ac_fields`
         foreign key (`group_id`) references `ac_field_groups` (`group_id`)
             on delete set null;
 
+delete from `ac_field_descriptions` where `field_id` not in (select `field_id` from `ac_fields`);
+alter table `ac_field_descriptions`
+    add constraint `ac_fields_fk`
+        foreign key (`field_id`) references `ac_fields` (`field_id`)
+            on update cascade on delete cascade;
+
 drop table `ac_fields_group_descriptions`;
 drop table `ac_fields_groups`;
 drop table `ac_form_groups`;

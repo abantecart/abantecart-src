@@ -12869,13 +12869,15 @@ VALUES
 
 
 DROP TABLE IF EXISTS `ac_field_descriptions`;
-CREATE TABLE `ac_field_descriptions` (
-                                         `field_id` int(11) NOT NULL DEFAULT 0,
-                                         `name` varchar(255) NOT NULL COMMENT 'translatable',
-                                         `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
-                                         `language_id` int(11) NOT NULL,
-                                         `error_text` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
-                                         PRIMARY KEY (`field_id`,`language_id`)
+CREATE TABLE `ac_field_descriptions`
+(
+     `field_id` int(11) NOT NULL DEFAULT 0,
+     `name` varchar(255) NOT NULL COMMENT 'translatable',
+     `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
+     `language_id` int(11) NOT NULL,
+     `error_text` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
+     PRIMARY KEY (`field_id`,`language_id`),
+     CONSTRAINT `ac_fields_fk` FOREIGN KEY (`field_id`) REFERENCES `ac_fields` (`field_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
