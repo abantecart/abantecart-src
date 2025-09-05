@@ -23,7 +23,6 @@ if (!defined('DIR_CORE')) {
 
 class ModelToolFormsManager extends Model
 {
-
     public $error = [];
 
     /**
@@ -210,7 +209,7 @@ class ModelToolFormsManager extends Model
     {
         $this->db->query(
             "DELETE FROM " . $this->db->table("forms") . "
-			WHERE form_id = " . $formId
+			WHERE form_id = " . $formId." AND locked < 1"
         );
         $this->deleteFormDescription($formId);
         $this->removeFields($formId);
@@ -699,6 +698,8 @@ class ModelToolFormsManager extends Model
      */
     public function removeField(int $formId, int $fieldId)
     {
+        $formId = (int)$formId;
+        $fieldId = (int)$fieldId;
         if (!$formId || !$fieldId) {
             return false;
         }
@@ -712,7 +713,7 @@ class ModelToolFormsManager extends Model
         $this->db->query(
             'DELETE FROM ' . $this->db->table("fields") . '
 			WHERE form_id = "' . $formId . '"
-			AND field_id = "' . $fieldId . '"'
+			AND field_id = "' . $fieldId . '" AND locked < 1'
         );
         $this->_deleteCache();
         return true;
@@ -754,7 +755,7 @@ class ModelToolFormsManager extends Model
         if ($res->num_rows > 0) {
             $this->db->query(
                 'DELETE FROM ' . $this->db->table("fields") . '
-				WHERE form_id = ' . $formId
+				WHERE form_id = ' . $formId. " AND locked < 1"
             );
             foreach ($res->rows as $row) {
                 $this->removeFieldValues((int)$row['field_id']);
