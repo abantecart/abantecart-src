@@ -1,3 +1,16 @@
+AbanteCart version 1.4.2.1
+
+This release addresses a security vulnerability in Page Builder (CVE-2025-50972).
+Impacted Versions
+	All 1.4.x versions
+Is the Upgrade Required?
+	If Page Builder is enabled and actively used, upgrading is strongly recommended.
+
+Bug Fixes
+----------
+-- Fix of critical vulnerability CVE-2025-50972
+
+
 AbanteCart version 1.4.2
 
 New Features
