@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 /** @noinspection PhpUndefinedClassInspection */
@@ -24,9 +24,6 @@ if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
-/**
- * @property ModelExtensionPaypalCommerce $model_extension_paypal_commerce
- */
 class ControllerResponsesExtensionPaypalCommerce extends AController
 {
     public function __construct($registry, $instance_id, $controller, $parent_controller = '')
@@ -84,6 +81,27 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $template = 'responses/paypal_commerce_confirm.tpl';
 
         $data['enabled_components'] = unserialize($this->config->get('paypal_commerce_enabled_components')) ?: [];
+
+        //AVS validation
+        if (in_array('card-fields', $data['enabled_components'])) {
+            if (!$this->customer->isLogged()) {
+                $address = $this->session->data['fc']['guest'];
+            } else {
+                /** @var ModelAccountAddress $addrMdl */
+                $addrMdl = $this->load->model('account/address');
+                $address = $addrMdl->getAddress($this->session->data['fc']['payment_address_id']);
+            }
+            $data['billing_address'] = [
+                'name'         => $address['firstname'] . ' ' . $address['lastname'],
+                'address_1'    => $address['address_1'],
+                'address_2'    => $address['address_2'],
+                'zone_name'    => $address['zone'],
+                'city'         => $address['city'],
+                'postcode'     => $address['postcode'],
+                'country_code' => $address['iso_code_2'],
+            ];
+        }
+
         $data['action'] = $this->html->getSecureURL('r/extension/paypal_commerce/send');
         $data['create_order_url'] = $this->html->getSecureURL('r/extension/paypal_commerce/createOrder');
         $data['capture_order_url'] = $this->html->getSecureURL('r/extension/paypal_commerce/captureOrder');
@@ -343,7 +361,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             //We cannot to solve this issue yet.
             //Also found pp api bug with shipping tax. It's not contains it at all. Can be solved with handling fee.
             $items[$i] = [
-                'name'        => $product['name'],
+                'name'        => substr($product['name'], 0, 127),
                 'unit_amount' => [
                     'value'         => "" . round($this->currency->convert(
                             $product['price'],
@@ -360,7 +378,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                 $items[$i]['description'] = $description;
             }
             if ($sku) {
-                $items[$i]['sku'] = $sku;
+                $items[$i]['sku'] = substr($sku, 0, 127);
             }
             $i++;
         }

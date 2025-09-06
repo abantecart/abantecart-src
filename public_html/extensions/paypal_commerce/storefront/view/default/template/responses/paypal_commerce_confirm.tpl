@@ -116,7 +116,7 @@ if ($error) { ?>
                             }
                         },
                         createOrder: function () {
-                            return fetch(<?php js_echo($create_order_url); ?> +'&' + $('input[name=csrftoken], input[name=csrfinstance]').serialize(), {
+                            return fetch(<?php js_echo($create_order_url); ?> + '&' + $('input[name=csrftoken], input[name=csrfinstance]').serialize(), {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json'
@@ -170,13 +170,12 @@ if ($error) { ?>
                     });
 
                     // Render the CardFields into the container
-                    /** uncomment name field for testing. Code below and div above.
+                    /** for testing
                      * @see https://developer.paypal.com/tools/sandbox/card-testing/#link-simulatecarderrorscenarios
                      */
-                    /* const ownerNameContainer = document.getElementById("owner-name");
-                       cardFields.NameField({ placeholder: 'Name on card' })
-                          .render(ownerNameContainer); */
-
+                     // const ownerNameContainer = document.getElementById("owner-name");
+                     //   cardFields.NameField({ placeholder: 'Name on card' })
+                     //      .render(ownerNameContainer);
 
                     const cardNumberContainer = document.getElementById("card-number");
                     const numberField = cardFields.NumberField(
@@ -203,7 +202,19 @@ if ($error) { ?>
                     $("#checkout_btn").on("click", async () => {
                         try {
                             $('#div-preloader').show();
-                            await cardFields.submit();
+                                await cardFields.submit(
+                                {
+                                    cardholderName: <?php js_echo($billing_address['name'])?>,
+                                    billingAddress: {
+                                        address_line_1: <?php js_echo($billing_address['address_1'])?>,
+                                        address_line_2: <?php js_echo($billing_address['address_2'])?>,
+                                        admin_area_1: <?php js_echo($billing_address['zone_name'])?>,
+                                        admin_area_2: <?php js_echo($billing_address['city'])?>,
+                                        postal_code: <?php js_echo($billing_address['postcode'])?>,
+                                        country_code: <?php js_echo($billing_address['country_code'])?>
+                                    },
+                                }
+                            );
                         } catch (err) {
                             $('#div-preloader').hide();
                             $('#paypalFrm').before(
