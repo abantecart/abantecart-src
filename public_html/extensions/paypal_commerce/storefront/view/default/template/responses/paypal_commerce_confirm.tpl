@@ -1,184 +1,353 @@
 <?php
+/** @var AController|AView $this */
+if($icon){ ?>
+     <div class="text-center"><?php echo $icon; ?></div>
+<?php }
 if ($error) { ?>
     <div class="alert alert-danger"><i class="fa fa-bug fa-fw"></i> <?php echo $error; ?></div>
-<?php
+    <?php
 } else { ?>
     <div class="enter_card col-12" style="min-width: 320px">
         <?php echo $form_open;
         //transaction details from Paypal API ?>
         <input id="transaction_details" name="transaction_details" type="hidden" value="">
         <?php echo $this->getHookVar('payment_table_pre'); ?>
-        <div id="div-preloader" class="wait alert alert-info text-center text-nowrap"><i class="fa fa-refresh fa-spin"></i> <?php echo $text_wait; ?></div>
+        <div id="div-preloader" class="wait alert alert-info text-center text-nowrap"><i
+                    class="fa fa-refresh fa-spin"></i> <?php echo $text_wait; ?></div>
         <div class="form-group text-center action-buttons" style="display: none;">
             <div class="center-block">
-                <div id="paypal-button-container"></div>
+                <div id="paypal-button-container">
+                    <?php if(in_array('card-fields',$enabled_components)) {
+                     //uncomment for testing of api-errors ?>
+<!--                    <div id="owner-name"></div>-->
+                    <div id="card-number"></div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div id="card-expiration"></div>
+                        </div>
+                        <div class="col-6">
+                            <div id="card-cvv"></div>
+                        </div>
+                    </div>
+                    <button type="button" id="checkout_btn" class="my-4 btn btn-primary lock-on-click fs-5 fw-bold"
+                            title="<?php echo $button_confirm->text ?>">
+                        <i class="bi bi-check-lg"></i>
+                        <?php echo $button_confirm->text; ?>
+                    </button>
+                    <?php } ?>
+                </div>
             </div>
         </div>
         </form>
     </div>
-<?php if( !in_array($intent,['capture','authorize'])){
+    <?php if (!in_array($intent, ['capture', 'authorize'])) {
         $intent = 'authorize';
     }
-?>
-<script type="text/javascript">
-   $(document).ready(function () {
-        //for generic checkout use Paypal javascriptSDK
-        //when try to load script from ajax-response
-        function loadPaypalScript(url, callback) {
-            var script = document.createElement("script")
-            script.type = "text/javascript";
-            script.setAttribute("data-client-token", <?php js_echo($client_token)?>);
-            script.setAttribute("data-partner-attribution-id", atob(<?php js_echo($bn_code);?>));
-            script.addEventListener('error',function(e){
-                $('#paypalFrm').before('<div class="alert alert-warning"><i class="fa fa-exclamation fa-fw"></i> Apologies, unable to load 3dParty scripts. Please try later or choose another payment method.</div>');
-                $('#div-preloader').hide();
-            });
-            if (script.readyState) {  //IE
-                script.onreadystatechange = function () {
-                    if (script.readyState === "loaded" ||
-                        script.readyState === "complete") {
-                        script.onreadystatechange = null;
-                        callback();
-                    }
-                };
-            } else {  //Others
-                script.onload = function () {
-                    callback();
-                };
-            }
-
-            script.src = url;
-            try {
-                document.getElementsByTagName('head')[0].appendChild(script);
-            }catch (e ){
-                console.log(e);
-            }
-        }
-
-        loadPaypalScript("https://www.paypal.com/sdk/js?client-id=<?php echo $this->config->get('paypal_commerce_client_id')
-                .'&currency='.$this->currency->getCode()
-                .'&intent='.$intent;?>&components=buttons", initPaypal);
-
-
-        function initPaypal() {
-
-            if (paypal === undefined) {
-                return;
-            }
-            try {
-                paypal.Buttons({
-                    commit: false,
-                    layout: 'horizontal',
-                    style: {
-                        label: 'checkout',
-                        size: {
-                            width: '50px'
+    ?>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Load the PayPal script and initialize CardFields
+            function loadPaypalScript(url, callback) {
+                var script = document.createElement("script");
+                script.type = "text/javascript";
+                script.setAttribute("data-client-token", <?php js_echo($client_token)?>);
+                script.setAttribute("data-partner-attribution-id", atob(<?php js_echo($bn_code);?>));
+                script.addEventListener('error', function (e) {
+                    $('#paypalFrm').before('<div class="alert alert-warning"><i class="fa fa-exclamation fa-fw"></i> Apologies, unable to load the PayPal script. Please try later or choose another payment method.</div>');
+                    $('#div-preloader').hide();
+                });
+                if (script.readyState) {
+                    // For IE
+                    script.onreadystatechange = function () {
+                        if (script.readyState === "loaded" ||
+                            script.readyState === "complete") {
+                            script.onreadystatechange = null;
+                            callback();
                         }
-                    },
-                    createOrder: function (data, actions) {
-                        return (
-                            // send your cart info to your server side to create a PayPal Order.
-                            fetch(<?php js_echo($create_order_url);?>+'&'+$('input[name=csrftoken], input[name=csrfinstance]').serialize()  , {
-                                method: "POST",
-                            })
-                            .then((response) => response.json())
-                            // return the PayPal Order ID that you received from the PayPal backend
-                            .then(function(order) {
-                                $('input[name=csrftoken]').val(order.csrftoken);
-                                $('input[name=csrfinstance]').val(order.csrfinstance);
-                                return order.id;
-                            })
-                        );
-                    },
-                    onCancel: function (data) {
-                        // Show a cancel page, or return to cart
-                        location = '<?php echo $cancel_url ?>';
-                    },
-                    onApprove: function (data, actions) {
-                        // Pass the PayPal order ID to your server side where you will capture it
-                        return fetch(<?php js_echo($capture_order_url);?>+'&'+$('input[name=csrftoken], input[name=csrfinstance]').serialize(), {
-                            method: "POST",
-                            body: JSON.stringify({
-                                orderID: data.orderID
-                            })
-                        })
-                        .then((response) => response.json())
-                        .then(function (orderData) {
-                                // Three cases to handle:
-                                //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
-                                //   (2) Other non-recoverable errors -> Show a failure message
-                                //   (3) Successful transaction -> Show confirmation or thank you
+                    };
+                } else {
+                    // For other browsers
+                    script.onload = function () {
+                        callback();
+                    };
+                }
 
-                                // This example reads a v2/checkout/orders capture response, propagated from the server
-                                // You could use a different API or structure for your 'orderData'
-                                const errorDetail = Array.isArray(orderData.details) && orderData.details[0];
+                script.src = url;
+                try {
+                    document.getElementsByTagName('head')[0].appendChild(script);
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+            <?php $cmpList = implode(",",$enabled_components) ?: 'buttons'; ?>
+            loadPaypalScript(
+                "https://www.paypal.com/sdk/js?client-id=<?php echo $this->config->get('paypal_commerce_client_id') ?>&components=<?php echo $cmpList; ?>&intent=<?php echo $intent; ?>&currency=<?php echo $this->currency->getCode(); ?>",
+                () => {
+                    <?php if(in_array('card-fields',$enabled_components)) { ?>
+                    initCardFields();
+                    <?php }
+                    if( !$enabled_components || in_array('buttons',$enabled_components) ){  ?>
+                    initButtons();
+                    <?php } ?>
+                }
+            );
 
-                                // Recoverable state, per:
-                                // https://developer.paypal.com/docs/checkout/integration-features/funding-failure/
-                                if (errorDetail && errorDetail.issue === 'INSTRUMENT_DECLINED') {
-                                    console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
-                                    return actions.restart();
+            function initCardFields() {
+                if (paypal === undefined || !paypal.CardFields) {
+                    console.error("PayPal CardFields component failed to load.");
+                    return;
+                }
+
+                // Initialize CardFields component
+                try {
+                    const cardFields = paypal.CardFields({
+                        style: {
+                            input: {
+                                fontSize: '16px',
+                                color: '#1b1c2d',
+                                "border-radius": '10px'
+
+                            },
+                            '.valid': {
+                                color: '#249b3e'
+                            },
+                            '.invalid': {
+                                color: '#ff6f61'
+                            }
+                        },
+                        createOrder: function () {
+                            return fetch(<?php js_echo($create_order_url); ?> + '&' + $('input[name=csrftoken], input[name=csrfinstance]').serialize(), {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
                                 }
-
-                                if (errorDetail) {
-                                    showPPError('Sorry, your transaction could not be processed.' + errorDetail);
-                                }
-
-                                // Successful capture! For demo purposes:
-                                console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
-                                $('input[name=csrftoken]').val(orderData.csrftoken);
-                                $('input[name=csrfinstance]').val(orderData.csrfinstance);
-                                $('#transaction_details').val(JSON.stringify(orderData));
-                                confirmSubmit($('#paypalFrm'), '<?php echo $action; ?>');
                             })
-                            .catch(showPPError);
-                    },
-                    onError: showPPError
-                }).render('#paypal-button-container');
-            }catch(e){
-                console.log(e);
+                                .then(response => response.json())
+                                .then(function (order) {
+                                    $('input[name=csrftoken]').val(order.csrftoken);
+                                    $('input[name=csrfinstance]').val(order.csrfinstance);
+                                    return order.id; // Return the PayPal order ID
+                                })
+                                .catch(function (error) {
+                                    console.error('Error creating order:', error);
+                                });
+                        },
+                        onApprove: function (data) {
+                            // Send the PayPal order ID to the server for capture
+                            return fetch(<?php js_echo($capture_order_url); ?> +'&' + $('input[name=csrftoken], input[name=csrfinstance]').serialize(), {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    orderID: data.orderID
+                                })
+                            })
+                                .then(response => response.json())
+                                .then(function (orderData) {
+                                    if (Array.isArray(orderData.details) && orderData.details[0]?.issue === 'INSTRUMENT_DECLINED') {
+                                        return actions.restart();
+                                    } else if (orderData.error || (Array.isArray(orderData.details) && orderData.details.length)) {
+                                        console.error("Error capturing order:", orderData.error || orderData.details[0]?.description);
+                                        return;
+                                    }
+
+                                    // Update form inputs with captured data
+                                    $('input[name=csrftoken]').val(orderData.csrftoken);
+                                    $('input[name=csrfinstance]').val(orderData.csrfinstance);
+                                    $('#transaction_details').val(JSON.stringify(orderData));
+
+                                    // Submit the form
+                                    confirmSubmit($('#paypalFrm'), '<?php echo $action; ?>');
+                                })
+                                .catch(function (error) {
+                                    showPPError(error.message || "An error occurred while processing the transaction.");
+                                });
+                        },
+                        onError: function (err) {
+                            showPPError(err.message || "An unknown error occurred.");
+                        }
+                    });
+
+                    // Render the CardFields into the container
+                    /** for testing
+                     * @see https://developer.paypal.com/tools/sandbox/card-testing/#link-simulatecarderrorscenarios
+                     */
+                     // const ownerNameContainer = document.getElementById("owner-name");
+                     //   cardFields.NameField({ placeholder: 'Name on card' })
+                     //      .render(ownerNameContainer);
+
+                    const cardNumberContainer = document.getElementById("card-number");
+                    const numberField = cardFields.NumberField(
+                        {
+                            placeholder: "XXXX XXXX XXXX XXXX"
+                        }
+                    );
+                    numberField.render(cardNumberContainer);
+                    const cardExpiryContainer = document.getElementById("card-expiration");
+                    const expiryField = cardFields.ExpiryField(
+                        {
+                            placeholder: "MM/YY"
+                        }
+                    );
+                    expiryField.render(cardExpiryContainer);
+                    const cardCvvContainer = document.getElementById("card-cvv");
+                    const cvvField = cardFields.CVVField(
+                        {
+                            placeholder: "CVV"
+                        }
+                    );
+                    cvvField.render(cardCvvContainer);
+
+                    $("#checkout_btn").on("click", async () => {
+                        try {
+                            $('#div-preloader').show();
+                                await cardFields.submit(
+                                {
+                                    cardholderName: <?php js_echo($billing_address['name'])?>,
+                                    billingAddress: {
+                                        address_line_1: <?php js_echo($billing_address['address_1'])?>,
+                                        address_line_2: <?php js_echo($billing_address['address_2'])?>,
+                                        admin_area_1: <?php js_echo($billing_address['zone_name'])?>,
+                                        admin_area_2: <?php js_echo($billing_address['city'])?>,
+                                        postal_code: <?php js_echo($billing_address['postcode'])?>,
+                                        country_code: <?php js_echo($billing_address['country_code'])?>
+                                    },
+                                }
+                            );
+                        } catch (err) {
+                            $('#div-preloader').hide();
+                            $('#paypalFrm').before(
+                                '<div class="alert alert-danger">' +
+                                '<i class="fa fa-exclamation"></i> ' +
+                                err?.message || "Payment error" + '</div>'
+                            );
+                        }
+                    });
+                } catch (err) {
+                    console.error("Error initializing PayPal CardFields:", err);
+                }
+
+                $('#paypalFrm').find('.action-buttons').show();
+                $('#div-preloader').hide();
             }
 
+            function initButtons() {
 
-           $('#paypalFrm').find('.action-buttons').show();
-           $('#div-preloader').hide();
-        }
-        function showPPError(text){
-            $('#div-preloader').hide();
-            $('#paypalFrm').find('.action-buttons').hide();
-            $('#paypalFrm').before('<div class="alert alert-warning"><i class="fa fa-bug fa-fw"></i> ' + text + '</div>');
-        }
-        function confirmSubmit($form, url) {
-            $form.find('.action-buttons').hide();
-            $('#div-preloader').show();
+                if (paypal === undefined) {
+                    return;
+                }
 
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: $form.serialize(),
-                dataType: 'json',
-                success: function (data) {
-                    if (!data) {
-                        $('#div-preloader').hide();
-                        $form.before('<div class="alert alert-danger"><i class="fa fa-bug fa-fw"></i> <?php echo $error_unknown; ?></div>');
-                    } else {
+                // Initialize Buttons component
+                try {
+                    paypal.Buttons({
+                        commit: false,
+                        layout: 'horizontal',
+                        style: {
+                            label: 'checkout',
+                            size: {
+                                width: '50px'
+                            }
+                        },
+                        createOrder: function (data, actions) {
+                            return (
+                                // send your cart info to your server side to create a PayPal Order.
+                                fetch(<?php js_echo($create_order_url);?>+'&' + $('input[name=csrftoken], input[name=csrfinstance]').serialize(), {
+                                    method: "POST",
+                                })
+                                    .then((response) => response.json())
+                                    // return the PayPal Order ID that you received from the PayPal backend
+                                    .then(function (order) {
+                                        $('input[name=csrftoken]').val(order.csrftoken);
+                                        $('input[name=csrfinstance]').val(order.csrfinstance);
+                                        return order.id;
+                                    })
+                            );
+                        },
+                        onCancel: function (data) {
+                            // Show a cancel page, or return to cart
+                            location = '<?php echo $cancel_url ?>';
+                        },
+                        onApprove: function (data, actions) {
+                            // Pass the PayPal order ID to your server side where you will capture it
+                            return fetch(<?php js_echo($capture_order_url);?>+'&' + $('input[name=csrftoken], input[name=csrfinstance]').serialize(), {
+                                method: "POST",
+                                body: JSON.stringify({
+                                    orderID: data.orderID
+                                })
+                            })
+                                .then((response) => response.json())
+                                .then(function (orderData) {
+                                    // Three cases to handle:
+                                    //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
+                                    //   (2) Other non-recoverable errors -> Show a failure message
+                                    //   (3) Successful transaction -> Show confirmation or thank you
+
+                                    // This example reads a v2/checkout/orders capture response, propagated from the server
+                                    // You could use a different API or structure for your 'orderData'
+                                    const errorDetail = Array.isArray(orderData.details) && orderData.details[0];
+
+                                    // Recoverable state, per:
+                                    // https://developer.paypal.com/docs/checkout/integration-features/funding-failure/
+                                    if (errorDetail && errorDetail.issue === 'INSTRUMENT_DECLINED') {
+                                        console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                                        return actions.restart();
+                                    }
+
+                                    if (errorDetail) {
+                                        showPPError('Sorry, your transaction could not be processed.' + errorDetail);
+                                    }
+
+                                    // Successful capture! For demo purposes:
+                                    console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                                    $('input[name=csrftoken]').val(orderData.csrftoken);
+                                    $('input[name=csrfinstance]').val(orderData.csrfinstance);
+                                    $('#transaction_details').val(JSON.stringify(orderData));
+                                    confirmSubmit($('#paypalFrm'), '<?php echo $action; ?>');
+                                })
+                                .catch(showPPError);
+                        },
+                        onError: showPPError
+                    }).render('#paypal-button-container');
+                } catch (e) {
+                    console.log(e);
+                }
+
+
+                $('#paypalFrm').find('.action-buttons').show();
+                $('#div-preloader').hide();
+            }
+
+            function showPPError(text) {
+                $('#paypalFrm').before('<div class="alert alert-danger"><i class="fa fa-exclamation fa-fw"></i> ' + text + '</div>');
+                $('#div-preloader').hide();
+                $('#paypalFrm .action-buttons').hide();
+            }
+
+            function confirmSubmit($form, url) {
+                $('#div-preloader').show();
+                $form.find('.action-buttons').hide();
+
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: $form.serialize(),
+                    dataType: 'json',
+                    success: function (data) {
                         if (data.error) {
                             alert(data.error);
-                            location = location;
-                            return;
+                            location.reload();
+                        } else if (data.success) {
+                            location.href = data.success;
                         }
-                        if (data.success) {
-                            location = data.success;
-                        }
+                    },
+                    error: function (xhr, status, error) {
+                        $('#div-preloader').hide();
+                        $form.before('<div class="alert alert-danger"><i class="fa fa-exclamation"></i> ' + status + ' ' + error + '</div>');
                     }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    $('#div-preloader').hide();
-                    $form.before('<div class="alert alert-danger"><i class="fa fa-exclamation fa-fw"></i> ' + textStatus + ' ' + errorThrown + '</div>');
-                }
-            });
-        }
-});
-</script>
-<?php
+                });
+            }
+        });
+    </script>
+    <?php
 } ?>

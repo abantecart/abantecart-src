@@ -1,4 +1,23 @@
 <?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
+
 /**
  * Class ExtensionPaypalCommerce
  */
@@ -29,14 +48,14 @@ class ExtensionPaypalCommerce extends Extension
             //update webhooks after onboarding
             if ($that->request->get['onboarded']) {
                 $mdl->updateWebHooks();
-            }else if ($that->request->get['disconnect']) {
+            } else if ($that->request->get['disconnect']) {
                 //delete webhooks before disconnect
                 $mdl->deleteWebHooks();
                 $settings = [
-                    'paypal_commerce_client_id' => '',
+                    'paypal_commerce_client_id'     => '',
                     'paypal_commerce_client_secret' => '',
-                    'paypal_commerce_test_mode' => '',
-                    'paypal_commerce_onboarding' => ''
+                    'paypal_commerce_test_mode'     => '',
+                    'paypal_commerce_onboarding'    => ''
                 ];
                 $that->loadLanguage('paypal_commerce/paypal_commerce');
                 /** @var ModelSettingSetting $mdl */
@@ -46,15 +65,15 @@ class ExtensionPaypalCommerce extends Extension
                     $settings,
                     (int)$that->session->data['current_store_id']
                 );
-                foreach($settings as $k=>$v){
-                    $that->config->set($k,'');
+                foreach ($settings as $k => $v) {
+                    $that->config->set($k, '');
                 }
 
                 $that->session->data['success'] = $that->language->get('text_disconnect_success');
             }
 
             //add gears as background when test mode is enabled
-            if($that->config->get('paypal_commerce_client_id') && $that->config->get('paypal_commerce_test_mode') ){
+            if ($that->config->get('paypal_commerce_client_id') && $that->config->get('paypal_commerce_test_mode')) {
                 $that->view->addHookVar(
                     'extension_toolbar_buttons',
                     '<script type="application/javascript">
@@ -67,6 +86,7 @@ class ExtensionPaypalCommerce extends Extension
             }
         }
     }
+
     //Hook to extension edit in the admin
     public function onControllerPagesExtensionExtensions_UpdateData()
     {
@@ -86,27 +106,27 @@ class ExtensionPaypalCommerce extends Extension
             );
 
             $dir_template = DIR_EXT
-                .'paypal_commerce'.DIRECTORY_SEPARATOR
-                .DIR_EXT_ADMIN
-                .DIR_EXT_TEMPLATE
-                .$that->config->get('admin_template')
-                .DIRECTORY_SEPARATOR."template"
-                .DIRECTORY_SEPARATOR."responses"
-                .DIRECTORY_SEPARATOR."extension"
-                .DIRECTORY_SEPARATOR."paypal_commerce_connect.tpl";
+                . 'paypal_commerce' . DIRECTORY_SEPARATOR
+                . DIR_EXT_ADMIN
+                . DIR_EXT_TEMPLATE
+                . $that->config->get('admin_template')
+                . DIRECTORY_SEPARATOR . "template"
+                . DIRECTORY_SEPARATOR . "responses"
+                . DIRECTORY_SEPARATOR . "extension"
+                . DIRECTORY_SEPARATOR . "paypal_commerce_connect.tpl";
             $that->view->batchAssign($that->language->getASet('paypal_commerce/paypal_commerce'));
 
-            $connected = ($that->config->get('paypal_commerce_client_id') && $that->config->get('paypal_commerce_onboarding') );
+            $connected = ($that->config->get('paypal_commerce_client_id') && $that->config->get('paypal_commerce_onboarding'));
 
             $data = [];
             $data['test_mode'] = $that->config->get('paypal_commerce_test_mode');
-            $data['disconnect_url'] = $that->html->getSecureURL( 'extension/extensions/edit', '&extension=paypal_commerce&disconnect=true');
+            $data['disconnect_url'] = $that->html->getSecureURL('extension/extensions/edit', '&extension=paypal_commerce&disconnect=true');
             /** @var ModelToolMPAPI $mpMdl */
             $mpMdl = $that->loadModel('tool/mp_api');
-            $data['connect_url'] = $mpMdl->getMPURL().'?rt=index/paypal_onboarding'
-            . '&abc_onboard_url='.base64_encode(  $that->html->getSecureURL('extension/paypal_commerce/onboard'))
-            . '&nonce='.getNonce(UNIQUE_ID)
-            . '&store_id='.(int)$that->session->data['current_store_id'];
+            $data['connect_url'] = $mpMdl->getMPURL() . '?rt=index/paypal_onboarding'
+                . '&abc_onboard_url=' . base64_encode($that->html->getSecureURL('extension/paypal_commerce/onboard'))
+                . '&nonce=' . getNonce(UNIQUE_ID)
+                . '&store_id=' . (int)$that->session->data['current_store_id'];
 
             //see if we are connected yet to paypal
             if ($connected) {
@@ -142,7 +162,7 @@ class ExtensionPaypalCommerce extends Extension
                     $mdl->updateWebHooks();
                 } catch (Exception $e) {
                     $that->error['webhooks_status'] = 'Updating Paypal Webhooks EndPoints: '
-                        .$e->getMessage().'('.$e->getCode().')';
+                        . $e->getMessage() . '(' . $e->getCode() . ')';
                 }
             }
         }
@@ -170,7 +190,7 @@ class ExtensionPaypalCommerce extends Extension
                     $mdl->updateWebHooks();
                 } catch (Exception $e) {
                     $that->log->write(
-                        'Updating Paypal Webhooks EndPoints: '.$e->getMessage().'('.$e->getCode().')'
+                        'Updating Paypal Webhooks EndPoints: ' . $e->getMessage() . '(' . $e->getCode() . ')'
                     );
                 }
             }
@@ -193,16 +213,16 @@ class ExtensionPaypalCommerce extends Extension
             $that->loadModel('extension/paypal_commerce');
             $this->_load_paypal_order_data($order_id, $that);
 
-            if (!$this->r_data || !$this->r_data['charge_id']){
+            if (!$this->r_data || !$this->r_data['charge_id']) {
                 return;
             }
-            $this->r_data['settings'] = $this->r_data['settings'] ? unserialize($this->r_data['settings']): [];
+            $this->r_data['settings'] = $this->r_data['settings'] ? unserialize($this->r_data['settings']) : [];
 
             $that->data['groups'][] = 'payment_details';
             $that->data['link_payment_details'] = $that->html->getSecureURL(
                 'sale/order/payment_details',
-                '&order_id='.$order_id
-                .'&extension=paypal_commerce'
+                '&order_id=' . $order_id
+                . '&extension=paypal_commerce'
             );
             //reload main view data with updated tab
             $that->view->batchAssign($that->data);
@@ -288,8 +308,8 @@ class ExtensionPaypalCommerce extends Extension
                             'amount_formatted' => $that->currency->format($amount, strtoupper($currencyCode), 1),
                             'currency'         => $currencyCode,
                             'reason'           => $refund->reason,
-                            'date_added'       => (string) date(
-                                $that->language->get('date_format_short')." ".$that->language->get('time_format'),
+                            'date_added'       => (string)date(
+                                $that->language->get('date_format_short') . " " . $that->language->get('time_format'),
                                 strtotime($refund->create_time)
                             ),
                             'receipt_number'   => $refund->id,

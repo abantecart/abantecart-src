@@ -1569,7 +1569,7 @@ class ExtensionUtils
                 if ($cfgKey) {
                     $value = $this->registry->get('config')->get($cfgKey);
                 }elseif (in_array((string) $item->type, ['checkboxgroup', 'multiselectbox'])) {
-                    $value = (string) $item->default_value;
+                    $value = (array) $item->default_value;
                 } else {
                     $value = $this->registry->get('html')->convertLinks(
                         htmlentities((string) $item->default_value, ENT_QUOTES, 'UTF-8')

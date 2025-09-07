@@ -1,4 +1,24 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
+
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /** @noinspection PhpUndefinedClassInspection */
 
@@ -29,11 +49,11 @@ class ModelExtensionPaypalCommerce extends Model
     protected $paypal;
     protected $supportedEvents = [
         'PAYMENT.AUTHORIZATION.CREATED' => 'webhookAuthCreated',
-        'PAYMENT.AUTHORIZATION.VOIDED' => 'webhookAuthVoided',
-        'PAYMENT.CAPTURE.COMPLETED' => 'webhookCaptureCompleted',
-        'PAYMENT.CAPTURE.DENIED' => 'webhookCaptureDenied',
-        'PAYMENT.CAPTURE.PENDING' => 'webhookCapturePending',
-        'PAYMENT.CAPTURE.REFUNDED' => 'webhookCaptureRefunded',
+        'PAYMENT.AUTHORIZATION.VOIDED'  => 'webhookAuthVoided',
+        'PAYMENT.CAPTURE.COMPLETED'     => 'webhookCaptureCompleted',
+        'PAYMENT.CAPTURE.DENIED'        => 'webhookCaptureDenied',
+        'PAYMENT.CAPTURE.PENDING'       => 'webhookCapturePending',
+        'PAYMENT.CAPTURE.REFUNDED'      => 'webhookCaptureRefunded',
     ];
 
     public function __construct($registry)
@@ -109,7 +129,7 @@ class ModelExtensionPaypalCommerce extends Model
             $request->body = [
                 'amount' =>
                     [
-                        'value' => $amount,
+                        'value'         => $amount,
                         'currency_code' => strtoupper($currencyCode),
                     ],
             ];
@@ -139,7 +159,7 @@ class ModelExtensionPaypalCommerce extends Model
             $request->body = [
                 'amount' =>
                     [
-                        'value' => $amount,
+                        'value'         => $amount,
                         'currency_code' => strtoupper($currencyCode),
                     ],
             ];
@@ -220,8 +240,8 @@ class ModelExtensionPaypalCommerce extends Model
                     $request = new WebhooksPatchRequest($whId);
                     $request->body = [
                         [
-                            "op" => "replace",
-                            "path" => "/url",
+                            "op"    => "replace",
+                            "path"  => "/url",
                             "value" => $whUrl,
                         ],
                     ];
@@ -240,7 +260,7 @@ class ModelExtensionPaypalCommerce extends Model
             } else {
                 try {
                     $body = [
-                        'url' => $whUrl,
+                        'url'         => $whUrl,
                         'event_types' => [
                             [
                                 'name' => $eventName,
@@ -265,6 +285,7 @@ class ModelExtensionPaypalCommerce extends Model
             sleep(1);
         }
     }
+
     /**
      * @throws Exception
      */

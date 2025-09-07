@@ -36,6 +36,18 @@
 		<key>paypal_commerce_transaction_type_authorize</key>
 		<value><![CDATA[Authorize Only]]></value>
 	</definition>
+    <definition>
+        <key>paypal_commerce_enabled_components</key>
+        <value><![CDATA[Enabled Components:]]></value>
+    </definition>
+    <definition>
+        <key>paypal_commerce_enabled_components_buttons</key>
+        <value><![CDATA[PayPal Buttons]]></value>
+    </definition>
+    <definition>
+        <key>paypal_commerce_enabled_components_card-fields</key>
+        <value><![CDATA[Card Fields]]></value>
+    </definition>
 	<definition>
 		<key>paypal_commerce_test_connection</key>
 		<value><![CDATA[Test Connection]]></value>
