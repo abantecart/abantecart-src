@@ -308,6 +308,9 @@ class ControllerPagesAccountAddress extends AController
                     ?? $address_info['country_id']
                     ?? $this->config->get('config_country_id');
             } elseif ($name == 'zone_id') {
+                $element->value = $this->request->post['country_id']
+                    ?? $address_info['country_id']
+                    ?? $this->config->get('config_country_id');
                 $element->zone_value = $this->data['zone_id'];
                 //set zone_id as value for select[option]
                 $element->submit_mode = 'id';

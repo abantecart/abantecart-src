@@ -744,6 +744,11 @@ class AForm
         foreach ($this->fields as $field) {
             $fieldName = $field['field_name'];
             $fieldTitle = $field['name'];
+
+            if(str_starts_with($fieldName, 'zone_') && $data[$fieldName] == '-1') {
+                continue;
+            }
+
             $isRequired = in_array($field['required'], [1, 'Y', '1']);
             // for multi-value required fields
             if (in_array($field['element_type'], HtmlElementFactory::getMultivalueElements())
