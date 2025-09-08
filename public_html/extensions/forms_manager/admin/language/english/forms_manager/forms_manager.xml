@@ -319,6 +319,10 @@
         <value><![CDATA[The fields have been successfully assigned to groups.]]></value>
     </definition>
     <definition>
+        <key>text_success_added_group</key>
+        <value><![CDATA[The group has been successfully added.]]></value>
+    </definition>
+    <definition>
         <key>button_reset</key>
         <value><![CDATA[Reset]]></value>
     </definition>
