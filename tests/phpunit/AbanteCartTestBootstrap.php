@@ -40,6 +40,7 @@ class AbanteCartTest extends PHPUnit\Framework\TestCase
         define('ABC_TEST_ROOT_PATH', $dirname);
         define('ABC_TEST_HTTP_HOST', 'travis-ci.org');
         define('ABC_TEST_PHP_SELF', 'abantecart/abantecart-src/public_html/index.php');
+        ini_set('session.save_path', '/tmp');
 
         $_SERVER['HTTP_HOST'] = ABC_TEST_HTTP_HOST;
         $_SERVER['PHP_SELF'] = ABC_TEST_PHP_SELF;
