@@ -174,9 +174,9 @@ class ControllerPagesAccountAddress extends AController
             $formated_address = $this->customer->getFormattedAddress((array)$result, $result['format']);
             $edit = $this->html->buildElement(
                 [
-                    'type'  => 'button',
-                    'text'  => $this->language->get('button_edit'),
-                    'href'  => $this->html->getSecureURL('account/address/update', '&address_id=' . $addressId)
+                    'type' => 'button',
+                    'text' => $this->language->get('button_edit'),
+                    'href' => $this->html->getSecureURL('account/address/update', '&address_id=' . $addressId)
                 ]
             );
             $delete = $this->html->buildElement(
@@ -199,20 +199,20 @@ class ControllerPagesAccountAddress extends AController
 
         $insert = $this->html->buildElement(
             [
-                'type'  => 'button',
-                'name'  => 'insert',
-                'text'  => $this->language->get('button_new_address'),
-                'href'  => $this->html->getSecureURL('account/address/insert'),
+                'type' => 'button',
+                'name' => 'insert',
+                'text' => $this->language->get('button_new_address'),
+                'href' => $this->html->getSecureURL('account/address/insert'),
             ]
         );
         $this->view->assign('button_insert', $insert);
 
         $back = $this->html->buildElement(
             [
-                'type'  => 'button',
-                'name'  => 'back',
-                'text'  => $this->language->get('button_back'),
-                'href'  => $this->html->getSecureURL('account/account'),
+                'type' => 'button',
+                'name' => 'back',
+                'text' => $this->language->get('button_back'),
+                'href' => $this->html->getSecureURL('account/account'),
             ]
         );
         $this->view->assign('button_back', $back);
@@ -268,9 +268,9 @@ class ControllerPagesAccountAddress extends AController
         }
 
         if ($addressId && $this->request->is_GET()) {
-            $address_info = $this->model_account_address->getAddress($addressId);
+            $addressInfo = $this->model_account_address->getAddress($addressId);
         } else {
-            $address_info = [];
+            $addressInfo = [];
         }
 
         $formTxtId = 'AddressFrm';
@@ -294,8 +294,12 @@ class ControllerPagesAccountAddress extends AController
         $form->loadFromDb($formTxtId);
         $formElements = $form->getFormElements();
         $this->data['zone_id'] = $this->request->post['zone_id']
-            ?? $address_info['zone_id']
+            ?? $addressInfo['zone_id']
             ?? $this->config->get('config_zone_id');
+
+        $this->data['country_id'] = $this->request->post['country_id']
+            ?? $addressInfo['country_id']
+            ?? $this->config->get('config_country_id');
 
         $this->data['error_warning'] = $this->error['warning'];
         foreach ($formElements as $group => $elements) {
@@ -304,14 +308,15 @@ class ControllerPagesAccountAddress extends AController
                 $this->data['error_' . $name] = $this->error[$name];
                 $this->data['entry_' . $name] = $element->display_name ?: $this->language->get('entry_' . $name);
 
+                $elmValue = $this->request->post[$name]
+                    ?: $addressInfo[$name]
+                        //take extended fields value
+                        ?: $addressInfo['ext_fields'][$name];
+
                 if ($name == 'country_id') {
-                    $element->value = $this->request->post['country_id']
-                        ?? $address_info['country_id']
-                        ?? $this->config->get('config_country_id');
+                    $element->value = $this->data['country_id'];
                 } elseif ($name == 'zone_id') {
-                    $element->value = $this->request->post['country_id']
-                        ?? $address_info['country_id']
-                        ?? $this->config->get('config_country_id');
+                    $element->value = $this->data['country_id'];
                     $element->zone_value = $this->data['zone_id'];
                     //set zone_id as value for select[option]
                     $element->submit_mode = 'id';
@@ -320,11 +325,10 @@ class ControllerPagesAccountAddress extends AController
                 } elseif ($name == 'default') {
                     $checked = $this->request->post['default'] ?? ($this->customer->getAddressId() == $addressId);
                     $element->checked = $checked ? 1 : 0;
+                } elseif ($element->type == 'checkbox') {
+                    $element->checked = $element->value == $elmValue;
                 } else {
-                    $element->value = $this->request->post[$name]
-                        ?: $address_info[$name]
-                            //take extended fields value
-                            ?: $address_info['ext_fields'][$name];
+                    $element->value = $elmValue;
                 }
 
                 $this->data['form']['fields'][$group][$name] = $element;
@@ -351,7 +355,7 @@ class ControllerPagesAccountAddress extends AController
         $this->processTemplate('pages/account/address.tpl');
     }
 
-    protected function validateForm(array $data)
+    protected function validateForm(array &$data)
     {
         if (!$this->csrftoken->isTokenValid()) {
             $this->error['warning'] = $this->language->get('error_unknown');
@@ -360,6 +364,17 @@ class ControllerPagesAccountAddress extends AController
         $form = new AForm();
         $form->loadFromDb('AddressFrm');
         $this->error = $form->validateFormData($data);
+        if (!$this->error) {
+            $fList = $form->getFields();
+            if ($fList) {
+                foreach ($fList as $fName => $f) {
+                    //if the field is checkbox and not present in the post-data - set it null
+                    if ($f['element_type'] == 'C' && !isset($data[$fName])) {
+                        $data[$fName] = null;
+                    }
+                }
+            }
+        }
 
         $this->extensions->hk_ValidateData($this, ['indata' => $data]);
 

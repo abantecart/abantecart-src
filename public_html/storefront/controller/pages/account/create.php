@@ -43,7 +43,7 @@ class ControllerPagesAccountCreate extends AController
             if ($this->csrftoken->isTokenValid()) {
                 // validation based on field settings
                 $this->validateForm($post);
-                $this->errors = array_merge($mdl->validateRegistrationData($post), $this->errors );
+                $this->errors = array_merge($mdl->validateRegistrationData($post), $this->errors);
             } else {
                 $this->errors['warning'] = $this->language->get('error_unknown');
             }
@@ -168,6 +168,7 @@ class ControllerPagesAccountCreate extends AController
                 if (isset($post[$name])) {
                     $element->value = $post[$name];
                 }
+
                 if ($name == 'zone_id') {
                     $element->value = $post['country_id'] ?? $this->config->get('config_country_id');
                     $element->zone_value = $post['zone_id'] ?: $this->config->get('config_zone_id');
@@ -175,6 +176,9 @@ class ControllerPagesAccountCreate extends AController
                     $element->submit_mode = 'id';
                     //show only zone selector
                     $element->zone_only = true;
+                }
+                if ($element->type == 'checkbox') {
+                    $element->checked = isset($post[$name]);
                 }
                 $this->data['form']['fields'][$groupTxtId][$name] = $element;
             }

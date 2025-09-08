@@ -1456,6 +1456,13 @@ class ControllerResponsesCheckoutPay extends AController
             ]
         );
 
+        $countryId = $this->request->post['country_id']
+            ?? $data['country_id']
+            ?? $this->config->get('config_country_id');
+        $zoneId = $this->request->post['zone_id']
+            ?? $data['zone_id']
+            ?? $this->config->get('config_zone_id');
+
         $addressForm = new AForm();
         $addressForm->loadFromDb(static::$formTxtId);
 
@@ -1466,25 +1473,25 @@ class ControllerResponsesCheckoutPay extends AController
                 $this->data['errors'][$name] = $this->error[$name];
                 $this->data['entry_' . $name] = $element->display_name ?: $this->language->get('entry_' . $name);
 
+                $elmValue = $this->request->post[$name]
+                    ?: $data[$name]
+                        ?: $this->fc_session['guest'][$name]
+                            //take extended fields value
+                            ?: $data['ext_fields'][$name];
+
                 if ($name == 'country_id') {
-                    $element->value = $this->request->post['country_id']
-                        ?? $data['country_id']
-                        ?? $this->config->get('config_country_id');
+                    $element->value = $countryId;
                 } elseif ($name == 'zone_id') {
-                    $element->value = $this->request->post['country_id']
-                        ?? $data['country_id']
-                        ?? $this->config->get('config_country_id');
-                    $element->zone_value = $data['zone_id'];
+                    $element->value = $countryId;
+                    $element->zone_value = $zoneId;
                     //set zone_id as value for select[option]
                     $element->submit_mode = 'id';
                     //show only zone selector
                     $element->zone_only = true;
+                } elseif ($element->type == 'checkbox') {
+                    $element->checked = $element->value == $elmValue;
                 } else {
-                    $element->value = $this->request->post[$name]
-                        ?: $data[$name]
-                            ?: $this->fc_session['guest'][$name]
-                                //take extended fields value
-                                ?: $data['ext_fields'][$name];
+                    $element->value = $elmValue;
                 }
                 $this->data['address_form']['fields'][$name] = $element;
             }

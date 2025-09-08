@@ -131,34 +131,37 @@ class ControllerPagesAccountEdit extends AController
         $form->loadFromDb(static::$formTxtId);
         $formElements = $form->getFormElements();
         $this->data['error_warning'] = $this->error['warning'];
+        $countryId = $this->request->post['country_id']
+            ?? $customerInfo['country_id']
+            ?? $this->config->get('config_country_id');
+        $zoneId = $this->request->post['zone_id']
+            ?? $customerInfo['zone_id']
+            ?? $this->config->get('config_zone_id');
+
+
         foreach ($formElements as $group => $elements) {
             foreach ($elements as $name => $element) {
                 //error messages
                 $this->data['error_' . $name] = $this->error[$name];
                 $this->data['entry_' . $name] = $element->display_name ?: $this->language->get('entry_' . $name);
+                $elmValue = $this->request->post[$name]
+                    ?: $customerInfo[$name]
+                        //take extended fields value
+                        ?: $customerInfo['ext_fields'][$name];
 
                 if ($name == 'country_id') {
-                    $element->value = $this->request->post['country_id']
-                        ?? $customerInfo['country_id']
-                        ?? $this->config->get('config_country_id');
+                    $element->value = $countryId;
                 } elseif ($name == 'zone_id') {
-                    $element->value = $this->request->post['country_id']
-                        ?? $customerInfo['country_id']
-                        ?? $this->config->get('config_country_id');
-                    $element->zone_value = $this->data['zone_id'];
+                    $element->value = $countryId;
+                    $element->zone_value = $zoneId;
                     //set zone_id as value for select[option]
                     $element->submit_mode = 'id';
                     //show only zone selector
                     $element->zone_only = true;
+                }elseif($element->type == 'checkbox'){
+                    $element->value = $element->value ?? 1;
+                    $element->checked = $element->value == $elmValue;
                 } else {
-                    $elmValue = $this->request->post[$name]
-                        ?: $customerInfo[$name]
-                        //take extended fields value
-                        ?: $customerInfo['ext_fields'][$name];
-                    if($element->type == 'checkbox') {
-                        $element->value = $element->value ?? 1;
-                        $element->checked = $element->value == $elmValue;
-                    }
                     $element->value = $elmValue;
                 }
                 $this->data['form']['fields'][$group][$name] = $element;
@@ -208,7 +211,7 @@ class ControllerPagesAccountEdit extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    protected function validateForm(array $data)
+    protected function validateForm(array &$data)
     {
         if (!$this->csrftoken->isTokenValid()) {
             $this->error['warning'] = $this->language->get('error_unknown');
@@ -217,6 +220,20 @@ class ControllerPagesAccountEdit extends AController
         $form = new AForm();
         $form->loadFromDb(static::$formTxtId);
         $this->error = $form->validateFormData($data);
+        if (!isset($data['loginname'])) {
+            unset($this->error['loginname']);
+        }
+        if(!$this->error) {
+            $fList = $form->getFields();
+            if ($fList) {
+                foreach ($fList as $fName => $f) {
+                    //if the field is checkbox and not present in the post-data - set it null
+                    if ($f['element_type'] == 'C' && !isset($data[$fName])) {
+                        $data[$fName] = null;
+                    }
+                }
+            }
+        }
 
         $this->extensions->hk_ValidateData($this, ['indata' => $data]);
 
