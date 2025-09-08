@@ -16,13 +16,18 @@ if ($error_warning) { ?>
 <?php } ?>
 <div class="container">
 	<?php
-    $form['form_open']->style .= ' needs-validation';
+    //$form['form_open']->style .= ' needs-validation';
     $form['form_open']->attr .= ' novalidate';
-    echo $form['form_open']; ?>
-	<h4><?php echo $text_edit_address; ?></h4>
+    echo $form['form_open'];
+    foreach($form['fields'] as $group => $fields){
+        $groupName = current($fields)->field_group_name ?: $text_edit_address;
+        if($groupName){ ?>
+            <h4><?php echo $groupName; ?></h4>
+            <?php
+        } ?>
 	<div class="ps-4 border p-3 mb-4">
     <?php
-        foreach ($form['fields'] as $field_name => $field) {
+        foreach ($fields as $field_name => $field) {
             if($field->type == 'hidden') {
                 echo $field;
                 continue;
@@ -39,7 +44,8 @@ if ($error_warning) { ?>
             </div>
         <?php } ?>
             <?php echo $this->getHookVar('address_edit_sections'); ?>
-        </div>
+    </div>
+    <?php } ?>
         <div class="ps-4 p-3 col-12 d-flex flex-wrap">
             <?php
             $form['back']->style .= 'btn-secondary';

@@ -18,14 +18,20 @@ if ($error_warning) { ?>
     </div>
 <?php }
 
-//$form['form_open']->style .= ' needs-validation';
-$form['form_open']->attr .= ' novalidate';
-echo $form['form_open']; ?>
-	<h4 class="mb-4 mt-3 pb-3 border-bottom"><?php echo $text_edit_address; ?></h4>
+    //$form['form_open']->style .= ' needs-validation';
+    $form['form_open']->attr .= ' novalidate';
+    echo $form['form_open'];
+    foreach($form['fields'] as $group => $fields){ ?>
+        <?php $groupName = current($fields)->field_group_name ?: $text_edit_address;
+        if($groupName){ ?>
+            <h4><?php echo $groupName; ?></h4>
+            <?php
+        } ?>
+
 	<div class="card mb-4">
         <div class="card-body">
             <?php
-                foreach ($form['fields'] as $fieldKey => $field) {
+                foreach ($fields as $fieldKey => $field) {
                     if($field->type == 'hidden') {
                         echo $field;
                         continue;
@@ -47,6 +53,7 @@ echo $form['form_open']; ?>
                 <?php echo $this->getHookVar('address_edit_sections'); ?>
         </div>
     </div>
+    <?php } ?>
     <div class="py-3 col-12 d-flex flex-wrap">
         <?php
         $form['back']->style .= 'btn-secondary';
@@ -60,6 +67,6 @@ echo $form['form_open']; ?>
     </div>
 </form>
 <script type="text/javascript">
-    <?php $cz_url = $this->html->getURL('common/zone', '&zone_id='. $zone_id); ?>
+    <?php $cz_url = $this->html->getSecureURL('common/zone', '&zone_id='. $zone_id); ?>
     $('select[name=\'zone_id\']').load('<?php echo $cz_url;?>&country_id=' + $('#AddressFrm_country_id').val());
 </script>

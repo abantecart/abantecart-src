@@ -292,41 +292,43 @@ class ControllerPagesAccountAddress extends AController
         );
 
         $form->loadFromDb($formTxtId);
-        $formElements = $form->getFormElements()['general'];
+        $formElements = $form->getFormElements();
         $this->data['zone_id'] = $this->request->post['zone_id']
             ?? $address_info['zone_id']
             ?? $this->config->get('config_zone_id');
 
         $this->data['error_warning'] = $this->error['warning'];
-        foreach ($formElements as $name => $element) {
-            //error messages
-            $this->data['error_' . $name] = $this->error[$name];
-            $this->data['entry_' . $name] = $element->display_name ?: $this->language->get('entry_' . $name);
+        foreach ($formElements as $group => $elements) {
+            foreach ($elements as $name => $element) {
+                //error messages
+                $this->data['error_' . $name] = $this->error[$name];
+                $this->data['entry_' . $name] = $element->display_name ?: $this->language->get('entry_' . $name);
 
-            if ($name == 'country_id') {
-                $element->value = $this->request->post['country_id']
-                    ?? $address_info['country_id']
-                    ?? $this->config->get('config_country_id');
-            } elseif ($name == 'zone_id') {
-                $element->value = $this->request->post['country_id']
-                    ?? $address_info['country_id']
-                    ?? $this->config->get('config_country_id');
-                $element->zone_value = $this->data['zone_id'];
-                //set zone_id as value for select[option]
-                $element->submit_mode = 'id';
-                //show only zone selector
-                $element->zone_only = true;
-            } elseif ($name == 'default') {
-                $checked = $this->request->post['default'] ?? ($this->customer->getAddressId() == $addressId);
-                $element->checked = $checked ? 1 : 0;
-            } else {
-                $element->value = $this->request->post[$name]
-                    ?: $address_info[$name]
-                        //take extended fields value
-                        ?: $address_info['ext_fields'][$name];
+                if ($name == 'country_id') {
+                    $element->value = $this->request->post['country_id']
+                        ?? $address_info['country_id']
+                        ?? $this->config->get('config_country_id');
+                } elseif ($name == 'zone_id') {
+                    $element->value = $this->request->post['country_id']
+                        ?? $address_info['country_id']
+                        ?? $this->config->get('config_country_id');
+                    $element->zone_value = $this->data['zone_id'];
+                    //set zone_id as value for select[option]
+                    $element->submit_mode = 'id';
+                    //show only zone selector
+                    $element->zone_only = true;
+                } elseif ($name == 'default') {
+                    $checked = $this->request->post['default'] ?? ($this->customer->getAddressId() == $addressId);
+                    $element->checked = $checked ? 1 : 0;
+                } else {
+                    $element->value = $this->request->post[$name]
+                        ?: $address_info[$name]
+                            //take extended fields value
+                            ?: $address_info['ext_fields'][$name];
+                }
+
+                $this->data['form']['fields'][$group][$name] = $element;
             }
-
-            $this->data['form']['fields'][$name] = $element;
         }
 
         $this->data['form']['back'] = $form->getFieldHtml(

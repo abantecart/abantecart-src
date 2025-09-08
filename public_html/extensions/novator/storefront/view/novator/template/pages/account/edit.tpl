@@ -17,11 +17,11 @@ if ($error_warning) { ?>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 <?php }
-//$form['form_open']->style .= ' needs-validation';
-$form['form_open']->attr .= ' novalidate';
-echo $form['form_open'];
+    //$form['form_open']->style .= ' needs-validation';
+    $form['form_open']->attr .= ' novalidate';
+    echo $form['form_open'];
 
-         foreach($form['fields'] as $group => $fields){ ?>
+    foreach($form['fields'] as $group => $fields){ ?>
         <?php $groupName = current($fields)->field_group_name;
         if($groupName){ ?>
             <h4><?php echo $groupName; ?></h4>

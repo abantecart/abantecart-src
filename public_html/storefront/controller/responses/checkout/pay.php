@@ -28,6 +28,7 @@ if (!defined('DIR_CORE')) {
  */
 class ControllerResponsesCheckoutPay extends AController
 {
+    public static $formTxtId = 'GuestCheckoutFrm';
     public $error = [];
     protected $action = '';
     public $allow_guest = false;
@@ -1337,7 +1338,7 @@ class ControllerResponsesCheckoutPay extends AController
         $post = $this->request->post;
         if ($this->request->is_POST() && $this->action != 'login') {
             $form = new AForm();
-            $form->loadFromDb('GuestCheckoutFrm');
+            $form->loadFromDb(static::$formTxtId);
             $this->error = $form->validateFormData($post);
             if ($this->error) {
                 $this->_addressForm($this->request->get['type'], $post);
@@ -1388,14 +1389,14 @@ class ControllerResponsesCheckoutPay extends AController
             }
         }
 
-        if ( $this->request->get['type'] == 'shipping'
+        if ($this->request->get['type'] == 'shipping'
             || isset($post['same_as_shipping'])
             || $this->config->get('fast_checkout_payment_address_equal_shipping')
         ) {
 
             $sessionGuest['email'] = $post['email'] ?: $sessionGuest['email'];
             $sessionGuest['telephone'] = $post['telephone'] ?: $sessionGuest['telephone'];
-            $sessionGuest['shipping'] = array_merge( (array)$sessionGuest['shipping'], $post );
+            $sessionGuest['shipping'] = array_merge((array)$sessionGuest['shipping'], $post);
 
             $this->loadModel('localisation/country');
             $countryInfo = $this->model_localisation_country->getCountry($post['country_id']);
@@ -1438,55 +1439,56 @@ class ControllerResponsesCheckoutPay extends AController
      */
     protected function _addressForm($type, $data)
     {
-        $formTxtId = 'GuestCheckoutFrm';
-        $params = '&'.http_build_query(['type' => $type]);
+        $params = '&' . http_build_query(['type' => $type]);
         $this->loadLanguage('account/address');
         $form = new AForm();
         $form->setForm(
             [
-                'form_name' => $formTxtId,
+                'form_name' => static::$formTxtId,
             ]
         );
 
         $this->data['address_form']['form_open'] = $form->getFieldHtml(
             [
                 'type'   => 'form',
-                'name'   => $formTxtId,
+                'name'   => static::$formTxtId,
                 'action' => $this->html->getSecureURL('r/checkout/pay/address', $params),
             ]
         );
 
         $addressForm = new AForm();
-        $addressForm->loadFromDb($formTxtId);
+        $addressForm->loadFromDb(static::$formTxtId);
 
-        $formElements = $addressForm->getFormElements($formTxtId)['general'];
-        foreach ($formElements as $name => $element) {
-            //error messages
-            $this->data['errors'][$name] = $this->error[$name];
-            $this->data['entry_' . $name] = $element->display_name ?: $this->language->get('entry_' . $name);
+        $formElements = $addressForm->getFormElements(static::$formTxtId);
+        foreach ($formElements as $group => $elements) {
+            foreach ($elements as $name => $element) {
+                //error messages
+                $this->data['errors'][$name] = $this->error[$name];
+                $this->data['entry_' . $name] = $element->display_name ?: $this->language->get('entry_' . $name);
 
-            if ($name == 'country_id') {
-                $element->value = $this->request->post['country_id']
-                    ?? $data['country_id']
-                    ?? $this->config->get('config_country_id');
-            } elseif ($name == 'zone_id') {
-                $element->value = $this->request->post['country_id']
-                    ?? $data['country_id']
-                    ?? $this->config->get('config_country_id');
-                $element->zone_value = $this->data['zone_id'];
-                //set zone_id as value for select[option]
-                $element->submit_mode = 'id';
-                //show only zone selector
-                $element->zone_only = true;
-            } else {
-                $element->value = $this->request->post[$name]
-                    ?: $data[$name]
-                    ?: $this->fc_session['guest'][$name]
-                        //take extended fields value
-                        ?: $data['ext_fields'][$name];
+                if ($name == 'country_id') {
+                    $element->value = $this->request->post['country_id']
+                        ?? $data['country_id']
+                        ?? $this->config->get('config_country_id');
+                } elseif ($name == 'zone_id') {
+                    $element->value = $this->request->post['country_id']
+                        ?? $data['country_id']
+                        ?? $this->config->get('config_country_id');
+                    $element->zone_value = $this->data['zone_id'];
+                    //set zone_id as value for select[option]
+                    $element->submit_mode = 'id';
+                    //show only zone selector
+                    $element->zone_only = true;
+                } else {
+                    $element->value = $this->request->post[$name]
+                        ?: $data[$name]
+                            ?: $this->fc_session['guest'][$name]
+                                //take extended fields value
+                                ?: $data['ext_fields'][$name];
+                }
+
+                $this->data['address_form']['fields'][$name] = $element;
             }
-
-            $this->data['address_form']['fields'][$name] = $element;
         }
 
         $this->data['address_form']['continue'] = $form->getFieldHtml(
