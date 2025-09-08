@@ -278,18 +278,16 @@ echo $this->html->buildElement([
 		$.ajax({
 			url: $(that).closest('form').attr('action'),
 			type: 'POST',
+            dataType: 'json',
 			global: true,
 			async: false,
 			data: $(that).closest('form').serializeArray(),
-			success: function (html) {
-				updateFieldsList();
-				$('#new_fieldFrm_field_id').delay(1000).change();
-				$('#field_modal').modal('hide');
+			success: function (response) {
 				success_alert(<?php js_echo($text_success_added_field); ?>, true);
 				//reset form in modal
 				$("#new_fieldFrm").trigger('reset');
 				$("#new_fieldFrm .changed").removeClass('changed');
-				location = location.href;
+				location = response.url;
 			}
 		});
 		return false;

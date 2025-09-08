@@ -209,7 +209,7 @@ class ModelToolFormsManager extends Model
     {
         $this->db->query(
             "DELETE FROM " . $this->db->table("forms") . "
-			WHERE form_id = " . $formId." AND locked < 1"
+			WHERE form_id = " . $formId . " AND locked < 1"
         );
         $this->removeFields($formId);
         $this->_deleteCache();
@@ -523,7 +523,7 @@ class ModelToolFormsManager extends Model
     /**
      * @param int $formId
      * @param array $data
-     * @return bool
+     * @return int|false
      * @throws AException
      */
     public function addField(int $formId, array $data)
@@ -545,14 +545,14 @@ class ModelToolFormsManager extends Model
             $sql .= " status = " . (int)$data['status'];
 
             $this->db->query($sql);
-            $field_id = (int)$this->db->getLastId();
+            $fieldId = (int)$this->db->getLastId();
             $this->addFieldDescription(
-                $field_id,
+                $fieldId,
                 $data,
                 $this->language->getContentLanguageID()
             );
             $this->_deleteCache();
-            return true;
+            return $fieldId;
         }
         return false;
     }
@@ -754,7 +754,7 @@ class ModelToolFormsManager extends Model
         if ($res->num_rows > 0) {
             $this->db->query(
                 'DELETE FROM ' . $this->db->table("fields") . '
-				WHERE form_id = ' . $formId. " AND locked < 1"
+				WHERE form_id = ' . $formId . " AND locked < 1"
             );
             foreach ($res->rows as $row) {
                 $this->removeFieldValues((int)$row['field_id']);
@@ -1088,6 +1088,6 @@ class ModelToolFormsManager extends Model
         $this->_deleteCache();
         return true;
     }
-    
-    
+
+
 }

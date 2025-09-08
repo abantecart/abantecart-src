@@ -433,8 +433,14 @@ class ControllerPagesToolFormsManager extends AController
         ]);
 
         $this->data['urls'] = [
-            'get_fields_list' => $this->html->getSecureURL('forms_manager/fields/get_fields_list', '&form_id=' . $formId),
-            'load_field'      => $this->html->getSecureURL('forms_manager/fields/load_field', '&form_id=' . $formId),
+            'get_fields_list' => $this->html->getSecureURL(
+                'forms_manager/fields/get_fields_list',
+                '&form_id=' . $formId
+            ),
+            'load_field'      => $this->html->getSecureURL(
+                'forms_manager/fields/load_field',
+                '&form_id=' . $formId.'&field_id='.$fieldId
+            ),
             'update_field'    => $this->html->getSecureURL('forms_manager/fields/updateField', '&form_id=' . $formId),
             'update_form'     => $this->html->getSecureURL('forms_manager/fields/update_form', '&form_id=' . $formId)
         ];
@@ -453,40 +459,6 @@ class ControllerPagesToolFormsManager extends AController
         $this->view->batchAssign($this->data);
         /** @see public_html/extensions/forms_manager/admin/view/default/template/pages/tool/forms_manager_fields.tpl */
         $this->processTemplate('pages/tool/forms_manager_fields.tpl');
-    }
-
-    public function addField()
-    {
-        //init controller data
-        $this->extensions->hk_InitData($this, __FUNCTION__);
-
-        $formId = (int)$this->request->get['form_id'];
-
-        if (!$formId) {
-            redirect($this->html->getSecureURL('tool/forms_manager'));
-        }
-
-        if ($this->request->is_POST()) {
-            // Debug: Log the POST data
-            error_log('Forms Manager addField POST data: ' . print_r($this->request->post, true));
-
-            // Validate the form data
-            $post = $this->request->post;
-            $post['form_id'] = $formId;
-
-            if (!$this->_validateFieldForm($post)) {
-                error_log('Forms Manager validation errors: ' . print_r($this->error, true));
-                $this->session->data['warning'] = $this->error['error_required'] ?? $this->language->get('error_fill_required');
-            } else {
-                if (!$this->mdl->addField($formId, $this->request->post)) {
-                    $this->session->data['warning'] = $this->language->get('error_duplicate_field_name');
-                } else {
-                    $this->session->data['success'] = $this->language->get('text_success_added_field');
-                }
-            }
-        }
-
-        redirect($this->html->getSecureURL('tool/forms_manager/fields', '&form_id=' . $formId));
     }
 
     protected function _init_tabs($active_tab = 'form')
@@ -533,37 +505,11 @@ class ControllerPagesToolFormsManager extends AController
         $this->data['tabs'] = $obj->dispatchGetOutput();
     }
 
-    protected function _validateFieldForm($data)
-    {
-        if (!$this->user->hasPermission('modify', 'tool/forms_manager')) {
-            $this->error['warning'] = $this->language->get('error_permission');
-        }
-
-        $data['field_name'] = preg_replace('/[^a-zA-Z0-9._]/', '', $data['field_name']);
-
-        if ((!$data['element_type'] && !$data['field_id']) || !$data['field_description'] || !$data['field_name']) {
-            $this->error['error_required'] = $this->language->get('error_fill_required');
-        }
-
-        if (!$this->mdl->isFieldNameUnique((int)$data['form_id'], (string)$data['field_name'], (int)$data['field_id'])) {
-            $this->error['field_name'] = sprintf($this->language->get('error_field_name_exists'), $data['field_name']);
-        }
-
-        if ($data['regexp_pattern'] && @preg_match($data['regexp_pattern'], '') === false) {
-            $this->error['regexp_pattern'] = $this->language->get('error_regexp_pattern');
-        }
-
-        $this->extensions->hk_ValidateData($this);
-        return (!$this->error);
-    }
-
     public function groups()
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-
         $formId = $this->isFormExists();
-
         if ($this->request->is_POST() && $this->validateFormGroups($formId, $this->request->post)) {
             //remove groups
             $groups = explode(',', $this->request->post['remove_groups']);

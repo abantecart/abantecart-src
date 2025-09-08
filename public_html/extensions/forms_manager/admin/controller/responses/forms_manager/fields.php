@@ -44,26 +44,16 @@ class ControllerResponsesFormsManagerFields extends AController
 
     public function addField()
     {
-        $post = $this->request->post;
-        $post['form_id'] = (int)$this->request->get['form_id'];
-        if (!$post['form_id'] || !$this->validateFieldForm($post)) {
-            $error = new AError('');
-            $error->toJSONResponse(
-                'VALIDATION_ERROR_406',
-                ['error_text' => $this->error]);
-            return;
-        }
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->mdl->addField($post['form_id'], $post);
-        $this->response->setOutput('');
-    }
-
-    public function updateField()
-    {
         $formId = (int)$this->request->get['form_id'];
         $post = $this->request->post;
-        $post['form_id'] = $formId;
-        if (!$this->validateFieldForm($post) || !$formId) {
+        if (!$formId || !$post) {
+            redirect($this->html->getSecureURL('tool/forms_manager'));
+        }
+
+        if (!$this->_validateFieldForm($post) || !$formId) {
             $error = new AError('');
             $error->toJSONResponse(
                 'VALIDATION_ERROR_406',
@@ -71,19 +61,37 @@ class ControllerResponsesFormsManagerFields extends AController
             return;
         }
 
-        $this->mdl->updateFormFieldData($post);
-        $this->response->setOutput('');
+        // Validate the form data
+        $post = $this->request->post;
+        $post['form_id'] = $formId;
+
+        if (!$this->_validateFieldForm($post)) {
+            $error = new AError('');
+            $error->toJSONResponse(
+                'VALIDATION_ERROR_406',
+                ['error_text' => $this->error]
+            );
+            return;
+        } else {
+            $fieldId = $this->mdl->addField($formId, $this->request->post);
+            $this->session->data['success'] = $this->language->get('text_success_added_field');
+        }
+
+        $url = $this->html->getSecureURL('tool/forms_manager/fields', '&form_id=' . $formId . '&field_id=' . $fieldId);
+        $this->response->addJSONHeader();
+        $this->load->library('json');
+        $this->response->setOutput(AJson::encode(['url' => $url]));
     }
 
-    protected function validateFieldForm($data)
+    protected function _validateFieldForm($data)
     {
-        if (!$this->user->hasPermission('modify', 'forms_manager/fields')) {
+        if (!$this->user->hasPermission('modify', 'tool/forms_manager')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
 
-        $data['field_name'] = preg_replace('/[^a-zA-Z0-9._]/', '', $data['field_name']);
+        $data['field_name'] = preformatTextID($data['field_name']);
 
-        if ((!$data['element_type'] && !$data['field_id']) || !$data['field_name']) {
+        if ((!$data['element_type'] && !$data['field_id']) || !$data['field_description'] || !$data['field_name']) {
             $this->error['error_required'] = $this->language->get('error_fill_required');
         }
 
@@ -97,6 +105,23 @@ class ControllerResponsesFormsManagerFields extends AController
 
         $this->extensions->hk_ValidateData($this);
         return (!$this->error);
+    }
+
+    public function updateField()
+    {
+        $formId = (int)$this->request->get['form_id'];
+        $post = $this->request->post;
+        $post['form_id'] = $formId;
+        if (!$this->_validateFieldForm($post) || !$formId) {
+            $error = new AError('');
+            $error->toJSONResponse(
+                'VALIDATION_ERROR_406',
+                ['error_text' => $this->error]);
+            return;
+        }
+
+        $this->mdl->updateFormFieldData($post);
+        $this->response->setOutput('');
     }
 
     public function remove_field()
