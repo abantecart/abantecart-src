@@ -34,9 +34,7 @@ class ControllerResponsesSaleInvoice extends AController
         $this->data['title'] = $this->language->get('heading_title');
         $this->data['css_url'] = RDIR_TEMPLATE . 'stylesheet/invoice.css';
 
-        $this->data['base'] = HTTPS === true
-            ? HTTPS_SERVER
-            : HTTP_SERVER;
+        $this->data['base'] = HTTPS_SERVER;
         $this->data['direction'] = $this->language->get('direction');
         $this->data['language'] = $this->language->get('code');
 
@@ -95,11 +93,20 @@ class ControllerResponsesSaleInvoice extends AController
             );
 
             $product_data = [];
-            $products = $this->model_sale_order->getOrderProducts($order_id);
+            $orderProducts = $this->model_sale_order->getOrderProducts($order_id);
             $this->loadModel('setting/setting');
             $storeSettings = $this->model_setting_setting->getSetting('details', $orderInfo['store_id']);
 
-            foreach ($products as $product) {
+            $orderProductIds = array_column($orderProducts, 'product_id');
+            $resource = new AResource('image');
+            $thumbnails = $resource->getMainThumbList(
+                'products',
+                $orderProductIds,
+                $this->config->get('config_image_cart_width'),
+                $this->config->get('config_image_cart_height')
+            );
+
+            foreach ($orderProducts as $product) {
                 $option_data = [];
                 $options = $this->model_sale_order->getOrderOptions($order_id, $product['order_product_id']);
                 foreach ($options as $option) {
@@ -109,17 +116,23 @@ class ControllerResponsesSaleInvoice extends AController
                     ];
                 }
 
+                $imgFile = str_replace(AUTO_SERVER, DIR_ROOT . DS, $thumbnails[(int)$product['product_id']]['thumb_url']);
+                $thumbnailUrl = is_file($imgFile)
+                    ? 'data:' . mime_content_type($imgFile) . ';base64,' . base64_encode(file_get_contents($imgFile))
+                    : '';
+
                 $product_data[] = [
-                    'name'     => $product['name'],
-                    'model'    => $product['model'],
-                    'option'   => $option_data,
-                    'quantity' => $product['quantity'],
-                    'price'    => $this->currency->format(
+                    'name'          => $product['name'],
+                    'thumbnail_url' => $thumbnailUrl,
+                    'model'         => $product['model'],
+                    'option'        => $option_data,
+                    'quantity'      => $product['quantity'],
+                    'price'         => $this->currency->format(
                         $product['price'],
                         $orderInfo['currency'],
                         $orderInfo['value']
                     ),
-                    'total'    => $this->currency->format_total(
+                    'total'         => $this->currency->format_total(
                         $product['price'],
                         $product['quantity'],
                         $orderInfo['currency'],
@@ -129,19 +142,20 @@ class ControllerResponsesSaleInvoice extends AController
             }
 
             $total_data = $this->model_sale_order->getOrderTotals($order_id);
-
+            $zoneName = '';
             if ($storeSettings['config_zone_id']) {
                 $this->loadModel('localisation/zone');
                 $zone = $this->model_localisation_zone->getZone($storeSettings['config_zone_id']);
                 if ($zone) {
-                    $zone_name = $zone['name'];
+                    $zoneName = $zone['name'];
                 }
             }
+            $countryName = '';
             if ($storeSettings['config_country_id']) {
                 $this->loadModel('localisation/country');
                 $country = $this->model_localisation_country->getCountry($storeSettings['config_country_id']);
                 if ($country) {
-                    $country_name = $country['name'];
+                    $countryName = $country['name'];
                 }
             }
 
@@ -154,22 +168,19 @@ class ControllerResponsesSaleInvoice extends AController
                         $orderInfo['date_added'],
                         $this->language->get('date_format_short')
                     ),
-                    'store_name'         => $orderInfo['store_name'],
                     'store_url'          => rtrim($orderInfo['store_url'], '/'),
                     'address'            => nl2br($storeSettings['config_address']),
                     'city'               => nl2br($storeSettings['config_city']),
                     'postcode'           => nl2br($storeSettings['config_postcode']),
-                    'zone'               => $zone_name,
-                    'country'            => $country_name,
+                    'zone'               => $zoneName,
+                    'country'            => $countryName,
                     'telephone'          => $storeSettings['config_telephone'],
                     'fax'                => $storeSettings['config_fax'],
                     'email'              => $storeSettings['store_main_email'],
                     'shipping_address'   => $shippingFormattedAddress,
                     'payment_address'    => $paymentFormattedAddress,
                     'customer_email'     => $orderInfo['email'],
-                    'ip'                 => $orderInfo['ip'],
                     'customer_telephone' => $orderInfo['telephone'],
-                    'comment'            => $orderInfo['comment'],
                     'product'            => $product_data,
                     'total'              => $total_data,
                 ]);
