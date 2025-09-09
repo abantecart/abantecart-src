@@ -548,7 +548,7 @@ class AForm
                             [
                                 'element_id'  => $elm->element_id,
                                 'type'        => $elm->type,
-                                'title'       => $elm->title,
+                                'title'       => $elm->title ?: $elm->display_name,
                                 'description' => (string)$elm->description,
                                 'error'       => (string)$this->errors[$elm->name],
                                 'item_html'   => $elm->getHtml(),
