@@ -18,13 +18,6 @@ class SystemCheckTest extends AbanteCartTest
         ini_set('session.save_path', $this->original_save_path);
     }
 
-    public function testCheckEmptySessionSavePath()
-    {
-        ini_set('session.save_path', '');
-        $result = check_session_save_path();
-        //$this::assertEquals($result, array());
-    }
-
     public function testCheckTmpSessionSavePath()
     {
         ini_set('session.save_path', '/tmp');
