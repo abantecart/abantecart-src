@@ -55,7 +55,7 @@
                             foreach ($field as $item) { ?>
                                 <div class="form-group">
                                     <label class="control-label col-sm-5"><?php echo $item['name']; ?></label>
-                                    <div class="input-group afield col-sm-7"><p style="text-align:left !important;" class="input-group-addon "><?php echo $item['value']; ?></p></div>
+                                    <div class="input-group afield col-sm-7"><p style="text-align:left !important;" class="input-group-addon "><?php echo nl2br($item['value']); ?></p></div>
                                 </div>
                             <?php }
                         }else {
@@ -85,7 +85,7 @@
                             foreach ($field as $item) { ?>
                                 <div class="form-group">
                                     <label class="control-label col-sm-5"><?php echo $item['name']; ?></label>
-                                    <div class="input-group afield col-sm-7"><p style="text-align:left !important;" class="input-group-addon "><?php echo $item['value']; ?></p></div>
+                                    <div class="input-group afield col-sm-7"><p style="text-align:left !important;" class="input-group-addon "><?php echo nl2br($item['value']); ?></p></div>
                                 </div>
                             <?php }
                         }else {

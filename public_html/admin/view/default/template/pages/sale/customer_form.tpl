@@ -128,7 +128,7 @@
                         foreach ($field as $item) { ?>
                                 <tr>
                                     <td style="width: 30%"><?php echo $item['name']; ?></td>
-                                    <td><?php echo $item['value']; ?></td>
+                                    <td><?php echo nl2br($item['value']); ?></td>
                                 </tr>
                         <?php } ?>
                         </table>

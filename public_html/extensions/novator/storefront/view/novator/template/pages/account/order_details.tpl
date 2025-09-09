@@ -58,7 +58,7 @@
                 <?php
                 foreach($ext_fields as $entry => $value){ ?>
                     <li class="list-group-item list-group-item-secondary">
-                        <b class="me-3"><?php echo $entry; ?></b><?php echo $value; ?>
+                        <b class="me-3"><?php echo $entry; ?></b><?php echo nl2br($value); ?>
                     </li>
                 <?php } ?>
             </ul>
