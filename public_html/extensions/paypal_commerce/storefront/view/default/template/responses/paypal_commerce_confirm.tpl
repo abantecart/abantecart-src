@@ -7,7 +7,7 @@ if ($error) { ?>
     <div class="alert alert-danger"><i class="fa fa-bug fa-fw"></i> <?php echo $error; ?></div>
     <?php
 } else { ?>
-    <div class="enter_card col-12" style="min-width: 320px">
+    <div class="enter_card col-12 text-center" style="min-width: 320px">
         <?php echo $form_open;
         //transaction details from Paypal API ?>
         <input id="transaction_details" name="transaction_details" type="hidden" value="">
@@ -145,10 +145,15 @@ if ($error) { ?>
                             })
                                 .then(response => response.json())
                                 .then(function (orderData) {
-                                    if (Array.isArray(orderData.details) && orderData.details[0]?.issue === 'INSTRUMENT_DECLINED') {
-                                        return actions.restart();
-                                    } else if (orderData.error || (Array.isArray(orderData.details) && orderData.details.length)) {
-                                        console.error("Error capturing order:", orderData.error || orderData.details[0]?.description);
+                                    const errorDetail = orderData.error;
+                                    if (errorDetail) {
+                                        console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                                    }
+
+                                    if (errorDetail) {
+                                        showPPError(
+                                            <?php js_echo($this->language->get('paypal_commerce_error_transaction'));?>
+                                             + '. ' + errorDetail);
                                         return;
                                     }
 
@@ -161,7 +166,7 @@ if ($error) { ?>
                                     confirmSubmit($('#paypalFrm'), '<?php echo $action; ?>');
                                 })
                                 .catch(function (error) {
-                                    showPPError(error.message || "An error occurred while processing the transaction.");
+                                    showPPError(error.message || <?php js_echo($this->language->get('paypal_commerce_error_transaction'));?>);
                                 });
                         },
                         onError: function (err) {
@@ -319,7 +324,10 @@ if ($error) { ?>
             }
 
             function showPPError(text) {
-                $('#paypalFrm').before('<div class="alert alert-danger"><i class="fa fa-exclamation fa-fw"></i> ' + text + '</div>');
+                $('#paypalFrm').before(
+                    '<div class="alert alert-danger"><i class="fa fa-exclamation fa-fw"></i> ' + text + '</div>'
+                    + '<button class="btn btn-info" onclick="location.reload();" type="button">Try again</button>'
+                );
                 $('#div-preloader').hide();
                 $('#paypalFrm .action-buttons').hide();
             }
