@@ -745,7 +745,7 @@ class AForm
             $fieldName = $field['field_name'];
             $fieldTitle = $field['name'];
 
-            if(str_starts_with($fieldName, 'zone_') && $data[$fieldName] == '-1') {
+            if (str_starts_with($fieldName, 'zone_') && $data[$fieldName] == '-1') {
                 continue;
             }
 
@@ -828,6 +828,13 @@ class AForm
 
                 if ($file_errors) {
                     $errors[$fieldName] .= implode(' ', $file_errors);
+                }
+            }
+
+            //check email
+            if ($field['element_type'] == 'E' && !$errors[$fieldName]) {
+                if (!preg_match(EMAIL_REGEX_PATTERN, $data[$fieldName])) {
+                    $errors[$fieldName] = $field['error_text'];
                 }
             }
         }
