@@ -1,10 +1,10 @@
 <?php if(!$no_wrapper){?>
-<div class="input-group h-100 form-check form-check-inline">
+<div class="input-group h-100">
 <?php }
 if($icon){?>
     <div class="input-group-text" title="<?php echo_html2view($display_name);?>"><?php echo $icon; ?></div>
 <?php } ?>
-<div class="d-flex align-items-center">
+<div class="d-flex align-items-center input-group-text">
     <input type="checkbox" class="form-check-input <?php echo $style; ?>"
            name="<?php echo $name ?>" id="<?php echo $id ?>"
            value="<?php echo $value ?>" <?php echo ($checked ? 'checked="checked"':'') ?> <?php echo $attr ?> <?php if ( $required ) { echo 'required'; }?>/>
@@ -15,7 +15,7 @@ if($icon){?>
     <?php } ?>
 </div>
 <?php if ( $required ) { ?>
-    <span class="input-group-text border-0 text-danger">*</span>
+    <span class="input-group-text text-danger">*</span>
 <?php }
 if(!$no_wrapper){?>
     </div>
