@@ -9,7 +9,7 @@ if($icon){?>
            name="<?php echo $name ?>" id="<?php echo $id ?>"
            value="<?php echo $value ?>" <?php echo ($checked ? 'checked="checked"':'') ?> <?php echo $attr ?> <?php if ( $required ) { echo 'required'; }?>/>
 <?php if ( $label_text ){ ?>
-    <label class="mx-1" for="<?php echo $id;?>">
+    <label class="mx-2" for="<?php echo $id;?>">
         <?php echo $label_text;?>
     </label>
     <?php } ?>

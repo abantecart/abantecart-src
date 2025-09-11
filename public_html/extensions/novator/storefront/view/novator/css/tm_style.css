@@ -478,10 +478,13 @@ a {
 }
 
 .form-control-lg {
-    min-height: calc(1.5em + 1.55rem + 2px);
     padding: 0.775rem 0.85rem;
     font-size: 1.25rem;
     border-radius: 10px;
+}
+
+.form-control-lg.form-check-input {
+    min-height: 1.5em;
 }
 
 .form-control-lg::file-selector-button {

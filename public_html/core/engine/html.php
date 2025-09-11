@@ -1879,7 +1879,7 @@ class CheckboxHtmlElement extends HtmlElement
                 'value'      => $this->value,
                 'attr'       => $this->attr,
                 'required'   => $this->required,
-                'label_text' => $this->label_text,
+                'label_text' => $this->label_text?: $this->display_name,
                 'checked'    => $checked,
                 'style'      => $this->style,
                 'text_on'    => $text_on,
