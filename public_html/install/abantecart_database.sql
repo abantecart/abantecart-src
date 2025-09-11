@@ -12835,7 +12835,7 @@ VALUES
     (26,4,NULL,'firstname','I',8,'minlength="1" maxlength="32" autocomplete="given-name"','','1',1,'/^.{1,32}$/u',17,1),
     (27,4,NULL,'lastname','I',9,'minlength="1" maxlength="32" autocomplete="family-name"','','1',1,'/^.{1,32}$/u',18,1),
     (29,4,NULL,'default','C',11,'','','0',1,'',0,1),
-    (30,4,NULL,'vat_id','I',10,'autocomplete="off"','','0',1,'/^.{8,14}$/u',0,1),
+    (30,4,NULL,'vat_id','I',10,'autocomplete="off"','','0',0,'/^.{8,14}$/u',0,0),
     (31,5,NULL,'country_id','O',1,'data-pair-with="zone_id" autocomplete="country"','','1',1,'/^[1-9]\\d*$/',10,1),
     (32,5,NULL,'zone_id','Z',2,'data-pair-with="country_id" autocomplete="address-level1"','','1',1,'/^[1-9]\\d*$/',11,1),
     (33,5,NULL,'company','I',3,'autocomplete="organization"','','0',1,'/^.{0,32}$/u',13,1),
@@ -12845,7 +12845,7 @@ VALUES
     (37,5,NULL,'postcode','I',7,'data-pair-with="city" autocomplete="postal-code"','','1',1,'/^[A-Za-z0-9\\- ]+$/',12,1),
     (38,5,NULL,'firstname','I',8,'minlength="1" maxlength="32" data-pair-with="lastname" autocomplete="given-name"','','1',1,'/^.{1,32}$/u',17,1),
     (39,5,NULL,'lastname','I',9,'minlength="1" maxlength="32" data-pair-with="firstname" autocomplete="family-name"','','1',1,'/^.{1,32}$/u',18,1),
-    (40,5,NULL,'vat_id','I',10,'autocomplete="off"','','0',1,'/^.{8,14}$/u',0,1),
+    (40,5,NULL,'vat_id','I',10,'autocomplete="off"','','0',0,'/^.{8,14}$/u',0,0),
     (41,5,NULL,'email','E',15,'minlength="1" maxlength="96" autocomplete="email"','','1',1,'',19,1),
     (42,5,NULL,'telephone','F',16,'maxlength="32" autocomplete="tel"','','0',1,'/^[+\\- 0-9\\(\\)]+$/',20,1),
     (43,6,NULL,'loginname','I',1,'minlength="5" maxlength="64" autocomplete="username"','','1',1,'/^[A-Za-z0-9._]{5,64}$/i',21,1),
@@ -12866,7 +12866,7 @@ VALUES
     (59,7,2,'company','I',12,'autocomplete="organization"','','0',1,'/^.{0,32}$/u',13,1),
     (60,7,3,'loginname','I',20,'minlength="5" maxlength="64" autocomplete="username"','','1',1,'/^[A-Za-z0-9._]{5,64}$/i',21,1),
     (61,7,4,'newsletter','C',30,'','','0',1,'',0,1),
-    (62,7,2,'vat_id','I',28,'autocomplete="off"','','0',1,'/^.{8,14}$/u',0,0);
+    (62,7,2,'vat_id','I',28,'autocomplete="off"','','0',0,'/^.{8,14}$/u',0,0);
 
 
 DROP TABLE IF EXISTS `ac_field_descriptions`;
