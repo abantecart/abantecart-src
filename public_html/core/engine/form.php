@@ -769,25 +769,20 @@ class AForm
                     $errors[$fieldName] = $fieldTitle . ' ' . $errorRequiredText;
                 }
             }
+            //email regexp pattern
+            if ($field['element_type'] == 'E') {
+                $field['regexp_pattern'] = $field['regexp_pattern'] ?: EMAIL_REGEX_PATTERN;
+            }
+
             // check by regexp
             if ($field['regexp_pattern']) {
-                //for string value
-                if (!is_array($data[$fieldName])) {
-                    if (!preg_match($field['regexp_pattern'], $data[$fieldName])) {
-                        // show error only for field with value or required
-                        if ($isRequired || $data[$fieldName]) {
+                $dataArr = is_array($data[$fieldName]) ? $data[$fieldName] : [(string)$data[$fieldName]];
+                foreach ($dataArr as $value) {
+                    if (!preg_match($field['regexp_pattern'], $value)) {
+                        if ($isRequired || $value) {
                             $errors[$fieldName] .= ' ' . $field['error_text'];
                         }
-                    }
-                } else {
-                    // for array's values
-                    foreach ($data[$fieldName] as $value) {
-                        if (!preg_match($field['regexp_pattern'], $value)) {
-                            if ($isRequired || $value) {
-                                $errors[$fieldName] .= ' ' . $field['error_text'];
-                            }
-                            break;
-                        }
+                        break;
                     }
                 }
             }
@@ -828,13 +823,6 @@ class AForm
 
                 if ($file_errors) {
                     $errors[$fieldName] .= implode(' ', $file_errors);
-                }
-            }
-
-            //check email
-            if ($field['element_type'] == 'E' && !$errors[$fieldName]) {
-                if (!preg_match(EMAIL_REGEX_PATTERN, $data[$fieldName])) {
-                    $errors[$fieldName] = $field['error_text'];
                 }
             }
         }
