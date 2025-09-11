@@ -196,7 +196,7 @@ class ControllerResponsesFormsManagerFields extends AController
                 'name'     => 'field_name',
                 'value'    => $fieldName,
                 'required' => true,
-                'attr'     => $this->data['field_type'] == 'captcha' ? ' readonly ' : ''
+                'attr'     => $this->data['field_type'] == 'captcha' || $this->data['field_data']['locked'] ? ' readonly ' : ''
             ]
         );
 

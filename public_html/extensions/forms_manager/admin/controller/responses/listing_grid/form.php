@@ -18,7 +18,7 @@
  *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
-class ControllerResponsesGridForm extends AController
+class ControllerResponsesListingGridForm extends AController
 {
     /** @var ModelToolFormsManager */
     public $mdl;
