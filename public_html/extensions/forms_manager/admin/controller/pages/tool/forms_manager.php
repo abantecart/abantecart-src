@@ -82,15 +82,35 @@ class ControllerPagesToolFormsManager extends AController
             'sortname'     => 'name',
             'sortorder'    => 'asc',
             'actions'      => [
-                'edit'   => [
+                'edit'     => [
                     'text' => $this->language->get('text_edit'),
                     'href' => $this->html->getSecureURL('tool/forms_manager/update', '&form_id=%ID%'),
                 ],
-                'save'   => [
+                'save'     => [
                     'text' => $this->language->get('button_save'),
                 ],
-                'delete' => [
+                'delete'   => [
                     'text' => $this->language->get('button_delete'),
+                ],
+                'dropdown' => [
+                    'text'     => $this->language->get('text_choose_action'),
+                    'href'     => $this->html->getSecureURL('tool/forms_manager/update', '&form_id=%ID%'),
+                    'children' => array_merge(
+                        [
+                            'general' => [
+                                'text' => $this->language->get('tab_general'),
+                                'href' => $this->html->getSecureURL('tool/forms_manager/update', '&form_id=%ID%'),
+                            ],
+                            'fields'  => [
+                                'text' => $this->language->get('text_fields'),
+                                'href' => $this->html->getSecureURL( 'tool/forms_manager/fields', '&form_id=%ID%'),
+                            ],
+                            'groups'  => [
+                                'text' => $this->language->get('text_groups'),
+                                'href' => $this->html->getSecureURL( 'tool/forms_manager/groups', '&form_id=%ID%' ),
+                            ],
+                        ], (array)$this->data['grid_edit_expand']
+                    ),
                 ],
             ],
         ];
@@ -439,7 +459,7 @@ class ControllerPagesToolFormsManager extends AController
             ),
             'load_field'      => $this->html->getSecureURL(
                 'forms_manager/fields/load_field',
-                '&form_id=' . $formId.'&field_id='.$fieldId
+                '&form_id=' . $formId . '&field_id=' . $fieldId
             ),
             'update_field'    => $this->html->getSecureURL('forms_manager/fields/updateField', '&form_id=' . $formId),
             'update_form'     => $this->html->getSecureURL('forms_manager/fields/update_form', '&form_id=' . $formId)
