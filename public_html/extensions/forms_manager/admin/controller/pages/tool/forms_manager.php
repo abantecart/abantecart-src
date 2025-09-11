@@ -76,9 +76,9 @@ class ControllerPagesToolFormsManager extends AController
 
         $grid_settings = [
             'table_id'     => 'forms_grid',
-            'url'          => $this->html->getSecureURL('grid/form'),
-            'editurl'      => $this->html->getSecureURL('grid/form/update'),
-            'update_field' => $this->html->getSecureURL('grid/form/update_field'),
+            'url'          => $this->html->getSecureURL('listing_grid/form'),
+            'editurl'      => $this->html->getSecureURL('listing_grid/form/update'),
+            'update_field' => $this->html->getSecureURL('listing_grid/form/update_field'),
             'sortname'     => 'name',
             'sortorder'    => 'asc',
             'actions'      => [
@@ -317,7 +317,7 @@ class ControllerPagesToolFormsManager extends AController
 
         // Load fields data
         $this->data['update'] = $this->html->getSecureURL(
-            'grid/form/update_field',
+            'listing_grid/form/update_field',
             '&form_id=' . $formId
         );
 
@@ -783,7 +783,7 @@ class ControllerPagesToolFormsManager extends AController
                 . ' - ' . $this->language->get('text_form');
             $this->data['form_id'] = $formId;
             $this->data['action'] = $this->html->getSecureURL('tool/forms_manager/update', '&form_id=' . $formId);
-            $this->data['update'] = $this->html->getSecureURL('grid/form/update_field', '&form_id=' . $formId);
+            $this->data['update'] = $this->html->getSecureURL('listing_grid/form/update_field', '&form_id=' . $formId);
         } else {
             $headForm = new AForm('HT');
             $this->data['action'] = $this->html->getSecureURL('tool/forms_manager/insert');

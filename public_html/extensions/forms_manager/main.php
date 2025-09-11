@@ -33,7 +33,7 @@ $controllers = [
     ],
     'admin'      => [
         'pages/tool/forms_manager',
-        'responses/grid/form',
+        'responses/listing_grid/form',
         'responses/forms_manager/fields',
         'responses/forms_manager/groups',
     ],
