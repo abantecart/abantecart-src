@@ -154,8 +154,7 @@ class ControllerResponsesExtensionStripe extends AController
             'capture_method' => $this->config->get('stripe_settlement'),
             'amount'         => $this->data['total_amount'],
             'currency'       => $currency,
-            'customer'       => $customer_stripe_id,
-            'receipt_email'  => $this->customer->getEmail(),
+            'receipt_email'  => $this->customer->getEmail() ?: $order_info['email'],
             'shipping'       => [
                 'address' =>
                     [
@@ -174,6 +173,9 @@ class ControllerResponsesExtensionStripe extends AController
                 "order_id" => $order_info['order_id'],
             ],
         ];
+        if($customer_stripe_id){
+            $piDetails['customer'] = $customer_stripe_id;
+        }
 
         $paymentMethods = unserialize($this->config->get('stripe_payment_method_list'));
         if ($paymentMethods) {
