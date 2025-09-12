@@ -1676,11 +1676,12 @@ class ControllerResponsesCheckoutPay extends AController
                     $method_data[$pkey]['is_redirect_payment'] = true;
                 }
                 //if payment with autoselect presents in the list - set first as preselected
-                if (!$this->data['payment_method'] && $autoselect) {
+                if (!$this->data['payment_method'] && $autoselect && !$this->fc_session['payment_method']) {
                     $this->data['payment_method'] = $method['id'];
                 }
             }
         }
+
         if ($no_payment) {
             $method_data = [
                 'no_payment_required' => [
@@ -1692,8 +1693,13 @@ class ControllerResponsesCheckoutPay extends AController
         }
         // if no "autoselect" methods - set first as preselected
         if (!$this->data['payment_method']) {
-            reset($method_data);
-            $this->data['payment_method'] = current($method_data)['id'];
+            if ($this->fc_session['payment_method']['id']
+                && in_array($this->fc_session['payment_method']['id'], array_column($method_data, 'id'))
+            ) {
+                $this->data['payment_method'] = $this->fc_session['payment_method']['id'];
+            } else {
+                $this->data['payment_method'] = current($method_data)['id'];
+            }
         }
 
         $this->session->data['payment_methods'] = $method_data;
