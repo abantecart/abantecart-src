@@ -205,6 +205,8 @@ if ($error) { ?>
                     cvvField.render(cardCvvContainer);
 
                     $("#checkout_btn").on("click", async () => {
+                        $('#paypalFrm').parent().find('.alert').remove();
+                        $('.paypal-buttons').hide();
                         try {
                             $('#div-preloader').show();
                                 await cardFields.submit(
@@ -224,9 +226,11 @@ if ($error) { ?>
                             $('#div-preloader').hide();
                             $('#paypalFrm').before(
                                 '<div class="alert alert-danger">' +
-                                '<i class="fa fa-exclamation"></i> ' +
+                                '<i class="fa fa-exclamation-triangle"></i> ' +
                                 err?.message || "Payment error" + '</div>'
                             );
+                            resetLockedButton($('#checkout_btn'));
+                            $('.paypal-buttons').show();
                         }
                     });
                 } catch (err) {
