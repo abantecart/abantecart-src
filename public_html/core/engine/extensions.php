@@ -896,9 +896,9 @@ class ExtensionsApi
         }
 
         $file = ($section ? DIR_EXT_ADMIN : DIR_EXT_STORE)
-            .'language/'
+            .'language'.DS
             .$language_name
-            .'/'.$route.'.xml';
+            .DS.$route.'.xml';
 
         //include language file from first matching extension
         foreach ($this->extensions_dir as $ext) {
@@ -942,7 +942,7 @@ class ExtensionsApi
 
         switch ($resource_type) {
             case 'M' :
-                $file = $ext_section.'model/'.$route.'.php';
+                $file = $ext_section.'model'.DS.$route.'.php';
                 $source = $this->extension_models;
                 break;
             case 'L' :
@@ -952,23 +952,23 @@ class ExtensionsApi
                     WHERE code='".$this->registry->get('session')->data['language']."'"
                 );
                 $file = $ext_section
-                    .'language/'
+                    .'language'.DS
                     .$query->row['directory']
-                    .'/'.$route.'.xml';
+                    .DS.$route.'.xml';
                 $source = $this->extension_languages;
                 break;
             case 'T' :
                 $tmpl_id = IS_ADMIN
                     ? $this->registry->get('config')->get('admin_template')
                     : $this->registry->get('config')->get('config_storefront_template');
-                $file = $ext_section.DIR_EXT_TEMPLATE.$tmpl_id.'/template/'.$route;
+                $file = $ext_section.DIR_EXT_TEMPLATE.$tmpl_id.DS.'template'.DS.$route;
                 $source = $this->extension_templates;
                 break;
             default:
                 return false;
         }
 
-        $section = trim($ext_section, '/');
+        $section = trim($ext_section, DS);
 
         //list only enabled extensions or all depending on status flag
         $extensions_lookup_list = [];
@@ -995,12 +995,12 @@ class ExtensionsApi
                 }
                 if ($resource_type == 'T') {
                     //check default template
-                    $f = DIR_EXT.$ext.$ext_section.DIR_EXT_TEMPLATE.'default/template/'.$route;
+                    $f = DIR_EXT.$ext.$ext_section.DIR_EXT_TEMPLATE.'default'.DS.'template'.DS.$route;
                     if (is_file($f)) {
                         return [
                             'file'      => $f,
                             'extension' => $ext,
-                            'base_path' => $ext_section.DIR_EXT_TEMPLATE.'default/template/'.$route,
+                            'base_path' => $ext_section.DIR_EXT_TEMPLATE.'default'.DS.'template'.DS.$route,
                         ];
                     }
                 }
@@ -1042,10 +1042,10 @@ class ExtensionsApi
         $tmpl_id = $isAdmin
             ? $this->registry->get('config')->get('admin_template')
             : $this->registry->get('config')->get('config_storefront_template');
-        $file = $ext_section.DIR_EXT_TEMPLATE.$tmpl_id.'/template/'.$route;
+        $file = $ext_section.DIR_EXT_TEMPLATE.$tmpl_id.DS.'template'.DS.$route;
         $source = $this->extension_templates;
 
-        $section = trim($ext_section, '/');
+        $section = trim($ext_section, DS);
 
         //list only enabled extensions
         $extensions_lookup_list = $this->enabled_extensions;
@@ -1065,12 +1065,12 @@ class ExtensionsApi
                 //if active template tpl not found - looking for default
                 if (!isset($output[$ext])) {
                     //check default template
-                    $f = DIR_EXT.$ext.$ext_section.DIR_EXT_TEMPLATE.'default/template/'.$route;
+                    $f = DIR_EXT.$ext.$ext_section.DIR_EXT_TEMPLATE.'default'.DS.'template'.DS.$route;
                     if (is_file($f)) {
                         $output[] = [
                             'file'      => $f,
                             'extension' => $ext,
-                            'base_path' => $ext_section.DIR_EXT_TEMPLATE.'default/template/'.$route,
+                            'base_path' => $ext_section.DIR_EXT_TEMPLATE.'default'.DS.'template'.DS.$route,
                         ];
                     }
                 }
@@ -1090,7 +1090,7 @@ class ExtensionsApi
     public function isExtensionController($route, ?bool $isAdmin = null)
     {
         $isAdmin = $isAdmin ?? IS_ADMIN;
-        $section = trim(($isAdmin ? DIR_EXT_ADMIN : DIR_EXT_STORE), '/');
+        $section = trim(($isAdmin ? DIR_EXT_ADMIN : DIR_EXT_STORE), DS);
         $path_build = '';
         $path_nodes = explode('/', $route);
 
@@ -1098,7 +1098,7 @@ class ExtensionsApi
             $path_build .= $path_node;
 
             foreach ($this->enabled_extensions as $ext) {
-                $file = DIR_EXT.$ext.'/'.$section.'/controller/'.$path_build.'.php';
+                $file = DIR_EXT.$ext.DS.$section.DS.'controller'.DS.$path_build.'.php';
                 $ext_controllers = is_array($this->extension_controllers[$ext][$section])
                     ? $this->extension_controllers[$ext][$section]
                     : [];
@@ -1124,7 +1124,7 @@ class ExtensionsApi
                 }
             }
 
-            $path_build .= '/';
+            $path_build .= DS;
             array_shift($path_nodes);
         }
 
@@ -1252,7 +1252,7 @@ class ExtensionUtils
         $this->config = getExtensionConfigXml($ext);
 
         if (!$this->config) {
-            $filename = DIR_EXT.str_replace('../', '', $this->name).'/config.xml';
+            $filename = DIR_EXT.str_replace('..'.DS, '', $this->name).DS.'config.xml';
             $err = sprintf('Error: Could not load config for <b>%s</b> ( '.$filename.')!', $this->name);
             foreach (libxml_get_errors() as $error) {
                 $err .= "  ".$error->message;
@@ -1280,7 +1280,7 @@ class ExtensionUtils
      */
     public function validateResources()
     {
-        $filename = DIR_EXT.str_replace('../', '', $this->name).'/main.php';
+        $filename = DIR_EXT.str_replace('..'.DS, '', $this->name).DS.'main.php';
         if (!is_file($filename)) {
             return null;
         }
