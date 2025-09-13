@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -36,23 +35,31 @@ class ControllerCommonListingGrid extends AController
         //Do not load scripts multiple times
         if (!$this->registry->has('jqgrid_script')) {
             $locale = $this->session->data['language'];
-            if (!file_exists(DIR_ROOT.'/'.RDIR_TEMPLATE.'javascript/jqgrid/js/i18n/grid.locale-'.$locale.'.js')) {
+            if (!file_exists(
+                DIR_ROOT . DS
+                . RDIR_TEMPLATE
+                . 'javascript' . DS
+                . 'jqgrid' . DS
+                . 'js' . DS
+                . 'i18n' . DS
+                . 'grid.locale-' . $locale . '.js')
+            ) {
                 $locale = 'en';
             }
-            $this->document->addScript(RDIR_TEMPLATE.'javascript/jqgrid/js/i18n/grid.locale-'.$locale.'.js');
+            $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/i18n/grid.locale-' . $locale . '.js');
 
-            $this->document->addScript(RDIR_TEMPLATE.'javascript/jqgrid/js/minified/jquery.jqGrid.min.js');
-            $this->document->addScript(RDIR_TEMPLATE.'javascript/jqgrid/plugins/jquery.grid.fluid.js');
-            $this->document->addScript(RDIR_TEMPLATE.'javascript/jqgrid/plugins/jquery.ba-bbq.min.js');
-            $this->document->addScript(RDIR_TEMPLATE.'javascript/jqgrid/plugins/grid.history.js');
+            $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/minified/jquery.jqGrid.min.js');
+            $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/plugins/jquery.grid.fluid.js');
+            $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/plugins/jquery.ba-bbq.min.js');
+            $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/plugins/grid.history.js');
 
-            //set flag to not include scripts/css twice
+            //set the flag to not include scripts/css twice
             $this->registry->set('jqgrid_script', true);
         }
-        $this->data['update_field'] = $this->data['update_field'] ? : '';
-        $this->data['editurl'] = $this->data['editurl'] ? : '';
-        $this->data['rowNum'] = $this->data['rowNum'] ? : (int) $this->config->get('config_admin_limit');
-        $this->data['rowNum'] = $this->data['rowNum'] ? : 10;
+        $this->data['update_field'] = $this->data['update_field'] ?: '';
+        $this->data['editurl'] = $this->data['editurl'] ?: '';
+        $this->data['rowNum'] = $this->data['rowNum'] ?: (int)$this->config->get('config_admin_limit');
+        $this->data['rowNum'] = $this->data['rowNum'] ?: 10;
         if (empty($this->data['rowList'])) {
             $this->data['rowList'] = [
                 $this->data['rowNum'],
@@ -61,14 +68,14 @@ class ControllerCommonListingGrid extends AController
             ];
         }
 
-        $this->data['multiselect'] = $this->data['multiselect'] ? : "true";
-        $this->data['multiaction'] = $this->data['multiaction'] ? : "true";
-        $this->data['hoverrows'] = $this->data['hoverrows'] ? : "true";
-        $this->data['altRows'] = $this->data['altRows'] ? : "true";
-        $this->data["sortorder"] = $this->data["sortorder"] ? : "desc";
+        $this->data['multiselect'] = $this->data['multiselect'] ?: "true";
+        $this->data['multiaction'] = $this->data['multiaction'] ?: "true";
+        $this->data['hoverrows'] = $this->data['hoverrows'] ?: "true";
+        $this->data['altRows'] = $this->data['altRows'] ?: "true";
+        $this->data["sortorder"] = $this->data["sortorder"] ?: "desc";
         $this->data["columns_search"] = $this->data["columns_search"] ?? true;
         $this->data["search_form"] = $this->data["search_form"] ?? false;
-        // add custom buttons to jqgrid "pager" area
+        // add custom buttons to the jqgrid "pager" area
         if ($this->data['custom_buttons']) {
             $custom_buttons = [];
             $i = 0;
@@ -76,10 +83,10 @@ class ControllerCommonListingGrid extends AController
                 if (!$button['caption']) {
                     continue;
                 }
-                $button['buttonicon'] = $button['buttonicon'] ? : 'ui-icon-newwin';
-                $button['onClickButton'] = $button['onClickButton'] ? : 'null';
-                $button['position'] = $button['position'] ? : 'last';
-                $button['cursor'] = $button['cursor'] ? : 'pointer';
+                $button['buttonicon'] = $button['buttonicon'] ?: 'ui-icon-newwin';
+                $button['onClickButton'] = $button['onClickButton'] ?: 'null';
+                $button['position'] = $button['position'] ?: 'last';
+                $button['cursor'] = $button['cursor'] ?: 'pointer';
                 $custom_buttons[$i] = $button;
                 $i++;
             }
@@ -98,12 +105,12 @@ class ControllerCommonListingGrid extends AController
         }
 
         //check for reserved column name
-        // name "parent" broke expanding of grid tree
+        //  "parent" broke expanding of a grid tree
         foreach ($this->data['colModel'] as $col) {
             if ($col['name'] == 'parent') {
                 throw new AException (AC_ERR_LOAD,
-                                      'Error: Could not create grid. Grid column model contains reserved column name ("'
-                                      .$col['index'].'").'
+                    'Error: Could not create grid. Grid column model contains reserved column name ("'
+                    . $col['index'] . '").'
                 );
             }
         }

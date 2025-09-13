@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -26,7 +25,7 @@ class ControllerPagesDesignTemplate extends AController
 {
     public $error = [];
     /** @var AConfigManager */
-    protected $conf_mngr;
+    protected $confManager;
 
     public function main()
     {
@@ -34,7 +33,7 @@ class ControllerPagesDesignTemplate extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->document->addStyle(
             [
-                'href' => RDIR_TEMPLATE.'stylesheet/layouts-manager.css',
+                'href' => RDIR_TEMPLATE . 'stylesheet/layouts-manager.css',
                 'rel'  => 'stylesheet',
             ]
         );
@@ -70,12 +69,12 @@ class ControllerPagesDesignTemplate extends AController
             ]
         );
 
-        $this->data['store_id'] = (int) ($this->request->get['store_id'] ?? $this->config->get('current_store_id'));
+        $this->data['store_id'] = (int)($this->request->get['store_id'] ?? $this->config->get('current_store_id'));
 
-        //check if store is active
+        //check if the store is active
         $store_info = $this->model_setting_store->getStore($this->data['store_id']);
         $this->data['status_off'] = '';
-        if (!($store_info['status']?:'')) {
+        if (!($store_info['status'] ?: '')) {
             $this->data['status_off'] = 'status_off';
         }
 
@@ -100,10 +99,10 @@ class ControllerPagesDesignTemplate extends AController
         foreach ($tmpls as $tmpl) {
             $templates[$tmpl] = [
                 'name'          => $tmpl,
-                'edit_url'      => $this->html->getSecureURL('design/template/edit', '&tmpl_id='.$tmpl),
-                // define template type by directory inside core.
-                // if it does not exist - it's extension, otherwise core-template
-                'template_type' => is_dir(DIR_STOREFRONT.'view/'.$tmpl) ? 'core' : 'extension',
+                'edit_url'      => $this->html->getSecureURL('design/template/edit', '&tmpl_id=' . $tmpl),
+                // define a template type by directory inside core.
+                // if it does not exist - it's an extension, otherwise core-template
+                'template_type' => is_dir(DIR_STOREFRONT . 'view' . DS . $tmpl) ? 'core' : 'extension',
             ];
 
             //button for template cloning
@@ -112,7 +111,7 @@ class ControllerPagesDesignTemplate extends AController
                 $href = $this->gen_help_url('template_dev_tools');
                 $target = '_blank';
             } elseif ($dev_tools['status'] == 1) {
-                $href = $this->html->getSecureURL('tool/developer_tools/create', '&template='.$tmpl);
+                $href = $this->html->getSecureURL('tool/developer_tools/create', '&template=' . $tmpl);
             } else {
                 $href = $this->html->getSecureURL('extension/extensions/edit', '&extension=developer_tools');
             }
@@ -129,29 +128,29 @@ class ControllerPagesDesignTemplate extends AController
             }
 
             //button to extension
-            if (!is_dir('storefront/view/'.$tmpl) && is_dir(DIR_EXT.$tmpl)) {
+            if (!is_dir('storefront' . DS . 'view' . DS . $tmpl) && is_dir(DIR_EXT . $tmpl)) {
                 $templates[$tmpl]['extn_url'] = $this->html->getSecureURL(
-                        'extension/extensions/edit',
-                        '&extension='.$tmpl
-                    );
+                    'extension/extensions/edit',
+                    '&extension=' . $tmpl
+                );
             }
             //set default
             if ($this->data['default_template'] != $tmpl) {
                 $templates[$tmpl]['set_default_url'] = $this->html->getSecureURL(
                     'design/template/set_default',
-                    '&tmpl_id='.$tmpl
-                        .'&store_id='.$this->data['store_id']
+                    '&tmpl_id=' . $tmpl
+                    . '&store_id=' . $this->data['store_id']
                 );
             }
 
-            $preview_file = $tmpl.'/image/preview.jpg';
-            if (is_file(DIR_EXT.$preview_file)) {
-                $preview_img = HTTPS_EXT.$preview_file;
+            $preview_file = $tmpl . 'image/preview.jpg';
+            if (is_file(DIR_EXT . str_replace('/', DS, $preview_file))) {
+                $preview_img = HTTPS_EXT . $preview_file;
             } else {
-                if (is_file('storefront/view/'.$tmpl.'/image/preview.jpg')) {
-                    $preview_img = AUTO_SERVER.'storefront/view/'.$tmpl.'/image/preview.jpg';
+                if (is_file('storefront' . DS . 'view' . DS . $tmpl . DS . 'image' . DS . 'preview.jpg')) {
+                    $preview_img = AUTO_SERVER . 'storefront/view/' . $tmpl . '/image/preview.jpg';
                 } else {
-                    $preview_img = HTTPS_IMAGE.'no_image.jpg';
+                    $preview_img = HTTPS_IMAGE . 'no_image.jpg';
                 }
             }
             $templates[$tmpl]['preview'] = $preview_img;
@@ -187,37 +186,37 @@ class ControllerPagesDesignTemplate extends AController
 
         $this->loadModel('setting/setting');
 
-        if ($this->request->get['store_id']) {
-            $store_id = (int) $this->request->get['store_id'];
+        if (isset($this->request->get['store_id'])) {
+            $store_id = (int)$this->request->get['store_id'];
         } else {
-            $store_id = (int) $this->config->get('current_store_id');
+            $store_id = (int)$this->config->get('current_store_id');
         }
-
-        if ($this->request->get['tmpl_id']) {
+        $templateTxtId = preformatTextID($this->request->get['tmpl_id']);
+        if ($templateTxtId) {
             $this->model_setting_setting->editSetting(
                 'appearance',
                 [
-                    'config_storefront_template' => $this->request->get['tmpl_id']
+                    'config_storefront_template' => $templateTxtId
                 ],
                 $store_id
             );
-            $this->config->set('config_storefront_template', $this->request->get['tmpl_id']);
+            $this->config->set('config_storefront_template', $templateTxtId);
             $this->session->data['success'] = $this->language->get('text_success');
         } else {
             $this->session->data['warning'] = $this->language->get('text_error');
         }
 
-        $extWithLayouts = findExtensionsLayouts($this->request->get['tmpl_id']);
-        if($extWithLayouts){
+        $extWithLayouts = findExtensionsLayouts($templateTxtId);
+        if ($extWithLayouts) {
             $list = [];
-            foreach($extWithLayouts as $key => $files){
-                $list[] = '<a target="_blank" href="'.$this->html->getSecureURL('extension/extensions/edit','&extension='.$key).'">'
-                        .$key.' ('.implode(', ',$files).')</a>';
+            foreach ($extWithLayouts as $key => $files) {
+                $list[] = '<a target="_blank" href="' . $this->html->getSecureURL('extension/extensions/edit', '&extension=' . $key) . '">'
+                    . $key . ' (' . implode(', ', $files) . ')</a>';
             }
 
-            $this->session->data['warning'] .= sprintf(
-                $this->language->get('warning_extensions_with_layouts'),
-                implode('<br>', $list)
+            $this->session->data['warning'] .= $this->language->getAndReplace(
+                'warning_extensions_with_layouts',
+                replaces: implode('<br>', $list)
             );
         }
 
@@ -232,13 +231,13 @@ class ControllerPagesDesignTemplate extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->loadLanguage('setting/setting');
         $this->document->setTitle($this->language->get('heading_title'));
-        $tmpl_id = $this->request->get['tmpl_id'] ?? '';
-        $this->data['tmpl_id'] = $tmpl_id;
+        $templateTxtId = preformatTextID($this->request->get['tmpl_id'] ?? '');
+        $this->data['tmpl_id'] = $templateTxtId;
         $languageId = $this->language->getContentLanguageID();
         $this->loadModel('setting/setting');
         $this->loadModel('setting/store');
 
-        if (!$tmpl_id) {
+        if (!$templateTxtId) {
             $this->session->data['warning'] = $this->language->get('text_error');
             redirect($this->html->getSecureURL('design/template'));
         }
@@ -250,15 +249,15 @@ class ControllerPagesDesignTemplate extends AController
         if ($this->request->is_POST() && $this->_validate('appearance')) {
             $post = $this->request->post;
             foreach (['config_logo', 'config_mail_logo', 'config_icon'] as $n) {
-                //use resource id as value
-                //also check if language specific logo presents
-                if (isset($post[$n.'_'.$languageId.'_resource_id'])) {
-                    $post[$n.'_'.$languageId] = $post[$n.'_'.$languageId.'_resource_id'];
-                    unset($post[$n.'_'.$languageId.'_resource_id']);
+                //use resource id as a value
+                //also check if language-specific logo presents
+                if (isset($post[$n . '_' . $languageId . '_resource_id'])) {
+                    $post[$n . '_' . $languageId] = $post[$n . '_' . $languageId . '_resource_id'];
+                    unset($post[$n . '_' . $languageId . '_resource_id']);
                 }
-                if (isset($post[$n.'_resource_id'])) {
-                    $post[$n] = $post[$n.'_resource_id'];
-                    unset($post[$n.'_resource_id']);
+                if (isset($post[$n . '_resource_id'])) {
+                    $post[$n] = $post[$n . '_resource_id'];
+                    unset($post[$n . '_resource_id']);
                 } elseif (isset($post[$n])) {
                     $post[$n] = html_entity_decode($post[$n], ENT_COMPAT, 'UTF-8');
                 }
@@ -266,12 +265,12 @@ class ControllerPagesDesignTemplate extends AController
 
             $this->model_setting_setting->editSetting($this->data['group'], $post, $this->request->get['store_id']);
             $this->session->data['success'] = $this->language->get('text_success');
-            $this->data['redirect_url'] = $this->html->getSecureURL('design/template/edit', '&tmpl_id='.$tmpl_id);
+            $this->data['redirect_url'] = $this->html->getSecureURL('design/template/edit', '&tmpl_id=' . $templateTxtId);
             $this->extensions->hk_ProcessData($this, __METHOD__);
             redirect($this->data['redirect_url']);
         }
 
-        $this->data['store_id'] = (int) ($this->request->get['store_id'] ?? $this->config->get('current_store_id'));
+        $this->data['store_id'] = (int)($this->request->get['store_id'] ?? $this->config->get('current_store_id'));
 
         $this->data['error'] = $this->error;
 
@@ -300,33 +299,30 @@ class ControllerPagesDesignTemplate extends AController
             unset($this->session->data['error']);
         }
 
-        $this->data['cancel'] = $this->html->getSecureURL('design/template/edit', '&tmpl_id='.$tmpl_id);
+        $this->data['cancel'] = $this->html->getSecureURL('design/template/edit', '&tmpl_id=' . $templateTxtId);
         $this->data['back'] = $this->html->getSecureURL('design/template');
 
         $this->load->library('config_manager');
-        $this->conf_mngr = new AConfigManager();
+        $this->confManager = new AConfigManager();
 
         //set control buttons
-        $tmpls = $this->conf_mngr->getTemplates('storefront');
+        $list = $this->confManager->getTemplates('storefront');
         $templates = [];
-        foreach ($tmpls as $tmpl) {
+        foreach ($list as $tmpl) {
             //skip current template
-            if ($tmpl != $tmpl_id) {
+            if ($tmpl != $templateTxtId) {
                 $templates[$tmpl] = [
                     'name' => $tmpl,
-                    'href' => $this->html->getSecureURL('design/template/edit', '&tmpl_id='.$tmpl),
+                    'href' => $this->html->getSecureURL('design/template/edit', '&tmpl_id=' . $tmpl),
                 ];
             }
         }
 
         $this->data['templates'] = $templates;
-        $this->data['current_template'] = $tmpl_id;
+        $this->data['current_template'] = $templateTxtId;
 
         //button for template cloning
-        $dev_tools = $this->extensions->getExtensionsList(
-            [
-                'search' => 'developer_tools'
-            ])->row;
+        $dev_tools = $this->extensions->getExtensionsList(['search' => 'developer_tools'])->row;
         $target = '';
         if (is_null($dev_tools['status'])) {
             $href = $this->gen_help_url('template_dev_tools');
@@ -352,38 +348,38 @@ class ControllerPagesDesignTemplate extends AController
             $this->data['store_id']
         );
 
-        unset($this->data['settings']['one_field']); //remove sign of single form field
+        unset($this->data['settings']['one_field']); //remove sign of a single form field
         foreach ($this->data['settings'] as $key => $value) {
             if (isset($this->request->post[$key])) {
                 $this->data['settings'][$key] = $this->request->post[$key];
             }
         }
-        //check if store is active
+        //check if the store is active
         $store_info = $this->model_setting_store->getStore($this->data['store_id']);
         $this->data['status_off'] = '';
         if (!$store_info['status']) {
             $this->data['status_off'] = 'status_off';
         }
-        //check if template is used
+        //check if a template is used
         $settings = $this->model_setting_setting->getSetting(
             'appearance',
             $this->data['store_id']
         );
         $this->data['default_template'] = $settings['config_storefront_template'];
-        if ($this->data['default_template'] != $tmpl_id) {
+        if ($this->data['default_template'] != $templateTxtId) {
             $this->data['status_off'] = 'status_off';
         }
 
         $this->_getForm();
 
-        $preview_file = $tmpl_id.'/image/preview.jpg';
-        if (is_file(DIR_EXT.$preview_file)) {
-            $preview_img = HTTPS_EXT.$preview_file;
+        $preview_file = $templateTxtId . '/image/preview.jpg';
+        if (is_file(DIR_EXT . str_replace('/', DS, $preview_file))) {
+            $preview_img = HTTPS_EXT . $preview_file;
         } else {
-            if (is_file('storefront/view/'.$tmpl_id.'/image/preview.jpg')) {
-                $preview_img = AUTO_SERVER.'storefront/view/'.$tmpl_id.'/image/preview.jpg';
+            if (is_file('storefront' . DS . 'view' . DS . $templateTxtId . DS . 'image' . DS . 'preview.jpg')) {
+                $preview_img = AUTO_SERVER . 'storefront/view/' . $templateTxtId . '/image/preview.jpg';
             } else {
-                $preview_img = HTTPS_IMAGE.'no_image.jpg';
+                $preview_img = HTTPS_IMAGE . 'no_image.jpg';
             }
         }
         $this->data['preview_img'] = $preview_img;
@@ -400,12 +396,12 @@ class ControllerPagesDesignTemplate extends AController
     {
         $this->data['action'] = $this->html->getSecureURL(
             'design/template/edit',
-            '&tmpl_id='.$this->data['tmpl_id'].'&store_id='.$this->data['store_id']
+            '&tmpl_id=' . $this->data['tmpl_id'] . '&store_id=' . $this->data['store_id']
         );
-        $this->data['form_title'] = $this->language->get('text_edit').' '.$this->language->get('heading_title');
+        $this->data['form_title'] = $this->language->get('text_edit') . ' ' . $this->language->get('heading_title');
         $this->data['update'] = $this->html->getSecureURL(
             'listing_grid/setting/update_field',
-            '&group='.$this->data['group'].'&store_id='.$this->data['store_id'].'&tmpl_id='.$this->data['tmpl_id']
+            '&group=' . $this->data['group'] . '&store_id=' . $this->data['store_id'] . '&tmpl_id=' . $this->data['tmpl_id']
         );
 
         $form = new AForm('HS');
@@ -447,7 +443,7 @@ class ControllerPagesDesignTemplate extends AController
             //get default setting fields for template
             $this->data['settings']['tmpl_id'] = 'appearance';
         }
-        $this->data['form']['fields'] = $this->conf_mngr->getFormFields(
+        $this->data['form']['fields'] = $this->confManager->getFormFields(
             'appearance',
             $form,
             $this->data['settings']
@@ -456,19 +452,19 @@ class ControllerPagesDesignTemplate extends AController
         $this->data['entry_mail_logo'] = $this->language->get('entry_default_mail_logo');
 
         $languages = $this->language->getActiveLanguages();
-        $contentLanguage = $languages[ $this->language->getContentLanguageCode() ?? $this->language->getLanguageCode() ];
-        if(count($languages) > 1){
+        $contentLanguage = $languages[$this->language->getContentLanguageCode() ?? $this->language->getLanguageCode()];
+        if (count($languages) > 1) {
             //language related logos
             $langName = mb_strtolower($contentLanguage['name']);
-            $this->data['entry_logo_'.$langName] = ucfirst($langName).' '.$this->language->get('entry_logo');
-            $this->data['entry_mail_logo_'.$langName] = ucfirst($langName).' '.$this->language->get('entry_mail_logo');
+            $this->data['entry_logo_' . $langName] = ucfirst($langName) . ' ' . $this->language->get('entry_logo');
+            $this->data['entry_mail_logo_' . $langName] = ucfirst($langName) . ' ' . $this->language->get('entry_mail_logo');
         }
 
         $resources_scripts = $this->dispatch(
             'responses/common/resource_library/get_resources_scripts',
             [
                 'object_name' => 'store',
-                'object_id'   => (int) $this->data['store_id'],
+                'object_id'   => (int)$this->data['store_id'],
                 'types'       => ['image'],
                 'onload'      => true,
                 'mode'        => 'single',

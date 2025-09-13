@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -45,7 +45,7 @@ class ALanguage
 
     /**
      * @param Registry $registry
-     * @param string $code - two letter language code
+     * @param string $code - two-letter language code
      * @param int $section - 0(storefront) or 1 (admin)
      *
      * @throws AException
@@ -58,11 +58,11 @@ class ALanguage
         } else {
             $this->is_admin = (int)$section;
         }
-        $root_path = defined('INSTALL') ? DIR_ABANTECART : DIR_ROOT . '/';
+        $root_path = defined('INSTALL') ? DIR_ABANTECART : DIR_ROOT . DS;
         if ($this->is_admin) {
-            $this->language_path = $root_path . 'admin/language/';
+            $this->language_path = $root_path . 'admin' . DS . 'language' . DS;
         } else {
-            $this->language_path = $root_path . 'storefront/language/';
+            $this->language_path = $root_path . 'storefront' . DS . 'language' . DS;
         }
 
         //Load available languages;
@@ -89,7 +89,7 @@ class ALanguage
         //If No language code, we need to detect language, set site language to use and set content language separately
         if (!$code) {
             $this->setCurrentLanguage();
-            //session language contains main language code
+            //session language contains the main language code
             $this->code = $registry->get('session')->data['language'];
         } else {
             $this->code = $code;
@@ -108,10 +108,10 @@ class ALanguage
     //		 There is no way to get access to used definitions and not possible to validate missing values
 
     /**
-     * Get single language definition
+     * Get a single language definition
      *
      * @param string $key - Language definition key
-     * @param string $block - RT (block) for corresponding key (optional) with slash. Block will be loaded to memory if not yet loaded
+     * @param string $block - RT (block) for a corresponding key (optional) with slash. Block will be loaded to memory if not yet loaded
      * @param bool $silent
      *
      * @return null|string - Definition value
@@ -123,7 +123,7 @@ class ALanguage
             return null;
         }
 
-        //if no specific area specified return main language
+        //if no specific area specified returns the main language
         if (!empty($block)) {
             if (!$this->_is_loaded($block)) {
                 $this->_load($block);
@@ -132,9 +132,7 @@ class ALanguage
         } else {
             if (!$silent) {
                 $backtrace = debug_backtrace();
-                $caller_file = $backtrace[0]['file'];
-                $caller_file_line = $backtrace[0]['line'];
-                $return_text = $this->_get_last_language_value($key, $caller_file, $caller_file_line, $silent);
+                $return_text = $this->_get_last_language_value($key, $backtrace[0]['file'], $backtrace[0]['line'], $silent);
             } else {
                 $return_text = $this->_get_last_language_value($key, '', '', $silent);
             }
@@ -176,12 +174,12 @@ class ALanguage
     /**
      * safe wrapper of sprintf text replace
      * @param string $key
-     * @param string|null $block
+     * @param string $block
      * @param array|string|null $replaces
      * @return string|null
      * @throws AException
      */
-    public function getAndReplace(string $key, ?string $block = '', array|string|null $replaces = [])
+    public function getAndReplace(string $key, string $block = '', array|string|null $replaces = [])
     {
         $replaces = (array)$replaces;
         $text = $this->get($key, $block);
@@ -192,13 +190,13 @@ class ALanguage
             $e = new AError("Wrong language definition for key " . $key . "\n " . $e->getMessage());
             $e->toDebug()->toLog();
             try {
-                //try to cutoff or fill replaces
+                //try to cut off or fill replacements
                 $replaces = array_slice($replaces, 0, $sCount);
                 if (count($replaces) < $sCount) {
                     $replaces += array_fill(count($replaces), ($sCount - count($replaces)), '');
                 }
                 $text = sprintf($text, ...$replaces);
-            } catch (Exception|Error $e) {
+            } catch (Exception|Error) {
             }
         }
 
@@ -208,15 +206,15 @@ class ALanguage
     /**
      * Get all language definitions
      *
-     * Note: If RT is not provided definition keys will be taken from main language section (ex: english.xml) if available
+     * Note: If RT is not provided, definition keys will be taken from a main language section (ex: english.xml) if available
      *
-     * @param string $block - RT (block) for corresponding key. Block will be loaded to memory if not yet loaded
+     * @param string $block - RT (block) for a corresponding key. Block will be loaded to memory if not yet loaded
      * @return array - Array with key/definition
      * @throws AException
      */
     public function getASet($block = '')
     {
-        //if no specific area specified return main language set
+        //if no specific area specified return the main language set
         if (empty($block) && empty($this->current_languages_scope)) {
             $block = $this->language_details['filename'];
         } else {
@@ -231,10 +229,10 @@ class ALanguage
      * Load language definitions for provided RT(block) into memory
      * Main method called by default from controllers to load language definitions per RT
      * wrapper for loading language via hook
-     * Note: If RT(block) is not provided definition keys will be taken from main language section (ex: english.xml) if available
+     * Note: If RT(block) is not provided, definition keys will be taken from a main language section (ex: english.xml) if available
      *
-     * @param string $block - RT (block) for corresponding key.
-     * @param string $mode - Load mode. silent - No error if XML file is missing.
+     * @param string $block - RT (block) for a corresponding key.
+     * @param string $mode - Load mode. silent - No error if an XML file is missing.
      *
      * @return array|null - Array with key/definition loaded
      * @throws AException
@@ -242,7 +240,7 @@ class ALanguage
      */
     public function load($block = '', $mode = '')
     {
-        //If $filename is not provided load current language main file
+        //If the filename is not provided, load a current language main file
         if (!$block) {
             $block = $this->current_language['filename'];
         }
@@ -256,7 +254,7 @@ class ALanguage
     }
 
     /**
-     * Returns array of all available languages in the abantecart system
+     * Returns an array of all available languages in the abantecart system
      * NOTE: These include active and inactive languages
      *    If only active languages needed use getActiveLanguages()
      *
@@ -387,13 +385,13 @@ class ALanguage
 
         if ($request_lang && array_key_exists($request_lang, $languages)) {
             $lang_code = $request_lang;
-            //Session based language
+            //Session-based language
         } elseif (isset($session->data['language']) && array_key_exists($session->data['language'], $languages)) {
             $lang_code = $session->data['language'];
-            //Cookie based language
+            //Cookie-based language
         } elseif (isset($request->cookie['language']) && array_key_exists($request->cookie['language'], $languages)) {
             $lang_code = $request->cookie['language'];
-            //Try autodetect the language based on the browser languages
+            //Try to autodetect the language based on the browser languages
         } elseif ($detect = $this->getClientBrowserLanguage()) {
             $lang_code = $detect;
         } else {
@@ -504,7 +502,7 @@ class ALanguage
      */
     public function getDefaultLanguage()
     {
-        //build code based array
+        //build code-based array
         $languages = [];
         foreach ($this->available_languages as $lng) {
             $languages[$lng['code']] = $lng;
@@ -565,7 +563,7 @@ class ALanguage
     }
 
     /**
-     * Check if block id a special case with main file (english, russian, etc ).
+     * Check if block id a special case with the main file (English, Russian, etc. ).
      * NOTE: Candidate for improvement. Rename these files to main.xml
      *
      * @param string $block - block name
@@ -591,9 +589,9 @@ class ALanguage
     }
 
     /**
-     * Read XML language file and return array with definitions
+     * Read XML language file and return an array with definitions
      *
-     * @param string $file - Full file path to language XML file
+     * @param string $file - Full file path to a language XML file
      *
      * @return array - Array with key/definition
      */
@@ -612,7 +610,7 @@ class ALanguage
     }
 
     /**
-     * Set scope of available language blocks for the caller
+     * Set the scope of available language blocks for the caller
      *
      * @param array|null $block_list
      * @return void
@@ -640,7 +638,7 @@ class ALanguage
         }
         $load_data = null;
 
-        //Check if we already have language loaded. Skip and return the language set
+        //Check if we already have the language loaded. Skip and return the language set
         if ($this->_is_loaded($filename)) {
             return $this->_get_language_set($filename);
         }
@@ -653,19 +651,18 @@ class ALanguage
         }
 
         if ($load_data === false) {
-
             //Check that filename has proper name with no other special characters.
             $block_name = str_replace('/', '_', $filename);
             //prevent error for pre and post controllers
             $block_name = str_replace('.', '_', $block_name);
-            if (preg_match("/[\W]+/", $block_name)) {
+            if (preg_match("/\W+/", $block_name)) {
                 $error = new AError('Error! Trying to load language with invalid path: "' . $filename . '"!');
                 $error->toLog()->toDebug();
                 return [];
             }
 
             $directory = $this->language_details['directory'];
-            // nothing in cache. Start loading
+            // nothing in the cache. Start loading
             ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' ' . $filename . ' no cache, so loading');
 
             //try to get text data from db
@@ -676,8 +673,8 @@ class ALanguage
                 $_ = $this->_load_from_xml($filename, $directory, $mode);
                 $this->_save_to_db($filename, $_);
             } else {
-                //We have something in database, look for missing or new values.
-                //Do this silently in case language file is missing, Not a big problem
+                //We have something in the database, look for missing or new values.
+                //Do this silently in case when the language file is missing, Not a big problem
                 $xml_vals = $this->_load_from_xml($filename, $directory, 'silent');
                 if (sizeof($xml_vals) > sizeof($_)) {
                     //we have missing value in language XML. Probably newly added
@@ -722,7 +719,7 @@ class ALanguage
     protected function _get_language_set($block)
     {
         $entries = [];
-        //if no rt look in all languages for last available translation
+        //if no rt look in all languages for the last available translation
         if (!$block) {
             $look_in_list = $this->current_languages_scope ?: array_keys($this->entries);
             foreach ($look_in_list as $block) {
@@ -771,7 +768,7 @@ class ALanguage
     }
 
     /**
-     * Check if block was loaded yet into memory
+     * Check if the block was already loaded into memory
      *
      * @param string $block
      *
@@ -870,7 +867,7 @@ class ALanguage
      */
     protected function _detect_language_xml_file($filename, $language_dir_name = 'english')
     {
-        if (empty($filename)) {
+        if (!$filename) {
             return null;
         }
         $file_path = $this->language_path . $language_dir_name . DS . $filename . '.xml';
@@ -912,7 +909,7 @@ class ALanguage
             'ALanguage ' . $this->language_details['name'] . ' ' . $filename . ' prepare loading language from XML'
         );
 
-        //get default extension language file
+        //get the default extension language file
         $default_language_info = $this->getDefaultLanguage();
 
         if ($filename == $directory) { // for common language file (english.xml. russian.xml, etc)
@@ -927,9 +924,9 @@ class ALanguage
             ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' loading XML file ' . $file_path);
             $definitions = $this->ReadXmlFile($file_path);
         } else {
-            //Missing xml, now handle default language XML load
+            //Missing XML, now handle the default language XML load
             $default_file_path = $this->_detect_language_xml_file($file_name, $default_language_info['directory']);
-            // if default language file path wrong - takes english as a fallback
+            // if default language file path wrong - takes English as a fallback
             if (!file_exists($default_file_path) && $default_language_info['directory'] != 'english') {
                 $file_name = $filename == $directory ? 'english' : $file_name;
                 $default_file_path = $this->_detect_language_xml_file($file_name);
@@ -948,7 +945,7 @@ class ALanguage
             }
         }
 
-        //skip if not required and language file does not exist for silent mode.
+        //skip if not required and the language file does not exist for silent mode.
         if (empty($definitions) && $mode != 'silent') {
             $error = new AError('Could not load language ' . $filename . ' from file "' . $file_path . '"!');
             $error->toLog()->toDebug();
@@ -957,7 +954,7 @@ class ALanguage
     }
 
     /**
-     *  Call to get specific definition value for RT(block).
+     *  Call to get a specific definition value for RT(block).
      *
      * @param string $key
      * @param string $filename
@@ -973,7 +970,7 @@ class ALanguage
     }
 
     /**
-     * Call to get specific definition value back traced in all available RTs(blocks)
+     * Call to get a specific definition value back traced in all available RTs(blocks)
      *
      * @param string $key
      * @param string $caller_file
@@ -986,11 +983,11 @@ class ALanguage
      */
     protected function _get_last_language_value($key, $caller_file = '', $caller_file_line = '', $silent = false)
     {
-        if (empty ($key)) {
+        if (!$key) {
             return null;
         }
 
-        //look in all blocks for last available translation based on list or all
+        //look in all blocks for the last available translation based on list or all
         if (isset ($this->current_languages_scope) && sizeof($this->current_languages_scope) > 0) {
             $rev_language_blocks = array_reverse($this->current_languages_scope);
         } else {
@@ -1005,7 +1002,7 @@ class ALanguage
             }
         }
 
-        // if value empty - write message based on the setting
+        // if value empty - write a message based on the setting
         if (empty($lang_value) && $this->registry->get('config')->get('warn_lang_text_missing')) {
             $rt = $this->registry->get('request')->get['rt'];
             if (!$silent) {

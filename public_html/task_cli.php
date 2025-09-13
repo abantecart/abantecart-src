@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 // Load Configuration
@@ -25,25 +25,34 @@ $root_path = dirname(__FILE__);
 // Windows IIS Compatibility  
 if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
     define('IS_WINDOWS', true);
-    $root_path = str_replace('\\', '/', $root_path);
+    $root_path = str_replace(DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, $root_path);
 }
 
 define('DIR_ROOT', $root_path);
-const DIR_CORE = DIR_ROOT . '/core/';
+const DIR_CORE = DIR_ROOT . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR;
 
-if (is_file(DIR_ROOT . '/system/config.php')) {
-    require_once(DIR_ROOT . '/system/config.php');
+if (is_file(DIR_ROOT . DIRECTORY_SEPARATOR . 'system' . DIRECTORY_SEPARATOR . 'config.php')) {
+    require_once(DIR_ROOT . DIRECTORY_SEPARATOR . 'system' . DIRECTORY_SEPARATOR . 'config.php');
 } else {
     exit('Fatal Error: configuration not found!');
 }
+
+// New Installation
+if (!defined('DB_DATABASE')) {
+    if (is_dir(DIR_ROOT . DIRECTORY_SEPARATOR . 'install')) {
+        header('Location: install/index.php');
+    }
+    exit('Fatal Error: configuration not found!');
+}
+
 //set server name for correct email sending
 if (defined('SERVER_NAME') && SERVER_NAME != '') {
     putenv("SERVER_NAME=" . SERVER_NAME);
 }
 // sign of admin side for controllers run from dispatcher
 $_GET['s'] = ADMIN_PATH;
-// Load all initial set up
-require_once(DIR_ROOT . '/core/init.php');
+// Load all initial set-up
+require_once(DIR_ROOT . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'init.php');
 // not needed anymore
 unset($_GET['s']);
 const RDIR_TEMPLATE = 'admin/view/default/';
@@ -59,7 +68,7 @@ $options = getOptionValues();
 
 switch ($command) {
     case "run":
-        //try to remove execution time limitation (can not work on some hosts!)
+        //try to remove execution time limitation (cannot work on some hosts!)
         ini_set("max_execution_time", "0");
         if ($options['task_id'] && $options['step_id']) {
             $options['task_id'] = (int)$options['task_id'];
