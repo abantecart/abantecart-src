@@ -1,30 +1,27 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
-
-require DIR_EXTENSIONS.'avatax_integration/core/vendor/autoload.php';
+require DIR_EXTENSIONS.'avatax_integration'.DS.'core'.DS.'vendor'.DS.'autoload.php';
 
 class ControllerResponsesExtensionAvataxIntegration extends AController
 {
-
-    public $data = array();
-
     public function test_address()
     {
         if (!$this->config->get('avatax_integration_status')) {
@@ -77,7 +74,7 @@ class ControllerResponsesExtensionAvataxIntegration extends AController
                 $warning->toLog()->toDebug();
             }
 
-            $json = array();
+            $json = [];
 
             if ($validateResult->getResultCode() != AvaTax\SeverityLevel::$Success) {
                 //$warning = new AWarning('PingTest Result: ' . $validateResult->getResultCode() . '.');

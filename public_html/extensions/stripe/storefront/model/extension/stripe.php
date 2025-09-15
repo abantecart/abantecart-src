@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 use Stripe\Customer;
@@ -361,7 +361,7 @@ class ModelExtensionStripe extends Model
     {
 
         try {
-            require_once(DIR_EXT . 'stripe/core/stripe_modules.php');
+            require_once(DIR_EXT . 'stripe' . DS . 'core' . DS . 'stripe_modules.php');
             grantStripeAccess($this->config);
 
             $stripe_customer = Stripe\Customer::create([

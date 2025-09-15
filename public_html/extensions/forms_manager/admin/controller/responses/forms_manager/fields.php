@@ -528,9 +528,9 @@ class ControllerResponsesFormsManagerFields extends AController
             ),
         ];
 
-        $this->data['entry_upload_dir'] = sprintf($this->language->get('entry_upload_dir'), 'admin/system/uploads/');
-        $uploadsDir = DIR_APP_SECTION . '/system/uploads';
-        $settingsDir = $uploadsDir . '/' . trim($this->data['attribute_data']['settings']['directory'], '/');
+        $this->data['entry_upload_dir'] = sprintf($this->language->get('entry_upload_dir'), 'admin' . DS . 'system' . DS . 'uploads' . DS . '');
+        $uploadsDir = DIR_APP_SECTION . DS . 'system' . DS . 'uploads';
+        $settingsDir = $uploadsDir . DS . trim(str_replace('/', DS, $this->data['attribute_data']['settings']['directory']), DS);
         //check or make writable dirs
         if (!make_writable_dir($uploadsDir) || !make_writable_dir($settingsDir)) {
             $this->data['form']['settings_fields']['directory'] .= '<i class="error">' . $this->language->get('error_directory_not_writable') . '</i>';

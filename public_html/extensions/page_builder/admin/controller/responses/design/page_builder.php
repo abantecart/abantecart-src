@@ -5,17 +5,17 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 class ControllerResponsesDesignPageBuilder extends AController
@@ -141,11 +141,11 @@ class ControllerResponsesDesignPageBuilder extends AController
             }
 
             //custom block tpls grouped by directory name. This name same as block type
-            $tpls = glob(DIR_EXT . '/*/storefront/view/*/template/blocks/' . $block['block_txt_id'] . '/*.tpl')
-                + glob(DIR_STOREFRONT . 'view/*/template/blocks/' . $block['block_txt_id'] . '/*.tpl');
+            $tpls = glob(DIR_EXT . DS . '*' . DS . 'storefront' . DS . 'view' . DS . '*' . DS . 'template' . DS . 'blocks' . DS . $block['block_txt_id'] . DS . '*.tpl')
+                + glob(DIR_STOREFRONT . 'view' . DS . '*' . DS . 'template' . DS . 'blocks' . DS . $block['block_txt_id'] . DS . '*.tpl');
 
             foreach ($tpls as $tpl) {
-                $pos = strpos($tpl, 'blocks/' . $block['block_txt_id'] . '/');
+                $pos = strpos($tpl, 'blocks' . DS . $block['block_txt_id'] . DS);
                 $tpl = substr($tpl, $pos);
                 $availableBlocks[$textId]['templates'][$tpl] = [
                     'id'   => $tpl,
@@ -684,9 +684,9 @@ class ControllerResponsesDesignPageBuilder extends AController
         ];
 
         //in case when page is default layout
-        if(!$pageData['key_value']){
+        if (!$pageData['key_value']) {
             $lm = new ALayoutManager($templateTxtId);
-            $page = $lm->getPages($pageData['controller'],'','','');
+            $page = $lm->getPages($pageData['controller'], '', '', '');
             redirect(
                 $this->html->getSecureURL(
                     'design/page_builder',

@@ -1156,10 +1156,12 @@ class ControllerResponsesCheckoutPay extends AController
                 $rl = new AResource('download');
                 $resource = $rl->getResource($downloadInfo['filename']);
                 if ($resource && $resource['resource_path']) {
-                    $size = filesize(DIR_RESOURCE . $rl->getTypeDir() . $resource['resource_path']);
+                    $size = filesize(
+                        DIR_RESOURCE . $rl->getTypeDir() . str_replace('/', DS, $resource['resource_path'])
+                    );
                 }
             } else {
-                $size = filesize(DIR_RESOURCE . $downloadInfo['filename']);
+                $size = filesize(DIR_RESOURCE . str_replace('/', DS, $downloadInfo['filename']));
             }
 
             $i = 0;

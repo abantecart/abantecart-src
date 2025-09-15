@@ -54,19 +54,19 @@ class ControllerResponsesIncludesHead extends AController
         $view = new AView($this->registry, 0);
         $data = [];
         $data['store'] = $this->config->get('store_name');
-        $data['logo'] = $this->config->get('config_logo_'.$this->language->getLanguageID())
-                        ? : $this->config->get('config_logo');
+        $data['logo'] = $this->config->get('config_logo_' . $this->language->getLanguageID())
+            ?: $this->config->get('config_logo');
         $data['homepage'] = $this->html->getHomeURL();
-        $logo_path = DIR_RESOURCE.$data['logo'];
+        $logo_path = DIR_RESOURCE . $data['logo'];
 
         //see if we have a resource ID instead of path
         if (is_numeric($data['logo'])) {
             $resource = new AResource('image');
             $image_data = $resource->getResource($data['logo']);
-            $img_sub_path = $image_data['type_name'].'/'.$image_data['resource_path'];
-            if (is_file(DIR_RESOURCE.$img_sub_path)) {
+            $img_sub_path = $image_data['type_name'] . DS . str_replace('/', DS, $image_data['resource_path']);
+            if (is_file(DIR_RESOURCE . $img_sub_path)) {
                 $data['logo'] = $img_sub_path;
-                $logo_path = DIR_RESOURCE.$img_sub_path;
+                $logo_path = DIR_RESOURCE . $img_sub_path;
             } else {
                 $data['logo'] = $image_data['resource_code'];
             }

@@ -106,14 +106,14 @@ class ExtensionPaypalCommerce extends Extension
             );
 
             $dir_template = DIR_EXT
-                . 'paypal_commerce' . DIRECTORY_SEPARATOR
+                . 'paypal_commerce' . DS
                 . DIR_EXT_ADMIN
                 . DIR_EXT_TEMPLATE
                 . $that->config->get('admin_template')
-                . DIRECTORY_SEPARATOR . "template"
-                . DIRECTORY_SEPARATOR . "responses"
-                . DIRECTORY_SEPARATOR . "extension"
-                . DIRECTORY_SEPARATOR . "paypal_commerce_connect.tpl";
+                . DS . "template"
+                . DS . "responses"
+                . DS . "extension"
+                . DS . "paypal_commerce_connect.tpl";
             $that->view->batchAssign($that->language->getASet('paypal_commerce/paypal_commerce'));
 
             $connected = ($that->config->get('paypal_commerce_client_id') && $that->config->get('paypal_commerce_onboarding'));

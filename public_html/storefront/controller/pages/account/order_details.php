@@ -246,21 +246,21 @@ class ControllerPagesAccountOrderDetails extends AController
                 $products[] =
                     $product +
                     [
-                    'id'               => (int)$product['product_id'],
-                    'thumbnail'        => $thumbnail,
-                    'option'           => $option_data,
-                    'price'            => $this->currency->format(
-                        $product['price'],
-                        $orderInfo['currency'],
-                        $orderInfo['value']
-                    ),
-                    'total'            => $this->currency->format(
-                        $product['total'],
-                        $orderInfo['currency'],
-                        $orderInfo['value']
-                    ),
-                    'url'              => $this->html->getSEOURL('product/product', '&product_id=' . $product['product_id'])
-                ];
+                        'id'        => (int)$product['product_id'],
+                        'thumbnail' => $thumbnail,
+                        'option'    => $option_data,
+                        'price'     => $this->currency->format(
+                            $product['price'],
+                            $orderInfo['currency'],
+                            $orderInfo['value']
+                        ),
+                        'total'     => $this->currency->format(
+                            $product['total'],
+                            $orderInfo['currency'],
+                            $orderInfo['value']
+                        ),
+                        'url'       => $this->html->getSEOURL('product/product', '&product_id=' . $product['product_id'])
+                    ];
             }
             $this->data['products'] = $products;
             $this->data['totals'] = $mdlOrder->getOrderTotals($orderId);
@@ -422,7 +422,7 @@ class ControllerPagesAccountOrderDetails extends AController
             if (is_numeric($download_info['filename'])) {
                 $rl = new AResource('download');
                 $resource = $rl->getResource($download_info['filename']);
-                $download_info['filename'] = $rl->getTypeDir() . $resource['resource_path'];
+                $download_info['filename'] = $rl->getTypeDir() . str_replace('/', DS, $resource['resource_path']);
             }
             $size = filesize(DIR_RESOURCE . $download_info['filename']);
             $i = 0;
@@ -444,7 +444,7 @@ class ControllerPagesAccountOrderDetails extends AController
                         'style' => 'button',
                         'href'  => $this->html->getSecureURL(
                             'account/order_details/startdownload',
-                            '&order_download_id=' . $download_info['order_download_id']
+                            '&order_download_id=' . (int)$download_info['order_download_id']
                             . ($this->data['guest'] ? '&ot=' . $this->data['order_token'] : '')
                         ),
                         'icon'  => 'fa fa-download-alt',
