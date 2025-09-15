@@ -33,19 +33,18 @@
                     echo $form1['form_open']; ?>
                     <fieldset class="w-100">
                         <div class="form-group mb-3">
-                        <?php echo $form1[ 'register' ];?>
+                        <?php echo $form1['register'];?>
                         </div>
                     <?php if ($guest_checkout) { ?>
                         <div class="form-group mb-3">
-                            <?php echo $form1[ 'guest' ];?>
+                            <?php echo $form1['guest'];?>
                         </div>
                     <?php } ?>
                     </fieldset>
                     <div class="d-flex align-items-start">
-                        <div class="mt-2">
-                            <p class="m-2"><?php echo $text_create_account; ?></p>
-                        </div>
-                        <button type="submit" class="ms-auto text-nowrap btn btn-primary align-self-end"  title="<?php echo $form1['continue']->name ?>">
+                        <div class="mt-2"><p class="m-2"><?php echo $text_create_account; ?></p></div>
+                        <button type="submit" class="ms-auto text-nowrap btn btn-primary align-self-end"
+                                title="<?php echo_html2view($form1['continue']->name) ?>">
                             <i class="<?php echo $form1['continue']->icon; ?> fa"></i>
                             <?php echo $form1['continue']->name ?>
                         </button>
@@ -91,7 +90,7 @@
                                 <a class="text-nowrap me-auto" href="<?php echo $forgotten_login; ?>"><?php echo $text_forgotten_login; ?></a>
                             <?php } ?>
                         </div>
-                        <button type="submit" class="ms-auto text-nowrap btn btn-primary"  title="<?php echo $form2['login_submit']->name ?>">
+                        <button type="submit" class="ms-auto text-nowrap btn btn-primary"  title="<?php echo_html2view($form2['login_submit']->name) ?>">
                             <i class="<?php echo $form2['login_submit']->{'icon'}; ?>"></i>
                             <?php echo $form2['login_submit']->name ?>
                         </button>
