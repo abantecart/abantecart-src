@@ -573,11 +573,11 @@ class ControllerPagesCatalogProduct extends AController
 
         /** @var ModelLocalisationWeightClass $wMdl */
         $wMdl = $this->loadModel('localisation/weight_class');
-        $this->data['weight_classes'] = array_column($wMdl->getWeightClasses(),'title','weight_class_id');
+        $this->data['weight_classes'] = array_column($wMdl->getWeightClasses(), 'title', 'weight_class_id');
 
         /** @var ModelLocalisationLengthClass $lenMdl */
         $lenMdl = $this->loadModel('localisation/length_class');
-        $this->data['length_classes'] = array_column($lenMdl->getLengthClasses(),'title','length_class_id');
+        $this->data['length_classes'] = array_column($lenMdl->getLengthClasses(), 'title', 'length_class_id');
 
         $fields = array_merge(
             [
@@ -667,7 +667,10 @@ class ControllerPagesCatalogProduct extends AController
 
         /** @var ModelToolImage $mdl */
         $mdl = $this->loadModel('tool/image');
-        if (isset($product_info) && $product_info['image'] && file_exists(DIR_IMAGE . $product_info['image'])) {
+        if (isset($product_info)
+            && $product_info['image']
+            && file_exists(DIR_IMAGE . str_replace('/', DS, $product_info['image']))
+        ) {
             $preview = $product_info['image'];
         } else {
             $preview = 'no_image.jpg';
@@ -682,21 +685,21 @@ class ControllerPagesCatalogProduct extends AController
             ?? $product_info['date_available']
             ?? dateInt2ISO(time() - 86400);
 
-        $weight_info = $wMdl->getWeightClassDescriptionByUnit( $this->config->get('config_weight_class') );
+        $weight_info = $wMdl->getWeightClassDescriptionByUnit($this->config->get('config_weight_class'));
         $this->data['weight_class_id'] = (int)$this->request->post['weight_class_id']
             ?: (int)$product_info['weight_class_id']
-            ?: (int)$weight_info['weight_class_id']
-            ?: '';
+                ?: (int)$weight_info['weight_class_id']
+                    ?: '';
 
-        $length_info = $lenMdl->getLengthClassDescriptionByUnit( $this->config->get('config_length_class') );
+        $length_info = $lenMdl->getLengthClassDescriptionByUnit($this->config->get('config_length_class'));
         $this->data['length_class_id'] = (int)$this->request->post['length_class_id']
             ?: (int)$product_info['length_class_id'] ?: (int)$length_info['length_class_id'] ?: '';
 
         $onByDefaults = array_merge(
-            [ 'status', 'quantity', 'minimum', 'sort_order' ],
+            ['status', 'quantity', 'minimum', 'sort_order'],
             (array)$this->data['form_fields_on_by_default']
         );
-        foreach( $onByDefaults as $onByDefault ) {
+        foreach ($onByDefaults as $onByDefault) {
             if ($this->data[$onByDefault] === '') {
                 $this->data[$onByDefault] = 1;
             }
@@ -1173,7 +1176,7 @@ class ControllerPagesCatalogProduct extends AController
             ]
         );
 
-        if ( $productId
+        if ($productId
             && $this->data['shipping']
             && (!(float)$this->data['weight'] || !$this->data['weight_class_id'])
             && !(float)$this->data['shipping_price']

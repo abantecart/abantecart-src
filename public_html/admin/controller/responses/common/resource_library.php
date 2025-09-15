@@ -773,8 +773,8 @@ class ControllerResponsesCommonResourceLibrary extends AController
             $resource_path = $rm->buildResourcePath($resource_id, $r->name);
 
             if (!rename(
-                DIR_RESOURCE . $info['type_name'] . '/' . $r->name,
-                DIR_RESOURCE . $info['type_name'] . '/' . $resource_path
+                DIR_RESOURCE . $info['type_name'] . DS . $r->name,
+                DIR_RESOURCE . $info['type_name'] . DS . str_replace('/', DS, $resource_path)
             )
             ) {
                 $message = sprintf($this->language->get('error_cannot_move'), $r->name);
@@ -786,10 +786,10 @@ class ControllerResponsesCommonResourceLibrary extends AController
             $rm->updateResource($resource_id, ['resource_path' => $resource_path]);
             //remove old file of resource
             if ($info['resource_path']
-                && is_file(DIR_RESOURCE . $info['type_name'] . '/' . $info['resource_path'])
+                && is_file(DIR_RESOURCE . $info['type_name'] . DS . str_replace('/', DS, $info['resource_path']))
                 && $info['resource_path'] != $resource_path
             ) {
-                unlink(DIR_RESOURCE . $info['type_name'] . '/' . $info['resource_path']);
+                unlink(DIR_RESOURCE . $info['type_name'] . DS . str_replace('/', DS, $info['resource_path']));
             }
         }
 
@@ -832,8 +832,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
         $rm->setType((string)$this->request->get['type']);
         $data = $this->request->post;
 
-        $language_id = (int)$this->request->post['language_id'];
-        $language_id = !$language_id ? $this->language->getContentLanguageID() : $language_id;
+        $language_id = (int)$this->request->post['language_id'] ?: $this->language->getContentLanguageID();
 
         $data['name'] = [$language_id => $this->request->post['name']];
         $data['title'] = [$language_id => $this->request->post['title']];
@@ -1110,8 +1109,8 @@ class ControllerResponsesCommonResourceLibrary extends AController
         foreach ($this->request->post['resources'] as $resource_id) {
             $rm->unmapResource(
                 $this->request->get['object_name'],
-                $this->request->get['object_id'],
-                $resource_id
+                (int)$this->request->get['object_id'],
+                (int)$resource_id
             );
         }
 
@@ -1177,7 +1176,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
                     $this->response->setOutput($result['resource_code']);
                 }
             } else {
-                $file_path = DIR_RESOURCE . $rm->getTypeDir() . $result['resource_path'];
+                $file_path = DIR_RESOURCE . $rm->getTypeDir() . str_replace('/', DS, $result['resource_path']);
                 $result['name'] = pathinfo($result['name'], PATHINFO_FILENAME);
                 $fd = file_exists($file_path) ? fopen($file_path, "r") : null;
                 if ($fd) {
@@ -1260,8 +1259,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
         $post_data = $this->request->post;
 
         $rm = new AResourceManager();
-        $language_id = $post_data['language_id'] ?? 0;
-        $language_id = $language_id ?: $this->language->getContentLanguageID();
+        $language_id = $post_data['language_id'] ?: $this->language->getContentLanguageID();
         $post_data['language_id'] = $language_id;
         if (!is_array($post_data['name'])) {
             $post_data['name'] = [$language_id => $post_data['name']];
@@ -1446,17 +1444,17 @@ class ControllerResponsesCommonResourceLibrary extends AController
         $this->session->data['rl_types'] = $this->data['types'];
         $this->data['default_type'] = reset($this->data['types']);
         $httpQuery = [
-            'mode' => $mode,
+            'mode'        => $mode,
             'object_name' => $object_name,
-            'object_id' => $object_id,
-            'page' => $page,
-            'limit' => $limit,
-            'sort' => $sort,
-            'order' => $order
+            'object_id'   => $object_id,
+            'page'        => $page,
+            'limit'       => $limit,
+            'sort'        => $sort,
+            'order'       => $order
         ];
 
         $this->data = array_merge($this->data, $httpQuery);
-        $params = '&'.http_build_query($httpQuery);
+        $params = '&' . http_build_query($httpQuery);
         $this->data['rl_resource_library'] = $this->html->getSecureURL('common/resource_library', $params);
         $this->data['rl_resources'] = $this->html->getSecureURL('common/resource_library/resources', $params);
         $this->data['rl_resource_single'] = $this->html->getSecureURL(

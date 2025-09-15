@@ -1,23 +1,22 @@
 <?php
-
-/*------------------------------------------------------------------------------
-$Id$
-
-AbanteCart, Ideal OpenSource Ecommerce Solution
-http://www.AbanteCart.com
-
-Copyright © 2011-2021 Belavier Commerce LLC
-
-This source file is subject to Open Software License (OSL 3.0)
-License details is bundled with this package in the file LICENSE.txt.
-It is also available at this URL:
-<http://www.opensource.org/licenses/OSL-3.0>
-
-UPGRADE NOTE:
-Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-versions in the future. If you wish to customize AbanteCart for your
-needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -135,7 +134,7 @@ class ControllerPagesToolFiles extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         if ($this->user->canAccess('tool/files')) {
-            $filename = str_replace(['../', '..\\', '\\', '/'], '', $this->request->get['filename']);
+            $filename = str_replace(['../', '..\\', '\\', '/', DS], '', $this->request->get['filename']);
 
             if ($this->request->get['attribute_type'] == 'field') {
                 $this->loadModel('tool/file_uploads');
@@ -157,26 +156,26 @@ class ControllerPagesToolFiles extends AController
             }
 
             if (has_value($attribute_data['settings']['directory'])) {
-                $file = DIR_APP_SECTION.'system/uploads/'.$attribute_data['settings']['directory'].'/'.$filename;
+                $file = DIR_APP_SECTION . 'system' . DS . 'uploads' . DS . $attribute_data['settings']['directory'] . DS . $filename;
             } else {
-                $file = DIR_APP_SECTION.'system/uploads/'.$filename;
+                $file = DIR_APP_SECTION . 'system' . DS . 'uploads' . DS . $filename;
             }
 
             if (file_exists($file)) {
                 header('Content-Description: File Transfer');
-                header('Content-Type: '.mime_content_type($filename));
-                header('Content-Disposition: attachment; filename='.$filename);
+                header('Content-Type: ' . mime_content_type($filename));
+                header('Content-Disposition: attachment; filename=' . $filename);
                 header('Content-Transfer-Encoding: binary');
                 header('Expires: 0');
                 header('Cache-Control: must-revalidate');
                 header('Pragma: public');
-                header('Content-Length: '.filesize($file));
+                header('Content-Length: ' . filesize($file));
                 ob_end_clean();
                 flush();
                 readfile($file);
                 exit;
             } else {
-                echo 'Error: File '.$file.' does not exists!';
+                echo 'Error: File ' . $file . ' does not exists!';
                 exit;
             }
         } else {
