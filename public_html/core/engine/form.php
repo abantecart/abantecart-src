@@ -339,11 +339,24 @@ class AForm
     public function getFields()
     {
         $fields = [];
-
         foreach ($this->fields as $field) {
+            $textValue = null;
+            //country
+            if ($field['element_type'] == 'O') {
+                /** @var ModelLocalisationCountry $mdl */
+                $mdl = $this->load->model('localisation/country');
+                $country = $mdl->getCountry((int)$field['value']);
+                $textValue = $country['name'];
+            } elseif ($field['element_type'] == 'Z') {
+                /** @var ModelLocalisationZone $mdl */
+                $mdl = $this->load->model('localisation/zone');
+                $zone = $mdl->getZone((int)$field['value']);
+                $textValue = $zone['name'];
+            }
             $fields[$field['field_name']] = [
                 'status'       => $field['status'],
                 'value'        => $field['value'],
+                'text_value'   => $textValue,
                 'required'     => $field['required'] == 'Y',
                 'element_type' => $field['element_type'],
                 'title'        => $field['name'],

@@ -85,6 +85,19 @@ class ControllerPagesContentContact extends AController
                     continue;
                 }
 
+                //country
+                if ($fieldInfo['element_type'] == 'O') {
+                    /** @var ModelLocalisationCountry $mdl */
+                    $mdl = $this->load->model('localisation/country');
+                    $country = $mdl->getCountry((int)$post[$elmName]);
+                    $post[$elmName] = $country['name'];
+                } elseif ($fieldInfo['element_type'] == 'Z') {
+                    /** @var ModelLocalisationZone $mdl */
+                    $mdl = $this->load->model('localisation/zone');
+                    $zone = $mdl->getZone((int)$post[$elmName]);
+                    $post[$elmName] = $zone['name'];
+                }
+
                 $fieldValue = implode("; ", (array)$post[$elmName]);
                 $fieldTitle = rtrim($fieldInfo['title'], ':');
 
