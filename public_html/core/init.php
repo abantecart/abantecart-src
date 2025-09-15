@@ -17,7 +17,7 @@
  *    versions in the future. If you wish to customize AbanteCart for your
  *    needs, please refer to http://www.AbanteCart.com for more information.
  */
-
+const DS = DIRECTORY_SEPARATOR;
 //check minimal system requirements
 $composerJson = file_get_contents(DIR_ROOT . DS . 'composer.json');
 if ($composerJson) {
@@ -52,7 +52,7 @@ error_reporting(E_ERROR & ~E_NOTICE);
 // AbanteCart Version
 include('version.php');
 const VERSION = MASTER_VERSION . '.' . MINOR_VERSION . '.' . VERSION_BUILT;
-const DS = DIRECTORY_SEPARATOR;
+
 
 // Detect if localhost is used.
 if (!isset($_SERVER['HTTP_HOST'])) {

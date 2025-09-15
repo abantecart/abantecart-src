@@ -1,38 +1,23 @@
-<?php /*
+<?php
+/*
  *   $Id$
  *
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
- */ /*
- *   $Id$
- *
- *   AbanteCart, Ideal OpenSource Ecommerce Solution
- *   http://www.AbanteCart.com
- *
- *   Copyright © 2011-2024 Belavier Commerce LLC
- *
- *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
- *   It is also available at this URL:
- *   <http://www.opensource.org/licenses/OSL-3.0>
- *
- *  UPGRADE NOTE:
- *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
- *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
- */ /** @noinspection PhpMultipleClassDeclarationsInspection */
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
+
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -126,24 +111,24 @@ class AExtensionManager
             $category = $status = $priority = $version = $license_key = '';
         }
         $sql = "SELECT extension_id 
-                FROM ".$this->db->table("extensions")." 
-                WHERE `key`= '".$this->db->escape($key)."'";
+                FROM " . $this->db->table("extensions") . " 
+                WHERE `key`= '" . $this->db->escape($key) . "'";
         $res = $this->db->query($sql);
         if ($res->num_rows) {
             return $res->row['extension_id'];
         }
 
         $this->db->query(
-            "INSERT INTO ".$this->db->table("extensions")." 
-             SET `type` = '".$this->db->escape($type)."',
-                 `key` = '".$this->db->escape($key)."',
-                 `category` = '".$this->db->escape($category)."',
-                 `status` = '".$this->db->escape($status)."',
-                 `priority` = '".$this->db->escape($priority)."',
-                 `version` = '".$this->db->escape($version)."',
-                 `license_key` = '".$this->db->escape($license_key)."',
-                 `support_expiration` = '".$this->db->escape($data['support_expiration'])."',
-                 `mp_product_url` = '".$this->db->escape($data['mp_product_url'])."',
+            "INSERT INTO " . $this->db->table("extensions") . " 
+             SET `type` = '" . $this->db->escape($type) . "',
+                 `key` = '" . $this->db->escape($key) . "',
+                 `category` = '" . $this->db->escape($category) . "',
+                 `status` = '" . $this->db->escape($status) . "',
+                 `priority` = '" . $this->db->escape($priority) . "',
+                 `version` = '" . $this->db->escape($version) . "',
+                 `license_key` = '" . $this->db->escape($license_key) . "',
+                 `support_expiration` = '" . $this->db->escape($data['support_expiration']) . "',
+                 `mp_product_url` = '" . $this->db->escape($data['mp_product_url']) . "',
                  `date_added` = NOW()"
         );
 
@@ -163,17 +148,17 @@ class AExtensionManager
     public function getParentsExtensionTextId($extension_txt_id)
     {
         $info = $this->extensions->getExtensionInfo($extension_txt_id);
-        $extension_id = (int) $info['extension_id'];
+        $extension_id = (int)$info['extension_id'];
         if (!$extension_id) {
             return [];
         }
 
         $result = $this->db->query(
             "SELECT e.key, ed.extension_parent_id, e.status
-            FROM ".$this->db->table("extension_dependencies")." ed
-            LEFT JOIN ".$this->db->table("extensions")." e 
+            FROM " . $this->db->table("extension_dependencies") . " ed
+            LEFT JOIN " . $this->db->table("extensions") . " e 
                 ON ed.extension_parent_id = e.extension_id
-            WHERE ed.extension_id = '".$extension_id."'"
+            WHERE ed.extension_id = '" . $extension_id . "'"
         );
         return $result->rows;
     }
@@ -187,17 +172,17 @@ class AExtensionManager
     public function getChildrenExtensions($parent_extension_txt_id)
     {
         $info = $this->extensions->getExtensionInfo($parent_extension_txt_id);
-        $extension_id = (int) $info['extension_id'];
+        $extension_id = (int)$info['extension_id'];
         if (!$extension_id) {
             return [];
         }
 
         $result = $this->db->query(
             "SELECT e.*
-            FROM ".$this->db->table("extension_dependencies")." ed
-            LEFT JOIN ".$this->db->table("extensions")." e 
+            FROM " . $this->db->table("extension_dependencies") . " ed
+            LEFT JOIN " . $this->db->table("extensions") . " e 
                 ON ed.extension_id = e.extension_id
-            WHERE ed.extension_parent_id = '".$extension_id."'"
+            WHERE ed.extension_parent_id = '" . $extension_id . "'"
         );
 
         return $result->rows;
@@ -213,23 +198,23 @@ class AExtensionManager
     public function addDependant($extension_txt_id, $extension_parent_txt_id)
     {
         $info = $this->extensions->getExtensionInfo($extension_parent_txt_id);
-        $extension_parent_id = (int) $info['extension_id'];
+        $extension_parent_id = (int)$info['extension_id'];
         $info = $this->extensions->getExtensionInfo($extension_txt_id);
-        $extension_id = (int) $info['extension_id'];
+        $extension_id = (int)$info['extension_id'];
         if (!$extension_id || !$extension_parent_id) {
             return false;
         }
 
         $result = $this->db->query(
             "SELECT *
-            FROM ".$this->db->table("extension_dependencies")." 
-            WHERE extension_id = '".$extension_id."' 
-                AND extension_parent_id = '".$extension_parent_id."'"
+            FROM " . $this->db->table("extension_dependencies") . " 
+            WHERE extension_id = '" . $extension_id . "' 
+                AND extension_parent_id = '" . $extension_parent_id . "'"
         );
         if (!$result->num_rows) {
-            $sql = "INSERT INTO ".$this->db->table("extension_dependencies")." 
+            $sql = "INSERT INTO " . $this->db->table("extension_dependencies") . " 
                         (extension_id, extension_parent_id )
-                    VALUES ('".$extension_id."', '".$extension_parent_id."')";
+                    VALUES ('" . $extension_id . "', '" . $extension_parent_id . "')";
             $this->db->query($sql);
         }
         $this->cache->remove('extensions');
@@ -248,23 +233,23 @@ class AExtensionManager
     public function deleteDependant($extension_txt_id = '', $extension_parent_txt_id = '')
     {
         $info = $this->extensions->getExtensionInfo($extension_parent_txt_id);
-        $extension_parent_id = $info ? (int) $info['extension_id'] : 0;
+        $extension_parent_id = $info ? (int)$info['extension_id'] : 0;
 
         $info = $this->extensions->getExtensionInfo($extension_txt_id);
-        $extension_id = $info ? (int) $info['extension_id'] : 0;
+        $extension_id = $info ? (int)$info['extension_id'] : 0;
 
         if (!$extension_id && !$extension_parent_id) {
             return false;
         }
 
-        $sql = "DELETE FROM ".$this->db->table("extension_dependencies")."
+        $sql = "DELETE FROM " . $this->db->table("extension_dependencies") . "
                 WHERE ";
         $where = [];
         if ($extension_id) {
-            $where[] = "extension_id = '".$extension_id."'";
+            $where[] = "extension_id = '" . $extension_id . "'";
         }
         if ($extension_parent_id) {
-            $where[] = "extension_parent_id = '".$extension_parent_id."'";
+            $where[] = "extension_parent_id = '" . $extension_parent_id . "'";
         }
         $sql .= implode(' AND ', $where);
         $this->db->query($sql);
@@ -281,7 +266,7 @@ class AExtensionManager
      * @param array $data
      *
      * @return bool
-     * @throws AException
+     * @throws AException|DOMException
      */
     public function editSetting($extension_txt_id, $data)
     {
@@ -291,7 +276,7 @@ class AExtensionManager
         if (empty($extension_txt_id)) {
             $error = new AError (
                 "Error: Can't edit setting because field \"extension_txt_id\" is empty. Settings array: "
-                .implode(",", array_keys($data))
+                . implode(",", array_keys($data))
             );
             $error->toLog()->toDebug();
             return false;
@@ -301,16 +286,16 @@ class AExtensionManager
         $keys = array_keys($data);
         unset($keys['store_id']);
         // check if settings required and it is not status
-        $ext = new ExtensionUtils($extension_txt_id, (int) $data['store_id']);
-        if (isset($data['one_field']) && !isset($data[$extension_txt_id."_status"])) {
+        $ext = new ExtensionUtils($extension_txt_id, (int)$data['store_id']);
+        if (isset($data['one_field']) && !isset($data[$extension_txt_id . "_status"])) {
             $validate = $ext->validateSettings($data);
             if (!$validate['result']) { // check is all required settings are set
                 if (!isset($validate['errors'])) {
                     $this->errors[] = "Can't save setting because value is empty. ";
                 } else {
-                    $this->load->language($extension_txt_id.'/'.$extension_txt_id);
+                    $this->load->language($extension_txt_id . '/' . $extension_txt_id);
                     foreach ($validate['errors'] as $field_id => $error_text) {
-                        $this->errors[] = $error_text ?: $this->language->get($field_id.'_validation_error');
+                        $this->errors[] = $error_text ?: $this->language->get($field_id . '_validation_error');
                     }
                 }
                 return false;
@@ -318,14 +303,14 @@ class AExtensionManager
         }
         unset($data['one_field']); //remove sign to prevent writing into settings table
         $this->db->query(
-            "DELETE FROM ".$this->db->table("settings")." 
-            WHERE `group` = '".$this->db->escape($extension_txt_id)."'
-                AND `key` IN ('".implode("', '", $keys)."')
-                AND `store_id` = '".(int) $data['store_id']."' "
+            "DELETE FROM " . $this->db->table("settings") . " 
+            WHERE `group` = '" . $this->db->escape($extension_txt_id) . "'
+                AND `key` IN ('" . implode("', '", $keys) . "')
+                AND `store_id` = '" . (int)$data['store_id'] . "' "
         );
 
         foreach ($data as $key => $value) {
-            $setting_name = str_replace($extension_txt_id."_", '', $key);
+            $setting_name = str_replace($extension_txt_id . "_", '', $key);
             //check if setting is multi-value (array) and save serialized value.
             if (is_array($value)) {
                 //validate values in array. If setting is array of all members = 0 save only single value of 0
@@ -349,17 +334,17 @@ class AExtensionManager
                     if (!$validate['result']) {
                         $value = 0; // disable extension
                         if (!isset($validate['errors'])) {
-                            $error = "Cannot enable extension \"".$extension_txt_id
-                                ."\". Please fill all required fields on settings edit page. ";
+                            $error = "Cannot enable extension \"" . $extension_txt_id
+                                . "\". Please fill all required fields on settings edit page. ";
                             $this->messages->saveError('App Error', $error);
                             $this->errors[] = $error;
                             $error = new AError ($error);
                             $error->toLog()->toDebug();
                         } else {
-                            $this->load->language($extension_txt_id.'/'.$extension_txt_id);
+                            $this->load->language($extension_txt_id . '/' . $extension_txt_id);
                             foreach ($validate['errors'] as $field_id => $error_text) {
-                                $error = $error_text ? : $this->language->get($field_id.'_validation_error');
-                                $this->messages->saveError('App Error: '.$field_id, $error);
+                                $error = $error_text ?: $this->language->get($field_id . '_validation_error');
+                                $this->messages->saveError('App Error: ' . $field_id, $error);
                                 $this->errors[] = $error;
                                 $error = new AError ($error);
                                 $error->toLog()->toDebug();
@@ -371,8 +356,8 @@ class AExtensionManager
                         $enabled = $this->extensions->getEnabledExtensions();
                         foreach ($parents as $parent) {
                             if (!in_array($parent['key'], $enabled)) {
-                                $error = "Cannot enable extension \"".$extension_txt_id."\". It's depends on extension \""
-                                    .$parent['key']."\" which not enabled. ";
+                                $error = "Cannot enable extension \"" . $extension_txt_id . "\". It's depends on extension \""
+                                    . $parent['key'] . "\" which not enabled. ";
                                 $this->messages->saveError('Extension App Error', $error);
                                 $this->errors[] = $error;
                                 $error = new AError ($error);
@@ -389,21 +374,21 @@ class AExtensionManager
                         $children = $this->getChildrenExtensions($extension_txt_id);
 
                         foreach ($children as $child) {
-                            if ($this->config->get($child['key']."_status") == 1) {
+                            if ($this->config->get($child['key'] . "_status") == 1) {
                                 $children_keys[] = $this->db->escape($child['key']);
                             }
                         }
                         if ($children_keys) {
                             foreach ($children_keys as $child) {
-                                $sql = "UPDATE ".$this->db->table("settings")." 
+                                $sql = "UPDATE " . $this->db->table("settings") . " 
                                         SET `value` = 0
-                                        WHERE `group` = '".$child."'
-                                        AND `key`= '".$child."_status'";
+                                        WHERE `group` = '" . $child . "'
+                                        AND `key`= '" . $child . "_status'";
                                 $this->db->query($sql);
                             }
-                            $sql = "UPDATE ".$this->db->table("extensions")." 
-                                    SET `".$setting_name."` = '".$this->db->escape($value)."'
-                                    WHERE  `key` IN ('".implode("','", $children_keys)."')";
+                            $sql = "UPDATE " . $this->db->table("extensions") . " 
+                                    SET `" . $setting_name . "` = '" . $this->db->escape($value) . "'
+                                    WHERE  `key` IN ('" . implode("','", $children_keys) . "')";
                             $this->db->query($sql);
                         }
                     }
@@ -412,31 +397,31 @@ class AExtensionManager
 
             //Special case.
             //Check that we have single mode RL with ID
-            if (has_value($data[$key."_resource_id"]) && !has_value($value)) {
+            if (has_value($data[$key . "_resource_id"]) && !has_value($value)) {
                 //save ID if resource path is missing
-                $value = $data[$key."_resource_id"];
+                $value = $data[$key . "_resource_id"];
             }
             //skip saving ???
 
             // now re-insert settings
             $this->db->query(
-                "INSERT INTO ".$this->db->table("settings")." 
-                SET `store_id` = '".(int) $data['store_id']."',
-                  `group` = '".$this->db->escape($extension_txt_id)."',
-                  `key` = '".$this->db->escape($key)."',
-                  `value` = '".$this->db->escape($value)."'"
+                "INSERT INTO " . $this->db->table("settings") . " 
+                SET `store_id` = '" . (int)$data['store_id'] . "',
+                  `group` = '" . $this->db->escape($extension_txt_id) . "',
+                  `key` = '" . $this->db->escape($key) . "',
+                  `value` = '" . $this->db->escape($value) . "'"
             );
             if (in_array($setting_name, $masks)) {
-                $sql = "UPDATE ".$this->db->table("extensions")." 
-                        SET `".$setting_name."` = '".$this->db->escape($value)."'
-                        WHERE  `key` = '".$this->db->escape($extension_txt_id)."'";
+                $sql = "UPDATE " . $this->db->table("extensions") . " 
+                        SET `" . $setting_name . "` = '" . $this->db->escape($value) . "'
+                        WHERE  `key` = '" . $this->db->escape($extension_txt_id) . "'";
                 $this->db->query($sql);
             }
         }
         // update date of changes in extension list
-        $sql = "UPDATE ".$this->db->table("extensions")." 
+        $sql = "UPDATE " . $this->db->table("extensions") . " 
                 SET `date_modified` = NOW()
-                WHERE  `key` = '".$this->db->escape($extension_txt_id)."'";
+                WHERE  `key` = '" . $this->db->escape($extension_txt_id) . "'";
         $this->db->query($sql);
         $this->cache->remove('admin_menu');
         $this->cache->remove('settings');
@@ -453,12 +438,12 @@ class AExtensionManager
     public function deleteSetting($group)
     {
         $this->db->query(
-            "DELETE FROM ".$this->db->table("settings")." 
-            WHERE `group` = '".$this->db->escape($group)."';"
+            "DELETE FROM " . $this->db->table("settings") . " 
+            WHERE `group` = '" . $this->db->escape($group) . "';"
         );
         $this->db->query(
-            "DELETE FROM ".$this->db->table("language_definitions")." 
-            WHERE `block` = '".$this->db->escape($group)."_".$this->db->escape($group)."';"
+            "DELETE FROM " . $this->db->table("language_definitions") . " 
+            WHERE `block` = '" . $this->db->escape($group) . "_" . $this->db->escape($group) . "';"
         );
         $this->cache->remove('settings');
         $this->cache->remove('extensions');
@@ -472,7 +457,7 @@ class AExtensionManager
      * @param DomNode| DOMElement|SimpleXMLElement $config
      *
      * @return bool|null
-     * @throws AException
+     * @throws AException|DOMException
      */
     public function install($name, $config)
     {
@@ -495,10 +480,10 @@ class AExtensionManager
         //install default settings
         $default_settings = $ext->getDefaultSettings();
         $settings = [
-            $name.'_status'         => 0,
-            $name.'_layout'         => (string) $config->layout,
-            $name.'_priority'       => (string) $config->priority,
-            $name.'_date_installed' => date("Y-m-d H:i:s", time()),
+            $name . '_status'         => 0,
+            $name . '_layout'         => (string)$config->layout,
+            $name . '_priority'       => (string)$config->priority,
+            $name . '_date_installed' => date("Y-m-d H:i:s", time()),
         ];
 
         $settings = array_merge($settings, $default_settings);
@@ -509,7 +494,7 @@ class AExtensionManager
             [
                 'date_added'  => date("Y-m-d H:i:s", time()),
                 'name'        => $name,
-                'version'     => $settings[$name.'_version'],
+                'version'     => $settings[$name . '_version'],
                 'backup_file' => '',
                 'backup_date' => '',
                 'type'        => 'install',
@@ -520,22 +505,22 @@ class AExtensionManager
         // add dependencies into database for required extensions only
         if (isset($config->dependencies->item)) {
             foreach ($config->dependencies->item as $item) {
-                if ((bool) $item['required']) {
-                    $this->addDependant($name, (string) $item);
+                if ((bool)$item['required']) {
+                    $this->addDependant($name, (string)$item);
                 }
             }
         }
 
         // running sql install script if it exists
         if (isset($config->install->sql)) {
-            $file = DIR_EXT.str_replace('../', '', $name).'/'.$config->install->sql;
+            $file = DIR_EXT . str_replace('../', '', $name) . DS . $config->install->sql;
             if (is_file($file)) {
                 $this->db->performSql($file);
             }
         }
         // running php install script if it exists
         if (isset($config->install->trigger)) {
-            $file = DIR_EXT.str_replace('../', '', $name).'/'.$config->install->trigger;
+            $file = DIR_EXT . str_replace('../', '', $name) . DS . $config->install->trigger;
             if (is_file($file)) {
                 include($file);
             }
@@ -545,9 +530,9 @@ class AExtensionManager
         try {
             $this->load->model('tool/updater');
             $this->model_tool_updater->check4updates(true);
-        }catch(Exception|Error $e) {
-            if(INSTALL !== true){
-                $this->log->write(__CLASS__.': '.$e->getMessage());
+        } catch (Exception|Error $e) {
+            if (INSTALL !== true) {
+                $this->log->write(__CLASS__ . ': ' . $e->getMessage());
             }
         }
 
@@ -580,7 +565,7 @@ class AExtensionManager
         //write info about install into install log
         $info = $this->extensions->getExtensionInfo($name);
 
-        if ($info['type'] == 'payment' && $this->config->get($name.'_status')) {
+        if ($info['type'] == 'payment' && $this->config->get($name . '_status')) {
             $this->load->language('extension/extensions');
             $this->session->data['error'] = $this->language->get('error_payment_uninstall');
             return false;
@@ -600,14 +585,14 @@ class AExtensionManager
         );
 
         if (isset($config->uninstall->sql)) {
-            $file = DIR_EXT.str_replace('../', '', $name).'/'. $config->uninstall->sql;
+            $file = DIR_EXT . str_replace('../', '', $name) . DS . $config->uninstall->sql;
             if (is_file($file)) {
                 $this->db->performSql($file);
             }
         }
         // running php uninstall script if it exists
         if (isset($config->uninstall->trigger)) {
-            $file = DIR_EXT.str_replace('../', '', $name).'/'. $config->uninstall->trigger;
+            $file = DIR_EXT . str_replace('../', '', $name) . DS . $config->uninstall->trigger;
             if (is_file($file)) {
                 include($file);
             }
@@ -647,20 +632,20 @@ class AExtensionManager
             ]
         );
         $this->db->query(
-            "DELETE FROM ".$this->db->table("extensions")." 
-            WHERE `type` = '".$info['type']."' 
-                AND `key` = '".$this->db->escape($extension_txt_id)."'"
+            "DELETE FROM " . $this->db->table("extensions") . " 
+            WHERE `type` = '" . $info['type'] . "' 
+                AND `key` = '" . $this->db->escape($extension_txt_id) . "'"
         );
         $this->deleteDependant($extension_txt_id);
 
         $this->session->data['package_info']['ftp'] = false;
         $pmanager = new APackageManager();
-        $result = $pmanager->removeDir(DIR_EXT.$extension_txt_id);
+        $result = $pmanager->removeDir(DIR_EXT . $extension_txt_id);
 
         if (!$result) {
             $message = "Error: Can't to delete file or directory: '"
-                .DIR_EXT.$extension_txt_id
-                ."'. No file permissions, change permissions to 777 with your FTP access";
+                . DIR_EXT . $extension_txt_id
+                . "'. No file permissions, change permissions to 777 with your FTP access";
             $this->session->data['error'] = $message;
         }
 
@@ -731,11 +716,11 @@ class AExtensionManager
             return true;
         }
         foreach ($config->dependencies->item as $item) {
-            $required = (boolean) $item['required'];
-            $version = (string) $item['version'];
-            $prior_version = (string) $item['prior_version'];
+            $required = (boolean)$item['required'];
+            $version = (string)$item['version'];
+            $prior_version = (string)$item['prior_version'];
 
-            $item = (string) $item;
+            $item = (string)$item;
             // check existing of required
             if ($required && !in_array($item, $extensions)) {
                 $this->errors[] = sprintf(
@@ -751,8 +736,8 @@ class AExtensionManager
                             $prior_version, $versions[$item], '<='
                         ))) {
                     $this->errors[] = sprintf(
-                        '<b>%s</b> extension cannot be installed: <b>%s</b> extension versions <b>'.$prior_version.' - '
-                        .$version.'</b> are required', $extension_txt_id, $item
+                        '<b>%s</b> extension cannot be installed: <b>%s</b> extension versions <b>' . $prior_version . ' - '
+                        . $version . '</b> are required', $extension_txt_id, $item
                     );
                 }
             }
@@ -787,8 +772,8 @@ class AExtensionManager
                 continue;
             }
             foreach ($config->dependencies->item as $item) {
-                $required = (boolean) $item['required'];
-                $item = (string) $item;
+                $required = (boolean)$item['required'];
+                $item = (string)$item;
                 if ($item == $extension_txt_id && $required) {
                     $this->errors[] = sprintf(
                         '<b>%s</b> extension cannot be uninstalled: <b>%s</b> extension depends on it. Please uninstall it first.',
@@ -820,7 +805,7 @@ class AExtensionManager
      */
     public function isExtensionInstalled($extension_txt_id)
     {
-        $installed = $this->config->get($extension_txt_id.'_status');
+        $installed = $this->config->get($extension_txt_id . '_status');
         return !($installed === null);
     }
 
@@ -831,18 +816,19 @@ class AExtensionManager
      * @param SimpleXMLElement|stdClass $config
      *
      * @return bool
+     * @throws AException
      */
     public function validateCoreVersion($extension_txt_id, $config)
     {
         if (!isset($config->cartversions->item)) {
             $this->errors[] = 'Error: config file of extension does not contain any '
-                .'information about versions of AbanteCart where it can be run.';
+                . 'information about versions of AbanteCart where it can be run.';
 
             return false;
         }
         $cart_versions = [];
         foreach ($config->cartversions->item as $item) {
-            $version = (string) $item;
+            $version = (string)$item;
             $cart_versions[] = $version;
         }
         // check is cart version presents on extension cart version list
@@ -856,12 +842,12 @@ class AExtensionManager
         foreach ($cart_versions as $version) {
             $result = versionCompare($version, VERSION, '<');
             if ($result) {
-                $error_text = 'Extension <b>%s</b> written for earlier version '
-                    .'of Abantecart (v.%s) lower that you have. ';
+                $error_text = 'Extension <b>%s</b> written for an earlier version '
+                    . 'of Abantecart (v.%s) lower that you have. ';
                 $error_text .= 'Probably all will be OK.';
                 $error_text = sprintf($error_text, $extension_txt_id, implode(', ', $cart_versions));
                 $this->session->data['error'] = $error_text;
-                $this->messages->saveWarning($extension_txt_id.' extension warning', $error_text);
+                $this->messages->saveWarning($extension_txt_id . ' extension warning', $error_text);
                 return true;
             }
         }
@@ -894,7 +880,7 @@ class AExtensionManager
             return true;
         }
         foreach ($config->phpmodules->item as $item) {
-            $item = (string) $item;
+            $item = (string)$item;
             if (!extension_loaded($item)) {
                 $this->errors[] = sprintf(
                     '<b>%s</b> extension cannot be installed: <b>%s</b> php module required',
@@ -921,10 +907,10 @@ class AExtensionManager
         $phpMinVersion = (string)$config->phpminversion ?: MIN_PHP_VERSION;
         if (version_compare(phpversion(), $phpMinVersion, '<')) {
             $this->errors[] = sprintf(
-                                '<b>%s</b> extension cannot be installed: <b>%s</b> php version required',
-                                $extension_txt_id,
-                                $phpMinVersion
-                            );
+                '<b>%s</b> extension cannot be installed: <b>%s</b> php version required',
+                $extension_txt_id,
+                $phpMinVersion
+            );
             return false;
         }
         return true;

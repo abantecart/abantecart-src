@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -33,7 +33,7 @@ if (!defined('DIR_CORE')) {
 class ABackup
 {
     /**
-     * @var string - mode of sql dump. can be "data_only" and "recreate"
+     * @var string - mode of sql-dump. can be "data_only" and "recreate"
      */
     public $sql_dump_mode = 'data_only';
     protected $backup_name;
@@ -69,7 +69,7 @@ class ABackup
         $this->backup_name = $name;
         //Create a tmp directory with backup name
         //Create subdirectory /files and  /data
-        $this->backup_dir = DIR_BACKUP . $this->backup_name . '/';
+        $this->backup_dir = DIR_BACKUP . $this->backup_name . DS;
 
         if (!is_dir($this->backup_dir) && $create_subdirs) {
             $result = mkdir($this->backup_dir, 0755, true);
@@ -179,7 +179,7 @@ class ABackup
         $memory_limit = (getMemoryLimitInBytes() - memory_get_usage()) / 4;
 
         // sql-file for small tables
-        $dump_file = $dump_file ?: $this->backup_dir . 'data/dump_' . DB_DATABASE . '_' . date('Y-m-d-His') . '.sql';
+        $dump_file = $dump_file ?: $this->backup_dir . 'data' . DS . 'dump_' . DB_DATABASE . '_' . date('Y-m-d-His') . '.sql';
         $file = fopen($dump_file, 'w');
         if (!$file) {
             $error_text = 'Error: Cannot create file as "' . $dump_file . '" during sql-dumping. Check is it writable.';
@@ -362,7 +362,7 @@ class ABackup
         }
 
         $table_name = $this->registry->get('db')->escape($table_name); // for any case
-        $backupFile = $this->backup_dir . 'data/' . DB_DATABASE . '_' . $table_name . '_dump_' . date("Y-m-d-H-i-s") . '.sql';
+        $backupFile = $this->backup_dir . 'data' . DS . DB_DATABASE . '_' . $table_name . '_dump_' . date("Y-m-d-H-i-s") . '.sql';
         $result = $this->dumpTables(
             [
                 $table_name,
@@ -399,14 +399,14 @@ class ABackup
 
         $path = pathinfo($dir_path, PATHINFO_BASENAME);
 
-        if (!is_dir($this->backup_dir . 'files/' . $path)) {
+        if (!is_dir($this->backup_dir . 'files' . DS . $path)) {
             // it needs for nested dirs, for example files/extensions
-            mkdir($this->backup_dir . 'files/' . $path, 0755, true);
+            mkdir($this->backup_dir . 'files' . DS . $path, 0755, true);
         }
 
-        if (file_exists($this->backup_dir . 'files/' . $path)) {
+        if (file_exists($this->backup_dir . 'files' . DS . $path)) {
             if ($path) {
-                $this->_removeDir($this->backup_dir . 'files/' . $path);  // delete stuck dir
+                $this->_removeDir($this->backup_dir . 'files' . DS . $path);  // delete stuck dir
             }
         }
 
@@ -420,15 +420,13 @@ class ABackup
         }
 
         if ($remove) {
-            $result = rename($dir_path, $this->backup_dir . 'files/' . $path);
+            $result = rename($dir_path, $this->backup_dir . 'files' . DS . $path);
         } else {
-            $result = $this->_copyDir($dir_path, $this->backup_dir . 'files/' . $path);
+            $result = $this->_copyDir($dir_path, $this->backup_dir . 'files' . DS . $path);
         }
 
         if (!$result) {
-            $error_text =
-                "Error: Can't move directory \"" . $dir_path . " to backup folder \"" . $this->backup_dir . "files/" . $path
-                . "\" during backup\n";
+            $error_text = 'Error: Can\'t move directory "' . $dir_path . '" to backup folder "' . $this->backup_dir . 'files' . DS . $path . '" during backup' . PHP_EOL;
             if (!is_writable($dir_path)) {
                 $error_text .= "Check write permission for directory \"" . $dir_path . "\"";
             }
@@ -456,41 +454,41 @@ class ABackup
             return false;
         }
         $base_name = pathinfo($file_path, PATHINFO_BASENAME);
-        $path = str_replace(DIR_ROOT . '/', '', $file_path);
+        $path = str_replace(DIR_ROOT . DS, '', $file_path);
         $path = str_replace($base_name, '', $path);
 
         if ($path) { //if nested folders presents in path
-            if (!file_exists($this->backup_dir . 'files/' . $path)) {
+            if (!file_exists($this->backup_dir . 'files' . DS . $path)) {
                 // create dir with nested folders
-                $result = mkdir($this->backup_dir . 'files/' . $path, 0755, true);
+                $result = mkdir($this->backup_dir . 'files' . DS . $path, 0755, true);
             } else {
                 $result = true;
             }
             if (!$result) {
-                $error_text = "Error: Can't create directory " . $this->backup_dir . 'files/' . $path . " during backup";
+                $error_text = "Error: Can't create directory " . $this->backup_dir . 'files' . DS . $path . " during backup";
                 $this->log->write($error_text);
                 $this->error[] = $error_text;
                 return false;
             }
-            if (!is_writable($this->backup_dir . 'files/' . $path)) {
-                $error_text = "Error: Directory " . $this->backup_dir . 'files/' . $path . ' is not writable for backup.';
+            if (!is_writable($this->backup_dir . 'files' . DS . $path)) {
+                $error_text = "Error: Directory " . $this->backup_dir . 'files' . DS . $path . ' is not writable for backup.';
                 $this->log->write($error_text);
                 $this->error[] = $error_text;
                 return false;
             }
         }
         // move file
-        if (file_exists($this->backup_dir . 'files/' . $path . $base_name)) {
-            @unlink($this->backup_dir . 'files/' . $path . $base_name); // delete stuck file
+        if (file_exists($this->backup_dir . 'files' . DS . $path . $base_name)) {
+            @unlink($this->backup_dir . 'files' . DS . $path . $base_name); // delete stuck file
         }
         if ($remove) {
-            $result = rename($file_path, $this->backup_dir . 'files/' . $path . $base_name);
+            $result = rename($file_path, $this->backup_dir . 'files' . DS . $path . $base_name);
         } else {
-            $result = copy($file_path, $this->backup_dir . 'files/' . $path . $base_name);
+            $result = copy($file_path, $this->backup_dir . 'files' . DS . $path . $base_name);
         }
         if (!$result) {
             $error_text =
-                "Error: Can't move file " . $file_path . ' into ' . $this->backup_dir . 'files/' . $path . 'during backup.';
+                "Error: Can't move file " . $file_path . ' into ' . $this->backup_dir . 'files' . DS . $path . 'during backup.';
             $this->log->write($error_text);
             $this->error[] = $error_text;
             return false;
@@ -549,12 +547,12 @@ class ABackup
             $objects = scandir($dir);
             foreach ($objects as $obj) {
                 if ($obj != "." && $obj != "..") {
-                    @chmod($dir . "/" . $obj, 0777);
-                    $err = is_dir($dir . "/" . $obj)
-                        ? $this->_removeDir($dir . "/" . $obj)
-                        : unlink($dir . "/" . $obj);
+                    @chmod($dir . DS . $obj, 0777);
+                    $err = is_dir($dir . DS . $obj)
+                        ? $this->_removeDir($dir . DS . $obj)
+                        : unlink($dir . DS . $obj);
                     if (!$err) {
-                        $error_text = "Error: Can't to delete file or directory: '" . $dir . "/" . $obj . "'.";
+                        $error_text = "Error: Can't to delete file or directory: '" . $dir . DS . $obj . "'.";
                         $this->log->write($error_text);
                         $this->error[] = $error_text;
                         return false;
@@ -582,7 +580,7 @@ class ABackup
             return false;
         }
         //prevent recursive copying
-        if (rtrim($src, '/') == rtrim($this->backup_dir, '/')) {
+        if (rtrim($src, DS) == rtrim($this->backup_dir, DS)) {
             return false;
         }
 
@@ -626,12 +624,12 @@ class ABackup
         //if empty directory - creates new empty file to prevent
         // excluding directory during tar.gz compression via PharData class
         if (IS_WINDOWS === true) {
-            $dir = str_replace("\\", '/', $dir);
+            $dir = str_replace("\\", DS, $dir);
         }
         $fi = new FilesystemIterator($dir, FilesystemIterator::SKIP_DOTS);
         $files_count = iterator_count($fi);
         if (!$files_count) {
-            touch($dir . $this->slash . "index.html");
+            touch($dir . DS . "index.html");
         }
     }
 

@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 /**
@@ -31,7 +31,7 @@ abstract class Extension
 
     /**
      * @var bool extension class have abstract hooks via __call
-     * magic method which cover all hook calls
+     * magic method that covers all hook calls
      */
     public $hookAll = false;
 
@@ -450,9 +450,9 @@ class ExtensionsApi
                     'storefront' => [],
                     'admin'      => [],
                 ];
-                if (is_file(DIR_EXT.$ext.'/main.php')) {
+                if (is_file(DIR_EXT.$ext.DS.'main.php')) {
                     /** @noinspection PhpIncludeInspection */
-                    include(DIR_EXT.$ext.'/main.php');
+                    include(DIR_EXT.$ext.DS.'main.php');
                 }
                 $ext_controllers[$ext] = $controllers;
                 $ext_models[$ext] = $models;
@@ -729,13 +729,14 @@ class ExtensionsApi
         }
         $name = '';
         $filename = DIR_EXT
-            .$extension
-            .'/admin/language/'
-            .$this->registry->get('language')->language_details['directory']
-            .'/'.$extension
-            .'/'.$extension.'.xml';
+            .$extension.DS
+            .'admin'.DS
+            .'language'.DS
+            .$this->registry->get('language')->language_details['directory'].DS
+            .$extension.DS
+            .$extension.'.xml';
         if (!file_exists($filename)) {
-            $filename = DIR_EXT.$extension.'/admin/language/english/'.$extension.'/'.$extension.'.xml';
+            $filename = DIR_EXT.$extension.DS.'admin'.DS.'language'.DS.'english'.DS.$extension.DS.$extension.'.xml';
         }
 
         if (file_exists($filename)) {
@@ -1179,7 +1180,7 @@ class ExtensionsApi
             }
         } elseif (ExtensionCollection::$around_method_found) {
             if ($result) {
-                //Fake Exception to send result to dispatcher
+                //Fake Exception to send a result to dispatcher
                 // via AException
                 // and interrupt running of base controller method
                 /** @see ADispatcher::dispatch() */
@@ -1192,7 +1193,7 @@ class ExtensionsApi
                 );
             } else {
                 $return = false;
-                //if override want to be skipped allow run for other hook types
+                //if overrides want to be skipped, allow run for other hook types
                 $can_run = true;
             }
         }
@@ -1347,22 +1348,23 @@ class ExtensionUtils
     }
 
     /**
-     * Function returns array of form fields formatted for AHtml-class
+     * Function returns an array of form fields formatted for AHtml-class
      *
      * @return array
      * @throws AException
      */
     public function getSettings()
     {
-        $this->registry->get('load')->model('setting/setting');
-        $settings = $this->registry->get('model_setting_setting')->getSetting($this->name, $this->store_id);
+        /** @var ModelSettingSetting $mdl */
+        $mdl = $this->registry->get('load')->model('setting/setting');
+        $settings = $mdl->getSetting($this->name, $this->store_id);
         $result = [];
         $this->registry->get('session')->data['extension_required_fields'] = [];
         //add other settings items
         if (isset($this->config->settings->item)) {
             $i = 0;
             foreach ($this->config->settings->item as $item) {
-                //detect if setting is serialized
+                //detect if a setting is serialized
 
                 $true_item_id = (string) $item['id'];
                 $value_key = substr($item['id'], -2);
@@ -1443,8 +1445,9 @@ class ExtensionUtils
             || (isset($data['one_field']) && isset($data[$this->name.'_status'])
                 && $data[$this->name.'_status'] == 1)
         ) {
-            $this->registry->get('load')->model('setting/setting');
-            $data = $this->registry->get('model_setting_setting')->getSetting($this->name, $this->store_id);
+            /** @var ModelSettingSetting $mdl */
+            $mdl = $this->registry->get('load')->model('setting/setting');
+            $data = $mdl->getSetting($this->name, $this->store_id);
         }
 
         //1. check is all required fields are set
@@ -1489,13 +1492,13 @@ class ExtensionUtils
             }
         }
         //2.2 check data by given function from file validate.php
-        $validate_file = DIR_EXT.$this->name.'/validate.php';
+        $validate_file = DIR_EXT.$this->name.DS.'validate.php';
 
         if (file_exists($validate_file)) {
             /** @noinspection PhpIncludeInspection */
             include_once($validate_file);
-            //function settingsValidation in validate.php must to return
-            // formatted array as in caller (see phpdoc-comment: @return)
+            //function settingsValidation in validate.php have to return
+            // a formatted array as in caller (see phpdoc-comment: @return)
             if (function_exists('settingsValidation')) {
                 $result = call_user_func('settingsValidation', $data);
                 if (!isset($result['result']) || !isset($result['errors']) || !is_array($result['errors'])) {

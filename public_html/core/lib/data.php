@@ -268,7 +268,7 @@ class AData
         if (count($in_array)) {
 
             $d_name = str_replace('.tar.gz', '', $fileName);
-            $dirName = DIR_DATA . $d_name;
+            $dirName = DIR_DATA . str_replace('/', DS, $d_name);
 
             if (!file_exists($dirName)) {
                 $res = mkdir($dirName);
@@ -301,8 +301,8 @@ class AData
                     }
 
                     $str = $enclose . implode($enclose . $delimiter . $enclose, $col_names) . $enclose . "\r\n" . $str;
-                    file_put_contents($dirName . '/' . $table['name'] . $format, $str);
-                    @chmod($dirName . '/' . $table['name'] . $format, 0777);
+                    file_put_contents($dirName . DS . $table['name'] . $format, $str);
+                    @chmod($dirName . DS . $table['name'] . $format, 0777);
                 }
             } else {
                 $this->processError('CSV/TXT Export Error', "Error: Can't create directory: " . $dirName, 'error');
@@ -364,15 +364,14 @@ class AData
             $objects = scandir($dir);
             foreach ($objects as $obj) {
                 if ($obj != "." && $obj != "..") {
-                    chmod($dir . "/" . $obj, 0777);
-                    $err = is_dir($dir . "/" . $obj) ? $this->_removeDir($dir . "/" . $obj) : unlink($dir . "/" . $obj);
+                    chmod($dir . DS . $obj, 0777);
+                    $err = is_dir($dir . DS . $obj) ? $this->_removeDir($dir . DS . $obj) : unlink($dir . DS . $obj);
                     if (!$err) {
-                        $this->processError('Archive error', "Error: Can't to delete file or directory: '" . $dir . "/" . $obj . "'.");
+                        $this->processError('Archive error', "Error: Can't to delete file or directory: '" . $dir . DS . $obj . "'.");
                         return false;
                     }
                 }
             }
-            reset($objects);
             rmdir($dir);
             return true;
         } else {
@@ -1145,7 +1144,7 @@ class AData
                 $fl = new AFile();
                 foreach ($sources['source_url'] as $source) {
                     $image_basename = basename($source);
-                    $target = DIR_RESOURCE . $rm->getTypeDir() . '/' . $image_basename;
+                    $target = DIR_RESOURCE . $rm->getTypeDir() . DS . str_replace('/', DS, $image_basename);
                     if (!is_dir(DIR_RESOURCE . $rm->getTypeDir())) {
                         @mkdir(DIR_RESOURCE . $rm->getTypeDir(), 0777);
                     }
@@ -1158,7 +1157,7 @@ class AData
                         continue;
                     }
                     if (!$this->_create_resource($rm, $object_name, $object_id, $image_basename)) {
-                        $this->_status2array('error', "Unable to create new media resource type $type for $image_basename");
+                        $this->_status2array('error', "Unable to create new media resource type " . $type . " for " . $image_basename);
                         continue;
                     }
                 }
@@ -1166,7 +1165,7 @@ class AData
             if ($sources['source_path']) {
                 foreach ($sources['source_path'] as $source) {
                     $image_basename = basename($source);
-                    $target = DIR_RESOURCE . $rm->getTypeDir() . '/' . $image_basename;
+                    $target = DIR_RESOURCE . $rm->getTypeDir() . DS . str_replace('/', DS, $image_basename);
                     if (!is_dir(DIR_RESOURCE . $rm->getTypeDir())) {
                         @mkdir(DIR_RESOURCE . $rm->getTypeDir(), 0777);
                     }
@@ -1195,8 +1194,8 @@ class AData
 
     /**
      * @param AResourceManager $rm
-     * @param                  $object_txt_id
-     * @param                  $object_id
+     * @param string $object_txt_id
+     * @param int $object_id
      * @param string $image_basename
      * @param string $code
      *

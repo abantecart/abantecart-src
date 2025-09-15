@@ -1,23 +1,23 @@
 <?php
 
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -61,20 +61,9 @@ class ADownload
         return $this->registry->get($key);
     }
 
-    /**
-     * @param string $key - key to save data in registry
-     * @param mixed $value - key to save data in registry
-     *
-     * @return mixed  - data from registry
-     */
-    public function __set($key, $value)
+    public function getDownloadsBeforeOrder($product_id, ?int $language_id = 0)
     {
-        $this->registry->set($key, $value);
-    }
-
-    public function getDownloadsBeforeOrder($product_id, $language_id = null)
-    {
-        if (!(int) $product_id) {
+        if (!(int)$product_id) {
             return [];
         }
         if (!$language_id) {
@@ -87,21 +76,21 @@ class ADownload
 
         $result = $this->db->query(
             "SELECT d.*, dd.*, ptd.*
-                                    FROM ".$this->db->table('downloads')." d
-                                    RIGHT JOIN ".$this->db->table('products_to_downloads')." ptd 
-                                        ON ptd.download_id = d.download_id
-                                    LEFT JOIN ".$this->db->table('download_descriptions')." dd 
-                                        ON d.download_id = dd.download_id AND dd.language_id = '".$language_id."'
-                                    WHERE ptd.product_id='".(int) $product_id."'
-                                        AND d.activate='before_order'
-                                        AND d.status>0"
+            FROM " . $this->db->table('downloads') . " d
+            RIGHT JOIN " . $this->db->table('products_to_downloads') . " ptd 
+                ON ptd.download_id = d.download_id
+            LEFT JOIN " . $this->db->table('download_descriptions') . " dd 
+                ON (d.download_id = dd.download_id AND dd.language_id = '" . $language_id . "')
+            WHERE ptd.product_id='" . (int)$product_id . "'
+                AND d.activate='before_order'
+                AND d.status>0"
         );
         return $result->rows;
     }
 
     public function getDownloadInfo($download_id)
     {
-        if (!(int) $download_id) {
+        if (!(int)$download_id) {
             return [];
         }
         if (IS_ADMIN === true) {
@@ -112,10 +101,10 @@ class ADownload
 
         $result = $this->db->query(
             "SELECT dd.*, d.*
-                                    FROM ".$this->db->table('downloads')." d
-                                    LEFT JOIN ".$this->db->table('download_descriptions')." dd
-                                        ON (d.download_id = dd.download_id AND dd.language_id = '".$language_id."')
-                                    WHERE d.download_id='".(int) $download_id."'"
+                                    FROM " . $this->db->table('downloads') . " d
+                                    LEFT JOIN " . $this->db->table('download_descriptions') . " dd
+                                        ON (d.download_id = dd.download_id AND dd.language_id = '" . $language_id . "')
+                                    WHERE d.download_id='" . (int)$download_id . "'"
         );
         return $result->row;
     }
@@ -131,7 +120,7 @@ class ADownload
      */
     public function getOrderDownloadInfo($order_download_id, $language_id = '')
     {
-        if (!(int) $order_download_id) {
+        if (!(int)$order_download_id) {
             return [];
         }
         if (!$language_id) {
@@ -144,12 +133,12 @@ class ADownload
 
         $result = $this->db->query(
             "SELECT dd.*, d.*, od.*
-                                    FROM ".$this->db->table('order_downloads')." od
-                                    LEFT JOIN ".$this->db->table('downloads')." d 
+                                    FROM " . $this->db->table('order_downloads') . " od
+                                    LEFT JOIN " . $this->db->table('downloads') . " d 
                                         ON od.download_id = d.download_id
-                                    LEFT JOIN ".$this->db->table('download_descriptions')." dd 
-                                        ON d.download_id = dd.download_id AND dd.language_id = '".$language_id."'
-                                    WHERE od.order_download_id='".(int) $order_download_id."'"
+                                    LEFT JOIN " . $this->db->table('download_descriptions') . " dd 
+                                        ON d.download_id = dd.download_id AND dd.language_id = '" . $language_id . "'
+                                    WHERE od.order_download_id='" . (int)$order_download_id . "'"
         );
         return $result->row;
     }
@@ -164,18 +153,18 @@ class ADownload
      */
     public function getProductOrderDownloads($product_id)
     {
-        if (!(int) $product_id) {
+        if (!(int)$product_id) {
             return [];
         }
         $query = $this->db->query(
             "SELECT dd.*, d.*, p2d.*
-                FROM ".$this->db->table("products_to_downloads")." p2d
-                INNER JOIN ".$this->db->table("downloads")." d 
+                FROM " . $this->db->table("products_to_downloads") . " p2d
+                INNER JOIN " . $this->db->table("downloads") . " d 
                     ON (p2d.download_id = d.download_id)
-                LEFT JOIN ".$this->db->table("download_descriptions")." dd
+                LEFT JOIN " . $this->db->table("download_descriptions") . " dd
                     ON (d.download_id = dd.download_id
-                        AND dd.language_id = '".(int) $this->config->get('storefront_language_id')."')
-                WHERE p2d.product_id = '".(int) $product_id."'
+                        AND dd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
+                WHERE p2d.product_id = '" . (int)$product_id . "'
                     AND d.status=1 AND d.activate<>'before_order' "
         );
         return $query->rows;
@@ -194,7 +183,7 @@ class ADownload
      */
     public function addUpdateOrderDownload($order_product_id, $order_id, $download = [])
     {
-        if (!(int) $order_product_id || !(int) $order_id || !(int) $download['download_id']) {
+        if (!(int)$order_product_id || !(int)$order_id || !(int)$download['download_id']) {
             return [];
         }
 
@@ -209,10 +198,10 @@ class ADownload
         //check if we have download yet
         $check = $this->db->query(
             "SELECT od.order_download_id
-                                    FROM ".$this->db->table('order_downloads')." od
-                                    WHERE od.order_id='".(int) $order_id."'
-                                            AND od.order_product_id='".(int) $order_product_id."' 
-                                            AND od.download_id='".(int) $download['download_id']."'"
+                                    FROM " . $this->db->table('order_downloads') . " od
+                                    WHERE od.order_id='" . (int)$order_id . "'
+                                            AND od.order_product_id='" . (int)$order_product_id . "' 
+                                            AND od.download_id='" . (int)$download['download_id'] . "'"
         );
         if ($check->num_rows) {
             //need to update
@@ -239,11 +228,11 @@ class ADownload
      */
     public function updateProductDownloadToOrder($order_download_id, $download = [])
     {
-        if (!(int) $order_download_id || empty($download)) {
+        if (!(int)$order_download_id || empty($download)) {
             return false;
         }
-        if ((int) $download['expire_days']) {
-            $expire = "(NOW() + INTERVAL ".(int) $download['expire_days']." DAY)";
+        if ((int)$download['expire_days']) {
+            $expire = "(NOW() + INTERVAL " . (int)$download['expire_days'] . " DAY)";
         } else {
             $expire = 'NULL';
         }
@@ -251,18 +240,18 @@ class ADownload
             ? $download['activate_order_status_id']
             : serialize($download['activate_order_status_id']);
         $this->db->query(
-            "UPDATE ".$this->db->table("order_downloads")."
-                            SET name = '".$this->db->escape($download['name'])."',
-                                filename = '".$this->db->escape($download['filename'])."',
-                                mask = '".$this->db->escape($download['mask'])."',
-                                remaining_count = ".((int) $download['max_downloads'] ? "'"
-                .(int) $download['max_downloads']."'" : 'NULL').",
-                                status = '".(int) $download['status']."',
-                                activate_order_status_id = '". $this->db->escape($activateOrderStatusId) ."',
-                                expire_date = ".$expire.",
-                                attributes_data = '".$this->db->escape($download['attributes_data'])."',
+            "UPDATE " . $this->db->table("order_downloads") . "
+                            SET name = '" . $this->db->escape($download['name']) . "',
+                                filename = '" . $this->db->escape($download['filename']) . "',
+                                mask = '" . $this->db->escape($download['mask']) . "',
+                                remaining_count = " . ((int)$download['max_downloads'] ? "'"
+                . (int)$download['max_downloads'] . "'" : 'NULL') . ",
+                                status = '" . (int)$download['status'] . "',
+                                activate_order_status_id = '" . $this->db->escape($activateOrderStatusId) . "',
+                                expire_date = " . $expire . ",
+                                attributes_data = '" . $this->db->escape($download['attributes_data']) . "',
                                 date_modified = NOW()
-                            WHERE order_download_id = '".(int) $order_download_id."'"
+                            WHERE order_download_id = '" . (int)$order_download_id . "'"
         );
 
         return $order_download_id;
@@ -280,11 +269,11 @@ class ADownload
      */
     public function addProductDownloadToOrder($order_product_id, $order_id, $download = [])
     {
-        if (!(int) $order_product_id || !(int) $order_id) {
+        if (!(int)$order_product_id || !(int)$order_id) {
             return false;
         }
-        if ((int) $download['expire_days']) {
-            $expire = "(NOW() + INTERVAL ".(int) $download['expire_days']." DAY)";
+        if ((int)$download['expire_days']) {
+            $expire = "(NOW() + INTERVAL " . (int)$download['expire_days'] . " DAY)";
         } else {
             $expire = 'NULL';
         }
@@ -292,19 +281,19 @@ class ADownload
             ? $download['activate_order_status_id']
             : serialize($download['activate_order_status_id']);
         $this->db->query(
-            "INSERT INTO ".$this->db->table("order_downloads")."
-                            SET order_id = '".(int) $order_id."',
-                                order_product_id = '".(int) $order_product_id."',
-                                download_id = '".(int) $download['download_id']."',
-                                name = '".$this->db->escape($download['name'])."',
-                                filename = '".$this->db->escape($download['filename'])."',
-                                mask = '".$this->db->escape($download['mask'])."',
-                                remaining_count = ".((int) $download['max_downloads'] ? "'"
-                .(int) $download['max_downloads']."'" : 'NULL').",
-                                status = '".(int) $download['status']."',
-                                activate_order_status_id = '".$this->db->escape($activateOrderStatusId)."',
-                                expire_date = ".$expire.",
-                                attributes_data = '".$this->db->escape($download['attributes_data'])."',
+            "INSERT INTO " . $this->db->table("order_downloads") . "
+                            SET order_id = '" . (int)$order_id . "',
+                                order_product_id = '" . (int)$order_product_id . "',
+                                download_id = '" . (int)$download['download_id'] . "',
+                                name = '" . $this->db->escape($download['name']) . "',
+                                filename = '" . $this->db->escape($download['filename']) . "',
+                                mask = '" . $this->db->escape($download['mask']) . "',
+                                remaining_count = " . ((int)$download['max_downloads'] ? "'"
+                . (int)$download['max_downloads'] . "'" : 'NULL') . ",
+                                status = '" . (int)$download['status'] . "',
+                                activate_order_status_id = '" . $this->db->escape($activateOrderStatusId) . "',
+                                expire_date = " . $expire . ",
+                                attributes_data = '" . $this->db->escape($download['attributes_data']) . "',
                                 date_modified = NOW(),
                                 date_added = NOW()"
         );
@@ -323,7 +312,7 @@ class ADownload
      */
     public function getDownloadAttributesValues($download_id, $mode = 'full')
     {
-        if (!(int) $download_id) {
+        if (!(int)$download_id) {
             return [];
         }
         $output = [];
@@ -338,7 +327,7 @@ class ADownload
                     continue;
                 }
             }
-            $ids[] = (int) $attribute['attribute_id'];
+            $ids[] = (int)$attribute['attribute_id'];
             $attribute['attribute_values'] = $attr->getAttributeValues($attribute['attribute_id']);
         }
         unset($attribute);
@@ -346,11 +335,11 @@ class ADownload
         if ($ids) {
             $result = $this->db->query(
                 "SELECT dav.attribute_id, dav.attribute_value_ids as value
-                                          FROM ".$this->db->table('download_attribute_values')." dav
-                                          LEFT JOIN ".$this->db->table('global_attributes')." ga
+                                          FROM " . $this->db->table('download_attribute_values') . " dav
+                                          LEFT JOIN " . $this->db->table('global_attributes') . " ga
                                                 ON ga.attribute_id = dav.attribute_id
-                                          WHERE dav.attribute_id IN (".implode(',', $ids).") AND dav.download_id = '"
-                .$download_id."'
+                                          WHERE dav.attribute_id IN (" . implode(',', $ids) . ") AND dav.download_id = '"
+                . $download_id . "'
                                           ORDER BY ga.sort_order ASC"
             );
 
@@ -407,8 +396,8 @@ class ADownload
     {
         // do checks
         if (!$download_info || !$this->isFileAvailable($download_info['filename'])) {
-            $error_text = 'Unable to download file '.DIR_RESOURCE.$download_info['filename']
-                .'! File is unavailable. Please check permissions.';
+            $error_text = 'Unable to download file ' . DIR_RESOURCE . $download_info['filename']
+                . '! File is unavailable. Please check permissions.';
             $err = new AError($error_text);
             $err->toDebug()->toLog();
             return false;
@@ -420,17 +409,17 @@ class ADownload
             return false;
         }
 
-        $file = DIR_RESOURCE.$download_info['filename'];
+        $file = DIR_RESOURCE . str_replace('/', DS, $download_info['filename']);
         if (is_numeric($download_info['filename'])) {
             $rl = new AResource('download');
             $resource = $rl->getResource($download_info['filename']);
             if ($resource && $resource['resource_path']) {
-                $file = DIR_RESOURCE.$rl->getTypeDir().$resource['resource_path'];
+                $file = DIR_RESOURCE . $rl->getTypeDir() . str_replace('/', DS, $resource['resource_path']);
             }
         }
         $mask = basename($download_info['mask']);
         $mask = mb_convert_encoding($mask, 'UTF-8', 'UTF-8');
-        $mask = preg_replace('/[^0-9A-z_\.\-]/', '', $mask);
+        $mask = preg_replace('/[^0-9A-z_.\-]/', '', $mask);
         //is mask filename contains only non-latin chars
         if (pathinfo($mask, PATHINFO_FILENAME) == '' || !$mask) {
             $mask = basename($file);
@@ -445,10 +434,10 @@ class ADownload
                 header('Pragma: public');
                 header('Expires: 0');
                 header('Content-Description: File Transfer');
-                header('Content-Type: '.$mime);
-                header('Content-Transfer-Encoding: '.$encoding);
-                header('Content-Disposition: attachment; filename='.$mask);
-                header('Content-Length: '.$filesize);
+                header('Content-Type: ' . $mime);
+                header('Content-Transfer-Encoding: ' . $encoding);
+                header('Content-Disposition: attachment; filename=' . $mask);
+                header('Content-Length: ' . $filesize);
                 ob_end_clean();
                 $bytes_sent = 0;
                 $order_download_history_id = 'NULL';
@@ -461,29 +450,29 @@ class ADownload
                     } else {
                         $bytes_sent += 1024 * 8;
                         $prc = round($bytes_sent * 100 / $filesize, 0);
-                        $prc = $prc > 100 ? 100 : $prc;
+                        $prc = min($prc, 100);
                         //do insert or update
-                        $sql = "INSERT INTO ".$this->db->table('order_downloads_history')."
-                                                        (order_download_history_id,
-                                                         order_download_id,
-                                                         order_id,
-                                                         order_product_id,
-                                                         filename,
-                                                         mask,
-                                                         download_id,
-                                                         download_percent,
-                                                         `time`)
-                        VALUES (".$order_download_history_id.",
-                                '".(int) $download_info['order_download_id']."',
-                                '".(int) $download_info['order_id']."',
-                                '".(int) $download_info['order_product_id']."',
-                                '".$this->db->escape($download_info['filename'])."',
-                                '".$this->db->escape($download_info['mask'])."',
-                                '".$download_info['download_id']."',
-                                '".$prc."',
+                        $sql = "INSERT INTO " . $this->db->table('order_downloads_history') . "
+                                (order_download_history_id,
+                                 order_download_id,
+                                 order_id,
+                                 order_product_id,
+                                 filename,
+                                 mask,
+                                 download_id,
+                                 download_percent,
+                                 `time`)
+                        VALUES (" . $order_download_history_id . ",
+                                '" . (int)$download_info['order_download_id'] . "',
+                                '" . (int)$download_info['order_id'] . "',
+                                '" . (int)$download_info['order_product_id'] . "',
+                                '" . $this->db->escape($download_info['filename']) . "',
+                                '" . $this->db->escape($download_info['mask']) . "',
+                                '" . $download_info['download_id'] . "',
+                                '" . $prc . "',
                                 NOW())
-                        ON DUPLICATE KEY UPDATE
-                         download_percent = '".$prc."'";
+                        ON DUPLICATE KEY UPDATE 
+                         download_percent = '" . $prc . "'";
 
                         $this->db->query($sql);
                         if ($order_download_history_id == 'NULL') {
@@ -493,7 +482,7 @@ class ADownload
                 }
                 fclose($file_handler);
             } else {
-                throw new AException(AC_ERR_LOAD, 'Error: Could not find file '.$file.'!');
+                throw new AException(AC_ERR_LOAD, 'Error: Could not find file ' . $file . '!');
             }
         } else {
             exit('Error: Headers already sent out!');
@@ -516,9 +505,9 @@ class ADownload
     public function updateRemaining($order_download_id)
     {
         $this->db->query(
-            "UPDATE ".$this->db->table("order_downloads")."
+            "UPDATE " . $this->db->table("order_downloads") . "
             SET remaining_count = (remaining_count - 1)
-            WHERE order_download_id = '".(int) $order_download_id."'"
+            WHERE order_download_id = '" . (int)$order_download_id . "'"
         );
     }
 
@@ -531,11 +520,11 @@ class ADownload
      */
     public function getCustomerDownloads($start = 0, $limit = 0)
     {
-        $customer_id = (int) $this->customer->getId();
+        $customer_id = (int)$this->customer->getId();
         if (!$customer_id) {
             return [];
         }
-        $start = $start < 0 ? 0 : (int) $start;
+        $start = $start < 0 ? 0 : (int)$start;
 
         $sql = "SELECT o.order_id,
                       o.order_status_id,
@@ -551,14 +540,17 @@ class ADownload
                       od.remaining_count,
                       od.expire_date,
                       op.product_id
-               FROM ".$this->db->table("order_downloads")." od
-               LEFT JOIN ".$this->db->table("orders")." o ON (od.order_id = o.order_id)
-               LEFT JOIN ".$this->db->table("downloads")." d ON (d.download_id = od.download_id)
-               LEFT JOIN ".$this->db->table("order_products")." op ON (op.order_product_id = od.order_product_id)
-               WHERE o.customer_id = '".$customer_id."'
+               FROM " . $this->db->table("order_downloads") . " od
+               LEFT JOIN " . $this->db->table("orders") . " o 
+                    ON (od.order_id = o.order_id)
+               LEFT JOIN " . $this->db->table("downloads") . " d 
+                    ON (d.download_id = od.download_id)
+               LEFT JOIN " . $this->db->table("order_products") . " op 
+                    ON (op.order_product_id = od.order_product_id)
+               WHERE o.customer_id = '" . $customer_id . "'
                ORDER BY  o.date_added DESC, od.sort_order ASC ";
         if ($limit) {
-            $sql .= "LIMIT ".(int) $start.",".(int) $limit;
+            $sql .= "LIMIT " . (int)$start . "," . (int)$limit;
         }
 
         $query = $this->db->query($sql);
@@ -578,8 +570,8 @@ class ADownload
      */
     public function getCustomerOrderDownloads($order_id, $customer_id)
     {
-        $customer_id = (int) $customer_id;
-        $order_id = (int) $order_id;
+        $customer_id = (int)$customer_id;
+        $order_id = (int)$order_id;
         if (!$order_id) {
             return [];
         }
@@ -598,12 +590,15 @@ class ADownload
                       od.expire_date,
                       op.product_id,
                       o.email
-               FROM ".$this->db->table("order_downloads")." od
-               INNER JOIN ".$this->db->table("orders")." o ON (od.order_id = o.order_id)
-               LEFT JOIN ".$this->db->table("downloads")." d ON (d.download_id = od.download_id)
-               LEFT JOIN ".$this->db->table("order_products")." op ON (op.order_product_id = od.order_product_id)
-               WHERE o.order_id = '".$order_id."'
-               ".($customer_id ? " AND o.customer_id = '".$customer_id."'" : "")."
+               FROM " . $this->db->table("order_downloads") . " od
+               INNER JOIN " . $this->db->table("orders") . " o 
+                    ON (od.order_id = o.order_id)
+               LEFT JOIN " . $this->db->table("downloads") . " d 
+                    ON (d.download_id = od.download_id)
+               LEFT JOIN " . $this->db->table("order_products") . " op 
+                    ON (op.order_product_id = od.order_product_id)
+               WHERE o.order_id = '" . $order_id . "'
+               " . ($customer_id ? " AND o.customer_id = '" . $customer_id . "'" : "") . "
                ORDER BY  o.date_added DESC, od.sort_order ASC ";
 
         $query = $this->db->query($sql);
@@ -627,7 +622,7 @@ class ADownload
      * @param int $order_id
      * @param int $customer_id
      *
-     * @return mixed
+     * @return int
      * @throws AException
      */
     public function getTotalOrderDownloads($order_id, $customer_id)
@@ -643,7 +638,7 @@ class ADownload
      */
     public function OrderHasDownloads($order_id)
     {
-        $customer = (int) $this->customer->getId();
+        $customer = (int)$this->customer->getId();
         return $this->getTotalOrderDownloads($order_id, $customer);
     }
 
@@ -662,15 +657,15 @@ class ADownload
             $rl = new AResource('download');
             $resource = $rl->getResource($resource_path);
             if ($resource && $resource['resource_path']) {
-                $resource_path = $rl->getTypeDir().$resource['resource_path'];
+                $resource_path = $rl->getTypeDir() . str_replace('/', DS, $resource['resource_path']);
             }
         }
 
-        if (!is_file(DIR_RESOURCE.$resource_path) || !is_readable(DIR_RESOURCE.$resource_path)) {
+        if (!is_file(DIR_RESOURCE . $resource_path) || !is_readable(DIR_RESOURCE . $resource_path)) {
             return false;
         }
 
-        if (!filesize(DIR_RESOURCE.$resource_path)) {
+        if (!filesize(DIR_RESOURCE . $resource_path)) {
             return false;
         }
 
@@ -691,7 +686,7 @@ class ADownload
         }
         $activateStatuses = unserialize($download_info['activate_order_status_id']);
         if ($activateStatuses) {
-            if (!in_array((int) $download_info['order_status_id'],(array) $activateStatuses)) {
+            if (!in_array((int)$download_info['order_status_id'], (array)$activateStatuses)) {
                 $text_status = $this->language->get('text_pending');
             }
         }
@@ -699,8 +694,8 @@ class ADownload
         $download_info['filename'] = trim($download_info['filename']);
         if (!$this->isFileAvailable($download_info['filename'])) {
             $err = new AError(
-                'Error: file "'.$download_info['filename'].'" (download_id = '.$download_info['order_id'].') of order #'
-                .$download_info['order_id'].' is unavailable for download!'
+                'Error: file "' . $download_info['filename'] . '" (download_id = ' . $download_info['order_id'] . ') of order #'
+                . $download_info['order_id'] . ' is unavailable for download!'
             );
             $err->toLog()->toDebug();
             $text_status = $this->language->get('text_unavailable');

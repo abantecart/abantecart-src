@@ -65,7 +65,7 @@ class ControllerCommonHeader extends AController
         if (is_numeric($this->data['logo'])) {
             $resource = new AResource('image');
             $image_data = $resource->getResource($this->data['logo']);
-            $img_sub_path = $image_data['type_name'] . '/' . $image_data['resource_path'];
+            $img_sub_path = $image_data['type_name'] . DS . str_replace('/', DS, $image_data['resource_path']);
             if (is_file(DIR_RESOURCE . $img_sub_path)) {
                 $this->data['logo'] = $img_sub_path;
                 $logo_path = DIR_RESOURCE . $img_sub_path;

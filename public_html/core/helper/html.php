@@ -5,17 +5,17 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -32,33 +32,33 @@ function renderStoreMenu($menu, $level = 0)
     $logged = $registry->get('customer')->isLogged();
 
     foreach ($menu as $item) {
-        if ( ($logged && $item['id'] == 'login') || (!$logged && $item['id'] == 'logout') ) {
+        if (($logged && $item['id'] == 'login') || (!$logged && $item['id'] == 'logout')) {
             continue;
         }
 
-        $id = $item['id'] ? ' id="menu_'.$item['id'].'" ' : '';
+        $id = $item['id'] ? ' id="menu_' . $item['id'] . '" ' : '';
         if ($level != 0) {
             if (!$item['children']) {
                 $style = '';
             } else {
                 $style = $item['icon']
                     ? ' class="parent" style="background-image:none;" '
-                    : ' class="parent menu_'.$item['id'].'" ';
+                    : ' class="parent menu_' . $item['id'] . '" ';
             }
         } else {
             $style = $item['icon']
                 ? ' class="top" style="background-image:none;" '
-                : ' class="top menu_'.$item['id'].'" ';
+                : ' class="top menu_' . $item['id'] . '" ';
         }
 
-        $href = $item['href'] ? ' href="'.$item['href'].'" ' : '';
-        $result .= '<li'.$id.' class="dropdown">';
-        $result .= '<a'.$style.$href.'>';
-        $result .= $item['icon'] ? '<img src="'.HTTPS_DIR_RESOURCE.$item['icon'].'" alt="" />' : '';
-        $result .= '<span>'.$item['text'].'</span></a>';
+        $href = $item['href'] ? ' href="' . $item['href'] . '" ' : '';
+        $result .= '<li' . $id . ' class="dropdown">';
+        $result .= '<a' . $style . $href . '>';
+        $result .= $item['icon'] ? '<img src="' . HTTPS_DIR_RESOURCE . $item['icon'] . '" alt="" />' : '';
+        $result .= '<span>' . $item['text'] . '</span></a>';
 
         if (!empty($item['children'])) {
-            $result .= "\r\n".renderStoreMenu($item['children'], $level + 1);
+            $result .= "\r\n" . renderStoreMenu($item['children'], $level + 1);
         }
         $result .= "</li>\r\n";
     }
@@ -89,42 +89,42 @@ function buildStoreFrontMenuTree($menu_array, $level = 0)
             continue;
         }
 
-        //build appropriate menu id and classes for css controll
-        $id = (empty($item['id']) ? '' : ' data-id="menu_'.$item['id'].'" '); // li ID
+        //build the appropriate menu id and classes for CSS control
+        $id = (empty($item['id']) ? '' : ' data-id="menu_' . $item['id'] . '" '); // li ID
         if ($level != 0) {
             if (empty($item['children'])) {
-                $style = $item['icon'] ? ' class="top nobackground"' : ' class="sub menu_'.$item['id'].'" ';
+                $style = $item['icon'] ? ' class="top nobackground"' : ' class="sub menu_' . $item['id'] . '" ';
             } else {
-                $style = $item['icon'] ? ' class="parent nobackground" ' : ' class="parent menu_'.$item['id'].'" ';
+                $style = $item['icon'] ? ' class="parent nobackground" ' : ' class="parent menu_' . $item['id'] . '" ';
             }
         } else {
-            $style = $item['icon'] ? ' class="top nobackground"' : ' class="top menu_'.$item['id'].'" ';
+            $style = $item['icon'] ? ' class="top nobackground"' : ' class="top menu_' . $item['id'] . '" ';
         }
-        $href = empty($item['href']) ? '' : ' href="'.$item['href'].'" ';
+        $href = empty($item['href']) ? '' : ' href="' . $item['href'] . '" ';
         //construct HTML
         $current = '';
         if ($item['current']) {
             $current = 'current';
         }
-        $result .= '<li '.$id.' class="dropdown '.$current.'">';
-        $result .= '<a '.$style.$href.'>';
+        $result .= '<li ' . $id . ' class="dropdown ' . $current . '">';
+        $result .= '<a ' . $style . $href . '>';
 
-        //check icon rl type html, image or none.
+        //check icon rl type HTML, image or none.
         $rl_id = $item['icon'] ?: $item['icon_rl_id'];
         if ($rl_id) {
             $resource = $ar->getResource($rl_id);
-            if ($resource['resource_path'] && is_file(DIR_RESOURCE.'image/'.$resource['resource_path'])) {
-                $result .= '<img class="menu_image" src="'.HTTPS_DIR_RESOURCE.'image/'.$resource['resource_path'].'" />';
+            if ($resource['resource_path'] && is_file(DIR_RESOURCE . 'image' . DS . str_replace('/', DS, $resource['resource_path']))) {
+                $result .= '<img class="menu_image" src="' . HTTPS_DIR_RESOURCE . 'image/' . $resource['resource_path'] . '" />';
             } elseif ($resource['resource_code']) {
                 $result .= $resource['resource_code'];
             }
         }
 
-        $result .= '<span class="menu_text">'.$item['text'].'</span></a>';
+        $result .= '<span class="menu_text">' . $item['text'] . '</span></a>';
 
-        //if children build inner child tree
+        //if children build an inner child tree
         if (!empty($item['children'])) {
-            $result .= "\r\n".buildStoreFrontMenuTree($item['children'], $level + 1);
+            $result .= "\r\n" . buildStoreFrontMenuTree($item['children'], $level + 1);
         }
         $result .= "</li>\r\n";
     }
@@ -145,15 +145,15 @@ function renderAdminMenu(array $menu, ?int $level = 0, ?string $currentRt = '')
 {
     $result = '';
     if ($level) {
-        $result .= '<ul class="children child'.$level.'">'."\r\n";
+        $result .= '<ul class="children child' . $level . '">' . "\r\n";
     }
     foreach ($menu as $item) {
-        $id = $item['id'] ? ' id="menu_'.$item['id'].'" ' : '';
+        $id = $item['id'] ? ' id="menu_' . $item['id'] . '" ' : '';
         $class = $level != 0 ? !$item['children'] ? '' : ' class="parent" ' : ' class="top" ';
-        $href = $item['href'] ? ' href="'.$item['href'].'" ' : '';
-        $onclick = $item['onclick'] ? ' onclick="'.$item['onclick'].'" ' : '';
+        $href = $item['href'] ? ' href="' . $item['href'] . '" ' : '';
+        $onclick = $item['onclick'] ? ' onclick="' . $item['onclick'] . '" ' : '';
 
-        $childCssClass = "level".$level;
+        $childCssClass = "level" . $level;
         if (!empty($item['children'])) {
             $childCssClass .= ' nav-parent ';
         }
@@ -161,26 +161,26 @@ function renderAdminMenu(array $menu, ?int $level = 0, ?string $currentRt = '')
             $childCssClass .= ' active ';
         }
         if ($childCssClass) {
-            $childCssClass = ' class="'.$childCssClass.'" ';
+            $childCssClass = ' class="' . $childCssClass . '" ';
         }
 
-        $result .= '<li'.$id.$childCssClass.'>';
-        $result .= '<a '.$class.$href.$onclick.'>';
+        $result .= '<li' . $id . $childCssClass . '>';
+        $result .= '<a ' . $class . $href . $onclick . '>';
 
-        //check icon rl type html, image or none. 
+        //check icon rl type HTML, image or none.
         if (isHtml($item['icon'])) {
             $result .= $item['icon'];
         } else {
             if ($item['icon']) {
-                $result .= '<img class="menu_image" src="'.HTTPS_DIR_RESOURCE.$item['icon'].'" alt="" />';
+                $result .= '<img class="menu_image" src="' . HTTPS_DIR_RESOURCE . $item['icon'] . '" alt="" />';
             } else {
                 $result .= '<i class="fa fa-caret-right"></i> ';
             }
         }
-        $result .= '<span class="menu_text">'.$item['text'].'</span></a>';
+        $result .= '<span class="menu_text">' . $item['text'] . '</span></a>';
         //if children build inner child trees
         if ($item['children']) {
-            $result .= "\r\n".renderAdminMenu((array)$item['children'], $level + 1, $currentRt);
+            $result .= "\r\n" . renderAdminMenu((array)$item['children'], $level + 1, $currentRt);
         }
         $result .= "</li>\r\n";
     }
@@ -199,36 +199,41 @@ function renderAdminMenu(array $menu, ?int $level = 0, ?string $currentRt = '')
  */
 function getEmbedButtonsData(string $rt, array $httpQuery, ?array $storeList = [0])
 {
-    if(IS_ADMIN !== true){
-        return[];
+    if (IS_ADMIN !== true) {
+        return [];
     }
     $registry = Registry::getInstance();
-    if(count($storeList) > 1){
+    if (count($storeList) > 1) {
         $mdl = $registry->get('load')->model('setting/store');
         $output['embed_stores'] = array_column(
-            $mdl->getStores( ['filter' => ['include' => $storeList]] ),
+            $mdl->getStores(['filter' => ['include' => $storeList]]),
             'name',
             'store_id'
         );
-    }else{
-        if($storeList){
+    } else {
+        if ($storeList) {
             $httpQuery['store_id'] = (int)current($storeList);
         }
         $output['embed_stores'] = [];
     }
-    $output['embed_url'] = $registry->get('html')->getSecureURL( $rt, '&'.http_build_query($httpQuery) );
+    $output['embed_url'] = $registry->get('html')->getSecureURL($rt, '&' . http_build_query($httpQuery));
     return $output;
 }
 
 
-function adminFormFieldBS3CssClasses(?string $style){
+/**
+ * @param string|null $style
+ * @return string
+ */
+function adminFormFieldBS3CssClasses(?string $style)
+{
     $style = (string)$style;
     $cssClasses = "col-sm-7";
-    if ( str_contains($style, 'medium-field') || str_contains($style, 'date') ) {
+    if (str_contains($style, 'medium-field') || str_contains($style, 'date')) {
         $cssClasses = "col-sm-5";
-    } else if ( str_contains($style, 'small-field') || str_contains($style, 'btn_switch') ) {
+    } else if (str_contains($style, 'small-field') || str_contains($style, 'btn_switch')) {
         $cssClasses = "col-sm-4";
-    } else if ( str_contains($style, 'tiny-field') ) {
+    } else if (str_contains($style, 'tiny-field')) {
         $cssClasses = "col-sm-2";
     }
     $cssClasses .= " col-xs-12";

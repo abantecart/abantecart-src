@@ -870,7 +870,7 @@ class ALanguage
         if (!$filename) {
             return null;
         }
-        $file_path = $this->language_path . $language_dir_name . DS . $filename . '.xml';
+        $file_path = $this->language_path . $language_dir_name . DS . str_replace('/',DS,$filename) . '.xml';
         if ($this->registry->has('extensions')
             && $result = $this->registry->get('extensions')->isExtensionLanguageFile(
                 $filename,

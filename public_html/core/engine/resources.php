@@ -109,7 +109,7 @@ class AResource
             $this->cache->push($cache_key, $type_data);
         }
         $this->type_id = (int)$type_data['type_id'];
-        $this->type_dir = $type_data['default_directory'];
+        $this->type_dir = str_replace('/', DS, $type_data['default_directory']);
         $this->type_icon = $type_data['default_icon'];
         $this->access_type = $type_data['access_type'];
         $this->file_types = $type_data['file_types'];
@@ -322,7 +322,7 @@ class AResource
         $resource_id = (int)$resourceInfo['resource_id'];
         $resourceInfo['default_icon'] = $resourceInfo['default_icon'] ?? '';
         //get original file path and details
-        $origin_path = DIR_RESOURCE . $this->type_dir . $resourceInfo['resource_path'];
+        $origin_path = DIR_RESOURCE . $this->type_dir . str_replace('/', DS, $resourceInfo['resource_path']);
         $info = pathinfo($origin_path);
         $extension = $info['extension'] ?? '';
         if (in_array($extension, ['ico', 'svg', 'svgz'])) {
@@ -381,7 +381,7 @@ class AResource
             $mdl = $this->load->model('tool/image');
             return $mdl->resize($resourceInfo['default_icon'], $width, $height);
         } else {
-            //Build thumbnails path similar to resource library path
+            //Build thumbnail's path similar to a resource library path
             $sub_path = 'thumbnails' . DS
                 . dirname($resourceInfo['resource_path']) . DS
                 . $name . '-'
@@ -503,7 +503,7 @@ class AResource
     }
 
     /**
-     * method returns all resources of object by it's id and name
+     * method returns all resources of an object by id and name
      *
      * @param string $object_name
      * @param string $object_id
@@ -582,7 +582,7 @@ class AResource
                 $direct_url = $http_path . $this->getTypeDir() . $resourceInfo['resource_path'];
                 $res_full_path = '';
                 if ($this->getType() == 'image') {
-                    $res_full_path = DIR_RESOURCE . $this->getTypeDir() . $resourceInfo['resource_path'];
+                    $res_full_path = DIR_RESOURCE . $this->getTypeDir() . str_replace('/', DS, $resourceInfo['resource_path']);
                     if ($sizes['main']) {
                         $main_url = $this->getResizedImageURL(
                             $resourceInfo,
@@ -627,11 +627,10 @@ class AResource
                         );
                     }
                     try {
-                        $origin_path = DIR_RESOURCE . $this->getTypeDir() . $resourceInfo['resource_path'];
+                        $origin_path = DIR_RESOURCE . $this->getTypeDir() . str_replace('/', DS, $resourceInfo['resource_path']);
                         $img = new AImage($origin_path);
                         $sizes['orig'] = $img->getInfo();
-                    } catch (Exception|Error $e) {
-                    }
+                    } catch (Exception|Error) { }
                 } else {
                     $main_url = $direct_url;
                     $thumb_url = $this->getResizedImageURL(
@@ -647,7 +646,7 @@ class AResource
                     'origin'        => $origin,
                     'direct_url'    => $direct_url,
                     'info'          => $sizes['orig'],
-                    //set full path to original file only for images (see above)
+                    //set a full path to the original file only for images (see above)
                     'resource_path' => $res_full_path,
                     'main_url'      => $main_url,
                     'main_width'    => $sizes['main']['width'],
@@ -721,7 +720,7 @@ class AResource
      */
     public function getResources($object_name, $object_id, $language_id = 0)
     {
-        //Allow to load resources only for 1 object and id combination
+        //Allow loading resources only for 1 object and id combination
         if (!$object_name || !$object_id) {
             return [];
         }
@@ -875,7 +874,7 @@ class AResource
         $output = $selected_ids = [];
         foreach ($result->rows as $row) {
             $object_id = $row['object_id'];
-            //filter only first resource per object (main)
+            //filter only the first resource per object (main)
             if (isset($output[$object_id])) {
                 continue;
             }
@@ -908,11 +907,11 @@ class AResource
             $selected_ids[] = $object_id;
         }
 
-        //if some of objects have no thumbnail
+        //if some of the objects have no thumbnail
         $diff = array_diff($object_ids, $selected_ids);
         if ($diff) {
             foreach ($diff as $object_id) {
-                //when need to show default image
+                //when need to show the default image
                 if ($noimage) {
                     $thumb_url = $this->getResizedImageURL(['resource_id' => 0], $width, $height);
 

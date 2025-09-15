@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 function isFunctionAvailable($func_name)
@@ -194,7 +194,7 @@ function getUniqueSeoKeyword($seo_key, $object_key_name = '', $object_id = 0)
     $result = $db->query($sql);
     $kList = array_merge(
         array_column($result->rows, 'keyword'),
-        array_map('basename', glob(DIR_ROOT . '/*', GLOB_ONLYDIR))
+        array_map('basename', glob(DIR_ROOT . DS . '*', GLOB_ONLYDIR))
     );
 
     $i = 0;
@@ -232,10 +232,10 @@ function getFilesInDir($dir, $file_ext = '')
     if (!is_dir($dir)) {
         return [];
     }
-    $dir = rtrim($dir, '\\/');
+    $dir = rtrim($dir, DS);
     $result = [];
 
-    foreach (glob("$dir/*") as $f) {
+    foreach (glob($dir . DS . "*") as $f) {
         if (is_dir($f)) { // if is directory
             $result = array_merge($result, getFilesInDir($f, $file_ext));
         } else {
@@ -483,7 +483,7 @@ function getExtensionConfigXml($extension_txt_id)
     }
 
     $extension_txt_id = str_replace('../', '', $extension_txt_id);
-    $filename = DIR_EXT . $extension_txt_id . '/config.xml';
+    $filename = DIR_EXT . $extension_txt_id . DS . 'config.xml';
     /**
      * @var $ext_configs SimpleXMLElement|false
      */
@@ -527,12 +527,12 @@ function getExtensionConfigXml($extension_txt_id)
 
     $xml_files = [
         'top'    => [
-            DIR_CORE . 'extension/' . 'default/config_top.xml',
-            DIR_CORE . 'extension/' . $ext_configs->type . '/config_top.xml',
+            DIR_CORE . 'extension' . DS . 'default' . DS . 'config_top.xml',
+            DIR_CORE . 'extension' . DS . $ext_configs->type . DS . 'config_top.xml',
         ],
         'bottom' => [
-            DIR_CORE . 'extension/' . 'default/config_bottom.xml',
-            DIR_CORE . 'extension/' . $ext_configs->type . '/config_bottom.xml',
+            DIR_CORE . 'extension' . DS . 'default' . DS . 'config_bottom.xml',
+            DIR_CORE . 'extension' . DS . $ext_configs->type . DS . 'config_bottom.xml',
         ],
     ];
 
@@ -608,7 +608,7 @@ function getExtensionConfigXml($extension_txt_id)
  */
 function startStorefrontSession($user_id, $data = [])
 {
-    //NOTE: do not allow to create sf-session via POST-request.
+    //NOTE: do not allow creating sf-session via POST-request.
     // Related to language-switcher and enabled maintenance mode(see usages)
     if ($_SERVER['REQUEST_METHOD'] != 'GET') {
         return false;
@@ -628,7 +628,7 @@ function startStorefrontSession($user_id, $data = [])
 }
 
 /**
- * Function to built array with sort_order equally incremented
+ * Function of building an array with sort_order equally incremented
  *
  * @param array $array to build sort order for
  * @param int $min - minimal sort order number (start)
@@ -643,7 +643,7 @@ function build_sort_order($array, $min, $max, $sort_direction = 'asc')
         return [];
     }
 
-    //if no min or max, set interval to 10
+    //if no min or max, set the interval to 10
     $return_arr = [];
     if ($max > 0) {
         $divider = 1;
@@ -1081,7 +1081,7 @@ function js_encode($text)
 {
     return json_encode(
         $text,
-        JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE );
+        JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE);
 }
 
 /**
@@ -1170,15 +1170,15 @@ function check_resize_image($orig_image, $new_image, $width, $height, $quality)
     }
 
     //if new file not yet present, check directory
-    if (!file_exists(DIR_IMAGE . $new_image)) {
+    if (!file_exists(DIR_IMAGE . str_replace("/", DS, $new_image))) {
         $path = '';
-        $directories = explode('/', dirname(str_replace('../', '', $new_image)));
+        $directories = explode(DS, dirname(str_replace('../', '', $new_image)));
         foreach ($directories as $directory) {
-            $path = $path . '/' . $directory;
+            $path = $path . DS . $directory;
             //do we have directory?
             if (!file_exists(DIR_IMAGE . $path)) {
                 // Make sure the index file is there
-                $indexFile = DIR_IMAGE . $path . '/index.php';
+                $indexFile = DIR_IMAGE . $path . DS . 'index.php';
                 $result = mkdir(DIR_IMAGE . $path, 0775)
                     && file_put_contents($indexFile, "<?php die('Restricted Access!'); ?>");
                 if (!$result) {
@@ -1327,7 +1327,7 @@ function getMailLogoDetails(&$source)
                     . pathinfo($resource_info['resource_path'], PATHINFO_EXTENSION);
             }
         }
-    } // if resource path was given
+    } // if the resource path was given
     else {
         $output['uri'] = 'cid:'
             . md5(pathinfo($source, PATHINFO_FILENAME))
@@ -1350,7 +1350,6 @@ function isExtensionSupportsCart($versions)
 
     foreach ($versions as $item) {
         $version = (string)$item;
-        $versions[] = $version;
         $subVersionArray = explode('.', preg_replace('/[^0-9.]/', '', $version));
         $full_check = versionCompare($version, VERSION, '<=');
         $minor_check = !$minor_check
@@ -1490,8 +1489,8 @@ function renderDefaultSFMenu($menuItems, $level = 0, $parentId = '', $options = 
         $icon = '';
         if ($rl_id) {
             $resource = $ar->getResource($rl_id);
-            if ($resource['resource_path'] && is_file(DIR_RESOURCE . 'image/' . $resource['resource_path'])) {
-                //set relative path here because of cdn-extension
+            if ($resource['resource_path'] && is_file(DIR_RESOURCE . 'image' . DS . str_replace('/', DS, $resource['resource_path']))) {
+                //set a relative path here because of cdn-extension
                 $icon = '<img class="menu_image" src="resources/image/' . $resource['resource_path'] . '" />';
             } elseif ($resource['resource_code']) {
                 $icon = $resource['resource_code'];
@@ -1635,7 +1634,7 @@ function buildPageLayoutTree(ALayoutManager $lm, string $templateTxtId, array $e
     $pageGroups = array_merge($lm::PAGE_GROUPS, (array)$extra['page_groups']);
     $layoutPages = [];
     foreach ($allPages as $page) {
-        if(in_array($page['layout_id'],(array)$extra['exclude_ids'])){
+        if (in_array($page['layout_id'], (array)$extra['exclude_ids'])) {
             continue;
         }
         $httpQuery = [
@@ -1676,12 +1675,13 @@ function buildPageLayoutTree(ALayoutManager $lm, string $templateTxtId, array $e
     }
     return $layoutPages;
 }
+
 function isUrlAlive(string $url): bool
 {
     $headers = @get_headers($url);
     if ($headers && preg_match('#HTTP/\d+\.\d+ (\d+)#', $headers[0], $matches)) {
         $httpCode = (int)$matches[1];
-        if($httpCode >= 200 && $httpCode < 300) {
+        if ($httpCode >= 200 && $httpCode < 300) {
             return true;
         }
     }
@@ -1694,7 +1694,8 @@ function isUrlAlive(string $url): bool
  * @param string $regex The input regular expression, typically enclosed in delimiters and may include anchors (^ and $).
  * @return string The cleaned regular expression pattern without delimiters and anchors.
  */
-function regexForHtmlPattern(string $regex) {
+function regexForHtmlPattern(string $regex)
+{
     // remove separators /.../
     $regex = trim($regex);
     if (preg_match('#^/(.*?)/[a-zA-Z]*$#', $regex, $m)) {

@@ -1,22 +1,25 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
+use JetBrains\PhpStorm\NoReturn;
 
-  Copyright © 2011-2021 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -57,7 +60,7 @@ class AError
     /**
      * error constructor.
      *
-     * @param  $msg  - error message
+     * @param  $msg - error message
      * @param  $code - error code
      */
     public function __construct($msg, $code = AC_ERR_USER_ERROR)
@@ -73,9 +76,9 @@ class AError
             if ($k >= $trace_limit) {
                 break;
             }
-            $file = isset($b['file']) ? $b['file'] : '';
-            $line = isset($b['line']) ? $b['line'] : '';
-            $this->msg .= "\t#".$k." ".$file.' on line '.$line."\n";
+            $file = $b['file'] ?? '';
+            $line = $b['line'] ?? '';
+            $this->msg .= "\t#" . $k . " " . $file . ' on line ' . $line . "\n";
         }
 
         if (class_exists('Registry')) {
@@ -83,15 +86,15 @@ class AError
         }
         //TODO: use registry object instead?? what if registry not accessible?
         $this->error_descriptions = $GLOBALS['error_descriptions'];
-        if(!isset($this->error_descriptions[0])){
+        if (!isset($this->error_descriptions[0])) {
             $this->error_descriptions[0] = 'Unknown Error';
         }
 
-        $this->version = 'AbanteCart core v.'.VERSION;
+        $this->version = 'AbanteCart core v.' . VERSION;
     }
 
     /**
-     * add error message to debug log
+     * add an error message to the debug log
      *
      * @return AError
      */
@@ -106,7 +109,7 @@ class AError
     }
 
     /**
-     * write error message to log file
+     * write an error message to the log file
      *
      * @return AError
      * @throws AException
@@ -115,39 +118,40 @@ class AError
     {
         if (!is_object($this->registry) || !$this->registry->has('log')) {
             if (class_exists('ALog')) {
-                $log = new ALog(DIR_SYSTEM.'logs/error.txt');
+                $log = new ALog(DIR_SYSTEM . 'logs' . DS . 'error.txt');
             } else {
                 //we have error way a head of system start
-                echo $this->error_descriptions[$this->code].':  '.$this->msg;
+                echo $this->error_descriptions[$this->code] . ':  ' . $this->msg;
                 return $this;
             }
         } else {
             $log = $this->registry->get('log');
         }
-        $log->write($this->error_descriptions[$this->code].':  '.$this->version.' '.$this->msg);
+        $log->write($this->error_descriptions[$this->code] . ':  ' . $this->version . ' ' . $this->msg);
         return $this;
     }
 
     /**
-     * add error message to messages
+     * add an error message to messages
      *
      * @param string $subject
      *
      * @return AError
+     * @throws AException
      */
     public function toMessages($subject = '')
     {
         if (is_object($this->registry) && $this->registry->has('messages')) {
             /** @var AMessage $messages */
             $messages = $this->registry->get('messages');
-            $title = $subject ? $subject : $this->error_descriptions[$this->code];
+            $title = $subject ?: $this->error_descriptions[$this->code];
             $messages->saveError($title, $this->msg);
         }
         return $this;
     }
 
     /**
-     * send error message to mail
+     * send an error message to mail
      *
      * @return AError
      */
@@ -160,7 +164,7 @@ class AError
     /**
      * add error message to JSON output
      *
-     * @param string $status_text_and_code - any human readable text string with 3 digit at the end to represent HTTP response code
+     * @param string $status_text_and_code - any human-readable text string with 3 digits at the end to represent HTTP response code
      *                                     For ex.
      *                                     VALIDATION_ERROR_406
      *
@@ -175,6 +179,7 @@ class AError
      *
      * @throws AException
      */
+    #[NoReturn]
     public function toJSONResponse($status_text_and_code, $err_data = [])
     {
         //detect HTTP response status code based on readable text status
@@ -184,7 +189,7 @@ class AError
                 $err_data['error_code'] = 400;
             }
         } else {
-            $err_data['error_code'] = (int) $match[0];
+            $err_data['error_code'] = (int)$match[0];
         }
 
         if (empty($err_data['error_title'])) {
@@ -193,7 +198,7 @@ class AError
         if (empty($err_data['error_text'])) {
             $err_data['error_text'] = $this->msg;
         }
-        $http_header_txt = 'HTTP/1.1 '.(int)$err_data['error_code'].' '.$err_data['error_title'];
+        $http_header_txt = 'HTTP/1.1 ' . (int)$err_data['error_code'] . ' ' . $err_data['error_title'];
 
         if (is_object($this->registry) && $this->registry->has('response')) {
             /** @var AResponse $response */
@@ -206,12 +211,12 @@ class AError
             $response->setOutput(AJson::encode($err_data));
             $response->output();
         } else {
-            //for some reason we do not have registry. do direct output and exit
+            //for some reason we do not have a registry. do direct output and exit
             if (!headers_sent()) {
                 header($http_header_txt);
                 header('Content-Type: application/json');
             }
-            include_once(DIR_CORE.'lib/json.php');
+            include_once(DIR_CORE . 'lib' . DS . 'json.php');
             echo AJson::encode($err_data);
         }
         exit;
