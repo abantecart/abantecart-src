@@ -166,7 +166,7 @@ if ($error) { ?>
                                     confirmSubmit($('#paypalFrm'), '<?php echo $action; ?>');
                                 })
                                 .catch(function (error) {
-                                    showPPError("dddd"); // error.message || <?php js_echo($this->language->get('paypal_commerce_error_transaction'));?>);
+                                    showPPError( error.message || <?php js_echo($this->language->get('paypal_commerce_error_transaction'));?>);
                                 });
                         },
                         onError: function (err) {
@@ -306,7 +306,10 @@ if ($error) { ?>
                                 })
                                 .catch(showPPError);
                         },
-                        onError: showPPError
+                        onError: function (err) {
+                            const message = parsePayPalErrorMessage(err.message)
+                            showPPError( message.description || "An unknown error occurred." );
+                        }
                     }).render('#paypal-button-container');
                 } catch (e) {
                     console.log(e);
