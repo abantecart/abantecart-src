@@ -4067,9 +4067,6 @@ a.share{
     max-width: 150px;
 }
 
-
-
-
 #loginFrm input::placeholder {
     font-size: var(--bs-body-font-size);
     font-weight: var(--bs-body-font-weight);
@@ -4079,4 +4076,8 @@ a.share{
 .footer-content-menu>ul>li + li{
     /* gap */
     margin-left: 15px;
+}
+
+.account-login .form-check{
+    border: 0 !important;
 }
