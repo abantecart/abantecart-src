@@ -52,9 +52,11 @@
                         <b class="me-3"><?php echo $text_shipping_method; ?></b><?php echo $shipping_method; ?>
                     </li>
                 <?php } ?>
+                <?php echo $this->getHookVar('after_shipping_method');?>
                     <li class="list-group-item list-group-item-secondary">
                         <b class="me-3"><?php echo $text_payment_method; ?></b><?php echo $payment_method; ?>
                     </li>
+                <?php echo $this->getHookVar('after_payment_method');?>
                 <?php
                 foreach($ext_fields as $entry => $value){ ?>
                     <li class="list-group-item list-group-item-secondary">

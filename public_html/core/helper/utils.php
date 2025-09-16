@@ -1170,15 +1170,15 @@ function check_resize_image($orig_image, $new_image, $width, $height, $quality)
     }
 
     //if new file not yet present, check directory
-    if (!file_exists(DIR_IMAGE . str_replace("/", DS, $new_image))) {
+    if (!file_exists(DIR_IMAGE . $new_image)) {
         $path = '';
-        $directories = explode(DS, dirname(str_replace('../', '', $new_image)));
+        $directories = explode('/', dirname(str_replace('../', '', $new_image)));
         foreach ($directories as $directory) {
-            $path = $path . DS . $directory;
+            $path = $path . '/' . $directory;
             //do we have directory?
             if (!file_exists(DIR_IMAGE . $path)) {
                 // Make sure the index file is there
-                $indexFile = DIR_IMAGE . $path . DS . 'index.php';
+                $indexFile = DIR_IMAGE . $path . '/index.php';
                 $result = mkdir(DIR_IMAGE . $path, 0775)
                     && file_put_contents($indexFile, "<?php die('Restricted Access!'); ?>");
                 if (!$result) {
@@ -1327,7 +1327,7 @@ function getMailLogoDetails(&$source)
                     . pathinfo($resource_info['resource_path'], PATHINFO_EXTENSION);
             }
         }
-    } // if the resource path was given
+    } // if resource path was given
     else {
         $output['uri'] = 'cid:'
             . md5(pathinfo($source, PATHINFO_FILENAME))
@@ -1350,6 +1350,7 @@ function isExtensionSupportsCart($versions)
 
     foreach ($versions as $item) {
         $version = (string)$item;
+        $versions[] = $version;
         $subVersionArray = explode('.', preg_replace('/[^0-9.]/', '', $version));
         $full_check = versionCompare($version, VERSION, '<=');
         $minor_check = !$minor_check
@@ -1489,8 +1490,8 @@ function renderDefaultSFMenu($menuItems, $level = 0, $parentId = '', $options = 
         $icon = '';
         if ($rl_id) {
             $resource = $ar->getResource($rl_id);
-            if ($resource['resource_path'] && is_file(DIR_RESOURCE . 'image' . DS . str_replace('/', DS, $resource['resource_path']))) {
-                //set a relative path here because of cdn-extension
+            if ($resource['resource_path'] && is_file(DIR_RESOURCE . 'image/' . $resource['resource_path'])) {
+                //set relative path here because of cdn-extension
                 $icon = '<img class="menu_image" src="resources/image/' . $resource['resource_path'] . '" />';
             } elseif ($resource['resource_code']) {
                 $icon = $resource['resource_code'];
