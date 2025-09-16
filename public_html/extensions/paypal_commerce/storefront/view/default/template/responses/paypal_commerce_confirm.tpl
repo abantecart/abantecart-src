@@ -355,7 +355,6 @@ if ($error) { ?>
 
             function parsePayPalErrorMessage(errMessage) {
                 try {
-                    // Находим JSON внутри строки
                     const jsonStart = errMessage.indexOf('{');
                     if (jsonStart === -1) return null;
 
