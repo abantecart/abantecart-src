@@ -461,21 +461,31 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
 
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
+        $this->loadLanguage('paypal_commerce/paypal_commerce');
         /** @var ModelExtensionPaypalCommerce $mdl */
         $mdl = $this->loadModel('extension/paypal_commerce');
         try {
             if ($this->config->get('paypal_commerce_transaction_type') == 'capture') {
-                $output = $mdl->capturePPOrder($ppOrderId);
+                $result = $mdl->capturePPOrder($ppOrderId);
+                if ($result->purchase_units[0]->payments->captures[0]->status == 'DECLINED') {
+                    throw new Exception(
+                        $this->language->get('paypal_commerce_error_declined').'. '
+                        . $result->purchase_units[0]->payments->captures[0]->seller_protection->status
+                    );
+                }
             } else {
-                $output = $mdl->authorizePPOrder($ppOrderId);
+                $result = $mdl->authorizePPOrder($ppOrderId);
+                if ($result->purchase_units[0]->payments->authorizations[0]->status == 'DENIED') {
+                    throw new Exception(
+                        $this->language->get('paypal_commerce_error_denied').'. '
+                        . $result->purchase_units[0]->payments->authorizations[0]->seller_protection->status
+                    );
+                }
             }
-            $output = ['id' => $output->id];
+
+            $output = ['id' => $result->id];
         } catch (Exception|Error $e) {
             $output['error'] = $e->getMessage();
-        }
-
-        if (!$output['id']) {
-            $output['error'] = 'Cannot to obtain transaction Id during capture processing';
         }
 
         if (isset($output['error'])) {
@@ -577,7 +587,7 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
                     $output['error'] = 'Oops, Unexpected Application Error';
                 }
             } else {
-                $output['error'] = 'Oops, Unexpected Application Error';
+                $output['error'] = "Oops, Unexpected Application Error\n(" . $response->status . ' ' . $response->status_detail->reason . ")";
                 $this->log->write(var_export($response, true));
             }
         }

@@ -1073,13 +1073,15 @@ function make_writable_path($path)
 /**
  * Quotes encode a string for javascript using json_encode();
  *
- * @param string $text
+ * @param mixed $text
  *
  * @return string
  */
 function js_encode($text)
 {
-    return json_encode($text, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
+    return json_encode(
+        $text,
+        JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE );
 }
 
 /**
@@ -1570,6 +1572,10 @@ function generateOrderToken($orderId, $email, $secToken = '')
     return $enc->encrypt($orderId . '::' . $email . '::' . $secToken);
 }
 
+/**
+ * @param array|null $list
+ * @return array
+ */
 function filterIntegerIdList(?array $list = [])
 {
     return array_unique(
@@ -1680,4 +1686,32 @@ function isUrlAlive(string $url): bool
         }
     }
     return false;
+}
+
+/**
+ * Processes a given regular expression to extract and clean the core HTML pattern.
+ *
+ * @param string $regex The input regular expression, typically enclosed in delimiters and may include anchors (^ and $).
+ * @return string The cleaned regular expression pattern without delimiters and anchors.
+ */
+function regexForHtmlPattern(string $regex) {
+    // remove separators /.../
+    $regex = trim($regex);
+    if (preg_match('#^/(.*?)/[a-zA-Z]*$#', $regex, $m)) {
+        $regex = $m[1];
+    }
+
+    // remove ^ and $
+    $regex = preg_replace('/^\^/', '', $regex);
+    return preg_replace('/\$$/', '', $regex);
+}
+
+/**
+ * @param string $password The plain text password to be hashed.
+ * @param string $salt A unique salt value to enhance hash security.
+ * @return string The resulting hashed password.
+ */
+function passwordHash(string $password, string $salt): string
+{
+    return sha1($salt . sha1($salt . sha1($password)));
 }

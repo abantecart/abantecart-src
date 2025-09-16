@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 if (!defined('DIR_CORE')) {
@@ -41,22 +41,23 @@ class ControllerPagesContentContact extends AController
         $form = $this->form->getForm();
         $languageId = $this->language->getContentLanguageID() ?? $this->language->getLanguageID();
 
-        if ($this->request->is_POST() && $this->_validate()) {
+        if ($this->request->is_POST() && $this->validate()) {
             $post = $this->request->post;
             // move all uploaded files to their directories
-            $file_paths = $this->form->processFileUploads($this->request->files);
+            $filePaths = $this->form->processFileUploads($this->request->files);
             $subject = $this->config->get('store_name')
-                .' '
-                .$this->language->getAndReplace(
+                . ' '
+                . $this->language->getAndReplace(
                     key: 'email_subject',
                     replaces: strip_tags($post['first_name'])
                 );
 
             $this->data['mail_template_data']['subject'] = $subject;
 
-            $mailLogo = $this->config->get('config_mail_logo_'.$languageId) ?: $this->config->get('config_mail_logo');
-            $mailLogo = $mailLogo ?: $this->config->get('config_logo_'.$languageId);
-            $mailLogo = $mailLogo ?: $this->config->get('config_logo');
+            $mailLogo = $this->config->get('config_mail_logo_' . $languageId)
+                ?: $this->config->get('config_mail_logo')
+                    ?: $this->config->get('config_logo_' . $languageId)
+                        ?: $this->config->get('config_logo');
 
             if ($mailLogo) {
                 $result = getMailLogoDetails($mailLogo);
@@ -65,32 +66,45 @@ class ControllerPagesContentContact extends AController
             }
 
             $this->data['mail_template_data']['store_name'] = $this->config->get('store_name');
-            $this->data['mail_template_data']['store_url'] = $this->config->get('config_url').$this->config->get('seo_prefix');
+            $this->data['mail_template_data']['store_url'] = $this->config->get('config_url') . $this->config->get('seo_prefix');
             $this->data['mail_template_data']['text_project_label'] = htmlspecialchars_decode(project_base());
             $this->data['mail_template_data']['entry_enquiry'] = $this->data['mail_plain_text']
                 = $this->language->get('entry_enquiry');
-            $this->data['mail_plain_text'] .= "\r\n".$post['enquiry']."\r\n";
-            $this->data['mail_template_data']['enquiry'] = nl2br($post['enquiry']."\r\n");
+            $this->data['mail_plain_text'] .= "\r\n" . $post['enquiry'] . "\r\n";
+            $this->data['mail_template_data']['enquiry'] = nl2br($post['enquiry'] . "\r\n");
 
             $form_fields = $this->form->getFields();
             $this->data['mail_template_data']['form_fields'] = [];
             foreach ($form_fields as $elmName => $fieldInfo) {
-                if(!$fieldInfo['status']
+                if (!$fieldInfo['status']
                     //skip captcha
                     || in_array($fieldInfo['element_type'], ['J', 'K'])
                     || $elmName == 'enquiry'
                     || !isset($post[$elmName])
-                ){
+                ) {
                     continue;
                 }
 
-                $fieldValue = implode("; ",(array)$post[$elmName]);
-                $fieldTitle  = rtrim($fieldInfo['title'], ':');
+                //country
+                if ($fieldInfo['element_type'] == 'O') {
+                    /** @var ModelLocalisationCountry $mdl */
+                    $mdl = $this->load->model('localisation/country');
+                    $country = $mdl->getCountry((int)$post[$elmName]);
+                    $post[$elmName] = $country['name'];
+                } elseif ($fieldInfo['element_type'] == 'Z') {
+                    /** @var ModelLocalisationZone $mdl */
+                    $mdl = $this->load->model('localisation/zone');
+                    $zone = $mdl->getZone((int)$post[$elmName]);
+                    $post[$elmName] = $zone['name'];
+                }
+
+                $fieldValue = implode("; ", (array)$post[$elmName]);
+                $fieldTitle = rtrim($fieldInfo['title'], ':');
 
                 $this->data['mail_plain_text'] .= "\r\n"
-                    .$fieldTitle
-                    .":\t"
-                    .$fieldValue;
+                    . $fieldTitle
+                    . ":\t"
+                    . $fieldValue;
                 $this->data['mail_template_data']['form_fields'][$fieldTitle] = $fieldValue;
                 $this->data['mail_template_data']['tpl_form_fields'][] = [
                     'name'  => $fieldTitle,
@@ -100,17 +114,17 @@ class ControllerPagesContentContact extends AController
             $this->data['mail_template_data']['first_name'] = strip_tags($post['first_name']);
 
             $mail = new AMail($this->config);
-            if ($file_paths) {
-                $this->data['mail_plain_text'] .= "\r\n".$this->language->get('entry_attached').": \r\n";
-                foreach ($file_paths as $file_info) {
+            if ($filePaths) {
+                $this->data['mail_plain_text'] .= "\r\n" . $this->language->get('entry_attached') . ": \r\n";
+                foreach ($filePaths as $file_info) {
                     $basename = pathinfo(str_replace(' ', '_', $file_info['path']), PATHINFO_BASENAME);
-                    $size = " (".round(filesize($file_info['path']) / 1024, 2)."Kb)";
+                    $size = " (" . round(filesize($file_info['path']) / 1024, 2) . "Kb)";
                     $this->data['mail_plain_text'] .= "\t"
-                        .$file_info['display_name']
-                        .': '
-                        .$basename .$size."\r\n";
+                        . $file_info['display_name']
+                        . ': '
+                        . $basename . $size . "\r\n";
                     $mail->addAttachment($file_info['path'], $basename);
-                    $this->data['mail_template_data']['form_fields'][$file_info['display_name']] = $basename.$size;
+                    $this->data['mail_template_data']['form_fields'][$file_info['display_name']] = $basename . $size;
                 }
             }
 
@@ -119,14 +133,14 @@ class ControllerPagesContentContact extends AController
             //allow to change email data from extensions
             $this->extensions->hk_ProcessData($this, 'sf_contact_us_mail');
 
-            $text_body = strip_tags(html_entity_decode($this->data['mail_plain_text'], ENT_QUOTES, 'UTF-8'));
+            $textBody = strip_tags(html_entity_decode($this->data['mail_plain_text'], ENT_QUOTES, 'UTF-8'));
             if ($this->config->get('config_duplicate_contact_us_to_message')) {
                 $this->messages->saveNotice(
                     $this->language->getAndReplace(
-                        key:'entry_duplicate_message_subject',
-                        replaces:[ $post['first_name'], $post['email'] ]
+                        key: 'entry_duplicate_message_subject',
+                        replaces: [$post['first_name'], $post['email']]
                     ),
-                    $text_body,
+                    $textBody,
                     false
                 );
             }
@@ -134,7 +148,7 @@ class ControllerPagesContentContact extends AController
             $view = new AView($this->registry, 0);
             $view->batchAssign($this->data['mail_template_data']);
             $attachment = [];
-            if($post['first_name']) {
+            if ($post['first_name']) {
                 $mail->setTo($this->config->get('store_main_email'));
                 $mail->setFrom($this->config->get('store_main_email'));
                 $mail->setReplyTo($post['email']);
@@ -147,20 +161,16 @@ class ControllerPagesContentContact extends AController
                             . '.'
                             . pathinfo($mailLogo, PATHINFO_EXTENSION),
                     ];
-                    $mail->addAttachment( $attachment['file'], $attachment['name'] );
+                    $mail->addAttachment($attachment['file'], $attachment['name']);
                 }
                 $mail->send();
-            }else{
-                $this->messages->saveError( "Contact form Error", 'Sender name is empty. Please check form settings!' );
+            } else {
+                $this->messages->saveError("Contact form Error", 'Sender name is empty. Please check form settings!');
             }
 
-            //get success_page
-            $success_url = $this->html->getSecureURL(
-                $form['success_page'] ?: 'content/contact/success'
-            );
             //notify admin
             $this->loadLanguage('common/im');
-            $message_arr = [
+            $messageArr = [
                 1 => [
                     'message' => sprintf(
                         $this->language->get('im_customer_contact_admin_text'),
@@ -171,22 +181,24 @@ class ControllerPagesContentContact extends AController
             ];
             $this->im->send(
                 'customer_contact',
-                $message_arr,
+                $messageArr,
                 'storefront_contact_us_mail_admin_notify',
                 $post,
                 $attachment ? [$attachment] : []
             );
 
             $this->extensions->hk_ProcessData($this);
-            redirect($success_url);
+            redirect(
+                $this->html->getSecureURL(
+                    $form['success_page'] ?: 'content/contact/success'
+                )
+            );
         }
 
         if ($this->request->is_POST()) {
-            foreach ($this->request->post as $name => $value) {
-                $this->form->assign($name, $value);
-            }
-        }else{
-            if($this->customer->isLogged()){
+            $this->form->batchAssign($this->request->post);
+        } else {
+            if ($this->customer->isLogged()) {
                 $this->form->assign(
                     'first_name',
                     $this->session->data['guest']['payment_firstname'] ?: $this->customer->getFirstName()
@@ -196,10 +208,10 @@ class ControllerPagesContentContact extends AController
                     $this->session->data['guest']['email'] ?: $this->customer->getEmail()
                 );
             }
-            if($this->request->get['product_name']) {
+            if ($this->request->get['product_name']) {
                 $this->form->assign(
                     'enquiry',
-                    $this->request->get['product_name'] . ' (#' . $this->request->get['product_id'] . ')'."\n\n"
+                    $this->request->get['product_name'] . ' (#' . $this->request->get['product_id'] . ')' . "\n\n"
                 );
             }
         }
@@ -227,36 +239,36 @@ class ControllerPagesContentContact extends AController
         $this->view->assign('action', $this->html->getURL('content/contact'));
         $this->view->assign('store', $this->config->get('store_name'));
 
-        $address_data = [];
+        $addressData = [];
         if ($this->config->get('config_address')) {
-            $address_data['address_1'] = nl2br($this->config->get('config_address'));
+            $addressData['address_1'] = nl2br($this->config->get('config_address'));
         }
         if ($this->config->get('config_postcode')) {
-            $address_data['postcode'] = $this->config->get('config_postcode');
+            $addressData['postcode'] = $this->config->get('config_postcode');
         }
         if ($this->config->get('config_city')) {
-            $address_data['city'] = $this->config->get('config_city');
+            $addressData['city'] = $this->config->get('config_city');
         }
         if ($this->config->get('config_zone_id')) {
             $this->loadModel('localisation/zone');
             $zone = $this->model_localisation_zone->getZone($this->config->get('config_zone_id'));
             if ($zone) {
-                $address_data['zone'] = $zone['name'];
+                $addressData['zone'] = $zone['name'];
             }
         }
-        $address_format = '';
+        $addressFormat = '';
         if ($this->config->get('config_country_id')) {
-            $this->loadModel('localisation/country');
-            $country = $this->model_localisation_country->getCountry($this->config->get('config_country_id'));
+            /** @var ModelLocalisationCountry $mdl */
+            $mdl = $this->loadModel('localisation/country');
+            $country = $mdl->getCountry($this->config->get('config_country_id'));
             if ($country) {
-                $address_data['country'] = $country['name'];
-                $address_format = $country['address_format'];
+                $addressData['country'] = $country['name'];
+                $addressFormat = $country['address_format'];
             }
         }
 
-        $address = $this->customer->getFormattedAddress($address_data, $address_format);
-
-        $this->view->assign('address_data', $address_data);
+        $address = $this->customer->getFormattedAddress($addressData, $addressFormat);
+        $this->view->assign('address_data', $addressData);
         $this->view->assign('address', $address);
         $this->view->assign('telephone', $this->config->get('config_telephone'));
         $this->view->assign('fax', $this->config->get('config_fax'));
@@ -289,22 +301,23 @@ class ControllerPagesContentContact extends AController
         );
 
         if ($this->config->get('embed_mode')) {
-            $continue_url = $this->html->getNonSecureURL('product/category');
+            $continueUrl = $this->html->getNonSecureURL('product/category');
         } else {
-            $continue_url = $this->html->getHomeURL();
+            $continueUrl = $this->html->getHomeURL();
         }
 
-        $this->view->assign('continue', $continue_url);
-
-        $continue = $this->html->buildElement(
-            [
-                'type'  => 'button',
-                'name'  => 'continue_button',
-                'text'  => $this->language->get('button_continue'),
-                'style' => 'button',
-            ]
+        $this->view->assign('continue', $continueUrl);
+        $this->view->assign(
+            'continue_button',
+            $this->html->buildElement(
+                [
+                    'type'  => 'button',
+                    'name'  => 'continue_button',
+                    'text'  => $this->language->get('button_continue'),
+                    'style' => 'button',
+                ]
+            )
         );
-        $this->view->assign('continue_button', $continue);
 
         if ($this->config->get('embed_mode')) {
             //load special headers
@@ -323,7 +336,7 @@ class ControllerPagesContentContact extends AController
      * @return bool
      * @throws AException
      */
-    protected function _validate()
+    protected function validate()
     {
         $this->error = array_merge($this->form->validateFormData($this->request->post), $this->error);
         $this->extensions->hk_ValidateData($this);

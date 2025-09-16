@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
@@ -91,7 +91,6 @@ class ControllerPagesExtensionDefaultUsps extends AController
 
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->request->get['extension'] = 'default_usps';
@@ -106,11 +105,8 @@ class ControllerPagesExtensionDefaultUsps extends AController
             redirect($this->html->getSecureURL('extension/default_usps'));
         }
 
-        if (isset($this->error['warning'])) {
-            $this->data['error_warning'] = $this->error['warning'];
-        } else {
-            $this->data['error_warning'] = '';
-        }
+        $this->data['error_warning'] = $this->error['warning'] ?? '';
+
         if (isset($this->error['user_id'])) {
             $this->data['error']['user_id'] = $this->error['user_id'];
         }
@@ -151,42 +147,40 @@ class ControllerPagesExtensionDefaultUsps extends AController
             'VARIABLE'       => $this->language->get('text_variable'),
         ];
 
-        $this->load->model('localisation/tax_class');
-        $results = $this->model_localisation_tax_class->getTaxClasses();
-        $tax_classes = [0 => $this->language->get('text_none')];
-        foreach ($results as $k => $v) {
-            $tax_classes[$v['tax_class_id']] = $v['title'];
-        }
+        /** @var ModelLocalisationTaxClass $mdl */
+        $mdl = $this->load->model('localisation/tax_class');
+        $results = $mdl->getTaxClasses();
+        $tax_classes =
+            [0 => $this->language->get('text_none')]
+            +
+            array_column($results, 'title', 'tax_class_id');
 
-        $this->load->model('localisation/location');
-        $results = $this->model_localisation_location->getLocations();
-        $locations = [0 => $this->language->get('text_all_zones')];
-        foreach ($results as $k => $v) {
-            $locations[$v['location_id']] = $v['name'];
-        }
+        /** @var ModelLocalisationLocation $mdl */
+        $mdl = $this->load->model('localisation/location');
+        $results = $mdl->getLocations();
+        $locations =
+            [0 => $this->language->get('text_all_zones')]
+            +
+            array_column($results, 'name', 'location_id');
 
         foreach ($this->fields as $f) {
-            if (isset ($this->request->post [$f])) {
-                $this->data [$f] = $this->request->post [$f];
-            } else {
-                $this->data [$f] = $this->config->get($f);
-            }
+            $this->data[$f] = $this->request->post[$f] ?? $this->config->get($f);
         }
 
         $this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
-        $this->data ['action'] = $this->html->getSecureURL('extension/default_usps', '&extension=default_usps');
+        $this->data['action'] = $this->html->getSecureURL('extension/default_usps', '&extension=default_usps');
         $this->data['cancel'] = $this->html->getSecureURL('extension/shipping');
-        $this->data ['heading_title'] = $this->language->get('text_additional_settings');
-        $this->data ['form_title'] = $this->language->get('default_usps_name');
-        $this->data ['update'] = $this->html->getSecureURL('r/extension/default_usps_save/update');
+        $this->data['heading_title'] = $this->language->get('text_additional_settings');
+        $this->data['form_title'] = $this->language->get('default_usps_name');
+        $this->data['update'] = $this->html->getSecureURL('r/extension/default_usps_save/update');
 
         $form = new AForm ('HS');
-        $form->setForm(['form_name' => 'editFrm', 'update' => $this->data ['update']]);
+        $form->setForm(['form_name' => 'editFrm', 'update' => $this->data['update']]);
 
         $this->data['form']['form_open'] = $form->getFieldHtml([
             'type'   => 'form',
             'name'   => 'editFrm',
-            'action' => $this->data ['action'],
+            'action' => $this->data['action'],
             'attr'   => 'data-confirm-exit="true" class="aform form-horizontal"',
         ]);
         $this->data['form']['submit'] = $form->getFieldHtml([
@@ -224,7 +218,7 @@ class ControllerPagesExtensionDefaultUsps extends AController
 
         $options = [];
         foreach (USPS_CLASSES['domestic'] as $i => $title) {
-            $name = 'default_usps_domestic_'.$i;
+            $name = 'default_usps_domestic_' . $i;
             $this->data['form']['fields']['domestic'][$name] = $form->getFieldHtml(
                 [
                     'type'  => 'checkbox',
@@ -233,7 +227,7 @@ class ControllerPagesExtensionDefaultUsps extends AController
                     'value' => $this->data[$name],
                 ]
             );
-            $options[$title] =  $this->data['entry_'.$name] = $title;
+            $options[$name] = $this->data['entry_' . $name] = $title;
         }
 
         $this->data['form']['fields']['free_domestic_method'] = $form->getFieldHtml(
@@ -249,7 +243,7 @@ class ControllerPagesExtensionDefaultUsps extends AController
         $options = [];
         foreach (USPS_CLASSES['international'] as $i => $title) {
 
-            $name = 'default_usps_international_'.$i;
+            $name = 'default_usps_international_' . $i;
             $this->data['form']['fields']['international'][$name] = $form->getFieldHtml(
                 [
                     'type'  => 'checkbox',
@@ -258,7 +252,7 @@ class ControllerPagesExtensionDefaultUsps extends AController
                     'value' => $this->data[$name],
                 ]
             );
-            $options[$title] =  $this->data['entry_'.$name] = $title;
+            $options[$name] = $this->data['entry_' . $name] = $title;
         }
 
         //method of usps for products with free shipping
@@ -371,7 +365,7 @@ class ControllerPagesExtensionDefaultUsps extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    private function _validate()
+    protected function _validate()
     {
         if (!$this->user->canModify('extension/default_usps')) {
             $this->error['warning'] = $this->language->get('error_permission');
@@ -385,10 +379,6 @@ class ControllerPagesExtensionDefaultUsps extends AController
             $this->error['postcode'] = $this->language->get('error_postcode');
         }
 
-        if (!$this->error) {
-            return true;
-        } else {
-            return false;
-        }
+        return (!$this->error);
     }
 }

@@ -1,30 +1,29 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2020 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
 class ControllerApiCheckoutShipping extends AControllerAPI
 {
-    public $error = array();
-    public $data = array();
+    public $error = [];
 
     public function post()
     {
@@ -33,15 +32,15 @@ class ControllerApiCheckoutShipping extends AControllerAPI
         $request = $this->rest->getRequestParams();
 
         if (!$this->customer->isLoggedWithToken($request['token'])) {
-            $this->rest->sendResponse(401, array('error' => 'Not logged in or Login attempt failed!'));
+            $this->rest->sendResponse(401, ['error' => 'Not logged in or Login attempt failed!']);
             return null;
         }
         if ($request['mode'] != 'select' && $request['mode'] != 'list') {
-            $this->rest->sendResponse(400, array('error' => 'Incorrect request mode!'));
+            $this->rest->sendResponse(400, ['error' => 'Incorrect request mode!']);
             return null;
         }
 
-        //load language from main section
+        //load language from the main section
         $this->loadLanguage('checkout/fast_checkout');
         if ($request['mode'] == 'select' && $this->validate($request)) {
             $shipping = explode('.', $request['shipping_method']);
@@ -51,19 +50,19 @@ class ControllerApiCheckoutShipping extends AControllerAPI
             //process data
             $this->extensions->hk_ProcessData($this);
 
-            $this->rest->sendResponse(200, array('status' => 1, 'shipping_select' => 'success'));
+            $this->rest->sendResponse(200, ['status' => 1, 'shipping_select' => 'success']);
             return null;
         }
 
         if (!$this->cart->hasProducts()) {
             //No products in the cart.
-            $this->rest->sendResponse(200, array('status' => 2, 'error' => 'Nothing in the cart!'));
+            $this->rest->sendResponse(200, ['status' => 2, 'error' => 'Nothing in the cart!']);
             return null;
         }
 
         if (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout')) {
             //No stock for products in the cart if tracked.
-            $this->rest->sendResponse(200, array('status' => 3, 'error' => 'No stock for product!'));
+            $this->rest->sendResponse(200, ['status' => 3, 'error' => 'No stock for product!']);
             return null;
         }
 
@@ -73,7 +72,7 @@ class ControllerApiCheckoutShipping extends AControllerAPI
             unset($this->session->data['shipping_methods']);
 
             $this->tax->setZone($this->session->data['country_id'], $this->session->data['zone_id']);
-            $this->rest->sendResponse(200, array('status' => 0, 'shipping' => 'products do not require shipping'));
+            $this->rest->sendResponse(200, ['status' => 0, 'shipping' => 'products do not require shipping']);
             return null;
         }
 
@@ -83,7 +82,7 @@ class ControllerApiCheckoutShipping extends AControllerAPI
 
         if (!$this->session->data['shipping_address_id']) {
             //Problem. Missing shipping address
-            $this->rest->sendResponse(200, array('status' => 4, 'error' => 'Missing shipping address!'));
+            $this->rest->sendResponse(200, ['status' => 4, 'error' => 'Missing shipping address!']);
             return null;
         }
 
@@ -93,14 +92,14 @@ class ControllerApiCheckoutShipping extends AControllerAPI
 
         if (!$shipping_address) {
             //Problem. Missing shipping address
-            $this->rest->sendResponse(500, array('status' => 4, 'error' => 'Inaccessible shipping address!'));
+            $this->rest->sendResponse(500, ['status' => 4, 'error' => 'Inaccessible shipping address!']);
             return null;
         }
 
-        // if tax zone is taken from shipping address
+        // if the tax zone is taken from a shipping address
         if (!$this->config->get('config_tax_customer')) {
             $this->tax->setZone($shipping_address['country_id'], $shipping_address['zone_id']);
-        } else { // if tax zone is taken from billing address
+        } else { // if the tax zone is taken from the billing address
             $address = $this->model_account_address->getAddress($this->customer->getAddressId());
             $this->tax->setZone($address['country_id'], $address['zone_id']);
         }
@@ -108,25 +107,23 @@ class ControllerApiCheckoutShipping extends AControllerAPI
         $this->loadModel('checkout/extension');
 
         if (!isset($this->session->data['shipping_methods']) || !$this->config->get('config_shipping_session')) {
-            $quote_data = array();
+            $quote_data = [];
 
             $results = $this->model_checkout_extension->getExtensions('shipping');
             foreach ($results as $result) {
                 $this->loadModel('extension/'.$result['key']);
-
                 $quote = $this->{'model_extension_'.$result['key']}->getQuote($shipping_address);
-
                 if ($quote) {
-                    $quote_data[$result['key']] = array(
+                    $quote_data[$result['key']] = [
                         'title'      => $quote['title'],
                         'quote'      => $quote['quote'],
                         'sort_order' => $quote['sort_order'],
                         'error'      => $quote['error'],
-                    );
+                    ];
                 }
             }
 
-            $sort_order = array();
+            $sort_order = [];
 
             foreach ($quote_data as $key => $value) {
                 $sort_order[$key] = $value['sort_order'];
@@ -143,9 +140,9 @@ class ControllerApiCheckoutShipping extends AControllerAPI
             $this->data['error_warning'] = $this->language->get('error_no_shipping');
         }
 
-        $this->data['address'] = $this->customer->getFormattedAddress($shipping_address, $shipping_address['address_format']);
-        $this->data['shipping_methods'] = $this->session->data['shipping_methods'] ? $this->session->data['shipping_methods'] : array();
-        $this->data['comment'] = isset($request['comment']) ? $request['comment'] : $this->session->data['comment'];
+        $this->data['address'] = $this->customer->getFormattedAddress($shipping_address, $shipping_address['format']);
+        $this->data['shipping_methods'] = $this->session->data['shipping_methods'] ?: [];
+        $this->data['comment'] = $request['comment'] ?? $this->session->data['comment'];
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
@@ -163,14 +160,8 @@ class ControllerApiCheckoutShipping extends AControllerAPI
                 $this->error['warning'] = $this->language->get('error_shipping');
             }
         }
-
         //validate post data
         $this->extensions->hk_ValidateData($this);
-
-        if (!$this->error) {
-            return true;
-        } else {
-            return false;
-        }
+        return (!$this->error);
     }
 }

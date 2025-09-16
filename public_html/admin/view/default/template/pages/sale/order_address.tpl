@@ -3,18 +3,16 @@
 <?php
 	function colWidth($style) {
         //Logic to calculate fields width
-        $widthcasses = "col-sm-7";
-        if (is_int(stripos($style, 'large-field'))) {
-            $widthcasses = "col-sm-7";
-        } else if (is_int(stripos($style, 'medium-field')) || is_int(stripos($style, 'date'))) {
-            $widthcasses = "col-sm-5";
+        $widthCssClasses = "col-sm-7";
+        if (is_int(stripos($style, 'medium-field')) || is_int(stripos($style, 'date'))) {
+            $widthCssClasses = "col-sm-5";
         } else if (is_int(stripos($style, 'small-field')) || is_int(stripos($style, 'btn_switch'))) {
-            $widthcasses = "col-sm-3";
+            $widthCssClasses = "col-sm-3";
         } else if (is_int(stripos($style, 'tiny-field'))) {
-            $widthcasses = "col-sm-2";
+            $widthCssClasses = "col-sm-2";
         }
-        $widthcasses .= " col-xs-12";
-        return $widthcasses;
+        $widthCssClasses .= " col-xs-12";
+        return $widthCssClasses;
 	}
 ?>
 
@@ -43,7 +41,7 @@
 				<label class="h4 heading"><?php echo $edit_title_shipping; ?></label>
                 <?php foreach ($form['shipping_fields'] as $name => $field) { ?>
                 <?php
-                $widthcasses = colWidth($field->style);
+                $widthCssClasses = colWidth($field->style);
                 ?>
 				<div class="form-group <?php if (!empty($error[$name])) {
                     echo "has-error";
@@ -51,20 +49,29 @@
 					<label class="control-label col-sm-3 col-xs-12"
 						   for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
 
-					<div class="input-group afield <?php echo $widthcasses; ?> <?php echo($name == 'description' ? 'ml_ckeditor' : '') ?>">
-                        <?php echo $field; ?>
+					<div class="input-group afield <?php echo $widthCssClasses; ?> <?php echo($name == 'description' ? 'ml_ckeditor' : '') ?>">
+                        <?php
+                        if ($name == 'ext_fields'){
+                            foreach ($field as $item) { ?>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-5"><?php echo $item['name']; ?></label>
+                                    <div class="input-group afield col-sm-7"><p style="text-align:left !important;" class="input-group-addon "><?php echo nl2br($item['value']); ?></p></div>
+                                </div>
+                            <?php }
+                        }else {
+                            echo $field;
+                        }?>
 					</div>
                     <?php if (!empty($error[$name])) { ?>
 						<span class="help-block field_err"><?php echo $error[$name]; ?></span>
                     <?php } ?>
 				</div>
-                <?php } ?><!-- <div class="fieldset"> -->
+                <?php } ?>
 			</div>
 			<div class="col-sm-6 col-xs-12">
 				<label class="h4 heading"><?php echo $edit_title_payment; ?></label>
-                <?php foreach ($form['payment_fields'] as $name => $field) { ?>
-                <?php
-                $widthcasses = colWidth($field->style);
+                <?php foreach ($form['payment_fields'] as $name => $field) {
+                $widthCssClasses = colWidth($field->style);
                 ?>
 				<div class="form-group <?php if (!empty($error[$name])) {
                     echo "has-error";
@@ -72,14 +79,24 @@
 					<label class="control-label col-sm-3 col-xs-12"
 						   for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
 
-					<div class="input-group afield <?php echo $widthcasses; ?> <?php echo($name == 'description' ? 'ml_ckeditor' : '') ?>">
-                        <?php echo $field; ?>
+					<div class="input-group afield <?php echo $widthCssClasses; ?> <?php echo($name == 'description' ? 'ml_ckeditor' : '') ?>">
+                        <?php
+                        if ($name == 'ext_fields'){
+                            foreach ($field as $item) { ?>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-5"><?php echo $item['name']; ?></label>
+                                    <div class="input-group afield col-sm-7"><p style="text-align:left !important;" class="input-group-addon "><?php echo nl2br($item['value']); ?></p></div>
+                                </div>
+                            <?php }
+                        }else {
+                            echo $field;
+                        }?>
 					</div>
                     <?php if (!empty($error[$name])) { ?>
 						<span class="help-block field_err"><?php echo $error[$name]; ?></span>
                     <?php } ?>
 				</div>
-                <?php } ?><!-- <div class="fieldset"> -->
+                <?php } ?>
 			</div>
 		</div>
 	</div>

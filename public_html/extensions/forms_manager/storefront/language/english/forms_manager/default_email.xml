@@ -6,7 +6,7 @@
 	</definition>
 	<definition>
 		<key>text_default_email_title</key>
-		<value><![CDATA[Form has been submited]]></value>
+		<value><![CDATA[Form has been submitted]]></value>
 	</definition>
 	<definition>
 		<key>text_error_message</key>
@@ -14,7 +14,7 @@
 	</definition>
 	<definition>
 		<key>text_success_message</key>
-		<value><![CDATA[Form was submited successfully!]]></value>
+		<value><![CDATA[Form was submitted successfully!]]></value>
 	</definition>
 	<definition>
 		<key>error_required</key>

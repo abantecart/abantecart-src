@@ -30,7 +30,7 @@
         <div class="offcanvas-body">
             <div class="input-group">
                 <input type="text" id="filter-keyword" name="keyword"
-                       autocomplete="off" class="form-control bg-transparent shadow-none border-0 m-0" data-dd = '2'
+                       autocomplete="off" class="form-control bg-transparent shadow-none border-0 m-0"
                        placeholder="<?php echo_html2view($text_keyword); ?>" value="" disabled/>
             </div>
             <div class="d-grid">

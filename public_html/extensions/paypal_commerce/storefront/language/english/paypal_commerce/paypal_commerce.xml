@@ -44,4 +44,16 @@
 		<key>paypal_commerce_text_download_pdf</key>
 		<value><![CDATA[ Download PDF Invoice ]]></value>
 	</definition>
+	<definition>
+		<key>paypal_commerce_error_transaction</key>
+		<value><![CDATA[Sorry, your transaction could not be processed]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_error_denied</key>
+		<value><![CDATA[Payment Authorization Denied]]></value>
+	</definition>
+	<definition>
+		<key>paypal_commerce_error_declined</key>
+		<value><![CDATA[Payment declined]]></value>
+	</definition>
 </definitions>

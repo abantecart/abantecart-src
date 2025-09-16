@@ -71,6 +71,7 @@
 		</table>
 		<table class="product">
 			<tr class="heading">
+				<td></td>
 				<td><b><?php echo $column_product; ?></b></td>
 				<td><b><?php echo $column_model; ?></b></td>
 				<td class="right"><b><?php echo $column_quantity; ?></b></td>
@@ -79,6 +80,9 @@
 			</tr>
 			<?php foreach ($order['product'] as $product) { ?>
 				<tr>
+                    <td style="width: 10%; text-align: center">
+                        <img src="<?php echo $product['thumbnail_url']; ?>" >
+                    </td>
 					<td><?php echo $product['name']; ?>
 						<?php foreach ($product['option'] as $option) { ?>
 							<br/> &nbsp; <small> - <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
@@ -96,8 +100,8 @@
 			<?php } ?>
 			<?php foreach ($order['total'] as $total) { ?>
 				<tr>
-					<td align="right" colspan="4"><b><?php echo $total['title']; ?></b></td>
-					<td align="right"><?php echo $total['text']; ?></td>
+					<td style="text-align: right" colspan="5"><b><?php echo $total['title']; ?></b></td>
+					<td style="text-align: right"><?php echo $total['text']; ?></td>
 				</tr>
 			<?php } ?>
 		</table>

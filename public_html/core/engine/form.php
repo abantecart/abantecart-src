@@ -8,14 +8,14 @@
  *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 use ReCaptcha\ReCaptcha;
@@ -81,8 +81,8 @@ class AForm
     /** @var $form_edit_action - ( ST = standard,  HS = highlight save,  HT = highlight ) */
     protected $form_edit_action;
 
-    /** @param string $form_edit_action */
-    public function __construct($form_edit_action = '')
+    /** @param string $form_edit_action ( ST = standard,  HS = highlight save,  HT = highlight ) */
+    public function __construct(string $form_edit_action = '')
     {
         $this->registry = Registry::getInstance();
         if ($this->layout) {
@@ -181,47 +181,63 @@ class AForm
      * @return void
      * @throws AException
      */
-    protected function _loadFields()
+    protected function _loadFields(array $data = [])
     {
-        $language_id = (int)$this->config->get('storefront_language_id');
-        $store_id = (int)$this->config->get('config_store_id');
+        $languageId = (int)$data['language_id'] ?: (int)$this->config->get('storefront_language_id');
+        $storeId = (int)($data['store_id'] ?? (int)$this->config->get('config_store_id'));
         $cache_key = 'forms.' . $this->form['form_name'] . '.fields';
         $cache_key = preg_replace('/[^a-zA-Z0-9.]/', '', $cache_key)
-            . '.store_' . $store_id
-            . '_lang_' . $language_id;
+            . '.store_' . $storeId
+            . '_lang_' . $languageId;
         $fields = $this->cache->pull($cache_key);
         if ($fields !== false) {
             $this->fields = $fields;
             return;
         }
 
-        $query = $this->db->query(
-            "SELECT f.*, fd.name, fd.description, fd.error_text
+        $fieldsResult = $this->db->query(
+            "SELECT f.*, 
+                fd.name, 
+                fd.description, 
+                fd.error_text, 
+                fg.group_id, 
+                fg2f.sort_order as group_sort_order, 
+                fg.group_txt_id, 
+                fgd.name as group_name,  
+                fgd.description as group_description  
             FROM " . $this->db->table("fields") . " f
             LEFT JOIN " . $this->db->table("field_descriptions") . " fd
-                ON ( f.field_id = fd.field_id AND fd.language_id = '" . $language_id . "' )
-            WHERE f.form_id = '" . $this->form['form_id'] . "'
+                ON ( f.field_id = fd.field_id AND fd.language_id = '" . $languageId . "' )
+            LEFT JOIN " . $this->db->table("field_groups") . " fg
+                ON f.group_id = fg.group_id
+            LEFT JOIN " . $this->db->table("field_group_descriptions") . " fgd
+                ON (fg.group_id = fgd.group_id AND fgd.language_id = '" . $languageId . "' )
+            LEFT JOIN " . $this->db->table("field_group_to_form") . " fg2f
+                ON fg2f.group_id = fg.group_id AND fg2f.form_id = '" . (int)$this->form['form_id'] . "'    
+            WHERE f.form_id = '" . (int)$this->form['form_id'] . "'
                 AND f.status = 1
             ORDER BY f.sort_order"
         );
         $this->fields = [];
-        if ($query->num_rows) {
-            foreach ($query->rows as $row) {
-                $row['settings'] = $row['settings'] ? unserialize($row['settings']) : [];
-                $this->fields[$row['field_id']] = $row;
-                $query = $this->db->query(
-                    "SELECT *
-                    FROM " . $this->db->table("field_values") . " 
-                    WHERE field_id = '" . $row['field_id'] . "'
-                    AND language_id = '" . $language_id . "'"
-                );
-                if ($query->num_rows) {
-                    $values = unserialize($query->row['value']);
+        foreach ($fieldsResult->rows as $row) {
+            $row['group_txt_id'] = $row['group_txt_id'] ?: 'general';
+            $fieldId = (int)$row['field_id'];
+            $row['settings'] = $row['settings'] ? unserialize($row['settings']) : [];
+            $this->fields[$fieldId] = $row;
+            $valuesResult = $this->db->query(
+                "SELECT *
+                FROM " . $this->db->table("field_values") . " 
+                WHERE field_id = '" . $fieldId . "'
+                AND language_id = '" . $languageId . "'"
+            );
+            if ($valuesResult->num_rows) {
+                $values = unserialize($valuesResult->row['value']);
+                if (is_array($values)) {
                     usort($values, self::_sort_by_sort_order(...));
                     foreach ($values as $value) {
-                        $this->fields[$row['field_id']]['options'][$value['name']] = $value['name'];
+                        $this->fields[$fieldId]['options'][$value['name']] = $value['name'];
                     }
-                    $this->fields[$row['field_id']]['value'] = $values[0]['name'];
+                    $this->fields[$fieldId]['value'] = $values[0]['name'];
                 }
             }
         }
@@ -263,23 +279,30 @@ class AForm
         }
 
         $query = $this->db->query(
-            "SELECT fg.*, fgd.name, fgd.description
-            FROM " . $this->db->table("form_groups") . " g
-                LEFT JOIN " . $this->db->table("fields_groups") . " fg 
-                    ON ( g.group_id = fg.group_id)
-                LEFT JOIN " . $this->db->table("fields_group_descriptions") . " fgd
-                    ON ( fg.group_id = fgd.group_id AND fgd.language_id = '" . $language_id . "' )
-            WHERE g.form_id = '" . $this->form['form_id'] . "'
-                AND g.status = 1
-            ORDER BY g.sort_order, fg.sort_order"
+            "SELECT f.field_id,
+                    f.field_name,
+                    f.group_id, 
+                    COALESCE(fg.group_txt_id,'general') as group_txt_id, 
+                    fgd.name, 
+                    fgd.description
+            FROM " . $this->db->table("fields") . " f
+            LEFT JOIN " . $this->db->table("field_groups") . " fg 
+                ON ( f.group_id = fg.group_id)
+            LEFT JOIN " . $this->db->table("field_group_to_form") . " fg2f 
+                ON ( fg2f.group_id = fg.group_id AND fg2f.form_id = " . (int)$this->form['form_id'] . ")
+            LEFT JOIN " . $this->db->table("field_group_descriptions") . " fgd
+                ON ( fg.group_id = fgd.group_id AND fgd.language_id = '" . $language_id . "' )
+            WHERE f.form_id = " . (int)$this->form['form_id'] . "
+                AND f.status = 1
+            ORDER BY fg2f.sort_order, f.sort_order"
         );
         $this->groups = [];
         if ($query->num_rows) {
             foreach ($query->rows as $row) {
-                if (empty($this->groups[$row['group_id']])) {
-                    $this->groups[$row['group_id']] = $row;
+                if (empty($this->groups[(int)$row['group_id']])) {
+                    $this->groups[(int)$row['group_id']] = $row;
                 }
-                $this->groups[$row['group_id']]['fields'][] = $row['field_id'];
+                $this->groups[(int)$row['group_id']]['fields'][] = $row['field_name'];
             }
         }
 
@@ -316,11 +339,24 @@ class AForm
     public function getFields()
     {
         $fields = [];
-
         foreach ($this->fields as $field) {
+            $textValue = null;
+            //country
+            if ($field['element_type'] == 'O') {
+                /** @var ModelLocalisationCountry $mdl */
+                $mdl = $this->load->model('localisation/country');
+                $country = $mdl->getCountry((int)$field['value']);
+                $textValue = $country['name'];
+            } elseif ($field['element_type'] == 'Z') {
+                /** @var ModelLocalisationZone $mdl */
+                $mdl = $this->load->model('localisation/zone');
+                $zone = $mdl->getZone((int)$field['value']);
+                $textValue = $zone['name'];
+            }
             $fields[$field['field_name']] = [
                 'status'       => $field['status'],
                 'value'        => $field['value'],
+                'text_value'   => $textValue,
                 'required'     => $field['required'] == 'Y',
                 'element_type' => $field['element_type'],
                 'title'        => $field['name'],
@@ -508,76 +544,41 @@ class AForm
         $view = new AView($this->registry, 0);
 
         $containFiles = false;
-        foreach ($this->fields as $field) {
-            if ($field['element_type'] == 'U') {
-                $containFiles = true;
-            }
+        $formElements = $this->getFormElements();
+        foreach ($formElements as $group => $elements) {
+            foreach ($elements as $fName => $elm) {
+                if ($elm->type == 'file') {
+                    $containFiles = true;
+                }
 
-            //check for enabled recaptcha instead of default captcha
-            if ($this->config->get('config_recaptcha_site_key') && $field['element_type'] == 'K') {
-                $field['element_type'] = 'J';
-            }
-            //build data array for each field HTML template
-            $data = [
-                'type'     => HtmlElementFactory::getElementType($field['element_type']),
-                'name'     => $field['field_name'],
-                'form'     => $this->form['form_name'],
-                'attr'     => $field['attributes'],
-                'required' => $field['required'] == 'Y',
-                'value'    => $field['value'],
-                'options'  => $field['options'],
-            ];
-
-            //populate customer entered values from session (if present)
-            if (is_array($this->session->data['custom_form_' . $this->form['form_id']])) {
-                $data['value'] = $this->session->data['custom_form_' . $this->form['form_id']][$field['field_name']];
-            }
-
-            //custom data based on the HTML element type
-            switch ($data['type']) {
-                case 'multiselectbox' :
-                case 'checkboxgroup' :
-                    $data['name'] .= '[]';
-                    break;
-                case 'captcha' :
-                    $data['captcha_url'] = $this->html->getURL('common/captcha');
-                    break;
-                case 'recaptcha' :
-                    $data['recaptcha_site_key'] = $this->config->get('config_recaptcha_site_key');
-                    $data['language_code'] = $this->language->getLanguageCode();
-                    break;
-            }
-            $item = HtmlElementFactory::create($data);
-
-            switch ($data['type']) {
-                case 'IPaddress' :
-                case 'hidden' :
-                    $fields_html[$field['field_id']] = $item->getHtml();
-                    break;
-                default:
-                    $view->batchAssign(
-                        [
-                            'element_id'  => $item->element_id,
-                            'type'        => $data['type'],
-                            'title'       => $field['name'],
-                            'description' => (!empty($field['description']) ? $field['description'] : ''),
-                            'error'       => (!empty($this->errors[$field['field_name']])
-                                ? $this->errors[$field['field_name']]
-                                : ''),
-                            'item_html'   => $item->getHtml(),
-                        ]
-                    );
-                    $fields_html[$field['field_id']] = $view->fetch('form/form_field.tpl');
+                switch ($elm->type) {
+                    case 'IPaddress' :
+                    case 'hidden' :
+                        $fields_html[$group][$fName] = $elm->getHtml();
+                        break;
+                    default:
+                        $view->batchAssign(
+                            [
+                                'element_id'  => $elm->element_id,
+                                'type'        => $elm->type,
+                                'title'       => $elm->title ?: $elm->display_name,
+                                'description' => (string)$elm->description,
+                                'error'       => (string)$this->errors[$elm->name],
+                                'item_html'   => $elm->getHtml(),
+                            ]
+                        );
+                        $fields_html[$group][$fName] = $view->fetch('form/form_field.tpl');
+                }
             }
         }
 
         $output = '';
-        if (!empty($this->groups)) {
+        if ($this->groups) {
             foreach ($this->groups as $group) {
                 $view->batchAssign(
                     [
                         'group'       => $group,
-                        'fields_html' => $fields_html,
+                        'fields_html' => $fields_html[$group['group_txt_id']],
                     ]
                 );
                 $output .= $view->fetch('form/form_group.tpl');
@@ -631,6 +632,112 @@ class AForm
         return $output;
     }
 
+    public function getFormElements(string $formAlias = '')
+    {
+        // if no form was loaded return empty string
+        if (!$this->form) {
+            return [];
+        }
+
+        $formAlias = $formAlias ?: $this->form['form_name'];
+        $output = [];
+        foreach ($this->fields as $field) {
+            $field['attributes'] = html_entity_decode($field['attributes']);
+            $field['regexp_pattern'] = html_entity_decode($field['regexp_pattern']);
+            //check for enabled recaptcha instead of default captcha
+            if ($this->config->get('config_recaptcha_site_key') && $field['element_type'] == 'K') {
+                $field['element_type'] = 'J';
+            }
+            //build data array for each field HTML template
+            $data = [
+                'type'                    => HtmlElementFactory::getElementType($field['element_type']),
+                'name'                    => $field['field_name'],
+                'form'                    => $formAlias,
+                'attr'                    => $field['attributes']
+                    . ($field['regexp_pattern'] ? ' pattern="' . regexForHtmlPattern($field['regexp_pattern']) . '"' : ''),
+                'required'                => $field['required'],
+                'value'                   => $field['value'],
+                'options'                 => $field['options'],
+                'display_name'            => $field['name'],
+                'group_id'                => $field['group_id'],
+                'group_txt_id'            => $field['group_txt_id'],
+                'field_group_name'        => $field['group_name'],
+                'field_group_description' => $field['group_description'],
+                'field_group_sort_order'  => $field['group_sort_order'],
+            ];
+            $data['value'] = $data['type'] == 'checkbox' && !$data['value'] ? 1 : $data['value'];
+            $data['text'] = $data['type'] == 'label' && !$data['text'] ? $data['value'] : $data['text'];
+
+            if ($field['resource_id']) {
+                $resource = new AResource('image');
+                $iconData = $resource->getResource($field['resource_id']);
+                $img_sub_path = $iconData['type_name'] . '/' . $iconData['resource_path'];
+                if (is_file(DIR_RESOURCE . $img_sub_path)) {
+                    $logo_path = DIR_RESOURCE . $img_sub_path;
+                    $info = get_image_size($logo_path);
+                    $data['icon'] = HtmlElementFactory::create(
+                        [
+                            'type'   => 'resourceImage',
+                            'url'    => HTTPS_DIR_RESOURCE . $img_sub_path,
+                            'width'  => $info['width'],
+                            'height' => $info['height'],
+                        ]
+                    )->getHtml();
+                } else {
+                    $data['icon'] = $iconData['resource_code'];
+                }
+            }
+
+            //settings for country
+            if ($field['element_type'] == 'O') {
+                if (preg_match('/data-submit-mode="([^"]+)"/', $field['attributes'], $matches)) {
+                    $submitMode = $matches[1] ?: 'id';
+                } else {
+                    $submitMode = 'id';
+                }
+                $data['submit_mode'] = $submitMode;
+            }
+            //zones
+            if ($field['element_type'] == 'Z') {
+                if (preg_match('/data-submit-mode="([^"]+)"/', $field['attributes'], $matches)) {
+                    $submitMode = $matches[1] ?: 'id';
+                } else {
+                    $submitMode = 'id';
+                }
+                $data['submit_mode'] = $submitMode;
+                $data['zone_only'] = true;
+            }
+
+            //populate customer entered values from session (if present)
+            if (is_array($this->session->data['custom_form_' . $formAlias])) {
+                $data['value'] = $this->session->data['custom_form_' . $formAlias][$field['field_name']];
+            }
+
+            //custom data based on the HTML element type
+            switch ($data['type']) {
+                case 'multiselectbox' :
+                case 'checkboxgroup' :
+                    $data['name'] .= '[]';
+                    break;
+                case 'captcha' :
+                    $data['captcha_url'] = $this->html->getURL('common/captcha');
+                    break;
+                case 'recaptcha' :
+                    $data['recaptcha_site_key'] = $this->config->get('config_recaptcha_site_key');
+                    $data['language_code'] = $this->language->getLanguageCode();
+                    break;
+            }
+            $sidx[$field['group_txt_id']] = (int)$field['group_sort_order'];
+            $output[$field['group_txt_id']][$field['field_name']] = HtmlElementFactory::create($data);
+        }
+
+        if (count($output) > 1) {
+            array_multisort($sidx, SORT_ASC, $output);
+        }
+
+        return $output;
+    }
+
     /**
      * method for validation of data based on form fields requirements
      *
@@ -650,7 +757,12 @@ class AForm
         foreach ($this->fields as $field) {
             $fieldName = $field['field_name'];
             $fieldTitle = $field['name'];
-            $isRequired = $field['required'] == 'Y';
+
+            if (str_starts_with($fieldName, 'zone_') && $data[$fieldName] == '-1') {
+                continue;
+            }
+
+            $isRequired = in_array($field['required'], [1, 'Y', '1']);
             // for multi-value required fields
             if (in_array($field['element_type'], HtmlElementFactory::getMultivalueElements())
                 && !$data[$fieldName] && $isRequired
@@ -665,31 +777,25 @@ class AForm
                     if ($data[$fieldName] == '') {
                         $errors[$fieldName] = $fieldTitle . ' ' . $errorRequiredText;
                     }
-                } else {
-                    // if empty array
-                    if (!$data[$fieldName]) {
-                        $errors[$fieldName] = $fieldTitle . ' ' . $errorRequiredText;
-                    }
+                } // if empty array
+                else if (!$data[$fieldName]) {
+                    $errors[$fieldName] = $fieldTitle . ' ' . $errorRequiredText;
                 }
             }
+            //email regexp pattern
+            if ($field['element_type'] == 'E') {
+                $field['regexp_pattern'] = $field['regexp_pattern'] ?: EMAIL_REGEX_PATTERN;
+            }
+
             // check by regexp
             if ($field['regexp_pattern']) {
-                if (!is_array($data[$fieldName])) { //for string value
-                    if (!preg_match($field['regexp_pattern'], $data[$fieldName])) {
-                        // show error only for field with value or required
-                        if (($data[$fieldName] && !$isRequired) || $isRequired) {
+                $dataArr = is_array($data[$fieldName]) ? $data[$fieldName] : [(string)$data[$fieldName]];
+                foreach ($dataArr as $value) {
+                    if (!preg_match($field['regexp_pattern'], $value)) {
+                        if ($isRequired || $value) {
                             $errors[$fieldName] .= ' ' . $field['error_text'];
                         }
-                    }
-                } else {
-                    // for array's values
-                    foreach ($data[$fieldName] as $dd) {
-                        if (!preg_match($field['regexp_pattern'], $dd)) {
-                            if (($dd && !$isRequired) || $isRequired) {
-                                $errors[$fieldName] .= ' ' . $field['error_text'];
-                            }
-                            break;
-                        }
+                        break;
                     }
                 }
             }

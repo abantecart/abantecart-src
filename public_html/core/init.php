@@ -1,22 +1,22 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright © 2011-2022 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*
+ *   $Id$
+ *
+ *   AbanteCart, Ideal OpenSource Ecommerce Solution
+ *   http://www.AbanteCart.com
+ *
+ *   Copyright © 2011-2025 Belavier Commerce LLC
+ *
+ *   This source file is subject to Open Software License (OSL 3.0)
+ *   License details are bundled with this package in the file LICENSE.txt.
+ *   It is also available at this URL:
+ *   <http://www.opensource.org/licenses/OSL-3.0>
+ *
+ *  UPGRADE NOTE:
+ *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+ *    versions in the future. If you wish to customize AbanteCart for your
+ *    needs, please refer to http://www.AbanteCart.com for more information.
+ */
 
 //check minimal system requirements
 $composerJson = file_get_contents(DIR_ROOT.'/composer.json');
@@ -104,6 +104,14 @@ const ROOT_CATEGORY_ID = 0;
 // EMAIL REGEXP PATTERN
 const EMAIL_REGEX_PATTERN = '/^[A-Z0-9._%-]+@[A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,16}$/i';
 const DEFAULT_PHONE_REGEX_PATTERN = '/^[0-9\+\(\)\.\s\-,]+$/';
+const DEFAULT_ADDRESS_FORMAT =
+    '{firstname} {lastname}' . PHP_EOL
+    . '{company}' . PHP_EOL
+    . '{address_1}' . PHP_EOL
+    . '{address_2}' . PHP_EOL
+    . '{city} {postcode}' . PHP_EOL
+    . '{zone}' . PHP_EOL
+    . '{country}';
 
 // Error Reporting
 require_once(DIR_CORE.'lib'.DS.'debug.php');
@@ -497,7 +505,7 @@ try {
 //check if we specify template directly
     $template = 'default';
     if (IS_ADMIN !== true && !empty($request->get['sf'])) {
-        $template = preg_replace('/[^A-Za-z0-9_]+/', '', $request->get['sf']);
+        $template = preformatTextID($request->get['sf']);
         $dir = $template.DIR_EXT_STORE.DIR_EXT_TEMPLATE.$template;
         if (in_array($template, $enabled_extensions) && is_dir(DIR_EXT.$dir)) {
             $is_valid = true;

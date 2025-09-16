@@ -188,6 +188,9 @@ class ABackup
             return false;
         }
 
+        fwrite($file, "START TRANSACTION;\n\n");
+        fwrite($file, "SET FOREIGN_KEY_CHECKS = 0;\n\n");
+
         foreach ($result->rows as $table_info) {
             $table_name = $table_info['table_name'];
             if ($this->sql_dump_mode == 'data_only') {
@@ -306,6 +309,8 @@ class ABackup
         }
 
         fwrite($file, "\n\n");
+        fwrite($file, "SET FOREIGN_KEY_CHECKS = 1;\n\n");
+        fwrite($file, "COMMIT;\n\n");
         fclose($file);
         chmod($dump_file, 0644);
 

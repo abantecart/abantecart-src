@@ -1,22 +1,45 @@
-<div class="input-group mb-3">
-	<select name="<?php echo $name ?>[]"
-            id="<?php echo $id ?>"
-            class="form-select <?php echo $style; ?>"
-            data-placeholder="<?php echo $placeholder ?>"
-            <?php echo $attr ?>>
-	<?php foreach ( $options as $v => $text ) { ?>
-        <option value="<?php echo $v ?>" <?php echo (in_array($v, (array)$value) ? ' selected="selected" ':'') ?> >
-            <?php echo $text ?>
-        </option>
-	<?php } ?>
-	</select>
-<?php if ( $required ){ ?>
-    <span class="input-group-text text-danger">*</span>
+<?php if(!$zone_only){
+    if(!$no_wrapper){ ?>
+    <div class="input-group mb-3">
+<?php }
+if($icon){?>
+    <div class="input-group-text"><?php echo $icon; ?></div>
 <?php } ?>
-</div>
+        <select name="<?php echo $name ?>[]"
+                id="<?php echo $id ?>"
+                class="form-select <?php echo $style; ?>"
+                data-placeholder="<?php echo $placeholder ?>"
+                <?php echo $attr ?>>
+        <?php foreach ( $options as $v => $text ) { ?>
+            <option value="<?php echo $v ?>" <?php echo (in_array($v, (array)$value) ? ' selected="selected" ':'') ?> >
+                <?php echo $text ?>
+            </option>
+        <?php } ?>
+        </select>
+    <?php if ( $required ){ ?>
+        <span class="input-group-text text-danger">*</span>
+    <?php }
+    if(!$no_wrapper){?>
+    </div>
+<?php }
+}
+if(!$no_wrapper){
+?>
 <div class="input-group ">
-	<select name="<?php echo $name ?>_zones[]"
-            id="<?php echo $id ?>_zones"
+<?php
+}
+if($icon){?>
+    <div class="input-group-text" title="<?php echo_html2view($display_name);?>"><?php echo $icon; ?></div>
+<?php }
+    if(!$zone_only){
+        $name .= '_zones[]';
+        $zoneElmId = $id.'_zones';
+    }else{
+        $zoneElmId = $id;
+    }
+    ?>
+	<select name="<?php echo $name ?>"
+            id="<?php echo $zoneElmId ?>"
             class="form-select <?php echo $style; ?>"
             data-placeholder="<?php echo $placeholder ?>">
 <?php foreach ( $zone_options as $v => $text ) { ?>
@@ -26,19 +49,28 @@
 <?php } ?>
 	</select>
 <?php if ( $required ){ ?>
-    <span class="input-group-text text-danger">*</span>
-<?php } ?>
+    <span class="input-group-text text-danger rounded-start-0 rounded-end">*</span>
+<?php }
+if(!$no_wrapper){?>
 </div>
+<?php } ?>
 <script type="text/javascript">
 <?php
-	$selector = $submit_mode == 'id' ? "&country_id=" : "&country_name=";
+	$qry = $submit_mode == 'id' ? "&country_id=" : "&country_name=";
 ?>
-
-	$('#<?php echo $id ?>').change( function(){
-		$('#<?php echo $id ?>_zones').load(
-            '<?php echo $url; ?><?php echo $selector ?>'
-            + encodeURIComponent($(this).val())
-            + '&'+encodeURIComponent('zone_name=<?php echo $zone_name; ?>')
-        );
-	});
+    $(document).ready(function(){
+        var countryElm = <?php
+                if($zone_only){
+                    echo '$("#'.$zoneElmId.'").parents("form").find("[name*=country]");'.PHP_EOL;
+                }else{
+                    echo '$("#' . $zoneElmId .'");'.PHP_EOL;
+                }?>
+        countryElm.off('change').on('change', function(){
+            $('#<?php echo $id ?>').load(
+                '<?php echo $url. $qry ?>'
+                + encodeURIComponent($(this).val())
+                + '&'+encodeURIComponent('zone_name=<?php echo $zone_name; ?>')
+            );
+        });
+    });
 </script>

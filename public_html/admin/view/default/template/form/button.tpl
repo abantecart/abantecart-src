@@ -5,5 +5,10 @@
 	<?php }
 	echo $text ?></a>
 <?php } else { ?>
-<button id="<?php echo $id ?>" class="<?php echo ($style ?:'btn btn-default'); ?>" title="<?php echo ($title ?: $text); ?>" <?php echo $attr ?>><?php echo $text ?></button>
+<button id="<?php echo $id ?>" class="<?php echo ($style ?:'btn btn-default'); ?>" title="<?php echo ($title ?: $text); ?>" <?php echo $attr ?>>
+    <?php
+    if($icon) { ?>
+        <i class="<?php echo $icon; ?>"></i>
+    <?php }
+    echo $text ?></button>
 <?php } ?>

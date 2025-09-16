@@ -411,6 +411,8 @@ class ControllerResponsesSettingSettingQuickForm extends AController
         } elseif ($section == 'finished') {
             $this->data['payments_selection'] = $this->html->convertLinks($this->language->get('payments_selection'));
             $this->data['shipping_selection'] = $this->html->convertLinks($this->language->get('shipping_selection'));
+            //get language list from github repo
+            $this->data['language_packages'] = $this->html->installLanguageModal('dataonly');
             $this->data['language_selection'] = $this->html->convertLinks($this->language->get('language_selection'));
             $this->data['more_extensions'] = $this->html->convertLinks($this->language->get('more_extensions'));
             $this->data['quick_start_note'] = $this->language->get('text_quick_start_note');

@@ -38,16 +38,16 @@ class ControllerPagesFormsManagerDefaultEmail extends AController
                 exit;
             }
 
-            $form_id = $this->request->get['form_id'];
-            $form_data = $mdl->getForm($form_id);
+            $formId = (int)$this->request->get['form_id'];
+            $form_data = $mdl->getForm($formId);
             $form = new AForm($form_data['form_name']);
             $form->loadFromDb($form_data['form_name']);
             $errors = $form->validateFormData($this->request->post);
 
             if ($errors) {
                 //save error and data to session
-                $this->session->data['custom_form_' . $form_id] = $this->request->post;
-                $this->session->data['custom_form_' . $form_id]['errors'] = $errors;
+                $this->session->data['custom_form_' . $formId] = $this->request->post;
+                $this->session->data['custom_form_' . $formId]['errors'] = $errors;
                 redirect($path);
             } else {
                 $mailer = new AMail($this->config);
@@ -74,7 +74,7 @@ class ControllerPagesFormsManagerDefaultEmail extends AController
                     . $this->config->get('seo_prefix') . PHP_EOL;
 
                 $this->data['mail_template_data']['tpl_form_fields'] = [];
-                $fields = $mdl->getFields($form_id);
+                $fields = $mdl->getFields($formId);
                 foreach ($fields as $field) {
                     // skip files and captcha
                     if (in_array($field['element_type'], ['K', 'J', 'U'])) {
@@ -118,10 +118,10 @@ class ControllerPagesFormsManagerDefaultEmail extends AController
                     $rt = $form_data['success_page'] ?: 'forms_manager/default_email/success';
                     $successUrl = $this->html->getSecureURL($rt);
                     //clear form session
-                    unset($this->session->data['custom_form_' . $form_id]);
+                    unset($this->session->data['custom_form_' . $formId]);
                 } else {
                     $this->session->data['warning'] = $mailer->error;
-                    $successUrl = $this->html->getSecureURL('forms_manager/default_email', '&form_id=' . $form_id);
+                    $successUrl = $this->html->getSecureURL('forms_manager/default_email', '&form_id=' . $formId);
                 }
                 redirect($successUrl);
             }

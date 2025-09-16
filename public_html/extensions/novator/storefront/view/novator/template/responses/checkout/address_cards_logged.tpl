@@ -1,4 +1,5 @@
 <?php
+/** @var AView $this */
 $readonly = count($all_addresses) == 1 ? ' readonly ' : '';
 
 $addAddress = '
@@ -23,20 +24,32 @@ if ($this->cart->hasShipping()) {  ?>
                     if ($all_addresses) {
                         foreach ($all_addresses as $addr) {
                             $current = ($addr['address_id'] == $csession['shipping_address_id']) ? ' selected ' : '';
-                            $address = $this->customer->getFormattedAddress($addr, $addr['address_format']);
+                            $address = $this->customer->getFormattedAddress($addr, $addr['format']);
+                            if(!$formattedShippingAddress){
+                                $formattedShippingAddress = $address;
+                            }
+                            if($current == ' selected '){
+                                $formattedShippingAddress = $address;
+                            }
                             $lines = explode("<br />", $address);
                             echo '<option value="'.$addr['address_id'].'" '.$current.'>'
-                                    .$lines[0].', '.$lines[1].'...</option>';
-                            for ($i = 0; $i <= count($lines); $i++) {
-                                echo '<option disabled>&nbsp;&nbsp;&nbsp;'.$lines[$i].'</option>';
+                                    .$addr['firstname'].' '.$addr['lastname'].' 
+                                    '.$addr['address_1'].' '.$addr['address_2'].'</option>';
+                            foreach($lines as $line) {
+                                echo '<option disabled>'.str_repeat('&nbsp;',3).trim($line).'</option>';
                             }
                         }
                     } ?>
                 </select>
                 <?php echo $addAddress;?>
             </div>
-            <?php // see JS?>
-            <div class="d-flex justify-content-between col-12 bg-light-primary border rounded shipping_address_details"></div>
+            <div class="d-flex justify-content-between col-12 bg-light-primary border rounded shipping_address_details">
+                <div class="card border-0 bg-light-primary ms-3">
+                    <div class="card-body">
+                        <?php echo $formattedShippingAddress; ?>
+                    </div>
+                </div>
+            </div>
         </div>
 <?php } //eof if product has shipping
 
@@ -57,10 +70,18 @@ if ($show_payment) {
                 if ($all_addresses) {
                     foreach ($all_addresses as $addr) {
                         $current = ($addr['address_id'] == $csession['payment_address_id']) ? ' selected ' : '';
-                        $address = $this->customer->getFormattedAddress($addr, $addr['address_format']);
+                        $address = $this->customer->getFormattedAddress($addr, $addr['format']);
+                        if(!$formattedPaymentAddress){
+                            $formattedPaymentAddress = $address;
+                        }
+                        if($current == ' selected '){
+                            $formattedPaymentAddress = $address;
+                        }
                         $lines = explode("<br />", $address);
-                        echo '<option value="'.$addr['address_id'].'" '.$current.'>'
-                                .$lines[0].', '.$lines[1] .'...</option>';
+                        echo '<option value="'.$addr['address_id'].'" '.$current.'>
+                        '.$addr['firstname'].' '.$addr['lastname'].' 
+                        '.$addr['address_1'].' '.$addr['address_2']
+                                .'</option>';
                         for ($i = 0; $i <= count($lines); $i++) {
                             echo '<option disabled>&nbsp;&nbsp;&nbsp;'.$lines[$i].'</option>';
                         }
@@ -69,66 +90,16 @@ if ($show_payment) {
             </select>
             <?php echo $addAddress;?>
         </div>
-
-        <?php // see JS?>
-        <div class="d-flex justify-content-between px-2 col-12 bg-light-primary border rounded payment_address_details"></div>
+        <div class="d-flex justify-content-between px-2 col-12 bg-light-primary border rounded payment_address_details">
+            <div class="card border-0 bg-light-primary ms-3">
+                <div class="card-body">
+                    <?php echo $formattedPaymentAddress; ?>
+                </div>
+            </div>
+        </div>
     </div>
 <?php } ?>
 <script type="application/javascript">
-    var getAddressHtml = function (address) {
-        let html = '<div class="card border-0 bg-light-primary ms-3">'
-                    + '<div class="card-body">';
-
-        if (typeof address != "undefined") {
-            if (address.firstname || address.lasttname) {
-                html += address.firstname + ' ' + address.lastname + ' <br/>'
-            }
-            if (address.company) {
-                html += address.company + ' <br/>'
-            }
-            if (address.address_2) {
-                html += address.address_2 + ' <br/>'
-            }
-            if (address.address_1) {
-                html += address.address_1 + ' <br/>'
-            }
-            if (address.city || address.postcode) {
-                html += address.city + ' ' + address.postcode + ' <br/>'
-            }
-            if (address.zone) {
-                html += address.zone + ' <br/>'
-            }
-            if (address.country) {
-                html += address.country
-            }
-            html += '</div></div>';
-            <?php if ($address_edit_base_url) { ?>
-                html += '<a class="address_edit_link text-end p-3 " href="<?php echo $address_edit_base_url; ?>' + address.address_id + '">' +
-                    '<i class="fa fa-edit fa-xl"></i></a>';
-                <?php } ?>
-        }
-        return html
-    };
-
-    var updateShippingAddressDisplay = function () {
-        let addresses = JSON.parse(atob('<?php echo base64_encode(json_encode($all_addresses)); ?>'))
-        let shipping_address_id = $("#shipping_address_id").val();
-        let address = addresses.find((el) => el.address_id == shipping_address_id);
-
-        if (typeof address != "undefined") {
-            $('.shipping_address_details').hide().html(getAddressHtml(address)).fadeIn(1000);
-        }
-    };
-
-    var updatePaymentAddressDisplay = function () {
-        let addresses = JSON.parse(atob('<?php echo base64_encode(json_encode($all_addresses)); ?>'));
-        let payment_address_id = $("#payment_address_id").val();
-        let address = addresses.find((el) => el.address_id == payment_address_id);
-
-        if (typeof address != "undefined") {
-            $('.payment_address_details').hide().html(getAddressHtml(address)).fadeIn(1000);
-        }
-    };
     $(document).ready(function () {
         $("#payment_address_id").change(function () {
             let url = '<?php echo $main_url ?>&' + getUrlParams('payment_address_id', $(this).val());
@@ -139,7 +110,5 @@ if ($show_payment) {
             let url = '<?php echo $main_url ?>&' + getUrlParams('shipping_address_id', $(this).val());
             pageRequest(url);
         });
-        updateShippingAddressDisplay();
-        updatePaymentAddressDisplay();
     });
 </script>

@@ -66,9 +66,11 @@ foreach (array_keys($_COOKIE) as $key) {
 }
 define('SESSION_ID', $session_id);
 
-//try to start session. 
-require_once(DIR_CORE.'lib/session.php');
+//try to start session.
+require_once(DIR_CORE.'helper/system_check.php');
+require_once(DIR_CORE . 'lib/session.php');
 $session = new ASession(SESSION_ID);
+
 
 $error = 'Please check AbanteCart and webserver error logs for more details. You can check error log in the control panel if it is functional. Otherwise, refer to error log located on your web server';
 if ($session && isset($session->data['exception_msg']) && $session->data['exception_msg']) {

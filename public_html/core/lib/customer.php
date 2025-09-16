@@ -361,7 +361,7 @@ class ACustomer
      */
     public function deleteActiveSessions(string $sessionId = '')
     {
-        $this->deleteActiveSessionsByID($this->customer_id, $sessionId);
+        $this->deleteActiveSessionsByID((int)$this->customer_id, (string)$sessionId);
     }
 
     /**
@@ -564,7 +564,7 @@ class ACustomer
     }
 
     /**
-     * @param array $data_array
+     * @param array $inData
      * @param string $format
      * @param array $locate
      *
@@ -572,42 +572,43 @@ class ACustomer
      * @since 1.2.7
      *
      */
-    public function getFormattedAddress($data_array, $format = '', $locate = [])
+    public function getFormattedAddress($inData, $format = '', $locate = [])
     {
-        $data_array = (array)$data_array;
+        $inData = (array)$inData;
+        $inData = (array)$inData['ext_fields'] + (array)$inData;
+        foreach ($inData as &$value) {
+            if (!is_string($value)) {
+                unset($value);
+            }
+        }
+
         // Set default format
         if ($format == '') {
-            $format = '{firstname} {lastname}'
-                . "\n" . '{company}'
-                . "\n" . '{address_1}'
-                . "\n" . '{address_2}'
-                . "\n" . '{city} {postcode}'
-                . "\n" . '{zone}'
-                . "\n" . '{country}';
+            $format = DEFAULT_ADDRESS_FORMAT;
         }
-        //when some data missing - remove it from address format
+        //when some data missing - remove it from the address format
         preg_match_all('/\{(.*?)}/', $format, $matches);
         if ($matches[1]) {
             $matches = $matches[1];
             foreach ($matches as $key) {
-                if (!isset($data_array[$key])) {
+                if (!isset($inData[$key])) {
                     $format = str_replace('{' . $key . '}', '', $format);
                 }
             }
             $format = trim($format);
         }
 
-        //Set default variable to be set for address based on the data
+        //Set the default variable to be set for the address based on the data
         if (count($locate) <= 0) {
             $locate = [];
-            foreach ($data_array as $key => $value) {
+            foreach ($inData as $key => $value) {
                 $locate[] = "{" . $key . "}";
             }
         }
         return nl2br(
             preg_replace(
                 ["/\s\s+/", "/\r\r+/", "/\n\n+/"], '<br />',
-                trim(str_replace($locate, $data_array, $format))
+                trim(str_replace($locate, $inData, $format))
             )
         );
     }

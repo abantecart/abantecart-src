@@ -5,17 +5,17 @@
  *   AbanteCart, Ideal OpenSource Ecommerce Solution
  *   http://www.AbanteCart.com
  *
- *   Copyright © 2011-2024 Belavier Commerce LLC
+ *   Copyright © 2011-2025 Belavier Commerce LLC
  *
  *   This source file is subject to Open Software License (OSL 3.0)
- *   License details is bundled with this package in the file LICENSE.txt.
+ *   License details are bundled with this package in the file LICENSE.txt.
  *   It is also available at this URL:
  *   <http://www.opensource.org/licenses/OSL-3.0>
  *
  *  UPGRADE NOTE:
  *    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
  *    versions in the future. If you wish to customize AbanteCart for your
- *    needs please refer to http://www.AbanteCart.com for more information.
+ *    needs, please refer to http://www.AbanteCart.com for more information.
  */
 
 use AbanteCart\PBRender;
@@ -172,8 +172,9 @@ class ExtensionPageBuilder extends Extension
     {
         $registry = Registry::getInstance();
         if ($registry?->get('request')->get['tmpl_id']) {
-            $registry?->get('config')->set('config_storefront_template', $registry->get('request')->get['tmpl_id']);
-            $registry?->set('layout', new ALayout($registry, $registry->get('request')->get['tmpl_id']));
+            $templateTextId = preformatTextID($registry->get('request')->get['tmpl_id']);
+            $registry->get('config')->set('config_storefront_template', $templateTextId);
+            $registry->set('layout', new ALayout($registry, $templateTextId));
         }
     }
 
@@ -377,7 +378,7 @@ class ExtensionPageBuilder extends Extension
 
         $execController = $pageData['controller'];
         if(!$keyParam) {
-            $templateTxtId = $that->request->get['tmpl_id']
+            $templateTxtId = preformatTextID($that->request->get['tmpl_id'])
                 ?: Registry::getInstance()->get('config')->get('config_storefront_template');
             $l = new ALayout(Registry::getInstance(), $templateTxtId);
             $keyParam = $l->getKeyParamByController($execController);
@@ -398,7 +399,7 @@ class ExtensionPageBuilder extends Extension
         $that = $this->baseObject;
         $pageId = $layoutId = null;
 
-        $templateTxtId = $that->request->get['tmpl_id']
+        $templateTxtId = preformatTextID($that->request->get['tmpl_id'])
             ?: Registry::getInstance()->get('config')->get('config_storefront_template');
         $layout = new ALayout(Registry::getInstance(), $templateTxtId);
         if(!$keyParam) {

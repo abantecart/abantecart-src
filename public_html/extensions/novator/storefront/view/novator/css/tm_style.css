@@ -478,10 +478,13 @@ a {
 }
 
 .form-control-lg {
-    min-height: calc(1.5em + 1.55rem + 2px);
     padding: 0.775rem 0.85rem;
     font-size: 1.25rem;
     border-radius: 10px;
+}
+
+.form-control-lg.form-check-input {
+    min-height: 1.5em;
 }
 
 .form-control-lg::file-selector-button {
@@ -4064,9 +4067,6 @@ a.share{
     max-width: 150px;
 }
 
-
-
-
 #loginFrm input::placeholder {
     font-size: var(--bs-body-font-size);
     font-weight: var(--bs-body-font-weight);
@@ -4076,4 +4076,8 @@ a.share{
 .footer-content-menu>ul>li + li{
     /* gap */
     margin-left: 15px;
+}
+
+.account-login .form-check{
+    border: 0 !important;
 }

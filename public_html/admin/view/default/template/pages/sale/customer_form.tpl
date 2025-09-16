@@ -92,7 +92,7 @@
 <?php }	?>
 
 <?php echo $form['form_open'];
-	foreach($form['fields'] as $section=>$fields){ ?>
+	foreach($form['fields'] as $section => $fields){ ?>
         <div class="panel-body panel-body-nopadding tab-content col-xs-12">
             <label class="h4 heading"><?php echo ${'tab_customer_' . $section}; ?></label>
 			<?php foreach ($fields as $name => $field) {
@@ -122,14 +122,27 @@
 						<i class="fa fa-envelope-o fa-fw"></i>
 						</a>
 					</span>
-					<?php } ?>
-					<?php echo $field; ?>
+					<?php } elseif ($name == 'ext_fields' && $field){ ?>
+                        <table class="table table-striped">
+                    <?php
+                        foreach ($field as $item) { ?>
+                                <tr>
+                                    <td style="width: 30%"><?php echo $item['name']; ?></td>
+                                    <td><?php echo nl2br($item['value']); ?></td>
+                                </tr>
+                        <?php } ?>
+                        </table>
+                    <?php
+                    unset($field);
+                    }
+
+                    echo $field; ?>
 				</div>
 				<?php if (!empty($error[$name])) { ?>
 					<span class="help-block field_err"><?php echo $error[$name]; ?></span>
 				<?php } ?>
 			</div>
-			<?php } ?><!-- <div class="fieldset"> -->
+			<?php } ?>
 			</div>
     <?php } ?>
 
