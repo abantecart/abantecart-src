@@ -383,7 +383,7 @@ class AResource
         } else {
             //Build thumbnail's path similar to a resource library path
             $sub_path = 'thumbnails' . DS
-                . dirname($resourceInfo['resource_path']) . DS
+                . str_replace('/', DS, dirname($resourceInfo['resource_path'])) . DS
                 . $name . '-'
                 . $resource_id . '-'
                 . $width . 'x' . $height;
@@ -412,7 +412,7 @@ class AResource
             if (!$http_path) {
                 $http_path = HTTPS_IMAGE;
             }
-            return $http_path . $new_image;
+            return $http_path . str_replace(DS, '/', $new_image);
         }
     }
 
@@ -606,7 +606,7 @@ class AResource
 
                     if (!$thumb_url && $sizes['thumb']) {
                         $thumb_url = $mdl->resize(
-                            $resourceInfo['resource_path'],
+                            str_replace('/', DS, $resourceInfo['resource_path']),
                             $sizes['thumb']['width'],
                             $sizes['thumb']['height']
                         );
@@ -621,7 +621,7 @@ class AResource
                     }
                     if (!$thumb2_url && $sizes['thumb2']) {
                         $thumb2_url = $mdl->resize(
-                            $resourceInfo['resource_path'],
+                            str_replace('/', DS, $resourceInfo['resource_path']),
                             $sizes['thumb2']['width'],
                             $sizes['thumb2']['height']
                         );
@@ -630,7 +630,8 @@ class AResource
                         $origin_path = DIR_RESOURCE . $this->getTypeDir() . str_replace('/', DS, $resourceInfo['resource_path']);
                         $img = new AImage($origin_path);
                         $sizes['orig'] = $img->getInfo();
-                    } catch (Exception|Error) { }
+                    } catch (Exception|Error) {
+                    }
                 } else {
                     $main_url = $direct_url;
                     $thumb_url = $this->getResizedImageURL(
@@ -639,7 +640,6 @@ class AResource
                         $sizes['thumb']['height']
                     );
                 }
-
 
                 $resources[$k] = [
                     'resource_id'   => $resourceInfo['resource_id'],

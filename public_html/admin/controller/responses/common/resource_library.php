@@ -170,7 +170,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
         $resDetails = $rm->getResource($resource['resource_id']);
         if ($resDetails['resource_path']) {
             $resDetails['res_url'] = $rm->buildResourceURL($resDetails['resource_path']);
-            $resDetails['file_path'] = DIR_RESOURCE . $rm->getTypeDir() . $resDetails['resource_path'];
+            $resDetails['file_path'] = DIR_RESOURCE . $rm->getTypeDir() . str_replace('/',DS,$resDetails['resource_path']);
             $resDetails['file_size'] = human_filesize(filesize($resDetails['file_path']));
             $img = getimagesize($resDetails['file_path']);
             if ($img[0]) {

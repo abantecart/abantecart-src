@@ -671,7 +671,7 @@ class ControllerPagesCatalogProduct extends AController
             && $product_info['image']
             && file_exists(DIR_IMAGE . str_replace('/', DS, $product_info['image']))
         ) {
-            $preview = $product_info['image'];
+            $preview = str_replace('/', DS, $product_info['image']);
         } else {
             $preview = 'no_image.jpg';
         }
