@@ -644,7 +644,7 @@ class ALanguage
         }
 
         $cache_key = 'localization.lang.' . $this->code . '.' . (($this->is_admin) ? 'a' : 's') . '.' . $filename;
-        $cache_key = str_replace('/', '_', $cache_key);
+        $cache_key = str_replace(['/', DS], '_', $cache_key);
 
         if ($this->cache) {
             $load_data = $this->cache->pull($cache_key);
@@ -652,9 +652,8 @@ class ALanguage
 
         if ($load_data === false) {
             //Check that filename has proper name with no other special characters.
-            $block_name = str_replace('/', '_', $filename);
             //prevent error for pre and post controllers
-            $block_name = str_replace('.', '_', $block_name);
+            $block_name = str_replace(['/', DS, '.'], '_', $filename);
             if (preg_match("/\W+/", $block_name)) {
                 $error = new AError('Error! Trying to load language with invalid path: "' . $filename . '"!');
                 $error->toLog()->toDebug();
@@ -870,7 +869,7 @@ class ALanguage
         if (!$filename) {
             return null;
         }
-        $file_path = $this->language_path . $language_dir_name . DS . str_replace('/',DS,$filename) . '.xml';
+        $file_path = $this->language_path . $language_dir_name . DS . str_replace('/', DS, $filename) . '.xml';
         if ($this->registry->has('extensions')
             && $result = $this->registry->get('extensions')->isExtensionLanguageFile(
                 $filename,
