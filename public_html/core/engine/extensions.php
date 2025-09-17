@@ -898,7 +898,7 @@ class ExtensionsApi
         $file = ($section ? DIR_EXT_ADMIN : DIR_EXT_STORE)
             . 'language' . DS
             . $language_name
-            . DS . $route . '.xml';
+            . DS . str_replace('/', DS, $route) . '.xml';
 
         //include language file from first matching extension
         foreach ($this->extensions_dir as $ext) {
@@ -942,7 +942,7 @@ class ExtensionsApi
 
         switch ($resource_type) {
             case 'M' :
-                $file = $ext_section . 'model' . DS . $route . '.php';
+                $file = $ext_section . 'model' . DS . str_replace('/', DS, $route) . '.php';
                 $source = $this->extension_models;
                 break;
             case 'L' :
@@ -954,14 +954,14 @@ class ExtensionsApi
                 $file = $ext_section
                     . 'language' . DS
                     . $query->row['directory']
-                    . DS . $route . '.xml';
+                    . DS . str_replace('/', DS, $route) . '.xml';
                 $source = $this->extension_languages;
                 break;
             case 'T' :
                 $tmpl_id = IS_ADMIN
                     ? $this->registry->get('config')->get('admin_template')
                     : $this->registry->get('config')->get('config_storefront_template');
-                $file = $ext_section . DIR_EXT_TEMPLATE . $tmpl_id . DS . 'template' . DS . $route;
+                $file = $ext_section . DIR_EXT_TEMPLATE . $tmpl_id . DS . 'template' . DS . str_replace('/', DS, $route);
                 $source = $this->extension_templates;
                 break;
             default:
@@ -995,12 +995,12 @@ class ExtensionsApi
                 }
                 if ($resource_type == 'T') {
                     //check default template
-                    $f = DIR_EXT . $ext . $ext_section . DIR_EXT_TEMPLATE . 'default' . DS . 'template' . DS . $route;
+                    $f = DIR_EXT . $ext . $ext_section . DIR_EXT_TEMPLATE . 'default' . DS . 'template' . DS . str_replace('/', DS, $route);
                     if (is_file($f)) {
                         return [
                             'file'      => $f,
                             'extension' => $ext,
-                            'base_path' => $ext_section . DIR_EXT_TEMPLATE . 'default' . DS . 'template' . DS . $route,
+                            'base_path' => $ext_section . DIR_EXT_TEMPLATE . 'default' . DS . 'template' . DS . str_replace('/', DS, $route),
                         ];
                     }
                 }
@@ -1251,7 +1251,7 @@ class ExtensionUtils
         $this->config = getExtensionConfigXml($ext);
 
         if (!$this->config) {
-            $filename = DIR_EXT . str_replace('..' . DS, '', $this->name) . DS . 'config.xml';
+            $filename = DIR_EXT . str_replace('../', '', $this->name) . DS . 'config.xml';
             $err = sprintf('Error: Could not load config for <b>%s</b> ( ' . $filename . ')!', $this->name);
             foreach (libxml_get_errors() as $error) {
                 $err .= "  " . $error->message;
@@ -1279,7 +1279,7 @@ class ExtensionUtils
      */
     public function validateResources()
     {
-        $filename = DIR_EXT . str_replace('..' . DS, '', $this->name) . DS . 'main.php';
+        $filename = DIR_EXT . str_replace('../', '', $this->name) . DS . 'main.php';
         if (!is_file($filename)) {
             return null;
         }
