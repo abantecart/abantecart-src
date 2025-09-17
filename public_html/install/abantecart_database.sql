@@ -12649,7 +12649,7 @@ CREATE TABLE `ac_field_groups`
 (
     `group_id` int(11) NOT NULL AUTO_INCREMENT,
     `group_txt_id` varchar(40) DEFAULT NULL,
-    KEY `field_id` (`group_id`)
+    PRIMARY KEY (`group_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
