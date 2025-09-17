@@ -1172,19 +1172,19 @@ function check_resize_image($orig_image, $new_image, $width, $height, $quality)
     //if new file not yet present, check directory
     if (!file_exists(DIR_IMAGE . $new_image)) {
         $path = '';
-        $directories = explode('/', dirname(str_replace('../', '', $new_image)));
+        $directories = explode('/', dirname(str_replace('../', '', str_replace(DS, '/', $new_image))));
         foreach ($directories as $directory) {
             $path = $path . '/' . $directory;
             //do we have directory?
-            if (!file_exists(DIR_IMAGE . $path)) {
+            if (!file_exists(DIR_IMAGE . str_replace('/', DS, $path))) {
                 // Make sure the index file is there
-                $indexFile = DIR_IMAGE . $path . '/index.php';
+                $indexFile = DIR_IMAGE . $path . DS . 'index.php';
                 $result = mkdir(DIR_IMAGE . $path, 0775)
                     && file_put_contents($indexFile, "<?php die('Restricted Access!'); ?>");
                 if (!$result) {
                     $error =
                         new AWarning(
-                            'Cannot to create directory ' . DIR_IMAGE . $path . '. Please check permissions for '
+                            'Cannot to create directory ' . DIR_IMAGE . str_replace('/', DS, $path) . '. Please check permissions for '
                             . DIR_IMAGE
                         );
                     $error->toLog();

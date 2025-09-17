@@ -168,8 +168,8 @@ class AImage
         $height = (int)$height;
         $options = (array)$options;
 
-        $quality = !isset($options['quality']) ? 90 : (int)$options['quality'];
-        $nofill = !isset($options['nofill']) ? false : $options['nofill'];
+        $quality = (int)$options['quality'] ?: 90;
+        $nofill = $options['nofill'] ?? false;
 
         //if size will change - resize it and save with GD2, otherwise - just copy file
         if ($this->info['width'] != $width || $this->info['height'] != $height) {
