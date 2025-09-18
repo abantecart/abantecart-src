@@ -27,6 +27,13 @@ class ControllerPagesDesignTemplate extends AController
     /** @var AConfigManager */
     protected $confManager;
 
+    public function __construct($registry, $instance_id, $controller, $parent_controller = '')
+    {
+        parent::__construct($registry, $instance_id, $controller, $parent_controller);
+        $this->load->library('config_manager');
+        $this->confManager = new AConfigManager();
+    }
+
     public function main()
     {
         //use to init controller data
@@ -86,23 +93,22 @@ class ControllerPagesDesignTemplate extends AController
 
         // get templates
         $this->data['templates'] = [];
-
-        $this->load->library('config_manager');
-        $conf_mngr = new AConfigManager();
-
         //get all enabled templates
-        $tmpls = $conf_mngr->getTemplates('storefront', 1, $this->data['store_id']);
+        $templateList = $this->confManager->getTemplates('storefront', 1, $this->data['store_id']);
         $settings = $this->model_setting_setting->getSetting('appearance', $this->data['store_id']);
         $this->data['default_template'] = $settings['config_storefront_template'];
         $templates = [];
 
-        foreach ($tmpls as $tmpl) {
-            $templates[$tmpl] = [
-                'name'          => $tmpl,
-                'edit_url'      => $this->html->getSecureURL('design/template/edit', '&tmpl_id=' . $tmpl),
+        foreach ($templateList as $templateTxtId) {
+            $templates[$templateTxtId] = [
+                'name'          => $templateTxtId,
+                'edit_url'      => $this->html->getSecureURL(
+                    'design/template/edit',
+                    '&' . http_build_query(['tmpl_id' => $templateTxtId])
+                ),
                 // define a template type by directory inside core.
                 // if it does not exist - it's an extension, otherwise core-template
-                'template_type' => is_dir(DIR_STOREFRONT . 'view' . DS . $tmpl) ? 'core' : 'extension',
+                'template_type' => is_dir(DIR_STOREFRONT . 'view' . DS . $templateTxtId) ? 'core' : 'extension',
             ];
 
             //button for template cloning
@@ -111,12 +117,12 @@ class ControllerPagesDesignTemplate extends AController
                 $href = $this->gen_help_url('template_dev_tools');
                 $target = '_blank';
             } elseif ($dev_tools['status'] == 1) {
-                $href = $this->html->getSecureURL('tool/developer_tools/create', '&template=' . $tmpl);
+                $href = $this->html->getSecureURL('tool/developer_tools/create', '&template=' . $templateTxtId);
             } else {
                 $href = $this->html->getSecureURL('extension/extensions/edit', '&extension=developer_tools');
             }
-            if ($templates[$tmpl]['template_type'] == 'core') {
-                $templates[$tmpl]['clone_button'] = $this->html->buildElement(
+            if ($templates[$templateTxtId]['template_type'] == 'core') {
+                $templates[$templateTxtId]['clone_button'] = $this->html->buildElement(
                     [
                         'type'   => 'button',
                         'name'   => 'clone_button',
@@ -128,32 +134,32 @@ class ControllerPagesDesignTemplate extends AController
             }
 
             //button to extension
-            if (!is_dir('storefront' . DS . 'view' . DS . $tmpl) && is_dir(DIR_EXT . $tmpl)) {
-                $templates[$tmpl]['extn_url'] = $this->html->getSecureURL(
+            if (!is_dir(DIR_STOREFRONT . 'view' . DS . $templateTxtId) && is_dir(DIR_EXT . $templateTxtId)) {
+                $templates[$templateTxtId]['extn_url'] = $this->html->getSecureURL(
                     'extension/extensions/edit',
-                    '&extension=' . $tmpl
+                    '&extension=' . $templateTxtId
                 );
             }
             //set default
-            if ($this->data['default_template'] != $tmpl) {
-                $templates[$tmpl]['set_default_url'] = $this->html->getSecureURL(
+            if ($this->data['default_template'] != $templateTxtId) {
+                $templates[$templateTxtId]['set_default_url'] = $this->html->getSecureURL(
                     'design/template/set_default',
-                    '&tmpl_id=' . $tmpl
+                    '&tmpl_id=' . $templateTxtId
                     . '&store_id=' . $this->data['store_id']
                 );
             }
 
-            $preview_file = $tmpl . 'image/preview.jpg';
-            if (is_file(DIR_EXT . str_replace('/', DS, $preview_file))) {
-                $preview_img = HTTPS_EXT . $preview_file;
+            $preview_file = $templateTxtId . DS . 'image' . DS . 'preview.jpg';
+            if (is_file(DIR_EXT . $preview_file)) {
+                $previewImageUrl = HTTPS_EXT . $preview_file;
             } else {
-                if (is_file('storefront' . DS . 'view' . DS . $tmpl . DS . 'image' . DS . 'preview.jpg')) {
-                    $preview_img = AUTO_SERVER . 'storefront/view/' . $tmpl . '/image/preview.jpg';
+                if (is_file(DIR_STOREFRONT . 'view' . DS . $preview_file)) {
+                    $previewImageUrl = AUTO_SERVER . 'storefront/view/' . str_replace(DS, '/', $preview_file);
                 } else {
-                    $preview_img = HTTPS_IMAGE . 'no_image.jpg';
+                    $previewImageUrl = HTTPS_IMAGE . 'no_image.jpg';
                 }
             }
-            $templates[$tmpl]['preview'] = $preview_img;
+            $templates[$templateTxtId]['preview'] = $previewImageUrl;
         }
 
         $this->data['templates'] = $templates;
@@ -270,8 +276,7 @@ class ControllerPagesDesignTemplate extends AController
             redirect($this->data['redirect_url']);
         }
 
-        $this->data['store_id'] = (int)($this->request->get['store_id'] ?? $this->config->get('current_store_id'));
-
+        $this->data['store_id'] = (int)($this->request->get['store_id'] ?? (int)$this->config->get('current_store_id'));
         $this->data['error'] = $this->error;
 
         $this->document->initBreadcrumb(
@@ -302,13 +307,10 @@ class ControllerPagesDesignTemplate extends AController
         $this->data['cancel'] = $this->html->getSecureURL('design/template/edit', '&tmpl_id=' . $templateTxtId);
         $this->data['back'] = $this->html->getSecureURL('design/template');
 
-        $this->load->library('config_manager');
-        $this->confManager = new AConfigManager();
-
         //set control buttons
-        $list = $this->confManager->getTemplates('storefront');
+        $templateList = $this->confManager->getTemplates('storefront');
         $templates = [];
-        foreach ($list as $tmpl) {
+        foreach ($templateList as $tmpl) {
             //skip current template
             if ($tmpl != $templateTxtId) {
                 $templates[$tmpl] = [
@@ -396,12 +398,23 @@ class ControllerPagesDesignTemplate extends AController
     {
         $this->data['action'] = $this->html->getSecureURL(
             'design/template/edit',
-            '&tmpl_id=' . $this->data['tmpl_id'] . '&store_id=' . $this->data['store_id']
+            '&' . http_build_query(
+                [
+                    'tmpl_id'  => $this->data['tmpl_id'],
+                    'store_id' => $this->data['store_id']
+                ]
+            )
         );
         $this->data['form_title'] = $this->language->get('text_edit') . ' ' . $this->language->get('heading_title');
         $this->data['update'] = $this->html->getSecureURL(
             'listing_grid/setting/update_field',
-            '&group=' . $this->data['group'] . '&store_id=' . $this->data['store_id'] . '&tmpl_id=' . $this->data['tmpl_id']
+            '&' . http_build_query(
+                [
+                    'group'    => $this->data['group'],
+                    'tmpl_id'  => $this->data['tmpl_id'],
+                    'store_id' => $this->data['store_id']
+                ]
+            )
         );
 
         $form = new AForm('HS');
@@ -426,7 +439,6 @@ class ControllerPagesDesignTemplate extends AController
                 'type'  => 'button',
                 'name'  => 'submit',
                 'text'  => $this->language->get('button_save'),
-                'style' => 'button1',
             ]
         );
         $this->data['form']['cancel'] = $form->getFieldHtml(
@@ -434,7 +446,6 @@ class ControllerPagesDesignTemplate extends AController
                 'type'  => 'button',
                 'name'  => 'cancel',
                 'text'  => $this->language->get('button_cancel'),
-                'style' => 'button2',
             ]
         );
 
@@ -485,13 +496,11 @@ class ControllerPagesDesignTemplate extends AController
             $this->error['warning'] = $this->language->get('error_permission');
         }
 
-        $this->load->library('config_manager');
-        $config_mngr = new AConfigManager();
-        $result = $config_mngr->validate($group, $this->request->post);
+        $result = $this->confManager->validate($group, $this->request->post);
         $this->error = $result['error'];
         $this->request->post = array_merge($this->request->post, $result['validated']); // for changed data saving
 
-        $this->extensions->hk_ValidateData($this);
+        $this->extensions->hk_ValidateData($this, $this->request->post);
 
         if (!$this->error) {
             return true;
