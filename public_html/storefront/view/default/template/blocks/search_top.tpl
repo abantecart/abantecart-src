@@ -1,4 +1,5 @@
-<form id="search_form" action="<?php echo HTTPS_SERVER.INDEX_FILE; ?>" class="d-flex form-search top-search">
+<?php /** @var AController|AView $this */?>
+<form id="search_form" action="<?php echo $this->html->getHomeURL(); ?>" class="d-flex form-search top-search">
     <input type="hidden" name="rt" value="product/search"/>
     <input type="hidden" name="category_id" id="filter_category_id" value="0"/>
     <div class="dropdown">

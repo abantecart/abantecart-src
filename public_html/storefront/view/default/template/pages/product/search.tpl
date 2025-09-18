@@ -1,9 +1,9 @@
+<?php /** @var AController|AView $this */?>
 <h1 class="ms-3 mt-2 heading-title ">
     <i class="fa fa-search"></i> <?php echo $heading_title; ?>
 </h1>
-
 <div class="container-fluid mt-3">
-     <form id="search_page_form" class="row g-3 ms-4 align-items-center" name="SearchFrm" method="get" action="<?php echo HTTPS_SERVER.INDEX_FILE; ?>">
+     <form id="search_page_form" class="row g-3 ms-4 align-items-center" name="SearchFrm" method="get" action="<?php echo $this->html->getHomeURL(); ?>">
         <h5 class="col-auto"><?php echo $text_critea; ?></h5>
         <div class="col-12"><?php echo $keyword; ?></div>
         <div class="col-auto"><?php echo $category; ?></div>
@@ -12,7 +12,6 @@
         <input type="hidden" name="rt" value="product/search"/>
         <div class=" col-auto"><?php echo $submit; ?></div>
     </form>
-
     <div class="container-fluid">
         <h4 class="mt-4"><?php echo $text_search; ?></h4>
         <?php if ($products) {
@@ -22,7 +21,6 @@
 <?php   } ?>
     </div>
 </div>
-
 <script type="text/javascript">
     $(document).ready(function () {
         function searchResult(){
@@ -36,5 +34,4 @@
         $('#sort').change(searchResult);
         $('#search_page_form #search_button').on( 'click', searchResult );
     });
-
 </script>
