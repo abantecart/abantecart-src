@@ -461,7 +461,7 @@ class ControllerPagesToolPackageInstaller extends AController
             redirect($this->_get_begin_href());
         } else {
             $package_name = str_replace("attachment; filename=", "", $headers['content-disposition']);
-            $package_name = str_replace(['"', ';'], '', $package_name);
+            $package_name = str_replace(['"', ';'], '', trim($package_name));
             if (!$package_name) {
                 $package_name = parse_url($url);
                 if (pathinfo($package_name['path'], PATHINFO_EXTENSION)) {
@@ -479,7 +479,7 @@ class ControllerPagesToolPackageInstaller extends AController
 
         $package_info['package_url'] = $url;
         $package_info['package_name'] = $package_name;
-        $package_info['package_size'] = $headers['content-length'];
+        $package_info['package_size'] = preformatInteger($headers['content-length']);
 
         if ($headers['support-expiration']) {
             $package_info['support_expiration'] = $headers['support-expiration'];
