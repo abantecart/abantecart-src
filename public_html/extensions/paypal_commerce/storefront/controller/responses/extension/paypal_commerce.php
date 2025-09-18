@@ -260,6 +260,14 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
         $cartProducts = $this->cart->getProducts() + $this->cart->getVirtualProducts();
 
         $ppData['intent'] = strtoupper($this->config->get('paypal_commerce_transaction_type'));
+
+        $ppData['payer'] = [
+            'name' => [
+                'given_name' => $order_info['shipping_firstname'],
+                'surname' => $order_info['shipping_lastname'],
+            ],
+            'email_address' => $order_info['email'],
+        ];
         $this->load->model('localisation/country');
         $this->load->model('localisation/zone');
 
@@ -349,9 +357,9 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             }
 
             $orderDescription[] = [
-                'title'    => $product['name'] . ' ' . $description,
+                'title'    => html_entity_decode($product['name'] . ' ' . $description),
                 'quantity' => $product['quantity'],
-                'sku'      => $sku
+                'sku'      => html_entity_decode($sku)
             ];
 
 

@@ -3176,9 +3176,7 @@ h4 .heading-title:after,
     bottom: 50px;
     right: 50px;
     z-index: 1030;
-    background: #fff;
     border-radius: 50%;
-    box-shadow: 0 -1px 0 2px #ffffff, 0 2px 7px 1px rgba(0, 0, 0, 0.2588235294);
 }
 
 .login-card .form-floating .form-control {

@@ -200,9 +200,9 @@ class ControllerPagesAccountOrderDetails extends AController
                     // strip long textarea value
                     if ($option['element_type'] == 'T') {
                         $title = strip_tags($value);
-                        $title = str_replace('\r\n', "\n", $title);
+                        $title = str_replace('\r\n', PHP_EOL, $title);
 
-                        $value = str_replace('\r\n', "\n", $value);
+                        $value = str_replace('\r\n', PHP_EOL, $value);
                         if (mb_strlen($value) > 64) {
                             $value = mb_substr($value, 0, 64) . '...';
                         }
@@ -243,8 +243,8 @@ class ControllerPagesAccountOrderDetails extends AController
                     $thumbnail['thumb_url'] = $main_image['thumb_url'];
                     $thumbnail['main_url'] = $main_image['main_url'];
                 }
-                $products[] =
-                    $product +
+                $products[] = array_merge(
+                    $product,
                     [
                         'id'        => (int)$product['product_id'],
                         'thumbnail' => $thumbnail,
@@ -260,7 +260,8 @@ class ControllerPagesAccountOrderDetails extends AController
                             $orderInfo['value']
                         ),
                         'url'       => $this->html->getSEOURL('product/product', '&product_id=' . $product['product_id'])
-                    ];
+                    ]
+                );
             }
             $this->data['products'] = $products;
             $this->data['totals'] = $mdlOrder->getOrderTotals($orderId);

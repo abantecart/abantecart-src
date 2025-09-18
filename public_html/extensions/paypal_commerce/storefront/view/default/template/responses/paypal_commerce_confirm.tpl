@@ -209,19 +209,25 @@ if ($error) { ?>
                         $('#paypalFrm').parent().find('.alert').remove();
                         $('.paypal-buttons').hide();
                         $('#div-preloader').show();
+                        try {
                             await cardFields.submit(
-                            {
-                                cardholderName: <?php js_echo($billing_address['name'])?>,
-                                billingAddress: {
-                                    address_line_1: <?php js_echo($billing_address['address_1'])?>,
-                                    address_line_2: <?php js_echo($billing_address['address_2'])?>,
-                                    admin_area_1: <?php js_echo($billing_address['zone_name'])?>,
-                                    admin_area_2: <?php js_echo($billing_address['city'])?>,
-                                    postal_code: <?php js_echo($billing_address['postcode'])?>,
-                                    country_code: <?php js_echo($billing_address['country_code'])?>
-                                },
-                            }
-                        );
+                                {
+                                    cardholderName: <?php js_echo($billing_address['name'])?>,
+                                    billingAddress: {
+                                        address_line_1: <?php js_echo($billing_address['address_1'])?>,
+                                        address_line_2: <?php js_echo($billing_address['address_2'])?>,
+                                        admin_area_1: <?php js_echo($billing_address['zone_name'])?>,
+                                        admin_area_2: <?php js_echo($billing_address['city'])?>,
+                                        postal_code: <?php js_echo($billing_address['postcode'])?>,
+                                        country_code: <?php js_echo($billing_address['country_code'])?>
+                                    },
+                                }
+                            );
+                        }catch(error) {
+                            resetLockedButton($('#checkout_btn'));
+                            $('#div-preloader').hide();
+                            $('.paypal-buttons').show();
+                        }
                     });
                 } catch (err) {
                     console.error("Error initializing PayPal CardFields:", err);

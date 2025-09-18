@@ -2211,7 +2211,7 @@ class ModelCatalogProduct extends Model
      */
     public function getProductStores($product_id)
     {
-        return filterIntegerIdList(array_column($this->getProductStoresInfo($product_id), 'store_id'));
+        return array_map('intval',array_column($this->getProductStoresInfo($product_id), 'store_id'));
     }
 
     /**
