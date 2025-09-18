@@ -1,4 +1,5 @@
-<form id="search_form" action="<?php echo HTTPS_SERVER.INDEX_FILE; ?>" class="form-search top-search d-flex w-100 justify-content-center">
+<?php /** @var AController|AView $this */?>
+<form id="search_form" action="<?php echo $this->html->getHomeURL(); ?>" class="form-search top-search d-flex w-100 justify-content-center">
     <input type="hidden" name="rt" value="product/search"/>
     <input type="hidden" name="category_id" id="filter_category_id" value=""/>
     <div class="d-none d-lg-flex input-group rounded-1 ms-auto">
