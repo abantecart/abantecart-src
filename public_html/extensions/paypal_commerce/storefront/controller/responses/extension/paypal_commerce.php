@@ -349,9 +349,9 @@ class ControllerResponsesExtensionPaypalCommerce extends AController
             }
 
             $orderDescription[] = [
-                'title'    => $product['name'] . ' ' . $description,
+                'title'    => html_entity_decode($product['name'] . ' ' . $description),
                 'quantity' => $product['quantity'],
-                'sku'      => $sku
+                'sku'      => html_entity_decode($sku)
             ];
 
 
