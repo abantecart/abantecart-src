@@ -1156,10 +1156,10 @@ class ControllerResponsesCheckoutPay extends AController
                 $rl = new AResource('download');
                 $resource = $rl->getResource($downloadInfo['filename']);
                 if ($resource && $resource['resource_path']) {
-                    $size = filesize(DIR_RESOURCE . $rl->getTypeDir() . $resource['resource_path']);
+                    $size = filesize(DIR_RESOURCE . $rl->getTypeDir() . str_replace('/', DS, $resource['resource_path']));
                 }
             } else {
-                $size = filesize(DIR_RESOURCE . $downloadInfo['filename']);
+                $size = filesize(DIR_RESOURCE . str_replace('/', DS, $downloadInfo['filename']));
             }
 
             $i = 0;
@@ -1197,7 +1197,10 @@ class ControllerResponsesCheckoutPay extends AController
             if (!$downloadInfo['text_status']) {
                 $downloadUrl = $downloadInfo['href'];
             } else {
-                $downloadUrl = $this->html->getSecureURL('account/order_details', '&ot=' . $orderToken);
+                $downloadUrl = $this->html->getSecureURL(
+                    'account/order_details',
+                    ($orderToken ? '&ot=' . $orderToken : '')
+                );
             }
         } else {
             if ($downloadsCount > 1) {
@@ -1206,7 +1209,10 @@ class ControllerResponsesCheckoutPay extends AController
                     if (!$d['text_status']) {
                         if (!$customerId) {
                             //guest download
-                            $downloadUrl = $this->html->getSecureURL('account/order_details', '&ot=' . $orderToken);
+                            $downloadUrl = $this->html->getSecureURL(
+                                'account/order_details',
+                                ($orderToken ? '&ot=' . $orderToken : '')
+                            );
                         } else {
                             $downloadUrl = $this->html->getSecureURL('account/download');
                         }
@@ -1467,7 +1473,7 @@ class ControllerResponsesCheckoutPay extends AController
         $addressForm->loadFromDb(static::$formTxtId);
 
         $formElements = $addressForm->getFormElements(static::$formTxtId);
-        foreach ($formElements as $group => $elements) {
+        foreach ($formElements as $elements) {
             foreach ($elements as $name => $element) {
                 //error messages
                 $this->data['errors'][$name] = $this->error[$name];
