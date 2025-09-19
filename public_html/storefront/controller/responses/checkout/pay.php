@@ -1198,7 +1198,7 @@ class ControllerResponsesCheckoutPay extends AController
                 $downloadUrl = $downloadInfo['href'];
             } else {
                 $downloadUrl = $this->html->getSecureURL(
-                    'account/order_details',
+                    'account/download',
                     ($orderToken ? '&ot=' . $orderToken : '')
                 );
             }
@@ -1210,7 +1210,7 @@ class ControllerResponsesCheckoutPay extends AController
                         if (!$customerId) {
                             //guest download
                             $downloadUrl = $this->html->getSecureURL(
-                                'account/order_details',
+                                'account/download',
                                 ($orderToken ? '&ot=' . $orderToken : '')
                             );
                         } else {
