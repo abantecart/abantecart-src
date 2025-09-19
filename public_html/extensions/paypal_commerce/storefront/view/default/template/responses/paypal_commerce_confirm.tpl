@@ -13,7 +13,7 @@ if ($error) { ?>
         <input id="transaction_details" name="transaction_details" type="hidden" value="">
         <?php echo $this->getHookVar('payment_table_pre'); ?>
         <div id="div-preloader" class="wait alert alert-info text-center text-nowrap"><i
-                    class="fa fa-refresh fa-spin"></i> <?php echo $text_wait; ?></div>
+                    class="fa fa-refresh fa-spin"></i> wwwww<?php echo $text_wait; ?></div>
         <div class="form-group text-center action-buttons" style="display: none;">
             <div class="center-block">
                 <div id="paypal-button-container">
@@ -321,7 +321,6 @@ if ($error) { ?>
                     console.log(e);
                 }
 
-
                 $('#paypalFrm').find('.action-buttons').show();
                 $('#div-preloader').hide();
             }
@@ -336,14 +335,15 @@ if ($error) { ?>
             }
 
             function confirmSubmit($form, url) {
-                $('#div-preloader').show();
-                $form.find('.action-buttons').hide();
 
                 $.ajax({
                     type: 'POST',
                     url: url,
                     data: $form.serialize(),
                     dataType: 'json',
+                    beforeSend: function () {
+                       $form.find('.paypal-buttons').hide();
+                    },
                     success: function (data) {
                         if (data.error) {
                             alert(data.error);
